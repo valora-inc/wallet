@@ -71,7 +71,11 @@ export function DAppsExplorerScreenSearchFilter({ navigation, route }: Props) {
   const insets = useSafeAreaInsets()
 
   const sectionListRef = useRef<SectionList>(null)
+
+  // Old scroll handler for Drawer Header
   const scrollPositionValue = useRef(new Animated.Value(0)).current
+  const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollPositionValue } } }])
+
   const horizontalScrollView = useRef<ScrollView>(null)
   const dappRankingsBottomSheetRef = useRef<BottomSheetRefType>(null)
 
@@ -153,11 +157,7 @@ export function DAppsExplorerScreenSearchFilter({ navigation, route }: Props) {
   }
 
   const handleScroll = useAnimatedScrollHandler((event) => {
-    if (isTabNavigator) {
-      scrollPosition.value = event.contentOffset.y
-    } else {
-      Animated.event([{ nativeEvent: { contentOffset: { y: scrollPositionValue } } }])
-    }
+    scrollPosition.value = event.contentOffset.y
   })
 
   useScrollAwareHeader({
@@ -290,7 +290,7 @@ export function DAppsExplorerScreenSearchFilter({ navigation, route }: Props) {
             // Workaround iOS setting an incorrect automatic inset at the top
             scrollIndicatorInsets={{ top: 0.01 }}
             scrollEventThrottle={16}
-            onScroll={handleScroll}
+            onScroll={isTabNavigator ? handleScroll : onScroll}
             sections={sections}
             renderItem={({ item: dapp, index, section }) => {
               return (
