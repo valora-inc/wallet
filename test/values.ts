@@ -536,6 +536,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     imageUrl: '',
     balance: '0',
     priceUsd: '1',
+    priceFetchedAt: Date.now(),
   },
 }
 
