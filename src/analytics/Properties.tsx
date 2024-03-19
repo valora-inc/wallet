@@ -1509,8 +1509,8 @@ interface JumpstartSendProperties extends JumpstartDepositProperties {
   tokenAmount: string | null
 }
 export enum JumpstartShareOrigin {
-  QR = 'qrScreen',
-  MAINSCREEN = 'mainScreen',
+  QrScreen = 'qrScreen',
+  MainScreen = 'mainScreen',
 }
 interface JumpstartEventsProperties {
   [JumpstartEvents.send_select_recipient_jumpstart]: undefined

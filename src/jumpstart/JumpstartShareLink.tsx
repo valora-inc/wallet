@@ -165,13 +165,13 @@ function JumpstartShareLink({ route }: Props) {
           value={link}
           copySuccessMessage={t('jumpstartShareLinkScreen.linkCopiedMessage')}
           testID="JumpstartShareLink/LiveLink"
-          onCopy={handleCopyLink(JumpstartShareOrigin.MAINSCREEN)}
+          onCopy={handleCopyLink(JumpstartShareOrigin.MainScreen)}
           style={styles.copyContainer}
         />
         <View style={styles.buttonsContainer}>
           <Button
             text={t('jumpstartShareLinkScreen.ctaShare')}
-            onPress={() => nativeShare.execute(JumpstartShareOrigin.MAINSCREEN)}
+            onPress={() => nativeShare.execute(JumpstartShareOrigin.MainScreen)}
             style={styles.button}
             icon={<ShareIcon color={Colors.white} />}
             iconPositionLeft={false}
@@ -219,12 +219,12 @@ function JumpstartShareLink({ route }: Props) {
           value={link}
           copySuccessMessage={t('jumpstartShareLinkScreen.linkCopiedMessage')}
           testID="JumpstartShareLink/QRCodeBottomSheet/LiveLink"
-          onCopy={handleCopyLink(JumpstartShareOrigin.QR)}
+          onCopy={handleCopyLink(JumpstartShareOrigin.QrScreen)}
           style={styles.copyContainer}
         />
         <Button
           text={t('jumpstartShareLinkScreen.ctaShare')}
-          onPress={() => nativeShare.execute(JumpstartShareOrigin.QR)}
+          onPress={() => nativeShare.execute(JumpstartShareOrigin.QrScreen)}
           style={styles.button}
           icon={<ShareIcon color={Colors.white} />}
           iconPositionLeft={false}
