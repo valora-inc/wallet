@@ -307,8 +307,8 @@
   "confirmTransaction": "Подтвердить транзакцию",
   "allow": "Разрешить",
   "address": "Адрес кошелька",
-  "supportedNetwork": "Поддерживаемое сообщество: {{network}}",
-  "supportedNetworks": "Поддерживаемые сообщества: {{networks}}",
+  "supportedNetwork": "Поддерживаемое сеть: {{network}}",
+  "supportedNetworks": "Поддерживаемые сети: {{networks}}",
   "and": "и",
   "phoneNumber": "Номер телефона",
   "transaction": {
@@ -1129,26 +1129,26 @@
     "signPayload": "{{dappName}} предлагает проверить право собственности на ваш кошелек.",
     "signTransactionTitle": "Подписать транзакцию",
     "signTransaction": "{{dappName}} запрашивает подписание транзакции.",
-    "signDappTransaction": "{{dappName}} запрашивает подписание транзакции в сообществе {{networkName}}.",
-    "signDappTransactionUnsupportedNetwork": "{{dappName}} запрашивает подписание транзакции в неподдерживаемом сообществе.",
+    "signDappTransaction": "{{dappName}} запрашивает подписание транзакции в {{networkName}}.",
+    "signDappTransactionUnsupportedNetwork": "{{dappName}} запрашивает подписание транзакции в неподдерживаемом сеть.",
     "sendTransactionTitle": "Отправить транзакцию",
     "sendTransaction": "{{dappName}} запрашивает отправку транзакции.",
-    "sendDappTransaction": "{{dappName}} запрашивает отправку транзакции в сообществе {{networkName}}.",
-    "sendDappTransactionUnsupportedNetwork": "{{dappName}} запрашивает отправку транзакции в неподдерживаемом сообществе.",
+    "sendDappTransaction": "{{dappName}} запрашивает отправку транзакции в {{networkName}}.",
+    "sendDappTransactionUnsupportedNetwork": "{{dappName}} запрашивает отправку транзакции в неподдерживаемом сеть.",
     "decryptPayloadTitle": "Расшифровка с помощью кошелька",
     "decryptPayload": "{{dappName}} требуется расшифровать полезные данные.",
     "computeSharedSecret": "{{dappName}} требуется создать секреты.",
     "transactionDataCopied": "Данные транзакции скопированы",
-    "estimatedNetworkFee": "Приблизительная комиссия сообщества {{networkName}}",
-    "networksList": "Сообщества",
+    "estimatedNetworkFee": "Приблизительная комиссия сеть {{networkName}}",
+    "networksList": "Сети",
     "connectWalletAction": "Подключить кошелек",
     "signTransactionAction": "Подписать",
     "sendTransactionAction": "Отправить",
     "unsupportedChain": {
       "title": "Неподдерживаемая цепочка",
       "description": "{{dappName}} запрашивает это действие по цепочке, не поддерживаемой {{appName}}. Убедитесь, что Celo является активной цепочкой на стороне dapp.",
-      "descriptionV1_74_one": "{{dappName}} запрашивает это действие по цепочке, не поддерживаемой {{appName}}. Убедитесь, что {{supportedNetworkNames}} является активной цепочкой на стороне dapp.",
-      "descriptionV1_74_other": "{{dappName}} запрашивает это действие по цепочке, не поддерживаемой {{appName}}. Убедитесь, что активной блокчейн на dapp является одна из следующих: {{supportedNetworkNames}}."
+      "descriptionV1_74_one": "{{dappName}} запрашивает это действие по сеть, не поддерживаемой {{appName}}. Убедитесь, что {{supportedNetworkNames}} является активной сеть на стороне dapp.",
+      "descriptionV1_74_other": "{{dappName}} запрашивает это действие по сеть, не поддерживаемой {{appName}}. Убедитесь, что активной сеть на dapp является одна из следующих: {{supportedNetworkNames}}."
     },
     "notEnoughBalanceForGas": {
       "title": "Недостаточный баланс токенов газа",
@@ -1162,14 +1162,14 @@
       "failUnsupportedNamespace": {
         "title": "Неподдерживаемая цепочка",
         "description": "{{dappName}} предлагает подключиться с цепочкой, не поддерживаемой {{appName}}. Убедитесь, что на стороне dapp выбран Celo.",
-        "descriptionV1_74_one": "{{dappName}} предлагает подключиться с цепочкой, не поддерживаемой {{appName}}. Убедитесь, что на стороне dapp выбран {{supportedNetworkNames}}.",
-        "descriptionV1_74_other": "{{dappName}} предлагает подключиться с цепочкой, не поддерживаемой {{appName}}. Убедитесь, что активной блокчейн на dapp является одна из следующих: {{supportedNetworkNames}}."
+        "descriptionV1_74_one": "{{dappName}} предлагает подключиться с сеть, не поддерживаемой {{appName}}. Убедитесь, что на стороне dapp выбран {{supportedNetworkNames}}.",
+        "descriptionV1_74_other": "{{dappName}} предлагает подключиться с сеть, не поддерживаемой {{appName}}. Убедитесь, что активной сеть на dapp является одна из следующих: {{supportedNetworkNames}}."
       },
       "warnUnsupportedChains": {
         "title": "Неподдерживаемая цепочка",
         "description": "{{dappName}} не указал Celo в качестве поддерживаемой цепочки. Некоторые функции могут работать не так, как ожидается.",
-        "descriptionV1_74_one": "{{dappName}} не указал {{supportedNetworkNames}} в качестве поддерживаемой цепочки. Некоторые функции могут работать не так, как ожидается.",
-        "descriptionV1_74_other": "{{dappName}} не указал ни одну из следующих поддерживаемых цепочек: {{supportedNetworkNames}}. Некоторые функции могут работать не так, как ожидалось."
+        "descriptionV1_74_one": "{{dappName}} не указал {{supportedNetworkNames}} в качестве поддерживаемой сеть. Некоторые функции могут работать не так, как ожидается.",
+        "descriptionV1_74_other": "{{dappName}} не указал ни одну из следующих поддерживаемых сети: {{supportedNetworkNames}}. Некоторые функции могут работать не так, как ожидалось."
       },
       "warnSomeUnsupportedMethods": {
         "title": "Неподдерживаемые методы",
@@ -1670,7 +1670,7 @@
       "selectCurrencyTitle": "Потратить средства"
     },
     "exchange": {
-      "informational": "Для предотвращения потери средств используйте только биржи или активы, поддерживаемые в следующих сообществах: <0>{{networks}}</0>",
+      "informational": "Для предотвращения потери средств используйте только биржи или активы, поддерживаемые в следующих сети: <0>{{networks}}</0>",
       "copyAddress": "Скопировать адрес",
       "informationText": "Для предотвращения потери средств используйте только биржи или активы, <0>поддерживаемые в сообществах, где работает {{appName}}</0>",
       "bottomSheetTitle": "Какие биржи можно использовать для внесения средств?",
@@ -1754,9 +1754,9 @@
     "tokenUsdValueUnknown": "-",
     "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
     "switchedToNetworkWarning": {
-      "title": "Вы переключились на сообщество {{networkName}}",
-      "body_swapFrom": "Выберите токен, с которого нужно выполнить обмен, в сообществе {{networkName}}.",
-      "body_swapTo": "Выберите токен, на который нужно выполнить обмен, в сообществе {{networkName}}."
+      "title": "Вы переключились на сеть {{networkName}}",
+      "body_swapFrom": "Выберите токен, с которого нужно выполнить обмен, в сеть {{networkName}}.",
+      "body_swapTo": "Выберите токен, на который нужно выполнить обмен, в сеть {{networkName}}."
     },
     "maxSwapAmountWarning": {
       "title": "Обмен МАКС. суммы",
@@ -1795,15 +1795,15 @@
       "dismissButton": "Отклонить"
     },
     "transactionDetails": {
-      "estimatedNetworkFee": "Приблизительная комиссия сообщества",
-      "maxNetworkFee": "Максимальная комиссия сообщества",
-      "networkFee": "Комиссия сообщества {{networkName}}",
+      "estimatedNetworkFee": "Приблизительная комиссия сеть",
+      "maxNetworkFee": "Максимальная комиссия сеть",
+      "networkFee": "Комиссия сеть {{networkName}}",
       "networkFeeNoNetwork": "Комиссия сообщества",
       "swapFee": "Комиссия {{appName}}",
       "swapFeeWaived": "Бесплатно",
       "slippagePercentage": "Допустимое проскальзывание",
-      "networkFeeInfo": "Вы выполняете обмен в сообществе {{networkName}}.\n\nЭта примерная комиссия сообщества необходима для выполнения транзакции в {{networkName}}. Она обеспечивает безопасность транзакции и работоспособность сообщества.",
-      "networkFeeInfoV1_76": "Вы совершаете обмен в сообществе {{networkName}}.\n\nДля проведения транзакции в сообществе {{networkName}} нужно заплатить комиссию. Она обеспечивает безопасность транзакции и выплачивается валидаторам сообщества.\n\nТочная сумма определяется условиями сообщества, и мы полагаем, что реальная комиссия будет равняться указанной приблизительной сумме. Размер комиссии не превысит максимальную сумму.",
+      "networkFeeInfo": "Вы выполняете обмен в сеть {{networkName}}.\n\nЭта примерная комиссия сеть необходима для выполнения транзакции в {{networkName}}. Она обеспечивает безопасность транзакции и работоспособность сеть.",
+      "networkFeeInfoV1_76": "Вы совершаете обмен в сеть {{networkName}}.\n\nЭта примерная комиссия сеть необходима для выполнения транзакции в {{networkName}}. Она обеспечивает безопасность транзакции и выплачивается валидаторам сеть.\n\nТочная сумма определяется условиями сеть, и мы полагаем, что реальная комиссия будет равняться указанной приблизительной сумме. Размер комиссии не превысит максимальную сумму.",
       "slippageToleranceInfo": "Допустимое проскальзывание\n\nВаш обмен будет выполнен в пределах процента допустимого проскальзывания. Если цена изменится больше этого значения, {{appName}} защитит вас, предотвратив исполнение сделки.",
       "networkFeeInfoDismissButton": "Понятно",
       "exchangeRate": "Обменный курс",
@@ -1819,7 +1819,7 @@
     "swapFrom": "Что обменять",
     "swapTo": "На что обменять",
     "rate": "Курс",
-    "estimatedFee": "Комиссия сообщества Est",
+    "estimatedFee": "Примерная комиссия сеть",
     "networkFee": "Комиссия сообщества",
     "viewOnExplorer": "Просмотреть в CeloExplorer"
   },
@@ -1994,7 +1994,7 @@
     "actionDescriptions": {
       "send": "Используйте любой адрес Celo, домен, номер телефона и т. д.",
       "sendV1_74_one": "Используйте любой адрес {{supportedNetworkNames}}, домен, номер телефона и т. д.",
-      "sendV1_74_other": "Используй любой адрес, домен, номер телефона в следующих сетях: {{supportedNetworkNames}}.",
+      "sendV1_74_other": "Используй любой адрес, домен, номер телефона в следующих сети: {{supportedNetworkNames}}.",
       "swap": "Обменивайте свои токены, не выходя из кошелька",
       "add": "Покупайте токены у одного из наших проверенных провайдеров",
       "withdraw": "Переводите токены на банковский счет, в мобильный банк, на подарочную карту и т. д."
@@ -2091,7 +2091,7 @@
   "sendEnterAmountScreen": {
     "title": "Введите сумму",
     "selectToken": "Выберите токен",
-    "networkFee": "Комиссия сообщества {{networkName}}",
+    "networkFee": "Комиссия сеть {{networkName}}",
     "lowerAmount": "Введите меньшую сумму",
     "maxAmountWarning": {
       "title": "Отправка максимальной суммы",
@@ -2143,8 +2143,8 @@
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Утверждение",
-    "estimatedNetworkFee": "Примерная комиссия сообщества",
-    "networkFee": "Комиссия сообщества",
+    "estimatedNetworkFee": "Примерная комиссия сеть",
+    "networkFee": "Комиссия сеть",
     "finiteApprovalDescription": "Утверждено {{approvedAmount}} {{tokenSymbol}} для сделки",
     "infiniteApprovalDescription": "Утвержден бесконечный {{tokenSymbol}} для сделки",
     "revokeApprovalDescription": "Отозван {{tokenSymbol}} для сделки",
@@ -2153,7 +2153,7 @@
   "multichainBeta": {
     "beta": "BETA",
     "title": "Новинка! Ethereum на Valora",
-    "description1": "Сначала мы открываем эту функцию для избранных. Вы входит в число счастливчиков!",
+    "description1": "Сначала мы открываем эту функцию для избранных. Вы в числе счастливчиков!",
     "description2": "Это новая функция, и наша команда продолжает упорно работать над тем, чтобы сделать все идеально. Мы будем рады получить ваш отзыв.",
     "primaryCta": "Попробовать",
     "secondaryCta": "Нет, спасибо"
