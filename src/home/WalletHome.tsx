@@ -64,7 +64,7 @@ function WalletHome({ navigation, route }: Props) {
   const isNumberVerified = useSelector(phoneNumberVerifiedSelector)
   const showNotificationSpotlight = useSelector(showNotificationSpotlightSelector)
 
-  // temporary parameter while we build the tab navigator, should be cleaned up
+  // TODO(act-1133): temporary parameter while we build the tab navigator, should be cleaned up
   // when we remove the drawer
   const isTabNavigator = !!route.params?.isTabNavigator
 

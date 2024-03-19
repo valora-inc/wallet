@@ -64,7 +64,7 @@ type Props = NativeStackScreenProps<
 export function DAppsExplorerScreenSearchFilter({ navigation, route }: Props) {
   const { t } = useTranslation()
 
-  // temporary parameter while we build the tab navigator, should be cleaned up
+  // TODO(act-1133): temporary parameter while we build the tab navigator, should be cleaned up
   // when we remove the drawer
   const isTabNavigator = !!route.params?.isTabNavigator
 
