@@ -1539,6 +1539,8 @@ interface JumpstartEventsProperties {
 interface PointsEventsProperties {
   [PointsEvents.points_screen_open]: undefined
   [PointsEvents.points_screen_back]: undefined
+  [PointsEvents.points_swap_card_press]: undefined
+  [PointsEvents.points_swap_cta_press]: undefined
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

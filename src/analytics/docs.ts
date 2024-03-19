@@ -457,6 +457,8 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   // Events related to Valora Points program
   [PointsEvents.points_screen_open]: `when Points home screen is opened`,
   [PointsEvents.points_screen_back]: `when back button is pressed from Points home screen`,
+  [PointsEvents.points_swap_card_press]: `when the Swap activity card is pressed from Points home screen`,
+  [PointsEvents.points_swap_cta_press]: `when the Swap CTA is pressed from bottom sheet`,
 
   // Events related to WalletConnect pairing (technical: opening up the communication channel via QR code or deeplink)
   [WalletConnectEvents.wc_pairing_start]: `when WC pairing is started (no UI at this point)`,

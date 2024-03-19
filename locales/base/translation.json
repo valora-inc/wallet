@@ -2205,7 +2205,7 @@
         "title": "Swap assets",
         "bottomSheet": {
           "title": "Swap assets",
-          "body": "This space will be used to give all the details needed for this.\n\nEarn 50 points whenever you swap any funds, etc. etc. etc.",
+          "body": "This space will be used to give all the details needed for this. Maybe minimum amount to swap. \n\nEarn 50 points whenever you swap an asset using Valora.",
           "cta": "Go to swap"
         }
       },

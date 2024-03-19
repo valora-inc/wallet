@@ -8,7 +8,7 @@ interface Props {
   color?: string
 }
 
-export default class CheckmarkWithCircle extends React.PureComponent<Props> {
+export default class CheckmarkWithCircleBorder extends React.PureComponent<Props> {
   static defaultProps = {
     height: 24,
     width: 24,

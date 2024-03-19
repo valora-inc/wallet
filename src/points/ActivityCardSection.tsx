@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React from 'react'
 import { PointsActivities } from 'src/points/types'
 import CreateWallet from 'src/points/activityCards/CreateWallet'
 import Swap from 'src/points/activityCards/Swap'
@@ -12,18 +12,22 @@ import { Spacing } from 'src/styles/styles'
 import { Colors } from 'src/styles/colors'
 import { useTranslation } from 'react-i18next'
 import { PointsMetadata } from 'src/points/types'
+import { BottomSheetDetails } from 'src/points/types'
 
 const activityToCardMap = {
-  [PointsActivities.CreateWallet]: <CreateWallet />,
-  [PointsActivities.Swap]: <Swap />,
-  [PointsActivities.MoreComing]: <MoreComing />,
+  [PointsActivities.CreateWallet]: CreateWallet,
+  [PointsActivities.Swap]: Swap,
+  [PointsActivities.MoreComing]: MoreComing,
 }
 
-export default function ActivityCardSection() {
+interface Props {
+  onCardPress: (bottomSheetDetails: BottomSheetDetails) => void
+}
+
+export default function ActivityCardSection({ onCardPress }: Props) {
   const { t } = useTranslation()
-  // Get points from Statsig
+
   const pointsConfig = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.POINTS_CONFIG])
-  console.log(pointsConfig)
 
   function makeSection(pointsMetadata: PointsMetadata): React.ReactNode {
     const points = pointsMetadata.points
@@ -42,10 +46,14 @@ export default function ActivityCardSection() {
           ...styles.cardRow,
           maxWidth: singleActivity ? '50%' : '100%',
         }
+        const params = {
+          points,
+          onPress: onCardPress,
+        }
         return (
           <View key={i} style={rowStyle}>
-            {activityToCardMap[activityPair[0].name]}
-            {!singleActivity && activityToCardMap[activityPair[1].name]}
+            {activityToCardMap[activityPair[0].name](params)}
+            {!singleActivity && activityToCardMap[activityPair[1].name](params)}
           </View>
         )
       })

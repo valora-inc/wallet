@@ -2,7 +2,7 @@ import { RouteProp } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { StackParamList } from 'src/navigator/types'
 import BackButton from 'src/components/BackButton'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { emptyHeader } from 'src/navigator/Headers'
@@ -11,11 +11,11 @@ import { PointsEvents } from 'src/analytics/Events'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { Colors } from 'src/styles/colors'
-import CreateWallet from 'src/points/activityCards/CreateWallet'
-import MoreComing from 'src/points/activityCards/MoreComing'
-import Swap from 'src/points/activityCards/Swap'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import ActivityCardSection from 'src/points/ActivityCardSection'
+import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import { BottomSheetDetails } from 'src/points/types'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.PointsHome>
 
@@ -24,6 +24,18 @@ export default function PointsHome({ route, navigation }: Props) {
 
   // TODO: Use real points balance
   const pointsBalance = 50
+
+  const bottomSheetRef = useRef<BottomSheetRefType>(null)
+
+  const [bottomSheetDetails, setBottomSheetDetails] = useState<BottomSheetDetails>({})
+  const onCardPress = (bottomSheetDetails: BottomSheetDetails) => {
+    setBottomSheetDetails(bottomSheetDetails)
+  }
+  useEffect(() => {
+    if (bottomSheetDetails) {
+      bottomSheetRef.current?.snapToIndex(0)
+    }
+  }, [bottomSheetDetails])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -38,8 +50,26 @@ export default function PointsHome({ route, navigation }: Props) {
           <Text style={styles.infoCardTitle}>{t('points.infoCard.title')}</Text>
           <Text style={styles.infoCardBody}>{t('points.infoCard.body')}</Text>
         </View>
-        <ActivityCardSection />
+        <ActivityCardSection onCardPress={onCardPress} />
       </ScrollView>
+      <BottomSheet forwardedRef={bottomSheetRef} testId={`PointsActivityBottomSheet`}>
+        <View style={styles.bottomSheetPointAmountContainer}>
+          <Text style={styles.bottomSheetPointAmount}>{bottomSheetDetails.points}</Text>
+        </View>
+        <Text style={styles.bottomSheetTitle}>{bottomSheetDetails.bottomSheetTitle}</Text>
+        <Text style={styles.bottomSheetBody}>{bottomSheetDetails.bottomSheetBody}</Text>
+        <Button
+          type={BtnTypes.PRIMARY}
+          size={BtnSizes.FULL}
+          onPress={
+            bottomSheetDetails.onCtaPress ??
+            (() => {
+              /*fallback to empty fn*/
+            })
+          }
+          text={bottomSheetDetails.bottomSheetCta}
+        />
+      </BottomSheet>
     </SafeAreaView>
   )
 }
@@ -57,6 +87,25 @@ const styles = StyleSheet.create({
   container: {
     padding: Spacing.Thick24,
     paddingTop: 0,
+  },
+  bottomSheetPointAmountContainer: {
+    alignSelf: 'flex-start',
+    backgroundColor: Colors.successLight,
+    borderRadius: Spacing.XLarge48,
+    padding: Spacing.Smallest8,
+  },
+  bottomSheetPointAmount: {
+    ...typeScale.labelSemiBoldXSmall,
+    color: Colors.successDark,
+  },
+  bottomSheetTitle: {
+    ...typeScale.titleSmall,
+    marginVertical: Spacing.Regular16,
+  },
+  bottomSheetBody: {
+    ...typeScale.bodySmall,
+    color: Colors.gray3,
+    marginBottom: Spacing.XLarge48,
   },
   headerRow: {},
   balanceRow: {
