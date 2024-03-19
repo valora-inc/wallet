@@ -2155,13 +2155,13 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "Precoz multicadena 🎁",
-      "description": "Como agradecimiento por ser un probador beta multicadena, ¡hemos añadido un regalo gratuito a tu monedero {{appName}} ! El NFT de early adopter se puede encontrar en tus coleccionables.",
+      "title": "¡Enhorabuena!",
+      "description": "Has ganado un coleccionable exclusivo para los primeros exploradores de Ethereum. Bienvenido a Ethereum en {{appName}}.",
       "cta": "¡Gracias!"
     },
     "notification": {
-      "title": "Enhorabuena 🎉",
-      "description": "{{rewardName}} se ha añadido correctamente a tu monedero {{appName}} ."
+      "title": "Un nuevo NFT te espera 🎉",
+      "description": "Puedes encontrar tu nuevo {{rewardName}} NFT en tus \"Coleccionables\"."
     },
     "rewardBottomSheet": {
       "title": "Cobros gratuitos durante un mes",
