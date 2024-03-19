@@ -6,6 +6,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
+import { getDynamicConfigParams } from 'src/statsig'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
 import {
   Fee,
@@ -21,7 +22,6 @@ import {
   TokenTransferMetadata,
   TransactionStatus,
 } from 'src/transactions/types'
-import { isJumpstartTransaction } from 'src/transactions/utils'
 import { blockExplorerUrls } from 'src/web3/networkConfig'
 import {
   RecursivePartial,
@@ -40,11 +40,11 @@ import {
   mockCusdTokenId,
   mockDisplayNumber2,
   mockE164Number2,
+  mockJumpstartAdddress,
 } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/statsig')
-jest.mock('src/jumpstart/utils')
 
 const mockAddress = '0x8C3b8Af721384BB3479915C72CEe32053DeFca4E'
 const mockName = 'Hello World'
@@ -52,6 +52,12 @@ const mockName = 'Hello World'
 describe('TransactionDetailsScreen', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+
+    jest.mocked(getDynamicConfigParams).mockReturnValue({
+      jumpstartContracts: {
+        [NetworkId['celo-alfajores']]: { contractAddress: mockJumpstartAdddress },
+      },
+    })
   })
 
   function renderScreen({
@@ -550,12 +556,10 @@ describe('TransactionDetailsScreen', () => {
   })
 
   it('handles jumpstart sent transactions correctly', async () => {
-    jest.mocked(isJumpstartTransaction).mockImplementation((_tx) => true)
-
     const { getByTestId } = renderScreen({
       transaction: tokenTransfer({
         type: TokenTransactionTypeV2.Sent,
-        address: mockAddress,
+        address: mockJumpstartAdddress,
       }),
     })
 
@@ -566,12 +570,10 @@ describe('TransactionDetailsScreen', () => {
   })
 
   it('handles jumpstart received transactions correctly', async () => {
-    jest.mocked(isJumpstartTransaction).mockImplementation((_tx) => true)
-
     const { getByTestId } = renderScreen({
       transaction: tokenTransfer({
         type: TokenTransactionTypeV2.Received,
-        address: mockAddress,
+        address: mockJumpstartAdddress,
       }),
     })
 

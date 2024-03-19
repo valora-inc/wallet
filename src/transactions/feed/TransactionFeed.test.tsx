@@ -18,7 +18,6 @@ import networkConfig from 'src/web3/networkConfig'
 import { createMockStore, RecursivePartial } from 'test/utils'
 import { mockApprovalTransaction, mockCusdAddress, mockCusdTokenId } from 'test/values'
 
-jest.mock('src/jumpstart/utils')
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(),
   getDynamicConfigParams: jest.fn(() => ({
@@ -26,6 +25,9 @@ jest.mock('src/statsig', () => ({
     showBalances: ['celo-alfajores'],
     showTransfers: ['celo-alfajores'],
     showApprovalTxsInHomefeed: ['celo-alfajores'],
+    jumpstartContracts: {
+      ['celo-alfajores']: { contractAddress: '0x7bf3fefe9881127553d23a8cd225a2c2442c438c' },
+    },
   })),
 }))
 
