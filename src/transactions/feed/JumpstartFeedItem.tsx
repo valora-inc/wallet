@@ -7,7 +7,6 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { hideHomeBalancesSelector } from 'src/app/selectors'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
-import MagicWand from 'src/icons/MagicWand'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
@@ -18,6 +17,7 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
+import TransactionFeedItemImage from 'src/transactions/feed/TransactionFeedItemImage'
 import { TokenTransactionTypeV2, TokenTransfer } from 'src/transactions/types'
 
 interface Props {
@@ -49,7 +49,10 @@ function JumpstartFeedItem({ transfer }: Props) {
   return (
     <Touchable testID="JumpstartFeedItem" onPress={openTransferDetails}>
       <View style={styles.container}>
-        <MagicWand />
+        <TransactionFeedItemImage
+          status={transfer.status}
+          transactionType={'JumpstartTransaction'}
+        />
         <View style={styles.contentContainer}>
           <Text style={styles.title} testID={'JumpstartFeedItem/title'} numberOfLines={1}>
             {t('feedItemJumpstartTitle')}

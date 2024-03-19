@@ -4,6 +4,7 @@ import Activity from 'src/icons/Activity'
 import AttentionIcon from 'src/icons/Attention'
 import CircledIcon from 'src/icons/CircledIcon'
 import GreenLoadingSpinner from 'src/icons/GreenLoadingSpinner'
+import MagicWand from 'src/icons/MagicWand'
 import SwapIcon from 'src/icons/SwapIcon'
 import { Recipient } from 'src/recipients/recipient'
 import Colors from 'src/styles/colors'
@@ -25,6 +26,10 @@ type Props =
   | {
       status: TransactionStatus
       transactionType: 'TokenApproval'
+    }
+  | {
+      status: TransactionStatus
+      transactionType: 'JumpstartTransaction'
     }
 
 function TransactionFeedItemImage(props: Props) {
@@ -52,6 +57,14 @@ function TransactionFeedItemImage(props: Props) {
   }
   if (transactionType === 'TokenTransferV3') {
     return <ContactCircle recipient={props.recipient} size={AVATAR_SIZE} />
+  }
+
+  if (transactionType === 'JumpstartTransaction') {
+    return (
+      <CircledIcon backgroundColor={Colors.successLight} radius={AVATAR_SIZE}>
+        <MagicWand size={24} />
+      </CircledIcon>
+    )
   }
 
   // Should never happen
