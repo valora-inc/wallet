@@ -2130,7 +2130,12 @@
       "ctaNavigate": "Eve Git"
     },
     "ctaShare": "Bağlantı Paylaş",
-    "shareMessage": "Merhaba! Size {{appName}}adresinde {{tokenAmount}} {{tokenSymbol}} ile finanse edilen bir bağlantı gönderiyorum. Uygulamayı indirmek için bu bağlantıyı kullanın ve fonlar canlı olarak sizi bekliyor olacak. {{link}}"
+    "ctaScanQRCode": "Kare kodu tara",
+    "shareMessage": "Merhaba! Size {{appName}}adresinde {{tokenAmount}} {{tokenSymbol}} ile finanse edilen bir bağlantı gönderiyorum. Uygulamayı indirmek için bu bağlantıyı kullanın ve fonlar canlı olarak sizi bekliyor olacak. {{link}}",
+    "qrCodeBottomSheet": {
+      "title": "Fon almak için kodu tarayın",
+      "description": "Ana ekrandan fonlarınızın durumunu kontrol edin. Alternatif olarak, aşağıdaki bağlantıyı kopyalayın veya paylaşın."
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Onay",
