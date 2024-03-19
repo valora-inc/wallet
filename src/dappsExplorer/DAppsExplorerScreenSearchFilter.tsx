@@ -154,7 +154,7 @@ export function DAppsExplorerScreenSearchFilter({ navigation, route }: Props) {
   }
 
   const handleScroll = useAnimatedScrollHandler((event) => {
-    onScroll
+    onScroll()
     scrollPosition.value = event.contentOffset.y
   })
 
