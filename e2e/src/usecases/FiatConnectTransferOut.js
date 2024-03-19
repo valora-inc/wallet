@@ -62,8 +62,6 @@ async function submitTransfer(expectZeroBalance = false) {
   await element(by.id('Continue')).tap()
 
   // WalletHome
-  if (expectZeroBalance) {
-  }
   await expect(element(by.id('HomeAction-Send'))).toBeVisible() // proxy for reaching home screen, imitating NewAccountOnboarding e2e test
 }
 
