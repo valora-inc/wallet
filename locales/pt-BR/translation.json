@@ -2130,7 +2130,12 @@
       "ctaNavigate": "Ir para casa"
     },
     "ctaShare": "Compartilhar link",
-    "shareMessage": "Olá! Estou enviando a você um link financiado com {{tokenAmount}} {{tokenSymbol}} em {{appName}}. Use esse link para fazer o download do aplicativo e os fundos estarão ativos, esperando por você. {{link}}"
+    "ctaScanQRCode": "Escanear código QR",
+    "shareMessage": "Olá! Estou enviando a você um link financiado com {{tokenAmount}} {{tokenSymbol}} em {{appName}}. Use esse link para fazer o download do aplicativo e os fundos estarão ativos, esperando por você. {{link}}",
+    "qrCodeBottomSheet": {
+      "title": "Digitalize o código para receber os fundos",
+      "description": "Verifique o status dos seus fundos na tela inicial. Como alternativa, copie ou compartilhe o link abaixo."
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Aprovação",
@@ -2155,13 +2160,13 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "Adoção antecipada de várias cadeias 🎁",
-      "description": "Como agradecimento por você ser um testador beta de várias cadeias, adicionamos um presente gratuito à sua carteira {{appName}} ! Você pode encontrar o NFT para os primeiros usuários em seus itens colecionáveis.",
+      "title": "Parabéns!",
+      "description": "Você ganhou um colecionável exclusivo para os Early Ethereum Explorers. Você é bem-vindo ao Ethereum em {{appName}}.",
       "cta": "Obrigado!"
     },
     "notification": {
-      "title": "Parabéns a você 🎉.",
-      "description": "{{rewardName}} foi adicionado com sucesso à sua carteira {{appName}} ."
+      "title": "Um novo NFT espera por você 🎉.",
+      "description": "Você pode encontrar seu novo {{rewardName}} NFT em \"Collectibles\""
     },
     "rewardBottomSheet": {
       "title": "Cash-ins gratuitos por um mês",

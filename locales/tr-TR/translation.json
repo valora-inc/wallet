@@ -2130,7 +2130,12 @@
       "ctaNavigate": "Eve Git"
     },
     "ctaShare": "Bağlantı Paylaş",
-    "shareMessage": "Merhaba! Size {{appName}}adresinde {{tokenAmount}} {{tokenSymbol}} ile finanse edilen bir bağlantı gönderiyorum. Uygulamayı indirmek için bu bağlantıyı kullanın ve fonlar canlı olarak sizi bekliyor olacak. {{link}}"
+    "ctaScanQRCode": "Kare kodu tara",
+    "shareMessage": "Merhaba! Size {{appName}}adresinde {{tokenAmount}} {{tokenSymbol}} ile finanse edilen bir bağlantı gönderiyorum. Uygulamayı indirmek için bu bağlantıyı kullanın ve fonlar canlı olarak sizi bekliyor olacak. {{link}}",
+    "qrCodeBottomSheet": {
+      "title": "Fon almak için kodu tarayın",
+      "description": "Ana ekrandan fonlarınızın durumunu kontrol edin. Alternatif olarak, aşağıdaki bağlantıyı kopyalayın veya paylaşın."
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Onay",
@@ -2155,13 +2160,13 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "Çoklu zinciri erken benimseyen 🎁",
-      "description": "Çok zincirli bir beta test kullanıcısı olduğunuz için bir teşekkür olarak, {{appName}} cüzdanınıza ücretsiz bir hediye ekledik! Erken benimseyen NFT, koleksiyonlarınızda bulunabilir.",
+      "title": "Tebrikler!",
+      "description": "Erken Ethereum Kaşifleri için özel bir koleksiyon kazandınız. {{appName}}adresindeki Ethereum'a hoş geldiniz.",
       "cta": "Teşekkürler!"
     },
     "notification": {
-      "title": "Tebrikler 🎉",
-      "description": "{{rewardName}} {{appName}} cüzdanınıza başarıyla eklendi."
+      "title": "Yeni bir NFT bekliyor 🎉",
+      "description": "Yeni {{rewardName}} NFT'nizi \"Koleksiyon Eşyalarınız\" altında bulabilirsiniz"
     },
     "rewardBottomSheet": {
       "title": "Bir ay boyunca ücretsiz nakit girişleri",

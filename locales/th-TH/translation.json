@@ -2128,7 +2128,12 @@
       "ctaNavigate": "Go Home"
     },
     "ctaShare": "Share Link",
-    "shareMessage": "Hi! I’m sending you a link funded with {{tokenAmount}} {{tokenSymbol}} on {{appName}}. Use this link to download the app and the funds will be live, waiting for you. {{link}}"
+    "ctaScanQRCode": "สแกน QR Code",
+    "shareMessage": "Hi! I’m sending you a link funded with {{tokenAmount}} {{tokenSymbol}} on {{appName}}. Use this link to download the app and the funds will be live, waiting for you. {{link}}",
+    "qrCodeBottomSheet": {
+      "title": "Scan the code to receive funds",
+      "description": "Check the status of your funds on the homescreen. Alternatively, copy or share the link below."
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "การอนุมัติ",
@@ -2153,13 +2158,13 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "Multi-chain early adopter 🎁",
-      "description": "As a thank you for being a multi-chain beta tester, we’ve added a free gift to your {{appName}} wallet! The early adopter NFT can be found in your collectibles.",
+      "title": "Congratulations!",
+      "description": "You’ve earned an exclusive collectible for Early Ethereum Explorers. Welcome to Ethereum on {{appName}}.",
       "cta": "ขอขอบคุณ"
     },
     "notification": {
-      "title": "Congratulations 🎉",
-      "description": "{{rewardName}} has successfully been added to your {{appName}} wallet."
+      "title": "A new NFT awaits 🎉",
+      "description": "You can find your new {{rewardName}} NFT under your “Collectibles”"
     },
     "rewardBottomSheet": {
       "title": "Free cash-ins for a month",
