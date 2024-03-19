@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Dimensions, LayoutChangeEvent, StyleSheet, TouchableWithoutFeedback } from 'react-native'
 import { PanGestureHandler } from 'react-native-gesture-handler'
 import Animated, {
@@ -12,15 +12,16 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import InLineNotification, { InLineNotificationProps } from 'src/components/InLineNotification'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import Colors from 'src/styles/colors'
-import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
+import { Spacing } from 'src/styles/styles'
 
 type RequiredProps<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>
 
 type DismissHandler = () => void
 
-interface Props extends InLineNotificationProps {
+interface Props extends Omit<InLineNotificationProps, 'withBorder'> {
   showToast: boolean
   position?: 'top' | 'bottom'
+  onUnmount?: () => void
 }
 
 // toast with backdrop must have `onDismiss` handler (fired when user taps on the backdrop)
@@ -55,9 +56,16 @@ const Toast = ({
   swipeable,
   position = 'bottom',
   onDismiss,
+  onUnmount,
   ...inLineNotificationProps
 }: WithBackdrop | Swipeable | MustHaveCTA) => {
   const [isVisible, setIsVisible] = useState(showToast)
+
+  useEffect(() => {
+    return () => {
+      onUnmount?.()
+    }
+  }, [])
 
   const window = Dimensions.get('window')
   const safeInitialHeight = Math.max(window.width, window.height)
@@ -107,7 +115,7 @@ const Toast = ({
     },
     onEnd: (event: { translationY: number }) => {
       const dismissThreshold = 0.33 * toastHeight
-      const translationY = Math.abs(event.translationY)
+      const translationY = event.translationY * slidingDirection[position]
       if (onDismiss && translationY > dismissThreshold) {
         runOnJS(onDismiss)()
       } else {
@@ -126,7 +134,8 @@ const Toast = ({
       onLayout={handleLayout}
     >
       <InLineNotification
-        style={[styles.notification, !withBackdrop && getShadowStyle(Shadow.AlertShadow)]}
+        withBorder={!withBackdrop}
+        style={styles.notification}
         {...inLineNotificationProps}
       />
     </Animated.View>
@@ -140,7 +149,7 @@ const Toast = ({
     <>
       {withBackdrop && (
         <TouchableWithoutFeedback onPress={onDismiss} testID="Toast/Backdrop">
-          <Animated.View style={[styles.modal, styles.background, animatedOpacity]} />
+          <Animated.View style={[styles.modal, styles.backdrop, animatedOpacity]} />
         </TouchableWithoutFeedback>
       )}
       {swipeable ? (
@@ -156,7 +165,7 @@ const styles = StyleSheet.create({
   modal: {
     ...StyleSheet.absoluteFillObject,
   },
-  background: {
+  backdrop: {
     backgroundColor: Colors.black,
   },
   notificationContainer: {

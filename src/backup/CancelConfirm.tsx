@@ -32,7 +32,7 @@ export default function CancelConfirm({ screen }: Props) {
   const onProcrastinate = React.useCallback(() => {
     setOpenState(false)
     // Specify fromModal to avoid app crash
-    navigateHome({ params: { fromModal: true } })
+    navigateHome(true)
     ValoraAnalytics.track(OnboardingEvents.backup_delay_confirm)
   }, [screen, secondaryText])
 

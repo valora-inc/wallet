@@ -17,6 +17,7 @@ interface Props {
   onPress?: () => void
   containerStyle?: ViewStyle
   showPriceUsdUnavailableWarning?: boolean
+  hideBalances?: boolean
 }
 
 export const TokenBalanceItem = ({
@@ -25,6 +26,7 @@ export const TokenBalanceItem = ({
   containerStyle,
   balanceUsdErrorFallback,
   showPriceUsdUnavailableWarning,
+  hideBalances = false,
 }: Props) => {
   const { t } = useTranslation()
 
@@ -39,15 +41,17 @@ export const TokenBalanceItem = ({
             </Text>
             {showPriceUsdUnavailableWarning && !token.priceUsd && <Warning size={16} />}
           </View>
-          <TokenDisplay
-            style={styles.amount}
-            amount={token.balance}
-            tokenId={token.tokenId}
-            showSymbol={true}
-            hideSign={true}
-            showLocalAmount={false}
-            testID={`${token.symbol}Balance`}
-          />
+          {!hideBalances && (
+            <TokenDisplay
+              style={styles.amount}
+              amount={token.balance}
+              tokenId={token.tokenId}
+              showSymbol={true}
+              hideSign={true}
+              showLocalAmount={false}
+              testID={`${token.symbol}Balance`}
+            />
+          )}
         </View>
         <View style={styles.line}>
           {token.networkId in NETWORK_NAMES ? (
@@ -57,14 +61,16 @@ export const TokenBalanceItem = ({
           ) : (
             <View />
           )}
-          <TokenDisplay
-            style={styles.subAmount}
-            amount={token.balance}
-            tokenId={token.tokenId}
-            showSymbol={false}
-            hideSign={true}
-            errorFallback={balanceUsdErrorFallback}
-          />
+          {!hideBalances && (
+            <TokenDisplay
+              style={styles.subAmount}
+              amount={token.balance}
+              tokenId={token.tokenId}
+              showSymbol={false}
+              hideSign={true}
+              errorFallback={balanceUsdErrorFallback}
+            />
+          )}
         </View>
         {token.bridge && (
           <Text

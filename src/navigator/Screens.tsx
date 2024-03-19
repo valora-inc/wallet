@@ -38,6 +38,7 @@ export enum Screens {
   Invite = 'Invite',
   JumpstartEnterAmount = 'JumpstartEnterAmount',
   JumpstartSendConfirmation = 'JumpstartSendConfirmation',
+  JumpstartShareLink = 'JumpstartShareLink',
   KeylessBackupPhoneInput = 'KeylessBackupPhoneInput',
   KeylessBackupPhoneCodeInput = 'KeylessBackupPhoneCodeInput',
   KeylessBackupProgress = 'KeylessBackupProgress',
