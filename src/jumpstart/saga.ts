@@ -377,7 +377,7 @@ export function* jumpstartReclaim(action: PayloadAction<JumpstarReclaimAction>) 
     yield* put(jumpstartReclaimSucceeded())
   } catch (err) {
     Logger.warn(TAG, 'Error reclaiming jumpstart transaction', err)
-    yield* put(jumpstartClaimFailed())
+    yield* put(jumpstartReclaimFailed())
   }
 }
 

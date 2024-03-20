@@ -1,35 +1,44 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useMemo, useRef, useState } from 'react'
-import { useAsync } from 'react-async-hook'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { useAsync, useAsyncCallback } from 'react-async-hook'
 import { Trans, useTranslation } from 'react-i18next'
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import { useSelector } from 'react-redux'
+
 import walletJumpstart from 'src/abis/IWalletJumpstart'
 import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
+import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import CustomHeader from 'src/components/header/CustomHeader'
 import Logo from 'src/icons/Logo'
-import { navigate } from 'src/navigator/NavigationService'
+import { jumpstartReclaimStatusSelector } from 'src/jumpstart/selectors'
+import { jumpstartReclaimFlowStarted, jumpstartReclaimStarted } from 'src/jumpstart/slice'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import { TAG } from 'src/send/saga'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
+import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import TransactionDetailsCommonScreen from 'src/transactions/feed/TransactionDetailsCommonScreen'
 import NetworkFeeRowItem from 'src/transactions/feed/detailContent/NetworkFeeRowItem'
 import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
-import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
+import { TransactionRequest, prepareTransactions } from 'src/viem/prepareTransactions'
+import {
+  SerializableTransactionRequest,
+  getSerializablePreparedTransaction,
+} from 'src/viem/preparedTransactionSerialization'
 import EstimatedNetworkFee from 'src/walletConnect/screens/EstimatedNetworkFee'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -79,6 +88,7 @@ async function getClaimDataAndStatus(
 function JumpstartTransactionDetailsScreen({ route }: Props) {
   const { transaction } = route.params
   const { t } = useTranslation()
+  const dispatch = useDispatch()
 
   const [reclaimTx, setReclaimTx] = useState<SerializableTransactionRequest | null>(null)
   const transactionString = useMemo(() => (reclaimTx ? JSON.stringify(reclaimTx) : ''), [reclaimTx])
@@ -88,9 +98,33 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
   const token = useTokenInfo(transaction.amount.tokenId)
   const isDeposit = transaction.type === TokenTransactionTypeV2.Sent
   const jumpstartContractAddress = transaction.address
+  const networkId = transaction.networkId
+  const tokenAmount = transaction.amount
 
   const walletAddress = useSelector(walletAddressSelector)
   const bottomSheetRef = useRef<BottomSheetRefType>(null)
+
+  const [error, setError] = React.useState<Error | null>(null)
+  const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, networkId))
+
+  const reclaimStatus = useSelector(jumpstartReclaimStatusSelector)
+  const [wasReclaimExecuted, setReclaimExecuted] = useState(false)
+
+  useEffect(() => {
+    if (!wasReclaimExecuted) {
+      return
+    }
+    Logger.debug('Change to status', reclaimStatus)
+    switch (reclaimStatus) {
+      case 'success':
+        navigateHome()
+        break
+      case 'error':
+        bottomSheetRef.current?.close()
+        setError(new Error('Failed to reclaim'))
+        break
+    }
+  }, [reclaimStatus, wasReclaimExecuted])
 
   const title =
     transaction.type === TokenTransactionTypeV2.Sent
@@ -104,7 +138,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
       }
       return await getClaimDataAndStatus(
         jumpstartContractAddress as Address,
-        transaction.networkId,
+        networkId,
         transaction.transactionHash as Hash
       )
     },
@@ -117,35 +151,57 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
     }
   )
 
+  const preparedTransactionAndOpenBottomSheet = useAsyncCallback(
+    async () => {
+      if (!fetchClaimData.result) {
+        throw new Error('No escrow data found when trying to reclaim')
+      }
+
+      const { beneficiary, index } = fetchClaimData.result
+
+      const reclaimTx: TransactionRequest = {
+        from: walletAddress as Address,
+        to: jumpstartContractAddress as Address,
+        value: BigInt(0),
+        data: encodeFunctionData({
+          abi: walletJumpstart.abi,
+          functionName: 'reclaimERC20',
+          args: [beneficiary, BigInt(index)],
+        }),
+      }
+
+      const preparedTransactions = await prepareTransactions({
+        feeCurrencies,
+        baseTransactions: [reclaimTx],
+      })
+
+      const resultType = preparedTransactions.type
+      switch (resultType) {
+        case 'need-decrease-spend-amount-for-gas': // fallthrough on purpose
+        case 'not-enough-balance-for-gas':
+          throw new Error('Not enough balance for gas')
+          break
+        case 'possible':
+          return preparedTransactions.transactions[0]
+      }
+    },
+    {
+      onSuccess: (result: TransactionRequest) => {
+        setReclaimTx(getSerializablePreparedTransaction(result))
+        dispatch(jumpstartReclaimFlowStarted())
+        bottomSheetRef.current?.snapToIndex(0)
+      },
+      onError: (error) => {
+        Logger.warn(TAG, 'Failed to prepared transaction', error)
+        setError(error)
+      },
+    }
+  )
+
   if (!token) {
     // should never happen
     Logger.error(TAG, 'Token is undefined')
     return null
-  }
-
-  const onReclaimPress = () => {
-    if (!fetchClaimData.result) {
-      Logger.error(TAG, 'No escrow data found when trying to reclaim')
-      return
-    }
-
-    const { beneficiary, index } = fetchClaimData.result
-
-    setReclaimTx({
-      from: walletAddress as Address,
-      to: jumpstartContractAddress as Address,
-      value: '0',
-      data: encodeFunctionData({
-        abi: walletJumpstart.abi,
-        functionName: 'reclaimERC20',
-        args: [beneficiary, index],
-      }),
-      // TODO: Estimate
-      gas: '130000',
-      maxFeePerGas: '1000000000',
-    })
-
-    bottomSheetRef.current?.snapToIndex(0)
   }
 
   const isClaimed = fetchClaimData.result?.claimed
@@ -153,9 +209,9 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
   const reclaimButton = (
     <View style={styles.buttonContainer}>
       <Button
-        showLoading={!fetchClaimData.result}
-        disabled={!fetchClaimData.result}
-        onPress={onReclaimPress}
+        showLoading={fetchClaimData.loading || preparedTransactionAndOpenBottomSheet.loading}
+        disabled={!fetchClaimData.result || preparedTransactionAndOpenBottomSheet.loading}
+        onPress={() => preparedTransactionAndOpenBottomSheet.execute()}
         type={!isClaimed ? BtnTypes.PRIMARY : BtnTypes.LABEL_PRIMARY}
         text={!isClaimed ? t('reclaim') : t('claimed') + ' ✓'}
         fontStyle={typeScale.labelSemiBoldMedium}
@@ -163,6 +219,16 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
       />
     </View>
   )
+
+  const onConfirm = () => {
+    if (!reclaimTx) {
+      Logger.warn(TAG, 'Reclaim transaction is not set')
+      return
+    }
+
+    setReclaimExecuted(true)
+    dispatch(jumpstartReclaimStarted({ reclaimTx, networkId, tokenAmount }))
+  }
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
@@ -235,6 +301,22 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
           style={styles.tokenFiatValueContainer}
           textStyle={styles.tokenFiatValueText}
         />
+        {error && (
+          <InLineNotification
+            style={styles.errorNotification}
+            variant={NotificationVariant.Error}
+            testID="JumpstartContent/ErrorNotification"
+            withBorder={true}
+            title={t('jumpstartReclaimError.title')}
+            description={t('jumpstartReclaimError.description')}
+            ctaLabel2={t('dismiss')}
+            onPressCta2={() => setError(null)}
+            ctaLabel={t('contactSupport')}
+            onPressCta={() => {
+              navigate(Screens.SupportContact)
+            }}
+          />
+        )}
       </TransactionDetailsCommonScreen>
       <BottomSheet forwardedRef={bottomSheetRef} testId="ReclaimBottomSheet">
         <Logo />
@@ -246,13 +328,12 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
           copySuccessMessage={t('walletConnectRequest.transactionDataCopied')}
           testID="JumpstarReclaimBottomSheet/RequestPayload"
         />
-        {reclaimTx && (
-          <EstimatedNetworkFee networkId={transaction.networkId} transaction={reclaimTx} />
-        )}
-        {/* TODO: Implement confirm */}
+        {reclaimTx && <EstimatedNetworkFee networkId={networkId} transaction={reclaimTx} />}
         <Button
           text={t('confirm')}
-          onPress={() => Logger.debug('confirmed')}
+          showLoading={reclaimStatus === 'loading'}
+          disabled={reclaimStatus === 'loading'}
+          onPress={onConfirm}
           size={BtnSizes.FULL}
         />
       </BottomSheet>
@@ -314,6 +395,9 @@ const styles = StyleSheet.create({
     ...typeScale.bodySmall,
     color: Colors.black,
     marginBottom: Spacing.Thick24,
+  },
+  errorNotification: {
+    marginVertical: Spacing.Regular16,
   },
 })
 
