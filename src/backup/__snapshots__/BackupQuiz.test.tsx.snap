@@ -1,6 +1,6566 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`BackupQuiz (settingsScreen: {}) renders correctly 1`] = `
+<RNCSafeAreaView
+  edges={
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
+  }
+  style={
+    {
+      "flex": 1,
+      "justifyContent": "space-between",
+      "paddingBottom": 24,
+      "paddingHorizontal": 24,
+    }
+  }
+>
+  <RNCSafeAreaView
+    edges={
+      {
+        "bottom": "additive",
+        "left": "additive",
+        "right": "additive",
+        "top": "additive",
+      }
+    }
+    style={
+      {
+        "height": 35,
+        "position": "absolute",
+        "right": 10,
+        "top": 10,
+        "width": 60,
+        "zIndex": 100,
+      }
+    }
+  >
+    <Text
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+    >
+         
+    </Text>
+  </RNCSafeAreaView>
+  <RCTScrollView
+    contentContainerStyle={
+      {
+        "flexGrow": 1,
+        "paddingTop": 24,
+      }
+    }
+  >
+    <View>
+      <View
+        style={
+          {
+            "alignSelf": "center",
+            "flexDirection": "row",
+            "flexWrap": "wrap",
+            "justifyContent": "center",
+            "maxWidth": 288,
+          }
+        }
+      >
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-0"
+          >
+            1
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-1"
+          >
+            2
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-2"
+          >
+            3
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-3"
+          >
+            4
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-4"
+          >
+            5
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-5"
+          >
+            6
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-6"
+          >
+            7
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-7"
+          >
+            8
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-8"
+          >
+            9
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-9"
+          >
+            10
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-10"
+          >
+            11
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-11"
+          >
+            12
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-12"
+          >
+            13
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-13"
+          >
+            14
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-14"
+          >
+            15
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-15"
+          >
+            16
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-16"
+          >
+            17
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-17"
+          >
+            18
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-18"
+          >
+            19
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-19"
+          >
+            20
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-20"
+          >
+            21
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-21"
+          >
+            22
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-22"
+          >
+            23
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-23"
+          >
+            24
+          </Text>
+        </View>
+      </View>
+      <View
+        style={
+          {
+            "flex": 1,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#2E3338",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+              "marginTop": 20,
+              "textAlign": "center",
+            }
+          }
+        >
+          backupQuizWordCount, {"ordinal":"ordinals.1"}
+          <Text
+            style={
+              {
+                "color": "#2E3338",
+                "fontFamily": "Inter-Medium",
+                "fontSize": 16,
+                "lineHeight": 22,
+                "marginTop": 25,
+                "textAlign": "center",
+              }
+            }
+          >
+            X
+          </Text>
+        </Text>
+        <View
+          style={
+            {
+              "flexDirection": "row",
+              "flexWrap": "wrap",
+              "justifyContent": "center",
+              "marginTop": 24,
+            }
+          }
+        >
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/prosper"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                prosper
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/winner"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                winner
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/find"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                find
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/donate"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                donate
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/tape"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                tape
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/history"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                history
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</RNCSafeAreaView>
+`;
+
+exports[`BackupQuiz (settingsScreen: Settings) renders correctly 1`] = `
+<RNCSafeAreaView
+  edges={
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
+  }
+  style={
+    {
+      "flex": 1,
+      "justifyContent": "space-between",
+      "paddingBottom": 24,
+      "paddingHorizontal": 24,
+    }
+  }
+>
+  <RNCSafeAreaView
+    edges={
+      {
+        "bottom": "additive",
+        "left": "additive",
+        "right": "additive",
+        "top": "additive",
+      }
+    }
+    style={
+      {
+        "height": 35,
+        "position": "absolute",
+        "right": 10,
+        "top": 10,
+        "width": 60,
+        "zIndex": 100,
+      }
+    }
+  >
+    <Text
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+    >
+         
+    </Text>
+  </RNCSafeAreaView>
+  <RCTScrollView
+    contentContainerStyle={
+      {
+        "flexGrow": 1,
+        "paddingTop": 24,
+      }
+    }
+  >
+    <View>
+      <View
+        style={
+          {
+            "alignSelf": "center",
+            "flexDirection": "row",
+            "flexWrap": "wrap",
+            "justifyContent": "center",
+            "maxWidth": 288,
+          }
+        }
+      >
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-0"
+          >
+            1
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-1"
+          >
+            2
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-2"
+          >
+            3
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-3"
+          >
+            4
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-4"
+          >
+            5
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-5"
+          >
+            6
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-6"
+          >
+            7
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-7"
+          >
+            8
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-8"
+          >
+            9
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-9"
+          >
+            10
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-10"
+          >
+            11
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-11"
+          >
+            12
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-12"
+          >
+            13
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-13"
+          >
+            14
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-14"
+          >
+            15
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-15"
+          >
+            16
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-16"
+          >
+            17
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-17"
+          >
+            18
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-18"
+          >
+            19
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-19"
+          >
+            20
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-20"
+          >
+            21
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-21"
+          >
+            22
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-22"
+          >
+            23
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-23"
+          >
+            24
+          </Text>
+        </View>
+      </View>
+      <View
+        style={
+          {
+            "flex": 1,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#2E3338",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+              "marginTop": 20,
+              "textAlign": "center",
+            }
+          }
+        >
+          backupQuizWordCount, {"ordinal":"ordinals.1"}
+          <Text
+            style={
+              {
+                "color": "#2E3338",
+                "fontFamily": "Inter-Medium",
+                "fontSize": 16,
+                "lineHeight": 22,
+                "marginTop": 25,
+                "textAlign": "center",
+              }
+            }
+          >
+            X
+          </Text>
+        </Text>
+        <View
+          style={
+            {
+              "flexDirection": "row",
+              "flexWrap": "wrap",
+              "justifyContent": "center",
+              "marginTop": 24,
+            }
+          }
+        >
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/prosper"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                prosper
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/winner"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                winner
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/find"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                find
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/donate"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                donate
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/tape"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                tape
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/history"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                history
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</RNCSafeAreaView>
+`;
+
+exports[`BackupQuiz (settingsScreen: SettingsDrawer) renders correctly 1`] = `
+<RNCSafeAreaView
+  edges={
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
+  }
+  style={
+    {
+      "flex": 1,
+      "justifyContent": "space-between",
+      "paddingBottom": 24,
+      "paddingHorizontal": 24,
+    }
+  }
+>
+  <RNCSafeAreaView
+    edges={
+      {
+        "bottom": "additive",
+        "left": "additive",
+        "right": "additive",
+        "top": "additive",
+      }
+    }
+    style={
+      {
+        "height": 35,
+        "position": "absolute",
+        "right": 10,
+        "top": 10,
+        "width": 60,
+        "zIndex": 100,
+      }
+    }
+  >
+    <Text
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+    >
+         
+    </Text>
+  </RNCSafeAreaView>
+  <RCTScrollView
+    contentContainerStyle={
+      {
+        "flexGrow": 1,
+        "paddingTop": 24,
+      }
+    }
+  >
+    <View>
+      <View
+        style={
+          {
+            "alignSelf": "center",
+            "flexDirection": "row",
+            "flexWrap": "wrap",
+            "justifyContent": "center",
+            "maxWidth": 288,
+          }
+        }
+      >
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-0"
+          >
+            1
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-1"
+          >
+            2
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-2"
+          >
+            3
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-3"
+          >
+            4
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-4"
+          >
+            5
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-5"
+          >
+            6
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-6"
+          >
+            7
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-7"
+          >
+            8
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-8"
+          >
+            9
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-9"
+          >
+            10
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-10"
+          >
+            11
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-11"
+          >
+            12
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-12"
+          >
+            13
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-13"
+          >
+            14
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-14"
+          >
+            15
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-15"
+          >
+            16
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-16"
+          >
+            17
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-17"
+          >
+            18
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-18"
+          >
+            19
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-19"
+          >
+            20
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-20"
+          >
+            21
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-21"
+          >
+            22
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-22"
+          >
+            23
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-23"
+          >
+            24
+          </Text>
+        </View>
+      </View>
+      <View
+        style={
+          {
+            "flex": 1,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#2E3338",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+              "marginTop": 20,
+              "textAlign": "center",
+            }
+          }
+        >
+          backupQuizWordCount, {"ordinal":"ordinals.1"}
+          <Text
+            style={
+              {
+                "color": "#2E3338",
+                "fontFamily": "Inter-Medium",
+                "fontSize": 16,
+                "lineHeight": 22,
+                "marginTop": 25,
+                "textAlign": "center",
+              }
+            }
+          >
+            X
+          </Text>
+        </Text>
+        <View
+          style={
+            {
+              "flexDirection": "row",
+              "flexWrap": "wrap",
+              "justifyContent": "center",
+              "marginTop": 24,
+            }
+          }
+        >
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/prosper"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                prosper
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/winner"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                winner
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/find"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                find
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/donate"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                donate
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/tape"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                tape
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/history"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                history
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</RNCSafeAreaView>
+`;
+
 exports[`BackupQuiz renders correctly 1`] = `
+<RNCSafeAreaView
+  edges={
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
+  }
+  style={
+    {
+      "flex": 1,
+      "justifyContent": "space-between",
+      "paddingBottom": 24,
+      "paddingHorizontal": 24,
+    }
+  }
+>
+  <RNCSafeAreaView
+    edges={
+      {
+        "bottom": "additive",
+        "left": "additive",
+        "right": "additive",
+        "top": "additive",
+      }
+    }
+    style={
+      {
+        "height": 35,
+        "position": "absolute",
+        "right": 10,
+        "top": 10,
+        "width": 60,
+        "zIndex": 100,
+      }
+    }
+  >
+    <Text
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+    >
+         
+    </Text>
+  </RNCSafeAreaView>
+  <RCTScrollView
+    contentContainerStyle={
+      {
+        "flexGrow": 1,
+        "paddingTop": 24,
+      }
+    }
+  >
+    <View>
+      <View
+        style={
+          {
+            "alignSelf": "center",
+            "flexDirection": "row",
+            "flexWrap": "wrap",
+            "justifyContent": "center",
+            "maxWidth": 288,
+          }
+        }
+      >
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-0"
+          >
+            1
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-1"
+          >
+            2
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-2"
+          >
+            3
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-3"
+          >
+            4
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-4"
+          >
+            5
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-5"
+          >
+            6
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-6"
+          >
+            7
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-7"
+          >
+            8
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-8"
+          >
+            9
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-9"
+          >
+            10
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-10"
+          >
+            11
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-11"
+          >
+            12
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-12"
+          >
+            13
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-13"
+          >
+            14
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-14"
+          >
+            15
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-15"
+          >
+            16
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-16"
+          >
+            17
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-17"
+          >
+            18
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-18"
+          >
+            19
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-19"
+          >
+            20
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-20"
+          >
+            21
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-21"
+          >
+            22
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-22"
+          >
+            23
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-23"
+          >
+            24
+          </Text>
+        </View>
+      </View>
+      <View
+        style={
+          {
+            "flex": 1,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#2E3338",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+              "marginTop": 20,
+              "textAlign": "center",
+            }
+          }
+        >
+          backupQuizWordCount, {"ordinal":"ordinals.1"}
+          <Text
+            style={
+              {
+                "color": "#2E3338",
+                "fontFamily": "Inter-Medium",
+                "fontSize": 16,
+                "lineHeight": 22,
+                "marginTop": 25,
+                "textAlign": "center",
+              }
+            }
+          >
+            X
+          </Text>
+        </Text>
+        <View
+          style={
+            {
+              "flexDirection": "row",
+              "flexWrap": "wrap",
+              "justifyContent": "center",
+              "marginTop": 24,
+            }
+          }
+        >
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/prosper"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                prosper
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/winner"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                winner
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/find"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                find
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/donate"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                donate
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/tape"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                tape
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/history"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                history
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</RNCSafeAreaView>
+`;
+
+exports[`DAppsExplorerScreenSearchFilter (isTabNavigator: $isTabNavigator) renders correctly 1`] = `
+<RNCSafeAreaView
+  edges={
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
+  }
+  style={
+    {
+      "flex": 1,
+      "justifyContent": "space-between",
+      "paddingBottom": 24,
+      "paddingHorizontal": 24,
+    }
+  }
+>
+  <RNCSafeAreaView
+    edges={
+      {
+        "bottom": "additive",
+        "left": "additive",
+        "right": "additive",
+        "top": "additive",
+      }
+    }
+    style={
+      {
+        "height": 35,
+        "position": "absolute",
+        "right": 10,
+        "top": 10,
+        "width": 60,
+        "zIndex": 100,
+      }
+    }
+  >
+    <Text
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+    >
+         
+    </Text>
+  </RNCSafeAreaView>
+  <RCTScrollView
+    contentContainerStyle={
+      {
+        "flexGrow": 1,
+        "paddingTop": 24,
+      }
+    }
+  >
+    <View>
+      <View
+        style={
+          {
+            "alignSelf": "center",
+            "flexDirection": "row",
+            "flexWrap": "wrap",
+            "justifyContent": "center",
+            "maxWidth": 288,
+          }
+        }
+      >
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-0"
+          >
+            1
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-1"
+          >
+            2
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-2"
+          >
+            3
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-3"
+          >
+            4
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-4"
+          >
+            5
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-5"
+          >
+            6
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-6"
+          >
+            7
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-7"
+          >
+            8
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-8"
+          >
+            9
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-9"
+          >
+            10
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-10"
+          >
+            11
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-11"
+          >
+            12
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-12"
+          >
+            13
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-13"
+          >
+            14
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-14"
+          >
+            15
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-15"
+          >
+            16
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-16"
+          >
+            17
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-17"
+          >
+            18
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-18"
+          >
+            19
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-19"
+          >
+            20
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-20"
+          >
+            21
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-21"
+          >
+            22
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-22"
+          >
+            23
+          </Text>
+        </View>
+        <View
+          style={
+            [
+              {
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
+                "marginHorizontal": 3,
+                "marginVertical": 4,
+                "minWidth": 55,
+                "paddingHorizontal": 8,
+                "paddingVertical": 4,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": undefined,
+                "textAlign": "center",
+              }
+            }
+            testID="selected-word-23"
+          >
+            24
+          </Text>
+        </View>
+      </View>
+      <View
+        style={
+          {
+            "flex": 1,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#2E3338",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+              "marginTop": 20,
+              "textAlign": "center",
+            }
+          }
+        >
+          backupQuizWordCount, {"ordinal":"ordinals.1"}
+          <Text
+            style={
+              {
+                "color": "#2E3338",
+                "fontFamily": "Inter-Medium",
+                "fontSize": 16,
+                "lineHeight": 22,
+                "marginTop": 25,
+                "textAlign": "center",
+              }
+            }
+          >
+            X
+          </Text>
+        </Text>
+        <View
+          style={
+            {
+              "flexDirection": "row",
+              "flexWrap": "wrap",
+              "justifyContent": "center",
+              "marginTop": 24,
+            }
+          }
+        >
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/prosper"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                prosper
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/winner"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                winner
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/find"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                find
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/donate"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                donate
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/tape"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                tape
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "borderColor": "#1AB775",
+                "borderRadius": 100,
+                "borderWidth": 1.5,
+                "marginHorizontal": 4,
+                "marginVertical": 4,
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "borderRadius": 100,
+                  "minWidth": 65,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 8,
+                }
+              }
+              testID="backupQuiz/history"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#1AB775",
+                    "textAlign": "center",
+                  }
+                }
+              >
+                history
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</RNCSafeAreaView>
+`;
+
+exports[`DAppsExplorerScreenSearchFilter (isTabNavigator: $isTabNavigator) renders correctly 2`] = `
 <RNCSafeAreaView
   edges={
     {

@@ -19,7 +19,11 @@ jest.mock('src/backup/utils', () => ({
 
 const mockScreenProps = getMockStackScreenProps(Screens.BackupQuiz)
 
-describe('BackupQuiz', () => {
+describe.each([
+  { settingsScreen: Screens.SettingsDrawer },
+  { settingsScreen: Screens.Settings },
+  {},
+])('BackupQuiz (settingsScreen: $settingsScreen)', (routeParams) => {
   const store = createMockStore()
   beforeEach(() => {
     // According to the react-native-testing-library docs, if we're using
@@ -30,7 +34,7 @@ describe('BackupQuiz', () => {
   it('renders correctly', async () => {
     const { getByTestId, toJSON } = render(
       <Provider store={store}>
-        <BackupQuiz {...mockScreenProps} />
+        <BackupQuiz {...mockScreenProps} params={routeParams} />
       </Provider>
     )
     await waitFor(() => getByTestId('selected-word-0'))
