@@ -193,12 +193,12 @@ const styles = StyleSheet.create({
     ...fontStyles.regular,
     paddingLeft: 8,
   },
+  cancelButton: {
+    color: colors.gray4,
+  },
   continueButton: {
     paddingHorizontal: variables.contentPadding,
     paddingBottom: variables.contentPadding,
-  },
-  cancelButton: {
-    color: colors.gray4,
   },
 })
 
