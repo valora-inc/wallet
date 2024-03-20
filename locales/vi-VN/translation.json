@@ -2197,7 +2197,8 @@
       "title": "Welcome"
     },
     "discover": {
-      "tabName": "Khám phá"
+      "tabName": "Khám phá",
+      "title": "Khám phá"
     }
   },
   "jumpstartStatus": {

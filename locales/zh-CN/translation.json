@@ -2197,7 +2197,8 @@
       "title": "欢迎"
     },
     "discover": {
-      "tabName": "探索"
+      "tabName": "探索",
+      "title": "探索"
     }
   },
   "jumpstartStatus": {

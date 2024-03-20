@@ -2199,7 +2199,8 @@
       "title": "Bienvenido"
     },
     "discover": {
-      "tabName": "Descubre"
+      "tabName": "Descubre",
+      "title": "Descubre"
     }
   },
   "jumpstartStatus": {
