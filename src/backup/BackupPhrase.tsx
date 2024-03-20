@@ -95,21 +95,23 @@ class BackupPhrase extends React.Component<Props, State> {
   }
 
   onPressContinue = () => {
-    const settingsScreen = this.props.route.params?.settingsScreen ?? undefined
     ValoraAnalytics.track(OnboardingEvents.backup_continue)
-    navigate(Screens.BackupQuiz, { settingsScreen })
+    navigate(Screens.BackupQuiz, { settingsScreen: this.settingsScreen() })
+  }
+
+  settingsScreen = () => {
+    return this.props.route.params?.settingsScreen ?? undefined
   }
 
   render() {
     const { t, backupCompleted } = this.props
     const { mnemonic, isConfirmChecked } = this.state
-    const settingsScreen = this.props.route.params?.settingsScreen ?? undefined
     return (
       <SafeAreaView style={styles.container}>
         <CustomHeader
           style={{ paddingHorizontal: variables.contentPadding }}
           left={
-            settingsScreen ? (
+            this.settingsScreen() ? (
               <CancelButton onCancel={() => navigateHome()} />
             ) : (
               <CancelConfirm screen={TAG} />
@@ -125,7 +127,7 @@ class BackupPhrase extends React.Component<Props, State> {
           />
           <Text style={styles.body}>{t('backupKeyWarning')}</Text>
         </ScrollView>
-        {(!backupCompleted || settingsScreen) && (
+        {(!backupCompleted || this.settingsScreen()) && (
           <>
             <View style={styles.confirmationSwitchContainer}>
               <Switch
