@@ -4,12 +4,11 @@ import { EscrowedPayment } from 'src/escrow/actions'
 import EscrowedPaymentListItem from 'src/escrow/EscrowedPaymentListItem'
 import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
 import i18n from 'src/i18n'
-import {
-  NotificationList,
-  titleWithBalanceNavigationOptions,
-} from 'src/notifications/NotificationList'
+import { HeaderTitleWithBalance, headerWithBackButton } from 'src/navigator/Headers'
+import { NotificationList } from 'src/notifications/NotificationList'
 import { useSelector } from 'src/redux/hooks'
 import { Spacing } from 'src/styles/styles'
+import { Currency } from 'src/utils/currencies'
 
 export const listItemRenderer = (payment: EscrowedPayment, key: number | undefined = undefined) => {
   return (
@@ -24,9 +23,12 @@ export default function EscrowedPaymentListScreen() {
   return <NotificationList items={sentEscrowedPayments} listItemRenderer={listItemRenderer} />
 }
 
-EscrowedPaymentListScreen.navigationOptions = titleWithBalanceNavigationOptions(
-  i18n.t('escrowedPaymentReminder')
-)
+EscrowedPaymentListScreen.navigationOptions = () => ({
+  ...headerWithBackButton,
+  headerTitle: () => (
+    <HeaderTitleWithBalance title={i18n.t('escrowedPaymentReminder')} token={Currency.Dollar} />
+  ),
+})
 
 const styles = StyleSheet.create({
   listItem: {

@@ -2119,6 +2119,24 @@
       "ctaLabel": "Ignorar"
     }
   },
+  "jumpstartShareLinkScreen": {
+    "title": "Compartilhar link ao vivo",
+    "description": "Copie o link para enviar {{tokenSymbol}} pelo aplicativo de mensagens de sua preferência ou use o código QR.",
+    "linkLabel": "Link ao vivo",
+    "linkCopiedMessage": "Link ao vivo copiado",
+    "navigationWarning": {
+      "title": "Você compartilhou seu link?",
+      "description": "Certifique-se de compartilhar este link ao vivo ou salvá-lo em um local seguro.\n\nNão se preocupe se não for reivindicado - você pode facilmente recuperar os fundos no seu feed de atividades.",
+      "ctaNavigate": "Ir para casa"
+    },
+    "ctaShare": "Compartilhar link",
+    "ctaScanQRCode": "Escanear código QR",
+    "shareMessage": "Olá! Estou enviando a você um link financiado com {{tokenAmount}} {{tokenSymbol}} em {{appName}}. Use esse link para fazer o download do aplicativo e os fundos estarão ativos, esperando por você. {{link}}",
+    "qrCodeBottomSheet": {
+      "title": "Digitalize o código para receber os fundos",
+      "description": "Verifique o status dos seus fundos na tela inicial. Como alternativa, copie ou compartilhe o link abaixo."
+    }
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Aprovação",
     "estimatedNetworkFee": "Taxa de rede estimada",
@@ -2142,13 +2160,13 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "Adoção antecipada de várias cadeias 🎁",
-      "description": "Como agradecimento por você ser um testador beta de várias cadeias, adicionamos um presente gratuito à sua carteira {{appName}} ! Você pode encontrar o NFT para os primeiros usuários em seus itens colecionáveis.",
+      "title": "Parabéns!",
+      "description": "Você ganhou um colecionável exclusivo para os Early Ethereum Explorers. Você é bem-vindo ao Ethereum em {{appName}}.",
       "cta": "Obrigado!"
     },
     "notification": {
-      "title": "Parabéns a você 🎉.",
-      "description": "{{rewardName}} foi adicionado com sucesso à sua carteira {{appName}} ."
+      "title": "Um novo NFT espera por você 🎉.",
+      "description": "Você pode encontrar seu novo {{rewardName}} NFT em \"Collectibles\""
     },
     "rewardBottomSheet": {
       "title": "Cash-ins gratuitos por um mês",
@@ -2181,7 +2199,20 @@
       "title": "Bem-vindo"
     },
     "discover": {
-      "tabName": "Descobrir"
+      "tabName": "Descobrir",
+      "title": "Descobrir"
+    }
+  },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "Seus fundos estão a caminho",
+      "description": "Os fundos que seu amigo deu a você estão sendo enviados. Por favor, aguarde... "
+    },
+    "error": {
+      "title": "Não é possível reivindicar fundos",
+      "description": "Tente usar o link ativo novamente para tentar receber fundos ou peça ao seu amigo para tentar enviar um novo link",
+      "contactSupport": "Contate o suporte",
+      "dismiss": "Ignorar"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

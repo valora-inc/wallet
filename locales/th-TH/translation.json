@@ -2117,6 +2117,24 @@
       "ctaLabel": "ปิด"
     }
   },
+  "jumpstartShareLinkScreen": {
+    "title": "Share Live Link",
+    "description": "Copy the link to send {{tokenSymbol}} via your messaging app of choice, or use the QR code.",
+    "linkLabel": "Live Link",
+    "linkCopiedMessage": "Live Link copied",
+    "navigationWarning": {
+      "title": "Did you share your link?",
+      "description": "Make sure to share this live link or save it somewhere safe.\n\nDon’t worry if it goes unclaimed — you can easily reclaim the funds from your activity feed.",
+      "ctaNavigate": "Go Home"
+    },
+    "ctaShare": "Share Link",
+    "ctaScanQRCode": "สแกน QR Code",
+    "shareMessage": "Hi! I’m sending you a link funded with {{tokenAmount}} {{tokenSymbol}} on {{appName}}. Use this link to download the app and the funds will be live, waiting for you. {{link}}",
+    "qrCodeBottomSheet": {
+      "title": "Scan the code to receive funds",
+      "description": "Check the status of your funds on the homescreen. Alternatively, copy or share the link below."
+    }
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "การอนุมัติ",
     "estimatedNetworkFee": "ค่าธรรมเนียมเครือข่ายโดยประมาณ",
@@ -2140,13 +2158,13 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "Multi-chain early adopter 🎁",
-      "description": "As a thank you for being a multi-chain beta tester, we’ve added a free gift to your {{appName}} wallet! The early adopter NFT can be found in your collectibles.",
+      "title": "Congratulations!",
+      "description": "You’ve earned an exclusive collectible for Early Ethereum Explorers. Welcome to Ethereum on {{appName}}.",
       "cta": "ขอขอบคุณ"
     },
     "notification": {
-      "title": "Congratulations 🎉",
-      "description": "{{rewardName}} has successfully been added to your {{appName}} wallet."
+      "title": "A new NFT awaits 🎉",
+      "description": "You can find your new {{rewardName}} NFT under your “Collectibles”"
     },
     "rewardBottomSheet": {
       "title": "Free cash-ins for a month",
@@ -2179,7 +2197,20 @@
       "title": "Welcome"
     },
     "discover": {
-      "tabName": "สำรวจ"
+      "tabName": "สำรวจ",
+      "title": "สำรวจ"
+    }
+  },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "Your funds are on their way",
+      "description": "The funds that your friend gave you are being sent over. Please wait... "
+    },
+    "error": {
+      "title": "Unable to claim funds",
+      "description": "Try your live link again to attempt to receive funds, or ask your friend to try sending a new link",
+      "contactSupport": "ติดต่อฝ่ายบริการลูกค้า",
+      "dismiss": "ปิด"
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"

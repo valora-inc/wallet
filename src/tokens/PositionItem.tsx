@@ -11,7 +11,13 @@ import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { Currency } from 'src/utils/currencies'
 
-export const PositionItem = ({ position }: { position: Position }) => {
+export const PositionItem = ({
+  position,
+  hideBalances = false,
+}: {
+  position: Position
+  hideBalances?: boolean
+}) => {
   const balanceInDecimal =
     position.type === 'contract-position' ? undefined : new BigNumber(position.balance)
   const balanceUsd =
@@ -46,29 +52,31 @@ export const PositionItem = ({ position }: { position: Position }) => {
           <Text style={styles.subtext}>{position.displayProps.description}</Text>
         </View>
       </View>
-      <View style={styles.balances}>
-        {balanceUsd.gt(0) || balanceUsd.lt(0) ? (
-          <LegacyTokenDisplay
-            amount={balanceUsd}
-            currency={Currency.Dollar}
-            style={styles.tokenAmt}
-          />
-        ) : (
-          // If the balance is 0 / NaN, display a dash instead
-          // as it means we don't have a price for at least one of the underlying tokens
-          <Text style={styles.tokenAmt}>-</Text>
-        )}
-        {balanceInDecimal && (
-          <LegacyTokenDisplay
-            amount={balanceInDecimal}
-            // Hack to display the token balance without having said token in the base token list
-            currency={Currency.Celo}
-            style={styles.subtext}
-            showLocalAmount={false}
-            showSymbol={false}
-          />
-        )}
-      </View>
+      {!hideBalances && (
+        <View style={styles.balances}>
+          {balanceUsd.gt(0) || balanceUsd.lt(0) ? (
+            <LegacyTokenDisplay
+              amount={balanceUsd}
+              currency={Currency.Dollar}
+              style={styles.tokenAmt}
+            />
+          ) : (
+            // If the balance is 0 / NaN, display a dash instead
+            // as it means we don't have a price for at least one of the underlying tokens
+            <Text style={styles.tokenAmt}>-</Text>
+          )}
+          {balanceInDecimal && (
+            <LegacyTokenDisplay
+              amount={balanceInDecimal}
+              // Hack to display the token balance without having said token in the base token list
+              currency={Currency.Celo}
+              style={styles.subtext}
+              showLocalAmount={false}
+              showSymbol={false}
+            />
+          )}
+        </View>
+      )}
     </TouchableWithoutFeedback>
   )
 }

@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect'
 import { RootState } from 'src/redux/reducers'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 export const getRequirePinOnAppOpen = (state: RootState) => {
@@ -110,7 +112,11 @@ export const inAppReviewLastInteractionTimestampSelector = (state: RootState) =>
 export const showNotificationSpotlightSelector = (state: RootState) =>
   state.app.showNotificationSpotlight
 
-export const hideHomeBalancesSelector = (state: RootState) => state.app.hideHomeBalances
+export const hideHomeBalancesSelector = (state: RootState) =>
+  !getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR) && state.app.hideBalances
+
+export const hideWalletBalancesSelector = (state: RootState) =>
+  getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR) && state.app.hideBalances
 
 export const multichainBetaStatusSelector = (state: RootState) => state.app.multichainBetaStatus
 

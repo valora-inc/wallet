@@ -2,11 +2,14 @@ import { NativeStackNavigationOptions } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { Trans } from 'react-i18next'
 import { Dimensions, PixelRatio, Platform, Pressable, StyleSheet, Text, View } from 'react-native'
+import AccountCircleButton from 'src/components/AccountCircleButton'
 import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
+import QrScanButton from 'src/components/QrScanButton'
 import TokenDisplay from 'src/components/TokenDisplay'
+import NotificationBell from 'src/home/NotificationBell'
 import i18n from 'src/i18n'
 import BackChevronCentered from 'src/icons/BackChevronCentered'
 import Times from 'src/icons/Times'
@@ -14,7 +17,8 @@ import { navigateBack } from 'src/navigator/NavigationService'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import { useTokenInfoByCurrency } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
@@ -67,7 +71,7 @@ export const headerTransparentWithBack: NativeStackNavigationOptions = {
 
 export const styles = StyleSheet.create({
   headerTitle: {
-    ...fontStyles.navigationHeader,
+    ...typeScale.labelSemiBoldMedium,
     maxWidth: Dimensions.get('window').width * 0.6,
   },
   headerSubTitle: {
@@ -97,6 +101,10 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     width: 32,
+  },
+  topElementsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 })
 
@@ -275,6 +283,21 @@ export function HeaderTitleWithSubtitle({
       )}
     </View>
   )
+}
+
+export const tabHeader: NativeStackNavigationOptions = {
+  ...emptyHeader,
+  headerRight: () => (
+    <View style={[styles.topElementsContainer, { marginRight: Spacing.Tiny4 }]}>
+      <QrScanButton testID="WalletHome/QRScanButton" />
+      <NotificationBell testID="WalletHome/NotificationBell" />
+    </View>
+  ),
+  headerLeft: () => (
+    <View style={[styles.topElementsContainer, { marginLeft: Spacing.Tiny4 }]}>
+      <AccountCircleButton testID="WalletHome/AccountCircle" />
+    </View>
+  ),
 }
 
 HeaderTitleWithBalance.defaultProps = {

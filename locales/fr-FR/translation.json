@@ -2119,6 +2119,24 @@
       "ctaLabel": "Refuser"
     }
   },
+  "jumpstartShareLinkScreen": {
+    "title": "Partager le lien en direct",
+    "description": "Copie le lien pour envoyer {{tokenSymbol}} via l'application de messagerie de ton choix, ou utilise le code QR.",
+    "linkLabel": "Lien en direct",
+    "linkCopiedMessage": "Lien en direct copié",
+    "navigationWarning": {
+      "title": "As-tu partagé ton lien ?",
+      "description": "Assure-toi de partager ce lien en direct ou de l'enregistrer dans un endroit sûr.\n\nNe t'inquiète pas s'il n'est pas réclamé - tu peux facilement récupérer les fonds à partir de ton flux d'activité.",
+      "ctaNavigate": "Rentre à la maison"
+    },
+    "ctaShare": "Lien de partage",
+    "ctaScanQRCode": "Scanner le QR Code",
+    "shareMessage": "Salut ! Je t'envoie un lien financé par {{tokenAmount}} {{tokenSymbol}} sur {{appName}}. Utilise ce lien pour télécharger l'appli et les fonds seront en direct, ils t'attendent. {{link}}",
+    "qrCodeBottomSheet": {
+      "title": "Scanne le code pour recevoir les fonds",
+      "description": "Vérifie l'état de tes fonds sur l'écran d'accueil. Tu peux aussi copier ou partager le lien ci-dessous."
+    }
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Approbation",
     "estimatedNetworkFee": "Estimation des frais de réseau",
@@ -2142,13 +2160,13 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "Utilisateur multichaîne 🎁",
-      "description": "Pour vous remercier d'être un bêta-testeur, nous avons ajouté un cadeau à votre portefeuille {{appName}} ! Le NFT d'adoption se trouve dans vos collections.",
+      "title": "Félicitations!",
+      "description": "Tu as gagné un objet de collection exclusif pour les premiers explorateurs d'Ethereum. Bienvenue à Ethereum sur {{appName}}.",
       "cta": "Merci !"
     },
     "notification": {
-      "title": "Félicitations 🎉",
-      "description": "{{rewardName}} a été ajouté à votre portefeuille {{appName}}."
+      "title": "Un nouveau NFT t'attend 🎉",
+      "description": "Tu trouveras ton nouveau {{rewardName}} NFT sous ta rubrique \"Collectibles\"."
     },
     "rewardBottomSheet": {
       "title": "Encaissements gratuits pendant un mois",
@@ -2181,7 +2199,20 @@
       "title": "Bienvenue"
     },
     "discover": {
-      "tabName": "Découvrir"
+      "tabName": "Découvrir",
+      "title": "Découvrir"
+    }
+  },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "Tes fonds sont en route",
+      "description": "Les fonds que ton ami t'a donnés sont en train d'être envoyés. Veuillez patienter... "
+    },
+    "error": {
+      "title": "Impossible de réclamer des fonds",
+      "description": "Essaie à nouveau ton lien en direct pour essayer de recevoir des fonds, ou demande à ton ami d'essayer d'envoyer un nouveau lien.",
+      "contactSupport": "Contacter le Support",
+      "dismiss": "Refuser"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

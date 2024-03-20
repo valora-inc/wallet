@@ -28,7 +28,7 @@ import { claimRewards, fetchAvailableRewards } from 'src/consumerIncentives/slic
 import { SuperchargePendingReward, SuperchargeTokenConfig } from 'src/consumerIncentives/types'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import InfoIcon from 'src/icons/InfoIcon'
-import Logo, { LogoTypes } from 'src/icons/Logo'
+import Logo from 'src/icons/Logo'
 import Times from 'src/icons/Times'
 import { boostRewards, earn1, earn2 } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
@@ -315,7 +315,7 @@ export default function ConsumerIncentivesHomeScreen() {
                   ? t('cashIn', { currency: tokenConfigToSupercharge.tokenSymbol })
                   : t('connectNumber')
             }
-            icon={canClaimRewards && <Logo height={24} type={LogoTypes.LIGHT} />}
+            icon={canClaimRewards && <Logo size={24} color={colors.white} />}
             showLoading={showLoadingIndicator || claimRewardsLoading}
             disabled={showLoadingIndicator || claimRewardsLoading}
             onPress={onPressCTA}
