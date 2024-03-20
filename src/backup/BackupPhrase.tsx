@@ -101,7 +101,7 @@ class BackupPhrase extends React.Component<Props, State> {
   }
 
   navigatedFromSettings = () => {
-    return this.props.route.params?.navigatedFromSettings ?? false
+    return this.props.route.params?.navigatedFromSettings ?? undefined
   }
 
   render() {

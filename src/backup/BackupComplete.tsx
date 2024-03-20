@@ -22,14 +22,17 @@ import fontStyles from 'src/styles/fonts'
 type Props = NativeStackScreenProps<StackParamList, Screens.BackupComplete>
 
 function BackupComplete({ route }: Props) {
-  const navigatedFromSettings = route.params?.navigatedFromSettings ?? false
+  const navigatedFromSettings = route.params?.navigatedFromSettings ?? undefined
   const backupCompleted = useSelector(backupCompletedSelector)
   const { t } = useTranslation()
 
   useEffect(() => {
     const timer = setTimeout(() => {
       if (navigatedFromSettings) {
-        navigate(Screens.Settings, { promptConfirmRemovalModal: true })
+        navigate(
+          navigatedFromSettings === Screens.Settings ? Screens.Settings : Screens.SettingsDrawer,
+          { promptConfirmRemovalModal: true }
+        )
       } else if (backupCompleted) {
         ValoraAnalytics.track(OnboardingEvents.backup_complete)
         navigateHome()
