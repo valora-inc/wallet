@@ -86,7 +86,7 @@ import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
 import { selectSessions } from 'src/walletConnect/selectors'
 import { walletAddressSelector } from 'src/web3/selectors'
 
-type Props = NativeStackScreenProps<StackParamList, Screens.Settings | Screens.SettingsDrawer>
+type Props = NativeStackScreenProps<StackParamList, Screens.Settings>
 
 export const Account = ({ navigation, route }: Props) => {
   const dispatch = useDispatch()

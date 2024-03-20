@@ -17,12 +17,7 @@ import { keylessBackupStatusSelector } from 'src/keylessBackup/selectors'
 import { keylessBackupAcceptZeroBalance, keylessBackupBail } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
 import { useDollarsToLocalAmount, useLocalCurrencyCode } from 'src/localCurrency/hooks'
-import {
-  ensurePincode,
-  navigate,
-  navigateHome,
-  navigateToSettings,
-} from 'src/navigator/NavigationService'
+import { ensurePincode, navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
@@ -278,7 +273,7 @@ function Setup() {
 
   const onPressLater = () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_progress_failed_later)
-    navigateToSettings(false)
+    navigateHome()
   }
 
   switch (keylessBackupStatus) {

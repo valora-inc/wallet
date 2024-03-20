@@ -109,6 +109,8 @@ import ValidateRecipientAccount, {
 import ValidateRecipientIntro, {
   validateRecipientIntroScreenNavOptions,
 } from 'src/send/ValidateRecipientIntro'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import SwapScreen from 'src/swap/SwapScreen'
 import AssetsScreen from 'src/tokens/Assets'
 import TokenDetailsScreen from 'src/tokens/TokenDetails'
@@ -492,6 +494,8 @@ const settingsScreens = (Navigator: typeof Stack) => (
   </>
 )
 
+const isTabNav = getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)
+
 const generalScreens = (Navigator: typeof Stack) => (
   <>
     <Navigator.Screen
@@ -527,10 +531,14 @@ const generalScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.Settings}
       component={SettingsScreen}
-      options={headerWithBackButton}
+      options={isTabNav ? headerWithBackButton : noHeader}
     />
     <Navigator.Screen name={Screens.Invite} component={Invite} options={noHeader} />
-    <Navigator.Screen name={Screens.Support} component={Support} options={headerWithBackButton} />
+    <Navigator.Screen
+      name={Screens.Support}
+      component={Support}
+      options={isTabNav ? headerWithBackButton : noHeader}
+    />
   </>
 )
 

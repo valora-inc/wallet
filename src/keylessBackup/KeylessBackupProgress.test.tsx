@@ -6,12 +6,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import KeylessBackupProgress from 'src/keylessBackup/KeylessBackupProgress'
 import { keylessBackupAcceptZeroBalance, keylessBackupBail } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
-import {
-  ensurePincode,
-  navigate,
-  navigateHome,
-  navigateToSettings,
-} from 'src/navigator/NavigationService'
+import { ensurePincode, navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { goToNextOnboardingScreen } from 'src/onboarding/steps'
 import Logger from 'src/utils/Logger'
@@ -98,8 +93,7 @@ describe('KeylessBackupProgress', () => {
       expect(getByTestId('KeylessBackupProgress/Later')).toBeTruthy()
       fireEvent.press(getByTestId('KeylessBackupProgress/Later'))
 
-      expect(navigateToSettings).toHaveBeenCalledTimes(1)
-      expect(navigateToSettings).toHaveBeenCalledWith(false)
+      expect(navigateHome).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
         KeylessBackupEvents.cab_progress_failed_later

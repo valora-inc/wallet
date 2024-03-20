@@ -20,7 +20,7 @@ import Touchable from 'src/components/Touchable'
 import i18n, { withTranslation } from 'src/i18n'
 import Backspace from 'src/icons/Backspace'
 import { emptyHeader } from 'src/navigator/Headers'
-import { navigate, navigateToSettings } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
@@ -75,7 +75,7 @@ const mapStateToProps = (state: RootState): StateProps => {
 export const navOptionsForQuiz = ({ route }: OwnProps) => {
   const navigatedFromSettings = route.params?.navigatedFromSettings
   const onCancel = () => {
-    navigateToSettings(false)
+    navigate(Screens.Settings)
   }
   return {
     ...emptyHeader,

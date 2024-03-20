@@ -7,7 +7,7 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { backupCompletedSelector } from 'src/backup/selectors'
 import Checkmark from 'src/icons/Checkmark'
-import { navigateHome, navigateToSettings } from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useSelector } from 'src/redux/hooks'
@@ -29,7 +29,7 @@ function BackupComplete({ route }: Props) {
   useEffect(() => {
     const timer = setTimeout(() => {
       if (navigatedFromSettings) {
-        navigateToSettings(true)
+        navigate(Screens.Settings, { promptConfirmRemovalModal: true })
       } else if (backupCompleted) {
         ValoraAnalytics.track(OnboardingEvents.backup_complete)
         navigateHome()

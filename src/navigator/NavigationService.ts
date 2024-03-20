@@ -231,12 +231,6 @@ export function navigateHome(fromModal?: boolean) {
   }, timeout)
 }
 
-export function navigateToSettings(promptConfirmRemovalModal: boolean) {
-  getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)
-    ? navigateClearingStack(Screens.Settings, { promptConfirmRemovalModal })
-    : navigateClearingStack(Screens.SettingsDrawer, { promptConfirmRemovalModal })
-}
-
 export function navigateToError(errorMessage: string, error?: Error) {
   Logger.debug(`${TAG}@navigateToError`, `Navigating to error screen: ${errorMessage}`, error)
   navigate(Screens.ErrorScreen, { errorMessage })
