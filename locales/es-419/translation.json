@@ -2191,16 +2191,16 @@
   },
   "bottomTabsNavigator": {
     "wallet": {
-      "tabName": "Billetera",
-      "title": "Mi billetera"
+      "tabName": "Wallet",
+      "title": "Mi wallet"
     },
     "home": {
       "tabName": "Inicio",
       "title": "Bienvenido"
     },
     "discover": {
-      "tabName": "Descubre",
-      "title": "Descubre"
+      "tabName": "Descubrir",
+      "title": "Descubrir"
     }
   },
   "jumpstartStatus": {
