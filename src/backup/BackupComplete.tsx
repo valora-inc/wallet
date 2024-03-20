@@ -29,6 +29,7 @@ function BackupComplete({ route }: Props) {
   useEffect(() => {
     const timer = setTimeout(() => {
       if (settingsScreen) {
+        // TODO(ACT-1133): change settingsScreen props to isAccountRemoval boolean to know if we need to go back to settings to show promptConfirmRemovalModal
         navigate(settingsScreen === Screens.Settings ? Screens.Settings : Screens.SettingsDrawer, {
           promptConfirmRemovalModal: true,
           isTabNav: settingsScreen === Screens.Settings,
