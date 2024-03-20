@@ -51,11 +51,7 @@ interface ValidateRecipientParams {
 }
 
 export type StackParamList = {
-  [Screens.BackupComplete]:
-    | undefined
-    | {
-        navigatedFromSettings: string | undefined
-      }
+  [Screens.BackupComplete]: undefined
   [Screens.BackupIntroduction]:
     | {
         showDrawerTopBar: boolean
@@ -70,13 +66,9 @@ export type StackParamList = {
   [Screens.BackupPhrase]:
     | undefined
     | {
-        navigatedFromSettings: string | undefined
+        isAccountRemoval: boolean
       }
-  [Screens.BackupQuiz]:
-    | undefined
-    | {
-        navigatedFromSettings: string | undefined
-      }
+  [Screens.BackupQuiz]: undefined
   [Screens.FiatDetailsScreen]: {
     quote: FiatConnectQuote
     flow: CICOFlow

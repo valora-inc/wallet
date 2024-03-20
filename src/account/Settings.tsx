@@ -70,7 +70,7 @@ import { deleteKeylessBackupStarted, hideDeleteKeylessBackupError } from 'src/ke
 import { KeylessBackupDeleteStatus } from 'src/keylessBackup/types'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
-import { ensurePincode, navigate, navigationRef } from 'src/navigator/NavigationService'
+import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
@@ -117,7 +117,6 @@ export const Account = ({ navigation, route }: Props) => {
   const showDeleteKeylessBackupError = useSelector(showDeleteKeylessBackupErrorSelector)
   const walletConnectEnabled = v2
   const connectedApplications = sessions.length
-  const screenName = navigationRef.current?.getCurrentRoute()?.name
 
   useEffect(() => {
     if (ValoraAnalytics.getSessionId() !== sessionId) {
@@ -307,7 +306,7 @@ export const Account = ({ navigation, route }: Props) => {
       const pinIsCorrect = await ensurePincode()
       if (pinIsCorrect) {
         ValoraAnalytics.track(SettingsEvents.start_account_removal)
-        navigate(Screens.BackupPhrase, { navigatedFromSettings: screenName })
+        navigate(Screens.BackupPhrase, { isAccountRemoval: true })
       }
     } catch (error) {
       Logger.error('SettingsItem@onPress', 'PIN ensure error', error)
@@ -435,12 +434,14 @@ export const Account = ({ navigation, route }: Props) => {
     }
   }
 
+  const isTabNav = getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)
+
   return (
     <SafeAreaView
       style={styles.container}
-      edges={screenName === Screens.Settings ? ['bottom', 'left', 'right'] : undefined}
+      edges={isTabNav ? ['bottom', 'left', 'right'] : undefined}
     >
-      {screenName !== Screens.Settings && <DrawerTopBar />}
+      {isTabNav && <DrawerTopBar />}
       <ScrollView testID="SettingsScrollView">
         <TouchableWithoutFeedback onPress={onDevSettingsTriggerPress}>
           <Text style={styles.title} testID={'SettingsTitle'}>

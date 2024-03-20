@@ -469,7 +469,7 @@ describe('Account', () => {
       },
       body: '{"phoneNumber":"+14155550000","clientPlatform":"android","clientVersion":"0.0.1"}',
     })
-    expect(navigate).toHaveBeenLastCalledWith(Screens.BackupPhrase, { navigatedFromSettings: true })
+    expect(navigate).toHaveBeenLastCalledWith(Screens.BackupPhrase, { isAccountRemoval: true })
   })
 
   it('deletes the account for an unverified account successfully', async () => {
@@ -488,7 +488,7 @@ describe('Account', () => {
     fireEvent.press(tree.getByText('deleteAccountWarning.buttonLabel'))
 
     await waitFor(() =>
-      expect(navigate).toHaveBeenCalledWith(Screens.BackupPhrase, { navigatedFromSettings: true })
+      expect(navigate).toHaveBeenCalledWith(Screens.BackupPhrase, { isAccountRemoval: true })
     )
     expect(mockFetch).not.toHaveBeenCalled()
   })

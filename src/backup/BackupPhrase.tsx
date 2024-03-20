@@ -14,7 +14,6 @@ import BackupPhraseContainer, {
 import CancelConfirm from 'src/backup/CancelConfirm'
 import { getStoredMnemonic, onGetMnemonicFail } from 'src/backup/utils'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import CancelButton from 'src/components/CancelButton'
 import CustomHeader from 'src/components/header/CustomHeader'
 import Switch from 'src/components/Switch'
 import { withTranslation } from 'src/i18n'
@@ -97,28 +96,18 @@ class BackupPhrase extends React.Component<Props, State> {
 
   onPressContinue = () => {
     ValoraAnalytics.track(OnboardingEvents.backup_continue)
-    navigate(Screens.BackupQuiz, { navigatedFromSettings: this.navigatedFromSettings() })
-  }
-
-  navigatedFromSettings = () => {
-    return this.props.route.params?.navigatedFromSettings ?? undefined
+    navigate(Screens.BackupQuiz)
   }
 
   render() {
     const { t, backupCompleted } = this.props
     const { mnemonic, isConfirmChecked } = this.state
-    const navigatedFromSettings = this.navigatedFromSettings()
+    const isAccountRemoval = this.props.route.params?.isAccountRemoval
     return (
       <SafeAreaView style={styles.container}>
         <CustomHeader
           style={{ paddingHorizontal: variables.contentPadding }}
-          left={
-            navigatedFromSettings ? (
-              <CancelButton style={styles.cancelButton} />
-            ) : (
-              <CancelConfirm screen={TAG} />
-            )
-          }
+          left={<CancelConfirm screen={TAG} />}
           right={<HeaderRight />}
         />
         <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -129,7 +118,7 @@ class BackupPhrase extends React.Component<Props, State> {
           />
           <Text style={styles.body}>{t('backupKeyWarning')}</Text>
         </ScrollView>
-        {(!backupCompleted || navigatedFromSettings) && (
+        {(!backupCompleted || isAccountRemoval) && (
           <>
             <View style={styles.confirmationSwitchContainer}>
               <Switch

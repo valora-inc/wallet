@@ -13,7 +13,6 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import CancelConfirm from 'src/backup/CancelConfirm'
 import { QuizzBottom } from 'src/backup/QuizzBottom'
 import { getStoredMnemonic, onGetMnemonicFail } from 'src/backup/utils'
-import CancelButton from 'src/components/CancelButton'
 import DevSkipButton from 'src/components/DevSkipButton'
 import TextButton from 'src/components/TextButton'
 import Touchable from 'src/components/Touchable'
@@ -73,18 +72,10 @@ const mapStateToProps = (state: RootState): StateProps => {
 }
 
 export const navOptionsForQuiz = ({ route }: OwnProps) => {
-  const navigatedFromSettings = route.params?.navigatedFromSettings
-  const onCancel = () => {
-    navigate(navigatedFromSettings === Screens.Settings ? Screens.Settings : Screens.SettingsDrawer)
-  }
   return {
     ...emptyHeader,
     headerLeft: () => {
-      return navigatedFromSettings ? (
-        <CancelButton onCancel={onCancel} style={styles.cancelButton} />
-      ) : (
-        <CancelConfirm screen={TAG} />
-      )
+      return <CancelConfirm screen={TAG} />
     },
     headerTitle: i18n.t(`headerTitle`),
   }
@@ -188,8 +179,7 @@ export class BackupQuiz extends React.Component<Props, State> {
     if (lengthsMatch && contentMatches(userChosenWords, mnemonic)) {
       Logger.debug(TAG, 'Backup quiz passed')
       this.props.setBackupCompleted()
-      const navigatedFromSettings = this.props.route.params?.navigatedFromSettings ?? undefined
-      navigate(Screens.BackupComplete, { navigatedFromSettings })
+      navigate(Screens.BackupComplete)
       ValoraAnalytics.track(OnboardingEvents.backup_quiz_complete)
     } else {
       Logger.debug(TAG, 'Backup quiz failed, reseting words')
