@@ -145,7 +145,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
     [],
     {
       onError: (error) => {
-        // TODO: Show error message in the UI
+        setError(new Error('Failed to fetch escrow data'))
         Logger.error(TAG, 'Failed to fetch escrow data', error)
       },
     }
@@ -210,7 +210,9 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
     <View style={styles.buttonContainer}>
       <Button
         showLoading={fetchClaimData.loading || preparedTransactionAndOpenBottomSheet.loading}
-        disabled={!fetchClaimData.result || preparedTransactionAndOpenBottomSheet.loading}
+        disabled={
+          !fetchClaimData.result || preparedTransactionAndOpenBottomSheet.loading || !!error
+        }
         onPress={() => preparedTransactionAndOpenBottomSheet.execute()}
         type={!isClaimed ? BtnTypes.PRIMARY : BtnTypes.LABEL_PRIMARY}
         text={!isClaimed ? t('reclaim') : t('claimed') + ' ✓'}
@@ -310,7 +312,10 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
             title={t('jumpstartReclaimError.title')}
             description={t('jumpstartReclaimError.description')}
             ctaLabel2={t('dismiss')}
-            onPressCta2={() => setError(null)}
+            onPressCta2={() => {
+              setError(null)
+              fetchClaimData.execute()
+            }}
             ctaLabel={t('contactSupport')}
             onPressCta={() => {
               navigate(Screens.SupportContact)
