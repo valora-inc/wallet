@@ -2203,7 +2203,8 @@
       "title": "Witaj"
     },
     "discover": {
-      "tabName": "Odkryj"
+      "tabName": "Odkryj",
+      "title": "Odkryj"
     }
   },
   "jumpstartStatus": {
