@@ -113,19 +113,7 @@ class BackupPhrase extends React.Component<Props, State> {
           style={{ paddingHorizontal: variables.contentPadding }}
           left={
             this.settingsScreen() ? (
-              <CancelButton
-                onCancel={() =>
-                  navigate(
-                    this.settingsScreen() === Screens.Settings
-                      ? Screens.Settings
-                      : Screens.SettingsDrawer,
-                    {
-                      isTabNav: this.settingsScreen() === Screens.Settings,
-                    }
-                  )
-                }
-                style={styles.cancelButton}
-              />
+              <CancelButton style={styles.cancelButton} />
             ) : (
               <CancelConfirm screen={TAG} />
             )
