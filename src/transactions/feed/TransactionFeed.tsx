@@ -68,7 +68,7 @@ function TransactionFeed() {
     )
   }
 
-  function renderItem({ item: tx }: { item: FeedTokenTransaction; index: number }) {
+  function renderItem({ item: tx }: { item: TokenTransaction; index: number }) {
     switch (tx.__typename) {
       case 'TokenExchangeV3':
         return <SwapFeedItem key={tx.transactionHash} exchange={tx} />
