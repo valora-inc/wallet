@@ -1,5 +1,5 @@
 import React from 'react'
-import { PointsActivities } from 'src/points/types'
+import { PointsActivities, ActivityCardProps } from 'src/points/types'
 import CreateWallet from 'src/points/activityCards/CreateWallet'
 import Swap from 'src/points/activityCards/Swap'
 import MoreComing from 'src/points/activityCards/MoreComing'
@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next'
 import { PointsMetadata } from 'src/points/types'
 import { BottomSheetDetails } from 'src/points/types'
 
-const activityToCardMap = {
+const activityToCardMap: Record<PointsActivities, (props: ActivityCardProps) => JSX.Element> = {
   [PointsActivities.CreateWallet]: CreateWallet,
   [PointsActivities.Swap]: Swap,
   [PointsActivities.MoreComing]: MoreComing,
@@ -33,7 +33,7 @@ export default function ActivityCardSection({ onCardPress }: Props) {
     const points = pointsMetadata.points
 
     const cardPairs = pointsMetadata.activities
-      .filter((activity) => activity.name in activityToCardMap)
+      .filter((activity) => Object.values(PointsActivities).includes(activity.name))
       .reduce(
         (res, _val, i, arr) => {
           if (i % 2 === 0) res.push(arr.slice(i, i + 2))
