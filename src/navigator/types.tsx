@@ -14,7 +14,7 @@ import { Nft } from 'src/nfts/types'
 import { Recipient } from 'src/recipients/recipient'
 import { QrCode, TransactionDataInput } from 'src/send/types'
 import { AssetTabType } from 'src/tokens/types'
-import { NetworkId, TokenAmount, TokenTransaction } from 'src/transactions/types'
+import { NetworkId, TokenAmount, TokenTransaction, TokenTransfer } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { ActionRequestProps } from 'src/walletConnect/screens/ActionRequest'
@@ -203,6 +203,9 @@ export type StackParamList = {
     networkId: NetworkId
     tokenAmount: TokenAmount
     onError?: (error: Error) => void
+  }
+  [Screens.JumpstartTransactionDetailsScreen]: {
+    transaction: TokenTransfer
   }
   [Screens.Main]: undefined
   [Screens.MainModal]: undefined

@@ -56,6 +56,11 @@ export type TopBarIconButtonProps = CommonProps & {
   icon: JSX.Element
 }
 
+/**
+ * Please avoid use in new header icons
+ * TODO: ACT-1134 alternative component
+ * @deprecated
+ */
 export function TopBarIconButton(props: TopBarIconButtonProps) {
   return <Wrapper {...props}>{props.icon}</Wrapper>
 }

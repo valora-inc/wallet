@@ -467,6 +467,6 @@ const jumpstart = {
       type: 'function',
     },
   ],
-}
+} as const
 
 export default jumpstart

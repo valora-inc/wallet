@@ -2119,6 +2119,24 @@
       "ctaLabel": "Ignorar"
     }
   },
+  "jumpstartShareLinkScreen": {
+    "title": "Compartir enlace en directo",
+    "description": "Copia el enlace para enviar {{tokenSymbol}} a través de la aplicación de mensajería que prefieras, o utiliza el código QR.",
+    "linkLabel": "Enlace en directo",
+    "linkCopiedMessage": "Enlace en directo copiado",
+    "navigationWarning": {
+      "title": "¿Has compartido tu enlace?",
+      "description": "Asegúrate de compartir este enlace en directo o de guardarlo en un lugar seguro.\n\nNo te preocupes si no es reclamado: puedes reclamar los fondos fácilmente desde tu feed de actividad.",
+      "ctaNavigate": "Volver a casa"
+    },
+    "ctaShare": "Compartir enlace",
+    "ctaScanQRCode": "Escanear código QR",
+    "shareMessage": "Hola! Te envío un enlace financiado con {{tokenAmount}} {{tokenSymbol}} en {{appName}}. Utiliza este enlace para descargar la aplicación y los fondos estarán activos, esperándote. {{link}}",
+    "qrCodeBottomSheet": {
+      "title": "Escanea el código para recibir fondos",
+      "description": "Comprueba el estado de tus fondos en la pantalla de inicio. También puedes copiar o compartir el siguiente enlace."
+    }
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Aprobación",
     "estimatedNetworkFee": "Estimación de la tarifa de red",
@@ -2142,13 +2160,13 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "Precoz multicadena 🎁",
-      "description": "Como agradecimiento por ser un probador beta multicadena, ¡hemos añadido un regalo gratuito a tu monedero {{appName}} ! El NFT de early adopter se puede encontrar en tus coleccionables.",
+      "title": "¡Enhorabuena!",
+      "description": "Has ganado un coleccionable exclusivo para los primeros exploradores de Ethereum. Bienvenido a Ethereum en {{appName}}.",
       "cta": "¡Gracias!"
     },
     "notification": {
-      "title": "Enhorabuena 🎉",
-      "description": "{{rewardName}} se ha añadido correctamente a tu monedero {{appName}} ."
+      "title": "Un nuevo NFT te espera 🎉",
+      "description": "Puedes encontrar tu nuevo {{rewardName}} NFT en tus \"Coleccionables\"."
     },
     "rewardBottomSheet": {
       "title": "Cobros gratuitos durante un mes",
@@ -2181,7 +2199,20 @@
       "title": "Bienvenido"
     },
     "discover": {
-      "tabName": "Descubre"
+      "tabName": "Descubre",
+      "title": "Descubre"
+    }
+  },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "Tus fondos están en camino",
+      "description": "Se están enviando los fondos que te dio tu amigo. Por favor, espera... "
+    },
+    "error": {
+      "title": "Imposible reclamar fondos",
+      "description": "Prueba de nuevo tu enlace en directo para intentar recibir fondos, o pide a tu amigo que intente enviar un nuevo enlace",
+      "contactSupport": "Contactar a Soporte",
+      "dismiss": "Ignorar"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

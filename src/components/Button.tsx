@@ -27,6 +27,7 @@ export enum BtnTypes {
   ONBOARDING = 'Onboarding',
   ONBOARDING_SECONDARY = 'OnboardingSecondary',
   GRAY_WITH_BORDER = 'GrayWithBorder',
+  LABEL_PRIMARY = 'LabelPrimary',
 }
 
 export enum BtnSizes {
@@ -193,6 +194,10 @@ function getColors(type: BtnTypes, disabled: boolean | undefined) {
       textColor = colors.black
       backgroundColor = colors.gray1
       borderColor = colors.gray2
+      break
+    case BtnTypes.LABEL_PRIMARY:
+      textColor = colors.successDark
+      backgroundColor = colors.successLight
       break
   }
 

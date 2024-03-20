@@ -32,7 +32,6 @@ import {
 } from 'src/recipients/reducer'
 import { useSelector } from 'src/redux/hooks'
 import { useTokenInfoByAddress } from 'src/tokens/hooks'
-import { FeedTokenTransfer } from 'src/transactions/feed/TransferFeedItem'
 import {
   inviteTransactionsSelector,
   recentTxRecipientsCacheSelector,
@@ -113,7 +112,7 @@ export function useTransactionRecipient(transfer: TokenTransfer): Recipient {
 }
 
 // Note: This hook is tested from src/transactions/feed/TransferFeedItem.test.ts
-export function useTransferFeedDetails(transfer: FeedTokenTransfer) {
+export function useTransferFeedDetails(transfer: TokenTransfer, isJumpstart: boolean) {
   const { t } = useTranslation()
   const addressToDisplayName = useSelector(addressToDisplayNameSelector)
   const rewardsSenders = useSelector(rewardsSendersSelector)
@@ -143,6 +142,9 @@ export function useTransferFeedDetails(transfer: FeedTokenTransfer) {
     case TokenTransactionTypeV2.Sent: {
       if (fcTransferDisplayInfo) {
         ;({ title, subtitle, localAmount: customLocalAmount } = fcTransferDisplayInfo)
+      } else if (isJumpstart) {
+        title = t('feedItemJumpstartTitle')
+        subtitle = t('feedItemJumpstartSentSubtitle')
       } else {
         title = t('feedItemSentTitle', { displayName })
         subtitle = t('feedItemSentInfo', { context: !comment ? 'noComment' : null, comment })
@@ -176,6 +178,9 @@ export function useTransferFeedDetails(transfer: FeedTokenTransfer) {
       } else if (isCoinbasePaySender) {
         title = t('feedItemDepositTitle')
         subtitle = t('feedItemReceivedInfo', { context: !comment ? 'noComment' : null, comment })
+      } else if (isJumpstart) {
+        title = t('feedItemJumpstartTitle')
+        subtitle = t('feedItemJumpstartReceivedSubtitle')
       } else {
         title = t('feedItemReceivedTitle', { displayName })
         subtitle = t('feedItemReceivedInfo', { context: !comment ? 'noComment' : null, comment })

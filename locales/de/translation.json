@@ -2119,6 +2119,24 @@
       "ctaLabel": "Verwerfen"
     }
   },
+  "jumpstartShareLinkScreen": {
+    "title": "Live-Link teilen",
+    "description": "Kopiere den Link, um {{tokenSymbol}} über die Nachrichten-App deiner Wahl zu senden, oder verwende den QR-Code.",
+    "linkLabel": "Live Link",
+    "linkCopiedMessage": "Live Link kopiert",
+    "navigationWarning": {
+      "title": "Hast du deinen Link geteilt?",
+      "description": "Gib diesen Live-Link weiter oder speichere ihn an einem sicheren Ort.\n\nMach dir keine Sorgen, wenn das Geld nicht abgeholt wird - du kannst es ganz einfach über deinen Aktivitäts-Feed zurückfordern.",
+      "ctaNavigate": "Nach Hause gehen"
+    },
+    "ctaShare": "Link teilen",
+    "ctaScanQRCode": "Scan QR-Code",
+    "shareMessage": "Hallo! Ich sende dir einen Link, der mit {{tokenAmount}} {{tokenSymbol}} auf {{appName}}finanziert wurde. Nutze diesen Link, um die App herunterzuladen, und die Gelder werden live auf dich warten. {{link}}",
+    "qrCodeBottomSheet": {
+      "title": "Scanne den Code, um Geld zu erhalten",
+      "description": "Überprüfe den Status deines Geldes auf dem Homescreen. Alternativ kannst du auch den Link unten kopieren oder teilen."
+    }
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Genehmigt",
     "estimatedNetworkFee": "Geschätzte Netzwerkgebühr",
@@ -2142,13 +2160,13 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "Multi-Chain Early Adopter 🎁",
-      "description": "Als Dankeschön dafür, dass du ein Multi-Chain-Beta-Tester bist, haben wir ein kostenloses Geschenk zu deiner {{appName}} Geldbörse hinzugefügt! Die Early Adopter NFT findest du in deinen Sammelobjekten.",
+      "title": "Herzlichen Glückwunsch!",
+      "description": "Du hast dir ein exklusives Sammlerstück für Early Ethereum Explorers verdient. Willkommen bei Ethereum auf {{appName}}.",
       "cta": "Vielen Dank!"
     },
     "notification": {
-      "title": "Herzlichen Glückwunsch 🎉.",
-      "description": "{{rewardName}} wurde erfolgreich zu deiner {{appName}} Brieftasche hinzugefügt."
+      "title": "Ein neues NFT erwartet dich 🎉.",
+      "description": "Du findest deine neue {{rewardName}} NFT unter deinen \"Collectibles\"."
     },
     "rewardBottomSheet": {
       "title": "Einen Monat lang kostenlos einlösen",
@@ -2181,7 +2199,20 @@
       "title": "Willkommen"
     },
     "discover": {
-      "tabName": "Entdecke"
+      "tabName": "Entdecke",
+      "title": "Entdecke"
+    }
+  },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "Dein Geld ist auf dem Weg",
+      "description": "Das Geld, das du von deinem Freund bekommen hast, wird gerade überwiesen. Bitte warte... "
+    },
+    "error": {
+      "title": "Nicht in der Lage, Gelder zu beantragen",
+      "description": "Probiere deinen Live-Link erneut aus, um zu versuchen, Geld zu erhalten, oder bitte deinen Freund, einen neuen Link zu senden.",
+      "contactSupport": "Support kontaktieren",
+      "dismiss": "Verwerfen"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

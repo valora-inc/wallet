@@ -22,14 +22,11 @@ type Props =
       status: TransactionStatus
       transactionType: 'TokenTransferV3'
       recipient: Recipient
+      isJumpstart: boolean
     }
   | {
       status: TransactionStatus
       transactionType: 'TokenApproval'
-    }
-  | {
-      status: TransactionStatus
-      transactionType: 'JumpstartTransaction'
     }
 
 function TransactionFeedItemImage(props: Props) {
@@ -55,16 +52,17 @@ function TransactionFeedItemImage(props: Props) {
       </CircledIcon>
     )
   }
-  if (transactionType === 'TokenTransferV3') {
-    return <ContactCircle recipient={props.recipient} size={AVATAR_SIZE} />
-  }
 
-  if (transactionType === 'JumpstartTransaction') {
-    return (
-      <CircledIcon backgroundColor={Colors.successLight} radius={AVATAR_SIZE}>
-        <MagicWand size={24} />
-      </CircledIcon>
-    )
+  if (transactionType === 'TokenTransferV3') {
+    if (props.isJumpstart) {
+      return (
+        <CircledIcon backgroundColor={Colors.successLight} radius={AVATAR_SIZE}>
+          <MagicWand size={24} />
+        </CircledIcon>
+      )
+    }
+
+    return <ContactCircle recipient={props.recipient} size={AVATAR_SIZE} />
   }
 
   // Should never happen
