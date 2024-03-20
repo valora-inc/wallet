@@ -6,7 +6,6 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
-import { getDynamicConfigParams } from 'src/statsig'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
 import {
   Fee,
@@ -40,7 +39,6 @@ import {
   mockCusdTokenId,
   mockDisplayNumber2,
   mockE164Number2,
-  mockJumpstartAdddress,
 } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
@@ -52,12 +50,6 @@ const mockName = 'Hello World'
 describe('TransactionDetailsScreen', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-
-    jest.mocked(getDynamicConfigParams).mockReturnValue({
-      jumpstartContracts: {
-        [NetworkId['celo-alfajores']]: { contractAddress: mockJumpstartAdddress },
-      },
-    })
   })
 
   function renderScreen({
@@ -553,33 +545,5 @@ describe('TransactionDetailsScreen', () => {
 
     fireEvent.press(getByText('transactionDetailsActions.retryFailedTransaction'))
     expect(navigate).toHaveBeenCalledWith(Screens.SendSelectRecipient)
-  })
-
-  it('handles jumpstart sent transactions correctly', async () => {
-    const { getByTestId } = renderScreen({
-      transaction: tokenTransfer({
-        type: TokenTransactionTypeV2.Sent,
-        address: mockJumpstartAdddress,
-      }),
-    })
-
-    const amountSendComponent = getByTestId('LineItemRowTitle/JumpstartContent/TokenDetails')
-    expect(getElementText(amountSendComponent)).toBe('amountSent')
-    const amountValue = getByTestId('JumpstartContent/AmountValue')
-    expect(getElementText(amountValue)).toBe('10.00 cUSD')
-  })
-
-  it('handles jumpstart received transactions correctly', async () => {
-    const { getByTestId } = renderScreen({
-      transaction: tokenTransfer({
-        type: TokenTransactionTypeV2.Received,
-        address: mockJumpstartAdddress,
-      }),
-    })
-
-    const amountReceivedComponent = getByTestId('LineItemRowTitle/JumpstartContent/TokenDetails')
-    expect(getElementText(amountReceivedComponent)).toBe('amountReceived')
-    const amountValue = getByTestId('JumpstartContent/AmountValue')
-    expect(getElementText(amountValue)).toBe('10.00 cUSD')
   })
 })
