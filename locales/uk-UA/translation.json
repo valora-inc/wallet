@@ -1919,8 +1919,8 @@
     "searchAssets": "Пошук активів",
     "noTokenInResult": "Не знайдено жодних збігів із <0>\"{{searchTerm}}\"</0>",
     "noFilterSearchResults": "Не знайдено активів, які відповідають запиту «{{searchTerm}}» у таких категоріях: {{filterNames}}",
-    "noFilterResults": "Не знайдено активів, що відповідають наступним категоріям: {{filterNames}}",
-    "noSearchResults": "Не знайдено активів, що відповідають \"{{searchTerm}}\"",
+    "noFilterResults": "Не знайдено активів, які відповідають таким категоріям: {{filterNames}}",
+    "noSearchResults": "Не знайдено активів, які відповідають запиту «{{searchTerm}}»",
     "filters": {
       "myTokens": "Мої токени",
       "popular": "Популярні",
@@ -2010,9 +2010,9 @@
       "network": "Мережа"
     },
     "error": {
-      "invalidAddress": "Невірна адреса токена. Будь ласка, перевірте її",
+      "invalidAddress": "Хибна адреса токена. Перевірте",
       "invalidToken": "Недійсний токен. Спробуйте ще раз або зверніться до служби підтримки",
-      "tokenAlreadySupported": "Цей токен вже підтримується"
+      "tokenAlreadySupported": "Цей токен уже підтримується"
     },
     "importSuccess": "Токен {{tokenSymbol}} імпортовано",
     "importButton": "Імпортувати"
