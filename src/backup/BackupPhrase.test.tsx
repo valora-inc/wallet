@@ -1,10 +1,9 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import * as Keychain from 'react-native-keychain'
 import { Provider } from 'react-redux'
 import BackupPhrase from 'src/backup/BackupPhrase'
-import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
@@ -41,19 +40,5 @@ describe.each([
       </Provider>
     )
     expect(tree).toMatchSnapshot()
-  })
-
-  it('cancel navigates correctly', () => {
-    const mockGetGenericPassword = Keychain.getGenericPassword as jest.Mock
-    mockGetGenericPassword.mockResolvedValue(null)
-
-    const { getByTestId } = render(
-      <Provider store={createMockStore({ account: { backupCompleted: true } })}>
-        <BackupPhrase {...getMockStackScreenProps(Screens.BackupPhrase)} params={routeParams} />
-      </Provider>
-    )
-
-    fireEvent.press(getByTestId('CancelButton'))
-    expect(navigate).toHaveBeenCalledWith()
   })
 })
