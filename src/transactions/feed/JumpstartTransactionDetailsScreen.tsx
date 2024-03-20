@@ -33,7 +33,7 @@ import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSeri
 import EstimatedNetworkFee from 'src/walletConnect/screens/EstimatedNetworkFee'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { Address, Hash, decodeEventLog, encodeFunctionData } from 'viem'
+import { Address, Hash, encodeFunctionData, parseEventLogs } from 'viem'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.JumpstartTransactionDetailsScreen>
 
@@ -48,18 +48,17 @@ async function getClaimDataAndStatus(
     hash: transactionHash,
   })
 
-  const { eventName, args } = decodeEventLog({
+  const parsedLogs = parseEventLogs({
     abi: walletJumpstart.abi,
-    data: transactionReceipt.logs[1].data,
-    topics: transactionReceipt.logs[1].topics,
-  }) as { eventName: string; args: any }
+    eventName: ['ERC20Deposited'],
+    logs: transactionReceipt.logs,
+  })
 
-  if (!['ERC20Deposited', 'ERC721Deposited'].includes(eventName)) {
-    // Sanity check for the event name
-    throw new Error(`Unexpected event name ${eventName}`)
+  if (parsedLogs.length != 1) {
+    throw new Error('Unexpected number of matching logs')
   }
 
-  const { beneficiary, index }: { beneficiary: Address; index: number } = args
+  const { beneficiary, index } = parsedLogs[0].args
 
   Logger.debug('Decoded event', { beneficiary, index })
 
@@ -70,8 +69,7 @@ async function getClaimDataAndStatus(
     args: [beneficiary, index],
   })
 
-  // @ts-ignore
-  const claimed: boolean = erc20Claim[3]
+  const claimed = erc20Claim[3]
 
   Logger.debug(`Reward deposited in ${transactionHash} ${claimed ? 'was' : 'was NOT'} claimed`)
 
@@ -167,12 +165,8 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
   )
 
   return (
-    <SafeAreaView style={styles.safeAreaContainer} testID="SwapScreen">
-      <CustomHeader
-        style={{ paddingHorizontal: variables.contentPadding }}
-        left={<BackButton />}
-        title={t('swapScreen.title')}
-      />
+    <SafeAreaView style={styles.safeAreaContainer}>
+      <CustomHeader style={{ paddingHorizontal: variables.contentPadding }} left={<BackButton />} />
       <TransactionDetailsCommonScreen
         overrideTitle={title}
         transaction={transaction}
