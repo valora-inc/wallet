@@ -1,3 +1,4 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
@@ -7,10 +8,11 @@ import { FAQ_LINK, FORUM_LINK } from 'src/config'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
+import { StackParamList } from 'src/navigator/types'
 import fontStyles from 'src/styles/fonts'
 import { navigateToURI } from 'src/utils/linking'
+
+type Props = NativeStackScreenProps<StackParamList, Screens.Support>
 
 const openExternalLink = (link: string) => () => navigateToURI(link)
 
@@ -18,9 +20,9 @@ const onPressContact = () => {
   navigate(Screens.SupportContact)
 }
 
-const Support = () => {
+const Support = ({ navigation, route }: Props) => {
   const { t } = useTranslation()
-  const isTabNav = getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)
+  const isTabNav = route.params?.isTabNav
 
   return (
     <SafeAreaView

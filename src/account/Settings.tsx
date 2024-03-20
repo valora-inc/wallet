@@ -92,6 +92,7 @@ export const Account = ({ navigation, route }: Props) => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const promptConfirmRemovalModal = route.params?.promptConfirmRemovalModal
+  const isTabNav = route.params?.isTabNav
 
   const revokeBottomSheetRef = useRef<BottomSheetRefType>(null)
   const deleteAccountBottomSheetRef = useRef<BottomSheetRefType>(null)
@@ -434,14 +435,12 @@ export const Account = ({ navigation, route }: Props) => {
     }
   }
 
-  const isTabNav = getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)
-
   return (
     <SafeAreaView
       style={styles.container}
       edges={isTabNav ? ['bottom', 'left', 'right'] : undefined}
     >
-      {isTabNav && <DrawerTopBar />}
+      {!isTabNav && <DrawerTopBar />}
       <ScrollView testID="SettingsScrollView">
         <TouchableWithoutFeedback onPress={onDevSettingsTriggerPress}>
           <Text style={styles.title} testID={'SettingsTitle'}>

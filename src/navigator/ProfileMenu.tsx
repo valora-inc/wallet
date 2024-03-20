@@ -65,7 +65,10 @@ export default function ProfileMenu({ route }: Props) {
             <Text style={styles.actionLabel}>{t('invite')}</Text>
           </View>
         </Touchable>
-        <Touchable testID="ProfileMenu/Settings" onPress={() => navigate(Screens.Settings)}>
+        <Touchable
+          testID="ProfileMenu/Settings"
+          onPress={() => navigate(Screens.Settings, { isTabNav: true })}
+        >
           <View style={styles.container}>
             <Settings color={Colors.gray3} />
             <Text style={styles.actionLabel}>{t('settings')}</Text>

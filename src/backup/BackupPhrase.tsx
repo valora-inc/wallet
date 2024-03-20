@@ -14,11 +14,12 @@ import BackupPhraseContainer, {
 import CancelConfirm from 'src/backup/CancelConfirm'
 import { getStoredMnemonic, onGetMnemonicFail } from 'src/backup/utils'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import CancelButton from 'src/components/CancelButton'
 import CustomHeader from 'src/components/header/CustomHeader'
 import Switch from 'src/components/Switch'
 import { withTranslation } from 'src/i18n'
 import { noHeader } from 'src/navigator/Headers'
-import { navigate, pushToStack } from 'src/navigator/NavigationService'
+import { navigate, navigateHome, pushToStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
@@ -94,8 +95,9 @@ class BackupPhrase extends React.Component<Props, State> {
   }
 
   onPressContinue = () => {
+    const isAccountRemoval = this.props.route.params?.isAccountRemoval ?? false
     ValoraAnalytics.track(OnboardingEvents.backup_continue)
-    navigate(Screens.BackupQuiz)
+    navigate(Screens.BackupQuiz, { isAccountRemoval })
   }
 
   render() {
@@ -106,7 +108,13 @@ class BackupPhrase extends React.Component<Props, State> {
       <SafeAreaView style={styles.container}>
         <CustomHeader
           style={{ paddingHorizontal: variables.contentPadding }}
-          left={<CancelConfirm screen={TAG} />}
+          left={
+            isAccountRemoval ? (
+              <CancelButton onCancel={() => navigateHome()} />
+            ) : (
+              <CancelConfirm screen={TAG} />
+            )
+          }
           right={<HeaderRight />}
         />
         <ScrollView contentContainerStyle={styles.scrollContainer}>

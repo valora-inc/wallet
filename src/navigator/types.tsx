@@ -68,7 +68,11 @@ export type StackParamList = {
     | {
         isAccountRemoval: boolean
       }
-  [Screens.BackupQuiz]: undefined
+  [Screens.BackupQuiz]:
+    | undefined
+    | {
+        isAccountRemoval: boolean
+      }
   [Screens.FiatDetailsScreen]: {
     quote: FiatConnectQuote
     flow: CICOFlow
@@ -257,15 +261,15 @@ export type StackParamList = {
     sendAmount: string
     tokenId: string
   }
-  [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
-  [Screens.SettingsDrawer]: { promptConfirmRemovalModal?: boolean } | undefined
+  [Screens.Settings]: { promptConfirmRemovalModal?: boolean; isTabNav?: boolean } | undefined
+  [Screens.SettingsDrawer]: { promptConfirmRemovalModal?: boolean; isTabNav?: boolean } | undefined
   [Screens.SignInWithEmail]: {
     keylessBackupFlow: KeylessBackupFlow
   }
   [Screens.Spend]: undefined
   [Screens.StoreWipeRecoveryScreen]: undefined
-  [Screens.Support]: undefined
-  [Screens.SupportDrawer]: undefined
+  [Screens.Support]: { isTabNav?: boolean } | undefined
+  [Screens.SupportDrawer]: { isTabNav?: boolean } | undefined
   [Screens.SupportContact]:
     | {
         prefilledText: string

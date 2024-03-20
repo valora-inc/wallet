@@ -13,13 +13,14 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import CancelConfirm from 'src/backup/CancelConfirm'
 import { QuizzBottom } from 'src/backup/QuizzBottom'
 import { getStoredMnemonic, onGetMnemonicFail } from 'src/backup/utils'
+import CancelButton from 'src/components/CancelButton'
 import DevSkipButton from 'src/components/DevSkipButton'
 import TextButton from 'src/components/TextButton'
 import Touchable from 'src/components/Touchable'
 import i18n, { withTranslation } from 'src/i18n'
 import Backspace from 'src/icons/Backspace'
 import { emptyHeader } from 'src/navigator/Headers'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
@@ -72,10 +73,16 @@ const mapStateToProps = (state: RootState): StateProps => {
 }
 
 export const navOptionsForQuiz = ({ route }: OwnProps) => {
+  const isAccountRemoval = route.params?.isAccountRemoval
+  console.log(isAccountRemoval)
   return {
     ...emptyHeader,
     headerLeft: () => {
-      return <CancelConfirm screen={TAG} />
+      return isAccountRemoval ? (
+        <CancelButton onCancel={() => navigateHome()} />
+      ) : (
+        <CancelConfirm screen={TAG} />
+      )
     },
     headerTitle: i18n.t(`headerTitle`),
   }
