@@ -7,7 +7,7 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { backupCompletedSelector } from 'src/backup/selectors'
 import Checkmark from 'src/icons/Checkmark'
-import { navigateHome } from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useSelector } from 'src/redux/hooks'
@@ -22,12 +22,17 @@ import fontStyles from 'src/styles/fonts'
 type Props = NativeStackScreenProps<StackParamList, Screens.BackupComplete>
 
 function BackupComplete({ route }: Props) {
+  const settingsScreen = route.params?.settingsScreen ?? undefined
   const backupCompleted = useSelector(backupCompletedSelector)
   const { t } = useTranslation()
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (backupCompleted) {
+      if (settingsScreen) {
+        navigate(settingsScreen === Screens.Settings ? Screens.Settings : Screens.SettingsDrawer, {
+          promptConfirmRemovalModal: true,
+        })
+      } else if (backupCompleted) {
         ValoraAnalytics.track(OnboardingEvents.backup_complete)
         navigateHome()
       } else {

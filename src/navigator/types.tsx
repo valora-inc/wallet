@@ -51,7 +51,11 @@ interface ValidateRecipientParams {
 }
 
 export type StackParamList = {
-  [Screens.BackupComplete]: undefined
+  [Screens.BackupComplete]:
+    | undefined
+    | {
+        settingsScreen: Screens | undefined
+      }
   [Screens.BackupIntroduction]:
     | {
         showDrawerTopBar: boolean
@@ -66,12 +70,12 @@ export type StackParamList = {
   [Screens.BackupPhrase]:
     | undefined
     | {
-        isAccountRemoval: boolean
+        settingsScreen: Screens | undefined
       }
   [Screens.BackupQuiz]:
     | undefined
     | {
-        isAccountRemoval: boolean
+        settingsScreen: Screens | undefined
       }
   [Screens.FiatDetailsScreen]: {
     quote: FiatConnectQuote
