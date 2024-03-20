@@ -9,7 +9,6 @@ import {
   Fee,
   NetworkId,
   TokenAmount,
-  TokenTransaction,
   TokenTransactionTypeV2,
   TokenTransfer,
   TokenTransferMetadata,
@@ -35,7 +34,7 @@ jest.mock('src/statsig')
 const mockAddress = '0x8C3b8Af721384BB3479915C72CEe32053DeFca4E'
 const mockName = 'Hello World'
 
-describe('TransactionDetailsScreen', () => {
+describe('JumpstartTransactionDetailsScreen', () => {
   beforeEach(() => {
     jest.clearAllMocks()
 
@@ -51,7 +50,7 @@ describe('TransactionDetailsScreen', () => {
     transaction,
   }: {
     storeOverrides?: RecursivePartial<RootState>
-    transaction: TokenTransaction
+    transaction: TokenTransfer
   }) {
     const store = createMockStore({
       identity: { addressToE164Number: { [mockAddress]: mockE164Number2 } },
@@ -59,7 +58,7 @@ describe('TransactionDetailsScreen', () => {
       ...storeOverrides,
     })
 
-    const mockScreenProps = getMockStackScreenProps(Screens.TransactionDetailsScreen, {
+    const mockScreenProps = getMockStackScreenProps(Screens.JumpstartTransactionDetailsScreen, {
       transaction,
     })
 

@@ -138,7 +138,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
       data: encodeFunctionData({
         abi: walletJumpstart.abi,
         functionName: 'reclaimERC20',
-        args: [beneficiary, index],
+        args: [beneficiary, BigInt(index)],
       }),
       // TODO: Estimate
       gas: '130000',
