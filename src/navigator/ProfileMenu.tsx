@@ -115,8 +115,7 @@ ProfileMenu.navigationOptions = () => ({
 const styles = StyleSheet.create({
   top: {
     alignItems: 'flex-start',
-    marginLeft: Spacing.Thick24,
-    marginRight: Spacing.Regular16,
+    marginHorizontal: Spacing.Regular16,
     marginTop: Spacing.Thick24,
   },
   nameLabel: {
@@ -128,14 +127,14 @@ const styles = StyleSheet.create({
   },
   topBorder: {
     marginVertical: Spacing.Thick24,
-    marginLeft: Spacing.Thick24,
+    marginLeft: Spacing.Regular16,
     height: 1,
     backgroundColor: colors.gray2,
     alignSelf: 'stretch',
   },
   bottomBorder: {
     marginTop: Spacing.Thick24,
-    marginLeft: Spacing.Thick24,
+    marginLeft: Spacing.Regular16,
     height: 1,
     backgroundColor: colors.gray2,
     alignSelf: 'stretch',
@@ -158,7 +157,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: Spacing.Smallest8,
-    marginLeft: Spacing.Thick24,
+    marginLeft: Spacing.Regular16,
     gap: Spacing.Small12,
   },
   actionLabel: {
