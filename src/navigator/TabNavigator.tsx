@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { NativeStackHeaderProps, NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
@@ -8,6 +8,7 @@ import WalletHome from 'src/home/WalletHome'
 import ValoraV from 'src/icons/ValoraV'
 import Discover from 'src/icons/navigator/Discover'
 import Wallet from 'src/icons/navigator/Wallet'
+import { tabHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import Colors from 'src/styles/colors'
@@ -39,6 +40,7 @@ export default function TabNavigator({ route }: Props) {
         tabBarStyle: {
           height: variables.height * 0.1,
         },
+        ...(tabHeader as NativeStackHeaderProps),
       }}
     >
       <Tab.Screen
@@ -59,6 +61,7 @@ export default function TabNavigator({ route }: Props) {
           lazy: false,
           tabBarLabel: t('bottomTabsNavigator.home.tabName') as string,
           tabBarIcon: ValoraV,
+          tabBarTestID: 'Tab/Home',
         }}
         initialParams={{ isTabNavigator: true }}
       />
