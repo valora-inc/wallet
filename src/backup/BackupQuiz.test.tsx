@@ -1,8 +1,10 @@
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import BackupQuiz, { BackupQuiz as BackupQuizRaw } from 'src/backup/BackupQuiz'
+import BackupQuiz, { BackupQuiz as BackupQuizRaw, navOptionsForQuiz } from 'src/backup/BackupQuiz'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, getMockI18nProps, getMockStackScreenProps } from 'test/utils'
 import { mockAccount, mockMnemonic } from 'test/values'
 
@@ -19,27 +21,49 @@ jest.mock('src/backup/utils', () => ({
 
 const mockScreenProps = getMockStackScreenProps(Screens.BackupQuiz)
 
-describe.each([
-  { settingsScreen: Screens.SettingsDrawer },
-  { settingsScreen: Screens.Settings },
-  {},
-])('BackupQuiz (settingsScreen: $settingsScreen)', (routeParams) => {
+describe('BackupQuiz', () => {
   const store = createMockStore()
-  beforeEach(() => {
-    // According to the react-native-testing-library docs, if we're using
-    // fake timers, tests that use async/await will stall.
-    jest.useRealTimers()
-  })
-
   it('renders correctly', async () => {
     const { getByTestId, toJSON } = render(
       <Provider store={store}>
-        <BackupQuiz {...mockScreenProps} params={routeParams} />
+        <BackupQuiz {...mockScreenProps} />
       </Provider>
     )
     await waitFor(() => getByTestId('selected-word-0'))
     expect(toJSON()).toMatchSnapshot()
   })
+
+  it('Cancel navigates correctly when no settingScreen passed', () => {
+    const { getByText, getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={BackupQuiz} options={navOptionsForQuiz} />
+      </Provider>
+    )
+
+    fireEvent.press(getByTestId('CancelButton'))
+    expect(getByText('cancelDialog.title')).toBeTruthy()
+    expect(getByText('cancelDialog.body')).toBeTruthy()
+  })
+
+  it.each([{ settingsScreen: Screens.SettingsDrawer }, { settingsScreen: Screens.Settings }])(
+    'Cancel navigates correctly (settingsScreen: $settingsScreen)',
+    (routeParams) => {
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator
+            component={BackupQuiz}
+            params={routeParams}
+            options={navOptionsForQuiz}
+          />
+        </Provider>
+      )
+
+      fireEvent.press(getByTestId('CancelButton'))
+      expect(navigate).toBeCalledWith(routeParams.settingsScreen, {
+        isTabNav: routeParams.settingsScreen === Screens.Settings,
+      })
+    }
+  )
 
   describe('when word is pressed', () => {
     it('removes it from the options adds it to chosen words', async () => {
@@ -76,14 +100,8 @@ describe.each([
     })
   })
 
-  /**
-   * Note(Rossy): Unfortunately I have to skip this test for now.
-   * The test must wait for buttons to be ready, and which takes
-   * in total over 10 seconds for all 24 mnemonic words. Maybe the
-   * test renderer perf will improve at some point and we can enable this.
-   */
-  // eslint-disable-next-line jest/no-disabled-tests
-  it.skip('can complete the quiz correctly', async () => {
+  it('can complete the quiz correctly', async () => {
+    jest.useFakeTimers()
     const mockSetBackupCompleted = jest.fn()
     const { getByText, getByTestId } = render(
       <Provider store={store}>
@@ -100,7 +118,9 @@ describe.each([
       await waitFor(() => getByText(word))
       fireEvent.press(getByText(word))
     }
+
     fireEvent.press(getByTestId('QuizSubmit'))
+    jest.advanceTimersByTime(2000)
     expect(mockSetBackupCompleted).toHaveBeenCalled()
   })
 })
