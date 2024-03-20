@@ -74,7 +74,10 @@ export default function ProfileMenu({ route }: Props) {
             <Text style={styles.actionLabel}>{t('settings')}</Text>
           </View>
         </Touchable>
-        <Touchable testID="ProfileMenu/Help" onPress={() => navigate(Screens.Support)}>
+        <Touchable
+          testID="ProfileMenu/Help"
+          onPress={() => navigate(Screens.Support, { isTabNav: true })}
+        >
           <View style={styles.container}>
             <Help color={Colors.gray3} />
             <Text style={styles.actionLabel}>{t('help')}</Text>
