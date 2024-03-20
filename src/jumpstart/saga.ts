@@ -14,6 +14,7 @@ import {
   jumpstartClaimFailed,
   jumpstartClaimStarted,
   jumpstartClaimSucceeded,
+  jumpstartReclaimFailed,
   jumpstartReclaimStarted,
   jumpstartReclaimSucceeded,
 } from 'src/jumpstart/slice'
