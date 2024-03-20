@@ -23,7 +23,6 @@ import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
-import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -182,9 +181,6 @@ const styles = StyleSheet.create({
     flex: 1,
     ...fontStyles.regular,
     paddingLeft: 8,
-  },
-  cancelButton: {
-    color: colors.gray4,
   },
   continueButton: {
     paddingHorizontal: variables.contentPadding,

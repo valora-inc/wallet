@@ -409,9 +409,6 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
   },
   resetButton: { alignItems: 'center', padding: 24, marginTop: 8 },
-  cancelButton: {
-    color: colors.gray4,
-  },
 })
 
 export default connect<StateProps, DispatchProps, OwnProps, RootState>(mapStateToProps, {
