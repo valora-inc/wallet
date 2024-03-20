@@ -31,6 +31,7 @@ function BackupComplete({ route }: Props) {
       if (settingsScreen) {
         navigate(settingsScreen === Screens.Settings ? Screens.Settings : Screens.SettingsDrawer, {
           promptConfirmRemovalModal: true,
+          isTabNav: settingsScreen === Screens.Settings,
         })
       } else if (backupCompleted) {
         ValoraAnalytics.track(OnboardingEvents.backup_complete)
