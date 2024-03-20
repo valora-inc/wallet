@@ -3,7 +3,8 @@ import BigNumber from 'bignumber.js'
 import React, { useMemo, useRef, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { Trans, useTranslation } from 'react-i18next'
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import walletJumpstart from 'src/abis/IWalletJumpstart'
 import BackButton from 'src/components/BackButton'
@@ -14,6 +15,7 @@ import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import CustomHeader from 'src/components/header/CustomHeader'
+import Checkmark from 'src/icons/Checkmark'
 import Logo from 'src/icons/Logo'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -117,12 +119,6 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
     }
   )
 
-  if (!token) {
-    // should never happen
-    Logger.error(TAG, 'Token is undefined')
-    return null
-  }
-
   const onReclaimPress = () => {
     if (!fetchClaimData.result) {
       Logger.error(TAG, 'No escrow data found when trying to reclaim')
@@ -150,24 +146,17 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
 
   const isClaimed = fetchClaimData.result?.claimed
 
-  const reclaimButton = (
-    <View style={styles.buttonContainer}>
-      <Button
-        showLoading={!fetchClaimData.result}
-        disabled={!fetchClaimData.result}
-        onPress={onReclaimPress}
-        type={!isClaimed ? BtnTypes.PRIMARY : BtnTypes.LABEL_PRIMARY}
-        text={!isClaimed ? t('reclaim') : t('claimed') + ' ✓'}
-        size={BtnSizes.FULL}
-      />
-    </View>
-  )
+  if (!token) {
+    // should never happen
+    Logger.error(TAG, 'Token is undefined')
+    return null
+  }
 
   return (
-    <SafeAreaView style={styles.safeAreaContainer}>
+    <SafeAreaView style={styles.safeAreaContainer} edges={['top']}>
       <CustomHeader style={{ paddingHorizontal: variables.contentPadding }} left={<BackButton />} />
       <TransactionDetails
-        overrideTitle={title}
+        title={title}
         transaction={transaction}
         retryHandler={() => navigate(Screens.JumpstartEnterAmount)}
       >
@@ -191,7 +180,22 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
             />
           </View>
         </View>
-        {isDeposit && reclaimButton}
+        {isDeposit && (
+          <View style={styles.buttonContainer}>
+            <Button
+              showLoading={fetchClaimData.loading}
+              disabled={!fetchClaimData.result || isClaimed}
+              onPress={onReclaimPress}
+              type={!isClaimed ? BtnTypes.PRIMARY : BtnTypes.LABEL_PRIMARY}
+              text={!isClaimed ? t('reclaim') : t('claimed')}
+              size={BtnSizes.FULL}
+              icon={
+                isClaimed ? <Checkmark height={Spacing.Thick24} color={Colors.successDark} /> : null
+              }
+              iconPositionLeft={false}
+            />
+          </View>
+        )}
         <NetworkFeeRowItem fees={transaction.fees} transactionStatus={transaction.status} />
         <LineItemRow
           testID="JumpstartContent/TokenDetails"
