@@ -2203,7 +2203,8 @@
       "title": "Ласкаво просимо."
     },
     "discover": {
-      "tabName": "Дізнатися"
+      "tabName": "Дізнатися",
+      "title": "Дізнатися"
     }
   },
   "jumpstartStatus": {
