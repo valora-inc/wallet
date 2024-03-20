@@ -33,6 +33,7 @@ export default function Swap({ points, onPress }: ActivityCardProps) {
       icon={<SwapArrows />}
       title={t('points.activityCards.swap.title')}
       onCardPress={onCardPress}
+      testID={`SwapActivityCard-${points}`}
     />
   )
 }

@@ -4,13 +4,14 @@ import Rocket from 'src/icons/Rocket'
 import { useTranslation } from 'react-i18next'
 import { ActivityCardProps } from 'src/points/types'
 
-export default function MoreComing(props: ActivityCardProps) {
+export default function MoreComing({ points }: ActivityCardProps) {
   const { t } = useTranslation()
   return (
     <ActivityCard
       completed={false}
       icon={<Rocket />}
       title={t('points.activityCards.moreComing.title')}
+      testID={`MoreComingActivityCard-${points}`}
     />
   )
 }

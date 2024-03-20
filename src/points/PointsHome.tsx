@@ -59,6 +59,7 @@ export default function PointsHome({ route, navigation }: Props) {
         <Text style={styles.bottomSheetTitle}>{bottomSheetDetails.bottomSheetTitle}</Text>
         <Text style={styles.bottomSheetBody}>{bottomSheetDetails.bottomSheetBody}</Text>
         <Button
+          testID={'PointsHomeBottomSheetCtaButton'}
           type={BtnTypes.PRIMARY}
           size={BtnSizes.FULL}
           onPress={

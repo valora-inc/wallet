@@ -33,6 +33,7 @@ export default function ActivityCardSection({ onCardPress }: Props) {
     const points = pointsMetadata.points
 
     const cardPairs = pointsMetadata.activities
+      .filter((activity) => activity.name in activityToCardMap)
       .reduce(
         (res, _val, i, arr) => {
           if (i % 2 === 0) res.push(arr.slice(i, i + 2))
@@ -58,7 +59,7 @@ export default function ActivityCardSection({ onCardPress }: Props) {
         )
       })
     return (
-      <View key={points} style={styles.pointsSection}>
+      <View testID={`PointsActivitySection-${points}`} key={points} style={styles.pointsSection}>
         <View style={styles.pointsSectionHeader}>
           <View style={styles.hr} />
           <View style={styles.pointsSectionHeaderAmountContainer}>
@@ -77,6 +78,7 @@ export default function ActivityCardSection({ onCardPress }: Props) {
       if (a.points > b.points) return -1
       return 0
     })
+    .filter((metadata) => metadata.points)
     .map(makeSection)
 
   return (

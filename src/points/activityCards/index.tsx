@@ -10,11 +10,12 @@ interface Props {
   completed: boolean
   icon: React.ReactNode
   title: string
+  testID?: string
   points?: number
   onCardPress?: () => void
 }
 
-export default function ActivityCard({ completed, icon, title, onCardPress }: Props) {
+export default function ActivityCard({ completed, icon, title, onCardPress, testID }: Props) {
   const containerStyle = {
     ...styles.cardContainer,
     ...(completed ? { opacity: 0.5 } : {}),
@@ -33,12 +34,16 @@ export default function ActivityCard({ completed, icon, title, onCardPress }: Pr
   )
   if (onCardPress) {
     return (
-      <Touchable style={styles.container} onPress={onCardPress}>
+      <Touchable testID={testID} style={styles.container} onPress={onCardPress}>
         {content}
       </Touchable>
     )
   } else {
-    return <View style={styles.container}>{content}</View>
+    return (
+      <View testID={testID} style={styles.container}>
+        {content}
+      </View>
+    )
   }
 }
 
