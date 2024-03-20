@@ -2033,8 +2033,8 @@
       "subtitle": "Zaproś znajomych z listy kontaktów"
     },
     "jumpstart": {
-      "title": "Share crypto with a link",
-      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
+      "title": "Wyślij za pomocą łącza na żywo",
+      "subtitle": "Skopiuj link i udostępnij go, aby wysłać kryptowalutę tak jak tekst"
     },
     "getStarted": {
       "title": "Sposoby wysyłania środków w Valorze",
@@ -2108,16 +2108,38 @@
   },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
-      "title": "Sugerujemy niższą kwotę",
-      "description": "Ten link będzie mógł być wykorzystany przez każdego, kto ma do niego dostęp. Zalecamy wysyłanie nie więcej niż {{maxAmount}} {{localCurrencyCode}}."
+      "title": "Możesz wysłać do {{amountInLocalCurrency,currency}} w linku",
+      "description": "Ten link może zostać wykorzystany przez każdego, kto ma do niego dostęp. Upewnij się, że wysyłasz linki do zaufanych osób."
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Utwórz link do udostępnienia",
-    "sendAmountLabel": "KWOTA ŁĄCZA DO ROSZCZENIA",
-    "confirmButton": "Wyślij środki i utwórz link",
-    "detailsLabel": "JAK TO DZIAŁA",
-    "details": "1. Stuknij wygeneruj link, a Twoje środki zostaną przesłane do linku roszczenia\n2. Wyślij link do roszczenia znajomemu\n3. Przyjmie on środki\n4. Jeśli środki nie zostaną odebrane, możesz je odzyskać w dowolnym momencie."
+    "title": "Utwórz łącze na żywo",
+    "sendAmountLabel": "Kwota łącza na żywo",
+    "confirmButton": "Wyślij i utwórz łącze",
+    "info": "Kiedy tworzysz link, środki są pobierane z Twojego portfela. Możesz odzyskać link w dowolnym momencie. Udostępniaj linki ostrożnie.",
+    "sendError": {
+      "title": "Nie można utworzyć łącza",
+      "description": "Twój link na żywo nie został utworzony. Spróbuj ponownie.",
+      "ctaLabel": "Odrzuć"
+    }
+  },
+  "jumpstartShareLinkScreen": {
+    "title": "Udostępnij łącze na żywo",
+    "description": "Skopiuj link, aby wysłać {{tokenSymbol}} za pośrednictwem wybranej aplikacji do przesyłania wiadomości lub użyj kodu QR.",
+    "linkLabel": "Link na żywo",
+    "linkCopiedMessage": "Skopiowany link na żywo",
+    "navigationWarning": {
+      "title": "Udostępniłeś swój link?",
+      "description": "Udostępnij ten link na żywo lub zapisz go w bezpiecznym miejscu.\n\nNie martw się, jeśli środki nie zostaną odebrane - możesz je łatwo odzyskać ze swojego kanału aktywności.",
+      "ctaNavigate": "Idź do domu"
+    },
+    "ctaShare": "Udostępnij łącze",
+    "ctaScanQRCode": "Zeskanuj kod QR",
+    "shareMessage": "Cześć! Wysyłam Ci link zasilony przez {{tokenAmount}} {{tokenSymbol}} na {{appName}}. Użyj tego linku, aby pobrać aplikację, a środki będą na żywo, czekając na Ciebie. {{link}}",
+    "qrCodeBottomSheet": {
+      "title": "Zeskanuj kod, aby otrzymać środki",
+      "description": "Sprawdź stan swoich środków na ekranie głównym. Możesz też skopiować lub udostępnić poniższy link."
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Zatwierdzenie",
@@ -2142,13 +2164,13 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "Wczesna adopcja wielu łańcuchów 🎁",
-      "description": "W podziękowaniu za bycie beta testerem multi-chain, dodaliśmy darmowy prezent do Twojego portfela {{appName}} ! NFT dla wczesnych użytkowników znajdziesz w swoich przedmiotach kolekcjonerskich.",
+      "title": "Gratulacje!",
+      "description": "Zdobyłeś ekskluzywny przedmiot kolekcjonerski dla wczesnych odkrywców Ethereum. Witaj w Ethereum na {{appName}}.",
       "cta": "Dziękujemy!"
     },
     "notification": {
-      "title": "Gratulacje 🎉",
-      "description": "{{rewardName}} została pomyślnie dodana do Twojego portfela {{appName}} ."
+      "title": "Nowy NFT czeka 🎉",
+      "description": "Możesz znaleźć swój nowy {{rewardName}} NFT w zakładce \"Kolekcje\"."
     },
     "rewardBottomSheet": {
       "title": "Darmowe wypłaty przez miesiąc",
@@ -2181,7 +2203,20 @@
       "title": "Witaj"
     },
     "discover": {
-      "tabName": "Odkryj"
+      "tabName": "Odkryj",
+      "title": "Odkryj"
+    }
+  },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "Twoje środki są w drodze",
+      "description": "Środki, które przekazał Ci Twój znajomy, są właśnie przesyłane. Poczekaj... "
+    },
+    "error": {
+      "title": "Nie możesz ubiegać się o środki",
+      "description": "Wypróbuj ponownie swój link na żywo, aby spróbować otrzymać środki, lub poproś znajomego, aby spróbował wysłać nowy link.",
+      "contactSupport": "Skontaktuj się z Działem wsparcia",
+      "dismiss": "Odrzuć"
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",

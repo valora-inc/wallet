@@ -2029,8 +2029,8 @@
       "subtitle": "Invita a amigos de tu lista de contactos"
     },
     "jumpstart": {
-      "title": "Share crypto with a link",
-      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
+      "title": "Enviar con un enlace en directo",
+      "subtitle": "Copia el enlace y compártelo para enviar criptomonedas como si fuera un texto"
     },
     "getStarted": {
       "title": "Formas de enviar fondos en Valora",
@@ -2104,16 +2104,38 @@
   },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
-      "title": "Sugeriríamos una cantidad inferior",
-      "description": "Este enlace podrá ser reclamado por cualquiera que tenga acceso a él. Te recomendamos que no envíes más de {{maxAmount}} {{localCurrencyCode}}."
+      "title": "Puedes enviar hasta {{amountInLocalCurrency,currency}} en un enlace",
+      "description": "Este enlace podrá ser reclamado por cualquiera que tenga acceso a él. Asegúrate de enviar enlaces a personas de confianza."
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Crear enlace compartible",
-    "sendAmountLabel": "IMPORTE DEL ENLACE DE RECLAMACIÓN",
-    "confirmButton": "Enviar fondos y crear enlace",
-    "detailsLabel": "CÓMO FUNCIONA",
-    "details": "1. Pulsa generar enlace y tus fondos se enviarán al enlace de reclamación\n2. Envía el enlace de reclamación a un amigo\n3. Ellos aceptarán los fondos\n4. Si no se reclaman los fondos, puedes reclamarlos en cualquier momento."
+    "title": "Crear enlace en directo",
+    "sendAmountLabel": "Enlace en directo Importe",
+    "confirmButton": "Enviar y crear enlace",
+    "info": "Cuando creas un enlace, los fondos se retiran de tu monedero. Puedes recuperar el enlace en cualquier momento. Comparte enlaces con cuidado.",
+    "sendError": {
+      "title": "No se puede crear el enlace",
+      "description": "No se ha creado tu enlace en directo. Inténtalo de nuevo.",
+      "ctaLabel": "Ignorar"
+    }
+  },
+  "jumpstartShareLinkScreen": {
+    "title": "Compartir enlace en directo",
+    "description": "Copia el enlace para enviar {{tokenSymbol}} a través de la aplicación de mensajería que prefieras, o utiliza el código QR.",
+    "linkLabel": "Enlace en directo",
+    "linkCopiedMessage": "Enlace en directo copiado",
+    "navigationWarning": {
+      "title": "¿Has compartido tu enlace?",
+      "description": "Asegúrate de compartir este enlace en directo o de guardarlo en un lugar seguro.\n\nNo te preocupes si no es reclamado: puedes reclamar los fondos fácilmente desde tu feed de actividad.",
+      "ctaNavigate": "Volver a casa"
+    },
+    "ctaShare": "Compartir enlace",
+    "ctaScanQRCode": "Escanear código QR",
+    "shareMessage": "Hola! Te envío un enlace financiado con {{tokenAmount}} {{tokenSymbol}} en {{appName}}. Utiliza este enlace para descargar la aplicación y los fondos estarán activos, esperándote. {{link}}",
+    "qrCodeBottomSheet": {
+      "title": "Escanea el código para recibir fondos",
+      "description": "Comprueba el estado de tus fondos en la pantalla de inicio. También puedes copiar o compartir el siguiente enlace."
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Aprobación",
@@ -2138,13 +2160,13 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "Precoz multicadena 🎁",
-      "description": "Como agradecimiento por ser un probador beta multicadena, ¡hemos añadido un regalo gratuito a tu monedero {{appName}} ! El NFT de early adopter se puede encontrar en tus coleccionables.",
+      "title": "¡Enhorabuena!",
+      "description": "Has ganado un coleccionable exclusivo para los primeros exploradores de Ethereum. Bienvenido a Ethereum en {{appName}}.",
       "cta": "¡Gracias!"
     },
     "notification": {
-      "title": "Enhorabuena 🎉",
-      "description": "{{rewardName}} se ha añadido correctamente a tu monedero {{appName}} ."
+      "title": "Un nuevo NFT te espera 🎉",
+      "description": "Puedes encontrar tu nuevo {{rewardName}} NFT en tus \"Coleccionables\"."
     },
     "rewardBottomSheet": {
       "title": "Cobros gratuitos durante un mes",
@@ -2177,7 +2199,20 @@
       "title": "Bienvenido"
     },
     "discover": {
-      "tabName": "Descubre"
+      "tabName": "Descubre",
+      "title": "Descubre"
+    }
+  },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "Tus fondos están en camino",
+      "description": "Se están enviando los fondos que te dio tu amigo. Por favor, espera... "
+    },
+    "error": {
+      "title": "Imposible reclamar fondos",
+      "description": "Prueba de nuevo tu enlace en directo para intentar recibir fondos, o pide a tu amigo que intente enviar un nuevo enlace",
+      "contactSupport": "Contactar a Soporte",
+      "dismiss": "Ignorar"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

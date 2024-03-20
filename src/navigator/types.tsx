@@ -260,6 +260,11 @@ export type StackParamList = {
     tokenId: string
     serializablePreparedTransactions: SerializableTransactionRequest[]
   }
+  [Screens.JumpstartShareLink]: {
+    link: string
+    sendAmount: string
+    tokenId: string
+  }
   [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
   [Screens.SignInWithEmail]: {
     keylessBackupFlow: KeylessBackupFlow

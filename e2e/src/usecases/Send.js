@@ -25,7 +25,10 @@ export default Send = () => {
     let commentText
     beforeAll(async () => {
       commentText = `${new Date().getTime()}-${parseInt(Math.random() * 100000)}`
-      await launchApp({ newInstance: true })
+      await launchApp({
+        newInstance: true,
+        launchArgs: { statsigGateOverrides: `use_tab_navigator=true` },
+      })
     })
 
     it('Then should navigate to send search input from home action', async () => {
@@ -110,7 +113,10 @@ export default Send = () => {
     let commentText
     beforeAll(async () => {
       commentText = `${new Date().getTime()}`
-      await launchApp({ newInstance: true })
+      await launchApp({
+        newInstance: true,
+        launchArgs: { statsigGateOverrides: `use_tab_navigator=true` },
+      })
     })
 
     it('Then should navigate to send search input from home action', async () => {

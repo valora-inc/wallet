@@ -2,13 +2,15 @@ import { Countries } from '@celo/phone-utils'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SafeAreaView, ScrollView, StyleSheet, Text } from 'react-native'
+import { SafeAreaView, StyleSheet, Text } from 'react-native'
 import * as RNLocalize from 'react-native-localize'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
 import { getPhoneNumberDetails } from 'src/account/utils'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
+import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import PhoneNumberInput from 'src/components/PhoneNumberInput'
 import i18n from 'src/i18n'
 import KeylessBackupCancelButton from 'src/keylessBackup/KeylessBackupCancelButton'
@@ -93,7 +95,7 @@ function KeylessBackupPhoneInput({ route }: Props) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scrollContainer}>
+      <KeyboardAwareScrollView style={styles.scrollContainer}>
         <Text style={styles.title}>
           {keylessBackupFlow === KeylessBackupFlow.Setup
             ? t('keylessBackupPhoneInput.setup.title')
@@ -112,7 +114,7 @@ function KeylessBackupPhoneInput({ route }: Props) {
           onPressCountry={onPressCountry}
           onChange={onChangePhoneNumberInput}
         />
-      </ScrollView>
+      </KeyboardAwareScrollView>
       <Button
         testID="KeylessBackupPhoneInput/Continue"
         onPress={onPressContinue}
@@ -122,6 +124,7 @@ function KeylessBackupPhoneInput({ route }: Props) {
         style={styles.button}
         disabled={!phoneNumberInfo.isValidNumber}
       />
+      <KeyboardSpacer />
     </SafeAreaView>
   )
 }
@@ -141,7 +144,7 @@ export default KeylessBackupPhoneInput
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'space-between',
-    flexGrow: 1,
+    height: '100%',
   },
   scrollContainer: {
     padding: Spacing.Thick24,

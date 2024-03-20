@@ -9,8 +9,6 @@ import Touchable from 'src/components/Touchable'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -41,8 +39,6 @@ function TransferFeedItem({ transfer }: Props) {
   const colorStyle = new BigNumber(amount.value).isPositive() ? { color: colors.primary } : {}
 
   const hideHomeBalanceState = useSelector(hideHomeBalancesSelector)
-  const hideBalance =
-    getFeatureGate(StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE) && hideHomeBalanceState
 
   return (
     <Touchable testID="TransferFeedItem" onPress={openTransferDetails}>
@@ -60,7 +56,7 @@ function TransferFeedItem({ transfer }: Props) {
             {subtitle}
           </Text>
         </View>
-        {!hideBalance && (
+        {!hideHomeBalanceState && (
           <View style={styles.amountContainer}>
             <TokenDisplay
               amount={amount.value}

@@ -177,14 +177,6 @@ export async function ensurePincode(): Promise<boolean> {
   }
 }
 
-export function navigateToExchangeHome() {
-  if (store.getState().account.celoEducationCompleted) {
-    navigate(Screens.ExchangeHomeScreen)
-  } else {
-    navigate(Screens.GoldEducation)
-  }
-}
-
 export function navigateBack() {
   ensureNavigator()
     .then(() => {

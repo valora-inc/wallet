@@ -53,7 +53,7 @@ export default WalletSecurityPrimer
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'space-between',
-    flexGrow: 1,
+    height: '100%',
   },
   scrollContainer: {
     padding: Spacing.Thick24,
