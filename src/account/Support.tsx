@@ -12,7 +12,7 @@ import { StackParamList } from 'src/navigator/types'
 import fontStyles from 'src/styles/fonts'
 import { navigateToURI } from 'src/utils/linking'
 
-type Props = NativeStackScreenProps<StackParamList, Screens.Support>
+type Props = NativeStackScreenProps<StackParamList, Screens.Support | Screens.SupportDrawer>
 
 const openExternalLink = (link: string) => () => navigateToURI(link)
 
