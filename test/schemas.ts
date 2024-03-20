@@ -3175,6 +3175,19 @@ export const v201Schema = {
   },
 }
 
+// Adding reclaimStatus to jumpstart
+export const v202Schema = {
+  ...v201Schema,
+  _persist: {
+    ...v201Schema._persist,
+    version: 202,
+  },
+  jumpstart: {
+    ...v201Schema.jumpstart,
+    reclaimStatus: 'idle',
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v201Schema as Partial<RootState>
+  return v202Schema as Partial<RootState>
 }
