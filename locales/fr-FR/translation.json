@@ -2191,8 +2191,8 @@
   },
   "bottomTabsNavigator": {
     "wallet": {
-      "tabName": "Portefeuille",
-      "title": "Mon portefeuille"
+      "tabName": "Wallet",
+      "title": "Portefeuille"
     },
     "home": {
       "tabName": "Accueil",
