@@ -204,7 +204,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
           style={styles.amountSentContainer}
           amount={
             <TokenDisplay
-              amount={transaction.amount.value}
+              amount={parsedAmount}
               tokenId={transaction.amount.tokenId}
               showLocalAmount={false}
               hideSign={true}
