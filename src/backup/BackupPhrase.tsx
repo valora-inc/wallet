@@ -19,11 +19,12 @@ import CustomHeader from 'src/components/header/CustomHeader'
 import Switch from 'src/components/Switch'
 import { withTranslation } from 'src/i18n'
 import { noHeader } from 'src/navigator/Headers'
-import { navigate, navigateHome, pushToStack } from 'src/navigator/NavigationService'
+import { navigate, pushToStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
+import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -112,7 +113,19 @@ class BackupPhrase extends React.Component<Props, State> {
           style={{ paddingHorizontal: variables.contentPadding }}
           left={
             this.settingsScreen() ? (
-              <CancelButton onCancel={() => navigateHome()} />
+              <CancelButton
+                onCancel={() =>
+                  navigate(
+                    this.settingsScreen() === Screens.Settings
+                      ? Screens.Settings
+                      : Screens.SettingsDrawer,
+                    {
+                      isTabNav: this.settingsScreen() === Screens.Settings,
+                    }
+                  )
+                }
+                style={styles.cancelButton}
+              />
             ) : (
               <CancelConfirm screen={TAG} />
             )
@@ -195,6 +208,9 @@ const styles = StyleSheet.create({
   continueButton: {
     paddingHorizontal: variables.contentPadding,
     paddingBottom: variables.contentPadding,
+  },
+  cancelButton: {
+    color: colors.gray4,
   },
 })
 

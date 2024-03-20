@@ -20,7 +20,7 @@ import Touchable from 'src/components/Touchable'
 import i18n, { withTranslation } from 'src/i18n'
 import Backspace from 'src/icons/Backspace'
 import { emptyHeader } from 'src/navigator/Headers'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
@@ -78,7 +78,17 @@ export const navOptionsForQuiz = ({ route }: OwnProps) => {
     ...emptyHeader,
     headerLeft: () => {
       return settingsScreen ? (
-        <CancelButton onCancel={() => navigateHome()} />
+        <CancelButton
+          onCancel={() =>
+            navigate(
+              settingsScreen === Screens.Settings ? Screens.Settings : Screens.SettingsDrawer,
+              {
+                isTabNav: settingsScreen === Screens.Settings,
+              }
+            )
+          }
+          style={styles.cancelButton}
+        />
       ) : (
         <CancelConfirm screen={TAG} />
       )
@@ -416,6 +426,9 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
   },
   resetButton: { alignItems: 'center', padding: 24, marginTop: 8 },
+  cancelButton: {
+    color: colors.gray4,
+  },
 })
 
 export default connect<StateProps, DispatchProps, OwnProps, RootState>(mapStateToProps, {
