@@ -6,7 +6,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { rewardsSendersSelector } from 'src/recipients/reducer'
 import { useSelector } from 'src/redux/hooks'
-import TransactionDetailsCommonScreen from 'src/transactions/feed/TransactionDetailsCommonScreen'
+import TransactionDetails from 'src/transactions/feed/TransactionDetails'
 import TokenApprovalDetails from 'src/transactions/feed/detailContent/TokenApprovalDetails'
 import TransferSentContent from 'src/transactions/feed/detailContent/TransferSentContent'
 import {
@@ -62,9 +62,9 @@ function TransactionDetailsScreen({ route }: Props) {
   }
 
   return (
-    <TransactionDetailsCommonScreen transaction={transaction} retryHandler={retryHandler}>
+    <TransactionDetails transaction={transaction} retryHandler={retryHandler}>
       {content}
-    </TransactionDetailsCommonScreen>
+    </TransactionDetails>
   )
 }
 

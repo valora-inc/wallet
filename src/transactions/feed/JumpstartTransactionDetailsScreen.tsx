@@ -24,7 +24,7 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
-import TransactionDetailsCommonScreen from 'src/transactions/feed/TransactionDetailsCommonScreen'
+import TransactionDetails from 'src/transactions/feed/TransactionDetails'
 import NetworkFeeRowItem from 'src/transactions/feed/detailContent/NetworkFeeRowItem'
 import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
@@ -158,7 +158,6 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
         onPress={onReclaimPress}
         type={!isClaimed ? BtnTypes.PRIMARY : BtnTypes.LABEL_PRIMARY}
         text={!isClaimed ? t('reclaim') : t('claimed') + ' ✓'}
-        fontStyle={typeScale.labelSemiBoldMedium}
         size={BtnSizes.FULL}
       />
     </View>
@@ -167,7 +166,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <CustomHeader style={{ paddingHorizontal: variables.contentPadding }} left={<BackButton />} />
-      <TransactionDetailsCommonScreen
+      <TransactionDetails
         overrideTitle={title}
         transaction={transaction}
         retryHandler={() => navigate(Screens.JumpstartEnterAmount)}
@@ -235,7 +234,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
           style={styles.tokenFiatValueContainer}
           textStyle={styles.tokenFiatValueText}
         />
-      </TransactionDetailsCommonScreen>
+      </TransactionDetails>
       <BottomSheet forwardedRef={bottomSheetRef} testId="ReclaimBottomSheet">
         <Logo />
         <Text style={styles.header}>{t('confirmTransaction')}</Text>

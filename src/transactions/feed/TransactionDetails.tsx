@@ -82,12 +82,7 @@ function useHeaderTitle(transaction: TokenTransaction) {
   }
 }
 
-function TransactionDetailsCommonScreen({
-  transaction,
-  overrideTitle,
-  children,
-  retryHandler,
-}: Props) {
+function TransactionDetails({ transaction, overrideTitle, children, retryHandler }: Props) {
   const { t } = useTranslation()
 
   const headerTitle = useHeaderTitle(transaction)
@@ -203,4 +198,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default TransactionDetailsCommonScreen
+export default TransactionDetails
