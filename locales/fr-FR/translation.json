@@ -2130,7 +2130,12 @@
       "ctaNavigate": "Rentre à la maison"
     },
     "ctaShare": "Lien de partage",
-    "shareMessage": "Salut ! Je t'envoie un lien financé par {{tokenAmount}} {{tokenSymbol}} sur {{appName}}. Utilise ce lien pour télécharger l'appli et les fonds seront en direct, ils t'attendent. {{link}}"
+    "ctaScanQRCode": "Scanner le QR Code",
+    "shareMessage": "Salut ! Je t'envoie un lien financé par {{tokenAmount}} {{tokenSymbol}} sur {{appName}}. Utilise ce lien pour télécharger l'appli et les fonds seront en direct, ils t'attendent. {{link}}",
+    "qrCodeBottomSheet": {
+      "title": "Scanne le code pour recevoir les fonds",
+      "description": "Vérifie l'état de tes fonds sur l'écran d'accueil. Tu peux aussi copier ou partager le lien ci-dessous."
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Approbation",
@@ -2155,13 +2160,13 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "Utilisateur multichaîne 🎁",
-      "description": "Pour vous remercier d'être un bêta-testeur, nous avons ajouté un cadeau à votre portefeuille {{appName}} ! Le NFT d'adoption se trouve dans vos collections.",
+      "title": "Félicitations!",
+      "description": "Tu as gagné un objet de collection exclusif pour les premiers explorateurs d'Ethereum. Bienvenue à Ethereum sur {{appName}}.",
       "cta": "Merci !"
     },
     "notification": {
-      "title": "Félicitations 🎉",
-      "description": "{{rewardName}} a été ajouté à votre portefeuille {{appName}}."
+      "title": "Un nouveau NFT t'attend 🎉",
+      "description": "Tu trouveras ton nouveau {{rewardName}} NFT sous ta rubrique \"Collectibles\"."
     },
     "rewardBottomSheet": {
       "title": "Encaissements gratuits pendant un mois",
@@ -2194,7 +2199,8 @@
       "title": "Bienvenue"
     },
     "discover": {
-      "tabName": "Découvrir"
+      "tabName": "Découvrir",
+      "title": "Découvrir"
     }
   },
   "jumpstartStatus": {
