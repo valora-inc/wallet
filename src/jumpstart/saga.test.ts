@@ -259,7 +259,7 @@ describe('dispatchPendingERC20Transactions', () => {
     expect(Logger.warn).toHaveBeenCalledWith(
       'WalletJumpstart',
       'Claimed unknown tokenId',
-      'celo-alfajores:0xUNKNOWN'
+      'celo-alfajores:0xunknown'
     )
   })
 })
@@ -292,7 +292,7 @@ describe('dispatchPendingERC721Transactions', () => {
           nfts: [
             {
               tokenId: mockNftAllFields.tokenId,
-              contractAddress: mockNftAllFields.contractAddress,
+              contractAddress: mockNftAllFields.contractAddress.toLowerCase(),
               tokenUri,
               metadata,
               media: [{ raw: metadata.image, gateway: metadata.image }],
