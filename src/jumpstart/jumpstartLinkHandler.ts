@@ -75,13 +75,15 @@ export async function executeClaims(
 
       const { signature } = await kit.web3.eth.accounts.sign(messageHash, privateKey)
 
-      const { transactionHash } = await claimReward({
+      const response = await claimReward({
         index: index.toString(),
         beneficiary,
         signature,
         sendTo: userAddress,
         assetType,
       })
+
+      const transactionHash = response?.result?.transactionHash
 
       if (transactionHash) {
         transactionHashes.push(transactionHash)

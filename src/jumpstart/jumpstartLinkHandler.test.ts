@@ -39,7 +39,7 @@ describe('jumpstartLinkHandler', () => {
   it('calls executeClaims with correct parameters', async () => {
     ;(fetchWithTimeout as jest.Mock).mockImplementation(() => ({
       ok: true,
-      json: async () => ({ transactionHash: '0xHASH' }),
+      json: async () => ({ result: { transactionHash: '0xHASH' } }),
     }))
     const contractAddress = '0xTEST'
 
