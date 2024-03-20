@@ -2192,10 +2192,10 @@
   "bottomTabsNavigator": {
     "wallet": {
       "tabName": "Conta",
-      "title": "Minha carteira"
+      "title": "Minha conta"
     },
     "home": {
-      "tabName": "Página inicial",
+      "tabName": "Início",
       "title": "Boas-vindas"
     },
     "discover": {
