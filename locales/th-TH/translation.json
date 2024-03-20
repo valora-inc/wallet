@@ -2197,7 +2197,8 @@
       "title": "Welcome"
     },
     "discover": {
-      "tabName": "สำรวจ"
+      "tabName": "สำรวจ",
+      "title": "สำรวจ"
     }
   },
   "jumpstartStatus": {
