@@ -1,18 +1,22 @@
 import { dismissBanners } from '../utils/banners'
-import { reloadReactNative } from '../utils/retries'
-import { scrollIntoView, sleep, waitForElementId } from '../utils/utils'
+import { reloadReactNative, launchApp } from '../utils/retries'
+import { navigateToSettings, scrollIntoView, sleep, waitForElementByIdAndTap } from '../utils/utils'
 const faker = require('@faker-js/faker')
 
-export default Settings = () => {
+export default Settings = ({ navType }) => {
+  // TODO(ACT-1133): remove this launchApp as it is only needed to update
+  // statsig gate overrides
+  beforeAll(async () => {
+    await launchApp({
+      newInstance: false,
+      permissions: { notifications: 'YES', contacts: 'YES' },
+      launchArgs: { statsigGateOverrides: `use_tab_navigator=${navType === 'tab'}` },
+    })
+  })
+
   beforeEach(async () => {
     await reloadReactNative()
-    await waitForElementId('Hamburger')
-    await element(by.id('Hamburger')).tap()
-    await scrollIntoView('Settings', 'SettingsScrollView')
-    await waitFor(element(by.id('Settings')))
-      .toBeVisible()
-      .withTimeout(30000)
-    await element(by.id('Settings')).tap()
+    await navigateToSettings(navType)
     await sleep(3000)
   })
 
@@ -28,8 +32,7 @@ export default Settings = () => {
       .toBeVisible()
       .withTimeout(1000 * 10)
     await dismissBanners()
-    await waitForElementId('Hamburger')
-    await element(by.id('Hamburger')).tap()
+    await waitForElementByIdAndTap(navType === 'tab' ? 'BackChevron' : 'Hamburger')
     // TODO replace this with an ID selector
     await expect(element(by.text(`${randomName}`))).toBeVisible()
   })
