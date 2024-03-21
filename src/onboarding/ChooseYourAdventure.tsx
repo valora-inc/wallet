@@ -128,7 +128,7 @@ function ChooseYourAdventure() {
         })
         goToNextScreen()
       }
-      return <AdventureCard text={text} onPress={onPress} index={index} icon={icon} />
+      return <AdventureCard key={name} text={text} onPress={onPress} index={index} icon={icon} />
     })
   }
 

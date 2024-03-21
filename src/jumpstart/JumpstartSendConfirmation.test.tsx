@@ -106,7 +106,7 @@ describe('JumpstartSendConfirmation', () => {
         depositStatus: 'idle',
       },
     })
-    const { rerender } = render(
+    const { rerender, getByTestId } = render(
       <Provider store={store}>
         <MockedNavigator component={JumpstartSendConfirmation} params={navParams} />
       </Provider>
@@ -123,6 +123,7 @@ describe('JumpstartSendConfirmation', () => {
       </Provider>
     )
     expect(navigate).not.toHaveBeenCalled()
+    expect(getByTestId('JumpstartSendConfirmation/ConfirmButton')).toBeDisabled()
 
     const updatedStoreCompleted = createMockStore({
       jumpstart: {
