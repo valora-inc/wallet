@@ -8,89 +8,27 @@ import RowDivider from 'src/components/RowDivider'
 import Touchable from 'src/components/Touchable'
 import i18n from 'src/i18n'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
-import { addressToDisplayNameSelector } from 'src/identity/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { coinbasePaySendersSelector, rewardsSendersSelector } from 'src/recipients/reducer'
-import { useSelector } from 'src/redux/hooks'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { useTokenInfo } from 'src/tokens/hooks'
 import TransactionPrimaryAction from 'src/transactions/feed/TransactionPrimaryAction'
 import TransactionStatusIndicator from 'src/transactions/feed/TransactionStatusIndicator'
-import {
-  NetworkId,
-  TokenExchange,
-  TokenTransaction,
-  TokenTransactionTypeV2,
-  TokenTransfer,
-  TransactionStatus,
-} from 'src/transactions/types'
-import { Currency } from 'src/utils/currencies'
+import { NetworkId, TokenTransaction, TransactionStatus } from 'src/transactions/types'
 import { getDatetimeDisplayString } from 'src/utils/time'
-import networkConfig, { blockExplorerUrls } from 'src/web3/networkConfig'
+import { blockExplorerUrls } from 'src/web3/networkConfig'
 
 type Props = {
   transaction: TokenTransaction
-  overrideTitle?: string
+  title?: string
   children?: React.ReactNode
   retryHandler?: () => void
 }
 
-function useHeaderTitle(transaction: TokenTransaction) {
-  const { t } = useTranslation()
-  const celoTokenId = useTokenInfo(networkConfig.currencyToTokenId[Currency.Celo])?.tokenId
-  const rewardsSenders = useSelector(rewardsSendersSelector)
-  const addressToDisplayName = useSelector(addressToDisplayNameSelector)
-  const coinbasePaySenders = useSelector(coinbasePaySendersSelector)
-
-  switch (transaction.type) {
-    case TokenTransactionTypeV2.Exchange:
-      // TODO: Change this to show any exchanges, not just CELO sell/purchase.
-      const isCeloSell = (transaction as TokenExchange).inAmount.tokenId === celoTokenId
-      return isCeloSell ? t('soldGold') : t('purchasedGold')
-    case TokenTransactionTypeV2.Sent:
-      const isCeloSend = (transaction as TokenTransfer).amount.tokenId === celoTokenId
-      return isCeloSend ? t('transactionHeaderWithdrewCelo') : t('transactionHeaderSent')
-    case TokenTransactionTypeV2.Received:
-      const transfer = transaction as TokenTransfer
-      const isCeloReception = transfer.amount.tokenId === celoTokenId
-      const isCoinbasePaySenders = coinbasePaySenders.includes(transfer.address)
-      if (
-        rewardsSenders.includes(transfer.address) ||
-        addressToDisplayName[transfer.address]?.isCeloRewardSender
-      ) {
-        return t('transactionHeaderCeloReward')
-      } else {
-        return isCeloReception || isCoinbasePaySenders
-          ? t('transactionHeaderCeloDeposit')
-          : t('transactionHeaderReceived')
-      }
-    case TokenTransactionTypeV2.InviteSent:
-      return t('transactionHeaderEscrowSent')
-    case TokenTransactionTypeV2.InviteReceived:
-      return t('transactionHeaderEscrowReceived')
-    case TokenTransactionTypeV2.NftReceived:
-      return t('transactionHeaderNftReceived')
-    case TokenTransactionTypeV2.NftSent:
-      return t('transactionHeaderNftSent')
-    case TokenTransactionTypeV2.SwapTransaction:
-      return t('swapScreen.title')
-    case TokenTransactionTypeV2.Approval:
-      return t('transactionFeed.approvalTransactionTitle')
-  }
-}
-
-function TransactionDetailsCommonScreen({
-  transaction,
-  overrideTitle,
-  children,
-  retryHandler,
-}: Props) {
+function TransactionDetails({ transaction, title, children, retryHandler }: Props) {
   const { t } = useTranslation()
 
-  const headerTitle = useHeaderTitle(transaction)
   const dateTime = getDatetimeDisplayString(transaction.timestamp, i18n)
 
   const openBlockExplorerHandler =
@@ -121,7 +59,7 @@ function TransactionDetailsCommonScreen({
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <SafeAreaView edges={['bottom']}>
-        <Text style={styles.title}>{overrideTitle ?? headerTitle}</Text>
+        <Text style={styles.title}>{title}</Text>
         <Text style={styles.dateTime}>{dateTime}</Text>
         <View style={styles.status}>
           <TransactionStatusIndicator status={transaction.status} />
@@ -203,4 +141,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default TransactionDetailsCommonScreen
+export default TransactionDetails

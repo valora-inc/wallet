@@ -3,8 +3,8 @@ import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useAsync, useAsyncCallback } from 'react-async-hook'
 import { Trans, useTranslation } from 'react-i18next'
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
-
+import { StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import walletJumpstart from 'src/abis/IWalletJumpstart'
 import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
@@ -15,6 +15,7 @@ import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import CustomHeader from 'src/components/header/CustomHeader'
+import Checkmark from 'src/icons/Checkmark'
 import Logo from 'src/icons/Logo'
 import { jumpstartReclaimStatusSelector } from 'src/jumpstart/selectors'
 import { jumpstartReclaimFlowStarted, jumpstartReclaimStarted } from 'src/jumpstart/slice'
@@ -29,7 +30,7 @@ import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
-import TransactionDetailsCommonScreen from 'src/transactions/feed/TransactionDetailsCommonScreen'
+import TransactionDetails from 'src/transactions/feed/TransactionDetails'
 import NetworkFeeRowItem from 'src/transactions/feed/detailContent/NetworkFeeRowItem'
 import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
@@ -206,21 +207,21 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
 
   const isClaimed = fetchClaimData.result?.claimed
 
-  const reclaimButton = (
-    <View style={styles.buttonContainer}>
-      <Button
-        showLoading={fetchClaimData.loading || preparedTransactionAndOpenBottomSheet.loading}
-        disabled={
-          !fetchClaimData.result || preparedTransactionAndOpenBottomSheet.loading || !!error
-        }
-        onPress={() => preparedTransactionAndOpenBottomSheet.execute()}
-        type={!isClaimed ? BtnTypes.PRIMARY : BtnTypes.LABEL_PRIMARY}
-        text={!isClaimed ? t('reclaim') : t('claimed') + ' ✓'}
-        fontStyle={typeScale.labelSemiBoldMedium}
-        size={BtnSizes.FULL}
-      />
-    </View>
-  )
+  // const reclaimButton = (
+  //   <View style={styles.buttonContainer}>
+  //     <Button
+  //       showLoading={fetchClaimData.loading || preparedTransactionAndOpenBottomSheet.loading}
+  //       disabled={
+  //         !fetchClaimData.result || preparedTransactionAndOpenBottomSheet.loading || !!error
+  //       }
+  //       onPress={() => preparedTransactionAndOpenBottomSheet.execute()}
+  //       type={!isClaimed ? BtnTypes.PRIMARY : BtnTypes.LABEL_PRIMARY}
+  //       text={!isClaimed ? t('reclaim') : t('claimed') + ' ✓'}
+  //       fontStyle={typeScale.labelSemiBoldMedium}
+  //       size={BtnSizes.FULL}
+  //     />
+  //   </View>
+  // )
 
   const onConfirm = () => {
     if (!reclaimTx) {
@@ -232,11 +233,17 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
     dispatch(jumpstartReclaimStarted({ reclaimTx, networkId, tokenAmount }))
   }
 
+  if (!token) {
+    // should never happen
+    Logger.error(TAG, 'Token is undefined')
+    return null
+  }
+
   return (
-    <SafeAreaView style={styles.safeAreaContainer}>
+    <SafeAreaView style={styles.safeAreaContainer} edges={['top']}>
       <CustomHeader style={{ paddingHorizontal: variables.contentPadding }} left={<BackButton />} />
-      <TransactionDetailsCommonScreen
-        overrideTitle={title}
+      <TransactionDetails
+        title={title}
         transaction={transaction}
         retryHandler={() => navigate(Screens.JumpstartEnterAmount)}
       >
@@ -260,7 +267,22 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
             />
           </View>
         </View>
-        {isDeposit && reclaimButton}
+        {isDeposit && (
+          <View style={styles.buttonContainer}>
+            <Button
+              showLoading={fetchClaimData.loading}
+              disabled={!fetchClaimData.result || isClaimed}
+              onPress={() => preparedTransactionAndOpenBottomSheet.execute()}
+              type={!isClaimed ? BtnTypes.PRIMARY : BtnTypes.LABEL_PRIMARY}
+              text={!isClaimed ? t('reclaim') : t('claimed')}
+              size={BtnSizes.FULL}
+              icon={
+                isClaimed ? <Checkmark height={Spacing.Thick24} color={Colors.successDark} /> : null
+              }
+              iconPositionLeft={false}
+            />
+          </View>
+        )}
         <NetworkFeeRowItem fees={transaction.fees} transactionStatus={transaction.status} />
         <LineItemRow
           testID="JumpstartContent/TokenDetails"
@@ -269,7 +291,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
           style={styles.amountSentContainer}
           amount={
             <TokenDisplay
-              amount={transaction.amount.value}
+              amount={parsedAmount}
               tokenId={transaction.amount.tokenId}
               showLocalAmount={false}
               hideSign={true}
@@ -293,7 +315,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
           }
           amount={
             <TokenDisplay
-              amount={-transaction.amount.value}
+              amount={parsedAmount}
               tokenId={transaction.amount.tokenId}
               showLocalAmount={true}
               hideSign={true}
@@ -322,7 +344,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
             }}
           />
         )}
-      </TransactionDetailsCommonScreen>
+      </TransactionDetails>
       <BottomSheet forwardedRef={bottomSheetRef} testId="ReclaimBottomSheet">
         <Logo />
         <Text style={styles.header}>{t('confirmTransaction')}</Text>
