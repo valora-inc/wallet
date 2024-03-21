@@ -31,7 +31,7 @@ function ActionsCarousel() {
       title: t('homeActions.send'),
       icon: <QuickActionsSend color={Colors.successDark} />,
       onPress: () => {
-        navigate(Screens.NetworkMultiSelectBottomSheet)
+        navigate(Screens.SendSelectRecipient)
       },
     },
     {

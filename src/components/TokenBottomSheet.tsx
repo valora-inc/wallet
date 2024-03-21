@@ -9,21 +9,17 @@ import { TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
 import BottomSheetBase from 'src/components/BottomSheetBase'
-import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import FilterChipsCarousel, { FilterChip } from 'src/components/FilterChipsCarousel'
 import SearchInput from 'src/components/SearchInput'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
-import NetworkMultiSelectBottomSheet from 'src/dappsExplorer/NetworkMultiSelectBottomSheet'
 import InfoIcon from 'src/icons/InfoIcon'
 import colors, { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
 import { TokenBalance } from 'src/tokens/slice'
-import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
-import { NetworkId } from 'src/transactions/types'
 
 export enum TokenPickerOrigin {
   Send = 'Send',
@@ -156,8 +152,6 @@ function TokenBottomSheet<T extends TokenBalance>({
   const insets = useSafeAreaInsets()
 
   const filterChipsCarouselRef = useRef<ScrollView>(null)
-  const networkMultiSelectRef = useRef<BottomSheetRefType>(null)
-
   const tokenListRef = useRef<BottomSheetFlatListMethods>(null)
   const [headerHeight, setHeaderHeight] = useState(0)
   const [searchTerm, setSearchTerm] = useState('')
@@ -245,17 +239,6 @@ function TokenBottomSheet<T extends TokenBalance>({
     setHeaderHeight(event.nativeEvent.layout.height)
   }
 
-  const networkIds = getSupportedNetworkIdsForSwap()
-  const defaultSelectedNetworkIds = networkIds.reduce(
-    (acc, networkId) => {
-      acc[networkId] = true
-      return acc
-    },
-    {} as Record<NetworkId, boolean>
-  )
-
-  const [selectedNetworkIds, setSelectedNetworkIds] = useState(defaultSelectedNetworkIds)
-
   // This component implements a sticky header using an absolutely positioned
   // component on top of a blank container of the same height in the
   // ListHeaderComponent of the Flatlist. Unfortunately the out of the box
@@ -264,82 +247,66 @@ function TokenBottomSheet<T extends TokenBalance>({
   // that the header would be stuck to the wrong position between sheet reopens.
   // See https://valora-app.slack.com/archives/C04B61SJ6DS/p1707757919681089
   return (
-    <>
-      <BottomSheetBase forwardedRef={forwardedRef} snapPoints={snapPoints}>
-        <View style={styles.container} testID="TokenBottomSheet">
-          <BottomSheetFlatList
-            ref={tokenListRef}
-            data={tokenList}
-            keyExtractor={(item) => item.tokenId}
-            contentContainerStyle={[styles.tokenListContainer, { paddingBottom: insets.bottom }]}
-            scrollIndicatorInsets={{ top: headerHeight }}
-            renderItem={({ item, index }) => {
-              return (
-                <TokenOptionComponent
-                  tokenInfo={item}
-                  onPress={onTokenPressed(item, index)}
-                  index={index}
-                  showPriceUsdUnavailableWarning={showPriceUsdUnavailableWarning}
-                />
-              )
-            }}
-            ListHeaderComponent={<View style={{ height: headerHeight }} />}
-            ListEmptyComponent={() => {
-              if (searchEnabled || filterChips.length > 0) {
-                return <NoResults searchTerm={searchTerm} activeFilters={activeFilters} />
-              }
-              return null
-            }}
-          />
-          <View style={styles.headerContainer} onLayout={handleMeasureHeader}>
-            <Text style={[styles.title, titleStyle]}>{title}</Text>
-            {searchEnabled && (
-              <SearchInput
-                placeholder={t('tokenBottomSheet.searchAssets') ?? undefined}
-                value={searchTerm}
-                onChangeText={(text) => {
-                  setSearchTerm(text)
-                  sendAnalytics(text)
-                }}
-                style={styles.searchInput}
-                returnKeyType={'search'}
-                // disable autoCorrect and spellCheck since the search terms here
-                // are token names which autoCorrect would get in the way of. This
-                // combination also hides the keyboard suggestions bar from the top
-                // of the iOS keyboard, preserving screen real estate.
-                autoCorrect={false}
-                spellCheck={false}
+    <BottomSheetBase forwardedRef={forwardedRef} snapPoints={snapPoints}>
+      <View style={styles.container} testID="TokenBottomSheet">
+        <BottomSheetFlatList
+          ref={tokenListRef}
+          data={tokenList}
+          keyExtractor={(item) => item.tokenId}
+          contentContainerStyle={[styles.tokenListContainer, { paddingBottom: insets.bottom }]}
+          scrollIndicatorInsets={{ top: headerHeight }}
+          renderItem={({ item, index }) => {
+            return (
+              <TokenOptionComponent
+                tokenInfo={item}
+                onPress={onTokenPressed(item, index)}
+                index={index}
+                showPriceUsdUnavailableWarning={showPriceUsdUnavailableWarning}
               />
-            )}
-            <Button
-              type={BtnTypes.SECONDARY}
-              size={BtnSizes.FULL}
-              onPress={() => {
-                networkMultiSelectRef.current?.snapToIndex(0)
+            )
+          }}
+          ListHeaderComponent={<View style={{ height: headerHeight }} />}
+          ListEmptyComponent={() => {
+            if (searchEnabled || filterChips.length > 0) {
+              return <NoResults searchTerm={searchTerm} activeFilters={activeFilters} />
+            }
+            return null
+          }}
+        />
+        <View style={styles.headerContainer} onLayout={handleMeasureHeader}>
+          <Text style={[styles.title, titleStyle]}>{title}</Text>
+          {searchEnabled && (
+            <SearchInput
+              placeholder={t('tokenBottomSheet.searchAssets') ?? undefined}
+              value={searchTerm}
+              onChangeText={(text) => {
+                setSearchTerm(text)
+                sendAnalytics(text)
               }}
-              text={t('swapScreen.transactionDetails.networkFeeInfoDismissButton')}
+              style={styles.searchInput}
+              returnKeyType={'search'}
+              // disable autoCorrect and spellCheck since the search terms here
+              // are token names which autoCorrect would get in the way of. This
+              // combination also hides the keyboard suggestions bar from the top
+              // of the iOS keyboard, preserving screen real estate.
+              autoCorrect={false}
+              spellCheck={false}
             />
-            {filterChips.length > 0 && (
-              <FilterChipsCarousel
-                chips={filters}
-                onSelectChip={handleToggleFilterChip}
-                primaryColor={colors.successDark}
-                secondaryColor={colors.successLight}
-                style={styles.filterChipsCarouselContainer}
-                forwardedRef={filterChipsCarouselRef}
-                scrollEnabled={false}
-              />
-            )}
-          </View>
+          )}
+          {filterChips.length > 0 && (
+            <FilterChipsCarousel
+              chips={filters}
+              onSelectChip={handleToggleFilterChip}
+              primaryColor={colors.successDark}
+              secondaryColor={colors.successLight}
+              style={styles.filterChipsCarouselContainer}
+              forwardedRef={filterChipsCarouselRef}
+              scrollEnabled={false}
+            />
+          )}
         </View>
-      </BottomSheetBase>
-      <NetworkMultiSelectBottomSheet
-        selectedNetworkIds={selectedNetworkIds}
-        setSelectedNetworkIds={setSelectedNetworkIds}
-        forwardedRef={networkMultiSelectRef}
-        onClose={networkMultiSelectRef.current?.close}
-      />
-    </>
+      </View>
+    </BottomSheetBase>
   )
 }
 

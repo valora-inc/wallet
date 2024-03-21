@@ -1,6 +1,7 @@
 import GorhomBottomSheet, { BottomSheetBackdrop, BottomSheetProps } from '@gorhom/bottom-sheet'
 import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types'
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useMemo, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -8,32 +9,38 @@ import { useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-cont
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import Touchable from 'src/components/Touchable'
 import Checkmark from 'src/icons/Checkmark'
-import { useSelector } from 'src/redux/hooks'
-import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
-import { networksIconSelector } from 'src/tokens/selectors'
-import { NetworkId } from 'src/transactions/types'
 
 const ITEM_HEIGHT = 60
+const MAX_ITEMS_IN_VIEW = 5
 
-interface Props {
+interface MultiSelectBottomSheetProps<T extends string> {
   forwardedRef: React.RefObject<GorhomBottomSheet>
   onChange?: BottomSheetProps['onChange']
   onClose?: () => void
   onOpen?: () => void
   handleComponent?: BottomSheetProps['handleComponent']
-  selectedNetworkIds: Record<NetworkId, boolean>
-  setSelectedNetworkIds: (selectedNetworkIds: Record<NetworkId, boolean>) => void
+  selectedItems: Record<T, boolean>
+  setSelectedItems: (selectedItems: Record<T, boolean>) => void
+  textAndIconMap: Record<T, Omit<ItemProps, 'onPress' | 'isSelected'>>
+  selectAllText: string
+  title: string
 }
 
-function NetworkMultiSelectBottomSheet({
+function MultiSelectBottomSheet<T extends string>({
   forwardedRef,
   onClose,
   onOpen,
-  selectedNetworkIds,
-  setSelectedNetworkIds,
-}: Props) {
+  selectedItems,
+  setSelectedItems,
+  textAndIconMap,
+  selectAllText,
+  title,
+}: MultiSelectBottomSheetProps<T>) {
+  const { t } = useTranslation()
+
+  // Bottom Sheet Things
   const scrollViewRef = useRef<ScrollView>(null)
   const { height } = useSafeAreaFrame()
   const insets = useSafeAreaInsets()
@@ -43,7 +50,6 @@ function NetworkMultiSelectBottomSheet({
     ),
     []
   )
-
   // fires before bottom sheet animation starts
   const handleAnimate = (fromIndex: number, toIndex: number) => {
     if (toIndex === -1 || fromIndex === -1) {
@@ -56,28 +62,55 @@ function NetworkMultiSelectBottomSheet({
       onOpen?.()
     }
   }
-
   const handleClose = () => {
     onClose?.()
   }
 
-  const networkIconByNetworkId = useSelector((state) =>
-    networksIconSelector(state, Object.keys(selectedNetworkIds) as NetworkId[])
+  // Multi select logic things
+  const isEveryItemSelected = Object.values(selectedItems).every((isSelected) => isSelected)
+  const allItemIds = Object.keys(selectedItems) as T[]
+  const everyItemSelected = useMemo(
+    () =>
+      allItemIds.reduce(
+        (acc, key) => {
+          acc[key as T] = true
+          return acc
+        },
+        {} as Record<T, boolean>
+      ),
+    [allItemIds]
   )
-  const everyNetworkIsSelected = Object.values(selectedNetworkIds).every((isSelected) => isSelected)
-  const everyNetworkSelected = Object.keys(selectedNetworkIds).reduce(
-    (acc, networkId) => {
-      acc[networkId as NetworkId] = true
-      return acc
-    },
-    {} as Record<NetworkId, boolean>
+  const noItemSelected = useMemo(
+    () =>
+      allItemIds.reduce(
+        (acc, key) => {
+          acc[key as T] = false
+          return acc
+        },
+        {} as Record<T, boolean>
+      ),
+    [allItemIds]
   )
-  const noNetworkSelected = Object.keys(selectedNetworkIds).reduce(
-    (acc, networkId) => {
-      acc[networkId as NetworkId] = false
-      return acc
-    },
-    {} as Record<NetworkId, boolean>
+
+  const selectAllItem = renderItem({
+    text: selectAllText,
+    isSelected: isEveryItemSelected,
+    onPress: () => setSelectedItems(everyItemSelected),
+  })
+
+  const items = (Object.entries(selectedItems) as [T, boolean][]).map(([itemId, isSelected]) =>
+    renderItem({
+      text: textAndIconMap[itemId].text,
+      iconUrl: textAndIconMap[itemId].iconUrl,
+      isSelected: isSelected && !isEveryItemSelected,
+      onPress: () => {
+        if (isEveryItemSelected) {
+          setSelectedItems({ ...noItemSelected, [itemId]: isSelected })
+        } else {
+          setSelectedItems({ ...selectedItems, [itemId]: !isSelected })
+        }
+      },
+    })
   )
 
   return (
@@ -96,37 +129,24 @@ function NetworkMultiSelectBottomSheet({
       <BottomSheetScrollView
         forwardedRef={scrollViewRef}
         testId={'MultiSelectBottomSheet'}
-        containerStyle={styles.container}
+        containerStyle={styles.bottomSheetScrollView}
       >
         <View style={[styles.item, styles.borderRadiusTop]}>
-          <Text style={styles.buttonStyle}>Switch Network</Text>
+          <Text style={styles.boldTextStyle}>{title}</Text>
         </View>
         <View style={styles.itemsContainer}>
-          <ScrollView style={{ height: ITEM_HEIGHT * 5 }}>
-            {renderItem({
-              text: 'All Networks',
-              isSelected: everyNetworkIsSelected,
-              onPress: () => setSelectedNetworkIds(everyNetworkSelected),
-            })}
-            {Object.entries(selectedNetworkIds).map(([networkId, isSelected], index) => {
-              return renderItem({
-                text: NETWORK_NAMES[networkId as NetworkId],
-                isSelected: isSelected && !everyNetworkIsSelected,
-                iconUrl: networkIconByNetworkId[networkId as NetworkId],
-                onPress: () => {
-                  if (everyNetworkIsSelected) {
-                    setSelectedNetworkIds({ ...noNetworkSelected, [networkId]: isSelected })
-                  } else {
-                    setSelectedNetworkIds({ ...selectedNetworkIds, [networkId]: !isSelected })
-                  }
-                },
-              })
-            })}
+          <ScrollView style={{ height: ITEM_HEIGHT * MAX_ITEMS_IN_VIEW }}>
+            {selectAllItem}
+            {items}
           </ScrollView>
         </View>
         <View style={styles.doneButtonContainer}>
-          <Touchable style={styles.doneButton} onPress={handleClose}>
-            <Text style={styles.buttonStyle}> Done</Text>
+          <Touchable
+            testID="MultiSelectBottomSheet/Done"
+            style={styles.doneButton}
+            onPress={handleClose}
+          >
+            <Text style={styles.boldTextStyle}>{t('done')}</Text>
           </Touchable>
         </View>
       </BottomSheetScrollView>
@@ -134,7 +154,7 @@ function NetworkMultiSelectBottomSheet({
   )
 }
 
-interface ItemProps {
+export interface ItemProps {
   onPress?: () => void
   text: string
   isSelected: boolean
@@ -144,28 +164,25 @@ function renderItem({ onPress, text, iconUrl, isSelected }: ItemProps) {
   return (
     <View key={text} style={styles.itemContainer}>
       <Touchable style={styles.item} onPress={onPress}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <View style={{ alignItems: 'flex-start' }}>
-            <FastImage
-              source={{ uri: iconUrl }}
-              style={[
-                {
-                  width: 32,
-                  height: 32,
-                  borderRadius: 16,
-                },
-              ]}
-            />
+        <View style={styles.itemRow}>
+          <View style={styles.leftColumn}>
+            <FastImage source={{ uri: iconUrl }} style={styles.icon} testID={`${text}-icon`} />
           </View>
-          <View style={{ flex: 4, alignItems: 'center' }}>
+          <View style={styles.centerColumn}>
             <Text numberOfLines={1} style={styles.textStyle}>
-              {' '}
               {text}
             </Text>
           </View>
-          <View style={{ width: 32, alignItems: 'flex-end' }}>
-            <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
-              {isSelected && <Checkmark color={Colors.black} height={24} width={24} />}
+          <View style={styles.rightColumn}>
+            <View style={styles.checkMarkContainer}>
+              {isSelected && (
+                <Checkmark
+                  testID={`${text}-checkmark`}
+                  color={Colors.black}
+                  height={24}
+                  width={24}
+                />
+              )}
             </View>
           </View>
         </View>
@@ -188,6 +205,28 @@ const styles = StyleSheet.create({
   doneButtonContainer: {
     flexDirection: 'column',
   },
+  icon: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+  },
+  leftColumn: {
+    alignItems: 'flex-start',
+    width: 32,
+  },
+  centerColumn: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  rightColumn: {
+    width: 32,
+    alignItems: 'flex-end',
+  },
+  checkMarkContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
   itemContainer: {
     flexDirection: 'column',
   },
@@ -200,6 +239,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     borderTopWidth: 1,
     borderColor: Colors.gray2,
+  },
+  itemRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   borderRadiusTop: {
     borderTopLeftRadius: 16,
@@ -216,13 +259,13 @@ const styles = StyleSheet.create({
   textStyle: {
     ...typeScale.bodyLarge,
   },
-  buttonStyle: {
+  boldTextStyle: {
     ...typeScale.labelSemiBoldLarge,
   },
-  container: {
+  bottomSheetScrollView: {
     marginHorizontal: 16,
     padding: 0,
   },
 })
 
-export default NetworkMultiSelectBottomSheet
+export default MultiSelectBottomSheet

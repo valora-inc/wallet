@@ -2210,5 +2210,9 @@
       "contactSupport": "Contact Support",
       "dismiss": "Dismiss"
     }
+  },
+  "multiSelect": {
+    "switchNetwork": "Switch Network",
+    "allNetworks": "All Networks"
   }
 }
