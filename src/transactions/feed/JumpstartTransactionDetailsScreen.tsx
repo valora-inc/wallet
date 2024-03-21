@@ -201,7 +201,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
   const resetState = () => {
     setReclaimTx(null)
     setError(null)
-    fetchClaimData.execute()
+    void fetchClaimData.execute()
   }
 
   const isClaimed = fetchClaimData.result?.claimed

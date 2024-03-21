@@ -348,7 +348,7 @@ export function* sendJumpstartTransactions(
   }
 }
 
-export function* jumpstartReclaim(action: PayloadAction<JumpstarReclaimAction>) {
+function* jumpstartReclaim(action: PayloadAction<JumpstarReclaimAction>) {
   try {
     const { reclaimTx, networkId, tokenAmount } = action.payload
 
