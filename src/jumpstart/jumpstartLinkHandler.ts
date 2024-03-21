@@ -31,8 +31,8 @@ export async function jumpstartLinkHandler(
 
   const transactionHashes = (
     await Promise.all([
-      executeClaims(kit, jumpstart, publicKey, userAddress, 'erc20', privateKey),
-      executeClaims(kit, jumpstart, publicKey, userAddress, 'erc721', privateKey),
+      executeClaims(kit, jumpstart, publicKey, userAddress, 'erc20', privateKey, networkId),
+      executeClaims(kit, jumpstart, publicKey, userAddress, 'erc721', privateKey, networkId),
     ])
   ).flat()
 
@@ -49,7 +49,8 @@ export async function executeClaims(
   beneficiary: string,
   userAddress: string,
   assetType: 'erc20' | 'erc721',
-  privateKey: string
+  privateKey: string,
+  networkId: NetworkId
 ): Promise<Hash[]> {
   let index = 0
   const transactionHashes: Hash[] = []
@@ -81,6 +82,7 @@ export async function executeClaims(
         signature,
         sendTo: userAddress,
         assetType,
+        networkId,
       })
 
       const transactionHash = response?.result?.transactionHash
@@ -113,6 +115,7 @@ export interface RewardInfo {
   signature: string
   sendTo: string
   assetType: 'erc20' | 'erc721'
+  networkId: NetworkId
 }
 
 export async function claimReward(rewardInfo: RewardInfo) {
