@@ -1309,7 +1309,7 @@
   "feedItemSwapPath": "{{token1}} zu {{token2}}",
   "feedItemJumpstartTitle": "Live-Link",
   "feedItemJumpstartSentSubtitle": "Einladung",
-  "feedItemJumpstartReceivedSubtitle": "Erhaltene Mittel",
+  "feedItemJumpstartReceivedSubtitle": "Guthaben erhalten",
   "transactionHeaderVerificationFee": "Bestätigung",
   "transactionHeaderNetworkFee": "Netzwerk",
   "transactionHeaderFaucet": "Faucet",
@@ -2195,15 +2195,15 @@
   "bottomTabsNavigator": {
     "wallet": {
       "tabName": "Wallet",
-      "title": "Wallet"
+      "title": "Mein Wallet"
     },
     "home": {
       "tabName": "Start",
       "title": "Willkommen"
     },
     "discover": {
-      "tabName": "Entdecke",
-      "title": "Entdecke"
+      "tabName": "Entdecken",
+      "title": "Entdecke das Web3"
     }
   },
   "jumpstartStatus": {
