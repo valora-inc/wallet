@@ -110,6 +110,8 @@ function JumpstartSendConfirmation({ route }: Props) {
             size={BtnSizes.FULL}
             style={styles.button}
             showLoading={jumpstartSendStatus === 'loading'}
+            disabled={jumpstartSendStatus === 'loading' || jumpstartSendStatus === 'success'}
+            testID="JumpstartSendConfirmation/ConfirmButton"
           />
           <InLineNotification
             variant={NotificationVariant.Info}
