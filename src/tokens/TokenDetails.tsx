@@ -47,8 +47,8 @@ import {
   useCashOutTokens,
   useSwappableTokens,
   useTokenInfo,
-  useTokensForSend,
 } from 'src/tokens/hooks'
+import { sortedTokensWithBalanceSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { TokenDetailsAction, TokenDetailsActionName } from 'src/tokens/types'
 import {
@@ -177,14 +177,16 @@ function PriceInfo({ token }: { token: TokenBalance }) {
 
 export const useActions = (token: TokenBalance) => {
   const { t } = useTranslation()
-  const sendableTokens = useTokensForSend()
+  const supportedNetworkIdsForSend = getSupportedNetworkIdsForSend()
+  const sendableTokensWithBalance = useSelector((state) =>
+    sortedTokensWithBalanceSelector(state, supportedNetworkIdsForSend)
+  )
   const { swappableFromTokens } = useSwappableTokens()
   const cashInTokens = useCashInTokens()
   const cashOutTokens = useCashOutTokens()
   const isSwapEnabled = useSelector(isAppSwapsEnabledSelector)
   const showWithdraw = !!cashOutTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId)
 
-  const supportedNetworkIdsForSend = getSupportedNetworkIdsForSend()
   return [
     {
       name: TokenDetailsActionName.Send,
@@ -199,7 +201,7 @@ export const useActions = (token: TokenBalance) => {
       onPress: () => {
         navigate(Screens.SendSelectRecipient, { defaultTokenIdOverride: token.tokenId })
       },
-      visible: !!sendableTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId),
+      visible: !!sendableTokensWithBalance.find((tokenInfo) => tokenInfo.tokenId === token.tokenId),
     },
     {
       name: TokenDetailsActionName.Swap,

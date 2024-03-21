@@ -13,7 +13,6 @@ import {
   useSwappableTokens,
   useTokenPricesAreStale,
   useTokenToLocalAmount,
-  useTokensForSend,
 } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
@@ -211,40 +210,6 @@ describe('token to fiat exchanges', () => {
 
     const pricesStale = getByTestId('pricesStale')
     expect(pricesStale.props.children).toEqual(true)
-  })
-})
-
-describe('useTokensForSend', () => {
-  it('returns tokens with balance', () => {
-    const { getByTestId } = render(
-      <Provider store={storeWithMultipleNetworkTokens()}>
-        <TokenHookTestComponent hook={useTokensForSend} />
-      </Provider>
-    )
-
-    expect(getByTestId('tokenIDs').props.children).toEqual([
-      mockCeloTokenId,
-      mockPoofTokenId,
-      mockCrealTokenId,
-    ])
-  })
-
-  it('returns tokens with balance for multiple networks', () => {
-    jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
-      showSend: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
-    })
-    const { getByTestId } = render(
-      <Provider store={storeWithMultipleNetworkTokens()}>
-        <TokenHookTestComponent hook={useTokensForSend} />
-      </Provider>
-    )
-
-    expect(getByTestId('tokenIDs').props.children).toEqual([
-      ethTokenId,
-      mockCeloTokenId,
-      mockPoofTokenId,
-      mockCrealTokenId,
-    ])
   })
 })
 

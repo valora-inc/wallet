@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import DAppsExplorerScreenSearchFilter from 'src/dappsExplorer/DAppsExplorerScreenSearchFilter'
 import WalletHome from 'src/home/WalletHome'
-import ValoraV from 'src/icons/ValoraV'
+import Logo from 'src/icons/Logo'
 import Discover from 'src/icons/navigator/Discover'
 import Wallet from 'src/icons/navigator/Wallet'
 import { tabHeader } from 'src/navigator/Headers'
@@ -60,7 +60,7 @@ export default function TabNavigator({ route }: Props) {
           freezeOnBlur: false,
           lazy: false,
           tabBarLabel: t('bottomTabsNavigator.home.tabName') as string,
-          tabBarIcon: ValoraV,
+          tabBarIcon: Logo,
           tabBarTestID: 'Tab/Home',
         }}
         initialParams={{ isTabNavigator: true }}

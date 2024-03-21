@@ -22,14 +22,18 @@ import fontStyles from 'src/styles/fonts'
 type Props = NativeStackScreenProps<StackParamList, Screens.BackupComplete>
 
 function BackupComplete({ route }: Props) {
-  const navigatedFromSettings = route.params?.navigatedFromSettings ?? false
+  const settingsScreen = route.params?.settingsScreen ?? undefined
   const backupCompleted = useSelector(backupCompletedSelector)
   const { t } = useTranslation()
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (navigatedFromSettings) {
-        navigate(Screens.Settings, { promptConfirmRemovalModal: true })
+      if (settingsScreen) {
+        // TODO(ACT-1133): change settingsScreen props to isAccountRemoval boolean to know if we need to go back to settings to show promptConfirmRemovalModal
+        navigate(settingsScreen === Screens.Settings ? Screens.Settings : Screens.SettingsDrawer, {
+          promptConfirmRemovalModal: true,
+          isTabNav: settingsScreen === Screens.Settings,
+        })
       } else if (backupCompleted) {
         ValoraAnalytics.track(OnboardingEvents.backup_complete)
         navigateHome()

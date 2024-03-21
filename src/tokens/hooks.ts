@@ -8,7 +8,6 @@ import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import {
   cashInTokensByNetworkIdSelector,
   cashOutTokensByNetworkIdSelector,
-  sortedTokensWithBalanceSelector,
   spendTokensByNetworkIdSelector,
   swappableFromTokensByNetworkIdSelector,
   swappableToTokensByNetworkIdSelector,
@@ -25,7 +24,6 @@ import { TokenBalance } from 'src/tokens/slice'
 import {
   convertLocalToTokenAmount,
   convertTokenToLocalAmount,
-  getSupportedNetworkIdsForSend,
   getSupportedNetworkIdsForTokenBalances,
 } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
@@ -54,11 +52,6 @@ export function useTotalTokenBalance() {
 export function useTokensWithTokenBalance() {
   const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
   return useSelector((state) => tokensWithTokenBalanceSelector(state, supportedNetworkIds))
-}
-
-export function useTokensForSend() {
-  const supportedNetworkIds = getSupportedNetworkIdsForSend()
-  return useSelector((state) => sortedTokensWithBalanceSelector(state, supportedNetworkIds))
 }
 
 export function useTokensInfoUnavailable(networkIds: NetworkId[]) {
