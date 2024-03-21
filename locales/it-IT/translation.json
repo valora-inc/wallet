@@ -1307,7 +1307,7 @@
   "feedItemGoldWithdrawal": "Prelievo verso {{displayName}}",
   "feedItemGoldReceived": "Ricevuti da {{displayName}}",
   "feedItemSwapPath": "{{token1}} > {{token2}}",
-  "feedItemJumpstartTitle": "Link live",
+  "feedItemJumpstartTitle": "Link diretto",
   "feedItemJumpstartSentSubtitle": "Invito",
   "feedItemJumpstartReceivedSubtitle": "Fondi ricevuti",
   "transactionHeaderVerificationFee": "Conferma",
@@ -2032,7 +2032,7 @@
       "subtitle": "Invita amici dal tuo elenco dei contatti"
     },
     "jumpstart": {
-      "title": "Invia con un link live",
+      "title": "Invia con un link diretto",
       "subtitle": "Copia il link e condividilo per inviare criptovalute come se fosse testo"
     },
     "getStarted": {
@@ -2112,24 +2112,24 @@
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Crea un link live",
-    "sendAmountLabel": "Importo del link live",
+    "title": "Crea un link diretto",
+    "sendAmountLabel": "Importo del link diretto",
     "confirmButton": "Invia e crea un link",
     "info": "Quando crei un link, i fondi vengono prelevati dal tuo portafoglio. Puoi recuperare il link in qualsiasi momento. Condividi i link con attenzione.",
     "sendError": {
       "title": "Impossibile creare un link",
-      "description": "Il tuo link live non è stato creato. Riprova.",
+      "description": "Il tuo link diretto non è stato creato. Riprova.",
       "ctaLabel": "Ignorare"
     }
   },
   "jumpstartShareLinkScreen": {
-    "title": "Condividi il link live",
+    "title": "Condividi il link diretto",
     "description": "Copia il link per inviare {{tokenSymbol}} tramite la tua app di messaggistica preferita, oppure utilizza il codice QR.",
-    "linkLabel": "Link live",
+    "linkLabel": "Link diretto",
     "linkCopiedMessage": "Link live copiato",
     "navigationWarning": {
       "title": "Hai condiviso il link?",
-      "description": "Assicurati di condividere questo link live o di salvarlo in un posto sicuro.\n\nNon preoccuparti se non viene reclamato: puoi recuperare facilmente i fondi dal tuo feed di attività.",
+      "description": "Assicurati di condividere questo link diretto o di salvarlo in un posto sicuro.\n\nNon preoccuparti se non viene reclamato: puoi recuperare facilmente i fondi dal tuo feed di attività.",
       "ctaNavigate": "Vai alla schermata iniziale"
     },
     "ctaShare": "Condividi link",
@@ -2195,15 +2195,15 @@
   "bottomTabsNavigator": {
     "wallet": {
       "tabName": "Wallet",
-      "title": "Wallet"
+      "title": "Il mio wallet"
     },
     "home": {
       "tabName": "Inizio",
-      "title": "Benvenuto"
+      "title": "Ciao!"
     },
     "discover": {
       "tabName": "Scopri",
-      "title": "Scopri"
+      "title": "Esplora il web3"
     }
   },
   "jumpstartStatus": {
@@ -2213,7 +2213,7 @@
     },
     "error": {
       "title": "Impossibile reclamare i fondi",
-      "description": "Riprova il tuo link live per tentare di ricevere i fondi, oppure chiedi al tuo amico di provare a inviare un nuovo link",
+      "description": "Riprova il tuo link diretto per tentare di ricevere i fondi, oppure chiedi al tuo amico di provare a inviare un nuovo link",
       "contactSupport": "Contatta il supporto tecnico",
       "dismiss": "Ignora"
     }
