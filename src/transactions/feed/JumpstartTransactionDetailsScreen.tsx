@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { useAsync, useAsyncCallback } from 'react-async-hook'
+import { useAsync } from 'react-async-hook'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -109,10 +109,10 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, networkId))
 
   const reclaimStatus = useSelector(jumpstartReclaimStatusSelector)
-  const [wasReclaimExecuted, setReclaimExecuted] = useState(false)
+  const [isReclaimIniciated, setReclaimInitiated] = useState(false)
 
   useEffect(() => {
-    if (!wasReclaimExecuted) {
+    if (!isReclaimIniciated) {
       return
     }
     Logger.debug('Change to status', reclaimStatus)
@@ -125,7 +125,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
         setError(new Error('Failed to reclaim'))
         break
     }
-  }, [reclaimStatus, wasReclaimExecuted])
+  }, [reclaimStatus, isReclaimIniciated])
 
   const title =
     transaction.type === TokenTransactionTypeV2.Sent
@@ -137,28 +137,16 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
       if (!isDeposit) {
         return
       }
-      return await getClaimDataAndStatus(
+
+      const { beneficiary, index, claimed } = await getClaimDataAndStatus(
         jumpstartContractAddress as Address,
         networkId,
         transaction.transactionHash as Hash
       )
-    },
-    [],
-    {
-      onError: (error) => {
-        setError(new Error('Failed to fetch escrow data'))
-        Logger.error(TAG, 'Failed to fetch escrow data', error)
-      },
-    }
-  )
 
-  const preparedTransactionAndOpenBottomSheet = useAsyncCallback(
-    async () => {
-      if (!fetchClaimData.result) {
-        throw new Error('No escrow data found when trying to reclaim')
+      if (claimed) {
+        return { claimed: true }
       }
-
-      const { beneficiary, index } = fetchClaimData.result
 
       const reclaimTx: TransactionRequest = {
         from: walletAddress as Address,
@@ -180,29 +168,40 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
       switch (resultType) {
         case 'need-decrease-spend-amount-for-gas': // fallthrough on purpose
         case 'not-enough-balance-for-gas':
-          throw new Error('Not enough balance for gas')
-          break
+          return {
+            claimed: false,
+            error: true,
+          }
         case 'possible':
-          return preparedTransactions.transactions[0]
+          return {
+            preparedTransaction: preparedTransactions.transactions[0],
+            claimed: false,
+          }
       }
     },
+    [],
     {
-      onSuccess: (result: TransactionRequest) => {
-        setReclaimTx(getSerializablePreparedTransaction(result))
-        dispatch(jumpstartReclaimFlowStarted())
-        bottomSheetRef.current?.snapToIndex(0)
+      onSuccess(result) {
+        if (result) {
+          if (result.preparedTransaction) {
+            setReclaimTx(getSerializablePreparedTransaction(result.preparedTransaction))
+          }
+          if (result.error) {
+            setError(new Error('Not enough balance for gas'))
+          }
+        }
       },
       onError: (error) => {
-        Logger.warn(TAG, 'Failed to prepared transaction', error)
-        setError(error)
+        setError(new Error('Failed to fetch escrow data'))
+        Logger.error(TAG, 'Failed to fetch escrow data', error)
       },
     }
   )
 
-  if (!token) {
-    // should never happen
-    Logger.error(TAG, 'Token is undefined')
-    return null
+  const resetState = () => {
+    setReclaimTx(null)
+    setError(null)
+    fetchClaimData.execute()
   }
 
   const isClaimed = fetchClaimData.result?.claimed
@@ -223,13 +222,17 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
   //   </View>
   // )
 
+  const onReclaimPress = () => {
+    dispatch(jumpstartReclaimFlowStarted())
+    bottomSheetRef.current?.snapToIndex(0)
+  }
+
   const onConfirm = () => {
     if (!reclaimTx) {
       Logger.warn(TAG, 'Reclaim transaction is not set')
       return
     }
-
-    setReclaimExecuted(true)
+    setReclaimInitiated(true)
     dispatch(jumpstartReclaimStarted({ reclaimTx, networkId, tokenAmount }))
   }
 
@@ -271,8 +274,8 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
           <View style={styles.buttonContainer}>
             <Button
               showLoading={fetchClaimData.loading}
-              disabled={!fetchClaimData.result || isClaimed}
-              onPress={() => preparedTransactionAndOpenBottomSheet.execute()}
+              disabled={!fetchClaimData.result?.preparedTransaction || isClaimed}
+              onPress={onReclaimPress}
               type={!isClaimed ? BtnTypes.PRIMARY : BtnTypes.LABEL_PRIMARY}
               text={!isClaimed ? t('reclaim') : t('claimed')}
               size={BtnSizes.FULL}
@@ -334,10 +337,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
             title={t('jumpstartReclaimError.title')}
             description={t('jumpstartReclaimError.description')}
             ctaLabel2={t('dismiss')}
-            onPressCta2={() => {
-              setError(null)
-              fetchClaimData.execute()
-            }}
+            onPressCta2={resetState}
             ctaLabel={t('contactSupport')}
             onPressCta={() => {
               navigate(Screens.SupportContact)
@@ -359,7 +359,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
         <Button
           text={t('confirm')}
           showLoading={reclaimStatus === 'loading'}
-          disabled={reclaimStatus === 'loading'}
+          disabled={reclaimStatus !== 'idle'}
           onPress={onConfirm}
           size={BtnSizes.FULL}
         />
