@@ -2627,6 +2627,7 @@
                 "JumpstartEnterAmount",
                 "JumpstartSendConfirmation",
                 "JumpstartShareLink",
+                "JumpstartTransactionDetailsScreen",
                 "KeylessBackupIntro",
                 "KeylessBackupPhoneCodeInput",
                 "KeylessBackupPhoneInput",
