@@ -22,14 +22,8 @@ import {
   pendingStandbyTransactionsSelector,
   transactionsSelector,
 } from 'src/transactions/reducer'
-import { TokenTransaction, TransactionStatus } from 'src/transactions/types'
+import { TokenTransaction } from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
-
-export type FeedTokenProperties = {
-  status: TransactionStatus // for standby transactions
-}
-
-export type FeedTokenTransaction = TokenTransaction & FeedTokenProperties
 
 function TransactionFeed() {
   const { loading, error, transactions, fetchingMoreTransactions, fetchMoreTransactions } =
@@ -74,7 +68,7 @@ function TransactionFeed() {
     )
   }
 
-  function renderItem({ item: tx }: { item: FeedTokenTransaction; index: number }) {
+  function renderItem({ item: tx }: { item: TokenTransaction; index: number }) {
     switch (tx.__typename) {
       case 'TokenExchangeV3':
         return <SwapFeedItem key={tx.transactionHash} exchange={tx} />
