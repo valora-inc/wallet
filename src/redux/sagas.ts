@@ -28,6 +28,7 @@ import { i18nSaga } from 'src/i18n/saga'
 import { identitySaga } from 'src/identity/saga'
 import { Actions as ImportActions } from 'src/import/actions'
 import { importSaga } from 'src/import/saga'
+import { jumpstartSaga } from 'src/jumpstart/saga'
 import { keylessBackupSaga } from 'src/keylessBackup/saga'
 import { localCurrencySaga } from 'src/localCurrency/saga'
 import { networkInfoSaga } from 'src/networkInfo/saga'
@@ -123,6 +124,7 @@ export function* rootSaga() {
     yield* spawn(recipientsSaga)
     yield* spawn(feesSaga)
     yield* spawn(sendSaga)
+    yield* spawn(jumpstartSaga)
     yield* spawn(escrowSaga)
     yield* spawn(importSaga)
     yield* spawn(dappKitSaga)

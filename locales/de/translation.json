@@ -2029,8 +2029,8 @@
       "subtitle": "Lade Freunde aus deiner Kontaktliste ein."
     },
     "jumpstart": {
-      "title": "Share crypto with a link",
-      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
+      "title": "Mit einem Live-Link senden",
+      "subtitle": "Kopiere den Link und teile ihn, um Krypto wie einen Text zu versenden"
     },
     "getStarted": {
       "title": "So kannst du Guthaben auf Valora senden.",
@@ -2104,16 +2104,38 @@
   },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
-      "title": "Wir würden einen niedrigeren Betrag vorschlagen",
-      "description": "Dieser Link kann von jedem beansprucht werden, der Zugang zu ihm hat. Wir empfehlen, nicht mehr als {{maxAmount}} {{localCurrencyCode}}zu senden."
+      "title": "Du kannst bis zu {{amountInLocalCurrency,currency}} in einem Link senden",
+      "description": "Dieser Link kann von jedem beansprucht werden, der Zugang zu ihm hat. Achte darauf, dass du Links an Leute schickst, denen du vertraust."
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Link zum Teilen erstellen",
-    "sendAmountLabel": "ANSPRUCH LINK BETRAG",
-    "confirmButton": "Geld senden und Link erstellen",
-    "detailsLabel": "WIE ES FUNKTIONIERT",
-    "details": "1. Tippe auf \"Link generieren\" und dein Geld wird an den Claim-Link\ngesendet. 2. Sende den Claim-Link an einen Freund\n3. Er wird das Geld annehmen\n4. Wenn das Geld nicht eingefordert wird, kannst du es jederzeit zurückfordern."
+    "title": "Live Link erstellen",
+    "sendAmountLabel": "Live Link Betrag",
+    "confirmButton": "Link senden und erstellen",
+    "info": "Wenn du einen Link erstellst, wird Geld von deiner Geldbörse abgezogen. Du kannst den Link jederzeit zurückfordern. Teile Links mit Bedacht.",
+    "sendError": {
+      "title": "Link kann nicht erstellt werden",
+      "description": "Dein Live-Link wurde nicht erstellt. Bitte versuche es erneut.",
+      "ctaLabel": "Verwerfen"
+    }
+  },
+  "jumpstartShareLinkScreen": {
+    "title": "Live-Link teilen",
+    "description": "Kopiere den Link, um {{tokenSymbol}} über die Nachrichten-App deiner Wahl zu senden, oder verwende den QR-Code.",
+    "linkLabel": "Live Link",
+    "linkCopiedMessage": "Live Link kopiert",
+    "navigationWarning": {
+      "title": "Hast du deinen Link geteilt?",
+      "description": "Gib diesen Live-Link weiter oder speichere ihn an einem sicheren Ort.\n\nMach dir keine Sorgen, wenn das Geld nicht abgeholt wird - du kannst es ganz einfach über deinen Aktivitäts-Feed zurückfordern.",
+      "ctaNavigate": "Nach Hause gehen"
+    },
+    "ctaShare": "Link teilen",
+    "ctaScanQRCode": "Scan QR-Code",
+    "shareMessage": "Hallo! Ich sende dir einen Link, der mit {{tokenAmount}} {{tokenSymbol}} auf {{appName}}finanziert wurde. Nutze diesen Link, um die App herunterzuladen, und die Gelder werden live auf dich warten. {{link}}",
+    "qrCodeBottomSheet": {
+      "title": "Scanne den Code, um Geld zu erhalten",
+      "description": "Überprüfe den Status deines Geldes auf dem Homescreen. Alternativ kannst du auch den Link unten kopieren oder teilen."
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Genehmigt",
@@ -2138,13 +2160,13 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "Multi-Chain Early Adopter 🎁",
-      "description": "Als Dankeschön dafür, dass du ein Multi-Chain-Beta-Tester bist, haben wir ein kostenloses Geschenk zu deiner {{appName}} Geldbörse hinzugefügt! Die Early Adopter NFT findest du in deinen Sammelobjekten.",
+      "title": "Herzlichen Glückwunsch!",
+      "description": "Du hast dir ein exklusives Sammlerstück für Early Ethereum Explorers verdient. Willkommen bei Ethereum auf {{appName}}.",
       "cta": "Vielen Dank!"
     },
     "notification": {
-      "title": "Herzlichen Glückwunsch 🎉.",
-      "description": "{{rewardName}} wurde erfolgreich zu deiner {{appName}} Brieftasche hinzugefügt."
+      "title": "Ein neues NFT erwartet dich 🎉.",
+      "description": "Du findest deine neue {{rewardName}} NFT unter deinen \"Collectibles\"."
     },
     "rewardBottomSheet": {
       "title": "Einen Monat lang kostenlos einlösen",
@@ -2178,6 +2200,18 @@
     },
     "discover": {
       "tabName": "Entdecke"
+    }
+  },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "Dein Geld ist auf dem Weg",
+      "description": "Das Geld, das du von deinem Freund bekommen hast, wird gerade überwiesen. Bitte warte... "
+    },
+    "error": {
+      "title": "Nicht in der Lage, Gelder zu beantragen",
+      "description": "Probiere deinen Live-Link erneut aus, um zu versuchen, Geld zu erhalten, oder bitte deinen Freund, einen neuen Link zu senden.",
+      "contactSupport": "Support kontaktieren",
+      "dismiss": "Verwerfen"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

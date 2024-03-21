@@ -100,7 +100,6 @@ export type StackParamList = {
   [Screens.Debug]: undefined
   [Screens.DrawerNavigator]: {
     initialScreen?: Screens
-    fromModal?: boolean
   }
   [Screens.ErrorScreen]: {
     errorMessage?: string
@@ -258,7 +257,12 @@ export type StackParamList = {
     link: string
     sendAmount: string
     tokenId: string
-    preparedTransactions: SerializableTransactionRequest[]
+    serializablePreparedTransactions: SerializableTransactionRequest[]
+  }
+  [Screens.JumpstartShareLink]: {
+    link: string
+    sendAmount: string
+    tokenId: string
   }
   [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
   [Screens.SignInWithEmail]: {
@@ -277,8 +281,7 @@ export type StackParamList = {
   [Screens.TabHome]: { isTabNavigator?: boolean } | undefined
   [Screens.TabWallet]: { activeAssetTab?: AssetTabType; isWalletTab?: boolean } | undefined
   [Screens.TabNavigator]: {
-    initialScreen?: Screens
-    fromModal?: boolean
+    initialScreen?: Screens.TabHome | Screens.TabWallet | Screens.TabDiscover
   }
   [Screens.TokenDetails]: { tokenId: string }
   [Screens.TokenImport]: undefined

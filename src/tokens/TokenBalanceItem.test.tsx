@@ -43,6 +43,20 @@ describe('TokenBalanceItem', () => {
     expect(queryByTestId('BridgeLabel')).toBeFalsy()
   })
 
+  it('displays correctly when balances are hidden', () => {
+    const { getByText, getByTestId, queryByTestId, queryByText } = render(
+      <Provider store={createMockStore()}>
+        <TokenBalanceItem token={mockTokenInfo} hideBalances={true} />
+      </Provider>
+    )
+
+    expect(getByText('Celo Dollar')).toBeTruthy()
+    expect(queryByText('10.00 cUSD')).toBeFalsy()
+    expect(queryByText('₱13.30')).toBeFalsy()
+    expect(getByTestId('NetworkLabel')).toBeTruthy()
+    expect(queryByTestId('BridgeLabel')).toBeFalsy()
+  })
+
   it('displays correctly when token is bridged', () => {
     mockTokenInfo.bridge = 'Valora Bridge V2'
     const { getByText, getByTestId } = render(

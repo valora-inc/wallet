@@ -2029,8 +2029,8 @@
       "subtitle": "Convide amigos da sua lista de contatos"
     },
     "jumpstart": {
-      "title": "Share crypto with a link",
-      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
+      "title": "Enviar com um link ao vivo",
+      "subtitle": "Copie o link e compartilhe-o para enviar criptografia como se fosse um texto"
     },
     "getStarted": {
       "title": "Formas de enviar fundos na Valora",
@@ -2104,16 +2104,38 @@
   },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
-      "title": "Sugerimos um valor menor",
-      "description": "Esse link poderá ser reivindicado por qualquer pessoa que tenha acesso a ele. Recomendamos que você não envie mais do que {{maxAmount}} {{localCurrencyCode}}."
+      "title": "Você pode enviar até {{amountInLocalCurrency,currency}} em um link",
+      "description": "Esse link poderá ser reivindicado por qualquer pessoa que tenha acesso a ele. Certifique-se de enviar links para pessoas em quem você confia."
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Criar um link compartilhável",
-    "sendAmountLabel": "VALOR DO LINK DA REIVINDICAÇÃO",
-    "confirmButton": "Enviar fundos e criar um link",
-    "detailsLabel": "COMO FUNCIONA",
-    "details": "1. Toque em gerar link e seus fundos serão enviados para o link de resgate\n2. Envie o link de resgate para um amigo\n3. Ele aceitará os fundos\n4. Se os fundos não forem reivindicados, você poderá reivindicá-los a qualquer momento."
+    "title": "Criar link ao vivo",
+    "sendAmountLabel": "Valor do link ao vivo",
+    "confirmButton": "Enviar e criar link",
+    "info": "Quando você cria um link, os fundos são retirados de sua carteira. Você pode recuperar o link a qualquer momento. Compartilhe links com cuidado.",
+    "sendError": {
+      "title": "Não é possível criar um link",
+      "description": "Seu link ao vivo não foi criado. Por favor, tente novamente.",
+      "ctaLabel": "Ignorar"
+    }
+  },
+  "jumpstartShareLinkScreen": {
+    "title": "Compartilhar link ao vivo",
+    "description": "Copie o link para enviar {{tokenSymbol}} pelo aplicativo de mensagens de sua preferência ou use o código QR.",
+    "linkLabel": "Link ao vivo",
+    "linkCopiedMessage": "Link ao vivo copiado",
+    "navigationWarning": {
+      "title": "Você compartilhou seu link?",
+      "description": "Certifique-se de compartilhar este link ao vivo ou salvá-lo em um local seguro.\n\nNão se preocupe se não for reivindicado - você pode facilmente recuperar os fundos no seu feed de atividades.",
+      "ctaNavigate": "Ir para casa"
+    },
+    "ctaShare": "Compartilhar link",
+    "ctaScanQRCode": "Escanear código QR",
+    "shareMessage": "Olá! Estou enviando a você um link financiado com {{tokenAmount}} {{tokenSymbol}} em {{appName}}. Use esse link para fazer o download do aplicativo e os fundos estarão ativos, esperando por você. {{link}}",
+    "qrCodeBottomSheet": {
+      "title": "Digitalize o código para receber os fundos",
+      "description": "Verifique o status dos seus fundos na tela inicial. Como alternativa, copie ou compartilhe o link abaixo."
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Aprovação",
@@ -2138,13 +2160,13 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "Adoção antecipada de várias cadeias 🎁",
-      "description": "Como agradecimento por você ser um testador beta de várias cadeias, adicionamos um presente gratuito à sua carteira {{appName}} ! Você pode encontrar o NFT para os primeiros usuários em seus itens colecionáveis.",
+      "title": "Parabéns!",
+      "description": "Você ganhou um colecionável exclusivo para os Early Ethereum Explorers. Você é bem-vindo ao Ethereum em {{appName}}.",
       "cta": "Obrigado!"
     },
     "notification": {
-      "title": "Parabéns a você 🎉.",
-      "description": "{{rewardName}} foi adicionado com sucesso à sua carteira {{appName}} ."
+      "title": "Um novo NFT espera por você 🎉.",
+      "description": "Você pode encontrar seu novo {{rewardName}} NFT em \"Collectibles\""
     },
     "rewardBottomSheet": {
       "title": "Cash-ins gratuitos por um mês",
@@ -2178,6 +2200,18 @@
     },
     "discover": {
       "tabName": "Descobrir"
+    }
+  },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "Seus fundos estão a caminho",
+      "description": "Os fundos que seu amigo deu a você estão sendo enviados. Por favor, aguarde... "
+    },
+    "error": {
+      "title": "Não é possível reivindicar fundos",
+      "description": "Tente usar o link ativo novamente para tentar receber fundos ou peça ao seu amigo para tentar enviar um novo link",
+      "contactSupport": "Contate o suporte",
+      "dismiss": "Ignorar"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

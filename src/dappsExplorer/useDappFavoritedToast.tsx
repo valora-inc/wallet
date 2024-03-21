@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SectionList } from 'react-native'
-import ToastWithCTA from 'src/components/ToastWithCTA'
+import { NotificationVariant } from 'src/components/InLineNotification'
+import Toast from 'src/components/Toast'
 import { Dapp } from 'src/dapps/types'
 
 const TOAST_DISMISS_TIMEOUT = 5000
@@ -32,12 +33,14 @@ const useDappFavoritedToast = (sectionListRef: React.RefObject<SectionList>) => 
 
   const DappFavoritedToast = useMemo(
     () => (
-      <ToastWithCTA
+      <Toast
         showToast={showToast}
+        variant={NotificationVariant.Info}
+        hideIcon
         title={favoritedDapp?.name}
-        message={t('dappsScreen.favoritedDappToast.message')}
-        labelCTA={t('dappsScreen.favoritedDappToast.labelCTA')}
-        onPress={onPressToast}
+        description={t('dappsScreen.favoritedDappToast.message')}
+        ctaLabel={t('dappsScreen.favoritedDappToast.labelCTA')}
+        onPressCta={onPressToast}
       />
     ),
     [favoritedDapp, showToast]

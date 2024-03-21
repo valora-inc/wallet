@@ -2626,6 +2626,7 @@
                 "Invite",
                 "JumpstartEnterAmount",
                 "JumpstartSendConfirmation",
+                "JumpstartShareLink",
                 "KeylessBackupIntro",
                 "KeylessBackupPhoneCodeInput",
                 "KeylessBackupPhoneInput",
@@ -3174,7 +3175,7 @@
                 "hapticFeedbackEnabled": {
                     "type": "boolean"
                 },
-                "hideHomeBalances": {
+                "hideBalances": {
                     "type": "boolean"
                 },
                 "huaweiMobileServicesAvailable": {
@@ -3304,7 +3305,7 @@
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hapticFeedbackEnabled",
-                "hideHomeBalances",
+                "hideBalances",
                 "inAppReviewLastInteractionTimestamp",
                 "inviterAddress",
                 "lastTimeBackgrounded",
@@ -4184,10 +4185,20 @@
                         "loading"
                     ],
                     "type": "string"
+                },
+                "depositStatus": {
+                    "enum": [
+                        "error",
+                        "idle",
+                        "loading",
+                        "success"
+                    ],
+                    "type": "string"
                 }
             },
             "required": [
-                "claimStatus"
+                "claimStatus",
+                "depositStatus"
             ],
             "type": "object"
         },

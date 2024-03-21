@@ -2029,8 +2029,8 @@
       "subtitle": "Invita amici dal tuo elenco dei contatti"
     },
     "jumpstart": {
-      "title": "Share crypto with a link",
-      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
+      "title": "Invia con un link in tempo reale",
+      "subtitle": "Copia il link e condividilo per inviare criptovalute come se fosse un testo."
     },
     "getStarted": {
       "title": "Come inviare fondi su Valora",
@@ -2104,16 +2104,38 @@
   },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
-      "title": "Suggeriamo un importo inferiore",
-      "description": "Questo link potrà essere richiesto da chiunque ne abbia accesso. Si consiglia di inviare non più di {{maxAmount}} {{localCurrencyCode}}."
+      "title": "Puoi inviare fino a {{amountInLocalCurrency,currency}} in un link",
+      "description": "Questo link potrà essere richiesto da chiunque ne abbia accesso. Assicurati di inviare i link a persone di cui ti fidi."
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Crea un link condivisibile",
-    "sendAmountLabel": "IMPORTO DEL LINK DI RICHIESTA",
-    "confirmButton": "Invia i fondi e crea il link",
-    "detailsLabel": "COME FUNZIONA",
-    "details": "1. Tocca genera il link e i tuoi fondi saranno inviati al link di richiesta\n2. Invia il link per la richiesta di rimborso a un amico\n3. Questi accetteranno i fondi\n4. Se i fondi non vengono richiesti, puoi reclamarli in qualsiasi momento."
+    "title": "Crea un collegamento in tempo reale",
+    "sendAmountLabel": "Importo del collegamento in diretta",
+    "confirmButton": "Invia e crea un link",
+    "info": "Quando crei un link, i fondi vengono prelevati dal tuo portafoglio. Puoi recuperare il link in qualsiasi momento. Condividi i link con attenzione.",
+    "sendError": {
+      "title": "Impossibile creare un collegamento",
+      "description": "Il tuo link live non è stato creato. Riprova.",
+      "ctaLabel": "Ignorare"
+    }
+  },
+  "jumpstartShareLinkScreen": {
+    "title": "Condividi il link in diretta",
+    "description": "Copia il link per inviare {{tokenSymbol}} tramite la tua app di messaggistica preferita, oppure utilizza il codice QR.",
+    "linkLabel": "Collegamento in diretta",
+    "linkCopiedMessage": "Link in diretta copiato",
+    "navigationWarning": {
+      "title": "Hai condiviso il tuo link?",
+      "description": "Assicurati di condividere questo link live o di salvarlo in un posto sicuro.\n\nNon preoccuparti se non viene riscosso: puoi facilmente recuperare i fondi dal tuo feed di attività.",
+      "ctaNavigate": "Vai a casa"
+    },
+    "ctaShare": "Condividi il link",
+    "ctaScanQRCode": "Inquadra codice QR",
+    "shareMessage": "Ciao! Ti invio un link finanziato con {{tokenAmount}} {{tokenSymbol}} su {{appName}}. Utilizza questo link per scaricare l'applicazione e i fondi saranno attivi, in attesa di te. {{link}}",
+    "qrCodeBottomSheet": {
+      "title": "Scansiona il codice per ricevere i fondi",
+      "description": "Controlla lo stato dei tuoi fondi nella schermata iniziale. In alternativa, copia o condividi il link qui sotto."
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Approvazione",
@@ -2138,13 +2160,13 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "Adottatore di catene multiple 🎁",
-      "description": "Per ringraziarti di essere un beta tester multi-catena, abbiamo aggiunto un omaggio al tuo portafoglio {{appName}} ! L'NFT per gli early adopter si trova nei tuoi oggetti da collezione.",
+      "title": "Congratulazioni!",
+      "description": "Hai guadagnato un oggetto da collezione esclusivo per i primi esploratori di Ethereum. Benvenuto in Ethereum su {{appName}}.",
       "cta": "Grazie!"
     },
     "notification": {
-      "title": "Congratulazioni 🎉",
-      "description": "{{rewardName}} è stato aggiunto con successo al tuo portafoglio {{appName}} ."
+      "title": "Una nuova NFT ti aspetta 🎉",
+      "description": "Puoi trovare il tuo nuovo {{rewardName}} NFT nella sezione \"Oggetti da collezione\"."
     },
     "rewardBottomSheet": {
       "title": "Incassi gratuiti per un mese",
@@ -2178,6 +2200,18 @@
     },
     "discover": {
       "tabName": "Scopri"
+    }
+  },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "I tuoi fondi sono in arrivo",
+      "description": "I fondi che il tuo amico ti ha dato sono in fase di invio. Per favore, aspetta... "
+    },
+    "error": {
+      "title": "Impossibile richiedere i fondi",
+      "description": "Riprova il tuo link live per tentare di ricevere i fondi, oppure chiedi al tuo amico di provare a inviare un nuovo link.",
+      "contactSupport": "Contatta il supporto tecnico",
+      "dismiss": "Ignorare"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

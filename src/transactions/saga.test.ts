@@ -162,7 +162,7 @@ describe('watchPendingTransactions', () => {
   function createDefaultProviders(network: Network) {
     const defaultProviders: (EffectProviders | StaticProvider)[] = [
       [
-        call([publicClient[network], 'getTransactionReceipt'], { hash: transactionHash }),
+        call([publicClient[network], 'waitForTransactionReceipt'], { hash: transactionHash }),
         successReceipt,
       ],
       [
@@ -190,7 +190,7 @@ describe('watchPendingTransactions', () => {
       )
       .provide([
         [
-          call([publicClient.celo, 'getTransactionReceipt'], { hash: transactionHash }),
+          call([publicClient.celo, 'waitForTransactionReceipt'], { hash: transactionHash }),
           {
             ...successReceipt,
             status: 'reverted',
@@ -298,7 +298,7 @@ describe('watchPendingTransactions', () => {
         }).getState()
       )
       .provide([
-        [call([publicClient.celo, 'getTransactionReceipt'], { hash: transactionHash }), null],
+        [call([publicClient.celo, 'waitForTransactionReceipt'], { hash: transactionHash }), null],
         ...createDefaultProviders(Network.Celo),
       ])
       .not.put(transactionConfirmed(expect.any(String), expect.any(Object), expect.any(Number)))

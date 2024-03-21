@@ -46,7 +46,6 @@ import {
   walletConnectEnabledSelector,
 } from 'src/app/selectors'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
-import BottomSheetInLineNotification from 'src/components/BottomSheetInLineNotification'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
 import { NotificationVariant } from 'src/components/InLineNotification'
@@ -58,6 +57,7 @@ import {
   SettingsItemSwitch,
   SettingsItemTextValue,
 } from 'src/components/SettingsItem'
+import Toast from 'src/components/Toast'
 import { PRIVACY_LINK, TOS_LINK } from 'src/config'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import ForwardChevron from 'src/icons/ForwardChevron'
@@ -553,12 +553,14 @@ export const Account = ({ navigation, route }: Props) => {
           {t('promptConfirmRemovalModal.body')}
         </Dialog>
       </ScrollView>
-      <BottomSheetInLineNotification
+      <Toast
+        withBackdrop
         variant={NotificationVariant.Warning}
         description={t('keylessBackupSettingsDeleteError')}
-        showNotification={showDeleteKeylessBackupError}
+        showToast={showDeleteKeylessBackupError}
         onPressCta={onDismissKeylessBackupError}
         onUnmount={onDismissKeylessBackupError}
+        onDismiss={onDismissKeylessBackupError}
         ctaLabel={t('dismiss')}
         title={t('error')}
         testID="KeylessBackupDeleteError"

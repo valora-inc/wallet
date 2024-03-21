@@ -10,8 +10,7 @@ import {
   TxReceiptProperties,
 } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
+import { navigateHome } from 'src/navigator/NavigationService'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
 import { vibrateError } from 'src/styles/hapticFeedback'
 import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsProperties'
@@ -323,7 +322,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 
     Logger.debug(TAG, 'Successfully sent swap transaction(s) to the network', txHashes)
 
-    navigate(Screens.WalletHome)
+    navigateHome()
     submitted = true
 
     // wait for the tx receipts, so that we can track them

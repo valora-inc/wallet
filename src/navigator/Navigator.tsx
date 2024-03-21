@@ -58,6 +58,7 @@ import { currentLanguageSelector } from 'src/i18n/selectors'
 import ImportWallet from 'src/import/ImportWallet'
 import JumpstartEnterAmount from 'src/jumpstart/JumpstartEnterAmount'
 import JumpstartSendConfirmation from 'src/jumpstart/JumpstartSendConfirmation'
+import JumpstartShareLink from 'src/jumpstart/JumpstartShareLink'
 import KeylessBackupIntro from 'src/keylessBackup/KeylessBackupIntro'
 import KeylessBackupPhoneCodeInput from 'src/keylessBackup/KeylessBackupPhoneCodeInput'
 import KeylessBackupPhoneInput from 'src/keylessBackup/KeylessBackupPhoneInput'
@@ -266,6 +267,11 @@ const sendScreens = (Navigator: typeof Stack) => (
       name={Screens.JumpstartSendConfirmation}
       component={JumpstartSendConfirmation}
       options={headerWithBackButton}
+    />
+    <Navigator.Screen
+      name={Screens.JumpstartShareLink}
+      component={JumpstartShareLink}
+      options={JumpstartShareLink.navigationOptions}
     />
   </>
 )

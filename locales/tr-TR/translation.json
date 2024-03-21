@@ -2029,8 +2029,8 @@
       "subtitle": "Kişi listenizden arkadaşlarınızı davet edin"
     },
     "jumpstart": {
-      "title": "Share crypto with a link",
-      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
+      "title": "Canlı bağlantı ile gönder",
+      "subtitle": "Tıpkı bir metin gibi kripto göndermek için bağlantıyı kopyalayın ve paylaşın"
     },
     "getStarted": {
       "title": "Valora'da fon gönderme yolları",
@@ -2104,16 +2104,38 @@
   },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
-      "title": "Daha düşük bir miktar öneriyoruz",
-      "description": "Bu bağlantı, ona erişimi olan herkes tarafından talep edilebilecektir. {{maxAmount}} {{localCurrencyCode}}adresinden daha fazlasını göndermemenizi öneririz."
+      "title": "Bir bağlantıda {{amountInLocalCurrency,currency}} adresine kadar gönderebilirsiniz",
+      "description": "Bu bağlantı, ona erişimi olan herkes tarafından talep edilebilir. Bağlantıları güvendiğiniz kişilere gönderdiğinizden emin olun."
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Paylaşılabilir bağlantı oluşturun",
-    "sendAmountLabel": "TALEP BAĞLANTI TUTARI",
-    "confirmButton": "Fon gönderin ve bağlantı oluşturun",
-    "detailsLabel": "NASIL ÇALIŞIR",
-    "details": "1. Bağlantı oluştur'a dokunun ve fonlarınız talep bağlantısına gönderilir\n2. Talep bağlantısını bir arkadaşınıza gönderin\n3. Fonları kabul edeceklerdir\n4. Fonlar talep edilmezse, istediğiniz zaman geri alabilirsiniz."
+    "title": "Canlı Bağlantı Oluştur",
+    "sendAmountLabel": "Canlı Bağlantı Miktarı",
+    "confirmButton": "Bağlantı gönder ve oluştur",
+    "info": "Bir bağlantı oluşturduğunuzda, fonlar cüzdanınızdan çekilir. Bağlantıyı istediğiniz zaman geri alabilirsiniz. Bağlantıları dikkatle paylaşın.",
+    "sendError": {
+      "title": "Bağlantı oluşturulamıyor",
+      "description": "Canlı bağlantınız oluşturulmadı. Lütfen tekrar deneyin.",
+      "ctaLabel": "Yoksay"
+    }
+  },
+  "jumpstartShareLinkScreen": {
+    "title": "Canlı Bağlantı Paylaş",
+    "description": "Seçtiğiniz mesajlaşma uygulaması aracılığıyla {{tokenSymbol}} adresine göndermek için bağlantıyı kopyalayın veya QR kodunu kullanın.",
+    "linkLabel": "Canlı Bağlantı",
+    "linkCopiedMessage": "Canlı Bağlantı kopyalandı",
+    "navigationWarning": {
+      "title": "Bağlantınızı paylaştınız mı?",
+      "description": "Bu canlı bağlantıyı paylaştığınızdan veya güvenli bir yere kaydettiğinizden emin olun.\n\nTalep edilmezse endişelenmeyin - fonları etkinlik akışınızdan kolayca geri alabilirsiniz.",
+      "ctaNavigate": "Eve Git"
+    },
+    "ctaShare": "Bağlantı Paylaş",
+    "ctaScanQRCode": "Kare kodu tara",
+    "shareMessage": "Merhaba! Size {{appName}}adresinde {{tokenAmount}} {{tokenSymbol}} ile finanse edilen bir bağlantı gönderiyorum. Uygulamayı indirmek için bu bağlantıyı kullanın ve fonlar canlı olarak sizi bekliyor olacak. {{link}}",
+    "qrCodeBottomSheet": {
+      "title": "Fon almak için kodu tarayın",
+      "description": "Ana ekrandan fonlarınızın durumunu kontrol edin. Alternatif olarak, aşağıdaki bağlantıyı kopyalayın veya paylaşın."
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Onay",
@@ -2138,13 +2160,13 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "Çoklu zinciri erken benimseyen 🎁",
-      "description": "Çok zincirli bir beta test kullanıcısı olduğunuz için bir teşekkür olarak, {{appName}} cüzdanınıza ücretsiz bir hediye ekledik! Erken benimseyen NFT, koleksiyonlarınızda bulunabilir.",
+      "title": "Tebrikler!",
+      "description": "Erken Ethereum Kaşifleri için özel bir koleksiyon kazandınız. {{appName}}adresindeki Ethereum'a hoş geldiniz.",
       "cta": "Teşekkürler!"
     },
     "notification": {
-      "title": "Tebrikler 🎉",
-      "description": "{{rewardName}} {{appName}} cüzdanınıza başarıyla eklendi."
+      "title": "Yeni bir NFT bekliyor 🎉",
+      "description": "Yeni {{rewardName}} NFT'nizi \"Koleksiyon Eşyalarınız\" altında bulabilirsiniz"
     },
     "rewardBottomSheet": {
       "title": "Bir ay boyunca ücretsiz nakit girişleri",
@@ -2178,6 +2200,18 @@
     },
     "discover": {
       "tabName": "Keşfedin"
+    }
+  },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "Paranız yolda",
+      "description": "Arkadaşınızın size verdiği para gönderiliyor. Lütfen bekleyin... "
+    },
+    "error": {
+      "title": "Fon talep edilemiyor",
+      "description": "Para almayı denemek için canlı bağlantınızı tekrar deneyin veya arkadaşınızdan yeni bir bağlantı göndermeyi denemesini isteyin",
+      "contactSupport": "Destek ile İletişime Geç",
+      "dismiss": "Yoksay"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

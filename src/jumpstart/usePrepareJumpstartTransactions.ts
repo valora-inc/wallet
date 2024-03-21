@@ -17,14 +17,15 @@ const TAG = 'src/send/usePrepareJumpstartTransactions'
 
 async function createBaseJumpstartTransactions(
   jumpstartContractAddress: string,
-  spendTokenAmount: BigNumber,
+  sendTokenAmountInSmallestUnit: BigNumber,
   spendTokenAddress: string,
   networkId: NetworkId,
   walletAddress: string,
-  publicKey: string
+  publicKey: string,
+  depositERC20GasEstimate: string
 ) {
   const baseTransactions: TransactionRequest[] = []
-  const spendAmount = BigInt(spendTokenAmount.toFixed(0))
+  const spendAmount = BigInt(sendTokenAmountInSmallestUnit.toFixed(0, 0))
 
   const approvedAllowanceForSpender = await publicClient[
     networkIdToNetwork[networkId]
@@ -57,6 +58,7 @@ async function createBaseJumpstartTransactions(
       functionName: 'depositERC20',
       args: [publicKey as Address, spendTokenAddress as Address, spendAmount],
     }),
+    gas: BigInt(depositERC20GasEstimate),
   }
   baseTransactions.push(transferTx)
 
@@ -66,19 +68,19 @@ async function createBaseJumpstartTransactions(
 export function usePrepareJumpstartTransactions() {
   return useAsyncCallback(
     async ({
-      amount,
+      sendTokenAmountInSmallestUnit,
       token,
       walletAddress,
       feeCurrencies,
       publicKey,
     }: {
       publicKey: string
-      amount: BigNumber
+      sendTokenAmountInSmallestUnit: BigNumber
       token: TokenBalance
       walletAddress: string
       feeCurrencies: TokenBalance[]
     }) => {
-      if (amount.isLessThanOrEqualTo(0)) {
+      if (sendTokenAmountInSmallestUnit.isLessThanOrEqualTo(0)) {
         return
       }
 
@@ -87,27 +89,32 @@ export function usePrepareJumpstartTransactions() {
         throw new Error(`jumpstart send token ${tokenId} has undefined address`)
       }
 
-      const jumpstartContractAddress = getDynamicConfigParams(
+      const jumpstartContractConfig = getDynamicConfigParams(
         DynamicConfigs[StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG]
-      ).jumpstartContracts?.[networkId]?.contractAddress
-      if (!jumpstartContractAddress) {
+      ).jumpstartContracts?.[networkId]
+      if (
+        !jumpstartContractConfig?.contractAddress ||
+        !jumpstartContractConfig?.depositERC20GasEstimate
+      ) {
         throw new Error(
-          `jumpstart contract for send token ${tokenId} on network ${networkId} is not provided in dynamic config`
+          `jumpstart contract address or deposit gas estimate on network ${networkId} is not provided in dynamic config`
         )
       }
 
       const baseTransactions = await createBaseJumpstartTransactions(
-        jumpstartContractAddress,
-        amount,
+        jumpstartContractConfig.contractAddress,
+        sendTokenAmountInSmallestUnit,
         address,
         networkId,
         walletAddress,
-        publicKey
+        publicKey,
+        jumpstartContractConfig.depositERC20GasEstimate
       )
+
       return prepareTransactions({
         feeCurrencies,
         spendToken: token,
-        spendTokenAmount: amount,
+        spendTokenAmount: sendTokenAmountInSmallestUnit,
         baseTransactions,
       })
     },
