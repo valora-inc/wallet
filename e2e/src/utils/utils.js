@@ -154,7 +154,7 @@ export function quote(s) {
   return device.getPlatform() === 'ios' ? s : `"${s}"`
 }
 
-export async function quickOnboarding(mnemonic = SAMPLE_BACKUP_KEY) {
+export async function quickOnboarding(mnemonic = SAMPLE_BACKUP_KEY, cloudBackupEnabled = false) {
   try {
     // Tap Restore Account
     await element(by.id('RestoreAccountButton')).tap()
@@ -174,6 +174,8 @@ export async function quickOnboarding(mnemonic = SAMPLE_BACKUP_KEY) {
     await enterPinUi()
     // Verify pin
     await enterPinUi()
+
+    if (cloudBackupEnabled) await waitForElementByIdAndTap('ImportSelect/Mnemonic')
 
     // Restore existing wallet
     await waitFor(element(by.id('connectingToCelo')))
