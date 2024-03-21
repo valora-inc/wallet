@@ -2195,7 +2195,7 @@
   "bottomTabsNavigator": {
     "wallet": {
       "tabName": "Wallet",
-      "title": "Portefeuille"
+      "title": "Mon portefeuille"
     },
     "home": {
       "tabName": "Accueil",
@@ -2203,7 +2203,7 @@
     },
     "discover": {
       "tabName": "Découvrir",
-      "title": "Découvrir"
+      "title": "Découvrez le Web3"
     }
   },
   "jumpstartStatus": {
