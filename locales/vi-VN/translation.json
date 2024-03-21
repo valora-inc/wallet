@@ -6,13 +6,13 @@
   "licenses": "Giấy phép",
   "removeAccountTitle": "Thiết lập lại Valora",
   "removeAccountDetails": "Thao tác thiết lập lại sẽ xóa tài khoản của bạn khỏi thiết bị này. Tiền của bạn sẽ giữ nguyên trong tài khoản, nhưng bạn chỉ truy cập được bằng Cụm từ khôi phục",
-  "deleteAccountTitle": "Delete Account",
-  "deleteAccountDetails": "Deleting your account will remove it from {{appName}}. Your funds will remain in the account, but will only be accessible with your Recovery Phrase",
+  "deleteAccountTitle": "Xóa tài khoản",
+  "deleteAccountDetails": "Khi bạn xóa tài khoản thì tài khoản của bạn sẽ bị gỡ bỏ khỏi {{appName}}. Tiền của bạn sẽ vẫn giữ nguyên trong tài khoản, nhưng bạn chỉ truy cập được bằng Cụm từ khôi phục",
   "deleteAccountWarning": {
     "title": "Bạn có chắc chắn không?",
-    "description": "Deleting your account from {{appName}} also removes any linked phone number. Your funds will remain in the account, but will only be accessible with your Recovery Phrase.",
+    "description": "Việc bạn xóa tài khoản khỏi {{appName}} cũng sẽ gỡ bỏ mọi số điện thoại đã liên kết. Tiền của bạn sẽ vẫn giữ nguyên trong tài khoản, nhưng bạn chỉ truy cập được bằng Cụm từ khôi phục.",
     "buttonLabel": "Tiếp tục",
-    "buttonLabelRevokingPhoneNumber": "Unlinking phone number..."
+    "buttonLabelRevokingPhoneNumber": "Đang hủy liên kết số điện thoại..."
   },
   "legal": "Pháp lý",
   "appPreferences": "Tùy chọn ưu tiên trong ứng dụng",
@@ -29,8 +29,8 @@
   "dataSaver": "Tiết kiệm dữ liệu",
   "enableDataSaver": "Bật chế độ Tiết kiệm dữ liệu",
   "dataSaverDetail": "Chế độ Tiết kiệm dữ liệu cho phép bạn kết nối với mạng qua một nút mạng đáng tin cậy. Bạn có thể thay đổi chế độ này bất cứ lúc nào trong phần cài đặt ứng dụng.",
-  "keylessBackupSettingsTitle": "Email & Phone Backup",
-  "keylessBackupSettingsDeleteError": "Your backup was not able to be deleted, please wait & try again later.",
+  "keylessBackupSettingsTitle": "Sao lưu email và số điện thoại",
+  "keylessBackupSettingsDeleteError": "Bạn không xóa được bản sao lưu, vui lòng đợi và thử lại sau.",
   "setup": "Thiết lập",
   "restartModalSwitchOff": {
     "header": "Khởi động lại để tắt chế độ Tiết kiệm dữ liệu",
@@ -57,14 +57,14 @@
     "body2": "Không ai, kể cả Valora, có thể khôi phục tài khoản của bạn khi không có Cụm từ này."
   },
   "promptConfirmRemovalModal": {
-    "header": "Are you sure you want to proceed?",
-    "body": "You are about to erase your wallet from this device. This step is final and cannot be reversed. There is no way to recover your Recovery Phrase if you haven't written it down.",
+    "header": "Bạn có chắc chắn muốn tiếp tục không?",
+    "body": "Bạn sắp xóa ví khỏi thiết bị này. Đây là thao tác xóa vĩnh viễn và không thể khôi phục. Nếu chưa ghi lại Cụm từ khôi phục thì bạn sẽ không có cách nào để lấy lại.",
     "resetNow": "Tiếp tục"
   },
   "protectWallet": {
     "title": "Bảo vệ ví của bạn",
     "subtitle": "Bảo vệ ví của bạn",
-    "body": "If your phone is lost or stolen, your 12 word recovery phrase is the only way you can access your funds.",
+    "body": "Nếu điện thoại của bạn bị mất hoặc bị đánh cắp, thì cụm từ khôi phục gồm 12 từ sẽ là cách duy nhất để bạn truy cập được vào tiền của mình.",
     "recoveryPhrase": {
       "title": "Sử dụng Cụm từ khôi phục",
       "subtitle": "Viết ra cụm từ khôi phục"
@@ -72,7 +72,7 @@
   },
   "recoveryPhrase": {
     "title": "Cụm từ khôi phục của bạn",
-    "body": "Write these 12 words down somewhere safe, where it cannot be stolen or damaged.",
+    "body": "Hãy viết 12 từ này vào một nơi an toàn mà không ai có thể đánh cắp hoặc làm hư hỏng chúng.",
     "continue": "Tôi đã lưu cụm từ khôi phục",
     "copy": "Sao chép vào bảng nhớ tạm",
     "mnemonicCopied": "Đã sao chép cụm từ khôi phục vào bảng nhớ tạm",
@@ -91,19 +91,19 @@
     "phoneNumber": "Số điện thoại",
     "setup": {
       "title": "Thiết lập chức năng sao lưu ví.",
-      "description": "You'll use the following to set up your email & phone number backup",
-      "useRecoveryPhrase": "Use a recovery phrase instead",
+      "description": "Bạn sẽ sử dụng những thông tin sau để thiết lập sao lưu email và số điện thoại",
+      "useRecoveryPhrase": "Chuyển sang dùng cụm từ khôi phục",
       "reminder": "<0>Xin nhớ rằng</0>, thông tin này là cách duy nhất để bạn có thể truy cập vào ví trong trường hợp thiết bị của bạn bị mất hoặc bị đánh cắp. Valora không lưu trữ email hay số điện thoại của bạn. Hãy lưu giữ thông tin này an toàn!"
     },
     "restore": {
-      "description": "Make sure you have the following available to restore your wallet.",
-      "reminder": "<0>Remember</0>, you need access to the same email & phone number you used when you backed up"
+      "description": "Hãy đảm bảo bạn có sẵn những thông tin sau để khôi phục ví của mình.",
+      "reminder": "<0>Hãy nhớ rằng</0> bạn cần quyền truy cập vào cùng email và số điện thoại mà bạn đã sử dụng khi sao lưu"
     }
   },
   "signInWithEmail": {
     "title": "Đăng nhập bằng email",
     "subtitle": "Đăng nhập bằng email của bạn để thiết lập thành email sao lưu.\n\nBạn sẽ được nhắc đăng nhập lại nếu chẳng may bị mất ví.",
-    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
+    "subtitleRestore": "Đăng nhập bằng email bạn đã sử dụng để thiết lập sao lưu ví.",
     "google": "Đăng nhập bằng Google"
   },
   "keylessBackupPhoneInput": {
@@ -126,31 +126,31 @@
         "body": "Từ nay, bạn có thể khôi phục ví của mình bằng địa chỉ email và số điện thoại."
       },
       "failed": {
-        "title": "Backup unavailable",
-        "body": "You can set up wallet backup later or protect your account now by saving your recovery phrase.",
-        "later": "I'll set up backup later",
-        "manual": "Save recovery phrase"
+        "title": "Không hỗ trợ sao lưu",
+        "body": "Bạn có thể thiết lập sao lưu ví sau hoặc bảo vệ tài khoản của mình ngay bằng cách lưu cụm từ khôi phục.",
+        "later": "Tôi sẽ thiết lập sao lưu sau",
+        "manual": "Lưu cụm từ khôi phục"
       }
     },
     "restore": {
       "inProgress": {
-        "title": "Restoring your wallet"
+        "title": "Đang khôi phục ví của bạn"
       },
       "completed": {
-        "title": "Your wallet has been restored!",
-        "bodyZeroBalance": "You can add funds to your wallet once you are finished setting up.",
-        "bodyBalance": "You have a balance of <0></0>"
+        "title": "Ví của bạn đã được khôi phục!",
+        "bodyZeroBalance": "Bạn có thể nạp thêm tiền vào ví sau khi hoàn tất quá trình thiết lập.",
+        "bodyBalance": "Số dư của bạn là <0></0>"
       },
       "failed": {
-        "title": "Your wallet was not restored",
-        "body": "There was a technical issue in trying to restore your wallet. Please contact support for more information.",
+        "title": "Ví của bạn không được khôi phục",
+        "body": "Đã xảy ra sự cố kỹ thuật khi bạn cố gắng khôi phục ví. Vui lòng liên hệ với bộ phận hỗ trợ để biết thêm thông tin.",
         "tryAgain": "Thử lại",
         "createNewWallet": "Tạo ví mới",
         "help": "Trợ giúp"
       },
       "notFound": {
-        "title": "Wallet not found",
-        "body": "To restore your wallet, use the <0>same email address & phone number</0> you used when you set up.\n\nYou can also restore your wallet with your recovery phrase.",
+        "title": "Không tìm thấy ví",
+        "body": "Để khôi phục ví, hãy sử dụng <0>cùng địa chỉ email và số điện thoại</0> mà bạn đã dùng khi thiết lập.\n\nBạn cũng có thể khôi phục ví bằng cụm từ khôi phục của mình.",
         "tryAgain": "Thử lại",
         "createNewWallet": "Tạo ví mới"
       }
@@ -210,8 +210,8 @@
   "completeEducation": "Tôi đã hiểu",
   "yourAccountKey": "Cụm từ khôi phục của bạn",
   "backupKeyNotification2": "Để bảo vệ tiền của bạn, hãy sao lưu Cụm từ khôi phục ngay.",
-  "keylessBackupCTA": "Back up now",
-  "keylessBackupNotification": "Set up your email & phone number to back up your seed phrase",
+  "keylessBackupCTA": "Sao lưu ngay",
+  "keylessBackupNotification": "Thiết lập email và số điện thoại để sao lưu cụm từ khôi phục",
   "backupKeyCTA": "Hoàn tất quy trình sao lưu ngay",
   "backupKeySummary": "Tìm một nơi riêng tư và viết ra Cụm từ khôi phục của bạn. Vui lòng lưu giữ Cụm từ này ở nơi an toàn. Không lưu vào điện thoại của bạn.",
   "backupKeyWarning": "Nếu làm mất cụm từ khôi phục, bạn sẽ không thể truy cập vào toàn bộ số tiền bạn sở hữu trên Valora.",
@@ -915,15 +915,15 @@
     }
   },
   "importSelect": {
-    "title": "Restore Your Wallet",
-    "description": "If you set up a backup to protect your wallet, choose an option below.",
+    "title": "Khôi phục ví của bạn",
+    "description": "Nếu bạn thiết lập sao lưu để bảo vệ ví, hãy chọn tùy chọn bên dưới.",
     "emailAndPhone": {
-      "title": "From email & phone backup",
-      "description": "Restore your wallet with the phone number & email you set up previously"
+      "title": "Từ mục sao lưu email và số điện thoại",
+      "description": "Khôi phục ví bằng số điện thoại và email bạn đã thiết lập trước đó"
     },
     "recoveryPhrase": {
-      "title": "From recovery phrase",
-      "description": "Enter your 12 word recovery phrase to regain access to Valora"
+      "title": "Từ mục cụm từ khôi phục",
+      "description": "Nhập cụm từ khôi phục gồm 12 từ để lấy lại quyền truy cập vào Valora"
     }
   },
   "verificationInput": {
@@ -1149,8 +1149,8 @@
       "description": "Bạn không có đủ {{feeCurrencies}} để trả phí giao dịch. Vui lòng nạp {{feeCurrencies}} vào ví để hoàn thành giao dịch này."
     },
     "failedToPrepareTransaction": {
-      "title": "Failed to prepare transaction",
-      "description": "An error occurred while preparing the transaction. See the underlying error for more details.\n\n\"{{errorMessage}}\""
+      "title": "Đã không chuẩn bị được giao dịch",
+      "description": "Đã xảy ra lỗi khi chuẩn bị giao dịch. Hãy xem lỗi căn nguyên để biết thêm chi tiết.\n\n\"{{errorMessage}}\""
     },
     "session": {
       "failUnsupportedNamespace": {
@@ -1742,11 +1742,11 @@
     "swapTo": "SANG",
     "insufficientFunds": "Không đủ số dư {{token}}. Hãy thử số tiền nhỏ hơn hoặc chọn một tài sản khác.",
     "fetchSwapQuoteFailed": "Xin lỗi vì sự chậm trễ này! Hệ thống đang mất nhiều thời gian hơn bình thường để có được tỷ giá quy đổi tốt nhất. Vui lòng thử lại trong vài phút nữa.",
-    "disclaimer": "Best rate determined by decentralized sources. <0>Learn more</0>",
+    "disclaimer": "Tỷ giá tốt nhất được quyết định bởi các nguồn phi tập trung. <0>Tìm hiểu thêm</0>",
     "swapFromTokenSelection": "TRAO ĐỔI TỪ",
     "swapToTokenSelection": "TRAO ĐỔI SANG",
     "tokenUsdValueUnknown": "-",
-    "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
+    "unsupportedSwapTokens": "Các nhà cung cấp dịch vụ trao đổi của chúng tôi không hỗ trợ token đã chọn.",
     "switchedToNetworkWarning": {
       "title": "Bạn đã chuyển sang mạng {{networkName}}",
       "body_swapFrom": "Để tiếp tục, hãy chọn một token để trao đổi từ mạng {{networkName}}.",
@@ -1906,19 +1906,19 @@
   },
   "profileScreen": {
     "generateName": "Tạo tên",
-    "namePlaceholder": "Select a name, like \"{{exampleName}}\"",
-    "profilePictureDisclaimer": "Customize {{appName}} with your profile picture. Your image remains private, it is never shared or uploaded."
+    "namePlaceholder": "Chọn tên, chẳng hạn \"{{exampleName}}\"",
+    "profilePictureDisclaimer": "Tùy chỉnh {{appName}} bằng ảnh hồ sơ của bạn. Chúng tôi sẽ đảm bảo riêng tư cho ảnh của bạn, không bao giờ chia sẻ hoặc tải lên."
   },
   "tokenBottomSheet": {
     "searchAssets": "Tìm kiếm tài sản",
     "noTokenInResult": "Không tìm thấy kết quả phù hợp nào cho <0>\"{{searchTerm}}\"</0>",
-    "noFilterSearchResults": "No assets found matching \"{{searchTerm}}\" in the following categories: {{filterNames}}",
-    "noFilterResults": "No assets found matching the following categories: {{filterNames}}",
-    "noSearchResults": "No assets found matching \"{{searchTerm}}\"",
+    "noFilterSearchResults": "Không tìm thấy tài sản nào khớp với \"{{searchTerm}}\" trong các danh mục sau: {{filterNames}}",
+    "noFilterResults": "Không tìm thấy tài sản nào khớp với các danh mục sau: {{filterNames}}",
+    "noSearchResults": "Không tìm thấy tài sản nào khớp với \"{{searchTerm}}\"",
     "filters": {
-      "myTokens": "My tokens",
-      "popular": "Popular",
-      "recentlySwapped": "Recently swapped",
+      "myTokens": "Token của tôi",
+      "popular": "Thông dụng",
+      "recentlySwapped": "Đã trao đổi gần đây",
       "network": "Mạng {{networkName}}"
     }
   },
@@ -1966,7 +1966,7 @@
       "dappPositions": "DeFi"
     },
     "importToken": "Nhập",
-    "importTokens": "Import Tokens"
+    "importTokens": "Nhập token"
   },
   "notificationCenterSpotlight": {
     "message": "Giới thiệu phương thức mới để nhận tiền thưởng, xem thông báo và xem thông tin cập nhật ở cùng một nơi",
@@ -2004,9 +2004,9 @@
       "network": "Mạng lưới"
     },
     "error": {
-      "invalidAddress": "Invalid token address. Please review it",
+      "invalidAddress": "Địa chỉ token không hợp lệ. Vui lòng xem lại",
       "invalidToken": "Token không hợp lệ. Hãy thử lại hoặc liên hệ với bộ phận hỗ trợ",
-      "tokenAlreadySupported": "This token is already supported"
+      "tokenAlreadySupported": "Token này đã được hỗ trợ"
     },
     "importSuccess": "Đã nhập thành công token {{tokenSymbol}}",
     "importButton": "Nhập"
@@ -2027,8 +2027,8 @@
       "subtitle": "Mời bạn bè từ danh bạ"
     },
     "jumpstart": {
-      "title": "Send with a live link",
-      "subtitle": "Copy the link and share it to send crypto just like a text"
+      "title": "Gửi bằng đường liên kết trực tiếp",
+      "subtitle": "Sao chép và chia sẻ đường liên kết để gửi tiền điện tử giống như gửi tin nhắn"
     },
     "getStarted": {
       "title": "Các phương thức gửi tiền trên Valora",
@@ -2097,42 +2097,42 @@
     },
     "prepareTransactionError": {
       "title": "Đã xảy ra lỗi!",
-      "description": "It was not possible to prepare a transaction for this token."
+      "description": "Không thể chuẩn bị giao dịch cho token này."
     }
   },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
-      "title": "You can send up to {{amountInLocalCurrency,currency}} in a link",
-      "description": "This link will be claimable by anyone who has access to it. Make sure you send links to people you trust."
+      "title": "Bạn có thể gửi tối đa {{amountInLocalCurrency,currency}} trong một đường liên kết",
+      "description": "Bất cứ ai có quyền truy cập đều có thể nhận được đường liên kết này. Hãy đảm bảo bạn chỉ gửi đường liên kết cho những người bạn tin cậy."
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Create Live Link",
-    "sendAmountLabel": "Live Link Amount",
-    "confirmButton": "Send and create link",
-    "info": "When you create a link, funds are withdrawn from your wallet. You can reclaim the link anytime. Share links with care.",
+    "title": "Tạo đường liên kết trực tiếp",
+    "sendAmountLabel": "Số tiền gửi qua đường liên kết trực tiếp",
+    "confirmButton": "Gửi và tạo đường liên kết",
+    "info": "Khi bạn tạo một đường liên kết, tiền sẽ được rút từ ví của bạn. Bạn có thể thu hồi đường liên kết này bất cứ lúc nào. Hãy thận trọng khi chia sẻ đường liên kết.",
     "sendError": {
-      "title": "Unable to create link",
-      "description": "Your live link wasn’t created. Please try again.",
+      "title": "Không tạo được đường liên kết",
+      "description": "Không tạo được đường liên kết trực tiếp. Vui lòng thử lại sau.",
       "ctaLabel": "Loại bỏ"
     }
   },
   "jumpstartShareLinkScreen": {
-    "title": "Share Live Link",
-    "description": "Copy the link to send {{tokenSymbol}} via your messaging app of choice, or use the QR code.",
-    "linkLabel": "Live Link",
-    "linkCopiedMessage": "Live Link copied",
+    "title": "Chia sẻ đường liên kết trực tiếp",
+    "description": "Sao chép đường liên kết để gửi {{tokenSymbol}} qua ứng dụng nhắn tin mà bạn chọn hoặc sử dụng mã QR.",
+    "linkLabel": "Đường liên kết trực tiếp",
+    "linkCopiedMessage": "Đã sao chép đường liên kết trực tiếp",
     "navigationWarning": {
-      "title": "Did you share your link?",
-      "description": "Make sure to share this live link or save it somewhere safe.\n\nDon’t worry if it goes unclaimed — you can easily reclaim the funds from your activity feed.",
-      "ctaNavigate": "Go Home"
+      "title": "Bạn đã chia sẻ đường liên kết chưa?",
+      "description": "Hãy nhớ chia sẻ đường liên kết trực tiếp này hoặc lưu đường liên kết vào nơi an toàn.\n\nĐừng lo nếu không ai nhận đường liên kết — bạn có thể dễ dàng thu hồi tiền từ bảng tin hoạt động của mình.",
+      "ctaNavigate": "Đi đến Trang chủ"
     },
-    "ctaShare": "Share Link",
+    "ctaShare": "Chia sẻ đường liên kết",
     "ctaScanQRCode": "Quét mã QR",
-    "shareMessage": "Hi! I’m sending you a link funded with {{tokenAmount}} {{tokenSymbol}} on {{appName}}. Use this link to download the app and the funds will be live, waiting for you. {{link}}",
+    "shareMessage": "Xin chào! Tôi đang gửi cho bạn một đường liên kết được nạp tiền bằng {{tokenAmount}} {{tokenSymbol}} trên {{appName}}. Hãy sử dụng đường liên kết này để tải xuống ứng dụng và số tiền sẽ sẵn sàng chờ bạn sử dụng. {{link}}",
     "qrCodeBottomSheet": {
-      "title": "Scan the code to receive funds",
-      "description": "Check the status of your funds on the homescreen. Alternatively, copy or share the link below."
+      "title": "Quét mã để nhận tiền",
+      "description": "Kiểm tra tình trạng số tiền của bạn trên màn hình chính. Ngoài ra, hãy sao chép hoặc chia sẻ đường liên kết bên dưới."
     }
   },
   "transactionFeed": {
@@ -2158,56 +2158,57 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "Congratulations!",
-      "description": "You’ve earned an exclusive collectible for Early Ethereum Explorers. Welcome to Ethereum on {{appName}}.",
+      "title": "Xin chúc mừng!",
+      "description": "Bạn đã kiếm được một bộ sưu tập độc quyền dành cho Early Ethereum Explorer. Chào mừng bạn đến với Ethereum trên {{appName}}.",
       "cta": "Cảm ơn bạn!"
     },
     "notification": {
-      "title": "A new NFT awaits 🎉",
-      "description": "You can find your new {{rewardName}} NFT under your “Collectibles”"
+      "title": "NFT mới đang chờ đón bạn 🎉",
+      "description": "Bạn có thể tìm thấy NFT {{rewardName}} mới của mình trong mục “Bộ sưu tập”"
     },
     "rewardBottomSheet": {
-      "title": "Free cash-ins for a month",
-      "description": "Because you own the {{nftName}} in your collectibles, we’d like to give you free cash-ins for the month of January.\n\nTo use the reward cash-in via any {{appName}} partner and the fees will be waived.",
-      "expirationLabel": "Expires {{expirationLabelText}}",
-      "cta": "Use reward"
+      "title": "Nạp tiền miễn phí trong một tháng",
+      "description": "Vì bạn sở hữu {{nftName}} trong bộ sưu tập của mình, nên chúng tôi sẽ không thu phí giao dịch nạp tiền trong tháng 1.\n\nĐể sử dụng tính năng nạp tiền đổi thưởng thông qua bất kỳ đối tác nào của {{appName}} mà không mất phí.",
+      "expirationLabel": "Hết hạn {{expirationLabelText}}",
+      "cta": "Sử dụng tiền thưởng"
     },
     "rewardReminderBottomSheet": {
-      "title": "Free cash-ins for a month",
-      "description": "There’s only 3 days left to take advantage of free cash-ins for the month of January!\n\nTo use the reward cash-in via any {{appName}} partner and the fees will be waived.",
-      "expirationLabel": "Expires {{expirationLabelText}}",
-      "cta": "Use reward"
+      "title": "Nạp tiền miễn phí trong một tháng",
+      "description": "Chỉ còn 3 ngày nữa để tận dụng tính năng nạp tiền miễn phí trong tháng 1!\n\nĐể sử dụng tính năng nạp tiền đổi thưởng thông qua bất kỳ đối tác nào trên {{appName}} mà không mất phí.",
+      "expirationLabel": "Hết hạn {{expirationLabelText}}",
+      "cta": "Sử dụng tiền thưởng"
     }
   },
-  "pleaseWait": "Please wait",
-  "error": "Error",
+  "pleaseWait": "Vui lòng đợi",
+  "error": "Lỗi",
   "linkPhoneNumber": {
-    "title": "Link a phone number to your wallet address",
-    "description": "No more messy wallet addresses! Send crypto to other Celo users with just a phone number",
-    "startButtonLabel": "Link Phone Number",
-    "later": "I'll do this later"
+    "title": "Liên kết số điện thoại với địa chỉ ví của bạn",
+    "description": "Không còn phải phiền hà với địa chỉ ví nữa! Gửi tiền điện tử cho những người dùng Celo khác chỉ bằng số điện thoại",
+    "startButtonLabel": "Kết nối số điện thoại",
+    "later": "Tôi sẽ thực hiện việc này sau"
   },
   "bottomTabsNavigator": {
     "wallet": {
       "tabName": "Ví",
-      "title": "My Wallet"
+      "title": "Ví của tôi"
     },
     "home": {
-      "tabName": "Trang chủ",
-      "title": "Welcome"
+      "tabName": "Bắt đầu",
+      "title": "Chào mừng"
     },
     "discover": {
-      "tabName": "Khám phá"
+      "tabName": "Khám phá",
+      "title": "Khám phá"
     }
   },
   "jumpstartStatus": {
     "loading": {
       "title": "Tiền của bạn đang được chuyển",
-      "description": "The funds that your friend gave you are being sent over. Please wait... "
+      "description": "Số tiền mà bạn bè gửi cho bạn đang được chuyển qua. Vui lòng đợi... "
     },
     "error": {
-      "title": "Unable to claim funds",
-      "description": "Try your live link again to attempt to receive funds, or ask your friend to try sending a new link",
+      "title": "Không nhận được tiền",
+      "description": "Hãy thử lại đường liên kết trực tiếp của mình để nhận tiền hoặc nhờ bạn bè gửi lại một đường liên kết mới",
       "contactSupport": "Liên hệ với bộ phận hỗ trợ",
       "dismiss": "Loại bỏ"
     }

@@ -7,7 +7,7 @@ import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import Logo, { LogoTypes } from 'src/icons/Logo'
+import Logo from 'src/icons/Logo'
 import { welcomeBackground } from 'src/images/Images'
 import { nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -73,7 +73,7 @@ export default function Welcome() {
     <SafeAreaView style={styles.container}>
       <Image source={welcomeBackground} style={styles.backgroundImage} />
       <ScrollView contentContainerStyle={styles.contentContainer}>
-        <Logo type={LogoTypes.COLOR} height={64} />
+        <Logo size={64} />
         <Text style={styles.title} testID={'WelcomeText'}>
           {t('welcome.header')}
         </Text>

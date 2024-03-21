@@ -7,12 +7,12 @@
   "removeAccountTitle": "Valora zurücksetzen",
   "removeAccountDetails": "Das Zurücksetzen wird dein Konto von diesem Gerät entfernen. Dein Guthaben bleibt im Konto, wird aber nur mit deiner Wiederherstellungsphrase erreichbar sein",
   "deleteAccountTitle": "Konto löschen",
-  "deleteAccountDetails": "Wenn du dein Konto löschst, wird es von {{appName}}entfernt. Dein Guthaben bleibt auf dem Konto, ist aber nur noch mit deiner Recovery Phrase zugänglich.",
+  "deleteAccountDetails": "Wenn du dein Konto löschst, wird es von {{appName}} entfernt. Dein Guthaben bleibt auf dem Konto, ist aber nur noch mit deiner Wiederherstellungsphrase zugänglich",
   "deleteAccountWarning": {
     "title": "Bist Du sicher?",
-    "description": "Wenn du dein Konto von {{appName}} löschst, wird auch die damit verbundene Telefonnummer entfernt. Dein Guthaben bleibt auf dem Konto, ist aber nur noch mit deiner Recovery Phrase zugänglich.",
+    "description": "Wenn du dein Konto von {{appName}} löschst, wird auch die damit verbundene Telefonnummer entfernt. Dein Guthaben bleibt auf dem Konto, ist aber nur noch mit deiner Wiederherstellungsphrase zugänglich.",
     "buttonLabel": "Weiter",
-    "buttonLabelRevokingPhoneNumber": "Telefonnummer entkoppeln..."
+    "buttonLabelRevokingPhoneNumber": "Verknüpfung der Telefonnummer wird aufgehoben ..."
   },
   "legal": "Rechtshinweisen",
   "appPreferences": "App-Einstellungen",
@@ -29,8 +29,8 @@
   "dataSaver": "Datensparmodus",
   "enableDataSaver": "Datensparmodus aktivieren",
   "dataSaverDetail": "Der Datensparmodus ermöglicht die Kommunikation mit dem Netzwerk über einen vertrauenswürdigen Knoten. Du kannst diesen Modus jederzeit in den App-Einstellungen ändern.",
-  "keylessBackupSettingsTitle": "E-Mail & Telefon Backup",
-  "keylessBackupSettingsDeleteError": "Dein Backup konnte nicht gelöscht werden. Bitte warte und versuche es später noch einmal.",
+  "keylessBackupSettingsTitle": "Sicherung von E-Mail-Adresse und Telefonnummer",
+  "keylessBackupSettingsDeleteError": "Deine Sicherung konnte nicht gelöscht werden. Bitte warte und versuche es später noch einmal.",
   "setup": "Einrichten",
   "restartModalSwitchOff": {
     "header": "Neustarten, um Datensparmodus auszuschalten",
@@ -58,13 +58,13 @@
   },
   "promptConfirmRemovalModal": {
     "header": "Bist du sicher, dass du fortfahren willst?",
-    "body": "Du bist dabei, deine Brieftasche von diesem Gerät zu löschen. Dieser Schritt ist endgültig und kann nicht rückgängig gemacht werden. Es gibt keine Möglichkeit, deine Wiederherstellungsphrase wiederherzustellen, wenn du sie nicht aufgeschrieben hast.",
+    "body": "Du bist dabei, deine Wallet von diesem Gerät zu löschen. Dieser Schritt ist endgültig und kann nicht rückgängig gemacht werden. Es gibt keine Möglichkeit, deine Wiederherstellungsphrase wiederherzustellen, wenn du sie nicht aufgeschrieben hast.",
     "resetNow": "Weiter"
   },
   "protectWallet": {
     "title": "Schütze deine Wallet",
     "subtitle": "Schütze deine Wallet",
-    "body": "Wenn dein Telefon verloren geht oder gestohlen wird, ist dein 12-Wörter-Wiederherstellungssatz die einzige Möglichkeit, um auf dein Geld zuzugreifen.",
+    "body": "Wenn dein Telefon verloren geht oder gestohlen wird, ist deine Wiederherstellungsphrase mit 12 Wörtern die einzige Möglichkeit, um auf dein Guthaben zuzugreifen.",
     "recoveryPhrase": {
       "title": "Wiederherstellungsphrase verwenden",
       "subtitle": "Schreibe dir deine Wiederherstellungsphrase auf"
@@ -72,7 +72,7 @@
   },
   "recoveryPhrase": {
     "title": "Deine Wiederherstellungsphrase",
-    "body": "Schreibe diese 12 Wörter an einem sicheren Ort auf, wo sie nicht gestohlen oder beschädigt werden können.",
+    "body": "Schreibe diese 12 Wörter auf und bewahre sie an einem sicheren Ort auf, wo sie nicht gestohlen oder beschädigt werden können.",
     "continue": "Ich habe sie gespeichert",
     "copy": "In Zwischenablage kopieren",
     "mnemonicCopied": "Wiederherstellungsphrase in die Zwischenablage kopiert",
@@ -91,19 +91,19 @@
     "phoneNumber": "Telefonnummer",
     "setup": {
       "title": "Wallet-Back-up einrichten",
-      "description": "So richtest du dein E-Mail- und Telefonnummern-Backup ein",
-      "useRecoveryPhrase": "Verwende stattdessen eine Erholungsphrase",
+      "description": "Folgendes wird zum Einrichten der Sicherung verwendet",
+      "useRecoveryPhrase": "Verwende stattdessen eine Wiederherstellungsphrase",
       "reminder": "<0>Denke daran</0>, diese Information ist die einzige Möglichkeit, auf deine Wallet zuzugreifen, wenn dein Gerät verloren geht oder gestohlen wird. Valora speichert weder deine E-Mail-Adresse, noch deine Telefonnummer. Passe gut darauf auf!"
     },
     "restore": {
-      "description": "Vergewissere dich, dass du die folgenden Dinge zur Verfügung hast, um deine Geldbörse wiederherzustellen.",
-      "reminder": "<0>Denke daran</0>, dass du Zugang zu derselben E-Mail-Adresse und Telefonnummer brauchst, die du beim Backup verwendet hast."
+      "description": "Vergewissere dich, dass du Folgendes zur Verfügung hast, um deine Wallet wiederherzustellen.",
+      "reminder": "<0>Denke daran</0>, dass du Zugang zu derselben E-Mail-Adresse und Telefonnummer brauchst, die du bei der Sicherung verwendet hast"
     }
   },
   "signInWithEmail": {
     "title": "Mit der E-Mail-Adresse anmelden",
     "subtitle": "Melde dich mit deiner E-Mail-Adresse an, um diese als Sicherung einzurichten.\nDu wirst aufgefordert, dich erneut anzumelden, wenn du jemals deine Wallet verlierst.",
-    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
+    "subtitleRestore": "Melde dich mit der E-Mail an, mit der du deine Wallet-Sicherung eingerichtet hast.",
     "google": "Mit Google anmelden"
   },
   "keylessBackupPhoneInput": {
@@ -126,31 +126,31 @@
         "body": "Du kannst jetzt deine Wallet mit deiner E-Mail-Adresse und Telefonnummer wiederherstellen."
       },
       "failed": {
-        "title": "Backup nicht verfügbar",
-        "body": "Du kannst später ein Wallet-Backup einrichten oder dein Konto jetzt schützen, indem du deine Wiederherstellungsphrase speicherst.",
-        "later": "Ich werde später ein Backup einrichten",
+        "title": "Sicherung nicht verfügbar",
+        "body": "Du kannst später eine Sicherung deiner Wallet einrichten oder dein Konto jetzt schützen, indem du deine Wiederherstellungsphrase speicherst.",
+        "later": "Ich richte später eine Sicherung ein",
         "manual": "Wiederherstellungsphrase speichern"
       }
     },
     "restore": {
       "inProgress": {
-        "title": "Dein Portemonnaie wiederherstellen"
+        "title": "Deine Wallet wird wiederhergestellt"
       },
       "completed": {
-        "title": "Dein Geldbeutel wurde wiederhergestellt!",
-        "bodyZeroBalance": "Sobald du mit der Einrichtung fertig bist, kannst du Geld in dein Portemonnaie einzahlen.",
-        "bodyBalance": "Du hast ein Gleichgewicht von <0></0>"
+        "title": "Deine Wallet wurde wiederhergestellt!",
+        "bodyZeroBalance": "Sobald du mit der Einrichtung fertig bist, kannst du Guthaben zu deiner Wallet hinzufügen.",
+        "bodyBalance": "Du hast ein Guthaben von <0></0>"
       },
       "failed": {
-        "title": "Dein Geldbeutel wurde nicht wiederhergestellt",
-        "body": "Es gab ein technisches Problem bei dem Versuch, deine Brieftasche wiederherzustellen. Bitte kontaktiere den Support für weitere Informationen.",
+        "title": "Deine Wallet wurde nicht wiederhergestellt",
+        "body": "Es gab ein technisches Problem bei dem Versuch, deine Wallet wiederherzustellen. Bitte kontaktiere das Support-Team für weitere Informationen.",
         "tryAgain": "Wiederholen",
         "createNewWallet": "Wallet erstellen",
         "help": "Hilfe"
       },
       "notFound": {
-        "title": "Geldbeutel nicht gefunden",
-        "body": "Um dein Portemonnaie wiederherzustellen, verwende <0>dieselbe E-Mail-Adresse und Telefonnummer</0>, die du bei der Einrichtung verwendet hast.\n\nDu kannst dein Portemonnaie auch mit deiner Wiederherstellungsphrase wiederherstellen.",
+        "title": "Wallet nicht gefunden",
+        "body": "Um deine Wallet wiederherzustellen, verwende <0>dieselbe E-Mail-Adresse und Telefonnummer</0>, die du bei der Einrichtung verwendet hast.\n\nDu kannst deine Wallet auch mit deiner Wiederherstellungsphrase wiederherstellen.",
         "tryAgain": "Wiederholen",
         "createNewWallet": "Wallet erstellen"
       }
@@ -210,8 +210,8 @@
   "completeEducation": "Ich verstehe",
   "yourAccountKey": "Deine Wiederherstellungsphrase",
   "backupKeyNotification2": "Verwahre dein Guthaben sicher. Sichere jetzt deine Wiederherstellungsphrase.",
-  "keylessBackupCTA": "Jetzt zurücksetzen",
-  "keylessBackupNotification": "Richte deine E-Mail und Telefonnummer ein, um deine Seed Phrase zu sichern",
+  "keylessBackupCTA": "Jetzt sichern",
+  "keylessBackupNotification": "Richte deine E-Mail und Telefonnummer ein, um deine Seed-Phrase zu sichern",
   "backupKeyCTA": "Schließe die Sicherung jetzt ab",
   "backupKeySummary": "Finde einen privaten Ort und schreibe deine Wiederherstellungsphrase auf. Bitte speichere sie an einem sicheren Ort. Speichere sie nicht in deinem Telefon.",
   "backupKeyWarning": "Solltest du deine Wiederherstellungsphrase verlieren, dann verlierst du Zugang auf dein gesamtes Guthaben in Valora.",
@@ -915,15 +915,15 @@
     }
   },
   "importSelect": {
-    "title": "Stelle dein Portemonnaie wieder her",
-    "description": "Wenn du ein Backup einrichtest, um dein Portemonnaie zu schützen, wähle unten eine Option.",
+    "title": "Deine Wallet wiederherstellen",
+    "description": "Wenn du eine Sicherung einrichtest, um deine Wallet zu schützen, wähle unten eine Option.",
     "emailAndPhone": {
-      "title": "Vom E-Mail- und Telefon-Backup",
-      "description": "Stelle dein Portemonnaie mit der Telefonnummer und E-Mail wieder her, die du zuvor eingerichtet hast"
+      "title": "Von E-Mail- und Telefon-Sicherung",
+      "description": "Stelle deine Wallet mit der Telefonnummer und E-Mail wieder her, die du zuvor eingerichtet hast"
     },
     "recoveryPhrase": {
-      "title": "Von der Genesungsphrase",
-      "description": "Gib deinen 12-Wörter-Wiederherstellungssatz ein, um wieder Zugang zu Valora zu erhalten"
+      "title": "Von Wiederherstellungsphrase",
+      "description": "Gib deine Wiederherstellungsphrase mit 12 Wörtern ein, um wieder Zugang zu Valora zu erhalten"
     }
   },
   "verificationInput": {
@@ -1152,7 +1152,7 @@
     },
     "failedToPrepareTransaction": {
       "title": "Transaktion konnte nicht vorbereitet werden",
-      "description": "Bei der Vorbereitung der Transaktion ist ein Fehler aufgetreten. Siehe den zugrunde liegenden Fehler für weitere Details.\n\n\"{{errorMessage}}\""
+      "description": "Bei der Vorbereitung der Transaktion ist ein Fehler aufgetreten. Siehe den zugrunde liegenden Fehler für weitere Details.\n\n„{{errorMessage}}“"
     },
     "session": {
       "failUnsupportedNamespace": {
@@ -1744,11 +1744,11 @@
     "swapTo": "ZU",
     "insufficientFunds": "Unzureichendes {{token}}-Guthaben. Versuche es mit einem kleineren Betrag oder wähle ein anderes Vermögen.",
     "fetchSwapQuoteFailed": "Entschuldige die Verzögerung! Es dauert länger als üblich, um den besten Wechselkurs zu ermitteln. Bitte versuche es in ein paar Minuten erneut.",
-    "disclaimer": "Best rate determined by decentralized sources. <0>Learn more</0>",
+    "disclaimer": "Bester Kurs von dezentralen Quellen. <0>Mehr erfahren</0>",
     "swapFromTokenSelection": "TAUSCH VON",
     "swapToTokenSelection": "TAUSCH ZU",
     "tokenUsdValueUnknown": "-",
-    "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
+    "unsupportedSwapTokens": "Die ausgewählten Token werden von deinen Tausch-Anbietern nicht unterstützt.",
     "switchedToNetworkWarning": {
       "title": "Du bist zum Netzwerk {{networkName}} gewechselt",
       "body_swapFrom": "Wähle einen Token aus, den du im {{networkName}} Netzwerk tauschen möchtest, um fortzufahren.",
@@ -1908,17 +1908,17 @@
   },
   "profileScreen": {
     "generateName": "Namen generieren",
-    "namePlaceholder": "Wähle einen Namen, z. B. \"{{exampleName}}\".",
+    "namePlaceholder": "Wähle einen Namen, z. B. „{{exampleName}}“",
     "profilePictureDisclaimer": "Passe {{appName}} mit deinem Profilbild an. Dein Bild bleibt privat, es wird nie geteilt oder hochgeladen."
   },
   "tokenBottomSheet": {
     "searchAssets": "Vermögen suchen",
     "noTokenInResult": "Keine passenden Ergebnisse gefunden für <0>„{{searchTerm}}”</0>",
-    "noFilterSearchResults": "Es wurden keine Assets zu \"{{searchTerm}}\" in den folgenden Kategorien gefunden: {{filterNames}}",
-    "noFilterResults": "Es wurden keine Vermögenswerte gefunden, die den folgenden Kategorien entsprechen: {{filterNames}}",
-    "noSearchResults": "Keine Assets gefunden zu \"{{searchTerm}}\"",
+    "noFilterSearchResults": "Es wurde kein Vermögen zu „{{searchTerm}}“ in den folgenden Kategorien gefunden: {{filterNames}}",
+    "noFilterResults": "Es wurde kein Vermögen gefunden, das den folgenden Kategorien entspricht: {{filterNames}}",
+    "noSearchResults": "Kein Vermögen gefunden zu „{{searchTerm}}“",
     "filters": {
-      "myTokens": "Meine Spielsteine",
+      "myTokens": "Meine Token",
       "popular": "Beliebt",
       "recentlySwapped": "Kürzlich getauscht",
       "network": "{{networkName}} Netzwerk"
@@ -2030,7 +2030,7 @@
     },
     "jumpstart": {
       "title": "Mit einem Live-Link senden",
-      "subtitle": "Kopiere den Link und teile ihn, um Krypto wie einen Text zu versenden"
+      "subtitle": "Kopiere den Link und teile ihn, um Krypto wie eine Textnachricht zu versenden"
     },
     "getStarted": {
       "title": "So kannst du Guthaben auf Valora senden.",
@@ -2099,20 +2099,20 @@
     },
     "prepareTransactionError": {
       "title": "Etwas ist schief gelaufen!",
-      "description": "Es war nicht möglich, eine Transaktion für diesen Token vorzubereiten."
+      "description": "Es war nicht möglich, eine Transaktion für dieses Token vorzubereiten."
     }
   },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
       "title": "Du kannst bis zu {{amountInLocalCurrency,currency}} in einem Link senden",
-      "description": "Dieser Link kann von jedem beansprucht werden, der Zugang zu ihm hat. Achte darauf, dass du Links an Leute schickst, denen du vertraust."
+      "description": "Dieser Link kann von jedem beansprucht werden, der Zugang zu ihm hat. Achte darauf, dass du Links an Leute sendest, denen du vertraust."
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Live Link erstellen",
-    "sendAmountLabel": "Live Link Betrag",
+    "title": "Live-Link erstellen",
+    "sendAmountLabel": "Betrag des Live-Links",
     "confirmButton": "Link senden und erstellen",
-    "info": "Wenn du einen Link erstellst, wird Geld von deiner Geldbörse abgezogen. Du kannst den Link jederzeit zurückfordern. Teile Links mit Bedacht.",
+    "info": "Wenn du einen Link erstellst, wird Guthaben von deiner Wallet abgehoben. Du kannst den Link jederzeit zurückfordern. Teile Links mit Bedacht.",
     "sendError": {
       "title": "Link kann nicht erstellt werden",
       "description": "Dein Live-Link wurde nicht erstellt. Bitte versuche es erneut.",
@@ -2121,20 +2121,20 @@
   },
   "jumpstartShareLinkScreen": {
     "title": "Live-Link teilen",
-    "description": "Kopiere den Link, um {{tokenSymbol}} über die Nachrichten-App deiner Wahl zu senden, oder verwende den QR-Code.",
-    "linkLabel": "Live Link",
-    "linkCopiedMessage": "Live Link kopiert",
+    "description": "Kopiere den Link, um {{tokenSymbol}} über die Messaging-App deiner Wahl zu senden, oder verwende den QR-Code.",
+    "linkLabel": "Live-Link",
+    "linkCopiedMessage": "Live-Link kopiert",
     "navigationWarning": {
       "title": "Hast du deinen Link geteilt?",
-      "description": "Gib diesen Live-Link weiter oder speichere ihn an einem sicheren Ort.\n\nMach dir keine Sorgen, wenn das Geld nicht abgeholt wird - du kannst es ganz einfach über deinen Aktivitäts-Feed zurückfordern.",
-      "ctaNavigate": "Nach Hause gehen"
+      "description": "Gib diesen Live-Link weiter oder speichere ihn an einem sicheren Ort.\n\nMach dir keine Sorgen, wenn das Geld nicht in Anspruch genommen wird – du kannst es ganz einfach über deinen Aktivitätsfeed zurückfordern.",
+      "ctaNavigate": "Zum Homescreen gehen"
     },
     "ctaShare": "Link teilen",
     "ctaScanQRCode": "Scan QR-Code",
-    "shareMessage": "Hallo! Ich sende dir einen Link, der mit {{tokenAmount}} {{tokenSymbol}} auf {{appName}}finanziert wurde. Nutze diesen Link, um die App herunterzuladen, und die Gelder werden live auf dich warten. {{link}}",
+    "shareMessage": "Hallo! Ich sende dir einen Link, der {{tokenAmount}} {{tokenSymbol}} auf {{appName}} enthält. Nutze diesen Link, um die App herunterzuladen, und hole dir dein Guthaben ab! {{link}}",
     "qrCodeBottomSheet": {
-      "title": "Scanne den Code, um Geld zu erhalten",
-      "description": "Überprüfe den Status deines Geldes auf dem Homescreen. Alternativ kannst du auch den Link unten kopieren oder teilen."
+      "title": "Scanne den Code, um Guthaben zu erhalten",
+      "description": "Überprüfe den Status deines Guthabens auf dem Homescreen. Du kannst auch den Link unten kopieren oder teilen."
     }
   },
   "transactionFeed": {
@@ -2161,22 +2161,22 @@
   "nftCelebration": {
     "bottomSheet": {
       "title": "Herzlichen Glückwunsch!",
-      "description": "Du hast dir ein exklusives Sammlerstück für Early Ethereum Explorers verdient. Willkommen bei Ethereum auf {{appName}}.",
+      "description": "Du hast ein exklusives Sammlerstück für Early Ethereum Explorers erhalten. Willkommen bei Ethereum auf {{appName}}.",
       "cta": "Vielen Dank!"
     },
     "notification": {
-      "title": "Ein neues NFT erwartet dich 🎉.",
-      "description": "Du findest deine neue {{rewardName}} NFT unter deinen \"Collectibles\"."
+      "title": "Ein neues NFT wartet auf dich 🎉",
+      "description": "Du findest dein neues NFT {{rewardName}} unter deinen „Sammlerstücken“"
     },
     "rewardBottomSheet": {
-      "title": "Einen Monat lang kostenlos einlösen",
-      "description": "Da du die {{nftName}} in deinen Sammlungen besitzt, möchten wir dir für den Monat Januar kostenlose Einzahlungen schenken.\n\nUm die Prämie zu nutzen, musst du sie bei einem beliebigen {{appName}} Partner einlösen und die Gebühren entfallen.",
+      "title": "Einen Monat lang kostenlose Einzahlungen",
+      "description": "Da du das {{nftName}} in deinen Sammlerstücken besitzt, möchten wir dir für den ganzen Januar kostenlose Einzahlungen gewähren.\n\nUm die Belohnung zu nutzen, kannst du Einzahlungen bei einem beliebigen {{appName}}-Partner tätigen, und die Gebühren entfallen.",
       "expirationLabel": "Läuft ab {{expirationLabelText}}",
       "cta": "Belohnung verwenden"
     },
     "rewardReminderBottomSheet": {
-      "title": "Einen Monat lang kostenlos einlösen",
-      "description": "Es sind nur noch 3 Tage übrig, um von den kostenlosen Einzahlungen im Januar zu profitieren!\n\nUm die Prämie zu nutzen, musst du bei einem beliebigen {{appName}} Partner einlösen und die Gebühren werden dir erlassen.",
+      "title": "Einen Monat lang kostenlose Einzahlungen",
+      "description": "Es sind nur noch 3 Tage übrig, um von den kostenlosen Einzahlungen im Januar zu profitieren!\n\nUm die Belohnung zu nutzen, kannst du bei einem beliebigen {{appName}}-Partner Einzahlungen tätigen und die Gebühren werden dir erlassen.",
       "expirationLabel": "Läuft ab {{expirationLabelText}}",
       "cta": "Belohnung verwenden"
     }
@@ -2184,32 +2184,33 @@
   "pleaseWait": "Bitte warten",
   "error": "Fehler",
   "linkPhoneNumber": {
-    "title": "Verknüpfe eine Telefonnummer mit deiner Brieftaschenadresse",
-    "description": "Keine unübersichtlichen Wallet-Adressen mehr! Sende Krypto an andere Celo-Nutzer mit nur einer Telefonnummer",
-    "startButtonLabel": "Link Telefonnummer",
-    "later": "Ich werde das später tun"
+    "title": "Verknüpfe eine Telefonnummer mit der Adresse deiner Wallet",
+    "description": "Keine unübersichtlichen Wallet-Adressen mehr! Sende mit nur einer Telefonnummer Krypto an andere Celo-Nutzer",
+    "startButtonLabel": "Telefonnummer verknüpfen",
+    "later": "Das werde ich später tun"
   },
   "bottomTabsNavigator": {
     "wallet": {
       "tabName": "Wallet",
-      "title": "Mein Wallet"
+      "title": "Wallet"
     },
     "home": {
-      "tabName": "Startseite",
+      "tabName": "Start",
       "title": "Willkommen"
     },
     "discover": {
-      "tabName": "Entdecke"
+      "tabName": "Entdecke",
+      "title": "Entdecke"
     }
   },
   "jumpstartStatus": {
     "loading": {
-      "title": "Dein Geld ist auf dem Weg",
-      "description": "Das Geld, das du von deinem Freund bekommen hast, wird gerade überwiesen. Bitte warte... "
+      "title": "Dein Guthaben ist auf dem Weg",
+      "description": "Das Guthaben, das du von deinem Freund bekommen hast, wird gerade gesendet. Bitte warten ... "
     },
     "error": {
-      "title": "Nicht in der Lage, Gelder zu beantragen",
-      "description": "Probiere deinen Live-Link erneut aus, um zu versuchen, Geld zu erhalten, oder bitte deinen Freund, einen neuen Link zu senden.",
+      "title": "Guthaben kann nicht in Anspruch genommen werden",
+      "description": "Probiere deinen Live-Link erneut aus, um zu versuchen, Guthaben zu erhalten, oder bitte deinen Freund, einen neuen Link zu senden",
       "contactSupport": "Support kontaktieren",
       "dismiss": "Verwerfen"
     }

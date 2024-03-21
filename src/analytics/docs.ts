@@ -72,6 +72,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [AppEvents.multichain_beta_contact_support]: `When the user taps the Contact Support button on the multichain beta screen`,
   [AppEvents.handle_deeplink]: `When a deeplink that leads into the app is detected and handled`,
   [HomeEvents.hamburger_tapped]: ``,
+  [HomeEvents.account_circle_tapped]: `When the account circle used in the tab navigation is tapped`,
   [HomeEvents.drawer_navigation]: ``,
   [HomeEvents.drawer_address_copy]: ``,
   [HomeEvents.profile_address_copy]: `When a user copies their wallet address from the profile screen`,

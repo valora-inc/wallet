@@ -154,6 +154,7 @@ interface AppEventsProperties {
 
 interface HomeEventsProperties {
   [HomeEvents.hamburger_tapped]: undefined
+  [HomeEvents.account_circle_tapped]: undefined
   [HomeEvents.drawer_navigation]: {
     navigateTo: string
   }

@@ -167,7 +167,7 @@ export function AssetsTokenBalance({
   isWalletTab,
 }: {
   showInfo: boolean
-  // temporary parameter while we build the tab navigator, should be cleaned up
+  // TODO(act-1133): temporary parameter while we build the tab navigator, should be cleaned up
   // when we remove the DrawerNavigator
   isWalletTab: boolean
 }) {
