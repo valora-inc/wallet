@@ -298,7 +298,9 @@ export const tabHeader: NativeStackNavigationOptions = {
 export const headerWithCloseButton: NativeStackNavigationOptions = {
   ...emptyHeader,
   headerLeft: () => (
-    <View style={[styles.topElementsContainer, { marginLeft: Spacing.Tiny4 }]}>
+    // The negative margin is to fix an issue with margin added via the stack navigator
+    // https://github.com/react-navigation/react-navigation/issues/11116
+    <View style={[styles.topElementsContainer, { marginLeft: -Spacing.Small12 }]}>
       <CloseButton testID="CloseButton" />
     </View>
   ),

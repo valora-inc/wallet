@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import Touchable from 'src/components/Touchable'
-import Times from 'src/icons/Times'
+import X from 'src/icons/X'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Spacing } from 'src/styles/styles'
 
@@ -24,7 +24,7 @@ export default function CloseButton({ style, size, testID }: Props) {
         style={[style, styles.button]}
         borderRadius={Spacing.Thick24}
       >
-        <Times height={size} />
+        <X size={size} />
       </Touchable>
     </View>
   )
