@@ -1,5 +1,9 @@
-import { FeedTokenTransaction } from 'src/transactions/feed/TransactionFeed'
-import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
+import {
+  NetworkId,
+  TokenTransaction,
+  TokenTransactionTypeV2,
+  TransactionStatus,
+} from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
 import { mockCusdAddress, mockCusdTokenId } from 'test/values'
 
@@ -7,7 +11,7 @@ const mockFeedItem = (
   timestamp: number,
   comment: string,
   status = TransactionStatus.Complete
-): FeedTokenTransaction => {
+): TokenTransaction => {
   return {
     __typename: 'TokenTransferV3',
     networkId: NetworkId['celo-alfajores'],
