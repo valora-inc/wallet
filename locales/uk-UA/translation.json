@@ -2202,12 +2202,12 @@
       "title": "Мій гаманець"
     },
     "home": {
-      "tabName": "старт",
-      "title": "Вітаємо"
+      "tabName": "Старт",
+      "title": "Привіт"
     },
     "discover": {
-      "tabName": "Дізнатися",
-      "title": "Дізнатися"
+      "tabName": "Дослідіть",
+      "title": "Дослідіть Web3"
     }
   },
   "jumpstartStatus": {
