@@ -1000,6 +1000,7 @@
   "receivedFrom": "Received From",
   "commentLabel": "Message",
   "amountSent": "Amount Sent",
+  "amountReceived": "Amount Received",
   "amountCeloWithdrawn": "Amount (CELO)",
   "feeEducation": "Blockchains collect a transaction fee to keep networks supported and running smoothly.",
   "reviewPayment": "Review Payment",
