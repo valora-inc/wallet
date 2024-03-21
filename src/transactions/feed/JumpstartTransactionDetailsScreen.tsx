@@ -206,22 +206,6 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
 
   const isClaimed = fetchClaimData.result?.claimed
 
-  // const reclaimButton = (
-  //   <View style={styles.buttonContainer}>
-  //     <Button
-  //       showLoading={fetchClaimData.loading || preparedTransactionAndOpenBottomSheet.loading}
-  //       disabled={
-  //         !fetchClaimData.result || preparedTransactionAndOpenBottomSheet.loading || !!error
-  //       }
-  //       onPress={() => preparedTransactionAndOpenBottomSheet.execute()}
-  //       type={!isClaimed ? BtnTypes.PRIMARY : BtnTypes.LABEL_PRIMARY}
-  //       text={!isClaimed ? t('reclaim') : t('claimed') + ' ✓'}
-  //       fontStyle={typeScale.labelSemiBoldMedium}
-  //       size={BtnSizes.FULL}
-  //     />
-  //   </View>
-  // )
-
   const onReclaimPress = () => {
     dispatch(jumpstartReclaimFlowStarted())
     bottomSheetRef.current?.snapToIndex(0)
@@ -274,7 +258,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
           <View style={styles.buttonContainer}>
             <Button
               showLoading={fetchClaimData.loading}
-              disabled={!fetchClaimData.result?.preparedTransaction || isClaimed}
+              disabled={!reclaimTx || isClaimed || !!error}
               onPress={onReclaimPress}
               type={!isClaimed ? BtnTypes.PRIMARY : BtnTypes.LABEL_PRIMARY}
               text={!isClaimed ? t('reclaim') : t('claimed')}
