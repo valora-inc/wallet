@@ -2230,13 +2230,13 @@
     },
     "activityCards": {
       "createWallet": {
-        "title": "Create a Valora Wallet"
+        "title": "Create a {{appName}}  Wallet"
       },
       "swap": {
         "title": "Swap assets",
         "bottomSheet": {
           "title": "Swap assets",
-          "body": "This space will be used to give all the details needed for this. Maybe minimum amount to swap. \n\nEarn 50 points whenever you swap an asset using Valora.",
+          "body": "This space will be used to give all the details needed for this. Maybe minimum amount to swap. \n\nEarn {{pointsValue}} points whenever you swap an asset using {{appName}}.",
           "cta": "Go to swap"
         }
       },

@@ -563,11 +563,7 @@ const assetScreens = (Navigator: typeof Stack) => (
 
 const pointsScreens = (Navigator: typeof Stack) => (
   <>
-    <Navigator.Screen
-      name={Screens.PointsHome}
-      component={PointsHome}
-      options={PointsHome.navigationOptions}
-    />
+    <Navigator.Screen name={Screens.PointsHome} component={PointsHome} options={noHeader} />
   </>
 )
 const mapStateToProps = (state: RootState) => {

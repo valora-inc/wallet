@@ -1,8 +1,6 @@
 import React from 'react'
-import { PointsActivities, ActivityCardProps } from 'src/points/types'
-import CreateWallet from 'src/points/activityCards/CreateWallet'
-import Swap from 'src/points/activityCards/Swap'
-import MoreComing from 'src/points/activityCards/MoreComing'
+import { isPointsActivity } from 'src/points/types'
+import ActivityCard from 'src/points/ActivityCard'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
@@ -12,16 +10,10 @@ import { Spacing } from 'src/styles/styles'
 import { Colors } from 'src/styles/colors'
 import { useTranslation } from 'react-i18next'
 import { PointsMetadata } from 'src/points/types'
-import { BottomSheetDetails } from 'src/points/types'
-
-const activityToCardMap: Record<PointsActivities, (props: ActivityCardProps) => JSX.Element> = {
-  [PointsActivities.CreateWallet]: CreateWallet,
-  [PointsActivities.Swap]: Swap,
-  [PointsActivities.MoreComing]: MoreComing,
-}
+import { BottomSheetParams } from 'src/points/types'
 
 interface Props {
-  onCardPress: (bottomSheetDetails: BottomSheetDetails) => void
+  onCardPress: (bottomSheetDetails: BottomSheetParams) => void
 }
 
 export default function ActivityCardSection({ onCardPress }: Props) {
@@ -33,7 +25,7 @@ export default function ActivityCardSection({ onCardPress }: Props) {
     const points = pointsMetadata.points
 
     const cardPairs = pointsMetadata.activities
-      .filter((activity) => Object.values(PointsActivities).includes(activity.name))
+      .filter((activity) => isPointsActivity(activity.name))
       .reduce(
         (res, _val, i, arr) => {
           if (i % 2 === 0) res.push(arr.slice(i, i + 2))
@@ -47,17 +39,20 @@ export default function ActivityCardSection({ onCardPress }: Props) {
           ...styles.cardRow,
           maxWidth: singleActivity ? '50%' : '100%',
         }
-        const params = {
-          points,
-          onPress: onCardPress,
-        }
         return (
           <View key={i} style={rowStyle}>
-            {activityToCardMap[activityPair[0].name](params)}
-            {!singleActivity && activityToCardMap[activityPair[1].name](params)}
+            <ActivityCard activity={activityPair[0].name} points={points} onPress={onCardPress} />
+            {!singleActivity && (
+              <ActivityCard activity={activityPair[1].name} points={points} onPress={onCardPress} />
+            )}
           </View>
         )
       })
+
+    if (!cardPairs.length) {
+      return <View key={points}></View>
+    }
+
     return (
       <View testID={`PointsActivitySection-${points}`} key={points} style={styles.pointsSection}>
         <View style={styles.pointsSectionHeader}>

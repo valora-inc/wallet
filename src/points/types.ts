@@ -1,7 +1,31 @@
-export enum PointsActivities {
-  CreateWallet = 'CreateWallet',
-  Swap = 'Swap',
-  MoreComing = 'MoreComing',
+import React from 'react'
+
+const pointsActivities = ['create-wallet', 'swap', 'more-coming'] as const
+export type PointsActivities = (typeof pointsActivities)[number]
+
+export function isPointsActivity(activity: unknown): activity is PointsActivities {
+  return typeof activity === 'string' && pointsActivities.includes(activity)
+}
+
+export interface PointsCardMetadata {
+  bottomSheet?: BottomSheetMetadata
+  title: string
+  icon: React.ReactNode
+  defaultCompletionStatus: boolean
+}
+
+export interface BottomSheetMetadata {
+  title: string
+  body: string
+  cta?: {
+    text: string
+    onPress: () => void
+  }
+}
+
+export type BottomSheetParams = BottomSheetMetadata & {
+  points: number
+  activity: PointsActivities
 }
 
 export type PointsMetadata = {
@@ -9,17 +33,4 @@ export type PointsMetadata = {
   activities: Array<{
     name: PointsActivities
   }>
-}
-
-export interface ActivityCardProps {
-  points: number
-  onPress: (bottomSheetDetails: BottomSheetDetails) => void
-}
-
-export interface BottomSheetDetails {
-  points?: number
-  bottomSheetTitle?: string | null
-  bottomSheetBody?: string | null
-  bottomSheetCta?: string | null
-  onCtaPress?: () => void
 }

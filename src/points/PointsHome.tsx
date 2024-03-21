@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
-import { PointsEvents } from 'src/analytics/Events'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { Colors } from 'src/styles/colors'
@@ -15,7 +14,10 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import ActivityCardSection from 'src/points/ActivityCardSection'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import { BottomSheetDetails } from 'src/points/types'
+import { BottomSheetParams, PointsActivities } from 'src/points/types'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { PointsEvents } from 'src/analytics/Events'
+import CustomHeader from 'src/components/header/CustomHeader'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.PointsHome>
 
@@ -26,23 +28,43 @@ export default function PointsHome({ route, navigation }: Props) {
   const pointsBalance = 50
 
   const bottomSheetRef = useRef<BottomSheetRefType>(null)
+  const bottomSheetRef2 = useRef<BottomSheetRefType>(null)
 
-  const [bottomSheetDetails, setBottomSheetDetails] = useState<BottomSheetDetails>({})
-  const onCardPress = (bottomSheetDetails: BottomSheetDetails) => {
-    setBottomSheetDetails(bottomSheetDetails)
+  const [bottomSheetParams, setBottomSheetParams] = useState<BottomSheetParams | undefined>(
+    undefined
+  )
+  const onCardPress = (bottomSheetDetails: BottomSheetParams) => {
+    console.log('CARD PRESSED')
+    setBottomSheetParams(bottomSheetDetails)
   }
+
+  // useEffect(() => {
+  //     bottomSheetRef.current?.snapToIndex(-1)
+  // }, [])
   useEffect(() => {
-    if (bottomSheetDetails) {
+    if (bottomSheetParams) {
+      console.log('here')
       bottomSheetRef.current?.snapToIndex(0)
     }
-  }, [bottomSheetDetails])
+  }, [bottomSheetParams])
 
+  const onCtaPressWrapper = (onPress: () => void, activity: PointsActivities) => {
+    console.log('asdasd')
+    return () => {
+      ValoraAnalytics.track(PointsEvents.points_screen_card_cta_press, {
+        activity,
+      })
+      onPress()
+    }
+  }
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <View style={styles.headerRow}>
-          <Text style={styles.title}>{t('points.title')}</Text>
-        </View>
+    <SafeAreaView>
+      <CustomHeader
+        style={styles.header}
+        left={<BackButton eventName={PointsEvents.points_screen_back} />}
+      />
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.title}>{t('points.title')}</Text>
         <View style={styles.balanceRow}>
           <Text style={styles.balance}>{pointsBalance}</Text>
         </View>
@@ -52,42 +74,48 @@ export default function PointsHome({ route, navigation }: Props) {
         </View>
         <ActivityCardSection onCardPress={onCardPress} />
       </ScrollView>
-      <BottomSheet forwardedRef={bottomSheetRef} testId={`PointsActivityBottomSheet`}>
-        <View style={styles.bottomSheetPointAmountContainer}>
-          <Text style={styles.bottomSheetPointAmount}>{bottomSheetDetails.points}</Text>
-        </View>
-        <Text style={styles.bottomSheetTitle}>{bottomSheetDetails.bottomSheetTitle}</Text>
-        <Text style={styles.bottomSheetBody}>{bottomSheetDetails.bottomSheetBody}</Text>
-        <Button
-          testID={'PointsHomeBottomSheetCtaButton'}
-          type={BtnTypes.PRIMARY}
-          size={BtnSizes.FULL}
-          onPress={
-            bottomSheetDetails.onCtaPress ??
-            (() => {
-              /*fallback to empty fn*/
-            })
-          }
-          text={bottomSheetDetails.bottomSheetCta}
-        />
+      <BottomSheet
+        snapPoints={['50%', '90%']}
+        forwardedRef={bottomSheetRef}
+        testId={`PointsActivityBottomSheet`}
+      >
+        {bottomSheetParams && (
+          <View>
+            <View style={styles.bottomSheetPointAmountContainer}>
+              <Text style={styles.bottomSheetPointAmount}>{bottomSheetParams.points}</Text>
+            </View>
+            <Text style={styles.bottomSheetTitle}>{t(bottomSheetParams.title)}</Text>
+            <Text style={styles.bottomSheetBody}>
+              {t(bottomSheetParams.body, { pointsValue: bottomSheetParams?.points })}
+            </Text>
+            {bottomSheetParams.cta && (
+              <Button
+                testID={'PointsHomeBottomSheetCtaButton'}
+                type={BtnTypes.PRIMARY}
+                size={BtnSizes.FULL}
+                onPress={onCtaPressWrapper(
+                  bottomSheetParams.cta.onPress,
+                  bottomSheetParams.activity
+                )}
+                text={t(bottomSheetParams.cta.text)}
+              />
+            )}
+          </View>
+        )}
       </BottomSheet>
     </SafeAreaView>
   )
 }
 
-PointsHome.navigationOptions = ({
-  route,
-}: {
-  route: RouteProp<StackParamList, Screens.PointsHome>
-}) => ({
-  ...emptyHeader,
-  headerLeft: () => <BackButton eventName={PointsEvents.points_screen_back} />,
-})
-
 const styles = StyleSheet.create({
   container: {
-    padding: Spacing.Thick24,
-    paddingTop: 0,
+    flexGrow: 1,
+    justifyContent: 'flex-start',
+    paddingHorizontal: Spacing.Thick24,
+    paddingBottom: 56,
+  },
+  header: {
+    paddingHorizontal: Spacing.Thick24,
   },
   bottomSheetPointAmountContainer: {
     alignSelf: 'flex-start',
@@ -108,7 +136,6 @@ const styles = StyleSheet.create({
     color: Colors.gray3,
     marginBottom: Spacing.XLarge48,
   },
-  headerRow: {},
   balanceRow: {
     paddingBottom: Spacing.Thick24,
   },
@@ -130,6 +157,6 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.titleMedium,
-    paddingBottom: Spacing.Smallest8,
+    paddingVertical: Spacing.Smallest8,
   },
 })
