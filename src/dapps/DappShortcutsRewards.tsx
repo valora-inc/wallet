@@ -82,7 +82,7 @@ function DappShortcutsRewards() {
         shortcutId: claimableShortcut.id,
         rewardId,
         appId,
-        network: 'celo',
+        network: position.networkId,
         rewardTokens: claimableShortcut.claimableTokens.map((token) => token.symbol).join(', '),
         rewardAmounts: claimableShortcut.claimableTokens.map((token) => token.balance).join(', '),
         claimableValueUsd: claimableValueUsd.toString(),
@@ -96,7 +96,7 @@ function DappShortcutsRewards() {
           data: {
             address,
             appId,
-            network: 'celo',
+            networkId: position.networkId,
             positionAddress: position.address,
             shortcutId: claimableShortcut.id,
           },
