@@ -14,26 +14,27 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
-import { FeedTokenProperties } from 'src/transactions/feed/TransactionFeed'
 import TransactionFeedItemImage from 'src/transactions/feed/TransactionFeedItemImage'
 import { useTransferFeedDetails } from 'src/transactions/transferFeedUtils'
 import { TokenTransfer } from 'src/transactions/types'
+import { isJumpstartTransaction } from 'src/transactions/utils'
 
-export type FeedTokenTransfer = TokenTransfer & FeedTokenProperties
 interface Props {
-  transfer: FeedTokenTransfer
+  transfer: TokenTransfer
 }
 
 function TransferFeedItem({ transfer }: Props) {
   const { amount } = transfer
 
   const openTransferDetails = () => {
+    // Navigate to JumpstartTransactionDetailsScreen
     navigate(Screens.TransactionDetailsScreen, { transaction: transfer })
     ValoraAnalytics.track(HomeEvents.transaction_feed_item_select)
   }
 
   const tokenInfo = useTokenInfo(amount.tokenId)
   const showTokenAmount = !amount.localAmount && !tokenInfo?.priceUsd
+
   const { title, subtitle, recipient, customLocalAmount } = useTransferFeedDetails(transfer)
 
   const colorStyle = new BigNumber(amount.value).isPositive() ? { color: colors.primary } : {}
@@ -47,6 +48,7 @@ function TransferFeedItem({ transfer }: Props) {
           recipient={recipient}
           status={transfer.status}
           transactionType={transfer.__typename}
+          isJumpstart={isJumpstartTransaction(transfer)}
         />
         <View style={styles.contentContainer}>
           <Text style={styles.title} testID={'TransferFeedItem/title'} numberOfLines={1}>

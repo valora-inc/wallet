@@ -9,7 +9,7 @@ import { CICOFlow } from 'src/fiatExchanges/utils'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
-import { getFeatureGate } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
 import {
@@ -27,6 +27,7 @@ import {
   mockCusdAddress,
   mockCusdTokenId,
   mockFiatConnectQuotes,
+  mockJumpstartAdddress,
   mockName,
   mockTestTokenAddress,
   mockTestTokenTokenId,
@@ -65,6 +66,11 @@ describe('TransferFeedItem', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getDynamicConfigParams).mockReturnValue({
+      jumpstartContracts: {
+        [NetworkId['celo-alfajores']]: { contractAddress: mockJumpstartAdddress },
+      },
+    })
   })
   function renderScreen({
     storeOverrides = {},
@@ -77,6 +83,7 @@ describe('TransferFeedItem', () => {
     metadata = {},
     fees = [],
     status = TransactionStatus.Complete,
+    address = MOCK_ADDRESS,
   }: {
     type?: TokenTransactionTypeV2
     amount?: TokenAmount
@@ -84,6 +91,7 @@ describe('TransferFeedItem', () => {
     fees?: Fee[]
     storeOverrides?: RecursivePartial<RootState>
     status?: TransactionStatus
+    address?: string
   }) {
     const store = createMockStore({
       ...storeOverrides,
@@ -100,7 +108,7 @@ describe('TransferFeedItem', () => {
             transactionHash: MOCK_TX_HASH,
             timestamp: 1234,
             block: '2345',
-            address: MOCK_ADDRESS,
+            address,
             amount,
             metadata,
             fees,
@@ -644,5 +652,39 @@ describe('TransferFeedItem', () => {
     const { queryByTestId } = renderScreen({ storeOverrides: { app: { hideBalances: true } } })
     expect(queryByTestId('TransferFeedItem/amount')).toBeNull()
     expect(queryByTestId('TransferFeedItem/tokenAmount')).toBeNull()
+  })
+
+  it('renders correctly for jumpstart deposit', async () => {
+    const { getByTestId } = renderScreen({
+      type: TokenTransactionTypeV2.Sent,
+      address: mockJumpstartAdddress,
+      amount: {
+        tokenAddress: mockCusdAddress,
+        tokenId: mockCusdTokenId,
+        value: -10,
+      },
+    })
+
+    expectDisplay({
+      getByTestId,
+      expectedTitleSections: ['feedItemJumpstartTitle'],
+      expectedSubtitleSections: ['feedItemJumpstartSentSubtitle'],
+      expectedAmount: '-₱13.30',
+      expectedTokenAmount: '10.00 cUSD',
+    })
+  })
+
+  it('renders correctly for jumpstart receive', async () => {
+    const { getByTestId } = renderScreen({
+      type: TokenTransactionTypeV2.Received,
+      address: mockJumpstartAdddress,
+    })
+    expectDisplay({
+      getByTestId,
+      expectedTitleSections: ['feedItemJumpstartTitle'],
+      expectedSubtitleSections: ['feedItemJumpstartReceivedSubtitle'],
+      expectedAmount: '+₱13.30',
+      expectedTokenAmount: '10.00 cUSD',
+    })
   })
 })

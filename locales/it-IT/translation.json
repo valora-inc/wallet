@@ -2192,11 +2192,11 @@
   "bottomTabsNavigator": {
     "wallet": {
       "tabName": "Wallet",
-      "title": "Il mio portafoglio"
+      "title": "Wallet"
     },
     "home": {
-      "tabName": "Home",
-      "title": "Benvenuti"
+      "tabName": "Inizio",
+      "title": "Benvenuto"
     },
     "discover": {
       "tabName": "Scopri",
@@ -2212,7 +2212,7 @@
       "title": "Impossibile richiedere i fondi",
       "description": "Riprova il tuo link live per tentare di ricevere i fondi, oppure chiedi al tuo amico di provare a inviare un nuovo link.",
       "contactSupport": "Contatta il supporto tecnico",
-      "dismiss": "Ignorare"
+      "dismiss": "Ignora"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
