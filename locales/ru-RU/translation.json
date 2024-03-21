@@ -2203,11 +2203,11 @@
     },
     "home": {
       "tabName": "Старт",
-      "title": "привет"
+      "title": "Привет"
     },
     "discover": {
-      "tabName": "Узнать",
-      "title": "Узнать"
+      "tabName": "Изучите",
+      "title": "Исследуйте в Web3 "
     }
   },
   "jumpstartStatus": {
