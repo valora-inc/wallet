@@ -13,7 +13,7 @@ export interface Props {
 
 /**
  * @deprecated
- * use src/icons/X.tsx instead
+ * use src/icons/X.tsx instead unless animated colors needed
  */
 function Times({ color, height, strokeWidth }: Props) {
   return (
