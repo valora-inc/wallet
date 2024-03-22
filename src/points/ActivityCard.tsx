@@ -22,10 +22,7 @@ export default function ActivityCard({ activity, points, onPress, completed }: P
   const { t } = useTranslation()
 
   const cardDefinition = cardDefinitions[activity]
-  const containerStyle = {
-    ...styles.cardContainer,
-    ...(completed ? { opacity: 0.5 } : {}),
-  }
+  const isCompleted = completed !== undefined ? completed : cardDefinition.defaultCompletionStatus
 
   const onPressWrapper = (bottomSheetMetadata: BottomSheetMetadata) => {
     return () => {
@@ -40,12 +37,10 @@ export default function ActivityCard({ activity, points, onPress, completed }: P
     }
   }
 
-  const isCompleted = completed !== undefined ? completed : cardDefinition.defaultCompletionStatus
-
   const testID = `PointsActivityCard-${activity}-${points}`
 
-  const content = (
-    <View style={containerStyle}>
+  const cardContent = (
+    <>
       {isCompleted && (
         <View style={styles.checkmarkIcon}>
           <CheckmarkWithCircleBorder />
@@ -53,35 +48,34 @@ export default function ActivityCard({ activity, points, onPress, completed }: P
       )}
       {cardDefinition.icon}
       <Text style={styles.cardTitle}>{t(cardDefinition.title)}</Text>
+    </>
+  )
+
+  const cardContainerStyle = {
+    ...styles.cardContainer,
+    ...(isCompleted ? { opacity: 0.5 } : {}),
+  }
+  const cardContainer = cardDefinition.bottomSheet ? (
+    <Touchable
+      testID={testID}
+      style={cardContainerStyle}
+      onPress={onPressWrapper(cardDefinition.bottomSheet)}
+    >
+      {cardContent}
+    </Touchable>
+  ) : (
+    <View testID={testID} style={cardContainerStyle}>
+      {cardContent}
     </View>
   )
-  if (cardDefinition.bottomSheet) {
-    return (
-      <Touchable
-        testID={testID}
-        style={styles.container}
-        onPress={onPressWrapper(cardDefinition.bottomSheet)}
-      >
-        {content}
-      </Touchable>
-    )
-  } else {
-    return (
-      <View testID={testID} style={styles.container}>
-        {content}
-      </View>
-    )
-  }
+
+  return <View style={styles.container}>{cardContainer}</View>
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
-    flexBasis: 0,
-    borderRadius: Spacing.Regular16,
-    margin: Spacing.Smallest8,
-    backgroundColor: Colors.gray1,
-    height: 96,
+    flexBasis: '50%',
+    padding: Spacing.Smallest8,
   },
   checkmarkIcon: {
     position: 'absolute',
@@ -94,8 +88,11 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     flex: 1,
+    borderRadius: Spacing.Regular16,
     justifyContent: 'center',
     alignItems: 'center',
     padding: Spacing.Regular16,
+    backgroundColor: Colors.gray1,
+    height: 96,
   },
 })

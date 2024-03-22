@@ -1,11 +1,9 @@
-import { RouteProp } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { StackParamList } from 'src/navigator/types'
 import BackButton from 'src/components/BackButton'
 import React, { useEffect, useState, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -28,28 +26,21 @@ export default function PointsHome({ route, navigation }: Props) {
   const pointsBalance = 50
 
   const bottomSheetRef = useRef<BottomSheetRefType>(null)
-  const bottomSheetRef2 = useRef<BottomSheetRefType>(null)
 
   const [bottomSheetParams, setBottomSheetParams] = useState<BottomSheetParams | undefined>(
     undefined
   )
   const onCardPress = (bottomSheetDetails: BottomSheetParams) => {
-    console.log('CARD PRESSED')
     setBottomSheetParams(bottomSheetDetails)
   }
 
-  // useEffect(() => {
-  //     bottomSheetRef.current?.snapToIndex(-1)
-  // }, [])
   useEffect(() => {
     if (bottomSheetParams) {
-      console.log('here')
       bottomSheetRef.current?.snapToIndex(0)
     }
   }, [bottomSheetParams])
 
   const onCtaPressWrapper = (onPress: () => void, activity: PointsActivities) => {
-    console.log('asdasd')
     return () => {
       ValoraAnalytics.track(PointsEvents.points_screen_card_cta_press, {
         activity,
@@ -58,12 +49,12 @@ export default function PointsHome({ route, navigation }: Props) {
     }
   }
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.outerContainer}>
       <CustomHeader
         style={styles.header}
         left={<BackButton eventName={PointsEvents.points_screen_back} />}
       />
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView contentContainerStyle={styles.contentContainer}>
         <Text style={styles.title}>{t('points.title')}</Text>
         <View style={styles.balanceRow}>
           <Text style={styles.balance}>{pointsBalance}</Text>
@@ -75,7 +66,7 @@ export default function PointsHome({ route, navigation }: Props) {
         <ActivityCardSection onCardPress={onCardPress} />
       </ScrollView>
       <BottomSheet
-        snapPoints={['50%', '90%']}
+        snapPoints={['50%']}
         forwardedRef={bottomSheetRef}
         testId={`PointsActivityBottomSheet`}
       >
@@ -108,11 +99,14 @@ export default function PointsHome({ route, navigation }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  outerContainer: {
+    flex: 1,
+  },
+  contentContainer: {
     flexGrow: 1,
     justifyContent: 'flex-start',
-    paddingHorizontal: Spacing.Thick24,
-    paddingBottom: 56,
+    padding: Spacing.Thick24,
+    paddingTop: 0,
   },
   header: {
     paddingHorizontal: Spacing.Thick24,

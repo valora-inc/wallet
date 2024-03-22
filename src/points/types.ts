@@ -4,7 +4,7 @@ const pointsActivities = ['create-wallet', 'swap', 'more-coming'] as const
 export type PointsActivities = (typeof pointsActivities)[number]
 
 export function isPointsActivity(activity: unknown): activity is PointsActivities {
-  return typeof activity === 'string' && pointsActivities.includes(activity)
+  return typeof activity === 'string' && pointsActivities.includes(activity as PointsActivities)
 }
 
 export interface PointsCardMetadata {

@@ -15,16 +15,16 @@ jest.mock('src/statsig', () => ({
         points: 50,
         activities: [
           {
-            name: 'CreateWallet',
+            name: 'create-wallet',
           },
           {
-            name: 'Swap',
+            name: 'swap',
           },
           {
-            name: 'MoreComing',
+            name: 'more-coming',
           },
           {
-            name: 'Foo',
+            name: 'foo',
           },
         ],
       },
@@ -32,10 +32,10 @@ jest.mock('src/statsig', () => ({
         points: 20,
         activities: [
           {
-            name: 'MoreComing',
+            name: 'more-coming',
           },
           {
-            name: 'CreateWallet',
+            name: 'create-wallet',
           },
         ],
       },
@@ -43,7 +43,7 @@ jest.mock('src/statsig', () => ({
         points: 0,
         activities: [
           {
-            name: 'MoreComing',
+            name: 'more-coming',
           },
         ],
       },
@@ -67,13 +67,13 @@ describe(PointsHome, () => {
     expect(getByTestId('PointsActivitySection-50')).toBeTruthy()
     expect(getByTestId('PointsActivitySection-20')).toBeTruthy()
 
-    expect(getByTestId('SwapActivityCard-50')).toBeTruthy()
-    expect(getByTestId('MoreComingActivityCard-50')).toBeTruthy()
-    expect(getByTestId('CreateWalletActivityCard-50')).toBeTruthy()
+    expect(getByTestId('PointsActivityCard-swap-50')).toBeTruthy()
+    expect(getByTestId('PointsActivityCard-more-coming-50')).toBeTruthy()
+    expect(getByTestId('PointsActivityCard-create-wallet-50')).toBeTruthy()
 
-    expect(queryByTestId('SwapActivityCard-20')).toBeFalsy()
-    expect(getByTestId('MoreComingActivityCard-20')).toBeTruthy()
-    expect(getByTestId('CreateWalletActivityCard-20')).toBeTruthy()
+    expect(queryByTestId('PointsActivityCard-swap-20')).toBeFalsy()
+    expect(getByTestId('PointsActivityCard-more-coming-20')).toBeTruthy()
+    expect(getByTestId('PointsActivityCard-create-wallet-20')).toBeTruthy()
   })
 
   it('ignores unknown activities', async () => {
@@ -82,7 +82,7 @@ describe(PointsHome, () => {
         <PointsHome {...mockScreenProps()} />
       </Provider>
     )
-    expect(queryByTestId('FooActivityCard-50')).toBeFalsy()
+    expect(queryByTestId('PointsActivityCard-foo-50')).toBeFalsy()
   })
 
   it('ignores 0 point value activities', async () => {
@@ -100,9 +100,11 @@ describe(PointsHome, () => {
         <PointsHome {...mockScreenProps()} />
       </Provider>
     )
-    fireEvent.press(getByTestId('SwapActivityCard-50'))
+    fireEvent.press(getByTestId('PointsActivityCard-swap-50'))
     await waitFor(() =>
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_swap_card_press)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_press, {
+        activity: 'swap',
+      })
     )
   })
 
@@ -112,12 +114,17 @@ describe(PointsHome, () => {
         <PointsHome {...mockScreenProps()} />
       </Provider>
     )
-    fireEvent.press(getByTestId('SwapActivityCard-50'))
+    fireEvent.press(getByTestId('PointsActivityCard-swap-50'))
     await waitFor(() =>
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_swap_card_press)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_press, {
+        activity: 'swap',
+      })
     )
 
     fireEvent.press(getByTestId('PointsHomeBottomSheetCtaButton'))
     await waitFor(() => expect(navigate).toHaveBeenCalledWith(Screens.SwapScreenWithBack))
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_cta_press, {
+      activity: 'swap',
+    })
   })
 })

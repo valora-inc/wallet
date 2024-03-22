@@ -24,32 +24,18 @@ export default function ActivityCardSection({ onCardPress }: Props) {
   function makeSection(pointsMetadata: PointsMetadata): React.ReactNode {
     const points = pointsMetadata.points
 
-    const cardPairs = pointsMetadata.activities
+    const cards = pointsMetadata.activities
       .filter((activity) => isPointsActivity(activity.name))
-      .reduce(
-        (res, _val, i, arr) => {
-          if (i % 2 === 0) res.push(arr.slice(i, i + 2))
-          return res
-        },
-        [] as (typeof pointsMetadata.activities)[]
-      )
-      .map((activityPair, i) => {
-        const singleActivity = !activityPair[1]
-        const rowStyle = {
-          ...styles.cardRow,
-          maxWidth: singleActivity ? '50%' : '100%',
-        }
-        return (
-          <View key={i} style={rowStyle}>
-            <ActivityCard activity={activityPair[0].name} points={points} onPress={onCardPress} />
-            {!singleActivity && (
-              <ActivityCard activity={activityPair[1].name} points={points} onPress={onCardPress} />
-            )}
-          </View>
-        )
-      })
+      .map((activity) => (
+        <ActivityCard
+          key={activity.name}
+          activity={activity.name}
+          points={points}
+          onPress={onCardPress}
+        />
+      ))
 
-    if (!cardPairs.length) {
+    if (!cards.length) {
       return <View key={points}></View>
     }
 
@@ -62,7 +48,7 @@ export default function ActivityCardSection({ onCardPress }: Props) {
           </View>
           <View style={styles.hr} />
         </View>
-        {cardPairs}
+        <View style={styles.pointsSectionContent}>{cards}</View>
       </View>
     )
   }
@@ -115,6 +101,11 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     alignItems: 'center',
   },
+  pointsSectionContent: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
   textContainer: {
     padding: Spacing.Regular16,
     paddingBottom: 0,
@@ -122,9 +113,6 @@ const styles = StyleSheet.create({
   pointsSection: {
     margin: Spacing.Smallest8,
     marginTop: 0,
-  },
-  cardRow: {
-    flexDirection: 'row',
   },
   title: {
     ...typeScale.labelSemiBoldMedium,
