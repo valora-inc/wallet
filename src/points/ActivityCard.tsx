@@ -53,7 +53,7 @@ export default function ActivityCard({ activity, points, onPress, completed }: P
 
   const cardContainerStyle = {
     ...styles.cardContainer,
-    ...(isCompleted ? { opacity: 0.5 } : {}),
+    opacity: isCompleted ? 0.5 : 1,
   }
   const cardContainer = cardDefinition.bottomSheet ? (
     <Touchable
