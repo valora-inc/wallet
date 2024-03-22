@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Keyboard, StyleSheet, Text, View } from 'react-native'
 import ContactCircle from 'src/components/ContactCircle'
 import Touchable from 'src/components/Touchable'
-import Logo, { LogoTypes } from 'src/icons/Logo'
+import Logo from 'src/icons/Logo'
 import QuestionIcon from 'src/icons/QuestionIcon'
 import {
   addressToVerificationStatusSelector,
@@ -62,9 +62,9 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
           />
           {showValoraIcon && (
             <Logo
-              type={LogoTypes.LIGHT}
+              color={colors.white}
               style={styles.valoraIcon}
-              height={ICON_SIZE}
+              size={ICON_SIZE}
               testID="RecipientItem/ValoraIcon"
             />
           )}

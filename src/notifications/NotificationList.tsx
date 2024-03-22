@@ -2,11 +2,9 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { HeaderTitleWithBalance, headerWithBackButton } from 'src/navigator/Headers'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { Currency } from 'src/utils/currencies'
 
 const { contentPadding } = variables
 
@@ -31,13 +29,6 @@ export function NotificationList<T>(props: Props<T>) {
       )}
     </SafeAreaView>
   )
-}
-
-export function titleWithBalanceNavigationOptions(title: string) {
-  return {
-    ...headerWithBackButton,
-    headerTitle: <HeaderTitleWithBalance title={title} token={Currency.Dollar} />,
-  }
 }
 
 const styles = StyleSheet.create({

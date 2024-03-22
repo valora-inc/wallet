@@ -21,7 +21,7 @@ import {
   nuxNavigationOptions,
   nuxNavigationOptionsOnboarding,
 } from 'src/navigator/Headers'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import {
@@ -153,7 +153,7 @@ export class PincodeSet extends React.Component<Props, State> {
 
   navigateToNextScreen = () => {
     if (this.isChangingPin()) {
-      navigate(Screens.Settings)
+      navigateBack()
     } else {
       goToNextOnboardingScreen({
         firstScreenInCurrentStep: Screens.PincodeSet,

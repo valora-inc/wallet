@@ -7,12 +7,12 @@
   "removeAccountTitle": "重置 Valora",
   "removeAccountDetails": "如果重置，则您的账户将从此设备上删除。您的资金仍保留在账户中，但将只能借助恢复短语才能访问",
   "deleteAccountTitle": "删除账户",
-  "deleteAccountDetails": "删除账户将从 {{appName}}中移除。您的资金将保留在账户中，但只能通过您的恢复密码访问",
+  "deleteAccountDetails": "删除账户会将账户从 {{appName}} 中移除。您的资金将保留在账户中，但只能通过恢复短语访问",
   "deleteAccountWarning": {
     "title": "您确定吗？",
-    "description": "从 {{appName}} 删除账户的同时也会删除任何链接的电话号码。您的资金将保留在账户中，但只能通过您的恢复密码访问。",
+    "description": "从 {{appName}} 中删除账户也会移除所有绑定的电话号码。您的资金将保留在账户中，但只能通过恢复短语访问",
     "buttonLabel": "继续",
-    "buttonLabelRevokingPhoneNumber": "取消连接电话号码..."
+    "buttonLabelRevokingPhoneNumber": "解绑手机号码..."
   },
   "legal": "法律条款",
   "appPreferences": "应用程序首选项",
@@ -57,7 +57,7 @@
     "body2": "没有恢复短语，任何人都无法恢复您的账户，包括 Valora。"
   },
   "promptConfirmRemovalModal": {
-    "header": "你确定要继续吗？",
+    "header": "您确定要继续吗？",
     "body": "您即将从本设备中删除钱包。此步骤是最终步骤，不可逆转。如果您没有写下恢复密码，则无法恢复。",
     "resetNow": "继续"
   },
@@ -72,7 +72,7 @@
   },
   "recoveryPhrase": {
     "title": "您的恢复短语",
-    "body": "把这 12 个字写在安全的地方，不能被偷或损坏。",
+    "body": "将这 12 个单词记在某个安全的地方，以防被盗或损坏。",
     "continue": "我已保存好",
     "copy": "复制到剪贴板",
     "mnemonicCopied": "恢复短语已复制到剪贴板",
@@ -96,14 +96,14 @@
       "reminder": "<0>切记</0>，如果您的设备丢失或被盗，此信息便是访问您钱包的唯一途径。Valora 无法存储您的电子邮件或电话号码。务必妥善保管！"
     },
     "restore": {
-      "description": "确保您有以下可用物品来恢复钱包。",
+      "description": "确保您有以下可用信息来恢复钱包。",
       "reminder": "<0>请记住</0>，您需要访问备份时使用的同一电子邮件和电话号码"
     }
   },
   "signInWithEmail": {
     "title": "使用电子邮件登录",
     "subtitle": "使用您的电子邮件登录，以将其设置为备份。\n\n如果您的钱包丢失，系统将提示您重新登录。",
-    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
+    "subtitleRestore": "使用您用来设置钱包备份的电子邮件登录。",
     "google": "使用 Google 登录"
   },
   "keylessBackupPhoneInput": {
@@ -127,7 +127,7 @@
       },
       "failed": {
         "title": "备份不可用",
-        "body": "您可以稍后设置钱包备份，或者现在就保存恢复短语，以保护您的账户。",
+        "body": "您可以稍后设置钱包备份，或者立即保存恢复短语，以保护您的账户。",
         "later": "我稍后会设置备份",
         "manual": "保存恢复短语"
       }
@@ -137,12 +137,12 @@
         "title": "恢复您的钱包"
       },
       "completed": {
-        "title": "您的钱包已经恢复！",
+        "title": "您的钱包已恢复！",
         "bodyZeroBalance": "完成设置后，您就可以向钱包添加资金了。",
-        "bodyBalance": "您有以下方面的平衡<0></0>"
+        "bodyBalance": "您的余额为 <0></0>"
       },
       "failed": {
-        "title": "您的钱包没有恢复",
+        "title": "您的钱包未恢复",
         "body": "在尝试恢复您的钱包时出现了技术问题。请联系技术支持获取更多信息。",
         "tryAgain": "再试一次",
         "createNewWallet": "新建钱包",
@@ -150,7 +150,7 @@
       },
       "notFound": {
         "title": "未找到钱包",
-        "body": "要恢复钱包，请使用与设置时<0>相同的电子邮件地址和电话号码</0>。\n\n您也可以使用恢复短语恢复钱包。",
+        "body": "要恢复钱包，请使用您在设置时使用的<0>相同电子邮件地址和电话号码</0>。\n\n您也可以使用恢复短语恢复钱包。",
         "tryAgain": "再试一次",
         "createNewWallet": "新建钱包"
       }
@@ -1742,11 +1742,11 @@
     "swapTo": "至",
     "insufficientFunds": "{{token}} 余额不足，请尝试使用较小的金额或选择其他资产。",
     "fetchSwapQuoteFailed": "抱歉有所延迟！获取最佳汇率所需时间较往常略长。请在几分钟后重试。",
-    "disclaimer": "Best rate determined by decentralized sources. <0>Learn more</0>",
+    "disclaimer": "分散来源确定的最佳费率。<0>了解更多信息</0>",
     "swapFromTokenSelection": "替换自",
     "swapToTokenSelection": "替换至",
     "tokenUsdValueUnknown": "-",
-    "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
+    "unsupportedSwapTokens": "我们的交换提供商不支持所选令牌。",
     "switchedToNetworkWarning": {
       "title": "您已转至 {{networkName}} 网络",
       "body_swapFrom": "在 {{networkName}} 网络上选择用于交换的代币，然后继续。",
@@ -1912,11 +1912,11 @@
   "tokenBottomSheet": {
     "searchAssets": "搜索资产",
     "noTokenInResult": "没有找到 <0>\"{{searchTerm}}\"</0> 的匹配结果。",
-    "noFilterSearchResults": "在以下类别中没有找到与 \"{{searchTerm}}\" 匹配的资产： {{filterNames}}",
+    "noFilterSearchResults": "在以下类别中未找到与 \"{{searchTerm}}\" 匹配的资产： {{filterNames}}",
     "noFilterResults": "未找到与以下类别匹配的资产： {{filterNames}}",
     "noSearchResults": "未找到与 \"{{searchTerm}}\" 匹配的资产",
     "filters": {
-      "myTokens": "我的代币",
+      "myTokens": "我的令牌",
       "popular": "热门",
       "recentlySwapped": "最近交换",
       "network": "{{networkName}} 网络"
@@ -2006,7 +2006,7 @@
     "error": {
       "invalidAddress": "令牌地址无效。请复查",
       "invalidToken": "代币无效。请重试或联系支持人员",
-      "tokenAlreadySupported": "已支持此标记"
+      "tokenAlreadySupported": "已支持此令牌"
     },
     "importSuccess": "成功导入 {{tokenSymbol}} 代币",
     "importButton": "导入"
@@ -2117,6 +2117,24 @@
       "ctaLabel": "忽略"
     }
   },
+  "jumpstartShareLinkScreen": {
+    "title": "共享实时链接",
+    "description": "复制链接，通过您选择的消息应用程序发送 {{tokenSymbol}} ，或使用二维码。",
+    "linkLabel": "实时链接",
+    "linkCopiedMessage": "复制的实时链接",
+    "navigationWarning": {
+      "title": "您是否分享了您的链接？",
+      "description": "确保分享此实时链接或将其保存在安全的地方。\n\n如果无人认领，也不用担心，您可以轻松地从您的活动提要中收回资金。",
+      "ctaNavigate": "返回主页"
+    },
+    "ctaShare": "共享链接",
+    "ctaScanQRCode": "扫描二维码",
+    "shareMessage": "你好！我给您发了一个链接，资金来自 {{tokenAmount}} {{tokenSymbol}} ，网址是 {{appName}}。使用此链接下载应用程序，资金就会到账，等着您。 {{link}}",
+    "qrCodeBottomSheet": {
+      "title": "扫描代码接收资金",
+      "description": "在主屏幕上查看资金状态。或者，复制或分享下面的链接。"
+    }
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "批准",
     "estimatedNetworkFee": "估算的网络费用",
@@ -2140,13 +2158,13 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "多链早期采用者 🎁",
-      "description": "为了感谢您成为多链测试者，我们在您的 {{appName}} 钱包中添加了一份免费礼物！早期采用者 NFT 可以在您的收藏品中找到。",
+      "title": "恭喜！",
+      "description": "您获得了以太坊早期探索者的独家珍藏品。欢迎访问以太坊网站 {{appName}}。",
       "cta": "谢谢！"
     },
     "notification": {
-      "title": "恭喜 🎉",
-      "description": "{{rewardName}} 已成功添加到您的 {{appName}} 钱包。"
+      "title": "等待新的 NFT 🎉",
+      "description": "您可以在“收藏品”下找到新的 {{rewardName}} NFT"
     },
     "rewardBottomSheet": {
       "title": "免费兑现一个月",
@@ -2161,12 +2179,12 @@
       "cta": "使用奖励"
     }
   },
-  "pleaseWait": "Please wait",
+  "pleaseWait": "请稍等",
   "error": "错误",
   "linkPhoneNumber": {
     "title": "将电话号码链接到钱包地址",
     "description": "不再有杂乱无章的钱包地址！只需一个电话号码即可向其他 Celo 用户发送加密货币",
-    "startButtonLabel": "链接电话号码",
+    "startButtonLabel": "绑定电话号码",
     "later": "我稍后再做"
   },
   "bottomTabsNavigator": {
@@ -2179,7 +2197,20 @@
       "title": "欢迎"
     },
     "discover": {
-      "tabName": "探索"
+      "tabName": "探索",
+      "title": "探索"
+    }
+  },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "您的资金正在到账中",
+      "description": "您朋友给您的资金正在汇入。请稍候... "
+    },
+    "error": {
+      "title": "无法领取资金",
+      "description": "再次尝试您的实时链接以尝试接收资金，或请您的朋友尝试发送一个新链接",
+      "contactSupport": "联系支持团队",
+      "dismiss": "忽略"
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"

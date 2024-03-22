@@ -6,13 +6,13 @@
   "licenses": "Licencias",
   "removeAccountTitle": "Restablecer Valora",
   "removeAccountDetails": "Si seleccionas esta opción, se borrará tu cuenta de este dispositivo. No se perderán los fondos, pero solo podrás acceder a ellos con tu Frase de recuperación.",
-  "deleteAccountTitle": "Eliminar cuenta",
-  "deleteAccountDetails": "Borrar tu cuenta la eliminará de {{appName}}. Tus fondos permanecerán en la cuenta, pero sólo serán accesibles con tu Frase de Recuperación",
+  "deleteAccountTitle": "Borrar cuenta",
+  "deleteAccountDetails": "Borrar tu cuenta la eliminará de {{appName}}. Tus fondos permanecerán en la cuenta, pero sólo serán accesibles con tu Frase de recuperación",
   "deleteAccountWarning": {
     "title": "Estas seguro",
-    "description": "Al eliminar tu cuenta de {{appName}} también se elimina cualquier número de teléfono vinculado. Tus fondos permanecerán en la cuenta, pero sólo serán accesibles con tu Frase de Recuperación.",
+    "description": "Al borrar tu cuenta de {{appName}} también se elimina cualquier número de teléfono vinculado. Tus fondos permanecerán en la cuenta, pero sólo serán accesibles con tu Frase de recuperación.",
     "buttonLabel": "Continuar",
-    "buttonLabelRevokingPhoneNumber": "Desvincular número de teléfono..."
+    "buttonLabelRevokingPhoneNumber": "Desvinculando número de teléfono..."
   },
   "legal": "Legal",
   "appPreferences": "Preferencias de la app",
@@ -58,7 +58,7 @@
   },
   "promptConfirmRemovalModal": {
     "header": "¿Estás seguro de que quieres continuar?",
-    "body": "Estás a punto de borrar tu monedero de este dispositivo. Este paso es definitivo y no se puede revertir. No hay forma de recuperar tu Frase de Recuperación si no la has escrito.",
+    "body": "Estás a punto de borrar tu billetera de este dispositivo. Este paso es definitivo y no se puede revertir. No hay forma de recuperar tu Frase de recuperación si no la has escrito.",
     "resetNow": "Continuar"
   },
   "protectWallet": {
@@ -96,14 +96,14 @@
       "reminder": "<0>Recuerda</0> que esta información es la única forma de acceder a tu billetera si pierdes o te roban el dispositivo. Valora no almacena tu correo electrónico ni tu número de teléfono. ¡Mantenlo a salvo!"
     },
     "restore": {
-      "description": "Asegúrate de que dispones de lo siguiente para restaurar tu monedero.",
+      "description": "Asegúrate de que dispones de lo siguiente para restaurar tu billetera.",
       "reminder": "<0>Recuerda</0> que necesitas acceder al mismo correo electrónico y número de teléfono que utilizaste cuando hiciste la copia de seguridad"
     }
   },
   "signInWithEmail": {
     "title": "Iniciar sesión con email",
     "subtitle": "Inicia sesión con tu correo electrónico para configurarlo como respaldo.\n\nSi pierdes acceso a tu wallet, se te pedirá que inicies sesión de esta forma.",
-    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
+    "subtitleRestore": "Inicia sesión con el correo electrónico que utilizaste para configurar la copia de seguridad de tu billetera.",
     "google": "Iniciar sesión con Google"
   },
   "keylessBackupPhoneInput": {
@@ -127,30 +127,30 @@
       },
       "failed": {
         "title": "Copia de seguridad no disponible",
-        "body": "Puedes configurar una copia de seguridad de tu monedero más adelante o proteger tu cuenta ahora guardando tu frase de recuperación.",
-        "later": "Prepararé una copia de seguridad más tarde",
+        "body": "Puedes configurar una copia de seguridad de tu billetera más adelante o proteger tu cuenta ahora guardando tu frase de recuperación.",
+        "later": "Configuraré una copia de seguridad más tarde",
         "manual": "Guardar frase de recuperación"
       }
     },
     "restore": {
       "inProgress": {
-        "title": "Restaurar tu cartera"
+        "title": "Restaurando tu billetera"
       },
       "completed": {
-        "title": "¡Tu cartera ha sido restaurada!",
-        "bodyZeroBalance": "Puedes añadir fondos a tu monedero una vez que hayas terminado de configurarlo.",
+        "title": "¡Tu billetera ha sido restaurada!",
+        "bodyZeroBalance": "Puedes agregar fondos a tu billetera una vez que hayas terminado de configurarla.",
         "bodyBalance": "Tienes un saldo de <0></0>"
       },
       "failed": {
-        "title": "Tu cartera no ha sido restaurada",
-        "body": "Se ha producido un problema técnico al intentar restaurar tu monedero. Ponte en contacto con el servicio de asistencia para obtener más información.",
+        "title": "Tu billetera no ha sido restaurada",
+        "body": "Hubo un problema técnico al restaurar tu billetera. Ponte en contacto con el equipo de soporte técnico para obtener más información.",
         "tryAgain": "Reintentar",
         "createNewWallet": "Crear wallet",
         "help": "Ayuda"
       },
       "notFound": {
-        "title": "Cartera no encontrada",
-        "body": "Para restaurar tu monedero, utiliza la <0>misma dirección de correo electrónico y el mismo número de teléfono</0> que utilizaste al configurarlo.\n\nTambién puedes restaurar tu monedero con tu frase de recuperación.",
+        "title": "Billetera no encontrada",
+        "body": "Para restaurar tu billetera, utiliza la <0>misma dirección de correo electrónico y el mismo número de teléfono</0> que utilizaste al configurarla.\n\nTambién puedes restaurar tu billetera con tu frase de recuperación.",
         "tryAgain": "Reintentar",
         "createNewWallet": "Crear wallet"
       }
@@ -210,7 +210,7 @@
   "completeEducation": "Entiendo",
   "yourAccountKey": "Esta es tu Frase de recuperación",
   "backupKeyNotification2": "Resguarda tus fondos. Respalda tu frase de recuperación.",
-  "keylessBackupCTA": "Retrocede ahora",
+  "keylessBackupCTA": "Hacer copia de seguridad ahora",
   "keylessBackupNotification": "Configura tu correo electrónico y número de teléfono para respaldar tu frase semilla",
   "backupKeyCTA": "Finalizar respaldo",
   "backupKeySummary": "Encuentra un lugar privado y anota tu Frase de recuperación. Por favor, guárdala en un lugar seguro. No la guardes en tu celular.",
@@ -915,15 +915,15 @@
     }
   },
   "importSelect": {
-    "title": "Restaura tu cartera",
-    "description": "Si configuras una copia de seguridad para proteger tu monedero, elige una opción de las que aparecen a continuación.",
+    "title": "Restaura tu billetera",
+    "description": "Si configuras una copia de seguridad para proteger tu billetera, elige una de las siguientes opciones.",
     "emailAndPhone": {
-      "title": "De copia de seguridad de correo electrónico y teléfono",
-      "description": "Restaura tu monedero con el número de teléfono y el correo electrónico que configuraste anteriormente"
+      "title": "Desde copia de seguridad de correo electrónico y teléfono",
+      "description": "Restaura tu billetera con el número de teléfono y el correo electrónico que configuraste anteriormente"
     },
     "recoveryPhrase": {
-      "title": "De la frase de recuperación",
-      "description": "Introduce tu frase de recuperación de 12 palabras para recuperar el acceso a Valora"
+      "title": "Desde la frase de recuperación",
+      "description": "Ingresa tu frase de recuperación de 12 palabras para recuperar el acceso a Valora"
     }
   },
   "verificationInput": {
@@ -1152,7 +1152,7 @@
     },
     "failedToPrepareTransaction": {
       "title": "Error al preparar la transacción",
-      "description": "Se ha producido un error al preparar la transacción. Consulta el error subyacente para más detalles.\n\n\"{{errorMessage}}\""
+      "description": "Ocurrió un error al preparar la transacción. Consulta el error subyacente para más detalles.\n\n\"{{errorMessage}}\""
     },
     "session": {
       "failUnsupportedNamespace": {
@@ -1744,11 +1744,11 @@
     "swapTo": "A",
     "insufficientFunds": "Saldo en {{token}} insuficiente. Ingresa un monto menor o elige otro activo.",
     "fetchSwapQuoteFailed": "¡Lo sentimos! Conseguir la mejor tasa de cambio nos está llevando más tiempo del habitual. Inténtalo de nuevo más tarde.",
-    "disclaimer": "Best rate determined by decentralized sources. <0>Learn more</0>",
+    "disclaimer": "La mejor tarifa la determinan fuentes descentralizadas. <0>Más información</0>",
     "swapFromTokenSelection": "CAMBIAR DE",
     "swapToTokenSelection": "CAMBIAR A",
     "tokenUsdValueUnknown": "-",
-    "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
+    "unsupportedSwapTokens": "Los tokens seleccionados no son compatibles con nuestros proveedores de swap.",
     "switchedToNetworkWarning": {
       "title": "Has cambiado a la red {{networkName}}",
       "body_swapFrom": "Selecciona un token para intercambiar desde la red {{networkName}} para continuar.",
@@ -1914,13 +1914,13 @@
   "tokenBottomSheet": {
     "searchAssets": "Buscar activos",
     "noTokenInResult": "No se encontraron resultados para <0>\"{{searchTerm}}\"</0>.",
-    "noFilterSearchResults": "No se ha encontrado ningún activo que coincida con \"{{searchTerm}}\" en las siguientes categorías: {{filterNames}}",
+    "noFilterSearchResults": "No se han encontrado activos que coincidan con \"{{searchTerm}}\" en las siguientes categorías: {{filterNames}}",
     "noFilterResults": "No se han encontrado activos que coincidan con las siguientes categorías: {{filterNames}}",
-    "noSearchResults": "No se ha encontrado ningún activo que coincida con \"{{searchTerm}}\"",
+    "noSearchResults": "No se han encontrado activos que coincidan con \"{{searchTerm}}\"",
     "filters": {
-      "myTokens": "Mis fichas",
+      "myTokens": "Mis tokens",
       "popular": "Popular",
-      "recentlySwapped": "Cambiado recientemente",
+      "recentlySwapped": "Intercambiado recientemente",
       "network": "Red {{networkName}}"
     }
   },
@@ -1968,7 +1968,7 @@
       "dappPositions": "DeFi"
     },
     "importToken": "Importar",
-    "importTokens": "Importar fichas"
+    "importTokens": "Importar tokens"
   },
   "notificationCenterSpotlight": {
     "message": "Presentamos una nueva forma de reclamar recompensas, ver alertas y consultar actualizaciones en un solo lugar",
@@ -2008,7 +2008,7 @@
     "error": {
       "invalidAddress": "Dirección de token no válida. Por favor, revísala",
       "invalidToken": "Token inválido. Inténtalo de nuevo o contacta con el equipo de soporte técnico",
-      "tokenAlreadySupported": "Este token ya está soportado"
+      "tokenAlreadySupported": "Este token ya es compatible"
     },
     "importSuccess": "Token {{tokenSymbol}} importado con éxito",
     "importButton": "Importar"
@@ -2030,7 +2030,7 @@
     },
     "jumpstart": {
       "title": "Enviar con un enlace en directo",
-      "subtitle": "Copia el enlace y compártelo para enviar criptomonedas como si fuera un texto"
+      "subtitle": "Copia el enlace y compártelo para enviar cripto como si fuera texto"
     },
     "getStarted": {
       "title": "Formas de enviar fondos en Valora",
@@ -2083,7 +2083,7 @@
   "viewOnEthereumBlockExplorer": "Ver en Etherscan",
   "viewOnArbiscan": "Ver en Arbiscan",
   "viewOnOPMainnetExplorer": "Ver en OP Mainnet Explorer",
-  "viewOnOPSepoliaExplorer": "Vista en OP Sepolia Explorer",
+  "viewOnOPSepoliaExplorer": "Ver en OP Sepolia Explorer",
   "sendEnterAmountScreen": {
     "title": "Ingresa el monto",
     "selectToken": "Selecciona un token",
@@ -2110,13 +2110,31 @@
   },
   "jumpstartSendConfirmationScreen": {
     "title": "Crear enlace en directo",
-    "sendAmountLabel": "Enlace en directo Importe",
+    "sendAmountLabel": "Monto del enlace en directo",
     "confirmButton": "Enviar y crear enlace",
-    "info": "Cuando creas un enlace, los fondos se retiran de tu monedero. Puedes recuperar el enlace en cualquier momento. Comparte enlaces con cuidado.",
+    "info": "Cuando creas un enlace, los fondos se retiran de tu billetera. Puedes recuperar el enlace en cualquier momento. Comparte enlaces con cuidado.",
     "sendError": {
       "title": "No se puede crear el enlace",
-      "description": "No se ha creado tu enlace en directo. Inténtalo de nuevo.",
+      "description": "No se creó tu enlace en directo. Inténtalo de nuevo.",
       "ctaLabel": "Ignorar"
+    }
+  },
+  "jumpstartShareLinkScreen": {
+    "title": "Compartir enlace en directo",
+    "description": "Copia el enlace para enviar {{tokenSymbol}} a través de la app de mensajería que prefieras, o usa el código QR.",
+    "linkLabel": "Enlace en directo",
+    "linkCopiedMessage": "Enlace en directo copiado",
+    "navigationWarning": {
+      "title": "¿Compartiste tu enlace?",
+      "description": "Asegúrate de compartir este enlace en directo o de guardarlo en un lugar seguro.\n\nNo te preocupes si no es reclamado: puedes recuperar los fondos fácilmente desde tu feed de actividad.",
+      "ctaNavigate": "Volver a inicio"
+    },
+    "ctaShare": "Compartir enlace",
+    "ctaScanQRCode": "Escanear código QR",
+    "shareMessage": "¡Hola! Te envío un enlace financiado con {{tokenAmount}} {{tokenSymbol}} en {{appName}}. Utiliza este enlace para descargar la aplicación y los fondos estarán activos, esperándote. {{link}}",
+    "qrCodeBottomSheet": {
+      "title": "Escanea el código para recibir fondos",
+      "description": "Comprueba el estado de tus fondos en la pantalla de inicio. También puedes copiar o compartir el siguiente enlace."
     }
   },
   "transactionFeed": {
@@ -2142,23 +2160,23 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "Precoz multicadena 🎁",
-      "description": "Como agradecimiento por ser un probador beta multicadena, ¡hemos añadido un regalo gratuito a tu monedero {{appName}} ! El NFT de early adopter se puede encontrar en tus coleccionables.",
+      "title": "¡Felicidades!",
+      "description": "Has ganado un coleccionable exclusivo para los Early Ethereum Explorers. Bienvenido a Ethereum en {{appName}}.",
       "cta": "¡Gracias!"
     },
     "notification": {
-      "title": "Enhorabuena 🎉",
-      "description": "{{rewardName}} se ha añadido correctamente a tu monedero {{appName}} ."
+      "title": "Un nuevo NFT te espera 🎉",
+      "description": "Puedes encontrar tu nuevo NFT {{rewardName}} en tus \"Coleccionables\""
     },
     "rewardBottomSheet": {
-      "title": "Cobros gratuitos durante un mes",
-      "description": "Como tú eres el propietario de {{nftName}} en tus coleccionables, nos gustaría darte canjes gratuitos durante el mes de enero.\n\nPara utilizar la recompensa, canjea a través de cualquier socio de {{appName}} y no tendrás que pagar comisiones.",
+      "title": "Agrega fondos gratis durante un mes",
+      "description": "Como tienes {{nftName}} entre tus coleccionables, nos gustaría ofrecerte agregar fondos gratis durante el mes de enero.\n\nPara utilizar la recompensa, agrega fondos a través de cualquier socio de {{appName}} y no tendrás que pagar tarifas.",
       "expirationLabel": "Caduca en {{expirationLabelText}}",
       "cta": "Utiliza la recompensa"
     },
     "rewardReminderBottomSheet": {
-      "title": "Cobros gratuitos durante un mes",
-      "description": "Sólo quedan 3 días para aprovechar los cobros gratuitos del mes de enero.\n\nPara utilizar la recompensa, canjea a través de cualquier socio de {{appName}} y no tendrás que pagar comisiones.",
+      "title": "Agregar fondos gratis durante un mes",
+      "description": "¡Sólo quedan 3 días para agregar fondos gratis durante el mes de enero!\n\nPara utilizar la recompensa, agrega fondos a través de cualquier socio de {{appName}} y no tendrás que pagar tarifas.",
       "expirationLabel": "Caduca en {{expirationLabelText}}",
       "cta": "Utiliza la recompensa"
     }
@@ -2166,22 +2184,35 @@
   "pleaseWait": "Espera, por favor",
   "error": "Error",
   "linkPhoneNumber": {
-    "title": "Vincular un número de teléfono a la dirección de tu monedero",
-    "description": "¡Se acabaron las direcciones de monedero desordenadas! Envía criptomonedas a otros usuarios de Celo con sólo un número de teléfono",
-    "startButtonLabel": "Enlace Número de teléfono",
+    "title": "Vincular un número de teléfono a la dirección de tu billetera",
+    "description": "¡Se acabaron las direcciones de billetera desordenadas! Envía cripto a otros usuarios de Celo con sólo un número de teléfono",
+    "startButtonLabel": "Vincula el número de teléfono",
     "later": "Lo haré más tarde"
   },
   "bottomTabsNavigator": {
     "wallet": {
-      "tabName": "Billetera",
-      "title": "Mi cartera"
+      "tabName": "Wallet",
+      "title": "Mi wallet"
     },
     "home": {
       "tabName": "Inicio",
       "title": "Bienvenido"
     },
     "discover": {
-      "tabName": "Descubre"
+      "tabName": "Descubrir",
+      "title": "Descubrir"
+    }
+  },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "Tus fondos están en camino",
+      "description": "Se están enviando los fondos que te dio tu amigo. Por favor, espera... "
+    },
+    "error": {
+      "title": "No se pueden recuperar los fondos",
+      "description": "Prueba de nuevo tu enlace en directo para recibir fondos, o pide a tu amigo que intente enviar un nuevo enlace",
+      "contactSupport": "Contactar a Soporte",
+      "dismiss": "Ignorar"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

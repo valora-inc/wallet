@@ -65,13 +65,19 @@ export default function ProfileMenu({ route }: Props) {
             <Text style={styles.actionLabel}>{t('invite')}</Text>
           </View>
         </Touchable>
-        <Touchable testID="ProfileMenu/Settings" onPress={() => navigate(Screens.Settings)}>
+        <Touchable
+          testID="ProfileMenu/Settings"
+          onPress={() => navigate(Screens.Settings, { isTabNav: true })}
+        >
           <View style={styles.container}>
             <Settings color={Colors.gray3} />
             <Text style={styles.actionLabel}>{t('settings')}</Text>
           </View>
         </Touchable>
-        <Touchable testID="ProfileMenu/Help" onPress={() => navigate(Screens.Support)}>
+        <Touchable
+          testID="ProfileMenu/Help"
+          onPress={() => navigate(Screens.Support, { isTabNav: true })}
+        >
           <View style={styles.container}>
             <Help color={Colors.gray3} />
             <Text style={styles.actionLabel}>{t('help')}</Text>
@@ -109,8 +115,7 @@ ProfileMenu.navigationOptions = () => ({
 const styles = StyleSheet.create({
   top: {
     alignItems: 'flex-start',
-    marginLeft: Spacing.Thick24,
-    marginRight: Spacing.Regular16,
+    marginHorizontal: Spacing.Regular16,
     marginTop: Spacing.Thick24,
   },
   nameLabel: {
@@ -122,14 +127,14 @@ const styles = StyleSheet.create({
   },
   topBorder: {
     marginVertical: Spacing.Thick24,
-    marginLeft: Spacing.Thick24,
+    marginLeft: Spacing.Regular16,
     height: 1,
     backgroundColor: colors.gray2,
     alignSelf: 'stretch',
   },
   bottomBorder: {
     marginTop: Spacing.Thick24,
-    marginLeft: Spacing.Thick24,
+    marginLeft: Spacing.Regular16,
     height: 1,
     backgroundColor: colors.gray2,
     alignSelf: 'stretch',
@@ -152,7 +157,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: Spacing.Smallest8,
-    marginLeft: Spacing.Thick24,
+    marginLeft: Spacing.Regular16,
     gap: Spacing.Small12,
   },
   actionLabel: {

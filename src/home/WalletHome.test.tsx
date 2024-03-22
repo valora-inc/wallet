@@ -182,7 +182,8 @@ describe('WalletHome', () => {
       jest.runOnlyPendingTimers()
     })
 
-    expect(tree.getByText('bottomTabsNavigator.home.title')).toBeTruthy()
+    // Multiple elements use this text with the scroll aware header
+    expect(tree.queryAllByText('bottomTabsNavigator.home.title')).toBeTruthy()
     expect(tree.queryByTestId('HomeActionsCarousel')).toBeTruthy()
     expect(tree.queryByText('notificationCenterSpotlight.message')).toBeFalsy()
     expect(tree.queryByTestId('HomeTokenBalance')).toBeFalsy()

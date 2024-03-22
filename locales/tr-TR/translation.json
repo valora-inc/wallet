@@ -7,12 +7,12 @@
   "removeAccountTitle": "Valora'yı Sıfırla",
   "removeAccountDetails": "Sıfırlama, hesabınızı bu cihazdan kaldıracaktır. Fonlarınız hesapta kalacak, ancak yalnızca Kurtarma Kelimeleri ile erişilebilir olacaktır",
   "deleteAccountTitle": "Hesabı Sil",
-  "deleteAccountDetails": "Hesabınızı silmek, onu {{appName}}adresinden kaldıracaktır. Paranız hesapta kalacak, ancak yalnızca Kurtarma İfadeniz ile erişilebilir olacaktır",
+  "deleteAccountDetails": "Silme, hesabınızı {{appName}} uygulamasından kaldıracaktır. Fonlarınız hesapta kalacak, ancak yalnızca Kurtarma İfadesi ile erişilebilir olacaktır",
   "deleteAccountWarning": {
     "title": "Emin misiniz?",
-    "description": "Hesabınızı {{appName}} adresinden sildiğinizde bağlı telefon numaraları da silinir. Paranız hesapta kalacak, ancak yalnızca Kurtarma İfadenizle erişilebilir olacaktır.",
+    "description": "Hesabınızı {{appName}} adresinden sildiğinizde bağlı telefon numaraları da silinir. Fonlarınız hesapta kalacak, ancak yalnızca Kurtarma İfadenizle erişilebilir olacaktır.",
     "buttonLabel": "İleri",
-    "buttonLabelRevokingPhoneNumber": "Telefon numarası bağlantısını kaldırma..."
+    "buttonLabelRevokingPhoneNumber": "Telefon numarası bağlantısı kaldırılıyor..."
   },
   "legal": "Yasal",
   "appPreferences": "Uygulama Tercihleri",
@@ -58,13 +58,13 @@
   },
   "promptConfirmRemovalModal": {
     "header": "Devam etmek istediğinizden emin misiniz?",
-    "body": "Cüzdanınızı bu cihazdan silmek üzeresiniz. Bu adım nihaidir ve geri alınamaz. Yazmadıysanız Kurtarma İfadenizi kurtarmanın bir yolu yoktur.",
+    "body": "Cüzdanınızı bu cihazdan silmek üzeresiniz. Bu adım nihaidir ve geri alınamaz. Bir yere yazmadıysanız Kurtarma İfadenizi kurtarmanın bir yolu yoktur.",
     "resetNow": "İleri"
   },
   "protectWallet": {
     "title": "Cüzdanınızı Koruyun",
     "subtitle": "Cüzdanınızı koruyun",
-    "body": "Telefonunuz kaybolur veya çalınırsa, 12 kelimelik kurtarma cümleniz fonlarınıza erişebilmenizin tek yoludur.",
+    "body": "Telefonunuz kaybolur ya da çalınırsa 12 kelimelik kurtarma ifadeniz fonlarınıza erişebilmenizin tek yoludur.",
     "recoveryPhrase": {
       "title": "Kurtarma İfadesini Kullan",
       "subtitle": "Kurtarma ifadenizi not edin"
@@ -97,13 +97,13 @@
     },
     "restore": {
       "description": "Cüzdanınızı geri yüklemek için aşağıdakilere sahip olduğunuzdan emin olun.",
-      "reminder": "Yedekleme yaparken kullandığınız e-posta ve telefon numarasına erişmeniz gerektiğini <0>unutmayın</0>"
+      "reminder": "Yedekleme yaparken kullandığınız e-postaya ve telefon numarasına erişmeniz gerektiğini <0>unutmayın</0>"
     }
   },
   "signInWithEmail": {
     "title": "E-posta ile oturum aç",
     "subtitle": "Yedek olarak ayarlamak için e-postanızla oturum açın.\n\nCüzdanınızı kaybetmeniz durumunda tekrar oturum açmanız istenecektir.",
-    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
+    "subtitleRestore": "Cüzdan yedeklemenizi ayarladığınız e-postayla oturum açın.",
     "google": "Google ile oturum aç"
   },
   "keylessBackupPhoneInput": {
@@ -134,12 +134,12 @@
     },
     "restore": {
       "inProgress": {
-        "title": "Cüzdanınızı yenilemek"
+        "title": "Cüzdanınızı geri yükleniyor"
       },
       "completed": {
-        "title": "Cüzdanınız yenilendi!",
-        "bodyZeroBalance": "Kurulumu tamamladıktan sonra cüzdanınıza para ekleyebilirsiniz.",
-        "bodyBalance": "Bir dengeniz var <0></0>"
+        "title": "Cüzdanınız geri yüklendi!",
+        "bodyZeroBalance": "Kurulumu tamamladıktan sonra cüzdanınıza fon ekleyebilirsiniz.",
+        "bodyBalance": "<0></0> bakiyeniz var"
       },
       "failed": {
         "title": "Cüzdanınız geri yüklenmedi",
@@ -150,7 +150,7 @@
       },
       "notFound": {
         "title": "Cüzdan bulunamadı",
-        "body": "Cüzdanınızı geri yüklemek için, kurulum sırasında kullandığınız <0>e-posta adresini ve telefon numarasını</0> kullanın.\n\nCüzdanınızı kurtarma cümlenizle de geri yükleyebilirsiniz.",
+        "body": "Cüzdanınızı geri yüklemek için, kurulum sırasında kullandığınız <0>aynı e-posta adresini ve telefon numarasını</0> kullanın.\n\nCüzdanınızı kurtarma ifadenizle de geri yükleyebilirsiniz.",
         "tryAgain": "Tekrar Deneyin",
         "createNewWallet": "Cüzdan oluştur"
       }
@@ -211,7 +211,7 @@
   "yourAccountKey": "Kurtarma Kelimeleriniz",
   "backupKeyNotification2": "Fonlarınızı güvende tutun. Kurtarma İfadenizi şimdi yedekleyin.",
   "keylessBackupCTA": "Şimdi yedekleyin",
-  "keylessBackupNotification": "Tohum ifadenizi yedeklemek için e-posta ve telefon numaranızı ayarlayın",
+  "keylessBackupNotification": "Kurtarma ifadenizi yedeklemek için e-postanızı ve telefon numaranızı ayarlayın",
   "backupKeyCTA": "Yedeklemeyi Şimdi Tamamlayın",
   "backupKeySummary": "Kurtarma Kelimelerinizi yazmak için özel bir yer bulun ve not edin. Lütfen kelimelerinizi güvenli bir yerde saklayın ve telefonunuza kaydetmeyin.",
   "backupKeyWarning": "Kurtarma ifadenizi kaybederseniz Valora'da tutulan tüm fonlarınıza erişimi kaybedersiniz.",
@@ -916,14 +916,14 @@
   },
   "importSelect": {
     "title": "Cüzdanınızı Geri Yükleyin",
-    "description": "Cüzdanınızı korumak için bir yedekleme ayarladıysanız, aşağıdaki seçeneklerden birini seçin.",
+    "description": "Cüzdanınızı korumak için bir yedekleme ayarladıysanız aşağıdaki seçeneklerden birini seçin.",
     "emailAndPhone": {
       "title": "E-posta ve telefon yedeklemesinden",
       "description": "Cüzdanınızı daha önce ayarladığınız telefon numarası ve e-posta ile geri yükleyin"
     },
     "recoveryPhrase": {
-      "title": "Kurtarma cümlesinden",
-      "description": "Valora'ya yeniden erişim kazanmak için 12 kelimelik kurtarma cümlenizi girin"
+      "title": "Kurtarma ifadesinden",
+      "description": "Valora'ya yeniden erişim kazanmak için 12 kelimelik kurtarma ifadenizi girin"
     }
   },
   "verificationInput": {
@@ -1744,11 +1744,11 @@
     "swapTo": "HEDEF",
     "insufficientFunds": "Yetersiz {{token}}. Lütfen daha küçük bir miktar girin veya farklı bir varlık seçin.",
     "fetchSwapQuoteFailed": "Gecikme için üzgünüz! En iyi döviz kurunu almak normalden daha uzun sürüyor. Lütfen birkaç dakika içinde tekrar deneyin.",
-    "disclaimer": "Best rate determined by decentralized sources. <0>Learn more</0>",
+    "disclaimer": "En iyi fiyat merkezi olmayan kaynaklar tarafından belirlenir. <0>Daha fazla bilgi</0>",
     "swapFromTokenSelection": "ŞURADAN TAKAS",
     "swapToTokenSelection": "ŞUNA TAKAS",
     "tokenUsdValueUnknown": "-",
-    "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
+    "unsupportedSwapTokens": "Seçilen tokenleri swap sağlayıcılarımız desteklemiyor.",
     "switchedToNetworkWarning": {
       "title": "{{networkName}} ağına geçtiniz",
       "body_swapFrom": "Devam etmek için {{networkName}} ağında kendisinden swap yapılacak bir token seçin.",
@@ -1909,18 +1909,18 @@
   "profileScreen": {
     "generateName": "Bir isim oluşturun",
     "namePlaceholder": "Bir ad seçin, örneğin \"{{exampleName}}\"",
-    "profilePictureDisclaimer": "{{appName}} adresini profil resminizle özelleştirin. Resminiz gizli kalır, asla paylaşılmaz veya yüklenmez."
+    "profilePictureDisclaimer": "{{appName}} uygulamasını profil resminizle özelleştirin. Resminiz gizli kalır, asla paylaşılmaz veya yüklenmez."
   },
   "tokenBottomSheet": {
     "searchAssets": "Varlıkları Ara",
     "noTokenInResult": "<0>\"{{searchTerm}}\"</0> için eşleşen sonuç bulunamadı",
-    "noFilterSearchResults": "Aşağıdaki kategorilerde \"{{searchTerm}}\" ile eşleşen hiçbir varlık bulunamadı: {{filterNames}}",
-    "noFilterResults": "Aşağıdaki kategorilerle eşleşen varlık bulunamadı: {{filterNames}}",
-    "noSearchResults": "\"{{searchTerm}}\" ile eşleşen varlık bulunamadı",
+    "noFilterSearchResults": "Şu kategorilerde \"{{searchTerm}}\" ile eşleşen bir varlık bulunamadı: {{filterNames}}",
+    "noFilterResults": "Şu kategorilerle eşleşen bir varlık bulunamadı: {{filterNames}}",
+    "noSearchResults": "\"{{searchTerm}}\" ile eşleşen bir varlık bulunamadı",
     "filters": {
-      "myTokens": "Jetonlarım",
+      "myTokens": "Tokenlerim",
       "popular": "Popüler",
-      "recentlySwapped": "Yakın zamanda değiştirildi",
+      "recentlySwapped": "Yakın zamanda takas edildi",
       "network": "{{networkName}} Ağı"
     }
   },
@@ -1968,7 +1968,7 @@
       "dappPositions": "DeFi"
     },
     "importToken": "İçe Aktar",
-    "importTokens": "Jetonları İçe Aktar"
+    "importTokens": "Tokenleri İçe Aktar"
   },
   "notificationCenterSpotlight": {
     "message": "Ödülleri talep etmenin, uyarıları görüntülemenin ve güncellemeleri tek bir yerden görmenin yeni bir yolunu sunuyoruz",
@@ -2006,9 +2006,9 @@
       "network": "Ağ"
     },
     "error": {
-      "invalidAddress": "Geçersiz belirteç adresi. Lütfen gözden geçirin",
+      "invalidAddress": "Geçersiz token adresi. Lütfen inceleyin",
       "invalidToken": "Geçersiz token. Tekrar deneyin veya desteğe başvurun",
-      "tokenAlreadySupported": "Bu belirteç zaten desteklenmektedir"
+      "tokenAlreadySupported": "Bu token zaten desteklenmektedir"
     },
     "importSuccess": "{{tokenSymbol}} tokeni başarıyla içe aktarıldı",
     "importButton": "İçe Aktar"
@@ -2030,7 +2030,7 @@
     },
     "jumpstart": {
       "title": "Canlı bağlantı ile gönder",
-      "subtitle": "Tıpkı bir metin gibi kripto göndermek için bağlantıyı kopyalayın ve paylaşın"
+      "subtitle": "Kripto para göndermek için bir metin gibi bağlantıyı kopyalayıp paylaşın"
     },
     "getStarted": {
       "title": "Valora'da fon gönderme yolları",
@@ -2099,24 +2099,42 @@
     },
     "prepareTransactionError": {
       "title": "Bir şeyler ters gitti!",
-      "description": "Bu token için bir işlem hazırlamak mümkün olmadı."
+      "description": "Bu token için bir işlem hazırlanamadı."
     }
   },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
-      "title": "Bir bağlantıda {{amountInLocalCurrency,currency}} adresine kadar gönderebilirsiniz",
+      "title": "Bir bağlantıda en fazla {{amountInLocalCurrency,currency}} gönderebilirsiniz",
       "description": "Bu bağlantı, ona erişimi olan herkes tarafından talep edilebilir. Bağlantıları güvendiğiniz kişilere gönderdiğinizden emin olun."
     }
   },
   "jumpstartSendConfirmationScreen": {
     "title": "Canlı Bağlantı Oluştur",
-    "sendAmountLabel": "Canlı Bağlantı Miktarı",
+    "sendAmountLabel": "Canlı Bağlantı Tutarı",
     "confirmButton": "Bağlantı gönder ve oluştur",
-    "info": "Bir bağlantı oluşturduğunuzda, fonlar cüzdanınızdan çekilir. Bağlantıyı istediğiniz zaman geri alabilirsiniz. Bağlantıları dikkatle paylaşın.",
+    "info": "Bir bağlantı oluşturduğunuzda fonlar cüzdanınızdan çekilir. Bağlantıyı istediğiniz zaman geri alabilirsiniz. Bağlantıları dikkatli paylaşın.",
     "sendError": {
       "title": "Bağlantı oluşturulamıyor",
       "description": "Canlı bağlantınız oluşturulmadı. Lütfen tekrar deneyin.",
       "ctaLabel": "Yoksay"
+    }
+  },
+  "jumpstartShareLinkScreen": {
+    "title": "Canlı Bağlantı Paylaş",
+    "description": "Seçtiğiniz mesajlaşma uygulaması aracılığıyla {{tokenSymbol}} göndermek için bağlantıyı kopyalayın veya QR kodunu kullanın.",
+    "linkLabel": "Canlı Bağlantı",
+    "linkCopiedMessage": "Canlı Bağlantı kopyalandı",
+    "navigationWarning": {
+      "title": "Bağlantınızı paylaştınız mı?",
+      "description": "Bu canlı bağlantıyı paylaştığınızdan veya güvenli bir yere kaydettiğinizden emin olun.\n\nTalep edilmezse endişelenmeyin; fonları etkinlik akışınızdan kolayca geri alabilirsiniz.",
+      "ctaNavigate": "Ana Sayfaya git"
+    },
+    "ctaShare": "Bağlantı Paylaş",
+    "ctaScanQRCode": "Kare kodu tara",
+    "shareMessage": "Merhaba! Size {{appName}} uygulamasında {{tokenAmount}} {{tokenSymbol}} fon içeren bir bağlantı gönderiyorum. Uygulamayı indirmek için bu bağlantıyı kullanın ve fonlar canlı olarak sizi bekliyor olacak. {{link}}",
+    "qrCodeBottomSheet": {
+      "title": "Fonları almak için kodu tarayın",
+      "description": "Ana ekrandan fonlarınızın durumunu kontrol edin. Alternatif olarak, aşağıdaki bağlantıyı kopyalayın veya paylaşın."
     }
   },
   "transactionFeed": {
@@ -2142,34 +2160,34 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "Çoklu zinciri erken benimseyen 🎁",
-      "description": "Çok zincirli bir beta test kullanıcısı olduğunuz için bir teşekkür olarak, {{appName}} cüzdanınıza ücretsiz bir hediye ekledik! Erken benimseyen NFT, koleksiyonlarınızda bulunabilir.",
+      "title": "Tebrikler!",
+      "description": "Erken Ethereum Kaşifleri için özel bir koleksiyon kazandınız. {{appName}} uygulamasında Ethereum'a hoş geldiniz.",
       "cta": "Teşekkürler!"
     },
     "notification": {
-      "title": "Tebrikler 🎉",
-      "description": "{{rewardName}} {{appName}} cüzdanınıza başarıyla eklendi."
+      "title": "Yeni bir NFT sizi bekliyor 🎉",
+      "description": "Yeni {{rewardName}} NFT'nizi \"Koleksiyonlarınız\" altında bulabilirsiniz"
     },
     "rewardBottomSheet": {
       "title": "Bir ay boyunca ücretsiz nakit girişleri",
-      "description": "Koleksiyonlarınızda {{nftName}} adresinin sahibi olduğunuz için, Ocak ayı boyunca size ücretsiz para yatırma imkanı sunmak istiyoruz.\n\nÖdülü kullanmak için herhangi bir {{appName}} ortağı aracılığıyla para yatırın ve ücretlerden feragat edilecektir.",
-      "expirationLabel": "Son kullanma tarihi {{expirationLabelText}}",
-      "cta": "Ödül kullanın"
+      "description": "Koleksiyonlarınızda {{nftName}} olduğu için Ocak ayı boyunca size ücretsiz nakit girişi imkanı sunmak istiyoruz.\n\nÖdülü kullanmak için bir {{appName}} ortağı aracılığıyla nakit girişi yapın, ücretlerden feragat edilecektir.",
+      "expirationLabel": "Son kullanma tarihi: {{expirationLabelText}}",
+      "cta": "Ödülü kullanın"
     },
     "rewardReminderBottomSheet": {
       "title": "Bir ay boyunca ücretsiz nakit girişleri",
-      "description": "Ocak ayı boyunca ücretsiz para yatırma işlemlerinden yararlanmak için sadece 3 gün kaldı!\n\nÖdülü kullanmak için herhangi bir {{appName}} ortağı aracılığıyla para yatırın ve ücretlerden feragat edilecektir.",
-      "expirationLabel": "Son kullanma tarihi {{expirationLabelText}}",
-      "cta": "Ödül kullanın"
+      "description": "Ocak ayı boyunca ücretsiz nakit girişlerinden yararlanmak için sadece 3 gün kaldı!\n\nÖdülü kullanmak için bir {{appName}} ortağı aracılığıyla nakit girişi yapın, ücretlerden feragat edilecektir.",
+      "expirationLabel": "Son kullanma tarihi: {{expirationLabelText}}",
+      "cta": "Ödülü kullanın"
     }
   },
-  "pleaseWait": "Please wait",
+  "pleaseWait": "Lütfen bekleyin",
   "error": "Hata",
   "linkPhoneNumber": {
     "title": "Cüzdan adresinize bir telefon numarası bağlayın",
-    "description": "Artık dağınık cüzdan adresleri yok! Sadece bir telefon numarasıyla diğer Celo kullanıcılarına kripto gönderin",
-    "startButtonLabel": "Bağlantı Telefon Numarası",
-    "later": "Bunu daha sonra yapacağım."
+    "description": "Artık dağınık cüzdan adresleri yok! Sadece bir telefon numarasıyla diğer Celo kullanıcılarına kripto para gönderin",
+    "startButtonLabel": "Telefon Numarası bağla",
+    "later": "Bunu daha sonra yapacağım"
   },
   "bottomTabsNavigator": {
     "wallet": {
@@ -2177,11 +2195,24 @@
       "title": "Cüzdanım"
     },
     "home": {
-      "tabName": "Ana Sayfa",
-      "title": "Hoş geldiniz"
+      "tabName": "Başlat",
+      "title": "Hoşgeldiniz"
     },
     "discover": {
-      "tabName": "Keşfedin"
+      "tabName": "Keşfedin",
+      "title": "Keşfedin"
+    }
+  },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "Paranız yolda",
+      "description": "Arkadaşınızın size verdiği fon gönderiliyor. Lütfen bekleyin... "
+    },
+    "error": {
+      "title": "Fon talep edilemiyor",
+      "description": "Fon almayı denemek için canlı bağlantınızı tekrar deneyin veya arkadaşınızdan yeni bir bağlantı göndermeyi denemesini isteyin",
+      "contactSupport": "Destek ile İletişime Geç",
+      "dismiss": "Yoksay"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

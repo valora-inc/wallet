@@ -86,12 +86,13 @@ import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
 import { selectSessions } from 'src/walletConnect/selectors'
 import { walletAddressSelector } from 'src/web3/selectors'
 
-type Props = NativeStackScreenProps<StackParamList, Screens.Settings>
+type Props = NativeStackScreenProps<StackParamList, Screens.Settings | Screens.SettingsDrawer>
 
 export const Account = ({ navigation, route }: Props) => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const promptConfirmRemovalModal = route.params?.promptConfirmRemovalModal
+  const isTabNav = route.params?.isTabNav
 
   const revokeBottomSheetRef = useRef<BottomSheetRefType>(null)
   const deleteAccountBottomSheetRef = useRef<BottomSheetRefType>(null)
@@ -306,7 +307,9 @@ export const Account = ({ navigation, route }: Props) => {
       const pinIsCorrect = await ensurePincode()
       if (pinIsCorrect) {
         ValoraAnalytics.track(SettingsEvents.start_account_removal)
-        navigate(Screens.BackupPhrase, { navigatedFromSettings: true })
+        navigate(Screens.BackupPhrase, {
+          settingsScreen: isTabNav ? Screens.Settings : Screens.SettingsDrawer,
+        })
       }
     } catch (error) {
       Logger.error('SettingsItem@onPress', 'PIN ensure error', error)
@@ -435,8 +438,11 @@ export const Account = ({ navigation, route }: Props) => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <DrawerTopBar />
+    <SafeAreaView
+      style={styles.container}
+      edges={isTabNav ? ['bottom', 'left', 'right'] : undefined}
+    >
+      {!isTabNav && <DrawerTopBar />}
       <ScrollView testID="SettingsScrollView">
         <TouchableWithoutFeedback onPress={onDevSettingsTriggerPress}>
           <Text style={styles.title} testID={'SettingsTitle'}>

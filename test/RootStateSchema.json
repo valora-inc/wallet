@@ -2624,6 +2624,7 @@
                 "ImportSelect",
                 "ImportWallet",
                 "Invite",
+                "InviteDrawer",
                 "JumpstartEnterAmount",
                 "JumpstartSendConfirmation",
                 "JumpstartShareLink",
@@ -2666,12 +2667,14 @@
                 "SendEnterAmount",
                 "SendSelectRecipient",
                 "Settings",
+                "SettingsDrawer",
                 "SignInWithEmail",
                 "Simplex",
                 "Spend",
                 "StoreWipeRecoveryScreen",
                 "Support",
                 "SupportContact",
+                "SupportDrawer",
                 "SwapScreenWithBack",
                 "TabDiscover",
                 "TabHome",
@@ -3175,7 +3178,7 @@
                 "hapticFeedbackEnabled": {
                     "type": "boolean"
                 },
-                "hideHomeBalances": {
+                "hideBalances": {
                     "type": "boolean"
                 },
                 "huaweiMobileServicesAvailable": {
@@ -3305,7 +3308,7 @@
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hapticFeedbackEnabled",
-                "hideHomeBalances",
+                "hideBalances",
                 "inAppReviewLastInteractionTimestamp",
                 "inviterAddress",
                 "lastTimeBackgrounded",

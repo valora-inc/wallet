@@ -1,8 +1,10 @@
-import { render } from '@testing-library/react-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
+import { navigate } from 'src/navigator/NavigationService'
 import ProfileMenu from 'src/navigator/ProfileMenu'
+import { Screens } from 'src/navigator/Screens'
 import { getDynamicConfigParams } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
 import MockedNavigator from 'test/MockedNavigator'
@@ -121,5 +123,20 @@ describe('ProfileMenu', () => {
 
       expect(getByText(expectedText)).toBeTruthy()
     })
+  })
+  it('menu items navigate to appropriate screens', () => {
+    const store = createMockStore()
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={ProfileMenu}></MockedNavigator>
+      </Provider>
+    )
+    fireEvent.press(getByTestId('ProfileMenu/Invite'))
+    fireEvent.press(getByTestId('ProfileMenu/Settings'))
+    fireEvent.press(getByTestId('ProfileMenu/Help'))
+    expect(navigate).toHaveBeenCalledTimes(3)
+    expect(navigate).toHaveBeenNthCalledWith(1, Screens.Invite)
+    expect(navigate).toHaveBeenNthCalledWith(2, Screens.Settings, { isTabNav: true })
+    expect(navigate).toHaveBeenNthCalledWith(3, Screens.Support, { isTabNav: true })
   })
 })
