@@ -36,7 +36,11 @@ function SwapFeedItem({ exchange }: Props) {
   return (
     <Touchable testID="SwapFeedItem" onPress={handleTransferDetails}>
       <View style={styles.container}>
-        <TransactionFeedItemImage status={exchange.status} transactionType={exchange.__typename} />
+        <TransactionFeedItemImage
+          status={exchange.status}
+          transactionType={exchange.__typename}
+          networkId={exchange.networkId}
+        />
         <View style={styles.contentContainer}>
           <Text style={styles.title} testID={'SwapFeedItem/title'} numberOfLines={1}>
             {t('swapScreen.title')}
