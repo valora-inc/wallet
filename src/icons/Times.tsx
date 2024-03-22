@@ -11,10 +11,6 @@ export interface Props {
   strokeWidth?: number
 }
 
-/**
- * @deprecated
- * use src/icons/X.tsx instead unless animated colors needed
- */
 function Times({ color, height, strokeWidth }: Props) {
   return (
     <Svg
