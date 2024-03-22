@@ -470,7 +470,7 @@ describe('Account', () => {
       body: '{"phoneNumber":"+14155550000","clientPlatform":"android","clientVersion":"0.0.1"}',
     })
     expect(navigate).toHaveBeenLastCalledWith(Screens.BackupPhrase, {
-      settingsScreen: Screens.SettingsDrawer,
+      settingsScreen: Screens.Settings,
     })
   })
 
