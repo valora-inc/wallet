@@ -54,7 +54,7 @@ export type StackParamList = {
   [Screens.BackupComplete]:
     | undefined
     | {
-        settingsScreen: Screens | undefined
+        settingsScreen: Screens.Settings | Screens.SettingsDrawer | undefined
       }
   [Screens.BackupIntroduction]:
     | {
@@ -70,12 +70,12 @@ export type StackParamList = {
   [Screens.BackupPhrase]:
     | undefined
     | {
-        settingsScreen: Screens | undefined
+        settingsScreen: Screens.Settings | Screens.SettingsDrawer | undefined
       }
   [Screens.BackupQuiz]:
     | undefined
     | {
-        settingsScreen: Screens | undefined
+        settingsScreen: Screens.Settings | Screens.SettingsDrawer | undefined
       }
   [Screens.FiatDetailsScreen]: {
     quote: FiatConnectQuote
