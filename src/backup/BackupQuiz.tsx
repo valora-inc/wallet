@@ -81,10 +81,7 @@ export const navOptionsForQuiz = ({ route }: OwnProps) => {
         <CancelButton
           onCancel={() =>
             navigate(
-              settingsScreen === Screens.Settings ? Screens.Settings : Screens.SettingsDrawer,
-              {
-                isTabNav: settingsScreen === Screens.Settings,
-              }
+              settingsScreen === Screens.Settings ? Screens.Settings : Screens.SettingsDrawer
             )
           }
           style={styles.cancelButton}
