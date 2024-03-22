@@ -29,7 +29,7 @@ export default function TabNavigator({ route }: Props) {
     <Tab.Navigator
       initialRouteName={initialScreen}
       screenOptions={{
-        headerShown: false,
+        headerShown: true,
         headerShadowVisible: false,
         headerTitleAllowFontScaling: false,
         tabBarActiveTintColor: Colors.black,
