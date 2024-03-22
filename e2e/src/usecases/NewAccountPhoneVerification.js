@@ -12,6 +12,7 @@ import {
   sleep,
   waitForElementId,
   completeProtectWalletScreen,
+  navigateToSettings,
 } from '../utils/utils'
 
 import jestExpect from 'expect'
@@ -22,6 +23,7 @@ export default NewAccountPhoneVerification = () => {
     await launchApp({
       delete: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
+      launchArgs: { statsigGateOverrides: `use_tab_navigator=true` },
     })
 
     // Create new account
@@ -181,11 +183,7 @@ export default NewAccountPhoneVerification = () => {
     await waitForElementId('HomeAction-Send')
 
     // Assert that 'Connect phone number' is present in settings
-    await waitForElementId('Hamburger')
-    await element(by.id('Hamburger')).tap()
-    await scrollIntoView('Settings', 'SettingsScrollView')
-    await waitForElementId('Settings')
-    await element(by.id('Settings')).tap()
+    await navigateToSettings('tab')
     await waitFor(element(by.text('Connect phone number')))
       .toBeVisible()
       .withTimeout(10 * 1000)
