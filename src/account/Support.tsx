@@ -22,7 +22,7 @@ const onPressContact = () => {
 
 const Support = ({ navigation, route }: Props) => {
   const { t } = useTranslation()
-  const isTabNav = route.params?.isTabNav
+  const isTabNav = route.name === Screens.Support
 
   return (
     <SafeAreaView

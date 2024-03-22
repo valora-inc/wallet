@@ -482,7 +482,7 @@ describe('Account', () => {
 
     const tree = render(
       <Provider store={store}>
-        <Settings {...getMockStackScreenProps(Screens.Settings, { isTabNav: true })} />
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
       </Provider>
     )
 
