@@ -122,7 +122,7 @@ export default NewAccountOnboarding = () => {
       .withTimeout(10 * 1000)
   })
 
-  it('Account Address shown in drawer menu', async () => {
+  it('Account Address shown in profile / menu', async () => {
     await waitForElementByIdAndTap('WalletHome/AccountCircle')
     await scrollIntoView('Account Address', 'SettingsScrollView')
     const accountAddressElement = await element(by.id('AccountNumber')).getAttributes()
