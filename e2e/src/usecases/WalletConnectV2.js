@@ -12,7 +12,7 @@ import { hexToNumber } from 'viem'
 import { parseTransaction } from 'viem/celo'
 import { formatUri, utf8ToHex } from '../utils/encoding'
 import { launchApp } from '../utils/retries'
-import { enterPinUiIfNecessary, scrollIntoView, sleep, waitForElementId } from '../utils/utils'
+import { enterPinUiIfNecessary, navigateToSettings, sleep } from '../utils/utils'
 
 import jestExpect from 'expect'
 
@@ -360,12 +360,7 @@ export default WalletConnect = () => {
   })
 
   it('Then should be able to disconnect a session', async () => {
-    await waitForElementId('Hamburger')
-    await element(by.id('Hamburger')).tap()
-
-    await scrollIntoView('Settings', 'SettingsScrollView')
-    await waitForElementId('Settings')
-    await element(by.id('Settings')).tap()
+    await navigateToSettings('drawer')
     await element(by.id('ConnectedApplications')).tap()
     await element(by.text('Tap to Disconnect')).tap()
     await element(by.text('Disconnect')).tap()
