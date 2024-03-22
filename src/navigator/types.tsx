@@ -272,7 +272,7 @@ export type StackParamList = {
   }
   [Screens.Spend]: undefined
   [Screens.StoreWipeRecoveryScreen]: undefined
-  [Screens.Support]: {} | undefined
+  [Screens.Support]: undefined
   [Screens.SupportDrawer]: {} | undefined
   [Screens.SupportContact]:
     | {
