@@ -115,7 +115,7 @@ function MultiSelectBottomSheet<T extends string>({
   )
 }
 
-export interface OptionProps {
+interface OptionProps {
   onPress?: () => void
   text: string
   isSelected: boolean
