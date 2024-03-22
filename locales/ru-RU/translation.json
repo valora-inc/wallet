@@ -1311,6 +1311,9 @@
   "feedItemGoldWithdrawal": "Снятие на {{displayName}}",
   "feedItemGoldReceived": "Получено от {{displayName}}",
   "feedItemSwapPath": "{{token1}} в {{token2}}",
+  "feedItemJumpstartTitle": "Прямая ссылка",
+  "feedItemJumpstartSentSubtitle": "Приглашение",
+  "feedItemJumpstartReceivedSubtitle": "Полученные средства",
   "transactionHeaderVerificationFee": "Подтверждение",
   "transactionHeaderNetworkFee": "Сообщество",
   "transactionHeaderFaucet": "Кран",
@@ -2199,12 +2202,12 @@
       "title": "Мой кошелек"
     },
     "home": {
-      "tabName": "Старт",
-      "title": "привет"
+      "tabName": "Главный",
+      "title": "Привет"
     },
     "discover": {
-      "tabName": "Узнать",
-      "title": "Узнать"
+      "tabName": "Изучите",
+      "title": "Исследуйте в Web3 "
     }
   },
   "jumpstartStatus": {

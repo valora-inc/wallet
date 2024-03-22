@@ -1307,6 +1307,9 @@
   "feedItemGoldWithdrawal": "Transferidos a {{displayName}}",
   "feedItemGoldReceived": "Recibidos de {{displayName}}",
   "feedItemSwapPath": "{{token1}} > {{token2}}",
+  "feedItemJumpstartTitle": "Enlace activo",
+  "feedItemJumpstartSentSubtitle": "Invitación",
+  "feedItemJumpstartReceivedSubtitle": "Fondos recibidos",
   "transactionHeaderVerificationFee": "Confirmación",
   "transactionHeaderNetworkFee": "Red",
   "transactionHeaderFaucet": "Faucet",
@@ -2029,7 +2032,7 @@
       "subtitle": "Invita a amigos de tu lista de contactos"
     },
     "jumpstart": {
-      "title": "Enviar con un enlace en directo",
+      "title": "Enviar con un enlace activo",
       "subtitle": "Copia el enlace y compártelo para enviar cripto como si fuera texto"
     },
     "getStarted": {
@@ -2109,24 +2112,24 @@
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Crear enlace en directo",
-    "sendAmountLabel": "Monto del enlace en directo",
+    "title": "Crear enlace activo",
+    "sendAmountLabel": "Monto del enlace activo",
     "confirmButton": "Enviar y crear enlace",
     "info": "Cuando creas un enlace, los fondos se retiran de tu billetera. Puedes recuperar el enlace en cualquier momento. Comparte enlaces con cuidado.",
     "sendError": {
       "title": "No se puede crear el enlace",
-      "description": "No se creó tu enlace en directo. Inténtalo de nuevo.",
+      "description": "No se creó tu enlace activo. Inténtalo de nuevo.",
       "ctaLabel": "Ignorar"
     }
   },
   "jumpstartShareLinkScreen": {
-    "title": "Compartir enlace en directo",
+    "title": "Compartir enlace activo",
     "description": "Copia el enlace para enviar {{tokenSymbol}} a través de la app de mensajería que prefieras, o usa el código QR.",
-    "linkLabel": "Enlace en directo",
-    "linkCopiedMessage": "Enlace en directo copiado",
+    "linkLabel": "Enlace activo",
+    "linkCopiedMessage": "Enlace activo copiado",
     "navigationWarning": {
       "title": "¿Compartiste tu enlace?",
-      "description": "Asegúrate de compartir este enlace en directo o de guardarlo en un lugar seguro.\n\nNo te preocupes si no es reclamado: puedes recuperar los fondos fácilmente desde tu feed de actividad.",
+      "description": "Asegúrate de compartir este enlace activo o de guardarlo en un lugar seguro.\n\nNo te preocupes si no es reclamado: puedes recuperar los fondos fácilmente desde tu feed de actividad.",
       "ctaNavigate": "Volver a inicio"
     },
     "ctaShare": "Compartir enlace",
@@ -2196,11 +2199,11 @@
     },
     "home": {
       "tabName": "Inicio",
-      "title": "Bienvenido"
+      "title": "¡Saludos!"
     },
     "discover": {
-      "tabName": "Descubrir",
-      "title": "Descubrir"
+      "tabName": "Explorar",
+      "title": "Explora la web3"
     }
   },
   "jumpstartStatus": {
@@ -2210,7 +2213,7 @@
     },
     "error": {
       "title": "No se pueden recuperar los fondos",
-      "description": "Prueba de nuevo tu enlace en directo para recibir fondos, o pide a tu amigo que intente enviar un nuevo enlace",
+      "description": "Prueba de nuevo tu enlace activo para recibir fondos, o pide a tu amigo que intente enviar un nuevo enlace",
       "contactSupport": "Contactar a Soporte",
       "dismiss": "Ignorar"
     }

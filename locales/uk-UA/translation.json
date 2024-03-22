@@ -1311,6 +1311,9 @@
   "feedItemGoldWithdrawal": "Зняття на {{displayName}}",
   "feedItemGoldReceived": "Отримано від {{displayName}}",
   "feedItemSwapPath": "{{token1}} до {{token2}}",
+  "feedItemJumpstartTitle": "Пряме посилання",
+  "feedItemJumpstartSentSubtitle": "Запрошення",
+  "feedItemJumpstartReceivedSubtitle": "Отримані кошти",
   "transactionHeaderVerificationFee": "Підтвердження",
   "transactionHeaderNetworkFee": "Мережа",
   "transactionHeaderFaucet": "Faucet",
@@ -2199,12 +2202,12 @@
       "title": "Мій гаманець"
     },
     "home": {
-      "tabName": "старт",
-      "title": "Вітаємо"
+      "tabName": "Старт",
+      "title": "Привіт"
     },
     "discover": {
-      "tabName": "Дізнатися",
-      "title": "Дізнатися"
+      "tabName": "Дослідіть",
+      "title": "Дослідіть Web3"
     }
   },
   "jumpstartStatus": {
