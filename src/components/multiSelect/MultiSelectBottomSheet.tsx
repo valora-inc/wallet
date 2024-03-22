@@ -1,19 +1,19 @@
-import GorhomBottomSheet, { BottomSheetBackdrop, BottomSheetProps } from '@gorhom/bottom-sheet'
-import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types'
-import React, { useCallback, useMemo, useRef } from 'react'
+import GorhomBottomSheet, { BottomSheetProps } from '@gorhom/bottom-sheet'
+import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Keyboard, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { ScrollView } from 'react-native-gesture-handler'
-import { useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-context'
+import BottomSheetBase from 'src/components/BottomSheetBase'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import Touchable from 'src/components/Touchable'
 import Checkmark from 'src/icons/Checkmark'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 
-const ITEM_HEIGHT = 60
-const MAX_ITEMS_IN_VIEW = 5
+const OPTION_HEIGHT = 60
+const MAX_OPTIONS_IN_VIEW = 5
 
 interface MultiSelectBottomSheetProps<T extends string> {
   forwardedRef: React.RefObject<GorhomBottomSheet>
@@ -21,123 +21,84 @@ interface MultiSelectBottomSheetProps<T extends string> {
   onClose?: () => void
   onOpen?: () => void
   handleComponent?: BottomSheetProps['handleComponent']
-  selectedItems: Record<T, boolean>
-  setSelectedItems: (selectedItems: Record<T, boolean>) => void
-  textAndIconMap: Record<T, Omit<ItemProps, 'onPress' | 'isSelected'>>
+  options: Option[]
+  selectedOptions: Option[]
+  setSelectedOptions: (selectedOptions: Option[]) => void
   selectAllText: string
   title: string
+}
+
+export interface Option {
+  id: string
+  text: string
+  iconUrl?: string
 }
 
 function MultiSelectBottomSheet<T extends string>({
   forwardedRef,
   onClose,
   onOpen,
-  selectedItems,
-  setSelectedItems,
-  textAndIconMap,
+  options,
+  setSelectedOptions,
+  selectedOptions,
   selectAllText,
   title,
 }: MultiSelectBottomSheetProps<T>) {
   const { t } = useTranslation()
-
-  // Bottom Sheet Things
   const scrollViewRef = useRef<ScrollView>(null)
-  const { height } = useSafeAreaFrame()
-  const insets = useSafeAreaInsets()
-  const renderBackdrop = useCallback(
-    (props: BottomSheetDefaultBackdropProps) => (
-      <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} />
-    ),
-    []
-  )
-  // fires before bottom sheet animation starts
-  const handleAnimate = (fromIndex: number, toIndex: number) => {
-    if (toIndex === -1 || fromIndex === -1) {
-      // ensure that the keyboard dismiss animation starts at the same time as
-      // the bottom sheet
-      Keyboard.dismiss()
-    }
 
-    if (toIndex === 0) {
-      onOpen?.()
-    }
-  }
+  const isEveryOptionSelected = options.length === selectedOptions.length
+
   const handleClose = () => {
     onClose?.()
   }
 
-  // Multi select logic things
-  const isEveryItemSelected = Object.values(selectedItems).every((isSelected) => isSelected)
-  const allItemIds = Object.keys(selectedItems) as T[]
-  const everyItemSelected = useMemo(
-    () =>
-      allItemIds.reduce(
-        (acc, key) => {
-          acc[key as T] = true
-          return acc
-        },
-        {} as Record<T, boolean>
-      ),
-    [allItemIds]
-  )
-  const noItemSelected = useMemo(
-    () =>
-      allItemIds.reduce(
-        (acc, key) => {
-          acc[key as T] = false
-          return acc
-        },
-        {} as Record<T, boolean>
-      ),
-    [allItemIds]
-  )
-
-  const selectAllItem = renderItem({
-    text: selectAllText,
-    isSelected: isEveryItemSelected,
-    onPress: () => setSelectedItems(everyItemSelected),
-  })
-
-  const items = (Object.entries(selectedItems) as [T, boolean][]).map(([itemId, isSelected]) =>
-    renderItem({
-      text: textAndIconMap[itemId].text,
-      iconUrl: textAndIconMap[itemId].iconUrl,
-      isSelected: isSelected && !isEveryItemSelected,
-      onPress: () => {
-        if (isEveryItemSelected) {
-          setSelectedItems({ ...noItemSelected, [itemId]: isSelected })
-        } else {
-          setSelectedItems({ ...selectedItems, [itemId]: !isSelected })
-        }
-      },
-    })
-  )
-
   return (
-    <GorhomBottomSheet
-      ref={forwardedRef}
-      index={-1}
-      enableDynamicSizing={true}
-      enablePanDownToClose
-      backdropComponent={renderBackdrop}
-      handleIndicatorStyle={{ width: 0 }}
-      onAnimate={handleAnimate}
+    <BottomSheetBase
+      forwardedRef={forwardedRef}
       onClose={handleClose}
-      maxDynamicContentSize={height - insets.top}
+      onOpen={onOpen}
       backgroundStyle={{ backgroundColor: 'transparent' }}
+      handleIndicatorStyle={{ width: 0 }}
     >
       <BottomSheetScrollView
         forwardedRef={scrollViewRef}
         testId={'MultiSelectBottomSheet'}
         containerStyle={styles.bottomSheetScrollView}
       >
-        <View style={[styles.item, styles.borderRadiusTop]}>
+        <View style={[styles.option, styles.borderRadiusTop]}>
           <Text style={styles.boldTextStyle}>{title}</Text>
         </View>
-        <View style={styles.itemsContainer}>
-          <ScrollView style={{ height: ITEM_HEIGHT * MAX_ITEMS_IN_VIEW }}>
-            {selectAllItem}
-            {items}
+        <View style={styles.optionsContainer}>
+          <ScrollView style={{ height: OPTION_HEIGHT * MAX_OPTIONS_IN_VIEW }}>
+            <Option
+              text={selectAllText}
+              isSelected={isEveryOptionSelected}
+              onPress={() => setSelectedOptions(options)}
+            />
+            {options.map((option) => (
+              <Option
+                text={option.text}
+                iconUrl={option.iconUrl}
+                isSelected={
+                  !!selectedOptions.find((selectedOption) => selectedOption.id === option.id) &&
+                  !isEveryOptionSelected
+                }
+                onPress={() => {
+                  if (isEveryOptionSelected) {
+                    setSelectedOptions([option])
+                  } else {
+                    if (selectedOptions.find((selectedOption) => selectedOption.id === option.id)) {
+                      setSelectedOptions(
+                        selectedOptions.filter((selectedOption) => selectedOption.id !== option.id)
+                      )
+                    } else {
+                      setSelectedOptions([...selectedOptions, option])
+                    }
+                  }
+                }}
+              />
+            ))}
           </ScrollView>
         </View>
         <View style={styles.doneButtonContainer}>
@@ -150,21 +111,21 @@ function MultiSelectBottomSheet<T extends string>({
           </Touchable>
         </View>
       </BottomSheetScrollView>
-    </GorhomBottomSheet>
+    </BottomSheetBase>
   )
 }
 
-export interface ItemProps {
+export interface OptionProps {
   onPress?: () => void
   text: string
   isSelected: boolean
   iconUrl?: string
 }
-function renderItem({ onPress, text, iconUrl, isSelected }: ItemProps) {
+function Option({ onPress, text, iconUrl, isSelected }: OptionProps) {
   return (
-    <View key={text} style={styles.itemContainer}>
-      <Touchable style={styles.item} onPress={onPress}>
-        <View style={styles.itemRow}>
+    <View key={text} style={styles.optionContainer}>
+      <Touchable style={styles.option} onPress={onPress}>
+        <View style={styles.optionRow}>
           <View style={styles.leftColumn}>
             <FastImage source={{ uri: iconUrl }} style={styles.icon} testID={`${text}-icon`} />
           </View>
@@ -200,7 +161,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 5,
-    paddingHorizontal: 24,
+    paddingHorizontal: Spacing.Thick24,
   },
   doneButtonContainer: {
     flexDirection: 'column',
@@ -227,20 +188,20 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
   },
-  itemContainer: {
+  optionContainer: {
     flexDirection: 'column',
   },
-  item: {
-    height: ITEM_HEIGHT,
+  option: {
+    height: OPTION_HEIGHT,
     flexGrow: 1,
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 5,
-    paddingHorizontal: 24,
+    paddingHorizontal: Spacing.Thick24,
     borderTopWidth: 1,
     borderColor: Colors.gray2,
   },
-  itemRow: {
+  optionRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -249,9 +210,9 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 16,
     backgroundColor: Colors.white,
   },
-  itemsContainer: {
+  optionsContainer: {
     flexDirection: 'column',
-    marginBottom: 8,
+    marginBottom: Spacing.Smallest8,
     backgroundColor: Colors.white,
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
@@ -263,7 +224,7 @@ const styles = StyleSheet.create({
     ...typeScale.labelSemiBoldLarge,
   },
   bottomSheetScrollView: {
-    marginHorizontal: 16,
+    marginHorizontal: Spacing.Regular16,
     padding: 0,
   },
 })

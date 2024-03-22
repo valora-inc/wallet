@@ -15,14 +15,27 @@ describe('NetworkMultiSelectBottomSheet', () => {
     const forwardedRef = { current: null }
     const onClose = jest.fn()
     const onOpen = jest.fn()
-    const selectedNetworkIds = {
-      [NetworkId['celo-alfajores']]: true,
-      [NetworkId['ethereum-sepolia']]: false,
-    } as Record<NetworkId, boolean>
-    const expectedTextAndIconMap = {
-      [NetworkId['celo-alfajores']]: { text: 'Celo Alfajores', iconUrl: 'url-for-cusd-icon' },
-      [NetworkId['ethereum-sepolia']]: { text: 'Ethereum Sepolia', iconUrl: 'url-for-eth-icon' },
-    }
+    const allNetworkIds = [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']]
+    const selectedNetworkIds = [NetworkId['celo-alfajores']]
+    const expectedOptions = [
+      {
+        text: 'Celo Alfajores',
+        iconUrl: 'url-for-cusd-icon',
+        id: NetworkId['celo-alfajores'],
+      },
+      {
+        text: 'Ethereum Sepolia',
+        iconUrl: 'url-for-eth-icon',
+        id: NetworkId['ethereum-sepolia'],
+      },
+    ]
+    const expectedSelectedOptions = [
+      {
+        text: 'Celo Alfajores',
+        iconUrl: 'url-for-cusd-icon',
+        id: NetworkId['celo-alfajores'],
+      },
+    ]
 
     render(
       <Provider
@@ -46,6 +59,7 @@ describe('NetworkMultiSelectBottomSheet', () => {
           forwardedRef={forwardedRef}
           onClose={onClose}
           onOpen={onOpen}
+          allNetworkIds={allNetworkIds}
           selectedNetworkIds={selectedNetworkIds}
           setSelectedNetworkIds={setSelectedNetworkIds}
         />
@@ -57,9 +71,9 @@ describe('NetworkMultiSelectBottomSheet', () => {
         forwardedRef,
         onClose,
         onOpen,
-        selectedItems: selectedNetworkIds,
-        setSelectedItems: setSelectedNetworkIds,
-        textAndIconMap: expectedTextAndIconMap,
+        selectedOptions: expectedSelectedOptions,
+        setSelectedOptions: expect.any(Function),
+        options: expectedOptions,
         selectAllText: 'multiSelect.allNetworks',
         title: 'multiSelect.switchNetwork',
       },
