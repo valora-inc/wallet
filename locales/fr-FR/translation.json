@@ -1307,6 +1307,9 @@
   "feedItemGoldWithdrawal": "Retrait vers {{displayName}}",
   "feedItemGoldReceived": "Reçu de {{displayName}}",
   "feedItemSwapPath": "{{token1}} > {{token2}}",
+  "feedItemJumpstartTitle": "Lien direct",
+  "feedItemJumpstartSentSubtitle": "Invitation",
+  "feedItemJumpstartReceivedSubtitle": "Fonds reçus",
   "transactionHeaderVerificationFee": "Confirmation",
   "transactionHeaderNetworkFee": "Réseau",
   "transactionHeaderFaucet": "Faucet",
@@ -2192,7 +2195,7 @@
   "bottomTabsNavigator": {
     "wallet": {
       "tabName": "Wallet",
-      "title": "Portefeuille"
+      "title": "Mon portefeuille"
     },
     "home": {
       "tabName": "Accueil",
@@ -2200,7 +2203,7 @@
     },
     "discover": {
       "tabName": "Découvrir",
-      "title": "Découvrir"
+      "title": "Découvrez le Web3"
     }
   },
   "jumpstartStatus": {
