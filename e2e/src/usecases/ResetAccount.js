@@ -1,8 +1,18 @@
 import { SAMPLE_BACKUP_KEY } from '../utils/consts'
-import { reloadReactNative } from '../utils/retries'
-import { enterPinUiIfNecessary, waitForElementId } from '../utils/utils'
+import { reloadReactNative, launchApp } from '../utils/retries'
+import { enterPinUiIfNecessary, navigateToSettings, waitForElementId } from '../utils/utils'
 
-export default ResetAccount = () => {
+export default ResetAccount = ({ navType }) => {
+  // TODO(ACT-1133): remove this launchApp as it is only needed to update
+  // statsig gate overrides
+  beforeAll(async () => {
+    await launchApp({
+      newInstance: false,
+      permissions: { notifications: 'YES', contacts: 'YES' },
+      launchArgs: { statsigGateOverrides: `use_tab_navigator=${navType === 'tab'}` },
+    })
+  })
+
   beforeEach(async () => {
     await reloadReactNative()
   })
@@ -16,9 +26,7 @@ export default ResetAccount = () => {
     // }
 
     // Go to Settings
-    await waitForElementId('Hamburger')
-    await element(by.id('Hamburger')).tap()
-    await element(by.id('Settings')).tap()
+    await navigateToSettings(navType)
 
     // Scroll to bottom and start the reset process.
     // await waitForElementId('SettingsScrollView')
