@@ -749,7 +749,7 @@ describe('Token differentiation for ETH and Layer 2 ETHs', () => {
     priceUsd: '3000',
     tokenId: 'ethereum:0xETH',
     address: '0xETH',
-    networkId: NetworkId['ethereum'],
+    networkId: NetworkId['ethereum-mainnet'],
     symbol: 'ETH',
     balance: '1',
     priceFetchedAt: Date.now(),
@@ -771,7 +771,7 @@ describe('Token differentiation for ETH and Layer 2 ETHs', () => {
     priceUsd: '2950',
     tokenId: 'optimism:0xETH',
     address: '0xETH',
-    networkId: NetworkId['optimism'],
+    networkId: NetworkId['op-mainnet'],
     symbol: 'oETH',
     balance: '1',
     priceFetchedAt: Date.now(),
@@ -797,7 +797,7 @@ describe('Token differentiation for ETH and Layer 2 ETHs', () => {
       </Provider>
     )
 
-    expect(getByTestId('TokenIcon/NetworkIcon')).toHaveProp('source', {
+    expect(getByTestId('TokenIcon')).toHaveProp('source', {
       uri: ethToken.networkIconUrl,
     })
     expect(getElementText(getByTestId('TotalTokenBalance'))).toEqual('$3000.00')
@@ -822,7 +822,7 @@ describe('Token differentiation for ETH and Layer 2 ETHs', () => {
       </Provider>
     )
 
-    expect(getByTestId('TokenIcon/NetworkIcon')).toHaveProp('source', {
+    expect(getByTestId('TokenIcon')).toHaveProp('source', {
       uri: arbitrumEthToken.networkIconUrl,
     })
     expect(getElementText(getByTestId('TotalTokenBalance'))).toEqual('$2000.00')
@@ -847,11 +847,9 @@ describe('Token differentiation for ETH and Layer 2 ETHs', () => {
       </Provider>
     )
 
-    expect(getByTestId('TokenIcon/NetworkIcon')).toHaveProp('source', {
+    expect(getByTestId('TokenIcon')).toHaveProp('source', {
       uri: optimismEthToken.networkIconUrl,
     })
     expect(getElementText(getByTestId('TotalTokenBalance'))).toEqual('$2950.00')
   })
-
-  // Optional: Additional tests for mixed scenarios
 })
