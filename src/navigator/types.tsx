@@ -54,7 +54,7 @@ export type StackParamList = {
   [Screens.BackupComplete]:
     | undefined
     | {
-        settingsScreen: Screens | undefined
+        settingsScreen: Screens.Settings | Screens.SettingsDrawer | undefined
       }
   [Screens.BackupIntroduction]:
     | {
@@ -70,12 +70,12 @@ export type StackParamList = {
   [Screens.BackupPhrase]:
     | undefined
     | {
-        settingsScreen: Screens | undefined
+        settingsScreen: Screens.Settings | Screens.SettingsDrawer | undefined
       }
   [Screens.BackupQuiz]:
     | undefined
     | {
-        settingsScreen: Screens | undefined
+        settingsScreen: Screens.Settings | Screens.SettingsDrawer | undefined
       }
   [Screens.FiatDetailsScreen]: {
     quote: FiatConnectQuote
@@ -265,15 +265,15 @@ export type StackParamList = {
     sendAmount: string
     tokenId: string
   }
-  [Screens.Settings]: { promptConfirmRemovalModal?: boolean; isTabNav?: boolean } | undefined
-  [Screens.SettingsDrawer]: { promptConfirmRemovalModal?: boolean; isTabNav?: boolean } | undefined
+  [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
+  [Screens.SettingsDrawer]: { promptConfirmRemovalModal?: boolean } | undefined
   [Screens.SignInWithEmail]: {
     keylessBackupFlow: KeylessBackupFlow
   }
   [Screens.Spend]: undefined
   [Screens.StoreWipeRecoveryScreen]: undefined
-  [Screens.Support]: { isTabNav?: boolean } | undefined
-  [Screens.SupportDrawer]: { isTabNav?: boolean } | undefined
+  [Screens.Support]: undefined
+  [Screens.SupportDrawer]: {} | undefined
   [Screens.SupportContact]:
     | {
         prefilledText: string

@@ -436,7 +436,7 @@ describe('Account', () => {
     expect(mockFetch).toHaveBeenCalledTimes(1)
   })
 
-  it('deletes the account and unlinks the phone number successfully', async () => {
+  it('deletes the account and unlinks the phone number successfully (using SettingsDrawer screen)', async () => {
     mockedEnsurePincode.mockImplementation(() => Promise.resolve(true))
     mockFetch.mockResponseOnce(JSON.stringify({ message: 'OK' }), {
       status: 200,
@@ -450,7 +450,7 @@ describe('Account', () => {
 
     const tree = render(
       <Provider store={store}>
-        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+        <Settings {...getMockStackScreenProps(Screens.SettingsDrawer)} />
       </Provider>
     )
 
@@ -482,7 +482,7 @@ describe('Account', () => {
 
     const tree = render(
       <Provider store={store}>
-        <Settings {...getMockStackScreenProps(Screens.Settings, { isTabNav: true })} />
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
       </Provider>
     )
 
