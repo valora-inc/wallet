@@ -92,7 +92,7 @@ export const Account = ({ navigation, route }: Props) => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const promptConfirmRemovalModal = route.params?.promptConfirmRemovalModal
-  const isTabNav = route.params?.isTabNav
+  const isTabNav = route.name === Screens.Settings
 
   const revokeBottomSheetRef = useRef<BottomSheetRefType>(null)
   const deleteAccountBottomSheetRef = useRef<BottomSheetRefType>(null)
