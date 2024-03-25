@@ -3175,6 +3175,18 @@ export const v201Schema = {
   },
 }
 
+export const v202Schema = {
+  ...v201Schema,
+  _persist: {
+    ...v201Schema._persist,
+    version: 202,
+  },
+  walletConnect: {
+    ...v201Schema.walletConnect,
+    pendingSessions: [],
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v201Schema as Partial<RootState>
+  return v202Schema as Partial<RootState>
 }
