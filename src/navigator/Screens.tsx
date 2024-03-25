@@ -62,6 +62,7 @@ export enum Screens {
   OnboardingSuccessScreen = 'OnboardingSuccessScreen',
   PincodeEnter = 'PincodeEnter',
   PincodeSet = 'PincodeSet',
+  PointsHome = 'PointsHome',
   Profile = 'Profile',
   ProfileMenu = 'ProfileMenu',
   ProtectWallet = 'ProtectWallet',

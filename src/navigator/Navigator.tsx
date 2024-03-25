@@ -121,6 +121,7 @@ import VerificationStartScreen from 'src/verify/VerificationStartScreen'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
 import WalletConnectRequest from 'src/walletConnect/screens/WalletConnectRequest'
 import WebViewScreen from 'src/webview/WebViewScreen'
+import PointsHome from 'src/points/PointsHome'
 
 const TAG = 'Navigator'
 
@@ -570,6 +571,11 @@ const assetScreens = (Navigator: typeof Stack) => (
   </>
 )
 
+const pointsScreens = (Navigator: typeof Stack) => (
+  <>
+    <Navigator.Screen name={Screens.PointsHome} component={PointsHome} options={noHeader} />
+  </>
+)
 const mapStateToProps = (state: RootState) => {
   return {
     choseToRestoreAccount: state.account.choseToRestoreAccount,
@@ -638,6 +644,7 @@ export function MainStackScreen() {
       {swapScreens(Stack)}
       {nftScreens(Stack)}
       {assetScreens(Stack)}
+      {pointsScreens(Stack)}
     </Stack.Navigator>
   )
 }

@@ -219,6 +219,7 @@ export type StackParamList = {
         showGuidedOnboarding?: boolean
       }
     | undefined
+  [Screens.PointsHome]: undefined
   [Screens.ProtectWallet]: undefined
   [Screens.OnboardingRecoveryPhrase]: undefined
   [Screens.Profile]: undefined

@@ -22,6 +22,9 @@ import { Spacing } from 'src/styles/styles'
 import { useTokenInfoByCurrency } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
+import PointsButton from 'src/components/PointsButton'
 
 export const noHeader: NativeStackNavigationOptions = {
   headerShown: false,
@@ -282,12 +285,16 @@ export function HeaderTitleWithSubtitle({
 
 export const tabHeader: NativeStackNavigationOptions = {
   ...emptyHeader,
-  headerRight: () => (
-    <View style={[styles.topElementsContainer, { marginRight: Spacing.Tiny4 }]}>
-      <QrScanButton testID="WalletHome/QRScanButton" />
-      <NotificationBell testID="WalletHome/NotificationBell" />
-    </View>
-  ),
+  headerRight: () => {
+    const showPoints = getFeatureGate(StatsigFeatureGates.SHOW_POINTS)
+    return (
+      <View style={[styles.topElementsContainer, { marginRight: Spacing.Tiny4 }]}>
+        {showPoints && <PointsButton testID={'WalletHome/PointsButton'} />}
+        <QrScanButton testID="WalletHome/QRScanButton" />
+        <NotificationBell testID="WalletHome/NotificationBell" />
+      </View>
+    )
+  },
   headerLeft: () => (
     <View style={[styles.topElementsContainer, { marginLeft: Spacing.Tiny4 }]}>
       <AccountCircleButton testID="WalletHome/AccountCircle" />
