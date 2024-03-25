@@ -2,7 +2,6 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import MultiSelectBottomSheet from 'src/components/multiSelect/MultiSelectBottomSheet'
 
-
 const allOptions = [
   { text: 'One', iconUrl: 'icon', id: 'one' },
   { text: 'Two', iconUrl: 'icon', id: 'two' },

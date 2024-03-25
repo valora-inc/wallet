@@ -38,7 +38,6 @@ function NetworkMultiSelectBottomSheet({
     [allNetworkIds, networkIconByNetworkId]
   )
 
-
   return (
     <MultiSelectBottomSheet<NetworkId>
       forwardedRef={forwardedRef}
