@@ -28,7 +28,7 @@ export interface MultiSelectBottomSheetProps<T extends string> {
   title: string
 }
 
-export interface Option<T extends string> {
+interface Option<T extends string> {
   id: T
   text: string
   iconUrl?: string
