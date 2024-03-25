@@ -375,12 +375,12 @@
         "__comment2": "Specifying 'testBinaryPath' otherwise detox infers the wrong APK name because we're using split APKs"
       },
       "ios.debug": {
-        "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/celo.app",
+        "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/valora.app",
         "build": "unset PREFIX && set -o pipefail && xcodebuild -workspace ios/celo.xcworkspace -scheme celo-test -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build | bundle exec xcpretty",
         "type": "ios.app"
       },
       "ios.release": {
-        "binaryPath": "ios/build/Build/Products/Release-iphonesimulator/celo.app",
+        "binaryPath": "ios/build/Build/Products/Release-iphonesimulator/valora.app",
         "build": "unset PREFIX && set -o pipefail && xcodebuild -workspace ios/celo.xcworkspace -scheme celo-test -configuration Release -sdk iphonesimulator -derivedDataPath ios/build | bundle exec xcpretty",
         "type": "ios.app"
       }
