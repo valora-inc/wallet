@@ -208,7 +208,7 @@ export function* fetchTokenBalancesSaga() {
 
     const supportedNetworks = getSupportedNetworkIdsForTokenBalances()
     const importedTokens = yield* select(importedTokensSelector, supportedNetworks)
-    const networkIconByNetworkId = yield* select(networksIconSelector, supportedNetworks)
+    const networkIconByNetworkId = yield* select(networksIconSelector)
 
     const supportedTokens = yield* call(getTokensInfo)
     const fetchedBalancesByTokenId = yield* call(fetchTokenBalancesForAddressByTokenId, address)
