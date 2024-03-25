@@ -12,7 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import ActivityCardSection from 'src/points/ActivityCardSection'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import { BottomSheetParams, PointsActivities } from 'src/points/types'
+import { BottomSheetParams, PointsActivity } from 'src/points/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { PointsEvents } from 'src/analytics/Events'
 import CustomHeader from 'src/components/header/CustomHeader'
@@ -40,7 +40,7 @@ export default function PointsHome({ route, navigation }: Props) {
     }
   }, [bottomSheetParams])
 
-  const onCtaPressWrapper = (onPress: () => void, activity: PointsActivities) => {
+  const onCtaPressWrapper = (onPress: () => void, activity: PointsActivity) => {
     return () => {
       ValoraAnalytics.track(PointsEvents.points_screen_card_cta_press, {
         activity,
@@ -49,7 +49,7 @@ export default function PointsHome({ route, navigation }: Props) {
     }
   }
   return (
-    <SafeAreaView style={styles.outerContainer}>
+    <SafeAreaView style={styles.outerContainer} edges={['top']}>
       <CustomHeader
         style={styles.header}
         left={<BackButton eventName={PointsEvents.points_screen_back} />}
@@ -71,14 +71,12 @@ export default function PointsHome({ route, navigation }: Props) {
         testId={`PointsActivityBottomSheet`}
       >
         {bottomSheetParams && (
-          <View>
+          <>
             <View style={styles.bottomSheetPointAmountContainer}>
               <Text style={styles.bottomSheetPointAmount}>{bottomSheetParams.points}</Text>
             </View>
-            <Text style={styles.bottomSheetTitle}>{t(bottomSheetParams.title)}</Text>
-            <Text style={styles.bottomSheetBody}>
-              {t(bottomSheetParams.body, { pointsValue: bottomSheetParams?.points })}
-            </Text>
+            <Text style={styles.bottomSheetTitle}>{bottomSheetParams.title}</Text>
+            <Text style={styles.bottomSheetBody}>{bottomSheetParams.body}</Text>
             {bottomSheetParams.cta && (
               <Button
                 testID={'PointsHomeBottomSheetCtaButton'}
@@ -88,10 +86,10 @@ export default function PointsHome({ route, navigation }: Props) {
                   bottomSheetParams.cta.onPress,
                   bottomSheetParams.activity
                 )}
-                text={t(bottomSheetParams.cta.text)}
+                text={bottomSheetParams.cta.text}
               />
             )}
-          </View>
+          </>
         )}
       </BottomSheet>
     </SafeAreaView>
@@ -101,6 +99,7 @@ export default function PointsHome({ route, navigation }: Props) {
 const styles = StyleSheet.create({
   outerContainer: {
     flex: 1,
+    paddingBottom: Spacing.Thick24,
   },
   contentContainer: {
     flexGrow: 1,

@@ -4,24 +4,22 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { StyleSheet, Text, View } from 'react-native'
 import { Colors } from 'src/styles/colors'
-import CheckmarkWithCircleBorder from 'src/icons/CheckmarkWithCircleBorder'
-import { PointsActivities, BottomSheetMetadata, BottomSheetParams } from 'src/points/types'
-import cardDefinitions from 'src/points/cardDefinitions'
+import Checkmark from 'src/icons/Checkmark'
+import { PointsActivity, BottomSheetMetadata, BottomSheetParams } from 'src/points/types'
+import useCardDefinitions from 'src/points/cardDefinitions'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { PointsEvents } from 'src/analytics/Events'
-import { useTranslation } from 'react-i18next'
 
 interface Props {
-  activity: PointsActivities
+  activity: PointsActivity
   points: number
   onPress: (bottomSheetParams: BottomSheetParams) => void
   completed?: boolean
 }
 
 export default function ActivityCard({ activity, points, onPress, completed }: Props) {
-  const { t } = useTranslation()
+  const cardDefinition = useCardDefinitions(points)[activity]
 
-  const cardDefinition = cardDefinitions[activity]
   const isCompleted = completed !== undefined ? completed : cardDefinition.defaultCompletionStatus
 
   const onPressWrapper = (bottomSheetMetadata: BottomSheetMetadata) => {
@@ -37,39 +35,35 @@ export default function ActivityCard({ activity, points, onPress, completed }: P
     }
   }
 
-  const testID = `PointsActivityCard-${activity}-${points}`
-
-  const cardContent = (
-    <>
-      {isCompleted && (
-        <View style={styles.checkmarkIcon}>
-          <CheckmarkWithCircleBorder />
-        </View>
-      )}
-      {cardDefinition.icon}
-      <Text style={styles.cardTitle}>{t(cardDefinition.title)}</Text>
-    </>
-  )
-
-  const cardContainerStyle = {
-    ...styles.cardContainer,
+  const cardStyle = {
+    ...styles.card,
     opacity: isCompleted ? 0.5 : 1,
   }
-  const cardContainer = cardDefinition.bottomSheet ? (
-    <Touchable
-      testID={testID}
-      style={cardContainerStyle}
-      onPress={onPressWrapper(cardDefinition.bottomSheet)}
-    >
-      {cardContent}
-    </Touchable>
-  ) : (
-    <View testID={testID} style={cardContainerStyle}>
-      {cardContent}
+  return (
+    <View style={styles.container}>
+      <View style={styles.cardContainer}>
+        <Touchable
+          testID={`PointsActivityCard-${activity}-${points}`}
+          style={cardStyle}
+          onPress={
+            cardDefinition.bottomSheet ? onPressWrapper(cardDefinition.bottomSheet) : undefined
+          }
+          disabled={!cardDefinition.bottomSheet}
+          borderRadius={Spacing.Regular16}
+        >
+          <>
+            {isCompleted && (
+              <View style={styles.checkmarkIcon}>
+                <Checkmark height={12} width={12} color={Colors.black} stroke={true} />
+              </View>
+            )}
+            {cardDefinition.icon}
+            <Text style={styles.cardTitle}>{cardDefinition.title}</Text>
+          </>
+        </Touchable>
+      </View>
     </View>
   )
-
-  return <View style={styles.container}>{cardContainer}</View>
 }
 
 const styles = StyleSheet.create({
@@ -80,19 +74,25 @@ const styles = StyleSheet.create({
   checkmarkIcon: {
     position: 'absolute',
     top: Spacing.Smallest8,
-    right: 0,
+    right: Spacing.Smallest8,
+    borderRadius: 16,
+    borderWidth: 1.5,
+    borderColor: Colors.black,
   },
   cardTitle: {
     ...typeScale.labelXSmall,
+    paddingTop: Spacing.Smallest8,
     textAlign: 'center',
   },
   cardContainer: {
-    flex: 1,
     borderRadius: Spacing.Regular16,
+    backgroundColor: Colors.gray1,
+  },
+  card: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: Spacing.Regular16,
-    backgroundColor: Colors.gray1,
-    height: 96,
+    minHeight: 96,
   },
 })

@@ -73,7 +73,7 @@ import { Field } from 'src/swap/types'
 import { TokenDetailsActionName } from 'src/tokens/types'
 import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
-import { PointsActivities } from 'src/points/types'
+import { PointsActivity } from 'src/points/types'
 
 type Web3LibraryProps = { web3Library: 'contract-kit' | 'viem' }
 
@@ -1559,10 +1559,10 @@ interface PointsEventsProperties {
   [PointsEvents.points_screen_open]: undefined
   [PointsEvents.points_screen_back]: undefined
   [PointsEvents.points_screen_card_press]: {
-    activity: PointsActivities
+    activity: PointsActivity
   }
   [PointsEvents.points_screen_card_cta_press]: {
-    activity: PointsActivities
+    activity: PointsActivity
   }
 }
 

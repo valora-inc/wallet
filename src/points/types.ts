@@ -1,10 +1,10 @@
 import React from 'react'
 
 const pointsActivities = ['create-wallet', 'swap', 'more-coming'] as const
-export type PointsActivities = (typeof pointsActivities)[number]
+export type PointsActivity = (typeof pointsActivities)[number]
 
-export function isPointsActivity(activity: unknown): activity is PointsActivities {
-  return typeof activity === 'string' && pointsActivities.includes(activity as PointsActivities)
+export function isPointsActivity(activity: unknown): activity is PointsActivity {
+  return typeof activity === 'string' && pointsActivities.includes(activity as PointsActivity)
 }
 
 export interface PointsCardMetadata {
@@ -25,12 +25,12 @@ export interface BottomSheetMetadata {
 
 export type BottomSheetParams = BottomSheetMetadata & {
   points: number
-  activity: PointsActivities
+  activity: PointsActivity
 }
 
 export type PointsMetadata = {
   points: number
   activities: Array<{
-    name: PointsActivities
+    name: PointsActivity
   }>
 }
