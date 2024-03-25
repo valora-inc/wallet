@@ -208,9 +208,10 @@ export const fiatConnectKycTransferOut = () => {
     await element(by.id('PersonaButton')).tap()
 
     // Persona
-    await waitFor(element(by.text('Begin verifying')))
+    await waitFor(element(by.text('Getting started')))
       .toBeVisible()
       .withTimeout(5000)
+    await element(by.type('UIScrollView')).atIndex(0).scroll(400, 'down', NaN, 0.5)
     await element(by.text('Begin verifying')).tap()
 
     // Country of govt id screen
@@ -224,10 +225,10 @@ export const fiatConnectKycTransferOut = () => {
       .toBeVisible()
       .withTimeout(5 * 1000)
     await element(by.text('Driver License')).tap()
-    await waitFor(element(by.text('Enable camera')))
+    await waitFor(element(by.text("Couldn't access camera")))
       .toBeVisible()
       .withTimeout(5 * 1000)
-    await element(by.text('Enable camera')).tap()
+    await element(by.text('Allow')).tap()
 
     // Manually wait for Take Photo button to appear, withTimeout didn't work
     await sleep(10000)
