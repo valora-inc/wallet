@@ -59,9 +59,7 @@ describe('BackupQuiz', () => {
       )
 
       fireEvent.press(getByTestId('CancelButton'))
-      expect(navigate).toBeCalledWith(routeParams.settingsScreen, {
-        isTabNav: routeParams.settingsScreen === Screens.Settings,
-      })
+      expect(navigate).toBeCalledWith(routeParams.settingsScreen)
     }
   )
 
