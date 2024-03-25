@@ -1,5 +1,5 @@
 import GorhomBottomSheet, { BottomSheetProps } from '@gorhom/bottom-sheet'
-import React, { useRef } from 'react'
+import React, { Dispatch, SetStateAction, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
@@ -15,7 +15,7 @@ import { Spacing } from 'src/styles/styles'
 const OPTION_HEIGHT = 60
 const MAX_OPTIONS_IN_VIEW = 5
 
-interface MultiSelectBottomSheetProps<T> {
+export interface MultiSelectBottomSheetProps<T extends string> {
   forwardedRef: React.RefObject<GorhomBottomSheet>
   onChange?: BottomSheetProps['onChange']
   onClose?: () => void
@@ -23,12 +23,12 @@ interface MultiSelectBottomSheetProps<T> {
   handleComponent?: BottomSheetProps['handleComponent']
   options: Option<T>[]
   selectedOptions: T[]
-  setSelectedOptions: (selectedOptions: T[]) => void
+  setSelectedOptions: Dispatch<SetStateAction<T[]>>
   selectAllText: string
   title: string
 }
 
-export interface Option<T> {
+export interface Option<T extends string> {
   id: T
   text: string
   iconUrl?: string
@@ -51,6 +51,18 @@ function MultiSelectBottomSheet<T extends string>({
 
   const handleClose = () => {
     onClose?.()
+  }
+
+  const toggleOption = (option: Option<T>) => {
+    setSelectedOptions((prevSelectedOptions) => {
+      if (options.length === prevSelectedOptions.length) {
+        return [option.id]
+      } else if (prevSelectedOptions.includes(option.id)) {
+        return prevSelectedOptions.filter((selectedOption) => selectedOption !== option.id)
+      } else {
+        return [...prevSelectedOptions, option.id]
+      }
+    })
   }
 
   return (
@@ -80,23 +92,8 @@ function MultiSelectBottomSheet<T extends string>({
               <OptionLineItem
                 text={option.text}
                 iconUrl={option.iconUrl}
-                isSelected={
-                  !!selectedOptions.find((selectedOption) => selectedOption === option.id) &&
-                  !isEveryOptionSelected
-                }
-                onPress={() => {
-                  if (isEveryOptionSelected) {
-                    setSelectedOptions([option.id])
-                  } else {
-                    if (selectedOptions.find((selectedOption) => selectedOption === option.id)) {
-                      setSelectedOptions(
-                        selectedOptions.filter((selectedOption) => selectedOption !== option.id)
-                      )
-                    } else {
-                      setSelectedOptions([...selectedOptions, option.id])
-                    }
-                  }
-                }}
+                isSelected={!!selectedOptions.includes(option.id) && !isEveryOptionSelected}
+                onPress={() => toggleOption(option)}
               />
             ))}
           </ScrollView>
@@ -174,6 +171,7 @@ const styles = StyleSheet.create({
   leftColumn: {
     alignItems: 'flex-start',
     width: Spacing.Large32,
+    justifyContent: 'center',
   },
   centerColumn: {
     flex: 1,

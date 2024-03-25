@@ -1,5 +1,5 @@
 import GorhomBottomSheet from '@gorhom/bottom-sheet'
-import React, { useMemo } from 'react'
+import React, { Dispatch, SetStateAction, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import MultiSelectBottomSheet from 'src/components/multiSelect/MultiSelectBottomSheet'
 import { useSelector } from 'src/redux/hooks'
@@ -13,7 +13,7 @@ interface Props {
   onOpen?: () => void
   allNetworkIds: NetworkId[]
   selectedNetworkIds: NetworkId[]
-  setSelectedNetworkIds: (selectedNetworkIds: NetworkId[]) => void
+  setSelectedNetworkIds: Dispatch<SetStateAction<NetworkId[]>>
 }
 
 function NetworkMultiSelectBottomSheet({
@@ -26,7 +26,7 @@ function NetworkMultiSelectBottomSheet({
 }: Props) {
   const { t } = useTranslation()
 
-  const networkIconByNetworkId = useSelector((state) => networksIconSelector(state, allNetworkIds))
+  const networkIconByNetworkId = useSelector(networksIconSelector)
 
   const options = useMemo(
     () =>
