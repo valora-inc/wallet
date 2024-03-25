@@ -54,7 +54,7 @@ export type StackParamList = {
   [Screens.BackupComplete]:
     | undefined
     | {
-        navigatedFromSettings: boolean
+        settingsScreen: Screens.Settings | Screens.SettingsDrawer | undefined
       }
   [Screens.BackupIntroduction]:
     | {
@@ -70,12 +70,12 @@ export type StackParamList = {
   [Screens.BackupPhrase]:
     | undefined
     | {
-        navigatedFromSettings: boolean
+        settingsScreen: Screens.Settings | Screens.SettingsDrawer | undefined
       }
   [Screens.BackupQuiz]:
     | undefined
     | {
-        navigatedFromSettings: boolean
+        settingsScreen: Screens.Settings | Screens.SettingsDrawer | undefined
       }
   [Screens.FiatDetailsScreen]: {
     quote: FiatConnectQuote
@@ -100,7 +100,6 @@ export type StackParamList = {
   [Screens.Debug]: undefined
   [Screens.DrawerNavigator]: {
     initialScreen?: Screens
-    fromModal?: boolean
   }
   [Screens.ErrorScreen]: {
     errorMessage?: string
@@ -185,6 +184,7 @@ export type StackParamList = {
       }
     | undefined
   [Screens.Invite]: undefined
+  [Screens.InviteDrawer]: undefined
   [Screens.NameAndPicture]: undefined
   [Screens.EnableBiometry]: undefined
   [Screens.Language]:
@@ -260,13 +260,20 @@ export type StackParamList = {
     tokenId: string
     serializablePreparedTransactions: SerializableTransactionRequest[]
   }
+  [Screens.JumpstartShareLink]: {
+    link: string
+    sendAmount: string
+    tokenId: string
+  }
   [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
+  [Screens.SettingsDrawer]: { promptConfirmRemovalModal?: boolean } | undefined
   [Screens.SignInWithEmail]: {
     keylessBackupFlow: KeylessBackupFlow
   }
   [Screens.Spend]: undefined
   [Screens.StoreWipeRecoveryScreen]: undefined
   [Screens.Support]: undefined
+  [Screens.SupportDrawer]: {} | undefined
   [Screens.SupportContact]:
     | {
         prefilledText: string
@@ -277,8 +284,7 @@ export type StackParamList = {
   [Screens.TabHome]: { isTabNavigator?: boolean } | undefined
   [Screens.TabWallet]: { activeAssetTab?: AssetTabType; isWalletTab?: boolean } | undefined
   [Screens.TabNavigator]: {
-    initialScreen?: Screens
-    fromModal?: boolean
+    initialScreen?: Screens.TabHome | Screens.TabWallet | Screens.TabDiscover
   }
   [Screens.TokenDetails]: { tokenId: string }
   [Screens.TokenImport]: undefined

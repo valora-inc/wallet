@@ -437,7 +437,7 @@ const styles = StyleSheet.create({
   },
   feeContainer: {
     flexDirection: 'row',
-    marginTop: 18,
+    marginVertical: Spacing.Regular16,
   },
   feeLabel: {
     flex: 1,
@@ -477,8 +477,7 @@ const styles = StyleSheet.create({
     ...typeScale.labelSemiBoldMedium,
   },
   warning: {
-    marginTop: Spacing.Regular16,
-    marginBottom: Spacing.Smallest8,
+    marginBottom: Spacing.Regular16,
     paddingHorizontal: Spacing.Regular16,
     borderRadius: 16,
   },

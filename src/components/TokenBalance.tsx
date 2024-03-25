@@ -16,8 +16,8 @@ import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanima
 import { hideAlert, showToast } from 'src/alert/actions'
 import { AssetsEvents, FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { toggleHideHomeBalances } from 'src/app/actions'
-import { hideHomeBalancesSelector } from 'src/app/selectors'
+import { toggleHideBalances } from 'src/app/actions'
+import { hideHomeBalancesSelector, hideWalletBalancesSelector } from 'src/app/selectors'
 import Dialog from 'src/components/Dialog'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
@@ -32,7 +32,7 @@ import {
   getLocalCurrencySymbol,
   localCurrencyExchangeRateErrorSelector,
 } from 'src/localCurrency/selectors'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
@@ -55,11 +55,11 @@ import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 function TokenBalance({
   style = styles.balance,
   singleTokenViewEnabled = true,
-  showHideHomeBalancesToggle = false,
+  showBalanceToggle = false,
 }: {
   style?: StyleProp<TextStyle>
   singleTokenViewEnabled?: boolean
-  showHideHomeBalancesToggle?: boolean
+  showBalanceToggle?: boolean
 }) {
   const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
   const tokensWithUsdValue = useTokensWithUsdValue(supportedNetworkIds)
@@ -78,7 +78,8 @@ function TokenBalance({
   const { decimalSeparator } = getNumberFormatSettings()
 
   const hideHomeBalanceState = useSelector(hideHomeBalancesSelector)
-  const hideBalance = showHideHomeBalancesToggle && hideHomeBalanceState
+  const hideWalletBalance = useSelector(hideWalletBalancesSelector)
+  const hideBalance = showBalanceToggle && (hideHomeBalanceState || hideWalletBalance)
   const balanceDisplay = hideBalance ? `XX${decimalSeparator}XX` : totalBalanceLocal?.toFormat(2)
 
   const TotalTokenBalance = ({ balanceDisplay }: { balanceDisplay: string }) => {
@@ -88,7 +89,7 @@ function TokenBalance({
           {!hideBalance && localCurrencySymbol}
           {balanceDisplay}
         </Text>
-        {showHideHomeBalancesToggle && <HideBalanceButton hideBalance={hideBalance} />}
+        {showBalanceToggle && <HideBalanceButton hideBalance={hideBalance} />}
       </View>
     )
   }
@@ -124,7 +125,7 @@ function HideBalanceButton({ hideBalance }: { hideBalance: boolean }) {
   const dispatch = useDispatch()
   const eyeIconOnPress = () => {
     ValoraAnalytics.track(hideBalance ? HomeEvents.show_balances : HomeEvents.hide_balances)
-    dispatch(toggleHideHomeBalances())
+    dispatch(toggleHideBalances())
   }
   return (
     <Touchable onPress={eyeIconOnPress} hitSlop={variables.iconHitslop}>
@@ -166,7 +167,7 @@ export function AssetsTokenBalance({
   isWalletTab,
 }: {
   showInfo: boolean
-  // temporary parameter while we build the tab navigator, should be cleaned up
+  // TODO(act-1133): temporary parameter while we build the tab navigator, should be cleaned up
   // when we remove the DrawerNavigator
   isWalletTab: boolean
 }) {
@@ -223,7 +224,11 @@ export function AssetsTokenBalance({
             </TouchableOpacity>
           )}
         </View>
-        <TokenBalance style={styles.totalBalance} singleTokenViewEnabled={false} />
+        <TokenBalance
+          style={styles.totalBalance}
+          singleTokenViewEnabled={false}
+          showBalanceToggle={isWalletTab}
+        />
 
         {shouldRenderInfoComponent && (
           <Animated.View style={[styles.totalAssetsInfoContainer, animatedStyles]}>
@@ -282,12 +287,7 @@ export function HomeTokenBalance() {
           <ProgressArrow style={styles.arrow} color={Colors.primary} />
         </TouchableOpacity>
       </View>
-      <TokenBalance
-        style={styles.totalBalance}
-        showHideHomeBalancesToggle={getFeatureGate(
-          StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE
-        )}
-      />
+      <TokenBalance style={styles.totalBalance} showBalanceToggle={true} />
     </View>
   )
 }
@@ -301,7 +301,11 @@ export function FiatExchangeTokenBalance() {
     ValoraAnalytics.track(FiatExchangeEvents.cico_landing_token_balance, {
       totalBalance: totalBalance?.toString(),
     })
-    navigate(Screens.Assets)
+    getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)
+      ? // this can ideally navigate to TabWallet, but if the gate is turned on mid
+        // session, a screen named TabWallet won't be found
+        navigateClearingStack(Screens.TabNavigator, { initialScreen: Screens.TabWallet })
+      : navigate(Screens.Assets)
   }
 
   return (

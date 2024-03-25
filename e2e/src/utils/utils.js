@@ -154,7 +154,7 @@ export function quote(s) {
   return device.getPlatform() === 'ios' ? s : `"${s}"`
 }
 
-export async function quickOnboarding(mnemonic = SAMPLE_BACKUP_KEY) {
+export async function quickOnboarding(mnemonic = SAMPLE_BACKUP_KEY, cloudBackupEnabled = false) {
   try {
     // Tap Restore Account
     await element(by.id('RestoreAccountButton')).tap()
@@ -174,6 +174,8 @@ export async function quickOnboarding(mnemonic = SAMPLE_BACKUP_KEY) {
     await enterPinUi()
     // Verify pin
     await enterPinUi()
+
+    if (cloudBackupEnabled) await waitForElementByIdAndTap('ImportSelect/Mnemonic')
 
     // Restore existing wallet
     await waitFor(element(by.id('connectingToCelo')))
@@ -426,4 +428,17 @@ export async function fundWallet(senderPrivateKey, recipientAddress, stableToken
 
 export const createCommentText = () => {
   return `${new Date().getTime()}-${parseInt(Math.random() * 100_000)}`
+}
+
+export async function navigateToSettings(navType) {
+  if (navType === 'tab') {
+    await waitForElementByIdAndTap('WalletHome/AccountCircle')
+    await waitForElementByIdAndTap('ProfileMenu/Settings')
+  } else {
+    await waitForElementId('Hamburger')
+    await element(by.id('Hamburger')).tap()
+    await scrollIntoView('Settings', 'SettingsScrollView')
+    await waitForElementId('Settings')
+    await element(by.id('Settings')).tap()
+  }
 }

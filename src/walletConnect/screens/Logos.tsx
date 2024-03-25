@@ -30,7 +30,7 @@ export default function Logos({ dappImageUrl, dappName }: Props) {
     <View style={styles.logoContainer}>
       <View style={styles.logoShadow}>
         <View style={styles.logoBackground}>
-          <Logo height={24} />
+          <Logo size={24} />
         </View>
       </View>
       <View style={styles.logoShadow}>

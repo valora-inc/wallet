@@ -10,6 +10,7 @@ import {
   sleep,
   waitForElementId,
 } from '../utils/utils'
+import { launchApp } from '../utils/retries'
 
 /**
  * From the home screen, navigate to the FiatExchange screen (add/withdraw)
@@ -61,8 +62,6 @@ async function submitTransfer(expectZeroBalance = false) {
   await element(by.id('Continue')).tap()
 
   // WalletHome
-  if (expectZeroBalance) {
-  }
   await expect(element(by.id('HomeAction-Send'))).toBeVisible() // proxy for reaching home screen, imitating NewAccountOnboarding e2e test
 }
 
@@ -190,6 +189,11 @@ export const fiatConnectNonKycTransferOut = () => {
 
 export const fiatConnectKycTransferOut = () => {
   it('FiatConnect cash out', async () => {
+    await launchApp({
+      newInstance: true,
+      permissions: { notifications: 'YES', contacts: 'YES', camera: 'YES' },
+      launchArgs: { statsigGateOverrides: `use_tab_navigator=true` },
+    })
     // ******** First time experience ************
     const cashOutAmount = 0.01
     const gasAmount = 0.015

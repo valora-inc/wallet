@@ -1,4 +1,5 @@
 import { BIOMETRY_TYPE } from 'react-native-keychain'
+import { createSelector } from 'reselect'
 import { initializeAccount } from 'src/account/actions'
 import {
   choseToRestoreAccountSelector,
@@ -14,13 +15,12 @@ import * as NavigationService from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { updateStatsigAndNavigate } from 'src/onboarding/actions'
-import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
 import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 
-export const END_OF_ONBOARDING_SCREENS = [Screens.WalletHome, Screens.ChooseYourAdventure]
+export const END_OF_ONBOARDING_SCREENS = [Screens.TabHome, Screens.ChooseYourAdventure]
 
 interface NavigatorFunctions {
   navigate: typeof NavigationService.navigate
@@ -75,30 +75,40 @@ export function firstOnboardingScreen({
  * @param state
  * @returns OnboardingProps
  */
-export function onboardingPropsSelector(state: RootState): OnboardingProps {
-  const recoveringFromStoreWipe = recoveringFromStoreWipeSelector(state)
-  const choseToRestoreAccount = choseToRestoreAccountSelector(state)
-  const supportedBiometryType = supportedBiometryTypeSelector(state)
-  const skipVerification = skipVerificationSelector(state)
-  const numberAlreadyVerifiedCentrally = phoneNumberVerifiedSelector(state)
-  const { chooseAdventureEnabled, onboardingNameScreenEnabled } = getExperimentParams(
-    ExperimentConfigs[StatsigExperiments.CHOOSE_YOUR_ADVENTURE]
-  )
-  const showCloudAccountBackupRestore = getFeatureGate(
-    StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE
-  )
-
-  return {
+export const onboardingPropsSelector = createSelector(
+  [
+    recoveringFromStoreWipeSelector,
+    choseToRestoreAccountSelector,
+    supportedBiometryTypeSelector,
+    skipVerificationSelector,
+    phoneNumberVerifiedSelector,
+  ],
+  (
     recoveringFromStoreWipe,
     choseToRestoreAccount,
     supportedBiometryType,
     skipVerification,
-    numberAlreadyVerifiedCentrally,
-    chooseAdventureEnabled,
-    onboardingNameScreenEnabled,
-    showCloudAccountBackupRestore,
+    numberAlreadyVerifiedCentrally
+  ) => {
+    const { chooseAdventureEnabled, onboardingNameScreenEnabled } = getExperimentParams(
+      ExperimentConfigs[StatsigExperiments.CHOOSE_YOUR_ADVENTURE]
+    )
+    const showCloudAccountBackupRestore = getFeatureGate(
+      StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE
+    )
+
+    return {
+      recoveringFromStoreWipe,
+      choseToRestoreAccount,
+      supportedBiometryType,
+      skipVerification,
+      numberAlreadyVerifiedCentrally,
+      chooseAdventureEnabled,
+      onboardingNameScreenEnabled,
+      showCloudAccountBackupRestore,
+    }
   }
-}
+)
 
 /**
  * Traverses through the directed graph of onboarding navigate, navigateClearingStack, and navigateHome calls
@@ -209,7 +219,13 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
     if (props.chooseAdventureEnabled) {
       finishOnboarding(Screens.ChooseYourAdventure)
     } else {
-      finishOnboarding(Screens.WalletHome)
+      // NOTE: We don't need to conditionally navigate here because this screen
+      // is just a marker. `updateStatsigAndNavigate` saga calls `navigateHome`
+      // if the screen is set to `TabHome` which handles navigating to the
+      // correct home screen. This will be cleaned up when we remove the CYA
+      // experiment code as the end screen can only be `ChooseYourAdventure`.
+      // (ACT-1114)
+      finishOnboarding(Screens.TabHome)
     }
   }
 
@@ -297,7 +313,11 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
         next: () => {
           if (skipVerification) {
             dispatch(setHasSeenVerificationNux(true))
-            finishOnboarding(Screens.WalletHome)
+            // This seems like a bug where we don't go to CYA on
+            // skipping phone verification. Every other case navigates to CYA at
+            // the end of onboarding, including when skipping verification on
+            // the import flow. TODO(ACT-1114): make this consistent with other cases
+            finishOnboarding(Screens.TabHome)
           } else {
             navigate(Screens.VerificationStartScreen)
           }

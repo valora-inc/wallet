@@ -1,7 +1,7 @@
 import { act, fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { goToNextOnboardingScreen } from 'src/onboarding/steps'
 import { DEFAULT_CACHE_ACCOUNT, updatePin } from 'src/pincode/authentication'
@@ -166,7 +166,7 @@ describe('Pincode', () => {
     })
 
     expect(updatePin).toHaveBeenCalledWith(mockAccount.toLowerCase(), oldPin, mockPin)
-    expect(navigate).toBeCalledWith(Screens.Settings)
+    expect(navigateBack).toBeCalled()
   })
 
   it('renders header subtitle with steps when creating new wallet', () => {

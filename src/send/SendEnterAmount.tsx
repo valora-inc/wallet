@@ -12,9 +12,9 @@ import EnterAmount from 'src/send/EnterAmount'
 import { lastUsedTokenIdSelector } from 'src/send/selectors'
 import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
 import { COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE } from 'src/send/utils'
-import { useTokensForSend } from 'src/tokens/hooks'
+import { sortedTokensWithBalanceOrShowZeroBalanceSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { convertTokenToLocalAmount } from 'src/tokens/utils'
+import { convertTokenToLocalAmount, getSupportedNetworkIdsForSend } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 
@@ -24,7 +24,12 @@ const TAG = 'SendEnterAmount'
 
 function SendEnterAmount({ route }: Props) {
   const { defaultTokenIdOverride, origin, recipient, isFromScan, forceTokenId } = route.params
-  const tokens = useTokensForSend()
+  const supportedNetworkIds = getSupportedNetworkIdsForSend()
+  // explicitly allow zero state tokens to be shown for exploration purposes for
+  // new users with no balance
+  const tokens = useSelector((state) =>
+    sortedTokensWithBalanceOrShowZeroBalanceSelector(state, supportedNetworkIds)
+  )
   const lastUsedTokenId = useSelector(lastUsedTokenIdSelector)
 
   const defaultToken = useMemo(() => {

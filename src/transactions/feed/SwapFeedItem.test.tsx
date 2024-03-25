@@ -3,6 +3,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { RootState } from 'src/redux/reducers'
 import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
 import {
   Fee,
@@ -124,8 +125,10 @@ describe('SwapFeedItem', () => {
     expect(getElementText(getByTestId('SwapFeedItem/outgoingAmount'))).toEqual('-17.54 cEUR')
   })
 
-  it('still shows balances when feature gate false, hide balances root state true', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(false)
+  it('still shows balances when USE_TAB_NAVIGATOR feature gate true, hide balances root state true', async () => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((featureGate) => featureGate === StatsigFeatureGates.USE_TAB_NAVIGATOR)
     const { getByTestId } = renderScreen({
       inAmount: {
         tokenId: mockCeurTokenId,
@@ -145,7 +148,10 @@ describe('SwapFeedItem', () => {
     expect(getElementText(getByTestId('SwapFeedItem/outgoingAmount'))).toEqual('-2.87 cUSD')
   })
 
-  it('hides balance when feature gate true, root state hide home balances flag is set', async () => {
+  it('hides balance when USE_TAB_NAVIGATOR feature gate false, root state hide home balances flag is set', async () => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((featureGate) => featureGate !== StatsigFeatureGates.USE_TAB_NAVIGATOR)
     const { queryByTestId } = renderScreen({
       inAmount: {
         tokenId: mockCeurTokenId,
@@ -155,7 +161,7 @@ describe('SwapFeedItem', () => {
         tokenId: mockCusdTokenId,
         value: 2.87,
       },
-      storeOverrides: { app: { hideHomeBalances: true } },
+      storeOverrides: { app: { hideBalances: true } },
     })
 
     expect(queryByTestId('SwapFeedItem/incomingAmount')).toBeNull()

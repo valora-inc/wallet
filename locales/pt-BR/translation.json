@@ -7,12 +7,12 @@
   "removeAccountTitle": "Redefinir a Valora",
   "removeAccountDetails": "A redefinição removerá sua conta deste dispositivo. Seus fundos permanecerão na conta, mas só estarão acessíveis com a Frase de Recuperação.",
   "deleteAccountTitle": "Excluir conta",
-  "deleteAccountDetails": "A exclusão da sua conta a removerá do site {{appName}}. Seus fundos permanecerão na conta, mas você só poderá acessá-los com sua frase de recuperação",
+  "deleteAccountDetails": "A exclusão da sua conta a removerá da {{appName}}. Seus fundos permanecerão na conta, mas você só poderá acessá-los com sua frase de recuperação",
   "deleteAccountWarning": {
     "title": "Tem certeza?",
-    "description": "A exclusão da sua conta do site {{appName}} também remove qualquer número de telefone vinculado. Seus fundos permanecerão na conta, mas só poderão ser acessados com sua frase de recuperação.",
+    "description": "A exclusão da sua conta da {{appName}} também removerá qualquer número de celular vinculado. Seus fundos permanecerão na conta, mas você só poderá acessá-los com sua frase de recuperação.",
     "buttonLabel": "Continuar",
-    "buttonLabelRevokingPhoneNumber": "Desvinculação do número de telefone..."
+    "buttonLabelRevokingPhoneNumber": "Desvinculando número de celular..."
   },
   "legal": "Jurídico",
   "appPreferences": "Preferências do app",
@@ -57,14 +57,14 @@
     "body2": "Ninguém, nem mesmo a Valora, pode recuperar sua conta sem sua frase."
   },
   "promptConfirmRemovalModal": {
-    "header": "Você tem certeza de que deseja continuar?",
+    "header": "Tem certeza de que deseja continuar?",
     "body": "Você está prestes a apagar sua carteira deste dispositivo. Esta etapa é definitiva e não pode ser revertida. Não há como recuperar sua frase de recuperação se você não a tiver anotado.",
     "resetNow": "Continuar"
   },
   "protectWallet": {
     "title": "Proteja sua carteira",
     "subtitle": "Proteja sua carteira",
-    "body": "Se o seu telefone for perdido ou roubado, sua frase de recuperação de 12 palavras é a única maneira de você acessar seus fundos.",
+    "body": "Se o seu celular for perdido ou roubado, sua frase de recuperação de 12 palavras é a única maneira de acessar seus fundos.",
     "recoveryPhrase": {
       "title": "Usar frase de recuperação",
       "subtitle": "Anote sua frase de recuperação"
@@ -91,19 +91,19 @@
     "phoneNumber": "Número de celular",
     "setup": {
       "title": "Configurar o backup da carteira",
-      "description": "Você usará o seguinte para configurar seu backup de e-mail e número de telefone",
-      "useRecoveryPhrase": "Em vez disso, use uma frase de recuperação",
+      "description": "Você usará os seguintes itens para configurar seu backup de e-mail e número de celular",
+      "useRecoveryPhrase": "Usar uma frase de recuperação em vez disso",
       "reminder": "<0>Lembre-se</0>, estas informações são a única maneira de acessar sua carteira se o seu dispositivo for perdido ou roubado. A Valora não armazena seu e-mail ou número de celular. Você deve protegê-las!"
     },
     "restore": {
       "description": "Certifique-se de que você tenha os seguintes itens disponíveis para restaurar sua carteira.",
-      "reminder": "<0>Lembre-se de que</0> você precisa acessar o mesmo e-mail e número de telefone que usou quando fez o backup"
+      "reminder": "<0>Lembre-se</0>, você precisa acessar o mesmo e-mail e número de celular que usou quando fez o backup"
     }
   },
   "signInWithEmail": {
     "title": "Entrar com e-mail",
     "subtitle": "Entre com seu e-mail para configurá-lo como um backup.\n\nSerá solicitado que você entre novamente se perder sua carteira.",
-    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
+    "subtitleRestore": "Entre com o e-mail que você usou para configurar seu backup de carteira.",
     "google": "Entrar com o Google"
   },
   "keylessBackupPhoneInput": {
@@ -127,30 +127,30 @@
       },
       "failed": {
         "title": "Backup indisponível",
-        "body": "Você pode configurar o backup da carteira mais tarde ou proteger sua conta agora, salvando a frase de recuperação.",
+        "body": "Você pode configurar o backup da carteira mais tarde ou proteger sua conta agora salvando sua frase de recuperação.",
         "later": "Vou configurar o backup mais tarde",
         "manual": "Salvar frase de recuperação"
       }
     },
     "restore": {
       "inProgress": {
-        "title": "Recuperação de sua carteira"
+        "title": "Restaurando sua carteira"
       },
       "completed": {
         "title": "Sua carteira foi restaurada!",
         "bodyZeroBalance": "Você pode adicionar fundos à sua carteira depois de concluir a configuração.",
-        "bodyBalance": "Você tem um equilíbrio de <0></0>"
+        "bodyBalance": "Você tem um saldo de <0></0>"
       },
       "failed": {
         "title": "Sua carteira não foi restaurada",
-        "body": "Houve um problema técnico ao tentar restaurar sua carteira. Entre em contato com o suporte para obter mais informações.",
+        "body": "Houve um problema técnico ao tentar restaurar sua carteira. Entre em contato com a equipe de suporte para obter mais informações.",
         "tryAgain": "Repetir",
         "createNewWallet": "Criar carteira",
         "help": "Ajuda"
       },
       "notFound": {
         "title": "Carteira não encontrada",
-        "body": "Para restaurar sua carteira, use o <0>mesmo endereço de e-mail e número de telefone</0> que você usou quando fez a configuração.\n\nVocê também pode restaurar sua carteira com sua frase de recuperação.",
+        "body": "Para restaurar sua carteira, use o <0>mesmo endereço de e-mail e número de celular</0> que você usou quando fez a configuração.\n\nVocê também pode restaurar sua carteira com sua frase de recuperação.",
         "tryAgain": "Repetir",
         "createNewWallet": "Criar carteira"
       }
@@ -210,8 +210,8 @@
   "completeEducation": "Eu compreendo",
   "yourAccountKey": "Sua Frase de Recuperação",
   "backupKeyNotification2": "Mantenha seus fundos em segurança. Faça o backup da sua frase de recuperação agora.",
-  "keylessBackupCTA": "Voltar agora",
-  "keylessBackupNotification": "Configure seu e-mail e número de telefone para fazer backup de sua frase-semente",
+  "keylessBackupCTA": "Fazer backup agora",
+  "keylessBackupNotification": "Configure seu e-mail e número de celular para fazer backup de sua frase semente",
   "backupKeyCTA": "Concluir backup agora",
   "backupKeySummary": "Encontre um local privado e anote a sua Frase de Recuperação. Guarde-a em um lugar seguro. Não salve em seu telefone.",
   "backupKeyWarning": "Se você perder sua frase de recuperação, perderá acesso a todos os fundos mantidos na Valora.",
@@ -915,15 +915,15 @@
     }
   },
   "importSelect": {
-    "title": "Recupere sua carteira",
+    "title": "Restaurar sua carteira",
     "description": "Se você configurou um backup para proteger sua carteira, escolha uma opção abaixo.",
     "emailAndPhone": {
-      "title": "De backup de e-mail e telefone",
-      "description": "Restaure sua carteira com o número de telefone e o e-mail que você configurou anteriormente"
+      "title": "Do backup de e-mail e telefone",
+      "description": "Restaure sua carteira com o número de celular e o e-mail que você configurou anteriormente"
     },
     "recoveryPhrase": {
       "title": "Da frase de recuperação",
-      "description": "Digite sua frase de recuperação de 12 palavras para recuperar o acesso ao Valora"
+      "description": "Digite sua frase de recuperação de 12 palavras para recuperar o acesso à Valora"
     }
   },
   "verificationInput": {
@@ -1307,6 +1307,9 @@
   "feedItemGoldWithdrawal": "Transferidos para {{displayName}} ",
   "feedItemGoldReceived": "Recebidos de {{displayName}} ",
   "feedItemSwapPath": "{{token1}} para {{token2}}",
+  "feedItemJumpstartTitle": "Link ativo",
+  "feedItemJumpstartSentSubtitle": "Convite",
+  "feedItemJumpstartReceivedSubtitle": "Fundos recebidos",
   "transactionHeaderVerificationFee": "Confirmação",
   "transactionHeaderNetworkFee": "Rede",
   "transactionHeaderFaucet": "Faucet",
@@ -1744,11 +1747,11 @@
     "swapTo": "PARA",
     "insufficientFunds": "Saldo de {{token}} insuficiente. Insira um valor menor ou escolha um ativo diferente.",
     "fetchSwapQuoteFailed": "Lamentamos o atraso! A obtenção da melhor taxa de câmbio está demorando mais do que o normal. Tente novamente mais tarde.",
-    "disclaimer": "Best rate determined by decentralized sources. <0>Learn more</0>",
+    "disclaimer": "A melhor taxa determinada por fontes descentralizadas. <0>Saiba mais</0>",
     "swapFromTokenSelection": "TROCA DE",
     "swapToTokenSelection": "TROCA PARA",
     "tokenUsdValueUnknown": "-",
-    "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
+    "unsupportedSwapTokens": "Os tokens selecionados não são suportados por nossos fornecedores de troca.",
     "switchedToNetworkWarning": {
       "title": "Você mudou para a rede {{networkName}}",
       "body_swapFrom": "Selecione um token de origem para trocar na rede {{networkName}} para continuar.",
@@ -1909,14 +1912,14 @@
   "profileScreen": {
     "generateName": "Gerar um nome",
     "namePlaceholder": "Selecione um nome, como \"{{exampleName}}\"",
-    "profilePictureDisclaimer": "Personalize o {{appName}} com sua foto de perfil. Sua imagem permanece privada, nunca é compartilhada ou carregada."
+    "profilePictureDisclaimer": "Personalize a {{appName}} com sua foto de perfil. Sua imagem permanece privada, nunca é compartilhada ou enviada."
   },
   "tokenBottomSheet": {
     "searchAssets": "Pesquisar ativos",
     "noTokenInResult": "Nenhum resultado correspondente encontrado para <0>\"{{searchTerm}}\"</0>",
-    "noFilterSearchResults": "Nenhum ativo encontrado correspondente a \"{{searchTerm}}\" nas seguintes categorias: {{filterNames}}",
+    "noFilterSearchResults": "Não foram encontrados ativos que correspondam a \"{{searchTerm}}\" nas seguintes categorias: {{filterNames}}",
     "noFilterResults": "Não foram encontrados ativos que correspondam às seguintes categorias: {{filterNames}}",
-    "noSearchResults": "Não foram encontrados ativos correspondentes a \"{{searchTerm}}\"",
+    "noSearchResults": "Não foram encontrados ativos que correspondam a \"{{searchTerm}}\"",
     "filters": {
       "myTokens": "Meus tokens",
       "popular": "Popular",
@@ -2006,9 +2009,9 @@
       "network": "Rede"
     },
     "error": {
-      "invalidAddress": "Endereço de token inválido. Por favor, revise-o",
+      "invalidAddress": "Endereço de token inválido. Revise-o",
       "invalidToken": "Token inválido. Tente novamente ou entre em contato com a Equipe de Suporte",
-      "tokenAlreadySupported": "Esse token já é suportado"
+      "tokenAlreadySupported": "O token já é suportado"
     },
     "importSuccess": "Token {{tokenSymbol}} importado com sucesso",
     "importButton": "Importar"
@@ -2029,8 +2032,8 @@
       "subtitle": "Convide amigos da sua lista de contatos"
     },
     "jumpstart": {
-      "title": "Share crypto with a link",
-      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
+      "title": "Enviar com um link ativo",
+      "subtitle": "Copie o link e compartilhe-o para enviar cripto igual a uma mensagem"
     },
     "getStarted": {
       "title": "Formas de enviar fundos na Valora",
@@ -2082,8 +2085,8 @@
   "viewOnCeloScan": "Ver no CeloScan",
   "viewOnEthereumBlockExplorer": "Ver no Etherscan",
   "viewOnArbiscan": "Ver no Arbiscan",
-  "viewOnOPMainnetExplorer": "Exibir no OP Mainnet Explorer",
-  "viewOnOPSepoliaExplorer": "Ver na OP Sepolia Explorer",
+  "viewOnOPMainnetExplorer": "Ver no OP Mainnet Explorer",
+  "viewOnOPSepoliaExplorer": "Ver no OP Sepolia Explorer",
   "sendEnterAmountScreen": {
     "title": "Insira o valor",
     "selectToken": "Selecione um token",
@@ -2104,16 +2107,38 @@
   },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
-      "title": "Sugerimos um valor menor",
-      "description": "Esse link poderá ser reivindicado por qualquer pessoa que tenha acesso a ele. Recomendamos que você não envie mais do que {{maxAmount}} {{localCurrencyCode}}."
+      "title": "Você pode enviar até {{amountInLocalCurrency,currency}} em um link",
+      "description": "Esse link poderá ser resgatado por qualquer pessoa que tenha acesso a ele. Certifique-se de enviar links para pessoas em quem confia."
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Criar um link compartilhável",
-    "sendAmountLabel": "VALOR DO LINK DA REIVINDICAÇÃO",
-    "confirmButton": "Enviar fundos e criar um link",
-    "detailsLabel": "COMO FUNCIONA",
-    "details": "1. Toque em gerar link e seus fundos serão enviados para o link de resgate\n2. Envie o link de resgate para um amigo\n3. Ele aceitará os fundos\n4. Se os fundos não forem reivindicados, você poderá reivindicá-los a qualquer momento."
+    "title": "Criar link ativo",
+    "sendAmountLabel": "Quantia do link ativo",
+    "confirmButton": "Enviar e criar link",
+    "info": "Ao criar um link, os fundos são retirados de sua carteira. Você pode recuperar o link a qualquer momento. Compartilhe links com cuidado.",
+    "sendError": {
+      "title": "Não foi possível criar um link",
+      "description": "Seu link ativo não foi criado. Tente novamente.",
+      "ctaLabel": "Ignorar"
+    }
+  },
+  "jumpstartShareLinkScreen": {
+    "title": "Compartilhar link ativo",
+    "description": "Copie o link para enviar {{tokenSymbol}} pelo aplicativo de mensagens de sua preferência ou use o código QR.",
+    "linkLabel": "Link ativo",
+    "linkCopiedMessage": "Link ativo copiado",
+    "navigationWarning": {
+      "title": "Você compartilhou seu link?",
+      "description": "Certifique-se de compartilhar este link ativo ou salvá-lo em um local seguro.\n\nNão se preocupe se não for resgatado — você pode facilmente recuperar os fundos no seu feed de atividades.",
+      "ctaNavigate": "Ir para a tela inicial"
+    },
+    "ctaShare": "Compartilhar link",
+    "ctaScanQRCode": "Escanear código QR",
+    "shareMessage": "Olá! Estou te enviando um link com fundos de {{tokenAmount}} {{tokenSymbol}} na {{appName}}. Use esse link para baixar o aplicativo e os fundos estarão disponíveis, esperando por você. {{link}}",
+    "qrCodeBottomSheet": {
+      "title": "Leia o código para receber fundos",
+      "description": "Verifique o status dos seus fundos na tela inicial. Como alternativa, copie ou compartilhe o link abaixo."
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Aprovação",
@@ -2138,46 +2163,59 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "Adoção antecipada de várias cadeias 🎁",
-      "description": "Como agradecimento por você ser um testador beta de várias cadeias, adicionamos um presente gratuito à sua carteira {{appName}} ! Você pode encontrar o NFT para os primeiros usuários em seus itens colecionáveis.",
+      "title": "Parabéns!",
+      "description": "Você ganhou um item colecionável exclusivo para exploradores pioneiros do Ethereum. Dê boas-vindas ao Ethereum na {{appName}}.",
       "cta": "Obrigado!"
     },
     "notification": {
-      "title": "Parabéns a você 🎉.",
-      "description": "{{rewardName}} foi adicionado com sucesso à sua carteira {{appName}} ."
+      "title": "Um novo NFT espera por você 🎉",
+      "description": "Você pode encontrar seu novo NFT {{rewardName}} em \"Colecionáveis\""
     },
     "rewardBottomSheet": {
-      "title": "Cash-ins gratuitos por um mês",
-      "description": "Como você é o proprietário do {{nftName}} em seus colecionáveis, gostaríamos de oferecer a você cash-ins gratuitos no mês de janeiro.\n\nPara usar o prêmio, você pode fazer o cash-in por meio de qualquer parceiro do {{appName}} e as taxas serão dispensadas.",
+      "title": "Adicione fundos grátis por um mês",
+      "description": "Como você é o proprietário do {{nftName}} em seus itens colecionáveis, gostaríamos de oferecer a você a vantagem de adicionar fundos de forma gratuita no mês de janeiro.\n\nPara usar a recompensa, você pode adicionar fundos por meio de qualquer parceiro da {{appName}} com isenção de taxas.",
       "expirationLabel": "Expira em {{expirationLabelText}}",
       "cta": "Usar recompensa"
     },
     "rewardReminderBottomSheet": {
-      "title": "Cash-ins gratuitos por um mês",
-      "description": "Faltam apenas 3 dias para você aproveitar os saques gratuitos do mês de janeiro!\n\nPara usar o prêmio, você pode fazer o cash-in por meio de qualquer parceiro do {{appName}} e as taxas serão dispensadas.",
+      "title": "Adicione fundos grátis por um mês",
+      "description": "Faltam apenas 3 dias para você aproveitar a vantagem de adicionar fundos grátis no mês de janeiro!\n\nPara usar a recompensa, você pode adicionar fundos por meio de qualquer parceiro da {{appName}} com isenção de taxas.",
       "expirationLabel": "Expira em {{expirationLabelText}}",
       "cta": "Usar recompensa"
     }
   },
-  "pleaseWait": "Please wait",
+  "pleaseWait": "Aguarde",
   "error": "Erro",
   "linkPhoneNumber": {
-    "title": "Vincule um número de telefone ao endereço da sua carteira",
-    "description": "Você não precisa mais de endereços de carteira bagunçados! Envie criptografia para outros usuários da Celo com apenas um número de telefone",
-    "startButtonLabel": "Número de telefone do link",
+    "title": "Vincule um número de celular ao endereço da sua carteira",
+    "description": "Chega de endereços de carteira confusos! Envie cripto para outros usuários da Celo com apenas um número de celular",
+    "startButtonLabel": "Vincular número de celular",
     "later": "Farei isso mais tarde"
   },
   "bottomTabsNavigator": {
     "wallet": {
       "tabName": "Conta",
-      "title": "Minha carteira"
+      "title": "Minha conta"
     },
     "home": {
-      "tabName": "Página inicial",
-      "title": "Bem-vindo"
+      "tabName": "Início",
+      "title": "Boas-vindas"
     },
     "discover": {
-      "tabName": "Descobrir"
+      "tabName": "Descobrir",
+      "title": "Explore a web3"
+    }
+  },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "Seus fundos estão a caminho",
+      "description": "Os fundos que seu amigo deu a você estão sendo transferidos. Aguarde... "
+    },
+    "error": {
+      "title": "Não foi possível resgatar os fundos",
+      "description": "Tente usar o link ativo novamente para tentar receber fundos ou peça ao seu amigo para tentar enviar um novo link",
+      "contactSupport": "Contate o suporte",
+      "dismiss": "Ignorar"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

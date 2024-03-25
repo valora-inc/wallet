@@ -46,7 +46,6 @@ import {
   walletConnectEnabledSelector,
 } from 'src/app/selectors'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
-import BottomSheetInLineNotification from 'src/components/BottomSheetInLineNotification'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
 import { NotificationVariant } from 'src/components/InLineNotification'
@@ -58,6 +57,7 @@ import {
   SettingsItemSwitch,
   SettingsItemTextValue,
 } from 'src/components/SettingsItem'
+import Toast from 'src/components/Toast'
 import { PRIVACY_LINK, TOS_LINK } from 'src/config'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import ForwardChevron from 'src/icons/ForwardChevron'
@@ -86,12 +86,13 @@ import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
 import { selectSessions } from 'src/walletConnect/selectors'
 import { walletAddressSelector } from 'src/web3/selectors'
 
-type Props = NativeStackScreenProps<StackParamList, Screens.Settings>
+type Props = NativeStackScreenProps<StackParamList, Screens.Settings | Screens.SettingsDrawer>
 
 export const Account = ({ navigation, route }: Props) => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const promptConfirmRemovalModal = route.params?.promptConfirmRemovalModal
+  const isTabNav = route.name === Screens.Settings
 
   const revokeBottomSheetRef = useRef<BottomSheetRefType>(null)
   const deleteAccountBottomSheetRef = useRef<BottomSheetRefType>(null)
@@ -306,7 +307,9 @@ export const Account = ({ navigation, route }: Props) => {
       const pinIsCorrect = await ensurePincode()
       if (pinIsCorrect) {
         ValoraAnalytics.track(SettingsEvents.start_account_removal)
-        navigate(Screens.BackupPhrase, { navigatedFromSettings: true })
+        navigate(Screens.BackupPhrase, {
+          settingsScreen: isTabNav ? Screens.Settings : Screens.SettingsDrawer,
+        })
       }
     } catch (error) {
       Logger.error('SettingsItem@onPress', 'PIN ensure error', error)
@@ -435,8 +438,11 @@ export const Account = ({ navigation, route }: Props) => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <DrawerTopBar />
+    <SafeAreaView
+      style={styles.container}
+      edges={isTabNav ? ['bottom', 'left', 'right'] : undefined}
+    >
+      {!isTabNav && <DrawerTopBar />}
       <ScrollView testID="SettingsScrollView">
         <TouchableWithoutFeedback onPress={onDevSettingsTriggerPress}>
           <Text style={styles.title} testID={'SettingsTitle'}>
@@ -553,12 +559,14 @@ export const Account = ({ navigation, route }: Props) => {
           {t('promptConfirmRemovalModal.body')}
         </Dialog>
       </ScrollView>
-      <BottomSheetInLineNotification
+      <Toast
+        withBackdrop
         variant={NotificationVariant.Warning}
         description={t('keylessBackupSettingsDeleteError')}
-        showNotification={showDeleteKeylessBackupError}
+        showToast={showDeleteKeylessBackupError}
         onPressCta={onDismissKeylessBackupError}
         onUnmount={onDismissKeylessBackupError}
+        onDismiss={onDismissKeylessBackupError}
         ctaLabel={t('dismiss')}
         title={t('error')}
         testID="KeylessBackupDeleteError"

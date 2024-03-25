@@ -2624,8 +2624,10 @@
                 "ImportSelect",
                 "ImportWallet",
                 "Invite",
+                "InviteDrawer",
                 "JumpstartEnterAmount",
                 "JumpstartSendConfirmation",
+                "JumpstartShareLink",
                 "KeylessBackupIntro",
                 "KeylessBackupPhoneCodeInput",
                 "KeylessBackupPhoneInput",
@@ -2665,12 +2667,14 @@
                 "SendEnterAmount",
                 "SendSelectRecipient",
                 "Settings",
+                "SettingsDrawer",
                 "SignInWithEmail",
                 "Simplex",
                 "Spend",
                 "StoreWipeRecoveryScreen",
                 "Support",
                 "SupportContact",
+                "SupportDrawer",
                 "SwapScreenWithBack",
                 "TabDiscover",
                 "TabHome",
@@ -3174,7 +3178,7 @@
                 "hapticFeedbackEnabled": {
                     "type": "boolean"
                 },
-                "hideHomeBalances": {
+                "hideBalances": {
                     "type": "boolean"
                 },
                 "huaweiMobileServicesAvailable": {
@@ -3304,7 +3308,7 @@
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hapticFeedbackEnabled",
-                "hideHomeBalances",
+                "hideBalances",
                 "inAppReviewLastInteractionTimestamp",
                 "inviterAddress",
                 "lastTimeBackgrounded",
@@ -4184,10 +4188,20 @@
                         "loading"
                     ],
                     "type": "string"
+                },
+                "depositStatus": {
+                    "enum": [
+                        "error",
+                        "idle",
+                        "loading",
+                        "success"
+                    ],
+                    "type": "string"
                 }
             },
             "required": [
-                "claimStatus"
+                "claimStatus",
+                "depositStatus"
             ],
             "type": "object"
         },

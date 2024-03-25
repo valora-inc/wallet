@@ -16,7 +16,6 @@ export enum Shadow {
   Soft = 'Soft',
   SoftLight = 'SoftLight',
   BarShadow = 'BarShadow',
-  AlertShadow = 'AlertShadow',
 }
 
 export function getShadowStyle(shadow: Shadow) {
@@ -27,8 +26,6 @@ export function getShadowStyle(shadow: Shadow) {
       return styles.softShadowLight
     case Shadow.BarShadow:
       return styles.barShadow
-    case Shadow.AlertShadow:
-      return styles.alertShadow
   }
 }
 
@@ -63,13 +60,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 1.5,
     shadowColor: 'rgba(129, 134, 139, 0.5)',
-  },
-  alertShadow: {
-    elevation: 16,
-    shadowOffset: { width: 0, height: 16 },
-    shadowOpacity: 0.15,
-    shadowRadius: 10,
-    shadowColor: 'rgb(80, 80, 80)',
   },
 })
 
