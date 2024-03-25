@@ -1307,6 +1307,9 @@
   "feedItemGoldWithdrawal": "{{displayName}}'a çekim",
   "feedItemGoldReceived": "{{displayName}} alındı",
   "feedItemSwapPath": "{{token1}} - {{token2}}",
+  "feedItemJumpstartTitle": "Canlı Bağlantı",
+  "feedItemJumpstartSentSubtitle": "Davetiye",
+  "feedItemJumpstartReceivedSubtitle": "Alınan fonlar",
   "transactionHeaderVerificationFee": "Onay",
   "transactionHeaderNetworkFee": "Ağ",
   "transactionHeaderFaucet": "Faucet",
@@ -2196,11 +2199,11 @@
     },
     "home": {
       "tabName": "Başlat",
-      "title": "Hoşgeldiniz"
+      "title": "Selam"
     },
     "discover": {
       "tabName": "Keşfedin",
-      "title": "Keşfedin"
+      "title": "Web3'ü keşfedin"
     }
   },
   "jumpstartStatus": {

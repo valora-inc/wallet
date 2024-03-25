@@ -5,6 +5,7 @@ import { Dimensions, PixelRatio, Platform, Pressable, StyleSheet, Text, View } f
 import AccountCircleButton from 'src/components/AccountCircleButton'
 import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
+import CloseButton from 'src/components/CloseButton'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import QrScanButton from 'src/components/QrScanButton'
@@ -12,7 +13,6 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import NotificationBell from 'src/home/NotificationBell'
 import i18n from 'src/i18n'
 import BackChevronCentered from 'src/icons/BackChevronCentered'
-import Times from 'src/icons/Times'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
@@ -170,11 +170,6 @@ export const headerWithBackEditButtons: NativeStackNavigationOptions = {
   headerRight: () => <BackButton />,
 }
 
-export const headerWithCloseButton: NativeStackNavigationOptions = {
-  ...emptyHeader,
-  headerLeft: () => <TopBarIconButton icon={<Times />} onPress={navigateBack} />,
-}
-
 interface Props {
   title: string | React.ReactNode
   token: Currency
@@ -296,6 +291,17 @@ export const tabHeader: NativeStackNavigationOptions = {
   headerLeft: () => (
     <View style={[styles.topElementsContainer, { marginLeft: Spacing.Tiny4 }]}>
       <AccountCircleButton testID="WalletHome/AccountCircle" />
+    </View>
+  ),
+}
+
+export const headerWithCloseButton: NativeStackNavigationOptions = {
+  ...emptyHeader,
+  headerLeft: () => (
+    // The negative margin is to fix an issue with margin added via the stack navigator
+    // https://github.com/react-navigation/react-navigation/issues/11295
+    <View style={[styles.topElementsContainer, { marginLeft: -Spacing.Small12 }]}>
+      <CloseButton testID="CloseButton" />
     </View>
   ),
 }

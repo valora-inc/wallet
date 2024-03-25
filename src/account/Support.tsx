@@ -20,9 +20,9 @@ const onPressContact = () => {
   navigate(Screens.SupportContact)
 }
 
-const Support = ({ navigation, route }: Props) => {
+const Support = ({ route }: Props) => {
   const { t } = useTranslation()
-  const isTabNav = route.params?.isTabNav
+  const isTabNav = route.name === Screens.Support
 
   return (
     <SafeAreaView
