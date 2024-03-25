@@ -10,6 +10,7 @@ interface Props {
   children: React.ReactNode
 }
 
+// TODO(ACT-1137): update TokenIcon to use this
 export default function IconWithNetworkBadge({ networkId, children }: Props) {
   const networkIcons = useSelector(networksIconSelector)
   const networkImageUrl = networkIcons[networkId]
