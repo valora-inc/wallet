@@ -28,12 +28,10 @@ export async function createInviteLink(address: string) {
 export async function createJumpstartLink(privateKey: string, networkId: NetworkId) {
   // avoid calling firebase sdk with private key during link creation to protect
   // the private key from being stored
-  const dynamicLink = new URL(
-    await dynamicLinks().buildLink({
-      ...commonDynamicLinkParams,
-      link: WEB_LINK,
-    })
-  )
+  const dynamicLink = await dynamicLinks().buildLink({
+    ...commonDynamicLinkParams,
+    link: WEB_LINK,
+  })
   const dynamicUrl = new URL(dynamicLink)
   dynamicUrl.searchParams.set('link', `${WEB_LINK}jumpstart/${privateKey}/${networkId}`)
 
