@@ -276,13 +276,9 @@ export const fiatConnectKycTransferOut = () => {
     )
     await element(by.text('Phone Number')).tap() // Tap away to unfocus from input
 
-    // Scroll down to continue button - all params needed to scroll down on persona template
-    // Last parameter is the start point of the scroll, 0.5 is the middle of the element
-    await element(by.type('UIScrollView').withDescendant(by.text('Phone Number'))).scroll(
-      400,
-      'down',
-      NaN,
-      0
+    // Scroll to bottom to continue button
+    await element(by.type('UIScrollView').withDescendant(by.text('Phone Number'))).scrollTo(
+      'bottom'
     )
 
     await element(by.text('Continue')).tap()
