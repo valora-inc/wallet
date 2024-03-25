@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function IconWithNetworkBadge({ networkId, children }: Props) {
-  const networkIcons = useSelector((state) => networksIconSelector(state, [networkId]))
+  const networkIcons = useSelector(networksIconSelector)
   const networkImageUrl = networkIcons[networkId]
   return (
     <View>
