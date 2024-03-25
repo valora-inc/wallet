@@ -1,5 +1,6 @@
 import React from 'react'
 import ContactCircle from 'src/components/ContactCircle'
+import IconWithNetworkBadge from 'src/components/IconWithNetworkBadge'
 import Activity from 'src/icons/Activity'
 import AttentionIcon from 'src/icons/Attention'
 import CircledIcon from 'src/icons/CircledIcon'
@@ -8,28 +9,26 @@ import MagicWand from 'src/icons/MagicWand'
 import SwapIcon from 'src/icons/SwapIcon'
 import { Recipient } from 'src/recipients/recipient'
 import Colors from 'src/styles/colors'
-import { TransactionStatus } from 'src/transactions/types'
+import { NetworkId, TransactionStatus } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 
 const AVATAR_SIZE = 40
 
-type Props =
+type Props = { networkId: NetworkId; status: TransactionStatus } & (
   | {
-      status: TransactionStatus
       transactionType: 'TokenExchangeV3'
     }
   | {
-      status: TransactionStatus
       transactionType: 'TokenTransferV3'
       recipient: Recipient
       isJumpstart: boolean
     }
   | {
-      status: TransactionStatus
       transactionType: 'TokenApproval'
     }
+)
 
-function TransactionFeedItemImage(props: Props) {
+function TransactionFeedItemBaseImage(props: Props) {
   const { status, transactionType } = props
 
   if (status === TransactionStatus.Failed) {
@@ -71,6 +70,14 @@ function TransactionFeedItemImage(props: Props) {
     `Could not render image for transaction for transaction type ${transactionType} and status ${status}`
   )
   return null
+}
+
+function TransactionFeedItemImage(props: Props) {
+  return (
+    <IconWithNetworkBadge networkId={props.networkId}>
+      <TransactionFeedItemBaseImage {...props} />
+    </IconWithNetworkBadge>
+  )
 }
 
 export default TransactionFeedItemImage

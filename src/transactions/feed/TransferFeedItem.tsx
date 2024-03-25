@@ -49,6 +49,7 @@ function TransferFeedItem({ transfer }: Props) {
           status={transfer.status}
           transactionType={transfer.__typename}
           isJumpstart={isJumpstartTransaction(transfer)}
+          networkId={transfer.networkId}
         />
         <View style={styles.contentContainer}>
           <Text style={styles.title} testID={'TransferFeedItem/title'} numberOfLines={1}>
