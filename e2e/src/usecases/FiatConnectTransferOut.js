@@ -281,7 +281,9 @@ export const fiatConnectKycTransferOut = () => {
       'bottom'
     )
 
-    await element(by.text('Address')).tap() // Tap away to unfocus from input to dismiss keyboard
+    // Tap away to unfocus from input to dismiss keyboard, for some reason there
+    // are 2 matching fields for Address, using atIndex picks the right one.
+    await element(by.text('Address')).atIndex(1).tap()
     await element(by.text('Continue')).tap()
 
     // Somehow this sleep is needed to make the test pass
