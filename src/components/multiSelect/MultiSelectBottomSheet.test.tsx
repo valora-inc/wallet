@@ -1,8 +1,7 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
-import MultiSelectBottomSheet, { Option } from 'src/components/multiSelect/MultiSelectBottomSheet'
+import MultiSelectBottomSheet from 'src/components/multiSelect/MultiSelectBottomSheet'
 
-const oneOptionSelected = [{ text: 'One', iconUrl: 'icon', id: 'one' }]
 
 const allOptions = [
   { text: 'One', iconUrl: 'icon', id: 'one' },
@@ -11,9 +10,12 @@ const allOptions = [
   { text: 'Four', iconUrl: 'icon', id: 'four' },
 ]
 
+const oneOptionSelected = ['one']
+const allOptionsSelected = ['one', 'two', 'three', 'four']
+
 function renderMultiSelect(
-  selectedOptions: Option[],
-  setSelectedOptionsMock: (selectedOptions: Option[]) => void,
+  selectedOptions: string[],
+  setSelectedOptionsMock: (selectedOptions: string[]) => void,
   onClose?: () => void
 ) {
   return render(
@@ -36,7 +38,7 @@ describe('MultiSelectBottomSheet', () => {
     jest.clearAllMocks()
   })
   it('only select all is checkmarked when all are selected', () => {
-    const { queryByTestId, queryByText } = renderMultiSelect(allOptions, setSelectedOptions)
+    const { queryByTestId, queryByText } = renderMultiSelect(allOptionsSelected, setSelectedOptions)
 
     // All of the icons are rendered
     expect(queryByTestId('One-icon')).toBeTruthy()
@@ -69,10 +71,7 @@ describe('MultiSelectBottomSheet', () => {
 
     fireEvent.press(getByTestId('Two-icon'))
 
-    expect(setSelectedOptions).toHaveBeenLastCalledWith([
-      { text: 'One', iconUrl: 'icon', id: 'one' },
-      { text: 'Two', iconUrl: 'icon', id: 'two' },
-    ])
+    expect(setSelectedOptions).toHaveBeenLastCalledWith(['one', 'two'])
   })
   it('calls setSelectedOptions to unselect an option', () => {
     const { queryByTestId, getByTestId } = renderMultiSelect(oneOptionSelected, setSelectedOptions)
@@ -96,18 +95,18 @@ describe('MultiSelectBottomSheet', () => {
 
     fireEvent.press(getByText('Select All'))
 
-    expect(setSelectedOptions).toHaveBeenLastCalledWith(allOptions)
+    expect(setSelectedOptions).toHaveBeenLastCalledWith(allOptionsSelected)
   })
   it('calls setSelectedOptions correctly when going from all selected to one selected', () => {
-    const { getByTestId } = renderMultiSelect(allOptions, setSelectedOptions)
+    const { getByTestId } = renderMultiSelect(allOptionsSelected, setSelectedOptions)
 
     fireEvent.press(getByTestId('One-icon'))
 
-    expect(setSelectedOptions).toHaveBeenCalledWith([{ text: 'One', iconUrl: 'icon', id: 'one' }])
+    expect(setSelectedOptions).toHaveBeenCalledWith(['one'])
   })
   it('calls onClose when done is pressed', () => {
     const onClose = jest.fn()
-    const { getByTestId } = renderMultiSelect(allOptions, setSelectedOptions, onClose)
+    const { getByTestId } = renderMultiSelect(allOptionsSelected, setSelectedOptions, onClose)
 
     fireEvent.press(getByTestId('MultiSelectBottomSheet/Done'))
 

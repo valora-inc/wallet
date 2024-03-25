@@ -15,21 +15,21 @@ import { Spacing } from 'src/styles/styles'
 const OPTION_HEIGHT = 60
 const MAX_OPTIONS_IN_VIEW = 5
 
-interface MultiSelectBottomSheetProps<T extends string> {
+interface MultiSelectBottomSheetProps<T> {
   forwardedRef: React.RefObject<GorhomBottomSheet>
   onChange?: BottomSheetProps['onChange']
   onClose?: () => void
   onOpen?: () => void
   handleComponent?: BottomSheetProps['handleComponent']
-  options: Option[]
-  selectedOptions: Option[]
-  setSelectedOptions: (selectedOptions: Option[]) => void
+  options: Option<T>[]
+  selectedOptions: T[]
+  setSelectedOptions: (selectedOptions: T[]) => void
   selectAllText: string
   title: string
 }
 
-export interface Option {
-  id: string
+export interface Option<T> {
+  id: T
   text: string
   iconUrl?: string
 }
@@ -70,30 +70,30 @@ function MultiSelectBottomSheet<T extends string>({
           <Text style={styles.boldTextStyle}>{title}</Text>
         </View>
         <View style={styles.optionsContainer}>
-          <ScrollView style={{ height: OPTION_HEIGHT * MAX_OPTIONS_IN_VIEW }}>
-            <Option
+          <ScrollView style={{ maxHeight: OPTION_HEIGHT * MAX_OPTIONS_IN_VIEW }}>
+            <OptionLineItem
               text={selectAllText}
               isSelected={isEveryOptionSelected}
-              onPress={() => setSelectedOptions(options)}
+              onPress={() => setSelectedOptions(options.map((option) => option.id))}
             />
             {options.map((option) => (
-              <Option
+              <OptionLineItem
                 text={option.text}
                 iconUrl={option.iconUrl}
                 isSelected={
-                  !!selectedOptions.find((selectedOption) => selectedOption.id === option.id) &&
+                  !!selectedOptions.find((selectedOption) => selectedOption === option.id) &&
                   !isEveryOptionSelected
                 }
                 onPress={() => {
                   if (isEveryOptionSelected) {
-                    setSelectedOptions([option])
+                    setSelectedOptions([option.id])
                   } else {
-                    if (selectedOptions.find((selectedOption) => selectedOption.id === option.id)) {
+                    if (selectedOptions.find((selectedOption) => selectedOption === option.id)) {
                       setSelectedOptions(
-                        selectedOptions.filter((selectedOption) => selectedOption.id !== option.id)
+                        selectedOptions.filter((selectedOption) => selectedOption !== option.id)
                       )
                     } else {
-                      setSelectedOptions([...selectedOptions, option])
+                      setSelectedOptions([...selectedOptions, option.id])
                     }
                   }
                 }}
@@ -115,13 +115,13 @@ function MultiSelectBottomSheet<T extends string>({
   )
 }
 
-interface OptionProps {
+interface OptionLineItemProps {
   onPress?: () => void
   text: string
   isSelected: boolean
   iconUrl?: string
 }
-function Option({ onPress, text, iconUrl, isSelected }: OptionProps) {
+function OptionLineItem({ onPress, text, iconUrl, isSelected }: OptionLineItemProps) {
   return (
     <View key={text} style={styles.optionContainer}>
       <Touchable style={styles.option} onPress={onPress}>
@@ -140,8 +140,8 @@ function Option({ onPress, text, iconUrl, isSelected }: OptionProps) {
                 <Checkmark
                   testID={`${text}-checkmark`}
                   color={Colors.black}
-                  height={24}
-                  width={24}
+                  height={Spacing.Thick24}
+                  width={Spacing.Thick24}
                 />
               )}
             </View>
@@ -154,7 +154,7 @@ function Option({ onPress, text, iconUrl, isSelected }: OptionProps) {
 
 const styles = StyleSheet.create({
   doneButton: {
-    borderRadius: 16,
+    borderRadius: Spacing.Regular16,
     backgroundColor: Colors.white,
     height: 56,
     flexGrow: 1,
@@ -167,20 +167,20 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   icon: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: Spacing.Large32,
+    height: Spacing.Large32,
+    borderRadius: Spacing.Regular16,
   },
   leftColumn: {
     alignItems: 'flex-start',
-    width: 32,
+    width: Spacing.Large32,
   },
   centerColumn: {
     flex: 1,
     alignItems: 'center',
   },
   rightColumn: {
-    width: 32,
+    width: Spacing.Large32,
     alignItems: 'flex-end',
   },
   checkMarkContainer: {
@@ -206,16 +206,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   borderRadiusTop: {
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
+    borderTopLeftRadius: Spacing.Regular16,
+    borderTopRightRadius: Spacing.Regular16,
     backgroundColor: Colors.white,
   },
   optionsContainer: {
     flexDirection: 'column',
     marginBottom: Spacing.Smallest8,
     backgroundColor: Colors.white,
-    borderBottomLeftRadius: 16,
-    borderBottomRightRadius: 16,
+    borderBottomLeftRadius: Spacing.Regular16,
+    borderBottomRightRadius: Spacing.Regular16,
   },
   textStyle: {
     ...typeScale.bodyLarge,

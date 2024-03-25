@@ -1,7 +1,7 @@
 import GorhomBottomSheet from '@gorhom/bottom-sheet'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import MultiSelectBottomSheet, { Option } from 'src/components/multiSelect/MultiSelectBottomSheet'
+import MultiSelectBottomSheet from 'src/components/multiSelect/MultiSelectBottomSheet'
 import { useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import { networksIconSelector } from 'src/tokens/selectors'
@@ -38,19 +38,15 @@ function NetworkMultiSelectBottomSheet({
     [allNetworkIds, networkIconByNetworkId]
   )
 
-  const selectedOptions = options.filter((option) => selectedNetworkIds.includes(option.id))
-  function setSelectedOptions(selectedOptions: Option[]) {
-    setSelectedNetworkIds(selectedOptions.map((option) => option.id as NetworkId))
-  }
 
   return (
-    <MultiSelectBottomSheet
+    <MultiSelectBottomSheet<NetworkId>
       forwardedRef={forwardedRef}
       onClose={onClose}
       onOpen={onOpen}
       options={options}
-      selectedOptions={selectedOptions}
-      setSelectedOptions={setSelectedOptions}
+      selectedOptions={selectedNetworkIds}
+      setSelectedOptions={setSelectedNetworkIds}
       selectAllText={t('multiSelect.allNetworks')}
       title={t('multiSelect.switchNetwork')}
     />

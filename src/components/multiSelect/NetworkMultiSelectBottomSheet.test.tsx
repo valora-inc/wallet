@@ -29,13 +29,6 @@ describe('NetworkMultiSelectBottomSheet', () => {
         id: NetworkId['ethereum-sepolia'],
       },
     ]
-    const expectedSelectedOptions = [
-      {
-        text: 'Celo Alfajores',
-        iconUrl: 'url-for-cusd-icon',
-        id: NetworkId['celo-alfajores'],
-      },
-    ]
 
     render(
       <Provider
@@ -71,7 +64,7 @@ describe('NetworkMultiSelectBottomSheet', () => {
         forwardedRef,
         onClose,
         onOpen,
-        selectedOptions: expectedSelectedOptions,
+        selectedOptions: [NetworkId['celo-alfajores']],
         setSelectedOptions: expect.any(Function),
         options: expectedOptions,
         selectAllText: 'multiSelect.allNetworks',
