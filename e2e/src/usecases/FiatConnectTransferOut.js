@@ -281,6 +281,7 @@ export const fiatConnectKycTransferOut = () => {
       'bottom'
     )
 
+    await element(by.text('Address')).tap() // Tap away to unfocus from input to dismiss keyboard
     await element(by.text('Continue')).tap()
 
     // Somehow this sleep is needed to make the test pass
