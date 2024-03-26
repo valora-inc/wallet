@@ -1,6 +1,8 @@
 import { render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
+import { act } from 'react-test-renderer'
+import { fetchClaimStatus } from 'src/jumpstart/fetchClaimStatus'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
 import { getDynamicConfigParams } from 'src/statsig'
@@ -20,19 +22,11 @@ import {
   getElementText,
   getMockStackScreenProps,
 } from 'test/utils'
-import {
-  mockAccount,
-  mockCusdAddress,
-  mockCusdTokenId,
-  mockE164Number2,
-  mockJumpstartAdddress,
-} from 'test/values'
+import { mockAccount, mockCusdAddress, mockCusdTokenId, mockJumpstartAdddress } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/statsig')
-
-const mockAddress = '0x8C3b8Af721384BB3479915C72CEe32053DeFca4E'
-const mockName = 'Hello World'
+jest.mock('src/jumpstart/fetchClaimStatus')
 
 describe('JumpstartTransactionDetailsScreen', () => {
   beforeEach(() => {
@@ -46,17 +40,12 @@ describe('JumpstartTransactionDetailsScreen', () => {
   })
 
   function renderScreen({
-    storeOverrides = {},
     transaction,
   }: {
     storeOverrides?: RecursivePartial<RootState>
     transaction: TokenTransfer
   }) {
-    const store = createMockStore({
-      identity: { addressToE164Number: { [mockAddress]: mockE164Number2 } },
-      recipients: { phoneRecipientCache: { [mockE164Number2]: { name: mockName } } },
-      ...storeOverrides,
-    })
+    const store = createMockStore()
 
     const mockScreenProps = getMockStackScreenProps(Screens.JumpstartTransactionDetailsScreen, {
       transaction,
@@ -137,5 +126,75 @@ describe('JumpstartTransactionDetailsScreen', () => {
     expect(getElementText(amountReceivedComponent)).toBe('amountReceived')
     const amountValue = getByTestId('JumpstartContent/AmountValue')
     expect(getElementText(amountValue)).toBe('10.00 cUSD')
+  })
+
+  it(`doesn't show the button in received transactions`, async () => {
+    const { queryByTestId } = renderScreen({
+      transaction: tokenTransfer({
+        type: TokenTransactionTypeV2.Received,
+      }),
+    })
+
+    expect(queryByTestId('JumpstartContent/ReclaimButton')).toBeFalsy()
+  })
+
+  it(`shows the disabled button in case of any error`, async () => {
+    jest.mocked(fetchClaimStatus).mockImplementation(() => {
+      throw new Error('Test error')
+    })
+
+    const { queryByTestId } = renderScreen({
+      transaction: tokenTransfer({
+        type: TokenTransactionTypeV2.Sent,
+      }),
+    })
+
+    expect(queryByTestId('JumpstartContent/ReclaimButton')).toBeDisabled()
+  })
+
+  it(`shows the enabled button if the escrow wasn't claimed`, async () => {
+    jest.mocked(fetchClaimStatus).mockImplementation(async () => {
+      return {
+        beneficiary: mockAccount,
+        index: 0,
+        claimed: false,
+      }
+    })
+
+    const { queryByTestId } = renderScreen({
+      transaction: tokenTransfer({
+        type: TokenTransactionTypeV2.Sent,
+      }),
+    })
+
+    await act(() => {
+      jest.runAllTimers()
+    })
+
+    expect(queryByTestId('JumpstartContent/ReclaimButton')).toBeEnabled()
+    expect(queryByTestId('JumpstartContent/ReclaimButton')).toHaveTextContent('reclaim')
+  })
+
+  it('shows a disabled button with the claimed text if the escrow was already claimed', async () => {
+    jest.mocked(fetchClaimStatus).mockImplementation(async () => {
+      return {
+        beneficiary: mockAccount,
+        index: 0,
+        claimed: true,
+      }
+    })
+
+    const { queryByTestId } = renderScreen({
+      transaction: tokenTransfer({
+        type: TokenTransactionTypeV2.Sent,
+      }),
+    })
+
+    await act(() => {
+      jest.runAllTimers()
+    })
+
+    expect(queryByTestId('JumpstartContent/ReclaimButton')).toBeDisabled()
+    expect(queryByTestId('JumpstartContent/ReclaimButton')).toHaveTextContent('claimed')
   })
 })

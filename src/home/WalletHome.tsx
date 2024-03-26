@@ -50,6 +50,7 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
 import { hasGrantedContactsPermission } from 'src/utils/contacts'
+import PointsButton from 'src/components/PointsButton'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
@@ -213,8 +214,10 @@ function WalletHome({ navigation, route }: Props) {
   const showBetaTag = getFeatureGate(StatsigFeatureGates.SHOW_BETA_TAG)
   const topLeftElement = showBetaTag && <BetaTag />
 
+  const showPoints = getFeatureGate(StatsigFeatureGates.SHOW_POINTS)
   const topRightElements = (
     <View style={styles.topRightElementsContainer}>
+      {showPoints && <PointsButton testID={'WalletHome/PointsButton'} />}
       <QrScanButton testID={'WalletHome/QRScanButton'} />
       <NotificationBell testID={'WalletHome/NotificationBell'} />
     </View>

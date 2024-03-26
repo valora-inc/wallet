@@ -1632,6 +1632,13 @@ export const migrations = {
   }),
   202: (state: any) => ({
     ...state,
+    walletConnect: {
+      ...state.walletConnect,
+      pendingSessions: [],
+    },
+  }),
+  203: (state: any) => ({
+    ...state,
     jumpstart: {
       ...state.jumpstart,
       reclaimStatus: 'idle',

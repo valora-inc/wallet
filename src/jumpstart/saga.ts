@@ -107,7 +107,7 @@ export function* dispatchPendingERC20Transactions(
       address,
       args: { token: tokenAddress, amount },
     } of parsedLogs) {
-      const tokenId = getTokenId(networkId, tokenAddress)
+      const tokenId = getTokenId(networkId, tokenAddress.toLowerCase())
 
       const token = tokensById[tokenId]
       if (!token) {
@@ -183,7 +183,7 @@ export function* dispatchPendingERC721Transactions(
             nfts: [
               {
                 tokenId: tokenId.toString(),
-                contractAddress,
+                contractAddress: contractAddress.toLowerCase(),
                 tokenUri,
                 metadata,
                 media: [

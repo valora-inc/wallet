@@ -2403,6 +2403,9 @@
                 "expiry": {
                     "type": "number"
                 },
+                "expiryTimestamp": {
+                    "type": "number"
+                },
                 "id": {
                     "type": "number"
                 },
@@ -2442,7 +2445,7 @@
                 }
             },
             "required": [
-                "expiry",
+                "expiryTimestamp",
                 "id",
                 "optionalNamespaces",
                 "proposer",
@@ -2624,6 +2627,7 @@
                 "ImportSelect",
                 "ImportWallet",
                 "Invite",
+                "InviteDrawer",
                 "JumpstartEnterAmount",
                 "JumpstartSendConfirmation",
                 "JumpstartShareLink",
@@ -2650,6 +2654,7 @@
                 "OnboardingSuccessScreen",
                 "PincodeEnter",
                 "PincodeSet",
+                "PointsHome",
                 "Profile",
                 "ProfileMenu",
                 "ProtectWallet",
@@ -2667,12 +2672,14 @@
                 "SendEnterAmount",
                 "SendSelectRecipient",
                 "Settings",
+                "SettingsDrawer",
                 "SignInWithEmail",
                 "Simplex",
                 "Spend",
                 "StoreWipeRecoveryScreen",
                 "Support",
                 "SupportContact",
+                "SupportDrawer",
                 "SwapScreenWithBack",
                 "TabDiscover",
                 "TabHome",
@@ -5134,6 +5141,9 @@
                 "verified": {
                     "additionalProperties": false,
                     "properties": {
+                        "isScam": {
+                            "type": "boolean"
+                        },
                         "origin": {
                             "type": "string"
                         },

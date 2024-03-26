@@ -1,5 +1,5 @@
-import { reloadReactNative } from '../utils/retries'
-import { scrollIntoView, waitForElementId } from '../utils/utils'
+import { reloadReactNative, launchApp } from '../utils/retries'
+import { scrollIntoView, waitForElementId, waitForElementByIdAndTap } from '../utils/utils'
 
 export default Support = () => {
   beforeEach(async () => {
@@ -32,7 +32,7 @@ export default Support = () => {
   }
 
   jest.retryTimes(2)
-  it('Send Message to Support', async () => {
+  it('Send Message to Support (drawer)', async () => {
     await waitForElementId('Hamburger')
     await element(by.id('Hamburger')).tap()
     await scrollIntoView('Help', 'SettingsScrollView')
@@ -40,6 +40,26 @@ export default Support = () => {
       .toExist()
       .withTimeout(10000)
     await element(by.id('Help')).tap()
+    await waitFor(element(by.id('SupportContactLink')))
+      .toBeVisible()
+      .withTimeout(10000)
+    await element(by.id('SupportContactLink')).tap()
+    await waitFor(element(by.id('MessageEntry')))
+      .toBeVisible()
+      .withTimeout(10000)
+    await element(by.id('MessageEntry')).tap()
+    await element(by.id('MessageEntry')).typeText('This is a test from Valora')
+    await expect(element(by.id('MessageEntry'))).toHaveText('This is a test from Valora')
+  })
+
+  it('Send Message to Support (tab)', async () => {
+    await launchApp({
+      newInstance: false,
+      permissions: { notifications: 'YES', contacts: 'YES' },
+      launchArgs: { statsigGateOverrides: `use_tab_navigator=true` },
+    })
+    await waitForElementByIdAndTap('WalletHome/AccountCircle')
+    await waitForElementByIdAndTap('ProfileMenu/Help')
     await waitFor(element(by.id('SupportContactLink')))
       .toBeVisible()
       .withTimeout(10000)

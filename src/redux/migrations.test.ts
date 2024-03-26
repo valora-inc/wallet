@@ -48,6 +48,7 @@ import {
   v197Schema,
   v1Schema,
   v200Schema,
+  v201Schema,
   v21Schema,
   v28Schema,
   v2Schema,
@@ -1563,6 +1564,14 @@ describe('Redux persist migrations', () => {
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.app.hideBalances = true
     delete expectedSchema.app.hideHomeBalances
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from 201 to 202', () => {
+    const oldSchema = v201Schema
+    const migratedSchema = migrations[202](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.walletConnect.pendingSessions = []
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })
