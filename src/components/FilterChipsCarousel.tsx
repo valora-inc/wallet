@@ -58,15 +58,14 @@ function FilterChipsCarousel<T>({
       ref={forwardedRef}
     >
       {chips.map((chip) => {
-        const isSelected = isNetworkChip(chip)
-          ? chip.allNetworkIds.length !== chip.selectedNetworkIds.length
-          : chip.isSelected
         return (
           <View
             key={chip.id}
             style={[
               styles.filterChipBackground,
-              isSelected ? { backgroundColor: primaryColor } : { backgroundColor: secondaryColor },
+              chip.isSelected
+                ? { backgroundColor: primaryColor }
+                : { backgroundColor: secondaryColor },
             ]}
           >
             <Touchable
@@ -79,14 +78,14 @@ function FilterChipsCarousel<T>({
                 <Text
                   style={[
                     styles.filterChipText,
-                    isSelected ? { color: secondaryColor } : { color: primaryColor },
+                    chip.isSelected ? { color: secondaryColor } : { color: primaryColor },
                   ]}
                 >
                   {chip.name}
                 </Text>
                 {isNetworkChip(chip) && (
                   <DownArrowIcon
-                    color={isSelected ? secondaryColor : primaryColor}
+                    color={chip.isSelected ? secondaryColor : primaryColor}
                     strokeWidth={2}
                     height={Spacing.Regular16}
                     style={{ marginBottom: 2, marginLeft: 4 }}

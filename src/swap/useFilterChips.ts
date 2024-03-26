@@ -47,11 +47,11 @@ export default function useFilterChip(selectingField: Field | null): FilterChip<
     },
     {
       id: 'network-ids',
-      name: 'Networks',
+      name: t('tokenBottomSheet.filters.network'),
       filterFn: (token: TokenBalance, selected?: NetworkId[]) => {
         return !!selected && selected.includes(token.networkId)
       },
-      isSelected: true,
+      isSelected: false,
       allNetworkIds: supportedNetworkIds,
       selectedNetworkIds: supportedNetworkIds,
     },

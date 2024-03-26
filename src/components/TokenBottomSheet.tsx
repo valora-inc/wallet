@@ -172,12 +172,16 @@ function TokenBottomSheet<T extends TokenBalance>({
     [filters]
   )
 
-  const setSelectedNetworkIds = (arg: NetworkId[] | Function) => {
+  const setSelectedNetworkIds = (arg: NetworkId[] | ((networkIds: NetworkId[]) => NetworkId[])) => {
     setFilters((prev) => {
       return prev.map((chip) => {
         if (isNetworkChip(chip)) {
           const selectedNetworkIds = typeof arg === 'function' ? arg(chip.selectedNetworkIds) : arg
-          return { ...chip, selectedNetworkIds }
+          return {
+            ...chip,
+            selectedNetworkIds,
+            isSelected: selectedNetworkIds.length !== chip.allNetworkIds.length,
+          }
         }
         return chip
       })
