@@ -2218,6 +2218,34 @@
       "dismiss": "Ignora"
     }
   },
+  "points": {
+    "title": "Punti Valora",
+    "activity": "Attività",
+    "infoCard": {
+      "title": "Altri modi per guadagnare punti in arrivo 🚀",
+      "body": "Stiamo lavorando per aggiungere altri modi per guadagnare punti utilizzando l'app. Continuate a seguirci per gli aggiornamenti."
+    },
+    "activitySection": {
+      "title": "Come si guadagnano i punti?",
+      "body": "È facile! Guadagna punti semplicemente usando l'app."
+    },
+    "activityCards": {
+      "createWallet": {
+        "title": "Crea un portafoglio {{appName}}"
+      },
+      "swap": {
+        "title": "Attività di swap",
+        "bottomSheet": {
+          "title": "Attività di swap",
+          "body": "Questo spazio sarà utilizzato per fornire tutti i dettagli necessari. Forse l'importo minimo da scambiare. \n\nGuadagna {{pointsValue}} punti ogni volta che scambi un'attività utilizzando {{appName}}.",
+          "cta": "Vai allo scambio"
+        }
+      },
+      "moreComing": {
+        "title": "Prossimamente ne arriveranno altri!"
+      }
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }

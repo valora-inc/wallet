@@ -2218,6 +2218,34 @@
       "dismiss": "Yoksay"
     }
   },
+  "points": {
+    "title": "Valora Puanları",
+    "activity": "İşlemler",
+    "infoCard": {
+      "title": "Puan kazanmanın daha fazla yolu çok yakında 🚀",
+      "body": "Uygulamayı kullanarak puan kazanmanın daha fazla yolunu eklemek için çalışıyoruz. Güncellemeler için kontrol etmeye devam edin."
+    },
+    "activitySection": {
+      "title": "Nasıl puan kazanabilirim?",
+      "body": "Çok kolay! Sadece uygulamayı kullanarak puan kazanın."
+    },
+    "activityCards": {
+      "createWallet": {
+        "title": "Bir {{appName}}  Cüzdanı Oluşturun"
+      },
+      "swap": {
+        "title": "Swap varlıkları",
+        "bottomSheet": {
+          "title": "Swap varlıkları",
+          "body": "Bu alan, bunun için gereken tüm ayrıntıları vermek için kullanılacaktır. Belki takas için minimum miktar. \n\n {{appName}}adresini kullanarak bir varlığı takas ettiğinizde {{pointsValue}} puanı kazanın.",
+          "cta": "Takasa git"
+        }
+      },
+      "moreComing": {
+        "title": "Daha fazlası yakında!"
+      }
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
