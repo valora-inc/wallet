@@ -279,7 +279,7 @@ export default function AssetList({
   return (
     <AnimatedSectionList
       contentContainerStyle={[
-        { minHeight: variables.height + headerHeight },
+        { minHeight: variables.height + (isWalletTab ? 0 : headerHeight) },
         {
           paddingBottom: isWalletTab ? 0 : insets.bottom,
           opacity: listHeaderHeight > 0 ? 1 : 0,
