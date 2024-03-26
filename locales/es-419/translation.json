@@ -2218,6 +2218,34 @@
       "dismiss": "Ignorar"
     }
   },
+  "points": {
+    "title": "Puntos Valora",
+    "activity": "Actividad",
+    "infoCard": {
+      "title": "Pronto más formas de ganar puntos 🚀",
+      "body": "Estamos trabajando para añadir más formas de ganar puntos utilizando la aplicación. Mantente informado."
+    },
+    "activitySection": {
+      "title": "¿Cómo gano puntos?",
+      "body": "It's easy! Earn points by simply using the app."
+    },
+    "activityCards": {
+      "createWallet": {
+        "title": "Create a {{appName}}  Wallet"
+      },
+      "swap": {
+        "title": "Swap assets",
+        "bottomSheet": {
+          "title": "Swap assets",
+          "body": "This space will be used to give all the details needed for this. Maybe minimum amount to swap. \n\nEarn {{pointsValue}} points whenever you swap an asset using {{appName}}.",
+          "cta": "Go to swap"
+        }
+      },
+      "moreComing": {
+        "title": "More coming soon!"
+      }
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
