@@ -2218,6 +2218,10 @@
       "dismiss": "Verwerfen"
     }
   },
+  "multiSelect": {
+    "switchNetwork": "Netzwerk wechseln",
+    "allNetworks": "Alle Netzwerke"
+  },
   "points": {
     "title": "Valora Punkte",
     "activity": "Aktivität",
