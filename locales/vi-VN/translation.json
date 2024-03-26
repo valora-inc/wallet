@@ -2216,6 +2216,10 @@
       "dismiss": "Loại bỏ"
     }
   },
+  "multiSelect": {
+    "switchNetwork": "Switch Network",
+    "allNetworks": "All Networks"
+  },
   "points": {
     "title": "Valora Points",
     "activity": "Hoạt động",
