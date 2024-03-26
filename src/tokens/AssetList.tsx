@@ -277,6 +277,7 @@ export default function AssetList({
   return (
     <AnimatedSectionList
       contentContainerStyle={[
+        styles.containerHeight,
         {
           paddingBottom: isWalletTab ? 0 : insets.bottom,
           opacity: listHeaderHeight > 0 ? 1 : 0,
@@ -383,5 +384,8 @@ const styles = StyleSheet.create({
   importTokenText: {
     ...typeScale.labelMedium,
     color: Colors.black,
+  },
+  containerHeight: {
+    minHeight: variables.height,
   },
 })
