@@ -2226,27 +2226,27 @@
     "title": "Punkty Valora",
     "activity": "Operacje",
     "infoCard": {
-      "title": "More ways to earn points coming soon 🚀",
-      "body": "We are working on adding more ways to earn points through using the app. Keep checking in for updates."
+      "title": "Więcej sposobów na zdobywanie punktów już wkrótce 🚀",
+      "body": "Pracujemy nad dodaniem kolejnych sposobów na zdobywanie punktów za pomocą aplikacji. Sprawdzaj na bieżąco aktualizacje."
     },
     "activitySection": {
-      "title": "How do I earn points?",
-      "body": "It's easy! Earn points by simply using the app."
+      "title": "Jak mogę zdobywać punkty?",
+      "body": "To proste! Zdobywaj punkty po prostu korzystając z aplikacji."
     },
     "activityCards": {
       "createWallet": {
-        "title": "Create a {{appName}}  Wallet"
+        "title": "Utwórz portfel {{appName}}"
       },
       "swap": {
-        "title": "Swap assets",
+        "title": "Aktywa swapowe",
         "bottomSheet": {
-          "title": "Swap assets",
-          "body": "This space will be used to give all the details needed for this. Maybe minimum amount to swap. \n\nEarn {{pointsValue}} points whenever you swap an asset using {{appName}}.",
-          "cta": "Go to swap"
+          "title": "Aktywa swapowe",
+          "body": "To miejsce zostanie wykorzystane do podania wszystkich potrzebnych szczegółów. Może minimalna kwota do wymiany. \n\nZdobywaj punkty {{pointsValue}} za każdym razem, gdy wymieniasz aktywa za pomocą {{appName}}.",
+          "cta": "Przejdź do wymiany"
         }
       },
       "moreComing": {
-        "title": "More coming soon!"
+        "title": "Więcej już wkrótce!"
       }
     }
   },
