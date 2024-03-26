@@ -2222,6 +2222,34 @@
       "dismiss": "Odrzuć"
     }
   },
+  "points": {
+    "title": "Punkty Valora",
+    "activity": "Operacje",
+    "infoCard": {
+      "title": "Więcej sposobów na zdobywanie punktów już wkrótce 🚀",
+      "body": "Pracujemy nad dodaniem kolejnych sposobów na zdobywanie punktów za pomocą aplikacji. Sprawdzaj na bieżąco aktualizacje."
+    },
+    "activitySection": {
+      "title": "Jak mogę zdobywać punkty?",
+      "body": "To proste! Zdobywaj punkty po prostu korzystając z aplikacji."
+    },
+    "activityCards": {
+      "createWallet": {
+        "title": "Utwórz portfel {{appName}}"
+      },
+      "swap": {
+        "title": "Aktywa swapowe",
+        "bottomSheet": {
+          "title": "Aktywa swapowe",
+          "body": "To miejsce zostanie wykorzystane do podania wszystkich potrzebnych szczegółów. Może minimalna kwota do wymiany. \n\nZdobywaj punkty {{pointsValue}} za każdym razem, gdy wymieniasz aktywa za pomocą {{appName}}.",
+          "cta": "Przejdź do wymiany"
+        }
+      },
+      "moreComing": {
+        "title": "Więcej już wkrótce!"
+      }
+    }
+  },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
   "celoDollarAmount_2": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolarów",

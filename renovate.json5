@@ -76,16 +76,4 @@
       groupName: 'prettier',
     },
   ],
-
-  // A list of dependencies to be ignored by Renovate - "exact match" only
-  ignoreDeps: [
-    // avoid upgrading WalletConnect since there is a bug introduced in 2.10.1 that CI does not cover
-    // TODO remove once WC bug resolved. https://linear.app/valora/issue/ACT-962/wallet-connect-no-matching-sessions
-    '@walletconnect/react-native-compat',
-    '@walletconnect/utils',
-    '@walletconnect/web3wallet',
-    '@walletconnect/legacy-types',
-    '@walletconnect/sign-client',
-    '@walletconnect/types',
-  ],
 }

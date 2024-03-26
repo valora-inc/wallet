@@ -48,8 +48,6 @@ function MultiSelectBottomSheet<T extends string>({
 }: MultiSelectBottomSheetProps<T>) {
   const { t } = useTranslation()
   const scrollViewRef = useRef<ScrollView>(null)
-  console.debug('selectedOptions', selectedOptions)
-  console.debug('options', options)
 
   const isEveryOptionSelected = options.length === selectedOptions.length
 
