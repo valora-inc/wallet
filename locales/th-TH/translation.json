@@ -2216,5 +2216,33 @@
       "dismiss": "ปิด"
     }
   },
+  "points": {
+    "title": "Valora Points",
+    "activity": "กิจกรรม",
+    "infoCard": {
+      "title": "More ways to earn points coming soon 🚀",
+      "body": "We are working on adding more ways to earn points through using the app. Keep checking in for updates."
+    },
+    "activitySection": {
+      "title": "How do I earn points?",
+      "body": "It's easy! Earn points by simply using the app."
+    },
+    "activityCards": {
+      "createWallet": {
+        "title": "Create a {{appName}}  Wallet"
+      },
+      "swap": {
+        "title": "Swap assets",
+        "bottomSheet": {
+          "title": "Swap assets",
+          "body": "This space will be used to give all the details needed for this. Maybe minimum amount to swap. \n\nEarn {{pointsValue}} points whenever you swap an asset using {{appName}}.",
+          "cta": "Go to swap"
+        }
+      },
+      "moreComing": {
+        "title": "More coming soon!"
+      }
+    }
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }
