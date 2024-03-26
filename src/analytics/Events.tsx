@@ -664,3 +664,10 @@ export enum JumpstartEvents {
   jumpstart_claim_error_dismissed = 'jumpstart_claim_error_dismissed',
   jumpstart_claim_error_contact_support = 'jumpstart_claim_error_contact_support',
 }
+
+export enum PointsEvents {
+  points_screen_open = 'points_screen_open',
+  points_screen_back = 'points_screen_back',
+  points_screen_card_press = 'points_screen_card_press',
+  points_screen_card_cta_press = 'points_screen_card_cta_press',
+}
