@@ -12,6 +12,7 @@ import BottomSheetBase from 'src/components/BottomSheetBase'
 import FilterChipsCarousel, {
   FilterChip,
   NetworkFilterChip,
+  isNetworkChip,
 } from 'src/components/FilterChipsCarousel'
 import SearchInput from 'src/components/SearchInput'
 import TokenDisplay from 'src/components/TokenDisplay'
@@ -167,14 +168,14 @@ function TokenBottomSheet<T extends TokenBalance>({
 
   const networkChipRef = useRef<BottomSheetRefType>(null)
   const networkChip = useMemo(
-    () => filters.find((chip): chip is NetworkFilterChip<TokenBalance> => 'allNetworkIds' in chip),
+    () => filters.find((chip): chip is NetworkFilterChip<TokenBalance> => isNetworkChip(chip)),
     [filters]
   )
 
   const setSelectedNetworkIds = (arg: NetworkId[] | Function) => {
     setFilters((prev) => {
       return prev.map((chip) => {
-        if ('allNetworkIds' in chip) {
+        if (isNetworkChip(chip)) {
           const selectedNetworkIds = typeof arg === 'function' ? arg(chip.selectedNetworkIds) : arg
           return { ...chip, selectedNetworkIds }
         }
@@ -184,7 +185,7 @@ function TokenBottomSheet<T extends TokenBalance>({
   }
 
   const handleToggleFilterChip = (toggledChip: FilterChip<TokenBalance>) => {
-    if ('allNetworkIds' in toggledChip) {
+    if (isNetworkChip(toggledChip)) {
       networkChipRef.current?.snapToIndex(0)
     } else {
       ValoraAnalytics.track(TokenBottomSheetEvents.toggle_tokens_filter, {
@@ -229,14 +230,16 @@ function TokenBottomSheet<T extends TokenBalance>({
 
   const tokenList = useMemo(() => {
     const lowercasedSearchTerm = searchTerm.toLowerCase()
-    const activeFilterFns =
-      activeFilters.length > 0 ? activeFilters.map((filter) => filter.filterFn) : null
 
     return tokens.filter((token) => {
       // Exclude the token if it does not match the active filters
       if (
-        activeFilterFns &&
-        !activeFilterFns.every((filterFn) => filterFn(token, networkChip?.selectedNetworkIds))
+        !activeFilters.every((filter) => {
+          if (isNetworkChip(filter)) {
+            return filter.filterFn(token, filter.selectedNetworkIds)
+          }
+          return filter.filterFn(token)
+        })
       ) {
         return false
       }

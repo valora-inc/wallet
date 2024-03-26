@@ -18,9 +18,13 @@ interface BooleanFilterChip<T> extends BaseFilterChip {
 }
 
 export interface NetworkFilterChip<T> extends BaseFilterChip {
-  filterFn: (t: T, n?: NetworkId[]) => boolean
+  filterFn: (t: T, n: NetworkId[]) => boolean
   allNetworkIds: NetworkId[]
   selectedNetworkIds: NetworkId[]
+}
+
+export function isNetworkChip<T>(chip: FilterChip<T>): chip is NetworkFilterChip<T> {
+  return 'allNetworkIds' in chip
 }
 
 export type FilterChip<T> = BooleanFilterChip<T> | NetworkFilterChip<T>
@@ -54,8 +58,7 @@ function FilterChipsCarousel<T>({
       ref={forwardedRef}
     >
       {chips.map((chip) => {
-        const isNetworkChip = 'allNetworkIds' in chip
-        const isSelected = isNetworkChip
+        const isSelected = isNetworkChip(chip)
           ? chip.allNetworkIds.length !== chip.selectedNetworkIds.length
           : chip.isSelected
         return (
@@ -81,7 +84,7 @@ function FilterChipsCarousel<T>({
                 >
                   {chip.name}
                 </Text>
-                {isNetworkChip && (
+                {isNetworkChip(chip) && (
                   <DownArrowIcon
                     color={isSelected ? secondaryColor : primaryColor}
                     strokeWidth={2}
