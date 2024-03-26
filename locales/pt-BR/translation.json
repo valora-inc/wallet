@@ -2227,22 +2227,22 @@
     },
     "activitySection": {
       "title": "Como faço para ganhar pontos?",
-      "body": "It's easy! Earn points by simply using the app."
+      "body": "É fácil! Você ganha pontos simplesmente usando o aplicativo."
     },
     "activityCards": {
       "createWallet": {
-        "title": "Create a {{appName}}  Wallet"
+        "title": "Criar uma carteira {{appName}}"
       },
       "swap": {
-        "title": "Swap assets",
+        "title": "Ativos de swap",
         "bottomSheet": {
-          "title": "Swap assets",
-          "body": "This space will be used to give all the details needed for this. Maybe minimum amount to swap. \n\nEarn {{pointsValue}} points whenever you swap an asset using {{appName}}.",
-          "cta": "Go to swap"
+          "title": "Ativos de swap",
+          "body": "Este espaço será usado para que você forneça todos os detalhes necessários para isso. Talvez o valor mínimo para você trocar. \n\nGanhe {{pointsValue}} pontos sempre que você trocar um ativo usando {{appName}}.",
+          "cta": "Ir para a troca"
         }
       },
       "moreComing": {
-        "title": "More coming soon!"
+        "title": "Em breve, você receberá mais informações!"
       }
     }
   },
