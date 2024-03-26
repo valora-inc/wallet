@@ -2227,22 +2227,22 @@
     },
     "activitySection": {
       "title": "Wie kann ich Punkte sammeln?",
-      "body": "It's easy! Earn points by simply using the app."
+      "body": "Es ist ganz einfach! Sammle Punkte, indem du einfach die App benutzt."
     },
     "activityCards": {
       "createWallet": {
-        "title": "Create a {{appName}}  Wallet"
+        "title": "Erstelle eine {{appName}}  Brieftasche"
       },
       "swap": {
-        "title": "Swap assets",
+        "title": "Swap-Vermögenswerte",
         "bottomSheet": {
-          "title": "Swap assets",
-          "body": "This space will be used to give all the details needed for this. Maybe minimum amount to swap. \n\nEarn {{pointsValue}} points whenever you swap an asset using {{appName}}.",
-          "cta": "Go to swap"
+          "title": "Swap-Vermögenswerte",
+          "body": "Hier kannst du alle Details angeben, die du dafür brauchst. Vielleicht ein Mindestbetrag zum Tauschen. \n\nVerdiene {{pointsValue}} Punkte, wenn du einen Vermögenswert mit {{appName}}tauschst.",
+          "cta": "Zum Tausch gehen"
         }
       },
       "moreComing": {
-        "title": "More coming soon!"
+        "title": "Mehr dazu demnächst!"
       }
     }
   },
