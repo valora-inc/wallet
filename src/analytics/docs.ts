@@ -5,9 +5,9 @@ import {
   AssetsEvents,
   AuthenticationEvents,
   BuilderHooksEvents,
+  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
-  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -26,6 +26,7 @@ import {
   OnboardingEvents,
   PerformanceEvents,
   PhoneVerificationEvents,
+  PointsEvents,
   QrScreenEvents,
   RewardsEvents,
   SendEvents,
@@ -36,7 +37,6 @@ import {
   TransactionEvents,
   WalletConnectEvents,
   WebViewEvents,
-  PointsEvents,
 } from 'src/analytics/Events'
 
 /**
@@ -336,6 +336,16 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [JumpstartEvents.jumpstart_claim_loading_dismissed]: `When user dismisses Wallet Jumpstart claim loading toast`,
   [JumpstartEvents.jumpstart_claim_error_dismissed]: `When user dismisses Wallet Jumpstart claim error toast`,
   [JumpstartEvents.jumpstart_claim_error_contact_support]: `When user taps "Contact Support" CTA on Wallet Jumpstart claim error toast`,
+  [JumpstartEvents.jumpstart_reclaim_press]:
+    'When user taps on "Reclaim" button on the Jumpstart screen',
+  [JumpstartEvents.jumpstart_reclaim_start]:
+    'When user taps on "Confirm" button on the Jumpstart screen',
+  [JumpstartEvents.jumpstart_reclaim_failed]: 'When the reclaim transaction fails',
+  [JumpstartEvents.jumpstart_reclaim_succeeded]: 'When the reclaim transaction succeeds',
+  [JumpstartEvents.jumpstart_reclaim_fetching_success]:
+    'When fetching the claim status is successful',
+  [JumpstartEvents.jumpstart_reclaim_fetching_error]: 'When fetching the claim status fails',
+  [JumpstartEvents.jumpstart_reclaim_dismiss_error]: 'When user dismisses the reclaim error toast',
   // Events for the QR screen redesign
   [QrScreenEvents.qr_screen_copy_address]: ``,
   [QrScreenEvents.qr_scanner_open]: `When unique "QR scanner" button is pressed`,
