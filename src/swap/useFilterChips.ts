@@ -1,6 +1,4 @@
-import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
 import { FilterChip } from 'src/components/FilterChipsCarousel'
 import { TOKEN_MIN_AMOUNT } from 'src/config'
 import { useSelector } from 'src/redux/hooks'
@@ -23,7 +21,6 @@ export default function useFilterChip(selectingField: Field | null): FilterChip<
     DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
   ).popularTokenIds
   const supportedNetworkIds = getSupportedNetworkIdsForSwap()
-  const networkChipRef = useRef<BottomSheetRefType>(null)
 
   if (!showSwapTokenFilters) {
     return []
@@ -57,7 +54,6 @@ export default function useFilterChip(selectingField: Field | null): FilterChip<
       isSelected: true,
       allNetworkIds: supportedNetworkIds,
       selectedNetworkIds: supportedNetworkIds,
-      networkChipRef,
     },
   ]
 }

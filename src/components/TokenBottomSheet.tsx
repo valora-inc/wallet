@@ -48,7 +48,7 @@ export interface TokenBottomSheetProps<T extends TokenBalance> {
   TokenOptionComponent?: React.ComponentType<TokenOptionProps>
   showPriceUsdUnavailableWarning?: boolean
   areSwapTokensShuffled?: boolean
-  filterChips: FilterChip<T>[]
+  filterChips: FilterChip<TokenBalance>[]
 }
 
 interface TokenOptionProps {
@@ -109,14 +109,14 @@ export const TokenBalanceItemOption = React.memo(
   }
 )
 
-function NoResults<T extends TokenBalance>({
+function NoResults({
   testID = 'TokenBottomSheet/NoResult',
   searchTerm,
   activeFilters,
 }: {
   testID?: string
   searchTerm: string
-  activeFilters: FilterChip<T>[]
+  activeFilters: FilterChip<TokenBalance>[]
 }) {
   const { t } = useTranslation()
 
@@ -151,22 +151,21 @@ function TokenBottomSheet<T extends TokenBalance>({
   titleStyle,
   TokenOptionComponent = TokenOption,
   showPriceUsdUnavailableWarning,
+  filterChips = [],
   areSwapTokensShuffled,
-  filterChips,
 }: TokenBottomSheetProps<T>) {
   const insets = useSafeAreaInsets()
 
   const filterChipsCarouselRef = useRef<ScrollView>(null)
-
   const tokenListRef = useRef<BottomSheetFlatListMethods>(null)
   const [headerHeight, setHeaderHeight] = useState(0)
   const [searchTerm, setSearchTerm] = useState('')
-
   const [filters, setFilters] = useState(filterChips)
   const activeFilters = useMemo(() => filters.filter((filter) => filter.isSelected), [filters])
 
   const { t } = useTranslation()
 
+  const networkChipRef = useRef<BottomSheetRefType>(null)
   const networkChip = useMemo(
     () => filters.find((chip): chip is NetworkFilterChip<TokenBalance> => 'allNetworkIds' in chip),
     [filters]
@@ -174,31 +173,25 @@ function TokenBottomSheet<T extends TokenBalance>({
 
   const setSelectedNetworkIds = (arg: NetworkId[] | Function) => {
     setFilters((prev) => {
-      const selectedNetworkIds =
-        typeof arg === 'function'
-          ? arg(
-              prev.find((chip): chip is NetworkFilterChip<TokenBalance> => 'allNetworkIds' in chip)
-                ?.selectedNetworkIds
-            )
-          : arg
-
       return prev.map((chip) => {
-        if (chip.id === 'network-ids') {
+        if ('allNetworkIds' in chip) {
+          const selectedNetworkIds = typeof arg === 'function' ? arg(chip.selectedNetworkIds) : arg
           return { ...chip, selectedNetworkIds }
         }
         return chip
       })
     })
   }
+
   const handleToggleFilterChip = (toggledChip: FilterChip<TokenBalance>) => {
-    ValoraAnalytics.track(TokenBottomSheetEvents.toggle_tokens_filter, {
-      filterId: toggledChip.id,
-      isRemoving: filters.find((chip) => chip.id === toggledChip.id)?.isSelected ?? false,
-      isPreSelected: filterChips.find((chip) => chip.id === toggledChip.id)?.isSelected ?? false,
-    })
-    if (toggledChip.id === 'network-ids') {
-      networkChip?.networkChipRef.current?.snapToIndex(0)
+    if ('allNetworkIds' in toggledChip) {
+      networkChipRef.current?.snapToIndex(0)
     } else {
+      ValoraAnalytics.track(TokenBottomSheetEvents.toggle_tokens_filter, {
+        filterId: toggledChip.id,
+        isRemoving: filters.find((chip) => chip.id === toggledChip.id)?.isSelected ?? false,
+        isPreSelected: filterChips.find((chip) => chip.id === toggledChip.id)?.isSelected ?? false,
+      })
       setFilters((prev) => {
         return prev.map((chip) => {
           if (chip.id === toggledChip.id) {
@@ -261,7 +254,7 @@ function TokenBottomSheet<T extends TokenBalance>({
 
       return true
     })
-  }, [searchTerm, tokens, activeFilters, networkChip])
+  }, [searchTerm, tokens, activeFilters])
 
   useEffect(() => {
     // Scroll to top when the token list changes (e.g. when there are new
@@ -349,8 +342,13 @@ function TokenBottomSheet<T extends TokenBalance>({
           allNetworkIds={networkChip.allNetworkIds}
           setSelectedNetworkIds={setSelectedNetworkIds}
           selectedNetworkIds={networkChip.selectedNetworkIds}
-          forwardedRef={networkChip.networkChipRef}
-          onClose={networkChip.networkChipRef.current?.close}
+          forwardedRef={networkChipRef}
+          onClose={() => {
+            ValoraAnalytics.track(TokenBottomSheetEvents.network_filter_updated, {
+              selectedNetworkIds: networkChip.selectedNetworkIds,
+            })
+            networkChipRef.current?.close
+          }}
           allOrOne={true}
         />
       )}

@@ -1,7 +1,6 @@
 import React from 'react'
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
 import Touchable from 'src/components/Touchable'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
 import colors from 'src/styles/colors'
@@ -22,7 +21,6 @@ export interface NetworkFilterChip<T> extends BaseFilterChip {
   filterFn: (t: T, n?: NetworkId[]) => boolean
   allNetworkIds: NetworkId[]
   selectedNetworkIds: NetworkId[]
-  networkChipRef: React.RefObject<BottomSheetRefType>
 }
 
 export type FilterChip<T> = BooleanFilterChip<T> | NetworkFilterChip<T>
@@ -74,13 +72,7 @@ function FilterChipsCarousel<T>({
               }}
               style={styles.filterChip}
             >
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
+              <View style={styles.filterChipTextWrapper}>
                 <Text
                   style={[
                     styles.filterChipText,
@@ -128,6 +120,11 @@ const styles = StyleSheet.create({
   },
   filterChipText: {
     ...typeScale.labelXSmall,
+  },
+  filterChipTextWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 })
 
