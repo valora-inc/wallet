@@ -14,6 +14,7 @@ interface Props {
   allNetworkIds: NetworkId[]
   selectedNetworkIds: NetworkId[]
   setSelectedNetworkIds: Dispatch<SetStateAction<NetworkId[]>>
+  allOrOne?: boolean
 }
 
 function NetworkMultiSelectBottomSheet({
@@ -23,6 +24,7 @@ function NetworkMultiSelectBottomSheet({
   allNetworkIds,
   selectedNetworkIds,
   setSelectedNetworkIds,
+  allOrOne,
 }: Props) {
   const { t } = useTranslation()
 
@@ -48,6 +50,7 @@ function NetworkMultiSelectBottomSheet({
       setSelectedOptions={setSelectedNetworkIds}
       selectAllText={t('multiSelect.allNetworks')}
       title={t('multiSelect.switchNetwork')}
+      allOrOne={allOrOne}
     />
   )
 }

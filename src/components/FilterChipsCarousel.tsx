@@ -1,20 +1,31 @@
 import React from 'react'
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
+import { BottomSheetRefType } from 'src/components/BottomSheet'
 import Touchable from 'src/components/Touchable'
+import DownArrowIcon from 'src/icons/DownArrowIcon'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import { NetworkId } from 'src/transactions/types'
 
-export interface FilterChip<T> {
+interface BooleanFilterChip<T> {
   id: string
   name: string
-  filterFn: (t: T) => boolean
+  filterFn: (t: T, n?: NetworkId[]) => boolean
   isSelected: boolean
 }
 
+export interface NetworkFilterChip<T> extends BooleanFilterChip<T> {
+  allNetworkIds: NetworkId[]
+  selectedNetworkIds: NetworkId[]
+  networkChipRef: React.RefObject<BottomSheetRefType>
+}
+
+export type FilterChip<T> = BooleanFilterChip<T> | NetworkFilterChip<T>
+
 interface Props<T> {
-  chips: FilterChip<T>[]
+  chips: (FilterChip<T> | NetworkFilterChip<T>)[]
   onSelectChip(chip: FilterChip<T>): void
   primaryColor: colors
   secondaryColor: colors
@@ -42,14 +53,16 @@ function FilterChipsCarousel<T>({
       ref={forwardedRef}
     >
       {chips.map((chip) => {
+        const isNetworkChip = 'allNetworkIds' in chip
+        const isSelected = isNetworkChip
+          ? chip.allNetworkIds.length !== chip.selectedNetworkIds.length
+          : chip.isSelected
         return (
           <View
             key={chip.id}
             style={[
               styles.filterChipBackground,
-              chip.isSelected
-                ? { backgroundColor: primaryColor }
-                : { backgroundColor: secondaryColor },
+              isSelected ? { backgroundColor: primaryColor } : { backgroundColor: secondaryColor },
             ]}
           >
             <Touchable
@@ -58,14 +71,30 @@ function FilterChipsCarousel<T>({
               }}
               style={styles.filterChip}
             >
-              <Text
-                style={[
-                  styles.filterChipText,
-                  chip.isSelected ? { color: secondaryColor } : { color: primaryColor },
-                ]}
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
               >
-                {chip.name}
-              </Text>
+                <Text
+                  style={[
+                    styles.filterChipText,
+                    isSelected ? { color: secondaryColor } : { color: primaryColor },
+                  ]}
+                >
+                  {chip.name}
+                </Text>
+                {isNetworkChip && (
+                  <DownArrowIcon
+                    color={isSelected ? secondaryColor : primaryColor}
+                    strokeWidth={2}
+                    height={Spacing.Regular16}
+                    style={{ marginBottom: 2, marginLeft: 4 }}
+                  />
+                )}
+              </View>
             </Touchable>
           </View>
         )
