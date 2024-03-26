@@ -9,14 +9,17 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { NetworkId } from 'src/transactions/types'
 
-interface BooleanFilterChip<T> {
+interface BaseFilterChip {
   id: string
   name: string
-  filterFn: (t: T, n?: NetworkId[]) => boolean
   isSelected: boolean
 }
+interface BooleanFilterChip<T> extends BaseFilterChip {
+  filterFn: (t: T) => boolean
+}
 
-export interface NetworkFilterChip<T> extends BooleanFilterChip<T> {
+export interface NetworkFilterChip<T> extends BaseFilterChip {
+  filterFn: (t: T, n?: NetworkId[]) => boolean
   allNetworkIds: NetworkId[]
   selectedNetworkIds: NetworkId[]
   networkChipRef: React.RefObject<BottomSheetRefType>
@@ -25,7 +28,7 @@ export interface NetworkFilterChip<T> extends BooleanFilterChip<T> {
 export type FilterChip<T> = BooleanFilterChip<T> | NetworkFilterChip<T>
 
 interface Props<T> {
-  chips: (FilterChip<T> | NetworkFilterChip<T>)[]
+  chips: FilterChip<T>[]
   onSelectChip(chip: FilterChip<T>): void
   primaryColor: colors
   secondaryColor: colors

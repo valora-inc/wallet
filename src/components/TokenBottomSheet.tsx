@@ -22,8 +22,6 @@ import InfoIcon from 'src/icons/InfoIcon'
 import colors, { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { Field } from 'src/swap/types'
-import useFilterChip from 'src/swap/useFilterChips'
 import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
@@ -50,7 +48,7 @@ export interface TokenBottomSheetProps<T extends TokenBalance> {
   TokenOptionComponent?: React.ComponentType<TokenOptionProps>
   showPriceUsdUnavailableWarning?: boolean
   areSwapTokensShuffled?: boolean
-  fieldType: Field
+  filterChips: FilterChip<T>[]
 }
 
 interface TokenOptionProps {
@@ -111,14 +109,14 @@ export const TokenBalanceItemOption = React.memo(
   }
 )
 
-function NoResults({
+function NoResults<T extends TokenBalance>({
   testID = 'TokenBottomSheet/NoResult',
   searchTerm,
   activeFilters,
 }: {
   testID?: string
   searchTerm: string
-  activeFilters: FilterChip<TokenBalance>[]
+  activeFilters: FilterChip<T>[]
 }) {
   const { t } = useTranslation()
 
@@ -154,7 +152,7 @@ function TokenBottomSheet<T extends TokenBalance>({
   TokenOptionComponent = TokenOption,
   showPriceUsdUnavailableWarning,
   areSwapTokensShuffled,
-  fieldType,
+  filterChips,
 }: TokenBottomSheetProps<T>) {
   const insets = useSafeAreaInsets()
 
@@ -163,7 +161,6 @@ function TokenBottomSheet<T extends TokenBalance>({
   const tokenListRef = useRef<BottomSheetFlatListMethods>(null)
   const [headerHeight, setHeaderHeight] = useState(0)
   const [searchTerm, setSearchTerm] = useState('')
-  const filterChips = useFilterChip(fieldType)
 
   const [filters, setFilters] = useState(filterChips)
   const activeFilters = useMemo(() => filters.filter((filter) => filter.isSelected), [filters])

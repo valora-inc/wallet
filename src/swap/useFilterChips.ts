@@ -22,12 +22,12 @@ export default function useFilterChip(selectingField: Field | null): FilterChip<
   const popularTokenIds: string[] = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
   ).popularTokenIds
+  const supportedNetworkIds = getSupportedNetworkIdsForSwap()
   const networkChipRef = useRef<BottomSheetRefType>(null)
 
   if (!showSwapTokenFilters) {
     return []
   }
-  const supportedNetworkIds = getSupportedNetworkIdsForSwap()
 
   return [
     {

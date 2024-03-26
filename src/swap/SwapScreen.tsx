@@ -45,6 +45,7 @@ import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsPrope
 import { currentSwapSelector, priceImpactWarningThresholdSelector } from 'src/swap/selectors'
 import { swapStart } from 'src/swap/slice'
 import { Field, SwapAmount } from 'src/swap/types'
+import useFilterChips from 'src/swap/useFilterChips'
 import useSwapQuote, { NO_QUOTE_ERROR_MESSAGE, QuoteResult } from 'src/swap/useSwapQuote'
 import { useSwappableTokens, useTokenInfo, useTokensWithTokenBalance } from 'src/tokens/hooks'
 import { feeCurrenciesWithPositiveBalancesSelector, tokensByIdSelector } from 'src/tokens/selectors'
@@ -264,6 +265,9 @@ export function SwapScreen({ route }: Props) {
     switchedToNetworkId,
     startedSwapId,
   } = state
+
+  const filterChipsFrom = useFilterChips(Field.FROM)
+  const filterChipsTo = useFilterChips(Field.TO)
 
   const { fromToken, toToken } = useMemo(() => {
     const fromToken = swappableFromTokens.find((token) => token.tokenId === fromTokenId)
@@ -658,12 +662,14 @@ export function SwapScreen({ route }: Props) {
       fieldType: Field.FROM,
       tokens: swappableFromTokens,
       title: t('swapScreen.swapFromTokenSelection'),
+      filterChips: filterChipsFrom,
       origin: TokenPickerOrigin.SwapFrom,
     },
     {
       fieldType: Field.TO,
       tokens: swappableToTokens,
       title: t('swapScreen.swapToTokenSelection'),
+      filterChips: filterChipsTo,
       origin: TokenPickerOrigin.SwapTo,
     },
   ]
@@ -799,13 +805,13 @@ export function SwapScreen({ route }: Props) {
           showLoading={confirmSwapIsLoading}
         />
       </ScrollView>
-      {tokenBottomSheetsConfig.map(({ fieldType, tokens, title, origin }) => (
+      {tokenBottomSheetsConfig.map(({ fieldType, tokens, title, filterChips, origin }) => (
         <TokenBottomSheet
           key={`TokenBottomSheet/${fieldType}`}
           forwardedRef={tokenBottomSheetRefs[fieldType]}
-          fieldType={fieldType}
           tokens={tokens}
           title={title}
+          filterChips={filterChips}
           origin={origin}
           snapPoints={['90%']}
           onTokenSelected={handleSelectToken}
