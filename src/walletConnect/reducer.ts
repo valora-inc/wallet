@@ -87,7 +87,7 @@ export const reducer = (
             .includes(pendingAction.topic)
         ),
         pendingSessions: state.pendingSessions.filter(
-          (pendingSession) => pendingSession.params.expiry > action.dateInSeconds
+          (pendingSession) => pendingSession.params.expiryTimestamp > action.dateInSeconds
         ),
       }
     }

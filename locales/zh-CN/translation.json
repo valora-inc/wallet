@@ -2216,5 +2216,33 @@
       "dismiss": "忽略"
     }
   },
+  "points": {
+    "title": "瓦洛拉积分",
+    "activity": "活动",
+    "infoCard": {
+      "title": "更多赚取积分的方法即将推出 🚀",
+      "body": "我们正在努力增加更多通过使用应用程序赚取积分的方法。请随时查看更新。"
+    },
+    "activitySection": {
+      "title": "如何获得积分？",
+      "body": "非常简单！只需使用该应用程序即可获得积分。"
+    },
+    "activityCards": {
+      "createWallet": {
+        "title": "创建 {{appName}}  钱包"
+      },
+      "swap": {
+        "title": "掉期资产",
+        "bottomSheet": {
+          "title": "掉期资产",
+          "body": "这个空格将用来提供这方面所需的所有细节。也许是交换的最低金额。 \n\n每当您使用 {{appName}}进行资产交换时，都可以赚取 {{pointsValue}} 积分。",
+          "cta": "去交换"
+        }
+      },
+      "moreComing": {
+        "title": "更多内容即将推出！"
+      }
+    }
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }

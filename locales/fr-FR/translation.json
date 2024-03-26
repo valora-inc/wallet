@@ -2218,6 +2218,34 @@
       "dismiss": "Refuser"
     }
   },
+  "points": {
+    "title": "Points Valora",
+    "activity": "Activité",
+    "infoCard": {
+      "title": "Plus de façons de gagner des points bientôt 🚀",
+      "body": "Nous travaillons à ajouter d'autres façons de gagner des points en utilisant l'application. Continue de vérifier pour les mises à jour."
+    },
+    "activitySection": {
+      "title": "Comment gagner des points ?",
+      "body": "C'est très simple ! Gagne des points en utilisant simplement l'application."
+    },
+    "activityCards": {
+      "createWallet": {
+        "title": "Créer un portefeuille {{appName}}"
+      },
+      "swap": {
+        "title": "Actifs de swap",
+        "bottomSheet": {
+          "title": "Actifs de swap",
+          "body": "Cet espace sera utilisé pour donner tous les détails nécessaires pour cela. Peut-être le montant minimum à échanger. \n\nGagne des points {{pointsValue}} chaque fois que tu échanges un actif en utilisant {{appName}}.",
+          "cta": "Aller à l'échange"
+        }
+      },
+      "moreComing": {
+        "title": "Plus d'informations bientôt !"
+      }
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

@@ -2218,6 +2218,34 @@
       "dismiss": "Verwerfen"
     }
   },
+  "points": {
+    "title": "Valora Punkte",
+    "activity": "Aktivität",
+    "infoCard": {
+      "title": "Bald gibt es mehr Möglichkeiten, Punkte zu sammeln 🚀.",
+      "body": "Wir arbeiten daran, weitere Möglichkeiten zum Sammeln von Punkten mit der App zu schaffen. Halte dich für Updates auf dem Laufenden."
+    },
+    "activitySection": {
+      "title": "Wie kann ich Punkte sammeln?",
+      "body": "Es ist ganz einfach! Sammle Punkte, indem du einfach die App benutzt."
+    },
+    "activityCards": {
+      "createWallet": {
+        "title": "Erstelle eine {{appName}}  Brieftasche"
+      },
+      "swap": {
+        "title": "Swap-Vermögenswerte",
+        "bottomSheet": {
+          "title": "Swap-Vermögenswerte",
+          "body": "Hier kannst du alle Details angeben, die du dafür brauchst. Vielleicht ein Mindestbetrag zum Tauschen. \n\nVerdiene {{pointsValue}} Punkte, wenn du einen Vermögenswert mit {{appName}}tauschst.",
+          "cta": "Zum Tausch gehen"
+        }
+      },
+      "moreComing": {
+        "title": "Mehr dazu demnächst!"
+      }
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
