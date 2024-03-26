@@ -27,7 +27,7 @@ export enum BtnTypes {
   ONBOARDING = 'Onboarding',
   ONBOARDING_SECONDARY = 'OnboardingSecondary',
   GRAY_WITH_BORDER = 'GrayWithBorder',
-  LABEL_PRIMARY = 'LabelPrimary',
+  SUCCESS_LABEL = 'SuccessLabel',
 }
 
 export enum BtnSizes {

@@ -147,7 +147,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
               showLoading={fetchClaimData.loading}
               disabled={!fetchClaimData.result || isClaimed}
               onPress={onReclaimPress}
-              type={!isClaimed ? BtnTypes.PRIMARY : BtnTypes.LABEL_PRIMARY}
+              type={!isClaimed ? BtnTypes.PRIMARY : BtnTypes.SUCCESS_LABEL}
               text={!isClaimed ? t('reclaim') : t('claimed')}
               size={BtnSizes.FULL}
               icon={
