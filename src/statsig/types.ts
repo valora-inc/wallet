@@ -7,6 +7,7 @@ export enum StatsigDynamicConfigs {
   CICO_TOKEN_INFO = 'cico_token_info',
   WALLET_JUMPSTART_CONFIG = 'wallet_jumpstart_config',
   NFT_CELEBRATION_CONFIG = 'nft_celebration_config',
+  POINTS_CONFIG = 'points_config',
 }
 
 export enum StatsigFeatureGates {
@@ -18,7 +19,6 @@ export enum StatsigFeatureGates {
   SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE = 'show_cloud_account_backup_restore',
   RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY = 'restrict_supercharge_for_claim_only',
   SHOW_IMPORT_TOKENS_FLOW = 'show_import_tokens_flow',
-  SHOW_HIDE_HOME_BALANCES_TOGGLE = 'show_hide_home_balances_toggle',
   SHOW_MULTICHAIN_BETA_SCREEN = 'show_multichain_beta_screen',
   SHOW_BETA_TAG = 'show_beta_tag',
   SAVE_CONTACTS = 'save_contacts',
@@ -31,6 +31,7 @@ export enum StatsigFeatureGates {
   SHOW_NFT_REWARD = 'show_nft_reward',
   SHOW_JUMPSTART_SEND = 'show_jumpstart_send',
   USE_TAB_NAVIGATOR = 'use_tab_navigator',
+  SHOW_POINTS = 'show_points',
 }
 
 export enum StatsigExperiments {

@@ -90,7 +90,7 @@ function AccountKeyIntro({ onPrimaryPress }: AccountKeyStartProps) {
   const { t } = useTranslation()
   return (
     <ScrollView contentContainerStyle={styles.introContainer}>
-      <Logo height={32} />
+      <Logo size={32} />
       <Text style={styles.h1}>{t('introBackUpPhrase')}</Text>
       <Text style={styles.body}>{t('introCompleteQuiz')}</Text>
       <Button text={t('continue')} onPress={onPrimaryPress} testID="SetUpAccountKey" />

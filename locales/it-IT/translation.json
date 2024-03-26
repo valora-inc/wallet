@@ -923,7 +923,7 @@
     },
     "recoveryPhrase": {
       "title": "Frase di recupero",
-      "description": "Inserisci la tua frase di recupero di 12 parole per riottenere l'accesso a Valora"
+      "description": "Inserisci la frase di recupero di 12 parole per ripristinare l'accesso a Valora"
     }
   },
   "verificationInput": {
@@ -1307,6 +1307,9 @@
   "feedItemGoldWithdrawal": "Prelievo verso {{displayName}}",
   "feedItemGoldReceived": "Ricevuti da {{displayName}}",
   "feedItemSwapPath": "{{token1}} > {{token2}}",
+  "feedItemJumpstartTitle": "Link diretto",
+  "feedItemJumpstartSentSubtitle": "Invito",
+  "feedItemJumpstartReceivedSubtitle": "Fondi ricevuti",
   "transactionHeaderVerificationFee": "Conferma",
   "transactionHeaderNetworkFee": "Rete",
   "transactionHeaderFaucet": "Faucet",
@@ -1744,11 +1747,11 @@
     "swapTo": "A",
     "insufficientFunds": "Saldo {{token}} insufficiente. Immetti un importo inferiore o scegli un altro asset.",
     "fetchSwapQuoteFailed": "Ci scusiamo per il ritardo! Ottenere il miglior tasso di cambio sta richiedendo più tempo del solito. Riprova più tardi.",
-    "disclaimer": "Best rate determined by decentralized sources. <0>Learn more</0>",
+    "disclaimer": "La tariffa migliore è determinata da fonti decentralizzate. <0>Scopri di più</0>",
     "swapFromTokenSelection": "SCAMBIA DA",
     "swapToTokenSelection": "SCAMBIA CON",
     "tokenUsdValueUnknown": "-",
-    "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
+    "unsupportedSwapTokens": "I token selezionati non sono supportati dai nostri provider di scambio.",
     "switchedToNetworkWarning": {
       "title": "Sei passato alla rete {{networkName}}",
       "body_swapFrom": "Per continuare, seleziona un token da cui eseguire lo scambio sulla rete {{networkName}}.",
@@ -1908,7 +1911,7 @@
   },
   "profileScreen": {
     "generateName": "Genera un nome",
-    "namePlaceholder": "Seleziona un nome, ad esempio \"{{exampleName}}\".",
+    "namePlaceholder": "Seleziona un nome, ad es. \"{{exampleName}}\"",
     "profilePictureDisclaimer": "Personalizza {{appName}} con la tua immagine del profilo. La tua immagine rimane privata, non viene mai condivisa o caricata."
   },
   "tokenBottomSheet": {
@@ -1918,7 +1921,7 @@
     "noFilterResults": "Non sono state trovate attività corrispondenti alle seguenti categorie: {{filterNames}}",
     "noSearchResults": "Nessuna attività trovata corrispondente a \"{{searchTerm}}\"",
     "filters": {
-      "myTokens": "I miei gettoni",
+      "myTokens": "I miei token",
       "popular": "Popolare",
       "recentlySwapped": "Scambiato di recente",
       "network": "Rete {{networkName}}"
@@ -1968,7 +1971,7 @@
       "dappPositions": "Asset DeFi"
     },
     "importToken": "Importa",
-    "importTokens": "Importazione di gettoni"
+    "importTokens": "Importa token"
   },
   "notificationCenterSpotlight": {
     "message": "Introduzione di un nuovo modo per richiedere le ricompense, visualizzare gli avvisi e vedere gli aggiornamenti in un'unica posizione",
@@ -2029,8 +2032,8 @@
       "subtitle": "Invita amici dal tuo elenco dei contatti"
     },
     "jumpstart": {
-      "title": "Invia con un link in tempo reale",
-      "subtitle": "Copia il link e condividilo per inviare criptovalute come se fosse un testo."
+      "title": "Invia con un link diretto",
+      "subtitle": "Copia il link e condividilo per inviare criptovalute come se fosse testo"
     },
     "getStarted": {
       "title": "Come inviare fondi su Valora",
@@ -2082,8 +2085,8 @@
   "viewOnCeloScan": "Visualizza su CeloScan",
   "viewOnEthereumBlockExplorer": "Visualizza su Etherscan",
   "viewOnArbiscan": "Visualizza su Arbiscan",
-  "viewOnOPMainnetExplorer": "Vista su OP Mainnet Explorer",
-  "viewOnOPSepoliaExplorer": "Vista su OP Sepolia Explorer",
+  "viewOnOPMainnetExplorer": "Visualizza su OP Mainnet Explorer",
+  "viewOnOPSepoliaExplorer": "Visualizza su OP Sepolia Explorer",
   "sendEnterAmountScreen": {
     "title": "Inserisci l'importo",
     "selectToken": "Seleziona un token",
@@ -2109,14 +2112,32 @@
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Crea un collegamento in tempo reale",
-    "sendAmountLabel": "Importo del collegamento in diretta",
+    "title": "Crea un link diretto",
+    "sendAmountLabel": "Importo del link diretto",
     "confirmButton": "Invia e crea un link",
     "info": "Quando crei un link, i fondi vengono prelevati dal tuo portafoglio. Puoi recuperare il link in qualsiasi momento. Condividi i link con attenzione.",
     "sendError": {
-      "title": "Impossibile creare un collegamento",
-      "description": "Il tuo link live non è stato creato. Riprova.",
+      "title": "Impossibile creare un link",
+      "description": "Il tuo link diretto non è stato creato. Riprova.",
       "ctaLabel": "Ignorare"
+    }
+  },
+  "jumpstartShareLinkScreen": {
+    "title": "Condividi il link diretto",
+    "description": "Copia il link per inviare {{tokenSymbol}} tramite la tua app di messaggistica preferita, oppure utilizza il codice QR.",
+    "linkLabel": "Link diretto",
+    "linkCopiedMessage": "Link live copiato",
+    "navigationWarning": {
+      "title": "Hai condiviso il link?",
+      "description": "Assicurati di condividere questo link diretto o di salvarlo in un posto sicuro.\n\nNon preoccuparti se non viene reclamato: puoi recuperare facilmente i fondi dal tuo feed di attività.",
+      "ctaNavigate": "Vai alla schermata iniziale"
+    },
+    "ctaShare": "Condividi link",
+    "ctaScanQRCode": "Inquadra codice QR",
+    "shareMessage": "Ciao! Ti invio un link finanziato con {{tokenAmount}} {{tokenSymbol}} su {{appName}}. Utilizza questo link per scaricare l'app e i fondi saranno attivi. Ti aspetto. {{link}}",
+    "qrCodeBottomSheet": {
+      "title": "Scansiona il codice per ricevere i fondi",
+      "description": "Controlla lo stato dei tuoi fondi nella schermata iniziale. In alternativa, copia o condividi il link si seguito."
     }
   },
   "transactionFeed": {
@@ -2142,46 +2163,87 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "Adottatore di catene multiple 🎁",
-      "description": "Per ringraziarti di essere un beta tester multi-catena, abbiamo aggiunto un omaggio al tuo portafoglio {{appName}} ! L'NFT per gli early adopter si trova nei tuoi oggetti da collezione.",
+      "title": "Congratulazioni!",
+      "description": "Hai guadagnato un collezionabile esclusivo per i primi esploratori di Ethereum. Benvenuto in Ethereum su {{appName}}.",
       "cta": "Grazie!"
     },
     "notification": {
-      "title": "Congratulazioni 🎉",
-      "description": "{{rewardName}} è stato aggiunto con successo al tuo portafoglio {{appName}} ."
+      "title": "Una nuova NFT ti aspetta 🎉",
+      "description": "Puoi trovare il tuo nuovo {{rewardName}} NFT nella sezione \"Collezionabili\""
     },
     "rewardBottomSheet": {
-      "title": "Incassi gratuiti per un mese",
-      "description": "Poiché il sito {{nftName}} è di tua proprietà, ti offriamo un cash-in gratuito per il mese di gennaio.\n\nPer utilizzare la ricompensa, effettua il cash-in tramite qualsiasi partner di {{appName}} e le spese non saranno addebitate.",
-      "expirationLabel": "Scade su {{expirationLabelText}}",
+      "title": "Depositi gratuiti per un mese",
+      "description": "Poiché il sito {{nftName}} è di tua proprietà, ti offriamo depositi gratuiti per il mese di gennaio.\n\nPer utilizzare la ricompensa, effettua il deposito tramite qualsiasi partner di {{appName}} e le spese non saranno addebitate.",
+      "expirationLabel": "Scade {{expirationLabelText}}",
       "cta": "Usa la ricompensa"
     },
     "rewardReminderBottomSheet": {
-      "title": "Incassi gratuiti per un mese",
-      "description": "Restano solo 3 giorni per approfittare dei cash-in gratuiti per il mese di gennaio!\n\nPer utilizzare il premio incassa tramite un qualsiasi partner di {{appName}} e le spese saranno annullate.",
-      "expirationLabel": "Scade su {{expirationLabelText}}",
+      "title": "Depositi gratuiti per un mese",
+      "description": "Restano solo 3 giorni per approfittare dei depositi gratuiti per il mese di gennaio!\n\nUtilizza la ricompensa tramite un qualsiasi partner di {{appName}} e le spese saranno annullate.",
+      "expirationLabel": "Scade {{expirationLabelText}}",
       "cta": "Usa la ricompensa"
     }
   },
-  "pleaseWait": "Please wait",
+  "pleaseWait": "Attendi",
   "error": "Errore",
   "linkPhoneNumber": {
     "title": "Collega un numero di telefono all'indirizzo del tuo portafoglio",
     "description": "Niente più indirizzi di portafogli disordinati! Invia criptovalute ad altri utenti Celo con un semplice numero di telefono",
-    "startButtonLabel": "Numero di telefono del collegamento",
-    "later": "Lo farò più tardi"
+    "startButtonLabel": "Numero di telefono del link",
+    "later": "Ci penso più tardi"
   },
   "bottomTabsNavigator": {
     "wallet": {
       "tabName": "Wallet",
-      "title": "Il mio portafoglio"
+      "title": "Il mio wallet"
     },
     "home": {
-      "tabName": "Home",
-      "title": "Benvenuti"
+      "tabName": "Inizio",
+      "title": "Ciao!"
     },
     "discover": {
-      "tabName": "Scopri"
+      "tabName": "Scopri",
+      "title": "Esplora il web3"
+    }
+  },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "I tuoi fondi sono in arrivo",
+      "description": "I fondi che il tuo amico ti ha dato sono in fase di invio. Attendi... "
+    },
+    "error": {
+      "title": "Impossibile reclamare i fondi",
+      "description": "Riprova il tuo link diretto per tentare di ricevere i fondi, oppure chiedi al tuo amico di provare a inviare un nuovo link",
+      "contactSupport": "Contatta il supporto tecnico",
+      "dismiss": "Ignora"
+    }
+  },
+  "points": {
+    "title": "Punti Valora",
+    "activity": "Attività",
+    "infoCard": {
+      "title": "Altri modi per guadagnare punti in arrivo 🚀",
+      "body": "Stiamo lavorando per aggiungere altri modi per guadagnare punti utilizzando l'app. Continuate a seguirci per gli aggiornamenti."
+    },
+    "activitySection": {
+      "title": "Come si guadagnano i punti?",
+      "body": "È facile! Guadagna punti semplicemente usando l'app."
+    },
+    "activityCards": {
+      "createWallet": {
+        "title": "Crea un portafoglio {{appName}}"
+      },
+      "swap": {
+        "title": "Attività di swap",
+        "bottomSheet": {
+          "title": "Attività di swap",
+          "body": "Questo spazio sarà utilizzato per fornire tutti i dettagli necessari. Forse l'importo minimo da scambiare. \n\nGuadagna {{pointsValue}} punti ogni volta che scambi un'attività utilizzando {{appName}}.",
+          "cta": "Vai allo scambio"
+        }
+      },
+      "moreComing": {
+        "title": "Prossimamente ne arriveranno altri!"
+      }
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

@@ -39,7 +39,7 @@ describe('jumpstartLinkHandler', () => {
   it('calls executeClaims with correct parameters', async () => {
     ;(fetchWithTimeout as jest.Mock).mockImplementation(() => ({
       ok: true,
-      json: async () => ({ transactionHash: '0xHASH' }),
+      json: async () => ({ result: { transactionHash: '0xHASH' } }),
     }))
     const contractAddress = '0xTEST'
 
@@ -53,7 +53,7 @@ describe('jumpstartLinkHandler', () => {
     expect(result).toEqual(['0xHASH'])
     expect(fetchWithTimeout).toHaveBeenCalledTimes(1)
     expect(fetchWithTimeout).toHaveBeenCalledWith(
-      `https://api.alfajores.valora.xyz/walletJumpstart?index=1&beneficiary=${mockAccount}&signature=0xweb3-signature&sendTo=${mockAccount2}&assetType=erc20`,
+      `https://api.alfajores.valora.xyz/walletJumpstart?index=1&beneficiary=${mockAccount}&signature=0xweb3-signature&sendTo=${mockAccount2}&assetType=erc20&networkId=celo-alfajores`,
       expect.any(Object),
       expect.any(Number)
     )

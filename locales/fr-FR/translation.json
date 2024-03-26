@@ -29,7 +29,7 @@
   "dataSaver": "Économiseur de données",
   "enableDataSaver": "Activer l'Économiseur de données",
   "dataSaverDetail": "Le mode Économiseur de données vous permet de communiquer avec le réseau Celo via un nœud fiable. Vous pouvez toujours modifier ce mode dans les paramètres de l'appli.",
-  "keylessBackupSettingsTitle": "Sauvegarde du courriel et du téléphone",
+  "keylessBackupSettingsTitle": "Sauvegarde de l'e-mail et du n° de téléphone",
   "keylessBackupSettingsDeleteError": "Votre sauvegarde n'a pas pu être supprimée, veuillez réessayer plus tard.",
   "setup": "Configuration",
   "restartModalSwitchOff": {
@@ -1307,6 +1307,9 @@
   "feedItemGoldWithdrawal": "Retrait vers {{displayName}}",
   "feedItemGoldReceived": "Reçu de {{displayName}}",
   "feedItemSwapPath": "{{token1}} > {{token2}}",
+  "feedItemJumpstartTitle": "Lien direct",
+  "feedItemJumpstartSentSubtitle": "Invitation",
+  "feedItemJumpstartReceivedSubtitle": "Fonds reçus",
   "transactionHeaderVerificationFee": "Confirmation",
   "transactionHeaderNetworkFee": "Réseau",
   "transactionHeaderFaucet": "Faucet",
@@ -2029,8 +2032,8 @@
       "subtitle": "Invitez des amis de votre liste de contacts"
     },
     "jumpstart": {
-      "title": "Envoyer avec un lien en direct",
-      "subtitle": "Copie le lien et partage-le pour envoyer de la crypto comme un texte."
+      "title": "Envoyer avec un lien direct",
+      "subtitle": "Copiez le lien et partagez-le pour envoyer de la crypto aussi simplement qu'un SMS"
     },
     "getStarted": {
       "title": "Comment envoyer des fonds sur Valora",
@@ -2104,19 +2107,37 @@
   },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
-      "title": "Tu peux envoyer jusqu'à {{amountInLocalCurrency,currency}} dans un lien.",
-      "description": "Ce lien pourra être revendiqué par toute personne y ayant accès. Assure-toi d'envoyer des liens à des personnes en qui tu as confiance."
+      "title": "Vous pouvez envoyer jusqu'à {{amountInLocalCurrency,currency}} dans un lien",
+      "description": "Ce lien pourra être ouvert par toute personne y ayant accès. Nous vous recommandons de n'envoyer plus des liens qu'aux personnes de confiance."
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Créer un lien en direct",
-    "sendAmountLabel": "Lien en direct Montant",
+    "title": "Créer un lien direct",
+    "sendAmountLabel": "Montant du lien direct",
     "confirmButton": "Envoyer et créer un lien",
-    "info": "Lorsque tu crées un lien, les fonds sont retirés de ton portefeuille. Tu peux récupérer le lien à tout moment. Partage les liens avec prudence.",
+    "info": "Lorsque vous créez un lien, les fonds sont retirés de votre portefeuille. Vous pouvez récupérer le lien à tout moment. Partagez les liens avec précaution.",
     "sendError": {
       "title": "Impossible de créer un lien",
-      "description": "Ton lien en direct n'a pas été créé. Essaie à nouveau.",
+      "description": "Votre lien direct n'a pas été créé. Veuillez réessayer.",
       "ctaLabel": "Refuser"
+    }
+  },
+  "jumpstartShareLinkScreen": {
+    "title": "Partager le lien direct",
+    "description": "Copiez le lien pour envoyer {{tokenSymbol}} via l'application de messagerie de votre choix, ou utilisez le QR code.",
+    "linkLabel": "Lien direct",
+    "linkCopiedMessage": "Lien direct copié",
+    "navigationWarning": {
+      "title": "Avez-vous partagé votre lien ?",
+      "description": "Assurez-vous de partager ce lien direct ou de l'enregistrer en lieu sûr.\n\nNe vous inquiétez pas s'il n'est pas ouvert, vous pouvez facilement récupérer les fonds à partir de votre flux d'activité.",
+      "ctaNavigate": "Retour à la page d'accueil"
+    },
+    "ctaShare": "Partager le lien",
+    "ctaScanQRCode": "Scanner le QR Code",
+    "shareMessage": "Bonjour ! Je vous envoie un lien contenant {{tokenAmount}} {{tokenSymbol}} sur {{appName}}. Utilisez ce lien pour télécharger l'application et les fonds vous seront transférés directement, sans aucune attente. {{link}}",
+    "qrCodeBottomSheet": {
+      "title": "Scannez le code pour recevoir des fonds",
+      "description": "Vérifiez le statut de vos fonds sur l'écran d'accueil. Sinon, copiez ou partagez le lien ci-dessous."
     }
   },
   "transactionFeed": {
@@ -2142,25 +2163,25 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "Utilisateur multichaîne 🎁",
-      "description": "Pour vous remercier d'être un bêta-testeur, nous avons ajouté un cadeau à votre portefeuille {{appName}} ! Le NFT d'adoption se trouve dans vos collections.",
+      "title": "Félicitations!",
+      "description": "Vous avez gagné un objet de collection exclusif pour les Explorateurs Early Ethereum. Bienvenue dans le monde de l'Ethereum sur {{appName}}.",
       "cta": "Merci !"
     },
     "notification": {
-      "title": "Félicitations 🎉",
-      "description": "{{rewardName}} a été ajouté à votre portefeuille {{appName}}."
+      "title": "Un nouveau NFT vous attend 🎉",
+      "description": "Vous pouvez trouver votre nouveau NFT {{rewardName}} dans votre \"Collection\""
     },
     "rewardBottomSheet": {
-      "title": "Encaissements gratuits pendant un mois",
-      "description": "Parce que tu es propriétaire du site {{nftName}} de tes objets de collection, nous aimerions t'offrir des encaissements gratuits pour le mois de janvier.\n\nPour utiliser la récompense, encaisse via n'importe quel partenaire {{appName}} et les frais seront annulés.",
-      "expirationLabel": "Expire à {{expirationLabelText}}",
-      "cta": "Utilise la récompense"
+      "title": "Cash-in gratuits pendant un mois",
+      "description": "En tant que propriétaire de {{nftName}} parmi vos objets de collection, nous aimerions vous offrir des encaissements gratuits pour le mois de janvier.\n\nPour utiliser la récompense, ajoutez des fonds via n'importe quel partenaire {{appName}} et les frais seront annulés.",
+      "expirationLabel": "Expire le {{expirationLabelText}}",
+      "cta": "Utiliser la récompense"
     },
     "rewardReminderBottomSheet": {
-      "title": "Encaissements gratuits pendant un mois",
-      "description": "Il ne reste plus que 3 jours pour profiter des encaissements gratuits du mois de janvier !\n\nPour utiliser la récompense, encaisse par l'intermédiaire de n'importe quel partenaire {{appName}} et les frais seront annulés.",
-      "expirationLabel": "Expire à {{expirationLabelText}}",
-      "cta": "Utilise la récompense"
+      "title": "Cash-in gratuits pendant un mois",
+      "description": "Il ne vous reste plus que 3 jours pour profiter des cash-in gratuits du mois de janvier !\n\nPour utiliser la récompense, ajoutez des fonds par l'intermédiaire de n'importe quel partenaire {{appName}} et les frais seront annulés.",
+      "expirationLabel": "Expire le {{expirationLabelText}}",
+      "cta": "Utiliser la récompense"
     }
   },
   "pleaseWait": "Merci de patienter",
@@ -2173,7 +2194,7 @@
   },
   "bottomTabsNavigator": {
     "wallet": {
-      "tabName": "Portefeuille",
+      "tabName": "Wallet",
       "title": "Mon portefeuille"
     },
     "home": {
@@ -2181,7 +2202,48 @@
       "title": "Bienvenue"
     },
     "discover": {
-      "tabName": "Découvrir"
+      "tabName": "Découvrir",
+      "title": "Découvrez le Web3"
+    }
+  },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "Vos fonds sont en route",
+      "description": "Les fonds que votre ami vous a donnés sont en cours d'envoi. Veuillez patienter... "
+    },
+    "error": {
+      "title": "Impossible de récupérer les fonds",
+      "description": "Réessayez votre lien direct pour faire une nouvelle tentative de récupération des fonds, ou demandez à votre ami de vous envoyer un nouveau lien",
+      "contactSupport": "Contacter le Support",
+      "dismiss": "Refuser"
+    }
+  },
+  "points": {
+    "title": "Points Valora",
+    "activity": "Activité",
+    "infoCard": {
+      "title": "Plus de façons de gagner des points bientôt 🚀",
+      "body": "Nous travaillons à ajouter d'autres façons de gagner des points en utilisant l'application. Continue de vérifier pour les mises à jour."
+    },
+    "activitySection": {
+      "title": "Comment gagner des points ?",
+      "body": "C'est très simple ! Gagne des points en utilisant simplement l'application."
+    },
+    "activityCards": {
+      "createWallet": {
+        "title": "Créer un portefeuille {{appName}}"
+      },
+      "swap": {
+        "title": "Actifs de swap",
+        "bottomSheet": {
+          "title": "Actifs de swap",
+          "body": "Cet espace sera utilisé pour donner tous les détails nécessaires pour cela. Peut-être le montant minimum à échanger. \n\nGagne des points {{pointsValue}} chaque fois que tu échanges un actif en utilisant {{appName}}.",
+          "cta": "Aller à l'échange"
+        }
+      },
+      "moreComing": {
+        "title": "Plus d'informations bientôt !"
+      }
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

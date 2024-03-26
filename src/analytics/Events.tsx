@@ -34,6 +34,7 @@ export enum AppEvents {
 
 export enum HomeEvents {
   hamburger_tapped = 'hamburger_tapped',
+  account_circle_tapped = 'account_circle_tapped',
   drawer_navigation = 'drawer_navigation',
   drawer_address_copy = 'drawer_address_copy',
   profile_address_copy = 'profile_address_copy',
@@ -648,6 +649,13 @@ export enum JumpstartEvents {
   jumpstart_send_succeeded = 'jumpstart_send_succeeded',
   jumpstart_send_failed = 'jumpstart_send_failed',
   jumpstart_send_cancelled = 'jumpstart_send_cancelled',
+  jumpstart_share_link = 'jumpstart_share_link',
+  jumpstart_share_link_result = 'jumpstart_share_link_result',
+  jumpstart_show_QR = 'jumpstart_show_QR',
+  jumpstart_copy_link = 'jumpstart_copy_link',
+  jumpstart_share_close = 'jumpstart_share_close',
+  jumpstart_share_confirm_close = 'jumpstart_share_confirm_close',
+  jumpstart_share_dismiss_close = 'jumpstart_share_dismiss_close',
   jumpstart_claim_succeeded = 'jumpstart_claim_succeeded',
   jumpstart_claim_failed = 'jumpstart_claim_failed',
   jumpstart_claimed_token = 'jumpstart_claimed_token',
@@ -655,4 +663,11 @@ export enum JumpstartEvents {
   jumpstart_claim_loading_dismissed = 'jumpstart_claim_loading_dismissed',
   jumpstart_claim_error_dismissed = 'jumpstart_claim_error_dismissed',
   jumpstart_claim_error_contact_support = 'jumpstart_claim_error_contact_support',
+}
+
+export enum PointsEvents {
+  points_screen_open = 'points_screen_open',
+  points_screen_back = 'points_screen_back',
+  points_screen_card_press = 'points_screen_card_press',
+  points_screen_card_cta_press = 'points_screen_card_cta_press',
 }

@@ -4,6 +4,7 @@ import {
   FiatConnectError,
   KycStatus as FiatConnectKycStatus,
 } from '@fiatconnect/fiatconnect-types'
+import { ShareAction } from 'react-native'
 import { PermissionStatus } from 'react-native-permissions'
 import {
   AppEvents,
@@ -41,6 +42,7 @@ import {
   TransactionEvents,
   WalletConnectEvents,
   WebViewEvents,
+  PointsEvents,
 } from 'src/analytics/Events'
 import {
   BackQuizProgress,
@@ -71,6 +73,7 @@ import { Field } from 'src/swap/types'
 import { TokenDetailsActionName } from 'src/tokens/types'
 import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
+import { PointsActivity } from 'src/points/types'
 
 type Web3LibraryProps = { web3Library: 'contract-kit' | 'viem' }
 
@@ -153,6 +156,7 @@ interface AppEventsProperties {
 
 interface HomeEventsProperties {
   [HomeEvents.hamburger_tapped]: undefined
+  [HomeEvents.account_circle_tapped]: undefined
   [HomeEvents.drawer_navigation]: {
     navigateTo: string
   }
@@ -504,10 +508,7 @@ interface InviteEventsProperties {
     phoneNumberHash: string | null
   }
   [InviteEvents.invite_with_share_dismiss]: undefined
-  [InviteEvents.invite_with_referral_url]: {
-    action: 'sharedAction' | 'dismissedAction'
-    activityType?: string | undefined
-  }
+  [InviteEvents.invite_with_referral_url]: ShareAction
   [InviteEvents.opened_via_invite_url]: {
     inviterAddress: string
   }
@@ -1499,20 +1500,24 @@ interface TransactionDetailsProperties {
   }
 }
 
-interface JumpstartSendProperties {
-  localCurrency: LocalCurrencyCode
-  localCurrencyExchangeRate: string | null
-  tokenSymbol: string
-  tokenAmount: string | null
+interface JumpstartDepositProperties {
   amountInUsd: string | null
   tokenId: string | null
   networkId: string | null
 }
+interface JumpstartSendProperties extends JumpstartDepositProperties {
+  localCurrency: LocalCurrencyCode
+  localCurrencyExchangeRate: string | null
+  tokenSymbol: string
+  tokenAmount: string | null
+}
+export enum JumpstartShareOrigin {
+  QrScreen = 'qrScreen',
+  MainScreen = 'mainScreen',
+}
 interface JumpstartEventsProperties {
   [JumpstartEvents.send_select_recipient_jumpstart]: undefined
-  [JumpstartEvents.jumpstart_send_amount_exceeds_threshold]: {
-    tokenId: string
-    sendAmountUsd: string
+  [JumpstartEvents.jumpstart_send_amount_exceeds_threshold]: JumpstartDepositProperties & {
     thresholdUsd: number
   }
   [JumpstartEvents.jumpstart_send_amount_continue]: JumpstartSendProperties
@@ -1521,6 +1526,18 @@ interface JumpstartEventsProperties {
   [JumpstartEvents.jumpstart_send_succeeded]: JumpstartSendProperties
   [JumpstartEvents.jumpstart_send_failed]: JumpstartSendProperties
   [JumpstartEvents.jumpstart_send_cancelled]: JumpstartSendProperties
+  [JumpstartEvents.jumpstart_share_link]: JumpstartDepositProperties & {
+    origin: JumpstartShareOrigin
+  }
+  [JumpstartEvents.jumpstart_share_link_result]: JumpstartDepositProperties &
+    (ShareAction | { error: string })
+  [JumpstartEvents.jumpstart_show_QR]: JumpstartDepositProperties
+  [JumpstartEvents.jumpstart_copy_link]: JumpstartDepositProperties & {
+    origin: JumpstartShareOrigin
+  }
+  [JumpstartEvents.jumpstart_share_close]: undefined
+  [JumpstartEvents.jumpstart_share_confirm_close]: undefined
+  [JumpstartEvents.jumpstart_share_dismiss_close]: undefined
   [JumpstartEvents.jumpstart_claim_succeeded]: undefined
   [JumpstartEvents.jumpstart_claim_failed]: undefined
   [JumpstartEvents.jumpstart_claimed_token]: {
@@ -1536,6 +1553,17 @@ interface JumpstartEventsProperties {
   [JumpstartEvents.jumpstart_claim_loading_dismissed]: undefined
   [JumpstartEvents.jumpstart_claim_error_dismissed]: undefined
   [JumpstartEvents.jumpstart_claim_error_contact_support]: undefined
+}
+
+interface PointsEventsProperties {
+  [PointsEvents.points_screen_open]: undefined
+  [PointsEvents.points_screen_back]: undefined
+  [PointsEvents.points_screen_card_press]: {
+    activity: PointsActivity
+  }
+  [PointsEvents.points_screen_card_cta_press]: {
+    activity: PointsActivity
+  }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &
@@ -1572,6 +1600,7 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   NftsEventsProperties &
   BuilderHooksProperties &
   DappShortcutsProperties &
-  TransactionDetailsProperties
+  TransactionDetailsProperties &
+  PointsEventsProperties
 
 export type AnalyticsEventType = keyof AnalyticsPropertiesList

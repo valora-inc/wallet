@@ -3163,6 +3163,30 @@ export const v200Schema = {
   },
 }
 
+export const v201Schema = {
+  ...v200Schema,
+  _persist: {
+    ...v200Schema._persist,
+    version: 201,
+  },
+  app: {
+    ..._.omit(v200Schema.app, 'hideHomeBalances'),
+    hideBalances: false,
+  },
+}
+
+export const v202Schema = {
+  ...v201Schema,
+  _persist: {
+    ...v201Schema._persist,
+    version: 202,
+  },
+  walletConnect: {
+    ...v201Schema.walletConnect,
+    pendingSessions: [],
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v200Schema as Partial<RootState>
+  return v202Schema as Partial<RootState>
 }

@@ -36,6 +36,7 @@ import {
   TransactionEvents,
   WalletConnectEvents,
   WebViewEvents,
+  PointsEvents,
 } from 'src/analytics/Events'
 
 /**
@@ -72,6 +73,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [AppEvents.multichain_beta_contact_support]: `When the user taps the Contact Support button on the multichain beta screen`,
   [AppEvents.handle_deeplink]: `When a deeplink that leads into the app is detected and handled`,
   [HomeEvents.hamburger_tapped]: ``,
+  [HomeEvents.account_circle_tapped]: `When the account circle used in the tab navigation is tapped`,
   [HomeEvents.drawer_navigation]: ``,
   [HomeEvents.drawer_address_copy]: ``,
   [HomeEvents.profile_address_copy]: `When a user copies their wallet address from the profile screen`,
@@ -320,6 +322,13 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [JumpstartEvents.jumpstart_send_cancelled]: `When the user cancels the transaction, e.g. by exiting the pincode enter screen`,
   [JumpstartEvents.jumpstart_send_succeeded]: `When the transactions are successfully settled on the network`,
   [JumpstartEvents.jumpstart_send_failed]: `When the transactions failed to send or are reverted by the network`,
+  [JumpstartEvents.jumpstart_share_link]: `When the user taps on the share link button on the jumpstart share screen or qr bottom sheet`,
+  [JumpstartEvents.jumpstart_share_link_result]: `The result of the user's share action, can be shared or dismissed or error`,
+  [JumpstartEvents.jumpstart_show_QR]: `When the user taps the CTA to launch the QR code bottom sheet on the share screen`,
+  [JumpstartEvents.jumpstart_copy_link]: `When the user copies the link from the share screen or QR code bottom sheet`,
+  [JumpstartEvents.jumpstart_share_close]: `When the user tries to navigate away from the jumpstart share screen`,
+  [JumpstartEvents.jumpstart_share_confirm_close]: `When the user confirms on the popup that they want to navigate away`,
+  [JumpstartEvents.jumpstart_share_dismiss_close]: `When the user dismisses the popup and does not navigate away from the jumpstart share screen`,
   [JumpstartEvents.jumpstart_claim_succeeded]: `When claiming from Wallet Jumpstart succeeded`,
   [JumpstartEvents.jumpstart_claim_failed]: `When claiming from Wallet Jumpstart failed`,
   [JumpstartEvents.jumpstart_claimed_token]: `When user successfully claimed an ERC20 token trough Wallet Jumpstart`,
@@ -455,6 +464,12 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [RewardsEvents.rewards_screen_cta_pressed]: ``,
   [RewardsEvents.learn_more_pressed]: ``,
   [RewardsEvents.claimed_reward]: ``,
+
+  // Events related to Valora Points program
+  [PointsEvents.points_screen_open]: `when Points home screen is opened`,
+  [PointsEvents.points_screen_back]: `when back button is pressed from Points home screen`,
+  [PointsEvents.points_screen_card_press]: `when an activity card is pressed from Points home screen`,
+  [PointsEvents.points_screen_card_cta_press]: `when a CTA is pressed on an activity card bottom sheet from the Points home screen`,
 
   // Events related to WalletConnect pairing (technical: opening up the communication channel via QR code or deeplink)
   [WalletConnectEvents.wc_pairing_start]: `when WC pairing is started (no UI at this point)`,
