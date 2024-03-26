@@ -376,8 +376,10 @@ export function* jumpstartReclaim(action: PayloadAction<JumpstarReclaimAction>) 
 
     yield* call(sendPreparedTransactions, [reclaimTx], networkId, [createStandbyReclaimTransaction])
     yield* put(jumpstartReclaimSucceeded())
+    ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_succeeded)
   } catch (err) {
     Logger.warn(TAG, 'Error reclaiming jumpstart transaction', err)
+    ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_failed)
     yield* put(jumpstartReclaimFailed())
   }
 }

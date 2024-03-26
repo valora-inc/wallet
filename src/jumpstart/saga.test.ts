@@ -471,6 +471,8 @@ describe('sendJumpstartTransactions', () => {
       .provide(createDefaultProviders())
       .put(jumpstartReclaimSucceeded())
       .run()
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_reclaim_succeeded)
   })
 
   it('should fail when sending the reclaim transaction and dispatch the error action', async () => {
@@ -493,5 +495,7 @@ describe('sendJumpstartTransactions', () => {
       .withState(createMockStore().getState())
       .put(jumpstartReclaimFailed())
       .run()
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_reclaim_failed)
   })
 })

@@ -2,6 +2,8 @@ import { render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { act } from 'react-test-renderer'
+import { JumpstartEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { fetchClaimStatus } from 'src/jumpstart/fetchClaimStatus'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
@@ -162,6 +164,18 @@ describe('JumpstartTransactionDetailsScreen', () => {
       }),
     })
 
+    await act(() => {
+      jest.runAllTimers()
+    })
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      JumpstartEvents.jumpstart_reclaim_fetching_error,
+      {
+        networkId: NetworkId['celo-alfajores'],
+        transactionHash: '0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b',
+      }
+    )
+
     expect(queryByTestId('JumpstartContent/ReclaimButton')).toBeDisabled()
   })
 
@@ -190,6 +204,15 @@ describe('JumpstartTransactionDetailsScreen', () => {
       jest.runAllTimers()
     })
 
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      JumpstartEvents.jumpstart_reclaim_fetching_success,
+      {
+        claimed: false,
+        networkId: NetworkId['celo-alfajores'],
+        transactionHash: '0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b',
+      }
+    )
+
     expect(queryByTestId('JumpstartContent/ReclaimButton')).toBeEnabled()
     expect(queryByTestId('JumpstartContent/ReclaimButton')).toHaveTextContent('reclaim')
   })
@@ -212,6 +235,15 @@ describe('JumpstartTransactionDetailsScreen', () => {
     await act(() => {
       jest.runAllTimers()
     })
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      JumpstartEvents.jumpstart_reclaim_fetching_success,
+      {
+        claimed: true,
+        networkId: NetworkId['celo-alfajores'],
+        transactionHash: '0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b',
+      }
+    )
 
     expect(queryByTestId('JumpstartContent/ReclaimButton')).toBeDisabled()
     expect(queryByTestId('JumpstartContent/ReclaimButton')).toHaveTextContent('claimed')

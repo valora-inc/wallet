@@ -6,6 +6,8 @@ import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import walletJumpstart from 'src/abis/IWalletJumpstart'
+import { JumpstartEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -128,7 +130,18 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
     },
     [],
     {
+      onSuccess: (result) => {
+        ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_fetching_success, {
+          networkId,
+          transactionHash: transaction.transactionHash,
+          claimed: result?.claimed,
+        })
+      },
       onError: (error) => {
+        ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_fetching_error, {
+          networkId,
+          transactionHash: transaction.transactionHash,
+        })
         setError(new Error('Failed to fetch escrow data'))
         Logger.error(TAG, 'Failed to fetch escrow data', error)
       },
@@ -139,11 +152,19 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
 
   const resetState = () => {
     setError(null)
+    ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_dismiss_error, {
+      networkId,
+      transactionHash: transaction.transactionHash,
+    })
   }
 
   const isClaimed = fetchClaimData.result?.claimed
 
   const onReclaimPress = () => {
+    ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_press, {
+      networkId,
+      transactionHash: transaction.transactionHash,
+    })
     bottomSheetRef.current?.snapToIndex(0)
   }
 
@@ -152,6 +173,10 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
       Logger.warn(TAG, 'Reclaim transaction is not set')
       return
     }
+    ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_start, {
+      networkId,
+      transactionHash: transaction.transactionHash,
+    })
     dispatch(jumpstartReclaimStarted({ reclaimTx, networkId, tokenAmount }))
   }
 
