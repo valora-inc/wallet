@@ -129,7 +129,7 @@
     "dot-prop-immutable": "^2.1.1",
     "ethereumjs-util": "^7.1.5",
     "fast-levenshtein": "^3.0.0",
-    "fp-ts": "2.16.2",
+    "fp-ts": "2.16.4",
     "futoin-hkdf": "^1.5.3",
     "fuzzysort": "^2.0.4",
     "i18next": "^22.5.1",
