@@ -2222,6 +2222,10 @@
       "dismiss": "Odrzuć"
     }
   },
+  "multiSelect": {
+    "switchNetwork": "Sieć przełączników",
+    "allNetworks": "Wszystkie sieci"
+  },
   "points": {
     "title": "Punkty Valora",
     "activity": "Operacje",
