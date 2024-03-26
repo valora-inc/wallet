@@ -19,7 +19,7 @@ import Checkmark from 'src/icons/Checkmark'
 import Logo from 'src/icons/Logo'
 import { fetchClaimStatus } from 'src/jumpstart/fetchClaimStatus'
 import { jumpstartReclaimStatusSelector } from 'src/jumpstart/selectors'
-import { jumpstartReclaimFlowStarted, jumpstartReclaimStarted } from 'src/jumpstart/slice'
+import { jumpstartReclaimStarted } from 'src/jumpstart/slice'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -36,10 +36,7 @@ import NetworkFeeRowItem from 'src/transactions/feed/detailContent/NetworkFeeRow
 import { TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { TransactionRequest, prepareTransactions } from 'src/viem/prepareTransactions'
-import {
-  SerializableTransactionRequest,
-  getSerializablePreparedTransaction,
-} from 'src/viem/preparedTransactionSerialization'
+import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import EstimatedNetworkFee from 'src/walletConnect/screens/EstimatedNetworkFee'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { Address, Hash, encodeFunctionData } from 'viem'
@@ -50,9 +47,6 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
   const { transaction } = route.params
   const { t } = useTranslation()
   const dispatch = useDispatch()
-
-  const [reclaimTx, setReclaimTx] = useState<SerializableTransactionRequest | null>(null)
-  const transactionString = useMemo(() => (reclaimTx ? JSON.stringify(reclaimTx) : ''), [reclaimTx])
 
   const transactionTokenInfo = useTokenInfo(transaction.amount.tokenId)
   const parsedAmount = new BigNumber(transaction.amount.value).abs()
@@ -127,29 +121,18 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
       switch (resultType) {
         case 'need-decrease-spend-amount-for-gas': // fallthrough on purpose
         case 'not-enough-balance-for-gas':
-          return {
-            claimed: false,
-            error: true,
-          }
+          throw new Error('Not enough balance for gas')
         case 'possible':
           return {
-            preparedTransaction: preparedTransactions.transactions[0],
+            preparedTransaction: getSerializablePreparedTransaction(
+              preparedTransactions.transactions[0]
+            ),
             claimed: false,
           }
       }
     },
     [],
     {
-      onSuccess(result) {
-        if (result) {
-          if (result.preparedTransaction) {
-            setReclaimTx(getSerializablePreparedTransaction(result.preparedTransaction))
-          }
-          if (result.error) {
-            setError(new Error('Not enough balance for gas'))
-          }
-        }
-      },
       onError: (error) => {
         setError(new Error('Failed to fetch escrow data'))
         Logger.error(TAG, 'Failed to fetch escrow data', error)
@@ -157,10 +140,10 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
     }
   )
 
+  const reclaimTx = fetchClaimData.result?.preparedTransaction
+
   const resetState = () => {
-    setReclaimTx(null)
     setError(null)
-    void fetchClaimData.execute()
   }
 
   const isClaimed = fetchClaimData.result?.claimed
@@ -178,6 +161,8 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
     setReclaimInitiated(true)
     dispatch(jumpstartReclaimStarted({ reclaimTx, networkId, tokenAmount }))
   }
+
+  const transactionString = useMemo(() => (reclaimTx ? JSON.stringify(reclaimTx) : ''), [reclaimTx])
 
   if (!token) {
     // should never happen
