@@ -25,6 +25,7 @@ import {
   jumpstartClaimFailed,
   jumpstartClaimStarted,
   jumpstartClaimSucceeded,
+  jumpstartReclaimFailed,
   jumpstartReclaimStarted,
   jumpstartReclaimSucceeded,
 } from 'src/jumpstart/slice'
@@ -469,6 +470,28 @@ describe('sendJumpstartTransactions', () => {
       .withState(createMockStore().getState())
       .provide(createDefaultProviders())
       .put(jumpstartReclaimSucceeded())
+      .run()
+  })
+
+  it('should fail when sending the reclaim transaction and dispatch the error action', async () => {
+    jest.mocked(sendPreparedTransactions).mockImplementation(() => {
+      throw new Error('test error')
+    })
+
+    await expectSaga(jumpstartReclaim, {
+      type: jumpstartReclaimStarted.type,
+      payload: {
+        tokenAmount: {
+          value: 1000,
+          tokenAddress: '0x123',
+          tokenId: 'celo-alfajores:0x123',
+        },
+        networkId: NetworkId['celo-alfajores'],
+        reclaimTx: serializablePreparedTransactions[0],
+      },
+    })
+      .withState(createMockStore().getState())
+      .put(jumpstartReclaimFailed())
       .run()
   })
 })
