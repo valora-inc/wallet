@@ -2223,26 +2223,26 @@
     "activity": "Attività",
     "infoCard": {
       "title": "Altri modi per guadagnare punti in arrivo 🚀",
-      "body": "We are working on adding more ways to earn points through using the app. Keep checking in for updates."
+      "body": "Stiamo lavorando per aggiungere altri modi per guadagnare punti utilizzando l'app. Continuate a seguirci per gli aggiornamenti."
     },
     "activitySection": {
-      "title": "How do I earn points?",
-      "body": "It's easy! Earn points by simply using the app."
+      "title": "Come si guadagnano i punti?",
+      "body": "È facile! Guadagna punti semplicemente usando l'app."
     },
     "activityCards": {
       "createWallet": {
-        "title": "Create a {{appName}}  Wallet"
+        "title": "Crea un portafoglio {{appName}}"
       },
       "swap": {
-        "title": "Swap assets",
+        "title": "Attività di swap",
         "bottomSheet": {
-          "title": "Swap assets",
-          "body": "This space will be used to give all the details needed for this. Maybe minimum amount to swap. \n\nEarn {{pointsValue}} points whenever you swap an asset using {{appName}}.",
-          "cta": "Go to swap"
+          "title": "Attività di swap",
+          "body": "Questo spazio sarà utilizzato per fornire tutti i dettagli necessari. Forse l'importo minimo da scambiare. \n\nGuadagna {{pointsValue}} punti ogni volta che scambi un'attività utilizzando {{appName}}.",
+          "cta": "Vai allo scambio"
         }
       },
       "moreComing": {
-        "title": "More coming soon!"
+        "title": "Prossimamente ne arriveranno altri!"
       }
     }
   },
