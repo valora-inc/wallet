@@ -172,7 +172,7 @@ describe(fetchTokenBalancesSaga, () => {
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
         [select(importedTokensSelector, supportedNetworks), []],
-        [select(networksIconSelector, supportedNetworks), {}],
+        [select(networksIconSelector), {}],
         [call(getTokensInfo), mockBlockchainApiTokenInfo],
         [select(walletAddressSelector), mockAccount],
         [call(fetchTokenBalancesForAddressByTokenId, mockAccount), fetchBalancesResponse],
@@ -202,7 +202,7 @@ describe(fetchTokenBalancesSaga, () => {
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
         [select(importedTokensSelector, supportedNetworks), []],
-        [select(networksIconSelector, supportedNetworks), {}],
+        [select(networksIconSelector), {}],
         [call(getTokensInfo), mockBlockchainApiTokenInfo],
         [select(walletAddressSelector), mockAccount],
         [
@@ -245,7 +245,7 @@ describe(fetchTokenBalancesSaga, () => {
         [call(getTokensInfo), mockBlockchainApiTokenInfo],
         [select(importedTokensSelector, supportedNetworks), importedTokens],
         [
-          select(networksIconSelector, supportedNetworks),
+          select(networksIconSelector),
           {
             [NetworkId['celo-alfajores']]: 'newCeloUrl',
             [NetworkId['ethereum-sepolia']]: 'newEthUrl',

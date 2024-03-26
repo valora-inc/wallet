@@ -318,7 +318,7 @@ export default function DrawerNavigator({ route }: Props) {
         />
       )}
       <Drawer.Screen
-        name={Screens.Invite}
+        name={Screens.InviteDrawer}
         component={Invite}
         options={{
           title: t('invite') ?? undefined,
@@ -326,7 +326,7 @@ export default function DrawerNavigator({ route }: Props) {
         }}
       />
       <Drawer.Screen
-        name={Screens.Settings}
+        name={Screens.SettingsDrawer}
         component={SettingsScreen}
         options={{
           title: t('settings') ?? undefined,
@@ -334,7 +334,7 @@ export default function DrawerNavigator({ route }: Props) {
         }}
       />
       <Drawer.Screen
-        name={Screens.Support}
+        name={Screens.SupportDrawer}
         component={Support}
         options={{ title: t('help') ?? undefined, drawerIcon: () => <Help color="#B4B9BD" /> }}
       />

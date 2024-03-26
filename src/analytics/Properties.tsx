@@ -42,6 +42,7 @@ import {
   TransactionEvents,
   WalletConnectEvents,
   WebViewEvents,
+  PointsEvents,
 } from 'src/analytics/Events'
 import {
   BackQuizProgress,
@@ -72,6 +73,7 @@ import { Field } from 'src/swap/types'
 import { TokenDetailsActionName } from 'src/tokens/types'
 import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
+import { PointsActivity } from 'src/points/types'
 
 type Web3LibraryProps = { web3Library: 'contract-kit' | 'viem' }
 
@@ -1553,6 +1555,17 @@ interface JumpstartEventsProperties {
   [JumpstartEvents.jumpstart_claim_error_contact_support]: undefined
 }
 
+interface PointsEventsProperties {
+  [PointsEvents.points_screen_open]: undefined
+  [PointsEvents.points_screen_back]: undefined
+  [PointsEvents.points_screen_card_press]: {
+    activity: PointsActivity
+  }
+  [PointsEvents.points_screen_card_cta_press]: {
+    activity: PointsActivity
+  }
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -1587,6 +1600,7 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   NftsEventsProperties &
   BuilderHooksProperties &
   DappShortcutsProperties &
-  TransactionDetailsProperties
+  TransactionDetailsProperties &
+  PointsEventsProperties
 
 export type AnalyticsEventType = keyof AnalyticsPropertiesList

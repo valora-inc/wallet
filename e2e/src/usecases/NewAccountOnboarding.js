@@ -8,13 +8,18 @@ import {
   scrollIntoView,
   sleep,
   waitForElementId,
+  waitForElementByIdAndTap,
+  navigateToSettings,
 } from '../utils/utils'
 
 import jestExpect from 'expect'
 
-const quickEducation = async () => {
-  await element(by.id('DrawerItem/Recovery Phrase')).tap()
+const startBackupFromNotifications = async () => {
+  await element(by.id('WalletHome/NotificationBell')).tap()
+  await element(by.text('Back up now')).tap()
   await enterPinUi()
+  await waitForElementByIdAndTap('WalletSecurityPrimer/GetStarted')
+  await waitForElementByIdAndTap('keylessBackupIntro/RecoveryPhrase')
   await element(by.id('SetUpAccountKey')).tap()
 
   // Go through education
@@ -30,13 +35,6 @@ const arriveAtHomeScreen = async () => {
   await expect(element(by.id('HomeAction-Send'))).toBeVisible()
 }
 
-const openHamburger = async () => {
-  // Able to open the drawer - testing https://github.com/valora-inc/wallet/issues/3043
-  await waitForElementId('Hamburger')
-  await element(by.id('Hamburger')).tap()
-  await waitForElementId('Drawer/Header')
-}
-
 export default NewAccountOnboarding = () => {
   let testRecoveryPhrase, testAccountAddress
   beforeAll(async () => {
@@ -45,6 +43,9 @@ export default NewAccountOnboarding = () => {
     await launchApp({
       delete: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
+      launchArgs: {
+        statsigGateOverrides: `use_tab_navigator=true,show_cloud_account_backup_setup=true,show_cloud_account_backup_restore=true`,
+      },
     })
     await sleep(5000)
   })
@@ -74,12 +75,14 @@ export default NewAccountOnboarding = () => {
     // Arrived to Home screen
     await arriveAtHomeScreen()
 
-    // Able to open the drawer
-    await openHamburger()
+    // Able to open the profile / menu
+    await waitForElementByIdAndTap('WalletHome/AccountCircle')
+    await waitForElementId('ProfileMenu/Settings')
+    await element(by.id('Times')).tap()
   })
 
   it('Should be able to exit recovery phrase flow', async () => {
-    await quickEducation()
+    await startBackupFromNotifications()
     await waitFor(element(by.text('Cancel')))
       .toBeVisible()
       .withTimeout(10 * 1000)
@@ -96,8 +99,7 @@ export default NewAccountOnboarding = () => {
   })
 
   it('Setup Recovery Phrase', async () => {
-    await openHamburger()
-    await quickEducation()
+    await startBackupFromNotifications()
 
     const attributes = await element(by.id('AccountKeyWordsContainer')).getAttributes()
     testRecoveryPhrase = attributes.label
@@ -120,21 +122,23 @@ export default NewAccountOnboarding = () => {
       .withTimeout(10 * 1000)
   })
 
-  it('Account Address shown in drawer menu', async () => {
-    await waitForElementId('Hamburger')
-    await element(by.id('Hamburger')).tap()
+  it('Account Address shown in profile / menu', async () => {
+    await waitForElementByIdAndTap('WalletHome/AccountCircle')
     await scrollIntoView('Account Address', 'SettingsScrollView')
     const accountAddressElement = await element(by.id('AccountNumber')).getAttributes()
     const accountAddressText = accountAddressElement.text.replace(/\s/g, '')
     testAccountAddress = accountAddressText
     jestExpect(testAccountAddress).toMatch(/0x[0-9a-fA-F]{40}/)
+    await element(by.id('Times')).tap()
   })
 
-  // After quiz completion recovery phrase should only be shown in settings
+  // After quiz completion recovery phrase should only be shown in settings and
+  // not in notifications
   it('Recovery phrase only shown in settings', async () => {
-    await expect(element(by.id('DrawerItem/Recovery Phrase'))).not.toExist()
-    await waitForElementId('DrawerItem/Settings')
-    await element(by.id('DrawerItem/Settings')).tap()
+    await element(by.id('WalletHome/NotificationBell')).tap()
+    await expect(element(by.text('Back up now'))).not.toExist()
+    await element(by.id('BackChevron')).tap()
+    await navigateToSettings('tab')
     await waitForElementId('RecoveryPhrase')
     await element(by.id('RecoveryPhrase')).tap()
     await enterPinUi()
@@ -153,10 +157,13 @@ export default NewAccountOnboarding = () => {
   it('Should be able to restore newly created account', async () => {
     await device.uninstallApp()
     await device.installApp()
-    await launchApp()
-    await quickOnboarding(testRecoveryPhrase)
-    await waitForElementId('Hamburger')
-    await element(by.id('Hamburger')).tap()
+    await launchApp({
+      launchArgs: {
+        statsigGateOverrides: `use_tab_navigator=true,show_cloud_account_backup_setup=true,show_cloud_account_backup_restore=true`,
+      },
+    })
+    await quickOnboarding(testRecoveryPhrase, true)
+    await waitForElementByIdAndTap('WalletHome/AccountCircle')
     await scrollIntoView('Account Address', 'SettingsScrollView')
     const addressString = '0x ' + getAddressChunks(testAccountAddress).join(' ')
     await expect(element(by.text(addressString))).toBeVisible()

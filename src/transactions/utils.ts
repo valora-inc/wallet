@@ -1,5 +1,8 @@
 import i18n from 'src/i18n'
-import { TokenTransaction } from 'src/transactions/types'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { TokenTransaction, TokenTransfer } from 'src/transactions/types'
 import { formatFeedSectionTitle, timeDeltaInDays } from 'src/utils/time'
 
 // Groupings:
@@ -46,4 +49,11 @@ export function groupFeedItemsInSections(
       title: key,
       data: value.data,
     }))
+}
+
+export function isJumpstartTransaction(tx: TokenTransfer) {
+  const jumpstartAddress = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG]
+  ).jumpstartContracts[tx.networkId]?.contractAddress
+  return tx.address === jumpstartAddress
 }

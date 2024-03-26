@@ -48,7 +48,7 @@ function createSessionProposal(
   return {
     id: 1669989187506938,
     params: {
-      expiry: 1669989496,
+      expiryTimestamp: 1669989496,
       proposer: {
         publicKey: 'f4284dc764da82e9b62d625f4dfea4088142f477c0d7420cdec2a0f49959c233',
         metadata: proposerMetadata,
@@ -643,9 +643,8 @@ describe('showActionRequest', () => {
   })
 })
 
-// TODO: use a real connection string
 const v2ConnectionString =
-  'wc:79a02f869d0f921e435a5e0643304548ebfa4a0430f9c66fe8b1a9254db7ef77@2?controller=false&publicKey=f661b0a9316a4ce0b6892bdce42bea0f45037f2c1bee9e118a3a4bc868a32a39&relay={"protocol":"waku"}'
+  'wc:79a02f869d0f921e435a5e0643304548ebfa4a0430f9c66fe8b1a9254db7ef77@2?relay-protocol=irn&symKey=f661b0a9316a4ce0b6892bdce42bea0f45037f2c1bee9e118a3a4bc868a32a39'
 
 describe('initialiseWalletConnect', () => {
   const origin = WalletConnectPairingOrigin.Deeplink

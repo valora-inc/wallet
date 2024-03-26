@@ -1307,6 +1307,9 @@
   "feedItemGoldWithdrawal": "Withdrawal to {{displayName}}",
   "feedItemGoldReceived": "Received from {{displayName}}",
   "feedItemSwapPath": "{{token1}} to {{token2}}",
+  "feedItemJumpstartTitle": "Live Link",
+  "feedItemJumpstartSentSubtitle": "Invitation",
+  "feedItemJumpstartReceivedSubtitle": "Funds received",
   "transactionHeaderVerificationFee": "Confirmation",
   "transactionHeaderNetworkFee": "Network",
   "transactionHeaderFaucet": "Faucet",
@@ -2213,6 +2216,34 @@
       "description": "Try your live link again to attempt to receive funds, or ask your friend to try sending a new link",
       "contactSupport": "Contact Support",
       "dismiss": "Dismiss"
+    }
+  },
+  "points": {
+    "title": "Valora Points",
+    "activity": "Activity",
+    "infoCard": {
+      "title": "More ways to earn points coming soon 🚀",
+      "body": "We are working on adding more ways to earn points through using the app. Keep checking in for updates."
+    },
+    "activitySection": {
+      "title": "How do I earn points?",
+      "body": "It's easy! Earn points by simply using the app."
+    },
+    "activityCards": {
+      "createWallet": {
+        "title": "Create a {{appName}}  Wallet"
+      },
+      "swap": {
+        "title": "Swap assets",
+        "bottomSheet": {
+          "title": "Swap assets",
+          "body": "This space will be used to give all the details needed for this. Maybe minimum amount to swap. \n\nEarn {{pointsValue}} points whenever you swap an asset using {{appName}}.",
+          "cta": "Go to swap"
+        }
+      },
+      "moreComing": {
+        "title": "More coming soon!"
+      }
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
