@@ -1608,12 +1608,16 @@
             "enum": [
                 "arbitrum-one",
                 "arbitrum-sepolia",
+                "base-mainnet",
+                "base-sepolia",
                 "celo-alfajores",
                 "celo-mainnet",
                 "ethereum-mainnet",
                 "ethereum-sepolia",
                 "op-mainnet",
-                "op-sepolia"
+                "op-sepolia",
+                "polygon-mainnet",
+                "polygon-mumbai"
             ],
             "type": "string"
         },
@@ -5017,6 +5021,18 @@
                     },
                     "type": "array"
                 },
+                "base-mainnet": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
+                "base-sepolia": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
                 "celo-alfajores": {
                     "items": {
                         "$ref": "#/definitions/TokenTransaction"
@@ -5048,6 +5064,18 @@
                     "type": "array"
                 },
                 "op-sepolia": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
+                "polygon-mainnet": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
+                "polygon-mumbai": {
                     "items": {
                         "$ref": "#/definitions/TokenTransaction"
                     },

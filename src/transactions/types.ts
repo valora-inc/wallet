@@ -7,6 +7,8 @@ export enum Network {
   Ethereum = 'ethereum',
   Arbitrum = 'arbitrum',
   Optimism = 'optimism',
+  Polygon = 'polygon',
+  Base = 'base',
 }
 
 export enum NetworkId {
@@ -18,6 +20,10 @@ export enum NetworkId {
   'arbitrum-sepolia' = 'arbitrum-sepolia',
   'op-mainnet' = 'op-mainnet',
   'op-sepolia' = 'op-sepolia',
+  'polygon-mainnet' = 'polygon-mainnet',
+  'polygon-mumbai' = 'polygon-mumbai',
+  'base-mainnet' = 'base-mainnet',
+  'base-sepolia' = 'base-sepolia',
 }
 
 export type PendingStandbySwap = {
