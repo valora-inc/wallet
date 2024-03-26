@@ -17,6 +17,7 @@ import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import CustomHeader from 'src/components/header/CustomHeader'
 import Checkmark from 'src/icons/Checkmark'
 import Logo from 'src/icons/Logo'
+import { fetchClaimStatus } from 'src/jumpstart/fetchClaimStatus'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -28,55 +29,14 @@ import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
 import TransactionDetails from 'src/transactions/feed/TransactionDetails'
 import NetworkFeeRowItem from 'src/transactions/feed/detailContent/NetworkFeeRowItem'
-import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
+import { TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { publicClient } from 'src/viem'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import EstimatedNetworkFee from 'src/walletConnect/screens/EstimatedNetworkFee'
-import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { Address, Hash, encodeFunctionData, parseEventLogs } from 'viem'
+import { Address, Hash, encodeFunctionData } from 'viem'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.JumpstartTransactionDetailsScreen>
-
-async function getClaimDataAndStatus(
-  jumpstartContractAddress: Address,
-  networkId: NetworkId,
-  transactionHash: Hash
-) {
-  const viemClient = publicClient[networkIdToNetwork[networkId]]
-
-  const transactionReceipt = await viemClient.getTransactionReceipt({
-    hash: transactionHash,
-  })
-
-  const parsedLogs = parseEventLogs({
-    abi: walletJumpstart.abi,
-    eventName: ['ERC20Deposited'],
-    logs: transactionReceipt.logs,
-  })
-
-  if (parsedLogs.length != 1) {
-    throw new Error('Unexpected number of matching logs')
-  }
-
-  const { beneficiary, index } = parsedLogs[0].args
-
-  Logger.debug('Decoded event', { beneficiary, index })
-
-  const erc20Claim = await viemClient.readContract({
-    address: jumpstartContractAddress as Address,
-    abi: walletJumpstart.abi,
-    functionName: 'erc20Claims',
-    args: [beneficiary, index],
-  })
-
-  const claimed = erc20Claim[3]
-
-  Logger.debug(`Reward deposited in ${transactionHash} ${claimed ? 'was' : 'was NOT'} claimed`)
-
-  return { beneficiary, index: Number(index), claimed }
-}
 
 function JumpstartTransactionDetailsScreen({ route }: Props) {
   const { transaction } = route.params
@@ -104,7 +64,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
       if (!isDeposit) {
         return
       }
-      return await getClaimDataAndStatus(
+      return await fetchClaimStatus(
         jumpstartContractAddress as Address,
         transaction.networkId,
         transaction.transactionHash as Hash
@@ -183,6 +143,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
         {isDeposit && (
           <View style={styles.buttonContainer}>
             <Button
+              testID={'JumpstartContent/ReclaimButton'}
               showLoading={fetchClaimData.loading}
               disabled={!fetchClaimData.result || isClaimed}
               onPress={onReclaimPress}
@@ -242,7 +203,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
       <BottomSheet forwardedRef={bottomSheetRef} testId="ReclaimBottomSheet">
         <Logo />
         <Text style={styles.header}>{t('confirmTransaction')}</Text>
-        <Text style={styles.description}>{t('jumpstartReclaimDescription')}</Text>
+        <Text style={styles.description}>{t('jumpstartReclaim.description')}</Text>
         <DataFieldWithCopy
           label={t('walletConnectRequest.transactionDataLabel')}
           value={transactionString}

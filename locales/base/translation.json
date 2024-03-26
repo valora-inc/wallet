@@ -2222,7 +2222,9 @@
       "dismiss": "Dismiss"
     }
   },
-  "jumpstartReclaimDescription": "Reclaiming your link incurs a network gas fee, would you like to proceed?",
+  "jumpstartReclaim": {
+    "description": "Reclaiming your link incurs a network gas fee, would you like to proceed?"
+  },
   "points": {
     "title": "Valora Points",
     "activity": "Activity",
