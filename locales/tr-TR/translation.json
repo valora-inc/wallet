@@ -2219,30 +2219,30 @@
     }
   },
   "points": {
-    "title": "Valora Points",
+    "title": "Valora Puanları",
     "activity": "İşlemler",
     "infoCard": {
-      "title": "More ways to earn points coming soon 🚀",
-      "body": "We are working on adding more ways to earn points through using the app. Keep checking in for updates."
+      "title": "Puan kazanmanın daha fazla yolu çok yakında 🚀",
+      "body": "Uygulamayı kullanarak puan kazanmanın daha fazla yolunu eklemek için çalışıyoruz. Güncellemeler için kontrol etmeye devam edin."
     },
     "activitySection": {
-      "title": "How do I earn points?",
-      "body": "It's easy! Earn points by simply using the app."
+      "title": "Nasıl puan kazanabilirim?",
+      "body": "Çok kolay! Sadece uygulamayı kullanarak puan kazanın."
     },
     "activityCards": {
       "createWallet": {
-        "title": "Create a {{appName}}  Wallet"
+        "title": "Bir {{appName}}  Cüzdanı Oluşturun"
       },
       "swap": {
-        "title": "Swap assets",
+        "title": "Swap varlıkları",
         "bottomSheet": {
-          "title": "Swap assets",
-          "body": "This space will be used to give all the details needed for this. Maybe minimum amount to swap. \n\nEarn {{pointsValue}} points whenever you swap an asset using {{appName}}.",
-          "cta": "Go to swap"
+          "title": "Swap varlıkları",
+          "body": "Bu alan, bunun için gereken tüm ayrıntıları vermek için kullanılacaktır. Belki takas için minimum miktar. \n\n {{appName}}adresini kullanarak bir varlığı takas ettiğinizde {{pointsValue}} puanı kazanın.",
+          "cta": "Takasa git"
         }
       },
       "moreComing": {
-        "title": "More coming soon!"
+        "title": "Daha fazlası yakında!"
       }
     }
   },
