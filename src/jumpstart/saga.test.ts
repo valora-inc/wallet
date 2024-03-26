@@ -15,6 +15,7 @@ import {
   dispatchPendingERC721Transactions,
   dispatchPendingTransactions,
   jumpstartClaim,
+  jumpstartReclaim,
   sendJumpstartTransactions,
 } from 'src/jumpstart/saga'
 import {
@@ -24,6 +25,8 @@ import {
   jumpstartClaimFailed,
   jumpstartClaimStarted,
   jumpstartClaimSucceeded,
+  jumpstartReclaimStarted,
+  jumpstartReclaimSucceeded,
 } from 'src/jumpstart/slice'
 import { getDynamicConfigParams } from 'src/statsig'
 import { addStandbyTransaction } from 'src/transactions/actions'
@@ -448,5 +451,24 @@ describe('sendJumpstartTransactions', () => {
       JumpstartEvents.jumpstart_send_succeeded,
       expect.any(Object)
     )
+  })
+
+  it('should send the reclaim transaction and dispatch the success action', async () => {
+    await expectSaga(jumpstartReclaim, {
+      type: jumpstartReclaimStarted.type,
+      payload: {
+        tokenAmount: {
+          value: 1000,
+          tokenAddress: '0x123',
+          tokenId: 'celo-alfajores:0x123',
+        },
+        networkId: NetworkId['celo-alfajores'],
+        reclaimTx: serializablePreparedTransactions[0],
+      },
+    })
+      .withState(createMockStore().getState())
+      .provide(createDefaultProviders())
+      .put(jumpstartReclaimSucceeded())
+      .run()
   })
 })
