@@ -16,17 +16,30 @@ import {
   TokenTransferMetadata,
   TransactionStatus,
 } from 'src/transactions/types'
+import { prepareTransactions } from 'src/viem/prepareTransactions'
+import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import {
   RecursivePartial,
   createMockStore,
   getElementText,
   getMockStackScreenProps,
 } from 'test/utils'
-import { mockAccount, mockCusdAddress, mockCusdTokenId, mockJumpstartAdddress } from 'test/values'
+import {
+  mockAccount,
+  mockAccountInvite,
+  mockCeloTokenBalance,
+  mockCusdAddress,
+  mockCusdTokenId,
+  mockJumpstartAdddress,
+} from 'test/values'
+
+const mockTransaction: any = jest.fn()
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/statsig')
 jest.mock('src/jumpstart/fetchClaimStatus')
+jest.mock('src/viem/prepareTransactions')
+jest.mock('src/viem/preparedTransactionSerialization')
 
 describe('JumpstartTransactionDetailsScreen', () => {
   beforeEach(() => {
@@ -65,7 +78,7 @@ describe('JumpstartTransactionDetailsScreen', () => {
 
   function tokenTransfer({
     type,
-    address = mockAccount,
+    address = mockJumpstartAdddress,
     amount = {
       value: 10,
       tokenAddress: mockCusdAddress,
@@ -155,11 +168,17 @@ describe('JumpstartTransactionDetailsScreen', () => {
   it(`shows the enabled button if the escrow wasn't claimed`, async () => {
     jest.mocked(fetchClaimStatus).mockImplementation(async () => {
       return {
-        beneficiary: mockAccount,
+        beneficiary: mockAccountInvite,
         index: 0,
         claimed: false,
       }
     })
+    jest.mocked(prepareTransactions).mockImplementation(async () => ({
+      type: 'possible',
+      transactions: [mockTransaction],
+      feeCurrency: mockCeloTokenBalance,
+    }))
+    jest.mocked(getSerializablePreparedTransaction).mockImplementation(() => mockTransaction)
 
     const { queryByTestId } = renderScreen({
       transaction: tokenTransfer({

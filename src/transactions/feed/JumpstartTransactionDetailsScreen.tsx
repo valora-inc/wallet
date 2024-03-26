@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 import { useAsync } from 'react-async-hook'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -63,12 +63,8 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, networkId))
 
   const reclaimStatus = useSelector(jumpstartReclaimStatusSelector)
-  const [isReclaimIniciated, setReclaimInitiated] = useState(false)
 
   useEffect(() => {
-    if (!isReclaimIniciated) {
-      return
-    }
     Logger.debug('Change to status', reclaimStatus)
     switch (reclaimStatus) {
       case 'success':
@@ -79,7 +75,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
         setError(new Error('Failed to reclaim'))
         break
     }
-  }, [reclaimStatus, isReclaimIniciated])
+  }, [reclaimStatus])
 
   const title =
     transaction.type === TokenTransactionTypeV2.Sent
@@ -111,7 +107,6 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
           args: [beneficiary, BigInt(index)],
         }),
       }
-
       const preparedTransactions = await prepareTransactions({
         feeCurrencies,
         baseTransactions: [reclaimTx],
@@ -149,7 +144,6 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
   const isClaimed = fetchClaimData.result?.claimed
 
   const onReclaimPress = () => {
-    dispatch(jumpstartReclaimFlowStarted())
     bottomSheetRef.current?.snapToIndex(0)
   }
 
@@ -158,7 +152,6 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
       Logger.warn(TAG, 'Reclaim transaction is not set')
       return
     }
-    setReclaimInitiated(true)
     dispatch(jumpstartReclaimStarted({ reclaimTx, networkId, tokenAmount }))
   }
 
