@@ -2220,6 +2220,10 @@
       "dismiss": "Dismiss"
     }
   },
+  "multiSelect": {
+    "switchNetwork": "Switch Network",
+    "allNetworks": "All Networks"
+  },
   "points": {
     "title": "Valora Points",
     "activity": "Activity",
