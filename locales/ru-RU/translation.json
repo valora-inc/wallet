@@ -2223,30 +2223,30 @@
     }
   },
   "points": {
-    "title": "Valora Points",
+    "title": "Очки Валора",
     "activity": "Деятельность",
     "infoCard": {
-      "title": "More ways to earn points coming soon 🚀",
-      "body": "We are working on adding more ways to earn points through using the app. Keep checking in for updates."
+      "title": "Скоро появится больше способов заработать очки 🚀.",
+      "body": "Мы работаем над тем, чтобы добавить больше способов заработать очки с помощью приложения. Следи за обновлениями."
     },
     "activitySection": {
-      "title": "How do I earn points?",
-      "body": "It's easy! Earn points by simply using the app."
+      "title": "Как зарабатывать очки?",
+      "body": "Это просто! Зарабатывай баллы, просто используя приложение."
     },
     "activityCards": {
       "createWallet": {
-        "title": "Create a {{appName}}  Wallet"
+        "title": "Создай кошелек {{appName}}"
       },
       "swap": {
-        "title": "Swap assets",
+        "title": "Своп-активы",
         "bottomSheet": {
-          "title": "Swap assets",
-          "body": "This space will be used to give all the details needed for this. Maybe minimum amount to swap. \n\nEarn {{pointsValue}} points whenever you swap an asset using {{appName}}.",
-          "cta": "Go to swap"
+          "title": "Своп-активы",
+          "body": "В этом месте можно будет указать все необходимые для этого детали. Возможно, минимальная сумма для обмена. \n\nЗарабатывай {{pointsValue}} очков каждый раз, когда обмениваешь актив, используя {{appName}}.",
+          "cta": "Переходи к обмену"
         }
       },
       "moreComing": {
-        "title": "More coming soon!"
+        "title": "Скоро будет больше!"
       }
     }
   },
