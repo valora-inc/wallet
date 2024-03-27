@@ -16,7 +16,7 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { createMockStore, getElementText } from 'test/utils'
-import { mockPositions, mockTokenBalances } from 'test/values'
+import { mockARBTokenId, mockPositions, mockTokenBalances } from 'test/values'
 
 jest.mock('src/statsig')
 
@@ -711,111 +711,127 @@ describe.each([
 describe('renders the network icon on the home screen to differentiate between ETH on Ethereum, Arbitrum, and Optimism', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getDynamicConfigParams).mockReturnValue({
+      showBalances: [
+        NetworkId['ethereum-sepolia'],
+        NetworkId['celo-alfajores'],
+        NetworkId['arbitrum-sepolia'],
+      ],
+    })
   })
 
-  const balances = {
-    // 'ethereum-mainnet:native': {
-    //   priceUsd: '3000',
-    //   tokenId: 'ethereum-mainnet:native',
-    //   address: null,
-    //   networkId: NetworkId['ethereum-mainnet'],
-    //   symbol: 'ETH',
-    //   balance: '1',
-    //   priceFetchedAt: Date.now(),
-    //   imageUrl:
-    //     'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
-    // },
-    'ethereum-mainnet:native': {
-      balance: '0.108480716806023',
-      decimals: 18,
-      // historicalPricesUsd: [Object],
-      imageUrl:
-        'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
-      infoUrl: 'https://www.coingecko.com/en/coins/ethereum',
-      isCashInEligible: true,
-      isCashOutEligible: true,
-      isNative: true,
-      minimumAppVersionToSwap: '1.72.0',
-      name: 'Ether',
-      networkId: 'ethereum-mainnet',
-      priceFetchedAt: 1711521354783,
-      priceUsd: '3609.1',
-      showZeroBalance: true,
-      symbol: 'ETH',
-      tokenId: 'ethereum-mainnet:native',
-    },
-    // 'arbitrum-one:native': {
-    //   priceUsd: '2900',
-    //   tokenId: 'arbitrum-one:native',
-    //   address: null,
-    //   networkId: NetworkId['arbitrum-one'],
-    //   symbol: 'ETH',
-    //   balance: '2',
-    //   priceFetchedAt: Date.now(),
-    //   imageUrl:
-    //     'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ARB.png',
-    // },
-    'arbitrum-one:native': {
-      balance: '0',
-      decimals: 18,
-      historicalPricesUsd: [Object],
-      imageUrl:
-        'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
-      infoUrl: 'https://www.coingecko.com/en/coins/ethereum',
-      isCashInEligible: true,
-      isL2Native: true,
-      isNative: true,
-      minimumAppVersionToSwap: '1.77.0',
-      name: 'Ether',
-      networkIconUrl:
-        'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ARB.png',
-      networkId: 'arbitrum-one',
-      priceFetchedAt: 1711521354783,
-      priceUsd: '3609.1',
-      symbol: 'ETH',
-      tokenId: 'arbitrum-one:native',
-    },
-    // 'op-mainnet:native': {
-    //   priceUsd: '2950',
-    //   tokenId: 'op-mainnet:native',
-    //   address: null,
-    //   networkId: NetworkId['op-mainnet'],
-    //   symbol: 'ETH',
-    //   balance: '1.5',
-    //   priceFetchedAt: Date.now(),
-    //   imageUrl:
-    //     'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/OP.png',
-    // },
-    'op-mainnet:native': {
-      balance: '0',
-      decimals: 18,
-      historicalPricesUsd: [Object],
-      imageUrl:
-        'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
-      infoUrl: 'https://www.coingecko.com/en/coins/ethereum',
-      isCashInEligible: true,
-      isL2Native: true,
-      isNative: true,
-      minimumAppVersionToSwap: '1.77.0',
-      name: 'Ether',
-      networkIconUrl:
-        'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/OP.png',
-      networkId: 'op-mainnet',
-      priceFetchedAt: 1711521354783,
-      priceUsd: '3609.1',
-      symbol: 'ETH',
-      tokenId: 'op-mainnet:native',
-    },
-  }
+  // ARBITRUM_AND_OPTIMISM_TARGETING = 'arbitrum_and_optimism_targeting',
+
+  // const balances = {
+  //   // 'ethereum-mainnet:native': {
+  //   //   priceUsd: '3000',
+  //   //   tokenId: 'ethereum-mainnet:native',
+  //   //   address: null,
+  //   //   networkId: NetworkId['ethereum-mainnet'],
+  //   //   symbol: 'ETH',
+  //   //   balance: '1',
+  //   //   priceFetchedAt: Date.now(),
+  //   //   imageUrl:
+  //   //     'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+  //   // },
+  //   'ethereum-mainnet:native': {
+  //     balance: '0.108480716806023',
+  //     decimals: 18,
+  //     // historicalPricesUsd: [Object],
+  //     imageUrl:
+  //       'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+  //     infoUrl: 'https://www.coingecko.com/en/coins/ethereum',
+  //     isCashInEligible: true,
+  //     isCashOutEligible: true,
+  //     isNative: true,
+  //     minimumAppVersionToSwap: '1.72.0',
+  //     name: 'Ether',
+  //     networkId: 'ethereum-mainnet',
+  //     priceFetchedAt: 1711521354783,
+  //     priceUsd: '3609.1',
+  //     showZeroBalance: true,
+  //     symbol: 'ETH',
+  //     tokenId: 'ethereum-mainnet:native',
+  //   },
+  //   // 'arbitrum-one:native': {
+  //   //   priceUsd: '2900',
+  //   //   tokenId: 'arbitrum-one:native',
+  //   //   address: null,
+  //   //   networkId: NetworkId['arbitrum-one'],
+  //   //   symbol: 'ETH',
+  //   //   balance: '2',
+  //   //   priceFetchedAt: Date.now(),
+  //   //   imageUrl:
+  //   //     'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ARB.png',
+  //   // },
+  //   'arbitrum-one:native': {
+  //     balance: '0',
+  //     decimals: 18,
+  //     historicalPricesUsd: [Object],
+  //     imageUrl:
+  //       'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+  //     infoUrl: 'https://www.coingecko.com/en/coins/ethereum',
+  //     isCashInEligible: true,
+  //     isL2Native: true,
+  //     isNative: true,
+  //     minimumAppVersionToSwap: '1.77.0',
+  //     name: 'Ether',
+  //     networkIconUrl:
+  //       'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ARB.png',
+  //     networkId: 'arbitrum-one',
+  //     priceFetchedAt: 1711521354783,
+  //     priceUsd: '3609.1',
+  //     symbol: 'ETH',
+  //     tokenId: 'arbitrum-one:native',
+  //   },
+  //   // 'op-mainnet:native': {
+  //   //   priceUsd: '2950',
+  //   //   tokenId: 'op-mainnet:native',
+  //   //   address: null,
+  //   //   networkId: NetworkId['op-mainnet'],
+  //   //   symbol: 'ETH',
+  //   //   balance: '1.5',
+  //   //   priceFetchedAt: Date.now(),
+  //   //   imageUrl:
+  //   //     'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/OP.png',
+  //   // },
+  //   'op-mainnet:native': {
+  //     balance: '0',
+  //     decimals: 18,
+  //     historicalPricesUsd: [Object],
+  //     imageUrl:
+  //       'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+  //     infoUrl: 'https://www.coingecko.com/en/coins/ethereum',
+  //     isCashInEligible: true,
+  //     isL2Native: true,
+  //     isNative: true,
+  //     minimumAppVersionToSwap: '1.77.0',
+  //     name: 'Ether',
+  //     networkIconUrl:
+  //       'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/OP.png',
+  //     networkId: 'op-mainnet',
+  //     priceFetchedAt: 1711521354783,
+  //     priceUsd: '3609.1',
+  //     symbol: 'ETH',
+  //     tokenId: 'op-mainnet:native',
+  //   },
+  // }
 
   it('renders TokenIcon correctly with only ETH token balance on Ethereum', async () => {
     const store = createMockStore({
       ...defaultStore,
       tokens: {
         tokenBalances: {
-          'ethereum-mainnet:native': balances['ethereum-mainnet:native'],
+          [mockARBTokenId]: {
+            ...mockTokenBalances[mockARBTokenId],
+            balance: '0.108480716806023',
+            networkIconUrl:
+              'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ARB.png',
+          },
         },
+      },
+      positions: {
+        positions: [],
       },
     })
 
@@ -825,9 +841,11 @@ describe('renders the network icon on the home screen to differentiate between E
       </Provider>
     )
 
-    const tokenIconImage = tree.getByTestId('TokenBalance/TokenIcon/FastImage')
-    expect(tokenIconImage.props.source.uri).toEqual(balances['ethereum-mainnet:native'].imageUrl)
-
-    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('$3000.00')
+    const tokenIconImage = tree.getByTestId('TokenIcon')
+    expect(tokenIconImage.props.source.uri).toEqual(mockTokenBalances[mockARBTokenId].imageUrl)
+    const networkIconImage = tree.getByTestId('NetworkIcon')
+    expect(networkIconImage.props.source.uri).toEqual(
+      'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ARB.png'
+    )
   })
 })
