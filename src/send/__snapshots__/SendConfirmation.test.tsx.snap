@@ -375,7 +375,11 @@ exports[`SendConfirmation renders correctly 1`] = `
                   "fontSize": 16,
                   "lineHeight": 22,
                 },
-                undefined,
+                {
+                  "fontFamily": "Inter-Regular",
+                  "fontSize": 16,
+                  "lineHeight": 24,
+                },
               ]
             }
             testID="LineItemRowTitle/SendConfirmation/fee"
@@ -392,7 +396,11 @@ exports[`SendConfirmation renders correctly 1`] = `
                 "fontSize": 16,
                 "lineHeight": 22,
               },
-              undefined,
+              {
+                "fontFamily": "Inter-Regular",
+                "fontSize": 16,
+                "lineHeight": 24,
+              },
             ]
           }
           testID="LineItemRow/SendConfirmation/fee"
@@ -400,6 +408,75 @@ exports[`SendConfirmation renders correctly 1`] = `
           <Text>
             0.01
              CELO
+          </Text>
+        </Text>
+      </View>
+      <View
+        style={
+          [
+            {
+              "flexDirection": "row",
+              "flexWrap": "wrap",
+              "justifyContent": "space-between",
+              "marginVertical": 5,
+            },
+            {
+              "marginVertical": 0,
+            },
+          ]
+        }
+      >
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "marginRight": 5,
+            }
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "color": "#2E3338",
+                  "fontFamily": "Inter-Regular",
+                  "fontSize": 16,
+                  "lineHeight": 22,
+                },
+                {
+                  "color": "#666666",
+                  "fontFamily": "Inter-Regular",
+                  "fontSize": 14,
+                  "lineHeight": 18,
+                },
+              ]
+            }
+            testID="LineItemRowTitle/SendConfirmation/localFee"
+          />
+        </View>
+        <Text
+          style={
+            [
+              {
+                "color": "#2E3338",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 16,
+                "lineHeight": 22,
+              },
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": 18,
+              },
+            ]
+          }
+          testID="LineItemRow/SendConfirmation/localFee"
+        >
+          <Text>
+            ₱
+            0.067
           </Text>
         </Text>
       </View>
