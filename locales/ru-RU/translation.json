@@ -2222,6 +2222,10 @@
       "dismiss": "Отклонить"
     }
   },
+  "multiSelect": {
+    "switchNetwork": "Сеть коммутаторов",
+    "allNetworks": "Все сети"
+  },
   "points": {
     "title": "Очки Валора",
     "activity": "Деятельность",
