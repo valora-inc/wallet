@@ -149,38 +149,36 @@ function SendConfirmation(props: Props) {
   const FeeContainer = () => {
     return (
       <View style={styles.feeContainer}>
-        <>
-          <LineItemRow
-            testID="SendConfirmation/fee"
-            title={t('feeEstimate')}
-            amount={
-              maxFeeAmount && (
-                <TokenDisplay
-                  amount={maxFeeAmount}
-                  tokenId={feeTokenInfo?.tokenId}
-                  showLocalAmount={false}
-                />
-              )
-            }
-            isLoading={!maxFeeAmount}
-          />
-          <LineItemRow
-            testID="SendConfirmation/localFee"
-            title=""
-            textStyle={{ ...fontStyles.small }}
-            style={{ marginVertical: 0 }}
-            amount={
-              maxFeeAmount && (
-                <TokenDisplay
-                  amount={maxFeeAmount}
-                  tokenId={feeTokenInfo?.tokenId}
-                  showLocalAmount={true}
-                />
-              )
-            }
-            isLoading={!maxFeeAmount}
-          />
-        </>
+        <LineItemRow
+          testID="SendConfirmation/fee"
+          title={t('feeEstimate')}
+          textStyle={{ ...typeScale.bodyMedium }}
+          amount={
+            maxFeeAmount && (
+              <TokenDisplay
+                amount={maxFeeAmount}
+                tokenId={feeTokenInfo?.tokenId}
+                showLocalAmount={false}
+              />
+            )
+          }
+          isLoading={!maxFeeAmount}
+        />
+        <LineItemRow
+          testID="SendConfirmation/localFee"
+          title=""
+          style={styles.subHeading}
+          textStyle={styles.subHeadingText}
+          amount={
+            maxFeeAmount && (
+              <TokenDisplay
+                amount={maxFeeAmount}
+                tokenId={feeTokenInfo?.tokenId}
+                showLocalAmount={true}
+              />
+            )
+          }
+        />
         <TokenTotalLineItem
           tokenAmount={tokenAmount}
           tokenId={tokenId}
@@ -343,7 +341,6 @@ const styles = StyleSheet.create({
   feeContainer: {
     padding: 16,
     paddingBottom: 8,
-    gap: 8,
   },
   transferContainer: {
     alignItems: 'flex-start',
@@ -390,6 +387,13 @@ const styles = StyleSheet.create({
     ...fontStyles.regular,
     color: colors.infoDark,
     paddingRight: 8,
+  },
+  subHeading: {
+    marginVertical: 0,
+  },
+  subHeadingText: {
+    ...fontStyles.small,
+    color: colors.gray4,
   },
 })
 
