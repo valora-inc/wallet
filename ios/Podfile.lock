@@ -4,9 +4,9 @@ PODS:
     - JWTDecode (= 3.0.1)
     - React-Core
     - SimpleKeychain (= 1.0.1)
-  - Adjust (4.37.0):
-    - Adjust/Core (= 4.37.0)
-  - Adjust/Core (4.37.0)
+  - Adjust (4.37.2):
+    - Adjust/Core (= 4.37.2)
+  - Adjust/Core (4.37.2)
   - Auth0 (2.3.2):
     - JWTDecode (~> 3.0)
     - SimpleKeychain (~> 1.0)
@@ -499,8 +499,8 @@ PODS:
   - React-jsinspector (0.71.12)
   - React-logger (0.71.12):
     - glog
-  - react-native-adjust (4.37.1):
-    - Adjust (= 4.37.0)
+  - react-native-adjust (4.37.2):
+    - Adjust (= 4.37.2)
     - React-Core
   - react-native-camera (4.2.1):
     - React-Core
@@ -552,7 +552,7 @@ PODS:
   - react-native-video/Video (6.0.0-beta.6):
     - PromisesSwift
     - React-Core
-  - react-native-webview (13.8.1):
+  - react-native-webview (13.8.2):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - React-perflogger (0.71.12)
@@ -1114,7 +1114,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   A0Auth0: 5ae918d2f043395f83ac26d6eb85b249bcb54634
-  Adjust: 86a6935688251ca6cea371f9b284578ccf3d981b
+  Adjust: a830d963025334aee8a62a7bac87825e297a841e
   Auth0: 64da28fdc5cd499aa516dc4bfd0ace8efae2c1da
   boost: 7dcd2de282d72e344012f7d6564d024930a6a440
   BVLinearGradient: 880f91a7854faff2df62518f0281afb1c60d49a3
@@ -1178,7 +1178,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 509cd947c28834614808ce056ee8eb700a0662aa
   React-jsinspector: ec4dcbfb1f4e72f04f826a0301eceee5fa7ca540
   React-logger: 35538accacf2583693fbc3ee8b53e69a1776fcee
-  react-native-adjust: 0463129823eabe31ff28262295be713ba5f99d2c
+  react-native-adjust: 9a9d5b7fff8de8209d468ee4bd3fc1bc386d78cd
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
   react-native-compat: 4da17905c26471d956dae70f9912a60d7da7fad2
   react-native-config: 86038147314e2e6d10ea9972022aa171e6b1d4d8
@@ -1196,7 +1196,7 @@ SPEC CHECKSUMS:
   react-native-simple-toast: 8ee5d23f0b92b935ab7434cdb65159ce12dfb4b7
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-video: dc3118548cf8864a83f57df4345cf6c692402e8f
-  react-native-webview: bdc091de8cf7f8397653e30182efcd9f772e03b3
+  react-native-webview: 19aba9db98e183484969202c1181a00159b7724b
   React-perflogger: 75b0e25075c67565a830985f3c373e2eae5389e0
   React-RCTActionSheet: a0c3e916b327e297d124d9ebe8b0c721840ee04d
   React-RCTAnimation: 3da7025801d7bf0f8cfd94574d6278d5b82a8b88

@@ -2218,6 +2218,10 @@
       "dismiss": "Ignorar"
     }
   },
+  "multiSelect": {
+    "switchNetwork": "Red de conmutación",
+    "allNetworks": "Todas las redes"
+  },
   "points": {
     "title": "Puntos Valora",
     "activity": "Actividad",
