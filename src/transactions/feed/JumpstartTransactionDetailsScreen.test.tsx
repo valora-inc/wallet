@@ -172,7 +172,7 @@ describe('JumpstartTransactionDetailsScreen', () => {
       JumpstartEvents.jumpstart_reclaim_status_fetching_error,
       {
         networkId: NetworkId['celo-alfajores'],
-        transactionHash: '0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b',
+        depositTxHash: '0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b',
       }
     )
 
@@ -209,7 +209,7 @@ describe('JumpstartTransactionDetailsScreen', () => {
       {
         claimed: false,
         networkId: NetworkId['celo-alfajores'],
-        transactionHash: '0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b',
+        depositTxHash: '0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b',
       }
     )
 
@@ -241,7 +241,7 @@ describe('JumpstartTransactionDetailsScreen', () => {
       {
         claimed: true,
         networkId: NetworkId['celo-alfajores'],
-        transactionHash: '0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b',
+        depositTxHash: '0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b',
       }
     )
 
