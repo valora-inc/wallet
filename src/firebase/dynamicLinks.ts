@@ -26,8 +26,20 @@ export async function createInviteLink(address: string) {
 }
 
 export async function createJumpstartLink(privateKey: string, networkId: NetworkId) {
-  return dynamicLinks().buildLink({
+  // avoid calling firebase sdk with private key during link creation to protect
+  // the private key from being stored
+  const dynamicLink = await dynamicLinks().buildLink({
     ...commonDynamicLinkParams,
-    link: `${WEB_LINK}jumpstart/${privateKey}/${networkId}`,
+    link: WEB_LINK,
   })
+  const dynamicUrl = new URL(dynamicLink)
+  dynamicUrl.searchParams.set('link', `${WEB_LINK}jumpstart/${privateKey}/${networkId}`)
+
+  // the firebase dynamic links sdk encodes dots and dashes even though it is
+  // not strictly required for urls. calling searchParams.set seems to transform
+  // __all__ search params to be url encoded, where dots and dashes are no
+  // longer encoded. This is probably okay, but to be extra safe we will put
+  // back the encoding ourselves.
+  const searchParams = dynamicUrl.search.replace(/\./g, '%2E').replace(/-/g, '%2D')
+  return `${dynamicUrl.origin}/${searchParams}`
 }
