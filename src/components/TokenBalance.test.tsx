@@ -752,7 +752,6 @@ describe('renders the network icon on the home screen to differentiate between E
     const tokenIconImage = tree.getByTestId('TokenIcon')
     expect(tokenIconImage.props.source.uri).toEqual(mockTokenBalances[mockEthTokenId].imageUrl)
     const networkIcon = tree.queryByTestId('NetworkIcon')
-    console.log('NETWORK ICON!', networkIcon)
     expect(networkIcon).toBeNull()
   })
 
