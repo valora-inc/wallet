@@ -102,11 +102,8 @@ function TokenBalance({
     tokensWithUsdValue.length === 1 &&
     !totalPositionsBalanceLocal?.isGreaterThan(0)
   ) {
-    console.log('THIS IS FIRING')
-    console.log(tokensWithUsdValue[0])
-    // so the next thing to do is to see if we want to display the logo as it is in the other repo or
-    // if we actually want to do the overlay that I was expecting to do that is contained on the assets page
     const tokenBalance = tokensWithUsdValue[0].balance
+    console.log('TOKENS HERE!', tokensWithUsdValue)
     return (
       <View style={styles.oneBalance}>
         <TokenIcon

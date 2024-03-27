@@ -708,112 +708,126 @@ describe.each([
   })
 })
 
-describe('Token differentiation for ETH and Layer 2 ETHs', () => {
-  const ethToken = {
-    priceUsd: '3000',
-    tokenId: 'ethereum:0xETH',
-    address: '0xETH',
-    networkId: NetworkId['ethereum-mainnet'],
-    symbol: 'ETH',
-    balance: '1',
-    priceFetchedAt: Date.now(),
-    networkIconUrl: 'https://example.com/eth_icon.png',
-  }
-
-  const arbitrumEthToken = {
-    priceUsd: '2000',
-    tokenId: 'arbitrum-one:0xETH',
-    address: '0xETH',
-    networkId: NetworkId['arbitrum-one'],
-    symbol: 'aETH',
-    balance: '1',
-    priceFetchedAt: Date.now(),
-    networkIconUrl: 'https://example.com/arbitrum_icon.png',
-  }
-
-  const optimismEthToken = {
-    priceUsd: '2950',
-    tokenId: 'optimism:0xETH',
-    address: '0xETH',
-    networkId: NetworkId['op-mainnet'],
-    symbol: 'oETH',
-    balance: '1',
-    priceFetchedAt: Date.now(),
-    networkIconUrl: 'https://example.com/optimism_icon.png',
-  }
-
-  it('renders correctly with only ETH token balance', async () => {
-    const store = createMockStore({
-      ...defaultStore,
-      tokens: {
-        tokenBalances: {
-          'ethereum:0xETH': ethToken,
-        },
-      },
-      positions: {
-        positions: [],
-      },
-    })
-
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <HomeTokenBalance />
-      </Provider>
-    )
-
-    expect(getByTestId('TokenIcon')).toHaveProp('source', {
-      uri: ethToken.networkIconUrl,
-    })
-    expect(getElementText(getByTestId('TotalTokenBalance'))).toEqual('$3000.00')
+describe('renders the network icon on the home screen to differentiate between ETH on Ethereum, Arbitrum, and Optimism', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+    jest.mocked(getFeatureGate).mockReturnValue(true)
   })
 
-  it('renders correctly with only Arbitrum ETH token balance', async () => {
+  const balances = {
+    // 'ethereum-mainnet:native': {
+    //   priceUsd: '3000',
+    //   tokenId: 'ethereum-mainnet:native',
+    //   address: null,
+    //   networkId: NetworkId['ethereum-mainnet'],
+    //   symbol: 'ETH',
+    //   balance: '1',
+    //   priceFetchedAt: Date.now(),
+    //   imageUrl:
+    //     'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+    // },
+    'ethereum-mainnet:native': {
+      balance: '0.108480716806023',
+      decimals: 18,
+      // historicalPricesUsd: [Object],
+      imageUrl:
+        'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+      infoUrl: 'https://www.coingecko.com/en/coins/ethereum',
+      isCashInEligible: true,
+      isCashOutEligible: true,
+      isNative: true,
+      minimumAppVersionToSwap: '1.72.0',
+      name: 'Ether',
+      networkId: 'ethereum-mainnet',
+      priceFetchedAt: 1711521354783,
+      priceUsd: '3609.1',
+      showZeroBalance: true,
+      symbol: 'ETH',
+      tokenId: 'ethereum-mainnet:native',
+    },
+    // 'arbitrum-one:native': {
+    //   priceUsd: '2900',
+    //   tokenId: 'arbitrum-one:native',
+    //   address: null,
+    //   networkId: NetworkId['arbitrum-one'],
+    //   symbol: 'ETH',
+    //   balance: '2',
+    //   priceFetchedAt: Date.now(),
+    //   imageUrl:
+    //     'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ARB.png',
+    // },
+    'arbitrum-one:native': {
+      balance: '0',
+      decimals: 18,
+      historicalPricesUsd: [Object],
+      imageUrl:
+        'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+      infoUrl: 'https://www.coingecko.com/en/coins/ethereum',
+      isCashInEligible: true,
+      isL2Native: true,
+      isNative: true,
+      minimumAppVersionToSwap: '1.77.0',
+      name: 'Ether',
+      networkIconUrl:
+        'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ARB.png',
+      networkId: 'arbitrum-one',
+      priceFetchedAt: 1711521354783,
+      priceUsd: '3609.1',
+      symbol: 'ETH',
+      tokenId: 'arbitrum-one:native',
+    },
+    // 'op-mainnet:native': {
+    //   priceUsd: '2950',
+    //   tokenId: 'op-mainnet:native',
+    //   address: null,
+    //   networkId: NetworkId['op-mainnet'],
+    //   symbol: 'ETH',
+    //   balance: '1.5',
+    //   priceFetchedAt: Date.now(),
+    //   imageUrl:
+    //     'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/OP.png',
+    // },
+    'op-mainnet:native': {
+      balance: '0',
+      decimals: 18,
+      historicalPricesUsd: [Object],
+      imageUrl:
+        'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+      infoUrl: 'https://www.coingecko.com/en/coins/ethereum',
+      isCashInEligible: true,
+      isL2Native: true,
+      isNative: true,
+      minimumAppVersionToSwap: '1.77.0',
+      name: 'Ether',
+      networkIconUrl:
+        'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/OP.png',
+      networkId: 'op-mainnet',
+      priceFetchedAt: 1711521354783,
+      priceUsd: '3609.1',
+      symbol: 'ETH',
+      tokenId: 'op-mainnet:native',
+    },
+  }
+
+  it('renders TokenIcon correctly with only ETH token balance on Ethereum', async () => {
     const store = createMockStore({
       ...defaultStore,
       tokens: {
         tokenBalances: {
-          'arbitrum-one:0xETH': arbitrumEthToken,
+          'ethereum-mainnet:native': balances['ethereum-mainnet:native'],
         },
-      },
-      positions: {
-        positions: [],
       },
     })
 
-    const { getByTestId } = render(
+    const tree = render(
       <Provider store={store}>
         <HomeTokenBalance />
       </Provider>
     )
 
-    expect(getByTestId('TokenIcon')).toHaveProp('source', {
-      uri: arbitrumEthToken.networkIconUrl,
-    })
-    expect(getElementText(getByTestId('TotalTokenBalance'))).toEqual('$2000.00')
-  })
+    const tokenIconImage = tree.getByTestId('TokenBalance/TokenIcon/FastImage')
+    expect(tokenIconImage.props.source.uri).toEqual(balances['ethereum-mainnet:native'].imageUrl)
 
-  it('renders correctly with only Optimism ETH token balance', async () => {
-    const store = createMockStore({
-      ...defaultStore,
-      tokens: {
-        tokenBalances: {
-          'optimism:0xETH': optimismEthToken,
-        },
-      },
-      positions: {
-        positions: [],
-      },
-    })
-
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <HomeTokenBalance />
-      </Provider>
-    )
-
-    expect(getByTestId('TokenIcon')).toHaveProp('source', {
-      uri: optimismEthToken.networkIconUrl,
-    })
-    expect(getElementText(getByTestId('TotalTokenBalance'))).toEqual('$2950.00')
+    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('$3000.00')
   })
 })
