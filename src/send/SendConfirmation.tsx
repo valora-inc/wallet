@@ -149,21 +149,38 @@ function SendConfirmation(props: Props) {
   const FeeContainer = () => {
     return (
       <View style={styles.feeContainer}>
-        <LineItemRow
-          testID="SendConfirmation/fee"
-          title={t('feeEstimate')}
-          amount={
-            maxFeeAmount && (
-              <TokenDisplay
-                amount={maxFeeAmount}
-                tokenId={feeTokenInfo?.tokenId}
-                showLocalAmount={false}
-              />
-            )
-          }
-          isLoading={!maxFeeAmount}
-        />
-
+        <>
+          <LineItemRow
+            testID="SendConfirmation/fee"
+            title={t('feeEstimate')}
+            amount={
+              maxFeeAmount && (
+                <TokenDisplay
+                  amount={maxFeeAmount}
+                  tokenId={feeTokenInfo?.tokenId}
+                  showLocalAmount={false}
+                />
+              )
+            }
+            isLoading={!maxFeeAmount}
+          />
+          <LineItemRow
+            testID="SendConfirmation/localFee"
+            title=""
+            textStyle={{ ...fontStyles.small }}
+            style={{ marginVertical: 0 }}
+            amount={
+              maxFeeAmount && (
+                <TokenDisplay
+                  amount={maxFeeAmount}
+                  tokenId={feeTokenInfo?.tokenId}
+                  showLocalAmount={true}
+                />
+              )
+            }
+            isLoading={!maxFeeAmount}
+          />
+        </>
         <TokenTotalLineItem
           tokenAmount={tokenAmount}
           tokenId={tokenId}
@@ -326,6 +343,7 @@ const styles = StyleSheet.create({
   feeContainer: {
     padding: 16,
     paddingBottom: 8,
+    gap: 8,
   },
   transferContainer: {
     alignItems: 'flex-start',
