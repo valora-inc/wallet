@@ -2218,6 +2218,38 @@
       "dismiss": "Ignorar"
     }
   },
+  "multiSelect": {
+    "switchNetwork": "Rede de comutação",
+    "allNetworks": "Todas as redes"
+  },
+  "points": {
+    "title": "Pontos Valora",
+    "activity": "Atividades",
+    "infoCard": {
+      "title": "Em breve, você terá mais maneiras de ganhar pontos 🚀.",
+      "body": "Estamos trabalhando para adicionar mais maneiras de você ganhar pontos usando o aplicativo. Continue checando para ver as atualizações."
+    },
+    "activitySection": {
+      "title": "Como faço para ganhar pontos?",
+      "body": "É fácil! Você ganha pontos simplesmente usando o aplicativo."
+    },
+    "activityCards": {
+      "createWallet": {
+        "title": "Criar uma carteira {{appName}}"
+      },
+      "swap": {
+        "title": "Ativos de swap",
+        "bottomSheet": {
+          "title": "Ativos de swap",
+          "body": "Este espaço será usado para que você forneça todos os detalhes necessários para isso. Talvez o valor mínimo para você trocar. \n\nGanhe {{pointsValue}} pontos sempre que você trocar um ativo usando {{appName}}.",
+          "cta": "Ir para a troca"
+        }
+      },
+      "moreComing": {
+        "title": "Em breve, você receberá mais informações!"
+      }
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

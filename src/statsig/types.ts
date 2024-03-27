@@ -7,6 +7,7 @@ export enum StatsigDynamicConfigs {
   CICO_TOKEN_INFO = 'cico_token_info',
   WALLET_JUMPSTART_CONFIG = 'wallet_jumpstart_config',
   NFT_CELEBRATION_CONFIG = 'nft_celebration_config',
+  POINTS_CONFIG = 'points_config',
 }
 
 export enum StatsigFeatureGates {
@@ -30,6 +31,7 @@ export enum StatsigFeatureGates {
   SHOW_NFT_REWARD = 'show_nft_reward',
   SHOW_JUMPSTART_SEND = 'show_jumpstart_send',
   USE_TAB_NAVIGATOR = 'use_tab_navigator',
+  SHOW_POINTS = 'show_points',
 }
 
 export enum StatsigExperiments {
