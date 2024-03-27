@@ -358,7 +358,7 @@ function TokenBottomSheet<T extends TokenBalance>({
             ValoraAnalytics.track(TokenBottomSheetEvents.network_filter_updated, {
               selectedNetworkIds: networkChip.selectedNetworkIds,
             })
-            networkChipRef.current?.close
+            networkChipRef.current?.close()
           }}
           allOrOne={true}
         />
