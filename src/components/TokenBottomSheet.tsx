@@ -49,7 +49,7 @@ export interface TokenBottomSheetProps<T extends TokenBalance> {
   TokenOptionComponent?: React.ComponentType<TokenOptionProps>
   showPriceUsdUnavailableWarning?: boolean
   areSwapTokensShuffled?: boolean
-  filterChips: FilterChip<TokenBalance>[]
+  filterChips?: FilterChip<TokenBalance>[]
 }
 
 interface TokenOptionProps {
@@ -172,6 +172,10 @@ function TokenBottomSheet<T extends TokenBalance>({
     [filters]
   )
 
+  // These function params mimic the params of the setSelectedNetworkIds function in
+  // const [selectedNetworkIds, setSelectedNetworkIds] = useState<NetworkId[]>([])
+  // This custom function is used to keep the same shared state between the network filter and the other filters
+  // which made the rest of the code more readable and maintainable
   const setSelectedNetworkIds = (arg: NetworkId[] | ((networkIds: NetworkId[]) => NetworkId[])) => {
     setFilters((prev) => {
       return prev.map((chip) => {

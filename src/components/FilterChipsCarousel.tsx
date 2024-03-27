@@ -13,7 +13,7 @@ interface BaseFilterChip {
   name: string
   isSelected: boolean
 }
-interface BooleanFilterChip<T> extends BaseFilterChip {
+export interface BooleanFilterChip<T> extends BaseFilterChip {
   filterFn: (t: T) => boolean
 }
 
