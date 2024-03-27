@@ -103,7 +103,6 @@ function TokenBalance({
     !totalPositionsBalanceLocal?.isGreaterThan(0)
   ) {
     const tokenBalance = tokensWithUsdValue[0].balance
-    console.log('TOKENS HERE!', tokensWithUsdValue)
     return (
       <View style={styles.oneBalance}>
         <TokenIcon
