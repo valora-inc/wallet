@@ -7,6 +7,7 @@ export interface JumpstarReclaimAction {
   reclaimTx: SerializableTransactionRequest
   networkId: NetworkId
   tokenAmount: TokenAmount
+  depositTxHash: string
 }
 export interface JumpstartTransactionStartedAction {
   serializablePreparedTransactions: SerializableTransactionRequest[]

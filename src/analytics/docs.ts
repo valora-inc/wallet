@@ -342,9 +342,9 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
     'When user taps on "Confirm" button on the Jumpstart screen',
   [JumpstartEvents.jumpstart_reclaim_failed]: 'When the reclaim transaction fails',
   [JumpstartEvents.jumpstart_reclaim_succeeded]: 'When the reclaim transaction succeeds',
-  [JumpstartEvents.jumpstart_reclaim_fetching_success]:
+  [JumpstartEvents.jumpstart_reclaim_status_fetching_success]:
     'When fetching the claim status is successful',
-  [JumpstartEvents.jumpstart_reclaim_fetching_error]: 'When fetching the claim status fails',
+  [JumpstartEvents.jumpstart_reclaim_status_fetching_error]: 'When fetching the claim status fails',
   [JumpstartEvents.jumpstart_reclaim_dismiss_error]: 'When user dismisses the reclaim error toast',
   // Events for the QR screen redesign
   [QrScreenEvents.qr_screen_copy_address]: ``,

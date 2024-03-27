@@ -455,6 +455,9 @@ describe('sendJumpstartTransactions', () => {
   })
 
   it('should send the reclaim transaction and dispatch the success action', async () => {
+    const networkId = NetworkId['celo-alfajores']
+    const depositTxHash = '0xaaa'
+
     await expectSaga(jumpstartReclaim, {
       type: jumpstartReclaimStarted.type,
       payload: {
@@ -463,8 +466,9 @@ describe('sendJumpstartTransactions', () => {
           tokenAddress: '0x123',
           tokenId: 'celo-alfajores:0x123',
         },
-        networkId: NetworkId['celo-alfajores'],
+        networkId,
         reclaimTx: serializablePreparedTransactions[0],
+        depositTxHash,
       },
     })
       .withState(createMockStore().getState())
@@ -472,10 +476,19 @@ describe('sendJumpstartTransactions', () => {
       .put(jumpstartReclaimSucceeded())
       .run()
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_reclaim_succeeded)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      JumpstartEvents.jumpstart_reclaim_succeeded,
+      {
+        networkId,
+        depositTxHash,
+        reclaimTxHash: '0x1',
+      }
+    )
   })
 
   it('should fail when sending the reclaim transaction and dispatch the error action', async () => {
+    const networkId = NetworkId['celo-alfajores']
+    const depositTxHash = '0xaaa'
     jest.mocked(sendPreparedTransactions).mockImplementation(() => {
       throw new Error('test error')
     })
@@ -488,14 +501,18 @@ describe('sendJumpstartTransactions', () => {
           tokenAddress: '0x123',
           tokenId: 'celo-alfajores:0x123',
         },
-        networkId: NetworkId['celo-alfajores'],
+        networkId,
         reclaimTx: serializablePreparedTransactions[0],
+        depositTxHash,
       },
     })
       .withState(createMockStore().getState())
       .put(jumpstartReclaimFailed())
       .run()
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_reclaim_failed)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_reclaim_failed, {
+      networkId,
+      depositTxHash,
+    })
   })
 })

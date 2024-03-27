@@ -1553,22 +1553,29 @@ interface JumpstartEventsProperties {
   [JumpstartEvents.jumpstart_claim_loading_dismissed]: undefined
   [JumpstartEvents.jumpstart_claim_error_dismissed]: undefined
   [JumpstartEvents.jumpstart_claim_error_contact_support]: undefined
-  [JumpstartEvents.jumpstart_reclaim_press]: { networkId: NetworkId; transactionHash: string }
-  [JumpstartEvents.jumpstart_reclaim_start]: { networkId: NetworkId; transactionHash: string }
-  [JumpstartEvents.jumpstart_reclaim_failed]: undefined
-  [JumpstartEvents.jumpstart_reclaim_succeeded]: undefined
+  [JumpstartEvents.jumpstart_reclaim_press]: { networkId: NetworkId; depositTxHash: string }
+  [JumpstartEvents.jumpstart_reclaim_start]: { networkId: NetworkId; depositTxHash: string }
+  [JumpstartEvents.jumpstart_reclaim_failed]: {
+    networkId: NetworkId
+    depositTxHash: string
+  }
+  [JumpstartEvents.jumpstart_reclaim_succeeded]: {
+    networkId: NetworkId
+    depositTxHash: string
+    reclaimTxHash: string
+  }
   [JumpstartEvents.jumpstart_reclaim_dismiss_error]: {
     networkId: NetworkId
-    transactionHash: string
+    depositTxHash: string
   }
-  [JumpstartEvents.jumpstart_reclaim_fetching_success]: {
+  [JumpstartEvents.jumpstart_reclaim_status_fetching_success]: {
     networkId: NetworkId
-    transactionHash: string
+    depositTxHash: string
     claimed?: boolean
   }
-  [JumpstartEvents.jumpstart_reclaim_fetching_error]: {
+  [JumpstartEvents.jumpstart_reclaim_status_fetching_error]: {
     networkId: NetworkId
-    transactionHash: string
+    depositTxHash: string
   }
 }
 

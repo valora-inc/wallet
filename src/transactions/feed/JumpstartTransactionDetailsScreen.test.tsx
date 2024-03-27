@@ -169,7 +169,7 @@ describe('JumpstartTransactionDetailsScreen', () => {
     })
 
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      JumpstartEvents.jumpstart_reclaim_fetching_error,
+      JumpstartEvents.jumpstart_reclaim_status_fetching_error,
       {
         networkId: NetworkId['celo-alfajores'],
         transactionHash: '0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b',
@@ -205,7 +205,7 @@ describe('JumpstartTransactionDetailsScreen', () => {
     })
 
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      JumpstartEvents.jumpstart_reclaim_fetching_success,
+      JumpstartEvents.jumpstart_reclaim_status_fetching_success,
       {
         claimed: false,
         networkId: NetworkId['celo-alfajores'],
@@ -237,7 +237,7 @@ describe('JumpstartTransactionDetailsScreen', () => {
     })
 
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      JumpstartEvents.jumpstart_reclaim_fetching_success,
+      JumpstartEvents.jumpstart_reclaim_status_fetching_success,
       {
         claimed: true,
         networkId: NetworkId['celo-alfajores'],

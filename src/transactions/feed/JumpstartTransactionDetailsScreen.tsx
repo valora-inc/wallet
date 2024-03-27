@@ -131,16 +131,16 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
     [],
     {
       onSuccess: (result) => {
-        ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_fetching_success, {
+        ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_status_fetching_success, {
           networkId,
-          transactionHash: transaction.transactionHash,
+          depositTxHash: transaction.transactionHash,
           claimed: result?.claimed,
         })
       },
       onError: (error) => {
-        ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_fetching_error, {
+        ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_status_fetching_error, {
           networkId,
-          transactionHash: transaction.transactionHash,
+          depositTxHash: transaction.transactionHash,
         })
         setError(new Error('Failed to fetch escrow data'))
         Logger.error(TAG, 'Failed to fetch escrow data', error)
@@ -154,7 +154,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
     setError(null)
     ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_dismiss_error, {
       networkId,
-      transactionHash: transaction.transactionHash,
+      depositTxHash: transaction.transactionHash,
     })
   }
 
@@ -163,7 +163,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
   const onReclaimPress = () => {
     ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_press, {
       networkId,
-      transactionHash: transaction.transactionHash,
+      depositTxHash: transaction.transactionHash,
     })
     bottomSheetRef.current?.snapToIndex(0)
   }
@@ -175,9 +175,16 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
     }
     ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_start, {
       networkId,
-      transactionHash: transaction.transactionHash,
+      depositTxHash: transaction.transactionHash,
     })
-    dispatch(jumpstartReclaimStarted({ reclaimTx, networkId, tokenAmount }))
+    dispatch(
+      jumpstartReclaimStarted({
+        reclaimTx,
+        networkId,
+        tokenAmount,
+        depositTxHash: transaction.transactionHash,
+      })
+    )
   }
 
   const transactionString = useMemo(() => (reclaimTx ? JSON.stringify(reclaimTx) : ''), [reclaimTx])

@@ -349,9 +349,8 @@ export function* sendJumpstartTransactions(
 }
 
 export function* jumpstartReclaim(action: PayloadAction<JumpstarReclaimAction>) {
+  const { reclaimTx, networkId, tokenAmount, depositTxHash } = action.payload
   try {
-    const { reclaimTx, networkId, tokenAmount } = action.payload
-
     const createStandbyReclaimTransaction = (
       transactionHash: string,
       _feeCurrencyId?: string
@@ -374,12 +373,18 @@ export function* jumpstartReclaim(action: PayloadAction<JumpstarReclaimAction>) 
 
     Logger.debug(TAG, 'Executing reclaim transaction', reclaimTx)
 
-    yield* call(sendPreparedTransactions, [reclaimTx], networkId, [createStandbyReclaimTransaction])
+    const txHashes = yield* call(sendPreparedTransactions, [reclaimTx], networkId, [
+      createStandbyReclaimTransaction,
+    ])
     yield* put(jumpstartReclaimSucceeded())
-    ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_succeeded)
+    ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_succeeded, {
+      networkId,
+      depositTxHash,
+      reclaimTxHash: txHashes[0],
+    })
   } catch (err) {
     Logger.warn(TAG, 'Error reclaiming jumpstart transaction', err)
-    ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_failed)
+    ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_failed, { networkId, depositTxHash })
     yield* put(jumpstartReclaimFailed())
   }
 }
