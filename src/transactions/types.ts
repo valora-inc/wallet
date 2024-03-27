@@ -7,7 +7,7 @@ export enum Network {
   Ethereum = 'ethereum',
   Arbitrum = 'arbitrum',
   Optimism = 'optimism',
-  Polygon = 'polygon',
+  PolygonPoS = 'polygon-pos',
   Base = 'base',
 }
 
@@ -20,8 +20,8 @@ export enum NetworkId {
   'arbitrum-sepolia' = 'arbitrum-sepolia',
   'op-mainnet' = 'op-mainnet',
   'op-sepolia' = 'op-sepolia',
-  'polygon-mainnet' = 'polygon-mainnet',
-  'polygon-mumbai' = 'polygon-mumbai',
+  'polygon-pos-mainnet' = 'polygon-pos-mainnet',
+  'polygon-pos-mumbai' = 'polygon-pos-mumbai',
   'base-mainnet' = 'base-mainnet',
   'base-sepolia' = 'base-sepolia',
 }

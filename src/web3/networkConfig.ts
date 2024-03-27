@@ -96,8 +96,8 @@ const ALCHEMY_ARBITRUM_RPC_URL_MAINNET = 'https://arb-mainnet.g.alchemy.com/v2/'
 const ALCHEMY_OPTIMISM_RPC_URL_STAGING = 'https://opt-sepolia.g.alchemy.com/v2/'
 const ALCHEMY_OPTIMISM_RPC_URL_MAINNET = 'https://opt-mainnet.g.alchemy.com/v2/'
 
-const ALCHEMY_POLYGON_RPC_URL_STAGING = 'https://polygon-mumbai.g.alchemy.com/v2/'
-const ALCHEMY_POLYGON_RPC_URL_MAINNET = 'https://polygon-mainnet.g.alchemy.com/v2/'
+const ALCHEMY_POLYGON_POS_RPC_URL_STAGING = 'https://polygon-mumbai.g.alchemy.com/v2/'
+const ALCHEMY_POLYGON_POS_RPC_URL_MAINNET = 'https://polygon-mainnet.g.alchemy.com/v2/'
 
 const ALCHEMY_BASE_RPC_URL_STAGING = 'https://base-sepolia.g.alchemy.com/v2/'
 const ALCHEMY_BASE_RPC_URL_MAINNET = 'https://base-mainnet.g.alchemy.com/v2/'
@@ -254,7 +254,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
       [Network.Ethereum]: NetworkId['ethereum-sepolia'],
       [Network.Arbitrum]: NetworkId['arbitrum-sepolia'],
       [Network.Optimism]: NetworkId['op-sepolia'],
-      [Network.Polygon]: NetworkId['polygon-mumbai'],
+      [Network.PolygonPoS]: NetworkId['polygon-pos-mumbai'],
       [Network.Base]: NetworkId['base-sepolia'],
     },
     defaultNetworkId: NetworkId['celo-alfajores'],
@@ -309,7 +309,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
       [Network.Ethereum]: ethereumSepolia,
       [Network.Arbitrum]: arbitrumSepolia,
       [Network.Optimism]: optimismSepolia,
-      [Network.Polygon]: polygonMumbai,
+      [Network.PolygonPoS]: polygonMumbai,
       [Network.Base]: baseSepolia,
     },
     currencyToTokenId: {
@@ -326,7 +326,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
       [Network.Ethereum]: ALCHEMY_ETHEREUM_RPC_URL_STAGING,
       [Network.Arbitrum]: ALCHEMY_ARBITRUM_RPC_URL_STAGING,
       [Network.Optimism]: ALCHEMY_OPTIMISM_RPC_URL_STAGING,
-      [Network.Polygon]: ALCHEMY_POLYGON_RPC_URL_STAGING,
+      [Network.PolygonPoS]: ALCHEMY_POLYGON_POS_RPC_URL_STAGING,
       [Network.Base]: ALCHEMY_BASE_RPC_URL_STAGING,
     },
     cusdTokenId: CUSD_TOKEN_ID_STAGING,
@@ -343,7 +343,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
       [Network.Ethereum]: NetworkId['ethereum-mainnet'],
       [Network.Arbitrum]: NetworkId['arbitrum-one'],
       [Network.Optimism]: NetworkId['op-mainnet'],
-      [Network.Polygon]: NetworkId['polygon-mainnet'],
+      [Network.PolygonPoS]: NetworkId['polygon-pos-mainnet'],
       [Network.Base]: NetworkId['base-mainnet'],
     },
     defaultNetworkId: NetworkId['celo-mainnet'],
@@ -397,7 +397,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
       [Network.Ethereum]: ethereum,
       [Network.Arbitrum]: arbitrum,
       [Network.Optimism]: optimism,
-      [Network.Polygon]: polygon,
+      [Network.PolygonPoS]: polygon,
       [Network.Base]: base,
     },
     currencyToTokenId: {
@@ -414,7 +414,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
       [Network.Ethereum]: ALCHEMY_ETHEREUM_RPC_URL_MAINNET,
       [Network.Arbitrum]: ALCHEMY_ARBITRUM_RPC_URL_MAINNET,
       [Network.Optimism]: ALCHEMY_OPTIMISM_RPC_URL_MAINNET,
-      [Network.Polygon]: ALCHEMY_POLYGON_RPC_URL_MAINNET,
+      [Network.PolygonPoS]: ALCHEMY_POLYGON_POS_RPC_URL_MAINNET,
       [Network.Base]: ALCHEMY_BASE_RPC_URL_MAINNET,
     },
     cusdTokenId: CUSD_TOKEN_ID_MAINNET,
@@ -438,8 +438,8 @@ const ARBISCAN_BASE_URL_SEPOLIA = 'https://sepolia.arbiscan.io'
 const OP_MAINNET_EXPLORER_BASE_URL = 'https://optimistic.etherscan.io/'
 const OP_SEPOLIA_EXPLORER_BASE_URL = 'https://sepolia-optimism.etherscan.io/'
 
-const POLYGON_BASE_URL_MUMBAI = 'https://mumbai.polygonscan.com/'
-const POLYGON_BASE_URL_MAINNET = 'https://polygonscan.com/'
+const POLYGON_POS_BASE_URL_MUMBAI = 'https://mumbai.polygonscan.com/'
+const POLYGON_POS_BASE_URL_MAINNET = 'https://polygonscan.com/'
 
 const BASE_BASE_URL_SEPOLIA = 'https://sepolia.basescan.org/'
 const BASE_BASE_URL_MAINNET = 'https://basescan.org/'
@@ -493,17 +493,17 @@ export const blockExplorerUrls: BlockExplorerUrls = {
     baseTokenUrl: `${OP_SEPOLIA_EXPLORER_BASE_URL}/token/`,
     baseNftUrl: `${OP_SEPOLIA_EXPLORER_BASE_URL}/token/`,
   },
-  [NetworkId['polygon-mainnet']]: {
-    baseTxUrl: `${POLYGON_BASE_URL_MAINNET}/tx/`,
-    baseAddressUrl: `${POLYGON_BASE_URL_MAINNET}/address/`,
-    baseTokenUrl: `${POLYGON_BASE_URL_MAINNET}/token/`,
-    baseNftUrl: `${POLYGON_BASE_URL_MAINNET}/token/`,
+  [NetworkId['polygon-pos-mainnet']]: {
+    baseTxUrl: `${POLYGON_POS_BASE_URL_MAINNET}/tx/`,
+    baseAddressUrl: `${POLYGON_POS_BASE_URL_MAINNET}/address/`,
+    baseTokenUrl: `${POLYGON_POS_BASE_URL_MAINNET}/token/`,
+    baseNftUrl: `${POLYGON_POS_BASE_URL_MAINNET}/token/`,
   },
-  [NetworkId['polygon-mumbai']]: {
-    baseTxUrl: `${POLYGON_BASE_URL_MUMBAI}/tx/`,
-    baseAddressUrl: `${POLYGON_BASE_URL_MUMBAI}/address/`,
-    baseTokenUrl: `${POLYGON_BASE_URL_MUMBAI}/token/`,
-    baseNftUrl: `${POLYGON_BASE_URL_MUMBAI}/token/`,
+  [NetworkId['polygon-pos-mumbai']]: {
+    baseTxUrl: `${POLYGON_POS_BASE_URL_MUMBAI}/tx/`,
+    baseAddressUrl: `${POLYGON_POS_BASE_URL_MUMBAI}/address/`,
+    baseTokenUrl: `${POLYGON_POS_BASE_URL_MUMBAI}/token/`,
+    baseNftUrl: `${POLYGON_POS_BASE_URL_MUMBAI}/token/`,
   },
   [NetworkId['base-mainnet']]: {
     baseTxUrl: `${BASE_BASE_URL_MAINNET}/tx/`,
@@ -528,8 +528,8 @@ export const networkIdToNetwork: NetworkIdToNetwork = {
   [NetworkId['arbitrum-sepolia']]: Network.Arbitrum,
   [NetworkId['op-mainnet']]: Network.Optimism,
   [NetworkId['op-sepolia']]: Network.Optimism,
-  [NetworkId['polygon-mainnet']]: Network.Polygon,
-  [NetworkId['polygon-mumbai']]: Network.Polygon,
+  [NetworkId['polygon-pos-mainnet']]: Network.PolygonPoS,
+  [NetworkId['polygon-pos-mumbai']]: Network.PolygonPoS,
   [NetworkId['base-mainnet']]: Network.Base,
   [NetworkId['base-sepolia']]: Network.Base,
 }
@@ -543,8 +543,8 @@ export const networkIdToWalletConnectChainId: Record<NetworkId, string> = {
   [NetworkId['arbitrum-sepolia']]: 'eip155:421614',
   [NetworkId['op-mainnet']]: 'eip155:10',
   [NetworkId['op-sepolia']]: 'eip155:11155420',
-  [NetworkId['polygon-mainnet']]: 'eip155:137',
-  [NetworkId['polygon-mumbai']]: 'eip155:80001',
+  [NetworkId['polygon-pos-mainnet']]: 'eip155:137',
+  [NetworkId['polygon-pos-mumbai']]: 'eip155:80001',
   [NetworkId['base-mainnet']]: 'eip155:8453',
   [NetworkId['base-sepolia']]: 'eip155:84531',
 }

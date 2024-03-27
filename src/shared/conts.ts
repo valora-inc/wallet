@@ -9,8 +9,8 @@ export const NETWORK_NAMES: Record<NetworkId, string> = {
   [NetworkId['arbitrum-sepolia']]: 'Arbitrum Sepolia',
   [NetworkId['op-mainnet']]: 'Optimism',
   [NetworkId['op-sepolia']]: 'Optimism Sepolia',
-  [NetworkId['polygon-mainnet']]: 'Polygon',
-  [NetworkId['polygon-mumbai']]: 'Polygon Mumbai',
+  [NetworkId['polygon-pos-mainnet']]: 'PolygonPoS',
+  [NetworkId['polygon-pos-mumbai']]: 'PolygonPoS Mumbai',
   [NetworkId['base-mainnet']]: 'Base',
   [NetworkId['base-sepolia']]: 'Base Sepolia',
 }

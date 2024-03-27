@@ -122,10 +122,10 @@ export const ALCHEMY_OPTIMISM_API_KEY = keyOrUndefined(
   DEFAULT_TESTNET,
   'ALCHEMY_OPTIMISM_API_KEY'
 )
-export const ALCHEMY_POLYGON_API_KEY = keyOrUndefined(
+export const ALCHEMY_POLYGON_POS_API_KEY = keyOrUndefined(
   secretsFile,
   DEFAULT_TESTNET,
-  'ALCHEMY_POLYGON_API_KEY'
+  'ALCHEMY_POLYGON_POS_API_KEY'
 )
 export const ALCHEMY_BASE_API_KEY = keyOrUndefined(
   secretsFile,

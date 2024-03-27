@@ -3,7 +3,7 @@ import {
   ALCHEMY_BASE_API_KEY,
   ALCHEMY_ETHEREUM_API_KEY,
   ALCHEMY_OPTIMISM_API_KEY,
-  ALCHEMY_POLYGON_API_KEY,
+  ALCHEMY_POLYGON_POS_API_KEY,
 } from 'src/config'
 import { Network } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
@@ -32,10 +32,10 @@ export const viemTransports: Record<Network, Transport> = {
       },
     },
   }),
-  [Network.Polygon]: http(networkConfig.alchemyRpcUrl[Network.Polygon], {
+  [Network.PolygonPoS]: http(networkConfig.alchemyRpcUrl[Network.PolygonPoS], {
     fetchOptions: {
       headers: {
-        Authorization: `Bearer ${ALCHEMY_POLYGON_API_KEY}`,
+        Authorization: `Bearer ${ALCHEMY_POLYGON_POS_API_KEY}`,
       },
     },
   }),
@@ -65,9 +65,9 @@ export const publicClient = {
     chain: networkConfig.viemChain.optimism,
     transport: viemTransports[Network.Optimism],
   }),
-  [Network.Polygon]: createPublicClient({
-    chain: networkConfig.viemChain.polygon,
-    transport: viemTransports[Network.Polygon],
+  [Network.PolygonPoS]: createPublicClient({
+    chain: networkConfig.viemChain['polygon-pos'],
+    transport: viemTransports[Network.PolygonPoS],
   }),
   [Network.Base]: createPublicClient({
     chain: networkConfig.viemChain.base,

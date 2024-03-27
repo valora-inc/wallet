@@ -1616,8 +1616,8 @@
                 "ethereum-sepolia",
                 "op-mainnet",
                 "op-sepolia",
-                "polygon-mainnet",
-                "polygon-mumbai"
+                "polygon-pos-mainnet",
+                "polygon-pos-mumbai"
             ],
             "type": "string"
         },
@@ -5069,13 +5069,13 @@
                     },
                     "type": "array"
                 },
-                "polygon-mainnet": {
+                "polygon-pos-mainnet": {
                     "items": {
                         "$ref": "#/definitions/TokenTransaction"
                     },
                     "type": "array"
                 },
-                "polygon-mumbai": {
+                "polygon-pos-mumbai": {
                     "items": {
                         "$ref": "#/definitions/TokenTransaction"
                     },
