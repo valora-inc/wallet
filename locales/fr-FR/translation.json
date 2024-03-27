@@ -2218,6 +2218,10 @@
       "dismiss": "Refuser"
     }
   },
+  "multiSelect": {
+    "switchNetwork": "Réseau de commutation",
+    "allNetworks": "Tous les réseaux"
+  },
   "points": {
     "title": "Points Valora",
     "activity": "Activité",
