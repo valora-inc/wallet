@@ -540,7 +540,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     priceUsd: '1',
   },
   [mockARBTokenId]: {
-    name: 'Arbitrum',
+    name: 'Ethereum',
     networkId: NetworkId['arbitrum-sepolia'],
     tokenId: mockARBTokenId,
     address: null,
@@ -554,14 +554,14 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     priceFetchedAt: Date.now(),
   },
   [mockOPTokenId]: {
-    name: 'Optimism',
+    name: 'Ethereum',
     networkId: NetworkId['op-sepolia'],
     tokenId: mockOPTokenId,
     address: null,
     symbol: 'ETH',
     decimals: 18,
     imageUrl:
-      'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/OP.png',
+      'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
     balance: '0',
     priceUsd: '1500',
     isNative: true,
