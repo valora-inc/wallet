@@ -279,7 +279,7 @@ export default function AssetList({
   return (
     <AnimatedSectionList
       contentContainerStyle={[
-        // TODO (act-ACT-1133): remove conditional and headerHeight
+        // TODO (ACT-1133): remove conditional and headerHeight
         // Only needed on Android with DrawerTopBar; headerHeight is 0 on iOS
         { minHeight: variables.height + (isWalletTab ? 0 : headerHeight) },
         {
