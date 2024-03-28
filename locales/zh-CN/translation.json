@@ -2219,7 +2219,16 @@
     }
   },
   "jumpstartReclaim": {
-    "description": "恢复链接需要支付网络气体费用，您是否愿意继续？"
+    "description": "恢复链接需要支付网络气体费用，您是否愿意继续？",
+    "fetchStatusError": {
+      "title": "哎呀，出错了",
+      "description": "我们无法获取该邀请的申请状态，请稍后再试或联系支持人员",
+      "retryCta": "重试"
+    },
+    "reclaimError": {
+      "title": "无法收回资金",
+      "description": "尝试再次回收，或联系支持人员"
+    }
   },
   "multiSelect": {
     "switchNetwork": "交换网络",
