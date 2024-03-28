@@ -515,6 +515,7 @@
   "to": "Kime",
   "for": "İçin",
   "reclaim": "İade Al",
+  "claimed": "Talep Edildi",
   "celoGold": "CELO",
   "celoEuros": "Celo Euro",
   "balanceAvailable": "<0></0> mevcut",
@@ -997,6 +998,7 @@
   "receivedFrom": "Alınan",
   "commentLabel": "Mesaj",
   "amountSent": "Gönderilen Tutar",
+  "amountReceived": "Alınan Tutar",
   "amountCeloWithdrawn": "Miktar (CELO)",
   "feeEducation": "Blok zincirleri, ağları desteklemek ve sorunsuz çalışmalarını sağlamak için bir işlem ücreti alır.",
   "reviewPayment": "Ödemeyi Gözden Geçir",
@@ -2217,6 +2219,9 @@
       "contactSupport": "Destek ile İletişime Geç",
       "dismiss": "Yoksay"
     }
+  },
+  "jumpstartReclaim": {
+    "description": "Bağlantınızı geri almak şebeke gazı ücretine tabidir, devam etmek ister misiniz?"
   },
   "multiSelect": {
     "switchNetwork": "Anahtar Ağı",
