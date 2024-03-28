@@ -515,6 +515,7 @@
   "to": "Para",
   "for": "Motivo",
   "reclaim": "Recuperar",
+  "claimed": "Reclamada",
   "celoGold": "CELO",
   "celoEuros": "Celo Euros",
   "balanceAvailable": "<0></0> disponibles",
@@ -997,6 +998,7 @@
   "receivedFrom": "De",
   "commentLabel": "Mensaje",
   "amountSent": "Monto enviado",
+  "amountReceived": "Importe recibido",
   "amountCeloWithdrawn": "Monto (CELO)",
   "feeEducation": "Las blockchains cobran una tarifa de transacción para mantener el soporte de la red y que funcione sin problemas.",
   "reviewPayment": "Revisar pago",
@@ -2217,6 +2219,9 @@
       "contactSupport": "Contactar a Soporte",
       "dismiss": "Ignorar"
     }
+  },
+  "jumpstartReclaim": {
+    "description": "Reclamar tu enlace conlleva una tasa de gas de red, ¿quieres proceder?"
   },
   "multiSelect": {
     "switchNetwork": "Red de conmutación",
