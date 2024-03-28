@@ -372,9 +372,24 @@ export function* jumpstartReclaim(action: PayloadAction<JumpstarReclaimAction>) 
       }
     }
 
-    Logger.debug(TAG, 'Executing reclaim transaction', reclaimTx)
+    Logger.debug(`${TAG}/jumpstartReclaim`, 'Executing reclaim transaction', reclaimTx)
+    const [txHash] = yield* call(sendPreparedTransactions, [reclaimTx], networkId, [
+      createStandbyReclaimTransaction,
+    ])
 
-    yield* call(sendPreparedTransactions, [reclaimTx], networkId, [createStandbyReclaimTransaction])
+    Logger.debug(`${TAG}/jumpstartReclaim`, 'Waiting for transaction receipt')
+    const txReceipt = yield* call(
+      [publicClient[networkIdToNetwork[networkId]], 'waitForTransactionReceipt'],
+      {
+        hash: txHash,
+      }
+    )
+    Logger.debug(`${TAG}/jumpstartReclaim`, `Received transaction receipt`, txReceipt)
+
+    if (txReceipt.status !== 'success') {
+      throw new Error(`Jumpstart reclaim transaction reverted: ${txReceipt.transactionHash}`)
+    }
+
     yield* put(jumpstartReclaimSucceeded())
   } catch (err) {
     Logger.warn(TAG, 'Error reclaiming jumpstart transaction', err)
