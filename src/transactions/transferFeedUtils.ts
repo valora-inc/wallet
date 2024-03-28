@@ -42,7 +42,6 @@ import {
   TokenTransfer,
   TransactionStatus,
 } from 'src/transactions/types'
-import { isJumpstartTransaction } from 'src/transactions/utils'
 import Logger from 'src/utils/Logger'
 import { dataEncryptionKeySelector } from 'src/web3/selectors'
 
@@ -113,7 +112,7 @@ export function useTransactionRecipient(transfer: TokenTransfer): Recipient {
 }
 
 // Note: This hook is tested from src/transactions/feed/TransferFeedItem.test.ts
-export function useTransferFeedDetails(transfer: TokenTransfer) {
+export function useTransferFeedDetails(transfer: TokenTransfer, isJumpstart: boolean) {
   const { t } = useTranslation()
   const addressToDisplayName = useSelector(addressToDisplayNameSelector)
   const rewardsSenders = useSelector(rewardsSendersSelector)
@@ -123,7 +122,6 @@ export function useTransferFeedDetails(transfer: TokenTransfer) {
   const tokenInfo = useTokenInfoByAddress(transfer.amount.tokenAddress)
   const coinbasePaySenders = useSelector(coinbasePaySendersSelector)
   const fcTransferDisplayInfo = useFiatConnectTransferDisplayInfo(transfer)
-  const isJumpstart = isJumpstartTransaction(transfer)
 
   const {
     type,
