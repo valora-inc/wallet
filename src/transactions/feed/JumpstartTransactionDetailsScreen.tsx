@@ -25,7 +25,6 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { TAG } from 'src/send/saga'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
@@ -41,6 +40,8 @@ import { getSerializablePreparedTransaction } from 'src/viem/preparedTransaction
 import EstimatedNetworkFee from 'src/walletConnect/screens/EstimatedNetworkFee'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { Address, Hash, encodeFunctionData } from 'viem'
+
+const TAG = 'JumpstartTransactionDetailsScreen'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.JumpstartTransactionDetailsScreen>
 
