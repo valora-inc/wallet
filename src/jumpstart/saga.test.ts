@@ -35,7 +35,10 @@ import { Network, NetworkId, TokenTransactionTypeV2 } from 'src/transactions/typ
 import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { publicClient } from 'src/viem'
-import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
+import {
+  getSerializablePreparedTransaction,
+  getSerializablePreparedTransactions,
+} from 'src/viem/preparedTransactionSerialization'
 import { sendPreparedTransactions } from 'src/viem/saga'
 import { createMockStore } from 'test/utils'
 import {
@@ -135,7 +138,7 @@ describe('jumpstartClaim', () => {
       .run()
 
     expect(Logger.error).toHaveBeenCalledWith(
-      'WalletJumpstart',
+      'WalletJumpstart/saga',
       'Error handling jumpstart link',
       mockError
     )
@@ -201,7 +204,7 @@ describe('dispatchPendingTransactions', () => {
       .run()
 
     expect(Logger.warn).toHaveBeenCalledWith(
-      'WalletJumpstart',
+      'WalletJumpstart/saga',
       'Error dispatching pending transactions',
       mockError
     )
@@ -261,7 +264,7 @@ describe('dispatchPendingERC20Transactions', () => {
       .run()
 
     expect(Logger.warn).toHaveBeenCalledWith(
-      'WalletJumpstart',
+      'WalletJumpstart/saga',
       'Claimed unknown tokenId',
       'celo-alfajores:0xunknown'
     )
@@ -321,7 +324,7 @@ describe('dispatchPendingERC721Transactions', () => {
       .run()
 
     expect(Logger.warn).toHaveBeenCalledWith(
-      'WalletJumpstart',
+      'WalletJumpstart/saga',
       'Error adding pending NFT transaction',
       mockError
     )
@@ -453,11 +456,20 @@ describe('sendJumpstartTransactions', () => {
       expect.any(Object)
     )
   })
+})
+
+describe('jumpstartReclaim', () => {
+  const mockSerializablePreparedTransaction = getSerializablePreparedTransaction({
+    from: '0xa',
+    to: '0xb',
+    value: BigInt(0),
+    data: '0x0',
+    gas: BigInt(59_480),
+  })
+  const networkId = NetworkId['celo-alfajores']
+  const depositTxHash = '0xaaa'
 
   it('should send the reclaim transaction and dispatch the success action', async () => {
-    const networkId = NetworkId['celo-alfajores']
-    const depositTxHash = '0xaaa'
-
     await expectSaga(jumpstartReclaim, {
       type: jumpstartReclaimStarted.type,
       payload: {
@@ -467,15 +479,19 @@ describe('sendJumpstartTransactions', () => {
           tokenId: 'celo-alfajores:0x123',
         },
         networkId,
-        reclaimTx: serializablePreparedTransactions[0],
+        reclaimTx: mockSerializablePreparedTransaction,
         depositTxHash,
       },
     })
       .withState(createMockStore().getState())
-      .provide(createDefaultProviders())
       .put(jumpstartReclaimSucceeded())
       .run()
 
+    expect(sendPreparedTransactions).toHaveBeenCalledWith(
+      [mockSerializablePreparedTransaction],
+      'celo-alfajores',
+      expect.any(Array)
+    )
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       JumpstartEvents.jumpstart_reclaim_succeeded,
       {
@@ -487,8 +503,6 @@ describe('sendJumpstartTransactions', () => {
   })
 
   it('should fail when sending the reclaim transaction and dispatch the error action', async () => {
-    const networkId = NetworkId['celo-alfajores']
-    const depositTxHash = '0xaaa'
     jest.mocked(sendPreparedTransactions).mockImplementation(() => {
       throw new Error('test error')
     })
@@ -502,11 +516,12 @@ describe('sendJumpstartTransactions', () => {
           tokenId: 'celo-alfajores:0x123',
         },
         networkId,
-        reclaimTx: serializablePreparedTransactions[0],
+        reclaimTx: mockSerializablePreparedTransaction,
         depositTxHash,
       },
     })
       .withState(createMockStore().getState())
+      .not.put(jumpstartReclaimSucceeded())
       .put(jumpstartReclaimFailed())
       .run()
 
@@ -514,5 +529,10 @@ describe('sendJumpstartTransactions', () => {
       networkId,
       depositTxHash,
     })
+    expect(sendPreparedTransactions).toHaveBeenCalledWith(
+      [mockSerializablePreparedTransaction],
+      'celo-alfajores',
+      expect.any(Array)
+    )
   })
 })

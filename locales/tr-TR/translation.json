@@ -2218,6 +2218,10 @@
       "dismiss": "Yoksay"
     }
   },
+  "multiSelect": {
+    "switchNetwork": "Anahtar Ağı",
+    "allNetworks": "Tüm Ağlar"
+  },
   "points": {
     "title": "Valora Puanları",
     "activity": "İşlemler",

@@ -97,6 +97,10 @@ const slice = createSlice({
       ...state,
       reclaimStatus: 'error',
     }),
+    jumpstartReclaimErrorDismissed: (state) => ({
+      ...state,
+      reclaimStatus: 'idle',
+    }),
   },
 })
 
@@ -116,6 +120,7 @@ export const {
   jumpstartReclaimStarted,
   jumpstartReclaimSucceeded,
   jumpstartReclaimFailed,
+  jumpstartReclaimErrorDismissed,
 } = slice.actions
 
 export default slice.reducer

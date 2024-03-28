@@ -17,13 +17,11 @@ export async function fetchClaimStatus(
     hash: transactionHash,
   })
 
-  Logger.debug(TAG, 'Decoding event for2', { transactionHash, networkId })
   const parsedLogs = parseEventLogs({
     abi: walletJumpstart.abi,
     eventName: ['ERC20Deposited'],
     logs: transactionReceipt.logs,
   })
-  Logger.debug(TAG, 'Decoding event for3', { transactionHash, networkId })
 
   if (parsedLogs.length != 1) {
     throw new Error('Unexpected number of matching logs')

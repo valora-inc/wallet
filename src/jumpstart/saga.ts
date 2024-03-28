@@ -40,7 +40,7 @@ import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { all, call, fork, put, select, spawn, takeEvery } from 'typed-redux-saga'
 import { Address, Hash, TransactionReceipt, parseAbi, parseEventLogs } from 'viem'
 
-const TAG = 'WalletJumpstart'
+const TAG = 'WalletJumpstart/saga'
 
 export function* jumpstartClaim(privateKey: string, networkId: NetworkId, walletAddress: string) {
   try {

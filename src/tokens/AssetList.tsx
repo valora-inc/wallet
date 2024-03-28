@@ -1,3 +1,4 @@
+import { useHeaderHeight } from '@react-navigation/elements'
 import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -95,6 +96,7 @@ export default function AssetList({
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const insets = useSafeAreaInsets()
+  const headerHeight = useHeaderHeight()
 
   const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
   const tokens = useSelector((state) =>
@@ -277,6 +279,9 @@ export default function AssetList({
   return (
     <AnimatedSectionList
       contentContainerStyle={[
+        // TODO (ACT-1133): remove conditional and headerHeight
+        // Only needed on Android with DrawerTopBar; headerHeight is 0 on iOS
+        { minHeight: variables.height + (isWalletTab ? 0 : headerHeight) },
         {
           paddingBottom: isWalletTab ? 0 : insets.bottom,
           opacity: listHeaderHeight > 0 ? 1 : 0,
