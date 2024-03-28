@@ -48,8 +48,8 @@ export interface TokenBottomSheetProps<T extends TokenBalance> {
   tokens: T[]
   TokenOptionComponent?: React.ComponentType<TokenOptionProps>
   showPriceUsdUnavailableWarning?: boolean
-  areSwapTokensShuffled?: boolean
   filterChips?: FilterChip<TokenBalance>[]
+  areSwapTokensShuffled?: boolean
 }
 
 interface TokenOptionProps {
