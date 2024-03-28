@@ -16,7 +16,13 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { createMockStore, getElementText } from 'test/utils'
-import { mockPositions, mockTokenBalances } from 'test/values'
+import {
+  mockARBTokenId,
+  mockEthTokenId,
+  mockOPTokenId,
+  mockPositions,
+  mockTokenBalances,
+} from 'test/values'
 
 jest.mock('src/statsig')
 
@@ -705,5 +711,111 @@ describe.each([
     expect(tree.queryByTestId('ViewBalances')).toBeTruthy()
     // Even we have positions, the balance is stale so we show '-'
     expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱-')
+  })
+})
+
+describe('renders the network icon on the home screen to differentiate between ETH on Ethereum, Arbitrum, and Optimism', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+    jest.mocked(getDynamicConfigParams).mockReturnValue({
+      showBalances: [
+        NetworkId['ethereum-sepolia'],
+        NetworkId['celo-alfajores'],
+        NetworkId['arbitrum-sepolia'],
+        NetworkId['op-sepolia'],
+      ],
+    })
+  })
+
+  it('renders TokenIcon correctly with only ETH token balance on Ethereum', async () => {
+    const store = createMockStore({
+      ...defaultStore,
+      tokens: {
+        tokenBalances: {
+          [mockEthTokenId]: {
+            ...mockTokenBalances[mockEthTokenId],
+            balance: '0.508480716806023',
+          },
+        },
+      },
+      positions: {
+        positions: [],
+      },
+    })
+
+    const tree = render(
+      <Provider store={store}>
+        <HomeTokenBalance />
+      </Provider>
+    )
+
+    const tokenIconImage = tree.getByTestId('TokenIcon')
+    expect(tokenIconImage.props.source.uri).toEqual(mockTokenBalances[mockEthTokenId].imageUrl)
+    const networkIcon = tree.queryByTestId('NetworkIcon')
+    expect(networkIcon).toBeNull()
+  })
+
+  it('renders TokenIcon correctly with only ETH token balance on Optimism', async () => {
+    const store = createMockStore({
+      ...defaultStore,
+      tokens: {
+        tokenBalances: {
+          [mockOPTokenId]: {
+            ...mockTokenBalances[mockOPTokenId],
+            balance: '0.308480716806023',
+            networkIconUrl:
+              'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/OP.png',
+          },
+        },
+      },
+      positions: {
+        positions: [],
+      },
+    })
+
+    const tree = render(
+      <Provider store={store}>
+        <HomeTokenBalance />
+      </Provider>
+    )
+
+    const tokenIconImage = tree.getByTestId('TokenIcon')
+    expect(tokenIconImage.props.source.uri).toEqual(mockTokenBalances[mockOPTokenId].imageUrl)
+    const networkIconImage = tree.getByTestId('NetworkIcon')
+    expect(networkIconImage.props.source.uri).toEqual(
+      'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/OP.png'
+    )
+  })
+
+  it('renders TokenIcon correctly with only ETH token balance on Arbitrum', async () => {
+    const store = createMockStore({
+      ...defaultStore,
+      tokens: {
+        tokenBalances: {
+          [mockARBTokenId]: {
+            ...mockTokenBalances[mockARBTokenId],
+            balance: '0.108480716806023',
+            networkIconUrl:
+              'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ARB.png',
+          },
+        },
+      },
+      positions: {
+        positions: [],
+      },
+    })
+
+    const tree = render(
+      <Provider store={store}>
+        <HomeTokenBalance />
+      </Provider>
+    )
+
+    const tokenIconImage = tree.getByTestId('TokenIcon')
+    expect(tokenIconImage.props.source.uri).toEqual(mockTokenBalances[mockARBTokenId].imageUrl)
+    const networkIconImage = tree.getByTestId('NetworkIcon')
+    expect(networkIconImage.props.source.uri).toEqual(
+      'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ARB.png'
+    )
   })
 })
