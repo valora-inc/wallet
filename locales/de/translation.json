@@ -1926,7 +1926,8 @@
       "myTokens": "Meine Token",
       "popular": "Beliebt",
       "recentlySwapped": "Kürzlich getauscht",
-      "network": "{{networkName}} Netzwerk"
+      "network": "{{networkName}} Netzwerk",
+      "selectNetwork": "Netzwerk"
     }
   },
   "homeActions": {
