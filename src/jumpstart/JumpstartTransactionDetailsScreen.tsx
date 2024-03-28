@@ -74,7 +74,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
   const fetchClaimData = useAsync(
     async () => {
       if (!isDeposit) {
-        return
+        return null
       }
       const { claimed, beneficiary, index } = await fetchClaimStatus(
         jumpstartContractAddress as Address,
@@ -117,11 +117,13 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
     [],
     {
       onSuccess: (result) => {
-        ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_status_fetching_success, {
-          networkId,
-          depositTxHash: transaction.transactionHash,
-          claimed: result?.claimed,
-        })
+        if (result) {
+          ValoraAnalytics.track(JumpstartEvents.jumpstart_claim_status_fetch_success, {
+            networkId,
+            depositTxHash: transaction.transactionHash,
+            claimed: result.claimed,
+          })
+        }
       },
       onError: (error) => {
         ValoraAnalytics.track(JumpstartEvents.jumpstart_claim_status_fetch_error, {
