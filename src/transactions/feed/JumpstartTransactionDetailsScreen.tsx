@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useAsync } from 'react-async-hook'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -20,7 +20,7 @@ import Checkmark from 'src/icons/Checkmark'
 import Logo from 'src/icons/Logo'
 import { fetchClaimStatus } from 'src/jumpstart/fetchClaimStatus'
 import { jumpstartReclaimStatusSelector } from 'src/jumpstart/selectors'
-import { jumpstartReclaimStarted } from 'src/jumpstart/slice'
+import { jumpstartReclaimErrorDismissed, jumpstartReclaimStarted } from 'src/jumpstart/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -62,19 +62,10 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
   const reclaimStatus = useSelector(jumpstartReclaimStatusSelector)
 
   const bottomSheetRef = useRef<BottomSheetRefType>(null)
-  const [error, setError] = useState<{ title: string; description: string } | null>(null)
 
   useEffect(() => {
-    if (reclaimStatus === 'success') {
+    if (reclaimStatus === 'success' || reclaimStatus === 'error') {
       bottomSheetRef.current?.close()
-    }
-
-    if (reclaimStatus === 'error') {
-      bottomSheetRef.current?.close()
-      setError({
-        title: t('jumpstartReclaim.reclaimError.title'),
-        description: t('jumpstartReclaim.reclaimError.description'),
-      })
     }
   }, [reclaimStatus])
 
@@ -108,8 +99,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
         baseTransactions: [reclaimTx],
       })
 
-      const resultType = preparedTransactions.type
-      switch (resultType) {
+      switch (preparedTransactions.type) {
         case 'need-decrease-spend-amount-for-gas': // fallthrough on purpose
         case 'not-enough-balance-for-gas':
           throw new Error('Not enough balance for gas')
@@ -125,21 +115,16 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
     [],
     {
       onError: (error) => {
-        setError({
-          title: t('jumpstartReclaim.fetchStatusError.title'),
-          description: t('jumpstartReclaim.fetchStatusError.description'),
-        })
-        Logger.error(TAG, 'Failed to fetch escrow data', error)
+        Logger.warn(TAG, 'Failed to fetch escrow data', error)
       },
     }
   )
 
   const handleReclaimPress = () => {
+    if (reclaimStatus === 'error') {
+      dispatch(jumpstartReclaimErrorDismissed())
+    }
     bottomSheetRef.current?.snapToIndex(0)
-  }
-
-  const handleResetError = () => {
-    setError(null)
   }
 
   const handleConfirmReclaim = () => {
@@ -273,21 +258,36 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
           size={BtnSizes.FULL}
         />
       </BottomSheet>
-      {error && (
-        <Toast
-          withBackdrop={false}
-          showToast={!!error}
-          style={styles.errorNotification}
-          variant={NotificationVariant.Error}
-          testID="JumpstartContent/ErrorNotification"
-          title={error.title}
-          description={error.description}
-          ctaLabel2={t('dismiss')}
-          onPressCta2={handleResetError}
-          ctaLabel={t('contactSupport')}
-          onPressCta={handleContactSupport}
-        />
-      )}
+      <Toast
+        withBackdrop={false}
+        showToast={fetchClaimData.error !== undefined}
+        style={styles.errorNotification}
+        variant={NotificationVariant.Error}
+        testID="JumpstartContent/ErrorNotification/FetchReclaimStatus"
+        title={t('jumpstartReclaim.fetchStatusError.title')}
+        description={t('jumpstartReclaim.fetchStatusError.description')}
+        ctaLabel2={t('jumpstartReclaim.fetchStatusError.retryCta')}
+        onPressCta2={() => {
+          void fetchClaimData.execute()
+        }}
+        ctaLabel={t('contactSupport')}
+        onPressCta={handleContactSupport}
+      />
+      <Toast
+        withBackdrop={false}
+        showToast={reclaimStatus === 'error'}
+        style={styles.errorNotification}
+        variant={NotificationVariant.Error}
+        testID="JumpstartContent/ErrorNotification/Reclaim"
+        title={t('jumpstartReclaim.reclaimError.title')}
+        description={t('jumpstartReclaim.reclaimError.description')}
+        ctaLabel2={t('dismiss')}
+        onPressCta2={() => {
+          dispatch(jumpstartReclaimErrorDismissed())
+        }}
+        ctaLabel={t('contactSupport')}
+        onPressCta={handleContactSupport}
+      />
     </SafeAreaView>
   )
 }

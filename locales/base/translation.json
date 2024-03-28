@@ -2226,7 +2226,8 @@
     "description": "Reclaiming your link incurs a network gas fee, would you like to proceed?",
     "fetchStatusError": {
       "title": "Oops, something went wrong",
-      "description": "We could not get the claim status of this invitation, please try again later or contact support"
+      "description": "We could not get the claim status of this invitation, please try again later or contact support",
+      "retryCta": "Retry"
     },
     "reclaimError": {
       "title": "Unable to reclaim funds",
