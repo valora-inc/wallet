@@ -515,6 +515,7 @@
   "to": "เป็น",
   "for": "สำหรับ",
   "reclaim": "เรียกคืน",
+  "claimed": "ขอรับแล้ว",
   "celoGold": "CELO",
   "celoEuros": "Celo ยูโร",
   "balanceAvailable": "<0></0> ใช้ได้",
@@ -995,6 +996,7 @@
   "receivedFrom": "ได้รับจาก",
   "commentLabel": "ข้อความ",
   "amountSent": "จำนวนเงินที่ส่ง",
+  "amountReceived": "Amount Received",
   "amountCeloWithdrawn": "จำนวนเงิน (CELO)",
   "feeEducation": "บล็อกเชนเก็บค่าธรรมเนียมการทำธุรกรรมเพื่อให้เครือข่ายได้รับการสนับสนุนและทำงานอย่างราบรื่น",
   "reviewPayment": "ตรวจสอบการชำระเงิน",
@@ -2215,6 +2217,9 @@
       "contactSupport": "ติดต่อฝ่ายบริการลูกค้า",
       "dismiss": "ปิด"
     }
+  },
+  "jumpstartReclaim": {
+    "description": "Reclaiming your link incurs a network gas fee, would you like to proceed?"
   },
   "multiSelect": {
     "switchNetwork": "Switch Network",
