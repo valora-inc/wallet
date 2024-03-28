@@ -515,6 +515,7 @@
   "to": "至",
   "for": "用于",
   "reclaim": "收回",
+  "claimed": "已领取",
   "celoGold": "CELO",
   "celoEuros": "Celo 欧元",
   "balanceAvailable": "<0></0> 可用",
@@ -995,6 +996,7 @@
   "receivedFrom": "接收自",
   "commentLabel": "消息",
   "amountSent": "已发送金额",
+  "amountReceived": "收到的金额",
   "amountCeloWithdrawn": "金额 (CELO)",
   "feeEducation": "区块链收取交易费用，用以保障网络支持和顺利运营。",
   "reviewPayment": "查看付款",
@@ -2215,6 +2217,9 @@
       "contactSupport": "联系支持团队",
       "dismiss": "忽略"
     }
+  },
+  "jumpstartReclaim": {
+    "description": "恢复链接需要支付网络气体费用，您是否愿意继续？"
   },
   "multiSelect": {
     "switchNetwork": "交换网络",

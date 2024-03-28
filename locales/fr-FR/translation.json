@@ -515,6 +515,7 @@
   "to": "À",
   "for": "Pour",
   "reclaim": "Réclamer",
+  "claimed": "Demandé",
   "celoGold": "CELO",
   "celoEuros": "Celo Euro",
   "balanceAvailable": "<0></0> disponibles",
@@ -997,6 +998,7 @@
   "receivedFrom": "Reçu de",
   "commentLabel": "Message",
   "amountSent": "Montant envoyé",
+  "amountReceived": "Montant reçu",
   "amountCeloWithdrawn": "Montant (CELO)",
   "feeEducation": "Les Blockchains perçoivent des frais de transaction pour assurer le bon fonctionnement des réseaux.",
   "reviewPayment": "Consulter le paiement",
@@ -2217,6 +2219,9 @@
       "contactSupport": "Contacter le Support",
       "dismiss": "Refuser"
     }
+  },
+  "jumpstartReclaim": {
+    "description": "La récupération de ton lien entraîne des frais de gaz de réseau, veux-tu continuer ?"
   },
   "multiSelect": {
     "switchNetwork": "Réseau de commutation",

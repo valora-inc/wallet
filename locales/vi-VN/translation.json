@@ -515,6 +515,7 @@
   "to": "Đến",
   "for": "Cho",
   "reclaim": "Nhận lại",
+  "claimed": "Đã nhận",
   "celoGold": "CELO",
   "celoEuros": "Euro Celo",
   "balanceAvailable": "<0></0> khả dụng",
@@ -995,6 +996,7 @@
   "receivedFrom": "Đã nhận từ",
   "commentLabel": "Tin nhắn",
   "amountSent": "Đã gửi số tiền",
+  "amountReceived": "Amount Received",
   "amountCeloWithdrawn": "Số tiền (CELO)",
   "feeEducation": "Chuỗi khối thu phí giao dịch để hỗ trợ các mạng và đảm bảo mạng hoạt động thông suốt.",
   "reviewPayment": "Xem lại thanh toán",
@@ -2215,6 +2217,9 @@
       "contactSupport": "Liên hệ với bộ phận hỗ trợ",
       "dismiss": "Loại bỏ"
     }
+  },
+  "jumpstartReclaim": {
+    "description": "Reclaiming your link incurs a network gas fee, would you like to proceed?"
   },
   "multiSelect": {
     "switchNetwork": "Switch Network",

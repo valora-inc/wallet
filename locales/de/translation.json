@@ -515,6 +515,7 @@
   "to": "Zu",
   "for": "Für",
   "reclaim": "Zurückfordern",
+  "claimed": "Beansprucht",
   "celoGold": "CELO",
   "celoEuros": "Celo Euro",
   "balanceAvailable": "<0></0> verfügbar",
@@ -997,6 +998,7 @@
   "receivedFrom": "Erhalten von",
   "commentLabel": "Nachricht",
   "amountSent": "Betrag gesendet",
+  "amountReceived": "Erhaltener Betrag",
   "amountCeloWithdrawn": "Betrag (CELO)",
   "feeEducation": "Blockchains erheben eine Transaktionsgebühr, um Netzwerke zu unterstützen und reibungslos arbeiten zu lassen.",
   "reviewPayment": "Zahlung überprüfen",
@@ -2217,6 +2219,9 @@
       "contactSupport": "Support kontaktieren",
       "dismiss": "Verwerfen"
     }
+  },
+  "jumpstartReclaim": {
+    "description": "Für die Rückforderung deines Links fällt eine Netzgasgebühr an. Möchtest du fortfahren?"
   },
   "multiSelect": {
     "switchNetwork": "Netzwerk wechseln",
