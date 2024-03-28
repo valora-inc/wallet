@@ -1930,7 +1930,8 @@
       "myTokens": "Moje tokeny",
       "popular": "Popularne",
       "recentlySwapped": "Niedawno wymienione",
-      "network": "Sieć {{networkName}}"
+      "network": "Sieć {{networkName}}",
+      "selectNetwork": "Sieć"
     }
   },
   "homeActions": {
