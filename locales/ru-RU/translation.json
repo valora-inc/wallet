@@ -1930,7 +1930,8 @@
       "myTokens": "Мои токены",
       "popular": "Популярные",
       "recentlySwapped": "Недавно обмененные",
-      "network": "Сеть {{networkName}}"
+      "network": "Сеть {{networkName}}",
+      "selectNetwork": "Сообщество"
     }
   },
   "homeActions": {
