@@ -1,12 +1,12 @@
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
+import JumpstartTransactionDetailsScreen from 'src/jumpstart/JumpstartTransactionDetailsScreen'
 import { fetchClaimStatus } from 'src/jumpstart/fetchClaimStatus'
 import { jumpstartReclaimErrorDismissed, jumpstartReclaimStarted } from 'src/jumpstart/slice'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
 import { getDynamicConfigParams } from 'src/statsig'
-import JumpstartTransactionDetailsScreen from 'src/transactions/feed/JumpstartTransactionDetailsScreen'
 import {
   Fee,
   NetworkId,
