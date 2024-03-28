@@ -1924,7 +1924,8 @@
       "myTokens": "Token của tôi",
       "popular": "Thông dụng",
       "recentlySwapped": "Đã trao đổi gần đây",
-      "network": "Mạng {{networkName}}"
+      "network": "Mạng {{networkName}}",
+      "selectNetwork": "Mạng lưới"
     }
   },
   "homeActions": {
