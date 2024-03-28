@@ -1,7 +1,7 @@
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { FilterChip } from 'src/components/FilterChipsCarousel'
+import { BooleanFilterChip } from 'src/components/FilterChipsCarousel'
 import Touchable from 'src/components/Touchable'
 import { DappWithCategoryNames } from 'src/dapps/types'
 import { currentLanguageSelector } from 'src/i18n/selectors'
@@ -13,8 +13,8 @@ import { Spacing } from 'src/styles/styles'
 import { iconHitslop } from 'src/styles/variables'
 
 interface Props {
-  selectedFilter?: FilterChip<DappWithCategoryNames>
-  removeFilter: (filter: FilterChip<DappWithCategoryNames>) => void
+  selectedFilter?: BooleanFilterChip<DappWithCategoryNames>
+  removeFilter: (filter: BooleanFilterChip<DappWithCategoryNames>) => void
   searchTerm: string
   testID?: string
 }
