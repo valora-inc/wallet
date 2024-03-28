@@ -152,6 +152,7 @@ function SendConfirmation(props: Props) {
         <LineItemRow
           testID="SendConfirmation/fee"
           title={t('feeEstimate')}
+          textStyle={{ ...typeScale.bodyMedium }}
           amount={
             maxFeeAmount && (
               <TokenDisplay
@@ -163,7 +164,21 @@ function SendConfirmation(props: Props) {
           }
           isLoading={!maxFeeAmount}
         />
-
+        <LineItemRow
+          testID="SendConfirmation/localFee"
+          title=""
+          style={styles.subHeading}
+          textStyle={styles.subHeadingText}
+          amount={
+            maxFeeAmount && (
+              <TokenDisplay
+                amount={maxFeeAmount}
+                tokenId={feeTokenInfo?.tokenId}
+                showLocalAmount={true}
+              />
+            )
+          }
+        />
         <TokenTotalLineItem
           tokenAmount={tokenAmount}
           tokenId={tokenId}
@@ -372,6 +387,13 @@ const styles = StyleSheet.create({
     ...fontStyles.regular,
     color: colors.infoDark,
     paddingRight: 8,
+  },
+  subHeading: {
+    marginVertical: 0,
+  },
+  subHeadingText: {
+    ...fontStyles.small,
+    color: colors.gray4,
   },
 })
 
