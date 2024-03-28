@@ -26,7 +26,7 @@ export interface MultiSelectBottomSheetProps<T extends string> {
   setSelectedOptions: Dispatch<SetStateAction<T[]>>
   selectAllText: string
   title: string
-  allOrOne?: boolean
+  mode?: 'select-all-or-one' | 'select-multiple'
 }
 
 interface Option<T extends string> {
@@ -44,7 +44,7 @@ function MultiSelectBottomSheet<T extends string>({
   selectedOptions,
   selectAllText,
   title,
-  allOrOne,
+  mode = 'select-multiple',
 }: MultiSelectBottomSheetProps<T>) {
   const { t } = useTranslation()
   const scrollViewRef = useRef<ScrollView>(null)
@@ -57,7 +57,7 @@ function MultiSelectBottomSheet<T extends string>({
 
   const toggleOption = (option: Option<T>) => {
     setSelectedOptions((prevSelectedOptions) => {
-      if (allOrOne || options.length === prevSelectedOptions.length) {
+      if (mode === 'select-all-or-one' || options.length === prevSelectedOptions.length) {
         return [option.id]
       } else if (prevSelectedOptions.includes(option.id)) {
         return prevSelectedOptions.filter((selectedOption) => selectedOption !== option.id)

@@ -1773,7 +1773,7 @@ describe('SwapScreen', () => {
       fireEvent.press(within(tokenBottomSheet).getByText('tokenBottomSheet.filters.myTokens'))
 
       // open network bottom sheet
-      fireEvent.press(within(tokenBottomSheet).getByText('tokenBottomSheet.filters.network'))
+      fireEvent.press(within(tokenBottomSheet).getByText('tokenBottomSheet.filters.selectNetwork'))
 
       // select celo filter
       fireEvent.press(within(networkMultiSelect).getByTestId('Celo Alfajores-icon'))

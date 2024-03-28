@@ -18,11 +18,11 @@ const allOptionsSelected = ['one', 'two', 'three', 'four']
 function MultiSelect({
   selectedOptions,
   onClose,
-  allOrOne = false,
+  mode = 'select-multiple',
 }: {
   selectedOptions: MultiSelectBottomSheetProps<string>['selectedOptions']
   onClose?: MultiSelectBottomSheetProps<string>['onClose']
-  allOrOne?: boolean
+  mode?: 'select-all-or-one' | 'select-multiple'
 }) {
   const [state, setState] = useState(selectedOptions)
   return (
@@ -34,7 +34,7 @@ function MultiSelect({
       selectAllText="Select All"
       title="Title"
       onClose={onClose}
-      allOrOne={allOrOne}
+      mode={mode}
     />
   )
 }
@@ -137,10 +137,10 @@ describe('MultiSelectBottomSheet', () => {
 
     expect(onClose).toHaveBeenCalled()
   })
-  describe('allOrOne', () => {
+  describe('select-all-or-one', () => {
     it('de-selects all other options when selecting one', () => {
       const { getByTestId, queryByTestId } = render(
-        <MultiSelect selectedOptions={oneOptionSelected} allOrOne={true} />
+        <MultiSelect selectedOptions={oneOptionSelected} mode={'select-all-or-one'} />
       )
 
       expect(queryByTestId('One-checkmark')).toBeTruthy()

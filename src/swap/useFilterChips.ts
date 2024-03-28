@@ -47,7 +47,7 @@ export default function useFilterChip(selectingField: Field | null): FilterChip<
     },
     {
       id: 'network-ids',
-      name: t('tokenBottomSheet.filters.network'),
+      name: t('tokenBottomSheet.filters.selectNetwork'),
       filterFn: (token: TokenBalance, selected?: NetworkId[]) => {
         return !!selected && selected.includes(token.networkId)
       },
