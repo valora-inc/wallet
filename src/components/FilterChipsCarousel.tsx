@@ -2,16 +2,32 @@ import React from 'react'
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import Touchable from 'src/components/Touchable'
+import DownArrowIcon from 'src/icons/DownArrowIcon'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import { NetworkId } from 'src/transactions/types'
 
-export interface FilterChip<T> {
+interface BaseFilterChip {
   id: string
   name: string
-  filterFn: (t: T) => boolean
   isSelected: boolean
 }
+export interface BooleanFilterChip<T> extends BaseFilterChip {
+  filterFn: (t: T) => boolean
+}
+
+export interface NetworkFilterChip<T> extends BaseFilterChip {
+  filterFn: (t: T, n: NetworkId[]) => boolean
+  allNetworkIds: NetworkId[]
+  selectedNetworkIds: NetworkId[]
+}
+
+export function isNetworkChip<T>(chip: FilterChip<T>): chip is NetworkFilterChip<T> {
+  return 'allNetworkIds' in chip
+}
+
+export type FilterChip<T> = BooleanFilterChip<T> | NetworkFilterChip<T>
 
 interface Props<T> {
   chips: FilterChip<T>[]
@@ -58,14 +74,24 @@ function FilterChipsCarousel<T>({
               }}
               style={styles.filterChip}
             >
-              <Text
-                style={[
-                  styles.filterChipText,
-                  chip.isSelected ? { color: secondaryColor } : { color: primaryColor },
-                ]}
-              >
-                {chip.name}
-              </Text>
+              <View style={styles.filterChipTextWrapper}>
+                <Text
+                  style={[
+                    styles.filterChipText,
+                    chip.isSelected ? { color: secondaryColor } : { color: primaryColor },
+                  ]}
+                >
+                  {chip.name}
+                </Text>
+                {isNetworkChip(chip) && (
+                  <DownArrowIcon
+                    color={chip.isSelected ? secondaryColor : primaryColor}
+                    strokeWidth={2}
+                    height={Spacing.Regular16}
+                    style={{ marginBottom: 2, marginLeft: 4 }}
+                  />
+                )}
+              </View>
             </Touchable>
           </View>
         )
@@ -96,6 +122,11 @@ const styles = StyleSheet.create({
   },
   filterChipText: {
     ...typeScale.labelXSmall,
+  },
+  filterChipTextWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 })
 

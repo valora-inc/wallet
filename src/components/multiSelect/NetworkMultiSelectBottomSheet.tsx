@@ -48,6 +48,7 @@ function NetworkMultiSelectBottomSheet({
       setSelectedOptions={setSelectedNetworkIds}
       selectAllText={t('multiSelect.allNetworks')}
       title={t('multiSelect.switchNetwork')}
+      mode={'select-all-or-one'}
     />
   )
 }

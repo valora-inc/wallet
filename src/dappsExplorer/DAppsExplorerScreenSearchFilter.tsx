@@ -16,7 +16,7 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
-import FilterChipsCarousel, { FilterChip } from 'src/components/FilterChipsCarousel'
+import FilterChipsCarousel, { BooleanFilterChip } from 'src/components/FilterChipsCarousel'
 import QrScanButton from 'src/components/QrScanButton'
 import SearchInput from 'src/components/SearchInput'
 import {
@@ -87,7 +87,7 @@ export function DAppsExplorerScreenSearchFilter({ navigation, route }: Props) {
   const nonFavoriteDappsWithCategoryNames = useSelector(nonFavoriteDappsWithCategoryNamesSelector)
   const favoriteDappsWithCategoryNames = useSelector(favoriteDappsWithCategoryNamesSelector)
 
-  const [filterChips, setFilterChips] = useState<FilterChip<DappWithCategoryNames>[]>(() =>
+  const [filterChips, setFilterChips] = useState<BooleanFilterChip<DappWithCategoryNames>[]>(() =>
     categories.map((category) => ({
       id: category.id,
       name: category.name,
@@ -105,7 +105,7 @@ export function DAppsExplorerScreenSearchFilter({ navigation, route }: Props) {
   const { onSelectDapp } = useOpenDapp()
   const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
 
-  const removeFilter = (filter: FilterChip<DappWithCategoryNames>) => {
+  const removeFilter = (filter: BooleanFilterChip<DappWithCategoryNames>) => {
     ValoraAnalytics.track(DappExplorerEvents.dapp_filter, {
       filterId: filter.id,
       remove: true,
@@ -114,7 +114,7 @@ export function DAppsExplorerScreenSearchFilter({ navigation, route }: Props) {
     horizontalScrollView.current?.scrollTo({ x: 0, animated: true })
   }
 
-  const handleToggleFilterChip = (filter: FilterChip<DappWithCategoryNames>) => {
+  const handleToggleFilterChip = (filter: BooleanFilterChip<DappWithCategoryNames>) => {
     ValoraAnalytics.track(DappExplorerEvents.dapp_filter, {
       filterId: filter.id,
       remove: selectedFilter?.id === filter.id,
