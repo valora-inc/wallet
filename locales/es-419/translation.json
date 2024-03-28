@@ -2221,7 +2221,16 @@
     }
   },
   "jumpstartReclaim": {
-    "description": "Reclamar tu enlace conlleva una tasa de gas de red, ¿quieres proceder?"
+    "description": "Reclamar tu enlace conlleva una tasa de gas de red, ¿quieres proceder?",
+    "fetchStatusError": {
+      "title": "Uy, algo ha salido mal",
+      "description": "No hemos podido obtener el estado de la solicitud de esta invitación, inténtalo más tarde o ponte en contacto con el servicio de asistencia.",
+      "retryCta": "Reintentar"
+    },
+    "reclaimError": {
+      "title": "No se pueden reclamar los fondos",
+      "description": "Intenta reclamar de nuevo, o ponte en contacto con el servicio de asistencia"
+    }
   },
   "multiSelect": {
     "switchNetwork": "Red de conmutación",
