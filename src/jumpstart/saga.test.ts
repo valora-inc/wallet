@@ -34,7 +34,10 @@ import { Network, NetworkId, TokenTransactionTypeV2 } from 'src/transactions/typ
 import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { publicClient } from 'src/viem'
-import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
+import {
+  getSerializablePreparedTransaction,
+  getSerializablePreparedTransactions,
+} from 'src/viem/preparedTransactionSerialization'
 import { sendPreparedTransactions } from 'src/viem/saga'
 import { createMockStore } from 'test/utils'
 import {
@@ -452,8 +455,17 @@ describe('sendJumpstartTransactions', () => {
       expect.any(Object)
     )
   })
+})
 
+describe('jumpstartReclaim', () => {
   it('should send the reclaim transaction and dispatch the success action', async () => {
+    const serializablePreparedTransaction = getSerializablePreparedTransaction({
+      from: '0xa',
+      to: '0xb',
+      value: BigInt(0),
+      data: '0x0',
+      gas: BigInt(59_480),
+    })
     await expectSaga(jumpstartReclaim, {
       type: jumpstartReclaimStarted.type,
       payload: {
@@ -463,12 +475,17 @@ describe('sendJumpstartTransactions', () => {
           tokenId: 'celo-alfajores:0x123',
         },
         networkId: NetworkId['celo-alfajores'],
-        reclaimTx: serializablePreparedTransactions[0],
+        reclaimTx: serializablePreparedTransaction,
       },
     })
       .withState(createMockStore().getState())
-      .provide(createDefaultProviders())
       .put(jumpstartReclaimSucceeded())
       .run()
+
+    expect(sendPreparedTransactions).toHaveBeenCalledWith(
+      [serializablePreparedTransaction],
+      'celo-alfajores',
+      expect.any(Array)
+    )
   })
 })
