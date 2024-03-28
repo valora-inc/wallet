@@ -1,5 +1,5 @@
 import React from 'react'
-import { FlexStyle, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import colors from 'src/styles/colors'
 import { BaseToken } from 'src/tokens/slice'
@@ -41,7 +41,6 @@ const IconSizeToStyle = {
 interface Props {
   token: BaseToken
   viewStyle?: StyleProp<ViewStyle>
-  tokenImageStyle?: StyleProp<FlexStyle>
   testID?: string
   size?: IconSize
 }
