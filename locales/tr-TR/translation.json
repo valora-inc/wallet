@@ -1926,7 +1926,8 @@
       "myTokens": "Tokenlerim",
       "popular": "Popüler",
       "recentlySwapped": "Yakın zamanda takas edildi",
-      "network": "{{networkName}} Ağı"
+      "network": "{{networkName}} Ağı",
+      "selectNetwork": "Ağ"
     }
   },
   "homeActions": {
