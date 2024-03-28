@@ -14,6 +14,7 @@ interface BottomSheetBaseProps {
   snapPoints?: (string | number)[]
   handleComponent?: BottomSheetProps['handleComponent']
   backgroundStyle?: BottomSheetProps['backgroundStyle']
+  handleIndicatorStyle?: BottomSheetProps['handleIndicatorStyle']
 }
 
 const BottomSheetBase = ({
@@ -25,6 +26,7 @@ const BottomSheetBase = ({
   snapPoints,
   handleComponent,
   backgroundStyle,
+  handleIndicatorStyle = styles.handle,
 }: BottomSheetBaseProps) => {
   const { height } = useSafeAreaFrame()
   const insets = useSafeAreaInsets()
@@ -62,7 +64,7 @@ const BottomSheetBase = ({
       enablePanDownToClose
       backdropComponent={renderBackdrop}
       handleComponent={handleComponent}
-      handleIndicatorStyle={styles.handle}
+      handleIndicatorStyle={handleIndicatorStyle}
       backgroundStyle={backgroundStyle}
       onAnimate={handleAnimate}
       onClose={handleClose}

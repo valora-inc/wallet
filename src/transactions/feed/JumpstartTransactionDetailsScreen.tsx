@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useMemo, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useAsync } from 'react-async-hook'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -27,7 +27,7 @@ import { useDispatch, useSelector } from 'src/redux/hooks'
 import { TAG } from 'src/send/saga'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
-import { Spacing } from 'src/styles/styles'
+import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
@@ -87,7 +87,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
       if (!isDeposit) {
         return
       }
-      const { beneficiary, index, claimed } = await fetchClaimStatus(
+      const { claimed, beneficiary, index } = await fetchClaimStatus(
         jumpstartContractAddress as Address,
         networkId,
         transaction.transactionHash as Hash
@@ -136,26 +136,23 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
   )
 
   const reclaimTx = fetchClaimData.result?.preparedTransaction
-
-  const resetState = () => {
-    setError(null)
-  }
-
   const isClaimed = fetchClaimData.result?.claimed
 
-  const onReclaimPress = () => {
+  const handleReclaimPress = () => {
     bottomSheetRef.current?.snapToIndex(0)
   }
 
-  const onConfirm = () => {
+  const handleResetError = () => {
+    setError(null)
+  }
+
+  const handleConfirmReclaim = () => {
     if (!reclaimTx) {
       Logger.warn(TAG, 'Reclaim transaction is not set')
       return
     }
     dispatch(jumpstartReclaimStarted({ reclaimTx, networkId, tokenAmount }))
   }
-
-  const transactionString = useMemo(() => (reclaimTx ? JSON.stringify(reclaimTx) : ''), [reclaimTx])
 
   if (!token) {
     // should never happen
@@ -197,13 +194,11 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
               testID={'JumpstartContent/ReclaimButton'}
               showLoading={fetchClaimData.loading}
               disabled={!reclaimTx || isClaimed || !!error}
-              onPress={onReclaimPress}
-              type={!isClaimed ? BtnTypes.PRIMARY : BtnTypes.LABEL_PRIMARY}
+              onPress={handleReclaimPress}
+              type={BtnTypes.PRIMARY}
               text={!isClaimed ? t('reclaim') : t('claimed')}
               size={BtnSizes.FULL}
-              icon={
-                isClaimed ? <Checkmark height={Spacing.Thick24} color={Colors.successDark} /> : null
-              }
+              icon={isClaimed ? <Checkmark height={Spacing.Thick24} color={Colors.white} /> : null}
               iconPositionLeft={false}
             />
           </View>
@@ -259,7 +254,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
             title={t('jumpstartReclaim.error.title')}
             description={t('jumpstartReclaim.error.description')}
             ctaLabel2={t('dismiss')}
-            onPressCta2={resetState}
+            onPressCta2={handleResetError}
             ctaLabel={t('contactSupport')}
             onPressCta={() => {
               navigate(Screens.SupportContact)
@@ -268,12 +263,16 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
         )}
       </TransactionDetails>
       <BottomSheet forwardedRef={bottomSheetRef} testId="ReclaimBottomSheet">
-        <Logo />
+        <View style={styles.logoShadow}>
+          <View style={styles.logoBackground}>
+            <Logo size={24} />
+          </View>
+        </View>
         <Text style={styles.header}>{t('confirmTransaction')}</Text>
         <Text style={styles.description}>{t('jumpstartReclaim.description')}</Text>
         <DataFieldWithCopy
           label={t('walletConnectRequest.transactionDataLabel')}
-          value={transactionString}
+          value={JSON.stringify(reclaimTx)}
           copySuccessMessage={t('walletConnectRequest.transactionDataCopied')}
           testID="JumpstarReclaimBottomSheet/RequestPayload"
         />
@@ -282,7 +281,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
           text={t('confirm')}
           showLoading={reclaimStatus === 'loading'}
           disabled={reclaimStatus !== 'idle'}
-          onPress={onConfirm}
+          onPress={handleConfirmReclaim}
           size={BtnSizes.FULL}
         />
       </BottomSheet>
@@ -347,6 +346,18 @@ const styles = StyleSheet.create({
   },
   errorNotification: {
     marginVertical: Spacing.Regular16,
+  },
+  logoShadow: {
+    ...getShadowStyle(Shadow.SoftLight),
+    borderRadius: 100,
+  },
+  logoBackground: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 40,
+    width: 40,
+    borderRadius: 100,
+    backgroundColor: Colors.white,
   },
 })
 
