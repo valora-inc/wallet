@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react-native'
+import { render, waitFor } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { act } from 'react-test-renderer'
@@ -16,17 +16,17 @@ import {
   TokenTransferMetadata,
   TransactionStatus,
 } from 'src/transactions/types'
-import {
-  RecursivePartial,
-  createMockStore,
-  getElementText,
-  getMockStackScreenProps,
-} from 'test/utils'
+import { RecursivePartial, createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockAccount, mockCusdAddress, mockCusdTokenId, mockJumpstartAdddress } from 'test/values'
+import { encodeFunctionData } from 'viem'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/statsig')
 jest.mock('src/jumpstart/fetchClaimStatus')
+jest.mock('viem', () => ({
+  ...jest.requireActual('viem'),
+  encodeFunctionData: jest.fn(),
+}))
 
 describe('JumpstartTransactionDetailsScreen', () => {
   beforeEach(() => {
@@ -109,10 +109,12 @@ describe('JumpstartTransactionDetailsScreen', () => {
       }),
     })
 
-    const amountSendComponent = getByTestId('LineItemRowTitle/JumpstartContent/TokenDetails')
-    expect(getElementText(amountSendComponent)).toBe('amountSent')
-    const amountValue = getByTestId('JumpstartContent/AmountValue')
-    expect(getElementText(amountValue)).toBe('10.00 cUSD')
+    await waitFor(() =>
+      expect(getByTestId('LineItemRowTitle/JumpstartContent/TokenDetails')).toHaveTextContent(
+        'amountSent'
+      )
+    )
+    expect(getByTestId('JumpstartContent/AmountValue')).toHaveTextContent('10.00 cUSD')
   })
 
   it('handles jumpstart received transactions correctly', async () => {
@@ -122,46 +124,62 @@ describe('JumpstartTransactionDetailsScreen', () => {
       }),
     })
 
-    const amountReceivedComponent = getByTestId('LineItemRowTitle/JumpstartContent/TokenDetails')
-    expect(getElementText(amountReceivedComponent)).toBe('amountReceived')
-    const amountValue = getByTestId('JumpstartContent/AmountValue')
-    expect(getElementText(amountValue)).toBe('10.00 cUSD')
+    await waitFor(() =>
+      expect(getByTestId('LineItemRowTitle/JumpstartContent/TokenDetails')).toHaveTextContent(
+        'amountReceived'
+      )
+    )
+    expect(getByTestId('JumpstartContent/AmountValue')).toHaveTextContent('10.00 cUSD')
   })
 
-  it(`doesn't show the button in received transactions`, async () => {
+  it(`doesn't show the reclaim button in received transactions`, async () => {
     const { queryByTestId } = renderScreen({
       transaction: tokenTransfer({
         type: TokenTransactionTypeV2.Received,
       }),
     })
 
-    expect(queryByTestId('JumpstartContent/ReclaimButton')).toBeFalsy()
+    await waitFor(() => expect(queryByTestId('JumpstartContent/ReclaimButton')).toBeFalsy())
   })
 
   it(`shows the disabled button in case of any error`, async () => {
-    jest.mocked(fetchClaimStatus).mockImplementation(() => {
-      throw new Error('Test error')
-    })
+    jest.mocked(fetchClaimStatus).mockRejectedValue(new Error('Test error'))
 
-    const { queryByTestId } = renderScreen({
+    const { getByTestId } = renderScreen({
       transaction: tokenTransfer({
         type: TokenTransactionTypeV2.Sent,
       }),
     })
 
-    expect(queryByTestId('JumpstartContent/ReclaimButton')).toBeDisabled()
+    await waitFor(() => expect(getByTestId('JumpstartContent/ReclaimButton')).toBeDisabled())
   })
 
-  it(`shows the enabled button if the escrow wasn't claimed`, async () => {
-    jest.mocked(fetchClaimStatus).mockImplementation(async () => {
-      return {
-        beneficiary: mockAccount,
-        index: 0,
-        claimed: false,
-      }
+  it(`shows the enabled button if the funds were not yet claimed`, async () => {
+    jest.mocked(encodeFunctionData).mockReturnValue('0xabc')
+    jest.mocked(fetchClaimStatus).mockResolvedValue({
+      beneficiary: mockAccount,
+      index: 0,
+      claimed: false,
     })
 
-    const { queryByTestId } = renderScreen({
+    const { getByTestId } = renderScreen({
+      transaction: tokenTransfer({
+        type: TokenTransactionTypeV2.Sent,
+      }),
+    })
+
+    await waitFor(() => expect(getByTestId('JumpstartContent/ReclaimButton')).toBeEnabled())
+    expect(getByTestId('JumpstartContent/ReclaimButton')).toHaveTextContent('reclaim')
+  })
+
+  it('shows a disabled button with the claimed text if the funds were already claimed', async () => {
+    jest.mocked(fetchClaimStatus).mockResolvedValue({
+      beneficiary: mockAccount,
+      index: 0,
+      claimed: true,
+    })
+
+    const { getByTestId } = renderScreen({
       transaction: tokenTransfer({
         type: TokenTransactionTypeV2.Sent,
       }),
@@ -171,30 +189,9 @@ describe('JumpstartTransactionDetailsScreen', () => {
       jest.runAllTimers()
     })
 
-    expect(queryByTestId('JumpstartContent/ReclaimButton')).toBeEnabled()
-    expect(queryByTestId('JumpstartContent/ReclaimButton')).toHaveTextContent('reclaim')
-  })
-
-  it('shows a disabled button with the claimed text if the escrow was already claimed', async () => {
-    jest.mocked(fetchClaimStatus).mockImplementation(async () => {
-      return {
-        beneficiary: mockAccount,
-        index: 0,
-        claimed: true,
-      }
-    })
-
-    const { queryByTestId } = renderScreen({
-      transaction: tokenTransfer({
-        type: TokenTransactionTypeV2.Sent,
-      }),
-    })
-
-    await act(() => {
-      jest.runAllTimers()
-    })
-
-    expect(queryByTestId('JumpstartContent/ReclaimButton')).toBeDisabled()
-    expect(queryByTestId('JumpstartContent/ReclaimButton')).toHaveTextContent('claimed')
+    await waitFor(() =>
+      expect(getByTestId('JumpstartContent/ReclaimButton')).toHaveTextContent('claimed')
+    )
+    expect(getByTestId('JumpstartContent/ReclaimButton')).toBeDisabled()
   })
 })

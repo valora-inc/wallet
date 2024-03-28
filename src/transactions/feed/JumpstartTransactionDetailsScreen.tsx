@@ -66,8 +66,12 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
         transaction.transactionHash as Hash
       )
 
+      if (claimed) {
+        return { claimed: true }
+      }
+
       return {
-        claimed,
+        claimed: false,
         // TODO: use prepareTransactions
         preparedTransaction: {
           from: walletAddress as Address,
