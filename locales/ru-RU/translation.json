@@ -515,6 +515,7 @@
   "to": "Кому",
   "for": "Для",
   "reclaim": "Вернуть",
+  "claimed": "Заявлено",
   "celoGold": "CELO",
   "celoEuros": "Celo Euro",
   "balanceAvailable": "<0></0> доступно",
@@ -1001,6 +1002,7 @@
   "receivedFrom": "Получено от",
   "commentLabel": "Сообщение",
   "amountSent": "Отправленная сумма",
+  "amountReceived": "Полученная сумма",
   "amountCeloWithdrawn": "Сумма (CELO)",
   "feeEducation": "Блокчейн взимает комиссию за транзакцию для обеспечения поддержки и бесперебойной работы сообщества.",
   "reviewPayment": "Проверить платеж",
@@ -2221,6 +2223,9 @@
       "contactSupport": "Обратитесь в службу поддержки",
       "dismiss": "Отклонить"
     }
+  },
+  "jumpstartReclaim": {
+    "description": "Восстановление твоей ссылки влечет за собой плату за сетевой газ, хочешь продолжить?"
   },
   "multiSelect": {
     "switchNetwork": "Сеть коммутаторов",
