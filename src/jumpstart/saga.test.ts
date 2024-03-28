@@ -493,7 +493,7 @@ describe('jumpstartReclaim', () => {
 
     expect(sendPreparedTransactions).toHaveBeenCalledWith(
       [mockSerializablePreparedTransaction],
-      'celo-alfajores',
+      networkId,
       expect.any(Array)
     )
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
@@ -507,13 +507,6 @@ describe('jumpstartReclaim', () => {
   })
 
   it('should dispatch an error if the reclaim transaction is reverted', async () => {
-    const serializablePreparedTransaction = getSerializablePreparedTransaction({
-      from: '0xa',
-      to: '0xb',
-      value: BigInt(0),
-      data: '0x0',
-      gas: BigInt(59_480),
-    })
     await expectSaga(jumpstartReclaim, {
       type: jumpstartReclaimStarted.type,
       payload: {
@@ -522,8 +515,8 @@ describe('jumpstartReclaim', () => {
           tokenAddress: '0x123',
           tokenId: 'celo-alfajores:0x123',
         },
-        networkId: NetworkId['celo-alfajores'],
-        reclaimTx: serializablePreparedTransaction,
+        networkId,
+        reclaimTx: mockSerializablePreparedTransaction,
         depositTxHash,
       },
     })
@@ -543,8 +536,8 @@ describe('jumpstartReclaim', () => {
       depositTxHash,
     })
     expect(sendPreparedTransactions).toHaveBeenCalledWith(
-      [serializablePreparedTransaction],
-      'celo-alfajores',
+      [mockSerializablePreparedTransaction],
+      networkId,
       expect.any(Array)
     )
   })
