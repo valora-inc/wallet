@@ -6,9 +6,9 @@ import { CachesDirectoryPath } from 'react-native-fs'
 import { SpendMerchant } from 'src/fiatExchanges/Spend'
 import { LoggerLevel } from 'src/utils/LoggerLevels'
 // eslint-disable-next-line import/no-relative-packages
+import { TORUS_SAPPHIRE_NETWORK } from '@toruslabs/constants'
 import * as secretsFile from '../secrets.json'
 import { ONE_HOUR_IN_MILLIS } from './utils/time'
-import { TORUS_SAPPHIRE_NETWORK } from '@toruslabs/constants'
 export * from 'src/brandingConfig'
 
 // extract secrets from secrets.json
@@ -121,6 +121,16 @@ export const ALCHEMY_OPTIMISM_API_KEY = keyOrUndefined(
   secretsFile,
   DEFAULT_TESTNET,
   'ALCHEMY_OPTIMISM_API_KEY'
+)
+export const ALCHEMY_POLYGON_POS_API_KEY = keyOrUndefined(
+  secretsFile,
+  DEFAULT_TESTNET,
+  'ALCHEMY_POLYGON_POS_API_KEY'
+)
+export const ALCHEMY_BASE_API_KEY = keyOrUndefined(
+  secretsFile,
+  DEFAULT_TESTNET,
+  'ALCHEMY_BASE_API_KEY'
 )
 
 export const ZENDESK_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'ZENDESK_API_KEY')

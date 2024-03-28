@@ -58,6 +58,8 @@ const WATCHING_DELAY_BY_NETWORK: Record<Network, number> = {
   [Network.Ethereum]: 15000,
   [Network.Arbitrum]: 2000,
   [Network.Optimism]: 2000,
+  [Network.PolygonPoS]: 2000,
+  [Network.Base]: 2000,
 }
 const MIN_WATCHING_DELAY_MS = 2000
 
