@@ -113,6 +113,7 @@ import SwapScreen from 'src/swap/SwapScreen'
 import AssetsScreen from 'src/tokens/Assets'
 import TokenDetailsScreen from 'src/tokens/TokenDetails'
 import TokenImportScreen from 'src/tokens/TokenImport'
+import JumpstartTransactionDetailsScreen from 'src/transactions/feed/JumpstartTransactionDetailsScreen'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
 import Logger from 'src/utils/Logger'
 import { ExtractProps } from 'src/utils/typescript'
@@ -504,6 +505,11 @@ const generalScreens = (Navigator: typeof Stack) => (
       name={Screens.TransactionDetailsScreen}
       component={TransactionDetailsScreen}
       options={headerWithBackButton}
+    />
+    <Navigator.Screen
+      name={Screens.JumpstartTransactionDetailsScreen}
+      component={JumpstartTransactionDetailsScreen}
+      options={noHeader}
     />
     <Navigator.Screen
       name={Screens.GoldEducation}
