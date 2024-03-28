@@ -147,12 +147,10 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
               showLoading={fetchClaimData.loading}
               disabled={!fetchClaimData.result || isClaimed}
               onPress={onReclaimPress}
-              type={!isClaimed ? BtnTypes.PRIMARY : BtnTypes.SUCCESS_LABEL}
+              type={BtnTypes.PRIMARY}
               text={!isClaimed ? t('reclaim') : t('claimed')}
               size={BtnSizes.FULL}
-              icon={
-                isClaimed ? <Checkmark height={Spacing.Thick24} color={Colors.successDark} /> : null
-              }
+              icon={isClaimed ? <Checkmark height={Spacing.Thick24} color={Colors.white} /> : null}
               iconPositionLeft={false}
             />
           </View>
