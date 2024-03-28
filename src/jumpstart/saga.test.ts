@@ -137,7 +137,7 @@ describe('jumpstartClaim', () => {
       .run()
 
     expect(Logger.error).toHaveBeenCalledWith(
-      'WalletJumpstart',
+      'WalletJumpstart/saga',
       'Error handling jumpstart link',
       mockError
     )
@@ -203,7 +203,7 @@ describe('dispatchPendingTransactions', () => {
       .run()
 
     expect(Logger.warn).toHaveBeenCalledWith(
-      'WalletJumpstart',
+      'WalletJumpstart/saga',
       'Error dispatching pending transactions',
       mockError
     )
@@ -263,7 +263,7 @@ describe('dispatchPendingERC20Transactions', () => {
       .run()
 
     expect(Logger.warn).toHaveBeenCalledWith(
-      'WalletJumpstart',
+      'WalletJumpstart/saga',
       'Claimed unknown tokenId',
       'celo-alfajores:0xunknown'
     )
@@ -323,7 +323,7 @@ describe('dispatchPendingERC721Transactions', () => {
       .run()
 
     expect(Logger.warn).toHaveBeenCalledWith(
-      'WalletJumpstart',
+      'WalletJumpstart/saga',
       'Error adding pending NFT transaction',
       mockError
     )
