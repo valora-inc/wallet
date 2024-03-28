@@ -2221,7 +2221,16 @@
     }
   },
   "jumpstartReclaim": {
-    "description": "La récupération de ton lien entraîne des frais de gaz de réseau, veux-tu continuer ?"
+    "description": "La récupération de ton lien entraîne des frais de gaz de réseau, veux-tu continuer ?",
+    "fetchStatusError": {
+      "title": "Oups, quelque chose s'est mal passé",
+      "description": "Nous n'avons pas pu obtenir le statut de réclamation de cette invitation, essaie à nouveau plus tard ou contacte l'assistance.",
+      "retryCta": "Réessayer"
+    },
+    "reclaimError": {
+      "title": "Impossible de récupérer les fonds",
+      "description": "Essaie de réclamer à nouveau, ou contacte l'assistance."
+    }
   },
   "multiSelect": {
     "switchNetwork": "Réseau de commutation",
