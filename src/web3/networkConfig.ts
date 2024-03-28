@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { Environment as PersonaEnvironment } from 'react-native-persona'
 import { BIDALI_URL, DEFAULT_FORNO_URL, DEFAULT_TESTNET, RECAPTCHA_SITE_KEY } from 'src/config'
 import { Network, NetworkId } from 'src/transactions/types'
@@ -15,7 +16,6 @@ import {
   optimism,
   optimismSepolia,
 } from 'viem/chains'
-import _ from 'lodash'
 
 export enum Testnets {
   alfajores = 'alfajores',

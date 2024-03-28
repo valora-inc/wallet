@@ -9,6 +9,9 @@ import Touchable from 'src/components/Touchable'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -17,25 +20,31 @@ import { useTokenInfo } from 'src/tokens/hooks'
 import TransactionFeedItemImage from 'src/transactions/feed/TransactionFeedItemImage'
 import { useTransferFeedDetails } from 'src/transactions/transferFeedUtils'
 import { TokenTransfer } from 'src/transactions/types'
-import { isJumpstartTransaction } from 'src/transactions/utils'
-
 interface Props {
   transfer: TokenTransfer
 }
 
 function TransferFeedItem({ transfer }: Props) {
   const { amount } = transfer
+  const isJumpstart = isJumpstartTransaction(transfer)
 
   const openTransferDetails = () => {
-    // Navigate to JumpstartTransactionDetailsScreen
-    navigate(Screens.TransactionDetailsScreen, { transaction: transfer })
+    if (isJumpstart) {
+      navigate(Screens.JumpstartTransactionDetailsScreen, { transaction: transfer })
+    } else {
+      navigate(Screens.TransactionDetailsScreen, { transaction: transfer })
+    }
+
     ValoraAnalytics.track(HomeEvents.transaction_feed_item_select)
   }
 
   const tokenInfo = useTokenInfo(amount.tokenId)
   const showTokenAmount = !amount.localAmount && !tokenInfo?.priceUsd
 
-  const { title, subtitle, recipient, customLocalAmount } = useTransferFeedDetails(transfer)
+  const { title, subtitle, recipient, customLocalAmount } = useTransferFeedDetails(
+    transfer,
+    isJumpstart
+  )
 
   const colorStyle = new BigNumber(amount.value).isPositive() ? { color: colors.primary } : {}
 
@@ -48,7 +57,7 @@ function TransferFeedItem({ transfer }: Props) {
           recipient={recipient}
           status={transfer.status}
           transactionType={transfer.__typename}
-          isJumpstart={isJumpstartTransaction(transfer)}
+          isJumpstart={isJumpstart}
           networkId={transfer.networkId}
         />
         <View style={styles.contentContainer}>
@@ -84,6 +93,13 @@ function TransferFeedItem({ transfer }: Props) {
       </View>
     </Touchable>
   )
+}
+
+function isJumpstartTransaction(tx: TokenTransfer) {
+  const jumpstartAddress = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG]
+  ).jumpstartContracts[tx.networkId]?.contractAddress
+  return tx.address === jumpstartAddress
 }
 
 const styles = StyleSheet.create({

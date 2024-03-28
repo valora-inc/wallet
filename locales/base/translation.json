@@ -515,6 +515,7 @@
   "to": "To",
   "for": "For",
   "reclaim": "Reclaim",
+  "claimed": "Claimed",
   "celoGold": "CELO",
   "celoEuros": "Celo Euros",
   "balanceAvailable": "<0></0> available",
@@ -999,6 +1000,7 @@
   "receivedFrom": "Received From",
   "commentLabel": "Message",
   "amountSent": "Amount Sent",
+  "amountReceived": "Amount Received",
   "amountCeloWithdrawn": "Amount (CELO)",
   "feeEducation": "Blockchains collect a transaction fee to keep networks supported and running smoothly.",
   "reviewPayment": "Review Payment",
@@ -2219,6 +2221,9 @@
       "contactSupport": "Contact Support",
       "dismiss": "Dismiss"
     }
+  },
+  "jumpstartReclaim": {
+    "description": "Reclaiming your link incurs a network gas fee, would you like to proceed?"
   },
   "multiSelect": {
     "switchNetwork": "Switch Network",
