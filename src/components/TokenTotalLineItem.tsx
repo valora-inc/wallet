@@ -6,7 +6,7 @@ import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { LocalAmount } from 'src/transactions/types'
 
@@ -42,7 +42,7 @@ export default function TokenTotalLineItem({
     <>
       <LineItemRow
         title={title ?? t('total')}
-        textStyle={fontStyles.regular600}
+        textStyle={typeScale.labelSemiBoldMedium}
         amount={
           <TokenDisplay
             amount={tokenAmount.plus(feeInToken ?? 0)}
@@ -93,11 +93,11 @@ const styles = StyleSheet.create({
     marginVertical: 0,
   },
   subtotalText: {
-    ...fontStyles.small,
+    ...typeScale.labelSmall,
     color: colors.gray4,
   },
   exchangeRate: {
-    ...fontStyles.small,
+    ...typeScale.labelSmall,
     color: colors.gray4,
   },
 })
