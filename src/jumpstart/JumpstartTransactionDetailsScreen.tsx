@@ -6,6 +6,8 @@ import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import walletJumpstart from 'src/abis/IWalletJumpstart'
+import { JumpstartEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -72,7 +74,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
   const fetchClaimData = useAsync(
     async () => {
       if (!isDeposit) {
-        return
+        return null
       }
       const { claimed, beneficiary, index } = await fetchClaimStatus(
         jumpstartContractAddress as Address,
@@ -114,13 +116,31 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
     },
     [],
     {
+      onSuccess: (result) => {
+        if (result) {
+          ValoraAnalytics.track(JumpstartEvents.jumpstart_claim_status_fetch_success, {
+            networkId,
+            depositTxHash: transaction.transactionHash,
+            claimed: result.claimed,
+          })
+        }
+      },
       onError: (error) => {
+        ValoraAnalytics.track(JumpstartEvents.jumpstart_claim_status_fetch_error, {
+          networkId,
+          depositTxHash: transaction.transactionHash,
+        })
         Logger.warn(TAG, 'Failed to fetch escrow data', error)
       },
     }
   )
 
   const handleReclaimPress = () => {
+    ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_press, {
+      networkId,
+      depositTxHash: transaction.transactionHash,
+    })
+
     if (reclaimStatus === 'error') {
       dispatch(jumpstartReclaimErrorDismissed())
     }
@@ -128,15 +148,36 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
   }
 
   const handleConfirmReclaim = () => {
+    ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_start, {
+      networkId,
+      depositTxHash: transaction.transactionHash,
+    })
+
     if (!reclaimTx) {
       Logger.warn(TAG, 'Reclaim transaction is not set')
       return
     }
-    dispatch(jumpstartReclaimStarted({ reclaimTx, networkId, tokenAmount }))
+    dispatch(
+      jumpstartReclaimStarted({
+        reclaimTx,
+        networkId,
+        tokenAmount,
+        depositTxHash: transaction.transactionHash,
+      })
+    )
   }
 
   const handleContactSupport = () => {
+    ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_contact_support)
     navigate(Screens.SupportContact)
+  }
+
+  const handleDismissReclaimError = () => {
+    ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_dismiss_error, {
+      networkId,
+      depositTxHash: transaction.transactionHash,
+    })
+    dispatch(jumpstartReclaimErrorDismissed())
   }
 
   const reclaimTx = fetchClaimData.result?.preparedTransaction
@@ -282,9 +323,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
         title={t('jumpstartReclaim.reclaimError.title')}
         description={t('jumpstartReclaim.reclaimError.description')}
         ctaLabel2={t('dismiss')}
-        onPressCta2={() => {
-          dispatch(jumpstartReclaimErrorDismissed())
-        }}
+        onPressCta2={handleDismissReclaimError}
         ctaLabel={t('contactSupport')}
         onPressCta={handleContactSupport}
       />
