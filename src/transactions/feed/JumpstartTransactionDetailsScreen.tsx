@@ -24,7 +24,7 @@ import { StackParamList } from 'src/navigator/types'
 import { TAG } from 'src/send/saga'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
-import { Spacing } from 'src/styles/styles'
+import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
 import TransactionDetails from 'src/transactions/feed/TransactionDetails'
@@ -199,7 +199,11 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
         />
       </TransactionDetails>
       <BottomSheet forwardedRef={bottomSheetRef} testId="ReclaimBottomSheet">
-        <Logo />
+        <View style={styles.logoShadow}>
+          <View style={styles.logoBackground}>
+            <Logo size={24} />
+          </View>
+        </View>
         <Text style={styles.header}>{t('confirmTransaction')}</Text>
         <Text style={styles.description}>{t('jumpstartReclaim.description')}</Text>
         <DataFieldWithCopy
@@ -276,6 +280,18 @@ const styles = StyleSheet.create({
     ...typeScale.bodySmall,
     color: Colors.black,
     marginBottom: Spacing.Thick24,
+  },
+  logoShadow: {
+    ...getShadowStyle(Shadow.SoftLight),
+    borderRadius: 100,
+  },
+  logoBackground: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 40,
+    width: 40,
+    borderRadius: 100,
+    backgroundColor: Colors.white,
   },
 })
 
