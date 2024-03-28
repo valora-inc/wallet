@@ -2224,7 +2224,11 @@
   },
   "jumpstartReclaim": {
     "description": "Reclaiming your link incurs a network gas fee, would you like to proceed?",
-    "error": {
+    "fetchStatusError": {
+      "title": "Oops, something went wrong",
+      "description": "We could not get the claim status of this invitation, please try again later or contact support"
+    },
+    "reclaimError": {
       "title": "Unable to reclaim funds",
       "description": "Try to reclaim again, or contact support"
     }
