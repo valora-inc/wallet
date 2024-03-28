@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -48,9 +48,8 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  const transactionTokenInfo = useTokenInfo(transaction.amount.tokenId)
-  const parsedAmount = new BigNumber(transaction.amount.value).abs()
   const token = useTokenInfo(transaction.amount.tokenId)
+  const parsedAmount = new BigNumber(transaction.amount.value).abs()
   const isDeposit = transaction.type === TokenTransactionTypeV2.Sent
   const jumpstartContractAddress = transaction.address
   const networkId = transaction.networkId
@@ -59,28 +58,22 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
   const walletAddress = useSelector(walletAddressSelector)
   const bottomSheetRef = useRef<BottomSheetRefType>(null)
 
-  const [error, setError] = React.useState<Error | null>(null)
+  const [error, setError] = useState(false)
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, networkId))
 
   const reclaimStatus = useSelector(jumpstartReclaimStatusSelector)
 
   useEffect(() => {
-    Logger.debug('Change to status', reclaimStatus)
     switch (reclaimStatus) {
       case 'success':
         navigateHome()
         break
       case 'error':
         bottomSheetRef.current?.close()
-        setError(new Error('Failed to reclaim'))
+        setError(true)
         break
     }
   }, [reclaimStatus])
-
-  const title =
-    transaction.type === TokenTransactionTypeV2.Sent
-      ? t('feedItemJumpstartTitle')
-      : t('feedItemJumpstartReceivedSubtitle')
 
   const fetchClaimData = useAsync(
     async () => {
@@ -129,21 +122,18 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
     [],
     {
       onError: (error) => {
-        setError(new Error('Failed to fetch escrow data'))
+        setError(true)
         Logger.error(TAG, 'Failed to fetch escrow data', error)
       },
     }
   )
-
-  const reclaimTx = fetchClaimData.result?.preparedTransaction
-  const isClaimed = fetchClaimData.result?.claimed
 
   const handleReclaimPress = () => {
     bottomSheetRef.current?.snapToIndex(0)
   }
 
   const handleResetError = () => {
-    setError(null)
+    setError(false)
   }
 
   const handleConfirmReclaim = () => {
@@ -153,6 +143,13 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
     }
     dispatch(jumpstartReclaimStarted({ reclaimTx, networkId, tokenAmount }))
   }
+
+  const reclaimTx = fetchClaimData.result?.preparedTransaction
+  const isClaimed = fetchClaimData.result?.claimed
+  const title =
+    transaction.type === TokenTransactionTypeV2.Sent
+      ? t('feedItemJumpstartTitle')
+      : t('feedItemJumpstartReceivedSubtitle')
 
   if (!token) {
     // should never happen
@@ -221,10 +218,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
         />
         <LineItemRow
           title={
-            <Trans
-              i18nKey={'tokenExchangeRateApprox'}
-              tOptions={{ symbol: transactionTokenInfo?.symbol }}
-            >
+            <Trans i18nKey={'tokenExchangeRateApprox'} tOptions={{ symbol: token?.symbol }}>
               <TokenDisplay
                 amount={new BigNumber(1)}
                 tokenId={transaction.amount.tokenId}
