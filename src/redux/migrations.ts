@@ -1637,4 +1637,11 @@ export const migrations = {
       pendingSessions: [],
     },
   }),
+  203: (state: any) => ({
+    ...state,
+    jumpstart: {
+      ...state.jumpstart,
+      reclaimStatus: 'idle',
+    },
+  }),
 }

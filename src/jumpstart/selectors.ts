@@ -11,3 +11,7 @@ export const showJumstartClaimError = (state: RootState) => {
 export const jumpstartSendStatusSelector = (state: RootState) => {
   return state.jumpstart.depositStatus
 }
+
+export const jumpstartReclaimStatusSelector = (state: RootState) => {
+  return state.jumpstart.reclaimStatus
+}

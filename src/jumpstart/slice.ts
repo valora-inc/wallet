@@ -1,7 +1,13 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { TokenBalance } from 'src/tokens/slice'
+import { NetworkId, TokenAmount } from 'src/transactions/types'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 
+export interface JumpstarReclaimAction {
+  reclaimTx: SerializableTransactionRequest
+  networkId: NetworkId
+  tokenAmount: TokenAmount
+}
 export interface JumpstartTransactionStartedAction {
   serializablePreparedTransactions: SerializableTransactionRequest[]
   sendToken: TokenBalance
@@ -10,11 +16,13 @@ export interface JumpstartTransactionStartedAction {
 interface State {
   claimStatus: 'idle' | 'loading' | 'error'
   depositStatus: 'idle' | 'loading' | 'error' | 'success'
+  reclaimStatus: 'idle' | 'loading' | 'error' | 'success'
 }
 
 const initialState: State = {
   claimStatus: 'idle',
   depositStatus: 'idle',
+  reclaimStatus: 'idle',
 }
 
 const slice = createSlice({
@@ -72,6 +80,26 @@ const slice = createSlice({
       ...state,
       depositStatus: 'idle',
     }),
+    jumpstartReclaimFlowStarted: (state) => ({
+      ...state,
+      reclaimStatus: 'idle',
+    }),
+    jumpstartReclaimStarted: (state, _action: PayloadAction<JumpstarReclaimAction>) => ({
+      ...state,
+      reclaimStatus: 'loading',
+    }),
+    jumpstartReclaimSucceeded: (state) => ({
+      ...state,
+      reclaimStatus: 'success',
+    }),
+    jumpstartReclaimFailed: (state) => ({
+      ...state,
+      reclaimStatus: 'error',
+    }),
+    jumpstartReclaimErrorDismissed: (state) => ({
+      ...state,
+      reclaimStatus: 'idle',
+    }),
   },
 })
 
@@ -87,6 +115,11 @@ export const {
   depositTransactionFailed,
   depositErrorDismissed,
   depositTransactionCancelled,
+  jumpstartReclaimFlowStarted,
+  jumpstartReclaimStarted,
+  jumpstartReclaimSucceeded,
+  jumpstartReclaimFailed,
+  jumpstartReclaimErrorDismissed,
 } = slice.actions
 
 export default slice.reducer

@@ -4202,11 +4202,21 @@
                         "success"
                     ],
                     "type": "string"
+                },
+                "reclaimStatus": {
+                    "enum": [
+                        "error",
+                        "idle",
+                        "loading",
+                        "success"
+                    ],
+                    "type": "string"
                 }
             },
             "required": [
                 "claimStatus",
-                "depositStatus"
+                "depositStatus",
+                "reclaimStatus"
             ],
             "type": "object"
         },

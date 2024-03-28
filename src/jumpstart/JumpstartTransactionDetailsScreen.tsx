@@ -1,59 +1,73 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useAsync } from 'react-async-hook'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useSelector } from 'react-redux'
 import walletJumpstart from 'src/abis/IWalletJumpstart'
 import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
+import { NotificationVariant } from 'src/components/InLineNotification'
 import LineItemRow from 'src/components/LineItemRow'
+import Toast from 'src/components/Toast'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import CustomHeader from 'src/components/header/CustomHeader'
 import Checkmark from 'src/icons/Checkmark'
 import Logo from 'src/icons/Logo'
 import { fetchClaimStatus } from 'src/jumpstart/fetchClaimStatus'
+import { jumpstartReclaimStatusSelector } from 'src/jumpstart/selectors'
+import { jumpstartReclaimErrorDismissed, jumpstartReclaimStarted } from 'src/jumpstart/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { TAG } from 'src/send/saga'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
+import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import TransactionDetails from 'src/transactions/feed/TransactionDetails'
 import NetworkFeeRowItem from 'src/transactions/feed/detailContent/NetworkFeeRowItem'
 import { TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import { TransactionRequest, prepareTransactions } from 'src/viem/prepareTransactions'
+import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import EstimatedNetworkFee from 'src/walletConnect/screens/EstimatedNetworkFee'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { Address, Hash, encodeFunctionData } from 'viem'
+
+const TAG = 'JumpstartTransactionDetailsScreen'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.JumpstartTransactionDetailsScreen>
 
 function JumpstartTransactionDetailsScreen({ route }: Props) {
   const { transaction } = route.params
-  const { t } = useTranslation()
-
-  const transactionTokenInfo = useTokenInfo(transaction.amount.tokenId)
   const parsedAmount = new BigNumber(transaction.amount.value).abs()
-  const token = useTokenInfo(transaction.amount.tokenId)
   const isDeposit = transaction.type === TokenTransactionTypeV2.Sent
   const jumpstartContractAddress = transaction.address
+  const networkId = transaction.networkId
+  const tokenAmount = transaction.amount
+
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
+  const token = useTokenInfo(transaction.amount.tokenId)
 
   const walletAddress = useSelector(walletAddressSelector)
+  const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, networkId))
+  const reclaimStatus = useSelector(jumpstartReclaimStatusSelector)
+
   const bottomSheetRef = useRef<BottomSheetRefType>(null)
 
-  const title =
-    transaction.type === TokenTransactionTypeV2.Sent
-      ? t('feedItemJumpstartTitle')
-      : t('feedItemJumpstartReceivedSubtitle')
+  useEffect(() => {
+    if (reclaimStatus === 'success' || reclaimStatus === 'error') {
+      bottomSheetRef.current?.close()
+    }
+  }, [reclaimStatus])
 
   const fetchClaimData = useAsync(
     async () => {
@@ -62,7 +76,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
       }
       const { claimed, beneficiary, index } = await fetchClaimStatus(
         jumpstartContractAddress as Address,
-        transaction.networkId,
+        networkId,
         transaction.transactionHash as Hash
       )
 
@@ -70,39 +84,67 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
         return { claimed: true }
       }
 
-      return {
-        claimed: false,
-        // TODO: use prepareTransactions
-        preparedTransaction: {
-          from: walletAddress as Address,
-          to: jumpstartContractAddress as Address,
-          value: '0',
-          data: encodeFunctionData({
-            abi: walletJumpstart.abi,
-            functionName: 'reclaimERC20',
-            args: [beneficiary, BigInt(index)],
-          }),
-          // TODO: Estimate
-          gas: '130000',
-          maxFeePerGas: '1000000000',
-        },
+      const reclaimTx: TransactionRequest = {
+        from: walletAddress as Address,
+        to: jumpstartContractAddress as Address,
+        value: BigInt(0),
+        data: encodeFunctionData({
+          abi: walletJumpstart.abi,
+          functionName: 'reclaimERC20',
+          args: [beneficiary, BigInt(index)],
+        }),
+      }
+      const preparedTransactions = await prepareTransactions({
+        feeCurrencies,
+        baseTransactions: [reclaimTx],
+      })
+
+      switch (preparedTransactions.type) {
+        case 'need-decrease-spend-amount-for-gas': // fallthrough on purpose
+        case 'not-enough-balance-for-gas':
+          throw new Error('Not enough balance for gas')
+        case 'possible':
+          return {
+            preparedTransaction: getSerializablePreparedTransaction(
+              preparedTransactions.transactions[0]
+            ),
+            claimed: false,
+          }
       }
     },
     [],
     {
       onError: (error) => {
-        // TODO: Show error message in the UI
-        Logger.error(TAG, 'Failed to fetch escrow data', error)
+        Logger.warn(TAG, 'Failed to fetch escrow data', error)
       },
     }
   )
 
-  const onReclaimPress = () => {
+  const handleReclaimPress = () => {
+    if (reclaimStatus === 'error') {
+      dispatch(jumpstartReclaimErrorDismissed())
+    }
     bottomSheetRef.current?.snapToIndex(0)
   }
 
+  const handleConfirmReclaim = () => {
+    if (!reclaimTx) {
+      Logger.warn(TAG, 'Reclaim transaction is not set')
+      return
+    }
+    dispatch(jumpstartReclaimStarted({ reclaimTx, networkId, tokenAmount }))
+  }
+
+  const handleContactSupport = () => {
+    navigate(Screens.SupportContact)
+  }
+
   const reclaimTx = fetchClaimData.result?.preparedTransaction
-  const isClaimed = fetchClaimData.result?.claimed
+  const isClaimed = fetchClaimData.result?.claimed || reclaimStatus === 'success'
+  const title =
+    transaction.type === TokenTransactionTypeV2.Sent
+      ? t('feedItemJumpstartTitle')
+      : t('feedItemJumpstartReceivedSubtitle')
 
   if (!token) {
     // should never happen
@@ -142,11 +184,11 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
           <View style={styles.buttonContainer}>
             <Button
               testID={'JumpstartContent/ReclaimButton'}
-              showLoading={fetchClaimData.loading}
-              disabled={!fetchClaimData.result || isClaimed}
-              onPress={onReclaimPress}
+              showLoading={fetchClaimData.loading || reclaimStatus === 'loading'}
+              disabled={!reclaimTx || isClaimed || reclaimStatus === 'loading'}
+              onPress={handleReclaimPress}
               type={BtnTypes.PRIMARY}
-              text={!isClaimed ? t('reclaim') : t('claimed')}
+              text={isClaimed ? t('claimed') : t('reclaim')}
               size={BtnSizes.FULL}
               icon={isClaimed ? <Checkmark height={Spacing.Thick24} color={Colors.white} /> : null}
               iconPositionLeft={false}
@@ -171,10 +213,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
         />
         <LineItemRow
           title={
-            <Trans
-              i18nKey={'tokenExchangeRateApprox'}
-              tOptions={{ symbol: transactionTokenInfo?.symbol }}
-            >
+            <Trans i18nKey={'tokenExchangeRateApprox'} tOptions={{ symbol: token?.symbol }}>
               <TokenDisplay
                 amount={new BigNumber(1)}
                 tokenId={transaction.amount.tokenId}
@@ -210,16 +249,45 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
           copySuccessMessage={t('walletConnectRequest.transactionDataCopied')}
           testID="JumpstarReclaimBottomSheet/RequestPayload"
         />
-        {reclaimTx && (
-          <EstimatedNetworkFee networkId={transaction.networkId} transaction={reclaimTx} />
-        )}
-        {/* TODO: Implement confirm */}
+        {reclaimTx && <EstimatedNetworkFee networkId={networkId} transaction={reclaimTx} />}
         <Button
           text={t('confirm')}
-          onPress={() => Logger.debug('confirmed')}
+          showLoading={reclaimStatus === 'loading'}
+          disabled={reclaimStatus === 'loading' || isClaimed}
+          onPress={handleConfirmReclaim}
           size={BtnSizes.FULL}
         />
       </BottomSheet>
+      <Toast
+        withBackdrop={false}
+        showToast={fetchClaimData.error !== undefined}
+        style={styles.errorNotification}
+        variant={NotificationVariant.Error}
+        testID="JumpstartContent/ErrorNotification/FetchReclaimStatus"
+        title={t('jumpstartReclaim.fetchStatusError.title')}
+        description={t('jumpstartReclaim.fetchStatusError.description')}
+        ctaLabel2={t('jumpstartReclaim.fetchStatusError.retryCta')}
+        onPressCta2={() => {
+          void fetchClaimData.execute()
+        }}
+        ctaLabel={t('contactSupport')}
+        onPressCta={handleContactSupport}
+      />
+      <Toast
+        withBackdrop={false}
+        showToast={reclaimStatus === 'error'}
+        style={styles.errorNotification}
+        variant={NotificationVariant.Error}
+        testID="JumpstartContent/ErrorNotification/Reclaim"
+        title={t('jumpstartReclaim.reclaimError.title')}
+        description={t('jumpstartReclaim.reclaimError.description')}
+        ctaLabel2={t('dismiss')}
+        onPressCta2={() => {
+          dispatch(jumpstartReclaimErrorDismissed())
+        }}
+        ctaLabel={t('contactSupport')}
+        onPressCta={handleContactSupport}
+      />
     </SafeAreaView>
   )
 }
@@ -278,6 +346,9 @@ const styles = StyleSheet.create({
     ...typeScale.bodySmall,
     color: Colors.black,
     marginBottom: Spacing.Thick24,
+  },
+  errorNotification: {
+    marginHorizontal: Spacing.Thick24,
   },
   logoShadow: {
     ...getShadowStyle(Shadow.SoftLight),
