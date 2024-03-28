@@ -124,7 +124,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
         })
       },
       onError: (error) => {
-        ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_status_fetching_error, {
+        ValoraAnalytics.track(JumpstartEvents.jumpstart_claim_status_fetch_error, {
           networkId,
           depositTxHash: transaction.transactionHash,
         })
@@ -146,14 +146,15 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
   }
 
   const handleConfirmReclaim = () => {
-    if (!reclaimTx) {
-      Logger.warn(TAG, 'Reclaim transaction is not set')
-      return
-    }
     ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_start, {
       networkId,
       depositTxHash: transaction.transactionHash,
     })
+
+    if (!reclaimTx) {
+      Logger.warn(TAG, 'Reclaim transaction is not set')
+      return
+    }
     dispatch(
       jumpstartReclaimStarted({
         reclaimTx,
@@ -165,6 +166,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
   }
 
   const handleContactSupport = () => {
+    ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_contact_support)
     navigate(Screens.SupportContact)
   }
 

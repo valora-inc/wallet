@@ -668,8 +668,9 @@ export enum JumpstartEvents {
   jumpstart_reclaim_failed = 'jumpstart_reclaim_failed',
   jumpstart_reclaim_succeeded = 'jumpstart_reclaim_succeeded',
   jumpstart_reclaim_dismiss_error = 'jumpstart_reclaim_dismiss_error',
-  jumpstart_reclaim_status_fetching_success = 'jumpstart_reclaim_status_fetching_success',
-  jumpstart_reclaim_status_fetching_error = 'jumpstart_reclaim_status_fetching_error',
+  jumpstart_reclaim_contact_support = 'jumpstart_reclaim_contact_support',
+  jumpstart_claim_status_fetch_success = 'jumpstart_claim_status_fetch_success',
+  jumpstart_claim_status_fetch_error = 'jumpstart_claim_status_fetch_error',
 }
 
 export enum PointsEvents {
