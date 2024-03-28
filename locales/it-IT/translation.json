@@ -515,6 +515,7 @@
   "to": "A",
   "for": "Motivo",
   "reclaim": "Recupera",
+  "claimed": "Richiesta",
   "celoGold": "CELO",
   "celoEuros": "Celo Euro",
   "balanceAvailable": "<0></0> disponibili",
@@ -997,6 +998,7 @@
   "receivedFrom": "Ricevuti da",
   "commentLabel": "Messaggio",
   "amountSent": "Importo inviato",
+  "amountReceived": "Importo ricevuto",
   "amountCeloWithdrawn": "Importo (CELO)",
   "feeEducation": "Le blockchain addebitano una commissione sulle transazioni per garantire il supporto e il funzionamento delle reti.",
   "reviewPayment": "Rivedi pagamento",
@@ -2217,6 +2219,9 @@
       "contactSupport": "Contatta il supporto tecnico",
       "dismiss": "Ignora"
     }
+  },
+  "jumpstartReclaim": {
+    "description": "Il recupero del tuo link comporta una tassa sul gas di rete, vuoi procedere?"
   },
   "multiSelect": {
     "switchNetwork": "Rete di interruttori",
