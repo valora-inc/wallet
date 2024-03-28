@@ -225,9 +225,9 @@ exports[`SendConfirmation renders correctly 1`] = `
                   style={
                     {
                       "color": "#666666",
-                      "fontFamily": "Inter-Regular",
+                      "fontFamily": "Inter-Medium",
                       "fontSize": 16,
-                      "lineHeight": 22,
+                      "lineHeight": 24,
                     }
                   }
                   testID="HeaderText"
@@ -240,7 +240,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                       "color": "#2E3338",
                       "fontFamily": "Inter-Medium",
                       "fontSize": 16,
-                      "lineHeight": 22,
+                      "lineHeight": 24,
                     }
                   }
                   testID="DisplayName"
@@ -253,8 +253,9 @@ exports[`SendConfirmation renders correctly 1`] = `
               style={
                 {
                   "color": "#2E3338",
-                  "fontFamily": "Inter-SemiBold",
+                  "fontFamily": "Inter-Bold",
                   "fontSize": 32,
+                  "letterSpacing": -0.32,
                   "lineHeight": 40,
                   "paddingVertical": 8,
                 }
@@ -371,9 +372,9 @@ exports[`SendConfirmation renders correctly 1`] = `
               [
                 {
                   "color": "#2E3338",
-                  "fontFamily": "Inter-Regular",
+                  "fontFamily": "Inter-Medium",
                   "fontSize": 16,
-                  "lineHeight": 22,
+                  "lineHeight": 24,
                 },
                 {
                   "fontFamily": "Inter-Regular",
@@ -392,9 +393,9 @@ exports[`SendConfirmation renders correctly 1`] = `
             [
               {
                 "color": "#2E3338",
-                "fontFamily": "Inter-Regular",
+                "fontFamily": "Inter-Medium",
                 "fontSize": 16,
-                "lineHeight": 22,
+                "lineHeight": 24,
               },
               {
                 "fontFamily": "Inter-Regular",
@@ -440,15 +441,15 @@ exports[`SendConfirmation renders correctly 1`] = `
               [
                 {
                   "color": "#2E3338",
-                  "fontFamily": "Inter-Regular",
+                  "fontFamily": "Inter-Medium",
                   "fontSize": 16,
-                  "lineHeight": 22,
+                  "lineHeight": 24,
                 },
                 {
                   "color": "#666666",
-                  "fontFamily": "Inter-Regular",
+                  "fontFamily": "Inter-Medium",
                   "fontSize": 14,
-                  "lineHeight": 18,
+                  "lineHeight": 20,
                 },
               ]
             }
@@ -460,15 +461,15 @@ exports[`SendConfirmation renders correctly 1`] = `
             [
               {
                 "color": "#2E3338",
-                "fontFamily": "Inter-Regular",
+                "fontFamily": "Inter-Medium",
                 "fontSize": 16,
-                "lineHeight": 22,
+                "lineHeight": 24,
               },
               {
                 "color": "#666666",
-                "fontFamily": "Inter-Regular",
+                "fontFamily": "Inter-Medium",
                 "fontSize": 14,
-                "lineHeight": 18,
+                "lineHeight": 20,
               },
             ]
           }
@@ -507,15 +508,14 @@ exports[`SendConfirmation renders correctly 1`] = `
               [
                 {
                   "color": "#2E3338",
-                  "fontFamily": "Inter-Regular",
+                  "fontFamily": "Inter-Medium",
                   "fontSize": 16,
-                  "lineHeight": 22,
+                  "lineHeight": 24,
                 },
                 {
-                  "color": "#2E3338",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
-                  "lineHeight": 22,
+                  "lineHeight": 24,
                 },
               ]
             }
@@ -529,15 +529,14 @@ exports[`SendConfirmation renders correctly 1`] = `
             [
               {
                 "color": "#2E3338",
-                "fontFamily": "Inter-Regular",
+                "fontFamily": "Inter-Medium",
                 "fontSize": 16,
-                "lineHeight": 22,
+                "lineHeight": 24,
               },
               {
-                "color": "#2E3338",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
-                "lineHeight": 22,
+                "lineHeight": 24,
               },
             ]
           }
@@ -581,15 +580,15 @@ exports[`SendConfirmation renders correctly 1`] = `
               [
                 {
                   "color": "#2E3338",
-                  "fontFamily": "Inter-Regular",
+                  "fontFamily": "Inter-Medium",
                   "fontSize": 16,
-                  "lineHeight": 22,
+                  "lineHeight": 24,
                 },
                 {
                   "color": "#666666",
-                  "fontFamily": "Inter-Regular",
+                  "fontFamily": "Inter-Medium",
                   "fontSize": 14,
-                  "lineHeight": 18,
+                  "lineHeight": 20,
                 },
               ]
             }
@@ -599,9 +598,9 @@ exports[`SendConfirmation renders correctly 1`] = `
               style={
                 {
                   "color": "#666666",
-                  "fontFamily": "Inter-Regular",
+                  "fontFamily": "Inter-Medium",
                   "fontSize": 14,
-                  "lineHeight": 18,
+                  "lineHeight": 20,
                 }
               }
               testID="TotalLineItem/ExchangeRate"
@@ -619,15 +618,15 @@ exports[`SendConfirmation renders correctly 1`] = `
             [
               {
                 "color": "#2E3338",
-                "fontFamily": "Inter-Regular",
+                "fontFamily": "Inter-Medium",
                 "fontSize": 16,
-                "lineHeight": 22,
+                "lineHeight": 24,
               },
               {
                 "color": "#666666",
-                "fontFamily": "Inter-Regular",
+                "fontFamily": "Inter-Medium",
                 "fontSize": 14,
-                "lineHeight": 18,
+                "lineHeight": 20,
               },
             ]
           }
