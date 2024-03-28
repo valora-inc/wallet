@@ -2221,7 +2221,16 @@
     }
   },
   "jumpstartReclaim": {
-    "description": "Für die Rückforderung deines Links fällt eine Netzgasgebühr an. Möchtest du fortfahren?"
+    "description": "Für die Rückforderung deines Links fällt eine Netzgasgebühr an. Möchtest du fortfahren?",
+    "fetchStatusError": {
+      "title": "Ups, da ist etwas schief gelaufen",
+      "description": "Wir konnten den Forderungsstatus dieser Einladung nicht ermitteln. Bitte versuche es später noch einmal oder kontaktiere den Support.",
+      "retryCta": "Erneut versuchen"
+    },
+    "reclaimError": {
+      "title": "Nicht in der Lage, Gelder zurückzufordern",
+      "description": "Versuche, erneut zu reklamieren, oder kontaktiere den Support"
+    }
   },
   "multiSelect": {
     "switchNetwork": "Netzwerk wechseln",
