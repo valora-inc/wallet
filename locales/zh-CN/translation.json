@@ -1924,7 +1924,8 @@
       "myTokens": "我的令牌",
       "popular": "热门",
       "recentlySwapped": "最近交换",
-      "network": "{{networkName}} 网络"
+      "network": "{{networkName}} 网络",
+      "selectNetwork": "网络"
     }
   },
   "homeActions": {
