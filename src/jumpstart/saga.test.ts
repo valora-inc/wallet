@@ -75,6 +75,7 @@ const mockError = new Error('test error')
 const mockTransactionReceipt = {
   transactionHash: '0xHASH1',
   logs: [],
+  status: 'success',
 } as unknown as TransactionReceipt
 
 const mockJumpstartRemoteConfig = {
@@ -469,7 +470,7 @@ describe('jumpstartReclaim', () => {
   const networkId = NetworkId['celo-alfajores']
   const depositTxHash = '0xaaa'
 
-  it('should send the reclaim transaction and dispatch the success action', async () => {
+  it('should send the reclaim transaction and dispatch the success action on success', async () => {
     await expectSaga(jumpstartReclaim, {
       type: jumpstartReclaimStarted.type,
       payload: {
@@ -483,6 +484,9 @@ describe('jumpstartReclaim', () => {
         depositTxHash,
       },
     })
+      .provide([
+        [matchers.call.fn(publicClient[network].waitForTransactionReceipt), mockTransactionReceipt],
+      ])
       .withState(createMockStore().getState())
       .put(jumpstartReclaimSucceeded())
       .run()
@@ -502,11 +506,14 @@ describe('jumpstartReclaim', () => {
     )
   })
 
-  it('should fail when sending the reclaim transaction and dispatch the error action', async () => {
-    jest.mocked(sendPreparedTransactions).mockImplementation(() => {
-      throw new Error('test error')
+  it('should dispatch an error if the reclaim transaction is reverted', async () => {
+    const serializablePreparedTransaction = getSerializablePreparedTransaction({
+      from: '0xa',
+      to: '0xb',
+      value: BigInt(0),
+      data: '0x0',
+      gas: BigInt(59_480),
     })
-
     await expectSaga(jumpstartReclaim, {
       type: jumpstartReclaimStarted.type,
       payload: {
@@ -515,11 +522,17 @@ describe('jumpstartReclaim', () => {
           tokenAddress: '0x123',
           tokenId: 'celo-alfajores:0x123',
         },
-        networkId,
-        reclaimTx: mockSerializablePreparedTransaction,
+        networkId: NetworkId['celo-alfajores'],
+        reclaimTx: serializablePreparedTransaction,
         depositTxHash,
       },
     })
+      .provide([
+        [
+          matchers.call.fn(publicClient[network].waitForTransactionReceipt),
+          { ...mockTransactionReceipt, status: 'reverted' },
+        ],
+      ])
       .withState(createMockStore().getState())
       .not.put(jumpstartReclaimSucceeded())
       .put(jumpstartReclaimFailed())
@@ -530,7 +543,7 @@ describe('jumpstartReclaim', () => {
       depositTxHash,
     })
     expect(sendPreparedTransactions).toHaveBeenCalledWith(
-      [mockSerializablePreparedTransaction],
+      [serializablePreparedTransaction],
       'celo-alfajores',
       expect.any(Array)
     )
