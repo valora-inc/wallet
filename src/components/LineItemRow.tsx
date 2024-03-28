@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { ActivityIndicator, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 interface LineItemProps {
   style?: ViewStyle
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   text: {
-    ...fontStyles.regular,
+    ...typeScale.labelMedium,
     color: colors.black,
   },
   loadingContainer: {
