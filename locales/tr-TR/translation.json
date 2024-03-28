@@ -2221,7 +2221,16 @@
     }
   },
   "jumpstartReclaim": {
-    "description": "Bağlantınızı geri almak şebeke gazı ücretine tabidir, devam etmek ister misiniz?"
+    "description": "Bağlantınızı geri almak şebeke gazı ücretine tabidir, devam etmek ister misiniz?",
+    "fetchStatusError": {
+      "title": "Oops, bir şeyler ters gitti",
+      "description": "Bu davetin talep durumunu alamadık, lütfen daha sonra tekrar deneyin veya destek ekibiyle iletişime geçin",
+      "retryCta": "Yeniden Dene"
+    },
+    "reclaimError": {
+      "title": "Fonlar geri alınamıyor",
+      "description": "Tekrar geri almayı deneyin veya desteğe başvurun"
+    }
   },
   "multiSelect": {
     "switchNetwork": "Anahtar Ağı",
