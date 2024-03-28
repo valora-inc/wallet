@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import { useAsync } from 'react-async-hook'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -31,7 +31,6 @@ import TransactionDetails from 'src/transactions/feed/TransactionDetails'
 import NetworkFeeRowItem from 'src/transactions/feed/detailContent/NetworkFeeRowItem'
 import { TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import EstimatedNetworkFee from 'src/walletConnect/screens/EstimatedNetworkFee'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { Address, Hash, encodeFunctionData } from 'viem'
@@ -41,9 +40,6 @@ type Props = NativeStackScreenProps<StackParamList, Screens.JumpstartTransaction
 function JumpstartTransactionDetailsScreen({ route }: Props) {
   const { transaction } = route.params
   const { t } = useTranslation()
-
-  const [reclaimTx, setReclaimTx] = useState<SerializableTransactionRequest | null>(null)
-  const transactionString = useMemo(() => (reclaimTx ? JSON.stringify(reclaimTx) : ''), [reclaimTx])
 
   const transactionTokenInfo = useTokenInfo(transaction.amount.tokenId)
   const parsedAmount = new BigNumber(transaction.amount.value).abs()
@@ -64,11 +60,29 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
       if (!isDeposit) {
         return
       }
-      return await fetchClaimStatus(
+      const { claimed, beneficiary, index } = await fetchClaimStatus(
         jumpstartContractAddress as Address,
         transaction.networkId,
         transaction.transactionHash as Hash
       )
+
+      return {
+        claimed,
+        // TODO: use prepareTransactions
+        preparedTransaction: {
+          from: walletAddress as Address,
+          to: jumpstartContractAddress as Address,
+          value: '0',
+          data: encodeFunctionData({
+            abi: walletJumpstart.abi,
+            functionName: 'reclaimERC20',
+            args: [beneficiary, BigInt(index)],
+          }),
+          // TODO: Estimate
+          gas: '130000',
+          maxFeePerGas: '1000000000',
+        },
+      }
     },
     [],
     {
@@ -80,30 +94,10 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
   )
 
   const onReclaimPress = () => {
-    if (!fetchClaimData.result) {
-      Logger.error(TAG, 'No escrow data found when trying to reclaim')
-      return
-    }
-
-    const { beneficiary, index } = fetchClaimData.result
-
-    setReclaimTx({
-      from: walletAddress as Address,
-      to: jumpstartContractAddress as Address,
-      value: '0',
-      data: encodeFunctionData({
-        abi: walletJumpstart.abi,
-        functionName: 'reclaimERC20',
-        args: [beneficiary, BigInt(index)],
-      }),
-      // TODO: Estimate
-      gas: '130000',
-      maxFeePerGas: '1000000000',
-    })
-
     bottomSheetRef.current?.snapToIndex(0)
   }
 
+  const reclaimTx = fetchClaimData.result?.preparedTransaction
   const isClaimed = fetchClaimData.result?.claimed
 
   if (!token) {
@@ -208,7 +202,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
         <Text style={styles.description}>{t('jumpstartReclaim.description')}</Text>
         <DataFieldWithCopy
           label={t('walletConnectRequest.transactionDataLabel')}
-          value={transactionString}
+          value={JSON.stringify(reclaimTx)}
           copySuccessMessage={t('walletConnectRequest.transactionDataCopied')}
           testID="JumpstarReclaimBottomSheet/RequestPayload"
         />
