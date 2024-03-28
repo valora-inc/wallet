@@ -229,6 +229,7 @@ describe('JumpstartTransactionDetailsScreen', () => {
         reclaimTx: getSerializablePreparedTransaction(mockReclaimTx),
         networkId: mockTransaction.networkId,
         tokenAmount: mockTransaction.amount,
+        depositTxHash: mockTransaction.transactionHash,
       }),
     ])
   })

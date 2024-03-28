@@ -32,6 +32,7 @@ import {
   OnboardingEvents,
   PerformanceEvents,
   PhoneVerificationEvents,
+  PointsEvents,
   QrScreenEvents,
   RewardsEvents,
   SendEvents,
@@ -42,7 +43,6 @@ import {
   TransactionEvents,
   WalletConnectEvents,
   WebViewEvents,
-  PointsEvents,
 } from 'src/analytics/Events'
 import {
   BackQuizProgress,
@@ -67,13 +67,13 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NftOrigin } from 'src/nfts/types'
 import { NotificationReceiveState } from 'src/notifications/types'
 import { AdventureCardName } from 'src/onboarding/types'
+import { PointsActivity } from 'src/points/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { QrCode } from 'src/send/types'
 import { Field } from 'src/swap/types'
 import { TokenDetailsActionName } from 'src/tokens/types'
 import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
-import { PointsActivity } from 'src/points/types'
 
 type Web3LibraryProps = { web3Library: 'contract-kit' | 'viem' }
 
@@ -1511,6 +1511,10 @@ interface JumpstartSendProperties extends JumpstartDepositProperties {
   tokenSymbol: string
   tokenAmount: string | null
 }
+interface JumpstartReclaimProperties {
+  networkId: NetworkId
+  depositTxHash: string
+}
 export enum JumpstartShareOrigin {
   QrScreen = 'qrScreen',
   MainScreen = 'mainScreen',
@@ -1553,6 +1557,18 @@ interface JumpstartEventsProperties {
   [JumpstartEvents.jumpstart_claim_loading_dismissed]: undefined
   [JumpstartEvents.jumpstart_claim_error_dismissed]: undefined
   [JumpstartEvents.jumpstart_claim_error_contact_support]: undefined
+  [JumpstartEvents.jumpstart_reclaim_press]: JumpstartReclaimProperties
+  [JumpstartEvents.jumpstart_reclaim_start]: JumpstartReclaimProperties
+  [JumpstartEvents.jumpstart_reclaim_failed]: JumpstartReclaimProperties
+  [JumpstartEvents.jumpstart_reclaim_succeeded]: JumpstartReclaimProperties & {
+    reclaimTxHash: string
+  }
+  [JumpstartEvents.jumpstart_reclaim_dismiss_error]: JumpstartReclaimProperties
+  [JumpstartEvents.jumpstart_reclaim_contact_support]: undefined
+  [JumpstartEvents.jumpstart_claim_status_fetch_success]: JumpstartReclaimProperties & {
+    claimed: boolean
+  }
+  [JumpstartEvents.jumpstart_claim_status_fetch_error]: JumpstartReclaimProperties
 }
 
 interface PointsEventsProperties {
