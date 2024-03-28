@@ -2221,7 +2221,16 @@
     }
   },
   "jumpstartReclaim": {
-    "description": "Il recupero del tuo link comporta una tassa sul gas di rete, vuoi procedere?"
+    "description": "Il recupero del tuo link comporta una tassa sul gas di rete, vuoi procedere?",
+    "fetchStatusError": {
+      "title": "Oops, qualcosa è andato storto",
+      "description": "Non è stato possibile ottenere lo stato di richiesta di questo invito, ti preghiamo di riprovare più tardi o di contattare l'assistenza.",
+      "retryCta": "Riprova"
+    },
+    "reclaimError": {
+      "title": "Impossibile recuperare i fondi",
+      "description": "Prova a reclamare di nuovo, oppure contatta l'assistenza"
+    }
   },
   "multiSelect": {
     "switchNetwork": "Rete di interruttori",
