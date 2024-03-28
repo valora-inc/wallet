@@ -1926,7 +1926,8 @@
       "myTokens": "Mes jetons",
       "popular": "Populaires",
       "recentlySwapped": "Échangés récemment",
-      "network": "Réseau {{networkName}}"
+      "network": "Réseau {{networkName}}",
+      "selectNetwork": "Réseau"
     }
   },
   "homeActions": {
