@@ -558,6 +558,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [TokenBottomSheetEvents.search_token]: `When a user searches a token using the token bottom sheet search box`,
   [TokenBottomSheetEvents.token_selected]: `A token was selected in TokenBottomSheet.`,
   [TokenBottomSheetEvents.toggle_tokens_filter]: `A filter was selected in the TokenBottomSheet.`,
+  [TokenBottomSheetEvents.network_filter_updated]: `The network filter was updated and the multiselect UI closed in the TokenBottomSheet.`,
   [AssetsEvents.show_asset_balance_info]: `When a user taps on the info icon`,
   [AssetsEvents.view_wallet_assets]: `When a user taps on the "Wallet Assets" segmented control or "Assets" tab`,
   [AssetsEvents.view_collectibles]: `When a user taps on the "Collectibles" tab`,

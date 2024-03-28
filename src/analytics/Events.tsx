@@ -591,6 +591,7 @@ export enum TokenBottomSheetEvents {
   search_token = 'search_token',
   token_selected = 'token_selected',
   toggle_tokens_filter = 'toggle_tokens_filter',
+  network_filter_updated = 'network_filter_updated',
 }
 
 export enum AssetsEvents {

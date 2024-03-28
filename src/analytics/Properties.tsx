@@ -1361,6 +1361,10 @@ interface TokenBottomSheetEventsProperties {
     isRemoving: boolean
     isPreSelected: boolean
   }
+  [TokenBottomSheetEvents.network_filter_updated]: {
+    selectedNetworkIds: NetworkId[]
+    origin: TokenPickerOrigin
+  }
   [TokenBottomSheetEvents.token_selected]: {
     origin: TokenPickerOrigin
     tokenId: string
