@@ -1515,6 +1515,10 @@ interface JumpstartSendProperties extends JumpstartDepositProperties {
   tokenSymbol: string
   tokenAmount: string | null
 }
+interface JumpstartReclaimProperties {
+  networkId: NetworkId
+  depositTxHash: string
+}
 export enum JumpstartShareOrigin {
   QrScreen = 'qrScreen',
   MainScreen = 'mainScreen',
@@ -1557,6 +1561,18 @@ interface JumpstartEventsProperties {
   [JumpstartEvents.jumpstart_claim_loading_dismissed]: undefined
   [JumpstartEvents.jumpstart_claim_error_dismissed]: undefined
   [JumpstartEvents.jumpstart_claim_error_contact_support]: undefined
+  [JumpstartEvents.jumpstart_reclaim_press]: JumpstartReclaimProperties
+  [JumpstartEvents.jumpstart_reclaim_start]: JumpstartReclaimProperties
+  [JumpstartEvents.jumpstart_reclaim_failed]: JumpstartReclaimProperties
+  [JumpstartEvents.jumpstart_reclaim_succeeded]: JumpstartReclaimProperties & {
+    reclaimTxHash: string
+  }
+  [JumpstartEvents.jumpstart_reclaim_dismiss_error]: JumpstartReclaimProperties
+  [JumpstartEvents.jumpstart_reclaim_contact_support]: undefined
+  [JumpstartEvents.jumpstart_claim_status_fetch_success]: JumpstartReclaimProperties & {
+    claimed: boolean
+  }
+  [JumpstartEvents.jumpstart_claim_status_fetch_error]: JumpstartReclaimProperties
 }
 
 interface PointsEventsProperties {
