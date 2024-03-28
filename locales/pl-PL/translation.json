@@ -2225,7 +2225,16 @@
     }
   },
   "jumpstartReclaim": {
-    "description": "Odzyskanie łącza wiąże się z opłatą za gaz sieciowy, czy chcesz kontynuować?"
+    "description": "Odzyskanie łącza wiąże się z opłatą za gaz sieciowy, czy chcesz kontynuować?",
+    "fetchStatusError": {
+      "title": "Ups, coś poszło nie tak",
+      "description": "Nie mogliśmy uzyskać statusu tego zaproszenia, spróbuj ponownie później lub skontaktuj się z pomocą techniczną.",
+      "retryCta": "Spróbuj ponownie"
+    },
+    "reclaimError": {
+      "title": "Brak możliwości odzyskania środków",
+      "description": "Spróbuj odzyskać ponownie lub skontaktuj się z pomocą techniczną"
+    }
   },
   "multiSelect": {
     "switchNetwork": "Sieć przełączników",
