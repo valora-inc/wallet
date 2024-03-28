@@ -6,9 +6,10 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { hideHomeBalancesSelector } from 'src/app/selectors'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
+import { jumpstartReclaimFlowStarted } from 'src/jumpstart/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { useSelector } from 'src/redux/hooks'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
@@ -25,11 +26,13 @@ interface Props {
 }
 
 function TransferFeedItem({ transfer }: Props) {
+  const dispatch = useDispatch()
   const { amount } = transfer
   const isJumpstart = isJumpstartTransaction(transfer)
 
   const openTransferDetails = () => {
     if (isJumpstart) {
+      dispatch(jumpstartReclaimFlowStarted())
       navigate(Screens.JumpstartTransactionDetailsScreen, { transaction: transfer })
     } else {
       navigate(Screens.TransactionDetailsScreen, { transaction: transfer })
