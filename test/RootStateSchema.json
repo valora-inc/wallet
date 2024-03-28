@@ -2635,6 +2635,7 @@
                 "JumpstartEnterAmount",
                 "JumpstartSendConfirmation",
                 "JumpstartShareLink",
+                "JumpstartTransactionDetailsScreen",
                 "KeylessBackupIntro",
                 "KeylessBackupPhoneCodeInput",
                 "KeylessBackupPhoneInput",
@@ -4205,11 +4206,21 @@
                         "success"
                     ],
                     "type": "string"
+                },
+                "reclaimStatus": {
+                    "enum": [
+                        "error",
+                        "idle",
+                        "loading",
+                        "success"
+                    ],
+                    "type": "string"
                 }
             },
             "required": [
                 "claimStatus",
-                "depositStatus"
+                "depositStatus",
+                "reclaimStatus"
             ],
             "type": "object"
         },

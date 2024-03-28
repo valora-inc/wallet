@@ -515,6 +515,7 @@
   "to": "To",
   "for": "For",
   "reclaim": "Reclaim",
+  "claimed": "Claimed",
   "celoGold": "CELO",
   "celoEuros": "Celo Euros",
   "balanceAvailable": "<0></0> available",
@@ -999,6 +1000,7 @@
   "receivedFrom": "Received From",
   "commentLabel": "Message",
   "amountSent": "Amount Sent",
+  "amountReceived": "Amount Received",
   "amountCeloWithdrawn": "Amount (CELO)",
   "feeEducation": "Blockchains collect a transaction fee to keep networks supported and running smoothly.",
   "reviewPayment": "Review Payment",
@@ -1926,7 +1928,8 @@
       "myTokens": "My tokens",
       "popular": "Popular",
       "recentlySwapped": "Recently swapped",
-      "network": "{{networkName}} Network"
+      "network": "{{networkName}} Network",
+      "selectNetwork": "Network"
     }
   },
   "homeActions": {
@@ -2034,8 +2037,8 @@
       "subtitle": "Invite friends from your contacts list"
     },
     "jumpstart": {
-      "title": "Send with a live link",
-      "subtitle": "Copy the link and share it to send crypto just like a text"
+      "title": "Send with a Live Link",
+      "subtitle": "Share a link to send crypto like a text"
     },
     "getStarted": {
       "title": "Ways to send funds on Valora",
@@ -2221,6 +2224,22 @@
       "contactSupport": "Contact Support",
       "dismiss": "Dismiss"
     }
+  },
+  "jumpstartReclaim": {
+    "description": "Reclaiming your link incurs a network gas fee, would you like to proceed?",
+    "fetchStatusError": {
+      "title": "Oops, something went wrong",
+      "description": "We could not get the claim status of this invitation, please try again later or contact support",
+      "retryCta": "Retry"
+    },
+    "reclaimError": {
+      "title": "Unable to reclaim funds",
+      "description": "Try to reclaim again, or contact support"
+    }
+  },
+  "multiSelect": {
+    "switchNetwork": "Switch Network",
+    "allNetworks": "All Networks"
   },
   "points": {
     "title": "Valora Points",

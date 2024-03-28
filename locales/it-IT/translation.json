@@ -2218,6 +2218,10 @@
       "dismiss": "Ignora"
     }
   },
+  "multiSelect": {
+    "switchNetwork": "Rete di interruttori",
+    "allNetworks": "Tutte le reti"
+  },
   "points": {
     "title": "Punti Valora",
     "activity": "Attività",

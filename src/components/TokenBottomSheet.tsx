@@ -9,17 +9,23 @@ import { TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
 import BottomSheetBase from 'src/components/BottomSheetBase'
-import FilterChipsCarousel, { FilterChip } from 'src/components/FilterChipsCarousel'
+import FilterChipsCarousel, {
+  FilterChip,
+  NetworkFilterChip,
+  isNetworkChip,
+} from 'src/components/FilterChipsCarousel'
 import SearchInput from 'src/components/SearchInput'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
+import NetworkMultiSelectBottomSheet from 'src/components/multiSelect/NetworkMultiSelectBottomSheet'
 import InfoIcon from 'src/icons/InfoIcon'
 import colors, { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
 import { TokenBalance } from 'src/tokens/slice'
+import { NetworkId } from 'src/transactions/types'
 
 export enum TokenPickerOrigin {
   Send = 'Send',
@@ -160,21 +166,50 @@ function TokenBottomSheet<T extends TokenBalance>({
 
   const { t } = useTranslation()
 
-  const handleToggleFilterChip = (toggledChip: FilterChip<TokenBalance>) => {
-    ValoraAnalytics.track(TokenBottomSheetEvents.toggle_tokens_filter, {
-      filterId: toggledChip.id,
-      isRemoving: filters.find((chip) => chip.id === toggledChip.id)?.isSelected ?? false,
-      isPreSelected: filterChips.find((chip) => chip.id === toggledChip.id)?.isSelected ?? false,
-    })
+  const networkChipRef = useRef<BottomSheetRefType>(null)
+  const networkChip = useMemo(
+    () => filters.find((chip): chip is NetworkFilterChip<TokenBalance> => isNetworkChip(chip)),
+    [filters]
+  )
 
+  // These function params mimic the params of the setSelectedNetworkIds function in
+  // const [selectedNetworkIds, setSelectedNetworkIds] = useState<NetworkId[]>([])
+  // This custom function is used to keep the same shared state between the network filter and the other filters
+  // which made the rest of the code more readable and maintainable
+  const setSelectedNetworkIds = (arg: NetworkId[] | ((networkIds: NetworkId[]) => NetworkId[])) => {
     setFilters((prev) => {
       return prev.map((chip) => {
-        if (chip.id === toggledChip.id) {
-          return { ...chip, isSelected: !chip.isSelected }
+        if (isNetworkChip(chip)) {
+          const selectedNetworkIds = typeof arg === 'function' ? arg(chip.selectedNetworkIds) : arg
+          return {
+            ...chip,
+            selectedNetworkIds,
+            isSelected: selectedNetworkIds.length !== chip.allNetworkIds.length,
+          }
         }
         return chip
       })
     })
+  }
+
+  const handleToggleFilterChip = (toggledChip: FilterChip<TokenBalance>) => {
+    if (isNetworkChip(toggledChip)) {
+      networkChipRef.current?.snapToIndex(0)
+    } else {
+      ValoraAnalytics.track(TokenBottomSheetEvents.toggle_tokens_filter, {
+        filterId: toggledChip.id,
+        isRemoving: filters.find((chip) => chip.id === toggledChip.id)?.isSelected ?? false,
+        isPreSelected: filterChips.find((chip) => chip.id === toggledChip.id)?.isSelected ?? false,
+      })
+      setFilters((prev) => {
+        return prev.map((chip) => {
+          if (chip.id === toggledChip.id) {
+            return { ...chip, isSelected: !chip.isSelected }
+          }
+          return chip
+        })
+      })
+    }
   }
 
   const onTokenPressed = (token: T, index: number) => () => {
@@ -203,12 +238,17 @@ function TokenBottomSheet<T extends TokenBalance>({
 
   const tokenList = useMemo(() => {
     const lowercasedSearchTerm = searchTerm.toLowerCase()
-    const activeFilterFns =
-      activeFilters.length > 0 ? activeFilters.map((filter) => filter.filterFn) : null
 
     return tokens.filter((token) => {
       // Exclude the token if it does not match the active filters
-      if (activeFilterFns && !activeFilterFns.every((filterFn) => filterFn(token))) {
+      if (
+        !activeFilters.every((filter) => {
+          if (isNetworkChip(filter)) {
+            return filter.filterFn(token, filter.selectedNetworkIds)
+          }
+          return filter.filterFn(token)
+        })
+      ) {
         return false
       }
 
@@ -247,66 +287,83 @@ function TokenBottomSheet<T extends TokenBalance>({
   // that the header would be stuck to the wrong position between sheet reopens.
   // See https://valora-app.slack.com/archives/C04B61SJ6DS/p1707757919681089
   return (
-    <BottomSheetBase forwardedRef={forwardedRef} snapPoints={snapPoints}>
-      <View style={styles.container} testID="TokenBottomSheet">
-        <BottomSheetFlatList
-          ref={tokenListRef}
-          data={tokenList}
-          keyExtractor={(item) => item.tokenId}
-          contentContainerStyle={[styles.tokenListContainer, { paddingBottom: insets.bottom }]}
-          scrollIndicatorInsets={{ top: headerHeight }}
-          renderItem={({ item, index }) => {
-            return (
-              <TokenOptionComponent
-                tokenInfo={item}
-                onPress={onTokenPressed(item, index)}
-                index={index}
-                showPriceUsdUnavailableWarning={showPriceUsdUnavailableWarning}
+    <>
+      <BottomSheetBase forwardedRef={forwardedRef} snapPoints={snapPoints}>
+        <View style={styles.container} testID="TokenBottomSheet">
+          <BottomSheetFlatList
+            ref={tokenListRef}
+            data={tokenList}
+            keyExtractor={(item) => item.tokenId}
+            contentContainerStyle={[styles.tokenListContainer, { paddingBottom: insets.bottom }]}
+            scrollIndicatorInsets={{ top: headerHeight }}
+            renderItem={({ item, index }) => {
+              return (
+                <TokenOptionComponent
+                  tokenInfo={item}
+                  onPress={onTokenPressed(item, index)}
+                  index={index}
+                  showPriceUsdUnavailableWarning={showPriceUsdUnavailableWarning}
+                />
+              )
+            }}
+            ListHeaderComponent={<View style={{ height: headerHeight }} />}
+            ListEmptyComponent={() => {
+              if (searchEnabled || filterChips.length > 0) {
+                return <NoResults searchTerm={searchTerm} activeFilters={activeFilters} />
+              }
+              return null
+            }}
+          />
+          <View style={styles.headerContainer} onLayout={handleMeasureHeader}>
+            <Text style={[styles.title, titleStyle]}>{title}</Text>
+            {searchEnabled && (
+              <SearchInput
+                placeholder={t('tokenBottomSheet.searchAssets') ?? undefined}
+                value={searchTerm}
+                onChangeText={(text) => {
+                  setSearchTerm(text)
+                  sendAnalytics(text)
+                }}
+                style={styles.searchInput}
+                returnKeyType={'search'}
+                // disable autoCorrect and spellCheck since the search terms here
+                // are token names which autoCorrect would get in the way of. This
+                // combination also hides the keyboard suggestions bar from the top
+                // of the iOS keyboard, preserving screen real estate.
+                autoCorrect={false}
+                spellCheck={false}
               />
-            )
-          }}
-          ListHeaderComponent={<View style={{ height: headerHeight }} />}
-          ListEmptyComponent={() => {
-            if (searchEnabled || filterChips.length > 0) {
-              return <NoResults searchTerm={searchTerm} activeFilters={activeFilters} />
-            }
-            return null
+            )}
+            {filterChips.length > 0 && (
+              <FilterChipsCarousel
+                chips={filters}
+                onSelectChip={handleToggleFilterChip}
+                primaryColor={colors.successDark}
+                secondaryColor={colors.successLight}
+                style={styles.filterChipsCarouselContainer}
+                forwardedRef={filterChipsCarouselRef}
+                scrollEnabled={false}
+              />
+            )}
+          </View>
+        </View>
+      </BottomSheetBase>
+      {networkChip && (
+        <NetworkMultiSelectBottomSheet
+          allNetworkIds={networkChip.allNetworkIds}
+          setSelectedNetworkIds={setSelectedNetworkIds}
+          selectedNetworkIds={networkChip.selectedNetworkIds}
+          forwardedRef={networkChipRef}
+          onClose={() => {
+            ValoraAnalytics.track(TokenBottomSheetEvents.network_filter_updated, {
+              selectedNetworkIds: networkChip.selectedNetworkIds,
+              origin,
+            })
+            networkChipRef.current?.close()
           }}
         />
-        <View style={styles.headerContainer} onLayout={handleMeasureHeader}>
-          <Text style={[styles.title, titleStyle]}>{title}</Text>
-          {searchEnabled && (
-            <SearchInput
-              placeholder={t('tokenBottomSheet.searchAssets') ?? undefined}
-              value={searchTerm}
-              onChangeText={(text) => {
-                setSearchTerm(text)
-                sendAnalytics(text)
-              }}
-              style={styles.searchInput}
-              returnKeyType={'search'}
-              // disable autoCorrect and spellCheck since the search terms here
-              // are token names which autoCorrect would get in the way of. This
-              // combination also hides the keyboard suggestions bar from the top
-              // of the iOS keyboard, preserving screen real estate.
-              autoCorrect={false}
-              spellCheck={false}
-            />
-          )}
-          {filterChips.length > 0 && (
-            <FilterChipsCarousel
-              chips={filters}
-              onSelectChip={handleToggleFilterChip}
-              primaryColor={colors.successDark}
-              secondaryColor={colors.successLight}
-              style={styles.filterChipsCarouselContainer}
-              forwardedRef={filterChipsCarouselRef}
-              scrollEnabled={false}
-            />
-          )}
-        </View>
-      </View>
-    </BottomSheetBase>
+      )}
+    </>
   )
 }
 

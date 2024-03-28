@@ -2216,6 +2216,10 @@
       "dismiss": "忽略"
     }
   },
+  "multiSelect": {
+    "switchNetwork": "交换网络",
+    "allNetworks": "所有网络"
+  },
   "points": {
     "title": "瓦洛拉积分",
     "activity": "活动",
