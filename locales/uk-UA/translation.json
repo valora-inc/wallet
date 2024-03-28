@@ -515,6 +515,7 @@
   "to": "До",
   "for": "Для",
   "reclaim": "Вимагати",
+  "claimed": "Отримано",
   "celoGold": "CELO",
   "celoEuros": "Celo Euros",
   "balanceAvailable": "<0></0> доступно",
@@ -1001,6 +1002,7 @@
   "receivedFrom": "Отримано від",
   "commentLabel": "Повідомлення",
   "amountSent": "Відправлена сума",
+  "amountReceived": "Сума отриманих коштів",
   "amountCeloWithdrawn": "Сума (CELO)",
   "feeEducation": "Блокчейни збирають плату за транзакції для підтримки та нормального функціонування мережі.",
   "reviewPayment": "Переглянути платіж",
@@ -2221,6 +2223,9 @@
       "contactSupport": "Звернутися до служби підтримки",
       "dismiss": "Відхилити"
     }
+  },
+  "jumpstartReclaim": {
+    "description": "Відновлення зв'язку передбачає плату за мережевий газ, чи бажаєте ви продовжити?"
   },
   "multiSelect": {
     "switchNetwork": "Комутаційна мережа",
