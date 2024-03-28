@@ -2221,7 +2221,16 @@
     }
   },
   "jumpstartReclaim": {
-    "description": "A recuperação do seu link incorre em uma taxa de gás de rede. Você gostaria de continuar?"
+    "description": "A recuperação do seu link incorre em uma taxa de gás de rede. Você gostaria de continuar?",
+    "fetchStatusError": {
+      "title": "Ops, algo deu errado",
+      "description": "Não foi possível obter o status da reivindicação desse convite. Tente novamente mais tarde ou entre em contato com o suporte",
+      "retryCta": "Repetir"
+    },
+    "reclaimError": {
+      "title": "Não foi possível recuperar os fundos",
+      "description": "Tente recuperar novamente ou entre em contato com o suporte"
+    }
   },
   "multiSelect": {
     "switchNetwork": "Rede de comutação",
