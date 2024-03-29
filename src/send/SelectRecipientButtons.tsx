@@ -8,17 +8,21 @@ import {
   check as checkPermission,
   request as requestPermission,
 } from 'react-native-permissions'
-import { SendEvents } from 'src/analytics/Events'
+import { JumpstartEvents, SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import Dialog from 'src/components/Dialog'
 import SelectRecipientButton from 'src/components/SelectRecipientButton'
+import MagicWand from 'src/icons/MagicWand'
 import QRCode from 'src/icons/QRCode'
 import Social from 'src/icons/Social'
-import SelectRecipientJumpstartButton from 'src/jumpstart/SelectJumpstartRecipientButton'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
+import Colors from 'src/styles/colors'
+import { jumpstartSendTokensSelector } from 'src/tokens/selectors'
 import Logger from 'src/utils/Logger'
 import { CONTACTS_PERMISSION } from 'src/utils/contacts'
 import { navigateToPhoneSettings } from 'src/utils/linking'
@@ -30,6 +34,9 @@ type Props = {
 export default function SelectRecipientButtons({ onContactsPermissionGranted }: Props) {
   const { t } = useTranslation()
   const phoneNumberVerified = useSelector(phoneNumberVerifiedSelector)
+  const jumpstartSendEnabled = getFeatureGate(StatsigFeatureGates.SHOW_JUMPSTART_SEND)
+  const jumpstartTokens = useSelector(jumpstartSendTokensSelector)
+
   const [contactsPermissionStatus, setContactsPermissionStatus] = useState<
     PermissionStatus | undefined
   >(undefined)
@@ -143,9 +150,25 @@ export default function SelectRecipientButtons({ onContactsPermissionGranted }: 
     setShowEnableContactsModal(false)
   }
 
+  const onPressJumpstart = () => {
+    ValoraAnalytics.track(JumpstartEvents.send_select_recipient_jumpstart)
+    navigate(Screens.JumpstartEnterAmount)
+  }
+
+  const showJumpstart = jumpstartSendEnabled && jumpstartTokens.length > 0
+
   return (
     <>
-      <SelectRecipientJumpstartButton />
+      {showJumpstart && (
+        <SelectRecipientButton
+          testID={'SelectRecipient/Jumpstart'}
+          title={t('sendSelectRecipient.jumpstart.title')}
+          subtitle={t('sendSelectRecipient.jumpstart.subtitle')}
+          onPress={onPressJumpstart}
+          icon={<MagicWand />}
+          iconBackgroundColor={Colors.successLight}
+        />
+      )}
       <SelectRecipientButton
         testID={'SelectRecipient/QR'}
         title={t('sendSelectRecipient.qr.title')}

@@ -62,6 +62,7 @@ import Invite from 'src/invite/Invite'
 import JumpstartEnterAmount from 'src/jumpstart/JumpstartEnterAmount'
 import JumpstartSendConfirmation from 'src/jumpstart/JumpstartSendConfirmation'
 import JumpstartShareLink from 'src/jumpstart/JumpstartShareLink'
+import JumpstartTransactionDetailsScreen from 'src/jumpstart/JumpstartTransactionDetailsScreen'
 import KeylessBackupIntro from 'src/keylessBackup/KeylessBackupIntro'
 import KeylessBackupPhoneCodeInput from 'src/keylessBackup/KeylessBackupPhoneCodeInput'
 import KeylessBackupPhoneInput from 'src/keylessBackup/KeylessBackupPhoneInput'
@@ -504,6 +505,11 @@ const generalScreens = (Navigator: typeof Stack) => (
       name={Screens.TransactionDetailsScreen}
       component={TransactionDetailsScreen}
       options={headerWithBackButton}
+    />
+    <Navigator.Screen
+      name={Screens.JumpstartTransactionDetailsScreen}
+      component={JumpstartTransactionDetailsScreen}
+      options={noHeader}
     />
     <Navigator.Screen
       name={Screens.GoldEducation}

@@ -1756,47 +1756,6 @@ describe('SwapScreen', () => {
       })
     })
 
-    it('should not show the network filters if there is only 1 network enabled', () => {
-      jest.mocked(getDynamicConfigParams).mockReturnValue({
-        maxSlippagePercentage: '0.3',
-        showSwap: ['celo-alfajores'],
-        showBalances: ['celo-alfajores'],
-        popularTokenIds: [],
-      })
-
-      const expectedAllTokens = Object.values(mockStoreTokenBalances).filter(
-        (token) =>
-          (token.isSwappable !== false || token.balance !== '0') && // include unswappable tokens with balance because it is the "from" token
-          token.networkId === NetworkId['celo-alfajores']
-      )
-
-      const { swapFromContainer, tokenBottomSheets } = renderScreen({})
-      const tokenBottomSheet = tokenBottomSheets[0] // "from" token selection
-
-      fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
-
-      expect(
-        within(tokenBottomSheet).queryByText(
-          'tokenBottomSheet.filters.network, {"networkName":"Celo Alfajores"}'
-        )
-      ).toBeFalsy()
-      expect(
-        within(tokenBottomSheet).queryByText(
-          'tokenBottomSheet.filters.network, {"networkName":"Ethereum Sepolia"}'
-        )
-      ).toBeFalsy()
-
-      // deselect pre-selected filters to show all tokens
-      fireEvent.press(within(tokenBottomSheet).getByText('tokenBottomSheet.filters.myTokens'))
-
-      expectedAllTokens.forEach((token) => {
-        expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()
-      })
-      expect(within(tokenBottomSheet).getAllByTestId('TokenBalanceItem').length).toBe(
-        expectedAllTokens.length
-      )
-    })
-
     it('should show the network filters when there are multiple supported networks', () => {
       const expectedEthTokens = expectedAllFromTokens.filter(
         (token) => token.networkId === NetworkId['ethereum-sepolia']
@@ -1805,18 +1764,19 @@ describe('SwapScreen', () => {
         (token) => token.networkId === NetworkId['celo-alfajores']
       )
 
-      const { swapFromContainer, tokenBottomSheets } = renderScreen({})
+      const { swapFromContainer, tokenBottomSheets, getAllByTestId } = renderScreen({})
       const tokenBottomSheet = tokenBottomSheets[0] // "from" token selection
+      const networkMultiSelect = getAllByTestId('MultiSelectBottomSheet')[0]
 
       fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
       // deselect pre-selected filters to show all tokens
       fireEvent.press(within(tokenBottomSheet).getByText('tokenBottomSheet.filters.myTokens'))
+
+      // open network bottom sheet
+      fireEvent.press(within(tokenBottomSheet).getByText('tokenBottomSheet.filters.selectNetwork'))
+
       // select celo filter
-      fireEvent.press(
-        within(tokenBottomSheet).getByText(
-          'tokenBottomSheet.filters.network, {"networkName":"Celo Alfajores"}'
-        )
-      )
+      fireEvent.press(within(networkMultiSelect).getByTestId('Celo Alfajores-icon'))
 
       expectedCeloTokens.forEach((token) => {
         expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()
@@ -1826,16 +1786,7 @@ describe('SwapScreen', () => {
       )
 
       // select eth filter
-      fireEvent.press(
-        within(tokenBottomSheet).getByText(
-          'tokenBottomSheet.filters.network, {"networkName":"Celo Alfajores"}'
-        )
-      )
-      fireEvent.press(
-        within(tokenBottomSheet).getByText(
-          'tokenBottomSheet.filters.network, {"networkName":"Ethereum Sepolia"}'
-        )
-      )
+      fireEvent.press(within(networkMultiSelect).getByTestId('Ethereum Sepolia-icon'))
 
       expectedEthTokens.forEach((token) => {
         expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()
@@ -1843,6 +1794,16 @@ describe('SwapScreen', () => {
       expect(within(tokenBottomSheet).getAllByTestId('TokenBalanceItem').length).toBe(
         expectedEthTokens.length
       )
+
+      // select all networks
+      fireEvent.press(within(networkMultiSelect).getByText('multiSelect.allNetworks'))
+
+      expectedCeloTokens.forEach((token) => {
+        expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()
+      })
+      expectedEthTokens.forEach((token) => {
+        expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()
+      })
     })
   })
 })

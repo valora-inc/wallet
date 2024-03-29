@@ -12,15 +12,24 @@ type Props = {
   subtitle: string
   onPress: () => void
   icon: ReactElement
+  iconBackgroundColor?: colors
   testID: string
   showCheckmark?: boolean
 }
 
-function SelectRecipientButton({ title, subtitle, onPress, icon, testID, showCheckmark }: Props) {
+function SelectRecipientButton({
+  title,
+  subtitle,
+  onPress,
+  icon,
+  iconBackgroundColor = colors.gray1,
+  testID,
+  showCheckmark,
+}: Props) {
   return (
     <Touchable testID={testID} onPress={onPress} style={styles.container}>
       <View style={styles.body}>
-        <CircledIcon radius={40} style={styles.icon} backgroundColor={colors.gray1}>
+        <CircledIcon radius={40} style={styles.icon} backgroundColor={iconBackgroundColor}>
           {icon}
         </CircledIcon>
         {showCheckmark && (
