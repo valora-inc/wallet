@@ -2175,14 +2175,14 @@
       "description": "Du findest dein neues NFT {{rewardName}} unter deinen „Sammlerstücken“"
     },
     "rewardBottomSheet": {
-      "title": "Einen Monat lang kostenlose Einzahlungen",
-      "description": "Da du das {{nftName}} in deinen Sammlerstücken besitzt, möchten wir dir für den ganzen Januar kostenlose Einzahlungen gewähren.\n\nUm die Belohnung zu nutzen, kannst du Einzahlungen bei einem beliebigen {{appName}}-Partner tätigen, und die Gebühren entfallen.",
+      "title": "Verdiene $5 ETH",
+      "description": "Wenn du deine Wallet bis zum 4. April 2024 um 12:00 Uhr PDT mit einem beliebigen Ethereum-Token füllst, bekommst du am 5. April 2024 um 23:59 Uhr PDT $5 ETH von uns.\n\nDas ist ein exklusives Angebot, wenn du ein Early Ethereum Explorer bist.",
       "expirationLabel": "Läuft ab {{expirationLabelText}}",
       "cta": "Belohnung verwenden"
     },
     "rewardReminderBottomSheet": {
       "title": "Einen Monat lang kostenlose Einzahlungen",
-      "description": "Es sind nur noch 3 Tage übrig, um von den kostenlosen Einzahlungen im Januar zu profitieren!\n\nUm die Belohnung zu nutzen, kannst du bei einem beliebigen {{appName}}-Partner Einzahlungen tätigen und die Gebühren werden dir erlassen.",
+      "description": "Wenn du deine Wallet bis zum 4. April 2024 um 12:00 Uhr PDT mit einem beliebigen Ethereum-Token füllst, bekommst du am 5. April 2024 um 23:59 Uhr PDT $5 ETH von uns.\n\nDas ist ein exklusives Angebot, wenn du ein Early Ethereum Explorer bist.",
       "expirationLabel": "Läuft ab {{expirationLabelText}}",
       "cta": "Belohnung verwenden"
     }
