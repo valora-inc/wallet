@@ -2088,6 +2088,8 @@
   "viewOnArbiscan": "Xem trên Arbiscan",
   "viewOnOPMainnetExplorer": "Xem trên OP Mainnet Explorer",
   "viewOnOPSepoliaExplorer": "Xem trên OP Sepolia Explorer",
+  "viewOnPolygonPoSScan": "View on PolygonScan",
+  "viewOnBaseScan": "View on BaseScan",
   "sendEnterAmountScreen": {
     "title": "Nhập số tiền",
     "selectToken": "Chọn token",
