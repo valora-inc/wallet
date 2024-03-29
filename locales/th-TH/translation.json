@@ -2173,14 +2173,14 @@
       "description": "คุณสามารถค้นหา {{rewardName}} NFT ใหม่ของคุณได้ในส่วน “ของสะสม”"
     },
     "rewardBottomSheet": {
-      "title": "รับ $5 ใน ETH",
-      "description": "เติมเงินกระเป๋าเงินของคุณด้วยโทเค็น Ethereum ภายในวันที่ 4 เมษายน 2024 เวลา 12:00 น. PDT และเราจะให้คุณ $5 ในวันที่ 5 เมษายน 2024 ภายในเวลา 23:59 น. PDT\n\nนี่เป็นข้อเสนอสุดพิเศษสำหรับการเป็น Early Ethereum Explorer",
+      "title": "Earn $5 of ETH",
+      "description": "Fund your wallet with any Ethereum token by April 4, 2024 at 12:00 PM PDT, and we'll give you $5 of ETH on April 5, 2024 by 11:59 PM PDT.\n\nThis is an exclusive offer for being an Early Ethereum Explorer.",
       "expirationLabel": "หมดอายุ {{expirationLabelText}}",
       "cta": "ใช้รางวัล"
     },
     "rewardReminderBottomSheet": {
-      "title": "รับ $5 ใน ETH",
-      "description": "เติมเงินกระเป๋าเงินของคุณด้วยโทเค็น Ethereum ภายในวันที่ 4 เมษายน 2024 เวลา 12:00 น. PDT และเราจะให้คุณ $5 ในวันที่ 5 เมษายน 2024 ภายในเวลา 23:59 น. PDT\n\nนี่เป็นข้อเสนอสุดพิเศษสำหรับการเป็น Early Ethereum Explorer",
+      "title": "Don't miss out, earn $5 of ETH",
+      "description": "Fund your wallet with any Ethereum token by April 4, 2024 at 12:00 PM PDT, and we'll give you $5 of ETH on April 5, 2024 by 11:59 PM PDT.\n\nThis is an exclusive offer for being an Early Ethereum Explorer.",
       "expirationLabel": "หมดอายุ {{expirationLabelText}}",
       "cta": "ใช้รางวัล"
     }
