@@ -10,9 +10,9 @@
   "deleteAccountDetails": "Usunięcie konta spowoduje usunięcie go z {{appName}}. Twoje środki pozostaną na koncie, ale będą dostępne tylko przy użyciu frazy odzyskiwania",
   "deleteAccountWarning": {
     "title": "Czy na pewno?",
-    "description": "Usunięcie Twojego konta z {{appName}} spowoduje również usunięcie powiązanego z nim numeru telefonu. Twoje środki pozostaną na koncie, ale będą dostępne tylko przy użyciu frazy odzyskiwania.",
+    "description": "Usunięcie konta z {{appName}} spowoduje również usunięcie powiązanego z nim numeru telefonu. Twoje środki pozostaną na koncie, ale będą dostępne tylko przy użyciu frazy odzyskiwania.",
     "buttonLabel": "Kontynuuj",
-    "buttonLabelRevokingPhoneNumber": "Odłącz numer telefonu..."
+    "buttonLabelRevokingPhoneNumber": "Odłączanie numeru telefonu…"
   },
   "legal": "Informacje prawne",
   "appPreferences": "Preferencje aplikacji",
@@ -58,13 +58,13 @@
   },
   "promptConfirmRemovalModal": {
     "header": "Czy na pewno chcesz kontynuować?",
-    "body": "Zamierzasz usunąć swój portfel z tego urządzenia. Ten krok jest ostateczny i nie można go cofnąć. Nie ma możliwości odzyskania frazy odzyskiwania, jeśli jej nie zapisałeś.",
+    "body": "Zamierzasz usunąć swój portfel z tego urządzenia. Ten krok jest ostateczny i nie można go cofnąć. Nie ma możliwości odzyskania frazy odzyskiwania, jeśli nie została zapisana.",
     "resetNow": "Kontynuuj"
   },
   "protectWallet": {
     "title": "Chroń swój portfel",
     "subtitle": "Chroń swój portfel",
-    "body": "Jeśli Twój telefon zostanie zgubiony lub skradziony, 12-słowna fraza odzyskiwania jest jedynym sposobem na uzyskanie dostępu do środków.",
+    "body": "Jeśli Twój telefon zostanie zgubiony lub skradziony, składająca się z 12 słów fraza odzyskiwania jest jedynym sposobem na uzyskanie dostępu do środków.",
     "recoveryPhrase": {
       "title": "Użyj frazy odzyskiwania",
       "subtitle": "Wprowadź frazę odzyskiwania"
@@ -72,7 +72,7 @@
   },
   "recoveryPhrase": {
     "title": "Twoja fraza odzyskiwania",
-    "body": "Zapisz te 12 słów w bezpiecznym miejscu, gdzie nie mogą zostać skradzione lub uszkodzone.",
+    "body": "Zapisz te 12 słów w bezpiecznym miejscu, gdzie nie mogą zostać skradzione lub zniszczone.",
     "continue": "Mam to zapisane",
     "copy": "Kopiuj do schowka",
     "mnemonicCopied": "Fraza skopiowana do schowka",
@@ -91,19 +91,19 @@
     "phoneNumber": "Numer telefonu",
     "setup": {
       "title": "Skonfiguruj tworzenie kopii zapasowej portfela",
-      "description": "Aby skonfigurować kopię zapasową adresu e-mail i numeru telefonu, użyj następujących elementów",
+      "description": "Skorzystasz z następujących danych, aby skonfigurować tworzenie kopii zapasowej za pomocą adresu e-mail i numeru telefonu",
       "useRecoveryPhrase": "Zamiast tego użyj frazy odzyskiwania",
       "reminder": "<0>Pamiętaj</0>, że te informacje są jedynym sposobem uzyskania dostępu do portfela w przypadku zgubienia lub kradzieży urządzenia. Valora nie przechowuje Twojego adresu e-mail lub numeru telefonu. Dbaj o bezpieczeństwo!"
     },
     "restore": {
-      "description": "Upewnij się, że masz dostępne następujące elementy, aby przywrócić swój portfel.",
-      "reminder": "<0>Pamiętaj</0>, że musisz mieć dostęp do tego samego adresu e-mail i numeru telefonu, których użyłeś podczas tworzenia kopii zapasowej"
+      "description": "Upewnij się, że masz dostęp do następujących informacji, aby przywrócić swój portfel.",
+      "reminder": "<0>Pamiętaj</0>, że musisz mieć dostęp do tego samego adresu e-mail i numeru telefonu, których użyto podczas tworzenia kopii zapasowej"
     }
   },
   "signInWithEmail": {
     "title": "Zaloguj się za pomocą adresu e-mail",
     "subtitle": "Zaloguj się za pomocą swojego adresu e-mail, aby wykorzystać go do tworzenia kopii zapasowych.\n\nW przypadku utraty portfela zostaniesz poproszony(-a) o ponowne zalogowanie się.",
-    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
+    "subtitleRestore": "Zaloguj się za pomocą adresu e-mail, którego użyto do konfiguracji kopii zapasowej portfela.",
     "google": "Zaloguj się przez Google"
   },
   "keylessBackupPhoneInput": {
@@ -127,19 +127,19 @@
       },
       "failed": {
         "title": "Kopia zapasowa niedostępna",
-        "body": "Możesz skonfigurować kopię zapasową portfela później lub chronić swoje konto teraz, zapisując frazę odzyskiwania.",
+        "body": "Możesz skonfigurować kopię zapasową portfela później lub zapewnić ochronę swojego konta już teraz, zapisując frazę odzyskiwania.",
         "later": "Utworzę kopię zapasową później",
         "manual": "Zapisz frazę odzyskiwania"
       }
     },
     "restore": {
       "inProgress": {
-        "title": "Odbudowa twojego portfela"
+        "title": "Przywracanie portfela"
       },
       "completed": {
         "title": "Twój portfel został przywrócony!",
         "bodyZeroBalance": "Po zakończeniu konfiguracji możesz dodać środki do swojego portfela.",
-        "bodyBalance": "Masz równowagę <0></0>"
+        "bodyBalance": "Twoje saldo wynosi <0></0>"
       },
       "failed": {
         "title": "Twój portfel nie został przywrócony",
@@ -150,7 +150,7 @@
       },
       "notFound": {
         "title": "Nie znaleziono portfela",
-        "body": "Aby przywrócić portfel, użyj <0>tego samego adresu e-mail i numeru telefonu</0>, których użyłeś podczas konfiguracji.\n\nMożesz również przywrócić portfel za pomocą frazy odzyskiwania.",
+        "body": "Aby przywrócić portfel, użyj <0>tego samego adresu e-mail i numeru telefonu</0>, których użyto podczas konfiguracji.\n\nMożesz również przywrócić portfel za pomocą frazy odzyskiwania.",
         "tryAgain": "Spróbuj ponownie",
         "createNewWallet": "Utwórz portfel"
       }
@@ -210,8 +210,8 @@
   "completeEducation": "Rozumiem",
   "yourAccountKey": "Twoja fraza odzyskiwania",
   "backupKeyNotification2": "Zadbaj o bezpieczeństwo swoich środków. Stwórz teraz kopię zapasową swojej frazy odzyskiwania.",
-  "keylessBackupCTA": "Utwórz kopię zapasową",
-  "keylessBackupNotification": "Skonfiguruj swój adres e-mail i numer telefonu, aby utworzyć kopię zapasową frazy seed.",
+  "keylessBackupCTA": "Utwórz kopię zapasową teraz",
+  "keylessBackupNotification": "Skonfiguruj swój adres e-mail i numer telefonu, aby utworzyć kopię zapasową frazy seed",
   "backupKeyCTA": "Zakończ tworzenie kopii zapasowej",
   "backupKeySummary": "Znajdź miejsce na osobności i zapisz swoją frazę odzyskiwania. Przechowuj ją w bezpiecznym miejscu. Nie zapisuj jej w swoim telefonie.",
   "backupKeyWarning": "Jeśli stracisz swoją frazę odzyskiwania, stracisz również dostęp do wszystkich funduszy przechowywanych w Valorze.",
@@ -515,6 +515,7 @@
   "to": "Do",
   "for": "Dla",
   "reclaim": "Odzyskaj",
+  "claimed": "Odebrano",
   "celoGold": "CELO",
   "celoEuros": "Celo Euro",
   "balanceAvailable": "<0></0> dostępne",
@@ -916,14 +917,14 @@
   },
   "importSelect": {
     "title": "Przywróć swój portfel",
-    "description": "Jeśli skonfigurowałeś kopię zapasową, aby chronić swój portfel, wybierz opcję poniżej.",
+    "description": "Jeśli skonfigurowano kopię zapasową w celu ochrony portfela, wybierz opcję poniżej.",
     "emailAndPhone": {
-      "title": "Z kopii zapasowej poczty e-mail i telefonu",
-      "description": "Przywróć swój portfel przy użyciu skonfigurowanego wcześniej numeru telefonu i adresu e-mail."
+      "title": "Z kopii zapasowej tworzonej przy użyciu adresu e-mail i numeru telefonu",
+      "description": "Przywróć swój portfel przy użyciu skonfigurowanego wcześniej numeru telefonu i adresu e-mail"
     },
     "recoveryPhrase": {
       "title": "Z frazy odzyskiwania",
-      "description": "Wprowadź swoją 12-słowną frazę odzyskiwania, aby odzyskać dostęp do Valora"
+      "description": "Wprowadź składającą się z 12 słów frazę odzyskiwania, aby odzyskać dostęp do Valory"
     }
   },
   "verificationInput": {
@@ -1001,6 +1002,7 @@
   "receivedFrom": "Otrzymano od",
   "commentLabel": "Wiadomość",
   "amountSent": "Wysłana kwota",
+  "amountReceived": "Otrzymana kwota",
   "amountCeloWithdrawn": "Kwota (CELO)",
   "feeEducation": "Łańcuchy bloków pobierają opłatę transakcyjną, aby utrzymać obsługę i płynne działanie sieci.",
   "reviewPayment": "Analizuj płatność",
@@ -1156,7 +1158,7 @@
     },
     "failedToPrepareTransaction": {
       "title": "Nie udało się przygotować transakcji",
-      "description": "Wystąpił błąd podczas przygotowywania transakcji. Zobacz podstawowy błąd, aby uzyskać więcej informacji.\n\n\"{{errorMessage}}\""
+      "description": "Wystąpił błąd podczas przygotowywania transakcji. Sprawdź błąd, aby uzyskać więcej informacji.\n\n„{{errorMessage}}”"
     },
     "session": {
       "failUnsupportedNamespace": {
@@ -1311,6 +1313,9 @@
   "feedItemGoldWithdrawal": "Wypłata na rzecz {{displayName}}",
   "feedItemGoldReceived": "Otrzymano od {{displayName}}",
   "feedItemSwapPath": "{{token1}} na {{token2}}",
+  "feedItemJumpstartTitle": "Aktywny link",
+  "feedItemJumpstartSentSubtitle": "Zaproszenie",
+  "feedItemJumpstartReceivedSubtitle": "Otrzymane fundusze",
   "transactionHeaderVerificationFee": "Potwierdzenie",
   "transactionHeaderNetworkFee": "Sieć",
   "transactionHeaderFaucet": "Faucet",
@@ -1748,11 +1753,11 @@
     "swapTo": "NA",
     "insufficientFunds": "Niewystarczające saldo {{token}}. Spróbuj wpłacić mniejszą kwotę lub wybierz inny aktyw.",
     "fetchSwapQuoteFailed": "Przepraszamy za opóźnienie! Przetwarzanie trwa dłużej niż zwykle, aby uzyskać najlepszy kurs wymiany. Spróbuj ponownie za kilka minut.",
-    "disclaimer": "Best rate determined by decentralized sources. <0>Learn more</0>",
+    "disclaimer": "Najlepsza stawka określona przez zdecentralizowane źródła. <0>Dowiedz się więcej</0>",
     "swapFromTokenSelection": "ZAMIANA Z",
     "swapToTokenSelection": "ZAMIANA NA",
     "tokenUsdValueUnknown": "-",
-    "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
+    "unsupportedSwapTokens": "Wybrane tokeny nie są obsługiwane przez naszych dostawców swapów.",
     "switchedToNetworkWarning": {
       "title": "Przełączono do sieci {{networkName}}",
       "body_swapFrom": "Aby kontynuować, wybierz token do wymiany w sieci {{networkName}}.",
@@ -1912,20 +1917,21 @@
   },
   "profileScreen": {
     "generateName": "Wygeneruj nazwę",
-    "namePlaceholder": "Wybierz nazwę, na przykład \"{{exampleName}}\"",
+    "namePlaceholder": "Wybierz nazwę, na przykład „{{exampleName}}”",
     "profilePictureDisclaimer": "Dostosuj {{appName}} za pomocą swojego zdjęcia profilowego. Twoje zdjęcie pozostaje prywatne, nigdy nie jest udostępniane ani przesyłane."
   },
   "tokenBottomSheet": {
     "searchAssets": "Wyszukaj aktywa",
     "noTokenInResult": "Nie znaleziono pasujących wyników dla <0>„{{searchTerm}}”</0>",
-    "noFilterSearchResults": "Nie znaleziono żadnych zasobów pasujących do \"{{searchTerm}}\" w następujących kategoriach: {{filterNames}}",
-    "noFilterResults": "Nie znaleziono zasobów pasujących do następujących kategorii: {{filterNames}}",
-    "noSearchResults": "Nie znaleziono żadnych zasobów pasujących do \"{{searchTerm}}\"",
+    "noFilterSearchResults": "Nie znaleziono żadnych aktywów pasujących do „{{searchTerm}}” w następujących kategoriach: {{filterNames}}",
+    "noFilterResults": "Nie znaleziono aktywów pasujących do następujących kategorii: {{filterNames}}",
+    "noSearchResults": "Nie znaleziono aktywów pasujących do „{{searchTerm}}”",
     "filters": {
-      "myTokens": "Moje żetony",
-      "popular": "Popularny",
-      "recentlySwapped": "Niedawno wymieniony",
-      "network": "Sieć {{networkName}}"
+      "myTokens": "Moje tokeny",
+      "popular": "Popularne",
+      "recentlySwapped": "Niedawno wymienione",
+      "network": "Sieć {{networkName}}",
+      "selectNetwork": "Sieć"
     }
   },
   "homeActions": {
@@ -2010,7 +2016,7 @@
       "network": "Sieć"
     },
     "error": {
-      "invalidAddress": "Nieprawidłowy adres tokena. Sprawdź go",
+      "invalidAddress": "Niepoprawny adres tokena. Sprawdź go",
       "invalidToken": "Niepoprawny token. Spróbuj ponownie lub skontaktuj się z pomocą techniczną",
       "tokenAlreadySupported": "Ten token jest już obsługiwany"
     },
@@ -2033,8 +2039,8 @@
       "subtitle": "Zaproś znajomych z listy kontaktów"
     },
     "jumpstart": {
-      "title": "Share crypto with a link",
-      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
+      "title": "Wyślij za pomocą łącza na żywo",
+      "subtitle": "Udostępnij link, aby wysłać kryptowalutę jako tekst"
     },
     "getStarted": {
       "title": "Sposoby wysyłania środków w Valorze",
@@ -2086,8 +2092,8 @@
   "viewOnCeloScan": "Wyświetl w CeloScan",
   "viewOnEthereumBlockExplorer": "Wyświetl w Etherscan",
   "viewOnArbiscan": "Wyświetl w Arbiscan",
-  "viewOnOPMainnetExplorer": "Widok na OP Mainnet Explorer",
-  "viewOnOPSepoliaExplorer": "Widok na OP Sepolia Explorer",
+  "viewOnOPMainnetExplorer": "Wyświetl w OP Mainnet Explorer",
+  "viewOnOPSepoliaExplorer": "Wyświetl w OP Sepolia Explorer",
   "sendEnterAmountScreen": {
     "title": "Wprowadź kwotę",
     "selectToken": "Wybierz token",
@@ -2108,16 +2114,38 @@
   },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
-      "title": "Sugerujemy niższą kwotę",
-      "description": "Ten link będzie mógł być wykorzystany przez każdego, kto ma do niego dostęp. Zalecamy wysyłanie nie więcej niż {{maxAmount}} {{localCurrencyCode}}."
+      "title": "Możesz wysłać do {{amountInLocalCurrency,currency}} w linku",
+      "description": "Ten link może zostać wykorzystany przez każdego, kto ma do niego dostęp. Upewnij się, że wysyłasz linki do zaufanych osób."
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Utwórz link do udostępnienia",
-    "sendAmountLabel": "KWOTA ŁĄCZA DO ROSZCZENIA",
-    "confirmButton": "Wyślij środki i utwórz link",
-    "detailsLabel": "JAK TO DZIAŁA",
-    "details": "1. Stuknij wygeneruj link, a Twoje środki zostaną przesłane do linku roszczenia\n2. Wyślij link do roszczenia znajomemu\n3. Przyjmie on środki\n4. Jeśli środki nie zostaną odebrane, możesz je odzyskać w dowolnym momencie."
+    "title": "Utwórz aktywny link",
+    "sendAmountLabel": "Kwota w ramach aktywnego linku",
+    "confirmButton": "Wyślij i utwórz link",
+    "info": "Kiedy tworzysz link, środki są pobierane z Twojego portfela. Możesz odzyskać link w dowolnym momencie. Udostępniaj linki ostrożnie.",
+    "sendError": {
+      "title": "Nie można utworzyć linku",
+      "description": "Twój aktywny link nie został utworzony. Spróbuj ponownie.",
+      "ctaLabel": "Odrzuć"
+    }
+  },
+  "jumpstartShareLinkScreen": {
+    "title": "Udostępnij aktywny link",
+    "description": "Skopiuj link, aby wysłać {{tokenSymbol}} za pośrednictwem wybranej aplikacji do przesyłania wiadomości, lub użyj kodu QR.",
+    "linkLabel": "Aktywny link",
+    "linkCopiedMessage": "Skopiowano aktywny link",
+    "navigationWarning": {
+      "title": "Czy link został przez Ciebie udostępniony?",
+      "description": "Udostępnij ten aktywny link lub zapisz go w bezpiecznym miejscu.\n\nNie martw się, jeśli środki nie zostaną odebrane – możesz je łatwo odzyskać ze swojego kanału aktywności.",
+      "ctaNavigate": "Przejdź do strony głównej"
+    },
+    "ctaShare": "Udostępnij link",
+    "ctaScanQRCode": "Zeskanuj kod QR",
+    "shareMessage": "Cześć! Wysyłam Ci link zasilony przez {{tokenAmount}} {{tokenSymbol}} na {{appName}}. Użyj tego linku, aby pobrać aplikację, a środki staną się aktywne i będą czekać na Ciebie. {{link}}",
+    "qrCodeBottomSheet": {
+      "title": "Zeskanuj kod, aby otrzymać środki",
+      "description": "Sprawdź stan swoich środków na ekranie głównym. Możesz też skopiować lub udostępnić poniższy link."
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Zatwierdzenie",
@@ -2142,28 +2170,28 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "Wczesna adopcja wielu łańcuchów 🎁",
-      "description": "W podziękowaniu za bycie beta testerem multi-chain, dodaliśmy darmowy prezent do Twojego portfela {{appName}} ! NFT dla wczesnych użytkowników znajdziesz w swoich przedmiotach kolekcjonerskich.",
+      "title": "Gratulacje!",
+      "description": "Udało Ci się zdobyć ekskluzywny element do kolekcji dla Early Ethereum Explorers. Witamy w Ethereum na {{appName}}.",
       "cta": "Dziękujemy!"
     },
     "notification": {
-      "title": "Gratulacje 🎉",
-      "description": "{{rewardName}} została pomyślnie dodana do Twojego portfela {{appName}} ."
+      "title": "Nowy NFT czeka 🎉",
+      "description": "Możesz znaleźć swój nowy NFT {{rewardName}} w zakładce „Kolekcje”"
     },
     "rewardBottomSheet": {
-      "title": "Darmowe wypłaty przez miesiąc",
-      "description": "Ponieważ jesteś właścicielem {{nftName}} w swoich przedmiotach kolekcjonerskich, chcielibyśmy dać ci darmowe wypłaty w styczniu.\n\nAby skorzystać z nagrody, dokonaj wpłaty za pośrednictwem dowolnego partnera {{appName}} , a opłaty zostaną zniesione.",
+      "title": "Darmowe wpłaty przez miesiąc",
+      "description": "Ponieważ posiadasz {{nftName}} w kolekcji, chcielibyśmy zapewnić Ci darmowe wypłaty w styczniu.\n\nAby skorzystać z nagrody, dokonaj wpłaty za pośrednictwem dowolnego partnera {{appName}}, a opłaty zostaną zniesione.",
       "expirationLabel": "Wygasa {{expirationLabelText}}",
-      "cta": "Użyj nagrody"
+      "cta": "Wykorzystaj nagrodę"
     },
     "rewardReminderBottomSheet": {
-      "title": "Darmowe wypłaty przez miesiąc",
-      "description": "Zostały tylko 3 dni, aby skorzystać z darmowych cash-inów w styczniu!\n\nAby skorzystać z nagrody, dokonaj wpłaty za pośrednictwem dowolnego partnera {{appName}} , a opłaty zostaną zniesione.",
+      "title": "Darmowe wpłaty przez miesiąc",
+      "description": "Pozostały tylko 3 dni, aby skorzystać z darmowych wpłat w styczniu!\n\nAby skorzystać z nagrody, dokonaj wpłaty za pośrednictwem dowolnego partnera {{appName}}, a opłaty zostaną zniesione.",
       "expirationLabel": "Wygasa {{expirationLabelText}}",
-      "cta": "Użyj nagrody"
+      "cta": "Wykorzystaj nagrodę"
     }
   },
-  "pleaseWait": "Please wait",
+  "pleaseWait": "Czekaj",
   "error": "Błąd",
   "linkPhoneNumber": {
     "title": "Połącz numer telefonu z adresem portfela",
@@ -2177,11 +2205,68 @@
       "title": "Mój portfel"
     },
     "home": {
-      "tabName": "Strona główna",
+      "tabName": "Początek",
       "title": "Witaj"
     },
     "discover": {
-      "tabName": "Odkryj"
+      "tabName": "Odkryj",
+      "title": "Odkryj"
+    }
+  },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "Twoje środki są w drodze",
+      "description": "Środki, które przekazał Ci Twój znajomy, są właśnie przesyłane. Poczekaj… "
+    },
+    "error": {
+      "title": "Nie można odebrać środków",
+      "description": "Użyj ponownie swojego aktywnego linku, aby spróbować otrzymać środki, lub poproś znajomego, aby przesłał nowy link",
+      "contactSupport": "Skontaktuj się z Działem wsparcia",
+      "dismiss": "Odrzuć"
+    }
+  },
+  "jumpstartReclaim": {
+    "description": "Odzyskanie łącza wiąże się z opłatą za gaz sieciowy, czy chcesz kontynuować?",
+    "fetchStatusError": {
+      "title": "Ups, coś poszło nie tak",
+      "description": "Nie mogliśmy uzyskać statusu tego zaproszenia, spróbuj ponownie później lub skontaktuj się z pomocą techniczną.",
+      "retryCta": "Spróbuj ponownie"
+    },
+    "reclaimError": {
+      "title": "Brak możliwości odzyskania środków",
+      "description": "Spróbuj odzyskać ponownie lub skontaktuj się z pomocą techniczną"
+    }
+  },
+  "multiSelect": {
+    "switchNetwork": "Sieć przełączników",
+    "allNetworks": "Wszystkie sieci"
+  },
+  "points": {
+    "title": "Punkty Valora",
+    "activity": "Operacje",
+    "infoCard": {
+      "title": "Więcej sposobów na zdobywanie punktów już wkrótce 🚀",
+      "body": "Pracujemy nad dodaniem kolejnych sposobów na zdobywanie punktów za pomocą aplikacji. Sprawdzaj na bieżąco aktualizacje."
+    },
+    "activitySection": {
+      "title": "Jak mogę zdobywać punkty?",
+      "body": "To proste! Zdobywaj punkty po prostu korzystając z aplikacji."
+    },
+    "activityCards": {
+      "createWallet": {
+        "title": "Utwórz portfel {{appName}}"
+      },
+      "swap": {
+        "title": "Aktywa swapowe",
+        "bottomSheet": {
+          "title": "Aktywa swapowe",
+          "body": "To miejsce zostanie wykorzystane do podania wszystkich potrzebnych szczegółów. Może minimalna kwota do wymiany. \n\nZdobywaj punkty {{pointsValue}} za każdym razem, gdy wymieniasz aktywa za pomocą {{appName}}.",
+          "cta": "Przejdź do wymiany"
+        }
+      },
+      "moreComing": {
+        "title": "Więcej już wkrótce!"
+      }
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",

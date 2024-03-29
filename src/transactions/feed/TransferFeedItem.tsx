@@ -6,43 +6,52 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { hideHomeBalancesSelector } from 'src/app/selectors'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
+import { jumpstartReclaimFlowStarted } from 'src/jumpstart/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { useSelector } from 'src/redux/hooks'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
+import { useDispatch, useSelector } from 'src/redux/hooks'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
-import { FeedTokenProperties } from 'src/transactions/feed/TransactionFeed'
 import TransactionFeedItemImage from 'src/transactions/feed/TransactionFeedItemImage'
 import { useTransferFeedDetails } from 'src/transactions/transferFeedUtils'
 import { TokenTransfer } from 'src/transactions/types'
-
-export type FeedTokenTransfer = TokenTransfer & FeedTokenProperties
 interface Props {
-  transfer: FeedTokenTransfer
+  transfer: TokenTransfer
 }
 
 function TransferFeedItem({ transfer }: Props) {
+  const dispatch = useDispatch()
   const { amount } = transfer
+  const isJumpstart = isJumpstartTransaction(transfer)
 
   const openTransferDetails = () => {
-    navigate(Screens.TransactionDetailsScreen, { transaction: transfer })
+    if (isJumpstart) {
+      dispatch(jumpstartReclaimFlowStarted())
+      navigate(Screens.JumpstartTransactionDetailsScreen, { transaction: transfer })
+    } else {
+      navigate(Screens.TransactionDetailsScreen, { transaction: transfer })
+    }
+
     ValoraAnalytics.track(HomeEvents.transaction_feed_item_select)
   }
 
   const tokenInfo = useTokenInfo(amount.tokenId)
   const showTokenAmount = !amount.localAmount && !tokenInfo?.priceUsd
-  const { title, subtitle, recipient, customLocalAmount } = useTransferFeedDetails(transfer)
+
+  const { title, subtitle, recipient, customLocalAmount } = useTransferFeedDetails(
+    transfer,
+    isJumpstart
+  )
 
   const colorStyle = new BigNumber(amount.value).isPositive() ? { color: colors.primary } : {}
 
   const hideHomeBalanceState = useSelector(hideHomeBalancesSelector)
-  const hideBalance =
-    getFeatureGate(StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE) && hideHomeBalanceState
 
   return (
     <Touchable testID="TransferFeedItem" onPress={openTransferDetails}>
@@ -51,6 +60,8 @@ function TransferFeedItem({ transfer }: Props) {
           recipient={recipient}
           status={transfer.status}
           transactionType={transfer.__typename}
+          isJumpstart={isJumpstart}
+          networkId={transfer.networkId}
         />
         <View style={styles.contentContainer}>
           <Text style={styles.title} testID={'TransferFeedItem/title'} numberOfLines={1}>
@@ -60,7 +71,7 @@ function TransferFeedItem({ transfer }: Props) {
             {subtitle}
           </Text>
         </View>
-        {!hideBalance && (
+        {!hideHomeBalanceState && (
           <View style={styles.amountContainer}>
             <TokenDisplay
               amount={amount.value}
@@ -85,6 +96,13 @@ function TransferFeedItem({ transfer }: Props) {
       </View>
     </Touchable>
   )
+}
+
+function isJumpstartTransaction(tx: TokenTransfer) {
+  const jumpstartAddress = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG]
+  ).jumpstartContracts[tx.networkId]?.contractAddress
+  return tx.address === jumpstartAddress
 }
 
 const styles = StyleSheet.create({

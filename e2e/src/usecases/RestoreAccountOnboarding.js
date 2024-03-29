@@ -7,24 +7,31 @@ import {
   SAMPLE_WALLET_ADDRESS_12_WORDS,
 } from '../utils/consts'
 import { launchApp } from '../utils/retries'
-import { enterPinUi, scrollIntoView, waitForElementId } from '../utils/utils'
+import {
+  enterPinUi,
+  scrollIntoView,
+  waitForElementByIdAndTap,
+  waitForElementId,
+} from '../utils/utils'
 
 export default RestoreAccountOnboarding = () => {
   beforeEach(async () => {
     await device.uninstallApp()
     await device.installApp()
-    await launchApp({
-      permissions: { notifications: 'YES', contacts: 'YES' },
-    })
   })
 
   it.each`
-    wordCount | phrase                        | walletAddress
-    ${'12'}   | ${SAMPLE_BACKUP_KEY_12_WORDS} | ${SAMPLE_WALLET_ADDRESS_12_WORDS}
-    ${'24'}   | ${SAMPLE_BACKUP_KEY}          | ${SAMPLE_WALLET_ADDRESS}
+    wordCount | phrase                        | walletAddress                     | navType
+    ${'12'}   | ${SAMPLE_BACKUP_KEY_12_WORDS} | ${SAMPLE_WALLET_ADDRESS_12_WORDS} | ${'tab'}
+    ${'24'}   | ${SAMPLE_BACKUP_KEY}          | ${SAMPLE_WALLET_ADDRESS}          | ${'drawer'}
   `(
-    'restores an existing wallet using a $wordCount word recovery phrase',
-    async ({ phrase, walletAddress }) => {
+    'restores an existing wallet using a $wordCount word recovery phrase ($navType)',
+    async ({ phrase, walletAddress, navType }) => {
+      // TODO(ACT-1133): move this back to beforeEach
+      await launchApp({
+        permissions: { notifications: 'YES', contacts: 'YES' },
+        launchArgs: { statsigGateOverrides: `use_tab_navigator=${navType === 'tab'}` },
+      })
       // choose restore flow
       await element(by.id('RestoreAccountButton')).tap()
 
@@ -71,8 +78,7 @@ export default RestoreAccountOnboarding = () => {
       await expect(element(by.id('HomeAction-Send'))).toBeVisible()
 
       // verify that the correct account was restored
-      await waitForElementId('Hamburger')
-      await element(by.id('Hamburger')).tap()
+      await waitForElementByIdAndTap(navType === 'tab' ? 'WalletHome/AccountCircle' : 'Hamburger')
       await scrollIntoView('Account Address', 'SettingsScrollView')
 
       const addressString = '0x ' + getAddressChunks(walletAddress).join(' ')

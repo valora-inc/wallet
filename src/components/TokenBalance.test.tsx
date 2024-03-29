@@ -9,7 +9,7 @@ import {
   HomeTokenBalance,
 } from 'src/components/TokenBalance'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -62,7 +62,7 @@ describe('AssetsTokenBalance', () => {
   })
 
   it('should show info on tap', () => {
-    const { getByText, getByTestId, queryByText } = render(
+    const { getByText, getByTestId, queryByText, queryByTestId } = render(
       <Provider store={createMockStore()}>
         <AssetsTokenBalance showInfo isWalletTab={false} />
       </Provider>
@@ -71,6 +71,7 @@ describe('AssetsTokenBalance', () => {
     expect(getByText('totalAssets')).toBeTruthy()
     expect(getByTestId('TotalTokenBalance')).toHaveTextContent('₱55.74')
     expect(queryByText('totalAssetsInfo')).toBeFalsy()
+    expect(queryByTestId('EyeIcon')).toBeFalsy()
 
     fireEvent.press(getByTestId('AssetsTokenBalance/Info'))
     expect(getByText('totalAssetsInfo')).toBeTruthy()
@@ -83,6 +84,7 @@ describe('AssetsTokenBalance', () => {
       </Provider>
     )
 
+    expect(getByTestId('EyeIcon')).toBeTruthy()
     expect(getByText('bottomTabsNavigator.wallet.title')).toBeTruthy()
     expect(getByTestId('TotalTokenBalance')).toHaveTextContent('₱55.74')
     expect(queryByText('AssetsTokenBalance/Info')).toBeFalsy()
@@ -146,6 +148,46 @@ describe('FiatExchangeTokenBalance', () => {
 
     expect(tree.queryByTestId('ViewBalances')).toBeFalsy()
     expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('$8.41')
+  })
+
+  it('navigates to wallet tab if tab navigator gate is true', () => {
+    const store = createMockStore({
+      ...defaultStore,
+      tokens: {
+        // FiatExchangeTokenBalance requires 2 balances to display the View Balances button
+        tokenBalances: {
+          'celo-alfajores:0x00400FcbF0816bebB94654259de7273f4A05c762': {
+            priceUsd: '0.1',
+            tokenId: 'celo-alfajores:0x00400FcbF0816bebB94654259de7273f4A05c762',
+            address: '0x00400FcbF0816bebB94654259de7273f4A05c762',
+            networkId: NetworkId['celo-alfajores'],
+            symbol: 'POOF',
+            balance: '5',
+            priceFetchedAt: Date.now(),
+          },
+          'celo-alfajores:0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
+            priceUsd: '1.16',
+            address: '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
+            tokenId: 'celo-alfajores:0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
+            networkId: NetworkId['celo-alfajores'],
+            symbol: 'cEUR',
+            balance: '7',
+            priceFetchedAt: Date.now(),
+          },
+        },
+      },
+    })
+
+    const tree = render(
+      <Provider store={store}>
+        <FiatExchangeTokenBalance />
+      </Provider>
+    )
+
+    fireEvent.press(tree.getByTestId('ViewBalances'))
+    expect(navigateClearingStack).toHaveBeenCalledWith(Screens.TabNavigator, {
+      initialScreen: Screens.TabWallet,
+    })
   })
 })
 
@@ -379,7 +421,7 @@ describe('HomeTokenBalance', () => {
   })
 
   it('renders correctly when hideBalance is true', async () => {
-    const store = createMockStore({ ...defaultStore, app: { hideHomeBalances: true } })
+    const store = createMockStore({ ...defaultStore, app: { hideBalances: true } })
 
     const tree = render(
       <Provider store={store}>
@@ -404,44 +446,6 @@ describe('HomeTokenBalance', () => {
     expect(tree.getByTestId('EyeIcon')).toBeTruthy()
   })
 
-  it('renders correctly when feature flag is off, hideBalance is false', async () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation(
-        (featureGate) => featureGate !== StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE
-      )
-    const store = createMockStore(defaultStore)
-
-    const tree = render(
-      <Provider store={store}>
-        <HomeTokenBalance />
-      </Provider>
-    )
-
-    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('$8.41')
-    expect(tree.queryByTestId('EyeIcon')).toBeFalsy()
-    expect(tree.queryByTestId('HiddenEyeIcon')).toBeFalsy()
-  })
-
-  it('renders correctly when feature flag is off, hideBalance is true', async () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation(
-        (featureGate) => featureGate !== StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE
-      )
-    const store = createMockStore({ ...defaultStore, app: { hideHomeBalances: true } })
-
-    const tree = render(
-      <Provider store={store}>
-        <HomeTokenBalance />
-      </Provider>
-    )
-
-    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('$8.41')
-    expect(tree.queryByTestId('EyeIcon')).toBeFalsy()
-    expect(tree.queryByTestId('HiddenEyeIcon')).toBeFalsy()
-  })
-
   it('tracks analytics event when eye icon is pressed', async () => {
     const store = createMockStore(defaultStore)
 
@@ -463,7 +467,9 @@ describe.each([
 ])('$name', ({ component: TokenBalanceComponent }) => {
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_POSITIONS)
   })
 
   it('renders correctly with multiple token balances and positions', async () => {
@@ -512,6 +518,9 @@ describe.each([
   })
 
   it('navigates to Assets screen on View Balances tap', async () => {
+    // Tests use_tab_navigator=false case for FiatExchangeTokenBalance, true
+    // case is specific to FiatExchangeTokenBalance since HomeTokenBalance is
+    // never used in the tab navigator
     const store = createMockStore({
       ...defaultStore,
       tokens: {

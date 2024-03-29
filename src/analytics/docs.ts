@@ -5,9 +5,9 @@ import {
   AssetsEvents,
   AuthenticationEvents,
   BuilderHooksEvents,
+  CICOEvents,
   CeloExchangeEvents,
   CeloNewsEvents,
-  CICOEvents,
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
@@ -26,6 +26,7 @@ import {
   OnboardingEvents,
   PerformanceEvents,
   PhoneVerificationEvents,
+  PointsEvents,
   QrScreenEvents,
   RewardsEvents,
   SendEvents,
@@ -72,6 +73,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [AppEvents.multichain_beta_contact_support]: `When the user taps the Contact Support button on the multichain beta screen`,
   [AppEvents.handle_deeplink]: `When a deeplink that leads into the app is detected and handled`,
   [HomeEvents.hamburger_tapped]: ``,
+  [HomeEvents.account_circle_tapped]: `When the account circle used in the tab navigation is tapped`,
   [HomeEvents.drawer_navigation]: ``,
   [HomeEvents.drawer_address_copy]: ``,
   [HomeEvents.profile_address_copy]: `When a user copies their wallet address from the profile screen`,
@@ -316,10 +318,40 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [JumpstartEvents.jumpstart_send_amount_exceeds_threshold]: `When the user enters a send value greater than allowed threshold, and is shown the max send amount warning`,
   [JumpstartEvents.jumpstart_send_amount_continue]: `When the user taps the continue button on the jumpstart enter amount screen`,
   [JumpstartEvents.jumpstart_send_confirm]: `When the user taps the confirm button on the jumpstart confirmation screen to start sending the transaction`,
+  [JumpstartEvents.jumpstart_send_start]: `When the wallet is about to send the transactions to the network`,
+  [JumpstartEvents.jumpstart_send_cancelled]: `When the user cancels the transaction, e.g. by exiting the pincode enter screen`,
+  [JumpstartEvents.jumpstart_send_succeeded]: `When the transactions are successfully settled on the network`,
+  [JumpstartEvents.jumpstart_send_failed]: `When the transactions failed to send or are reverted by the network`,
+  [JumpstartEvents.jumpstart_share_link]: `When the user taps on the share link button on the jumpstart share screen or qr bottom sheet`,
+  [JumpstartEvents.jumpstart_share_link_result]: `The result of the user's share action, can be shared or dismissed or error`,
+  [JumpstartEvents.jumpstart_show_QR]: `When the user taps the CTA to launch the QR code bottom sheet on the share screen`,
+  [JumpstartEvents.jumpstart_copy_link]: `When the user copies the link from the share screen or QR code bottom sheet`,
+  [JumpstartEvents.jumpstart_share_close]: `When the user tries to navigate away from the jumpstart share screen`,
+  [JumpstartEvents.jumpstart_share_confirm_close]: `When the user confirms on the popup that they want to navigate away`,
+  [JumpstartEvents.jumpstart_share_dismiss_close]: `When the user dismisses the popup and does not navigate away from the jumpstart share screen`,
   [JumpstartEvents.jumpstart_claim_succeeded]: `When claiming from Wallet Jumpstart succeeded`,
   [JumpstartEvents.jumpstart_claim_failed]: `When claiming from Wallet Jumpstart failed`,
   [JumpstartEvents.jumpstart_claimed_token]: `When user successfully claimed an ERC20 token trough Wallet Jumpstart`,
   [JumpstartEvents.jumpstart_claimed_nft]: `When user successfully claimed an NFT trough Wallet Jumpstart`,
+  [JumpstartEvents.jumpstart_claim_loading_dismissed]: `When user dismisses Wallet Jumpstart claim loading toast`,
+  [JumpstartEvents.jumpstart_claim_error_dismissed]: `When user dismisses Wallet Jumpstart claim error toast`,
+  [JumpstartEvents.jumpstart_claim_error_contact_support]: `When user taps "Contact Support" CTA on Wallet Jumpstart claim error toast`,
+  [JumpstartEvents.jumpstart_reclaim_press]:
+    'When user taps on "Reclaim" button on the Jumpstart screen',
+  [JumpstartEvents.jumpstart_reclaim_start]:
+    'When user taps on "Confirm" button on the transaction confirmation bottom sheet to start sending the reclaim transaction to the network',
+  [JumpstartEvents.jumpstart_reclaim_failed]:
+    'When the reclaim transaction fails to send, or is reverted by the network',
+  [JumpstartEvents.jumpstart_reclaim_succeeded]:
+    'When the reclaim transaction was successful on the network',
+  [JumpstartEvents.jumpstart_reclaim_contact_support]:
+    'When the user taps "contact support" from any of the error toasts',
+  [JumpstartEvents.jumpstart_claim_status_fetch_success]:
+    'When fetching whether a jumpstart link has been claimed is successful',
+  [JumpstartEvents.jumpstart_claim_status_fetch_error]:
+    'When fetching whether a jumpstart link has been claimed fails',
+  [JumpstartEvents.jumpstart_reclaim_dismiss_error]:
+    'When user dismisses the error toast for when the reclaim transaction failed',
   // Events for the QR screen redesign
   [QrScreenEvents.qr_screen_copy_address]: ``,
   [QrScreenEvents.qr_scanner_open]: `When unique "QR scanner" button is pressed`,
@@ -449,6 +481,12 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [RewardsEvents.learn_more_pressed]: ``,
   [RewardsEvents.claimed_reward]: ``,
 
+  // Events related to Valora Points program
+  [PointsEvents.points_screen_open]: `when Points home screen is opened`,
+  [PointsEvents.points_screen_back]: `when back button is pressed from Points home screen`,
+  [PointsEvents.points_screen_card_press]: `when an activity card is pressed from Points home screen`,
+  [PointsEvents.points_screen_card_cta_press]: `when a CTA is pressed on an activity card bottom sheet from the Points home screen`,
+
   // Events related to WalletConnect pairing (technical: opening up the communication channel via QR code or deeplink)
   [WalletConnectEvents.wc_pairing_start]: `when WC pairing is started (no UI at this point)`,
   [WalletConnectEvents.wc_pairing_success]: `when WC pairing succeeds`,
@@ -520,6 +558,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [TokenBottomSheetEvents.search_token]: `When a user searches a token using the token bottom sheet search box`,
   [TokenBottomSheetEvents.token_selected]: `A token was selected in TokenBottomSheet.`,
   [TokenBottomSheetEvents.toggle_tokens_filter]: `A filter was selected in the TokenBottomSheet.`,
+  [TokenBottomSheetEvents.network_filter_updated]: `The network filter was updated and the multiselect UI closed in the TokenBottomSheet.`,
   [AssetsEvents.show_asset_balance_info]: `When a user taps on the info icon`,
   [AssetsEvents.view_wallet_assets]: `When a user taps on the "Wallet Assets" segmented control or "Assets" tab`,
   [AssetsEvents.view_collectibles]: `When a user taps on the "Collectibles" tab`,

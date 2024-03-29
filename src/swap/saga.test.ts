@@ -4,8 +4,7 @@ import * as matchers from 'redux-saga-test-plan/matchers'
 import { EffectProviders, StaticProvider, dynamic } from 'redux-saga-test-plan/providers'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { getDynamicConfigParams } from 'src/statsig'
 import { swapSubmitSaga } from 'src/swap/saga'
 import { swapCancel, swapError, swapStart, swapSuccess } from 'src/swap/slice'
@@ -416,7 +415,7 @@ describe(swapSubmitSaga, () => {
       expect(mockViemWallet.signTransaction).toHaveBeenCalledTimes(2)
       expect(mockViemWallet.sendRawTransaction).toHaveBeenCalledTimes(2)
       expect(loggerErrorSpy).not.toHaveBeenCalled()
-      expect(navigate).toHaveBeenCalledWith(Screens.WalletHome)
+      expect(navigateHome).toHaveBeenCalledWith()
 
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_success, {
@@ -557,7 +556,7 @@ describe(swapSubmitSaga, () => {
     expect(mockViemWallet.signTransaction).toHaveBeenCalledTimes(1)
     expect(mockViemWallet.sendRawTransaction).toHaveBeenCalledTimes(1)
     expect(loggerErrorSpy).not.toHaveBeenCalled()
-    expect(navigate).toHaveBeenCalledWith(Screens.WalletHome)
+    expect(navigateHome).toHaveBeenCalledWith()
   })
 
   it('should display the correct standby values for a swap with different decimals', async () => {
@@ -626,7 +625,7 @@ describe(swapSubmitSaga, () => {
     expect(mockViemWallet.signTransaction).toHaveBeenCalledTimes(2)
     expect(mockViemWallet.sendRawTransaction).toHaveBeenCalledTimes(2)
     expect(loggerErrorSpy).not.toHaveBeenCalled()
-    expect(navigate).toHaveBeenCalledWith(Screens.WalletHome)
+    expect(navigateHome).toHaveBeenCalledWith()
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(

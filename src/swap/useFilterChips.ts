@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next'
 import { FilterChip } from 'src/components/FilterChipsCarousel'
 import { TOKEN_MIN_AMOUNT } from 'src/config'
 import { useSelector } from 'src/redux/hooks'
-import { NETWORK_NAMES } from 'src/shared/conts'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
@@ -22,20 +21,6 @@ export default function useFilterChip(selectingField: Field | null): FilterChip<
     DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
   ).popularTokenIds
   const supportedNetworkIds = getSupportedNetworkIdsForSwap()
-
-  const networkIdFilters =
-    supportedNetworkIds.length > 1
-      ? supportedNetworkIds.map((networkId: NetworkId) => {
-          return {
-            id: networkId,
-            name: t('tokenBottomSheet.filters.network', {
-              networkName: NETWORK_NAMES[networkId],
-            }),
-            filterFn: (token: TokenBalance) => token.networkId === networkId,
-            isSelected: false,
-          }
-        })
-      : []
 
   if (!showSwapTokenFilters) {
     return []
@@ -60,6 +45,15 @@ export default function useFilterChip(selectingField: Field | null): FilterChip<
       filterFn: (token: TokenBalance) => recentlySwappedTokens.includes(token.tokenId),
       isSelected: false,
     },
-    ...networkIdFilters,
+    {
+      id: 'network-ids',
+      name: t('tokenBottomSheet.filters.selectNetwork'),
+      filterFn: (token: TokenBalance, selected?: NetworkId[]) => {
+        return !!selected && selected.includes(token.networkId)
+      },
+      isSelected: false,
+      allNetworkIds: supportedNetworkIds,
+      selectedNetworkIds: supportedNetworkIds,
+    },
   ]
 }

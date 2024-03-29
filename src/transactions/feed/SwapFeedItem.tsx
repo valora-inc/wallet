@@ -9,8 +9,6 @@ import Touchable from 'src/components/Touchable'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -34,13 +32,15 @@ function SwapFeedItem({ exchange }: Props) {
   }
 
   const hideHomeBalanceState = useSelector(hideHomeBalancesSelector)
-  const hideBalance =
-    getFeatureGate(StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE) && hideHomeBalanceState
 
   return (
     <Touchable testID="SwapFeedItem" onPress={handleTransferDetails}>
       <View style={styles.container}>
-        <TransactionFeedItemImage status={exchange.status} transactionType={exchange.__typename} />
+        <TransactionFeedItemImage
+          status={exchange.status}
+          transactionType={exchange.__typename}
+          networkId={exchange.networkId}
+        />
         <View style={styles.contentContainer}>
           <Text style={styles.title} testID={'SwapFeedItem/title'} numberOfLines={1}>
             {t('swapScreen.title')}
@@ -52,7 +52,7 @@ function SwapFeedItem({ exchange }: Props) {
             })}
           </Text>
         </View>
-        {!hideBalance && (
+        {!hideHomeBalanceState && (
           <View style={styles.tokenAmountContainer}>
             <TokenDisplay
               amount={exchange.inAmount.value}

@@ -1,3 +1,4 @@
+import { useHeaderHeight } from '@react-navigation/elements'
 import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -14,6 +15,7 @@ import Animated from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { hideWalletBalancesSelector } from 'src/app/selectors'
 import Touchable from 'src/components/Touchable'
 import CircledIcon from 'src/icons/CircledIcon'
 import ImageErrorIcon from 'src/icons/ImageErrorIcon'
@@ -87,18 +89,21 @@ export default function AssetList({
   activeTab: AssetTabType
   listHeaderHeight: number
   handleScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void
-  // temporary parameter while we build the tab navigator, should be cleaned up
+  // TODO(act-1133): temporary parameter while we build the tab navigator, should be cleaned up
   // when we remove the drawer
   isWalletTab?: boolean
 }) {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const insets = useSafeAreaInsets()
+  const headerHeight = useHeaderHeight()
 
   const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
   const tokens = useSelector((state) =>
     sortedTokensWithBalanceOrShowZeroBalanceSelector(state, supportedNetworkIds)
   )
+
+  const hideWalletBalances = useSelector(hideWalletBalancesSelector) && isWalletTab
 
   const positions = useSelector(positionsSelector)
   const positionSections = useMemo(() => {
@@ -224,7 +229,7 @@ export default function AssetList({
     index: number
   }) => {
     if (assetIsPosition(item)) {
-      return <PositionItem position={item} />
+      return <PositionItem position={item} hideBalances={hideWalletBalances} />
     } else if ('balance' in item) {
       return (
         <TokenBalanceItem
@@ -238,6 +243,7 @@ export default function AssetList({
               assetType: 'token',
             })
           }}
+          hideBalances={hideWalletBalances}
         />
       )
     } else {
@@ -273,6 +279,9 @@ export default function AssetList({
   return (
     <AnimatedSectionList
       contentContainerStyle={[
+        // TODO (ACT-1133): remove conditional and headerHeight
+        // Only needed on Android with DrawerTopBar; headerHeight is 0 on iOS
+        { minHeight: variables.height + (isWalletTab ? 0 : headerHeight) },
         {
           paddingBottom: isWalletTab ? 0 : insets.bottom,
           opacity: listHeaderHeight > 0 ? 1 : 0,

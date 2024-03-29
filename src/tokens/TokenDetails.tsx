@@ -15,6 +15,7 @@ import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import CeloGoldHistoryChart from 'src/exchange/CeloGoldHistoryChart'
+import CeloNewsFeed from 'src/exchange/CeloNewsFeed'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
 import DataDown from 'src/icons/DataDown'
@@ -46,8 +47,8 @@ import {
   useCashOutTokens,
   useSwappableTokens,
   useTokenInfo,
-  useTokensForSend,
 } from 'src/tokens/hooks'
+import { sortedTokensWithBalanceSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { TokenDetailsAction, TokenDetailsActionName } from 'src/tokens/types'
 import {
@@ -74,7 +75,7 @@ export default function TokenDetailsScreen({ route }: Props) {
   )
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <CustomHeader style={{ paddingHorizontal: variables.contentPadding }} left={<BackButton />} />
       <ScrollView>
         <View style={styles.titleContainer}>
@@ -128,6 +129,7 @@ export default function TokenDetailsScreen({ route }: Props) {
             analyticsProps={getTokenAnalyticsProps(token)}
           />
         )}
+        {token.tokenId === networkConfig.celoTokenId && <CeloNewsFeed />}
       </ScrollView>
       <TokenDetailsMoreActions
         forwardedRef={tokenDetailsMoreActionsBottomSheetRef}
@@ -175,14 +177,16 @@ function PriceInfo({ token }: { token: TokenBalance }) {
 
 export const useActions = (token: TokenBalance) => {
   const { t } = useTranslation()
-  const sendableTokens = useTokensForSend()
+  const supportedNetworkIdsForSend = getSupportedNetworkIdsForSend()
+  const sendableTokensWithBalance = useSelector((state) =>
+    sortedTokensWithBalanceSelector(state, supportedNetworkIdsForSend)
+  )
   const { swappableFromTokens } = useSwappableTokens()
   const cashInTokens = useCashInTokens()
   const cashOutTokens = useCashOutTokens()
   const isSwapEnabled = useSelector(isAppSwapsEnabledSelector)
   const showWithdraw = !!cashOutTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId)
 
-  const supportedNetworkIdsForSend = getSupportedNetworkIdsForSend()
   return [
     {
       name: TokenDetailsActionName.Send,
@@ -197,7 +201,7 @@ export const useActions = (token: TokenBalance) => {
       onPress: () => {
         navigate(Screens.SendSelectRecipient, { defaultTokenIdOverride: token.tokenId })
       },
-      visible: !!sendableTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId),
+      visible: !!sendableTokensWithBalance.find((tokenInfo) => tokenInfo.tokenId === token.tokenId),
     },
     {
       name: TokenDetailsActionName.Swap,

@@ -1594,3 +1594,5 @@ export const mockStoreRewardReayWithDifferentNft = {
     },
   },
 }
+
+export const mockJumpstartAdddress = '0x7BF3fefE9881127553D23a8Cd225a2c2442c438C'

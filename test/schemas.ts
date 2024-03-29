@@ -12,7 +12,7 @@ import { KeylessBackupDeleteStatus, KeylessBackupStatus } from 'src/keylessBacku
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Position } from 'src/positions/types'
 import { updateCachedQuoteParams } from 'src/redux/migrations'
-import { RootState } from 'src/redux/reducers'
+import { RootState } from 'src/redux/store'
 import { Network, NetworkId, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
@@ -3151,6 +3151,54 @@ export const v199Schema = {
   app: _.omit(v198Schema.app, 'rampCashInButtonExpEnabled'),
 }
 
+export const v200Schema = {
+  ...v199Schema,
+  _persist: {
+    ...v199Schema._persist,
+    version: 200,
+  },
+  jumpstart: {
+    ...v199Schema.jumpstart,
+    depositStatus: 'idle',
+  },
+}
+
+export const v201Schema = {
+  ...v200Schema,
+  _persist: {
+    ...v200Schema._persist,
+    version: 201,
+  },
+  app: {
+    ..._.omit(v200Schema.app, 'hideHomeBalances'),
+    hideBalances: false,
+  },
+}
+
+export const v202Schema = {
+  ...v201Schema,
+  _persist: {
+    ...v201Schema._persist,
+    version: 202,
+  },
+  walletConnect: {
+    ...v201Schema.walletConnect,
+    pendingSessions: [],
+  },
+}
+
+export const v203Schema = {
+  ...v202Schema,
+  _persist: {
+    ...v202Schema._persist,
+    version: 203,
+  },
+  jumpstart: {
+    ...v202Schema.jumpstart,
+    reclaimStatus: 'idle',
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v199Schema as Partial<RootState>
+  return v203Schema as Partial<RootState>
 }

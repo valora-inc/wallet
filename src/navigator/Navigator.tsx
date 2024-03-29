@@ -12,7 +12,9 @@ import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
 import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
 import Profile from 'src/account/Profile'
+import SettingsScreen from 'src/account/Settings'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
+import Support from 'src/account/Support'
 import SupportContact from 'src/account/SupportContact'
 import AppLoading from 'src/app/AppLoading'
 import Debug from 'src/app/Debug'
@@ -56,8 +58,11 @@ import KycPending from 'src/fiatconnect/kyc/KycPending'
 import NotificationCenter from 'src/home/NotificationCenter'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import ImportWallet from 'src/import/ImportWallet'
+import Invite from 'src/invite/Invite'
 import JumpstartEnterAmount from 'src/jumpstart/JumpstartEnterAmount'
 import JumpstartSendConfirmation from 'src/jumpstart/JumpstartSendConfirmation'
+import JumpstartShareLink from 'src/jumpstart/JumpstartShareLink'
+import JumpstartTransactionDetailsScreen from 'src/jumpstart/JumpstartTransactionDetailsScreen'
 import KeylessBackupIntro from 'src/keylessBackup/KeylessBackupIntro'
 import KeylessBackupPhoneCodeInput from 'src/keylessBackup/KeylessBackupPhoneCodeInput'
 import KeylessBackupPhoneInput from 'src/keylessBackup/KeylessBackupPhoneInput'
@@ -117,6 +122,7 @@ import VerificationStartScreen from 'src/verify/VerificationStartScreen'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
 import WalletConnectRequest from 'src/walletConnect/screens/WalletConnectRequest'
 import WebViewScreen from 'src/webview/WebViewScreen'
+import PointsHome from 'src/points/PointsHome'
 
 const TAG = 'Navigator'
 
@@ -266,6 +272,11 @@ const sendScreens = (Navigator: typeof Stack) => (
       name={Screens.JumpstartSendConfirmation}
       component={JumpstartSendConfirmation}
       options={headerWithBackButton}
+    />
+    <Navigator.Screen
+      name={Screens.JumpstartShareLink}
+      component={JumpstartShareLink}
+      options={JumpstartShareLink.navigationOptions}
     />
   </>
 )
@@ -496,6 +507,11 @@ const generalScreens = (Navigator: typeof Stack) => (
       options={headerWithBackButton}
     />
     <Navigator.Screen
+      name={Screens.JumpstartTransactionDetailsScreen}
+      component={JumpstartTransactionDetailsScreen}
+      options={noHeader}
+    />
+    <Navigator.Screen
       name={Screens.GoldEducation}
       component={GoldEducation}
       options={GoldEducation.navigationOptions as NativeStackNavigationOptions}
@@ -515,6 +531,13 @@ const generalScreens = (Navigator: typeof Stack) => (
       component={ProfileMenu}
       options={ProfileMenu.navigationOptions as NativeStackNavigationOptions}
     />
+    <Navigator.Screen
+      name={Screens.Settings}
+      component={SettingsScreen}
+      options={headerWithBackButton}
+    />
+    <Navigator.Screen name={Screens.Invite} component={Invite} options={noHeader} />
+    <Navigator.Screen name={Screens.Support} component={Support} options={headerWithBackButton} />
   </>
 )
 
@@ -554,6 +577,11 @@ const assetScreens = (Navigator: typeof Stack) => (
   </>
 )
 
+const pointsScreens = (Navigator: typeof Stack) => (
+  <>
+    <Navigator.Screen name={Screens.PointsHome} component={PointsHome} options={noHeader} />
+  </>
+)
 const mapStateToProps = (state: RootState) => {
   return {
     choseToRestoreAccount: state.account.choseToRestoreAccount,
@@ -622,6 +650,7 @@ export function MainStackScreen() {
       {swapScreens(Stack)}
       {nftScreens(Stack)}
       {assetScreens(Stack)}
+      {pointsScreens(Stack)}
     </Stack.Navigator>
   )
 }

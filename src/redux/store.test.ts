@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 199,
+          "version": 203,
         },
         "account": {
           "acceptedTerms": false,
@@ -142,7 +142,7 @@ describe('store state', () => {
           "fiatConnectCashOutEnabled": false,
           "googleMobileServicesAvailable": undefined,
           "hapticFeedbackEnabled": true,
-          "hideHomeBalances": false,
+          "hideBalances": false,
           "huaweiMobileServicesAvailable": undefined,
           "inAppReviewLastInteractionTimestamp": null,
           "inviterAddress": null,
@@ -261,6 +261,8 @@ describe('store state', () => {
         },
         "jumpstart": {
           "claimStatus": "idle",
+          "depositStatus": "idle",
+          "reclaimStatus": "idle",
         },
         "keylessBackup": {
           "backupStatus": "NotStarted",

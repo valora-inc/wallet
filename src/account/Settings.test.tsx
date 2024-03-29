@@ -436,7 +436,7 @@ describe('Account', () => {
     expect(mockFetch).toHaveBeenCalledTimes(1)
   })
 
-  it('deletes the account and unlinks the phone number successfully', async () => {
+  it('deletes the account and unlinks the phone number successfully (using SettingsDrawer screen)', async () => {
     mockedEnsurePincode.mockImplementation(() => Promise.resolve(true))
     mockFetch.mockResponseOnce(JSON.stringify({ message: 'OK' }), {
       status: 200,
@@ -450,7 +450,7 @@ describe('Account', () => {
 
     const tree = render(
       <Provider store={store}>
-        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+        <Settings {...getMockStackScreenProps(Screens.SettingsDrawer)} />
       </Provider>
     )
 
@@ -469,7 +469,9 @@ describe('Account', () => {
       },
       body: '{"phoneNumber":"+14155550000","clientPlatform":"android","clientVersion":"0.0.1"}',
     })
-    expect(navigate).toHaveBeenLastCalledWith(Screens.BackupPhrase, { navigatedFromSettings: true })
+    expect(navigate).toHaveBeenLastCalledWith(Screens.BackupPhrase, {
+      settingsScreen: Screens.SettingsDrawer,
+    })
   })
 
   it('deletes the account for an unverified account successfully', async () => {
@@ -488,7 +490,9 @@ describe('Account', () => {
     fireEvent.press(tree.getByText('deleteAccountWarning.buttonLabel'))
 
     await waitFor(() =>
-      expect(navigate).toHaveBeenCalledWith(Screens.BackupPhrase, { navigatedFromSettings: true })
+      expect(navigate).toHaveBeenCalledWith(Screens.BackupPhrase, {
+        settingsScreen: Screens.Settings,
+      })
     )
     expect(mockFetch).not.toHaveBeenCalled()
   })
