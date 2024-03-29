@@ -2177,14 +2177,14 @@
       "description": "You can find your new {{rewardName}} NFT under your “Collectibles”"
     },
     "rewardBottomSheet": {
-      "title": "Free cash-ins for a month",
-      "description": "Because you own the {{nftName}} in your collectibles, we’d like to give you free cash-ins for the month of January.\n\nTo use the reward cash-in via any {{appName}} partner and the fees will be waived.",
+      "title": "Earn $5 of ETH",
+      "description": "Fund your wallet with any Ethereum token by April 4, 2024 at 12:00 PM PDT, and we'll give you $5 of ETH on April 5, 2024 by 11:59 PM PDT.\n\nThis is an exclusive offer for being an Early Ethereum Explorer.",
       "expirationLabel": "Expires {{expirationLabelText}}",
       "cta": "Use reward"
     },
     "rewardReminderBottomSheet": {
-      "title": "Free cash-ins for a month",
-      "description": "There’s only 3 days left to take advantage of free cash-ins for the month of January!\n\nTo use the reward cash-in via any {{appName}} partner and the fees will be waived.",
+      "title": "Don't miss out, earn $5 of ETH",
+      "description": "Fund your wallet with any Ethereum token by April 4, 2024 at 12:00 PM PDT, and we'll give you $5 of ETH on April 5, 2024 by 11:59 PM PDT.\n\nThis is an exclusive offer for being an Early Ethereum Explorer.",
       "expirationLabel": "Expires {{expirationLabelText}}",
       "cta": "Use reward"
     }
