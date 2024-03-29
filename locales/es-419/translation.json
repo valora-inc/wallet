@@ -2175,14 +2175,14 @@
       "description": "Puedes encontrar tu nuevo NFT {{rewardName}} en tus \"Coleccionables\""
     },
     "rewardBottomSheet": {
-      "title": "Gana $5 en ETH\n",
-      "description": "Agrega fondos a tu wallet con cualquier token Ethereum antes del 4 de abril de 2024 a las 12:00 PM PDT, y te daremos $5 en ETH el 5 de abril de 2024 a las 11:59 PM PDT.\n\nEsta es una oferta exclusiva por ser un Early Ethereum Explorer.",
+      "title": "Gana 5$ de ETH",
+      "description": "Deposita en tu monedero cualquier token de Ethereum antes del 4 de abril de 2024 a las 12:00 PM PDT, y te daremos 5 $ de ETH el 5 de abril de 2024 antes de las 11:59 PM PDT.\n\nSe trata de una oferta exclusiva por ser un Explorador Temprano de Ethereum.",
       "expirationLabel": "Caduca en {{expirationLabelText}}",
       "cta": "Utiliza la recompensa"
     },
     "rewardReminderBottomSheet": {
-      "title": "Gana $5 en ETH",
-      "description": "Agrega fondos a tu wallet con cualquier token Ethereum antes del 4 de abril de 2024 a las 12:00 PM PDT, y te daremos $5 en ETH el 5 de abril de 2024 a las 11:59 PM PDT.\n\nEsta es una oferta exclusiva por ser un Early Ethereum Explorer.",
+      "title": "No te lo pierdas, gana 5$ de ETH",
+      "description": "Deposita en tu monedero cualquier token de Ethereum antes del 4 de abril de 2024 a las 12:00 PM PDT, y te daremos 5 $ de ETH el 5 de abril de 2024 antes de las 11:59 PM PDT.\n\nSe trata de una oferta exclusiva por ser un Explorador Temprano de Ethereum.",
       "expirationLabel": "Caduca en {{expirationLabelText}}",
       "cta": "Utiliza la recompensa"
     }
