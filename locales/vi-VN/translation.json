@@ -2173,14 +2173,14 @@
       "description": "Bạn có thể tìm thấy NFT {{rewardName}} mới của mình trong mục “Bộ sưu tập”"
     },
     "rewardBottomSheet": {
-      "title": "Kiếm $5 bằng ETH",
-      "description": "Nạp tiền vào ví của bạn bằng bất kỳ mã thông báo Ethereum nào trước 12:00 trưa theo giờ PDT ngày 4 tháng 4 năm 2024 và chúng tôi sẽ cung cấp cho bạn 5 đô la vào ngày 5 tháng 4 năm 2024 trước 11:59 tối theo giờ PDT.\n\nĐây là ưu đãi độc quyền để trở thành Nhà thám hiểm Ethereum sớm.",
+      "title": "Earn $5 of ETH",
+      "description": "Fund your wallet with any Ethereum token by April 4, 2024 at 12:00 PM PDT, and we'll give you $5 of ETH on April 5, 2024 by 11:59 PM PDT.\n\nThis is an exclusive offer for being an Early Ethereum Explorer.",
       "expirationLabel": "Hết hạn {{expirationLabelText}}",
       "cta": "Sử dụng tiền thưởng"
     },
     "rewardReminderBottomSheet": {
-      "title": "Kiếm $5 bằng ETH",
-      "description": "Nạp tiền vào ví của bạn bằng bất kỳ mã thông báo Ethereum nào trước 12:00 trưa theo giờ PDT ngày 4 tháng 4 năm 2024 và chúng tôi sẽ cung cấp cho bạn 5 đô la vào ngày 5 tháng 4 năm 2024 trước 11:59 tối theo giờ PDT.\n\nĐây là ưu đãi độc quyền để trở thành Nhà thám hiểm Ethereum sớm.",
+      "title": "Don't miss out, earn $5 of ETH",
+      "description": "Fund your wallet with any Ethereum token by April 4, 2024 at 12:00 PM PDT, and we'll give you $5 of ETH on April 5, 2024 by 11:59 PM PDT.\n\nThis is an exclusive offer for being an Early Ethereum Explorer.",
       "expirationLabel": "Hết hạn {{expirationLabelText}}",
       "cta": "Sử dụng tiền thưởng"
     }
