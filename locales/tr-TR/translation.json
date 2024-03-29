@@ -2176,13 +2176,13 @@
     },
     "rewardBottomSheet": {
       "title": "5 $ ETH kazanın",
-      "description": "Cüzdanınıza 4 Nisan 2024 saat 12:00 PDT'ye kadar herhangi bir Ethereum tokenı ile para yatırın, biz de size 5 Nisan 2024 saat 11:59 PDT'ye kadar 5 $  verelim.\n\nBu, Erken Ethereum Kaşifi olmanız için özel bir tekliftir.",
+      "description": "Cüzdanınıza 4 Nisan 2024 saat 12:00 PDT'ye kadar herhangi bir Ethereum tokenı ile para yatırın, biz de size 5 Nisan 2024 saat 11:59 PDT'ye kadar 5 $ ETH verelim.\n\nBu, Erken Ethereum Kaşifi olmanız için özel bir tekliftir.",
       "expirationLabel": "Son kullanma tarihi: {{expirationLabelText}}",
       "cta": "Ödülü kullanın"
     },
     "rewardReminderBottomSheet": {
-      "title": "5 $ ETH kazanın",
-      "description": "Cüzdanınıza 4 Nisan 2024 saat 12:00 PDT'ye kadar herhangi bir Ethereum tokenı ile para yatırın, biz de size 5 Nisan 2024 saat 11:59 PDT'ye kadar 5 $  verelim.\n\nBu, Erken Ethereum Kaşifi olmanız için özel bir tekliftir.",
+      "title": "Kaçırmayın, 5 $ ETH kazanın",
+      "description": "Cüzdanınıza 4 Nisan 2024 saat 12:00 PDT'ye kadar herhangi bir Ethereum tokenı ile para yatırın, biz de size 5 Nisan 2024 saat 11:59 PDT'ye kadar 5 $ ETH verelim.\n\nBu, Erken Ethereum Kaşifi olmanız için özel bir tekliftir.",
       "expirationLabel": "Son kullanma tarihi: {{expirationLabelText}}",
       "cta": "Ödülü kullanın"
     }
