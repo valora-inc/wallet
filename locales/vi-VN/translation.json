@@ -515,6 +515,7 @@
   "to": "Đến",
   "for": "Cho",
   "reclaim": "Nhận lại",
+  "claimed": "Đã nhận",
   "celoGold": "CELO",
   "celoEuros": "Euro Celo",
   "balanceAvailable": "<0></0> khả dụng",
@@ -995,6 +996,7 @@
   "receivedFrom": "Đã nhận từ",
   "commentLabel": "Tin nhắn",
   "amountSent": "Đã gửi số tiền",
+  "amountReceived": "Amount Received",
   "amountCeloWithdrawn": "Số tiền (CELO)",
   "feeEducation": "Chuỗi khối thu phí giao dịch để hỗ trợ các mạng và đảm bảo mạng hoạt động thông suốt.",
   "reviewPayment": "Xem lại thanh toán",
@@ -1922,7 +1924,8 @@
       "myTokens": "Token của tôi",
       "popular": "Thông dụng",
       "recentlySwapped": "Đã trao đổi gần đây",
-      "network": "Mạng {{networkName}}"
+      "network": "Mạng {{networkName}}",
+      "selectNetwork": "Mạng lưới"
     }
   },
   "homeActions": {
@@ -2030,8 +2033,8 @@
       "subtitle": "Mời bạn bè từ danh bạ"
     },
     "jumpstart": {
-      "title": "Gửi bằng đường liên kết trực tiếp",
-      "subtitle": "Sao chép và chia sẻ đường liên kết để gửi tiền điện tử giống như gửi tin nhắn"
+      "title": "Send with a Live Link",
+      "subtitle": "Share a link to send crypto like a text"
     },
     "getStarted": {
       "title": "Các phương thức gửi tiền trên Valora",
@@ -2214,6 +2217,18 @@
       "description": "Hãy thử lại đường liên kết trực tiếp của mình để nhận tiền hoặc nhờ bạn bè gửi lại một đường liên kết mới",
       "contactSupport": "Liên hệ với bộ phận hỗ trợ",
       "dismiss": "Loại bỏ"
+    }
+  },
+  "jumpstartReclaim": {
+    "description": "Reclaiming your link incurs a network gas fee, would you like to proceed?",
+    "fetchStatusError": {
+      "title": "Oops, something went wrong",
+      "description": "We could not get the claim status of this invitation, please try again later or contact support",
+      "retryCta": "Thử lại"
+    },
+    "reclaimError": {
+      "title": "Unable to reclaim funds",
+      "description": "Try to reclaim again, or contact support"
     }
   },
   "multiSelect": {

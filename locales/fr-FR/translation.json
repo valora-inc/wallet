@@ -515,6 +515,7 @@
   "to": "À",
   "for": "Pour",
   "reclaim": "Réclamer",
+  "claimed": "Demandé",
   "celoGold": "CELO",
   "celoEuros": "Celo Euro",
   "balanceAvailable": "<0></0> disponibles",
@@ -997,6 +998,7 @@
   "receivedFrom": "Reçu de",
   "commentLabel": "Message",
   "amountSent": "Montant envoyé",
+  "amountReceived": "Montant reçu",
   "amountCeloWithdrawn": "Montant (CELO)",
   "feeEducation": "Les Blockchains perçoivent des frais de transaction pour assurer le bon fonctionnement des réseaux.",
   "reviewPayment": "Consulter le paiement",
@@ -1924,7 +1926,8 @@
       "myTokens": "Mes jetons",
       "popular": "Populaires",
       "recentlySwapped": "Échangés récemment",
-      "network": "Réseau {{networkName}}"
+      "network": "Réseau {{networkName}}",
+      "selectNetwork": "Réseau"
     }
   },
   "homeActions": {
@@ -2032,8 +2035,8 @@
       "subtitle": "Invitez des amis de votre liste de contacts"
     },
     "jumpstart": {
-      "title": "Envoyer avec un lien direct",
-      "subtitle": "Copiez le lien et partagez-le pour envoyer de la crypto aussi simplement qu'un SMS"
+      "title": "Envoyer avec un lien en direct",
+      "subtitle": "Partage un lien pour envoyer de la crypto comme un texte"
     },
     "getStarted": {
       "title": "Comment envoyer des fonds sur Valora",
@@ -2172,14 +2175,14 @@
       "description": "Vous pouvez trouver votre nouveau NFT {{rewardName}} dans votre \"Collection\""
     },
     "rewardBottomSheet": {
-      "title": "Cash-in gratuits pendant un mois",
-      "description": "En tant que propriétaire de {{nftName}} parmi vos objets de collection, nous aimerions vous offrir des encaissements gratuits pour le mois de janvier.\n\nPour utiliser la récompense, ajoutez des fonds via n'importe quel partenaire {{appName}} et les frais seront annulés.",
+      "title": "Gagnez 5 $ d'ETH",
+      "description": "Approvisionnez votre portefeuille avec n'importe quel jeton Ethereum avant le 4 avril 2024 à 12:00 PM PDT, et nous vous donnerons 5 $ d'ETH le 5 avril 2024 jusqu'à 11:59 PM PDT.\n\nIl s'agit d'une offre exclusive pour les Early Ethereum Explorer.",
       "expirationLabel": "Expire le {{expirationLabelText}}",
       "cta": "Utiliser la récompense"
     },
     "rewardReminderBottomSheet": {
-      "title": "Cash-in gratuits pendant un mois",
-      "description": "Il ne vous reste plus que 3 jours pour profiter des cash-in gratuits du mois de janvier !\n\nPour utiliser la récompense, ajoutez des fonds par l'intermédiaire de n'importe quel partenaire {{appName}} et les frais seront annulés.",
+      "title": "Gagnez 5 $ d'ETH\n",
+      "description": "Approvisionnez votre portefeuille avec n'importe quel jeton Ethereum avant le 4 avril 2024 à 12:00 PM PDT, et nous vous donnerons 5 $ d'ETH le 5 avril 2024 jusqu'à 11:59 PM PDT.\n\nIl s'agit d'une offre exclusive pour les Early Ethereum Explorer.",
       "expirationLabel": "Expire le {{expirationLabelText}}",
       "cta": "Utiliser la récompense"
     }
@@ -2216,6 +2219,18 @@
       "description": "Réessayez votre lien direct pour faire une nouvelle tentative de récupération des fonds, ou demandez à votre ami de vous envoyer un nouveau lien",
       "contactSupport": "Contacter le Support",
       "dismiss": "Refuser"
+    }
+  },
+  "jumpstartReclaim": {
+    "description": "La récupération de ton lien entraîne des frais de gaz de réseau, veux-tu continuer ?",
+    "fetchStatusError": {
+      "title": "Oups, quelque chose s'est mal passé",
+      "description": "Nous n'avons pas pu obtenir le statut de réclamation de cette invitation, essaie à nouveau plus tard ou contacte l'assistance.",
+      "retryCta": "Réessayer"
+    },
+    "reclaimError": {
+      "title": "Impossible de récupérer les fonds",
+      "description": "Essaie de réclamer à nouveau, ou contacte l'assistance."
     }
   },
   "multiSelect": {

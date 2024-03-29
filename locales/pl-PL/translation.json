@@ -515,6 +515,7 @@
   "to": "Do",
   "for": "Dla",
   "reclaim": "Odzyskaj",
+  "claimed": "Odebrano",
   "celoGold": "CELO",
   "celoEuros": "Celo Euro",
   "balanceAvailable": "<0></0> dostępne",
@@ -1001,6 +1002,7 @@
   "receivedFrom": "Otrzymano od",
   "commentLabel": "Wiadomość",
   "amountSent": "Wysłana kwota",
+  "amountReceived": "Otrzymana kwota",
   "amountCeloWithdrawn": "Kwota (CELO)",
   "feeEducation": "Łańcuchy bloków pobierają opłatę transakcyjną, aby utrzymać obsługę i płynne działanie sieci.",
   "reviewPayment": "Analizuj płatność",
@@ -1928,7 +1930,8 @@
       "myTokens": "Moje tokeny",
       "popular": "Popularne",
       "recentlySwapped": "Niedawno wymienione",
-      "network": "Sieć {{networkName}}"
+      "network": "Sieć {{networkName}}",
+      "selectNetwork": "Sieć"
     }
   },
   "homeActions": {
@@ -2036,8 +2039,8 @@
       "subtitle": "Zaproś znajomych z listy kontaktów"
     },
     "jumpstart": {
-      "title": "Wyślij za pomocą aktywnego linku",
-      "subtitle": "Skopiuj link i udostępnij go, aby wysłać kryptowalutę tak jak tekst"
+      "title": "Wyślij za pomocą łącza na żywo",
+      "subtitle": "Udostępnij link, aby wysłać kryptowalutę jako tekst"
     },
     "getStarted": {
       "title": "Sposoby wysyłania środków w Valorze",
@@ -2220,6 +2223,18 @@
       "description": "Użyj ponownie swojego aktywnego linku, aby spróbować otrzymać środki, lub poproś znajomego, aby przesłał nowy link",
       "contactSupport": "Skontaktuj się z Działem wsparcia",
       "dismiss": "Odrzuć"
+    }
+  },
+  "jumpstartReclaim": {
+    "description": "Odzyskanie łącza wiąże się z opłatą za gaz sieciowy, czy chcesz kontynuować?",
+    "fetchStatusError": {
+      "title": "Ups, coś poszło nie tak",
+      "description": "Nie mogliśmy uzyskać statusu tego zaproszenia, spróbuj ponownie później lub skontaktuj się z pomocą techniczną.",
+      "retryCta": "Spróbuj ponownie"
+    },
+    "reclaimError": {
+      "title": "Brak możliwości odzyskania środków",
+      "description": "Spróbuj odzyskać ponownie lub skontaktuj się z pomocą techniczną"
     }
   },
   "multiSelect": {

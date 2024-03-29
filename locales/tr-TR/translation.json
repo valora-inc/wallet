@@ -515,6 +515,7 @@
   "to": "Kime",
   "for": "İçin",
   "reclaim": "İade Al",
+  "claimed": "Talep Edildi",
   "celoGold": "CELO",
   "celoEuros": "Celo Euro",
   "balanceAvailable": "<0></0> mevcut",
@@ -997,6 +998,7 @@
   "receivedFrom": "Alınan",
   "commentLabel": "Mesaj",
   "amountSent": "Gönderilen Tutar",
+  "amountReceived": "Alınan Tutar",
   "amountCeloWithdrawn": "Miktar (CELO)",
   "feeEducation": "Blok zincirleri, ağları desteklemek ve sorunsuz çalışmalarını sağlamak için bir işlem ücreti alır.",
   "reviewPayment": "Ödemeyi Gözden Geçir",
@@ -1924,7 +1926,8 @@
       "myTokens": "Tokenlerim",
       "popular": "Popüler",
       "recentlySwapped": "Yakın zamanda takas edildi",
-      "network": "{{networkName}} Ağı"
+      "network": "{{networkName}} Ağı",
+      "selectNetwork": "Ağ"
     }
   },
   "homeActions": {
@@ -2032,8 +2035,8 @@
       "subtitle": "Kişi listenizden arkadaşlarınızı davet edin"
     },
     "jumpstart": {
-      "title": "Canlı bağlantı ile gönder",
-      "subtitle": "Kripto para göndermek için bir metin gibi bağlantıyı kopyalayıp paylaşın"
+      "title": "Canlı Bağlantı ile Gönder",
+      "subtitle": "Metin gibi kripto göndermek için bir bağlantı paylaşın"
     },
     "getStarted": {
       "title": "Valora'da fon gönderme yolları",
@@ -2216,6 +2219,18 @@
       "description": "Fon almayı denemek için canlı bağlantınızı tekrar deneyin veya arkadaşınızdan yeni bir bağlantı göndermeyi denemesini isteyin",
       "contactSupport": "Destek ile İletişime Geç",
       "dismiss": "Yoksay"
+    }
+  },
+  "jumpstartReclaim": {
+    "description": "Bağlantınızı geri almak şebeke gazı ücretine tabidir, devam etmek ister misiniz?",
+    "fetchStatusError": {
+      "title": "Oops, bir şeyler ters gitti",
+      "description": "Bu davetin talep durumunu alamadık, lütfen daha sonra tekrar deneyin veya destek ekibiyle iletişime geçin",
+      "retryCta": "Yeniden Dene"
+    },
+    "reclaimError": {
+      "title": "Fonlar geri alınamıyor",
+      "description": "Tekrar geri almayı deneyin veya desteğe başvurun"
     }
   },
   "multiSelect": {

@@ -515,6 +515,7 @@
   "to": "Zu",
   "for": "Für",
   "reclaim": "Zurückfordern",
+  "claimed": "Beansprucht",
   "celoGold": "CELO",
   "celoEuros": "Celo Euro",
   "balanceAvailable": "<0></0> verfügbar",
@@ -997,6 +998,7 @@
   "receivedFrom": "Erhalten von",
   "commentLabel": "Nachricht",
   "amountSent": "Betrag gesendet",
+  "amountReceived": "Erhaltener Betrag",
   "amountCeloWithdrawn": "Betrag (CELO)",
   "feeEducation": "Blockchains erheben eine Transaktionsgebühr, um Netzwerke zu unterstützen und reibungslos arbeiten zu lassen.",
   "reviewPayment": "Zahlung überprüfen",
@@ -1924,7 +1926,8 @@
       "myTokens": "Meine Token",
       "popular": "Beliebt",
       "recentlySwapped": "Kürzlich getauscht",
-      "network": "{{networkName}} Netzwerk"
+      "network": "{{networkName}} Netzwerk",
+      "selectNetwork": "Netzwerk"
     }
   },
   "homeActions": {
@@ -2032,8 +2035,8 @@
       "subtitle": "Lade Freunde aus deiner Kontaktliste ein."
     },
     "jumpstart": {
-      "title": "Mit einem Live-Link senden",
-      "subtitle": "Kopiere den Link und teile ihn, um Krypto wie eine Textnachricht zu versenden"
+      "title": "Senden mit einem Live-Link",
+      "subtitle": "Einen Link teilen, um Krypto wie einen Text zu versenden"
     },
     "getStarted": {
       "title": "So kannst du Guthaben auf Valora senden.",
@@ -2172,14 +2175,14 @@
       "description": "Du findest dein neues NFT {{rewardName}} unter deinen „Sammlerstücken“"
     },
     "rewardBottomSheet": {
-      "title": "Einen Monat lang kostenlose Einzahlungen",
-      "description": "Da du das {{nftName}} in deinen Sammlerstücken besitzt, möchten wir dir für den ganzen Januar kostenlose Einzahlungen gewähren.\n\nUm die Belohnung zu nutzen, kannst du Einzahlungen bei einem beliebigen {{appName}}-Partner tätigen, und die Gebühren entfallen.",
+      "title": "Verdiene $5 ETH",
+      "description": "Wenn du deine Wallet bis zum 4. April 2024 um 12:00 Uhr PDT mit einem beliebigen Ethereum-Token füllst, bekommst du am 5. April 2024 um 23:59 Uhr PDT $5 ETH von uns.\n\nDas ist ein exklusives Angebot, wenn du ein Early Ethereum Explorer bist.",
       "expirationLabel": "Läuft ab {{expirationLabelText}}",
       "cta": "Belohnung verwenden"
     },
     "rewardReminderBottomSheet": {
       "title": "Einen Monat lang kostenlose Einzahlungen",
-      "description": "Es sind nur noch 3 Tage übrig, um von den kostenlosen Einzahlungen im Januar zu profitieren!\n\nUm die Belohnung zu nutzen, kannst du bei einem beliebigen {{appName}}-Partner Einzahlungen tätigen und die Gebühren werden dir erlassen.",
+      "description": "Wenn du deine Wallet bis zum 4. April 2024 um 12:00 Uhr PDT mit einem beliebigen Ethereum-Token füllst, bekommst du am 5. April 2024 um 23:59 Uhr PDT $5 ETH von uns.\n\nDas ist ein exklusives Angebot, wenn du ein Early Ethereum Explorer bist.",
       "expirationLabel": "Läuft ab {{expirationLabelText}}",
       "cta": "Belohnung verwenden"
     }
@@ -2216,6 +2219,18 @@
       "description": "Probiere deinen Live-Link erneut aus, um zu versuchen, Guthaben zu erhalten, oder bitte deinen Freund, einen neuen Link zu senden",
       "contactSupport": "Support kontaktieren",
       "dismiss": "Verwerfen"
+    }
+  },
+  "jumpstartReclaim": {
+    "description": "Für die Rückforderung deines Links fällt eine Netzgasgebühr an. Möchtest du fortfahren?",
+    "fetchStatusError": {
+      "title": "Ups, da ist etwas schief gelaufen",
+      "description": "Wir konnten den Forderungsstatus dieser Einladung nicht ermitteln. Bitte versuche es später noch einmal oder kontaktiere den Support.",
+      "retryCta": "Erneut versuchen"
+    },
+    "reclaimError": {
+      "title": "Nicht in der Lage, Gelder zurückzufordern",
+      "description": "Versuche, erneut zu reklamieren, oder kontaktiere den Support"
     }
   },
   "multiSelect": {

@@ -515,6 +515,7 @@
   "to": "Para",
   "for": "Para",
   "reclaim": "Reivindicar",
+  "claimed": "Resgatada",
   "celoGold": "CELO",
   "celoEuros": "Celo Euros",
   "balanceAvailable": "<0></0> disponíveis",
@@ -997,6 +998,7 @@
   "receivedFrom": "De",
   "commentLabel": "Mensagem",
   "amountSent": "Quantia enviada",
+  "amountReceived": "Valor recebido",
   "amountCeloWithdrawn": "Quantia (CELO)",
   "feeEducation": "Blockchains cobram uma taxa de transação para manter o suporte e o bom funcionamento das redes.",
   "reviewPayment": "Revisar pagamento",
@@ -1924,7 +1926,8 @@
       "myTokens": "Meus tokens",
       "popular": "Popular",
       "recentlySwapped": "Trocado recentemente",
-      "network": "Rede {{networkName}}"
+      "network": "Rede {{networkName}}",
+      "selectNetwork": "Rede"
     }
   },
   "homeActions": {
@@ -2032,8 +2035,8 @@
       "subtitle": "Convide amigos da sua lista de contatos"
     },
     "jumpstart": {
-      "title": "Enviar com um link ativo",
-      "subtitle": "Copie o link e compartilhe-o para enviar cripto igual a uma mensagem"
+      "title": "Enviar com um link ao vivo",
+      "subtitle": "Compartilhe um link para enviar criptografia como um texto"
     },
     "getStarted": {
       "title": "Formas de enviar fundos na Valora",
@@ -2216,6 +2219,18 @@
       "description": "Tente usar o link ativo novamente para tentar receber fundos ou peça ao seu amigo para tentar enviar um novo link",
       "contactSupport": "Contate o suporte",
       "dismiss": "Ignorar"
+    }
+  },
+  "jumpstartReclaim": {
+    "description": "A recuperação do seu link incorre em uma taxa de gás de rede. Você gostaria de continuar?",
+    "fetchStatusError": {
+      "title": "Ops, algo deu errado",
+      "description": "Não foi possível obter o status da reivindicação desse convite. Tente novamente mais tarde ou entre em contato com o suporte",
+      "retryCta": "Repetir"
+    },
+    "reclaimError": {
+      "title": "Não foi possível recuperar os fundos",
+      "description": "Tente recuperar novamente ou entre em contato com o suporte"
     }
   },
   "multiSelect": {
