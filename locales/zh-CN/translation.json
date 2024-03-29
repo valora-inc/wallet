@@ -2173,14 +2173,14 @@
       "description": "您可以在“收藏品”下找到新的 {{rewardName}} NFT"
     },
     "rewardBottomSheet": {
-      "title": "免费兑现一个月",
-      "description": "因为您拥有收藏品中的 {{nftName}} ，所以我们想在一月份为您提供免费兑奖。\n\n通过任何 {{appName}} 合作伙伴使用奖励兑现，都将免收费用。",
+      "title": "赚取 5 美元 ETH",
+      "description": "在太平洋夏令时间 2024 年 4 月 4 日中午 12:00 之前使用任何以太坊代币为您的钱包充值，我们将在太平洋夏令时间 2024 年 4 月 5 日晚上 11:59 之前向您赠送 5 美元的。\n\n这是早期以太坊探索者的独家优惠。",
       "expirationLabel": "过期 {{expirationLabelText}}",
       "cta": "使用奖励"
     },
     "rewardReminderBottomSheet": {
-      "title": "免费兑现一个月",
-      "description": "只剩 3 天时间来享受 1 月份的免费兑奖！\n\n通过任何 {{appName}} 合作伙伴使用奖励兑现，将免收手续费。",
+      "title": "不要错过，赚取 5 美元",
+      "description": "在太平洋夏令时间 2024 年 4 月 4 日中午 12:00 之前使用任何以太坊代币为您的钱包充值，我们将在太平洋夏令时间 2024 年 4 月 5 日晚上 11:59 之前向您赠送 5 美元的。\n\n这是早期以太坊探索者的独家优惠。",
       "expirationLabel": "过期 {{expirationLabelText}}",
       "cta": "使用奖励"
     }
