@@ -169,6 +169,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: Spacing.Smallest8,
     alignItems: 'center',
+    marginVertical: 11,
   },
   wordText: {
     ...fontStyles.regular,
