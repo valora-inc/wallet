@@ -2179,14 +2179,14 @@
       "description": "Możesz znaleźć swój nowy NFT {{rewardName}} w zakładce „Kolekcje”"
     },
     "rewardBottomSheet": {
-      "title": "Zdobądź 5 USD ETH",
-      "description": "Zasil swój portfel dowolnym tokenem Ethereum do 4 kwietnia 2024 r. do godziny 12:00 czasu PDT, a 5 kwietnia 2024 r. do godziny 11:59 czasu PDT otrzymasz od nas 5 USD w ETH.\n\nJest to ekskluzywna oferta dla wczesnych odkrywców Ethereum.",
+      "title": "Zdobądź ETH o wartości 5 USD",
+      "description": "Zasil swój portfel dowolnym tokenem Ethereum do 4 kwietnia 2024 r. do godziny 12:00 czasu PDT, a my damy Ci 5 USD ETH 5 kwietnia 2024 r. do godziny 11:59 czasu PDT.\n\nJest to ekskluzywna oferta dla wczesnych odkrywców Ethereum.",
       "expirationLabel": "Wygasa {{expirationLabelText}}",
       "cta": "Wykorzystaj nagrodę"
     },
     "rewardReminderBottomSheet": {
-      "title": "Zdobądź 5 USD ETH",
-      "description": "Zasil swój portfel dowolnym tokenem Ethereum do 4 kwietnia 2024 r. do godziny 12:00 czasu PDT, a 5 kwietnia 2024 r. do godziny 11:59 czasu PDT otrzymasz od nas 5 USD w ETH.\n\nJest to ekskluzywna oferta dla wczesnych odkrywców Ethereum.",
+      "title": "Nie przegap okazji i zdobądź 5 USD ETH",
+      "description": "Zasil swój portfel dowolnym tokenem Ethereum do 4 kwietnia 2024 r. do godziny 12:00 czasu PDT, a my damy Ci 5 USD ETH 5 kwietnia 2024 r. do godziny 11:59 czasu PDT.\n\nJest to ekskluzywna oferta dla wczesnych odkrywców Ethereum.",
       "expirationLabel": "Wygasa {{expirationLabelText}}",
       "cta": "Wykorzystaj nagrodę"
     }
