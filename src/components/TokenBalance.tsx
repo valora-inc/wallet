@@ -2,7 +2,6 @@ import BigNumber from 'bignumber.js'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  Image,
   StyleProp,
   StyleSheet,
   Text,
@@ -20,6 +19,7 @@ import { toggleHideBalances } from 'src/app/actions'
 import { hideHomeBalancesSelector, hideWalletBalancesSelector } from 'src/app/selectors'
 import Dialog from 'src/components/Dialog'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
+import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import { refreshAllBalances } from 'src/home/actions'
@@ -105,7 +105,11 @@ function TokenBalance({
     const tokenBalance = tokensWithUsdValue[0].balance
     return (
       <View style={styles.oneBalance}>
-        <Image source={{ uri: tokensWithUsdValue[0].imageUrl }} style={styles.tokenImg} />
+        <TokenIcon
+          token={tokensWithUsdValue[0]}
+          size={IconSize.XLARGE}
+          viewStyle={styles.tokenImgView}
+        />
         <View style={styles.column}>
           <TotalTokenBalance balanceDisplay={balanceDisplay ?? '-'} />
           {!hideBalance && (
@@ -403,9 +407,7 @@ const styles = StyleSheet.create({
   oneBalance: {
     flexDirection: 'row',
   },
-  tokenImg: {
-    width: 48,
-    height: 48,
+  tokenImgView: {
     borderRadius: 24,
     marginRight: 8,
   },
