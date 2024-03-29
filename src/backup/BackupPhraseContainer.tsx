@@ -164,6 +164,7 @@ const styles = StyleSheet.create({
   twelveWordTable: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    marginHorizontal: Spacing.Small12,
   },
   wordContainer: {
     flexDirection: 'row',
