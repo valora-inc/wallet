@@ -2094,6 +2094,8 @@
   "viewOnArbiscan": "Посмотреть на Arbiscan",
   "viewOnOPMainnetExplorer": "Просмотр в OP Mainnet Explorer",
   "viewOnOPSepoliaExplorer": "Просмотр в OP Sepolia Explorer",
+  "viewOnPolygonPoSScan": "Просмотр на PolygonScan",
+  "viewOnBaseScan": "Смотреть на BaseScan",
   "sendEnterAmountScreen": {
     "title": "Введите сумму",
     "selectToken": "Выберите токен",
