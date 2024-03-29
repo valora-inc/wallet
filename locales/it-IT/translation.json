@@ -515,6 +515,7 @@
   "to": "A",
   "for": "Motivo",
   "reclaim": "Recupera",
+  "claimed": "Richiesta",
   "celoGold": "CELO",
   "celoEuros": "Celo Euro",
   "balanceAvailable": "<0></0> disponibili",
@@ -997,6 +998,7 @@
   "receivedFrom": "Ricevuti da",
   "commentLabel": "Messaggio",
   "amountSent": "Importo inviato",
+  "amountReceived": "Importo ricevuto",
   "amountCeloWithdrawn": "Importo (CELO)",
   "feeEducation": "Le blockchain addebitano una commissione sulle transazioni per garantire il supporto e il funzionamento delle reti.",
   "reviewPayment": "Rivedi pagamento",
@@ -1924,7 +1926,8 @@
       "myTokens": "I miei token",
       "popular": "Popolare",
       "recentlySwapped": "Scambiato di recente",
-      "network": "Rete {{networkName}}"
+      "network": "Rete {{networkName}}",
+      "selectNetwork": "Rete"
     }
   },
   "homeActions": {
@@ -2032,8 +2035,8 @@
       "subtitle": "Invita amici dal tuo elenco dei contatti"
     },
     "jumpstart": {
-      "title": "Invia con un link diretto",
-      "subtitle": "Copia il link e condividilo per inviare criptovalute come se fosse testo"
+      "title": "Invia con un link in diretta",
+      "subtitle": "Condividi un link per inviare criptovalute come un testo"
     },
     "getStarted": {
       "title": "Come inviare fondi su Valora",
@@ -2172,14 +2175,14 @@
       "description": "Puoi trovare il tuo nuovo {{rewardName}} NFT nella sezione \"Collezionabili\""
     },
     "rewardBottomSheet": {
-      "title": "Depositi gratuiti per un mese",
-      "description": "Poiché il sito {{nftName}} è di tua proprietà, ti offriamo depositi gratuiti per il mese di gennaio.\n\nPer utilizzare la ricompensa, effettua il deposito tramite qualsiasi partner di {{appName}} e le spese non saranno addebitate.",
+      "title": "Guadagna 5 dollari di ETH",
+      "description": "Finanzia il tuo portafoglio con un qualsiasi token Ethereum entro il 4 aprile 2024 alle 12:00 PM PDT e ti regaleremo 5 dollari di ETH il 5 aprile 2024 entro le 23:59 PDT.\n\nQuesta è un'offerta esclusiva per essere un Early Ethereum Explorer.",
       "expirationLabel": "Scade {{expirationLabelText}}",
       "cta": "Usa la ricompensa"
     },
     "rewardReminderBottomSheet": {
-      "title": "Depositi gratuiti per un mese",
-      "description": "Restano solo 3 giorni per approfittare dei depositi gratuiti per il mese di gennaio!\n\nUtilizza la ricompensa tramite un qualsiasi partner di {{appName}} e le spese saranno annullate.",
+      "title": "Non perdere l'occasione, guadagna 5 dollari di ETH",
+      "description": "Finanzia il tuo portafoglio con un qualsiasi token Ethereum entro il 4 aprile 2024 alle 12:00 PM PDT e ti regaleremo 5 dollari di ETH il 5 aprile 2024 entro le 23:59 PDT.\n\nQuesta è un'offerta esclusiva per essere un Early Ethereum Explorer.",
       "expirationLabel": "Scade {{expirationLabelText}}",
       "cta": "Usa la ricompensa"
     }
@@ -2216,6 +2219,18 @@
       "description": "Riprova il tuo link diretto per tentare di ricevere i fondi, oppure chiedi al tuo amico di provare a inviare un nuovo link",
       "contactSupport": "Contatta il supporto tecnico",
       "dismiss": "Ignora"
+    }
+  },
+  "jumpstartReclaim": {
+    "description": "Il recupero del tuo link comporta una tassa sul gas di rete, vuoi procedere?",
+    "fetchStatusError": {
+      "title": "Oops, qualcosa è andato storto",
+      "description": "Non è stato possibile ottenere lo stato di richiesta di questo invito, ti preghiamo di riprovare più tardi o di contattare l'assistenza.",
+      "retryCta": "Riprova"
+    },
+    "reclaimError": {
+      "title": "Impossibile recuperare i fondi",
+      "description": "Prova a reclamare di nuovo, oppure contatta l'assistenza"
     }
   },
   "multiSelect": {

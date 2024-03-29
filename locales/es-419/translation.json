@@ -515,6 +515,7 @@
   "to": "Para",
   "for": "Motivo",
   "reclaim": "Recuperar",
+  "claimed": "Reclamada",
   "celoGold": "CELO",
   "celoEuros": "Celo Euros",
   "balanceAvailable": "<0></0> disponibles",
@@ -997,6 +998,7 @@
   "receivedFrom": "De",
   "commentLabel": "Mensaje",
   "amountSent": "Monto enviado",
+  "amountReceived": "Importe recibido",
   "amountCeloWithdrawn": "Monto (CELO)",
   "feeEducation": "Las blockchains cobran una tarifa de transacción para mantener el soporte de la red y que funcione sin problemas.",
   "reviewPayment": "Revisar pago",
@@ -1924,7 +1926,8 @@
       "myTokens": "Mis tokens",
       "popular": "Popular",
       "recentlySwapped": "Intercambiado recientemente",
-      "network": "Red {{networkName}}"
+      "network": "Red {{networkName}}",
+      "selectNetwork": "Red"
     }
   },
   "homeActions": {
@@ -2032,8 +2035,8 @@
       "subtitle": "Invita a amigos de tu lista de contactos"
     },
     "jumpstart": {
-      "title": "Enviar con un enlace activo",
-      "subtitle": "Copia el enlace y compártelo para enviar cripto como si fuera texto"
+      "title": "Enviar con un enlace en directo",
+      "subtitle": "Comparte un enlace para enviar criptomonedas como un texto"
     },
     "getStarted": {
       "title": "Formas de enviar fondos en Valora",
@@ -2172,14 +2175,14 @@
       "description": "Puedes encontrar tu nuevo NFT {{rewardName}} en tus \"Coleccionables\""
     },
     "rewardBottomSheet": {
-      "title": "Agrega fondos gratis durante un mes",
-      "description": "Como tienes {{nftName}} entre tus coleccionables, nos gustaría ofrecerte agregar fondos gratis durante el mes de enero.\n\nPara utilizar la recompensa, agrega fondos a través de cualquier socio de {{appName}} y no tendrás que pagar tarifas.",
+      "title": "Gana 5$ de ETH",
+      "description": "Deposita en tu monedero cualquier token de Ethereum antes del 4 de abril de 2024 a las 12:00 PM PDT, y te daremos 5 $ de ETH el 5 de abril de 2024 antes de las 11:59 PM PDT.\n\nSe trata de una oferta exclusiva por ser un Explorador Temprano de Ethereum.",
       "expirationLabel": "Caduca en {{expirationLabelText}}",
       "cta": "Utiliza la recompensa"
     },
     "rewardReminderBottomSheet": {
-      "title": "Agregar fondos gratis durante un mes",
-      "description": "¡Sólo quedan 3 días para agregar fondos gratis durante el mes de enero!\n\nPara utilizar la recompensa, agrega fondos a través de cualquier socio de {{appName}} y no tendrás que pagar tarifas.",
+      "title": "No te lo pierdas, gana 5$ de ETH",
+      "description": "Deposita en tu monedero cualquier token de Ethereum antes del 4 de abril de 2024 a las 12:00 PM PDT, y te daremos 5 $ de ETH el 5 de abril de 2024 antes de las 11:59 PM PDT.\n\nSe trata de una oferta exclusiva por ser un Explorador Temprano de Ethereum.",
       "expirationLabel": "Caduca en {{expirationLabelText}}",
       "cta": "Utiliza la recompensa"
     }
@@ -2216,6 +2219,18 @@
       "description": "Prueba de nuevo tu enlace activo para recibir fondos, o pide a tu amigo que intente enviar un nuevo enlace",
       "contactSupport": "Contactar a Soporte",
       "dismiss": "Ignorar"
+    }
+  },
+  "jumpstartReclaim": {
+    "description": "Reclamar tu enlace conlleva una tasa de gas de red, ¿quieres proceder?",
+    "fetchStatusError": {
+      "title": "Uy, algo ha salido mal",
+      "description": "No hemos podido obtener el estado de la solicitud de esta invitación, inténtalo más tarde o ponte en contacto con el servicio de asistencia.",
+      "retryCta": "Reintentar"
+    },
+    "reclaimError": {
+      "title": "No se pueden reclamar los fondos",
+      "description": "Intenta reclamar de nuevo, o ponte en contacto con el servicio de asistencia"
     }
   },
   "multiSelect": {

@@ -136,6 +136,8 @@ export const mockCrealTokenId = `celo-alfajores:${mockCrealAddress}`
 export const mockWBTCTokenId = `celo-alfajores:${mockWBTCAddress}`
 export const mockEthTokenId = 'ethereum-sepolia:native'
 export const mockUSDCTokenId = `ethereum-sepolia:${mockUSDCAddress}`
+export const mockARBTokenId = `arbitrum-sepolia:native`
+export const mockOPTokenId = `op-sepolia:native`
 
 export const mockQrCodeData2 = {
   address: mockAccount2Invite,
@@ -536,6 +538,34 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     imageUrl: '',
     balance: '0',
     priceUsd: '1',
+  },
+  [mockARBTokenId]: {
+    name: 'Ethereum',
+    networkId: NetworkId['arbitrum-sepolia'],
+    tokenId: mockARBTokenId,
+    address: null,
+    symbol: 'ETH',
+    decimals: 18,
+    imageUrl:
+      'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+    balance: '0',
+    priceUsd: '1500',
+    isNative: true,
+    priceFetchedAt: Date.now(),
+  },
+  [mockOPTokenId]: {
+    name: 'Ethereum',
+    networkId: NetworkId['op-sepolia'],
+    tokenId: mockOPTokenId,
+    address: null,
+    symbol: 'ETH',
+    decimals: 18,
+    imageUrl:
+      'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+    balance: '0',
+    priceUsd: '1500',
+    isNative: true,
+    priceFetchedAt: Date.now(),
   },
 }
 

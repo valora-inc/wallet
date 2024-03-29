@@ -515,6 +515,7 @@
   "to": "至",
   "for": "用于",
   "reclaim": "收回",
+  "claimed": "已领取",
   "celoGold": "CELO",
   "celoEuros": "Celo 欧元",
   "balanceAvailable": "<0></0> 可用",
@@ -995,6 +996,7 @@
   "receivedFrom": "接收自",
   "commentLabel": "消息",
   "amountSent": "已发送金额",
+  "amountReceived": "收到的金额",
   "amountCeloWithdrawn": "金额 (CELO)",
   "feeEducation": "区块链收取交易费用，用以保障网络支持和顺利运营。",
   "reviewPayment": "查看付款",
@@ -1922,7 +1924,8 @@
       "myTokens": "我的令牌",
       "popular": "热门",
       "recentlySwapped": "最近交换",
-      "network": "{{networkName}} 网络"
+      "network": "{{networkName}} 网络",
+      "selectNetwork": "网络"
     }
   },
   "homeActions": {
@@ -2031,7 +2034,7 @@
     },
     "jumpstart": {
       "title": "通过实时链接发送",
-      "subtitle": "复制链接并分享，即可像发送文本一样发送加密货币"
+      "subtitle": "分享链接，像发送文本一样发送加密货币"
     },
     "getStarted": {
       "title": "在 Valora 上发送资金的方式",
@@ -2170,14 +2173,14 @@
       "description": "您可以在“收藏品”下找到新的 {{rewardName}} NFT"
     },
     "rewardBottomSheet": {
-      "title": "免费兑现一个月",
-      "description": "因为您拥有收藏品中的 {{nftName}} ，所以我们想在一月份为您提供免费兑奖。\n\n通过任何 {{appName}} 合作伙伴使用奖励兑现，都将免收费用。",
+      "title": "赚取 5 美元 ETH",
+      "description": "在太平洋时间 2024 年 4 月 4 日下午 12:00 之前用任何以太坊代币为您的钱包充值，我们将在太平洋时间 2024 年 4 月 5 日下午 11:59 之前为您提供 5 美元的 ETH。\n\n这是对早期以太坊探索者的独家优惠。",
       "expirationLabel": "过期 {{expirationLabelText}}",
       "cta": "使用奖励"
     },
     "rewardReminderBottomSheet": {
-      "title": "免费兑现一个月",
-      "description": "只剩 3 天时间来享受 1 月份的免费兑奖！\n\n通过任何 {{appName}} 合作伙伴使用奖励兑现，将免收手续费。",
+      "title": "不要错过，赚取 5 美元 ETH",
+      "description": "在太平洋时间 2024 年 4 月 4 日下午 12:00 之前用任何以太坊代币为您的钱包充值，我们将在太平洋时间 2024 年 4 月 5 日下午 11:59 之前为您提供 5 美元的 ETH。\n\n这是对早期以太坊探索者的独家优惠。",
       "expirationLabel": "过期 {{expirationLabelText}}",
       "cta": "使用奖励"
     }
@@ -2214,6 +2217,18 @@
       "description": "再次尝试您的实时链接以尝试接收资金，或请您的朋友尝试发送一个新链接",
       "contactSupport": "联系支持团队",
       "dismiss": "忽略"
+    }
+  },
+  "jumpstartReclaim": {
+    "description": "恢复链接需要支付网络气体费用，您是否愿意继续？",
+    "fetchStatusError": {
+      "title": "哎呀，出错了",
+      "description": "我们无法获取该邀请的申请状态，请稍后再试或联系支持人员",
+      "retryCta": "重试"
+    },
+    "reclaimError": {
+      "title": "无法收回资金",
+      "description": "尝试再次回收，或联系支持人员"
     }
   },
   "multiSelect": {

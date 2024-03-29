@@ -515,6 +515,7 @@
   "to": "เป็น",
   "for": "สำหรับ",
   "reclaim": "เรียกคืน",
+  "claimed": "ขอรับแล้ว",
   "celoGold": "CELO",
   "celoEuros": "Celo ยูโร",
   "balanceAvailable": "<0></0> ใช้ได้",
@@ -995,6 +996,7 @@
   "receivedFrom": "ได้รับจาก",
   "commentLabel": "ข้อความ",
   "amountSent": "จำนวนเงินที่ส่ง",
+  "amountReceived": "Amount Received",
   "amountCeloWithdrawn": "จำนวนเงิน (CELO)",
   "feeEducation": "บล็อกเชนเก็บค่าธรรมเนียมการทำธุรกรรมเพื่อให้เครือข่ายได้รับการสนับสนุนและทำงานอย่างราบรื่น",
   "reviewPayment": "ตรวจสอบการชำระเงิน",
@@ -1922,7 +1924,8 @@
       "myTokens": "โทเค็นของฉัน",
       "popular": "ยอดนิยม",
       "recentlySwapped": "ที่สว็อปเมื่อเร็วๆ นี้",
-      "network": "เครือข่าย {{networkName}}"
+      "network": "เครือข่าย {{networkName}}",
+      "selectNetwork": "เครือข่าย"
     }
   },
   "homeActions": {
@@ -2030,8 +2033,8 @@
       "subtitle": "เชิญเพื่อนจากรายชื่อผู้ติดต่อของคุณ"
     },
     "jumpstart": {
-      "title": "ส่งพร้อมลิงก์สด",
-      "subtitle": "คัดลอกลิงก์และแชร์เพื่อส่งคริปโต เช่นเดียวกับการส่งข้อความ"
+      "title": "Send with a Live Link",
+      "subtitle": "Share a link to send crypto like a text"
     },
     "getStarted": {
       "title": "วิธีส่งเงินบน Valora",
@@ -2170,14 +2173,14 @@
       "description": "คุณสามารถค้นหา {{rewardName}} NFT ใหม่ของคุณได้ในส่วน “ของสะสม”"
     },
     "rewardBottomSheet": {
-      "title": "ฝากเงินฟรีเป็นเวลาหนึ่งเดือน",
-      "description": "เนื่องจากคุณเป็นเจ้าของ {{nftName}} ในของสะสมของคุณ เราจึงให้คุณฝากเงินฟรีตลอดเดือนมกราคมนี้\n\nหากฝากเงินผ่านพันธมิตร {{appName}} ค่าธรรมเนียมจะได้รับการยกเว้น",
+      "title": "Earn $5 of ETH",
+      "description": "Fund your wallet with any Ethereum token by April 4, 2024 at 12:00 PM PDT, and we'll give you $5 of ETH on April 5, 2024 by 11:59 PM PDT.\n\nThis is an exclusive offer for being an Early Ethereum Explorer.",
       "expirationLabel": "หมดอายุ {{expirationLabelText}}",
       "cta": "ใช้รางวัล"
     },
     "rewardReminderBottomSheet": {
-      "title": "ฝากเงินฟรีเป็นเวลาหนึ่งเดือน",
-      "description": "เหลือเวลาเพียง 3 วันเท่านั้นในการใช้สิทธิ์ประโยชน์การฝากเงินฟรีสำหรับเดือนมกราคม!\n\nหากฝากเงินผ่านพันธมิตร {{appName}} ค่าธรรมเนียมจะได้รับการยกเว้น",
+      "title": "Don't miss out, earn $5 of ETH",
+      "description": "Fund your wallet with any Ethereum token by April 4, 2024 at 12:00 PM PDT, and we'll give you $5 of ETH on April 5, 2024 by 11:59 PM PDT.\n\nThis is an exclusive offer for being an Early Ethereum Explorer.",
       "expirationLabel": "หมดอายุ {{expirationLabelText}}",
       "cta": "ใช้รางวัล"
     }
@@ -2214,6 +2217,18 @@
       "description": "ลองใช้ลิงก์สดของคุณอีกครั้งเพื่อพยายามรับเงินทุน หรือขอให้เพื่อนลองส่งลิงก์ใหม่ให้",
       "contactSupport": "ติดต่อฝ่ายบริการลูกค้า",
       "dismiss": "ปิด"
+    }
+  },
+  "jumpstartReclaim": {
+    "description": "Reclaiming your link incurs a network gas fee, would you like to proceed?",
+    "fetchStatusError": {
+      "title": "Oops, something went wrong",
+      "description": "We could not get the claim status of this invitation, please try again later or contact support",
+      "retryCta": "ลองอีกครั้ง"
+    },
+    "reclaimError": {
+      "title": "Unable to reclaim funds",
+      "description": "Try to reclaim again, or contact support"
     }
   },
   "multiSelect": {
