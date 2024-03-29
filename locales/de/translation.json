@@ -2176,13 +2176,13 @@
     },
     "rewardBottomSheet": {
       "title": "Verdiene $5 ETH",
-      "description": "Wenn du deine Wallet bis zum 4. April 2024 um 12:00 Uhr PDT mit einem beliebigen Ethereum-Token füllst, bekommst du am 5. April 2024 um 23:59 Uhr PDT $5 ETH von uns.\n\nDas ist ein exklusives Angebot, wenn du ein Early Ethereum Explorer bist.",
+      "description": "Wenn du deine Wallet bis zum 4. April 2024 um 12:00 Uhr PDT mit einem beliebigen Ethereum-Token füllst, bekommst du am 5. April 2024 um 23:59 Uhr PDT $5 ETH von uns.\n\nDies ist ein exklusives Angebot, wenn du ein Early Ethereum Explorer bist.",
       "expirationLabel": "Läuft ab {{expirationLabelText}}",
       "cta": "Belohnung verwenden"
     },
     "rewardReminderBottomSheet": {
-      "title": "Einen Monat lang kostenlose Einzahlungen",
-      "description": "Wenn du deine Wallet bis zum 4. April 2024 um 12:00 Uhr PDT mit einem beliebigen Ethereum-Token füllst, bekommst du am 5. April 2024 um 23:59 Uhr PDT $5 ETH von uns.\n\nDas ist ein exklusives Angebot, wenn du ein Early Ethereum Explorer bist.",
+      "title": "Verpasse es nicht, verdiene $5 ETH",
+      "description": "Wenn du deine Wallet bis zum 4. April 2024 um 12:00 Uhr PDT mit einem beliebigen Ethereum-Token füllst, bekommst du am 5. April 2024 um 23:59 Uhr PDT $5 ETH von uns.\n\nDies ist ein exklusives Angebot, wenn du ein Early Ethereum Explorer bist.",
       "expirationLabel": "Läuft ab {{expirationLabelText}}",
       "cta": "Belohnung verwenden"
     }

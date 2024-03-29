@@ -2175,14 +2175,14 @@
       "description": "Puedes encontrar tu nuevo NFT {{rewardName}} en tus \"Coleccionables\""
     },
     "rewardBottomSheet": {
-      "title": "Agrega fondos gratis durante un mes",
-      "description": "Como tienes {{nftName}} entre tus coleccionables, nos gustaría ofrecerte agregar fondos gratis durante el mes de enero.\n\nPara utilizar la recompensa, agrega fondos a través de cualquier socio de {{appName}} y no tendrás que pagar tarifas.",
+      "title": "Gana 5$ de ETH",
+      "description": "Deposita en tu monedero cualquier token de Ethereum antes del 4 de abril de 2024 a las 12:00 PM PDT, y te daremos 5 $ de ETH el 5 de abril de 2024 antes de las 11:59 PM PDT.\n\nSe trata de una oferta exclusiva por ser un Explorador Temprano de Ethereum.",
       "expirationLabel": "Caduca en {{expirationLabelText}}",
       "cta": "Utiliza la recompensa"
     },
     "rewardReminderBottomSheet": {
-      "title": "Agregar fondos gratis durante un mes",
-      "description": "¡Sólo quedan 3 días para agregar fondos gratis durante el mes de enero!\n\nPara utilizar la recompensa, agrega fondos a través de cualquier socio de {{appName}} y no tendrás que pagar tarifas.",
+      "title": "No te lo pierdas, gana 5$ de ETH",
+      "description": "Deposita en tu monedero cualquier token de Ethereum antes del 4 de abril de 2024 a las 12:00 PM PDT, y te daremos 5 $ de ETH el 5 de abril de 2024 antes de las 11:59 PM PDT.\n\nSe trata de una oferta exclusiva por ser un Explorador Temprano de Ethereum.",
       "expirationLabel": "Caduca en {{expirationLabelText}}",
       "cta": "Utiliza la recompensa"
     }

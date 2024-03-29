@@ -2173,14 +2173,14 @@
       "description": "คุณสามารถค้นหา {{rewardName}} NFT ใหม่ของคุณได้ในส่วน “ของสะสม”"
     },
     "rewardBottomSheet": {
-      "title": "ฝากเงินฟรีเป็นเวลาหนึ่งเดือน",
-      "description": "เนื่องจากคุณเป็นเจ้าของ {{nftName}} ในของสะสมของคุณ เราจึงให้คุณฝากเงินฟรีตลอดเดือนมกราคมนี้\n\nหากฝากเงินผ่านพันธมิตร {{appName}} ค่าธรรมเนียมจะได้รับการยกเว้น",
+      "title": "Earn $5 of ETH",
+      "description": "Fund your wallet with any Ethereum token by April 4, 2024 at 12:00 PM PDT, and we'll give you $5 of ETH on April 5, 2024 by 11:59 PM PDT.\n\nThis is an exclusive offer for being an Early Ethereum Explorer.",
       "expirationLabel": "หมดอายุ {{expirationLabelText}}",
       "cta": "ใช้รางวัล"
     },
     "rewardReminderBottomSheet": {
-      "title": "ฝากเงินฟรีเป็นเวลาหนึ่งเดือน",
-      "description": "เหลือเวลาเพียง 3 วันเท่านั้นในการใช้สิทธิ์ประโยชน์การฝากเงินฟรีสำหรับเดือนมกราคม!\n\nหากฝากเงินผ่านพันธมิตร {{appName}} ค่าธรรมเนียมจะได้รับการยกเว้น",
+      "title": "Don't miss out, earn $5 of ETH",
+      "description": "Fund your wallet with any Ethereum token by April 4, 2024 at 12:00 PM PDT, and we'll give you $5 of ETH on April 5, 2024 by 11:59 PM PDT.\n\nThis is an exclusive offer for being an Early Ethereum Explorer.",
       "expirationLabel": "หมดอายุ {{expirationLabelText}}",
       "cta": "ใช้รางวัล"
     }

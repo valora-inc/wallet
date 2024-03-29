@@ -2175,14 +2175,14 @@
       "description": "Yeni {{rewardName}} NFT'nizi \"Koleksiyonlarınız\" altında bulabilirsiniz"
     },
     "rewardBottomSheet": {
-      "title": "Bir ay boyunca ücretsiz nakit girişleri",
-      "description": "Koleksiyonlarınızda {{nftName}} olduğu için Ocak ayı boyunca size ücretsiz nakit girişi imkanı sunmak istiyoruz.\n\nÖdülü kullanmak için bir {{appName}} ortağı aracılığıyla nakit girişi yapın, ücretlerden feragat edilecektir.",
+      "title": "5 $ ETH kazanın",
+      "description": "Cüzdanınıza 4 Nisan 2024 saat 12:00 PDT'ye kadar herhangi bir Ethereum tokenı ile para yatırın, biz de size 5 Nisan 2024 saat 11:59 PDT'ye kadar 5 $ ETH verelim.\n\nBu, Erken Ethereum Kaşifi olmanız için özel bir tekliftir.",
       "expirationLabel": "Son kullanma tarihi: {{expirationLabelText}}",
       "cta": "Ödülü kullanın"
     },
     "rewardReminderBottomSheet": {
-      "title": "Bir ay boyunca ücretsiz nakit girişleri",
-      "description": "Ocak ayı boyunca ücretsiz nakit girişlerinden yararlanmak için sadece 3 gün kaldı!\n\nÖdülü kullanmak için bir {{appName}} ortağı aracılığıyla nakit girişi yapın, ücretlerden feragat edilecektir.",
+      "title": "Kaçırmayın, 5 $ ETH kazanın",
+      "description": "Cüzdanınıza 4 Nisan 2024 saat 12:00 PDT'ye kadar herhangi bir Ethereum tokenı ile para yatırın, biz de size 5 Nisan 2024 saat 11:59 PDT'ye kadar 5 $ ETH verelim.\n\nBu, Erken Ethereum Kaşifi olmanız için özel bir tekliftir.",
       "expirationLabel": "Son kullanma tarihi: {{expirationLabelText}}",
       "cta": "Ödülü kullanın"
     }

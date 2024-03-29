@@ -2175,14 +2175,14 @@
       "description": "Você pode encontrar seu novo NFT {{rewardName}} em \"Colecionáveis\""
     },
     "rewardBottomSheet": {
-      "title": "Adicione fundos grátis por um mês",
-      "description": "Como você é o proprietário do {{nftName}} em seus itens colecionáveis, gostaríamos de oferecer a você a vantagem de adicionar fundos de forma gratuita no mês de janeiro.\n\nPara usar a recompensa, você pode adicionar fundos por meio de qualquer parceiro da {{appName}} com isenção de taxas.",
+      "title": "Ganhe US$ 5 de ETH",
+      "description": "Adicione fundos à sua carteira com qualquer token Ethereum até 4 de abril de 2024 às 12:00 PM PDT, e nós daremos a você US$ 5 de ETH em 5 de abril de 2024 às 11:59 PM PDT.\n\nEsta é uma oferta exclusiva para você ser um Early Ethereum Explorer.",
       "expirationLabel": "Expira em {{expirationLabelText}}",
       "cta": "Usar recompensa"
     },
     "rewardReminderBottomSheet": {
-      "title": "Adicione fundos grátis por um mês",
-      "description": "Faltam apenas 3 dias para você aproveitar a vantagem de adicionar fundos grátis no mês de janeiro!\n\nPara usar a recompensa, você pode adicionar fundos por meio de qualquer parceiro da {{appName}} com isenção de taxas.",
+      "title": "Não perca essa chance, ganhe US$ 5 de ETH",
+      "description": "Adicione fundos à sua carteira com qualquer token Ethereum até 4 de abril de 2024 às 12:00 PM PDT, e nós daremos a você US$ 5 de ETH em 5 de abril de 2024 às 11:59 PM PDT.\n\nEsta é uma oferta exclusiva para você ser um Early Ethereum Explorer.",
       "expirationLabel": "Expira em {{expirationLabelText}}",
       "cta": "Usar recompensa"
     }

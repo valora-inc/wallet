@@ -2175,14 +2175,14 @@
       "description": "Puoi trovare il tuo nuovo {{rewardName}} NFT nella sezione \"Collezionabili\""
     },
     "rewardBottomSheet": {
-      "title": "Depositi gratuiti per un mese",
-      "description": "Poiché il sito {{nftName}} è di tua proprietà, ti offriamo depositi gratuiti per il mese di gennaio.\n\nPer utilizzare la ricompensa, effettua il deposito tramite qualsiasi partner di {{appName}} e le spese non saranno addebitate.",
+      "title": "Guadagna 5 dollari di ETH",
+      "description": "Finanzia il tuo portafoglio con un qualsiasi token Ethereum entro il 4 aprile 2024 alle 12:00 PM PDT e ti regaleremo 5 dollari di ETH il 5 aprile 2024 entro le 23:59 PDT.\n\nQuesta è un'offerta esclusiva per essere un Early Ethereum Explorer.",
       "expirationLabel": "Scade {{expirationLabelText}}",
       "cta": "Usa la ricompensa"
     },
     "rewardReminderBottomSheet": {
-      "title": "Depositi gratuiti per un mese",
-      "description": "Restano solo 3 giorni per approfittare dei depositi gratuiti per il mese di gennaio!\n\nUtilizza la ricompensa tramite un qualsiasi partner di {{appName}} e le spese saranno annullate.",
+      "title": "Non perdere l'occasione, guadagna 5 dollari di ETH",
+      "description": "Finanzia il tuo portafoglio con un qualsiasi token Ethereum entro il 4 aprile 2024 alle 12:00 PM PDT e ti regaleremo 5 dollari di ETH il 5 aprile 2024 entro le 23:59 PDT.\n\nQuesta è un'offerta esclusiva per essere un Early Ethereum Explorer.",
       "expirationLabel": "Scade {{expirationLabelText}}",
       "cta": "Usa la ricompensa"
     }

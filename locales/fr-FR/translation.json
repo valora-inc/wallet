@@ -2175,14 +2175,14 @@
       "description": "Vous pouvez trouver votre nouveau NFT {{rewardName}} dans votre \"Collection\""
     },
     "rewardBottomSheet": {
-      "title": "Gagnez 5 $ d'ETH",
-      "description": "Approvisionnez votre portefeuille avec n'importe quel jeton Ethereum avant le 4 avril 2024 à 12:00 PM PDT, et nous vous donnerons 5 $ d'ETH le 5 avril 2024 jusqu'à 11:59 PM PDT.\n\nIl s'agit d'une offre exclusive pour les Early Ethereum Explorer.",
+      "title": "Gagne 5 $ d'ETH",
+      "description": "Approvisionne ton portefeuille avec n'importe quel jeton Ethereum avant le 4 avril 2024 à 12:00 PM PDT, et nous te donnerons 5 $ d'ETH le 5 avril 2024 à 23:59 PM PDT.\n\nIl s'agit d'une offre exclusive pour avoir été un explorateur précoce d'Ethereum.",
       "expirationLabel": "Expire le {{expirationLabelText}}",
       "cta": "Utiliser la récompense"
     },
     "rewardReminderBottomSheet": {
-      "title": "Gagnez 5 $ d'ETH\n",
-      "description": "Approvisionnez votre portefeuille avec n'importe quel jeton Ethereum avant le 4 avril 2024 à 12:00 PM PDT, et nous vous donnerons 5 $ d'ETH le 5 avril 2024 jusqu'à 11:59 PM PDT.\n\nIl s'agit d'une offre exclusive pour les Early Ethereum Explorer.",
+      "title": "Ne rate pas l'occasion, gagne 5 $ d'ETH",
+      "description": "Approvisionne ton portefeuille avec n'importe quel jeton Ethereum avant le 4 avril 2024 à 12:00 PM PDT, et nous te donnerons 5 $ d'ETH le 5 avril 2024 à 23:59 PM PDT.\n\nIl s'agit d'une offre exclusive pour avoir été un explorateur précoce d'Ethereum.",
       "expirationLabel": "Expire le {{expirationLabelText}}",
       "cta": "Utiliser la récompense"
     }
