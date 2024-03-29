@@ -2176,13 +2176,13 @@
     },
     "rewardBottomSheet": {
       "title": "Guadagna 5 dollari di ETH",
-      "description": "Ricaricate il vostro portafoglio con qualsiasi token Ethereum entro il 4 aprile 2024 alle 12:00 PM PDT, e vi daremo 5 dollari di ETH il 5 aprile 2024 entro le 11:59 PM PDT.\n\nSi tratta di un'offerta esclusiva per essere un Early Ethereum Explorer.",
+      "description": "Finanzia il tuo portafoglio con un qualsiasi token Ethereum entro il 4 aprile 2024 alle 12:00 PM PDT e ti regaleremo 5 dollari di ETH il 5 aprile 2024 entro le 23:59 PDT.\n\nQuesta è un'offerta esclusiva per essere un Early Ethereum Explorer.",
       "expirationLabel": "Scade {{expirationLabelText}}",
       "cta": "Usa la ricompensa"
     },
     "rewardReminderBottomSheet": {
-      "title": "Guadagna 5 dollari di ETH",
-      "description": "Ricaricate il vostro portafoglio con qualsiasi token Ethereum entro il 4 aprile 2024 alle 12:00 PM PDT, e vi daremo 5 dollari di ETH il 5 aprile 2024 entro le 11:59 PM PDT.\n\nSi tratta di un'offerta esclusiva per essere un Early Ethereum Explorer.",
+      "title": "Non perdere l'occasione, guadagna 5 dollari di ETH",
+      "description": "Finanzia il tuo portafoglio con un qualsiasi token Ethereum entro il 4 aprile 2024 alle 12:00 PM PDT e ti regaleremo 5 dollari di ETH il 5 aprile 2024 entro le 23:59 PDT.\n\nQuesta è un'offerta esclusiva per essere un Early Ethereum Explorer.",
       "expirationLabel": "Scade {{expirationLabelText}}",
       "cta": "Usa la ricompensa"
     }
