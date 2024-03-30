@@ -18813,7 +18813,7 @@ victory@^36.9.2:
     victory-voronoi-container "^36.9.2"
     victory-zoom-container "^36.9.2"
 
-viem@^2.9.3:
+viem@^2.9.5:
   version "2.9.5"
   resolved "https://registry.yarnpkg.com/viem/-/viem-2.9.5.tgz#2d38abd5eb338886488719d9079500e7c971af10"
   integrity sha512-IKLmGZJEQkdt9fqvryjR+W1FsPZM+dhALT0pwR8xhBOLvVHM0/lEViGRWDpm2ArNsFszipFhc2EpKp80/PnXkw==
