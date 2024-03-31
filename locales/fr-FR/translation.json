@@ -2090,6 +2090,8 @@
   "viewOnArbiscan": "Voir sur Arbiscan",
   "viewOnOPMainnetExplorer": "Voir sur OP Mainnet Explorer",
   "viewOnOPSepoliaExplorer": "Voir sur OP Sepolia Explorer",
+  "viewOnPolygonPoSScan": "Voir sur PolygonScan",
+  "viewOnBaseScan": "Voir sur BaseScan",
   "sendEnterAmountScreen": {
     "title": "Saisissez le montant",
     "selectToken": "Sélectionnez un jeton",

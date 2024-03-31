@@ -2088,6 +2088,8 @@
   "viewOnArbiscan": "ดูบน Arbiscan",
   "viewOnOPMainnetExplorer": "ดูบน OP Mainnet Explorer",
   "viewOnOPSepoliaExplorer": "ดูบน OP Sepolia Explorer",
+  "viewOnPolygonPoSScan": "View on PolygonScan",
+  "viewOnBaseScan": "View on BaseScan",
   "sendEnterAmountScreen": {
     "title": "ป้อนจำนวนเงิน",
     "selectToken": "เลือกโทเค็น",

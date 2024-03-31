@@ -2090,6 +2090,8 @@
   "viewOnArbiscan": "Arbiscan'da görüntüle",
   "viewOnOPMainnetExplorer": "OP Mainnet Explorer'da görüntüle",
   "viewOnOPSepoliaExplorer": "OP Sepolia Explorer'da görüntüle",
+  "viewOnPolygonPoSScan": "PolygonScan'de görüntüle",
+  "viewOnBaseScan": "BaseScan'de görüntüle",
   "sendEnterAmountScreen": {
     "title": "Tutar Girin",
     "selectToken": "Bir Token seçin",

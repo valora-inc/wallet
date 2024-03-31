@@ -2088,6 +2088,8 @@
   "viewOnArbiscan": "在 Arbiscan 上查看。",
   "viewOnOPMainnetExplorer": "在 OP Mainnet Explorer 上查看",
   "viewOnOPSepoliaExplorer": "在 OP Sepolia Explorer 上查看",
+  "viewOnPolygonPoSScan": "在 PolygonScan 上查看",
+  "viewOnBaseScan": "在 BaseScan 上查看",
   "sendEnterAmountScreen": {
     "title": "输入金额",
     "selectToken": "选择代币",

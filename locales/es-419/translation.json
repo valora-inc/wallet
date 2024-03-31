@@ -2090,6 +2090,8 @@
   "viewOnArbiscan": "Ver en Arbiscan",
   "viewOnOPMainnetExplorer": "Ver en OP Mainnet Explorer",
   "viewOnOPSepoliaExplorer": "Ver en OP Sepolia Explorer",
+  "viewOnPolygonPoSScan": "Ver en PolygonScan",
+  "viewOnBaseScan": "Ver en BaseScan",
   "sendEnterAmountScreen": {
     "title": "Ingresa el monto",
     "selectToken": "Selecciona un token",
