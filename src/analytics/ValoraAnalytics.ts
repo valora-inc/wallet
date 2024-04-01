@@ -1,6 +1,7 @@
 import { createClient, SegmentClient } from '@segment/analytics-react-native'
 import { AdjustPlugin } from '@segment/analytics-react-native-plugin-adjust'
 import { ClevertapPlugin } from '@segment/analytics-react-native-plugin-clevertap'
+import { DestinationFiltersPlugin } from '@segment/analytics-react-native-plugin-destination-filters'
 import { FirebasePlugin } from '@segment/analytics-react-native-plugin-firebase'
 import { sha256FromString } from 'ethereumjs-util'
 import _ from 'lodash'
@@ -112,6 +113,7 @@ class ValoraAnalytics {
         storePersistor: AsyncStoragePersistor,
       })
 
+      this.segmentClient.add({ plugin: new DestinationFiltersPlugin() })
       this.segmentClient.add({ plugin: new InjectTraits() })
       this.segmentClient.add({ plugin: new AdjustPlugin() })
       this.segmentClient.add({ plugin: new ClevertapPlugin() })

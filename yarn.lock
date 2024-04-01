@@ -3256,6 +3256,14 @@
   resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-clevertap/-/analytics-react-native-plugin-clevertap-1.1.0.tgz#0047c1875582141424552a80a24e8daa9a69035f"
   integrity sha512-D/lypeLxR9o53U9MzmgsGEY4yIr1oCINY5uBwmWELfgdFwxAx+5aiRnGzdLm3v7kQl+8nfFwaNMdkq/tGzZMRw==
 
+"@segment/analytics-react-native-plugin-destination-filters@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-destination-filters/-/analytics-react-native-plugin-destination-filters-1.1.0.tgz#b7ba154ed3965637b2983f07b210df05d02a8dc3"
+  integrity sha512-q3vPwC7LK3hkNVkjgerK8xVBMjZMeu43eirs84dtSCueZt06e/RrGeZIIBqguyQVpoBHF8KNdEhN2gB9+fNBow==
+  dependencies:
+    "@segment/tsub" "^2"
+    clone "^2.1.2"
+
 "@segment/analytics-react-native-plugin-firebase@^0.4.1":
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-firebase/-/analytics-react-native-plugin-firebase-0.4.1.tgz#b08816e8e875dde7bd4cb9e43ca72cf7d8034bb1"
@@ -7186,6 +7194,11 @@ clone@^1.0.2:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.4.tgz#da309cc263df15994c688ca902179ca3c7cd7c7e"
   integrity sha1-2jCcwmPfFZlMaIypAheco8fNfH4=
+
+clone@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/clone/-/clone-2.1.2.tgz#1b7f4b9f591f1e8f83670401600345a02887435f"
+  integrity sha512-3Pe/CF1Nn94hyhIYpjtiLhdCoEoz0DqQ+988E9gmeEdQZlojxnOb74wctFyuwWQHzqyf9X7C7MG8juUpqBJT8w==
 
 co@^4.6.0:
   version "4.6.0"
