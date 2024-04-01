@@ -220,7 +220,7 @@
     "@jambit/eslint-plugin-typed-redux-saga": "^0.4.0",
     "@mento-protocol/mento-sdk": "^0.2.3",
     "@testing-library/jest-native": "^5.4.3",
-    "@testing-library/react-native": "^12.4.3",
+    "@testing-library/react-native": "^12.4.5",
     "@types/crypto-js": "^4.1.1",
     "@types/fast-levenshtein": "^0.0.2",
     "@types/fs-extra": "^9.0.13",
