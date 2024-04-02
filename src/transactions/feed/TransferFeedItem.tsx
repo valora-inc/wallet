@@ -21,6 +21,7 @@ import { useTokenInfo } from 'src/tokens/hooks'
 import TransactionFeedItemImage from 'src/transactions/feed/TransactionFeedItemImage'
 import { useTransferFeedDetails } from 'src/transactions/transferFeedUtils'
 import { TokenTransfer } from 'src/transactions/types'
+import { isPresent } from 'src/utils/typescript'
 interface Props {
   transfer: TokenTransfer
 }
@@ -105,7 +106,7 @@ function isJumpstartTransaction(tx: TokenTransfer) {
   const jumpstartAddresses = [
     jumpstartConfig?.contractAddress,
     ...(jumpstartConfig?.retiredContractAddresses ?? []),
-  ].filter((address): address is string => !!address)
+  ].filter(isPresent)
 
   return jumpstartAddresses.includes(tx.address)
 }
