@@ -122,458 +122,528 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
     <View
       style={
         {
-          "flexBasis": "30%",
           "flexDirection": "row",
-          "flexGrow": 1,
-          "flexShrink": 1,
-          "marginLeft": "3%",
-          "marginVertical": 11,
+          "flexWrap": "wrap",
+          "marginHorizontal": 12,
         }
       }
     >
-      <Text
+      <View
         style={
-          {
-            "color": "#666666",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 24,
-            "marginRight": 8,
-          }
+          [
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "gap": 8,
+              "marginVertical": 11,
+            },
+            {
+              "width": "50%",
+            },
+          ]
         }
       >
-        1
-      </Text>
-      <Text
-        style={
-          {
-            "color": "#2E3338",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 24,
+        <Text
+          adjustsFontSizeToFit={true}
+          style={
+            {
+              "color": "#666666",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
           }
+        >
+          1
+        </Text>
+        <Text
+          adjustsFontSizeToFit={true}
+          numberOfLines={1}
+          style={
+            {
+              "color": "#2E3338",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
+          }
+        >
+          prosper
+        </Text>
+      </View>
+      <View
+        style={
+          [
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "gap": 8,
+              "marginVertical": 11,
+            },
+            {
+              "width": "50%",
+            },
+          ]
         }
       >
-        prosper
-      </Text>
-    </View>
-    <View
-      style={
-        {
-          "flexBasis": "30%",
-          "flexDirection": "row",
-          "flexGrow": 1,
-          "flexShrink": 1,
-          "marginLeft": "3%",
-          "marginVertical": 11,
-        }
-      }
-    >
-      <Text
-        style={
-          {
-            "color": "#666666",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 24,
-            "marginRight": 8,
+        <Text
+          adjustsFontSizeToFit={true}
+          style={
+            {
+              "color": "#666666",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
           }
+        >
+          2
+        </Text>
+        <Text
+          adjustsFontSizeToFit={true}
+          numberOfLines={1}
+          style={
+            {
+              "color": "#2E3338",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
+          }
+        >
+          winner
+        </Text>
+      </View>
+      <View
+        style={
+          [
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "gap": 8,
+              "marginVertical": 11,
+            },
+            {
+              "width": "50%",
+            },
+          ]
         }
       >
-        2
-      </Text>
-      <Text
-        style={
-          {
-            "color": "#2E3338",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 24,
+        <Text
+          adjustsFontSizeToFit={true}
+          style={
+            {
+              "color": "#666666",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
           }
+        >
+          3
+        </Text>
+        <Text
+          adjustsFontSizeToFit={true}
+          numberOfLines={1}
+          style={
+            {
+              "color": "#2E3338",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
+          }
+        >
+          find
+        </Text>
+      </View>
+      <View
+        style={
+          [
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "gap": 8,
+              "marginVertical": 11,
+            },
+            {
+              "width": "50%",
+            },
+          ]
         }
       >
-        winner
-      </Text>
-    </View>
-    <View
-      style={
-        {
-          "flexBasis": "30%",
-          "flexDirection": "row",
-          "flexGrow": 1,
-          "flexShrink": 1,
-          "marginLeft": "3%",
-          "marginVertical": 11,
-        }
-      }
-    >
-      <Text
-        style={
-          {
-            "color": "#666666",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 24,
-            "marginRight": 8,
+        <Text
+          adjustsFontSizeToFit={true}
+          style={
+            {
+              "color": "#666666",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
           }
+        >
+          4
+        </Text>
+        <Text
+          adjustsFontSizeToFit={true}
+          numberOfLines={1}
+          style={
+            {
+              "color": "#2E3338",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
+          }
+        >
+          donate
+        </Text>
+      </View>
+      <View
+        style={
+          [
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "gap": 8,
+              "marginVertical": 11,
+            },
+            {
+              "width": "50%",
+            },
+          ]
         }
       >
-        3
-      </Text>
-      <Text
-        style={
-          {
-            "color": "#2E3338",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 24,
+        <Text
+          adjustsFontSizeToFit={true}
+          style={
+            {
+              "color": "#666666",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
           }
+        >
+          5
+        </Text>
+        <Text
+          adjustsFontSizeToFit={true}
+          numberOfLines={1}
+          style={
+            {
+              "color": "#2E3338",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
+          }
+        >
+          tape
+        </Text>
+      </View>
+      <View
+        style={
+          [
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "gap": 8,
+              "marginVertical": 11,
+            },
+            {
+              "width": "50%",
+            },
+          ]
         }
       >
-        find
-      </Text>
-    </View>
-    <View
-      style={
-        {
-          "flexBasis": "30%",
-          "flexDirection": "row",
-          "flexGrow": 1,
-          "flexShrink": 1,
-          "marginLeft": "3%",
-          "marginVertical": 11,
-        }
-      }
-    >
-      <Text
-        style={
-          {
-            "color": "#666666",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 24,
-            "marginRight": 8,
+        <Text
+          adjustsFontSizeToFit={true}
+          style={
+            {
+              "color": "#666666",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
           }
+        >
+          6
+        </Text>
+        <Text
+          adjustsFontSizeToFit={true}
+          numberOfLines={1}
+          style={
+            {
+              "color": "#2E3338",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
+          }
+        >
+          history
+        </Text>
+      </View>
+      <View
+        style={
+          [
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "gap": 8,
+              "marginVertical": 11,
+            },
+            {
+              "width": "50%",
+            },
+          ]
         }
       >
-        4
-      </Text>
-      <Text
-        style={
-          {
-            "color": "#2E3338",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 24,
+        <Text
+          adjustsFontSizeToFit={true}
+          style={
+            {
+              "color": "#666666",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
           }
+        >
+          7
+        </Text>
+        <Text
+          adjustsFontSizeToFit={true}
+          numberOfLines={1}
+          style={
+            {
+              "color": "#2E3338",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
+          }
+        >
+          measure
+        </Text>
+      </View>
+      <View
+        style={
+          [
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "gap": 8,
+              "marginVertical": 11,
+            },
+            {
+              "width": "50%",
+            },
+          ]
         }
       >
-        donate
-      </Text>
-    </View>
-    <View
-      style={
-        {
-          "flexBasis": "30%",
-          "flexDirection": "row",
-          "flexGrow": 1,
-          "flexShrink": 1,
-          "marginLeft": "3%",
-          "marginVertical": 11,
-        }
-      }
-    >
-      <Text
-        style={
-          {
-            "color": "#666666",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 24,
-            "marginRight": 8,
+        <Text
+          adjustsFontSizeToFit={true}
+          style={
+            {
+              "color": "#666666",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
           }
+        >
+          8
+        </Text>
+        <Text
+          adjustsFontSizeToFit={true}
+          numberOfLines={1}
+          style={
+            {
+              "color": "#2E3338",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
+          }
+        >
+          umbrella
+        </Text>
+      </View>
+      <View
+        style={
+          [
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "gap": 8,
+              "marginVertical": 11,
+            },
+            {
+              "width": "50%",
+            },
+          ]
         }
       >
-        5
-      </Text>
-      <Text
-        style={
-          {
-            "color": "#2E3338",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 24,
+        <Text
+          adjustsFontSizeToFit={true}
+          style={
+            {
+              "color": "#666666",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
           }
+        >
+          9
+        </Text>
+        <Text
+          adjustsFontSizeToFit={true}
+          numberOfLines={1}
+          style={
+            {
+              "color": "#2E3338",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
+          }
+        >
+          agent
+        </Text>
+      </View>
+      <View
+        style={
+          [
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "gap": 8,
+              "marginVertical": 11,
+            },
+            {
+              "width": "50%",
+            },
+          ]
         }
       >
-        tape
-      </Text>
-    </View>
-    <View
-      style={
-        {
-          "flexBasis": "30%",
-          "flexDirection": "row",
-          "flexGrow": 1,
-          "flexShrink": 1,
-          "marginLeft": "3%",
-          "marginVertical": 11,
-        }
-      }
-    >
-      <Text
-        style={
-          {
-            "color": "#666666",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 24,
-            "marginRight": 8,
+        <Text
+          adjustsFontSizeToFit={true}
+          style={
+            {
+              "color": "#666666",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
           }
+        >
+          10
+        </Text>
+        <Text
+          adjustsFontSizeToFit={true}
+          numberOfLines={1}
+          style={
+            {
+              "color": "#2E3338",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
+          }
+        >
+          patrol
+        </Text>
+      </View>
+      <View
+        style={
+          [
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "gap": 8,
+              "marginVertical": 11,
+            },
+            {
+              "width": "50%",
+            },
+          ]
         }
       >
-        6
-      </Text>
-      <Text
-        style={
-          {
-            "color": "#2E3338",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 24,
+        <Text
+          adjustsFontSizeToFit={true}
+          style={
+            {
+              "color": "#666666",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
           }
+        >
+          11
+        </Text>
+        <Text
+          adjustsFontSizeToFit={true}
+          numberOfLines={1}
+          style={
+            {
+              "color": "#2E3338",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
+          }
+        >
+          want
+        </Text>
+      </View>
+      <View
+        style={
+          [
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "gap": 8,
+              "marginVertical": 11,
+            },
+            {
+              "width": "50%",
+            },
+          ]
         }
       >
-        history
-      </Text>
-    </View>
-    <View
-      style={
-        {
-          "flexBasis": "30%",
-          "flexDirection": "row",
-          "flexGrow": 1,
-          "flexShrink": 1,
-          "marginLeft": "3%",
-          "marginVertical": 11,
-        }
-      }
-    >
-      <Text
-        style={
-          {
-            "color": "#666666",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 24,
-            "marginRight": 8,
+        <Text
+          adjustsFontSizeToFit={true}
+          style={
+            {
+              "color": "#666666",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
           }
-        }
-      >
-        7
-      </Text>
-      <Text
-        style={
-          {
-            "color": "#2E3338",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 24,
+        >
+          12
+        </Text>
+        <Text
+          adjustsFontSizeToFit={true}
+          numberOfLines={1}
+          style={
+            {
+              "color": "#2E3338",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
           }
-        }
-      >
-        measure
-      </Text>
-    </View>
-    <View
-      style={
-        {
-          "flexBasis": "30%",
-          "flexDirection": "row",
-          "flexGrow": 1,
-          "flexShrink": 1,
-          "marginLeft": "3%",
-          "marginVertical": 11,
-        }
-      }
-    >
-      <Text
-        style={
-          {
-            "color": "#666666",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 24,
-            "marginRight": 8,
-          }
-        }
-      >
-        8
-      </Text>
-      <Text
-        style={
-          {
-            "color": "#2E3338",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 24,
-          }
-        }
-      >
-        umbrella
-      </Text>
-    </View>
-    <View
-      style={
-        {
-          "flexBasis": "30%",
-          "flexDirection": "row",
-          "flexGrow": 1,
-          "flexShrink": 1,
-          "marginLeft": "3%",
-          "marginVertical": 11,
-        }
-      }
-    >
-      <Text
-        style={
-          {
-            "color": "#666666",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 24,
-            "marginRight": 8,
-          }
-        }
-      >
-        9
-      </Text>
-      <Text
-        style={
-          {
-            "color": "#2E3338",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 24,
-          }
-        }
-      >
-        agent
-      </Text>
-    </View>
-    <View
-      style={
-        {
-          "flexBasis": "30%",
-          "flexDirection": "row",
-          "flexGrow": 1,
-          "flexShrink": 1,
-          "marginLeft": "3%",
-          "marginVertical": 11,
-        }
-      }
-    >
-      <Text
-        style={
-          {
-            "color": "#666666",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 24,
-            "marginRight": 8,
-          }
-        }
-      >
-        10
-      </Text>
-      <Text
-        style={
-          {
-            "color": "#2E3338",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 24,
-          }
-        }
-      >
-        patrol
-      </Text>
-    </View>
-    <View
-      style={
-        {
-          "flexBasis": "30%",
-          "flexDirection": "row",
-          "flexGrow": 1,
-          "flexShrink": 1,
-          "marginLeft": "3%",
-          "marginVertical": 11,
-        }
-      }
-    >
-      <Text
-        style={
-          {
-            "color": "#666666",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 24,
-            "marginRight": 8,
-          }
-        }
-      >
-        11
-      </Text>
-      <Text
-        style={
-          {
-            "color": "#2E3338",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 24,
-          }
-        }
-      >
-        want
-      </Text>
-    </View>
-    <View
-      style={
-        {
-          "flexBasis": "30%",
-          "flexDirection": "row",
-          "flexGrow": 1,
-          "flexShrink": 1,
-          "marginLeft": "3%",
-          "marginVertical": 11,
-        }
-      }
-    >
-      <Text
-        style={
-          {
-            "color": "#666666",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 24,
-            "marginRight": 8,
-          }
-        }
-      >
-        12
-      </Text>
-      <Text
-        style={
-          {
-            "color": "#2E3338",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 24,
-          }
-        }
-      >
-        rhythm
-      </Text>
+        >
+          rhythm
+        </Text>
+      </View>
     </View>
   </View>
 </View>
