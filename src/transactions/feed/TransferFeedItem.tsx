@@ -99,10 +99,15 @@ function TransferFeedItem({ transfer }: Props) {
 }
 
 function isJumpstartTransaction(tx: TokenTransfer) {
-  const jumpstartAddress = getDynamicConfigParams(
+  const jumpstartConfig = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG]
-  ).jumpstartContracts[tx.networkId]?.contractAddress
-  return tx.address === jumpstartAddress
+  ).jumpstartContracts[tx.networkId]
+  const jumpstartAddresses = [
+    jumpstartConfig?.contractAddress,
+    ...(jumpstartConfig?.retiredContractAddresses ?? []),
+  ].filter((address): address is string => !!address)
+
+  return jumpstartAddresses.includes(tx.address)
 }
 
 const styles = StyleSheet.create({
