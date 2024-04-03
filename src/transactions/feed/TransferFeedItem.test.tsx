@@ -43,6 +43,7 @@ const MOCK_CONTACT = {
   contactId: 'contactId',
   address: MOCK_ADDRESS,
 }
+const mockRetiredJumpstartAdddress = '0xabc'
 
 jest.mock('src/statsig')
 
@@ -68,7 +69,10 @@ describe('TransferFeedItem', () => {
     jest.mocked(getFeatureGate).mockReturnValue(true)
     jest.mocked(getDynamicConfigParams).mockReturnValue({
       jumpstartContracts: {
-        [NetworkId['celo-alfajores']]: { contractAddress: mockJumpstartAdddress },
+        [NetworkId['celo-alfajores']]: {
+          contractAddress: mockJumpstartAdddress,
+          retiredContractAddresses: [mockRetiredJumpstartAdddress],
+        },
       },
     })
   })
@@ -654,10 +658,13 @@ describe('TransferFeedItem', () => {
     expect(queryByTestId('TransferFeedItem/tokenAmount')).toBeNull()
   })
 
-  it('renders correctly for jumpstart deposit', async () => {
+  it.each([
+    { address: mockJumpstartAdddress, addressType: 'current' },
+    { address: mockRetiredJumpstartAdddress, addressType: 'retired' },
+  ])('renders correctly for jumpstart deposit to $addressType contract', async ({ address }) => {
     const { getByTestId } = renderScreen({
       type: TokenTransactionTypeV2.Sent,
-      address: mockJumpstartAdddress,
+      address,
       amount: {
         tokenAddress: mockCusdAddress,
         tokenId: mockCusdTokenId,

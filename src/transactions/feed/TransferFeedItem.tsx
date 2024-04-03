@@ -21,6 +21,7 @@ import { useTokenInfo } from 'src/tokens/hooks'
 import TransactionFeedItemImage from 'src/transactions/feed/TransactionFeedItemImage'
 import { useTransferFeedDetails } from 'src/transactions/transferFeedUtils'
 import { TokenTransfer } from 'src/transactions/types'
+import { isPresent } from 'src/utils/typescript'
 interface Props {
   transfer: TokenTransfer
 }
@@ -99,10 +100,15 @@ function TransferFeedItem({ transfer }: Props) {
 }
 
 function isJumpstartTransaction(tx: TokenTransfer) {
-  const jumpstartAddress = getDynamicConfigParams(
+  const jumpstartConfig = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG]
-  ).jumpstartContracts[tx.networkId]?.contractAddress
-  return tx.address === jumpstartAddress
+  ).jumpstartContracts[tx.networkId]
+  const jumpstartAddresses = [
+    jumpstartConfig?.contractAddress,
+    ...(jumpstartConfig?.retiredContractAddresses ?? []),
+  ].filter(isPresent)
+
+  return jumpstartAddresses.includes(tx.address)
 }
 
 const styles = StyleSheet.create({
