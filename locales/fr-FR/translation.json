@@ -2035,7 +2035,7 @@
       "subtitle": "Invitez des amis de votre liste de contacts"
     },
     "jumpstart": {
-      "title": "Envoyer avec un lien en direct",
+      "title": "Envoyer avec un lien direct",
       "subtitle": "Partage un lien pour envoyer de la crypto comme un texte"
     },
     "getStarted": {
@@ -2177,14 +2177,14 @@
       "description": "Vous pouvez trouver votre nouveau NFT {{rewardName}} dans votre \"Collection\""
     },
     "rewardBottomSheet": {
-      "title": "Gagne 5 $ d'ETH",
-      "description": "Approvisionne ton portefeuille avec n'importe quel jeton Ethereum avant le 4 avril 2024 à 12:00 PM PDT, et nous te donnerons 5 $ d'ETH le 5 avril 2024 à 23:59 PM PDT.\n\nIl s'agit d'une offre exclusive pour avoir été un explorateur précoce d'Ethereum.",
+      "title": "Gagnez 5 $ d'ETH",
+      "description": "Financez votre portefeuille avec n'importe quel jeton Ethereum d'ici le 4 avril 2024 à 12h00 PDT, et nous vous donnerons 5$ d'ETH le 5 avril 2024 avant 23h59 PM PDT.\n\nCeci est une offre exclusive pour être un Explorateur Ethereum précoce.",
       "expirationLabel": "Expire le {{expirationLabelText}}",
       "cta": "Utiliser la récompense"
     },
     "rewardReminderBottomSheet": {
-      "title": "Ne rate pas l'occasion, gagne 5 $ d'ETH",
-      "description": "Approvisionne ton portefeuille avec n'importe quel jeton Ethereum avant le 4 avril 2024 à 12:00 PM PDT, et nous te donnerons 5 $ d'ETH le 5 avril 2024 à 23:59 PM PDT.\n\nIl s'agit d'une offre exclusive pour avoir été un explorateur précoce d'Ethereum.",
+      "title": "Gagnez 5$ d'ETH",
+      "description": "Financez votre portefeuille avec n'importe quel jeton Ethereum d'ici le 4 avril 2024 à 12h00 PDT, et nous vous donnerons 5$ d'ETH le 5 avril 2024 avant 23h59 PM PDT.\n\nCeci est une offre exclusive pour être un Explorateur Ethereum précoce.",
       "expirationLabel": "Expire le {{expirationLabelText}}",
       "cta": "Utiliser la récompense"
     }
