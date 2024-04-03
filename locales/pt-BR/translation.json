@@ -677,7 +677,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Convide amigos e receba recompensas",
-    "body": "Depois que a pessoa configurar e adicionar fundos à carteira {{appName}}, vocês dois receberão 0,50 cUSD."
+    "body": "Depois que a pessoa configurar e adicionar US$ 5 à carteira {{appName}}, vocês dois receberão 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Convide um amigo",
@@ -692,7 +692,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "TEMPO LIMITADO. Ganhe cUSD grátis convidando amigos para a Valora!",
-      "body": "As Recompensas por Indicação estão de volta e ainda mais fáceis do que antes. Ganhe 0,50 cUSD para cada amigo que convidar para a {{appName}}. Quando seu amigo adicionar fundos e mantê-los por 7 dias, vocês dois receberão 0,50 cUSD. Corra, pois os fundos são limitados! (Limite de 25 amigos)."
+      "body": "Ganhe 0,50 cUSD para cada amigo que convidar para a {{appName}}. Quando seu amigo adicionar 5 dólares em cUSD, cEUR, cREAL, USDC ou USDT na Celo e mantê-los por 7 dias, vocês dois receberão 0,50 cUSD. Os fundos são limitados!"
     }
   },
   "getReward": "Receba ${{reward}}",
