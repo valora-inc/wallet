@@ -677,7 +677,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Invitez des amis pour être récompensé",
-    "body": "Une fois que votre contact aura paramétré son compte et ajouté des fonds à son portefeuille {{appName}} , vous recevrez tous les deux 0,50 cUSD."
+    "body": "Une fois que votre contact aura paramétré son compte et ajouté 5 USD à son portefeuille {{appName}} , vous recevrez tous les deux 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Invitez des amis",
@@ -692,7 +692,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "DURÉE LIMITÉE. Recevez des cUSD en invitant des amis sur Valora !",
-      "body": "Les récompenses de parrainage sont de retour et plus simples que jamais. Recevez 0,50 cUSD pour chaque ami que vous invitez sur {{appName}}. Une fois que votre ami aura ajouté et conservé des fonds pendant 7 jours, vous recevrez tous les deux 0,50 cUSD. Dépêchez-vous, les fonds sont limités ! (Limite de 25 amis)."
+      "body": "Recevez 0,50 cUSD pour chaque ami que vous invitez sur {{appName}}. Une fois que votre ami aura ajouté 5 dollars en cUSD, cEUR, cREAL, USDC ou USDT sur Celo et conservé des fonds pendant 7 jours, vous recevrez tous les deux 0,50 cUSD. Dépêchez-vous, les fonds sont limités !"
     }
   },
   "getReward": "Obtenez {{reward}}$",
