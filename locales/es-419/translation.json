@@ -677,7 +677,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Invita a tus amigos y obtén recompensas",
-    "body": "Una vez que se registren y agreguen fondos a su wallet en {{appName}}, ambos recibirán 0,50 cUSD."
+    "body": "Una vez que se registren y agreguen US$ 5 a su wallet en {{appName}}, ambos recibirán 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Invita a tus amigos",
@@ -692,7 +692,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "POR TIEMPO LIMITADO. ¡Consigue cUSD gratis por invitar a tus amigos a Valora!",
-      "body": "Vuelven las Recompensas por referidos y son aún más fáciles que antes. Obtén 0,50 cUSD por cada amigo que invites a {{appName}}. Una vez que agreguen fondos, y los mantengan durante 7 días, ambos obtendrán 0,50 cUSD. Date prisa, ¡los fondos son limitados! (Límite de 25 amigos)."
+      "body": "Obtén 0,50 cUSD por cada amigo que invites a {{appName}}. Una vez que agreguen US$5 en cUSD, cEUR, cREAL, USDC o USDT en Celo y los mantengan durante 7 días, ambos obtendrán 0,50 cUSD. Date prisa, ¡los fondos son limitados!"
     }
   },
   "getReward": "Obtén ${{reward}}",
