@@ -2233,7 +2233,7 @@ THE SOFTWARE.
 
 -----
 
-The following software may be included in this product: @segment/analytics-react-native, @segment/analytics-react-native-plugin-adjust, @segment/analytics-react-native-plugin-clevertap, @segment/analytics-react-native-plugin-firebase. A copy of the source code may be downloaded from https://github.com/segmentio/analytics-react-native.git (@segment/analytics-react-native), https://github.com/segmentio/analytics-react-native.git (@segment/analytics-react-native-plugin-adjust), https://github.com/segmentio/analytics-react-native.git (@segment/analytics-react-native-plugin-clevertap), https://github.com/segmentio/analytics-react-native.git (@segment/analytics-react-native-plugin-firebase). This software contains the following license and notice below:
+The following software may be included in this product: @segment/analytics-react-native, @segment/analytics-react-native-plugin-adjust, @segment/analytics-react-native-plugin-clevertap, @segment/analytics-react-native-plugin-destination-filters, @segment/analytics-react-native-plugin-firebase. A copy of the source code may be downloaded from https://github.com/segmentio/analytics-react-native.git (@segment/analytics-react-native), https://github.com/segmentio/analytics-react-native.git (@segment/analytics-react-native-plugin-adjust), https://github.com/segmentio/analytics-react-native.git (@segment/analytics-react-native-plugin-clevertap), https://github.com/segmentio/analytics-react-native.git (@segment/analytics-react-native-plugin-destination-filters), https://github.com/segmentio/analytics-react-native.git (@segment/analytics-react-native-plugin-firebase). This software contains the following license and notice below:
 
 MIT License
 
