@@ -677,7 +677,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Invita amici e ricevi ricompense",
-    "body": "Una volta che si sarà registrato e avrà aggiunto fondi al portafoglio {{appName}}, riceverete entrambi 0,50 cUSD."
+    "body": "Una volta che si sarà registrato e avrà aggiunto US$ 5 al portafoglio, riceverete entrambi 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Invita un amico",
@@ -692,7 +692,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "SOLO PER UN PERIODO LIMITATO. Ricevi cUSD gratis se inviti amici in Valora!",
-      "body": "Le ricompense dei referral sono tornate e sono ancora più facili che mai. Ricevi 0,50 cUSD per ogni amico che inviti su {{appName}}. Una volta che avrà aggiunto fondi e li avrà conservati per 7 giorni, riceverete entrambi 0,50 cUSD. Affrettati, i fondi sono limitati! (Limite di 25 amici)."
+      "body": "Ricevi 0,50 cUSD per ogni amico che inviti su {{appName}}. Una volta che avrà aggiunto 5 dollari in cUSD, cEUR, cREAL, USDC o USDT su Celo e li avrà conservati per 7 giorni, riceverete entrambi 0,50 cUSD. Affrettati, i fondi sono limitati!"
     }
   },
   "getReward": "Ricevi ${{reward}}",
