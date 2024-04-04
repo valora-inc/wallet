@@ -1,7 +1,7 @@
 import Clipboard from '@react-native-clipboard/clipboard'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
-import { StyleSheet, Text, TextInput, View, ViewStyle } from 'react-native'
+import { StyleSheet, Text, TextInput, View, ViewStyle, useWindowDimensions } from 'react-native'
 import { isValidBackupPhrase } from 'src/backup/utils'
 import Touchable from 'src/components/Touchable'
 import withTextInputPasteAware from 'src/components/WithTextInputPasteAware'
@@ -9,6 +9,7 @@ import { withTranslation } from 'src/i18n'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { vibrateInformative } from 'src/styles/hapticFeedback'
+import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 
 const PhraseInput = withTextInputPasteAware(TextInput, { top: undefined, right: 12, bottom: 12 })
@@ -18,17 +19,23 @@ type TwelveWordTableProps = {
 }
 
 function TwelveWordTable({ words }: TwelveWordTableProps) {
+  const { fontScale } = useWindowDimensions()
   return (
-    <>
+    <View style={styles.twelveWordTable}>
       {words.map((word, index) => (
-        <View key={index} style={styles.indexWordContainer}>
-          <Text style={styles.indexText}>{index + 1}</Text>
-          <Text key={index} style={styles.wordText}>
+        <View
+          key={index}
+          style={[styles.wordContainer, fontScale > 1.5 ? { width: '50%' } : { width: '33%' }]}
+        >
+          <Text adjustsFontSizeToFit={true} style={styles.indexText}>
+            {index + 1}
+          </Text>
+          <Text numberOfLines={1} adjustsFontSizeToFit={true} style={styles.wordText} key={index}>
             {word}
           </Text>
         </View>
       ))}
-    </>
+    </View>
   )
 }
 
@@ -153,20 +160,20 @@ const styles = StyleSheet.create({
   indexText: {
     ...fontStyles.regular,
     color: colors.gray4,
-    marginRight: 8,
-    lineHeight: 24,
+  },
+  twelveWordTable: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginHorizontal: Spacing.Small12,
+  },
+  wordContainer: {
+    flexDirection: 'row',
+    gap: Spacing.Smallest8,
+    alignItems: 'center',
+    marginVertical: 11,
   },
   wordText: {
     ...fontStyles.regular,
-    lineHeight: 24,
-  },
-  indexWordContainer: {
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: '30%',
-    flexDirection: 'row',
-    marginVertical: 11,
-    marginLeft: '3%',
   },
   phraseContainer: {
     flexWrap: 'wrap',
