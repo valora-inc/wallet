@@ -523,7 +523,7 @@ PODS:
     - React-Core
   - react-native-fast-crypto (2.0.0):
     - OpenSSL-Universal
-    - React
+    - React-Core
   - react-native-flipper (0.127.0):
     - React-Core
   - react-native-get-random-values (1.11.0):
@@ -650,7 +650,7 @@ PODS:
   - RNDeviceInfo (10.13.1):
     - React-Core
   - RNExitApp (1.1.0):
-    - React
+    - React-Core
   - RNFastImage (8.6.3):
     - React-Core
     - SDWebImage (~> 5.11.1)
@@ -740,7 +740,7 @@ PODS:
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - RNSecureRandom (1.0.1):
-    - React
+    - React-Core
   - RNSentry (4.15.2):
     - React-Core
     - Sentry/HybridSDK (= 7.31.5)
@@ -1184,7 +1184,7 @@ SPEC CHECKSUMS:
   react-native-config: 86038147314e2e6d10ea9972022aa171e6b1d4d8
   react-native-contacts: fd1614c74777089ebb6b0a0e3847dd78130ef9f4
   react-native-cookies: f54fcded06bb0cda05c11d86788020b43528a26c
-  react-native-fast-crypto: b6dea8324fb1b095dd4f29a80356b43acb3ee2e9
+  react-native-fast-crypto: db61bcb2d1224a180449b886f27426a67d7628c0
   react-native-flipper: b9e2e817604af8da0d5a9ba20a8516e780e30f3c
   react-native-get-random-values: 21325b2244dfa6b58878f51f9aa42821e7ba3d06
   react-native-in-app-review: db8bb167a5f238e7ceca5c242d6b36ce8c4404a4
@@ -1215,7 +1215,7 @@ SPEC CHECKSUMS:
   RNCMaskedView: 090213d32d8b3bb83a4dcb7d12c18f0152591906
   RNCPicker: 82ccad5b08259dc09310082118cbb6c136d7da67
   RNDeviceInfo: 4f9c7cfd6b9db1b05eb919620a001cf35b536423
-  RNExitApp: c4e052df2568b43bec8a37c7cd61194d4cfee2c3
+  RNExitApp: b6d5fb7a7ef85d502c45fb2d00840f517d6a4ac7
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNFBAnalytics: b4e2f1fb446c4bd15a5e778b0554464a8a303a1e
   RNFBApp: d59efa0872fff4e27de03cca3c528c203a436ae5
@@ -1234,7 +1234,7 @@ SPEC CHECKSUMS:
   RNReactNativeHapticFeedback: 1e3efeca9628ff9876ee7cdd9edec1b336913f8c
   RNReanimated: f186e85d9f28c9383d05ca39e11dd194f59093ec
   RNScreens: 3c5b9f4a9dcde752466854b6109b79c0e205dad3
-  RNSecureRandom: 07efbdf2cd99efe13497433668e54acd7df49fef
+  RNSecureRandom: ff25041dd065a945810ca01a2bcd06f8d141b81d
   RNSentry: 4ea90ea061624364637e8077d965bf2e50478066
   RNShare: a5dc3b9c53ddc73e155b8cd9a94c70c91913c43c
   RNSVG: d00c8f91c3cbf6d476451313a18f04d220d4f396
