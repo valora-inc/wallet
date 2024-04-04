@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { ClaimHistory } from 'src/points/types'
 
-export interface GetPointsHistorySucceededAction {
+interface GetPointsHistorySucceededAction {
   newPointsHistory: ClaimHistory[]
   nextPageUrl: string | null
 }
