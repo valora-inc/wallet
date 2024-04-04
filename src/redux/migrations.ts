@@ -11,7 +11,7 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
 import { Position } from 'src/positions/types'
 import { Recipient } from 'src/recipients/recipient'
-import { Network, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
+import { Network, NetworkId, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
 
@@ -1642,6 +1642,50 @@ export const migrations = {
     jumpstart: {
       ...state.jumpstart,
       reclaimStatus: 'idle',
+    },
+  }),
+  204: (state: any) => ({
+    ...state,
+    positions: {
+      ...state.positions,
+      shortcuts: state.positions.shortcuts.map(
+        (shortcut: { networks: ('celo' | 'celoAlfajores')[] }) => ({
+          ..._.omit(shortcut, 'network'),
+          networks: shortcut.networks.map((network) =>
+            network === 'celo' ? 'celo-mainnet' : 'celo-alfajores'
+          ),
+        })
+      ),
+      positions: state.positions.positions.map(
+        (position: {
+          network: 'celo' | 'celoAlfajores'
+          tokens: { network: 'celo' | 'celoAlfajores' }[]
+        }) => {
+          // deliberately using types specific to this migration since they are frozen, whereas types used in the app
+          //  can have breaking changes relevant to this migration
+          type LegacyToken = { network: 'celo' | 'celoAlfajores'; tokens?: LegacyToken[] }
+          type UpdatedToken = { networkId: NetworkId; tokens?: UpdatedToken[] }
+
+          function recursivelyUpdateToken(token: LegacyToken): UpdatedToken {
+            const output: UpdatedToken = {
+              ..._.omit(token, 'network', 'tokens'),
+              networkId:
+                token.network === 'celo' ? NetworkId['celo-mainnet'] : NetworkId['celo-alfajores'],
+            }
+            if (token.tokens) {
+              output.tokens = token.tokens.map(recursivelyUpdateToken)
+            }
+            return output
+          }
+
+          return {
+            ..._.omit(position, 'network'),
+            networkId:
+              position.network === 'celo' ? NetworkId['celo-mainnet'] : NetworkId['celo-alfajores'],
+            tokens: position.tokens.map(recursivelyUpdateToken),
+          }
+        }
+      ),
     },
   }),
 }

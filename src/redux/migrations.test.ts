@@ -49,6 +49,7 @@ import {
   v1Schema,
   v200Schema,
   v201Schema,
+  v203Schema,
   v21Schema,
   v28Schema,
   v2Schema,
@@ -81,6 +82,7 @@ import {
 import {
   mockInvitableRecipient,
   mockInvitableRecipient2,
+  mockPositions,
   mockRecipient,
   mockRecipient2,
 } from 'test/values'
@@ -1572,6 +1574,18 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[202](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.walletConnect.pendingSessions = []
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from 203 to 204', () => {
+    const oldSchema = v203Schema
+    const expectedSchema = _.cloneDeep(oldSchema)
+    expectedSchema.positions.positions = mockPositions.map((position) => ({
+      ...position,
+      availableShortcutIds: [], // another migration clears these, shouldn't be relevant
+    }))
+    const migratedSchema = migrations[204](oldSchema)
+
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })
