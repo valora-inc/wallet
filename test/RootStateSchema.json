@@ -2445,6 +2445,9 @@
                 "expiry": {
                     "type": "number"
                 },
+	        "expiryTimestamp": {
+                    "type": "number"
+	        },
                 "id": {
                     "type": "number"
                 },
@@ -2485,6 +2488,7 @@
             },
             "required": [
                 "expiry",
+	        "expiryTimestamp",
                 "id",
                 "optionalNamespaces",
                 "proposer",
@@ -5274,6 +5278,9 @@
                 "verified": {
                     "additionalProperties": false,
                     "properties": {
+		      "isScam": {
+			"type": "boolean"
+		      },
                         "origin": {
                             "type": "string"
                         },
