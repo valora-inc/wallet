@@ -45,6 +45,8 @@ const mockReclaimTx: TransactionRequest = {
   maxFeePerGas: BigInt(1),
   maxPriorityFeePerGas: undefined,
 }
+const mockRetiredContractAddress = '0xretired'
+const mockTransactionHash = '0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b'
 
 describe('JumpstartTransactionDetailsScreen', () => {
   beforeEach(() => {
@@ -52,7 +54,10 @@ describe('JumpstartTransactionDetailsScreen', () => {
 
     jest.mocked(getDynamicConfigParams).mockReturnValue({
       jumpstartContracts: {
-        [NetworkId['celo-alfajores']]: { contractAddress: mockJumpstartAdddress },
+        [NetworkId['celo-alfajores']]: {
+          contractAddress: mockJumpstartAdddress,
+          retiredContractAddresses: [mockRetiredContractAddress],
+        },
       },
     })
     jest.mocked(prepareTransactions).mockResolvedValue({
@@ -115,7 +120,7 @@ describe('JumpstartTransactionDetailsScreen', () => {
       __typename: 'TokenTransferV3',
       networkId: NetworkId['celo-alfajores'],
       type,
-      transactionHash: '0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b',
+      transactionHash: mockTransactionHash,
       timestamp: 1542306118,
       block: '8648978',
       address,
@@ -139,6 +144,11 @@ describe('JumpstartTransactionDetailsScreen', () => {
       )
     )
     expect(getByTestId('JumpstartContent/AmountValue')).toHaveTextContent('10.00 cUSD')
+    expect(fetchClaimStatus).toHaveBeenCalledWith(
+      mockJumpstartAdddress,
+      'celo-alfajores',
+      mockTransactionHash
+    )
   })
 
   it('shows the correct amount and no reclaim button for jumpstart received transactions', async () => {
@@ -232,6 +242,32 @@ describe('JumpstartTransactionDetailsScreen', () => {
         depositTxHash: mockTransaction.transactionHash,
       }),
     ])
+  })
+
+  it('uses the relevant jumpstart contract to prepare the reclaim transaction', async () => {
+    jest.mocked(fetchClaimStatus).mockResolvedValue({
+      beneficiary: mockAccount,
+      index: 0,
+      claimed: false,
+    })
+    renderScreen({
+      transaction: tokenTransfer({
+        type: TokenTransactionTypeV2.Sent,
+        address: mockRetiredContractAddress,
+      }),
+    })
+
+    await waitFor(() =>
+      expect(fetchClaimStatus).toHaveBeenCalledWith(
+        mockRetiredContractAddress,
+        'celo-alfajores',
+        mockTransactionHash
+      )
+    )
+    expect(prepareTransactions).toHaveBeenCalledWith({
+      baseTransactions: [expect.objectContaining({ to: mockRetiredContractAddress })],
+      feeCurrencies: expect.any(Array),
+    })
   })
 
   it('shows an error if the reclaim failed', async () => {
