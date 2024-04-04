@@ -29,7 +29,7 @@
   "dataSaver": "Datensparmodus",
   "enableDataSaver": "Datensparmodus aktivieren",
   "dataSaverDetail": "Der Datensparmodus ermöglicht die Kommunikation mit dem Netzwerk über einen vertrauenswürdigen Knoten. Du kannst diesen Modus jederzeit in den App-Einstellungen ändern.",
-  "keylessBackupSettingsTitle": "Sicherung von E-Mail-Adresse und Telefonnummer",
+  "keylessBackupSettingsTitle": "Sicherung von E-Mail und Telefonnummer",
   "keylessBackupSettingsDeleteError": "Deine Sicherung konnte nicht gelöscht werden. Bitte warte und versuche es später noch einmal.",
   "setup": "Einrichten",
   "restartModalSwitchOff": {
