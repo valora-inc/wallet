@@ -91,14 +91,14 @@ async function fetchHooks(
 }
 
 async function fetchPositions(hooksApiUrl: string, walletAddress: string) {
-  const networkIds = await getDynamicConfigParams(
+  const networkIds = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
   ).showPositions
   return (await fetchHooks(hooksApiUrl, 'getPositions', walletAddress, networkIds)) as Position[]
 }
 
 async function fetchShortcuts(hooksApiUrl: string, walletAddress: string) {
-  const networkIds = await getDynamicConfigParams(
+  const networkIds = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
   ).showShortcuts
   return (await fetchHooks(hooksApiUrl, 'v2/getShortcuts', walletAddress, networkIds)) as Shortcut[]
