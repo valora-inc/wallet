@@ -7,7 +7,7 @@ import Pill from 'src/components/Pill'
 import { isE2EEnv } from 'src/config'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
 import { superchargeInfoSelector } from 'src/consumerIncentives/selectors'
-import ValoraV from 'src/icons/ValoraV'
+import Logo from 'src/icons/Logo'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
@@ -42,7 +42,7 @@ function RewardsPill() {
   return (
     <Pill
       text={t('rewards')}
-      icon={<ValoraV size={18} color={Colors.successDark} />}
+      icon={<Logo size={18} color={Colors.successDark} />}
       onPress={onOpenRewards}
       testID="EarnRewards"
       textColor={Colors.successDark}

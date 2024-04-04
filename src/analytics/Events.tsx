@@ -34,6 +34,7 @@ export enum AppEvents {
 
 export enum HomeEvents {
   hamburger_tapped = 'hamburger_tapped',
+  account_circle_tapped = 'account_circle_tapped',
   drawer_navigation = 'drawer_navigation',
   drawer_address_copy = 'drawer_address_copy',
   profile_address_copy = 'profile_address_copy',
@@ -590,6 +591,7 @@ export enum TokenBottomSheetEvents {
   search_token = 'search_token',
   token_selected = 'token_selected',
   toggle_tokens_filter = 'toggle_tokens_filter',
+  network_filter_updated = 'network_filter_updated',
 }
 
 export enum AssetsEvents {
@@ -662,4 +664,19 @@ export enum JumpstartEvents {
   jumpstart_claim_loading_dismissed = 'jumpstart_claim_loading_dismissed',
   jumpstart_claim_error_dismissed = 'jumpstart_claim_error_dismissed',
   jumpstart_claim_error_contact_support = 'jumpstart_claim_error_contact_support',
+  jumpstart_reclaim_press = 'jumpstart_reclaim_press',
+  jumpstart_reclaim_start = 'jumpstart_reclaim_start',
+  jumpstart_reclaim_failed = 'jumpstart_reclaim_failed',
+  jumpstart_reclaim_succeeded = 'jumpstart_reclaim_succeeded',
+  jumpstart_reclaim_dismiss_error = 'jumpstart_reclaim_dismiss_error',
+  jumpstart_reclaim_contact_support = 'jumpstart_reclaim_contact_support',
+  jumpstart_claim_status_fetch_success = 'jumpstart_claim_status_fetch_success',
+  jumpstart_claim_status_fetch_error = 'jumpstart_claim_status_fetch_error',
+}
+
+export enum PointsEvents {
+  points_screen_open = 'points_screen_open',
+  points_screen_back = 'points_screen_back',
+  points_screen_card_press = 'points_screen_card_press',
+  points_screen_card_cta_press = 'points_screen_card_cta_press',
 }

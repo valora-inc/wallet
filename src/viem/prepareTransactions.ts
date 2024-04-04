@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
+import { TransactionRequestCIP42 } from 'node_modules/viem/_types/celo/types'
 import erc20 from 'src/abis/IERC20'
 import stableToken from 'src/abis/StableToken'
 import { STATIC_GAS_PADDING } from 'src/config'

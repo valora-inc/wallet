@@ -38,7 +38,7 @@ import {
 import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { iconHitslop } from 'src/styles/variables'
 import { useAmountAsUsd, useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
@@ -152,6 +152,7 @@ function SendConfirmation(props: Props) {
         <LineItemRow
           testID="SendConfirmation/fee"
           title={t('feeEstimate')}
+          textStyle={typeScale.bodyMedium}
           amount={
             maxFeeAmount && (
               <TokenDisplay
@@ -163,7 +164,21 @@ function SendConfirmation(props: Props) {
           }
           isLoading={!maxFeeAmount}
         />
-
+        <LineItemRow
+          testID="SendConfirmation/localFee"
+          title=""
+          style={styles.subHeading}
+          textStyle={styles.subHeadingText}
+          amount={
+            maxFeeAmount && (
+              <TokenDisplay
+                amount={maxFeeAmount}
+                tokenId={feeTokenInfo?.tokenId}
+                showLocalAmount={true}
+              />
+            )
+          }
+        />
         <TokenTotalLineItem
           tokenAmount={tokenAmount}
           tokenId={tokenId}
@@ -339,23 +354,25 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
   },
   headerText: {
-    ...fontStyles.regular,
+    ...typeScale.labelMedium,
     color: colors.gray4,
   },
   displayName: {
-    ...fontStyles.regular500,
+    ...typeScale.labelMedium,
+    color: colors.black,
   },
   addressContainer: {
     flexDirection: 'row',
   },
   address: {
-    ...fontStyles.small,
+    ...typeScale.labelSmall,
     color: colors.gray5,
     paddingRight: 4,
   },
   amount: {
+    ...typeScale.titleLarge,
     paddingVertical: 8,
-    ...fontStyles.largeNumber,
+    color: colors.black,
   },
   amountSubscript: {
     ...typeScale.bodyMedium,
@@ -369,9 +386,16 @@ const styles = StyleSheet.create({
     marginVertical: 16,
   },
   encryptionWarningLabel: {
-    ...fontStyles.regular,
+    ...typeScale.labelMedium,
     color: colors.infoDark,
     paddingRight: 8,
+  },
+  subHeading: {
+    marginVertical: 0,
+  },
+  subHeadingText: {
+    ...typeScale.labelSmall,
+    color: colors.gray4,
   },
 })
 

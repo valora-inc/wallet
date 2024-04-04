@@ -5,6 +5,7 @@ import { JumpstartEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
 import {
+  JumpstarReclaimAction,
   JumpstartTransactionStartedAction,
   depositTransactionCancelled,
   depositTransactionFailed,
@@ -13,6 +14,9 @@ import {
   jumpstartClaimFailed,
   jumpstartClaimStarted,
   jumpstartClaimSucceeded,
+  jumpstartReclaimFailed,
+  jumpstartReclaimStarted,
+  jumpstartReclaimSucceeded,
 } from 'src/jumpstart/slice'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { NftMetadata } from 'src/nfts/types'
@@ -34,9 +38,9 @@ import { getPreparedTransactions } from 'src/viem/preparedTransactionSerializati
 import { sendPreparedTransactions } from 'src/viem/saga'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { all, call, fork, put, select, spawn, takeEvery } from 'typed-redux-saga'
-import { Hash, TransactionReceipt, parseAbi, parseEventLogs } from 'viem'
+import { Address, Hash, TransactionReceipt, parseAbi, parseEventLogs } from 'viem'
 
-const TAG = 'WalletJumpstart'
+const TAG = 'WalletJumpstart/saga'
 
 export function* jumpstartClaim(privateKey: string, networkId: NetworkId, walletAddress: string) {
   try {
@@ -103,7 +107,7 @@ export function* dispatchPendingERC20Transactions(
       address,
       args: { token: tokenAddress, amount },
     } of parsedLogs) {
-      const tokenId = getTokenId(networkId, tokenAddress)
+      const tokenId = getTokenId(networkId, tokenAddress.toLowerCase())
 
       const token = tokensById[tokenId]
       if (!token) {
@@ -179,7 +183,7 @@ export function* dispatchPendingERC721Transactions(
             nfts: [
               {
                 tokenId: tokenId.toString(),
-                contractAddress,
+                contractAddress: contractAddress.toLowerCase(),
                 tokenUri,
                 metadata,
                 media: [
@@ -344,10 +348,65 @@ export function* sendJumpstartTransactions(
   }
 }
 
-function* watchSendJumpstartTransaction() {
+export function* jumpstartReclaim(action: PayloadAction<JumpstarReclaimAction>) {
+  const { reclaimTx, networkId, tokenAmount, depositTxHash } = action.payload
+  try {
+    const createStandbyReclaimTransaction = (
+      transactionHash: string,
+      _feeCurrencyId?: string
+    ): BaseStandbyTransaction => {
+      return {
+        context: newTransactionContext(TAG, 'Reclaim transaction'),
+        __typename: 'TokenTransferV3',
+        networkId,
+        type: TokenTransactionTypeV2.Received,
+        transactionHash: transactionHash,
+        amount: {
+          value: new BigNumber(tokenAmount.value).negated().toString(),
+          tokenId: tokenAmount.tokenId,
+          tokenAddress: tokenAmount.tokenAddress,
+        },
+        address: reclaimTx.to as Address,
+        metadata: {},
+      }
+    }
+
+    Logger.debug(`${TAG}/jumpstartReclaim`, 'Executing reclaim transaction', reclaimTx)
+    const [txHash] = yield* call(sendPreparedTransactions, [reclaimTx], networkId, [
+      createStandbyReclaimTransaction,
+    ])
+
+    Logger.debug(`${TAG}/jumpstartReclaim`, 'Waiting for transaction receipt')
+    const txReceipt = yield* call(
+      [publicClient[networkIdToNetwork[networkId]], 'waitForTransactionReceipt'],
+      {
+        hash: txHash,
+      }
+    )
+    Logger.debug(`${TAG}/jumpstartReclaim`, `Received transaction receipt`, txReceipt)
+
+    if (txReceipt.status !== 'success') {
+      throw new Error(`Jumpstart reclaim transaction reverted: ${txReceipt.transactionHash}`)
+    }
+
+    yield* put(jumpstartReclaimSucceeded())
+    ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_succeeded, {
+      networkId,
+      depositTxHash,
+      reclaimTxHash: txHash,
+    })
+  } catch (err) {
+    Logger.warn(TAG, 'Error reclaiming jumpstart transaction', err)
+    ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_failed, { networkId, depositTxHash })
+    yield* put(jumpstartReclaimFailed())
+  }
+}
+
+function* watchJumpstartTransaction() {
   yield* takeEvery(depositTransactionStarted.type, safely(sendJumpstartTransactions))
+  yield* takeEvery(jumpstartReclaimStarted.type, safely(jumpstartReclaim))
 }
 
 export function* jumpstartSaga() {
-  yield* spawn(watchSendJumpstartTransaction)
+  yield* spawn(watchJumpstartTransaction)
 }

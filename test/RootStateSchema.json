@@ -1608,12 +1608,16 @@
             "enum": [
                 "arbitrum-one",
                 "arbitrum-sepolia",
+                "base-mainnet",
+                "base-sepolia",
                 "celo-alfajores",
                 "celo-mainnet",
                 "ethereum-mainnet",
                 "ethereum-sepolia",
                 "op-mainnet",
-                "op-sepolia"
+                "op-sepolia",
+                "polygon-pos-mainnet",
+                "polygon-pos-mumbai"
             ],
             "type": "string"
         },
@@ -2403,6 +2407,9 @@
                 "expiry": {
                     "type": "number"
                 },
+                "expiryTimestamp": {
+                    "type": "number"
+                },
                 "id": {
                     "type": "number"
                 },
@@ -2442,7 +2449,7 @@
                 }
             },
             "required": [
-                "expiry",
+                "expiryTimestamp",
                 "id",
                 "optionalNamespaces",
                 "proposer",
@@ -2624,9 +2631,11 @@
                 "ImportSelect",
                 "ImportWallet",
                 "Invite",
+                "InviteDrawer",
                 "JumpstartEnterAmount",
                 "JumpstartSendConfirmation",
                 "JumpstartShareLink",
+                "JumpstartTransactionDetailsScreen",
                 "KeylessBackupIntro",
                 "KeylessBackupPhoneCodeInput",
                 "KeylessBackupPhoneInput",
@@ -2649,6 +2658,7 @@
                 "OnboardingSuccessScreen",
                 "PincodeEnter",
                 "PincodeSet",
+                "PointsHome",
                 "Profile",
                 "ProfileMenu",
                 "ProtectWallet",
@@ -2666,12 +2676,14 @@
                 "SendEnterAmount",
                 "SendSelectRecipient",
                 "Settings",
+                "SettingsDrawer",
                 "SignInWithEmail",
                 "Simplex",
                 "Spend",
                 "StoreWipeRecoveryScreen",
                 "Support",
                 "SupportContact",
+                "SupportDrawer",
                 "SwapScreenWithBack",
                 "TabDiscover",
                 "TabHome",
@@ -4194,11 +4206,21 @@
                         "success"
                     ],
                     "type": "string"
+                },
+                "reclaimStatus": {
+                    "enum": [
+                        "error",
+                        "idle",
+                        "loading",
+                        "success"
+                    ],
+                    "type": "string"
                 }
             },
             "required": [
                 "claimStatus",
-                "depositStatus"
+                "depositStatus",
+                "reclaimStatus"
             ],
             "type": "object"
         },
@@ -5010,6 +5032,18 @@
                     },
                     "type": "array"
                 },
+                "base-mainnet": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
+                "base-sepolia": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
                 "celo-alfajores": {
                     "items": {
                         "$ref": "#/definitions/TokenTransaction"
@@ -5041,6 +5075,18 @@
                     "type": "array"
                 },
                 "op-sepolia": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
+                "polygon-pos-mainnet": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
+                "polygon-pos-mumbai": {
                     "items": {
                         "$ref": "#/definitions/TokenTransaction"
                     },
@@ -5123,6 +5169,9 @@
                 "verified": {
                     "additionalProperties": false,
                     "properties": {
+                        "isScam": {
+                            "type": "boolean"
+                        },
                         "origin": {
                             "type": "string"
                         },

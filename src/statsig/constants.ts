@@ -1,5 +1,6 @@
 import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
+import { PointsMetadata } from 'src/points/types'
 import networkConfig from 'src/web3/networkConfig'
 
 export const FeatureGates = {
@@ -23,6 +24,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_NFT_REWARD]: false,
   [StatsigFeatureGates.SHOW_JUMPSTART_SEND]: false,
   [StatsigFeatureGates.USE_TAB_NAVIGATOR]: false,
+  [StatsigFeatureGates.SHOW_POINTS]: false,
 }
 
 export const ExperimentConfigs = {
@@ -102,7 +104,11 @@ export const DynamicConfigs = {
     configName: StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG,
     defaultValues: {
       jumpstartContracts: {} as {
-        [key in NetworkId]?: { contractAddress?: string; depositERC20GasEstimate: string }
+        [key in NetworkId]?: {
+          contractAddress?: string
+          depositERC20GasEstimate: string
+          retiredContractAddresses?: string[]
+        }
       },
       maxAllowedSendAmountUsd: 100,
     },
@@ -114,6 +120,12 @@ export const DynamicConfigs = {
       deepLink: '',
       rewardExpirationDate: new Date(0).toISOString(),
       rewardReminderDate: new Date(0).toISOString(),
+    },
+  },
+  [StatsigDynamicConfigs.POINTS_CONFIG]: {
+    configName: StatsigDynamicConfigs.POINTS_CONFIG,
+    defaultValues: {
+      pointsMetadata: [] as PointsMetadata[],
     },
   },
 }

@@ -1,4 +1,5 @@
 import { BIOMETRY_TYPE } from 'react-native-keychain'
+import { createSelector } from 'reselect'
 import { initializeAccount } from 'src/account/actions'
 import {
   choseToRestoreAccountSelector,
@@ -14,7 +15,6 @@ import * as NavigationService from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { updateStatsigAndNavigate } from 'src/onboarding/actions'
-import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
 import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
@@ -75,30 +75,40 @@ export function firstOnboardingScreen({
  * @param state
  * @returns OnboardingProps
  */
-export function onboardingPropsSelector(state: RootState): OnboardingProps {
-  const recoveringFromStoreWipe = recoveringFromStoreWipeSelector(state)
-  const choseToRestoreAccount = choseToRestoreAccountSelector(state)
-  const supportedBiometryType = supportedBiometryTypeSelector(state)
-  const skipVerification = skipVerificationSelector(state)
-  const numberAlreadyVerifiedCentrally = phoneNumberVerifiedSelector(state)
-  const { chooseAdventureEnabled, onboardingNameScreenEnabled } = getExperimentParams(
-    ExperimentConfigs[StatsigExperiments.CHOOSE_YOUR_ADVENTURE]
-  )
-  const showCloudAccountBackupRestore = getFeatureGate(
-    StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE
-  )
-
-  return {
+export const onboardingPropsSelector = createSelector(
+  [
+    recoveringFromStoreWipeSelector,
+    choseToRestoreAccountSelector,
+    supportedBiometryTypeSelector,
+    skipVerificationSelector,
+    phoneNumberVerifiedSelector,
+  ],
+  (
     recoveringFromStoreWipe,
     choseToRestoreAccount,
     supportedBiometryType,
     skipVerification,
-    numberAlreadyVerifiedCentrally,
-    chooseAdventureEnabled,
-    onboardingNameScreenEnabled,
-    showCloudAccountBackupRestore,
+    numberAlreadyVerifiedCentrally
+  ) => {
+    const { chooseAdventureEnabled, onboardingNameScreenEnabled } = getExperimentParams(
+      ExperimentConfigs[StatsigExperiments.CHOOSE_YOUR_ADVENTURE]
+    )
+    const showCloudAccountBackupRestore = getFeatureGate(
+      StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE
+    )
+
+    return {
+      recoveringFromStoreWipe,
+      choseToRestoreAccount,
+      supportedBiometryType,
+      skipVerification,
+      numberAlreadyVerifiedCentrally,
+      chooseAdventureEnabled,
+      onboardingNameScreenEnabled,
+      showCloudAccountBackupRestore,
+    }
   }
-}
+)
 
 /**
  * Traverses through the directed graph of onboarding navigate, navigateClearingStack, and navigateHome calls

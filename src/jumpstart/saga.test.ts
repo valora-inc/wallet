@@ -15,6 +15,7 @@ import {
   dispatchPendingERC721Transactions,
   dispatchPendingTransactions,
   jumpstartClaim,
+  jumpstartReclaim,
   sendJumpstartTransactions,
 } from 'src/jumpstart/saga'
 import {
@@ -24,6 +25,9 @@ import {
   jumpstartClaimFailed,
   jumpstartClaimStarted,
   jumpstartClaimSucceeded,
+  jumpstartReclaimFailed,
+  jumpstartReclaimStarted,
+  jumpstartReclaimSucceeded,
 } from 'src/jumpstart/slice'
 import { getDynamicConfigParams } from 'src/statsig'
 import { addStandbyTransaction } from 'src/transactions/actions'
@@ -31,7 +35,10 @@ import { Network, NetworkId, TokenTransactionTypeV2 } from 'src/transactions/typ
 import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { publicClient } from 'src/viem'
-import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
+import {
+  getSerializablePreparedTransaction,
+  getSerializablePreparedTransactions,
+} from 'src/viem/preparedTransactionSerialization'
 import { sendPreparedTransactions } from 'src/viem/saga'
 import { createMockStore } from 'test/utils'
 import {
@@ -68,6 +75,7 @@ const mockError = new Error('test error')
 const mockTransactionReceipt = {
   transactionHash: '0xHASH1',
   logs: [],
+  status: 'success',
 } as unknown as TransactionReceipt
 
 const mockJumpstartRemoteConfig = {
@@ -131,7 +139,7 @@ describe('jumpstartClaim', () => {
       .run()
 
     expect(Logger.error).toHaveBeenCalledWith(
-      'WalletJumpstart',
+      'WalletJumpstart/saga',
       'Error handling jumpstart link',
       mockError
     )
@@ -197,7 +205,7 @@ describe('dispatchPendingTransactions', () => {
       .run()
 
     expect(Logger.warn).toHaveBeenCalledWith(
-      'WalletJumpstart',
+      'WalletJumpstart/saga',
       'Error dispatching pending transactions',
       mockError
     )
@@ -257,9 +265,9 @@ describe('dispatchPendingERC20Transactions', () => {
       .run()
 
     expect(Logger.warn).toHaveBeenCalledWith(
-      'WalletJumpstart',
+      'WalletJumpstart/saga',
       'Claimed unknown tokenId',
-      'celo-alfajores:0xUNKNOWN'
+      'celo-alfajores:0xunknown'
     )
   })
 })
@@ -292,7 +300,7 @@ describe('dispatchPendingERC721Transactions', () => {
           nfts: [
             {
               tokenId: mockNftAllFields.tokenId,
-              contractAddress: mockNftAllFields.contractAddress,
+              contractAddress: mockNftAllFields.contractAddress.toLowerCase(),
               tokenUri,
               metadata,
               media: [{ raw: metadata.image, gateway: metadata.image }],
@@ -317,7 +325,7 @@ describe('dispatchPendingERC721Transactions', () => {
       .run()
 
     expect(Logger.warn).toHaveBeenCalledWith(
-      'WalletJumpstart',
+      'WalletJumpstart/saga',
       'Error adding pending NFT transaction',
       mockError
     )
@@ -447,6 +455,90 @@ describe('sendJumpstartTransactions', () => {
     expect(ValoraAnalytics.track).not.toHaveBeenCalledWith(
       JumpstartEvents.jumpstart_send_succeeded,
       expect.any(Object)
+    )
+  })
+})
+
+describe('jumpstartReclaim', () => {
+  const mockSerializablePreparedTransaction = getSerializablePreparedTransaction({
+    from: '0xa',
+    to: '0xb',
+    value: BigInt(0),
+    data: '0x0',
+    gas: BigInt(59_480),
+  })
+  const networkId = NetworkId['celo-alfajores']
+  const depositTxHash = '0xaaa'
+
+  it('should send the reclaim transaction and dispatch the success action on success', async () => {
+    await expectSaga(jumpstartReclaim, {
+      type: jumpstartReclaimStarted.type,
+      payload: {
+        tokenAmount: {
+          value: 1000,
+          tokenAddress: '0x123',
+          tokenId: 'celo-alfajores:0x123',
+        },
+        networkId,
+        reclaimTx: mockSerializablePreparedTransaction,
+        depositTxHash,
+      },
+    })
+      .provide([
+        [matchers.call.fn(publicClient[network].waitForTransactionReceipt), mockTransactionReceipt],
+      ])
+      .withState(createMockStore().getState())
+      .put(jumpstartReclaimSucceeded())
+      .run()
+
+    expect(sendPreparedTransactions).toHaveBeenCalledWith(
+      [mockSerializablePreparedTransaction],
+      networkId,
+      expect.any(Array)
+    )
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      JumpstartEvents.jumpstart_reclaim_succeeded,
+      {
+        networkId,
+        depositTxHash,
+        reclaimTxHash: '0x1',
+      }
+    )
+  })
+
+  it('should dispatch an error if the reclaim transaction is reverted', async () => {
+    await expectSaga(jumpstartReclaim, {
+      type: jumpstartReclaimStarted.type,
+      payload: {
+        tokenAmount: {
+          value: 1000,
+          tokenAddress: '0x123',
+          tokenId: 'celo-alfajores:0x123',
+        },
+        networkId,
+        reclaimTx: mockSerializablePreparedTransaction,
+        depositTxHash,
+      },
+    })
+      .provide([
+        [
+          matchers.call.fn(publicClient[network].waitForTransactionReceipt),
+          { ...mockTransactionReceipt, status: 'reverted' },
+        ],
+      ])
+      .withState(createMockStore().getState())
+      .not.put(jumpstartReclaimSucceeded())
+      .put(jumpstartReclaimFailed())
+      .run()
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_reclaim_failed, {
+      networkId,
+      depositTxHash,
+    })
+    expect(sendPreparedTransactions).toHaveBeenCalledWith(
+      [mockSerializablePreparedTransaction],
+      networkId,
+      expect.any(Array)
     )
   })
 })

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import Logo, { LogoTypes } from 'src/icons/Logo'
+import Logo from 'src/icons/Logo'
 import { background } from 'src/images/Images'
 import { nuxNavigationOptionsNoBackButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
@@ -31,7 +31,7 @@ function OnboardingSuccessScreen() {
   return (
     <View style={styles.container}>
       <Image source={background} style={styles.backgroundImage} />
-      <Logo type={LogoTypes.LIGHT} height={70} />
+      <Logo color={colors.white} size={70} />
       <Text style={styles.text}>{t('success.message')}</Text>
     </View>
   )

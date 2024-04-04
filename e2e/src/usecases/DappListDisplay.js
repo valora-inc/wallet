@@ -1,6 +1,5 @@
-import { fetchDappList, navigateToDappList } from '../utils/dappList'
-import { reloadReactNative } from '../utils/retries'
-import { getElementTextList, sleep, scrollIntoView, waitForElementId } from '../utils/utils'
+import { fetchDappList } from '../utils/dappList'
+import { getElementTextList, scrollIntoView } from '../utils/utils'
 import jestExpect from 'expect'
 
 export default DappListDisplay = () => {
@@ -28,14 +27,11 @@ export default DappListDisplay = () => {
     await waitFor(element(by.text(url.hostname)))
       .toBeVisible()
       .withTimeout(10 * 1000)
+    await element(by.id('WebViewScreen/CloseButton')).tap()
   })
 
   it(':ios: should correctly filter dapp list based on user agent', async () => {
     const iOSDappList = await fetchDappList('Valora/1.0.0 (iOS 15.0; iPhone)')
-    await reloadReactNative()
-    await navigateToDappList()
-    // Give a few seconds for the dapp list to load
-    await sleep(5 * 1000)
     const dappCards = await getElementTextList('DAppsExplorerScreen/AllSection/DappCard')
     jestExpect(dappCards.length).toEqual(iOSDappList.applications.length)
   })

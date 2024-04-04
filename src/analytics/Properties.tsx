@@ -32,6 +32,7 @@ import {
   OnboardingEvents,
   PerformanceEvents,
   PhoneVerificationEvents,
+  PointsEvents,
   QrScreenEvents,
   RewardsEvents,
   SendEvents,
@@ -66,6 +67,7 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NftOrigin } from 'src/nfts/types'
 import { NotificationReceiveState } from 'src/notifications/types'
 import { AdventureCardName } from 'src/onboarding/types'
+import { PointsActivity } from 'src/points/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { QrCode } from 'src/send/types'
 import { Field } from 'src/swap/types'
@@ -154,6 +156,7 @@ interface AppEventsProperties {
 
 interface HomeEventsProperties {
   [HomeEvents.hamburger_tapped]: undefined
+  [HomeEvents.account_circle_tapped]: undefined
   [HomeEvents.drawer_navigation]: {
     navigateTo: string
   }
@@ -1358,6 +1361,10 @@ interface TokenBottomSheetEventsProperties {
     isRemoving: boolean
     isPreSelected: boolean
   }
+  [TokenBottomSheetEvents.network_filter_updated]: {
+    selectedNetworkIds: NetworkId[]
+    origin: TokenPickerOrigin
+  }
   [TokenBottomSheetEvents.token_selected]: {
     origin: TokenPickerOrigin
     tokenId: string
@@ -1508,6 +1515,10 @@ interface JumpstartSendProperties extends JumpstartDepositProperties {
   tokenSymbol: string
   tokenAmount: string | null
 }
+interface JumpstartReclaimProperties {
+  networkId: NetworkId
+  depositTxHash: string
+}
 export enum JumpstartShareOrigin {
   QrScreen = 'qrScreen',
   MainScreen = 'mainScreen',
@@ -1550,6 +1561,29 @@ interface JumpstartEventsProperties {
   [JumpstartEvents.jumpstart_claim_loading_dismissed]: undefined
   [JumpstartEvents.jumpstart_claim_error_dismissed]: undefined
   [JumpstartEvents.jumpstart_claim_error_contact_support]: undefined
+  [JumpstartEvents.jumpstart_reclaim_press]: JumpstartReclaimProperties
+  [JumpstartEvents.jumpstart_reclaim_start]: JumpstartReclaimProperties
+  [JumpstartEvents.jumpstart_reclaim_failed]: JumpstartReclaimProperties
+  [JumpstartEvents.jumpstart_reclaim_succeeded]: JumpstartReclaimProperties & {
+    reclaimTxHash: string
+  }
+  [JumpstartEvents.jumpstart_reclaim_dismiss_error]: JumpstartReclaimProperties
+  [JumpstartEvents.jumpstart_reclaim_contact_support]: undefined
+  [JumpstartEvents.jumpstart_claim_status_fetch_success]: JumpstartReclaimProperties & {
+    claimed: boolean
+  }
+  [JumpstartEvents.jumpstart_claim_status_fetch_error]: JumpstartReclaimProperties
+}
+
+interface PointsEventsProperties {
+  [PointsEvents.points_screen_open]: undefined
+  [PointsEvents.points_screen_back]: undefined
+  [PointsEvents.points_screen_card_press]: {
+    activity: PointsActivity
+  }
+  [PointsEvents.points_screen_card_cta_press]: {
+    activity: PointsActivity
+  }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &
@@ -1586,6 +1620,7 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   NftsEventsProperties &
   BuilderHooksProperties &
   DappShortcutsProperties &
-  TransactionDetailsProperties
+  TransactionDetailsProperties &
+  PointsEventsProperties
 
 export type AnalyticsEventType = keyof AnalyticsPropertiesList

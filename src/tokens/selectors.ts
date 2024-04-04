@@ -90,13 +90,10 @@ export const tokensByIdSelector = createSelector(
 )
 
 export const networksIconSelector = createSelector(
-  [
-    (state: RootState, networkIds: NetworkId[]) => tokensByIdSelector(state, networkIds),
-    (_state: RootState, networkIds: NetworkId[]) => networkIds,
-  ],
-  (tokens, networkIds) => {
+  [(state: RootState) => tokensByIdSelector(state, Object.values(NetworkId))],
+  (tokens) => {
     const result: Partial<Record<NetworkId, string>> = {}
-    for (const networkId of networkIds) {
+    for (const networkId of Object.values(NetworkId)) {
       // We use as network icon the network icon of any token in that network.
       const token = Object.values(tokens).find(
         (token) => token?.networkId === networkId && token.networkIconUrl

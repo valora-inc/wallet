@@ -225,9 +225,9 @@ exports[`SendConfirmation renders correctly 1`] = `
                   style={
                     {
                       "color": "#666666",
-                      "fontFamily": "Inter-Regular",
+                      "fontFamily": "Inter-Medium",
                       "fontSize": 16,
-                      "lineHeight": 22,
+                      "lineHeight": 24,
                     }
                   }
                   testID="HeaderText"
@@ -240,7 +240,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                       "color": "#2E3338",
                       "fontFamily": "Inter-Medium",
                       "fontSize": 16,
-                      "lineHeight": 22,
+                      "lineHeight": 24,
                     }
                   }
                   testID="DisplayName"
@@ -253,8 +253,9 @@ exports[`SendConfirmation renders correctly 1`] = `
               style={
                 {
                   "color": "#2E3338",
-                  "fontFamily": "Inter-SemiBold",
+                  "fontFamily": "Inter-Bold",
                   "fontSize": 32,
+                  "letterSpacing": -0.32,
                   "lineHeight": 40,
                   "paddingVertical": 8,
                 }
@@ -371,11 +372,15 @@ exports[`SendConfirmation renders correctly 1`] = `
               [
                 {
                   "color": "#2E3338",
+                  "fontFamily": "Inter-Medium",
+                  "fontSize": 16,
+                  "lineHeight": 24,
+                },
+                {
                   "fontFamily": "Inter-Regular",
                   "fontSize": 16,
-                  "lineHeight": 22,
+                  "lineHeight": 24,
                 },
-                undefined,
               ]
             }
             testID="LineItemRowTitle/SendConfirmation/fee"
@@ -388,11 +393,15 @@ exports[`SendConfirmation renders correctly 1`] = `
             [
               {
                 "color": "#2E3338",
+                "fontFamily": "Inter-Medium",
+                "fontSize": 16,
+                "lineHeight": 24,
+              },
+              {
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
-                "lineHeight": 22,
+                "lineHeight": 24,
               },
-              undefined,
             ]
           }
           testID="LineItemRow/SendConfirmation/fee"
@@ -400,6 +409,75 @@ exports[`SendConfirmation renders correctly 1`] = `
           <Text>
             0.01
              CELO
+          </Text>
+        </Text>
+      </View>
+      <View
+        style={
+          [
+            {
+              "flexDirection": "row",
+              "flexWrap": "wrap",
+              "justifyContent": "space-between",
+              "marginVertical": 5,
+            },
+            {
+              "marginVertical": 0,
+            },
+          ]
+        }
+      >
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "marginRight": 5,
+            }
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "color": "#2E3338",
+                  "fontFamily": "Inter-Medium",
+                  "fontSize": 16,
+                  "lineHeight": 24,
+                },
+                {
+                  "color": "#666666",
+                  "fontFamily": "Inter-Medium",
+                  "fontSize": 14,
+                  "lineHeight": 20,
+                },
+              ]
+            }
+            testID="LineItemRowTitle/SendConfirmation/localFee"
+          />
+        </View>
+        <Text
+          style={
+            [
+              {
+                "color": "#2E3338",
+                "fontFamily": "Inter-Medium",
+                "fontSize": 16,
+                "lineHeight": 24,
+              },
+              {
+                "color": "#666666",
+                "fontFamily": "Inter-Medium",
+                "fontSize": 14,
+                "lineHeight": 20,
+              },
+            ]
+          }
+          testID="LineItemRow/SendConfirmation/localFee"
+        >
+          <Text>
+            ₱
+            0.067
           </Text>
         </Text>
       </View>
@@ -430,15 +508,14 @@ exports[`SendConfirmation renders correctly 1`] = `
               [
                 {
                   "color": "#2E3338",
-                  "fontFamily": "Inter-Regular",
+                  "fontFamily": "Inter-Medium",
                   "fontSize": 16,
-                  "lineHeight": 22,
+                  "lineHeight": 24,
                 },
                 {
-                  "color": "#2E3338",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
-                  "lineHeight": 22,
+                  "lineHeight": 24,
                 },
               ]
             }
@@ -452,15 +529,14 @@ exports[`SendConfirmation renders correctly 1`] = `
             [
               {
                 "color": "#2E3338",
-                "fontFamily": "Inter-Regular",
+                "fontFamily": "Inter-Medium",
                 "fontSize": 16,
-                "lineHeight": 22,
+                "lineHeight": 24,
               },
               {
-                "color": "#2E3338",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
-                "lineHeight": 22,
+                "lineHeight": 24,
               },
             ]
           }
@@ -504,15 +580,15 @@ exports[`SendConfirmation renders correctly 1`] = `
               [
                 {
                   "color": "#2E3338",
-                  "fontFamily": "Inter-Regular",
+                  "fontFamily": "Inter-Medium",
                   "fontSize": 16,
-                  "lineHeight": 22,
+                  "lineHeight": 24,
                 },
                 {
                   "color": "#666666",
-                  "fontFamily": "Inter-Regular",
+                  "fontFamily": "Inter-Medium",
                   "fontSize": 14,
-                  "lineHeight": 18,
+                  "lineHeight": 20,
                 },
               ]
             }
@@ -522,9 +598,9 @@ exports[`SendConfirmation renders correctly 1`] = `
               style={
                 {
                   "color": "#666666",
-                  "fontFamily": "Inter-Regular",
+                  "fontFamily": "Inter-Medium",
                   "fontSize": 14,
-                  "lineHeight": 18,
+                  "lineHeight": 20,
                 }
               }
               testID="TotalLineItem/ExchangeRate"
@@ -542,15 +618,15 @@ exports[`SendConfirmation renders correctly 1`] = `
             [
               {
                 "color": "#2E3338",
-                "fontFamily": "Inter-Regular",
+                "fontFamily": "Inter-Medium",
                 "fontSize": 16,
-                "lineHeight": 22,
+                "lineHeight": 24,
               },
               {
                 "color": "#666666",
-                "fontFamily": "Inter-Regular",
+                "fontFamily": "Inter-Medium",
                 "fontSize": 14,
-                "lineHeight": 18,
+                "lineHeight": 20,
               },
             ]
           }

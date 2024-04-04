@@ -14,7 +14,7 @@ import { Nft } from 'src/nfts/types'
 import { Recipient } from 'src/recipients/recipient'
 import { QrCode, TransactionDataInput } from 'src/send/types'
 import { AssetTabType } from 'src/tokens/types'
-import { NetworkId, TokenTransaction } from 'src/transactions/types'
+import { NetworkId, TokenTransaction, TokenTransfer } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { ActionRequestProps } from 'src/walletConnect/screens/ActionRequest'
@@ -54,7 +54,7 @@ export type StackParamList = {
   [Screens.BackupComplete]:
     | undefined
     | {
-        navigatedFromSettings: boolean
+        settingsScreen: Screens.Settings | Screens.SettingsDrawer | undefined
       }
   [Screens.BackupIntroduction]:
     | {
@@ -70,12 +70,12 @@ export type StackParamList = {
   [Screens.BackupPhrase]:
     | undefined
     | {
-        navigatedFromSettings: boolean
+        settingsScreen: Screens.Settings | Screens.SettingsDrawer | undefined
       }
   [Screens.BackupQuiz]:
     | undefined
     | {
-        navigatedFromSettings: boolean
+        settingsScreen: Screens.Settings | Screens.SettingsDrawer | undefined
       }
   [Screens.FiatDetailsScreen]: {
     quote: FiatConnectQuote
@@ -184,6 +184,7 @@ export type StackParamList = {
       }
     | undefined
   [Screens.Invite]: undefined
+  [Screens.InviteDrawer]: undefined
   [Screens.NameAndPicture]: undefined
   [Screens.EnableBiometry]: undefined
   [Screens.Language]:
@@ -198,6 +199,9 @@ export type StackParamList = {
     | undefined
   [Screens.Licenses]: undefined
   [Screens.LinkPhoneNumber]: undefined
+  [Screens.JumpstartTransactionDetailsScreen]: {
+    transaction: TokenTransfer
+  }
   [Screens.Main]: undefined
   [Screens.MainModal]: undefined
   [Screens.MultichainBeta]: undefined
@@ -218,6 +222,7 @@ export type StackParamList = {
         showGuidedOnboarding?: boolean
       }
     | undefined
+  [Screens.PointsHome]: undefined
   [Screens.ProtectWallet]: undefined
   [Screens.OnboardingRecoveryPhrase]: undefined
   [Screens.Profile]: undefined
@@ -265,12 +270,14 @@ export type StackParamList = {
     tokenId: string
   }
   [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
+  [Screens.SettingsDrawer]: { promptConfirmRemovalModal?: boolean } | undefined
   [Screens.SignInWithEmail]: {
     keylessBackupFlow: KeylessBackupFlow
   }
   [Screens.Spend]: undefined
   [Screens.StoreWipeRecoveryScreen]: undefined
   [Screens.Support]: undefined
+  [Screens.SupportDrawer]: {} | undefined
   [Screens.SupportContact]:
     | {
         prefilledText: string

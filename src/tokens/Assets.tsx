@@ -171,7 +171,6 @@ function AssetsScreen({ navigation, route }: Props) {
       })
   }, [navigation, isWalletTab])
 
-  // TODO(ACT-1108): adjust title style
   useScrollAwareHeader({
     navigation,
     title: isWalletTab ? t('bottomTabsNavigator.wallet.title') : t('totalAssets'),
@@ -205,9 +204,16 @@ function AssetsScreen({ navigation, route }: Props) {
   }
 
   return (
-    <>
+    // Transparency issue on Android present when a fragment is used - Nested Animated.View prevents it
+    <Animated.View>
       <Animated.View
-        style={[styles.listHeaderContainer, animatedListHeaderStyles]}
+        style={[
+          styles.listHeaderContainer,
+          animatedListHeaderStyles,
+          isWalletTab
+            ? { paddingHorizontal: Spacing.Regular16 }
+            : { paddingHorizontal: Spacing.Thick24, paddingTop: Spacing.Smallest8 },
+        ]}
         onLayout={handleMeasureListHeaderHeight}
       >
         <View
@@ -255,7 +261,7 @@ function AssetsScreen({ navigation, route }: Props) {
           />
         </Animated.View>
       )}
-    </>
+    </Animated.View>
   )
 }
 
@@ -266,8 +272,6 @@ AssetsScreen.navigationOptions = {
 const styles = StyleSheet.create({
   listHeaderContainer: {
     ...getShadowStyle(Shadow.SoftLight),
-    paddingHorizontal: Spacing.Thick24,
-    paddingTop: Spacing.Smallest8,
     paddingBottom: Spacing.Regular16,
     backgroundColor: Colors.white,
     position: 'absolute',

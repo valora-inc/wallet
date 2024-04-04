@@ -515,6 +515,7 @@
   "to": "To",
   "for": "For",
   "reclaim": "Reclaim",
+  "claimed": "Claimed",
   "celoGold": "CELO",
   "celoEuros": "Celo Euros",
   "balanceAvailable": "<0></0> available",
@@ -997,6 +998,7 @@
   "receivedFrom": "Received From",
   "commentLabel": "Message",
   "amountSent": "Amount Sent",
+  "amountReceived": "Amount Received",
   "amountCeloWithdrawn": "Amount (CELO)",
   "feeEducation": "Blockchains collect a transaction fee to keep networks supported and running smoothly.",
   "reviewPayment": "Review Payment",
@@ -1307,6 +1309,9 @@
   "feedItemGoldWithdrawal": "Withdrawal to {{displayName}}",
   "feedItemGoldReceived": "Received from {{displayName}}",
   "feedItemSwapPath": "{{token1}} to {{token2}}",
+  "feedItemJumpstartTitle": "Live Link",
+  "feedItemJumpstartSentSubtitle": "Invitation",
+  "feedItemJumpstartReceivedSubtitle": "Funds received",
   "transactionHeaderVerificationFee": "Confirmation",
   "transactionHeaderNetworkFee": "Network",
   "transactionHeaderFaucet": "Faucet",
@@ -1921,7 +1926,8 @@
       "myTokens": "My tokens",
       "popular": "Popular",
       "recentlySwapped": "Recently swapped",
-      "network": "{{networkName}} Network"
+      "network": "{{networkName}} Network",
+      "selectNetwork": "Network"
     }
   },
   "homeActions": {
@@ -2029,8 +2035,8 @@
       "subtitle": "Invite friends from your contacts list"
     },
     "jumpstart": {
-      "title": "Send with a live link",
-      "subtitle": "Copy the link and share it to send crypto just like a text"
+      "title": "Send with a Live Link",
+      "subtitle": "Share a link to send crypto like a text"
     },
     "getStarted": {
       "title": "Ways to send funds on Valora",
@@ -2084,6 +2090,8 @@
   "viewOnArbiscan": "View on Arbiscan",
   "viewOnOPMainnetExplorer": "View on OP Mainnet Explorer",
   "viewOnOPSepoliaExplorer": "View on OP Sepolia Explorer",
+  "viewOnPolygonPoSScan": "View on PolygonScan",
+  "viewOnBaseScan": "View on BaseScan",
   "sendEnterAmountScreen": {
     "title": "Enter Amount",
     "selectToken": "Select a Token",
@@ -2169,14 +2177,14 @@
       "description": "You can find your new {{rewardName}} NFT under your “Collectibles”"
     },
     "rewardBottomSheet": {
-      "title": "Free cash-ins for a month",
-      "description": "Because you own the {{nftName}} in your collectibles, we’d like to give you free cash-ins for the month of January.\n\nTo use the reward cash-in via any {{appName}} partner and the fees will be waived.",
+      "title": "Earn $5 of ETH",
+      "description": "Fund your wallet with any Ethereum token by April 4, 2024 at 12:00 PM PDT, and we'll give you $5 of ETH on April 5, 2024 by 11:59 PM PDT.\n\nThis is an exclusive offer for being an Early Ethereum Explorer.",
       "expirationLabel": "Expires {{expirationLabelText}}",
       "cta": "Use reward"
     },
     "rewardReminderBottomSheet": {
-      "title": "Free cash-ins for a month",
-      "description": "There’s only 3 days left to take advantage of free cash-ins for the month of January!\n\nTo use the reward cash-in via any {{appName}} partner and the fees will be waived.",
+      "title": "Don't miss out, earn $5 of ETH",
+      "description": "Fund your wallet with any Ethereum token by April 4, 2024 at 12:00 PM PDT, and we'll give you $5 of ETH on April 5, 2024 by 11:59 PM PDT.\n\nThis is an exclusive offer for being an Early Ethereum Explorer.",
       "expirationLabel": "Expires {{expirationLabelText}}",
       "cta": "Use reward"
     }
@@ -2199,7 +2207,8 @@
       "title": "Welcome"
     },
     "discover": {
-      "tabName": "Discover"
+      "tabName": "Discover",
+      "title": "Discover"
     }
   },
   "jumpstartStatus": {
@@ -2212,6 +2221,50 @@
       "description": "Try your live link again to attempt to receive funds, or ask your friend to try sending a new link",
       "contactSupport": "Contact Support",
       "dismiss": "Dismiss"
+    }
+  },
+  "jumpstartReclaim": {
+    "description": "Reclaiming your link incurs a network gas fee, would you like to proceed?",
+    "fetchStatusError": {
+      "title": "Oops, something went wrong",
+      "description": "We could not get the claim status of this invitation, please try again later or contact support",
+      "retryCta": "Retry"
+    },
+    "reclaimError": {
+      "title": "Unable to reclaim funds",
+      "description": "Try to reclaim again, or contact support"
+    }
+  },
+  "multiSelect": {
+    "switchNetwork": "Switch Network",
+    "allNetworks": "All Networks"
+  },
+  "points": {
+    "title": "Valora Points",
+    "activity": "Activity",
+    "infoCard": {
+      "title": "More ways to earn points coming soon 🚀",
+      "body": "We are working on adding more ways to earn points through using the app. Keep checking in for updates."
+    },
+    "activitySection": {
+      "title": "How do I earn points?",
+      "body": "It's easy! Earn points by simply using the app."
+    },
+    "activityCards": {
+      "createWallet": {
+        "title": "Create a {{appName}}  Wallet"
+      },
+      "swap": {
+        "title": "Swap assets",
+        "bottomSheet": {
+          "title": "Swap assets",
+          "body": "This space will be used to give all the details needed for this. Maybe minimum amount to swap. \n\nEarn {{pointsValue}} points whenever you swap an asset using {{appName}}.",
+          "cta": "Go to swap"
+        }
+      },
+      "moreComing": {
+        "title": "More coming soon!"
+      }
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

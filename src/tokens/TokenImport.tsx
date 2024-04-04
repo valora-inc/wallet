@@ -75,9 +75,7 @@ export default function TokenImportScreen(_: Props) {
   const walletAddress = useSelector(walletAddressSelector)
   const supportedTokens = useSelector((state) => tokensByIdSelector(state, supportedNetworkIds))
 
-  const networkIconByNetworkId = useSelector((state) =>
-    networksIconSelector(state, supportedNetworkIds)
-  )
+  const networkIconByNetworkId = useSelector(networksIconSelector)
 
   const validateAddress = (tokenAddress: string): tokenAddress is Address => {
     if (!tokenAddress || !networkId) return false
