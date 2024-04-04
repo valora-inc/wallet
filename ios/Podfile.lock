@@ -216,9 +216,9 @@ PODS:
   - GoogleUtilities/UserDefaults (7.11.5):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (3.1.1)
-  - hermes-engine (0.71.12):
-    - hermes-engine/Pre-built (= 0.71.12)
-  - hermes-engine/Pre-built (0.71.12)
+  - hermes-engine (0.71.17):
+    - hermes-engine/Pre-built (= 0.71.17)
+  - hermes-engine/Pre-built (0.71.17)
   - JWTDecode (3.0.1)
   - leveldb-library (1.22.2)
   - libevent (2.1.12)
@@ -1152,7 +1152,7 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 54dee9d48d14580407f8f5fbf2f496e92437a2f2
   GoogleUtilities: 13e2c67ede716b8741c7989e26893d151b2b2084
   GTMSessionFetcher: e8647203b65cee28c5f73d0f473d096653945e72
-  hermes-engine: b60ebc812e0179a612d8146ac54730d533c804a2
+  hermes-engine: 7d82f250301e83c48ec0857c6810283d787b61da
   JWTDecode: 2eed97c2fa46ccaf3049a787004eedf0be474a87
   leveldb-library: f03246171cce0484482ec291f88b6d563699ee06
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
