@@ -1254,7 +1254,6 @@ export const mockPositionsLegacy = [
       description: 'Farm',
       imageUrl: '',
     },
-    availableShortcutIds: ['claim-reward'],
     tokens: [
       {
         type: 'app-token',
@@ -1308,6 +1307,7 @@ export const mockPositionsLegacy = [
       },
     ],
     balanceUsd: '1.3207590254762067',
+    availableShortcutIds: ['claim-reward'],
   },
 ]
 
