@@ -2487,7 +2487,6 @@
                 }
             },
             "required": [
-                "expiry",
                 "expiryTimestamp",
                 "id",
                 "optionalNamespaces",
