@@ -522,7 +522,7 @@ PODS:
   - react-native-fast-crypto (2.0.0):
     - OpenSSL-Universal
     - React-Core
-  - react-native-flipper (0.212.0):
+  - react-native-flipper (0.127.0):
     - React-Core
   - react-native-get-random-values (1.11.0):
     - React-Core
@@ -1182,7 +1182,7 @@ SPEC CHECKSUMS:
   react-native-contacts: fd1614c74777089ebb6b0a0e3847dd78130ef9f4
   react-native-cookies: f54fcded06bb0cda05c11d86788020b43528a26c
   react-native-fast-crypto: db61bcb2d1224a180449b886f27426a67d7628c0
-  react-native-flipper: 9c1957af24b76493ba74f46d000a5c1d485e7731
+  react-native-flipper: b9e2e817604af8da0d5a9ba20a8516e780e30f3c
   react-native-get-random-values: 21325b2244dfa6b58878f51f9aa42821e7ba3d06
   react-native-in-app-review: db8bb167a5f238e7ceca5c242d6b36ce8c4404a4
   react-native-launch-arguments: 5f41e0abf88a15e3c5309b8875d6fd5ac43df49d
@@ -1247,6 +1247,6 @@ SPEC CHECKSUMS:
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   Yoga: 39310a10944fc864a7550700de349183450f8aaa
 
-PODFILE CHECKSUM: 81b64061bfc811164c7f86731fc3327e217c8ce4
+PODFILE CHECKSUM: 555c8a39872b5bcb75b1ea127d864519ca09c8ee
 
 COCOAPODS: 1.12.1
