@@ -143,6 +143,9 @@ describe(fetchShortcutsSaga, () => {
   it('fetches shortcuts successfully', async () => {
     mockFetch.mockResponse(JSON.stringify(MOCK_SHORTCUTS_RESPONSE))
     jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getDynamicConfigParams).mockReturnValue({
+      showShortcuts: ['celo-mainnet'],
+    })
 
     await expectSaga(fetchShortcutsSaga)
       .provide([
