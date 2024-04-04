@@ -1650,8 +1650,8 @@ export const migrations = {
       ...state.positions,
       shortcuts: state.positions.shortcuts.map(
         (shortcut: { networks: ('celo' | 'celoAlfajores')[] }) => ({
-          ..._.omit(shortcut, 'network'),
-          networks: shortcut.networks.map((network) =>
+          ..._.omit(shortcut, 'networks'),
+          networkIds: shortcut.networks.map((network) =>
             network === 'celo' ? 'celo-mainnet' : 'celo-alfajores'
           ),
         })

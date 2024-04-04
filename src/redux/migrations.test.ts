@@ -83,8 +83,10 @@ import {
   mockInvitableRecipient,
   mockInvitableRecipient2,
   mockPositions,
+  mockShortcuts,
   mockRecipient,
   mockRecipient2,
+  mockShortcutsLegacy,
 } from 'test/values'
 
 describe('Redux persist migrations', () => {
@@ -1578,12 +1580,16 @@ describe('Redux persist migrations', () => {
   })
 
   it('works from 203 to 204', () => {
-    const oldSchema = v203Schema
+    const oldSchema = {
+      ...v203Schema,
+      positions: { ...v203Schema.positions, shortcuts: mockShortcutsLegacy },
+    }
     const expectedSchema = _.cloneDeep(oldSchema)
     expectedSchema.positions.positions = mockPositions.map((position) => ({
       ...position,
       availableShortcutIds: [], // another migration clears these, shouldn't be relevant
     }))
+    expectedSchema.positions.shortcuts = mockShortcuts
     const migratedSchema = migrations[204](oldSchema)
 
     expect(migratedSchema).toStrictEqual(expectedSchema)

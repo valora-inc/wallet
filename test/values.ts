@@ -1163,7 +1163,7 @@ export const priceHistory = {
   prices,
 }
 
-export const mockLegacyPositions = [
+export const mockPositionsLegacy = [
   {
     type: 'app-token',
     network: 'celo',
@@ -1458,7 +1458,7 @@ export const mockShortcutsLegacy = [
   {
     category: 'claim',
     name: 'Claim',
-    networkIds: ['celo'],
+    networks: ['celo'],
     description: 'Claim rewards for staked liquidity',
     id: 'claim-reward',
     appId: 'ubeswap',
