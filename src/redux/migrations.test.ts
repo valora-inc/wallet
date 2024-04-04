@@ -1591,10 +1591,7 @@ describe('Redux persist migrations', () => {
       },
     }
     const expectedSchema = _.cloneDeep(oldSchema)
-    expectedSchema.positions.positions = mockPositions.map((position) => ({
-      ...position,
-      availableShortcutIds: [], // another migration clears these, shouldn't be relevant
-    }))
+    expectedSchema.positions.positions = mockPositions
     expectedSchema.positions.shortcuts = mockShortcuts
     const migratedSchema = migrations[204](oldSchema)
 

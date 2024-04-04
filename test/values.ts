@@ -1164,6 +1164,7 @@ export const priceHistory = {
 }
 
 export const mockPositionsLegacy = [
+  // positions before hooks API update from 4/2/2024 and wallet redux migration 204
   {
     type: 'app-token',
     network: 'celo',
@@ -1201,6 +1202,7 @@ export const mockPositionsLegacy = [
     priceUsd: '0.21097429445966362',
     balance: '11.896586737763895000',
     supply: '29726.018516587721136286',
+    availableShortcutIds: [],
   },
   {
     type: 'app-token',
@@ -1239,6 +1241,7 @@ export const mockPositionsLegacy = [
     priceUsd: '0.025500459450704928',
     balance: '160.006517430032700000',
     supply: '232.413684885485035933',
+    availableShortcutIds: [],
   },
   {
     type: 'contract-position',
@@ -1251,6 +1254,7 @@ export const mockPositionsLegacy = [
       description: 'Farm',
       imageUrl: '',
     },
+    availableShortcutIds: ['claim-reward'],
     tokens: [
       {
         type: 'app-token',
