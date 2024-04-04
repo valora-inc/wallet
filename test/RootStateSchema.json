@@ -722,6 +722,23 @@
             ],
             "type": "string"
         },
+        "ClaimActivity": {
+            "enum": [
+                "create-wallet",
+                "swap"
+            ],
+            "type": "string"
+        },
+        "ClaimHistory": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/CreateWalletClaimHistory"
+                },
+                {
+                    "$ref": "#/definitions/SwapClaimHistory"
+                }
+            ]
+        },
         "CleverTapInboxMessage": {
             "additionalProperties": false,
             "properties": {
@@ -929,6 +946,27 @@
                 "icons",
                 "name",
                 "url"
+            ],
+            "type": "object"
+        },
+        "CreateWalletClaimHistory": {
+            "additionalProperties": false,
+            "properties": {
+                "activity": {
+                    "const": "create-wallet",
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "points": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "activity",
+                "createdAt",
+                "points"
             ],
             "type": "object"
         },
@@ -2407,9 +2445,6 @@
                 "expiry": {
                     "type": "number"
                 },
-                "expiryTimestamp": {
-                    "type": "number"
-                },
                 "id": {
                     "type": "number"
                 },
@@ -2449,7 +2484,7 @@
                 }
             },
             "required": [
-                "expiryTimestamp",
+                "expiry",
                 "id",
                 "optionalNamespaces",
                 "proposer",
@@ -4224,6 +4259,38 @@
             ],
             "type": "object"
         },
+        "State_28": {
+            "additionalProperties": false,
+            "properties": {
+                "getHistoryStatus": {
+                    "enum": [
+                        "error",
+                        "idle",
+                        "loading-initial",
+                        "loading-more"
+                    ],
+                    "type": "string"
+                },
+                "nextPageUrl": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "pointsHistory": {
+                    "items": {
+                        "$ref": "#/definitions/ClaimHistory"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "getHistoryStatus",
+                "nextPageUrl",
+                "pointsHistory"
+            ],
+            "type": "object"
+        },
         "State_3": {
             "anyOf": [
                 {
@@ -4708,6 +4775,44 @@
             },
             "type": "object"
         },
+        "SwapClaimHistory": {
+            "additionalProperties": false,
+            "properties": {
+                "activity": {
+                    "const": "swap",
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "metadata": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "from": {
+                            "type": "string"
+                        },
+                        "to": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "from",
+                        "to"
+                    ],
+                    "type": "object"
+                },
+                "points": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "activity",
+                "createdAt",
+                "metadata",
+                "points"
+            ],
+            "type": "object"
+        },
         "SwapStatus": {
             "enum": [
                 "error",
@@ -5169,9 +5274,6 @@
                 "verified": {
                     "additionalProperties": false,
                     "properties": {
-                        "isScam": {
-                            "type": "boolean"
-                        },
                         "origin": {
                             "type": "string"
                         },
@@ -6026,6 +6128,9 @@
             ],
             "type": "object"
         },
+        "points": {
+            "$ref": "#/definitions/State_28"
+        },
         "positions": {
             "$ref": "#/definitions/State_23"
         },
@@ -6077,6 +6182,7 @@
         "localCurrency",
         "networkInfo",
         "nfts",
+        "points",
         "positions",
         "priceHistory",
         "recipients",

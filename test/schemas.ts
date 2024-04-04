@@ -3199,6 +3199,19 @@ export const v203Schema = {
   },
 }
 
+export const v204Schema = {
+  ...v203Schema,
+  _persist: {
+    ...v203Schema._persist,
+    version: 204,
+  },
+  points: {
+    pointsHistory: [],
+    nextPageUrl: null,
+    getHistoryStatus: 'idle',
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v203Schema as Partial<RootState>
+  return v204Schema as Partial<RootState>
 }

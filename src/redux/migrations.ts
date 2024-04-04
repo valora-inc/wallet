@@ -1644,4 +1644,5 @@ export const migrations = {
       reclaimStatus: 'idle',
     },
   }),
+  204: (state: any) => state,
 }

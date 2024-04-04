@@ -16,16 +16,22 @@ import { BottomSheetParams, PointsActivity } from 'src/points/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { PointsEvents } from 'src/analytics/Events'
 import CustomHeader from 'src/components/header/CustomHeader'
+import { useDispatch } from 'src/redux/hooks'
+import { getInitialHistoryStarted } from 'src/points/slice'
+import PointsHistoryBottomSheet from 'src/points/PointsHistoryBottomSheet'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.PointsHome>
 
 export default function PointsHome({ route, navigation }: Props) {
   const { t } = useTranslation()
 
+  const dispatch = useDispatch()
+
   // TODO: Use real points balance
   const pointsBalance = 50
 
-  const bottomSheetRef = useRef<BottomSheetRefType>(null)
+  const historyBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const activityCardBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const [bottomSheetParams, setBottomSheetParams] = useState<BottomSheetParams | undefined>(
     undefined
@@ -36,7 +42,7 @@ export default function PointsHome({ route, navigation }: Props) {
 
   useEffect(() => {
     if (bottomSheetParams) {
-      bottomSheetRef.current?.snapToIndex(0)
+      activityCardBottomSheetRef.current?.snapToIndex(0)
     }
   }, [bottomSheetParams])
 
@@ -48,6 +54,12 @@ export default function PointsHome({ route, navigation }: Props) {
       onPress()
     }
   }
+  const onPressActivity = () => {
+    ValoraAnalytics.track(PointsEvents.points_screen_activity_press)
+    dispatch(getInitialHistoryStarted())
+    historyBottomSheetRef.current?.snapToIndex(0)
+  }
+
   return (
     <SafeAreaView style={styles.outerContainer} edges={['top']}>
       <CustomHeader
@@ -55,7 +67,18 @@ export default function PointsHome({ route, navigation }: Props) {
         left={<BackButton eventName={PointsEvents.points_screen_back} />}
       />
       <ScrollView contentContainerStyle={styles.contentContainer}>
-        <Text style={styles.title}>{t('points.title')}</Text>
+        <View style={styles.titleRow}>
+          <Text style={styles.title}>{t('points.title')}</Text>
+          <Button
+            testID={'PointsActivityButton'}
+            onPress={onPressActivity}
+            text={t('points.activity')}
+            type={BtnTypes.GRAY_WITH_BORDER}
+            fontStyle={typeScale.labelXSmall}
+            size={BtnSizes.FULL}
+            touchableStyle={styles.buttonStyle}
+          />
+        </View>
         <View style={styles.balanceRow}>
           <Text style={styles.balance}>{pointsBalance}</Text>
         </View>
@@ -65,9 +88,10 @@ export default function PointsHome({ route, navigation }: Props) {
         </View>
         <ActivityCardSection onCardPress={onCardPress} />
       </ScrollView>
+      <PointsHistoryBottomSheet forwardedRef={historyBottomSheetRef} />
       <BottomSheet
         snapPoints={['50%']}
-        forwardedRef={bottomSheetRef}
+        forwardedRef={activityCardBottomSheetRef}
         testId={`PointsActivityBottomSheet`}
       >
         {bottomSheetParams && (
@@ -150,6 +174,16 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.titleMedium,
+    paddingVertical: Spacing.Smallest8,
+  },
+  titleRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  buttonStyle: {
+    height: undefined,
+    paddingHorizontal: Spacing.Small12,
     paddingVertical: Spacing.Smallest8,
   },
 })

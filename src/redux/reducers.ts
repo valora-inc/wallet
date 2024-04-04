@@ -29,6 +29,7 @@ import tokenReducer from 'src/tokens/slice'
 import { reducer as transactions } from 'src/transactions/reducer'
 import { reducer as walletConnect } from 'src/walletConnect/reducer'
 import { reducer as web3 } from 'src/web3/reducer'
+import pointsReducer from 'src/points/slice'
 
 const appReducer = combineReducers({
   app,
@@ -59,6 +60,7 @@ const appReducer = combineReducers({
   nfts: nftsReducer,
   priceHistory: priceHistoryReducer,
   jumpstart: jumpstartReducer,
+  points: pointsReducer,
 })
 
 const rootReducer = (state: RootState | undefined, action: Action): RootState => {

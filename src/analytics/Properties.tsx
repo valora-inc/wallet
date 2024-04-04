@@ -1584,6 +1584,8 @@ interface PointsEventsProperties {
   [PointsEvents.points_screen_card_cta_press]: {
     activity: PointsActivity
   }
+  [PointsEvents.points_screen_activity_press]: undefined
+  [PointsEvents.points_screen_activity_try_again_press]: undefined
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &
