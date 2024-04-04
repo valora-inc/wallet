@@ -29,7 +29,7 @@
   "dataSaver": "Économiseur de données",
   "enableDataSaver": "Activer l'Économiseur de données",
   "dataSaverDetail": "Le mode Économiseur de données vous permet de communiquer avec le réseau Celo via un nœud fiable. Vous pouvez toujours modifier ce mode dans les paramètres de l'appli.",
-  "keylessBackupSettingsTitle": "Sauvegarde de l'e-mail et du n° de téléphone",
+  "keylessBackupSettingsTitle": "Sauvegarde avec l'e-mail et téléphone",
   "keylessBackupSettingsDeleteError": "Votre sauvegarde n'a pas pu être supprimée, veuillez réessayer plus tard.",
   "setup": "Configuration",
   "restartModalSwitchOff": {
@@ -91,7 +91,7 @@
     "phoneNumber": "Numéro de téléphone",
     "setup": {
       "title": "Configurer la sauvegarde du portefeuille",
-      "description": "Vous utiliserez les éléments suivants pour configurer votre sauvegarde d'e-mail et de numéro de téléphone",
+      "description": "Vous utiliserez les éléments suivants pour configurer la sauvegarde :",
       "useRecoveryPhrase": "Utiliser une phrase de récupération",
       "reminder": "<0>N'oubliez pas</0>, cette phrase est le seul moyen d'accéder à votre portefeuille si votre appareil est perdu ou volé. Valora ne conserve pas votre adresse e-mail ou votre numéro de téléphone. Gardez-la en sécurité !"
     },
