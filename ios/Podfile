@@ -64,7 +64,10 @@ target "celo" do
         # otherwise the main app fails to link (likely due to the 2 dynamic libraries with the same name)
         # Flipper-Glog >= 0.3.7 uses a vendored dynamic library
         # See https://github.com/CocoaPods/Specs/blob/86d45638f249b0cb766c8e674a98b1b504b1ac0e/Specs/2/7/2/Flipper-Glog/0.3.7/Flipper-Glog.podspec.json#L21
-        'Flipper-Glog' => '0.3.5' 
+        'Flipper-Glog' => '0.3.5',
+        # Use a specific version of Flipper which supports the Xcode 15.3
+        # toolchain: https://github.com/facebook/flipper/commit/b3dcdb87f930dbbc9dbacb53ad60996e0111e7d8
+        'Flipper' => '0.251.0',
       }
     ),
     # An absolute path to your application root.
