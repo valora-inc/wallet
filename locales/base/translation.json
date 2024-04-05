@@ -2119,7 +2119,7 @@
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Create Live Link",
+    "title": "Create a Live Link",
     "sendAmountLabel": "Live Link Amount",
     "confirmButton": "Send and create link",
     "info": "When you create a link, funds are withdrawn from your wallet. You can reclaim the link anytime. Share links with care.",
@@ -2130,7 +2130,7 @@
     }
   },
   "jumpstartShareLinkScreen": {
-    "title": "Share Live Link",
+    "title": "Share your Live Link",
     "description": "Copy the link to send {{tokenSymbol}} via your messaging app of choice, or use the QR code.",
     "linkLabel": "Live Link",
     "linkCopiedMessage": "Live Link copied",
