@@ -2034,7 +2034,7 @@
     },
     "invite": {
       "title": "Send crypto to your friends",
-      "subtitle": "Invite friends from your contacts list"
+      "subtitle": "Send funds or an invite to your contacts"
     },
     "jumpstart": {
       "title": "Send with a Live Link",
@@ -2140,7 +2140,7 @@
       "ctaNavigate": "Go Home"
     },
     "ctaShare": "Share Link",
-    "ctaScanQRCode": "Scan QR Code",
+    "ctaScanQRCode": "Show QR Code",
     "shareMessage": "Hi! I’m sending you a link funded with {{tokenAmount}} {{tokenSymbol}} on {{appName}}. Use this link to download the app and the funds will be live, waiting for you. {{link}}",
     "qrCodeBottomSheet": {
       "title": "Scan the code to receive funds",
