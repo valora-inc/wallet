@@ -2032,7 +2032,7 @@
     },
     "invite": {
       "title": "Arkadaşlarınıza kripto gönderin",
-      "subtitle": "Kişi listenizden arkadaşlarınızı davet edin"
+      "subtitle": "Kişilerinize fon veya davetiye gönderin"
     },
     "jumpstart": {
       "title": "Canlı Bağlantı ile Gönder",
@@ -2138,7 +2138,7 @@
       "ctaNavigate": "Ana Sayfaya git"
     },
     "ctaShare": "Bağlantı Paylaş",
-    "ctaScanQRCode": "Kare kodu tara",
+    "ctaScanQRCode": "QR Kodunu Göster",
     "shareMessage": "Merhaba! Size {{appName}} uygulamasında {{tokenAmount}} {{tokenSymbol}} fon içeren bir bağlantı gönderiyorum. Uygulamayı indirmek için bu bağlantıyı kullanın ve fonlar canlı olarak sizi bekliyor olacak. {{link}}",
     "qrCodeBottomSheet": {
       "title": "Fonları almak için kodu tarayın",
