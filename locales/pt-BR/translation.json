@@ -2117,7 +2117,7 @@
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Criar link ativo",
+    "title": "Criar um link ao vivo",
     "sendAmountLabel": "Quantia do link ativo",
     "confirmButton": "Enviar e criar link",
     "info": "Ao criar um link, os fundos são retirados de sua carteira. Você pode recuperar o link a qualquer momento. Compartilhe links com cuidado.",
@@ -2128,7 +2128,7 @@
     }
   },
   "jumpstartShareLinkScreen": {
-    "title": "Compartilhar link ativo",
+    "title": "Compartilhe seu Live Link",
     "description": "Copie o link para enviar {{tokenSymbol}} pelo aplicativo de mensagens de sua preferência ou use o código QR.",
     "linkLabel": "Link ativo",
     "linkCopiedMessage": "Link ativo copiado",
