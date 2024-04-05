@@ -29,7 +29,7 @@
   "dataSaver": "Économiseur de données",
   "enableDataSaver": "Activer l'Économiseur de données",
   "dataSaverDetail": "Le mode Économiseur de données vous permet de communiquer avec le réseau Celo via un nœud fiable. Vous pouvez toujours modifier ce mode dans les paramètres de l'appli.",
-  "keylessBackupSettingsTitle": "Sauvegarde de l'e-mail et du n° de téléphone",
+  "keylessBackupSettingsTitle": "Sauvegarde avec l'e-mail et téléphone",
   "keylessBackupSettingsDeleteError": "Votre sauvegarde n'a pas pu être supprimée, veuillez réessayer plus tard.",
   "setup": "Configuration",
   "restartModalSwitchOff": {
@@ -91,7 +91,7 @@
     "phoneNumber": "Numéro de téléphone",
     "setup": {
       "title": "Configurer la sauvegarde du portefeuille",
-      "description": "Vous utiliserez les éléments suivants pour configurer votre sauvegarde d'e-mail et de numéro de téléphone",
+      "description": "Vous utiliserez les éléments suivants pour configurer la sauvegarde :",
       "useRecoveryPhrase": "Utiliser une phrase de récupération",
       "reminder": "<0>N'oubliez pas</0>, cette phrase est le seul moyen d'accéder à votre portefeuille si votre appareil est perdu ou volé. Valora ne conserve pas votre adresse e-mail ou votre numéro de téléphone. Gardez-la en sécurité !"
     },
@@ -677,7 +677,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Invitez des amis pour être récompensé",
-    "body": "Une fois que votre contact aura paramétré son compte et ajouté des fonds à son portefeuille {{appName}} , vous recevrez tous les deux 0,50 cUSD."
+    "body": "Une fois que votre contact aura paramétré son compte et ajouté 5 USD à son portefeuille {{appName}} , vous recevrez tous les deux 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Invitez des amis",
@@ -692,7 +692,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "DURÉE LIMITÉE. Recevez des cUSD en invitant des amis sur Valora !",
-      "body": "Les récompenses de parrainage sont de retour et plus simples que jamais. Recevez 0,50 cUSD pour chaque ami que vous invitez sur {{appName}}. Une fois que votre ami aura ajouté et conservé des fonds pendant 7 jours, vous recevrez tous les deux 0,50 cUSD. Dépêchez-vous, les fonds sont limités ! (Limite de 25 amis)."
+      "body": "Recevez 0,50 cUSD pour chaque ami que vous invitez sur {{appName}}. Une fois que votre ami aura ajouté 5 dollars en cUSD, cEUR, cREAL, USDC ou USDT sur Celo et conservé des fonds pendant 7 jours, vous recevrez tous les deux 0,50 cUSD. Dépêchez-vous, les fonds sont limités !"
     }
   },
   "getReward": "Obtenez {{reward}}$",
@@ -2035,7 +2035,7 @@
       "subtitle": "Invitez des amis de votre liste de contacts"
     },
     "jumpstart": {
-      "title": "Envoyer avec un lien en direct",
+      "title": "Envoyer avec un lien direct",
       "subtitle": "Partage un lien pour envoyer de la crypto comme un texte"
     },
     "getStarted": {
@@ -2177,14 +2177,14 @@
       "description": "Vous pouvez trouver votre nouveau NFT {{rewardName}} dans votre \"Collection\""
     },
     "rewardBottomSheet": {
-      "title": "Gagne 5 $ d'ETH",
-      "description": "Approvisionne ton portefeuille avec n'importe quel jeton Ethereum avant le 4 avril 2024 à 12:00 PM PDT, et nous te donnerons 5 $ d'ETH le 5 avril 2024 à 23:59 PM PDT.\n\nIl s'agit d'une offre exclusive pour avoir été un explorateur précoce d'Ethereum.",
+      "title": "Gagnez 5 $ d'ETH",
+      "description": "Financez votre portefeuille avec n'importe quel jeton Ethereum d'ici le 4 avril 2024 à 12h00 PDT, et nous vous donnerons 5$ d'ETH le 5 avril 2024 avant 23h59 PM PDT.\n\nCeci est une offre exclusive pour être un Explorateur Ethereum précoce.",
       "expirationLabel": "Expire le {{expirationLabelText}}",
       "cta": "Utiliser la récompense"
     },
     "rewardReminderBottomSheet": {
-      "title": "Ne rate pas l'occasion, gagne 5 $ d'ETH",
-      "description": "Approvisionne ton portefeuille avec n'importe quel jeton Ethereum avant le 4 avril 2024 à 12:00 PM PDT, et nous te donnerons 5 $ d'ETH le 5 avril 2024 à 23:59 PM PDT.\n\nIl s'agit d'une offre exclusive pour avoir été un explorateur précoce d'Ethereum.",
+      "title": "Gagnez 5$ d'ETH",
+      "description": "Financez votre portefeuille avec n'importe quel jeton Ethereum d'ici le 4 avril 2024 à 12h00 PDT, et nous vous donnerons 5$ d'ETH le 5 avril 2024 avant 23h59 PM PDT.\n\nCeci est une offre exclusive pour être un Explorateur Ethereum précoce.",
       "expirationLabel": "Expire le {{expirationLabelText}}",
       "cta": "Utiliser la récompense"
     }
