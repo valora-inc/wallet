@@ -2032,7 +2032,7 @@
     },
     "invite": {
       "title": "Envoyez des crypto à vos amis",
-      "subtitle": "Invitez des amis de votre liste de contacts"
+      "subtitle": "Envoie des fonds ou une invitation à tes contacts"
     },
     "jumpstart": {
       "title": "Envoyer avec un lien direct",
@@ -2138,7 +2138,7 @@
       "ctaNavigate": "Retour à la page d'accueil"
     },
     "ctaShare": "Partager le lien",
-    "ctaScanQRCode": "Scanner le QR Code",
+    "ctaScanQRCode": "Afficher le code QR",
     "shareMessage": "Bonjour ! Je vous envoie un lien contenant {{tokenAmount}} {{tokenSymbol}} sur {{appName}}. Utilisez ce lien pour télécharger l'application et les fonds vous seront transférés directement, sans aucune attente. {{link}}",
     "qrCodeBottomSheet": {
       "title": "Scannez le code pour recevoir des fonds",
