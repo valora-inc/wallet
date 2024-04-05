@@ -2121,7 +2121,7 @@
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Utwórz aktywny link",
+    "title": "Utwórz łącze na żywo",
     "sendAmountLabel": "Kwota w ramach aktywnego linku",
     "confirmButton": "Wyślij i utwórz link",
     "info": "Kiedy tworzysz link, środki są pobierane z Twojego portfela. Możesz odzyskać link w dowolnym momencie. Udostępniaj linki ostrożnie.",
@@ -2132,7 +2132,7 @@
     }
   },
   "jumpstartShareLinkScreen": {
-    "title": "Udostępnij aktywny link",
+    "title": "Udostępnij swój link na żywo",
     "description": "Skopiuj link, aby wysłać {{tokenSymbol}} za pośrednictwem wybranej aplikacji do przesyłania wiadomości, lub użyj kodu QR.",
     "linkLabel": "Aktywny link",
     "linkCopiedMessage": "Skopiowano aktywny link",
