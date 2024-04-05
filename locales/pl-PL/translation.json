@@ -2036,7 +2036,7 @@
     },
     "invite": {
       "title": "Wyślij kryptowalutę do znajomego",
-      "subtitle": "Zaproś znajomych z listy kontaktów"
+      "subtitle": "Wyślij środki lub zaproszenie do swoich kontaktów"
     },
     "jumpstart": {
       "title": "Wyślij za pomocą łącza na żywo",
@@ -2142,7 +2142,7 @@
       "ctaNavigate": "Przejdź do strony głównej"
     },
     "ctaShare": "Udostępnij link",
-    "ctaScanQRCode": "Zeskanuj kod QR",
+    "ctaScanQRCode": "Pokaż kod QR",
     "shareMessage": "Cześć! Wysyłam Ci link zasilony przez {{tokenAmount}} {{tokenSymbol}} na {{appName}}. Użyj tego linku, aby pobrać aplikację, a środki staną się aktywne i będą czekać na Ciebie. {{link}}",
     "qrCodeBottomSheet": {
       "title": "Zeskanuj kod, aby otrzymać środki",
