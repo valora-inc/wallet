@@ -2115,7 +2115,7 @@
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "สร้างลิงก์สด",
+    "title": "Create a Live Link",
     "sendAmountLabel": "จำนวนลิงก์สด",
     "confirmButton": "ส่งและสร้างลิงก์",
     "info": "เมื่อคุณสร้างลิงก์ เงินทุนจะถูกถอนออกจากกระเป๋าเงินของคุณ คุณสามารถเรียกคืนลิงก์ได้ตลอดเวลา โปรดแชร์ลิงก์ด้วยความระมัดระวัง",
@@ -2126,7 +2126,7 @@
     }
   },
   "jumpstartShareLinkScreen": {
-    "title": "แชร์ลิงก์สด",
+    "title": "Share your Live Link",
     "description": "คัดลอกลิงก์เพื่อส่ง {{tokenSymbol}} ผ่านแอปส่งข้อความที่คุณเลือก หรือใช้ QR Code",
     "linkLabel": "ลิงก์สด",
     "linkCopiedMessage": "คัดลอกลิงก์สดแล้ว",
