@@ -2030,7 +2030,7 @@
     },
     "invite": {
       "title": "ส่งคริปโตให้เพื่อนของคุณ",
-      "subtitle": "เชิญเพื่อนจากรายชื่อผู้ติดต่อของคุณ"
+      "subtitle": "Send funds or an invite to your contacts"
     },
     "jumpstart": {
       "title": "Send with a Live Link",
@@ -2115,7 +2115,7 @@
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "สร้างลิงก์สด",
+    "title": "Create a Live Link",
     "sendAmountLabel": "จำนวนลิงก์สด",
     "confirmButton": "ส่งและสร้างลิงก์",
     "info": "เมื่อคุณสร้างลิงก์ เงินทุนจะถูกถอนออกจากกระเป๋าเงินของคุณ คุณสามารถเรียกคืนลิงก์ได้ตลอดเวลา โปรดแชร์ลิงก์ด้วยความระมัดระวัง",
@@ -2126,7 +2126,7 @@
     }
   },
   "jumpstartShareLinkScreen": {
-    "title": "แชร์ลิงก์สด",
+    "title": "Share your Live Link",
     "description": "คัดลอกลิงก์เพื่อส่ง {{tokenSymbol}} ผ่านแอปส่งข้อความที่คุณเลือก หรือใช้ QR Code",
     "linkLabel": "ลิงก์สด",
     "linkCopiedMessage": "คัดลอกลิงก์สดแล้ว",
@@ -2136,7 +2136,7 @@
       "ctaNavigate": "ไปหน้าหลัก"
     },
     "ctaShare": "แชร์ลิงก์",
-    "ctaScanQRCode": "สแกน QR Code",
+    "ctaScanQRCode": "Show QR Code",
     "shareMessage": "สวัสดี! ฉันส่งลิงก์ที่มีเงินทุนจำนวน {{tokenAmount}} {{tokenSymbol}} ใน {{appName}} ให้กับคุณ ใช้ลิงก์นี้เพื่อดาวน์โหลดแอป แล้วเงินทุนจะรอคุณอยู่ {{link}}",
     "qrCodeBottomSheet": {
       "title": "สแกนโค้ดเพื่อรับเงินทุน",

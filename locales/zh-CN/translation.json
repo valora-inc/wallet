@@ -2030,7 +2030,7 @@
     },
     "invite": {
       "title": "向朋友发送加密货币",
-      "subtitle": "从联系人列表中邀请朋友"
+      "subtitle": "向联系人发送资金或邀请"
     },
     "jumpstart": {
       "title": "通过实时链接发送",
@@ -2126,7 +2126,7 @@
     }
   },
   "jumpstartShareLinkScreen": {
-    "title": "共享实时链接",
+    "title": "分享您的实时链接",
     "description": "复制链接，通过您选择的消息应用程序发送 {{tokenSymbol}} ，或使用二维码。",
     "linkLabel": "实时链接",
     "linkCopiedMessage": "复制的实时链接",
@@ -2136,7 +2136,7 @@
       "ctaNavigate": "返回主页"
     },
     "ctaShare": "共享链接",
-    "ctaScanQRCode": "扫描二维码",
+    "ctaScanQRCode": "显示 QR 码",
     "shareMessage": "你好！我给您发了一个链接，资金来自 {{tokenAmount}} {{tokenSymbol}} ，网址是 {{appName}}。使用此链接下载应用程序，资金就会到账，等着您。 {{link}}",
     "qrCodeBottomSheet": {
       "title": "扫描代码接收资金",
