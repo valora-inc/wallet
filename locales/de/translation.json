@@ -2117,7 +2117,7 @@
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Live-Link erstellen",
+    "title": "Einen Live-Link erstellen",
     "sendAmountLabel": "Betrag des Live-Links",
     "confirmButton": "Link senden und erstellen",
     "info": "Wenn du einen Link erstellst, wird Guthaben von deiner Wallet abgehoben. Du kannst den Link jederzeit zurückfordern. Teile Links mit Bedacht.",
@@ -2128,7 +2128,7 @@
     }
   },
   "jumpstartShareLinkScreen": {
-    "title": "Live-Link teilen",
+    "title": "Teile deinen Live Link",
     "description": "Kopiere den Link, um {{tokenSymbol}} über die Messaging-App deiner Wahl zu senden, oder verwende den QR-Code.",
     "linkLabel": "Live-Link",
     "linkCopiedMessage": "Live-Link kopiert",
