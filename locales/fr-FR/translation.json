@@ -2117,7 +2117,7 @@
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Créer un lien direct",
+    "title": "Créer un lien en direct",
     "sendAmountLabel": "Montant du lien direct",
     "confirmButton": "Envoyer et créer un lien",
     "info": "Lorsque vous créez un lien, les fonds sont retirés de votre portefeuille. Vous pouvez récupérer le lien à tout moment. Partagez les liens avec précaution.",
@@ -2128,7 +2128,7 @@
     }
   },
   "jumpstartShareLinkScreen": {
-    "title": "Partager le lien direct",
+    "title": "Partage ton lien en direct",
     "description": "Copiez le lien pour envoyer {{tokenSymbol}} via l'application de messagerie de votre choix, ou utilisez le QR code.",
     "linkLabel": "Lien direct",
     "linkCopiedMessage": "Lien direct copié",
