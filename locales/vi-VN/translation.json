@@ -2030,7 +2030,7 @@
     },
     "invite": {
       "title": "Gửi tiền điện tử cho bạn bè",
-      "subtitle": "Mời bạn bè từ danh bạ"
+      "subtitle": "Send funds or an invite to your contacts"
     },
     "jumpstart": {
       "title": "Send with a Live Link",
@@ -2136,7 +2136,7 @@
       "ctaNavigate": "Đi đến Trang chủ"
     },
     "ctaShare": "Chia sẻ đường liên kết",
-    "ctaScanQRCode": "Quét mã QR",
+    "ctaScanQRCode": "Show QR Code",
     "shareMessage": "Xin chào! Tôi đang gửi cho bạn một đường liên kết được nạp tiền bằng {{tokenAmount}} {{tokenSymbol}} trên {{appName}}. Hãy sử dụng đường liên kết này để tải xuống ứng dụng và số tiền sẽ sẵn sàng chờ bạn sử dụng. {{link}}",
     "qrCodeBottomSheet": {
       "title": "Quét mã để nhận tiền",
