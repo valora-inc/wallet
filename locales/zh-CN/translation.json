@@ -2126,7 +2126,7 @@
     }
   },
   "jumpstartShareLinkScreen": {
-    "title": "共享实时链接",
+    "title": "分享您的实时链接",
     "description": "复制链接，通过您选择的消息应用程序发送 {{tokenSymbol}} ，或使用二维码。",
     "linkLabel": "实时链接",
     "linkCopiedMessage": "复制的实时链接",
