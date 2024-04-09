@@ -2032,7 +2032,7 @@
     },
     "invite": {
       "title": "Envoyez des crypto à vos amis",
-      "subtitle": "Invitez des amis de votre liste de contacts"
+      "subtitle": "Envoie des fonds ou une invitation à tes contacts"
     },
     "jumpstart": {
       "title": "Envoyer avec un lien direct",
@@ -2117,7 +2117,7 @@
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Créer un lien direct",
+    "title": "Créer un lien en direct",
     "sendAmountLabel": "Montant du lien direct",
     "confirmButton": "Envoyer et créer un lien",
     "info": "Lorsque vous créez un lien, les fonds sont retirés de votre portefeuille. Vous pouvez récupérer le lien à tout moment. Partagez les liens avec précaution.",
@@ -2128,7 +2128,7 @@
     }
   },
   "jumpstartShareLinkScreen": {
-    "title": "Partager le lien direct",
+    "title": "Partage ton lien en direct",
     "description": "Copiez le lien pour envoyer {{tokenSymbol}} via l'application de messagerie de votre choix, ou utilisez le QR code.",
     "linkLabel": "Lien direct",
     "linkCopiedMessage": "Lien direct copié",
@@ -2138,7 +2138,7 @@
       "ctaNavigate": "Retour à la page d'accueil"
     },
     "ctaShare": "Partager le lien",
-    "ctaScanQRCode": "Scanner le QR Code",
+    "ctaScanQRCode": "Afficher le code QR",
     "shareMessage": "Bonjour ! Je vous envoie un lien contenant {{tokenAmount}} {{tokenSymbol}} sur {{appName}}. Utilisez ce lien pour télécharger l'application et les fonds vous seront transférés directement, sans aucune attente. {{link}}",
     "qrCodeBottomSheet": {
       "title": "Scannez le code pour recevoir des fonds",

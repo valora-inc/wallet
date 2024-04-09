@@ -2032,7 +2032,7 @@
     },
     "invite": {
       "title": "Envía cripto a tus amigos",
-      "subtitle": "Invita a amigos de tu lista de contactos"
+      "subtitle": "Envía fondos o una invitación a tus contactos"
     },
     "jumpstart": {
       "title": "Enviar con un enlace en directo",
@@ -2117,7 +2117,7 @@
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Crear enlace activo",
+    "title": "Crear un enlace en directo",
     "sendAmountLabel": "Monto del enlace activo",
     "confirmButton": "Enviar y crear enlace",
     "info": "Cuando creas un enlace, los fondos se retiran de tu billetera. Puedes recuperar el enlace en cualquier momento. Comparte enlaces con cuidado.",
@@ -2128,7 +2128,7 @@
     }
   },
   "jumpstartShareLinkScreen": {
-    "title": "Compartir enlace activo",
+    "title": "Comparte tu enlace en directo",
     "description": "Copia el enlace para enviar {{tokenSymbol}} a través de la app de mensajería que prefieras, o usa el código QR.",
     "linkLabel": "Enlace activo",
     "linkCopiedMessage": "Enlace activo copiado",
@@ -2138,7 +2138,7 @@
       "ctaNavigate": "Volver a inicio"
     },
     "ctaShare": "Compartir enlace",
-    "ctaScanQRCode": "Escanear código QR",
+    "ctaScanQRCode": "Mostrar código QR",
     "shareMessage": "¡Hola! Te envío un enlace financiado con {{tokenAmount}} {{tokenSymbol}} en {{appName}}. Utiliza este enlace para descargar la aplicación y los fondos estarán activos, esperándote. {{link}}",
     "qrCodeBottomSheet": {
       "title": "Escanea el código para recibir fondos",
