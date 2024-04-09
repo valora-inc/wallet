@@ -116,12 +116,12 @@ function EnterAmount({
   const { t } = useTranslation()
 
   const tokenAmountInputRef = useRef<RNTextInput>(null)
-  const fiatAmountInputRef = useRef<RNTextInput>(null)
+  const localAmountInputRef = useRef<RNTextInput>(null)
   const tokenBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const [token, setToken] = useState<TokenBalance>(() => defaultToken ?? tokens[0])
-  const [tokenInputAmount, setTokenInputAmount] = useState<string>('')
-  const [localInputAmount, setLocalInputAmount] = useState<string>('')
+  const [tokenAmountInput, setTokenAmountInput] = useState<string>('')
+  const [localAmountInput, setLocalAmountInput] = useState<string>('')
   const [inputType, setInputType] = useState<'token' | 'local'>('token')
   // this should never be null, just adding a default to make TS happy
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
@@ -145,10 +145,10 @@ function EnterAmount({
     // eventually we may want to do something smarter here, like subtracting gas fees from the max amount if
     // this is a gas-paying token. for now, we are just showing a warning to the user prompting them to lower the amount
     // if there is not enough for gas
-    setTokenInputAmount(token.balance.toString())
+    setTokenAmountInput(token.balance.toString())
     setInputType('token')
     tokenAmountInputRef.current?.blur()
-    fiatAmountInputRef.current?.blur()
+    localAmountInputRef.current?.blur()
     ValoraAnalytics.track(SendEvents.max_pressed, {
       tokenId: token.tokenId,
       tokenAddress: token.address,
@@ -158,12 +158,12 @@ function EnterAmount({
 
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
   const parsedTokenAmount = useMemo(
-    () => parseInputAmount(tokenInputAmount, decimalSeparator),
-    [tokenInputAmount]
+    () => parseInputAmount(tokenAmountInput, decimalSeparator),
+    [tokenAmountInput]
   )
   const parsedLocalAmount = useMemo(
-    () => parseInputAmount(localInputAmount.replace(/[^0-9.,]/g, ''), decimalSeparator),
-    [localInputAmount]
+    () => parseInputAmount(localAmountInput.replace(/[^0-9.,]/g, ''), decimalSeparator),
+    [localAmountInput]
   )
 
   const tokenToLocal = useTokenToLocalAmount(parsedTokenAmount, token.tokenId)
@@ -173,7 +173,7 @@ function EnterAmount({
       return {
         tokenAmount: parsedTokenAmount,
         localAmount: tokenToLocal,
-        tokenAmountDisplay: tokenInputAmount,
+        tokenAmountDisplay: tokenAmountInput,
         localAmountDisplay:
           tokenToLocal && tokenToLocal.gt(0)
             ? `${localCurrencySymbol}${tokenToLocal.toFormat(2)}` // automatically adds grouping separators
@@ -183,13 +183,17 @@ function EnterAmount({
       return {
         tokenAmount: localToToken,
         localAmount: parsedLocalAmount,
-        tokenAmountDisplay: localToToken && localToToken.gt(0) ? localToToken.toString() : '',
+        tokenAmountDisplay:
+          localToToken && localToToken.gt(0)
+            ? // no group separator for token amount
+              localToToken.toFormat({ groupSeparator: '', decimalSeparator })
+            : '',
         // add grouping separators manually, using toFormat would add decimal
         // places, which we don't want when the user enters local amount
-        localAmountDisplay: localInputAmount.replace(/\B(?=(\d{3})+(?!\d))/g, groupingSeparator),
+        localAmountDisplay: localAmountInput.replace(/\B(?=(\d{3})+(?!\d))/g, groupingSeparator),
       }
     }
-  }, [tokenInputAmount, localInputAmount, inputType])
+  }, [tokenAmountInput, localAmountInput, inputType])
 
   const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
@@ -242,13 +246,13 @@ function EnterAmount({
   const onTokenAmountInputChange = (value: string) => {
     setInputType('token')
     if (!value) {
-      setTokenInputAmount('')
+      setTokenAmountInput('')
     } else {
       if (value.startsWith(decimalSeparator)) {
         value = `0${value}`
       }
       // only allow numbers and one decimal separator
-      setTokenInputAmount((prev) => value.match(/^(?:\d+[.,]?\d*|[.,]\d*|[.,])$/)?.join('') ?? prev)
+      setTokenAmountInput((prev) => value.match(/^(?:\d+[.,]?\d*|[.,]\d*|[.,])$/)?.join('') ?? prev)
     }
   }
 
@@ -260,12 +264,12 @@ function EnterAmount({
     }
     value = value.replaceAll(groupingSeparator, '')
     if (!value) {
-      setLocalInputAmount('')
+      setLocalAmountInput('')
     } else {
       if (value.startsWith(decimalSeparator)) {
         value = `0${value}`
       }
-      setLocalInputAmount((prev) =>
+      setLocalAmountInput((prev) =>
         // only allow numbers, one decimal separator, and two decimal places
         value.match(/^(\d+([.,])?\d{0,2}|[.,]\d{0,2}|[.,])$/)
           ? `${localCurrencySymbol}${value}`
@@ -288,7 +292,8 @@ function EnterAmount({
                 onInputChange={onTokenAmountInputChange}
                 inputStyle={[styles.inputText, showLowerAmountError && { color: Colors.error }]}
                 autoFocus
-                placeholder={new BigNumber(0).toFixed(2)}
+                placeholder={new BigNumber(0).toFormat(2)}
+                testID="SendEnterAmount/TokenAmountInput"
               />
               <Touchable
                 borderRadius={TOKEN_SELECTOR_BORDER_RADIUS}
@@ -313,9 +318,10 @@ function EnterAmount({
               <AmountInput
                 inputValue={localAmountDisplay}
                 onInputChange={onLocalAmountInputChange}
-                inputRef={fiatAmountInputRef}
+                inputRef={localAmountInputRef}
                 inputStyle={styles.localAmount}
                 placeholder={`${localCurrencySymbol}${new BigNumber(0).toFormat(2)}`}
+                testID="SendEnterAmount/LocalAmountInput"
               />
               <Touchable
                 borderRadius={MAX_BORDER_RADIUS}
@@ -398,22 +404,23 @@ function EnterAmount({
   )
 }
 
+// TODO(satish): Reuse this with SwapAmountInput
 function AmountInput({
   inputValue,
   onInputChange,
   inputRef,
   inputStyle,
   autoFocus,
-  loading,
   placeholder = '0',
+  testID = 'AmountInput',
 }: {
   inputValue: string
   onInputChange(value: string): void
   inputRef: React.MutableRefObject<RNTextInput | null>
   inputStyle?: StyleProp<TextStyle>
   autoFocus?: boolean
-  loading?: boolean
   placeholder?: string
+  testID?: string
 }) {
   // the startPosition and inputRef variables exist to ensure TextInput
   // displays the start of the value for long values on Android
@@ -436,8 +443,6 @@ function AmountInput({
         }}
         value={inputValue || undefined}
         placeholder={placeholder}
-        // hide input when loading so that the value is not visible under the loader
-        style={{ opacity: loading ? 0 : 1 }}
         keyboardType="decimal-pad"
         // Work around for RN issue with Samsung keyboards
         // https://github.com/facebook/react-native/issues/22005
@@ -447,7 +452,7 @@ function AmountInput({
         // android, ellipses doesn't work and unsetting line height causes
         // height changes when amount is entered
         inputStyle={[inputStyle, Platform.select({ ios: { lineHeight: undefined } })]}
-        testID="SendEnterAmount/Input"
+        testID={testID}
         onBlur={() => {
           handleSetStartPosition(0)
         }}
@@ -463,18 +468,6 @@ function AmountInput({
             : undefined
         }
       />
-      {loading && (
-        <View style={[styles.loaderContainer, { paddingVertical: Spacing.Small12 }]}>
-          <SkeletonPlaceholder
-            borderRadius={100} // ensure rounded corners with font scaling
-            backgroundColor={Colors.gray2}
-            highlightColor={Colors.white}
-            testID="SwapAmountInput/Loader"
-          >
-            <View style={styles.amountLoader} />
-          </SkeletonPlaceholder>
-        </View>
-      )}
     </View>
   )
 }
@@ -599,17 +592,6 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.Regular16,
     paddingHorizontal: Spacing.Regular16,
     borderRadius: 16,
-  },
-  loaderContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-  },
-  amountLoader: {
-    height: '100%',
-    width: '40%',
   },
 })
 

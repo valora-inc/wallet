@@ -136,8 +136,8 @@ describe('EnterAmount', () => {
       </Provider>
     )
 
-    expect(getByTestId('SendEnterAmount/Input')).toBeTruthy()
-    expect(getByTestId('SendEnterAmount/LocalAmount')).toHaveTextContent('₱0.00')
+    expect(getByTestId('SendEnterAmount/TokenAmountInput')).toBeTruthy()
+    expect(getByTestId('SendEnterAmount/LocalAmountInput')).toBeTruthy()
     expect(getByTestId('SendEnterAmount/Max')).toBeTruthy()
     expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('POOF')
     expect(
@@ -165,70 +165,100 @@ describe('EnterAmount', () => {
     expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
   })
 
-  it('entering amount updates local amount', () => {
-    const store = createMockStore(mockStore)
-
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <EnterAmount {...defaultParams} />
-      </Provider>
-    )
-
-    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '10000.5')
-    expect(getByTestId('SendEnterAmount/LocalAmount')).toHaveTextContent('₱1,330.07')
-  })
-
-  it('entering amount with comma as decimal separator updates local amount', () => {
-    jest
-      .mocked(getNumberFormatSettings)
-      .mockReturnValue({ decimalSeparator: ',', groupingSeparator: '.' })
-    BigNumber.config({
-      FORMAT: {
-        decimalSeparator: ',',
-        groupSeparator: '.',
-        groupSize: 3,
-      },
+  describe.each([
+    { decimal: '.', group: ',' },
+    { decimal: ',', group: '.' },
+  ])('with decimal separator "$decimal" and group separator "$group"', ({ decimal, group }) => {
+    beforeEach(() => {
+      jest
+        .mocked(getNumberFormatSettings)
+        .mockReturnValue({ decimalSeparator: decimal, groupingSeparator: group })
+      BigNumber.config({
+        FORMAT: {
+          decimalSeparator: decimal,
+          groupSeparator: group,
+          groupSize: 3,
+        },
+      })
     })
-    const store = createMockStore(mockStore)
 
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <EnterAmount {...defaultParams} />
-      </Provider>
-    )
+    it('entering one amount updates the other amount', () => {
+      const store = createMockStore(mockStore)
 
-    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '10000,5')
-    expect(getByTestId('SendEnterAmount/LocalAmount')).toHaveTextContent('₱1.330,07')
-  })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <EnterAmount {...defaultParams} />
+        </Provider>
+      )
 
-  it('only allows numeric input', () => {
-    const store = createMockStore(mockStore)
+      fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), `10000${decimal}5`)
+      expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe(
+        `₱1${group}330${decimal}07`
+      )
+      fireEvent.changeText(getByTestId('SendEnterAmount/LocalAmountInput'), `1000${decimal}5`)
+      expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe(
+        `7522${decimal}5563909774436090226`
+      )
+    })
 
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <EnterAmount {...defaultParams} />
-      </Provider>
-    )
+    it('only allows numeric input for token amount', () => {
+      const store = createMockStore(mockStore)
 
-    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '10.5')
-    expect(getByTestId('SendEnterAmount/Input').props.value).toBe('10.5')
-    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '10.5.1')
-    expect(getByTestId('SendEnterAmount/Input').props.value).toBe('10.5')
-    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), 'abc')
-    expect(getByTestId('SendEnterAmount/Input').props.value).toBe('10.5')
-  })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <EnterAmount {...defaultParams} />
+        </Provider>
+      )
 
-  it('starting with decimal separator prefixes 0', () => {
-    const store = createMockStore(mockStore)
+      fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), `10${decimal}5`)
+      expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe(`10${decimal}5`)
+      fireEvent.changeText(
+        getByTestId('SendEnterAmount/TokenAmountInput'),
+        `10${decimal}5${decimal}1`
+      )
+      expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe(`10${decimal}5`)
+      fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), 'abc')
+      expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe(`10${decimal}5`)
+    })
 
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <EnterAmount {...defaultParams} />
-      </Provider>
-    )
+    it('starting with decimal separator prefixes 0 for token amount', () => {
+      const store = createMockStore(mockStore)
 
-    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '.25')
-    expect(getByTestId('SendEnterAmount/Input').props.value).toBe('0.25')
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <EnterAmount {...defaultParams} />
+        </Provider>
+      )
+
+      fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), `${decimal}25`)
+      expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe(`0${decimal}25`)
+    })
+
+    it('formats local amount input correctly', () => {
+      const store = createMockStore(mockStore)
+
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <EnterAmount {...defaultParams} />
+        </Provider>
+      )
+
+      fireEvent.changeText(getByTestId('SendEnterAmount/LocalAmountInput'), `10${decimal}5`)
+      expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe(`₱10${decimal}5`)
+      fireEvent.changeText(
+        getByTestId('SendEnterAmount/LocalAmountInput'),
+        `₱10${decimal}5${decimal}1`
+      )
+      expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe(`₱10${decimal}5`)
+      fireEvent.changeText(getByTestId('SendEnterAmount/LocalAmountInput'), 'abc')
+      expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe(`₱10${decimal}5`)
+      fireEvent.changeText(getByTestId('SendEnterAmount/LocalAmountInput'), `${decimal}25`)
+      expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe(`₱0${decimal}25`)
+      fireEvent.changeText(getByTestId('SendEnterAmount/LocalAmountInput'), `₱100000000`)
+      expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe(
+        `₱100${group}000${group}000`
+      )
+    })
   })
 
   it('selecting new token updates token and network info', async () => {
@@ -278,8 +308,8 @@ describe('EnterAmount', () => {
     )
 
     fireEvent.press(getByTestId('SendEnterAmount/Max'))
-    expect(getByTestId('SendEnterAmount/Input').props.value).toBe('5')
-    expect(getByTestId('SendEnterAmount/LocalAmount')).toHaveTextContent('₱0.67')
+    expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('5')
+    expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe('₱0.67')
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.max_pressed, {
       networkId: NetworkId['celo-alfajores'],
@@ -297,7 +327,7 @@ describe('EnterAmount', () => {
       </Provider>
     )
 
-    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '7')
+    fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '7')
     expect(getByTestId('SendEnterAmount/LowerAmountError')).toBeTruthy()
     expect(queryByTestId('SendEnterAmount/MaxAmountWarning')).toBeFalsy()
     expect(queryByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeFalsy()
@@ -321,7 +351,7 @@ describe('EnterAmount', () => {
     )
 
     expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('POOF')
-    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '2')
+    fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '2')
     expect(queryByTestId('SendEnterAmount/LowerAmountError')).toBeFalsy()
     expect(queryByTestId('SendEnterAmount/MaxAmountWarning')).toBeFalsy()
     expect(getByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeTruthy()
@@ -352,7 +382,7 @@ describe('EnterAmount', () => {
     )
 
     expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('CELO')
-    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '9.9999')
+    fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '9.9999')
     expect(queryByTestId('SendEnterAmount/LowerAmountError')).toBeFalsy()
     expect(getByTestId('SendEnterAmount/MaxAmountWarning')).toBeTruthy()
     expect(queryByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeFalsy()
@@ -377,7 +407,7 @@ describe('EnterAmount', () => {
     )
 
     expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('CELO')
-    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '8')
+    fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '8')
     expect(queryByTestId('SendEnterAmount/LowerAmountError')).toBeFalsy()
     expect(queryByTestId('SendEnterAmount/MaxAmountWarning')).toBeFalsy()
     expect(queryByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeFalsy()
@@ -402,8 +432,8 @@ describe('EnterAmount', () => {
     )
     expect(getByTestId('SendEnterAmount/FeePlaceholder')).toHaveTextContent('~ CELO')
 
-    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '8')
-    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '9')
+    fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '8')
+    fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '9')
     jest.runAllTimers()
     expect(onRefreshPreparedTransactionsSpy).toHaveBeenCalledTimes(
       1 // not twice since timers were not run between the two amount changes (zero to 8 and 8 to 9)
@@ -461,7 +491,7 @@ describe('EnterAmount', () => {
         </Provider>
       )
 
-      fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '100')
+      fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '100')
       expect(getByTestId('SendEnterAmount/FeePlaceholder')).toBeTruthy()
     })
     it('shows fee placeholder if prepare transactions result is not possible', () => {
@@ -479,7 +509,7 @@ describe('EnterAmount', () => {
         </Provider>
       )
 
-      fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '1')
+      fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '1')
       expect(getByTestId('SendEnterAmount/FeePlaceholder')).toBeTruthy()
     })
     it('shows fee amount if available', () => {
@@ -494,7 +524,7 @@ describe('EnterAmount', () => {
         </Provider>
       )
 
-      fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '1')
+      fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '1')
       expect(getByTestId('SendEnterAmount/FeeInCrypto')).toHaveTextContent('~0.006 CELO')
     })
     it('shows fee loading if prepare transactions result is undefined', () => {
@@ -506,7 +536,7 @@ describe('EnterAmount', () => {
         </Provider>
       )
 
-      fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '1')
+      fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '1')
       expect(queryByTestId('SendEnterAmount/FeePlaceholder')).toBeFalsy()
       expect(getByTestId('SendEnterAmount/FeeLoading')).toBeTruthy()
     })
