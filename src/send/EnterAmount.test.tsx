@@ -169,6 +169,31 @@ describe('EnterAmount', () => {
     { decimal: '.', group: ',' },
     { decimal: ',', group: '.' },
   ])('with decimal separator "$decimal" and group separator "$group"', ({ decimal, group }) => {
+    const replaceSeparators = (value: string) =>
+      value.replace(/\./g, '|').replace(/,/g, group).replace(/\|/g, decimal)
+
+    function renderComponent() {
+      const store = createMockStore(mockStore)
+
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <EnterAmount {...defaultParams} />
+        </Provider>
+      )
+
+      const tokenAmountInput = getByTestId('SendEnterAmount/TokenAmountInput')
+      const localAmountInput = getByTestId('SendEnterAmount/LocalAmountInput')
+
+      const changeTokenAmount = (value: string) => {
+        fireEvent.changeText(tokenAmountInput, replaceSeparators(value))
+      }
+      const changeLocalAmount = (value: string) => {
+        fireEvent.changeText(localAmountInput, replaceSeparators(value))
+      }
+
+      return { tokenAmountInput, localAmountInput, changeTokenAmount, changeLocalAmount }
+    }
+
     beforeEach(() => {
       jest
         .mocked(getNumberFormatSettings)
@@ -183,81 +208,85 @@ describe('EnterAmount', () => {
     })
 
     it('entering one amount updates the other amount', () => {
-      const store = createMockStore(mockStore)
+      const { tokenAmountInput, localAmountInput, changeTokenAmount, changeLocalAmount } =
+        renderComponent()
 
-      const { getByTestId } = render(
-        <Provider store={store}>
-          <EnterAmount {...defaultParams} />
-        </Provider>
-      )
+      changeTokenAmount('10000.5')
+      expect(tokenAmountInput.props.value).toBe(replaceSeparators('10000.5'))
+      expect(localAmountInput.props.value).toBe(replaceSeparators(`₱1,330.07`))
 
-      fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), `10000${decimal}5`)
-      expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe(
-        `₱1${group}330${decimal}07`
-      )
-      fireEvent.changeText(getByTestId('SendEnterAmount/LocalAmountInput'), `1000${decimal}5`)
-      expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe(
-        `7522${decimal}5563909774436090226`
-      )
+      changeLocalAmount('1000.5')
+      expect(localAmountInput.props.value).toBe(replaceSeparators(`₱1,000.5`))
+      expect(tokenAmountInput.props.value).toBe(replaceSeparators('7522.5563909774436090226'))
     })
 
-    it('only allows numeric input for token amount', () => {
-      const store = createMockStore(mockStore)
+    it('only allows numeric input with decimal separators for token amount', () => {
+      const { tokenAmountInput, changeTokenAmount } = renderComponent()
 
-      const { getByTestId } = render(
-        <Provider store={store}>
-          <EnterAmount {...defaultParams} />
-        </Provider>
-      )
-
-      fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), `10${decimal}5`)
-      expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe(`10${decimal}5`)
-      fireEvent.changeText(
-        getByTestId('SendEnterAmount/TokenAmountInput'),
-        `10${decimal}5${decimal}1`
-      )
-      expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe(`10${decimal}5`)
-      fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), 'abc')
-      expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe(`10${decimal}5`)
+      changeTokenAmount('10.5')
+      expect(tokenAmountInput.props.value).toBe(replaceSeparators('10.5'))
+      changeTokenAmount('10.5.1')
+      expect(tokenAmountInput.props.value).toBe(replaceSeparators('10.5'))
+      changeTokenAmount('abc')
+      expect(tokenAmountInput.props.value).toBe(replaceSeparators('10.5'))
     })
 
     it('starting with decimal separator prefixes 0 for token amount', () => {
-      const store = createMockStore(mockStore)
+      const { tokenAmountInput, changeTokenAmount } = renderComponent()
 
-      const { getByTestId } = render(
-        <Provider store={store}>
-          <EnterAmount {...defaultParams} />
-        </Provider>
-      )
-
-      fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), `${decimal}25`)
-      expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe(`0${decimal}25`)
+      changeTokenAmount('.25')
+      expect(tokenAmountInput.props.value).toBe(replaceSeparators('0.25'))
     })
 
-    it('formats local amount input correctly', () => {
-      const store = createMockStore(mockStore)
+    it('adds group separators and currency symbol for local amount', () => {
+      const { localAmountInput, changeLocalAmount } = renderComponent()
 
-      const { getByTestId } = render(
-        <Provider store={store}>
-          <EnterAmount {...defaultParams} />
-        </Provider>
-      )
+      changeLocalAmount('₱100000000')
+      expect(localAmountInput.props.value).toBe(replaceSeparators(`₱100,000,000`))
+    })
 
-      fireEvent.changeText(getByTestId('SendEnterAmount/LocalAmountInput'), `10${decimal}5`)
-      expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe(`₱10${decimal}5`)
-      fireEvent.changeText(
-        getByTestId('SendEnterAmount/LocalAmountInput'),
-        `₱10${decimal}5${decimal}1`
-      )
-      expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe(`₱10${decimal}5`)
-      fireEvent.changeText(getByTestId('SendEnterAmount/LocalAmountInput'), 'abc')
-      expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe(`₱10${decimal}5`)
-      fireEvent.changeText(getByTestId('SendEnterAmount/LocalAmountInput'), `${decimal}25`)
-      expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe(`₱0${decimal}25`)
-      fireEvent.changeText(getByTestId('SendEnterAmount/LocalAmountInput'), `₱100000000`)
-      expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe(
-        `₱100${group}000${group}000`
-      )
+    it('only allows numeric input with 2 decimals for local amount', () => {
+      const { localAmountInput, changeLocalAmount } = renderComponent()
+
+      changeLocalAmount('10.25')
+      expect(localAmountInput.props.value).toBe(replaceSeparators(`₱10.25`))
+      changeLocalAmount('10.258')
+      expect(localAmountInput.props.value).toBe(replaceSeparators(`₱10.25`))
+      changeLocalAmount('10.5.1')
+      expect(localAmountInput.props.value).toBe(replaceSeparators(`₱10.25`))
+      changeLocalAmount('abc')
+      expect(localAmountInput.props.value).toBe(replaceSeparators(`₱10.25`))
+    })
+
+    it('starting with decimal separator prefixes 0 for local amount', () => {
+      const { localAmountInput, changeLocalAmount } = renderComponent()
+
+      changeLocalAmount('.25')
+      expect(localAmountInput.props.value).toBe(replaceSeparators(`₱0.25`))
+    })
+
+    it('entering invalid local amount with a valid token amount does not update anything', () => {
+      const { tokenAmountInput, localAmountInput, changeTokenAmount, changeLocalAmount } =
+        renderComponent()
+
+      changeTokenAmount('10.5')
+      expect(tokenAmountInput.props.value).toBe(replaceSeparators('10.5'))
+      expect(localAmountInput.props.value).toBe(replaceSeparators('₱1.40'))
+      changeLocalAmount('abc')
+      expect(tokenAmountInput.props.value).toBe(replaceSeparators('10.5'))
+      expect(localAmountInput.props.value).toBe(replaceSeparators('₱1.40'))
+    })
+
+    it('entering invalid token amount with a valid local amount does not update anything', () => {
+      const { tokenAmountInput, localAmountInput, changeTokenAmount, changeLocalAmount } =
+        renderComponent()
+
+      changeLocalAmount('133')
+      expect(tokenAmountInput.props.value).toBe(replaceSeparators('1000'))
+      expect(localAmountInput.props.value).toBe(replaceSeparators('₱133'))
+      changeTokenAmount('abc')
+      expect(tokenAmountInput.props.value).toBe(replaceSeparators('1000'))
+      expect(localAmountInput.props.value).toBe(replaceSeparators('₱133'))
     })
   })
 
