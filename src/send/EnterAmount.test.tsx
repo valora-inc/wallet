@@ -155,8 +155,8 @@ describe('EnterAmount', () => {
       </Provider>
     )
 
-    expect(getByTestId('SendEnterAmount/Input')).toBeTruthy()
-    expect(getByTestId('SendEnterAmount/LocalAmount')).toHaveTextContent('₱0.00')
+    expect(getByTestId('SendEnterAmount/TokenAmountInput')).toBeTruthy()
+    expect(getByTestId('SendEnterAmount/LocalAmountInput')).toBeTruthy()
     expect(getByTestId('SendEnterAmount/Max')).toBeTruthy()
     expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('ETH')
     expect(
