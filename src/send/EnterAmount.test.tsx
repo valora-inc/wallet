@@ -290,6 +290,35 @@ describe('EnterAmount', () => {
     })
   })
 
+  it.each([
+    { testPrefix: 'clearing one amount', text: '', expectedTokenValue: '', expectedLocalValue: '' },
+    { testPrefix: 'entering 0', text: '0', expectedTokenValue: '0', expectedLocalValue: '₱0' },
+  ])('$testPrefix clears the other amount', ({ text, expectedTokenValue, expectedLocalValue }) => {
+    const store = createMockStore(mockStore)
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <EnterAmount {...defaultParams} />
+      </Provider>
+    )
+
+    fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '2')
+    expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('2')
+    expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe('₱0.27')
+
+    fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), text)
+    expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe(expectedTokenValue)
+    expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe('')
+
+    fireEvent.changeText(getByTestId('SendEnterAmount/LocalAmountInput'), '1.33')
+    expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('10')
+    expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe('₱1.33')
+
+    fireEvent.changeText(getByTestId('SendEnterAmount/LocalAmountInput'), text)
+    expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('')
+    expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe(expectedLocalValue)
+  })
+
   it('selecting new token updates token and network info', async () => {
     const store = createMockStore(mockStore)
 
