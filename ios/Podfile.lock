@@ -1162,22 +1162,6 @@ SPEC CHECKSUMS:
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   PromisesSwift: 28dca69a9c40779916ac2d6985a0192a5cb4a265
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
-<<<<<<< HEAD
-  RCTRequired: 4db5e3e18b906377a502da5b358ff159ba4783ed
-  RCTTypeSafety: 6c1a8aed043050de0d537336c95cd1be7b66c272
-  React: 214e77358d860a3ed707fede9088e7c00663a087
-  React-callinvoker: 8fc1c79c26fbcadce2a5d4a3cb4b2ced2dec3436
-  React-Codegen: 1517e1a59c594e6b5661d3d054209e838baa4fa7
-  React-Core: ea541085ca5be10b2be289c7d82eba368b5c4900
-  React-CoreModules: d9680e1d551eef1dd764df736a473cf25f701070
-  React-cxxreact: 0792e80e291d086b2cf588410f6bc6e752bc1d83
-  React-hermes: 0b1bba58112cb7421f1166d527a1a05489f48dbc
-  React-jsi: 1e41088515c4273ef5b118575337df4671851430
-  React-jsiexecutor: 509cd947c28834614808ce056ee8eb700a0662aa
-  React-jsinspector: ec4dcbfb1f4e72f04f826a0301eceee5fa7ca540
-  React-logger: 35538accacf2583693fbc3ee8b53e69a1776fcee
-  react-native-adjust: 801fe33f0dc0097b0474f11d08572a89fa6602ce
-=======
   RCTRequired: 90f1bac0c9682cd0f725922a79fbc064836f06bb
   RCTTypeSafety: 14a5fd9ec04e2807eff1fcd22a293befd68de90f
   React: fcf49ebf29d43e90507c7aafaa59e97b2bb45def
@@ -1192,7 +1176,6 @@ SPEC CHECKSUMS:
   React-jsinspector: aadc7a5f156f047800ab3d51f6a10ce5b009109d
   React-logger: a41d4cad677e9726b71a45a4012431d2fb1edd80
   react-native-adjust: 9a9d5b7fff8de8209d468ee4bd3fc1bc386d78cd
->>>>>>> main
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
   react-native-compat: 4da17905c26471d956dae70f9912a60d7da7fad2
   react-native-config: 86038147314e2e6d10ea9972022aa171e6b1d4d8
