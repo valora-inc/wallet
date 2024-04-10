@@ -331,12 +331,13 @@ function EnterAmount({
             )}
             <View style={styles.localAmountRow}>
               <AmountInput
-                inputValue={localAmountInput}
+                inputValue={token.priceUsd ? localAmountInput : '-'}
                 onInputChange={onLocalAmountInputChange}
                 inputRef={localAmountInputRef}
                 inputStyle={styles.localAmount}
                 placeholder={`${localCurrencySymbol}${new BigNumber(0).toFormat(2)}`}
                 testID="SendEnterAmount/LocalAmountInput"
+                editable={!!token.priceUsd}
               />
               <Touchable
                 borderRadius={MAX_BORDER_RADIUS}
@@ -430,6 +431,7 @@ function AmountInput({
   autoFocus,
   placeholder = '0',
   testID = 'AmountInput',
+  editable = true,
 }: {
   inputValue: string
   onInputChange(value: string): void
@@ -438,6 +440,7 @@ function AmountInput({
   autoFocus?: boolean
   placeholder?: string
   testID?: string
+  editable?: boolean
 }) {
   // the startPosition and inputRef variables exist to ensure TextInput
   // displays the start of the value for long values on Android
@@ -458,6 +461,7 @@ function AmountInput({
           handleSetStartPosition(undefined)
           onInputChange(value)
         }}
+        editable={editable}
         value={inputValue || undefined}
         placeholder={placeholder}
         keyboardType="decimal-pad"
