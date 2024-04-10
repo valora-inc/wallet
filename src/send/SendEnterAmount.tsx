@@ -8,13 +8,13 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useSelector } from 'src/redux/hooks'
-import EnterAmount from 'src/send/EnterAmount'
+import EnterAmount, { ProceedArgs } from 'src/send/EnterAmount'
 import { lastUsedTokenIdSelector } from 'src/send/selectors'
 import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
 import { COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE } from 'src/send/utils'
 import { sortedTokensWithBalanceOrShowZeroBalanceSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { convertTokenToLocalAmount, getSupportedNetworkIdsForSend } from 'src/tokens/utils'
+import { getSupportedNetworkIdsForSend } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 
@@ -42,17 +42,11 @@ function SendEnterAmount({ route }: Props) {
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
 
-  const handleReviewSend = (parsedAmount: BigNumber, token: TokenBalance) => {
+  const handleReviewSend = ({ tokenAmount, localAmount, token, amountEnteredIn }: ProceedArgs) => {
     if (!prepareTransactionsResult || prepareTransactionsResult.type !== 'possible') {
       // should never happen because button is disabled if send is not possible
       throw new Error('No prepared transactions found')
     }
-
-    const sendAmountInLocalCurrency = convertTokenToLocalAmount({
-      tokenAmount: parsedAmount,
-      tokenInfo: token,
-      usdToLocalRate: localCurrencyExchangeRate,
-    })
 
     navigate(Screens.SendConfirmation, {
       origin,
@@ -60,10 +54,10 @@ function SendEnterAmount({ route }: Props) {
       transactionData: {
         tokenId: token.tokenId,
         recipient,
-        inputAmount: parsedAmount,
+        inputAmount: tokenAmount,
         amountIsInLocalCurrency: false,
         tokenAddress: token.address!,
-        tokenAmount: parsedAmount,
+        tokenAmount,
       },
     })
     ValoraAnalytics.track(SendEvents.send_amount_continue, {
@@ -72,11 +66,12 @@ function SendEnterAmount({ route }: Props) {
       recipientType: recipient.recipientType,
       localCurrencyExchangeRate,
       localCurrency: localCurrencyCode,
-      localCurrencyAmount: sendAmountInLocalCurrency?.toString() ?? null,
+      localCurrencyAmount: localAmount?.toFixed(2) ?? null,
       underlyingTokenAddress: token.address,
       underlyingTokenSymbol: token.symbol,
-      underlyingAmount: parsedAmount.toString(),
-      amountInUsd: null,
+      underlyingAmount: tokenAmount.toString(),
+      amountInUsd: tokenAmount.multipliedBy(token.priceUsd ?? 0).toFixed(2),
+      amountEnteredIn,
       tokenId: token.tokenId,
       networkId: token.networkId,
     })

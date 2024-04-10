@@ -16,7 +16,8 @@ import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localC
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
-import EnterAmount from 'src/send/EnterAmount'
+import EnterAmount, { ProceedArgs } from 'src/send/EnterAmount'
+import { AmountEnteredIn } from 'src/send/types'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
@@ -66,12 +67,13 @@ function JumpstartEnterAmount() {
   }, [jumpstartLink.privateKey])
 
   const handleProceed = useAsyncCallback(
-    async (parsedAmount: BigNumber, token: TokenBalance) => {
+    async ({ tokenAmount, token, amountEnteredIn }: ProceedArgs) => {
       const link = await createJumpstartLink(jumpstartLink.privateKey, token.networkId)
       return {
         link,
-        parsedAmount,
+        parsedAmount: tokenAmount,
         token,
+        amountEnteredIn,
       }
     },
     {
@@ -79,10 +81,12 @@ function JumpstartEnterAmount() {
         link,
         parsedAmount,
         token,
+        amountEnteredIn,
       }: {
         link: string
         parsedAmount: BigNumber
         token: TokenBalance
+        amountEnteredIn: AmountEnteredIn
       }) => {
         if (prepareJumpstartTransactions.result?.type !== 'possible') {
           // should never happen
@@ -110,6 +114,7 @@ function JumpstartEnterAmount() {
           amountInUsd: parsedAmount.multipliedBy(token.priceUsd ?? 0).toFixed(2),
           tokenId: token.tokenId,
           networkId: token.networkId,
+          amountEnteredIn,
         })
       },
       onError: (error) => {
