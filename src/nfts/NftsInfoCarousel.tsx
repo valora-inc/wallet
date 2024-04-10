@@ -122,8 +122,11 @@ export default function NftsInfoCarousel({ route }: Props) {
       case NetworkId['celo-mainnet']:
       case NetworkId['celo-alfajores']:
         return `${blockExplorerUrls[networkId].baseNftUrl}${activeNft.contractAddress}/instance/${tokenId}/metadata`
-      default:
+      case NetworkId['ethereum-mainnet']:
+      case NetworkId['ethereum-sepolia']:
         return `${blockExplorerUrls[networkId].baseNftUrl}${activeNft.contractAddress}/${tokenId}`
+      default:
+        return `${blockExplorerUrls[networkId].baseNftUrl}${activeNft.contractAddress}?a=${tokenId}`
     }
   }, [activeNft, networkId])
 

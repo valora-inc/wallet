@@ -435,14 +435,14 @@ const ETHERSCAN_BASE_URL_MAINNET = 'https://etherscan.io'
 const ARBISCAN_BASE_URL_ONE = 'https://arbiscan.io'
 const ARBISCAN_BASE_URL_SEPOLIA = 'https://sepolia.arbiscan.io'
 
-const OP_MAINNET_EXPLORER_BASE_URL = 'https://optimistic.etherscan.io/'
-const OP_SEPOLIA_EXPLORER_BASE_URL = 'https://sepolia-optimism.etherscan.io/'
+const OP_MAINNET_EXPLORER_BASE_URL = 'https://optimistic.etherscan.io'
+const OP_SEPOLIA_EXPLORER_BASE_URL = 'https://sepolia-optimism.etherscan.io'
 
-const POLYGON_POS_BASE_URL_MUMBAI = 'https://mumbai.polygonscan.com/'
-const POLYGON_POS_BASE_URL_MAINNET = 'https://polygonscan.com/'
+const POLYGON_POS_BASE_URL_MUMBAI = 'https://mumbai.polygonscan.com'
+const POLYGON_POS_BASE_URL_MAINNET = 'https://polygonscan.com'
 
-const BASE_BASE_URL_SEPOLIA = 'https://sepolia.basescan.org/'
-const BASE_BASE_URL_MAINNET = 'https://basescan.org/'
+const BASE_BASE_URL_SEPOLIA = 'https://sepolia.basescan.org'
+const BASE_BASE_URL_MAINNET = 'https://basescan.org'
 
 export const blockExplorerUrls: BlockExplorerUrls = {
   [NetworkId['celo-mainnet']]: {
