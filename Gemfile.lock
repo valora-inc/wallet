@@ -282,11 +282,11 @@ PLATFORMS
   universal-darwin-21
 
 DEPENDENCIES
-  cocoapods (>= 1.12.1)
+  cocoapods (>= 1.12.1, < 1.15)
   fastlane
   fastlane-plugin-emerge
   fastlane-plugin-versioning
   xcpretty
 
 BUNDLED WITH
-   2.2.32
+   2.4.22
