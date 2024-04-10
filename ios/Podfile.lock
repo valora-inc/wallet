@@ -4,9 +4,9 @@ PODS:
     - JWTDecode (= 3.0.1)
     - React-Core
     - SimpleKeychain (= 1.0.1)
-  - Adjust (4.37.2):
-    - Adjust/Core (= 4.37.2)
-  - Adjust/Core (4.37.2)
+  - Adjust (4.38.0):
+    - Adjust/Core (= 4.38.0)
+  - Adjust/Core (4.38.0)
   - Auth0 (2.3.2):
     - JWTDecode (~> 3.0)
     - SimpleKeychain (~> 1.0)
@@ -497,8 +497,8 @@ PODS:
   - React-jsinspector (0.71.17)
   - React-logger (0.71.17):
     - glog
-  - react-native-adjust (4.37.2):
-    - Adjust (= 4.37.2)
+  - react-native-adjust (4.38.0):
+    - Adjust (= 4.38.0)
     - React-Core
   - react-native-camera (4.2.1):
     - React-Core
@@ -1111,7 +1111,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   A0Auth0: 5ae918d2f043395f83ac26d6eb85b249bcb54634
-  Adjust: a830d963025334aee8a62a7bac87825e297a841e
+  Adjust: c98d85594a746ff9f2bafe424c5beb6db66cd6a8
   Auth0: 64da28fdc5cd499aa516dc4bfd0ace8efae2c1da
   boost: 7dcd2de282d72e344012f7d6564d024930a6a440
   BVLinearGradient: 880f91a7854faff2df62518f0281afb1c60d49a3
@@ -1175,7 +1175,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 62ec957dd5be4519b56c7965ee7156063ffcf765
   React-jsinspector: aadc7a5f156f047800ab3d51f6a10ce5b009109d
   React-logger: a41d4cad677e9726b71a45a4012431d2fb1edd80
-  react-native-adjust: 9a9d5b7fff8de8209d468ee4bd3fc1bc386d78cd
+  react-native-adjust: 801fe33f0dc0097b0474f11d08572a89fa6602ce
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
   react-native-compat: 4da17905c26471d956dae70f9912a60d7da7fad2
   react-native-config: 86038147314e2e6d10ea9972022aa171e6b1d4d8
