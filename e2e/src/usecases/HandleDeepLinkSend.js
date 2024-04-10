@@ -71,8 +71,8 @@ export default HandleDeepLinkSend = () => {
       await launchDeepLink(PAY_URL)
       await waitForElementId('SendEnterAmount/TokenSelect', 10_000)
       await expect(element(by.text('cUSD')).atIndex(0)).toBeVisible()
-      await element(by.id('SendEnterAmount/Input')).replaceText('0.01')
-      await element(by.id('SendEnterAmount/Input')).tapReturnKey()
+      await element(by.id('SendEnterAmount/TokenAmountInput')).replaceText('0.01')
+      await element(by.id('SendEnterAmount/TokenAmountInput')).tapReturnKey()
       await waitForElementByIdAndTap('SendEnterAmount/ReviewButton', 30_000)
 
       await addComment(commentText)
