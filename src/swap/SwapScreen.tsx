@@ -84,10 +84,10 @@ interface SwapState {
   switchedToNetworkId: NetworkId | null
 }
 
-function getInitialState(fromTokenId?: string): SwapState {
+function getInitialState(fromTokenId?: string, toTokenId?: string): SwapState {
   return {
     fromTokenId,
-    toTokenId: undefined,
+    toTokenId,
     inputSwapAmount: DEFAULT_INPUT_SWAP_AMOUNT,
     updatedField: Field.FROM,
     selectingField: null,
@@ -253,7 +253,11 @@ export function SwapScreen({ route }: Props) {
   )
 
   const initialFromTokenId = route.params?.fromTokenId
-  const [state, localDispatch] = useReducer(swapStateReducer, getInitialState(initialFromTokenId))
+  const initialToTokenId = route.params?.toTokenId
+  const [state, localDispatch] = useReducer(
+    swapStateReducer,
+    getInitialState(initialFromTokenId, initialToTokenId)
+  )
   const {
     fromTokenId,
     toTokenId,

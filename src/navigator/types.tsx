@@ -283,7 +283,12 @@ export type StackParamList = {
         prefilledText: string
       }
     | undefined
-  [Screens.SwapScreenWithBack]: { fromTokenId: string } | undefined
+  [Screens.SwapScreenWithBack]:
+    | {
+        fromTokenId?: string
+        toTokenId?: string
+      }
+    | undefined
   [Screens.TabDiscover]: { isTabNavigator?: boolean } | undefined
   [Screens.TabHome]: { isTabNavigator?: boolean } | undefined
   [Screens.TabWallet]: { activeAssetTab?: AssetTabType; isWalletTab?: boolean } | undefined
