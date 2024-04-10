@@ -356,6 +356,52 @@ describe('EnterAmount', () => {
     })
   })
 
+  it('selecting new token with token amount entered updates local amount', async () => {
+    const store = createMockStore(mockStore)
+
+    const { getByTestId, getByText } = render(
+      <Provider store={store}>
+        <EnterAmount {...defaultParams} />
+      </Provider>
+    )
+
+    expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('POOF')
+    fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '1')
+    expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('1')
+    expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe('₱0.13')
+    fireEvent.press(getByTestId('SendEnterAmount/TokenSelect'))
+    await waitFor(() => expect(getByText('Ether')).toBeTruthy())
+    fireEvent.press(getByText('Ether'))
+    expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('ETH')
+    expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('1')
+    expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe('₱1,995.00')
+  })
+
+  it('selecting new token with local amount entered updates token amount', async () => {
+    const store = createMockStore(mockStore)
+
+    const { getByTestId, getByText } = render(
+      <Provider store={store}>
+        <EnterAmount {...defaultParams} />
+      </Provider>
+    )
+
+    expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('POOF')
+    fireEvent.changeText(getByTestId('SendEnterAmount/LocalAmountInput'), '1')
+    expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe(
+      '7.5187969924812030075'
+    )
+    expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe('₱1')
+    fireEvent.press(getByTestId('SendEnterAmount/TokenSelect'))
+    await waitFor(() => expect(getByText('Ether')).toBeTruthy())
+    fireEvent.press(getByText('Ether'))
+    expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('ETH')
+    expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe(
+      '0.0005012531328320802'
+    )
+    expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe('₱1')
+  })
+
   it('pressing max fills in max available amount', () => {
     const store = createMockStore(mockStore)
 

@@ -203,7 +203,7 @@ function EnterAmount({
         localAmount: parsedLocalAmount,
       }
     }
-  }, [tokenAmountInput, localAmountInput, enteredIn])
+  }, [tokenAmountInput, localAmountInput, enteredIn, token])
 
   const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
