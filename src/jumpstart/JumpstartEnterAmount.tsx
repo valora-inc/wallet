@@ -16,7 +16,7 @@ import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localC
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
-import EnterAmount from 'src/send/EnterAmount'
+import EnterAmount, { ProceedArgs } from 'src/send/EnterAmount'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
@@ -66,11 +66,11 @@ function JumpstartEnterAmount() {
   }, [jumpstartLink.privateKey])
 
   const handleProceed = useAsyncCallback(
-    async (parsedAmount: BigNumber, token: TokenBalance) => {
+    async ({ tokenAmount, token }: ProceedArgs) => {
       const link = await createJumpstartLink(jumpstartLink.privateKey, token.networkId)
       return {
         link,
-        parsedAmount,
+        parsedAmount: tokenAmount,
         token,
       }
     },

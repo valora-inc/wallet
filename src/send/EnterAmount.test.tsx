@@ -347,7 +347,7 @@ describe('EnterAmount', () => {
     })
   })
 
-  it('entering amount above balance displays error message', () => {
+  it('entering token amount above balance displays error message', () => {
     const store = createMockStore(mockStore)
 
     const { getByTestId, queryByTestId } = render(
@@ -356,7 +356,26 @@ describe('EnterAmount', () => {
       </Provider>
     )
 
+    // token balance 5
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '7')
+    expect(getByTestId('SendEnterAmount/LowerAmountError')).toBeTruthy()
+    expect(queryByTestId('SendEnterAmount/MaxAmountWarning')).toBeFalsy()
+    expect(queryByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeFalsy()
+    expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
+    expect(queryByTestId('SendEnterAmount/FeePlaceholder')).toBeTruthy()
+  })
+
+  it('entering local amount above balance displays error message', () => {
+    const store = createMockStore(mockStore)
+
+    const { getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <EnterAmount {...defaultParams} />
+      </Provider>
+    )
+
+    // token balance 5 => local balance 0.67
+    fireEvent.changeText(getByTestId('SendEnterAmount/LocalAmountInput'), '.68')
     expect(getByTestId('SendEnterAmount/LowerAmountError')).toBeTruthy()
     expect(queryByTestId('SendEnterAmount/MaxAmountWarning')).toBeFalsy()
     expect(queryByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeFalsy()
@@ -419,7 +438,7 @@ describe('EnterAmount', () => {
     expect(getByTestId('SendEnterAmount/FeeInCrypto')).toBeTruthy()
   })
 
-  it('able to press Review when prepareTransactionsResult is type possible', () => {
+  it('able to press Review when prepareTransactionsResult is type possible (input in token)', () => {
     const { getByTestId, queryByTestId } = render(
       <Provider store={createMockStore(mockStore)}>
         <EnterAmount
@@ -445,6 +464,46 @@ describe('EnterAmount', () => {
     expect(getByTestId('SendEnterAmount/FeeInCrypto')).toHaveTextContent('~0.006 CELO')
     fireEvent.press(getByTestId('SendEnterAmount/ReviewButton'))
     expect(onPressProceedSpy).toHaveBeenCalledTimes(1)
+    expect(onPressProceedSpy).toHaveBeenLastCalledWith({
+      amountEnteredIn: 'token',
+      localAmount: new BigNumber(5.32),
+      tokenAmount: new BigNumber(8),
+      token: mockStoreBalancesToTokenBalances([mockStoreTokenBalances[mockCeloTokenId]])[0],
+    })
+  })
+
+  it('able to press Review when prepareTransactionsResult is type possible (input in local)', () => {
+    const { getByTestId, queryByTestId } = render(
+      <Provider store={createMockStore(mockStore)}>
+        <EnterAmount
+          {...defaultParams}
+          tokens={mockStoreBalancesToTokenBalances([
+            mockStoreTokenBalances[mockCeloTokenId],
+            mockStoreTokenBalances[mockPoofTokenId],
+            mockStoreTokenBalances[mockEthTokenId],
+            mockStoreTokenBalances[mockCusdTokenId],
+          ])}
+          prepareTransactionsResult={mockPrepareTransactionsResultPossible}
+        />
+      </Provider>
+    )
+
+    expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('CELO')
+    fireEvent.changeText(getByTestId('SendEnterAmount/LocalAmountInput'), '5')
+    expect(queryByTestId('SendEnterAmount/LowerAmountError')).toBeFalsy()
+    expect(queryByTestId('SendEnterAmount/MaxAmountWarning')).toBeFalsy()
+    expect(queryByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeFalsy()
+    expect(getByTestId('SendEnterAmount/ReviewButton')).toBeEnabled()
+    expect(queryByTestId('SendEnterAmount/FeePlaceholder')).toBeFalsy()
+    expect(getByTestId('SendEnterAmount/FeeInCrypto')).toHaveTextContent('~0.006 CELO')
+    fireEvent.press(getByTestId('SendEnterAmount/ReviewButton'))
+    expect(onPressProceedSpy).toHaveBeenCalledTimes(1)
+    expect(onPressProceedSpy).toHaveBeenLastCalledWith({
+      amountEnteredIn: 'local',
+      localAmount: new BigNumber(5),
+      tokenAmount: new BigNumber('7.51879699248120300752'),
+      token: mockStoreBalancesToTokenBalances([mockStoreTokenBalances[mockCeloTokenId]])[0],
+    })
   })
 
   it('clears prepared transactions and refreshes when new token or amount is selected', async () => {

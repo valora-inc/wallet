@@ -44,6 +44,13 @@ import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { PreparedTransactionsResult, getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 
+export interface ProceedArgs {
+  tokenAmount: BigNumber
+  localAmount: BigNumber | null
+  token: TokenBalance
+  amountEnteredIn: 'local' | 'token'
+}
+
 interface Props {
   tokens: TokenBalance[]
   defaultToken?: TokenBalance
@@ -56,7 +63,7 @@ interface Props {
   ): void
   prepareTransactionError?: Error
   tokenSelectionDisabled?: boolean
-  onPressProceed(amount: BigNumber, token: TokenBalance): void
+  onPressProceed(args: ProceedArgs): void
   disableProceed?: boolean
   children?: React.ReactNode
 }
@@ -122,7 +129,7 @@ function EnterAmount({
   const [token, setToken] = useState<TokenBalance>(() => defaultToken ?? tokens[0])
   const [tokenAmountInput, setTokenAmountInput] = useState<string>('')
   const [localAmountInput, setLocalAmountInput] = useState<string>('')
-  const [inputType, setInputType] = useState<'token' | 'local'>('token')
+  const [enteredIn, setEnteredIn] = useState<'token' | 'local'>('token')
   // this should never be null, just adding a default to make TS happy
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
 
@@ -146,7 +153,7 @@ function EnterAmount({
     // this is a gas-paying token. for now, we are just showing a warning to the user prompting them to lower the amount
     // if there is not enough for gas
     setTokenAmountInput(token.balance.toString())
-    setInputType('token')
+    setEnteredIn('token')
     tokenAmountInputRef.current?.blur()
     localAmountInputRef.current?.blur()
     ValoraAnalytics.track(SendEvents.max_pressed, {
@@ -162,38 +169,40 @@ function EnterAmount({
     [tokenAmountInput]
   )
   const parsedLocalAmount = useMemo(
-    () => parseInputAmount(localAmountInput.replace(/[^0-9.,]/g, ''), decimalSeparator),
+    () =>
+      parseInputAmount(
+        localAmountInput.replaceAll(groupingSeparator, '').replace(localCurrencySymbol, ''),
+        decimalSeparator
+      ),
     [localAmountInput]
   )
 
   const tokenToLocal = useTokenToLocalAmount(parsedTokenAmount, token.tokenId)
   const localToToken = useLocalToTokenAmount(parsedLocalAmount, token.tokenId)
-  const { tokenAmount, tokenAmountDisplay, localAmountDisplay } = useMemo(() => {
-    if (inputType === 'token') {
+  const { tokenAmount, localAmount } = useMemo(() => {
+    if (enteredIn === 'token') {
+      setLocalAmountInput(
+        tokenToLocal && tokenToLocal.gt(0)
+          ? `${localCurrencySymbol}${tokenToLocal.toFormat(2)}` // automatically adds grouping separators
+          : ''
+      )
       return {
         tokenAmount: parsedTokenAmount,
         localAmount: tokenToLocal,
-        tokenAmountDisplay: tokenAmountInput,
-        localAmountDisplay:
-          tokenToLocal && tokenToLocal.gt(0)
-            ? `${localCurrencySymbol}${tokenToLocal.toFormat(2)}` // automatically adds grouping separators
-            : '',
       }
     } else {
+      setTokenAmountInput(
+        localToToken && localToToken.gt(0)
+          ? // no group separator for token amount
+            localToToken.toFormat({ decimalSeparator })
+          : ''
+      )
       return {
         tokenAmount: localToToken,
         localAmount: parsedLocalAmount,
-        tokenAmountDisplay:
-          localToToken && localToToken.gt(0)
-            ? // no group separator for token amount
-              localToToken.toFormat({ groupSeparator: '', decimalSeparator })
-            : '',
-        // add grouping separators manually, using toFormat would add decimal
-        // places, which we don't want when the user enters local amount
-        localAmountDisplay: localAmountInput.replace(/\B(?=(\d{3})+(?!\d))/g, groupingSeparator),
       }
     }
-  }, [tokenAmountInput, localAmountInput, inputType])
+  }, [tokenAmountInput, localAmountInput, enteredIn])
 
   const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
@@ -233,7 +242,7 @@ function EnterAmount({
   const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency ?? feeCurrencies[0]
   let feeAmountSection = <FeeLoading />
   if (
-    tokenAmountDisplay === '' ||
+    tokenAmountInput === '' ||
     showLowerAmountError ||
     (prepareTransactionsResult && !maxFeeAmount) ||
     prepareTransactionError
@@ -244,20 +253,22 @@ function EnterAmount({
   }
 
   const onTokenAmountInputChange = (value: string) => {
-    setInputType('token')
     if (!value) {
       setTokenAmountInput('')
+      setEnteredIn('token')
     } else {
       if (value.startsWith(decimalSeparator)) {
         value = `0${value}`
       }
       // only allow numbers and one decimal separator
-      setTokenAmountInput((prev) => value.match(/^(?:\d+[.,]?\d*|[.,]\d*|[.,])$/)?.join('') ?? prev)
+      if (value.match(/^(?:\d+[.,]?\d*|[.,]\d*|[.,])$/)) {
+        setTokenAmountInput(value)
+        setEnteredIn('token')
+      }
     }
   }
 
   const onLocalAmountInputChange = (value: string) => {
-    setInputType('local')
     // remove leading currency symbol and grouping separators
     if (value.startsWith(localCurrencySymbol)) {
       value = value.slice(1)
@@ -265,16 +276,19 @@ function EnterAmount({
     value = value.replaceAll(groupingSeparator, '')
     if (!value) {
       setLocalAmountInput('')
+      setEnteredIn('local')
     } else {
       if (value.startsWith(decimalSeparator)) {
         value = `0${value}`
       }
-      setLocalAmountInput((prev) =>
-        // only allow numbers, one decimal separator, and two decimal places
-        value.match(/^(\d+([.,])?\d{0,2}|[.,]\d{0,2}|[.,])$/)
-          ? `${localCurrencySymbol}${value}`
-          : prev
-      )
+
+      // only allow numbers, one decimal separator, and two decimal places
+      if (value.match(/^(\d+([.,])?\d{0,2}|[.,]\d{0,2}|[.,])$/)) {
+        setLocalAmountInput(
+          `${localCurrencySymbol}${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, groupingSeparator)
+        )
+        setEnteredIn('local')
+      }
     }
   }
 
@@ -288,7 +302,7 @@ function EnterAmount({
             <View style={styles.inputRow}>
               <AmountInput
                 inputRef={tokenAmountInputRef}
-                inputValue={tokenAmountDisplay}
+                inputValue={tokenAmountInput}
                 onInputChange={onTokenAmountInputChange}
                 inputStyle={[styles.inputText, showLowerAmountError && { color: Colors.error }]}
                 autoFocus
@@ -316,7 +330,7 @@ function EnterAmount({
             )}
             <View style={styles.localAmountRow}>
               <AmountInput
-                inputValue={localAmountDisplay}
+                inputValue={localAmountInput}
                 onInputChange={onLocalAmountInputChange}
                 inputRef={localAmountInputRef}
                 inputStyle={styles.localAmount}
@@ -380,7 +394,10 @@ function EnterAmount({
         {children}
 
         <Button
-          onPress={() => tokenAmount && onPressProceed(tokenAmount, token)}
+          onPress={() =>
+            tokenAmount &&
+            onPressProceed({ tokenAmount, localAmount, token, amountEnteredIn: enteredIn })
+          }
           text={t('review')}
           style={styles.reviewButton}
           size={BtnSizes.FULL}
