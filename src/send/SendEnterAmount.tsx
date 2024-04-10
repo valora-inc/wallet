@@ -71,6 +71,7 @@ function SendEnterAmount({ route }: Props) {
       underlyingTokenSymbol: token.symbol,
       underlyingAmount: tokenAmount.toString(),
       amountInUsd: tokenAmount.multipliedBy(token.priceUsd ?? 0).toFixed(2),
+      amountEnteredIn,
       tokenId: token.tokenId,
       networkId: token.networkId,
     })

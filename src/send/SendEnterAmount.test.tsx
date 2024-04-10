@@ -178,6 +178,7 @@ describe('SendEnterAmount', () => {
       underlyingAmount: '8',
       underlyingTokenAddress: mockCeloAddress,
       underlyingTokenSymbol: 'CELO',
+      amountEnteredIn: 'token',
     })
     expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
       origin: params.origin,

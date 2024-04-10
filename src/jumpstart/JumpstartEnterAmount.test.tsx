@@ -192,6 +192,7 @@ describe('JumpstartEnterAmount', () => {
         tokenAmount: '0.25',
         tokenId: mockCeurTokenId,
         tokenSymbol: 'cEUR',
+        amountEnteredIn: 'token',
       }
     )
   })

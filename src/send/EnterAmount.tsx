@@ -35,6 +35,7 @@ import DownArrowIcon from 'src/icons/DownArrowIcon'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { useSelector } from 'src/redux/hooks'
+import { AmountEnteredIn } from 'src/send/types'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -48,7 +49,7 @@ export interface ProceedArgs {
   tokenAmount: BigNumber
   localAmount: BigNumber | null
   token: TokenBalance
-  amountEnteredIn: 'local' | 'token'
+  amountEnteredIn: AmountEnteredIn
 }
 
 interface Props {
@@ -129,7 +130,7 @@ function EnterAmount({
   const [token, setToken] = useState<TokenBalance>(() => defaultToken ?? tokens[0])
   const [tokenAmountInput, setTokenAmountInput] = useState<string>('')
   const [localAmountInput, setLocalAmountInput] = useState<string>('')
-  const [enteredIn, setEnteredIn] = useState<'token' | 'local'>('token')
+  const [enteredIn, setEnteredIn] = useState<AmountEnteredIn>('token')
   // this should never be null, just adding a default to make TS happy
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
 
@@ -421,7 +422,6 @@ function EnterAmount({
   )
 }
 
-// TODO(satish): Reuse this with SwapAmountInput
 function AmountInput({
   inputValue,
   onInputChange,
