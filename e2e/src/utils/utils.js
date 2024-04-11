@@ -211,6 +211,9 @@ export async function quickOnboarding(mnemonic = SAMPLE_BACKUP_KEY, cloudBackupE
       )
     }
 
+    // Choose your own adventure (CYA screen)
+    await waitForElementByIdAndTap('ChooseYourAdventure/Later')
+
     // Assert on Wallet Home Screen
     await expect(element(by.id('HomeAction-Send'))).toBeVisible()
   } catch {} // Don't throw an error just silently continue

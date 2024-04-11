@@ -13,6 +13,7 @@ import {
   scrollIntoView,
   sleep,
   waitForElementId,
+  waitForElementByIdAndTap,
 } from '../utils/utils'
 
 import jestExpect from 'expect'
@@ -87,6 +88,9 @@ export default NewAccountPhoneVerification = () => {
         await element(by.id(`VerificationCode${i}`)).typeText(codes[i])
       }
 
+      // Choose your own adventure (CYA screen)
+      await waitForElementByIdAndTap('ChooseYourAdventure/Later')
+
       // Assert we've arrived at the home screen
       await waitFor(element(by.id('HomeAction-Send')))
         .toBeVisible()
@@ -146,6 +150,9 @@ export default NewAccountPhoneVerification = () => {
         await element(by.id(`VerificationCode${i + 1}`)).replaceText(secondCodeSet[i])
       }
 
+      // Choose your own adventure (CYA screen)
+      await waitForElementByIdAndTap('ChooseYourAdventure/Later')
+
       // Assert we've arrived at the home screen
       await waitFor(element(by.id('HomeAction-Send')))
         .toBeVisible()
@@ -174,6 +181,9 @@ export default NewAccountPhoneVerification = () => {
 
     // Tap 'Skip'
     await element(by.text('Skip')).tap()
+
+    // Choose your own adventure (CYA screen)
+    await waitForElementByIdAndTap('ChooseYourAdventure/Later')
 
     // Assert we've arrived at the home screen
     await waitForElementId('HomeAction-Send')
