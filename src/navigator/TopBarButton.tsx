@@ -1,10 +1,11 @@
 import * as React from 'react'
-import { StyleProp, StyleSheet, Text, TextStyle, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native'
 import { AnalyticsEventType, AnalyticsPropertiesList } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 
 interface CommonProps {
@@ -65,6 +66,21 @@ export function TopBarIconButton(props: TopBarIconButtonProps) {
   return <Wrapper {...props}>{props.icon}</Wrapper>
 }
 
+export function TopBarIconButtonV2({ testID, onPress, style, icon }: TopBarIconButtonProps) {
+  return (
+    <View style={styles.container}>
+      <Touchable
+        testID={testID}
+        onPress={onPress}
+        style={[style, styles.button]}
+        borderRadius={Spacing.Thick24}
+      >
+        {icon}
+      </Touchable>
+    </View>
+  )
+}
+
 export type TopBarTextButtonProps = CommonProps & {
   title: string
   titleStyle?: StyleProp<TextStyle>
@@ -83,5 +99,12 @@ const styles = StyleSheet.create({
   text: {
     ...fontStyles.regular,
     color: colors.primary,
+  },
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button: {
+    padding: Spacing.Small12,
   },
 })
