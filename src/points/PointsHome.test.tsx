@@ -7,7 +7,7 @@ import PointsHome from 'src/points/PointsHome'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { PointsEvents } from 'src/analytics/Events'
-import { getInitialHistoryStarted } from 'src/points/slice'
+import { getHistoryStarted } from 'src/points/slice'
 
 jest.mock('src/statsig', () => ({
   getDynamicConfigParams: jest.fn().mockReturnValue({
@@ -72,7 +72,7 @@ describe(PointsHome, () => {
     await waitFor(() =>
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_activity_press)
     )
-    expect(store.dispatch).toHaveBeenCalledWith(getInitialHistoryStarted())
+    expect(store.dispatch).toHaveBeenCalledWith(getHistoryStarted({ fromPage: false }))
   })
 
   it('renders multiple sections', async () => {

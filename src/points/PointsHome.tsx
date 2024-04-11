@@ -17,7 +17,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { PointsEvents } from 'src/analytics/Events'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { useDispatch } from 'src/redux/hooks'
-import { getInitialHistoryStarted } from 'src/points/slice'
+import { getHistoryStarted } from 'src/points/slice'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.PointsHome>
 
@@ -54,7 +54,7 @@ export default function PointsHome({ route, navigation }: Props) {
   }
   const onPressActivity = () => {
     ValoraAnalytics.track(PointsEvents.points_screen_activity_press)
-    dispatch(getInitialHistoryStarted())
+    dispatch(getHistoryStarted({ fromPage: false }))
     // TODO: Open history bottom sheet
   }
 
