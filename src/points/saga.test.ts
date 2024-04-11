@@ -2,15 +2,14 @@ import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import * as fetchWithTimeout from 'src/utils/fetchWithTimeout'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
-import { fetchHistory, getHistory, getMoreHistory } from 'src/points/saga'
+import { fetchHistory, getHistory } from 'src/points/saga'
+import { getHistoryStarted } from 'src/points/slice'
 import { FetchMock } from 'jest-fetch-mock/types'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
 import { getHistoryError, getHistorySucceeded } from 'src/points/slice'
 import { GetHistoryResponse } from 'src/points/types'
 import { throwError } from 'redux-saga-test-plan/providers'
-
-jest.mock('src/pincode/authentication')
 
 const MOCK_HISTORY_RESPONSE: GetHistoryResponse = {
   data: [
@@ -50,12 +49,12 @@ describe('fetchHistory', () => {
     mockFetch.mockResponseOnce(JSON.stringify(MOCK_HISTORY_RESPONSE))
     const address = 'some-address'
     const result = await fetchHistory(address)
-    expect(fetchWithTimeoutSpy).toHaveBeenCalledWith(networkConfig.getPointsHistoryUrl, {
-      method: 'GET',
-      headers: {
-        authorization: `Valora ${address}:signed-message`,
-      },
-    })
+    expect(fetchWithTimeoutSpy).toHaveBeenCalledWith(
+      networkConfig.getPointsHistoryUrl + '?address=some-address',
+      {
+        method: 'GET',
+      }
+    )
     expect(result).toEqual(MOCK_HISTORY_RESPONSE)
   })
   it('uses custom url if present', async () => {
@@ -64,9 +63,6 @@ describe('fetchHistory', () => {
     const result = await fetchHistory(address, 'https://example.com')
     expect(fetchWithTimeoutSpy).toHaveBeenCalledWith('https://example.com', {
       method: 'GET',
-      headers: {
-        authorization: `Valora ${address}:signed-message`,
-      },
     })
     expect(result).toEqual(MOCK_HISTORY_RESPONSE)
   })
@@ -79,17 +75,24 @@ describe('fetchHistory', () => {
 
 describe('getHistory', () => {
   it('sets error state if no address found', async () => {
-    await expectSaga(getHistory)
+    const params = getHistoryStarted({
+      fromPage: false,
+    })
+    await expectSaga(getHistory, params)
       .withState(createMockStore({ web3: { account: null } }).getState())
       .put(getHistoryError())
       .run()
   })
-  it('fetches and sets history', async () => {
-    await expectSaga(getHistory)
+  it('fetches and sets history from scratch', async () => {
+    const params = getHistoryStarted({
+      fromPage: false,
+    })
+    await expectSaga(getHistory, params)
       .withState(createMockStore().getState())
       .provide([[matchers.call.fn(fetchHistory), MOCK_HISTORY_RESPONSE]])
       .put(
         getHistorySucceeded({
+          appendHistory: false,
           newPointsHistory: MOCK_HISTORY_RESPONSE.data,
           nextPageUrl: MOCK_HISTORY_RESPONSE.nextPageUrl,
         })
@@ -97,31 +100,29 @@ describe('getHistory', () => {
       .run()
   })
   it('sets error state if error while fetching', async () => {
-    await expectSaga(getHistory)
+    const params = getHistoryStarted({
+      fromPage: false,
+    })
+    await expectSaga(getHistory, params)
       .withState(createMockStore().getState())
       .provide([[matchers.call.fn(fetchHistory), throwError(new Error('failure'))]])
       .put(getHistoryError())
       .run()
   })
-})
-
-describe('getMoreHistory', () => {
-  it('quietly succeeds if no new page is present', async () => {
-    await expectSaga(getMoreHistory)
+  it('fetches from stored page if requested', async () => {
+    const params = getHistoryStarted({
+      fromPage: true,
+    })
+    await expectSaga(getHistory, params)
       .withState(createMockStore().getState())
+      .provide([[matchers.call.fn(fetchHistory), MOCK_HISTORY_RESPONSE]])
       .put(
         getHistorySucceeded({
-          newPointsHistory: [],
-          nextPageUrl: null,
+          appendHistory: true,
+          newPointsHistory: MOCK_HISTORY_RESPONSE.data,
+          nextPageUrl: MOCK_HISTORY_RESPONSE.nextPageUrl,
         })
       )
-      .run()
-  })
-  it('calls getHistory with next page', async () => {
-    const mockUrl = 'https://example.com'
-    await expectSaga(getHistory)
-      .withState(createMockStore({ points: { nextPageUrl: mockUrl } }).getState())
-      .provide([[matchers.call.fn(getHistory), mockUrl]])
       .run()
   })
 })

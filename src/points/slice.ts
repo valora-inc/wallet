@@ -2,14 +2,19 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { ClaimHistory } from 'src/points/types'
 
 interface GetPointsHistorySucceededAction {
+  appendHistory: boolean | null
   newPointsHistory: ClaimHistory[]
   nextPageUrl: string | null
+}
+
+interface GetPointsHistoryStartedAction {
+  fromPage: boolean | null
 }
 
 interface State {
   pointsHistory: ClaimHistory[]
   nextPageUrl: string | null
-  getHistoryStatus: 'idle' | 'loading-initial' | 'loading-more' | 'error'
+  getHistoryStatus: 'idle' | 'loading' | 'error'
 }
 
 const initialState: State = {
@@ -22,16 +27,16 @@ const slice = createSlice({
   name: 'points',
   initialState,
   reducers: {
-    getInitialHistoryStarted: (state) => ({
+    getHistoryStarted: (state, _action: PayloadAction<GetPointsHistoryStartedAction>) => ({
       ...state,
-      pointsHistory: [],
-      nextPageUrl: null,
-      getHistoryStatus: 'loading-initial',
+      getHistoryStatus: 'loading',
     }),
 
     getHistorySucceeded: (state, action: PayloadAction<GetPointsHistorySucceededAction>) => ({
       ...state,
-      pointsHistory: [...state.pointsHistory, ...action.payload.newPointsHistory],
+      pointsHistory: action.payload.appendHistory
+        ? [...state.pointsHistory, ...action.payload.newPointsHistory]
+        : action.payload.newPointsHistory,
       nextPageUrl: action.payload.nextPageUrl,
       getHistoryStatus: 'idle',
     }),
@@ -40,19 +45,9 @@ const slice = createSlice({
       ...state,
       getHistoryStatus: 'error',
     }),
-
-    getMoreHistoryStarted: (state) => ({
-      ...state,
-      getHistoryStatus: 'loading-more',
-    }),
   },
 })
 
-export const {
-  getInitialHistoryStarted,
-  getHistorySucceeded,
-  getHistoryError,
-  getMoreHistoryStarted,
-} = slice.actions
+export const { getHistoryStarted, getHistorySucceeded, getHistoryError } = slice.actions
 
 export default slice.reducer
