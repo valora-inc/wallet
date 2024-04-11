@@ -56,7 +56,6 @@ export enum Screens {
   Main = 'Main',
   MainModal = 'MainModal',
   MultichainBeta = 'MultichainBeta',
-  NameAndPicture = 'NameAndPicture',
   NotificationCenter = 'NotificationCenter',
   NftsInfoCarousel = 'NftsInfoCarousel',
   OnboardingRecoveryPhrase = 'OnboardingRecoveryPhrase',

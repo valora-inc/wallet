@@ -43,7 +43,6 @@ export interface OnboardingProps {
   skipVerification: boolean
   numberAlreadyVerifiedCentrally: boolean
   chooseAdventureEnabled: boolean
-  onboardingNameScreenEnabled: boolean
   showCloudAccountBackupRestore: boolean
 }
 
@@ -51,15 +50,11 @@ export interface OnboardingProps {
  * Helper function to determine where onboarding starts.
  */
 export function firstOnboardingScreen({
-  onboardingNameScreenEnabled,
   recoveringFromStoreWipe,
 }: {
-  onboardingNameScreenEnabled: boolean
   recoveringFromStoreWipe: boolean
-}): Screens.NameAndPicture | Screens.ImportSelect | Screens.ImportWallet | Screens.PincodeSet {
-  if (onboardingNameScreenEnabled) {
-    return Screens.NameAndPicture
-  } else if (recoveringFromStoreWipe) {
+}): Screens.ImportSelect | Screens.ImportWallet | Screens.PincodeSet {
+  if (recoveringFromStoreWipe) {
     return getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE)
       ? Screens.ImportSelect
       : Screens.ImportWallet
@@ -104,7 +99,6 @@ export const onboardingPropsSelector = createSelector(
       skipVerification,
       numberAlreadyVerifiedCentrally,
       chooseAdventureEnabled,
-      onboardingNameScreenEnabled,
       showCloudAccountBackupRestore,
     }
   }
@@ -116,7 +110,6 @@ export const onboardingPropsSelector = createSelector(
  */
 export function getOnboardingStepValues(screen: Screens, onboardingProps: OnboardingProps) {
   const firstScreen = firstOnboardingScreen({
-    onboardingNameScreenEnabled: onboardingProps.onboardingNameScreenEnabled,
     recoveringFromStoreWipe: onboardingProps.recoveringFromStoreWipe,
   })
 
@@ -208,7 +201,6 @@ export function goToNextOnboardingScreen({
 export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: GetStepInfoProps) {
   const { navigate, popToScreen, finishOnboarding } = navigator
   const {
-    recoveringFromStoreWipe,
     choseToRestoreAccount,
     supportedBiometryType,
     skipVerification,
@@ -238,16 +230,6 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
   }
 
   switch (firstScreenInStep) {
-    case Screens.NameAndPicture:
-      return {
-        next: () => {
-          if (recoveringFromStoreWipe) {
-            navigateImportOrImportSelect()
-          } else {
-            navigate(Screens.PincodeSet)
-          }
-        },
-      }
     case Screens.PincodeSet:
       return {
         next: () => {

@@ -27,7 +27,6 @@ describe('onboarding steps', () => {
       chooseAdventureEnabled: false,
     },
     screens: [
-      Screens.NameAndPicture,
       Screens.PincodeSet,
       Screens.EnableBiometry,
       Screens.ProtectWallet,
@@ -44,7 +43,6 @@ describe('onboarding steps', () => {
       supportedBiometryType: BIOMETRY_TYPE.FACE_ID,
       recoveringFromStoreWipe: false,
       chooseAdventureEnabled: true,
-      onboardingNameScreenEnabled: false,
     },
     screens: [
       Screens.PincodeSet,
@@ -64,7 +62,7 @@ describe('onboarding steps', () => {
       recoveringFromStoreWipe: false,
       chooseAdventureEnabled: false,
     },
-    screens: [Screens.NameAndPicture, Screens.PincodeSet, Screens.ProtectWallet],
+    screens: [Screens.PincodeSet, Screens.ProtectWallet],
     name: 'newUserFlowWithEverythingDisabled',
     finalScreen: Screens.TabHome,
   }
@@ -79,7 +77,6 @@ describe('onboarding steps', () => {
       chooseAdventureEnabled: false,
     },
     screens: [
-      Screens.NameAndPicture,
       Screens.PincodeSet,
       Screens.EnableBiometry,
       Screens.ImportWallet,
@@ -139,23 +136,14 @@ describe('onboarding steps', () => {
   )
 
   describe('firstOnboardingScreen', () => {
-    it('should return NameAndPicture if onboardingNameScreenEnabled is true', () => {
-      const firstScreen = firstOnboardingScreen({
-        onboardingNameScreenEnabled: true,
-        recoveringFromStoreWipe: false,
-      })
-      expect(firstScreen).toEqual(Screens.NameAndPicture)
-    })
     it('should return ImportWallet if recoveringFromStoreWipe is true and onboardingNameScreenEnabled is false', () => {
       const firstScreen = firstOnboardingScreen({
-        onboardingNameScreenEnabled: false,
         recoveringFromStoreWipe: true,
       })
       expect(firstScreen).toEqual(Screens.ImportWallet)
     })
     it('should return PincodeSet if recoveringFromStoreWipe is false and onboardingNameScreenEnabled is false', () => {
       const firstScreen = firstOnboardingScreen({
-        onboardingNameScreenEnabled: false,
         recoveringFromStoreWipe: false,
       })
       expect(firstScreen).toEqual(Screens.PincodeSet)
@@ -192,27 +180,7 @@ describe('onboarding steps', () => {
         expect(navigate).toHaveBeenCalledWith(Screens.ProtectWallet)
       })
     })
-    describe('Screens.NameAndPicture', () => {
-      it('should navigate to ImportWallet if recoveringFromStoreWipe is true', () => {
-        goToNextOnboardingScreen({
-          firstScreenInCurrentStep: Screens.NameAndPicture,
-          onboardingProps,
-        })
-        expect(mockStore.dispatch).not.toHaveBeenCalled()
-        expect(navigate).toHaveBeenCalledWith(Screens.ImportWallet)
-      })
-      it('should navigate to PincodeSet if recoveringFromStoreWipe is false', () => {
-        goToNextOnboardingScreen({
-          firstScreenInCurrentStep: Screens.NameAndPicture,
-          onboardingProps: {
-            ...onboardingProps,
-            recoveringFromStoreWipe: false,
-          },
-        })
-        expect(mockStore.dispatch).not.toHaveBeenCalled()
-        expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet)
-      })
-    })
+
     describe('Screens.PincodeSet', () => {
       it('should navigate to EnableBiometry if supportedBiometryType is not null', () => {
         goToNextOnboardingScreen({

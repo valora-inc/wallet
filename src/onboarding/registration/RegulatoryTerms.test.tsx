@@ -30,10 +30,10 @@ describe('RegulatoryTermsScreen', () => {
       fireEvent.press(wrapper.getByTestId('AcceptTermsButton'))
       expect(acceptTerms).toHaveBeenCalled()
     })
-    it('navigates to NameAndPicture', () => {
+    it('navigates to ImportSelect', () => {
       const store = createMockStore({})
       const acceptTerms = jest.fn()
-      jest.mocked(firstOnboardingScreen).mockReturnValue(Screens.NameAndPicture)
+      jest.mocked(firstOnboardingScreen).mockReturnValue(Screens.ImportSelect)
 
       const wrapper = render(
         <Provider store={store}>
@@ -46,7 +46,7 @@ describe('RegulatoryTermsScreen', () => {
       )
       fireEvent.press(wrapper.getByTestId('AcceptTermsButton'))
       expect(firstOnboardingScreen).toHaveBeenCalled()
-      expect(navigate).toHaveBeenCalledWith(Screens.NameAndPicture)
+      expect(navigate).toHaveBeenCalledWith(Screens.ImportSelect)
     })
   })
 })

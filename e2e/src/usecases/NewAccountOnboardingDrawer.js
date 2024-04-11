@@ -1,5 +1,4 @@
 import { getAddressChunks } from '@celo/utils/lib/address'
-import { EXAMPLE_NAME } from '../utils/consts'
 import { launchApp } from '../utils/retries'
 import {
   completeProtectWalletScreen,
@@ -56,10 +55,6 @@ export default NewAccountOnboarding = () => {
     await element(by.id('scrollView')).scrollTo('bottom')
     await expect(element(by.id('AcceptTermsButton'))).toBeVisible()
     await element(by.id('AcceptTermsButton')).tap()
-
-    // Set name and number
-    await element(by.id('NameEntry')).replaceText(EXAMPLE_NAME)
-    await element(by.id('NameAndPictureContinueButton')).tap()
 
     // Set & Verify pin
     await enterPinUi()
