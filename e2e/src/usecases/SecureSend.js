@@ -68,9 +68,9 @@ export default SecureSend = () => {
       await waitForElementByIdAndTap('cUSDSymbol', 30_000)
 
       // Enter the amount and review
-      await element(by.id('SendEnterAmount/Input')).tap()
-      await element(by.id('SendEnterAmount/Input')).replaceText(AMOUNT_TO_SEND)
-      await element(by.id('SendEnterAmount/Input')).tapReturnKey()
+      await element(by.id('SendEnterAmount/TokenAmountInput')).tap()
+      await element(by.id('SendEnterAmount/TokenAmountInput')).replaceText(AMOUNT_TO_SEND)
+      await element(by.id('SendEnterAmount/TokenAmountInput')).tapReturnKey()
       await element(by.id('SendEnterAmount/ReviewButton')).tap()
 
       // Write a comment.

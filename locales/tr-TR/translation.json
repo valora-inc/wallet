@@ -2032,7 +2032,7 @@
     },
     "invite": {
       "title": "Arkadaşlarınıza kripto gönderin",
-      "subtitle": "Kişi listenizden arkadaşlarınızı davet edin"
+      "subtitle": "Kişilerinize fon veya davetiye gönderin"
     },
     "jumpstart": {
       "title": "Canlı Bağlantı ile Gönder",
@@ -2117,7 +2117,7 @@
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Canlı Bağlantı Oluştur",
+    "title": "Canlı Bağlantı Oluşturma",
     "sendAmountLabel": "Canlı Bağlantı Tutarı",
     "confirmButton": "Bağlantı gönder ve oluştur",
     "info": "Bir bağlantı oluşturduğunuzda fonlar cüzdanınızdan çekilir. Bağlantıyı istediğiniz zaman geri alabilirsiniz. Bağlantıları dikkatli paylaşın.",
@@ -2128,7 +2128,7 @@
     }
   },
   "jumpstartShareLinkScreen": {
-    "title": "Canlı Bağlantı Paylaş",
+    "title": "Canlı Bağlantınızı Paylaşın",
     "description": "Seçtiğiniz mesajlaşma uygulaması aracılığıyla {{tokenSymbol}} göndermek için bağlantıyı kopyalayın veya QR kodunu kullanın.",
     "linkLabel": "Canlı Bağlantı",
     "linkCopiedMessage": "Canlı Bağlantı kopyalandı",
@@ -2138,7 +2138,7 @@
       "ctaNavigate": "Ana Sayfaya git"
     },
     "ctaShare": "Bağlantı Paylaş",
-    "ctaScanQRCode": "Kare kodu tara",
+    "ctaScanQRCode": "QR Kodunu Göster",
     "shareMessage": "Merhaba! Size {{appName}} uygulamasında {{tokenAmount}} {{tokenSymbol}} fon içeren bir bağlantı gönderiyorum. Uygulamayı indirmek için bu bağlantıyı kullanın ve fonlar canlı olarak sizi bekliyor olacak. {{link}}",
     "qrCodeBottomSheet": {
       "title": "Fonları almak için kodu tarayın",

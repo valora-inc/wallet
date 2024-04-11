@@ -2030,7 +2030,7 @@
     },
     "invite": {
       "title": "Gửi tiền điện tử cho bạn bè",
-      "subtitle": "Mời bạn bè từ danh bạ"
+      "subtitle": "Send funds or an invite to your contacts"
     },
     "jumpstart": {
       "title": "Send with a Live Link",
@@ -2115,7 +2115,7 @@
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Tạo đường liên kết trực tiếp",
+    "title": "Create a Live Link",
     "sendAmountLabel": "Số tiền gửi qua đường liên kết trực tiếp",
     "confirmButton": "Gửi và tạo đường liên kết",
     "info": "Khi bạn tạo một đường liên kết, tiền sẽ được rút từ ví của bạn. Bạn có thể thu hồi đường liên kết này bất cứ lúc nào. Hãy thận trọng khi chia sẻ đường liên kết.",
@@ -2126,7 +2126,7 @@
     }
   },
   "jumpstartShareLinkScreen": {
-    "title": "Chia sẻ đường liên kết trực tiếp",
+    "title": "Share your Live Link",
     "description": "Sao chép đường liên kết để gửi {{tokenSymbol}} qua ứng dụng nhắn tin mà bạn chọn hoặc sử dụng mã QR.",
     "linkLabel": "Đường liên kết trực tiếp",
     "linkCopiedMessage": "Đã sao chép đường liên kết trực tiếp",
@@ -2136,7 +2136,7 @@
       "ctaNavigate": "Đi đến Trang chủ"
     },
     "ctaShare": "Chia sẻ đường liên kết",
-    "ctaScanQRCode": "Quét mã QR",
+    "ctaScanQRCode": "Show QR Code",
     "shareMessage": "Xin chào! Tôi đang gửi cho bạn một đường liên kết được nạp tiền bằng {{tokenAmount}} {{tokenSymbol}} trên {{appName}}. Hãy sử dụng đường liên kết này để tải xuống ứng dụng và số tiền sẽ sẵn sàng chờ bạn sử dụng. {{link}}",
     "qrCodeBottomSheet": {
       "title": "Quét mã để nhận tiền",

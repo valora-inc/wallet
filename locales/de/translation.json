@@ -2032,7 +2032,7 @@
     },
     "invite": {
       "title": "Sende Krypto an deine Freunde.",
-      "subtitle": "Lade Freunde aus deiner Kontaktliste ein."
+      "subtitle": "Sende Geldmittel oder eine Einladung an deine Kontakte"
     },
     "jumpstart": {
       "title": "Senden mit einem Live-Link",
@@ -2117,7 +2117,7 @@
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Live-Link erstellen",
+    "title": "Einen Live-Link erstellen",
     "sendAmountLabel": "Betrag des Live-Links",
     "confirmButton": "Link senden und erstellen",
     "info": "Wenn du einen Link erstellst, wird Guthaben von deiner Wallet abgehoben. Du kannst den Link jederzeit zurückfordern. Teile Links mit Bedacht.",
@@ -2128,7 +2128,7 @@
     }
   },
   "jumpstartShareLinkScreen": {
-    "title": "Live-Link teilen",
+    "title": "Teile deinen Live Link",
     "description": "Kopiere den Link, um {{tokenSymbol}} über die Messaging-App deiner Wahl zu senden, oder verwende den QR-Code.",
     "linkLabel": "Live-Link",
     "linkCopiedMessage": "Live-Link kopiert",
@@ -2138,7 +2138,7 @@
       "ctaNavigate": "Zum Homescreen gehen"
     },
     "ctaShare": "Link teilen",
-    "ctaScanQRCode": "Scan QR-Code",
+    "ctaScanQRCode": "QR-Code anzeigen",
     "shareMessage": "Hallo! Ich sende dir einen Link, der {{tokenAmount}} {{tokenSymbol}} auf {{appName}} enthält. Nutze diesen Link, um die App herunterzuladen, und hole dir dein Guthaben ab! {{link}}",
     "qrCodeBottomSheet": {
       "title": "Scanne den Code, um Guthaben zu erhalten",

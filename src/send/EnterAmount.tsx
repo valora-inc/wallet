@@ -2,7 +2,14 @@ import { parseInputAmount } from '@celo/utils/lib/parsing'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, TextInput as RNTextInput, StyleSheet, Text } from 'react-native'
+import {
+  Platform,
+  TextInput as RNTextInput,
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextStyle,
+} from 'react-native'
 import { View } from 'react-native-animatable'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -25,14 +32,25 @@ import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
+import { LocalCurrencySymbol } from 'src/localCurrency/consts'
+import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { useSelector } from 'src/redux/hooks'
+import { AmountEnteredIn } from 'src/send/types'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import { useLocalToTokenAmount, useTokenToLocalAmount } from 'src/tokens/hooks'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { PreparedTransactionsResult, getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
+
+export interface ProceedArgs {
+  tokenAmount: BigNumber
+  localAmount: BigNumber | null
+  token: TokenBalance
+  amountEnteredIn: AmountEnteredIn
+}
 
 interface Props {
   tokens: TokenBalance[]
@@ -46,7 +64,7 @@ interface Props {
   ): void
   prepareTransactionError?: Error
   tokenSelectionDisabled?: boolean
-  onPressProceed(amount: BigNumber, token: TokenBalance): void
+  onPressProceed(args: ProceedArgs): void
   disableProceed?: boolean
   children?: React.ReactNode
 }
@@ -105,15 +123,16 @@ function EnterAmount({
 }: Props) {
   const { t } = useTranslation()
 
-  // the startPosition and textInputRef variables exist to ensure TextInput
-  // displays the start of the value for long values on Android
-  // https://github.com/facebook/react-native/issues/14845
-  const [startPosition, setStartPosition] = useState<number | undefined>(0)
-  const textInputRef = useRef<RNTextInput | null>(null)
+  const tokenAmountInputRef = useRef<RNTextInput>(null)
+  const localAmountInputRef = useRef<RNTextInput>(null)
   const tokenBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const [token, setToken] = useState<TokenBalance>(() => defaultToken ?? tokens[0])
-  const [amount, setAmount] = useState<string>('')
+  const [tokenAmountInput, setTokenAmountInput] = useState<string>('')
+  const [localAmountInput, setLocalAmountInput] = useState<string>('')
+  const [enteredIn, setEnteredIn] = useState<AmountEnteredIn>('token')
+  // this should never be null, just adding a default to make TS happy
+  const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
 
   const onTokenPickerSelect = () => {
     tokenBottomSheetRef.current?.snapToIndex(0)
@@ -134,8 +153,10 @@ function EnterAmount({
     // eventually we may want to do something smarter here, like subtracting gas fees from the max amount if
     // this is a gas-paying token. for now, we are just showing a warning to the user prompting them to lower the amount
     // if there is not enough for gas
-    setAmount(token.balance.toString())
-    textInputRef.current?.blur()
+    setTokenAmountInput(token.balance.toString())
+    setEnteredIn('token')
+    tokenAmountInputRef.current?.blur()
+    localAmountInputRef.current?.blur()
     ValoraAnalytics.track(SendEvents.max_pressed, {
       tokenId: token.tokenId,
       tokenAddress: token.address,
@@ -143,14 +164,46 @@ function EnterAmount({
     })
   }
 
-  const handleSetStartPosition = (value?: number) => {
-    if (Platform.OS === 'android') {
-      setStartPosition(value)
-    }
-  }
+  const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
+  const parsedTokenAmount = useMemo(
+    () => parseInputAmount(tokenAmountInput, decimalSeparator),
+    [tokenAmountInput]
+  )
+  const parsedLocalAmount = useMemo(
+    () =>
+      parseInputAmount(
+        localAmountInput.replaceAll(groupingSeparator, '').replace(localCurrencySymbol, ''),
+        decimalSeparator
+      ),
+    [localAmountInput]
+  )
 
-  const { decimalSeparator } = getNumberFormatSettings()
-  const parsedAmount = useMemo(() => parseInputAmount(amount, decimalSeparator), [amount])
+  const tokenToLocal = useTokenToLocalAmount(parsedTokenAmount, token.tokenId)
+  const localToToken = useLocalToTokenAmount(parsedLocalAmount, token.tokenId)
+  const { tokenAmount, localAmount } = useMemo(() => {
+    if (enteredIn === 'token') {
+      setLocalAmountInput(
+        tokenToLocal && tokenToLocal.gt(0)
+          ? `${localCurrencySymbol}${tokenToLocal.toFormat(2)}` // automatically adds grouping separators
+          : ''
+      )
+      return {
+        tokenAmount: parsedTokenAmount,
+        localAmount: tokenToLocal,
+      }
+    } else {
+      setTokenAmountInput(
+        localToToken && localToToken.gt(0)
+          ? // no group separator for token amount
+            localToToken.toFormat({ decimalSeparator })
+          : ''
+      )
+      return {
+        tokenAmount: localToToken,
+        localAmount: parsedLocalAmount,
+      }
+    }
+  }, [tokenAmountInput, localAmountInput, enteredIn, token])
 
   const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
@@ -159,16 +212,20 @@ function EnterAmount({
   useEffect(() => {
     onClearPreparedTransactions()
 
-    if (parsedAmount.isLessThanOrEqualTo(0) || parsedAmount.isGreaterThan(token.balance)) {
+    if (
+      !tokenAmount ||
+      tokenAmount.isLessThanOrEqualTo(0) ||
+      tokenAmount.isGreaterThan(token.balance)
+    ) {
       return
     }
     const debouncedRefreshTransactions = setTimeout(() => {
-      return onRefreshPreparedTransactions(parsedAmount, token, feeCurrencies)
+      return onRefreshPreparedTransactions(tokenAmount, token, feeCurrencies)
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
     return () => clearTimeout(debouncedRefreshTransactions)
-  }, [parsedAmount, token])
+  }, [tokenAmount, token])
 
-  const showLowerAmountError = token.balance.lt(amount)
+  const showLowerAmountError = token.balance.lt(tokenAmount ?? 0)
   const showMaxAmountWarning =
     !showLowerAmountError &&
     prepareTransactionsResult &&
@@ -186,7 +243,7 @@ function EnterAmount({
   const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency ?? feeCurrencies[0]
   let feeAmountSection = <FeeLoading />
   if (
-    amount === '' ||
+    tokenAmountInput === '' ||
     showLowerAmountError ||
     (prepareTransactionsResult && !maxFeeAmount) ||
     prepareTransactionError
@@ -194,6 +251,46 @@ function EnterAmount({
     feeAmountSection = <FeePlaceholder feeTokenSymbol={feeTokenSymbol} />
   } else if (prepareTransactionsResult && maxFeeAmount) {
     feeAmountSection = <FeeAmount feeAmount={maxFeeAmount} feeTokenId={feeTokenId} />
+  }
+
+  const onTokenAmountInputChange = (value: string) => {
+    if (!value) {
+      setTokenAmountInput('')
+      setEnteredIn('token')
+    } else {
+      if (value.startsWith(decimalSeparator)) {
+        value = `0${value}`
+      }
+      // only allow numbers and one decimal separator
+      if (value.match(/^(?:\d+[.,]?\d*|[.,]\d*|[.,])$/)) {
+        setTokenAmountInput(value)
+        setEnteredIn('token')
+      }
+    }
+  }
+
+  const onLocalAmountInputChange = (value: string) => {
+    // remove leading currency symbol and grouping separators
+    if (value.startsWith(localCurrencySymbol)) {
+      value = value.slice(1)
+    }
+    value = value.replaceAll(groupingSeparator, '')
+    if (!value) {
+      setLocalAmountInput('')
+      setEnteredIn('local')
+    } else {
+      if (value.startsWith(decimalSeparator)) {
+        value = `0${value}`
+      }
+
+      // only allow numbers, one decimal separator, and two decimal places
+      if (value.match(/^(\d+([.,])?\d{0,2}|[.,]\d{0,2}|[.,])$/)) {
+        setLocalAmountInput(
+          `${localCurrencySymbol}${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, groupingSeparator)
+        )
+        setEnteredIn('local')
+      }
+    }
   }
 
   return (
@@ -204,53 +301,14 @@ function EnterAmount({
           <Text style={styles.title}>{t('sendEnterAmountScreen.title')}</Text>
           <View style={styles.inputBox}>
             <View style={styles.inputRow}>
-              <TextInput
-                forwardedRef={textInputRef}
-                onChangeText={(value) => {
-                  handleSetStartPosition(undefined)
-                  if (!value) {
-                    setAmount('')
-                  } else {
-                    if (value.startsWith(decimalSeparator)) {
-                      value = `0${value}`
-                    }
-                    setAmount(
-                      (prev) => value.match(/^(?:\d+[.,]?\d*|[.,]\d*|[.,])$/)?.join('') ?? prev
-                    )
-                  }
-                }}
-                value={amount}
-                placeholder="0"
-                // hide input when loading to prevent the UI height from jumping
-                style={styles.input}
-                keyboardType="decimal-pad"
-                // Work around for RN issue with Samsung keyboards
-                // https://github.com/facebook/react-native/issues/22005
-                autoCapitalize="words"
-                autoFocus={true}
-                // unset lineHeight to allow ellipsis on long inputs on iOS. For
-                // android, ellipses doesn't work and unsetting line height causes
-                // height changes when amount is entered
-                inputStyle={[
-                  styles.inputText,
-                  Platform.select({ ios: { lineHeight: undefined } }),
-                  showLowerAmountError && { color: Colors.error },
-                ]}
-                testID="SendEnterAmount/Input"
-                onBlur={() => {
-                  handleSetStartPosition(0)
-                }}
-                onFocus={() => {
-                  handleSetStartPosition(amount?.length ?? 0)
-                }}
-                onSelectionChange={() => {
-                  handleSetStartPosition(undefined)
-                }}
-                selection={
-                  Platform.OS === 'android' && typeof startPosition === 'number'
-                    ? { start: startPosition }
-                    : undefined
-                }
+              <AmountInput
+                inputRef={tokenAmountInputRef}
+                inputValue={tokenAmountInput}
+                onInputChange={onTokenAmountInputChange}
+                inputStyle={[styles.inputText, showLowerAmountError && { color: Colors.error }]}
+                autoFocus
+                placeholder={new BigNumber(0).toFormat(2)}
+                testID="SendEnterAmount/TokenAmountInput"
               />
               <Touchable
                 borderRadius={TOKEN_SELECTOR_BORDER_RADIUS}
@@ -272,11 +330,13 @@ function EnterAmount({
               </Text>
             )}
             <View style={styles.localAmountRow}>
-              <TokenDisplay
-                amount={parsedAmount}
-                tokenId={token.tokenId}
-                style={styles.localAmount}
-                testID="SendEnterAmount/LocalAmount"
+              <AmountInput
+                inputValue={localAmountInput}
+                onInputChange={onLocalAmountInputChange}
+                inputRef={localAmountInputRef}
+                inputStyle={styles.localAmount}
+                placeholder={`${localCurrencySymbol}${new BigNumber(0).toFormat(2)}`}
+                testID="SendEnterAmount/LocalAmountInput"
               />
               <Touchable
                 borderRadius={MAX_BORDER_RADIUS}
@@ -335,7 +395,10 @@ function EnterAmount({
         {children}
 
         <Button
-          onPress={() => onPressProceed(parsedAmount, token)}
+          onPress={() =>
+            tokenAmount &&
+            onPressProceed({ tokenAmount, localAmount, token, amountEnteredIn: enteredIn })
+          }
           text={t('review')}
           style={styles.reviewButton}
           size={BtnSizes.FULL}
@@ -356,6 +419,73 @@ function EnterAmount({
         titleStyle={styles.title}
       />
     </SafeAreaView>
+  )
+}
+
+function AmountInput({
+  inputValue,
+  onInputChange,
+  inputRef,
+  inputStyle,
+  autoFocus,
+  placeholder = '0',
+  testID = 'AmountInput',
+}: {
+  inputValue: string
+  onInputChange(value: string): void
+  inputRef: React.MutableRefObject<RNTextInput | null>
+  inputStyle?: StyleProp<TextStyle>
+  autoFocus?: boolean
+  placeholder?: string
+  testID?: string
+}) {
+  // the startPosition and inputRef variables exist to ensure TextInput
+  // displays the start of the value for long values on Android
+  // https://github.com/facebook/react-native/issues/14845
+  const [startPosition, setStartPosition] = useState<number | undefined>(0)
+
+  const handleSetStartPosition = (value?: number) => {
+    if (Platform.OS === 'android') {
+      setStartPosition(value)
+    }
+  }
+
+  return (
+    <View style={styles.input}>
+      <TextInput
+        forwardedRef={inputRef}
+        onChangeText={(value) => {
+          handleSetStartPosition(undefined)
+          onInputChange(value)
+        }}
+        value={inputValue || undefined}
+        placeholder={placeholder}
+        keyboardType="decimal-pad"
+        // Work around for RN issue with Samsung keyboards
+        // https://github.com/facebook/react-native/issues/22005
+        autoCapitalize="words"
+        autoFocus={autoFocus}
+        // unset lineHeight to allow ellipsis on long inputs on iOS. For
+        // android, ellipses doesn't work and unsetting line height causes
+        // height changes when amount is entered
+        inputStyle={[inputStyle, Platform.select({ ios: { lineHeight: undefined } })]}
+        testID={testID}
+        onBlur={() => {
+          handleSetStartPosition(0)
+        }}
+        onFocus={() => {
+          handleSetStartPosition(inputValue?.length ?? 0)
+        }}
+        onSelectionChange={() => {
+          handleSetStartPosition(undefined)
+        }}
+        selection={
+          Platform.OS === 'android' && typeof startPosition === 'number'
+            ? { start: startPosition }
+            : undefined
+        }
+      />
+    </View>
   )
 }
 
@@ -422,7 +552,6 @@ const styles = StyleSheet.create({
   },
   localAmount: {
     ...typeScale.labelMedium,
-    flex: 1,
   },
   maxTouchable: {
     paddingHorizontal: 12,
@@ -466,7 +595,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   lowerAmountError: {
-    color: Colors.error,
+    color: Colors.errorDark,
     ...typeScale.labelXSmall,
     paddingLeft: Spacing.Regular16,
   },

@@ -2032,7 +2032,7 @@
     },
     "invite": {
       "title": "Invia criptovalute ai tuoi amici",
-      "subtitle": "Invita amici dal tuo elenco dei contatti"
+      "subtitle": "Invia fondi o un invito ai tuoi contatti"
     },
     "jumpstart": {
       "title": "Invia con un link in diretta",
@@ -2117,7 +2117,7 @@
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Crea un link diretto",
+    "title": "Crea un collegamento in tempo reale",
     "sendAmountLabel": "Importo del link diretto",
     "confirmButton": "Invia e crea un link",
     "info": "Quando crei un link, i fondi vengono prelevati dal tuo portafoglio. Puoi recuperare il link in qualsiasi momento. Condividi i link con attenzione.",
@@ -2128,7 +2128,7 @@
     }
   },
   "jumpstartShareLinkScreen": {
-    "title": "Condividi il link diretto",
+    "title": "Condividi il tuo link in diretta",
     "description": "Copia il link per inviare {{tokenSymbol}} tramite la tua app di messaggistica preferita, oppure utilizza il codice QR.",
     "linkLabel": "Link diretto",
     "linkCopiedMessage": "Link live copiato",
@@ -2138,7 +2138,7 @@
       "ctaNavigate": "Vai alla schermata iniziale"
     },
     "ctaShare": "Condividi link",
-    "ctaScanQRCode": "Inquadra codice QR",
+    "ctaScanQRCode": "Mostra codice QR",
     "shareMessage": "Ciao! Ti invio un link finanziato con {{tokenAmount}} {{tokenSymbol}} su {{appName}}. Utilizza questo link per scaricare l'app e i fondi saranno attivi. Ti aspetto. {{link}}",
     "qrCodeBottomSheet": {
       "title": "Scansiona il codice per ricevere i fondi",

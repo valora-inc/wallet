@@ -2032,7 +2032,7 @@
     },
     "invite": {
       "title": "Envie criptos para seus amigos",
-      "subtitle": "Convide amigos da sua lista de contatos"
+      "subtitle": "Envie fundos ou um convite para seus contatos"
     },
     "jumpstart": {
       "title": "Enviar com um link ao vivo",
@@ -2117,7 +2117,7 @@
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Criar link ativo",
+    "title": "Criar um link ao vivo",
     "sendAmountLabel": "Quantia do link ativo",
     "confirmButton": "Enviar e criar link",
     "info": "Ao criar um link, os fundos são retirados de sua carteira. Você pode recuperar o link a qualquer momento. Compartilhe links com cuidado.",
@@ -2128,7 +2128,7 @@
     }
   },
   "jumpstartShareLinkScreen": {
-    "title": "Compartilhar link ativo",
+    "title": "Compartilhe seu Live Link",
     "description": "Copie o link para enviar {{tokenSymbol}} pelo aplicativo de mensagens de sua preferência ou use o código QR.",
     "linkLabel": "Link ativo",
     "linkCopiedMessage": "Link ativo copiado",
@@ -2138,7 +2138,7 @@
       "ctaNavigate": "Ir para a tela inicial"
     },
     "ctaShare": "Compartilhar link",
-    "ctaScanQRCode": "Escanear código QR",
+    "ctaScanQRCode": "Mostrar código QR",
     "shareMessage": "Olá! Estou te enviando um link com fundos de {{tokenAmount}} {{tokenSymbol}} na {{appName}}. Use esse link para baixar o aplicativo e os fundos estarão disponíveis, esperando por você. {{link}}",
     "qrCodeBottomSheet": {
       "title": "Leia o código para receber fundos",
