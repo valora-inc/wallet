@@ -2032,7 +2032,7 @@
     },
     "invite": {
       "title": "Send crypto to your friends",
-      "subtitle": "Invite friends from your contacts list"
+      "subtitle": "Send funds or an invite to your contacts"
     },
     "jumpstart": {
       "title": "Send with a Live Link",
@@ -2117,7 +2117,7 @@
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Create Live Link",
+    "title": "Create a Live Link",
     "sendAmountLabel": "Live Link Amount",
     "confirmButton": "Send and create link",
     "info": "When you create a link, funds are withdrawn from your wallet. You can reclaim the link anytime. Share links with care.",
@@ -2128,7 +2128,7 @@
     }
   },
   "jumpstartShareLinkScreen": {
-    "title": "Share Live Link",
+    "title": "Share your Live Link",
     "description": "Copy the link to send {{tokenSymbol}} via your messaging app of choice, or use the QR code.",
     "linkLabel": "Live Link",
     "linkCopiedMessage": "Live Link copied",
@@ -2138,7 +2138,7 @@
       "ctaNavigate": "Go Home"
     },
     "ctaShare": "Share Link",
-    "ctaScanQRCode": "Scan QR Code",
+    "ctaScanQRCode": "Show QR Code",
     "shareMessage": "Hi! I’m sending you a link funded with {{tokenAmount}} {{tokenSymbol}} on {{appName}}. Use this link to download the app and the funds will be live, waiting for you. {{link}}",
     "qrCodeBottomSheet": {
       "title": "Scan the code to receive funds",

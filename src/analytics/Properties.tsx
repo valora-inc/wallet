@@ -69,11 +69,10 @@ import { NotificationReceiveState } from 'src/notifications/types'
 import { AdventureCardName } from 'src/onboarding/types'
 import { PointsActivity } from 'src/points/types'
 import { RecipientType } from 'src/recipients/recipient'
-import { QrCode } from 'src/send/types'
+import { AmountEnteredIn, QrCode } from 'src/send/types'
 import { Field } from 'src/swap/types'
 import { TokenDetailsActionName } from 'src/tokens/types'
 import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
-import { Currency } from 'src/utils/currencies'
 
 type Web3LibraryProps = { web3Library: 'contract-kit' | 'viem' }
 
@@ -539,30 +538,21 @@ interface SendEventsProperties {
   }
   [SendEvents.send_cancel]: undefined
   [SendEvents.send_amount_back]: undefined
-  [SendEvents.send_amount_continue]:
-    | {
-        origin: SendOrigin
-        isScan: boolean
-        localCurrencyExchangeRate?: string | null
-        localCurrency: LocalCurrencyCode
-        localCurrencyAmount: string | null
-        underlyingCurrency: Currency
-        underlyingAmount: string | null
-      }
-    | {
-        origin: SendOrigin
-        recipientType: RecipientType
-        isScan: boolean
-        localCurrencyExchangeRate?: string | null
-        localCurrency: LocalCurrencyCode
-        localCurrencyAmount: string | null
-        underlyingTokenAddress: string | null
-        underlyingTokenSymbol: string
-        underlyingAmount: string | null
-        amountInUsd: string | null
-        tokenId: string | null
-        networkId: string | null
-      }
+  [SendEvents.send_amount_continue]: {
+    origin: SendOrigin
+    recipientType: RecipientType
+    isScan: boolean
+    localCurrencyExchangeRate?: string | null
+    localCurrency: LocalCurrencyCode
+    localCurrencyAmount: string | null
+    underlyingTokenAddress: string | null
+    underlyingTokenSymbol: string
+    underlyingAmount: string | null
+    amountInUsd: string | null
+    amountEnteredIn: AmountEnteredIn
+    tokenId: string | null
+    networkId: string | null
+  }
   [SendEvents.send_confirm_back]: undefined
   [SendEvents.send_confirm_send]:
     | {
@@ -1528,7 +1518,9 @@ interface JumpstartEventsProperties {
   [JumpstartEvents.jumpstart_send_amount_exceeds_threshold]: JumpstartDepositProperties & {
     thresholdUsd: number
   }
-  [JumpstartEvents.jumpstart_send_amount_continue]: JumpstartSendProperties
+  [JumpstartEvents.jumpstart_send_amount_continue]: JumpstartSendProperties & {
+    amountEnteredIn: AmountEnteredIn
+  }
   [JumpstartEvents.jumpstart_send_confirm]: JumpstartSendProperties
   [JumpstartEvents.jumpstart_send_start]: JumpstartSendProperties
   [JumpstartEvents.jumpstart_send_succeeded]: JumpstartSendProperties
