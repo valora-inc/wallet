@@ -29,7 +29,7 @@ describe('PositionItem', () => {
       assetType: 'position',
       balanceUsd: 2.509873993477929,
       description: 'Pool',
-      network: 'celo',
+      network: 'celo-mainnet',
       title: 'MOO / CELO',
     })
   })

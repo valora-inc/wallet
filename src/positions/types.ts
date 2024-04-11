@@ -1,3 +1,5 @@
+import { NetworkId } from 'src/transactions/types'
+
 // Decimal number serialized as a string
 export type SerializedDecimalNumber = string
 
@@ -11,7 +13,7 @@ export type TokenCategory = 'claimable'
 
 export interface AbstractPosition {
   address: string // Example: 0x...
-  network: string // Example: celo
+  networkId: NetworkId // Example: celo-mainnet
   appId: string // Example: ubeswap
   appName: string
   tokens: Token[]
@@ -23,7 +25,7 @@ export interface AbstractPosition {
 // For now, we'll keep them separate
 export interface AbstractToken {
   address: string // Example: 0x...
-  network: string // Example: celo
+  networkId: NetworkId // Example: celo-mainnet
   symbol: string // Example: cUSD
   decimals: number // Example: 18
   priceUsd: SerializedDecimalNumber // Example: "1.5"
@@ -56,7 +58,7 @@ export interface Shortcut {
   appId: string
   name: string
   description: string
-  networks: string[]
+  networkIds: NetworkId[]
   category?: 'claim'
 }
 
