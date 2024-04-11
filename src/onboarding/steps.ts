@@ -85,7 +85,7 @@ export const onboardingPropsSelector = createSelector(
     skipVerification,
     numberAlreadyVerifiedCentrally
   ) => {
-    const { chooseAdventureEnabled, onboardingNameScreenEnabled } = getExperimentParams(
+    const { chooseAdventureEnabled } = getExperimentParams(
       ExperimentConfigs[StatsigExperiments.CHOOSE_YOUR_ADVENTURE]
     )
     const showCloudAccountBackupRestore = getFeatureGate(
