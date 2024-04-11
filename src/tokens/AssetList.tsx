@@ -169,7 +169,7 @@ export default function AssetList({
       // Ideally we wouldn't need the index here, but we need to differentiate
       // between positions with the same address (e.g. Uniswap V3 pool NFTs)
       // We may want to consider adding a unique identifier to the position type.
-      return `${activeTab}-${item.appId}-${item.network}-${item.address}-${index}`
+      return `${activeTab}-${item.appId}-${item.networkId}-${item.address}-${index}`
     } else if ('balance' in item) {
       return `${activeTab}-${item.tokenId}`
     } else {

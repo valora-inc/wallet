@@ -11,7 +11,7 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
 import { Position } from 'src/positions/types'
 import { Recipient } from 'src/recipients/recipient'
-import { Network, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
+import { Network, NetworkId, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
 
@@ -1644,4 +1644,91 @@ export const migrations = {
       reclaimStatus: 'idle',
     },
   }),
+  204: (state: any) => {
+    function chooseNetworkId({
+      networkId,
+      network,
+    }: {
+      networkId?: NetworkId
+      network?: 'celo' | 'celoAlfajores'
+    }) {
+      // hooks API has been returning 'networkId' since 4/2/2024, so users who have been active since then already have networkId in state
+      if (networkId) {
+        return networkId
+      }
+      // users inactive since before 4/2 have 'network' in their state
+      if (network) {
+        return network === 'celo' ? NetworkId['celo-mainnet'] : NetworkId['celo-alfajores']
+      }
+      // should never happen, but only celo mainnet has been released so far
+      return NetworkId['celo-mainnet']
+    }
+
+    function chooseNetworkIds({
+      networkIds,
+      networks,
+    }: {
+      networkIds?: NetworkId[]
+      networks?: ('celo' | 'celoAlfajores')[]
+    }) {
+      if (networkIds) {
+        return networkIds
+      }
+      if (networks) {
+        return networks.map((network) =>
+          network === 'celo' ? NetworkId['celo-mainnet'] : NetworkId['celo-alfajores']
+        )
+      }
+      // should never happen, but only celo mainnet has been released so far
+      return [NetworkId['celo-mainnet']]
+    }
+
+    return {
+      ...state,
+      positions: {
+        ...state.positions,
+        shortcuts: state.positions.shortcuts.map(
+          (shortcut: { networks?: ('celo' | 'celoAlfajores')[]; networkIds?: NetworkId[] }) => {
+            return {
+              ..._.omit(shortcut, 'networks'),
+              networkIds: chooseNetworkIds(shortcut),
+            }
+          }
+        ),
+        positions: state.positions.positions.map(
+          (position: {
+            network?: 'celo' | 'celoAlfajores'
+            networkId?: NetworkId
+            tokens: { network: 'celo' | 'celoAlfajores' }[]
+          }) => {
+            // deliberately using types specific to this migration since they are frozen, whereas types used in the app
+            //  can have breaking changes relevant to this migration
+            type LegacyToken = {
+              network?: 'celo' | 'celoAlfajores'
+              networkId?: NetworkId
+              tokens?: LegacyToken[]
+            }
+            type UpdatedToken = { networkId: NetworkId; tokens?: UpdatedToken[] }
+
+            function recursivelyUpdateToken(token: LegacyToken): UpdatedToken {
+              const output: UpdatedToken = {
+                ..._.omit(token, 'network', 'tokens'),
+                networkId: chooseNetworkId(token),
+              }
+              if (token.tokens) {
+                output.tokens = token.tokens.map(recursivelyUpdateToken)
+              }
+              return output
+            }
+
+            return {
+              ..._.omit(position, 'network'),
+              networkId: chooseNetworkId(position),
+              tokens: position.tokens.map(recursivelyUpdateToken),
+            }
+          }
+        ),
+      },
+    }
+  },
 }

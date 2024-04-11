@@ -1390,7 +1390,7 @@ interface AssetsEventsProperties {
       }
     | {
         assetType: 'position'
-        network: string // Example: 'celo'
+        network: NetworkId // Example: 'celo-mainnet'
         appId: string // Example: 'ubeswap'
         address: string
         title: string // Example: MOO / CELO
@@ -1454,7 +1454,7 @@ interface DappShortcutClaimRewardEvent {
   rewardId: string
   appName: string
   appId: string
-  network: string
+  network: NetworkId
   shortcutId: string
 }
 

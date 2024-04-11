@@ -1163,7 +1163,8 @@ export const priceHistory = {
   prices,
 }
 
-export const mockPositions: Position[] = [
+export const mockPositionsLegacy = [
+  // positions before hooks API update from 4/2/2024 and wallet redux migration 204
   {
     type: 'app-token',
     network: 'celo',
@@ -1310,11 +1311,169 @@ export const mockPositions: Position[] = [
   },
 ]
 
-export const mockShortcuts: Shortcut[] = [
+export const mockPositions: Position[] = [
+  {
+    type: 'app-token',
+    networkId: NetworkId['celo-mainnet'],
+    address: '0x19a75250c5a3ab22a8662e55a2b90ff9d3334b00',
+    appId: 'ubeswap',
+    symbol: 'ULP',
+    decimals: 18,
+    appName: 'Ubeswap',
+    displayProps: {
+      title: 'MOO / CELO',
+      description: 'Pool',
+      imageUrl: '',
+    },
+    tokens: [
+      {
+        type: 'base-token',
+        networkId: NetworkId['celo-mainnet'],
+        address: '0x17700282592d6917f6a73d0bf8accf4d578c131e',
+        symbol: 'MOO',
+        decimals: 18,
+        priceUsd: '0.006945061569050171',
+        balance: '180.868419020792201216',
+      },
+      {
+        type: 'base-token',
+        networkId: NetworkId['celo-mainnet'],
+        address: '0x471ece3750da237f93b8e339c536989b8978a438',
+        symbol: 'CELO',
+        decimals: 18,
+        priceUsd: '0.6959536890241361',
+        balance: '1.801458498251141632',
+      },
+    ],
+    pricePerShare: ['15.203387577266431', '0.15142650055521278'],
+    priceUsd: '0.21097429445966362',
+    balance: '11.896586737763895000',
+    supply: '29726.018516587721136286',
+    availableShortcutIds: [],
+  },
+  {
+    type: 'app-token',
+    networkId: NetworkId['celo-mainnet'],
+    address: '0x31f9dee850b4284b81b52b25a3194f2fc8ff18cf',
+    appId: 'ubeswap',
+    symbol: 'ULP',
+    decimals: 18,
+    appName: 'Ubeswap',
+    displayProps: {
+      title: 'G$ / cUSD',
+      description: 'Pool',
+      imageUrl: '',
+    },
+    tokens: [
+      {
+        type: 'base-token',
+        networkId: NetworkId['celo-mainnet'],
+        address: '0x62b8b11039fcfe5ab0c56e502b1c372a3d2a9c7a',
+        symbol: 'G$',
+        decimals: 18,
+        priceUsd: '0.00016235559507324788',
+        balance: '12400.197092864986',
+      },
+      {
+        type: 'base-token',
+        networkId: NetworkId['celo-mainnet'],
+        address: '0x765de816845861e75a25fca122bb6898b8b1282a',
+        symbol: 'cUSD',
+        decimals: 18,
+        priceUsd: '1',
+        balance: '2.066998331535406848',
+      },
+    ],
+    pricePerShare: ['77.49807502864574', '0.012918213362397938'],
+    priceUsd: '0.025500459450704928',
+    balance: '160.006517430032700000',
+    supply: '232.413684885485035933',
+    availableShortcutIds: [],
+  },
+  {
+    type: 'contract-position',
+    networkId: NetworkId['celo-mainnet'],
+    address: '0xda7f463c27ec862cfbf2369f3f74c364d050d93f',
+    appId: 'ubeswap',
+    appName: 'Ubeswap',
+    displayProps: {
+      title: 'CELO / cUSD',
+      description: 'Farm',
+      imageUrl: '',
+    },
+    tokens: [
+      {
+        type: 'app-token',
+        networkId: NetworkId['celo-mainnet'],
+        address: '0x1e593f1fe7b61c53874b54ec0c59fd0d5eb8621e',
+        appId: 'ubeswap',
+        symbol: 'ULP',
+        decimals: 18,
+        appName: 'Ubeswap',
+        displayProps: {
+          title: 'CELO / cUSD',
+          description: 'Pool',
+          imageUrl: '',
+        },
+        tokens: [
+          {
+            type: 'base-token',
+            networkId: NetworkId['celo-mainnet'],
+            address: '0x471ece3750da237f93b8e339c536989b8978a438',
+            symbol: 'CELO',
+            decimals: 18,
+            priceUsd: '0.6959536890241361',
+            balance: '0.950545800159603456', // total USD value = priceUsd * balance = $0.66
+            category: 'claimable',
+          },
+          {
+            type: 'base-token',
+            networkId: NetworkId['celo-mainnet'],
+            address: '0x765de816845861e75a25fca122bb6898b8b1282a',
+            symbol: 'cUSD',
+            decimals: 18,
+            priceUsd: '1',
+            balance: '0.659223169268731392',
+          },
+        ],
+        pricePerShare: ['2.827719585853931', '1.961082008754231'],
+        priceUsd: '3.9290438860550765',
+        balance: '0.336152780111169400',
+        supply: '42744.727037884449180591',
+        availableShortcutIds: [],
+      },
+      {
+        priceUsd: '0.00904673476946796903',
+        type: 'base-token',
+        category: 'claimable',
+        decimals: 18,
+        networkId: NetworkId['celo-mainnet'],
+        balance: '0.098322815093446616', // total USD value = priceUsd * balance = $0.00009
+        symbol: 'UBE',
+        address: '0x00be915b9dcf56a3cbe739d9b9c202ca692409ec',
+      },
+    ],
+    balanceUsd: '1.3207590254762067',
+    availableShortcutIds: ['claim-reward'],
+  },
+]
+
+export const mockShortcutsLegacy = [
   {
     category: 'claim',
     name: 'Claim',
     networks: ['celo'],
+    description: 'Claim rewards for staked liquidity',
+    id: 'claim-reward',
+    appId: 'ubeswap',
+  },
+]
+
+export const mockShortcuts: Shortcut[] = [
+  {
+    category: 'claim',
+    name: 'Claim',
+    networkIds: [NetworkId['celo-mainnet']],
     description: 'Claim rewards for staked liquidity',
     id: 'claim-reward',
     appId: 'ubeswap',

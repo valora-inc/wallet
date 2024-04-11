@@ -487,7 +487,7 @@
   "receivedPayment": "Alınan Ödeme",
   "receivedNft": "NFT Alındı",
   "sentNft": "NFT Gönderildi",
-  "getStarted": "Kullanmaya Başlayın",
+  "getStarted": "Başlayın",
   "manageCeloDollars": "Celo Dollar'ları Yönetin",
   "sendCeloDollars": "Celo Dollar Gönderin",
   "startEarning": "Kazanmaya Başlayın",
@@ -814,7 +814,7 @@
     "restoreWallet": "Cüzdan Yeniden Kur",
     "hasWallet": "Zaten cüzdanım var",
     "header": "{{appName}} uygulamasına hoş geldiniz! Kripto cüzdanınızı oluşturalım.",
-    "getStarted": "Kullanmaya Başlayın"
+    "getStarted": "Başlayın"
   },
   "accessContacts": {
     "disclosure": {

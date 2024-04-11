@@ -74,6 +74,7 @@ const storeWithPositions = {
   ...storeWithTokenBalances,
   positions: {
     positions: mockPositions, // Total value of positions is ~$7.91 or ~₱10.52
+    shortcuts: [],
   },
 }
 

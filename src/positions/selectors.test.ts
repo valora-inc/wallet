@@ -115,7 +115,7 @@ describe('positionsWithClaimableRewardsSelector', () => {
               "balance": "0.098322815093446616",
               "category": "claimable",
               "decimals": 18,
-              "network": "celo",
+              "networkId": "celo-mainnet",
               "priceUsd": "0.00904673476946796903",
               "symbol": "UBE",
               "type": "base-token",
@@ -125,7 +125,7 @@ describe('positionsWithClaimableRewardsSelector', () => {
               "balance": "0.950545800159603456",
               "category": "claimable",
               "decimals": 18,
-              "network": "celo",
+              "networkId": "celo-mainnet",
               "priceUsd": "0.6959536890241361",
               "symbol": "CELO",
               "type": "base-token",
@@ -134,8 +134,8 @@ describe('positionsWithClaimableRewardsSelector', () => {
           "description": "Claim rewards for staked liquidity",
           "id": "claim-reward",
           "name": "Claim",
-          "networks": [
-            "celo",
+          "networkIds": [
+            "celo-mainnet",
           ],
         },
       ]

@@ -31,7 +31,7 @@ function DappShortcutTransactionRequest({ route: { params } }: Props) {
     rewardId,
     appName: pendingAcceptShortcut?.appName ?? '',
     appId: pendingAcceptShortcut?.appId ?? '',
-    network: pendingAcceptShortcut?.network ?? '',
+    network: pendingAcceptShortcut?.networkId ?? '',
     shortcutId: pendingAcceptShortcut?.shortcutId ?? '',
   }
 
