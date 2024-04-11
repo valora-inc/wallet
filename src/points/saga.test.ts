@@ -1,7 +1,6 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import * as fetchWithTimeout from 'src/utils/fetchWithTimeout'
-import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { fetchHistory, getHistory } from 'src/points/saga'
 import { getHistoryStarted } from 'src/points/slice'
 import { FetchMock } from 'jest-fetch-mock/types'
@@ -41,7 +40,6 @@ describe('fetchHistory', () => {
   const fetchWithTimeoutSpy = jest.spyOn(fetchWithTimeout, 'fetchWithTimeout')
 
   beforeEach(() => {
-    jest.mocked(retrieveSignedMessage).mockResolvedValue('signed-message')
     jest.clearAllMocks()
     mockFetch.resetMocks()
   })
