@@ -415,7 +415,7 @@ describe('EnterAmount', () => {
     expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe('₱1')
   })
 
-  it('using token with no price makes local amount input disabled', async () => {
+  it('using token with no price disables local amount input', async () => {
     const store = createMockStore(mockStore)
 
     const tokenBalances = mockStoreBalancesToTokenBalances([
