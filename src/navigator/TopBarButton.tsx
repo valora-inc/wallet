@@ -67,10 +67,6 @@ export function TopBarIconButton(props: TopBarIconButtonProps) {
 }
 
 export function TopBarIconButtonV2({ testID, onPress, style, icon }: TopBarIconButtonProps) {
-  // Define a fixed size for the button
-  const buttonSize = 48 // Example size, adjust as needed
-  const borderRadius = buttonSize / 2 // This will make it perfectly circular
-  console.log('style CK', style) // Inside TopBarIconButtonV2
   return (
     <View style={styles.container}>
       <Touchable
@@ -114,6 +110,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: {
-    padding: Spacing.Regular16,
+    paddingVertical: Spacing.Small12,
+    paddingHorizontal: Spacing.Regular16,
   },
 })
