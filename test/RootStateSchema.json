@@ -4269,8 +4269,7 @@
                     "enum": [
                         "error",
                         "idle",
-                        "loading-initial",
-                        "loading-more"
+                        "loading"
                     ],
                     "type": "string"
                 },
