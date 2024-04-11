@@ -13,7 +13,6 @@ function BackButton(props: Props) {
       <TopBarIconButtonV2
         {...props}
         // Removing button style as it is no longer necessary
-        // style={styles.button}
         icon={<BackChevron color={props.color} height={props.height} />}
       />
     </View>
@@ -30,12 +29,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   // Removing button style as it is no longer necessary
-  // button: {
-  // Quick hack to workaround hitSlop set for the internal Touchable component not working
-  // I tried removing the parent view, but it didn't help either
-  // paddingHorizontal: Spacing.Regular16,
-  // paddingVertical: Spacing.Regular16,
-  // },
 })
 
 export default BackButton
