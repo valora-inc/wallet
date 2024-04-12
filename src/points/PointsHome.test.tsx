@@ -1,13 +1,13 @@
-import * as React from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import * as React from 'react'
 import { Provider } from 'react-redux'
-import { navigate } from 'src/navigator/NavigationService'
-import PointsHome from 'src/points/PointsHome'
-import { Screens } from 'src/navigator/Screens'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { PointsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import PointsHome from 'src/points/PointsHome'
 import { getHistoryStarted } from 'src/points/slice'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 jest.mock('src/statsig', () => ({
   getDynamicConfigParams: jest.fn().mockReturnValue({
@@ -54,69 +54,64 @@ jest.mock('src/statsig', () => ({
 
 const mockScreenProps = () => getMockStackScreenProps(Screens.PointsHome)
 
+const renderPointsHome = () => {
+  const store = createMockStore({
+    points: {
+      pointsConfig: {
+        activitiesById: {
+          swap: {
+            points: 50,
+          },
+          'create-wallet': {
+            points: 20,
+          },
+        },
+      },
+    },
+  })
+  const tree = render(
+    <Provider store={store}>
+      <PointsHome {...mockScreenProps()} />
+    </Provider>
+  )
+
+  return {
+    store,
+    ...tree,
+  }
+}
+
 describe(PointsHome, () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
   it('opens activity bottom sheet', async () => {
-    const store = createMockStore()
-    store.dispatch = jest.fn()
+    const { getByTestId, store } = renderPointsHome()
 
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <PointsHome {...mockScreenProps()} />
-      </Provider>
-    )
     fireEvent.press(getByTestId('PointsActivityButton'))
     await waitFor(() =>
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_activity_press)
     )
-    expect(store.dispatch).toHaveBeenCalledWith(getHistoryStarted({ fromPage: false }))
+    expect(store.getActions()).toEqual([getHistoryStarted({ fromPage: false })])
   })
 
   it('renders multiple sections', async () => {
-    const { getByTestId, queryByTestId } = render(
-      <Provider store={createMockStore()}>
-        <PointsHome {...mockScreenProps()} />
-      </Provider>
-    )
+    const { getByTestId, queryByTestId } = renderPointsHome()
+
     expect(getByTestId('PointsActivitySection-50')).toBeTruthy()
     expect(getByTestId('PointsActivitySection-20')).toBeTruthy()
 
     expect(getByTestId('PointsActivityCard-swap-50')).toBeTruthy()
-    expect(getByTestId('PointsActivityCard-more-coming-50')).toBeTruthy()
-    expect(getByTestId('PointsActivityCard-create-wallet-50')).toBeTruthy()
+    expect(queryByTestId('PointsActivityCard-create-wallet-50')).toBeFalsy()
 
     expect(queryByTestId('PointsActivityCard-swap-20')).toBeFalsy()
     expect(getByTestId('PointsActivityCard-more-coming-20')).toBeTruthy()
     expect(getByTestId('PointsActivityCard-create-wallet-20')).toBeTruthy()
   })
 
-  it('ignores unknown activities', async () => {
-    const { queryByTestId } = render(
-      <Provider store={createMockStore()}>
-        <PointsHome {...mockScreenProps()} />
-      </Provider>
-    )
-    expect(queryByTestId('PointsActivityCard-foo-50')).toBeFalsy()
-  })
-
-  it('ignores 0 point value activities', async () => {
-    const { queryByTestId } = render(
-      <Provider store={createMockStore()}>
-        <PointsHome {...mockScreenProps()} />
-      </Provider>
-    )
-    expect(queryByTestId('PointsActivitySection-0')).toBeFalsy()
-  })
-
   it('opens Swap bottom sheet', async () => {
-    const { getByTestId } = render(
-      <Provider store={createMockStore()}>
-        <PointsHome {...mockScreenProps()} />
-      </Provider>
-    )
+    const { getByTestId } = renderPointsHome()
     fireEvent.press(getByTestId('PointsActivityCard-swap-50'))
     await waitFor(() =>
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_press, {
@@ -126,11 +121,7 @@ describe(PointsHome, () => {
   })
 
   it('navigates to Swap screen on CTA press', async () => {
-    const { getByTestId } = render(
-      <Provider store={createMockStore()}>
-        <PointsHome {...mockScreenProps()} />
-      </Provider>
-    )
+    const { getByTestId } = renderPointsHome()
     fireEvent.press(getByTestId('PointsActivityCard-swap-50'))
     await waitFor(() =>
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_press, {

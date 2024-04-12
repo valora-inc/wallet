@@ -1,6 +1,5 @@
 import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
-import { PointsMetadata } from 'src/points/types'
 import networkConfig from 'src/web3/networkConfig'
 
 export const FeatureGates = {
@@ -120,12 +119,6 @@ export const DynamicConfigs = {
       deepLink: '',
       rewardExpirationDate: new Date(0).toISOString(),
       rewardReminderDate: new Date(0).toISOString(),
-    },
-  },
-  [StatsigDynamicConfigs.POINTS_CONFIG]: {
-    configName: StatsigDynamicConfigs.POINTS_CONFIG,
-    defaultValues: {
-      pointsMetadata: [] as PointsMetadata[],
     },
   },
 }
