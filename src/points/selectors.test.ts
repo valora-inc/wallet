@@ -1,4 +1,4 @@
-import { pointsMetadataSelector } from 'src/points/selectors'
+import { pointsSectionsSelector } from 'src/points/selectors'
 import { getMockStoreData } from 'test/utils'
 
 describe('pointsMetadataSelector', () => {
@@ -13,9 +13,9 @@ describe('pointsMetadataSelector', () => {
         },
       },
     })
-    const pointsMetadata = pointsMetadataSelector(stateWithPointsConfig)
+    const result = pointsSectionsSelector(stateWithPointsConfig)
 
-    expect(pointsMetadata).toEqual([
+    expect(result).toEqual([
       {
         points: 10,
         activities: [
@@ -39,9 +39,9 @@ describe('pointsMetadataSelector', () => {
         },
       },
     })
-    const pointsMetadata = pointsMetadataSelector(stateWithPointsConfig)
+    const result = pointsSectionsSelector(stateWithPointsConfig)
 
-    expect(pointsMetadata).toEqual([
+    expect(result).toEqual([
       { points: 20, activities: [{ name: 'create-wallet' }] },
       { points: 10, activities: [{ name: 'swap' }] },
     ])
