@@ -2,10 +2,6 @@ import { launchApp } from '../utils/retries'
 import { quickOnboarding, sleep, waitForElementId } from '../utils/utils'
 
 export default ChooseYourAdventure = () => {
-  beforeAll(async () => {
-    await device.disableSynchronization()
-  })
-
   beforeEach(async () => {
     await device.uninstallApp()
     await device.installApp()
