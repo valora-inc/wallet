@@ -88,7 +88,9 @@ function ChooseYourAdventure() {
       text: t('chooseYourAdventure.options.profile'),
       goToNextScreen: () => {
         navigateHome()
-        navigate(Screens.Profile)
+        setTimeout(() => {
+          navigate(Screens.Profile)
+        }, 50)
       },
       icon: <ProfilePlus />,
       name: AdventureCardName.Profile,
@@ -98,7 +100,9 @@ function ChooseYourAdventure() {
       goToNextScreen: () => {
         if (getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)) {
           navigateHome()
-          navigate(Screens.TokenDetails, { tokenId: networkConfig.celoTokenId })
+          setTimeout(() => {
+            navigate(Screens.TokenDetails, { tokenId: networkConfig.celoTokenId })
+          }, 50)
         } else {
           navigateClearingStack(Screens.DrawerNavigator, {
             initialScreen: Screens.ExchangeHomeScreen,

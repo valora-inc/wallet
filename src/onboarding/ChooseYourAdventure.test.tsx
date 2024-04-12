@@ -160,6 +160,8 @@ describe('ChooseYourAdventure', () => {
     )
     fireEvent.press(getByTestId('AdventureCard/2/chooseYourAdventure.options.learn'))
     expect(navigateHome).toHaveBeenLastCalledWith()
+    expect(navigate).not.toHaveBeenCalled()
+    jest.runOnlyPendingTimers()
     expect(navigate).toHaveBeenLastCalledWith(Screens.TokenDetails, { tokenId: mockCeloTokenId })
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
       position: 3,
@@ -176,6 +178,8 @@ describe('ChooseYourAdventure', () => {
     )
     fireEvent.press(getByTestId('AdventureCard/3/chooseYourAdventure.options.profile'))
     expect(navigateHome).toHaveBeenLastCalledWith()
+    expect(navigate).not.toHaveBeenCalled()
+    jest.runOnlyPendingTimers()
     expect(navigate).toHaveBeenLastCalledWith(Screens.Profile)
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
       position: 4,
