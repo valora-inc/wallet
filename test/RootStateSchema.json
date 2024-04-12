@@ -4279,6 +4279,34 @@
                         "string"
                     ]
                 },
+                "pointsConfig": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "activitiesById": {
+                                    "$ref": "#/definitions/{swap?:{points:number;}|undefined;\"create-wallet\"?:{points:number;}|undefined;\"more-coming\"?:{points:number;}|undefined;}"
+                                }
+                            },
+                            "required": [
+                                "activitiesById"
+                            ],
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "pointsConfigStatus": {
+                    "enum": [
+                        "error",
+                        "idle",
+                        "loading",
+                        "success"
+                    ],
+                    "type": "string"
+                },
                 "pointsHistory": {
                     "items": {
                         "$ref": "#/definitions/ClaimHistory"
@@ -4289,6 +4317,8 @@
             "required": [
                 "getHistoryStatus",
                 "nextPageUrl",
+                "pointsConfig",
+                "pointsConfigStatus",
                 "pointsHistory"
             ],
             "type": "object"
@@ -6047,6 +6077,48 @@
                 },
                 "swap": {
                     "$ref": "#/definitions/FeeEstimateState"
+                }
+            },
+            "type": "object"
+        },
+        "{swap?:{points:number;}|undefined;\"create-wallet\"?:{points:number;}|undefined;\"more-coming\"?:{points:number;}|undefined;}": {
+            "additionalProperties": false,
+            "properties": {
+                "create-wallet": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "points": {
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "points"
+                    ],
+                    "type": "object"
+                },
+                "more-coming": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "points": {
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "points"
+                    ],
+                    "type": "object"
+                },
+                "swap": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "points": {
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "points"
+                    ],
+                    "type": "object"
                 }
             },
             "type": "object"

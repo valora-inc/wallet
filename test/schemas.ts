@@ -3227,6 +3227,19 @@ export const v205Schema = {
   },
 }
 
+export const v206Schema = {
+  ...v205Schema,
+  _persist: {
+    ...v205Schema._persist,
+    version: 206,
+  },
+  points: {
+    ...v205Schema.points,
+    pointsConfig: null,
+    pointsConfigStatus: 'idle',
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v205Schema as Partial<RootState>
+  return v206Schema as Partial<RootState>
 }
