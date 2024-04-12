@@ -6,8 +6,6 @@ export const getPointsHistoryNextPageUrlSelector = (state: RootState) => {
   return state.points.nextPageUrl
 }
 
-export const pointsConfigStatusSelector = (state: RootState) => state.points.pointsConfigStatus
-
 const pointsConfigSelector = (state: RootState) => state.points.pointsConfig
 
 export const pointsMetadataSelector = createSelector(
