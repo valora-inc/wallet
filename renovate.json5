@@ -2,7 +2,7 @@
   extends: ['github>valora-inc/renovate-config:default.json5', ':disableDigestUpdates'],
 
   // Limit number of concurrent renovate branches/PRs, to avoid spamming the repo
-  prConcurrentLimit: 2,
+  prConcurrentLimit: 4,
 
   // timezone for automerge schedule
   timezone: 'America/Los_Angeles',
