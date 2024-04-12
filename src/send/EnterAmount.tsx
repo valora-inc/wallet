@@ -271,7 +271,6 @@ function EnterAmount({
       if (value.startsWith(decimalSeparator)) {
         value = `0${value}`
       }
-      // only allow numbers and one decimal separator
       if (value.match(tokenAmountRegex)) {
         setTokenAmountInput(value)
         setEnteredIn('token')
@@ -292,8 +291,8 @@ function EnterAmount({
       if (value.startsWith(decimalSeparator)) {
         value = `0${value}`
       }
-
       if (value.match(localAmountRegex)) {
+        // add back currency symbol and grouping separators
         setLocalAmountInput(
           `${localCurrencySymbol}${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, groupingSeparator)
         )
