@@ -165,6 +165,14 @@ function EnterAmount({
   }
 
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
+  // only allow numbers, one decimal separator, and two decimal places
+  const localAmountRegex = new RegExp(
+    `^(\\d+([${decimalSeparator}])?\\d{0,2}|[${decimalSeparator}]\\d{0,2}|[${decimalSeparator}])$`
+  )
+  // only allow numbers, one decimal separator
+  const tokenAmountRegex = new RegExp(
+    `^(?:\\d+[${decimalSeparator}]?\\d*|[${decimalSeparator}]\\d*|[${decimalSeparator}])$`
+  )
   const parsedTokenAmount = useMemo(
     () => parseInputAmount(tokenAmountInput, decimalSeparator),
     [tokenAmountInput]
@@ -194,8 +202,10 @@ function EnterAmount({
     } else {
       setTokenAmountInput(
         localToToken && localToToken.gt(0)
-          ? // no group separator for token amount
-            localToToken.toFormat({ decimalSeparator })
+          ? // no group separator for token amount, round to token.decimals and strip trailing zeros
+            localToToken
+              .toFormat(token.decimals, { decimalSeparator })
+              .replace(new RegExp(`[${decimalSeparator}]?0+$`), '')
           : ''
       )
       return {
@@ -261,8 +271,7 @@ function EnterAmount({
       if (value.startsWith(decimalSeparator)) {
         value = `0${value}`
       }
-      // only allow numbers and one decimal separator
-      if (value.match(/^(?:\d+[.,]?\d*|[.,]\d*|[.,])$/)) {
+      if (value.match(tokenAmountRegex)) {
         setTokenAmountInput(value)
         setEnteredIn('token')
       }
@@ -282,9 +291,8 @@ function EnterAmount({
       if (value.startsWith(decimalSeparator)) {
         value = `0${value}`
       }
-
-      // only allow numbers, one decimal separator, and two decimal places
-      if (value.match(/^(\d+([.,])?\d{0,2}|[.,]\d{0,2}|[.,])$/)) {
+      if (value.match(localAmountRegex)) {
+        // add back currency symbol and grouping separators
         setLocalAmountInput(
           `${localCurrencySymbol}${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, groupingSeparator)
         )

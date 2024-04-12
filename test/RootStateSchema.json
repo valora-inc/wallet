@@ -416,6 +416,119 @@
             ],
             "type": "object"
         },
+        "AuthTypes.Cacao": {
+            "additionalProperties": false,
+            "properties": {
+                "h": {
+                    "$ref": "#/definitions/AuthTypes.CacaoHeader"
+                },
+                "p": {
+                    "$ref": "#/definitions/AuthTypes.CacaoPayload"
+                },
+                "s": {
+                    "$ref": "#/definitions/AuthTypes.CacaoSignature"
+                }
+            },
+            "required": [
+                "h",
+                "p",
+                "s"
+            ],
+            "type": "object"
+        },
+        "AuthTypes.CacaoHeader": {
+            "additionalProperties": false,
+            "properties": {
+                "t": {
+                    "const": "caip122",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "t"
+            ],
+            "type": "object"
+        },
+        "AuthTypes.CacaoPayload": {
+            "additionalProperties": false,
+            "properties": {
+                "aud": {
+                    "type": "string"
+                },
+                "chainId": {
+                    "type": "string"
+                },
+                "domain": {
+                    "type": "string"
+                },
+                "exp": {
+                    "type": "string"
+                },
+                "expiry": {
+                    "type": "number"
+                },
+                "iat": {
+                    "type": "string"
+                },
+                "iss": {
+                    "type": "string"
+                },
+                "nbf": {
+                    "type": "string"
+                },
+                "nonce": {
+                    "type": "string"
+                },
+                "requestId": {
+                    "type": "string"
+                },
+                "resources": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "statement": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "aud",
+                "domain",
+                "iss",
+                "nonce"
+            ],
+            "type": "object"
+        },
+        "AuthTypes.CacaoSignature": {
+            "additionalProperties": false,
+            "properties": {
+                "m": {
+                    "type": "string"
+                },
+                "s": {
+                    "type": "string"
+                },
+                "t": {
+                    "enum": [
+                        "eip1271",
+                        "eip191"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "s",
+                "t"
+            ],
+            "type": "object"
+        },
         "BaseToken": {
             "additionalProperties": false,
             "properties": {
@@ -891,6 +1004,48 @@
             "type": "object"
         },
         "CoreTypes.Metadata": {
+            "additionalProperties": false,
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "icons": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "redirect": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "native": {
+                            "type": "string"
+                        },
+                        "universal": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "verifyUrl": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "description",
+                "icons",
+                "name",
+                "url"
+            ],
+            "type": "object"
+        },
+        "CoreTypes.Metadata_1": {
             "additionalProperties": false,
             "properties": {
                 "description": {
@@ -2393,11 +2548,23 @@
             "additionalProperties": false,
             "type": "object"
         },
+        "ProposalTypes.OptionalNamespaces_1": {
+            "additionalProperties": false,
+            "type": "object"
+        },
         "ProposalTypes.RequiredNamespaces": {
             "additionalProperties": false,
             "type": "object"
         },
+        "ProposalTypes.RequiredNamespaces_1": {
+            "additionalProperties": false,
+            "type": "object"
+        },
         "ProposalTypes.SessionProperties": {
+            "additionalProperties": false,
+            "type": "object"
+        },
+        "ProposalTypes.SessionProperties_1": {
             "additionalProperties": false,
             "type": "object"
         },
@@ -2414,7 +2581,7 @@
                     "type": "number"
                 },
                 "optionalNamespaces": {
-                    "$ref": "#/definitions/ProposalTypes.OptionalNamespaces"
+                    "$ref": "#/definitions/ProposalTypes.OptionalNamespaces_1"
                 },
                 "pairingTopic": {
                     "type": "string"
@@ -2423,7 +2590,7 @@
                     "additionalProperties": false,
                     "properties": {
                         "metadata": {
-                            "$ref": "#/definitions/CoreTypes.Metadata"
+                            "$ref": "#/definitions/CoreTypes.Metadata_1"
                         },
                         "publicKey": {
                             "type": "string"
@@ -2437,15 +2604,15 @@
                 },
                 "relays": {
                     "items": {
-                        "$ref": "#/definitions/RelayerTypes.ProtocolOptions"
+                        "$ref": "#/definitions/RelayerTypes.ProtocolOptions_1"
                     },
                     "type": "array"
                 },
                 "requiredNamespaces": {
-                    "$ref": "#/definitions/ProposalTypes.RequiredNamespaces"
+                    "$ref": "#/definitions/ProposalTypes.RequiredNamespaces_1"
                 },
                 "sessionProperties": {
-                    "$ref": "#/definitions/ProposalTypes.SessionProperties"
+                    "$ref": "#/definitions/ProposalTypes.SessionProperties_1"
                 }
             },
             "required": [
@@ -2578,6 +2745,21 @@
             "type": "string"
         },
         "RelayerTypes.ProtocolOptions": {
+            "additionalProperties": false,
+            "properties": {
+                "data": {
+                    "type": "string"
+                },
+                "protocol": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "protocol"
+            ],
+            "type": "object"
+        },
+        "RelayerTypes.ProtocolOptions_1": {
             "additionalProperties": false,
             "properties": {
                 "data": {
@@ -2760,11 +2942,26 @@
             "additionalProperties": false,
             "type": "object"
         },
+        "SessionTypes.SessionConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "disableDeepLink": {
+                    "type": "boolean"
+                }
+            },
+            "type": "object"
+        },
         "SessionTypes.Struct": {
             "additionalProperties": false,
             "properties": {
                 "acknowledged": {
                     "type": "boolean"
+                },
+                "authentication": {
+                    "items": {
+                        "$ref": "#/definitions/AuthTypes.Cacao"
+                    },
+                    "type": "array"
                 },
                 "controller": {
                     "type": "string"
@@ -2818,6 +3015,9 @@
                         "publicKey"
                     ],
                     "type": "object"
+                },
+                "sessionConfig": {
+                    "$ref": "#/definitions/SessionTypes.SessionConfig"
                 },
                 "sessionProperties": {
                     "$ref": "#/definitions/ProposalTypes.SessionProperties"
