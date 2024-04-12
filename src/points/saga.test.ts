@@ -1,14 +1,20 @@
+import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
+import { throwError } from 'redux-saga-test-plan/providers'
+import { fetchHistory, getHistory, getPointsConfig } from 'src/points/saga'
+import {
+  getHistoryError,
+  getHistoryStarted,
+  getHistorySucceeded,
+  getPointsConfigError,
+  getPointsConfigStarted,
+  getPointsConfigSucceeded,
+} from 'src/points/slice'
+import { GetHistoryResponse } from 'src/points/types'
 import * as fetchWithTimeout from 'src/utils/fetchWithTimeout'
-import { fetchHistory, getHistory } from 'src/points/saga'
-import { getHistoryStarted } from 'src/points/slice'
-import { FetchMock } from 'jest-fetch-mock/types'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
-import { getHistoryError, getHistorySucceeded } from 'src/points/slice'
-import { GetHistoryResponse } from 'src/points/types'
-import { throwError } from 'redux-saga-test-plan/providers'
 
 const MOCK_HISTORY_RESPONSE: GetHistoryResponse = {
   data: [
@@ -35,10 +41,10 @@ const MOCK_HISTORY_RESPONSE: GetHistoryResponse = {
   nextPageUrl: 'https://example.com/getHistory?pageSize=2&page=1',
 }
 
-describe('fetchHistory', () => {
-  const mockFetch = fetch as FetchMock
-  const fetchWithTimeoutSpy = jest.spyOn(fetchWithTimeout, 'fetchWithTimeout')
+const mockFetch = fetch as FetchMock
+const fetchWithTimeoutSpy = jest.spyOn(fetchWithTimeout, 'fetchWithTimeout')
 
+describe('fetchHistory', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     mockFetch.resetMocks()
@@ -121,6 +127,123 @@ describe('getHistory', () => {
           nextPageUrl: MOCK_HISTORY_RESPONSE.nextPageUrl,
         })
       )
+      .run()
+  })
+})
+
+describe('getPointsConfig', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  it('fetches and sets points config', async () => {
+    const config = {
+      activitiesById: {
+        swap: {
+          points: 10,
+        },
+      },
+    }
+    mockFetch.mockResponseOnce(JSON.stringify({ config }))
+
+    await expectSaga(getPointsConfig)
+      .put(getPointsConfigSucceeded(config))
+      .put(getPointsConfigStarted())
+      .run()
+
+    expect(fetchWithTimeoutSpy).toHaveBeenCalledWith(networkConfig.getPointsConfigUrl, {
+      method: 'GET',
+    })
+  })
+
+  it('only stores supported activities', async () => {
+    const config = {
+      activitiesById: {
+        swap: {
+          points: 10,
+        },
+        'unsupported-activity': {
+          points: 10,
+        },
+      },
+    }
+    mockFetch.mockResponseOnce(JSON.stringify({ config }))
+
+    await expectSaga(getPointsConfig)
+      .put(
+        getPointsConfigSucceeded({
+          activitiesById: {
+            swap: {
+              points: 10,
+            },
+          },
+        })
+      )
+      .put(getPointsConfigStarted())
+      .run()
+
+    expect(fetchWithTimeoutSpy).toHaveBeenCalledWith(networkConfig.getPointsConfigUrl, {
+      method: 'GET',
+    })
+  })
+
+  it('only stores activities with non zero points value', async () => {
+    const config = {
+      activitiesById: {
+        swap: {
+          points: 0,
+        },
+        'create-wallet': {
+          points: 10,
+        },
+      },
+    }
+    mockFetch.mockResponseOnce(JSON.stringify({ config }))
+
+    await expectSaga(getPointsConfig)
+      .put(
+        getPointsConfigSucceeded({
+          activitiesById: {
+            'create-wallet': {
+              points: 10,
+            },
+          },
+        })
+      )
+      .put(getPointsConfigStarted())
+      .run()
+
+    expect(fetchWithTimeoutSpy).toHaveBeenCalledWith(networkConfig.getPointsConfigUrl, {
+      method: 'GET',
+    })
+  })
+
+  it('sets error state if error while fetching', async () => {
+    mockFetch.mockResponseOnce('Internal Server Error', {
+      status: 500,
+    })
+
+    await expectSaga(getPointsConfig)
+      .put(getPointsConfigStarted())
+      .put(getPointsConfigError())
+      .not.put(getPointsConfigSucceeded(expect.anything()))
+      .run()
+  })
+
+  it('sets error state if there are no supported activities', async () => {
+    const config = {
+      activitiesById: {
+        'unsupported-activity': {
+          points: 10,
+        },
+      },
+    }
+    mockFetch.mockResponseOnce(JSON.stringify({ config }))
+
+    await expectSaga(getPointsConfig)
+      .put(getPointsConfigStarted())
+      .put(getPointsConfigError())
+      .not.put(getPointsConfigSucceeded(expect.anything()))
       .run()
   })
 })
