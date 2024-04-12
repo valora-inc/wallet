@@ -220,24 +220,9 @@ export function cancelCreateOrRestoreAccount(): CancelCreateOrRestoreAccountActi
   }
 }
 
-export function setName(name: string): SetNameAction {
-  return {
-    type: Actions.SET_NAME,
-    name,
-  }
-}
-
 export function acceptTerms(): AcceptTermsAction {
   return {
     type: Actions.ACCEPT_TERMS,
-  }
-}
-
-export function setPhoneNumber(e164PhoneNumber: string, countryCode: string): SetPhoneNumberAction {
-  return {
-    type: Actions.SET_PHONE_NUMBER,
-    e164PhoneNumber,
-    countryCode,
   }
 }
 
@@ -252,28 +237,13 @@ export function saveNameAndPicture(
   }
 }
 
-export function setPicture(pictureUri: string | null): SetPictureAction {
-  return {
-    type: Actions.SET_PICTURE,
-    pictureUri,
-  }
-}
-
 export const devModeTriggerClicked = (): DevModeTriggerClickedAction => ({
   type: Actions.DEV_MODE_TRIGGER_CLICKED,
-})
-
-export const photosNUXCompleted = (): PhotosNUXClickedAction => ({
-  type: Actions.PHOTOSNUX_CLICKED,
 })
 
 export const setPincodeSuccess = (pincodeType: PincodeType): SetPincodeSuccessAction => ({
   type: Actions.SET_PINCODE_SUCCESS,
   pincodeType,
-})
-
-export const setPincodeFailure = (): SetPincodeFailureAction => ({
-  type: Actions.SET_PINCODE_FAILURE,
 })
 
 export const initializeAccount = (): InitializeAccountAction => ({
@@ -321,10 +291,6 @@ export const clearStoredAccount = (
   type: Actions.CLEAR_STORED_ACCOUNT,
   account,
   onlyReduxState,
-})
-
-export const profileUploaded = (): ProfileUploadedAction => ({
-  type: Actions.PROFILE_UPLOADED,
 })
 
 export const dismissKeepSupercharging = (): DismissKeepSuperchargingAction => ({
