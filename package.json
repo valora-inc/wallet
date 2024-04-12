@@ -119,7 +119,7 @@
     "@toruslabs/fetch-node-details": "^13.2.0",
     "@toruslabs/torus.js": "^12.2.0",
     "@walletconnect/react-native-compat": "^2.12.1",
-    "@walletconnect/utils": "^2.11.3",
+    "@walletconnect/utils": "^2.12.1",
     "@walletconnect/web3wallet": "^1.10.3",
     "Base64": "^1.3.0",
     "bignumber.js": "^9.1.2",
