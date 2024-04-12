@@ -158,7 +158,7 @@ export async function quickOnboarding({
   mnemonic = SAMPLE_BACKUP_KEY,
   cloudBackupEnabled = false,
   stopOnCYA = false,
-}) {
+} = {}) {
   try {
     // Tap Restore Account
     await element(by.id('RestoreAccountButton')).tap()
