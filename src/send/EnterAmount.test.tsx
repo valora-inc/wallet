@@ -20,6 +20,7 @@ import {
   mockEthTokenId,
   mockPoofAddress,
   mockPoofTokenId,
+  mockTestTokenTokenId,
   mockTokenBalances,
 } from 'test/values'
 
@@ -69,6 +70,18 @@ const getMockStoreTokenBalances = (): Record<string, StoredTokenBalance> => ({
     priceFetchedAt: Date.now(),
     name: 'Ether',
   },
+  [mockTestTokenTokenId]: {
+    // token with no price
+    balance: '10',
+    tokenId: mockTestTokenTokenId,
+    networkId: NetworkId['celo-alfajores'],
+    showZeroBalance: false,
+    isNative: false,
+    symbol: 'TST',
+    name: 'Test Token',
+    decimals: 18,
+    address: '0xtest',
+  },
 })
 const mockStoreTokenBalances = getMockStoreTokenBalances()
 const mockStore = {
@@ -82,7 +95,7 @@ const mockStoreBalancesToTokenBalances = (storeBalances: StoredTokenBalance[]): 
     (token): TokenBalance => ({
       ...token,
       balance: new BigNumber(token.balance ?? 0),
-      priceUsd: new BigNumber(token.priceUsd ?? 0),
+      priceUsd: token.priceUsd ? new BigNumber(token.priceUsd) : null,
       lastKnownPriceUsd: token.priceUsd ? new BigNumber(token.priceUsd) : null,
     })
   )
@@ -400,6 +413,44 @@ describe('EnterAmount', () => {
       '0.0005012531328320802'
     )
     expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe('₱1')
+  })
+
+  it('using token with no price disables local amount input', async () => {
+    const store = createMockStore(mockStore)
+
+    const tokenBalances = mockStoreBalancesToTokenBalances([
+      mockStoreTokenBalances[mockTestTokenTokenId],
+      mockStoreTokenBalances[mockEthTokenId],
+    ])
+
+    const { getByTestId, getByText } = render(
+      <Provider store={store}>
+        <EnterAmount {...defaultParams} tokens={tokenBalances} defaultToken={tokenBalances[0]} />
+      </Provider>
+    )
+
+    expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('TST')
+    expect(getByTestId('SendEnterAmount/LocalAmountInput').props.editable).toBeFalsy()
+    expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe('-')
+
+    // changing token amount should not update local amount
+    fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '1')
+    expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('1')
+    expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe('-')
+
+    // changing to another token with price should enable local amount input
+    fireEvent.press(getByTestId('SendEnterAmount/TokenSelect'))
+    await waitFor(() => expect(getByText('Ether')).toBeTruthy())
+    fireEvent.press(getByText('Ether'))
+    expect(getByTestId('SendEnterAmount/LocalAmountInput').props.editable).toBeTruthy()
+    expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe('₱1,995.00')
+
+    // changing back to token with no price should disable local amount input
+    fireEvent.press(getByTestId('SendEnterAmount/TokenSelect'))
+    await waitFor(() => expect(getByText('Test Token')).toBeTruthy())
+    fireEvent.press(getByText('Test Token'))
+    expect(getByTestId('SendEnterAmount/LocalAmountInput').props.editable).toBeFalsy()
+    expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe('-')
   })
 
   it('pressing max fills in max available amount', () => {

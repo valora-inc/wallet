@@ -28,7 +28,7 @@ export const PositionItem = ({
   const onPress = () => {
     ValoraAnalytics.track(AssetsEvents.tap_asset, {
       assetType: 'position',
-      network: position.network,
+      network: position.networkId,
       appId: position.appId,
       address: position.address,
       title: position.displayProps.title,

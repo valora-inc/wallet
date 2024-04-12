@@ -3183,10 +3183,10 @@
   resolved "https://registry.yarnpkg.com/@redux-saga/types/-/types-1.2.1.tgz#9403f51c17cae37edf870c6bc0c81c1ece5ccef8"
   integrity sha512-1dgmkh+3so0+LlBWRhGA33ua4MYr7tUOj+a9Si28vUi0IUFNbff1T3sgpeDJI/LaC75bBYnQ0A3wXjn0OrRNBA==
 
-"@reduxjs/toolkit@^2.2.2":
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/@reduxjs/toolkit/-/toolkit-2.2.2.tgz#952fc8f8315d7274e28f6e4608b7ec66fce7e94e"
-  integrity sha512-454GZrEx3G6QSYwIx9ROaso1HR6sTH8qyZBe3KEsdWVGU3ayV8jYCwdaEJV3vl9V6+pi3GRl+7Xl7AeDna6qwQ==
+"@reduxjs/toolkit@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@reduxjs/toolkit/-/toolkit-2.2.3.tgz#5ce71cbf162f98c5dafb49bd3f1e11c5486ab9c4"
+  integrity sha512-76dll9EnJXg4EVcI5YNxZA/9hSAmZsFqzMmNRHvIlzw2WS/twfcVX3ysYrWGJMClwEmChQFC4yRq74tn6fdzRA==
   dependencies:
     immer "^10.0.3"
     redux "^5.0.1"
@@ -5357,10 +5357,10 @@
     pino "7.11.0"
     tslib "1.14.1"
 
-"@walletconnect/react-native-compat@^2.11.3":
-  version "2.11.3"
-  resolved "https://registry.yarnpkg.com/@walletconnect/react-native-compat/-/react-native-compat-2.11.3.tgz#63d66a510372991062b78c8ac65b9074601f6ac3"
-  integrity sha512-aAt4ZJUXc3otXxKuBZUJ0Td/9YUyBtlw/GTfKT4++8Wf2/FKEIHt79YgNGWCG6nn7ELThb4o7zG7aiaIhWkJOg==
+"@walletconnect/react-native-compat@^2.12.1":
+  version "2.12.2"
+  resolved "https://registry.yarnpkg.com/@walletconnect/react-native-compat/-/react-native-compat-2.12.2.tgz#3dd9e75124d7cea30c02bc0f3fcfede01e241f2e"
+  integrity sha512-NChpoZwftMDSy6xH0hc1d2eCvlm0Tx8BQSMtHKFaOpbxxreB90UDmbubqNIPywAGinM/1isgen0i0yvLpHRLRg==
   dependencies:
     events "3.3.0"
     fast-text-encoding "^1.0.6"
@@ -7021,10 +7021,10 @@ clean-stack@^2.0.0:
   resolved "https://registry.yarnpkg.com/clean-stack/-/clean-stack-2.2.0.tgz#ee8472dbb129e727b31e8a10a427dee9dfe4008b"
   integrity sha512-4diC9HaTE+KRAMWhDhrGOECgWZxoevMc5TlkObMqNSsVU62PYzXZ/SMTjzyGAFF1YusgxGcSWTEXBhp0CPwQ1A==
 
-clevertap-react-native@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/clevertap-react-native/-/clevertap-react-native-2.1.0.tgz#dbf312b65485e2a3eb03611a4cf17e7187f57e22"
-  integrity sha512-WKEb14Wz3lVzQgKWKN9PTEx779cRJ0hGHAQclNgTEoYViCcfI2eVq40s7mLlALzQJXU6UvZZK+7XY/OMW+1Q0w==
+clevertap-react-native@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/clevertap-react-native/-/clevertap-react-native-2.2.0.tgz#23912c4d572cdfc4b4e42a62461f640ea826d942"
+  integrity sha512-ZJab5IkkqjbgYN73rWsko/J6NnwzMklF3tsNRPNgRpihY+ONx/iyWGbfzSbkOQ/UR2UgcoNjbudI9fmboRPpjw==
 
 cli-boxes@^1.0.0:
   version "1.0.0"
@@ -15570,10 +15570,10 @@ react-native-version@^3.1.0:
     resolve-from "^5.0.0"
     semver "^6.0.0"
 
-react-native-video@^6.0.0-beta.6:
-  version "6.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/react-native-video/-/react-native-video-6.0.0-beta.6.tgz#6529f44b779d85f3fa1ac6a70dc81716701ee792"
-  integrity sha512-uVfDfZ8N7mL1wdeN7/6GTSYhVXk3k2LLBlKaSJznwxtLx+yDxfGuNNRsYzkjHyvtz9XUswy+16pdHPaebV4hHA==
+react-native-video@^6.0.0-beta.8:
+  version "6.0.0-beta.8"
+  resolved "https://registry.yarnpkg.com/react-native-video/-/react-native-video-6.0.0-beta.8.tgz#76597ea61d3791beb14731e9e469ddb86e88adf9"
+  integrity sha512-pWAJKhP6yt7sIe/u4vi292sWaHNgqSwZbKzauRKBHHEJr2pY/EG7Lis5hDI+rOJlQ0NmsPEurbUPH5TGQsFJFw==
 
 react-native-webview@^13.8.2:
   version "13.8.2"
@@ -18799,10 +18799,10 @@ victory@^36.9.2:
     victory-voronoi-container "^36.9.2"
     victory-zoom-container "^36.9.2"
 
-viem@^2.9.5:
-  version "2.9.5"
-  resolved "https://registry.yarnpkg.com/viem/-/viem-2.9.5.tgz#2d38abd5eb338886488719d9079500e7c971af10"
-  integrity sha512-IKLmGZJEQkdt9fqvryjR+W1FsPZM+dhALT0pwR8xhBOLvVHM0/lEViGRWDpm2ArNsFszipFhc2EpKp80/PnXkw==
+viem@^2.9.16:
+  version "2.9.16"
+  resolved "https://registry.yarnpkg.com/viem/-/viem-2.9.16.tgz#2127871db1908a70798eddb820024b5f0ddc9152"
+  integrity sha512-FQRfN4G7uKEUs5DYvVrH/kZmTkwcSDpTBxnadpwG1EEP8nHm57WDpSaGN7PwSPVgJ6rMo5MENT5hgnqaNTlb2w==
   dependencies:
     "@adraffy/ens-normalize" "1.10.0"
     "@noble/curves" "1.2.0"

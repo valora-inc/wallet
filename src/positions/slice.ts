@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { REHYDRATE, RehydrateAction } from 'redux-persist'
 import { getRehydratePayload } from 'src/redux/persist-helper'
 import { Position, Shortcut, ShortcutStatus } from './types'
+import { NetworkId } from 'src/transactions/types'
 
 type Status = 'idle' | 'loading' | 'success' | 'error'
 
@@ -13,7 +14,7 @@ export type TriggeredShortcuts = Record<
     appName: string
     appImage: string
     appId: string
-    network: string
+    networkId: NetworkId
     shortcutId: string
   }
 >
@@ -48,7 +49,7 @@ interface TriggerShortcut {
   appName: string
   appImage: string
   data: {
-    network: string
+    networkId: NetworkId
     address: string
     appId: string
     positionAddress: string
@@ -109,7 +110,7 @@ const slice = createSlice({
         appImage: action.payload.appImage,
         transactions: [],
         appId: action.payload.data.appId,
-        network: action.payload.data.network,
+        networkId: action.payload.data.networkId,
         shortcutId: action.payload.data.shortcutId,
       }
     },

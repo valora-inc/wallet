@@ -47,6 +47,16 @@ function JumpstartSendConfirmation({ route }: Props) {
     }
   }, [jumpstartSendStatus])
 
+  useEffect(() => {
+    // dismiss any errors when entering the screen because errors should only be
+    // created from sending a failed transaction in this screen. if the user
+    // navigates back after encountering an error, they should not see the error
+    // again when coming to this screen again.
+    if (jumpstartSendStatus === 'error') {
+      dispatch(depositErrorDismissed())
+    }
+  }, [])
+
   const handleSendTransaction = () => {
     if (token) {
       dispatch(

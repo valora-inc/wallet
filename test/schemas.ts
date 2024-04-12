@@ -21,6 +21,8 @@ import {
   mockCeurAddress,
   mockCusdAddress,
   mockPositions,
+  mockPositionsLegacy,
+  mockShortcuts,
   mockTestTokenAddress,
 } from 'test/values'
 
@@ -2208,7 +2210,7 @@ export const v124Schema = {
     version: 124,
   },
   positions: {
-    positions: mockPositions,
+    positions: mockPositionsLegacy,
     status: 'idle',
   },
 }
@@ -3205,6 +3207,19 @@ export const v204Schema = {
     ...v203Schema._persist,
     version: 204,
   },
+  positions: {
+    ...v203Schema.positions,
+    positions: mockPositions,
+    shortcuts: mockShortcuts,
+  },
+}
+
+export const v205Schema = {
+  ...v204Schema,
+  _persist: {
+    ...v204Schema._persist,
+    version: 205,
+  },
   points: {
     pointsHistory: [],
     nextPageUrl: null,
@@ -3213,5 +3228,5 @@ export const v204Schema = {
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v204Schema as Partial<RootState>
+  return v205Schema as Partial<RootState>
 }

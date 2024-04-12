@@ -369,8 +369,8 @@
                 "displayProps": {
                     "$ref": "#/definitions/PositionDisplayProps"
                 },
-                "network": {
-                    "type": "string"
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
                 },
                 "pricePerShare": {
                     "items": {
@@ -406,7 +406,7 @@
                 "balance",
                 "decimals",
                 "displayProps",
-                "network",
+                "networkId",
                 "pricePerShare",
                 "priceUsd",
                 "supply",
@@ -432,8 +432,8 @@
                 "decimals": {
                     "type": "number"
                 },
-                "network": {
-                    "type": "string"
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
                 },
                 "priceUsd": {
                     "type": "string"
@@ -450,7 +450,7 @@
                 "address",
                 "balance",
                 "decimals",
-                "network",
+                "networkId",
                 "priceUsd",
                 "symbol",
                 "type"
@@ -880,8 +880,8 @@
                 "displayProps": {
                     "$ref": "#/definitions/PositionDisplayProps"
                 },
-                "network": {
-                    "type": "string"
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
                 },
                 "tokens": {
                     "items": {
@@ -901,7 +901,7 @@
                 "availableShortcutIds",
                 "balanceUsd",
                 "displayProps",
-                "network",
+                "networkId",
                 "tokens",
                 "type"
             ],
@@ -2898,9 +2898,9 @@
                 "name": {
                     "type": "string"
                 },
-                "networks": {
+                "networkIds": {
                     "items": {
-                        "type": "string"
+                        "$ref": "#/definitions/NetworkId"
                     },
                     "type": "array"
                 }
@@ -2910,7 +2910,7 @@
                 "description",
                 "id",
                 "name",
-                "networks"
+                "networkIds"
             ],
             "type": "object"
         },
