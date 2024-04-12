@@ -1,4 +1,4 @@
-import { nextPageUrlSelector } from 'src/points/selectors'
+import { getPointsHistoryNextPageUrlSelector } from 'src/points/selectors'
 import {
   PointsConfig,
   getHistoryError,
@@ -43,7 +43,7 @@ export function* getHistory({ payload: params }: ReturnType<typeof getHistorySta
     return
   }
 
-  const url = params.fromPage ? yield* select(nextPageUrlSelector) : undefined
+  const url = params.fromPage ? yield* select(getPointsHistoryNextPageUrlSelector) : undefined
 
   try {
     const history = yield* call(fetchHistory, walletAddress, url)
