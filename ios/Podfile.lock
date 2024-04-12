@@ -508,7 +508,7 @@ PODS:
     - React-Core
   - react-native-camera/RN (4.2.1):
     - React-Core
-  - react-native-compat (2.11.3):
+  - react-native-compat (2.12.2):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - react-native-config (1.5.1):
@@ -1179,7 +1179,7 @@ SPEC CHECKSUMS:
   React-logger: a41d4cad677e9726b71a45a4012431d2fb1edd80
   react-native-adjust: 801fe33f0dc0097b0474f11d08572a89fa6602ce
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
-  react-native-compat: 4da17905c26471d956dae70f9912a60d7da7fad2
+  react-native-compat: c741279b875109d2d9fc8da22e80c00ef91311a6
   react-native-config: 86038147314e2e6d10ea9972022aa171e6b1d4d8
   react-native-contacts: fd1614c74777089ebb6b0a0e3847dd78130ef9f4
   react-native-cookies: f54fcded06bb0cda05c11d86788020b43528a26c
