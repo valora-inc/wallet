@@ -12,13 +12,7 @@ const AnimatedPath = Animated.createAnimatedComponent(Path)
 
 function BackChevron({ color, height }: Props) {
   return (
-    <Svg
-      height={height}
-      width={height && height / 2}
-      viewBox="0 0 8 16"
-      fill="none"
-      testID="BackChevron"
-    >
+    <Svg height={height} width={height} viewBox="0 0 8 16" fill="none" testID="BackChevron">
       <AnimatedPath
         fillRule="evenodd"
         clipRule="evenodd"
