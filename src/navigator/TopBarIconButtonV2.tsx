@@ -76,6 +76,7 @@ export function TopBarIconButtonV2(props: TopBarIconButtonProps) {
 const styles = StyleSheet.create({
   button: {
     padding: Spacing.Small12,
+    backgroundColor: 'red',
   },
   container: {
     justifyContent: 'center',

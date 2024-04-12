@@ -5,14 +5,14 @@ import Svg, { Path } from 'react-native-svg'
 import Colors from 'src/styles/colors'
 
 export interface Props {
-  height?: number
+  size?: number
   color?: ColorValue | Animated.Node<ColorValue | undefined>
 }
 const AnimatedPath = Animated.createAnimatedComponent(Path)
 
-function BackChevron({ color, height }: Props) {
+function BackChevron({ color, size }: Props) {
   return (
-    <Svg height={height} width={height} viewBox="0 0 8 16" fill="none" testID="BackChevron">
+    <Svg height={size} width={size} viewBox="0 0 8 16" fill="none" testID="BackChevron">
       <AnimatedPath
         fillRule="evenodd"
         clipRule="evenodd"
@@ -24,7 +24,7 @@ function BackChevron({ color, height }: Props) {
 }
 
 BackChevron.defaultProps = {
-  height: 16,
+  size: 16,
   color: Colors.black,
 }
 

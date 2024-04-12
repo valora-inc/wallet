@@ -8,10 +8,7 @@ type Props = Omit<TopBarIconButtonProps, 'icon'> & BackChevronProps
 
 function BackButton(props: Props) {
   return (
-    <TopBarIconButtonV2
-      {...props}
-      icon={<BackChevron color={props.color} height={props.height} />}
-    />
+    <TopBarIconButtonV2 {...props} icon={<BackChevron color={props.color} size={props.size} />} />
   )
 }
 
