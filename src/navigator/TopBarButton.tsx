@@ -55,6 +55,7 @@ function Wrapper({
 
 export type TopBarIconButtonProps = CommonProps & {
   icon: JSX.Element
+  containerStyle?: ViewStyle
 }
 
 /**
@@ -66,23 +67,20 @@ export function TopBarIconButton(props: TopBarIconButtonProps) {
   return <Wrapper {...props}>{props.icon}</Wrapper>
 }
 
-export function TopBarIconButtonV2({ testID, onPress, style, icon }: TopBarIconButtonProps) {
+export function TopBarIconButtonV2(props: TopBarIconButtonProps) {
   return (
-    <View style={styles.container}>
-      <Touchable
-        testID={testID}
-        onPress={onPress}
-        // style={[style, styles.button]}
-        style={[
-          style,
-          styles.button,
-          // { height: buttonSize, width: buttonSize, borderRadius: borderRadius },
-        ]}
-        borderRadius={Spacing.Thick24}
-      >
-        {icon}
-      </Touchable>
-    </View>
+    <Wrapper {...props}>
+      <View style={[styles.container, props.containerStyle]}>
+        <Touchable
+          testID={props.testID}
+          onPress={props.onPress}
+          style={[styles.button, props.style]}
+          borderRadius={Spacing.Thick24}
+        >
+          {props.icon}
+        </Touchable>
+      </View>
+    </Wrapper>
   )
 }
 
@@ -105,12 +103,11 @@ const styles = StyleSheet.create({
     ...fontStyles.regular,
     color: colors.primary,
   },
+  button: {
+    padding: Spacing.Small12,
+  },
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  button: {
-    paddingVertical: Spacing.Small12,
-    paddingHorizontal: Spacing.Regular16,
   },
 })

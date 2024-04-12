@@ -2,29 +2,32 @@ import { NativeStackNavigationOptions } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { Trans } from 'react-i18next'
 import { Dimensions, PixelRatio, Platform, Pressable, StyleSheet, Text, View } from 'react-native'
-import AccountCircleButton from 'src/components/AccountCircleButton'
+import { HomeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
 import CloseButton from 'src/components/CloseButton'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
+import PointsButton from 'src/components/PointsButton'
 import QrScanButton from 'src/components/QrScanButton'
 import TokenDisplay from 'src/components/TokenDisplay'
 import NotificationBell from 'src/home/NotificationBell'
 import i18n from 'src/i18n'
+import AccountCircle from 'src/icons/AccountCircle'
 import BackChevronCentered from 'src/icons/BackChevronCentered'
-import { navigateBack } from 'src/navigator/NavigationService'
-import { TopBarIconButton } from 'src/navigator/TopBarButton'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { TopBarIconButton, TopBarIconButtonV2 } from 'src/navigator/TopBarButton'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokenInfoByCurrency } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
-import PointsButton from 'src/components/PointsButton'
 
 export const noHeader: NativeStackNavigationOptions = {
   headerShown: false,
@@ -297,7 +300,14 @@ export const tabHeader: NativeStackNavigationOptions = {
   },
   headerLeft: () => (
     <View style={[styles.topElementsContainer, { marginLeft: Spacing.Tiny4 }]}>
-      <AccountCircleButton testID="WalletHome/AccountCircle" />
+      <TopBarIconButtonV2
+        icon={<AccountCircle />}
+        testID="WalletHome/AccountCircle"
+        onPress={() => {
+          ValoraAnalytics.track(HomeEvents.account_circle_tapped)
+          navigate(Screens.ProfileMenu)
+        }}
+      />
     </View>
   ),
 }
