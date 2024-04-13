@@ -308,7 +308,7 @@
     "**/cross-fetch": "^4.0.0",
     "bignumber.js": "^9.1.2",
     "prettier": "3.2.5",
-    "@types/prettier": "^2.7.3",
+    "@types/prettier": "^3.0.0",
     "eslint-utils": "^3.0.0",
     "set-value": "^4.1.0",
     "mixin-deep": "^2.0.1",
