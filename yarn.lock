@@ -5429,7 +5429,7 @@
     "@walletconnect/logger" "^2.0.1"
     events "^3.3.0"
 
-"@walletconnect/utils@2.12.2", "@walletconnect/utils@^2.10.1", "@walletconnect/utils@^2.12.1":
+"@walletconnect/utils@2.12.2", "@walletconnect/utils@^2.10.1", "@walletconnect/utils@^2.12.2":
   version "2.12.2"
   resolved "https://registry.yarnpkg.com/@walletconnect/utils/-/utils-2.12.2.tgz#a2c349d4effef7c1c5e72e74a5483d8dfbb10918"
   integrity sha512-zf50HeS3SfoLv1N9GPl2IXTZ9TsXfet4usVAsZmX9P6/Xzq7d/7QakjVQCHH/Wk1O9XkcsfeoZoUhRxoMJ5uJw==
