@@ -76,7 +76,7 @@ export class RegulatoryTerms extends React.Component<Props> {
 
     return (
       <SafeAreaView style={styles.container}>
-        <DevSkipButton nextScreen={Screens.ImportSelect} />
+        <DevSkipButton nextScreen={Screens.PincodeSet} />
         <ScrollView
           style={styles.scrollView}
           contentContainerStyle={styles.scrollContent}
