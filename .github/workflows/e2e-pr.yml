@@ -3,6 +3,7 @@ on:
   pull_request:
     branches:
       - main
+      - tomm/act-1114 # temp to run e2e tests
   merge_group:
 
 # Cancel any non merge queue in progress run of the workflow for a given PR
