@@ -5449,7 +5449,7 @@
     query-string "7.1.3"
     uint8arrays "^3.1.0"
 
-"@walletconnect/web3wallet@^1.11.1":
+"@walletconnect/web3wallet@^1.11.2":
   version "1.11.2"
   resolved "https://registry.yarnpkg.com/@walletconnect/web3wallet/-/web3wallet-1.11.2.tgz#0c6af495518a92036b0bb72a39e54bc10127b541"
   integrity sha512-jrxXmZyg+czkHXg4d0jdhxajjfbgPvS9dW4UzdGdz12dXsX7CFgZxz+LWc/oakhLyngUtwHtyBlgaFWxamS3AQ==
