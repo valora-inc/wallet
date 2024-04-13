@@ -5359,7 +5359,7 @@
     "@walletconnect/safe-json" "^1.0.2"
     pino "7.11.0"
 
-"@walletconnect/react-native-compat@^2.12.1":
+"@walletconnect/react-native-compat@^2.12.2":
   version "2.12.2"
   resolved "https://registry.yarnpkg.com/@walletconnect/react-native-compat/-/react-native-compat-2.12.2.tgz#3dd9e75124d7cea30c02bc0f3fcfede01e241f2e"
   integrity sha512-NChpoZwftMDSy6xH0hc1d2eCvlm0Tx8BQSMtHKFaOpbxxreB90UDmbubqNIPywAGinM/1isgen0i0yvLpHRLRg==
