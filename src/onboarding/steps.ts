@@ -273,10 +273,6 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
         next: () => {
           if (skipVerification) {
             dispatch(setHasSeenVerificationNux(true))
-            // This seems like a bug where we don't go to CYA on
-            // skipping phone verification. Every other case navigates to CYA at
-            // the end of onboarding, including when skipping verification on
-            // the import flow. TODO(ACT-1114): make this consistent with other cases
             finishOnboarding(Screens.ChooseYourAdventure)
           } else {
             navigate(Screens.VerificationStartScreen)
