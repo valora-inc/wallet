@@ -159,7 +159,7 @@
     "react-native-fast-crypto": "^2.0.0",
     "react-native-fast-image": "^8.6.3",
     "react-native-fs": "^2.20.0",
-    "react-native-gesture-handler": "^2.15.0",
+    "react-native-gesture-handler": "^2.16.0",
     "react-native-get-random-values": "^1.11.0",
     "react-native-haptic-feedback": "^1.14.0",
     "react-native-image-crop-picker": "^0.40.3",
