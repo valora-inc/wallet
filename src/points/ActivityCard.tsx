@@ -11,26 +11,26 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { PointsEvents } from 'src/analytics/Events'
 
 interface Props {
-  activity: PointsActivity
+  activityId: PointsActivity
   points: number
   onPress: (bottomSheetParams: BottomSheetParams) => void
   completed?: boolean
 }
 
-export default function ActivityCard({ activity, points, onPress, completed }: Props) {
-  const cardDefinition = useCardDefinitions(points)[activity]
+export default function ActivityCard({ activityId, points, onPress, completed }: Props) {
+  const cardDefinition = useCardDefinitions(points)[activityId]
 
   const isCompleted = completed !== undefined ? completed : cardDefinition.defaultCompletionStatus
 
   const onPressWrapper = (bottomSheetMetadata: BottomSheetMetadata) => {
     return () => {
       ValoraAnalytics.track(PointsEvents.points_screen_card_press, {
-        activity,
+        activityId,
       })
       onPress({
         ...bottomSheetMetadata,
         pointsAmount: points,
-        activityId: activity,
+        activityId,
       })
     }
   }
@@ -43,7 +43,7 @@ export default function ActivityCard({ activity, points, onPress, completed }: P
     <View style={styles.container}>
       <View style={styles.cardContainer}>
         <Touchable
-          testID={`PointsActivityCard-${activity}-${points}`}
+          testID={`PointsActivityCard-${activityId}-${points}`}
           style={cardStyle}
           onPress={
             cardDefinition.bottomSheet ? onPressWrapper(cardDefinition.bottomSheet) : undefined

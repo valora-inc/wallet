@@ -14,38 +14,38 @@ jest.mock('src/statsig', () => ({
   getDynamicConfigParams: jest.fn().mockReturnValue({
     pointsMetadata: [
       {
-        points: 50,
+        pointsAmount: 50,
         activities: [
           {
-            name: 'create-wallet',
+            activityId: 'create-wallet',
           },
           {
-            name: 'swap',
+            activityId: 'swap',
           },
           {
-            name: 'more-coming',
+            activityId: 'more-coming',
           },
           {
-            name: 'foo',
+            activityId: 'foo',
           },
         ],
       },
       {
-        points: 20,
+        pointsAmount: 20,
         activities: [
           {
-            name: 'more-coming',
+            activityId: 'more-coming',
           },
           {
-            name: 'create-wallet',
+            activityId: 'create-wallet',
           },
         ],
       },
       {
-        points: 0,
+        pointsAmount: 0,
         activities: [
           {
-            name: 'more-coming',
+            activityId: 'more-coming',
           },
         ],
       },
@@ -121,7 +121,7 @@ describe(PointsHome, () => {
     fireEvent.press(getByTestId('PointsActivityCard-swap-50'))
     await waitFor(() =>
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_press, {
-        activity: 'swap',
+        activityId: 'swap',
       })
     )
   })
@@ -135,14 +135,14 @@ describe(PointsHome, () => {
     fireEvent.press(getByTestId('PointsActivityCard-swap-50'))
     await waitFor(() =>
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_press, {
-        activity: 'swap',
+        activityId: 'swap',
       })
     )
 
     fireEvent.press(getByTestId('PointsHomeBottomSheetCtaButton'))
     await waitFor(() => expect(navigate).toHaveBeenCalledWith(Screens.SwapScreenWithBack))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_cta_press, {
-      activity: 'swap',
+      activityId: 'swap',
     })
   })
 })

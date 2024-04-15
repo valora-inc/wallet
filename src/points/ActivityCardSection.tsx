@@ -29,7 +29,7 @@ export default function ActivityCardSection({ onCardPress }: Props) {
       .map((activity) => (
         <ActivityCard
           key={activity.activityId}
-          activity={activity.activityId}
+          activityId={activity.activityId}
           points={points}
           onPress={onCardPress}
         />

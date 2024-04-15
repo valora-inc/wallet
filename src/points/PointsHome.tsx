@@ -50,10 +50,10 @@ export default function PointsHome({ route, navigation }: Props) {
     dispatch(getHistoryStarted({ getNextPage: false }))
   }, [])
 
-  const onCtaPressWrapper = (onPress: () => void, activity: PointsActivity) => {
+  const onCtaPressWrapper = (onPress: () => void, activityId: PointsActivity) => {
     return () => {
       ValoraAnalytics.track(PointsEvents.points_screen_card_cta_press, {
-        activity,
+        activityId,
       })
       onPress()
     }
