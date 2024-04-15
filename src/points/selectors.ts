@@ -6,6 +6,8 @@ export const nextPageUrlSelector = (state: RootState) => {
   return state.points.nextPageUrl
 }
 
+export const pointsConfigStatusSelector = (state: RootState) => state.points.pointsConfigStatus
+
 const pointsConfigSelector = (state: RootState) => state.points.pointsConfig
 
 export const pointsSectionsSelector = createSelector(
