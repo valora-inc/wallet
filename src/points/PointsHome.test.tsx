@@ -6,7 +6,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import PointsHome from 'src/points/PointsHome'
-import { getHistoryStarted } from 'src/points/slice'
+import { getHistoryStarted, getPointsConfigStarted } from 'src/points/slice'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 jest.mock('src/statsig', () => ({
@@ -54,7 +54,7 @@ jest.mock('src/statsig', () => ({
 
 const mockScreenProps = () => getMockStackScreenProps(Screens.PointsHome)
 
-const renderPointsHome = () => {
+const renderPointsHome = (pointsConfigStatus: 'idle' | 'loading' | 'error' = 'idle') => {
   const store = createMockStore({
     points: {
       pointsConfig: {
@@ -67,6 +67,7 @@ const renderPointsHome = () => {
           },
         },
       },
+      pointsConfigStatus,
     },
   })
   const tree = render(
@@ -84,6 +85,29 @@ const renderPointsHome = () => {
 describe(PointsHome, () => {
   beforeEach(() => {
     jest.clearAllMocks()
+  })
+
+  it('renders a loading state while loading config', async () => {
+    const { getByText, queryByText } = renderPointsHome('loading')
+
+    expect(getByText('points.loading.title')).toBeTruthy()
+    expect(getByText('points.loading.description')).toBeTruthy()
+    expect(queryByText('points.error.title')).toBeFalsy()
+    expect(queryByText('points.title')).toBeFalsy()
+  })
+
+  it('renders the error state on failure to load config', async () => {
+    const { getByText, queryByText, store } = renderPointsHome('error')
+
+    expect(getByText('points.error.title')).toBeTruthy()
+    expect(getByText('points.error.description')).toBeTruthy()
+    expect(queryByText('points.loading.title')).toBeFalsy()
+    expect(queryByText('points.title')).toBeFalsy()
+
+    store.clearActions()
+    fireEvent.press(getByText('points.error.retryCta'))
+
+    expect(store.getActions()).toEqual([getPointsConfigStarted()])
   })
 
   it('opens activity bottom sheet', async () => {
