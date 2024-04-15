@@ -24,7 +24,7 @@ interface State {
   nextPageUrl: string | null
   getHistoryStatus: 'idle' | 'loading' | 'error'
   pointsConfig: PointsConfig
-  pointsConfigStatus: 'idle' | 'loading' | 'error'
+  pointsConfigStatus: 'idle' | 'loading' | 'error' | 'success'
 }
 
 const initialState: State = {
@@ -62,7 +62,7 @@ const slice = createSlice({
     getPointsConfigSucceeded: (state, action: PayloadAction<PointsConfig>) => ({
       ...state,
       pointsConfig: action.payload,
-      pointsConfigStatus: 'idle',
+      pointsConfigStatus: 'success',
     }),
     getPointsConfigError: (state) => ({
       ...state,
