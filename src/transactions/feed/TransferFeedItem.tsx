@@ -29,7 +29,7 @@ interface Props {
 function TransferFeedItem({ transfer }: Props) {
   const dispatch = useDispatch()
   const { amount } = transfer
-  const isJumpstart = React.useMemo(() => isJumpstartTransaction(transfer), [transfer])
+  const isJumpstart = isJumpstartTransaction(transfer)
 
   const openTransferDetails = () => {
     if (isJumpstart) {
