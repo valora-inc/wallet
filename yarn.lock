@@ -7023,10 +7023,10 @@ clean-stack@^2.0.0:
   resolved "https://registry.yarnpkg.com/clean-stack/-/clean-stack-2.2.0.tgz#ee8472dbb129e727b31e8a10a427dee9dfe4008b"
   integrity sha512-4diC9HaTE+KRAMWhDhrGOECgWZxoevMc5TlkObMqNSsVU62PYzXZ/SMTjzyGAFF1YusgxGcSWTEXBhp0CPwQ1A==
 
-clevertap-react-native@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/clevertap-react-native/-/clevertap-react-native-2.2.0.tgz#23912c4d572cdfc4b4e42a62461f640ea826d942"
-  integrity sha512-ZJab5IkkqjbgYN73rWsko/J6NnwzMklF3tsNRPNgRpihY+ONx/iyWGbfzSbkOQ/UR2UgcoNjbudI9fmboRPpjw==
+clevertap-react-native@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/clevertap-react-native/-/clevertap-react-native-2.2.1.tgz#256f8a230f1112f76181823d17c7e6833e010abf"
+  integrity sha512-WGH0hk54EPGJ19o3nZzFpErbvN3kHDgmzG2/QUsnbqrwEPwdDf/4TndtCSO/sUjgwBBoGWGZaledu38Yes+t5Q==
 
 cli-boxes@^1.0.0:
   version "1.0.0"
