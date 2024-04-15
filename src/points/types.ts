@@ -34,3 +34,30 @@ export type PointsMetadata = {
     name: PointsActivity
   }>
 }
+
+type ClaimActivity = 'create-wallet' | 'swap'
+
+interface BaseClaimHistory {
+  createdAt: string // ISO 8601 string
+  activity: ClaimActivity
+  points: string // In wei
+}
+
+type CreateWalletClaimHistory = BaseClaimHistory & {
+  activity: 'create-wallet'
+}
+type SwapClaimHistory = BaseClaimHistory & {
+  activity: 'swap'
+  metadata: {
+    to: string
+    from: string
+  }
+}
+
+export type ClaimHistory = CreateWalletClaimHistory | SwapClaimHistory
+
+export interface GetHistoryResponse {
+  data: ClaimHistory[]
+  hasNextPage: boolean
+  nextPageUrl: string
+}

@@ -486,6 +486,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [PointsEvents.points_screen_back]: `when back button is pressed from Points home screen`,
   [PointsEvents.points_screen_card_press]: `when an activity card is pressed from Points home screen`,
   [PointsEvents.points_screen_card_cta_press]: `when a CTA is pressed on an activity card bottom sheet from the Points home screen`,
+  [PointsEvents.points_screen_activity_press]: `when the Activity button is pressed from Points home screen`,
 
   // Events related to WalletConnect pairing (technical: opening up the communication channel via QR code or deeplink)
   [WalletConnectEvents.wc_pairing_start]: `when WC pairing is started (no UI at this point)`,

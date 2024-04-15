@@ -70,6 +70,7 @@ interface NetworkConfig {
   networkToNetworkId: Record<Network, NetworkId>
   defaultNetworkId: NetworkId
   getTokensInfoUrl: string
+  getPointsHistoryUrl: string
   viemChain: {
     [key in Network]: ViemChain
   }
@@ -246,6 +247,9 @@ const CAB_DELETE_ENCRYPTED_MNEMONIC_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/delete
 const SAVE_CONTACTS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/saveContacts`
 const SAVE_CONTACTS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/saveContacts`
 
+const GET_POINTS_HISTORY_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getHistory`
+const GET_POINTS_HISTORY_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getHistory`
+
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
     networkId: '44787',
@@ -304,6 +308,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     cabLoginUrl: CAB_LOGIN_ALFAJORES,
     cabClockUrl: CAB_CLOCK_ALFAJORES,
     getTokensInfoUrl: GET_TOKENS_INFO_URL_ALFAJORES,
+    getPointsHistoryUrl: GET_POINTS_HISTORY_ALFAJORES,
     viemChain: {
       [Network.Celo]: celoAlfajores,
       [Network.Ethereum]: ethereumSepolia,
@@ -392,6 +397,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     cabLoginUrl: CAB_LOGIN_MAINNET,
     cabClockUrl: CAB_CLOCK_MAINNET,
     getTokensInfoUrl: GET_TOKENS_INFO_URL_MAINNET,
+    getPointsHistoryUrl: GET_POINTS_HISTORY_MAINNET,
     viemChain: {
       [Network.Celo]: celo,
       [Network.Ethereum]: ethereum,

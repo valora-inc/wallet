@@ -7,6 +7,7 @@ import PointsHome from 'src/points/PointsHome'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { PointsEvents } from 'src/analytics/Events'
+import { getHistoryStarted } from 'src/points/slice'
 
 jest.mock('src/statsig', () => ({
   getDynamicConfigParams: jest.fn().mockReturnValue({
@@ -56,6 +57,22 @@ const mockScreenProps = () => getMockStackScreenProps(Screens.PointsHome)
 describe(PointsHome, () => {
   beforeEach(() => {
     jest.clearAllMocks()
+  })
+
+  it('opens activity bottom sheet', async () => {
+    const store = createMockStore()
+    store.dispatch = jest.fn()
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <PointsHome {...mockScreenProps()} />
+      </Provider>
+    )
+    fireEvent.press(getByTestId('PointsActivityButton'))
+    await waitFor(() =>
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_activity_press)
+    )
+    expect(store.dispatch).toHaveBeenCalledWith(getHistoryStarted({ getNextPage: false }))
   })
 
   it('renders multiple sections', async () => {

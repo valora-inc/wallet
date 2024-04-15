@@ -20,10 +20,10 @@ import {
   mockCeloAddress,
   mockCeurAddress,
   mockCusdAddress,
-  mockPositionsLegacy,
   mockPositions,
-  mockTestTokenAddress,
+  mockPositionsLegacy,
   mockShortcuts,
+  mockTestTokenAddress,
 } from 'test/values'
 
 export const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY = 1000
@@ -3214,6 +3214,19 @@ export const v204Schema = {
   },
 }
 
+export const v205Schema = {
+  ...v204Schema,
+  _persist: {
+    ...v204Schema._persist,
+    version: 205,
+  },
+  points: {
+    pointsHistory: [],
+    nextPageUrl: null,
+    getHistoryStatus: 'idle',
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v204Schema as Partial<RootState>
+  return v205Schema as Partial<RootState>
 }

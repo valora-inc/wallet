@@ -48,6 +48,7 @@ import Logger from 'src/utils/Logger'
 import { walletConnectSaga } from 'src/walletConnect/saga'
 import { Actions as Web3Actions } from 'src/web3/actions'
 import { web3Saga } from 'src/web3/saga'
+import { pointsSaga } from 'src/points/saga'
 import { call, select, spawn, take, takeEvery } from 'typed-redux-saga'
 
 const loggerBlocklist = [
@@ -139,6 +140,7 @@ export function* rootSaga() {
     yield* spawn(keylessBackupSaga)
     yield* spawn(nftsSaga)
     yield* spawn(priceHistorySaga)
+    yield* spawn(pointsSaga)
   } catch (error) {
     Logger.error('@rootSaga', 'Error while initializing sagas', error)
     // Propagate so it's handled by Sentry
