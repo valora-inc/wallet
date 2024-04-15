@@ -24,35 +24,14 @@ describe('onboarding steps', () => {
       skipVerification: false,
       supportedBiometryType: BIOMETRY_TYPE.FACE_ID,
       recoveringFromStoreWipe: false,
-      chooseAdventureEnabled: false,
     },
     screens: [
-      Screens.NameAndPicture,
       Screens.PincodeSet,
       Screens.EnableBiometry,
       Screens.ProtectWallet,
       Screens.VerificationStartScreen,
     ],
     name: 'newUserFlowWithEverythingEnabled',
-    finalScreen: Screens.TabHome,
-  }
-
-  const newUserChooseAdventure = {
-    onboardingProps: {
-      ...mockOnboardingProps,
-      skipVerification: false,
-      supportedBiometryType: BIOMETRY_TYPE.FACE_ID,
-      recoveringFromStoreWipe: false,
-      chooseAdventureEnabled: true,
-      onboardingNameScreenEnabled: false,
-    },
-    screens: [
-      Screens.PincodeSet,
-      Screens.EnableBiometry,
-      Screens.ProtectWallet,
-      Screens.VerificationStartScreen,
-    ],
-    name: 'newUserChooseAdventure',
     finalScreen: Screens.ChooseYourAdventure,
   }
 
@@ -62,11 +41,10 @@ describe('onboarding steps', () => {
       skipVerification: true,
       supportedBiometryType: null,
       recoveringFromStoreWipe: false,
-      chooseAdventureEnabled: false,
     },
-    screens: [Screens.NameAndPicture, Screens.PincodeSet, Screens.ProtectWallet],
+    screens: [Screens.PincodeSet, Screens.ProtectWallet],
     name: 'newUserFlowWithEverythingDisabled',
-    finalScreen: Screens.TabHome,
+    finalScreen: Screens.ChooseYourAdventure,
   }
 
   const importWalletFlowEverythingEnabled = {
@@ -76,17 +54,15 @@ describe('onboarding steps', () => {
       choseToRestoreAccount: true,
       skipVerification: false,
       supportedBiometryType: BIOMETRY_TYPE.FACE_ID,
-      chooseAdventureEnabled: false,
     },
     screens: [
-      Screens.NameAndPicture,
       Screens.PincodeSet,
       Screens.EnableBiometry,
       Screens.ImportWallet,
       Screens.VerificationStartScreen,
     ],
     name: 'importWalletFlowEverythingEnabled',
-    finalScreen: Screens.TabHome,
+    finalScreen: Screens.ChooseYourAdventure,
   }
 
   beforeEach(() => {
@@ -95,7 +71,6 @@ describe('onboarding steps', () => {
 
   it.each([
     newUserFlowWithEverythingEnabled,
-    newUserChooseAdventure,
     newUserFlowWithEverythingDisabled,
     importWalletFlowEverythingEnabled,
   ])(
@@ -139,23 +114,14 @@ describe('onboarding steps', () => {
   )
 
   describe('firstOnboardingScreen', () => {
-    it('should return NameAndPicture if onboardingNameScreenEnabled is true', () => {
-      const firstScreen = firstOnboardingScreen({
-        onboardingNameScreenEnabled: true,
-        recoveringFromStoreWipe: false,
-      })
-      expect(firstScreen).toEqual(Screens.NameAndPicture)
-    })
     it('should return ImportWallet if recoveringFromStoreWipe is true and onboardingNameScreenEnabled is false', () => {
       const firstScreen = firstOnboardingScreen({
-        onboardingNameScreenEnabled: false,
         recoveringFromStoreWipe: true,
       })
       expect(firstScreen).toEqual(Screens.ImportWallet)
     })
     it('should return PincodeSet if recoveringFromStoreWipe is false and onboardingNameScreenEnabled is false', () => {
       const firstScreen = firstOnboardingScreen({
-        onboardingNameScreenEnabled: false,
         recoveringFromStoreWipe: false,
       })
       expect(firstScreen).toEqual(Screens.PincodeSet)
@@ -192,27 +158,7 @@ describe('onboarding steps', () => {
         expect(navigate).toHaveBeenCalledWith(Screens.ProtectWallet)
       })
     })
-    describe('Screens.NameAndPicture', () => {
-      it('should navigate to ImportWallet if recoveringFromStoreWipe is true', () => {
-        goToNextOnboardingScreen({
-          firstScreenInCurrentStep: Screens.NameAndPicture,
-          onboardingProps,
-        })
-        expect(mockStore.dispatch).not.toHaveBeenCalled()
-        expect(navigate).toHaveBeenCalledWith(Screens.ImportWallet)
-      })
-      it('should navigate to PincodeSet if recoveringFromStoreWipe is false', () => {
-        goToNextOnboardingScreen({
-          firstScreenInCurrentStep: Screens.NameAndPicture,
-          onboardingProps: {
-            ...onboardingProps,
-            recoveringFromStoreWipe: false,
-          },
-        })
-        expect(mockStore.dispatch).not.toHaveBeenCalled()
-        expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet)
-      })
-    })
+
     describe('Screens.PincodeSet', () => {
       it('should navigate to EnableBiometry if supportedBiometryType is not null', () => {
         goToNextOnboardingScreen({
@@ -247,25 +193,17 @@ describe('onboarding steps', () => {
       })
     })
     describe('Screens.ImportWallet', () => {
-      it('should navigate to the home screen if skipVerification is true', () => {
+      it('should navigate to the CYA screen if skipVerification is true', () => {
         goToNextOnboardingScreen({
           firstScreenInCurrentStep: Screens.ImportWallet,
-          onboardingProps,
-        })
-        expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
-        expect(mockStore.dispatch).toHaveBeenCalledWith(updateStatsigAndNavigate(Screens.TabHome))
-      })
-      it('should navigate to the Screens.ChooseYourAdventure if skipVerification is true and chooseAdventureEnabled is true', () => {
-        goToNextOnboardingScreen({
-          firstScreenInCurrentStep: Screens.ImportWallet,
-          onboardingProps: { ...onboardingProps, chooseAdventureEnabled: true },
+          onboardingProps: { ...onboardingProps },
         })
         expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
         expect(mockStore.dispatch).toHaveBeenCalledWith(
           updateStatsigAndNavigate(Screens.ChooseYourAdventure)
         )
       })
-      it('should also navigate to the home screen if numberAlreadyVerifiedCentrally is true', () => {
+      it('should also navigate to the CYA screen if numberAlreadyVerifiedCentrally is true', () => {
         goToNextOnboardingScreen({
           firstScreenInCurrentStep: Screens.ImportWallet,
           onboardingProps: {
@@ -275,7 +213,9 @@ describe('onboarding steps', () => {
           },
         })
         expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
-        expect(mockStore.dispatch).toHaveBeenCalledWith(updateStatsigAndNavigate(Screens.TabHome))
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateStatsigAndNavigate(Screens.ChooseYourAdventure)
+        )
       })
       it('should otherwise navigate to VerificationStartScreen', () => {
         goToNextOnboardingScreen({
@@ -290,25 +230,17 @@ describe('onboarding steps', () => {
       })
     })
     describe('Screens.ImportSelect', () => {
-      it('should navigate to the home screen if skipVerification is true', () => {
+      it('should navigate to the CYA screen if skipVerification is true', () => {
         goToNextOnboardingScreen({
           firstScreenInCurrentStep: Screens.ImportSelect,
-          onboardingProps,
-        })
-        expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
-        expect(mockStore.dispatch).toHaveBeenCalledWith(updateStatsigAndNavigate(Screens.TabHome))
-      })
-      it('should navigate to the Screens.ChooseYourAdventure if skipVerification is true and chooseAdventureEnabled is true', () => {
-        goToNextOnboardingScreen({
-          firstScreenInCurrentStep: Screens.ImportSelect,
-          onboardingProps: { ...onboardingProps, chooseAdventureEnabled: true },
+          onboardingProps: { ...onboardingProps },
         })
         expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
         expect(mockStore.dispatch).toHaveBeenCalledWith(
           updateStatsigAndNavigate(Screens.ChooseYourAdventure)
         )
       })
-      it('should also navigate to the home screen if numberAlreadyVerifiedCentrally is true', () => {
+      it('should also navigate to the CYA screen if numberAlreadyVerifiedCentrally is true', () => {
         goToNextOnboardingScreen({
           firstScreenInCurrentStep: Screens.ImportSelect,
           onboardingProps: {
@@ -318,7 +250,9 @@ describe('onboarding steps', () => {
           },
         })
         expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
-        expect(mockStore.dispatch).toHaveBeenCalledWith(updateStatsigAndNavigate(Screens.TabHome))
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateStatsigAndNavigate(Screens.ChooseYourAdventure)
+        )
       })
       it('should otherwise navigate to LinkPhoneNumber', () => {
         goToNextOnboardingScreen({
@@ -334,21 +268,11 @@ describe('onboarding steps', () => {
     })
     describe('Screens.VerificationStartScreen and Screens.LinkPhoneNumber', () => {
       it.each([Screens.VerificationStartScreen, Screens.LinkPhoneNumber])(
-        'From %s should navigate to the home screen',
+        'From %s should navigate to the Screens.ChooseYourAdventure',
         (screen) => {
           goToNextOnboardingScreen({
             firstScreenInCurrentStep: screen,
-            onboardingProps,
-          })
-          expect(mockStore.dispatch).toHaveBeenCalledWith(updateStatsigAndNavigate(Screens.TabHome))
-        }
-      )
-      it.each([Screens.VerificationStartScreen, Screens.LinkPhoneNumber])(
-        'From %s should navigate to the Screens.ChooseYourAdventure if chooseAdventureEnabled is true',
-        (screen) => {
-          goToNextOnboardingScreen({
-            firstScreenInCurrentStep: screen,
-            onboardingProps: { ...onboardingProps, chooseAdventureEnabled: true },
+            onboardingProps: { ...onboardingProps },
           })
           expect(mockStore.dispatch).toHaveBeenCalledWith(
             updateStatsigAndNavigate(Screens.ChooseYourAdventure)
@@ -357,13 +281,15 @@ describe('onboarding steps', () => {
       )
     })
     describe('Screens.ProtectWallet', () => {
-      it('should navigate to the home screen if skipVerification is true', () => {
+      it('should navigate to the CYA screen if skipVerification is true', () => {
         goToNextOnboardingScreen({
           firstScreenInCurrentStep: Screens.ProtectWallet,
           onboardingProps,
         })
         expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
-        expect(mockStore.dispatch).toHaveBeenCalledWith(updateStatsigAndNavigate(Screens.TabHome))
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateStatsigAndNavigate(Screens.ChooseYourAdventure)
+        )
       })
       it('should navigate to VerficationStartScreen if skipVerification is false and choseToRestoreAccount is false', () => {
         goToNextOnboardingScreen({
