@@ -15,9 +15,7 @@ import { Screens } from 'src/navigator/Screens'
 import LanguageButton from 'src/onboarding/LanguageButton'
 import { firstOnboardingScreen } from 'src/onboarding/steps'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { getExperimentParams, patchUpdateStatsigUser } from 'src/statsig'
-import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments } from 'src/statsig/types'
+import { patchUpdateStatsigUser } from 'src/statsig'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -31,12 +29,8 @@ export default function Welcome() {
   const recoveringFromStoreWipe = useSelector(recoveringFromStoreWipeSelector)
 
   const startOnboarding = () => {
-    const { onboardingNameScreenEnabled } = getExperimentParams(
-      ExperimentConfigs[StatsigExperiments.CHOOSE_YOUR_ADVENTURE]
-    )
     navigate(
       firstOnboardingScreen({
-        onboardingNameScreenEnabled,
         recoveringFromStoreWipe,
       })
     )

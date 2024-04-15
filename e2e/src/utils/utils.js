@@ -1,6 +1,6 @@
 import { newKit } from '@celo/contractkit'
-import { ALFAJORES_FORNO_URL, DEFAULT_PIN, EXAMPLE_NAME, SAMPLE_BACKUP_KEY } from '../utils/consts'
 import jestExpect from 'expect'
+import { ALFAJORES_FORNO_URL, DEFAULT_PIN, SAMPLE_BACKUP_KEY } from '../utils/consts'
 const childProcess = require('child_process')
 const fs = require('fs')
 const PNG = require('pngjs').PNG
@@ -166,10 +166,6 @@ export async function quickOnboarding(mnemonic = SAMPLE_BACKUP_KEY, cloudBackupE
       await element(by.id('AcceptTermsButton')).tap()
     } catch {}
 
-    // Name and Picture
-    await element(by.id('NameEntry')).replaceText(EXAMPLE_NAME)
-    await element(by.id('NameAndPictureContinueButton')).tap()
-
     // Set pin
     await enterPinUi()
     // Verify pin
@@ -214,6 +210,9 @@ export async function quickOnboarding(mnemonic = SAMPLE_BACKUP_KEY, cloudBackupE
         'Error trying to skip phone verification step during onboarding, likely due to wallet already being verified'
       )
     }
+
+    // Choose your own adventure (CYA screen)
+    await waitForElementByIdAndTap('ChooseYourAdventure/Later')
 
     // Assert on Wallet Home Screen
     await expect(element(by.id('HomeAction-Send'))).toBeVisible()
