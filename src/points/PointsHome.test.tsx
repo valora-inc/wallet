@@ -9,6 +9,7 @@ import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { PointsEvents } from 'src/analytics/Events'
 import { getHistoryStarted } from 'src/points/slice'
 
+jest.mock('src/points/PointsHistoryBottomSheet')
 jest.mock('src/statsig', () => ({
   getDynamicConfigParams: jest.fn().mockReturnValue({
     pointsMetadata: [
