@@ -123,6 +123,7 @@ export const setupStore = (initialState?: ReducersRootState, config = persistCon
           'stableToken',
           'send',
           'positions',
+          'points',
           'home',
           'transactions',
           'web3',

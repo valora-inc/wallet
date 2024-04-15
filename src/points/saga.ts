@@ -1,3 +1,4 @@
+import { Actions as HomeActions } from 'src/home/actions'
 import { nextPageUrlSelector } from 'src/points/selectors'
 import {
   PointsConfig,
@@ -110,7 +111,11 @@ function* watchGetHistory() {
   yield* takeLeading(getHistoryStarted.type, safely(getHistory))
 }
 
+function* watchGetConfig() {
+  yield* takeLeading([getPointsConfigStarted.type, HomeActions.VISIT_HOME], safely(getPointsConfig))
+}
+
 export function* pointsSaga() {
   yield* spawn(watchGetHistory)
-  yield* spawn(getPointsConfig)
+  yield* spawn(watchGetConfig)
 }
