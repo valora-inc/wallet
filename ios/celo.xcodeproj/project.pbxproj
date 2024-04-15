@@ -23,6 +23,8 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		27C3E2A52BCD218D00A1F5E8 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 27C3E2A42BCD218D00A1F5E8 /* PrivacyInfo.xcprivacy */; };
+		27C3E2A62BCD218D00A1F5E8 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 27C3E2A42BCD218D00A1F5E8 /* PrivacyInfo.xcprivacy */; };
 		2CE54C7D16D44C5380C53609 /* Hind-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A100BC162FF5410CB4627D3C /* Hind-Regular.ttf */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -258,6 +260,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				27C3E2A42BCD218D00A1F5E8 /* PrivacyInfo.xcprivacy */,
 				E4F98D8B2ABA81A300BFC13B /* Inter-Bold.ttf */,
 				6844FCD42570513C0057A74F /* QBImagePicker.storyboard */,
 				13B07FAE1A68108700A75B9A /* celo */,
@@ -495,6 +498,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27C3E2A62BCD218D00A1F5E8 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -508,6 +512,7 @@
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				0FC6C310256FEF2700C35F47 /* InfoPlist.strings in Resources */,
 				0445977E03C74B20A93158B5 /* Hind-Bold.ttf in Resources */,
+				27C3E2A52BCD218D00A1F5E8 /* PrivacyInfo.xcprivacy in Resources */,
 				E4F98D8C2ABA81A300BFC13B /* Inter-Bold.ttf in Resources */,
 				0350D7F2EBD64D0585FEF0AF /* Hind-Light.ttf in Resources */,
 				0317E786245B696200AAAC2E /* Inter-Regular.ttf in Resources */,
