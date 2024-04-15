@@ -76,8 +76,6 @@ export function* getHistory({ payload: params }: ReturnType<typeof getHistorySta
 }
 
 export function* getPointsConfig() {
-  yield* put(getPointsConfigStarted())
-
   try {
     const response = yield* call(fetchWithTimeout, networkConfig.getPointsConfigUrl, {
       method: 'GET',
