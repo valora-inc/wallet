@@ -15,7 +15,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import ActivityCardSection from 'src/points/ActivityCardSection'
 import { pointsConfigStatusSelector, pointsSectionsSelector } from 'src/points/selectors'
-import { getHistoryStarted } from 'src/points/slice'
+import { getHistoryStarted, getPointsConfigStarted } from 'src/points/slice'
 import { BottomSheetParams, PointsActivity } from 'src/points/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { Colors } from 'src/styles/colors'
@@ -67,7 +67,7 @@ export default function PointsHome({ route, navigation }: Props) {
   }
 
   const onRetryLoadConfig = () => {
-    // TODO
+    dispatch(getPointsConfigStarted())
   }
 
   return (
