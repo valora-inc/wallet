@@ -44,6 +44,10 @@ export default function PointsHome({ route, navigation }: Props) {
     }
   }, [bottomSheetParams])
 
+  useEffect(() => {
+    dispatch(getHistoryStarted({ getNextPage: false }))
+  }, [])
+
   const onCtaPressWrapper = (onPress: () => void, activity: PointsActivity) => {
     return () => {
       ValoraAnalytics.track(PointsEvents.points_screen_card_cta_press, {
@@ -52,9 +56,9 @@ export default function PointsHome({ route, navigation }: Props) {
       onPress()
     }
   }
+
   const onPressActivity = () => {
     ValoraAnalytics.track(PointsEvents.points_screen_activity_press)
-    dispatch(getHistoryStarted({ fromPage: false }))
     // TODO: Open history bottom sheet
   }
 

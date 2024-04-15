@@ -2,13 +2,13 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { ClaimHistory } from 'src/points/types'
 
 interface GetPointsHistorySucceededAction {
-  appendHistory: boolean | null
+  appendHistory: boolean
   newPointsHistory: ClaimHistory[]
   nextPageUrl: string | null
 }
 
 interface GetPointsHistoryStartedAction {
-  fromPage: boolean | null
+  getNextPage: boolean
 }
 
 interface State {
