@@ -24,14 +24,14 @@ export interface BottomSheetMetadata {
 }
 
 export type BottomSheetParams = BottomSheetMetadata & {
-  points: number
-  activity: PointsActivity
+  pointsAmount: number
+  activityId: PointsActivity
 }
 
 export type PointsMetadata = {
-  points: number
+  pointsAmount: number
   activities: Array<{
-    name: PointsActivity
+    activityId: PointsActivity
   }>
 }
 
@@ -39,15 +39,15 @@ type ClaimActivity = 'create-wallet' | 'swap'
 
 interface BaseClaimHistory {
   createdAt: string // ISO 8601 string
-  activity: ClaimActivity
-  points: string // In wei
+  activityId: ClaimActivity
+  pointsAmount: string // In wei
 }
 
 type CreateWalletClaimHistory = BaseClaimHistory & {
-  activity: 'create-wallet'
+  activityId: 'create-wallet'
 }
 type SwapClaimHistory = BaseClaimHistory & {
-  activity: 'swap'
+  activityId: 'swap'
   metadata: {
     to: string
     from: string

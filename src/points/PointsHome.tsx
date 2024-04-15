@@ -101,7 +101,7 @@ export default function PointsHome({ route, navigation }: Props) {
         {bottomSheetParams && (
           <>
             <View style={styles.bottomSheetPointAmountContainer}>
-              <Text style={styles.bottomSheetPointAmount}>{bottomSheetParams.points}</Text>
+              <Text style={styles.bottomSheetPointAmount}>{bottomSheetParams.pointsAmount}</Text>
             </View>
             <Text style={styles.bottomSheetTitle}>{bottomSheetParams.title}</Text>
             <Text style={styles.bottomSheetBody}>{bottomSheetParams.body}</Text>
@@ -112,7 +112,7 @@ export default function PointsHome({ route, navigation }: Props) {
                 size={BtnSizes.FULL}
                 onPress={onCtaPressWrapper(
                   bottomSheetParams.cta.onPress,
-                  bottomSheetParams.activity
+                  bottomSheetParams.activityId
                 )}
                 text={bottomSheetParams.cta.text}
               />

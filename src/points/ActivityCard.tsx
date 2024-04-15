@@ -29,8 +29,8 @@ export default function ActivityCard({ activity, points, onPress, completed }: P
       })
       onPress({
         ...bottomSheetMetadata,
-        points,
-        activity,
+        pointsAmount: points,
+        activityId: activity,
       })
     }
   }

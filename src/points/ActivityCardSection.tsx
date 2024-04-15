@@ -22,14 +22,14 @@ export default function ActivityCardSection({ onCardPress }: Props) {
   const pointsConfig = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.POINTS_CONFIG])
 
   function makeSection(pointsMetadata: PointsMetadata): React.ReactNode {
-    const points = pointsMetadata.points
+    const points = pointsMetadata.pointsAmount
 
     const cards = pointsMetadata.activities
-      .filter((activity) => isPointsActivity(activity.name))
+      .filter((activity) => isPointsActivity(activity.activityId))
       .map((activity) => (
         <ActivityCard
-          key={activity.name}
-          activity={activity.name}
+          key={activity.activityId}
+          activity={activity.activityId}
           points={points}
           onPress={onCardPress}
         />
@@ -55,11 +55,11 @@ export default function ActivityCardSection({ onCardPress }: Props) {
 
   const sortedSections = pointsConfig.pointsMetadata
     .sort((a, b) => {
-      if (a.points < b.points) return 1
-      if (a.points > b.points) return -1
+      if (a.pointsAmount < b.pointsAmount) return 1
+      if (a.pointsAmount > b.pointsAmount) return -1
       return 0
     })
-    .filter((metadata) => metadata.points)
+    .filter((metadata) => metadata.pointsAmount)
     .map(makeSection)
 
   return (

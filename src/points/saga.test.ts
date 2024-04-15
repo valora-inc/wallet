@@ -15,8 +15,8 @@ import { combineReducers } from '@reduxjs/toolkit'
 const MOCK_HISTORY_RESPONSE: GetHistoryResponse = {
   data: [
     {
-      activity: 'swap',
-      points: '20000000000000000',
+      activityId: 'swap',
+      pointsAmount: '20000000000000000',
       createdAt: '2024-03-05T19:26:25.000Z',
       metadata: {
         to: 'celo-alfajores:native',
@@ -24,8 +24,8 @@ const MOCK_HISTORY_RESPONSE: GetHistoryResponse = {
       },
     },
     {
-      activity: 'swap',
-      points: '20000000000000000',
+      activityId: 'swap',
+      pointsAmount: '20000000000000000',
       createdAt: '2024-03-04T19:26:25.000Z',
       metadata: {
         to: 'celo-alfajores:0xe4d517785d091d3c54818832db6094bcc2744545',
@@ -38,7 +38,7 @@ const MOCK_HISTORY_RESPONSE: GetHistoryResponse = {
 }
 
 const MOCK_POINTS_HISTORY: ClaimHistory[] = [
-  { activity: 'create-wallet', points: '10', createdAt: 'some time' },
+  { activityId: 'create-wallet', pointsAmount: '10', createdAt: 'some time' },
 ]
 
 describe('fetchHistory', () => {

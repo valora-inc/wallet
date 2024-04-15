@@ -1065,21 +1065,21 @@
         "CreateWalletClaimHistory": {
             "additionalProperties": false,
             "properties": {
-                "activity": {
+                "activityId": {
                     "const": "create-wallet",
                     "type": "string"
                 },
                 "createdAt": {
                     "type": "string"
                 },
-                "points": {
+                "pointsAmount": {
                     "type": "string"
                 }
             },
             "required": [
-                "activity",
+                "activityId",
                 "createdAt",
-                "points"
+                "pointsAmount"
             ],
             "type": "object"
         },
@@ -4910,7 +4910,7 @@
         "SwapClaimHistory": {
             "additionalProperties": false,
             "properties": {
-                "activity": {
+                "activityId": {
                     "const": "swap",
                     "type": "string"
                 },
@@ -4933,15 +4933,15 @@
                     ],
                     "type": "object"
                 },
-                "points": {
+                "pointsAmount": {
                     "type": "string"
                 }
             },
             "required": [
-                "activity",
+                "activityId",
                 "createdAt",
                 "metadata",
-                "points"
+                "pointsAmount"
             ],
             "type": "object"
         },
