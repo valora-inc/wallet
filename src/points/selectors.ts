@@ -2,7 +2,7 @@ import { createSelector } from 'reselect'
 import { PointsMetadata, isPointsActivity } from 'src/points/types'
 import { RootState } from 'src/redux/reducers'
 
-export const getPointsHistoryNextPageUrlSelector = (state: RootState) => {
+export const nextPageUrlSelector = (state: RootState) => {
   return state.points.nextPageUrl
 }
 

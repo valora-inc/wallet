@@ -9,7 +9,7 @@ interface GetPointsHistorySucceededAction {
 }
 
 interface GetPointsHistoryStartedAction {
-  fromPage: boolean | null
+  getNextPage: boolean
 }
 
 export type PointsConfig = {

@@ -1,13 +1,13 @@
-import * as React from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import * as React from 'react'
 import { Provider } from 'react-redux'
-import { navigate } from 'src/navigator/NavigationService'
-import PointsHome from 'src/points/PointsHome'
-import { Screens } from 'src/navigator/Screens'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { PointsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import PointsHome from 'src/points/PointsHome'
 import { getHistoryStarted } from 'src/points/slice'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 jest.mock('src/statsig', () => ({
   getDynamicConfigParams: jest.fn().mockReturnValue({
@@ -72,7 +72,7 @@ describe(PointsHome, () => {
     await waitFor(() =>
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_activity_press)
     )
-    expect(store.dispatch).toHaveBeenCalledWith(getHistoryStarted({ fromPage: false }))
+    expect(store.dispatch).toHaveBeenCalledWith(getHistoryStarted({ getNextPage: false }))
   })
 
   it('renders multiple sections', async () => {

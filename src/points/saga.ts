@@ -1,4 +1,4 @@
-import { getPointsHistoryNextPageUrlSelector } from 'src/points/selectors'
+import { nextPageUrlSelector } from 'src/points/selectors'
 import {
   PointsConfig,
   getHistoryError,
@@ -43,13 +43,27 @@ export function* getHistory({ payload: params }: ReturnType<typeof getHistorySta
     return
   }
 
-  const url = params.fromPage ? yield* select(getPointsHistoryNextPageUrlSelector) : undefined
+  const url = params.getNextPage ? yield* select(nextPageUrlSelector) : undefined
+
+  // Silently succeed if a refresh is requested but no page information
+  // is available; not considered an "error" state.
+  if (!url && params.getNextPage) {
+    Logger.info(TAG, 'Requested to fetch more points history but no next page available')
+    yield* put(
+      getHistorySucceeded({
+        appendHistory: params.getNextPage,
+        newPointsHistory: [],
+        nextPageUrl: null,
+      })
+    )
+    return
+  }
 
   try {
     const history = yield* call(fetchHistory, walletAddress, url)
     yield* put(
       getHistorySucceeded({
-        appendHistory: params.fromPage,
+        appendHistory: params.getNextPage,
         newPointsHistory: history.data,
         nextPageUrl: history.hasNextPage ? history.nextPageUrl : null,
       })
