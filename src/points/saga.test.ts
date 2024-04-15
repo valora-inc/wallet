@@ -262,20 +262,4 @@ describe('getPointsConfig', () => {
       .not.put(getPointsConfigSucceeded(expect.anything()))
       .run()
   })
-
-  it('sets error state if there are no supported activities', async () => {
-    const config = {
-      activitiesById: {
-        'unsupported-activity': {
-          points: 10,
-        },
-      },
-    }
-    mockFetch.mockResponseOnce(JSON.stringify({ config }))
-
-    await expectSaga(getPointsConfig)
-      .put(getPointsConfigError())
-      .not.put(getPointsConfigSucceeded(expect.anything()))
-      .run()
-  })
 })

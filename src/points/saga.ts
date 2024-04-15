@@ -94,10 +94,6 @@ export function* getPointsConfig() {
         supportedActivities.activitiesById[activityId] = activityMetadata
       }
     })
-    if (Object.keys(supportedActivities.activitiesById).length === 0) {
-      throw new Error('No supported activities found in points config')
-    }
-
     yield* put(getPointsConfigSucceeded(supportedActivities))
   } catch (e) {
     Logger.error(TAG, 'Error fetching points config', e)
