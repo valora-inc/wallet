@@ -9,7 +9,6 @@ import pointsReducer, {
   getHistoryStarted,
   getHistorySucceeded,
   getPointsConfigError,
-  getPointsConfigStarted,
   getPointsConfigSucceeded,
 } from 'src/points/slice'
 import { ClaimHistory, GetHistoryResponse } from 'src/points/types'
@@ -186,10 +185,7 @@ describe('getPointsConfig', () => {
     }
     mockFetch.mockResponseOnce(JSON.stringify({ config }))
 
-    await expectSaga(getPointsConfig)
-      .put(getPointsConfigSucceeded(config))
-      .put(getPointsConfigStarted())
-      .run()
+    await expectSaga(getPointsConfig).put(getPointsConfigSucceeded(config)).run()
 
     expect(fetchWithTimeoutSpy).toHaveBeenCalledWith(networkConfig.getPointsConfigUrl, {
       method: 'GET',
@@ -219,7 +215,6 @@ describe('getPointsConfig', () => {
           },
         })
       )
-      .put(getPointsConfigStarted())
       .run()
 
     expect(fetchWithTimeoutSpy).toHaveBeenCalledWith(networkConfig.getPointsConfigUrl, {
@@ -250,7 +245,6 @@ describe('getPointsConfig', () => {
           },
         })
       )
-      .put(getPointsConfigStarted())
       .run()
 
     expect(fetchWithTimeoutSpy).toHaveBeenCalledWith(networkConfig.getPointsConfigUrl, {
@@ -264,7 +258,6 @@ describe('getPointsConfig', () => {
     })
 
     await expectSaga(getPointsConfig)
-      .put(getPointsConfigStarted())
       .put(getPointsConfigError())
       .not.put(getPointsConfigSucceeded(expect.anything()))
       .run()
@@ -281,7 +274,6 @@ describe('getPointsConfig', () => {
     mockFetch.mockResponseOnce(JSON.stringify({ config }))
 
     await expectSaga(getPointsConfig)
-      .put(getPointsConfigStarted())
       .put(getPointsConfigError())
       .not.put(getPointsConfigSucceeded(expect.anything()))
       .run()
