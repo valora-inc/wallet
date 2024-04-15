@@ -534,10 +534,11 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     tokenId: mockUSDCTokenId,
     address: mockUSDCAddress,
     symbol: 'USDC',
-    decimals: 18,
+    decimals: 6,
     imageUrl: '',
     balance: '0',
     priceUsd: '1',
+    priceFetchedAt: Date.now(),
   },
   [mockARBTokenId]: {
     name: 'Ethereum',
