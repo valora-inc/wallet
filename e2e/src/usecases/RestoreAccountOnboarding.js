@@ -1,6 +1,5 @@
 import { getAddressChunks } from '@celo/utils/lib/address'
 import {
-  EXAMPLE_NAME,
   SAMPLE_BACKUP_KEY,
   SAMPLE_BACKUP_KEY_12_WORDS,
   SAMPLE_WALLET_ADDRESS,
@@ -40,10 +39,6 @@ export default RestoreAccountOnboarding = () => {
       await expect(element(by.id('AcceptTermsButton'))).toBeVisible()
       await element(by.id('AcceptTermsButton')).tap()
 
-      // enter name
-      await element(by.id('NameEntry')).replaceText(EXAMPLE_NAME)
-      await element(by.id('NameAndPictureContinueButton')).tap()
-
       // Set and verify pin
       await enterPinUi()
       await enterPinUi()
@@ -73,6 +68,9 @@ export default RestoreAccountOnboarding = () => {
       // verification step comes after restoring wallet, skip this step
       await waitForElementId('PhoneVerificationSkipHeader')
       await element(by.id('PhoneVerificationSkipHeader')).tap()
+
+      // Choose your own adventure (CYA screen)
+      await waitForElementByIdAndTap('ChooseYourAdventure/Later')
 
       // verify that we land on the home screen
       await expect(element(by.id('HomeAction-Send'))).toBeVisible()

@@ -38,92 +38,91 @@ export interface ChooseCreateAccountAction {
   type: Actions.CHOOSE_CREATE_ACCOUNT
   now: number
 }
-export interface ChooseRestoreAccountAction {
+interface ChooseRestoreAccountAction {
   type: Actions.CHOOSE_RESTORE_ACCOUNT
 }
 
-export interface StartStoreWipeRecoveryAction {
+interface StartStoreWipeRecoveryAction {
   type: Actions.START_STORE_WIPE_RECOVERY
   accountToRecover: string
 }
 
-export interface CancelCreateOrRestoreAccountAction {
+interface CancelCreateOrRestoreAccountAction {
   type: Actions.CANCEL_CREATE_OR_RESTORE_ACCOUNT
 }
 
-export interface SetNameAction {
+interface SetNameAction {
   type: Actions.SET_NAME
   name: string
 }
 
-export interface SetPhoneNumberAction {
+interface SetPhoneNumberAction {
   type: Actions.SET_PHONE_NUMBER
   e164PhoneNumber: string
   countryCode: string
 }
 
-export interface SetPictureAction {
+interface SetPictureAction {
   type: Actions.SET_PICTURE
   pictureUri: string | null
 }
 
-export interface SaveNameAndPictureAction {
+interface SaveNameAndPictureAction {
   type: Actions.SAVE_NAME_AND_PICTURE
   name: string
   pictureUri: string | null
 }
-
-export interface DevModeTriggerClickedAction {
+interface DevModeTriggerClickedAction {
   type: Actions.DEV_MODE_TRIGGER_CLICKED
 }
 
-export interface AcceptTermsAction {
+interface AcceptTermsAction {
   type: Actions.ACCEPT_TERMS
 }
 
-export interface PhotosNUXClickedAction {
+interface PhotosNUXClickedAction {
   type: Actions.PHOTOSNUX_CLICKED
 }
 
-export interface SetPincodeSuccessAction {
+interface SetPincodeSuccessAction {
   type: Actions.SET_PINCODE_SUCCESS
   pincodeType: PincodeType
 }
 
-export interface SetPincodeFailureAction {
+interface SetPincodeFailureAction {
   type: Actions.SET_PINCODE_FAILURE
 }
 
-export interface InitializeAccountAction {
+interface InitializeAccountAction {
   type: Actions.INITIALIZE_ACCOUNT
 }
 
-export interface InitializeAccountSuccessAction {
+interface InitializeAccountSuccessAction {
   type: Actions.INITIALIZE_ACCOUNT_SUCCESS
 }
 
-export interface SetAccountCreationAction {
+interface SetAccountCreationAction {
   type: Actions.SET_ACCOUNT_CREATION_TIME
   now: number
 }
 
-export interface SetBackupCompletedAction {
+interface SetBackupCompletedAction {
   type: Actions.SET_BACKUP_COMPLETED
 }
 
-export interface ToggleBackupState {
+interface ToggleBackupState {
   type: Actions.TOGGLE_BACKUP_STATE
 }
 
-export interface DismissGetVerifiedAction {
+interface DismissGetVerifiedAction {
   type: Actions.DISMISS_GET_VERIFIED
 }
 
-export interface DismissGoldEducationAction {
+interface DismissGoldEducationAction {
   type: Actions.DISMISS_GOLD_EDUCATION
 }
 
-export interface SetContactDetailsAction {
+interface SetContactDetailsAction {
   type: Actions.SET_USER_CONTACT_DETAILS
   contactId: string
   thumbnailPath: string | null
@@ -135,32 +134,32 @@ export interface ClearStoredAccountAction {
   onlyReduxState: boolean
 }
 
-export interface ProfileUploadedAction {
+interface ProfileUploadedAction {
   type: Actions.PROFILE_UPLOADED
 }
 
-export interface DismissKeepSuperchargingAction {
+interface DismissKeepSuperchargingAction {
   type: Actions.DISMISS_KEEP_SUPERCHARGING
 }
 
-export interface DismissStartSuperchargingAction {
+interface DismissStartSuperchargingAction {
   type: Actions.DISMISS_START_SUPERCHARGING
 }
 
-export interface SaveSignedMessage {
+interface SaveSignedMessage {
   type: Actions.SAVE_SIGNED_MESSAGE
 }
 
-export interface SetCeloEducationCompletedAction {
+interface SetCeloEducationCompletedAction {
   type: Actions.SET_CELO_EDUCATION_COMPLETED
   celoEducationCompleted: boolean
 }
 
-export interface RecoveryPhraseInOnboardingStarted {
+interface RecoveryPhraseInOnboardingStarted {
   type: Actions.RECOVERY_PHRASE_IN_ONBOARDING_STARTED
 }
 
-export interface RecoveryPhraseInOnboardingCompleted {
+interface RecoveryPhraseInOnboardingCompleted {
   type: Actions.RECOVERY_PHRASE_IN_ONBOARDING_COMPLETED
 }
 
@@ -221,24 +220,9 @@ export function cancelCreateOrRestoreAccount(): CancelCreateOrRestoreAccountActi
   }
 }
 
-export function setName(name: string): SetNameAction {
-  return {
-    type: Actions.SET_NAME,
-    name,
-  }
-}
-
 export function acceptTerms(): AcceptTermsAction {
   return {
     type: Actions.ACCEPT_TERMS,
-  }
-}
-
-export function setPhoneNumber(e164PhoneNumber: string, countryCode: string): SetPhoneNumberAction {
-  return {
-    type: Actions.SET_PHONE_NUMBER,
-    e164PhoneNumber,
-    countryCode,
   }
 }
 
@@ -253,28 +237,13 @@ export function saveNameAndPicture(
   }
 }
 
-export function setPicture(pictureUri: string | null): SetPictureAction {
-  return {
-    type: Actions.SET_PICTURE,
-    pictureUri,
-  }
-}
-
 export const devModeTriggerClicked = (): DevModeTriggerClickedAction => ({
   type: Actions.DEV_MODE_TRIGGER_CLICKED,
-})
-
-export const photosNUXCompleted = (): PhotosNUXClickedAction => ({
-  type: Actions.PHOTOSNUX_CLICKED,
 })
 
 export const setPincodeSuccess = (pincodeType: PincodeType): SetPincodeSuccessAction => ({
   type: Actions.SET_PINCODE_SUCCESS,
   pincodeType,
-})
-
-export const setPincodeFailure = (): SetPincodeFailureAction => ({
-  type: Actions.SET_PINCODE_FAILURE,
 })
 
 export const initializeAccount = (): InitializeAccountAction => ({
@@ -322,10 +291,6 @@ export const clearStoredAccount = (
   type: Actions.CLEAR_STORED_ACCOUNT,
   account,
   onlyReduxState,
-})
-
-export const profileUploaded = (): ProfileUploadedAction => ({
-  type: Actions.PROFILE_UPLOADED,
 })
 
 export const dismissKeepSupercharging = (): DismissKeepSuperchargingAction => ({
