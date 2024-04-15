@@ -1,23 +1,23 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useEffect, useRef, useState } from 'react'
+import { StackParamList } from 'src/navigator/types'
+import BackButton from 'src/components/BackButton'
+import React, { useEffect, useState, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { PointsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import BackButton from 'src/components/BackButton'
-import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
-import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import CustomHeader from 'src/components/header/CustomHeader'
 import { Screens } from 'src/navigator/Screens'
-import { StackParamList } from 'src/navigator/types'
-import ActivityCardSection from 'src/points/ActivityCardSection'
-import { getHistoryStarted } from 'src/points/slice'
-import { BottomSheetParams, PointsActivity } from 'src/points/types'
-import { useDispatch } from 'src/redux/hooks'
-import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import { Colors } from 'src/styles/colors'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import ActivityCardSection from 'src/points/ActivityCardSection'
+import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import { BottomSheetParams, PointsActivity } from 'src/points/types'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { PointsEvents } from 'src/analytics/Events'
+import CustomHeader from 'src/components/header/CustomHeader'
+import { useDispatch } from 'src/redux/hooks'
+import { getHistoryStarted } from 'src/points/slice'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.PointsHome>
 
@@ -56,8 +56,10 @@ export default function PointsHome({ route, navigation }: Props) {
       onPress()
     }
   }
+
   const onPressActivity = () => {
     ValoraAnalytics.track(PointsEvents.points_screen_activity_press)
+    // TODO: Open history bottom sheet
   }
 
   return (
