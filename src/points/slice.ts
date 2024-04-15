@@ -3,13 +3,13 @@ import { ClaimHistory, PointsActivity } from 'src/points/types'
 import { REHYDRATE, RehydrateAction, getRehydratePayload } from 'src/redux/persist-helper'
 
 interface GetPointsHistorySucceededAction {
-  appendHistory: boolean | null
+  appendHistory: boolean
   newPointsHistory: ClaimHistory[]
   nextPageUrl: string | null
 }
 
 interface GetPointsHistoryStartedAction {
-  fromPage: boolean | null
+  getNextPage: boolean
 }
 
 export type PointsConfig = {

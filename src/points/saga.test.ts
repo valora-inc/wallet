@@ -1,9 +1,10 @@
+import { combineReducers } from '@reduxjs/toolkit'
 import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { fetchHistory, getHistory, getPointsConfig } from 'src/points/saga'
-import {
+import pointsReducer, {
   getHistoryError,
   getHistoryStarted,
   getHistorySucceeded,
@@ -11,7 +12,7 @@ import {
   getPointsConfigStarted,
   getPointsConfigSucceeded,
 } from 'src/points/slice'
-import { GetHistoryResponse } from 'src/points/types'
+import { ClaimHistory, GetHistoryResponse } from 'src/points/types'
 import * as fetchWithTimeout from 'src/utils/fetchWithTimeout'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
@@ -40,6 +41,10 @@ const MOCK_HISTORY_RESPONSE: GetHistoryResponse = {
   hasNextPage: true,
   nextPageUrl: 'https://example.com/getHistory?pageSize=2&page=1',
 }
+
+const MOCK_POINTS_HISTORY: ClaimHistory[] = [
+  { activity: 'create-wallet', points: '10', createdAt: 'some time' },
+]
 
 const mockFetch = fetch as FetchMock
 const fetchWithTimeoutSpy = jest.spyOn(fetchWithTimeout, 'fetchWithTimeout')
@@ -71,28 +76,34 @@ describe('fetchHistory', () => {
     expect(result).toEqual(MOCK_HISTORY_RESPONSE)
   })
   it('throws on non-200', async () => {
-    mockFetch.mockRejectOnce(new Error('failure'))
+    mockFetch.mockResponseOnce('failure', { status: 400 })
     const address = 'some-address'
     await expect(fetchHistory(address, 'https://example.com')).rejects.toEqual(new Error('failure'))
   })
 })
 
 describe('getHistory', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('sets error state if no address found', async () => {
     const params = getHistoryStarted({
-      fromPage: false,
+      getNextPage: false,
     })
     await expectSaga(getHistory, params)
       .withState(createMockStore({ web3: { account: null } }).getState())
       .put(getHistoryError())
       .run()
   })
+
   it('fetches and sets history from scratch', async () => {
     const params = getHistoryStarted({
-      fromPage: false,
+      getNextPage: false,
     })
-    await expectSaga(getHistory, params)
-      .withState(createMockStore().getState())
+    const mockStore = createMockStore({ points: { pointsHistory: MOCK_POINTS_HISTORY } })
+    const { storeState } = await expectSaga(getHistory, params)
+      .withReducer(combineReducers({ points: pointsReducer }), mockStore.getState())
       .provide([[matchers.call.fn(fetchHistory), MOCK_HISTORY_RESPONSE]])
       .put(
         getHistorySucceeded({
@@ -102,10 +113,12 @@ describe('getHistory', () => {
         })
       )
       .run()
+
+    expect(storeState.points.pointsHistory).toEqual(MOCK_HISTORY_RESPONSE.data)
   })
   it('sets error state if error while fetching', async () => {
     const params = getHistoryStarted({
-      fromPage: false,
+      getNextPage: false,
     })
     await expectSaga(getHistory, params)
       .withState(createMockStore().getState())
@@ -115,10 +128,13 @@ describe('getHistory', () => {
   })
   it('fetches from stored page if requested', async () => {
     const params = getHistoryStarted({
-      fromPage: true,
+      getNextPage: true,
     })
-    await expectSaga(getHistory, params)
-      .withState(createMockStore().getState())
+    const mockStore = createMockStore({
+      points: { pointsHistory: MOCK_POINTS_HISTORY, nextPageUrl: 'foo' },
+    })
+    const { storeState } = await expectSaga(getHistory, params)
+      .withReducer(combineReducers({ points: pointsReducer }), mockStore.getState())
       .provide([[matchers.call.fn(fetchHistory), MOCK_HISTORY_RESPONSE]])
       .put(
         getHistorySucceeded({
@@ -128,6 +144,30 @@ describe('getHistory', () => {
         })
       )
       .run()
+
+    expect(storeState.points.pointsHistory).toEqual([
+      ...MOCK_POINTS_HISTORY,
+      ...MOCK_HISTORY_RESPONSE.data,
+    ])
+  })
+
+  it('skips fetching is new page is requested but none stored in redux', async () => {
+    const params = getHistoryStarted({
+      getNextPage: true,
+    })
+    const mockStore = createMockStore({ points: { pointsHistory: MOCK_POINTS_HISTORY } })
+    const { storeState } = await expectSaga(getHistory, params)
+      .withReducer(combineReducers({ points: pointsReducer }), mockStore.getState())
+      .put(
+        getHistorySucceeded({
+          appendHistory: true,
+          newPointsHistory: [],
+          nextPageUrl: null,
+        })
+      )
+      .run()
+
+    expect(storeState.points.pointsHistory).toEqual(MOCK_POINTS_HISTORY)
   })
 })
 

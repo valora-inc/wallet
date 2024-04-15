@@ -93,7 +93,7 @@ describe(PointsHome, () => {
     await waitFor(() =>
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_activity_press)
     )
-    expect(store.getActions()).toEqual([getHistoryStarted({ fromPage: false })])
+    expect(store.getActions()).toEqual([getHistoryStarted({ getNextPage: false })])
   })
 
   it('renders multiple sections', async () => {

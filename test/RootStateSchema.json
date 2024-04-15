@@ -416,6 +416,119 @@
             ],
             "type": "object"
         },
+        "AuthTypes.Cacao": {
+            "additionalProperties": false,
+            "properties": {
+                "h": {
+                    "$ref": "#/definitions/AuthTypes.CacaoHeader"
+                },
+                "p": {
+                    "$ref": "#/definitions/AuthTypes.CacaoPayload"
+                },
+                "s": {
+                    "$ref": "#/definitions/AuthTypes.CacaoSignature"
+                }
+            },
+            "required": [
+                "h",
+                "p",
+                "s"
+            ],
+            "type": "object"
+        },
+        "AuthTypes.CacaoHeader": {
+            "additionalProperties": false,
+            "properties": {
+                "t": {
+                    "const": "caip122",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "t"
+            ],
+            "type": "object"
+        },
+        "AuthTypes.CacaoPayload": {
+            "additionalProperties": false,
+            "properties": {
+                "aud": {
+                    "type": "string"
+                },
+                "chainId": {
+                    "type": "string"
+                },
+                "domain": {
+                    "type": "string"
+                },
+                "exp": {
+                    "type": "string"
+                },
+                "expiry": {
+                    "type": "number"
+                },
+                "iat": {
+                    "type": "string"
+                },
+                "iss": {
+                    "type": "string"
+                },
+                "nbf": {
+                    "type": "string"
+                },
+                "nonce": {
+                    "type": "string"
+                },
+                "requestId": {
+                    "type": "string"
+                },
+                "resources": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "statement": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "aud",
+                "domain",
+                "iss",
+                "nonce"
+            ],
+            "type": "object"
+        },
+        "AuthTypes.CacaoSignature": {
+            "additionalProperties": false,
+            "properties": {
+                "m": {
+                    "type": "string"
+                },
+                "s": {
+                    "type": "string"
+                },
+                "t": {
+                    "enum": [
+                        "eip1271",
+                        "eip191"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "s",
+                "t"
+            ],
+            "type": "object"
+        },
         "BaseToken": {
             "additionalProperties": false,
             "properties": {
@@ -2798,11 +2911,26 @@
             "additionalProperties": false,
             "type": "object"
         },
+        "SessionTypes.SessionConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "disableDeepLink": {
+                    "type": "boolean"
+                }
+            },
+            "type": "object"
+        },
         "SessionTypes.Struct": {
             "additionalProperties": false,
             "properties": {
                 "acknowledged": {
                     "type": "boolean"
+                },
+                "authentication": {
+                    "items": {
+                        "$ref": "#/definitions/AuthTypes.Cacao"
+                    },
+                    "type": "array"
                 },
                 "controller": {
                     "type": "string"
@@ -2856,6 +2984,9 @@
                         "publicKey"
                     ],
                     "type": "object"
+                },
+                "sessionConfig": {
+                    "$ref": "#/definitions/SessionTypes.SessionConfig"
                 },
                 "sessionProperties": {
                     "$ref": "#/definitions/ProposalTypes.SessionProperties"
