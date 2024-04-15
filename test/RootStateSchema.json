@@ -4411,23 +4411,16 @@
                     ]
                 },
                 "pointsConfig": {
-                    "anyOf": [
-                        {
-                            "additionalProperties": false,
-                            "properties": {
-                                "activitiesById": {
-                                    "$ref": "#/definitions/{swap?:{pointsAmount:number;}|undefined;\"create-wallet\"?:{pointsAmount:number;}|undefined;\"more-coming\"?:{pointsAmount:number;}|undefined;}"
-                                }
-                            },
-                            "required": [
-                                "activitiesById"
-                            ],
-                            "type": "object"
-                        },
-                        {
-                            "type": "null"
+                    "additionalProperties": false,
+                    "properties": {
+                        "activitiesById": {
+                            "$ref": "#/definitions/{swap?:{pointsAmount:number;}|undefined;\"create-wallet\"?:{pointsAmount:number;}|undefined;\"more-coming\"?:{pointsAmount:number;}|undefined;}"
                         }
-                    ]
+                    },
+                    "required": [
+                        "activitiesById"
+                    ],
+                    "type": "object"
                 },
                 "pointsConfigStatus": {
                     "enum": [

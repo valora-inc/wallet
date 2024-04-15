@@ -296,7 +296,9 @@ describe('store state', () => {
         "points": {
           "getHistoryStatus": "idle",
           "nextPageUrl": null,
-          "pointsConfig": null,
+          "pointsConfig": {
+            "activitiesById": {},
+          },
           "pointsConfigStatus": "idle",
           "pointsHistory": [],
         },

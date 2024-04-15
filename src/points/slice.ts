@@ -23,7 +23,7 @@ interface State {
   pointsHistory: ClaimHistory[]
   nextPageUrl: string | null
   getHistoryStatus: 'idle' | 'loading' | 'error'
-  pointsConfig: PointsConfig | null
+  pointsConfig: PointsConfig
   pointsConfigStatus: 'idle' | 'loading' | 'error'
 }
 
@@ -31,7 +31,7 @@ const initialState: State = {
   pointsHistory: [],
   nextPageUrl: null,
   getHistoryStatus: 'idle',
-  pointsConfig: null,
+  pointsConfig: { activitiesById: {} },
   pointsConfigStatus: 'idle',
 }
 
@@ -73,7 +73,7 @@ const slice = createSlice({
     builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
       ...state,
       ...getRehydratePayload(action, 'points'),
-      pointsConfig: null, // always reset pointsConfig on rehydrate to ensure it's up to date
+      pointsConfig: { activitiesById: {} }, // always reset pointsConfig on rehydrate to ensure it's up to date
     }))
   },
 })

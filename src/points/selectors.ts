@@ -12,9 +12,6 @@ export const pointsSectionsSelector = createSelector(
   [pointsConfigSelector],
   (pointsConfig): PointsMetadata[] => {
     const pointsMetadata: PointsMetadata[] = []
-    if (!pointsConfig) {
-      return pointsMetadata
-    }
 
     Object.entries(pointsConfig.activitiesById).forEach(
       ([activityId, { pointsAmount: points }]) => {

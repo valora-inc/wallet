@@ -3235,7 +3235,7 @@ export const v206Schema = {
   },
   points: {
     ...v205Schema.points,
-    pointsConfig: null,
+    pointsConfig: { activitiesById: {} },
     pointsConfigStatus: 'idle',
   },
 }

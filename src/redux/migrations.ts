@@ -1736,7 +1736,7 @@ export const migrations = {
     ...state,
     points: {
       ...state.points,
-      pointsConfig: null,
+      pointsConfig: { activitiesById: {} },
       pointsConfigStatus: 'idle',
     },
   }),
