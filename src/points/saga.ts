@@ -56,7 +56,7 @@ export function* getHistory({ payload: params }: ReturnType<typeof getHistorySta
     yield* put(
       getHistorySucceeded({
         appendHistory: params.getNextPage,
-        newPointsHistory: [...history.data, ...history.data, ...history.data],
+        newPointsHistory: history.data,
         nextPageUrl: history.hasNextPage ? history.nextPageUrl : null,
       })
     )

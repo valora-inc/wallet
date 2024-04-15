@@ -59,10 +59,9 @@ describe(PointsHistoryBottomSheet, () => {
 
     const dispatch = jest.spyOn(store, 'dispatch')
 
-    const ref = React.createRef()
     const tree = render(
       <Provider store={store}>
-        <PointsHistoryBottomSheet forwardedRef={ref} />
+        <PointsHistoryBottomSheet forwardedRef={{ current: null }} />
       </Provider>
     )
 
