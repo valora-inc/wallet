@@ -121,7 +121,7 @@ describe(PointsHome, () => {
   })
 
   it('renders multiple sections', async () => {
-    const { getByTestId, queryByTestId } = renderPointsHome()
+    const { getByTestId, queryByTestId, queryByText } = renderPointsHome()
 
     expect(getByTestId('PointsActivitySection-50')).toBeTruthy()
     expect(getByTestId('PointsActivitySection-20')).toBeTruthy()
@@ -132,6 +132,9 @@ describe(PointsHome, () => {
     expect(queryByTestId('PointsActivityCard-swap-20')).toBeFalsy()
     expect(getByTestId('PointsActivityCard-more-coming-20')).toBeTruthy()
     expect(getByTestId('PointsActivityCard-create-wallet-20')).toBeTruthy()
+
+    expect(queryByText('points.loading.title')).toBeFalsy()
+    expect(queryByText('points.error.title')).toBeFalsy()
   })
 
   it('opens Swap bottom sheet', async () => {
