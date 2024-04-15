@@ -14,7 +14,6 @@ export async function fetchHistory(
   address: string,
   url?: string | null
 ): Promise<GetHistoryResponse> {
-  console.log(url ?? `${networkConfig.getPointsHistoryUrl}?` + new URLSearchParams({ address }))
   const response = await fetchWithTimeout(
     url ?? `${networkConfig.getPointsHistoryUrl}?` + new URLSearchParams({ address }),
     {

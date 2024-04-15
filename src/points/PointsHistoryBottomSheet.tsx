@@ -44,7 +44,6 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
   }
 
   const fetchMoreHistory = () => {
-    console.log('heeeeeeeeeeeeeere')
     ValoraAnalytics.track(PointsEvents.points_screen_activity_fetch_more)
     dispatch(
       getHistoryStarted({
