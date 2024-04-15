@@ -179,7 +179,7 @@ describe('getPointsConfig', () => {
     const config = {
       activitiesById: {
         swap: {
-          points: 10,
+          pointsAmount: 10,
         },
       },
     }
@@ -210,7 +210,7 @@ describe('getPointsConfig', () => {
         getPointsConfigSucceeded({
           activitiesById: {
             swap: {
-              points: 10,
+              pointsAmount: 10,
             },
           },
         })
@@ -240,7 +240,7 @@ describe('getPointsConfig', () => {
         getPointsConfigSucceeded({
           activitiesById: {
             'create-wallet': {
-              points: 10,
+              pointsAmount: 10,
             },
           },
         })

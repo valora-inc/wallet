@@ -90,7 +90,7 @@ export function* getPointsConfig() {
       activitiesById: {},
     }
     Object.entries(config.activitiesById).forEach(([activityId, activityMetadata]) => {
-      if (isPointsActivity(activityId) && activityMetadata.points > 0) {
+      if (isPointsActivity(activityId) && activityMetadata.pointsAmount > 0) {
         supportedActivities.activitiesById[activityId] = activityMetadata
       }
     })

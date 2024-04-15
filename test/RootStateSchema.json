@@ -4416,7 +4416,7 @@
                             "additionalProperties": false,
                             "properties": {
                                 "activitiesById": {
-                                    "$ref": "#/definitions/{swap?:{points:number;}|undefined;\"create-wallet\"?:{points:number;}|undefined;\"more-coming\"?:{points:number;}|undefined;}"
+                                    "$ref": "#/definitions/{swap?:{pointsAmount:number;}|undefined;\"create-wallet\"?:{pointsAmount:number;}|undefined;\"more-coming\"?:{pointsAmount:number;}|undefined;}"
                                 }
                             },
                             "required": [
@@ -6211,42 +6211,42 @@
             },
             "type": "object"
         },
-        "{swap?:{points:number;}|undefined;\"create-wallet\"?:{points:number;}|undefined;\"more-coming\"?:{points:number;}|undefined;}": {
+        "{swap?:{pointsAmount:number;}|undefined;\"create-wallet\"?:{pointsAmount:number;}|undefined;\"more-coming\"?:{pointsAmount:number;}|undefined;}": {
             "additionalProperties": false,
             "properties": {
                 "create-wallet": {
                     "additionalProperties": false,
                     "properties": {
-                        "points": {
+                        "pointsAmount": {
                             "type": "number"
                         }
                     },
                     "required": [
-                        "points"
+                        "pointsAmount"
                     ],
                     "type": "object"
                 },
                 "more-coming": {
                     "additionalProperties": false,
                     "properties": {
-                        "points": {
+                        "pointsAmount": {
                             "type": "number"
                         }
                     },
                     "required": [
-                        "points"
+                        "pointsAmount"
                     ],
                     "type": "object"
                 },
                 "swap": {
                     "additionalProperties": false,
                     "properties": {
-                        "points": {
+                        "pointsAmount": {
                             "type": "number"
                         }
                     },
                     "required": [
-                        "points"
+                        "pointsAmount"
                     ],
                     "type": "object"
                 }

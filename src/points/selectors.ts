@@ -16,24 +16,26 @@ export const pointsSectionsSelector = createSelector(
       return pointsMetadata
     }
 
-    Object.entries(pointsConfig.activitiesById).forEach(([activityId, { points }]) => {
-      if (!isPointsActivity(activityId)) {
-        // should never happen but Object.entries seems to lose the type for activityId
-        return
-      }
+    Object.entries(pointsConfig.activitiesById).forEach(
+      ([activityId, { pointsAmount: points }]) => {
+        if (!isPointsActivity(activityId)) {
+          // should never happen but Object.entries seems to lose the type for activityId
+          return
+        }
 
-      // check if there is already a metadata object for this points value,
-      // either add activity to the existing points object or create a new one
-      const existingMetadata = pointsMetadata.find((metadata) => metadata.points === points)
-      if (existingMetadata) {
-        existingMetadata.activities.push({ name: activityId })
-      } else {
-        pointsMetadata.push({
-          points,
-          activities: [{ name: activityId }],
-        })
+        // check if there is already a metadata object for this points value,
+        // either add activity to the existing points object or create a new one
+        const existingMetadata = pointsMetadata.find((metadata) => metadata.points === points)
+        if (existingMetadata) {
+          existingMetadata.activities.push({ name: activityId })
+        } else {
+          pointsMetadata.push({
+            points,
+            activities: [{ name: activityId }],
+          })
+        }
       }
-    })
+    )
 
     return pointsMetadata.sort((a, b) => {
       if (a.points < b.points) return 1

@@ -15,7 +15,7 @@ interface GetPointsHistoryStartedAction {
 export type PointsConfig = {
   activitiesById: {
     [activityId in PointsActivity]?: {
-      points: number
+      pointsAmount: number
     }
   }
 }

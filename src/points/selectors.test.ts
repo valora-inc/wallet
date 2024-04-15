@@ -7,8 +7,8 @@ describe('pointsMetadataSelector', () => {
       points: {
         pointsConfig: {
           activitiesById: {
-            swap: { points: 10 },
-            'create-wallet': { points: 10 },
+            swap: { pointsAmount: 10 },
+            'create-wallet': { pointsAmount: 10 },
           },
         },
       },
@@ -33,8 +33,8 @@ describe('pointsMetadataSelector', () => {
       points: {
         pointsConfig: {
           activitiesById: {
-            swap: { points: 10 },
-            'create-wallet': { points: 20 },
+            swap: { pointsAmount: 10 },
+            'create-wallet': { pointsAmount: 20 },
           },
         },
       },
