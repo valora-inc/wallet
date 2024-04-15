@@ -18,6 +18,7 @@ import { PointsEvents } from 'src/analytics/Events'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { useDispatch } from 'src/redux/hooks'
 import { getHistoryStarted } from 'src/points/slice'
+import PointsHistoryBottomSheet from 'src/points/PointsHistoryBottomSheet'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.PointsHome>
 
@@ -29,6 +30,7 @@ export default function PointsHome({ route, navigation }: Props) {
   // TODO: Use real points balance
   const pointsBalance = 50
 
+  const historyBottomSheetRef = useRef<BottomSheetRefType>(null)
   const activityCardBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const [bottomSheetParams, setBottomSheetParams] = useState<BottomSheetParams | undefined>(
@@ -59,7 +61,7 @@ export default function PointsHome({ route, navigation }: Props) {
 
   const onPressActivity = () => {
     ValoraAnalytics.track(PointsEvents.points_screen_activity_press)
-    // TODO: Open history bottom sheet
+    historyBottomSheetRef.current?.snapToIndex(0)
   }
 
   return (
@@ -90,6 +92,7 @@ export default function PointsHome({ route, navigation }: Props) {
         </View>
         <ActivityCardSection onCardPress={onCardPress} />
       </ScrollView>
+      <PointsHistoryBottomSheet forwardedRef={historyBottomSheetRef} />
       <BottomSheet
         snapPoints={['50%']}
         forwardedRef={activityCardBottomSheetRef}

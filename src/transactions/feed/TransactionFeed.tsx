@@ -57,7 +57,11 @@ function TransactionFeed() {
       return []
     }
 
-    return groupFeedItemsInSections(pendingTransactions, confirmedFeedTransactions)
+    return groupFeedItemsInSections(
+      pendingTransactions,
+      confirmedFeedTransactions,
+      (t: TokenTransaction) => t.timestamp
+    )
   }, [pendingTransactions, confirmedFeedTransactions])
 
   if (!sections.length) {

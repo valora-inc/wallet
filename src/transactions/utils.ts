@@ -1,5 +1,4 @@
 import i18n from 'src/i18n'
-import { TokenTransaction } from 'src/transactions/types'
 import { formatFeedSectionTitle, timeDeltaInDays } from 'src/utils/time'
 
 // Groupings:
@@ -8,13 +7,14 @@ import { formatFeedSectionTitle, timeDeltaInDays } from 'src/utils/time'
 // [Previous months] - "June" -> Captures transactions by month.
 // [Months over a year ago] — "July 2019" -> Same as above, but with year appended.
 // Sections are hidden if they have no items.
-export function groupFeedItemsInSections(
-  pendingTransactions: TokenTransaction[],
-  confirmedTransactions: TokenTransaction[]
+export function groupFeedItemsInSections<T>(
+  pendingTransactions: T[],
+  confirmedTransactions: T[],
+  getTimestamp: (item: T) => number
 ) {
   const sectionsMap: {
     [key: string]: {
-      data: TokenTransaction[]
+      data: T[]
       daysSinceTransaction: number
     }
   } = {}
@@ -29,11 +29,11 @@ export function groupFeedItemsInSections(
   }
 
   confirmedTransactions.forEach((transaction) => {
-    const daysSinceTransaction = timeDeltaInDays(Date.now(), transaction.timestamp)
+    const daysSinceTransaction = timeDeltaInDays(Date.now(), getTimestamp(transaction))
     const sectionTitle =
       daysSinceTransaction <= 7
         ? i18n.t('feedSectionHeaderRecent')
-        : formatFeedSectionTitle(transaction.timestamp, i18n)
+        : formatFeedSectionTitle(getTimestamp(transaction), i18n)
     sectionsMap[sectionTitle] = {
       daysSinceTransaction: sectionsMap[sectionTitle]?.daysSinceTransaction ?? daysSinceTransaction,
       data: [...(sectionsMap[sectionTitle]?.data ?? []), transaction],

@@ -68,7 +68,11 @@ describe('groupFeedItemsInSections', () => {
       mockFeedItem(daysAgo(275), 'december 2018'),
       mockFeedItem(daysAgo(400), 'august 2018'),
     ]
-    const sections = groupFeedItemsInSections(standbyTransactions, feedItems)
+    const sections = groupFeedItemsInSections(
+      standbyTransactions,
+      feedItems,
+      (t: TokenTransaction) => t.timestamp
+    )
     expect(sections.length).toEqual(6)
 
     expect(sections[0].title).toEqual('feedSectionHeaderRecent')

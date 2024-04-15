@@ -14,6 +14,7 @@ export async function fetchHistory(
   address: string,
   url?: string | null
 ): Promise<GetHistoryResponse> {
+  console.log(url ?? `${networkConfig.getPointsHistoryUrl}?` + new URLSearchParams({ address }))
   const response = await fetchWithTimeout(
     url ?? `${networkConfig.getPointsHistoryUrl}?` + new URLSearchParams({ address }),
     {
@@ -56,7 +57,7 @@ export function* getHistory({ payload: params }: ReturnType<typeof getHistorySta
     yield* put(
       getHistorySucceeded({
         appendHistory: params.getNextPage,
-        newPointsHistory: history.data,
+        newPointsHistory: [...history.data, ...history.data, ...history.data],
         nextPageUrl: history.hasNextPage ? history.nextPageUrl : null,
       })
     )
