@@ -35,7 +35,7 @@ export type PointsMetadata = {
   }>
 }
 
-export type ClaimActivity = 'create-wallet' | 'swap'
+type ClaimActivity = 'create-wallet' | 'swap'
 
 interface BaseClaimHistory {
   createdAt: string // ISO 8601 string
