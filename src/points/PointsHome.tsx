@@ -12,7 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import ActivityCardSection from 'src/points/ActivityCardSection'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import { BottomSheetParams, PointsActivity } from 'src/points/types'
+import { BottomSheetParams, PointsActivityId } from 'src/points/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { PointsEvents } from 'src/analytics/Events'
 import CustomHeader from 'src/components/header/CustomHeader'
@@ -50,7 +50,7 @@ export default function PointsHome({ route, navigation }: Props) {
     dispatch(getHistoryStarted({ getNextPage: false }))
   }, [])
 
-  const onCtaPressWrapper = (onPress: () => void, activityId: PointsActivity) => {
+  const onCtaPressWrapper = (onPress: () => void, activityId: PointsActivityId) => {
     return () => {
       ValoraAnalytics.track(PointsEvents.points_screen_card_cta_press, {
         activityId,

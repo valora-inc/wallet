@@ -1,5 +1,5 @@
 import React from 'react'
-import { isPointsActivity } from 'src/points/types'
+import { isPointsActivityId } from 'src/points/types'
 import ActivityCard from 'src/points/ActivityCard'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { getDynamicConfigParams } from 'src/statsig'
@@ -25,12 +25,12 @@ export default function ActivityCardSection({ onCardPress }: Props) {
     const points = pointsMetadata.pointsAmount
 
     const cards = pointsMetadata.activities
-      .filter((activity) => isPointsActivity(activity.activityId))
+      .filter((activity) => isPointsActivityId(activity.activityId))
       .map((activity) => (
         <ActivityCard
           key={activity.activityId}
           activityId={activity.activityId}
-          points={points}
+          pointsAmount={points}
           onPress={onCardPress}
         />
       ))

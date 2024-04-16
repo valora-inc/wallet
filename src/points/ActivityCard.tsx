@@ -5,20 +5,20 @@ import { Spacing } from 'src/styles/styles'
 import { StyleSheet, Text, View } from 'react-native'
 import { Colors } from 'src/styles/colors'
 import Checkmark from 'src/icons/Checkmark'
-import { PointsActivity, BottomSheetMetadata, BottomSheetParams } from 'src/points/types'
+import { PointsActivityId, BottomSheetMetadata, BottomSheetParams } from 'src/points/types'
 import useCardDefinitions from 'src/points/cardDefinitions'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { PointsEvents } from 'src/analytics/Events'
 
 interface Props {
-  activityId: PointsActivity
-  points: number
+  activityId: PointsActivityId
+  pointsAmount: number
   onPress: (bottomSheetParams: BottomSheetParams) => void
   completed?: boolean
 }
 
-export default function ActivityCard({ activityId, points, onPress, completed }: Props) {
-  const cardDefinition = useCardDefinitions(points)[activityId]
+export default function ActivityCard({ activityId, pointsAmount, onPress, completed }: Props) {
+  const cardDefinition = useCardDefinitions(pointsAmount)[activityId]
 
   const isCompleted = completed !== undefined ? completed : cardDefinition.defaultCompletionStatus
 
@@ -29,7 +29,7 @@ export default function ActivityCard({ activityId, points, onPress, completed }:
       })
       onPress({
         ...bottomSheetMetadata,
-        pointsAmount: points,
+        pointsAmount,
         activityId,
       })
     }
@@ -43,7 +43,7 @@ export default function ActivityCard({ activityId, points, onPress, completed }:
     <View style={styles.container}>
       <View style={styles.cardContainer}>
         <Touchable
-          testID={`PointsActivityCard-${activityId}-${points}`}
+          testID={`PointsActivityCard-${activityId}-${pointsAmount}`}
           style={cardStyle}
           onPress={
             cardDefinition.bottomSheet ? onPressWrapper(cardDefinition.bottomSheet) : undefined

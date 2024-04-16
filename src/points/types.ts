@@ -1,10 +1,10 @@
 import React from 'react'
 
 const pointsActivities = ['create-wallet', 'swap', 'more-coming'] as const
-export type PointsActivity = (typeof pointsActivities)[number]
+export type PointsActivityId = (typeof pointsActivities)[number]
 
-export function isPointsActivity(activity: unknown): activity is PointsActivity {
-  return typeof activity === 'string' && pointsActivities.includes(activity as PointsActivity)
+export function isPointsActivityId(activity: unknown): activity is PointsActivityId {
+  return typeof activity === 'string' && pointsActivities.includes(activity as PointsActivityId)
 }
 
 export interface PointsCardMetadata {
@@ -25,21 +25,21 @@ export interface BottomSheetMetadata {
 
 export type BottomSheetParams = BottomSheetMetadata & {
   pointsAmount: number
-  activityId: PointsActivity
+  activityId: PointsActivityId
 }
 
 export type PointsMetadata = {
   pointsAmount: number
   activities: Array<{
-    activityId: PointsActivity
+    activityId: PointsActivityId
   }>
 }
 
-type ClaimActivity = 'create-wallet' | 'swap'
+type ClaimActivityId = 'create-wallet' | 'swap'
 
 interface BaseClaimHistory {
   createdAt: string // ISO 8601 string
-  activityId: ClaimActivity
+  activityId: ClaimActivityId
   pointsAmount: number // In smallest units
 }
 
