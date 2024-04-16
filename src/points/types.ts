@@ -40,7 +40,7 @@ type ClaimActivity = 'create-wallet' | 'swap'
 interface BaseClaimHistory {
   createdAt: string // ISO 8601 string
   activityId: ClaimActivity
-  pointsAmount: string // In wei
+  pointsAmount: number // In smallest units
 }
 
 type CreateWalletClaimHistory = BaseClaimHistory & {

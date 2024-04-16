@@ -23,7 +23,7 @@ const MOCK_RESPONSE_NO_NEXT_PAGE: GetHistoryResponse = {
   data: [
     {
       activityId: 'swap',
-      pointsAmount: '20',
+      pointsAmount: 20,
       createdAt: '2024-03-05T19:26:25.000Z',
       metadata: {
         to: 'celo-alfajores:native',
@@ -32,7 +32,7 @@ const MOCK_RESPONSE_NO_NEXT_PAGE: GetHistoryResponse = {
     },
     {
       activityId: 'swap',
-      pointsAmount: '20',
+      pointsAmount: 20,
       createdAt: '2024-01-04T19:26:25.000Z',
       metadata: {
         to: 'celo-alfajores:0xe4d517785d091d3c54818832db6094bcc2744545',
