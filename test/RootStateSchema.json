@@ -3445,9 +3445,6 @@
                 "showSwapMenuInDrawerMenu": {
                     "type": "boolean"
                 },
-                "skipVerification": {
-                    "type": "boolean"
-                },
                 "superchargeApy": {
                     "type": "number"
                 },
@@ -3508,7 +3505,6 @@
                 "sessionId",
                 "showNotificationSpotlight",
                 "showSwapMenuInDrawerMenu",
-                "skipVerification",
                 "superchargeApy",
                 "superchargeTokenConfigByToken",
                 "supportedBiometryType",
