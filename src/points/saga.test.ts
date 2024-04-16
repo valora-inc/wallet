@@ -196,10 +196,10 @@ describe('getPointsConfig', () => {
     const config = {
       activitiesById: {
         swap: {
-          points: 10,
+          pointsAmount: 10,
         },
         'unsupported-activity': {
-          points: 10,
+          pointsAmount: 10,
         },
       },
     }
@@ -226,10 +226,10 @@ describe('getPointsConfig', () => {
     const config = {
       activitiesById: {
         swap: {
-          points: 0,
+          pointsAmount: 0,
         },
         'create-wallet': {
-          points: 10,
+          pointsAmount: 10,
         },
       },
     }
