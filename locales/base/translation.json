@@ -2245,6 +2245,16 @@
     "title": "Valora Points",
     "activity": "Activity",
     "history": {
+      "cards": {
+        "createWallet": {
+          "title": "Join {{appName}}",
+          "subtitle": "Created {{appName}} wallet"
+        },
+        "swap": {
+          "title": "Swap",
+          "subtitle": "{{fromToken}} to {{toToken}}"
+        }
+      },
       "title": "My points activity",
       "error": {
         "title": "Unable to load points activity",

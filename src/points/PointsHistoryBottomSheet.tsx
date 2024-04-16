@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, StyleSheet, Text, View, ListRenderItem } from 'react-native'
 import SectionHead from 'src/components/SectionHead'
 import GorhomBottomSheet from '@gorhom/bottom-sheet'
 import { useDispatch, useSelector } from 'src/redux/hooks'
@@ -15,15 +15,43 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { PointsEvents } from 'src/analytics/Events'
 import { getHistoryStarted } from 'src/points/slice'
-import { ClaimHistory } from 'src/points/types'
+import { ClaimHistory, HistoryCardMetadata } from 'src/points/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
 import colors from 'src/styles/colors'
 import { BottomSheetSectionList } from '@gorhom/bottom-sheet'
+import { useGetHistoryDefinition } from 'src/points/cardDefinitions'
+
+jest.mock('src/statsig', () => ({
+  getDynamicConfigParams: jest.fn().mockReturnValue({
+    showSwap: ['celo-alfajores'],
+  }),
+}))
 
 const TAG = 'Points/PointsHistoryBottomSheet'
 
 interface Props {
   forwardedRef: React.RefObject<GorhomBottomSheet>
+}
+
+function PointsHistoryCard({
+  icon,
+  title,
+  subtitle,
+  pointsAmount,
+  testID,
+}: HistoryCardMetadata & { testID?: string }) {
+  return (
+    <View style={styles.historyCard} testID={testID}>
+      <View style={styles.cardIcon}>{icon}</View>
+      <View style={styles.cardContent}>
+        <Text style={styles.cardTitle}>{title}</Text>
+        <Text style={styles.cardSubtitle}>{subtitle}</Text>
+      </View>
+      <View style={styles.cardPointsAmountContainer}>
+        <Text style={styles.cardPointsAmount}>+{pointsAmount}</Text>
+      </View>
+    </View>
+  )
 }
 
 function PointsHistoryBottomSheet({ forwardedRef }: Props) {
@@ -33,6 +61,8 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
 
   const pointsHistoryStatus = useSelector(pointsHistoryStatusSelector)
   const pointsHistory = useSelector(pointsHistorySelector)
+
+  const getHistoryDefinition = useGetHistoryDefinition()
 
   const onPressTryAgain = () => {
     ValoraAnalytics.track(PointsEvents.points_screen_activity_try_again_press)
@@ -79,9 +109,16 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
     return groupFeedItemsInSections([], pointsHistory, (t: ClaimHistory) => Date.parse(t.createdAt))
   }, [pointsHistory])
 
-  // TODO: Render items
-  const renderItem = () => {
-    return <></>
+  const renderItem: ListRenderItem<ClaimHistory> = ({ item }: { item: ClaimHistory }) => {
+    try {
+      const historyDefinition = getHistoryDefinition(item)
+      return (
+        <PointsHistoryCard {...historyDefinition} testID={`${item.activityId}-${item.createdAt}`} />
+      )
+    } catch (error) {
+      Logger.error(TAG, 'Error encountered while trying to render history card, skipping', error)
+      return <></>
+    }
   }
 
   const renderHistory = () => {
@@ -178,5 +215,41 @@ const styles = StyleSheet.create({
   sectionHead: {
     paddingHorizontal: 0,
   },
+  historyCard: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: Spacing.Regular16,
+  },
+  cardIcon: {
+    backgroundColor: colors.successLight,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+    width: 40,
+    height: 40,
+    padding: Spacing.Smallest8,
+    marginRight: Spacing.Regular16,
+  },
+  cardContent: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  cardTitle: {
+    ...typeScale.labelMedium,
+  },
+  cardSubtitle: {
+    ...typeScale.labelSmall,
+    color: colors.gray4,
+  },
+  cardPointsAmount: {
+    ...typeScale.labelMedium,
+    color: colors.primary,
+  },
+  cardPointsAmountContainer: {
+    justifyContent: 'center',
+  },
 })
+
 export default PointsHistoryBottomSheet

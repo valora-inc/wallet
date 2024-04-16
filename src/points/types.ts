@@ -35,12 +35,12 @@ export type PointsMetadata = {
   }>
 }
 
-type ClaimActivity = 'create-wallet' | 'swap'
+export type ClaimActivity = 'create-wallet' | 'swap'
 
 interface BaseClaimHistory {
   createdAt: string // ISO 8601 string
   activityId: ClaimActivity
-  pointsAmount: string // In wei
+  pointsAmount: number // In smallest units
 }
 
 type CreateWalletClaimHistory = BaseClaimHistory & {
@@ -60,4 +60,11 @@ export interface GetHistoryResponse {
   data: ClaimHistory[]
   hasNextPage: boolean
   nextPageUrl: string
+}
+
+export interface HistoryCardMetadata {
+  icon: React.ReactNode
+  title: string
+  subtitle: string
+  pointsAmount: number
 }
