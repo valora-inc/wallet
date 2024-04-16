@@ -1073,7 +1073,7 @@
                     "type": "string"
                 },
                 "pointsAmount": {
-                    "type": "string"
+                    "type": "number"
                 }
             },
             "required": [
@@ -4934,7 +4934,7 @@
                     "type": "object"
                 },
                 "pointsAmount": {
-                    "type": "string"
+                    "type": "number"
                 }
             },
             "required": [
