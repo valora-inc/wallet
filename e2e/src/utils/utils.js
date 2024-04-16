@@ -154,7 +154,11 @@ export function quote(s) {
   return device.getPlatform() === 'ios' ? s : `"${s}"`
 }
 
-export async function quickOnboarding(mnemonic = SAMPLE_BACKUP_KEY, cloudBackupEnabled = false) {
+export async function quickOnboarding({
+  mnemonic = SAMPLE_BACKUP_KEY,
+  cloudBackupEnabled = false,
+  stopOnCYA = false,
+} = {}) {
   try {
     // Tap Restore Account
     await element(by.id('RestoreAccountButton')).tap()
@@ -212,6 +216,10 @@ export async function quickOnboarding(mnemonic = SAMPLE_BACKUP_KEY, cloudBackupE
     }
 
     // Choose your own adventure (CYA screen)
+    if (stopOnCYA) {
+      await waitForElementId('ChooseYourAdventure/Later')
+      return
+    }
     await waitForElementByIdAndTap('ChooseYourAdventure/Later')
 
     // Assert on Wallet Home Screen

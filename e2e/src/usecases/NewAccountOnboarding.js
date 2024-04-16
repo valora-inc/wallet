@@ -161,7 +161,7 @@ export default NewAccountOnboarding = () => {
         statsigGateOverrides: `use_tab_navigator=true,show_cloud_account_backup_setup=true,show_cloud_account_backup_restore=true`,
       },
     })
-    await quickOnboarding(testRecoveryPhrase, true)
+    await quickOnboarding({ mnemonic: testRecoveryPhrase, cloudBackupEnabled: true })
     await waitForElementByIdAndTap('WalletHome/AccountCircle')
     await scrollIntoView('Account Address', 'SettingsScrollView')
     const addressString = '0x ' + getAddressChunks(testAccountAddress).join(' ')

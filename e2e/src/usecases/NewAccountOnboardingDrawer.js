@@ -153,7 +153,7 @@ export default NewAccountOnboarding = () => {
     await device.uninstallApp()
     await device.installApp()
     await launchApp()
-    await quickOnboarding(testRecoveryPhrase)
+    await quickOnboarding({ mnemonic: testRecoveryPhrase })
     await waitForElementId('Hamburger')
     await element(by.id('Hamburger')).tap()
     await scrollIntoView('Account Address', 'SettingsScrollView')

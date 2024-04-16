@@ -171,7 +171,7 @@ export default Send = () => {
       await device.uninstallApp()
       await device.installApp()
       await launchApp({ newInstance: true })
-      await quickOnboarding(SAMPLE_BACKUP_KEY_VERIFIED)
+      await quickOnboarding({ mnemonic: SAMPLE_BACKUP_KEY_VERIFIED })
     })
 
     it('Then should navigate to send search input from home action', async () => {
