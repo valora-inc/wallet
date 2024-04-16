@@ -41,6 +41,12 @@ export const ExperimentConfigs = {
       swapBuyAmountEnabled: true,
     },
   },
+  [StatsigExperiments.ONBOARDING_PHONE_VERIFICATION]: {
+    experimentName: StatsigExperiments.ONBOARDING_PHONE_VERIFICATION,
+    defaultValues: {
+      skipVerification: false,
+    },
+  },
 }
 
 export const DynamicConfigs = {

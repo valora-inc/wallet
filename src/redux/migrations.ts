@@ -1732,4 +1732,8 @@ export const migrations = {
     }
   },
   205: (state: any) => state,
+  206: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'skipVerification'),
+  }),
 }

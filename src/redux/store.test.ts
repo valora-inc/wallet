@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 205,
+          "version": 206,
         },
         "account": {
           "acceptedTerms": false,
@@ -169,7 +169,6 @@ describe('store state', () => {
           "sessionId": "",
           "showNotificationSpotlight": true,
           "showSwapMenuInDrawerMenu": false,
-          "skipVerification": false,
           "superchargeApy": 12,
           "superchargeTokenConfigByToken": {},
           "supportedBiometryType": null,

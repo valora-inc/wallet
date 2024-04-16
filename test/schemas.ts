@@ -3227,6 +3227,15 @@ export const v205Schema = {
   },
 }
 
+export const v206Schema = {
+  ...v205Schema,
+  _persist: {
+    ...v205Schema._persist,
+    version: 206,
+  },
+  app: _.omit(v205Schema.app, 'skipVerification'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v205Schema as Partial<RootState>
+  return v206Schema as Partial<RootState>
 }
