@@ -109,6 +109,7 @@ function TokenBalance({
           token={tokensWithUsdValue[0]}
           size={IconSize.XLARGE}
           viewStyle={styles.tokenImgView}
+          displayNetworkIcon={!!tokensWithUsdValue[0].networkIconUrl}
         />
         <View style={styles.column}>
           <TotalTokenBalance balanceDisplay={balanceDisplay ?? '-'} />

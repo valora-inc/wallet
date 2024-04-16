@@ -32,7 +32,7 @@ export const TokenBalanceItem = ({
 
   const Content = (
     <View style={[styles.container, containerStyle]} testID="TokenBalanceItem">
-      <TokenIcon token={token} />
+      <TokenIcon token={token} displayNetworkIcon={!!token.networkIconUrl} />
       <View style={styles.textContainer}>
         <View style={styles.line}>
           <View style={styles.row}>

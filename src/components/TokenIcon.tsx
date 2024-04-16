@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import FastImage from 'react-native-fast-image'
+import IconWithNetworkBadge from 'src/components/IconWithNetworkBadge'
 import colors from 'src/styles/colors'
 import { BaseToken } from 'src/tokens/slice'
 
@@ -11,7 +12,7 @@ export enum IconSize {
   XLARGE = 'xlarge',
 }
 
-const IconSizeToStyle = {
+export const IconSizeToStyle = {
   [IconSize.SMALL]: {
     tokenImageSize: 24,
     networkImageSize: 9,
@@ -43,63 +44,58 @@ interface Props {
   viewStyle?: StyleProp<ViewStyle>
   testID?: string
   size?: IconSize
+  displayNetworkIcon?: boolean
 }
 
-export default function TokenIcon({ token, viewStyle, testID, size = IconSize.MEDIUM }: Props) {
-  const { tokenImageSize, networkImageSize, networkImagePosition, tokenTextSize } =
-    IconSizeToStyle[size]
+export default function TokenIcon({
+  token,
+  viewStyle,
+  testID,
+  size = IconSize.MEDIUM,
+  displayNetworkIcon = true,
+}: Props) {
+  const { tokenImageSize, tokenTextSize } = IconSizeToStyle[size]
 
   return (
     <View testID={testID} style={viewStyle}>
-      {token.imageUrl ? (
-        <FastImage
-          source={{
-            uri: token.imageUrl,
-          }}
-          style={[
-            styles.tokenImage,
-            {
-              width: tokenImageSize,
-              height: tokenImageSize,
-              borderRadius: tokenImageSize / 2,
-            },
-          ]}
-          testID={testID ? `${testID}/TokenIcon` : 'TokenIcon'}
-        />
-      ) : (
-        <View
-          style={[
-            styles.tokenCircle,
-            {
-              width: tokenImageSize,
-              height: tokenImageSize,
-              borderRadius: tokenImageSize / 2,
-            },
-          ]}
-          testID={testID ? `${testID}/DefaultTokenIcon` : 'DefaultTokenIcon'}
-        >
-          <Text style={[styles.tokenText, { fontSize: tokenTextSize }]} allowFontScaling={false}>
-            {token.symbol.substring(0, 4)}
-          </Text>
-        </View>
-      )}
-
-      {token.networkIconUrl && (
-        <FastImage
-          source={{ uri: token.networkIconUrl }}
-          style={[
-            styles.networkImage,
-            {
-              width: networkImageSize,
-              height: networkImageSize,
-              borderRadius: networkImageSize / 2,
-              top: networkImagePosition,
-              left: networkImagePosition,
-            },
-          ]}
-          testID={testID ? `${testID}/NetworkIcon` : 'NetworkIcon'}
-        />
-      )}
+      <IconWithNetworkBadge
+        networkId={token.networkId}
+        size={size}
+        displayNetworkIcon={displayNetworkIcon}
+      >
+        {token.imageUrl ? (
+          <FastImage
+            source={{
+              uri: token.imageUrl,
+            }}
+            style={[
+              styles.tokenImage,
+              {
+                width: tokenImageSize,
+                height: tokenImageSize,
+                borderRadius: tokenImageSize / 2,
+              },
+            ]}
+            testID={testID ? `${testID}/TokenIcon` : 'TokenIcon'}
+          />
+        ) : (
+          <View
+            style={[
+              styles.tokenCircle,
+              {
+                width: tokenImageSize,
+                height: tokenImageSize,
+                borderRadius: tokenImageSize / 2,
+              },
+            ]}
+            testID={testID ? `${testID}/DefaultTokenIcon` : 'DefaultTokenIcon'}
+          >
+            <Text style={[styles.tokenText, { fontSize: tokenTextSize }]} allowFontScaling={false}>
+              {token.symbol.substring(0, 4)}
+            </Text>
+          </View>
+        )}
+      </IconWithNetworkBadge>
     </View>
   )
 }
@@ -109,9 +105,6 @@ const styles = StyleSheet.create({
     position: 'relative',
     top: 0,
     left: 0,
-  },
-  networkImage: {
-    position: 'absolute',
   },
   tokenCircle: {
     justifyContent: 'center',
