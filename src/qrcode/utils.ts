@@ -127,16 +127,10 @@ export function* handleSecureSend(
 }
 
 function* extractQRAddressData(qrCode: QrCode) {
-  // Check if the QR code is a valid address, does not perform checksum validation
-  if (isAddress(qrCode.data, { strict: false })) {
-    qrCode.data = `celo://wallet/pay?address=${qrCode.data}`
-  }
-  // Ignore network prefix and extract address
-  else if (
-    qrCode.data.split(':').length > 1 &&
-    isAddress(qrCode.data.split(':')[1], { strict: false })
-  ) {
-    qrCode.data = `celo://wallet/pay?address=${qrCode.data.split(':')[1]}`
+  // strip network prefix if present
+  const qrAddress = qrCode.data.replace(/^.*:/, '')
+  if (isAddress(qrAddress, { strict: false })) {
+    qrCode.data = `celo://wallet/pay?address=${qrAddress}`
   }
   let qrData: UriData | null
   try {
