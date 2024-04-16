@@ -136,6 +136,14 @@ describe('handleQRCodeDefault', () => {
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(QrScreenEvents.qr_scanned, qrCode)
     }
   )
+  it('throws an error when the QR code data is invalid', async () => {
+    const qrCode: QrCode = { type: QRCodeTypes.QR_CODE, data: mockAccount.replace('0x', '') }
+
+    await expectSaga(handleQRCodeDefault, handleQRCodeDetected(qrCode))
+      .withState(createMockStore({}).getState())
+      .put(showError(ErrorMessages.QR_FAILED_INVALID_ADDRESS))
+      .run()
+  })
   it('navigates to the send amount screen with a qr code with an empty display name', async () => {
     const qrCode: QrCode = {
       type: QRCodeTypes.QR_CODE,
