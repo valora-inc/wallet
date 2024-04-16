@@ -169,7 +169,6 @@ describe('store state', () => {
           "sessionId": "",
           "showNotificationSpotlight": true,
           "showSwapMenuInDrawerMenu": false,
-          "skipVerification": false,
           "superchargeApy": 12,
           "superchargeTokenConfigByToken": {},
           "supportedBiometryType": null,
