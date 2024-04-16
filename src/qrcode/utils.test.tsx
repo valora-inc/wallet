@@ -111,28 +111,31 @@ describe('handleQRCodeDefault', () => {
     })
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(QrScreenEvents.qr_scanned, qrCode)
   })
-  it('navigates to the send amount screen with a qr code with address as the data', async () => {
-    const qrCode: QrCode = { type: QRCodeTypes.QR_CODE, data: mockAccount }
+  it.each([mockAccount, `ethereum:${mockAccount}`, `celo:${mockAccount}`])(
+    'navigates to the send amount screen with a qr code with address as the data',
+    async (data) => {
+      const qrCode: QrCode = { type: QRCodeTypes.QR_CODE, data }
 
-    await expectSaga(handleQRCodeDefault, handleQRCodeDetected(qrCode))
-      .withState(createMockStore({}).getState())
-      .provide([[select(recipientInfoSelector), mockRecipientInfo]])
-      .run()
-    expect(navigate).toHaveBeenCalledWith(Screens.SendEnterAmount, {
-      origin: SendOrigin.AppSendFlow,
-      isFromScan: true,
-      recipient: {
-        address: mockAccount.toLowerCase(),
-        name: mockName,
-        contactId: 'contactId',
-        displayNumber: '14155550000',
-        thumbnailPath: undefined,
-        recipientType: RecipientType.Address,
-      },
-      forceTokenId: false,
-    })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(QrScreenEvents.qr_scanned, qrCode)
-  })
+      await expectSaga(handleQRCodeDefault, handleQRCodeDetected(qrCode))
+        .withState(createMockStore({}).getState())
+        .provide([[select(recipientInfoSelector), mockRecipientInfo]])
+        .run()
+      expect(navigate).toHaveBeenCalledWith(Screens.SendEnterAmount, {
+        origin: SendOrigin.AppSendFlow,
+        isFromScan: true,
+        recipient: {
+          address: mockAccount.toLowerCase(),
+          name: mockName,
+          contactId: 'contactId',
+          displayNumber: '14155550000',
+          thumbnailPath: undefined,
+          recipientType: RecipientType.Address,
+        },
+        forceTokenId: false,
+      })
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(QrScreenEvents.qr_scanned, qrCode)
+    }
+  )
   it('navigates to the send amount screen with a qr code with an empty display name', async () => {
     const qrCode: QrCode = {
       type: QRCodeTypes.QR_CODE,
