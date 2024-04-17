@@ -1,56 +1,13 @@
-import * as React from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import * as React from 'react'
 import { Provider } from 'react-redux'
-import { navigate } from 'src/navigator/NavigationService'
-import PointsHome from 'src/points/PointsHome'
-import { Screens } from 'src/navigator/Screens'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { PointsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import PointsHome from 'src/points/PointsHome'
 import { getHistoryStarted } from 'src/points/slice'
-
-jest.mock('src/statsig', () => ({
-  getDynamicConfigParams: jest.fn().mockReturnValue({
-    pointsMetadata: [
-      {
-        points: 50,
-        activities: [
-          {
-            name: 'create-wallet',
-          },
-          {
-            name: 'swap',
-          },
-          {
-            name: 'more-coming',
-          },
-          {
-            name: 'foo',
-          },
-        ],
-      },
-      {
-        points: 20,
-        activities: [
-          {
-            name: 'more-coming',
-          },
-          {
-            name: 'create-wallet',
-          },
-        ],
-      },
-      {
-        points: 0,
-        activities: [
-          {
-            name: 'more-coming',
-          },
-        ],
-      },
-    ],
-  }),
-}))
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 const mockScreenProps = () => getMockStackScreenProps(Screens.PointsHome)
 
@@ -60,10 +17,10 @@ const renderPointsHome = () => {
       pointsConfig: {
         activitiesById: {
           swap: {
-            points: 50,
+            pointsAmount: 50,
           },
           'create-wallet': {
-            points: 20,
+            pointsAmount: 20,
           },
         },
       },
