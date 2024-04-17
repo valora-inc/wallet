@@ -1,12 +1,21 @@
-import { call, put, select, spawn, takeLeading } from 'typed-redux-saga'
-import { getHistoryStarted, getHistorySucceeded, getHistoryError } from 'src/points/slice'
+import { Actions as HomeActions } from 'src/home/actions'
+import { nextPageUrlSelector } from 'src/points/selectors'
+import {
+  PointsConfig,
+  getHistoryError,
+  getHistoryStarted,
+  getHistorySucceeded,
+  getPointsConfigError,
+  getPointsConfigStarted,
+  getPointsConfigSucceeded,
+} from 'src/points/slice'
+import { GetHistoryResponse, isPointsActivity } from 'src/points/types'
+import Logger from 'src/utils/Logger'
+import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
 import networkConfig from 'src/web3/networkConfig'
-import { GetHistoryResponse } from 'src/points/types'
-import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { nextPageUrlSelector } from 'src/points/selectors'
-import Logger from 'src/utils/Logger'
+import { call, put, select, spawn, takeLeading } from 'typed-redux-saga'
 
 const TAG = 'Points/saga'
 
@@ -66,10 +75,41 @@ export function* getHistory({ payload: params }: ReturnType<typeof getHistorySta
   }
 }
 
+export function* getPointsConfig() {
+  try {
+    const response = yield* call(fetchWithTimeout, networkConfig.getPointsConfigUrl, {
+      method: 'GET',
+    })
+    if (!response.ok) {
+      throw new Error(`Failed to fetch points config: ${response.status} ${response.statusText}`)
+    }
+    const { config }: { config: PointsConfig } = yield* call([response, 'json'])
+
+    // remove any activities that are not supported by app and have no points value
+    const supportedActivities: PointsConfig = {
+      activitiesById: {},
+    }
+    Object.entries(config.activitiesById).forEach(([activityId, activityMetadata]) => {
+      if (isPointsActivity(activityId) && activityMetadata.pointsAmount > 0) {
+        supportedActivities.activitiesById[activityId] = activityMetadata
+      }
+    })
+    yield* put(getPointsConfigSucceeded(supportedActivities))
+  } catch (e) {
+    Logger.error(TAG, 'Error fetching points config', e)
+    yield* put(getPointsConfigError())
+  }
+}
+
 function* watchGetHistory() {
   yield* takeLeading(getHistoryStarted.type, safely(getHistory))
 }
 
+function* watchGetConfig() {
+  yield* takeLeading([getPointsConfigStarted.type, HomeActions.VISIT_HOME], safely(getPointsConfig))
+}
+
 export function* pointsSaga() {
   yield* spawn(watchGetHistory)
+  yield* spawn(watchGetConfig)
 }

@@ -1,16 +1,20 @@
+import { combineReducers } from '@reduxjs/toolkit'
+import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
+import { throwError } from 'redux-saga-test-plan/providers'
+import { fetchHistory, getHistory, getPointsConfig } from 'src/points/saga'
+import pointsReducer, {
+  getHistoryError,
+  getHistoryStarted,
+  getHistorySucceeded,
+  getPointsConfigError,
+  getPointsConfigSucceeded,
+} from 'src/points/slice'
+import { ClaimHistory, GetHistoryResponse } from 'src/points/types'
 import * as fetchWithTimeout from 'src/utils/fetchWithTimeout'
-import { fetchHistory, getHistory } from 'src/points/saga'
-import { getHistoryStarted } from 'src/points/slice'
-import { FetchMock } from 'jest-fetch-mock/types'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
-import pointsReducer, { getHistoryError, getHistorySucceeded } from 'src/points/slice'
-import { GetHistoryResponse } from 'src/points/types'
-import { throwError } from 'redux-saga-test-plan/providers'
-import { ClaimHistory } from 'src/points/types'
-import { combineReducers } from '@reduxjs/toolkit'
 
 const MOCK_HISTORY_RESPONSE: GetHistoryResponse = {
   data: [
@@ -41,10 +45,10 @@ const MOCK_POINTS_HISTORY: ClaimHistory[] = [
   { activity: 'create-wallet', points: '10', createdAt: 'some time' },
 ]
 
-describe('fetchHistory', () => {
-  const mockFetch = fetch as FetchMock
-  const fetchWithTimeoutSpy = jest.spyOn(fetchWithTimeout, 'fetchWithTimeout')
+const mockFetch = fetch as FetchMock
+const fetchWithTimeoutSpy = jest.spyOn(fetchWithTimeout, 'fetchWithTimeout')
 
+describe('fetchHistory', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     mockFetch.resetMocks()
@@ -163,5 +167,99 @@ describe('getHistory', () => {
       .run()
 
     expect(storeState.points.pointsHistory).toEqual(MOCK_POINTS_HISTORY)
+  })
+})
+
+describe('getPointsConfig', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  it('fetches and sets points config', async () => {
+    const config = {
+      activitiesById: {
+        swap: {
+          pointsAmount: 10,
+        },
+      },
+    }
+    mockFetch.mockResponseOnce(JSON.stringify({ config }))
+
+    await expectSaga(getPointsConfig).put(getPointsConfigSucceeded(config)).run()
+
+    expect(fetchWithTimeoutSpy).toHaveBeenCalledWith(networkConfig.getPointsConfigUrl, {
+      method: 'GET',
+    })
+  })
+
+  it('only stores supported activities', async () => {
+    const config = {
+      activitiesById: {
+        swap: {
+          pointsAmount: 10,
+        },
+        'unsupported-activity': {
+          pointsAmount: 10,
+        },
+      },
+    }
+    mockFetch.mockResponseOnce(JSON.stringify({ config }))
+
+    await expectSaga(getPointsConfig)
+      .put(
+        getPointsConfigSucceeded({
+          activitiesById: {
+            swap: {
+              pointsAmount: 10,
+            },
+          },
+        })
+      )
+      .run()
+
+    expect(fetchWithTimeoutSpy).toHaveBeenCalledWith(networkConfig.getPointsConfigUrl, {
+      method: 'GET',
+    })
+  })
+
+  it('only stores activities with non zero points value', async () => {
+    const config = {
+      activitiesById: {
+        swap: {
+          pointsAmount: 0,
+        },
+        'create-wallet': {
+          pointsAmount: 10,
+        },
+      },
+    }
+    mockFetch.mockResponseOnce(JSON.stringify({ config }))
+
+    await expectSaga(getPointsConfig)
+      .put(
+        getPointsConfigSucceeded({
+          activitiesById: {
+            'create-wallet': {
+              pointsAmount: 10,
+            },
+          },
+        })
+      )
+      .run()
+
+    expect(fetchWithTimeoutSpy).toHaveBeenCalledWith(networkConfig.getPointsConfigUrl, {
+      method: 'GET',
+    })
+  })
+
+  it('sets error state if error while fetching', async () => {
+    mockFetch.mockResponseOnce('Internal Server Error', {
+      status: 500,
+    })
+
+    await expectSaga(getPointsConfig)
+      .put(getPointsConfigError())
+      .not.put(getPointsConfigSucceeded(expect.anything()))
+      .run()
   })
 })

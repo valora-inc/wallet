@@ -86,6 +86,7 @@ interface NetworkConfig {
   celoTokenId: string
   spendTokenIds: string[]
   saveContactsUrl: string
+  getPointsConfigUrl: string
 }
 
 const ALCHEMY_ETHEREUM_RPC_URL_STAGING = 'https://eth-sepolia.g.alchemy.com/v2/'
@@ -250,6 +251,9 @@ const SAVE_CONTACTS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/saveContacts`
 const GET_POINTS_HISTORY_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getHistory`
 const GET_POINTS_HISTORY_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getHistory`
 
+const GET_POINTS_CONFIG_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getPointsConfig`
+const GET_POINTS_CONFIG_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getPointsConfig`
+
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
     networkId: '44787',
@@ -340,6 +344,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     celoTokenId: CELO_TOKEN_ID_STAGING,
     spendTokenIds: [CUSD_TOKEN_ID_STAGING, CEUR_TOKEN_ID_STAGING],
     saveContactsUrl: SAVE_CONTACTS_ALFAJORES,
+    getPointsConfigUrl: GET_POINTS_CONFIG_ALFAJORES,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -429,6 +434,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     celoTokenId: CELO_TOKEN_ID_MAINNET,
     spendTokenIds: [CUSD_TOKEN_ID_MAINNET, CEUR_TOKEN_ID_MAINNET],
     saveContactsUrl: SAVE_CONTACTS_MAINNET,
+    getPointsConfigUrl: GET_POINTS_CONFIG_MAINNET,
   },
 }
 
