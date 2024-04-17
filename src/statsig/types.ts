@@ -34,10 +34,10 @@ export enum StatsigFeatureGates {
 }
 
 export enum StatsigExperiments {
-  CHOOSE_YOUR_ADVENTURE = 'choose_your_adventure',
   SWAPPING_NON_NATIVE_TOKENS = 'swapping_non_native_tokens',
   DAPP_RANKINGS = 'dapp_rankings',
   SWAP_BUY_AMOUNT = 'swap_buy_amount',
+  ONBOARDING_PHONE_VERIFICATION = 'onboarding_phone_verification',
 }
 
 export type StatsigParameter =

@@ -15,7 +15,7 @@ interface GetPointsHistoryStartedAction {
 export type PointsConfig = {
   activitiesById: {
     [activityId in PointsActivity]?: {
-      points: number
+      pointsAmount: number
     }
   }
 }
@@ -23,15 +23,15 @@ interface State {
   pointsHistory: ClaimHistory[]
   nextPageUrl: string | null
   getHistoryStatus: 'idle' | 'loading' | 'error'
-  pointsConfig: PointsConfig | null
-  pointsConfigStatus: 'idle' | 'loading' | 'error'
+  pointsConfig: PointsConfig
+  pointsConfigStatus: 'idle' | 'loading' | 'error' | 'success'
 }
 
 const initialState: State = {
   pointsHistory: [],
   nextPageUrl: null,
   getHistoryStatus: 'idle',
-  pointsConfig: null,
+  pointsConfig: { activitiesById: {} },
   pointsConfigStatus: 'idle',
 }
 
@@ -62,7 +62,7 @@ const slice = createSlice({
     getPointsConfigSucceeded: (state, action: PayloadAction<PointsConfig>) => ({
       ...state,
       pointsConfig: action.payload,
-      pointsConfigStatus: 'idle',
+      pointsConfigStatus: 'success',
     }),
     getPointsConfigError: (state) => ({
       ...state,
@@ -73,7 +73,7 @@ const slice = createSlice({
     builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
       ...state,
       ...getRehydratePayload(action, 'points'),
-      pointsConfig: null, // always reset pointsConfig on rehydrate to ensure it's up to date
+      pointsConfig: { activitiesById: {} }, // always reset pointsConfig on rehydrate to ensure it's up to date
     }))
   },
 })

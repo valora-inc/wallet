@@ -62,8 +62,10 @@ export default function PointsHome({ route, navigation }: Props) {
       onPress()
     }
   }
+
   const onPressActivity = () => {
     ValoraAnalytics.track(PointsEvents.points_screen_activity_press)
+    // TODO: Open history bottom sheet
   }
 
   const onRetryLoadConfig = () => {

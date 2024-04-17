@@ -15,7 +15,7 @@ interface Props {
 export default function ActivityCardSection({ onCardPress, pointsSections }: Props) {
   const { t } = useTranslation()
 
-  function makeSection(pointsMetadata: PointsMetadata, sectionNumber: number): React.ReactNode {
+  function makeSection(pointsMetadata: PointsMetadata, sectionIndex: number): React.ReactNode {
     const points = pointsMetadata.points
 
     const cards = pointsMetadata.activities
@@ -30,7 +30,7 @@ export default function ActivityCardSection({ onCardPress, pointsSections }: Pro
       ))
 
     // add the "more coming" card to the last section
-    if (sectionNumber === pointsSections.length - 1) {
+    if (sectionIndex === pointsSections.length - 1) {
       cards.push(
         <ActivityCard
           key="more-coming"

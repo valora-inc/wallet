@@ -2,13 +2,26 @@ import { pointsSectionsSelector } from 'src/points/selectors'
 import { getMockStoreData } from 'test/utils'
 
 describe('pointsMetadataSelector', () => {
+  it('should return an empty array if there are no activities', () => {
+    const stateWithoutPointsConfig = getMockStoreData({
+      points: {
+        pointsConfig: {
+          activitiesById: {},
+        },
+      },
+    })
+    const result = pointsSectionsSelector(stateWithoutPointsConfig)
+
+    expect(result).toEqual([])
+  })
+
   it('should return the points config as points metadata', () => {
     const stateWithPointsConfig = getMockStoreData({
       points: {
         pointsConfig: {
           activitiesById: {
-            swap: { points: 10 },
-            'create-wallet': { points: 10 },
+            swap: { pointsAmount: 10 },
+            'create-wallet': { pointsAmount: 10 },
           },
         },
       },
@@ -33,8 +46,8 @@ describe('pointsMetadataSelector', () => {
       points: {
         pointsConfig: {
           activitiesById: {
-            swap: { points: 10 },
-            'create-wallet': { points: 20 },
+            swap: { pointsAmount: 10 },
+            'create-wallet': { pointsAmount: 20 },
           },
         },
       },

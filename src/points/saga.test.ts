@@ -179,7 +179,7 @@ describe('getPointsConfig', () => {
     const config = {
       activitiesById: {
         swap: {
-          points: 10,
+          pointsAmount: 10,
         },
       },
     }
@@ -196,10 +196,10 @@ describe('getPointsConfig', () => {
     const config = {
       activitiesById: {
         swap: {
-          points: 10,
+          pointsAmount: 10,
         },
         'unsupported-activity': {
-          points: 10,
+          pointsAmount: 10,
         },
       },
     }
@@ -210,7 +210,7 @@ describe('getPointsConfig', () => {
         getPointsConfigSucceeded({
           activitiesById: {
             swap: {
-              points: 10,
+              pointsAmount: 10,
             },
           },
         })
@@ -226,10 +226,10 @@ describe('getPointsConfig', () => {
     const config = {
       activitiesById: {
         swap: {
-          points: 0,
+          pointsAmount: 0,
         },
         'create-wallet': {
-          points: 10,
+          pointsAmount: 10,
         },
       },
     }
@@ -240,7 +240,7 @@ describe('getPointsConfig', () => {
         getPointsConfigSucceeded({
           activitiesById: {
             'create-wallet': {
-              points: 10,
+              pointsAmount: 10,
             },
           },
         })
@@ -256,22 +256,6 @@ describe('getPointsConfig', () => {
     mockFetch.mockResponseOnce('Internal Server Error', {
       status: 500,
     })
-
-    await expectSaga(getPointsConfig)
-      .put(getPointsConfigError())
-      .not.put(getPointsConfigSucceeded(expect.anything()))
-      .run()
-  })
-
-  it('sets error state if there are no supported activities', async () => {
-    const config = {
-      activitiesById: {
-        'unsupported-activity': {
-          points: 10,
-        },
-      },
-    }
-    mockFetch.mockResponseOnce(JSON.stringify({ config }))
 
     await expectSaga(getPointsConfig)
       .put(getPointsConfigError())

@@ -58,7 +58,7 @@ describe('Welcome', () => {
         acceptedTerms: true,
       },
     })
-    jest.mocked(firstOnboardingScreen).mockReturnValue(Screens.NameAndPicture)
+    jest.mocked(firstOnboardingScreen).mockReturnValue(Screens.PincodeSet)
     const { getByTestId } = render(
       <Provider store={store}>
         <Welcome />
@@ -69,6 +69,6 @@ describe('Welcome', () => {
     jest.runOnlyPendingTimers()
     await Promise.resolve() // waits for patchUpdateStatsigUser promise to resolve
     expect(firstOnboardingScreen).toHaveBeenCalled()
-    expect(navigate).toHaveBeenCalledWith(Screens.NameAndPicture)
+    expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet)
   })
 })

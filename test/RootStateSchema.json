@@ -2802,7 +2802,6 @@
                 "Main",
                 "MainModal",
                 "MultichainBeta",
-                "NameAndPicture",
                 "NftsInfoCarousel",
                 "NotificationCenter",
                 "OnboardingRecoveryPhrase",
@@ -3446,9 +3445,6 @@
                 "showSwapMenuInDrawerMenu": {
                     "type": "boolean"
                 },
-                "skipVerification": {
-                    "type": "boolean"
-                },
                 "superchargeApy": {
                     "type": "number"
                 },
@@ -3509,7 +3505,6 @@
                 "sessionId",
                 "showNotificationSpotlight",
                 "showSwapMenuInDrawerMenu",
-                "skipVerification",
                 "superchargeApy",
                 "superchargeTokenConfigByToken",
                 "supportedBiometryType",
@@ -4411,29 +4406,23 @@
                     ]
                 },
                 "pointsConfig": {
-                    "anyOf": [
-                        {
-                            "additionalProperties": false,
-                            "properties": {
-                                "activitiesById": {
-                                    "$ref": "#/definitions/{swap?:{points:number;}|undefined;\"create-wallet\"?:{points:number;}|undefined;\"more-coming\"?:{points:number;}|undefined;}"
-                                }
-                            },
-                            "required": [
-                                "activitiesById"
-                            ],
-                            "type": "object"
-                        },
-                        {
-                            "type": "null"
+                    "additionalProperties": false,
+                    "properties": {
+                        "activitiesById": {
+                            "$ref": "#/definitions/{swap?:{pointsAmount:number;}|undefined;\"create-wallet\"?:{pointsAmount:number;}|undefined;\"more-coming\"?:{pointsAmount:number;}|undefined;}"
                         }
-                    ]
+                    },
+                    "required": [
+                        "activitiesById"
+                    ],
+                    "type": "object"
                 },
                 "pointsConfigStatus": {
                     "enum": [
                         "error",
                         "idle",
-                        "loading"
+                        "loading",
+                        "success"
                     ],
                     "type": "string"
                 },
@@ -6211,42 +6200,42 @@
             },
             "type": "object"
         },
-        "{swap?:{points:number;}|undefined;\"create-wallet\"?:{points:number;}|undefined;\"more-coming\"?:{points:number;}|undefined;}": {
+        "{swap?:{pointsAmount:number;}|undefined;\"create-wallet\"?:{pointsAmount:number;}|undefined;\"more-coming\"?:{pointsAmount:number;}|undefined;}": {
             "additionalProperties": false,
             "properties": {
                 "create-wallet": {
                     "additionalProperties": false,
                     "properties": {
-                        "points": {
+                        "pointsAmount": {
                             "type": "number"
                         }
                     },
                     "required": [
-                        "points"
+                        "pointsAmount"
                     ],
                     "type": "object"
                 },
                 "more-coming": {
                     "additionalProperties": false,
                     "properties": {
-                        "points": {
+                        "pointsAmount": {
                             "type": "number"
                         }
                     },
                     "required": [
-                        "points"
+                        "pointsAmount"
                     ],
                     "type": "object"
                 },
                 "swap": {
                     "additionalProperties": false,
                     "properties": {
-                        "points": {
+                        "pointsAmount": {
                             "type": "number"
                         }
                     },
                     "required": [
-                        "points"
+                        "pointsAmount"
                     ],
                     "type": "object"
                 }

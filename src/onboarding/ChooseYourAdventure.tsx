@@ -14,7 +14,12 @@ import GraphSparkle from 'src/icons/GraphSparkle'
 import PlusIcon from 'src/icons/PlusIcon'
 import ProfilePlus from 'src/icons/ProfilePlus'
 import { nuxNavigationOptionsNoBackButton } from 'src/navigator/Headers'
-import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
+import {
+  navigate,
+  navigateClearingStack,
+  navigateHome,
+  navigateHomeAndThenToScreen,
+} from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { AdventureCardName } from 'src/onboarding/types'
 import { useSelector } from 'src/redux/hooks'
@@ -64,7 +69,11 @@ function ChooseYourAdventure() {
     {
       text: t('chooseYourAdventure.options.add'),
       goToNextScreen: () => {
-        navigateHome() // navigate home so that back on the fiat exchange currency screen takes the user back to Home screen
+        // navigate home so that closing the fiat exchange currency bottom sheet
+        // takes the user back to Home screen. Can't use
+        // navigateHomeAndThenToScreen here because it doesn't work for bottom
+        // sheets.
+        navigateHome()
         navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
       },
       icon: <PlusIcon />,
@@ -87,8 +96,7 @@ function ChooseYourAdventure() {
     {
       text: t('chooseYourAdventure.options.profile'),
       goToNextScreen: () => {
-        navigateHome()
-        navigate(Screens.Profile)
+        navigateHomeAndThenToScreen(Screens.Profile)
       },
       icon: <ProfilePlus />,
       name: AdventureCardName.Profile,
@@ -97,8 +105,7 @@ function ChooseYourAdventure() {
       text: t('chooseYourAdventure.options.learn'),
       goToNextScreen: () => {
         if (getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)) {
-          navigateHome()
-          navigate(Screens.TokenDetails, { tokenId: networkConfig.celoTokenId })
+          navigateHomeAndThenToScreen(Screens.TokenDetails, { tokenId: networkConfig.celoTokenId })
         } else {
           navigateClearingStack(Screens.DrawerNavigator, {
             initialScreen: Screens.ExchangeHomeScreen,
