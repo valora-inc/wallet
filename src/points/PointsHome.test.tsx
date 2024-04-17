@@ -11,7 +11,9 @@ import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 const mockScreenProps = () => getMockStackScreenProps(Screens.PointsHome)
 
-const renderPointsHome = (pointsConfigStatus: 'idle' | 'loading' | 'error' = 'idle') => {
+const renderPointsHome = (
+  pointsConfigStatus: 'idle' | 'loading' | 'error' | 'success' = 'success'
+) => {
   const store = createMockStore({
     points: {
       pointsConfig: {
