@@ -22,6 +22,5 @@ export const SAMPLE_BACKUP_KEY_12_WORDS =
 export const SAMPLE_WALLET_ADDRESS_12_WORDS = '0x19cf37810fd5933bd63e02388e37203841c703de' // corresponds to the backup key above
 export const DEFAULT_PIN = '193705'
 export const ALTERNATIVE_PIN = '507391'
-export const EXAMPLE_NAME = 'Test Name'
 export const EXAMPLE_PHONE_NUMBER = '+1 306-555-5555'
 export const ALFAJORES_FORNO_URL = 'https://alfajores-forno.celo-testnet.org'

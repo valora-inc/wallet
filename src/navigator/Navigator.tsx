@@ -90,7 +90,6 @@ import NftsInfoCarousel from 'src/nfts/NftsInfoCarousel'
 import ChooseYourAdventure from 'src/onboarding/ChooseYourAdventure'
 import EnableBiometry from 'src/onboarding/registration/EnableBiometry'
 import ImportSelect from 'src/onboarding/registration/ImportSelect'
-import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
 import OnboardingRecoveryPhrase from 'src/onboarding/registration/OnboardingRecoveryPhrase'
 import ProtectWallet from 'src/onboarding/registration/ProtectWallet'
 import RegulatoryTerms from 'src/onboarding/registration/RegulatoryTerms'
@@ -182,11 +181,6 @@ const nuxScreens = (Navigator: typeof Stack) => (
       name={Screens.Welcome}
       component={Welcome}
       options={Welcome.navigationOptions}
-    />
-    <Navigator.Screen
-      name={Screens.NameAndPicture}
-      component={NameAndPicture}
-      options={NameAndPicture.navOptions}
     />
     <Navigator.Screen
       name={Screens.ProtectWallet}

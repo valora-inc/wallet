@@ -185,7 +185,6 @@ export type StackParamList = {
     | undefined
   [Screens.Invite]: undefined
   [Screens.InviteDrawer]: undefined
-  [Screens.NameAndPicture]: undefined
   [Screens.EnableBiometry]: undefined
   [Screens.Language]:
     | {

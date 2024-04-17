@@ -5,11 +5,7 @@ import {
   choseToRestoreAccountSelector,
   recoveringFromStoreWipeSelector,
 } from 'src/account/selectors'
-import {
-  phoneNumberVerifiedSelector,
-  skipVerificationSelector,
-  supportedBiometryTypeSelector,
-} from 'src/app/selectors'
+import { phoneNumberVerifiedSelector, supportedBiometryTypeSelector } from 'src/app/selectors'
 import { setHasSeenVerificationNux } from 'src/identity/actions'
 import * as NavigationService from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -42,8 +38,6 @@ export interface OnboardingProps {
   supportedBiometryType: BIOMETRY_TYPE | null
   skipVerification: boolean
   numberAlreadyVerifiedCentrally: boolean
-  chooseAdventureEnabled: boolean
-  onboardingNameScreenEnabled: boolean
   showCloudAccountBackupRestore: boolean
 }
 
@@ -51,15 +45,11 @@ export interface OnboardingProps {
  * Helper function to determine where onboarding starts.
  */
 export function firstOnboardingScreen({
-  onboardingNameScreenEnabled,
   recoveringFromStoreWipe,
 }: {
-  onboardingNameScreenEnabled: boolean
   recoveringFromStoreWipe: boolean
-}): Screens.NameAndPicture | Screens.ImportSelect | Screens.ImportWallet | Screens.PincodeSet {
-  if (onboardingNameScreenEnabled) {
-    return Screens.NameAndPicture
-  } else if (recoveringFromStoreWipe) {
+}): Screens.ImportSelect | Screens.ImportWallet | Screens.PincodeSet {
+  if (recoveringFromStoreWipe) {
     return getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE)
       ? Screens.ImportSelect
       : Screens.ImportWallet
@@ -80,21 +70,20 @@ export const onboardingPropsSelector = createSelector(
     recoveringFromStoreWipeSelector,
     choseToRestoreAccountSelector,
     supportedBiometryTypeSelector,
-    skipVerificationSelector,
     phoneNumberVerifiedSelector,
   ],
   (
     recoveringFromStoreWipe,
     choseToRestoreAccount,
     supportedBiometryType,
-    skipVerification,
     numberAlreadyVerifiedCentrally
   ) => {
-    const { chooseAdventureEnabled, onboardingNameScreenEnabled } = getExperimentParams(
-      ExperimentConfigs[StatsigExperiments.CHOOSE_YOUR_ADVENTURE]
-    )
     const showCloudAccountBackupRestore = getFeatureGate(
       StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE
+    )
+
+    const { skipVerification } = getExperimentParams(
+      ExperimentConfigs[StatsigExperiments.ONBOARDING_PHONE_VERIFICATION]
     )
 
     return {
@@ -103,8 +92,6 @@ export const onboardingPropsSelector = createSelector(
       supportedBiometryType,
       skipVerification,
       numberAlreadyVerifiedCentrally,
-      chooseAdventureEnabled,
-      onboardingNameScreenEnabled,
       showCloudAccountBackupRestore,
     }
   }
@@ -116,7 +103,6 @@ export const onboardingPropsSelector = createSelector(
  */
 export function getOnboardingStepValues(screen: Screens, onboardingProps: OnboardingProps) {
   const firstScreen = firstOnboardingScreen({
-    onboardingNameScreenEnabled: onboardingProps.onboardingNameScreenEnabled,
     recoveringFromStoreWipe: onboardingProps.recoveringFromStoreWipe,
   })
 
@@ -208,26 +194,11 @@ export function goToNextOnboardingScreen({
 export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: GetStepInfoProps) {
   const { navigate, popToScreen, finishOnboarding } = navigator
   const {
-    recoveringFromStoreWipe,
     choseToRestoreAccount,
     supportedBiometryType,
     skipVerification,
     numberAlreadyVerifiedCentrally,
   } = props
-
-  const navigateHomeOrChooseAdventure = () => {
-    if (props.chooseAdventureEnabled) {
-      finishOnboarding(Screens.ChooseYourAdventure)
-    } else {
-      // NOTE: We don't need to conditionally navigate here because this screen
-      // is just a marker. `updateStatsigAndNavigate` saga calls `navigateHome`
-      // if the screen is set to `TabHome` which handles navigating to the
-      // correct home screen. This will be cleaned up when we remove the CYA
-      // experiment code as the end screen can only be `ChooseYourAdventure`.
-      // (ACT-1114)
-      finishOnboarding(Screens.TabHome)
-    }
-  }
 
   const navigateImportOrImportSelect = () => {
     if (props.showCloudAccountBackupRestore) {
@@ -238,16 +209,6 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
   }
 
   switch (firstScreenInStep) {
-    case Screens.NameAndPicture:
-      return {
-        next: () => {
-          if (recoveringFromStoreWipe) {
-            navigateImportOrImportSelect()
-          } else {
-            navigate(Screens.PincodeSet)
-          }
-        },
-      }
     case Screens.PincodeSet:
       return {
         next: () => {
@@ -278,8 +239,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
         next: () => {
           if (skipVerification || numberAlreadyVerifiedCentrally) {
             dispatch(setHasSeenVerificationNux(true))
-            // navigateHome will clear onboarding Stack
-            navigateHomeOrChooseAdventure()
+            finishOnboarding(Screens.ChooseYourAdventure)
           } else {
             // DO NOT CLEAR NAVIGATION STACK HERE - breaks restore flow on initial app open in native-stack v6
             navigate(Screens.LinkPhoneNumber)
@@ -291,8 +251,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
         next: () => {
           if (skipVerification || numberAlreadyVerifiedCentrally) {
             dispatch(setHasSeenVerificationNux(true))
-            // navigateHome will clear onboarding Stack
-            navigateHomeOrChooseAdventure()
+            finishOnboarding(Screens.ChooseYourAdventure)
           } else {
             // DO NOT CLEAR NAVIGATION STACK HERE - breaks restore flow on initial app open in native-stack v6
             navigate(Screens.VerificationStartScreen)
@@ -305,7 +264,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
         next: () => {
           // initializeAccount & setHasSeenVerificationNux are called in the middle of
           // the verification flow, so we don't need to call them here.
-          navigateHomeOrChooseAdventure()
+          finishOnboarding(Screens.ChooseYourAdventure)
         },
       }
     case Screens.ProtectWallet:
@@ -313,11 +272,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
         next: () => {
           if (skipVerification) {
             dispatch(setHasSeenVerificationNux(true))
-            // This seems like a bug where we don't go to CYA on
-            // skipping phone verification. Every other case navigates to CYA at
-            // the end of onboarding, including when skipping verification on
-            // the import flow. TODO(ACT-1114): make this consistent with other cases
-            finishOnboarding(Screens.TabHome)
+            finishOnboarding(Screens.ChooseYourAdventure)
           } else {
             navigate(Screens.VerificationStartScreen)
           }

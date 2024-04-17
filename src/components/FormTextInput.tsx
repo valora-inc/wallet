@@ -4,7 +4,7 @@ import FormUnderline from 'src/components/FormUnderline'
 import TextInput, { TextInputProps } from 'src/components/TextInput'
 import colors from 'src/styles/colors'
 
-export type Props = TextInputProps
+type Props = TextInputProps
 
 export default function FormTextInput({ style, inputStyle, ...passThroughProps }: Props) {
   return (
