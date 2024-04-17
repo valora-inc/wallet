@@ -103,7 +103,7 @@ export default function PointsHome({ route, navigation }: Props) {
           </View>
         )}
 
-        {pointsConfigStatus === 'idle' && pointsSections.length > 0 && (
+        {pointsConfigStatus === 'success' && pointsSections.length > 0 && (
           <>
             <View style={styles.titleRow}>
               <Text style={styles.title}>{t('points.title')}</Text>
