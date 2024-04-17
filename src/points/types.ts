@@ -35,7 +35,12 @@ export type PointsMetadata = {
   }>
 }
 
-type ClaimActivityId = 'create-wallet' | 'swap'
+const claimActivities = ['create-wallet', 'swap'] as const
+export type ClaimActivityId = (typeof claimActivities)[number]
+
+export function isClaimActivityId(activity: unknown): activity is ClaimActivityId {
+  return typeof activity === 'string' && claimActivities.includes(activity as ClaimActivityId)
+}
 
 interface BaseClaimHistory {
   timestamp: number

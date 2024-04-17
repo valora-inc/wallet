@@ -133,7 +133,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
           <Text style={styles.contentHeader}>{t('points.history.title')}</Text>
         )}
         <BottomSheetSectionList
-          contentContainerStyle={styles.contentContainer}
+          contentContainerStyle={sections.length ? {} : styles.contentContainer}
           renderItem={renderItem}
           renderSectionHeader={(item) => (
             <SectionHead text={item.section.title} style={styles.sectionHead} />
@@ -186,7 +186,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
   },
   historyCard: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: Spacing.Regular16,
@@ -194,7 +193,7 @@ const styles = StyleSheet.create({
   cardIcon: {
     backgroundColor: colors.successLight,
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     borderRadius: 20,
     width: 40,

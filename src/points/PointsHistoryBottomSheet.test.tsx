@@ -87,9 +87,13 @@ describe(PointsHistoryBottomSheet, () => {
     })
     await waitFor(() => expect(tree.getByTestId('PointsHistoryList').props.data.length).toBe(3))
 
-    expect(tree.getByTestId('swap-1709666785000')).toBeTruthy()
-    expect(tree.getByTestId('swap-1704396385000')).toBeTruthy()
-    expect(tree.getByTestId('create-wallet-1701717985000')).toBeTruthy()
+    expect(
+      tree.getByText('points.history.cards.swap.subtitle, {"fromToken":"CELO","toToken":"cUSD"}')
+    ).toBeTruthy()
+    expect(
+      tree.getByText('points.history.cards.swap.subtitle, {"fromToken":"cUSD","toToken":"CELO"}')
+    ).toBeTruthy()
+    expect(tree.getByText('points.history.cards.createWallet.subtitle')).toBeTruthy()
     expect(tree.getByText('January')).toBeTruthy()
     expect(tree.getByText('March')).toBeTruthy()
     expect(tree.getByTestId('PointsHistoryBottomSheet/Loading')).toBeTruthy()

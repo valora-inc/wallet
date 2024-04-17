@@ -10,7 +10,7 @@ import {
   getPointsConfigStarted,
   getPointsConfigSucceeded,
 } from 'src/points/slice'
-import { GetHistoryResponse, isPointsActivityId } from 'src/points/types'
+import { GetHistoryResponse, isPointsActivityId, isClaimActivityId } from 'src/points/types'
 import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
@@ -66,7 +66,7 @@ export function* getHistory({ payload: params }: ReturnType<typeof getHistorySta
     yield* put(
       getHistorySucceeded({
         appendHistory: params.getNextPage,
-        newPointsHistory: history.data,
+        newPointsHistory: history.data.filter((record) => isClaimActivityId(record.activityId)),
         nextPageUrl: history.hasNextPage ? history.nextPageUrl : null,
       })
     )
