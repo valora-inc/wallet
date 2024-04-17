@@ -58,7 +58,11 @@ function FiatExchangeCurrencyBottomSheet({ route }: Props) {
     }
 
   return (
-    <BottomSheetScrollView isScreen containerStyle={{ padding: undefined }}>
+    <BottomSheetScrollView
+      isScreen
+      containerStyle={{ padding: undefined }}
+      testId="FiatExchangeCurrencyBottomSheet"
+    >
       {/* padding undefined to prevent android ripple bug */}
       <Text style={styles.selectDigitalCurrency}>{t('sendEnterAmountScreen.selectToken')}</Text>
       {tokenList.length &&

@@ -39,7 +39,7 @@ export default SecureSend = () => {
         newInstance: true,
         permissions: { notifications: 'YES', contacts: 'YES' },
       })
-      await quickOnboarding(SAMPLE_BACKUP_KEY_SINGLE_ADDRESS_VERIFIED)
+      await quickOnboarding({ mnemonic: SAMPLE_BACKUP_KEY_SINGLE_ADDRESS_VERIFIED })
     })
 
     it('Send cUSD to phone number with multiple mappings', async () => {

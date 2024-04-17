@@ -101,7 +101,7 @@ async function setWalletKycStatus(kycStatus, walletAddress) {
 async function onboardAndBeginTransferOut(token, fundingAmount, cashOutAmount) {
   const mnemonic = await generateMnemonic()
   const { address: walletAddress } = await generateKeys(mnemonic)
-  await quickOnboarding(mnemonic) // ends on home screen
+  await quickOnboarding({ mnemonic }) // ends on home screen
   await fundWallet(SAMPLE_PRIVATE_KEY, walletAddress, token, fundingAmount)
   // For now the balance only updates when the home screen is visible
   await waitFor(element(by.text(`${fundingAmount} cUSD`))) // need a balance to withdraw
