@@ -6,6 +6,7 @@ import {
   getHistoryStarted,
   getHistorySucceeded,
   getPointsConfigError,
+  getPointsConfigRetry,
   getPointsConfigStarted,
   getPointsConfigSucceeded,
 } from 'src/points/slice'
@@ -76,6 +77,8 @@ export function* getHistory({ payload: params }: ReturnType<typeof getHistorySta
 }
 
 export function* getPointsConfig() {
+  yield* put(getPointsConfigStarted())
+
   try {
     const response = yield* call(fetchWithTimeout, networkConfig.getPointsConfigUrl, {
       method: 'GET',
@@ -106,7 +109,7 @@ function* watchGetHistory() {
 }
 
 function* watchGetConfig() {
-  yield* takeLeading([getPointsConfigStarted.type, HomeActions.VISIT_HOME], safely(getPointsConfig))
+  yield* takeLeading([getPointsConfigRetry.type, HomeActions.VISIT_HOME], safely(getPointsConfig))
 }
 
 export function* pointsSaga() {

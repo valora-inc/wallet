@@ -9,6 +9,7 @@ import pointsReducer, {
   getHistoryStarted,
   getHistorySucceeded,
   getPointsConfigError,
+  getPointsConfigStarted,
   getPointsConfigSucceeded,
 } from 'src/points/slice'
 import { ClaimHistory, GetHistoryResponse } from 'src/points/types'
@@ -185,7 +186,10 @@ describe('getPointsConfig', () => {
     }
     mockFetch.mockResponseOnce(JSON.stringify({ config }))
 
-    await expectSaga(getPointsConfig).put(getPointsConfigSucceeded(config)).run()
+    await expectSaga(getPointsConfig)
+      .put(getPointsConfigStarted())
+      .put(getPointsConfigSucceeded(config))
+      .run()
 
     expect(fetchWithTimeoutSpy).toHaveBeenCalledWith(networkConfig.getPointsConfigUrl, {
       method: 'GET',

@@ -6,7 +6,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import PointsHome from 'src/points/PointsHome'
-import { getHistoryStarted, getPointsConfigStarted } from 'src/points/slice'
+import { getHistoryStarted, getPointsConfigRetry } from 'src/points/slice'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 const mockScreenProps = () => getMockStackScreenProps(Screens.PointsHome)
@@ -64,7 +64,7 @@ describe(PointsHome, () => {
     store.clearActions()
     fireEvent.press(getByText('points.error.retryCta'))
 
-    expect(store.getActions()).toEqual([getPointsConfigStarted()])
+    expect(store.getActions()).toEqual([getPointsConfigRetry()])
   })
 
   it('opens activity bottom sheet', async () => {
