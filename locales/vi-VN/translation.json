@@ -2240,6 +2240,15 @@
   "points": {
     "title": "Valora Points",
     "activity": "Hoạt động",
+    "loading": {
+      "title": "Gathering your points",
+      "description": "We're in the process of tallying up your points, hang tight"
+    },
+    "error": {
+      "title": "Unable to load points",
+      "description": "Oops, something went wrong when trying to load your points. Please try again.",
+      "retryCta": "Thử lại"
+    },
     "infoCard": {
       "title": "More ways to earn points coming soon 🚀",
       "body": "We are working on adding more ways to earn points through using the app. Keep checking in for updates."
