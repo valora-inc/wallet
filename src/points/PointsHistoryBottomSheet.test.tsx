@@ -15,7 +15,7 @@ const MOCK_RESPONSE_NO_NEXT_PAGE: GetHistoryResponse = {
     {
       activityId: 'swap',
       pointsAmount: 20,
-      createdAt: '2024-03-05T19:26:25.000Z',
+      timestamp: Date.parse('2024-03-05T19:26:25.000Z'),
       metadata: {
         to: 'celo-alfajores:native',
         from: 'celo-alfajores:0x874069fa1eb16d44d622f2e0ca25eea172369bc1',
@@ -24,7 +24,7 @@ const MOCK_RESPONSE_NO_NEXT_PAGE: GetHistoryResponse = {
     {
       activityId: 'swap',
       pointsAmount: 20,
-      createdAt: '2024-01-04T19:26:25.000Z',
+      timestamp: Date.parse('2024-01-04T19:26:25.000Z'),
       metadata: {
         to: 'celo-alfajores:0xe4d517785d091d3c54818832db6094bcc2744545',
         from: 'celo-alfajores:native',
