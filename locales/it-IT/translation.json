@@ -2242,6 +2242,15 @@
   "points": {
     "title": "Punti Valora",
     "activity": "Attività",
+    "loading": {
+      "title": "Raccogliere i punti",
+      "description": "Stiamo per fare il conteggio dei tuoi punti, tieniti forte."
+    },
+    "error": {
+      "title": "Impossibile caricare i punti",
+      "description": "Ops, qualcosa è andato storto durante il tentativo di caricare i tuoi punti. Riprova.",
+      "retryCta": "Riprova"
+    },
     "infoCard": {
       "title": "Altri modi per guadagnare punti in arrivo 🚀",
       "body": "Stiamo lavorando per aggiungere altri modi per guadagnare punti utilizzando l'app. Continuate a seguirci per gli aggiornamenti."
