@@ -2242,6 +2242,15 @@
   "points": {
     "title": "Valora Puanları",
     "activity": "İşlemler",
+    "loading": {
+      "title": "Puanlarınızı toplamak",
+      "description": "Puanlarınızı sayma aşamasındayız, sıkı durun"
+    },
+    "error": {
+      "title": "Noktalar yüklenemiyor",
+      "description": "Oops, puanlarınızı yüklemeye çalışırken bir şeyler ters gitti. Lütfen tekrar deneyin.",
+      "retryCta": "Tekrar deneyin"
+    },
     "infoCard": {
       "title": "Puan kazanmanın daha fazla yolu çok yakında 🚀",
       "body": "Uygulamayı kullanarak puan kazanmanın daha fazla yolunu eklemek için çalışıyoruz. Güncellemeler için kontrol etmeye devam edin."
