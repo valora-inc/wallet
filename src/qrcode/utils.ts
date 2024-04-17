@@ -128,7 +128,7 @@ export function* handleSecureSend(
 
 function* extractQRAddressData(qrCode: QrCode) {
   // strip network prefix if present
-  const qrAddress = qrCode.data.replace(/^.*:/, '')
+  const qrAddress = qrCode.data.split(':').at(-1) || qrCode.data
   if (isAddress(qrAddress, { strict: false })) {
     qrCode.data = `celo://wallet/pay?address=${qrAddress}`
   }
