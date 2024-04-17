@@ -1,4 +1,3 @@
-import { PointsMetadata } from 'src/points/types'
 import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
