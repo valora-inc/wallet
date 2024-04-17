@@ -83,7 +83,7 @@ export default Assets = () => {
       if (balance === 'zero') {
         mnemonic = await generateMnemonic()
       }
-      await quickOnboarding(mnemonic)
+      await quickOnboarding({ mnemonic })
     })
 
     it('navigates to wallet tab from home', async () => {

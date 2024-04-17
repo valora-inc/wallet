@@ -1,13 +1,13 @@
-import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
-import { Provider } from 'react-redux'
-import { PointsEvents } from 'src/analytics/Events'
+import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { Provider } from 'react-redux'
 import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
 import PointsHome from 'src/points/PointsHome'
-import { getHistoryStarted } from 'src/points/slice'
+import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { PointsEvents } from 'src/analytics/Events'
+import { getHistoryStarted } from 'src/points/slice'
 
 jest.mock('src/statsig', () => ({
   getDynamicConfigParams: jest.fn().mockReturnValue({

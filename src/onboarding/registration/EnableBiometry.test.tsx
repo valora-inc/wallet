@@ -85,7 +85,6 @@ describe('EnableBiometry', () => {
       app: {
         supportedBiometryType: BIOMETRY_TYPE.FACE_ID,
         activeScreen: Screens.EnableBiometry,
-        skipVerification: true,
       },
       account: {
         choseToRestoreAccount: false,
