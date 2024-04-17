@@ -1,23 +1,24 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { StackParamList } from 'src/navigator/types'
-import BackButton from 'src/components/BackButton'
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import { Screens } from 'src/navigator/Screens'
-import { typeScale } from 'src/styles/fonts'
-import { Spacing } from 'src/styles/styles'
-import { Colors } from 'src/styles/colors'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import ActivityCardSection from 'src/points/ActivityCardSection'
+import { PointsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import { BottomSheetParams, PointsActivity } from 'src/points/types'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { PointsEvents } from 'src/analytics/Events'
 import CustomHeader from 'src/components/header/CustomHeader'
-import { useDispatch } from 'src/redux/hooks'
+import { Screens } from 'src/navigator/Screens'
+import { StackParamList } from 'src/navigator/types'
+import ActivityCardSection from 'src/points/ActivityCardSection'
+import { pointsSectionsSelector } from 'src/points/selectors'
 import { getHistoryStarted } from 'src/points/slice'
+import { BottomSheetParams, PointsActivity } from 'src/points/types'
+import { useDispatch, useSelector } from 'src/redux/hooks'
+import { Colors } from 'src/styles/colors'
+import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.PointsHome>
 
@@ -25,6 +26,8 @@ export default function PointsHome({ route, navigation }: Props) {
   const { t } = useTranslation()
 
   const dispatch = useDispatch()
+
+  const pointsSections = useSelector(pointsSectionsSelector)
 
   // TODO: Use real points balance
   const pointsBalance = 50
@@ -88,13 +91,9 @@ export default function PointsHome({ route, navigation }: Props) {
           <Text style={styles.infoCardTitle}>{t('points.infoCard.title')}</Text>
           <Text style={styles.infoCardBody}>{t('points.infoCard.body')}</Text>
         </View>
-        <ActivityCardSection onCardPress={onCardPress} />
+        <ActivityCardSection onCardPress={onCardPress} pointsSections={pointsSections} />
       </ScrollView>
-      <BottomSheet
-        snapPoints={['50%']}
-        forwardedRef={activityCardBottomSheetRef}
-        testId={`PointsActivityBottomSheet`}
-      >
+      <BottomSheet forwardedRef={activityCardBottomSheetRef} testId={`PointsActivityBottomSheet`}>
         {bottomSheetParams && (
           <>
             <View style={styles.bottomSheetPointAmountContainer}>
