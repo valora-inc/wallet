@@ -2246,6 +2246,15 @@
   "points": {
     "title": "Punkty Valora",
     "activity": "Operacje",
+    "loading": {
+      "title": "Zbierz swoje punkty",
+      "description": "Jesteśmy w trakcie podliczania twoich punktów, trzymaj się mocno"
+    },
+    "error": {
+      "title": "Nie można załadować punktów",
+      "description": "Ups, coś poszło nie tak podczas próby załadowania Twoich punktów. Spróbuj ponownie.",
+      "retryCta": "Spróbuj ponownie"
+    },
     "infoCard": {
       "title": "Więcej sposobów na zdobywanie punktów już wkrótce 🚀",
       "body": "Pracujemy nad dodaniem kolejnych sposobów na zdobywanie punktów za pomocą aplikacji. Sprawdzaj na bieżąco aktualizacje."
