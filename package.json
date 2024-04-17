@@ -138,7 +138,7 @@
     "intl-pluralrules": "^2.0.1",
     "io-ts": "2.0.1",
     "is-ip": "^3.1.0",
-    "jwt-decode": "^3.1.2",
+    "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
     "lottie-react-native": "^5.1.6",
     "node-libs-react-native": "^1.2.1",
