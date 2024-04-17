@@ -30,11 +30,11 @@ describe('pointsMetadataSelector', () => {
 
     expect(result).toEqual([
       {
-        points: 10,
+        pointsAmount: 10,
         activities: [
-          { name: 'swap' },
+          { activityId: 'swap' },
           {
-            name: 'create-wallet',
+            activityId: 'create-wallet',
           },
         ],
       },
@@ -55,8 +55,8 @@ describe('pointsMetadataSelector', () => {
     const result = pointsSectionsSelector(stateWithPointsConfig)
 
     expect(result).toEqual([
-      { points: 20, activities: [{ name: 'create-wallet' }] },
-      { points: 10, activities: [{ name: 'swap' }] },
+      { pointsAmount: 20, activities: [{ activityId: 'create-wallet' }] },
+      { pointsAmount: 10, activities: [{ activityId: 'swap' }] },
     ])
   })
 })
