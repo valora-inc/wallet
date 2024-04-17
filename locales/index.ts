@@ -1,3 +1,5 @@
+import { Locale } from 'date-fns'
+
 interface Locales {
   [key: string]:
     | {
@@ -17,7 +19,7 @@ const locales: Locales = {
       }
     },
     get dateFns() {
-      return require('date-fns/locale/en-US')
+      return require('date-fns/locale/en-US').enUS
     },
   },
   'es-419': {
@@ -28,7 +30,7 @@ const locales: Locales = {
       }
     },
     get dateFns() {
-      return require('date-fns/locale/es')
+      return require('date-fns/locale/es').es
     },
   },
   'pt-BR': {
@@ -39,7 +41,7 @@ const locales: Locales = {
       }
     },
     get dateFns() {
-      return require('date-fns/locale/pt-BR')
+      return require('date-fns/locale/pt-BR').ptBR
     },
   },
   de: {
@@ -50,7 +52,7 @@ const locales: Locales = {
       }
     },
     get dateFns() {
-      return require('date-fns/locale/de')
+      return require('date-fns/locale/de').de
     },
   },
   'ru-RU': {
@@ -61,7 +63,7 @@ const locales: Locales = {
       }
     },
     get dateFns() {
-      return require('date-fns/locale/ru')
+      return require('date-fns/locale/ru').ru
     },
   },
   'fr-FR': {
@@ -72,7 +74,7 @@ const locales: Locales = {
       }
     },
     get dateFns() {
-      return require('date-fns/locale/fr')
+      return require('date-fns/locale/fr').fr
     },
   },
   'it-IT': {
@@ -83,7 +85,7 @@ const locales: Locales = {
       }
     },
     get dateFns() {
-      return require('date-fns/locale/it')
+      return require('date-fns/locale/it').it
     },
   },
   'uk-UA': {
@@ -94,7 +96,7 @@ const locales: Locales = {
       }
     },
     get dateFns() {
-      return require('date-fns/locale/uk')
+      return require('date-fns/locale/uk').uk
     },
   },
   'th-TH': {
@@ -105,7 +107,7 @@ const locales: Locales = {
       }
     },
     get dateFns() {
-      return require('date-fns/locale/th')
+      return require('date-fns/locale/th').th
     },
   },
   'tr-TR': {
@@ -116,7 +118,7 @@ const locales: Locales = {
       }
     },
     get dateFns() {
-      return require('date-fns/locale/tr')
+      return require('date-fns/locale/tr').tr
     },
   },
   'pl-PL': {
@@ -127,7 +129,7 @@ const locales: Locales = {
       }
     },
     get dateFns() {
-      return require('date-fns/locale/pl')
+      return require('date-fns/locale/pl').pl
     },
   },
   'vi-VN': {
@@ -138,7 +140,7 @@ const locales: Locales = {
       }
     },
     get dateFns() {
-      return require('date-fns/locale/vi')
+      return require('date-fns/locale/vi').vi
     },
   },
   'zh-CN': {
@@ -149,7 +151,7 @@ const locales: Locales = {
       }
     },
     get dateFns() {
-      return require('date-fns/locale/zh-CN')
+      return require('date-fns/locale/zh-CN').zhCN
     },
   },
 }
