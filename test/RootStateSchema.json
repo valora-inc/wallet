@@ -4409,7 +4409,7 @@
                     "additionalProperties": false,
                     "properties": {
                         "activitiesById": {
-                            "$ref": "#/definitions/{[x:string]:{pointsAmount:number;}|undefined;}"
+                            "$ref": "#/definitions/{swap?:{pointsAmount:number;}|undefined;\"create-wallet\"?:{pointsAmount:number;}|undefined;\"more-coming\"?:{pointsAmount:number;}|undefined;}"
                         }
                     },
                     "required": [
@@ -5554,10 +5554,6 @@
             },
             "type": "object"
         },
-        "{[x:string]:{pointsAmount:number;}|undefined;}": {
-            "additionalProperties": false,
-            "type": "object"
-        },
         "{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountNumber?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;ifsc?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}": {
             "additionalProperties": false,
             "properties": {
@@ -6200,6 +6196,48 @@
                 },
                 "swap": {
                     "$ref": "#/definitions/FeeEstimateState"
+                }
+            },
+            "type": "object"
+        },
+        "{swap?:{pointsAmount:number;}|undefined;\"create-wallet\"?:{pointsAmount:number;}|undefined;\"more-coming\"?:{pointsAmount:number;}|undefined;}": {
+            "additionalProperties": false,
+            "properties": {
+                "create-wallet": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "pointsAmount": {
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "pointsAmount"
+                    ],
+                    "type": "object"
+                },
+                "more-coming": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "pointsAmount": {
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "pointsAmount"
+                    ],
+                    "type": "object"
+                },
+                "swap": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "pointsAmount": {
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "pointsAmount"
+                    ],
+                    "type": "object"
                 }
             },
             "type": "object"
