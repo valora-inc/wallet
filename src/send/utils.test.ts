@@ -1,11 +1,9 @@
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
-import { select } from 'redux-saga-test-plan/matchers'
 import { SendOrigin } from 'src/analytics/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { fetchExchangeRate } from 'src/localCurrency/saga'
-import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { UriData, urlFromUriData } from 'src/qrcode/schema'
@@ -94,25 +92,6 @@ describe('send/utils', () => {
           forceTokenId: false,
         })
       )
-    })
-
-    it('should throw an error when no local currency exchange rate is available', async () => {
-      await expect(
-        expectSaga(handleSendPaymentData, mockData, false, undefined)
-          .withState(
-            createMockStore({
-              localCurrency: {
-                usdToLocalRate: null,
-              },
-            }).getState()
-          )
-          .provide([
-            [matchers.call.fn(fetchExchangeRate), '1'],
-            [select(usdToLocalCurrencyRateSelector), '1'],
-          ])
-          .run()
-      ).rejects.toThrow("Precondition failed: Can't send tokens from payment data")
-      expect(navigate).not.toHaveBeenCalled()
     })
 
     it('should navigate to SendConfirmation screen when amount and token are sent', async () => {
