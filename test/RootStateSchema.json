@@ -4405,6 +4405,27 @@
                         "string"
                     ]
                 },
+                "pointsConfig": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "activitiesById": {
+                            "$ref": "#/definitions/{swap?:{pointsAmount:number;}|undefined;\"create-wallet\"?:{pointsAmount:number;}|undefined;\"more-coming\"?:{pointsAmount:number;}|undefined;}"
+                        }
+                    },
+                    "required": [
+                        "activitiesById"
+                    ],
+                    "type": "object"
+                },
+                "pointsConfigStatus": {
+                    "enum": [
+                        "error",
+                        "idle",
+                        "loading",
+                        "success"
+                    ],
+                    "type": "string"
+                },
                 "pointsHistory": {
                     "items": {
                         "$ref": "#/definitions/ClaimHistory"
@@ -4415,6 +4436,8 @@
             "required": [
                 "getHistoryStatus",
                 "nextPageUrl",
+                "pointsConfig",
+                "pointsConfigStatus",
                 "pointsHistory"
             ],
             "type": "object"
@@ -6173,6 +6196,48 @@
                 },
                 "swap": {
                     "$ref": "#/definitions/FeeEstimateState"
+                }
+            },
+            "type": "object"
+        },
+        "{swap?:{pointsAmount:number;}|undefined;\"create-wallet\"?:{pointsAmount:number;}|undefined;\"more-coming\"?:{pointsAmount:number;}|undefined;}": {
+            "additionalProperties": false,
+            "properties": {
+                "create-wallet": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "pointsAmount": {
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "pointsAmount"
+                    ],
+                    "type": "object"
+                },
+                "more-coming": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "pointsAmount": {
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "pointsAmount"
+                    ],
+                    "type": "object"
+                },
+                "swap": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "pointsAmount": {
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "pointsAmount"
+                    ],
+                    "type": "object"
                 }
             },
             "type": "object"
