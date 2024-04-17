@@ -3388,7 +3388,7 @@
   resolved "https://registry.yarnpkg.com/@sentry/types/-/types-7.37.2.tgz#99fd76230d7c1d3c6901ed4c0bea35be7d6fe26d"
   integrity sha512-SxKQOCX94ZaQM4C2ysNjHdJsjYapu/NYZCz1cnPyCdDvYfhwiVge1uq6ZHiQ/ARfxAAOmc3R4Mh3VvEz7WUOdw==
 
-"@sentry/types@^7.110.0":
+"@sentry/types@^7.110.1":
   version "7.110.1"
   resolved "https://registry.yarnpkg.com/@sentry/types/-/types-7.110.1.tgz#0b84c0d5e075dbd80afa2ce6a486fd14680a0024"
   integrity sha512-sZxOpM5gfyxvJeWVvNpHnxERTnlqcozjqNcIv29SZ6wonlkekmxDyJ3uCuPv85VO54WLyA4uzskPKnNFHacI8A==
@@ -7023,10 +7023,10 @@ clean-stack@^2.0.0:
   resolved "https://registry.yarnpkg.com/clean-stack/-/clean-stack-2.2.0.tgz#ee8472dbb129e727b31e8a10a427dee9dfe4008b"
   integrity sha512-4diC9HaTE+KRAMWhDhrGOECgWZxoevMc5TlkObMqNSsVU62PYzXZ/SMTjzyGAFF1YusgxGcSWTEXBhp0CPwQ1A==
 
-clevertap-react-native@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/clevertap-react-native/-/clevertap-react-native-2.2.0.tgz#23912c4d572cdfc4b4e42a62461f640ea826d942"
-  integrity sha512-ZJab5IkkqjbgYN73rWsko/J6NnwzMklF3tsNRPNgRpihY+ONx/iyWGbfzSbkOQ/UR2UgcoNjbudI9fmboRPpjw==
+clevertap-react-native@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/clevertap-react-native/-/clevertap-react-native-2.2.1.tgz#256f8a230f1112f76181823d17c7e6833e010abf"
+  integrity sha512-WGH0hk54EPGJ19o3nZzFpErbvN3kHDgmzG2/QUsnbqrwEPwdDf/4TndtCSO/sUjgwBBoGWGZaledu38Yes+t5Q==
 
 cli-boxes@^1.0.0:
   version "1.0.0"
@@ -15018,10 +15018,10 @@ qrcode@^1.5.1, qrcode@^1.5.3:
     pngjs "^5.0.0"
     yargs "^15.3.1"
 
-qs@6.11.0, qs@^6.12.0, qs@^6.9.4, qs@~6.5.2:
-  version "6.12.0"
-  resolved "https://registry.yarnpkg.com/qs/-/qs-6.12.0.tgz#edd40c3b823995946a8a0b1f208669c7a200db77"
-  integrity sha512-trVZiI6RMOkO476zLGaBIzszOdFPnCCXHPG9kn0yuS1uz6xdVxPfZdB3vUig9pxPFDM9BRAgz/YUIVQ1/vuiUg==
+qs@6.11.0, qs@^6.12.1, qs@^6.9.4, qs@~6.5.2:
+  version "6.12.1"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.12.1.tgz#39422111ca7cbdb70425541cba20c7d7b216599a"
+  integrity sha512-zWmv4RSuB9r2mYQw3zxQuHWeU+42aKi1wWig/j4ele4ygELZ7PEO6MM7rim9oAQH2A5MWfsAVf/jPvTPgCbvUQ==
   dependencies:
     side-channel "^1.0.6"
 

@@ -835,7 +835,7 @@
             ],
             "type": "string"
         },
-        "ClaimActivity": {
+        "ClaimActivityId": {
             "enum": [
                 "create-wallet",
                 "swap"
@@ -3445,9 +3445,6 @@
                 "showSwapMenuInDrawerMenu": {
                     "type": "boolean"
                 },
-                "skipVerification": {
-                    "type": "boolean"
-                },
                 "superchargeApy": {
                     "type": "number"
                 },
@@ -3508,7 +3505,6 @@
                 "sessionId",
                 "showNotificationSpotlight",
                 "showSwapMenuInDrawerMenu",
-                "skipVerification",
                 "superchargeApy",
                 "superchargeTokenConfigByToken",
                 "supportedBiometryType",
@@ -4409,6 +4405,27 @@
                         "string"
                     ]
                 },
+                "pointsConfig": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "activitiesById": {
+                            "$ref": "#/definitions/{[x:string]:{pointsAmount:number;}|undefined;}"
+                        }
+                    },
+                    "required": [
+                        "activitiesById"
+                    ],
+                    "type": "object"
+                },
+                "pointsConfigStatus": {
+                    "enum": [
+                        "error",
+                        "idle",
+                        "loading",
+                        "success"
+                    ],
+                    "type": "string"
+                },
                 "pointsHistory": {
                     "items": {
                         "$ref": "#/definitions/ClaimHistory"
@@ -4419,6 +4436,8 @@
             "required": [
                 "getHistoryStatus",
                 "nextPageUrl",
+                "pointsConfig",
+                "pointsConfigStatus",
                 "pointsHistory"
             ],
             "type": "object"
@@ -5533,6 +5552,10 @@
                     "$ref": "#/definitions/{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;keyType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;key?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}"
                 }
             },
+            "type": "object"
+        },
+        "{[x:string]:{pointsAmount:number;}|undefined;}": {
+            "additionalProperties": false,
             "type": "object"
         },
         "{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountNumber?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;ifsc?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}": {
