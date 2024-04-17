@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  PointsActivity,
+  PointsActivityId,
   PointsCardMetadata,
   ClaimHistory,
   HistoryCardMetadata,
@@ -18,7 +18,7 @@ import { tokensByIdSelector } from 'src/tokens/selectors'
 
 export default function useCardDefinitions(
   pointsValue: number
-): Record<PointsActivity, PointsCardMetadata> {
+): Record<PointsActivityId, PointsCardMetadata> {
   const { t } = useTranslation()
 
   return {

@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'src/redux/hooks'
 import { pointsHistoryStatusSelector, pointsHistorySelector } from 'src/points/selectors'
 import { useTranslation } from 'react-i18next'
 import { typeScale } from 'src/styles/fonts'
-import Logger from 'src/utils/Logger'
 import BottomSheetBase from 'src/components/BottomSheetBase'
 import { Spacing } from 'src/styles/styles'
 import Attention from 'src/icons/Attention'
@@ -26,8 +25,6 @@ jest.mock('src/statsig', () => ({
     showSwap: ['celo-alfajores'],
   }),
 }))
-
-const TAG = 'Points/PointsHistoryBottomSheet'
 
 interface Props {
   forwardedRef: React.RefObject<GorhomBottomSheet>
@@ -73,7 +70,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
     )
   }
 
-  const fetchMoreHistory = () => {
+  const onFetchMoreHistory = () => {
     ValoraAnalytics.track(PointsEvents.points_screen_activity_fetch_more)
     dispatch(
       getHistoryStarted({
@@ -82,32 +79,12 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
     )
   }
 
-  const renderError = () => {
-    return (
-      <View testID={'PointsHistoryBottomSheet/ErrorState'} style={styles.errorContainer}>
-        <View style={styles.messageContainer}>
-          <Attention size={48} color={Colors.black} />
-          <Text style={styles.messageTitle}>{t('points.history.error.title')}</Text>
-          <Text style={styles.messageSubtitle}>{t('points.history.error.subtitle')}</Text>
-        </View>
-        <Button
-          testID={'PointsHistoryBottomSheet/TryAgain'}
-          onPress={onPressTryAgain}
-          text={t('points.history.error.tryAgain')}
-          type={BtnTypes.GRAY_WITH_BORDER}
-          size={BtnSizes.FULL}
-          style={{ width: '100%' }}
-        />
-      </View>
-    )
-  }
-
   const sections = useMemo(() => {
-    if (!pointsHistory.length) {
+    if (!pointsHistory.length || pointsHistoryStatus === 'error') {
       return []
     }
     return groupFeedItemsInSections([], pointsHistory, (t: ClaimHistory) => Date.parse(t.createdAt))
-  }, [pointsHistory])
+  }, [pointsHistory, pointsHistoryStatus])
 
   const renderItem: ListRenderItem<ClaimHistory> = ({ item }: { item: ClaimHistory }) => {
     try {
@@ -121,11 +98,53 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
     }
   }
 
-  const renderHistory = () => {
+  const renderLoading = () => {
+    if (pointsHistoryStatus !== 'loading') {
+      return <></>
+    }
     return (
-      <View testID={'PointsHistoryBottomSheet/MainContent'} style={styles.contentContainer}>
-        <Text style={styles.contentHeader}>{t('points.history.title')}</Text>
+      <ActivityIndicator
+        testID={'PointsHistoryBottomSheet/Loading'}
+        style={styles.loadingIcon}
+        size="large"
+        color={colors.primary}
+      />
+    )
+  }
+
+  const renderEmpty = () => {
+    if (pointsHistoryStatus === 'error') {
+      return (
+        <View testID={'PointsHistoryBottomSheet/Error'} style={styles.errorContainer}>
+          <View style={styles.messageContainer}>
+            <Attention size={48} color={Colors.black} />
+            <Text style={styles.messageTitle}>{t('points.history.error.title')}</Text>
+            <Text style={styles.messageSubtitle}>{t('points.history.error.subtitle')}</Text>
+          </View>
+          <Button
+            testID={'PointsHistoryBottomSheet/TryAgain'}
+            onPress={onPressTryAgain}
+            text={t('points.history.error.tryAgain')}
+            type={BtnTypes.GRAY_WITH_BORDER}
+            size={BtnSizes.FULL}
+            style={{ width: '100%' }}
+          />
+        </View>
+      )
+    }
+
+    // TODO: Render empty/no history state
+    return <View testID={'PointsHistoryBottomSheet/Empty'}></View>
+  }
+
+  return (
+    <BottomSheetBase snapPoints={['80%']} forwardedRef={forwardedRef}>
+      <View style={styles.container}>
+        {pointsHistoryStatus !== 'error' && (
+          <Text style={styles.contentHeader}>{t('points.history.title')}</Text>
+        )}
         <BottomSheetSectionList
+          contentContainerStyle={styles.contentContainer}
           renderItem={renderItem}
           renderSectionHeader={(item) => (
             <SectionHead text={item.section.title} style={styles.sectionHead} />
@@ -134,40 +153,11 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
           keyExtractor={(item) => `${item.activityId}-${item.createdAt}`}
           keyboardShouldPersistTaps="always"
           testID="PointsHistoryList"
-          onEndReached={fetchMoreHistory}
+          onEndReached={onFetchMoreHistory}
+          ListFooterComponent={renderLoading}
+          ListEmptyComponent={renderEmpty}
         />
-        {pointsHistoryStatus === 'loading' && (
-          <View style={styles.centerContainer}>
-            <ActivityIndicator
-              testID={'PointsHistoryBottomSheet/Loading'}
-              style={styles.loadingIcon}
-              size="large"
-              color={colors.primary}
-            />
-          </View>
-        )}
       </View>
-    )
-  }
-
-  const renderContents = () => {
-    switch (pointsHistoryStatus) {
-      case 'idle':
-      case 'loading': {
-        return renderHistory()
-      }
-      case 'error': {
-        return renderError()
-      }
-      default: {
-        Logger.error(TAG, `Unknown points history status found: ${pointsHistoryStatus}`)
-      }
-    }
-  }
-
-  return (
-    <BottomSheetBase snapPoints={['80%']} forwardedRef={forwardedRef}>
-      <View style={styles.container}>{renderContents()}</View>
     </BottomSheetBase>
   )
 }
@@ -178,13 +168,10 @@ const styles = StyleSheet.create({
     padding: Spacing.Thick24,
   },
   contentContainer: {
-    justifyContent: 'flex-end',
     flex: 1,
   },
   errorContainer: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
   },
   messageContainer: {
     flex: 1,
@@ -199,14 +186,8 @@ const styles = StyleSheet.create({
     ...typeScale.bodySmall,
     textAlign: 'center',
   },
-  centerContainer: {
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-  },
   loadingIcon: {
     marginVertical: Spacing.Thick24,
-    height: 108,
-    width: 108,
   },
   contentHeader: {
     ...typeScale.titleSmall,

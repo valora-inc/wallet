@@ -10,15 +10,6 @@ import { PointsEvents } from 'src/analytics/Events'
 import { getHistoryStarted } from 'src/points/slice'
 import { GetHistoryResponse } from 'src/points/types'
 
-jest.mock('@gorhom/bottom-sheet', () => {
-  const react = require('react-native')
-  return {
-    __esModule: true,
-    default: react.View,
-    BottomSheetSectionList: react.SectionList,
-  }
-})
-
 const MOCK_RESPONSE_NO_NEXT_PAGE: GetHistoryResponse = {
   data: [
     {
@@ -52,7 +43,6 @@ const MOCK_RESPONSE_NO_NEXT_PAGE: GetHistoryResponse = {
 describe(PointsHistoryBottomSheet, () => {
   const mockFetch = fetch as FetchMock
   beforeEach(() => {
-    jest.useRealTimers()
     jest.clearAllMocks()
     mockFetch.resetMocks()
   })
@@ -77,11 +67,12 @@ describe(PointsHistoryBottomSheet, () => {
     }
   }
 
-  it('Displays content when idle', async () => {
+  it('Show empty state when no hstory', async () => {
     const tree = renderScreen()
 
-    expect(tree.getByTestId('PointsHistoryBottomSheet/MainContent')).toBeTruthy()
-    expect(tree.queryByTestId('PointsHistoryBottomSheet/Loading')).toBeNull()
+    expect(tree.queryByTestId('PointsHistoryBottomSheet/Error')).toBeNull()
+    expect(tree.queryByTestId('PointsHistoryBottomSheet/Error')).toBeNull()
+    expect(tree.queryByTestId('PointsHistoryBottomSheet/Empty')).toBeTruthy()
   })
 
   it('Displays content while loading', async () => {
@@ -93,7 +84,8 @@ describe(PointsHistoryBottomSheet, () => {
     expect(tree.getByTestId('swap-2024-03-05T19:26:25.000Z')).toBeTruthy()
     expect(tree.getByTestId('swap-2024-01-04T19:26:25.000Z')).toBeTruthy()
     expect(tree.getByTestId('create-wallet-2023-12-04T19:26:25.000Z')).toBeTruthy()
-    expect(tree.getByTestId('PointsHistoryBottomSheet/MainContent')).toBeTruthy()
+    expect(tree.getByText('January')).toBeTruthy()
+    expect(tree.getByText('March')).toBeTruthy()
     expect(tree.getByTestId('PointsHistoryBottomSheet/Loading')).toBeTruthy()
   })
 
@@ -114,12 +106,12 @@ describe(PointsHistoryBottomSheet, () => {
 
   it('Shows error screen if fetch fails', async () => {
     const tree = renderScreen({ points: { getHistoryStatus: 'error' } })
-    expect(tree.getByTestId('PointsHistoryBottomSheet/ErrorState')).toBeTruthy()
+    expect(tree.getByTestId('PointsHistoryBottomSheet/Error')).toBeTruthy()
   })
 
   it('Dispatches action when try again is pressed', async () => {
-    const { dispatch, getByTestId } = renderScreen({ points: { getHistoryStatus: 'error' } })
-    fireEvent.press(getByTestId('PointsHistoryBottomSheet/TryAgain'))
+    const { dispatch, getByText } = renderScreen({ points: { getHistoryStatus: 'error' } })
+    fireEvent.press(getByText('points.history.error.tryAgain'))
     await waitFor(() =>
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
         PointsEvents.points_screen_activity_try_again_press

@@ -3233,12 +3233,34 @@ export const v206Schema = {
     ...v205Schema._persist,
     version: 206,
   },
+  app: _.omit(v205Schema.app, 'skipVerification'),
+}
+
+export const v207Schema = {
+  ...v206Schema,
+  _persist: {
+    ...v206Schema._persist,
+    version: 207,
+  },
   points: {
-    ...v205Schema.points,
+    ...v206Schema.points,
+    pointsConfig: { activitiesById: {} },
+    pointsConfigStatus: 'idle',
+  },
+}
+
+export const v208Schema = {
+  ...v207Schema,
+  _persist: {
+    ...v207Schema._persist,
+    version: 208,
+  },
+  points: {
+    ...v207Schema.points,
     pointsHistory: [],
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v206Schema as Partial<RootState>
+  return v208Schema as Partial<RootState>
 }

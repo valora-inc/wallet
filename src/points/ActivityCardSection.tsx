@@ -1,50 +1,61 @@
 import React from 'react'
-import { isPointsActivity } from 'src/points/types'
+import { isPointsActivityId } from 'src/points/types'
 import ActivityCard from 'src/points/ActivityCard'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
-import { getDynamicConfigParams } from 'src/statsig'
-import { DynamicConfigs } from 'src/statsig/constants'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
+import { BottomSheetParams, PointsMetadata } from 'src/points/types'
+import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { Colors } from 'src/styles/colors'
-import { useTranslation } from 'react-i18next'
-import { PointsMetadata } from 'src/points/types'
-import { BottomSheetParams } from 'src/points/types'
 
 interface Props {
   onCardPress: (bottomSheetDetails: BottomSheetParams) => void
+  pointsSections: PointsMetadata[]
 }
 
-export default function ActivityCardSection({ onCardPress }: Props) {
+export default function ActivityCardSection({ onCardPress, pointsSections }: Props) {
   const { t } = useTranslation()
 
-  const pointsConfig = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.POINTS_CONFIG])
-
-  function makeSection(pointsMetadata: PointsMetadata): React.ReactNode {
-    const points = pointsMetadata.pointsAmount
+  function makeSection(pointsMetadata: PointsMetadata, sectionIndex: number): React.ReactNode {
+    const pointsAmount = pointsMetadata.pointsAmount
 
     const cards = pointsMetadata.activities
-      .filter((activity) => isPointsActivity(activity.activityId))
+      .filter((activity) => isPointsActivityId(activity.activityId))
       .map((activity) => (
         <ActivityCard
           key={activity.activityId}
           activityId={activity.activityId}
-          points={points}
+          pointsAmount={pointsAmount}
           onPress={onCardPress}
         />
       ))
 
+    // add the "more coming" card to the last section
+    if (sectionIndex === pointsSections.length - 1) {
+      cards.push(
+        <ActivityCard
+          key="more-coming"
+          activityId="more-coming"
+          pointsAmount={pointsAmount}
+          onPress={onCardPress}
+        />
+      )
+    }
+
     if (!cards.length) {
-      return <View key={points}></View>
+      return <View key={pointsAmount}></View>
     }
 
     return (
-      <View testID={`PointsActivitySection-${points}`} key={points} style={styles.pointsSection}>
+      <View
+        testID={`PointsActivitySection-${pointsAmount}`}
+        key={pointsAmount}
+        style={styles.pointsSection}
+      >
         <View style={styles.pointsSectionHeader}>
           <View style={styles.hr} />
           <View style={styles.pointsSectionHeaderAmountContainer}>
-            <Text style={styles.pointsSectionHeaderAmount}>{points}</Text>
+            <Text style={styles.pointsSectionHeaderAmount}>{pointsAmount}</Text>
           </View>
           <View style={styles.hr} />
         </View>
@@ -53,22 +64,13 @@ export default function ActivityCardSection({ onCardPress }: Props) {
     )
   }
 
-  const sortedSections = pointsConfig.pointsMetadata
-    .sort((a, b) => {
-      if (a.pointsAmount < b.pointsAmount) return 1
-      if (a.pointsAmount > b.pointsAmount) return -1
-      return 0
-    })
-    .filter((metadata) => metadata.pointsAmount)
-    .map(makeSection)
-
   return (
     <View style={styles.container}>
       <View style={styles.textContainer}>
         <Text style={styles.title}>{t('points.activitySection.title')}</Text>
         <Text style={styles.body}>{t('points.activitySection.body')}</Text>
       </View>
-      {sortedSections}
+      {pointsSections.map(makeSection)}
     </View>
   )
 }
