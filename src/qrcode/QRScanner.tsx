@@ -70,8 +70,14 @@ export default function QRScanner({ onQRCodeDetected }: QRScannerProps) {
 
   const submitModal = () => {
     Keyboard.dismiss()
-    onQRCodeDetected({ type: '', data: value })
     closeModal()
+    // add a delay to allow modal to close before calling onQRCodeDetected,
+    // otherwise nothing is clickable in the next screen this navigates to. A
+    // better solution is to use onModalHide prop of Modal, but this is an
+    // emulator only feature, so this is good enough.
+    setTimeout(() => {
+      onQRCodeDetected({ type: '', data: value })
+    }, 500)
   }
 
   const onModalTextChange = (text: string) => {
