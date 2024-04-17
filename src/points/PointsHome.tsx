@@ -6,11 +6,12 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { PointsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
+import BeatingHeartLoader from 'src/components/BeatingHeartLoader'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CustomHeader from 'src/components/header/CustomHeader'
 import AttentionIcon from 'src/icons/Attention'
-import Logo from 'src/icons/Logo'
+import LogoHeart from 'src/icons/LogoHeart'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import ActivityCardSection from 'src/points/ActivityCardSection'
@@ -81,8 +82,7 @@ export default function PointsHome({ route, navigation }: Props) {
       <ScrollView contentContainerStyle={styles.contentContainer}>
         {pointsConfigStatus === 'loading' && (
           <View style={styles.loadingStatusContainer}>
-            {/* TODO: update the logo image when assets are ready */}
-            <Logo size={48} />
+            <BeatingHeartLoader size={64} />
             <Text style={styles.loadingStatusTitle}>{t('points.loading.title')}</Text>
             <Text style={styles.loadingStatusBodyText}>{t('points.loading.description')}</Text>
           </View>
@@ -119,6 +119,7 @@ export default function PointsHome({ route, navigation }: Props) {
             </View>
             <View style={styles.balanceRow}>
               <Text style={styles.balance}>{pointsBalance}</Text>
+              <LogoHeart size={28} />
             </View>
             <View style={styles.infoCard}>
               <Text style={styles.infoCardTitle}>{t('points.infoCard.title')}</Text>
@@ -133,6 +134,7 @@ export default function PointsHome({ route, navigation }: Props) {
           <>
             <View style={styles.bottomSheetPointAmountContainer}>
               <Text style={styles.bottomSheetPointAmount}>{bottomSheetParams.points}</Text>
+              <LogoHeart size={16} />
             </View>
             <Text style={styles.bottomSheetTitle}>{bottomSheetParams.title}</Text>
             <Text style={styles.bottomSheetBody}>{bottomSheetParams.body}</Text>
@@ -190,10 +192,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.Thick24,
   },
   bottomSheetPointAmountContainer: {
+    flexDirection: 'row',
+    gap: Spacing.Tiny4,
     alignSelf: 'flex-start',
     backgroundColor: Colors.successLight,
     borderRadius: Spacing.XLarge48,
-    padding: Spacing.Smallest8,
+    paddingVertical: Spacing.Smallest8,
+    paddingHorizontal: Spacing.Small12,
   },
   bottomSheetPointAmount: {
     ...typeScale.labelSemiBoldXSmall,
@@ -210,6 +215,9 @@ const styles = StyleSheet.create({
   },
   balanceRow: {
     paddingBottom: Spacing.Thick24,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.Tiny4,
   },
   balance: {
     ...typeScale.displaySmall,
