@@ -38,7 +38,7 @@ export type PointsMetadata = {
 type ClaimActivityId = 'create-wallet' | 'swap'
 
 interface BaseClaimHistory {
-  createdAt: string // ISO 8601 string
+  timestamp: number
   activityId: ClaimActivityId
   pointsAmount: number // In smallest units
 }

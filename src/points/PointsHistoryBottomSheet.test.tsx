@@ -10,12 +10,18 @@ import { PointsEvents } from 'src/analytics/Events'
 import { getHistoryStarted } from 'src/points/slice'
 import { GetHistoryResponse } from 'src/points/types'
 
+jest.mock('src/statsig', () => ({
+  getDynamicConfigParams: jest.fn().mockReturnValue({
+    showSwap: ['celo-alfajores'],
+  }),
+}))
+
 const MOCK_RESPONSE_NO_NEXT_PAGE: GetHistoryResponse = {
   data: [
     {
       activityId: 'swap',
       pointsAmount: 20,
-      createdAt: '2024-03-05T19:26:25.000Z',
+      timestamp: Date.parse('2024-03-05T19:26:25.000Z'),
       metadata: {
         to: 'celo-alfajores:native',
         from: 'celo-alfajores:0x874069fa1eb16d44d622f2e0ca25eea172369bc1',
@@ -24,7 +30,7 @@ const MOCK_RESPONSE_NO_NEXT_PAGE: GetHistoryResponse = {
     {
       activityId: 'swap',
       pointsAmount: 20,
-      createdAt: '2024-01-04T19:26:25.000Z',
+      timestamp: Date.parse('2024-01-04T19:26:25.000Z'),
       metadata: {
         to: 'celo-alfajores:0x874069fa1eb16d44d622f2e0ca25eea172369bc1',
         from: 'celo-alfajores:native',
@@ -33,7 +39,7 @@ const MOCK_RESPONSE_NO_NEXT_PAGE: GetHistoryResponse = {
     {
       activityId: 'create-wallet',
       pointsAmount: 20,
-      createdAt: '2023-12-04T19:26:25.000Z',
+      timestamp: Date.parse('2023-12-04T19:26:25.000Z'),
     },
   ],
   hasNextPage: false,
@@ -81,9 +87,9 @@ describe(PointsHistoryBottomSheet, () => {
     })
     await waitFor(() => expect(tree.getByTestId('PointsHistoryList').props.data.length).toBe(3))
 
-    expect(tree.getByTestId('swap-2024-03-05T19:26:25.000Z')).toBeTruthy()
-    expect(tree.getByTestId('swap-2024-01-04T19:26:25.000Z')).toBeTruthy()
-    expect(tree.getByTestId('create-wallet-2023-12-04T19:26:25.000Z')).toBeTruthy()
+    expect(tree.getByTestId('swap-1709666785000')).toBeTruthy()
+    expect(tree.getByTestId('swap-1704396385000')).toBeTruthy()
+    expect(tree.getByTestId('create-wallet-1701717985000')).toBeTruthy()
     expect(tree.getByText('January')).toBeTruthy()
     expect(tree.getByText('March')).toBeTruthy()
     expect(tree.getByTestId('PointsHistoryBottomSheet/Loading')).toBeTruthy()

@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { PointsMetadata, isPointsActivityId } from 'src/points/types'
+import { PointsMetadata, isPointsActivityId, ClaimHistory } from 'src/points/types'
 import { RootState } from 'src/redux/reducers'
 
 export const nextPageUrlSelector = (state: RootState) => {
@@ -10,9 +10,16 @@ export const pointsHistoryStatusSelector = (state: RootState) => {
   return state.points.getHistoryStatus
 }
 
-export const pointsHistorySelector = (state: RootState) => {
+const allPointsHistorySelector = (state: RootState) => {
   return state.points.pointsHistory
 }
+
+export const pointsHistorySelector = createSelector(
+  [allPointsHistorySelector],
+  (pointsHistory): ClaimHistory[] => {
+    return pointsHistory.filter((history) => isPointsActivityId(history.activityId))
+  }
+)
 
 export const pointsConfigStatusSelector = (state: RootState) => state.points.pointsConfigStatus
 

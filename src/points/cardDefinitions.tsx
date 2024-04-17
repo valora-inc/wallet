@@ -86,9 +86,6 @@ export function useGetHistoryDefinition(): (history: ClaimHistory) => HistoryCar
         }
         break
       }
-      default: {
-        throw new Error(`Unknown activity found; should never happen`)
-      }
     }
     return historyCardMetadata
   }

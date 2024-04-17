@@ -20,12 +20,6 @@ import colors from 'src/styles/colors'
 import { BottomSheetSectionList } from '@gorhom/bottom-sheet'
 import { useGetHistoryDefinition } from 'src/points/cardDefinitions'
 
-jest.mock('src/statsig', () => ({
-  getDynamicConfigParams: jest.fn().mockReturnValue({
-    showSwap: ['celo-alfajores'],
-  }),
-}))
-
 interface Props {
   forwardedRef: React.RefObject<GorhomBottomSheet>
 }
@@ -83,19 +77,14 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
     if (!pointsHistory.length || pointsHistoryStatus === 'error') {
       return []
     }
-    return groupFeedItemsInSections([], pointsHistory, (t: ClaimHistory) => Date.parse(t.createdAt))
+    return groupFeedItemsInSections([], pointsHistory)
   }, [pointsHistory, pointsHistoryStatus])
 
   const renderItem: ListRenderItem<ClaimHistory> = ({ item }: { item: ClaimHistory }) => {
-    try {
-      const historyDefinition = getHistoryDefinition(item)
-      return (
-        <PointsHistoryCard {...historyDefinition} testID={`${item.activityId}-${item.createdAt}`} />
-      )
-    } catch (error) {
-      Logger.error(TAG, 'Error encountered while trying to render history card, skipping', error)
-      return <></>
-    }
+    const historyDefinition = getHistoryDefinition(item)
+    return (
+      <PointsHistoryCard {...historyDefinition} testID={`${item.activityId}-${item.timestamp}`} />
+    )
   }
 
   const renderLoading = () => {
@@ -150,7 +139,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
             <SectionHead text={item.section.title} style={styles.sectionHead} />
           )}
           sections={sections}
-          keyExtractor={(item) => `${item.activityId}-${item.createdAt}`}
+          keyExtractor={(item) => `${item.activityId}-${item.timestamp}`}
           keyboardShouldPersistTaps="always"
           testID="PointsHistoryList"
           onEndReached={onFetchMoreHistory}
