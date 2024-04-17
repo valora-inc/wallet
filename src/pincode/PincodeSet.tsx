@@ -12,7 +12,7 @@ import { initializeAccount, setPincodeSuccess } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
 import { OnboardingEvents, SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { skipVerificationSelector, supportedBiometryTypeSelector } from 'src/app/selectors'
+import { supportedBiometryTypeSelector } from 'src/app/selectors'
 import DevSkipButton from 'src/components/DevSkipButton'
 import i18n, { withTranslation } from 'src/i18n'
 import { setHasSeenVerificationNux } from 'src/identity/actions'
@@ -50,7 +50,6 @@ interface StateProps {
   registrationStep: { step: number; totalSteps: number }
   onboardingProps: OnboardingProps
   supportedBiometryType: BIOMETRY_TYPE | null
-  skipVerification: boolean
 }
 
 interface DispatchProps {
@@ -80,7 +79,6 @@ function mapStateToProps(state: RootState): StateProps {
     useExpandedBlocklist: state.app.pincodeUseExpandedBlocklist,
     account: currentAccountSelector(state) ?? '',
     supportedBiometryType: supportedBiometryTypeSelector(state),
-    skipVerification: skipVerificationSelector(state),
   }
 }
 

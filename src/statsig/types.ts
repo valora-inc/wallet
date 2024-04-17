@@ -7,7 +7,6 @@ export enum StatsigDynamicConfigs {
   CICO_TOKEN_INFO = 'cico_token_info',
   WALLET_JUMPSTART_CONFIG = 'wallet_jumpstart_config',
   NFT_CELEBRATION_CONFIG = 'nft_celebration_config',
-  POINTS_CONFIG = 'points_config',
 }
 
 export enum StatsigFeatureGates {
@@ -38,6 +37,7 @@ export enum StatsigExperiments {
   SWAPPING_NON_NATIVE_TOKENS = 'swapping_non_native_tokens',
   DAPP_RANKINGS = 'dapp_rankings',
   SWAP_BUY_AMOUNT = 'swap_buy_amount',
+  ONBOARDING_PHONE_VERIFICATION = 'onboarding_phone_verification',
 }
 
 export type StatsigParameter =

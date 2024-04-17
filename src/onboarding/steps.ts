@@ -5,19 +5,16 @@ import {
   choseToRestoreAccountSelector,
   recoveringFromStoreWipeSelector,
 } from 'src/account/selectors'
-import {
-  phoneNumberVerifiedSelector,
-  skipVerificationSelector,
-  supportedBiometryTypeSelector,
-} from 'src/app/selectors'
+import { phoneNumberVerifiedSelector, supportedBiometryTypeSelector } from 'src/app/selectors'
 import { setHasSeenVerificationNux } from 'src/identity/actions'
 import * as NavigationService from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { updateStatsigAndNavigate } from 'src/onboarding/actions'
 import { store } from 'src/redux/store'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
+import { getExperimentParams, getFeatureGate } from 'src/statsig'
+import { ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 
 export const END_OF_ONBOARDING_SCREENS = [Screens.TabHome, Screens.ChooseYourAdventure]
 
@@ -73,18 +70,20 @@ export const onboardingPropsSelector = createSelector(
     recoveringFromStoreWipeSelector,
     choseToRestoreAccountSelector,
     supportedBiometryTypeSelector,
-    skipVerificationSelector,
     phoneNumberVerifiedSelector,
   ],
   (
     recoveringFromStoreWipe,
     choseToRestoreAccount,
     supportedBiometryType,
-    skipVerification,
     numberAlreadyVerifiedCentrally
   ) => {
     const showCloudAccountBackupRestore = getFeatureGate(
       StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE
+    )
+
+    const { skipVerification } = getExperimentParams(
+      ExperimentConfigs[StatsigExperiments.ONBOARDING_PHONE_VERIFICATION]
     )
 
     return {

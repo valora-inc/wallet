@@ -6,7 +6,7 @@ import { initializeAccountSaga } from 'src/account/saga'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { phoneNumberVerifiedSelector, skipVerificationSelector } from 'src/app/selectors'
+import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import { storeMnemonic } from 'src/backup/utils'
 import { refreshAllBalances } from 'src/home/actions'
 import { currentLanguageSelector } from 'src/i18n/selectors'
@@ -125,7 +125,6 @@ describe('Import wallet saga', () => {
           [matchers.call.fn(assignAccountFromPrivateKey), walletAddress],
           [call(storeMnemonic, mockPhraseValid, walletAddress), true],
           [select(recoveringFromStoreWipeSelector), false],
-          [select(skipVerificationSelector), false],
           [call(initializeAccountSaga), undefined],
           [select(phoneNumberVerifiedSelector), false],
         ])
