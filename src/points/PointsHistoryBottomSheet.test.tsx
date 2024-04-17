@@ -10,15 +10,6 @@ import { PointsEvents } from 'src/analytics/Events'
 import { getHistoryStarted } from 'src/points/slice'
 import { GetHistoryResponse } from 'src/points/types'
 
-jest.mock('@gorhom/bottom-sheet', () => {
-  const react = require('react-native')
-  return {
-    __esModule: true,
-    default: react.View,
-    BottomSheetSectionList: react.SectionList,
-  }
-})
-
 const MOCK_RESPONSE_NO_NEXT_PAGE: GetHistoryResponse = {
   data: [
     {
@@ -47,7 +38,6 @@ const MOCK_RESPONSE_NO_NEXT_PAGE: GetHistoryResponse = {
 describe(PointsHistoryBottomSheet, () => {
   const mockFetch = fetch as FetchMock
   beforeEach(() => {
-    jest.useRealTimers()
     jest.clearAllMocks()
     mockFetch.resetMocks()
   })
@@ -75,7 +65,7 @@ describe(PointsHistoryBottomSheet, () => {
   it('Displays content when idle', async () => {
     const tree = renderScreen()
 
-    expect(tree.getByTestId('PointsHistoryBottomSheet/MainContent')).toBeTruthy()
+    expect(tree.queryByTestId('PointsHistoryBottomSheet/MainContent')).toBeTruthy()
     expect(tree.queryByTestId('PointsHistoryBottomSheet/Loading')).toBeNull()
   })
 
@@ -86,6 +76,8 @@ describe(PointsHistoryBottomSheet, () => {
     await waitFor(() => expect(tree.getByTestId('PointsHistoryList').props.data.length).toBe(2))
 
     expect(tree.getByTestId('PointsHistoryBottomSheet/MainContent')).toBeTruthy()
+    expect(tree.getByText('January')).toBeTruthy()
+    expect(tree.getByText('March')).toBeTruthy()
     expect(tree.getByTestId('PointsHistoryBottomSheet/Loading')).toBeTruthy()
   })
 
@@ -110,8 +102,8 @@ describe(PointsHistoryBottomSheet, () => {
   })
 
   it('Dispatches action when try again is pressed', async () => {
-    const { dispatch, getByTestId } = renderScreen({ points: { getHistoryStatus: 'error' } })
-    fireEvent.press(getByTestId('PointsHistoryBottomSheet/TryAgain'))
+    const { dispatch, getByText } = renderScreen({ points: { getHistoryStatus: 'error' } })
+    fireEvent.press(getByText('points.history.error.tryAgain'))
     await waitFor(() =>
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
         PointsEvents.points_screen_activity_try_again_press

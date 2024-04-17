@@ -43,7 +43,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
     )
   }
 
-  const fetchMoreHistory = () => {
+  const handleFetchMoreHistory = () => {
     ValoraAnalytics.track(PointsEvents.points_screen_activity_fetch_more)
     dispatch(
       getHistoryStarted({
@@ -52,25 +52,23 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
     )
   }
 
-  const renderError = () => {
-    return (
-      <View testID={'PointsHistoryBottomSheet/ErrorState'} style={styles.errorContainer}>
-        <View style={styles.messageContainer}>
-          <Attention size={48} color={Colors.black} />
-          <Text style={styles.messageTitle}>{t('points.history.error.title')}</Text>
-          <Text style={styles.messageSubtitle}>{t('points.history.error.subtitle')}</Text>
-        </View>
-        <Button
-          testID={'PointsHistoryBottomSheet/TryAgain'}
-          onPress={onPressTryAgain}
-          text={t('points.history.error.tryAgain')}
-          type={BtnTypes.GRAY_WITH_BORDER}
-          size={BtnSizes.FULL}
-          style={{ width: '100%' }}
-        />
+  const ErrorComponent = (
+    <View testID={'PointsHistoryBottomSheet/ErrorState'} style={styles.errorContainer}>
+      <View style={styles.messageContainer}>
+        <Attention size={48} color={Colors.black} />
+        <Text style={styles.messageTitle}>{t('points.history.error.title')}</Text>
+        <Text style={styles.messageSubtitle}>{t('points.history.error.subtitle')}</Text>
       </View>
-    )
-  }
+      <Button
+        testID={'PointsHistoryBottomSheet/TryAgain'}
+        onPress={onPressTryAgain}
+        text={t('points.history.error.tryAgain')}
+        type={BtnTypes.GRAY_WITH_BORDER}
+        size={BtnSizes.FULL}
+        style={{ width: '100%' }}
+      />
+    </View>
+  )
 
   const sections = useMemo(() => {
     if (!pointsHistory.length) {
@@ -97,7 +95,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
           keyExtractor={(item) => `${item.activity}-${item.createdAt}`}
           keyboardShouldPersistTaps="always"
           testID="PointsHistoryList"
-          onEndReached={fetchMoreHistory}
+          onEndReached={handleFetchMoreHistory}
         />
         {pointsHistoryStatus === 'loading' && (
           <View style={styles.centerContainer}>
@@ -120,7 +118,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
         return renderHistory()
       }
       case 'error': {
-        return renderError()
+        return ErrorComponent
       }
       default: {
         Logger.error(TAG, `Unknown points history status found: ${pointsHistoryStatus}`)
