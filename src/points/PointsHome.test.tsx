@@ -6,12 +6,14 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import PointsHome from 'src/points/PointsHome'
-import { getHistoryStarted } from 'src/points/slice'
+import { getHistoryStarted, getPointsConfigRetry } from 'src/points/slice'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 const mockScreenProps = () => getMockStackScreenProps(Screens.PointsHome)
 
-const renderPointsHome = () => {
+const renderPointsHome = (
+  pointsConfigStatus: 'idle' | 'loading' | 'error' | 'success' = 'success'
+) => {
   const store = createMockStore({
     points: {
       pointsConfig: {
@@ -24,6 +26,7 @@ const renderPointsHome = () => {
           },
         },
       },
+      pointsConfigStatus,
     },
   })
   const tree = render(
@@ -43,6 +46,29 @@ describe(PointsHome, () => {
     jest.clearAllMocks()
   })
 
+  it('renders a loading state while loading config', async () => {
+    const { getByText, queryByText } = renderPointsHome('loading')
+
+    expect(getByText('points.loading.title')).toBeTruthy()
+    expect(getByText('points.loading.description')).toBeTruthy()
+    expect(queryByText('points.error.title')).toBeFalsy()
+    expect(queryByText('points.title')).toBeFalsy()
+  })
+
+  it('renders the error state on failure to load config', async () => {
+    const { getByText, queryByText, store } = renderPointsHome('error')
+
+    expect(getByText('points.error.title')).toBeTruthy()
+    expect(getByText('points.error.description')).toBeTruthy()
+    expect(queryByText('points.loading.title')).toBeFalsy()
+    expect(queryByText('points.title')).toBeFalsy()
+
+    store.clearActions()
+    fireEvent.press(getByText('points.error.retryCta'))
+
+    expect(store.getActions()).toEqual([getPointsConfigRetry()])
+  })
+
   it('opens activity bottom sheet', async () => {
     const { getByTestId, store } = renderPointsHome()
 
@@ -54,7 +80,7 @@ describe(PointsHome, () => {
   })
 
   it('renders multiple sections', async () => {
-    const { getByTestId, queryByTestId } = renderPointsHome()
+    const { getByTestId, queryByTestId, queryByText } = renderPointsHome()
 
     expect(getByTestId('PointsActivitySection-50')).toBeTruthy()
     expect(getByTestId('PointsActivitySection-20')).toBeTruthy()
@@ -65,6 +91,9 @@ describe(PointsHome, () => {
     expect(queryByTestId('PointsActivityCard-swap-20')).toBeFalsy()
     expect(getByTestId('PointsActivityCard-more-coming-20')).toBeTruthy()
     expect(getByTestId('PointsActivityCard-create-wallet-20')).toBeTruthy()
+
+    expect(queryByText('points.loading.title')).toBeFalsy()
+    expect(queryByText('points.error.title')).toBeFalsy()
   })
 
   it('opens Swap bottom sheet', async () => {

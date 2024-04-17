@@ -68,6 +68,9 @@ const slice = createSlice({
       ...state,
       pointsConfigStatus: 'error',
     }),
+    getPointsConfigRetry: (state) => ({
+      ...state,
+    }),
   },
   extraReducers: (builder) => {
     builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
@@ -85,6 +88,7 @@ export const {
   getPointsConfigError,
   getPointsConfigStarted,
   getPointsConfigSucceeded,
+  getPointsConfigRetry,
 } = slice.actions
 
 export default slice.reducer
