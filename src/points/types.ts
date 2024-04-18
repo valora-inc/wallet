@@ -43,7 +43,7 @@ export function isClaimActivityId(activity: unknown): activity is ClaimActivityI
 }
 
 interface BaseClaimHistory {
-  timestamp: number
+  createdAt: string // ISO 8601 string
   activityId: ClaimActivityId
   pointsAmount: number // In smallest units
 }

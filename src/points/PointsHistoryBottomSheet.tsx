@@ -77,13 +77,13 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
     if (!pointsHistory.length || pointsHistoryStatus === 'error') {
       return []
     }
-    return groupFeedItemsInSections([], pointsHistory)
+    return groupFeedItemsInSections([], pointsHistory, (t: ClaimHistory) => Date.parse(t.createdAt))
   }, [pointsHistory, pointsHistoryStatus])
 
   const renderItem: ListRenderItem<ClaimHistory> = ({ item }: { item: ClaimHistory }) => {
     const historyDefinition = getHistoryDefinition(item)
     return (
-      <PointsHistoryCard {...historyDefinition} testID={`${item.activityId}-${item.timestamp}`} />
+      <PointsHistoryCard {...historyDefinition} testID={`${item.activityId}-${item.createdAt}`} />
     )
   }
 
@@ -139,7 +139,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
             <SectionHead text={item.section.title} style={styles.sectionHead} />
           )}
           sections={sections}
-          keyExtractor={(item) => `${item.activityId}-${item.timestamp}`}
+          keyExtractor={(item) => `${item.activityId}-${item.createdAt}`}
           keyboardShouldPersistTaps="always"
           testID="PointsHistoryList"
           onEndReached={onFetchMoreHistory}

@@ -1069,17 +1069,17 @@
                     "const": "create-wallet",
                     "type": "string"
                 },
-                "pointsAmount": {
-                    "type": "number"
+                "createdAt": {
+                    "type": "string"
                 },
-                "timestamp": {
+                "pointsAmount": {
                     "type": "number"
                 }
             },
             "required": [
                 "activityId",
-                "pointsAmount",
-                "timestamp"
+                "createdAt",
+                "pointsAmount"
             ],
             "type": "object"
         },
@@ -4933,6 +4933,9 @@
                     "const": "swap",
                     "type": "string"
                 },
+                "createdAt": {
+                    "type": "string"
+                },
                 "metadata": {
                     "additionalProperties": false,
                     "properties": {
@@ -4951,16 +4954,13 @@
                 },
                 "pointsAmount": {
                     "type": "number"
-                },
-                "timestamp": {
-                    "type": "number"
                 }
             },
             "required": [
                 "activityId",
+                "createdAt",
                 "metadata",
-                "pointsAmount",
-                "timestamp"
+                "pointsAmount"
             ],
             "type": "object"
         },

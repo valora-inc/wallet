@@ -9,7 +9,7 @@ describe('pointsHistorySelector', () => {
           {
             activityId: 'swap',
             pointsAmount: 20,
-            timestamp: Date.parse('2024-03-05T19:26:25.000Z'),
+            createdAt: '2024-03-05T19:26:25.000Z',
             metadata: {
               to: 'celo-alfajores:native',
               from: 'celo-alfajores:0x874069fa1eb16d44d622f2e0ca25eea172369bc1',
@@ -18,12 +18,12 @@ describe('pointsHistorySelector', () => {
           {
             activityId: 'fake-activityId' as any,
             pointsAmount: 20,
-            timestamp: Date.parse('2024-01-04T19:26:25.000Z'),
+            createdAt: '2024-01-04T19:26:25.000Z',
           },
           {
             activityId: 'create-wallet',
             pointsAmount: 20,
-            timestamp: Date.parse('2023-12-04T19:26:25.000Z'),
+            createdAt: '2023-12-04T19:26:25.000Z',
           },
         ],
       },
@@ -34,7 +34,7 @@ describe('pointsHistorySelector', () => {
       {
         activityId: 'swap',
         pointsAmount: 20,
-        timestamp: Date.parse('2024-03-05T19:26:25.000Z'),
+        createdAt: '2024-03-05T19:26:25.000Z',
         metadata: {
           to: 'celo-alfajores:native',
           from: 'celo-alfajores:0x874069fa1eb16d44d622f2e0ca25eea172369bc1',
@@ -43,7 +43,7 @@ describe('pointsHistorySelector', () => {
       {
         activityId: 'create-wallet',
         pointsAmount: 20,
-        timestamp: Date.parse('2023-12-04T19:26:25.000Z'),
+        createdAt: '2023-12-04T19:26:25.000Z',
       },
     ])
   })
