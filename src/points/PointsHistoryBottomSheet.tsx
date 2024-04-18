@@ -14,6 +14,7 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { PointsEvents } from 'src/analytics/Events'
 import { getHistoryStarted } from 'src/points/slice'
+import { ClaimHistory } from 'src/points/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
 import colors from 'src/styles/colors'
 import { BottomSheetSectionList } from '@gorhom/bottom-sheet'
@@ -52,7 +53,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
     if (!pointsHistory.length || pointsHistoryStatus === 'error') {
       return []
     }
-    return groupFeedItemsInSections([], pointsHistory)
+    return groupFeedItemsInSections([], pointsHistory, (t: ClaimHistory) => Date.parse(t.createdAt))
   }, [pointsHistory, pointsHistoryStatus])
 
   // TODO: Render items
@@ -112,7 +113,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
             <SectionHead text={item.section.title} style={styles.sectionHead} />
           )}
           sections={sections}
-          keyExtractor={(item) => `${item.activityId}-${item.timestamp}`}
+          keyExtractor={(item) => `${item.activityId}-${item.createdAt}`}
           keyboardShouldPersistTaps="always"
           testID="PointsHistoryList"
           onEndReached={onFetchMoreHistory}
