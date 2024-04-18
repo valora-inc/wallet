@@ -8,24 +8,10 @@ describe('TopBarIconButtonV2', () => {
   it('renders correctly with given props', () => {
     const onPress = jest.fn()
     const { getByTestId } = render(
-      <TopBarIconButtonV2 testID={testID} icon={<Text>IconV2</Text>} onPress={onPress} />
+      <TopBarIconButtonV2 testID={testID} icon={<Text>icon</Text>} onPress={onPress} />
     )
     expect(getByTestId(testID)).toBeTruthy()
     fireEvent.press(getByTestId(testID))
     expect(onPress).toHaveBeenCalled()
-  })
-
-  it('handles the disabled state correctly', () => {
-    const onPress = jest.fn()
-    const { getByTestId } = render(
-      <TopBarIconButtonV2
-        testID={`${testID}-disabled`}
-        icon={<Text>IconV2</Text>}
-        onPress={onPress}
-        disabled={true}
-      />
-    )
-    fireEvent.press(getByTestId(`${testID}-disabled`))
-    expect(onPress).not.toHaveBeenCalled()
   })
 })

@@ -40,7 +40,7 @@ function Wrapper({
   return (
     <Touchable
       disabled={disabled}
-      testID={testID}
+      // testID={`${testID}_wrapper`}
       onPress={onPressLocal}
       borderless={true}
       hitSlop={variables.iconHitslop}
@@ -59,15 +59,17 @@ export type TopBarIconButtonProps = CommonProps & {
 export function TopBarIconButtonV2(props: TopBarIconButtonProps) {
   return (
     <Wrapper {...props}>
-      <View style={[styles.container, props.containerStyle]}>
-        <Touchable
-          testID={props.testID}
-          onPress={props.onPress}
-          style={[styles.button, props.style]}
-          borderRadius={Spacing.Thick24}
-        >
-          {props.icon}
-        </Touchable>
+      <View style={{ margin: -Spacing.Small12 }}>
+        <View style={[styles.container, props.containerStyle]}>
+          <Touchable
+            testID={props.testID}
+            onPress={props.onPress}
+            style={[styles.button, props.style]}
+            borderRadius={Spacing.Thick24}
+          >
+            {props.icon}
+          </Touchable>
+        </View>
       </View>
     </Wrapper>
   )
@@ -76,9 +78,11 @@ export function TopBarIconButtonV2(props: TopBarIconButtonProps) {
 const styles = StyleSheet.create({
   button: {
     padding: Spacing.Small12,
+    // margin: -Spacing.Small12,
   },
   container: {
     justifyContent: 'center',
     alignItems: 'center',
+    // backgroundColor: 'red',
   },
 })

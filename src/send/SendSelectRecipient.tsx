@@ -26,7 +26,7 @@ import { RecipientVerificationStatus } from 'src/identity/types'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { TopBarIconButton } from 'src/navigator/TopBarButton'
+import { TopBarIconButtonV2 } from 'src/navigator/TopBarIconButtonV2'
 import { StackParamList } from 'src/navigator/types'
 import RecipientPicker from 'src/recipients/RecipientPickerV2'
 import { Recipient, RecipientType, recipientHasNumber } from 'src/recipients/recipient'
@@ -344,7 +344,8 @@ function SendSelectRecipient({ route }: Props) {
   return (
     <SafeAreaView style={styles.body} edges={['top']}>
       <View style={styles.header}>
-        <TopBarIconButton
+        <TopBarIconButtonV2
+          // this is throwing an error because of the old shitty styling. I think I should implement the new v2 button here to get the test back to passing or
           icon={<Times />}
           onPress={navigateBack}
           eventName={SendEvents.send_cancel}
@@ -446,7 +447,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     padding: variables.contentPadding,
-    paddingLeft: Spacing.Thick24,
+    // paddingLeft: Spacing.Regular16,
   },
   searchResultsHeader: {
     ...typeScale.labelXSmall,
