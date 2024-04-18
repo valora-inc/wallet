@@ -13,7 +13,7 @@ interface Props {
   testID?: string
 }
 
-export default function QrScanButton({ style, size, testID }: Props) {
+export default function QrScanButton({ testID }: Props) {
   const onPress = () => {
     ValoraAnalytics.track(QrScreenEvents.qr_scanner_open)
     navigate(Screens.QRNavigator, { screen: Screens.QRScanner })
