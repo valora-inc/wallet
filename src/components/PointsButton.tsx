@@ -5,7 +5,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import AttentionIcon from 'src/icons/Attention'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { TopBarIconButton } from 'src/navigator/TopBarButton'
+import { TopBarIconButtonV2 } from 'src/navigator/TopBarIconButtonV2'
 
 interface Props {
   style?: StyleProp<ViewStyle>
@@ -19,12 +19,5 @@ export default function PointsButton({ style, size, testID }: Props) {
     navigate(Screens.PointsHome)
   }
 
-  return (
-    <TopBarIconButton
-      testID={testID}
-      icon={<AttentionIcon size={size} />}
-      onPress={onPress}
-      style={style}
-    />
-  )
+  return <TopBarIconButtonV2 icon={<AttentionIcon size={24} />} testID={testID} onPress={onPress} />
 }
