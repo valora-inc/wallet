@@ -1,5 +1,4 @@
 import { getAddressChunks } from '@celo/utils/lib/address'
-import { EXAMPLE_NAME } from '../utils/consts'
 import { launchApp } from '../utils/retries'
 import {
   completeProtectWalletScreen,
@@ -7,6 +6,7 @@ import {
   quickOnboarding,
   scrollIntoView,
   sleep,
+  waitForElementByIdAndTap,
   waitForElementId,
 } from '../utils/utils'
 
@@ -57,10 +57,6 @@ export default NewAccountOnboarding = () => {
     await expect(element(by.id('AcceptTermsButton'))).toBeVisible()
     await element(by.id('AcceptTermsButton')).tap()
 
-    // Set name and number
-    await element(by.id('NameEntry')).replaceText(EXAMPLE_NAME)
-    await element(by.id('NameAndPictureContinueButton')).tap()
-
     // Set & Verify pin
     await enterPinUi()
     await enterPinUi()
@@ -70,6 +66,9 @@ export default NewAccountOnboarding = () => {
 
     // Skip Phone Number verification
     await element(by.id('PhoneVerificationSkipHeader')).tap()
+
+    // Choose your own adventure (CYA screen)
+    await waitForElementByIdAndTap('ChooseYourAdventure/Later')
 
     // Arrived to Home screen
     await arriveAtHomeScreen()
@@ -154,7 +153,7 @@ export default NewAccountOnboarding = () => {
     await device.uninstallApp()
     await device.installApp()
     await launchApp()
-    await quickOnboarding(testRecoveryPhrase)
+    await quickOnboarding({ mnemonic: testRecoveryPhrase })
     await waitForElementId('Hamburger')
     await element(by.id('Hamburger')).tap()
     await scrollIntoView('Account Address', 'SettingsScrollView')

@@ -61,8 +61,6 @@ export const supportedBiometryTypeSelector = (state: RootState) => state.app.sup
 
 export const activeScreenSelector = (state: RootState) => state.app.activeScreen
 
-export const skipVerificationSelector = (state: RootState) => state.app.skipVerification
-
 export const fiatConnectCashInEnabledSelector = (state: RootState) =>
   state.app.fiatConnectCashInEnabled
 export const fiatConnectCashOutEnabledSelector = (state: RootState) =>

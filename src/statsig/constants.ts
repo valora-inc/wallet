@@ -1,6 +1,5 @@
 import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
-import { PointsMetadata } from 'src/points/types'
 import networkConfig from 'src/web3/networkConfig'
 
 export const FeatureGates = {
@@ -29,14 +28,6 @@ export const FeatureGates = {
 
 export const ExperimentConfigs = {
   // NOTE: the keys of defaultValues MUST be parameter names
-  [StatsigExperiments.CHOOSE_YOUR_ADVENTURE]: {
-    experimentName: StatsigExperiments.CHOOSE_YOUR_ADVENTURE,
-    defaultValues: {
-      onboardingNameScreenEnabled: true,
-      chooseAdventureEnabled: false,
-      cashInBottomSheetEnabled: true,
-    },
-  },
   [StatsigExperiments.DAPP_RANKINGS]: {
     experimentName: StatsigExperiments.DAPP_RANKINGS,
     defaultValues: {
@@ -47,6 +38,12 @@ export const ExperimentConfigs = {
     experimentName: StatsigExperiments.SWAP_BUY_AMOUNT,
     defaultValues: {
       swapBuyAmountEnabled: true,
+    },
+  },
+  [StatsigExperiments.ONBOARDING_PHONE_VERIFICATION]: {
+    experimentName: StatsigExperiments.ONBOARDING_PHONE_VERIFICATION,
+    defaultValues: {
+      skipVerification: false,
     },
   },
 }
@@ -120,12 +117,6 @@ export const DynamicConfigs = {
       deepLink: '',
       rewardExpirationDate: new Date(0).toISOString(),
       rewardReminderDate: new Date(0).toISOString(),
-    },
-  },
-  [StatsigDynamicConfigs.POINTS_CONFIG]: {
-    configName: StatsigDynamicConfigs.POINTS_CONFIG,
-    defaultValues: {
-      pointsMetadata: [] as PointsMetadata[],
     },
   },
 }
