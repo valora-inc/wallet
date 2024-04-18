@@ -57,17 +57,14 @@ export function useGetHistoryDefinition(): (history: ClaimHistory) => HistoryCar
   )
 
   return (history: ClaimHistory) => {
-    // This pattern gives us static checking that we've exhausted all string union values
-    let historyCardMetadata: HistoryCardMetadata
     switch (history.activityId) {
       case 'create-wallet': {
-        historyCardMetadata = {
+        return {
           icon: <Celebration color={colors.successDark} />,
           title: t('points.history.cards.createWallet.title'),
           subtitle: t('points.history.cards.createWallet.subtitle'),
           pointsAmount: history.pointsAmount,
         }
-        break
       }
       case 'swap': {
         const fromToken = tokensById[history.metadata.from]
@@ -75,7 +72,7 @@ export function useGetHistoryDefinition(): (history: ClaimHistory) => HistoryCar
         if (!fromToken || !toToken) {
           throw new Error(`Cannot find tokens ${history.metadata.from} or ${history.metadata.to}`)
         }
-        historyCardMetadata = {
+        return {
           icon: <SwapArrows color={colors.successDark} />,
           title: t('points.history.cards.swap.title'),
           subtitle: t('points.history.cards.swap.subtitle', {
@@ -84,9 +81,11 @@ export function useGetHistoryDefinition(): (history: ClaimHistory) => HistoryCar
           }),
           pointsAmount: history.pointsAmount,
         }
-        break
+      }
+      default: {
+        const _exhaustiveCheck: never = history
+        return _exhaustiveCheck
       }
     }
-    return historyCardMetadata
   }
 }
