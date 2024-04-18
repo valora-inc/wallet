@@ -133,7 +133,7 @@
     "fp-ts": "2.16.5",
     "futoin-hkdf": "^1.5.3",
     "fuzzysort": "^2.0.4",
-    "i18next": "^22.5.1",
+    "i18next": "^23.11.2",
     "ibantools": "^4.5.1",
     "intl-pluralrules": "^2.0.1",
     "io-ts": "2.0.1",
