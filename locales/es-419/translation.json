@@ -2242,6 +2242,15 @@
   "points": {
     "title": "Puntos Valora",
     "activity": "Actividad",
+    "loading": {
+      "title": "Reunir tus puntos",
+      "description": "Estamos en proceso de contabilizar tus puntos, agárrate fuerte"
+    },
+    "error": {
+      "title": "No se pueden cargar puntos",
+      "description": "Ups, algo ha ido mal al intentar cargar tus puntos. Vuelve a intentarlo.",
+      "retryCta": "Inténtalo de nuevo"
+    },
     "infoCard": {
       "title": "Pronto más formas de ganar puntos 🚀",
       "body": "Estamos trabajando para añadir más formas de ganar puntos utilizando la aplicación. Mantente informado."

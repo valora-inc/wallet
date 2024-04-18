@@ -2240,6 +2240,15 @@
   "points": {
     "title": "瓦洛拉积分",
     "activity": "活动",
+    "loading": {
+      "title": "收集要点",
+      "description": "我们正在统计您的积分，请抓紧时间"
+    },
+    "error": {
+      "title": "无法加载点",
+      "description": "哎呀，在加载您的积分时出了点问题。请重试。",
+      "retryCta": "再试一次"
+    },
     "infoCard": {
       "title": "更多赚取积分的方法即将推出 🚀",
       "body": "我们正在努力增加更多通过使用应用程序赚取积分的方法。请随时查看更新。"

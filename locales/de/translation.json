@@ -2242,6 +2242,15 @@
   "points": {
     "title": "Valora Punkte",
     "activity": "Aktivität",
+    "loading": {
+      "title": "Sammeln deiner Punkte",
+      "description": "Wir sind dabei, deine Punkte zusammenzuzählen, warte ab"
+    },
+    "error": {
+      "title": "Punkte können nicht geladen werden",
+      "description": "Ups, beim Laden deiner Punkte ist etwas schiefgegangen. Bitte versuche es noch einmal.",
+      "retryCta": "Erneut versuchen"
+    },
     "infoCard": {
       "title": "Bald gibt es mehr Möglichkeiten, Punkte zu sammeln 🚀.",
       "body": "Wir arbeiten daran, weitere Möglichkeiten zum Sammeln von Punkten mit der App zu schaffen. Halte dich für Updates auf dem Laufenden."
