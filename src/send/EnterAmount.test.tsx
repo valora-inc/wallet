@@ -22,6 +22,7 @@ import {
   mockPoofTokenId,
   mockTestTokenTokenId,
   mockTokenBalances,
+  mockUSDCTokenId,
 } from 'test/values'
 
 jest.mock('src/fees/hooks')
@@ -230,7 +231,7 @@ describe('EnterAmount', () => {
 
       changeLocalAmount('1000.5')
       expect(localAmountInput.props.value).toBe(replaceSeparators(`₱1,000.5`))
-      expect(tokenAmountInput.props.value).toBe(replaceSeparators('7522.5563909774436090226'))
+      expect(tokenAmountInput.props.value).toBe(replaceSeparators('7522.556390977443609023'))
     })
 
     it('only allows numeric input with decimal separators for token amount', () => {
@@ -241,6 +242,8 @@ describe('EnterAmount', () => {
       changeTokenAmount('10.5.1')
       expect(tokenAmountInput.props.value).toBe(replaceSeparators('10.5'))
       changeTokenAmount('abc')
+      expect(tokenAmountInput.props.value).toBe(replaceSeparators('10.5'))
+      changeTokenAmount('1,5')
       expect(tokenAmountInput.props.value).toBe(replaceSeparators('10.5'))
     })
 
@@ -254,7 +257,7 @@ describe('EnterAmount', () => {
     it('adds group separators and currency symbol for local amount', () => {
       const { localAmountInput, changeLocalAmount } = renderComponent()
 
-      changeLocalAmount('₱100000000')
+      changeLocalAmount('100000000')
       expect(localAmountInput.props.value).toBe(replaceSeparators(`₱100,000,000`))
     })
 
@@ -269,6 +272,8 @@ describe('EnterAmount', () => {
       expect(localAmountInput.props.value).toBe(replaceSeparators(`₱10.25`))
       changeLocalAmount('abc')
       expect(localAmountInput.props.value).toBe(replaceSeparators(`₱10.25`))
+      changeLocalAmount('15,')
+      expect(localAmountInput.props.value).toBe(replaceSeparators(`₱15`))
     })
 
     it('starting with decimal separator prefixes 0 for local amount', () => {
@@ -401,17 +406,13 @@ describe('EnterAmount', () => {
 
     expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('POOF')
     fireEvent.changeText(getByTestId('SendEnterAmount/LocalAmountInput'), '1')
-    expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe(
-      '7.5187969924812030075'
-    )
+    expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('7.518796992481203008')
     expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe('₱1')
     fireEvent.press(getByTestId('SendEnterAmount/TokenSelect'))
     await waitFor(() => expect(getByText('Ether')).toBeTruthy())
     fireEvent.press(getByText('Ether'))
     expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('ETH')
-    expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe(
-      '0.0005012531328320802'
-    )
+    expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('0.00050125313283208')
     expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe('₱1')
   })
 
@@ -451,6 +452,41 @@ describe('EnterAmount', () => {
     fireEvent.press(getByText('Test Token'))
     expect(getByTestId('SendEnterAmount/LocalAmountInput').props.editable).toBeFalsy()
     expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe('-')
+  })
+
+  it('entering local amount includes correct decimals for token amount', async () => {
+    const store = createMockStore(mockStore)
+
+    const tokenBalances = mockStoreBalancesToTokenBalances([
+      mockStoreTokenBalances[mockUSDCTokenId],
+      mockStoreTokenBalances[mockEthTokenId],
+    ])
+
+    const { getByTestId, getByText } = render(
+      <Provider store={store}>
+        <EnterAmount {...defaultParams} tokens={tokenBalances} />
+      </Provider>
+    )
+
+    // should include 6 decimals for USDC
+    fireEvent.changeText(getByTestId('SendEnterAmount/LocalAmountInput'), '1')
+    expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('0.75188')
+
+    // should truncate trailing zeroes and decimal separator when there are no decimals
+    fireEvent.changeText(getByTestId('SendEnterAmount/LocalAmountInput'), '1.33')
+    expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('1')
+
+    fireEvent.press(getByTestId('SendEnterAmount/TokenSelect'))
+    await waitFor(() => expect(getByText('Ether')).toBeTruthy())
+    fireEvent.press(getByText('Ether'))
+
+    // should include 18 decimals for ETH
+    fireEvent.changeText(getByTestId('SendEnterAmount/LocalAmountInput'), '10000')
+    expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('5.012531328320802005')
+
+    // should truncate trailing zeroes with decimal separator
+    fireEvent.changeText(getByTestId('SendEnterAmount/LocalAmountInput'), '199.5')
+    expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('0.1')
   })
 
   it('pressing max fills in max available amount', () => {

@@ -7,7 +7,7 @@ export default ResetAccount = ({ navType }) => {
   // statsig gate overrides
   beforeAll(async () => {
     await launchApp({
-      newInstance: false,
+      newInstance: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
       launchArgs: { statsigGateOverrides: `use_tab_navigator=${navType === 'tab'}` },
     })

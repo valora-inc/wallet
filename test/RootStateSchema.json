@@ -416,6 +416,119 @@
             ],
             "type": "object"
         },
+        "AuthTypes.Cacao": {
+            "additionalProperties": false,
+            "properties": {
+                "h": {
+                    "$ref": "#/definitions/AuthTypes.CacaoHeader"
+                },
+                "p": {
+                    "$ref": "#/definitions/AuthTypes.CacaoPayload"
+                },
+                "s": {
+                    "$ref": "#/definitions/AuthTypes.CacaoSignature"
+                }
+            },
+            "required": [
+                "h",
+                "p",
+                "s"
+            ],
+            "type": "object"
+        },
+        "AuthTypes.CacaoHeader": {
+            "additionalProperties": false,
+            "properties": {
+                "t": {
+                    "const": "caip122",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "t"
+            ],
+            "type": "object"
+        },
+        "AuthTypes.CacaoPayload": {
+            "additionalProperties": false,
+            "properties": {
+                "aud": {
+                    "type": "string"
+                },
+                "chainId": {
+                    "type": "string"
+                },
+                "domain": {
+                    "type": "string"
+                },
+                "exp": {
+                    "type": "string"
+                },
+                "expiry": {
+                    "type": "number"
+                },
+                "iat": {
+                    "type": "string"
+                },
+                "iss": {
+                    "type": "string"
+                },
+                "nbf": {
+                    "type": "string"
+                },
+                "nonce": {
+                    "type": "string"
+                },
+                "requestId": {
+                    "type": "string"
+                },
+                "resources": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "statement": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "aud",
+                "domain",
+                "iss",
+                "nonce"
+            ],
+            "type": "object"
+        },
+        "AuthTypes.CacaoSignature": {
+            "additionalProperties": false,
+            "properties": {
+                "m": {
+                    "type": "string"
+                },
+                "s": {
+                    "type": "string"
+                },
+                "t": {
+                    "enum": [
+                        "eip1271",
+                        "eip191"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "s",
+                "t"
+            ],
+            "type": "object"
+        },
         "BaseToken": {
             "additionalProperties": false,
             "properties": {
@@ -722,6 +835,23 @@
             ],
             "type": "string"
         },
+        "ClaimActivity": {
+            "enum": [
+                "create-wallet",
+                "swap"
+            ],
+            "type": "string"
+        },
+        "ClaimHistory": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/CreateWalletClaimHistory"
+                },
+                {
+                    "$ref": "#/definitions/SwapClaimHistory"
+                }
+            ]
+        },
         "CleverTapInboxMessage": {
             "additionalProperties": false,
             "properties": {
@@ -929,6 +1059,27 @@
                 "icons",
                 "name",
                 "url"
+            ],
+            "type": "object"
+        },
+        "CreateWalletClaimHistory": {
+            "additionalProperties": false,
+            "properties": {
+                "activity": {
+                    "const": "create-wallet",
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "points": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "activity",
+                "createdAt",
+                "points"
             ],
             "type": "object"
         },
@@ -2651,7 +2802,6 @@
                 "Main",
                 "MainModal",
                 "MultichainBeta",
-                "NameAndPicture",
                 "NftsInfoCarousel",
                 "NotificationCenter",
                 "OnboardingRecoveryPhrase",
@@ -2760,11 +2910,26 @@
             "additionalProperties": false,
             "type": "object"
         },
+        "SessionTypes.SessionConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "disableDeepLink": {
+                    "type": "boolean"
+                }
+            },
+            "type": "object"
+        },
         "SessionTypes.Struct": {
             "additionalProperties": false,
             "properties": {
                 "acknowledged": {
                     "type": "boolean"
+                },
+                "authentication": {
+                    "items": {
+                        "$ref": "#/definitions/AuthTypes.Cacao"
+                    },
+                    "type": "array"
                 },
                 "controller": {
                     "type": "string"
@@ -2818,6 +2983,9 @@
                         "publicKey"
                     ],
                     "type": "object"
+                },
+                "sessionConfig": {
+                    "$ref": "#/definitions/SessionTypes.SessionConfig"
                 },
                 "sessionProperties": {
                     "$ref": "#/definitions/ProposalTypes.SessionProperties"
@@ -3277,9 +3445,6 @@
                 "showSwapMenuInDrawerMenu": {
                     "type": "boolean"
                 },
-                "skipVerification": {
-                    "type": "boolean"
-                },
                 "superchargeApy": {
                     "type": "number"
                 },
@@ -3340,7 +3505,6 @@
                 "sessionId",
                 "showNotificationSpotlight",
                 "showSwapMenuInDrawerMenu",
-                "skipVerification",
                 "superchargeApy",
                 "superchargeTokenConfigByToken",
                 "supportedBiometryType",
@@ -4224,6 +4388,60 @@
             ],
             "type": "object"
         },
+        "State_28": {
+            "additionalProperties": false,
+            "properties": {
+                "getHistoryStatus": {
+                    "enum": [
+                        "error",
+                        "idle",
+                        "loading"
+                    ],
+                    "type": "string"
+                },
+                "nextPageUrl": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "pointsConfig": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "activitiesById": {
+                            "$ref": "#/definitions/{swap?:{pointsAmount:number;}|undefined;\"create-wallet\"?:{pointsAmount:number;}|undefined;\"more-coming\"?:{pointsAmount:number;}|undefined;}"
+                        }
+                    },
+                    "required": [
+                        "activitiesById"
+                    ],
+                    "type": "object"
+                },
+                "pointsConfigStatus": {
+                    "enum": [
+                        "error",
+                        "idle",
+                        "loading",
+                        "success"
+                    ],
+                    "type": "string"
+                },
+                "pointsHistory": {
+                    "items": {
+                        "$ref": "#/definitions/ClaimHistory"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "getHistoryStatus",
+                "nextPageUrl",
+                "pointsConfig",
+                "pointsConfigStatus",
+                "pointsHistory"
+            ],
+            "type": "object"
+        },
         "State_3": {
             "anyOf": [
                 {
@@ -4706,6 +4924,44 @@
                 ],
                 "type": "object"
             },
+            "type": "object"
+        },
+        "SwapClaimHistory": {
+            "additionalProperties": false,
+            "properties": {
+                "activity": {
+                    "const": "swap",
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "metadata": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "from": {
+                            "type": "string"
+                        },
+                        "to": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "from",
+                        "to"
+                    ],
+                    "type": "object"
+                },
+                "points": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "activity",
+                "createdAt",
+                "metadata",
+                "points"
+            ],
             "type": "object"
         },
         "SwapStatus": {
@@ -5943,6 +6199,48 @@
                 }
             },
             "type": "object"
+        },
+        "{swap?:{pointsAmount:number;}|undefined;\"create-wallet\"?:{pointsAmount:number;}|undefined;\"more-coming\"?:{pointsAmount:number;}|undefined;}": {
+            "additionalProperties": false,
+            "properties": {
+                "create-wallet": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "pointsAmount": {
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "pointsAmount"
+                    ],
+                    "type": "object"
+                },
+                "more-coming": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "pointsAmount": {
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "pointsAmount"
+                    ],
+                    "type": "object"
+                },
+                "swap": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "pointsAmount": {
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "pointsAmount"
+                    ],
+                    "type": "object"
+                }
+            },
+            "type": "object"
         }
     },
     "properties": {
@@ -6026,6 +6324,9 @@
             ],
             "type": "object"
         },
+        "points": {
+            "$ref": "#/definitions/State_28"
+        },
         "positions": {
             "$ref": "#/definitions/State_23"
         },
@@ -6077,6 +6378,7 @@
         "localCurrency",
         "networkInfo",
         "nfts",
+        "points",
         "positions",
         "priceHistory",
         "recipients",

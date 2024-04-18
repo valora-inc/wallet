@@ -2,6 +2,7 @@ import * as _ from 'lodash'
 import { LaunchArguments } from 'react-native-launch-arguments'
 import { startOnboardingTimeSelector } from 'src/account/selectors'
 import { multichainBetaStatusSelector } from 'src/app/selectors'
+import { isE2EEnv } from 'src/config'
 import { FeatureGates } from 'src/statsig/constants'
 import {
   StatsigDynamicConfigs,
@@ -44,7 +45,7 @@ export function getExperimentParams<T extends Record<string, StatsigParameter>>(
 }): T {
   try {
     const experiment = Statsig.getExperiment(experimentName)
-    if (experiment.getEvaluationDetails().reason === EvaluationReason.Uninitialized) {
+    if (!isE2EEnv && experiment.getEvaluationDetails().reason === EvaluationReason.Uninitialized) {
       Logger.warn(
         TAG,
         'getExperimentParams: SDK is uninitialized when getting experiment',
@@ -71,7 +72,7 @@ export function getDynamicConfigParams<T extends Record<string, StatsigParameter
 }): T {
   try {
     const config = Statsig.getConfig(configName)
-    if (config.getEvaluationDetails().reason === EvaluationReason.Uninitialized) {
+    if (!isE2EEnv && config.getEvaluationDetails().reason === EvaluationReason.Uninitialized) {
       Logger.warn(
         TAG,
         'getDynamicConfigParams: SDK is uninitialized when getting experiment',

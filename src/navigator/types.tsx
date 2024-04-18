@@ -185,7 +185,6 @@ export type StackParamList = {
     | undefined
   [Screens.Invite]: undefined
   [Screens.InviteDrawer]: undefined
-  [Screens.NameAndPicture]: undefined
   [Screens.EnableBiometry]: undefined
   [Screens.Language]:
     | {
@@ -283,7 +282,12 @@ export type StackParamList = {
         prefilledText: string
       }
     | undefined
-  [Screens.SwapScreenWithBack]: { fromTokenId: string } | undefined
+  [Screens.SwapScreenWithBack]:
+    | {
+        fromTokenId?: string
+        toTokenId?: string
+      }
+    | undefined
   [Screens.TabDiscover]: { isTabNavigator?: boolean } | undefined
   [Screens.TabHome]: { isTabNavigator?: boolean } | undefined
   [Screens.TabWallet]: { activeAssetTab?: AssetTabType; isWalletTab?: boolean } | undefined

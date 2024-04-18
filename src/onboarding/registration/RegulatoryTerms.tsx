@@ -17,9 +17,6 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { firstOnboardingScreen } from 'src/onboarding/steps'
 import { RootState } from 'src/redux/reducers'
-import { getExperimentParams } from 'src/statsig'
-import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { navigateToURI } from 'src/utils/linking'
@@ -59,12 +56,8 @@ export class RegulatoryTerms extends React.Component<Props> {
   }
 
   startOnboarding = () => {
-    const { onboardingNameScreenEnabled } = getExperimentParams(
-      ExperimentConfigs[StatsigExperiments.CHOOSE_YOUR_ADVENTURE]
-    )
     navigate(
       firstOnboardingScreen({
-        onboardingNameScreenEnabled,
         recoveringFromStoreWipe: this.props.recoveringFromStoreWipe,
       })
     )
@@ -83,7 +76,7 @@ export class RegulatoryTerms extends React.Component<Props> {
 
     return (
       <SafeAreaView style={styles.container}>
-        <DevSkipButton nextScreen={Screens.NameAndPicture} />
+        <DevSkipButton nextScreen={Screens.PincodeSet} />
         <ScrollView
           style={styles.scrollView}
           contentContainerStyle={styles.scrollContent}
