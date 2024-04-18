@@ -1,15 +1,19 @@
 name: Test
 
 on:
-  # ..any pull request and merge queue (covers main)
+  # Run on pushes to main..
+  push:
+    branches:
+      - main
+  # ..any pull request and merge queue
   pull_request:
   merge_group:
 
-# Cancel any non merge queue in progress run of the workflow for a given PR
+# Cancel any in progress run of the workflow for a given PR
 # This avoids building outdated code
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
-  cancel-in-progress: ${{ github.event_name != 'merge_group' }}
+  cancel-in-progress: true
 
 jobs:
   mobile:
