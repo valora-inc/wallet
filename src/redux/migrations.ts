@@ -1744,4 +1744,11 @@ export const migrations = {
       pointsConfigStatus: 'idle',
     },
   }),
+  208: (state: any) => ({
+    ...state,
+    identity: {
+      ...state.identity,
+      shouldRefreshStoredPasswordHash: true,
+    },
+  }),
 }
