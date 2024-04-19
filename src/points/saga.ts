@@ -1,7 +1,9 @@
+import { differenceInDays } from 'date-fns'
 import { Actions as HomeActions } from 'src/home/actions'
-import { nextPageUrlSelector } from 'src/points/selectors'
+import { nextPageUrlSelector, pendingPointsEvents } from 'src/points/selectors'
 import {
   PointsConfig,
+  discardPendingPointsEvent,
   getHistoryError,
   getHistoryStarted,
   getHistorySucceeded,
@@ -9,6 +11,7 @@ import {
   getPointsConfigRetry,
   getPointsConfigStarted,
   getPointsConfigSucceeded,
+  trackPointsEvent,
 } from 'src/points/slice'
 import { GetHistoryResponse, isPointsActivity } from 'src/points/types'
 import { getFeatureGate } from 'src/statsig'
@@ -18,9 +21,11 @@ import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { call, put, select, spawn, takeLeading } from 'typed-redux-saga'
+import { call, put, select, spawn, takeLatest, takeLeading } from 'typed-redux-saga'
 
 const TAG = 'Points/saga'
+
+const POINTS_EVENT_EXPIRY_DAYS = 30
 
 export async function fetchHistory(
   address: string,
@@ -112,6 +117,35 @@ export function* getPointsConfig() {
   }
 }
 
+function* flushPendingPointsEvents() {
+  const now = new Date()
+  const pendingEvents = yield* select(pendingPointsEvents)
+
+  for (const { id, timestamp, event } of pendingEvents) {
+    if (differenceInDays(now, new Date(timestamp)) > POINTS_EVENT_EXPIRY_DAYS) {
+      yield* put(discardPendingPointsEvent({ id }))
+      continue
+    }
+
+    const response = yield* call(fetchWithTimeout, networkConfig.trackPointsEventUrl, {
+      method: 'POST',
+      body: JSON.stringify(event),
+    })
+    if (response.ok) {
+      yield* put(discardPendingPointsEvent({ id }))
+    } else {
+      const responseText = yield* call([response, response.text])
+      Logger.warn(
+        `${TAG}@flushPendingPointsEvents`,
+        event.activityId,
+        response.status,
+        response.statusText,
+        responseText
+      )
+    }
+  }
+}
+
 function* watchGetHistory() {
   yield* takeLeading(getHistoryStarted.type, safely(getHistory))
 }
@@ -120,7 +154,12 @@ function* watchGetConfig() {
   yield* takeLeading([getPointsConfigRetry.type, HomeActions.VISIT_HOME], safely(getPointsConfig))
 }
 
+function* watchTrackPointsEvent() {
+  yield* takeLatest(trackPointsEvent.type, safely(flushPendingPointsEvents))
+}
+
 export function* pointsSaga() {
   yield* spawn(watchGetHistory)
   yield* spawn(watchGetConfig)
+  yield* spawn(watchTrackPointsEvent)
 }

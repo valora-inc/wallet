@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { ClaimHistory, PointsActivity } from 'src/points/types'
+import { ClaimHistory, PointsActivity, PointsEvent } from 'src/points/types'
 import { REHYDRATE, RehydrateAction, getRehydratePayload } from 'src/redux/persist-helper'
+import { v4 as uuidv4 } from 'uuid'
 
 interface GetPointsHistorySucceededAction {
   appendHistory: boolean
@@ -19,12 +20,23 @@ export type PointsConfig = {
     }
   }
 }
+interface DismissPendingPontsEventAction {
+  id: PendingPointsEvent['id']
+}
+
+export interface PendingPointsEvent {
+  id: string
+  timestamp: string
+  event: PointsEvent
+}
+
 interface State {
   pointsHistory: ClaimHistory[]
   nextPageUrl: string | null
   getHistoryStatus: 'idle' | 'loading' | 'error'
   pointsConfig: PointsConfig
   pointsConfigStatus: 'idle' | 'loading' | 'error' | 'success'
+  pendingEvents: PendingPointsEvent[]
 }
 
 const initialState: State = {
@@ -33,6 +45,7 @@ const initialState: State = {
   getHistoryStatus: 'idle',
   pointsConfig: { activitiesById: {} },
   pointsConfigStatus: 'idle',
+  pendingEvents: [],
 }
 
 const slice = createSlice({
@@ -71,6 +84,21 @@ const slice = createSlice({
     getPointsConfigRetry: (state) => ({
       ...state,
     }),
+    trackPointsEvent: (state, action: PayloadAction<PointsEvent>) => ({
+      ...state,
+      pendingEvents: [
+        ...state.pendingEvents,
+        {
+          id: uuidv4(),
+          timestamp: new Date(Date.now()).toISOString(),
+          event: action.payload,
+        },
+      ],
+    }),
+    discardPendingPointsEvent: (state, action: PayloadAction<DismissPendingPontsEventAction>) => ({
+      ...state,
+      pendingEvents: state.pendingEvents.filter((event) => event.id !== action.payload.id),
+    }),
   },
   extraReducers: (builder) => {
     builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
@@ -89,6 +117,8 @@ export const {
   getPointsConfigStarted,
   getPointsConfigSucceeded,
   getPointsConfigRetry,
+  trackPointsEvent,
+  discardPendingPointsEvent,
 } = slice.actions
 
 export default slice.reducer
