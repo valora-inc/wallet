@@ -219,6 +219,7 @@
   "moreInfo": "Więcej informacji",
   "savedConfirmation": "Tak, zapisałem(-am) frazę.",
   "backupQuizWordCount": "Jakie jest <0>{{ordinal}}</0> słowo Twojej frazy odzyskiwania?",
+  "backupQuizWordCountV1_83": "Jakie jest <0>{{wordNumber}}</0> słowo Twojej frazy odzyskiwania?",
   "importBackupFailed": "Importowanie portfela nie powiodło się",
   "backupQuizFailed": "Podana fraza odzyskiwania jest nieprawidłowa. Spróbuj ponownie.",
   "invalidBackupPhrase": "Niepoprawna fraza odzyskiwania",
