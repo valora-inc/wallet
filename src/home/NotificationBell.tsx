@@ -31,7 +31,6 @@ export default function NotificationBell({ testID, size, style }: Props) {
       icon={<NotificationBellIcon size={size} notificationMark={notificationMark} />}
       testID={testID}
       onPress={onPress}
-      size={size}
       style={style}
     />
   )

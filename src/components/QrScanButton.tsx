@@ -21,10 +21,9 @@ export default function QrScanButton({ testID, size, style }: Props) {
 
   return (
     <TopBarIconButtonV2
-      icon={<ScanIcon />}
+      icon={<ScanIcon size={size} />}
       testID={testID}
       onPress={onPress}
-      size={size}
       style={style}
     />
   )

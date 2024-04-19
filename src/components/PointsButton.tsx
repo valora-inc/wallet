@@ -21,10 +21,9 @@ export default function PointsButton({ testID, size, style }: Props) {
 
   return (
     <TopBarIconButtonV2
-      icon={<AttentionIcon />}
+      icon={<AttentionIcon size={size} />}
       testID={testID}
       onPress={onPress}
-      size={size}
       style={style}
     />
   )

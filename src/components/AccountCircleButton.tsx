@@ -21,10 +21,9 @@ export default function AccountCircleButton({ testID, size, style }: Props) {
 
   return (
     <TopBarIconButtonV2
-      icon={<AccountCircle />}
+      icon={<AccountCircle size={size} />}
       testID={testID}
       onPress={onPress}
-      size={size}
       style={style}
     />
   )
