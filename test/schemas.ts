@@ -3249,6 +3249,18 @@ export const v207Schema = {
   },
 }
 
+export const v208Schema = {
+  ...v207Schema,
+  _persist: {
+    ...v207Schema._persist,
+    version: 208,
+  },
+  identity: {
+    ...v207Schema.identity,
+    shouldRefreshStoredPasswordHash: true,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v207Schema as Partial<RootState>
+  return v208Schema as Partial<RootState>
 }

@@ -135,7 +135,7 @@ export function* getViemWallet(chain: Chain) {
   if (!account) {
     throw new Error(`Account ${walletAddress} not found in Keychain`)
   }
-  const password = yield* call(getPasswordSaga, walletAddress, false, true)
+  const password = yield* call(getPasswordSaga, walletAddress, true, false)
   const privateKey = yield* call(getStoredPrivateKey, account, password)
   if (!privateKey) {
     throw new Error(`Private key not found for account ${walletAddress}`)
