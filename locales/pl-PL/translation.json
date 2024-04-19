@@ -2264,6 +2264,10 @@
       "title": "Jak mogę zdobywać punkty?",
       "body": "To proste! Zdobywaj punkty po prostu korzystając z aplikacji."
     },
+    "noActivities": {
+      "title": "Zaktualizuj, aby odblokować więcej punktów 🔓",
+      "body": "Ups! Wygląda na to, że używasz starszej wersji {{appName}}. Zaktualizuj ją teraz, aby odkryć wszystkie nowe, ekscytujące sposoby zdobywania punktów."
+    },
     "activityCards": {
       "createWallet": {
         "title": "Utwórz portfel {{appName}}"
