@@ -11,6 +11,8 @@ import {
   getPointsConfigSucceeded,
 } from 'src/points/slice'
 import { GetHistoryResponse, isPointsActivity } from 'src/points/types'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
@@ -77,6 +79,12 @@ export function* getHistory({ payload: params }: ReturnType<typeof getHistorySta
 }
 
 export function* getPointsConfig() {
+  const showPoints = getFeatureGate(StatsigFeatureGates.SHOW_POINTS)
+  if (!showPoints) {
+    Logger.info(TAG, 'Points feature is disabled, not fetching points config')
+    return
+  }
+
   yield* put(getPointsConfigStarted())
 
   try {
