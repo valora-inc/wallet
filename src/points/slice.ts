@@ -32,7 +32,6 @@ interface State {
   getHistoryStatus: 'idle' | 'loading' | 'error'
   pointsConfig: PointsConfig
   pointsConfigStatus: 'idle' | 'loading' | 'error' | 'success'
-  pendingEvents: PendingPointsEvent[]
   pendingPointsEvents: PendingPointsEvent[]
 }
 
@@ -42,7 +41,6 @@ const initialState: State = {
   getHistoryStatus: 'idle',
   pointsConfig: { activitiesById: {} },
   pointsConfigStatus: 'idle',
-  pendingEvents: [],
   pendingPointsEvents: [],
 }
 
