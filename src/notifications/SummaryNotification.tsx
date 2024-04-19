@@ -37,8 +37,8 @@ export default function SummaryNotification<T>(props: Props<T>) {
       details={
         <Trans
           i18nKey={detailsI18nKey}
-          tOptions={{ context: getContext(items.length) }}
           components={items.slice(0, PREVIEW_SIZE).map(itemRenderer)}
+          context={getContext(items.length)}
         />
       }
       icon={icon}

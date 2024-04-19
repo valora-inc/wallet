@@ -243,8 +243,8 @@ export class BackupQuiz extends React.Component<Props, State> {
               {!isQuizComplete && (
                 <Text style={styles.bodyText}>
                   <Trans
-                    i18nKey={'backupQuizWordCount'}
-                    tOptions={{ ordinal: t(`ordinals.${currentWordIndex}`) }}
+                    i18nKey={'backupQuizWordCountV1_83'}
+                    tOptions={{ wordNumber: t(`ordinals.${currentWordIndex}`) }}
                   >
                     <Text style={styles.bodyTextBold}>X</Text>
                   </Trans>
