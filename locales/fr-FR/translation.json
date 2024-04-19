@@ -219,6 +219,7 @@
   "moreInfo": "Plus d'informations",
   "savedConfirmation": "Oui, j'ai bien noté ma phrase.",
   "backupQuizWordCount": "Quel est le <0>{{ordinal}}</0> mot de votre Phrase de récupération ?",
+  "backupQuizWordCountV1_83": "Quel est le <0>{{wordNumber}}</0> mot de votre phrase de récupération ?",
   "importBackupFailed": "L'importation du wallet a échoué",
   "backupQuizFailed": "La Phrase de récupération que vous avez saisie est incorrecte. Veuillez réessayer.",
   "invalidBackupPhrase": "La Phrase de récupération n'est pas valide",
