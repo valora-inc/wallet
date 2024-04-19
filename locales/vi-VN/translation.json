@@ -219,6 +219,7 @@
   "moreInfo": "Thêm thông tin",
   "savedConfirmation": "Có, tôi đã viết ra Cụm từ khôi phục của mình.",
   "backupQuizWordCount": "Từ <0>{{ordinal}}</0> trong Cụm từ khôi phục của bạn là gì?",
+  "backupQuizWordCountV1_83": "Từ <0>{{wordNumber}}</0> trong Cụm từ khôi phục của bạn là gì?",
   "importBackupFailed": "Không nhập được ví",
   "backupQuizFailed": "Cụm từ khôi phục bạn nhập không chính xác. Vui lòng thử lại.",
   "invalidBackupPhrase": "Cụm từ khôi phục không hợp lệ",
