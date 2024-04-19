@@ -219,6 +219,7 @@
   "moreInfo": "更多信息",
   "savedConfirmation": "是的，我已写下了我的短语。",
   "backupQuizWordCount": "您的恢复短语的 <0>{{ordinal}}</0> 单词是什么？",
+  "backupQuizWordCountV1_83": "您的恢复短语的 <0>{{wordNumber}}</0> 单词是什么？",
   "importBackupFailed": "导入钱包失败",
   "backupQuizFailed": "您输入的恢复短语不正确。请再试一次。",
   "invalidBackupPhrase": "恢复短语无效",
