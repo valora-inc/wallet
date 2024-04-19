@@ -13,11 +13,19 @@ interface Props {
   testID?: string
 }
 
-export default function AccountCircleButton({ style, size, testID }: Props) {
+export default function AccountCircleButton({ testID, size, style }: Props) {
   const onPress = () => {
     ValoraAnalytics.track(HomeEvents.account_circle_tapped)
     navigate(Screens.ProfileMenu)
   }
 
-  return <TopBarIconButtonV2 icon={<AccountCircle />} testID={testID} onPress={onPress} />
+  return (
+    <TopBarIconButtonV2
+      icon={<AccountCircle />}
+      testID={testID}
+      onPress={onPress}
+      size={size}
+      style={style}
+    />
+  )
 }

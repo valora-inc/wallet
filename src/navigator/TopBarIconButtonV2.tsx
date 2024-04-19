@@ -40,7 +40,6 @@ function Wrapper({
   return (
     <Touchable
       disabled={disabled}
-      // testID={`${testID}_wrapper`}
       onPress={onPressLocal}
       borderless={true}
       hitSlop={variables.iconHitslop}
@@ -51,12 +50,13 @@ function Wrapper({
   )
 }
 
-export type TopBarIconButtonProps = CommonProps & {
+type TopBarIconButtonV2Props = CommonProps & {
   icon: JSX.Element
   containerStyle?: ViewStyle
+  size?: number
 }
 
-export function TopBarIconButtonV2(props: TopBarIconButtonProps) {
+export function TopBarIconButtonV2(props: TopBarIconButtonV2Props) {
   return (
     <Wrapper {...props}>
       <View style={[styles.container, props.containerStyle]}>

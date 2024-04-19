@@ -15,7 +15,7 @@ interface Props {
   testID?: string
 }
 
-export default function NotificationBell({ style, size, testID }: Props) {
+export default function NotificationBell({ testID, size, style }: Props) {
   const notifications = useNotifications()
 
   const hasNotifications = notifications.length > 0
@@ -31,6 +31,8 @@ export default function NotificationBell({ style, size, testID }: Props) {
       icon={<NotificationBellIcon size={size} notificationMark={notificationMark} />}
       testID={testID}
       onPress={onPress}
+      size={size}
+      style={style}
     />
   )
 }

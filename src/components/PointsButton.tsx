@@ -13,11 +13,19 @@ interface Props {
   testID?: string
 }
 
-export default function PointsButton({ style, size, testID }: Props) {
+export default function PointsButton({ testID, size, style }: Props) {
   const onPress = () => {
     ValoraAnalytics.track(PointsEvents.points_screen_open)
     navigate(Screens.PointsHome)
   }
 
-  return <TopBarIconButtonV2 icon={<AttentionIcon size={24} />} testID={testID} onPress={onPress} />
+  return (
+    <TopBarIconButtonV2
+      icon={<AttentionIcon />}
+      testID={testID}
+      onPress={onPress}
+      size={size}
+      style={style}
+    />
+  )
 }

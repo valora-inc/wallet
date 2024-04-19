@@ -13,11 +13,19 @@ interface Props {
   testID?: string
 }
 
-export default function QrScanButton({ testID }: Props) {
+export default function QrScanButton({ testID, size, style }: Props) {
   const onPress = () => {
     ValoraAnalytics.track(QrScreenEvents.qr_scanner_open)
     navigate(Screens.QRNavigator, { screen: Screens.QRScanner })
   }
 
-  return <TopBarIconButtonV2 icon={<ScanIcon />} testID={testID} onPress={onPress} />
+  return (
+    <TopBarIconButtonV2
+      icon={<ScanIcon />}
+      testID={testID}
+      onPress={onPress}
+      size={size}
+      style={style}
+    />
+  )
 }
