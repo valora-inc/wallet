@@ -12687,7 +12687,7 @@ The following software may be included in this product: i18next. A copy of the s
 
 The MIT License (MIT)
 
-Copyright (c) 2022 i18next
+Copyright (c) 2024 i18next
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
