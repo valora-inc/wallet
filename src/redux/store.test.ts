@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 207,
+          "version": 208,
         },
         "account": {
           "acceptedTerms": false,
@@ -253,6 +253,7 @@ describe('store state', () => {
           },
           "lastSavedContactsHash": null,
           "secureSendPhoneNumberMapping": {},
+          "shouldRefreshStoredPasswordHash": true,
           "walletToAccountAddress": {},
         },
         "imports": {
