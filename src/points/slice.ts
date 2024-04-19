@@ -19,9 +19,6 @@ export type PointsConfig = {
     }
   }
 }
-interface DismissPendingPontsEventAction {
-  id: PendingPointsEvent['id']
-}
 
 export interface PendingPointsEvent {
   id: string
@@ -89,10 +86,7 @@ const slice = createSlice({
       ...state,
       pendingPointsEvents: [...state.pendingPointsEvents, action.payload],
     }),
-    pendingPointsEventDiscarded: (
-      state,
-      action: PayloadAction<DismissPendingPontsEventAction>
-    ) => ({
+    pendingPointsEventRemoved: (state, action: PayloadAction<Pick<PendingPointsEvent, 'id'>>) => ({
       ...state,
       pendingPointsEvents: state.pendingPointsEvents.filter(
         (event) => event.id !== action.payload.id
@@ -117,7 +111,7 @@ export const {
   getPointsConfigSucceeded,
   getPointsConfigRetry,
   pendingPointsEventAdded,
-  pendingPointsEventDiscarded,
+  pendingPointsEventRemoved,
 } = slice.actions
 
 // action handled in saga

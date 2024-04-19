@@ -12,7 +12,7 @@ import {
   getPointsConfigStarted,
   getPointsConfigSucceeded,
   pendingPointsEventAdded,
-  pendingPointsEventDiscarded,
+  pendingPointsEventRemoved,
   trackPointsEvent,
 } from 'src/points/slice'
 import { GetHistoryResponse, PointsEvent, isPointsActivity } from 'src/points/types'
@@ -23,7 +23,7 @@ import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { call, put, select, spawn, take, takeLatest, takeLeading } from 'typed-redux-saga'
+import { call, put, select, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
 import { v4 as uuidv4 } from 'uuid'
 
 const TAG = 'Points/saga'
@@ -120,41 +120,14 @@ export function* getPointsConfig() {
   }
 }
 
-function fetchTrackPointsEventsEndpoint(event: PointsEvent) {
+export async function fetchTrackPointsEventsEndpoint(event: PointsEvent) {
   return fetchWithTimeout(networkConfig.trackPointsEventUrl, {
     method: 'POST',
     body: JSON.stringify(event),
   })
 }
 
-function* sendPendingPointsEvents() {
-  const LOG_TAG = `${TAG}@flushPendingPointsEvents`
-
-  const now = new Date()
-  const pendingEvents = yield* select(pendingPointsEvents)
-
-  for (const { id, timestamp, event } of pendingEvents) {
-    if (differenceInDays(now, new Date(timestamp)) > POINTS_EVENT_EXPIRY_DAYS) {
-      yield* put(pendingPointsEventDiscarded({ id }))
-      continue
-    }
-
-    try {
-      const response = yield* call(fetchTrackPointsEventsEndpoint, event)
-
-      if (response.ok) {
-        yield* put(pendingPointsEventDiscarded({ id }))
-      } else {
-        const responseText = yield* call([response, response.text])
-        Logger.warn(LOG_TAG, event.activityId, response.status, response.statusText, responseText)
-      }
-    } catch (err) {
-      Logger.warn(LOG_TAG, err)
-    }
-  }
-}
-
-function* sendPointsEvent({ payload: event }: ReturnType<typeof trackPointsEvent>) {
+export function* sendPointsEvent({ payload: event }: ReturnType<typeof trackPointsEvent>) {
   const id = uuidv4()
 
   yield* put(
@@ -168,7 +141,7 @@ function* sendPointsEvent({ payload: event }: ReturnType<typeof trackPointsEvent
   const response = yield* call(fetchTrackPointsEventsEndpoint, event)
 
   if (response.ok) {
-    yield* put(pendingPointsEventDiscarded({ id }))
+    yield* put(pendingPointsEventRemoved({ id }))
   } else {
     const responseText = yield* call([response, response.text])
     Logger.warn(
@@ -181,6 +154,33 @@ function* sendPointsEvent({ payload: event }: ReturnType<typeof trackPointsEvent
   }
 }
 
+export function* sendPendingPointsEvents() {
+  const LOG_TAG = `${TAG}@sendPendingPointsEvents`
+
+  const now = new Date()
+  const pendingEvents = yield* select(pendingPointsEvents)
+
+  for (const { id, timestamp, event } of pendingEvents) {
+    if (differenceInDays(now, new Date(timestamp)) > POINTS_EVENT_EXPIRY_DAYS) {
+      yield* put(pendingPointsEventRemoved({ id }))
+      continue
+    }
+
+    try {
+      const response = yield* call(fetchTrackPointsEventsEndpoint, event)
+
+      if (response.ok) {
+        yield* put(pendingPointsEventRemoved({ id }))
+      } else {
+        const responseText = yield* call([response, response.text])
+        Logger.warn(LOG_TAG, event.activityId, response.status, response.statusText, responseText)
+      }
+    } catch (err) {
+      Logger.warn(LOG_TAG, err)
+    }
+  }
+}
+
 function* watchGetHistory() {
   yield* takeLeading(getHistoryStarted.type, safely(getHistory))
 }
@@ -189,11 +189,11 @@ function* watchGetConfig() {
   yield* takeLeading([getPointsConfigRetry.type, HomeActions.VISIT_HOME], safely(getPointsConfig))
 }
 
-function* watchTrackPointsEvent() {
-  yield* takeLatest(trackPointsEvent.type, safely(sendPointsEvent))
+export function* watchTrackPointsEvent() {
+  yield* takeEvery(trackPointsEvent.type, safely(sendPointsEvent))
 }
 
-function* watchAppMounted() {
+export function* watchAppMounted() {
   yield* take(AppActions.APP_MOUNTED)
   yield* call(safely, sendPendingPointsEvents)
 }
