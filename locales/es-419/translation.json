@@ -2260,6 +2260,10 @@
       "title": "¿Cómo gano puntos?",
       "body": "¡Es muy fácil! Gana puntos simplemente utilizando la aplicación."
     },
+    "noActivities": {
+      "title": "Actualización para desbloquear más puntos 🔓",
+      "body": "¡Uy! Parece que estás utilizando una versión anterior de {{appName}}. Actualízate ahora para descubrir todas las nuevas y emocionantes formas de ganar puntos."
+    },
     "activityCards": {
       "createWallet": {
         "title": "Crea una Cartera {{appName}}"
