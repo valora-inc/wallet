@@ -2263,7 +2263,7 @@
     },
     "noActivities": {
       "title": "Update to Unlock More Points 🔓",
-      "body": "Oops! It seems you're using an older version of {{appName}}. Update now to discover all the exciting new ways you can earn points"
+      "body": "Oops! It seems you're using an older version of {{appName}}. Update now to discover all the exciting new ways you can earn points."
     },
     "activityCards": {
       "createWallet": {
