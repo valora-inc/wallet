@@ -90,6 +90,7 @@ interface State {
   // Mapping of address to verification status; undefined entries represent a loading state
   addressToVerificationStatus: AddressToVerificationStatus
   lastSavedContactsHash: string | null
+  shouldRefreshStoredPasswordHash: boolean
 }
 
 const initialState: State = {
@@ -109,6 +110,7 @@ const initialState: State = {
   secureSendPhoneNumberMapping: {},
   addressToVerificationStatus: {},
   lastSavedContactsHash: null,
+  shouldRefreshStoredPasswordHash: false,
 }
 
 export const reducer = (
@@ -288,6 +290,11 @@ export const reducer = (
       return {
         ...state,
         lastSavedContactsHash: action.hash,
+      }
+    case Actions.STORED_PASSWORD_REFRESHED:
+      return {
+        ...state,
+        shouldRefreshStoredPasswordHash: false,
       }
     default:
       return state

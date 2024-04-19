@@ -6,13 +6,16 @@ import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
 import { AuthenticationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { storedPasswordRefreshed } from 'src/identity/actions'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import {
   CANCELLED_PIN_INPUT,
+  checkPin,
   DEFAULT_CACHE_ACCOUNT,
   getPasswordSaga,
   getPincode,
   getPincodeWithBiometry,
+  passwordHashStorageKey,
   PinBlocklist,
   removeStoredPin,
   retrieveOrGeneratePepper,
@@ -23,15 +26,18 @@ import {
   clearPasswordCaches,
   getCachedPepper,
   getCachedPin,
+  setCachedPasswordHash,
   setCachedPepper,
   setCachedPin,
 } from 'src/pincode/PasswordCache'
 import { store } from 'src/redux/store'
 import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
+import { getWalletAsync } from 'src/web3/contracts'
 import { getMockStoreData } from 'test/utils'
 import { mockAccount } from 'test/values'
 
+jest.mock('src/web3/contracts')
 jest.unmock('src/pincode/authentication')
 jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))
 jest.mock('react-native-securerandom', () => ({
@@ -54,6 +60,7 @@ const mockPin = '111555'
 const mockedKeychain = jest.mocked(Keychain)
 const mockStore = jest.mocked(store)
 mockStore.getState.mockImplementation(getMockStoreData)
+mockStore.dispatch = jest.fn()
 const mockedNavigate = navigate as jest.Mock
 
 const expectPincodeEntered = () => {
@@ -363,6 +370,9 @@ describe(updatePin, () => {
       }
       return Promise.resolve(false)
     })
+    jest.mocked(getWalletAsync).mockResolvedValue({
+      updateAccount: jest.fn().mockResolvedValue(true),
+    } as any)
   })
 
   it('should update the cached pin, stored password, and store mnemonic', async () => {
@@ -531,5 +541,110 @@ describe(PinBlocklist, () => {
       const withinTolerance = Math.abs(blockProbability - estimate) <= tolerance
       expect(withinTolerance).toBe(true)
     })
+  })
+})
+
+describe(checkPin, () => {
+  const expectedPassword = mockPepper.password + mockPin
+  const expectedPasswordHash = 'd9bb2d77ec27dc8bf4269a6241daaa0388e8908518458f6ce0314380d11411cd' // sha256 of expectedPassword
+  const mockUnlockAccount = jest.fn().mockImplementation((_account, password, _duration) => {
+    if (password === expectedPassword) {
+      return Promise.resolve(true)
+    }
+    return Promise.resolve(false)
+  })
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+    clearPasswordCaches()
+    setCachedPepper(DEFAULT_CACHE_ACCOUNT, mockPepper.password)
+    setCachedPasswordHash(mockAccount, expectedPasswordHash)
+
+    jest.mocked(getWalletAsync).mockResolvedValue({
+      unlockAccount: mockUnlockAccount,
+    } as any)
+  })
+
+  it('returns true if the pin unlocks the account, and refresh the stored password even if a stored password exists', async () => {
+    mockStore.getState.mockImplementationOnce(() =>
+      getMockStoreData({ identity: { shouldRefreshStoredPasswordHash: true } })
+    )
+
+    const result = await checkPin(mockPin, mockAccount)
+
+    expect(result).toBe(true)
+    expect(mockUnlockAccount).toHaveBeenCalledWith(mockAccount, expectedPassword, 600)
+    expect(mockedKeychain.setGenericPassword).toHaveBeenCalledTimes(1)
+    expect(mockedKeychain.setGenericPassword).toHaveBeenCalledWith(
+      'CELO',
+      expectedPasswordHash,
+      expect.objectContaining({
+        service: passwordHashStorageKey(mockAccount),
+      })
+    )
+    expect(mockStore.dispatch).toHaveBeenCalledWith(storedPasswordRefreshed())
+  })
+
+  it('returns true if the pin unlocks the account, and stored the password if it does not exist', async () => {
+    setCachedPasswordHash(mockAccount, '') // no cached password hash
+    mockedKeychain.getGenericPassword.mockResolvedValueOnce(false) // no stored password hash
+    mockStore.getState.mockImplementationOnce(() =>
+      getMockStoreData({ identity: { shouldRefreshStoredPasswordHash: false } })
+    )
+
+    const result = await checkPin(mockPin, mockAccount)
+
+    expect(result).toBe(true)
+    expect(mockUnlockAccount).toHaveBeenCalledWith(mockAccount, expectedPassword, 600)
+    expect(mockedKeychain.setGenericPassword).toHaveBeenCalledTimes(1)
+    expect(mockedKeychain.setGenericPassword).toHaveBeenCalledWith(
+      'CELO',
+      expectedPasswordHash,
+      expect.objectContaining({
+        service: passwordHashStorageKey(mockAccount),
+      })
+    )
+    expect(mockStore.dispatch).toHaveBeenCalledWith(storedPasswordRefreshed())
+  })
+
+  it('returns true if the pin matches the stored password, without unlocking the account or updating the keychain', async () => {
+    mockStore.getState.mockImplementationOnce(() =>
+      getMockStoreData({ identity: { shouldRefreshStoredPasswordHash: false } })
+    )
+
+    const result = await checkPin(mockPin, mockAccount)
+
+    expect(result).toBe(true)
+    expect(mockUnlockAccount).not.toHaveBeenCalled()
+    expect(mockedKeychain.setGenericPassword).not.toHaveBeenCalled()
+    expect(mockStore.dispatch).not.toHaveBeenCalled()
+  })
+
+  it('returns false if the pin does not match the stored password', async () => {
+    mockStore.getState.mockImplementationOnce(() =>
+      getMockStoreData({ identity: { shouldRefreshStoredPasswordHash: false } })
+    )
+
+    const result = await checkPin('143826', mockAccount) // incorrect pin
+
+    expect(result).toBe(false)
+    expect(mockUnlockAccount).not.toHaveBeenCalled()
+    expect(mockedKeychain.setGenericPassword).not.toHaveBeenCalled()
+    expect(mockStore.dispatch).not.toHaveBeenCalled()
+  })
+
+  it('returns false if the pin does not unlock the wallet', async () => {
+    const incorrectPin = '143826'
+    const incorrectPassword = mockPepper.password + incorrectPin
+    mockStore.getState.mockImplementationOnce(() =>
+      getMockStoreData({ identity: { shouldRefreshStoredPasswordHash: true } })
+    )
+
+    const result = await checkPin('143826', mockAccount) // incorrect pin
+
+    expect(result).toBe(false)
+    expect(mockUnlockAccount).toHaveBeenCalledWith(mockAccount, incorrectPassword, 600)
+    expect(mockedKeychain.setGenericPassword).not.toHaveBeenCalled()
+    expect(mockStore.dispatch).not.toHaveBeenCalled()
   })
 })
