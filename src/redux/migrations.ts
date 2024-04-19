@@ -1751,4 +1751,11 @@ export const migrations = {
       shouldRefreshStoredPasswordHash: true,
     },
   }),
+  209: (state: any) => ({
+    ...state,
+    points: {
+      ...state.points,
+      pendingPointsEvents: [],
+    },
+  }),
 }
