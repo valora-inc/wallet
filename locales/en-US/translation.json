@@ -219,6 +219,7 @@
   "moreInfo": "More Info",
   "savedConfirmation": "Yes, I have written down my Phrase.",
   "backupQuizWordCount": "What's the <0>{{ordinal}}</0> word of your Recovery Phrase?",
+  "backupQuizWordCountV1_83": "What's the <0>{{wordNumber}}</0> word of your Recovery Phrase?",
   "importBackupFailed": "Importing Wallet Failed",
   "backupQuizFailed": "The Recovery Phrase you entered is incorrect. Please try again.",
   "invalidBackupPhrase": "Recovery Phrase is not valid",
