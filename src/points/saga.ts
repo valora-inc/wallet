@@ -128,6 +128,8 @@ function fetchTrackPointsEventsEndpoint(event: PointsEvent) {
 }
 
 function* sendPendingPointsEvents() {
+  const LOG_TAG = `${TAG}@flushPendingPointsEvents`
+
   const now = new Date()
   const pendingEvents = yield* select(pendingPointsEvents)
 
@@ -137,19 +139,17 @@ function* sendPendingPointsEvents() {
       continue
     }
 
-    const response = yield* call(fetchTrackPointsEventsEndpoint, event)
+    try {
+      const response = yield* call(fetchTrackPointsEventsEndpoint, event)
 
-    if (response.ok) {
-      yield* put(pendingPointsEventDiscarded({ id }))
-    } else {
-      const responseText = yield* call([response, response.text])
-      Logger.warn(
-        `${TAG}@flushPendingPointsEvents`,
-        event.activityId,
-        response.status,
-        response.statusText,
-        responseText
-      )
+      if (response.ok) {
+        yield* put(pendingPointsEventDiscarded({ id }))
+      } else {
+        const responseText = yield* call([response, response.text])
+        Logger.warn(LOG_TAG, event.activityId, response.status, response.statusText, responseText)
+      }
+    } catch (err) {
+      Logger.warn(LOG_TAG, err)
     }
   }
 }
