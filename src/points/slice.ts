@@ -1,7 +1,6 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createAction, createSlice } from '@reduxjs/toolkit'
 import { ClaimHistory, PointsActivity, PointsEvent } from 'src/points/types'
 import { REHYDRATE, RehydrateAction, getRehydratePayload } from 'src/redux/persist-helper'
-import { v4 as uuidv4 } from 'uuid'
 
 interface GetPointsHistorySucceededAction {
   appendHistory: boolean
@@ -37,6 +36,7 @@ interface State {
   pointsConfig: PointsConfig
   pointsConfigStatus: 'idle' | 'loading' | 'error' | 'success'
   pendingEvents: PendingPointsEvent[]
+  pendingPointsEvents: PendingPointsEvent[]
 }
 
 const initialState: State = {
@@ -46,6 +46,7 @@ const initialState: State = {
   pointsConfig: { activitiesById: {} },
   pointsConfigStatus: 'idle',
   pendingEvents: [],
+  pendingPointsEvents: [],
 }
 
 const slice = createSlice({
@@ -84,20 +85,18 @@ const slice = createSlice({
     getPointsConfigRetry: (state) => ({
       ...state,
     }),
-    trackPointsEvent: (state, action: PayloadAction<PointsEvent>) => ({
+    pendingPointsEventAdded: (state, action: PayloadAction<PendingPointsEvent>) => ({
       ...state,
-      pendingEvents: [
-        ...state.pendingEvents,
-        {
-          id: uuidv4(),
-          timestamp: new Date(Date.now()).toISOString(),
-          event: action.payload,
-        },
-      ],
+      pendingPointsEvents: [...state.pendingPointsEvents, action.payload],
     }),
-    discardPendingPointsEvent: (state, action: PayloadAction<DismissPendingPontsEventAction>) => ({
+    pendingPointsEventDiscarded: (
+      state,
+      action: PayloadAction<DismissPendingPontsEventAction>
+    ) => ({
       ...state,
-      pendingEvents: state.pendingEvents.filter((event) => event.id !== action.payload.id),
+      pendingPointsEvents: state.pendingPointsEvents.filter(
+        (event) => event.id !== action.payload.id
+      ),
     }),
   },
   extraReducers: (builder) => {
@@ -117,8 +116,11 @@ export const {
   getPointsConfigStarted,
   getPointsConfigSucceeded,
   getPointsConfigRetry,
-  trackPointsEvent,
-  discardPendingPointsEvent,
+  pendingPointsEventAdded,
+  pendingPointsEventDiscarded,
 } = slice.actions
+
+// action handled in saga
+export const trackPointsEvent = createAction<PointsEvent>('points/trackPointsEvent')
 
 export default slice.reducer

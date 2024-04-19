@@ -11,7 +11,6 @@ import i18n from 'src/i18n'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import useChangeLanguage from 'src/i18n/useChangeLanguage'
 import { navigateToError } from 'src/navigator/NavigationService'
-import { trackPointsEvent } from 'src/points/slice'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
 import Logger from 'src/utils/Logger'
@@ -60,8 +59,6 @@ const AppInitGate = ({ appStartedMillis, reactLoadTime, children }: Props) => {
         appLoadDuration,
         language: i18n.language || language,
       })
-
-      dispatch(trackPointsEvent({ activityId: 'create-wallet' }))
 
       Logger.debug(TAG, 'AppInitGate init completed')
       dispatch(appMounted())

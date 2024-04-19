@@ -1,9 +1,9 @@
 import { differenceInDays } from 'date-fns'
+import { Actions as AppActions } from 'src/app/actions'
 import { Actions as HomeActions } from 'src/home/actions'
 import { nextPageUrlSelector, pendingPointsEvents } from 'src/points/selectors'
 import {
   PointsConfig,
-  discardPendingPointsEvent,
   getHistoryError,
   getHistoryStarted,
   getHistorySucceeded,
@@ -11,9 +11,11 @@ import {
   getPointsConfigRetry,
   getPointsConfigStarted,
   getPointsConfigSucceeded,
+  pendingPointsEventAdded,
+  pendingPointsEventDiscarded,
   trackPointsEvent,
 } from 'src/points/slice'
-import { GetHistoryResponse, isPointsActivity } from 'src/points/types'
+import { GetHistoryResponse, PointsEvent, isPointsActivity } from 'src/points/types'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
@@ -21,7 +23,8 @@ import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { call, put, select, spawn, takeLatest, takeLeading } from 'typed-redux-saga'
+import { call, put, select, spawn, take, takeLatest, takeLeading } from 'typed-redux-saga'
+import { v4 as uuidv4 } from 'uuid'
 
 const TAG = 'Points/saga'
 
@@ -117,22 +120,27 @@ export function* getPointsConfig() {
   }
 }
 
-function* flushPendingPointsEvents() {
+function fetchTrackPointsEventsEndpoint(event: PointsEvent) {
+  return fetchWithTimeout(networkConfig.trackPointsEventUrl, {
+    method: 'POST',
+    body: JSON.stringify(event),
+  })
+}
+
+function* sendPendingPointsEvents() {
   const now = new Date()
   const pendingEvents = yield* select(pendingPointsEvents)
 
   for (const { id, timestamp, event } of pendingEvents) {
     if (differenceInDays(now, new Date(timestamp)) > POINTS_EVENT_EXPIRY_DAYS) {
-      yield* put(discardPendingPointsEvent({ id }))
+      yield* put(pendingPointsEventDiscarded({ id }))
       continue
     }
 
-    const response = yield* call(fetchWithTimeout, networkConfig.trackPointsEventUrl, {
-      method: 'POST',
-      body: JSON.stringify(event),
-    })
+    const response = yield* call(fetchTrackPointsEventsEndpoint, event)
+
     if (response.ok) {
-      yield* put(discardPendingPointsEvent({ id }))
+      yield* put(pendingPointsEventDiscarded({ id }))
     } else {
       const responseText = yield* call([response, response.text])
       Logger.warn(
@@ -146,6 +154,33 @@ function* flushPendingPointsEvents() {
   }
 }
 
+function* sendPointsEvent({ payload: event }: ReturnType<typeof trackPointsEvent>) {
+  const id = uuidv4()
+
+  yield* put(
+    pendingPointsEventAdded({
+      id,
+      timestamp: new Date(Date.now()).toISOString(),
+      event,
+    })
+  )
+
+  const response = yield* call(fetchTrackPointsEventsEndpoint, event)
+
+  if (response.ok) {
+    yield* put(pendingPointsEventDiscarded({ id }))
+  } else {
+    const responseText = yield* call([response, response.text])
+    Logger.warn(
+      `${TAG}@sendPointsEvent`,
+      event.activityId,
+      response.status,
+      response.statusText,
+      responseText
+    )
+  }
+}
+
 function* watchGetHistory() {
   yield* takeLeading(getHistoryStarted.type, safely(getHistory))
 }
@@ -155,11 +190,17 @@ function* watchGetConfig() {
 }
 
 function* watchTrackPointsEvent() {
-  yield* takeLatest(trackPointsEvent.type, safely(flushPendingPointsEvents))
+  yield* takeLatest(trackPointsEvent.type, safely(sendPointsEvent))
+}
+
+function* watchAppMounted() {
+  yield* take(AppActions.APP_MOUNTED)
+  yield* call(safely, sendPendingPointsEvents)
 }
 
 export function* pointsSaga() {
   yield* spawn(watchGetHistory)
   yield* spawn(watchGetConfig)
   yield* spawn(watchTrackPointsEvent)
+  yield* spawn(watchAppMounted)
 }

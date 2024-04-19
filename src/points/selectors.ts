@@ -43,5 +43,5 @@ export const pointsSectionsSelector = createSelector(
 )
 
 export const pendingPointsEvents = (state: RootState) => {
-  return state.points.pendingEvents
+  return state.points.pendingPointsEvents
 }
