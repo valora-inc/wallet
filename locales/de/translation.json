@@ -219,6 +219,7 @@
   "moreInfo": "Weitere Infos",
   "savedConfirmation": "Ja, ich habe meine Phrase aufgeschrieben.",
   "backupQuizWordCount": "Was ist das <0>{{ordinal}}</0> Wort deiner Wiederherstellungsphrase?",
+  "backupQuizWordCountV1_83": "Was ist das <0>{{wordNumber}}</0> Wort deiner Wiederherstellungsphrase?",
   "importBackupFailed": "Import des Wallets fehlgeschlagen",
   "backupQuizFailed": "Die Wiederherstellungsphrase ist falsch. Bitte versuche es erneut.",
   "invalidBackupPhrase": "Wiederherstellungsphrase ungültig",
