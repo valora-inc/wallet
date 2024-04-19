@@ -219,6 +219,7 @@
   "moreInfo": "Mais informações",
   "savedConfirmation": "Sim, eu anotei minha frase.",
   "backupQuizWordCount": "Qual é a <0>{{ordinal}}</0> palavra da sua Frase de Recuperação?",
+  "backupQuizWordCountV1_83": "Qual é a <0>{{wordNumber}}</0> palavra da sua Frase de Recuperação?",
   "importBackupFailed": "A importação da conta falhou",
   "backupQuizFailed": "A Frase de Recuperação que você inseriu está incorreta. Tente novamente.",
   "invalidBackupPhrase": "A Frase de Recuperação não é válida",
