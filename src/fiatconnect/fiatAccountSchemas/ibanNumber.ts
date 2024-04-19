@@ -24,7 +24,7 @@ export const getIbanNumberSchema = (
     const errorMessageText = overrides?.iban?.errorString
       ? i18n.t(
           `fiatAccountSchema.ibanNumber.${overrides.iban.errorString}`,
-          overrides.iban.errorParams ?? {}
+          overrides.iban.errorParams
         )
       : i18n.t(`fiatAccountSchema.ibanNumber.errorMessage`)
 
