@@ -552,7 +552,7 @@ PODS:
     - PromisesSwift
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - react-native-webview (13.8.2):
+  - react-native-webview (13.8.6):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - React-perflogger (0.71.17)
@@ -1195,7 +1195,7 @@ SPEC CHECKSUMS:
   react-native-simple-toast: 8ee5d23f0b92b935ab7434cdb65159ce12dfb4b7
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-video: 3a27f78ff6552027d9b6f1985e2f4dfca39c76f1
-  react-native-webview: 19aba9db98e183484969202c1181a00159b7724b
+  react-native-webview: a987704e6cd3f5a21d372ef316e43f7b442d59ca
   React-perflogger: 2588b59d386dbbc1df392da9493a8baa690bc89c
   React-RCTActionSheet: 057d6c6fc29e2a6d183d323ef35d9f6aedae936b
   React-RCTAnimation: 4c25b2c7953ea5b983eda940922fb4036f03e3f1
