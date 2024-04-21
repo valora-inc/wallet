@@ -2260,6 +2260,10 @@
       "title": "Como faço para ganhar pontos?",
       "body": "É fácil! Você ganha pontos simplesmente usando o aplicativo."
     },
+    "noActivities": {
+      "title": "Atualize para desbloquear mais pontos 🔓",
+      "body": "Ops! Parece que você está usando uma versão mais antiga do {{appName}}. Atualize agora para descobrir todas as novas e empolgantes maneiras de você ganhar pontos."
+    },
     "activityCards": {
       "createWallet": {
         "title": "Criar uma carteira {{appName}}"

@@ -2260,6 +2260,10 @@
       "title": "Comment gagner des points ?",
       "body": "C'est très simple ! Gagne des points en utilisant simplement l'application."
     },
+    "noActivities": {
+      "title": "Mets-toi à jour pour débloquer plus de points 🔓",
+      "body": "Oups ! Il semble que tu utilises une ancienne version de {{appName}}. Mets-la à jour maintenant pour découvrir toutes les nouvelles façons passionnantes de gagner des points."
+    },
     "activityCards": {
       "createWallet": {
         "title": "Créer un portefeuille {{appName}}"

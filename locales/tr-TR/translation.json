@@ -2260,6 +2260,10 @@
       "title": "Nasıl puan kazanabilirim?",
       "body": "Çok kolay! Sadece uygulamayı kullanarak puan kazanın."
     },
+    "noActivities": {
+      "title": "Daha Fazla Puanın Kilidini Açmak için Güncelleyin 🔓",
+      "body": "Oops! Görünüşe göre {{appName}}'un eski bir sürümünü kullanıyorsunuz. Puan kazanabileceğiniz tüm heyecan verici yeni yolları keşfetmek için şimdi güncelleyin."
+    },
     "activityCards": {
       "createWallet": {
         "title": "Bir {{appName}}  Cüzdanı Oluşturun"

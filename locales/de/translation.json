@@ -2260,6 +2260,10 @@
       "title": "Wie kann ich Punkte sammeln?",
       "body": "Es ist ganz einfach! Sammle Punkte, indem du einfach die App benutzt."
     },
+    "noActivities": {
+      "title": "Update zum Freischalten von mehr Punkten 🔓.",
+      "body": "Ups! Es scheint, dass du eine ältere Version von {{appName}}verwendest. Aktualisiere jetzt und entdecke all die spannenden neuen Möglichkeiten, wie du Punkte sammeln kannst."
+    },
     "activityCards": {
       "createWallet": {
         "title": "Erstelle eine {{appName}}  Brieftasche"

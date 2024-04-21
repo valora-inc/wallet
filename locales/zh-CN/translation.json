@@ -2258,6 +2258,10 @@
       "title": "如何获得积分？",
       "body": "非常简单！只需使用该应用程序即可获得积分。"
     },
+    "noActivities": {
+      "title": "更新以解锁更多积分 🔓",
+      "body": "哎呀！您使用的似乎是旧版本的 {{appName}}。立即更新，了解赚取积分的所有令人兴奋的新方法。"
+    },
     "activityCards": {
       "createWallet": {
         "title": "创建 {{appName}}  钱包"

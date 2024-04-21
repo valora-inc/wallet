@@ -2258,6 +2258,10 @@
       "title": "How do I earn points?",
       "body": "It's easy! Earn points by simply using the app."
     },
+    "noActivities": {
+      "title": "Update to Unlock More Points 🔓",
+      "body": "Oops! It seems you're using an older version of {{appName}}. Update now to discover all the exciting new ways you can earn points."
+    },
     "activityCards": {
       "createWallet": {
         "title": "Create a {{appName}}  Wallet"
