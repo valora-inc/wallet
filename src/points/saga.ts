@@ -189,7 +189,7 @@ function* watchGetConfig() {
   yield* takeLeading([getPointsConfigRetry.type, HomeActions.VISIT_HOME], safely(getPointsConfig))
 }
 
-export function* watchTrackPointsEvent() {
+function* watchTrackPointsEvent() {
   yield* takeEvery(trackPointsEvent.type, safely(sendPointsEvent))
 }
 
