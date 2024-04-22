@@ -1,6 +1,9 @@
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
+import { acceptTerms, chooseCreateAccount, chooseRestoreAccount } from 'src/account/actions'
+import { OnboardingEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { firstOnboardingScreen } from 'src/onboarding/steps'
@@ -56,21 +59,16 @@ describe('Welcome', () => {
             custom: { startOnboardingTime: 123 },
           })
         )
-        expect(store.getActions()).toMatchInlineSnapshot(`
-        [
-          {
-            "now": 123,
-            "type": "ACCOUNT/CHOOSE_CREATE",
-          },
-        ]
-      `)
+        expect(store.getActions()).toEqual([chooseCreateAccount(123)])
         expect(navigate).toHaveBeenCalledTimes(1)
         expect(navigate).toHaveBeenCalledWith(Screens.RegulatoryTerms)
+        expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+        expect(ValoraAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.create_account_start)
       })
       it('create skips statsig update if not onboarding the first time', () => {
         const store = createMockStore({
           account: {
-            startOnboardingTime: 145,
+            startOnboardingTime: 111,
           },
         })
         const { getByTestId } = render(
@@ -80,17 +78,12 @@ describe('Welcome', () => {
         )
 
         fireEvent.press(getByTestId('CreateAccountButton'))
-        expect(store.getActions()).toMatchInlineSnapshot(`
-        [
-          {
-            "now": 123,
-            "type": "ACCOUNT/CHOOSE_CREATE",
-          },
-        ]
-      `)
+        expect(store.getActions()).toEqual([chooseCreateAccount(123)])
         expect(navigate).toHaveBeenCalledTimes(1)
         expect(navigate).toHaveBeenCalledWith(Screens.RegulatoryTerms)
         expect(patchUpdateStatsigUser).not.toHaveBeenCalled()
+        expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+        expect(ValoraAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.create_account_start)
       })
       it('restore fires action and navigates to terms screen', () => {
         const store = createMockStore()
@@ -103,21 +96,28 @@ describe('Welcome', () => {
         fireEvent.press(getByTestId('RestoreAccountButton'))
         expect(navigate).toHaveBeenCalledTimes(1)
         expect(navigate).toHaveBeenCalledWith(Screens.RegulatoryTerms)
-        expect(store.getActions()).toMatchInlineSnapshot(`
-        [
-          {
-            "type": "ACCOUNT/CHOOSE_RESTORE",
-          },
-        ]
-      `)
+        expect(store.getActions()).toEqual([chooseRestoreAccount()])
+        expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+        expect(ValoraAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.restore_account_start)
       })
-      it.each([{ buttonId: 'CreateAccountButton' }, { buttonId: 'RestoreAccountButton' }])(
+      it.each([
+        {
+          buttonId: 'CreateAccountButton',
+          action: chooseCreateAccount(123),
+          event: OnboardingEvents.create_account_start,
+        },
+        {
+          buttonId: 'RestoreAccountButton',
+          action: chooseRestoreAccount(),
+          event: OnboardingEvents.restore_account_start,
+        },
+      ])(
         '$buttonId goes to the onboarding screen if terms already accepted',
-        ({ buttonId }) => {
+        ({ buttonId, action, event }) => {
           const store = createMockStore({
             account: {
               acceptedTerms: true,
-              startOnboardingTime: 145,
+              startOnboardingTime: 111,
             },
           })
           const { getByTestId } = render(
@@ -130,6 +130,9 @@ describe('Welcome', () => {
           expect(firstOnboardingScreen).toHaveBeenCalled()
           expect(navigate).toHaveBeenCalledTimes(1)
           expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet)
+          expect(store.getActions()).toEqual([action])
+          expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+          expect(ValoraAnalytics.track).toHaveBeenCalledWith(event)
         }
       )
     }
@@ -194,25 +197,20 @@ describe('Welcome', () => {
           custom: { startOnboardingTime: 123 },
         })
       )
-      expect(store.getActions()).toMatchInlineSnapshot(`
-        [
-          {
-            "now": 123,
-            "type": "ACCOUNT/CHOOSE_CREATE",
-          },
-          {
-            "type": "ACCOUNT/ACCEPT_TERMS",
-          },
-        ]
-      `)
+      expect(store.getActions()).toEqual([chooseCreateAccount(123), acceptTerms()])
       expect(navigate).toHaveBeenCalledTimes(1)
       expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet)
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.create_account_start)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        OnboardingEvents.terms_and_conditions_accepted
+      )
     })
 
     it('create skips statsig if not first time onboarding', async () => {
       const store = createMockStore({
         account: {
-          startOnboardingTime: 145,
+          startOnboardingTime: 111,
         },
       })
       const { getByTestId } = render(
@@ -222,20 +220,15 @@ describe('Welcome', () => {
       )
       fireEvent.press(getByTestId('TermsCheckbox/unchecked'))
       fireEvent.press(getByTestId('CreateAccountButton'))
-      expect(store.getActions()).toMatchInlineSnapshot(`
-        [
-          {
-            "now": 123,
-            "type": "ACCOUNT/CHOOSE_CREATE",
-          },
-          {
-            "type": "ACCOUNT/ACCEPT_TERMS",
-          },
-        ]
-      `)
+      expect(store.getActions()).toEqual([chooseCreateAccount(123), acceptTerms()])
       expect(navigate).toHaveBeenCalledTimes(1)
       expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet)
       expect(patchUpdateStatsigUser).not.toHaveBeenCalled()
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.create_account_start)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        OnboardingEvents.terms_and_conditions_accepted
+      )
     })
 
     it('restore fires actions and navigates to onboarding screen', () => {
@@ -247,18 +240,53 @@ describe('Welcome', () => {
       )
       fireEvent.press(getByTestId('TermsCheckbox/unchecked'))
       fireEvent.press(getByTestId('RestoreAccountButton'))
-      expect(store.getActions()).toMatchInlineSnapshot(`
-        [
-          {
-            "type": "ACCOUNT/CHOOSE_RESTORE",
-          },
-          {
-            "type": "ACCOUNT/ACCEPT_TERMS",
-          },
-        ]
-      `)
+      expect(store.getActions()).toEqual([chooseRestoreAccount(), acceptTerms()])
       expect(navigate).toHaveBeenCalledTimes(1)
       expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet)
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.restore_account_start)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        OnboardingEvents.terms_and_conditions_accepted
+      )
     })
+
+    it.each([
+      {
+        buttonId: 'CreateAccountButton',
+        action: chooseCreateAccount(123),
+        event: OnboardingEvents.create_account_start,
+      },
+      {
+        buttonId: 'RestoreAccountButton',
+        action: chooseRestoreAccount(),
+        event: OnboardingEvents.restore_account_start,
+      },
+    ])(
+      '$buttonId skips accept terms action and analytics event when terms already accepted',
+      ({ buttonId, action, event }) => {
+        const store = createMockStore({
+          account: {
+            acceptedTerms: true,
+            startOnboardingTime: 111,
+          },
+        })
+        const { getByTestId } = render(
+          <Provider store={store}>
+            <Welcome />
+          </Provider>
+        )
+
+        fireEvent.press(getByTestId(buttonId))
+        expect(firstOnboardingScreen).toHaveBeenCalled()
+        expect(navigate).toHaveBeenCalledTimes(1)
+        expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet)
+        expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+        expect(ValoraAnalytics.track).toHaveBeenCalledWith(event)
+        expect(ValoraAnalytics.track).not.toHaveBeenCalledWith(
+          OnboardingEvents.terms_and_conditions_accepted
+        )
+        expect(store.getActions()).toEqual([action])
+      }
+    )
   })
 })

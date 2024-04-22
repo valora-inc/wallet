@@ -52,7 +52,10 @@ export default function Welcome() {
     if (!acceptedTerms && !showTermsCheckbox) {
       navigate(Screens.RegulatoryTerms)
     } else {
-      if (showTermsCheckbox) {
+      if (showTermsCheckbox && !acceptedTerms) {
+        // if terms have not already been accepted, fire the analytics event
+        // and dispatch the action to accept the terms
+        ValoraAnalytics.track(OnboardingEvents.terms_and_conditions_accepted)
         dispatch(acceptTerms())
       }
       startOnboarding()
