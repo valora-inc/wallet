@@ -57,12 +57,12 @@ export function* handleNotification(
   notificationState: NotificationReceiveState
 ) {
   ValoraAnalytics.track(AppEvents.push_notification_opened, {
-    id: message.data?.id.toString(),
+    id: message.data?.id as string,
     state: notificationState,
-    type: message.data?.type.toString(),
+    type: message.data?.type as string,
   })
   // See if this is a notification with an open url or webview action (`ou` prop in the data)
-  const urlToOpen = message.data?.ou.toString()
+  const urlToOpen = message.data?.ou as string
   if (urlToOpen) {
     trackRewardsScreenOpenEvent(urlToOpen, RewardsScreenOrigin.PushNotification)
   }

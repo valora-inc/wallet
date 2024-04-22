@@ -79,15 +79,16 @@ describe(handleNotification, () => {
   })
 
   describe("with a notification with an 'open url' semantic and a deep link", () => {
+    const expectedUrl = `celo://wallet/openScreen?screen=${Screens.WalletHome}`
     const message: FirebaseMessagingTypes.RemoteMessage = {
       notification: { title: 'My title', body: 'My Body' },
-      data: { ou: `celo://wallet/openScreen?screen=${Screens.WalletHome}` },
+      data: { ou: expectedUrl },
       fcmOptions: {},
     }
 
     it('fires  an event to open the deep link', async () => {
       await expectSaga(handleNotification, message, NotificationReceiveState.AppColdStart)
-        .put(openUrl('https://celo.org', false, true))
+        .put(openUrl(expectedUrl, false, true))
         .run()
     })
   })
