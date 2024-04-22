@@ -242,6 +242,7 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   italic: {
+    // TODO(satish): Figure out why this doesn't work on iOS
     fontStyle: 'italic',
   },
   fullTerms: {

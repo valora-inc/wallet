@@ -13,12 +13,20 @@ jest.mock('src/onboarding/steps')
 jest.mock('src/statsig')
 
 describe('RegulatoryTermsScreen', () => {
+  const acceptTerms = jest.fn()
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
   it('renders correct components for control', () => {
     jest.mocked(getExperimentParams).mockReturnValue({ variant: 'control' })
     const store = createMockStore({})
     const { getByTestId, queryByTestId } = render(
       <Provider store={store}>
-        <RegulatoryTermsClass {...getMockI18nProps()} recoveringFromStoreWipe={false} />
+        <RegulatoryTermsClass
+          {...getMockI18nProps()}
+          acceptTerms={acceptTerms}
+          recoveringFromStoreWipe={false}
+        />
       </Provider>
     )
 
@@ -31,7 +39,11 @@ describe('RegulatoryTermsScreen', () => {
     const store = createMockStore({})
     const { getByTestId, queryByTestId } = render(
       <Provider store={store}>
-        <RegulatoryTermsClass {...getMockI18nProps()} recoveringFromStoreWipe={false} />
+        <RegulatoryTermsClass
+          {...getMockI18nProps()}
+          acceptTerms={acceptTerms}
+          recoveringFromStoreWipe={false}
+        />
       </Provider>
     )
 
@@ -47,7 +59,6 @@ describe('RegulatoryTermsScreen', () => {
       })
       it('stores that info', async () => {
         const store = createMockStore({})
-        const acceptTerms = jest.fn()
         const wrapper = render(
           <Provider store={store}>
             <RegulatoryTermsClass
@@ -62,7 +73,6 @@ describe('RegulatoryTermsScreen', () => {
       })
       it('navigates to PincodeSet', () => {
         const store = createMockStore({})
-        const acceptTerms = jest.fn()
         jest.mocked(firstOnboardingScreen).mockReturnValue(Screens.PincodeSet)
 
         const wrapper = render(
