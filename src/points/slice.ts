@@ -26,7 +26,7 @@ export interface PendingPointsEvent {
   event: PointsEvent
 }
 
-interface State {
+export interface State {
   pointsHistory: ClaimHistory[]
   nextPageUrl: string | null
   getHistoryStatus: 'idle' | 'loading' | 'error'
