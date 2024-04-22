@@ -1,7 +1,7 @@
 import { PointsEvent } from 'src/points/types'
 import reducer, { State, pendingPointsEventAdded, pendingPointsEventRemoved } from './slice'
 
-describe('points', () => {
+describe('pedning points events', () => {
   it('should add a pending points event', () => {
     const id = 'test-id'
     const timestamp = '2024-04-22T11:00:00.000Z'
