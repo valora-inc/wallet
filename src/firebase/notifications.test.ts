@@ -70,10 +70,10 @@ describe(handleNotification, () => {
     it('directly opens the url externally if the app is not already in the foreground and openExternal is true', async () => {
       await expectSaga(
         handleNotification,
-        { ...message, data: { ou: message.data!.ou, openExternal: 'true' } },
+        { ...message, data: { ou: 'https://celo.org', openExternal: 'true' } },
         NotificationReceiveState.AppColdStart
       )
-        .put(openUrl(message.data!.ou, true, true))
+        .put(openUrl('https://celo.org', true, true))
         .run()
     })
   })
@@ -87,7 +87,7 @@ describe(handleNotification, () => {
 
     it('fires  an event to open the deep link', async () => {
       await expectSaga(handleNotification, message, NotificationReceiveState.AppColdStart)
-        .put(openUrl(message.data!.ou, false, true))
+        .put(openUrl('https://celo.org', false, true))
         .run()
     })
   })
