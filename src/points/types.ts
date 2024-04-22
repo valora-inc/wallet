@@ -70,10 +70,3 @@ export interface GetHistoryResponse {
   hasNextPage: boolean
   nextPageUrl: string
 }
-
-export interface HistoryCardMetadata {
-  icon: React.ReactNode
-  title: string
-  subtitle: string
-  pointsAmount: number
-}

@@ -1,10 +1,5 @@
 import React from 'react'
-import {
-  PointsActivityId,
-  PointsCardMetadata,
-  ClaimHistory,
-  HistoryCardMetadata,
-} from 'src/points/types'
+import { PointsActivityId, PointsCardMetadata, ClaimHistory } from 'src/points/types'
 import Celebration from 'src/icons/Celebration'
 import SwapArrows from 'src/icons/SwapArrows'
 import { navigate } from 'src/navigator/NavigationService'
@@ -15,6 +10,16 @@ import colors from 'src/styles/colors'
 import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import { useSelector } from 'src/redux/hooks'
 import { tokensByIdSelector } from 'src/tokens/selectors'
+import Logger from 'src/utils/Logger'
+
+const TAG = 'Points/cardDefinitions'
+
+export interface HistoryCardMetadata {
+  icon: React.ReactNode
+  title: string
+  subtitle: string
+  pointsAmount: number
+}
 
 export default function useCardDefinitions(
   pointsValue: number
@@ -50,7 +55,9 @@ export default function useCardDefinitions(
   }
 }
 
-export function useGetHistoryDefinition(): (history: ClaimHistory) => HistoryCardMetadata {
+export function useGetHistoryDefinition(): (
+  history: ClaimHistory
+) => HistoryCardMetadata | undefined {
   const { t } = useTranslation()
   const tokensById = useSelector((state) =>
     tokensByIdSelector(state, getSupportedNetworkIdsForSwap())
@@ -70,7 +77,8 @@ export function useGetHistoryDefinition(): (history: ClaimHistory) => HistoryCar
         const fromToken = tokensById[history.metadata.from]
         const toToken = tokensById[history.metadata.to]
         if (!fromToken || !toToken) {
-          throw new Error(`Cannot find tokens ${history.metadata.from} or ${history.metadata.to}`)
+          Logger.error(TAG, `Cannot find tokens ${history.metadata.from} or ${history.metadata.to}`)
+          return undefined
         }
         return {
           icon: <SwapArrows color={colors.successDark} />,

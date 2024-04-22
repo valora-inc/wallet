@@ -14,11 +14,12 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { PointsEvents } from 'src/analytics/Events'
 import { getHistoryStarted } from 'src/points/slice'
-import { ClaimHistory, HistoryCardMetadata } from 'src/points/types'
+import { ClaimHistory } from 'src/points/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
 import colors from 'src/styles/colors'
 import { BottomSheetSectionList } from '@gorhom/bottom-sheet'
 import { useGetHistoryDefinition } from 'src/points/cardDefinitions'
+import { HistoryCardMetadata } from 'src/points/cardDefinitions'
 
 interface Props {
   forwardedRef: React.RefObject<GorhomBottomSheet>
@@ -82,6 +83,9 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
 
   const renderItem: ListRenderItem<ClaimHistory> = ({ item }) => {
     const historyDefinition = getHistoryDefinition(item)
+    if (!historyDefinition) {
+      return null
+    }
     return (
       <PointsHistoryCard {...historyDefinition} testID={`${item.activityId}-${item.timestamp}`} />
     )
@@ -184,7 +188,6 @@ const styles = StyleSheet.create({
   },
   cardIcon: {
     backgroundColor: colors.successLight,
-    display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'center',
     borderRadius: 20,
@@ -195,7 +198,6 @@ const styles = StyleSheet.create({
   },
   cardContent: {
     flex: 1,
-    flexDirection: 'column',
   },
   cardTitle: {
     ...typeScale.labelMedium,
