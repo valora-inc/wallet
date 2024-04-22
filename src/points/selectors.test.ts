@@ -20,7 +20,7 @@ describe('pointsHistorySelector', () => {
       {
         activityId: 'create-wallet',
         timestamp: 1713803547000,
-        pointsAmount: '20',
+        pointsAmount: 20,
       },
     ])
   })
