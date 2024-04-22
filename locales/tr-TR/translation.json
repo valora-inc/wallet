@@ -219,6 +219,7 @@
   "moreInfo": "Daha Fazla Bilgi",
   "savedConfirmation": "Evet, Kurtarma Kelimelerimi yazdım.",
   "backupQuizWordCount": "Kurtarma Kelimelerinizdeki <0>{{ordinal}}</0>. kelime nedir?",
+  "backupQuizWordCountV1_83": "Kurtarma Kelimelerinizdeki <0>{{wordNumber}}</0>. kelime nedir?",
   "importBackupFailed": "Cüzdan Aktarılamadı",
   "backupQuizFailed": "Girmiş Olduğunuz Kurtarma Kelimeleri yanlış. Lütfen tekrar deneyin.",
   "invalidBackupPhrase": "Kurtarma Kelimeleri geçersiz",
@@ -2242,6 +2243,15 @@
   "points": {
     "title": "Valora Puanları",
     "activity": "İşlemler",
+    "loading": {
+      "title": "Puanlarınızı toplamak",
+      "description": "Puanlarınızı sayma aşamasındayız, sıkı durun"
+    },
+    "error": {
+      "title": "Noktalar yüklenemiyor",
+      "description": "Oops, puanlarınızı yüklemeye çalışırken bir şeyler ters gitti. Lütfen tekrar deneyin.",
+      "retryCta": "Tekrar deneyin"
+    },
     "infoCard": {
       "title": "Puan kazanmanın daha fazla yolu çok yakında 🚀",
       "body": "Uygulamayı kullanarak puan kazanmanın daha fazla yolunu eklemek için çalışıyoruz. Güncellemeler için kontrol etmeye devam edin."
@@ -2249,6 +2259,10 @@
     "activitySection": {
       "title": "Nasıl puan kazanabilirim?",
       "body": "Çok kolay! Sadece uygulamayı kullanarak puan kazanın."
+    },
+    "noActivities": {
+      "title": "Daha Fazla Puanın Kilidini Açmak için Güncelleyin 🔓",
+      "body": "Oops! Görünüşe göre {{appName}}'un eski bir sürümünü kullanıyorsunuz. Puan kazanabileceğiniz tüm heyecan verici yeni yolları keşfetmek için şimdi güncelleyin."
     },
     "activityCards": {
       "createWallet": {

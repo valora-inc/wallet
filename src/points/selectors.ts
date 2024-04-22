@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
-import { PointsMetadata, isPointsActivityId } from 'src/points/types'
+import { PointsMetadata, isPointsActivityId, ClaimHistory } from 'src/points/types'
 import { RootState } from 'src/redux/reducers'
+import { omit } from 'lodash'
 
 export const nextPageUrlSelector = (state: RootState) => {
   return state.points.nextPageUrl
@@ -10,9 +11,21 @@ export const pointsHistoryStatusSelector = (state: RootState) => {
   return state.points.getHistoryStatus
 }
 
-export const pointsHistorySelector = (state: RootState) => {
+const rawPointsHistorySelector = (state: RootState) => {
   return state.points.pointsHistory
 }
+
+export const pointsHistorySelector = createSelector(
+  [rawPointsHistorySelector],
+  (pointsHistory): (Omit<ClaimHistory, 'createdAt'> & { timestamp: number })[] => {
+    return pointsHistory.map((entry) => {
+      return {
+        ...omit(entry, 'createdAt'),
+        timestamp: Date.parse(entry.createdAt),
+      }
+    })
+  }
+)
 
 export const pointsConfigStatusSelector = (state: RootState) => state.points.pointsConfigStatus
 

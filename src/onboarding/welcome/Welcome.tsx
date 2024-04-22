@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { chooseCreateAccount, chooseRestoreAccount } from 'src/account/actions'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
@@ -8,7 +8,6 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Logo from 'src/icons/Logo'
-import { welcomeBackground } from 'src/images/Images'
 import { nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -17,7 +16,7 @@ import { firstOnboardingScreen } from 'src/onboarding/steps'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { patchUpdateStatsigUser } from 'src/statsig'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 export default function Welcome() {
@@ -65,7 +64,6 @@ export default function Welcome() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image source={welcomeBackground} style={styles.backgroundImage} />
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <Logo size={64} />
         <Text style={styles.title} testID={'WelcomeText'}>
@@ -109,15 +107,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.onboardingBackground,
     paddingHorizontal: Spacing.Thick24,
   },
-  backgroundImage: {
-    ...StyleSheet.absoluteFillObject,
-    width: undefined,
-    height: undefined,
-  },
   title: {
-    ...fontStyles.h1,
-    fontSize: 32,
-    lineHeight: 40,
+    ...typeScale.titleMedium,
     marginTop: Spacing.Smallest8,
     textAlign: 'center',
   },

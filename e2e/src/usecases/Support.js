@@ -54,7 +54,7 @@ export default Support = () => {
 
   it('Send Message to Support (tab)', async () => {
     await launchApp({
-      newInstance: false,
+      newInstance: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
       launchArgs: { statsigGateOverrides: `use_tab_navigator=true` },
     })

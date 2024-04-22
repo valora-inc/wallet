@@ -130,6 +130,7 @@ ios/celo/Base.lproj/*
 ios/celo/Images.xcassets/
 ios/.xcode.env
 src/brandingConfig.ts
+src/icons/LogoHeart.tsx
 src/icons/Logo.tsx
 src/icons/Home.tsx
 src/images/*

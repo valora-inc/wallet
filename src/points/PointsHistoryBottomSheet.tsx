@@ -14,7 +14,6 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { PointsEvents } from 'src/analytics/Events'
 import { getHistoryStarted } from 'src/points/slice'
-import { ClaimHistory } from 'src/points/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
 import colors from 'src/styles/colors'
 import { BottomSheetSectionList } from '@gorhom/bottom-sheet'
@@ -31,15 +30,6 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
   const pointsHistoryStatus = useSelector(pointsHistoryStatusSelector)
   const pointsHistory = useSelector(pointsHistorySelector)
 
-  const onPressTryAgain = () => {
-    ValoraAnalytics.track(PointsEvents.points_screen_activity_try_again_press)
-    dispatch(
-      getHistoryStarted({
-        getNextPage: false,
-      })
-    )
-  }
-
   const onFetchMoreHistory = () => {
     ValoraAnalytics.track(PointsEvents.points_screen_activity_fetch_more)
     dispatch(
@@ -49,55 +39,56 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
     )
   }
 
-  const sections = useMemo(() => {
-    if (!pointsHistory.length || pointsHistoryStatus === 'error') {
-      return []
-    }
-    return groupFeedItemsInSections([], pointsHistory, (t: ClaimHistory) => Date.parse(t.createdAt))
-  }, [pointsHistory, pointsHistoryStatus])
-
-  // TODO: Render items
-  const renderItem = () => {
-    return <></>
+  const onPressTryAgain = () => {
+    ValoraAnalytics.track(PointsEvents.points_screen_activity_try_again_press)
+    dispatch(
+      getHistoryStarted({
+        getNextPage: false,
+      })
+    )
   }
 
-  const renderLoading = () => {
-    if (pointsHistoryStatus !== 'loading') {
-      return <></>
-    }
-    return (
+  const Loading =
+    pointsHistoryStatus === 'loading' ? (
       <ActivityIndicator
         testID={'PointsHistoryBottomSheet/Loading'}
         style={styles.loadingIcon}
         size="large"
         color={colors.primary}
       />
-    )
-  }
+    ) : null
 
-  const renderEmpty = () => {
-    if (pointsHistoryStatus === 'error') {
-      return (
-        <View testID={'PointsHistoryBottomSheet/Error'} style={styles.errorContainer}>
-          <View style={styles.messageContainer}>
-            <Attention size={48} color={Colors.black} />
-            <Text style={styles.messageTitle}>{t('points.history.error.title')}</Text>
-            <Text style={styles.messageSubtitle}>{t('points.history.error.subtitle')}</Text>
-          </View>
-          <Button
-            testID={'PointsHistoryBottomSheet/TryAgain'}
-            onPress={onPressTryAgain}
-            text={t('points.history.error.tryAgain')}
-            type={BtnTypes.GRAY_WITH_BORDER}
-            size={BtnSizes.FULL}
-            style={{ width: '100%' }}
-          />
+  const Empty =
+    pointsHistoryStatus === 'error' ? (
+      <View testID={'PointsHistoryBottomSheet/Error'} style={styles.errorContainer}>
+        <View style={styles.messageContainer}>
+          <Attention size={48} color={Colors.black} />
+          <Text style={styles.messageTitle}>{t('points.history.error.title')}</Text>
+          <Text style={styles.messageSubtitle}>{t('points.history.error.subtitle')}</Text>
         </View>
-      )
-    }
+        <Button
+          testID={'PointsHistoryBottomSheet/TryAgain'}
+          onPress={onPressTryAgain}
+          text={t('points.history.error.tryAgain')}
+          type={BtnTypes.GRAY_WITH_BORDER}
+          size={BtnSizes.FULL}
+          style={{ width: '100%' }}
+        />
+      </View>
+    ) : (
+      <View testID={'PointsHistoryBottomSheet/Empty'}></View>
+    ) // TODO: Render empty/no history state
 
-    // TODO: Render empty/no history state
-    return <View testID={'PointsHistoryBottomSheet/Empty'}></View>
+  const sections = useMemo(() => {
+    if (!pointsHistory.length || pointsHistoryStatus === 'error') {
+      return []
+    }
+    return groupFeedItemsInSections([], pointsHistory)
+  }, [pointsHistory, pointsHistoryStatus])
+
+  // TODO: Render items
+  const renderItem = () => {
+    return <></>
   }
 
   return (
@@ -113,12 +104,12 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
             <SectionHead text={item.section.title} style={styles.sectionHead} />
           )}
           sections={sections}
-          keyExtractor={(item) => `${item.activityId}-${item.createdAt}`}
+          keyExtractor={(item) => `${item.activityId}-${item.timestamp}`}
           keyboardShouldPersistTaps="always"
           testID="PointsHistoryList"
           onEndReached={onFetchMoreHistory}
-          ListFooterComponent={renderLoading}
-          ListEmptyComponent={renderEmpty}
+          ListFooterComponent={Loading}
+          ListEmptyComponent={Empty}
         />
       </View>
     </BottomSheetBase>
