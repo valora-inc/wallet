@@ -219,6 +219,7 @@
   "moreInfo": "Thêm thông tin",
   "savedConfirmation": "Có, tôi đã viết ra Cụm từ khôi phục của mình.",
   "backupQuizWordCount": "Từ <0>{{ordinal}}</0> trong Cụm từ khôi phục của bạn là gì?",
+  "backupQuizWordCountV1_83": "Từ <0>{{wordNumber}}</0> trong Cụm từ khôi phục của bạn là gì?",
   "importBackupFailed": "Không nhập được ví",
   "backupQuizFailed": "Cụm từ khôi phục bạn nhập không chính xác. Vui lòng thử lại.",
   "invalidBackupPhrase": "Cụm từ khôi phục không hợp lệ",
@@ -2240,6 +2241,15 @@
   "points": {
     "title": "Valora Points",
     "activity": "Hoạt động",
+    "loading": {
+      "title": "Gathering your points",
+      "description": "We're in the process of tallying up your points, hang tight"
+    },
+    "error": {
+      "title": "Unable to load points",
+      "description": "Oops, something went wrong when trying to load your points. Please try again.",
+      "retryCta": "Thử lại"
+    },
     "infoCard": {
       "title": "More ways to earn points coming soon 🚀",
       "body": "We are working on adding more ways to earn points through using the app. Keep checking in for updates."
@@ -2247,6 +2257,10 @@
     "activitySection": {
       "title": "How do I earn points?",
       "body": "It's easy! Earn points by simply using the app."
+    },
+    "noActivities": {
+      "title": "Update to Unlock More Points 🔓",
+      "body": "Oops! It seems you're using an older version of {{appName}}. Update now to discover all the exciting new ways you can earn points."
     },
     "activityCards": {
       "createWallet": {

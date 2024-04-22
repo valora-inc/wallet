@@ -77,54 +77,46 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
     if (!pointsHistory.length || pointsHistoryStatus === 'error') {
       return []
     }
-    return groupFeedItemsInSections([], pointsHistory, (t: ClaimHistory) => Date.parse(t.createdAt))
+    return groupFeedItemsInSections([], pointsHistory)
   }, [pointsHistory, pointsHistoryStatus])
 
-  const renderItem: ListRenderItem<ClaimHistory> = ({ item }: { item: ClaimHistory }) => {
+  const renderItem: ListRenderItem<ClaimHistory> = ({ item }) => {
     const historyDefinition = getHistoryDefinition(item)
     return (
-      <PointsHistoryCard {...historyDefinition} testID={`${item.activityId}-${item.createdAt}`} />
+      <PointsHistoryCard {...historyDefinition} testID={`${item.activityId}-${item.timestamp}`} />
     )
   }
 
-  const renderLoading = () => {
-    if (pointsHistoryStatus !== 'loading') {
-      return <></>
-    }
-    return (
+  const Loading =
+    pointsHistoryStatus === 'loading' ? (
       <ActivityIndicator
         testID={'PointsHistoryBottomSheet/Loading'}
         style={styles.loadingIcon}
         size="large"
         color={colors.primary}
       />
-    )
-  }
+    ) : null
 
-  const renderEmpty = () => {
-    if (pointsHistoryStatus === 'error') {
-      return (
-        <View testID={'PointsHistoryBottomSheet/Error'} style={styles.errorContainer}>
-          <View style={styles.messageContainer}>
-            <Attention size={48} color={Colors.black} />
-            <Text style={styles.messageTitle}>{t('points.history.error.title')}</Text>
-            <Text style={styles.messageSubtitle}>{t('points.history.error.subtitle')}</Text>
-          </View>
-          <Button
-            testID={'PointsHistoryBottomSheet/TryAgain'}
-            onPress={onPressTryAgain}
-            text={t('points.history.error.tryAgain')}
-            type={BtnTypes.GRAY_WITH_BORDER}
-            size={BtnSizes.FULL}
-            style={{ width: '100%' }}
-          />
+  const Empty =
+    pointsHistoryStatus === 'error' ? (
+      <View testID={'PointsHistoryBottomSheet/Error'} style={styles.errorContainer}>
+        <View style={styles.messageContainer}>
+          <Attention size={48} color={Colors.black} />
+          <Text style={styles.messageTitle}>{t('points.history.error.title')}</Text>
+          <Text style={styles.messageSubtitle}>{t('points.history.error.subtitle')}</Text>
         </View>
-      )
-    }
-
-    // TODO: Render empty/no history state
-    return <View testID={'PointsHistoryBottomSheet/Empty'}></View>
-  }
+        <Button
+          testID={'PointsHistoryBottomSheet/TryAgain'}
+          onPress={onPressTryAgain}
+          text={t('points.history.error.tryAgain')}
+          type={BtnTypes.GRAY_WITH_BORDER}
+          size={BtnSizes.FULL}
+          style={{ width: '100%' }}
+        />
+      </View>
+    ) : (
+      <View testID={'PointsHistoryBottomSheet/Empty'}></View>
+    ) // TODO: Render empty/no history state
 
   return (
     <BottomSheetBase snapPoints={['80%']} forwardedRef={forwardedRef}>
@@ -139,12 +131,12 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
             <SectionHead text={item.section.title} style={styles.sectionHead} />
           )}
           sections={sections}
-          keyExtractor={(item) => `${item.activityId}-${item.createdAt}`}
+          keyExtractor={(item) => `${item.activityId}-${item.timestamp}`}
           keyboardShouldPersistTaps="always"
           testID="PointsHistoryList"
           onEndReached={onFetchMoreHistory}
-          ListFooterComponent={renderLoading}
-          ListEmptyComponent={renderEmpty}
+          ListFooterComponent={Loading}
+          ListEmptyComponent={Empty}
         />
       </View>
     </BottomSheetBase>

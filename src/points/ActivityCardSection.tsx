@@ -1,9 +1,9 @@
 import React from 'react'
-import { isPointsActivityId } from 'src/points/types'
 import ActivityCard from 'src/points/ActivityCard'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { BottomSheetParams, PointsMetadata } from 'src/points/types'
+import LogoHeart from 'src/icons/LogoHeart'
+import { BottomSheetParams, PointsMetadata, isPointsActivityId } from 'src/points/types'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -56,6 +56,7 @@ export default function ActivityCardSection({ onCardPress, pointsSections }: Pro
           <View style={styles.hr} />
           <View style={styles.pointsSectionHeaderAmountContainer}>
             <Text style={styles.pointsSectionHeaderAmount}>{pointsAmount}</Text>
+            <LogoHeart size={16} />
           </View>
           <View style={styles.hr} />
         </View>
@@ -92,7 +93,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.gray2,
     paddingHorizontal: Spacing.Small12,
+    paddingVertical: Spacing.Tiny4,
     borderRadius: Spacing.XLarge48,
+    flexDirection: 'row',
+    gap: Spacing.Tiny4,
   },
   pointsSectionHeaderAmount: {
     ...typeScale.labelSemiBoldXSmall,

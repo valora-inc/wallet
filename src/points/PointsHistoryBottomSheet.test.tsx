@@ -73,7 +73,7 @@ describe(PointsHistoryBottomSheet, () => {
     }
   }
 
-  it('Show empty state when no hstory', async () => {
+  it('shows empty state when no history', async () => {
     const tree = renderScreen()
 
     expect(tree.queryByTestId('PointsHistoryBottomSheet/Error')).toBeNull()
@@ -81,7 +81,7 @@ describe(PointsHistoryBottomSheet, () => {
     expect(tree.queryByTestId('PointsHistoryBottomSheet/Empty')).toBeTruthy()
   })
 
-  it('Displays content while loading', async () => {
+  it('displays content while loading', async () => {
     const tree = renderScreen({
       points: { pointsHistory: MOCK_RESPONSE_NO_NEXT_PAGE.data, getHistoryStatus: 'loading' },
     })
@@ -114,12 +114,12 @@ describe(PointsHistoryBottomSheet, () => {
     expect(dispatch).toHaveBeenCalledWith(getHistoryStarted({ getNextPage: true }))
   })
 
-  it('Shows error screen if fetch fails', async () => {
+  it('shows error screen if fetch fails', async () => {
     const tree = renderScreen({ points: { getHistoryStatus: 'error' } })
     expect(tree.getByTestId('PointsHistoryBottomSheet/Error')).toBeTruthy()
   })
 
-  it('Dispatches action when try again is pressed', async () => {
+  it('dispatches an action when try again is pressed', async () => {
     const { dispatch, getByText } = renderScreen({ points: { getHistoryStatus: 'error' } })
     fireEvent.press(getByText('points.history.error.tryAgain'))
     await waitFor(() =>

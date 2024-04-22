@@ -4716,6 +4716,9 @@
                 "secureSendPhoneNumberMapping": {
                     "$ref": "#/definitions/SecureSendPhoneNumberMapping"
                 },
+                "shouldRefreshStoredPasswordHash": {
+                    "type": "boolean"
+                },
                 "walletToAccountAddress": {
                     "$ref": "#/definitions/WalletToAccountAddressType"
                 }
@@ -4732,6 +4735,7 @@
                 "importContactsProgress",
                 "lastSavedContactsHash",
                 "secureSendPhoneNumberMapping",
+                "shouldRefreshStoredPasswordHash",
                 "walletToAccountAddress"
             ],
             "type": "object"

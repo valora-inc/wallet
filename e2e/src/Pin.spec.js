@@ -10,7 +10,7 @@ describe.each([{ navType: 'drawer' }, { navType: 'tab' }])(
       await device.uninstallApp()
       await device.installApp()
       await launchApp({
-        newInstance: false,
+        newInstance: true,
         permissions: { notifications: 'YES', contacts: 'YES' },
         launchArgs: { statsigGateOverrides: `use_tab_navigator=${navType === 'tab'}` },
       })

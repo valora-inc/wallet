@@ -40,6 +40,7 @@ import Logger from 'src/utils/Logger'
 import { initialiseWalletConnect, isWalletConnectEnabled } from 'src/walletConnect/saga'
 import { handleLoadingWithTimeout } from 'src/walletConnect/walletConnect'
 import { call, fork, put, select } from 'typed-redux-saga'
+import { isAddress } from 'viem'
 
 export enum QRCodeTypes {
   QR_CODE = 'QR_CODE',
@@ -126,9 +127,10 @@ export function* handleSecureSend(
 }
 
 function* extractQRAddressData(qrCode: QrCode) {
-  // Regex matches any 40 hexadecimal characters prefixed with "0x" (case insensitive)
-  if (/^0x[a-f0-9]{40}$/gi.test(qrCode.data)) {
-    qrCode.data = `celo://wallet/pay?address=${qrCode.data}`
+  // strip network prefix if present
+  const qrAddress = qrCode.data.split(':').at(-1) || qrCode.data
+  if (isAddress(qrAddress, { strict: false })) {
+    qrCode.data = `celo://wallet/pay?address=${qrAddress}`
   }
   let qrData: UriData | null
   try {

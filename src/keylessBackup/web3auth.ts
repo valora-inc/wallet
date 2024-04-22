@@ -1,8 +1,8 @@
-import jwtDecode from 'jwt-decode'
-import Logger from 'src/utils/Logger'
-import { TORUS_NETWORK, WEB3AUTH_CLIENT_ID } from 'src/config'
-import Torus from '@toruslabs/torus.js'
 import NodeDetailManager from '@toruslabs/fetch-node-details'
+import Torus from '@toruslabs/torus.js'
+import { jwtDecode } from 'jwt-decode'
+import { TORUS_NETWORK, WEB3AUTH_CLIENT_ID } from 'src/config'
+import Logger from 'src/utils/Logger'
 
 const TAG = 'keylessBackup/torus'
 

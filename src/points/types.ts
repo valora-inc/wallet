@@ -59,10 +59,14 @@ type SwapClaimHistory = BaseClaimHistory & {
   }
 }
 
-export type ClaimHistory = CreateWalletClaimHistory | SwapClaimHistory
+export type RawClaimHistory = CreateWalletClaimHistory | SwapClaimHistory
+
+// See https://stackoverflow.com/questions/59794474/omitting-a-shared-property-from-a-union-type-of-objects-results-in-error-when-us
+type DistributiveOmit<T, K extends keyof any> = T extends any ? Omit<T, K> : never
+export type ClaimHistory = DistributiveOmit<RawClaimHistory, 'createdAt'> & { timestamp: number }
 
 export interface GetHistoryResponse {
-  data: ClaimHistory[]
+  data: RawClaimHistory[]
   hasNextPage: boolean
   nextPageUrl: string
 }

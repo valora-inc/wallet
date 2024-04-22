@@ -219,6 +219,7 @@
   "moreInfo": "ข้อมูลเพิ่มเติม",
   "savedConfirmation": "ใช่ ฉันจดบันทึกวลีของฉันไว้แล้ว",
   "backupQuizWordCount": "คำ <0>{{ordinal}}</0> สำหรับวลีกู้คืนรหัสของคุณคืออะไร",
+  "backupQuizWordCountV1_83": "คำ <0>{{wordNumber}}</0> สำหรับวลีกู้คืนรหัสของคุณคืออะไร",
   "importBackupFailed": "การนำเข้ากระเป๋าเงินล้มเหลว",
   "backupQuizFailed": "วลีกู้คืนรหัสที่คุณป้อนไม่ถูกต้อง โปรดลองอีกครั้ง",
   "invalidBackupPhrase": "วลีกู้คืนรหัสไม่ถูกต้อง",
@@ -2240,6 +2241,15 @@
   "points": {
     "title": "Valora Points",
     "activity": "กิจกรรม",
+    "loading": {
+      "title": "Gathering your points",
+      "description": "We're in the process of tallying up your points, hang tight"
+    },
+    "error": {
+      "title": "Unable to load points",
+      "description": "Oops, something went wrong when trying to load your points. Please try again.",
+      "retryCta": "ลองอีกครั้ง"
+    },
     "infoCard": {
       "title": "More ways to earn points coming soon 🚀",
       "body": "We are working on adding more ways to earn points through using the app. Keep checking in for updates."
@@ -2247,6 +2257,10 @@
     "activitySection": {
       "title": "How do I earn points?",
       "body": "It's easy! Earn points by simply using the app."
+    },
+    "noActivities": {
+      "title": "Update to Unlock More Points 🔓",
+      "body": "Oops! It seems you're using an older version of {{appName}}. Update now to discover all the exciting new ways you can earn points."
     },
     "activityCards": {
       "createWallet": {

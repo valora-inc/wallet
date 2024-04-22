@@ -34,7 +34,6 @@ export const verificationEducation1 = require('src/images/verification-education
 export const verificationEducation2 = require('src/images/verification-education-2.png')
 export const verificationEducation3 = require('src/images/verification-education-3.png')
 export const verificationEducation4 = require('src/images/verification-education-4.png')
-export const welcomeBackground = require('src/images/welcome-background.png')
 export const boostRewards = require('src/images/boost-rewards.png')
 export const earn1 = require('src/images/earn1.png')
 export const earn2 = require('src/images/earn2.png')

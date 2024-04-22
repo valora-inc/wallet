@@ -44,7 +44,7 @@ describe('getViemWallet', () => {
         .provide([
           [select(walletAddressSelector), '0x123'],
           [call(listStoredAccounts), [{ address: '0x123', createdAt: date }]],
-          [call(getPasswordSaga, '0x123', false, true), 'password'],
+          [call(getPasswordSaga, '0x123', true, false), 'password'],
           [
             call(getStoredPrivateKey, { address: '0x123', createdAt: new Date() }, 'password'),
             null,
@@ -61,7 +61,7 @@ describe('getViemWallet', () => {
       .provide([
         [select(walletAddressSelector), '0x123'],
         [call(listStoredAccounts), [{ address: '0x123', createdAt: date }]],
-        [call(getPasswordSaga, '0x123', false, true), 'password'],
+        [call(getPasswordSaga, '0x123', true, false), 'password'],
         [
           call(getStoredPrivateKey, { address: '0x123', createdAt: new Date() }, 'password'),
           'password',

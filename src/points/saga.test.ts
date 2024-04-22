@@ -12,10 +12,14 @@ import pointsReducer, {
   getPointsConfigStarted,
   getPointsConfigSucceeded,
 } from 'src/points/slice'
-import { ClaimHistory, GetHistoryResponse } from 'src/points/types'
+import { RawClaimHistory, GetHistoryResponse } from 'src/points/types'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import * as fetchWithTimeout from 'src/utils/fetchWithTimeout'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
+
+jest.mock('src/statsig')
 
 const MOCK_HISTORY_RESPONSE: GetHistoryResponse = {
   data: [
@@ -54,7 +58,7 @@ const MOCK_HISTORY_RESPONSE: GetHistoryResponse = {
 // We'll only store history entries in Redux if they have known values for activityId
 const MOCK_SUPPORTED_HISTORY = MOCK_HISTORY_RESPONSE.data.slice(0, 2)
 
-const MOCK_POINTS_HISTORY: ClaimHistory[] = [
+const MOCK_POINTS_HISTORY: RawClaimHistory[] = [
   { activityId: 'create-wallet', pointsAmount: 10, createdAt: 'some time' },
 ]
 
@@ -186,6 +190,9 @@ describe('getHistory', () => {
 describe('getPointsConfig', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_POINTS)
   })
 
   it('fetches and sets points config', async () => {
@@ -277,5 +284,16 @@ describe('getPointsConfig', () => {
       .put(getPointsConfigError())
       .not.put(getPointsConfigSucceeded(expect.anything()))
       .run()
+  })
+
+  it('does not fetch if points are not enabled', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
+
+    await expectSaga(getPointsConfig)
+      .not.put(getPointsConfigStarted())
+      .not.put(getPointsConfigSucceeded(expect.anything()))
+      .run()
+
+    expect(mockFetch).not.toHaveBeenCalled()
   })
 })

@@ -1,10 +1,10 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { ClaimHistory, PointsActivityId } from 'src/points/types'
+import { RawClaimHistory, PointsActivityId } from 'src/points/types'
 import { REHYDRATE, RehydrateAction, getRehydratePayload } from 'src/redux/persist-helper'
 
 interface GetPointsHistorySucceededAction {
   appendHistory: boolean
-  newPointsHistory: ClaimHistory[]
+  newPointsHistory: RawClaimHistory[]
   nextPageUrl: string | null
 }
 
@@ -20,7 +20,7 @@ export type PointsConfig = {
   }
 }
 interface State {
-  pointsHistory: ClaimHistory[]
+  pointsHistory: RawClaimHistory[]
   nextPageUrl: string | null
   getHistoryStatus: 'idle' | 'loading' | 'error'
   pointsConfig: PointsConfig

@@ -2,52 +2,30 @@ import { pointsSectionsSelector, pointsHistorySelector } from 'src/points/select
 import { getMockStoreData } from 'test/utils'
 
 describe('pointsHistorySelector', () => {
-  it('should filter out records with unknown activityIds', () => {
-    const stateWithFakeActivityId = getMockStoreData({
+  it('returns UNIX timestamp', () => {
+    const stateWithPointsHistory = getMockStoreData({
       points: {
         pointsHistory: [
           {
-            activityId: 'swap',
-            pointsAmount: 20,
-            createdAt: '2024-03-05T19:26:25.000Z',
-            metadata: {
-              to: 'celo-alfajores:native',
-              from: 'celo-alfajores:0x874069fa1eb16d44d622f2e0ca25eea172369bc1',
-            },
-          },
-          {
-            activityId: 'fake-activityId' as any,
-            pointsAmount: 20,
-            createdAt: '2024-01-04T19:26:25.000Z',
-          },
-          {
             activityId: 'create-wallet',
+            createdAt: '2024-04-22T16:32:27+0000',
             pointsAmount: 20,
-            createdAt: '2023-12-04T19:26:25.000Z',
           },
         ],
       },
     })
-    const result = pointsHistorySelector(stateWithFakeActivityId)
+    const result = pointsHistorySelector(stateWithPointsHistory)
 
     expect(result).toEqual([
       {
-        activityId: 'swap',
-        pointsAmount: 20,
-        createdAt: '2024-03-05T19:26:25.000Z',
-        metadata: {
-          to: 'celo-alfajores:native',
-          from: 'celo-alfajores:0x874069fa1eb16d44d622f2e0ca25eea172369bc1',
-        },
-      },
-      {
         activityId: 'create-wallet',
+        timestamp: 1713803547000,
         pointsAmount: 20,
-        createdAt: '2023-12-04T19:26:25.000Z',
       },
     ])
   })
 })
+
 describe('pointsMetadataSelector', () => {
   it('should return an empty array if there are no activities', () => {
     const stateWithoutPointsConfig = getMockStoreData({

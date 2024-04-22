@@ -7,61 +7,25 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import PointsHome from 'src/points/PointsHome'
 import { getHistoryStarted, getPointsConfigRetry } from 'src/points/slice'
+import { PointsActivityId } from 'src/points/types'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 jest.mock('src/points/PointsHistoryBottomSheet')
-jest.mock('src/statsig', () => ({
-  getDynamicConfigParams: jest.fn().mockReturnValue({
-    pointsMetadata: [
-      {
-        pointsAmount: 50,
-        activities: [
-          {
-            activityId: 'create-wallet',
-          },
-          {
-            activityId: 'swap',
-          },
-          {
-            activityId: 'more-coming',
-          },
-          {
-            activityId: 'foo',
-          },
-        ],
-      },
-      {
-        pointsAmount: 20,
-        activities: [
-          {
-            activityId: 'more-coming',
-          },
-          {
-            activityId: 'create-wallet',
-          },
-        ],
-      },
-      {
-        pointsAmount: 0,
-        activities: [
-          {
-            activityId: 'more-coming',
-          },
-        ],
-      },
-    ],
-  }),
-}))
 
 const mockScreenProps = () => getMockStackScreenProps(Screens.PointsHome)
 
 const renderPointsHome = (
-  pointsConfigStatus: 'idle' | 'loading' | 'error' | 'success' = 'success'
+  pointsConfigStatus: 'idle' | 'loading' | 'error' | 'success' = 'success',
+  activitiesById?: {
+    [activityId in PointsActivityId]?: {
+      pointsAmount: number
+    }
+  }
 ) => {
   const store = createMockStore({
     points: {
       pointsConfig: {
-        activitiesById: {
+        activitiesById: activitiesById ?? {
           swap: {
             pointsAmount: 50,
           },
@@ -136,6 +100,20 @@ describe(PointsHome, () => {
     expect(getByTestId('PointsActivityCard-more-coming-20')).toBeTruthy()
     expect(getByTestId('PointsActivityCard-create-wallet-20')).toBeTruthy()
 
+    expect(queryByText('points.loading.title')).toBeFalsy()
+    expect(queryByText('points.error.title')).toBeFalsy()
+  })
+
+  it('renders only the balance if there are no supported activities', async () => {
+    const { getByTestId, getByText, queryByText } = renderPointsHome('success', {})
+
+    expect(getByText('points.title')).toBeTruthy()
+    expect(getByText('50')).toBeTruthy() // balance
+    expect(getByTestId('PointsActivityButton')).toBeTruthy()
+    expect(getByText('points.noActivities.title')).toBeTruthy()
+    expect(getByText('points.noActivities.body')).toBeTruthy()
+
+    expect(queryByText('points.infoCard.title')).toBeFalsy()
     expect(queryByText('points.loading.title')).toBeFalsy()
     expect(queryByText('points.error.title')).toBeFalsy()
   })

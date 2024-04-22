@@ -4905,7 +4905,7 @@ The following software may be included in this product: apg-js. A copy of the so
 ## [2-Clause BSD License](https://opensource.org/licenses/BSD-2-Clause)
 
 <p>
-Copyright (c) 2021 Lowell D. Thomas<br>
+Copyright (c) 2023 Lowell D. Thomas<br>
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -12687,7 +12687,7 @@ The following software may be included in this product: i18next. A copy of the s
 
 The MIT License (MIT)
 
-Copyright (c) 2022 i18next
+Copyright (c) 2024 i18next
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22278,7 +22278,7 @@ The following software may be included in this product: react-i18next. A copy of
 
 The MIT License (MIT)
 
-Copyright (c) 2023 i18next
+Copyright (c) 2024 i18next
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
