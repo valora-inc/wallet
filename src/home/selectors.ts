@@ -1,4 +1,4 @@
-import isPast from 'date-fns/isPast'
+import { isPast } from 'date-fns/isPast'
 import _ from 'lodash'
 import DeviceInfo from 'react-native-device-info'
 import { createSelector } from 'reselect'

@@ -219,6 +219,7 @@
   "moreInfo": "更多信息",
   "savedConfirmation": "是的，我已写下了我的短语。",
   "backupQuizWordCount": "您的恢复短语的 <0>{{ordinal}}</0> 单词是什么？",
+  "backupQuizWordCountV1_83": "您的恢复短语的 <0>{{wordNumber}}</0> 单词是什么？",
   "importBackupFailed": "导入钱包失败",
   "backupQuizFailed": "您输入的恢复短语不正确。请再试一次。",
   "invalidBackupPhrase": "恢复短语无效",
@@ -2240,6 +2241,15 @@
   "points": {
     "title": "瓦洛拉积分",
     "activity": "活动",
+    "loading": {
+      "title": "收集要点",
+      "description": "我们正在统计您的积分，请抓紧时间"
+    },
+    "error": {
+      "title": "无法加载点",
+      "description": "哎呀，在加载您的积分时出了点问题。请重试。",
+      "retryCta": "再试一次"
+    },
     "infoCard": {
       "title": "更多赚取积分的方法即将推出 🚀",
       "body": "我们正在努力增加更多通过使用应用程序赚取积分的方法。请随时查看更新。"
@@ -2247,6 +2257,10 @@
     "activitySection": {
       "title": "如何获得积分？",
       "body": "非常简单！只需使用该应用程序即可获得积分。"
+    },
+    "noActivities": {
+      "title": "更新以解锁更多积分 🔓",
+      "body": "哎呀！您使用的似乎是旧版本的 {{appName}}。立即更新，了解赚取积分的所有令人兴奋的新方法。"
     },
     "activityCards": {
       "createWallet": {

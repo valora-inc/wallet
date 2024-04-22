@@ -1,5 +1,5 @@
 import { BottomSheetView } from '@gorhom/bottom-sheet'
-import differenceInDays from 'date-fns/differenceInDays'
+import { differenceInDays } from 'date-fns/differenceInDays'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'

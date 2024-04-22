@@ -219,6 +219,7 @@
   "moreInfo": "Maggiori informazioni",
   "savedConfirmation": "Sì, ho annotato la mia Frase di recupero.",
   "backupQuizWordCount": "Qual è la <0>{{ordinal}}</0> parola della tua Frase di recupero?",
+  "backupQuizWordCountV1_83": "Qual è la <0>{{wordNumber}}</0> parola della tua frase di recupero?",
   "importBackupFailed": "Impossibile importare il wallet.",
   "backupQuizFailed": "La Frase di recupero inserita non è corretta. Riprova.",
   "invalidBackupPhrase": "La Frase di recupero non è valida",
@@ -2242,6 +2243,15 @@
   "points": {
     "title": "Punti Valora",
     "activity": "Attività",
+    "loading": {
+      "title": "Raccogliere i punti",
+      "description": "Stiamo per fare il conteggio dei tuoi punti, tieniti forte."
+    },
+    "error": {
+      "title": "Impossibile caricare i punti",
+      "description": "Ops, qualcosa è andato storto durante il tentativo di caricare i tuoi punti. Riprova.",
+      "retryCta": "Riprova"
+    },
     "infoCard": {
       "title": "Altri modi per guadagnare punti in arrivo 🚀",
       "body": "Stiamo lavorando per aggiungere altri modi per guadagnare punti utilizzando l'app. Continuate a seguirci per gli aggiornamenti."
@@ -2249,6 +2259,10 @@
     "activitySection": {
       "title": "Come si guadagnano i punti?",
       "body": "È facile! Guadagna punti semplicemente usando l'app."
+    },
+    "noActivities": {
+      "title": "Aggiornamento per sbloccare più punti 🔓",
+      "body": "Ops! Sembra che tu stia utilizzando una versione precedente di {{appName}}. Aggiorna ora per scoprire tutti i nuovi ed entusiasmanti modi in cui puoi guadagnare punti."
     },
     "activityCards": {
       "createWallet": {

@@ -157,6 +157,7 @@ export default NewAccountOnboarding = () => {
     await device.uninstallApp()
     await device.installApp()
     await launchApp({
+      newInstance: true,
       launchArgs: {
         statsigGateOverrides: `use_tab_navigator=true,show_cloud_account_backup_setup=true,show_cloud_account_backup_restore=true`,
       },

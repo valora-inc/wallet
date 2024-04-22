@@ -26,7 +26,7 @@ export const getAccountNumberSchema = (
     const errorMessageText = overrides?.accountNumber?.errorString
       ? i18n.t(
           `fiatAccountSchema.accountNumber.${overrides.accountNumber.errorString}`,
-          overrides.accountNumber.errorParams ?? {}
+          overrides.accountNumber.errorParams
         )
       : i18n.t('fiatAccountSchema.accountNumber.errorMessageDigit')
     return {
