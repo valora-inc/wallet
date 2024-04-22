@@ -130,7 +130,7 @@ export class RegulatoryTerms extends React.Component<Props> {
             <View style={styles.itemContainer}>
               <Text style={styles.item}>{'\u2022'}</Text>
               {item.onPress ? (
-                <Text style={[styles.item, styles.italic]}>
+                <Text style={styles.item}>
                   <Trans i18nKey={item.text}>
                     <Text onPress={item.onPress} style={styles.link} />
                   </Trans>
@@ -169,7 +169,12 @@ export class RegulatoryTerms extends React.Component<Props> {
     )
 
     return (
-      <SafeAreaView style={styles.container} edges={['bottom']}>
+      <SafeAreaView
+        style={styles.container}
+        // don't apply safe area padding to top on iOS since it is opens like a
+        // bottom sheet (modal animated screen)
+        edges={Platform.select({ ios: ['bottom', 'left', 'right'] })}
+      >
         <DevSkipButton nextScreen={Screens.PincodeSet} />
         {variant === 'colloquial_terms' ? this.renderColloquialTerms() : this.renderTerms()}
         <SafeAreaInsetsContext.Consumer>
@@ -240,10 +245,6 @@ const styles = StyleSheet.create({
   item: {
     ...typeScale.bodySmall,
     flexShrink: 1,
-  },
-  italic: {
-    // TODO(satish): Figure out why this doesn't work on iOS
-    fontStyle: 'italic',
   },
   fullTerms: {
     ...typeScale.labelSemiBoldSmall,
