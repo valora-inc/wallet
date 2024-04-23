@@ -710,15 +710,15 @@
     "goldDisclaimer": "При создании аккаунта в Valora вы создаете цифровой кошелек, доступ к которому есть только у вас. Никакие другие физические или юридические лица, включая Valora, не могут восстановить ваш ключ, изменить или отменить транзакции, а также вернуть потерянные средства. Помните, что криптовалюты являются частью нового класса активов и сопряжены с риском финансовых потерь. Тщательно оцените свое финансовое положение и толерантность к финансовым рискам перед покупкой любых активов."
   },
   "termsColloquial": {
-    "title": "Let’s start by creating your wallet",
-    "privacyHeading": "Your Info & Privacy:",
-    "privacy1": "We gather usage data which helps us improve the app and security. The type of information we collect, how we use it and your rights related to that information can all be seen in our <0>Privacy Policy</0>.",
-    "privacy2": "If you decide to link your phone number, we will store an encrypted copy of it.",
-    "privacy3": "If you decide to connect your contacts, we use their names, numbers, and profile pictures to make it easier to find them.",
-    "walletHeading": "Your Digital Wallet with Valora:",
-    "wallet1": "You’re about to create a digital wallet. Only you have the key to your wallet. We cannot recover your key or your assets if you lose your key. We also cannot reverse actions taken through Valora on blockchains.",
-    "wallet2": "Digital assets, the assets with which you will interact with Valora, come with unique risks. By using Valora, you accept these risks and take responsibility for them. Please consider your finances and risk tolerance before making choices.",
-    "fullTerms": "Read our full <0>Terms & Conditions</0>"
+    "title": "Начнем с того, что создадим твой кошелек.",
+    "privacyHeading": "Твоя информация и конфиденциальность:",
+    "privacy1": "Мы собираем данные об использовании, которые помогают нам улучшать приложение и безопасность. О том, какую информацию мы собираем, как мы ее используем, а также о твоих правах, связанных с этой информацией, ты можешь прочитать в нашей <0>Политике конфиденциальности</0>.",
+    "privacy2": "Если ты решишь указать свой номер телефона, мы будем хранить его зашифрованную копию.",
+    "privacy3": "Если ты решишь подключить свои контакты, мы используем их имена, номера и фотографии профилей, чтобы было проще их найти.",
+    "walletHeading": "Твой цифровой кошелек с помощью Valora:",
+    "wallet1": "Сейчас ты создашь цифровой кошелек. Ключ от кошелька есть только у тебя. Мы не сможем восстановить твой ключ или твои активы, если ты потеряешь ключ. Мы также не можем отменить действия, совершенные через Valora на блокчейн.",
+    "wallet2": "Цифровые активы, с которыми ты будешь взаимодействовать с Valora, сопряжены с уникальными рисками. Используя Valora, ты принимаешь эти риски и берешь на себя ответственность за них. Пожалуйста, учитывай свои финансовые возможности и толерантность к риску, прежде чем делать выбор.",
+    "fullTerms": "Прочитай наши полные <0>правила и условия</0>"
   },
   "fullNameOrPsuedonym": "Полное имя или псевдоним",
   "namePlaceholder": "пример имени",
