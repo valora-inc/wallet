@@ -842,6 +842,16 @@
             ],
             "type": "string"
         },
+        "ClaimHistory": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/CreateWalletClaimHistory"
+                },
+                {
+                    "$ref": "#/definitions/SwapClaimHistory"
+                }
+            ]
+        },
         "CleverTapInboxMessage": {
             "additionalProperties": false,
             "properties": {
@@ -2620,16 +2630,6 @@
                 "type": "string"
             },
             "type": "object"
-        },
-        "RawClaimHistory": {
-            "anyOf": [
-                {
-                    "$ref": "#/definitions/CreateWalletClaimHistory"
-                },
-                {
-                    "$ref": "#/definitions/SwapClaimHistory"
-                }
-            ]
         },
         "Recipient": {
             "anyOf": [
@@ -4428,7 +4428,7 @@
                 },
                 "pointsHistory": {
                     "items": {
-                        "$ref": "#/definitions/RawClaimHistory"
+                        "$ref": "#/definitions/ClaimHistory"
                     },
                     "type": "array"
                 }
