@@ -2256,6 +2256,14 @@
   "points": {
     "title": "Valora Points",
     "activity": "Activity",
+    "history": {
+      "title": "My points activity",
+      "error": {
+        "title": "Unable to load points activity",
+        "subtitle": "Oops, something went wrong when trying to load your points activity feed. Please try again.",
+        "tryAgain": "Try again"
+      }
+    },
     "loading": {
       "title": "Gathering your points",
       "description": "We're in the process of tallying up your points, hang tight"
