@@ -710,15 +710,15 @@
     "goldDisclaimer": "当您使用 Valora 创建一个“账户”时，您创建的是一个只有您拥有密钥的数字钱包。包括 Valora 在内的任何其他个人或实体都无法恢复您的密钥、更改或撤消交易或者追回丢失的资金。请注意，加密货币是新资产类别的一部分，存在财务损失风险。在购买任何资产之前，请仔细考虑您的财务状况和对财务风险的承受能力。"
   },
   "termsColloquial": {
-    "title": "Let’s start by creating your wallet",
-    "privacyHeading": "Your Info & Privacy:",
-    "privacy1": "We gather usage data which helps us improve the app and security. The type of information we collect, how we use it and your rights related to that information can all be seen in our <0>Privacy Policy</0>.",
-    "privacy2": "If you decide to link your phone number, we will store an encrypted copy of it.",
-    "privacy3": "If you decide to connect your contacts, we use their names, numbers, and profile pictures to make it easier to find them.",
-    "walletHeading": "Your Digital Wallet with Valora:",
-    "wallet1": "You’re about to create a digital wallet. Only you have the key to your wallet. We cannot recover your key or your assets if you lose your key. We also cannot reverse actions taken through Valora on blockchains.",
-    "wallet2": "Digital assets, the assets with which you will interact with Valora, come with unique risks. By using Valora, you accept these risks and take responsibility for them. Please consider your finances and risk tolerance before making choices.",
-    "fullTerms": "Read our full <0>Terms & Conditions</0>"
+    "title": "让我们从创建钱包开始",
+    "privacyHeading": "您的信息和隐私",
+    "privacy1": "我们收集的使用数据有助于我们改进应用程序和安全性。我们收集的信息类型、使用方式以及您与这些信息相关的权利，请参阅我们的<0>隐私政策</0>。",
+    "privacy2": "如果您决定链接您的电话号码，我们将存储一份加密副本。",
+    "privacy3": "如果您决定连接您的联系人，我们会使用他们的姓名、电话号码和个人资料图片，以方便查找。",
+    "walletHeading": "您的电子钱包",
+    "wallet1": "您即将创建一个数字钱包。只有您才拥有钱包的密钥。如果您丢失了密钥，我们无法恢复您的密钥或您的资产。我们也无法逆转通过 Valora 在区块链上进行的操作。",
+    "wallet2": "数字资产是您与Valora互动的资产，具有独特的风险。通过使用Valora，您接受了这些风险并承担了相应的责任。在做出选择之前，请考虑您的财务状况和风险承受能力。",
+    "fullTerms": "阅读我们的完整<0>条款和条件</0>"
   },
   "fullNameOrPsuedonym": "全名或化名",
   "namePlaceholder": "例如：姓名",
