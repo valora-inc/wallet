@@ -826,7 +826,8 @@
     "restoreWallet": "Wallet wiederherstellen",
     "hasWallet": "Ich habe bereits eine Wallet",
     "header": "Willkommen bei {{appName}}! Lass uns deine Wallet erstellen.",
-    "getStarted": "Erste Schritte"
+    "getStarted": "Erste Schritte",
+    "agreeToTerms": "Wenn du ein Wallet erstellst, stimmst du unseren <0>Allgemeinen Geschäftsbedingungen</0> zu"
   },
   "accessContacts": {
     "disclosure": {
@@ -2254,6 +2255,14 @@
   "points": {
     "title": "Valora Punkte",
     "activity": "Aktivität",
+    "history": {
+      "title": "Meine Punkte Aktivität",
+      "error": {
+        "title": "Aktivität kann keine Punkte laden",
+        "subtitle": "Ups, beim Laden deines Punkte-Aktivitäten-Feeds ist etwas schief gelaufen. Bitte versuche es noch einmal.",
+        "tryAgain": "Erneut versuchen"
+      }
+    },
     "loading": {
       "title": "Sammeln deiner Punkte",
       "description": "Wir sind dabei, deine Punkte zusammenzuzählen, warte ab"
