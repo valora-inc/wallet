@@ -2994,45 +2994,45 @@
   dependencies:
     invariant "^2.2.4"
 
-"@react-native-firebase/analytics@^19.2.2":
-  version "19.2.2"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-19.2.2.tgz#baebf33fce5a0694919cf317b9a7f767c0d1adf0"
-  integrity sha512-0lxqiyDxa2mLg8E1Utbh5w92y8tc26710kbaElM8dZdTItexorB33nj6fzyCVuyzWEUUeHtmyAoepAPwGq+/sA==
+"@react-native-firebase/analytics@19.1.0":
+  version "19.1.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-19.1.0.tgz#2e6a76fcdac61b0b3fdc7a8d3721536621fc4810"
+  integrity sha512-p6ZwpbYJRN6yCd1i0gjICyUbtxaVGINMiL4OxTJxpWaKZFGn5+qLe+p948Zww7Wnw4IiuZoUhM7K9YXOjqFYqw==
 
-"@react-native-firebase/app@^19.2.2":
-  version "19.2.2"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-19.2.2.tgz#71db0afdfaa41fff1fc75ce9f5c249eeeec393e3"
-  integrity sha512-yucIZT/n567XH+gU8Qf/Z8Awtrc0dadu0LYDJU/dq228DwoQa8xyCoDqXqVM2Ppj9R8csQ+ga4VdMYBSHblYQw==
+"@react-native-firebase/app@19.1.0":
+  version "19.1.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-19.1.0.tgz#46eaff1d7303da9fa305a641d4c8623ba7b80435"
+  integrity sha512-xR4Ui0p6Xe2OXAs/Q4XN79nSqtupKu1ZwlGbYiUrvXsYwtwNlU1Pk8WvIhpXUP5/jXsSNZr8NeGrfCbb9m9NLQ==
   dependencies:
     opencollective-postinstall "^2.0.3"
     superstruct "^0.6.2"
 
-"@react-native-firebase/auth@^19.2.2":
-  version "19.2.2"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-19.2.2.tgz#ec44f29c8a4427048db19a1c61df1415139d74fe"
-  integrity sha512-2TbbieNAmZSR3wqJZdQyFAT4vISESfvB3I3j/ll+3SS91fV2h0/H4xnBapoOEeXBGxioBGKXBOP3C4ySRXNV6g==
+"@react-native-firebase/auth@19.1.0":
+  version "19.1.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-19.1.0.tgz#72352c09c7fb99b35f11a552d8b0ba1c783b9b5d"
+  integrity sha512-n8FRjJ4T1vY9B+aKhb2dnw2RLKWT6i5tCfty6cTaTvBkdQ6EDqvrmYsCYtBlss5LW02MA/2e4A1gw5WkQ1qsMg==
   dependencies:
     plist "^3.1.0"
 
-"@react-native-firebase/database@^19.2.2":
-  version "19.2.2"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/database/-/database-19.2.2.tgz#185947fe1d2a5fd9051aaba6fc366ba54c8c5ddb"
-  integrity sha512-ZLFN34Uqtdnv7YJe9pgm6teo7wzN3gHdNz1SHRzPn8wvHj375yf7ej2jTXsIw7FQhjs1RvdQZpQYiidAfLR/wA==
+"@react-native-firebase/database@19.1.0":
+  version "19.1.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/database/-/database-19.1.0.tgz#7c7e423aa9ac9d7bdac747dfab6e032b7b78125b"
+  integrity sha512-gN7sq4Hh4sdWvtPVY2eL19LGybRQSurhAGkzbYe9+9Aa+eMtFIC3048nDlYGm4ztCd0SjMrDihmWR/XAjnOTYg==
 
-"@react-native-firebase/dynamic-links@^19.2.2":
-  version "19.2.2"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/dynamic-links/-/dynamic-links-19.2.2.tgz#383d08b420f9acb8490008b1e7504d23b0b5a498"
-  integrity sha512-nZxUuKG8hX0f3iiHobVYn2gDlVw7eb9YU+xD0ybvKGsG00lT7g43pkDhyb4hBg8QVtRgbO/28x0vxF1CZ7jhEw==
+"@react-native-firebase/dynamic-links@19.1.0":
+  version "19.1.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/dynamic-links/-/dynamic-links-19.1.0.tgz#9d19739d9880a2a67266403533d63c83fa9ddca5"
+  integrity sha512-u9CtrrP7Twoexsrub2mQ69kOS1lmex0nDg4TPeW86UhJGg2QI0mh4Xbl9BcdNMQKPMDkqiZTee95hK7njSriDg==
 
-"@react-native-firebase/messaging@^19.2.2":
-  version "19.2.2"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-19.2.2.tgz#e59e21e9e9d047b9c83197a1c569be50156bfda6"
-  integrity sha512-oZNamTvYH3rBneJQ+m0PZED5dzyxcEwyjzwszk/jMjJRgzUrIK3TGu65d6txxIFm6LU5MigpjyqyxrHxrT8aCg==
+"@react-native-firebase/messaging@19.1.0":
+  version "19.1.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-19.1.0.tgz#aee9489c894e48bb12bea8f076d9e3c485064af0"
+  integrity sha512-Jao9WdzNMdPQ7SmYAyFLnzFaU/ybbC3idrS4JGM0TByJzEKUv3jAG/lvXdGW6D8FfFWICiJ7oEFESdiBq1ugXw==
 
-"@react-native-firebase/remote-config@^19.2.2":
-  version "19.2.2"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/remote-config/-/remote-config-19.2.2.tgz#57c0155fd14a6df75034c30f4f8cab6a796ad9dc"
-  integrity sha512-mIHpNDOH0VmCtVqa4qBLkxesaR/5qbY2Ykpl73O+iWMZVh0i7LmZhVG4kiybVU0P/y0Z7lQ9dxG+5KD5TJ/E/w==
+"@react-native-firebase/remote-config@19.1.0":
+  version "19.1.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/remote-config/-/remote-config-19.1.0.tgz#8f9711c06cd5c1eb6b68fab3312d272d981d07e6"
+  integrity sha512-gB4kV7s4/8Xca3s0Hs0S0TiNlg6zQnSwdKF8hnQGudOAIi1EhiUrNGQ5ybtKkGIh6TX7LC8Ev9jUgkIaNvo8Zw==
 
 "@react-native-masked-view/masked-view@^0.3.1":
   version "0.3.1"
