@@ -182,7 +182,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [OnboardingEvents.backup_quiz_progress]: `whenever the backspace is pressed or word is chosen`,
   [OnboardingEvents.backup_quiz_complete]: `(Count # of successful Recovery Phrase confirmations Backup_Quiz)`,
   [OnboardingEvents.backup_quiz_incorrect]: `(Count # of failed Recovery Phrase confirmations Backup_Quiz)`,
-  [OnboardingEvents.terms_and_conditions_accepted]: ``,
+  [OnboardingEvents.terms_and_conditions_accepted]: `when the accept button on the terms and conditions screen is pressed or when the checkbox is checked and the create / import button is pressed on the welcome screen`,
   [OnboardingEvents.celo_education_start]: ``,
   [OnboardingEvents.celo_education_scroll]: ``,
   [OnboardingEvents.celo_education_complete]: ``,
