@@ -711,14 +711,14 @@
   },
   "termsColloquial": {
     "title": "Commençons par créer ton portefeuille",
-    "privacyHeading": "Your Info & Privacy:",
-    "privacy1": "We gather usage data which helps us improve the app and security. The type of information we collect, how we use it and your rights related to that information can all be seen in our <0>Privacy Policy</0>.",
-    "privacy2": "If you decide to link your phone number, we will store an encrypted copy of it.",
-    "privacy3": "If you decide to connect your contacts, we use their names, numbers, and profile pictures to make it easier to find them.",
-    "walletHeading": "Your Digital Wallet with Valora:",
-    "wallet1": "You’re about to create a digital wallet. Only you have the key to your wallet. We cannot recover your key or your assets if you lose your key. We also cannot reverse actions taken through Valora on blockchains.",
-    "wallet2": "Digital assets, the assets with which you will interact with Valora, come with unique risks. By using Valora, you accept these risks and take responsibility for them. Please consider your finances and risk tolerance before making choices.",
-    "fullTerms": "Read our full <0>Terms & Conditions</0>"
+    "privacyHeading": "Tes informations et ta vie privée :",
+    "privacy1": "Nous recueillons des données d'utilisation qui nous aident à améliorer l'appli et la sécurité. Le type d'informations que nous recueillons, la façon dont nous les utilisons et tes droits liés à ces informations peuvent tous être consultés dans notre <0>Politique de confidentialité</0>.",
+    "privacy2": "Si tu décides de lier ton numéro de téléphone, nous en stockerons une copie cryptée.",
+    "privacy3": "Si tu décides de connecter tes contacts, nous utilisons leurs noms, leurs numéros et leurs photos de profil pour les retrouver plus facilement.",
+    "walletHeading": "Ton portefeuille numérique avec Valora :",
+    "wallet1": "Tu es sur le point de créer un portefeuille numérique. Tu es le seul à posséder la clé de ton portefeuille. Nous ne pouvons pas récupérer ta clé ou tes actifs si tu perds ta clé. Nous ne pouvons pas non plus annuler les actions effectuées par l'intermédiaire de Valora sur les blockchains.",
+    "wallet2": "Les actifs numériques, ceux avec lesquels tu interagiras avec Valora, comportent des risques uniques. En utilisant Valora, tu acceptes ces risques et en assumes la responsabilité. Prends en compte tes finances et ta tolérance au risque avant de faire des choix.",
+    "fullTerms": "Lire l'intégralité de nos <0>conditions générales</0>"
   },
   "fullNameOrPsuedonym": "Prénom et nom ou pseudonyme",
   "namePlaceholder": "p. ex. nom",
