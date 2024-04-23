@@ -1,5 +1,5 @@
 import { PointsEvent } from 'src/points/types'
-import reducer, { State, pendingPointsEventAdded, pendingPointsEventRemoved } from './slice'
+import reducer, { State, pointsEventProcessed, sendPointsEventStarted } from './slice'
 
 describe('pending points events', () => {
   it('should add a pending points event', () => {
@@ -10,7 +10,7 @@ describe('pending points events', () => {
 
     const initialState = { pendingPointsEvents: [] } as unknown as State
 
-    const newState = reducer(initialState, pendingPointsEventAdded(pendingPointsEvent))
+    const newState = reducer(initialState, sendPointsEventStarted(pendingPointsEvent))
 
     expect(newState.pendingPointsEvents).toEqual([pendingPointsEvent])
   })
@@ -29,7 +29,7 @@ describe('pending points events', () => {
       pendingPointsEvents: [pendingPointsEvent1, pendingPointsEvent2],
     } as unknown as State
 
-    const newState = reducer(initialState, pendingPointsEventRemoved({ id: id1 }))
+    const newState = reducer(initialState, pointsEventProcessed({ id: id1 }))
 
     expect(newState.pendingPointsEvents).toEqual([pendingPointsEvent2])
   })

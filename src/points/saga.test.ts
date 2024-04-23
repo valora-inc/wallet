@@ -23,8 +23,8 @@ import pointsReducer, {
   getPointsConfigError,
   getPointsConfigStarted,
   getPointsConfigSucceeded,
-  pendingPointsEventAdded,
-  pendingPointsEventRemoved,
+  pointsEventProcessed,
+  sendPointsEventStarted,
   trackPointsEvent,
 } from 'src/points/slice'
 import { ClaimHistory, GetHistoryResponse } from 'src/points/types'
@@ -337,13 +337,13 @@ describe('sendPointsEvent', () => {
         [matchers.call.fn(pointsSaga.fetchTrackPointsEventsEndpoint), mockServerSuccessResponse],
       ])
       .put(
-        pendingPointsEventAdded({
+        sendPointsEventStarted({
           id: mockId,
           timestamp: mockTime,
           event: mockAction.payload,
         })
       )
-      .put(pendingPointsEventRemoved({ id: mockId }))
+      .put(pointsEventProcessed({ id: mockId }))
       .run()
   })
 
@@ -359,13 +359,13 @@ describe('sendPointsEvent', () => {
         [matchers.call.fn(pointsSaga.fetchTrackPointsEventsEndpoint), mockServerErrorResponse],
       ])
       .put(
-        pendingPointsEventAdded({
+        sendPointsEventStarted({
           id: mockId,
           timestamp: mockTime,
           event: mockAction.payload,
         })
       )
-      .not.put(pendingPointsEventRemoved({ id: mockId }))
+      .not.put(pointsEventProcessed({ id: mockId }))
       .run()
 
     expect(Logger.warn).toHaveBeenCalledWith(
@@ -405,7 +405,7 @@ describe('sendPendingPointsEvents', () => {
         [matchers.call.fn(pointsSaga.fetchTrackPointsEventsEndpoint), mockServerSuccessResponse],
       ])
       .call(fetchTrackPointsEventsEndpoint, mockPendingPointsEvent.event)
-      .put(pendingPointsEventRemoved({ id: mockId }))
+      .put(pointsEventProcessed({ id: mockId }))
       .run()
   })
 
@@ -425,7 +425,7 @@ describe('sendPendingPointsEvents', () => {
           points: { pendingPointsEvents: [mockExpiredPendingPointsEvent] },
         }).getState()
       )
-      .put(pendingPointsEventRemoved({ id: mockId }))
+      .put(pointsEventProcessed({ id: mockId }))
       .not.call(fetchTrackPointsEventsEndpoint, mockExpiredPendingPointsEvent.event)
       .run()
 
@@ -454,7 +454,7 @@ describe('sendPendingPointsEvents', () => {
       .provide([
         [matchers.call.fn(pointsSaga.fetchTrackPointsEventsEndpoint), mockServerErrorResponse],
       ])
-      .not.put(pendingPointsEventRemoved({ id: mockId }))
+      .not.put(pointsEventProcessed({ id: mockId }))
       .run()
 
     expect(Logger.warn).toHaveBeenCalledWith(
@@ -486,7 +486,7 @@ describe('sendPendingPointsEvents', () => {
       .provide([
         [matchers.call.fn(pointsSaga.fetchTrackPointsEventsEndpoint), throwError(mockError)],
       ])
-      .not.put(pendingPointsEventRemoved({ id: mockId }))
+      .not.put(pointsEventProcessed({ id: mockId }))
       .run()
 
     expect(Logger.warn).toHaveBeenCalledWith('Points/saga@sendPendingPointsEvents', mockError)

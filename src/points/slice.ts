@@ -80,11 +80,11 @@ const slice = createSlice({
     getPointsConfigRetry: (state) => ({
       ...state,
     }),
-    pendingPointsEventAdded: (state, action: PayloadAction<PendingPointsEvent>) => ({
+    sendPointsEventStarted: (state, action: PayloadAction<PendingPointsEvent>) => ({
       ...state,
       pendingPointsEvents: [...state.pendingPointsEvents, action.payload],
     }),
-    pendingPointsEventRemoved: (state, action: PayloadAction<Pick<PendingPointsEvent, 'id'>>) => ({
+    pointsEventProcessed: (state, action: PayloadAction<Pick<PendingPointsEvent, 'id'>>) => ({
       ...state,
       pendingPointsEvents: state.pendingPointsEvents.filter(
         (event) => event.id !== action.payload.id
@@ -108,8 +108,8 @@ export const {
   getPointsConfigStarted,
   getPointsConfigSucceeded,
   getPointsConfigRetry,
-  pendingPointsEventAdded,
-  pendingPointsEventRemoved,
+  sendPointsEventStarted,
+  pointsEventProcessed,
 } = slice.actions
 
 // action handled in saga
