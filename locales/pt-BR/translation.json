@@ -826,7 +826,8 @@
     "restoreWallet": "Restaurar carteira",
     "hasWallet": "Já tenho uma carteira",
     "header": "Nossas boas-vindas! Vamos criar a sua carteira cripto.",
-    "getStarted": "Começar"
+    "getStarted": "Começar",
+    "agreeToTerms": "Ao criar uma carteira, você concorda com nossos <0>Termos e Condições</0>"
   },
   "accessContacts": {
     "disclosure": {
@@ -2254,6 +2255,14 @@
   "points": {
     "title": "Pontos Valora",
     "activity": "Atividades",
+    "history": {
+      "title": "Minha atividade de pontos",
+      "error": {
+        "title": "Não é possível carregar a atividade de pontos",
+        "subtitle": "Oops, algo deu errado ao tentar carregar seu feed de atividades de pontos. Por favor, tente novamente.",
+        "tryAgain": "Tentar novamente"
+      }
+    },
     "loading": {
       "title": "Reunir seus pontos",
       "description": "Estamos no processo de contabilizar os pontos que você obteve, aguarde"
