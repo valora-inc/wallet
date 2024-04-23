@@ -73,6 +73,7 @@ const MOCK_POINTS_HISTORY: ClaimHistory[] = [
 const mockFetch = fetch as FetchMock
 const fetchWithTimeoutSpy = jest.spyOn(fetchWithTimeout, 'fetchWithTimeout')
 
+const mockTime = '2024-04-20T12:00:00.000Z'
 const mockId = 'test-id'
 const mockServerSuccessResponse = { ok: true }
 const mockServerErrorMessage = 'Error message from server'
@@ -319,18 +320,12 @@ describe('getPointsConfig', () => {
 describe('sendPointsEvent', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-  })
-
-  afterEach(() => {
-    jest.setSystemTime()
+    jest.useFakeTimers({ now: new Date(mockTime).getTime() })
+    jest.mocked(uuidv4).mockReturnValue(mockId)
   })
 
   it('should add and remove pending points event in case of successful fetch', () => {
     const mockAction = trackPointsEvent({ activityId: 'create-wallet' })
-    const mockTime = '2024-04-20T12:00:00.000Z'
-
-    jest.mocked(uuidv4).mockReturnValue(mockId)
-    jest.setSystemTime(new Date(mockTime))
 
     return expectSaga(sendPointsEvent, mockAction)
       .provide([
@@ -349,10 +344,6 @@ describe('sendPointsEvent', () => {
 
   it('should add and not remove pending points event in case of server error', async () => {
     const mockAction = trackPointsEvent({ activityId: 'create-wallet' })
-    const mockTime = '2024-04-20T12:00:00.000Z'
-
-    jest.mocked(uuidv4).mockReturnValue(mockId)
-    jest.setSystemTime(new Date(mockTime))
 
     await expectSaga(sendPointsEvent, mockAction)
       .provide([
@@ -381,21 +372,16 @@ describe('sendPointsEvent', () => {
 describe('sendPendingPointsEvents', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-  })
 
-  afterEach(() => {
-    jest.setSystemTime()
+    jest.useFakeTimers({ now: new Date(mockTime).getTime() })
   })
 
   it('should remove pending points event after successful fetch', () => {
-    const mockTime = '2024-04-20T12:00:00.000Z'
     const mockPendingPointsEvent: PendingPointsEvent = {
       id: mockId,
       timestamp: mockTime,
       event: { activityId: 'create-wallet' },
     }
-
-    jest.setSystemTime(new Date(mockTime))
 
     return expectSaga(sendPendingPointsEvents)
       .withState(
@@ -410,14 +396,11 @@ describe('sendPendingPointsEvents', () => {
   })
 
   it('should remove expired pending points event', async () => {
-    const mockTime = '2024-04-20T12:00:00.000Z'
     const mockExpiredPendingPointsEvent: PendingPointsEvent = {
       id: mockId,
       timestamp: addDays(new Date(mockTime), -31).toISOString(),
       event: { activityId: 'create-wallet' },
     }
-
-    jest.setSystemTime(new Date(mockTime))
 
     await expectSaga(sendPendingPointsEvents)
       .withState(
@@ -436,14 +419,11 @@ describe('sendPendingPointsEvents', () => {
   })
 
   it('should not remove pending points event in case of server error', async () => {
-    const mockTime = '2024-04-20T12:00:00.000Z'
     const mockPendingPointsEvent: PendingPointsEvent = {
       id: mockId,
       timestamp: mockTime,
       event: { activityId: 'create-wallet' },
     }
-
-    jest.setSystemTime(new Date(mockTime))
 
     await expectSaga(sendPendingPointsEvents)
       .withState(
@@ -467,15 +447,12 @@ describe('sendPendingPointsEvents', () => {
   })
 
   it('should not remove pending points event in case of exception', async () => {
-    const mockTime = '2024-04-20T12:00:00.000Z'
     const mockPendingPointsEvent: PendingPointsEvent = {
       id: mockId,
       timestamp: mockTime,
       event: { activityId: 'create-wallet' },
     }
     const mockError = new Error('Test error')
-
-    jest.setSystemTime(new Date(mockTime))
 
     await expectSaga(sendPendingPointsEvents)
       .withState(
