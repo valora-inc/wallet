@@ -826,7 +826,8 @@
     "restoreWallet": "恢复钱包",
     "hasWallet": "我已有钱包",
     "header": "欢迎使用 {{appName}}！请创建您的加密货币钱包。",
-    "getStarted": "开始使用"
+    "getStarted": "开始使用",
+    "agreeToTerms": "创建钱包即表示您同意我们的<0>条款和条件</0>"
   },
   "accessContacts": {
     "disclosure": {
@@ -2252,6 +2253,14 @@
   "points": {
     "title": "瓦洛拉积分",
     "activity": "活动",
+    "history": {
+      "title": "我的积分活动",
+      "error": {
+        "title": "无法加载点活动",
+        "subtitle": "哎呀，在加载您的积分活动提要时出了点问题。请重试。",
+        "tryAgain": "再试一次"
+      }
+    },
     "loading": {
       "title": "收集要点",
       "description": "我们正在统计您的积分，请抓紧时间"
