@@ -826,7 +826,8 @@
     "restoreWallet": "Cüzdan Yeniden Kur",
     "hasWallet": "Zaten cüzdanım var",
     "header": "{{appName}} uygulamasına hoş geldiniz! Kripto cüzdanınızı oluşturalım.",
-    "getStarted": "Başlayın"
+    "getStarted": "Başlayın",
+    "agreeToTerms": "Bir cüzdan oluşturarak <0>Hüküm ve Koşullarımızı</0> kabul etmiş olursunuz"
   },
   "accessContacts": {
     "disclosure": {
@@ -2254,6 +2255,14 @@
   "points": {
     "title": "Valora Puanları",
     "activity": "İşlemler",
+    "history": {
+      "title": "Puan faaliyetim",
+      "error": {
+        "title": "Puan etkinliği yüklenemiyor",
+        "subtitle": "Oops, puan etkinlik akışınızı yüklemeye çalışırken bir şeyler ters gitti. Lütfen tekrar deneyin.",
+        "tryAgain": "Tekrar deneyin"
+      }
+    },
     "loading": {
       "title": "Puanlarınızı toplamak",
       "description": "Puanlarınızı sayma aşamasındayız, sıkı durun"
