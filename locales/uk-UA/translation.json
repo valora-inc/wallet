@@ -709,6 +709,17 @@
     "privacy": "Приєднавшись до цієї мережі, ви даєте нам дозвіл збирати анонімну інформацію про ваше використання застосунку. Додатково, якщо ви приєднаєте номер телефону, то зберігатиметься хешована копія. Якщо надасте доступ до списку контактів, Valora імпортуватиме кожне ім’я контакту, номер телефону й зображення профілю, щоб дати змогу користувачам під’єднатися через застосунок Valora. Щоб дізнатися, як ми збираємо та використовуємо цю інформацію, просимо ознайомитися з нашою <0>Політикою конфіденційності</0>.",
     "goldDisclaimer": "Коли ви створюєте «обліковий запис» у Valora, ви створюєте цифровий гаманець, ключі до якого є тільки у вас. Жодна інша особа чи організація, зокрема Valora, не можуть відновити ваш ключ, змінити чи скасувати транзакції або повернути втрачені кошти. Зауважте, що криптовалюти є частиною нового класу активів, і є ризик фінансових втрат. Ретельно обміркуйте ваші фінансові обставини та рівень прийняття фінансових ризиків, перш ніж купувати будь-які активи."
   },
+  "termsColloquial": {
+    "title": "Let’s start by creating your wallet",
+    "privacyHeading": "Your Info & Privacy:",
+    "privacy1": "We gather usage data which helps us improve the app and security. The type of information we collect, how we use it and your rights related to that information can all be seen in our <0>Privacy Policy</0>.",
+    "privacy2": "If you decide to link your phone number, we will store an encrypted copy of it.",
+    "privacy3": "If you decide to connect your contacts, we use their names, numbers, and profile pictures to make it easier to find them.",
+    "walletHeading": "Your Digital Wallet with Valora:",
+    "wallet1": "You’re about to create a digital wallet. Only you have the key to your wallet. We cannot recover your key or your assets if you lose your key. We also cannot reverse actions taken through Valora on blockchains.",
+    "wallet2": "Digital assets, the assets with which you will interact with Valora, come with unique risks. By using Valora, you accept these risks and take responsibility for them. Please consider your finances and risk tolerance before making choices.",
+    "fullTerms": "Read our full <0>Terms & Conditions</0>"
+  },
   "fullNameOrPsuedonym": "Повне ім’я або псевдонім",
   "namePlaceholder": "напр. ім’я",
   "nameAndPicGuideCopyTitle": "Як вас звати?",
