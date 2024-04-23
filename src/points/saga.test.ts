@@ -12,7 +12,7 @@ import pointsReducer, {
   getPointsConfigStarted,
   getPointsConfigSucceeded,
 } from 'src/points/slice'
-import { RawClaimHistory, GetHistoryResponse } from 'src/points/types'
+import { ClaimHistory, GetHistoryResponse } from 'src/points/types'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import * as fetchWithTimeout from 'src/utils/fetchWithTimeout'
@@ -58,7 +58,7 @@ const MOCK_HISTORY_RESPONSE: GetHistoryResponse = {
 // We'll only store history entries in Redux if they have known values for activityId
 const MOCK_SUPPORTED_HISTORY = MOCK_HISTORY_RESPONSE.data.slice(0, 2)
 
-const MOCK_POINTS_HISTORY: RawClaimHistory[] = [
+const MOCK_POINTS_HISTORY: ClaimHistory[] = [
   { activityId: 'create-wallet', pointsAmount: 10, createdAt: 'some time' },
 ]
 
@@ -109,7 +109,11 @@ describe('getHistory', () => {
     })
     await expectSaga(getHistory, params)
       .withState(createMockStore({ web3: { account: null } }).getState())
-      .put(getHistoryError())
+      .put(
+        getHistoryError({
+          resetHistory: true,
+        })
+      )
       .run()
   })
 
@@ -139,7 +143,11 @@ describe('getHistory', () => {
     await expectSaga(getHistory, params)
       .withState(createMockStore().getState())
       .provide([[matchers.call.fn(fetchHistory), throwError(new Error('failure'))]])
-      .put(getHistoryError())
+      .put(
+        getHistoryError({
+          resetHistory: true,
+        })
+      )
       .run()
   })
   it('fetches from stored page if requested', async () => {

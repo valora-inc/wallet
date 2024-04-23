@@ -1,5 +1,5 @@
 import React from 'react'
-import { PointsActivityId, PointsCardMetadata, ClaimHistory } from 'src/points/types'
+import { PointsActivityId, PointsCardMetadata, ClaimHistoryCardItem } from 'src/points/types'
 import Celebration from 'src/icons/Celebration'
 import SwapArrows from 'src/icons/SwapArrows'
 import { navigate } from 'src/navigator/NavigationService'
@@ -56,14 +56,14 @@ export default function useCardDefinitions(
 }
 
 export function useGetHistoryDefinition(): (
-  history: ClaimHistory
+  history: ClaimHistoryCardItem
 ) => HistoryCardMetadata | undefined {
   const { t } = useTranslation()
   const tokensById = useSelector((state) =>
     tokensByIdSelector(state, getSupportedNetworkIdsForSwap())
   )
 
-  return (history: ClaimHistory) => {
+  return (history: ClaimHistoryCardItem) => {
     switch (history.activityId) {
       case 'create-wallet': {
         return {
