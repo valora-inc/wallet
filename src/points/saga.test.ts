@@ -409,7 +409,7 @@ describe('sendPendingPointsEvents', () => {
       .run()
   })
 
-  it('should remove expired pending points event', () => {
+  it('should remove expired pending points event', async () => {
     const mockTime = '2024-04-20T12:00:00.000Z'
     const mockExpiredPendingPointsEvent: PendingPointsEvent = {
       id: mockId,
@@ -419,7 +419,7 @@ describe('sendPendingPointsEvents', () => {
 
     jest.setSystemTime(new Date(mockTime))
 
-    return expectSaga(sendPendingPointsEvents)
+    await expectSaga(sendPendingPointsEvents)
       .withState(
         createMockStore({
           points: { pendingPointsEvents: [mockExpiredPendingPointsEvent] },
@@ -428,6 +428,11 @@ describe('sendPendingPointsEvents', () => {
       .put(pendingPointsEventRemoved({ id: mockId }))
       .not.call(fetchTrackPointsEventsEndpoint, mockExpiredPendingPointsEvent.event)
       .run()
+
+    expect(Logger.debug).toHaveBeenCalledWith(
+      'Points/saga@sendPendingPointsEvents/expiredEvent',
+      mockExpiredPendingPointsEvent
+    )
   })
 
   it('should not remove pending points event in case of server error', async () => {

@@ -160,9 +160,12 @@ export function* sendPendingPointsEvents() {
   const now = new Date()
   const pendingEvents = yield* select(pendingPointsEvents)
 
-  for (const { id, timestamp, event } of pendingEvents) {
+  for (const pendingEvent of pendingEvents) {
+    const { id, timestamp, event } = pendingEvent
+
     if (differenceInDays(now, new Date(timestamp)) > POINTS_EVENT_EXPIRY_DAYS) {
       yield* put(pendingPointsEventRemoved({ id }))
+      Logger.debug(`${LOG_TAG}/expiredEvent`, pendingEvent)
       continue
     }
 
