@@ -43,7 +43,11 @@ export function* getHistory({ payload: params }: ReturnType<typeof getHistorySta
   const walletAddress = yield* select(walletAddressSelector)
   if (!walletAddress) {
     Logger.error(TAG, 'No wallet address found when fetching points history')
-    yield* put(getHistoryError())
+    yield* put(
+      getHistoryError({
+        resetHistory: !params.getNextPage,
+      })
+    )
     return
   }
 
@@ -74,7 +78,11 @@ export function* getHistory({ payload: params }: ReturnType<typeof getHistorySta
     )
   } catch (e) {
     Logger.error(TAG, 'Error fetching points history', e)
-    yield* put(getHistoryError())
+    yield* put(
+      getHistoryError({
+        resetHistory: !params.getNextPage,
+      })
+    )
   }
 }
 
