@@ -56,13 +56,23 @@ export function* handleNotification(
   message: FirebaseMessagingTypes.RemoteMessage,
   notificationState: NotificationReceiveState
 ) {
+  if (
+    typeof message.data?.id === 'object' ||
+    typeof message.data?.type === 'object' ||
+    typeof message.data?.ou === 'object'
+  ) {
+    // should never happen
+    Logger.error(TAG, 'Received invalid object data types from notifications', message.data)
+    return
+  }
+
   ValoraAnalytics.track(AppEvents.push_notification_opened, {
-    id: message.data?.id as string,
+    id: message.data?.id,
     state: notificationState,
-    type: message.data?.type as string,
+    type: message.data?.type,
   })
   // See if this is a notification with an open url or webview action (`ou` prop in the data)
-  const urlToOpen = message.data?.ou as string
+  const urlToOpen = message.data?.ou
   if (urlToOpen) {
     trackRewardsScreenOpenEvent(urlToOpen, RewardsScreenOrigin.PushNotification)
   }
