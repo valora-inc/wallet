@@ -709,6 +709,17 @@
     "privacy": "Присоединяясь к этому сеть, вы разрешаете нам собирать анонимную информацию об использовании вами приложения. Кроме того, если вы подключите номер своего телефона, то будет сохранена его хэшированная копия. Если вы предоставите Valora доступ к своему списку контактов, то Valora импортирует имя, номер телефона и фотографию профиля каждого контакта, чтобы пользователи могли подключаться через приложение Valora. Чтобы узнать, как мы собираем и используем эту информацию, ознакомься с нашей <0>Политикой конфиденциальности</0>.",
     "goldDisclaimer": "При создании аккаунта в Valora вы создаете цифровой кошелек, доступ к которому есть только у вас. Никакие другие физические или юридические лица, включая Valora, не могут восстановить ваш ключ, изменить или отменить транзакции, а также вернуть потерянные средства. Помните, что криптовалюты являются частью нового класса активов и сопряжены с риском финансовых потерь. Тщательно оцените свое финансовое положение и толерантность к финансовым рискам перед покупкой любых активов."
   },
+  "termsColloquial": {
+    "title": "Let’s start by creating your wallet",
+    "privacyHeading": "Your Info & Privacy:",
+    "privacy1": "We gather usage data which helps us improve the app and security. The type of information we collect, how we use it and your rights related to that information can all be seen in our <0>Privacy Policy</0>.",
+    "privacy2": "If you decide to link your phone number, we will store an encrypted copy of it.",
+    "privacy3": "If you decide to connect your contacts, we use their names, numbers, and profile pictures to make it easier to find them.",
+    "walletHeading": "Your Digital Wallet with Valora:",
+    "wallet1": "You’re about to create a digital wallet. Only you have the key to your wallet. We cannot recover your key or your assets if you lose your key. We also cannot reverse actions taken through Valora on blockchains.",
+    "wallet2": "Digital assets, the assets with which you will interact with Valora, come with unique risks. By using Valora, you accept these risks and take responsibility for them. Please consider your finances and risk tolerance before making choices.",
+    "fullTerms": "Read our full <0>Terms & Conditions</0>"
+  },
   "fullNameOrPsuedonym": "Полное имя или псевдоним",
   "namePlaceholder": "пример имени",
   "nameAndPicGuideCopyTitle": "Как вас зовут?",
