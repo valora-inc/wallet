@@ -710,15 +710,15 @@
     "goldDisclaimer": "Tworząc „konto” w Valora, tworzysz cyfrowy portfel, do którego klucze posiadasz tylko Ty. Żadna inna osoba ani podmiot, w tym Valora, nie może odzyskać Twojego klucza, zmienić ani cofnąć transakcji ani odzyskać utraconych środków. Pamiętaj, że kryptowaluty są częścią nowej klasy aktywów i wiążą się z ryzykiem strat finansowych. Przed zakupem jakichkolwiek aktywów dokładnie rozważ swoją sytuację finansową i tolerancję na ryzyko finansowe."
   },
   "termsColloquial": {
-    "title": "Let’s start by creating your wallet",
-    "privacyHeading": "Your Info & Privacy:",
-    "privacy1": "We gather usage data which helps us improve the app and security. The type of information we collect, how we use it and your rights related to that information can all be seen in our <0>Privacy Policy</0>.",
-    "privacy2": "If you decide to link your phone number, we will store an encrypted copy of it.",
-    "privacy3": "If you decide to connect your contacts, we use their names, numbers, and profile pictures to make it easier to find them.",
-    "walletHeading": "Your Digital Wallet with Valora:",
-    "wallet1": "You’re about to create a digital wallet. Only you have the key to your wallet. We cannot recover your key or your assets if you lose your key. We also cannot reverse actions taken through Valora on blockchains.",
-    "wallet2": "Digital assets, the assets with which you will interact with Valora, come with unique risks. By using Valora, you accept these risks and take responsibility for them. Please consider your finances and risk tolerance before making choices.",
-    "fullTerms": "Read our full <0>Terms & Conditions</0>"
+    "title": "Zacznijmy od stworzenia twojego portfela",
+    "privacyHeading": "Twoje informacje i prywatność:",
+    "privacy1": "Gromadzimy dane dotyczące użytkowania, które pomagają nam ulepszać aplikację i bezpieczeństwo. Rodzaj gromadzonych przez nas informacji, sposób ich wykorzystania oraz Twoje prawa związane z tymi informacjami można znaleźć w naszej <0>Polityce prywatności</0>.",
+    "privacy2": "Jeśli zdecydujesz się połączyć swój numer telefonu, będziemy przechowywać jego zaszyfrowaną kopię.",
+    "privacy3": "Jeśli zdecydujesz się połączyć swoje kontakty, użyjemy ich nazw, numerów i zdjęć profilowych, aby ułatwić ich znalezienie.",
+    "walletHeading": "Twój cyfrowy portfel z Valora:",
+    "wallet1": "Zamierzasz utworzyć cyfrowy portfel. Tylko Ty masz klucz do swojego portfela. Nie możemy odzyskać Twojego klucza ani Twoich aktywów, jeśli go zgubisz. Nie możemy również cofnąć działań podjętych przez Valora na blockchainach.",
+    "wallet2": "Zasoby cyfrowe, z którymi będziesz wchodzić w interakcje z Valora, wiążą się z wyjątkowym ryzykiem. Korzystając z Valora, akceptujesz to ryzyko i bierzesz za nie odpowiedzialność. Przed dokonaniem wyboru weź pod uwagę swoje finanse i tolerancję na ryzyko.",
+    "fullTerms": "Przeczytaj nasz pełny <0>Regulamin</0>"
   },
   "fullNameOrPsuedonym": "Imię i nazwisko lub pseudonim",
   "namePlaceholder": "np. imię",
