@@ -1944,27 +1944,27 @@
   resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-5.5.3.tgz#18e3af6b8eae7984072bbeb0c0858474d7c4cefe"
   integrity sha512-R11tGE6yIFwqpaIqcfkcg7AICXzFg14+5h5v0TfF/9+RMDL6jhzCy/pxHVOfbALGdtVYdt6JdR21tuxEgl34dw==
 
-"@fiatconnect/fiatconnect-sdk@^0.5.33":
-  version "0.5.33"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.5.33.tgz#e18c7d1c588a846d717500d720cad6b9db577da0"
-  integrity sha512-EAmCtVwcVYl1TRj/OP4jxVDDczwCCbsBARagqnTgieDLB6Q0pQ4aGYc9X140nbGPuOQ7uoyLId2Blf/s/9jC5g==
+"@fiatconnect/fiatconnect-sdk@^0.5.36":
+  version "0.5.36"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.5.36.tgz#e7a3de4536f033767ad336ba482709a581577079"
+  integrity sha512-fWoY6quTOvy0V89+RvrDlSCGhrPg9Je3CJPvESdesf//xM5bu10rlFvin6RSUYmFj8WeLBudj12pBzHrsavbgQ==
   dependencies:
     "@badrap/result" "^0.2.13"
-    "@fiatconnect/fiatconnect-types" "^13.3.0"
+    "@fiatconnect/fiatconnect-types" "^13.3.1"
     cross-fetch "^4.0.0"
     ethers "^6.12.0"
     fetch-cookie "^3.0.1"
-    siwe "^2.3.1"
+    siwe "^2.3.2"
     tough-cookie "^4.0.0"
     tslib "^2.6.2"
-    zod "^3.22.4"
+    zod "^3.22.5"
 
-"@fiatconnect/fiatconnect-types@^13.3.0":
-  version "13.3.0"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-13.3.0.tgz#4fac2160cf69923fc5c9f9ac1ef48e79de222af3"
-  integrity sha512-MXi/M76piNiD6L+dihwjU3wPeihZ4/tEccRObId2XK+qZsCDi76fB38J7eo6LmfWsxBq1V0WwrFM/aagjgtkNQ==
+"@fiatconnect/fiatconnect-types@^13.3.1":
+  version "13.3.1"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-13.3.1.tgz#7b5be0cbc89f8da776675022f91c991f798c4a16"
+  integrity sha512-8ORc5iSjHEULZAg0oeo1IlNlMU1dE//6SuI/WEMbiROJmP3/pwP7+nJXzYCMhVnPH1PxMAl7qXEEvEpPuE99qA==
   dependencies:
-    zod "^3.22.4"
+    zod "^3.22.5"
 
 "@gorhom/bottom-sheet@^4.6.1":
   version "4.6.1"
@@ -16692,7 +16692,7 @@ sisteransi@^1.0.5:
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.5.tgz#134d681297756437cc05ca01370d3a7a571075ed"
   integrity sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==
 
-siwe@^2.3.1:
+siwe@^2.3.2:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/siwe/-/siwe-2.3.2.tgz#0794ae25f734f3068de0ab093ddd2f7867bc2d67"
   integrity sha512-aSf+6+Latyttbj5nMu6GF3doMfv2UYj83hhwZgUF20ky6fTS83uVhkQABdIVnEuS8y1bBdk7p6ltb9SmlhTTlA==
@@ -19782,7 +19782,12 @@ zod-validation-error@2.1.0:
   resolved "https://registry.yarnpkg.com/zod-validation-error/-/zod-validation-error-2.1.0.tgz#208eac75237dfed47c0018d2fe8fd03501bfc9ac"
   integrity sha512-VJh93e2wb4c3tWtGgTa0OF/dTt/zoPCPzXq4V11ZjxmEAFaPi/Zss1xIZdEB5RD8GD00U0/iVXgqkF77RV7pdQ==
 
-zod@3.22.4, zod@^3.22.4:
+zod@3.22.4:
   version "3.22.4"
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.4.tgz#f31c3a9386f61b1f228af56faa9255e845cf3fff"
   integrity sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==
+
+zod@^3.22.5:
+  version "3.23.3"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.23.3.tgz#eeb068f83acb55310174673dee631dfa0be5510d"
+  integrity sha512-tPvq1B/2Yu/dh2uAIH2/BhUlUeLIUvAjr6dpL/75I0pCYefHgjhXk1o1Kob3kTU8C7yU1j396jFHlsVWFi9ogg==
