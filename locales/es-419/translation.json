@@ -826,7 +826,8 @@
     "restoreWallet": "Restaurar wallet",
     "hasWallet": "Ya tengo una wallet",
     "header": "¡Te damos la bienvenida a {{appName}}! Demos el primer paso, creemos tu wallet.",
-    "getStarted": "Primeros pasos"
+    "getStarted": "Primeros pasos",
+    "agreeToTerms": "Al crear un monedero aceptas nuestros <0>Términos y Condiciones</0>"
   },
   "accessContacts": {
     "disclosure": {
@@ -2254,6 +2255,14 @@
   "points": {
     "title": "Puntos Valora",
     "activity": "Actividad",
+    "history": {
+      "title": "Mi actividad de puntos",
+      "error": {
+        "title": "No se puede cargar la actividad de puntos",
+        "subtitle": "Oops, algo ha ido mal al intentar cargar tu feed de actividad de puntos. Vuelve a intentarlo.",
+        "tryAgain": "Inténtalo de nuevo"
+      }
+    },
     "loading": {
       "title": "Reunir tus puntos",
       "description": "Estamos en proceso de contabilizar tus puntos, agárrate fuerte"
