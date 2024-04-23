@@ -826,7 +826,8 @@
     "restoreWallet": "กู้คืนกระเป๋าเงิน",
     "hasWallet": "ฉันมีกระเป๋าเงินอยู่แล้ว",
     "header": "ยินดีต้อนรับสู่ {{appName}}! เรามาสร้างกระเป๋าเงินคริปโตกัน",
-    "getStarted": "เริ่มต้นใช้งาน"
+    "getStarted": "เริ่มต้นใช้งาน",
+    "agreeToTerms": "By creating a wallet you agree to our <0>Terms and Conditions</0>"
   },
   "accessContacts": {
     "disclosure": {
@@ -2252,6 +2253,14 @@
   "points": {
     "title": "Valora Points",
     "activity": "กิจกรรม",
+    "history": {
+      "title": "My points activity",
+      "error": {
+        "title": "Unable to load points activity",
+        "subtitle": "Oops, something went wrong when trying to load your points activity feed. Please try again.",
+        "tryAgain": "ลองอีกครั้ง"
+      }
+    },
     "loading": {
       "title": "Gathering your points",
       "description": "We're in the process of tallying up your points, hang tight"
