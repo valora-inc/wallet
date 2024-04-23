@@ -12,6 +12,10 @@ interface GetPointsHistoryStartedAction {
   getNextPage: boolean
 }
 
+interface GetPointsHistoryErrorAction {
+  resetHistory: boolean
+}
+
 export type PointsConfig = {
   activitiesById: {
     [activityId in PointsActivity]?: {
@@ -51,9 +55,10 @@ const slice = createSlice({
       nextPageUrl: action.payload.nextPageUrl,
       getHistoryStatus: 'idle',
     }),
-    getHistoryError: (state) => ({
+    getHistoryError: (state, action: PayloadAction<GetPointsHistoryErrorAction>) => ({
       ...state,
       getHistoryStatus: 'error',
+      pointsHistory: action.payload.resetHistory ? [] : state.pointsHistory,
     }),
     getPointsConfigStarted: (state) => ({
       ...state,
