@@ -826,7 +826,8 @@
     "restoreWallet": "Przywróć portfel",
     "hasWallet": "Mam już portfel",
     "header": "Witamy w {{appName}}! Stwórzmy Twój portfel kryptowalutowy.",
-    "getStarted": "Rozpocznij"
+    "getStarted": "Rozpocznij",
+    "agreeToTerms": "Tworząc portfel, zgadzasz się na nasze <0>Warunki</0> korzystania z usługi"
   },
   "accessContacts": {
     "disclosure": {
@@ -2258,6 +2259,14 @@
   "points": {
     "title": "Punkty Valora",
     "activity": "Operacje",
+    "history": {
+      "title": "Moja aktywność punktowa",
+      "error": {
+        "title": "Nie można załadować aktywności punktów",
+        "subtitle": "Ups, coś poszło nie tak podczas próby załadowania Twojego kanału aktywności punktów. Spróbuj ponownie.",
+        "tryAgain": "Spróbuj ponownie"
+      }
+    },
     "loading": {
       "title": "Zbierz swoje punkty",
       "description": "Jesteśmy w trakcie podliczania twoich punktów, trzymaj się mocno"
