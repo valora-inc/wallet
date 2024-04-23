@@ -1,7 +1,6 @@
 import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import { FinclusiveKycStatus } from 'src/account/reducer'
-import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { migrations } from 'src/redux/migrations'
 import {
   Network,
@@ -83,11 +82,11 @@ import {
   mockInvitableRecipient,
   mockInvitableRecipient2,
   mockPositions,
-  mockShortcuts,
+  mockPositionsLegacy,
   mockRecipient,
   mockRecipient2,
+  mockShortcuts,
   mockShortcutsLegacy,
-  mockPositionsLegacy,
 } from 'test/values'
 
 describe('Redux persist migrations', () => {
@@ -283,7 +282,13 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[12](stub)
     expect(migratedSchema.app).toEqual(appStub)
     expect(migratedSchema.exchange.otherExchangeProps).toEqual(exchangeStub)
-    expect(migratedSchema.exchange.history).toEqual(exchangeInitialState.history)
+    expect(migratedSchema.exchange.history).toEqual({
+      celoGoldExchangeRates: [],
+      aggregatedExchangeRates: [],
+      granularity: 60,
+      range: 30 * 24 * 60 * 60 * 1000,
+      lastTimeUpdated: 0,
+    })
   })
   it('works for v12 to v13', () => {
     const stub = {

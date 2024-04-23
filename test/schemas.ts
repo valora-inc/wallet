@@ -3249,6 +3249,14 @@ export const v207Schema = {
   },
 }
 
+export const v208Schema = {
+  ..._.omit(v207Schema, ['exchange']),
+  _persist: {
+    ...v206Schema._persist,
+    version: 208,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v207Schema as Partial<RootState>
+  return v208Schema as Partial<RootState>
 }

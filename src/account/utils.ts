@@ -1,5 +1,6 @@
 import { parsePhoneNumber } from '@celo/phone-utils'
-import { ADDRESS_LENGTH } from 'src/exchange/reducer'
+
+const ADDRESS_LENGTH = 42
 
 export const isAddressFormat = (content: string): boolean => {
   return content.startsWith('0x') && content.length === ADDRESS_LENGTH

@@ -1,16 +1,9 @@
 import { render, within } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
-import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
-import { getFeatureGate } from 'src/statsig'
+import ExchangeHomeScreen from 'src/celoNews/ExchangeHomeScreen'
 import { createMockStore } from 'test/utils'
-import {
-  exchangePriceHistory,
-  mockCeloTokenId,
-  mockCusdTokenId,
-  mockTokenBalances,
-  priceHistory,
-} from 'test/values'
+import { mockCeloTokenId, mockCusdTokenId, mockTokenBalances, priceHistory } from 'test/values'
 
 jest.mock('src/statsig')
 
@@ -20,9 +13,6 @@ const store = createMockStore({
       [mockCusdTokenId]: mockTokenBalances[mockCusdTokenId],
       [mockCeloTokenId]: mockTokenBalances[mockCeloTokenId],
     },
-  },
-  exchange: {
-    history: exchangePriceHistory,
   },
   priceHistory: {
     [mockCeloTokenId]: priceHistory,
@@ -34,19 +24,7 @@ describe('ExchangeHomeScreen', () => {
     jest.resetAllMocks()
   })
 
-  it('renders the price chart using firebase by default', async () => {
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <ExchangeHomeScreen />
-      </Provider>
-    )
-
-    // Check we can see the price chart
-    expect(getByTestId('PriceChart')).toBeTruthy()
-  })
-
-  it('renders the price chart using PriceHistoryChart and blockchain api when enabled', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
+  it('renders the price chart using PriceHistoryChart and blockchain api', async () => {
     const { getByTestId } = render(
       <Provider store={store}>
         <ExchangeHomeScreen />

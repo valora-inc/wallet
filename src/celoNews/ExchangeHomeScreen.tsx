@@ -6,10 +6,8 @@ import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import CeloNewsFeed from 'src/celoNews/CeloNewsFeed'
 import Touchable from 'src/components/Touchable'
-import CeloGoldHistoryChart from 'src/exchange/CeloGoldHistoryChart'
-import CeloNewsFeed from 'src/exchange/CeloNewsFeed'
-import { exchangeHistorySelector } from 'src/exchange/reducer'
 import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
@@ -20,8 +18,6 @@ import { Screens } from 'src/navigator/Screens'
 import PriceHistoryChart from 'src/priceHistory/PriceHistoryChart'
 import { useSelector } from 'src/redux/hooks'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -70,25 +66,16 @@ function ExchangeHomeScreen() {
   const tokensBySymbol = useSelector(tokensBySymbolSelector)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
-  const exchangeHistory = useSelector(exchangeHistorySelector)
-  const usePriceHistoryFromBlockchainApi = getFeatureGate(
-    StatsigFeatureGates.USE_PRICE_HISTORY_FROM_BLOCKCHAIN_API
-  )
+  const historicalPriceUsd = tokensBySymbol.CGLD?.historicalPricesUsd?.lastDay.price
 
-  const exchangeHistoryLength = exchangeHistory.aggregatedExchangeRates.length
   const lastKnownPriceUsd =
-    tokensBySymbol.CGLD?.lastKnownPriceUsd ||
-    (exchangeHistoryLength &&
-      exchangeHistory.aggregatedExchangeRates[exchangeHistoryLength - 1].exchangeRate) ||
-    new BigNumber(0)
+    tokensBySymbol.CGLD?.lastKnownPriceUsd || historicalPriceUsd || new BigNumber(0)
 
   const currentGoldRateInLocalCurrency = dollarsToLocal(lastKnownPriceUsd)
   let rateChangeInPercentage, rateWentUp
 
-  if (exchangeHistoryLength) {
-    const oldestGoldRateInLocalCurrency = dollarsToLocal(
-      exchangeHistory.aggregatedExchangeRates[0].exchangeRate
-    )
+  if (historicalPriceUsd) {
+    const oldestGoldRateInLocalCurrency = dollarsToLocal(historicalPriceUsd)
     if (oldestGoldRateInLocalCurrency) {
       const rateChange = currentGoldRateInLocalCurrency?.minus(oldestGoldRateInLocalCurrency)
       rateChangeInPercentage = currentGoldRateInLocalCurrency
@@ -158,7 +145,7 @@ function ExchangeHomeScreen() {
             </View>
           </View>
 
-          {usePriceHistoryFromBlockchainApi && networkConfig.celoTokenId ? (
+          {networkConfig.celoTokenId && (
             <PriceHistoryChart
               tokenId={networkConfig.celoTokenId}
               testID={`CeloNews/Chart/${networkConfig.celoTokenId}`}
@@ -166,8 +153,6 @@ function ExchangeHomeScreen() {
               color={colors.goldBrand}
               containerStyle={styles.chartContainer}
             />
-          ) : (
-            <CeloGoldHistoryChart testID="PriceChart" />
           )}
           <CeloNewsFeed />
         </SafeAreaView>
