@@ -710,15 +710,15 @@
     "goldDisclaimer": "Quando crei un \"account\" con Valora, crei un portafoglio digitale di cui solo tu possiedi le chiavi. Nessun'altra persona o entità, inclusa Valora, può recuperare la tua chiave, modificare o annullare le transazioni o recuperare fondi perduti. Considera che le criptovalute fanno parte di una nuova classe di asset e comportano un rischio di perdita finanziaria. Prima di acquistare qualsiasi asset, valuta attentamente la tua situazione finanziaria e la tua tolleranza al rischio finanziario."
   },
   "termsColloquial": {
-    "title": "Let’s start by creating your wallet",
-    "privacyHeading": "Your Info & Privacy:",
-    "privacy1": "We gather usage data which helps us improve the app and security. The type of information we collect, how we use it and your rights related to that information can all be seen in our <0>Privacy Policy</0>.",
-    "privacy2": "If you decide to link your phone number, we will store an encrypted copy of it.",
-    "privacy3": "If you decide to connect your contacts, we use their names, numbers, and profile pictures to make it easier to find them.",
-    "walletHeading": "Your Digital Wallet with Valora:",
-    "wallet1": "You’re about to create a digital wallet. Only you have the key to your wallet. We cannot recover your key or your assets if you lose your key. We also cannot reverse actions taken through Valora on blockchains.",
-    "wallet2": "Digital assets, the assets with which you will interact with Valora, come with unique risks. By using Valora, you accept these risks and take responsibility for them. Please consider your finances and risk tolerance before making choices.",
-    "fullTerms": "Read our full <0>Terms & Conditions</0>"
+    "title": "Iniziamo creando il tuo portafoglio",
+    "privacyHeading": "Le tue informazioni e la tua privacy:",
+    "privacy1": "Raccogliamo dati di utilizzo che ci aiutano a migliorare l'applicazione e la sicurezza. Il tipo di informazioni che raccogliamo, il modo in cui le utilizziamo e i tuoi diritti relativi a tali informazioni sono riportati nella nostra <0>Informativa sulla privacy</0>.",
+    "privacy2": "Se decidi di collegare il tuo numero di telefono, ne conserveremo una copia criptata.",
+    "privacy3": "Se decidi di collegare i tuoi contatti, usiamo i loro nomi, numeri e immagini del profilo per renderli più facili da trovare.",
+    "walletHeading": "Il tuo portafoglio digitale con Valora:",
+    "wallet1": "Stai per creare un portafoglio digitale. Solo tu hai la chiave del tuo portafoglio. Non possiamo recuperare la tua chiave o i tuoi beni se la perdi. Non possiamo nemmeno annullare le azioni intraprese da Valora sulle blockchain.",
+    "wallet2": "Gli asset digitali, con i quali interagisci con Valora, comportano rischi unici. Utilizzando Valora, accetti questi rischi e te ne assumi la responsabilità. Ti invitiamo a considerare le tue finanze e la tua tolleranza al rischio prima di fare delle scelte.",
+    "fullTerms": "Leggi i nostri <0>Termini e Condizioni</0> completi"
   },
   "fullNameOrPsuedonym": "Nome e cognome o alias",
   "namePlaceholder": "p. es. nome",
