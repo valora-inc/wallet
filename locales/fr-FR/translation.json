@@ -826,7 +826,8 @@
     "restoreWallet": "Restaurer un wallet",
     "hasWallet": "J'ai déjà un wallet",
     "header": "Bienvenue sur {{appName}} ! Créons votre wallet crypto.",
-    "getStarted": "Commencer"
+    "getStarted": "Commencer",
+    "agreeToTerms": "En créant un portefeuille, tu acceptes nos <0>conditions générales d'utilisation</0>."
   },
   "accessContacts": {
     "disclosure": {
@@ -2254,6 +2255,14 @@
   "points": {
     "title": "Points Valora",
     "activity": "Activité",
+    "history": {
+      "title": "Mon activité de points",
+      "error": {
+        "title": "Impossible de charger l'activité des points",
+        "subtitle": "Oups, quelque chose n'a pas fonctionné lorsque nous avons essayé de charger le flux d'activité de tes points. Essaie à nouveau.",
+        "tryAgain": "Veuillez réessayer"
+      }
+    },
     "loading": {
       "title": "Rassembler tes points de vue",
       "description": "Nous sommes en train de comptabiliser tes points, accroche-toi bien."
