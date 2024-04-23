@@ -826,7 +826,8 @@
     "restoreWallet": "Ripristina un wallet",
     "hasWallet": "Ho già un wallet",
     "header": "Ti diamo il benvenuto in {{appName}}! Creiamo il tuo wallet cripto.",
-    "getStarted": "Inizia"
+    "getStarted": "Inizia",
+    "agreeToTerms": "Creando un portafoglio accetti i nostri <0>Termini e Condizioni</0>."
   },
   "accessContacts": {
     "disclosure": {
@@ -2254,6 +2255,14 @@
   "points": {
     "title": "Punti Valora",
     "activity": "Attività",
+    "history": {
+      "title": "La mia attività a punti",
+      "error": {
+        "title": "Impossibile caricare i punti attività",
+        "subtitle": "Ops, qualcosa è andato storto durante il tentativo di caricare il tuo feed di attività dei punti. Riprova.",
+        "tryAgain": "Riprova"
+      }
+    },
     "loading": {
       "title": "Raccogliere i punti",
       "description": "Stiamo per fare il conteggio dei tuoi punti, tieniti forte."
