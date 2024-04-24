@@ -1,8 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useEffect, useLayoutEffect } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import * as Keychain from 'react-native-keychain'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { setPincodeSuccess } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
@@ -10,21 +9,17 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { supportedBiometryTypeSelector } from 'src/app/selectors'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import Face from 'src/icons/biometry/Face'
-import FaceID from 'src/icons/biometry/FaceID'
-import Fingerprint from 'src/icons/biometry/Fingerprint'
-import { Iris } from 'src/icons/biometry/Iris'
-import TouchID from 'src/icons/biometry/TouchID'
-import { HeaderTitleWithSubtitle, nuxNavigationOptionsOnboarding } from 'src/navigator/Headers'
+import { nuxNavigationOptionsOnboarding } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
-import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import { biometryIconMap } from 'src/onboarding/registration/EnableBiometry'
+import { goToNextOnboardingScreen, onboardingPropsSelector } from 'src/onboarding/steps'
+import { setCachedPin } from 'src/pincode/PasswordCache'
 import {
-  getOnboardingStepValues,
-  goToNextOnboardingScreen,
-  onboardingPropsSelector,
-} from 'src/onboarding/steps'
-import { setPincodeWithBiometry } from 'src/pincode/authentication'
+  DEFAULT_CACHE_ACCOUNT,
+  generateRandomPin,
+  setPincodeWithBiometry,
+} from 'src/pincode/authentication'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { isUserCancelledError } from 'src/storage/keychain'
 import colors from 'src/styles/colors'
@@ -33,19 +28,11 @@ import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 
-const TAG = 'EnableBiometry'
+const TAG = 'AuthSelect'
 
-type Props = NativeStackScreenProps<StackParamList, Screens.EnableBiometry>
+type Props = NativeStackScreenProps<StackParamList, Screens.AuthSelect>
 
-export const biometryIconMap: { [key in Keychain.BIOMETRY_TYPE]: JSX.Element } = {
-  [Keychain.BIOMETRY_TYPE.FACE_ID]: <FaceID />,
-  [Keychain.BIOMETRY_TYPE.TOUCH_ID]: <TouchID />,
-  [Keychain.BIOMETRY_TYPE.FINGERPRINT]: <Fingerprint />,
-  [Keychain.BIOMETRY_TYPE.FACE]: <Face />,
-  [Keychain.BIOMETRY_TYPE.IRIS]: <Iris />,
-}
-
-export default function EnableBiometry({ navigation }: Props) {
+export default function AuthSelect({ navigation }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
@@ -53,39 +40,17 @@ export default function EnableBiometry({ navigation }: Props) {
   const supportedBiometryType = useSelector(supportedBiometryTypeSelector)
   const onboardingProps = useSelector(onboardingPropsSelector)
 
-  const { step, totalSteps } = getOnboardingStepValues(Screens.EnableBiometry, onboardingProps)
-
-  useEffect(() => {
-    ValoraAnalytics.track(OnboardingEvents.biometry_opt_in_start)
-  }, [])
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: () => (
-        <HeaderTitleWithSubtitle
-          title={t(`biometryType.${supportedBiometryType}`)}
-          subTitle={t('registrationSteps', { step, totalSteps })}
-        />
-      ),
-      headerRight: () => (
-        <TopBarTextButton
-          title={t('skip')}
-          testID="EnableBiometrySkipHeader"
-          onPress={onPressSkip}
-          titleStyle={{ color: colors.onboardingBrownLight }}
-        />
-      ),
+  const onPressUsePin = async () => {
+    ValoraAnalytics.track(OnboardingEvents.biometry_opt_out)
+    goToNextOnboardingScreen({
+      firstScreenInCurrentStep: Screens.AuthSelect,
+      onboardingProps: { ...onboardingProps, usePin: true },
     })
-  }, [navigation, step, totalSteps])
-
-  const onPressSkip = () => {
-    ValoraAnalytics.track(OnboardingEvents.biometry_opt_in_cancel)
-    handleNavigateToNextScreen()
   }
 
   const handleNavigateToNextScreen = () => {
     goToNextOnboardingScreen({
-      firstScreenInCurrentStep: Screens.EnableBiometry,
+      firstScreenInCurrentStep: Screens.AuthSelect,
       onboardingProps,
     })
   }
@@ -93,6 +58,8 @@ export default function EnableBiometry({ navigation }: Props) {
   const onPressUseBiometry = async () => {
     try {
       ValoraAnalytics.track(OnboardingEvents.biometry_opt_in_approve)
+      const randomPin = generateRandomPin()
+      setCachedPin(DEFAULT_CACHE_ACCOUNT, randomPin)
       await setPincodeWithBiometry()
       dispatch(setPincodeSuccess(PincodeType.PhoneAuth))
       ValoraAnalytics.track(OnboardingEvents.biometry_opt_in_complete)
@@ -111,13 +78,9 @@ export default function EnableBiometry({ navigation }: Props) {
       <SafeAreaView style={styles.container}>
         {
           <>
-            <Text style={styles.guideTitle}>
-              {t('enableBiometry.guideTitle', {
-                biometryType: t(`biometryType.${supportedBiometryType}`),
-              })}
-            </Text>
-            <Text style={styles.guideText}>
-              {t('enableBiometry.guideDescription', {
+            <Text style={styles.title}>{t('authSelect.title')}</Text>
+            <Text style={styles.description}>
+              {t('authSelect.description', {
                 biometryType: t(`biometryType.${supportedBiometryType}`),
               })}
             </Text>
@@ -125,45 +88,54 @@ export default function EnableBiometry({ navigation }: Props) {
         }
         <Button
           onPress={onPressUseBiometry}
-          text={t('enableBiometry.cta', {
+          text={t('authSelect.cta', {
             biometryType: t(`biometryType.${supportedBiometryType}`),
           })}
           size={BtnSizes.FULL}
           type={BtnTypes.ONBOARDING}
-          testID="EnableBiometryButton"
+          testID="AuthSelect/Biometrics"
           icon={
             supportedBiometryType && (
               <View style={styles.biometryIcon}>{biometryIconMap[supportedBiometryType]}</View>
             )
           }
-          style={styles.biometryButton}
+          style={styles.button}
+        />
+        <Button
+          text={t('authSelect.altCta')}
+          size={BtnSizes.FULL}
+          type={BtnTypes.ONBOARDING_SECONDARY}
+          testID="AuthSelect/PIN"
+          onPress={onPressUsePin}
+          style={styles.button}
         />
       </SafeAreaView>
     </ScrollView>
   )
 }
 
-EnableBiometry.navigationOptions = nuxNavigationOptionsOnboarding
+AuthSelect.navigationOptions = nuxNavigationOptionsOnboarding
 
 const styles = StyleSheet.create({
   container: {
     paddingTop: 72,
     paddingHorizontal: 40,
     alignItems: 'center',
+    gap: Spacing.Regular16,
   },
   contentContainer: {
     flex: 1,
     backgroundColor: colors.onboardingBackground,
   },
-  biometryButton: {
+  button: {
     width: '100%',
   },
-  guideTitle: {
+  title: {
     ...fontStyles.h1,
     marginBottom: Spacing.Regular16,
     textAlign: 'center',
   },
-  guideText: {
+  description: {
     ...fontStyles.regular,
     marginBottom: Spacing.Large32,
     textAlign: 'center',

@@ -362,6 +362,7 @@ interface OnboardingEventsProperties {
   [OnboardingEvents.biometry_opt_in_approve]: undefined
   [OnboardingEvents.biometry_opt_in_complete]: undefined
   [OnboardingEvents.biometry_opt_in_error]: undefined
+  [OnboardingEvents.biometry_opt_out]: undefined
 
   [OnboardingEvents.wallet_import_start]: undefined
   [OnboardingEvents.wallet_import_phrase_updated]: {

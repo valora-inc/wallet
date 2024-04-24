@@ -802,6 +802,12 @@
     "impact": "Support climate and social change initiatives",
     "spend": "Use your crypto to shop your favorite brands"
   },
+  "authSelect": {
+    "title": "Secure your account",
+    "description": "{{biometryType}} makes it easier, quicker, and more secure to connect your wallet to dapps & sign transactions",
+    "cta": "Turn on {{biometryType}}",
+    "altCta": "or Secure with a PIN"
+  },
   "enableBiometry": {
     "description": "{{biometryType}} secures your wallet and makes it easier to use {{appName}}",
     "cta": "Turn on {{biometryType}}",

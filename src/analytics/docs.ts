@@ -197,6 +197,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [OnboardingEvents.biometry_opt_in_approve]: ``,
   [OnboardingEvents.biometry_opt_in_complete]: ``,
   [OnboardingEvents.biometry_opt_in_error]: ``,
+  [OnboardingEvents.biometry_opt_out]: `The user opts to use pin instead of Biometrics.`,
   [OnboardingEvents.wallet_import_start]: ``,
   [OnboardingEvents.wallet_import_phrase_updated]: ``,
   [OnboardingEvents.wallet_import_submit]: ``,

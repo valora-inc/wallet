@@ -39,7 +39,11 @@ export interface OnboardingProps {
   skipVerification: boolean
   numberAlreadyVerifiedCentrally: boolean
   showCloudAccountBackupRestore: boolean
+  usePin: boolean
 }
+
+// TODO ACT-1160 follow hook into Statsig Experiment
+const useBiometricsWithoutPinSetup = false
 
 /**
  * Helper function to determine where onboarding starts.
@@ -48,13 +52,14 @@ export function firstOnboardingScreen({
   recoveringFromStoreWipe,
 }: {
   recoveringFromStoreWipe: boolean
-}): Screens.ImportSelect | Screens.ImportWallet | Screens.PincodeSet {
+}): Screens.ImportSelect | Screens.ImportWallet | Screens.PincodeSet | Screens.AuthSelect {
   if (recoveringFromStoreWipe) {
     return getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE)
       ? Screens.ImportSelect
       : Screens.ImportWallet
   } else {
-    return Screens.PincodeSet
+    // TODO ACT-1160 follow up - New Secure Your Account Screen or PincodeSet based on experiment
+    return useBiometricsWithoutPinSetup ? Screens.AuthSelect : Screens.PincodeSet
   }
 }
 
@@ -198,6 +203,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
     supportedBiometryType,
     skipVerification,
     numberAlreadyVerifiedCentrally,
+    usePin,
   } = props
 
   const navigateImportOrImportSelect = () => {
@@ -209,6 +215,20 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
   }
 
   switch (firstScreenInStep) {
+    case Screens.AuthSelect:
+      return {
+        next: () => {
+          if (usePin) {
+            navigate(Screens.PincodeSet)
+          } else if (choseToRestoreAccount) {
+            popToScreen(Screens.Welcome)
+            navigateImportOrImportSelect()
+          } else {
+            dispatch(initializeAccount())
+            navigate(Screens.ProtectWallet)
+          }
+        },
+      }
     case Screens.PincodeSet:
       return {
         next: () => {

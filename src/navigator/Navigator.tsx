@@ -88,6 +88,7 @@ import { getInitialRoute } from 'src/navigator/initialRoute'
 import { StackParamList } from 'src/navigator/types'
 import NftsInfoCarousel from 'src/nfts/NftsInfoCarousel'
 import ChooseYourAdventure from 'src/onboarding/ChooseYourAdventure'
+import AuthSelect from 'src/onboarding/registration/AuthSelect'
 import EnableBiometry from 'src/onboarding/registration/EnableBiometry'
 import ImportSelect from 'src/onboarding/registration/ImportSelect'
 import OnboardingRecoveryPhrase from 'src/onboarding/registration/OnboardingRecoveryPhrase'
@@ -216,6 +217,11 @@ const nuxScreens = (Navigator: typeof Stack) => (
       name={Screens.OnboardingSuccessScreen}
       component={OnboardingSuccessScreen}
       options={OnboardingSuccessScreen.navigationOptions}
+    />
+    <Navigator.Screen
+      name={Screens.AuthSelect}
+      component={AuthSelect}
+      options={AuthSelect.navigationOptions}
     />
   </>
 )

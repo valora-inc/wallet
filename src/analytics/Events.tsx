@@ -179,6 +179,7 @@ export enum OnboardingEvents {
   biometry_opt_in_approve = 'biometry_opt_in_approve',
   biometry_opt_in_complete = 'biometry_opt_in_complete',
   biometry_opt_in_error = 'biometry_opt_in_error',
+  biometry_opt_out = 'biometry_opt_out',
 
   wallet_import_start = 'wallet_import_start',
   wallet_import_phrase_updated = 'wallet_import_phrase_updated',
