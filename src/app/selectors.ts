@@ -57,8 +57,6 @@ export const sentryNetworkErrorsSelector = (state: RootState) => state.app.sentr
 
 export const supportedBiometryTypeSelector = (state: RootState) => state.app.supportedBiometryType
 
-export const activeScreenSelector = (state: RootState) => state.app.activeScreen
-
 export const fiatConnectCashInEnabledSelector = (state: RootState) =>
   state.app.fiatConnectCashInEnabled
 export const fiatConnectCashOutEnabledSelector = (state: RootState) =>
