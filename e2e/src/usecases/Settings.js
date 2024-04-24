@@ -32,7 +32,7 @@ export default Settings = () => {
       .toBeVisible()
       .withTimeout(1000 * 10)
     await dismissBanners()
-    await waitForElementByIdAndTap(navType === 'tab' ? 'BackChevron' : 'Hamburger')
+    await waitForElementByIdAndTap('BackChevron')
     // TODO replace this with an ID selector
     await expect(element(by.text(`${randomName}`))).toBeVisible()
   })
