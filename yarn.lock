@@ -2994,45 +2994,45 @@
   dependencies:
     invariant "^2.2.4"
 
-"@react-native-firebase/analytics@^17.5.0":
-  version "17.5.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-17.5.0.tgz#4f133f64edf2c5959116f862a62c12e6f4ec20ce"
-  integrity sha512-SATj+O8YbSJkL5tHtMSxaXqojZROO6+1mq4BDm9m2Gt8HqDXL7FCUl8dyB1h0dp5cvQ6Jl3nkYEICzHNnSXMeQ==
+"@react-native-firebase/analytics@19.1.0":
+  version "19.1.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-19.1.0.tgz#2e6a76fcdac61b0b3fdc7a8d3721536621fc4810"
+  integrity sha512-p6ZwpbYJRN6yCd1i0gjICyUbtxaVGINMiL4OxTJxpWaKZFGn5+qLe+p948Zww7Wnw4IiuZoUhM7K9YXOjqFYqw==
 
-"@react-native-firebase/app@^17.5.0":
-  version "17.5.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-17.5.0.tgz#faccb298f1e7f78cab06a20f232857a0edf3e6e8"
-  integrity sha512-8DWjguVmVYmuPWI7mhXlmLB6GxKnPjUjZ4Wnnyj3Wh5uqHzgUREHEA1aH92PT84LJLZL8F6dJZk+fIyo9UyXnA==
+"@react-native-firebase/app@19.1.0":
+  version "19.1.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-19.1.0.tgz#46eaff1d7303da9fa305a641d4c8623ba7b80435"
+  integrity sha512-xR4Ui0p6Xe2OXAs/Q4XN79nSqtupKu1ZwlGbYiUrvXsYwtwNlU1Pk8WvIhpXUP5/jXsSNZr8NeGrfCbb9m9NLQ==
   dependencies:
-    opencollective-postinstall "^2.0.1"
+    opencollective-postinstall "^2.0.3"
     superstruct "^0.6.2"
 
-"@react-native-firebase/auth@^17.5.0":
-  version "17.5.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-17.5.0.tgz#7d8df67fb94439452b2d0a4835b9fb26a64c4b10"
-  integrity sha512-iF5Wv7dcDPmxu2om5SkPVGPELAwahAp3izFXjrv6wQAFmOTQ+2rEIDRBFMmS7EZ/qwNodvKK3vgDLEnOxDtTAQ==
+"@react-native-firebase/auth@19.1.0":
+  version "19.1.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-19.1.0.tgz#72352c09c7fb99b35f11a552d8b0ba1c783b9b5d"
+  integrity sha512-n8FRjJ4T1vY9B+aKhb2dnw2RLKWT6i5tCfty6cTaTvBkdQ6EDqvrmYsCYtBlss5LW02MA/2e4A1gw5WkQ1qsMg==
   dependencies:
-    plist "^3.0.5"
+    plist "^3.1.0"
 
-"@react-native-firebase/database@^17.5.0":
-  version "17.5.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/database/-/database-17.5.0.tgz#079bb2d0d5316474409be8000a7361455477b37c"
-  integrity sha512-THtlYXt6o+YgRR+kphRkuZgG3uoE/TiIpTzEUatGGcp/XYGeZbr77dE/6jbATQz/ORFrE7lsEpJRJm/c4iuQ6g==
+"@react-native-firebase/database@19.1.0":
+  version "19.1.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/database/-/database-19.1.0.tgz#7c7e423aa9ac9d7bdac747dfab6e032b7b78125b"
+  integrity sha512-gN7sq4Hh4sdWvtPVY2eL19LGybRQSurhAGkzbYe9+9Aa+eMtFIC3048nDlYGm4ztCd0SjMrDihmWR/XAjnOTYg==
 
-"@react-native-firebase/dynamic-links@^17.5.0":
-  version "17.5.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/dynamic-links/-/dynamic-links-17.5.0.tgz#54ac23fb9914ad6945d40ba3ab835d1791ccb0b6"
-  integrity sha512-3vuApAMSHpZkJ0oeAJNMt9gpkancVpVPyUkCuRubgOaeKXnYVEWpxvhbnxERx+ighV5/kVJTjmqfJiqyQXdOvw==
+"@react-native-firebase/dynamic-links@19.1.0":
+  version "19.1.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/dynamic-links/-/dynamic-links-19.1.0.tgz#9d19739d9880a2a67266403533d63c83fa9ddca5"
+  integrity sha512-u9CtrrP7Twoexsrub2mQ69kOS1lmex0nDg4TPeW86UhJGg2QI0mh4Xbl9BcdNMQKPMDkqiZTee95hK7njSriDg==
 
-"@react-native-firebase/messaging@^17.5.0":
-  version "17.5.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-17.5.0.tgz#9c6db50423c67760dd61e553189187b9e5a2b75e"
-  integrity sha512-9jB7jEt4ySdALio2qwquAkXI106GTdPEuGY+vUFuNT6Wwwc5VQhyiJ5yforaF0BEsppFgK151PLYQQdIhahgzA==
+"@react-native-firebase/messaging@19.1.0":
+  version "19.1.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-19.1.0.tgz#aee9489c894e48bb12bea8f076d9e3c485064af0"
+  integrity sha512-Jao9WdzNMdPQ7SmYAyFLnzFaU/ybbC3idrS4JGM0TByJzEKUv3jAG/lvXdGW6D8FfFWICiJ7oEFESdiBq1ugXw==
 
-"@react-native-firebase/remote-config@^17.5.0":
-  version "17.5.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/remote-config/-/remote-config-17.5.0.tgz#142a2d9f6eebfadd1f4a942d4c8dd601846393e9"
-  integrity sha512-qfNGhj1kcPZaaeTMZup+Dy146Fw99cKeRZEYIUvcMNtN2NLWz0FE0rw8RZ9kb0vkxhjcXwHXrG4M8DU7SmRAjw==
+"@react-native-firebase/remote-config@19.1.0":
+  version "19.1.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/remote-config/-/remote-config-19.1.0.tgz#8f9711c06cd5c1eb6b68fab3312d272d981d07e6"
+  integrity sha512-gB4kV7s4/8Xca3s0Hs0S0TiNlg6zQnSwdKF8hnQGudOAIi1EhiUrNGQ5ybtKkGIh6TX7LC8Ev9jUgkIaNvo8Zw==
 
 "@react-native-masked-view/masked-view@^0.3.1":
   version "0.3.1"
@@ -14129,10 +14129,15 @@ open@^6.2.0:
   dependencies:
     is-wsl "^1.1.0"
 
-opencollective-postinstall@^2.0.1, opencollective-postinstall@^2.0.2:
+opencollective-postinstall@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/opencollective-postinstall/-/opencollective-postinstall-2.0.2.tgz#5657f1bede69b6e33a45939b061eb53d3c6c3a89"
   integrity sha512-pVOEP16TrAO2/fjej1IdOyupJY8KDUM1CvsaScRbw6oddvpQoOfGk4ywha0HKKVAD6RkW4x6Q+tNBwhf3Bgpuw==
+
+opencollective-postinstall@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/opencollective-postinstall/-/opencollective-postinstall-2.0.3.tgz#7a0fff978f6dbfa4d006238fbac98ed4198c3259"
+  integrity sha512-8AV/sCtuzUeTo8gQK5qDZzARrulB3egtLzFgteqB2tcT4Mw7B8Kt7JcDHmltjz6FOAHsvTevk70gZEbhM4ZS9Q==
 
 opn@^5.4.0:
   version "5.5.0"
@@ -17086,7 +17091,7 @@ string-length@^4.0.1:
     char-regex "^1.0.2"
     strip-ansi "^6.0.0"
 
-"string-width-cjs@npm:string-width@^4.2.0":
+"string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -17120,15 +17125,6 @@ string-width@^3.0.0, string-width@^3.1.0:
     emoji-regex "^7.0.1"
     is-fullwidth-code-point "^2.0.0"
     strip-ansi "^5.1.0"
-
-string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
-  version "4.2.3"
-  resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
-  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
-  dependencies:
-    emoji-regex "^8.0.0"
-    is-fullwidth-code-point "^3.0.0"
-    strip-ansi "^6.0.1"
 
 string-width@^5.0.1, string-width@^5.1.2:
   version "5.1.2"
@@ -17201,14 +17197,7 @@ string_decoder@^1.0.0, string_decoder@^1.0.3, string_decoder@^1.1.1, string_deco
   dependencies:
     safe-buffer "~5.1.0"
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
-  integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
-  dependencies:
-    ansi-regex "^5.0.1"
-
-strip-ansi@6.0.1, strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@6.0.1, strip-ansi@^6.0.0, strip-ansi@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
@@ -19322,7 +19311,7 @@ wordwrap@0.0.2:
   resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-0.0.2.tgz#b79669bb42ecb409f83d583cad52ca17eaa1643f"
   integrity sha1-t5Zpu0LstAn4PVg8rVLKF+qhZD8=
 
-"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0":
+"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
@@ -19352,15 +19341,6 @@ wrap-ansi@^6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-6.2.0.tgz#e9393ba07102e6c91a3b221478f0257cd2856e53"
   integrity sha512-r6lPcBGxZXlIcymEu7InxDMhdW0KDxpLgoFLcguasxCaJ/SOIZwINatK9KY/tf+ZrlywOKU0UDj3ATXUBfxJXA==
-  dependencies:
-    ansi-styles "^4.0.0"
-    string-width "^4.1.0"
-    strip-ansi "^6.0.0"
-
-wrap-ansi@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
-  integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
   dependencies:
     ansi-styles "^4.0.0"
     string-width "^4.1.0"
