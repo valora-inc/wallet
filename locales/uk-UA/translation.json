@@ -2260,6 +2260,16 @@
     "title": "Бали Валора",
     "activity": "Активність",
     "history": {
+      "cards": {
+        "createWallet": {
+          "title": "Тримач для гаманця",
+          "subtitle": "Член {{appName}}"
+        },
+        "swap": {
+          "title": "Обміняти",
+          "subtitle": "{{fromToken}} до {{toToken}}"
+        }
+      },
       "title": "Активність моїх балів",
       "error": {
         "title": "Неможливо завантажити активність точок",
