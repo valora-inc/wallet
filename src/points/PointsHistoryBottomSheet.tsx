@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, StyleSheet, Text, View, ListRenderItem } from 'react-native'
 import SectionHead from 'src/components/SectionHead'
 import GorhomBottomSheet from '@gorhom/bottom-sheet'
 import { useDispatch, useSelector } from 'src/redux/hooks'
@@ -14,13 +14,37 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { PointsEvents } from 'src/analytics/Events'
 import { getHistoryStarted } from 'src/points/slice'
+import { ClaimHistoryCardItem } from 'src/points/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
 import colors from 'src/styles/colors'
 import { BottomSheetSectionList } from '@gorhom/bottom-sheet'
+import { useGetHistoryDefinition } from 'src/points/cardDefinitions'
+import { HistoryCardMetadata } from 'src/points/cardDefinitions'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 interface Props {
   forwardedRef: React.RefObject<GorhomBottomSheet>
+}
+
+function PointsHistoryCard({
+  icon,
+  title,
+  subtitle,
+  pointsAmount,
+  testID,
+}: HistoryCardMetadata & { testID?: string }) {
+  return (
+    <View style={styles.historyCard} testID={testID}>
+      <View style={styles.cardIcon}>{icon}</View>
+      <View style={styles.cardContent}>
+        <Text style={styles.cardTitle}>{title}</Text>
+        <Text style={styles.cardSubtitle}>{subtitle}</Text>
+      </View>
+      <View style={styles.cardPointsAmountContainer}>
+        <Text style={styles.cardPointsAmount}>+{pointsAmount}</Text>
+      </View>
+    </View>
+  )
 }
 
 function PointsHistoryBottomSheet({ forwardedRef }: Props) {
@@ -31,6 +55,8 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
   const pointsHistoryStatus = useSelector(pointsHistoryStatusSelector)
   const pointsHistory = useSelector(pointsHistorySelector)
 
+  const getHistoryDefinition = useGetHistoryDefinition()
+
   const insets = useSafeAreaInsets()
 
   const onFetchMoreHistory = () => {
@@ -39,6 +65,16 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
       getHistoryStarted({
         getNextPage: true,
       })
+    )
+  }
+
+  const renderItem: ListRenderItem<ClaimHistoryCardItem> = ({ item }) => {
+    const historyDefinition = getHistoryDefinition(item)
+    if (!historyDefinition) {
+      return null
+    }
+    return (
+      <PointsHistoryCard {...historyDefinition} testID={`${item.activityId}-${item.timestamp}`} />
     )
   }
 
@@ -87,11 +123,6 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
   const sections = useMemo(() => {
     return groupFeedItemsInSections([], pointsHistory)
   }, [pointsHistory, pointsHistoryStatus])
-
-  // TODO: Render items
-  const renderItem = () => {
-    return <></>
-  }
 
   return (
     <BottomSheetBase snapPoints={['80%']} forwardedRef={forwardedRef}>
@@ -143,6 +174,39 @@ const styles = StyleSheet.create({
   },
   sectionHead: {
     paddingHorizontal: Spacing.Thick24,
+  },
+  historyCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: Spacing.Regular16,
+    paddingHorizontal: Spacing.Thick24,
+  },
+  cardIcon: {
+    backgroundColor: colors.successLight,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    borderRadius: 20,
+    width: 40,
+    height: 40,
+    padding: Spacing.Smallest8,
+    marginRight: Spacing.Regular16,
+  },
+  cardContent: {
+    flex: 1,
+  },
+  cardTitle: {
+    ...typeScale.labelMedium,
+  },
+  cardSubtitle: {
+    ...typeScale.labelSmall,
+    color: colors.gray4,
+  },
+  cardPointsAmount: {
+    ...typeScale.labelMedium,
+    color: colors.primary,
+  },
+  cardPointsAmountContainer: {
+    justifyContent: 'center',
   },
 })
 export default PointsHistoryBottomSheet

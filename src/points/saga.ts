@@ -15,7 +15,12 @@ import {
   sendPointsEventStarted,
   trackPointsEvent,
 } from 'src/points/slice'
-import { GetHistoryResponse, PointsEvent, isPointsActivityId } from 'src/points/types'
+import {
+  GetHistoryResponse,
+  isPointsActivityId,
+  isClaimActivityId,
+  PointsEvent,
+} from 'src/points/types'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
@@ -80,7 +85,7 @@ export function* getHistory({ payload: params }: ReturnType<typeof getHistorySta
     yield* put(
       getHistorySucceeded({
         appendHistory: params.getNextPage,
-        newPointsHistory: history.data,
+        newPointsHistory: history.data.filter((record) => isClaimActivityId(record.activityId)),
         nextPageUrl: history.hasNextPage ? history.nextPageUrl : null,
       })
     )

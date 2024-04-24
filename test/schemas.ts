@@ -3269,6 +3269,7 @@ export const v209Schema = {
   },
   points: {
     ...v208Schema.points,
+
     pendingPointsEvents: [],
   },
 }
