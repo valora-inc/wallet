@@ -649,7 +649,7 @@ PODS:
     - React-Core
   - RNDeviceInfo (10.13.2):
     - React-Core
-  - RNExitApp (1.1.0):
+  - RNExitApp (2.0.0):
     - React-Core
   - RNFastImage (8.6.3):
     - React-Core
@@ -702,7 +702,7 @@ PODS:
     - React-Core
   - RNLocalize (2.2.6):
     - React-Core
-  - RNPermissions (3.10.1):
+  - RNPermissions (4.1.5):
     - React-Core
   - RNPersonaInquiry2 (2.2.23):
     - PersonaInquirySDK2 (= 2.3.9)
@@ -736,9 +736,10 @@ PODS:
     - React-RCTText
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNScreens (3.30.1):
+  - RNScreens (3.31.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
+    - React-RCTImage
   - RNSecureRandom (1.0.1):
     - React-Core
   - RNSentry (4.15.2):
@@ -1214,7 +1215,7 @@ SPEC CHECKSUMS:
   RNCMaskedView: 090213d32d8b3bb83a4dcb7d12c18f0152591906
   RNCPicker: 3e2c37a8328f368ce14da050cdc8231deb5fc9f9
   RNDeviceInfo: 42aadf1282ffa0a88dc38a504a7be145eb010dfa
-  RNExitApp: b6d5fb7a7ef85d502c45fb2d00840f517d6a4ac7
+  RNExitApp: 00036cabe7bacbb413d276d5520bf74ba39afa6a
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNFBAnalytics: b4e2f1fb446c4bd15a5e778b0554464a8a303a1e
   RNFBApp: d59efa0872fff4e27de03cca3c528c203a436ae5
@@ -1228,11 +1229,11 @@ SPEC CHECKSUMS:
   RNImageCropPicker: e7ab6fb43d2fc3e84651e786ef4a080d63b0ed3d
   RNKeychain: f1b48665a4646f61191eb048c4c05c58d9a7596f
   RNLocalize: d4b8af4e442d4bcca54e68fc687a2129b4d71a81
-  RNPermissions: 74dd0814d683da200baaf4111fe5815906b3274c
+  RNPermissions: da2a4ded375aa8292d85ed93676e102c203d4717
   RNPersonaInquiry2: 3ab52078e891a5d2fa39bf7cc9119ca27f0337fd
   RNReactNativeHapticFeedback: 1e3efeca9628ff9876ee7cdd9edec1b336913f8c
   RNReanimated: f186e85d9f28c9383d05ca39e11dd194f59093ec
-  RNScreens: bb06f14b5c352e603f2527caac02ca0d6398c6e5
+  RNScreens: 93ae3be2f119d955620f9bbb39ad372adb53b7a9
   RNSecureRandom: ff25041dd065a945810ca01a2bcd06f8d141b81d
   RNSentry: 4ea90ea061624364637e8077d965bf2e50478066
   RNShare: a5dc3b9c53ddc73e155b8cd9a94c70c91913c43c
