@@ -20,6 +20,6 @@ describe('Given PIN', () => {
     await device.uninstallApp()
   })
 
-  describe('When Requiring Pin', PINRequire())
-  describe('When Changing Pin', PINChange())
+  describe('When Requiring Pin', PINRequire)
+  describe('When Changing Pin', PINChange)
 })

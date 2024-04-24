@@ -1,7 +1,7 @@
 import { navigateToSettings } from '../utils/utils'
 import { reloadReactNative } from '../utils/retries'
 
-export default RequirePIN = () => () => {
+export default RequirePIN = () => {
   it('Then should be require PIN on app open', async () => {
     await navigateToSettings()
     // Request Pin on App Open disabled by default

@@ -2,7 +2,7 @@ import { ALTERNATIVE_PIN, DEFAULT_PIN } from '../utils/consts'
 import { reloadReactNative } from '../utils/retries'
 import { enterPinUi, navigateToSettings, sleep, waitForElementId } from '../utils/utils'
 
-export default ChangePIN = () => () => {
+export default ChangePIN = () => {
   it('Then should be retain changed PIN', async () => {
     await navigateToSettings()
     await waitForElementId('ChangePIN')
