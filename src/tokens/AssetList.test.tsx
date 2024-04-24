@@ -254,20 +254,9 @@ describe('AssetList', () => {
   })
 
   it.each([
-    {
-      name: 'collections tab',
-      tab: AssetTabType.Collectibles,
-      isWalletTab: true,
-      gate: true,
-    },
-    {
-      name: 'positions tab',
-      tab: AssetTabType.Positions,
-      isWalletTab: true,
-      gate: true,
-    },
-  ])('does not show import token on $name', ({ tab, isWalletTab, gate }) => {
-    jest.mocked(getFeatureGate).mockReturnValue(gate)
+    { name: 'collections tab', tab: AssetTabType.Collectibles },
+    { name: 'positions tab', tab: AssetTabType.Positions },
+  ])('does not show import token on $name', ({ tab }) => {
     const store = createMockStore(storeWithAssets)
 
     const { queryByTestId } = render(
