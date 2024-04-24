@@ -56,6 +56,16 @@ export function* handleNotification(
   message: FirebaseMessagingTypes.RemoteMessage,
   notificationState: NotificationReceiveState
 ) {
+  if (
+    typeof message.data?.id === 'object' ||
+    typeof message.data?.type === 'object' ||
+    typeof message.data?.ou === 'object'
+  ) {
+    // should never happen
+    Logger.error(TAG, 'Received invalid object data types from notifications', message.data)
+    return
+  }
+
   ValoraAnalytics.track(AppEvents.push_notification_opened, {
     id: message.data?.id,
     state: notificationState,

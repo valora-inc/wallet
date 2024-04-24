@@ -61,3 +61,14 @@ export interface GetHistoryResponse {
   hasNextPage: boolean
   nextPageUrl: string
 }
+
+interface PointsEventCreateWallet {
+  activityId: 'create-wallet'
+}
+
+interface PointsEventSwap {
+  activityId: 'swap'
+  transactionHash: string
+}
+
+export type PointsEvent = PointsEventCreateWallet | PointsEventSwap

@@ -22,6 +22,7 @@ import {
   showNotificationSpotlightSelector,
 } from 'src/app/selectors'
 import BetaTag from 'src/components/BetaTag'
+import PointsButton from 'src/components/PointsButton'
 import QrScanButton from 'src/components/QrScanButton'
 import { HomeTokenBalance } from 'src/components/TokenBalance'
 import { ALERT_BANNER_DURATION, DEFAULT_TESTNET, SHOW_TESTNET_BANNER } from 'src/config'
@@ -40,6 +41,7 @@ import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
+import { trackPointsEvent } from 'src/points/slice'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { initializeSentryUserContext } from 'src/sentry/actions'
@@ -50,7 +52,6 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
 import { hasGrantedContactsPermission } from 'src/utils/contacts'
-import PointsButton from 'src/components/PointsButton'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
@@ -143,6 +144,8 @@ function WalletHome({ navigation, route }: Props) {
     // Waiting 1/2 sec before triggering to allow
     // rest of feed to load unencumbered
     setTimeout(tryImportContacts, 500)
+
+    dispatch(trackPointsEvent({ activityId: 'create-wallet' }))
   }, [])
 
   useEffect(() => {
