@@ -9,7 +9,7 @@ export default ResetAccount = () => {
     await launchApp({
       newInstance: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
-      launchArgs: { statsigGateOverrides: `use_tab_navigator=tab` },
+      launchArgs: { statsigGateOverrides: 'use_tab_navigator=true' },
     })
   })
 
