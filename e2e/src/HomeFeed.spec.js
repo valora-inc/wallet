@@ -8,7 +8,7 @@ beforeAll(async () => {
 
 // iOS only as getAttributes on multiple elements is not supported on Android
 describe(':ios: Home Feed', () => {
-  // TODO(ACT-1133): remove this beforeAll when tab tests are removed
+  // TODO(ACT-1133): remove this beforeAll when drawer nav is removed
   beforeAll(async () => {
     await launchApp({
       newInstance: true,
