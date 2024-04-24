@@ -2256,6 +2256,16 @@
     "title": "Valora Punkte",
     "activity": "Aktivität",
     "history": {
+      "cards": {
+        "createWallet": {
+          "title": "Brieftaschenhalter",
+          "subtitle": "Mitglied von {{appName}}"
+        },
+        "swap": {
+          "title": "Tauschen",
+          "subtitle": "{{fromToken}} zu {{toToken}}"
+        }
+      },
       "title": "Meine Punkte Aktivität",
       "error": {
         "title": "Aktivität kann keine Punkte laden",
