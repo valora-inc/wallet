@@ -1,5 +1,5 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { ClaimHistory, PointsActivity } from 'src/points/types'
+import { PayloadAction, createAction, createSlice } from '@reduxjs/toolkit'
+import { ClaimHistory, PointsActivity, PointsEvent } from 'src/points/types'
 import { REHYDRATE, RehydrateAction, getRehydratePayload } from 'src/redux/persist-helper'
 
 interface GetPointsHistorySucceededAction {
@@ -23,12 +23,20 @@ export type PointsConfig = {
     }
   }
 }
-interface State {
+
+export interface PendingPointsEvent {
+  id: string
+  timestamp: string
+  event: PointsEvent
+}
+
+export interface State {
   pointsHistory: ClaimHistory[]
   nextPageUrl: string | null
   getHistoryStatus: 'idle' | 'loading' | 'error'
   pointsConfig: PointsConfig
   pointsConfigStatus: 'idle' | 'loading' | 'error' | 'success'
+  pendingPointsEvents: PendingPointsEvent[]
 }
 
 const initialState: State = {
@@ -37,6 +45,7 @@ const initialState: State = {
   getHistoryStatus: 'idle',
   pointsConfig: { activitiesById: {} },
   pointsConfigStatus: 'idle',
+  pendingPointsEvents: [],
 }
 
 const slice = createSlice({
@@ -76,6 +85,16 @@ const slice = createSlice({
     getPointsConfigRetry: (state) => ({
       ...state,
     }),
+    sendPointsEventStarted: (state, action: PayloadAction<PendingPointsEvent>) => ({
+      ...state,
+      pendingPointsEvents: [...state.pendingPointsEvents, action.payload],
+    }),
+    pointsEventProcessed: (state, action: PayloadAction<Pick<PendingPointsEvent, 'id'>>) => ({
+      ...state,
+      pendingPointsEvents: state.pendingPointsEvents.filter(
+        (event) => event.id !== action.payload.id
+      ),
+    }),
   },
   extraReducers: (builder) => {
     builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
@@ -94,6 +113,11 @@ export const {
   getPointsConfigStarted,
   getPointsConfigSucceeded,
   getPointsConfigRetry,
+  sendPointsEventStarted,
+  pointsEventProcessed,
 } = slice.actions
+
+// action handled in saga
+export const trackPointsEvent = createAction<PointsEvent>('points/trackPointsEvent')
 
 export default slice.reducer

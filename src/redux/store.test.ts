@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 208,
+          "version": 209,
         },
         "account": {
           "acceptedTerms": false,
@@ -296,6 +296,7 @@ describe('store state', () => {
         "points": {
           "getHistoryStatus": "idle",
           "nextPageUrl": null,
+          "pendingPointsEvents": [],
           "pointsConfig": {
             "activitiesById": {},
           },

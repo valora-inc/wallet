@@ -1,25 +1,45 @@
 import { combineReducers } from '@reduxjs/toolkit'
+import { addDays } from 'date-fns'
 import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
-import { fetchHistory, getHistory, getPointsConfig } from 'src/points/saga'
+import { Actions as AppActions } from 'src/app/actions'
+import * as pointsSaga from 'src/points/saga'
+import {
+  fetchHistory,
+  fetchTrackPointsEventsEndpoint,
+  getHistory,
+  getPointsConfig,
+  sendPendingPointsEvents,
+  sendPointsEvent,
+  watchAppMounted,
+} from 'src/points/saga'
 import pointsReducer, {
+  PendingPointsEvent,
   getHistoryError,
   getHistoryStarted,
   getHistorySucceeded,
   getPointsConfigError,
   getPointsConfigStarted,
   getPointsConfigSucceeded,
+  pointsEventProcessed,
+  sendPointsEventStarted,
+  trackPointsEvent,
 } from 'src/points/slice'
 import { ClaimHistory, GetHistoryResponse } from 'src/points/types'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
+import Logger from 'src/utils/Logger'
 import * as fetchWithTimeout from 'src/utils/fetchWithTimeout'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
+import { v4 as uuidv4 } from 'uuid'
 
 jest.mock('src/statsig')
+
+jest.mock('uuid')
+jest.mock('src/utils/Logger')
 
 const MOCK_HISTORY_RESPONSE: GetHistoryResponse = {
   data: [
@@ -52,6 +72,17 @@ const MOCK_POINTS_HISTORY: ClaimHistory[] = [
 
 const mockFetch = fetch as FetchMock
 const fetchWithTimeoutSpy = jest.spyOn(fetchWithTimeout, 'fetchWithTimeout')
+
+const mockTime = '2024-04-20T12:00:00.000Z'
+const mockId = 'test-id'
+const mockServerSuccessResponse = { ok: true }
+const mockServerErrorMessage = 'Error message from server'
+const mockServerErrorResponse = {
+  ok: false,
+  status: 500,
+  statusText: 'Internal Server Error',
+  text: jest.fn(() => Promise.resolve(mockServerErrorMessage)),
+}
 
 describe('fetchHistory', () => {
   beforeEach(() => {
@@ -291,5 +322,180 @@ describe('getPointsConfig', () => {
       .run()
 
     expect(mockFetch).not.toHaveBeenCalled()
+  })
+})
+
+describe('sendPointsEvent', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+    jest.useFakeTimers({ now: new Date(mockTime).getTime() })
+    jest.mocked(uuidv4).mockReturnValue(mockId)
+  })
+
+  it('should add and remove pending points event in case of successful fetch', () => {
+    const mockAction = trackPointsEvent({ activityId: 'create-wallet' })
+
+    return expectSaga(sendPointsEvent, mockAction)
+      .provide([
+        [matchers.call.fn(pointsSaga.fetchTrackPointsEventsEndpoint), mockServerSuccessResponse],
+      ])
+      .put(
+        sendPointsEventStarted({
+          id: mockId,
+          timestamp: mockTime,
+          event: mockAction.payload,
+        })
+      )
+      .put(pointsEventProcessed({ id: mockId }))
+      .run()
+  })
+
+  it('should add and not remove pending points event in case of server error', async () => {
+    const mockAction = trackPointsEvent({ activityId: 'create-wallet' })
+
+    await expectSaga(sendPointsEvent, mockAction)
+      .provide([
+        [matchers.call.fn(pointsSaga.fetchTrackPointsEventsEndpoint), mockServerErrorResponse],
+      ])
+      .put(
+        sendPointsEventStarted({
+          id: mockId,
+          timestamp: mockTime,
+          event: mockAction.payload,
+        })
+      )
+      .not.put(pointsEventProcessed({ id: mockId }))
+      .run()
+
+    expect(Logger.warn).toHaveBeenCalledWith(
+      'Points/saga@sendPointsEvent',
+      mockAction.payload.activityId,
+      mockServerErrorResponse.status,
+      mockServerErrorResponse.statusText,
+      mockServerErrorMessage
+    )
+  })
+})
+
+describe('sendPendingPointsEvents', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+
+    jest.useFakeTimers({ now: new Date(mockTime).getTime() })
+  })
+
+  it('should remove pending points event after successful fetch', () => {
+    const mockPendingPointsEvent: PendingPointsEvent = {
+      id: mockId,
+      timestamp: mockTime,
+      event: { activityId: 'create-wallet' },
+    }
+
+    return expectSaga(sendPendingPointsEvents)
+      .withState(
+        createMockStore({ points: { pendingPointsEvents: [mockPendingPointsEvent] } }).getState()
+      )
+      .provide([
+        [matchers.call.fn(pointsSaga.fetchTrackPointsEventsEndpoint), mockServerSuccessResponse],
+      ])
+      .call(fetchTrackPointsEventsEndpoint, mockPendingPointsEvent.event)
+      .put(pointsEventProcessed({ id: mockId }))
+      .run()
+  })
+
+  it('should remove expired pending points event', async () => {
+    const mockExpiredPendingPointsEvent: PendingPointsEvent = {
+      id: mockId,
+      timestamp: addDays(new Date(mockTime), -31).toISOString(),
+      event: { activityId: 'create-wallet' },
+    }
+
+    await expectSaga(sendPendingPointsEvents)
+      .withState(
+        createMockStore({
+          points: { pendingPointsEvents: [mockExpiredPendingPointsEvent] },
+        }).getState()
+      )
+      .put(pointsEventProcessed({ id: mockId }))
+      .not.call(fetchTrackPointsEventsEndpoint, mockExpiredPendingPointsEvent.event)
+      .run()
+
+    expect(Logger.debug).toHaveBeenCalledWith(
+      'Points/saga@sendPendingPointsEvents/expiredEvent',
+      mockExpiredPendingPointsEvent
+    )
+  })
+
+  it('should not remove pending points event in case of server error', async () => {
+    const mockPendingPointsEvent: PendingPointsEvent = {
+      id: mockId,
+      timestamp: mockTime,
+      event: { activityId: 'create-wallet' },
+    }
+
+    await expectSaga(sendPendingPointsEvents)
+      .withState(
+        createMockStore({
+          points: { pendingPointsEvents: [mockPendingPointsEvent] },
+        }).getState()
+      )
+      .provide([
+        [matchers.call.fn(pointsSaga.fetchTrackPointsEventsEndpoint), mockServerErrorResponse],
+      ])
+      .not.put(pointsEventProcessed({ id: mockId }))
+      .run()
+
+    expect(Logger.warn).toHaveBeenCalledWith(
+      'Points/saga@sendPendingPointsEvents',
+      mockPendingPointsEvent.event.activityId,
+      mockServerErrorResponse.status,
+      mockServerErrorResponse.statusText,
+      mockServerErrorMessage
+    )
+  })
+
+  it('should not remove pending points event in case of exception', async () => {
+    const mockPendingPointsEvent: PendingPointsEvent = {
+      id: mockId,
+      timestamp: mockTime,
+      event: { activityId: 'create-wallet' },
+    }
+    const mockError = new Error('Test error')
+
+    await expectSaga(sendPendingPointsEvents)
+      .withState(
+        createMockStore({
+          points: { pendingPointsEvents: [mockPendingPointsEvent] },
+        }).getState()
+      )
+      .provide([
+        [matchers.call.fn(pointsSaga.fetchTrackPointsEventsEndpoint), throwError(mockError)],
+      ])
+      .not.put(pointsEventProcessed({ id: mockId }))
+      .run()
+
+    expect(Logger.warn).toHaveBeenCalledWith('Points/saga@sendPendingPointsEvents', mockError)
+  })
+})
+
+describe('watchAppMounted', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  it('should call sendPendingPointsEvents only once even if multiple "app mounted" actions are dispatched', async () => {
+    const mockSendPendingPointsEvents = jest.fn()
+    const mockAction = { type: AppActions.APP_MOUNTED }
+
+    await expectSaga(watchAppMounted)
+      .withState(createMockStore().getState())
+      .provide([
+        [matchers.call.fn(pointsSaga.sendPendingPointsEvents), mockSendPendingPointsEvents()],
+      ])
+      .dispatch(mockAction)
+      .dispatch(mockAction)
+      .run()
+
+    expect(mockSendPendingPointsEvents).toHaveBeenCalledTimes(1)
   })
 })
