@@ -329,7 +329,7 @@ describe('TransactionFeed', () => {
     expect(pendingSubtitles.length).toBe(1)
   })
 
-  it('renders correct status for failed transaction', async () => {
+  it('renders correct status for a complete transaction', async () => {
     mockFetch.mockResponse(JSON.stringify(MOCK_RESPONSE))
 
     const { getByTestId, getByText } = renderScreen({})
@@ -339,7 +339,7 @@ describe('TransactionFeed', () => {
     expect(getByText('feedItemReceivedInfo, {"context":"noComment"}')).toBeTruthy()
   })
 
-  it('renders correct status for successful transaction', async () => {
+  it('renders correct status for a failed transaction', async () => {
     mockFetch.mockResponse(JSON.stringify(MOCK_RESPONSE_FAILED_TRANSACTION))
 
     const { getByTestId, getByText } = renderScreen({})
