@@ -32,12 +32,6 @@ export default Support = () => {
   }
 
   it('Send Message to Support', async () => {
-    // TODO(ACT-1133): remove launchApp
-    await launchApp({
-      newInstance: true,
-      permissions: { notifications: 'YES', contacts: 'YES' },
-      launchArgs: { statsigGateOverrides: `use_tab_navigator=true` },
-    })
     await waitForElementByIdAndTap('WalletHome/AccountCircle')
     await waitForElementByIdAndTap('ProfileMenu/Help')
     await waitFor(element(by.id('SupportContactLink')))
