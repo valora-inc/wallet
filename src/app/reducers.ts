@@ -50,6 +50,7 @@ interface State {
   hideBalances: boolean
   multichainBetaStatus: MultichainBetaStatus
   pendingDeepLinks: PendingDeepLink[]
+  hasSetPinManually: boolean
 }
 
 interface PendingDeepLink {
@@ -98,6 +99,7 @@ const initialState = {
   hideBalances: false,
   multichainBetaStatus: MultichainBetaStatus.NotSeen,
   pendingDeepLinks: [],
+  hasSetPinManually: false,
 }
 
 function getPersistedDeepLinks(deepLinks: PendingDeepLink[]) {
@@ -291,6 +293,11 @@ export const appReducer = (
         pendingDeepLinks: state.pendingDeepLinks.filter(
           (pendingDeepLink) => pendingDeepLink.url !== action.deepLink
         ),
+      }
+    case Actions.HAS_SET_PIN_MANUALLY:
+      return {
+        ...state,
+        hasSetPinManually: true,
       }
     default:
       return state

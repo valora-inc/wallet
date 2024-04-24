@@ -47,6 +47,7 @@ export enum Actions {
   NOTIFICATION_SPOTLIGHT_SEEN = 'APP/NOTIFICATION_SPOTLIGHT_SEEN',
   TOGGLE_HIDE_BALANCES = 'APP/TOGGLE_HIDE_BALANCES',
   OPT_MULTICHAIN_BETA = 'APP/OPT_MULTICHAIN_BETA',
+  HAS_SET_PIN_MANUALLY = 'APP/HAS_SET_PIN_MANUALLY',
 }
 
 export interface SetAppState {
@@ -67,6 +68,9 @@ interface SetNumberVerifiedAction {
 interface SetSupportedBiometryType {
   type: Actions.SET_SUPPORTED_BIOMETRY_TYPE
   supportedBiometryType: BIOMETRY_TYPE | null
+}
+interface HasSetPinManually {
+  type: Actions.HAS_SET_PIN_MANUALLY
 }
 
 export interface OpenDeepLink {
@@ -223,6 +227,7 @@ export type ActionTypes =
   | ToggleHideBalances
   | OptMultichainBeta
   | DeepLinkDeferred
+  | HasSetPinManually
 
 export const setAppState = (state: string): SetAppState => ({
   type: Actions.SET_APP_STATE,
@@ -408,5 +413,11 @@ export const optMultichainBeta = (optedIn: boolean): OptMultichainBeta => {
   return {
     type: Actions.OPT_MULTICHAIN_BETA,
     optedIn,
+  }
+}
+
+export const setHasSetPinManually = (): HasSetPinManually => {
+  return {
+    type: Actions.HAS_SET_PIN_MANUALLY,
   }
 }

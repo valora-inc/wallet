@@ -119,3 +119,5 @@ export const hideWalletBalancesSelector = (state: RootState) =>
 export const multichainBetaStatusSelector = (state: RootState) => state.app.multichainBetaStatus
 
 export const pendingDeepLinkSelector = (state: RootState) => state.app.pendingDeepLinks[0] ?? null
+
+export const HasSetPinManuallySelector = (state: RootState) => state.app.hasSetPinManually

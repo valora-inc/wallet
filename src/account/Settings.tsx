@@ -37,6 +37,7 @@ import {
   setSessionId,
 } from 'src/app/actions'
 import {
+  HasSetPinManuallySelector,
   analyticsEnabledSelector,
   getRequirePinOnAppOpen,
   hapticFeedbackEnabledSelector,
@@ -116,6 +117,7 @@ export const Account = ({ navigation, route }: Props) => {
   const cloudBackupCompleted = useSelector(cloudBackupCompletedSelector)
   const deleteKeylessBackupStatus = useSelector(deleteKeylessBackupStatusSelector)
   const showDeleteKeylessBackupError = useSelector(showDeleteKeylessBackupErrorSelector)
+  const hasSetPinManually = useSelector(HasSetPinManuallySelector)
   const walletConnectEnabled = v2
   const connectedApplications = sessions.length
 
@@ -237,8 +239,13 @@ export const Account = ({ navigation, route }: Props) => {
         ValoraAnalytics.track(SettingsEvents.settings_biometry_opt_in_complete)
       } else {
         ValoraAnalytics.track(SettingsEvents.settings_biometry_opt_in_disable)
-        await removeStoredPin()
-        dispatch(setPincodeSuccess(PincodeType.CustomPin))
+        if (hasSetPinManually) {
+          await removeStoredPin()
+          dispatch(setPincodeSuccess(PincodeType.CustomPin))
+        } else {
+          await removeStoredPin()
+          navigate(Screens.PincodeSet, { changePin: true })
+        }
       }
     } catch (error) {
       Logger.error('SettingsItem@onPress', 'Toggle use biometry error', error)

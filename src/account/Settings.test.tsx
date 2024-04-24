@@ -206,10 +206,12 @@ describe('Account', () => {
     expect(navigate).not.toHaveBeenCalled()
   })
 
+  // TODO ACT-1160 test flow for when hasSetPinManually is false
   it('toggle the biometry option correctly', async () => {
     const store = createMockStore({
       app: {
         supportedBiometryType: BIOMETRY_TYPE.FACE_ID,
+        hasSetPinManually: true,
       },
       account: {
         pincodeType: PincodeType.CustomPin,

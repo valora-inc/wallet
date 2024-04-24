@@ -12,6 +12,7 @@ import { initializeAccount, setPincodeSuccess } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
 import { OnboardingEvents, SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { setHasSetPinManually } from 'src/app/actions'
 import { supportedBiometryTypeSelector } from 'src/app/selectors'
 import DevSkipButton from 'src/components/DevSkipButton'
 import i18n, { withTranslation } from 'src/i18n'
@@ -56,6 +57,7 @@ interface DispatchProps {
   initializeAccount: typeof initializeAccount
   setPincodeSuccess: typeof setPincodeSuccess
   setHasSeenVerificationNux: typeof setHasSeenVerificationNux
+  hasSetPinManually: typeof setHasSetPinManually
 }
 
 interface State {
@@ -86,6 +88,7 @@ const mapDispatchToProps = {
   initializeAccount,
   setPincodeSuccess,
   setHasSeenVerificationNux,
+  setHasSetPinManually,
 }
 
 export class PincodeSet extends React.Component<Props, State> {
@@ -205,6 +208,7 @@ export class PincodeSet extends React.Component<Props, State> {
       if (this.isChangingPin()) {
         const updated = await updatePin(this.props.account, this.state.oldPin, pin2)
         if (updated) {
+          this.props.setHasSetPinManually()
           ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_confirmed)
           Logger.showMessage(this.props.t('pinChanged'))
         } else {
