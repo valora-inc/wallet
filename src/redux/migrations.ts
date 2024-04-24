@@ -1758,4 +1758,11 @@ export const migrations = {
       pendingPointsEvents: [],
     },
   }),
+  210: (state: any) => ({
+    ...state,
+    points: {
+      ...state.points,
+      pointsHistory: [],
+    },
+  }),
 }

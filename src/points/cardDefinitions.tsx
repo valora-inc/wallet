@@ -1,5 +1,5 @@
 import React from 'react'
-import { PointsActivity, PointsCardMetadata } from 'src/points/types'
+import { PointsActivityId, PointsCardMetadata } from 'src/points/types'
 import Celebration from 'src/icons/Celebration'
 import SwapArrows from 'src/icons/SwapArrows'
 import { navigate } from 'src/navigator/NavigationService'
@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 
 export default function useCardDefinitions(
   pointsValue: number
-): Record<PointsActivity, PointsCardMetadata> {
+): Record<PointsActivityId, PointsCardMetadata> {
   const { t } = useTranslation()
 
   return {
