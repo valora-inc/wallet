@@ -47,7 +47,7 @@ describe('DAppsExplorerScreenSearchFilter', () => {
   })
 
   it('renders correctly and fires the correct actions on press dapp', () => {
-    const { getByText, queryByText, getByTestId, queryByTestId } = render(
+    const { getByText, queryByText } = render(
       <Provider store={defaultStore}>
         <MockedNavigator component={DAppsExplorerScreenSearchFilter} />
       </Provider>
