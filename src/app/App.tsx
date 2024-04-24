@@ -51,7 +51,7 @@ BigNumber.config({
   },
 })
 
-interface Props {
+interface Props extends Record<string, unknown> {
   appStartedMillis: number
 }
 
