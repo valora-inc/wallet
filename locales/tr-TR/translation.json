@@ -2256,6 +2256,16 @@
     "title": "Valora Puanları",
     "activity": "İşlemler",
     "history": {
+      "cards": {
+        "createWallet": {
+          "title": "Cüzdan tutucu",
+          "subtitle": "{{appName}}üyesi"
+        },
+        "swap": {
+          "title": "Swap",
+          "subtitle": "{{fromToken}} - {{toToken}}"
+        }
+      },
       "title": "Puan faaliyetim",
       "error": {
         "title": "Puan etkinliği yüklenemiyor",
