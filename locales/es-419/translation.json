@@ -709,6 +709,17 @@
     "privacy": "Al unirte a esta red, nos das permiso para recopilar información anónima sobre tu uso de la aplicación. Además, si conectas tu número de teléfono, se guardará una copia cifrada. Si decides conectar tu lista de contactos, Valora importará el nombre, número de teléfono y foto de perfil de tus contactos para permitirte conectar con ellos a través de Valora. Para obtener más información sobre cómo recopilamos y usamos tus datos, consulta nuestra <0>Política de privacidad</0>.",
     "goldDisclaimer": "Cuando creas una \"cuenta\" en Valora, estás creando una billetera digital de la que sólo tú tienes las claves. Ninguna otra persona o entidad, incluyendo Valora, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Ten en cuenta que las criptomonedas forman parte de una nueva clase de activos y presentan un riesgo de pérdida financiera. Considera cuidadosamente tu circunstancia financiera y tu tolerancia al riesgo financiero antes de comprar cualquier activo."
   },
+  "termsColloquial": {
+    "title": "Empecemos por crear tu monedero",
+    "privacyHeading": "Tu información y privacidad:",
+    "privacy1": "Recopilamos datos de uso que nos ayudan a mejorar la aplicación y la seguridad. El tipo de información que recopilamos, cómo la utilizamos y tus derechos relacionados con esa información pueden consultarse en nuestra <0>Política de privacidad</0>.",
+    "privacy2": "Si decides vincular tu número de teléfono, almacenaremos una copia encriptada del mismo.",
+    "privacy3": "Si decides conectar tus contactos, utilizamos sus nombres, números y fotos de perfil para que sea más fácil encontrarlos.",
+    "walletHeading": "Tu Billetera Digital con Valora:",
+    "wallet1": "Estás a punto de crear un monedero digital. Sólo tú tienes la clave de tu monedero. No podemos recuperar tu clave ni tus activos si la pierdes. Tampoco podemos revertir las acciones realizadas a través de Valora en blockchains.",
+    "wallet2": "Los activos digitales, los activos con los que interactuarás con Valora, conllevan riesgos únicos. Al utilizar Valora, aceptas estos riesgos y te responsabilizas de ellos. Por favor, considera tus finanzas y tu tolerancia al riesgo antes de tomar decisiones.",
+    "fullTerms": "Lee nuestros <0>Términos y condiciones</0> completos"
+  },
   "fullNameOrPsuedonym": "Nombre o alias",
   "namePlaceholder": "p. ej. nombre",
   "nameAndPicGuideCopyTitle": "¿Cómo te llamas?",
@@ -815,7 +826,8 @@
     "restoreWallet": "Restaurar wallet",
     "hasWallet": "Ya tengo una wallet",
     "header": "¡Te damos la bienvenida a {{appName}}! Demos el primer paso, creemos tu wallet.",
-    "getStarted": "Primeros pasos"
+    "getStarted": "Primeros pasos",
+    "agreeToTerms": "Al crear un monedero aceptas nuestros <0>Términos y Condiciones</0>"
   },
   "accessContacts": {
     "disclosure": {
@@ -2243,6 +2255,14 @@
   "points": {
     "title": "Puntos Valora",
     "activity": "Actividad",
+    "history": {
+      "title": "Mi actividad de puntos",
+      "error": {
+        "title": "No se puede cargar la actividad de puntos",
+        "subtitle": "Oops, algo ha ido mal al intentar cargar tu feed de actividad de puntos. Vuelve a intentarlo.",
+        "tryAgain": "Inténtalo de nuevo"
+      }
+    },
     "loading": {
       "title": "Reunir tus puntos",
       "description": "Estamos en proceso de contabilizar tus puntos, agárrate fuerte"

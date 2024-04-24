@@ -709,6 +709,17 @@
     "privacy": "Bu ağa katılarak, uygulamayı kullanımınız hakkında anonim bilgi toplamamıza izin veriyorsunuz. Ek olarak, telefon numaranızı bağlarsanız, bunun hash'li bir kopyası saklanır. Valora'ya kişi listenize erişim izni verirseniz, Valora, kullanıcıların Valora uygulaması aracılığıyla bağlanmasına izin vermek için her kişinin adını, telefon numarasını ve profil resmini içe aktarır. Bu bilgileri nasıl topladığımızı ve kullandığımızı öğrenmek için lütfen <0>Gizlilik Politikamızı</0> inceleyin.",
     "goldDisclaimer": "Valora ile bir \"hesap\" oluşturduğunuzda, anahtarlarını yalnızca sizin tuttuğunuz bir dijital cüzdan yaratmış olursunuz. Valora dahil olmak üzere başka hiçbir kişi veya kuruluş anahtarınızı geri alamaz, işlemleri değiştiremez veya geri alamaz ya da kaybedilen parayı geri alamaz. Kripto paraların yeni bir varlık sınıfının parçası olduğunu ve finansal kayıp riski taşıdığını unutmayın. Herhangi bir varlık satın almadan önce finansal durumunuzu ve finansal risk toleransınızı dikkatlice değerlendirin."
   },
+  "termsColloquial": {
+    "title": "Cüzdanınızı oluşturarak başlayalım",
+    "privacyHeading": "Bilgileriniz ve Gizliliğiniz:",
+    "privacy1": "Uygulamayı ve güvenliği geliştirmemize yardımcı olan kullanım verilerini topluyoruz. Topladığımız bilgilerin türü, bunları nasıl kullandığımız ve bu bilgilerle ilgili haklarınızın tümü <0>Gizlilik Politikamızda</0> görülebilir.",
+    "privacy2": "Telefon numaranızı bağlamaya karar verirseniz, bunun şifrelenmiş bir kopyasını saklayacağız.",
+    "privacy3": "Kişilerinizi bağlamaya karar verirseniz, onları bulmayı kolaylaştırmak için adlarını, numaralarını ve profil resimlerini kullanırız.",
+    "walletHeading": "Valora ile Dijital Cüzdanınız:",
+    "wallet1": "Dijital bir cüzdan oluşturmak üzeresiniz. Cüzdanınızın anahtarı sadece sizde var. Anahtarınızı kaybederseniz, anahtarınızı veya varlıklarınızı kurtaramayız. Ayrıca Valora aracılığıyla blok zincirleri üzerinde gerçekleştirilen eylemleri de tersine çeviremeyiz.",
+    "wallet2": "Valora ile etkileşim kuracağınız varlıklar olan dijital varlıklar, benzersiz risklerle birlikte gelir. Valora'yı kullanarak bu riskleri kabul eder ve bunların sorumluluğunu üstlenirsiniz. Lütfen seçim yapmadan önce mali durumunuzu ve risk toleransınızı göz önünde bulundurun.",
+    "fullTerms": "<0>Şartlar ve Koşullarımızın</0> tamamını okuyun"
+  },
   "fullNameOrPsuedonym": "Tam ad veya takma ad",
   "namePlaceholder": "örn. isim",
   "nameAndPicGuideCopyTitle": "Adınız nedir?",
@@ -815,7 +826,8 @@
     "restoreWallet": "Cüzdan Yeniden Kur",
     "hasWallet": "Zaten cüzdanım var",
     "header": "{{appName}} uygulamasına hoş geldiniz! Kripto cüzdanınızı oluşturalım.",
-    "getStarted": "Başlayın"
+    "getStarted": "Başlayın",
+    "agreeToTerms": "Bir cüzdan oluşturarak <0>Hüküm ve Koşullarımızı</0> kabul etmiş olursunuz"
   },
   "accessContacts": {
     "disclosure": {
@@ -2243,6 +2255,14 @@
   "points": {
     "title": "Valora Puanları",
     "activity": "İşlemler",
+    "history": {
+      "title": "Puan faaliyetim",
+      "error": {
+        "title": "Puan etkinliği yüklenemiyor",
+        "subtitle": "Oops, puan etkinlik akışınızı yüklemeye çalışırken bir şeyler ters gitti. Lütfen tekrar deneyin.",
+        "tryAgain": "Tekrar deneyin"
+      }
+    },
     "loading": {
       "title": "Puanlarınızı toplamak",
       "description": "Puanlarınızı sayma aşamasındayız, sıkı durun"

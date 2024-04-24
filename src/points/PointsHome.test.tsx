@@ -10,6 +10,8 @@ import { getHistoryStarted, getPointsConfigRetry } from 'src/points/slice'
 import { PointsActivity } from 'src/points/types'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
+jest.mock('src/points/PointsHistoryBottomSheet')
+
 const mockScreenProps = () => getMockStackScreenProps(Screens.PointsHome)
 
 const renderPointsHome = (
