@@ -1767,8 +1767,8 @@
                 "ethereum-sepolia",
                 "op-mainnet",
                 "op-sepolia",
-                "polygon-pos-mainnet",
-                "polygon-pos-amoy"
+                "polygon-pos-amoy",
+                "polygon-pos-mainnet"
             ],
             "type": "string"
         },
@@ -5407,13 +5407,13 @@
                     },
                     "type": "array"
                 },
-                "polygon-pos-mainnet": {
+                "polygon-pos-amoy": {
                     "items": {
                         "$ref": "#/definitions/TokenTransaction"
                     },
                     "type": "array"
                 },
-                "polygon-pos-amoy": {
+                "polygon-pos-mainnet": {
                     "items": {
                         "$ref": "#/definitions/TokenTransaction"
                     },
