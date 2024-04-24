@@ -31,33 +31,7 @@ export default Support = () => {
     })
   }
 
-  jest.retryTimes(2)
-  it('Send Message to Support (drawer)', async () => {
-    await waitForElementId('Hamburger')
-    await element(by.id('Hamburger')).tap()
-    await scrollIntoView('Help', 'SettingsScrollView')
-    await waitFor(element(by.id('Help')))
-      .toExist()
-      .withTimeout(10000)
-    await element(by.id('Help')).tap()
-    await waitFor(element(by.id('SupportContactLink')))
-      .toBeVisible()
-      .withTimeout(10000)
-    await element(by.id('SupportContactLink')).tap()
-    await waitFor(element(by.id('MessageEntry')))
-      .toBeVisible()
-      .withTimeout(10000)
-    await element(by.id('MessageEntry')).tap()
-    await element(by.id('MessageEntry')).typeText('This is a test from Valora')
-    await expect(element(by.id('MessageEntry'))).toHaveText('This is a test from Valora')
-  })
-
-  it('Send Message to Support (tab)', async () => {
-    await launchApp({
-      newInstance: true,
-      permissions: { notifications: 'YES', contacts: 'YES' },
-      launchArgs: { statsigGateOverrides: `use_tab_navigator=true` },
-    })
+  it('Send Message to Support', async () => {
     await waitForElementByIdAndTap('WalletHome/AccountCircle')
     await waitForElementByIdAndTap('ProfileMenu/Help')
     await waitFor(element(by.id('SupportContactLink')))

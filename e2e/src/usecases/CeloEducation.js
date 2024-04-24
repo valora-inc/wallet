@@ -26,12 +26,12 @@ const progressButtonCheck = async (text = 'Next', timeout = 10 * 1000) => {
 }
 
 export default CeloEducation = () => {
-  beforeEach(async () => {
-    // If we end up on the ExchangeHomeScreen, we need to navigate back to the Celo screen
-    try {
-      await element(by.id('ExchangeHomeScreen/Info')).tap()
-    } catch {}
-    await waitForElementId('Education')
+  beforeAll(async () => {
+    await waitForElementByIdAndTap('WalletHome/NotificationBell')
+    await waitForElementId('NotificationView/celo_asset_education')
+    await element(
+      by.text('Learn More').withAncestor(by.id('NotificationView/celo_asset_education'))
+    ).tap()
   })
 
   it('should be able to navigate with swipes', async () => {
@@ -53,11 +53,14 @@ export default CeloEducation = () => {
 
   it('should be able to close CELO education carousel', async () => {
     await waitForElementByIdAndTap('Education/CloseIcon')
-    await waitForElementId('ExchangeHomeScreen/Info')
+    await waitForElementId('NotificationView/celo_asset_education')
   })
 
   it('should be able to complete CELO education carousel', async () => {
+    await element(
+      by.text('Learn More').withAncestor(by.id('NotificationView/celo_asset_education'))
+    ).tap()
     await celoEducation()
-    await waitForElementId('ExchangeHomeScreen')
+    await waitForElementId('Tab/Home')
   })
 }
