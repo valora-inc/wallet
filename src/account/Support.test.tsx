@@ -12,7 +12,7 @@ import { createMockStore, getMockStackScreenProps } from 'test/utils'
 const renderSupport = () =>
   render(
     <Provider store={createMockStore()}>
-      <Support {...getMockStackScreenProps(Screens.SupportDrawer)} />
+      <Support {...getMockStackScreenProps(Screens.Support)} />
     </Provider>
   )
 

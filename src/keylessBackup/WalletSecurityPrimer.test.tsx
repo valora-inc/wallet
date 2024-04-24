@@ -10,28 +10,6 @@ import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 describe('WalletSecurityPrimer', () => {
-  it('renders drawer if prop is set', () => {
-    const { getByTestId } = render(
-      <Provider store={createMockStore({})}>
-        <WalletSecurityPrimer
-          {...getMockStackScreenProps(Screens.WalletSecurityPrimerDrawer, {
-            showDrawerTopBar: true,
-          })}
-        />
-      </Provider>
-    )
-    expect(getByTestId('WalletSecurityPrimer/DrawerTopBar')).toBeTruthy()
-  })
-
-  it('hides drawer if prop is not set', () => {
-    const { queryByTestId } = render(
-      <Provider store={createMockStore({})}>
-        <WalletSecurityPrimer {...getMockStackScreenProps(Screens.WalletSecurityPrimer)} />
-      </Provider>
-    )
-    expect(queryByTestId('WalletSecurityPrimer/DrawerTopBar')).toBeFalsy()
-  })
-
   it('pressing get started button emits analytics event, dispatches keylessBackupStarted, and navigates to next screen', () => {
     const store = createMockStore()
     const { getByTestId } = render(

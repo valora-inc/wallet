@@ -241,7 +241,7 @@ export function* updateStatsigAndNavigate(action: UpdateStatsigAndNavigateAction
   // Wait for wallet address to exist before updating statsig user
   yield* call(getWalletAddress)
   yield* call(patchUpdateStatsigUser)
-  if (action.screen === Screens.TabHome || action.screen === Screens.WalletHome) {
+  if (action.screen === Screens.TabHome) {
     navigateHome()
   } else {
     navigate(action.screen)

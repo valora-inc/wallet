@@ -3,13 +3,12 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { hideHomeBalancesSelector } from 'src/app/selectors'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { jumpstartReclaimFlowStarted } from 'src/jumpstart/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { useDispatch, useSelector } from 'src/redux/hooks'
+import { useDispatch } from 'src/redux/hooks'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
@@ -52,8 +51,6 @@ function TransferFeedItem({ transfer }: Props) {
 
   const colorStyle = new BigNumber(amount.value).isPositive() ? { color: colors.primary } : {}
 
-  const hideHomeBalanceState = useSelector(hideHomeBalancesSelector)
-
   return (
     <Touchable testID="TransferFeedItem" onPress={openTransferDetails}>
       <View style={styles.container}>
@@ -72,7 +69,7 @@ function TransferFeedItem({ transfer }: Props) {
             {subtitle}
           </Text>
         </View>
-        {!hideHomeBalanceState && (
+        {
           <View style={styles.amountContainer}>
             <TokenDisplay
               amount={amount.value}
@@ -93,7 +90,7 @@ function TransferFeedItem({ transfer }: Props) {
               testID={'TransferFeedItem/tokenAmount'}
             />
           </View>
-        )}
+        }
       </View>
     </Touchable>
   )

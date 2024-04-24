@@ -54,13 +54,9 @@ export type StackParamList = {
   [Screens.BackupComplete]:
     | undefined
     | {
-        settingsScreen: Screens.Settings | Screens.SettingsDrawer | undefined
+        settingsScreen: Screens.Settings | undefined
       }
-  [Screens.BackupIntroduction]:
-    | {
-        showDrawerTopBar: boolean
-      }
-    | undefined
+  [Screens.BackupIntroduction]: {} | undefined
   [Screens.AccountKeyEducation]:
     | undefined
     | {
@@ -70,12 +66,12 @@ export type StackParamList = {
   [Screens.BackupPhrase]:
     | undefined
     | {
-        settingsScreen: Screens.Settings | Screens.SettingsDrawer | undefined
+        settingsScreen: Screens.Settings | undefined
       }
   [Screens.BackupQuiz]:
     | undefined
     | {
-        settingsScreen: Screens.Settings | Screens.SettingsDrawer | undefined
+        settingsScreen: Screens.Settings | undefined
       }
   [Screens.FiatDetailsScreen]: {
     quote: FiatConnectQuote
@@ -92,20 +88,15 @@ export type StackParamList = {
   [Screens.DappKitSignTxScreen]: {
     dappKitRequest: SignTxRequest
   }
-  [Screens.DAppsExplorerScreen]: { isTabNavigator?: boolean } | undefined
   [Screens.DappShortcutsRewards]: undefined
   [Screens.DappShortcutTransactionRequest]: {
     rewardId: string
   }
   [Screens.Debug]: undefined
-  [Screens.DrawerNavigator]: {
-    initialScreen?: Screens
-  }
   [Screens.ErrorScreen]: {
     errorMessage?: string
   }
   [Screens.EscrowedPaymentListScreen]: undefined
-  [Screens.ExchangeHomeScreen]: undefined
   [Screens.ExternalExchanges]: {
     tokenId: string
     exchanges: ExternalExchangeProvider[]
@@ -184,7 +175,6 @@ export type StackParamList = {
       }
     | undefined
   [Screens.Invite]: undefined
-  [Screens.InviteDrawer]: undefined
   [Screens.EnableBiometry]: undefined
   [Screens.Language]:
     | {
@@ -269,14 +259,12 @@ export type StackParamList = {
     tokenId: string
   }
   [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
-  [Screens.SettingsDrawer]: { promptConfirmRemovalModal?: boolean } | undefined
   [Screens.SignInWithEmail]: {
     keylessBackupFlow: KeylessBackupFlow
   }
   [Screens.Spend]: undefined
   [Screens.StoreWipeRecoveryScreen]: undefined
   [Screens.Support]: undefined
-  [Screens.SupportDrawer]: {} | undefined
   [Screens.SupportContact]:
     | {
         prefilledText: string
@@ -288,9 +276,9 @@ export type StackParamList = {
         toTokenId?: string
       }
     | undefined
-  [Screens.TabDiscover]: { isTabNavigator?: boolean } | undefined
-  [Screens.TabHome]: { isTabNavigator?: boolean } | undefined
-  [Screens.TabWallet]: { activeAssetTab?: AssetTabType; isWalletTab?: boolean } | undefined
+  [Screens.TabDiscover]: {} | undefined
+  [Screens.TabHome]: {} | undefined
+  [Screens.TabWallet]: { activeAssetTab?: AssetTabType } | undefined
   [Screens.TabNavigator]: {
     initialScreen?: Screens.TabHome | Screens.TabWallet | Screens.TabDiscover
   }
@@ -324,18 +312,10 @@ export type StackParamList = {
       } & SessionRequestProps)
     | { type: WalletConnectRequestType.TimeOut }
   [Screens.WalletConnectSessions]: undefined
-  [Screens.WalletHome]: { isTabNavigator?: boolean } | undefined
   [Screens.WalletSecurityPrimer]: undefined
-  [Screens.WalletSecurityPrimerDrawer]: { showDrawerTopBar: boolean }
   [Screens.WebViewScreen]: { uri: string; dappkitDeeplink?: string }
   [Screens.Welcome]: undefined
   [Screens.WithdrawSpend]: undefined
-  [Screens.Assets]:
-    | {
-        activeAssetTab: AssetTabType
-        isWalletTab?: boolean
-      }
-    | undefined
 }
 
 export type QRTabParamList = {

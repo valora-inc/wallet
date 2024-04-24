@@ -27,7 +27,6 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_NFT_CELEBRATION]: false,
   [StatsigFeatureGates.SHOW_NFT_REWARD]: false,
   [StatsigFeatureGates.SHOW_JUMPSTART_SEND]: false,
-  [StatsigFeatureGates.USE_TAB_NAVIGATOR]: false,
   [StatsigFeatureGates.SHOW_POINTS]: false,
 } satisfies { [key in StatsigFeatureGates]: boolean }
 

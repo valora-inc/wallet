@@ -2,7 +2,6 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -14,7 +13,6 @@ import { useAccountKey } from 'src/backup/utils'
 import Button from 'src/components/Button'
 import TextButton from 'src/components/TextButton'
 import Logo from 'src/icons/Logo'
-import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -49,32 +47,17 @@ class BackupIntroduction extends React.Component<Props> {
   }
 
   render() {
-    const { backupCompleted, route } = this.props
-    const showDrawerTopBar = route.params?.showDrawerTopBar
+    const { backupCompleted } = this.props
 
-    // Conditional rendering for headers
-    if (showDrawerTopBar) {
-      return (
-        <SafeAreaView style={styles.container}>
-          <DrawerTopBar testID="BackupIntroduction/DrawerTopBar" />
-          {backupCompleted ? (
-            <AccountKeyPostSetup />
-          ) : (
-            <AccountKeyIntro onPrimaryPress={this.onPressBackup} />
-          )}
-        </SafeAreaView>
-      )
-    } else {
-      return (
-        <View style={styles.container}>
-          {backupCompleted ? (
-            <AccountKeyPostSetup />
-          ) : (
-            <AccountKeyIntro onPrimaryPress={this.onPressBackup} />
-          )}
-        </View>
-      )
-    }
+    return (
+      <View style={styles.container}>
+        {backupCompleted ? (
+          <AccountKeyPostSetup />
+        ) : (
+          <AccountKeyIntro onPrimaryPress={this.onPressBackup} />
+        )}
+      </View>
+    )
   }
 }
 

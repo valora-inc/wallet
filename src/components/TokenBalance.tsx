@@ -16,8 +16,7 @@ import { hideAlert, showToast } from 'src/alert/actions'
 import { AssetsEvents, FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { toggleHideBalances } from 'src/app/actions'
-import { hideHomeBalancesSelector, hideWalletBalancesSelector } from 'src/app/selectors'
-import Dialog from 'src/components/Dialog'
+import { hideWalletBalancesSelector } from 'src/app/selectors'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
@@ -32,12 +31,10 @@ import {
   getLocalCurrencySymbol,
   localCurrencyExchangeRateErrorSelector,
 } from 'src/localCurrency/selectors'
-import { navigate, navigateClearingStack } from 'src/navigator/NavigationService'
+import { navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -77,9 +74,8 @@ function TokenBalance({
       : undefined
   const { decimalSeparator } = getNumberFormatSettings()
 
-  const hideHomeBalanceState = useSelector(hideHomeBalancesSelector)
   const hideWalletBalance = useSelector(hideWalletBalancesSelector)
-  const hideBalance = showBalanceToggle && (hideHomeBalanceState || hideWalletBalance)
+  const hideBalance = showBalanceToggle && hideWalletBalance
   const balanceDisplay = hideBalance ? `XX${decimalSeparator}XX` : totalBalanceLocal?.toFormat(2)
 
   const TotalTokenBalance = ({ balanceDisplay }: { balanceDisplay: string }) => {
@@ -166,15 +162,7 @@ function useErrorMessageWithRefresh() {
   }, [shouldShowError])
 }
 
-export function AssetsTokenBalance({
-  showInfo,
-  isWalletTab,
-}: {
-  showInfo: boolean
-  // TODO(act-1133): temporary parameter while we build the tab navigator, should be cleaned up
-  // when we remove the DrawerNavigator
-  isWalletTab: boolean
-}) {
+export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
   const { t } = useTranslation()
 
   const [infoVisible, setInfoVisible] = useState(false)
@@ -215,11 +203,7 @@ export function AssetsTokenBalance({
     <TouchableWithoutFeedback onPress={handleDismissInfo}>
       <View testID="AssetsTokenBalance">
         <View style={styles.row}>
-          {isWalletTab ? (
-            <Text style={styles.walletTabTitle}>{t('bottomTabsNavigator.wallet.title')}</Text>
-          ) : (
-            <Text style={styles.totalAssets}>{t('totalAssets')}</Text>
-          )}
+          <Text style={styles.walletTabTitle}>{t('bottomTabsNavigator.wallet.title')}</Text>
           {showInfo && (
             <TouchableOpacity
               onPress={toggleInfoVisible}
@@ -233,7 +217,7 @@ export function AssetsTokenBalance({
         <TokenBalance
           style={styles.totalBalance}
           singleTokenViewEnabled={false}
-          showBalanceToggle={isWalletTab}
+          showBalanceToggle={true}
         />
 
         {shouldRenderInfoComponent && (
@@ -246,58 +230,6 @@ export function AssetsTokenBalance({
   )
 }
 
-export function HomeTokenBalance() {
-  const { t } = useTranslation()
-
-  const totalBalance = useTotalTokenBalance()
-  const tokenBalances = useTokensWithTokenBalance()
-
-  useErrorMessageWithRefresh()
-
-  const onViewBalances = () => {
-    ValoraAnalytics.track(HomeEvents.view_token_balances, {
-      totalBalance: totalBalance?.toString(),
-    })
-    navigate(Screens.Assets)
-  }
-
-  const onCloseDialog = () => {
-    setInfoVisible(false)
-  }
-
-  const [infoVisible, setInfoVisible] = useState(false)
-
-  return (
-    <View style={styles.container} testID="HomeTokenBalance">
-      <View style={styles.title}>
-        <View style={styles.row}>
-          <Text style={styles.totalValue}>{t('totalValue')}</Text>
-          {tokenBalances.length > 0 && (
-            <TouchableOpacity onPress={() => setInfoVisible(true)} hitSlop={variables.iconHitslop}>
-              <InfoIcon size={14} color={Colors.gray3} />
-            </TouchableOpacity>
-          )}
-        </View>
-        <Dialog
-          title={t('whatTotalValue.title')}
-          isVisible={infoVisible}
-          actionText={t('whatTotalValue.dismiss')}
-          actionPress={onCloseDialog}
-          isActionHighlighted={false}
-          onBackgroundPress={onCloseDialog}
-        >
-          {t('whatTotalValue.body')}
-        </Dialog>
-        <TouchableOpacity style={styles.row} onPress={onViewBalances} testID="ViewBalances">
-          <Text style={styles.viewBalances}>{t('viewBalances')}</Text>
-          <ProgressArrow style={styles.arrow} color={Colors.primary} />
-        </TouchableOpacity>
-      </View>
-      <TokenBalance style={styles.totalBalance} showBalanceToggle={true} />
-    </View>
-  )
-}
-
 export function FiatExchangeTokenBalance() {
   const { t } = useTranslation()
   const totalBalance = useTotalTokenBalance()
@@ -307,11 +239,7 @@ export function FiatExchangeTokenBalance() {
     ValoraAnalytics.track(FiatExchangeEvents.cico_landing_token_balance, {
       totalBalance: totalBalance?.toString(),
     })
-    getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)
-      ? // this can ideally navigate to TabWallet, but if the gate is turned on mid
-        // session, a screen named TabWallet won't be found
-        navigateClearingStack(Screens.TabNavigator, { initialScreen: Screens.TabWallet })
-      : navigate(Screens.Assets)
+    navigateClearingStack(Screens.TabNavigator, { initialScreen: Screens.TabWallet })
   }
 
   return (
@@ -337,11 +265,6 @@ const styles = StyleSheet.create({
   container: {
     margin: variables.contentPadding,
   },
-  totalAssets: {
-    ...typeScale.labelMedium,
-    color: Colors.gray5,
-    marginRight: 4,
-  },
   walletTabTitle: {
     ...typeScale.titleMedium,
     color: Colors.black,
@@ -361,11 +284,6 @@ const styles = StyleSheet.create({
     color: Colors.white,
     textAlign: 'center',
   },
-  title: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginVertical: 7,
-  },
   titleExchange: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -375,23 +293,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  totalValue: {
-    ...fontStyles.sectionHeader,
-    color: Colors.gray4,
-    paddingRight: 5,
-  },
   exchangeTotalValue: {
     ...fontStyles.label,
     color: Colors.gray4,
     paddingRight: 3,
-  },
-  viewBalances: {
-    ...fontStyles.label,
-    color: Colors.primary,
-    paddingRight: 8,
-  },
-  arrow: {
-    paddingTop: 3,
   },
   exchangeArrow: {
     paddingTop: 4,

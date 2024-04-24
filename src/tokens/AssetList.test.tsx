@@ -236,17 +236,12 @@ describe('AssetList', () => {
     expect(store.getActions()).toEqual([fetchNfts()])
   })
 
-  it('shows import token on tokens tab on wallet tab screen when feature gate is on', () => {
+  it('shows import token on tokens tab on wallet tab screen', () => {
     const store = createMockStore(storeWithAssets)
 
     const { getByTestId } = render(
       <Provider store={store}>
-        <AssetList
-          activeTab={AssetTabType.Tokens}
-          listHeaderHeight={0}
-          handleScroll={jest.fn()}
-          isWalletTab={true}
-        />
+        <AssetList activeTab={AssetTabType.Tokens} listHeaderHeight={0} handleScroll={jest.fn()} />
       </Provider>
     )
 
@@ -260,25 +255,13 @@ describe('AssetList', () => {
 
   it.each([
     {
-      name: 'tokens tab on wallet tab when gate is off',
-      tab: AssetTabType.Tokens,
-      isWalletTab: true,
-      gate: false,
-    },
-    {
-      name: 'tokens tab on assets screen when gate is on',
-      tab: AssetTabType.Tokens,
-      isWalletTab: false,
-      gate: true,
-    },
-    {
-      name: 'collections tab on assets screen when gate is on',
+      name: 'collections tab',
       tab: AssetTabType.Collectibles,
       isWalletTab: true,
       gate: true,
     },
     {
-      name: 'positions tab on assets screen when gate is on',
+      name: 'positions tab',
       tab: AssetTabType.Positions,
       isWalletTab: true,
       gate: true,
@@ -289,12 +272,7 @@ describe('AssetList', () => {
 
     const { queryByTestId } = render(
       <Provider store={store}>
-        <AssetList
-          activeTab={tab}
-          listHeaderHeight={0}
-          handleScroll={jest.fn()}
-          isWalletTab={isWalletTab}
-        />
+        <AssetList activeTab={tab} listHeaderHeight={0} handleScroll={jest.fn()} />
       </Provider>
     )
 
