@@ -180,7 +180,7 @@
     "react-native-screens": "^3.31.1",
     "react-native-securerandom": "^1.0.1",
     "react-native-shake": "^5.5.2",
-    "react-native-share": "^7.9.1",
+    "react-native-share": "^10.1.0",
     "react-native-simple-toast": "^1.1.4",
     "react-native-skeleton-placeholder": "^5.2.4",
     "react-native-sms-retriever": "^1.1.1",
