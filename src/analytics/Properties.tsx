@@ -67,7 +67,7 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NftOrigin } from 'src/nfts/types'
 import { NotificationReceiveState } from 'src/notifications/types'
 import { AdventureCardName } from 'src/onboarding/types'
-import { PointsActivity } from 'src/points/types'
+import { PointsActivityId } from 'src/points/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { AmountEnteredIn, QrCode } from 'src/send/types'
 import { Field } from 'src/swap/types'
@@ -1571,10 +1571,10 @@ interface PointsEventsProperties {
   [PointsEvents.points_screen_open]: undefined
   [PointsEvents.points_screen_back]: undefined
   [PointsEvents.points_screen_card_press]: {
-    activity: PointsActivity
+    activityId: PointsActivityId
   }
   [PointsEvents.points_screen_card_cta_press]: {
-    activity: PointsActivity
+    activityId: PointsActivityId
   }
   [PointsEvents.points_screen_activity_press]: undefined
   [PointsEvents.points_screen_activity_try_again_press]: undefined

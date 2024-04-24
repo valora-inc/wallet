@@ -15,7 +15,7 @@ import {
   sendPointsEventStarted,
   trackPointsEvent,
 } from 'src/points/slice'
-import { GetHistoryResponse, PointsEvent, isPointsActivity } from 'src/points/types'
+import { GetHistoryResponse, PointsEvent, isPointsActivityId } from 'src/points/types'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
@@ -117,7 +117,7 @@ export function* getPointsConfig() {
       activitiesById: {},
     }
     Object.entries(config.activitiesById).forEach(([activityId, activityMetadata]) => {
-      if (isPointsActivity(activityId) && activityMetadata.pointsAmount > 0) {
+      if (isPointsActivityId(activityId) && activityMetadata && activityMetadata.pointsAmount > 0) {
         supportedActivities.activitiesById[activityId] = activityMetadata
       }
     })

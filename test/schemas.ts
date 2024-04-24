@@ -3274,6 +3274,18 @@ export const v209Schema = {
 }
 
 export const v210Schema = {
+  ...v209Schema,
+  _persist: {
+    ...v209Schema._persist,
+    version: 210,
+  },
+  points: {
+    ...v209Schema.points,
+    pointsHistory: [],
+  },
+}
+
+export const v210Schema = {
   ..._.omit(v209Schema, ['exchange']),
   _persist: {
     ...v206Schema._persist,

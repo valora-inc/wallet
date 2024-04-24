@@ -1,5 +1,5 @@
 import { PayloadAction, createAction, createSlice } from '@reduxjs/toolkit'
-import { ClaimHistory, PointsActivity, PointsEvent } from 'src/points/types'
+import { ClaimHistory, PointsActivityId, PointsEvent } from 'src/points/types'
 import { REHYDRATE, RehydrateAction, getRehydratePayload } from 'src/redux/persist-helper'
 
 interface GetPointsHistorySucceededAction {
@@ -18,7 +18,7 @@ interface GetPointsHistoryErrorAction {
 
 export type PointsConfig = {
   activitiesById: {
-    [activityId in PointsActivity]?: {
+    [activityId in PointsActivityId]?: {
       pointsAmount: number
     }
   }

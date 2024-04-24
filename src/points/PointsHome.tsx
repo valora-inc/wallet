@@ -3,12 +3,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { PointsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import BeatingHeartLoader from 'src/components/BeatingHeartLoader'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import { BottomSheetParams, PointsActivityId } from 'src/points/types'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { PointsEvents } from 'src/analytics/Events'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import CustomHeader from 'src/components/header/CustomHeader'
 import PointsHistoryBottomSheet from 'src/points/PointsHistoryBottomSheet'
@@ -19,7 +20,6 @@ import { StackParamList } from 'src/navigator/types'
 import ActivityCardSection from 'src/points/ActivityCardSection'
 import { pointsConfigStatusSelector, pointsSectionsSelector } from 'src/points/selectors'
 import { getHistoryStarted, getPointsConfigRetry } from 'src/points/slice'
-import { BottomSheetParams, PointsActivity } from 'src/points/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -58,10 +58,10 @@ export default function PointsHome({ route, navigation }: Props) {
     setBottomSheetParams(bottomSheetDetails)
   }
 
-  const onCtaPressWrapper = (onPress: () => void, activity: PointsActivity) => {
+  const onCtaPressWrapper = (onPress: () => void, activityId: PointsActivityId) => {
     return () => {
       ValoraAnalytics.track(PointsEvents.points_screen_card_cta_press, {
-        activity,
+        activityId,
       })
       onPress()
     }
@@ -149,7 +149,7 @@ export default function PointsHome({ route, navigation }: Props) {
         {bottomSheetParams && (
           <>
             <View style={styles.bottomSheetPointAmountContainer}>
-              <Text style={styles.bottomSheetPointAmount}>{bottomSheetParams.points}</Text>
+              <Text style={styles.bottomSheetPointAmount}>{bottomSheetParams.pointsAmount}</Text>
               <LogoHeart size={16} />
             </View>
             <Text style={styles.bottomSheetTitle}>{bottomSheetParams.title}</Text>
@@ -161,7 +161,7 @@ export default function PointsHome({ route, navigation }: Props) {
                 size={BtnSizes.FULL}
                 onPress={onCtaPressWrapper(
                   bottomSheetParams.cta.onPress,
-                  bottomSheetParams.activity
+                  bottomSheetParams.activityId
                 )}
                 text={bottomSheetParams.cta.text}
               />

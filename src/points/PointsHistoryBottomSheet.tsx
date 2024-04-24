@@ -105,7 +105,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
           <SectionHead text={item.section.title} style={styles.sectionHead} />
         )}
         sections={sections}
-        keyExtractor={(item) => `${item.activity}-${item.timestamp}`}
+        keyExtractor={(item) => `${item.activityId}-${item.timestamp}`}
         keyboardShouldPersistTaps="always"
         testID="PointsHistoryList"
         onEndReached={onFetchMoreHistory}

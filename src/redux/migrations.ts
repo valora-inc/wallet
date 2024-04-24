@@ -1768,6 +1768,13 @@ export const migrations = {
     },
   }),
   210: (state: any) => ({
+    ...state,
+    points: {
+      ...state.points,
+      pointsHistory: [],
+    },
+  }),
+  211 (state: any) => ({
     ...(_.omit(state, 'exchange') as any),
   }),
 }
