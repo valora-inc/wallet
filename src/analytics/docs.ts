@@ -182,7 +182,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [OnboardingEvents.backup_quiz_progress]: `whenever the backspace is pressed or word is chosen`,
   [OnboardingEvents.backup_quiz_complete]: `(Count # of successful Recovery Phrase confirmations Backup_Quiz)`,
   [OnboardingEvents.backup_quiz_incorrect]: `(Count # of failed Recovery Phrase confirmations Backup_Quiz)`,
-  [OnboardingEvents.terms_and_conditions_accepted]: ``,
+  [OnboardingEvents.terms_and_conditions_accepted]: `when the accept button on the terms and conditions screen is pressed or when the checkbox is checked and the create / import button is pressed on the welcome screen`,
   [OnboardingEvents.celo_education_start]: ``,
   [OnboardingEvents.celo_education_scroll]: ``,
   [OnboardingEvents.celo_education_complete]: ``,
@@ -487,6 +487,8 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [PointsEvents.points_screen_card_press]: `when an activity card is pressed from Points home screen`,
   [PointsEvents.points_screen_card_cta_press]: `when a CTA is pressed on an activity card bottom sheet from the Points home screen`,
   [PointsEvents.points_screen_activity_press]: `when the Activity button is pressed from Points home screen`,
+  [PointsEvents.points_screen_activity_try_again_press]: `when the Try Again button is pressed after an error while fetching Points activity`,
+  [PointsEvents.points_screen_activity_fetch_more]: `when the user requests to fetch more Points history`,
 
   // Events related to WalletConnect pairing (technical: opening up the communication channel via QR code or deeplink)
   [WalletConnectEvents.wc_pairing_start]: `when WC pairing is started (no UI at this point)`,

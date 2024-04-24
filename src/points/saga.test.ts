@@ -97,7 +97,11 @@ describe('getHistory', () => {
     })
     await expectSaga(getHistory, params)
       .withState(createMockStore({ web3: { account: null } }).getState())
-      .put(getHistoryError())
+      .put(
+        getHistoryError({
+          resetHistory: true,
+        })
+      )
       .run()
   })
 
@@ -127,7 +131,11 @@ describe('getHistory', () => {
     await expectSaga(getHistory, params)
       .withState(createMockStore().getState())
       .provide([[matchers.call.fn(fetchHistory), throwError(new Error('failure'))]])
-      .put(getHistoryError())
+      .put(
+        getHistoryError({
+          resetHistory: true,
+        })
+      )
       .run()
   })
   it('fetches from stored page if requested', async () => {
