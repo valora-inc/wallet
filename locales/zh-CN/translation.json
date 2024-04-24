@@ -2254,6 +2254,16 @@
     "title": "瓦洛拉积分",
     "activity": "活动",
     "history": {
+      "cards": {
+        "createWallet": {
+          "title": "钱包夹",
+          "subtitle": "{{appName}}成员"
+        },
+        "swap": {
+          "title": "交换",
+          "subtitle": "{{fromToken}} 至 {{toToken}}"
+        }
+      },
       "title": "我的积分活动",
       "error": {
         "title": "无法加载点活动",
