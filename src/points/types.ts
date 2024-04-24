@@ -35,7 +35,12 @@ export type PointsMetadata = {
   }>
 }
 
-type ClaimActivityId = 'create-wallet' | 'swap'
+const claimActivities = ['create-wallet', 'swap'] as const
+type ClaimActivityId = (typeof claimActivities)[number]
+
+export function isClaimActivityId(activity: unknown): activity is ClaimActivityId {
+  return typeof activity === 'string' && claimActivities.includes(activity as ClaimActivityId)
+}
 
 interface BaseClaimHistory {
   createdAt: string // ISO 8601 string
@@ -55,6 +60,12 @@ type SwapClaimHistory = BaseClaimHistory & {
 }
 
 export type ClaimHistory = CreateWalletClaimHistory | SwapClaimHistory
+
+// See https://stackoverflow.com/questions/59794474/omitting-a-shared-property-from-a-union-type-of-objects-results-in-error-when-us
+type DistributiveOmit<T, K extends keyof any> = T extends any ? Omit<T, K> : never
+export type ClaimHistoryCardItem = DistributiveOmit<ClaimHistory, 'createdAt'> & {
+  timestamp: number
+}
 
 export interface GetHistoryResponse {
   data: ClaimHistory[]

@@ -10,6 +10,12 @@ import { PointsEvents } from 'src/analytics/Events'
 import { getHistoryStarted } from 'src/points/slice'
 import { GetHistoryResponse } from 'src/points/types'
 
+jest.mock('src/statsig', () => ({
+  getDynamicConfigParams: jest.fn().mockReturnValue({
+    showSwap: ['celo-alfajores'],
+  }),
+}))
+
 const MOCK_RESPONSE_NO_NEXT_PAGE: GetHistoryResponse = {
   data: [
     {
@@ -26,9 +32,14 @@ const MOCK_RESPONSE_NO_NEXT_PAGE: GetHistoryResponse = {
       pointsAmount: 20,
       createdAt: '2024-01-04T19:26:25.000Z',
       metadata: {
-        to: 'celo-alfajores:0xe4d517785d091d3c54818832db6094bcc2744545',
+        to: 'celo-alfajores:0x874069fa1eb16d44d622f2e0ca25eea172369bc1',
         from: 'celo-alfajores:native',
       },
+    },
+    {
+      activityId: 'create-wallet',
+      pointsAmount: 20,
+      createdAt: '2023-12-04T19:26:25.000Z',
     },
   ],
   hasNextPage: false,
@@ -74,7 +85,15 @@ describe(PointsHistoryBottomSheet, () => {
     const tree = renderScreen({
       points: { pointsHistory: MOCK_RESPONSE_NO_NEXT_PAGE.data, getHistoryStatus: 'loading' },
     })
-    await waitFor(() => expect(tree.getByTestId('PointsHistoryList').props.data.length).toBe(2))
+    await waitFor(() => expect(tree.getByTestId('PointsHistoryList').props.data.length).toBe(3))
+
+    expect(
+      tree.getByText('points.history.cards.swap.subtitle, {"fromToken":"CELO","toToken":"cUSD"}')
+    ).toBeTruthy()
+    expect(
+      tree.getByText('points.history.cards.swap.subtitle, {"fromToken":"cUSD","toToken":"CELO"}')
+    ).toBeTruthy()
+    expect(tree.getByText('points.history.cards.createWallet.subtitle')).toBeTruthy()
 
     expect(tree.getByText('January')).toBeTruthy()
     expect(tree.getByText('March')).toBeTruthy()
