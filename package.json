@@ -89,7 +89,6 @@
     "@react-native-clipboard/clipboard": "^1.13.2",
     "@react-native-community/netinfo": "^11.3.1",
     "@react-native-cookies/cookies": "^6.2.1",
-    "@react-native-firebase/analytics": "19.1.0",
     "@react-native-firebase/app": "19.1.0",
     "@react-native-firebase/auth": "19.1.0",
     "@react-native-firebase/database": "19.1.0",

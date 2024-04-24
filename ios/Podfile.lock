@@ -29,14 +29,9 @@ PODS:
     - React-Core (= 0.71.17)
     - React-jsi (= 0.71.17)
     - ReactCommon/turbomodule/core (= 0.71.17)
-  - Firebase/Analytics (10.23.0):
-    - Firebase/Core
   - Firebase/Auth (10.23.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 10.23.0)
-  - Firebase/Core (10.23.0):
-    - Firebase/CoreOnly
-    - FirebaseAnalytics (~> 10.23.0)
   - Firebase/CoreOnly (10.23.0):
     - FirebaseCore (= 10.23.0)
   - Firebase/Database (10.23.0):
@@ -53,24 +48,6 @@ PODS:
     - FirebaseRemoteConfig (~> 10.23.0)
   - FirebaseABTesting (10.24.0):
     - FirebaseCore (~> 10.0)
-  - FirebaseAnalytics (10.23.1):
-    - FirebaseAnalytics/AdIdSupport (= 10.23.1)
-    - FirebaseCore (~> 10.0)
-    - FirebaseInstallations (~> 10.0)
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.11)
-    - GoogleUtilities/MethodSwizzler (~> 7.11)
-    - GoogleUtilities/Network (~> 7.11)
-    - "GoogleUtilities/NSData+zlib (~> 7.11)"
-    - nanopb (< 2.30911.0, >= 2.30908.0)
-  - FirebaseAnalytics/AdIdSupport (10.23.1):
-    - FirebaseCore (~> 10.0)
-    - FirebaseInstallations (~> 10.0)
-    - GoogleAppMeasurement (= 10.23.1)
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.11)
-    - GoogleUtilities/MethodSwizzler (~> 7.11)
-    - GoogleUtilities/Network (~> 7.11)
-    - "GoogleUtilities/NSData+zlib (~> 7.11)"
-    - nanopb (< 2.30911.0, >= 2.30908.0)
   - FirebaseAppCheckInterop (10.24.0)
   - FirebaseAuth (10.23.0):
     - FirebaseAppCheckInterop (~> 10.17)
@@ -179,26 +156,6 @@ PODS:
     - FlipperKit/FlipperKitNetworkPlugin
   - fmt (6.2.1)
   - glog (0.3.5)
-  - GoogleAppMeasurement (10.23.1):
-    - GoogleAppMeasurement/AdIdSupport (= 10.23.1)
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.11)
-    - GoogleUtilities/MethodSwizzler (~> 7.11)
-    - GoogleUtilities/Network (~> 7.11)
-    - "GoogleUtilities/NSData+zlib (~> 7.11)"
-    - nanopb (< 2.30911.0, >= 2.30908.0)
-  - GoogleAppMeasurement/AdIdSupport (10.23.1):
-    - GoogleAppMeasurement/WithoutAdIdSupport (= 10.23.1)
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.11)
-    - GoogleUtilities/MethodSwizzler (~> 7.11)
-    - GoogleUtilities/Network (~> 7.11)
-    - "GoogleUtilities/NSData+zlib (~> 7.11)"
-    - nanopb (< 2.30911.0, >= 2.30908.0)
-  - GoogleAppMeasurement/WithoutAdIdSupport (10.23.1):
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.11)
-    - GoogleUtilities/MethodSwizzler (~> 7.11)
-    - GoogleUtilities/Network (~> 7.11)
-    - "GoogleUtilities/NSData+zlib (~> 7.11)"
-    - nanopb (< 2.30911.0, >= 2.30908.0)
   - GoogleDataTransport (9.4.1):
     - GoogleUtilities/Environment (~> 7.7)
     - nanopb (< 2.30911.0, >= 2.30908.0)
@@ -213,9 +170,6 @@ PODS:
     - PromisesObjC (< 3.0, >= 1.2)
   - GoogleUtilities/Logger (7.13.0):
     - GoogleUtilities/Environment
-    - GoogleUtilities/Privacy
-  - GoogleUtilities/MethodSwizzler (7.13.0):
-    - GoogleUtilities/Logger
     - GoogleUtilities/Privacy
   - GoogleUtilities/Network (7.13.0):
     - GoogleUtilities/Logger
@@ -254,11 +208,11 @@ PODS:
   - lottie-react-native (6.7.2):
     - lottie-ios (= 4.4.1)
     - React-Core
-  - nanopb (2.30909.0):
-    - nanopb/decode (= 2.30909.0)
-    - nanopb/encode (= 2.30909.0)
-  - nanopb/decode (2.30909.0)
-  - nanopb/encode (2.30909.0)
+  - nanopb (2.30910.0):
+    - nanopb/decode (= 2.30910.0)
+    - nanopb/encode (= 2.30910.0)
+  - nanopb/decode (2.30910.0)
+  - nanopb/encode (2.30910.0)
   - OpenSSL-Universal (1.1.1100)
   - PersonaInquirySDK2 (2.3.9)
   - PromisesObjC (2.3.1)
@@ -674,10 +628,6 @@ PODS:
     - React-Core
     - SDWebImage (~> 5.11.1)
     - SDWebImageWebPCoder (~> 0.8.4)
-  - RNFBAnalytics (19.1.0):
-    - Firebase/Analytics (= 10.23.0)
-    - React-Core
-    - RNFBApp
   - RNFBApp (19.1.0):
     - Firebase/CoreOnly (= 10.23.0)
     - React-Core
@@ -878,7 +828,6 @@ DEPENDENCIES:
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNExitApp (from `../node_modules/react-native-exit-app`)
   - RNFastImage (from `../node_modules/react-native-fast-image`)
-  - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBDatabase (from `../node_modules/@react-native-firebase/database`)"
@@ -912,7 +861,6 @@ SPEC REPOS:
     - CTNotificationService
     - Firebase
     - FirebaseABTesting
-    - FirebaseAnalytics
     - FirebaseAppCheckInterop
     - FirebaseAuth
     - FirebaseCore
@@ -935,7 +883,6 @@ SPEC REPOS:
     - Flipper-RSocket
     - FlipperKit
     - fmt
-    - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleUtilities
     - GTMSessionFetcher
@@ -1086,8 +1033,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-exit-app"
   RNFastImage:
     :path: "../node_modules/react-native-fast-image"
-  RNFBAnalytics:
-    :path: "../node_modules/@react-native-firebase/analytics"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBAuth:
@@ -1150,7 +1095,6 @@ SPEC CHECKSUMS:
   FBReactNativeSpec: 68ee46729de18aef10445dad3ed72915420041b5
   Firebase: 333ec7c6b12fa09c77b5162cda6b862102211d50
   FirebaseABTesting: 4431c2c56ac6e56f463b9cab05cc111078639f99
-  FirebaseAnalytics: fd35d51e6da86ef1aa2c3fe1f64ab2482cc01ba5
   FirebaseAppCheckInterop: fecc08c89936c8acb1428d8088313aabedb348e4
   FirebaseAuth: 22eb85d3853141de7062bfabc131aa7d6335cade
   FirebaseCore: 63efb128decaebb04c4033ed4e05fb0bb1cccef1
@@ -1174,7 +1118,6 @@ SPEC CHECKSUMS:
   FlipperKit: c830fe2cad66767721d794cc1904b3a4d0de80ed
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
-  GoogleAppMeasurement: 794d1d2f71fdf77a077a3986258a5c2dac0f9d48
   GoogleDataTransport: 6c09b596d841063d76d4288cc2d2f42cc36e1e2a
   GoogleUtilities: d053d902a8edaa9904e1bd00c37535385b8ed152
   GTMSessionFetcher: e8647203b65cee28c5f73d0f473d096653945e72
@@ -1185,7 +1128,7 @@ SPEC CHECKSUMS:
   libwebp: 1786c9f4ff8a279e4dac1e8f385004d5fc253009
   lottie-ios: e047b1d2e6239b787cc5e9755b988869cf190494
   lottie-react-native: 17547b2f3c7034e2ae8672833fdb63262164d18a
-  nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
+  nanopb: 438bc412db1928dac798aa6fd75726007be04262
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   PersonaInquirySDK2: 8153173c5f6d4e964874c9f0d7b375652c9bb6f9
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
@@ -1244,7 +1187,6 @@ SPEC CHECKSUMS:
   RNDeviceInfo: 42aadf1282ffa0a88dc38a504a7be145eb010dfa
   RNExitApp: 00036cabe7bacbb413d276d5520bf74ba39afa6a
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
-  RNFBAnalytics: 695dcc7123daa3cf938cf7123b8715c0b5c8c657
   RNFBApp: a0618c20c09e0e0df667c3543c18062287848510
   RNFBAuth: 20f4ea90149cb8b665f21c22a221cd4d2a3731c8
   RNFBDatabase: c3b27ba1274d6686cb8eb6c5333a1513d7675c42
