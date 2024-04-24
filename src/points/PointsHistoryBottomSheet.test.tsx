@@ -94,6 +94,7 @@ describe(PointsHistoryBottomSheet, () => {
       tree.getByText('points.history.cards.swap.subtitle, {"fromToken":"cUSD","toToken":"CELO"}')
     ).toBeTruthy()
     expect(tree.getByText('points.history.cards.createWallet.subtitle')).toBeTruthy()
+
     expect(tree.getByText('January')).toBeTruthy()
     expect(tree.getByText('March')).toBeTruthy()
     expect(tree.getByTestId('PointsHistoryBottomSheet/Loading')).toBeTruthy()

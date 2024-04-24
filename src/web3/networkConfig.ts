@@ -71,6 +71,7 @@ interface NetworkConfig {
   defaultNetworkId: NetworkId
   getTokensInfoUrl: string
   getPointsHistoryUrl: string
+  trackPointsEventUrl: string
   viemChain: {
     [key in Network]: ViemChain
   }
@@ -253,6 +254,8 @@ const GET_POINTS_HISTORY_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getPointsHistory`
 
 const GET_POINTS_CONFIG_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getPointsConfig`
 const GET_POINTS_CONFIG_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getPointsConfig`
+const TRACK_POINTS_EVENT_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/trackPointsEvent`
+const TRACK_POINTS_EVENT_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/trackPointsEvent`
 
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
@@ -313,6 +316,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     cabClockUrl: CAB_CLOCK_ALFAJORES,
     getTokensInfoUrl: GET_TOKENS_INFO_URL_ALFAJORES,
     getPointsHistoryUrl: GET_POINTS_HISTORY_ALFAJORES,
+    trackPointsEventUrl: TRACK_POINTS_EVENT_ALFAJORES,
     viemChain: {
       [Network.Celo]: celoAlfajores,
       [Network.Ethereum]: ethereumSepolia,
@@ -403,6 +407,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     cabClockUrl: CAB_CLOCK_MAINNET,
     getTokensInfoUrl: GET_TOKENS_INFO_URL_MAINNET,
     getPointsHistoryUrl: GET_POINTS_HISTORY_MAINNET,
+    trackPointsEventUrl: TRACK_POINTS_EVENT_MAINNET,
     viemChain: {
       [Network.Celo]: celo,
       [Network.Ethereum]: ethereum,

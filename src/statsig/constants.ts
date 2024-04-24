@@ -1,4 +1,9 @@
-import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
+import {
+  StatsigDynamicConfigs,
+  StatsigExperiments,
+  StatsigFeatureGates,
+  StatsigParameter,
+} from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 
@@ -24,7 +29,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_JUMPSTART_SEND]: false,
   [StatsigFeatureGates.USE_TAB_NAVIGATOR]: false,
   [StatsigFeatureGates.SHOW_POINTS]: false,
-}
+} satisfies { [key in StatsigFeatureGates]: boolean }
 
 export const ExperimentConfigs = {
   // NOTE: the keys of defaultValues MUST be parameter names
@@ -46,6 +51,17 @@ export const ExperimentConfigs = {
       skipVerification: false,
     },
   },
+  [StatsigExperiments.ONBOARDING_TERMS_AND_CONDITIONS]: {
+    experimentName: StatsigExperiments.ONBOARDING_TERMS_AND_CONDITIONS,
+    defaultValues: {
+      variant: 'control' as 'control' | 'colloquial_terms' | 'checkbox',
+    },
+  },
+} satisfies {
+  [key in StatsigExperiments]: {
+    experimentName: key
+    defaultValues: { [key: string]: StatsigParameter }
+  }
 }
 
 export const DynamicConfigs = {
@@ -119,4 +135,9 @@ export const DynamicConfigs = {
       rewardReminderDate: new Date(0).toISOString(),
     },
   },
+} satisfies {
+  [key in StatsigDynamicConfigs]: {
+    configName: key
+    defaultValues: { [key: string]: StatsigParameter }
+  }
 }

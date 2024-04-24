@@ -181,6 +181,8 @@ export function AssetsTokenBalance({
   const [shouldRenderInfoComponent, setShouldRenderInfoComponent] = useState(false)
   const infoOpacity = useSharedValue(0)
 
+  useErrorMessageWithRefresh()
+
   useShowOrHideAnimation(
     infoOpacity,
     infoVisible,

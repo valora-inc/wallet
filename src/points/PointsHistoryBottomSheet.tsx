@@ -57,14 +57,6 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
 
   const getHistoryDefinition = useGetHistoryDefinition()
 
-  const onPressTryAgain = () => {
-    ValoraAnalytics.track(PointsEvents.points_screen_activity_try_again_press)
-    dispatch(
-      getHistoryStarted({
-        getNextPage: false,
-      })
-    )
-  }
   const insets = useSafeAreaInsets()
 
   const onFetchMoreHistory = () => {
@@ -83,6 +75,15 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
     }
     return (
       <PointsHistoryCard {...historyDefinition} testID={`${item.activityId}-${item.timestamp}`} />
+    )
+  }
+
+  const onPressTryAgain = () => {
+    ValoraAnalytics.track(PointsEvents.points_screen_activity_try_again_press)
+    dispatch(
+      getHistoryStarted({
+        getNextPage: false,
+      })
     )
   }
 
@@ -208,5 +209,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 })
-
 export default PointsHistoryBottomSheet
