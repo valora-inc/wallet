@@ -39,7 +39,7 @@ export interface OnboardingProps {
   skipVerification: boolean
   numberAlreadyVerifiedCentrally: boolean
   showCloudAccountBackupRestore: boolean
-  usePin: boolean
+  usePin?: boolean
 }
 
 // TODO ACT-1160 follow hook into Statsig Experiment

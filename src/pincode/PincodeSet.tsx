@@ -57,7 +57,7 @@ interface DispatchProps {
   initializeAccount: typeof initializeAccount
   setPincodeSuccess: typeof setPincodeSuccess
   setHasSeenVerificationNux: typeof setHasSeenVerificationNux
-  hasSetPinManually: typeof setHasSetPinManually
+  setHasSetPinManually: typeof setHasSetPinManually
 }
 
 interface State {
