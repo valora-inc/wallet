@@ -3250,7 +3250,6 @@ export const v207Schema = {
 }
 
 export const v208Schema = {
-
   ...v207Schema,
   _persist: {
     ...v207Schema._persist,
