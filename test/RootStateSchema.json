@@ -1768,7 +1768,7 @@
                 "op-mainnet",
                 "op-sepolia",
                 "polygon-pos-mainnet",
-                "polygon-pos-mumbai"
+                "polygon-pos-amoy"
             ],
             "type": "string"
         },
@@ -5413,7 +5413,7 @@
                     },
                     "type": "array"
                 },
-                "polygon-pos-mumbai": {
+                "polygon-pos-amoy": {
                     "items": {
                         "$ref": "#/definitions/TokenTransaction"
                     },
