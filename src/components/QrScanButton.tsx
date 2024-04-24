@@ -1,12 +1,11 @@
 import React from 'react'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, ViewStyle } from 'react-native'
 import { QrScreenEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import Touchable from 'src/components/Touchable'
 import ScanIcon from 'src/icons/ScanIcon'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { Spacing } from 'src/styles/styles'
+import { TopBarIconButtonV2 } from 'src/navigator/TopBarIconButtonV2'
 
 interface Props {
   style?: StyleProp<ViewStyle>
@@ -14,32 +13,18 @@ interface Props {
   testID?: string
 }
 
-export default function QrScanButton({ style, size, testID }: Props) {
+export default function QrScanButton({ testID, size, style }: Props) {
   const onPress = () => {
     ValoraAnalytics.track(QrScreenEvents.qr_scanner_open)
     navigate(Screens.QRNavigator, { screen: Screens.QRScanner })
   }
 
   return (
-    <View style={styles.container}>
-      <Touchable
-        testID={testID}
-        onPress={onPress}
-        style={[style, styles.button]}
-        borderRadius={Spacing.Thick24}
-      >
-        <ScanIcon size={size} />
-      </Touchable>
-    </View>
+    <TopBarIconButtonV2
+      icon={<ScanIcon size={size} />}
+      testID={testID}
+      onPress={onPress}
+      style={style}
+    />
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  button: {
-    padding: Spacing.Small12,
-  },
-})
