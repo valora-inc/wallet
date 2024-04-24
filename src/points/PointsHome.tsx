@@ -9,7 +9,9 @@ import BackButton from 'src/components/BackButton'
 import BeatingHeartLoader from 'src/components/BeatingHeartLoader'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import CustomHeader from 'src/components/header/CustomHeader'
+import PointsHistoryBottomSheet from 'src/points/PointsHistoryBottomSheet'
 import AttentionIcon from 'src/icons/Attention'
 import LogoHeart from 'src/icons/LogoHeart'
 import { Screens } from 'src/navigator/Screens'
@@ -36,6 +38,7 @@ export default function PointsHome({ route, navigation }: Props) {
   // TODO: Use real points balance
   const pointsBalance = 50
 
+  const historyBottomSheetRef = useRef<BottomSheetRefType>(null)
   const activityCardBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const [bottomSheetParams, setBottomSheetParams] = useState<BottomSheetParams | undefined>(
@@ -66,7 +69,7 @@ export default function PointsHome({ route, navigation }: Props) {
 
   const onPressActivity = () => {
     ValoraAnalytics.track(PointsEvents.points_screen_activity_press)
-    // TODO: Open history bottom sheet
+    historyBottomSheetRef.current?.snapToIndex(0)
   }
 
   const onRetryLoadConfig = () => {
@@ -103,7 +106,7 @@ export default function PointsHome({ route, navigation }: Props) {
           </View>
         )}
 
-        {pointsConfigStatus === 'success' && pointsSections.length > 0 && (
+        {pointsConfigStatus === 'success' && (
           <>
             <View style={styles.titleRow}>
               <Text style={styles.title}>{t('points.title')}</Text>
@@ -121,14 +124,27 @@ export default function PointsHome({ route, navigation }: Props) {
               <Text style={styles.balance}>{pointsBalance}</Text>
               <LogoHeart size={28} />
             </View>
-            <View style={styles.infoCard}>
-              <Text style={styles.infoCardTitle}>{t('points.infoCard.title')}</Text>
-              <Text style={styles.infoCardBody}>{t('points.infoCard.body')}</Text>
-            </View>
-            <ActivityCardSection onCardPress={onCardPress} pointsSections={pointsSections} />
+
+            {pointsSections.length > 0 ? (
+              <>
+                <View style={styles.infoCard}>
+                  <Text style={styles.infoCardTitle}>{t('points.infoCard.title')}</Text>
+                  <Text style={styles.infoCardBody}>{t('points.infoCard.body')}</Text>
+                </View>
+                <ActivityCardSection onCardPress={onCardPress} pointsSections={pointsSections} />
+              </>
+            ) : (
+              <InLineNotification
+                variant={NotificationVariant.Info}
+                hideIcon={true}
+                title={t('points.noActivities.title')}
+                description={t('points.noActivities.body')}
+              />
+            )}
           </>
         )}
       </ScrollView>
+      <PointsHistoryBottomSheet forwardedRef={historyBottomSheetRef} />
       <BottomSheet forwardedRef={activityCardBottomSheetRef} testId={`PointsActivityBottomSheet`}>
         {bottomSheetParams && (
           <>

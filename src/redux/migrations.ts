@@ -1754,6 +1754,20 @@ export const migrations = {
     },
   }),
   208: (state: any) => ({
+    ...state,
+    identity: {
+      ...state.identity,
+      shouldRefreshStoredPasswordHash: true,
+    },
+  }),
+  209: (state: any) => ({
+    ...state,
+    points: {
+      ...state.points,
+      pendingPointsEvents: [],
+    },
+  }),
+  210: (state: any) => ({
     ...(_.omit(state, 'exchange') as any),
   }),
 }

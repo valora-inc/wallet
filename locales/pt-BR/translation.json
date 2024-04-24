@@ -219,6 +219,7 @@
   "moreInfo": "Mais informações",
   "savedConfirmation": "Sim, eu anotei minha frase.",
   "backupQuizWordCount": "Qual é a <0>{{ordinal}}</0> palavra da sua Frase de Recuperação?",
+  "backupQuizWordCountV1_83": "Qual é a <0>{{wordNumber}}</0> palavra da sua Frase de Recuperação?",
   "importBackupFailed": "A importação da conta falhou",
   "backupQuizFailed": "A Frase de Recuperação que você inseriu está incorreta. Tente novamente.",
   "invalidBackupPhrase": "A Frase de Recuperação não é válida",
@@ -708,6 +709,17 @@
     "privacy": "Ao ingressar nessa rede, você nos dá permissão para coletar informações anônimas sobre o seu uso do aplicativo. Além disso, se você conectar seu número de celular, uma cópia com hash dele será armazenada. Se você conceder à Valora acesso à sua lista de contatos, a Valora importará o nome, o número de celular e a foto de perfil de cada contato para permitir que os usuários se conectem por meio do aplicativo Valora. Para saber como coletamos e usamos essas informações, consulte a nossa <0>Política de Privacidade</0>.",
     "goldDisclaimer": "Ao criar uma \"conta\" na Valora, você está criando uma carteira digital da qual somente você possui as chaves. Nenhuma outra pessoa, física ou jurídica, incluindo a Valora, pode recuperar sua chave, alterar ou desfazer transações ou recuperar fundos perdidos. Esteja ciente de que criptomoedas fazem parte de uma nova classe de ativos e apresentam o risco de perda financeira. Considere cuidadosamente suas circunstâncias financeiras e sua tolerância a riscos financeiros antes de comprar qualquer ativo."
   },
+  "termsColloquial": {
+    "title": "Vamos começar criando sua carteira",
+    "privacyHeading": "Suas informações e privacidade:",
+    "privacy1": "Coletamos dados de uso que nos ajudam a aprimorar o aplicativo e a segurança. O tipo de informação que coletamos, como a usamos e seus direitos relacionados a essas informações podem ser vistos em nossa <0>Política de Privacidade</0>.",
+    "privacy2": "Se você decidir vincular seu número de telefone, armazenaremos uma cópia criptografada dele.",
+    "privacy3": "Se você decidir conectar seus contatos, usaremos seus nomes, números e fotos de perfil para facilitar a localização deles.",
+    "walletHeading": "Sua carteira digital com a Valora:",
+    "wallet1": "Você está prestes a criar uma carteira digital. Somente você tem a chave de sua carteira. Não podemos recuperar sua chave ou seus ativos se você perder sua chave. Também não podemos reverter ações realizadas por meio da Valora em blockchains.",
+    "wallet2": "Os ativos digitais, os ativos com os quais você interagirá com o Valora, apresentam riscos exclusivos. Ao usar o Valora, você aceita esses riscos e assume a responsabilidade por eles. Considere suas finanças e sua tolerância a riscos antes de fazer escolhas.",
+    "fullTerms": "Leia nossos <0>Termos e Condições</0> completos"
+  },
   "fullNameOrPsuedonym": "Nome ou pseudônimo",
   "namePlaceholder": "nome",
   "nameAndPicGuideCopyTitle": "Qual é o seu nome?",
@@ -814,7 +826,8 @@
     "restoreWallet": "Restaurar carteira",
     "hasWallet": "Já tenho uma carteira",
     "header": "Nossas boas-vindas! Vamos criar a sua carteira cripto.",
-    "getStarted": "Começar"
+    "getStarted": "Começar",
+    "agreeToTerms": "Ao criar uma carteira, você concorda com nossos <0>Termos e Condições</0>"
   },
   "accessContacts": {
     "disclosure": {
@@ -2242,6 +2255,14 @@
   "points": {
     "title": "Pontos Valora",
     "activity": "Atividades",
+    "history": {
+      "title": "Minha atividade de pontos",
+      "error": {
+        "title": "Não é possível carregar a atividade de pontos",
+        "subtitle": "Oops, algo deu errado ao tentar carregar seu feed de atividades de pontos. Por favor, tente novamente.",
+        "tryAgain": "Tentar novamente"
+      }
+    },
     "loading": {
       "title": "Reunir seus pontos",
       "description": "Estamos no processo de contabilizar os pontos que você obteve, aguarde"
@@ -2258,6 +2279,10 @@
     "activitySection": {
       "title": "Como faço para ganhar pontos?",
       "body": "É fácil! Você ganha pontos simplesmente usando o aplicativo."
+    },
+    "noActivities": {
+      "title": "Atualize para desbloquear mais pontos 🔓",
+      "body": "Ops! Parece que você está usando uma versão mais antiga do {{appName}}. Atualize agora para descobrir todas as novas e empolgantes maneiras de você ganhar pontos."
     },
     "activityCards": {
       "createWallet": {

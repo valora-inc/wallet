@@ -2246,6 +2246,26 @@
             ],
             "type": "object"
         },
+        "PendingPointsEvent": {
+            "additionalProperties": false,
+            "properties": {
+                "event": {
+                    "$ref": "#/definitions/PointsEvent"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event",
+                "id",
+                "timestamp"
+            ],
+            "type": "object"
+        },
         "PendingStandbyApproval": {
             "additionalProperties": false,
             "properties": {
@@ -2469,6 +2489,46 @@
                 "Unset"
             ],
             "type": "string"
+        },
+        "PointsEvent": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/PointsEventCreateWallet"
+                },
+                {
+                    "$ref": "#/definitions/PointsEventSwap"
+                }
+            ]
+        },
+        "PointsEventCreateWallet": {
+            "additionalProperties": false,
+            "properties": {
+                "activityId": {
+                    "const": "create-wallet",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "activityId"
+            ],
+            "type": "object"
+        },
+        "PointsEventSwap": {
+            "additionalProperties": false,
+            "properties": {
+                "activityId": {
+                    "const": "swap",
+                    "type": "string"
+                },
+                "transactionHash": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "activityId",
+                "transactionHash"
+            ],
+            "type": "object"
         },
         "Position": {
             "anyOf": [
@@ -4274,6 +4334,12 @@
                         "string"
                     ]
                 },
+                "pendingPointsEvents": {
+                    "items": {
+                        "$ref": "#/definitions/PendingPointsEvent"
+                    },
+                    "type": "array"
+                },
                 "pointsConfig": {
                     "additionalProperties": false,
                     "properties": {
@@ -4305,6 +4371,7 @@
             "required": [
                 "getHistoryStatus",
                 "nextPageUrl",
+                "pendingPointsEvents",
                 "pointsConfig",
                 "pointsConfigStatus",
                 "pointsHistory"
@@ -4542,6 +4609,9 @@
                 "secureSendPhoneNumberMapping": {
                     "$ref": "#/definitions/SecureSendPhoneNumberMapping"
                 },
+                "shouldRefreshStoredPasswordHash": {
+                    "type": "boolean"
+                },
                 "walletToAccountAddress": {
                     "$ref": "#/definitions/WalletToAccountAddressType"
                 }
@@ -4558,6 +4628,7 @@
                 "importContactsProgress",
                 "lastSavedContactsHash",
                 "secureSendPhoneNumberMapping",
+                "shouldRefreshStoredPasswordHash",
                 "walletToAccountAddress"
             ],
             "type": "object"

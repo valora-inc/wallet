@@ -1,5 +1,30 @@
-import { pointsSectionsSelector } from 'src/points/selectors'
+import { pointsSectionsSelector, pointsHistorySelector } from 'src/points/selectors'
 import { getMockStoreData } from 'test/utils'
+
+describe('pointsHistorySelector', () => {
+  it('returns UNIX timestamp', () => {
+    const stateWithPointsHistory = getMockStoreData({
+      points: {
+        pointsHistory: [
+          {
+            activity: 'create-wallet',
+            createdAt: '2024-04-22T16:32:27+0000',
+            points: '20',
+          },
+        ],
+      },
+    })
+    const result = pointsHistorySelector(stateWithPointsHistory)
+
+    expect(result).toEqual([
+      {
+        activity: 'create-wallet',
+        timestamp: 1713803547000,
+        points: '20',
+      },
+    ])
+  })
+})
 
 describe('pointsMetadataSelector', () => {
   it('should return an empty array if there are no activities', () => {

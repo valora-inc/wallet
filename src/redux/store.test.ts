@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 208,
+          "version": 210,
         },
         "account": {
           "acceptedTerms": false,
@@ -244,6 +244,7 @@ describe('store state', () => {
           },
           "lastSavedContactsHash": null,
           "secureSendPhoneNumberMapping": {},
+          "shouldRefreshStoredPasswordHash": true,
           "walletToAccountAddress": {},
         },
         "imports": {
@@ -286,6 +287,7 @@ describe('store state', () => {
         "points": {
           "getHistoryStatus": "idle",
           "nextPageUrl": null,
+          "pendingPointsEvents": [],
           "pointsConfig": {
             "activitiesById": {},
           },

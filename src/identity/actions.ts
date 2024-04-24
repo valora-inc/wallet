@@ -33,6 +33,7 @@ export enum Actions {
   FETCH_ADDRESS_VERIFICATION_STATUS = 'IDENTITY/FETCH_ADDRESS_VERIFICATION_STATUS',
   ADDRESS_VERIFICATION_STATUS_RECEIVED = 'IDENTITY/ADDRESS_VERIFICATION_STATUS_RECEIVED',
   CONTACTS_SAVED = 'IDENTITY/CONTACTS_SAVED',
+  STORED_PASSWORD_REFRESHED = 'IDENTITY/STORED_PASSWORD_REFRESHED',
 }
 
 export interface SetHasSeenVerificationNux {
@@ -149,6 +150,10 @@ interface ContactsSavedAction {
   hash: string
 }
 
+interface StoredPasswordRefreshedAction {
+  type: Actions.STORED_PASSWORD_REFRESHED
+}
+
 export type ActionTypes =
   | SetHasSeenVerificationNux
   | UpdateE164PhoneNumberAddressesAction
@@ -170,6 +175,7 @@ export type ActionTypes =
   | FetchAddressVerificationAction
   | AddressVerificationStatusReceivedAction
   | ContactsSavedAction
+  | StoredPasswordRefreshedAction
 
 export const setHasSeenVerificationNux = (status: boolean): SetHasSeenVerificationNux => ({
   type: Actions.SET_SEEN_VERIFICATION_NUX,
@@ -332,4 +338,8 @@ export const updateAddressDekMap = (
 export const contactsSaved = (hash: string): ContactsSavedAction => ({
   type: Actions.CONTACTS_SAVED,
   hash,
+})
+
+export const storedPasswordRefreshed = (): StoredPasswordRefreshedAction => ({
+  type: Actions.STORED_PASSWORD_REFRESHED,
 })

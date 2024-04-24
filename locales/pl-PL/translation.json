@@ -219,6 +219,7 @@
   "moreInfo": "Więcej informacji",
   "savedConfirmation": "Tak, zapisałem(-am) frazę.",
   "backupQuizWordCount": "Jakie jest <0>{{ordinal}}</0> słowo Twojej frazy odzyskiwania?",
+  "backupQuizWordCountV1_83": "Jakie jest <0>{{wordNumber}}</0> słowo Twojej frazy odzyskiwania?",
   "importBackupFailed": "Importowanie portfela nie powiodło się",
   "backupQuizFailed": "Podana fraza odzyskiwania jest nieprawidłowa. Spróbuj ponownie.",
   "invalidBackupPhrase": "Niepoprawna fraza odzyskiwania",
@@ -708,6 +709,17 @@
     "privacy": "Dołączając do tej sieci, udzielasz nam zgody na gromadzenie anonimowych informacji o korzystaniu z aplikacji. Ponadto jeśli podłączysz swój numer telefonu, zostanie zapisana jego zaszyfrowana kopia. Jeśli przyznasz Valora dostęp do swojej listy kontaktów, Valora zaimportuje nazwę, numer telefonu i zdjęcie profilowe każdego kontaktu, aby umożliwić użytkownikom łączenie się za pośrednictwem aplikacji Valora. Aby dowiedzieć się, w jaki sposób zbieramy i wykorzystujemy te informacje, zapoznaj się z naszą <0>Polityką prywatności</0>.",
     "goldDisclaimer": "Tworząc „konto” w Valora, tworzysz cyfrowy portfel, do którego klucze posiadasz tylko Ty. Żadna inna osoba ani podmiot, w tym Valora, nie może odzyskać Twojego klucza, zmienić ani cofnąć transakcji ani odzyskać utraconych środków. Pamiętaj, że kryptowaluty są częścią nowej klasy aktywów i wiążą się z ryzykiem strat finansowych. Przed zakupem jakichkolwiek aktywów dokładnie rozważ swoją sytuację finansową i tolerancję na ryzyko finansowe."
   },
+  "termsColloquial": {
+    "title": "Zacznijmy od stworzenia twojego portfela",
+    "privacyHeading": "Twoje informacje i prywatność:",
+    "privacy1": "Gromadzimy dane dotyczące użytkowania, które pomagają nam ulepszać aplikację i bezpieczeństwo. Rodzaj gromadzonych przez nas informacji, sposób ich wykorzystania oraz Twoje prawa związane z tymi informacjami można znaleźć w naszej <0>Polityce prywatności</0>.",
+    "privacy2": "Jeśli zdecydujesz się połączyć swój numer telefonu, będziemy przechowywać jego zaszyfrowaną kopię.",
+    "privacy3": "Jeśli zdecydujesz się połączyć swoje kontakty, użyjemy ich nazw, numerów i zdjęć profilowych, aby ułatwić ich znalezienie.",
+    "walletHeading": "Twój cyfrowy portfel z Valora:",
+    "wallet1": "Zamierzasz utworzyć cyfrowy portfel. Tylko Ty masz klucz do swojego portfela. Nie możemy odzyskać Twojego klucza ani Twoich aktywów, jeśli go zgubisz. Nie możemy również cofnąć działań podjętych przez Valora na blockchainach.",
+    "wallet2": "Zasoby cyfrowe, z którymi będziesz wchodzić w interakcje z Valora, wiążą się z wyjątkowym ryzykiem. Korzystając z Valora, akceptujesz to ryzyko i bierzesz za nie odpowiedzialność. Przed dokonaniem wyboru weź pod uwagę swoje finanse i tolerancję na ryzyko.",
+    "fullTerms": "Przeczytaj nasz pełny <0>Regulamin</0>"
+  },
   "fullNameOrPsuedonym": "Imię i nazwisko lub pseudonim",
   "namePlaceholder": "np. imię",
   "nameAndPicGuideCopyTitle": "Jak masz na imię?",
@@ -814,7 +826,8 @@
     "restoreWallet": "Przywróć portfel",
     "hasWallet": "Mam już portfel",
     "header": "Witamy w {{appName}}! Stwórzmy Twój portfel kryptowalutowy.",
-    "getStarted": "Rozpocznij"
+    "getStarted": "Rozpocznij",
+    "agreeToTerms": "Tworząc portfel, zgadzasz się na nasze <0>Warunki</0> korzystania z usługi"
   },
   "accessContacts": {
     "disclosure": {
@@ -2246,6 +2259,14 @@
   "points": {
     "title": "Punkty Valora",
     "activity": "Operacje",
+    "history": {
+      "title": "Moja aktywność punktowa",
+      "error": {
+        "title": "Nie można załadować aktywności punktów",
+        "subtitle": "Ups, coś poszło nie tak podczas próby załadowania Twojego kanału aktywności punktów. Spróbuj ponownie.",
+        "tryAgain": "Spróbuj ponownie"
+      }
+    },
     "loading": {
       "title": "Zbierz swoje punkty",
       "description": "Jesteśmy w trakcie podliczania twoich punktów, trzymaj się mocno"
@@ -2262,6 +2283,10 @@
     "activitySection": {
       "title": "Jak mogę zdobywać punkty?",
       "body": "To proste! Zdobywaj punkty po prostu korzystając z aplikacji."
+    },
+    "noActivities": {
+      "title": "Zaktualizuj, aby odblokować więcej punktów 🔓",
+      "body": "Ups! Wygląda na to, że używasz starszej wersji {{appName}}. Zaktualizuj ją teraz, aby odkryć wszystkie nowe, ekscytujące sposoby zdobywania punktów."
     },
     "activityCards": {
       "createWallet": {

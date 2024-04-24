@@ -3250,13 +3250,38 @@ export const v207Schema = {
 }
 
 export const v208Schema = {
-  ..._.omit(v207Schema, ['exchange']),
+
+  ...v207Schema,
+  _persist: {
+    ...v207Schema._persist,
+    version: 208,
+  },
+  identity: {
+    ...v207Schema.identity,
+    shouldRefreshStoredPasswordHash: true,
+  },
+}
+
+export const v209Schema = {
+  ...v208Schema,
+  _persist: {
+    ...v208Schema._persist,
+    version: 209,
+  },
+  points: {
+    ...v208Schema.points,
+    pendingPointsEvents: [],
+  },
+}
+
+export const v210Schema = {
+  ..._.omit(v209Schema, ['exchange']),
   _persist: {
     ...v206Schema._persist,
-    version: 208,
+    version: 210,
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v208Schema as Partial<RootState>
+  return v210Schema as Partial<RootState>
 }

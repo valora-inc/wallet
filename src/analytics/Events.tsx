@@ -680,4 +680,6 @@ export enum PointsEvents {
   points_screen_card_press = 'points_screen_card_press',
   points_screen_card_cta_press = 'points_screen_card_cta_press',
   points_screen_activity_press = 'points_screen_activity_press',
+  points_screen_activity_try_again_press = 'points_screen_activity_try_again_press',
+  points_screen_activity_fetch_more = 'points_screen_activity_fetch_more',
 }

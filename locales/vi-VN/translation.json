@@ -219,6 +219,7 @@
   "moreInfo": "Thêm thông tin",
   "savedConfirmation": "Có, tôi đã viết ra Cụm từ khôi phục của mình.",
   "backupQuizWordCount": "Từ <0>{{ordinal}}</0> trong Cụm từ khôi phục của bạn là gì?",
+  "backupQuizWordCountV1_83": "Từ <0>{{wordNumber}}</0> trong Cụm từ khôi phục của bạn là gì?",
   "importBackupFailed": "Không nhập được ví",
   "backupQuizFailed": "Cụm từ khôi phục bạn nhập không chính xác. Vui lòng thử lại.",
   "invalidBackupPhrase": "Cụm từ khôi phục không hợp lệ",
@@ -708,6 +709,17 @@
     "privacy": "Bằng việc tham gia mạng này, bạn cho phép chúng tôi thu thập thông tin ẩn danh về việc bạn sử dụng ứng dụng. Ngoài ra, nếu bạn kết nối số điện thoại, chúng tôi sẽ lưu trữ bản sao đã băm của số điện thoại. Nếu bạn cấp cho Valora quyền truy cập vào danh bạ, Valora sẽ nhập tên, số điện thoại và ảnh hồ sơ của từng người liên hệ để cho phép người dùng kết nối qua ứng dụng Valora. Để tìm hiểu cách chúng tôi thu thập và sử dụng thông tin này, vui lòng xem lại <0>Chính sách quyền riêng tư</0> của chúng tôi.",
     "goldDisclaimer": "Khi tạo \"tài khoản\" bằng Valora, bạn tạo một ví điện tử mà chỉ bạn giữ mã khóa. Không cá nhân hoặc tổ chức nào khác, bao gồm Valora, có thể khôi phục mã khóa của bạn, thay đổi hay hủy giao dịch hoặc thu hồi số tiền đã mất. Xin lưu ý rằng tiền điện tử thuộc loại tài sản mới và luôn tiềm ẩn rủi ro về tổn thất tài chính. Hãy cân nhắc kỹ tình hình tài chính của bạn cũng như khả năng chấp nhận rủi ro tài chính trước khi mua bất kỳ tài sản nào."
   },
+  "termsColloquial": {
+    "title": "Let’s start by creating your wallet",
+    "privacyHeading": "Your Info & Privacy:",
+    "privacy1": "We gather usage data which helps us improve the app and security. The type of information we collect, how we use it and your rights related to that information can all be seen in our <0>Privacy Policy</0>.",
+    "privacy2": "If you decide to link your phone number, we will store an encrypted copy of it.",
+    "privacy3": "If you decide to connect your contacts, we use their names, numbers, and profile pictures to make it easier to find them.",
+    "walletHeading": "Your Digital Wallet with Valora:",
+    "wallet1": "You’re about to create a digital wallet. Only you have the key to your wallet. We cannot recover your key or your assets if you lose your key. We also cannot reverse actions taken through Valora on blockchains.",
+    "wallet2": "Digital assets, the assets with which you will interact with Valora, come with unique risks. By using Valora, you accept these risks and take responsibility for them. Please consider your finances and risk tolerance before making choices.",
+    "fullTerms": "Read our full <0>Terms & Conditions</0>"
+  },
   "fullNameOrPsuedonym": "Họ và tên hoặc biệt danh",
   "namePlaceholder": "tên",
   "nameAndPicGuideCopyTitle": "Tên bạn là gì?",
@@ -814,7 +826,8 @@
     "restoreWallet": "Khôi phục ví",
     "hasWallet": "Tôi đã có ví",
     "header": "Chào mừng bạn đến với {{appName}}! Hãy tạo ví tiền điện tử của bạn.",
-    "getStarted": "Bắt đầu"
+    "getStarted": "Bắt đầu",
+    "agreeToTerms": "By creating a wallet you agree to our <0>Terms and Conditions</0>"
   },
   "accessContacts": {
     "disclosure": {
@@ -2240,6 +2253,14 @@
   "points": {
     "title": "Valora Points",
     "activity": "Hoạt động",
+    "history": {
+      "title": "My points activity",
+      "error": {
+        "title": "Unable to load points activity",
+        "subtitle": "Oops, something went wrong when trying to load your points activity feed. Please try again.",
+        "tryAgain": "Thử lại"
+      }
+    },
     "loading": {
       "title": "Gathering your points",
       "description": "We're in the process of tallying up your points, hang tight"
@@ -2256,6 +2277,10 @@
     "activitySection": {
       "title": "How do I earn points?",
       "body": "It's easy! Earn points by simply using the app."
+    },
+    "noActivities": {
+      "title": "Update to Unlock More Points 🔓",
+      "body": "Oops! It seems you're using an older version of {{appName}}. Update now to discover all the exciting new ways you can earn points."
     },
     "activityCards": {
       "createWallet": {

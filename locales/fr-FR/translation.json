@@ -219,6 +219,7 @@
   "moreInfo": "Plus d'informations",
   "savedConfirmation": "Oui, j'ai bien noté ma phrase.",
   "backupQuizWordCount": "Quel est le <0>{{ordinal}}</0> mot de votre Phrase de récupération ?",
+  "backupQuizWordCountV1_83": "Quel est le <0>{{wordNumber}}</0> mot de votre phrase de récupération ?",
   "importBackupFailed": "L'importation du wallet a échoué",
   "backupQuizFailed": "La Phrase de récupération que vous avez saisie est incorrecte. Veuillez réessayer.",
   "invalidBackupPhrase": "La Phrase de récupération n'est pas valide",
@@ -708,6 +709,17 @@
     "privacy": "En rejoignant ce réseau, vous nous autorisez à collecter des informations anonymes sur votre utilisation de l'appli. De plus, si vous connectez votre numéro de téléphone, une copie hachée de celui-ci sera conservée. Si vous accordez à Valora l'accès à votre liste de contacts, Valora importera le nom de chacun de vos contacts, leur numéro de téléphone et photo de profil pour permettre aux utilisateurs de se contacter sur l'appli Valora. Pour savoir comment nous recueillons et utilisons ces informations, veuillez consulter notre <0>Politique de confidentialité</0>.",
     "goldDisclaimer": "Lorsque vous créez un \"compte\" chez Valora, vous créez un portefeuille numérique dont vous seul détenez la clé. Aucune autre personne ni entité, y compris Valora, ne peut récupérer votre clé, modifier ou annuler des transactions, ou récupérer des fonds perdus. Sachez que les cryptomonnaies sont une nouvelle catégorie d'actifs et présentent un risque de perte financière. Réfléhissez soigneusement à votre situation financière et pesez le risque financier que vous prenez avant d'acheter un actif."
   },
+  "termsColloquial": {
+    "title": "Commençons par créer ton portefeuille",
+    "privacyHeading": "Tes informations et ta vie privée :",
+    "privacy1": "Nous recueillons des données d'utilisation qui nous aident à améliorer l'appli et la sécurité. Le type d'informations que nous recueillons, la façon dont nous les utilisons et tes droits liés à ces informations peuvent tous être consultés dans notre <0>Politique de confidentialité</0>.",
+    "privacy2": "Si tu décides de lier ton numéro de téléphone, nous en stockerons une copie cryptée.",
+    "privacy3": "Si tu décides de connecter tes contacts, nous utilisons leurs noms, leurs numéros et leurs photos de profil pour les retrouver plus facilement.",
+    "walletHeading": "Ton portefeuille numérique avec Valora :",
+    "wallet1": "Tu es sur le point de créer un portefeuille numérique. Tu es le seul à posséder la clé de ton portefeuille. Nous ne pouvons pas récupérer ta clé ou tes actifs si tu perds ta clé. Nous ne pouvons pas non plus annuler les actions effectuées par l'intermédiaire de Valora sur les blockchains.",
+    "wallet2": "Les actifs numériques, ceux avec lesquels tu interagiras avec Valora, comportent des risques uniques. En utilisant Valora, tu acceptes ces risques et en assumes la responsabilité. Prends en compte tes finances et ta tolérance au risque avant de faire des choix.",
+    "fullTerms": "Lire l'intégralité de nos <0>conditions générales</0>"
+  },
   "fullNameOrPsuedonym": "Prénom et nom ou pseudonyme",
   "namePlaceholder": "p. ex. nom",
   "nameAndPicGuideCopyTitle": "Comment vous appelez-vous ?",
@@ -814,7 +826,8 @@
     "restoreWallet": "Restaurer un wallet",
     "hasWallet": "J'ai déjà un wallet",
     "header": "Bienvenue sur {{appName}} ! Créons votre wallet crypto.",
-    "getStarted": "Commencer"
+    "getStarted": "Commencer",
+    "agreeToTerms": "En créant un portefeuille, tu acceptes nos <0>conditions générales d'utilisation</0>."
   },
   "accessContacts": {
     "disclosure": {
@@ -2242,6 +2255,14 @@
   "points": {
     "title": "Points Valora",
     "activity": "Activité",
+    "history": {
+      "title": "Mon activité de points",
+      "error": {
+        "title": "Impossible de charger l'activité des points",
+        "subtitle": "Oups, quelque chose n'a pas fonctionné lorsque nous avons essayé de charger le flux d'activité de tes points. Essaie à nouveau.",
+        "tryAgain": "Veuillez réessayer"
+      }
+    },
     "loading": {
       "title": "Rassembler tes points de vue",
       "description": "Nous sommes en train de comptabiliser tes points, accroche-toi bien."
@@ -2258,6 +2279,10 @@
     "activitySection": {
       "title": "Comment gagner des points ?",
       "body": "C'est très simple ! Gagne des points en utilisant simplement l'application."
+    },
+    "noActivities": {
+      "title": "Mets-toi à jour pour débloquer plus de points 🔓",
+      "body": "Oups ! Il semble que tu utilises une ancienne version de {{appName}}. Mets-la à jour maintenant pour découvrir toutes les nouvelles façons passionnantes de gagner des points."
     },
     "activityCards": {
       "createWallet": {
