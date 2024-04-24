@@ -440,6 +440,7 @@ export const createCommentText = () => {
 export async function navigateToSettings(navType) {
   // only used in wallet connect tests, as it opens the app with openUrl, so we
   // can't specify launch args. Clean this up when making the tab nav the default
+  // TODO(ACT-1133): remove navType option
   if (navType === 'drawer') {
     await waitForElementId('Hamburger')
     await element(by.id('Hamburger')).tap()

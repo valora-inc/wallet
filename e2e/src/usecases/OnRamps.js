@@ -5,6 +5,7 @@ export default onRamps = () => {
   beforeAll(async () => {
     await launchApp({
       newInstance: true,
+      // TODO(AC-1133): remove launchArgs
       launchArgs: { statsigGateOverrides: `use_tab_navigator=true` },
     })
   })

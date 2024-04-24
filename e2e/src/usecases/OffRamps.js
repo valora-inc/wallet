@@ -5,9 +5,8 @@ export default offRamps = () => {
   beforeAll(async () => {
     await launchApp({
       newInstance: true,
-      launchArgs: {
-        statsigGateOverrides: 'use_tab_navigator=true',
-      },
+      // TODO(ACT-1133): remove launchArgs
+      launchArgs: { statsigGateOverrides: 'use_tab_navigator=true' },
     })
   })
   beforeEach(async () => {
