@@ -171,7 +171,7 @@
     "react-native-modal": "^13.0.1",
     "react-native-permissions": "^4.1.5",
     "react-native-persona": "^2.2.23",
-    "react-native-picker-select": "^8.1.0",
+    "react-native-picker-select": "^9.1.3",
     "react-native-platform-touchable": "^1.1.1",
     "react-native-qrcode-svg": "^6.3.0",
     "react-native-randombytes": "^3.6.1",
