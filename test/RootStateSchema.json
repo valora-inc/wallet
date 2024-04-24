@@ -1155,10 +1155,8 @@
             "enum": [
                 "all",
                 "favorites dapp screen",
-                "favorites home screen",
                 "featured",
-                "mostPopular",
-                "recently used"
+                "mostPopular"
             ],
             "type": "string"
         },
