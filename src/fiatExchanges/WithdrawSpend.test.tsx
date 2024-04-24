@@ -24,7 +24,7 @@ describe('WithdrawSpend', () => {
   it.each([
     { flow: 'CashOut', testID: 'cashOut' },
     { flow: 'Spend', testID: 'spend' },
-  ])('navigates to %s', ({ flow, testID }) => {
+  ])('$flow navigates correctly', ({ flow, testID }) => {
     const store = createMockStore({})
     const tree = render(
       <Provider store={store}>
