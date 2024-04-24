@@ -1751,4 +1751,11 @@ export const migrations = {
       shouldRefreshStoredPasswordHash: true,
     },
   }),
+  209: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      hasSetPinManually: true,
+    },
+  }),
 }

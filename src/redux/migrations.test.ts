@@ -50,6 +50,7 @@ import {
   v200Schema,
   v201Schema,
   v203Schema,
+  v208Schema,
   v21Schema,
   v28Schema,
   v2Schema,
@@ -83,11 +84,11 @@ import {
   mockInvitableRecipient,
   mockInvitableRecipient2,
   mockPositions,
-  mockShortcuts,
+  mockPositionsLegacy,
   mockRecipient,
   mockRecipient2,
+  mockShortcuts,
   mockShortcutsLegacy,
-  mockPositionsLegacy,
 } from 'test/values'
 
 describe('Redux persist migrations', () => {
@@ -1609,6 +1610,14 @@ describe('Redux persist migrations', () => {
     }
     const expectedSchema = _.cloneDeep(oldSchema)
     const migratedSchema = migrations[204](oldSchema)
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from 208 to 209', () => {
+    const oldSchema = v208Schema
+    const migratedSchema = migrations[209](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.app.hasSetPinManually = true
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

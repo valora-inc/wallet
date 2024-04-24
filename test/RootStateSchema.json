@@ -2748,6 +2748,7 @@
                 "AccounSetupFailureScreen",
                 "AccountKeyEducation",
                 "Assets",
+                "AuthSelect",
                 "BackupComplete",
                 "BackupIntroduction",
                 "BackupPhrase",
@@ -3355,6 +3356,9 @@
                 "hapticFeedbackEnabled": {
                     "type": "boolean"
                 },
+                "hasSetPinManually": {
+                    "type": "boolean"
+                },
                 "hideBalances": {
                     "type": "boolean"
                 },
@@ -3482,6 +3486,7 @@
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hapticFeedbackEnabled",
+                "hasSetPinManually",
                 "hideBalances",
                 "inAppReviewLastInteractionTimestamp",
                 "inviterAddress",
