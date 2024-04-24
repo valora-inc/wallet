@@ -475,3 +475,13 @@ export async function removeAccountLocally(account: string) {
     removeStoredItem(STORAGE_KEYS.SIGNED_MESSAGE),
   ])
 }
+
+export function generateRandomPin() {
+  const randomArray = new Uint8Array(6)
+  crypto.getRandomValues(randomArray)
+  const randomString = Array.from(randomArray)
+    .map((byte) => ('0' + byte).slice(-2))
+    .join('')
+    .slice(0, 6)
+  return randomString
+}
