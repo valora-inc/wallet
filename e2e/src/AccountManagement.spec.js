@@ -9,9 +9,6 @@ describe('Account', () => {
   })
 
   describe('Support', Support)
-  describe.each([{ navType: 'drawer' }, { navType: 'tab' }])('Settings ($navType)', Settings)
-  describe.each([{ navType: 'drawer' }, { navType: 'tab' }])(
-    'Reset Account ($navType)',
-    ResetAccount
-  )
+  describe('Settings', Settings)
+  describe('Reset Account', ResetAccount)
 })

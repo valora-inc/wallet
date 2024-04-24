@@ -5,6 +5,8 @@ export default offRamps = () => {
   beforeAll(async () => {
     await launchApp({
       newInstance: true,
+      // TODO(ACT-1133): remove launchArgs
+      launchArgs: { statsigGateOverrides: 'use_tab_navigator=true' },
     })
   })
   beforeEach(async () => {
@@ -15,19 +17,16 @@ export default offRamps = () => {
     await element(by.id('HomeAction-Withdraw')).tap()
   })
 
-  describe('When on Add & Withdraw', () => {
+  describe('When on Withdraw & Spend', () => {
     it('Then should have support link', async () => {
       await element(by.id('FiatExchange/scrollView')).scrollTo('bottom')
       await expect(element(by.id('otherFundingOptions'))).toBeVisible()
     })
 
-    it('Then should display total balance and navigate back', async () => {
+    it('Then should display total balance', async () => {
       await waitForElementId('ViewBalances')
       await element(by.id('ViewBalances')).tap()
       await expect(element(by.id('AssetsTokenBalance'))).toBeVisible()
-      await element(by.id('BackChevron')).tap()
-      await expect(element(by.id('AssetsTokenBalance'))).not.toBeVisible()
-      await waitForElementId('ViewBalances')
     })
   })
 
