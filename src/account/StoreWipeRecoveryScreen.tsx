@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import AccountErrorScreen from 'src/account/AccountErrorScreen'
 import { startStoreWipeRecovery } from 'src/account/actions'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
+import { supportedBiometryTypeSelector } from 'src/app/selectors'
 import { noHeaderGestureDisabled } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { firstOnboardingScreen } from 'src/onboarding/steps'
@@ -17,6 +18,7 @@ function StoreWipeRecoveryScreen() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const recoveringFromStoreWipe = useSelector(recoveringFromStoreWipeSelector)
+  const biometryType = useSelector(supportedBiometryTypeSelector)
 
   const onPressGoToOnboarding = async () => {
     try {
@@ -27,6 +29,7 @@ function StoreWipeRecoveryScreen() {
       navigate(
         firstOnboardingScreen({
           recoveringFromStoreWipe,
+          biometryType,
         })
       )
     } catch (error) {

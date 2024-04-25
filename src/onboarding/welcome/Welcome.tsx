@@ -6,6 +6,7 @@ import { chooseCreateAccount, chooseRestoreAccount } from 'src/account/actions'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { supportedBiometryTypeSelector } from 'src/app/selectors'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Logo from 'src/icons/Logo'
 import { nuxNavigationOptions } from 'src/navigator/Headers'
@@ -26,11 +27,13 @@ export default function Welcome() {
   const startOnboardingTime = useSelector((state) => state.account.startOnboardingTime)
   const insets = useSafeAreaInsets()
   const recoveringFromStoreWipe = useSelector(recoveringFromStoreWipeSelector)
+  const biometryType = useSelector(supportedBiometryTypeSelector)
 
   const startOnboarding = () => {
     navigate(
       firstOnboardingScreen({
         recoveringFromStoreWipe,
+        biometryType,
       })
     )
   }

@@ -50,16 +50,21 @@ const useBiometricsWithoutPinSetup = false
  */
 export function firstOnboardingScreen({
   recoveringFromStoreWipe,
+  biometryType,
 }: {
   recoveringFromStoreWipe: boolean
-}): Screens.ImportSelect | Screens.ImportWallet | Screens.PincodeSet | Screens.AuthSelect {
+  biometryType?: null | BIOMETRY_TYPE
+}): Screens.AuthSelect | Screens.ImportSelect | Screens.ImportWallet | Screens.PincodeSet {
   if (recoveringFromStoreWipe) {
     return getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE)
       ? Screens.ImportSelect
       : Screens.ImportWallet
   } else {
     // TODO ACT-1160 follow up - New Secure Your Account Screen or PincodeSet based on experiment
-    return useBiometricsWithoutPinSetup ? Screens.AuthSelect : Screens.PincodeSet
+    // IF no biometrics go straight to PIN code set
+    return useBiometricsWithoutPinSetup && biometryType !== null
+      ? Screens.AuthSelect
+      : Screens.PincodeSet
   }
 }
 
