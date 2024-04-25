@@ -1211,7 +1211,7 @@ SPEC CHECKSUMS:
   react-native-compat: c741279b875109d2d9fc8da22e80c00ef91311a6
   react-native-config: 86038147314e2e6d10ea9972022aa171e6b1d4d8
   react-native-contacts: fd1614c74777089ebb6b0a0e3847dd78130ef9f4
-  react-native-cookies: f54fcded06bb0cda05c11d86788020b43528a26c
+  react-native-cookies: 672b2431ca44da2e2942af086d0c83aae42b989a
   react-native-fast-crypto: db61bcb2d1224a180449b886f27426a67d7628c0
   react-native-flipper: b9e2e817604af8da0d5a9ba20a8516e780e30f3c
   react-native-get-random-values: 21325b2244dfa6b58878f51f9aa42821e7ba3d06
