@@ -2260,6 +2260,16 @@
     "title": "Очки Валора",
     "activity": "Деятельность",
     "history": {
+      "cards": {
+        "createWallet": {
+          "title": "Держатель для бумажника",
+          "subtitle": "Член {{appName}}"
+        },
+        "swap": {
+          "title": "Обмен",
+          "subtitle": "{{fromToken}} в {{toToken}}"
+        }
+      },
       "title": "Моя активность по набору очков",
       "error": {
         "title": "Невозможно загрузить активность очков",
