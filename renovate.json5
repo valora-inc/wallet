@@ -64,6 +64,8 @@
       // Group updates for @react-native-firebase packages
       matchPackagePatterns: ['^@react-native-firebase/'],
       groupName: 'react-native-firebase',
+      // TODO(ENG-105): enable once we have migrated away from react-native-sms-retriever
+      enabled: false,
     },
     {
       // Group updates for @segment packages
