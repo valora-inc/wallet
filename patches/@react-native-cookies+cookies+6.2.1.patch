@@ -1,0 +1,71 @@
+diff --git a/node_modules/@react-native-cookies/cookies/ios/PrivacyInfo.xcprivacy b/node_modules/@react-native-cookies/cookies/ios/PrivacyInfo.xcprivacy
+new file mode 100644
+index 0000000..6c7b849
+--- /dev/null
++++ b/node_modules/@react-native-cookies/cookies/ios/PrivacyInfo.xcprivacy
+@@ -0,0 +1,32 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>NSPrivacyCollectedDataTypes</key>
++	<array>
++		<dict>
++			<key>NSPrivacyCollectedDataType</key>
++			<string>NSPrivacyCollectedDataTypeOtherDataTypes</string>
++			<key>NSPrivacyCollectedDataTypeLinked</key>
++			<false/>
++			<key>NSPrivacyCollectedDataTypeTracking</key>
++			<false/>
++			<key>NSPrivacyCollectedDataTypePurposes</key>
++			<array>
++				<string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>
++			</array>
++		</dict>
++	</array>
++	<key>NSPrivacyAccessedAPITypes</key>
++	<array>
++		<dict>
++			<key>NSPrivacyAccessedAPIType</key>
++			<string>NSPrivacyAccessedAPICategoryUserDefaults</string>
++			<key>NSPrivacyAccessedAPITypeReasons</key>
++			<array>
++				<string>CA92.1</string>
++			</array>
++		</dict>
++	</array>
++</dict>
++</plist>
+\ No newline at end of file
+diff --git a/node_modules/@react-native-cookies/cookies/ios/RNCookieManagerIOS.xcodeproj/project.pbxproj b/node_modules/@react-native-cookies/cookies/ios/RNCookieManagerIOS.xcodeproj/project.pbxproj
+index d93a306..facf90c 100644
+--- a/node_modules/@react-native-cookies/cookies/ios/RNCookieManagerIOS.xcodeproj/project.pbxproj
++++ b/node_modules/@react-native-cookies/cookies/ios/RNCookieManagerIOS.xcodeproj/project.pbxproj
+@@ -30,6 +30,7 @@
+ 		6CDA467A38779CEFE54AF652 /* Pods-RNCookieManagerIOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNCookieManagerIOS.debug.xcconfig"; path = "Target Support Files/Pods-RNCookieManagerIOS/Pods-RNCookieManagerIOS.debug.xcconfig"; sourceTree = "<group>"; };
+ 		7A3E91C9DB889DAEAB299FB5 /* Pods_RNCookieManagerIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RNCookieManagerIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+ 		AC0CCEFD0D5DDBC08A3F9FDB /* Pods-RNCookieManagerIOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNCookieManagerIOS.release.xcconfig"; path = "Target Support Files/Pods-RNCookieManagerIOS/Pods-RNCookieManagerIOS.release.xcconfig"; sourceTree = "<group>"; };
++		F29511B12BBF92D200DF6087 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };   
+ /* End PBXFileReference section */
+ 
+ /* Begin PBXFrameworksBuildPhase section */
+@@ -55,6 +56,7 @@
+ 		1BD725CD1CF7795C005DBD79 = {
+ 			isa = PBXGroup;
+ 			children = (
++				F29511B12BBF92D200DF6087 /* PrivacyInfo.xcprivacy */,
+ 				1BD725FF1CF77DD1005DBD79 /* RNCookieManagerIOS */,
+ 				1BD725DB1CF77A8B005DBD79 /* Products */,
+ 				71405C5FF90D2ACAB4F0366B /* Pods */,
+diff --git a/node_modules/@react-native-cookies/cookies/react-native-cookies.podspec b/node_modules/@react-native-cookies/cookies/react-native-cookies.podspec
+index ec1b754..d8954f3 100644
+--- a/node_modules/@react-native-cookies/cookies/react-native-cookies.podspec
++++ b/node_modules/@react-native-cookies/cookies/react-native-cookies.podspec
+@@ -15,4 +15,7 @@ Pod::Spec.new do |s|
+   s.preserve_paths      = "*.framework"
+   s.source_files        = "ios/**/*.{h,m}"
+   s.dependency "React-Core"
++  s.resource_bundles = {
++    'RNCookiePrivacyInfo' => ['ios/PrivacyInfo.xcprivacy'],
++  }
+ end
