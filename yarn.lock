@@ -1944,27 +1944,27 @@
   resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-5.5.3.tgz#18e3af6b8eae7984072bbeb0c0858474d7c4cefe"
   integrity sha512-R11tGE6yIFwqpaIqcfkcg7AICXzFg14+5h5v0TfF/9+RMDL6jhzCy/pxHVOfbALGdtVYdt6JdR21tuxEgl34dw==
 
-"@fiatconnect/fiatconnect-sdk@^0.5.36":
-  version "0.5.36"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.5.36.tgz#e7a3de4536f033767ad336ba482709a581577079"
-  integrity sha512-fWoY6quTOvy0V89+RvrDlSCGhrPg9Je3CJPvESdesf//xM5bu10rlFvin6RSUYmFj8WeLBudj12pBzHrsavbgQ==
+"@fiatconnect/fiatconnect-sdk@^0.5.37":
+  version "0.5.38"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.5.38.tgz#8306ddd3ace426a92c6eb3b79486b7c747ae29b3"
+  integrity sha512-lps+70pdnEwa/WxqKnJxXNoDgY1QDCRf4xXOljaKYurEVdkdoDGofHWrtqj/dto7pNv0JP0tlMdRnTVrzh/A6A==
   dependencies:
     "@badrap/result" "^0.2.13"
-    "@fiatconnect/fiatconnect-types" "^13.3.1"
+    "@fiatconnect/fiatconnect-types" "^13.3.2"
     cross-fetch "^4.0.0"
     ethers "^6.12.0"
     fetch-cookie "^3.0.1"
     siwe "^2.3.2"
     tough-cookie "^4.0.0"
     tslib "^2.6.2"
-    zod "^3.22.5"
+    zod "^3.23.0"
 
-"@fiatconnect/fiatconnect-types@^13.3.1":
-  version "13.3.1"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-13.3.1.tgz#7b5be0cbc89f8da776675022f91c991f798c4a16"
-  integrity sha512-8ORc5iSjHEULZAg0oeo1IlNlMU1dE//6SuI/WEMbiROJmP3/pwP7+nJXzYCMhVnPH1PxMAl7qXEEvEpPuE99qA==
+"@fiatconnect/fiatconnect-types@^13.3.2":
+  version "13.3.2"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-13.3.2.tgz#301334b9331db43ac8f79c4056c772c23a3f82ff"
+  integrity sha512-jIVvu/0O9RmXAtSMuBx/WHtzLYACawv8Z+KBVmkG/vQSsQeAPRBb0GeOhbM/XZeo78S6tlA7YdLxS3bYMTDnKw==
   dependencies:
-    zod "^3.22.5"
+    zod "^3.23.0"
 
 "@gorhom/bottom-sheet@^4.6.1":
   version "4.6.1"
@@ -19650,7 +19650,7 @@ zod@3.22.4:
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.4.tgz#f31c3a9386f61b1f228af56faa9255e845cf3fff"
   integrity sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==
 
-zod@^3.22.5:
-  version "3.23.3"
-  resolved "https://registry.yarnpkg.com/zod/-/zod-3.23.3.tgz#eeb068f83acb55310174673dee631dfa0be5510d"
-  integrity sha512-tPvq1B/2Yu/dh2uAIH2/BhUlUeLIUvAjr6dpL/75I0pCYefHgjhXk1o1Kob3kTU8C7yU1j396jFHlsVWFi9ogg==
+zod@^3.23.0:
+  version "3.23.4"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.23.4.tgz#c63805b2f39e10d4ab3d55eb3c8cdb472c79dfb1"
+  integrity sha512-/AtWOKbBgjzEYYQRNfoGKHObgfAZag6qUJX1VbHo2PRBgS+wfWagEY2mizjfyAPcGesrJOcx/wcl0L9WnVrHFw==
