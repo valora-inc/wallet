@@ -2,9 +2,9 @@ import { ALTERNATIVE_PIN, DEFAULT_PIN } from '../utils/consts'
 import { reloadReactNative } from '../utils/retries'
 import { enterPinUi, navigateToSettings, sleep, waitForElementId } from '../utils/utils'
 
-export default ChangePIN = (navType) => () => {
+export default ChangePIN = () => {
   it('Then should be retain changed PIN', async () => {
-    await navigateToSettings(navType)
+    await navigateToSettings()
     await waitForElementId('ChangePIN')
     await element(by.id('ChangePIN')).tap()
     // Existing PIN is needed first
@@ -31,7 +31,7 @@ export default ChangePIN = (navType) => () => {
 
     // Reload app and navigate to change pin
     await reloadReactNative()
-    await navigateToSettings(navType)
+    await navigateToSettings()
     await element(by.id('ChangePIN')).tap()
     // Now try to change it again and enter the old PIN
     await sleep(500)

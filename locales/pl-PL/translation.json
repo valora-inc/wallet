@@ -2260,6 +2260,16 @@
     "title": "Punkty Valora",
     "activity": "Operacje",
     "history": {
+      "cards": {
+        "createWallet": {
+          "title": "Uchwyt na portfel",
+          "subtitle": "Członek {{appName}}"
+        },
+        "swap": {
+          "title": "Zamieniaj",
+          "subtitle": "{{fromToken}} do {{toToken}}"
+        }
+      },
       "title": "Moja aktywność punktowa",
       "error": {
         "title": "Nie można załadować aktywności punktów",

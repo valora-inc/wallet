@@ -14,7 +14,7 @@ import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { updateTransactions } from 'src/transactions/actions'
 import { transactionHashesByNetworkIdSelector } from 'src/transactions/reducer'
-import { NetworkId, TokenTransaction, TransactionStatus } from 'src/transactions/types'
+import { NetworkId, TokenTransaction } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { gql } from 'src/utils/gql'
 import config from 'src/web3/networkConfig'
@@ -113,19 +113,14 @@ export function useFetchTransactions(): QueryHookResult {
     for (const [networkId, result] of Object.entries(results) as Array<
       [NetworkId, QueryResponse]
     >) {
-      const returnedTransactions = (result.data?.tokenTransactionsV3?.transactions ?? []).map(
-        (transaction) => ({
-          ...transaction,
-          status: TransactionStatus.Complete,
-        })
-      )
+      const returnedTransactions = result.data?.tokenTransactionsV3?.transactions ?? []
 
       const returnedPageInfo = result.data?.tokenTransactionsV3?.pageInfo ?? null
 
       // the initial feed fetch is from polling, exclude polled updates from that scenario
       const isPolledUpdate = isPollResult && fetchedResult.pageInfo[networkId] !== null
 
-      if (returnedTransactions?.length || returnedPageInfo?.hasNextPage) {
+      if (returnedTransactions.length || returnedPageInfo?.hasNextPage) {
         setFetchedResult((prev) => ({
           transactions: deduplicateTransactions(prev.transactions, returnedTransactions),
           // avoid updating pageInfo and hasReturnedTransactions for polled
@@ -399,6 +394,7 @@ export const TRANSACTIONS_QUERY = gql`
     type
     transactionHash
     timestamp
+    status
     block
     address
     metadata {
@@ -436,6 +432,7 @@ export const TRANSACTIONS_QUERY = gql`
     __typename
     type
     transactionHash
+    status
     timestamp
     block
     nfts {
@@ -466,6 +463,7 @@ export const TRANSACTIONS_QUERY = gql`
     __typename
     type
     transactionHash
+    status
     timestamp
     block
     metadata {
@@ -513,6 +511,7 @@ export const TRANSACTIONS_QUERY = gql`
     timestamp
     block
     transactionHash
+    status
     tokenId
     approvedAmount
     fees {

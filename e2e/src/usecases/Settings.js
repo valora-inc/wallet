@@ -3,20 +3,20 @@ import { reloadReactNative, launchApp } from '../utils/retries'
 import { navigateToSettings, scrollIntoView, sleep, waitForElementByIdAndTap } from '../utils/utils'
 const faker = require('@faker-js/faker')
 
-export default Settings = ({ navType }) => {
+export default Settings = () => {
   // TODO(ACT-1133): remove this launchApp as it is only needed to update
   // statsig gate overrides
   beforeAll(async () => {
     await launchApp({
       newInstance: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
-      launchArgs: { statsigGateOverrides: `use_tab_navigator=${navType === 'tab'}` },
+      launchArgs: { statsigGateOverrides: `use_tab_navigator=true` },
     })
   })
 
   beforeEach(async () => {
     await reloadReactNative()
-    await navigateToSettings(navType)
+    await navigateToSettings()
     await sleep(3000)
   })
 
@@ -32,7 +32,7 @@ export default Settings = ({ navType }) => {
       .toBeVisible()
       .withTimeout(1000 * 10)
     await dismissBanners()
-    await waitForElementByIdAndTap(navType === 'tab' ? 'BackChevron' : 'Hamburger')
+    await waitForElementByIdAndTap('BackChevron')
     // TODO replace this with an ID selector
     await expect(element(by.text(`${randomName}`))).toBeVisible()
   })

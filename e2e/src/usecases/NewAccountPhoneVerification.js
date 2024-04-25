@@ -24,6 +24,7 @@ export default NewAccountPhoneVerification = () => {
     await launchApp({
       delete: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
+      // TODO(ACT-1133): remove launchArgs
       launchArgs: { statsigGateOverrides: `use_tab_navigator=true` },
     })
 
@@ -66,6 +67,7 @@ export default NewAccountPhoneVerification = () => {
     // https://github.com/facebook/jest/issues/7245
     // https://github.com/facebook/jest/issues/11489
     // Either fix or move to nightly tests when present
+    // Also needs to be updated to work against tab navigation instead of drawer
     // jest.retryTimes(1)
     it.skip('Then should be able to verify phone number', async () => {
       // Get Date at start
@@ -189,7 +191,7 @@ export default NewAccountPhoneVerification = () => {
     await waitForElementId('HomeAction-Send')
 
     // Assert that 'Connect phone number' is present in settings
-    await navigateToSettings('tab')
+    await navigateToSettings()
     await waitFor(element(by.text('Connect phone number')))
       .toBeVisible()
       .withTimeout(10 * 1000)
