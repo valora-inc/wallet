@@ -273,7 +273,7 @@ function Setup() {
 
   const onPressLater = () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_progress_failed_later)
-    navigateHome()
+    navigate(Screens.Settings)
   }
 
   switch (keylessBackupStatus) {
