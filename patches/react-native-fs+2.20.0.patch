@@ -1,0 +1,52 @@
+diff --git a/node_modules/react-native-fs/PrivacyInfo.xcprivacy b/node_modules/react-native-fs/PrivacyInfo.xcprivacy
+new file mode 100644
+index 0000000..23f6d7f
+--- /dev/null
++++ b/node_modules/react-native-fs/PrivacyInfo.xcprivacy
+@@ -0,0 +1,26 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>NSPrivacyAccessedAPITypes</key>
++	<array>
++		<dict>
++			<key>NSPrivacyAccessedAPIType</key>
++			<string>NSPrivacyAccessedAPICategoryFileTimestamp</string>
++			<key>NSPrivacyAccessedAPITypeReasons</key>
++			<array>
++				<string>0A2A.1</string>
++			</array>
++		</dict>
++		<dict>
++			<key>NSPrivacyAccessedAPITypeReasons</key>
++			<array>
++				<string>85F4.1</string>
++				<string>E174.1</string>
++			</array>
++			<key>NSPrivacyAccessedAPIType</key>
++			<string>NSPrivacyAccessedAPICategoryDiskSpace</string>
++		</dict>
++	</array>
++</dict>
++</plist>
+diff --git a/node_modules/react-native-fs/RNFS.xcodeproj/project.pbxproj b/node_modules/react-native-fs/RNFS.xcodeproj/project.pbxproj
+index 879b4f4..d7b16cd 100644
+--- a/node_modules/react-native-fs/RNFS.xcodeproj/project.pbxproj
++++ b/node_modules/react-native-fs/RNFS.xcodeproj/project.pbxproj
+@@ -39,6 +39,7 @@
+ /* End PBXCopyFilesBuildPhase section */
+ 
+ /* Begin PBXFileReference section */
++		27C757452BD922EC00C48FEB /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+ 		6456441F1EB8DA9100672408 /* libRNFS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNFS.a; sourceTree = BUILT_PRODUCTS_DIR; };
+ 		8BB364CA1CDA130000435A01 /* Uploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Uploader.h; sourceTree = "<group>"; };
+ 		8BB364CB1CDA130000435A01 /* Uploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Uploader.m; sourceTree = "<group>"; };
+@@ -72,6 +73,7 @@
+ 		F12AFB921ADAF8F800E0535D = {
+ 			isa = PBXGroup;
+ 			children = (
++				27C757452BD922EC00C48FEB /* PrivacyInfo.xcprivacy */,
+ 				F1EB08B91AFD0E6A008F8F2B /* NSArray+Map.h */,
+ 				F1EB08BA1AFD0E6A008F8F2B /* NSArray+Map.m */,
+ 				F1E59BDD1ADD662800ACA28A /* RNFSManager.h */,
