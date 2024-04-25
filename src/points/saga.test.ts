@@ -44,8 +44,8 @@ jest.mock('src/utils/Logger')
 const MOCK_HISTORY_RESPONSE: GetHistoryResponse = {
   data: [
     {
-      activity: 'swap',
-      points: '20000000000000000',
+      activityId: 'swap',
+      pointsAmount: 20,
       createdAt: '2024-03-05T19:26:25.000Z',
       metadata: {
         to: 'celo-alfajores:native',
@@ -53,8 +53,18 @@ const MOCK_HISTORY_RESPONSE: GetHistoryResponse = {
       },
     },
     {
-      activity: 'swap',
-      points: '20000000000000000',
+      activityId: 'swap',
+      pointsAmount: 20,
+      createdAt: '2024-03-04T19:26:25.000Z',
+      metadata: {
+        to: 'celo-alfajores:0xe4d517785d091d3c54818832db6094bcc2744545',
+        from: 'celo-alfajores:native',
+      },
+    },
+    {
+      activityId: 'fake-activity' as any,
+      pointsAmount: 20,
+
       createdAt: '2024-03-04T19:26:25.000Z',
       metadata: {
         to: 'celo-alfajores:0xe4d517785d091d3c54818832db6094bcc2744545',
@@ -66,8 +76,11 @@ const MOCK_HISTORY_RESPONSE: GetHistoryResponse = {
   nextPageUrl: 'https://example.com/getHistory?pageSize=2&page=1',
 }
 
+// We'll only store history entries in Redux if they have known values for activityId
+const MOCK_SUPPORTED_HISTORY = MOCK_HISTORY_RESPONSE.data.slice(0, 2)
+
 const MOCK_POINTS_HISTORY: ClaimHistory[] = [
-  { activity: 'create-wallet', points: '10', createdAt: 'some time' },
+  { activityId: 'create-wallet', pointsAmount: 10, createdAt: 'some time' },
 ]
 
 const mockFetch = fetch as FetchMock
@@ -147,13 +160,13 @@ describe('getHistory', () => {
       .put(
         getHistorySucceeded({
           appendHistory: false,
-          newPointsHistory: MOCK_HISTORY_RESPONSE.data,
+          newPointsHistory: MOCK_SUPPORTED_HISTORY,
           nextPageUrl: MOCK_HISTORY_RESPONSE.nextPageUrl,
         })
       )
       .run()
 
-    expect(storeState.points.pointsHistory).toEqual(MOCK_HISTORY_RESPONSE.data)
+    expect(storeState.points.pointsHistory).toEqual(MOCK_SUPPORTED_HISTORY)
   })
   it('sets error state if error while fetching', async () => {
     const params = getHistoryStarted({
@@ -182,7 +195,7 @@ describe('getHistory', () => {
       .put(
         getHistorySucceeded({
           appendHistory: true,
-          newPointsHistory: MOCK_HISTORY_RESPONSE.data,
+          newPointsHistory: MOCK_SUPPORTED_HISTORY,
           nextPageUrl: MOCK_HISTORY_RESPONSE.nextPageUrl,
         })
       )
@@ -190,7 +203,7 @@ describe('getHistory', () => {
 
     expect(storeState.points.pointsHistory).toEqual([
       ...MOCK_POINTS_HISTORY,
-      ...MOCK_HISTORY_RESPONSE.data,
+      ...MOCK_SUPPORTED_HISTORY,
     ])
   })
 

@@ -17,20 +17,20 @@ export default RestoreAccountOnboarding = () => {
   beforeEach(async () => {
     await device.uninstallApp()
     await device.installApp()
+    await launchApp({
+      permissions: { notifications: 'YES', contacts: 'YES' },
+      // TODO(ACT-1133): remove launchArgs
+      launchArgs: { statsigGateOverrides: 'use_tab_navigator=true' },
+    })
   })
 
   it.each`
-    wordCount | phrase                        | walletAddress                     | navType
-    ${'12'}   | ${SAMPLE_BACKUP_KEY_12_WORDS} | ${SAMPLE_WALLET_ADDRESS_12_WORDS} | ${'tab'}
-    ${'24'}   | ${SAMPLE_BACKUP_KEY}          | ${SAMPLE_WALLET_ADDRESS}          | ${'drawer'}
+    wordCount | phrase                        | walletAddress
+    ${'12'}   | ${SAMPLE_BACKUP_KEY_12_WORDS} | ${SAMPLE_WALLET_ADDRESS_12_WORDS}
+    ${'24'}   | ${SAMPLE_BACKUP_KEY}          | ${SAMPLE_WALLET_ADDRESS}
   `(
-    'restores an existing wallet using a $wordCount word recovery phrase ($navType)',
-    async ({ phrase, walletAddress, navType }) => {
-      // TODO(ACT-1133): move this back to beforeEach
-      await launchApp({
-        permissions: { notifications: 'YES', contacts: 'YES' },
-        launchArgs: { statsigGateOverrides: `use_tab_navigator=${navType === 'tab'}` },
-      })
+    'restores an existing wallet using a $wordCount word recovery phrase',
+    async ({ phrase, walletAddress }) => {
       // choose restore flow
       await element(by.id('RestoreAccountButton')).tap()
 
@@ -76,7 +76,7 @@ export default RestoreAccountOnboarding = () => {
       await expect(element(by.id('HomeAction-Send'))).toBeVisible()
 
       // verify that the correct account was restored
-      await waitForElementByIdAndTap(navType === 'tab' ? 'WalletHome/AccountCircle' : 'Hamburger')
+      await waitForElementByIdAndTap('WalletHome/AccountCircle')
       await scrollIntoView('Account Address', 'SettingsScrollView')
 
       const addressString = '0x ' + getAddressChunks(walletAddress).join(' ')

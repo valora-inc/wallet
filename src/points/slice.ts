@@ -1,5 +1,5 @@
 import { PayloadAction, createAction, createSlice } from '@reduxjs/toolkit'
-import { ClaimHistory, PointsActivity, PointsEvent } from 'src/points/types'
+import { ClaimHistory, PointsActivityId, PointsEvent, isClaimActivityId } from 'src/points/types'
 import { REHYDRATE, RehydrateAction, getRehydratePayload } from 'src/redux/persist-helper'
 
 interface GetPointsHistorySucceededAction {
@@ -18,7 +18,7 @@ interface GetPointsHistoryErrorAction {
 
 export type PointsConfig = {
   activitiesById: {
-    [activityId in PointsActivity]?: {
+    [activityId in PointsActivityId]?: {
       pointsAmount: number
     }
   }
@@ -101,6 +101,7 @@ const slice = createSlice({
       ...state,
       ...getRehydratePayload(action, 'points'),
       pointsConfig: { activitiesById: {} }, // always reset pointsConfig on rehydrate to ensure it's up to date
+      pointsHistory: state.pointsHistory.filter((record) => isClaimActivityId(record.activityId)), // filter in case new app version removed support for an activityId
     }))
   },
 })

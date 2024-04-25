@@ -1,9 +1,9 @@
 import React from 'react'
+import ActivityCard from 'src/points/ActivityCard'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import LogoHeart from 'src/icons/LogoHeart'
-import ActivityCard from 'src/points/ActivityCard'
-import { BottomSheetParams, PointsMetadata, isPointsActivity } from 'src/points/types'
+import { BottomSheetParams, PointsMetadata, isPointsActivityId } from 'src/points/types'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -17,15 +17,15 @@ export default function ActivityCardSection({ onCardPress, pointsSections }: Pro
   const { t } = useTranslation()
 
   function makeSection(pointsMetadata: PointsMetadata, sectionIndex: number): React.ReactNode {
-    const points = pointsMetadata.points
+    const pointsAmount = pointsMetadata.pointsAmount
 
     const cards = pointsMetadata.activities
-      .filter((activity) => isPointsActivity(activity.name))
+      .filter((activity) => isPointsActivityId(activity.activityId))
       .map((activity) => (
         <ActivityCard
-          key={activity.name}
-          activity={activity.name}
-          points={points}
+          key={activity.activityId}
+          activityId={activity.activityId}
+          pointsAmount={pointsAmount}
           onPress={onCardPress}
         />
       ))
@@ -35,23 +35,27 @@ export default function ActivityCardSection({ onCardPress, pointsSections }: Pro
       cards.push(
         <ActivityCard
           key="more-coming"
-          activity="more-coming"
-          points={points}
+          activityId="more-coming"
+          pointsAmount={pointsAmount}
           onPress={onCardPress}
         />
       )
     }
 
     if (!cards.length) {
-      return <View key={points}></View>
+      return <View key={pointsAmount}></View>
     }
 
     return (
-      <View testID={`PointsActivitySection-${points}`} key={points} style={styles.pointsSection}>
+      <View
+        testID={`PointsActivitySection-${pointsAmount}`}
+        key={pointsAmount}
+        style={styles.pointsSection}
+      >
         <View style={styles.pointsSectionHeader}>
           <View style={styles.hr} />
           <View style={styles.pointsSectionHeaderAmountContainer}>
-            <Text style={styles.pointsSectionHeaderAmount}>{points}</Text>
+            <Text style={styles.pointsSectionHeaderAmount}>{pointsAmount}</Text>
             <LogoHeart size={16} />
           </View>
           <View style={styles.hr} />

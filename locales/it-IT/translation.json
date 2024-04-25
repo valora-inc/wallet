@@ -2256,6 +2256,16 @@
     "title": "Punti Valora",
     "activity": "Attività",
     "history": {
+      "cards": {
+        "createWallet": {
+          "title": "Portafoglio",
+          "subtitle": "Membro di {{appName}}"
+        },
+        "swap": {
+          "title": "Scambia",
+          "subtitle": "{{fromToken}} > {{toToken}}"
+        }
+      },
       "title": "La mia attività a punti",
       "error": {
         "title": "Impossibile caricare i punti attività",
