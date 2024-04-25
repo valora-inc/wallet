@@ -2,7 +2,7 @@ import { act, render } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import WalletHome from 'src/home/WalletHome'
+import TabHome from 'src/home/TabHome'
 import { Actions as IdentityActions } from 'src/identity/actions'
 import { RootState } from 'src/redux/reducers'
 import { getFeatureGate } from 'src/statsig'
@@ -76,7 +76,7 @@ jest.mock('src/fiatExchanges/utils', () => ({
   fetchProviders: jest.fn(),
 }))
 
-describe('WalletHome', () => {
+describe('TabHome', () => {
   const mockFetch = fetch as FetchMock
 
   beforeEach(() => {
@@ -101,7 +101,7 @@ describe('WalletHome', () => {
 
     const tree = render(
       <Provider store={store}>
-        <MockedNavigator component={WalletHome} params={screenParams} />
+        <MockedNavigator component={TabHome} params={screenParams} />
       </Provider>
     )
 

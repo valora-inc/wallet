@@ -35,7 +35,7 @@ const HEADER_OPACITY_ANIMATION_START_OFFSET = 44
 // distance in points over which the screen header opacity animation is applied
 const HEADER_OPACITY_ANIMATION_DISTANCE = 20
 
-function AssetsScreen({ navigation, route }: Props) {
+function TabWallet({ navigation, route }: Props) {
   const { t } = useTranslation()
 
   const activeTab = route.params?.activeAssetTab ?? AssetTabType.Tokens
@@ -195,7 +195,7 @@ function AssetsScreen({ navigation, route }: Props) {
   )
 }
 
-AssetsScreen.navigationOptions = {
+TabWallet.navigationOptions = {
   ...headerWithBackButton,
 }
 
@@ -224,4 +224,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default AssetsScreen
+export default TabWallet

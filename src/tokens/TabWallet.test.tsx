@@ -5,7 +5,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
-import AssetsScreen from 'src/tokens/Assets'
+import TabWallet from 'src/tokens/TabWallet'
 import { NetworkId } from 'src/transactions/types'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
@@ -99,7 +99,7 @@ const storeWithNfts = {
   },
 }
 
-describe('AssetsScreen', () => {
+describe('TabWallet', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.mocked(getFeatureGate).mockRestore()
@@ -112,7 +112,7 @@ describe('AssetsScreen', () => {
     const { getByTestId, getAllByTestId, queryAllByTestId, getByText, queryByText, queryByTestId } =
       render(
         <Provider store={store}>
-          <MockedNavigator component={AssetsScreen} />
+          <MockedNavigator component={TabWallet} />
         </Provider>
       )
 
@@ -136,7 +136,7 @@ describe('AssetsScreen', () => {
 
     const { getByTestId, getAllByTestId, queryAllByTestId, getByText, queryByText } = render(
       <Provider store={store}>
-        <MockedNavigator component={AssetsScreen} />
+        <MockedNavigator component={TabWallet} />
       </Provider>
     )
 
@@ -161,7 +161,7 @@ describe('AssetsScreen', () => {
     const { getByTestId, getAllByTestId, queryAllByTestId, getByText, queryByTestId, queryByText } =
       render(
         <Provider store={store}>
-          <MockedNavigator component={AssetsScreen} />
+          <MockedNavigator component={TabWallet} />
         </Provider>
       )
 
@@ -184,7 +184,7 @@ describe('AssetsScreen', () => {
 
     const { getAllByTestId, queryAllByTestId, getByText } = render(
       <Provider store={store}>
-        <MockedNavigator component={AssetsScreen} />
+        <MockedNavigator component={TabWallet} />
       </Provider>
     )
 
@@ -205,7 +205,7 @@ describe('AssetsScreen', () => {
 
     const { getAllByTestId, queryAllByTestId, getByText } = render(
       <Provider store={store}>
-        <MockedNavigator component={AssetsScreen} />
+        <MockedNavigator component={TabWallet} />
       </Provider>
     )
 
@@ -231,7 +231,7 @@ describe('AssetsScreen', () => {
 
     const { queryByText } = render(
       <Provider store={store}>
-        <MockedNavigator component={AssetsScreen} />
+        <MockedNavigator component={TabWallet} />
       </Provider>
     )
 
@@ -244,7 +244,7 @@ describe('AssetsScreen', () => {
 
     const { queryByText } = render(
       <Provider store={store}>
-        <MockedNavigator component={AssetsScreen} />
+        <MockedNavigator component={TabWallet} />
       </Provider>
     )
 
@@ -257,7 +257,7 @@ describe('AssetsScreen', () => {
 
     const { getByText, queryByText } = render(
       <Provider store={store}>
-        <MockedNavigator component={AssetsScreen} />
+        <MockedNavigator component={TabWallet} />
       </Provider>
     )
 
@@ -276,7 +276,7 @@ describe('AssetsScreen', () => {
 
     const { getByText } = render(
       <Provider store={store}>
-        <MockedNavigator component={AssetsScreen} />
+        <MockedNavigator component={TabWallet} />
       </Provider>
     )
 
