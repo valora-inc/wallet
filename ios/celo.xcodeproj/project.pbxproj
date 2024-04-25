@@ -23,6 +23,8 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		27DBFF6B2BDA6EED00863BC5 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 27DBFF6A2BDA6EED00863BC5 /* PrivacyInfo.xcprivacy */; };
+		27DBFF6C2BDA6EED00863BC5 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 27DBFF6A2BDA6EED00863BC5 /* PrivacyInfo.xcprivacy */; };
 		2CE54C7D16D44C5380C53609 /* Hind-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A100BC162FF5410CB4627D3C /* Hind-Regular.ttf */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -108,6 +110,7 @@
 		27A21C992796DA560008F219 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		27A21C9A2796DA620008F219 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		27A21C9D2796DA920008F219 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		27DBFF6A2BDA6EED00863BC5 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		2B11FD0527A58E309137144D /* Pods_NotificationService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NotificationService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E47B1E0B4A5D006451C7 /* celo-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "celo-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* celo-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "celo-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -258,6 +261,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				27DBFF6A2BDA6EED00863BC5 /* PrivacyInfo.xcprivacy */,
 				E4F98D8B2ABA81A300BFC13B /* Inter-Bold.ttf */,
 				6844FCD42570513C0057A74F /* QBImagePicker.storyboard */,
 				13B07FAE1A68108700A75B9A /* celo */,
@@ -495,6 +499,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27DBFF6C2BDA6EED00863BC5 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -508,6 +513,7 @@
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				0FC6C310256FEF2700C35F47 /* InfoPlist.strings in Resources */,
 				0445977E03C74B20A93158B5 /* Hind-Bold.ttf in Resources */,
+				27DBFF6B2BDA6EED00863BC5 /* PrivacyInfo.xcprivacy in Resources */,
 				E4F98D8C2ABA81A300BFC13B /* Inter-Bold.ttf in Resources */,
 				0350D7F2EBD64D0585FEF0AF /* Hind-Light.ttf in Resources */,
 				0317E786245B696200AAAC2E /* Inter-Regular.ttf in Resources */,
