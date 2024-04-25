@@ -231,12 +231,12 @@ PODS:
   - GoogleUtilities/UserDefaults (7.13.0):
     - GoogleUtilities/Logger
     - GoogleUtilities/Privacy
-  - GTMSessionFetcher/Core (3.1.1)
+  - GTMSessionFetcher/Core (3.4.1)
   - hermes-engine (0.71.17):
     - hermes-engine/Pre-built (= 0.71.17)
   - hermes-engine/Pre-built (0.71.17)
   - JWTDecode (3.0.1)
-  - leveldb-library (1.22.2)
+  - leveldb-library (1.22.4)
   - libevent (2.1.12)
   - libwebp (1.3.2):
     - libwebp/demux (= 1.3.2)
@@ -254,16 +254,16 @@ PODS:
   - lottie-react-native (6.7.2):
     - lottie-ios (= 4.4.1)
     - React-Core
-  - nanopb (2.30909.0):
-    - nanopb/decode (= 2.30909.0)
-    - nanopb/encode (= 2.30909.0)
-  - nanopb/decode (2.30909.0)
-  - nanopb/encode (2.30909.0)
+  - nanopb (2.30910.0):
+    - nanopb/decode (= 2.30910.0)
+    - nanopb/encode (= 2.30910.0)
+  - nanopb/decode (2.30910.0)
+  - nanopb/encode (2.30910.0)
   - OpenSSL-Universal (1.1.1100)
   - PersonaInquirySDK2 (2.3.9)
-  - PromisesObjC (2.3.1)
-  - PromisesSwift (2.3.1):
-    - PromisesObjC (= 2.3.1)
+  - PromisesObjC (2.4.0)
+  - PromisesSwift (2.4.0):
+    - PromisesObjC (= 2.4.0)
   - RCT-Folly (2021.07.22.00):
     - boost
     - DoubleConversion
@@ -1179,19 +1179,19 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: 794d1d2f71fdf77a077a3986258a5c2dac0f9d48
   GoogleDataTransport: 6c09b596d841063d76d4288cc2d2f42cc36e1e2a
   GoogleUtilities: d053d902a8edaa9904e1bd00c37535385b8ed152
-  GTMSessionFetcher: e8647203b65cee28c5f73d0f473d096653945e72
+  GTMSessionFetcher: 8000756fc1c19d2e5697b90311f7832d2e33f6cd
   hermes-engine: 7d82f250301e83c48ec0857c6810283d787b61da
   JWTDecode: 2eed97c2fa46ccaf3049a787004eedf0be474a87
-  leveldb-library: f03246171cce0484482ec291f88b6d563699ee06
+  leveldb-library: 06a69cc7582d64b29424a63e085e683cc188230a
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   libwebp: 1786c9f4ff8a279e4dac1e8f385004d5fc253009
   lottie-ios: e047b1d2e6239b787cc5e9755b988869cf190494
   lottie-react-native: 17547b2f3c7034e2ae8672833fdb63262164d18a
-  nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
+  nanopb: 438bc412db1928dac798aa6fd75726007be04262
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   PersonaInquirySDK2: 8153173c5f6d4e964874c9f0d7b375652c9bb6f9
-  PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
-  PromisesSwift: 28dca69a9c40779916ac2d6985a0192a5cb4a265
+  PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
+  PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
   RCTRequired: 90f1bac0c9682cd0f725922a79fbc064836f06bb
   RCTTypeSafety: 14a5fd9ec04e2807eff1fcd22a293befd68de90f
