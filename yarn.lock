@@ -15375,7 +15375,7 @@ react-native-shake@^5.5.2:
   resolved "https://registry.yarnpkg.com/react-native-shake/-/react-native-shake-5.5.2.tgz#1e73cfb3dcefc9980f604d08a87cdc6ba3f3a479"
   integrity sha512-GWQc/2h33u3ma2bBUEFG4sEQXfSmu2azEF1bUaqu+d0TeAT3vvmxpw3u6k7Z9XiZk4uRJ+NCVifx4JTHF5n67g==
 
-react-native-share@^10.1.0:
+react-native-share@^10.2.0:
   version "10.2.0"
   resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-10.2.0.tgz#83a52911f9b47d1476f022ecdf0351dc0c863b5b"
   integrity sha512-dn6FNoEADHdeAkBihIN4ewyxc5PO0MmvFzaSsTsLCwOs7VrX8rBNbGDE5iMP3Anz+SY7YInW2UuxVttBzii6wg==
