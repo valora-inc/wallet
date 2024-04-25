@@ -7,6 +7,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { fetchNfts } from 'src/nfts/slice'
 import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import AssetList from 'src/tokens/AssetList'
 import { AssetTabType } from 'src/tokens/types'
 import { NetworkId } from 'src/transactions/types'
@@ -254,9 +255,15 @@ describe('AssetList', () => {
   })
 
   it.each([
-    { name: 'collections tab', tab: AssetTabType.Collectibles },
-    { name: 'positions tab', tab: AssetTabType.Positions },
-  ])('does not show import token on $name', ({ tab }) => {
+    { name: 'tokens tab when import gate is off', tab: AssetTabType.Tokens, gate: false },
+    { name: 'collections tab', tab: AssetTabType.Collectibles, gate: true },
+    { name: 'positions tab', tab: AssetTabType.Positions, gate: true },
+  ])('does not show import token on $name', ({ tab, gate }) => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation(
+        (featureGate) => featureGate === StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW && gate
+      )
     const store = createMockStore(storeWithAssets)
 
     const { queryByTestId } = render(
