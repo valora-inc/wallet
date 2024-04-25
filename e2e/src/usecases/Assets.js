@@ -159,7 +159,7 @@ export default Assets = () => {
 
       if (learnMore) {
         it('learn more navigates to coingecko page', async () => {
-          await scrollIntoView('Learn more about', 'SettingsScrollView')
+          await scrollIntoView('Learn more about', 'TokenDetailsScrollView')
           await waitForElementByIdAndTap('TokenDetails/LearnMore')
           await waitForElementId('RNWebView')
           await waitFor(element(by.text('www.coingecko.com')))
