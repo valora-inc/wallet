@@ -31,7 +31,10 @@ jest.mock('src/statsig', () => ({
   })),
 }))
 
-const mockTransaction = (transactionHash: string): TokenTransaction => {
+const mockTransaction = (
+  transactionHash: string,
+  status = TransactionStatus.Complete
+): TokenTransaction => {
   return {
     __typename: 'TokenTransferV3',
     networkId: NetworkId['celo-alfajores'],
@@ -47,7 +50,7 @@ const mockTransaction = (transactionHash: string): TokenTransaction => {
     timestamp: 1542306118,
     transactionHash,
     type: TokenTransactionTypeV2.Received,
-    status: TransactionStatus.Complete,
+    status,
   }
 }
 
@@ -143,6 +146,25 @@ const MOCK_RESPONSE_MANY_ITEMS: QueryResponse = {
         hasPreviousPage: false,
       },
       transactions: [...Array(10).keys()].map((id) => mockTransaction(id.toString())),
+    },
+  },
+}
+
+const MOCK_RESPONSE_FAILED_TRANSACTION: QueryResponse = {
+  data: {
+    tokenTransactionsV3: {
+      pageInfo: {
+        startCursor: 'YXJyYXljb25uZWN0aW9uOjA=',
+        endCursor: END_CURSOR,
+        hasNextPage: false,
+        hasPreviousPage: false,
+      },
+      transactions: [
+        mockTransaction(
+          '0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b',
+          TransactionStatus.Failed
+        ),
+      ],
     },
   },
 }
@@ -305,6 +327,26 @@ describe('TransactionFeed', () => {
       node.children.some((ch) => ch === STAND_BY_TRANSACTION_SUBTITLE_KEY)
     )
     expect(pendingSubtitles.length).toBe(1)
+  })
+
+  it('renders correct status for a complete transaction', async () => {
+    mockFetch.mockResponse(JSON.stringify(MOCK_RESPONSE))
+
+    const { getByTestId, getByText } = renderScreen({})
+
+    await waitFor(() => getByTestId('TransactionList'))
+
+    expect(getByText('feedItemReceivedInfo, {"context":"noComment"}')).toBeTruthy()
+  })
+
+  it('renders correct status for a failed transaction', async () => {
+    mockFetch.mockResponse(JSON.stringify(MOCK_RESPONSE_FAILED_TRANSACTION))
+
+    const { getByTestId, getByText } = renderScreen({})
+
+    await waitFor(() => getByTestId('TransactionList'))
+
+    expect(getByText('feedItemFailedTransaction')).toBeTruthy()
   })
 
   it('tries to fetch 10 transactions, unless the end is reached', async () => {
