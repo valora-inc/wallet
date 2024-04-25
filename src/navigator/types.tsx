@@ -51,11 +51,7 @@ interface ValidateRecipientParams {
 }
 
 export type StackParamList = {
-  [Screens.BackupComplete]:
-    | undefined
-    | {
-        settingsScreen: Screens.Settings | undefined
-      }
+  [Screens.BackupComplete]: { isAccountRemoval?: boolean } | undefined
   [Screens.BackupIntroduction]: {} | undefined
   [Screens.AccountKeyEducation]:
     | undefined
@@ -63,16 +59,8 @@ export type StackParamList = {
         nextScreen: keyof StackParamList
       }
   [Screens.AccounSetupFailureScreen]: undefined
-  [Screens.BackupPhrase]:
-    | undefined
-    | {
-        settingsScreen: Screens.Settings | undefined
-      }
-  [Screens.BackupQuiz]:
-    | undefined
-    | {
-        settingsScreen: Screens.Settings | undefined
-      }
+  [Screens.BackupPhrase]: { isAccountRemoval?: boolean } | undefined
+  [Screens.BackupQuiz]: { isAccountRemoval?: boolean } | undefined
   [Screens.FiatDetailsScreen]: {
     quote: FiatConnectQuote
     flow: CICOFlow
