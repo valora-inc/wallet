@@ -247,6 +247,7 @@ describe('ValoraAnalytics', () => {
     // Now that init has finished track should have been called
     expect(mockSegmentClient.track).toHaveBeenCalledTimes(1)
     expect(mockSegmentClient.track).toHaveBeenCalledWith(OnboardingEvents.pin_invalid, {
+      ...defaultProperties,
       error: 'some error',
     })
 
