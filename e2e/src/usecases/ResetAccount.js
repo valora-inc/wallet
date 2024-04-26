@@ -1,18 +1,8 @@
 import { SAMPLE_BACKUP_KEY } from '../utils/consts'
-import { reloadReactNative, launchApp } from '../utils/retries'
+import { reloadReactNative } from '../utils/retries'
 import { enterPinUiIfNecessary, navigateToSettings, waitForElementId } from '../utils/utils'
 
 export default ResetAccount = () => {
-  // TODO(ACT-1133): remove this launchApp as it is only needed to update
-  // statsig gate overrides
-  beforeAll(async () => {
-    await launchApp({
-      newInstance: true,
-      permissions: { notifications: 'YES', contacts: 'YES' },
-      launchArgs: { statsigGateOverrides: 'use_tab_navigator=true' },
-    })
-  })
-
   beforeEach(async () => {
     await reloadReactNative()
   })
