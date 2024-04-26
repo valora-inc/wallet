@@ -36,7 +36,7 @@ function Tick({ startValue, endValue, textHeight, textStyles }: TickProps) {
 
   Animated.timing(animatedValue, {
     toValue: endValue * textHeight * -1,
-    duration: 1000,
+    duration: 1300,
     useNativeDriver: true,
   }).start()
 
