@@ -262,8 +262,6 @@ PODS:
   - OpenSSL-Universal (1.1.1100)
   - PersonaInquirySDK2 (2.3.9)
   - PromisesObjC (2.3.1)
-  - PromisesSwift (2.3.1):
-    - PromisesObjC (= 2.3.1)
   - RCT-Folly (2021.07.22.00):
     - boost
     - DoubleConversion
@@ -562,14 +560,10 @@ PODS:
     - Toast (~> 4.0.0)
   - react-native-splash-screen (3.3.0):
     - React-Core
-  - react-native-video (6.0.0-beta.8):
+  - react-native-video (6.0.0-rc.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-    - react-native-video/Video (= 6.0.0-beta.8)
-  - react-native-video/Video (6.0.0-beta.8):
-    - PromisesSwift
-    - RCT-Folly (= 2021.07.22.00)
-    - React-Core
+    - react-native-video/Video (= 6.0.0-rc.0)
   - react-native-webview (13.8.6):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
@@ -950,7 +944,6 @@ SPEC REPOS:
     - OpenSSL-Universal
     - PersonaInquirySDK2
     - PromisesObjC
-    - PromisesSwift
     - RecaptchaInterop
     - SDWebImage
     - SDWebImageWebPCoder
@@ -1191,7 +1184,6 @@ SPEC CHECKSUMS:
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   PersonaInquirySDK2: 8153173c5f6d4e964874c9f0d7b375652c9bb6f9
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
-  PromisesSwift: 28dca69a9c40779916ac2d6985a0192a5cb4a265
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
   RCTRequired: 90f1bac0c9682cd0f725922a79fbc064836f06bb
   RCTTypeSafety: 14a5fd9ec04e2807eff1fcd22a293befd68de90f
@@ -1223,7 +1215,7 @@ SPEC CHECKSUMS:
   react-native-shake: 8036ba95a1953c9b10821bdc33f5814c5d0bcef6
   react-native-simple-toast: 8ee5d23f0b92b935ab7434cdb65159ce12dfb4b7
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
-  react-native-video: 3a27f78ff6552027d9b6f1985e2f4dfca39c76f1
+  react-native-video: e820b3ba1ad07e5b2bae137aa92966ea26086d21
   react-native-webview: a987704e6cd3f5a21d372ef316e43f7b442d59ca
   React-perflogger: 2588b59d386dbbc1df392da9493a8baa690bc89c
   React-RCTActionSheet: 057d6c6fc29e2a6d183d323ef35d9f6aedae936b
