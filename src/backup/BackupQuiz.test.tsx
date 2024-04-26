@@ -45,23 +45,20 @@ describe('BackupQuiz', () => {
     expect(getByText('cancelDialog.body')).toBeTruthy()
   })
 
-  it.each([{ settingsScreen: Screens.SettingsDrawer }, { settingsScreen: Screens.Settings }])(
-    'Cancel navigates correctly (settingsScreen: $settingsScreen)',
-    (routeParams) => {
-      const { getByTestId } = render(
-        <Provider store={store}>
-          <MockedNavigator
-            component={BackupQuiz}
-            params={routeParams}
-            options={navOptionsForQuiz}
-          />
-        </Provider>
-      )
+  it('Cancel navigates correctly when settingsScreen is passed', () => {
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator
+          component={BackupQuiz}
+          params={{ settingsScreen: Screens.Settings }}
+          options={navOptionsForQuiz}
+        />
+      </Provider>
+    )
 
-      fireEvent.press(getByTestId('CancelButton'))
-      expect(navigate).toBeCalledWith(routeParams.settingsScreen)
-    }
-  )
+    fireEvent.press(getByTestId('CancelButton'))
+    expect(navigate).toBeCalledWith(Screens.Settings)
+  })
 
   describe('when word is pressed', () => {
     it('removes it from the options adds it to chosen words', async () => {

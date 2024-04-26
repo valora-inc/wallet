@@ -7,6 +7,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { fetchNfts } from 'src/nfts/slice'
 import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import AssetList from 'src/tokens/AssetList'
 import { AssetTabType } from 'src/tokens/types'
 import { NetworkId } from 'src/transactions/types'
@@ -236,17 +237,12 @@ describe('AssetList', () => {
     expect(store.getActions()).toEqual([fetchNfts()])
   })
 
-  it('shows import token on tokens tab on wallet tab screen when feature gate is on', () => {
+  it('shows import token on tokens tab on wallet tab screen', () => {
     const store = createMockStore(storeWithAssets)
 
     const { getByTestId } = render(
       <Provider store={store}>
-        <AssetList
-          activeTab={AssetTabType.Tokens}
-          listHeaderHeight={0}
-          handleScroll={jest.fn()}
-          isWalletTab={true}
-        />
+        <AssetList activeTab={AssetTabType.Tokens} listHeaderHeight={0} handleScroll={jest.fn()} />
       </Provider>
     )
 
@@ -259,42 +255,20 @@ describe('AssetList', () => {
   })
 
   it.each([
-    {
-      name: 'tokens tab on wallet tab when gate is off',
-      tab: AssetTabType.Tokens,
-      isWalletTab: true,
-      gate: false,
-    },
-    {
-      name: 'tokens tab on assets screen when gate is on',
-      tab: AssetTabType.Tokens,
-      isWalletTab: false,
-      gate: true,
-    },
-    {
-      name: 'collections tab on assets screen when gate is on',
-      tab: AssetTabType.Collectibles,
-      isWalletTab: true,
-      gate: true,
-    },
-    {
-      name: 'positions tab on assets screen when gate is on',
-      tab: AssetTabType.Positions,
-      isWalletTab: true,
-      gate: true,
-    },
-  ])('does not show import token on $name', ({ tab, isWalletTab, gate }) => {
-    jest.mocked(getFeatureGate).mockReturnValue(gate)
+    { name: 'tokens tab when import gate is off', tab: AssetTabType.Tokens, gate: false },
+    { name: 'collections tab', tab: AssetTabType.Collectibles, gate: true },
+    { name: 'positions tab', tab: AssetTabType.Positions, gate: true },
+  ])('does not show import token on $name', ({ tab, gate }) => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation(
+        (featureGate) => featureGate === StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW && gate
+      )
     const store = createMockStore(storeWithAssets)
 
     const { queryByTestId } = render(
       <Provider store={store}>
-        <AssetList
-          activeTab={tab}
-          listHeaderHeight={0}
-          handleScroll={jest.fn()}
-          isWalletTab={isWalletTab}
-        />
+        <AssetList activeTab={tab} listHeaderHeight={0} handleScroll={jest.fn()} />
       </Provider>
     )
 

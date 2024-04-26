@@ -9,11 +9,8 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { BtnTypes } from 'src/components/Button'
 import { celoEducation1, celoEducation2, celoEducation3, celoEducation4 } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
-import { navigateBack, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
+import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 
 export default function GoldEducation() {
   const { t } = useTranslation()
@@ -28,11 +25,7 @@ export default function GoldEducation() {
     if (isCeloEducationComplete) {
       navigateBack()
     } else {
-      getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)
-        ? navigateHome()
-        : navigateClearingStack(Screens.DrawerNavigator, {
-            initialScreen: Screens.ExchangeHomeScreen,
-          })
+      navigateHome()
       dispatch(setGoldEducationCompleted())
     }
   }

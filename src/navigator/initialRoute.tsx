@@ -45,10 +45,6 @@ export function getInitialRoute({
   ) {
     return Screens.MultichainBeta
   } else {
-    if (getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)) {
-      return Screens.TabNavigator
-    } else {
-      return Screens.DrawerNavigator
-    }
+    return Screens.TabNavigator
   }
 }

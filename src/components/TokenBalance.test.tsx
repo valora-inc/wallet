@@ -5,16 +5,11 @@ import { hideAlert } from 'src/alert/actions'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { toggleHideBalances } from 'src/app/actions'
-import {
-  AssetsTokenBalance,
-  FiatExchangeTokenBalance,
-  HomeTokenBalance,
-} from 'src/components/TokenBalance'
+import { AssetsTokenBalance, FiatExchangeTokenBalance } from 'src/components/TokenBalance'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { navigate, navigateClearingStack } from 'src/navigator/NavigationService'
+import { navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { createMockStore, getElementText } from 'test/utils'
@@ -169,7 +164,7 @@ describe('AssetsTokenBalance', () => {
 
     const tree = render(
       <Provider store={store}>
-        <AssetsTokenBalance showInfo={false} isWalletTab />
+        <AssetsTokenBalance showInfo={false} />
       </Provider>
     )
 
@@ -222,7 +217,7 @@ describe('AssetsTokenBalance', () => {
 
     render(
       <Provider store={store}>
-        <AssetsTokenBalance isWalletTab showInfo={false} />
+        <AssetsTokenBalance showInfo={false} />
       </Provider>
     )
 
@@ -246,25 +241,23 @@ describe('AssetsTokenBalance', () => {
   })
 
   it('should show info on tap', () => {
-    const { getByText, getByTestId, queryByText, queryByTestId } = render(
+    const { getByText, getByTestId, queryByText } = render(
       <Provider store={createMockStore()}>
-        <AssetsTokenBalance showInfo isWalletTab={false} />
+        <AssetsTokenBalance showInfo />
       </Provider>
     )
 
-    expect(getByText('totalAssets')).toBeTruthy()
     expect(getByTestId('TotalTokenBalance')).toHaveTextContent('₱55.74')
     expect(queryByText('totalAssetsInfo')).toBeFalsy()
-    expect(queryByTestId('EyeIcon')).toBeFalsy()
 
     fireEvent.press(getByTestId('AssetsTokenBalance/Info'))
     expect(getByText('totalAssetsInfo')).toBeTruthy()
   })
 
-  it('should show appropriate title on wallet tab', () => {
+  it('renders title, balance and eye icon', () => {
     const { getByText, getByTestId, queryByText } = render(
       <Provider store={createMockStore()}>
-        <AssetsTokenBalance showInfo={false} isWalletTab={true} />
+        <AssetsTokenBalance showInfo={false} />
       </Provider>
     )
 
@@ -279,7 +272,7 @@ describe('AssetsTokenBalance', () => {
 
     const tree = render(
       <Provider store={store}>
-        <AssetsTokenBalance showInfo={false} isWalletTab={true} />
+        <AssetsTokenBalance showInfo={false} />
       </Provider>
     )
 
@@ -296,7 +289,7 @@ describe('AssetsTokenBalance', () => {
 
     const tree = render(
       <Provider store={store}>
-        <AssetsTokenBalance showInfo={false} isWalletTab={true} />
+        <AssetsTokenBalance showInfo={false} />
       </Provider>
     )
 
@@ -389,330 +382,13 @@ describe('FiatExchangeTokenBalance', () => {
       initialScreen: Screens.TabWallet,
     })
   })
-})
-
-// Behavior specific to HomeTokenBalance
-describe('HomeTokenBalance', () => {
-  beforeEach(() => {
-    jest.clearAllMocks()
-    jest.mocked(getFeatureGate).mockReturnValue(true)
-  })
-
-  it('renders correctly with zero token balance and zero positions', () => {
-    const store = createMockStore({
-      ...defaultStore,
-      tokens: {
-        tokenBalances: {},
-      },
-      positions: {
-        positions: [],
-      },
-    })
-
-    const tree = render(
-      <Provider store={store}>
-        <HomeTokenBalance />
-      </Provider>
-    )
-
-    expect(tree.queryByTestId('ViewBalances')).toBeTruthy()
-    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('$0.00')
-  })
-
-  it('renders correctly with zero balance and some positions', () => {
-    const store = createMockStore({
-      ...defaultStore,
-      tokens: {
-        tokenBalances: {},
-      },
-    })
-
-    const tree = render(
-      <Provider store={store}>
-        <HomeTokenBalance />
-      </Provider>
-    )
-
-    expect(tree.queryByTestId('ViewBalances')).toBeTruthy()
-    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('$7.91')
-  })
-
-  it('renders correctly with one token balance and some positions', () => {
-    const store = createMockStore(defaultStore)
-
-    const tree = render(
-      <Provider store={store}>
-        <HomeTokenBalance />
-      </Provider>
-    )
-
-    expect(tree.queryByTestId('ViewBalances')).toBeTruthy()
-    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('$8.41')
-  })
-
-  it('renders correctly with one token balance and zero positions', () => {
-    const store = createMockStore({
-      ...defaultStore,
-      positions: {
-        positions: [],
-      },
-    })
-
-    const tree = render(
-      <Provider store={store}>
-        <HomeTokenBalance />
-      </Provider>
-    )
-
-    expect(tree.queryByTestId('ViewBalances')).toBeTruthy()
-    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('$0.50')
-  })
-
-  it('renders correctly when fetching the token balances failed and no positions', async () => {
-    const store = createMockStore({
-      tokens: {
-        tokenBalances: {},
-        error: true,
-      },
-      positions: {
-        positions: [],
-      },
-    })
-
-    const tree = render(
-      <Provider store={store}>
-        <HomeTokenBalance />
-      </Provider>
-    )
-
-    expect(tree.queryByTestId('ViewBalances')).toBeTruthy()
-    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱-')
-
-    expect(store.getActions()).toMatchInlineSnapshot(`
-      [
-        {
-          "action": {
-            "type": "HOME/REFRESH_BALANCES",
-          },
-          "alertType": "toast",
-          "buttonMessage": "outOfSyncBanner.button",
-          "dismissAfter": null,
-          "displayMethod": 0,
-          "message": "outOfSyncBanner.message",
-          "title": "outOfSyncBanner.title",
-          "type": "ALERT/SHOW",
-          "underlyingError": undefined,
-        },
-      ]
-    `)
-  })
-
-  it('renders correctly when fetching the token balances failed and some positions', async () => {
-    const store = createMockStore({
-      tokens: {
-        tokenBalances: {},
-        error: true,
-      },
-    })
-
-    const tree = render(
-      <Provider store={store}>
-        <HomeTokenBalance />
-      </Provider>
-    )
-
-    expect(tree.queryByTestId('ViewBalances')).toBeTruthy()
-    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱-')
-
-    expect(store.getActions()).toMatchInlineSnapshot(`
-      [
-        {
-          "action": {
-            "type": "HOME/REFRESH_BALANCES",
-          },
-          "alertType": "toast",
-          "buttonMessage": "outOfSyncBanner.button",
-          "dismissAfter": null,
-          "displayMethod": 0,
-          "message": "outOfSyncBanner.message",
-          "title": "outOfSyncBanner.title",
-          "type": "ALERT/SHOW",
-          "underlyingError": undefined,
-        },
-      ]
-    `)
-  })
-
-  it('renders correctly when fetching the local currency failed and no positions', async () => {
-    const store = createMockStore({
-      ...defaultStore,
-      localCurrency: {
-        error: true,
-        usdToLocalRate: null,
-      },
-      positions: {
-        positions: [],
-      },
-    })
-
-    const tree = render(
-      <Provider store={store}>
-        <HomeTokenBalance />
-      </Provider>
-    )
-
-    expect(tree.queryByTestId('ViewBalances')).toBeTruthy()
-    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱-')
-
-    expect(store.getActions()).toMatchInlineSnapshot(`
-      [
-        {
-          "action": {
-            "type": "HOME/REFRESH_BALANCES",
-          },
-          "alertType": "toast",
-          "buttonMessage": "outOfSyncBanner.button",
-          "dismissAfter": null,
-          "displayMethod": 0,
-          "message": "outOfSyncBanner.message",
-          "title": "outOfSyncBanner.title",
-          "type": "ALERT/SHOW",
-          "underlyingError": undefined,
-        },
-      ]
-    `)
-  })
-
-  it('renders correctly when fetching the local currency failed and some positions', async () => {
-    const store = createMockStore({
-      ...defaultStore,
-      localCurrency: {
-        error: true,
-        usdToLocalRate: null,
-      },
-    })
-
-    const tree = render(
-      <Provider store={store}>
-        <HomeTokenBalance />
-      </Provider>
-    )
-
-    expect(tree.queryByTestId('ViewBalances')).toBeTruthy()
-    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱-')
-
-    expect(store.getActions()).toMatchInlineSnapshot(`
-      [
-        {
-          "action": {
-            "type": "HOME/REFRESH_BALANCES",
-          },
-          "alertType": "toast",
-          "buttonMessage": "outOfSyncBanner.button",
-          "dismissAfter": null,
-          "displayMethod": 0,
-          "message": "outOfSyncBanner.message",
-          "title": "outOfSyncBanner.title",
-          "type": "ALERT/SHOW",
-          "underlyingError": undefined,
-        },
-      ]
-    `)
-  })
-
-  it('renders correctly when hideBalance is true', async () => {
-    const store = createMockStore({ ...defaultStore, app: { hideBalances: true } })
-
-    const tree = render(
-      <Provider store={store}>
-        <HomeTokenBalance />
-      </Provider>
-    )
-
-    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('XX.XX')
-    expect(tree.getByTestId('HiddenEyeIcon')).toBeTruthy()
-  })
-
-  it('renders correctly when hideBalance is false', async () => {
-    const store = createMockStore(defaultStore)
-
-    const tree = render(
-      <Provider store={store}>
-        <HomeTokenBalance />
-      </Provider>
-    )
-
-    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('$8.41')
-    expect(tree.getByTestId('EyeIcon')).toBeTruthy()
-  })
-
-  it('tracks analytics event when eye icon is pressed', async () => {
-    const store = createMockStore(defaultStore)
-
-    const tree = render(
-      <Provider store={store}>
-        <HomeTokenBalance />
-      </Provider>
-    )
-    fireEvent.press(tree.getByTestId('EyeIcon'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.hide_balances)
-  })
-})
-
-// Behavior that is common to both HomeTokenBalance and FiatExchangeTokenBalance
-describe.each([
-  { name: 'HomeTokenBalance', component: HomeTokenBalance },
-  { name: 'FiatExchangeTokenBalance', component: FiatExchangeTokenBalance },
-])('$name', ({ component: TokenBalanceComponent }) => {
-  beforeEach(() => {
-    jest.clearAllMocks()
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_POSITIONS)
-  })
-
-  it('renders correctly with multiple token balances and positions', async () => {
-    const store = createMockStore({
-      ...defaultStore,
-      ...multipleTokens,
-    })
-
-    const tree = render(
-      <Provider store={store}>
-        <TokenBalanceComponent />
-      </Provider>
-    )
-
-    expect(tree.queryByTestId('ViewBalances')).toBeTruthy()
-    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('$1,666.03')
-  })
-
-  it('navigates to Assets screen on View Balances tap', async () => {
-    // Tests use_tab_navigator=false case for FiatExchangeTokenBalance, true
-    // case is specific to FiatExchangeTokenBalance since HomeTokenBalance is
-    // never used in the tab navigator
-    const store = createMockStore({
-      ...defaultStore,
-      ...multipleTokens,
-    })
-
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <TokenBalanceComponent />
-      </Provider>
-    )
-
-    fireEvent.press(getByTestId('ViewBalances'))
-    expect(navigate).toHaveBeenCalledWith(Screens.Assets)
-  })
 
   it('renders correctly with stale token balance and some positions', async () => {
     const store = createMockStore(staleTokens)
 
     const tree = render(
       <Provider store={store}>
-        <TokenBalanceComponent />
+        <FiatExchangeTokenBalance />
       </Provider>
     )
 

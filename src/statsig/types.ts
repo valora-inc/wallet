@@ -29,7 +29,6 @@ export enum StatsigFeatureGates {
   SHOW_NFT_CELEBRATION = 'show_nft_celebration',
   SHOW_NFT_REWARD = 'show_nft_reward',
   SHOW_JUMPSTART_SEND = 'show_jumpstart_send',
-  USE_TAB_NAVIGATOR = 'use_tab_navigator',
   SHOW_POINTS = 'show_points',
 }
 

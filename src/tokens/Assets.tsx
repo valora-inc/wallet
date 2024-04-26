@@ -1,6 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import BigNumber from 'bignumber.js'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, StyleSheet, View } from 'react-native'
 import Animated, {
@@ -9,37 +8,26 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { AssetsTokenBalance } from 'src/components/TokenBalance'
-import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
-import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { headerWithBackButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
-import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import {
-  positionsSelector,
-  positionsWithClaimableRewardsSelector,
-  totalPositionsBalanceUsdSelector,
-} from 'src/positions/selectors'
+import { positionsSelector, positionsWithClaimableRewardsSelector } from 'src/positions/selectors'
 import { useSelector } from 'src/redux/hooks'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
-import { typeScale } from 'src/styles/fonts'
 import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
 import AssetList from 'src/tokens/AssetList'
 import AssetTabBar from 'src/tokens/AssetTabBar'
-import { useTokenPricesAreStale, useTotalTokenBalance } from 'src/tokens/hooks'
 import { AssetTabType } from 'src/tokens/types'
-import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 
-type Props = NativeStackScreenProps<StackParamList, Screens.Assets | Screens.TabWallet>
+type Props = NativeStackScreenProps<StackParamList, Screens.TabWallet>
 
 // offset relative to the bottom of the non sticky header component, where the
 // screen header opacity animation starts
@@ -51,17 +39,6 @@ function AssetsScreen({ navigation, route }: Props) {
   const { t } = useTranslation()
 
   const activeTab = route.params?.activeAssetTab ?? AssetTabType.Tokens
-  // NOTE: isWalletTab is a temporary parameter while we build the tab
-  // navigator, should be cleaned up when we remove the drawer
-  const isWalletTab = !!route.params?.isWalletTab
-
-  const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
-
-  const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const totalTokenBalanceLocal = useTotalTokenBalance() ?? new BigNumber(0)
-  const tokensAreStale = useTokenPricesAreStale(supportedNetworkIds)
-
-  const insets = useSafeAreaInsets()
 
   // TODO: Update this to filter out unsupported networks once positions support non-Celo chains
   const positions = useSelector(positionsSelector)
@@ -74,11 +51,6 @@ function AssetsScreen({ navigation, route }: Props) {
     dappShortcutsEnabled &&
     positionsWithClaimableRewards.length > 0 &&
     activeTab !== AssetTabType.Collectibles
-
-  // TODO(ACT-1095): Update these to filter out unsupported networks once positions support non-Celo chains
-  const totalPositionsBalanceUsd = useSelector(totalPositionsBalanceUsdSelector)
-  const totalPositionsBalanceLocal = useDollarsToLocalAmount(totalPositionsBalanceUsd)
-  const totalBalanceLocal = totalTokenBalanceLocal?.plus(totalPositionsBalanceLocal ?? 0)
 
   const [nonStickyHeaderHeight, setNonStickyHeaderHeight] = useState(0)
   const [listHeaderHeight, setListHeaderHeight] = useState(0)
@@ -154,34 +126,9 @@ function AssetsScreen({ navigation, route }: Props) {
     }
   }, [footerPosition.value])
 
-  useLayoutEffect(() => {
-    !isWalletTab &&
-      navigation.setOptions({
-        headerRight: () =>
-          getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW) && (
-            <TopBarTextButton
-              onPress={() => {
-                ValoraAnalytics.track(AssetsEvents.import_token_screen_open)
-                navigate(Screens.TokenImport)
-              }}
-              title={t('assets.importToken')}
-              style={styles.topBarTextButton}
-            />
-          ),
-      })
-  }, [navigation, isWalletTab])
-
   useScrollAwareHeader({
     navigation,
-    title: isWalletTab ? t('bottomTabsNavigator.wallet.title') : t('totalAssets'),
-    subtitle: isWalletTab
-      ? ''
-      : !tokensAreStale && totalBalanceLocal.gte(0)
-        ? t('totalBalanceWithLocalCurrencySymbol', {
-            localCurrencySymbol,
-            totalBalance: totalBalanceLocal.toFormat(2),
-          })
-        : `${localCurrencySymbol} -`,
+    title: t('bottomTabsNavigator.wallet.title'),
     scrollPosition,
     startFadeInPosition: nonStickyHeaderHeight - HEADER_OPACITY_ANIMATION_START_OFFSET,
     animationDistance: HEADER_OPACITY_ANIMATION_DISTANCE,
@@ -207,20 +154,14 @@ function AssetsScreen({ navigation, route }: Props) {
     // Transparency issue on Android present when a fragment is used - Nested Animated.View prevents it
     <Animated.View>
       <Animated.View
-        style={[
-          styles.listHeaderContainer,
-          animatedListHeaderStyles,
-          isWalletTab
-            ? { paddingHorizontal: Spacing.Regular16 }
-            : { paddingHorizontal: Spacing.Thick24, paddingTop: Spacing.Smallest8 },
-        ]}
+        style={[styles.listHeaderContainer, animatedListHeaderStyles]}
         onLayout={handleMeasureListHeaderHeight}
       >
         <View
           style={[styles.nonStickyHeaderContainer]}
           onLayout={handleMeasureNonStickyHeaderHeight}
         >
-          <AssetsTokenBalance showInfo={displayPositions} isWalletTab={isWalletTab} />
+          <AssetsTokenBalance showInfo={displayPositions} />
         </View>
         <AssetTabBar
           activeTab={activeTab}
@@ -233,21 +174,10 @@ function AssetsScreen({ navigation, route }: Props) {
         activeTab={activeTab}
         listHeaderHeight={listHeaderHeight}
         handleScroll={handleScroll}
-        isWalletTab={isWalletTab}
       />
       {showClaimRewards && (
         <Animated.View
-          style={[
-            styles.footerContainer,
-            {
-              // no need to use insets in wallet tab because the tab bar is
-              // below this
-              paddingBottom: isWalletTab
-                ? Spacing.Regular16
-                : Math.max(insets.bottom, Spacing.Regular16),
-            },
-            animatedFooterStyles,
-          ]}
+          style={[styles.footerContainer, animatedFooterStyles]}
           onLayout={handleMeasureListFooterHeight}
         >
           <Button
@@ -273,6 +203,7 @@ const styles = StyleSheet.create({
   listHeaderContainer: {
     ...getShadowStyle(Shadow.SoftLight),
     paddingBottom: Spacing.Regular16,
+    paddingHorizontal: Spacing.Regular16,
     backgroundColor: Colors.white,
     position: 'absolute',
     width: '100%',
@@ -289,11 +220,7 @@ const styles = StyleSheet.create({
     left: 10, // so the scroll bar is still visible
     right: 10,
     paddingHorizontal: Spacing.Thick24 - 10,
-    paddingTop: Spacing.Regular16,
-  },
-  topBarTextButton: {
-    ...typeScale.bodyMedium,
-    paddingRight: Spacing.Smallest8,
+    paddingVertical: Spacing.Regular16,
   },
 })
 

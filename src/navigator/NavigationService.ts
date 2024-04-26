@@ -20,8 +20,6 @@ import {
   requestPincodeInput,
 } from 'src/pincode/authentication'
 import { store } from 'src/redux/store'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import { isUserCancelledError } from 'src/storage/keychain'
 import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
@@ -225,9 +223,7 @@ export async function isBottomSheetVisible(screen: Screens) {
 export function navigateHome(fromModal?: boolean) {
   const timeout = fromModal && Platform.OS === 'ios' ? 500 : 0
   setTimeout(() => {
-    getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)
-      ? navigateClearingStack(Screens.TabNavigator, { initialScreen: Screens.TabHome })
-      : navigateClearingStack(Screens.DrawerNavigator, { initialScreen: Screens.WalletHome })
+    navigateClearingStack(Screens.TabNavigator, { initialScreen: Screens.TabHome })
   }, timeout)
 }
 
@@ -254,9 +250,7 @@ export function navigateHomeAndThenToScreen<RouteName extends keyof StackParamLi
         CommonActions.reset({
           index: 1,
           routes: [
-            getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)
-              ? { name: Screens.TabNavigator, params: { initialScreen: Screens.TabHome } }
-              : { name: Screens.DrawerNavigator, params: { initialScreen: Screens.WalletHome } },
+            { name: Screens.TabNavigator, params: { initialScreen: Screens.TabHome } },
             { name: routeName, params },
           ],
         })
