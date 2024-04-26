@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import { FinclusiveKycStatus } from 'src/account/reducer'
-import { migrations } from 'src/redux/migrations'
+import { exchangeInitialState, migrations } from 'src/redux/migrations'
 import {
   Network,
   NetworkId,
@@ -282,13 +282,7 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[12](stub)
     expect(migratedSchema.app).toEqual(appStub)
     expect(migratedSchema.exchange.otherExchangeProps).toEqual(exchangeStub)
-    expect(migratedSchema.exchange.history).toEqual({
-      celoGoldExchangeRates: [],
-      aggregatedExchangeRates: [],
-      granularity: 60,
-      range: 30 * 24 * 60 * 60 * 1000,
-      lastTimeUpdated: 0,
-    })
+    expect(migratedSchema.exchange.history).toEqual(exchangeInitialState.history)
   })
   it('works for v12 to v13', () => {
     const stub = {

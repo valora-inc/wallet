@@ -40,7 +40,7 @@ export function updateCachedQuoteParams(cachedQuoteParams: {
 
 const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY = 1000
 
-const exchangeInitialState = {
+export const exchangeInitialState = {
   history: {
     celoGoldExchangeRates: [],
     aggregatedExchangeRates: [],
