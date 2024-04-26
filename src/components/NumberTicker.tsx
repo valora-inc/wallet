@@ -2,29 +2,27 @@ import * as React from 'react'
 import { Animated, StyleProp, StyleSheet, Text, TextStyle, View } from 'react-native'
 import { typeScale } from 'src/styles/fonts'
 
-interface Props {
-  finalValue: string
+interface CommonProps {
   textHeight: number
   textStyles?: StyleProp<TextStyle>
+}
+interface Props extends CommonProps {
+  finalValue: string
   testID?: string
 }
 
-interface TickProps extends Omit<Props, 'finalValue'> {
+interface TickProps extends CommonProps {
   startValue: number
   endValue: number
 }
 
+interface TickTextProps extends CommonProps {
+  value: string
+}
+
 const numberRange = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
-function TickText({
-  value,
-  textHeight,
-  textStyles,
-}: {
-  value: string
-  textHeight: number
-  textStyles?: StyleProp<TextStyle>
-}) {
+function TickText({ value, textHeight, textStyles }: TickTextProps) {
   return (
     <View style={[styles.tickText, { height: textHeight }]}>
       <Text style={[styles.text, textStyles]}>{value}</Text>
