@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform } from 'react-native'
-import Education, { EducationTopic, EmbeddedNavBar } from 'src/account/Education'
+import Education, { EducationTopic } from 'src/account/Education'
 import { setGoldEducationCompleted } from 'src/account/actions'
 import { celoEducationCompletedSelector } from 'src/account/selectors'
 import { OnboardingEvents } from 'src/analytics/Events'
@@ -38,7 +38,6 @@ export default function GoldEducation() {
 
   return (
     <Education
-      embeddedNavBar={EmbeddedNavBar.Close}
       stepInfo={stepInfo}
       onFinish={onFinish}
       finalButtonType={BtnTypes.PRIMARY}

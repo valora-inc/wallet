@@ -154,14 +154,8 @@ interface AppEventsProperties {
 }
 
 interface HomeEventsProperties {
-  [HomeEvents.hamburger_tapped]: undefined
   [HomeEvents.account_circle_tapped]: undefined
-  [HomeEvents.drawer_navigation]: {
-    navigateTo: string
-  }
-  [HomeEvents.drawer_address_copy]: undefined
   [HomeEvents.profile_address_copy]: undefined
-
   [HomeEvents.notification_scroll]: {
     // TODO: Pass in notificationType and make param required
     notificationType?: NotificationType
@@ -295,14 +289,6 @@ interface KeylessBackupEventsProperties {
 }
 
 interface OnboardingEventsProperties {
-  [OnboardingEvents.onboarding_education_scroll]: {
-    currentStep: number
-    direction: ScrollDirection
-  }
-  [OnboardingEvents.onboarding_education_step_impression]: {
-    step: number
-  }
-
   [OnboardingEvents.create_account_start]: undefined
 
   [OnboardingEvents.restore_account_start]: undefined
