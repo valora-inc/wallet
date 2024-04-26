@@ -63,6 +63,17 @@ exports[`Debug renders correctly 1`] = `
     Address: 0x0000000000000000000000000000000000007e57
   </Text>
   <Text
+    onPress={[Function]}
+    style={
+      {
+        "fontSize": 11,
+        "marginTop": 5,
+      }
+    }
+  >
+    Statsig Stable ID: stableId
+  </Text>
+  <Text
     style={
       {
         "fontSize": 11,
