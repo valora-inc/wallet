@@ -305,9 +305,7 @@ export const Account = ({ navigation, route }: Props) => {
       const pinIsCorrect = await ensurePincode()
       if (pinIsCorrect) {
         ValoraAnalytics.track(SettingsEvents.start_account_removal)
-        navigate(Screens.BackupPhrase, {
-          settingsScreen: Screens.Settings,
-        })
+        navigate(Screens.BackupPhrase, { isAccountRemoval: true })
       }
     } catch (error) {
       Logger.error('SettingsItem@onPress', 'PIN ensure error', error)
