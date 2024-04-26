@@ -5,7 +5,12 @@ export default ChooseYourAdventure = () => {
   beforeEach(async () => {
     await device.uninstallApp()
     await device.installApp()
-    await launchApp()
+    await launchApp({
+      newInstance: true,
+      launchArgs: {
+        statsigGateOverrides: `show_cloud_account_backup_setup=true,show_cloud_account_backup_restore=true`,
+      },
+    })
     await quickOnboarding({ stopOnCYA: true, cloudBackupEnabled: true })
   })
 
