@@ -13,7 +13,6 @@ import {
   navigatorIsReadyRef,
 } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getFeatureGate } from 'src/statsig'
 
 const Stack = createNativeStackNavigator()
 
@@ -27,11 +26,7 @@ const TestScreen = ({ route }: NativeStackScreenProps<ParamListBase>) => (
   </View>
 )
 
-const MockedNavigator = ({
-  initialRoute,
-}: {
-  initialRoute: Screens.DrawerNavigator | Screens.TabNavigator
-}) => {
+const MockedNavigator = () => {
   return (
     <NavigationContainer
       ref={navigationRef}
@@ -39,8 +34,7 @@ const MockedNavigator = ({
         navigatorIsReadyRef.current = true
       }}
     >
-      <Stack.Navigator initialRouteName={initialRoute}>
-        <Stack.Screen name={Screens.DrawerNavigator} component={TestScreen} />
+      <Stack.Navigator initialRouteName={Screens.TabNavigator}>
         <Stack.Screen name={Screens.TabNavigator} component={TestScreen} />
         <Stack.Screen name={Screens.Profile} component={TestScreen} />
         <Stack.Screen name={Screens.WithdrawSpend} component={TestScreen} />
@@ -53,48 +47,40 @@ jest.unmock('src/navigator/NavigationService')
 jest.unmock('@react-navigation/native')
 jest.mock('src/statsig')
 
-describe.each([{ useTabNavigator: true }, { useTabNavigator: false }])(
-  'NavigationService (tabs: $useTabNavigator)',
-  ({ useTabNavigator }) => {
-    const homeScreen = useTabNavigator ? Screens.TabNavigator : Screens.DrawerNavigator
-    beforeEach(() => {
-      jest.mocked(getFeatureGate).mockReturnValue(useTabNavigator)
-    })
+describe('NavigationService', () => {
+  it('navigate and navigateHome works correctly', async () => {
+    const { getByText } = render(<MockedNavigator />)
+    fireEvent.press(getByText('Go to Withdraw Spend'))
+    await waitFor(() => expect(getByText('Screen WithdrawSpend')).toBeTruthy())
+    fireEvent.press(getByText('Go To Home'))
+    await waitFor(() => expect(getByText('Screen TabNavigator')).toBeTruthy())
+  })
 
-    it('navigate and navigateHome works correctly', async () => {
-      const { getByText } = render(<MockedNavigator initialRoute={homeScreen} />)
-      fireEvent.press(getByText('Go to Withdraw Spend'))
-      await waitFor(() => expect(getByText('Screen WithdrawSpend')).toBeTruthy())
-      fireEvent.press(getByText('Go To Home'))
-      await waitFor(() => expect(getByText(`Screen ${homeScreen}`)).toBeTruthy())
-    })
+  it('navigateBack works correctly', async () => {
+    const { getByText } = render(<MockedNavigator />)
+    // 2 screens on stack
+    fireEvent.press(getByText('Go to Withdraw Spend'))
+    await waitFor(() => expect(getByText('Screen WithdrawSpend')).toBeTruthy())
+    fireEvent.press(getByText('Back'))
+    await waitFor(() => expect(getByText('Screen TabNavigator')).toBeTruthy())
 
-    it('navigateBack works correctly', async () => {
-      const { getByText } = render(<MockedNavigator initialRoute={homeScreen} />)
-      // 2 screens on stack
-      fireEvent.press(getByText('Go to Withdraw Spend'))
-      await waitFor(() => expect(getByText('Screen WithdrawSpend')).toBeTruthy())
-      fireEvent.press(getByText('Back'))
-      await waitFor(() => expect(getByText(`Screen ${homeScreen}`)).toBeTruthy())
+    // 3 screens on stack
+    fireEvent.press(getByText('Go to Profile'))
+    await waitFor(() => expect(getByText('Screen Profile')).toBeTruthy())
+    fireEvent.press(getByText('Go to Withdraw Spend'))
+    await waitFor(() => expect(getByText('Screen WithdrawSpend')).toBeTruthy())
+    fireEvent.press(getByText('Back'))
+    await waitFor(() => expect(getByText('Screen Profile')).toBeTruthy())
+  })
 
-      // 3 screens on stack
-      fireEvent.press(getByText('Go to Profile'))
-      await waitFor(() => expect(getByText('Screen Profile')).toBeTruthy())
-      fireEvent.press(getByText('Go to Withdraw Spend'))
-      await waitFor(() => expect(getByText('Screen WithdrawSpend')).toBeTruthy())
-      fireEvent.press(getByText('Back'))
-      await waitFor(() => expect(getByText('Screen Profile')).toBeTruthy())
-    })
+  it('navigateHomeAndThenToScreen works correctly', async () => {
+    const { getByText } = render(<MockedNavigator />)
 
-    it('navigateHomeAndThenToScreen works correctly', async () => {
-      const { getByText } = render(<MockedNavigator initialRoute={homeScreen} />)
-
-      fireEvent.press(getByText('Go to Withdraw Spend'))
-      await waitFor(() => expect(getByText('Screen WithdrawSpend')).toBeTruthy())
-      fireEvent.press(getByText('Go to Profile'))
-      await waitFor(() => expect(getByText('Screen Profile')).toBeTruthy())
-      fireEvent.press(getByText('Back'))
-      await waitFor(() => expect(getByText(`Screen ${homeScreen}`)).toBeTruthy())
-    })
-  }
-)
+    fireEvent.press(getByText('Go to Withdraw Spend'))
+    await waitFor(() => expect(getByText('Screen WithdrawSpend')).toBeTruthy())
+    fireEvent.press(getByText('Go to Profile'))
+    await waitFor(() => expect(getByText('Screen Profile')).toBeTruthy())
+    fireEvent.press(getByText('Back'))
+    await waitFor(() => expect(getByText('Screen TabNavigator')).toBeTruthy())
+  })
+})

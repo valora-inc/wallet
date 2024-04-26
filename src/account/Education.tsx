@@ -18,7 +18,6 @@ import Button, { BtnTypes } from 'src/components/Button'
 import Pagination from 'src/components/Pagination'
 import BackChevron from 'src/icons/BackChevron'
 import Times from 'src/icons/Times'
-import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import colors from 'src/styles/colors'
@@ -26,9 +25,9 @@ import fontStyles from 'src/styles/fonts'
 import progressDots from 'src/styles/progressDots'
 import variables from 'src/styles/variables'
 
+// TODO: clean this up
 export enum EmbeddedNavBar {
   Close = 'Close',
-  Drawer = 'Drawer',
 }
 
 export enum EducationTopic {
@@ -158,8 +157,6 @@ const Education = (props: Props) => {
             />
           </View>
         )
-      case EmbeddedNavBar.Drawer:
-        return <DrawerTopBar testID="DrawerTopBar" />
       default:
         return null
     }

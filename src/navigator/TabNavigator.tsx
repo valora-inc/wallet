@@ -51,7 +51,6 @@ export default function TabNavigator({ route }: Props) {
           tabBarIcon: Wallet,
           tabBarTestID: 'Tab/Wallet',
         }}
-        initialParams={{ isWalletTab: true }}
       />
       <Tab.Screen
         name={Screens.TabHome}
@@ -63,7 +62,6 @@ export default function TabNavigator({ route }: Props) {
           tabBarIcon: Logo,
           tabBarTestID: 'Tab/Home',
         }}
-        initialParams={{ isTabNavigator: true }}
       />
       <Tab.Screen
         name={Screens.TabDiscover}
@@ -78,7 +76,6 @@ export default function TabNavigator({ route }: Props) {
           // but here it's the right expectation
           unmountOnBlur: true,
         }}
-        initialParams={{ isTabNavigator: true }}
       />
     </Tab.Navigator>
   )

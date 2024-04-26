@@ -27,10 +27,6 @@ export default function AccountNumber({ address, touchDisabled, location }: Prop
     Logger.showMessage(t('addressCopied'))
     vibrateInformative()
 
-    if (location === Screens.DrawerNavigator) {
-      ValoraAnalytics.track(HomeEvents.drawer_address_copy)
-    }
-
     if (location === Screens.TransactionDetailsScreen) {
       ValoraAnalytics.track(HomeEvents.transaction_feed_address_copy)
     }

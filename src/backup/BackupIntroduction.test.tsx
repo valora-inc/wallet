@@ -34,20 +34,4 @@ describe('BackupIntroduction', () => {
     expect(getByText('postSetupBody')).toBeTruthy()
     expect(getByText('postSetupCTA')).toBeTruthy()
   })
-
-  it('renders the drawer top bar', () => {
-    const { getByTestId } = render(
-      <Provider
-        store={createMockStore({
-          account: { backupCompleted: true },
-        })}
-      >
-        <BackupIntroduction
-          {...getMockStackScreenProps(Screens.BackupIntroduction, { showDrawerTopBar: true })}
-        />
-      </Provider>
-    )
-
-    expect(getByTestId('BackupIntroduction/DrawerTopBar')).toBeTruthy()
-  })
 })

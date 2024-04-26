@@ -17,7 +17,6 @@ import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
 import FilterChipsCarousel, { BooleanFilterChip } from 'src/components/FilterChipsCarousel'
-import QrScanButton from 'src/components/QrScanButton'
 import SearchInput from 'src/components/SearchInput'
 import {
   dappsCategoriesAlphabeticalSelector,
@@ -36,8 +35,6 @@ import { searchDappList } from 'src/dappsExplorer/searchDappList'
 import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import { currentLanguageSelector } from 'src/i18n/selectors'
-import DrawerTopBar from 'src/navigator/DrawerTopBar'
-import { styles as headerStyles } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
@@ -56,25 +53,14 @@ interface SectionData {
   testID: string
 }
 
-type Props = NativeStackScreenProps<
-  StackParamList,
-  Screens.DAppsExplorerScreen | Screens.TabDiscover
->
+type Props = NativeStackScreenProps<StackParamList, Screens.TabDiscover>
 
-export function DAppsExplorerScreenSearchFilter({ navigation, route }: Props) {
+export function DAppsExplorerScreenSearchFilter({ navigation }: Props) {
   const { t } = useTranslation()
-
-  // TODO(act-1133): temporary parameter while we build the tab navigator, should be cleaned up
-  // when we remove the drawer
-  const isTabNavigator = !!route.params?.isTabNavigator
 
   const insets = useSafeAreaInsets()
 
   const sectionListRef = useRef<SectionList>(null)
-
-  // Old scroll handler for Drawer Header
-  const scrollPositionValue = useRef(new Animated.Value(0)).current
-  const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollPositionValue } } }])
 
   const horizontalScrollView = useRef<ScrollView>(null)
   const dappRankingsBottomSheetRef = useRef<BottomSheetRefType>(null)
@@ -162,7 +148,7 @@ export function DAppsExplorerScreenSearchFilter({ navigation, route }: Props) {
 
   useScrollAwareHeader({
     navigation,
-    title: isTabNavigator ? t('bottomTabsNavigator.discover.title') : '',
+    title: t('bottomTabsNavigator.discover.title'),
     scrollPosition,
     startFadeInPosition: titleHeight - titleHeight * 0.33,
     animationDistance: titleHeight * 0.33,
@@ -216,18 +202,7 @@ export function DAppsExplorerScreenSearchFilter({ navigation, route }: Props) {
   ])
 
   return (
-    <SafeAreaView
-      testID="DAppsExplorerScreen"
-      style={styles.safeAreaContainer}
-      edges={isTabNavigator ? [] : ['top']}
-    >
-      {!isTabNavigator && (
-        <DrawerTopBar
-          rightElement={<QrScanButton testID={'DAppsExplorerScreen/QRScanButton'} />}
-          middleElement={<Text style={headerStyles.headerTitle}>{t('dappsScreen.title')}</Text>}
-          scrollPosition={scrollPositionValue}
-        />
-      )}
+    <SafeAreaView testID="DAppsExplorerScreen" style={styles.safeAreaContainer} edges={[]}>
       <>
         {!loading && error && (
           <View style={styles.centerContainer}>
@@ -253,11 +228,11 @@ export function DAppsExplorerScreenSearchFilter({ navigation, route }: Props) {
             }
             ListHeaderComponent={
               <>
-                {isTabNavigator && (
+                {
                   <Text onLayout={handleMeasureTitleHeight} style={styles.title}>
                     {t('bottomTabsNavigator.discover.title')}
                   </Text>
-                )}
+                }
                 <DappFeaturedActions onPressShowDappRankings={handleShowDappRankings} />
                 <SearchInput
                   onChangeText={(text) => {
@@ -289,7 +264,7 @@ export function DAppsExplorerScreenSearchFilter({ navigation, route }: Props) {
             // Workaround iOS setting an incorrect automatic inset at the top
             scrollIndicatorInsets={{ top: 0.01 }}
             scrollEventThrottle={16}
-            onScroll={isTabNavigator ? handleScroll : onScroll}
+            onScroll={handleScroll}
             sections={sections}
             renderItem={({ item: dapp, index, section }) => {
               return (
