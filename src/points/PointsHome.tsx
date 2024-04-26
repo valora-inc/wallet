@@ -11,6 +11,7 @@ import { BottomSheetParams, PointsActivityId } from 'src/points/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { PointsEvents } from 'src/analytics/Events'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
+import NumberTicker from 'src/components/NumberTicker'
 import CustomHeader from 'src/components/header/CustomHeader'
 import PointsHistoryBottomSheet from 'src/points/PointsHistoryBottomSheet'
 import AttentionIcon from 'src/icons/Attention'
@@ -36,7 +37,7 @@ export default function PointsHome({ route, navigation }: Props) {
   const pointsConfigStatus = useSelector(pointsConfigStatusSelector)
 
   // TODO: Use real points balance
-  const pointsBalance = 50
+  const pointsBalance = 562
 
   const historyBottomSheetRef = useRef<BottomSheetRefType>(null)
   const activityCardBottomSheetRef = useRef<BottomSheetRefType>(null)
@@ -121,7 +122,12 @@ export default function PointsHome({ route, navigation }: Props) {
               />
             </View>
             <View style={styles.balanceRow}>
-              <Text style={styles.balance}>{pointsBalance}</Text>
+              <NumberTicker
+                testID="PointsBalance"
+                textStyles={styles.balance}
+                textHeight={48}
+                finalValue={pointsBalance.toString()}
+              />
               <LogoHeart size={28} />
             </View>
 
