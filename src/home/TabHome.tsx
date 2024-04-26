@@ -45,7 +45,7 @@ const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TabHome>
 
-function WalletHome({ navigation }: Props) {
+function TabHome({ navigation }: Props) {
   const { t } = useTranslation()
 
   const appState = useSelector(appStateSelector)
@@ -216,4 +216,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default WalletHome
+export default TabHome
