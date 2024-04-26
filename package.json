@@ -81,7 +81,7 @@
     "@coinbase/cbpay-js": "^2.1.0",
     "@crowdin/ota-client": "^0.7.0",
     "@fiatconnect/fiatconnect-sdk": "^0.5.38",
-    "@fiatconnect/fiatconnect-types": "^13.3.2",
+    "@fiatconnect/fiatconnect-types": "^13.3.3",
     "@gorhom/bottom-sheet": "^4.6.1",
     "@json-rpc-tools/utils": "^1.7.6",
     "@noble/secp256k1": "^1.7.1",
