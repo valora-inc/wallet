@@ -96,6 +96,8 @@ const styles = StyleSheet.create({
   },
   tickText: {
     alignItems: 'center',
+    // This negative margin is a hack to bring the numbers closer together,
+    // otherwise they feel unnatural and far apart
     marginHorizontal: -1,
   },
   text: {
