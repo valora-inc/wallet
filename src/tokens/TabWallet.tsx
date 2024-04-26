@@ -12,7 +12,6 @@ import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { AssetsTokenBalance } from 'src/components/TokenBalance'
-import { headerWithBackButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
@@ -193,10 +192,6 @@ function TabWallet({ navigation, route }: Props) {
       )}
     </Animated.View>
   )
-}
-
-TabWallet.navigationOptions = {
-  ...headerWithBackButton,
 }
 
 const styles = StyleSheet.create({
