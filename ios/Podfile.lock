@@ -555,9 +555,9 @@ PODS:
   - react-native-shake (5.5.2):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - react-native-simple-toast (1.1.4):
+  - react-native-simple-toast (3.3.1):
     - React-Core
-    - Toast (~> 4.0.0)
+    - Toast (~> 4)
   - react-native-splash-screen (3.3.0):
     - React-Core
   - react-native-video (6.0.0-rc.0):
@@ -1213,7 +1213,7 @@ SPEC CHECKSUMS:
   react-native-randombytes: 421f1c7d48c0af8dbcd471b0324393ebf8fe7846
   react-native-safe-area-context: dcab599c527c2d7de2d76507a523d20a0b83823d
   react-native-shake: 8036ba95a1953c9b10821bdc33f5814c5d0bcef6
-  react-native-simple-toast: 8ee5d23f0b92b935ab7434cdb65159ce12dfb4b7
+  react-native-simple-toast: 1f1cc551d419bc0ab05dcb0136554006c274789d
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-video: e820b3ba1ad07e5b2bae137aa92966ea26086d21
   react-native-webview: a987704e6cd3f5a21d372ef316e43f7b442d59ca
