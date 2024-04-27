@@ -1944,27 +1944,27 @@
   resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-5.5.3.tgz#18e3af6b8eae7984072bbeb0c0858474d7c4cefe"
   integrity sha512-R11tGE6yIFwqpaIqcfkcg7AICXzFg14+5h5v0TfF/9+RMDL6jhzCy/pxHVOfbALGdtVYdt6JdR21tuxEgl34dw==
 
-"@fiatconnect/fiatconnect-sdk@^0.5.40":
-  version "0.5.40"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.5.40.tgz#6c439ca248d2b9a6d1114c248f45327de36d1213"
-  integrity sha512-8Stzxw7XBD5MZo75DG2mnsrC4VHy0uPifKeJkoyDqre+Xf4detufdpKUSHAMLdSbjNU0M7aFKoCQ+SS0xHCzDQ==
+"@fiatconnect/fiatconnect-sdk@^0.5.42":
+  version "0.5.42"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.5.42.tgz#d4732b3d88a923fe388b7aac9a03f4d2a1af03ea"
+  integrity sha512-w+FTU7VK2voKGk3STGGMx3jBCp2vE7bGtENn9CzQQfHrwdapUaqtZZB2TSKy8e9VkmbPpMcL0jx2YVyMolmKBA==
   dependencies:
     "@badrap/result" "^0.2.13"
-    "@fiatconnect/fiatconnect-types" "^13.3.3"
+    "@fiatconnect/fiatconnect-types" "^13.3.4"
     cross-fetch "^4.0.0"
     ethers "^6.12.0"
     fetch-cookie "^3.0.1"
     siwe "^2.3.2"
     tough-cookie "^4.0.0"
     tslib "^2.6.2"
-    zod "^3.23.3"
+    zod "^3.23.4"
 
-"@fiatconnect/fiatconnect-types@^13.3.3":
-  version "13.3.3"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-13.3.3.tgz#b56b023b050b3665d5f188d59bcafb85a6f74648"
-  integrity sha512-bnRx+/8WhmLagHhZy13J012XXSQZHmN5FPRxo5jjHpU//nMwFv7juxPs7aFJuXmX54vH5pLx5Cpe8afIrD8ljQ==
+"@fiatconnect/fiatconnect-types@^13.3.4":
+  version "13.3.4"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-13.3.4.tgz#21ab8fb95a555913bdbbd453ec784b6062905d57"
+  integrity sha512-OtDOn2W/BqofV9Uxm0HR43rAq25tNRgoblNgqb9M4qh1A+NjA5AhCnPCd5yVVSTFoSKo9ciSydFGEgym1+y8ew==
   dependencies:
-    zod "^3.23.3"
+    zod "^3.23.4"
 
 "@gorhom/bottom-sheet@^4.6.1":
   version "4.6.1"
@@ -19641,7 +19641,7 @@ zod@3.22.4:
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.4.tgz#f31c3a9386f61b1f228af56faa9255e845cf3fff"
   integrity sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==
 
-zod@^3.23.3:
+zod@^3.23.4:
   version "3.23.4"
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.23.4.tgz#c63805b2f39e10d4ab3d55eb3c8cdb472c79dfb1"
   integrity sha512-/AtWOKbBgjzEYYQRNfoGKHObgfAZag6qUJX1VbHo2PRBgS+wfWagEY2mizjfyAPcGesrJOcx/wcl0L9WnVrHFw==
