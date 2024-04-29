@@ -67,7 +67,7 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NftOrigin } from 'src/nfts/types'
 import { NotificationReceiveState } from 'src/notifications/types'
 import { AdventureCardName } from 'src/onboarding/types'
-import { PointsActivity } from 'src/points/types'
+import { PointsActivityId } from 'src/points/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { AmountEnteredIn, QrCode } from 'src/send/types'
 import { Field } from 'src/swap/types'
@@ -154,14 +154,8 @@ interface AppEventsProperties {
 }
 
 interface HomeEventsProperties {
-  [HomeEvents.hamburger_tapped]: undefined
   [HomeEvents.account_circle_tapped]: undefined
-  [HomeEvents.drawer_navigation]: {
-    navigateTo: string
-  }
-  [HomeEvents.drawer_address_copy]: undefined
   [HomeEvents.profile_address_copy]: undefined
-
   [HomeEvents.notification_scroll]: {
     // TODO: Pass in notificationType and make param required
     notificationType?: NotificationType
@@ -295,14 +289,6 @@ interface KeylessBackupEventsProperties {
 }
 
 interface OnboardingEventsProperties {
-  [OnboardingEvents.onboarding_education_scroll]: {
-    currentStep: number
-    direction: ScrollDirection
-  }
-  [OnboardingEvents.onboarding_education_step_impression]: {
-    step: number
-  }
-
   [OnboardingEvents.create_account_start]: undefined
 
   [OnboardingEvents.restore_account_start]: undefined
@@ -1572,12 +1558,14 @@ interface PointsEventsProperties {
   [PointsEvents.points_screen_open]: undefined
   [PointsEvents.points_screen_back]: undefined
   [PointsEvents.points_screen_card_press]: {
-    activity: PointsActivity
+    activityId: PointsActivityId
   }
   [PointsEvents.points_screen_card_cta_press]: {
-    activity: PointsActivity
+    activityId: PointsActivityId
   }
   [PointsEvents.points_screen_activity_press]: undefined
+  [PointsEvents.points_screen_activity_try_again_press]: undefined
+  [PointsEvents.points_screen_activity_fetch_more]: undefined
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

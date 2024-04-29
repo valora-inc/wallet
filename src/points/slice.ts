@@ -1,5 +1,5 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { ClaimHistory, PointsActivity } from 'src/points/types'
+import { PayloadAction, createAction, createSlice } from '@reduxjs/toolkit'
+import { ClaimHistory, PointsActivityId, PointsEvent, isClaimActivityId } from 'src/points/types'
 import { REHYDRATE, RehydrateAction, getRehydratePayload } from 'src/redux/persist-helper'
 
 interface GetPointsHistorySucceededAction {
@@ -12,19 +12,31 @@ interface GetPointsHistoryStartedAction {
   getNextPage: boolean
 }
 
+interface GetPointsHistoryErrorAction {
+  resetHistory: boolean
+}
+
 export type PointsConfig = {
   activitiesById: {
-    [activityId in PointsActivity]?: {
+    [activityId in PointsActivityId]?: {
       pointsAmount: number
     }
   }
 }
-interface State {
+
+export interface PendingPointsEvent {
+  id: string
+  timestamp: string
+  event: PointsEvent
+}
+
+export interface State {
   pointsHistory: ClaimHistory[]
   nextPageUrl: string | null
   getHistoryStatus: 'idle' | 'loading' | 'error'
   pointsConfig: PointsConfig
   pointsConfigStatus: 'idle' | 'loading' | 'error' | 'success'
+  pendingPointsEvents: PendingPointsEvent[]
 }
 
 const initialState: State = {
@@ -33,6 +45,7 @@ const initialState: State = {
   getHistoryStatus: 'idle',
   pointsConfig: { activitiesById: {} },
   pointsConfigStatus: 'idle',
+  pendingPointsEvents: [],
 }
 
 const slice = createSlice({
@@ -51,9 +64,10 @@ const slice = createSlice({
       nextPageUrl: action.payload.nextPageUrl,
       getHistoryStatus: 'idle',
     }),
-    getHistoryError: (state) => ({
+    getHistoryError: (state, action: PayloadAction<GetPointsHistoryErrorAction>) => ({
       ...state,
       getHistoryStatus: 'error',
+      pointsHistory: action.payload.resetHistory ? [] : state.pointsHistory,
     }),
     getPointsConfigStarted: (state) => ({
       ...state,
@@ -71,12 +85,23 @@ const slice = createSlice({
     getPointsConfigRetry: (state) => ({
       ...state,
     }),
+    sendPointsEventStarted: (state, action: PayloadAction<PendingPointsEvent>) => ({
+      ...state,
+      pendingPointsEvents: [...state.pendingPointsEvents, action.payload],
+    }),
+    pointsEventProcessed: (state, action: PayloadAction<Pick<PendingPointsEvent, 'id'>>) => ({
+      ...state,
+      pendingPointsEvents: state.pendingPointsEvents.filter(
+        (event) => event.id !== action.payload.id
+      ),
+    }),
   },
   extraReducers: (builder) => {
     builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
       ...state,
       ...getRehydratePayload(action, 'points'),
       pointsConfig: { activitiesById: {} }, // always reset pointsConfig on rehydrate to ensure it's up to date
+      pointsHistory: state.pointsHistory.filter((record) => isClaimActivityId(record.activityId)), // filter in case new app version removed support for an activityId
     }))
   },
 })
@@ -89,6 +114,11 @@ export const {
   getPointsConfigStarted,
   getPointsConfigSucceeded,
   getPointsConfigRetry,
+  sendPointsEventStarted,
+  pointsEventProcessed,
 } = slice.actions
+
+// action handled in saga
+export const trackPointsEvent = createAction<PointsEvent>('points/trackPointsEvent')
 
 export default slice.reducer

@@ -832,7 +832,8 @@
     "restoreWallet": "Restore wallet",
     "hasWallet": "I already have a wallet",
     "header": "Welcome to {{appName}}! Let's create your crypto wallet.",
-    "getStarted": "Get Started"
+    "getStarted": "Get Started",
+    "agreeToTerms": "By creating a wallet you agree to our <0>Terms and Conditions</0>"
   },
   "accessContacts": {
     "disclosure": {
@@ -2262,6 +2263,24 @@
   "points": {
     "title": "Valora Points",
     "activity": "Activity",
+    "history": {
+      "cards": {
+        "createWallet": {
+          "title": "Wallet holder",
+          "subtitle": "Member of {{appName}}"
+        },
+        "swap": {
+          "title": "Swap",
+          "subtitle": "{{fromToken}} to {{toToken}}"
+        }
+      },
+      "title": "My points activity",
+      "error": {
+        "title": "Unable to load points activity",
+        "subtitle": "Oops, something went wrong when trying to load your points activity feed. Please try again.",
+        "tryAgain": "Try again"
+      }
+    },
     "loading": {
       "title": "Gathering your points",
       "description": "We're in the process of tallying up your points, hang tight"

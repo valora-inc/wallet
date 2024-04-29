@@ -7,7 +7,7 @@ exports[`Support renders correctly 1`] = `
       "bottom": "additive",
       "left": "additive",
       "right": "additive",
-      "top": "additive",
+      "top": "off",
     }
   }
   style={
@@ -16,116 +16,6 @@ exports[`Support renders correctly 1`] = `
     }
   }
 >
-  <View
-    style={
-      {
-        "alignItems": "center",
-        "backgroundColor": "transparent",
-        "borderBottomColor": 0,
-        "borderBottomWidth": 1,
-        "flexDirection": "row",
-        "flexShrink": 1,
-        "justifyContent": "center",
-        "minHeight": 56,
-      }
-    }
-  >
-    <View
-      style={
-        {
-          "flex": 1,
-          "flexDirection": "row",
-          "gap": 24,
-          "left": 0,
-          "marginBottom": 0,
-          "marginLeft": 16,
-          "padding": 0,
-          "position": "absolute",
-        }
-      }
-    >
-      <View
-        accessibilityState={
-          {
-            "busy": undefined,
-            "checked": undefined,
-            "disabled": undefined,
-            "expanded": undefined,
-            "selected": undefined,
-          }
-        }
-        accessibilityValue={
-          {
-            "max": undefined,
-            "min": undefined,
-            "now": undefined,
-            "text": undefined,
-          }
-        }
-        accessible={true}
-        focusable={true}
-        hitSlop={
-          {
-            "bottom": 10,
-            "left": 10,
-            "right": 10,
-            "top": 10,
-          }
-        }
-        onClick={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        style={
-          [
-            undefined,
-            {
-              "opacity": 1,
-            },
-          ]
-        }
-      >
-        <svg
-          fill="none"
-          height="32"
-          testID="Hamburger"
-          viewBox="0 0 32 32"
-          width="32"
-        >
-          <line
-            stroke="#2E3338"
-            strokeLinecap="round"
-            strokeWidth="2.5"
-            x1="7.25"
-            x2="24.75"
-            y1="9.75"
-            y2="9.75"
-          />
-          <line
-            stroke="#2E3338"
-            strokeLinecap="round"
-            strokeWidth="2.5"
-            x1="7.25"
-            x2="24.75"
-            y1="15.75"
-            y2="15.75"
-          />
-          <line
-            stroke="#2E3338"
-            strokeLinecap="round"
-            strokeWidth="2.5"
-            x1="7.25"
-            x2="24.75"
-            y1="21.75"
-            y2="21.75"
-          />
-        </svg>
-      </View>
-    </View>
-  </View>
   <RCTScrollView>
     <View>
       <Text

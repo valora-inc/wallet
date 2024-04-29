@@ -10,9 +10,6 @@ describe('Discover tab', () => {
     await launchApp({
       newInstance: true,
       permissions: { notifications: 'YES', contacts: 'YES', camera: 'YES' },
-      launchArgs: {
-        statsigGateOverrides: `use_tab_navigator=true`,
-      },
     })
     await waitForElementByIdAndTap('Tab/Discover')
   })

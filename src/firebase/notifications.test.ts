@@ -70,24 +70,25 @@ describe(handleNotification, () => {
     it('directly opens the url externally if the app is not already in the foreground and openExternal is true', async () => {
       await expectSaga(
         handleNotification,
-        { ...message, data: { ou: message.data!.ou, openExternal: 'true' } },
+        { ...message, data: { ou: 'https://celo.org', openExternal: 'true' } },
         NotificationReceiveState.AppColdStart
       )
-        .put(openUrl(message.data!.ou, true, true))
+        .put(openUrl('https://celo.org', true, true))
         .run()
     })
   })
 
   describe("with a notification with an 'open url' semantic and a deep link", () => {
+    const expectedUrl = `celo://wallet/openScreen?screen=${Screens.TabNavigator}`
     const message: FirebaseMessagingTypes.RemoteMessage = {
       notification: { title: 'My title', body: 'My Body' },
-      data: { ou: `celo://wallet/openScreen?screen=${Screens.WalletHome}` },
+      data: { ou: expectedUrl },
       fcmOptions: {},
     }
 
     it('fires  an event to open the deep link', async () => {
       await expectSaga(handleNotification, message, NotificationReceiveState.AppColdStart)
-        .put(openUrl(message.data!.ou, false, true))
+        .put(openUrl(expectedUrl, false, true))
         .run()
     })
   })

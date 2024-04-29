@@ -8,7 +8,7 @@ export default ChooseYourAdventure = () => {
     await launchApp({
       newInstance: true,
       launchArgs: {
-        statsigGateOverrides: `use_tab_navigator=true,show_cloud_account_backup_setup=true,show_cloud_account_backup_restore=true`,
+        statsigGateOverrides: `show_cloud_account_backup_setup=true,show_cloud_account_backup_restore=true`,
       },
     })
     await quickOnboarding({ stopOnCYA: true, cloudBackupEnabled: true })

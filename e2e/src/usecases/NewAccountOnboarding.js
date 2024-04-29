@@ -44,7 +44,7 @@ export default NewAccountOnboarding = () => {
       delete: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
       launchArgs: {
-        statsigGateOverrides: `use_tab_navigator=true,show_cloud_account_backup_setup=true,show_cloud_account_backup_restore=true`,
+        statsigGateOverrides: `show_cloud_account_backup_setup=true,show_cloud_account_backup_restore=true`,
       },
     })
     await sleep(5000)
@@ -137,7 +137,7 @@ export default NewAccountOnboarding = () => {
     await element(by.id('WalletHome/NotificationBell')).tap()
     await expect(element(by.text('Back up now'))).not.toExist()
     await element(by.id('BackChevron')).tap()
-    await navigateToSettings('tab')
+    await navigateToSettings()
     await waitForElementId('RecoveryPhrase')
     await element(by.id('RecoveryPhrase')).tap()
     await enterPinUi()
@@ -159,7 +159,7 @@ export default NewAccountOnboarding = () => {
     await launchApp({
       newInstance: true,
       launchArgs: {
-        statsigGateOverrides: `use_tab_navigator=true,show_cloud_account_backup_setup=true,show_cloud_account_backup_restore=true`,
+        statsigGateOverrides: `show_cloud_account_backup_setup=true,show_cloud_account_backup_restore=true`,
       },
     })
     await quickOnboarding({ mnemonic: testRecoveryPhrase, cloudBackupEnabled: true })

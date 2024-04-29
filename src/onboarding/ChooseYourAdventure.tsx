@@ -23,8 +23,6 @@ import {
 import { Screens } from 'src/navigator/Screens'
 import { AdventureCardName } from 'src/onboarding/types'
 import { useSelector } from 'src/redux/hooks'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Shadow, Spacing } from 'src/styles/styles'
@@ -82,13 +80,7 @@ function ChooseYourAdventure() {
     {
       text: t('chooseYourAdventure.options.dapp'),
       goToNextScreen: () => {
-        if (getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)) {
-          navigateClearingStack(Screens.TabNavigator, { initialScreen: Screens.TabDiscover })
-        } else {
-          navigateClearingStack(Screens.DrawerNavigator, {
-            initialScreen: Screens.DAppsExplorerScreen,
-          })
-        }
+        navigateClearingStack(Screens.TabNavigator, { initialScreen: Screens.TabDiscover })
       },
       icon: <GraphSparkle />,
       name: AdventureCardName.Dapp,
@@ -104,13 +96,7 @@ function ChooseYourAdventure() {
     {
       text: t('chooseYourAdventure.options.learn'),
       goToNextScreen: () => {
-        if (getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)) {
-          navigateHomeAndThenToScreen(Screens.TokenDetails, { tokenId: networkConfig.celoTokenId })
-        } else {
-          navigateClearingStack(Screens.DrawerNavigator, {
-            initialScreen: Screens.ExchangeHomeScreen,
-          })
-        }
+        navigateHomeAndThenToScreen(Screens.TokenDetails, { tokenId: networkConfig.celoTokenId })
       },
       icon: <CeloIconNew />,
       name: AdventureCardName.Learn,

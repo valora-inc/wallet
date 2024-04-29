@@ -709,6 +709,17 @@
     "privacy": "Partecipando a questa rete, ci autorizzi a raccogliere informazioni anonime sul tuo utilizzo dell'app. Inoltre, se colleghi il tuo numero telefonico, ne verrà memorizzata una copia con hash. Se concedi a Valora l'accesso al tuo elenco di contatti, Valora importerà il nome, il numero telefonico e l'immagine del profilo di ciascun contatto per consentire agli utenti di connettersi tramite l'app Valora. Per sapere come raccogliamo e utilizziamo queste informazioni, consulta la nostra <0>Informativa sulla privacy</0>.",
     "goldDisclaimer": "Quando crei un \"account\" con Valora, crei un portafoglio digitale di cui solo tu possiedi le chiavi. Nessun'altra persona o entità, inclusa Valora, può recuperare la tua chiave, modificare o annullare le transazioni o recuperare fondi perduti. Considera che le criptovalute fanno parte di una nuova classe di asset e comportano un rischio di perdita finanziaria. Prima di acquistare qualsiasi asset, valuta attentamente la tua situazione finanziaria e la tua tolleranza al rischio finanziario."
   },
+  "termsColloquial": {
+    "title": "Iniziamo creando il tuo portafoglio",
+    "privacyHeading": "Le tue informazioni e la tua privacy:",
+    "privacy1": "Raccogliamo dati di utilizzo che ci aiutano a migliorare l'applicazione e la sicurezza. Il tipo di informazioni che raccogliamo, il modo in cui le utilizziamo e i tuoi diritti relativi a tali informazioni sono riportati nella nostra <0>Informativa sulla privacy</0>.",
+    "privacy2": "Se decidi di collegare il tuo numero di telefono, ne conserveremo una copia criptata.",
+    "privacy3": "Se decidi di collegare i tuoi contatti, usiamo i loro nomi, numeri e immagini del profilo per renderli più facili da trovare.",
+    "walletHeading": "Il tuo portafoglio digitale con Valora:",
+    "wallet1": "Stai per creare un portafoglio digitale. Solo tu hai la chiave del tuo portafoglio. Non possiamo recuperare la tua chiave o i tuoi beni se la perdi. Non possiamo nemmeno annullare le azioni intraprese da Valora sulle blockchain.",
+    "wallet2": "Gli asset digitali, con i quali interagisci con Valora, comportano rischi unici. Utilizzando Valora, accetti questi rischi e te ne assumi la responsabilità. Ti invitiamo a considerare le tue finanze e la tua tolleranza al rischio prima di fare delle scelte.",
+    "fullTerms": "Leggi i nostri <0>Termini e Condizioni</0> completi"
+  },
   "fullNameOrPsuedonym": "Nome e cognome o alias",
   "namePlaceholder": "p. es. nome",
   "nameAndPicGuideCopyTitle": "Come ti chiami?",
@@ -815,7 +826,8 @@
     "restoreWallet": "Ripristina un wallet",
     "hasWallet": "Ho già un wallet",
     "header": "Ti diamo il benvenuto in {{appName}}! Creiamo il tuo wallet cripto.",
-    "getStarted": "Inizia"
+    "getStarted": "Inizia",
+    "agreeToTerms": "Creando un portafoglio accetti i nostri <0>Termini e Condizioni</0>."
   },
   "accessContacts": {
     "disclosure": {
@@ -2243,6 +2255,24 @@
   "points": {
     "title": "Punti Valora",
     "activity": "Attività",
+    "history": {
+      "cards": {
+        "createWallet": {
+          "title": "Portafoglio",
+          "subtitle": "Membro di {{appName}}"
+        },
+        "swap": {
+          "title": "Scambia",
+          "subtitle": "{{fromToken}} > {{toToken}}"
+        }
+      },
+      "title": "La mia attività a punti",
+      "error": {
+        "title": "Impossibile caricare i punti attività",
+        "subtitle": "Ops, qualcosa è andato storto durante il tentativo di caricare il tuo feed di attività dei punti. Riprova.",
+        "tryAgain": "Riprova"
+      }
+    },
     "loading": {
       "title": "Raccogliere i punti",
       "description": "Stiamo per fare il conteggio dei tuoi punti, tieniti forte."

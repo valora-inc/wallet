@@ -50,7 +50,7 @@ import {
   v200Schema,
   v201Schema,
   v203Schema,
-  v208Schema,
+  v210Schema,
   v21Schema,
   v28Schema,
   v2Schema,
@@ -1613,9 +1613,9 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 
-  it('works from 208 to 209', () => {
-    const oldSchema = v208Schema
-    const migratedSchema = migrations[209](oldSchema)
+  it('works from 210 to 211', () => {
+    const oldSchema = v210Schema
+    const migratedSchema = migrations[211](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.app.hasSetPinManually = true
     expect(migratedSchema).toStrictEqual(expectedSchema)

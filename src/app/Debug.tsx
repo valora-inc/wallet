@@ -12,6 +12,7 @@ import { RootState } from 'src/redux/reducers'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 import { getLatestBlock } from 'src/web3/utils'
+import { Statsig } from 'statsig-react-native'
 
 interface State {
   latestBlockNumber: number
@@ -55,6 +56,7 @@ export class Debug extends React.Component<RootState, State> {
     const buildNumber = DeviceInfo.getBuildNumber()
     const apiLevel = DeviceInfo.getApiLevelSync()
     const deviceId = DeviceInfo.getDeviceId()
+    const stableId = Statsig.getStableID()
 
     return (
       <SafeAreaView style={styles.container}>
@@ -71,6 +73,9 @@ export class Debug extends React.Component<RootState, State> {
           onPress={this.onClickText(address)}
           style={styles.singleLine}
         >{`Address: ${address}`}</Text>
+        <Text onPress={this.onClickText(stableId)} style={styles.singleLine}>
+          {`Statsig Stable ID: ${stableId}`}
+        </Text>
         <Text style={styles.singleLine}>{`Latest Block: ${latestBlockNumber}`}</Text>
         <Button
           onPress={this.onClickEmailLogs}

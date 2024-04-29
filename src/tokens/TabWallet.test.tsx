@@ -5,7 +5,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
-import AssetsScreen from 'src/tokens/Assets'
+import TabWallet from 'src/tokens/TabWallet'
 import { NetworkId } from 'src/transactions/types'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
@@ -99,7 +99,7 @@ const storeWithNfts = {
   },
 }
 
-describe('AssetsScreen', () => {
+describe('TabWallet', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.mocked(getFeatureGate).mockRestore()
@@ -112,7 +112,7 @@ describe('AssetsScreen', () => {
     const { getByTestId, getAllByTestId, queryAllByTestId, getByText, queryByText, queryByTestId } =
       render(
         <Provider store={store}>
-          <MockedNavigator component={AssetsScreen} />
+          <MockedNavigator component={TabWallet} />
         </Provider>
       )
 
@@ -136,7 +136,7 @@ describe('AssetsScreen', () => {
 
     const { getByTestId, getAllByTestId, queryAllByTestId, getByText, queryByText } = render(
       <Provider store={store}>
-        <MockedNavigator component={AssetsScreen} />
+        <MockedNavigator component={TabWallet} />
       </Provider>
     )
 
@@ -161,7 +161,7 @@ describe('AssetsScreen', () => {
     const { getByTestId, getAllByTestId, queryAllByTestId, getByText, queryByTestId, queryByText } =
       render(
         <Provider store={store}>
-          <MockedNavigator component={AssetsScreen} />
+          <MockedNavigator component={TabWallet} />
         </Provider>
       )
 
@@ -184,7 +184,7 @@ describe('AssetsScreen', () => {
 
     const { getAllByTestId, queryAllByTestId, getByText } = render(
       <Provider store={store}>
-        <MockedNavigator component={AssetsScreen} />
+        <MockedNavigator component={TabWallet} />
       </Provider>
     )
 
@@ -205,7 +205,7 @@ describe('AssetsScreen', () => {
 
     const { getAllByTestId, queryAllByTestId, getByText } = render(
       <Provider store={store}>
-        <MockedNavigator component={AssetsScreen} />
+        <MockedNavigator component={TabWallet} />
       </Provider>
     )
 
@@ -231,7 +231,7 @@ describe('AssetsScreen', () => {
 
     const { queryByText } = render(
       <Provider store={store}>
-        <MockedNavigator component={AssetsScreen} />
+        <MockedNavigator component={TabWallet} />
       </Provider>
     )
 
@@ -244,7 +244,7 @@ describe('AssetsScreen', () => {
 
     const { queryByText } = render(
       <Provider store={store}>
-        <MockedNavigator component={AssetsScreen} />
+        <MockedNavigator component={TabWallet} />
       </Provider>
     )
 
@@ -257,7 +257,7 @@ describe('AssetsScreen', () => {
 
     const { getByText, queryByText } = render(
       <Provider store={store}>
-        <MockedNavigator component={AssetsScreen} />
+        <MockedNavigator component={TabWallet} />
       </Provider>
     )
 
@@ -276,60 +276,11 @@ describe('AssetsScreen', () => {
 
     const { getByText } = render(
       <Provider store={store}>
-        <MockedNavigator component={AssetsScreen} />
+        <MockedNavigator component={TabWallet} />
       </Provider>
     )
 
     fireEvent.press(getByText('assets.claimRewards'))
     expect(navigate).toHaveBeenCalledWith(Screens.DappShortcutsRewards)
-  })
-
-  it('does not render Import Token when feature flag is off', () => {
-    const store = createMockStore(storeWithPositions)
-
-    const component = (
-      <Provider store={store}>
-        <MockedNavigator component={AssetsScreen} />
-      </Provider>
-    )
-    const { queryByText } = render(component)
-    const button = queryByText('assets.importToken')
-
-    expect(button).toBeNull()
-  })
-
-  it('does not render Import Token on wallets tab', () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
-    const store = createMockStore(storeWithPositions)
-
-    const component = (
-      <Provider store={store}>
-        <MockedNavigator component={AssetsScreen} params={{ isWalletTab: true }} />
-      </Provider>
-    )
-    const { queryByText } = render(component)
-    const button = queryByText('assets.importToken')
-
-    expect(button).toBeNull()
-  })
-
-  it('clicking Import opens Import Token screen', () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation(
-        (gate: StatsigFeatureGates) => gate === StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW
-      )
-    const store = createMockStore(storeWithPositions)
-
-    const component = (
-      <Provider store={store}>
-        <MockedNavigator component={AssetsScreen} />
-      </Provider>
-    )
-    const { getByText } = render(component)
-    const button = getByText('assets.importToken')
-    fireEvent.press(button)
-
-    expect(navigate).toHaveBeenCalledWith(Screens.TokenImport)
   })
 })

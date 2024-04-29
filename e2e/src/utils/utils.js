@@ -437,15 +437,7 @@ export const createCommentText = () => {
   return `${new Date().getTime()}-${parseInt(Math.random() * 100_000)}`
 }
 
-export async function navigateToSettings(navType) {
-  if (navType === 'tab') {
-    await waitForElementByIdAndTap('WalletHome/AccountCircle')
-    await waitForElementByIdAndTap('ProfileMenu/Settings')
-  } else {
-    await waitForElementId('Hamburger')
-    await element(by.id('Hamburger')).tap()
-    await scrollIntoView('Settings', 'SettingsScrollView')
-    await waitForElementId('Settings')
-    await element(by.id('Settings')).tap()
-  }
+export async function navigateToSettings() {
+  await waitForElementByIdAndTap('WalletHome/AccountCircle')
+  await waitForElementByIdAndTap('ProfileMenu/Settings')
 }

@@ -1753,6 +1753,20 @@ export const migrations = {
   }),
   209: (state: any) => ({
     ...state,
+    points: {
+      ...state.points,
+      pendingPointsEvents: [],
+    },
+  }),
+  210: (state: any) => ({
+    ...state,
+    points: {
+      ...state.points,
+      pointsHistory: [],
+    },
+  }),
+  211: (state: any) => ({
+    ...state,
     app: {
       ...state.app,
       hasSetPinManually: true,

@@ -1,5 +1,30 @@
-import { pointsSectionsSelector } from 'src/points/selectors'
+import { pointsSectionsSelector, pointsHistorySelector } from 'src/points/selectors'
 import { getMockStoreData } from 'test/utils'
+
+describe('pointsHistorySelector', () => {
+  it('returns UNIX timestamp', () => {
+    const stateWithPointsHistory = getMockStoreData({
+      points: {
+        pointsHistory: [
+          {
+            activityId: 'create-wallet',
+            createdAt: '2024-04-22T16:32:27+0000',
+            pointsAmount: 20,
+          },
+        ],
+      },
+    })
+    const result = pointsHistorySelector(stateWithPointsHistory)
+
+    expect(result).toEqual([
+      {
+        activityId: 'create-wallet',
+        timestamp: 1713803547000,
+        pointsAmount: 20,
+      },
+    ])
+  })
+})
 
 describe('pointsMetadataSelector', () => {
   it('should return an empty array if there are no activities', () => {
@@ -30,11 +55,11 @@ describe('pointsMetadataSelector', () => {
 
     expect(result).toEqual([
       {
-        points: 10,
+        pointsAmount: 10,
         activities: [
-          { name: 'swap' },
+          { activityId: 'swap' },
           {
-            name: 'create-wallet',
+            activityId: 'create-wallet',
           },
         ],
       },
@@ -55,8 +80,8 @@ describe('pointsMetadataSelector', () => {
     const result = pointsSectionsSelector(stateWithPointsConfig)
 
     expect(result).toEqual([
-      { points: 20, activities: [{ name: 'create-wallet' }] },
-      { points: 10, activities: [{ name: 'swap' }] },
+      { pointsAmount: 20, activities: [{ activityId: 'create-wallet' }] },
+      { pointsAmount: 10, activities: [{ activityId: 'swap' }] },
     ])
   })
 })

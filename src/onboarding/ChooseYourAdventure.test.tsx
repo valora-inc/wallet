@@ -14,12 +14,8 @@ import {
 import { Screens } from 'src/navigator/Screens'
 import ChooseYourAdventure from 'src/onboarding/ChooseYourAdventure'
 import { AdventureCardName } from 'src/onboarding/types'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockAccount2, mockCeloTokenId } from 'test/values'
-
-jest.mock('src/statsig')
 
 describe('ChooseYourAdventure', () => {
   const orderOptions = [
@@ -58,7 +54,6 @@ describe('ChooseYourAdventure', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.mocked(getFeatureGate).mockReturnValue(false)
   })
 
   it.each(orderOptions)(
@@ -80,28 +75,7 @@ describe('ChooseYourAdventure', () => {
     }
   )
 
-  it('navigates to the correct screen for dapp (drawer navigator)', () => {
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <ChooseYourAdventure />
-      </Provider>
-    )
-
-    fireEvent.press(getByTestId('AdventureCard/0/chooseYourAdventure.options.dapp'))
-    expect(navigateClearingStack).toHaveBeenLastCalledWith(Screens.DrawerNavigator, {
-      initialScreen: Screens.DAppsExplorerScreen,
-    })
-    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
-      position: 1,
-      cardName: AdventureCardName.Dapp,
-      cardOrder: expectedCardOrder,
-    })
-  })
-
   it('navigates to the correct screen for dapp', () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation((gate) => gate === StatsigFeatureGates.USE_TAB_NAVIGATOR)
     const { getByTestId } = render(
       <Provider store={store}>
         <ChooseYourAdventure />
@@ -137,27 +111,7 @@ describe('ChooseYourAdventure', () => {
     })
   })
 
-  it('navigates to the correct screen for learn (drawer navigator)', () => {
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <ChooseYourAdventure />
-      </Provider>
-    )
-    fireEvent.press(getByTestId('AdventureCard/2/chooseYourAdventure.options.learn'))
-    expect(navigateClearingStack).toHaveBeenLastCalledWith(Screens.DrawerNavigator, {
-      initialScreen: Screens.ExchangeHomeScreen,
-    })
-    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
-      position: 3,
-      cardName: AdventureCardName.Learn,
-      cardOrder: expectedCardOrder,
-    })
-  })
-
   it('navigates to the correct screen for learn', () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation((gate) => gate === StatsigFeatureGates.USE_TAB_NAVIGATOR)
     const { getByTestId } = render(
       <Provider store={store}>
         <ChooseYourAdventure />

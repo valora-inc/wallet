@@ -93,7 +93,8 @@ describe('KeylessBackupProgress', () => {
       expect(getByTestId('KeylessBackupProgress/Later')).toBeTruthy()
       fireEvent.press(getByTestId('KeylessBackupProgress/Later'))
 
-      expect(navigateHome).toHaveBeenCalledTimes(1)
+      expect(navigate).toHaveBeenCalledTimes(1)
+      expect(navigate).toHaveBeenCalledWith(Screens.Settings)
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
         KeylessBackupEvents.cab_progress_failed_later

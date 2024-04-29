@@ -3267,12 +3267,37 @@ export const v209Schema = {
     ...v208Schema._persist,
     version: 209,
   },
+  points: {
+    ...v208Schema.points,
+
+    pendingPointsEvents: [],
+  },
+}
+
+export const v210Schema = {
+  ...v209Schema,
+  _persist: {
+    ...v209Schema._persist,
+    version: 210,
+  },
+  points: {
+    ...v209Schema.points,
+    pointsHistory: [],
+  },
+}
+
+export const v211Schema = {
+  ...v210Schema,
+  _persist: {
+    ...v210Schema._persist,
+    version: 211,
+  },
   app: {
-    ...v208Schema.app,
+    ...v210Schema.app,
     hasSetPinManually: false,
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v209Schema as Partial<RootState>
+  return v211Schema as Partial<RootState>
 }

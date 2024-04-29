@@ -7,15 +7,17 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import PointsHome from 'src/points/PointsHome'
 import { getHistoryStarted, getPointsConfigRetry } from 'src/points/slice'
-import { PointsActivity } from 'src/points/types'
+import { PointsActivityId } from 'src/points/types'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
+
+jest.mock('src/points/PointsHistoryBottomSheet')
 
 const mockScreenProps = () => getMockStackScreenProps(Screens.PointsHome)
 
 const renderPointsHome = (
   pointsConfigStatus: 'idle' | 'loading' | 'error' | 'success' = 'success',
   activitiesById?: {
-    [activityId in PointsActivity]?: {
+    [activityId in PointsActivityId]?: {
       pointsAmount: number
     }
   }
@@ -106,7 +108,7 @@ describe(PointsHome, () => {
     const { getByTestId, getByText, queryByText } = renderPointsHome('success', {})
 
     expect(getByText('points.title')).toBeTruthy()
-    expect(getByText('50')).toBeTruthy() // balance
+    expect(getByTestId('PointsBalance')).toBeTruthy() // balance is animated so we cannot properly test the value programatically
     expect(getByTestId('PointsActivityButton')).toBeTruthy()
     expect(getByText('points.noActivities.title')).toBeTruthy()
     expect(getByText('points.noActivities.body')).toBeTruthy()
@@ -121,7 +123,7 @@ describe(PointsHome, () => {
     fireEvent.press(getByTestId('PointsActivityCard-swap-50'))
     await waitFor(() =>
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_press, {
-        activity: 'swap',
+        activityId: 'swap',
       })
     )
   })
@@ -131,14 +133,14 @@ describe(PointsHome, () => {
     fireEvent.press(getByTestId('PointsActivityCard-swap-50'))
     await waitFor(() =>
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_press, {
-        activity: 'swap',
+        activityId: 'swap',
       })
     )
 
     fireEvent.press(getByTestId('PointsHomeBottomSheetCtaButton'))
     await waitFor(() => expect(navigate).toHaveBeenCalledWith(Screens.SwapScreenWithBack))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_cta_press, {
-      activity: 'swap',
+      activityId: 'swap',
     })
   })
 })

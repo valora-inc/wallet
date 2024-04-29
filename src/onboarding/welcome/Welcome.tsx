@@ -1,13 +1,15 @@
-import React from 'react'
-import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import React, { useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
-import { chooseCreateAccount, chooseRestoreAccount } from 'src/account/actions'
+import { acceptTerms, chooseCreateAccount, chooseRestoreAccount } from 'src/account/actions'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { supportedBiometryTypeSelector } from 'src/app/selectors'
+import { TOS_LINK } from 'src/brandingConfig'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import CheckBox from 'src/icons/CheckBox'
 import Logo from 'src/icons/Logo'
 import { nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -15,10 +17,13 @@ import { Screens } from 'src/navigator/Screens'
 import LanguageButton from 'src/onboarding/LanguageButton'
 import { firstOnboardingScreen } from 'src/onboarding/steps'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { patchUpdateStatsigUser } from 'src/statsig'
+import { getExperimentParams, patchUpdateStatsigUser } from 'src/statsig'
+import { ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import { navigateToURI } from 'src/utils/linking'
 
 export default function Welcome() {
   const { t } = useTranslation()
@@ -28,6 +33,14 @@ export default function Welcome() {
   const insets = useSafeAreaInsets()
   const recoveringFromStoreWipe = useSelector(recoveringFromStoreWipeSelector)
   const biometryType = useSelector(supportedBiometryTypeSelector)
+  const [termsCheckbox, toggleTermsCheckBox] = useState(acceptedTerms)
+
+  const { variant } = getExperimentParams(
+    ExperimentConfigs[StatsigExperiments.ONBOARDING_TERMS_AND_CONDITIONS]
+  )
+
+  const showTermsCheckbox = variant === 'checkbox'
+  const buttonsDisabled = showTermsCheckbox && !termsCheckbox
 
   const startOnboarding = () => {
     navigate(
@@ -39,9 +52,15 @@ export default function Welcome() {
   }
 
   const navigateNext = () => {
-    if (!acceptedTerms) {
+    if (!acceptedTerms && !showTermsCheckbox) {
       navigate(Screens.RegulatoryTerms)
     } else {
+      if (showTermsCheckbox && !acceptedTerms) {
+        // if terms have not already been accepted, fire the analytics event
+        // and dispatch the action to accept the terms
+        ValoraAnalytics.track(OnboardingEvents.terms_and_conditions_accepted)
+        dispatch(acceptTerms())
+      }
       startOnboarding()
     }
   }
@@ -65,6 +84,10 @@ export default function Welcome() {
     navigateNext()
   }
 
+  const onPressTerms = () => {
+    navigateToURI(TOS_LINK)
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.contentContainer}>
@@ -74,6 +97,24 @@ export default function Welcome() {
         </Text>
       </ScrollView>
       <View style={{ marginBottom: Math.max(0, 40 - insets.bottom) }}>
+        {showTermsCheckbox && (
+          <View style={styles.termsContainer}>
+            <TouchableOpacity onPress={() => toggleTermsCheckBox((prev) => !prev)}>
+              <CheckBox
+                testID="TermsCheckbox"
+                checked={termsCheckbox}
+                checkedColor={colors.black}
+                uncheckedColor={colors.black}
+              />
+            </TouchableOpacity>
+            <Text style={styles.termsText}>
+              <Trans i18nKey="welcome.agreeToTerms">
+                <Text onPress={onPressTerms} style={styles.termsTextLink} />
+              </Trans>
+            </Text>
+          </View>
+        )}
+
         <Button
           onPress={onPressCreateAccount}
           text={t('welcome.getStarted')}
@@ -81,6 +122,7 @@ export default function Welcome() {
           type={BtnTypes.ONBOARDING}
           style={styles.createAccountButton}
           testID={'CreateAccountButton'}
+          disabled={buttonsDisabled}
         />
         <Button
           onPress={onPressRestoreAccount}
@@ -88,6 +130,7 @@ export default function Welcome() {
           size={BtnSizes.FULL}
           type={BtnTypes.ONBOARDING_SECONDARY}
           testID={'RestoreAccountButton'}
+          disabled={buttonsDisabled}
         />
       </View>
     </SafeAreaView>
@@ -117,5 +160,20 @@ const styles = StyleSheet.create({
   },
   createAccountButton: {
     marginBottom: Spacing.Smallest8,
+  },
+  termsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: Spacing.Regular16,
+    paddingHorizontal: Spacing.Smallest8,
+    gap: Spacing.Smallest8,
+  },
+  termsText: {
+    color: colors.black,
+    flexShrink: 1,
+    ...typeScale.bodySmall,
+  },
+  termsTextLink: {
+    textDecorationLine: 'underline',
   },
 })
