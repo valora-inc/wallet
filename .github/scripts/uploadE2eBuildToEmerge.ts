@@ -27,7 +27,7 @@ function getGitHubInfo() {
     }
   } else if (
     process.env.GITHUB_EVENT_NAME === 'push' ||
-    process.env.GITHUB_EVENT_NAME === 'merge_queue'
+    process.env.GITHUB_EVENT_NAME === 'merge_group'
   ) {
     sha = process.env.GITHUB_SHA ?? ''
     // Get the SHA of the previous commit, which will be the baseSha in the case of a push event.
