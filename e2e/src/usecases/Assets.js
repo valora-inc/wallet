@@ -5,7 +5,7 @@ import {
   quickOnboarding,
   waitForElementByIdAndTap,
   waitForElementId,
-  scrollIntoView,
+  scrollIntoViewByTestId,
 } from '../utils/utils'
 
 async function validateSendFlow(tokenSymbol) {
