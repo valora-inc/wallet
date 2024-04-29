@@ -100,13 +100,13 @@ const styles = StyleSheet.create({
   container: {
     overflow: 'hidden',
     flexDirection: 'row',
+    // This negative gap is a hack to bring the numbers closer together,
+    // otherwise they feel unnatural and far apart
+    gap: -2,
   },
   tickText: {
     alignItems: 'center',
     justifyContent: 'center',
-    // This negative margin is a hack to bring the numbers closer together,
-    // otherwise they feel unnatural and far apart
-    marginHorizontal: -1,
   },
   text: {
     ...typeScale.displaySmall,
