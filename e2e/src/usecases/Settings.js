@@ -4,16 +4,6 @@ import { navigateToSettings, scrollIntoView, sleep, waitForElementByIdAndTap } f
 const faker = require('@faker-js/faker')
 
 export default Settings = () => {
-  // TODO(ACT-1133): remove this launchApp as it is only needed to update
-  // statsig gate overrides
-  beforeAll(async () => {
-    await launchApp({
-      newInstance: true,
-      permissions: { notifications: 'YES', contacts: 'YES' },
-      launchArgs: { statsigGateOverrides: `use_tab_navigator=true` },
-    })
-  })
-
   beforeEach(async () => {
     await reloadReactNative()
     await navigateToSettings()

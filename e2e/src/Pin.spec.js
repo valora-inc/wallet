@@ -10,8 +10,6 @@ describe('Given PIN', () => {
     await launchApp({
       newInstance: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
-      // TODO(ACT-1133): remove launchArgs
-      launchArgs: { statsigGateOverrides: `use_tab_navigator=true` },
     })
     await quickOnboarding()
   })

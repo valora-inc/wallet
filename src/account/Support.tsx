@@ -1,18 +1,13 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { SettingsItemTextValue } from 'src/components/SettingsItem'
 import { FAQ_LINK, FORUM_LINK } from 'src/config'
-import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { StackParamList } from 'src/navigator/types'
 import fontStyles from 'src/styles/fonts'
 import { navigateToURI } from 'src/utils/linking'
-
-type Props = NativeStackScreenProps<StackParamList, Screens.Support | Screens.SupportDrawer>
 
 const openExternalLink = (link: string) => () => navigateToURI(link)
 
@@ -20,16 +15,11 @@ const onPressContact = () => {
   navigate(Screens.SupportContact)
 }
 
-const Support = ({ route }: Props) => {
+const Support = () => {
   const { t } = useTranslation()
-  const isTabNav = route.name === Screens.Support
 
   return (
-    <SafeAreaView
-      style={styles.container}
-      edges={isTabNav ? ['bottom', 'left', 'right'] : undefined}
-    >
-      {!isTabNav && <DrawerTopBar />}
+    <SafeAreaView style={styles.container} edges={['bottom', 'left', 'right']}>
       <ScrollView>
         <Text style={styles.title} testID={'SettingsTitle'}>
           {t('help')}

@@ -4,19 +4,12 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { Screens } from 'src/navigator/Screens'
 import TabNavigator from 'src/navigator/TabNavigator'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
-
-jest.mock('src/statsig')
 
 describe('TabNavigator', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation((featureGate) => featureGate !== StatsigFeatureGates.USE_TAB_NAVIGATOR)
   })
 
   it('shows the expected tabs', () => {

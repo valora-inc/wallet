@@ -40,14 +40,6 @@ describe(':ios: Given QR Scanner', () => {
   })
 
   describe("When 'scanning' QR", () => {
-    beforeAll(async () => {
-      await launchApp({
-        newInstance: true,
-        permissions: { notifications: 'YES', contacts: 'YES', camera: 'YES' },
-        launchArgs: { statsigGateOverrides: `use_tab_navigator=true` },
-      })
-    })
-
     beforeEach(async () => {
       await reloadReactNative()
       await waitForElementId('HomeAction-Receive')

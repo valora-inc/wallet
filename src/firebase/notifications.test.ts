@@ -79,7 +79,7 @@ describe(handleNotification, () => {
   })
 
   describe("with a notification with an 'open url' semantic and a deep link", () => {
-    const expectedUrl = `celo://wallet/openScreen?screen=${Screens.WalletHome}`
+    const expectedUrl = `celo://wallet/openScreen?screen=${Screens.TabNavigator}`
     const message: FirebaseMessagingTypes.RemoteMessage = {
       notification: { title: 'My title', body: 'My Body' },
       data: { ou: expectedUrl },

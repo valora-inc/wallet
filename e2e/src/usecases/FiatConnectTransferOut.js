@@ -189,11 +189,6 @@ export const fiatConnectNonKycTransferOut = () => {
 
 export const fiatConnectKycTransferOut = () => {
   it('FiatConnect cash out', async () => {
-    await launchApp({
-      newInstance: true,
-      permissions: { notifications: 'YES', contacts: 'YES', camera: 'YES' },
-      launchArgs: { statsigGateOverrides: `use_tab_navigator=true` },
-    })
     // ******** First time experience ************
     const cashOutAmount = 0.01
     const gasAmount = 0.015

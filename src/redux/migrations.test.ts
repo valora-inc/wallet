@@ -1,8 +1,7 @@
 import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import { FinclusiveKycStatus } from 'src/account/reducer'
-import { initialState as exchangeInitialState } from 'src/exchange/reducer'
-import { migrations } from 'src/redux/migrations'
+import { exchangeInitialState, migrations } from 'src/redux/migrations'
 import {
   Network,
   NetworkId,
@@ -83,11 +82,11 @@ import {
   mockInvitableRecipient,
   mockInvitableRecipient2,
   mockPositions,
-  mockShortcuts,
+  mockPositionsLegacy,
   mockRecipient,
   mockRecipient2,
+  mockShortcuts,
   mockShortcutsLegacy,
-  mockPositionsLegacy,
 } from 'test/values'
 
 describe('Redux persist migrations', () => {

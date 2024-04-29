@@ -285,6 +285,22 @@ export async function scrollIntoView(scrollTo, scrollIn, speed = 350, direction 
   } catch {}
 }
 
+/**
+ * Scrolls to an element by testID within another
+ * @param {string} scrollTo - The element to scroll to by testID.
+ * @param {string} scrollIn - The element to scroll within to by testID.
+ * @param {number} [speed=350] -  The speed at which to scroll
+ * @param {string} [direction='down'] - The direction of which to scroll
+ */
+export async function scrollIntoViewByTestId(scrollTo, scrollIn, speed = 350, direction = 'down') {
+  try {
+    await waitFor(element(by.id(scrollTo)))
+      .toBeVisible()
+      .whileElement(by.id(scrollIn))
+      .scroll(speed, direction)
+  } catch {}
+}
+
 export function getDeviceModel() {
   return device.name.split(/\s(.+)/)[1].replace(/[(]|[)]/g, '')
 }
@@ -437,18 +453,7 @@ export const createCommentText = () => {
   return `${new Date().getTime()}-${parseInt(Math.random() * 100_000)}`
 }
 
-export async function navigateToSettings(navType) {
-  // only used in wallet connect tests, as it opens the app with openUrl, so we
-  // can't specify launch args. Clean this up when making the tab nav the default
-  // TODO(ACT-1133): remove navType option
-  if (navType === 'drawer') {
-    await waitForElementId('Hamburger')
-    await element(by.id('Hamburger')).tap()
-    await scrollIntoView('Settings', 'SettingsScrollView')
-    await waitForElementId('Settings')
-    await element(by.id('Settings')).tap()
-  } else {
-    await waitForElementByIdAndTap('WalletHome/AccountCircle')
-    await waitForElementByIdAndTap('ProfileMenu/Settings')
-  }
+export async function navigateToSettings() {
+  await waitForElementByIdAndTap('WalletHome/AccountCircle')
+  await waitForElementByIdAndTap('ProfileMenu/Settings')
 }

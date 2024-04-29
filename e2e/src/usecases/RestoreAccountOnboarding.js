@@ -19,8 +19,6 @@ export default RestoreAccountOnboarding = () => {
     await device.installApp()
     await launchApp({
       permissions: { notifications: 'YES', contacts: 'YES' },
-      // TODO(ACT-1133): remove launchArgs
-      launchArgs: { statsigGateOverrides: 'use_tab_navigator=true' },
     })
   })
 

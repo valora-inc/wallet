@@ -8,7 +8,6 @@ export enum RewardsScreenOrigin {
   RewardAvailableNotification = 'RewardAvailableNotification',
   PaymentDetail = 'PaymentDetail',
   PushNotification = 'PushNotification',
-  SideMenu = 'SideMenu',
   SuperchargingNotification = 'SuperchargingNotification',
   StartSuperchargingNotification = 'StartSuperchargingNotification',
 }
