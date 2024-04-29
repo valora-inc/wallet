@@ -130,4 +130,19 @@ describe(PointsHistoryBottomSheet, () => {
     )
     expect(dispatch).toHaveBeenCalledWith(getHistoryStarted({ getNextPage: false }))
   })
+
+  it('shows empty screen if no info after fetch', async () => {
+    const tree = renderScreen({ points: { getHistoryStatus: 'idle', pointsHistory: [] } })
+    expect(tree.getByTestId('PointsHistoryBottomSheet/Empty')).toBeTruthy()
+  })
+
+  it('closes bottom sheet if learn more is pressed', async () => {
+    const { getByText } = renderScreen({ points: { getHistoryStatus: 'idle', pointsHistory: [] } })
+    fireEvent.press(getByText('points.history.empty.learnMore'))
+    await waitFor(() =>
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        PointsEvents.points_screen_activity_learn_more_press
+      )
+    )
+  })
 })
