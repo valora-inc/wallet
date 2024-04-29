@@ -25,7 +25,10 @@ function getGitHubInfo() {
     if (!prNumber) {
       throw new Error('Could not get prNumber for a PR triggered build.')
     }
-  } else if (['push', 'merge_group'].includes(process.env.GITHUB_EVENT_NAME)) {
+  } else if (
+    process.env.GITHUB_EVENT_NAME === 'push' ||
+    process.env.GITHUB_EVENT_NAME === 'merge_queue'
+  ) {
     sha = process.env.GITHUB_SHA ?? ''
     // Get the SHA of the previous commit, which will be the baseSha in the case of a push event.
     baseSha = eventFileJson?.before ?? ''
