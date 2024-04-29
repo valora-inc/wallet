@@ -163,7 +163,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
         testID="PointsHistoryList"
         onEndReached={onFetchMoreHistory}
         ListFooterComponent={Loading}
-        ListEmptyComponent={pointsHistoryStatus === 'loading' ? null : EmptyOrError}
+        ListEmptyComponent={renderEmpty ? EmptyOrError : null}
         onEndReachedThreshold={0.5}
       />
     </BottomSheetBase>
