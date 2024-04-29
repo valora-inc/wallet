@@ -229,6 +229,7 @@ export function SwapScreen({ route }: Props) {
     [Field.TO]: tokenBottomSheetToRef,
   }
   const preparedTransactionsReviewBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const exchangeRateInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const networkFeeInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const slippageInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const fundYourWalletBottomSheetRef = useRef<BottomSheetRefType>(null)
@@ -239,10 +240,10 @@ export function SwapScreen({ route }: Props) {
   const { swapBuyAmountEnabled } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.SWAP_BUY_AMOUNT]
   )
-  const slippagePercentage = getDynamicConfigParams(
+  const { maxSlippagePercentage, enableValoraFee } = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
-  ).maxSlippagePercentage
-  const parsedSlippagePercentage = new BigNumber(slippagePercentage).toFormat()
+  )
+  const parsedSlippagePercentage = new BigNumber(maxSlippagePercentage).toFormat()
 
   const { swappableFromTokens, swappableToTokens, areSwapTokensShuffled } = useSwappableTokens()
 
@@ -292,10 +293,11 @@ export function SwapScreen({ route }: Props) {
   )
   const localCurrency = useSelector(getLocalCurrencyCode)
 
-  const { quote, refreshQuote, fetchSwapQuoteError, fetchingSwapQuote, clearQuote } = useSwapQuote(
-    fromToken?.networkId || networkConfig.defaultNetworkId,
-    slippagePercentage
-  )
+  const { quote, refreshQuote, fetchSwapQuoteError, fetchingSwapQuote, clearQuote } = useSwapQuote({
+    networkId: fromToken?.networkId || networkConfig.defaultNetworkId,
+    slippagePercentage: maxSlippagePercentage,
+    enableValoraFee,
+  })
 
   // Parsed swap amounts (BigNumber)
   const parsedSwapAmount = useMemo(
@@ -630,6 +632,10 @@ export function SwapScreen({ route }: Props) {
     return getNetworkFee(quote, fromToken?.networkId)
   }, [fromToken, quote])
 
+  const valoraFeePercentage = quote?.valoraFeePercentageIncludedInPrice
+    ? new BigNumber(quote.valoraFeePercentageIncludedInPrice)
+    : undefined
+
   useEffect(() => {
     if (showPriceImpactWarning || showMissingPriceImpactWarning) {
       if (!quote) {
@@ -729,6 +735,8 @@ export function SwapScreen({ route }: Props) {
             exchangeRatePrice={quote?.price}
             swapAmount={parsedSwapAmount[Field.FROM]}
             fetchingSwapQuote={quoteUpdatePending}
+            enableValoraFee={enableValoraFee}
+            exchangeRateInfoBottomSheetRef={exchangeRateInfoBottomSheetRef}
           />
           {showSwitchedToNetworkWarning && (
             <InLineNotification
@@ -841,6 +849,26 @@ export function SwapScreen({ route }: Props) {
           }}
         />
       )}
+      <BottomSheet
+        forwardedRef={exchangeRateInfoBottomSheetRef}
+        description={t('swapScreen.transactionDetails.exchangeRateInfo', {
+          context: valoraFeePercentage?.isGreaterThan(0) ? 'withValoraFee' : '',
+          networkName: NETWORK_NAMES[fromToken?.networkId || networkConfig.defaultNetworkId],
+          slippagePercentage: parsedSlippagePercentage,
+          valoraFeePercentage: valoraFeePercentage?.toFormat(),
+        })}
+        testId="ExchangeRateInfoBottomSheet"
+      >
+        <Button
+          type={BtnTypes.SECONDARY}
+          size={BtnSizes.FULL}
+          style={styles.bottomSheetButton}
+          onPress={() => {
+            exchangeRateInfoBottomSheetRef.current?.close()
+          }}
+          text={t('swapScreen.transactionDetails.exchangeRateInfoDismissButton')}
+        />
+      </BottomSheet>
       <BottomSheet
         forwardedRef={networkFeeInfoBottomSheetRef}
         description={t('swapScreen.transactionDetails.networkFeeInfoV1_76', {
