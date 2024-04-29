@@ -5,6 +5,7 @@ import { typeScale } from 'src/styles/fonts'
 interface CommonProps {
   textHeight: number
   textStyles?: StyleProp<TextStyle>
+  animationDuration?: number
 }
 interface Props extends CommonProps {
   finalValue: string
@@ -30,13 +31,14 @@ function TickText({ value, textHeight, textStyles }: TickTextProps) {
   )
 }
 
-function Tick({ startValue, endValue, textHeight, textStyles }: TickProps) {
+function Tick({ startValue, endValue, textHeight, textStyles, animationDuration }: TickProps) {
   const animatedValue = new Animated.Value(startValue * textHeight * -1)
   const transformStyle = { transform: [{ translateY: animatedValue }] }
+  const duration = animationDuration ?? 1300
 
   Animated.timing(animatedValue, {
     toValue: endValue * textHeight * -1,
-    duration: 1300,
+    duration,
     useNativeDriver: true,
   }).start()
 
@@ -51,7 +53,13 @@ function Tick({ startValue, endValue, textHeight, textStyles }: TickProps) {
   )
 }
 
-export default function NumberTicker({ finalValue, textStyles, textHeight, testID }: Props) {
+export default function NumberTicker({
+  finalValue,
+  textStyles,
+  textHeight,
+  animationDuration,
+  testID,
+}: Props) {
   const finalValueArray = finalValue.toString().split('')
 
   // For the startValueArray, map over each character in the finalValueArray to
@@ -80,6 +88,7 @@ export default function NumberTicker({ finalValue, textStyles, textHeight, testI
             endValue={endValue}
             textHeight={textHeight}
             textStyles={textStyles}
+            animationDuration={animationDuration}
           />
         )
       })}
@@ -94,6 +103,7 @@ const styles = StyleSheet.create({
   },
   tickText: {
     alignItems: 'center',
+    justifyContent: 'center',
     // This negative margin is a hack to bring the numbers closer together,
     // otherwise they feel unnatural and far apart
     marginHorizontal: -1,
