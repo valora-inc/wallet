@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { ActivityIndicator, StyleSheet, Text, View, ListRenderItem } from 'react-native'
 import SectionHead from 'src/components/SectionHead'
 import GorhomBottomSheet from '@gorhom/bottom-sheet'
@@ -21,6 +21,8 @@ import { BottomSheetSectionList } from '@gorhom/bottom-sheet'
 import { useGetHistoryDefinition } from 'src/points/cardDefinitions'
 import { HistoryCardMetadata } from 'src/points/cardDefinitions'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
+import AttentionIcon from 'src/icons/Attention'
 
 interface Props {
   forwardedRef: React.RefObject<GorhomBottomSheet>
@@ -54,6 +56,8 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
 
   const pointsHistoryStatus = useSelector(pointsHistoryStatusSelector)
   const pointsHistory = useSelector(pointsHistorySelector)
+  console.log(pointsHistoryStatus)
+  const [showErrorBanner, setShowErrorBanner] = useState(false)
 
   const getHistoryDefinition = useGetHistoryDefinition()
 
@@ -90,6 +94,16 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
   const onPressLearnMore = () => {
     ValoraAnalytics.track(PointsEvents.points_screen_activity_learn_more_press)
     forwardedRef.current?.close()
+  }
+
+  const onPressRefresh = () => {
+    ValoraAnalytics.track(PointsEvents.points_screen_activity_refresh_press)
+    setShowErrorBanner(false)
+    dispatch(
+      getHistoryStarted({
+        getNextPage: true,
+      })
+    )
   }
 
   const Loading =
@@ -139,10 +153,14 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
   const renderEmpty =
     pointsHistoryStatus === 'error' || (pointsHistoryStatus !== 'loading' && !pointsHistory.length)
 
-  // TODO: Figure out what to render when error occurs on subsequent page fetch
-
   const sections = useMemo(() => {
     return groupFeedItemsInSections([], pointsHistory)
+  }, [pointsHistory, pointsHistoryStatus])
+
+  useMemo(() => {
+    if (pointsHistory.length && pointsHistoryStatus === 'error') {
+      setShowErrorBanner(true)
+    }
   }, [pointsHistory, pointsHistoryStatus])
 
   return (
@@ -166,11 +184,26 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
         ListEmptyComponent={renderEmpty ? EmptyOrError : null}
         onEndReachedThreshold={0.5}
       />
+      {showErrorBanner && (
+        <InLineNotification
+          variant={NotificationVariant.Error}
+          title={t('points.history.pageError.title')}
+          description={t('points.history.pageError.subtitle')}
+          ctaLabel={t('points.history.pageError.refresh')}
+          onPressCta={onPressRefresh}
+          withBorder={true}
+          style={styles.errorBanner}
+          customIcon={<AttentionIcon color={colors.errorDark} size={20} />}
+        />
+      )}
     </BottomSheetBase>
   )
 }
 
 const styles = StyleSheet.create({
+  errorBanner: {
+    marginHorizontal: Spacing.Regular16,
+  },
   emptyContainer: {
     flex: 1,
     padding: Spacing.Thick24,
