@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import deviceInfoModule from 'react-native-device-info'
-import { createSelector } from 'reselect'
+import { createSelector, lruMemoize } from 'reselect'
 import {
   STABLE_TRANSACTION_MIN_AMOUNT,
   TIME_UNTIL_TOKEN_INFO_BECOMES_STALE,
@@ -77,6 +77,7 @@ export const tokensByIdSelector = createSelector(
     return tokenBalances
   },
   {
+    memoize: lruMemoize,
     memoizeOptions: {
       equalityCheck: (previousValue, currentValue) => {
         if (isNetworkIdList(previousValue) && isNetworkIdList(currentValue)) {
@@ -499,6 +500,7 @@ export const feeCurrenciesWithPositiveBalancesSelector = createSelector(
     return feeCurrencies.filter((token) => token.balance.gt(0))
   },
   {
+    memoize: lruMemoize,
     memoizeOptions: {
       maxSize: DEFAULT_MEMOIZE_MAX_SIZE,
     },
