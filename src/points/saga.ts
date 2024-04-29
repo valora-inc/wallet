@@ -52,8 +52,6 @@ export async function fetchHistory(
   }
 }
 
-const delay = (ms) => new Promise((res) => setTimeout(res, ms))
-
 export function* getHistory({ payload: params }: ReturnType<typeof getHistoryStarted>) {
   const walletAddress = yield* select(walletAddressSelector)
   if (!walletAddress) {
@@ -67,16 +65,6 @@ export function* getHistory({ payload: params }: ReturnType<typeof getHistorySta
   }
 
   const url = params.getNextPage ? yield* select(nextPageUrlSelector) : undefined
-
-  if (params.getNextPage) {
-    yield* call(delay, 2000)
-    yield* put(
-      getHistoryError({
-        resetHistory: !params.getNextPage,
-      })
-    )
-    return
-  }
 
   // Silently succeed if a refresh is requested but no page information
   // is available; not considered an "error" state.

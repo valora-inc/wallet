@@ -56,7 +56,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
 
   const pointsHistoryStatus = useSelector(pointsHistoryStatusSelector)
   const pointsHistory = useSelector(pointsHistorySelector)
-  console.log(pointsHistoryStatus)
+
   const [showErrorBanner, setShowErrorBanner] = useState(false)
 
   const getHistoryDefinition = useGetHistoryDefinition()
@@ -193,6 +193,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
           withBorder={true}
           style={styles.errorBanner}
           customIcon={<AttentionIcon color={colors.errorDark} size={20} />}
+          testID={'PointsHistoryBottomSheet/ErrorBanner'}
         />
       )}
     </BottomSheetBase>
