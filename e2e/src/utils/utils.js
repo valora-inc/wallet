@@ -285,6 +285,22 @@ export async function scrollIntoView(scrollTo, scrollIn, speed = 350, direction 
   } catch {}
 }
 
+/**
+ * Scrolls to an element by testID within another
+ * @param {string} scrollTo - The element to scroll to by testID.
+ * @param {string} scrollIn - The element to scroll within to by testID.
+ * @param {number} [speed=350] -  The speed at which to scroll
+ * @param {string} [direction='down'] - The direction of which to scroll
+ */
+export async function scrollIntoViewByTestId(scrollTo, scrollIn, speed = 350, direction = 'down') {
+  try {
+    await waitFor(element(by.id(scrollTo)))
+      .toBeVisible()
+      .whileElement(by.id(scrollIn))
+      .scroll(speed, direction)
+  } catch {}
+}
+
 export function getDeviceModel() {
   return device.name.split(/\s(.+)/)[1].replace(/[(]|[)]/g, '')
 }
