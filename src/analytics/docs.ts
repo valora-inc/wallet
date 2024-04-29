@@ -360,9 +360,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [TransactionEvents.transaction_confirmed]: `when a transaction is confirmed by the blockchain`,
   [TransactionEvents.transaction_error]: `when a transaction submission emits an error (only for contract-kit)`,
   [TransactionEvents.transaction_exception]: `when a transaction submission throws`,
-  [CeloExchangeEvents.celo_home_info]: `when the (i) next to Celo Gold price is clicked, launching education (not pictured)`,
   [CeloExchangeEvents.celo_withdraw_completed]: `when the transaction for the withdrawal is completed`,
-  [CeloExchangeEvents.celo_chart_tapped]: `when user clicks the chart on exchange screen`,
 
   // The CICO landing page accessible from the Settings Menu
   [FiatExchangeEvents.cico_landing_token_balance]: `User taps to view detailed token balance`,
@@ -604,6 +602,8 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   // [CeloExchangeEvents.celo_withdraw_cancel]: `when ’cancel’ is clicked on the review screen`,
   // [CeloExchangeEvents.celo_withdraw_confirm]: `when ‘withdraw’ is clicked on the review screen`,
   // [CeloExchangeEvents.celo_withdraw_error]: `when there's an error on the withdrawal transaction`,
+  // [CeloExchangeEvents.celo_home_info]: `when the (i) next to Celo Gold price is clicked, launching education (not pictured)`,
+  // [CeloExchangeEvents.celo_chart_tapped]: `when user clicks the chart on exchange screen`,
   // [NftEvents.nft_gallery_screen_open]: `When the gallery screen is mounted`,
   // [PhoneVerificationEvents.phone_verification_input_help_skip]: `when the user presses skip on the help dialog to skip verification`,
   // [PhoneVerificationEvents.phone_verification_skip]: `when skip is pressed in the phone number input screen`,

@@ -351,11 +351,7 @@ export enum TransactionEvents {
 }
 
 export enum CeloExchangeEvents {
-  celo_home_info = 'celo_home_info',
-
   celo_withdraw_completed = 'celo_withdraw_completed',
-
-  celo_chart_tapped = 'celo_chart_tapped',
 }
 
 export enum FiatExchangeEvents {

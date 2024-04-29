@@ -10,20 +10,20 @@ import { findBestAvailableLanguage } from 'react-native-localize'
 import { eventChannel } from 'redux-saga'
 import { e164NumberSelector } from 'src/account/selectors'
 import { AppEvents, InviteEvents } from 'src/analytics/Events'
-import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import {
   Actions,
+  OpenDeepLink,
+  OpenUrlAction,
+  SetAppState,
   androidMobileServicesAvailabilityChecked,
   appLock,
   inAppReviewRequested,
   inviteLinkConsumed,
   minAppVersionDetermined,
-  OpenDeepLink,
   openDeepLink,
-  OpenUrlAction,
   phoneNumberVerificationMigrated,
-  SetAppState,
   setAppState,
   setSupportedBiometryType,
   updateRemoteConfigValues,
@@ -38,13 +38,13 @@ import {
   sentryNetworkErrorsSelector,
   shouldRunVerificationMigrationSelector,
 } from 'src/app/selectors'
+import { CeloNewsConfig } from 'src/celoNews/types'
 import { DEFAULT_APP_LANGUAGE, FETCH_TIMEOUT_DURATION, isE2EEnv } from 'src/config'
 import { claimRewardsSuccess } from 'src/consumerIncentives/slice'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
-import { CeloNewsConfig } from 'src/exchange/types'
-import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
+import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import { appVersionDeprecationChannel, fetchRemoteConfigValues } from 'src/firebase/firebase'
 import { initI18n } from 'src/i18n'
 import {
@@ -70,9 +70,9 @@ import { getFeatureGate, patchUpdateStatsigUser, setupOverridesFromLaunchArgs } 
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { swapSuccess } from 'src/swap/slice'
 import { NetworkId } from 'src/transactions/types'
+import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { isDeepLink, navigateToURI } from 'src/utils/linking'
-import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { isWalletConnectEnabled } from 'src/walletConnect/saga'
