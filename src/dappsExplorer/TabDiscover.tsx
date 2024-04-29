@@ -55,7 +55,7 @@ interface SectionData {
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TabDiscover>
 
-export function DAppsExplorerScreenSearchFilter({ navigation }: Props) {
+function TabDiscover({ navigation }: Props) {
   const { t } = useTranslation()
 
   const insets = useSafeAreaInsets()
@@ -362,4 +362,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default DAppsExplorerScreenSearchFilter
+export default TabDiscover

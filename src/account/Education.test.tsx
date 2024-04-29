@@ -2,11 +2,9 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { createMockStore } from 'test/utils'
-import Education, { EducationTopic, EmbeddedNavBar } from '../../src/account/Education'
+import Education, { EducationTopic } from '../../src/account/Education'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
@@ -22,7 +20,6 @@ const educationProps = {
     },
   ],
   buttonText: 'next',
-  embeddedNavBar: EmbeddedNavBar.Close,
   finalButtonText: BUTTON_TEXT,
   onFinish: jest.fn(),
 }
@@ -47,18 +44,5 @@ describe('Education', () => {
     const edu = render(<Education {...educationProps} />)
     fireEvent.press(edu.getByTestId('Education/CloseIcon'))
     expect(navigateBack).toBeCalled()
-  })
-
-  it('onboarding step info analytics event fires', () => {
-    // Onboarding analytics event
-    const onboardingProps = { ...educationProps }
-    onboardingProps.stepInfo[0].topic = EducationTopic.onboarding
-    render(<Education {...educationProps} />)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      OnboardingEvents.onboarding_education_step_impression,
-      {
-        step: 0,
-      }
-    )
   })
 })

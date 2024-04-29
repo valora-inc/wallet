@@ -2,7 +2,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform } from 'react-native'
-import Education, { EducationTopic, EmbeddedNavBar } from 'src/account/Education'
+import Education, { EducationTopic } from 'src/account/Education'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { BtnTypes } from 'src/components/Button'
@@ -34,7 +34,6 @@ export default function AccountKeyEducation(props: Props) {
 
   return (
     <Education
-      embeddedNavBar={EmbeddedNavBar.Close}
       stepInfo={steps}
       onFinish={onComplete}
       finalButtonText={t('completeEducation')}

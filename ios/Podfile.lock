@@ -262,8 +262,6 @@ PODS:
   - OpenSSL-Universal (1.1.1100)
   - PersonaInquirySDK2 (2.3.9)
   - PromisesObjC (2.3.1)
-  - PromisesSwift (2.3.1):
-    - PromisesObjC (= 2.3.1)
   - RCT-Folly (2021.07.22.00):
     - boost
     - DoubleConversion
@@ -552,24 +550,20 @@ PODS:
     - React-Core
   - react-native-randombytes (3.6.1):
     - React-Core
-  - react-native-safe-area-context (4.9.0):
+  - react-native-safe-area-context (4.10.1):
     - React-Core
   - react-native-shake (5.5.2):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - react-native-simple-toast (1.1.4):
+  - react-native-simple-toast (3.3.1):
     - React-Core
-    - Toast (~> 4.0.0)
+    - Toast (~> 4)
   - react-native-splash-screen (3.3.0):
     - React-Core
-  - react-native-video (6.0.0-beta.8):
+  - react-native-video (6.0.0-rc.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-    - react-native-video/Video (= 6.0.0-beta.8)
-  - react-native-video/Video (6.0.0-beta.8):
-    - PromisesSwift
-    - RCT-Folly (= 2021.07.22.00)
-    - React-Core
+    - react-native-video/Video (= 6.0.0-rc.0)
   - react-native-webview (13.8.6):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
@@ -726,7 +720,7 @@ PODS:
   - RNPersonaInquiry2 (2.2.23):
     - PersonaInquirySDK2 (= 2.3.9)
     - React-Core
-  - RNReactNativeHapticFeedback (1.14.0):
+  - RNReactNativeHapticFeedback (2.2.0):
     - React-Core
   - RNReanimated (2.17.0):
     - DoubleConversion
@@ -950,7 +944,6 @@ SPEC REPOS:
     - OpenSSL-Universal
     - PersonaInquirySDK2
     - PromisesObjC
-    - PromisesSwift
     - RecaptchaInterop
     - SDWebImage
     - SDWebImageWebPCoder
@@ -1191,7 +1184,6 @@ SPEC CHECKSUMS:
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   PersonaInquirySDK2: 8153173c5f6d4e964874c9f0d7b375652c9bb6f9
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
-  PromisesSwift: 28dca69a9c40779916ac2d6985a0192a5cb4a265
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
   RCTRequired: 90f1bac0c9682cd0f725922a79fbc064836f06bb
   RCTTypeSafety: 14a5fd9ec04e2807eff1fcd22a293befd68de90f
@@ -1219,11 +1211,11 @@ SPEC CHECKSUMS:
   react-native-launch-arguments: 5f41e0abf88a15e3c5309b8875d6fd5ac43df49d
   react-native-netinfo: bdb108d340cdb41875c9ced535977cac6d2ff321
   react-native-randombytes: 421f1c7d48c0af8dbcd471b0324393ebf8fe7846
-  react-native-safe-area-context: b97eb6f9e3b7f437806c2ce5983f479f8eb5de4b
+  react-native-safe-area-context: dcab599c527c2d7de2d76507a523d20a0b83823d
   react-native-shake: 8036ba95a1953c9b10821bdc33f5814c5d0bcef6
-  react-native-simple-toast: 8ee5d23f0b92b935ab7434cdb65159ce12dfb4b7
+  react-native-simple-toast: 1f1cc551d419bc0ab05dcb0136554006c274789d
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
-  react-native-video: 3a27f78ff6552027d9b6f1985e2f4dfca39c76f1
+  react-native-video: e820b3ba1ad07e5b2bae137aa92966ea26086d21
   react-native-webview: a987704e6cd3f5a21d372ef316e43f7b442d59ca
   React-perflogger: 2588b59d386dbbc1df392da9493a8baa690bc89c
   React-RCTActionSheet: 057d6c6fc29e2a6d183d323ef35d9f6aedae936b
@@ -1260,7 +1252,7 @@ SPEC CHECKSUMS:
   RNLocalize: d4b8af4e442d4bcca54e68fc687a2129b4d71a81
   RNPermissions: da2a4ded375aa8292d85ed93676e102c203d4717
   RNPersonaInquiry2: 3ab52078e891a5d2fa39bf7cc9119ca27f0337fd
-  RNReactNativeHapticFeedback: 1e3efeca9628ff9876ee7cdd9edec1b336913f8c
+  RNReactNativeHapticFeedback: ec56a5f81c3941206fd85625fa669ffc7b4545f9
   RNReanimated: f186e85d9f28c9383d05ca39e11dd194f59093ec
   RNScreens: 93ae3be2f119d955620f9bbb39ad372adb53b7a9
   RNSecureRandom: ff25041dd065a945810ca01a2bcd06f8d141b81d

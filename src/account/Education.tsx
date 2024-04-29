@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import {
   Image,
   ImageSourcePropType,
@@ -25,13 +25,7 @@ import fontStyles from 'src/styles/fonts'
 import progressDots from 'src/styles/progressDots'
 import variables from 'src/styles/variables'
 
-// TODO: clean this up
-export enum EmbeddedNavBar {
-  Close = 'Close',
-}
-
 export enum EducationTopic {
-  onboarding = 'onboarding',
   backup = 'backup',
   celo = 'celo',
 }
@@ -46,7 +40,6 @@ interface EducationStep {
 }
 
 export type Props = NativeSafeAreaViewProps & {
-  embeddedNavBar: EmbeddedNavBar | null
   stepInfo: EducationStep[]
   buttonType?: BtnTypes
   buttonText: string
@@ -60,7 +53,6 @@ export type Props = NativeSafeAreaViewProps & {
 const Education = (props: Props) => {
   const {
     style,
-    embeddedNavBar,
     stepInfo,
     buttonType = BtnTypes.SECONDARY,
     buttonText,
@@ -73,9 +65,6 @@ const Education = (props: Props) => {
   } = props
 
   const [currentIndex, setCurrentIndex] = useState(0)
-  // This variable tracks the last scrolled to carousel screen, so that impression
-  // events are not dispatched twice for the same carousel screen
-  const lastViewedIndex = useRef(-1)
   // Scroll View Ref for button clicks
   const scrollViewRef = useRef<ScrollView>(null)
 
@@ -97,27 +86,10 @@ const Education = (props: Props) => {
         currentStep: currentIndex,
         direction: direction,
       })
-    } else if (topic === EducationTopic.onboarding) {
-      ValoraAnalytics.track(OnboardingEvents.onboarding_education_scroll, {
-        currentStep: currentIndex,
-        direction: direction,
-      })
     }
 
     setCurrentIndex(Math.round(event.nativeEvent.contentOffset.x / variables.width))
   }
-
-  useEffect(() => {
-    const { topic } = stepInfo[currentIndex]
-    if (stepInfo.length > 0 && lastViewedIndex.current < currentIndex) {
-      lastViewedIndex.current = currentIndex
-    }
-    if (topic === EducationTopic.onboarding) {
-      ValoraAnalytics.track(OnboardingEvents.onboarding_education_step_impression, {
-        step: currentIndex,
-      })
-    }
-  }, [currentIndex])
 
   if (!stepInfo.length) {
     // No Steps, no slider
@@ -145,26 +117,15 @@ const Education = (props: Props) => {
       : scrollViewRef.current?.scrollTo({ x: variables.width * (currentIndex + 1), animated: true })
   }
 
-  const renderEmbeddedNavBar = () => {
-    switch (embeddedNavBar) {
-      case EmbeddedNavBar.Close:
-        return (
-          <View style={styles.top} testID="Education/top">
-            <TopBarIconButton
-              testID={`Education/${currentIndex === 0 ? 'Close' : 'Back'}Icon`}
-              onPress={goBack}
-              icon={currentIndex === 0 ? <Times /> : <BackChevron color={colors.black} />}
-            />
-          </View>
-        )
-      default:
-        return null
-    }
-  }
-
   return (
     <SafeAreaView testID="Education" style={[styles.root, style]} {...passThroughProps}>
-      {renderEmbeddedNavBar()}
+      <View style={styles.top} testID="Education/top">
+        <TopBarIconButton
+          testID={`Education/${currentIndex === 0 ? 'Close' : 'Back'}Icon`}
+          onPress={goBack}
+          icon={currentIndex === 0 ? <Times /> : <BackChevron color={colors.black} />}
+        />
+      </View>
       <View style={styles.container}>
         <ScrollView
           ref={scrollViewRef}

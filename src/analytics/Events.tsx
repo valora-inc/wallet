@@ -33,10 +33,7 @@ export enum AppEvents {
 }
 
 export enum HomeEvents {
-  hamburger_tapped = 'hamburger_tapped',
   account_circle_tapped = 'account_circle_tapped',
-  drawer_navigation = 'drawer_navigation',
-  drawer_address_copy = 'drawer_address_copy',
   profile_address_copy = 'profile_address_copy',
   notification_scroll = 'notification_scroll',
   notification_impression = 'notification_impression',
@@ -133,9 +130,6 @@ export enum KeylessBackupEvents {
 }
 
 export enum OnboardingEvents {
-  onboarding_education_scroll = 'onboarding_education_scroll',
-  onboarding_education_step_impression = 'onboarding_education_step_impression',
-
   create_account_start = 'create_account_start',
 
   restore_account_start = 'restore_account_start',

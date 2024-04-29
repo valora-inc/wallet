@@ -1,6 +1,6 @@
 import { createClient } from '@segment/analytics-react-native'
 import { PincodeType } from 'src/account/reducer'
-import { HomeEvents } from 'src/analytics/Events'
+import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalyticsModule from 'src/analytics/ValoraAnalytics'
 import { store } from 'src/redux/store'
 import { getDefaultStatsigUser, getDynamicConfigParams, getFeatureGate } from 'src/statsig'
@@ -240,24 +240,24 @@ describe('ValoraAnalytics', () => {
   })
 
   it('delays track calls until async init has finished', async () => {
-    ValoraAnalytics.track(HomeEvents.drawer_navigation, { navigateTo: 'somewhere' })
+    ValoraAnalytics.track(OnboardingEvents.pin_invalid, { error: 'some error' })
     expect(mockSegmentClient.track).not.toHaveBeenCalled()
 
     await ValoraAnalytics.init()
     // Now that init has finished track should have been called
     expect(mockSegmentClient.track).toHaveBeenCalledTimes(1)
-    expect(mockSegmentClient.track).toHaveBeenCalledWith(HomeEvents.drawer_navigation, {
+    expect(mockSegmentClient.track).toHaveBeenCalledWith(OnboardingEvents.pin_invalid, {
       ...defaultProperties,
-      navigateTo: 'somewhere',
+      error: 'some error',
     })
 
     // And now test that track calls go trough directly
     mockSegmentClient.track.mockClear()
-    ValoraAnalytics.track(HomeEvents.drawer_navigation, { navigateTo: 'somewhere else' })
+    ValoraAnalytics.track(OnboardingEvents.pin_invalid, { error: 'some error' })
     expect(mockSegmentClient.track).toHaveBeenCalledTimes(1)
-    expect(mockSegmentClient.track).toHaveBeenCalledWith(HomeEvents.drawer_navigation, {
+    expect(mockSegmentClient.track).toHaveBeenCalledWith(OnboardingEvents.pin_invalid, {
       ...defaultProperties,
-      navigateTo: 'somewhere else',
+      error: 'some error',
     })
   })
 
@@ -288,11 +288,11 @@ describe('ValoraAnalytics', () => {
 
   it('adds super properties to all tracked events', async () => {
     await ValoraAnalytics.init()
-    ValoraAnalytics.track(HomeEvents.drawer_navigation, { navigateTo: 'somewhere else' })
+    ValoraAnalytics.track(OnboardingEvents.pin_invalid, { error: 'some error' })
     expect(mockSegmentClient.track).toHaveBeenCalledTimes(1)
-    expect(mockSegmentClient.track).toHaveBeenCalledWith(HomeEvents.drawer_navigation, {
+    expect(mockSegmentClient.track).toHaveBeenCalledWith(OnboardingEvents.pin_invalid, {
       ...defaultProperties,
-      navigateTo: 'somewhere else',
+      error: 'some error',
     })
   })
 

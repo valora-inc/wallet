@@ -5,7 +5,7 @@ import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { dappSelected, favoriteDapp, fetchDappsList, unfavoriteDapp } from 'src/dapps/slice'
 import { DappCategory, DappSection } from 'src/dapps/types'
-import DAppsExplorerScreenSearchFilter from 'src/dappsExplorer/DAppsExplorerScreenSearchFilter'
+import TabDiscover from 'src/dappsExplorer/TabDiscover'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import { mockDappListWithCategoryNames } from 'test/values'
@@ -40,7 +40,7 @@ const defaultStore = createMockStore({
   dapps: { dappListApiUrl: 'http://url.com', dappsList, dappsCategories },
 })
 
-describe('DAppsExplorerScreenSearchFilter', () => {
+describe('TabDiscover', () => {
   beforeEach(() => {
     defaultStore.clearActions()
     jest.clearAllMocks()
@@ -49,7 +49,7 @@ describe('DAppsExplorerScreenSearchFilter', () => {
   it('renders correctly and fires the correct actions on press dapp', () => {
     const { getByText, queryByText } = render(
       <Provider store={defaultStore}>
-        <MockedNavigator component={DAppsExplorerScreenSearchFilter} />
+        <MockedNavigator component={TabDiscover} />
       </Provider>
     )
 
@@ -69,7 +69,7 @@ describe('DAppsExplorerScreenSearchFilter', () => {
   it('renders correctly and fires the correct actions on press deep linked dapp', () => {
     const { getByText, queryByText } = render(
       <Provider store={defaultStore}>
-        <MockedNavigator component={DAppsExplorerScreenSearchFilter} />
+        <MockedNavigator component={TabDiscover} />
       </Provider>
     )
 
@@ -96,7 +96,7 @@ describe('DAppsExplorerScreenSearchFilter', () => {
     })
     const { getByText } = render(
       <Provider store={store}>
-        <MockedNavigator component={DAppsExplorerScreenSearchFilter} />
+        <MockedNavigator component={TabDiscover} />
       </Provider>
     )
 
@@ -122,7 +122,7 @@ describe('DAppsExplorerScreenSearchFilter', () => {
       })
       const { getByText, queryByText } = render(
         <Provider store={store}>
-          <MockedNavigator component={DAppsExplorerScreenSearchFilter} />
+          <MockedNavigator component={TabDiscover} />
         </Provider>
       )
 
@@ -143,7 +143,7 @@ describe('DAppsExplorerScreenSearchFilter', () => {
       })
       const { queryByText, getAllByTestId } = render(
         <Provider store={store}>
-          <MockedNavigator component={DAppsExplorerScreenSearchFilter} />
+          <MockedNavigator component={TabDiscover} />
         </Provider>
       )
 
@@ -167,7 +167,7 @@ describe('DAppsExplorerScreenSearchFilter', () => {
       })
       const { getByTestId, getByText } = render(
         <Provider store={store}>
-          <MockedNavigator component={DAppsExplorerScreenSearchFilter} />
+          <MockedNavigator component={TabDiscover} />
         </Provider>
       )
 
@@ -202,7 +202,7 @@ describe('DAppsExplorerScreenSearchFilter', () => {
       })
       const { getByTestId, getAllByTestId, queryByText } = render(
         <Provider store={store}>
-          <MockedNavigator component={DAppsExplorerScreenSearchFilter} />
+          <MockedNavigator component={TabDiscover} />
         </Provider>
       )
 
@@ -241,7 +241,7 @@ describe('DAppsExplorerScreenSearchFilter', () => {
 
       const { getByTestId, queryByTestId } = render(
         <Provider store={store}>
-          <MockedNavigator component={DAppsExplorerScreenSearchFilter} />
+          <MockedNavigator component={TabDiscover} />
         </Provider>
       )
 
@@ -264,7 +264,7 @@ describe('DAppsExplorerScreenSearchFilter', () => {
 
       const { getByTestId, queryByTestId, getAllByTestId } = render(
         <Provider store={store}>
-          <MockedNavigator component={DAppsExplorerScreenSearchFilter} />
+          <MockedNavigator component={TabDiscover} />
         </Provider>
       )
 
@@ -299,7 +299,7 @@ describe('DAppsExplorerScreenSearchFilter', () => {
 
       const { getByTestId, getAllByTestId } = render(
         <Provider store={store}>
-          <MockedNavigator component={DAppsExplorerScreenSearchFilter} />
+          <MockedNavigator component={TabDiscover} />
         </Provider>
       )
 
@@ -336,7 +336,7 @@ describe('DAppsExplorerScreenSearchFilter', () => {
       })
       const { getByText, queryByText, getAllByTestId } = render(
         <Provider store={store}>
-          <MockedNavigator component={DAppsExplorerScreenSearchFilter} />
+          <MockedNavigator component={TabDiscover} />
         </Provider>
       )
 
@@ -369,7 +369,7 @@ describe('DAppsExplorerScreenSearchFilter', () => {
       })
       const { getByTestId, getByText, queryByTestId, getAllByTestId } = render(
         <Provider store={store}>
-          <MockedNavigator component={DAppsExplorerScreenSearchFilter} />
+          <MockedNavigator component={TabDiscover} />
         </Provider>
       )
 
@@ -403,7 +403,7 @@ describe('DAppsExplorerScreenSearchFilter', () => {
       })
       const { getByText } = render(
         <Provider store={store}>
-          <MockedNavigator component={DAppsExplorerScreenSearchFilter} />
+          <MockedNavigator component={TabDiscover} />
         </Provider>
       )
 
@@ -431,7 +431,7 @@ describe('DAppsExplorerScreenSearchFilter', () => {
       })
       const { getByText } = render(
         <Provider store={store}>
-          <MockedNavigator component={DAppsExplorerScreenSearchFilter} />
+          <MockedNavigator component={TabDiscover} />
         </Provider>
       )
 
@@ -466,7 +466,7 @@ describe('DAppsExplorerScreenSearchFilter', () => {
       })
       const { getByTestId, getByText } = render(
         <Provider store={store}>
-          <MockedNavigator component={DAppsExplorerScreenSearchFilter} />
+          <MockedNavigator component={TabDiscover} />
         </Provider>
       )
 
@@ -502,7 +502,7 @@ describe('DAppsExplorerScreenSearchFilter', () => {
       })
       const { getByText, queryByTestId } = render(
         <Provider store={store}>
-          <MockedNavigator component={DAppsExplorerScreenSearchFilter} />
+          <MockedNavigator component={TabDiscover} />
         </Provider>
       )
 
@@ -537,7 +537,7 @@ describe('DAppsExplorerScreenSearchFilter', () => {
       })
       const { getByTestId, getAllByTestId } = render(
         <Provider store={store}>
-          <MockedNavigator component={DAppsExplorerScreenSearchFilter} />
+          <MockedNavigator component={TabDiscover} />
         </Provider>
       )
 
@@ -568,7 +568,7 @@ describe('DAppsExplorerScreenSearchFilter', () => {
       })
       const { getByTestId, getByText, getAllByTestId, queryByTestId } = render(
         <Provider store={store}>
-          <MockedNavigator component={DAppsExplorerScreenSearchFilter} />
+          <MockedNavigator component={TabDiscover} />
         </Provider>
       )
 
@@ -601,7 +601,7 @@ describe('DAppsExplorerScreenSearchFilter', () => {
       })
       const { getByTestId, getByText, queryByTestId } = render(
         <Provider store={store}>
-          <MockedNavigator component={DAppsExplorerScreenSearchFilter} />
+          <MockedNavigator component={TabDiscover} />
         </Provider>
       )
 
@@ -646,7 +646,7 @@ describe('DAppsExplorerScreenSearchFilter', () => {
       })
       const { getByText } = render(
         <Provider store={store}>
-          <MockedNavigator component={DAppsExplorerScreenSearchFilter} />
+          <MockedNavigator component={TabDiscover} />
         </Provider>
       )
 
@@ -667,7 +667,7 @@ describe('DAppsExplorerScreenSearchFilter', () => {
       })
       const { getByText } = render(
         <Provider store={store}>
-          <MockedNavigator component={DAppsExplorerScreenSearchFilter} />
+          <MockedNavigator component={TabDiscover} />
         </Provider>
       )
 
@@ -685,7 +685,7 @@ describe('DAppsExplorerScreenSearchFilter', () => {
       })
       const { getByText, getByTestId, getAllByTestId } = render(
         <Provider store={store}>
-          <MockedNavigator component={DAppsExplorerScreenSearchFilter} />
+          <MockedNavigator component={TabDiscover} />
         </Provider>
       )
 

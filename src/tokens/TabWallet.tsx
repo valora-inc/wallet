@@ -12,7 +12,6 @@ import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { AssetsTokenBalance } from 'src/components/TokenBalance'
-import { headerWithBackButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
@@ -35,7 +34,7 @@ const HEADER_OPACITY_ANIMATION_START_OFFSET = 44
 // distance in points over which the screen header opacity animation is applied
 const HEADER_OPACITY_ANIMATION_DISTANCE = 20
 
-function AssetsScreen({ navigation, route }: Props) {
+function TabWallet({ navigation, route }: Props) {
   const { t } = useTranslation()
 
   const activeTab = route.params?.activeAssetTab ?? AssetTabType.Tokens
@@ -195,10 +194,6 @@ function AssetsScreen({ navigation, route }: Props) {
   )
 }
 
-AssetsScreen.navigationOptions = {
-  ...headerWithBackButton,
-}
-
 const styles = StyleSheet.create({
   listHeaderContainer: {
     ...getShadowStyle(Shadow.SoftLight),
@@ -224,4 +219,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default AssetsScreen
+export default TabWallet
