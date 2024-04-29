@@ -561,7 +561,7 @@ export const networkIdToWalletConnectChainId: Record<NetworkId, string> = {
   [NetworkId['op-mainnet']]: 'eip155:10',
   [NetworkId['op-sepolia']]: 'eip155:11155420',
   [NetworkId['polygon-pos-mainnet']]: 'eip155:137',
-  [NetworkId['polygon-pos-amoy']]: 'eip155:80001',
+  [NetworkId['polygon-pos-amoy']]: 'eip155:80002',
   [NetworkId['base-mainnet']]: 'eip155:8453',
   [NetworkId['base-sepolia']]: 'eip155:84531',
 }
