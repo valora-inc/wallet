@@ -1235,22 +1235,6 @@
             ],
             "type": "object"
         },
-        "ExchangeRate": {
-            "additionalProperties": false,
-            "properties": {
-                "exchangeRate": {
-                    "type": "string"
-                },
-                "timestamp": {
-                    "type": "number"
-                }
-            },
-            "required": [
-                "exchangeRate",
-                "timestamp"
-            ],
-            "type": "object"
-        },
         "Fee": {
             "additionalProperties": false,
             "properties": {
@@ -3595,121 +3579,6 @@
         "State_10": {
             "additionalProperties": false,
             "properties": {
-                "acceptedTerms": {
-                    "type": "boolean"
-                },
-                "accountCreationTime": {
-                    "type": "number"
-                },
-                "accountToRecoverFromStoreWipe": {
-                    "type": "string"
-                },
-                "backupCompleted": {
-                    "type": "boolean"
-                },
-                "celoEducationCompleted": {
-                    "type": "boolean"
-                },
-                "choseToRestoreAccount": {
-                    "type": "boolean"
-                },
-                "cloudBackupCompleted": {
-                    "type": "boolean"
-                },
-                "contactDetails": {
-                    "$ref": "#/definitions/UserContactDetails"
-                },
-                "defaultCountryCode": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "devModeActive": {
-                    "type": "boolean"
-                },
-                "devModeClickCount": {
-                    "type": "number"
-                },
-                "dismissedGetVerified": {
-                    "type": "boolean"
-                },
-                "dismissedGoldEducation": {
-                    "type": "boolean"
-                },
-                "dismissedKeepSupercharging": {
-                    "type": "boolean"
-                },
-                "dismissedStartSupercharging": {
-                    "type": "boolean"
-                },
-                "e164PhoneNumber": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "hasMigratedToNewBip39": {
-                    "type": "boolean"
-                },
-                "name": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "photosNUXClicked": {
-                    "type": "boolean"
-                },
-                "pictureUri": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "pincodeType": {
-                    "$ref": "#/definitions/PincodeType"
-                },
-                "profileUploaded": {
-                    "type": "boolean"
-                },
-                "recoveringFromStoreWipe": {
-                    "type": "boolean"
-                },
-                "recoveryPhraseInOnboardingStatus": {
-                    "$ref": "#/definitions/RecoveryPhraseInOnboardingStatus"
-                },
-                "startOnboardingTime": {
-                    "type": "number"
-                }
-            },
-            "required": [
-                "acceptedTerms",
-                "accountCreationTime",
-                "backupCompleted",
-                "celoEducationCompleted",
-                "cloudBackupCompleted",
-                "contactDetails",
-                "defaultCountryCode",
-                "devModeActive",
-                "devModeClickCount",
-                "dismissedGetVerified",
-                "dismissedGoldEducation",
-                "dismissedKeepSupercharging",
-                "dismissedStartSupercharging",
-                "e164PhoneNumber",
-                "hasMigratedToNewBip39",
-                "name",
-                "photosNUXClicked",
-                "pictureUri",
-                "pincodeType",
-                "recoveryPhraseInOnboardingStatus"
-            ],
-            "type": "object"
-        },
-        "State_11": {
-            "additionalProperties": false,
-            "properties": {
                 "isReclaiming": {
                     "type": "boolean"
                 },
@@ -3726,7 +3595,7 @@
             ],
             "type": "object"
         },
-        "State_12": {
+        "State_11": {
             "additionalProperties": false,
             "properties": {
                 "estimates": {
@@ -3738,7 +3607,7 @@
             ],
             "type": "object"
         },
-        "State_13": {
+        "State_12": {
             "additionalProperties": false,
             "properties": {
                 "coinbasePaySenders": {
@@ -3775,7 +3644,7 @@
             ],
             "type": "object"
         },
-        "State_14": {
+        "State_13": {
             "additionalProperties": false,
             "properties": {
                 "error": {
@@ -3898,7 +3767,7 @@
             ],
             "type": "object"
         },
-        "State_15": {
+        "State_14": {
             "additionalProperties": false,
             "properties": {
                 "isImportingWallet": {
@@ -3910,7 +3779,7 @@
             ],
             "type": "object"
         },
-        "State_16": {
+        "State_15": {
             "additionalProperties": false,
             "properties": {
                 "providerLogos": {
@@ -3926,7 +3795,7 @@
             ],
             "type": "object"
         },
-        "State_17": {
+        "State_16": {
             "additionalProperties": false,
             "properties": {
                 "pendingActions": {
@@ -3955,7 +3824,7 @@
             ],
             "type": "object"
         },
-        "State_18": {
+        "State_17": {
             "additionalProperties": false,
             "properties": {
                 "error": {
@@ -3975,7 +3844,7 @@
             ],
             "type": "object"
         },
-        "State_19": {
+        "State_18": {
             "additionalProperties": false,
             "properties": {
                 "availableRewards": {
@@ -4010,27 +3879,7 @@
             ],
             "type": "object"
         },
-        "State_2": {
-            "additionalProperties": false,
-            "properties": {
-                "connected": {
-                    "type": "boolean"
-                },
-                "rehydrated": {
-                    "type": "boolean"
-                },
-                "userLocationData": {
-                    "$ref": "#/definitions/UserLocationData"
-                }
-            },
-            "required": [
-                "connected",
-                "rehydrated",
-                "userLocationData"
-            ],
-            "type": "object"
-        },
-        "State_20": {
+        "State_19": {
             "additionalProperties": false,
             "properties": {
                 "activeDapp": {
@@ -4110,7 +3959,27 @@
             ],
             "type": "object"
         },
-        "State_21": {
+        "State_2": {
+            "additionalProperties": false,
+            "properties": {
+                "connected": {
+                    "type": "boolean"
+                },
+                "rehydrated": {
+                    "type": "boolean"
+                },
+                "userLocationData": {
+                    "$ref": "#/definitions/UserLocationData"
+                }
+            },
+            "required": [
+                "connected",
+                "rehydrated",
+                "userLocationData"
+            ],
+            "type": "object"
+        },
+        "State_20": {
             "additionalProperties": false,
             "properties": {
                 "attemptReturnUserFlowLoading": {
@@ -4265,7 +4134,7 @@
             ],
             "type": "object"
         },
-        "State_22": {
+        "State_21": {
             "additionalProperties": false,
             "properties": {
                 "currentSwap": {
@@ -4296,7 +4165,7 @@
             ],
             "type": "object"
         },
-        "State_23": {
+        "State_22": {
             "additionalProperties": false,
             "properties": {
                 "positions": {
@@ -4337,7 +4206,7 @@
             ],
             "type": "object"
         },
-        "State_24": {
+        "State_23": {
             "additionalProperties": false,
             "properties": {
                 "backupStatus": {
@@ -4378,7 +4247,7 @@
             ],
             "type": "object"
         },
-        "State_26": {
+        "State_25": {
             "additionalProperties": {
                 "additionalProperties": false,
                 "properties": {
@@ -4400,7 +4269,7 @@
             },
             "type": "object"
         },
-        "State_27": {
+        "State_26": {
             "additionalProperties": false,
             "properties": {
                 "claimStatus": {
@@ -4437,7 +4306,7 @@
             ],
             "type": "object"
         },
-        "State_28": {
+        "State_27": {
             "additionalProperties": false,
             "properties": {
                 "getHistoryStatus": {
@@ -4622,49 +4491,6 @@
         "State_6": {
             "additionalProperties": false,
             "properties": {
-                "history": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "aggregatedExchangeRates": {
-                            "items": {
-                                "$ref": "#/definitions/ExchangeRate"
-                            },
-                            "type": "array"
-                        },
-                        "celoGoldExchangeRates": {
-                            "items": {
-                                "$ref": "#/definitions/ExchangeRate"
-                            },
-                            "type": "array"
-                        },
-                        "granularity": {
-                            "type": "number"
-                        },
-                        "lastTimeUpdated": {
-                            "type": "number"
-                        },
-                        "range": {
-                            "type": "number"
-                        }
-                    },
-                    "required": [
-                        "aggregatedExchangeRates",
-                        "celoGoldExchangeRates",
-                        "granularity",
-                        "lastTimeUpdated",
-                        "range"
-                    ],
-                    "type": "object"
-                }
-            },
-            "required": [
-                "history"
-            ],
-            "type": "object"
-        },
-        "State_7": {
-            "additionalProperties": false,
-            "properties": {
                 "inviteTransactions": {
                     "$ref": "#/definitions/InviteTransactions"
                 },
@@ -4693,7 +4519,7 @@
             ],
             "type": "object"
         },
-        "State_8": {
+        "State_7": {
             "additionalProperties": false,
             "properties": {
                 "account": {
@@ -4733,7 +4559,7 @@
             ],
             "type": "object"
         },
-        "State_9": {
+        "State_8": {
             "additionalProperties": false,
             "properties": {
                 "addressToDataEncryptionKey": {
@@ -4793,6 +4619,121 @@
                 "secureSendPhoneNumberMapping",
                 "shouldRefreshStoredPasswordHash",
                 "walletToAccountAddress"
+            ],
+            "type": "object"
+        },
+        "State_9": {
+            "additionalProperties": false,
+            "properties": {
+                "acceptedTerms": {
+                    "type": "boolean"
+                },
+                "accountCreationTime": {
+                    "type": "number"
+                },
+                "accountToRecoverFromStoreWipe": {
+                    "type": "string"
+                },
+                "backupCompleted": {
+                    "type": "boolean"
+                },
+                "celoEducationCompleted": {
+                    "type": "boolean"
+                },
+                "choseToRestoreAccount": {
+                    "type": "boolean"
+                },
+                "cloudBackupCompleted": {
+                    "type": "boolean"
+                },
+                "contactDetails": {
+                    "$ref": "#/definitions/UserContactDetails"
+                },
+                "defaultCountryCode": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "devModeActive": {
+                    "type": "boolean"
+                },
+                "devModeClickCount": {
+                    "type": "number"
+                },
+                "dismissedGetVerified": {
+                    "type": "boolean"
+                },
+                "dismissedGoldEducation": {
+                    "type": "boolean"
+                },
+                "dismissedKeepSupercharging": {
+                    "type": "boolean"
+                },
+                "dismissedStartSupercharging": {
+                    "type": "boolean"
+                },
+                "e164PhoneNumber": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "hasMigratedToNewBip39": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "photosNUXClicked": {
+                    "type": "boolean"
+                },
+                "pictureUri": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "pincodeType": {
+                    "$ref": "#/definitions/PincodeType"
+                },
+                "profileUploaded": {
+                    "type": "boolean"
+                },
+                "recoveringFromStoreWipe": {
+                    "type": "boolean"
+                },
+                "recoveryPhraseInOnboardingStatus": {
+                    "$ref": "#/definitions/RecoveryPhraseInOnboardingStatus"
+                },
+                "startOnboardingTime": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "acceptedTerms",
+                "accountCreationTime",
+                "backupCompleted",
+                "celoEducationCompleted",
+                "cloudBackupCompleted",
+                "contactDetails",
+                "defaultCountryCode",
+                "devModeActive",
+                "devModeClickCount",
+                "dismissedGetVerified",
+                "dismissedGoldEducation",
+                "dismissedKeepSupercharging",
+                "dismissedStartSupercharging",
+                "e164PhoneNumber",
+                "hasMigratedToNewBip39",
+                "name",
+                "photosNUXClicked",
+                "pictureUri",
+                "pincodeType",
+                "recoveryPhraseInOnboardingStatus"
             ],
             "type": "object"
         },
@@ -6308,7 +6249,7 @@
             "$ref": "#/definitions/PersistState"
         },
         "account": {
-            "$ref": "#/definitions/State_10"
+            "$ref": "#/definitions/State_9"
         },
         "alert": {
             "$ref": "#/definitions/State_3"
@@ -6317,22 +6258,19 @@
             "$ref": "#/definitions/State"
         },
         "dapps": {
-            "$ref": "#/definitions/State_20"
+            "$ref": "#/definitions/State_19"
         },
         "escrow": {
-            "$ref": "#/definitions/State_11"
-        },
-        "exchange": {
-            "$ref": "#/definitions/State_6"
+            "$ref": "#/definitions/State_10"
         },
         "fees": {
-            "$ref": "#/definitions/State_12"
+            "$ref": "#/definitions/State_11"
         },
         "fiatConnect": {
-            "$ref": "#/definitions/State_21"
+            "$ref": "#/definitions/State_20"
         },
         "fiatExchanges": {
-            "$ref": "#/definitions/State_16"
+            "$ref": "#/definitions/State_15"
         },
         "home": {
             "$ref": "#/definitions/State_5"
@@ -6341,19 +6279,19 @@
             "$ref": "#/definitions/State_1"
         },
         "identity": {
-            "$ref": "#/definitions/State_9"
+            "$ref": "#/definitions/State_8"
         },
         "imports": {
-            "$ref": "#/definitions/State_15"
+            "$ref": "#/definitions/State_14"
         },
         "jumpstart": {
-            "$ref": "#/definitions/State_27"
+            "$ref": "#/definitions/State_26"
         },
         "keylessBackup": {
-            "$ref": "#/definitions/State_24"
+            "$ref": "#/definitions/State_23"
         },
         "localCurrency": {
-            "$ref": "#/definitions/State_14"
+            "$ref": "#/definitions/State_13"
         },
         "networkInfo": {
             "$ref": "#/definitions/State_2"
@@ -6385,37 +6323,37 @@
             "type": "object"
         },
         "points": {
-            "$ref": "#/definitions/State_28"
+            "$ref": "#/definitions/State_27"
         },
         "positions": {
-            "$ref": "#/definitions/State_23"
+            "$ref": "#/definitions/State_22"
         },
         "priceHistory": {
-            "$ref": "#/definitions/State_26"
+            "$ref": "#/definitions/State_25"
         },
         "recipients": {
-            "$ref": "#/definitions/State_13"
+            "$ref": "#/definitions/State_12"
         },
         "send": {
             "$ref": "#/definitions/State_4"
         },
         "supercharge": {
-            "$ref": "#/definitions/State_19"
-        },
-        "swap": {
-            "$ref": "#/definitions/State_22"
-        },
-        "tokens": {
             "$ref": "#/definitions/State_18"
         },
-        "transactions": {
-            "$ref": "#/definitions/State_7"
+        "swap": {
+            "$ref": "#/definitions/State_21"
         },
-        "walletConnect": {
+        "tokens": {
             "$ref": "#/definitions/State_17"
         },
+        "transactions": {
+            "$ref": "#/definitions/State_6"
+        },
+        "walletConnect": {
+            "$ref": "#/definitions/State_16"
+        },
         "web3": {
-            "$ref": "#/definitions/State_8"
+            "$ref": "#/definitions/State_7"
         }
     },
     "required": [
@@ -6425,7 +6363,6 @@
         "app",
         "dapps",
         "escrow",
-        "exchange",
         "fees",
         "fiatConnect",
         "fiatExchanges",

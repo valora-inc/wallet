@@ -3,7 +3,6 @@ import { FinclusiveKycStatus, RecoveryPhraseInOnboardingStatus } from 'src/accou
 import { MultichainBetaStatus } from 'src/app/actions'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
 import { Dapp } from 'src/dapps/types'
-import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { CachedQuoteParams, SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
@@ -40,6 +39,16 @@ export function updateCachedQuoteParams(cachedQuoteParams: {
 }
 
 const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY = 1000
+
+export const exchangeInitialState = {
+  history: {
+    celoGoldExchangeRates: [],
+    aggregatedExchangeRates: [],
+    granularity: 60,
+    range: 30 * 24 * 60 * 60 * 1000, // 30 days
+    lastTimeUpdated: 0,
+  },
+}
 
 export const migrations = {
   0: (state: any) => {
@@ -1764,5 +1773,8 @@ export const migrations = {
       ...state.points,
       pointsHistory: [],
     },
+  }),
+  211: (state: any) => ({
+    ...(_.omit(state, 'exchange') as any),
   }),
 }

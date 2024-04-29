@@ -697,11 +697,9 @@ interface TransactionEventsProperties {
 }
 
 interface CeloExchangeEventsProperties {
-  [CeloExchangeEvents.celo_home_info]: undefined
   [CeloExchangeEvents.celo_withdraw_completed]: {
     amount: string
   }
-  [CeloExchangeEvents.celo_chart_tapped]: undefined
 }
 
 interface FiatExchangeEventsProperties {

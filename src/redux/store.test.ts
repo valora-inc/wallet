@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 210,
+          "version": 211,
         },
         "account": {
           "acceptedTerms": false,
@@ -190,15 +190,6 @@ describe('store state', () => {
         "escrow": {
           "isReclaiming": false,
           "sentEscrowedPayments": [],
-        },
-        "exchange": {
-          "history": {
-            "aggregatedExchangeRates": [],
-            "celoGoldExchangeRates": [],
-            "granularity": 60,
-            "lastTimeUpdated": 0,
-            "range": 2592000000,
-          },
         },
         "fees": {
           "estimates": {},

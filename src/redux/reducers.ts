@@ -7,7 +7,6 @@ import { appReducer as app } from 'src/app/reducers'
 import superchargeReducer from 'src/consumerIncentives/slice'
 import dappsReducer from 'src/dapps/slice'
 import { escrowReducer as escrow } from 'src/escrow/reducer'
-import { reducer as exchange } from 'src/exchange/reducer'
 import { reducer as fees } from 'src/fees/reducer'
 import { reducer as fiatExchanges } from 'src/fiatExchanges/reducer'
 import fiatConnectReducer from 'src/fiatconnect/slice'
@@ -20,6 +19,7 @@ import keylessBackupReducer from 'src/keylessBackup/slice'
 import { reducer as localCurrency } from 'src/localCurrency/reducer'
 import { reducer as networkInfo } from 'src/networkInfo/reducer'
 import nftsReducer from 'src/nfts/slice'
+import pointsReducer from 'src/points/slice'
 import positionsReducer from 'src/positions/slice'
 import priceHistoryReducer from 'src/priceHistory/slice'
 import { recipientsReducer as recipients } from 'src/recipients/reducer'
@@ -29,7 +29,6 @@ import tokenReducer from 'src/tokens/slice'
 import { reducer as transactions } from 'src/transactions/reducer'
 import { reducer as walletConnect } from 'src/walletConnect/reducer'
 import { reducer as web3 } from 'src/web3/reducer'
-import pointsReducer from 'src/points/slice'
 
 const appReducer = combineReducers({
   app,
@@ -38,7 +37,6 @@ const appReducer = combineReducers({
   alert,
   send,
   home,
-  exchange,
   transactions,
   web3,
   identity,
