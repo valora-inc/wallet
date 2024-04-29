@@ -136,8 +136,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
       </View>
     )
 
-  const renderEmpty =
-    pointsHistoryStatus === 'error' || (pointsHistoryStatus !== 'loading' && !pointsHistory.length)
+  const renderEmpty = pointsHistoryStatus !== 'loading' && !pointsHistory.length
 
   // TODO: Figure out what to render when error occurs on subsequent page fetch
 
