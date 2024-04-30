@@ -126,9 +126,9 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
           <Text style={styles.messageSubtitle}>{t('points.history.empty.subtitle')}</Text>
         </View>
         <Button
-          testID={'PointsHistoryBottomSheet/LearnMore'}
+          testID={'PointsHistoryBottomSheet/GotIt'}
           onPress={onPressLearnMore}
-          text={t('points.history.empty.learnMore')}
+          text={t('points.history.empty.gotIt')}
           type={BtnTypes.GRAY_WITH_BORDER}
           size={BtnSizes.FULL}
           style={{ width: '100%' }}
