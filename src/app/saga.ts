@@ -6,7 +6,7 @@ import { AppState, Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import InAppReview from 'react-native-in-app-review'
 import * as Keychain from 'react-native-keychain'
-import { findBestAvailableLanguage } from 'react-native-localize'
+import { findBestLanguageTag } from 'react-native-localize'
 import { eventChannel } from 'redux-saga'
 import { e164NumberSelector } from 'src/account/selectors'
 import { AppEvents, InviteEvents } from 'src/analytics/Events'
@@ -121,7 +121,7 @@ export function* appInit() {
   const allowOtaTranslations = yield* select(allowOtaTranslationsSelector)
   const otaTranslationsAppVersion = yield* select(otaTranslationsAppVersionSelector)
   const language = yield* select(currentLanguageSelector)
-  const bestLanguage = findBestAvailableLanguage(Object.keys(locales))?.languageTag
+  const bestLanguage = findBestLanguageTag(Object.keys(locales))?.languageTag
 
   yield* all([
     call(initializeSentry),

@@ -713,7 +713,7 @@ PODS:
     - TOCropViewController
   - RNKeychain (8.1.3):
     - React-Core
-  - RNLocalize (2.2.6):
+  - RNLocalize (3.1.0):
     - React-Core
   - RNPermissions (4.1.5):
     - React-Core
@@ -1249,7 +1249,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: 69d0a928253547ef857a7be4f453220b9c472e07
   RNImageCropPicker: e7ab6fb43d2fc3e84651e786ef4a080d63b0ed3d
   RNKeychain: f1b48665a4646f61191eb048c4c05c58d9a7596f
-  RNLocalize: d4b8af4e442d4bcca54e68fc687a2129b4d71a81
+  RNLocalize: e8694475db034bf601e17bd3dfa8986565e769eb
   RNPermissions: da2a4ded375aa8292d85ed93676e102c203d4717
   RNPersonaInquiry2: 3ab52078e891a5d2fa39bf7cc9119ca27f0337fd
   RNReactNativeHapticFeedback: ec56a5f81c3941206fd85625fa669ffc7b4545f9
