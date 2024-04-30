@@ -1,8 +1,7 @@
 import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import { FinclusiveKycStatus } from 'src/account/reducer'
-import { initialState as exchangeInitialState } from 'src/exchange/reducer'
-import { migrations } from 'src/redux/migrations'
+import { exchangeInitialState, migrations } from 'src/redux/migrations'
 import {
   Network,
   NetworkId,
@@ -50,7 +49,7 @@ import {
   v200Schema,
   v201Schema,
   v203Schema,
-  v210Schema,
+  v211Schema,
   v21Schema,
   v28Schema,
   v2Schema,
@@ -1613,9 +1612,9 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 
-  it('works from 210 to 211', () => {
-    const oldSchema = v210Schema
-    const migratedSchema = migrations[211](oldSchema)
+  it('works from 211 to 212', () => {
+    const oldSchema = v211Schema
+    const migratedSchema = migrations[212](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.app.hasSetPinManually = true
     expect(migratedSchema).toStrictEqual(expectedSchema)

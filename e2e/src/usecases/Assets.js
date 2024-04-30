@@ -1,7 +1,12 @@
 import { generateMnemonic } from '@celo/cryptographic-utils'
 import { DEFAULT_RECIPIENT_ADDRESS, SAMPLE_BACKUP_KEY } from '../utils/consts'
 import { launchApp } from '../utils/retries'
-import { quickOnboarding, waitForElementByIdAndTap, waitForElementId } from '../utils/utils'
+import {
+  quickOnboarding,
+  waitForElementByIdAndTap,
+  waitForElementId,
+  scrollIntoViewByTestId,
+} from '../utils/utils'
 
 async function validateSendFlow(tokenSymbol) {
   // navigate to send amount screen to ensure the expected token symbol is pre-selected
@@ -151,13 +156,14 @@ export default Assets = () => {
 
       if (learnMore) {
         it('learn more navigates to coingecko page', async () => {
+          await scrollIntoViewByTestId('TokenDetails/LearnMore', 'TokenDetailsScrollView')
           await waitForElementByIdAndTap('TokenDetails/LearnMore')
           await waitForElementId('RNWebView')
           await waitFor(element(by.text('www.coingecko.com')))
             .toBeVisible()
             .withTimeout(10 * 1000)
           await element(by.id('WebViewScreen/CloseButton')).tap()
-          await waitForElementId('TokenDetails/AssetValue')
+          await waitForElementId('TokenBalanceItem')
         })
       }
 
