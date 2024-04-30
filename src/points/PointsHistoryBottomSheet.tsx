@@ -87,6 +87,11 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
     )
   }
 
+  const onPressLearnMore = () => {
+    ValoraAnalytics.track(PointsEvents.points_screen_activity_learn_more_press)
+    forwardedRef.current?.close()
+  }
+
   const Loading =
     pointsHistoryStatus === 'loading' ? (
       <ActivityIndicator
@@ -99,7 +104,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
 
   const EmptyOrError =
     pointsHistoryStatus === 'error' ? (
-      <View testID={'PointsHistoryBottomSheet/Error'} style={styles.errorContainer}>
+      <View testID={'PointsHistoryBottomSheet/Error'} style={styles.emptyContainer}>
         <View style={styles.messageContainer}>
           <Attention size={48} color={Colors.black} />
           <Text style={styles.messageTitle}>{t('points.history.error.title')}</Text>
@@ -115,8 +120,23 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
         />
       </View>
     ) : (
-      <View testID={'PointsHistoryBottomSheet/Empty'}></View>
-    ) // TODO: Render empty/no history state
+      <View testID={'PointsHistoryBottomSheet/Empty'} style={styles.emptyContainer}>
+        <View style={styles.messageContainer}>
+          <Text style={styles.messageTitle}>{t('points.history.empty.title')}</Text>
+          <Text style={styles.messageSubtitle}>{t('points.history.empty.subtitle')}</Text>
+        </View>
+        <Button
+          testID={'PointsHistoryBottomSheet/GotIt'}
+          onPress={onPressLearnMore}
+          text={t('points.history.empty.gotIt')}
+          type={BtnTypes.GRAY_WITH_BORDER}
+          size={BtnSizes.FULL}
+          style={{ width: '100%' }}
+        />
+      </View>
+    )
+
+  const isEmpty = pointsHistoryStatus !== 'loading' && !pointsHistory.length
 
   // TODO: Figure out what to render when error occurs on subsequent page fetch
 
@@ -126,11 +146,12 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
 
   return (
     <BottomSheetBase snapPoints={['80%']} forwardedRef={forwardedRef}>
-      {pointsHistoryStatus !== 'error' && (
-        <Text style={styles.contentHeader}>{t('points.history.title')}</Text>
-      )}
+      {!isEmpty && <Text style={styles.contentHeader}>{t('points.history.title')}</Text>}
       <BottomSheetSectionList
-        contentContainerStyle={{ paddingBottom: Math.max(insets.bottom, Spacing.Thick24) }}
+        contentContainerStyle={{
+          paddingBottom: Math.max(insets.bottom, Spacing.Thick24),
+          flex: isEmpty ? 1 : 0,
+        }}
         renderItem={renderItem}
         renderSectionHeader={(item) => (
           <SectionHead text={item.section.title} style={styles.sectionHead} />
@@ -141,7 +162,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
         testID="PointsHistoryList"
         onEndReached={onFetchMoreHistory}
         ListFooterComponent={Loading}
-        ListEmptyComponent={EmptyOrError}
+        ListEmptyComponent={isEmpty ? EmptyOrError : null}
         onEndReachedThreshold={0.5}
       />
     </BottomSheetBase>
@@ -149,8 +170,9 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
 }
 
 const styles = StyleSheet.create({
-  errorContainer: {
+  emptyContainer: {
     flex: 1,
+    padding: Spacing.Thick24,
   },
   messageContainer: {
     flex: 1,
