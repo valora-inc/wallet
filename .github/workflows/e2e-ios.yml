@@ -56,7 +56,7 @@ jobs:
       - name: Upload Detox Build to Emerge
         if: |
           env.SECRETS_AVAILABLE
-            && (github.event_name == 'pull_request' || github.event_name == 'push')
+            && (github.event_name == 'pull_request' || github.event_name == 'push' || github.event_name == 'merge_group')
         run: yarn ts-node .github/scripts/uploadE2eBuildToEmerge.ts
         env:
           EMERGE_API_TOKEN: ${{ steps.google-secrets.outputs.EMERGE_API_TOKEN }}
