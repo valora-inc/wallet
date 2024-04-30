@@ -2275,6 +2275,11 @@
         "title": "Nie można załadować aktywności punktów",
         "subtitle": "Ups, coś poszło nie tak podczas próby załadowania Twojego kanału aktywności punktów. Spróbuj ponownie.",
         "tryAgain": "Spróbuj ponownie"
+      },
+      "empty": {
+        "title": "Brak aktywności punktowej",
+        "subtitle": "Wygląda na to, że nie zdobyłeś jeszcze żadnych punktów. Użyj {{appName}} , aby zacząć zdobywać punkty!",
+        "gotIt": "Rozumiem"
       }
     },
     "loading": {
