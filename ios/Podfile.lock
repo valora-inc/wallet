@@ -762,7 +762,7 @@ PODS:
     - Sentry/HybridSDK (= 8.24.0)
   - RNShare (10.2.0):
     - React-Core
-  - RNSVG (13.14.0):
+  - RNSVG (15.2.0):
     - React-Core
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
@@ -1258,7 +1258,7 @@ SPEC CHECKSUMS:
   RNSecureRandom: ff25041dd065a945810ca01a2bcd06f8d141b81d
   RNSentry: 7ae2a06a5563de39ec09dcb1e751ac0c67f1883c
   RNShare: 554a91f5cfbe4adac4cfe3654826ee8b299fe365
-  RNSVG: d00c8f91c3cbf6d476451313a18f04d220d4f396
+  RNSVG: 43b64ed39c14ce830d840903774154ca0c1f27ec
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
   segment-analytics-react-native: 1c36d83c0a735795e304178241331e7701dc5d2a
