@@ -150,7 +150,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
       </View>
     )
 
-  const renderEmpty = pointsHistoryStatus !== 'loading' && !pointsHistory.length
+  const isEmpty = pointsHistoryStatus !== 'loading' && !pointsHistory.length
 
   const sections = useMemo(() => {
     return groupFeedItemsInSections([], pointsHistory)
@@ -164,11 +164,11 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
 
   return (
     <BottomSheetBase snapPoints={['80%']} forwardedRef={forwardedRef}>
-      {!renderEmpty && <Text style={styles.contentHeader}>{t('points.history.title')}</Text>}
+      {!isEmpty && <Text style={styles.contentHeader}>{t('points.history.title')}</Text>}
       <BottomSheetSectionList
         contentContainerStyle={{
           paddingBottom: Math.max(insets.bottom, Spacing.Thick24),
-          flex: renderEmpty ? 1 : 0,
+          flex: isEmpty ? 1 : 0,
         }}
         renderItem={renderItem}
         renderSectionHeader={(item) => (
@@ -180,7 +180,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
         testID="PointsHistoryList"
         onEndReached={onFetchMoreHistory}
         ListFooterComponent={Loading}
-        ListEmptyComponent={renderEmpty ? EmptyOrError : null}
+        ListEmptyComponent={isEmpty ? EmptyOrError : null}
         onEndReachedThreshold={0.5}
       />
       {showErrorBanner && (
