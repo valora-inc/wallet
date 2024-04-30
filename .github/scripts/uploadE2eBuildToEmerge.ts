@@ -29,6 +29,7 @@ function getGitHubInfo() {
     process.env.GITHUB_EVENT_NAME === 'push' ||
     process.env.GITHUB_EVENT_NAME === 'merge_group'
   ) {
+    console.log('event file...', eventFileJson)
     sha = process.env.GITHUB_SHA ?? ''
     // Get the SHA of the previous commit, which will be the baseSha in the case of a push event.
     baseSha = eventFileJson?.before ?? ''
