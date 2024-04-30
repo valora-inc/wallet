@@ -8,6 +8,7 @@
 import { isValidAddress, normalizeAddress } from '@celo/utils/lib/address'
 import { sleep } from '@celo/utils/lib/async'
 import { sha256 } from 'ethereumjs-util'
+import { Platform } from 'react-native'
 import * as Keychain from 'react-native-keychain'
 import { generateSecureRandom } from 'react-native-securerandom'
 import { PincodeType } from 'src/account/reducer'
@@ -46,6 +47,8 @@ import { getWalletAsync } from 'src/web3/contracts'
 import { call, select } from 'typed-redux-saga'
 
 const PIN_BLOCKLIST = require('src/pincode/pin-blocklist-hibpv7-top-25k-with-keyboard-translations.json')
+
+export const SHOULD_NOT_USE_PROMPT_HACK = Platform.OS === 'android' && Platform.Version <= 29
 
 const TAG = 'pincode/authentication'
 
@@ -323,9 +326,10 @@ export async function getPincodeWithBiometry() {
     const retrievedPin = await retrieveStoredItem(STORAGE_KEYS.PIN, {
       // only displayed on Android - would be displayed on iOS too if we allow
       // device pincode fallback
+      // TODO act-1160 - disable cancel: '' on Android SDK 29 and below
       authenticationPrompt: {
         title: i18n.t('unlockWithBiometryPrompt') ?? undefined,
-        cancel: '',
+        cancel: SHOULD_NOT_USE_PROMPT_HACK ? undefined : '',
       },
     })
     if (retrievedPin) {

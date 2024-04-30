@@ -1,4 +1,5 @@
 import * as Keychain from 'react-native-keychain'
+import { SHOULD_NOT_USE_PROMPT_HACK } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 
@@ -56,7 +57,9 @@ export async function retrieveStoredItem(key: string, options: Keychain.Options 
   try {
     const item = await Keychain.getGenericPassword({
       service: key,
-      authenticationPrompt: { cancel: '' },
+      authenticationPrompt: {
+        cancel: SHOULD_NOT_USE_PROMPT_HACK ? undefined : '',
+      },
       accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_ANY_OR_DEVICE_PASSCODE,
       authenticationType: Keychain.AUTHENTICATION_TYPE.DEVICE_PASSCODE_OR_BIOMETRICS,
       ...options,
