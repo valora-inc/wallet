@@ -149,9 +149,12 @@ describe(getPincode, () => {
     expect(pin).toEqual(mockPin)
     expect(mockedKeychain.getGenericPassword).toHaveBeenCalledTimes(1)
     expect(mockedKeychain.getGenericPassword).toHaveBeenCalledWith({
+      accessControl: 'BiometryAnyOrDevicePasscode',
       authenticationPrompt: {
         title: 'unlockWithBiometryPrompt',
+        cancel: '',
       },
+      authenticationType: 'AuthenticationWithBiometricsDevicePasscode',
       service: 'PIN',
     })
   })
@@ -167,9 +170,12 @@ describe(getPincode, () => {
 
     expect(mockedKeychain.getGenericPassword).toHaveBeenCalledTimes(1)
     expect(mockedKeychain.getGenericPassword).toHaveBeenCalledWith({
+      accessControl: 'BiometryAnyOrDevicePasscode',
       authenticationPrompt: {
         title: 'unlockWithBiometryPrompt',
+        cancel: '',
       },
+      authenticationType: 'AuthenticationWithBiometricsDevicePasscode',
       service: 'PIN',
     })
     expect(loggerErrorSpy).toHaveBeenCalledWith(
@@ -193,9 +199,12 @@ describe(getPincode, () => {
 
     expect(mockedKeychain.getGenericPassword).toHaveBeenCalledTimes(1)
     expect(mockedKeychain.getGenericPassword).toHaveBeenCalledWith({
+      accessControl: 'BiometryAnyOrDevicePasscode',
       authenticationPrompt: {
         title: 'unlockWithBiometryPrompt',
+        cancel: '',
       },
+      authenticationType: 'AuthenticationWithBiometricsDevicePasscode',
       service: 'PIN',
     })
     expect(loggerErrorSpy).not.toHaveBeenCalled()
@@ -282,8 +291,8 @@ describe(setPincodeWithBiometry, () => {
       mockPin,
       expect.objectContaining({
         service: 'PIN',
-        accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET,
-        authenticationType: Keychain.AUTHENTICATION_TYPE.BIOMETRICS,
+        accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_ANY_OR_DEVICE_PASSCODE,
+        authenticationType: Keychain.AUTHENTICATION_TYPE.DEVICE_PASSCODE_OR_BIOMETRICS,
       })
     )
   })
@@ -308,8 +317,8 @@ describe(setPincodeWithBiometry, () => {
       mockPin,
       expect.objectContaining({
         service: 'PIN',
-        accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET,
-        authenticationType: Keychain.AUTHENTICATION_TYPE.BIOMETRICS,
+        accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_ANY_OR_DEVICE_PASSCODE,
+        authenticationType: Keychain.AUTHENTICATION_TYPE.DEVICE_PASSCODE_OR_BIOMETRICS,
       })
     )
   })
@@ -422,8 +431,8 @@ describe(updatePin, () => {
       mockPin,
       expect.objectContaining({
         service: 'PIN',
-        accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET,
-        authenticationType: Keychain.AUTHENTICATION_TYPE.BIOMETRICS,
+        accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_ANY_OR_DEVICE_PASSCODE,
+        authenticationType: Keychain.AUTHENTICATION_TYPE.DEVICE_PASSCODE_OR_BIOMETRICS,
       })
     )
   })

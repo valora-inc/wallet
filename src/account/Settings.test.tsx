@@ -60,6 +60,9 @@ describe('Account', () => {
           },
           identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
           tokens: mockTokenBalances,
+          app: {
+            hasSetPinManually: true,
+          },
         })}
       >
         <Settings {...getMockStackScreenProps(Screens.Settings)} />

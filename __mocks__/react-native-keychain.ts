@@ -12,9 +12,11 @@ const keychainMock = {
   },
   ACCESS_CONTROL: {
     BIOMETRY_CURRENT_SET: 'BiometryCurrentSet',
+    BIOMETRY_ANY_OR_DEVICE_PASSCODE: 'BiometryAnyOrDevicePasscode',
   },
   AUTHENTICATION_TYPE: {
     BIOMETRICS: 'AuthenticationWithBiometrics',
+    DEVICE_PASSCODE_OR_BIOMETRICS: 'AuthenticationWithBiometricsDevicePasscode',
   },
   BIOMETRY_TYPE: {
     TOUCH_ID: 'TouchID',
