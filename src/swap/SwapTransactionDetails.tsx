@@ -145,7 +145,7 @@ export function SwapTransactionDetails({
         <LabelWithInfo
           onPress={() => {
             ValoraAnalytics.track(SwapEvents.swap_show_info, {
-              type: SwapShowInfoType.SLIPPAGE,
+              type: SwapShowInfoType.EXCHANGE_RATE,
             })
             exchangeRateInfoBottomSheetRef.current?.snapToIndex(0)
           }}
