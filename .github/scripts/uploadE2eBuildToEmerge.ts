@@ -25,14 +25,15 @@ function getGitHubInfo() {
     if (!prNumber) {
       throw new Error('Could not get prNumber for a PR triggered build.')
     }
-  } else if (
-    process.env.GITHUB_EVENT_NAME === 'push' ||
-    process.env.GITHUB_EVENT_NAME === 'merge_group'
-  ) {
-    console.log('event file...', eventFileJson)
+  } else if (process.env.GITHUB_EVENT_NAME === 'push') {
     sha = process.env.GITHUB_SHA ?? ''
     // Get the SHA of the previous commit, which will be the baseSha in the case of a push event.
     baseSha = eventFileJson?.before ?? ''
+    branchName = process.env.GITHUB_REF_NAME ?? ''
+  } else if (process.env.GITHUB_EVENT_NAME === 'merge_group') {
+    sha = process.env.GITHUB_SHA ?? ''
+    // Get the SHA of the base commit, which will be the base_sha in the case of a merge_group event.
+    baseSha = eventFileJson?.merge_group?.base_sha ?? ''
     branchName = process.env.GITHUB_REF_NAME ?? ''
   } else {
     throw new Error(`Unsupported action trigger: ${process.env.GITHUB_EVENT_NAME}`)
