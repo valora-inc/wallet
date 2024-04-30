@@ -125,7 +125,10 @@ describe(PointsHistoryBottomSheet, () => {
     fireEvent.press(getByText('points.history.error.tryAgain'))
     await waitFor(() =>
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-        PointsEvents.points_screen_activity_try_again_press
+        PointsEvents.points_screen_activity_try_again_press,
+        {
+          getNextPage: false,
+        }
       )
     )
     expect(dispatch).toHaveBeenCalledWith(getHistoryStarted({ getNextPage: false }))
@@ -160,7 +163,10 @@ describe(PointsHistoryBottomSheet, () => {
     fireEvent.press(getByText('points.history.pageError.refresh'))
     await waitFor(() =>
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-        PointsEvents.points_screen_activity_refresh_press
+        PointsEvents.points_screen_activity_try_again_press,
+        {
+          getNextPage: true,
+        }
       )
     )
     expect(dispatch).toHaveBeenCalledWith(getHistoryStarted({ getNextPage: true }))

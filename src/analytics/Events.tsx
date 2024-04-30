@@ -673,5 +673,4 @@ export enum PointsEvents {
   points_screen_activity_try_again_press = 'points_screen_activity_try_again_press',
   points_screen_activity_fetch_more = 'points_screen_activity_fetch_more',
   points_screen_activity_learn_more_press = 'points_screen_activity_learn_more_press',
-  points_screen_activity_refresh_press = 'points_screen_activity_refresh_press',
 }

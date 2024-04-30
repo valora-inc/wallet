@@ -1561,10 +1561,11 @@ interface PointsEventsProperties {
     activityId: PointsActivityId
   }
   [PointsEvents.points_screen_activity_press]: undefined
-  [PointsEvents.points_screen_activity_try_again_press]: undefined
+  [PointsEvents.points_screen_activity_try_again_press]: {
+    getNextPage: boolean
+  }
   [PointsEvents.points_screen_activity_fetch_more]: undefined
   [PointsEvents.points_screen_activity_learn_more_press]: undefined
-  [PointsEvents.points_screen_activity_refresh_press]: undefined
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &
