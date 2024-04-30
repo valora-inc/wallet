@@ -26,7 +26,7 @@ interface Props {
   exchangeRatePrice?: string
   swapAmount?: BigNumber
   fetchingSwapQuote: boolean
-  enableValoraFee: boolean
+  enableAppFee: boolean
   exchangeRateInfoBottomSheetRef: React.RefObject<BottomSheetRefType>
 }
 
@@ -133,7 +133,7 @@ export function SwapTransactionDetails({
   exchangeRatePrice,
   swapAmount,
   fetchingSwapQuote,
-  enableValoraFee,
+  enableAppFee,
   exchangeRateInfoBottomSheetRef,
 }: Props) {
   const { t } = useTranslation()
@@ -194,8 +194,8 @@ export function SwapTransactionDetails({
         placeholder={placeholder}
         testID={`SwapTransactionDetails/MaxNetworkFee`}
       />
-      {/* When enabled, it's the fee is part of the exchange rate */}
-      {!enableValoraFee && (
+      {/* When enabled, the fee is part of the exchange rate */}
+      {!enableAppFee && (
         <View style={styles.row}>
           <Text style={styles.label}>{t('swapScreen.transactionDetails.swapFee')}</Text>
           <Text testID={'SwapFee'} style={styles.value}>

@@ -1808,9 +1808,9 @@ describe('SwapScreen', () => {
     })
   })
 
-  describe('valora fee', () => {
+  describe('app fee', () => {
     describe('when disabled', () => {
-      it('should show the free valora fee line item and exchange rate without fees when tapping the exchange rate info button', async () => {
+      it('should show the free swap fee line item and exchange rate without fees when tapping the exchange rate info button', async () => {
         mockFetch.mockResponse(defaultQuoteResponse)
         const { swapScreen, swapFromContainer, getByText, getByTestId } = renderScreen({})
 
@@ -1853,14 +1853,14 @@ describe('SwapScreen', () => {
       beforeEach(() => {
         jest.mocked(getDynamicConfigParams).mockReturnValue({
           maxSlippagePercentage: '0.3',
-          enableValoraFee: true,
+          enableAppFee: true,
           showSwap: ['celo-alfajores', 'ethereum-sepolia'],
           showBalances: ['celo-alfajores', 'ethereum-sepolia'],
           popularTokenIds: [],
         })
       })
 
-      it('should hide the free valora fee line item and show the exchange rate without the valora fee when tapping the exchange rate info button, when the quote does not include a positive valora fee', async () => {
+      it('should hide the free swap fee line item and show the exchange rate without the app fee when tapping the exchange rate info button, when the quote does not include a positive app fee', async () => {
         mockFetch.mockResponse(defaultQuoteResponse)
         const { swapScreen, swapFromContainer, getByText, getByTestId, queryByText } = renderScreen(
           {}
@@ -1884,7 +1884,7 @@ describe('SwapScreen', () => {
             NetworkId['celo-alfajores']
           }&sellToken=${mockCeloAddress}&sellIsNative=true&sellNetworkId=${
             NetworkId['celo-alfajores']
-          }&sellAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}&slippagePercentage=0.3&enableValoraFee=true`
+          }&sellAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}&slippagePercentage=0.3&enableAppFee=true`
         )
 
         expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
@@ -1900,13 +1900,13 @@ describe('SwapScreen', () => {
         expect(getByText(exchangeRateInfo)).toBeTruthy()
       })
 
-      it('should hide the free valora fee line item and show the exchange rate with the valora fee when tapping the exchange rate info button, when the quote includes a positive valora fee', async () => {
+      it('should hide the free swap fee line item and show the exchange rate with the app fee when tapping the exchange rate info button, when the quote includes a positive app fee', async () => {
         mockFetch.mockResponse(
           JSON.stringify({
             ...defaultQuote,
             unvalidatedSwapTransaction: {
               ...defaultQuote.unvalidatedSwapTransaction,
-              valoraFeePercentageIncludedInPrice: '2',
+              appFeePercentageIncludedInPrice: '2',
             },
           })
         )
@@ -1932,7 +1932,7 @@ describe('SwapScreen', () => {
             NetworkId['celo-alfajores']
           }&sellToken=${mockCeloAddress}&sellIsNative=true&sellNetworkId=${
             NetworkId['celo-alfajores']
-          }&sellAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}&slippagePercentage=0.3&enableValoraFee=true`
+          }&sellAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}&slippagePercentage=0.3&enableAppFee=true`
         )
 
         expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
@@ -1945,7 +1945,7 @@ describe('SwapScreen', () => {
 
         expect(
           getByText(
-            'swapScreen.transactionDetails.exchangeRateInfo, {"context":"withValoraFee","networkName":"Celo Alfajores","slippagePercentage":"0.3","valoraFeePercentage":"2"}'
+            'swapScreen.transactionDetails.exchangeRateInfo, {"context":"withAppFee","networkName":"Celo Alfajores","slippagePercentage":"0.3","appFeePercentage":"2"}'
           )
         ).toBeTruthy()
       })

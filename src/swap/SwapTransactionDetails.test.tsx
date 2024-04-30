@@ -22,7 +22,7 @@ describe('SwapTransactionDetails', () => {
           slippageInfoBottomSheetRef={{ current: null }}
           exchangeRateInfoBottomSheetRef={{ current: null }}
           feeTokenId={'someId'}
-          enableValoraFee={false}
+          enableAppFee={false}
           slippagePercentage={'0.5'}
           fetchingSwapQuote={false}
           fromToken={{
@@ -54,7 +54,7 @@ describe('SwapTransactionDetails', () => {
           slippageInfoBottomSheetRef={{ current: null }}
           exchangeRateInfoBottomSheetRef={{ current: null }}
           feeTokenId={'someId'}
-          enableValoraFee={false}
+          enableAppFee={false}
           slippagePercentage={'0.5'}
           fetchingSwapQuote={false}
         />
@@ -80,7 +80,7 @@ describe('SwapTransactionDetails', () => {
           slippageInfoBottomSheetRef={{ current: null }}
           exchangeRateInfoBottomSheetRef={{ current: null }}
           feeTokenId={mockCeloTokenId}
-          enableValoraFee={false}
+          enableAppFee={false}
           slippagePercentage={'0.5'}
           fromToken={mockCeloTokenBalance}
           fetchingSwapQuote={false}
@@ -110,7 +110,7 @@ describe('SwapTransactionDetails', () => {
           networkFeeInfoBottomSheetRef={{ current: null }}
           slippageInfoBottomSheetRef={{ current: null }}
           exchangeRateInfoBottomSheetRef={{ current: null }}
-          enableValoraFee={false}
+          enableAppFee={false}
           feeTokenId={mockCeloTokenId}
           slippagePercentage={'0.5'}
           fromToken={mockCeloTokenBalance}
@@ -125,7 +125,7 @@ describe('SwapTransactionDetails', () => {
     expect(getByTestId('SwapTransactionDetails/Slippage/MoreInfo')).not.toBeDisabled()
   })
 
-  it('should render correctly when valora fee is enabled', () => {
+  it('should render correctly when app fee is enabled', () => {
     const { queryByText } = render(
       <Provider store={createMockStore()}>
         <SwapTransactionDetails
@@ -134,7 +134,7 @@ describe('SwapTransactionDetails', () => {
           networkFeeInfoBottomSheetRef={{ current: null }}
           slippageInfoBottomSheetRef={{ current: null }}
           exchangeRateInfoBottomSheetRef={{ current: null }}
-          enableValoraFee={true}
+          enableAppFee={true}
           feeTokenId={mockCeloTokenId}
           slippagePercentage={'0.5'}
           fromToken={mockCeloTokenBalance}
@@ -143,7 +143,7 @@ describe('SwapTransactionDetails', () => {
       </Provider>
     )
 
-    // When Valora fee is enabled, the free swap fee should not be displayed
+    // When app fee is enabled, the free swap fee should not be displayed
     // it's part of the exchange rate
     expect(queryByText('swapScreen.transactionDetails.swapFee')).toBeFalsy()
     expect(queryByText('swapScreen.transactionDetails.swapFeeWaived')).toBeFalsy()

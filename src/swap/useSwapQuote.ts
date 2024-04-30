@@ -28,7 +28,7 @@ export interface QuoteResult {
   fromTokenId: string
   swapAmount: BigNumber
   price: string
-  valoraFeePercentageIncludedInPrice: string | undefined
+  appFeePercentageIncludedInPrice: string | undefined
   provider: string
   estimatedPriceImpact: string | null
   allowanceTarget: string
@@ -140,11 +140,11 @@ async function prepareSwapTransactions(
 function useSwapQuote({
   networkId,
   slippagePercentage,
-  enableValoraFee,
+  enableAppFee,
 }: {
   networkId: NetworkId
   slippagePercentage: string
-  enableValoraFee: boolean
+  enableAppFee: boolean
 }) {
   const walletAddress = useSelector(walletAddressSelector)
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, networkId))
@@ -183,7 +183,7 @@ function useSwapQuote({
         [swapAmountParam]: swapAmountInWei.toFixed(0, BigNumber.ROUND_DOWN),
         userAddress: walletAddress ?? '',
         slippagePercentage,
-        ...(enableValoraFee === true && { enableValoraFee: enableValoraFee.toString() }),
+        ...(enableAppFee === true && { enableAppFee: enableAppFee.toString() }),
       }
       const queryParams = new URLSearchParams({ ...params }).toString()
       const requestUrl = `${networkConfig.getSwapQuoteUrl}?${queryParams}`
@@ -217,8 +217,8 @@ function useSwapQuote({
         fromTokenId: fromToken.tokenId,
         swapAmount: swapAmount[updatedField],
         price,
-        valoraFeePercentageIncludedInPrice:
-          quote.unvalidatedSwapTransaction.valoraFeePercentageIncludedInPrice,
+        appFeePercentageIncludedInPrice:
+          quote.unvalidatedSwapTransaction.appFeePercentageIncludedInPrice,
         provider: quote.details.swapProvider,
         estimatedPriceImpact,
         allowanceTarget: quote.unvalidatedSwapTransaction.allowanceTarget,

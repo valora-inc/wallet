@@ -103,7 +103,7 @@ export const DynamicConfigs = {
     configName: StatsigDynamicConfigs.SWAP_CONFIG,
     defaultValues: {
       maxSlippagePercentage: '0.3',
-      enableValoraFee: false,
+      enableAppFee: false,
       popularTokenIds: [] as string[],
     },
   },

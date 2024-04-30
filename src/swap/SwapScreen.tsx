@@ -240,7 +240,7 @@ export function SwapScreen({ route }: Props) {
   const { swapBuyAmountEnabled } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.SWAP_BUY_AMOUNT]
   )
-  const { maxSlippagePercentage, enableValoraFee } = getDynamicConfigParams(
+  const { maxSlippagePercentage, enableAppFee } = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
   )
   const parsedSlippagePercentage = new BigNumber(maxSlippagePercentage).toFormat()
@@ -296,7 +296,7 @@ export function SwapScreen({ route }: Props) {
   const { quote, refreshQuote, fetchSwapQuoteError, fetchingSwapQuote, clearQuote } = useSwapQuote({
     networkId: fromToken?.networkId || networkConfig.defaultNetworkId,
     slippagePercentage: maxSlippagePercentage,
-    enableValoraFee,
+    enableAppFee: enableAppFee,
   })
 
   // Parsed swap amounts (BigNumber)
@@ -632,8 +632,8 @@ export function SwapScreen({ route }: Props) {
     return getNetworkFee(quote, fromToken?.networkId)
   }, [fromToken, quote])
 
-  const valoraFeePercentage = quote?.valoraFeePercentageIncludedInPrice
-    ? new BigNumber(quote.valoraFeePercentageIncludedInPrice)
+  const appFeePercentage = quote?.appFeePercentageIncludedInPrice
+    ? new BigNumber(quote.appFeePercentageIncludedInPrice)
     : undefined
 
   useEffect(() => {
@@ -735,7 +735,7 @@ export function SwapScreen({ route }: Props) {
             exchangeRatePrice={quote?.price}
             swapAmount={parsedSwapAmount[Field.FROM]}
             fetchingSwapQuote={quoteUpdatePending}
-            enableValoraFee={enableValoraFee}
+            enableAppFee={enableAppFee}
             exchangeRateInfoBottomSheetRef={exchangeRateInfoBottomSheetRef}
           />
           {showSwitchedToNetworkWarning && (
@@ -852,10 +852,10 @@ export function SwapScreen({ route }: Props) {
       <BottomSheet
         forwardedRef={exchangeRateInfoBottomSheetRef}
         description={t('swapScreen.transactionDetails.exchangeRateInfo', {
-          context: valoraFeePercentage?.isGreaterThan(0) ? 'withValoraFee' : '',
+          context: appFeePercentage?.isGreaterThan(0) ? 'withAppFee' : '',
           networkName: NETWORK_NAMES[fromToken?.networkId || networkConfig.defaultNetworkId],
           slippagePercentage: parsedSlippagePercentage,
-          valoraFeePercentage: valoraFeePercentage?.toFormat(),
+          appFeePercentage: appFeePercentage?.toFormat(),
         })}
         testId="ExchangeRateInfoBottomSheet"
       >
