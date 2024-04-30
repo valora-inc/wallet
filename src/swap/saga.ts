@@ -157,6 +157,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   const {
     provider,
     price,
+    valoraFeePercentageIncludedInPrice,
     allowanceTarget,
     estimatedPriceImpact,
     preparedTransactions: serializablePreparedTransactions,
@@ -206,6 +207,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     amount,
     amountType,
     price,
+    valoraFeePercentageIncludedInPrice,
     allowanceTarget,
     estimatedPriceImpact,
     provider,
@@ -214,6 +216,8 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     swapApproveTxId: swapApproveContext.id,
     estimatedSellTokenUsdValue,
     estimatedBuyTokenUsdValue,
+    estimatedValoraFeeUsdValue:
+      (Number(valoraFeePercentageIncludedInPrice) / 100) * Number(estimatedSellTokenUsdValue),
     web3Library: 'viem' as const,
     areSwapTokensShuffled,
     ...getSwapTxsAnalyticsProperties(preparedTransactions, fromToken.networkId, tokensById),

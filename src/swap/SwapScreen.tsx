@@ -411,7 +411,8 @@ export function SwapScreen({ route }: Props) {
     }
 
     const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
-    const { estimatedPriceImpact, price, allowanceTarget } = quote
+    const { estimatedPriceImpact, price, valoraFeePercentageIncludedInPrice, allowanceTarget } =
+      quote
 
     const resultType = quote.preparedTransactions.type
     switch (resultType) {
@@ -434,6 +435,7 @@ export function SwapScreen({ route }: Props) {
           allowanceTarget,
           estimatedPriceImpact,
           price,
+          valoraFeePercentageIncludedInPrice,
           provider: quote.provider,
           web3Library: 'viem',
           ...getSwapTxsAnalyticsProperties(
@@ -454,6 +456,7 @@ export function SwapScreen({ route }: Props) {
               ),
               receivedAt: quote.receivedAt,
               price: quote.price,
+              valoraFeePercentageIncludedInPrice: quote.valoraFeePercentageIncludedInPrice,
               provider: quote.provider,
               estimatedPriceImpact,
               allowanceTarget,
