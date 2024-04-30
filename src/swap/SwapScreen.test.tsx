@@ -186,7 +186,7 @@ const defaultQuote: FetchQuoteResponse = {
     chainId: 44787,
     price: '1.2345678',
     guaranteedPrice: '1.1234567',
-    valoraFeePercentageIncludedInPrice: undefined,
+    appFeePercentageIncludedInPrice: undefined,
     sellTokenAddress: mockCeloAddress,
     buyTokenAddress: mockCusdAddress,
     sellAmount: '1234000000000000000',
@@ -997,8 +997,8 @@ describe('SwapScreen', () => {
             preparedTransactions,
             receivedAt: quoteReceivedTimestamp,
             price: defaultQuote.unvalidatedSwapTransaction.price,
-            valoraFeePercentageIncludedInPrice:
-              defaultQuote.unvalidatedSwapTransaction.valoraFeePercentageIncludedInPrice,
+            appFeePercentageIncludedInPrice:
+              defaultQuote.unvalidatedSwapTransaction.appFeePercentageIncludedInPrice,
             provider: defaultQuote.details.swapProvider,
             estimatedPriceImpact: defaultQuote.unvalidatedSwapTransaction.estimatedPriceImpact,
             allowanceTarget: defaultQuote.unvalidatedSwapTransaction.allowanceTarget,
@@ -1050,8 +1050,8 @@ describe('SwapScreen', () => {
             preparedTransactions: [preparedTransactions[1]], // no approval transaction
             receivedAt: expect.any(Number),
             price: defaultQuote.unvalidatedSwapTransaction.price,
-            valoraFeePercentageIncludedInPrice:
-              defaultQuote.unvalidatedSwapTransaction.valoraFeePercentageIncludedInPrice,
+            appFeePercentageIncludedInPrice:
+              defaultQuote.unvalidatedSwapTransaction.appFeePercentageIncludedInPrice,
             provider: defaultQuote.details.swapProvider,
             estimatedPriceImpact: defaultQuote.unvalidatedSwapTransaction.estimatedPriceImpact,
             allowanceTarget: defaultQuote.unvalidatedSwapTransaction.allowanceTarget,
@@ -1097,8 +1097,8 @@ describe('SwapScreen', () => {
             preparedTransactions,
             receivedAt: quoteReceivedTimestamp,
             price: defaultQuote.unvalidatedSwapTransaction.price,
-            valoraFeePercentageIncludedInPrice:
-              defaultQuote.unvalidatedSwapTransaction.valoraFeePercentageIncludedInPrice,
+            appFeePercentageIncludedInPrice:
+              defaultQuote.unvalidatedSwapTransaction.appFeePercentageIncludedInPrice,
             provider: defaultQuote.details.swapProvider,
             estimatedPriceImpact: defaultQuote.unvalidatedSwapTransaction.estimatedPriceImpact,
             allowanceTarget: defaultQuote.unvalidatedSwapTransaction.allowanceTarget,
