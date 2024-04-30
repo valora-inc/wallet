@@ -141,7 +141,7 @@
     "lottie-react-native": "^6.7.2",
     "node-libs-react-native": "^1.2.1",
     "qrcode": "^1.5.3",
-    "react": "18.2.0",
+    "react": "18.3.1",
     "react-async-hook": "^4.0.0",
     "react-i18next": "^14.1.1",
     "react-native": "0.71.17",
