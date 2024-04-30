@@ -56,6 +56,9 @@ export async function retrieveStoredItem(key: string, options: Keychain.Options 
   try {
     const item = await Keychain.getGenericPassword({
       service: key,
+      authenticationPrompt: { cancel: '' },
+      accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_ANY_OR_DEVICE_PASSCODE,
+      authenticationType: Keychain.AUTHENTICATION_TYPE.DEVICE_PASSCODE_OR_BIOMETRICS,
       ...options,
     })
     if (!item) {

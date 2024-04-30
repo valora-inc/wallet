@@ -112,4 +112,4 @@ export const multichainBetaStatusSelector = (state: RootState) => state.app.mult
 
 export const pendingDeepLinkSelector = (state: RootState) => state.app.pendingDeepLinks[0] ?? null
 
-export const HasSetPinManuallySelector = (state: RootState) => state.app.hasSetPinManually
+export const hasSetPinManuallySelector = (state: RootState) => state.app.hasSetPinManually

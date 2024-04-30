@@ -18,6 +18,7 @@
   "appPreferences": "App Preferences",
   "security": "Security",
   "changePin": "Change PIN",
+  "createPin": "Create PIN",
   "pinChanged": "PIN changed",
   "pinChangeFailed": "Changing the PIN failed",
   "requirePinOnAppOpen": "Require PIN on App Open",

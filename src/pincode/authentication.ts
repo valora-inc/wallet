@@ -185,9 +185,9 @@ function storePinWithBiometry(pin: string) {
     key: STORAGE_KEYS.PIN,
     value: pin,
     options: {
-      accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET,
+      accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_ANY_OR_DEVICE_PASSCODE,
       accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
-      authenticationType: Keychain.AUTHENTICATION_TYPE.BIOMETRICS,
+      authenticationType: Keychain.AUTHENTICATION_TYPE.DEVICE_PASSCODE_OR_BIOMETRICS,
       securityLevel: Keychain.SECURITY_LEVEL.SECURE_SOFTWARE,
     },
   })
@@ -325,6 +325,7 @@ export async function getPincodeWithBiometry() {
       // device pincode fallback
       authenticationPrompt: {
         title: i18n.t('unlockWithBiometryPrompt') ?? undefined,
+        cancel: '',
       },
     })
     if (retrievedPin) {

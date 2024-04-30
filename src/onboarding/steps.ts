@@ -43,7 +43,7 @@ export interface OnboardingProps {
 }
 
 // TODO ACT-1160 follow hook into Statsig Experiment
-const useBiometricsWithoutPinSetup = false
+const useBiometricsWithoutPinSetup = true
 
 /**
  * Helper function to determine where onboarding starts.

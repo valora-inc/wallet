@@ -11,3 +11,62 @@ index 9efac96..270fbcf 100644
                                  nil];
    NSMutableArray<NSString*> *services = [NSMutableArray<NSString*> new];
    for (id secItemClass in secItemClasses) {
+diff --git a/node_modules/react-native-keychain/android/src/main/java/com/oblador/keychain/KeychainModule.java b/node_modules/react-native-keychain/android/src/main/java/com/oblador/keychain/KeychainModule.java
+index 9413000..3b20434 100644
+--- a/node_modules/react-native-keychain/android/src/main/java/com/oblador/keychain/KeychainModule.java
++++ b/node_modules/react-native-keychain/android/src/main/java/com/oblador/keychain/KeychainModule.java
+@@ -52,6 +52,7 @@ public class KeychainModule extends ReactContextBaseJavaModule {
+   public static final String IRIS_SUPPORTED_NAME = "Iris";
+   public static final String EMPTY_STRING = "";
+   public static final String WARMING_UP_ALIAS = "warmingUp";
++  public static final String AUTHENTICATION_TYPE = "authenticationType";
+ 
+   private static final String LOG_TAG = KeychainModule.class.getSimpleName();
+ 
+@@ -74,6 +75,12 @@ public class KeychainModule extends ReactContextBaseJavaModule {
+     String BIOMETRY_CURRENT_SET_OR_DEVICE_PASSCODE = "BiometryCurrentSetOrDevicePasscode";
+   }
+ 
++  @StringDef({AuthenticateType.BIOMETRICS, AuthenticateType.DEVICE_PASSCODE_OR_BIOMETRICS})
++  @interface AuthenticateType {
++    String DEVICE_PASSCODE_OR_BIOMETRICS = "AuthenticationWithBiometricsDevicePasscode";
++    String BIOMETRICS = "AuthenticationWithBiometrics";
++  }
++
+   @interface AuthPromptOptions {
+     String TITLE = "title";
+     String SUBTITLE = "subtitle";
+@@ -618,7 +625,12 @@ public class KeychainModule extends ReactContextBaseJavaModule {
+     }
+ 
+     /* PromptInfo is only used in Biometric-enabled RSA storage and can only be unlocked by a strong biometric */
+-    promptInfoBuilder.setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG);
++    int allowedAuthenticators = BiometricManager.Authenticators.BIOMETRIC_STRONG;
++    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && options.hasKey(AUTHENTICATION_TYPE) && options.getString(AUTHENTICATION_TYPE).equals(AuthenticateType.DEVICE_PASSCODE_OR_BIOMETRICS)) {
++      allowedAuthenticators = BiometricManager.Authenticators.BIOMETRIC_STRONG | BiometricManager.Authenticators.DEVICE_CREDENTIAL;
++    }
++    promptInfoBuilder.setAllowedAuthenticators(allowedAuthenticators);
++
+ 
+     /* Bypass confirmation to avoid KeyStore unlock timeout being exceeded when using passive biometrics */
+     promptInfoBuilder.setConfirmationRequired(false);
+diff --git a/node_modules/react-native-keychain/android/src/main/java/com/oblador/keychain/cipherStorage/CipherStorageKeystoreRsaEcb.java b/node_modules/react-native-keychain/android/src/main/java/com/oblador/keychain/cipherStorage/CipherStorageKeystoreRsaEcb.java
+index 5603fbf..03a2f6f 100644
+--- a/node_modules/react-native-keychain/android/src/main/java/com/oblador/keychain/cipherStorage/CipherStorageKeystoreRsaEcb.java
++++ b/node_modules/react-native-keychain/android/src/main/java/com/oblador/keychain/cipherStorage/CipherStorageKeystoreRsaEcb.java
+@@ -239,14 +239,9 @@ public class CipherStorageKeystoreRsaEcb extends CipherStorageBase {
+       .setEncryptionPaddings(PADDING_PKCS1)
+       .setRandomizedEncryptionRequired(true)
+       .setUserAuthenticationRequired(true)
++      .setUserAuthenticationValidityDurationSeconds(validityDuration)
+       .setKeySize(keySize);
+ 
+-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+-      keyGenParameterSpecBuilder.setUserAuthenticationParameters(validityDuration, KeyProperties.AUTH_BIOMETRIC_STRONG);
+-    } else {
+-      keyGenParameterSpecBuilder.setUserAuthenticationValidityDurationSeconds(validityDuration);
+-    }
+-
+     return keyGenParameterSpecBuilder;
+   }
+ 

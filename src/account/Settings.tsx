@@ -37,10 +37,10 @@ import {
   setSessionId,
 } from 'src/app/actions'
 import {
-  HasSetPinManuallySelector,
   analyticsEnabledSelector,
   getRequirePinOnAppOpen,
   hapticFeedbackEnabledSelector,
+  hasSetPinManuallySelector,
   phoneNumberVerifiedSelector,
   sessionIdSelector,
   supportedBiometryTypeSelector,
@@ -115,7 +115,7 @@ export const Account = ({ navigation, route }: Props) => {
   const cloudBackupCompleted = useSelector(cloudBackupCompletedSelector)
   const deleteKeylessBackupStatus = useSelector(deleteKeylessBackupStatusSelector)
   const showDeleteKeylessBackupError = useSelector(showDeleteKeylessBackupErrorSelector)
-  const hasSetPinManually = useSelector(HasSetPinManuallySelector)
+  const hasSetPinManually = useSelector(hasSetPinManuallySelector)
   const walletConnectEnabled = v2
   const connectedApplications = sessions.length
 
@@ -485,7 +485,7 @@ export const Account = ({ navigation, route }: Props) => {
           />
           {getKeylessBackupItem()}
           <SettingsItemTextValue
-            title={t('changePin')}
+            title={hasSetPinManually ? t('changePin') : t('createPin')}
             onPress={goToChangePin}
             testID="ChangePIN"
           />
