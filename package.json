@@ -251,7 +251,7 @@
     "babel-jest": "^29.2.1",
     "babel-plugin-module-resolver": "^4.1.0",
     "chalk": "^4.0.0",
-    "detox": "^20.11.3",
+    "detox": "^20.18.5",
     "dotenv": "^16.3.1",
     "easy-table": "^1.2.0",
     "escape-string-regexp": "^1.0.5",
