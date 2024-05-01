@@ -2271,6 +2271,11 @@
         "title": "Impossible de charger l'activité des points",
         "subtitle": "Oups, quelque chose n'a pas fonctionné lorsque nous avons essayé de charger le flux d'activité de tes points. Essaie à nouveau.",
         "tryAgain": "Veuillez réessayer"
+      },
+      "empty": {
+        "title": "Pas encore d'activité de points",
+        "subtitle": "Il semble que tu n'aies pas encore gagné de points. Utilise {{appName}} pour commencer à gagner des points !",
+        "gotIt": "J'ai compris"
       }
     },
     "loading": {
