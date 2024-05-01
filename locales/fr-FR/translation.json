@@ -2276,6 +2276,11 @@
         "title": "Pas encore d'activité de points",
         "subtitle": "Il semble que tu n'aies pas encore gagné de points. Utilise {{appName}} pour commencer à gagner des points !",
         "gotIt": "J'ai compris"
+      },
+      "pageError": {
+        "title": "Impossible de charger",
+        "subtitle": "Oups, quelque chose s'est mal passé en essayant de terminer le chargement. Essaie à nouveau.",
+        "refresh": "Actualiser"
       }
     },
     "loading": {
