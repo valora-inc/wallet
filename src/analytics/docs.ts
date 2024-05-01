@@ -72,10 +72,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [AppEvents.multichain_beta_opt_out]: `When the user taps the No Thanks button on the multichain beta screen`,
   [AppEvents.multichain_beta_contact_support]: `When the user taps the Contact Support button on the multichain beta screen`,
   [AppEvents.handle_deeplink]: `When a deeplink that leads into the app is detected and handled`,
-  [HomeEvents.hamburger_tapped]: ``,
   [HomeEvents.account_circle_tapped]: `When the account circle used in the tab navigation is tapped`,
-  [HomeEvents.drawer_navigation]: ``,
-  [HomeEvents.drawer_address_copy]: ``,
   [HomeEvents.profile_address_copy]: `When a user copies their wallet address from the profile screen`,
   [HomeEvents.notification_scroll]: ``,
   [HomeEvents.notification_impression]: `When the notification appears on the user screen for the first time. Note that the format of the notificationId property for user generated notifications is $NotificationType/$Id, where the $Id can be filtered out with a fuzzy string match.`,
@@ -161,8 +158,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [KeylessBackupEvents.cab_phone_verification_help_go_back]: `When a user is on the Help bottom sheet on CAB phone verification screen, and they hit go back`,
   [KeylessBackupEvents.cab_restore_mnemonic_not_found]: `When a user is restoring from CAB and the mnemonic is not found. Meaning one or more of the user's keyshares/auth methods were incorrect`,
   [KeylessBackupEvents.cab_setup_hashed_keyshares]: `When a user is setting up CAB, the hashed keyshares from their phone and email are saved`,
-  [OnboardingEvents.onboarding_education_scroll]: ``,
-  [OnboardingEvents.onboarding_education_step_impression]: ``,
   [OnboardingEvents.create_account_start]: ``,
   [OnboardingEvents.restore_account_start]: ``,
   [OnboardingEvents.restore_account_cancel]: ``,
@@ -365,9 +360,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [TransactionEvents.transaction_confirmed]: `when a transaction is confirmed by the blockchain`,
   [TransactionEvents.transaction_error]: `when a transaction submission emits an error (only for contract-kit)`,
   [TransactionEvents.transaction_exception]: `when a transaction submission throws`,
-  [CeloExchangeEvents.celo_home_info]: `when the (i) next to Celo Gold price is clicked, launching education (not pictured)`,
   [CeloExchangeEvents.celo_withdraw_completed]: `when the transaction for the withdrawal is completed`,
-  [CeloExchangeEvents.celo_chart_tapped]: `when user clicks the chart on exchange screen`,
 
   // The CICO landing page accessible from the Settings Menu
   [FiatExchangeEvents.cico_landing_token_balance]: `User taps to view detailed token balance`,
@@ -489,6 +482,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [PointsEvents.points_screen_activity_press]: `when the Activity button is pressed from Points home screen`,
   [PointsEvents.points_screen_activity_try_again_press]: `when the Try Again button is pressed after an error while fetching Points activity`,
   [PointsEvents.points_screen_activity_fetch_more]: `when the user requests to fetch more Points history`,
+  [PointsEvents.points_screen_activity_learn_more_press]: `when the Learn button is pressed when a user has no points history`,
 
   // Events related to WalletConnect pairing (technical: opening up the communication channel via QR code or deeplink)
   [WalletConnectEvents.wc_pairing_start]: `when WC pairing is started (no UI at this point)`,
@@ -609,6 +603,8 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   // [CeloExchangeEvents.celo_withdraw_cancel]: `when ’cancel’ is clicked on the review screen`,
   // [CeloExchangeEvents.celo_withdraw_confirm]: `when ‘withdraw’ is clicked on the review screen`,
   // [CeloExchangeEvents.celo_withdraw_error]: `when there's an error on the withdrawal transaction`,
+  // [CeloExchangeEvents.celo_home_info]: `when the (i) next to Celo Gold price is clicked, launching education (not pictured)`,
+  // [CeloExchangeEvents.celo_chart_tapped]: `when user clicks the chart on exchange screen`,
   // [NftEvents.nft_gallery_screen_open]: `When the gallery screen is mounted`,
   // [PhoneVerificationEvents.phone_verification_input_help_skip]: `when the user presses skip on the help dialog to skip verification`,
   // [PhoneVerificationEvents.phone_verification_skip]: `when skip is pressed in the phone number input screen`,

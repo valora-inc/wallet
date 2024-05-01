@@ -1,9 +1,7 @@
 export enum DappSection {
-  RecentlyUsed = 'recently used',
   Featured = 'featured',
   All = 'all',
   FavoritesDappScreen = 'favorites dapp screen',
-  FavoritesHomeScreen = 'favorites home screen',
   MostPopular = 'mostPopular',
 }
 

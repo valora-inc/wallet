@@ -55,7 +55,7 @@ function TransactionDetails({ transaction, title, children, retryHandler }: Prop
     [NetworkId['op-mainnet']]: t('viewOnOPMainnetExplorer'),
     [NetworkId['op-sepolia']]: t('viewOnOPSepoliaExplorer'),
     [NetworkId['polygon-pos-mainnet']]: t('viewOnPolygonPoSScan'),
-    [NetworkId['polygon-pos-mumbai']]: t('viewOnPolygonPoSScan'),
+    [NetworkId['polygon-pos-amoy']]: t('viewOnPolygonPoSScan'),
     [NetworkId['base-mainnet']]: t('viewOnBaseScan'),
     [NetworkId['base-sepolia']]: t('viewOnBaseScan'),
   }

@@ -108,7 +108,7 @@ describe(PointsHome, () => {
     const { getByTestId, getByText, queryByText } = renderPointsHome('success', {})
 
     expect(getByText('points.title')).toBeTruthy()
-    expect(getByText('50')).toBeTruthy() // balance
+    expect(getByTestId('PointsBalance')).toBeTruthy() // balance is animated so we cannot properly test the value programatically
     expect(getByTestId('PointsActivityButton')).toBeTruthy()
     expect(getByText('points.noActivities.title')).toBeTruthy()
     expect(getByText('points.noActivities.body')).toBeTruthy()

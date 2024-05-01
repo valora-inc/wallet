@@ -3,8 +3,8 @@ import { NativeStackHeaderProps, NativeStackScreenProps } from '@react-navigatio
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
-import DAppsExplorerScreenSearchFilter from 'src/dappsExplorer/DAppsExplorerScreenSearchFilter'
-import WalletHome from 'src/home/WalletHome'
+import TabDiscover from 'src/dappsExplorer/TabDiscover'
+import TabHome from 'src/home/TabHome'
 import Logo from 'src/icons/Logo'
 import Discover from 'src/icons/navigator/Discover'
 import Wallet from 'src/icons/navigator/Wallet'
@@ -15,7 +15,7 @@ import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import AssetsScreen from 'src/tokens/Assets'
+import TabWallet from 'src/tokens/TabWallet'
 
 const Tab = createBottomTabNavigator()
 
@@ -45,17 +45,16 @@ export default function TabNavigator({ route }: Props) {
     >
       <Tab.Screen
         name={Screens.TabWallet}
-        component={AssetsScreen}
+        component={TabWallet}
         options={{
           tabBarLabel: t('bottomTabsNavigator.wallet.tabName') as string,
           tabBarIcon: Wallet,
           tabBarTestID: 'Tab/Wallet',
         }}
-        initialParams={{ isWalletTab: true }}
       />
       <Tab.Screen
         name={Screens.TabHome}
-        component={WalletHome}
+        component={TabHome}
         options={{
           freezeOnBlur: false,
           lazy: false,
@@ -63,11 +62,10 @@ export default function TabNavigator({ route }: Props) {
           tabBarIcon: Logo,
           tabBarTestID: 'Tab/Home',
         }}
-        initialParams={{ isTabNavigator: true }}
       />
       <Tab.Screen
         name={Screens.TabDiscover}
-        component={DAppsExplorerScreenSearchFilter}
+        component={TabDiscover}
         options={{
           tabBarLabel: t('bottomTabsNavigator.discover.tabName') as string,
           tabBarIcon: Discover,
@@ -78,7 +76,6 @@ export default function TabNavigator({ route }: Props) {
           // but here it's the right expectation
           unmountOnBlur: true,
         }}
-        initialParams={{ isTabNavigator: true }}
       />
     </Tab.Navigator>
   )

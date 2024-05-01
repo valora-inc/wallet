@@ -8,15 +8,6 @@ beforeAll(async () => {
 
 // iOS only as getAttributes on multiple elements is not supported on Android
 describe(':ios: Home Feed', () => {
-  // TODO(ACT-1133): remove this beforeAll when drawer nav is removed
-  beforeAll(async () => {
-    await launchApp({
-      newInstance: true,
-      permissions: { notifications: 'YES', contacts: 'YES', camera: 'YES' },
-      launchArgs: { statsigGateOverrides: `use_tab_navigator=true` },
-    })
-  })
-
   it('should show correct information on tap of feed item', async () => {
     // Load Wallet Home
     await waitForElementId('WalletHome')

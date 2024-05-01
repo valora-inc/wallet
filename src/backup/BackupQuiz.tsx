@@ -73,12 +73,12 @@ const mapStateToProps = (state: RootState): StateProps => {
 }
 
 export const navOptionsForQuiz = ({ route }: OwnProps) => {
-  const settingsScreen = route.params?.settingsScreen ?? undefined
+  const isAccountRemoval = route.params?.isAccountRemoval
   return {
     ...emptyHeader,
     headerLeft: () => {
-      return settingsScreen ? (
-        <CancelButton onCancel={() => navigate(settingsScreen)} style={styles.cancelButton} />
+      return isAccountRemoval ? (
+        <CancelButton onCancel={() => navigate(Screens.Settings)} style={styles.cancelButton} />
       ) : (
         <CancelConfirm screen={TAG} />
       )
@@ -185,8 +185,8 @@ export class BackupQuiz extends React.Component<Props, State> {
     if (lengthsMatch && contentMatches(userChosenWords, mnemonic)) {
       Logger.debug(TAG, 'Backup quiz passed')
       this.props.setBackupCompleted()
-      const settingsScreen = this.props.route.params?.settingsScreen ?? undefined
-      navigate(Screens.BackupComplete, { settingsScreen })
+      const isAccountRemoval = this.props.route.params?.isAccountRemoval ?? false
+      navigate(Screens.BackupComplete, { isAccountRemoval })
       ValoraAnalytics.track(OnboardingEvents.backup_quiz_complete)
     } else {
       Logger.debug(TAG, 'Backup quiz failed, reseting words')

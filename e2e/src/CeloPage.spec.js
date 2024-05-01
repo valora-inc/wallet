@@ -6,11 +6,6 @@ import { launchApp } from './utils/retries'
 
 describe('Celo page', () => {
   beforeAll(async () => {
-    // TODO(ACT-1133): remove launchApp once drawer nav is removed
-    await launchApp({
-      newInstance: true,
-      launchArgs: { statsigGateOverrides: 'use_tab_navigator=true' },
-    })
     await quickOnboarding()
   })
 

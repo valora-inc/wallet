@@ -3,12 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { hideHomeBalancesSelector } from 'src/app/selectors'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -31,8 +29,6 @@ function SwapFeedItem({ exchange }: Props) {
     ValoraAnalytics.track(HomeEvents.transaction_feed_item_select)
   }
 
-  const hideHomeBalanceState = useSelector(hideHomeBalancesSelector)
-
   return (
     <Touchable testID="SwapFeedItem" onPress={handleTransferDetails}>
       <View style={styles.container}>
@@ -52,7 +48,7 @@ function SwapFeedItem({ exchange }: Props) {
             })}
           </Text>
         </View>
-        {!hideHomeBalanceState && (
+        {
           <View style={styles.tokenAmountContainer}>
             <TokenDisplay
               amount={exchange.inAmount.value}
@@ -74,7 +70,7 @@ function SwapFeedItem({ exchange }: Props) {
               testID={'SwapFeedItem/outgoingAmount'}
             />
           </View>
-        )}
+        }
       </View>
     </Touchable>
   )

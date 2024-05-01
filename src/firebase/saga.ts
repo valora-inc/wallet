@@ -1,14 +1,10 @@
 import { sleep } from '@celo/utils/lib/async'
 import firebase from '@react-native-firebase/app'
-import { FirebaseDatabaseTypes } from '@react-native-firebase/database'
-import { eventChannel } from 'redux-saga'
 import { handleUpdateAccountRegistration } from 'src/account/saga'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { Actions as AppActions } from 'src/app/actions'
 import { FIREBASE_ENABLED, isE2EEnv } from 'src/config'
-import { updateCeloGoldExchangeRateHistory } from 'src/exchange/actions'
-import { ExchangeRate, MAX_HISTORY_RETENTION, exchangeHistorySelector } from 'src/exchange/reducer'
 import { Actions, firebaseAuthorized } from 'src/firebase/actions'
 import {
   checkInitialNotification,
@@ -21,11 +17,9 @@ import { setLanguage } from 'src/i18n/slice'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import { getAccount } from 'src/web3/saga'
-import { call, cancelled, put, select, spawn, take, takeEvery, takeLatest } from 'typed-redux-saga'
+import { call, put, spawn, takeEvery, takeLatest } from 'typed-redux-saga'
 
 const TAG = 'firebase/saga'
-const EXCHANGE_RATES = 'exchangeRates'
-const VALUE_CHANGE_HOOK = 'value'
 const FIREBASE_CONNECT_RETRIES = 3
 
 export function* waitForFirebaseAuth() {
@@ -80,84 +74,9 @@ export function* watchLanguage() {
   yield* takeEvery(setLanguage.type, safely(syncLanguageSelection))
 }
 
-function celoGoldExchangeRateHistoryChannel(lastTimeUpdated: number) {
-  const errorCallback = (error: Error) => {
-    Logger.warn(TAG, error.toString())
-  }
-
-  const now = Date.now()
-  // timestamp + 1 is used because .startAt is inclusive
-  const startAt = Math.max(lastTimeUpdated + 1, now - MAX_HISTORY_RETENTION)
-
-  return eventChannel((emit: any) => {
-    const singleItemEmitter = (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
-      emit([snapshot.val()])
-    }
-    const listenForNewElements = (newElementsStartAt: number) => {
-      firebase
-        .database()
-        .ref(`${EXCHANGE_RATES}/cGLD/cUSD`)
-        .orderByChild('timestamp')
-        .startAt(newElementsStartAt)
-        .on('child_added', singleItemEmitter, errorCallback)
-    }
-    const fullListEmitter = (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
-      const result: ExchangeRate[] = []
-      snapshot.forEach((childSnapshot: FirebaseDatabaseTypes.DataSnapshot) => {
-        result.push(childSnapshot.val())
-        return undefined
-      })
-      if (result.length) {
-        emit(result)
-        listenForNewElements(result[result.length - 1].timestamp + 1)
-      } else {
-        listenForNewElements(startAt)
-      }
-    }
-
-    firebase
-      .database()
-      .ref(`${EXCHANGE_RATES}/cGLD/cUSD`)
-      .orderByChild('timestamp')
-      .startAt(startAt)
-      .once(VALUE_CHANGE_HOOK, fullListEmitter, errorCallback)
-      .catch((error) => {
-        Logger.error(TAG, 'Error while fetching exchange rates', error)
-      })
-
-    return () => {
-      firebase.database().ref(`${EXCHANGE_RATES}/cGLD/cUSD`).off()
-    }
-  })
-}
-
-export function* subscribeToCeloGoldExchangeRateHistory() {
-  yield* call(waitForFirebaseAuth)
-  const history = yield* select(exchangeHistorySelector)
-  const channel = yield* call(celoGoldExchangeRateHistoryChannel, history.lastTimeUpdated)
-  try {
-    while (true) {
-      const exchangeRates = (yield* take(channel)) as ExchangeRate[]
-      const now = Date.now()
-      yield* put(updateCeloGoldExchangeRateHistory(exchangeRates, now))
-    }
-  } catch (error) {
-    Logger.error(
-      `${TAG}@subscribeToCeloGoldExchangeRateHistory`,
-      'Failed to subscribe to celo gold exchange rate history',
-      error
-    )
-  } finally {
-    if (yield* cancelled()) {
-      channel.close()
-    }
-  }
-}
-
 export function* firebaseSaga() {
   yield* spawn(initializeFirebase)
   yield* spawn(watchLanguage)
-  yield* spawn(subscribeToCeloGoldExchangeRateHistory)
   yield* takeLatest(AppActions.APP_MOUNTED, safely(watchFirebaseNotificationChannel))
   yield* takeLatest(AppActions.APP_MOUNTED, safely(checkInitialNotification))
 }

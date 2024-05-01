@@ -72,7 +72,6 @@ import SignInWithEmail from 'src/keylessBackup/SignInWithEmail'
 import WalletSecurityPrimer from 'src/keylessBackup/WalletSecurityPrimer'
 import Language from 'src/language/Language'
 import SelectLocalCurrency from 'src/localCurrency/SelectLocalCurrency'
-import DrawerNavigator from 'src/navigator/DrawerNavigator'
 import {
   emptyHeader,
   headerTransparentWithBack,
@@ -98,6 +97,7 @@ import OnboardingSuccessScreen from 'src/onboarding/success/OnboardingSuccessScr
 import Welcome from 'src/onboarding/welcome/Welcome'
 import PincodeEnter from 'src/pincode/PincodeEnter'
 import PincodeSet from 'src/pincode/PincodeSet'
+import PointsHome from 'src/points/PointsHome'
 import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
 import SendConfirmation, { sendConfirmationScreenNavOptions } from 'src/send/SendConfirmation'
@@ -110,7 +110,6 @@ import ValidateRecipientIntro, {
   validateRecipientIntroScreenNavOptions,
 } from 'src/send/ValidateRecipientIntro'
 import SwapScreen from 'src/swap/SwapScreen'
-import AssetsScreen from 'src/tokens/Assets'
 import TokenDetailsScreen from 'src/tokens/TokenDetails'
 import TokenImportScreen from 'src/tokens/TokenImport'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
@@ -121,7 +120,6 @@ import VerificationStartScreen from 'src/verify/VerificationStartScreen'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
 import WalletConnectRequest from 'src/walletConnect/screens/WalletConnectRequest'
 import WebViewScreen from 'src/webview/WebViewScreen'
-import PointsHome from 'src/points/PointsHome'
 
 const TAG = 'Navigator'
 
@@ -554,11 +552,6 @@ const nftScreens = (Navigator: typeof Stack) => (
 const assetScreens = (Navigator: typeof Stack) => (
   <>
     <Navigator.Screen
-      name={Screens.Assets}
-      component={AssetsScreen}
-      options={AssetsScreen.navigationOptions}
-    />
-    <Navigator.Screen
       name={Screens.TokenDetails}
       component={TokenDetailsScreen}
       options={TokenDetailsScreen.navigationOptions}
@@ -632,7 +625,6 @@ export function MainStackScreen() {
   return (
     <Stack.Navigator initialRouteName={initialRouteName} screenOptions={emptyHeader}>
       <Stack.Screen name={Screens.TabNavigator} component={TabNavigator} options={noHeader} />
-      <Stack.Screen name={Screens.DrawerNavigator} component={DrawerNavigator} options={noHeader} />
       {commonScreens(Stack)}
       {sendScreens(Stack)}
       {nuxScreens(Stack)}

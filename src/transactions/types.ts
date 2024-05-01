@@ -21,7 +21,7 @@ export enum NetworkId {
   'op-mainnet' = 'op-mainnet',
   'op-sepolia' = 'op-sepolia',
   'polygon-pos-mainnet' = 'polygon-pos-mainnet',
-  'polygon-pos-mumbai' = 'polygon-pos-mumbai',
+  'polygon-pos-amoy' = 'polygon-pos-amoy',
   'base-mainnet' = 'base-mainnet',
   'base-sepolia' = 'base-sepolia',
 }
