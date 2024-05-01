@@ -3287,7 +3287,6 @@ export const v210Schema = {
 }
 
 export const v211Schema = {
-  ...v210Schema,
   ..._.omit(v210Schema, 'exchange'),
   _persist: {
     ...v210Schema._persist,
