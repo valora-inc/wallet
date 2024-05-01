@@ -2280,6 +2280,11 @@
         "title": "Brak aktywności punktowej",
         "subtitle": "Wygląda na to, że nie zdobyłeś jeszcze żadnych punktów. Użyj {{appName}} , aby zacząć zdobywać punkty!",
         "gotIt": "Rozumiem"
+      },
+      "pageError": {
+        "title": "Nie można załadować",
+        "subtitle": "Ups, coś poszło nie tak podczas próby zakończenia ładowania. Spróbuj ponownie.",
+        "refresh": "Odśwież"
       }
     },
     "loading": {
