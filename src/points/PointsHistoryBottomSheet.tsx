@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import { ActivityIndicator, StyleSheet, Text, View, ListRenderItem } from 'react-native'
 import SectionHead from 'src/components/SectionHead'
 import GorhomBottomSheet from '@gorhom/bottom-sheet'
@@ -21,6 +21,8 @@ import { BottomSheetSectionList } from '@gorhom/bottom-sheet'
 import { useGetHistoryDefinition } from 'src/points/cardDefinitions'
 import { HistoryCardMetadata } from 'src/points/cardDefinitions'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
+import AttentionIcon from 'src/icons/Attention'
 
 interface Props {
   forwardedRef: React.RefObject<GorhomBottomSheet>
@@ -55,6 +57,8 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
   const pointsHistoryStatus = useSelector(pointsHistoryStatusSelector)
   const pointsHistory = useSelector(pointsHistorySelector)
 
+  const [showError, setShowError] = useState(false)
+
   const getHistoryDefinition = useGetHistoryDefinition()
 
   const insets = useSafeAreaInsets()
@@ -78,11 +82,13 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
     )
   }
 
-  const onPressTryAgain = () => {
-    ValoraAnalytics.track(PointsEvents.points_screen_activity_try_again_press)
+  const onPressTryAgain = (getNextPage: boolean) => {
+    ValoraAnalytics.track(PointsEvents.points_screen_activity_try_again_press, {
+      getNextPage,
+    })
     dispatch(
       getHistoryStarted({
-        getNextPage: false,
+        getNextPage,
       })
     )
   }
@@ -112,7 +118,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
         </View>
         <Button
           testID={'PointsHistoryBottomSheet/TryAgain'}
-          onPress={onPressTryAgain}
+          onPress={() => onPressTryAgain(false)}
           text={t('points.history.error.tryAgain')}
           type={BtnTypes.GRAY_WITH_BORDER}
           size={BtnSizes.FULL}
@@ -138,10 +144,14 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
 
   const isEmpty = pointsHistoryStatus !== 'loading' && !pointsHistory.length
 
-  // TODO: Figure out what to render when error occurs on subsequent page fetch
-
   const sections = useMemo(() => {
     return groupFeedItemsInSections([], pointsHistory)
+  }, [pointsHistory, pointsHistoryStatus])
+
+  useEffect(() => {
+    if (pointsHistory.length && pointsHistoryStatus === 'error') {
+      setShowError(true)
+    }
   }, [pointsHistory, pointsHistoryStatus])
 
   return (
@@ -163,13 +173,34 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
         onEndReached={onFetchMoreHistory}
         ListFooterComponent={Loading}
         ListEmptyComponent={isEmpty ? EmptyOrError : null}
-        onEndReachedThreshold={0.5}
+        onEndReachedThreshold={0.2}
+        stickySectionHeadersEnabled={false}
       />
+      {showError && (
+        <InLineNotification
+          variant={NotificationVariant.Error}
+          title={t('points.history.pageError.title')}
+          description={t('points.history.pageError.subtitle')}
+          ctaLabel={t('points.history.pageError.refresh')}
+          onPressCta={() => onPressTryAgain(true)}
+          withBorder={true}
+          style={{
+            ...styles.errorNotification,
+            marginBottom: Math.max(insets.bottom, Spacing.Thick24),
+          }}
+          customIcon={<AttentionIcon color={colors.errorDark} size={20} />}
+          testID={'PointsHistoryBottomSheet/ErrorBanner'}
+        />
+      )}
     </BottomSheetBase>
   )
 }
 
 const styles = StyleSheet.create({
+  errorNotification: {
+    positioning: 'absolute',
+    marginHorizontal: Spacing.Regular16,
+  },
   emptyContainer: {
     flex: 1,
     padding: Spacing.Thick24,

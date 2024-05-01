@@ -125,7 +125,10 @@ describe(PointsHistoryBottomSheet, () => {
     fireEvent.press(getByText('points.history.error.tryAgain'))
     await waitFor(() =>
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-        PointsEvents.points_screen_activity_try_again_press
+        PointsEvents.points_screen_activity_try_again_press,
+        {
+          getNextPage: false,
+        }
       )
     )
     expect(dispatch).toHaveBeenCalledWith(getHistoryStarted({ getNextPage: false }))
@@ -144,5 +147,28 @@ describe(PointsHistoryBottomSheet, () => {
         PointsEvents.points_screen_activity_learn_more_press
       )
     )
+  })
+
+  it('shows inline error if failure while fetching subsequent page', async () => {
+    const tree = renderScreen({
+      points: { getHistoryStatus: 'error', pointsHistory: MOCK_RESPONSE_NO_NEXT_PAGE.data },
+    })
+    expect(tree.getByTestId('PointsHistoryBottomSheet/ErrorBanner')).toBeTruthy()
+  })
+
+  it('refreshes if error banner CTA is pressed', async () => {
+    const { dispatch, getByText } = renderScreen({
+      points: { getHistoryStatus: 'error', pointsHistory: MOCK_RESPONSE_NO_NEXT_PAGE.data },
+    })
+    fireEvent.press(getByText('points.history.pageError.refresh'))
+    await waitFor(() =>
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        PointsEvents.points_screen_activity_try_again_press,
+        {
+          getNextPage: true,
+        }
+      )
+    )
+    expect(dispatch).toHaveBeenCalledWith(getHistoryStarted({ getNextPage: true }))
   })
 })
