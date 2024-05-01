@@ -2276,6 +2276,11 @@
         "title": "No points activity yet",
         "subtitle": "It looks like you haven't earned any points yet. Use {{appName}} to start earning points!",
         "gotIt": "Got it"
+      },
+      "pageError": {
+        "title": "Unable to load",
+        "subtitle": "Oops, something went wrong when trying to finish loading. Please try again.",
+        "refresh": "Refresh"
       }
     },
     "loading": {
