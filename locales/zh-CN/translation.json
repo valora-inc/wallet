@@ -2274,6 +2274,11 @@
         "title": "尚无积分活动",
         "subtitle": "看来您还没有获得任何积分。使用 {{appName}} 开始赚取积分！",
         "gotIt": "知道了"
+      },
+      "pageError": {
+        "title": "无法加载",
+        "subtitle": "哎呀，在尝试完成加载时出了点问题。请重试。",
+        "refresh": "刷新"
       }
     },
     "loading": {
