@@ -2271,6 +2271,11 @@
         "title": "Aktivität kann keine Punkte laden",
         "subtitle": "Ups, beim Laden deines Punkte-Aktivitäten-Feeds ist etwas schief gelaufen. Bitte versuche es noch einmal.",
         "tryAgain": "Erneut versuchen"
+      },
+      "empty": {
+        "title": "Noch keine Punkteaktivität",
+        "subtitle": "Es sieht so aus, als hättest du noch keine Punkte gesammelt. Nutze {{appName}} , um Punkte zu sammeln!",
+        "gotIt": "Verstanden"
       }
     },
     "loading": {

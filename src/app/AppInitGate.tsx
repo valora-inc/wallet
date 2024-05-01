@@ -2,7 +2,7 @@ import locales from 'locales'
 import React, { useEffect } from 'react'
 import { useAsync } from 'react-async-hook'
 import { Dimensions } from 'react-native'
-import { findBestAvailableLanguage } from 'react-native-localize'
+import { findBestLanguageTag } from 'react-native-localize'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { appMounted, appUnmounted } from 'src/app/actions'
@@ -28,9 +28,7 @@ const AppInitGate = ({ appStartedMillis, reactLoadTime, children }: Props) => {
   const dispatch = useDispatch()
 
   const language = useSelector(currentLanguageSelector)
-  const bestLanguage = !isE2EEnv
-    ? findBestAvailableLanguage(Object.keys(locales))?.languageTag
-    : 'en-US'
+  const bestLanguage = !isE2EEnv ? findBestLanguageTag(Object.keys(locales))?.languageTag : 'en-US'
 
   useEffect(() => {
     return () => {

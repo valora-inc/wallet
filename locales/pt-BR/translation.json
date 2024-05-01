@@ -2271,6 +2271,11 @@
         "title": "Não é possível carregar a atividade de pontos",
         "subtitle": "Oops, algo deu errado ao tentar carregar seu feed de atividades de pontos. Por favor, tente novamente.",
         "tryAgain": "Tentar novamente"
+      },
+      "empty": {
+        "title": "Nenhuma atividade de pontos ainda",
+        "subtitle": "Parece que você ainda não ganhou nenhum ponto. Use o site {{appName}} para que você comece a ganhar pontos!",
+        "gotIt": "Entendi"
       }
     },
     "loading": {
