@@ -673,3 +673,7 @@ export enum PointsEvents {
   points_screen_activity_try_again_press = 'points_screen_activity_try_again_press',
   points_screen_activity_fetch_more = 'points_screen_activity_fetch_more',
 }
+
+export enum EarnEvents {
+  earn_tap_add_crypto = 'earn_tap_add_crypto',
+}

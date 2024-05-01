@@ -1,0 +1,147 @@
+import BigNumber from 'bignumber.js'
+import React, { RefObject } from 'react'
+import { useTranslation } from 'react-i18next'
+import { StyleSheet, Text, View } from 'react-native'
+import { useSelector } from 'react-redux'
+import { EarnEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import Touchable from 'src/components/Touchable'
+import { CICOFlow } from 'src/fiatExchanges/utils'
+import QuickActionsAdd from 'src/icons/quick-actions/Add'
+import QuickActionsSend from 'src/icons/quick-actions/Send'
+import QuickActionsSwap from 'src/icons/quick-actions/Swap'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
+import { Colors } from 'src/styles/colors'
+import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
+import { useCashInTokens, useSwappableTokens, useTokenToLocalAmount } from 'src/tokens/hooks'
+import { TokenBalance } from 'src/tokens/slice'
+import { TokenActionName } from 'src/tokens/types'
+import { getTokenAnalyticsProps } from 'src/tokens/utils'
+
+export default function EarnAddCrypto({
+  forwardedRef,
+  token,
+  amount,
+}: {
+  forwardedRef: RefObject<BottomSheetRefType>
+  token: TokenBalance
+  amount: BigNumber
+}) {
+  const { t } = useTranslation()
+
+  const actions = getActions(token, amount)
+
+  return (
+    <BottomSheet
+      forwardedRef={forwardedRef}
+      title={t('earn.addCrypto.title')}
+      description={t('earn.addCrypto.description')}
+      testId={'Earn/AddCrypto'}
+      titleStyle={styles.title}
+    >
+      <View style={styles.actionsContainer}>
+        {actions.map((action) => (
+          <Touchable
+            style={styles.touchable}
+            key={action.name}
+            borderRadius={20}
+            onPress={() => {
+              ValoraAnalytics.track(EarnEvents.earn_tap_add_crypto, {
+                action: action.name,
+                ...getTokenAnalyticsProps(token),
+              })
+              action.onPress()
+            }}
+            testID={`Earn/AddCrypto/${action.name}`}
+          >
+            <>
+              <action.iconComponent color={Colors.black} />
+              <View style={{ flex: 1 }}>
+                <Text style={styles.actionTitle}>{action.title}</Text>
+                <Text style={styles.actionDetails}>{action.details}</Text>
+              </View>
+            </>
+          </Touchable>
+        ))}
+      </View>
+    </BottomSheet>
+  )
+}
+
+export const getActions = (token: TokenBalance, amount: BigNumber) => {
+  const { t } = useTranslation()
+  const { swappableFromTokens } = useSwappableTokens()
+  const cashInTokens = useCashInTokens()
+  const isSwapEnabled = useSelector(isAppSwapsEnabledSelector)
+
+  const addAmount = {
+    crypto: amount.toNumber(),
+    fiat: Math.round((useTokenToLocalAmount(amount, token.tokenId) || new BigNumber(0)).toNumber()),
+  }
+
+  return [
+    {
+      name: TokenActionName.Add,
+      title: t('earn.addCrypto.actions.add'),
+      details: t('earn.addCrypto.actionDescriptions.add'),
+      iconComponent: QuickActionsAdd,
+      onPress: () => {
+        navigate(Screens.SelectProvider, {
+          tokenId: token.tokenId,
+          flow: CICOFlow.CashIn,
+          amount: addAmount,
+        })
+      },
+      visible: !!cashInTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId),
+    },
+    {
+      name: TokenActionName.Receive,
+      title: t('earn.addCrypto.actions.receive'),
+      details: t('earn.addCrypto.actionDescriptions.receive'),
+      iconComponent: QuickActionsSend,
+      onPress: () => {
+        navigate(Screens.SendSelectRecipient, { defaultTokenIdOverride: token.tokenId }) // TODO: change this
+      },
+      visible: true,
+    },
+    {
+      name: TokenActionName.Swap,
+      title: t('earn.addCrypto.actions.swap'),
+      details: t('earn.addCrypto.actionDescriptions.swap'),
+      iconComponent: QuickActionsSwap,
+      onPress: () => {
+        navigate(Screens.SwapScreenWithBack, { fromTokenId: token.tokenId }) // TODO: change this
+      },
+      visible:
+        isSwapEnabled &&
+        !!swappableFromTokens.find((tokenInfo) => tokenInfo.networkId === token.networkId),
+    },
+  ].filter((action) => action.visible)
+}
+
+const styles = StyleSheet.create({
+  actionsContainer: {
+    flex: 1,
+    gap: Spacing.Regular16,
+  },
+  actionTitle: {
+    ...typeScale.labelMedium,
+  },
+  actionDetails: {
+    ...typeScale.bodySmall,
+  },
+  title: {
+    ...typeScale.labelLarge,
+  },
+  touchable: {
+    backgroundColor: Colors.gray1,
+    padding: Spacing.Regular16,
+    flexDirection: 'row',
+    gap: Spacing.Regular16,
+    alignItems: 'center',
+  },
+})

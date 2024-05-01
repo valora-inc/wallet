@@ -13,6 +13,7 @@ import {
   DappExplorerEvents,
   DappKitEvents,
   DappShortcutsEvents,
+  EarnEvents,
   EscrowEvents,
   FeeEvents,
   FiatExchangeEvents,
@@ -587,6 +588,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [TransactionDetailsEvents.transaction_details_tap_check_status]: `When a user press 'Check status' on transaction details page`,
   [TransactionDetailsEvents.transaction_details_tap_retry]: `When a user press 'Retry' on transaction details page`,
   [TransactionDetailsEvents.transaction_details_tap_block_explorer]: `When a user press 'View on block explorer' on transaction details page`,
+  [EarnEvents.earn_tap_add_crypto]: `When a user in the Earn flow enters an amount higher than their balance and chooses an option to add crypto`,
 
   // Legacy event docs
   //  The below events had docs, but are no longer produced by the latest app version.
