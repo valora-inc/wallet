@@ -2276,6 +2276,11 @@
         "title": "Noch keine Punkteaktivität",
         "subtitle": "Es sieht so aus, als hättest du noch keine Punkte gesammelt. Nutze {{appName}} , um Punkte zu sammeln!",
         "gotIt": "Verstanden"
+      },
+      "pageError": {
+        "title": "Kann nicht geladen werden",
+        "subtitle": "Ups, beim Beenden des Ladevorgangs ist etwas schief gelaufen. Bitte versuche es noch einmal.",
+        "refresh": "Aktualisieren"
       }
     },
     "loading": {
