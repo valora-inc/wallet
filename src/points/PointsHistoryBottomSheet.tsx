@@ -174,6 +174,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
         ListFooterComponent={Loading}
         ListEmptyComponent={isEmpty ? EmptyOrError : null}
         onEndReachedThreshold={0.2}
+        stickySectionHeadersEnabled={false}
       />
       {showError && (
         <InLineNotification
