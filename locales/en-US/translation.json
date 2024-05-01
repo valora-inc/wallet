@@ -2271,6 +2271,11 @@
         "title": "Unable to load points activity",
         "subtitle": "Oops, something went wrong when trying to load your points activity feed. Please try again.",
         "tryAgain": "Try again"
+      },
+      "empty": {
+        "title": "No points activity yet",
+        "subtitle": "It looks like you haven't earned any points yet. Use {{appName}} to start earning points!",
+        "gotIt": "Got it"
       }
     },
     "loading": {
