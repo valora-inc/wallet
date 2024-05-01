@@ -139,9 +139,9 @@ describe(PointsHistoryBottomSheet, () => {
     expect(tree.getByTestId('PointsHistoryBottomSheet/Empty')).toBeTruthy()
   })
 
-  it('closes bottom sheet if learn more is pressed', async () => {
+  it('closes bottom sheet if got it is pressed', async () => {
     const { getByText } = renderScreen({ points: { getHistoryStatus: 'idle', pointsHistory: [] } })
-    fireEvent.press(getByText('points.history.empty.learnMore'))
+    fireEvent.press(getByText('points.history.empty.gotIt'))
     await waitFor(() =>
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
         PointsEvents.points_screen_activity_learn_more_press

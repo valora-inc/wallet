@@ -2271,6 +2271,11 @@
         "title": "Puan etkinliği yüklenemiyor",
         "subtitle": "Oops, puan etkinlik akışınızı yüklemeye çalışırken bir şeyler ters gitti. Lütfen tekrar deneyin.",
         "tryAgain": "Tekrar deneyin"
+      },
+      "empty": {
+        "title": "Henüz puan etkinliği yok",
+        "subtitle": "Görünüşe göre henüz hiç puan kazanmamışsınız. Puan kazanmaya başlamak için {{appName}} adresini kullanın!",
+        "gotIt": "Anladım"
       }
     },
     "loading": {

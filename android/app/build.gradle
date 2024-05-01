@@ -281,7 +281,7 @@ dependencies {
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
-    implementation 'com.clevertap.android:clevertap-android-sdk:5.2.0'
+    implementation 'com.clevertap.android:clevertap-android-sdk:5.2.2'
     //For CleverTap Android SDK v3.6.4 and above add the following -
     implementation 'com.android.installreferrer:installreferrer:2.2'
     implementation 'com.google.android.gms:play-services-base:17.4.0'
