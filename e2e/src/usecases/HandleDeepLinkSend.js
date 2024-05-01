@@ -133,8 +133,7 @@ export default HandleDeepLinkSend = () => {
     })
 
     it('Then should error if no address provided', async () => {
-      const PAY_URL = deepLinks.withoutAddress
-      await launchDeepLink({ url: PAY_URL, newInstance: false })
+      await launchDeepLink({ url: deepLinks.withoutAddress, newInstance: false })
       await expect(element(by.id('SendAmount'))).not.toBeVisible()
     })
   })
@@ -171,8 +170,7 @@ export default HandleDeepLinkSend = () => {
     })
 
     it('Then should error if no address provided', async () => {
-      const PAY_URL = deepLinks.withoutAddress
-      await openDeepLink(PAY_URL)
+      await openDeepLink(deepLinks.withoutAddress)
       await expect(element(by.id('SendAmount'))).not.toBeVisible()
     })
   })
