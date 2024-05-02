@@ -53,6 +53,7 @@ export interface SwapInfo {
     preparedTransactions: SerializableTransactionRequest[]
     receivedAt: number
     price: string
+    appFeePercentageIncludedInPrice: string | undefined
     provider: string
     estimatedPriceImpact: string | null
     allowanceTarget: string

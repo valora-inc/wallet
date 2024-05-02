@@ -1183,6 +1183,7 @@ type SwapQuoteEvent = SwapEvent & {
    */
   estimatedPriceImpact: string | null
   price: string
+  appFeePercentageIncludedInPrice: string | null | undefined
   provider: string
 }
 
@@ -1288,6 +1289,7 @@ interface SwapEventsProperties {
       swapApproveTxId: string
       estimatedSellTokenUsdValue?: number
       estimatedBuyTokenUsdValue?: number
+      estimatedAppFeeUsdValue: number | undefined
       areSwapTokensShuffled: boolean
     }
   [SwapEvents.swap_execute_error]: SwapQuoteEvent &
@@ -1301,6 +1303,7 @@ interface SwapEventsProperties {
       swapApproveTxId: string
       estimatedSellTokenUsdValue?: number
       estimatedBuyTokenUsdValue?: number
+      estimatedAppFeeUsdValue: number | undefined
       areSwapTokensShuffled: boolean
     }
   [SwapEvents.swap_learn_more]: undefined

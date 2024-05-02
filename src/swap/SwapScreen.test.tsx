@@ -16,7 +16,7 @@ import { getDynamicConfigParams, getExperimentParams, getFeatureGate } from 'src
 import { StatsigFeatureGates } from 'src/statsig/types'
 import SwapScreen from 'src/swap/SwapScreen'
 import { swapStart } from 'src/swap/slice'
-import { Field } from 'src/swap/types'
+import { FetchQuoteResponse, Field } from 'src/swap/types'
 import { NO_QUOTE_ERROR_MESSAGE } from 'src/swap/useSwapQuote'
 import { NetworkId } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
@@ -181,10 +181,12 @@ const renderScreen = ({
   }
 }
 
-const defaultQuote = {
+const defaultQuote: FetchQuoteResponse = {
   unvalidatedSwapTransaction: {
+    chainId: 44787,
     price: '1.2345678',
     guaranteedPrice: '1.1234567',
+    appFeePercentageIncludedInPrice: undefined,
     sellTokenAddress: mockCeloAddress,
     buyTokenAddress: mockCusdAddress,
     sellAmount: '1234000000000000000',
@@ -195,7 +197,7 @@ const defaultQuote = {
     value: '0',
     data: '0x0',
     gas: '1800000',
-    gasPrice: '500000000',
+    estimatedGasUse: undefined,
     estimatedPriceImpact: '0.1',
   },
   details: {
@@ -995,6 +997,8 @@ describe('SwapScreen', () => {
             preparedTransactions,
             receivedAt: quoteReceivedTimestamp,
             price: defaultQuote.unvalidatedSwapTransaction.price,
+            appFeePercentageIncludedInPrice:
+              defaultQuote.unvalidatedSwapTransaction.appFeePercentageIncludedInPrice,
             provider: defaultQuote.details.swapProvider,
             estimatedPriceImpact: defaultQuote.unvalidatedSwapTransaction.estimatedPriceImpact,
             allowanceTarget: defaultQuote.unvalidatedSwapTransaction.allowanceTarget,
@@ -1046,6 +1050,8 @@ describe('SwapScreen', () => {
             preparedTransactions: [preparedTransactions[1]], // no approval transaction
             receivedAt: expect.any(Number),
             price: defaultQuote.unvalidatedSwapTransaction.price,
+            appFeePercentageIncludedInPrice:
+              defaultQuote.unvalidatedSwapTransaction.appFeePercentageIncludedInPrice,
             provider: defaultQuote.details.swapProvider,
             estimatedPriceImpact: defaultQuote.unvalidatedSwapTransaction.estimatedPriceImpact,
             allowanceTarget: defaultQuote.unvalidatedSwapTransaction.allowanceTarget,
@@ -1091,6 +1097,8 @@ describe('SwapScreen', () => {
             preparedTransactions,
             receivedAt: quoteReceivedTimestamp,
             price: defaultQuote.unvalidatedSwapTransaction.price,
+            appFeePercentageIncludedInPrice:
+              defaultQuote.unvalidatedSwapTransaction.appFeePercentageIncludedInPrice,
             provider: defaultQuote.details.swapProvider,
             estimatedPriceImpact: defaultQuote.unvalidatedSwapTransaction.estimatedPriceImpact,
             allowanceTarget: defaultQuote.unvalidatedSwapTransaction.allowanceTarget,
