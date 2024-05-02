@@ -209,7 +209,7 @@ function TabDiscover({ navigation }: Props) {
             <Text style={fontStyles.regular}>{t('dappsScreen.errorMessage')}</Text>
           </View>
         )}
-        {categories.length && (
+        {!!categories.length && (
           <AnimatedSectionList
             refreshControl={
               <RefreshControl
