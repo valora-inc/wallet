@@ -2,7 +2,7 @@ import * as React from 'react'
 import Svg, { ClipPath, Defs, G, LinearGradient, Path, Rect, Stop } from 'react-native-svg'
 
 const EarnAave = () => (
-  <Svg width={34} height={34} viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <Svg width={34} height={34} viewBox="0 0 34 34" fill="none">
     <Rect width={32} height={32} rx={16} fill="#F1FDF1" />
     <G clipPath="url(#clip0_2472_13704)">
       <G>
