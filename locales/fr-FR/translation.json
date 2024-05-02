@@ -1821,6 +1821,9 @@
       "slippageToleranceInfo": "Tolérance sur le slippage\n\nVotre échange s'exécutera dans le cadre du pourcentage de tolérance au slippage. Si le prix évolue au-delà de la tolérance au slippage, {{appName}} vous protège en empêchant la négociation.",
       "networkFeeInfoDismissButton": "J'ai compris",
       "exchangeRate": "Taux de change",
+      "exchangeRateInfo": "Taux de change\n\nNous avons trouvé le meilleur taux de change pour toi. Ton échange sera effectué à un prix se situant dans les {{slippagePercentage}}% de l'estimation ou la transaction sera annulée et les fonds retournés dans ton porte-monnaie.",
+      "exchangeRateInfo_withAppFee": "Taux de change\n\nNous avons trouvé le meilleur taux de change pour toi. Ton échange sera effectué à un prix se situant dans les {{slippagePercentage}}% de l'estimation ou la transaction sera annulée et les fonds seront renvoyés dans ton portefeuille.\n\nLe taux estimé comprend des frais de {{appName}} de {{appFeePercentage}}%.",
+      "exchangeRateInfoDismissButton": "J'ai compris",
       "estimatedValue": "Valeur estimée"
     },
     "fundYourWalletBottomSheet": {
