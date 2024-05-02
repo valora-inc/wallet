@@ -29,6 +29,7 @@ export enum StatsigFeatureGates {
   SHOW_NFT_REWARD = 'show_nft_reward',
   SHOW_JUMPSTART_SEND = 'show_jumpstart_send',
   SHOW_POINTS = 'show_points',
+  SHOW_STABLECOIN_EARN = 'show_stablecoin_earn',
 }
 
 export enum StatsigExperiments {
