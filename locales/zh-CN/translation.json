@@ -1819,6 +1819,9 @@
       "slippageToleranceInfo": "滑点调整\n\n您的交换将在滑点调整百分比范围内执行。如果价格变动超过滑点调整，{{appName}} 将阻止交易执行，为您提供保护。",
       "networkFeeInfoDismissButton": "知道了",
       "exchangeRate": "汇率",
+      "exchangeRateInfo": "汇率\n\n我们为您找到了最佳汇率。您的交易将以 {{slippagePercentage}}% 的估算价格完成，否则交易将被取消，资金将退回您的钱包。",
+      "exchangeRateInfo_withAppFee": "汇率\n\n我们为您找到了最佳汇率。您的交易将以 {{slippagePercentage}}% 的估算价格完成，否则交易将被取消，资金将返还到您的钱包。\n\n估算汇率包括 {{appName}} 费用 {{appFeePercentage}}%。",
+      "exchangeRateInfoDismissButton": "知道了",
       "estimatedValue": "估计价值"
     },
     "fundYourWalletBottomSheet": {
@@ -2274,6 +2277,11 @@
         "title": "尚无积分活动",
         "subtitle": "看来您还没有获得任何积分。使用 {{appName}} 开始赚取积分！",
         "gotIt": "知道了"
+      },
+      "pageError": {
+        "title": "无法加载",
+        "subtitle": "哎呀，在尝试完成加载时出了点问题。请重试。",
+        "refresh": "刷新"
       }
     },
     "loading": {

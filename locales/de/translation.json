@@ -1821,6 +1821,9 @@
       "slippageToleranceInfo": "Slippage-Toleranz\n\nDein Tausch wird innerhalb der Slippage-Toleranz in Prozent ausgeführt. Wenn sich der Preis stärker als die Slippage-Toleranz verändert, schützt dich {{appName}}, indem die Ausführung des Handels verhindert wird.",
       "networkFeeInfoDismissButton": "Verstanden",
       "exchangeRate": "Umtauschkurs",
+      "exchangeRateInfo": "Wechselkurs\n\nWir haben den besten Wechselkurs für dich gefunden. Dein Handel wird zu einem Preis abgeschlossen, der innerhalb {{slippagePercentage}}% der Schätzung liegt, oder die Transaktion wird storniert und das Geld wird an deine Brieftasche zurückgegeben.",
+      "exchangeRateInfo_withAppFee": "Wechselkurs\n\nWir haben den besten Wechselkurs für dich gefunden. Dein Handel wird zu einem Kurs innerhalb von {{slippagePercentage}}% des geschätzten Kurses abgewickelt oder die Transaktion wird storniert und das Geld wird an dein Portemonnaie zurückgegeben.\n\nDer geschätzte Kurs beinhaltet eine {{appName}} Gebühr von {{appFeePercentage}}%.",
+      "exchangeRateInfoDismissButton": "Verstanden",
       "estimatedValue": "Geschätzter Wert"
     },
     "fundYourWalletBottomSheet": {
@@ -2276,6 +2279,11 @@
         "title": "Noch keine Punkteaktivität",
         "subtitle": "Es sieht so aus, als hättest du noch keine Punkte gesammelt. Nutze {{appName}} , um Punkte zu sammeln!",
         "gotIt": "Verstanden"
+      },
+      "pageError": {
+        "title": "Kann nicht geladen werden",
+        "subtitle": "Ups, beim Beenden des Ladevorgangs ist etwas schief gelaufen. Bitte versuche es noch einmal.",
+        "refresh": "Aktualisieren"
       }
     },
     "loading": {

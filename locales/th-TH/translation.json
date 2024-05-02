@@ -1819,6 +1819,9 @@
       "slippageToleranceInfo": "ราคาคลาดเคลื่อนที่ยอมรับได้\n\nการสว็อปของคุณจะดำเนินการภายในเปอร์เซ็นต์ความคลาดเคลื่อนที่ยอมรับได้ หากราคาเปลี่ยนแปลงมากกว่าคลาดเคลื่อนที่ยอมรับได้ {{appName}} จะปกป้องคุณโดยการระงับการดำเนินการการเทรดนั้น",
       "networkFeeInfoDismissButton": "เข้าใจแล้ว",
       "exchangeRate": "อัตราแลกเปลี่ยน",
+      "exchangeRateInfo": "Exchange Rate\n\nWe've found the best exchange rate for you. Your trade will be completed at a price within {{slippagePercentage}}% of the estimate or the transaction will be cancelled & funds returned to your wallet.",
+      "exchangeRateInfo_withAppFee": "Exchange Rate\n\nWe've found the best exchange rate for you. Your trade will be completed at a price within {{slippagePercentage}}% of the estimate or the transaction will be cancelled & funds returned to your wallet.\n\nThe estimated rate includes a {{appName}} fee of {{appFeePercentage}}%.",
+      "exchangeRateInfoDismissButton": "เข้าใจแล้ว",
       "estimatedValue": "ค่าโดยประมาณ"
     },
     "fundYourWalletBottomSheet": {
@@ -2274,6 +2277,11 @@
         "title": "No points activity yet",
         "subtitle": "It looks like you haven't earned any points yet. Use {{appName}} to start earning points!",
         "gotIt": "เข้าใจแล้ว"
+      },
+      "pageError": {
+        "title": "Unable to load",
+        "subtitle": "Oops, something went wrong when trying to finish loading. Please try again.",
+        "refresh": "รีเฟรช"
       }
     },
     "loading": {

@@ -1825,6 +1825,9 @@
       "slippageToleranceInfo": "Tolerancja poślizgu\n\nTwój swap zostanie zrealizowany w ramach procentowej tolerancji poślizgu. Jeśli cena zmieni się bardziej niż tolerancja poślizgu, {{appName}} chroni Cię, uniemożliwiając realizację transakcji.",
       "networkFeeInfoDismissButton": "Rozumiem",
       "exchangeRate": "Kurs wymiany",
+      "exchangeRateInfo": "Kurs wymiany\n\nZnaleźliśmy dla Ciebie najlepszy kurs wymiany. Twoja transakcja zostanie sfinalizowana po cenie mieszczącej się w {{slippagePercentage}}% oszacowania lub transakcja zostanie anulowana, a środki zwrócone do Twojego portfela.",
+      "exchangeRateInfo_withAppFee": "Kurs wymiany\n\nZnaleźliśmy dla Ciebie najlepszy kurs wymiany. Twoja transakcja zostanie zrealizowana po cenie mieszczącej się w przedziale {{slippagePercentage}}% wartości szacunkowej lub transakcja zostanie anulowana, a środki zwrócone do Twojego portfela.\n\nSzacowany kurs obejmuje opłatę {{appName}} w wysokości {{appFeePercentage}}%.",
+      "exchangeRateInfoDismissButton": "Rozumiem",
       "estimatedValue": "Szacunkowa wartość"
     },
     "fundYourWalletBottomSheet": {
@@ -2280,6 +2283,11 @@
         "title": "Brak aktywności punktowej",
         "subtitle": "Wygląda na to, że nie zdobyłeś jeszcze żadnych punktów. Użyj {{appName}} , aby zacząć zdobywać punkty!",
         "gotIt": "Rozumiem"
+      },
+      "pageError": {
+        "title": "Nie można załadować",
+        "subtitle": "Ups, coś poszło nie tak podczas próby zakończenia ładowania. Spróbuj ponownie.",
+        "refresh": "Odśwież"
       }
     },
     "loading": {
