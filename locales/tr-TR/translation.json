@@ -1821,6 +1821,9 @@
       "slippageToleranceInfo": "Slipaj toleransı\n\nSwap işleminiz slipaj toleransı yüzdesi dahilinde gerçekleşecektir. Fiyat slipaj toleransından fazla değişirse {{appName}} işlemin gerçekleşmesini engelleyerek sizi korur.",
       "networkFeeInfoDismissButton": "Anladım",
       "exchangeRate": "Döviz Kuru",
+      "exchangeRateInfo": "Döviz Kuru\n\nSizin için en iyi döviz kurunu bulduk. İşleminiz, tahminin % {{slippagePercentage}}'u dahilinde bir fiyatla tamamlanacak veya işlem iptal edilecek ve para cüzdanınıza iade edilecektir.",
+      "exchangeRateInfo_withAppFee": "Döviz Kuru\n\nSizin için en iyi döviz kurunu bulduk. İşleminiz tahmini kurun % {{slippagePercentage}}içinde bir fiyatla tamamlanacak veya işlem iptal edilecek ve paranız cüzdanınıza iade edilecektir.\n\nTahmini kura % {{appFeePercentage}}oranında bir {{appName}} ücreti dahildir.",
+      "exchangeRateInfoDismissButton": "Anladım",
       "estimatedValue": "Tahmini Değer"
     },
     "fundYourWalletBottomSheet": {
@@ -2276,6 +2279,11 @@
         "title": "Henüz puan etkinliği yok",
         "subtitle": "Görünüşe göre henüz hiç puan kazanmamışsınız. Puan kazanmaya başlamak için {{appName}} adresini kullanın!",
         "gotIt": "Anladım"
+      },
+      "pageError": {
+        "title": "Yüklenemiyor",
+        "subtitle": "Oops, yüklemeyi bitirmeye çalışırken bir şeyler ters gitti. Lütfen tekrar deneyin.",
+        "refresh": "Yenile"
       }
     },
     "loading": {

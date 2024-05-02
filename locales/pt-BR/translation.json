@@ -1821,6 +1821,9 @@
       "slippageToleranceInfo": "Tolerância de slippage\n\nSua troca será executada dentro da porcentagem de tolerância de slippage. Se o preço mudar mais do que a tolerância de slippage, a {{appName}} protege você impedindo a execução da negociação.",
       "networkFeeInfoDismissButton": "Entendi",
       "exchangeRate": "Taxa de câmbio",
+      "exchangeRateInfo": "Taxa de câmbio\n\nEncontramos a melhor taxa de câmbio para você. Sua negociação será concluída a um preço dentro de {{slippagePercentage}}% da estimativa ou a transação será cancelada e os fundos serão devolvidos à sua carteira.",
+      "exchangeRateInfo_withAppFee": "Taxa de câmbio\n\nEncontramos a melhor taxa de câmbio para você. Sua negociação será concluída a um preço dentro de {{slippagePercentage}}% da estimativa ou a transação será cancelada e os fundos serão devolvidos à sua carteira.\n\nA taxa estimada inclui uma taxa {{appName}} de {{appFeePercentage}}%.",
+      "exchangeRateInfoDismissButton": "Entendi",
       "estimatedValue": "Valor estimado"
     },
     "fundYourWalletBottomSheet": {
@@ -2276,6 +2279,11 @@
         "title": "Nenhuma atividade de pontos ainda",
         "subtitle": "Parece que você ainda não ganhou nenhum ponto. Use o site {{appName}} para que você comece a ganhar pontos!",
         "gotIt": "Entendi"
+      },
+      "pageError": {
+        "title": "Não é possível carregar",
+        "subtitle": "Oops, algo deu errado quando você tentou terminar o carregamento. Tente novamente.",
+        "refresh": "Atualizar"
       }
     },
     "loading": {

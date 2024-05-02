@@ -1821,6 +1821,9 @@
       "slippageToleranceInfo": "Tolerancia de deslizamiento\n\nTu swap se ejecutará dentro del porcentaje de tolerancia de deslizamiento. Si el precio varía más que la tolerancia de deslizamiento, {{appName}} te protege impidiendo que se ejecute la operación.",
       "networkFeeInfoDismissButton": "Entendido",
       "exchangeRate": "Tasa de cambio",
+      "exchangeRateInfo": "Tipo de cambio\n\nHemos encontrado el mejor tipo de cambio para ti. Tu intercambio se completará a un precio dentro de {{slippagePercentage}}% de la estimación o la transacción se cancelará y los fondos se devolverán a tu monedero.",
+      "exchangeRateInfo_withAppFee": "Tipo de cambio\n\nHemos encontrado el mejor tipo de cambio para ti. Tu intercambio se completará a un precio dentro de {{slippagePercentage}}% de la estimación o la transacción se cancelará y los fondos se devolverán a tu monedero.\n\nEl tipo de cambio estimado incluye una comisión de {{appName}} del {{appFeePercentage}}%.",
+      "exchangeRateInfoDismissButton": "Entendido",
       "estimatedValue": "Valor estimado"
     },
     "fundYourWalletBottomSheet": {
@@ -2276,6 +2279,11 @@
         "title": "Aún no hay actividad de puntos",
         "subtitle": "Parece que aún no has ganado puntos. ¡Utiliza {{appName}} para empezar a ganar puntos!",
         "gotIt": "Entendido"
+      },
+      "pageError": {
+        "title": "No se puede cargar",
+        "subtitle": "Ups, algo ha ido mal al intentar finalizar la carga. Vuelve a intentarlo.",
+        "refresh": "Actualizar"
       }
     },
     "loading": {

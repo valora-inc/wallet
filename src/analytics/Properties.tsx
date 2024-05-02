@@ -1184,6 +1184,7 @@ type SwapQuoteEvent = SwapEvent & {
    */
   estimatedPriceImpact: string | null
   price: string
+  appFeePercentageIncludedInPrice: string | null | undefined
   provider: string
 }
 
@@ -1250,6 +1251,7 @@ export enum SwapShowInfoType {
   MAX_NETWORK_FEE,
   ESTIMATED_NETWORK_FEE,
   SLIPPAGE,
+  EXCHANGE_RATE,
 }
 interface SwapEventsProperties {
   [SwapEvents.swap_screen_open]: undefined
@@ -1288,6 +1290,7 @@ interface SwapEventsProperties {
       swapApproveTxId: string
       estimatedSellTokenUsdValue?: number
       estimatedBuyTokenUsdValue?: number
+      estimatedAppFeeUsdValue: number | undefined
       areSwapTokensShuffled: boolean
     }
   [SwapEvents.swap_execute_error]: SwapQuoteEvent &
@@ -1301,6 +1304,7 @@ interface SwapEventsProperties {
       swapApproveTxId: string
       estimatedSellTokenUsdValue?: number
       estimatedBuyTokenUsdValue?: number
+      estimatedAppFeeUsdValue: number | undefined
       areSwapTokensShuffled: boolean
     }
   [SwapEvents.swap_learn_more]: undefined
