@@ -28,6 +28,7 @@ export interface QuoteResult {
   fromTokenId: string
   swapAmount: BigNumber
   price: string
+  appFeePercentageIncludedInPrice: string | undefined
   provider: string
   estimatedPriceImpact: string | null
   allowanceTarget: string
@@ -136,7 +137,15 @@ async function prepareSwapTransactions(
   })
 }
 
-function useSwapQuote(networkId: NetworkId, slippagePercentage: string) {
+function useSwapQuote({
+  networkId,
+  slippagePercentage,
+  enableAppFee,
+}: {
+  networkId: NetworkId
+  slippagePercentage: string
+  enableAppFee: boolean
+}) {
   const walletAddress = useSelector(walletAddressSelector)
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, networkId))
 
@@ -174,6 +183,7 @@ function useSwapQuote(networkId: NetworkId, slippagePercentage: string) {
         [swapAmountParam]: swapAmountInWei.toFixed(0, BigNumber.ROUND_DOWN),
         userAddress: walletAddress ?? '',
         slippagePercentage,
+        ...(enableAppFee === true && { enableAppFee: enableAppFee.toString() }),
       }
       const queryParams = new URLSearchParams({ ...params }).toString()
       const requestUrl = `${networkConfig.getSwapQuoteUrl}?${queryParams}`
@@ -207,6 +217,8 @@ function useSwapQuote(networkId: NetworkId, slippagePercentage: string) {
         fromTokenId: fromToken.tokenId,
         swapAmount: swapAmount[updatedField],
         price,
+        appFeePercentageIncludedInPrice:
+          quote.unvalidatedSwapTransaction.appFeePercentageIncludedInPrice,
         provider: quote.details.swapProvider,
         estimatedPriceImpact,
         allowanceTarget: quote.unvalidatedSwapTransaction.allowanceTarget,

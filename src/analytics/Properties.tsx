@@ -1249,6 +1249,7 @@ export enum SwapShowInfoType {
   MAX_NETWORK_FEE,
   ESTIMATED_NETWORK_FEE,
   SLIPPAGE,
+  EXCHANGE_RATE,
 }
 interface SwapEventsProperties {
   [SwapEvents.swap_screen_open]: undefined
