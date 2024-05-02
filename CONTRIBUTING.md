@@ -37,7 +37,7 @@ consider the following as examples of substantial changes:
 - Changing how Valora calculates asset value in local fiat.
 - Changing Valora's branding (_e.g.,_ color palette).
 - Adding a way for Valora users to go through decentralized KYC.
-- Removing screens from on-boarding.
+- Removing screens from onboarding.
 
 If you're considering making what might be a substantial change, we
 strongly encourage you to reach out to the Valora engineering team
