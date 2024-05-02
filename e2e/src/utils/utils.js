@@ -148,12 +148,6 @@ export async function waitForElementByIdAndTap(elementId, timeout = 10 * 1000, i
     : await element(by.id(elementId)).atIndex(index).tap()
 }
 
-export function quote(s) {
-  // on ios the command line uses double quotes around the string
-  // while on android it does not, so we add it
-  return device.getPlatform() === 'ios' ? s : `"${s}"`
-}
-
 export async function quickOnboarding({
   mnemonic = SAMPLE_BACKUP_KEY,
   cloudBackupEnabled = false,

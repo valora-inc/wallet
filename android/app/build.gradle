@@ -266,7 +266,9 @@ android {
 
 
 dependencies {
-    androidTestImplementation('com.wix:detox:+') {
+    // Use legacy tag so that Detox uses Java 11
+    // https://github.com/wix/Detox/releases/tag/20.18.5
+    androidTestImplementation('com.wix:detox-legacy:+') {
         exclude group: 'com.google.android.material'
     }
     androidTestImplementation('com.linkedin.testbutler:test-butler-library:2.2.1')
