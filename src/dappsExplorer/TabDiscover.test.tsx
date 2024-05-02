@@ -110,6 +110,27 @@ describe('TabDiscover', () => {
     ])
   })
 
+  it('renders error message when fetching dapps fails', () => {
+    const store = createMockStore({
+      dapps: {
+        dappListApiUrl: 'http://url.com',
+        dappsList: [],
+        dappsCategories: [],
+        dappsListError: 'Error fetching dapps',
+      },
+    })
+    const { getByText, getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={TabDiscover} />
+      </Provider>
+    )
+
+    expect(getByText('dappsScreen.errorMessage')).toBeTruthy()
+    // asserts whether categories.length (0) isn't rendered, which causes a
+    // crash in the app
+    expect(getByTestId('DAppsExplorerScreen')).not.toHaveTextContent('0')
+  })
+
   describe('favorite dapps', () => {
     it('renders correctly when there are no favorite dapps', () => {
       const store = createMockStore({
