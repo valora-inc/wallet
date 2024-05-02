@@ -18,7 +18,7 @@ import {
   optimism,
   optimismSepolia,
   polygon,
-  polygonMumbai,
+  polygonAmoy,
 } from 'viem/chains'
 
 export enum Testnets {
@@ -99,7 +99,7 @@ const ALCHEMY_ARBITRUM_RPC_URL_MAINNET = 'https://arb-mainnet.g.alchemy.com/v2/'
 const ALCHEMY_OPTIMISM_RPC_URL_STAGING = 'https://opt-sepolia.g.alchemy.com/v2/'
 const ALCHEMY_OPTIMISM_RPC_URL_MAINNET = 'https://opt-mainnet.g.alchemy.com/v2/'
 
-const ALCHEMY_POLYGON_POS_RPC_URL_STAGING = 'https://polygon-mumbai.g.alchemy.com/v2/'
+const ALCHEMY_POLYGON_POS_RPC_URL_STAGING = 'https://polygon-amoy.g.alchemy.com/v2/'
 const ALCHEMY_POLYGON_POS_RPC_URL_MAINNET = 'https://polygon-mainnet.g.alchemy.com/v2/'
 
 const ALCHEMY_BASE_RPC_URL_STAGING = 'https://base-sepolia.g.alchemy.com/v2/'
@@ -265,7 +265,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
       [Network.Ethereum]: NetworkId['ethereum-sepolia'],
       [Network.Arbitrum]: NetworkId['arbitrum-sepolia'],
       [Network.Optimism]: NetworkId['op-sepolia'],
-      [Network.PolygonPoS]: NetworkId['polygon-pos-mumbai'],
+      [Network.PolygonPoS]: NetworkId['polygon-pos-amoy'],
       [Network.Base]: NetworkId['base-sepolia'],
     },
     defaultNetworkId: NetworkId['celo-alfajores'],
@@ -322,7 +322,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
       [Network.Ethereum]: ethereumSepolia,
       [Network.Arbitrum]: arbitrumSepolia,
       [Network.Optimism]: optimismSepolia,
-      [Network.PolygonPoS]: polygonMumbai,
+      [Network.PolygonPoS]: polygonAmoy,
       [Network.Base]: baseSepolia,
     },
     currencyToTokenId: {
@@ -455,7 +455,7 @@ const ARBISCAN_BASE_URL_SEPOLIA = 'https://sepolia.arbiscan.io'
 const OP_MAINNET_EXPLORER_BASE_URL = 'https://optimistic.etherscan.io'
 const OP_SEPOLIA_EXPLORER_BASE_URL = 'https://sepolia-optimism.etherscan.io'
 
-const POLYGON_POS_BASE_URL_MUMBAI = 'https://mumbai.polygonscan.com'
+const POLYGON_POS_BASE_URL_AMOY = 'https://amoy.polygonscan.com'
 const POLYGON_POS_BASE_URL_MAINNET = 'https://polygonscan.com'
 
 const BASE_BASE_URL_SEPOLIA = 'https://sepolia.basescan.org'
@@ -516,11 +516,11 @@ export const blockExplorerUrls: BlockExplorerUrls = {
     baseTokenUrl: `${POLYGON_POS_BASE_URL_MAINNET}/token/`,
     baseNftUrl: `${POLYGON_POS_BASE_URL_MAINNET}/token/`,
   },
-  [NetworkId['polygon-pos-mumbai']]: {
-    baseTxUrl: `${POLYGON_POS_BASE_URL_MUMBAI}/tx/`,
-    baseAddressUrl: `${POLYGON_POS_BASE_URL_MUMBAI}/address/`,
-    baseTokenUrl: `${POLYGON_POS_BASE_URL_MUMBAI}/token/`,
-    baseNftUrl: `${POLYGON_POS_BASE_URL_MUMBAI}/token/`,
+  [NetworkId['polygon-pos-amoy']]: {
+    baseTxUrl: `${POLYGON_POS_BASE_URL_AMOY}/tx/`,
+    baseAddressUrl: `${POLYGON_POS_BASE_URL_AMOY}/address/`,
+    baseTokenUrl: `${POLYGON_POS_BASE_URL_AMOY}/token/`,
+    baseNftUrl: `${POLYGON_POS_BASE_URL_AMOY}/token/`,
   },
   [NetworkId['base-mainnet']]: {
     baseTxUrl: `${BASE_BASE_URL_MAINNET}/tx/`,
@@ -546,7 +546,7 @@ export const networkIdToNetwork: NetworkIdToNetwork = {
   [NetworkId['op-mainnet']]: Network.Optimism,
   [NetworkId['op-sepolia']]: Network.Optimism,
   [NetworkId['polygon-pos-mainnet']]: Network.PolygonPoS,
-  [NetworkId['polygon-pos-mumbai']]: Network.PolygonPoS,
+  [NetworkId['polygon-pos-amoy']]: Network.PolygonPoS,
   [NetworkId['base-mainnet']]: Network.Base,
   [NetworkId['base-sepolia']]: Network.Base,
 }
@@ -561,7 +561,7 @@ export const networkIdToWalletConnectChainId: Record<NetworkId, string> = {
   [NetworkId['op-mainnet']]: 'eip155:10',
   [NetworkId['op-sepolia']]: 'eip155:11155420',
   [NetworkId['polygon-pos-mainnet']]: 'eip155:137',
-  [NetworkId['polygon-pos-mumbai']]: 'eip155:80001',
+  [NetworkId['polygon-pos-amoy']]: 'eip155:80002',
   [NetworkId['base-mainnet']]: 'eip155:8453',
   [NetworkId['base-sepolia']]: 'eip155:84531',
 }

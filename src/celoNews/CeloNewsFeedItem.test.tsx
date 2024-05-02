@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { CeloNewsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import CeloNewsFeedItem from 'src/exchange/CeloNewsFeedItem'
+import CeloNewsFeedItem from 'src/celoNews/CeloNewsFeedItem'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 

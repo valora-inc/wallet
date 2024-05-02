@@ -351,11 +351,7 @@ export enum TransactionEvents {
 }
 
 export enum CeloExchangeEvents {
-  celo_home_info = 'celo_home_info',
-
   celo_withdraw_completed = 'celo_withdraw_completed',
-
-  celo_chart_tapped = 'celo_chart_tapped',
 }
 
 export enum FiatExchangeEvents {
@@ -676,4 +672,5 @@ export enum PointsEvents {
   points_screen_activity_press = 'points_screen_activity_press',
   points_screen_activity_try_again_press = 'points_screen_activity_try_again_press',
   points_screen_activity_fetch_more = 'points_screen_activity_fetch_more',
+  points_screen_activity_learn_more_press = 'points_screen_activity_learn_more_press',
 }

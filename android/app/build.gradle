@@ -266,7 +266,9 @@ android {
 
 
 dependencies {
-    androidTestImplementation('com.wix:detox:+') {
+    // Use legacy tag so that Detox uses Java 11
+    // https://github.com/wix/Detox/releases/tag/20.18.5
+    androidTestImplementation('com.wix:detox-legacy:+') {
         exclude group: 'com.google.android.material'
     }
     androidTestImplementation('com.linkedin.testbutler:test-butler-library:2.2.1')
@@ -281,7 +283,7 @@ dependencies {
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
-    implementation 'com.clevertap.android:clevertap-android-sdk:5.2.0'
+    implementation 'com.clevertap.android:clevertap-android-sdk:5.2.2'
     //For CleverTap Android SDK v3.6.4 and above add the following -
     implementation 'com.android.installreferrer:installreferrer:2.2'
     implementation 'com.google.android.gms:play-services-base:17.4.0'

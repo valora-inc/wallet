@@ -20,7 +20,9 @@ describe('SwapTransactionDetails', () => {
           estimatedNetworkFee={new BigNumber(0.00005)}
           networkFeeInfoBottomSheetRef={{ current: null }}
           slippageInfoBottomSheetRef={{ current: null }}
+          exchangeRateInfoBottomSheetRef={{ current: null }}
           feeTokenId={'someId'}
+          enableAppFee={false}
           slippagePercentage={'0.5'}
           fetchingSwapQuote={false}
           fromToken={{
@@ -40,6 +42,8 @@ describe('SwapTransactionDetails', () => {
     expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
       '1 cUSD ≈ 0.58370 CELO'
     )
+    expect(getByTestId('SwapTransactionDetails/ExchangeRate/MoreInfo/Icon')).toBeTruthy()
+    expect(getByTestId('SwapTransactionDetails/ExchangeRate/MoreInfo')).not.toBeDisabled()
   })
 
   it('should render correctly without the fromToken and fees', () => {
@@ -48,7 +52,9 @@ describe('SwapTransactionDetails', () => {
         <SwapTransactionDetails
           networkFeeInfoBottomSheetRef={{ current: null }}
           slippageInfoBottomSheetRef={{ current: null }}
+          exchangeRateInfoBottomSheetRef={{ current: null }}
           feeTokenId={'someId'}
+          enableAppFee={false}
           slippagePercentage={'0.5'}
           fetchingSwapQuote={false}
         />
@@ -72,7 +78,9 @@ describe('SwapTransactionDetails', () => {
           estimatedNetworkFee={new BigNumber(0.00005)}
           networkFeeInfoBottomSheetRef={{ current: null }}
           slippageInfoBottomSheetRef={{ current: null }}
+          exchangeRateInfoBottomSheetRef={{ current: null }}
           feeTokenId={mockCeloTokenId}
+          enableAppFee={false}
           slippagePercentage={'0.5'}
           fromToken={mockCeloTokenBalance}
           fetchingSwapQuote={false}
@@ -101,6 +109,8 @@ describe('SwapTransactionDetails', () => {
           estimatedNetworkFee={new BigNumber(0.00005)}
           networkFeeInfoBottomSheetRef={{ current: null }}
           slippageInfoBottomSheetRef={{ current: null }}
+          exchangeRateInfoBottomSheetRef={{ current: null }}
+          enableAppFee={false}
           feeTokenId={mockCeloTokenId}
           slippagePercentage={'0.5'}
           fromToken={mockCeloTokenBalance}
@@ -113,5 +123,29 @@ describe('SwapTransactionDetails', () => {
     expect(getByTestId('SwapTransactionDetails/Slippage')).toHaveTextContent('0.5%')
     expect(getByTestId('SwapTransactionDetails/Slippage/MoreInfo/Icon')).toBeTruthy()
     expect(getByTestId('SwapTransactionDetails/Slippage/MoreInfo')).not.toBeDisabled()
+  })
+
+  it('should render correctly when app fee is enabled', () => {
+    const { queryByText } = render(
+      <Provider store={createMockStore()}>
+        <SwapTransactionDetails
+          maxNetworkFee={new BigNumber(0.0001)}
+          estimatedNetworkFee={new BigNumber(0.00005)}
+          networkFeeInfoBottomSheetRef={{ current: null }}
+          slippageInfoBottomSheetRef={{ current: null }}
+          exchangeRateInfoBottomSheetRef={{ current: null }}
+          enableAppFee={true}
+          feeTokenId={mockCeloTokenId}
+          slippagePercentage={'0.5'}
+          fromToken={mockCeloTokenBalance}
+          fetchingSwapQuote={false}
+        />
+      </Provider>
+    )
+
+    // When app fee is enabled, the free swap fee should not be displayed
+    // it's part of the exchange rate
+    expect(queryByText('swapScreen.transactionDetails.swapFee')).toBeFalsy()
+    expect(queryByText('swapScreen.transactionDetails.swapFeeWaived')).toBeFalsy()
   })
 })

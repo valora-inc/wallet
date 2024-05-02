@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { AssetsEvents } from 'src/analytics/Events'
 import { TokenProperties } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import CeloNewsFeed from 'src/celoNews/CeloNewsFeed'
 import BackButton from 'src/components/BackButton'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
@@ -14,8 +15,6 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
-import CeloGoldHistoryChart from 'src/exchange/CeloGoldHistoryChart'
-import CeloNewsFeed from 'src/exchange/CeloNewsFeed'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
 import DataDown from 'src/icons/DataDown'
@@ -34,8 +33,6 @@ import { StackParamList } from 'src/navigator/types'
 import PriceHistoryChart from 'src/priceHistory/PriceHistoryChart'
 import { useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -70,14 +67,11 @@ export default function TokenDetailsScreen({ route }: Props) {
   const actions = useActions(token)
   const tokenDetailsMoreActionsBottomSheetRef = useRef<BottomSheetRefType>(null)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const usePriceHistoryFromBlockchainApi = getFeatureGate(
-    StatsigFeatureGates.USE_PRICE_HISTORY_FROM_BLOCKCHAIN_API
-  )
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <CustomHeader style={{ paddingHorizontal: variables.contentPadding }} left={<BackButton />} />
-      <ScrollView>
+      <ScrollView testID="TokenDetailsScrollView">
         <View style={styles.titleContainer}>
           <TokenIcon
             token={token}
@@ -97,7 +91,7 @@ export default function TokenDetailsScreen({ route }: Props) {
           errorFallback={(localCurrencySymbol ?? '$').concat(' --')}
         />
         {!token.isStableCoin && <PriceInfo token={token} />}
-        {token.isNative && usePriceHistoryFromBlockchainApi ? (
+        {token.isNative && (
           <PriceHistoryChart
             tokenId={tokenId}
             containerStyle={styles.chartContainer}
@@ -105,15 +99,6 @@ export default function TokenDetailsScreen({ route }: Props) {
             testID={`TokenDetails/Chart/${tokenId}`}
             color={Colors.black}
           />
-        ) : (
-          token.tokenId === networkConfig.celoTokenId && (
-            <CeloGoldHistoryChart
-              color={Colors.black}
-              containerStyle={styles.chartContainer}
-              chartPadding={Spacing.Thick24}
-              testID="TokenDetails/Chart"
-            />
-          )
         )}
         <Actions
           bottomSheetRef={tokenDetailsMoreActionsBottomSheetRef}

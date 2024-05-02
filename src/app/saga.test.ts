@@ -731,7 +731,7 @@ describe('appInit', () => {
 
   it('should initialise with the best language', async () => {
     jest
-      .spyOn(RNLocalize, 'findBestAvailableLanguage')
+      .spyOn(RNLocalize, 'findBestLanguageTag')
       .mockReturnValue({ languageTag: 'de-DE', isRTL: true })
 
     await expectSaga(appInit)
@@ -745,7 +745,7 @@ describe('appInit', () => {
   })
 
   it('should initialise with the app fallback language', async () => {
-    jest.spyOn(RNLocalize, 'findBestAvailableLanguage').mockReturnValue(undefined)
+    jest.spyOn(RNLocalize, 'findBestLanguageTag').mockReturnValue(undefined)
 
     await expectSaga(appInit)
       .provide([[select(currentLanguageSelector), null], ...defaultProviders])

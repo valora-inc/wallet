@@ -19,7 +19,6 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_MULTICHAIN_BETA_SCREEN]: false,
   [StatsigFeatureGates.SHOW_BETA_TAG]: false,
   [StatsigFeatureGates.SAVE_CONTACTS]: false,
-  [StatsigFeatureGates.USE_PRICE_HISTORY_FROM_BLOCKCHAIN_API]: false,
   [StatsigFeatureGates.SHOW_GET_STARTED]: false,
   [StatsigFeatureGates.CLEVERTAP_INBOX]: false,
   [StatsigFeatureGates.SHOW_SWAP_TOKEN_FILTERS]: false,
@@ -28,6 +27,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_NFT_REWARD]: false,
   [StatsigFeatureGates.SHOW_JUMPSTART_SEND]: false,
   [StatsigFeatureGates.SHOW_POINTS]: false,
+  [StatsigFeatureGates.SHOW_STABLECOIN_EARN]: false,
 } satisfies { [key in StatsigFeatureGates]: boolean }
 
 export const ExperimentConfigs = {
@@ -103,6 +103,7 @@ export const DynamicConfigs = {
     configName: StatsigDynamicConfigs.SWAP_CONFIG,
     defaultValues: {
       maxSlippagePercentage: '0.3',
+      enableAppFee: false,
       popularTokenIds: [] as string[],
     },
   },

@@ -16,7 +16,7 @@ import { getDynamicConfigParams, getExperimentParams, getFeatureGate } from 'src
 import { StatsigFeatureGates } from 'src/statsig/types'
 import SwapScreen from 'src/swap/SwapScreen'
 import { swapStart } from 'src/swap/slice'
-import { Field } from 'src/swap/types'
+import { FetchQuoteResponse, Field } from 'src/swap/types'
 import { NO_QUOTE_ERROR_MESSAGE } from 'src/swap/useSwapQuote'
 import { NetworkId } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
@@ -181,10 +181,12 @@ const renderScreen = ({
   }
 }
 
-const defaultQuote = {
+const defaultQuote: FetchQuoteResponse = {
   unvalidatedSwapTransaction: {
+    chainId: 44787,
     price: '1.2345678',
     guaranteedPrice: '1.1234567',
+    appFeePercentageIncludedInPrice: undefined,
     sellTokenAddress: mockCeloAddress,
     buyTokenAddress: mockCusdAddress,
     sellAmount: '1234000000000000000',
@@ -195,7 +197,7 @@ const defaultQuote = {
     value: '0',
     data: '0x0',
     gas: '1800000',
-    gasPrice: '500000000',
+    estimatedGasUse: undefined,
     estimatedPriceImpact: '0.1',
   },
   details: {
@@ -290,6 +292,7 @@ describe('SwapScreen', () => {
       },
     })
 
+    jest.mocked(getFeatureGate).mockReset()
     jest.mocked(getExperimentParams).mockReturnValue({
       swapBuyAmountEnabled: true,
     })
@@ -994,6 +997,8 @@ describe('SwapScreen', () => {
             preparedTransactions,
             receivedAt: quoteReceivedTimestamp,
             price: defaultQuote.unvalidatedSwapTransaction.price,
+            appFeePercentageIncludedInPrice:
+              defaultQuote.unvalidatedSwapTransaction.appFeePercentageIncludedInPrice,
             provider: defaultQuote.details.swapProvider,
             estimatedPriceImpact: defaultQuote.unvalidatedSwapTransaction.estimatedPriceImpact,
             allowanceTarget: defaultQuote.unvalidatedSwapTransaction.allowanceTarget,
@@ -1045,6 +1050,8 @@ describe('SwapScreen', () => {
             preparedTransactions: [preparedTransactions[1]], // no approval transaction
             receivedAt: expect.any(Number),
             price: defaultQuote.unvalidatedSwapTransaction.price,
+            appFeePercentageIncludedInPrice:
+              defaultQuote.unvalidatedSwapTransaction.appFeePercentageIncludedInPrice,
             provider: defaultQuote.details.swapProvider,
             estimatedPriceImpact: defaultQuote.unvalidatedSwapTransaction.estimatedPriceImpact,
             allowanceTarget: defaultQuote.unvalidatedSwapTransaction.allowanceTarget,
@@ -1090,6 +1097,8 @@ describe('SwapScreen', () => {
             preparedTransactions,
             receivedAt: quoteReceivedTimestamp,
             price: defaultQuote.unvalidatedSwapTransaction.price,
+            appFeePercentageIncludedInPrice:
+              defaultQuote.unvalidatedSwapTransaction.appFeePercentageIncludedInPrice,
             provider: defaultQuote.details.swapProvider,
             estimatedPriceImpact: defaultQuote.unvalidatedSwapTransaction.estimatedPriceImpact,
             allowanceTarget: defaultQuote.unvalidatedSwapTransaction.allowanceTarget,
@@ -1803,6 +1812,150 @@ describe('SwapScreen', () => {
       })
       expectedEthTokens.forEach((token) => {
         expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()
+      })
+    })
+  })
+
+  describe('app fee', () => {
+    describe('when disabled', () => {
+      it('should show the free swap fee line item and exchange rate without fees when tapping the exchange rate info button', async () => {
+        mockFetch.mockResponse(defaultQuoteResponse)
+        const { swapScreen, swapFromContainer, getByText, getByTestId } = renderScreen({})
+
+        selectSwapTokens('CELO', 'cUSD', swapScreen)
+        fireEvent.changeText(
+          within(swapFromContainer).getByTestId('SwapAmountInput/Input'),
+          '1.234'
+        )
+
+        await act(() => {
+          jest.runOnlyPendingTimers()
+        })
+
+        expect(mockFetch.mock.calls.length).toEqual(1)
+        expect(mockFetch.mock.calls[0][0]).toEqual(
+          `${
+            networkConfig.getSwapQuoteUrl
+          }?buyToken=${mockCusdAddress}&buyIsNative=false&buyNetworkId=${
+            NetworkId['celo-alfajores']
+          }&sellToken=${mockCeloAddress}&sellIsNative=true&sellNetworkId=${
+            NetworkId['celo-alfajores']
+          }&sellAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}&slippagePercentage=0.3`
+        )
+
+        expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
+          '1 CELO ≈ 1.23456 cUSD'
+        )
+        expect(getByText('swapScreen.transactionDetails.swapFee')).toBeTruthy()
+        expect(getByText('swapScreen.transactionDetails.swapFeeWaived')).toBeTruthy()
+
+        fireEvent.press(getByText('swapScreen.transactionDetails.exchangeRate'))
+
+        const exchangeRateInfo =
+          'swapScreen.transactionDetails.exchangeRateInfo, {"context":"","networkName":"Celo Alfajores","slippagePercentage":"0.3"}'
+        expect(getByText(exchangeRateInfo)).toBeTruthy()
+      })
+    })
+
+    describe('when enabled', () => {
+      beforeEach(() => {
+        jest.mocked(getDynamicConfigParams).mockReturnValue({
+          maxSlippagePercentage: '0.3',
+          enableAppFee: true,
+          showSwap: ['celo-alfajores', 'ethereum-sepolia'],
+          showBalances: ['celo-alfajores', 'ethereum-sepolia'],
+          popularTokenIds: [],
+        })
+      })
+
+      it('should hide the free swap fee line item and show the exchange rate without the app fee when tapping the exchange rate info button, when the quote does not include a positive app fee', async () => {
+        mockFetch.mockResponse(defaultQuoteResponse)
+        const { swapScreen, swapFromContainer, getByText, getByTestId, queryByText } = renderScreen(
+          {}
+        )
+
+        selectSwapTokens('CELO', 'cUSD', swapScreen)
+        fireEvent.changeText(
+          within(swapFromContainer).getByTestId('SwapAmountInput/Input'),
+          '1.234'
+        )
+
+        await act(() => {
+          jest.runOnlyPendingTimers()
+        })
+
+        expect(mockFetch.mock.calls.length).toEqual(1)
+        expect(mockFetch.mock.calls[0][0]).toEqual(
+          `${
+            networkConfig.getSwapQuoteUrl
+          }?buyToken=${mockCusdAddress}&buyIsNative=false&buyNetworkId=${
+            NetworkId['celo-alfajores']
+          }&sellToken=${mockCeloAddress}&sellIsNative=true&sellNetworkId=${
+            NetworkId['celo-alfajores']
+          }&sellAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}&slippagePercentage=0.3&enableAppFee=true`
+        )
+
+        expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
+          '1 CELO ≈ 1.23456 cUSD'
+        )
+        expect(queryByText('swapScreen.transactionDetails.swapFee')).toBeFalsy()
+        expect(queryByText('swapScreen.transactionDetails.swapFeeWaived')).toBeFalsy()
+
+        fireEvent.press(getByText('swapScreen.transactionDetails.exchangeRate'))
+
+        const exchangeRateInfo =
+          'swapScreen.transactionDetails.exchangeRateInfo, {"context":"","networkName":"Celo Alfajores","slippagePercentage":"0.3"}'
+        expect(getByText(exchangeRateInfo)).toBeTruthy()
+      })
+
+      it('should hide the free swap fee line item and show the exchange rate with the app fee when tapping the exchange rate info button, when the quote includes a positive app fee', async () => {
+        mockFetch.mockResponse(
+          JSON.stringify({
+            ...defaultQuote,
+            unvalidatedSwapTransaction: {
+              ...defaultQuote.unvalidatedSwapTransaction,
+              appFeePercentageIncludedInPrice: '2',
+            },
+          })
+        )
+        const { swapScreen, swapFromContainer, getByText, getByTestId, queryByText } = renderScreen(
+          {}
+        )
+
+        selectSwapTokens('CELO', 'cUSD', swapScreen)
+        fireEvent.changeText(
+          within(swapFromContainer).getByTestId('SwapAmountInput/Input'),
+          '1.234'
+        )
+
+        await act(() => {
+          jest.runOnlyPendingTimers()
+        })
+
+        expect(mockFetch.mock.calls.length).toEqual(1)
+        expect(mockFetch.mock.calls[0][0]).toEqual(
+          `${
+            networkConfig.getSwapQuoteUrl
+          }?buyToken=${mockCusdAddress}&buyIsNative=false&buyNetworkId=${
+            NetworkId['celo-alfajores']
+          }&sellToken=${mockCeloAddress}&sellIsNative=true&sellNetworkId=${
+            NetworkId['celo-alfajores']
+          }&sellAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}&slippagePercentage=0.3&enableAppFee=true`
+        )
+
+        expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
+          '1 CELO ≈ 1.23456 cUSD'
+        )
+        expect(queryByText('swapScreen.transactionDetails.swapFee')).toBeFalsy()
+        expect(queryByText('swapScreen.transactionDetails.swapFeeWaived')).toBeFalsy()
+
+        fireEvent.press(getByText('swapScreen.transactionDetails.exchangeRate'))
+
+        expect(
+          getByText(
+            'swapScreen.transactionDetails.exchangeRateInfo, {"context":"withAppFee","networkName":"Celo Alfajores","slippagePercentage":"0.3","appFeePercentage":"2"}'
+          )
+        ).toBeTruthy()
       })
     })
   })

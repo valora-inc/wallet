@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import { ActivityIndicator, StyleSheet, Text, View, ListRenderItem } from 'react-native'
 import SectionHead from 'src/components/SectionHead'
 import GorhomBottomSheet from '@gorhom/bottom-sheet'
@@ -21,6 +21,8 @@ import { BottomSheetSectionList } from '@gorhom/bottom-sheet'
 import { useGetHistoryDefinition } from 'src/points/cardDefinitions'
 import { HistoryCardMetadata } from 'src/points/cardDefinitions'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
+import AttentionIcon from 'src/icons/Attention'
 
 interface Props {
   forwardedRef: React.RefObject<GorhomBottomSheet>
@@ -55,6 +57,8 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
   const pointsHistoryStatus = useSelector(pointsHistoryStatusSelector)
   const pointsHistory = useSelector(pointsHistorySelector)
 
+  const [showError, setShowError] = useState(false)
+
   const getHistoryDefinition = useGetHistoryDefinition()
 
   const insets = useSafeAreaInsets()
@@ -78,13 +82,20 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
     )
   }
 
-  const onPressTryAgain = () => {
-    ValoraAnalytics.track(PointsEvents.points_screen_activity_try_again_press)
+  const onPressTryAgain = (getNextPage: boolean) => {
+    ValoraAnalytics.track(PointsEvents.points_screen_activity_try_again_press, {
+      getNextPage,
+    })
     dispatch(
       getHistoryStarted({
-        getNextPage: false,
+        getNextPage,
       })
     )
+  }
+
+  const onPressLearnMore = () => {
+    ValoraAnalytics.track(PointsEvents.points_screen_activity_learn_more_press)
+    forwardedRef.current?.close()
   }
 
   const Loading =
@@ -99,7 +110,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
 
   const EmptyOrError =
     pointsHistoryStatus === 'error' ? (
-      <View testID={'PointsHistoryBottomSheet/Error'} style={styles.errorContainer}>
+      <View testID={'PointsHistoryBottomSheet/Error'} style={styles.emptyContainer}>
         <View style={styles.messageContainer}>
           <Attention size={48} color={Colors.black} />
           <Text style={styles.messageTitle}>{t('points.history.error.title')}</Text>
@@ -107,7 +118,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
         </View>
         <Button
           testID={'PointsHistoryBottomSheet/TryAgain'}
-          onPress={onPressTryAgain}
+          onPress={() => onPressTryAgain(false)}
           text={t('points.history.error.tryAgain')}
           type={BtnTypes.GRAY_WITH_BORDER}
           size={BtnSizes.FULL}
@@ -115,22 +126,42 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
         />
       </View>
     ) : (
-      <View testID={'PointsHistoryBottomSheet/Empty'}></View>
-    ) // TODO: Render empty/no history state
+      <View testID={'PointsHistoryBottomSheet/Empty'} style={styles.emptyContainer}>
+        <View style={styles.messageContainer}>
+          <Text style={styles.messageTitle}>{t('points.history.empty.title')}</Text>
+          <Text style={styles.messageSubtitle}>{t('points.history.empty.subtitle')}</Text>
+        </View>
+        <Button
+          testID={'PointsHistoryBottomSheet/GotIt'}
+          onPress={onPressLearnMore}
+          text={t('points.history.empty.gotIt')}
+          type={BtnTypes.GRAY_WITH_BORDER}
+          size={BtnSizes.FULL}
+          style={{ width: '100%' }}
+        />
+      </View>
+    )
 
-  // TODO: Figure out what to render when error occurs on subsequent page fetch
+  const isEmpty = pointsHistoryStatus !== 'loading' && !pointsHistory.length
 
   const sections = useMemo(() => {
     return groupFeedItemsInSections([], pointsHistory)
   }, [pointsHistory, pointsHistoryStatus])
 
+  useEffect(() => {
+    if (pointsHistory.length && pointsHistoryStatus === 'error') {
+      setShowError(true)
+    }
+  }, [pointsHistory, pointsHistoryStatus])
+
   return (
     <BottomSheetBase snapPoints={['80%']} forwardedRef={forwardedRef}>
-      {pointsHistoryStatus !== 'error' && (
-        <Text style={styles.contentHeader}>{t('points.history.title')}</Text>
-      )}
+      {!isEmpty && <Text style={styles.contentHeader}>{t('points.history.title')}</Text>}
       <BottomSheetSectionList
-        contentContainerStyle={{ paddingBottom: Math.max(insets.bottom, Spacing.Thick24) }}
+        contentContainerStyle={{
+          paddingBottom: Math.max(insets.bottom, Spacing.Thick24),
+          flex: isEmpty ? 1 : 0,
+        }}
         renderItem={renderItem}
         renderSectionHeader={(item) => (
           <SectionHead text={item.section.title} style={styles.sectionHead} />
@@ -141,16 +172,38 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
         testID="PointsHistoryList"
         onEndReached={onFetchMoreHistory}
         ListFooterComponent={Loading}
-        ListEmptyComponent={EmptyOrError}
-        onEndReachedThreshold={0.5}
+        ListEmptyComponent={isEmpty ? EmptyOrError : null}
+        onEndReachedThreshold={0.2}
+        stickySectionHeadersEnabled={false}
       />
+      {showError && (
+        <InLineNotification
+          variant={NotificationVariant.Error}
+          title={t('points.history.pageError.title')}
+          description={t('points.history.pageError.subtitle')}
+          ctaLabel={t('points.history.pageError.refresh')}
+          onPressCta={() => onPressTryAgain(true)}
+          withBorder={true}
+          style={{
+            ...styles.errorNotification,
+            marginBottom: Math.max(insets.bottom, Spacing.Thick24),
+          }}
+          customIcon={<AttentionIcon color={colors.errorDark} size={20} />}
+          testID={'PointsHistoryBottomSheet/ErrorBanner'}
+        />
+      )}
     </BottomSheetBase>
   )
 }
 
 const styles = StyleSheet.create({
-  errorContainer: {
+  errorNotification: {
+    positioning: 'absolute',
+    marginHorizontal: Spacing.Regular16,
+  },
+  emptyContainer: {
     flex: 1,
+    padding: Spacing.Thick24,
   },
   messageContainer: {
     flex: 1,

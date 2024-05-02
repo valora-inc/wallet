@@ -697,11 +697,9 @@ interface TransactionEventsProperties {
 }
 
 interface CeloExchangeEventsProperties {
-  [CeloExchangeEvents.celo_home_info]: undefined
   [CeloExchangeEvents.celo_withdraw_completed]: {
     amount: string
   }
-  [CeloExchangeEvents.celo_chart_tapped]: undefined
 }
 
 interface FiatExchangeEventsProperties {
@@ -1185,6 +1183,7 @@ type SwapQuoteEvent = SwapEvent & {
    */
   estimatedPriceImpact: string | null
   price: string
+  appFeePercentageIncludedInPrice: string | null | undefined
   provider: string
 }
 
@@ -1251,6 +1250,7 @@ export enum SwapShowInfoType {
   MAX_NETWORK_FEE,
   ESTIMATED_NETWORK_FEE,
   SLIPPAGE,
+  EXCHANGE_RATE,
 }
 interface SwapEventsProperties {
   [SwapEvents.swap_screen_open]: undefined
@@ -1289,6 +1289,7 @@ interface SwapEventsProperties {
       swapApproveTxId: string
       estimatedSellTokenUsdValue?: number
       estimatedBuyTokenUsdValue?: number
+      estimatedAppFeeUsdValue: number | undefined
       areSwapTokensShuffled: boolean
     }
   [SwapEvents.swap_execute_error]: SwapQuoteEvent &
@@ -1302,6 +1303,7 @@ interface SwapEventsProperties {
       swapApproveTxId: string
       estimatedSellTokenUsdValue?: number
       estimatedBuyTokenUsdValue?: number
+      estimatedAppFeeUsdValue: number | undefined
       areSwapTokensShuffled: boolean
     }
   [SwapEvents.swap_learn_more]: undefined
@@ -1563,8 +1565,11 @@ interface PointsEventsProperties {
     activityId: PointsActivityId
   }
   [PointsEvents.points_screen_activity_press]: undefined
-  [PointsEvents.points_screen_activity_try_again_press]: undefined
+  [PointsEvents.points_screen_activity_try_again_press]: {
+    getNextPage: boolean
+  }
   [PointsEvents.points_screen_activity_fetch_more]: undefined
+  [PointsEvents.points_screen_activity_learn_more_press]: undefined
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &
