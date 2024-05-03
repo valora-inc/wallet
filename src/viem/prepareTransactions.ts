@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-import { TransactionRequestCIP42 } from 'node_modules/viem/_types/celo/types'
 import erc20 from 'src/abis/IERC20'
 import stableToken from 'src/abis/StableToken'
 import { STATIC_GAS_PADDING } from 'src/config'
@@ -27,11 +26,12 @@ import {
   encodeFunctionData,
 } from 'viem'
 import { estimateGas } from 'viem/actions'
+import { TransactionRequestCIP64 } from 'viem/chains'
 
 const TAG = 'viem/prepareTransactions'
 
 // Supported transaction types
-export type TransactionRequest = (TransactionRequestCIP42 | TransactionRequestEIP1559) & {
+export type TransactionRequest = (TransactionRequestCIP64 | TransactionRequestEIP1559) & {
   // Custom fields needed for showing the user the estimated gas fee
   // underscored to denote that they are not part of the TransactionRequest fields from viem
   // and only intended for internal use in Valora
