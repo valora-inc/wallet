@@ -25,8 +25,9 @@ export default function EarnCta() {
 
   const asyncPoolInfo = useAsync(async () => {
     if (!token) {
+      // should never happen
       Logger.warn(TAG, `Token with id ${networkConfig.arbUsdcTokenId} not found`)
-      throw new Error('Token not found')
+      throw new Error(`Token with id ${networkConfig.arbUsdcTokenId} not found`)
     }
     return getAavePoolInfo(token.address as Address)
   }, [])

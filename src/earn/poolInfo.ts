@@ -21,8 +21,9 @@ export async function getAavePoolInfo(assetAddress: Address) {
       args: [assetAddress],
     })
 
+    // The chain data is in RAY units (1e27) and non compounded
+    // https://docs.aave.com/developers/guides/rates-guide#formatting-rates
     const apr = new BigNumber(result.currentLiquidityRate.toString()).div(1e27).toNumber()
-
     const apy = (1 + apr / COMPOUND_PERIOD) ** COMPOUND_PERIOD - 1
     return { apy }
   } catch (error) {
