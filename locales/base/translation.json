@@ -2325,5 +2325,10 @@
         "title": "More coming soon!"
       }
     }
+  },
+  "earnStablecoin": {
+    "title": "Earn on your stablecoins",
+    "subtitle": "Deposit today and earn returns",
+    "description": "If you deposit <0></0>, you can get up to <1></1> at the end of the year!"
   }
 }
