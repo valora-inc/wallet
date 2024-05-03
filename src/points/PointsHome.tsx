@@ -122,7 +122,7 @@ export default function PointsHome({ route, navigation }: Props) {
               />
             </View>
             <View style={styles.balanceRow}>
-              <NumberTicker testID="PointsBalance" finalValue={pointsBalance.toString()} />
+              <NumberTicker testID="PointsBalance" value={pointsBalance} />
               <LogoHeart size={28} />
             </View>
 

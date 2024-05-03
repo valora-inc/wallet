@@ -3,7 +3,7 @@ import { Animated, StyleProp, StyleSheet, Text, TextStyle, View } from 'react-na
 import { typeScale } from 'src/styles/fonts'
 
 interface Props {
-  finalValue: string
+  value: string | number
   typeScaleName?: keyof typeof typeScale
   animationDuration?: number
   testID?: string
@@ -49,14 +49,14 @@ function Tick({ startValue, endValue, textStyles, textHeight, animationDuration 
 }
 
 export default function NumberTicker({
-  finalValue,
+  value,
   typeScaleName = 'displaySmall',
   animationDuration = 1300,
   testID,
 }: Props) {
   const textStyles = typeScale[typeScaleName]
   const textHeight = textStyles.lineHeight
-  const finalValueArray = finalValue.toString().split('')
+  const finalValueArray = value.toString().split('')
 
   // For the startValueArray, map over each character in the finalValueArray to
   // replace digits with random digits, do not change non-digit characters (e.g.
