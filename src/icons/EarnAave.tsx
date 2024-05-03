@@ -1,9 +1,10 @@
 import * as React from 'react'
 import Svg, { ClipPath, Defs, G, LinearGradient, Path, Rect, Stop } from 'react-native-svg'
+import Colors from 'src/styles/colors'
 
 const EarnAave = () => (
   <Svg width={34} height={34} viewBox="0 0 34 34" fill="none">
-    <Rect width={32} height={32} rx={16} fill="#F1FDF1" />
+    <Rect width={32} height={32} rx={16} fill={Colors.successLight} />
     <G clipPath="url(#clip0_2472_13704)">
       <G>
         <Path
@@ -18,8 +19,8 @@ const EarnAave = () => (
     </G>
     <Path
       d="M13.3154 16.0464L8.269 21.0929L7.70687 20.5308L13.6692 14.5603L16.9154 17.8066L17.269 18.1601L17.6226 17.8066L22.0146 13.4146L22.3681 13.061L22.0146 12.7074L20.8071 11.5H24.5V15.1929L23.2926 13.9854L22.9393 13.6322L22.5857 13.9852L17.2693 19.2932L14.0226 16.0464L13.669 15.6929L13.3154 16.0464Z"
-      fill="#137211"
-      stroke="#137211"
+      fill={Colors.successDark}
+      stroke={Colors.successDark}
     />
     <Defs>
       <LinearGradient
