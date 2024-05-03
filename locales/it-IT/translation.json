@@ -2325,9 +2325,9 @@
     }
   },
   "earnStablecoin": {
-    "title": "Earn on your stablecoins",
-    "subtitle": "Deposit today and earn returns",
-    "description": "If you deposit <0></0>, you can get up to <1></1> at the end of the year!"
+    "title": "Guadagna sui tuoi stablecoin",
+    "subtitle": "Deposita oggi stesso e guadagna",
+    "description": "Se depositi <0></0>, puoi ottenere fino a <1></1> alla fine dell'anno!"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
