@@ -77,6 +77,10 @@
       matchPackagePatterns: ['^prettier'],
       groupName: 'prettier',
     },
+    {
+      "matchUpdateTypes": ["major"],
+      "automerge": false
+    },
   ],
   // A list of dependencies to be ignored by Renovate - "exact match" only
   ignoreDeps: [
