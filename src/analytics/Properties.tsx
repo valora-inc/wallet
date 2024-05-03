@@ -19,6 +19,7 @@ import {
   DappExplorerEvents,
   DappKitEvents,
   DappShortcutsEvents,
+  EarnEvents,
   EscrowEvents,
   FeeEvents,
   FiatExchangeEvents,
@@ -1572,6 +1573,10 @@ interface PointsEventsProperties {
   [PointsEvents.points_screen_activity_learn_more_press]: undefined
 }
 
+interface EarnEventsProperties {
+  [EarnEvents.earn_cta_press]: undefined
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -1607,6 +1612,7 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   BuilderHooksProperties &
   DappShortcutsProperties &
   TransactionDetailsProperties &
-  PointsEventsProperties
+  PointsEventsProperties &
+  EarnEventsProperties
 
 export type AnalyticsEventType = keyof AnalyticsPropertiesList
