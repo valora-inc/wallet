@@ -2329,9 +2329,9 @@
     }
   },
   "earnStablecoin": {
-    "title": "Earn on your stablecoins",
-    "subtitle": "Deposit today and earn returns",
-    "description": "If you deposit <0></0>, you can get up to <1></1> at the end of the year!"
+    "title": "Заробляйте на своїх стейблкоїнах",
+    "subtitle": "Поповнюйте рахунок сьогодні та отримуйте прибуток",
+    "description": "Якщо ви внесете депозит <0></0>, ви зможете отримати до <1></1> в кінці року!"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
