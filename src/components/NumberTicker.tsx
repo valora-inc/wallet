@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Animated, StyleProp, StyleSheet, Text, TextStyle, View } from 'react-native'
+import { Animated, StyleSheet, Text, TextStyle, View } from 'react-native'
 import { typeScale } from 'src/styles/fonts'
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 }
 
 interface TickTextProps {
-  textStyle: StyleProp<TextStyle>
+  textStyle: TextStyle
   value: string
 }
 
@@ -19,7 +19,7 @@ interface TickProps {
   endValue: number
   animationDuration: number
   textHeight: number
-  textStyle: StyleProp<TextStyle>
+  textStyle: TextStyle
 }
 
 const numberRange = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
