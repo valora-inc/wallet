@@ -6,6 +6,8 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { dappSelected, favoriteDapp, fetchDappsList, unfavoriteDapp } from 'src/dapps/slice'
 import { DappCategory, DappSection } from 'src/dapps/types'
 import TabDiscover from 'src/dappsExplorer/TabDiscover'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import { mockDappListWithCategoryNames } from 'test/values'
@@ -16,7 +18,7 @@ jest.mock('src/statsig', () => ({
     dappsFilterEnabled: true,
     dappsSearchEnabled: true,
   })),
-  getFeatureGate: jest.fn(() => true),
+  getFeatureGate: jest.fn(),
 }))
 
 const dappsList = mockDappListWithCategoryNames
@@ -44,6 +46,7 @@ describe('TabDiscover', () => {
   beforeEach(() => {
     defaultStore.clearActions()
     jest.clearAllMocks()
+    jest.mocked(getFeatureGate).mockReturnValue(false)
   })
 
   it('renders correctly and fires the correct actions on press dapp', () => {
@@ -722,6 +725,30 @@ describe('TabDiscover', () => {
         activeSearchTerm: 'cool',
         position: 1,
       })
+    })
+  })
+
+  describe('earn', () => {
+    it('does not display earn cta if feature gate is false', () => {
+      const { queryByTestId } = render(
+        <Provider store={defaultStore}>
+          <MockedNavigator component={TabDiscover} />
+        </Provider>
+      )
+
+      expect(queryByTestId('EarnCta')).toBeFalsy()
+    })
+    it('displays earn cta if feature gate is true', () => {
+      jest
+        .mocked(getFeatureGate)
+        .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_STABLECOIN_EARN)
+      const { getByTestId } = render(
+        <Provider store={defaultStore}>
+          <MockedNavigator component={TabDiscover} />
+        </Provider>
+      )
+
+      expect(getByTestId('EarnCta')).toBeTruthy()
     })
   })
 })
