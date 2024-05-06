@@ -1,37 +1,34 @@
 import * as React from 'react'
-import { Animated, StyleProp, StyleSheet, Text, TextStyle, View } from 'react-native'
+import { Animated, StyleSheet, Text, TextStyle, View } from 'react-native'
 import { typeScale } from 'src/styles/fonts'
 
-interface CommonProps {
-  textHeight: number
-  textStyles?: StyleProp<TextStyle>
+interface Props {
+  value: string | number
+  typeScaleName?: keyof typeof typeScale
   animationDuration?: number
-}
-interface Props extends CommonProps {
-  finalValue: string
   testID?: string
 }
 
-interface TickProps extends CommonProps {
-  startValue: number
-  endValue: number
+interface TickTextProps {
+  textStyle: TextStyle
+  value: string
 }
 
-interface TickTextProps extends CommonProps {
-  value: string
+interface TickProps {
+  startValue: number
+  endValue: number
+  animationDuration: number
+  textHeight: number
+  textStyle: TextStyle
 }
 
 const numberRange = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
-function TickText({ value, textHeight, textStyles }: TickTextProps) {
-  return (
-    <View style={[styles.tickText, { height: textHeight }]}>
-      <Text style={[styles.text, textStyles]}>{value}</Text>
-    </View>
-  )
+function TickText({ value, textStyle }: TickTextProps) {
+  return <Text style={[styles.tickerText, textStyle]}>{value}</Text>
 }
 
-function Tick({ startValue, endValue, textHeight, textStyles, animationDuration }: TickProps) {
+function Tick({ startValue, endValue, textStyle, textHeight, animationDuration }: TickProps) {
   const animatedValue = new Animated.Value(startValue * textHeight * -1)
   const transformStyle = { transform: [{ translateY: animatedValue }] }
   const duration = animationDuration ?? 1300
@@ -43,24 +40,23 @@ function Tick({ startValue, endValue, textHeight, textStyles, animationDuration 
   }).start()
 
   return (
-    <Animated.View style={[transformStyle]}>
+    <Animated.View style={transformStyle}>
       {numberRange.map((number, index) => {
-        return (
-          <TickText key={index} textHeight={textHeight} textStyles={textStyles} value={number} />
-        )
+        return <TickText key={index} textStyle={textStyle} value={number} />
       })}
     </Animated.View>
   )
 }
 
 export default function NumberTicker({
-  finalValue,
-  textStyles,
-  textHeight,
-  animationDuration,
+  value,
+  typeScaleName = 'displaySmall',
+  animationDuration = 1300,
   testID,
 }: Props) {
-  const finalValueArray = finalValue.toString().split('')
+  const textStyle = typeScale[typeScaleName]
+  const textHeight = textStyle.lineHeight
+  const finalValueArray = value.toString().split('')
 
   // For the startValueArray, map over each character in the finalValueArray to
   // replace digits with random digits, do not change non-digit characters (e.g.
@@ -74,9 +70,7 @@ export default function NumberTicker({
       {finalValueArray.map((value, index) => {
         // If the character is not a digit, render it as a static text element
         if (!value.match(/\d/)) {
-          return (
-            <TickText key={index} textHeight={textHeight} textStyles={textStyles} value={value} />
-          )
+          return <TickText key={index} textStyle={textStyle} value={value} />
         }
 
         const endValue = parseInt(value, 10)
@@ -87,7 +81,7 @@ export default function NumberTicker({
             startValue={startValue}
             endValue={endValue}
             textHeight={textHeight}
-            textStyles={textStyles}
+            textStyle={textStyle}
             animationDuration={animationDuration}
           />
         )
@@ -104,11 +98,7 @@ const styles = StyleSheet.create({
     // otherwise they feel unnatural and far apart
     gap: -2,
   },
-  tickText: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    ...typeScale.displaySmall,
+  tickerText: {
+    textAlign: 'center',
   },
 })

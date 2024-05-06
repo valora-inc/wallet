@@ -2324,6 +2324,11 @@
       }
     }
   },
+  "earnStablecoin": {
+    "title": "Verdiene mit deinen Stablecoins",
+    "subtitle": "Heute einzahlen und Rendite verdienen",
+    "description": "Wenn du <0></0> einzahlst, kannst du am Ende des Jahres bis zu <1></1> bekommen!"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
