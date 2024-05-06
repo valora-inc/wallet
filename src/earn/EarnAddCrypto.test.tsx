@@ -6,6 +6,7 @@ import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import EarnAddCrypto from 'src/earn/EarnAddCrypto'
 import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { StoredTokenBalance, TokenBalance } from 'src/tokens/slice'
 import { TokenActionName } from 'src/tokens/types'
 import { NetworkId } from 'src/transactions/types'
@@ -80,12 +81,31 @@ describe('EarnAddCrypto', () => {
   })
 
   it.each([
-    { actionName: TokenActionName.Add, actionTitle: 'earnFlow.addCrypto.actions.add' },
-    { actionName: TokenActionName.Receive, actionTitle: 'earnFlow.addCrypto.actions.receive' },
-    { actionName: TokenActionName.Swap, actionTitle: 'earnFlow.addCrypto.actions.swap' },
+    {
+      actionName: TokenActionName.Add,
+      actionTitle: 'earnFlow.addCrypto.actions.add',
+      navigateScreen: Screens.SelectProvider,
+      navigateProps: {
+        amount: { crypto: 100, fiat: 154 },
+        flow: 'CashIn',
+        tokenId: 'arbitrum-sepolia:0x123',
+      },
+    },
+    {
+      actionName: TokenActionName.Receive,
+      actionTitle: 'earnFlow.addCrypto.actions.receive',
+      navigateScreen: Screens.ExchangeQR,
+      navigateProps: { exchanges: [], flow: 'CashIn' },
+    },
+    {
+      actionName: TokenActionName.Swap,
+      actionTitle: 'earnFlow.addCrypto.actions.swap',
+      navigateScreen: Screens.SwapScreenWithBack,
+      navigateProps: { toTokenId: 'arbitrum-sepolia:0x123' },
+    },
   ])(
-    'triggers the correct analytics and navigation for $buttonText',
-    async ({ actionName, actionTitle }) => {
+    'triggers the correct analytics and navigation for $actionName',
+    async ({ actionName, actionTitle, navigateScreen, navigateProps }) => {
       const { getByText } = render(
         <Provider store={store}>
           <EarnAddCrypto
@@ -106,7 +126,7 @@ describe('EarnAddCrypto', () => {
         tokenId: 'arbitrum-sepolia:0x123',
       })
 
-      expect(navigate).toHaveBeenCalled()
+      expect(navigate).toHaveBeenCalledWith(navigateScreen, navigateProps)
     }
   )
 })
