@@ -2,7 +2,6 @@ import BigNumber from 'bignumber.js'
 import React, { RefObject } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { useSelector } from 'react-redux'
 import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
@@ -13,7 +12,6 @@ import QuickActionsSend from 'src/icons/quick-actions/Send'
 import QuickActionsSwap from 'src/icons/quick-actions/Swap'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -26,15 +24,15 @@ import { getTokenAnalyticsProps } from 'src/tokens/utils'
 export default function EarnAddCrypto({
   forwardedRef,
   token,
-  amount,
+  tokenAmount,
 }: {
   forwardedRef: RefObject<BottomSheetRefType>
   token: TokenBalance
-  amount: BigNumber
+  tokenAmount: BigNumber
 }) {
   const { t } = useTranslation()
 
-  const actions = getActions(token, amount)
+  const actions = getActions(token, tokenAmount)
 
   return (
     <BottomSheet
@@ -76,15 +74,17 @@ export default function EarnAddCrypto({
   )
 }
 
-export const getActions = (token: TokenBalance, amount: BigNumber) => {
+export const getActions = (token: TokenBalance, tokenAmount: BigNumber) => {
   const { t } = useTranslation()
   const { swappableFromTokens } = useSwappableTokens()
   const cashInTokens = useCashInTokens()
-  const isSwapEnabled = useSelector(isAppSwapsEnabledSelector)
+  const isSwapEnabled = true // useSelector(isAppSwapsEnabledSelector)
 
   const addAmount = {
-    crypto: amount.toNumber(),
-    fiat: Math.round((useTokenToLocalAmount(amount, token.tokenId) || new BigNumber(0)).toNumber()),
+    crypto: tokenAmount.toNumber(),
+    fiat: Math.round(
+      (useTokenToLocalAmount(tokenAmount, token.tokenId) || new BigNumber(0)).toNumber()
+    ),
   }
 
   return [
@@ -114,7 +114,7 @@ export const getActions = (token: TokenBalance, amount: BigNumber) => {
       }),
       iconComponent: QuickActionsSend,
       onPress: () => {
-        navigate(Screens.SendSelectRecipient, { defaultTokenIdOverride: token.tokenId }) // TODO: change this
+        navigate(Screens.ExchangeQR, { flow: CICOFlow.CashIn, exchanges: [] })
       },
       visible: true,
     },
@@ -127,7 +127,7 @@ export const getActions = (token: TokenBalance, amount: BigNumber) => {
       }),
       iconComponent: QuickActionsSwap,
       onPress: () => {
-        navigate(Screens.SwapScreenWithBack, { fromTokenId: token.tokenId }) // TODO: change this
+        navigate(Screens.SwapScreenWithBack, { toTokenId: token.tokenId })
       },
       visible:
         isSwapEnabled &&
