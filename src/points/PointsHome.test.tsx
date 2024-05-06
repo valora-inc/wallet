@@ -78,11 +78,10 @@ describe(PointsHome, () => {
   })
 
   it('refreshes the balance and history on mount and on pull to refresh', async () => {
+    const refreshPointsAndHistoryAction = getHistoryStarted({ getNextPage: false })
     const { store, getByTestId } = renderPointsHome()
 
-    await waitFor(() =>
-      expect(store.getActions()).toEqual([getHistoryStarted({ getNextPage: false })])
-    )
+    await waitFor(() => expect(store.getActions()).toEqual([refreshPointsAndHistoryAction]))
 
     // the below is the recommended way to test pull to refresh
     // https://github.com/callstack/react-native-testing-library/issues/809#issuecomment-1144703296
@@ -91,8 +90,8 @@ describe(PointsHome, () => {
 
     await waitFor(() =>
       expect(store.getActions()).toEqual([
-        getHistoryStarted({ getNextPage: false }),
-        getHistoryStarted({ getNextPage: false }),
+        refreshPointsAndHistoryAction,
+        refreshPointsAndHistoryAction,
       ])
     )
   })

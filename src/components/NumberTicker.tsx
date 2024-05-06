@@ -70,7 +70,7 @@ export default function NumberTicker({
   return (
     <View style={[styles.container, { height: textHeight }]} testID={testID}>
       {finalValueArray.map((value, index) => {
-        // If the character is not a digit or if the ticker should not animate, render it as a static text element
+        // If the character is not a digit, render it as a static text element
         if (!value.match(/\d/)) {
           return <TickText key={index} textStyle={textStyle} value={value} />
         }
