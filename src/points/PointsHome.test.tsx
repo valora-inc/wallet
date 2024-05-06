@@ -7,36 +7,31 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import PointsHome from 'src/points/PointsHome'
 import { getHistoryStarted, getPointsConfigRetry } from 'src/points/slice'
-import { PointsActivityId } from 'src/points/types'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { RootState } from 'src/redux/store'
+import { RecursivePartial, createMockStore, getMockStackScreenProps } from 'test/utils'
 
 jest.mock('src/points/PointsHistoryBottomSheet')
 
 const mockScreenProps = () => getMockStackScreenProps(Screens.PointsHome)
 
-const renderPointsHome = (
-  pointsConfigStatus: 'idle' | 'loading' | 'error' | 'success' = 'success',
-  activitiesById?: {
-    [activityId in PointsActivityId]?: {
-      pointsAmount: number
-    }
-  }
-) => {
-  const store = createMockStore({
-    points: {
-      pointsConfig: {
-        activitiesById: activitiesById ?? {
-          swap: {
-            pointsAmount: 50,
-          },
-          'create-wallet': {
-            pointsAmount: 20,
+const renderPointsHome = (storeOverrides?: RecursivePartial<RootState>) => {
+  const store = createMockStore(
+    storeOverrides ?? {
+      points: {
+        pointsConfig: {
+          activitiesById: {
+            swap: {
+              pointsAmount: 50,
+            },
+            'create-wallet': {
+              pointsAmount: 20,
+            },
           },
         },
+        pointsConfigStatus: 'success',
       },
-      pointsConfigStatus,
-    },
-  })
+    }
+  )
   const tree = render(
     <Provider store={store}>
       <PointsHome {...mockScreenProps()} />
@@ -55,7 +50,9 @@ describe(PointsHome, () => {
   })
 
   it('renders a loading state while loading config', async () => {
-    const { getByText, queryByText } = renderPointsHome('loading')
+    const { getByText, queryByText } = renderPointsHome({
+      points: { pointsConfigStatus: 'loading' },
+    })
 
     expect(getByText('points.loading.title')).toBeTruthy()
     expect(getByText('points.loading.description')).toBeTruthy()
@@ -64,7 +61,9 @@ describe(PointsHome, () => {
   })
 
   it('renders the error state on failure to load config', async () => {
-    const { getByText, queryByText, store } = renderPointsHome('error')
+    const { getByText, queryByText, store } = renderPointsHome({
+      points: { pointsConfigStatus: 'error' },
+    })
 
     expect(getByText('points.error.title')).toBeTruthy()
     expect(getByText('points.error.description')).toBeTruthy()
@@ -96,6 +95,24 @@ describe(PointsHome, () => {
     )
   })
 
+  it('displays an error toast on failure to refresh the balance and history', async () => {
+    const { store, getByText } = renderPointsHome({
+      points: {
+        getHistoryStatus: 'errorFirstPage',
+      },
+    })
+
+    expect(getByText('points.fetchBalanceError.title')).toBeTruthy()
+    expect(getByText('points.fetchBalanceError.description')).toBeTruthy()
+
+    store.clearActions()
+    fireEvent.press(getByText('points.fetchBalanceError.retryCta'))
+
+    await waitFor(() =>
+      expect(store.getActions()).toEqual([getHistoryStarted({ getNextPage: false })])
+    )
+  })
+
   it('opens activity bottom sheet', async () => {
     const { getByTestId, store } = renderPointsHome()
 
@@ -124,7 +141,11 @@ describe(PointsHome, () => {
   })
 
   it('renders only the balance if there are no supported activities', async () => {
-    const { getByTestId, getByText, queryByText } = renderPointsHome('success', {})
+    const { getByTestId, getByText, queryByText } = renderPointsHome({
+      points: {
+        pointsConfigStatus: 'success',
+      },
+    })
 
     expect(getByText('points.title')).toBeTruthy()
     expect(getByTestId('PointsBalance')).toBeTruthy() // balance is animated so we cannot properly test the value programatically

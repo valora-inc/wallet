@@ -14,7 +14,7 @@ interface GetPointsHistoryStartedAction {
 }
 
 interface GetPointsHistoryErrorAction {
-  resetHistory: boolean
+  getNextPage: boolean
 }
 
 export type PointsConfig = {
@@ -34,7 +34,13 @@ export interface PendingPointsEvent {
 export interface State {
   pointsHistory: ClaimHistory[]
   nextPageUrl: string | null
-  getHistoryStatus: 'idle' | 'loadingFirstPage' | 'loadingNextPage' | 'error' | 'success'
+  getHistoryStatus:
+    | 'idle'
+    | 'loadingFirstPage'
+    | 'loadingNextPage'
+    | 'errorFirstPage'
+    | 'errorNextPage'
+    | 'success'
   pointsConfig: PointsConfig
   pointsConfigStatus: 'idle' | 'loading' | 'error' | 'success'
   pendingPointsEvents: PendingPointsEvent[]
@@ -70,8 +76,7 @@ const slice = createSlice({
     }),
     getHistoryError: (state, action: PayloadAction<GetPointsHistoryErrorAction>) => ({
       ...state,
-      getHistoryStatus: 'error',
-      pointsHistory: action.payload.resetHistory ? [] : state.pointsHistory,
+      getHistoryStatus: action.payload.getNextPage ? 'errorNextPage' : 'errorFirstPage',
     }),
     getPointsConfigStarted: (state) => ({
       ...state,

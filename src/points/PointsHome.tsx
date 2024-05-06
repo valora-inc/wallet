@@ -11,6 +11,7 @@ import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import NumberTicker from 'src/components/NumberTicker'
+import Toast from 'src/components/Toast'
 import CustomHeader from 'src/components/header/CustomHeader'
 import AttentionIcon from 'src/icons/Attention'
 import LogoHeart from 'src/icons/LogoHeart'
@@ -47,6 +48,10 @@ export default function PointsHome({ route, navigation }: Props) {
   const historyBottomSheetRef = useRef<BottomSheetRefType>(null)
   const activityCardBottomSheetRef = useRef<BottomSheetRefType>(null)
 
+  // since the activity bottom sheet can also trigger a balance and history
+  // refresh, track loading separately so that this screen does not animate the
+  // loading status in the background
+  const [showLoading, setShowLoading] = useState(true)
   const [bottomSheetParams, setBottomSheetParams] = useState<BottomSheetParams | undefined>(
     undefined
   )
@@ -64,9 +69,13 @@ export default function PointsHome({ route, navigation }: Props) {
     if (pointsHistoryStatus === 'success') {
       lastKnownPointsBalance.current = pointsBalance
     }
+    if (pointsHistoryStatus !== 'loadingFirstPage') {
+      setShowLoading(false)
+    }
   }, [pointsHistoryStatus])
 
   const onFetchHistoryFirstPage = () => {
+    setShowLoading(true)
     dispatch(getHistoryStarted({ getNextPage: false }))
   }
 
@@ -105,7 +114,7 @@ export default function PointsHome({ route, navigation }: Props) {
           <RefreshControl
             tintColor={Colors.primary}
             colors={[Colors.primary]}
-            refreshing={pointsHistoryStatus === 'loadingFirstPage'}
+            refreshing={showLoading}
             onRefresh={onFetchHistoryFirstPage}
           />
         }
@@ -175,6 +184,14 @@ export default function PointsHome({ route, navigation }: Props) {
           </>
         )}
       </ScrollView>
+      <Toast
+        showToast={pointsHistoryStatus === 'errorFirstPage'}
+        variant={NotificationVariant.Warning}
+        title={t('points.fetchBalanceError.title')}
+        description={t('points.fetchBalanceError.description')}
+        ctaLabel={t('points.fetchBalanceError.retryCta')}
+        onPressCta={onFetchHistoryFirstPage}
+      />
       <PointsHistoryBottomSheet forwardedRef={historyBottomSheetRef} />
       <BottomSheet forwardedRef={activityCardBottomSheetRef} testId={`PointsActivityBottomSheet`}>
         {bottomSheetParams && (

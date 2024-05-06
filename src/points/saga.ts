@@ -17,9 +17,9 @@ import {
 } from 'src/points/slice'
 import {
   GetHistoryResponse,
-  isPointsActivityId,
-  isClaimActivityId,
   PointsEvent,
+  isClaimActivityId,
+  isPointsActivityId,
 } from 'src/points/types'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -61,7 +61,7 @@ export function* getHistory({ payload: params }: ReturnType<typeof getHistorySta
     Logger.error(TAG, 'No wallet address found when fetching points history')
     yield* put(
       getHistoryError({
-        resetHistory: !params.getNextPage,
+        getNextPage: params.getNextPage,
       })
     )
     return
@@ -90,14 +90,14 @@ export function* getHistory({ payload: params }: ReturnType<typeof getHistorySta
         appendHistory: params.getNextPage,
         newPointsHistory: history.data.filter((record) => isClaimActivityId(record.activityId)),
         nextPageUrl: history.hasNextPage ? history.nextPageUrl : null,
-        pointsBalance: history.balance,
+        pointsBalance: history.balance ?? 867,
       })
     )
   } catch (e) {
     Logger.error(TAG, 'Error fetching points history', e)
     yield* put(
       getHistoryError({
-        resetHistory: !params.getNextPage,
+        getNextPage: params.getNextPage,
       })
     )
   }
