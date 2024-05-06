@@ -6,7 +6,7 @@ import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
-import { getAavePoolInfo } from 'src/earn/poolInfo'
+import { fetchAavePoolInfo } from 'src/earn/poolInfo'
 import EarnAave from 'src/icons/EarnAave'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -29,7 +29,7 @@ export default function EarnCta() {
       Logger.warn(TAG, `Token with id ${networkConfig.arbUsdcTokenId} not found`)
       throw new Error(`Token with id ${networkConfig.arbUsdcTokenId} not found`)
     }
-    return getAavePoolInfo(token.address as Address)
+    return fetchAavePoolInfo(token.address as Address)
   }, [])
 
   return (

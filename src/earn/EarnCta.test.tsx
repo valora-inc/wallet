@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import EarnCta from 'src/earn/EarnCta'
-import { getAavePoolInfo } from 'src/earn/poolInfo'
+import { fetchAavePoolInfo } from 'src/earn/poolInfo'
 import { NetworkId } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
@@ -29,7 +29,7 @@ const store = createMockStore({
 describe('EarnCta', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.mocked(getAavePoolInfo).mockResolvedValue({ apy: 0.33 })
+    jest.mocked(fetchAavePoolInfo).mockResolvedValue({ apy: 0.33 })
   })
 
   it('should render correctly', async () => {
@@ -45,7 +45,7 @@ describe('EarnCta', () => {
     expect(getByTestId('EarnCta/Description')).toHaveTextContent(
       'earnStablecoin.description10.00 USDC₱4.39'
     )
-    expect(getAavePoolInfo).toHaveBeenCalledWith('0x12345')
+    expect(fetchAavePoolInfo).toHaveBeenCalledWith('0x12345')
 
     fireEvent.press(getByTestId('EarnCta'))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_cta_press)

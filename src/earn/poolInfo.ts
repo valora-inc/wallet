@@ -11,7 +11,7 @@ const TAG = 'earn/poolInfo'
 
 const COMPOUND_PERIOD = 365 * 24 * 60 * 60 // 1 year in seconds
 
-export async function getAavePoolInfo(assetAddress: Address) {
+export async function fetchAavePoolInfo(assetAddress: Address) {
   try {
     Logger.debug(TAG, 'Fetching Aave pool info for asset', assetAddress)
     const result = await publicClient[Network.Arbitrum].readContract({
