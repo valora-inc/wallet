@@ -151,7 +151,7 @@ export default function PointsHome({ route, navigation }: Props) {
               <NumberTicker
                 testID="PointsBalance"
                 value={pointsBalance}
-                shouldAnimate={lastKnownPointsBalance.current !== pointsBalance}
+                disableAnimation={lastKnownPointsBalance.current === pointsBalance}
               />
               <LogoHeart size={28} />
             </View>

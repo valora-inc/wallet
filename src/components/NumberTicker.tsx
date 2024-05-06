@@ -6,7 +6,7 @@ interface Props {
   value: string | number
   typeScaleName?: keyof typeof typeScale
   animationDuration?: number
-  shouldAnimate?: boolean
+  disableAnimation?: boolean
   testID?: string
 }
 
@@ -53,7 +53,7 @@ export default function NumberTicker({
   value,
   typeScaleName = 'displaySmall',
   animationDuration = 1300,
-  shouldAnimate = true,
+  disableAnimation = false,
   testID,
 }: Props) {
   const textStyle = typeScale[typeScaleName]
@@ -71,7 +71,7 @@ export default function NumberTicker({
     <View style={[styles.container, { height: textHeight }]} testID={testID}>
       {finalValueArray.map((value, index) => {
         // If the character is not a digit or if the ticker should not animate, render it as a static text element
-        if (!value.match(/\d/) || !shouldAnimate) {
+        if (!value.match(/\d/)) {
           return <TickText key={index} textStyle={textStyle} value={value} />
         }
 
@@ -84,7 +84,7 @@ export default function NumberTicker({
             endValue={endValue}
             textHeight={textHeight}
             textStyle={textStyle}
-            animationDuration={animationDuration}
+            animationDuration={disableAnimation ? 0 : animationDuration}
           />
         )
       })}
