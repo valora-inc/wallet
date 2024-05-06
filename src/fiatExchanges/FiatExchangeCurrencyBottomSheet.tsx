@@ -65,7 +65,7 @@ function FiatExchangeCurrencyBottomSheet({ route }: Props) {
     >
       {/* padding undefined to prevent android ripple bug */}
       <Text style={styles.selectDigitalCurrency}>{t('sendEnterAmountScreen.selectToken')}</Text>
-      {tokenList.length &&
+      {!!tokenList.length &&
         tokenList.map((tokenInfo) => {
           return (
             <React.Fragment key={`token-${tokenInfo.tokenId}`}>
