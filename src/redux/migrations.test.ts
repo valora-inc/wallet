@@ -1356,7 +1356,7 @@ describe('Redux persist migrations', () => {
         address: '0x123',
         hash: 'someHash',
       },
-    ]
+    ] as any
     const migratedSchema = migrations[161](preMigrationSchema)
 
     expect(migratedSchema.transactions.standbyTransactions).toEqual([
@@ -1584,7 +1584,7 @@ describe('Redux persist migrations', () => {
     const oldSchema = {
       ...v203Schema,
       positions: {
-        ...v203Schema.positions,
+        ...(v203Schema.positions as any),
         positions: mockPositionsLegacy,
         shortcuts: mockShortcutsLegacy,
       },
