@@ -44,6 +44,7 @@ const MOCK_RESPONSE_NO_NEXT_PAGE: GetHistoryResponse = {
   ],
   hasNextPage: false,
   nextPageUrl: '',
+  balance: 637,
 }
 
 describe(PointsHistoryBottomSheet, () => {
@@ -78,12 +79,15 @@ describe(PointsHistoryBottomSheet, () => {
 
     expect(tree.queryByTestId('PointsHistoryBottomSheet/Error')).toBeNull()
     expect(tree.queryByTestId('PointsHistoryBottomSheet/Error')).toBeNull()
-    expect(tree.queryByTestId('PointsHistoryBottomSheet/Empty')).toBeTruthy()
+    expect(tree.getByTestId('PointsHistoryBottomSheet/Empty')).toBeTruthy()
   })
 
   it('displays content while loading', async () => {
     const tree = renderScreen({
-      points: { pointsHistory: MOCK_RESPONSE_NO_NEXT_PAGE.data, getHistoryStatus: 'loading' },
+      points: {
+        pointsHistory: MOCK_RESPONSE_NO_NEXT_PAGE.data,
+        getHistoryStatus: 'loadingNextPage',
+      },
     })
     await waitFor(() => expect(tree.getByTestId('PointsHistoryList').props.data.length).toBe(3))
 

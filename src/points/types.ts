@@ -71,6 +71,7 @@ export interface GetHistoryResponse {
   data: ClaimHistory[]
   hasNextPage: boolean
   nextPageUrl: string
+  balance: number
 }
 
 interface PointsEventCreateWallet {

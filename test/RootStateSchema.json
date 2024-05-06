@@ -4313,7 +4313,9 @@
                     "enum": [
                         "error",
                         "idle",
-                        "loading"
+                        "loadingFirstPage",
+                        "loadingNextPage",
+                        "success"
                     ],
                     "type": "string"
                 },
@@ -4328,6 +4330,9 @@
                         "$ref": "#/definitions/PendingPointsEvent"
                     },
                     "type": "array"
+                },
+                "pointsBalance": {
+                    "type": "number"
                 },
                 "pointsConfig": {
                     "additionalProperties": false,
@@ -4361,6 +4366,7 @@
                 "getHistoryStatus",
                 "nextPageUrl",
                 "pendingPointsEvents",
+                "pointsBalance",
                 "pointsConfig",
                 "pointsConfigStatus",
                 "pointsHistory"

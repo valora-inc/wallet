@@ -77,6 +77,26 @@ describe(PointsHome, () => {
     expect(store.getActions()).toEqual([getPointsConfigRetry()])
   })
 
+  it('refreshes the balance and history on mount and on pull to refresh', async () => {
+    const { store, getByTestId } = renderPointsHome()
+
+    await waitFor(() =>
+      expect(store.getActions()).toEqual([getHistoryStarted({ getNextPage: false })])
+    )
+
+    // the below is the recommended way to test pull to refresh
+    // https://github.com/callstack/react-native-testing-library/issues/809#issuecomment-1144703296
+    const { refreshControl } = getByTestId('PointsScrollView').props
+    refreshControl.props.onRefresh()
+
+    await waitFor(() =>
+      expect(store.getActions()).toEqual([
+        getHistoryStarted({ getNextPage: false }),
+        getHistoryStarted({ getNextPage: false }),
+      ])
+    )
+  })
+
   it('opens activity bottom sheet', async () => {
     const { getByTestId, store } = renderPointsHome()
 

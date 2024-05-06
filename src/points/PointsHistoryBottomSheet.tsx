@@ -1,28 +1,29 @@
-import React, { useMemo, useState, useEffect } from 'react'
-import { ActivityIndicator, StyleSheet, Text, View, ListRenderItem } from 'react-native'
-import SectionHead from 'src/components/SectionHead'
-import GorhomBottomSheet from '@gorhom/bottom-sheet'
-import { useDispatch, useSelector } from 'src/redux/hooks'
-import { pointsHistoryStatusSelector, pointsHistorySelector } from 'src/points/selectors'
+import GorhomBottomSheet, { BottomSheetSectionList } from '@gorhom/bottom-sheet'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { typeScale } from 'src/styles/fonts'
-import BottomSheetBase from 'src/components/BottomSheetBase'
-import { Spacing } from 'src/styles/styles'
-import Attention from 'src/icons/Attention'
-import Colors from 'src/styles/colors'
-import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ActivityIndicator, ListRenderItem, StyleSheet, Text, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { PointsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import BottomSheetBase from 'src/components/BottomSheetBase'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
+import SectionHead from 'src/components/SectionHead'
+import { default as Attention, default as AttentionIcon } from 'src/icons/Attention'
+import LogoHeart from 'src/icons/LogoHeart'
+import { HistoryCardMetadata, useGetHistoryDefinition } from 'src/points/cardDefinitions'
+import {
+  nextPageUrlSelector,
+  pointsHistorySelector,
+  pointsHistoryStatusSelector,
+} from 'src/points/selectors'
 import { getHistoryStarted } from 'src/points/slice'
 import { ClaimHistoryCardItem } from 'src/points/types'
+import { useDispatch, useSelector } from 'src/redux/hooks'
+import { default as Colors, default as colors } from 'src/styles/colors'
+import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
-import colors from 'src/styles/colors'
-import { BottomSheetSectionList } from '@gorhom/bottom-sheet'
-import { useGetHistoryDefinition } from 'src/points/cardDefinitions'
-import { HistoryCardMetadata } from 'src/points/cardDefinitions'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
-import AttentionIcon from 'src/icons/Attention'
 
 interface Props {
   forwardedRef: React.RefObject<GorhomBottomSheet>
@@ -44,6 +45,7 @@ function PointsHistoryCard({
       </View>
       <View style={styles.cardPointsAmountContainer}>
         <Text style={styles.cardPointsAmount}>+{pointsAmount}</Text>
+        <LogoHeart size={20} />
       </View>
     </View>
   )
@@ -56,6 +58,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
 
   const pointsHistoryStatus = useSelector(pointsHistoryStatusSelector)
   const pointsHistory = useSelector(pointsHistorySelector)
+  const hasNextPage = useSelector(nextPageUrlSelector)
 
   const [showError, setShowError] = useState(false)
 
@@ -64,6 +67,18 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
   const insets = useSafeAreaInsets()
 
   const onFetchMoreHistory = () => {
+    if (
+      !hasNextPage ||
+      pointsHistoryStatus === 'loadingNextPage' ||
+      pointsHistoryStatus === 'loadingFirstPage'
+    ) {
+      // prevent fetching more history if there is no next page. onEndReached
+      // will continue to fire if this is not checked. onEndReached also does
+      // not have a throttle so prevent fetching more history when there is
+      // already a request in flight.
+      return
+    }
+
     ValoraAnalytics.track(PointsEvents.points_screen_activity_fetch_more)
     dispatch(
       getHistoryStarted({
@@ -99,7 +114,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
   }
 
   const Loading =
-    pointsHistoryStatus === 'loading' ? (
+    pointsHistoryStatus === 'loadingFirstPage' || pointsHistoryStatus === 'loadingNextPage' ? (
       <ActivityIndicator
         testID={'PointsHistoryBottomSheet/Loading'}
         style={styles.loadingIcon}
@@ -142,7 +157,10 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
       </View>
     )
 
-  const isEmpty = pointsHistoryStatus !== 'loading' && !pointsHistory.length
+  const isEmpty =
+    pointsHistoryStatus !== 'loadingFirstPage' &&
+    pointsHistoryStatus !== 'loadingNextPage' &&
+    pointsHistory.length === 0
 
   const sections = useMemo(() => {
     return groupFeedItemsInSections([], pointsHistory)
@@ -256,10 +274,12 @@ const styles = StyleSheet.create({
   },
   cardPointsAmount: {
     ...typeScale.labelMedium,
-    color: colors.primary,
+    color: colors.successDark,
   },
   cardPointsAmountContainer: {
-    justifyContent: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 2,
   },
 })
 export default PointsHistoryBottomSheet

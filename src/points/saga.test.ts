@@ -74,6 +74,7 @@ const MOCK_HISTORY_RESPONSE: GetHistoryResponse = {
   ],
   hasNextPage: true,
   nextPageUrl: 'https://example.com/getHistory?pageSize=2&page=1',
+  balance: 657,
 }
 
 // We'll only store history entries in Redux if they have known values for activityId
@@ -107,7 +108,7 @@ describe('fetchHistory', () => {
     const address = 'some-address'
     const result = await fetchHistory(address)
     expect(fetchWithTimeoutSpy).toHaveBeenCalledWith(
-      networkConfig.getPointsHistoryUrl + '?address=some-address',
+      networkConfig.getPointsHistoryUrl + '?address=some-address&pageSize=10',
       {
         method: 'GET',
       }
@@ -162,11 +163,13 @@ describe('getHistory', () => {
           appendHistory: false,
           newPointsHistory: MOCK_SUPPORTED_HISTORY,
           nextPageUrl: MOCK_HISTORY_RESPONSE.nextPageUrl,
+          pointsBalance: 657,
         })
       )
       .run()
 
     expect(storeState.points.pointsHistory).toEqual(MOCK_SUPPORTED_HISTORY)
+    expect(storeState.points.pointsBalance).toEqual(657)
   })
   it('sets error state if error while fetching', async () => {
     const params = getHistoryStarted({
@@ -197,6 +200,7 @@ describe('getHistory', () => {
           appendHistory: true,
           newPointsHistory: MOCK_SUPPORTED_HISTORY,
           nextPageUrl: MOCK_HISTORY_RESPONSE.nextPageUrl,
+          pointsBalance: 657,
         })
       )
       .run()
@@ -205,6 +209,7 @@ describe('getHistory', () => {
       ...MOCK_POINTS_HISTORY,
       ...MOCK_SUPPORTED_HISTORY,
     ])
+    expect(storeState.points.pointsBalance).toEqual(657)
   })
 
   it('skips fetching is new page is requested but none stored in redux', async () => {

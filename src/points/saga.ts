@@ -37,14 +37,17 @@ const POINTS_EVENT_EXPIRY_DAYS = 30
 
 export async function fetchHistory(
   address: string,
-  url?: string | null
+  nextPageUrl?: string | null
 ): Promise<GetHistoryResponse> {
-  const response = await fetchWithTimeout(
-    url ?? `${networkConfig.getPointsHistoryUrl}?` + new URLSearchParams({ address }),
-    {
-      method: 'GET',
-    }
-  )
+  const firstPageQueryParams = new URLSearchParams({
+    address,
+    pageSize: '10', // enough to fill up the history bottom sheet
+  }).toString()
+  const firstPageUrl = `${networkConfig.getPointsHistoryUrl}?${firstPageQueryParams}`
+
+  const response = await fetchWithTimeout(nextPageUrl ?? firstPageUrl, {
+    method: 'GET',
+  })
   if (response.ok) {
     return response.json() as Promise<GetHistoryResponse>
   } else {
@@ -87,6 +90,7 @@ export function* getHistory({ payload: params }: ReturnType<typeof getHistorySta
         appendHistory: params.getNextPage,
         newPointsHistory: history.data.filter((record) => isClaimActivityId(record.activityId)),
         nextPageUrl: history.hasNextPage ? history.nextPageUrl : null,
+        pointsBalance: history.balance,
       })
     )
   } catch (e) {

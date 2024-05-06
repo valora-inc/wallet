@@ -6,6 +6,7 @@ interface GetPointsHistorySucceededAction {
   appendHistory: boolean
   newPointsHistory: ClaimHistory[]
   nextPageUrl: string | null
+  pointsBalance?: number
 }
 
 interface GetPointsHistoryStartedAction {
@@ -33,10 +34,11 @@ export interface PendingPointsEvent {
 export interface State {
   pointsHistory: ClaimHistory[]
   nextPageUrl: string | null
-  getHistoryStatus: 'idle' | 'loading' | 'error'
+  getHistoryStatus: 'idle' | 'loadingFirstPage' | 'loadingNextPage' | 'error' | 'success'
   pointsConfig: PointsConfig
   pointsConfigStatus: 'idle' | 'loading' | 'error' | 'success'
   pendingPointsEvents: PendingPointsEvent[]
+  pointsBalance: number
 }
 
 const initialState: State = {
@@ -46,15 +48,16 @@ const initialState: State = {
   pointsConfig: { activitiesById: {} },
   pointsConfigStatus: 'idle',
   pendingPointsEvents: [],
+  pointsBalance: 0,
 }
 
 const slice = createSlice({
   name: 'points',
   initialState,
   reducers: {
-    getHistoryStarted: (state, _action: PayloadAction<GetPointsHistoryStartedAction>) => ({
+    getHistoryStarted: (state, action: PayloadAction<GetPointsHistoryStartedAction>) => ({
       ...state,
-      getHistoryStatus: 'loading',
+      getHistoryStatus: action.payload.getNextPage ? 'loadingNextPage' : 'loadingFirstPage',
     }),
     getHistorySucceeded: (state, action: PayloadAction<GetPointsHistorySucceededAction>) => ({
       ...state,
@@ -62,7 +65,8 @@ const slice = createSlice({
         ? [...state.pointsHistory, ...action.payload.newPointsHistory]
         : action.payload.newPointsHistory,
       nextPageUrl: action.payload.nextPageUrl,
-      getHistoryStatus: 'idle',
+      getHistoryStatus: 'success',
+      pointsBalance: action.payload.pointsBalance ?? state.pointsBalance,
     }),
     getHistoryError: (state, action: PayloadAction<GetPointsHistoryErrorAction>) => ({
       ...state,
