@@ -90,7 +90,7 @@ export function* getHistory({ payload: params }: ReturnType<typeof getHistorySta
         appendHistory: params.getNextPage,
         newPointsHistory: history.data.filter((record) => isClaimActivityId(record.activityId)),
         nextPageUrl: history.hasNextPage ? history.nextPageUrl : null,
-        pointsBalance: history.balance ?? 867,
+        pointsBalance: history.balance,
       })
     )
   } catch (e) {
