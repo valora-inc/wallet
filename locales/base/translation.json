@@ -2312,5 +2312,21 @@
         "title": "More coming soon!"
       }
     }
+  },
+  "earnFlow": {
+    "addCrypto": {
+      "title": "Add {{tokenSymbol}} on {{tokenNetwork}}",
+      "description": "Once you add tokens you'll have to come back to finish depositing into a pool.",
+      "actions": {
+        "add": "Buy",
+        "receive": "Transfer",
+        "swap": "Swap"
+      },
+      "actionDescriptions": {
+        "add": "Buy {{tokenSymbol}} on {{tokenNetwork}} using one of our trusted providers",
+        "receive": "Use any {{tokenNetwork}} compatible wallet or exchange to deposit {{tokenSymbol}}",
+        "swap": "Swap into {{tokenSymbol}} from another {{tokenNetwork}} token"
+      }
+    }
   }
 }

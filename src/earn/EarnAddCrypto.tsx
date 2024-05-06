@@ -14,6 +14,7 @@ import QuickActionsSwap from 'src/icons/quick-actions/Swap'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
+import { NETWORK_NAMES } from 'src/shared/conts'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -38,8 +39,11 @@ export default function EarnAddCrypto({
   return (
     <BottomSheet
       forwardedRef={forwardedRef}
-      title={t('earn.addCrypto.title')}
-      description={t('earn.addCrypto.description')}
+      title={t('earnFlow.addCrypto.title', {
+        tokenSymbol: token.symbol,
+        tokenNetwork: NETWORK_NAMES[token.networkId],
+      })}
+      description={t('earnFlow.addCrypto.description')}
       testId={'Earn/AddCrypto'}
       titleStyle={styles.title}
     >
@@ -86,8 +90,11 @@ export const getActions = (token: TokenBalance, amount: BigNumber) => {
   return [
     {
       name: TokenActionName.Add,
-      title: t('earn.addCrypto.actions.add'),
-      details: t('earn.addCrypto.actionDescriptions.add'),
+      title: t('earnFlow.addCrypto.actions.add'),
+      details: t('earnFlow.addCrypto.actionDescriptions.add', {
+        tokenSymbol: token.symbol,
+        tokenNetwork: NETWORK_NAMES[token.networkId],
+      }),
       iconComponent: QuickActionsAdd,
       onPress: () => {
         navigate(Screens.SelectProvider, {
@@ -100,8 +107,11 @@ export const getActions = (token: TokenBalance, amount: BigNumber) => {
     },
     {
       name: TokenActionName.Receive,
-      title: t('earn.addCrypto.actions.receive'),
-      details: t('earn.addCrypto.actionDescriptions.receive'),
+      title: t('earnFlow.addCrypto.actions.receive'),
+      details: t('earnFlow.addCrypto.actionDescriptions.receive', {
+        tokenSymbol: token.symbol,
+        tokenNetwork: NETWORK_NAMES[token.networkId],
+      }),
       iconComponent: QuickActionsSend,
       onPress: () => {
         navigate(Screens.SendSelectRecipient, { defaultTokenIdOverride: token.tokenId }) // TODO: change this
@@ -110,8 +120,11 @@ export const getActions = (token: TokenBalance, amount: BigNumber) => {
     },
     {
       name: TokenActionName.Swap,
-      title: t('earn.addCrypto.actions.swap'),
-      details: t('earn.addCrypto.actionDescriptions.swap'),
+      title: t('earnFlow.addCrypto.actions.swap'),
+      details: t('earnFlow.addCrypto.actionDescriptions.swap', {
+        tokenSymbol: token.symbol,
+        tokenNetwork: NETWORK_NAMES[token.networkId],
+      }),
       iconComponent: QuickActionsSwap,
       onPress: () => {
         navigate(Screens.SwapScreenWithBack, { fromTokenId: token.tokenId }) // TODO: change this
