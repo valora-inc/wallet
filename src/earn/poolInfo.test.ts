@@ -15,7 +15,7 @@ describe('poolInfo', () => {
     expect(result).toEqual({ apy: 0.0366558430938988 })
     expect(publicClient[Network.Arbitrum].readContract).toHaveBeenCalledWith({
       abi: aavePool,
-      address: networkConfig.arbAaveContractAddress,
+      address: networkConfig.arbAavePoolV3ContractAddress,
       functionName: 'getReserveData',
       args: ['0x1234'],
     })

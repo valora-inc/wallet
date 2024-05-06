@@ -16,7 +16,7 @@ export async function fetchAavePoolInfo(assetAddress: Address) {
     Logger.debug(TAG, 'Fetching Aave pool info for asset', assetAddress)
     const result = await publicClient[Network.Arbitrum].readContract({
       abi: AavePool,
-      address: networkConfig.arbAaveContractAddress,
+      address: networkConfig.arbAavePoolV3ContractAddress,
       functionName: 'getReserveData',
       args: [assetAddress],
     })
