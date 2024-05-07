@@ -1,15 +1,13 @@
 import React from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import EarnAave from 'src/icons/EarnAave'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import networkConfig from 'src/web3/networkConfig'
 
 export default function EarnCta() {
   const { t } = useTranslation()
@@ -23,22 +21,12 @@ export default function EarnCta() {
       testID="EarnCta"
     >
       <>
-        <Text style={styles.title}>{t('earnStablecoin.title')}</Text>
+        <Text style={styles.title}>{t('earnFlow.cta.title')}</Text>
         <View style={styles.row}>
           <EarnAave />
           <View style={styles.subtitleContainer}>
-            <Text style={styles.subtitle}>{t('earnStablecoin.subtitle')}</Text>
-            <Text style={styles.description} testID="EarnCta/Description">
-              <Trans i18nKey="earnStablecoin.description">
-                {/* TODO(ACT-1174): use the right amounts here */}
-                <TokenDisplay
-                  amount={10}
-                  tokenId={networkConfig.arbUsdcTokenId}
-                  showLocalAmount={false}
-                />
-                <TokenDisplay amount={1} tokenId={networkConfig.arbUsdcTokenId} />
-              </Trans>
-            </Text>
+            <Text style={styles.subtitle}>{t('earnFlow.cta.subtitle')}</Text>
+            <Text style={styles.description}>{t('earnFlow.cta.description')}</Text>
           </View>
         </View>
       </>

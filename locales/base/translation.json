@@ -2342,7 +2342,11 @@
         "add": "Buy {{tokenSymbol}} on {{tokenNetwork}} using one of our trusted providers",
         "receive": "Use any {{tokenNetwork}} compatible wallet or exchange to deposit {{tokenSymbol}}",
         "swap": "Swap into {{tokenSymbol}} from another {{tokenNetwork}} token"
-      }
+      },
+    "cta": {
+      "title": "Earn on your stablecoins",
+      "subtitle": "Deposit today and earn returns",
+      "description": "See how much you can earn when supplying a lending pool"
     }
   }
 }
