@@ -2314,7 +2314,7 @@
     }
   },
   "earnFlow": {
-    "addCrypto": {
+    "addCryptoBottomSheet": {
       "title": "Add {{tokenSymbol}} on {{tokenNetwork}}",
       "description": "Once you add tokens you'll have to come back to finish depositing into a pool.",
       "actions": {

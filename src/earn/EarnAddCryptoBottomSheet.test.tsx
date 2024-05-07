@@ -4,7 +4,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import EarnAddCrypto from 'src/earn/EarnAddCrypto'
+import EarnAddCryptoBottomSheet from 'src/earn/EarnAddCryptoBottomSheet'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StoredTokenBalance, TokenBalance } from 'src/tokens/slice'
@@ -19,7 +19,7 @@ jest.mock('src/statsig', () => ({
       showSwap: ['arbitrum-sepolia'],
     }
   }),
-  getFeatureGate: jest.fn().mockReturnValue(true),
+  getFeatureGate: jest.fn().mockReturnValue(false),
 }))
 
 const mockStoredArbitrumUsdcTokenBalance: StoredTokenBalance = {
@@ -63,11 +63,11 @@ const store = createMockStore({
   },
 })
 
-describe('EarnAddCrypto', () => {
+describe('EarnAddCryptoBottomSheet', () => {
   it('Renders correct actions', () => {
     const { getByText } = render(
       <Provider store={store}>
-        <EarnAddCrypto
+        <EarnAddCryptoBottomSheet
           forwardedRef={{ current: null }}
           token={mockArbitrumUsdcBalance}
           tokenAmount={new BigNumber(100)}
@@ -75,15 +75,15 @@ describe('EarnAddCrypto', () => {
       </Provider>
     )
 
-    expect(getByText('earnFlow.addCrypto.actions.receive')).toBeTruthy()
-    expect(getByText('earnFlow.addCrypto.actions.swap')).toBeTruthy()
-    expect(getByText('earnFlow.addCrypto.actions.add')).toBeTruthy()
+    expect(getByText('earnFlow.addCryptoBottomSheet.actions.receive')).toBeTruthy()
+    expect(getByText('earnFlow.addCryptoBottomSheet.actions.swap')).toBeTruthy()
+    expect(getByText('earnFlow.addCryptoBottomSheet.actions.add')).toBeTruthy()
   })
 
   it.each([
     {
       actionName: TokenActionName.Add,
-      actionTitle: 'earnFlow.addCrypto.actions.add',
+      actionTitle: 'earnFlow.addCryptoBottomSheet.actions.add',
       navigateScreen: Screens.SelectProvider,
       navigateProps: {
         amount: { crypto: 100, fiat: 154 },
@@ -92,14 +92,14 @@ describe('EarnAddCrypto', () => {
       },
     },
     {
-      actionName: TokenActionName.Receive,
-      actionTitle: 'earnFlow.addCrypto.actions.receive',
+      actionName: TokenActionName.Transfer,
+      actionTitle: 'earnFlow.addCryptoBottomSheet.actions.receive',
       navigateScreen: Screens.ExchangeQR,
       navigateProps: { exchanges: [], flow: 'CashIn' },
     },
     {
       actionName: TokenActionName.Swap,
-      actionTitle: 'earnFlow.addCrypto.actions.swap',
+      actionTitle: 'earnFlow.addCryptoBottomSheet.actions.swap',
       navigateScreen: Screens.SwapScreenWithBack,
       navigateProps: { toTokenId: 'arbitrum-sepolia:0x123' },
     },
@@ -108,7 +108,7 @@ describe('EarnAddCrypto', () => {
     async ({ actionName, actionTitle, navigateScreen, navigateProps }) => {
       const { getByText } = render(
         <Provider store={store}>
-          <EarnAddCrypto
+          <EarnAddCryptoBottomSheet
             forwardedRef={{ current: null }}
             token={mockArbitrumUsdcBalance}
             tokenAmount={new BigNumber(100)}
@@ -117,7 +117,7 @@ describe('EarnAddCrypto', () => {
       )
 
       fireEvent.press(getByText(actionTitle))
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_tap_add_crypto, {
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_tap_add_crypto_action, {
         action: actionName,
         address: '0x123',
         balanceUsd: 5.8,

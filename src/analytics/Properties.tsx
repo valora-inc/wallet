@@ -1567,7 +1567,7 @@ interface PointsEventsProperties {
 }
 
 interface EarnEventsProperties {
-  [EarnEvents.earn_tap_add_crypto]: {
+  [EarnEvents.earn_tap_add_crypto_action]: {
     action: TokenActionName
   } & TokenProperties
 }

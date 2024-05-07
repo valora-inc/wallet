@@ -6,7 +6,7 @@ export enum TokenActionName {
   Add = 'Add',
   Withdraw = 'Withdraw',
   More = 'More',
-  Receive = 'Receive',
+  Transfer = 'Transfer',
 }
 
 export interface TokenAction {

@@ -675,5 +675,5 @@ export enum PointsEvents {
 }
 
 export enum EarnEvents {
-  earn_tap_add_crypto = 'earn_tap_add_crypto',
+  earn_tap_add_crypto_action = 'earn_tap_add_crypto_action',
 }

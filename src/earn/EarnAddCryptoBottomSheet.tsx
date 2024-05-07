@@ -2,7 +2,6 @@ import BigNumber from 'bignumber.js'
 import React, { RefObject } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { useSelector } from 'react-redux'
 import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
@@ -13,7 +12,6 @@ import QuickActionsSend from 'src/icons/quick-actions/Send'
 import QuickActionsSwap from 'src/icons/quick-actions/Swap'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -23,7 +21,7 @@ import { TokenBalance } from 'src/tokens/slice'
 import { TokenActionName } from 'src/tokens/types'
 import { getTokenAnalyticsProps } from 'src/tokens/utils'
 
-export default function EarnAddCrypto({
+export default function EarnAddCryptoBottomSheet({
   forwardedRef,
   token,
   tokenAmount,
@@ -39,11 +37,11 @@ export default function EarnAddCrypto({
   return (
     <BottomSheet
       forwardedRef={forwardedRef}
-      title={t('earnFlow.addCrypto.title', {
+      title={t('earnFlow.addCryptoBottomSheet.title', {
         tokenSymbol: token.symbol,
         tokenNetwork: NETWORK_NAMES[token.networkId],
       })}
-      description={t('earnFlow.addCrypto.description')}
+      description={t('earnFlow.addCryptoBottomSheet.description')}
       testId={'Earn/AddCrypto'}
       titleStyle={styles.title}
     >
@@ -54,7 +52,7 @@ export default function EarnAddCrypto({
             key={action.name}
             borderRadius={20}
             onPress={() => {
-              ValoraAnalytics.track(EarnEvents.earn_tap_add_crypto, {
+              ValoraAnalytics.track(EarnEvents.earn_tap_add_crypto_action, {
                 action: action.name,
                 ...getTokenAnalyticsProps(token),
               })
@@ -80,7 +78,7 @@ export const getActions = (token: TokenBalance, tokenAmount: BigNumber) => {
   const { t } = useTranslation()
   const { swappableFromTokens } = useSwappableTokens()
   const cashInTokens = useCashInTokens()
-  const isSwapEnabled = useSelector(isAppSwapsEnabledSelector)
+  const isSwapEnabled = true // useSelector(isAppSwapsEnabledSelector)
 
   const addAmount = {
     crypto: tokenAmount.toNumber(),
@@ -92,8 +90,8 @@ export const getActions = (token: TokenBalance, tokenAmount: BigNumber) => {
   return [
     {
       name: TokenActionName.Add,
-      title: t('earnFlow.addCrypto.actions.add'),
-      details: t('earnFlow.addCrypto.actionDescriptions.add', {
+      title: t('earnFlow.addCryptoBottomSheet.actions.add'),
+      details: t('earnFlow.addCryptoBottomSheet.actionDescriptions.add', {
         tokenSymbol: token.symbol,
         tokenNetwork: NETWORK_NAMES[token.networkId],
       }),
@@ -108,9 +106,9 @@ export const getActions = (token: TokenBalance, tokenAmount: BigNumber) => {
       visible: !!cashInTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId),
     },
     {
-      name: TokenActionName.Receive,
-      title: t('earnFlow.addCrypto.actions.receive'),
-      details: t('earnFlow.addCrypto.actionDescriptions.receive', {
+      name: TokenActionName.Transfer,
+      title: t('earnFlow.addCryptoBottomSheet.actions.receive'),
+      details: t('earnFlow.addCryptoBottomSheet.actionDescriptions.receive', {
         tokenSymbol: token.symbol,
         tokenNetwork: NETWORK_NAMES[token.networkId],
       }),
@@ -122,8 +120,8 @@ export const getActions = (token: TokenBalance, tokenAmount: BigNumber) => {
     },
     {
       name: TokenActionName.Swap,
-      title: t('earnFlow.addCrypto.actions.swap'),
-      details: t('earnFlow.addCrypto.actionDescriptions.swap', {
+      title: t('earnFlow.addCryptoBottomSheet.actions.swap'),
+      details: t('earnFlow.addCryptoBottomSheet.actionDescriptions.swap', {
         tokenSymbol: token.symbol,
         tokenNetwork: NETWORK_NAMES[token.networkId],
       }),
@@ -133,7 +131,10 @@ export const getActions = (token: TokenBalance, tokenAmount: BigNumber) => {
       },
       visible:
         isSwapEnabled &&
-        !!swappableFromTokens.find((tokenInfo) => tokenInfo.networkId === token.networkId),
+        !!swappableFromTokens.find(
+          (tokenInfo) =>
+            tokenInfo.networkId === token.networkId && tokenInfo.tokenId !== token.tokenId
+        ),
     },
   ].filter((action) => action.visible)
 }
