@@ -117,6 +117,7 @@ function SendEnterAmount({ route }: Props) {
       tokenSelectionDisabled={!!forceTokenId}
       onPressProceed={handleReviewSend}
       CTA={SendEnterAmountCTA}
+      disableBalanceCheck={true}
     />
   )
 }

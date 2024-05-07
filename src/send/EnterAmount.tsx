@@ -269,7 +269,6 @@ function EnterAmount({
     return () => clearTimeout(debouncedRefreshTransactions)
   }, [tokenAmount, token])
 
-  const isTokenAmountZero = token.balance.isZero()
   const isAmountLessThanBalance = tokenAmount && tokenAmount.lt(token.balance)
   const showLowerAmountError = !isAmountLessThanBalance && !disableBalanceCheck
   const showMaxAmountWarning =
@@ -286,11 +285,10 @@ function EnterAmount({
     prepareTransactionsResult.type === 'possible' &&
     prepareTransactionsResult.transactions.length > 0
 
-  const disabled = !(
-    transactionIsPossible ||
-    (disableBalanceCheck && !isAmountLessThanBalance) ||
-    disableProceed
-  )
+  const disabled =
+    disableProceed ||
+    (disableBalanceCheck && tokenAmount?.isZero()) ||
+    (!disableBalanceCheck && !transactionIsPossible)
 
   const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency ?? feeCurrencies[0]
   let feeAmountSection = <FeeLoading />
@@ -389,7 +387,7 @@ function EnterAmount({
                 testID="SendEnterAmount/LocalAmountInput"
                 editable={!!token.priceUsd}
               />
-              {!isTokenAmountZero && (
+              {!token.balance.isZero() && (
                 <Touchable
                   borderRadius={MAX_BORDER_RADIUS}
                   onPress={onMaxAmountPress}
