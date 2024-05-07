@@ -122,12 +122,7 @@ export default function PointsHome({ route, navigation }: Props) {
               />
             </View>
             <View style={styles.balanceRow}>
-              <NumberTicker
-                testID="PointsBalance"
-                textStyles={styles.balance}
-                textHeight={48}
-                finalValue={pointsBalance.toString()}
-              />
+              <NumberTicker testID="PointsBalance" value={pointsBalance} />
               <LogoHeart size={28} />
             </View>
 
@@ -240,9 +235,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: Spacing.Tiny4,
-  },
-  balance: {
-    ...typeScale.displaySmall,
   },
   infoCard: {
     backgroundColor: Colors.successLight,

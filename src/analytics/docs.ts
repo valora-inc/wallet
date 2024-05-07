@@ -483,6 +483,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [PointsEvents.points_screen_activity_press]: `when the Activity button is pressed from Points home screen`,
   [PointsEvents.points_screen_activity_try_again_press]: `when the Try Again button is pressed after an error while fetching Points activity`,
   [PointsEvents.points_screen_activity_fetch_more]: `when the user requests to fetch more Points history`,
+  [PointsEvents.points_screen_activity_learn_more_press]: `when the Learn button is pressed when a user has no points history`,
 
   // Events related to WalletConnect pairing (technical: opening up the communication channel via QR code or deeplink)
   [WalletConnectEvents.wc_pairing_start]: `when WC pairing is started (no UI at this point)`,
@@ -589,6 +590,9 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [TransactionDetailsEvents.transaction_details_tap_retry]: `When a user press 'Retry' on transaction details page`,
   [TransactionDetailsEvents.transaction_details_tap_block_explorer]: `When a user press 'View on block explorer' on transaction details page`,
   [EarnEvents.earn_tap_add_crypto_action]: `When a user in the Earn flow enters an amount higher than their balance and chooses an option to add crypto`,
+
+  // Events related to earn program
+  [EarnEvents.earn_cta_press]: `When a user taps on the earn your stablecoins CTA on the discover tab`,
 
   // Legacy event docs
   //  The below events had docs, but are no longer produced by the latest app version.

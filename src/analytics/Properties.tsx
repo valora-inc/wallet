@@ -1184,6 +1184,7 @@ type SwapQuoteEvent = SwapEvent & {
    */
   estimatedPriceImpact: string | null
   price: string
+  appFeePercentageIncludedInPrice: string | null | undefined
   provider: string
 }
 
@@ -1250,6 +1251,7 @@ export enum SwapShowInfoType {
   MAX_NETWORK_FEE,
   ESTIMATED_NETWORK_FEE,
   SLIPPAGE,
+  EXCHANGE_RATE,
 }
 interface SwapEventsProperties {
   [SwapEvents.swap_screen_open]: undefined
@@ -1288,6 +1290,7 @@ interface SwapEventsProperties {
       swapApproveTxId: string
       estimatedSellTokenUsdValue?: number
       estimatedBuyTokenUsdValue?: number
+      estimatedAppFeeUsdValue: number | undefined
       areSwapTokensShuffled: boolean
     }
   [SwapEvents.swap_execute_error]: SwapQuoteEvent &
@@ -1301,6 +1304,7 @@ interface SwapEventsProperties {
       swapApproveTxId: string
       estimatedSellTokenUsdValue?: number
       estimatedBuyTokenUsdValue?: number
+      estimatedAppFeeUsdValue: number | undefined
       areSwapTokensShuffled: boolean
     }
   [SwapEvents.swap_learn_more]: undefined
@@ -1562,8 +1566,15 @@ interface PointsEventsProperties {
     activityId: PointsActivityId
   }
   [PointsEvents.points_screen_activity_press]: undefined
-  [PointsEvents.points_screen_activity_try_again_press]: undefined
+  [PointsEvents.points_screen_activity_try_again_press]: {
+    getNextPage: boolean
+  }
   [PointsEvents.points_screen_activity_fetch_more]: undefined
+  [PointsEvents.points_screen_activity_learn_more_press]: undefined
+}
+
+interface EarnEventsProperties {
+  [EarnEvents.earn_cta_press]: undefined
 }
 
 interface EarnEventsProperties {

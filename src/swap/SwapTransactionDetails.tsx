@@ -26,6 +26,8 @@ interface Props {
   exchangeRatePrice?: string
   swapAmount?: BigNumber
   fetchingSwapQuote: boolean
+  enableAppFee: boolean
+  exchangeRateInfoBottomSheetRef: React.RefObject<BottomSheetRefType>
 }
 
 function LabelWithInfo({
@@ -131,6 +133,8 @@ export function SwapTransactionDetails({
   exchangeRatePrice,
   swapAmount,
   fetchingSwapQuote,
+  enableAppFee,
+  exchangeRateInfoBottomSheetRef,
 }: Props) {
   const { t } = useTranslation()
 
@@ -138,7 +142,16 @@ export function SwapTransactionDetails({
   return (
     <View style={styles.container} testID="SwapTransactionDetails">
       <View style={styles.row} testID="SwapTransactionDetails/ExchangeRate">
-        <Text style={styles.label}>{t('swapScreen.transactionDetails.exchangeRate')}</Text>
+        <LabelWithInfo
+          onPress={() => {
+            ValoraAnalytics.track(SwapEvents.swap_show_info, {
+              type: SwapShowInfoType.EXCHANGE_RATE,
+            })
+            exchangeRateInfoBottomSheetRef.current?.snapToIndex(0)
+          }}
+          label={t('swapScreen.transactionDetails.exchangeRate')}
+          testID="SwapTransactionDetails/ExchangeRate/MoreInfo"
+        />
         <Text style={styles.value}>
           {!fetchingSwapQuote && fromToken && toToken && exchangeRatePrice ? (
             <>
@@ -181,12 +194,15 @@ export function SwapTransactionDetails({
         placeholder={placeholder}
         testID={`SwapTransactionDetails/MaxNetworkFee`}
       />
-      <View style={styles.row}>
-        <Text style={styles.label}>{t('swapScreen.transactionDetails.swapFee')}</Text>
-        <Text testID={'SwapFee'} style={styles.value}>
-          {t('swapScreen.transactionDetails.swapFeeWaived')}
-        </Text>
-      </View>
+      {/* When enabled, the fee is part of the exchange rate */}
+      {!enableAppFee && (
+        <View style={styles.row}>
+          <Text style={styles.label}>{t('swapScreen.transactionDetails.swapFee')}</Text>
+          <Text testID={'SwapFee'} style={styles.value}>
+            {t('swapScreen.transactionDetails.swapFeeWaived')}
+          </Text>
+        </View>
+      )}
       <View style={styles.row} testID="SwapTransactionDetails/Slippage">
         <LabelWithInfo
           onPress={() => {

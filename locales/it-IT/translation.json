@@ -1821,6 +1821,9 @@
       "slippageToleranceInfo": "Tolleranza slippage\n\nIl tuo scambio verrà eseguito entro la percentuale di tolleranza allo slippage. Se il prezzo cambia oltre la tolleranza allo slippage, {{appName}} ti protegge impedendo l'esecuzione della transazione.",
       "networkFeeInfoDismissButton": "Ho capito",
       "exchangeRate": "Tasso di cambio",
+      "exchangeRateInfo": "Tasso di cambio\n\nAbbiamo trovato il miglior tasso di cambio per te. La tua transazione sarà completata a un prezzo compreso tra {{slippagePercentage}}% della stima o la transazione sarà annullata e i fondi saranno restituiti al tuo portafoglio.",
+      "exchangeRateInfo_withAppFee": "Tasso di cambio\n\nAbbiamo trovato il miglior tasso di cambio per te. La tua transazione sarà completata a un prezzo che rientra nel {{slippagePercentage}}% della stima o la transazione sarà annullata e i fondi saranno restituiti al tuo portafoglio.\n\nIl tasso stimato include una {{appName}} commissione del {{appFeePercentage}}%.",
+      "exchangeRateInfoDismissButton": "Ho capito",
       "estimatedValue": "Valore stimato"
     },
     "fundYourWalletBottomSheet": {
@@ -2271,6 +2274,16 @@
         "title": "Impossibile caricare i punti attività",
         "subtitle": "Ops, qualcosa è andato storto durante il tentativo di caricare il tuo feed di attività dei punti. Riprova.",
         "tryAgain": "Riprova"
+      },
+      "empty": {
+        "title": "Non ci sono ancora punti attività",
+        "subtitle": "Sembra che tu non abbia ancora guadagnato punti. Usa {{appName}} per iniziare ad accumulare punti!",
+        "gotIt": "Ho capito"
+      },
+      "pageError": {
+        "title": "Impossibile caricare",
+        "subtitle": "Ops, qualcosa è andato storto durante il caricamento. Riprova.",
+        "refresh": "Aggiornare"
       }
     },
     "loading": {
@@ -2310,6 +2323,11 @@
         "title": "Prossimamente ne arriveranno altri!"
       }
     }
+  },
+  "earnStablecoin": {
+    "title": "Guadagna sui tuoi stablecoin",
+    "subtitle": "Deposita oggi stesso e guadagna",
+    "description": "Se depositi <0></0>, puoi ottenere fino a <1></1> alla fine dell'anno!"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"

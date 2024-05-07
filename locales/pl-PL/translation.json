@@ -1825,6 +1825,9 @@
       "slippageToleranceInfo": "Tolerancja poślizgu\n\nTwój swap zostanie zrealizowany w ramach procentowej tolerancji poślizgu. Jeśli cena zmieni się bardziej niż tolerancja poślizgu, {{appName}} chroni Cię, uniemożliwiając realizację transakcji.",
       "networkFeeInfoDismissButton": "Rozumiem",
       "exchangeRate": "Kurs wymiany",
+      "exchangeRateInfo": "Kurs wymiany\n\nZnaleźliśmy dla Ciebie najlepszy kurs wymiany. Twoja transakcja zostanie sfinalizowana po cenie mieszczącej się w {{slippagePercentage}}% oszacowania lub transakcja zostanie anulowana, a środki zwrócone do Twojego portfela.",
+      "exchangeRateInfo_withAppFee": "Kurs wymiany\n\nZnaleźliśmy dla Ciebie najlepszy kurs wymiany. Twoja transakcja zostanie zrealizowana po cenie mieszczącej się w przedziale {{slippagePercentage}}% wartości szacunkowej lub transakcja zostanie anulowana, a środki zwrócone do Twojego portfela.\n\nSzacowany kurs obejmuje opłatę {{appName}} w wysokości {{appFeePercentage}}%.",
+      "exchangeRateInfoDismissButton": "Rozumiem",
       "estimatedValue": "Szacunkowa wartość"
     },
     "fundYourWalletBottomSheet": {
@@ -2275,6 +2278,16 @@
         "title": "Nie można załadować aktywności punktów",
         "subtitle": "Ups, coś poszło nie tak podczas próby załadowania Twojego kanału aktywności punktów. Spróbuj ponownie.",
         "tryAgain": "Spróbuj ponownie"
+      },
+      "empty": {
+        "title": "Brak aktywności punktowej",
+        "subtitle": "Wygląda na to, że nie zdobyłeś jeszcze żadnych punktów. Użyj {{appName}} , aby zacząć zdobywać punkty!",
+        "gotIt": "Rozumiem"
+      },
+      "pageError": {
+        "title": "Nie można załadować",
+        "subtitle": "Ups, coś poszło nie tak podczas próby zakończenia ładowania. Spróbuj ponownie.",
+        "refresh": "Odśwież"
       }
     },
     "loading": {
@@ -2314,6 +2327,11 @@
         "title": "Więcej już wkrótce!"
       }
     }
+  },
+  "earnStablecoin": {
+    "title": "Zarabiaj na swoich stablecoinach",
+    "subtitle": "Dokonaj wpłaty już dziś i zarabiaj",
+    "description": "Jeśli wpłacisz <0></0>, możesz otrzymać do <1></1> na koniec roku!"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
