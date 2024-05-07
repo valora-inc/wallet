@@ -344,12 +344,9 @@ export async function confirmTransaction(commentText) {
       .toBeVisible()
       .withTimeout(60 * 1000)
 
-    // getAttributes() for multiple elements only supported on iOS for Detox < 20.12.0
-    if (device.getPlatform() === 'ios') {
-      // Comment should be present in the feed
-      const { elements } = await element(by.id('TransferFeedItem/subtitle')).getAttributes()
-      jestExpect(elements.some((element) => element.text === commentText)).toBeTruthy()
-    }
+    // Comment should be present in the feed
+    const { elements } = await element(by.id('TransferFeedItem/subtitle')).getAttributes()
+    jestExpect(elements.some((element) => element.text === commentText)).toBeTruthy()
 
     // Scroll to transaction
     await waitFor(element(by.text(commentText)))
