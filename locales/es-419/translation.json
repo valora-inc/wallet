@@ -2324,10 +2324,12 @@
       }
     }
   },
-  "earnStablecoin": {
-    "title": "Gana con tus stablecoins",
-    "subtitle": "Deposita hoy y obtén beneficios",
-    "description": "Si ingresas <0></0>, ¡podrás conseguir hasta <1></1> a final de año!"
+  "earnFlow": {
+    "cta": {
+      "title": "Gana con tus stablecoins",
+      "subtitle": "Deposita hoy y obtén beneficios",
+      "description": "Comprueba cuánto puedes ganar al abastecer un fondo común de préstamos"
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
