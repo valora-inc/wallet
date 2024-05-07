@@ -34,6 +34,7 @@ import NoResults from 'src/dappsExplorer/NoResults'
 import { searchDappList } from 'src/dappsExplorer/searchDappList'
 import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
+import EarnActivePool from 'src/earn/EarnActivePool'
 import EarnCta from 'src/earn/EarnCta'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { Screens } from 'src/navigator/Screens'
@@ -237,7 +238,12 @@ function TabDiscover({ navigation }: Props) {
                   </Text>
                 }
                 <DappFeaturedActions onPressShowDappRankings={handleShowDappRankings} />
-                {getFeatureGate(StatsigFeatureGates.SHOW_STABLECOIN_EARN) && <EarnCta />}
+                {/* TODO (act-1179) - conditionally render based if the user has a balance in pool */}
+                {getFeatureGate(StatsigFeatureGates.SHOW_STABLECOIN_EARN) && true ? (
+                  <EarnActivePool />
+                ) : (
+                  <EarnCta />
+                )}
                 <SearchInput
                   onChangeText={(text) => {
                     setSearchTerm(text)
