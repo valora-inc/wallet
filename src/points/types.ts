@@ -74,7 +74,7 @@ export interface GetHistoryResponse {
 }
 
 export interface GetPointsBalanceResponse {
-  balance: number
+  balance: string
 }
 
 interface PointsEventCreateWallet {

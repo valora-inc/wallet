@@ -4313,9 +4313,7 @@
                     "enum": [
                         "error",
                         "idle",
-                        "loadingFirstPage",
-                        "loadingNextPage",
-                        "success"
+                        "loading"
                     ],
                     "type": "string"
                 },
@@ -4332,7 +4330,7 @@
                     "type": "array"
                 },
                 "pointsBalance": {
-                    "type": "number"
+                    "type": "string"
                 },
                 "pointsBalanceStatus": {
                     "enum": [

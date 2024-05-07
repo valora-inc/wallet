@@ -38,7 +38,7 @@ export interface State {
   pointsConfigStatus: 'idle' | 'loading' | 'error' | 'success'
   pendingPointsEvents: PendingPointsEvent[]
   pointsBalanceStatus: 'idle' | 'loading' | 'error' | 'success'
-  pointsBalance: number
+  pointsBalance: string
 }
 
 const initialState: State = {
@@ -49,7 +49,7 @@ const initialState: State = {
   pointsConfigStatus: 'idle',
   pendingPointsEvents: [],
   pointsBalanceStatus: 'idle',
-  pointsBalance: 0,
+  pointsBalance: '0',
 }
 
 const slice = createSlice({
@@ -103,7 +103,7 @@ const slice = createSlice({
       ...state,
       pointsBalanceStatus: 'loading',
     }),
-    getPointsBalanceSucceeded: (state, action: PayloadAction<number>) => ({
+    getPointsBalanceSucceeded: (state, action: PayloadAction<string>) => ({
       ...state,
       pointsBalance: action.payload,
       pointsBalanceStatus: 'success',
