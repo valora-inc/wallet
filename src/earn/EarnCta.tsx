@@ -1,37 +1,18 @@
 import React from 'react'
-import { useAsync } from 'react-async-hook'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
-import { fetchAavePoolInfo } from 'src/earn/poolInfo'
 import EarnAave from 'src/icons/EarnAave'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { useTokenInfo } from 'src/tokens/hooks'
-import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
-import { Address } from 'viem'
-
-const USDC_AMOUNT = 10
-const TAG = 'earn/EarnCta'
 
 export default function EarnCta() {
   const { t } = useTranslation()
-  const token = useTokenInfo(networkConfig.arbUsdcTokenId)
-
-  const asyncPoolInfo = useAsync(async () => {
-    if (!token) {
-      // should never happen
-      Logger.warn(TAG, `Token with id ${networkConfig.arbUsdcTokenId} not found`)
-      throw new Error(`Token with id ${networkConfig.arbUsdcTokenId} not found`)
-    }
-    return fetchAavePoolInfo(token.address as Address)
-  }, [])
-
   return (
     <Touchable
       borderRadius={8}
@@ -47,21 +28,17 @@ export default function EarnCta() {
           <EarnAave />
           <View style={styles.subtitleContainer}>
             <Text style={styles.subtitle}>{t('earnStablecoin.subtitle')}</Text>
-            {asyncPoolInfo.result && (
-              <Text style={styles.description} testID="EarnCta/Description">
-                <Trans i18nKey="earnStablecoin.description">
-                  <TokenDisplay
-                    amount={USDC_AMOUNT}
-                    tokenId={networkConfig.arbUsdcTokenId}
-                    showLocalAmount={false}
-                  />
-                  <TokenDisplay
-                    amount={USDC_AMOUNT * asyncPoolInfo.result.apy}
-                    tokenId={networkConfig.arbUsdcTokenId}
-                  />
-                </Trans>
-              </Text>
-            )}
+            <Text style={styles.description} testID="EarnCta/Description">
+              <Trans i18nKey="earnStablecoin.description">
+                {/* TODO(ACT-1174): use the right amounts here */}
+                <TokenDisplay
+                  amount={10}
+                  tokenId={networkConfig.arbUsdcTokenId}
+                  showLocalAmount={false}
+                />
+                <TokenDisplay amount={1} tokenId={networkConfig.arbUsdcTokenId} />
+              </Trans>
+            </Text>
           </View>
         </View>
       </>

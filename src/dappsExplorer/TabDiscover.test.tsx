@@ -1,4 +1,4 @@
-import { fireEvent, render, waitFor, within } from '@testing-library/react-native'
+import { fireEvent, render, within } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
@@ -20,7 +20,6 @@ jest.mock('src/statsig', () => ({
   })),
   getFeatureGate: jest.fn(),
 }))
-jest.mock('src/earn/poolInfo')
 
 const dappsList = mockDappListWithCategoryNames
 
@@ -739,7 +738,7 @@ describe('TabDiscover', () => {
 
       expect(queryByTestId('EarnCta')).toBeFalsy()
     })
-    it('displays earn cta if feature gate is true', async () => {
+    it('displays earn cta if feature gate is true', () => {
       jest
         .mocked(getFeatureGate)
         .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_STABLECOIN_EARN)
@@ -749,7 +748,7 @@ describe('TabDiscover', () => {
         </Provider>
       )
 
-      await waitFor(() => expect(getByTestId('EarnCta')).toBeTruthy())
+      expect(getByTestId('EarnCta')).toBeTruthy()
     })
   })
 })
