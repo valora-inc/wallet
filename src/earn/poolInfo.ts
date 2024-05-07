@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import AavePool from 'src/abis/AavePool'
+import AavePool from 'src/abis/AavePoolV3'
 import { Network } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'

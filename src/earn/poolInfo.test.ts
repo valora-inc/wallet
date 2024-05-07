@@ -1,4 +1,4 @@
-import aavePool from 'src/abis/AavePool'
+import aavePool from 'src/abis/AavePoolV3'
 import { fetchAavePoolInfo } from 'src/earn/poolInfo'
 import { Network } from 'src/transactions/types'
 import { publicClient } from 'src/viem'

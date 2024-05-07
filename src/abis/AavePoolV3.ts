@@ -1,3 +1,5 @@
+// Contract from https://docs.aave.com/developers/core-contracts/pool#abi
+// Arbiscan: https://arbiscan.io/address/0x794a61358d6845594f94dc1db02a252b5b4814ad#readProxyContract
 const aavePool = [
   {
     inputs: [
