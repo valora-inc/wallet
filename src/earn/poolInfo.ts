@@ -14,9 +14,6 @@ const COMPOUND_PERIOD = 365 * 24 * 60 * 60 // 1 year in seconds
 
 export async function fetchAavePoolInfo(assetAddress: Address) {
   try {
-    if (!assetAddress) {
-      throw new Error('No asset address provided')
-    }
     Logger.debug(TAG, 'Fetching Aave pool info for asset', assetAddress)
     const result = await publicClient[Network.Arbitrum].readContract({
       abi: AavePool,
@@ -45,12 +42,6 @@ export async function fetchAavePoolUserBalance({
   walletAddress: Address
 }) {
   try {
-    if (!assetAddress) {
-      throw new Error('No asset address provided')
-    }
-    if (!walletAddress) {
-      throw new Error('No wallet address provided')
-    }
     Logger.debug(TAG, 'Fetching Aave pool user balance', { assetAddress, walletAddress })
     const result = await publicClient[Network.Arbitrum].readContract({
       abi: AavePool,
