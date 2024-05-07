@@ -56,6 +56,12 @@ const store = createMockStore({
         ...mockStoredArbitrumUsdcTokenBalance,
         balance: `${mockStoredArbitrumUsdcTokenBalance.balance!}`,
       },
+      ['arbitrum-sepolia:0x456']: {
+        ...mockStoredArbitrumUsdcTokenBalance,
+        address: '0x456',
+        tokenId: 'arbitrum-sepolia:0x456',
+        balance: `${mockStoredArbitrumUsdcTokenBalance.balance!}`,
+      },
     },
   },
   app: {
