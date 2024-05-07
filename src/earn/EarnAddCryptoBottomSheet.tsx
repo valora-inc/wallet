@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js'
 import React, { RefObject } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
+import { useSelector } from 'react-redux'
 import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
@@ -12,6 +13,7 @@ import QuickActionsSend from 'src/icons/quick-actions/Send'
 import QuickActionsSwap from 'src/icons/quick-actions/Swap'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -78,7 +80,7 @@ export const getActions = (token: TokenBalance, tokenAmount: BigNumber) => {
   const { t } = useTranslation()
   const { swappableFromTokens } = useSwappableTokens()
   const cashInTokens = useCashInTokens()
-  const isSwapEnabled = true // useSelector(isAppSwapsEnabledSelector)
+  const isSwapEnabled = useSelector(isAppSwapsEnabledSelector)
 
   const addAmount = {
     crypto: tokenAmount.toNumber(),
