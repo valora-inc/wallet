@@ -37,6 +37,7 @@ export async function fetchAavePoolInfo(assetAddress: Address) {
   }
 }
 
+/** @beta - Exclude from Knip dep check */
 export async function fetchAavePoolUserBalance({
   assetAddress,
   walletAddress,
