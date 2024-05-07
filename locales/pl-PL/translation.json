@@ -2328,10 +2328,12 @@
       }
     }
   },
-  "earnStablecoin": {
-    "title": "Zarabiaj na swoich stablecoinach",
-    "subtitle": "Dokonaj wpłaty już dziś i zarabiaj",
-    "description": "Jeśli wpłacisz <0></0>, możesz otrzymać do <1></1> na koniec roku!"
+  "earnFlow": {
+    "cta": {
+      "title": "Zarabiaj na swoich stablecoinach",
+      "subtitle": "Dokonaj wpłaty już dziś i zarabiaj",
+      "description": "Zobacz ile możesz zarobić zasilając pulę pożyczkową"
+    }
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
