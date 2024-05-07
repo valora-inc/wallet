@@ -33,8 +33,18 @@ export default function EarnAddCryptoBottomSheet({
   tokenAmount: BigNumber
 }) {
   const { t } = useTranslation()
+  const { swappableFromTokens } = useSwappableTokens()
+  const cashInTokens = useCashInTokens()
+  const isSwapEnabled = useSelector(isAppSwapsEnabledSelector)
 
-  const actions = getActions(token, tokenAmount)
+  const showAdd = !!cashInTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId)
+  const showSwap =
+    isSwapEnabled &&
+    !!swappableFromTokens.find(
+      (tokenInfo) => tokenInfo.networkId === token.networkId && tokenInfo.tokenId !== token.tokenId
+    )
+
+  const actions = getActions(token, tokenAmount, showAdd, showSwap)
 
   return (
     <BottomSheet
@@ -76,11 +86,13 @@ export default function EarnAddCryptoBottomSheet({
   )
 }
 
-export const getActions = (token: TokenBalance, tokenAmount: BigNumber) => {
+export const getActions = (
+  token: TokenBalance,
+  tokenAmount: BigNumber,
+  showAdd: boolean,
+  showSwap: boolean
+) => {
   const { t } = useTranslation()
-  const { swappableFromTokens } = useSwappableTokens()
-  const cashInTokens = useCashInTokens()
-  const isSwapEnabled = useSelector(isAppSwapsEnabledSelector)
 
   const addAmount = {
     crypto: tokenAmount.toNumber(),
@@ -105,7 +117,7 @@ export const getActions = (token: TokenBalance, tokenAmount: BigNumber) => {
           amount: addAmount,
         })
       },
-      visible: !!cashInTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId),
+      visible: showAdd,
     },
     {
       name: TokenActionName.Transfer,
@@ -131,12 +143,7 @@ export const getActions = (token: TokenBalance, tokenAmount: BigNumber) => {
       onPress: () => {
         navigate(Screens.SwapScreenWithBack, { toTokenId: token.tokenId })
       },
-      visible:
-        isSwapEnabled &&
-        !!swappableFromTokens.find(
-          (tokenInfo) =>
-            tokenInfo.networkId === token.networkId && tokenInfo.tokenId !== token.tokenId
-        ),
+      visible: showSwap,
     },
   ].filter((action) => action.visible)
 }
