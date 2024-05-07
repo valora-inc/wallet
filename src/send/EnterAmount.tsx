@@ -1,6 +1,6 @@
 import { parseInputAmount } from '@celo/utils/lib/parsing'
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { ComponentType, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Platform,
@@ -52,6 +52,12 @@ export interface ProceedArgs {
   amountEnteredIn: AmountEnteredIn
 }
 
+type CTAProps = Omit<ProceedArgs, 'tokenAmount'> & {
+  onPressProceed(args: ProceedArgs): void
+  disabled: boolean
+  tokenAmount: BigNumber | null
+}
+
 interface Props {
   tokens: TokenBalance[]
   defaultToken?: TokenBalance
@@ -67,11 +73,37 @@ interface Props {
   onPressProceed(args: ProceedArgs): void
   disableProceed?: boolean
   children?: React.ReactNode
+  CTA: ComponentType<CTAProps>
+  disableBalanceCheck?: boolean
 }
 
 const TOKEN_SELECTOR_BORDER_RADIUS = 100
 const MAX_BORDER_RADIUS = 96
 const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME = 250
+
+export const SendEnterAmountCTA = ({
+  tokenAmount,
+  localAmount,
+  token,
+  amountEnteredIn,
+  disabled,
+  onPressProceed,
+}: CTAProps) => {
+  const { t } = useTranslation()
+  return (
+    <Button
+      onPress={() =>
+        tokenAmount && onPressProceed({ tokenAmount, localAmount, token, amountEnteredIn })
+      }
+      text={t('review')}
+      style={styles.reviewButton}
+      size={BtnSizes.FULL}
+      fontStyle={styles.reviewButtonText}
+      disabled={disabled}
+      testID="SendEnterAmount/ReviewButton"
+    />
+  )
+}
 
 function FeeLoading() {
   return (
@@ -120,6 +152,8 @@ function EnterAmount({
   onPressProceed,
   disableProceed = false,
   children,
+  CTA,
+  disableBalanceCheck = false,
 }: Props) {
   const { t } = useTranslation()
 
@@ -235,7 +269,9 @@ function EnterAmount({
     return () => clearTimeout(debouncedRefreshTransactions)
   }, [tokenAmount, token])
 
-  const showLowerAmountError = token.balance.lt(tokenAmount ?? 0)
+  const isTokenAmountZero = token.balance.isZero()
+  const isAmountLessThanBalance = tokenAmount && tokenAmount.lt(token.balance)
+  const showLowerAmountError = !isAmountLessThanBalance && !disableBalanceCheck
   const showMaxAmountWarning =
     !showLowerAmountError &&
     prepareTransactionsResult &&
@@ -244,17 +280,23 @@ function EnterAmount({
     !showLowerAmountError &&
     prepareTransactionsResult &&
     prepareTransactionsResult.type === 'not-enough-balance-for-gas'
-  const sendIsPossible =
+  const transactionIsPossible =
     !showLowerAmountError &&
     prepareTransactionsResult &&
     prepareTransactionsResult.type === 'possible' &&
     prepareTransactionsResult.transactions.length > 0
 
+  const disabled = !(
+    transactionIsPossible ||
+    (disableBalanceCheck && !isAmountLessThanBalance) ||
+    disableProceed
+  )
+
   const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency ?? feeCurrencies[0]
   let feeAmountSection = <FeeLoading />
   if (
     tokenAmountInput === '' ||
-    showLowerAmountError ||
+    !isAmountLessThanBalance ||
     (prepareTransactionsResult && !maxFeeAmount) ||
     prepareTransactionError
   ) {
@@ -347,14 +389,16 @@ function EnterAmount({
                 testID="SendEnterAmount/LocalAmountInput"
                 editable={!!token.priceUsd}
               />
-              <Touchable
-                borderRadius={MAX_BORDER_RADIUS}
-                onPress={onMaxAmountPress}
-                style={styles.maxTouchable}
-                testID="SendEnterAmount/Max"
-              >
-                <Text style={styles.maxText}>{t('max')}</Text>
-              </Touchable>
+              {!isTokenAmountZero && (
+                <Touchable
+                  borderRadius={MAX_BORDER_RADIUS}
+                  onPress={onMaxAmountPress}
+                  style={styles.maxTouchable}
+                  testID="SendEnterAmount/Max"
+                >
+                  <Text style={styles.maxText}>{t('max')}</Text>
+                </Touchable>
+              )}
             </View>
           </View>
           <View style={styles.feeContainer}>
@@ -403,17 +447,13 @@ function EnterAmount({
 
         {children}
 
-        <Button
-          onPress={() =>
-            tokenAmount &&
-            onPressProceed({ tokenAmount, localAmount, token, amountEnteredIn: enteredIn })
-          }
-          text={t('review')}
-          style={styles.reviewButton}
-          size={BtnSizes.FULL}
-          fontStyle={styles.reviewButtonText}
-          disabled={!sendIsPossible || disableProceed}
-          testID="SendEnterAmount/ReviewButton"
+        <CTA
+          tokenAmount={tokenAmount}
+          localAmount={localAmount}
+          token={token}
+          amountEnteredIn={enteredIn}
+          onPressProceed={onPressProceed}
+          disabled={disabled}
         />
         <KeyboardSpacer />
       </KeyboardAwareScrollView>
