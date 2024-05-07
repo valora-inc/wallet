@@ -20,8 +20,8 @@ import ActivityCardSection from 'src/points/ActivityCardSection'
 import PointsHistoryBottomSheet from 'src/points/PointsHistoryBottomSheet'
 import {
   pointsBalanceSelector,
+  pointsBalanceStatusSelector,
   pointsConfigStatusSelector,
-  pointsHistoryStatusSelector,
   pointsSectionsSelector,
 } from 'src/points/selectors'
 import { getHistoryStarted, getPointsConfigRetry } from 'src/points/slice'
@@ -41,7 +41,7 @@ export default function PointsHome({ route, navigation }: Props) {
   const pointsSections = useSelector(pointsSectionsSelector)
   const pointsConfigStatus = useSelector(pointsConfigStatusSelector)
   const pointsBalance = useSelector(pointsBalanceSelector)
-  const pointsHistoryStatus = useSelector(pointsHistoryStatusSelector)
+  const pointsBalanceStatus = useSelector(pointsBalanceStatusSelector)
 
   const lastKnownPointsBalance = useRef(pointsBalance)
   const historyBottomSheetRef = useRef<BottomSheetRefType>(null)
@@ -57,16 +57,16 @@ export default function PointsHome({ route, navigation }: Props) {
   }, [bottomSheetParams])
 
   useEffect(() => {
-    onFetchHistoryFirstPage()
+    onRefreshHistoryAndBalance()
   }, [])
 
   useEffect(() => {
-    if (pointsHistoryStatus === 'success') {
+    if (pointsBalanceStatus === 'success') {
       lastKnownPointsBalance.current = pointsBalance
     }
-  }, [pointsHistoryStatus])
+  }, [pointsBalanceStatus])
 
-  const onFetchHistoryFirstPage = () => {
+  const onRefreshHistoryAndBalance = () => {
     dispatch(getHistoryStarted({ getNextPage: false }))
   }
 
@@ -105,8 +105,8 @@ export default function PointsHome({ route, navigation }: Props) {
           <RefreshControl
             tintColor={Colors.primary}
             colors={[Colors.primary]}
-            refreshing={pointsHistoryStatus === 'loadingFirstPage'}
-            onRefresh={onFetchHistoryFirstPage}
+            refreshing={pointsBalanceStatus === 'loading'}
+            onRefresh={onRefreshHistoryAndBalance}
           />
         }
       >

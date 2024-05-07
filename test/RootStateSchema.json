@@ -4334,6 +4334,15 @@
                 "pointsBalance": {
                     "type": "number"
                 },
+                "pointsBalanceStatus": {
+                    "enum": [
+                        "error",
+                        "idle",
+                        "loading",
+                        "success"
+                    ],
+                    "type": "string"
+                },
                 "pointsConfig": {
                     "additionalProperties": false,
                     "properties": {
@@ -4367,6 +4376,7 @@
                 "nextPageUrl",
                 "pendingPointsEvents",
                 "pointsBalance",
+                "pointsBalanceStatus",
                 "pointsConfig",
                 "pointsConfigStatus",
                 "pointsHistory"

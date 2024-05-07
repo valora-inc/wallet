@@ -71,6 +71,9 @@ export interface GetHistoryResponse {
   data: ClaimHistory[]
   hasNextPage: boolean
   nextPageUrl: string
+}
+
+export interface GetPointsBalanceResponse {
   balance: number
 }
 

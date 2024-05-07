@@ -67,11 +67,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
   const insets = useSafeAreaInsets()
 
   const onFetchMoreHistory = () => {
-    if (
-      !hasNextPage ||
-      pointsHistoryStatus === 'loadingNextPage' ||
-      pointsHistoryStatus === 'loadingFirstPage'
-    ) {
+    if (!hasNextPage || pointsHistoryStatus !== 'idle') {
       // prevent fetching more history if there is no next page. onEndReached
       // will continue to fire if this is not checked. onEndReached also does
       // not have a throttle so prevent fetching more history when there is

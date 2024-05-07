@@ -44,7 +44,6 @@ const MOCK_RESPONSE_NO_NEXT_PAGE: GetHistoryResponse = {
   ],
   hasNextPage: false,
   nextPageUrl: '',
-  balance: 637,
 }
 
 describe(PointsHistoryBottomSheet, () => {

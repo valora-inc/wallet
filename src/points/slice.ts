@@ -6,7 +6,6 @@ interface GetPointsHistorySucceededAction {
   appendHistory: boolean
   newPointsHistory: ClaimHistory[]
   nextPageUrl: string | null
-  pointsBalance?: number
 }
 
 interface GetPointsHistoryStartedAction {
@@ -38,6 +37,7 @@ export interface State {
   pointsConfig: PointsConfig
   pointsConfigStatus: 'idle' | 'loading' | 'error' | 'success'
   pendingPointsEvents: PendingPointsEvent[]
+  pointsBalanceStatus: 'idle' | 'loading' | 'error' | 'success'
   pointsBalance: number
 }
 
@@ -48,6 +48,7 @@ const initialState: State = {
   pointsConfig: { activitiesById: {} },
   pointsConfigStatus: 'idle',
   pendingPointsEvents: [],
+  pointsBalanceStatus: 'idle',
   pointsBalance: 0,
 }
 
@@ -99,6 +100,19 @@ const slice = createSlice({
         (event) => event.id !== action.payload.id
       ),
     }),
+    getPointsBalanceStarted: (state) => ({
+      ...state,
+      pointsBalanceStatus: 'loading',
+    }),
+    getPointsBalanceSucceeded: (state, action: PayloadAction<number>) => ({
+      ...state,
+      pointsBalance: action.payload,
+      pointsBalanceStatus: 'success',
+    }),
+    getPointsBalanceError: (state) => ({
+      ...state,
+      pointsBalanceStatus: 'error',
+    }),
   },
   extraReducers: (builder) => {
     builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
@@ -106,6 +120,7 @@ const slice = createSlice({
       ...getRehydratePayload(action, 'points'),
       pointsConfig: { activitiesById: {} }, // always reset pointsConfig on rehydrate to ensure it's up to date
       pointsHistory: state.pointsHistory.filter((record) => isClaimActivityId(record.activityId)), // filter in case new app version removed support for an activityId
+      pointsBalanceStatus: 'idle',
     }))
   },
 })
@@ -120,6 +135,9 @@ export const {
   getPointsConfigRetry,
   sendPointsEventStarted,
   pointsEventProcessed,
+  getPointsBalanceStarted,
+  getPointsBalanceSucceeded,
+  getPointsBalanceError,
 } = slice.actions
 
 // action handled in saga
