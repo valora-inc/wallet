@@ -43,57 +43,6 @@ export default function EarnAddCryptoBottomSheet({
     !!swappableFromTokens.find(
       (tokenInfo) => tokenInfo.networkId === token.networkId && tokenInfo.tokenId !== token.tokenId
     )
-
-  const actions = getActions(token, tokenAmount, showAdd, showSwap)
-
-  return (
-    <BottomSheet
-      forwardedRef={forwardedRef}
-      title={t('earnFlow.addCryptoBottomSheet.title', {
-        tokenSymbol: token.symbol,
-        tokenNetwork: NETWORK_NAMES[token.networkId],
-      })}
-      description={t('earnFlow.addCryptoBottomSheet.description')}
-      testId={'Earn/AddCrypto'}
-      titleStyle={styles.title}
-    >
-      <View style={styles.actionsContainer}>
-        {actions.map((action) => (
-          <Touchable
-            style={styles.touchable}
-            key={action.name}
-            borderRadius={20}
-            onPress={() => {
-              ValoraAnalytics.track(EarnEvents.earn_tap_add_crypto_action, {
-                action: action.name,
-                ...getTokenAnalyticsProps(token),
-              })
-              action.onPress()
-            }}
-            testID={`Earn/AddCrypto/${action.name}`}
-          >
-            <>
-              <action.iconComponent color={Colors.black} />
-              <View style={{ flex: 1 }}>
-                <Text style={styles.actionTitle}>{action.title}</Text>
-                <Text style={styles.actionDetails}>{action.details}</Text>
-              </View>
-            </>
-          </Touchable>
-        ))}
-      </View>
-    </BottomSheet>
-  )
-}
-
-const getActions = (
-  token: TokenBalance,
-  tokenAmount: BigNumber,
-  showAdd: boolean,
-  showSwap: boolean
-) => {
-  const { t } = useTranslation()
-
   const addAmount = {
     crypto: tokenAmount.toNumber(),
     fiat: Math.round(
@@ -101,7 +50,7 @@ const getActions = (
     ),
   }
 
-  return [
+  const actions = [
     {
       name: TokenActionName.Add,
       title: t('earnFlow.addCryptoBottomSheet.actions.add'),
@@ -146,6 +95,45 @@ const getActions = (
       visible: showSwap,
     },
   ].filter((action) => action.visible)
+
+  return (
+    <BottomSheet
+      forwardedRef={forwardedRef}
+      title={t('earnFlow.addCryptoBottomSheet.title', {
+        tokenSymbol: token.symbol,
+        tokenNetwork: NETWORK_NAMES[token.networkId],
+      })}
+      description={t('earnFlow.addCryptoBottomSheet.description')}
+      testId={'Earn/AddCrypto'}
+      titleStyle={styles.title}
+    >
+      <View style={styles.actionsContainer}>
+        {actions.map((action) => (
+          <Touchable
+            style={styles.touchable}
+            key={action.name}
+            borderRadius={20}
+            onPress={() => {
+              ValoraAnalytics.track(EarnEvents.earn_tap_add_crypto_action, {
+                action: action.name,
+                ...getTokenAnalyticsProps(token),
+              })
+              action.onPress()
+            }}
+            testID={`Earn/AddCrypto/${action.name}`}
+          >
+            <>
+              <action.iconComponent color={Colors.black} />
+              <View style={{ flex: 1 }}>
+                <Text style={styles.actionTitle}>{action.title}</Text>
+                <Text style={styles.actionDetails}>{action.details}</Text>
+              </View>
+            </>
+          </Touchable>
+        ))}
+      </View>
+    </BottomSheet>
+  )
 }
 
 const styles = StyleSheet.create({
