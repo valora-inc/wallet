@@ -60,7 +60,7 @@ export async function fetchAavePoolUserBalance({
       args: [assetAddress],
     })
 
-    const { aTokenAddress } = result as { aTokenAddress: `0x${string}` }
+    const { aTokenAddress } = result as { aTokenAddress: Address }
     const aaveUSDCContract = getContract({
       abi: erc20.abi,
       address: aTokenAddress,
