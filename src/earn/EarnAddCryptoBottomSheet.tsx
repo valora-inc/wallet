@@ -86,7 +86,7 @@ export default function EarnAddCryptoBottomSheet({
   )
 }
 
-export const getActions = (
+const getActions = (
   token: TokenBalance,
   tokenAmount: BigNumber,
   showAdd: boolean,
