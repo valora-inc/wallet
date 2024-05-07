@@ -288,7 +288,7 @@ describe('store state', () => {
           "getHistoryStatus": "idle",
           "nextPageUrl": null,
           "pendingPointsEvents": [],
-          "pointsBalance": 0,
+          "pointsBalance": "0",
           "pointsBalanceStatus": "idle",
           "pointsConfig": {
             "activitiesById": {},
