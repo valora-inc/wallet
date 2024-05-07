@@ -51,7 +51,7 @@ export async function fetchAavePoolUserBalance({
     if (!walletAddress) {
       throw new Error('No wallet address provided')
     }
-    Logger.debug(TAG, 'Fetching Aave pool user balance', assetAddress)
+    Logger.debug(TAG, 'Fetching Aave pool user balance', { assetAddress, walletAddress })
     const result = await publicClient[Network.Arbitrum].readContract({
       abi: AavePool,
       address: networkConfig.arbAavePoolV3ContractAddress,
