@@ -2331,6 +2331,13 @@
       "title": "Earn on your stablecoins",
       "subtitle": "Deposit today and earn returns",
       "description": "See how much you can earn when supplying a lending pool"
+    },
+    "activePools": {
+      "title": "Active Pools",
+      "totalValue": "Total Value:",
+      "apy": "~{{apy}}% APY",
+      "exitPool": "Exit Pool",
+      "depositMore": "Deposit More"
     }
   }
 }
