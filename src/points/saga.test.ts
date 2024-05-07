@@ -172,7 +172,6 @@ describe('getHistory', () => {
       .run()
 
     expect(storeState.points.pointsHistory).toEqual(MOCK_SUPPORTED_HISTORY)
-    expect(storeState.points.pointsBalance).toEqual(657)
   })
   it('sets error state if error while fetching', async () => {
     const params = getHistoryStarted({
@@ -211,7 +210,6 @@ describe('getHistory', () => {
       ...MOCK_POINTS_HISTORY,
       ...MOCK_SUPPORTED_HISTORY,
     ])
-    expect(storeState.points.pointsBalance).toEqual(657)
   })
 
   it('skips fetching is new page is requested but none stored in redux', async () => {

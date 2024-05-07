@@ -153,7 +153,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
       </View>
     )
 
-  const isEmpty = pointsHistoryStatus !== 'loading' && pointsHistory.length === 0
+  const isEmpty = pointsHistoryStatus !== 'loading' && !pointsHistory.length
 
   const sections = useMemo(() => {
     return groupFeedItemsInSections([], pointsHistory)

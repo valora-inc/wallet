@@ -83,10 +83,7 @@ describe(PointsHistoryBottomSheet, () => {
 
   it('displays content while loading', async () => {
     const tree = renderScreen({
-      points: {
-        pointsHistory: MOCK_RESPONSE_NO_NEXT_PAGE.data,
-        getHistoryStatus: 'loading',
-      },
+      points: { pointsHistory: MOCK_RESPONSE_NO_NEXT_PAGE.data, getHistoryStatus: 'loading' },
     })
     await waitFor(() => expect(tree.getByTestId('PointsHistoryList').props.data.length).toBe(3))
 
