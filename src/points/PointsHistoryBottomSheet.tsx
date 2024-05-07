@@ -66,12 +66,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
   const insets = useSafeAreaInsets()
 
   const onFetchMoreHistory = () => {
-    if (
-      !hasNextPage ||
-      pointsHistoryStatus === 'loadingNextPage' ||
-      pointsHistoryStatus === 'loadingFirstPage' ||
-      pointsHistoryStatus === 'errorNextPage'
-    ) {
+    if (!hasNextPage || pointsHistoryStatus !== 'idle') {
       // prevent fetching more history if there is no next page. onEndReached
       // will continue to fire if this is not checked. onEndReached also does
       // not have a throttle so prevent fetching more history when there is
@@ -114,7 +109,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
   }
 
   const Loading =
-    pointsHistoryStatus === 'loadingFirstPage' || pointsHistoryStatus === 'loadingNextPage' ? (
+    pointsHistoryStatus === 'loading' ? (
       <ActivityIndicator
         testID={'PointsHistoryBottomSheet/Loading'}
         style={styles.loadingIcon}
@@ -157,10 +152,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
       </View>
     )
 
-  const isEmpty =
-    pointsHistoryStatus !== 'loadingFirstPage' &&
-    pointsHistoryStatus !== 'loadingNextPage' &&
-    pointsHistory.length === 0
+  const isEmpty = pointsHistoryStatus !== 'loading' && !pointsHistory.length
 
   const sections = useMemo(() => {
     return groupFeedItemsInSections([], pointsHistory)

@@ -2322,5 +2322,10 @@
       }
     }
   },
+  "earnStablecoin": {
+    "title": "Earn on your stablecoins",
+    "subtitle": "Deposit today and earn returns",
+    "description": "If you deposit <0></0>, you can get up to <1></1> at the end of the year!"
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }

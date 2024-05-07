@@ -289,6 +289,7 @@ describe('store state', () => {
           "nextPageUrl": null,
           "pendingPointsEvents": [],
           "pointsBalance": 0,
+          "pointsBalanceStatus": "idle",
           "pointsConfig": {
             "activitiesById": {},
           },

@@ -10,6 +10,7 @@ import {
   fetchHistory,
   fetchTrackPointsEventsEndpoint,
   getHistory,
+  getPointsBalance,
   getPointsConfig,
   sendPendingPointsEvents,
   sendPointsEvent,
@@ -20,6 +21,9 @@ import pointsReducer, {
   getHistoryError,
   getHistoryStarted,
   getHistorySucceeded,
+  getPointsBalanceError,
+  getPointsBalanceStarted,
+  getPointsBalanceSucceeded,
   getPointsConfigError,
   getPointsConfigStarted,
   getPointsConfigSucceeded,
@@ -28,12 +32,11 @@ import pointsReducer, {
   trackPointsEvent,
 } from 'src/points/slice'
 import { ClaimHistory, GetHistoryResponse } from 'src/points/types'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
 import * as fetchWithTimeout from 'src/utils/fetchWithTimeout'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
+import { mockAccount } from 'test/values'
 import { v4 as uuidv4 } from 'uuid'
 
 jest.mock('src/statsig')
@@ -74,7 +77,6 @@ const MOCK_HISTORY_RESPONSE: GetHistoryResponse = {
   ],
   hasNextPage: true,
   nextPageUrl: 'https://example.com/getHistory?pageSize=2&page=1',
-  balance: 657,
 }
 
 // We'll only store history entries in Redux if they have known values for activityId
@@ -163,13 +165,11 @@ describe('getHistory', () => {
           appendHistory: false,
           newPointsHistory: MOCK_SUPPORTED_HISTORY,
           nextPageUrl: MOCK_HISTORY_RESPONSE.nextPageUrl,
-          pointsBalance: 657,
         })
       )
       .run()
 
     expect(storeState.points.pointsHistory).toEqual(MOCK_SUPPORTED_HISTORY)
-    expect(storeState.points.pointsBalance).toEqual(657)
   })
   it('sets error state if error while fetching', async () => {
     const params = getHistoryStarted({
@@ -200,7 +200,6 @@ describe('getHistory', () => {
           appendHistory: true,
           newPointsHistory: MOCK_SUPPORTED_HISTORY,
           nextPageUrl: MOCK_HISTORY_RESPONSE.nextPageUrl,
-          pointsBalance: 657,
         })
       )
       .run()
@@ -209,7 +208,6 @@ describe('getHistory', () => {
       ...MOCK_POINTS_HISTORY,
       ...MOCK_SUPPORTED_HISTORY,
     ])
-    expect(storeState.points.pointsBalance).toEqual(657)
   })
 
   it('skips fetching is new page is requested but none stored in redux', async () => {
@@ -235,9 +233,6 @@ describe('getHistory', () => {
 describe('getPointsConfig', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_POINTS)
   })
 
   it('fetches and sets points config', async () => {
@@ -330,16 +325,57 @@ describe('getPointsConfig', () => {
       .not.put(getPointsConfigSucceeded(expect.anything()))
       .run()
   })
+})
 
-  it('does not fetch if points are not enabled', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(false)
+describe('getPointsBalance', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
 
-    await expectSaga(getPointsConfig)
-      .not.put(getPointsConfigStarted())
-      .not.put(getPointsConfigSucceeded(expect.anything()))
+  it('should fetch and store the balance on first history fetch', async () => {
+    const mockBalance = 100
+    mockFetch.mockResponseOnce(JSON.stringify({ balance: mockBalance }))
+
+    await expectSaga(getPointsBalance, getHistoryStarted({ getNextPage: false }))
+      .withState(createMockStore().getState())
+      .put(getPointsBalanceStarted())
+      .put(getPointsBalanceSucceeded(mockBalance))
       .run()
 
-    expect(mockFetch).not.toHaveBeenCalled()
+    expect(fetchWithTimeoutSpy).toHaveBeenCalledWith(
+      `${networkConfig.getPointsBalanceUrl}?address=${mockAccount.toLowerCase()}`,
+      {
+        method: 'GET',
+      }
+    )
+  })
+
+  it('should not fetch the balance on next history fetch', async () => {
+    await expectSaga(getPointsBalance, getHistoryStarted({ getNextPage: true }))
+      .not.put(getPointsBalanceStarted())
+      .not.put(getPointsBalanceSucceeded(expect.anything()))
+      .not.put(getPointsBalanceError())
+      .run()
+
+    expect(fetchWithTimeoutSpy).not.toHaveBeenCalled()
+  })
+
+  it('should store an error on failed balance fetch', async () => {
+    mockFetch.mockResponseOnce(JSON.stringify({ message: 'something went wrong' }), { status: 500 })
+
+    await expectSaga(getPointsBalance, getHistoryStarted({ getNextPage: false }))
+      .withState(createMockStore().getState())
+      .put(getPointsBalanceStarted())
+      .not.put(getPointsBalanceSucceeded(expect.anything()))
+      .put(getPointsBalanceError())
+      .run()
+
+    expect(fetchWithTimeoutSpy).toHaveBeenCalledWith(
+      `${networkConfig.getPointsBalanceUrl}?address=${mockAccount.toLowerCase()}`,
+      {
+        method: 'GET',
+      }
+    )
   })
 })
 

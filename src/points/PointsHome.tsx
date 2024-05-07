@@ -21,6 +21,7 @@ import ActivityCardSection from 'src/points/ActivityCardSection'
 import PointsHistoryBottomSheet from 'src/points/PointsHistoryBottomSheet'
 import {
   pointsBalanceSelector,
+  pointsBalanceStatusSelector,
   pointsConfigStatusSelector,
   pointsHistoryStatusSelector,
   pointsSectionsSelector,
@@ -42,16 +43,13 @@ export default function PointsHome({ route, navigation }: Props) {
   const pointsSections = useSelector(pointsSectionsSelector)
   const pointsConfigStatus = useSelector(pointsConfigStatusSelector)
   const pointsBalance = useSelector(pointsBalanceSelector)
+  const pointsBalanceStatus = useSelector(pointsBalanceStatusSelector)
   const pointsHistoryStatus = useSelector(pointsHistoryStatusSelector)
 
   const lastKnownPointsBalance = useRef(pointsBalance)
   const historyBottomSheetRef = useRef<BottomSheetRefType>(null)
   const activityCardBottomSheetRef = useRef<BottomSheetRefType>(null)
 
-  // since the activity bottom sheet can also trigger a balance and history
-  // refresh, track loading separately so that this screen does not animate the
-  // loading status in the background
-  const [showLoading, setShowLoading] = useState(true)
   const [bottomSheetParams, setBottomSheetParams] = useState<BottomSheetParams | undefined>(
     undefined
   )
@@ -62,20 +60,16 @@ export default function PointsHome({ route, navigation }: Props) {
   }, [bottomSheetParams])
 
   useEffect(() => {
-    onFetchHistoryFirstPage()
+    onRefreshHistoryAndBalance()
   }, [])
 
   useEffect(() => {
-    if (pointsHistoryStatus === 'success') {
+    if (pointsBalanceStatus === 'success') {
       lastKnownPointsBalance.current = pointsBalance
     }
-    if (pointsHistoryStatus !== 'loadingFirstPage') {
-      setShowLoading(false)
-    }
-  }, [pointsHistoryStatus])
+  }, [pointsBalanceStatus])
 
-  const onFetchHistoryFirstPage = () => {
-    setShowLoading(true)
+  const onRefreshHistoryAndBalance = () => {
     dispatch(getHistoryStarted({ getNextPage: false }))
   }
 
@@ -114,8 +108,8 @@ export default function PointsHome({ route, navigation }: Props) {
           <RefreshControl
             tintColor={Colors.primary}
             colors={[Colors.primary]}
-            refreshing={showLoading}
-            onRefresh={onFetchHistoryFirstPage}
+            refreshing={pointsBalanceStatus === 'loading'}
+            onRefresh={onRefreshHistoryAndBalance}
           />
         }
       >
@@ -185,12 +179,12 @@ export default function PointsHome({ route, navigation }: Props) {
         )}
       </ScrollView>
       <Toast
-        showToast={pointsHistoryStatus === 'errorFirstPage'}
+        showToast={pointsBalanceStatus === 'error' || pointsHistoryStatus === 'errorFirstPage'}
         variant={NotificationVariant.Warning}
         title={t('points.fetchBalanceError.title')}
         description={t('points.fetchBalanceError.description')}
         ctaLabel={t('points.fetchBalanceError.retryCta')}
-        onPressCta={onFetchHistoryFirstPage}
+        onPressCta={onRefreshHistoryAndBalance}
       />
       <PointsHistoryBottomSheet forwardedRef={historyBottomSheetRef} />
       <BottomSheet forwardedRef={activityCardBottomSheetRef} testId={`PointsActivityBottomSheet`}>

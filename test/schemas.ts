@@ -3294,6 +3294,7 @@ export const v212Schema = {
   points: {
     ...v211Schema.points,
     pointsBalance: 0,
+    pointsBalanceStatus: 'idle',
   },
 }
 

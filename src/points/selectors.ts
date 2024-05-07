@@ -74,3 +74,7 @@ export const pendingPointsEvents = (state: RootState) => {
 export const pointsBalanceSelector = (state: RootState) => {
   return state.points.pointsBalance
 }
+
+export const pointsBalanceStatusSelector = (state: RootState) => {
+  return state.points.pointsBalanceStatus
+}

@@ -2322,5 +2322,10 @@
       }
     }
   },
+  "earnStablecoin": {
+    "title": "赚取稳定币",
+    "subtitle": "立即存款，赚取回报",
+    "description": "如果您存入<0></0> ，年底您最多可获得<1></1> ！"
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
