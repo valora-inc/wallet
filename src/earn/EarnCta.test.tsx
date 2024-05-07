@@ -34,11 +34,9 @@ describe('EarnCta', () => {
       </Provider>
     )
 
-    expect(getByText('earnStablecoin.title')).toBeTruthy()
-    expect(getByText('earnStablecoin.subtitle')).toBeTruthy()
-    expect(getByTestId('EarnCta/Description')).toHaveTextContent(
-      'earnStablecoin.description10.00 USDC₱1.33'
-    )
+    expect(getByText('earnFlow.cta.title')).toBeTruthy()
+    expect(getByText('earnFlow.cta.subtitle')).toBeTruthy()
+    expect(getByText('earnFlow.cta.subtitle')).toBeTruthy()
 
     fireEvent.press(getByTestId('EarnCta'))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_cta_press)
