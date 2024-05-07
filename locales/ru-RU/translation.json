@@ -2328,6 +2328,11 @@
       }
     }
   },
+  "earnStablecoin": {
+    "title": "Зарабатывай на своих стабильных монетах",
+    "subtitle": "Сделай депозит сегодня и получи доход",
+    "description": "Если ты пополнишь счет на <0></0>, то сможешь получить до <1></1> в конце года!"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
