@@ -110,7 +110,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
   }
 
   const Loading =
-    pointsHistoryStatus === 'loadingFirstPage' || pointsHistoryStatus === 'loadingNextPage' ? (
+    pointsHistoryStatus === 'loading' ? (
       <ActivityIndicator
         testID={'PointsHistoryBottomSheet/Loading'}
         style={styles.loadingIcon}
@@ -153,10 +153,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
       </View>
     )
 
-  const isEmpty =
-    pointsHistoryStatus !== 'loadingFirstPage' &&
-    pointsHistoryStatus !== 'loadingNextPage' &&
-    pointsHistory.length === 0
+  const isEmpty = pointsHistoryStatus !== 'loading' && pointsHistory.length === 0
 
   const sections = useMemo(() => {
     return groupFeedItemsInSections([], pointsHistory)

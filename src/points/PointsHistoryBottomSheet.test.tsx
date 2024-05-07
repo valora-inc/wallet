@@ -85,7 +85,7 @@ describe(PointsHistoryBottomSheet, () => {
     const tree = renderScreen({
       points: {
         pointsHistory: MOCK_RESPONSE_NO_NEXT_PAGE.data,
-        getHistoryStatus: 'loadingNextPage',
+        getHistoryStatus: 'loading',
       },
     })
     await waitFor(() => expect(tree.getByTestId('PointsHistoryList').props.data.length).toBe(3))
