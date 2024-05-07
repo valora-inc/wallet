@@ -143,15 +143,19 @@ const styles = StyleSheet.create({
   actionsContainer: {
     flex: 1,
     gap: Spacing.Regular16,
+    marginVertical: Spacing.Thick24,
   },
   actionTitle: {
     ...typeScale.labelMedium,
+    color: Colors.black,
   },
   actionDetails: {
     ...typeScale.bodySmall,
+    color: Colors.black,
   },
   title: {
-    ...typeScale.labelLarge,
+    ...typeScale.titleSmall,
+    color: Colors.black,
   },
   touchable: {
     backgroundColor: Colors.gray1,
