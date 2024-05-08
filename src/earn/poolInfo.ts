@@ -1,12 +1,11 @@
 import BigNumber from 'bignumber.js'
 import AavePool from 'src/abis/AavePoolV3'
-import erc20 from 'src/abis/IERC20'
 import { Network } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { publicClient } from 'src/viem'
 import networkConfig from 'src/web3/networkConfig'
-import { Address, formatUnits, getContract } from 'viem'
+import { Address } from 'viem'
 
 const TAG = 'earn/poolInfo'
 
@@ -30,35 +29,6 @@ export async function fetchAavePoolInfo(assetAddress: Address) {
   } catch (error) {
     const err = ensureError(error)
     Logger.error(TAG, 'Failed to fetch Aave pool info', err)
-    throw err
-  }
-}
-
-export async function fetchAavePoolUserBalance({
-  assetAddress,
-  walletAddress,
-}: {
-  assetAddress: Address
-  walletAddress: Address
-}) {
-  try {
-    Logger.debug(TAG, 'Fetching Aave pool user balance', { assetAddress, walletAddress })
-    const aaveUSDCContract = getContract({
-      abi: erc20.abi,
-      address: assetAddress,
-      client: {
-        public: publicClient[Network.Arbitrum],
-      },
-    })
-
-    const balance = await aaveUSDCContract.read.balanceOf([walletAddress])
-    const decimals = await aaveUSDCContract.read.decimals()
-    const balanceInDecimal = formatUnits(balance, decimals)
-
-    return { balanceInDecimal }
-  } catch (error) {
-    const err = ensureError(error)
-    Logger.error(TAG, 'Failed to fetch Aave pool user balance', err)
     throw err
   }
 }

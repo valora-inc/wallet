@@ -1,16 +1,10 @@
 import aavePool from 'src/abis/AavePoolV3'
-import { fetchAavePoolInfo, fetchAavePoolUserBalance } from 'src/earn/poolInfo'
+import { fetchAavePoolInfo } from 'src/earn/poolInfo'
 import { Network } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
 import networkConfig from 'src/web3/networkConfig'
-import { getContract } from 'viem'
 
-jest.mock('viem', () => ({
-  ...jest.requireActual('viem'),
-  getContract: jest.fn(),
-}))
-
-describe('fetchAavePoolInfo', () => {
+describe('poolInfo', () => {
   it('fetches poolInfo from contract', async () => {
     jest.spyOn(publicClient[Network.Arbitrum], 'readContract').mockResolvedValue({
       currentLiquidityRate: BigInt(1e27 * 0.036),
@@ -25,28 +19,5 @@ describe('fetchAavePoolInfo', () => {
       functionName: 'getReserveData',
       args: ['0x1234'],
     })
-  })
-})
-
-describe('fetchAavePoolUserBalance', () => {
-  it('fetches user balance from contract', async () => {
-    const mockContractInstance = {
-      read: {
-        balanceOf: jest.fn().mockResolvedValue(BigInt(10750000)),
-        decimals: jest.fn().mockResolvedValue(6),
-      },
-    }
-
-    // @ts-ignore
-    jest.mocked(getContract).mockReturnValue(mockContractInstance)
-
-    const result = await fetchAavePoolUserBalance({
-      assetAddress: '0x1234',
-      walletAddress: '0x5678',
-    })
-
-    expect(mockContractInstance.read.balanceOf).toHaveBeenCalledWith(['0x5678'])
-    expect(mockContractInstance.read.decimals).toHaveBeenCalled()
-    expect(result).toEqual({ balanceInDecimal: '10.75' })
   })
 })
