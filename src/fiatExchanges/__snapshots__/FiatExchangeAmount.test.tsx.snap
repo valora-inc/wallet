@@ -171,12 +171,12 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
           [
             {
               "alignItems": "center",
-              "backgroundColor": "#1AB77580",
+              "backgroundColor": "#2E3338",
               "flexDirection": "row",
               "flexGrow": 1,
               "height": 48,
               "justifyContent": "center",
-              "opacity": undefined,
+              "opacity": 0.25,
               "paddingHorizontal": 24,
               "paddingVertical": 5,
             },
@@ -394,12 +394,12 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
           [
             {
               "alignItems": "center",
-              "backgroundColor": "#1AB77580",
+              "backgroundColor": "#2E3338",
               "flexDirection": "row",
               "flexGrow": 1,
               "height": 48,
               "justifyContent": "center",
-              "opacity": undefined,
+              "opacity": 0.25,
               "paddingHorizontal": 24,
               "paddingVertical": 5,
             },

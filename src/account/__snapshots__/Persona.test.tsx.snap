@@ -61,12 +61,12 @@ exports[`Persona renders correctly 1`] = `
         [
           {
             "alignItems": "center",
-            "backgroundColor": "#1AB77580",
+            "backgroundColor": "#2E3338",
             "flexDirection": "row",
             "height": 48,
             "justifyContent": "center",
             "minWidth": 120,
-            "opacity": undefined,
+            "opacity": 0.25,
             "paddingHorizontal": 24,
             "paddingVertical": 5,
           },

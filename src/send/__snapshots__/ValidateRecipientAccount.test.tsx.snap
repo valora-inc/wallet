@@ -188,12 +188,12 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                 [
                   {
                     "alignItems": "center",
-                    "backgroundColor": "#1AB77580",
+                    "backgroundColor": "#2E3338",
                     "flexDirection": "row",
                     "height": 48,
                     "justifyContent": "center",
                     "minWidth": 120,
-                    "opacity": undefined,
+                    "opacity": 0.25,
                     "paddingHorizontal": 24,
                     "paddingVertical": 5,
                   },
@@ -689,12 +689,12 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                 [
                   {
                     "alignItems": "center",
-                    "backgroundColor": "#1AB77580",
+                    "backgroundColor": "#2E3338",
                     "flexDirection": "row",
                     "height": 48,
                     "justifyContent": "center",
                     "minWidth": 120,
-                    "opacity": undefined,
+                    "opacity": 0.25,
                     "paddingHorizontal": 24,
                     "paddingVertical": 5,
                   },
