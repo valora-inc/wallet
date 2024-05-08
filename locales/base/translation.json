@@ -2331,6 +2331,17 @@
       "title": "Earn on your stablecoins",
       "subtitle": "Deposit today and earn returns",
       "description": "See how much you can earn when supplying a lending pool"
+    },
+    "depositBottomSheet": {
+      "title": "Review & Deposit",
+      "description": "By depositing crypto into a pool, you accept the risks associated with using a defi protocol for your money.",
+      "amount": "Amount Deposited",
+      "fee": "Est. Gas Fees",
+      "provider": "Earnings provider",
+      "network": "Network",
+      "footer": "By continuing, you agree to Aave's <0>Terms & Conditions</0>",
+      "primaryCta": "Complete",
+      "secondaryCta": "Cancel"
     }
   }
 }

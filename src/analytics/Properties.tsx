@@ -1575,6 +1575,10 @@ interface PointsEventsProperties {
 
 interface EarnEventsProperties {
   [EarnEvents.earn_cta_press]: undefined
+  [EarnEvents.earn_deposit_provider_info_press]: undefined
+  [EarnEvents.earn_deposit_terms_and_conditions_press]: undefined
+  [EarnEvents.earn_deposit_complete]: undefined
+  [EarnEvents.earn_deposit_cancel]: undefined
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &
