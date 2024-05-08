@@ -70,8 +70,8 @@ export default function EarnAddCryptoBottomSheet({
     },
     {
       name: TokenActionName.Transfer,
-      title: t('earnFlow.addCryptoBottomSheet.actions.receive'),
-      details: t('earnFlow.addCryptoBottomSheet.actionDescriptions.receive', {
+      title: t('earnFlow.addCryptoBottomSheet.actions.transfer'),
+      details: t('earnFlow.addCryptoBottomSheet.actionDescriptions.transfer', {
         tokenSymbol: token.symbol,
         tokenNetwork: NETWORK_NAMES[token.networkId],
       }),

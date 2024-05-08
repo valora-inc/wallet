@@ -7,18 +7,14 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import EarnAddCryptoBottomSheet from 'src/earn/EarnAddCryptoBottomSheet'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getDynamicConfigParams } from 'src/statsig'
 import { StoredTokenBalance, TokenBalance } from 'src/tokens/slice'
 import { TokenActionName } from 'src/tokens/types'
 import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
 
 jest.mock('src/statsig', () => ({
-  getDynamicConfigParams: jest.fn(() => {
-    return {
-      showCico: ['arbitrum-sepolia'],
-      showSwap: ['arbitrum-sepolia'],
-    }
-  }),
+  getDynamicConfigParams: jest.fn(),
   getFeatureGate: jest.fn().mockReturnValue(false),
 }))
 
@@ -70,7 +66,14 @@ const store = createMockStore({
 })
 
 describe('EarnAddCryptoBottomSheet', () => {
-  it('Renders correct actions', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+    jest.mocked(getDynamicConfigParams).mockReturnValue({
+      showCico: ['arbitrum-sepolia'],
+      showSwap: ['arbitrum-sepolia'],
+    })
+  })
+  it('Renders all actions', () => {
     const { getByText } = render(
       <Provider store={store}>
         <EarnAddCryptoBottomSheet
@@ -81,9 +84,58 @@ describe('EarnAddCryptoBottomSheet', () => {
       </Provider>
     )
 
-    expect(getByText('earnFlow.addCryptoBottomSheet.actions.receive')).toBeTruthy()
+    expect(getByText('earnFlow.addCryptoBottomSheet.actions.transfer')).toBeTruthy()
     expect(getByText('earnFlow.addCryptoBottomSheet.actions.swap')).toBeTruthy()
     expect(getByText('earnFlow.addCryptoBottomSheet.actions.add')).toBeTruthy()
+  })
+
+  it('Does not render swap action when no tokens available to swap', () => {
+    const mockStore = createMockStore({
+      tokens: {
+        tokenBalances: {
+          ['arbitrum-sepolia:0x123']: {
+            ...mockStoredArbitrumUsdcTokenBalance,
+            balance: `${mockStoredArbitrumUsdcTokenBalance.balance!}`,
+          },
+        },
+      },
+      app: {
+        showSwapMenuInDrawerMenu: true,
+      },
+    })
+    const { getByText, queryByText } = render(
+      <Provider store={mockStore}>
+        <EarnAddCryptoBottomSheet
+          forwardedRef={{ current: null }}
+          token={mockArbitrumUsdcBalance}
+          tokenAmount={new BigNumber(100)}
+        />
+      </Provider>
+    )
+
+    expect(getByText('earnFlow.addCryptoBottomSheet.actions.transfer')).toBeTruthy()
+    expect(queryByText('earnFlow.addCryptoBottomSheet.actions.swap')).toBeFalsy()
+    expect(getByText('earnFlow.addCryptoBottomSheet.actions.add')).toBeTruthy()
+  })
+
+  it('Does not render swap or add when network is not in dynamic config', () => {
+    jest.mocked(getDynamicConfigParams).mockReturnValue({
+      showCico: ['ethereum-sepolia'],
+      showSwap: ['ethereum-sepolia'],
+    })
+    const { getByText, queryByText } = render(
+      <Provider store={store}>
+        <EarnAddCryptoBottomSheet
+          forwardedRef={{ current: null }}
+          token={mockArbitrumUsdcBalance}
+          tokenAmount={new BigNumber(100)}
+        />
+      </Provider>
+    )
+
+    expect(getByText('earnFlow.addCryptoBottomSheet.actions.transfer')).toBeTruthy()
+    expect(queryByText('earnFlow.addCryptoBottomSheet.actions.swap')).toBeFalsy()
+    expect(queryByText('earnFlow.addCryptoBottomSheet.actions.add')).toBeFalsy()
   })
 
   it.each([
@@ -99,7 +151,7 @@ describe('EarnAddCryptoBottomSheet', () => {
     },
     {
       actionName: TokenActionName.Transfer,
-      actionTitle: 'earnFlow.addCryptoBottomSheet.actions.receive',
+      actionTitle: 'earnFlow.addCryptoBottomSheet.actions.transfer',
       navigateScreen: Screens.ExchangeQR,
       navigateProps: { exchanges: [], flow: 'CashIn' },
     },
