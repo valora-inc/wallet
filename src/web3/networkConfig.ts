@@ -89,6 +89,7 @@ interface NetworkConfig {
   spendTokenIds: string[]
   saveContactsUrl: string
   getPointsConfigUrl: string
+  arbAavePoolV3ContractAddress: Address
 }
 
 const ALCHEMY_ETHEREUM_RPC_URL_STAGING = 'https://eth-sepolia.g.alchemy.com/v2/'
@@ -141,8 +142,11 @@ const CREAL_TOKEN_ID_MAINNET = `${NetworkId['celo-mainnet']}:0xe8537a3d056da4466
 const ETH_TOKEN_ID_STAGING = `${NetworkId['ethereum-sepolia']}:native`
 const ETH_TOKEN_ID_MAINNET = `${NetworkId['ethereum-mainnet']}:native`
 
-const ARB_USDC_TOKEN_ID_STAGING = `${NetworkId['arbitrum-sepolia']}:0xf3c3351d6bd0098eeb33ca8f830faf2a141ea2e1`
+const ARB_USDC_TOKEN_ID_STAGING = `${NetworkId['arbitrum-sepolia']}:0x75faf114eafb1bdbe2f0316df893fd58ce46aa4d`
 const ARB_USDC_TOKEN_ID_MAINNET = `${NetworkId['arbitrum-one']}:0xaf88d065e77c8cc2239327c5edb3a432268e5831`
+
+const ARB_AAVE_POOL_V3_CONTRACT_ADDRESS_STAGING = '0xBfC91D59fdAA134A4ED45f7B584cAf96D7792Eff'
+const ARB_AAVE_POOL_V3_CONTRACT_ADDRESS_MAINNET = '0x794a61358D6845594F94dc1DB02A252b5b4814aD'
 
 const CLOUD_FUNCTIONS_STAGING = 'https://api.alfajores.valora.xyz'
 const CLOUD_FUNCTIONS_MAINNET = 'https://api.mainnet.valora.xyz'
@@ -354,6 +358,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     spendTokenIds: [CUSD_TOKEN_ID_STAGING, CEUR_TOKEN_ID_STAGING],
     saveContactsUrl: SAVE_CONTACTS_ALFAJORES,
     getPointsConfigUrl: GET_POINTS_CONFIG_ALFAJORES,
+    arbAavePoolV3ContractAddress: ARB_AAVE_POOL_V3_CONTRACT_ADDRESS_STAGING,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -446,6 +451,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     spendTokenIds: [CUSD_TOKEN_ID_MAINNET, CEUR_TOKEN_ID_MAINNET],
     saveContactsUrl: SAVE_CONTACTS_MAINNET,
     getPointsConfigUrl: GET_POINTS_CONFIG_MAINNET,
+    arbAavePoolV3ContractAddress: ARB_AAVE_POOL_V3_CONTRACT_ADDRESS_MAINNET,
   },
 }
 
