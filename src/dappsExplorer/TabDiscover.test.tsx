@@ -748,7 +748,7 @@ describe('TabDiscover', () => {
       expect(queryByTestId('EarnActivePool')).toBeFalsy()
     })
 
-    it('displays earn cta if feature gate is true and balance is zero', async () => {
+    it('displays earn cta if feature gate is true and balance is zero', () => {
       jest
         .mocked(getFeatureGate)
         .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_STABLECOIN_EARN)
@@ -767,7 +767,7 @@ describe('TabDiscover', () => {
       expect(queryByTestId('EarnActivePool')).toBeFalsy()
     })
 
-    it('displays earn active pool if feature gate is true and balance is not zero', async () => {
+    it('displays earn active pool if feature gate is true and balance is not zero', () => {
       jest
         .mocked(getFeatureGate)
         .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_STABLECOIN_EARN)
