@@ -21,6 +21,14 @@ jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(),
 }))
 
+jest.mock('src/earn/hooks', () => ({
+  useAavePoolUserBalance: () => mockUseAavePoolUserBalance(),
+  useAavePoolInfo: () => mockUseAavePoolInfo(),
+}))
+
+const mockUseAavePoolUserBalance = jest.fn()
+const mockUseAavePoolInfo = jest.fn()
+
 const dappsList = mockDappListWithCategoryNames
 
 const dappsCategories: DappCategory[] = [
@@ -729,7 +737,7 @@ describe('TabDiscover', () => {
   })
 
   describe('earn', () => {
-    it('does not display earn cta if feature gate is false', () => {
+    it('does not display earn cta or active pool if feature gate is false', () => {
       const { queryByTestId } = render(
         <Provider store={defaultStore}>
           <MockedNavigator component={TabDiscover} />
@@ -737,18 +745,49 @@ describe('TabDiscover', () => {
       )
 
       expect(queryByTestId('EarnCta')).toBeFalsy()
+      expect(queryByTestId('EarnActivePool')).toBeFalsy()
     })
-    it('displays earn cta if feature gate is true', () => {
+
+    it('displays earn cta if feature gate is true and balance is zero', async () => {
       jest
         .mocked(getFeatureGate)
         .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_STABLECOIN_EARN)
-      const { getByTestId } = render(
+      mockUseAavePoolUserBalance.mockReturnValue({
+        result: { balanceInDecimal: '0' },
+        loading: false,
+      })
+
+      const { getByTestId, queryByTestId } = render(
         <Provider store={defaultStore}>
           <MockedNavigator component={TabDiscover} />
         </Provider>
       )
 
       expect(getByTestId('EarnCta')).toBeTruthy()
+      expect(queryByTestId('EarnActivePool')).toBeFalsy()
+    })
+
+    it('displays earn active pool if feature gate is true and balance is not zero', async () => {
+      jest
+        .mocked(getFeatureGate)
+        .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_STABLECOIN_EARN)
+      mockUseAavePoolUserBalance.mockReturnValue({
+        result: { balanceInDecimal: '10.75' },
+        loading: false,
+      })
+      mockUseAavePoolInfo.mockReturnValue({
+        result: { apy: 0.06 },
+        loading: false,
+      })
+
+      const { getByTestId, queryByTestId } = render(
+        <Provider store={defaultStore}>
+          <MockedNavigator component={TabDiscover} />
+        </Provider>
+      )
+
+      expect(queryByTestId('EarnCta')).toBeFalsy()
+      expect(getByTestId('EarnActivePool')).toBeTruthy()
     })
   })
 })

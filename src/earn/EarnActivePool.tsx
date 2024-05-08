@@ -42,7 +42,7 @@ export default function EarnActivePool() {
   })
 
   return (
-    <View style={styles.card} testID={`ActivePool-${networkConfig.arbUsdcTokenId}`}>
+    <View style={styles.card} testID="EarnActivePool">
       <View style={styles.container}>
         <Text style={styles.title}>{t('earnFlow.activePools.title')}</Text>
         <View>
