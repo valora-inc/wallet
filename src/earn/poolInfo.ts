@@ -35,25 +35,17 @@ export async function fetchAavePoolInfo(assetAddress: Address) {
 }
 
 export async function fetchAavePoolUserBalance({
-  assetAddress,
+  tokenAddress,
   walletAddress,
 }: {
-  assetAddress: Address
+  tokenAddress: Address
   walletAddress: Address
 }) {
   try {
-    Logger.debug(TAG, 'Fetching Aave pool user balance', { assetAddress, walletAddress })
-    const result = await publicClient[Network.Arbitrum].readContract({
-      abi: AavePool,
-      address: networkConfig.arbAavePoolV3ContractAddress,
-      functionName: 'getReserveData',
-      args: [assetAddress],
-    })
-
-    const { aTokenAddress } = result as { aTokenAddress: Address }
+    Logger.debug(TAG, 'Fetching Aave pool user balance', { tokenAddress, walletAddress })
     const aaveUSDCContract = getContract({
       abi: erc20.abi,
-      address: aTokenAddress,
+      address: tokenAddress,
       client: {
         public: publicClient[Network.Arbitrum],
       },
