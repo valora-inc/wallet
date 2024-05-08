@@ -169,7 +169,8 @@ function getColors(type: BtnTypes, disabled: boolean | undefined) {
   switch (type) {
     case BtnTypes.PRIMARY:
       textColor = colors.white
-      backgroundColor = disabled ? colors.primaryDisabled : colors.primary
+      backgroundColor = colors.black
+      opacity = disabled ? 0.25 : 1.0
       break
     case BtnTypes.SECONDARY:
       textColor = disabled ? colors.gray4 : colors.black
@@ -193,6 +194,7 @@ function getColors(type: BtnTypes, disabled: boolean | undefined) {
       textColor = colors.black
       backgroundColor = colors.gray1
       borderColor = colors.gray2
+      opacity = disabled ? 0.5 : 1.0
       break
   }
 
