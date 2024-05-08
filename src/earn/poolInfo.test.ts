@@ -30,11 +30,6 @@ describe('fetchAavePoolInfo', () => {
 
 describe('fetchAavePoolUserBalance', () => {
   it('fetches user balance from contract', async () => {
-    const mockReadContract = jest
-      .spyOn(publicClient[Network.Arbitrum], 'readContract')
-      .mockResolvedValue({
-        aTokenAddress: '0xaToken',
-      })
     const mockContractInstance = {
       read: {
         balanceOf: jest.fn().mockResolvedValue(BigInt(10750000)),
@@ -46,15 +41,8 @@ describe('fetchAavePoolUserBalance', () => {
     jest.mocked(getContract).mockReturnValue(mockContractInstance)
 
     const result = await fetchAavePoolUserBalance({
-      tokenAddress: '0x1234',
+      assetAddress: '0x1234',
       walletAddress: '0x5678',
-    })
-
-    expect(mockReadContract).toHaveBeenCalledWith({
-      abi: aavePool,
-      address: networkConfig.arbAavePoolV3ContractAddress,
-      functionName: 'getReserveData',
-      args: ['0x1234'],
     })
 
     expect(mockContractInstance.read.balanceOf).toHaveBeenCalledWith(['0x5678'])
