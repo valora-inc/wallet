@@ -4,11 +4,6 @@ import { Network } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
 import networkConfig from 'src/web3/networkConfig'
 
-jest.mock('viem', () => ({
-  ...jest.requireActual('viem'),
-  getContract: jest.fn(),
-}))
-
 describe('fetchAavePoolInfo', () => {
   it('fetches poolInfo from contract', async () => {
     jest.spyOn(publicClient[Network.Arbitrum], 'readContract').mockResolvedValue({
