@@ -35,17 +35,17 @@ export async function fetchAavePoolInfo(assetAddress: Address) {
 }
 
 export async function fetchAavePoolUserBalance({
-  tokenAddress,
+  assetAddress,
   walletAddress,
 }: {
-  tokenAddress: Address
+  assetAddress: Address
   walletAddress: Address
 }) {
   try {
-    Logger.debug(TAG, 'Fetching Aave pool user balance', { tokenAddress, walletAddress })
+    Logger.debug(TAG, 'Fetching Aave pool user balance', { assetAddress, walletAddress })
     const aaveUSDCContract = getContract({
       abi: erc20.abi,
-      address: tokenAddress,
+      address: assetAddress,
       client: {
         public: publicClient[Network.Arbitrum],
       },

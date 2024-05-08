@@ -46,7 +46,7 @@ describe('fetchAavePoolUserBalance', () => {
     jest.mocked(getContract).mockReturnValue(mockContractInstance)
 
     const result = await fetchAavePoolUserBalance({
-      tokenAddress: '0x1234',
+      assetAddress: '0x1234',
       walletAddress: '0x5678',
     })
 
