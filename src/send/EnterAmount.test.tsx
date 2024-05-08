@@ -5,7 +5,7 @@ import { getNumberFormatSettings } from 'react-native-localize'
 import { Provider } from 'react-redux'
 import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import EnterAmount, { SendEnterAmountCTA } from 'src/send/EnterAmount'
+import EnterAmount, { SendProceed } from 'src/send/EnterAmount'
 import { StoredTokenBalance, TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
@@ -125,7 +125,7 @@ const defaultParams = {
   onRefreshPreparedTransactions: onRefreshPreparedTransactionsSpy,
   prepareTransactionError: undefined,
   onPressProceed: onPressProceedSpy,
-  CTA: SendEnterAmountCTA,
+  ProceedComponent: SendProceed,
 }
 
 describe('EnterAmount', () => {

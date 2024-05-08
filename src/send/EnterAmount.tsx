@@ -52,7 +52,7 @@ export interface ProceedArgs {
   amountEnteredIn: AmountEnteredIn
 }
 
-type CTAProps = Omit<ProceedArgs, 'tokenAmount'> & {
+type ProceedComponentProps = Omit<ProceedArgs, 'tokenAmount'> & {
   onPressProceed(args: ProceedArgs): void
   disabled: boolean
   tokenAmount: BigNumber | null
@@ -73,7 +73,7 @@ interface Props {
   onPressProceed(args: ProceedArgs): void
   disableProceed?: boolean
   children?: React.ReactNode
-  CTA: ComponentType<CTAProps>
+  ProceedComponent: ComponentType<ProceedComponentProps>
   disableBalanceCheck?: boolean
 }
 
@@ -81,14 +81,14 @@ const TOKEN_SELECTOR_BORDER_RADIUS = 100
 const MAX_BORDER_RADIUS = 96
 const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME = 250
 
-export const SendEnterAmountCTA = ({
+export const SendProceed = ({
   tokenAmount,
   localAmount,
   token,
   amountEnteredIn,
   disabled,
   onPressProceed,
-}: CTAProps) => {
+}: ProceedComponentProps) => {
   const { t } = useTranslation()
   return (
     <Button
@@ -152,7 +152,7 @@ function EnterAmount({
   onPressProceed,
   disableProceed = false,
   children,
-  CTA,
+  ProceedComponent,
   disableBalanceCheck = false,
 }: Props) {
   const { t } = useTranslation()
@@ -286,9 +286,7 @@ function EnterAmount({
     prepareTransactionsResult.transactions.length > 0
 
   const disabled =
-    disableProceed ||
-    (disableBalanceCheck && tokenAmount?.isZero()) ||
-    (!disableBalanceCheck && !transactionIsPossible)
+    disableProceed || (disableBalanceCheck ? !!tokenAmount?.isZero() : !transactionIsPossible)
 
   const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency ?? feeCurrencies[0]
   let feeAmountSection = <FeeLoading />
@@ -445,7 +443,7 @@ function EnterAmount({
 
         {children}
 
-        <CTA
+        <ProceedComponent
           tokenAmount={tokenAmount}
           localAmount={localAmount}
           token={token}
