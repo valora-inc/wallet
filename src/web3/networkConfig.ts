@@ -90,6 +90,7 @@ interface NetworkConfig {
   saveContactsUrl: string
   getPointsConfigUrl: string
   arbAavePoolV3ContractAddress: Address
+  aaveArbUsdcTokenId: string
 }
 
 const ALCHEMY_ETHEREUM_RPC_URL_STAGING = 'https://eth-sepolia.g.alchemy.com/v2/'
@@ -144,6 +145,9 @@ const ETH_TOKEN_ID_MAINNET = `${NetworkId['ethereum-mainnet']}:native`
 
 const ARB_USDC_TOKEN_ID_STAGING = `${NetworkId['arbitrum-sepolia']}:0x75faf114eafb1bdbe2f0316df893fd58ce46aa4d`
 const ARB_USDC_TOKEN_ID_MAINNET = `${NetworkId['arbitrum-one']}:0xaf88d065e77c8cc2239327c5edb3a432268e5831`
+
+const AAVE_ARB_USDC_TOKEN_ID_STAGING = `${NetworkId['arbitrum-sepolia']}:0x460b97BD498E1157530AEb3086301d5225b91216`
+const AAVE_ARB_USDC_TOKEN_ID_MAINNET = `${NetworkId['arbitrum-one']}:0x724dc807b04555b71ed48a6896b6f41593b8c637`
 
 const ARB_AAVE_POOL_V3_CONTRACT_ADDRESS_STAGING = '0xBfC91D59fdAA134A4ED45f7B584cAf96D7792Eff'
 const ARB_AAVE_POOL_V3_CONTRACT_ADDRESS_MAINNET = '0x794a61358D6845594F94dc1DB02A252b5b4814aD'
@@ -359,6 +363,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     saveContactsUrl: SAVE_CONTACTS_ALFAJORES,
     getPointsConfigUrl: GET_POINTS_CONFIG_ALFAJORES,
     arbAavePoolV3ContractAddress: ARB_AAVE_POOL_V3_CONTRACT_ADDRESS_STAGING,
+    aaveArbUsdcTokenId: AAVE_ARB_USDC_TOKEN_ID_STAGING,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -452,6 +457,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     saveContactsUrl: SAVE_CONTACTS_MAINNET,
     getPointsConfigUrl: GET_POINTS_CONFIG_MAINNET,
     arbAavePoolV3ContractAddress: ARB_AAVE_POOL_V3_CONTRACT_ADDRESS_MAINNET,
+    aaveArbUsdcTokenId: AAVE_ARB_USDC_TOKEN_ID_MAINNET,
   },
 }
 
