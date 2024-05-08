@@ -251,13 +251,13 @@ function TabDiscover({ navigation }: Props) {
                   </Text>
                 }
                 <DappFeaturedActions onPressShowDappRankings={handleShowDappRankings} />
-                {getFeatureGate(StatsigFeatureGates.SHOW_STABLECOIN_EARN) &&
-                asyncPoolUserInfo.result &&
-                asyncPoolUserInfo.result.balanceInDecimal !== '0' ? (
-                  <EarnActivePool />
-                ) : (
-                  <EarnCta />
-                )}
+                {getFeatureGate(StatsigFeatureGates.SHOW_STABLECOIN_EARN) ? (
+                  asyncPoolUserInfo.result && asyncPoolUserInfo.result.balanceInDecimal !== '0' ? (
+                    <EarnActivePool />
+                  ) : (
+                    <EarnCta />
+                  )
+                ) : null}
                 <SearchInput
                   onChangeText={(text) => {
                     setSearchTerm(text)
