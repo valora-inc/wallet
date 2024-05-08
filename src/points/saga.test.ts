@@ -333,7 +333,7 @@ describe('getPointsBalance', () => {
   })
 
   it('should fetch and store the balance on first history fetch', async () => {
-    const mockBalance = 100
+    const mockBalance = '100'
     mockFetch.mockResponseOnce(JSON.stringify({ balance: mockBalance }))
 
     await expectSaga(getPointsBalance, getHistoryStarted({ getNextPage: false }))
