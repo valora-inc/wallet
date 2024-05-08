@@ -4,7 +4,7 @@ import { Network } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
 import networkConfig from 'src/web3/networkConfig'
 
-describe('fetchAavePoolInfo', () => {
+describe('poolInfo', () => {
   it('fetches poolInfo from contract', async () => {
     jest.spyOn(publicClient[Network.Arbitrum], 'readContract').mockResolvedValue({
       currentLiquidityRate: BigInt(1e27 * 0.036),
