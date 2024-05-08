@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import InfoIcon from 'src/icons/InfoIcon'
@@ -15,13 +16,18 @@ import { TokenBalance } from 'src/tokens/slice'
 export default function EarnEnterAmount({ token }: { token: TokenBalance }) {
   const { t } = useTranslation()
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
+  const infoBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const onPressContinue = () => {
     // navigate to correct screen / bottom sheet
   }
 
   const onPressInfo = () => {
-    // show info bottom sheet
+    infoBottomSheetRef.current?.snapToIndex(0)
+  }
+
+  const onPressDismiss = () => {
+    infoBottomSheetRef.current?.close()
   }
 
   const tvl = 150000000
