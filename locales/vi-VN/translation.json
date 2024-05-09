@@ -2284,6 +2284,11 @@
         "refresh": "Làm mới"
       }
     },
+    "fetchBalanceError": {
+      "title": "Unable to load your points",
+      "description": "Oops, something went wrong when trying to load your points. The information on this page may be out of date. Please refresh.",
+      "retryCta": "Làm mới"
+    },
     "loading": {
       "title": "Gathering your points",
       "description": "We're in the process of tallying up your points, hang tight"
