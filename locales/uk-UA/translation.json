@@ -2291,8 +2291,8 @@
       }
     },
     "fetchBalanceError": {
-      "title": "Unable to load your points",
-      "description": "Oops, something went wrong when trying to load your points. The information on this page may be out of date. Please refresh.",
+      "title": "Не вдається завантажити бали",
+      "description": "На жаль, щось пішло не так при спробі завантажити ваші бали. Інформація на цій сторінці може бути застарілою. Будь ласка, оновіть її.",
       "retryCta": "Оновити"
     },
     "loading": {
