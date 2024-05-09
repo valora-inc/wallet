@@ -34,7 +34,7 @@ import NoResults from 'src/dappsExplorer/NoResults'
 import { searchDappList } from 'src/dappsExplorer/searchDappList'
 import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
-import useEarnCard from 'src/earn/useEarnCard'
+import { EarnCardDiscover } from 'src/earn/EarnCard'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
@@ -73,12 +73,6 @@ function TabDiscover({ navigation }: Props) {
   const language = useSelector(currentLanguageSelector)
   const nonFavoriteDappsWithCategoryNames = useSelector(nonFavoriteDappsWithCategoryNamesSelector)
   const favoriteDappsWithCategoryNames = useSelector(favoriteDappsWithCategoryNamesSelector)
-
-  // Earning Pool Aave
-  const AaveArbEarn = useEarnCard({
-    poolTokenId: networkConfig.aaveArbUsdcTokenId,
-    depositTokenId: networkConfig.arbUsdcTokenId,
-  })
 
   const [filterChips, setFilterChips] = useState<BooleanFilterChip<DappWithCategoryNames>[]>(() =>
     categories.map((category) => ({
@@ -241,7 +235,10 @@ function TabDiscover({ navigation }: Props) {
                   </Text>
                 }
                 <DappFeaturedActions onPressShowDappRankings={handleShowDappRankings} />
-                <AaveArbEarn.EarnDiscover />
+                <EarnCardDiscover
+                  poolTokenId={networkConfig.aaveArbUsdcTokenId}
+                  depositTokenId={networkConfig.arbUsdcTokenId}
+                />
                 <SearchInput
                   onChangeText={(text) => {
                     setSearchTerm(text)

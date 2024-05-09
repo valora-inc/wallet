@@ -15,7 +15,7 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
-import useEarnCard from 'src/earn/useEarnCard'
+import { EarnCardTokenDetails } from 'src/earn/EarnCard'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
 import DataDown from 'src/icons/DataDown'
@@ -68,10 +68,6 @@ export default function TokenDetailsScreen({ route }: Props) {
   const actions = useActions(token)
   const tokenDetailsMoreActionsBottomSheetRef = useRef<BottomSheetRefType>(null)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const { EarnTokenDetails } = useEarnCard({
-    poolTokenId: networkConfig.aaveArbUsdcTokenId,
-    depositTokenId: networkConfig.arbUsdcTokenId,
-  })
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
@@ -120,7 +116,12 @@ export default function TokenDetailsScreen({ route }: Props) {
           />
         )}
         {token.tokenId === networkConfig.celoTokenId && <CeloNewsFeed />}
-        {token.tokenId === networkConfig.aaveArbUsdcTokenId && <EarnTokenDetails />}
+        {token.tokenId === networkConfig.aaveArbUsdcTokenId && (
+          <EarnCardTokenDetails
+            poolTokenId={networkConfig.aaveArbUsdcTokenId}
+            depositTokenId={networkConfig.arbUsdcTokenId}
+          />
+        )}
       </ScrollView>
       <TokenDetailsMoreActions
         forwardedRef={tokenDetailsMoreActionsBottomSheetRef}
