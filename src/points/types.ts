@@ -73,6 +73,10 @@ export interface GetHistoryResponse {
   nextPageUrl: string
 }
 
+export interface GetPointsBalanceResponse {
+  balance: string
+}
+
 interface PointsEventCreateWallet {
   activityId: 'create-wallet'
 }
