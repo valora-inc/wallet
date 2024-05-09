@@ -72,7 +72,7 @@ import { PointsActivityId } from 'src/points/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { AmountEnteredIn, QrCode } from 'src/send/types'
 import { Field } from 'src/swap/types'
-import { TokenDetailsActionName } from 'src/tokens/types'
+import { TokenActionName } from 'src/tokens/types'
 import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 
 type Web3LibraryProps = { web3Library: 'contract-kit' | 'viem' }
@@ -1393,11 +1393,11 @@ interface AssetsEventsProperties {
       } & TokenProperties)
   [AssetsEvents.tap_claim_rewards]: undefined
   [AssetsEvents.tap_token_details_action]: {
-    action: TokenDetailsActionName
+    action: TokenActionName
   } & TokenProperties
   [AssetsEvents.tap_token_details_learn_more]: TokenProperties
   [AssetsEvents.tap_token_details_bottom_sheet_action]: {
-    action: TokenDetailsActionName
+    action: TokenActionName
   } & TokenProperties
   [AssetsEvents.import_token_screen_open]: undefined
   [AssetsEvents.import_token_submit]: {
@@ -1575,6 +1575,9 @@ interface PointsEventsProperties {
 
 interface EarnEventsProperties {
   [EarnEvents.earn_cta_press]: undefined
+  [EarnEvents.earn_add_crypto_action_press]: {
+    action: TokenActionName
+  } & TokenProperties
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

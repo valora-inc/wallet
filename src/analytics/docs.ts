@@ -592,6 +592,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
 
   // Events related to earn program
   [EarnEvents.earn_cta_press]: `When a user taps on the earn your stablecoins CTA on the discover tab`,
+  [EarnEvents.earn_add_crypto_action_press]: `When a user in the Earn flow enters an amount higher than their balance and chooses an option to add crypto`,
 
   // Legacy event docs
   //  The below events had docs, but are no longer produced by the latest app version.
