@@ -7,10 +7,13 @@ import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import TokenDisplay from 'src/components/TokenDisplay'
 import { fetchAavePoolInfo } from 'src/earn/poolInfo'
 import UpwardGraph from 'src/icons/UpwardGraph'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokenInfo } from 'src/tokens/hooks'
+import { Network } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 import { Address } from 'viem'
@@ -33,17 +36,28 @@ function PoolDetailsLoading() {
   )
 }
 
-export default function EarnActivePool() {
+interface Props {
+  buttonDisplay: 'ExitAndDeposit' | 'ViewPools'
+  depositTokenId: string
+  poolTokenId: string
+}
+
+export default function EarnActivePool({ depositTokenId, poolTokenId, buttonDisplay }: Props) {
   const { t } = useTranslation()
-  const token = useTokenInfo(networkConfig.arbUsdcTokenId)
-  const poolToken = useTokenInfo(networkConfig.aaveArbUsdcTokenId)
+  const depositToken = useTokenInfo(depositTokenId)
+  const poolToken = useTokenInfo(poolTokenId)
   const asyncPoolInfo = useAsync(async () => {
-    if (!token || !token.address) {
+    if (!depositToken || !depositToken.address) {
       // should never happen
-      Logger.warn(TAG, `Token with id ${networkConfig.arbUsdcTokenId} not found`)
-      throw new Error(`Token with id ${networkConfig.arbUsdcTokenId} not found`)
+      Logger.warn(TAG, `Token with id ${depositTokenId} not found`)
+      throw new Error(`Token with id ${depositTokenId} not found`)
     }
-    return fetchAavePoolInfo(token.address as Address)
+
+    return fetchAavePoolInfo({
+      assetAddress: depositToken.address as Address,
+      contractAddress: networkConfig.arbAavePoolV3ContractAddress as Address,
+      network: Network.Arbitrum,
+    })
   }, [])
 
   return (
@@ -57,19 +71,19 @@ export default function EarnActivePool() {
               <TokenDisplay
                 amount={poolToken.balance}
                 showLocalAmount={false}
-                testID={`${networkConfig.arbUsdcTokenId}-totalAmount`}
-                tokenId={networkConfig.arbUsdcTokenId}
+                testID={`${depositTokenId}-totalAmount`}
+                tokenId={depositTokenId}
               />
             )}
           </View>
           <View style={styles.row}>
             {asyncPoolInfo.error && <View />}
             {asyncPoolInfo.loading && <PoolDetailsLoading />}
-            {asyncPoolInfo.result && (
+            {asyncPoolInfo.result && asyncPoolInfo.result.apy && (
               <View style={styles.apyContainer}>
                 <Text style={styles.apyText}>
                   {t('earnFlow.activePools.apy', {
-                    apy: (asyncPoolInfo.result.apy * 100).toFixed(2) ?? '',
+                    apy: (asyncPoolInfo.result.apy * 100).toFixed(2),
                   })}
                 </Text>
                 <UpwardGraph />
@@ -79,36 +93,51 @@ export default function EarnActivePool() {
               <TokenDisplay
                 amount={poolToken.balance}
                 showLocalAmount={true}
-                testID={`${networkConfig.arbUsdcTokenId}-totalAmount`}
-                tokenId={networkConfig.arbUsdcTokenId}
+                testID={`${depositTokenId}-totalAmount`}
+                tokenId={depositTokenId}
               />
             )}
           </View>
         </View>
-        <View style={styles.buttonContainer}>
-          <Button
-            onPress={() => {
-              // TODO (act-1180) create earn review withdraw screen
-              // Will navigate to this screen with appropriate props
-              // fire analytics
-            }}
-            text={t('earnFlow.activePools.exitPool')}
-            type={BtnTypes.SECONDARY}
-            size={BtnSizes.FULL}
-            style={styles.button}
-          />
-          <Button
-            onPress={() => {
-              // TODO (act-1176) create earn enter amount screen
-              // Will navigate to this screen with appropriate props
-              // fire analytics
-            }}
-            text={t('earnFlow.activePools.depositMore')}
-            type={BtnTypes.PRIMARY}
-            size={BtnSizes.FULL}
-            style={styles.button}
-          />
-        </View>
+        {buttonDisplay === 'ExitAndDeposit' && (
+          <View style={styles.buttonContainer}>
+            <Button
+              onPress={() => {
+                // TODO (act-1180) create earn review withdraw screen
+                // Will navigate to this screen with appropriate props
+                // fire analytics
+              }}
+              text={t('earnFlow.activePools.exitPool')}
+              type={BtnTypes.SECONDARY}
+              size={BtnSizes.FULL}
+              style={styles.button}
+            />
+            <Button
+              onPress={() => {
+                // TODO (act-1176) create earn enter amount screen
+                // Will navigate to this screen with appropriate props
+                // fire analytics
+              }}
+              text={t('earnFlow.activePools.depositMore')}
+              type={BtnTypes.PRIMARY}
+              size={BtnSizes.FULL}
+              style={styles.button}
+            />
+          </View>
+        )}
+        {buttonDisplay === 'ViewPools' && (
+          <View style={styles.buttonContainer}>
+            <Button
+              onPress={() => {
+                navigate(Screens.TabDiscover)
+              }}
+              text={t('earnFlow.activePools.viewPools')}
+              type={BtnTypes.SECONDARY}
+              size={BtnSizes.FULL}
+              style={styles.button}
+            />
+          </View>
+        )}
       </View>
     </View>
   )
