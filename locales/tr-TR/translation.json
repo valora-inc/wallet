@@ -2331,17 +2331,17 @@
   },
   "earnFlow": {
     "addCryptoBottomSheet": {
-      "title": "Add {{tokenSymbol}} on {{tokenNetwork}}",
-      "description": "Once you add tokens you'll have to come back to finish depositing into a pool.",
+      "title": "{{tokenSymbol}} adresini {{tokenNetwork}}adresine ekleyin",
+      "description": "Jeton ekledikten sonra havuza para yatırma işlemini tamamlamak için geri gelmeniz gerekecektir.",
       "actions": {
         "add": "Satın Al",
         "transfer": "Transfer",
         "swap": "Swap"
       },
       "actionDescriptions": {
-        "add": "Buy {{tokenSymbol}} on {{tokenNetwork}} using one of our trusted providers",
-        "transfer": "Use any {{tokenNetwork}} compatible wallet or exchange to deposit {{tokenSymbol}}",
-        "swap": "Swap into {{tokenSymbol}} from another {{tokenNetwork}} token"
+        "add": "Güvenilir sağlayıcılarımızdan birini kullanarak {{tokenNetwork}} adresinden {{tokenSymbol}} satın alın",
+        "transfer": "{{tokenSymbol}}yatırmak için herhangi bir {{tokenNetwork}} uyumlu cüzdan veya borsa kullanın",
+        "swap": "Başka bir {{tokenNetwork}} belirtecinden {{tokenSymbol}} 'a geçiş yapın"
       }
     },
     "cta": {
