@@ -209,7 +209,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                     "color": "#FFFFFF",
                     "fontFamily": "Inter-SemiBold",
                     "fontSize": 16,
-                    "lineHeight": 22,
+                    "lineHeight": 24,
                     "marginLeft": 0,
                     "marginRight": 0,
                   }
@@ -710,7 +710,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                     "color": "#FFFFFF",
                     "fontFamily": "Inter-SemiBold",
                     "fontSize": 16,
-                    "lineHeight": 22,
+                    "lineHeight": 24,
                     "marginLeft": 0,
                     "marginRight": 0,
                   }

@@ -3,24 +3,24 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { PointsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import BeatingHeartLoader from 'src/components/BeatingHeartLoader'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import { BottomSheetParams, PointsActivityId } from 'src/points/types'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { PointsEvents } from 'src/analytics/Events'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import NumberTicker from 'src/components/NumberTicker'
 import CustomHeader from 'src/components/header/CustomHeader'
-import PointsHistoryBottomSheet from 'src/points/PointsHistoryBottomSheet'
 import AttentionIcon from 'src/icons/Attention'
 import LogoHeart from 'src/icons/LogoHeart'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import ActivityCardSection from 'src/points/ActivityCardSection'
+import PointsHistoryBottomSheet from 'src/points/PointsHistoryBottomSheet'
 import { pointsConfigStatusSelector, pointsSectionsSelector } from 'src/points/selectors'
 import { getHistoryStarted, getPointsConfigRetry } from 'src/points/slice'
+import { BottomSheetParams, PointsActivityId } from 'src/points/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -116,7 +116,6 @@ export default function PointsHome({ route, navigation }: Props) {
                 onPress={onPressActivity}
                 text={t('points.activity')}
                 type={BtnTypes.GRAY_WITH_BORDER}
-                fontStyle={typeScale.labelXSmall}
                 size={BtnSizes.FULL}
                 touchableStyle={styles.buttonStyle}
               />

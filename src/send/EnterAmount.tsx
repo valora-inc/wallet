@@ -411,7 +411,6 @@ function EnterAmount({
           text={t('review')}
           style={styles.reviewButton}
           size={BtnSizes.FULL}
-          fontStyle={styles.reviewButtonText}
           disabled={!sendIsPossible || disableProceed}
           testID="SendEnterAmount/ReviewButton"
         />

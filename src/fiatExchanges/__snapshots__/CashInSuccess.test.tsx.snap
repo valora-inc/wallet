@@ -157,7 +157,7 @@ exports[`CashinInSuccess renders correctly with a provider 1`] = `
                 "color": "#FFFFFF",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
-                "lineHeight": 22,
+                "lineHeight": 24,
                 "marginLeft": 0,
                 "marginRight": 0,
               }
@@ -329,7 +329,7 @@ exports[`CashinInSuccess renders correctly without a provider 1`] = `
                 "color": "#FFFFFF",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
-                "lineHeight": 22,
+                "lineHeight": 24,
                 "marginLeft": 0,
                 "marginRight": 0,
               }

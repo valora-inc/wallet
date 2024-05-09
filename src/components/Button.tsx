@@ -1,14 +1,6 @@
 import { debounce } from 'lodash'
 import React, { ReactNode, useCallback } from 'react'
-import {
-  ActivityIndicator,
-  StyleProp,
-  StyleSheet,
-  Text,
-  TextStyle,
-  View,
-  ViewStyle,
-} from 'react-native'
+import { ActivityIndicator, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import Touchable from 'src/components/Touchable'
 import colors, { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -51,7 +43,6 @@ export interface ButtonProps {
   testID?: string
   touchableStyle?: StyleProp<ViewStyle>
   iconMargin?: number
-  fontStyle?: TextStyle
 }
 
 export default React.memo(function Button(props: ButtonProps) {
@@ -70,7 +61,6 @@ export default React.memo(function Button(props: ButtonProps) {
     loadingColor,
     touchableStyle,
     iconMargin = 4,
-    fontStyle = typeScale.labelSemiBoldMedium,
   } = props
 
   // Debounce onPress event so that it is called once on trigger and
@@ -117,7 +107,7 @@ export default React.memo(function Button(props: ButtonProps) {
                 maxFontSizeMultiplier={1}
                 accessibilityLabel={accessibilityLabel}
                 style={{
-                  ...fontStyle, // this has to be before color because the legacy font styles default to colors.dark, which will end up overriding the button type based colors
+                  ...styles.fontStyle, // this has to be before color because the legacy font styles default to colors.dark, which will end up overriding the button type based colors
                   color: textColor,
                   marginLeft: icon && iconPositionLeft ? iconMargin : 0,
                   marginRight: icon && !iconPositionLeft ? iconMargin : 0,
@@ -158,6 +148,9 @@ const styles = StyleSheet.create({
   full: {
     height: 48,
     flexGrow: 1,
+  },
+  fontStyle: {
+    ...typeScale.labelSemiBoldMedium,
   },
 })
 

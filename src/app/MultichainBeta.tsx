@@ -53,7 +53,6 @@ function MultichainBeta() {
         <View style={styles.ctaContainer}>
           <Button
             style={styles.cta}
-            fontStyle={typeScale.labelSemiBoldMedium}
             touchableStyle={styles.ctaTouchable}
             size={BtnSizes.FULL}
             text={t('multichainBeta.primaryCta')}
@@ -64,7 +63,6 @@ function MultichainBeta() {
           />
           <Button
             style={styles.cta}
-            fontStyle={typeScale.labelSemiBoldMedium}
             touchableStyle={styles.ctaTouchable}
             type={BtnTypes.SECONDARY_WHITE_BG}
             size={BtnSizes.FULL}

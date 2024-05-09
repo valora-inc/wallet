@@ -164,7 +164,7 @@ exports[`ErrorScreen with errorMessage renders correctly 1`] = `
                 "color": "#FFFFFF",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
-                "lineHeight": 22,
+                "lineHeight": 24,
                 "marginLeft": 0,
                 "marginRight": 0,
               }
@@ -343,7 +343,7 @@ exports[`ErrorScreen without errorMessage renders correctly 1`] = `
                 "color": "#FFFFFF",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
-                "lineHeight": 22,
+                "lineHeight": 24,
                 "marginLeft": 0,
                 "marginRight": 0,
               }
