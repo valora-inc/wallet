@@ -2287,8 +2287,8 @@
       }
     },
     "fetchBalanceError": {
-      "title": "Unable to load your points",
-      "description": "Oops, something went wrong when trying to load your points. The information on this page may be out of date. Please refresh.",
+      "title": "Puanlarınız yüklenemiyor",
+      "description": "Oops, puanlarınızı yüklemeye çalışırken bir şeyler ters gitti. Bu sayfadaki bilgiler güncel olmayabilir. Lütfen yenileyin.",
       "retryCta": "Yenile"
     },
     "loading": {
