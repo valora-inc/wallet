@@ -678,4 +678,8 @@ export enum PointsEvents {
 export enum EarnEvents {
   earn_cta_press = 'earn_cta_press',
   earn_add_crypto_action_press = 'earn_add_crypto_action_press',
+  earn_deposit_provider_info_press = 'earn_deposit_provider_info_press',
+  earn_deposit_terms_and_conditions_press = 'earn_deposit_terms_and_conditions_press',
+  earn_deposit_complete = 'earn_deposit_complete',
+  earn_deposit_cancel = 'earn_deposit_cancel',
 }
