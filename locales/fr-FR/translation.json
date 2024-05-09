@@ -2331,17 +2331,17 @@
   },
   "earnFlow": {
     "addCryptoBottomSheet": {
-      "title": "Add {{tokenSymbol}} on {{tokenNetwork}}",
-      "description": "Once you add tokens you'll have to come back to finish depositing into a pool.",
+      "title": "Ajoute {{tokenSymbol}} sur {{tokenNetwork}}",
+      "description": "Une fois que tu auras ajouté des jetons, tu devras revenir pour finir de déposer dans une cagnotte.",
       "actions": {
-        "add": "Buy",
-        "transfer": "Transfer",
-        "swap": "Swap"
+        "add": "Acheter",
+        "transfer": "Transfert",
+        "swap": "Échanger"
       },
       "actionDescriptions": {
-        "add": "Buy {{tokenSymbol}} on {{tokenNetwork}} using one of our trusted providers",
-        "transfer": "Use any {{tokenNetwork}} compatible wallet or exchange to deposit {{tokenSymbol}}",
-        "swap": "Swap into {{tokenSymbol}} from another {{tokenNetwork}} token"
+        "add": "Achète {{tokenSymbol}} sur {{tokenNetwork}} en utilisant l'un de nos fournisseurs de confiance",
+        "transfer": "Utilise n'importe quel portefeuille ou échange compatible avec {{tokenNetwork}} pour déposer {{tokenSymbol}}.",
+        "swap": "Swap dans {{tokenSymbol}} à partir d'un autre jeton {{tokenNetwork}}"
       }
     },
     "cta": {
