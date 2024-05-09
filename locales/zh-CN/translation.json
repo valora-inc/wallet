@@ -2328,6 +2328,20 @@
     }
   },
   "earnFlow": {
+    "addCryptoBottomSheet": {
+      "title": "Add {{tokenSymbol}} on {{tokenNetwork}}",
+      "description": "Once you add tokens you'll have to come back to finish depositing into a pool.",
+      "actions": {
+        "add": "买入",
+        "transfer": "Transfer",
+        "swap": "交换"
+      },
+      "actionDescriptions": {
+        "add": "Buy {{tokenSymbol}} on {{tokenNetwork}} using one of our trusted providers",
+        "transfer": "Use any {{tokenNetwork}} compatible wallet or exchange to deposit {{tokenSymbol}}",
+        "swap": "Swap into {{tokenSymbol}} from another {{tokenNetwork}} token"
+      }
+    },
     "cta": {
       "title": "赚取稳定币",
       "subtitle": "立即存款，赚取回报",
