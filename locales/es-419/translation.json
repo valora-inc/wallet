@@ -2349,6 +2349,13 @@
       "subtitle": "Deposita hoy y obtén beneficios",
       "description": "Comprueba cuánto puedes ganar al abastecer un fondo común de préstamos"
     },
+    "activePools": {
+      "title": "Piscinas activas",
+      "totalValue": "Valor total:",
+      "apy": "~{{apy}}% APY",
+      "exitPool": "Piscina de salida",
+      "depositMore": "Depositar más"
+    },
     "depositBottomSheet": {
       "title": "Revisión y depósito",
       "description": "Antes de depositar en un fondo Aave, revisa los detalles de la transacción que aparecen a continuación",
