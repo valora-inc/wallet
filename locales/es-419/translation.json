@@ -2331,17 +2331,17 @@
   },
   "earnFlow": {
     "addCryptoBottomSheet": {
-      "title": "Add {{tokenSymbol}} on {{tokenNetwork}}",
-      "description": "Once you add tokens you'll have to come back to finish depositing into a pool.",
+      "title": "Añade {{tokenSymbol}} en {{tokenNetwork}}",
+      "description": "Una vez que añadas fichas, tendrás que volver para terminar de depositarlas en un fondo común.",
       "actions": {
-        "add": "Buy",
-        "transfer": "Transfer",
-        "swap": "Swap"
+        "add": "Comprar",
+        "transfer": "Transferencia",
+        "swap": "Cambiar"
       },
       "actionDescriptions": {
-        "add": "Buy {{tokenSymbol}} on {{tokenNetwork}} using one of our trusted providers",
-        "transfer": "Use any {{tokenNetwork}} compatible wallet or exchange to deposit {{tokenSymbol}}",
-        "swap": "Swap into {{tokenSymbol}} from another {{tokenNetwork}} token"
+        "add": "Compra {{tokenSymbol}} en {{tokenNetwork}} utilizando uno de nuestros proveedores de confianza",
+        "transfer": "Utiliza cualquier monedero o bolsa compatible con {{tokenNetwork}} para depositar {{tokenSymbol}}",
+        "swap": "Cambia a {{tokenSymbol}} desde otra ficha {{tokenNetwork}}"
       }
     },
     "cta": {
