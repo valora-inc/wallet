@@ -98,7 +98,6 @@ export const SendProceed = ({
       text={t('review')}
       style={styles.reviewButton}
       size={BtnSizes.FULL}
-      fontStyle={styles.reviewButtonText}
       disabled={disabled}
       testID="SendEnterAmount/ReviewButton"
     />
@@ -648,9 +647,6 @@ const styles = StyleSheet.create({
   },
   reviewButton: {
     paddingVertical: Spacing.Thick24,
-  },
-  reviewButtonText: {
-    ...typeScale.labelSemiBoldMedium,
   },
   warning: {
     marginBottom: Spacing.Regular16,
