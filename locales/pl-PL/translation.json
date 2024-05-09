@@ -2353,6 +2353,13 @@
       "subtitle": "Dokonaj wpłaty już dziś i zarabiaj",
       "description": "Zobacz ile możesz zarobić zasilając pulę pożyczkową"
     },
+    "activePools": {
+      "title": "Aktywne baseny",
+      "totalValue": "Całkowita wartość:",
+      "apy": "~{{apy}}% APY",
+      "exitPool": "Wyjście z puli",
+      "depositMore": "Zdeponuj więcej"
+    },
     "depositBottomSheet": {
       "title": "Przegląd i wpłata",
       "description": "Przed dokonaniem wpłaty do puli Aave zapoznaj się z poniższymi szczegółami transakcji",
