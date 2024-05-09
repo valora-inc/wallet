@@ -2349,6 +2349,13 @@
       "subtitle": "Heute einzahlen und Rendite verdienen",
       "description": "Erfahre, wie viel du verdienen kannst, wenn du einen Kreditpool bereitstellst"
     },
+    "activePools": {
+      "title": "Aktive Pools",
+      "totalValue": "Gesamtwert:",
+      "apy": "~{{apy}}% APY",
+      "exitPool": "Exit Pool",
+      "depositMore": "Pfand Mehr"
+    },
     "depositBottomSheet": {
       "title": "Überprüfung & Einzahlung",
       "description": "Bevor du in einen Aave-Pool einzahlst, solltest du die folgenden Transaktionsdetails überprüfen",
