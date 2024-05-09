@@ -2285,8 +2285,8 @@
       }
     },
     "fetchBalanceError": {
-      "title": "Unable to load your points",
-      "description": "Oops, something went wrong when trying to load your points. The information on this page may be out of date. Please refresh.",
+      "title": "无法加载您的积分",
+      "description": "哎呀，在加载您的积分时出了点问题。本页面上的信息可能已经过时。请刷新。",
       "retryCta": "刷新"
     },
     "loading": {
