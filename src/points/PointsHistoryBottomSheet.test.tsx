@@ -1,14 +1,14 @@
-import * as React from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
-import PointsHistoryBottomSheet from 'src/points/PointsHistoryBottomSheet'
-import { createMockStore, RecursivePartial } from 'test/utils'
-import { RootState } from 'src/redux/reducers'
 import { FetchMock } from 'jest-fetch-mock/types'
+import * as React from 'react'
 import { Provider } from 'react-redux'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { PointsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import PointsHistoryBottomSheet from 'src/points/PointsHistoryBottomSheet'
 import { getHistoryStarted } from 'src/points/slice'
 import { GetHistoryResponse } from 'src/points/types'
+import { RootState } from 'src/redux/reducers'
+import { RecursivePartial, createMockStore } from 'test/utils'
 
 jest.mock('src/statsig', () => ({
   getDynamicConfigParams: jest.fn().mockReturnValue({
@@ -116,12 +116,12 @@ describe(PointsHistoryBottomSheet, () => {
   })
 
   it('shows error screen if fetch fails', async () => {
-    const tree = renderScreen({ points: { getHistoryStatus: 'error' } })
+    const tree = renderScreen({ points: { getHistoryStatus: 'errorFirstPage' } })
     expect(tree.getByTestId('PointsHistoryBottomSheet/Error')).toBeTruthy()
   })
 
   it('dispatches an action when try again is pressed', async () => {
-    const { dispatch, getByText } = renderScreen({ points: { getHistoryStatus: 'error' } })
+    const { dispatch, getByText } = renderScreen({ points: { getHistoryStatus: 'errorFirstPage' } })
     fireEvent.press(getByText('points.history.error.tryAgain'))
     await waitFor(() =>
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
@@ -151,14 +151,14 @@ describe(PointsHistoryBottomSheet, () => {
 
   it('shows inline error if failure while fetching subsequent page', async () => {
     const tree = renderScreen({
-      points: { getHistoryStatus: 'error', pointsHistory: MOCK_RESPONSE_NO_NEXT_PAGE.data },
+      points: { getHistoryStatus: 'errorNextPage', pointsHistory: MOCK_RESPONSE_NO_NEXT_PAGE.data },
     })
     expect(tree.getByTestId('PointsHistoryBottomSheet/ErrorBanner')).toBeTruthy()
   })
 
   it('refreshes if error banner CTA is pressed', async () => {
     const { dispatch, getByText } = renderScreen({
-      points: { getHistoryStatus: 'error', pointsHistory: MOCK_RESPONSE_NO_NEXT_PAGE.data },
+      points: { getHistoryStatus: 'errorNextPage', pointsHistory: MOCK_RESPONSE_NO_NEXT_PAGE.data },
     })
     fireEvent.press(getByText('points.history.pageError.refresh'))
     await waitFor(() =>

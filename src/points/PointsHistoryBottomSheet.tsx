@@ -1,5 +1,5 @@
 import GorhomBottomSheet, { BottomSheetSectionList } from '@gorhom/bottom-sheet'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, ListRenderItem, StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -7,8 +7,9 @@ import { PointsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheetBase from 'src/components/BottomSheetBase'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
+import { NotificationVariant } from 'src/components/InLineNotification'
 import SectionHead from 'src/components/SectionHead'
+import Toast from 'src/components/Toast'
 import { default as Attention, default as AttentionIcon } from 'src/icons/Attention'
 import LogoHeart from 'src/icons/LogoHeart'
 import { HistoryCardMetadata, useGetHistoryDefinition } from 'src/points/cardDefinitions'
@@ -59,8 +60,6 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
   const pointsHistoryStatus = useSelector(pointsHistoryStatusSelector)
   const pointsHistory = useSelector(pointsHistorySelector)
   const hasNextPage = useSelector(nextPageUrlSelector)
-
-  const [showError, setShowError] = useState(false)
 
   const getHistoryDefinition = useGetHistoryDefinition()
 
@@ -120,7 +119,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
     ) : null
 
   const EmptyOrError =
-    pointsHistoryStatus === 'error' ? (
+    pointsHistoryStatus === 'errorFirstPage' ? (
       <View testID={'PointsHistoryBottomSheet/Error'} style={styles.emptyContainer}>
         <View style={styles.messageContainer}>
           <Attention size={48} color={Colors.black} />
@@ -159,12 +158,6 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
     return groupFeedItemsInSections([], pointsHistory)
   }, [pointsHistory, pointsHistoryStatus])
 
-  useEffect(() => {
-    if (pointsHistory.length && pointsHistoryStatus === 'error') {
-      setShowError(true)
-    }
-  }, [pointsHistory, pointsHistoryStatus])
-
   return (
     <BottomSheetBase snapPoints={['80%']} forwardedRef={forwardedRef}>
       {!isEmpty && <Text style={styles.contentHeader}>{t('points.history.title')}</Text>}
@@ -187,29 +180,23 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
         onEndReachedThreshold={0.2}
         stickySectionHeadersEnabled={false}
       />
-      {showError && (
-        <InLineNotification
-          variant={NotificationVariant.Error}
-          title={t('points.history.pageError.title')}
-          description={t('points.history.pageError.subtitle')}
-          ctaLabel={t('points.history.pageError.refresh')}
-          onPressCta={() => onPressTryAgain(true)}
-          withBorder={true}
-          style={{
-            ...styles.errorNotification,
-            marginBottom: Math.max(insets.bottom, Spacing.Thick24),
-          }}
-          customIcon={<AttentionIcon color={colors.errorDark} size={20} />}
-          testID={'PointsHistoryBottomSheet/ErrorBanner'}
-        />
-      )}
+      <Toast
+        showToast={pointsHistoryStatus === 'errorNextPage'}
+        variant={NotificationVariant.Error}
+        title={t('points.history.pageError.title')}
+        description={t('points.history.pageError.subtitle')}
+        ctaLabel={t('points.history.pageError.refresh')}
+        onPressCta={() => onPressTryAgain(true)}
+        style={styles.errorNotification}
+        customIcon={<AttentionIcon color={colors.errorDark} size={20} />}
+        testID={'PointsHistoryBottomSheet/ErrorBanner'}
+      />
     </BottomSheetBase>
   )
 }
 
 const styles = StyleSheet.create({
   errorNotification: {
-    positioning: 'absolute',
     marginHorizontal: Spacing.Regular16,
   },
   emptyContainer: {

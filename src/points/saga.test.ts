@@ -146,7 +146,7 @@ describe('getHistory', () => {
       .withState(createMockStore({ web3: { account: null } }).getState())
       .put(
         getHistoryError({
-          resetHistory: true,
+          getNextPage: false,
         })
       )
       .run()
@@ -180,7 +180,7 @@ describe('getHistory', () => {
       .provide([[matchers.call.fn(fetchHistory), throwError(new Error('failure'))]])
       .put(
         getHistoryError({
-          resetHistory: true,
+          getNextPage: false,
         })
       )
       .run()

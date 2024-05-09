@@ -11,6 +11,7 @@ import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import NumberTicker from 'src/components/NumberTicker'
+import Toast from 'src/components/Toast'
 import CustomHeader from 'src/components/header/CustomHeader'
 import AttentionIcon from 'src/icons/Attention'
 import LogoHeart from 'src/icons/LogoHeart'
@@ -22,6 +23,7 @@ import {
   pointsBalanceSelector,
   pointsBalanceStatusSelector,
   pointsConfigStatusSelector,
+  pointsHistoryStatusSelector,
   pointsSectionsSelector,
 } from 'src/points/selectors'
 import { getHistoryStarted, getPointsConfigRetry } from 'src/points/slice'
@@ -42,6 +44,7 @@ export default function PointsHome({ route, navigation }: Props) {
   const pointsConfigStatus = useSelector(pointsConfigStatusSelector)
   const pointsBalance = useSelector(pointsBalanceSelector)
   const pointsBalanceStatus = useSelector(pointsBalanceStatusSelector)
+  const pointsHistoryStatus = useSelector(pointsHistoryStatusSelector)
 
   const lastKnownPointsBalance = useRef(pointsBalance)
   const historyBottomSheetRef = useRef<BottomSheetRefType>(null)
@@ -175,6 +178,14 @@ export default function PointsHome({ route, navigation }: Props) {
           </>
         )}
       </ScrollView>
+      <Toast
+        showToast={pointsBalanceStatus === 'error' || pointsHistoryStatus === 'errorFirstPage'}
+        variant={NotificationVariant.Warning}
+        title={t('points.fetchBalanceError.title')}
+        description={t('points.fetchBalanceError.description')}
+        ctaLabel={t('points.fetchBalanceError.retryCta')}
+        onPressCta={onRefreshHistoryAndBalance}
+      />
       <PointsHistoryBottomSheet forwardedRef={historyBottomSheetRef} />
       <BottomSheet forwardedRef={activityCardBottomSheetRef} testId={`PointsActivityBottomSheet`}>
         {bottomSheetParams && (

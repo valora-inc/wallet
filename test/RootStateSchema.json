@@ -4311,7 +4311,8 @@
             "properties": {
                 "getHistoryStatus": {
                     "enum": [
-                        "error",
+                        "errorFirstPage",
+                        "errorNextPage",
                         "idle",
                         "loading"
                     ],
