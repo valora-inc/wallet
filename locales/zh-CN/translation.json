@@ -2347,6 +2347,13 @@
       "subtitle": "立即存款，赚取回报",
       "description": "了解您在提供贷款池时能赚多少钱"
     },
+    "activePools": {
+      "title": "活动泳池",
+      "totalValue": "总价值",
+      "apy": "~{{apy}}% APY",
+      "exitPool": "出口池",
+      "depositMore": "存款 更多"
+    },
     "depositBottomSheet": {
       "title": "审查和存款",
       "description": "在向 Aave 奖池存款之前，请查看以下交易详情",
