@@ -6,6 +6,7 @@ interface Props {
   value: string | number
   typeScaleName?: keyof typeof typeScale
   animationDuration?: number
+  disableAnimation?: boolean
   testID?: string
 }
 
@@ -52,6 +53,7 @@ export default function NumberTicker({
   value,
   typeScaleName = 'displaySmall',
   animationDuration = 1300,
+  disableAnimation = false,
   testID,
 }: Props) {
   const textStyle = typeScale[typeScaleName]
@@ -82,7 +84,7 @@ export default function NumberTicker({
             endValue={endValue}
             textHeight={textHeight}
             textStyle={textStyle}
-            animationDuration={animationDuration}
+            animationDuration={disableAnimation ? 0 : animationDuration}
           />
         )
       })}
