@@ -2286,6 +2286,11 @@
         "refresh": "Atualizar"
       }
     },
+    "fetchBalanceError": {
+      "title": "Não é possível carregar seus pontos",
+      "description": "Oops, algo deu errado ao tentar carregar seus pontos. As informações nesta página podem estar desatualizadas. Por favor, atualize.",
+      "retryCta": "Atualizar"
+    },
     "loading": {
       "title": "Reunir seus pontos",
       "description": "Estamos no processo de contabilizar os pontos que você obteve, aguarde"
@@ -2324,10 +2329,26 @@
       }
     }
   },
-  "earnStablecoin": {
-    "title": "Ganhe com suas stablecoins",
-    "subtitle": "Deposite hoje e ganhe retornos",
-    "description": "Se você depositar <0></0>, poderá receber até <1></1> no final do ano!"
+  "earnFlow": {
+    "addCryptoBottomSheet": {
+      "title": "Adicionar {{tokenSymbol}} em {{tokenNetwork}}",
+      "description": "Depois de adicionar tokens, você terá que voltar para terminar de depositar em um pool.",
+      "actions": {
+        "add": "Comprar",
+        "transfer": "Transferência",
+        "swap": "Trocar"
+      },
+      "actionDescriptions": {
+        "add": "Compre {{tokenSymbol}} em {{tokenNetwork}} usando um de nossos provedores confiáveis",
+        "transfer": "Use qualquer carteira ou bolsa compatível com {{tokenNetwork}} para depositar {{tokenSymbol}}",
+        "swap": "Trocar para {{tokenSymbol}} de outro token {{tokenNetwork}}"
+      }
+    },
+    "cta": {
+      "title": "Ganhe com suas stablecoins",
+      "subtitle": "Deposite hoje e ganhe retornos",
+      "description": "Veja quanto você pode ganhar ao fornecer um pool de empréstimos"
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
