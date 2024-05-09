@@ -2290,6 +2290,11 @@
         "refresh": "Оновити"
       }
     },
+    "fetchBalanceError": {
+      "title": "Unable to load your points",
+      "description": "Oops, something went wrong when trying to load your points. The information on this page may be out of date. Please refresh.",
+      "retryCta": "Оновити"
+    },
     "loading": {
       "title": "Збираємо бали",
       "description": "Ми підраховуємо ваші бали, будьте напоготові"
