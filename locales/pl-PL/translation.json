@@ -2290,6 +2290,11 @@
         "refresh": "Odśwież"
       }
     },
+    "fetchBalanceError": {
+      "title": "Nie można załadować twoich punktów",
+      "description": "Ups, coś poszło nie tak podczas próby załadowania Twoich punktów. Informacje na tej stronie mogą być nieaktualne. Odśwież stronę.",
+      "retryCta": "Odśwież"
+    },
     "loading": {
       "title": "Zbierz swoje punkty",
       "description": "Jesteśmy w trakcie podliczania twoich punktów, trzymaj się mocno"
@@ -2328,10 +2333,26 @@
       }
     }
   },
-  "earnStablecoin": {
-    "title": "Zarabiaj na swoich stablecoinach",
-    "subtitle": "Dokonaj wpłaty już dziś i zarabiaj",
-    "description": "Jeśli wpłacisz <0></0>, możesz otrzymać do <1></1> na koniec roku!"
+  "earnFlow": {
+    "addCryptoBottomSheet": {
+      "title": "Dodaj {{tokenSymbol}} na {{tokenNetwork}}",
+      "description": "Po dodaniu żetonów będziesz musiał wrócić, aby dokończyć wpłatę do puli.",
+      "actions": {
+        "add": "Kup",
+        "transfer": "Transfer",
+        "swap": "Zamieniaj"
+      },
+      "actionDescriptions": {
+        "add": "Kup {{tokenSymbol}} na {{tokenNetwork}} korzystając z usług jednego z naszych zaufanych dostawców.",
+        "transfer": "Użyj dowolnego portfela lub giełdy kompatybilnej z {{tokenNetwork}} , aby zdeponować {{tokenSymbol}}.",
+        "swap": "Zamień na {{tokenSymbol}} z innego tokena {{tokenNetwork}}"
+      }
+    },
+    "cta": {
+      "title": "Zarabiaj na swoich stablecoinach",
+      "subtitle": "Dokonaj wpłaty już dziś i zarabiaj",
+      "description": "Zobacz ile możesz zarobić zasilając pulę pożyczkową"
+    }
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",

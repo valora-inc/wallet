@@ -2286,6 +2286,11 @@
         "refresh": "Aggiornare"
       }
     },
+    "fetchBalanceError": {
+      "title": "Impossibile caricare i punti",
+      "description": "Ops, qualcosa è andato storto nel tentativo di caricare i tuoi punti. Le informazioni contenute in questa pagina potrebbero non essere aggiornate. Ti preghiamo di aggiornare.",
+      "retryCta": "Aggiornare"
+    },
     "loading": {
       "title": "Raccogliere i punti",
       "description": "Stiamo per fare il conteggio dei tuoi punti, tieniti forte."
@@ -2324,10 +2329,26 @@
       }
     }
   },
-  "earnStablecoin": {
-    "title": "Guadagna sui tuoi stablecoin",
-    "subtitle": "Deposita oggi stesso e guadagna",
-    "description": "Se depositi <0></0>, puoi ottenere fino a <1></1> alla fine dell'anno!"
+  "earnFlow": {
+    "addCryptoBottomSheet": {
+      "title": "Aggiungi {{tokenSymbol}} su {{tokenNetwork}}",
+      "description": "Una volta aggiunti i gettoni, dovrai tornare per terminare il deposito in una piscina.",
+      "actions": {
+        "add": "Acquista",
+        "transfer": "Trasferimento",
+        "swap": "Scambia"
+      },
+      "actionDescriptions": {
+        "add": "Acquista {{tokenSymbol}} su {{tokenNetwork}} utilizzando uno dei nostri fornitori di fiducia",
+        "transfer": "Utilizza qualsiasi portafoglio o exchange compatibile con {{tokenNetwork}} per depositare {{tokenSymbol}}",
+        "swap": "Scambia in {{tokenSymbol}} da un altro token {{tokenNetwork}}"
+      }
+    },
+    "cta": {
+      "title": "Guadagna sui tuoi stablecoin",
+      "subtitle": "Deposita oggi stesso e guadagna",
+      "description": "Scopri quanto puoi guadagnare fornendo un pool di prestiti"
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"

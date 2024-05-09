@@ -2286,6 +2286,11 @@
         "refresh": "Actualizar"
       }
     },
+    "fetchBalanceError": {
+      "title": "No se pueden cargar tus puntos",
+      "description": "Ups, algo ha ido mal al intentar cargar tus puntos. La información de esta página puede no estar actualizada. Por favor, actualízala.",
+      "retryCta": "Actualizar"
+    },
     "loading": {
       "title": "Reunir tus puntos",
       "description": "Estamos en proceso de contabilizar tus puntos, agárrate fuerte"
@@ -2324,10 +2329,26 @@
       }
     }
   },
-  "earnStablecoin": {
-    "title": "Gana con tus stablecoins",
-    "subtitle": "Deposita hoy y obtén beneficios",
-    "description": "Si ingresas <0></0>, ¡podrás conseguir hasta <1></1> a final de año!"
+  "earnFlow": {
+    "addCryptoBottomSheet": {
+      "title": "Añade {{tokenSymbol}} en {{tokenNetwork}}",
+      "description": "Una vez que añadas fichas, tendrás que volver para terminar de depositarlas en un fondo común.",
+      "actions": {
+        "add": "Comprar",
+        "transfer": "Transferencia",
+        "swap": "Cambiar"
+      },
+      "actionDescriptions": {
+        "add": "Compra {{tokenSymbol}} en {{tokenNetwork}} utilizando uno de nuestros proveedores de confianza",
+        "transfer": "Utiliza cualquier monedero o bolsa compatible con {{tokenNetwork}} para depositar {{tokenSymbol}}",
+        "swap": "Cambia a {{tokenSymbol}} desde otra ficha {{tokenNetwork}}"
+      }
+    },
+    "cta": {
+      "title": "Gana con tus stablecoins",
+      "subtitle": "Deposita hoy y obtén beneficios",
+      "description": "Comprueba cuánto puedes ganar al abastecer un fondo común de préstamos"
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

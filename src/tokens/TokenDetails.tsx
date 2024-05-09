@@ -48,7 +48,7 @@ import {
 } from 'src/tokens/hooks'
 import { sortedTokensWithBalanceSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { TokenDetailsAction, TokenDetailsActionName } from 'src/tokens/types'
+import { TokenAction, TokenActionName } from 'src/tokens/types'
 import {
   getSupportedNetworkIdsForSend,
   getTokenAnalyticsProps,
@@ -181,7 +181,7 @@ export const useActions = (token: TokenBalance) => {
 
   return [
     {
-      name: TokenDetailsActionName.Send,
+      name: TokenActionName.Send,
       title: t('tokenDetails.actions.send'),
       details: t('tokenDetails.actionDescriptions.sendV1_74', {
         supportedNetworkNames: supportedNetworkIdsForSend
@@ -196,7 +196,7 @@ export const useActions = (token: TokenBalance) => {
       visible: !!sendableTokensWithBalance.find((tokenInfo) => tokenInfo.tokenId === token.tokenId),
     },
     {
-      name: TokenDetailsActionName.Swap,
+      name: TokenActionName.Swap,
       title: t('tokenDetails.actions.swap'),
       details: t('tokenDetails.actionDescriptions.swap'),
       iconComponent: QuickActionsSwap,
@@ -208,7 +208,7 @@ export const useActions = (token: TokenBalance) => {
         !!swappableFromTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId),
     },
     {
-      name: TokenDetailsActionName.Add,
+      name: TokenActionName.Add,
       title: t('tokenDetails.actions.add'),
       details: t('tokenDetails.actionDescriptions.add'),
       iconComponent: QuickActionsAdd,
@@ -222,7 +222,7 @@ export const useActions = (token: TokenBalance) => {
       visible: !!cashInTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId),
     },
     {
-      name: TokenDetailsActionName.Withdraw,
+      name: TokenActionName.Withdraw,
       title: t('tokenDetails.actions.withdraw'),
       details: t('tokenDetails.actionDescriptions.withdraw'),
       iconComponent: QuickActionsWithdraw,
@@ -241,14 +241,14 @@ function Actions({
 }: {
   token: TokenBalance
   bottomSheetRef: React.RefObject<BottomSheetRefType>
-  actions: TokenDetailsAction[]
+  actions: TokenAction[]
 }) {
   const { t } = useTranslation()
   const cashOutTokens = useCashOutTokens()
   const showWithdraw = !!cashOutTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId)
 
   const moreAction = {
-    name: TokenDetailsActionName.More,
+    name: TokenActionName.More,
     title: t('tokenDetails.actions.more'),
     iconComponent: QuickActionsMore,
     onPress: () => {
