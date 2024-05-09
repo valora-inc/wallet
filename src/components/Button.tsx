@@ -11,7 +11,7 @@ import {
 } from 'react-native'
 import Touchable from 'src/components/Touchable'
 import colors, { Colors } from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { vibrateInformative } from 'src/styles/hapticFeedback'
 
 const BUTTON_TAP_DEBOUNCE_TIME = 300 // milliseconds
@@ -70,7 +70,7 @@ export default React.memo(function Button(props: ButtonProps) {
     loadingColor,
     touchableStyle,
     iconMargin = 4,
-    fontStyle = fontStyles.regular600,
+    fontStyle = typeScale.labelSemiBoldMedium,
   } = props
 
   // Debounce onPress event so that it is called once on trigger and
