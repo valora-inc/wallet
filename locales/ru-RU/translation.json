@@ -2291,9 +2291,9 @@
       }
     },
     "fetchBalanceError": {
-      "title": "Unable to load your points",
-      "description": "Oops, something went wrong when trying to load your points. The information on this page may be out of date. Please refresh.",
-      "retryCta": "Refresh"
+      "title": "Невозможно загрузить очки",
+      "description": "Упс, что-то пошло не так при попытке загрузить твои очки. Информация на этой странице может быть устаревшей. Пожалуйста, обновите страницу.",
+      "retryCta": "Обновить"
     },
     "loading": {
       "title": "Собираем твои очки",
