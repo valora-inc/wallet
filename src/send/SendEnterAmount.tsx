@@ -8,7 +8,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useSelector } from 'src/redux/hooks'
-import EnterAmount, { ProceedArgs } from 'src/send/EnterAmount'
+import EnterAmount, { ProceedArgs, SendProceed } from 'src/send/EnterAmount'
 import { lastUsedTokenIdSelector } from 'src/send/selectors'
 import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
 import { COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE } from 'src/send/utils'
@@ -116,6 +116,7 @@ function SendEnterAmount({ route }: Props) {
       prepareTransactionError={prepareTransactionError}
       tokenSelectionDisabled={!!forceTokenId}
       onPressProceed={handleReviewSend}
+      ProceedComponent={SendProceed}
     />
   )
 }
