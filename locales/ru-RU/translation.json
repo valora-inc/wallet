@@ -2335,17 +2335,17 @@
   },
   "earnFlow": {
     "addCryptoBottomSheet": {
-      "title": "Add {{tokenSymbol}} on {{tokenNetwork}}",
-      "description": "Once you add tokens you'll have to come back to finish depositing into a pool.",
+      "title": "Добавь {{tokenSymbol}} на {{tokenNetwork}}",
+      "description": "Как только ты добавишь жетоны, тебе придется вернуться, чтобы закончить пополнение счета в пуле.",
       "actions": {
-        "add": "Buy",
-        "transfer": "Transfer",
-        "swap": "Swap"
+        "add": "Купить",
+        "transfer": "Передача",
+        "swap": "Обмен"
       },
       "actionDescriptions": {
-        "add": "Buy {{tokenSymbol}} on {{tokenNetwork}} using one of our trusted providers",
-        "transfer": "Use any {{tokenNetwork}} compatible wallet or exchange to deposit {{tokenSymbol}}",
-        "swap": "Swap into {{tokenSymbol}} from another {{tokenNetwork}} token"
+        "add": "Купи {{tokenSymbol}} на {{tokenNetwork}} , воспользовавшись услугами одного из наших проверенных провайдеров.",
+        "transfer": "Используй любой {{tokenNetwork}} совместимый кошелек или биржу, чтобы пополнить счет {{tokenSymbol}}.",
+        "swap": "Переключись на {{tokenSymbol}} с другого токена {{tokenNetwork}} ."
       }
     },
     "cta": {
