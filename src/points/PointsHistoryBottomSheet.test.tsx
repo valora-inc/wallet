@@ -78,7 +78,7 @@ describe(PointsHistoryBottomSheet, () => {
 
     expect(tree.queryByTestId('PointsHistoryBottomSheet/Error')).toBeNull()
     expect(tree.queryByTestId('PointsHistoryBottomSheet/Error')).toBeNull()
-    expect(tree.queryByTestId('PointsHistoryBottomSheet/Empty')).toBeTruthy()
+    expect(tree.getByTestId('PointsHistoryBottomSheet/Empty')).toBeTruthy()
   })
 
   it('displays content while loading', async () => {

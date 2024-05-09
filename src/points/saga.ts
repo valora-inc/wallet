@@ -7,6 +7,9 @@ import {
   getHistoryError,
   getHistoryStarted,
   getHistorySucceeded,
+  getPointsBalanceError,
+  getPointsBalanceStarted,
+  getPointsBalanceSucceeded,
   getPointsConfigError,
   getPointsConfigRetry,
   getPointsConfigStarted,
@@ -17,6 +20,7 @@ import {
 } from 'src/points/slice'
 import {
   GetHistoryResponse,
+  GetPointsBalanceResponse,
   PointsEvent,
   isClaimActivityId,
   isPointsActivityId,
@@ -35,16 +39,52 @@ const TAG = 'Points/saga'
 
 const POINTS_EVENT_EXPIRY_DAYS = 30
 
+export function* getPointsBalance({ type, payload }: ReturnType<typeof getHistoryStarted>) {
+  if (type === getHistoryStarted.type && payload.getNextPage) {
+    // prevent fetching points balance when fetching more history
+    return
+  }
+
+  const address = yield* select(walletAddressSelector)
+  if (!address) {
+    Logger.error(TAG, 'No wallet address found when fetching points balance')
+    return
+  }
+
+  try {
+    yield* put(getPointsBalanceStarted())
+    const response = yield* call(
+      fetchWithTimeout,
+      `${networkConfig.getPointsBalanceUrl}?address=${address}`,
+      {
+        method: 'GET',
+      }
+    )
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch points balance: ${response.status} ${response.statusText}`)
+    }
+    const { balance }: GetPointsBalanceResponse = yield* call([response, 'json'])
+    yield* put(getPointsBalanceSucceeded(balance))
+  } catch (error) {
+    Logger.warn(TAG, 'Error fetching points balance', error)
+    yield* put(getPointsBalanceError())
+  }
+}
+
 export async function fetchHistory(
   address: string,
-  url?: string | null
+  nextPageUrl?: string | null
 ): Promise<GetHistoryResponse> {
-  const response = await fetchWithTimeout(
-    url ?? `${networkConfig.getPointsHistoryUrl}?` + new URLSearchParams({ address }),
-    {
-      method: 'GET',
-    }
-  )
+  const firstPageQueryParams = new URLSearchParams({
+    address,
+    pageSize: '10', // enough to fill up the history bottom sheet
+  }).toString()
+  const firstPageUrl = `${networkConfig.getPointsHistoryUrl}?${firstPageQueryParams}`
+
+  const response = await fetchWithTimeout(nextPageUrl ?? firstPageUrl, {
+    method: 'GET',
+  })
   if (response.ok) {
     return response.json() as Promise<GetHistoryResponse>
   } else {
@@ -193,6 +233,7 @@ export function* sendPendingPointsEvents() {
 
 function* watchGetHistory() {
   yield* takeLeading(getHistoryStarted.type, safely(getHistory))
+  yield* takeLeading(getHistoryStarted.type, safely(getPointsBalance))
 }
 
 function* watchGetConfig() {

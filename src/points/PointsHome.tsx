@@ -1,26 +1,31 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { PointsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import BeatingHeartLoader from 'src/components/BeatingHeartLoader'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import { BottomSheetParams, PointsActivityId } from 'src/points/types'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { PointsEvents } from 'src/analytics/Events'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import NumberTicker from 'src/components/NumberTicker'
 import CustomHeader from 'src/components/header/CustomHeader'
-import PointsHistoryBottomSheet from 'src/points/PointsHistoryBottomSheet'
 import AttentionIcon from 'src/icons/Attention'
 import LogoHeart from 'src/icons/LogoHeart'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import ActivityCardSection from 'src/points/ActivityCardSection'
-import { pointsConfigStatusSelector, pointsSectionsSelector } from 'src/points/selectors'
+import PointsHistoryBottomSheet from 'src/points/PointsHistoryBottomSheet'
+import {
+  pointsBalanceSelector,
+  pointsBalanceStatusSelector,
+  pointsConfigStatusSelector,
+  pointsSectionsSelector,
+} from 'src/points/selectors'
 import { getHistoryStarted, getPointsConfigRetry } from 'src/points/slice'
+import { BottomSheetParams, PointsActivityId } from 'src/points/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -35,10 +40,10 @@ export default function PointsHome({ route, navigation }: Props) {
 
   const pointsSections = useSelector(pointsSectionsSelector)
   const pointsConfigStatus = useSelector(pointsConfigStatusSelector)
+  const pointsBalance = useSelector(pointsBalanceSelector)
+  const pointsBalanceStatus = useSelector(pointsBalanceStatusSelector)
 
-  // TODO: Use real points balance
-  const pointsBalance = 562
-
+  const lastKnownPointsBalance = useRef(pointsBalance)
   const historyBottomSheetRef = useRef<BottomSheetRefType>(null)
   const activityCardBottomSheetRef = useRef<BottomSheetRefType>(null)
 
@@ -52,8 +57,18 @@ export default function PointsHome({ route, navigation }: Props) {
   }, [bottomSheetParams])
 
   useEffect(() => {
-    dispatch(getHistoryStarted({ getNextPage: false }))
+    onRefreshHistoryAndBalance()
   }, [])
+
+  useEffect(() => {
+    if (pointsBalanceStatus === 'success') {
+      lastKnownPointsBalance.current = pointsBalance
+    }
+  }, [pointsBalanceStatus])
+
+  const onRefreshHistoryAndBalance = () => {
+    dispatch(getHistoryStarted({ getNextPage: false }))
+  }
 
   const onCardPress = (bottomSheetDetails: BottomSheetParams) => {
     setBottomSheetParams(bottomSheetDetails)
@@ -83,7 +98,18 @@ export default function PointsHome({ route, navigation }: Props) {
         style={styles.header}
         left={<BackButton eventName={PointsEvents.points_screen_back} />}
       />
-      <ScrollView contentContainerStyle={styles.contentContainer}>
+      <ScrollView
+        testID={'PointsScrollView'}
+        contentContainerStyle={styles.contentContainer}
+        refreshControl={
+          <RefreshControl
+            tintColor={Colors.primary}
+            colors={[Colors.primary]}
+            refreshing={pointsBalanceStatus === 'loading'}
+            onRefresh={onRefreshHistoryAndBalance}
+          />
+        }
+      >
         {pointsConfigStatus === 'loading' && (
           <View style={styles.loadingStatusContainer}>
             <BeatingHeartLoader size={64} />
@@ -122,7 +148,11 @@ export default function PointsHome({ route, navigation }: Props) {
               />
             </View>
             <View style={styles.balanceRow}>
-              <NumberTicker testID="PointsBalance" value={pointsBalance} />
+              <NumberTicker
+                testID="PointsBalance"
+                value={pointsBalance}
+                disableAnimation={lastKnownPointsBalance.current === pointsBalance}
+              />
               <LogoHeart size={28} />
             </View>
 

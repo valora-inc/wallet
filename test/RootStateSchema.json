@@ -4329,6 +4329,18 @@
                     },
                     "type": "array"
                 },
+                "pointsBalance": {
+                    "type": "string"
+                },
+                "pointsBalanceStatus": {
+                    "enum": [
+                        "error",
+                        "idle",
+                        "loading",
+                        "success"
+                    ],
+                    "type": "string"
+                },
                 "pointsConfig": {
                     "additionalProperties": false,
                     "properties": {
@@ -4361,6 +4373,8 @@
                 "getHistoryStatus",
                 "nextPageUrl",
                 "pendingPointsEvents",
+                "pointsBalance",
+                "pointsBalanceStatus",
                 "pointsConfig",
                 "pointsConfigStatus",
                 "pointsHistory"
