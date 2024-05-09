@@ -2284,6 +2284,11 @@
         "refresh": "刷新"
       }
     },
+    "fetchBalanceError": {
+      "title": "Unable to load your points",
+      "description": "Oops, something went wrong when trying to load your points. The information on this page may be out of date. Please refresh.",
+      "retryCta": "刷新"
+    },
     "loading": {
       "title": "收集要点",
       "description": "我们正在统计您的积分，请抓紧时间"
