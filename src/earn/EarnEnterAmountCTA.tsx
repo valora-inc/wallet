@@ -1,22 +1,31 @@
 import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
-import Button, { BtnSizes } from 'src/components/Button'
+import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import InfoIcon from 'src/icons/InfoIcon'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { useSelector } from 'src/redux/hooks'
+import { ProceedComponentProps } from 'src/send/EnterAmount'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import { TokenBalance } from 'src/tokens/slice'
 
-export default function EarnEnterAmount({ token }: { token: TokenBalance }) {
+export default function EarnEnterAmount({
+  tokenAmount,
+  localAmount,
+  token,
+  amountEnteredIn,
+  disabled,
+  onPressProceed,
+}: ProceedComponentProps) {
   const { t } = useTranslation()
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const infoBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const addCryptoBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const reviewBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const onPressContinue = () => {
     // navigate to correct screen / bottom sheet
@@ -26,10 +35,6 @@ export default function EarnEnterAmount({ token }: { token: TokenBalance }) {
     infoBottomSheetRef.current?.snapToIndex(0)
   }
 
-  const onPressDismiss = () => {
-    infoBottomSheetRef.current?.close()
-  }
-
   const tvl = 150000000
   const rate = 3.33
   const amountEntered = false
@@ -37,8 +42,8 @@ export default function EarnEnterAmount({ token }: { token: TokenBalance }) {
   return (
     <View style={styles.infoContainer}>
       <View style={styles.line}>
-        <Text style={styles.label}>{t('earnFlow.enterAmount.tvl')}</Text>
-        <Text style={styles.label}>{t('earnFlow.enterAmount.rate')}</Text>
+        <Text style={styles.label}>{t('earnFlow.enterAmount.tvlLabel')}</Text>
+        <Text style={styles.label}>{t('earnFlow.enterAmount.rateLabel')}</Text>
       </View>
       <View style={styles.line}>
         <Text>
@@ -55,7 +60,7 @@ export default function EarnEnterAmount({ token }: { token: TokenBalance }) {
         text={t('earnFlow.enterAmount.continue')}
         style={styles.continueButton}
         size={BtnSizes.FULL}
-        fontStyle={styles.continueButtonText}
+        fontStyle={styles.buttonText}
         disabled={!amountEntered}
       />
       <View style={styles.row}>
@@ -68,7 +73,37 @@ export default function EarnEnterAmount({ token }: { token: TokenBalance }) {
           <InfoIcon color={Colors.black} size={24} />
         </TouchableOpacity>
       </View>
+      <InfoBottomSheet infoBottomSheetRef={infoBottomSheetRef} />
     </View>
+  )
+}
+
+function InfoBottomSheet({
+  infoBottomSheetRef,
+}: {
+  infoBottomSheetRef: React.RefObject<BottomSheetRefType>
+}) {
+  const { t } = useTranslation()
+  const onPressDismiss = () => {
+    infoBottomSheetRef.current?.close()
+  }
+
+  return (
+    <BottomSheet
+      forwardedRef={infoBottomSheetRef}
+      title={t('earnFlow.enterAmount.infoBottomSheet.title')}
+      description={t('earnFlow.enterAmount.infoBottomSheet.description')}
+      testId={'Earn/EnterAmount/InfoBottomSheet'}
+      titleStyle={styles.infoTitle}
+    >
+      <Button
+        onPress={onPressDismiss}
+        text={t('earnFlow.enterAmount.infoBottomSheet.dismiss')}
+        size={BtnSizes.FULL}
+        type={BtnTypes.GRAY_WITH_BORDER}
+        fontStyle={styles.buttonText}
+      />
+    </BottomSheet>
   )
 }
 
@@ -98,11 +133,15 @@ const styles = StyleSheet.create({
   continueButton: {
     paddingVertical: Spacing.Thick24,
   },
-  continueButtonText: {
+  buttonText: {
     ...typeScale.labelSemiBoldMedium,
   },
   infoText: {
     ...typeScale.bodyXSmall,
     color: Colors.gray4,
+  },
+  infoTitle: {
+    ...typeScale.titleSmall,
+    color: Colors.black,
   },
 })

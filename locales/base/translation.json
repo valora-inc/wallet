@@ -2336,6 +2336,18 @@
       "title": "Earn on your stablecoins",
       "subtitle": "Deposit today and earn returns",
       "description": "See how much you can earn when supplying a lending pool"
+    },
+    "enterAmount": {
+      "tvlLabel": "TVL",
+      "rateLabel": "Rate (est.)",
+      "rate": "{{rate}}% APY",
+      "continue": "Continue",
+      "info": "This pool is powered by Aave",
+      "infoBottomSheet": {
+        "title": "Why this pool?",
+        "description": "This Aave pool has over $150M TVL and more than 6,000 contributors, indicating strong liquidity and trustworthiness. It also uses USDC as its token and Abritrum as its network, which reduces volatility and ensures users will receive inexpensive gas rates./n/nAll together this makes it a safe and attractive option with competitive APY, ensuring a beneficial investment opportunity for our users./n/nYou can explore other Aave pools here.",
+        "dismiss": "Dismiss"
+      }
     }
   }
 }
