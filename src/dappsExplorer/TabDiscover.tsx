@@ -36,7 +36,6 @@ import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import EarnActivePool from 'src/earn/EarnActivePool'
 import EarnCta from 'src/earn/EarnCta'
-import { useAavePoolUserBalance } from 'src/earn/hooks'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
@@ -49,8 +48,6 @@ import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokenInfo } from 'src/tokens/hooks'
 import networkConfig from 'src/web3/networkConfig'
-import { walletAddressSelector } from 'src/web3/selectors'
-import { Address } from 'viem'
 
 const AnimatedSectionList =
   Animated.createAnimatedComponent<SectionListProps<Dapp, SectionData>>(SectionList)
@@ -83,12 +80,7 @@ function TabDiscover({ navigation }: Props) {
   const favoriteDappsWithCategoryNames = useSelector(favoriteDappsWithCategoryNamesSelector)
 
   // Earning Pool Aave
-  const token = useTokenInfo(networkConfig.arbUsdcTokenId)
-  const walletAddress = useSelector(walletAddressSelector)
-  const asyncPoolUserInfo = useAavePoolUserBalance({
-    assetAddress: token?.address as Address,
-    walletAddress: walletAddress as Address,
-  })
+  const poolToken = useTokenInfo(networkConfig.aaveArbUsdcTokenId)
 
   const [filterChips, setFilterChips] = useState<BooleanFilterChip<DappWithCategoryNames>[]>(() =>
     categories.map((category) => ({
@@ -252,7 +244,7 @@ function TabDiscover({ navigation }: Props) {
                 }
                 <DappFeaturedActions onPressShowDappRankings={handleShowDappRankings} />
                 {getFeatureGate(StatsigFeatureGates.SHOW_STABLECOIN_EARN) ? (
-                  asyncPoolUserInfo.result && asyncPoolUserInfo.result.balanceInDecimal !== '0' ? (
+                  poolToken && poolToken.balance.gt(0) ? (
                     <EarnActivePool />
                   ) : (
                     <EarnCta />

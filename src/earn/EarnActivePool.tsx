@@ -1,18 +1,16 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { useSelector } from 'react-redux'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import TokenDisplay from 'src/components/TokenDisplay'
-import { useAavePoolInfo, useAavePoolUserBalance } from 'src/earn/hooks'
+import { useAavePoolInfo } from 'src/earn/hooks'
 import UpwardGraph from 'src/icons/UpwardGraph'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokenInfo } from 'src/tokens/hooks'
 import networkConfig from 'src/web3/networkConfig'
-import { walletAddressSelector } from 'src/web3/selectors'
 import { Address } from 'viem'
 
 function PoolDetailsLoading() {
@@ -34,12 +32,8 @@ function PoolDetailsLoading() {
 export default function EarnActivePool() {
   const { t } = useTranslation()
   const token = useTokenInfo(networkConfig.arbUsdcTokenId)
-  const walletAddress = useSelector(walletAddressSelector)
   const asyncPoolInfo = useAavePoolInfo(token?.address as Address)
-  const asyncPoolUserInfo = useAavePoolUserBalance({
-    assetAddress: token?.address as Address,
-    walletAddress: walletAddress as Address,
-  })
+  const poolToken = useTokenInfo(networkConfig.aaveArbUsdcTokenId)
 
   return (
     <View style={styles.card} testID="EarnActivePool">
@@ -48,10 +42,9 @@ export default function EarnActivePool() {
         <View>
           <View style={styles.row}>
             <Text style={styles.totalValueText}>{t('earnFlow.activePools.totalValue')}</Text>
-            {asyncPoolUserInfo.loading && <PoolDetailsLoading />}
-            {asyncPoolUserInfo.result && (
+            {poolToken && poolToken.balance && (
               <TokenDisplay
-                amount={asyncPoolUserInfo.result.balanceInDecimal}
+                amount={poolToken.balance}
                 showLocalAmount={false}
                 testID={`${networkConfig.arbUsdcTokenId}-totalAmount`}
                 tokenId={networkConfig.arbUsdcTokenId}
@@ -70,10 +63,9 @@ export default function EarnActivePool() {
                 <UpwardGraph />
               </View>
             )}
-            {asyncPoolUserInfo.loading && <PoolDetailsLoading />}
-            {asyncPoolUserInfo.result && (
+            {poolToken && poolToken.balance && (
               <TokenDisplay
-                amount={asyncPoolUserInfo.result.balanceInDecimal}
+                amount={poolToken.balance}
                 showLocalAmount={true}
                 testID={`${networkConfig.arbUsdcTokenId}-totalAmount`}
                 tokenId={networkConfig.arbUsdcTokenId}

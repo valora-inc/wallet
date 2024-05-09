@@ -8,9 +8,11 @@ import { DappCategory, DappSection } from 'src/dapps/types'
 import TabDiscover from 'src/dappsExplorer/TabDiscover'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
+import { NetworkId } from 'src/transactions/types'
+import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
-import { mockDappListWithCategoryNames } from 'test/values'
+import { mockAaveArbUsdcAddress, mockDappListWithCategoryNames } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/statsig', () => ({
@@ -20,14 +22,6 @@ jest.mock('src/statsig', () => ({
   })),
   getFeatureGate: jest.fn(),
 }))
-
-jest.mock('src/earn/hooks', () => ({
-  useAavePoolUserBalance: () => mockUseAavePoolUserBalance(),
-  useAavePoolInfo: () => mockUseAavePoolInfo(),
-}))
-
-const mockUseAavePoolUserBalance = jest.fn()
-const mockUseAavePoolInfo = jest.fn()
 
 const dappsList = mockDappListWithCategoryNames
 
@@ -752,13 +746,26 @@ describe('TabDiscover', () => {
       jest
         .mocked(getFeatureGate)
         .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_STABLECOIN_EARN)
-      mockUseAavePoolUserBalance.mockReturnValue({
-        result: { balanceInDecimal: '0' },
-        loading: false,
+
+      const store = createMockStore({
+        dapps: { dappListApiUrl: 'http://url.com', dappsList, dappsCategories },
+        tokens: {
+          tokenBalances: {
+            [networkConfig.aaveArbUsdcTokenId]: {
+              networkId: NetworkId['arbitrum-sepolia'],
+              address: mockAaveArbUsdcAddress,
+              tokenId: networkConfig.aaveArbUsdcTokenId,
+              symbol: 'aArbSepUSDC',
+              priceUsd: '1',
+              balance: '0',
+              priceFetchedAt: Date.now(),
+            },
+          },
+        },
       })
 
       const { getByTestId, queryByTestId } = render(
-        <Provider store={defaultStore}>
+        <Provider store={store}>
           <MockedNavigator component={TabDiscover} />
         </Provider>
       )
@@ -771,17 +778,26 @@ describe('TabDiscover', () => {
       jest
         .mocked(getFeatureGate)
         .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_STABLECOIN_EARN)
-      mockUseAavePoolUserBalance.mockReturnValue({
-        result: { balanceInDecimal: '10.75' },
-        loading: false,
-      })
-      mockUseAavePoolInfo.mockReturnValue({
-        result: { apy: 0.06 },
-        loading: false,
+
+      const store = createMockStore({
+        dapps: { dappListApiUrl: 'http://url.com', dappsList, dappsCategories },
+        tokens: {
+          tokenBalances: {
+            [networkConfig.aaveArbUsdcTokenId]: {
+              networkId: NetworkId['arbitrum-sepolia'],
+              address: mockAaveArbUsdcAddress,
+              tokenId: networkConfig.aaveArbUsdcTokenId,
+              symbol: 'aArbSepUSDC',
+              priceUsd: '1',
+              balance: '10',
+              priceFetchedAt: Date.now(),
+            },
+          },
+        },
       })
 
       const { getByTestId, queryByTestId } = render(
-        <Provider store={defaultStore}>
+        <Provider store={store}>
           <MockedNavigator component={TabDiscover} />
         </Provider>
       )

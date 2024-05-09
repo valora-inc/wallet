@@ -126,6 +126,7 @@ export const mockTestTokenAddress = '0x048F47d358EC521a6cf384461d674750a3cB58C8'
 export const mockCrealAddress = '0xE4D517785D091D3c54818832dB6094bcc2744545'.toLowerCase()
 export const mockWBTCAddress = '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599'.toLowerCase()
 export const mockUSDCAddress = '0x94a9d9ac8a22534e3faca9f4e7f2e2cf85d5e4c8'.toLowerCase()
+export const mockAaveArbUsdcAddress = '0x460b97BD498E1157530AEb3086301d5225b91216'.toLowerCase()
 
 export const mockCusdTokenId = `celo-alfajores:${mockCusdAddress}`
 export const mockCeurTokenId = `celo-alfajores:${mockCeurAddress}`
