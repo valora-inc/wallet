@@ -79,53 +79,41 @@ export default function EarnDepositBottomSheet({
         <Logos providerUrl={providerLogoUrl} />
         <Text style={styles.title}>{t('earnFlow.depositBottomSheet.title')}</Text>
         <Text style={styles.description}>{t('earnFlow.depositBottomSheet.description')}</Text>
-        <LabelValue
-          label={t('earnFlow.depositBottomSheet.amount')}
-          value={
-            <TokenDisplay
-              testID="EarnDeposit/Amount"
-              amount={amount}
-              tokenId={tokenId}
-              style={styles.value}
-              showLocalAmount={false}
-            />
-          }
-        />
-        <LabelValue
-          label={t('earnFlow.depositBottomSheet.fee')}
-          value={
-            <TokenDisplay
-              testID="EarnDeposit/Fee"
-              amount={estimatedFeeAmount}
-              tokenId={feeCurrency.tokenId}
-              style={styles.value}
-              showLocalAmount={false}
-            />
-          }
-        />
-        <LabelValue
-          label={t('earnFlow.depositBottomSheet.provider')}
-          value={
-            <View style={styles.providerNameContainer}>
-              <Text style={styles.value}>{providerName}</Text>
-              <Touchable
-                testID="EarnDeposit/ProviderInfo"
-                borderRadius={24}
-                onPress={onPressProviderIcon}
-              >
-                <InfoIcon size={12} />
-              </Touchable>
-            </View>
-          }
-        />
-        <LabelValue
-          label={t('earnFlow.depositBottomSheet.network')}
-          value={
-            <Text style={styles.value}>
-              {NETWORK_NAMES[preparedTransaction.feeCurrency.networkId]}
-            </Text>
-          }
-        />
+        <LabelledItem label={t('earnFlow.depositBottomSheet.amount')}>
+          <TokenDisplay
+            testID="EarnDeposit/Amount"
+            amount={amount}
+            tokenId={tokenId}
+            style={styles.value}
+            showLocalAmount={false}
+          />
+        </LabelledItem>
+        <LabelledItem label={t('earnFlow.depositBottomSheet.fee')}>
+          <TokenDisplay
+            testID="EarnDeposit/Fee"
+            amount={estimatedFeeAmount}
+            tokenId={feeCurrency.tokenId}
+            style={styles.value}
+            showLocalAmount={false}
+          />
+        </LabelledItem>
+        <LabelledItem label={t('earnFlow.depositBottomSheet.provider')}>
+          <View style={styles.providerNameContainer}>
+            <Text style={styles.value}>{providerName}</Text>
+            <Touchable
+              testID="EarnDeposit/ProviderInfo"
+              borderRadius={24}
+              onPress={onPressProviderIcon}
+            >
+              <InfoIcon size={12} />
+            </Touchable>
+          </View>
+        </LabelledItem>
+        <LabelledItem label={t('earnFlow.depositBottomSheet.network')}>
+          <Text style={styles.value}>
+            {NETWORK_NAMES[preparedTransaction.feeCurrency.networkId]}
+          </Text>
+        </LabelledItem>
         <Text style={styles.footer}>
           <Trans i18nKey="earnFlow.depositBottomSheet.footer">
             <Text
@@ -157,11 +145,11 @@ export default function EarnDepositBottomSheet({
   )
 }
 
-function LabelValue({ label, value }: { label: string; value: JSX.Element }) {
+function LabelledItem({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <View style={styles.labelValue}>
+    <View style={styles.labelledItem}>
       <Text style={styles.label}>{label}</Text>
-      {value}
+      {children}
     </View>
   )
 }
@@ -196,7 +184,7 @@ const styles = StyleSheet.create({
     ...typeScale.bodySmall,
     color: Colors.black,
   },
-  labelValue: {
+  labelledItem: {
     gap: Spacing.Tiny4,
   },
   label: {

@@ -2353,12 +2353,12 @@
     },
     "depositBottomSheet": {
       "title": "Review & Deposit",
-      "description": "By depositing crypto into a pool, you accept the risks associated with using a defi protocol for your money.",
+      "description": "Before depositing to an Aave pool, please review the transaction details below",
       "amount": "Amount Deposited",
       "fee": "Est. Gas Fees",
       "provider": "Earnings provider",
       "network": "Network",
-      "footer": "By continuing, you agree to Aave's <0>Terms & Conditions</0>",
+      "footer": "By depositing crypto into an Aave pool, you accept the risks associated with using Aave. <0>Terms & Conditions</0>",
       "primaryCta": "Complete",
       "secondaryCta": "Cancel"
     }
