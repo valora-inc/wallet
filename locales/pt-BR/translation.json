@@ -2349,6 +2349,13 @@
       "subtitle": "Deposite hoje e ganhe retornos",
       "description": "Veja quanto você pode ganhar ao fornecer um pool de empréstimos"
     },
+    "activePools": {
+      "title": "Piscinas ativas",
+      "totalValue": "Valor Total:",
+      "apy": "~{{apy}}% APY",
+      "exitPool": "Pool de saída",
+      "depositMore": "Depositar mais"
+    },
     "depositBottomSheet": {
       "title": "Revisão e depósito",
       "description": "Antes de depositar em um pool da Aave, leia os detalhes da transação abaixo",
