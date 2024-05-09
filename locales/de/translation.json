@@ -2286,6 +2286,11 @@
         "refresh": "Aktualisieren"
       }
     },
+    "fetchBalanceError": {
+      "title": "Unable to load your points",
+      "description": "Oops, something went wrong when trying to load your points. The information on this page may be out of date. Please refresh.",
+      "retryCta": "Refresh"
+    },
     "loading": {
       "title": "Sammeln deiner Punkte",
       "description": "Wir sind dabei, deine Punkte zusammenzuzählen, warte ab"
