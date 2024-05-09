@@ -16,7 +16,7 @@ import { useTokenInfo } from 'src/tokens/hooks'
 import { Network } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
-import { Address } from 'viem'
+import { isAddress } from 'viem'
 
 const TAG = 'earn/EarnActivePool'
 
@@ -53,9 +53,14 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, buttonDisp
       throw new Error(`Token with id ${depositTokenId} not found`)
     }
 
+    if (!isAddress(depositToken.address)) {
+      Logger.warn(TAG, `Token with id ${depositTokenId} does not contain a valid address`)
+      throw new Error(`Token with id ${depositTokenId} does not contain a valid address`)
+    }
+
     return fetchAavePoolInfo({
-      assetAddress: depositToken.address as Address,
-      contractAddress: networkConfig.arbAavePoolV3ContractAddress as Address,
+      assetAddress: depositToken.address,
+      contractAddress: networkConfig.arbAavePoolV3ContractAddress,
       network: Network.Arbitrum,
     })
   }, [])
