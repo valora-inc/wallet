@@ -2287,9 +2287,9 @@
       }
     },
     "fetchBalanceError": {
-      "title": "Unable to load your points",
-      "description": "Oops, something went wrong when trying to load your points. The information on this page may be out of date. Please refresh.",
-      "retryCta": "Refresh"
+      "title": "Impossible de charger tes points",
+      "description": "Oups, quelque chose s'est mal passé en essayant de charger tes points. Il se peut que les informations de cette page soient obsolètes. Actualise-les s'il te plaît.",
+      "retryCta": "Actualiser"
     },
     "loading": {
       "title": "Rassembler tes points de vue",
