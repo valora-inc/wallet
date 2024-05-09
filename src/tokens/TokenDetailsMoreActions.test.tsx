@@ -8,7 +8,7 @@ import QuickActionsSend from 'src/icons/quick-actions/Send'
 import QuickActionsSwap from 'src/icons/quick-actions/Swap'
 import TokenDetailsMoreActions from 'src/tokens/TokenDetailsMoreActions'
 import { StoredTokenBalance, TokenBalance } from 'src/tokens/slice'
-import { TokenDetailsAction, TokenDetailsActionName } from 'src/tokens/types'
+import { TokenAction, TokenActionName } from 'src/tokens/types'
 import { NetworkId } from 'src/transactions/types'
 import { mockCeloAddress, mockCeloTokenId } from 'test/values'
 
@@ -39,9 +39,9 @@ const mockCeloBalance: TokenBalance = {
   priceUsd: new BigNumber(mockStoredCeloTokenBalance.priceUsd!),
 }
 
-const mockActions: TokenDetailsAction[] = [
+const mockActions: TokenAction[] = [
   {
-    name: TokenDetailsActionName.Send,
+    name: TokenActionName.Send,
     title: 'tokenDetails.actions.send',
     details: 'tokenDetails.actions.sendDetails',
     iconComponent: QuickActionsSend,
@@ -49,7 +49,7 @@ const mockActions: TokenDetailsAction[] = [
     visible: true,
   },
   {
-    name: TokenDetailsActionName.Swap,
+    name: TokenActionName.Swap,
     title: 'tokenDetails.actions.swap',
     details: 'tokenDetails.actions.swapDetails',
     iconComponent: QuickActionsSwap,
@@ -57,7 +57,7 @@ const mockActions: TokenDetailsAction[] = [
     visible: true,
   },
   {
-    name: TokenDetailsActionName.Add,
+    name: TokenActionName.Add,
     title: 'tokenDetails.actions.add',
     details: 'tokenDetails.actions.addDetails',
     iconComponent: QuickActionsAdd,
@@ -65,7 +65,7 @@ const mockActions: TokenDetailsAction[] = [
     visible: true,
   },
   {
-    name: TokenDetailsActionName.Withdraw,
+    name: TokenActionName.Withdraw,
     title: 'tokenDetails.actions.withdraw',
     details: 'tokenDetails.actions.withdrawDetails',
     iconComponent: QuickActionsSend,

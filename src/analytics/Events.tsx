@@ -677,4 +677,5 @@ export enum PointsEvents {
 
 export enum EarnEvents {
   earn_cta_press = 'earn_cta_press',
+  earn_add_crypto_action_press = 'earn_add_crypto_action_press',
 }

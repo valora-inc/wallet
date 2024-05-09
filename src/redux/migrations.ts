@@ -1777,4 +1777,5 @@ export const migrations = {
   211: (state: any) => ({
     ...(_.omit(state, 'exchange') as any),
   }),
+  212: (state: any) => state,
 }

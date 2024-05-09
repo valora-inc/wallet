@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { PointsMetadata, isPointsActivityId, ClaimHistoryCardItem } from 'src/points/types'
+import { ClaimHistoryCardItem, PointsMetadata, isPointsActivityId } from 'src/points/types'
 import { RootState } from 'src/redux/reducers'
 
 export const nextPageUrlSelector = (state: RootState) => {
@@ -69,4 +69,12 @@ export const pointsSectionsSelector = createSelector(
 
 export const pendingPointsEvents = (state: RootState) => {
   return state.points.pendingPointsEvents
+}
+
+export const pointsBalanceSelector = (state: RootState) => {
+  return state.points.pointsBalance
+}
+
+export const pointsBalanceStatusSelector = (state: RootState) => {
+  return state.points.pointsBalanceStatus
 }
