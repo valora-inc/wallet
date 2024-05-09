@@ -2329,17 +2329,17 @@
   },
   "earnFlow": {
     "addCryptoBottomSheet": {
-      "title": "Add {{tokenSymbol}} on {{tokenNetwork}}",
-      "description": "Once you add tokens you'll have to come back to finish depositing into a pool.",
+      "title": "在 {{tokenNetwork}}上添加 {{tokenSymbol}}",
+      "description": "一旦您添加了代币，您就必须回来完成存入池的工作。",
       "actions": {
         "add": "买入",
-        "transfer": "Transfer",
+        "transfer": "转让",
         "swap": "交换"
       },
       "actionDescriptions": {
-        "add": "Buy {{tokenSymbol}} on {{tokenNetwork}} using one of our trusted providers",
-        "transfer": "Use any {{tokenNetwork}} compatible wallet or exchange to deposit {{tokenSymbol}}",
-        "swap": "Swap into {{tokenSymbol}} from another {{tokenNetwork}} token"
+        "add": "使用我们值得信赖的供应商之一在 {{tokenNetwork}} 上购买 {{tokenSymbol}}",
+        "transfer": "使用任何与 {{tokenNetwork}} 兼容的钱包或交易所存款 {{tokenSymbol}}",
+        "swap": "从另一个 {{tokenNetwork}} 令牌换入 {{tokenSymbol}}"
       }
     },
     "cta": {
