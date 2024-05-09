@@ -2349,6 +2349,13 @@
       "subtitle": "Dépose aujourd'hui et gagne en rendement",
       "description": "Vois combien tu peux gagner en alimentant un pool de prêt."
     },
+    "activePools": {
+      "title": "Piscines actives",
+      "totalValue": "Valeur totale :",
+      "apy": "~{{apy}}% APY",
+      "exitPool": "Exit Pool",
+      "depositMore": "Dépôt Plus"
+    },
     "depositBottomSheet": {
       "title": "Révision et dépôt",
       "description": "Avant de déposer dans un pool Aave, tu dois examiner les détails de la transaction ci-dessous.",
