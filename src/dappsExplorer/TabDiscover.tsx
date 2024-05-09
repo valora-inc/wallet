@@ -34,24 +34,18 @@ import NoResults from 'src/dappsExplorer/NoResults'
 import { searchDappList } from 'src/dappsExplorer/searchDappList'
 import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
-import EarnActivePool from 'src/earn/EarnActivePool'
-import EarnCta from 'src/earn/EarnCta'
+import useEarn from 'src/earn/useEarn'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import { Colors } from 'src/styles/colors'
 import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { useTokenInfo } from 'src/tokens/hooks'
-import networkConfig from 'src/web3/networkConfig'
 
 const AnimatedSectionList =
   Animated.createAnimatedComponent<SectionListProps<Dapp, SectionData>>(SectionList)
-
 interface SectionData {
   data: DappWithCategoryNames[]
   sectionName: string
@@ -80,7 +74,7 @@ function TabDiscover({ navigation }: Props) {
   const favoriteDappsWithCategoryNames = useSelector(favoriteDappsWithCategoryNamesSelector)
 
   // Earning Pool Aave
-  const poolToken = useTokenInfo(networkConfig.aaveArbUsdcTokenId)
+  const { Earn } = useEarn()
 
   const [filterChips, setFilterChips] = useState<BooleanFilterChip<DappWithCategoryNames>[]>(() =>
     categories.map((category) => ({
@@ -243,13 +237,7 @@ function TabDiscover({ navigation }: Props) {
                   </Text>
                 }
                 <DappFeaturedActions onPressShowDappRankings={handleShowDappRankings} />
-                {getFeatureGate(StatsigFeatureGates.SHOW_STABLECOIN_EARN) ? (
-                  poolToken && poolToken.balance.gt(0) ? (
-                    <EarnActivePool />
-                  ) : (
-                    <EarnCta />
-                  )
-                ) : null}
+                <Earn />
                 <SearchInput
                   onChangeText={(text) => {
                     setSearchTerm(text)
