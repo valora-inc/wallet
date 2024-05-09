@@ -175,7 +175,7 @@ describe('EarnAddCryptoBottomSheet', () => {
       )
 
       fireEvent.press(getByText(actionTitle))
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_tap_add_crypto_action, {
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_add_crypto_action_press, {
         action: actionName,
         address: '0x123',
         balanceUsd: 5.8,

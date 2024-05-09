@@ -1575,7 +1575,7 @@ interface PointsEventsProperties {
 
 interface EarnEventsProperties {
   [EarnEvents.earn_cta_press]: undefined
-  [EarnEvents.earn_tap_add_crypto_action]: {
+  [EarnEvents.earn_add_crypto_action_press]: {
     action: TokenActionName
   } & TokenProperties
 }

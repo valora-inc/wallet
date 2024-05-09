@@ -114,7 +114,7 @@ export default function EarnAddCryptoBottomSheet({
             key={action.name}
             borderRadius={20}
             onPress={() => {
-              ValoraAnalytics.track(EarnEvents.earn_tap_add_crypto_action, {
+              ValoraAnalytics.track(EarnEvents.earn_add_crypto_action_press, {
                 action: action.name,
                 ...getTokenAnalyticsProps(token),
               })
