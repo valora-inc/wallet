@@ -13,7 +13,7 @@ import { Spacing } from 'src/styles/styles'
 import { useTokenInfo } from 'src/tokens/hooks'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
-import { Address } from 'viem'
+import { isAddress } from 'viem'
 
 const TAG = 'earn/EarnActivePool'
 
@@ -43,7 +43,16 @@ export default function EarnActivePool() {
       Logger.warn(TAG, `Token with id ${networkConfig.arbUsdcTokenId} not found`)
       throw new Error(`Token with id ${networkConfig.arbUsdcTokenId} not found`)
     }
-    return fetchAavePoolInfo(token.address as Address)
+    if (!isAddress(token.address)) {
+      Logger.warn(
+        TAG,
+        `Token with id ${networkConfig.arbUsdcTokenId} does not contain a valid address`
+      )
+      throw new Error(
+        `Token with id ${networkConfig.arbUsdcTokenId} does not contain a valid address`
+      )
+    }
+    return fetchAavePoolInfo(token.address)
   }, [])
 
   return (
