@@ -2286,6 +2286,11 @@
         "refresh": "Aktualisieren"
       }
     },
+    "fetchBalanceError": {
+      "title": "Du kannst deine Punkte nicht laden",
+      "description": "Ups, beim Versuch, deine Punkte zu laden, ist etwas schiefgegangen. Die Informationen auf dieser Seite sind möglicherweise nicht mehr aktuell. Bitte aktualisiere sie.",
+      "retryCta": "Aktualisieren"
+    },
     "loading": {
       "title": "Sammeln deiner Punkte",
       "description": "Wir sind dabei, deine Punkte zusammenzuzählen, warte ab"
@@ -2324,10 +2329,26 @@
       }
     }
   },
-  "earnStablecoin": {
-    "title": "Verdiene mit deinen Stablecoins",
-    "subtitle": "Heute einzahlen und Rendite verdienen",
-    "description": "Wenn du <0></0> einzahlst, kannst du am Ende des Jahres bis zu <1></1> bekommen!"
+  "earnFlow": {
+    "addCryptoBottomSheet": {
+      "title": "Füge {{tokenSymbol}} auf {{tokenNetwork}}hinzu.",
+      "description": "Sobald du Jetons hinzugefügt hast, musst du zurückkommen, um die Einzahlung in einen Pool zu beenden.",
+      "actions": {
+        "add": "Kaufen",
+        "transfer": "Übertragung",
+        "swap": "Tauschen"
+      },
+      "actionDescriptions": {
+        "add": "Kaufe {{tokenSymbol}} auf {{tokenNetwork}} über einen unserer vertrauenswürdigen Anbieter",
+        "transfer": "Verwende jede {{tokenNetwork}} kompatible Brieftasche oder Börse, um {{tokenSymbol}}einzuzahlen.",
+        "swap": "Tausche in {{tokenSymbol}} von einem anderen {{tokenNetwork}} Token"
+      }
+    },
+    "cta": {
+      "title": "Verdiene mit deinen Stablecoins",
+      "subtitle": "Heute einzahlen und Rendite verdienen",
+      "description": "Erfahre, wie viel du verdienen kannst, wenn du einen Kreditpool bereitstellst"
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

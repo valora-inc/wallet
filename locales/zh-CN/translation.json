@@ -2284,6 +2284,11 @@
         "refresh": "刷新"
       }
     },
+    "fetchBalanceError": {
+      "title": "无法加载您的积分",
+      "description": "哎呀，在加载您的积分时出了点问题。本页面上的信息可能已经过时。请刷新。",
+      "retryCta": "刷新"
+    },
     "loading": {
       "title": "收集要点",
       "description": "我们正在统计您的积分，请抓紧时间"
@@ -2322,10 +2327,26 @@
       }
     }
   },
-  "earnStablecoin": {
-    "title": "赚取稳定币",
-    "subtitle": "立即存款，赚取回报",
-    "description": "如果您存入<0></0> ，年底您最多可获得<1></1> ！"
+  "earnFlow": {
+    "addCryptoBottomSheet": {
+      "title": "在 {{tokenNetwork}}上添加 {{tokenSymbol}}",
+      "description": "一旦您添加了代币，您就必须回来完成存入池的工作。",
+      "actions": {
+        "add": "买入",
+        "transfer": "转让",
+        "swap": "交换"
+      },
+      "actionDescriptions": {
+        "add": "使用我们值得信赖的供应商之一在 {{tokenNetwork}} 上购买 {{tokenSymbol}}",
+        "transfer": "使用任何与 {{tokenNetwork}} 兼容的钱包或交易所存款 {{tokenSymbol}}",
+        "swap": "从另一个 {{tokenNetwork}} 令牌换入 {{tokenSymbol}}"
+      }
+    },
+    "cta": {
+      "title": "赚取稳定币",
+      "subtitle": "立即存款，赚取回报",
+      "description": "了解您在提供贷款池时能赚多少钱"
+    }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }

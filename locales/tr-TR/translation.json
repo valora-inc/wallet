@@ -2286,6 +2286,11 @@
         "refresh": "Yenile"
       }
     },
+    "fetchBalanceError": {
+      "title": "Puanlarınız yüklenemiyor",
+      "description": "Oops, puanlarınızı yüklemeye çalışırken bir şeyler ters gitti. Bu sayfadaki bilgiler güncel olmayabilir. Lütfen yenileyin.",
+      "retryCta": "Yenile"
+    },
     "loading": {
       "title": "Puanlarınızı toplamak",
       "description": "Puanlarınızı sayma aşamasındayız, sıkı durun"
@@ -2324,10 +2329,26 @@
       }
     }
   },
-  "earnStablecoin": {
-    "title": "Sabit paralarınızdan kazanın",
-    "subtitle": "Bugün para yatırın ve getiri kazanın",
-    "description": "<0></0> adresine para yatırırsanız, yıl sonunda <1></1> adresine kadar kazanabilirsiniz!"
+  "earnFlow": {
+    "addCryptoBottomSheet": {
+      "title": "{{tokenSymbol}} adresini {{tokenNetwork}}adresine ekleyin",
+      "description": "Jeton ekledikten sonra havuza para yatırma işlemini tamamlamak için geri gelmeniz gerekecektir.",
+      "actions": {
+        "add": "Satın Al",
+        "transfer": "Transfer",
+        "swap": "Swap"
+      },
+      "actionDescriptions": {
+        "add": "Güvenilir sağlayıcılarımızdan birini kullanarak {{tokenNetwork}} adresinden {{tokenSymbol}} satın alın",
+        "transfer": "{{tokenSymbol}}yatırmak için herhangi bir {{tokenNetwork}} uyumlu cüzdan veya borsa kullanın",
+        "swap": "Başka bir {{tokenNetwork}} belirtecinden {{tokenSymbol}} 'a geçiş yapın"
+      }
+    },
+    "cta": {
+      "title": "Sabit paralarınızdan kazanın",
+      "subtitle": "Bugün para yatırın ve getiri kazanın",
+      "description": "Bir kredi havuzu sağlarken ne kadar kazanabileceğinizi görün"
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

@@ -2286,6 +2286,11 @@
         "refresh": "Actualiser"
       }
     },
+    "fetchBalanceError": {
+      "title": "Impossible de charger tes points",
+      "description": "Oups, quelque chose s'est mal passé en essayant de charger tes points. Il se peut que les informations de cette page soient obsolètes. Actualise-les s'il te plaît.",
+      "retryCta": "Actualiser"
+    },
     "loading": {
       "title": "Rassembler tes points de vue",
       "description": "Nous sommes en train de comptabiliser tes points, accroche-toi bien."
@@ -2324,10 +2329,26 @@
       }
     }
   },
-  "earnStablecoin": {
-    "title": "Gagne sur tes stablecoins",
-    "subtitle": "Dépose aujourd'hui et gagne en rendement",
-    "description": "Si tu déposes <0></0>, tu peux obtenir jusqu'à <1></1> à la fin de l'année !"
+  "earnFlow": {
+    "addCryptoBottomSheet": {
+      "title": "Ajoute {{tokenSymbol}} sur {{tokenNetwork}}",
+      "description": "Une fois que tu auras ajouté des jetons, tu devras revenir pour finir de déposer dans une cagnotte.",
+      "actions": {
+        "add": "Acheter",
+        "transfer": "Transfert",
+        "swap": "Échanger"
+      },
+      "actionDescriptions": {
+        "add": "Achète {{tokenSymbol}} sur {{tokenNetwork}} en utilisant l'un de nos fournisseurs de confiance",
+        "transfer": "Utilise n'importe quel portefeuille ou échange compatible avec {{tokenNetwork}} pour déposer {{tokenSymbol}}.",
+        "swap": "Swap dans {{tokenSymbol}} à partir d'un autre jeton {{tokenNetwork}}"
+      }
+    },
+    "cta": {
+      "title": "Gagne sur tes stablecoins",
+      "subtitle": "Dépose aujourd'hui et gagne en rendement",
+      "description": "Vois combien tu peux gagner en alimentant un pool de prêt."
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
