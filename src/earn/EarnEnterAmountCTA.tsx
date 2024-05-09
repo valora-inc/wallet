@@ -13,14 +13,7 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 
-export default function EarnEnterAmount({
-  tokenAmount,
-  localAmount,
-  token,
-  amountEnteredIn,
-  disabled,
-  onPressProceed,
-}: ProceedComponentProps) {
+export default function EarnEnterAmount({ tokenAmount, token, disabled }: ProceedComponentProps) {
   const { t } = useTranslation()
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const infoBottomSheetRef = useRef<BottomSheetRefType>(null)
@@ -28,52 +21,57 @@ export default function EarnEnterAmount({
   const reviewBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const onPressContinue = () => {
-    // navigate to correct screen / bottom sheet
+    tokenAmount?.gt(token.balance)
+      ? addCryptoBottomSheetRef.current?.snapToIndex(0)
+      : reviewBottomSheetRef.current?.snapToIndex(0)
   }
 
   const onPressInfo = () => {
     infoBottomSheetRef.current?.snapToIndex(0)
   }
 
-  const tvl = 150000000
-  const rate = 3.33
-  const amountEntered = false
+  const tvl = 150000000 // TODO: Replace with actual TVL
+  const rate = 3.33 // TODO: Replace with actual rate
 
   return (
-    <View style={styles.infoContainer}>
-      <View style={styles.line}>
-        <Text style={styles.label}>{t('earnFlow.enterAmount.tvlLabel')}</Text>
-        <Text style={styles.label}>{t('earnFlow.enterAmount.rateLabel')}</Text>
-      </View>
-      <View style={styles.line}>
-        <Text>
-          {localCurrencySymbol}
-          {tvl}
-        </Text>
+    <View>
+      <View style={styles.infoContainer}>
+        <View style={styles.line}>
+          <Text style={styles.label}>{t('earnFlow.enterAmount.tvlLabel')}</Text>
+          <Text style={styles.label}>{t('earnFlow.enterAmount.rateLabel')}</Text>
+        </View>
+        <View style={styles.line}>
+          <Text>
+            {localCurrencySymbol}
+            {tvl}
+          </Text>
+          <View style={styles.row}>
+            <TokenIcon token={token} size={IconSize.SMALL} />
+            <Text>{t('earnFlow.enterAmount.rate', { rate })}</Text>
+          </View>
+        </View>
+        <Button
+          onPress={onPressContinue}
+          text={t('earnFlow.enterAmount.continue')}
+          style={styles.continueButton}
+          size={BtnSizes.FULL}
+          fontStyle={styles.buttonText}
+          disabled={disabled}
+        />
         <View style={styles.row}>
-          <TokenIcon token={token} size={IconSize.SMALL} />
-          <Text>{t('earnFlow.enterAmount.rate', { rate })}</Text>
+          <Text style={styles.infoText}>{t('earnFlow.enterAmount.info')}</Text>
+          <TouchableOpacity
+            onPress={onPressInfo}
+            hitSlop={variables.iconHitslop}
+            testID="AssetsTokenBalance/Info"
+          >
+            <InfoIcon color={Colors.black} size={24} />
+          </TouchableOpacity>
         </View>
       </View>
-      <Button
-        onPress={onPressContinue}
-        text={t('earnFlow.enterAmount.continue')}
-        style={styles.continueButton}
-        size={BtnSizes.FULL}
-        fontStyle={styles.buttonText}
-        disabled={!amountEntered}
-      />
-      <View style={styles.row}>
-        <Text style={styles.infoText}>{t('earnFlow.enterAmount.info')}</Text>
-        <TouchableOpacity
-          onPress={onPressInfo}
-          hitSlop={variables.iconHitslop}
-          testID="AssetsTokenBalance/Info"
-        >
-          <InfoIcon color={Colors.black} size={24} />
-        </TouchableOpacity>
-      </View>
       <InfoBottomSheet infoBottomSheetRef={infoBottomSheetRef} />
+      {/* AddCryptoBottomSheet */}
+      {/* ReviewBottomSheet */}
     </View>
   )
 }
