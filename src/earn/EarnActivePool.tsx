@@ -1,17 +1,21 @@
 import React from 'react'
+import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import TokenDisplay from 'src/components/TokenDisplay'
-import { useAavePoolInfo } from 'src/earn/hooks'
+import { fetchAavePoolInfo } from 'src/earn/poolInfo'
 import UpwardGraph from 'src/icons/UpwardGraph'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokenInfo } from 'src/tokens/hooks'
+import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 import { Address } from 'viem'
+
+const TAG = 'earn/EarnActivePool'
 
 function PoolDetailsLoading() {
   return (
@@ -32,8 +36,15 @@ function PoolDetailsLoading() {
 export default function EarnActivePool() {
   const { t } = useTranslation()
   const token = useTokenInfo(networkConfig.arbUsdcTokenId)
-  const asyncPoolInfo = useAavePoolInfo(token?.address as Address)
   const poolToken = useTokenInfo(networkConfig.aaveArbUsdcTokenId)
+  const asyncPoolInfo = useAsync(async () => {
+    if (!token || !token.address) {
+      // should never happen
+      Logger.warn(TAG, `Token with id ${networkConfig.arbUsdcTokenId} not found`)
+      throw new Error(`Token with id ${networkConfig.arbUsdcTokenId} not found`)
+    }
+    return fetchAavePoolInfo(token.address as Address)
+  }, [])
 
   return (
     <View style={styles.card} testID="EarnActivePool">
@@ -52,6 +63,7 @@ export default function EarnActivePool() {
             )}
           </View>
           <View style={styles.row}>
+            {asyncPoolInfo.error && <View />}
             {asyncPoolInfo.loading && <PoolDetailsLoading />}
             {asyncPoolInfo.result && (
               <View style={styles.apyContainer}>
