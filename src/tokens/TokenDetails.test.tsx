@@ -10,9 +10,11 @@ import { getFeatureGate } from 'src/statsig'
 import TokenDetailsScreen from 'src/tokens/TokenDetails'
 import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
+import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import {
+  mockAaveArbUsdcAddress,
   mockCeloTokenId,
   mockPoofTokenId,
   mockTestTokenTokenId,
@@ -259,6 +261,36 @@ describe('TokenDetails', () => {
     )
 
     expect(queryByText('celoNews.headerTitle')).toBeTruthy()
+  })
+
+  it('renders earn card for Aave Arbitrum Usdc when user has balance', () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+    const store = createMockStore({
+      tokens: {
+        tokenBalances: {
+          [networkConfig.aaveArbUsdcTokenId]: {
+            networkId: NetworkId['arbitrum-sepolia'],
+            address: mockAaveArbUsdcAddress,
+            tokenId: networkConfig.aaveArbUsdcTokenId,
+            symbol: 'aArbSepUSDC',
+            priceUsd: '1',
+            balance: '10.74',
+            priceFetchedAt: Date.now(),
+          },
+        },
+      },
+    })
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator
+          component={TokenDetailsScreen}
+          params={{ tokenId: networkConfig.aaveArbUsdcTokenId }}
+        />
+      </Provider>
+    )
+
+    expect(getByTestId('EarnActivePool')).toBeTruthy()
   })
 
   it('does not render chart if no prices are found and error status', () => {
