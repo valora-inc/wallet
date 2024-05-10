@@ -2348,6 +2348,24 @@
       "title": "Ganhe com suas stablecoins",
       "subtitle": "Deposite hoje e ganhe retornos",
       "description": "Veja quanto você pode ganhar ao fornecer um pool de empréstimos"
+    },
+    "activePools": {
+      "title": "Piscinas ativas",
+      "totalValue": "Valor Total:",
+      "apy": "~{{apy}}% APY",
+      "exitPool": "Pool de saída",
+      "depositMore": "Depositar mais"
+    },
+    "depositBottomSheet": {
+      "title": "Revisão e depósito",
+      "description": "Antes de depositar em um pool da Aave, leia os detalhes da transação abaixo",
+      "amount": "Quantia depositada",
+      "fee": "Est. Taxas de gás",
+      "provider": "Provedor de ganhos",
+      "network": "Rede",
+      "footer": "Ao depositar criptomoedas em um pool da Aave, você aceita os riscos associados ao uso da Aave. <0>Termos e condições</0>",
+      "primaryCta": "Completo",
+      "secondaryCta": "Cancelar"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

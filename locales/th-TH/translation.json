@@ -2346,6 +2346,24 @@
       "title": "Earn on your stablecoins",
       "subtitle": "Deposit today and earn returns",
       "description": "See how much you can earn when supplying a lending pool"
+    },
+    "activePools": {
+      "title": "Active Pools",
+      "totalValue": "Total Value:",
+      "apy": "~{{apy}}% APY",
+      "exitPool": "Exit Pool",
+      "depositMore": "Deposit More"
+    },
+    "depositBottomSheet": {
+      "title": "Review & Deposit",
+      "description": "Before depositing to an Aave pool, please review the transaction details below",
+      "amount": "จำนวนเงินที่ฝาก",
+      "fee": "Est. Gas Fees",
+      "provider": "Earnings provider",
+      "network": "เครือข่าย",
+      "footer": "By depositing crypto into an Aave pool, you accept the risks associated with using Aave. <0>Terms & Conditions</0>",
+      "primaryCta": "Complete",
+      "secondaryCta": "ยกเลิก"
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"

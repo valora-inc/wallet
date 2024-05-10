@@ -2352,6 +2352,24 @@
       "title": "Zarabiaj na swoich stablecoinach",
       "subtitle": "Dokonaj wpłaty już dziś i zarabiaj",
       "description": "Zobacz ile możesz zarobić zasilając pulę pożyczkową"
+    },
+    "activePools": {
+      "title": "Aktywne baseny",
+      "totalValue": "Całkowita wartość:",
+      "apy": "~{{apy}}% APY",
+      "exitPool": "Wyjście z puli",
+      "depositMore": "Zdeponuj więcej"
+    },
+    "depositBottomSheet": {
+      "title": "Przegląd i wpłata",
+      "description": "Przed dokonaniem wpłaty do puli Aave zapoznaj się z poniższymi szczegółami transakcji",
+      "amount": "Kwota wpłacona",
+      "fee": "Oszacuj. Opłaty za gaz",
+      "provider": "Dostawca zarobków",
+      "network": "Sieć",
+      "footer": "Wpłacając kryptowaluty do puli Aave, akceptujesz ryzyko związane z korzystaniem z Aave. <0>Regulamin</0>",
+      "primaryCta": "Kompletny",
+      "secondaryCta": "Anuluj"
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
