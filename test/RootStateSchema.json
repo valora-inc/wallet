@@ -4318,6 +4318,9 @@
                     ],
                     "type": "string"
                 },
+                "introHasBeenSeen": {
+                    "type": "boolean"
+                },
                 "nextPageUrl": {
                     "type": [
                         "null",
@@ -4372,6 +4375,7 @@
             },
             "required": [
                 "getHistoryStatus",
+                "introHasBeenSeen",
                 "nextPageUrl",
                 "pendingPointsEvents",
                 "pointsBalance",

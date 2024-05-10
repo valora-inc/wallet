@@ -6,7 +6,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import PointsHome from 'src/points/PointsHome'
-import { getHistoryStarted, getPointsConfigRetry } from 'src/points/slice'
+import { getHistoryStarted, getPointsConfigRetry, pointsIntroDismissed } from 'src/points/slice'
 import { RootState } from 'src/redux/store'
 import { RecursivePartial, createMockStore, getMockStackScreenProps } from 'test/utils'
 
@@ -29,9 +29,13 @@ const renderPointsHome = (storeOverrides?: RecursivePartial<RootState>) => {
           },
         },
         pointsConfigStatus: 'success',
+        introHasBeenSeen: true,
       },
     }
   )
+
+  const dispatch = jest.spyOn(store, 'dispatch')
+
   const tree = render(
     <Provider store={store}>
       <PointsHome {...mockScreenProps()} />
@@ -39,6 +43,7 @@ const renderPointsHome = (storeOverrides?: RecursivePartial<RootState>) => {
   )
 
   return {
+    dispatch,
     store,
     ...tree,
   }
@@ -51,7 +56,7 @@ describe(PointsHome, () => {
 
   it('renders a loading state while loading config', async () => {
     const { getByText, queryByText } = renderPointsHome({
-      points: { pointsConfigStatus: 'loading' },
+      points: { pointsConfigStatus: 'loading', introHasBeenSeen: true },
     })
 
     expect(getByText('points.loading.title')).toBeTruthy()
@@ -62,7 +67,7 @@ describe(PointsHome, () => {
 
   it('renders the error state on failure to load config', async () => {
     const { getByText, queryByText, store } = renderPointsHome({
-      points: { pointsConfigStatus: 'error' },
+      points: { pointsConfigStatus: 'error', introHasBeenSeen: true },
     })
 
     expect(getByText('points.error.title')).toBeTruthy()
@@ -99,6 +104,7 @@ describe(PointsHome, () => {
     const { store, getByText } = renderPointsHome({
       points: {
         getHistoryStatus: 'errorFirstPage',
+        introHasBeenSeen: true,
       },
     })
 
@@ -144,6 +150,7 @@ describe(PointsHome, () => {
     const { getByTestId, getByText, queryByText } = renderPointsHome({
       points: {
         pointsConfigStatus: 'success',
+        introHasBeenSeen: true,
       },
     })
 
@@ -182,5 +189,18 @@ describe(PointsHome, () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_cta_press, {
       activityId: 'swap',
     })
+  })
+
+  it('renders intro if it has not been seen', () => {
+    const { dispatch, getByText, queryByText } = renderPointsHome({
+      points: { introHasBeenSeen: false },
+    })
+
+    expect(queryByText('points.title')).toBeFalsy()
+    expect(getByText('points.pointsIntro.title')).toBeTruthy()
+    expect(getByText('points.pointsIntro.description')).toBeTruthy()
+
+    fireEvent.press(getByText('points.pointsIntro.cta'))
+    expect(dispatch).toHaveBeenCalledWith(pointsIntroDismissed())
   })
 })

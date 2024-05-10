@@ -39,6 +39,7 @@ export interface State {
   pendingPointsEvents: PendingPointsEvent[]
   pointsBalanceStatus: 'idle' | 'loading' | 'error' | 'success'
   pointsBalance: string
+  introHasBeenSeen: boolean
 }
 
 const initialState: State = {
@@ -50,6 +51,7 @@ const initialState: State = {
   pendingPointsEvents: [],
   pointsBalanceStatus: 'idle',
   pointsBalance: '0',
+  introHasBeenSeen: false,
 }
 
 const slice = createSlice({
@@ -111,6 +113,10 @@ const slice = createSlice({
       ...state,
       pointsBalanceStatus: 'error',
     }),
+    pointsIntroDismissed: (state) => ({
+      ...state,
+      introHasBeenSeen: true,
+    }),
   },
   extraReducers: (builder) => {
     builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
@@ -136,6 +142,7 @@ export const {
   getPointsBalanceStarted,
   getPointsBalanceSucceeded,
   getPointsBalanceError,
+  pointsIntroDismissed,
 } = slice.actions
 
 // action handled in saga

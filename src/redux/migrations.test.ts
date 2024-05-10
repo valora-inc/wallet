@@ -49,6 +49,7 @@ import {
   v200Schema,
   v201Schema,
   v203Schema,
+  v212Schema,
   v21Schema,
   v28Schema,
   v2Schema,
@@ -1608,6 +1609,14 @@ describe('Redux persist migrations', () => {
     }
     const expectedSchema = _.cloneDeep(oldSchema)
     const migratedSchema = migrations[204](oldSchema)
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from 212 to 213', () => {
+    const oldSchema = v212Schema
+    const migratedSchema = migrations[213](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.points.introHasBeenSeen = false
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

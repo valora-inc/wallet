@@ -78,3 +78,7 @@ export const pointsBalanceSelector = (state: RootState) => {
 export const pointsBalanceStatusSelector = (state: RootState) => {
   return state.points.pointsBalanceStatus
 }
+
+export const pointsIntroHasBeenSeenSelector = (state: RootState) => {
+  return state.points.introHasBeenSeen
+}
