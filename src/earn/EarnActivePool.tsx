@@ -117,7 +117,7 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
                 // fire analytics
               }}
               text={t('earnFlow.activePools.exitPool')}
-              type={BtnTypes.SECONDARY}
+              type={BtnTypes.GRAY_WITH_BORDER}
               size={BtnSizes.FULL}
               style={styles.button}
             />
@@ -141,7 +141,7 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
                 navigate(Screens.TabDiscover)
               }}
               text={t('earnFlow.activePools.viewPools')}
-              type={BtnTypes.SECONDARY}
+              type={BtnTypes.GRAY_WITH_BORDER}
               size={BtnSizes.FULL}
               style={styles.button}
             />
