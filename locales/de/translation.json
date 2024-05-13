@@ -2355,7 +2355,7 @@
       "apy": "~{{apy}}% APY",
       "exitPool": "Exit Pool",
       "depositMore": "Pfand Mehr",
-      "viewPools": "View Pools"
+      "viewPools": "Ansicht Pools"
     },
     "depositBottomSheet": {
       "title": "Überprüfung & Einzahlung",
