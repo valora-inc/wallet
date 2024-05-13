@@ -677,8 +677,8 @@
     "body": "Once they set up their {{appName}} wallet and connect their number, you’ll each get an exclusive NFT."
   },
   "inviteRewardsBannerCUSD": {
-    "title": "Invite friends and get rewarded",
-    "body": "Once they set up and add funds to their {{appName}} wallet, you’ll both receive 0.50 cUSD."
+    "title": "Invite friends and get up to 12 cUSD",
+    "body": "Once they connect their number and add funds to {{appName}}, you’ll both receive 0.50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Invite a friend",
