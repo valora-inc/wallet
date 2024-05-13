@@ -73,6 +73,7 @@ interface NetworkConfig {
   getPointsHistoryUrl: string
   trackPointsEventUrl: string
   getPointsBalanceUrl: string
+  simulateTransactionsUrl: string
   viemChain: {
     [key in Network]: ViemChain
   }
@@ -272,6 +273,9 @@ const TRACK_POINTS_EVENT_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/trackPointsEvent`
 const GET_POINTS_BALANCE_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getPointsBalance`
 const GET_POINTS_BALANCE_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getPointsBalance`
 
+const SIMULATE_TRANSACTIONS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/simulateTransactions`
+const SIMULATE_TRANSACTIONS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/simulateTransactions`
+
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
     networkId: '44787',
@@ -333,6 +337,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     getPointsHistoryUrl: GET_POINTS_HISTORY_ALFAJORES,
     trackPointsEventUrl: TRACK_POINTS_EVENT_ALFAJORES,
     getPointsBalanceUrl: GET_POINTS_BALANCE_ALFAJORES,
+    simulateTransactionsUrl: SIMULATE_TRANSACTIONS_ALFAJORES,
     viemChain: {
       [Network.Celo]: celoAlfajores,
       [Network.Ethereum]: ethereumSepolia,
@@ -428,6 +433,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     getPointsHistoryUrl: GET_POINTS_HISTORY_MAINNET,
     trackPointsEventUrl: TRACK_POINTS_EVENT_MAINNET,
     getPointsBalanceUrl: GET_POINTS_BALANCE_MAINNET,
+    simulateTransactionsUrl: SIMULATE_TRANSACTIONS_MAINNET,
     viemChain: {
       [Network.Celo]: celo,
       [Network.Ethereum]: ethereum,
