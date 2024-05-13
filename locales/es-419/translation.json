@@ -2355,7 +2355,7 @@
       "apy": "~{{apy}}% APY",
       "exitPool": "Piscina de salida",
       "depositMore": "Depositar más",
-      "viewPools": "View Pools"
+      "viewPools": "Ver piscinas"
     },
     "depositBottomSheet": {
       "title": "Revisión y depósito",
