@@ -2348,6 +2348,24 @@
       "title": "Sabit paralarınızdan kazanın",
       "subtitle": "Bugün para yatırın ve getiri kazanın",
       "description": "Bir kredi havuzu sağlarken ne kadar kazanabileceğinizi görün"
+    },
+    "activePools": {
+      "title": "Aktif Havuzlar",
+      "totalValue": "Toplam Değer:",
+      "apy": "~{{apy}}% APY",
+      "exitPool": "Çıkış Havuzu",
+      "depositMore": "Daha Fazla Yatırın"
+    },
+    "depositBottomSheet": {
+      "title": "İnceleme ve Para Yatırma",
+      "description": "Bir Aave havuzuna para yatırmadan önce lütfen aşağıdaki işlem ayrıntılarını inceleyin",
+      "amount": "Yatırılan Toplam",
+      "fee": "Est. Gaz Ücretleri",
+      "provider": "Kazanç sağlayıcı",
+      "network": "Ağ",
+      "footer": "Bir Aave havuzuna kripto yatırarak, Aave kullanımıyla ilişkili riskleri kabul etmiş olursunuz. <0>Şartlar ve Koşullar</0>",
+      "primaryCta": "Tamamlandı",
+      "secondaryCta": "İptal"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

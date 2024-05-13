@@ -677,8 +677,8 @@
     "body": "Once they set up their {{appName}} wallet and connect their number, you’ll each get an exclusive NFT."
   },
   "inviteRewardsBannerCUSD": {
-    "title": "Invite friends and get rewarded",
-    "body": "Once they set up and add funds to their {{appName}} wallet, you’ll both receive 0.50 cUSD."
+    "title": "Invite friends and get up to 12 cUSD",
+    "body": "Once they connect their number and add funds to {{appName}}, you’ll both receive 0.50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Invite a friend",
@@ -692,8 +692,8 @@
       "body": "Invite your friends and family to download {{appName}} and each of you will get an exclusive NFT"
     },
     "rewardsActiveCUSD": {
-      "title": "LIMITED TIME. Get free cUSD for inviting friends to Valora!",
-      "body": "Referral Rewards are back and even easier than before. Get 0.50 cUSD for every friend you invite to {{appName}}. Once they add funds, and hold them for 7 days, you’ll both get 0.50 cUSD. Hurry, funds are limited! (Limit 25 friends)."
+      "title": "GET UP TO 12 cUSD for inviting your friends to Valora!",
+      "body": "Get 0.50 cUSD for every friend you invite to {{appName}}. Once they connect their number, add funds, and hold them for 7 days, you’ll both get 0.50 cUSD. Hurry, funds are limited! (Limit 25 friends)."
     }
   },
   "getReward": "Get ${{reward}}",
@@ -1036,7 +1036,7 @@
   "inviteWithoutPayment": "Hi! I’ve been using {{appName}} to send crypto worldwide. It’s easy to try and I want to invite you to check it out with this link: {{link}}",
   "inviteWithEscrowedPayment": "Hi! I’ve been using {{appName}} to send crypto worldwide. I just sent you {{amount}} {{token}}. Please download the {{appName}} App and redeem your {{token}} using this link: {{link}}",
   "inviteWithRewards": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get a special edition NFT as a reward. 💫 \n\nUse this link to download: {{link}}",
-  "inviteWithRewardsCUSD": "Hey! Right now we can both get a free $0.50 reward if you sign up and fund your Valora wallet. I use it to grow my savings in USD and crypto, and you can set it up in seconds with just a phone number. Make sure to sign up with my referral link here: \n\n{{link}} \n\n Hurry, the referral promotion ends soon.",
+  "inviteWithRewardsCUSD": "Hey! Right now we can both get a free $0.50 reward if you sign up, connect your number, and fund your Valora wallet. I use it to grow my savings in USD and crypto, and you can set it up in seconds with just a phone number. Make sure to sign up with my referral link here: \n\n{{link}} \n\n Hurry, the referral promotion ends soon.",
   "loadingContacts": "Finding your contacts",
   "myCode": "My Code",
   "scanCode": "Scan",
@@ -2356,7 +2356,8 @@
       "totalValue": "Total Value:",
       "apy": "~{{apy}}% APY",
       "exitPool": "Exit Pool",
-      "depositMore": "Deposit More"
+      "depositMore": "Deposit More",
+      "viewPools": "View Pools"
     },
     "depositBottomSheet": {
       "title": "Review & Deposit",
