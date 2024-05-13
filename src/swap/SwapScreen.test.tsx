@@ -318,28 +318,25 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.title')).toBeTruthy()
     expect(getByText('swapScreen.confirmSwap')).toBeDisabled()
 
-    expect(within(swapFromContainer).getByText('swapScreen.swapFrom')).toBeTruthy()
-    expect(within(swapFromContainer).getByTestId('SwapAmountInput/MaxButton')).toBeTruthy()
+    expect(within(swapFromContainer).getByText('swapScreen.selectToken')).toBeTruthy()
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect')).toBeTruthy()
-    expect(within(swapFromContainer).getByText('swapScreen.swapFromTokenSelection')).toBeTruthy()
 
-    expect(within(swapToContainer).getByText('swapScreen.swapTo')).toBeTruthy()
+    expect(within(swapToContainer).getByText('swapScreen.selectToken')).toBeTruthy()
     expect(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect')).toBeTruthy()
-    expect(within(swapToContainer).getByText('swapScreen.swapToTokenSelection')).toBeTruthy()
   })
 
   it('should display the token set via fromTokenId prop', () => {
     const { swapFromContainer, swapToContainer } = renderScreen({ fromTokenId: mockCeurTokenId })
 
     expect(within(swapFromContainer).getByText('cEUR')).toBeTruthy()
-    expect(within(swapToContainer).getByText('swapScreen.swapToTokenSelection')).toBeTruthy()
+    expect(within(swapToContainer).getByText('swapScreen.selectToken')).toBeTruthy()
   })
 
   it('should allow selecting tokens', async () => {
     const { swapFromContainer, swapToContainer, swapScreen } = renderScreen({})
 
-    expect(within(swapFromContainer).getByText('swapScreen.swapFromTokenSelection')).toBeTruthy()
-    expect(within(swapToContainer).getByText('swapScreen.swapToTokenSelection')).toBeTruthy()
+    expect(within(swapFromContainer).getByText('swapScreen.selectToken')).toBeTruthy()
+    expect(within(swapToContainer).getByText('swapScreen.selectToken')).toBeTruthy()
 
     selectSwapTokens('CELO', 'cUSD', swapScreen)
 
@@ -419,7 +416,7 @@ describe('SwapScreen', () => {
       )
     ).toBeFalsy()
     expect(tokenBottomSheet).toBeVisible()
-    expect(within(swapToContainer).getByText('swapScreen.swapToTokenSelection')).toBeTruthy()
+    expect(within(swapToContainer).getByText('swapScreen.selectToken')).toBeTruthy()
     expect(ValoraAnalytics.track).not.toHaveBeenCalledWith(
       SwapEvents.swap_screen_confirm_token,
       expect.anything()
@@ -442,7 +439,7 @@ describe('SwapScreen', () => {
 
     selectSwapTokens('CELO', 'CELO', swapScreen)
 
-    expect(within(swapFromContainer).getByText('swapScreen.swapFromTokenSelection')).toBeTruthy()
+    expect(within(swapFromContainer).getByText('swapScreen.selectToken')).toBeTruthy()
     expect(within(swapToContainer).getByText('CELO')).toBeTruthy()
   })
 
@@ -1180,11 +1177,46 @@ describe('SwapScreen', () => {
     expect(within(tokenBottomSheet).queryByText('Test Token')).toBeFalsy()
   })
 
-  it('should disable buy amount input when swap buy amount experiment is set is false', () => {
+  it('should not show input sections if tokens are not selected', () => {
     jest.mocked(getExperimentParams).mockReturnValue({
       swapBuyAmountEnabled: false,
     })
     const { swapFromContainer, swapToContainer } = renderScreen({})
+
+    expect(within(swapFromContainer).queryByTestId('SwapAmountInput/Input')).toBeFalsy()
+    expect(within(swapToContainer).queryByTestId('SwapAmountInput/Input')).toBeFalsy()
+  })
+
+  it('should be able to switch tokens by pressing arrow button', async () => {
+    jest.mocked(getExperimentParams).mockReturnValue({
+      swapBuyAmountEnabled: false,
+    })
+    const { swapFromContainer, swapToContainer, swapScreen, getByTestId } = renderScreen({})
+
+    selectSwapTokens('CELO', 'cUSD', swapScreen)
+
+    expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input')).toBeTruthy()
+    expect(within(swapFromContainer).getByText('CELO')).toBeTruthy()
+
+    expect(within(swapToContainer).getByTestId('SwapAmountInput/Input')).toBeTruthy()
+    expect(within(swapToContainer).getByText('cUSD')).toBeTruthy()
+
+    fireEvent.press(getByTestId('SwapScreen/SwitchTokens'))
+
+    expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input')).toBeTruthy()
+    expect(within(swapFromContainer).getByText('cUSD')).toBeTruthy()
+
+    expect(within(swapToContainer).getByTestId('SwapAmountInput/Input')).toBeTruthy()
+    expect(within(swapToContainer).getByText('CELO')).toBeTruthy()
+  })
+
+  it('should disable buy amount input when swap buy amount experiment is set is false', () => {
+    jest.mocked(getExperimentParams).mockReturnValue({
+      swapBuyAmountEnabled: false,
+    })
+    const { swapFromContainer, swapToContainer, swapScreen } = renderScreen({})
+
+    selectSwapTokens('CELO', 'cUSD', swapScreen)
 
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.editable).toBe(true)
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.editable).toBe(false)

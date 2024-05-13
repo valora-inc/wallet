@@ -1317,6 +1317,10 @@ interface SwapEventsProperties {
   }
   [SwapEvents.swap_show_fund_your_wallet]: undefined
   [SwapEvents.swap_add_funds]: undefined
+  [SwapEvents.swap_switch_tokens]: {
+    fromTokenId: string | undefined
+    toTokenId: string | undefined
+  }
 }
 
 interface CeloNewsEventsProperties {
