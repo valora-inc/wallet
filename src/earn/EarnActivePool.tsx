@@ -2,6 +2,8 @@ import React from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
+import { EarnEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import TokenDisplay from 'src/components/TokenDisplay'
@@ -138,6 +140,7 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
           <View style={styles.buttonContainer}>
             <Button
               onPress={() => {
+                ValoraAnalytics.track(EarnEvents.earn_view_pools_press)
                 navigate(Screens.TabDiscover)
               }}
               text={t('earnFlow.activePools.viewPools')}
