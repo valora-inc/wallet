@@ -39,7 +39,7 @@ export async function prepareSupplyTransactions({
 
   if (!token.address || !isAddress(token.address)) {
     // should never happen
-    throw new Error('Cannot use a token without address')
+    throw new Error(`Cannot use a token without address. Token id: ${token.tokenId}`)
   }
 
   const approvedAllowanceForSpender = await publicClient[
@@ -97,6 +97,13 @@ export async function prepareSupplyTransactions({
 
   // extract fee of the supply transaction and set gas fields
   const { simulatedTransactions }: SimulatedTransactionResponse = await response.json()
+
+  if (simulatedTransactions.length !== baseTransactions.length) {
+    throw new Error(
+      `Expected ${baseTransactions.length} simulated transactions, got ${simulatedTransactions.length}, response: ${JSON.stringify(simulatedTransactions)}`
+    )
+  }
+
   const supplySimulatedTx = simulatedTransactions[simulatedTransactions.length - 1]
 
   if (supplySimulatedTx.status !== 'success') {

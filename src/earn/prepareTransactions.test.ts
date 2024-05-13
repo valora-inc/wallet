@@ -7,7 +7,7 @@ import { TokenBalance } from 'src/tokens/slice'
 import { Network, NetworkId } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
 import { prepareTransactions } from 'src/viem/prepareTransactions'
-import { encodeFunctionData } from 'viem'
+import { Address, encodeFunctionData } from 'viem'
 
 const mockFeeCurrency: TokenBalance = {
   address: null,
@@ -22,13 +22,15 @@ const mockFeeCurrency: TokenBalance = {
   isNative: true,
 }
 
+const mockTokenAddress: Address = '0x1234567890abcdef1234567890abcdef12345678'
+
 const mockToken: TokenBalance = {
-  address: '0xusdc',
+  address: mockTokenAddress,
   balance: new BigNumber(10),
   decimals: 6,
   priceUsd: null,
   lastKnownPriceUsd: null,
-  tokenId: 'arbitrum-sepolia:0xusdc',
+  tokenId: `arbitrum-sepolia:${mockTokenAddress}`,
   symbol: 'USDC',
   name: 'USD Coin',
   networkId: NetworkId['arbitrum-sepolia'],
@@ -92,7 +94,7 @@ describe('prepareTransactions', () => {
       const expectedTransactions = [
         {
           from: '0x1234',
-          to: '0xusdc',
+          to: mockTokenAddress,
           data: '0xencodedData',
         },
         {
@@ -109,7 +111,7 @@ describe('prepareTransactions', () => {
         transactions: expectedTransactions,
       })
       expect(publicClient[Network.Arbitrum].readContract).toHaveBeenCalledWith({
-        address: '0xusdc',
+        address: mockTokenAddress,
         abi: erc20.abi,
         functionName: 'allowance',
         args: ['0x1234', '0x5678'],
@@ -122,7 +124,7 @@ describe('prepareTransactions', () => {
       expect(encodeFunctionData).toHaveBeenNthCalledWith(2, {
         abi: aavePool,
         functionName: 'supply',
-        args: ['0xusdc', BigInt(5e6), '0x1234', 0],
+        args: [mockTokenAddress, BigInt(5e6), '0x1234', 0],
       })
       expect(prepareTransactions).toHaveBeenCalledWith({
         baseTransactions: expectedTransactions,
@@ -172,7 +174,7 @@ describe('prepareTransactions', () => {
         transactions: expectedTransactions,
       })
       expect(publicClient[Network.Arbitrum].readContract).toHaveBeenCalledWith({
-        address: '0xusdc',
+        address: mockTokenAddress,
         abi: erc20.abi,
         functionName: 'allowance',
         args: ['0x1234', '0x5678'],
@@ -180,7 +182,7 @@ describe('prepareTransactions', () => {
       expect(encodeFunctionData).toHaveBeenNthCalledWith(1, {
         abi: aavePool,
         functionName: 'supply',
-        args: ['0xusdc', BigInt(5e6), '0x1234', 0],
+        args: [mockTokenAddress, BigInt(5e6), '0x1234', 0],
       })
       expect(prepareTransactions).toHaveBeenCalledWith({
         baseTransactions: expectedTransactions,
@@ -238,6 +240,33 @@ describe('prepareTransactions', () => {
           poolContractAddress: '0x5678',
         })
       ).rejects.toThrow('Failed to simulate supply transaction')
+    })
+
+    it('throws if simulated transactions length does not match base transactions length', async () => {
+      mockFetch.mockResponseOnce(
+        JSON.stringify({
+          status: 'OK',
+          simulatedTransactions: [
+            {
+              status: 'success',
+              blockNumber: '1',
+              gasNeeded: 3000,
+              gasUsed: 2800,
+              gasPrice: '1',
+            },
+          ],
+        })
+      )
+
+      await expect(
+        prepareSupplyTransactions({
+          amount: '5',
+          token: mockToken,
+          walletAddress: '0x1234',
+          feeCurrencies: [mockFeeCurrency],
+          poolContractAddress: '0x5678',
+        })
+      ).rejects.toThrow('Expected 2 simulated transactions, got 1')
     })
   })
 })
