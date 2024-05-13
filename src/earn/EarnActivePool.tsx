@@ -13,9 +13,9 @@ import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokenInfo } from 'src/tokens/hooks'
-import { Network } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
+import { getNetworkFromNetworkId } from 'src/web3/utils'
 import { isAddress } from 'viem'
 
 const TAG = 'earn/EarnActivePool'
@@ -58,10 +58,22 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, buttonDisp
       throw new Error(`Token with id ${depositTokenId} does not contain a valid address`)
     }
 
+    if (!depositToken.networkId) {
+      // should never happen
+      Logger.warn(TAG, `Token with id ${depositTokenId} does not contain a valid networkId`)
+      throw new Error(`Token with id ${depositTokenId} does not contain a valid networkId`)
+    }
+
+    const network = getNetworkFromNetworkId(depositToken.networkId)
+    if (!network) {
+      Logger.warn(TAG, `Network with id ${depositToken.networkId} not found`)
+      throw new Error(`Network with id ${depositToken.networkId} not found`)
+    }
+
     return fetchAavePoolInfo({
       assetAddress: depositToken.address,
       contractAddress: networkConfig.arbAavePoolV3ContractAddress,
-      network: Network.Arbitrum,
+      network,
     })
   }, [])
 
