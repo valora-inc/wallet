@@ -2354,7 +2354,8 @@
       "totalValue": "Valeur totale :",
       "apy": "~{{apy}}% APY",
       "exitPool": "Exit Pool",
-      "depositMore": "Dépôt Plus"
+      "depositMore": "Dépôt Plus",
+      "viewPools": "View Pools"
     },
     "depositBottomSheet": {
       "title": "Révision et dépôt",
