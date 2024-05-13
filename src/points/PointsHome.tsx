@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Image, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { PointsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -15,7 +15,7 @@ import Toast from 'src/components/Toast'
 import CustomHeader from 'src/components/header/CustomHeader'
 import AttentionIcon from 'src/icons/Attention'
 import LogoHeart from 'src/icons/LogoHeart'
-import PointsCoverImage from 'src/icons/PointsCoverImage'
+import { pointsIllustration } from 'src/images/Images'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import ActivityCardSection from 'src/points/ActivityCardSection'
@@ -115,7 +115,7 @@ export default function PointsHome({ route, navigation }: Props) {
       {!introHasBeenSeen ? (
         <View style={styles.introContainer}>
           <View style={styles.introContent}>
-            <PointsCoverImage style={styles.introImage} />
+            <Image style={styles.introImage} source={pointsIllustration} />
             <Text style={styles.introTitle}>{t('points.intro.title')}</Text>
             <Text style={styles.introDescription}>{t('points.intro.description')}</Text>
           </View>
