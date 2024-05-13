@@ -2355,7 +2355,7 @@
       "apy": "~{{apy}}% APY",
       "exitPool": "Çıkış Havuzu",
       "depositMore": "Daha Fazla Yatırın",
-      "viewPools": "View Pools"
+      "viewPools": "Havuzları Görüntüle"
     },
     "depositBottomSheet": {
       "title": "İnceleme ve Para Yatırma",
