@@ -2354,7 +2354,8 @@
       "totalValue": "Toplam Değer:",
       "apy": "~{{apy}}% APY",
       "exitPool": "Çıkış Havuzu",
-      "depositMore": "Daha Fazla Yatırın"
+      "depositMore": "Daha Fazla Yatırın",
+      "viewPools": "View Pools"
     },
     "depositBottomSheet": {
       "title": "İnceleme ve Para Yatırma",
