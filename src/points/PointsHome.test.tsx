@@ -197,10 +197,10 @@ describe(PointsHome, () => {
     })
 
     expect(queryByText('points.title')).toBeFalsy()
-    expect(getByText('points.pointsIntro.title')).toBeTruthy()
-    expect(getByText('points.pointsIntro.description')).toBeTruthy()
+    expect(getByText('points.intro.title')).toBeTruthy()
+    expect(getByText('points.intro.description')).toBeTruthy()
 
-    fireEvent.press(getByText('points.pointsIntro.cta'))
+    fireEvent.press(getByText('points.intro.cta'))
     expect(dispatch).toHaveBeenCalledWith(pointsIntroDismissed())
   })
 })
