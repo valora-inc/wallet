@@ -87,15 +87,13 @@ function EarnCollectComponent({
           <GasFee maxFeeAmount={maxFeeAmount} feeCurrency={feeCurrency} />
         </View>
       </ScrollView>
-      <View style={styles.buttonContainer}>
-        <Button
-          style={styles.button}
-          size={BtnSizes.FULL}
-          text={t('earnFlow.collect.cta')}
-          onPress={onPress}
-          testID="EarnCollectScreen/CTA"
-        />
-      </View>
+      <Button
+        style={styles.button}
+        size={BtnSizes.FULL}
+        text={t('earnFlow.collect.cta')}
+        onPress={onPress}
+        testID="EarnCollectScreen/CTA"
+      />
     </SafeAreaView>
   )
 }
@@ -246,7 +244,7 @@ const styles = StyleSheet.create({
     ...typeScale.bodyXSmall,
     color: Colors.gray4,
   },
-  buttonContainer: {
+  button: {
     padding: Spacing.Thick24,
   },
 })
