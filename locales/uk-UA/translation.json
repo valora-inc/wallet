@@ -2358,7 +2358,8 @@
       "totalValue": "Загальна вартість:",
       "apy": "~{{apy}}% APY",
       "exitPool": "Вихідний пул",
-      "depositMore": "Поповнити рахунок Більше"
+      "depositMore": "Поповнити рахунок Більше",
+      "viewPools": "View Pools"
     },
     "depositBottomSheet": {
       "title": "Перегляд та поповнення рахунку",
