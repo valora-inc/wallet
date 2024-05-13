@@ -7,6 +7,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Price } from 'src/priceHistory/slice'
 import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import TokenDetailsScreen from 'src/tokens/TokenDetails'
 import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -264,7 +265,9 @@ describe('TokenDetails', () => {
   })
 
   it('renders earn card for Aave Arbitrum Usdc when user has balance', () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((featureGate) => featureGate === StatsigFeatureGates.SHOW_STABLECOIN_EARN)
     const store = createMockStore({
       tokens: {
         tokenBalances: {
