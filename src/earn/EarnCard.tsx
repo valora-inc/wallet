@@ -35,19 +35,12 @@ export function EarnCardTokenDetails({ depositTokenId, poolTokenId }: Props) {
   const showStablecoinEarn = getFeatureGate(StatsigFeatureGates.SHOW_STABLECOIN_EARN)
   const poolToken = useTokenInfo(poolTokenId)
 
-  if (showStablecoinEarn) {
-    return poolToken && poolToken.balance.gt(0) ? (
-      <>
-        <ItemSeparator />
-        <View style={{ margin: Spacing.Regular16 }}>
-          <EarnActivePool
-            cta="ViewPools"
-            depositTokenId={depositTokenId}
-            poolTokenId={poolTokenId}
-          />
-        </View>
-      </>
-    ) : null
-  }
-  return null
+  return showStablecoinEarn && poolToken && poolToken.balance.gt(0) ? (
+    <>
+      <ItemSeparator />
+      <View style={{ margin: Spacing.Regular16 }}>
+        <EarnActivePool cta="ViewPools" depositTokenId={depositTokenId} poolTokenId={poolTokenId} />
+      </View>
+    </>
+  ) : null
 }
