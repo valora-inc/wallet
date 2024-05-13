@@ -37,12 +37,12 @@ function PoolDetailsLoading() {
 }
 
 interface Props {
-  buttonDisplay: 'ExitAndDeposit' | 'ViewPools'
+  cta: 'ExitAndDeposit' | 'ViewPools'
   depositTokenId: string
   poolTokenId: string
 }
 
-export default function EarnActivePool({ depositTokenId, poolTokenId, buttonDisplay }: Props) {
+export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Props) {
   const { t } = useTranslation()
   const depositToken = useTokenInfo(depositTokenId)
   const poolToken = useTokenInfo(poolTokenId)
@@ -116,7 +116,7 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, buttonDisp
             )}
           </View>
         </View>
-        {buttonDisplay === 'ExitAndDeposit' && (
+        {cta === 'ExitAndDeposit' && (
           <View style={styles.buttonContainer}>
             <Button
               onPress={() => {
@@ -142,7 +142,7 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, buttonDisp
             />
           </View>
         )}
-        {buttonDisplay === 'ViewPools' && (
+        {cta === 'ViewPools' && (
           <View style={styles.buttonContainer}>
             <Button
               onPress={() => {

@@ -20,7 +20,7 @@ export function EarnCardDiscover({ depositTokenId, poolTokenId }: Props) {
   if (showStablecoinEarn) {
     return poolToken && poolToken.balance.gt(0) ? (
       <EarnActivePool
-        buttonDisplay="ExitAndDeposit"
+        cta="ExitAndDeposit"
         depositTokenId={depositTokenId}
         poolTokenId={poolTokenId}
       />
@@ -41,7 +41,7 @@ export function EarnCardTokenDetails({ depositTokenId, poolTokenId }: Props) {
         <ItemSeparator />
         <View style={{ margin: Spacing.Regular16 }}>
           <EarnActivePool
-            buttonDisplay="ViewPools"
+            cta="ViewPools"
             depositTokenId={depositTokenId}
             poolTokenId={poolTokenId}
           />
