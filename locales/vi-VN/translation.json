@@ -677,8 +677,8 @@
     "body": "Sau khi họ thiết lập ví {{appName}} và kết nối số điện thoại, mỗi bạn sẽ nhận được một NFT độc quyền."
   },
   "inviteRewardsBannerCUSD": {
-    "title": "Mời bạn bè và nhận tiền thưởng",
-    "body": "Sau khi họ thiết lập và nạp tiền vào ví {{appName}}, cả hai bạn sẽ nhận được 0,50 cUSD."
+    "title": "Invite friends and get up to 12 cUSD",
+    "body": "Once they connect their number and add funds to {{appName}}, you’ll both receive 0.50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Mời bạn bè",
@@ -692,8 +692,8 @@
       "body": "Mời bạn bè và gia đình tải xuống {{appName}} và mỗi người trong số các bạn sẽ nhận được một NFT độc quyền"
     },
     "rewardsActiveCUSD": {
-      "title": "THỜI GIAN CÓ HẠN. Nhận cUSD miễn phí khi mời bạn bè tham gia Valora!",
-      "body": "Chương trình Tiền thưởng giới thiệu đã quay trở lại và còn dễ dàng nhận được hơn trước. Nhận 0,50 cUSD mỗi khi bạn mời được một người bạn tham gia {{appName}}. Sau khi họ nạp tiền và giữ tiền trong 7 ngày, cả hai bạn sẽ nhận được 0,50 cUSD. Hãy nhanh tay lên, số tiền có hạn! (Giới hạn 25 bạn bè)."
+      "title": "GET UP TO 12 cUSD for inviting your friends to Valora!",
+      "body": "Get 0.50 cUSD for every friend you invite to {{appName}}. Once they connect their number, add funds, and hold them for 7 days, you’ll both get 0.50 cUSD. Hurry, funds are limited! (Limit 25 friends)."
     }
   },
   "getReward": "Nhận ${{reward}}",
@@ -1032,7 +1032,7 @@
   "inviteWithoutPayment": "Xin chào! Tôi đang sử dụng {{appName}} để gửi tiền điện tử trên toàn thế giới. Ứng dụng này rất dễ dùng nên tôi muốn mời bạn dùng thử bằng đường liên kết sau: {{link}}",
   "inviteWithEscrowedPayment": "Xin chào! Tôi đang sử dụng {{appName}} để gửi tiền điện tử trên toàn thế giới. Tôi vừa gửi cho bạn {{amount}} {{token}}. Vui lòng tải xuống Ứng dụng {{appName}} và chấp nhận {{token}} của bạn bằng đường liên kết sau: {{link}}",
   "inviteWithRewards": "Xin chào! 👋 Tôi đang sử dụng ví tiền điện tử {{appName}}. Bạn có thể tải nhanh ứng dụng này xuống và kết nối số điện thoại của mình, tất cả chúng ta sẽ cùng nhận được tiền thưởng dạng NFT phiên bản đặc biệt. 💫 \n\nSử dụng đường liên kết này để tải xuống: {{link}}",
-  "inviteWithRewardsCUSD": "Chào bạn! Ngay lúc này, cả hai chúng ta đều có thể nhận được tiền thưởng $0,50 miễn phí nếu bạn đăng ký và nạp tiền vào ví Valora. Tôi sử dụng ví này để gia tăng giá trị tiết kiệm bằng USD và tiền điện tử và bạn có thể dễ dàng tạo ví trong vòng vài giây bằng số điện thoại. Hãy nhớ đăng ký bằng đường liên kết giới thiệu này của tôi ở đây nhé: \n\n{{link}} \n\nHãy nhanh tay lên nhé, chương trình ưu đãi dành cho người giới thiệu sẽ sớm kết thúc.",
+  "inviteWithRewardsCUSD": "Hey! Right now we can both get a free $0.50 reward if you sign up, connect your number, and fund your Valora wallet. I use it to grow my savings in USD and crypto, and you can set it up in seconds with just a phone number. Make sure to sign up with my referral link here: \n\n{{link}} \n\n Hurry, the referral promotion ends soon.",
   "loadingContacts": "Đang tìm danh bạ của bạn",
   "myCode": "Mã của tôi",
   "scanCode": "Quét",
