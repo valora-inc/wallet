@@ -2357,7 +2357,8 @@
       "totalValue": "Total Value:",
       "apy": "~{{apy}}% APY",
       "exitPool": "Exit Pool",
-      "depositMore": "Deposit More"
+      "depositMore": "Deposit More",
+      "viewPools": "View Pools"
     },
     "depositBottomSheet": {
       "title": "Review & Deposit",
