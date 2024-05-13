@@ -34,7 +34,7 @@ import NoResults from 'src/dappsExplorer/NoResults'
 import { searchDappList } from 'src/dappsExplorer/searchDappList'
 import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
-import useEarn from 'src/earn/useEarn'
+import { EarnCardDiscover } from 'src/earn/EarnCard'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
@@ -43,6 +43,7 @@ import { useDispatch, useSelector } from 'src/redux/hooks'
 import { Colors } from 'src/styles/colors'
 import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import networkConfig from 'src/web3/networkConfig'
 
 const AnimatedSectionList =
   Animated.createAnimatedComponent<SectionListProps<Dapp, SectionData>>(SectionList)
@@ -72,9 +73,6 @@ function TabDiscover({ navigation }: Props) {
   const language = useSelector(currentLanguageSelector)
   const nonFavoriteDappsWithCategoryNames = useSelector(nonFavoriteDappsWithCategoryNamesSelector)
   const favoriteDappsWithCategoryNames = useSelector(favoriteDappsWithCategoryNamesSelector)
-
-  // Earning Pool Aave
-  const { Earn } = useEarn()
 
   const [filterChips, setFilterChips] = useState<BooleanFilterChip<DappWithCategoryNames>[]>(() =>
     categories.map((category) => ({
@@ -237,7 +235,10 @@ function TabDiscover({ navigation }: Props) {
                   </Text>
                 }
                 <DappFeaturedActions onPressShowDappRankings={handleShowDappRankings} />
-                <Earn />
+                <EarnCardDiscover
+                  poolTokenId={networkConfig.aaveArbUsdcTokenId}
+                  depositTokenId={networkConfig.arbUsdcTokenId}
+                />
                 <SearchInput
                   onChangeText={(text) => {
                     setSearchTerm(text)
