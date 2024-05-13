@@ -677,8 +677,8 @@
     "body": "Por cada amigo que configure su cuenta y conecte su número, ambos obtendrán un NFT exclusivo de regalo."
   },
   "inviteRewardsBannerCUSD": {
-    "title": "Invite friends and get up to 12 cUSD",
-    "body": "Once they connect their number and add funds to {{appName}}, you’ll both receive 0.50 cUSD."
+    "title": "Invita a amigos y consigue hasta 12 cUSD",
+    "body": "Una vez que conecten su número y añadan fondos a {{appName}}, ambos recibiréis 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Invita a tus amigos",
@@ -692,8 +692,8 @@
       "body": "Invita a tus amigos y familiares a descargar {{appName}} y cada uno obtendrá un NFT exclusivo."
     },
     "rewardsActiveCUSD": {
-      "title": "GET UP TO 12 cUSD for inviting your friends to Valora!",
-      "body": "Get 0.50 cUSD for every friend you invite to {{appName}}. Once they connect their number, add funds, and hold them for 7 days, you’ll both get 0.50 cUSD. Hurry, funds are limited! (Limit 25 friends)."
+      "title": "¡GANA HASTA 12 cUSD por invitar a tus amigos a Valora!",
+      "body": "Consigue 0,50 cUSD por cada amigo que invites a {{appName}}. Una vez que conecten su número, añadan fondos y los mantengan durante 7 días, ambos obtendréis 0,50 cUSD. Date prisa, ¡los fondos son limitados! (Límite de 25 amigos)."
     }
   },
   "getReward": "Obtén ${{reward}}",
@@ -1034,7 +1034,7 @@
   "inviteWithoutPayment": "¡Hola! Estoy usando {{appName}} para enviar cripto en todo el mundo. Es fácil de usar y me gustaría invitarte a probarla con este link: {{link}}",
   "inviteWithEscrowedPayment": "¡Hola! Estoy usando {{appName}} para enviar dinero en todo el mundo. Acabo de enviarte {{amount}} {{token}}. Puedes descargar la app de {{appName}} y reclamar tus {{token}} con este link: {{link}}",
   "inviteWithRewards": "¡Hola! 👋 Estoy usando la wallet cripto de {{appName}}. Descargarla y conectar tu número es muy fácil, y si lo haces ahora ambos recibiremos un NFT como recompensa 💫 \n\nUsa este enlace: {{link}}",
-  "inviteWithRewardsCUSD": "Hey! Right now we can both get a free $0.50 reward if you sign up, connect your number, and fund your Valora wallet. I use it to grow my savings in USD and crypto, and you can set it up in seconds with just a phone number. Make sure to sign up with my referral link here: \n\n{{link}} \n\n Hurry, the referral promotion ends soon.",
+  "inviteWithRewardsCUSD": "Hola! Ahora mismo ambos podemos conseguir una recompensa gratuita de 0,50 $ si te registras, conectas tu número y financias tu monedero Valora. Yo lo utilizo para aumentar mis ahorros en USD y criptomonedas, y tú puedes configurarlo en segundos con sólo un número de teléfono. Asegúrate de registrarte con mi enlace de recomendación aquí: \n\n{{link}} \n\n Date prisa, la promoción de recomendación termina pronto.",
   "loadingContacts": "Estamos encontrando tus contactos",
   "myCode": "Mi código",
   "scanCode": "Escanear",
