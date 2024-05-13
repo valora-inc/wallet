@@ -2,10 +2,22 @@ import BigNumber from 'bignumber.js'
 import aavePool from 'src/abis/AavePoolV3'
 import erc20 from 'src/abis/IERC20'
 import { TokenBalance } from 'src/tokens/slice'
+import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { publicClient } from 'src/viem'
 import { TransactionRequest, prepareTransactions } from 'src/viem/prepareTransactions'
-import { networkIdToNetwork } from 'src/web3/networkConfig'
+import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { Address, encodeFunctionData, parseUnits } from 'viem'
+
+type SimulatedTransactionResponse = {
+  status: 'OK'
+  simulatedTransactions: {
+    status: 'success' | 'failure'
+    blockNumber: string
+    gasNeeded: number
+    gasUsed: number
+    gasPrice: string
+  }[]
+}
 
 export async function prepareSupplyTransactions({
   amount,
@@ -36,7 +48,7 @@ export async function prepareSupplyTransactions({
     address: token.address as Address,
     abi: erc20.abi,
     functionName: 'allowance',
-    args: [walletAddress, token.address as Address],
+    args: [walletAddress, poolContractAddress],
   })
 
   if (approvedAllowanceForSpender < amountToSupply) {
@@ -65,6 +77,36 @@ export async function prepareSupplyTransactions({
   }
 
   baseTransactions.push(supplyTx)
+
+  const response = await fetchWithTimeout(networkConfig.simulateTransactionsUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      transactions: baseTransactions,
+      networkId: token.networkId,
+    }),
+  })
+
+  if (!response.ok) {
+    throw new Error(
+      `Failed to simulate transactions. status ${response.status}, text: ${await response.text()}`
+    )
+  }
+
+  // extract fee of the supply transaction and set gas fields
+  const { simulatedTransactions }: SimulatedTransactionResponse = await response.json()
+  const supplySimulatedTx = simulatedTransactions[simulatedTransactions.length - 1]
+
+  if (supplySimulatedTx.status !== 'success') {
+    throw new Error(
+      `Failed to simulate supply transaction. response: ${JSON.stringify(simulatedTransactions)}`
+    )
+  }
+
+  baseTransactions[baseTransactions.length - 1].gas = BigInt(supplySimulatedTx.gasNeeded)
+  baseTransactions[baseTransactions.length - 1]._estimatedGasUse = BigInt(supplySimulatedTx.gasUsed)
 
   return prepareTransactions({
     feeCurrencies,
