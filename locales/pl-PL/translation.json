@@ -2359,7 +2359,7 @@
       "apy": "~{{apy}}% APY",
       "exitPool": "Wyjście z puli",
       "depositMore": "Zdeponuj więcej",
-      "viewPools": "View Pools"
+      "viewPools": "Zobacz baseny"
     },
     "depositBottomSheet": {
       "title": "Przegląd i wpłata",
