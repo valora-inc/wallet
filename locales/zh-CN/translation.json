@@ -677,8 +677,8 @@
     "body": "在他们成功设置 {{appName}} 钱包并关联手机号码后，你们每个人都将获得一个专属 NFT。"
   },
   "inviteRewardsBannerCUSD": {
-    "title": "邀请好友并领取奖励",
-    "body": "在他们成功设置 {{appName}} 钱包并向其转账后，你们都将获得 0.50 cUSD 的奖励。"
+    "title": "Invite friends and get up to 12 cUSD",
+    "body": "Once they connect their number and add funds to {{appName}}, you’ll both receive 0.50 cUSD."
   },
   "inviteWithUrl": {
     "title": "邀请朋友",
@@ -692,8 +692,8 @@
       "body": "邀请您的朋友和家人下载 {{appName}} ，你们每个人都将获得一个独家的 NFT"
     },
     "rewardsActiveCUSD": {
-      "title": "时间有限，先到先得。邀请朋友注册 Valora，赚取免费 cUSD！",
-      "body": "推荐奖励又回来了，而且比以前更简单。每邀请一位朋友注册 {{appName}}，即可赚取 0.50 cUSD。朋友添加资金，并持有达 7 天后，你们都将获得 0.50 cUSD 奖励。资金有限，先到先得！（仅限 25 位朋友）。"
+      "title": "GET UP TO 12 cUSD for inviting your friends to Valora!",
+      "body": "Get 0.50 cUSD for every friend you invite to {{appName}}. Once they connect their number, add funds, and hold them for 7 days, you’ll both get 0.50 cUSD. Hurry, funds are limited! (Limit 25 friends)."
     }
   },
   "getReward": "获得 ${{reward}}",
@@ -1032,7 +1032,7 @@
   "inviteWithoutPayment": "嗨！我一直在使用 {{appName}} 作为我的加密货币钱包。它使用简便，我想邀请您访问此链接试用： {{link}}",
   "inviteWithEscrowedPayment": "嗨！我一直在使用 {{appName}} 将加密货币发送到世界各地。我刚刚向您发送了 {{amount}} {{token}}。请使用此链接下载 {{appName}} 应用程序并兑换您的 {{token}}：{{link}}",
   "inviteWithRewards": "嗨！👋 我正在使用 {{appName}} 作为加密货币钱包。您可以快速下载此应用程序并关联手机号码，之后我们都可以获得一个特别版的 NFT 作为奖励。💫 \n\n请使用此链接下载: {{link}}",
-  "inviteWithRewardsCUSD": "嘿！如果你现在注册 Valora 钱包并存入资金，我们就都能免费获得 $0.50 奖励。我正在用它来增加我的美元和加密货币储蓄，只需一个电话号码，几秒钟就能完成注册。请确保使用我的推荐链接注册：\n\n{{link}}\n\n心动不如行动，推荐活动马上就要结束了。",
+  "inviteWithRewardsCUSD": "Hey! Right now we can both get a free $0.50 reward if you sign up, connect your number, and fund your Valora wallet. I use it to grow my savings in USD and crypto, and you can set it up in seconds with just a phone number. Make sure to sign up with my referral link here: \n\n{{link}} \n\n Hurry, the referral promotion ends soon.",
   "loadingContacts": "查找您的联系人",
   "myCode": "我的代码",
   "scanCode": "扫描",
