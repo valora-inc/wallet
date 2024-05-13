@@ -2352,7 +2352,8 @@
       "totalValue": "总价值",
       "apy": "~{{apy}}% APY",
       "exitPool": "出口池",
-      "depositMore": "存款 更多"
+      "depositMore": "存款 更多",
+      "viewPools": "View Pools"
     },
     "depositBottomSheet": {
       "title": "审查和存款",
