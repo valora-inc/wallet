@@ -2354,7 +2354,8 @@
       "totalValue": "Valore totale:",
       "apy": "~{{apy}}% APY",
       "exitPool": "Piscina di uscita",
-      "depositMore": "Deposita di più"
+      "depositMore": "Deposita di più",
+      "viewPools": "View Pools"
     },
     "depositBottomSheet": {
       "title": "Revisione e deposito",
