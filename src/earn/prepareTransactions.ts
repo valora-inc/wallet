@@ -6,7 +6,7 @@ import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { publicClient } from 'src/viem'
 import { TransactionRequest, prepareTransactions } from 'src/viem/prepareTransactions'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
-import { Address, encodeFunctionData, parseUnits } from 'viem'
+import { Address, encodeFunctionData, isAddress, parseUnits } from 'viem'
 
 type SimulatedTransactionResponse = {
   status: 'OK'
@@ -37,7 +37,7 @@ export async function prepareSupplyTransactions({
   // amount in smallest unit
   const amountToSupply = parseUnits(amount, token.decimals)
 
-  if (!token.address) {
+  if (!token.address || !isAddress(token.address)) {
     // should never happen
     throw new Error('Cannot use a token without address')
   }
@@ -45,7 +45,7 @@ export async function prepareSupplyTransactions({
   const approvedAllowanceForSpender = await publicClient[
     networkIdToNetwork[token.networkId]
   ].readContract({
-    address: token.address as Address,
+    address: token.address,
     abi: erc20.abi,
     functionName: 'allowance',
     args: [walletAddress, poolContractAddress],
@@ -60,7 +60,7 @@ export async function prepareSupplyTransactions({
 
     const approveTx: TransactionRequest = {
       from: walletAddress,
-      to: token.address as Address,
+      to: token.address,
       data,
     }
     baseTransactions.push(approveTx)
@@ -72,7 +72,7 @@ export async function prepareSupplyTransactions({
     data: encodeFunctionData({
       abi: aavePool,
       functionName: 'supply',
-      args: [token.address as Address, amountToSupply, walletAddress, 0],
+      args: [token.address, amountToSupply, walletAddress, 0],
     }),
   }
 
