@@ -34,8 +34,6 @@ const renderPointsHome = (storeOverrides?: RecursivePartial<RootState>) => {
     }
   )
 
-  const dispatch = jest.spyOn(store, 'dispatch')
-
   const tree = render(
     <Provider store={store}>
       <PointsHome {...mockScreenProps()} />
@@ -43,7 +41,6 @@ const renderPointsHome = (storeOverrides?: RecursivePartial<RootState>) => {
   )
 
   return {
-    dispatch,
     store,
     ...tree,
   }
@@ -192,7 +189,7 @@ describe(PointsHome, () => {
   })
 
   it('renders intro if it has not been seen', () => {
-    const { dispatch, getByText, queryByText } = renderPointsHome({
+    const { store, getByText, queryByText } = renderPointsHome({
       points: { introHasBeenSeen: false },
     })
 
@@ -201,6 +198,6 @@ describe(PointsHome, () => {
     expect(getByText('points.intro.description')).toBeTruthy()
 
     fireEvent.press(getByText('points.intro.cta'))
-    expect(dispatch).toHaveBeenCalledWith(pointsIntroDismissed())
+    expect(store.getActions()).toContainEqual(pointsIntroDismissed())
   })
 })
