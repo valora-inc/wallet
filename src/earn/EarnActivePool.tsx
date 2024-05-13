@@ -56,7 +56,7 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
       }
 
       return fetchAavePoolInfo({
-        assetAddress: depositToken?.address,
+        assetAddress: depositToken.address,
         contractAddress: networkConfig.arbAavePoolV3ContractAddress,
         network: networkIdToNetwork[depositToken.networkId],
       })
