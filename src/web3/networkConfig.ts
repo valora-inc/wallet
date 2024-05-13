@@ -147,7 +147,7 @@ const ETH_TOKEN_ID_MAINNET = `${NetworkId['ethereum-mainnet']}:native`
 const ARB_USDC_TOKEN_ID_STAGING = `${NetworkId['arbitrum-sepolia']}:0x75faf114eafb1bdbe2f0316df893fd58ce46aa4d`
 const ARB_USDC_TOKEN_ID_MAINNET = `${NetworkId['arbitrum-one']}:0xaf88d065e77c8cc2239327c5edb3a432268e5831`
 
-const AAVE_ARB_USDC_TOKEN_ID_STAGING = `${NetworkId['arbitrum-sepolia']}:0x460b97BD498E1157530AEb3086301d5225b91216`
+const AAVE_ARB_USDC_TOKEN_ID_STAGING = `${NetworkId['arbitrum-sepolia']}:0x460b97bd498e1157530aeb3086301d5225b91216`
 const AAVE_ARB_USDC_TOKEN_ID_MAINNET = `${NetworkId['arbitrum-one']}:0x724dc807b04555b71ed48a6896b6f41593b8c637`
 
 const ARB_AAVE_POOL_V3_CONTRACT_ADDRESS_STAGING = '0xBfC91D59fdAA134A4ED45f7B584cAf96D7792Eff'
