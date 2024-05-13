@@ -14,8 +14,7 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokenInfo } from 'src/tokens/hooks'
 import Logger from 'src/utils/Logger'
-import networkConfig from 'src/web3/networkConfig'
-import { getNetworkFromNetworkId } from 'src/web3/utils'
+import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { isAddress } from 'viem'
 
 const TAG = 'earn/EarnActivePool'
@@ -46,36 +45,29 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
   const { t } = useTranslation()
   const depositToken = useTokenInfo(depositTokenId)
   const poolToken = useTokenInfo(poolTokenId)
-  const asyncPoolInfo = useAsync(async () => {
-    if (!depositToken || !depositToken.address) {
-      // should never happen
-      Logger.warn(TAG, `Token with id ${depositTokenId} not found`)
-      throw new Error(`Token with id ${depositTokenId} not found`)
-    }
+  const asyncPoolInfo = useAsync(
+    async () => {
+      if (!depositToken || !depositToken.address) {
+        throw new Error(`Token with id ${depositTokenId} not found`)
+      }
 
-    if (!isAddress(depositToken.address)) {
-      Logger.warn(TAG, `Token with id ${depositTokenId} does not contain a valid address`)
-      throw new Error(`Token with id ${depositTokenId} does not contain a valid address`)
-    }
+      if (!isAddress(depositToken.address)) {
+        throw new Error(`Token with id ${depositTokenId} does not contain a valid address`)
+      }
 
-    if (!depositToken.networkId) {
-      // should never happen
-      Logger.warn(TAG, `Token with id ${depositTokenId} does not contain a valid networkId`)
-      throw new Error(`Token with id ${depositTokenId} does not contain a valid networkId`)
+      return fetchAavePoolInfo({
+        assetAddress: depositToken?.address,
+        contractAddress: networkConfig.arbAavePoolV3ContractAddress,
+        network: networkIdToNetwork[depositToken.networkId],
+      })
+    },
+    [],
+    {
+      onError: (error) => {
+        Logger.warn(TAG, error.message)
+      },
     }
-
-    const network = getNetworkFromNetworkId(depositToken.networkId)
-    if (!network) {
-      Logger.warn(TAG, `Network with id ${depositToken.networkId} not found`)
-      throw new Error(`Network with id ${depositToken.networkId} not found`)
-    }
-
-    return fetchAavePoolInfo({
-      assetAddress: depositToken.address,
-      contractAddress: networkConfig.arbAavePoolV3ContractAddress,
-      network,
-    })
-  }, [])
+  )
 
   return (
     <View style={styles.card} testID="EarnActivePool">
