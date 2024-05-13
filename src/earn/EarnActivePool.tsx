@@ -88,7 +88,7 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
           <View style={styles.row}>
             {asyncPoolInfo.error && <View />}
             {asyncPoolInfo.loading && <PoolDetailsLoading />}
-            {asyncPoolInfo.result && asyncPoolInfo.result.apy && (
+            {asyncPoolInfo.result && !!asyncPoolInfo.result.apy && (
               <View style={styles.apyContainer}>
                 <Text style={styles.apyText}>
                   {t('earnFlow.activePools.apy', {
