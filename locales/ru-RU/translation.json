@@ -2359,7 +2359,7 @@
       "apy": "~{{apy}}% APY",
       "exitPool": "Выходной бассейн",
       "depositMore": "Депозит Подробнее",
-      "viewPools": "View Pools"
+      "viewPools": "Бассейны с видом"
     },
     "depositBottomSheet": {
       "title": "Обзор и депонирование",
