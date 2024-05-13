@@ -2358,7 +2358,8 @@
       "totalValue": "Całkowita wartość:",
       "apy": "~{{apy}}% APY",
       "exitPool": "Wyjście z puli",
-      "depositMore": "Zdeponuj więcej"
+      "depositMore": "Zdeponuj więcej",
+      "viewPools": "View Pools"
     },
     "depositBottomSheet": {
       "title": "Przegląd i wpłata",
