@@ -2354,7 +2354,8 @@
       "totalValue": "Gesamtwert:",
       "apy": "~{{apy}}% APY",
       "exitPool": "Exit Pool",
-      "depositMore": "Pfand Mehr"
+      "depositMore": "Pfand Mehr",
+      "viewPools": "View Pools"
     },
     "depositBottomSheet": {
       "title": "Überprüfung & Einzahlung",
