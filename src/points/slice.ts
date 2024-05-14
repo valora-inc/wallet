@@ -39,7 +39,7 @@ export interface State {
   pendingPointsEvents: PendingPointsEvent[]
   pointsBalanceStatus: 'idle' | 'loading' | 'error' | 'success'
   pointsBalance: string
-  introHasBeenSeen: boolean
+  introHasBeenDismissed: boolean
 }
 
 const initialState: State = {
@@ -51,7 +51,7 @@ const initialState: State = {
   pendingPointsEvents: [],
   pointsBalanceStatus: 'idle',
   pointsBalance: '0',
-  introHasBeenSeen: false,
+  introHasBeenDismissed: false,
 }
 
 const slice = createSlice({
@@ -115,7 +115,7 @@ const slice = createSlice({
     }),
     pointsIntroDismissed: (state) => ({
       ...state,
-      introHasBeenSeen: true,
+      introHasBeenDismissed: true,
     }),
   },
   extraReducers: (builder) => {

@@ -25,7 +25,7 @@ import {
   pointsBalanceStatusSelector,
   pointsConfigStatusSelector,
   pointsHistoryStatusSelector,
-  pointsIntroHasBeenSeenSelector,
+  pointsIntroHasBeenDismissedSelector,
   pointsSectionsSelector,
 } from 'src/points/selectors'
 import {
@@ -51,7 +51,7 @@ export default function PointsHome({ route, navigation }: Props) {
   const pointsBalance = useSelector(pointsBalanceSelector)
   const pointsBalanceStatus = useSelector(pointsBalanceStatusSelector)
   const pointsHistoryStatus = useSelector(pointsHistoryStatusSelector)
-  const introHasBeenSeen = useSelector(pointsIntroHasBeenSeenSelector)
+  const introHasBeenDismissed = useSelector(pointsIntroHasBeenDismissedSelector)
 
   const lastKnownPointsBalance = useRef(pointsBalance)
   const historyBottomSheetRef = useRef<BottomSheetRefType>(null)
@@ -112,7 +112,7 @@ export default function PointsHome({ route, navigation }: Props) {
         style={styles.header}
         left={<BackButton eventName={PointsEvents.points_screen_back} />}
       />
-      {!introHasBeenSeen ? (
+      {!introHasBeenDismissed ? (
         <View style={styles.introContainer}>
           <View style={styles.introContent}>
             <Image style={styles.introImage} source={pointsIllustration} />

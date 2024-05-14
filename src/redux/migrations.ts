@@ -1782,7 +1782,7 @@ export const migrations = {
     ...state,
     points: {
       ...state.points,
-      introHasBeenSeen: false,
+      introHasBeenDismissed: false,
     },
   }),
 }

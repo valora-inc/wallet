@@ -40,10 +40,10 @@ describe('pending points events', () => {
   })
 
   it('should set intro has been seen', () => {
-    const initialState = { introHasBeenSeen: false } as unknown as State
+    const initialState = { introHasBeenDismissed: false } as unknown as State
 
     const newState = reducer(initialState, pointsIntroDismissed())
 
-    expect(newState.introHasBeenSeen).toEqual(true)
+    expect(newState.introHasBeenDismissed).toEqual(true)
   })
 })

@@ -1616,7 +1616,7 @@ describe('Redux persist migrations', () => {
     const oldSchema = v212Schema
     const migratedSchema = migrations[213](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
-    expectedSchema.points.introHasBeenSeen = false
+    expectedSchema.points.introHasBeenDismissed = false
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

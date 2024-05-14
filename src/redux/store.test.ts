@@ -286,7 +286,7 @@ describe('store state', () => {
         },
         "points": {
           "getHistoryStatus": "idle",
-          "introHasBeenSeen": false,
+          "introHasBeenDismissed": false,
           "nextPageUrl": null,
           "pendingPointsEvents": [],
           "pointsBalance": "0",

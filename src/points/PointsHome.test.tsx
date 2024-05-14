@@ -29,7 +29,7 @@ const renderPointsHome = (storeOverrides?: RecursivePartial<RootState>) => {
           },
         },
         pointsConfigStatus: 'success',
-        introHasBeenSeen: true,
+        introHasBeenDismissed: true,
       },
     }
   )
@@ -53,7 +53,7 @@ describe(PointsHome, () => {
 
   it('renders a loading state while loading config', async () => {
     const { getByText, queryByText } = renderPointsHome({
-      points: { pointsConfigStatus: 'loading', introHasBeenSeen: true },
+      points: { pointsConfigStatus: 'loading', introHasBeenDismissed: true },
     })
 
     expect(getByText('points.loading.title')).toBeTruthy()
@@ -64,7 +64,7 @@ describe(PointsHome, () => {
 
   it('renders the error state on failure to load config', async () => {
     const { getByText, queryByText, store } = renderPointsHome({
-      points: { pointsConfigStatus: 'error', introHasBeenSeen: true },
+      points: { pointsConfigStatus: 'error', introHasBeenDismissed: true },
     })
 
     expect(getByText('points.error.title')).toBeTruthy()
@@ -101,7 +101,7 @@ describe(PointsHome, () => {
     const { store, getByText } = renderPointsHome({
       points: {
         getHistoryStatus: 'errorFirstPage',
-        introHasBeenSeen: true,
+        introHasBeenDismissed: true,
       },
     })
 
@@ -147,7 +147,7 @@ describe(PointsHome, () => {
     const { getByTestId, getByText, queryByText } = renderPointsHome({
       points: {
         pointsConfigStatus: 'success',
-        introHasBeenSeen: true,
+        introHasBeenDismissed: true,
       },
     })
 
@@ -190,7 +190,7 @@ describe(PointsHome, () => {
 
   it('renders intro if it has not been seen', () => {
     const { store, getByText, queryByText } = renderPointsHome({
-      points: { introHasBeenSeen: false },
+      points: { introHasBeenDismissed: false },
     })
 
     expect(queryByText('points.title')).toBeFalsy()

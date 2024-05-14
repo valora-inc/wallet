@@ -3306,7 +3306,7 @@ export const v213Schema = {
   },
   points: {
     ...v212Schema.points,
-    introHasBeenSeen: false,
+    introHasBeenDismissed: false,
   },
 }
 
