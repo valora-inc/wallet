@@ -2369,13 +2369,13 @@
       "secondaryCta": "Abbrechen"
     },
     "collect": {
-      "title": "Congratulations! Review & collect your earnings",
-      "total": "TOTAL",
+      "title": "Herzlichen Glückwunsch! Überprüfe und sammle deinen Verdienst",
+      "total": "GESAMT",
       "plus": "PLUS",
-      "rate": "Rate (est.)",
+      "rate": "Rate (geschätzt)",
       "apy": "~{{apy}}% APY",
-      "fee": "Gas Fee",
-      "cta": "Collect Earnings"
+      "fee": "Gasgebühr",
+      "cta": "Verdienste sammeln"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
