@@ -42,11 +42,11 @@ export default function PointsHome({ route, navigation }: Props) {
   return (
     <SafeAreaView style={styles.outerContainer} edges={['top']}>
       <CustomHeader style={styles.header} left={<BackButton />} />
-      <View style={styles.introContainer}>
-        <View style={styles.introContent}>
-          <Image style={styles.introImage} source={pointsIllustration} />
-          <Text style={styles.introTitle}>{t('points.intro.title')}</Text>
-          <Text style={styles.introDescription}>{t('points.intro.description')}</Text>
+      <View style={styles.container}>
+        <View style={styles.content}>
+          <Image style={styles.image} source={pointsIllustration} />
+          <Text style={styles.title}>{t('points.intro.title')}</Text>
+          <Text style={styles.description}>{t('points.intro.description')}</Text>
         </View>
         <Button onPress={onIntroDismiss} text={t('points.intro.cta')} size={BtnSizes.FULL} />
       </View>
@@ -62,24 +62,24 @@ const styles = StyleSheet.create({
   header: {
     paddingHorizontal: Spacing.Thick24,
   },
-  introContainer: {
+  container: {
     flex: 1,
     paddingHorizontal: Spacing.Thick24,
     paddingBottom: Spacing.Thick24,
   },
-  introContent: {
+  content: {
     flex: 1,
     alignItems: 'center',
   },
-  introImage: {
+  image: {
     marginBottom: Spacing.Regular16,
   },
-  introTitle: {
+  title: {
     ...typeScale.titleLarge,
     color: Colors.black,
     textAlign: 'center',
   },
-  introDescription: {
+  description: {
     ...typeScale.bodySmall,
     color: Colors.black,
     marginTop: Spacing.Regular16,
