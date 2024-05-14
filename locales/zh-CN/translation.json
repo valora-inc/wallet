@@ -2367,13 +2367,13 @@
       "secondaryCta": "取消"
     },
     "collect": {
-      "title": "Congratulations! Review & collect your earnings",
-      "total": "TOTAL",
-      "plus": "PLUS",
-      "rate": "Rate (est.)",
+      "title": "恭喜您查看并领取收益",
+      "total": "总计",
+      "plus": "加",
+      "rate": "比率（估计值）",
       "apy": "~{{apy}}% APY",
-      "fee": "Gas Fee",
-      "cta": "Collect Earnings"
+      "fee": "燃气费",
+      "cta": "收取收益"
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
