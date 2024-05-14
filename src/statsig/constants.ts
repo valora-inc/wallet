@@ -135,6 +135,14 @@ export const DynamicConfigs = {
       rewardReminderDate: new Date(0).toISOString(),
     },
   },
+  [StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG]: {
+    configName: StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG,
+    defaultValues: {
+      providerName: 'Aave',
+      providerLogoUrl: '',
+      providerTermsAndConditionsUrl: '',
+    },
+  },
 } satisfies {
   [key in StatsigDynamicConfigs]: {
     configName: key

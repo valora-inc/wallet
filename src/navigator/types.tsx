@@ -86,6 +86,7 @@ export type StackParamList = {
     forceTokenId?: boolean
     defaultTokenIdOverride?: string
   }
+  [Screens.EarnCollectScreen]: undefined
   [Screens.ErrorScreen]: {
     errorMessage?: string
   }

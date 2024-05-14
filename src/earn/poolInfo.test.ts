@@ -10,7 +10,11 @@ describe('poolInfo', () => {
       currentLiquidityRate: BigInt(1e27 * 0.036),
     })
 
-    const result = await fetchAavePoolInfo('0x1234')
+    const result = await fetchAavePoolInfo({
+      assetAddress: '0x1234',
+      contractAddress: networkConfig.arbAavePoolV3ContractAddress,
+      network: Network.Arbitrum,
+    })
 
     expect(result).toEqual({ apy: 0.0366558430938988 })
     expect(publicClient[Network.Arbitrum].readContract).toHaveBeenCalledWith({
