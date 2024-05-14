@@ -2369,13 +2369,13 @@
       "secondaryCta": "Cancelar"
     },
     "collect": {
-      "title": "Congratulations! Review & collect your earnings",
+      "title": "Parabéns a você! Analise e receba seus ganhos",
       "total": "TOTAL",
-      "plus": "PLUS",
-      "rate": "Rate (est.)",
+      "plus": "MAIS",
+      "rate": "Taxa (est.)",
       "apy": "~{{apy}}% APY",
-      "fee": "Gas Fee",
-      "cta": "Collect Earnings"
+      "fee": "Taxa de gás",
+      "cta": "Coleta de ganhos"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
