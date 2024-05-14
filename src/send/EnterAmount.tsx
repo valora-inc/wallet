@@ -441,6 +441,7 @@ function EnterAmount({
         )}
 
         {children}
+
         <ProceedComponent
           tokenAmount={tokenAmount}
           localAmount={localAmount}
