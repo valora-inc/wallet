@@ -26,7 +26,7 @@ export default function PointsDiscoverCard({ style }: Props) {
   const pointsBalance = useSelector(pointsBalanceSelector)
 
   const handlePress = () => {
-    ValoraAnalytics.track(PointsEvents.points_screen_open)
+    ValoraAnalytics.track(PointsEvents.points_discover_press)
     navigate(Screens.PointsHome)
   }
 

@@ -665,7 +665,7 @@ export enum JumpstartEvents {
 }
 
 export enum PointsEvents {
-  points_screen_open = 'points_screen_open',
+  points_discover_press = 'points_discover_press',
   points_screen_back = 'points_screen_back',
   points_screen_card_press = 'points_screen_card_press',
   points_screen_card_cta_press = 'points_screen_card_cta_press',

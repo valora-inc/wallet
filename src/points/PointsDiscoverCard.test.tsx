@@ -32,7 +32,7 @@ describe('PointsDiscoverCard', () => {
 
     fireEvent.press(getByText('points.discoverCard.title'))
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_open)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_discover_press)
     expect(navigate).toHaveBeenCalledWith(Screens.PointsHome)
   })
 
