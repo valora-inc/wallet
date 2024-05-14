@@ -81,6 +81,7 @@ export type StackParamList = {
     rewardId: string
   }
   [Screens.Debug]: undefined
+  [Screens.EarnCollectScreen]: undefined
   [Screens.ErrorScreen]: {
     errorMessage?: string
   }
