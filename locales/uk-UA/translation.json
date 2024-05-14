@@ -2373,13 +2373,13 @@
       "secondaryCta": "Скасувати"
     },
     "collect": {
-      "title": "Congratulations! Review & collect your earnings",
-      "total": "TOTAL",
-      "plus": "PLUS",
-      "rate": "Rate (est.)",
+      "title": "Вітаємо! Перегляньте та отримайте свій заробіток",
+      "total": "ВСЬОГО",
+      "plus": "ПЛЮС",
+      "rate": "Ставка (ест.)",
       "apy": "~{{apy}}% APY",
-      "fee": "Gas Fee",
-      "cta": "Collect Earnings"
+      "fee": "Плата за газ",
+      "cta": "Збирайте заробіток"
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
