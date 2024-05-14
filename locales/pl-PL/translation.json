@@ -2373,13 +2373,13 @@
       "secondaryCta": "Anuluj"
     },
     "collect": {
-      "title": "Congratulations! Review & collect your earnings",
-      "total": "TOTAL",
+      "title": "Gratulacje! Przejrzyj i odbierz swoje zarobki",
+      "total": "RAZEM",
       "plus": "PLUS",
-      "rate": "Rate (est.)",
+      "rate": "Stawka (szacunkowa)",
       "apy": "~{{apy}}% APY",
-      "fee": "Gas Fee",
-      "cta": "Collect Earnings"
+      "fee": "Opłata za gaz",
+      "cta": "Zbieraj zarobki"
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
