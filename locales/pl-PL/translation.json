@@ -2371,6 +2371,15 @@
       "footer": "Wpłacając kryptowaluty do puli Aave, akceptujesz ryzyko związane z korzystaniem z Aave. <0>Regulamin</0>",
       "primaryCta": "Kompletny",
       "secondaryCta": "Anuluj"
+    },
+    "collect": {
+      "title": "Congratulations! Review & collect your earnings",
+      "total": "TOTAL",
+      "plus": "PLUS",
+      "rate": "Rate (est.)",
+      "apy": "~{{apy}}% APY",
+      "fee": "Gas Fee",
+      "cta": "Collect Earnings"
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
