@@ -2371,6 +2371,15 @@
       "footer": "Вносячи криптовалюту в пул Aave, ви приймаєте ризики, пов'язані з використанням Aave. <0>Умови та положення</0>",
       "primaryCta": "Завершено",
       "secondaryCta": "Скасувати"
+    },
+    "collect": {
+      "title": "Congratulations! Review & collect your earnings",
+      "total": "TOTAL",
+      "plus": "PLUS",
+      "rate": "Rate (est.)",
+      "apy": "~{{apy}}% APY",
+      "fee": "Gas Fee",
+      "cta": "Collect Earnings"
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
