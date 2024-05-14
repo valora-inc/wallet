@@ -3,7 +3,7 @@ import { REHYDRATE, RehydrateAction } from 'redux-persist'
 import { DepositInfo } from 'src/earn/types'
 import { getRehydratePayload } from 'src/redux/persist-helper'
 
-export interface State {
+interface State {
   depositStatus: 'idle' | 'started' | 'success' | 'error'
 }
 
