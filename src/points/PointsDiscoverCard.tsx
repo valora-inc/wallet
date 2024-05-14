@@ -7,7 +7,7 @@ import Touchable from 'src/components/Touchable'
 import LogoHeart from 'src/icons/LogoHeart'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { pointsBalanceSelector } from 'src/points/selectors'
+import { pointsBalanceSelector, pointsIntroHasBeenDismissedSelector } from 'src/points/selectors'
 import { useSelector } from 'src/redux/hooks'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -24,10 +24,15 @@ export default function PointsDiscoverCard({ style }: Props) {
 
   const { t } = useTranslation()
   const pointsBalance = useSelector(pointsBalanceSelector)
+  const pointsIntroHasBeenDismissed = useSelector(pointsIntroHasBeenDismissedSelector)
 
   const handlePress = () => {
     ValoraAnalytics.track(PointsEvents.points_discover_press)
-    navigate(Screens.PointsHome)
+    if (pointsIntroHasBeenDismissed) {
+      navigate(Screens.PointsHome)
+    } else {
+      navigate(Screens.PointsIntro)
+    }
   }
 
   if (!showPoints) {

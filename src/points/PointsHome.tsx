@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { PointsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -15,7 +15,6 @@ import Toast from 'src/components/Toast'
 import CustomHeader from 'src/components/header/CustomHeader'
 import AttentionIcon from 'src/icons/Attention'
 import LogoHeart from 'src/icons/LogoHeart'
-import { pointsIllustration } from 'src/images/Images'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import ActivityCardSection from 'src/points/ActivityCardSection'
@@ -25,14 +24,9 @@ import {
   pointsBalanceStatusSelector,
   pointsConfigStatusSelector,
   pointsHistoryStatusSelector,
-  pointsIntroHasBeenDismissedSelector,
   pointsSectionsSelector,
 } from 'src/points/selectors'
-import {
-  getHistoryStarted,
-  getPointsConfigRetry,
-  pointsIntroDismissed as introDismissed,
-} from 'src/points/slice'
+import { getHistoryStarted, getPointsConfigRetry } from 'src/points/slice'
 import { BottomSheetParams, PointsActivityId } from 'src/points/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { Colors } from 'src/styles/colors'
@@ -51,7 +45,6 @@ export default function PointsHome({ route, navigation }: Props) {
   const pointsBalance = useSelector(pointsBalanceSelector)
   const pointsBalanceStatus = useSelector(pointsBalanceStatusSelector)
   const pointsHistoryStatus = useSelector(pointsHistoryStatusSelector)
-  const introHasBeenDismissed = useSelector(pointsIntroHasBeenDismissedSelector)
 
   const lastKnownPointsBalance = useRef(pointsBalance)
   const historyBottomSheetRef = useRef<BottomSheetRefType>(null)
@@ -102,146 +95,123 @@ export default function PointsHome({ route, navigation }: Props) {
     dispatch(getPointsConfigRetry())
   }
 
-  const onIntroDismiss = () => {
-    dispatch(introDismissed())
-  }
-
   return (
     <SafeAreaView style={styles.outerContainer} edges={['top']}>
       <CustomHeader
         style={styles.header}
         left={<BackButton eventName={PointsEvents.points_screen_back} />}
       />
-      {!introHasBeenDismissed ? (
-        <View style={styles.introContainer}>
-          <View style={styles.introContent}>
-            <Image style={styles.introImage} source={pointsIllustration} />
-            <Text style={styles.introTitle}>{t('points.intro.title')}</Text>
-            <Text style={styles.introDescription}>{t('points.intro.description')}</Text>
-          </View>
-          <Button onPress={onIntroDismiss} text={t('points.intro.cta')} size={BtnSizes.FULL} />
-        </View>
-      ) : (
-        <>
-          <ScrollView
-            testID={'PointsScrollView'}
-            contentContainerStyle={styles.contentContainer}
-            refreshControl={
-              <RefreshControl
-                tintColor={Colors.primary}
-                colors={[Colors.primary]}
-                refreshing={pointsBalanceStatus === 'loading'}
-                onRefresh={onRefreshHistoryAndBalance}
-              />
-            }
-          >
-            {pointsConfigStatus === 'loading' && (
-              <View style={styles.loadingStatusContainer}>
-                <BeatingHeartLoader size={64} />
-                <Text style={styles.loadingStatusTitle}>{t('points.loading.title')}</Text>
-                <Text style={styles.loadingStatusBodyText}>{t('points.loading.description')}</Text>
-              </View>
-            )}
+      <>
+        <ScrollView
+          testID={'PointsScrollView'}
+          contentContainerStyle={styles.contentContainer}
+          refreshControl={
+            <RefreshControl
+              tintColor={Colors.primary}
+              colors={[Colors.primary]}
+              refreshing={pointsBalanceStatus === 'loading'}
+              onRefresh={onRefreshHistoryAndBalance}
+            />
+          }
+        >
+          {pointsConfigStatus === 'loading' && (
+            <View style={styles.loadingStatusContainer}>
+              <BeatingHeartLoader size={64} />
+              <Text style={styles.loadingStatusTitle}>{t('points.loading.title')}</Text>
+              <Text style={styles.loadingStatusBodyText}>{t('points.loading.description')}</Text>
+            </View>
+          )}
 
-            {pointsConfigStatus === 'error' && (
-              <View style={styles.loadingStatusContainer}>
-                <AttentionIcon size={48} color={Colors.black} />
-                <Text style={styles.loadingStatusTitle}>{t('points.error.title')}</Text>
-                <Text style={styles.loadingStatusBodyText}>{t('points.error.description')}</Text>
+          {pointsConfigStatus === 'error' && (
+            <View style={styles.loadingStatusContainer}>
+              <AttentionIcon size={48} color={Colors.black} />
+              <Text style={styles.loadingStatusTitle}>{t('points.error.title')}</Text>
+              <Text style={styles.loadingStatusBodyText}>{t('points.error.description')}</Text>
+              <Button
+                onPress={onRetryLoadConfig}
+                text={t('points.error.retryCta')}
+                type={BtnTypes.GRAY_WITH_BORDER}
+                size={BtnSizes.FULL}
+                style={styles.loadingRetryButton}
+              />
+            </View>
+          )}
+          {pointsConfigStatus === 'success' && (
+            <>
+              <View style={styles.titleRow}>
+                <Text style={styles.title}>{t('points.title')}</Text>
                 <Button
-                  onPress={onRetryLoadConfig}
-                  text={t('points.error.retryCta')}
+                  testID={'PointsActivityButton'}
+                  onPress={onPressActivity}
+                  text={t('points.activity')}
                   type={BtnTypes.GRAY_WITH_BORDER}
+                  fontStyle={typeScale.labelXSmall}
                   size={BtnSizes.FULL}
-                  style={styles.loadingRetryButton}
+                  touchableStyle={styles.buttonStyle}
                 />
               </View>
-            )}
-            {pointsConfigStatus === 'success' && (
-              <>
-                <View style={styles.titleRow}>
-                  <Text style={styles.title}>{t('points.title')}</Text>
-                  <Button
-                    testID={'PointsActivityButton'}
-                    onPress={onPressActivity}
-                    text={t('points.activity')}
-                    type={BtnTypes.GRAY_WITH_BORDER}
-                    fontStyle={typeScale.labelXSmall}
-                    size={BtnSizes.FULL}
-                    touchableStyle={styles.buttonStyle}
-                  />
-                </View>
-                <View style={styles.balanceRow}>
-                  <NumberTicker
-                    testID="PointsBalance"
-                    value={pointsBalance}
-                    disableAnimation={lastKnownPointsBalance.current === pointsBalance}
-                  />
-                  <LogoHeart size={28} />
-                </View>
+              <View style={styles.balanceRow}>
+                <NumberTicker
+                  testID="PointsBalance"
+                  value={pointsBalance}
+                  disableAnimation={lastKnownPointsBalance.current === pointsBalance}
+                />
+                <LogoHeart size={28} />
+              </View>
 
-                {pointsSections.length > 0 ? (
-                  <>
-                    <View style={styles.infoCard}>
-                      <Text style={styles.infoCardTitle}>{t('points.infoCard.title')}</Text>
-                      <Text style={styles.infoCardBody}>{t('points.infoCard.body')}</Text>
-                    </View>
-                    <ActivityCardSection
-                      onCardPress={onCardPress}
-                      pointsSections={pointsSections}
-                    />
-                  </>
-                ) : (
-                  <InLineNotification
-                    variant={NotificationVariant.Info}
-                    hideIcon={true}
-                    title={t('points.noActivities.title')}
-                    description={t('points.noActivities.body')}
-                  />
-                )}
-              </>
-            )}
-          </ScrollView>
-          <Toast
-            showToast={pointsBalanceStatus === 'error' || pointsHistoryStatus === 'errorFirstPage'}
-            variant={NotificationVariant.Warning}
-            title={t('points.fetchBalanceError.title')}
-            description={t('points.fetchBalanceError.description')}
-            ctaLabel={t('points.fetchBalanceError.retryCta')}
-            onPressCta={onRefreshHistoryAndBalance}
-          />
-          <PointsHistoryBottomSheet forwardedRef={historyBottomSheetRef} />
-          <BottomSheet
-            forwardedRef={activityCardBottomSheetRef}
-            testId={`PointsActivityBottomSheet`}
-          >
-            {bottomSheetParams && (
-              <>
-                <View style={styles.bottomSheetPointAmountContainer}>
-                  <Text style={styles.bottomSheetPointAmount}>
-                    {bottomSheetParams.pointsAmount}
-                  </Text>
-                  <LogoHeart size={16} />
-                </View>
-                <Text style={styles.bottomSheetTitle}>{bottomSheetParams.title}</Text>
-                <Text style={styles.bottomSheetBody}>{bottomSheetParams.body}</Text>
-                {bottomSheetParams.cta && (
-                  <Button
-                    testID={'PointsHomeBottomSheetCtaButton'}
-                    type={BtnTypes.PRIMARY}
-                    size={BtnSizes.FULL}
-                    onPress={onCtaPressWrapper(
-                      bottomSheetParams.cta.onPress,
-                      bottomSheetParams.activityId
-                    )}
-                    text={bottomSheetParams.cta.text}
-                  />
-                )}
-              </>
-            )}
-          </BottomSheet>
-        </>
-      )}
+              {pointsSections.length > 0 ? (
+                <>
+                  <View style={styles.infoCard}>
+                    <Text style={styles.infoCardTitle}>{t('points.infoCard.title')}</Text>
+                    <Text style={styles.infoCardBody}>{t('points.infoCard.body')}</Text>
+                  </View>
+                  <ActivityCardSection onCardPress={onCardPress} pointsSections={pointsSections} />
+                </>
+              ) : (
+                <InLineNotification
+                  variant={NotificationVariant.Info}
+                  hideIcon={true}
+                  title={t('points.noActivities.title')}
+                  description={t('points.noActivities.body')}
+                />
+              )}
+            </>
+          )}
+        </ScrollView>
+        <Toast
+          showToast={pointsBalanceStatus === 'error' || pointsHistoryStatus === 'errorFirstPage'}
+          variant={NotificationVariant.Warning}
+          title={t('points.fetchBalanceError.title')}
+          description={t('points.fetchBalanceError.description')}
+          ctaLabel={t('points.fetchBalanceError.retryCta')}
+          onPressCta={onRefreshHistoryAndBalance}
+        />
+        <PointsHistoryBottomSheet forwardedRef={historyBottomSheetRef} />
+        <BottomSheet forwardedRef={activityCardBottomSheetRef} testId={`PointsActivityBottomSheet`}>
+          {bottomSheetParams && (
+            <>
+              <View style={styles.bottomSheetPointAmountContainer}>
+                <Text style={styles.bottomSheetPointAmount}>{bottomSheetParams.pointsAmount}</Text>
+                <LogoHeart size={16} />
+              </View>
+              <Text style={styles.bottomSheetTitle}>{bottomSheetParams.title}</Text>
+              <Text style={styles.bottomSheetBody}>{bottomSheetParams.body}</Text>
+              {bottomSheetParams.cta && (
+                <Button
+                  testID={'PointsHomeBottomSheetCtaButton'}
+                  type={BtnTypes.PRIMARY}
+                  size={BtnSizes.FULL}
+                  onPress={onCtaPressWrapper(
+                    bottomSheetParams.cta.onPress,
+                    bottomSheetParams.activityId
+                  )}
+                  text={bottomSheetParams.cta.text}
+                />
+              )}
+            </>
+          )}
+        </BottomSheet>
+      </>
     </SafeAreaView>
   )
 }
@@ -334,28 +304,5 @@ const styles = StyleSheet.create({
     height: undefined,
     paddingHorizontal: Spacing.Small12,
     paddingVertical: Spacing.Smallest8,
-  },
-  introContainer: {
-    flex: 1,
-    paddingHorizontal: Spacing.Thick24,
-    paddingBottom: Spacing.Thick24,
-  },
-  introContent: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  introImage: {
-    marginBottom: Spacing.Regular16,
-  },
-  introTitle: {
-    ...typeScale.titleLarge,
-    color: Colors.black,
-    textAlign: 'center',
-  },
-  introDescription: {
-    ...typeScale.bodySmall,
-    color: Colors.black,
-    marginTop: Spacing.Regular16,
-    textAlign: 'center',
   },
 })

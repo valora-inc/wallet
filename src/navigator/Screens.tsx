@@ -58,6 +58,7 @@ export enum Screens {
   PincodeEnter = 'PincodeEnter',
   PincodeSet = 'PincodeSet',
   PointsHome = 'PointsHome',
+  PointsIntro = 'PointsIntro',
   Profile = 'Profile',
   ProfileMenu = 'ProfileMenu',
   ProtectWallet = 'ProtectWallet',
