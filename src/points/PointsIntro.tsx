@@ -25,12 +25,6 @@ export default function PointsHome({ route, navigation }: Props) {
 
   const dispatch = useDispatch()
 
-  const onIntroDismiss = () => {
-    ValoraAnalytics.track(PointsEvents.points_intro_dismiss)
-    dispatch(pointsIntroDismissed())
-    replace(Screens.PointsHome)
-  }
-
   useEffect(() => {
     const unsubscribe = navigation.addListener('beforeRemove', () => {
       ValoraAnalytics.track(PointsEvents.points_intro_back)
@@ -38,6 +32,12 @@ export default function PointsHome({ route, navigation }: Props) {
 
     return unsubscribe
   }, [navigation])
+
+  const onIntroDismiss = () => {
+    ValoraAnalytics.track(PointsEvents.points_intro_dismiss)
+    dispatch(pointsIntroDismissed())
+    replace(Screens.PointsHome)
+  }
 
   return (
     <SafeAreaView style={styles.outerContainer} edges={['top']}>
