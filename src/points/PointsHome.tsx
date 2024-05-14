@@ -147,7 +147,6 @@ export default function PointsHome({ route, navigation }: Props) {
                 type={BtnTypes.GRAY_WITH_BORDER}
                 size={BtnSizes.FULL}
                 touchableStyle={styles.buttonStyle}
-                fontStyle={typeScale.labelXSmall}
               />
             </View>
             <View style={styles.balanceRow}>

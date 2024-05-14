@@ -1,14 +1,6 @@
 import { debounce } from 'lodash'
 import React, { ReactNode, useCallback } from 'react'
-import {
-  ActivityIndicator,
-  StyleProp,
-  StyleSheet,
-  Text,
-  TextStyle,
-  View,
-  ViewStyle,
-} from 'react-native'
+import { ActivityIndicator, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import Touchable from 'src/components/Touchable'
 import colors, { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -51,7 +43,6 @@ export interface ButtonProps {
   testID?: string
   touchableStyle?: StyleProp<ViewStyle>
   iconMargin?: number
-  fontStyle?: TextStyle
 }
 
 export default React.memo(function Button(props: ButtonProps) {
@@ -70,7 +61,6 @@ export default React.memo(function Button(props: ButtonProps) {
     loadingColor,
     touchableStyle,
     iconMargin = 4,
-    fontStyle = styles.fontStyle,
   } = props
 
   // Debounce onPress event so that it is called once on trigger and
@@ -117,7 +107,7 @@ export default React.memo(function Button(props: ButtonProps) {
                 maxFontSizeMultiplier={1}
                 accessibilityLabel={accessibilityLabel}
                 style={{
-                  ...fontStyle,
+                  ...styles.fontStyle,
                   color: textColor,
                   marginLeft: icon && iconPositionLeft ? iconMargin : 0,
                   marginRight: icon && !iconPositionLeft ? iconMargin : 0,
