@@ -8,9 +8,11 @@ import { DappCategory, DappSection } from 'src/dapps/types'
 import TabDiscover from 'src/dappsExplorer/TabDiscover'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
+import { NetworkId } from 'src/transactions/types'
+import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
-import { mockDappListWithCategoryNames } from 'test/values'
+import { mockAaveArbUsdcAddress, mockDappListWithCategoryNames } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/statsig', () => ({
@@ -729,7 +731,7 @@ describe('TabDiscover', () => {
   })
 
   describe('earn', () => {
-    it('does not display earn cta if feature gate is false', () => {
+    it('does not display earn cta or active pool if feature gate is false', () => {
       const { queryByTestId } = render(
         <Provider store={defaultStore}>
           <MockedNavigator component={TabDiscover} />
@@ -737,18 +739,71 @@ describe('TabDiscover', () => {
       )
 
       expect(queryByTestId('EarnCta')).toBeFalsy()
+      expect(queryByTestId('EarnActivePool')).toBeFalsy()
     })
-    it('displays earn cta if feature gate is true', () => {
+
+    it('displays earn cta if feature gate is true and balance is zero', () => {
       jest
         .mocked(getFeatureGate)
         .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_STABLECOIN_EARN)
-      const { getByTestId } = render(
-        <Provider store={defaultStore}>
+
+      const store = createMockStore({
+        dapps: { dappListApiUrl: 'http://url.com', dappsList, dappsCategories },
+        tokens: {
+          tokenBalances: {
+            [networkConfig.aaveArbUsdcTokenId]: {
+              networkId: NetworkId['arbitrum-sepolia'],
+              address: mockAaveArbUsdcAddress,
+              tokenId: networkConfig.aaveArbUsdcTokenId,
+              symbol: 'aArbSepUSDC',
+              priceUsd: '1',
+              balance: '0',
+              priceFetchedAt: Date.now(),
+            },
+          },
+        },
+      })
+
+      const { getByTestId, queryByTestId } = render(
+        <Provider store={store}>
           <MockedNavigator component={TabDiscover} />
         </Provider>
       )
 
       expect(getByTestId('EarnCta')).toBeTruthy()
+      expect(queryByTestId('EarnActivePool')).toBeFalsy()
+    })
+
+    it('displays earn active pool if feature gate is true and balance is not zero', () => {
+      jest
+        .mocked(getFeatureGate)
+        .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_STABLECOIN_EARN)
+
+      const store = createMockStore({
+        dapps: { dappListApiUrl: 'http://url.com', dappsList, dappsCategories },
+        tokens: {
+          tokenBalances: {
+            [networkConfig.aaveArbUsdcTokenId]: {
+              networkId: NetworkId['arbitrum-sepolia'],
+              address: mockAaveArbUsdcAddress,
+              tokenId: networkConfig.aaveArbUsdcTokenId,
+              symbol: 'aArbSepUSDC',
+              priceUsd: '1',
+              balance: '10',
+              priceFetchedAt: Date.now(),
+            },
+          },
+        },
+      })
+
+      const { getByTestId, queryByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator component={TabDiscover} />
+        </Provider>
+      )
+
+      expect(queryByTestId('EarnCta')).toBeFalsy()
+      expect(getByTestId('EarnActivePool')).toBeTruthy()
     })
   })
 })

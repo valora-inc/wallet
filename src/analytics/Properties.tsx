@@ -1578,6 +1578,11 @@ interface EarnEventsProperties {
   [EarnEvents.earn_add_crypto_action_press]: {
     action: TokenActionName
   } & TokenProperties
+  [EarnEvents.earn_deposit_provider_info_press]: undefined
+  [EarnEvents.earn_deposit_terms_and_conditions_press]: undefined
+  [EarnEvents.earn_deposit_complete]: undefined
+  [EarnEvents.earn_deposit_cancel]: undefined
+  [EarnEvents.earn_view_pools_press]: undefined
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &
