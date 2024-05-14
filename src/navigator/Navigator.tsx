@@ -31,6 +31,7 @@ import DappKitAccountScreen from 'src/dappkit/DappKitAccountScreen'
 import DappKitSignTxScreen from 'src/dappkit/DappKitSignTxScreen'
 import DappShortcutTransactionRequest from 'src/dapps/DappShortcutTransactionRequest'
 import DappShortcutsRewards from 'src/dapps/DappShortcutsRewards'
+import EarnEnterAmount from 'src/earn/EarnEnterAmount'
 import EscrowedPaymentListScreen from 'src/escrow/EscrowedPaymentListScreen'
 import ReclaimPaymentConfirmationScreen from 'src/escrow/ReclaimPaymentConfirmationScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
@@ -216,6 +217,10 @@ const nuxScreens = (Navigator: typeof Stack) => (
       options={OnboardingSuccessScreen.navigationOptions}
     />
   </>
+)
+
+const earnScreens = (Navigator: typeof Stack) => (
+  <Navigator.Screen name={Screens.EarnEnterAmount} component={EarnEnterAmount} options={noHeader} />
 )
 
 const sendScreens = (Navigator: typeof Stack) => (
@@ -626,6 +631,7 @@ export function MainStackScreen() {
     <Stack.Navigator initialRouteName={initialRouteName} screenOptions={emptyHeader}>
       <Stack.Screen name={Screens.TabNavigator} component={TabNavigator} options={noHeader} />
       {commonScreens(Stack)}
+      {earnScreens(Stack)}
       {sendScreens(Stack)}
       {nuxScreens(Stack)}
       {verificationScreens(Stack)}
