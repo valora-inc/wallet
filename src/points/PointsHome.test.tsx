@@ -29,11 +29,9 @@ const renderPointsHome = (storeOverrides?: RecursivePartial<RootState>) => {
           },
         },
         pointsConfigStatus: 'success',
-        introHasBeenDismissed: true,
       },
     }
   )
-
   const tree = render(
     <Provider store={store}>
       <PointsHome {...mockScreenProps()} />
@@ -53,7 +51,7 @@ describe(PointsHome, () => {
 
   it('renders a loading state while loading config', async () => {
     const { getByText, queryByText } = renderPointsHome({
-      points: { pointsConfigStatus: 'loading', introHasBeenDismissed: true },
+      points: { pointsConfigStatus: 'loading' },
     })
 
     expect(getByText('points.loading.title')).toBeTruthy()
@@ -64,7 +62,7 @@ describe(PointsHome, () => {
 
   it('renders the error state on failure to load config', async () => {
     const { getByText, queryByText, store } = renderPointsHome({
-      points: { pointsConfigStatus: 'error', introHasBeenDismissed: true },
+      points: { pointsConfigStatus: 'error' },
     })
 
     expect(getByText('points.error.title')).toBeTruthy()
@@ -101,7 +99,6 @@ describe(PointsHome, () => {
     const { store, getByText } = renderPointsHome({
       points: {
         getHistoryStatus: 'errorFirstPage',
-        introHasBeenDismissed: true,
       },
     })
 
@@ -147,7 +144,6 @@ describe(PointsHome, () => {
     const { getByTestId, getByText, queryByText } = renderPointsHome({
       points: {
         pointsConfigStatus: 'success',
-        introHasBeenDismissed: true,
       },
     })
 
