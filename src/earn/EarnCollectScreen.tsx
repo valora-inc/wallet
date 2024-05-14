@@ -76,7 +76,7 @@ function EarnCollectComponent({
           />
           {rewardsInfo.map((info, index) => (
             <CollectItem
-              title={t('earnFlow.collect.total')}
+              title={t('earnFlow.collect.plus')}
               key={index}
               tokenInfo={info.tokenInfo}
               rewardAmount={info.amount}
@@ -112,19 +112,19 @@ function CollectItem({
       <Text style={styles.collectItemTitle}>{title}</Text>
       <View style={styles.row}>
         <View style={styles.iconContainer}>
-          <TokenIcon token={tokenInfo} size={IconSize.LARGE} />
+          <TokenIcon token={tokenInfo} size={IconSize.MEDIUM} />
         </View>
         <View>
           <TokenDisplay
             style={styles.cryptoText}
             tokenId={tokenInfo.tokenId}
-            amount={rewardAmount || tokenInfo.balance}
+            amount={rewardAmount}
             showLocalAmount={false}
           />
           <TokenDisplay
             style={styles.fiatText}
             tokenId={tokenInfo.tokenId}
-            amount={rewardAmount || tokenInfo.balance}
+            amount={rewardAmount}
             showLocalAmount={true}
           />
         </View>
@@ -202,6 +202,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     gap: Spacing.Smallest8,
+    marginBottom: Spacing.Regular16,
   },
   cryptoText: {
     ...typeScale.labelSemiBoldLarge,
@@ -213,13 +214,11 @@ const styles = StyleSheet.create({
   },
   collectItemTitle: {
     ...typeScale.labelSemiBoldXSmall,
-    marginBottom: 4,
-    marginTop: Spacing.Smallest8,
     color: Colors.black,
+    marginBottom: Spacing.Smallest8,
   },
   separator: {
-    marginTop: Spacing.Regular16,
-    marginBottom: Spacing.Tiny4,
+    marginBottom: Spacing.Regular16,
     borderBottomWidth: 1,
     borderBottomColor: Colors.gray2,
   },
@@ -230,8 +229,6 @@ const styles = StyleSheet.create({
   rateText: {
     ...typeScale.bodySmall,
     color: Colors.gray4,
-    marginBottom: 4,
-    marginTop: Spacing.Small12,
   },
   iconContainer: {
     flexDirection: 'row',

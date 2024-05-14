@@ -2372,8 +2372,8 @@
     },
     "collect": {
       "title": "Congratulations! Review & collect your earnings",
-      "total": "Total",
-      "plus": "Plus",
+      "total": "TOTAL",
+      "plus": "PLUS",
       "rate": "Rate (est.)",
       "apy": "~{{apy}}% APY",
       "fee": "Gas Fee",
