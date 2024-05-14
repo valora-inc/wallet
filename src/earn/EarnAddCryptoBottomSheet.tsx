@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
 import React, { RefObject } from 'react'
+import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
@@ -7,13 +8,14 @@ import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Touchable from 'src/components/Touchable'
-import { CICOFlow } from 'src/fiatExchanges/utils'
+import { CICOFlow, fetchExchanges } from 'src/fiatExchanges/utils'
 import QuickActionsAdd from 'src/icons/quick-actions/Add'
 import QuickActionsSend from 'src/icons/quick-actions/Send'
 import QuickActionsSwap from 'src/icons/quick-actions/Swap'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
+import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -36,6 +38,7 @@ export default function EarnAddCryptoBottomSheet({
   const { swappableFromTokens } = useSwappableTokens()
   const cashInTokens = useCashInTokens()
   const isSwapEnabled = useSelector(isAppSwapsEnabledSelector)
+  const userLocation = useSelector(userLocationDataSelector)
 
   const showAdd = !!cashInTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId)
   const showSwap =
@@ -49,6 +52,17 @@ export default function EarnAddCryptoBottomSheet({
       (useTokenToLocalAmount(tokenAmount, token.tokenId) || new BigNumber(0)).toNumber()
     ),
   }
+
+  const asyncExchanges = useAsync(async () => {
+    try {
+      const availableExchanges = await fetchExchanges(userLocation.countryCodeAlpha2, token.tokenId)
+
+      return availableExchanges
+    } catch (error) {
+      return []
+    }
+  }, [])
+  const exchanges = asyncExchanges.result ?? []
 
   const actions = [
     {
@@ -77,7 +91,7 @@ export default function EarnAddCryptoBottomSheet({
       }),
       iconComponent: QuickActionsSend,
       onPress: () => {
-        navigate(Screens.ExchangeQR, { flow: CICOFlow.CashIn, exchanges: [] })
+        navigate(Screens.ExchangeQR, { flow: CICOFlow.CashIn, exchanges })
       },
       visible: true,
     },

@@ -73,6 +73,7 @@ interface NetworkConfig {
   getPointsHistoryUrl: string
   trackPointsEventUrl: string
   getPointsBalanceUrl: string
+  simulateTransactionsUrl: string
   viemChain: {
     [key in Network]: ViemChain
   }
@@ -147,7 +148,7 @@ const ETH_TOKEN_ID_MAINNET = `${NetworkId['ethereum-mainnet']}:native`
 const ARB_USDC_TOKEN_ID_STAGING = `${NetworkId['arbitrum-sepolia']}:0x75faf114eafb1bdbe2f0316df893fd58ce46aa4d`
 const ARB_USDC_TOKEN_ID_MAINNET = `${NetworkId['arbitrum-one']}:0xaf88d065e77c8cc2239327c5edb3a432268e5831`
 
-const AAVE_ARB_USDC_TOKEN_ID_STAGING = `${NetworkId['arbitrum-sepolia']}:0x460b97BD498E1157530AEb3086301d5225b91216`
+const AAVE_ARB_USDC_TOKEN_ID_STAGING = `${NetworkId['arbitrum-sepolia']}:0x460b97bd498e1157530aeb3086301d5225b91216`
 const AAVE_ARB_USDC_TOKEN_ID_MAINNET = `${NetworkId['arbitrum-one']}:0x724dc807b04555b71ed48a6896b6f41593b8c637`
 
 const ARB_AAVE_POOL_V3_CONTRACT_ADDRESS_STAGING = '0xBfC91D59fdAA134A4ED45f7B584cAf96D7792Eff'
@@ -272,6 +273,9 @@ const TRACK_POINTS_EVENT_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/trackPointsEvent`
 const GET_POINTS_BALANCE_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getPointsBalance`
 const GET_POINTS_BALANCE_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getPointsBalance`
 
+const SIMULATE_TRANSACTIONS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/simulateTransactions`
+const SIMULATE_TRANSACTIONS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/simulateTransactions`
+
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
     networkId: '44787',
@@ -333,6 +337,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     getPointsHistoryUrl: GET_POINTS_HISTORY_ALFAJORES,
     trackPointsEventUrl: TRACK_POINTS_EVENT_ALFAJORES,
     getPointsBalanceUrl: GET_POINTS_BALANCE_ALFAJORES,
+    simulateTransactionsUrl: SIMULATE_TRANSACTIONS_ALFAJORES,
     viemChain: {
       [Network.Celo]: celoAlfajores,
       [Network.Ethereum]: ethereumSepolia,
@@ -428,6 +433,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     getPointsHistoryUrl: GET_POINTS_HISTORY_MAINNET,
     trackPointsEventUrl: TRACK_POINTS_EVENT_MAINNET,
     getPointsBalanceUrl: GET_POINTS_BALANCE_MAINNET,
+    simulateTransactionsUrl: SIMULATE_TRANSACTIONS_MAINNET,
     viemChain: {
       [Network.Celo]: celo,
       [Network.Ethereum]: ethereum,
