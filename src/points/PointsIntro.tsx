@@ -1,9 +1,10 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { PointsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import CustomHeader from 'src/components/header/CustomHeader'
@@ -25,16 +26,22 @@ export default function PointsHome({ route, navigation }: Props) {
   const dispatch = useDispatch()
 
   const onIntroDismiss = () => {
+    ValoraAnalytics.track(PointsEvents.points_intro_dismiss)
     dispatch(pointsIntroDismissed())
     replace(Screens.PointsHome)
   }
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('beforeRemove', () => {
+      ValoraAnalytics.track(PointsEvents.points_intro_back)
+    })
+
+    return unsubscribe
+  }, [navigation])
+
   return (
     <SafeAreaView style={styles.outerContainer} edges={['top']}>
-      <CustomHeader
-        style={styles.header}
-        left={<BackButton eventName={PointsEvents.points_screen_back} />}
-      />
+      <CustomHeader style={styles.header} left={<BackButton />} />
       <View style={styles.introContainer}>
         <View style={styles.introContent}>
           <Image style={styles.introImage} source={pointsIllustration} />
