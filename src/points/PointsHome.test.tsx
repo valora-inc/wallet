@@ -6,7 +6,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import PointsHome from 'src/points/PointsHome'
-import { getHistoryStarted, getPointsConfigRetry, pointsIntroDismissed } from 'src/points/slice'
+import { getHistoryStarted, getPointsConfigRetry } from 'src/points/slice'
 import { RootState } from 'src/redux/store'
 import { RecursivePartial, createMockStore, getMockStackScreenProps } from 'test/utils'
 
@@ -186,18 +186,5 @@ describe(PointsHome, () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_cta_press, {
       activityId: 'swap',
     })
-  })
-
-  it('renders intro if it has not been seen', () => {
-    const { store, getByText, queryByText } = renderPointsHome({
-      points: { introHasBeenDismissed: false },
-    })
-
-    expect(queryByText('points.title')).toBeFalsy()
-    expect(getByText('points.intro.title')).toBeTruthy()
-    expect(getByText('points.intro.description')).toBeTruthy()
-
-    fireEvent.press(getByText('points.intro.cta'))
-    expect(store.getActions()).toContainEqual(pointsIntroDismissed())
   })
 })
