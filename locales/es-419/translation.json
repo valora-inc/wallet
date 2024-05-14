@@ -2367,6 +2367,15 @@
       "footer": "Al depositar criptomonedas en un pool de Aave, aceptas los riesgos asociados al uso de Aave. <0>Condiciones de uso</0>",
       "primaryCta": "Completa",
       "secondaryCta": "Cancelar"
+    },
+    "collect": {
+      "title": "Congratulations! Review & collect your earnings",
+      "total": "TOTAL",
+      "plus": "PLUS",
+      "rate": "Rate (est.)",
+      "apy": "~{{apy}}% APY",
+      "fee": "Gas Fee",
+      "cta": "Collect Earnings"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
