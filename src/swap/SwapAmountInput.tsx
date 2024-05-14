@@ -72,7 +72,6 @@ const SwapAmountInput = ({
         borderRadius: 0,
         borderTopLeftRadius: borderRadius,
         borderTopRightRadius: borderRadius,
-        zIndex: -1,
       }
     : {
         borderRadius,
