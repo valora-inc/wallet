@@ -35,6 +35,7 @@ interface Props {
   style?: StyleProp<ViewStyle>
   buttonPlaceholder: string
   editable?: boolean
+  borderRadius?: number
 }
 
 const SwapAmountInput = ({
@@ -50,6 +51,7 @@ const SwapAmountInput = ({
   style,
   buttonPlaceholder,
   editable = true,
+  borderRadius,
 }: Props) => {
   const { t } = useTranslation()
 
@@ -65,26 +67,43 @@ const SwapAmountInput = ({
     }
   }
 
+  const touchableBorderStyle = token
+    ? {
+        borderRadius: 0,
+        borderTopLeftRadius: borderRadius,
+        borderTopRightRadius: borderRadius,
+        zIndex: -1,
+      }
+    : {
+        borderRadius,
+      }
+
   return (
-    <View style={[styles.container, style]} testID="SwapAmountInput">
-      <View style={styles.contentContainer}>
-        {token ? (
-          <View style={styles.tokenInfo}>
-            <TokenIcon token={token} size={IconSize.MEDIUM} />
-            <View style={styles.tokenInfoText}>
-              <Text style={styles.tokenName}>{token.symbol}</Text>
-              <Text style={styles.tokenNetwork}>
-                {t('swapScreen.onNetwork', { networkName: NETWORK_NAMES[token.networkId] })}
-              </Text>
+    <View style={[styles.container, { borderRadius }, style]} testID="SwapAmountInput">
+      <Touchable
+        borderless
+        borderRadius={borderRadius}
+        touchableStyle={touchableBorderStyle}
+        onPress={onSelectToken}
+        testID="SwapAmountInput/TokenSelect"
+      >
+        <View style={styles.contentContainer}>
+          {token ? (
+            <View style={styles.tokenInfo}>
+              <TokenIcon token={token} size={IconSize.MEDIUM} />
+              <View style={styles.tokenInfoText}>
+                <Text style={styles.tokenName}>{token.symbol}</Text>
+                <Text style={styles.tokenNetwork}>
+                  {t('swapScreen.onNetwork', { networkName: NETWORK_NAMES[token.networkId] })}
+                </Text>
+              </View>
             </View>
-          </View>
-        ) : (
-          <Text style={styles.tokenNamePlaceholder}>{buttonPlaceholder}</Text>
-        )}
-        <Touchable borderless onPress={onSelectToken} testID="SwapAmountInput/TokenSelect">
+          ) : (
+            <Text style={styles.tokenNamePlaceholder}>{buttonPlaceholder}</Text>
+          )}
           <DownArrowIcon height={24} color={Colors.gray3} />
-        </Touchable>
-      </View>
+        </View>
+      </Touchable>
       {token && (
         <View style={[styles.contentContainer, styles.bottomContainer]}>
           <View style={styles.inputContainer}>
@@ -135,19 +154,6 @@ const SwapAmountInput = ({
               </View>
             )}
           </View>
-          {onPressMax && (
-            <Touchable
-              borderless
-              onPress={() => {
-                onPressMax()
-                textInputRef.current?.blur()
-              }}
-              style={styles.maxButton}
-              testID="SwapAmountInput/MaxButton"
-            >
-              <Text style={styles.maxText}>{t('max')}</Text>
-            </Touchable>
-          )}
           {!loading && parsedInputValue?.gt(0) && token && (
             <Text style={styles.fiatValue} testID="SwapAmountInput/FiatValue">
               <TokenDisplay
@@ -158,6 +164,21 @@ const SwapAmountInput = ({
                 tokenId={token?.tokenId}
               />
             </Text>
+          )}
+          {onPressMax && (
+            <View style={styles.maxButtonWrapper}>
+              <Touchable
+                borderRadius={Spacing.Tiny4}
+                onPress={() => {
+                  onPressMax()
+                  textInputRef.current?.blur()
+                }}
+                style={styles.maxButton}
+                testID="SwapAmountInput/MaxButton"
+              >
+                <Text style={styles.maxText}>{t('max')}</Text>
+              </Touchable>
+            </View>
           )}
         </View>
       )}
@@ -187,7 +208,6 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flex: 1,
-    marginRight: Spacing.Smallest8,
   },
   inputError: {
     color: Colors.error,
@@ -205,12 +225,15 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
   },
+  maxButtonWrapper: {
+    marginLeft: Spacing.Smallest8,
+  },
   maxButton: {
     backgroundColor: Colors.white,
     borderWidth: 1,
     borderColor: Colors.gray2,
-    borderRadius: 4,
-    paddingVertical: 4,
+    borderRadius: Spacing.Tiny4,
+    paddingVertical: Spacing.Tiny4,
     paddingHorizontal: 6,
   },
   maxText: {

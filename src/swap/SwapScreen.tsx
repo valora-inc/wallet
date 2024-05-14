@@ -724,11 +724,14 @@ export function SwapScreen({ route }: Props) {
             inputError={fromSwapAmountError}
             onPressMax={handleSetMaxFromAmount}
             buttonPlaceholder={t('swapScreen.selectToken')}
+            borderRadius={Spacing.Regular16}
           />
           <View style={styles.switchTokensContainer}>
             <Touchable
-              style={styles.switchTokens}
               borderless
+              borderRadius={Spacing.Regular16}
+              useForeground
+              style={styles.switchTokens}
               onPress={handleSwitchTokens}
               testID="SwapScreen/SwitchTokens"
             >
@@ -747,6 +750,7 @@ export function SwapScreen({ route }: Props) {
             loading={updatedField === Field.FROM && quoteUpdatePending}
             buttonPlaceholder={t('swapScreen.selectToken')}
             editable={swapBuyAmountEnabled}
+            borderRadius={Spacing.Regular16}
           />
 
           <SwapTransactionDetails
@@ -977,11 +981,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   fromSwapAmountInput: {
-    borderRadius: 16,
+    zIndex: -1,
     marginBottom: Spacing.Smallest8,
   },
   toSwapAmountInput: {
-    borderRadius: 16,
+    zIndex: -1,
     marginBottom: Spacing.Small12,
   },
   disclaimerText: {
@@ -1008,7 +1012,8 @@ const styles = StyleSheet.create({
   switchTokens: {
     position: 'absolute',
     top: -20,
-    zIndex: 99,
+    left: -Spacing.Regular16,
+    zIndex: 1,
   },
   switchTokensContainer: {
     alignItems: 'center',
