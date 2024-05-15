@@ -9,7 +9,7 @@ import { Screens } from 'src/navigator/Screens'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
-import colors, { Colors } from 'src/styles/colors'
+import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
@@ -21,90 +21,59 @@ import {
   TransactionStatus,
 } from 'src/transactions/types'
 
+interface AmountDisplayProps {
+  transaction: EarnWithdraw | EarnDeposit | EarnClaimReward
+  isLocal: boolean
+}
+
+function AmountDisplay({ transaction, isLocal }: AmountDisplayProps) {
+  let amountValue
+  let tokenId
+
+  switch (transaction.__typename) {
+    case 'EarnDeposit':
+      amountValue = new BigNumber(-transaction.inAmount.value)
+      tokenId = transaction.outAmount.tokenId
+      break
+    case 'EarnWithdraw':
+      amountValue = new BigNumber(transaction.outAmount.value)
+      tokenId = transaction.inAmount.tokenId
+      break
+    case 'EarnClaimReward':
+      amountValue = new BigNumber(transaction.amount.value)
+      tokenId = transaction.amount.tokenId
+      break
+  }
+
+  const textStyle = isLocal
+    ? styles.amountSubtitle
+    : [styles.amountTitle, transaction.__typename !== 'EarnDeposit' && { color: Colors.primary }]
+
+  return (
+    <TokenDisplay
+      amount={amountValue}
+      tokenId={tokenId}
+      showLocalAmount={isLocal}
+      showSymbol={true}
+      showExplicitPositiveSign={!isLocal}
+      hideSign={!!isLocal}
+      style={textStyle}
+      testID={`EarnFeedItem/${transaction.__typename}-amount-${isLocal ? 'local' : 'crypto'}`}
+    />
+  )
+}
+
 interface AmountProps {
   transaction: EarnWithdraw | EarnDeposit | EarnClaimReward
 }
 
 function Amount({ transaction }: AmountProps) {
-  switch (transaction.__typename) {
-    case 'EarnDeposit':
-      return (
-        <View style={styles.amountContainer}>
-          <TokenDisplay
-            amount={new BigNumber(-transaction.outAmount.value)}
-            tokenId={transaction.outAmount.tokenId}
-            showLocalAmount={false}
-            showSymbol={true}
-            showExplicitPositiveSign={true}
-            hideSign={false}
-            style={styles.amountTitle}
-            testID={'EarnFeedItem/outAmount-crypto'}
-          />
-          <TokenDisplay
-            amount={new BigNumber(-transaction.outAmount.value)}
-            tokenId={transaction.outAmount.tokenId}
-            showLocalAmount={true}
-            showSymbol={true}
-            showExplicitPositiveSign={true}
-            hideSign={true}
-            style={styles.amountSubtitle}
-            testID={'EarnFeedItem/outAmount-local'}
-          />
-        </View>
-      )
-    case 'EarnWithdraw':
-      return (
-        <View style={styles.amountContainer}>
-          <TokenDisplay
-            amount={new BigNumber(transaction.inAmount.value)}
-            tokenId={transaction.inAmount.tokenId}
-            showLocalAmount={false}
-            showSymbol={true}
-            showExplicitPositiveSign={true}
-            hideSign={false}
-            style={[styles.amountTitle, { color: Colors.primary }]}
-            testID={'EarnFeedItem/inAmount-crypto'}
-          />
-          <TokenDisplay
-            amount={new BigNumber(transaction.inAmount.value)}
-            tokenId={transaction.inAmount.tokenId}
-            showLocalAmount={true}
-            showSymbol={true}
-            showExplicitPositiveSign={true}
-            hideSign={true}
-            style={styles.amountSubtitle}
-            testID={'EarnFeedItem/inAmount-local'}
-          />
-        </View>
-      )
-    case 'EarnClaimReward':
-      return (
-        <View style={styles.amountContainer}>
-          <TokenDisplay
-            amount={new BigNumber(transaction.amount.value)}
-            tokenId={transaction.amount.tokenId}
-            showLocalAmount={false}
-            showSymbol={true}
-            showExplicitPositiveSign={true}
-            hideSign={false}
-            style={[styles.amountTitle, { color: Colors.primary }]}
-            testID={'EarnFeedItem/amount-crypto'}
-          />
-          <TokenDisplay
-            amount={new BigNumber(transaction.amount.value)}
-            tokenId={transaction.amount.tokenId}
-            showLocalAmount={true}
-            showSymbol={true}
-            showExplicitPositiveSign={true}
-            hideSign={true}
-            style={styles.amountSubtitle}
-            testID={'EarnFeedItem/amount-local'}
-          />
-        </View>
-      )
-    default:
-      return null
-  }
+  return (
+    <View style={styles.amountContainer}>
+      <AmountDisplay transaction={transaction} isLocal={false} />
+      <AmountDisplay transaction={transaction} isLocal={true} />
+    </View>
+  )
 }
 
 interface Props {
@@ -169,7 +138,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     ...typeScale.bodySmall,
-    color: colors.gray4,
+    color: Colors.gray4,
   },
   amountContainer: {
     maxWidth: '50%',
@@ -181,7 +150,7 @@ const styles = StyleSheet.create({
   },
   amountSubtitle: {
     ...typeScale.bodySmall,
-    color: colors.gray4,
+    color: Colors.gray4,
     flexWrap: 'wrap',
     textAlign: 'right',
   },
