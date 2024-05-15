@@ -190,7 +190,7 @@ describe.each([
       expect(navigate).toHaveBeenCalledWith(Screens.TransactionDetailsScreen, { transaction })
     })
 
-    it('Should fire analytic event feed item tap', () => {
+    it('Should fire analytic event on tap', () => {
       const { getByTestId } = render(
         <Provider store={store}>
           <EarnFeedItem transaction={transaction} />

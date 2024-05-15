@@ -2384,7 +2384,7 @@
       "earnClaimSubtitle": "from {{providerName}} Pool",
       "earnDepositTitle": "Deposited",
       "earnDepositSubtitle": "to {{providerName}} Pool",
-      "earnWithdrawTitle": "Withdraw",
+      "earnWithdrawTitle": "Withdrew",
       "earnWithdrawSubtitle": "from {{providerName}} Pool"
     }
   }
