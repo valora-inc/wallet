@@ -35,11 +35,6 @@ const TAG = 'EarnEnterAmount'
 function EarnEnterAmount({ route }: Props) {
   const { tokenId } = route.params
   const token = useTokenInfo(tokenId)
-  if (!token) {
-    // This should never happen
-    Logger.error(TAG, 'Token not found')
-    return null
-  }
 
   const [tokenAmount, setTokenAmount] = useState(new BigNumber(0))
 
@@ -73,6 +68,12 @@ function EarnEnterAmount({ route }: Props) {
       feeCurrencies,
       poolContractAddress: networkConfig.arbAavePoolV3ContractAddress,
     })
+  }
+
+  if (!token) {
+    // This should never happen
+    Logger.error(TAG, 'Token not found')
+    return null
   }
 
   const onPressContinue = () => {
