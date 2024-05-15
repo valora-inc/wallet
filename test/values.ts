@@ -127,6 +127,7 @@ export const mockCrealAddress = '0xE4D517785D091D3c54818832dB6094bcc2744545'.toL
 export const mockWBTCAddress = '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599'.toLowerCase()
 export const mockUSDCAddress = '0x94a9d9ac8a22534e3faca9f4e7f2e2cf85d5e4c8'.toLowerCase()
 export const mockAaveArbUsdcAddress = '0x460b97BD498E1157530AEb3086301d5225b91216'.toLowerCase()
+export const mockArbArbitrumAddress = '0x912CE59144191C1204E64559FE8253a0e49E6548'.toLowerCase()
 
 export const mockCusdTokenId = `celo-alfajores:${mockCusdAddress}`
 export const mockCeurTokenId = `celo-alfajores:${mockCeurAddress}`
@@ -137,7 +138,8 @@ export const mockCrealTokenId = `celo-alfajores:${mockCrealAddress}`
 export const mockWBTCTokenId = `celo-alfajores:${mockWBTCAddress}`
 export const mockEthTokenId = 'ethereum-sepolia:native'
 export const mockUSDCTokenId = `ethereum-sepolia:${mockUSDCAddress}`
-export const mockARBTokenId = `arbitrum-sepolia:native`
+export const mockETHArbitrumTokenId = `arbitrum-sepolia:native`
+export const mockArbArbitrumTokenId = `arbitrum-sepolia:${mockArbArbitrumAddress}`
 export const mockOPTokenId = `op-sepolia:native`
 
 export const mockQrCodeData2 = {
@@ -541,10 +543,10 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     priceUsd: '1',
     priceFetchedAt: Date.now(),
   },
-  [mockARBTokenId]: {
+  [mockETHArbitrumTokenId]: {
     name: 'Ethereum',
     networkId: NetworkId['arbitrum-sepolia'],
-    tokenId: mockARBTokenId,
+    tokenId: mockETHArbitrumTokenId,
     address: null,
     symbol: 'ETH',
     decimals: 18,
@@ -569,6 +571,19 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     isNative: true,
     priceFetchedAt: Date.now(),
   },
+  [mockArbArbitrumTokenId]: {
+    name: 'Arbitrum',
+    networkId: NetworkId['arbitrum-sepolia'],
+    tokenId: mockArbArbitrumTokenId,
+    address: mockArbArbitrumAddress,
+    symbol: 'ARB',
+    decimals: 18,
+    imageUrl:
+      'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+    balance: '0',
+    priceUsd: '1.2',
+    priceFetchedAt: Date.now(),
+  },
 }
 
 export const mockCeloTokenBalance: TokenBalance = {
@@ -591,6 +606,13 @@ export const mockEthTokenBalance: NativeTokenBalance = {
   lastKnownPriceUsd: new BigNumber(1500),
   balance: new BigNumber(0.1),
   isNative: true,
+}
+
+export const mockArbArbitrumTokenBalance: TokenBalance = {
+  ...mockTokenBalances[mockArbArbitrumTokenId],
+  priceUsd: new BigNumber(1.2),
+  lastKnownPriceUsd: new BigNumber(1.2),
+  balance: new BigNumber(0),
 }
 
 export const mockTokenBalancesWithHistoricalPrices = {

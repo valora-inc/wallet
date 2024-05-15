@@ -4,7 +4,11 @@ import erc20 from 'src/abis/IERC20'
 import { TokenBalance } from 'src/tokens/slice'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { publicClient } from 'src/viem'
-import { TransactionRequest, prepareTransactions } from 'src/viem/prepareTransactions'
+import {
+  PreparedTransactionsResult,
+  TransactionRequest,
+  prepareTransactions,
+} from 'src/viem/prepareTransactions'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { Address, encodeFunctionData, isAddress, parseUnits } from 'viem'
 
@@ -17,6 +21,14 @@ type SimulatedTransactionResponse = {
     gasUsed: number
     gasPrice: string
   }[]
+}
+
+export async function prepareWithdrawTransactions(): Promise<PreparedTransactionsResult> {
+  throw new Error('Not implemented')
+}
+
+export async function prepareClaimRewardsTransactions(): Promise<PreparedTransactionsResult> {
+  throw new Error('Not implemented')
 }
 
 export async function prepareSupplyTransactions({

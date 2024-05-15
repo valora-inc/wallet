@@ -2377,7 +2377,9 @@
       "rate": "Rate (est.)",
       "apy": "~{{apy}}% APY",
       "fee": "Gas Fee",
-      "cta": "Collect Earnings"
+      "cta": "Collect Earnings",
+      "errorTitle": "Something went wrong",
+      "errorDescription": "Unable to fetch deposit details. Please try again."
     }
   }
 }
