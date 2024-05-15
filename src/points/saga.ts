@@ -175,20 +175,17 @@ export async function fetchTrackPointsEventsEndpoint(event: PointsEvent) {
 }
 
 export function* sendPointsEvent({ payload: event }: ReturnType<typeof trackPointsEvent>) {
-  const id = uuidv4()
-
-  yield* put(
-    sendPointsEventStarted({
-      id,
-      timestamp: new Date(Date.now()).toISOString(),
-      event,
-    })
-  )
+  const pendingEvent = {
+    id: uuidv4(),
+    timestamp: new Date(Date.now()).toISOString(),
+    event,
+  }
+  yield* put(sendPointsEventStarted(pendingEvent))
 
   const response = yield* call(fetchTrackPointsEventsEndpoint, event)
 
   if (response.ok) {
-    yield* put(pointsEventProcessed({ id }))
+    yield* put(pointsEventProcessed(pendingEvent))
   } else {
     const responseText = yield* call([response, response.text])
     Logger.warn(
@@ -208,10 +205,10 @@ export function* sendPendingPointsEvents() {
   const pendingEvents = yield* select(pendingPointsEvents)
 
   for (const pendingEvent of pendingEvents) {
-    const { id, timestamp, event } = pendingEvent
+    const { timestamp, event } = pendingEvent
 
     if (differenceInDays(now, new Date(timestamp)) > POINTS_EVENT_EXPIRY_DAYS) {
-      yield* put(pointsEventProcessed({ id }))
+      yield* put(pointsEventProcessed(pendingEvent))
       Logger.debug(`${LOG_TAG}/expiredEvent`, pendingEvent)
       continue
     }
@@ -220,7 +217,7 @@ export function* sendPendingPointsEvents() {
       const response = yield* call(fetchTrackPointsEventsEndpoint, event)
 
       if (response.ok) {
-        yield* put(pointsEventProcessed({ id }))
+        yield* put(pointsEventProcessed(pendingEvent))
       } else {
         const responseText = yield* call([response, response.text])
         Logger.warn(LOG_TAG, event.activityId, response.status, response.statusText, responseText)

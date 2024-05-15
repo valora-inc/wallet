@@ -1,5 +1,5 @@
 import { PointsEvent } from 'src/points/types'
-import reducer, { State, pointsEventProcessed, sendPointsEventStarted } from './slice'
+import reducer, { initialState, pointsEventProcessed, sendPointsEventStarted } from './slice'
 
 describe('pending points events', () => {
   it('should add a pending points event', () => {
@@ -8,9 +8,10 @@ describe('pending points events', () => {
     const event: PointsEvent = { activityId: 'create-wallet' }
     const pendingPointsEvent = { id, timestamp, event }
 
-    const initialState = { pendingPointsEvents: [] } as unknown as State
-
-    const newState = reducer(initialState, sendPointsEventStarted(pendingPointsEvent))
+    const newState = reducer(
+      { ...initialState, pendingPointsEvents: [] },
+      sendPointsEventStarted(pendingPointsEvent)
+    )
 
     expect(newState.pendingPointsEvents).toEqual([pendingPointsEvent])
   })
@@ -25,12 +26,20 @@ describe('pending points events', () => {
     const pendingPointsEvent1 = { id: id1, timestamp: timestamp1, event: event1 }
     const pendingPointsEvent2 = { id: id2, timestamp: timestamp2, event: event2 }
 
-    const initialState = {
-      pendingPointsEvents: [pendingPointsEvent1, pendingPointsEvent2],
-    } as unknown as State
-
-    const newState = reducer(initialState, pointsEventProcessed({ id: id1 }))
+    const newState = reducer(
+      {
+        ...initialState,
+        pendingPointsEvents: [pendingPointsEvent1, pendingPointsEvent2],
+        trackOnceActivities: {
+          'create-wallet': false,
+        },
+      },
+      pointsEventProcessed(pendingPointsEvent1)
+    )
 
     expect(newState.pendingPointsEvents).toEqual([pendingPointsEvent2])
+    expect(newState.trackOnceActivities).toEqual({
+      'create-wallet': true,
+    })
   })
 })

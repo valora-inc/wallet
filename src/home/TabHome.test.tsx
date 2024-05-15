@@ -1,4 +1,4 @@
-import { act, render } from '@testing-library/react-native'
+import { act, render, waitFor } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Provider } from 'react-redux'
@@ -127,8 +127,8 @@ describe('TabHome', () => {
     })
 
     // Multiple elements use this text with the scroll aware header
-    expect(tree.queryAllByText('bottomTabsNavigator.home.title')).toBeTruthy()
-    expect(tree.queryByTestId('HomeActionsCarousel')).toBeTruthy()
+    expect(tree.getAllByText('bottomTabsNavigator.home.title')).toBeTruthy()
+    expect(tree.getByTestId('HomeActionsCarousel')).toBeTruthy()
     expect(tree.queryByText('notificationCenterSpotlight.message')).toBeFalsy()
     expect(tree.queryByTestId('HomeTokenBalance')).toBeFalsy()
     expect(tree.queryByTestId('cashInBtn')).toBeFalsy()
@@ -137,7 +137,24 @@ describe('TabHome', () => {
         'HOME/VISIT_HOME',
         'HOME/REFRESH_BALANCES',
         'IDENTITY/IMPORT_CONTACTS',
+        'points/trackPointsEvent',
       ])
+    )
+  })
+
+  it("doesn't track the create-wallet event if it has been tracked before", async () => {
+    const { store } = renderScreen({
+      points: {
+        trackOnceActivities: {
+          'create-wallet': true,
+        },
+      },
+    })
+
+    await waitFor(() =>
+      expect(store.getActions().map((action) => action.type)).not.toContain(
+        'points/trackPointsEvent'
+      )
     )
   })
 

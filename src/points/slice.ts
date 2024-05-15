@@ -39,9 +39,12 @@ export interface State {
   pendingPointsEvents: PendingPointsEvent[]
   pointsBalanceStatus: 'idle' | 'loading' | 'error' | 'success'
   pointsBalance: string
+  trackOnceActivities: {
+    [key in PointsActivityId]?: boolean
+  }
 }
 
-const initialState: State = {
+export const initialState: State = {
   pointsHistory: [],
   nextPageUrl: null,
   getHistoryStatus: 'idle',
@@ -50,6 +53,9 @@ const initialState: State = {
   pendingPointsEvents: [],
   pointsBalanceStatus: 'idle',
   pointsBalance: '0',
+  trackOnceActivities: {
+    'create-wallet': false,
+  },
 }
 
 const slice = createSlice({
@@ -92,12 +98,14 @@ const slice = createSlice({
       ...state,
       pendingPointsEvents: [...state.pendingPointsEvents, action.payload],
     }),
-    pointsEventProcessed: (state, action: PayloadAction<Pick<PendingPointsEvent, 'id'>>) => ({
-      ...state,
-      pendingPointsEvents: state.pendingPointsEvents.filter(
+    pointsEventProcessed: (state, action: PayloadAction<PendingPointsEvent>) => {
+      state.pendingPointsEvents = state.pendingPointsEvents.filter(
         (event) => event.id !== action.payload.id
-      ),
-    }),
+      )
+      if (action.payload.event.activityId in state.trackOnceActivities) {
+        state.trackOnceActivities[action.payload.event.activityId] = true
+      }
+    },
     getPointsBalanceStarted: (state) => ({
       ...state,
       pointsBalanceStatus: 'loading',
