@@ -260,7 +260,9 @@ const styles = StyleSheet.create({
   fiatValue: {
     ...typeScale.bodyXSmall,
     paddingLeft: Spacing.Smallest8,
+    maxWidth: '40%',
     color: Colors.gray4,
+    paddingVertical: Spacing.Smallest8,
   },
 })
 
