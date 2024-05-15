@@ -169,7 +169,7 @@ function EarnProceed({
         <Text style={styles.label}>{t('earnFlow.enterAmount.rateLabel')}</Text>
       </View>
       <View style={styles.line}>
-        <Text style={styles.valuesText}>
+        <Text style={styles.valuesText} testID="EarnEnterAmount/EarnUpTo">
           {t('earnFlow.enterAmount.earnUpTo', {
             fiatSymbol: localCurrencySymbol,
             amount:
@@ -178,7 +178,7 @@ function EarnProceed({
                 : '--',
           })}
         </Text>
-        <View style={styles.apy}>
+        <View style={styles.apy} testID="EarnEnterAmount/Apy">
           <TokenIcon token={token} size={IconSize.XSMALL} />
           <Text style={styles.valuesText}>
             {t('earnFlow.enterAmount.rate', {
@@ -204,7 +204,7 @@ function EarnProceed({
         <TouchableOpacity
           onPress={onPressInfo}
           hitSlop={variables.iconHitslop}
-          testID="AssetsTokenBalance/Info"
+          testID="EarnEnterAmount/InfoIcon"
         >
           <InfoIcon color={Colors.black} />
         </TouchableOpacity>
