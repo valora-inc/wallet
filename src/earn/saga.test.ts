@@ -18,7 +18,13 @@ import { createMockStore } from 'test/utils'
 import { mockArbUsdcTokenId, mockTokenBalances, mockUSDCAddress } from 'test/values'
 import { Address, decodeFunctionData } from 'viem'
 
-jest.mock('viem')
+jest.mock('viem', () => ({
+  ...jest.requireActual('viem'),
+  decodeFunctionData: jest.fn(() => ({
+    functionName: 'approve',
+    args: ['0xspenderAddress', BigInt(1e8)],
+  })),
+}))
 
 jest.mock('src/transactions/types', () => {
   const originalModule = jest.requireActual('src/transactions/types')
@@ -139,9 +145,6 @@ describe('depositSubmitSaga', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-    jest
-      .mocked(decodeFunctionData)
-      .mockReturnValue({ functionName: 'approve', args: ['0xspenderAddress', BigInt(1e8)] })
   })
 
   it('sends approve and deposit transactions, navigates home and dispatches the success action', async () => {
