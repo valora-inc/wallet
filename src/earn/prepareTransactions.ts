@@ -128,7 +128,7 @@ export async function prepareSupplyTransactions({
 }
 
 /**
- * Hook to prepare transactions for sending crypto.
+ * Hook to prepare transactions for supplying crypto.
  */
 export function usePrepareSupplyTransactions() {
   const prepareTransactions = useAsyncCallback(prepareSupplyTransactions, {

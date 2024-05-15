@@ -73,7 +73,7 @@ function EarnEnterAmount({ route }: Props) {
   }
 
   if (!token) {
-    // This should never happen
+    // This should never happen but need token to not be undefined to proceed
     Logger.error(TAG, 'Token not found')
     return null
   }
