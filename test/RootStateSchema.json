@@ -4383,6 +4383,24 @@
             ],
             "type": "object"
         },
+        "State_28": {
+            "additionalProperties": false,
+            "properties": {
+                "depositStatus": {
+                    "enum": [
+                        "error",
+                        "idle",
+                        "started",
+                        "success"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "depositStatus"
+            ],
+            "type": "object"
+        },
         "State_3": {
             "anyOf": [
                 {
@@ -6276,6 +6294,9 @@
         "dapps": {
             "$ref": "#/definitions/State_19"
         },
+        "earn": {
+            "$ref": "#/definitions/State_28"
+        },
         "escrow": {
             "$ref": "#/definitions/State_10"
         },
@@ -6378,6 +6399,7 @@
         "alert",
         "app",
         "dapps",
+        "earn",
         "escrow",
         "fees",
         "fiatConnect",
