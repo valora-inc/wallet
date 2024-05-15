@@ -31,7 +31,6 @@ import { importContacts } from 'src/identity/actions'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
-import { trackOnceActivitiesSelector } from 'src/points/selectors'
 import { trackPointsEvent } from 'src/points/slice'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { useDispatch, useSelector } from 'src/redux/hooks'
@@ -54,7 +53,6 @@ function TabHome({ navigation }: Props) {
   const recipientCache = useSelector(phoneRecipientCacheSelector)
   const isNumberVerified = useSelector(phoneNumberVerifiedSelector)
   const showNotificationSpotlight = useSelector(showNotificationSpotlightSelector)
-  const trackOnceActivities = useSelector(trackOnceActivitiesSelector)
 
   const insets = useSafeAreaInsets()
 
