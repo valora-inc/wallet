@@ -4,6 +4,8 @@ import React, { useRef, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { EarnEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
@@ -77,12 +79,16 @@ function EarnEnterAmount({ route }: Props) {
   }
 
   const onPressContinue = () => {
+    ValoraAnalytics.track(EarnEvents.earn_enter_amount_continue_press, {
+      userHasFunds: token.balance?.gte(tokenAmount),
+    })
     tokenAmount?.gt(token.balance)
       ? addCryptoBottomSheetRef.current?.snapToIndex(0)
       : reviewBottomSheetRef.current?.snapToIndex(0)
   }
 
   const onPressInfo = () => {
+    ValoraAnalytics.track(EarnEvents.earn_enter_amount_info_press)
     infoBottomSheetRef.current?.snapToIndex(0)
   }
 

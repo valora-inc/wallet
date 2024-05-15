@@ -683,4 +683,6 @@ export enum EarnEvents {
   earn_deposit_complete = 'earn_deposit_complete',
   earn_deposit_cancel = 'earn_deposit_cancel',
   earn_view_pools_press = 'earn_view_pools_press',
+  earn_enter_amount_info_press = 'earn_enter_amount_info_press',
+  earn_enter_amount_continue_press = 'earn_enter_amount_continue_press',
 }
