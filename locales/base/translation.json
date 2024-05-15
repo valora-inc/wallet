@@ -2370,6 +2370,15 @@
       "primaryCta": "Complete",
       "secondaryCta": "Cancel"
     },
+    "collect": {
+      "title": "Congratulations! Review & collect your earnings",
+      "total": "TOTAL",
+      "plus": "PLUS",
+      "rate": "Rate (est.)",
+      "apy": "~{{apy}}% APY",
+      "fee": "Gas Fee",
+      "cta": "Collect Earnings"
+    },
     "transactionFeed": {
       "earnClaimTitle": "Collected",
       "earnClaimSubtitle": "from {{providerName}} Pool",

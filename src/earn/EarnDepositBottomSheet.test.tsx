@@ -5,10 +5,12 @@ import { Provider } from 'react-redux'
 import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
+import { depositStart } from 'src/earn/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { getDynamicConfigParams } from 'src/statsig'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
+import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import { createMockStore } from 'test/utils'
 import { mockARBTokenId, mockTokenBalances } from 'test/values'
 
@@ -95,10 +97,10 @@ describe('EarnDepositBottomSheet', () => {
     expect(getByTestId('EarnDeposit/SecondaryCta')).toBeTruthy()
   })
 
-  it('pressing complete fires analytics event', () => {
-    // TODO(ACT-1178): assert that the transaction is submitted
+  it('pressing complete submits action and fires analytics event', () => {
+    const store = createMockStore({ tokens: { tokenBalances: mockTokenBalances } })
     const { getByTestId } = render(
-      <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
+      <Provider store={store}>
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
           amount={'100'}
@@ -110,6 +112,18 @@ describe('EarnDepositBottomSheet', () => {
 
     fireEvent.press(getByTestId('EarnDeposit/PrimaryCta'))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_complete)
+    expect(store.getActions()).toEqual([
+      {
+        type: depositStart.type,
+        payload: {
+          amount: '100',
+          tokenId: mockARBTokenId,
+          preparedTransactions: getSerializablePreparedTransactions(
+            mockPreparedTransaction.transactions
+          ),
+        },
+      },
+    ])
   })
 
   it('pressing cancel fires analytics event', () => {
