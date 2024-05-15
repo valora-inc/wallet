@@ -178,9 +178,9 @@ function EarnProceed({
                 : '--',
           })}
         </Text>
-        <View style={styles.apy} testID="EarnEnterAmount/Apy">
+        <View style={styles.apy}>
           <TokenIcon token={token} size={IconSize.XSMALL} />
-          <Text style={styles.valuesText}>
+          <Text style={styles.valuesText} testID="EarnEnterAmount/Apy">
             {t('earnFlow.enterAmount.rate', {
               rate:
                 asyncPoolInfo?.result && !!asyncPoolInfo.result.apy

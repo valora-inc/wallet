@@ -95,7 +95,7 @@ describe('EarnEnterAmount', () => {
     jest.clearAllMocks()
   })
 
-  it('should render the correct components', () => {
+  it('should render APY and EarnUpTo', () => {
     const { getByTestId } = render(
       <Provider store={store}>
         <MockedNavigator component={EarnEnterAmount} params={params} />
