@@ -141,6 +141,7 @@ export const setupStore = (initialState?: ReducersRootState, config = persistCon
           'nfts',
           'swap',
           'jumpstart',
+          'earn',
           // 'exchange',
           // 'tokens',
           // 'priceHistory',

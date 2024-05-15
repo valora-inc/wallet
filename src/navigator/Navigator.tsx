@@ -31,6 +31,7 @@ import DappKitAccountScreen from 'src/dappkit/DappKitAccountScreen'
 import DappKitSignTxScreen from 'src/dappkit/DappKitSignTxScreen'
 import DappShortcutTransactionRequest from 'src/dapps/DappShortcutTransactionRequest'
 import DappShortcutsRewards from 'src/dapps/DappShortcutsRewards'
+import EarnCollectScreen from 'src/earn/EarnCollectScreen'
 import EscrowedPaymentListScreen from 'src/escrow/EscrowedPaymentListScreen'
 import ReclaimPaymentConfirmationScreen from 'src/escrow/ReclaimPaymentConfirmationScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
@@ -534,6 +535,16 @@ const generalScreens = (Navigator: typeof Stack) => (
   </>
 )
 
+const earnScreens = (Navigator: typeof Stack) => (
+  <>
+    <Navigator.Screen
+      name={Screens.EarnCollectScreen}
+      component={EarnCollectScreen}
+      options={headerWithBackButton}
+    />
+  </>
+)
+
 const swapScreens = (Navigator: typeof Stack) => (
   <>
     <Navigator.Screen name={Screens.SwapScreenWithBack} component={SwapScreen} options={noHeader} />
@@ -636,6 +647,7 @@ export function MainStackScreen() {
       {settingsScreens(Stack)}
       {generalScreens(Stack)}
       {swapScreens(Stack)}
+      {earnScreens(Stack)}
       {nftScreens(Stack)}
       {assetScreens(Stack)}
       {pointsScreens(Stack)}

@@ -2378,6 +2378,15 @@
       "footer": "By depositing crypto into an Aave pool, you accept the risks associated with using Aave. <0>Terms & Conditions</0>",
       "primaryCta": "Complete",
       "secondaryCta": "Cancel"
+    },
+    "collect": {
+      "title": "Congratulations! Review & collect your earnings",
+      "total": "TOTAL",
+      "plus": "PLUS",
+      "rate": "Rate (est.)",
+      "apy": "~{{apy}}% APY",
+      "fee": "Gas Fee",
+      "cta": "Collect Earnings"
     }
   }
 }

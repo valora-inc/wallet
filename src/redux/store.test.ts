@@ -187,6 +187,9 @@ describe('store state', () => {
           "mostPopularDappIds": [],
           "recentDappIds": [],
         },
+        "earn": {
+          "depositStatus": "idle",
+        },
         "escrow": {
           "isReclaiming": false,
           "sentEscrowedPayments": [],
