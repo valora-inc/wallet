@@ -139,6 +139,7 @@ export const mockEthTokenId = 'ethereum-sepolia:native'
 export const mockUSDCTokenId = `ethereum-sepolia:${mockUSDCAddress}`
 export const mockARBTokenId = `arbitrum-sepolia:native`
 export const mockOPTokenId = `op-sepolia:native`
+export const mockArbUsdcTokenId = `arbitrum-sepolia:${mockUSDCAddress}`
 
 export const mockQrCodeData2 = {
   address: mockAccount2Invite,
@@ -567,6 +568,19 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     balance: '0',
     priceUsd: '1500',
     isNative: true,
+    priceFetchedAt: Date.now(),
+  },
+  [mockArbUsdcTokenId]: {
+    name: 'USD Coin',
+    networkId: NetworkId['arbitrum-sepolia'],
+    tokenId: mockArbUsdcTokenId,
+    address: mockUSDCAddress,
+    symbol: 'USDC',
+    decimals: 6,
+    imageUrl:
+      'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+    balance: '0',
+    priceUsd: '1',
     priceFetchedAt: Date.now(),
   },
 }

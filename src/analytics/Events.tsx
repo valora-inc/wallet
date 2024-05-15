@@ -682,5 +682,9 @@ export enum EarnEvents {
   earn_deposit_terms_and_conditions_press = 'earn_deposit_terms_and_conditions_press',
   earn_deposit_complete = 'earn_deposit_complete',
   earn_deposit_cancel = 'earn_deposit_cancel',
+  earn_deposit_submit_start = 'earn_deposit_submit_start',
+  earn_deposit_submit_success = 'earn_deposit_submit_success',
+  earn_deposit_submit_error = 'earn_deposit_submit_error',
+  earn_deposit_submit_cancel = 'earn_deposit_submit_cancel',
   earn_view_pools_press = 'earn_view_pools_press',
 }

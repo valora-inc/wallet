@@ -1,5 +1,3 @@
-import { TAG } from 'src/send/saga'
-
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { BaseStandbyTransaction, addStandbyTransaction } from 'src/transactions/actions'
 import { NetworkId } from 'src/transactions/types'
@@ -16,6 +14,8 @@ import { getNetworkFromNetworkId } from 'src/web3/utils'
 import { call, put, select } from 'typed-redux-saga'
 import { Hash } from 'viem'
 import { getTransactionCount } from 'viem/actions'
+
+const TAG = 'viem/saga'
 
 /**
  * Sends prepared transactions and adds standby transactions to the store.
