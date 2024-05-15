@@ -5,11 +5,13 @@ import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
 import EarnAave from 'src/icons/EarnAave'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
-export default function EarnCta() {
+export default function EarnCta({ depositTokenId }: { depositTokenId: string }) {
   const { t } = useTranslation()
   return (
     <View style={styles.container}>
@@ -18,6 +20,7 @@ export default function EarnCta() {
         style={styles.touchable}
         onPress={() => {
           ValoraAnalytics.track(EarnEvents.earn_cta_press)
+          navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })
         }}
         testID="EarnCta"
       >

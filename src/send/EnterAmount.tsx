@@ -54,6 +54,7 @@ export interface ProceedArgs {
 
 export type ProceedComponentProps = Omit<ProceedArgs, 'tokenAmount'> & {
   onPressProceed(args: ProceedArgs): void
+  onPressInfo?(): void
   disabled: boolean
   tokenAmount: BigNumber | null
 }
@@ -71,6 +72,8 @@ interface Props {
   prepareTransactionError?: Error
   tokenSelectionDisabled?: boolean
   onPressProceed(args: ProceedArgs): void
+  onPressInfo?(): void
+  onSetTokenAmount?(amount: BigNumber): void
   disableProceed?: boolean
   children?: React.ReactNode
   ProceedComponent: ComponentType<ProceedComponentProps>
@@ -150,6 +153,8 @@ function EnterAmount({
   prepareTransactionError,
   tokenSelectionDisabled = false,
   onPressProceed,
+  onPressInfo,
+  onSetTokenAmount,
   disableProceed = false,
   children,
   ProceedComponent,
@@ -224,6 +229,9 @@ function EnterAmount({
   const localToToken = useLocalToTokenAmount(parsedLocalAmount, token.tokenId)
   const { tokenAmount, localAmount } = useMemo(() => {
     if (enteredIn === 'token') {
+      if (onSetTokenAmount) {
+        onSetTokenAmount(parsedTokenAmount)
+      }
       setLocalAmountInput(
         tokenToLocal && tokenToLocal.gt(0)
           ? `${localCurrencySymbol}${tokenToLocal.toFormat(2)}` // automatically adds grouping separators
@@ -242,6 +250,9 @@ function EnterAmount({
               .replace(new RegExp(`[${decimalSeparator}]?0+$`), '')
           : ''
       )
+      if (onSetTokenAmount) {
+        onSetTokenAmount(localToToken ?? new BigNumber(0))
+      }
       return {
         tokenAmount: localToToken,
         localAmount: parsedLocalAmount,
@@ -449,6 +460,7 @@ function EnterAmount({
           token={token}
           amountEnteredIn={enteredIn}
           onPressProceed={onPressProceed}
+          onPressInfo={onPressInfo}
           disabled={disabled}
         />
         <KeyboardSpacer />

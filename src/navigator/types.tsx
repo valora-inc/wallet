@@ -82,9 +82,7 @@ export type StackParamList = {
   }
   [Screens.Debug]: undefined
   [Screens.EarnEnterAmount]: {
-    recipient: Recipient & { address: string }
-    forceTokenId?: boolean
-    defaultTokenIdOverride?: string
+    tokenId: string
   }
   [Screens.EarnCollectScreen]: undefined
   [Screens.ErrorScreen]: {

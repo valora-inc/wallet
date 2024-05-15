@@ -25,7 +25,7 @@ export function EarnCardDiscover({ depositTokenId, poolTokenId }: Props) {
         poolTokenId={poolTokenId}
       />
     ) : (
-      <EarnCta />
+      <EarnCta depositTokenId={depositTokenId} />
     )
   }
   return null
