@@ -1,7 +1,11 @@
 import { differenceInDays } from 'date-fns'
 import { Actions as AppActions } from 'src/app/actions'
 import { Actions as HomeActions } from 'src/home/actions'
-import { nextPageUrlSelector, pendingPointsEvents } from 'src/points/selectors'
+import {
+  nextPageUrlSelector,
+  pendingPointsEvents,
+  trackOnceActivitiesSelector,
+} from 'src/points/selectors'
 import {
   PointsConfig,
   getHistoryError,
@@ -175,17 +179,26 @@ export async function fetchTrackPointsEventsEndpoint(event: PointsEvent) {
 }
 
 export function* sendPointsEvent({ payload: event }: ReturnType<typeof trackPointsEvent>) {
-  const pendingEvent = {
-    id: uuidv4(),
-    timestamp: new Date(Date.now()).toISOString(),
-    event,
+  const trackOnceActivities = yield* select(trackOnceActivitiesSelector)
+  if (trackOnceActivities[event.activityId]) {
+    Logger.debug(TAG, `Skipping already tracked activity: ${event.activityId}`)
+    return
   }
-  yield* put(sendPointsEventStarted(pendingEvent))
+
+  const id = uuidv4()
+
+  yield* put(
+    sendPointsEventStarted({
+      id,
+      timestamp: new Date(Date.now()).toISOString(),
+      event,
+    })
+  )
 
   const response = yield* call(fetchTrackPointsEventsEndpoint, event)
 
   if (response.ok) {
-    yield* put(pointsEventProcessed(pendingEvent))
+    yield* put(pointsEventProcessed({ id }))
   } else {
     const responseText = yield* call([response, response.text])
     Logger.warn(
@@ -205,10 +218,10 @@ export function* sendPendingPointsEvents() {
   const pendingEvents = yield* select(pendingPointsEvents)
 
   for (const pendingEvent of pendingEvents) {
-    const { timestamp, event } = pendingEvent
+    const { id, timestamp, event } = pendingEvent
 
     if (differenceInDays(now, new Date(timestamp)) > POINTS_EVENT_EXPIRY_DAYS) {
-      yield* put(pointsEventProcessed(pendingEvent))
+      yield* put(pointsEventProcessed({ id }))
       Logger.debug(`${LOG_TAG}/expiredEvent`, pendingEvent)
       continue
     }
@@ -217,7 +230,7 @@ export function* sendPendingPointsEvents() {
       const response = yield* call(fetchTrackPointsEventsEndpoint, event)
 
       if (response.ok) {
-        yield* put(pointsEventProcessed(pendingEvent))
+        yield* put(pointsEventProcessed({ id }))
       } else {
         const responseText = yield* call([response, response.text])
         Logger.warn(LOG_TAG, event.activityId, response.status, response.statusText, responseText)

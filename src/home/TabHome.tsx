@@ -125,13 +125,7 @@ function TabHome({ navigation }: Props) {
     // rest of feed to load unencumbered
     setTimeout(tryImportContacts, 500)
 
-    // stale reference to trackOnceActivities is intentional here to avoid
-    // queuing up multiple events with different id's in the case of track
-    // create-wallet failure + successful tracking of another activity in
-    // trackOnceActivities in the same app session
-    if (!trackOnceActivities['create-wallet']) {
-      dispatch(trackPointsEvent({ activityId: 'create-wallet' }))
-    }
+    dispatch(trackPointsEvent({ activityId: 'create-wallet' }))
   }, [])
 
   useEffect(() => {

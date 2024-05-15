@@ -94,18 +94,18 @@ const slice = createSlice({
     getPointsConfigRetry: (state) => ({
       ...state,
     }),
-    sendPointsEventStarted: (state, action: PayloadAction<PendingPointsEvent>) => ({
-      ...state,
-      pendingPointsEvents: [...state.pendingPointsEvents, action.payload],
-    }),
-    pointsEventProcessed: (state, action: PayloadAction<PendingPointsEvent>) => {
-      state.pendingPointsEvents = state.pendingPointsEvents.filter(
-        (event) => event.id !== action.payload.id
-      )
+    sendPointsEventStarted: (state, action: PayloadAction<PendingPointsEvent>) => {
+      state.pendingPointsEvents = [...state.pendingPointsEvents, action.payload]
       if (action.payload.event.activityId in state.trackOnceActivities) {
         state.trackOnceActivities[action.payload.event.activityId] = true
       }
     },
+    pointsEventProcessed: (state, action: PayloadAction<Pick<PendingPointsEvent, 'id'>>) => ({
+      ...state,
+      pendingPointsEvents: state.pendingPointsEvents.filter(
+        (event) => event.id !== action.payload.id
+      ),
+    }),
     getPointsBalanceStarted: (state) => ({
       ...state,
       pointsBalanceStatus: 'loading',
