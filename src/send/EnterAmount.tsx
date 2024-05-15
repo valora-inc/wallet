@@ -299,7 +299,10 @@ function EnterAmount({
     prepareTransactionsResult.transactions.length > 0
 
   const disabled =
-    disableProceed || (disableBalanceCheck ? !!tokenAmount?.isZero() : !transactionIsPossible)
+    disableProceed ||
+    (disableBalanceCheck
+      ? !!tokenAmount?.isZero() || (!!tokenAmount?.lte(token.balance) && !transactionIsPossible)
+      : !transactionIsPossible)
 
   const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency ?? feeCurrencies[0]
   let feeAmountSection = <FeeLoading />

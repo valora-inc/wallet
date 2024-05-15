@@ -99,12 +99,13 @@ function EarnEnterAmount({ route }: Props) {
       onSetTokenAmount={(amount: BigNumber) => setTokenAmount(amount)}
       ProceedComponent={EarnProceed}
       proceedComponentStatic={true}
+      disableBalanceCheck={true}
     >
       <InfoBottomSheet infoBottomSheetRef={infoBottomSheetRef} />
       <EarnAddCryptoBottomSheet
         forwardedRef={addCryptoBottomSheetRef}
         token={token}
-        tokenAmount={tokenAmount}
+        tokenAmount={tokenAmount.minus(token.balance)}
       />
       {prepareTransactionsResult && prepareTransactionsResult.type === 'possible' && (
         <EarnDepositBottomSheet
@@ -240,6 +241,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderWidth: 1,
     borderColor: Colors.gray2,
+    marginTop: Spacing.Thick24,
   },
   line: {
     flexDirection: 'row',
