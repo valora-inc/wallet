@@ -643,7 +643,6 @@ export function MainStackScreen() {
     <Stack.Navigator initialRouteName={initialRouteName} screenOptions={emptyHeader}>
       <Stack.Screen name={Screens.TabNavigator} component={TabNavigator} options={noHeader} />
       {commonScreens(Stack)}
-      {earnScreens(Stack)}
       {sendScreens(Stack)}
       {nuxScreens(Stack)}
       {verificationScreens(Stack)}
