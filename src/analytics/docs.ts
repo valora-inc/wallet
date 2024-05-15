@@ -598,6 +598,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [EarnEvents.earn_deposit_complete]: `When a user taps on the complete button on the deposit bottom sheet`,
   [EarnEvents.earn_deposit_cancel]: `When a user taps on the cancel button on the deposit bottom sheet`,
   [EarnEvents.earn_view_pools_press]: `When the user taps on the view pools button from token details`,
+  [EarnEvents.earn_feed_item_select]: `When the users taps on an earn transaction feed item`,
 
   // Legacy event docs
   //  The below events had docs, but are no longer produced by the latest app version.

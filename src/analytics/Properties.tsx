@@ -1583,6 +1583,9 @@ interface EarnEventsProperties {
   [EarnEvents.earn_deposit_complete]: undefined
   [EarnEvents.earn_deposit_cancel]: undefined
   [EarnEvents.earn_view_pools_press]: undefined
+  [EarnEvents.earn_feed_item_select]: {
+    origin: 'EarnDeposit' | 'EarnWithdraw' | 'EarnClaimReward'
+  }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &
