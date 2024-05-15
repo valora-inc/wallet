@@ -49,7 +49,7 @@ import {
   v200Schema,
   v201Schema,
   v203Schema,
-  v212Schema,
+  v213Schema,
   v21Schema,
   v28Schema,
   v2Schema,
@@ -1612,9 +1612,9 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 
-  it('works from 212 to 213', () => {
-    const oldSchema = v212Schema
-    const migratedSchema = migrations[213](oldSchema)
+  it('works from 213 to 214', () => {
+    const oldSchema = v213Schema
+    const migratedSchema = migrations[214](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.points.introHasBeenDismissed = false
     expect(migratedSchema).toStrictEqual(expectedSchema)
