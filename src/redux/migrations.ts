@@ -1790,5 +1790,5 @@ export const migrations = {
       ...state.points,
       introHasBeenDismissed: false,
     },
-  }),    
+  }),
 }
