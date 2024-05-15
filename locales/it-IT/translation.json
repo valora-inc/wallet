@@ -677,8 +677,8 @@
     "body": "Riceverete entrambi un NFT dopo che avrà configurato il wallet collegato il numero telefonico."
   },
   "inviteRewardsBannerCUSD": {
-    "title": "Invita amici e ricevi ricompense",
-    "body": "Una volta che si sarà registrato e avrà aggiunto US$ 5 al portafoglio, riceverete entrambi 0,50 cUSD."
+    "title": "Invita gli amici e ricevi fino a 12 cUSD",
+    "body": "Una volta che avranno collegato il loro numero e aggiunto fondi a {{appName}}, riceverete entrambi 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Invita un amico",
@@ -692,8 +692,8 @@
       "body": "Invita gli amici e i familiari a scaricare {{appName}} e ciascuno di voi riceverà un NFT esclusivo"
     },
     "rewardsActiveCUSD": {
-      "title": "SOLO PER UN PERIODO LIMITATO. Ricevi cUSD gratis se inviti amici in Valora!",
-      "body": "Ricevi 0,50 cUSD per ogni amico che inviti su {{appName}}. Una volta che avrà aggiunto 5 dollari in cUSD, cEUR, cREAL, USDC o USDT su Celo e li avrà conservati per 7 giorni, riceverete entrambi 0,50 cUSD. Affrettati, i fondi sono limitati!"
+      "title": "OTTIENI FINO A 12 cUSD invitando i tuoi amici a Valora!",
+      "body": "Ricevi 0,50 cUSD per ogni amico che inviti su {{appName}}. Una volta che avranno collegato il loro numero, aggiunto fondi e mantenuti per 7 giorni, riceverete entrambi 0,50 cUSD. Affrettati, i fondi sono limitati! (Limite di 25 amici)."
     }
   },
   "getReward": "Ricevi ${{reward}}",
@@ -1034,7 +1034,7 @@
   "inviteWithoutPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Provare l'app è facile e desidero invitarti a scoprirla con questo collegamento: {{link}}",
   "inviteWithEscrowedPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Ti ho appena inviato {{amount}} {{token}}. Scarica l’app {{appName}} e riscatta {{token}} tramite questo collegamento: {{link}}",
   "inviteWithRewards": "Ciao! 👋 Sto usando {{appName}} come portafoglio per criptovalute. Scaricare l'app e collegare il numero telefonico richiede pochissimo tempo e come ricompensa riceveremo entrambi un NFT in edizione speciale. 💫 \n\nUsa questo link per il download: {{link}}",
-  "inviteWithRewardsCUSD": "Ehi! Possiamo ricevere entrambi una ricompensa gratuita di 0,50$ proprio adesso, se ti iscrivi e aggiungi fondi al tuo portafoglio Valora. Io lo uso per aumentare i miei risparmi in USD e criptovalute e tu puoi configurarlo in pochi secondi con un semplice numero telefonico. Assicurati di iscriverti utilizzando il mio link di riferimento di seguito: \n\n{{link}} \n\n Affrettati, la promozione terminerà presto.",
+  "inviteWithRewardsCUSD": "Ehi! In questo momento possiamo entrambi ricevere una ricompensa gratuita di 0,50 dollari se ti iscrivi, colleghi il tuo numero e finanzi il tuo portafoglio Valora. Io lo uso per far crescere i miei risparmi in USD e criptovalute e tu puoi configurarlo in pochi secondi con un semplice numero di telefono. Assicurati di iscriverti con il mio link di riferimento qui: \n\n{{link}} \n\n Affrettati, la promozione per i referral termina presto.",
   "loadingContacts": "Ricerca dei contatti in corso",
   "myCode": "Il mio codice",
   "scanCode": "Inquadra",
@@ -2354,7 +2354,8 @@
       "totalValue": "Valore totale:",
       "apy": "~{{apy}}% APY",
       "exitPool": "Piscina di uscita",
-      "depositMore": "Deposita di più"
+      "depositMore": "Deposita di più",
+      "viewPools": "Visualizza le piscine"
     },
     "depositBottomSheet": {
       "title": "Revisione e deposito",
@@ -2366,6 +2367,15 @@
       "footer": "Depositando criptovalute in un pool Aave, accetti i rischi associati all'utilizzo di Aave. <0>Termini e condizioni</0>",
       "primaryCta": "Completa",
       "secondaryCta": "Annulla"
+    },
+    "collect": {
+      "title": "Congratulazioni! Controlla e riscuoti i tuoi guadagni",
+      "total": "TOTALE",
+      "plus": "PIÙ",
+      "rate": "Tasso (est.)",
+      "apy": "~{{apy}}% APY",
+      "fee": "Tassa sul gas",
+      "cta": "Raccogli i guadagni"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
