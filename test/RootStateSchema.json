@@ -1185,6 +1185,170 @@
             },
             "type": "object"
         },
+        "EarnClaimReward": {
+            "additionalProperties": false,
+            "properties": {
+                "__typename": {
+                    "const": "EarnClaimReward",
+                    "type": "string"
+                },
+                "amount": {
+                    "$ref": "#/definitions/TokenAmount"
+                },
+                "block": {
+                    "type": "string"
+                },
+                "fees": {
+                    "items": {
+                        "$ref": "#/definitions/Fee"
+                    },
+                    "type": "array"
+                },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
+                "providerId": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/TransactionStatus"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                }
+            },
+            "required": [
+                "__typename",
+                "amount",
+                "block",
+                "fees",
+                "networkId",
+                "providerId",
+                "status",
+                "timestamp",
+                "transactionHash",
+                "type"
+            ],
+            "type": "object"
+        },
+        "EarnDeposit": {
+            "additionalProperties": false,
+            "properties": {
+                "__typename": {
+                    "const": "EarnDeposit",
+                    "type": "string"
+                },
+                "block": {
+                    "type": "string"
+                },
+                "fees": {
+                    "items": {
+                        "$ref": "#/definitions/Fee"
+                    },
+                    "type": "array"
+                },
+                "inAmount": {
+                    "$ref": "#/definitions/TokenAmount"
+                },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
+                "outAmount": {
+                    "$ref": "#/definitions/TokenAmount"
+                },
+                "providerId": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/TransactionStatus"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                }
+            },
+            "required": [
+                "__typename",
+                "block",
+                "fees",
+                "inAmount",
+                "networkId",
+                "outAmount",
+                "providerId",
+                "status",
+                "timestamp",
+                "transactionHash",
+                "type"
+            ],
+            "type": "object"
+        },
+        "EarnWithdraw": {
+            "additionalProperties": false,
+            "properties": {
+                "__typename": {
+                    "const": "EarnWithdraw",
+                    "type": "string"
+                },
+                "block": {
+                    "type": "string"
+                },
+                "fees": {
+                    "items": {
+                        "$ref": "#/definitions/Fee"
+                    },
+                    "type": "array"
+                },
+                "inAmount": {
+                    "$ref": "#/definitions/TokenAmount"
+                },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
+                "outAmount": {
+                    "$ref": "#/definitions/TokenAmount"
+                },
+                "providerId": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/TransactionStatus"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                }
+            },
+            "required": [
+                "__typename",
+                "block",
+                "fees",
+                "inAmount",
+                "networkId",
+                "outAmount",
+                "providerId",
+                "status",
+                "timestamp",
+                "transactionHash",
+                "type"
+            ],
+            "type": "object"
+        },
         "ErrorDisplayType": {
             "enum": [
                 0,
@@ -5191,12 +5355,24 @@
                 },
                 {
                     "$ref": "#/definitions/NftTransfer"
+                },
+                {
+                    "$ref": "#/definitions/EarnDeposit"
+                },
+                {
+                    "$ref": "#/definitions/EarnWithdraw"
+                },
+                {
+                    "$ref": "#/definitions/EarnClaimReward"
                 }
             ]
         },
         "TokenTransactionTypeV2": {
             "enum": [
                 "APPROVAL",
+                "EARN_CLAIM_REWARD",
+                "EARN_DEPOSIT",
+                "EARN_WITHDRAW",
                 "EXCHANGE",
                 "INVITE_RECEIVED",
                 "INVITE_SENT",
