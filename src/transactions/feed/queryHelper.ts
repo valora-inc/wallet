@@ -384,9 +384,9 @@ export const TRANSACTIONS_QUERY = gql`
         ...TokenTransferItemV3
         ...NftTransferItemV3
         ...TokenExchangeItemV3
-        ...EarnDepositItemV3
-        ...EarnWithdrawItemV3
-        ...EarnClaimRewardItemV3
+        ...EarnDepositItem
+        ...EarnWithdrawItem
+        ...EarnClaimRewardItem
         ...TokenApprovalItem
       }
     }
@@ -508,7 +508,7 @@ export const TRANSACTIONS_QUERY = gql`
     }
   }
 
-  fragment EarnDepositItemV3 on EarnDeposit {
+  fragment EarnDepositItem on EarnDeposit {
     __typename
     type
     transactionHash
@@ -550,7 +550,7 @@ export const TRANSACTIONS_QUERY = gql`
     }
   }
 
-  fragment EarnWithdrawItemV3 on EarnWithdraw {
+  fragment EarnWithdrawItem on EarnWithdraw {
     __typename
     type
     transactionHash
@@ -592,7 +592,7 @@ export const TRANSACTIONS_QUERY = gql`
     }
   }
 
-  fragment EarnClaimRewardItemV3 on EarnClaimReward {
+  fragment EarnClaimRewardItem on EarnClaimReward {
     __typename
     type
     transactionHash
