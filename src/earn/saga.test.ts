@@ -18,6 +18,8 @@ import { createMockStore } from 'test/utils'
 import { mockArbUsdcTokenId, mockTokenBalances, mockUSDCAddress } from 'test/values'
 import { Address, decodeFunctionData } from 'viem'
 
+jest.mock('viem')
+
 jest.mock('src/transactions/types', () => {
   const originalModule = jest.requireActual('src/transactions/types')
 
@@ -137,6 +139,9 @@ describe('depositSubmitSaga', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
+    jest
+      .mocked(decodeFunctionData)
+      .mockReturnValue({ functionName: 'approve', args: ['0xspenderAddress', BigInt(1e8)] })
   })
 
   it('sends approve and deposit transactions, navigates home and dispatches the success action', async () => {
@@ -151,12 +156,15 @@ describe('depositSubmitSaga', () => {
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
       .provide(sagaProviders)
       .put(depositSuccess())
-      .call(decodeFunctionData, { abi: erc20.abi, data: '0x01' })
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
       .run()
     expect(navigateHome).toHaveBeenCalled()
+    expect(decodeFunctionData).toHaveBeenCalledWith({
+      abi: erc20.abi,
+      data: serializableApproveTx.data,
+    })
     expect(mockStandbyHandler).toHaveBeenCalledTimes(2)
     expect(mockStandbyHandler).toHaveBeenNthCalledWith(1, expectedApproveStandbyTx)
     expect(mockStandbyHandler).toHaveBeenNthCalledWith(2, expectedDepositStandbyTx)
@@ -182,11 +190,11 @@ describe('depositSubmitSaga', () => {
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
       .provide(sagaProviders)
       .put(depositSuccess())
-      .not.call.like({ fn: decodeFunctionData })
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
       .run()
     expect(navigateHome).toHaveBeenCalled()
+    expect(decodeFunctionData).not.toHaveBeenCalled()
     expect(mockStandbyHandler).toHaveBeenCalledTimes(1)
     expect(mockStandbyHandler).toHaveBeenCalledWith(expectedDepositStandbyTx)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
@@ -210,15 +218,16 @@ describe('depositSubmitSaga', () => {
     })
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
       .provide([
+        // providers run top down so this will take precedence over the one in sagaProviders
         [matchers.call.fn(sendPreparedTransactions), throwError(CANCELLED_PIN_INPUT as any)],
         ...sagaProviders,
       ])
       .put(depositCancel())
-      .not.call.like({ fn: decodeFunctionData })
       .call.like({ fn: sendPreparedTransactions })
       .not.call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'])
       .run()
     expect(navigateHome).not.toHaveBeenCalled()
+    expect(decodeFunctionData).not.toHaveBeenCalled()
     expect(mockStandbyHandler).not.toHaveBeenCalled()
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       EarnEvents.earn_deposit_submit_start,
@@ -245,11 +254,11 @@ describe('depositSubmitSaga', () => {
         ...sagaProviders,
       ])
       .put(depositError())
-      .not.call.like({ fn: decodeFunctionData })
       .call.like({ fn: sendPreparedTransactions })
       .not.call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'])
       .run()
     expect(navigateHome).not.toHaveBeenCalled()
+    expect(decodeFunctionData).not.toHaveBeenCalled()
     expect(mockStandbyHandler).not.toHaveBeenCalled()
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       EarnEvents.earn_deposit_submit_start,
@@ -279,12 +288,15 @@ describe('depositSubmitSaga', () => {
         ...sagaProviders,
       ])
       .put(depositError())
-      .call.like({ fn: decodeFunctionData })
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
       .run()
     expect(navigateHome).toHaveBeenCalled()
+    expect(decodeFunctionData).toHaveBeenCalledWith({
+      abi: erc20.abi,
+      data: serializableApproveTx.data,
+    })
     expect(mockStandbyHandler).toHaveBeenCalledTimes(2)
     expect(mockStandbyHandler).toHaveBeenNthCalledWith(1, expectedApproveStandbyTx)
     expect(mockStandbyHandler).toHaveBeenNthCalledWith(2, expectedDepositStandbyTx)

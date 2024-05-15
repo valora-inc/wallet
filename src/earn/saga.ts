@@ -36,7 +36,7 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
   }
 
   const networkId = tokenInfo.networkId
-  const trackedProperties = {
+  const commonAnalyticsProps = {
     tokenId,
     networkId,
     tokenAmount: amount,
@@ -54,7 +54,7 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
     const createDepositStandbyTxHandlers = []
 
     if (preparedTransactions.length > 1 && preparedTransactions[0].data) {
-      const { functionName, args } = yield* call(decodeFunctionData, {
+      const { functionName, args } = decodeFunctionData({
         abi: erc20.abi,
         data: preparedTransactions[0].data,
       })
@@ -108,7 +108,7 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
     }
     createDepositStandbyTxHandlers.push(createDepositStandbyTx)
 
-    ValoraAnalytics.track(EarnEvents.earn_deposit_submit_start, trackedProperties)
+    ValoraAnalytics.track(EarnEvents.earn_deposit_submit_start, commonAnalyticsProps)
 
     const txHashes = yield* call(
       sendPreparedTransactions,
@@ -148,13 +148,13 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
       throw new Error(`Deposit transaction reverted: ${depositTxReceipt?.transactionHash}`)
     }
 
-    ValoraAnalytics.track(EarnEvents.earn_deposit_submit_success, trackedProperties)
+    ValoraAnalytics.track(EarnEvents.earn_deposit_submit_success, commonAnalyticsProps)
     yield* put(depositSuccess())
   } catch (err) {
     if (err === CANCELLED_PIN_INPUT) {
       Logger.info(`${TAG}/depositSubmitSaga`, 'Transaction cancelled by user')
       yield* put(depositCancel())
-      ValoraAnalytics.track(EarnEvents.earn_deposit_submit_cancel, trackedProperties)
+      ValoraAnalytics.track(EarnEvents.earn_deposit_submit_cancel, commonAnalyticsProps)
       return
     }
 
@@ -162,7 +162,7 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
     Logger.error(`${TAG}/depositSubmitSaga`, 'Error sending deposit transaction', error)
     yield* put(depositError())
     ValoraAnalytics.track(EarnEvents.earn_deposit_submit_error, {
-      ...trackedProperties,
+      ...commonAnalyticsProps,
       error: error.message,
     })
 
