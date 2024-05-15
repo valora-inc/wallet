@@ -102,7 +102,7 @@ function EarnEnterAmount({ route }: Props) {
         token={token}
         tokenAmount={tokenAmount}
       />
-      {prepareTransactionsResult && (
+      {prepareTransactionsResult && 'transactions' in prepareTransactionsResult && (
         <EarnDepositBottomSheet
           forwardedRef={reviewBottomSheetRef}
           preparedTransaction={prepareTransactionsResult}
