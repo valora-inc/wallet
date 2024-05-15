@@ -2352,8 +2352,9 @@
       "description": "See how much you can earn when supplying a lending pool"
     },
     "enterAmount": {
-      "tvlLabel": "TVL",
+      "earnUpToLabel": "You could earn up to:",
       "rateLabel": "Rate (est.)",
+      "earnUpTo": "~{{fiatSymbol}}{{amount}} / yr",
       "rate": "{{rate}}% APY",
       "continue": "Continue",
       "info": "This pool is powered by Aave",

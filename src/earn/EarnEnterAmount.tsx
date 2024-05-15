@@ -1,6 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useRef, useState } from 'react'
+import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
@@ -8,6 +9,7 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import EarnAddCryptoBottomSheet from 'src/earn/EarnAddCryptoBottomSheet'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
+import { fetchAavePoolInfo } from 'src/earn/poolInfo'
 import { usePrepareSupplyTransactions } from 'src/earn/prepareTransactions'
 import InfoIcon from 'src/icons/InfoIcon'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
@@ -22,8 +24,9 @@ import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
+import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { Address } from 'viem'
+import { Address, isAddress } from 'viem'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.EarnEnterAmount>
 
@@ -68,7 +71,7 @@ function EarnEnterAmount({ route }: Props) {
       token,
       walletAddress,
       feeCurrencies,
-      poolContractAddress: '0x',
+      poolContractAddress: networkConfig.arbAavePoolV3ContractAddress,
     })
   }
 
@@ -95,7 +98,6 @@ function EarnEnterAmount({ route }: Props) {
       onPressInfo={onPressInfo}
       onSetTokenAmount={(amount: BigNumber) => setTokenAmount(amount)}
       ProceedComponent={EarnProceed}
-      disableBalanceCheck={true}
       proceedComponentStatic={true}
     >
       <InfoBottomSheet infoBottomSheetRef={infoBottomSheetRef} />
@@ -128,23 +130,56 @@ function EarnProceed({
   const { t } = useTranslation()
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
-  const tvl = new BigNumber(150000000) // TODO: Replace with actual TVL
-  const rate = 3.33 // TODO: Replace with actual rate
+  const asyncPoolInfo = useAsync(
+    async () => {
+      if (!token || !token.address) {
+        throw new Error(`Token with id ${token} not found`)
+      }
+
+      if (!isAddress(token.address)) {
+        throw new Error(`Token with id ${token} does not contain a valid address`)
+      }
+
+      return fetchAavePoolInfo({
+        assetAddress: token.address,
+        contractAddress: networkConfig.arbAavePoolV3ContractAddress,
+        network: networkIdToNetwork[token.networkId],
+      })
+    },
+    [],
+    {
+      onError: (error) => {
+        Logger.warn(TAG, error.message)
+      },
+    }
+  )
 
   return (
     <View style={styles.infoContainer}>
       <View style={styles.line}>
-        <Text style={styles.label}>{t('earnFlow.enterAmount.tvlLabel')}</Text>
+        <Text style={styles.label}>{t('earnFlow.enterAmount.earnUpToLabel')}</Text>
         <Text style={styles.label}>{t('earnFlow.enterAmount.rateLabel')}</Text>
       </View>
       <View style={styles.line}>
         <Text style={styles.valuesText}>
-          {localCurrencySymbol}
-          {tvl.toFormat()}
+          {t('earnFlow.enterAmount.earnUpTo', {
+            fiatSymbol: localCurrencySymbol,
+            amount:
+              asyncPoolInfo?.result && !!asyncPoolInfo.result.apy && tokenAmount?.gt(0)
+                ? tokenAmount.multipliedBy(new BigNumber(asyncPoolInfo.result.apy)).toFormat(2)
+                : '--',
+          })}
         </Text>
         <View style={styles.apy}>
           <TokenIcon token={token} size={IconSize.XSMALL} />
-          <Text style={styles.valuesText}>{t('earnFlow.enterAmount.rate', { rate })}</Text>
+          <Text style={styles.valuesText}>
+            {t('earnFlow.enterAmount.rate', {
+              rate:
+                asyncPoolInfo?.result && !!asyncPoolInfo.result.apy
+                  ? (asyncPoolInfo.result.apy * 100).toFixed(2)
+                  : '--',
+            })}
+          </Text>
         </View>
       </View>
       <Button
@@ -163,7 +198,7 @@ function EarnProceed({
           hitSlop={variables.iconHitslop}
           testID="AssetsTokenBalance/Info"
         >
-          <InfoIcon color={Colors.black} size={24} />
+          <InfoIcon color={Colors.black} />
         </TouchableOpacity>
       </View>
     </View>
@@ -193,6 +228,7 @@ function InfoBottomSheet({
         text={t('earnFlow.enterAmount.infoBottomSheet.dismiss')}
         size={BtnSizes.FULL}
         type={BtnTypes.GRAY_WITH_BORDER}
+        style={{ marginTop: Spacing.Regular16 }}
       />
     </BottomSheet>
   )
@@ -204,7 +240,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderWidth: 1,
     borderColor: Colors.gray2,
-    marginVertical: Spacing.Regular16,
   },
   line: {
     flexDirection: 'row',
@@ -216,7 +251,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    textAlign: 'center',
+    justifyContent: 'center',
     flex: 1,
     gap: Spacing.Tiny4,
   },
