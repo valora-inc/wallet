@@ -3298,6 +3298,17 @@ export const v212Schema = {
   },
 }
 
+export const v213Schema = {
+  ...v212Schema,
+  _persist: {
+    ...v212Schema._persist,
+    version: 213,
+  },
+  earn: {
+    depositStatus: 'idle',
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v212Schema as Partial<RootState>
+  return v213Schema as Partial<RootState>
 }
