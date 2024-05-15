@@ -2369,6 +2369,14 @@
       "footer": "By depositing crypto into an Aave pool, you accept the risks associated with using Aave. <0>Terms & Conditions</0>",
       "primaryCta": "Complete",
       "secondaryCta": "Cancel"
+    },
+    "transactionFeed": {
+      "earnClaimTitle": "Collected",
+      "earnClaimSubtitle": "from {{providerName}} Pool",
+      "earnDepositTitle": "Deposited",
+      "earnDepositSubtitle": "to {{providerName}} Pool",
+      "earnWithdrawTitle": "Withdraw",
+      "earnWithdrawSubtitle": "from {{providerName}} Pool"
     }
   }
 }
