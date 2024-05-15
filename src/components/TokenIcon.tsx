@@ -15,7 +15,7 @@ export enum IconSize {
 const IconSizeToStyle = {
   [IconSize.XSMALL]: {
     tokenImageSize: 20,
-    networkImageSize: 7,
+    networkImageSize: 10,
     networkImagePosition: 12,
     tokenTextSize: 4,
   },

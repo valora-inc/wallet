@@ -3,7 +3,6 @@ import BigNumber from 'bignumber.js'
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
@@ -16,6 +15,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useSelector } from 'src/redux/hooks'
 import EnterAmount, { ProceedComponentProps } from 'src/send/EnterAmount'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
@@ -95,6 +95,8 @@ function EarnEnterAmount({ route }: Props) {
       onPressInfo={onPressInfo}
       onSetTokenAmount={(amount: BigNumber) => setTokenAmount(amount)}
       ProceedComponent={EarnProceed}
+      disableBalanceCheck={true}
+      proceedComponentStatic={true}
     >
       <InfoBottomSheet infoBottomSheetRef={infoBottomSheetRef} />
       <EarnAddCryptoBottomSheet
@@ -102,7 +104,7 @@ function EarnEnterAmount({ route }: Props) {
         token={token}
         tokenAmount={tokenAmount}
       />
-      {prepareTransactionsResult && 'transactions' in prepareTransactionsResult && (
+      {prepareTransactionsResult && prepareTransactionsResult.type === 'possible' && (
         <EarnDepositBottomSheet
           forwardedRef={reviewBottomSheetRef}
           preparedTransaction={prepareTransactionsResult}
@@ -114,11 +116,19 @@ function EarnEnterAmount({ route }: Props) {
   )
 }
 
-function EarnProceed({ token, disabled, onPressProceed, onPressInfo }: ProceedComponentProps) {
+function EarnProceed({
+  tokenAmount,
+  localAmount,
+  token,
+  amountEnteredIn,
+  disabled,
+  onPressProceed,
+  onPressInfo,
+}: ProceedComponentProps) {
   const { t } = useTranslation()
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
-  const tvl = 150000000 // TODO: Replace with actual TVL
+  const tvl = new BigNumber(150000000) // TODO: Replace with actual TVL
   const rate = 3.33 // TODO: Replace with actual rate
 
   return (
@@ -128,17 +138,19 @@ function EarnProceed({ token, disabled, onPressProceed, onPressInfo }: ProceedCo
         <Text style={styles.label}>{t('earnFlow.enterAmount.rateLabel')}</Text>
       </View>
       <View style={styles.line}>
-        <Text>
+        <Text style={styles.valuesText}>
           {localCurrencySymbol}
-          {tvl}
+          {tvl.toFormat()}
         </Text>
-        <View style={styles.row}>
-          <TokenIcon token={token} size={IconSize.SMALL} />
-          <Text>{t('earnFlow.enterAmount.rate', { rate })}</Text>
+        <View style={styles.apy}>
+          <TokenIcon token={token} size={IconSize.XSMALL} />
+          <Text style={styles.valuesText}>{t('earnFlow.enterAmount.rate', { rate })}</Text>
         </View>
       </View>
       <Button
-        onPress={() => onPressProceed}
+        onPress={() =>
+          tokenAmount && onPressProceed({ tokenAmount, localAmount, token, amountEnteredIn })
+        }
         text={t('earnFlow.enterAmount.continue')}
         style={styles.continueButton}
         size={BtnSizes.FULL}
@@ -192,6 +204,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderWidth: 1,
     borderColor: Colors.gray2,
+    marginVertical: Spacing.Regular16,
   },
   line: {
     flexDirection: 'row',
@@ -203,7 +216,14 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
+    textAlign: 'center',
     flex: 1,
+    gap: Spacing.Tiny4,
+  },
+  apy: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.Tiny4,
   },
   label: {
     ...typeScale.bodySmall,
@@ -211,6 +231,10 @@ const styles = StyleSheet.create({
   },
   continueButton: {
     paddingVertical: Spacing.Thick24,
+  },
+  valuesText: {
+    ...typeScale.labelSemiBoldSmall,
+    marginVertical: Spacing.Tiny4,
   },
   infoText: {
     ...typeScale.bodyXSmall,

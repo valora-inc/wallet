@@ -78,6 +78,7 @@ interface Props {
   children?: React.ReactNode
   ProceedComponent: ComponentType<ProceedComponentProps>
   disableBalanceCheck?: boolean
+  proceedComponentStatic?: boolean
 }
 
 const TOKEN_SELECTOR_BORDER_RADIUS = 100
@@ -159,6 +160,7 @@ function EnterAmount({
   children,
   ProceedComponent,
   disableBalanceCheck = false,
+  proceedComponentStatic = false,
 }: Props) {
   const { t } = useTranslation()
 
@@ -353,7 +355,13 @@ function EnterAmount({
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <CustomHeader style={{ paddingHorizontal: Spacing.Thick24 }} left={<BackButton />} />
-      <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={
+          proceedComponentStatic
+            ? styles.contentContainer
+            : { ...styles.contentContainer, flexGrow: 1 }
+        }
+      >
         <View style={styles.inputContainer}>
           <Text style={styles.title}>{t('sendEnterAmountScreen.title')}</Text>
           <View style={styles.inputBox}>
@@ -408,14 +416,16 @@ function EnterAmount({
               )}
             </View>
           </View>
-          <View style={styles.feeContainer}>
-            <Text style={styles.feeLabel}>
-              {t('sendEnterAmountScreen.networkFee', {
-                networkName: NETWORK_NAMES[token.networkId],
-              })}
-            </Text>
-            <View style={styles.feeAmountContainer}>{feeAmountSection}</View>
-          </View>
+          {!disableBalanceCheck && (
+            <View style={styles.feeContainer}>
+              <Text style={styles.feeLabel}>
+                {t('sendEnterAmountScreen.networkFee', {
+                  networkName: NETWORK_NAMES[token.networkId],
+                })}
+              </Text>
+              <View style={styles.feeAmountContainer}>{feeAmountSection}</View>
+            </View>
+          )}
         </View>
 
         {showMaxAmountWarning && (
@@ -452,8 +462,6 @@ function EnterAmount({
           />
         )}
 
-        {children}
-
         <ProceedComponent
           tokenAmount={tokenAmount}
           localAmount={localAmount}
@@ -475,6 +483,7 @@ function EnterAmount({
         TokenOptionComponent={TokenBalanceItemOption}
         titleStyle={styles.title}
       />
+      {children}
     </SafeAreaView>
   )
 }
@@ -556,7 +565,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingHorizontal: Spacing.Thick24,
     paddingTop: Spacing.Thick24,
-    flexGrow: 1,
   },
   title: {
     ...typeScale.titleSmall,

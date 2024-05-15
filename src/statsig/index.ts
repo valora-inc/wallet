@@ -88,7 +88,9 @@ export function getDynamicConfigParams<T extends Record<string, StatsigParameter
 
 export function getFeatureGate(featureGateName: StatsigFeatureGates) {
   try {
-    return Statsig.checkGate(featureGateName)
+    return featureGateName === StatsigFeatureGates.SHOW_STABLECOIN_EARN
+      ? true
+      : Statsig.checkGate(featureGateName)
   } catch (error) {
     Logger.warn(TAG, `Error getting feature gate: ${featureGateName}`, error)
     return FeatureGates[featureGateName]

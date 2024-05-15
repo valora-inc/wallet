@@ -30,7 +30,7 @@ describe('EarnCta', () => {
   it('should render correctly', () => {
     const { getByText, getByTestId } = render(
       <Provider store={store}>
-        <EarnCta />
+        <EarnCta depositTokenId={'arbitrum-sepolia:0x123'} />
       </Provider>
     )
 
