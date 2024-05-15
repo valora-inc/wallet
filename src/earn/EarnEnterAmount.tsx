@@ -9,6 +9,7 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import EarnAddCryptoBottomSheet from 'src/earn/EarnAddCryptoBottomSheet'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
+import { usePrepareSupplyTransactions } from 'src/earn/prepareTransactions'
 import InfoIcon from 'src/icons/InfoIcon'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { Screens } from 'src/navigator/Screens'
@@ -19,7 +20,10 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
+import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
+import { walletAddressSelector } from 'src/web3/selectors'
+import { Address } from 'viem'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.EarnEnterAmount>
 
@@ -35,17 +39,38 @@ function EarnEnterAmount({ route }: Props) {
   }
 
   const [tokenAmount, setTokenAmount] = useState(new BigNumber(0))
-  const [preparedTransaction, setPreparedTransaction] = useState(undefined)
 
   const infoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const addCryptoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const reviewBottomSheetRef = useRef<BottomSheetRefType>(null)
 
-  // TODO: Update this to have correct prepared transaction stuff
-  // prepareTransactionsResult
-  // clearPreparedTransactions
-  // handleRefreshPreparedTransactions
-  // prepareTransactionError
+  const {
+    prepareTransactionsResult,
+    refreshPreparedTransactions,
+    clearPreparedTransactions,
+    prepareTransactionError,
+  } = usePrepareSupplyTransactions()
+
+  const walletAddress = useSelector(walletAddressSelector) as Address
+
+  const handleRefreshPreparedTransactions = (
+    amount: BigNumber,
+    token: TokenBalance,
+    feeCurrencies: TokenBalance[]
+  ) => {
+    if (!walletAddress) {
+      Logger.error(TAG, 'Wallet address not set. Cannot refresh prepared transactions.')
+      return
+    }
+
+    return refreshPreparedTransactions({
+      amount: amount.toString(),
+      token,
+      walletAddress,
+      feeCurrencies,
+      poolContractAddress: '0x',
+    })
+  }
 
   const onPressContinue = () => {
     tokenAmount?.gt(token.balance)
@@ -77,12 +102,14 @@ function EarnEnterAmount({ route }: Props) {
         token={token}
         tokenAmount={tokenAmount}
       />
-      <EarnDepositBottomSheet
-        forwardedRef={reviewBottomSheetRef}
-        preparedTransaction={preparedTransaction}
-        amount={tokenAmount.toString()}
-        tokenId={token.tokenId}
-      />
+      {prepareTransactionsResult && (
+        <EarnDepositBottomSheet
+          forwardedRef={reviewBottomSheetRef}
+          preparedTransaction={prepareTransactionsResult}
+          amount={tokenAmount.toString()}
+          tokenId={token.tokenId}
+        />
+      )}
     </EnterAmount>
   )
 }

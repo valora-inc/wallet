@@ -1,12 +1,16 @@
 import BigNumber from 'bignumber.js'
+import { useAsyncCallback } from 'react-async-hook'
 import aavePool from 'src/abis/AavePoolV3'
 import erc20 from 'src/abis/IERC20'
 import { TokenBalance } from 'src/tokens/slice'
+import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { publicClient } from 'src/viem'
 import { TransactionRequest, prepareTransactions } from 'src/viem/prepareTransactions'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { Address, encodeFunctionData, isAddress, parseUnits } from 'viem'
+
+const TAG = 'src/earn/prepareTransactions'
 
 type SimulatedTransactionResponse = {
   status: 'OK'
@@ -121,4 +125,22 @@ export async function prepareSupplyTransactions({
     spendToken: token,
     spendTokenAmount: new BigNumber(amount),
   })
+}
+
+/**
+ * Hook to prepare transactions for sending crypto.
+ */
+export function usePrepareSupplyTransactions() {
+  const prepareTransactions = useAsyncCallback(prepareSupplyTransactions, {
+    onError: (error) => {
+      Logger.error(TAG, `prepareTransactionsOutput: ${error}`)
+    },
+  })
+
+  return {
+    prepareTransactionsResult: prepareTransactions.result,
+    refreshPreparedTransactions: prepareTransactions.execute,
+    clearPreparedTransactions: prepareTransactions.reset,
+    prepareTransactionError: prepareTransactions.error,
+  }
 }
