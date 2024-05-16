@@ -1558,7 +1558,9 @@ interface JumpstartEventsProperties {
 }
 
 interface PointsEventsProperties {
-  [PointsEvents.points_screen_open]: undefined
+  [PointsEvents.points_discover_press]: undefined
+  [PointsEvents.points_intro_dismiss]: undefined
+  [PointsEvents.points_intro_back]: undefined
   [PointsEvents.points_screen_back]: undefined
   [PointsEvents.points_screen_card_press]: {
     activityId: PointsActivityId

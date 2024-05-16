@@ -2847,6 +2847,7 @@
                 "PincodeEnter",
                 "PincodeSet",
                 "PointsHome",
+                "PointsIntro",
                 "Profile",
                 "ProfileMenu",
                 "ProtectWallet",
@@ -4319,6 +4320,9 @@
                     ],
                     "type": "string"
                 },
+                "introHasBeenDismissed": {
+                    "type": "boolean"
+                },
                 "nextPageUrl": {
                     "type": [
                         "null",
@@ -4376,6 +4380,7 @@
             },
             "required": [
                 "getHistoryStatus",
+                "introHasBeenDismissed",
                 "nextPageUrl",
                 "pendingPointsEvents",
                 "pointsBalance",

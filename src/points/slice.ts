@@ -42,6 +42,7 @@ interface State {
   trackOnceActivities: {
     [key in PointsActivityId]?: boolean
   }
+  introHasBeenDismissed: boolean
 }
 
 export const initialState: State = {
@@ -56,6 +57,7 @@ export const initialState: State = {
   trackOnceActivities: {
     'create-wallet': false,
   },
+  introHasBeenDismissed: false,
 }
 
 const slice = createSlice({
@@ -119,6 +121,10 @@ const slice = createSlice({
       ...state,
       pointsBalanceStatus: 'error',
     }),
+    pointsIntroDismissed: (state) => ({
+      ...state,
+      introHasBeenDismissed: true,
+    }),
   },
   extraReducers: (builder) => {
     builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
@@ -144,6 +150,7 @@ export const {
   getPointsBalanceStarted,
   getPointsBalanceSucceeded,
   getPointsBalanceError,
+  pointsIntroDismissed,
 } = slice.actions
 
 // action handled in saga

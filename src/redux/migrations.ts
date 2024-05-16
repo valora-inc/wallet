@@ -1785,4 +1785,11 @@ export const migrations = {
     },
   }),
   214: (state: any) => state,
+  215: (state: any) => ({
+    ...state,
+    points: {
+      ...state.points,
+      introHasBeenDismissed: false,
+    },
+  }),
 }

@@ -476,7 +476,9 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [RewardsEvents.claimed_reward]: ``,
 
   // Events related to Valora Points program
-  [PointsEvents.points_screen_open]: `when Points home screen is opened`,
+  [PointsEvents.points_discover_press]: `when points card is pressed in the discover tab`,
+  [PointsEvents.points_intro_dismiss]: `when points intro is dismissed`,
+  [PointsEvents.points_intro_back]: `when back button is pressed from points intro screen`,
   [PointsEvents.points_screen_back]: `when back button is pressed from Points home screen`,
   [PointsEvents.points_screen_card_press]: `when an activity card is pressed from Points home screen`,
   [PointsEvents.points_screen_card_cta_press]: `when a CTA is pressed on an activity card bottom sheet from the Points home screen`,

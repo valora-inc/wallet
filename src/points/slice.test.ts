@@ -2,6 +2,7 @@ import reducer, {
   PendingPointsEvent,
   initialState,
   pointsEventProcessed,
+  pointsIntroDismissed,
   sendPointsEventStarted,
 } from './slice'
 
@@ -58,5 +59,11 @@ describe('pending points events', () => {
     )
 
     expect(newState.pendingPointsEvents).toEqual([pendingSwapEvent])
+  })
+
+  it('should set intro has been seen', () => {
+    const newState = reducer(initialState, pointsIntroDismissed())
+
+    expect(newState.introHasBeenDismissed).toEqual(true)
   })
 })
