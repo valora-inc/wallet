@@ -4369,6 +4369,9 @@
                         "$ref": "#/definitions/ClaimHistory"
                     },
                     "type": "array"
+                },
+                "trackOnceActivities": {
+                    "$ref": "#/definitions/{swap?:boolean|undefined;\"create-wallet\"?:boolean|undefined;\"more-coming\"?:boolean|undefined;}"
                 }
             },
             "required": [
@@ -4379,7 +4382,8 @@
                 "pointsBalanceStatus",
                 "pointsConfig",
                 "pointsConfigStatus",
-                "pointsHistory"
+                "pointsHistory",
+                "trackOnceActivities"
             ],
             "type": "object"
         },
@@ -6231,6 +6235,21 @@
                 },
                 "swap": {
                     "$ref": "#/definitions/FeeEstimateState"
+                }
+            },
+            "type": "object"
+        },
+        "{swap?:boolean|undefined;\"create-wallet\"?:boolean|undefined;\"more-coming\"?:boolean|undefined;}": {
+            "additionalProperties": false,
+            "properties": {
+                "create-wallet": {
+                    "type": "boolean"
+                },
+                "more-coming": {
+                    "type": "boolean"
+                },
+                "swap": {
+                    "type": "boolean"
                 }
             },
             "type": "object"
