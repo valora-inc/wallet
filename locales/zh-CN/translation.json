@@ -1819,8 +1819,8 @@
       "appFeeValue_free": "免费",
       "appFeeValue_placeholder": "-",
       "appFeeInfo": "{{appName}} 费用\n\n我们对在 {{appName}}上交换代币收取一定费用。费用为您兑换金额的 {{appFeePercentage}}%。",
-      "appFeeInfo_free": "{{appName}} Fee\n\nThis swap is free of charge.",
-      "appFeeInfo_placeholder": "{{appName}} Fee\n\nThe fee is calculated based on the quote you receive.",
+      "appFeeInfo_free": "{{appName}} 费用\n\n本次交换是免费的。",
+      "appFeeInfo_placeholder": "{{appName}} 费用\n\n费用根据您收到的报价计算。",
       "appFeeInfoDismissButton": "知道了",
       "slippagePercentage": "滑点调整",
       "networkFeeInfo": "您正在 {{networkName}} 网络上进行交换。\n\n在 {{networkName}} 网络上进行交易需要支付该预估网络费用。该费用可确保您的交易安全，并用于维持网络正常运行。",
@@ -2334,6 +2334,15 @@
       "moreComing": {
         "title": "更多内容即将推出！"
       }
+    },
+    "discoverCard": {
+      "title": "{{appName}} 积分",
+      "description": "通过 {{appName}}轻松赚取积分。使用应用程序（包括交换）可获得积分！"
+    },
+    "intro": {
+      "title": "轻松赚取积分",
+      "description": "跳转到新的赚钱方式！您的 {{appName}} 行动现在可以赚取积分。今天就开始赚取积分，享受超值优惠。",
+      "cta": "开始您的积分之旅"
     }
   },
   "earnFlow": {
