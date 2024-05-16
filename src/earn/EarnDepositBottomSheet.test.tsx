@@ -177,4 +177,25 @@ describe('EarnDepositBottomSheet', () => {
     )
     expect(navigate).toHaveBeenCalledWith('WebViewScreen', { uri: 'termsUrl' })
   })
+
+  it('shows loading state and buttons are disabled when deposit is submitted', () => {
+    const store = createMockStore({
+      tokens: { tokenBalances: mockTokenBalances },
+      earn: { depositStatus: 'started' },
+    })
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <EarnDepositBottomSheet
+          forwardedRef={{ current: null }}
+          amount={'100'}
+          tokenId={mockARBTokenId}
+          preparedTransaction={mockPreparedTransaction}
+        />
+      </Provider>
+    )
+
+    expect(getByTestId('EarnDeposit/PrimaryCta')).toBeDisabled()
+    expect(getByTestId('EarnDeposit/SecondaryCta')).toBeDisabled()
+    expect(getByTestId('EarnDeposit/PrimaryCta')).toContainElement(getByTestId('Button/Loading'))
+  })
 })

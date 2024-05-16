@@ -1,6 +1,9 @@
 import BigNumber from 'bignumber.js'
 import aavePool from 'src/abis/AavePoolV3'
 import erc20 from 'src/abis/IERC20'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { publicClient } from 'src/viem'
@@ -112,7 +115,13 @@ export async function prepareSupplyTransactions({
     )
   }
 
-  baseTransactions[baseTransactions.length - 1].gas = BigInt(supplySimulatedTx.gasNeeded)
+  const { depositGasPadding } = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG]
+  )
+
+  baseTransactions[baseTransactions.length - 1].gas = BigInt(
+    supplySimulatedTx.gasNeeded + depositGasPadding
+  )
   baseTransactions[baseTransactions.length - 1]._estimatedGasUse = BigInt(supplySimulatedTx.gasUsed)
 
   return prepareTransactions({

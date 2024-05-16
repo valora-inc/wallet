@@ -3316,11 +3316,26 @@ export const v214Schema = {
     version: 214,
   },
   points: {
-    ...v212Schema.points,
+    ...v213Schema.points,
+    trackOnceActivities: {
+      'create-wallet': false,
+    },
+  },
+}
+
+export const v215Schema = {
+  ...v214Schema,
+  _persist: {
+    ...v214Schema._persist,
+    version: 215,
+  },
+  points: {
+    ...v214Schema.points,
     introHasBeenDismissed: false,
   },
 }
 
+
 export function getLatestSchema(): Partial<RootState> {
-  return v214Schema as Partial<RootState>
+  return v215Schema as Partial<RootState>
 }

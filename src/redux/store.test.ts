@@ -299,6 +299,9 @@ describe('store state', () => {
           },
           "pointsConfigStatus": "idle",
           "pointsHistory": [],
+          "trackOnceActivities": {
+            "create-wallet": false,
+          },
         },
         "positions": {
           "positions": [],

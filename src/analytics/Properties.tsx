@@ -1575,6 +1575,13 @@ interface PointsEventsProperties {
   [PointsEvents.points_screen_activity_learn_more_press]: undefined
 }
 
+interface EarnDepositProperties {
+  tokenId: string
+  networkId: NetworkId
+  tokenAmount: string
+  providerId: string
+}
+
 interface EarnEventsProperties {
   [EarnEvents.earn_cta_press]: undefined
   [EarnEvents.earn_add_crypto_action_press]: {
@@ -1584,6 +1591,12 @@ interface EarnEventsProperties {
   [EarnEvents.earn_deposit_terms_and_conditions_press]: undefined
   [EarnEvents.earn_deposit_complete]: undefined
   [EarnEvents.earn_deposit_cancel]: undefined
+  [EarnEvents.earn_deposit_submit_start]: EarnDepositProperties
+  [EarnEvents.earn_deposit_submit_success]: EarnDepositProperties
+  [EarnEvents.earn_deposit_submit_error]: EarnDepositProperties & {
+    error: string
+  }
+  [EarnEvents.earn_deposit_submit_cancel]: EarnDepositProperties
   [EarnEvents.earn_view_pools_press]: undefined
 }
 
