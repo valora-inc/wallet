@@ -1821,8 +1821,8 @@
       "appFeeValue_free": "Grátis",
       "appFeeValue_placeholder": "-",
       "appFeeInfo": "{{appName}} Taxa\n\nCobramos uma taxa para você trocar tokens em {{appName}}. A taxa é {{appFeePercentage}}% do valor que você está trocando.",
-      "appFeeInfo_free": "{{appName}} Fee\n\nThis swap is free of charge.",
-      "appFeeInfo_placeholder": "{{appName}} Fee\n\nThe fee is calculated based on the quote you receive.",
+      "appFeeInfo_free": "{{appName}} Tarifa\n\nEssa troca é gratuita.",
+      "appFeeInfo_placeholder": "{{appName}} Taxa\n\nA taxa é calculada com base na cotação que você receber.",
       "appFeeInfoDismissButton": "Entendi",
       "slippagePercentage": "Tolerância do slippage",
       "networkFeeInfo": "Você está trocando na rede {{networkName}}.\n\nEsta taxa de rede estimada é necessária para realizar uma transação na rede {{networkName}}. Essa taxa protege a sua transação e visa manter a rede operacional.",
@@ -2336,6 +2336,15 @@
       "moreComing": {
         "title": "Em breve, você receberá mais informações!"
       }
+    },
+    "discoverCard": {
+      "title": "{{appName}} Pontos",
+      "description": "Ganhe pontos facilmente com o {{appName}}. Ao usar o aplicativo, incluindo a troca, você ganha pontos!"
+    },
+    "intro": {
+      "title": "Ganhe pontos sem esforço",
+      "description": "Você está em uma nova forma de ganhar! Agora você ganha pontos com as ações do {{appName}} . Comece a ganhar pontos hoje mesmo e desbloqueie benefícios incríveis.",
+      "cta": "Comece sua jornada de pontos"
     }
   },
   "earnFlow": {
