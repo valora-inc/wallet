@@ -23,6 +23,45 @@ import {
   TransactionStatus,
 } from 'src/transactions/types'
 
+interface DescriptionProps {
+  transaction: EarnWithdraw | EarnDeposit | EarnClaimReward
+}
+
+function Description({ transaction }: DescriptionProps) {
+  const { t } = useTranslation()
+  const { providerName } = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG]
+  )
+  let title
+  let subtitle
+
+  switch (transaction.__typename) {
+    case 'EarnDeposit':
+      title = t('earnFlow.transactionFeed.earnDepositTitle')
+      subtitle = t('earnFlow.transactionFeed.earnDepositSubtitle', { providerName })
+      break
+    case 'EarnWithdraw':
+      title = t('earnFlow.transactionFeed.earnWithdrawTitle')
+      subtitle = t('earnFlow.transactionFeed.earnWithdrawSubtitle', { providerName })
+      break
+    case 'EarnClaimReward':
+      title = t('earnFlow.transactionFeed.earnClaimTitle')
+      subtitle = t('earnFlow.transactionFeed.earnClaimSubtitle', { providerName })
+      break
+  }
+
+  return (
+    <View style={styles.contentContainer}>
+      <Text style={styles.title} testID={'EarnFeedItem/title'} numberOfLines={1}>
+        {title}
+      </Text>
+      <Text style={styles.subtitle} testID={'EarnFeedItem/subtitle'} numberOfLines={1}>
+        {subtitle}
+      </Text>
+    </View>
+  )
+}
+
 interface AmountDisplayProps {
   transaction: EarnWithdraw | EarnDeposit | EarnClaimReward
   isLocal: boolean
@@ -83,14 +122,6 @@ interface Props {
 }
 
 export default function EarnFeedItem({ transaction }: Props) {
-  const { t } = useTranslation()
-  const { providerName } = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG]
-  )
-  const isDeposit = transaction.__typename === 'EarnDeposit'
-  const isWithdraw = transaction.__typename === 'EarnWithdraw'
-  const isClaim = transaction.__typename === 'EarnClaimReward'
-
   return (
     <Touchable
       testID={`EarnFeedItem/${transaction.transactionHash}`}
@@ -107,18 +138,7 @@ export default function EarnFeedItem({ transaction }: Props) {
           transactionType={transaction.__typename}
           networkId={transaction.networkId}
         />
-        <View style={styles.contentContainer}>
-          <Text style={styles.title} testID={'EarnFeedItem/title'} numberOfLines={1}>
-            {isDeposit && t('earnFlow.transactionFeed.earnDepositTitle')}
-            {isWithdraw && t('earnFlow.transactionFeed.earnWithdrawTitle')}
-            {isClaim && t('earnFlow.transactionFeed.earnClaimTitle')}
-          </Text>
-          <Text style={styles.subtitle} testID={'EarnFeedItem/subtitle'} numberOfLines={1}>
-            {isDeposit && t('earnFlow.transactionFeed.earnDepositSubtitle', { providerName })}
-            {isWithdraw && t('earnFlow.transactionFeed.earnWithdrawSubtitle', { providerName })}
-            {isClaim && t('earnFlow.transactionFeed.earnClaimSubtitle', { providerName })}
-          </Text>
-        </View>
+        <Description transaction={transaction} />
         <Amount transaction={transaction} />
       </View>
     </Touchable>
