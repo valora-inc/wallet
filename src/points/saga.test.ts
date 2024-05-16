@@ -4,22 +4,28 @@ import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
+import { select } from 'redux-saga/effects'
 import { Actions as AppActions } from 'src/app/actions'
 import * as pointsSaga from 'src/points/saga'
 import {
   fetchHistory,
   fetchTrackPointsEventsEndpoint,
   getHistory,
+  getPointsBalance,
   getPointsConfig,
   sendPendingPointsEvents,
   sendPointsEvent,
   watchAppMounted,
 } from 'src/points/saga'
+import { trackOnceActivitiesSelector } from 'src/points/selectors'
 import pointsReducer, {
   PendingPointsEvent,
   getHistoryError,
   getHistoryStarted,
   getHistorySucceeded,
+  getPointsBalanceError,
+  getPointsBalanceStarted,
+  getPointsBalanceSucceeded,
   getPointsConfigError,
   getPointsConfigStarted,
   getPointsConfigSucceeded,
@@ -28,12 +34,11 @@ import pointsReducer, {
   trackPointsEvent,
 } from 'src/points/slice'
 import { ClaimHistory, GetHistoryResponse } from 'src/points/types'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
 import * as fetchWithTimeout from 'src/utils/fetchWithTimeout'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
+import { mockAccount } from 'test/values'
 import { v4 as uuidv4 } from 'uuid'
 
 jest.mock('src/statsig')
@@ -107,7 +112,7 @@ describe('fetchHistory', () => {
     const address = 'some-address'
     const result = await fetchHistory(address)
     expect(fetchWithTimeoutSpy).toHaveBeenCalledWith(
-      networkConfig.getPointsHistoryUrl + '?address=some-address',
+      networkConfig.getPointsHistoryUrl + '?address=some-address&pageSize=10',
       {
         method: 'GET',
       }
@@ -143,7 +148,7 @@ describe('getHistory', () => {
       .withState(createMockStore({ web3: { account: null } }).getState())
       .put(
         getHistoryError({
-          resetHistory: true,
+          getNextPage: false,
         })
       )
       .run()
@@ -177,7 +182,7 @@ describe('getHistory', () => {
       .provide([[matchers.call.fn(fetchHistory), throwError(new Error('failure'))]])
       .put(
         getHistoryError({
-          resetHistory: true,
+          getNextPage: false,
         })
       )
       .run()
@@ -230,9 +235,6 @@ describe('getHistory', () => {
 describe('getPointsConfig', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_POINTS)
   })
 
   it('fetches and sets points config', async () => {
@@ -325,16 +327,57 @@ describe('getPointsConfig', () => {
       .not.put(getPointsConfigSucceeded(expect.anything()))
       .run()
   })
+})
 
-  it('does not fetch if points are not enabled', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(false)
+describe('getPointsBalance', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
 
-    await expectSaga(getPointsConfig)
-      .not.put(getPointsConfigStarted())
-      .not.put(getPointsConfigSucceeded(expect.anything()))
+  it('should fetch and store the balance on first history fetch', async () => {
+    const mockBalance = '100'
+    mockFetch.mockResponseOnce(JSON.stringify({ balance: mockBalance }))
+
+    await expectSaga(getPointsBalance, getHistoryStarted({ getNextPage: false }))
+      .withState(createMockStore().getState())
+      .put(getPointsBalanceStarted())
+      .put(getPointsBalanceSucceeded(mockBalance))
       .run()
 
-    expect(mockFetch).not.toHaveBeenCalled()
+    expect(fetchWithTimeoutSpy).toHaveBeenCalledWith(
+      `${networkConfig.getPointsBalanceUrl}?address=${mockAccount.toLowerCase()}`,
+      {
+        method: 'GET',
+      }
+    )
+  })
+
+  it('should not fetch the balance on next history fetch', async () => {
+    await expectSaga(getPointsBalance, getHistoryStarted({ getNextPage: true }))
+      .not.put(getPointsBalanceStarted())
+      .not.put(getPointsBalanceSucceeded(expect.anything()))
+      .not.put(getPointsBalanceError())
+      .run()
+
+    expect(fetchWithTimeoutSpy).not.toHaveBeenCalled()
+  })
+
+  it('should store an error on failed balance fetch', async () => {
+    mockFetch.mockResponseOnce(JSON.stringify({ message: 'something went wrong' }), { status: 500 })
+
+    await expectSaga(getPointsBalance, getHistoryStarted({ getNextPage: false }))
+      .withState(createMockStore().getState())
+      .put(getPointsBalanceStarted())
+      .not.put(getPointsBalanceSucceeded(expect.anything()))
+      .put(getPointsBalanceError())
+      .run()
+
+    expect(fetchWithTimeoutSpy).toHaveBeenCalledWith(
+      `${networkConfig.getPointsBalanceUrl}?address=${mockAccount.toLowerCase()}`,
+      {
+        method: 'GET',
+      }
+    )
   })
 })
 
@@ -351,6 +394,7 @@ describe('sendPointsEvent', () => {
     return expectSaga(sendPointsEvent, mockAction)
       .provide([
         [matchers.call.fn(pointsSaga.fetchTrackPointsEventsEndpoint), mockServerSuccessResponse],
+        [select(trackOnceActivitiesSelector), { 'create-wallet': false }],
       ])
       .put(
         sendPointsEventStarted({
@@ -369,6 +413,7 @@ describe('sendPointsEvent', () => {
     await expectSaga(sendPointsEvent, mockAction)
       .provide([
         [matchers.call.fn(pointsSaga.fetchTrackPointsEventsEndpoint), mockServerErrorResponse],
+        [select(trackOnceActivitiesSelector), { 'create-wallet': false }],
       ])
       .put(
         sendPointsEventStarted({
@@ -388,12 +433,22 @@ describe('sendPointsEvent', () => {
       mockServerErrorMessage
     )
   })
+
+  it('should ignore any track once activities that were already tracked', async () => {
+    const mockAction = trackPointsEvent({ activityId: 'create-wallet' })
+
+    return expectSaga(sendPointsEvent, mockAction)
+      .provide([[select(trackOnceActivitiesSelector), { 'create-wallet': true }]])
+      .not.put(sendPointsEventStarted(expect.anything()))
+      .not.call(fetchTrackPointsEventsEndpoint)
+      .not.put(pointsEventProcessed(expect.anything()))
+      .run()
+  })
 })
 
 describe('sendPendingPointsEvents', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-
     jest.useFakeTimers({ now: new Date(mockTime).getTime() })
   })
 

@@ -13,7 +13,7 @@ interface GetPointsHistoryStartedAction {
 }
 
 interface GetPointsHistoryErrorAction {
-  resetHistory: boolean
+  getNextPage: boolean
 }
 
 export type PointsConfig = {
@@ -30,22 +30,32 @@ export interface PendingPointsEvent {
   event: PointsEvent
 }
 
-export interface State {
+interface State {
   pointsHistory: ClaimHistory[]
   nextPageUrl: string | null
-  getHistoryStatus: 'idle' | 'loading' | 'error'
+  getHistoryStatus: 'idle' | 'loading' | 'errorFirstPage' | 'errorNextPage'
   pointsConfig: PointsConfig
   pointsConfigStatus: 'idle' | 'loading' | 'error' | 'success'
   pendingPointsEvents: PendingPointsEvent[]
+  pointsBalanceStatus: 'idle' | 'loading' | 'error' | 'success'
+  pointsBalance: string
+  trackOnceActivities: {
+    [key in PointsActivityId]?: boolean
+  }
 }
 
-const initialState: State = {
+export const initialState: State = {
   pointsHistory: [],
   nextPageUrl: null,
   getHistoryStatus: 'idle',
   pointsConfig: { activitiesById: {} },
   pointsConfigStatus: 'idle',
   pendingPointsEvents: [],
+  pointsBalanceStatus: 'idle',
+  pointsBalance: '0',
+  trackOnceActivities: {
+    'create-wallet': false,
+  },
 }
 
 const slice = createSlice({
@@ -66,8 +76,7 @@ const slice = createSlice({
     }),
     getHistoryError: (state, action: PayloadAction<GetPointsHistoryErrorAction>) => ({
       ...state,
-      getHistoryStatus: 'error',
-      pointsHistory: action.payload.resetHistory ? [] : state.pointsHistory,
+      getHistoryStatus: action.payload.getNextPage ? 'errorNextPage' : 'errorFirstPage',
     }),
     getPointsConfigStarted: (state) => ({
       ...state,
@@ -85,15 +94,30 @@ const slice = createSlice({
     getPointsConfigRetry: (state) => ({
       ...state,
     }),
-    sendPointsEventStarted: (state, action: PayloadAction<PendingPointsEvent>) => ({
-      ...state,
-      pendingPointsEvents: [...state.pendingPointsEvents, action.payload],
-    }),
+    sendPointsEventStarted: (state, action: PayloadAction<PendingPointsEvent>) => {
+      state.pendingPointsEvents = [...state.pendingPointsEvents, action.payload]
+      if (action.payload.event.activityId in state.trackOnceActivities) {
+        state.trackOnceActivities[action.payload.event.activityId] = true
+      }
+    },
     pointsEventProcessed: (state, action: PayloadAction<Pick<PendingPointsEvent, 'id'>>) => ({
       ...state,
       pendingPointsEvents: state.pendingPointsEvents.filter(
         (event) => event.id !== action.payload.id
       ),
+    }),
+    getPointsBalanceStarted: (state) => ({
+      ...state,
+      pointsBalanceStatus: 'loading',
+    }),
+    getPointsBalanceSucceeded: (state, action: PayloadAction<string>) => ({
+      ...state,
+      pointsBalance: action.payload,
+      pointsBalanceStatus: 'success',
+    }),
+    getPointsBalanceError: (state) => ({
+      ...state,
+      pointsBalanceStatus: 'error',
     }),
   },
   extraReducers: (builder) => {
@@ -102,6 +126,7 @@ const slice = createSlice({
       ...getRehydratePayload(action, 'points'),
       pointsConfig: { activitiesById: {} }, // always reset pointsConfig on rehydrate to ensure it's up to date
       pointsHistory: state.pointsHistory.filter((record) => isClaimActivityId(record.activityId)), // filter in case new app version removed support for an activityId
+      pointsBalanceStatus: 'idle',
     }))
   },
 })
@@ -116,6 +141,9 @@ export const {
   getPointsConfigRetry,
   sendPointsEventStarted,
   pointsEventProcessed,
+  getPointsBalanceStarted,
+  getPointsBalanceSucceeded,
+  getPointsBalanceError,
 } = slice.actions
 
 // action handled in saga

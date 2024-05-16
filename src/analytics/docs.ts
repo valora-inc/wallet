@@ -592,6 +592,16 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
 
   // Events related to earn program
   [EarnEvents.earn_cta_press]: `When a user taps on the earn your stablecoins CTA on the discover tab`,
+  [EarnEvents.earn_add_crypto_action_press]: `When a user in the Earn flow enters an amount higher than their balance and chooses an option to add crypto`,
+  [EarnEvents.earn_deposit_provider_info_press]: `When a user taps on the info icon next to the provider name on the deposit bottom sheet`,
+  [EarnEvents.earn_deposit_terms_and_conditions_press]: `When a user taps on the terms and conditions link on the deposit bottom sheet`,
+  [EarnEvents.earn_deposit_complete]: `When a user taps on the complete button on the deposit bottom sheet`,
+  [EarnEvents.earn_deposit_cancel]: `When a user taps on the cancel button on the deposit bottom sheet`,
+  [EarnEvents.earn_deposit_submit_start]: `When the wallet is about to submit the deposit transaction to the network`,
+  [EarnEvents.earn_deposit_submit_success]: `When the deposit transaction succeeds`,
+  [EarnEvents.earn_deposit_submit_error]: `When the deposit transaction fails`,
+  [EarnEvents.earn_deposit_submit_cancel]: `When the user cancels the deposit after submitting by cancelling PIN input`,
+  [EarnEvents.earn_view_pools_press]: `When the user taps on the view pools button from token details`,
 
   // Legacy event docs
   //  The below events had docs, but are no longer produced by the latest app version.

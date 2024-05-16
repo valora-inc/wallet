@@ -677,4 +677,14 @@ export enum PointsEvents {
 
 export enum EarnEvents {
   earn_cta_press = 'earn_cta_press',
+  earn_add_crypto_action_press = 'earn_add_crypto_action_press',
+  earn_deposit_provider_info_press = 'earn_deposit_provider_info_press',
+  earn_deposit_terms_and_conditions_press = 'earn_deposit_terms_and_conditions_press',
+  earn_deposit_complete = 'earn_deposit_complete',
+  earn_deposit_cancel = 'earn_deposit_cancel',
+  earn_deposit_submit_start = 'earn_deposit_submit_start',
+  earn_deposit_submit_success = 'earn_deposit_submit_success',
+  earn_deposit_submit_error = 'earn_deposit_submit_error',
+  earn_deposit_submit_cancel = 'earn_deposit_submit_cancel',
+  earn_view_pools_press = 'earn_view_pools_press',
 }

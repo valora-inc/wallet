@@ -17,6 +17,7 @@ import {
 import { superchargeSaga } from 'src/consumerIncentives/saga'
 import { dappKitSaga } from 'src/dappkit/dappkit'
 import { dappsSaga } from 'src/dapps/saga'
+import { earnSaga } from 'src/earn/saga'
 import { escrowSaga } from 'src/escrow/saga'
 import { feesSaga } from 'src/fees/saga'
 import { fiatExchangesSaga } from 'src/fiatExchanges/saga'
@@ -139,6 +140,7 @@ export function* rootSaga() {
     yield* spawn(nftsSaga)
     yield* spawn(priceHistorySaga)
     yield* spawn(pointsSaga)
+    yield* spawn(earnSaga)
   } catch (error) {
     Logger.error('@rootSaga', 'Error while initializing sagas', error)
     // Propagate so it's handled by Sentry

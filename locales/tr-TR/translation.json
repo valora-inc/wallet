@@ -677,8 +677,8 @@
     "body": "Söz konusu kişi {{appName}} cüzdanını oluşturup numarasını bağladığında ikiniz de özel bir NFT alacaksınız."
   },
   "inviteRewardsBannerCUSD": {
-    "title": "Arkadaşlarınızı davet edin ve ödüller kazanın",
-    "body": "{{appName}} cüzdanlarını kurup fon eklediklerinde, ikiniz de 0,50 cUSD alacaksınız."
+    "title": "Arkadaşlarınızı davet edin ve 12 cUSD'ye kadar kazanın",
+    "body": "Numaralarını bağladıklarında ve {{appName}}adresine para eklediklerinde, her ikiniz de 0,50 cUSD alacaksınız."
   },
   "inviteWithUrl": {
     "title": "Arkadaşını davet et",
@@ -692,8 +692,8 @@
       "body": "Arkadaşlarınızı ve ailenizi {{appName}} uygulamasını indirmeye davet edin ve her biriniz özel bir NFT kazanın"
     },
     "rewardsActiveCUSD": {
-      "title": "SINIRLI BİR SÜRE İÇİN GEÇERLİ. Arkadaşlarınızı Valora'ya davet ederek ücretsiz cUSD kazanın!",
-      "body": "Davet Ödülleri geri döndü ve eskisinden daha da kolay. {{appName}} uygulamasına davet ettiğiniz her arkadaşınız için 0,50 cUSD kazanın. Fon eklediklerinde ve 7 gün boyunca tuttuklarında ikiniz de 0,50 cUSD alacaksınız. Acele edin, fonlar sınırlıdır! (25 arkadaşla sınırlıdır)."
+      "title": "Arkadaşlarınızı Valora'ya davet ettiğiniz için 12 cUSD'ye kadar kazanın!",
+      "body": "{{appName}}adresine davet ettiğiniz her arkadaşınız için 0,50 cUSD kazanın. Numaralarını bağladıklarında, para eklediklerinde ve 7 gün boyunca tuttuklarında, ikiniz de 0,50 cUSD alacaksınız. Acele edin, fonlar sınırlıdır! (25 arkadaşla sınırlıdır)."
     }
   },
   "getReward": "${{reward}} kazanın",
@@ -1034,7 +1034,7 @@
   "inviteWithoutPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{link}}",
   "inviteWithEscrowedPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Sana az önce {{amount}} {{token}} gönderdim. {{appName}} uygulamasını indirerek {{token}} miktarını alabilmen lütfen şu bağlantıyı tıkla{{link}}",
   "inviteWithRewards": "Merhaba! 👋 {{appName}} uygulamasını kripto cüzdanım olarak kullanıyorum. Uygulamayı indirmek ve telefon numaranı bağlamak çok kolay, ayrıca ikimiz de ödül olarak özel bir NFT sürümü alacağız. 💫 \n\nBu bağlantıyla indir: {{link}}",
-  "inviteWithRewardsCUSD": "Hey! Şu anda Valora cüzdanına kaydolur ve fon yatırırsanız ikimiz de ücretsiz 0,50 USD ödül kazanabiliriz. Tasarruflarımı USD ve kripto olarak büyütmek için bunu kullanıyorum ve siz de sadece bir telefon numarasıyla saniyeler içinde kurabilirsiniz. Buradaki davet bağlantımla kaydolduğunuzdan emin olun: \n\n{{link}} \n\nAncak acele edin, davet promosyonu yakında sona eriyor.",
+  "inviteWithRewardsCUSD": "Hey! Şu anda kaydolur, numaranızı bağlar ve Valora cüzdanınıza para yatırırsanız ikimiz de ücretsiz 0,50 $ ödül kazanabiliriz. Birikimlerimi USD ve kripto olarak artırmak için kullanıyorum ve siz de sadece bir telefon numarasıyla saniyeler içinde kurabilirsiniz. Buradaki yönlendirme bağlantımla kaydolduğunuzdan emin olun: \n\n{{link}} \n\n Acele edin, yönlendirme promosyonu yakında sona eriyor.",
   "loadingContacts": "Kişilerinizi bulma",
   "myCode": "Benim Kodum",
   "scanCode": "Tara",
@@ -2286,6 +2286,11 @@
         "refresh": "Yenile"
       }
     },
+    "fetchBalanceError": {
+      "title": "Puanlarınız yüklenemiyor",
+      "description": "Oops, puanlarınızı yüklemeye çalışırken bir şeyler ters gitti. Bu sayfadaki bilgiler güncel olmayabilir. Lütfen yenileyin.",
+      "retryCta": "Yenile"
+    },
     "loading": {
       "title": "Puanlarınızı toplamak",
       "description": "Puanlarınızı sayma aşamasındayız, sıkı durun"
@@ -2322,6 +2327,55 @@
       "moreComing": {
         "title": "Daha fazlası yakında!"
       }
+    }
+  },
+  "earnFlow": {
+    "addCryptoBottomSheet": {
+      "title": "{{tokenSymbol}} adresini {{tokenNetwork}}adresine ekleyin",
+      "description": "Jeton ekledikten sonra havuza para yatırma işlemini tamamlamak için geri gelmeniz gerekecektir.",
+      "actions": {
+        "add": "Satın Al",
+        "transfer": "Transfer",
+        "swap": "Swap"
+      },
+      "actionDescriptions": {
+        "add": "Güvenilir sağlayıcılarımızdan birini kullanarak {{tokenNetwork}} adresinden {{tokenSymbol}} satın alın",
+        "transfer": "{{tokenSymbol}}yatırmak için herhangi bir {{tokenNetwork}} uyumlu cüzdan veya borsa kullanın",
+        "swap": "Başka bir {{tokenNetwork}} belirtecinden {{tokenSymbol}} 'a geçiş yapın"
+      }
+    },
+    "cta": {
+      "title": "Sabit paralarınızdan kazanın",
+      "subtitle": "Bugün para yatırın ve getiri kazanın",
+      "description": "Bir kredi havuzu sağlarken ne kadar kazanabileceğinizi görün"
+    },
+    "activePools": {
+      "title": "Aktif Havuzlar",
+      "totalValue": "Toplam Değer:",
+      "apy": "~{{apy}}% APY",
+      "exitPool": "Çıkış Havuzu",
+      "depositMore": "Daha Fazla Yatırın",
+      "viewPools": "Havuzları Görüntüle"
+    },
+    "depositBottomSheet": {
+      "title": "İnceleme ve Para Yatırma",
+      "description": "Bir Aave havuzuna para yatırmadan önce lütfen aşağıdaki işlem ayrıntılarını inceleyin",
+      "amount": "Yatırılan Toplam",
+      "fee": "Est. Gaz Ücretleri",
+      "provider": "Kazanç sağlayıcı",
+      "network": "Ağ",
+      "footer": "Bir Aave havuzuna kripto yatırarak, Aave kullanımıyla ilişkili riskleri kabul etmiş olursunuz. <0>Şartlar ve Koşullar</0>",
+      "primaryCta": "Tamamlandı",
+      "secondaryCta": "İptal"
+    },
+    "collect": {
+      "title": "Tebrikler! Kazancınızı gözden geçirin ve toplayın",
+      "total": "TOPLAM",
+      "plus": "ARTI",
+      "rate": "Oran (tahmini)",
+      "apy": "~{{apy}}% APY",
+      "fee": "Gaz Ücreti",
+      "cta": "Kazançları Toplayın"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
