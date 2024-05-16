@@ -3335,7 +3335,6 @@ export const v215Schema = {
   },
 }
 
-
 export function getLatestSchema(): Partial<RootState> {
   return v215Schema as Partial<RootState>
 }
