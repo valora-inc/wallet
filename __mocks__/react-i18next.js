@@ -5,7 +5,7 @@ const reactI18next = require('react-i18next')
 const renderTrans = ({ i18nKey, tOptions, context, children }) => {
   return (
     <React.Fragment>
-      {translationFunction(i18nKey, { context, ...tOptions })}
+      {translationFunction(i18nKey, { ...(context && { context }), ...tOptions })}
       {children}
     </React.Fragment>
   )
