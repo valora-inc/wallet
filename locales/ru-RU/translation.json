@@ -1825,8 +1825,8 @@
       "appFeeValue_free": "Бесплатно",
       "appFeeValue_placeholder": "-",
       "appFeeInfo": "{{appName}} Комиссия\n\nМы взимаем комиссию за обмен токенов на сайте {{appName}}. Комиссия составляет {{appFeePercentage}}% от суммы, которую ты обмениваешь.",
-      "appFeeInfo_free": "{{appName}} Fee\n\nThis swap is free of charge.",
-      "appFeeInfo_placeholder": "{{appName}} Fee\n\nThe fee is calculated based on the quote you receive.",
+      "appFeeInfo_free": "{{appName}} Плата\n\nЭтот своп бесплатный.",
+      "appFeeInfo_placeholder": "{{appName}} Гонорар\n\nГонорар рассчитывается на основе полученной тобой цитаты.",
       "appFeeInfoDismissButton": "Понятно",
       "slippagePercentage": "Допустимое проскальзывание",
       "networkFeeInfo": "Вы выполняете обмен в сеть {{networkName}}.\n\nЭта примерная комиссия сеть необходима для выполнения транзакции в {{networkName}}. Она обеспечивает безопасность транзакции и работоспособность сеть.",
@@ -2340,6 +2340,15 @@
       "moreComing": {
         "title": "Скоро будет больше!"
       }
+    },
+    "discoverCard": {
+      "title": "{{appName}} Очки",
+      "description": "Зарабатывай очки легко с помощью {{appName}}. Использование приложения, включая обмен, приводит к начислению очков!"
+    },
+    "intro": {
+      "title": "Зарабатывай очки без особых усилий",
+      "description": "Переходи на новый способ заработка! За твои действия на сайте {{appName}} теперь начисляются баллы. Начни зарабатывать уже сегодня и открой для себя потрясающие преимущества.",
+      "cta": "Начни свое путешествие по очкам"
     }
   },
   "earnFlow": {
