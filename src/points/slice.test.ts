@@ -1,5 +1,6 @@
 import reducer, {
   PendingPointsEvent,
+  State,
   initialState,
   pointsEventProcessed,
   pointsIntroDismissed,
