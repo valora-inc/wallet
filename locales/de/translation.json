@@ -1821,8 +1821,8 @@
       "appFeeValue_free": "Kostenlos",
       "appFeeValue_placeholder": "-",
       "appFeeInfo": "{{appName}} Gebühr\n\nWir erheben eine Gebühr für den Tausch von Token auf {{appName}}. Die Gebühr beträgt {{appFeePercentage}}% des Betrags, den du tauschst.",
-      "appFeeInfo_free": "{{appName}} Fee\n\nThis swap is free of charge.",
-      "appFeeInfo_placeholder": "{{appName}} Fee\n\nThe fee is calculated based on the quote you receive.",
+      "appFeeInfo_free": "{{appName}} Gebühr\n\nDieser Tausch ist kostenlos.",
+      "appFeeInfo_placeholder": "{{appName}} Gebühr\n\nDie Gebühr wird auf der Grundlage des Angebots berechnet, das du erhältst.",
       "appFeeInfoDismissButton": "Verstanden",
       "slippagePercentage": "Slippage-Toleranz",
       "networkFeeInfo": "Du tauschst über das {{networkName}}-Netzwerk.\n\nUm eine Transaktion über das {{networkName}}-Netzwerk durchzuführen, musst du diese geschätzte Netzwerkgebühr bezahlen. Diese Gebühr sichert deine Transaktion und trägt dazu bei, das Netzwerk aufrechtzuerhalten.",
@@ -2336,6 +2336,15 @@
       "moreComing": {
         "title": "Mehr dazu demnächst!"
       }
+    },
+    "discoverCard": {
+      "title": "{{appName}} Punkte",
+      "description": "Sammle ganz einfach Punkte mit {{appName}}. Die Nutzung der App, einschließlich des Tauschens, führt zu Punkten!"
+    },
+    "intro": {
+      "title": "Mühelos Punkte sammeln",
+      "description": "Erlebe eine neue Art zu verdienen! Für deine {{appName}} Aktionen gibt es jetzt Punkte. Fang noch heute an zu verdienen und schalte tolle Vorteile frei.",
+      "cta": "Beginne deine Punkte-Reise"
     }
   },
   "earnFlow": {
