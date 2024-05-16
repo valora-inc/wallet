@@ -1821,8 +1821,8 @@
       "appFeeValue_free": "Gratuito",
       "appFeeValue_placeholder": "-",
       "appFeeInfo": "{{appName}} Commissione\n\nApplichiamo una commissione per lo scambio di token su {{appName}}. La commissione è pari al {{appFeePercentage}}% dell'importo che stai scambiando.",
-      "appFeeInfo_free": "{{appName}} Fee\n\nThis swap is free of charge.",
-      "appFeeInfo_placeholder": "{{appName}} Fee\n\nThe fee is calculated based on the quote you receive.",
+      "appFeeInfo_free": "{{appName}} Costo\n\nQuesto scambio è gratuito.",
+      "appFeeInfo_placeholder": "{{appName}} Tariffa\n\nLa tariffa viene calcolata in base al preventivo ricevuto.",
       "appFeeInfoDismissButton": "Ho capito",
       "slippagePercentage": "Tolleranza slippage",
       "networkFeeInfo": "Stai effettuando uno scambio sulla rete {{networkName}}.\n\nQuesta commissione di rete stimata è necessaria per eseguire una transazione sulla rete {{networkName}}. Questa commissione protegge la tua transazione e serve a mantenere operativa la rete.",
@@ -2336,6 +2336,15 @@
       "moreComing": {
         "title": "Prossimamente ne arriveranno altri!"
       }
+    },
+    "discoverCard": {
+      "title": "{{appName}} Punti",
+      "description": "Guadagna punti facilmente con {{appName}}. L'utilizzo dell'app, compreso lo scambio, porta a guadagnare punti!"
+    },
+    "intro": {
+      "title": "Accumula punti senza fatica",
+      "description": "Scopri un nuovo modo di guadagnare! Le tue azioni su {{appName}} ora fanno guadagnare punti. Inizia a guadagnare oggi stesso e sblocca fantastici vantaggi.",
+      "cta": "Inizia il tuo viaggio a punti"
     }
   },
   "earnFlow": {
