@@ -1821,8 +1821,8 @@
       "appFeeValue_free": "Gratuit",
       "appFeeValue_placeholder": "-",
       "appFeeInfo": "{{appName}} Frais\n\nNous facturons des frais pour échanger des jetons sur {{appName}}. Ces frais s'élèvent à {{appFeePercentage}}% du montant que tu échanges.",
-      "appFeeInfo_free": "{{appName}} Fee\n\nThis swap is free of charge.",
-      "appFeeInfo_placeholder": "{{appName}} Fee\n\nThe fee is calculated based on the quote you receive.",
+      "appFeeInfo_free": "{{appName}} Frais\n\nCet échange est gratuit.",
+      "appFeeInfo_placeholder": "{{appName}} Frais\n\nLes frais sont calculés en fonction du devis que tu reçois.",
       "appFeeInfoDismissButton": "J'ai compris",
       "slippagePercentage": "Tolérance de glissement",
       "networkFeeInfo": "Vous échangez sur le réseau {{networkName}} .\n\nCes frais de réseau estimés sont nécessaires pour effectuer une transaction sur le réseau {{networkName}}. Ces frais sécurisent votre transaction et permettent le bon fonctionnement du réseau.",
@@ -2336,6 +2336,15 @@
       "moreComing": {
         "title": "Plus d'informations bientôt !"
       }
+    },
+    "discoverCard": {
+      "title": "{{appName}} Points",
+      "description": "Gagne facilement des points avec {{appName}}. L'utilisation de l'application, y compris l'échange, permet de gagner des points !"
+    },
+    "intro": {
+      "title": "Gagne des points sans effort",
+      "description": "Saute dans une nouvelle façon de gagner de l'argent ! Tes actions sur {{appName}} te permettent désormais de gagner des points. Commence à gagner des points dès aujourd'hui et débloque des avantages impressionnants.",
+      "cta": "Commence ton voyage de points"
     }
   },
   "earnFlow": {
