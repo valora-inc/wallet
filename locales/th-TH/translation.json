@@ -2334,6 +2334,15 @@
       "moreComing": {
         "title": "More coming soon!"
       }
+    },
+    "discoverCard": {
+      "title": "{{appName}} Points",
+      "description": "Earn points easily with {{appName}}. Using the app, including swapping, leads to points!"
+    },
+    "intro": {
+      "title": "Earn points effortlessly",
+      "description": "Jump into a new way to earn! Your {{appName}} actions now earn points. Start earning today and unlock awesome benefits.",
+      "cta": "Start your points journey"
     }
   },
   "earnFlow": {
