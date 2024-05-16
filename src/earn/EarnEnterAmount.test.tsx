@@ -166,7 +166,7 @@ describe('EarnEnterAmount', () => {
       EarnEvents.earn_enter_amount_continue_press,
       {
         amountEnteredIn: 'token',
-        amountInUsd: '8',
+        amountInUsd: '8.00',
         networkId: NetworkId['arbitrum-sepolia'],
         tokenAmount: '8',
         tokenId: networkConfig.arbUsdcTokenId,
@@ -197,7 +197,7 @@ describe('EarnEnterAmount', () => {
       EarnEvents.earn_enter_amount_continue_press,
       {
         amountEnteredIn: 'token',
-        amountInUsd: '12',
+        amountInUsd: '12.00',
         networkId: NetworkId['arbitrum-sepolia'],
         tokenAmount: '12',
         tokenId: networkConfig.arbUsdcTokenId,
