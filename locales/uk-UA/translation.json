@@ -1825,8 +1825,8 @@
       "appFeeValue_free": "Безплатно",
       "appFeeValue_placeholder": "-",
       "appFeeInfo": "{{appName}} Комісія\n\nМи стягуємо комісію за обмін токенів на {{appName}}. Комісія становить {{appFeePercentage}}% від суми, яку ви обмінюєте.",
-      "appFeeInfo_free": "{{appName}} Fee\n\nThis swap is free of charge.",
-      "appFeeInfo_placeholder": "{{appName}} Fee\n\nThe fee is calculated based on the quote you receive.",
+      "appFeeInfo_free": "{{appName}} Вартість\n\nЦей обмін безкоштовний.",
+      "appFeeInfo_placeholder": "{{appName}} Комісія\n\nКомісія розраховується на основі отриманої вами пропозиції.",
       "appFeeInfoDismissButton": "Зрозуміло",
       "slippagePercentage": "Допуск прослизання",
       "networkFeeInfo": "Ви обмінюєтеся активами в мережі {{networkName}}.\n\nОрієнтовна комісія мережі потрібна, щоб виконати транзакцію в мережі {{networkName}}. Комісія допомагає убезпечити транзакцію і спрямована на підтримку роботи мережі.",
@@ -2340,6 +2340,15 @@
       "moreComing": {
         "title": "Скоро буде більше!"
       }
+    },
+    "discoverCard": {
+      "title": "{{appName}} Бали",
+      "description": "Легко заробляйте бали з {{appName}}. Використання додатку, включаючи обмін, приносить бали!"
+    },
+    "intro": {
+      "title": "Заробляйте бали без зайвих зусиль",
+      "description": "Переходьте до нового способу заробітку! Ваші дії на сайті {{appName}} тепер приносять бали. Почніть заробляти вже сьогодні та отримайте чудові переваги.",
+      "cta": "Розпочніть свою подорож балами"
     }
   },
   "earnFlow": {
