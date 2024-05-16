@@ -512,6 +512,7 @@ export const TRANSACTIONS_QUERY = gql`
     __typename
     type
     transactionHash
+    status
     providerId
     timestamp
     block
@@ -554,6 +555,7 @@ export const TRANSACTIONS_QUERY = gql`
     __typename
     type
     transactionHash
+    status
     providerId
     timestamp
     block
@@ -596,6 +598,7 @@ export const TRANSACTIONS_QUERY = gql`
     __typename
     type
     transactionHash
+    status
     providerId
     timestamp
     block

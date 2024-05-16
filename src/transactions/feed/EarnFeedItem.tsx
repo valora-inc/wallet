@@ -16,12 +16,7 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import TransactionFeedItemImage from 'src/transactions/feed/TransactionFeedItemImage'
-import {
-  EarnClaimReward,
-  EarnDeposit,
-  EarnWithdraw,
-  TransactionStatus,
-} from 'src/transactions/types'
+import { EarnClaimReward, EarnDeposit, EarnWithdraw } from 'src/transactions/types'
 
 interface DescriptionProps {
   transaction: EarnWithdraw | EarnDeposit | EarnClaimReward
@@ -127,9 +122,7 @@ export default function EarnFeedItem({ transaction }: Props) {
       testID={`EarnFeedItem/${transaction.transactionHash}`}
       onPress={() => {
         ValoraAnalytics.track(EarnEvents.earn_feed_item_select, { origin: transaction.__typename })
-        navigate(Screens.TransactionDetailsScreen, {
-          transaction: { ...transaction, status: TransactionStatus.Complete },
-        })
+        navigate(Screens.TransactionDetailsScreen, { transaction })
       }}
     >
       <View style={styles.container}>
