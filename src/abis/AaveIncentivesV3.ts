@@ -1,3 +1,4 @@
+// Incentives ABI from https://docs.aave.com/developers/deployed-contracts/v3-mainnet/arbitrum
 const aaveIncentivesV3Abi = [
   {
     inputs: [{ internalType: 'address', name: 'emissionManager', type: 'address' }],
