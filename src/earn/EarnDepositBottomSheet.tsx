@@ -3,16 +3,20 @@ import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { ResizeMode } from 'react-native-video'
+import { useDispatch } from 'react-redux'
 import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
+import { depositStatusSelector } from 'src/earn/selectors'
+import { depositStart } from 'src/earn/slice'
 import InfoIcon from 'src/icons/InfoIcon'
 import Logo from 'src/icons/Logo'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
@@ -24,6 +28,7 @@ import {
   PreparedTransactionsPossible,
   getFeeCurrencyAndAmounts,
 } from 'src/viem/prepareTransactions'
+import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 
 const LOGO_SIZE = 24
 
@@ -39,6 +44,9 @@ export default function EarnDepositBottomSheet({
   tokenId: string
 }) {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
+  const depositStatus = useSelector(depositStatusSelector)
+  const transactionSubmitted = depositStatus === 'started'
 
   const { estimatedFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(preparedTransaction)
 
@@ -64,8 +72,14 @@ export default function EarnDepositBottomSheet({
   }
 
   const onPressComplete = () => {
+    dispatch(
+      depositStart({
+        amount,
+        tokenId,
+        preparedTransactions: getSerializablePreparedTransactions(preparedTransaction.transactions),
+      })
+    )
     ValoraAnalytics.track(EarnEvents.earn_deposit_complete)
-    // TODO(ACT-1178): submit tx
   }
 
   const onPressCancel = () => {
@@ -131,6 +145,7 @@ export default function EarnDepositBottomSheet({
             type={BtnTypes.GRAY_WITH_BORDER}
             style={styles.cta}
             onPress={onPressCancel}
+            disabled={transactionSubmitted}
           />
           <Button
             testID="EarnDeposit/PrimaryCta"
@@ -138,6 +153,8 @@ export default function EarnDepositBottomSheet({
             text={t('earnFlow.depositBottomSheet.primaryCta')}
             style={styles.cta}
             onPress={onPressComplete}
+            disabled={transactionSubmitted}
+            showLoading={transactionSubmitted}
           />
         </View>
       </View>

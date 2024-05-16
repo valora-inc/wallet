@@ -677,8 +677,8 @@
     "body": "Vous recevrez tous les deux un NFT exclusif une fois que votre ami aura configuré son wallet {{appName}} et connecté son numéro."
   },
   "inviteRewardsBannerCUSD": {
-    "title": "Invitez des amis pour être récompensé",
-    "body": "Une fois que votre contact aura paramétré son compte et ajouté 5 USD à son portefeuille {{appName}} , vous recevrez tous les deux 0,50 cUSD."
+    "title": "Invite des amis et reçois jusqu'à 12 cUSD",
+    "body": "Une fois qu'ils auront connecté leur numéro et ajouté des fonds sur {{appName}}, vous recevrez tous les deux 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Invitez des amis",
@@ -692,8 +692,8 @@
       "body": "Invitez vos amis et votre famille à télécharger {{appName}} et chacun d'entre vous recevra un NFT exclusif"
     },
     "rewardsActiveCUSD": {
-      "title": "DURÉE LIMITÉE. Recevez des cUSD en invitant des amis sur Valora !",
-      "body": "Recevez 0,50 cUSD pour chaque ami que vous invitez sur {{appName}}. Une fois que votre ami aura ajouté 5 dollars en cUSD, cEUR, cREAL, USDC ou USDT sur Celo et conservé des fonds pendant 7 jours, vous recevrez tous les deux 0,50 cUSD. Dépêchez-vous, les fonds sont limités !"
+      "title": "GAGNE JUSQU'À 12 cUSD pour avoir invité tes amis à Valora !",
+      "body": "Obtiens 0,50 cUSD pour chaque ami que tu invites sur {{appName}}. Une fois qu'il aura connecté son numéro, ajouté des fonds et les aura conservés pendant 7 jours, vous recevrez tous les deux 0,50 cUSD. Dépêche-toi, les fonds sont limités ! (Limite de 25 amis)."
     }
   },
   "getReward": "Obtenez {{reward}}$",
@@ -1034,7 +1034,7 @@
   "inviteWithoutPayment": "Bonjour ! J'utilise {{appName}} pour envoyer des cryptomonnaies dans le monde entier. C'est facile, et je vous invite à découvrir également ce service en utilisant ce lien : {{link}}",
   "inviteWithEscrowedPayment": "Bonjour ! J'utilise {{appName}} pour envoyer des cryptomonnaies dans le monde entier. Je viens juste de vous envoyer {{amount}} {{token}}. Vous pouvez télécharger l'appli {{appName}} et échanger votre {{token}} en utilisant ce lien : {{link}}",
   "inviteWithRewards": "Bonjour ! 👋 J'utilise {{appName}} comme portefeuille de cryptomonnaies. Télécharger l'application est très rapide, tout comme connecter ton numéro de téléphone. En plus, si tu t'inscris, nous recevrons tous les deux un NFT en édition spéciale comme récompense. 💫 \n\nUtilisez ce lien pour télécharger : {{link}}",
-  "inviteWithRewardsCUSD": "Salut ! En ce moment, nous pouvons tous les deux recevoir une récompense de 0,50 USD si tu t'inscris et que tu déposes des fonds sur ton portefeuille Valora. Je l'utilise pour faire fructifier mes économies en USD et en crypto, et tu peux le configurer en quelques secondes avec un simple numéro de téléphone. Utilise mon lien de parrainage pour t'inscrire ici : \n\n{{link}} \n\nDépêche-toi car cete offre de parrainage se termine bientôt.",
+  "inviteWithRewardsCUSD": "Hé ! En ce moment, nous pouvons tous les deux obtenir une récompense gratuite de 0,50 $ si tu t'inscris, connectes ton numéro et alimentes ton portefeuille Valora. Je l'utilise pour faire fructifier mes économies en USD et en crypto, et tu peux le configurer en quelques secondes avec juste un numéro de téléphone. Assure-toi de t'inscrire avec mon lien de parrainage ici : \n\n{{link}} \n\n Dépêche-toi, la promotion de parrainage se termine bientôt.",
   "loadingContacts": "Trouver vos contacts",
   "myCode": "Mon code",
   "scanCode": "Scanner",
@@ -2354,7 +2354,8 @@
       "totalValue": "Valeur totale :",
       "apy": "~{{apy}}% APY",
       "exitPool": "Exit Pool",
-      "depositMore": "Dépôt Plus"
+      "depositMore": "Dépôt Plus",
+      "viewPools": "Voir les piscines"
     },
     "depositBottomSheet": {
       "title": "Révision et dépôt",
@@ -2366,6 +2367,15 @@
       "footer": "En déposant des crypto dans un pool Aave, tu acceptes les risques liés à l'utilisation d'Aave. <0>Conditions générales d'utilisation</0>",
       "primaryCta": "Complète",
       "secondaryCta": "Annuler"
+    },
+    "collect": {
+      "title": "Félicitations ! Vérifier et collecter tes gains",
+      "total": "TOTAL",
+      "plus": "PLUS",
+      "rate": "Taux (est.)",
+      "apy": "~{{apy}}% APY",
+      "fee": "Frais de gaz",
+      "cta": "Collecter les gains"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

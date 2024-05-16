@@ -1,7 +1,12 @@
 import { differenceInDays } from 'date-fns'
 import { Actions as AppActions } from 'src/app/actions'
 import { Actions as HomeActions } from 'src/home/actions'
-import { nextPageUrlSelector, pendingPointsEvents } from 'src/points/selectors'
+import { retrieveSignedMessage } from 'src/pincode/authentication'
+import {
+  nextPageUrlSelector,
+  pendingPointsEvents,
+  trackOnceActivitiesSelector,
+} from 'src/points/selectors'
 import {
   PointsConfig,
   getHistoryError,
@@ -167,14 +172,27 @@ export function* getPointsConfig() {
   }
 }
 
-export async function fetchTrackPointsEventsEndpoint(event: PointsEvent) {
-  return fetchWithTimeout(networkConfig.trackPointsEventUrl, {
+export function* fetchTrackPointsEventsEndpoint(event: PointsEvent) {
+  const address = yield* select(walletAddressSelector)
+  const signedMessage = yield* call(retrieveSignedMessage)
+
+  return yield* call(fetchWithTimeout, networkConfig.trackPointsEventUrl, {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: `Valora ${address}:${signedMessage}`,
+    },
     body: JSON.stringify(event),
   })
 }
 
 export function* sendPointsEvent({ payload: event }: ReturnType<typeof trackPointsEvent>) {
+  const trackOnceActivities = yield* select(trackOnceActivitiesSelector)
+  if (trackOnceActivities[event.activityId]) {
+    Logger.debug(TAG, `Skipping already tracked activity: ${event.activityId}`)
+    return
+  }
+
   const id = uuidv4()
 
   yield* put(

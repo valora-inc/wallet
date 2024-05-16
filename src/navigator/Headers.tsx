@@ -8,7 +8,6 @@ import CancelButton from 'src/components/CancelButton'
 import CloseButton from 'src/components/CloseButton'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
-import PointsButton from 'src/components/PointsButton'
 import QrScanButton from 'src/components/QrScanButton'
 import TokenDisplay from 'src/components/TokenDisplay'
 import NotificationBell from 'src/home/NotificationBell'
@@ -17,8 +16,6 @@ import BackChevronCentered from 'src/icons/BackChevronCentered'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -286,10 +283,8 @@ export function HeaderTitleWithSubtitle({
 export const tabHeader: NativeStackNavigationOptions = {
   ...emptyHeader,
   headerRight: () => {
-    const showPoints = getFeatureGate(StatsigFeatureGates.SHOW_POINTS)
     return (
       <View style={[styles.topElementsContainer, { marginRight: Spacing.Tiny4 }]}>
-        {showPoints && <PointsButton testID={'WalletHome/PointsButton'} />}
         <QrScanButton testID="WalletHome/QRScanButton" />
         <NotificationBell testID="WalletHome/NotificationBell" />
       </View>

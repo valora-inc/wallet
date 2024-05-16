@@ -39,6 +39,7 @@ import { currentLanguageSelector } from 'src/i18n/selectors'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
+import PointsDiscoverCard from 'src/points/PointsDiscoverCard'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { Colors } from 'src/styles/colors'
 import fontStyles, { typeScale } from 'src/styles/fonts'
@@ -235,6 +236,7 @@ function TabDiscover({ navigation }: Props) {
                   </Text>
                 }
                 <DappFeaturedActions onPressShowDappRankings={handleShowDappRankings} />
+                <PointsDiscoverCard />
                 <EarnCardDiscover
                   poolTokenId={networkConfig.aaveArbUsdcTokenId}
                   depositTokenId={networkConfig.arbUsdcTokenId}
