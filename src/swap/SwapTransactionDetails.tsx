@@ -211,10 +211,7 @@ export function SwapTransactionDetails({
           label={t('swapScreen.transactionDetails.appFee')}
           testID="SwapTransactionDetails/AppFee/MoreInfo"
         />
-        <Text
-          testID={'SwapTransactionDetails/AppFee'}
-          style={[styles.value, { fontWeight: '400' }]}
-        >
+        <Text testID={'SwapTransactionDetails/AppFee'} style={styles.value}>
           <Trans
             i18nKey={'swapScreen.transactionDetails.appFeeValue'}
             context={
@@ -238,11 +235,13 @@ export function SwapTransactionDetails({
               />
             )}
             {appFee && !!appFee.token.priceUsd && (
-              <TokenDisplay
-                amount={appFee.amount}
-                tokenId={appFee.token.tokenId}
-                showLocalAmount={false}
-              />
+              <Text style={styles.noBold}>
+                <TokenDisplay
+                  amount={appFee.amount}
+                  tokenId={appFee.token.tokenId}
+                  showLocalAmount={false}
+                />
+              </Text>
             )}
           </Trans>
         </Text>
@@ -281,6 +280,9 @@ const styles = StyleSheet.create({
     ...typeScale.bodyXSmall,
     color: colors.gray4,
     fontWeight: '600',
+  },
+  noBold: {
+    fontWeight: '400',
   },
   label: {
     ...typeScale.bodyXSmall,

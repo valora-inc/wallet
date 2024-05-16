@@ -1818,7 +1818,7 @@
       "swapFee": "{{appName}} Fee",
       "swapFeeWaived": "Free",
       "appFee": "{{appName}} Fee",
-      "appFeeValue": "<0></0> (<1></1>)",
+      "appFeeValue": "<0></0> <1>(<0></0>)</1>",
       "appFeeValue_withoutPriceUsd": "<0></0>",
       "appFeeValue_free": "Free",
       "appFeeValue_placeholder": "-",
