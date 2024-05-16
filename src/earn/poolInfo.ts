@@ -68,14 +68,14 @@ export async function fetchAaveRewards({
       contractAddress,
       network,
     })
-    const result = await publicClient[network].readContract({
+    const [rewardAddresses, rewardAmounts] = await publicClient[network].readContract({
       abi: aaveIncentivesV3Abi,
       address: contractAddress,
       functionName: 'getAllUserRewards',
       args: [[assetAddress], walletAddress],
     })
     const rewards: RewardsInfo[] = []
-    result[0].forEach((rewardAddress, index) => {
+    rewardAddresses.forEach((rewardAddress, index) => {
       const tokenInfo = allTokens.find(
         (token) => token.address === rewardAddress.toLowerCase() && token.networkId === networkId
       )
@@ -83,7 +83,7 @@ export async function fetchAaveRewards({
         Logger.warn(TAG, `Token info not found for rewards address ${rewardAddress}`)
       } else {
         rewards.push({
-          amount: formatUnits(result[1][index], tokenInfo.decimals),
+          amount: formatUnits(rewardAmounts[index], tokenInfo.decimals),
           tokenInfo,
         })
       }
