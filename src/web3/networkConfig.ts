@@ -92,6 +92,7 @@ interface NetworkConfig {
   saveContactsUrl: string
   getPointsConfigUrl: string
   arbAavePoolV3ContractAddress: Address
+  arbAaveIncentivesV3ContractAddress: Address
   aaveArbUsdcTokenId: string
 }
 
@@ -153,6 +154,10 @@ const AAVE_ARB_USDC_TOKEN_ID_MAINNET = `${NetworkId['arbitrum-one']}:0x724dc807b
 
 const ARB_AAVE_POOL_V3_CONTRACT_ADDRESS_STAGING = '0xBfC91D59fdAA134A4ED45f7B584cAf96D7792Eff'
 const ARB_AAVE_POOL_V3_CONTRACT_ADDRESS_MAINNET = '0x794a61358D6845594F94dc1DB02A252b5b4814aD'
+
+// also called rewards controller
+const ARB_AAVE_INCENTIVES_V3_CONTRACT_ADDRESS_STAGING = '0x3A203B14CF8749a1e3b7314c6c49004B77Ee667A'
+const ARB_AAVE_INCENTIVES_V3_CONTRACT_ADDRESS_MAINNET = '0x929EC64c34a17401F460460D4B9390518E5B473e'
 
 const CLOUD_FUNCTIONS_STAGING = 'https://api.alfajores.valora.xyz'
 const CLOUD_FUNCTIONS_MAINNET = 'https://api.mainnet.valora.xyz'
@@ -372,6 +377,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     saveContactsUrl: SAVE_CONTACTS_ALFAJORES,
     getPointsConfigUrl: GET_POINTS_CONFIG_ALFAJORES,
     arbAavePoolV3ContractAddress: ARB_AAVE_POOL_V3_CONTRACT_ADDRESS_STAGING,
+    arbAaveIncentivesV3ContractAddress: ARB_AAVE_INCENTIVES_V3_CONTRACT_ADDRESS_STAGING,
     aaveArbUsdcTokenId: AAVE_ARB_USDC_TOKEN_ID_STAGING,
   },
   [Testnets.mainnet]: {
@@ -468,6 +474,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     saveContactsUrl: SAVE_CONTACTS_MAINNET,
     getPointsConfigUrl: GET_POINTS_CONFIG_MAINNET,
     arbAavePoolV3ContractAddress: ARB_AAVE_POOL_V3_CONTRACT_ADDRESS_MAINNET,
+    arbAaveIncentivesV3ContractAddress: ARB_AAVE_INCENTIVES_V3_CONTRACT_ADDRESS_MAINNET,
     aaveArbUsdcTokenId: AAVE_ARB_USDC_TOKEN_ID_MAINNET,
   },
 }

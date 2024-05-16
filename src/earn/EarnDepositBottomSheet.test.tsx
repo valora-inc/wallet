@@ -12,7 +12,7 @@ import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import { createMockStore } from 'test/utils'
-import { mockARBTokenId, mockTokenBalances } from 'test/values'
+import { mockArbEthTokenId, mockTokenBalances } from 'test/values'
 
 jest.mock('src/statsig')
 
@@ -39,7 +39,7 @@ const mockPreparedTransaction: PreparedTransactionsPossible = {
     },
   ],
   feeCurrency: {
-    ...mockTokenBalances[mockARBTokenId],
+    ...mockTokenBalances[mockArbEthTokenId],
     isNative: true,
     balance: new BigNumber(10),
     priceUsd: new BigNumber(1),
@@ -70,7 +70,7 @@ describe('EarnDepositBottomSheet', () => {
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
           amount={'100'}
-          tokenId={mockARBTokenId}
+          tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
         />
       </Provider>
@@ -104,7 +104,7 @@ describe('EarnDepositBottomSheet', () => {
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
           amount={'100'}
-          tokenId={mockARBTokenId}
+          tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
         />
       </Provider>
@@ -117,7 +117,7 @@ describe('EarnDepositBottomSheet', () => {
         type: depositStart.type,
         payload: {
           amount: '100',
-          tokenId: mockARBTokenId,
+          tokenId: mockArbEthTokenId,
           preparedTransactions: getSerializablePreparedTransactions(
             mockPreparedTransaction.transactions
           ),
@@ -132,7 +132,7 @@ describe('EarnDepositBottomSheet', () => {
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
           amount={'100'}
-          tokenId={mockARBTokenId}
+          tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
         />
       </Provider>
@@ -148,7 +148,7 @@ describe('EarnDepositBottomSheet', () => {
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
           amount={'100'}
-          tokenId={mockARBTokenId}
+          tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
         />
       </Provider>
@@ -165,7 +165,7 @@ describe('EarnDepositBottomSheet', () => {
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
           amount={'100'}
-          tokenId={mockARBTokenId}
+          tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
         />
       </Provider>
@@ -188,7 +188,7 @@ describe('EarnDepositBottomSheet', () => {
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
           amount={'100'}
-          tokenId={mockARBTokenId}
+          tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
         />
       </Provider>
