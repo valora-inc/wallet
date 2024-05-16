@@ -80,7 +80,7 @@ interface Props {
   disableBalanceCheck?: boolean
   proceedComponentStatic?: boolean // If true, the ProceedComponent will stay right below the enter amount box, it will not move with the keyboard
   hideNetworkFee?: boolean
-  bottomSheets?: React.ReactNode[]
+  bottomSheets?: React.ReactNode
 }
 
 const TOKEN_SELECTOR_BORDER_RADIUS = 100
@@ -481,7 +481,7 @@ function EnterAmount({
         />
         <KeyboardSpacer />
       </KeyboardAwareScrollView>
-      {!!bottomSheets && { ...bottomSheets }}
+      {bottomSheets}
       <TokenBottomSheet
         forwardedRef={tokenBottomSheetRef}
         snapPoints={['90%']}

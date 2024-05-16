@@ -98,25 +98,24 @@ function EarnEnterAmount({ route }: Props) {
     infoBottomSheetRef.current?.snapToIndex(0)
   }
 
-  const bottomeSheets = [
-    <Text>{'abc'}</Text>,
-    <InfoBottomSheet infoBottomSheetRef={infoBottomSheetRef} />,
-    <EarnAddCryptoBottomSheet
-      forwardedRef={addCryptoBottomSheetRef}
-      token={token}
-      tokenAmount={tokenAmount.minus(token.balance)}
-    />,
-  ]
-  if (prepareTransactionsResult?.type === 'possible') {
-    bottomeSheets.push(
-      <EarnDepositBottomSheet
-        forwardedRef={reviewBottomSheetRef}
-        preparedTransaction={prepareTransactionsResult}
-        amount={tokenAmount.toString()}
-        tokenId={token.tokenId}
+  const bottomeSheets = (
+    <>
+      <InfoBottomSheet infoBottomSheetRef={infoBottomSheetRef} />
+      <EarnAddCryptoBottomSheet
+        forwardedRef={addCryptoBottomSheetRef}
+        token={token}
+        tokenAmount={tokenAmount.minus(token.balance)}
       />
-    )
-  }
+      {prepareTransactionsResult?.type === 'possible' && (
+        <EarnDepositBottomSheet
+          forwardedRef={reviewBottomSheetRef}
+          preparedTransaction={prepareTransactionsResult}
+          amount={tokenAmount.toString()}
+          tokenId={token.tokenId}
+        />
+      )}
+    </>
+  )
 
   return (
     <EnterAmount
@@ -134,6 +133,7 @@ function EarnEnterAmount({ route }: Props) {
       proceedComponentStatic={true}
       disableBalanceCheck={true}
       hideNetworkFee={true}
+      bottomSheets={bottomeSheets}
     />
   )
 }
