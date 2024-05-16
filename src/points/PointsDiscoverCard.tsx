@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { PointsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
@@ -15,11 +15,7 @@ import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
-interface Props {
-  style?: StyleProp<ViewStyle>
-}
-
-export default function PointsDiscoverCard({ style }: Props) {
+export default function PointsDiscoverCard() {
   const showPoints = getFeatureGate(StatsigFeatureGates.SHOW_POINTS)
 
   const { t } = useTranslation()
@@ -40,29 +36,38 @@ export default function PointsDiscoverCard({ style }: Props) {
   }
 
   return (
-    <Touchable onPress={handlePress} testID="PointsDiscoverCard">
-      <View style={[styles.container, style]}>
-        <View style={styles.header}>
-          <Text style={styles.title}>{t('points.discoverCard.title')}</Text>
-          <View style={styles.pill}>
-            <Text style={styles.balance}>{pointsBalance}</Text>
-            <LogoHeart size={16} />
+    <View style={styles.container}>
+      <Touchable
+        style={styles.touchable}
+        borderRadius={Spacing.Smallest8}
+        onPress={handlePress}
+        testID="PointsDiscoverCard"
+      >
+        <>
+          <View style={styles.header}>
+            <Text style={styles.title}>{t('points.discoverCard.title')}</Text>
+            <View style={styles.pill}>
+              <Text style={styles.balance}>{pointsBalance}</Text>
+              <LogoHeart size={Spacing.Regular16} />
+            </View>
           </View>
-        </View>
-        <Text style={styles.description}>{t('points.discoverCard.description')}</Text>
-      </View>
-    </Touchable>
+          <Text style={styles.description}>{t('points.discoverCard.description')}</Text>
+        </>
+      </Touchable>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
+    marginBottom: Spacing.Thick24,
+  },
+  touchable: {
     padding: Spacing.Regular16,
     gap: Spacing.Smallest8,
     borderColor: Colors.gray2,
     borderWidth: 1,
     borderRadius: Spacing.Smallest8,
-    marginBottom: Spacing.Thick24,
   },
   header: {
     flexDirection: 'row',
