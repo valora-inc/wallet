@@ -1,6 +1,7 @@
 import { differenceInDays } from 'date-fns'
 import { Actions as AppActions } from 'src/app/actions'
 import { Actions as HomeActions } from 'src/home/actions'
+import { retrieveSignedMessage } from 'src/pincode/authentication'
 import {
   nextPageUrlSelector,
   pendingPointsEvents,
@@ -171,9 +172,16 @@ export function* getPointsConfig() {
   }
 }
 
-export async function fetchTrackPointsEventsEndpoint(event: PointsEvent) {
-  return fetchWithTimeout(networkConfig.trackPointsEventUrl, {
+export function* fetchTrackPointsEventsEndpoint(event: PointsEvent) {
+  const address = yield* select(walletAddressSelector)
+  const signedMessage = yield* call(retrieveSignedMessage)
+
+  return yield* call(fetchWithTimeout, networkConfig.trackPointsEventUrl, {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: `Valora ${address}:${signedMessage}`,
+    },
     body: JSON.stringify(event),
   })
 }
