@@ -1820,6 +1820,15 @@
       "networkFeeNoNetwork": "Network Fee",
       "swapFee": "{{appName}} Fee",
       "swapFeeWaived": "Free",
+      "appFee": "{{appName}} Fee",
+      "appFeeValue": "<0></0> <1>(<0></0>)</1>",
+      "appFeeValue_withoutPriceUsd": "<0></0>",
+      "appFeeValue_free": "Free",
+      "appFeeValue_placeholder": "-",
+      "appFeeInfo": "{{appName}} Fee\n\nWe charge a fee to swap tokens on {{appName}}. The fee is {{appFeePercentage}}% of the amount you are exchanging.",
+      "appFeeInfo_free": "{{appName}} Fee\n\nThis swap is free of charge.",
+      "appFeeInfo_placeholder": "{{appName}} Fee\n\nThe fee is calculated based on the quote you receive.",
+      "appFeeInfoDismissButton": "Got it",
       "slippagePercentage": "Slippage Tolerance",
       "networkFeeInfo": "You are swapping on the {{networkName}} Network.\n\nThis estimated network fee is required to conduct a transaction on the {{networkName}} Network. This fee secures your transaction and goes towards keeping the network operational.",
       "networkFeeInfoV1_76": "You are swapping on the {{networkName}} Network.\n\nA network fee is required to conduct a transaction on the {{networkName}} Network. This fee secures your transaction and is paid to network validators.\n\nSince network conditions determine the exact amount, the listed estimate is what we expect the actual fee to be. The fee will not exceed the max fee amount.",
@@ -2332,6 +2341,15 @@
       "moreComing": {
         "title": "More coming soon!"
       }
+    },
+    "discoverCard": {
+      "title": "{{appName}} Points",
+      "description": "Earn points easily with {{appName}}. Using the app, including swapping, leads to points!"
+    },
+    "intro": {
+      "title": "Earn points effortlessly",
+      "description": "Jump into a new way to earn! Your {{appName}} actions now earn points. Start earning today and unlock awesome benefits.",
+      "cta": "Start your points journey"
     }
   },
   "earnFlow": {

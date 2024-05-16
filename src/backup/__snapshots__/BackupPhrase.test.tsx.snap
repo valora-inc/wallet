@@ -682,7 +682,7 @@ exports[`BackupPhrase renders correctly with backup not completed 1`] = `
               "color": "#666666",
               "fontFamily": "Inter-SemiBold",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
               "marginLeft": 0,
               "marginRight": 0,
             }

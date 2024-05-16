@@ -145,7 +145,6 @@ export default function PointsHome({ route, navigation }: Props) {
                 onPress={onPressActivity}
                 text={t('points.activity')}
                 type={BtnTypes.GRAY_WITH_BORDER}
-                fontStyle={typeScale.labelXSmall}
                 size={BtnSizes.FULL}
                 touchableStyle={styles.buttonStyle}
               />

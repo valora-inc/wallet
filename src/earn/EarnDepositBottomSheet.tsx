@@ -10,11 +10,13 @@ import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
+import { depositStatusSelector } from 'src/earn/selectors'
 import { depositStart } from 'src/earn/slice'
 import InfoIcon from 'src/icons/InfoIcon'
 import Logo from 'src/icons/Logo'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
@@ -43,6 +45,8 @@ export default function EarnDepositBottomSheet({
 }) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  const depositStatus = useSelector(depositStatusSelector)
+  const transactionSubmitted = depositStatus === 'started'
 
   const { estimatedFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(preparedTransaction)
 
@@ -141,6 +145,7 @@ export default function EarnDepositBottomSheet({
             type={BtnTypes.GRAY_WITH_BORDER}
             style={styles.cta}
             onPress={onPressCancel}
+            disabled={transactionSubmitted}
           />
           <Button
             testID="EarnDeposit/PrimaryCta"
@@ -148,6 +153,8 @@ export default function EarnDepositBottomSheet({
             text={t('earnFlow.depositBottomSheet.primaryCta')}
             style={styles.cta}
             onPress={onPressComplete}
+            disabled={transactionSubmitted}
+            showLoading={transactionSubmitted}
           />
         </View>
       </View>

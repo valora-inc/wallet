@@ -234,6 +234,7 @@ export function SwapScreen({ route }: Props) {
   const preparedTransactionsReviewBottomSheetRef = useRef<BottomSheetRefType>(null)
   const exchangeRateInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const networkFeeInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const appFeeInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const slippageInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const fundYourWalletBottomSheetRef = useRef<BottomSheetRefType>(null)
   const tokensWithBalance = useTokensWithTokenBalance()
@@ -648,9 +649,19 @@ export function SwapScreen({ route }: Props) {
     return getNetworkFee(quote, fromToken?.networkId)
   }, [fromToken, quote])
 
-  const appFeePercentage = quote?.appFeePercentageIncludedInPrice
-    ? new BigNumber(quote.appFeePercentageIncludedInPrice)
-    : undefined
+  const appFee = useMemo(() => {
+    if (!quote || !fromToken) {
+      return undefined
+    }
+
+    const percentage = new BigNumber(quote.appFeePercentageIncludedInPrice || 0)
+
+    return {
+      amount: parsedSwapAmount[Field.FROM].multipliedBy(percentage).dividedBy(100),
+      token: fromToken,
+      percentage,
+    }
+  }, [quote, parsedSwapAmount, fromToken])
 
   useEffect(() => {
     if (showPriceImpactWarning || showMissingPriceImpactWarning) {
@@ -763,10 +774,11 @@ export function SwapScreen({ route }: Props) {
             fromToken={fromToken}
             toToken={toToken}
             exchangeRatePrice={quote?.price}
+            exchangeRateInfoBottomSheetRef={exchangeRateInfoBottomSheetRef}
             swapAmount={parsedSwapAmount[Field.FROM]}
             fetchingSwapQuote={quoteUpdatePending}
-            enableAppFee={enableAppFee}
-            exchangeRateInfoBottomSheetRef={exchangeRateInfoBottomSheetRef}
+            appFee={appFee}
+            appFeeInfoBottomSheetRef={appFeeInfoBottomSheetRef}
           />
           {showSwitchedToNetworkWarning && (
             <InLineNotification
@@ -882,10 +894,10 @@ export function SwapScreen({ route }: Props) {
       <BottomSheet
         forwardedRef={exchangeRateInfoBottomSheetRef}
         description={t('swapScreen.transactionDetails.exchangeRateInfo', {
-          context: appFeePercentage?.isGreaterThan(0) ? 'withAppFee' : '',
+          context: appFee?.percentage?.isGreaterThan(0) ? 'withAppFee' : '',
           networkName: NETWORK_NAMES[fromToken?.networkId || networkConfig.defaultNetworkId],
           slippagePercentage: parsedSlippagePercentage,
-          appFeePercentage: appFeePercentage?.toFormat(),
+          appFeePercentage: appFee?.percentage?.toFormat(),
         })}
         testId="ExchangeRateInfoBottomSheet"
       >
@@ -914,6 +926,30 @@ export function SwapScreen({ route }: Props) {
             networkFeeInfoBottomSheetRef.current?.close()
           }}
           text={t('swapScreen.transactionDetails.networkFeeInfoDismissButton')}
+        />
+      </BottomSheet>
+      <BottomSheet
+        forwardedRef={appFeeInfoBottomSheetRef}
+        description={t('swapScreen.transactionDetails.appFeeInfo', {
+          networkName: NETWORK_NAMES[fromToken?.networkId || networkConfig.defaultNetworkId],
+          context:
+            !appFee || fetchingSwapQuote
+              ? 'placeholder'
+              : appFee.percentage.isLessThanOrEqualTo(0)
+                ? 'free'
+                : undefined,
+          appFeePercentage: appFee?.percentage?.toFormat(),
+        })}
+        testId="AppFeeInfoBottomSheet"
+      >
+        <Button
+          type={BtnTypes.SECONDARY}
+          size={BtnSizes.FULL}
+          style={styles.bottomSheetButton}
+          onPress={() => {
+            appFeeInfoBottomSheetRef.current?.close()
+          }}
+          text={t('swapScreen.transactionDetails.appFeeInfoDismissButton')}
         />
       </BottomSheet>
       <BottomSheet
