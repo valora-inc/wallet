@@ -40,7 +40,7 @@ export default function PointsHome({ route, navigation }: Props) {
   }
 
   return (
-    <SafeAreaView style={styles.outerContainer} edges={['top']}>
+    <SafeAreaView style={styles.outerContainer}>
       <CustomHeader style={styles.header} left={<BackButton />} />
       <View style={styles.container}>
         <View style={styles.content}>
@@ -57,7 +57,6 @@ export default function PointsHome({ route, navigation }: Props) {
 const styles = StyleSheet.create({
   outerContainer: {
     flex: 1,
-    paddingBottom: Spacing.Thick24,
   },
   header: {
     paddingHorizontal: Spacing.Thick24,
