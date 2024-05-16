@@ -114,7 +114,7 @@ function TransactionDetailsScreen({ route }: Props) {
     case TokenTransactionTypeV2.EarnClaimReward:
     case TokenTransactionTypeV2.EarnWithdraw:
     case TokenTransactionTypeV2.EarnDeposit:
-      content = null //TODO details for Earn
+      content = null //TODO (act-1198): details for Earn
       break
     case TokenTransactionTypeV2.Approval:
       content = <TokenApprovalDetails transaction={transaction as TokenApproval} />
