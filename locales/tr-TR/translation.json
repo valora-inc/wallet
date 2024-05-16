@@ -1821,8 +1821,8 @@
       "appFeeValue_free": "Ücretsiz",
       "appFeeValue_placeholder": "-",
       "appFeeInfo": "{{appName}} Ücret\n\nJetonları {{appName}}adresinde takas etmek için bir ücret alıyoruz. Ücret, takas ettiğiniz miktarın {{appFeePercentage}}%'sidir.",
-      "appFeeInfo_free": "{{appName}} Fee\n\nThis swap is free of charge.",
-      "appFeeInfo_placeholder": "{{appName}} Fee\n\nThe fee is calculated based on the quote you receive.",
+      "appFeeInfo_free": "{{appName}} Ücret\n\nBu takas ücretsizdir.",
+      "appFeeInfo_placeholder": "{{appName}} Ücret\n\nÜcret, aldığınız teklife göre hesaplanır.",
       "appFeeInfoDismissButton": "Anladım",
       "slippagePercentage": "Slipaj Toleransı",
       "networkFeeInfo": "{{networkName}} Ağında swap işlemi yapıyorsunuz.\n\nBu tahmini ağ ücreti, {{networkName}} Ağında bir işlem gerçekleştirmek için gereklidir. Bu ücret işleminizi güvence altına alır ve ağın çalışır durumda kalmasını sağlar.",
@@ -2336,6 +2336,15 @@
       "moreComing": {
         "title": "Daha fazlası yakında!"
       }
+    },
+    "discoverCard": {
+      "title": "{{appName}} Puanlar",
+      "description": "{{appName}}ile kolayca puan kazanın. Takas da dahil olmak üzere uygulamayı kullanmak puan kazandırır!"
+    },
+    "intro": {
+      "title": "Zahmetsizce puan kazanın",
+      "description": "Kazanmak için yeni bir yola girin! {{appName}} eylemleriniz artık puan kazandırıyor. Bugün kazanmaya başlayın ve harika avantajların kilidini açın.",
+      "cta": "Puan yolculuğunuza başlayın"
     }
   },
   "earnFlow": {
