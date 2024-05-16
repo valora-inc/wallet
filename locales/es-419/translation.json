@@ -1821,8 +1821,8 @@
       "appFeeValue_free": "Gratis",
       "appFeeValue_placeholder": "-",
       "appFeeInfo": "{{appName}} Comisión\n\nCobramos una comisión por intercambiar fichas en {{appName}}. La comisión es {{appFeePercentage}}% de la cantidad que intercambies.",
-      "appFeeInfo_free": "{{appName}} Fee\n\nThis swap is free of charge.",
-      "appFeeInfo_placeholder": "{{appName}} Fee\n\nThe fee is calculated based on the quote you receive.",
+      "appFeeInfo_free": "{{appName}} Tarifa\n\nEste intercambio es gratuito.",
+      "appFeeInfo_placeholder": "{{appName}} Tarifa\n\nLa tarifa se calcula en función del presupuesto que recibas.",
       "appFeeInfoDismissButton": "Entendido",
       "slippagePercentage": "Tolerancia al slippage",
       "networkFeeInfo": "Estás intercambiando en la red {{networkName}}.\n\nSe requiere esta tarifa de red estimada para realizar una transacción en la red {{networkName}}. Esta tarifa asegura tu transacción y se destina a mantener la red.",
@@ -2336,6 +2336,15 @@
       "moreComing": {
         "title": "¡Pronto más!"
       }
+    },
+    "discoverCard": {
+      "title": "{{appName}} Puntos",
+      "description": "Gana puntos fácilmente con {{appName}}. Utilizar la aplicación, incluidos los intercambios, ¡conlleva puntos!"
+    },
+    "intro": {
+      "title": "Gana puntos sin esfuerzo",
+      "description": "¡Entra en una nueva forma de ganar! Tus acciones en {{appName}} ahora ganan puntos. Empieza a ganar hoy y desbloquea increíbles ventajas.",
+      "cta": "Comienza tu viaje por los puntos"
     }
   },
   "earnFlow": {
