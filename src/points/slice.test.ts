@@ -1,6 +1,5 @@
 import reducer, {
   PendingPointsEvent,
-  State,
   initialState,
   pointsEventProcessed,
   pointsIntroDismissed,
@@ -63,8 +62,6 @@ describe('pending points events', () => {
   })
 
   it('should set intro has been seen', () => {
-    const initialState = { introHasBeenDismissed: false } as unknown as State
-
     const newState = reducer(initialState, pointsIntroDismissed())
 
     expect(newState.introHasBeenDismissed).toEqual(true)

@@ -31,11 +31,11 @@ const renderPointsDiscoverCard = (storeOverrides?: RecursivePartial<RootState>) 
 describe('PointsDiscoverCard', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+
+    jest.mocked(getFeatureGate).mockReturnValue(true)
   })
 
   it('renders when feature gate is enabled', () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
-
     const { getByText } = renderPointsDiscoverCard({ points: { pointsBalance: 'BALANCE_AMOUNT' } })
 
     expect(getByText('points.discoverCard.title')).toBeTruthy()
@@ -53,8 +53,6 @@ describe('PointsDiscoverCard', () => {
   })
 
   it('tracks analytics event when pressed', () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
-
     const { getByText } = renderPointsDiscoverCard()
 
     fireEvent.press(getByText('points.discoverCard.title'))
@@ -62,8 +60,6 @@ describe('PointsDiscoverCard', () => {
   })
 
   it('takes to the points intro screen if it has not been dismissed', () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
-
     const { getByText } = renderPointsDiscoverCard()
 
     fireEvent.press(getByText('points.discoverCard.title'))
@@ -71,8 +67,6 @@ describe('PointsDiscoverCard', () => {
   })
 
   it('takes to the points home screen if intro has been dismissed', () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
-
     const { getByText } = renderPointsDiscoverCard({ points: { introHasBeenDismissed: true } })
 
     fireEvent.press(getByText('points.discoverCard.title'))
