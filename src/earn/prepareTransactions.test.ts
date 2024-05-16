@@ -3,6 +3,8 @@ import { FetchMock } from 'jest-fetch-mock/types'
 import aavePool from 'src/abis/AavePoolV3'
 import erc20 from 'src/abis/IERC20'
 import { prepareSupplyTransactions } from 'src/earn/prepareTransactions'
+import { getDynamicConfigParams } from 'src/statsig'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { Network, NetworkId } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
@@ -36,6 +38,7 @@ const mockToken: TokenBalance = {
   networkId: NetworkId['arbitrum-sepolia'],
 }
 
+jest.mock('src/statsig')
 jest.mock('src/viem/prepareTransactions')
 jest.mock('viem', () => ({
   ...jest.requireActual('viem'),
@@ -52,6 +55,12 @@ describe('prepareTransactions', () => {
     }))
     jest.spyOn(publicClient[Network.Arbitrum], 'readContract').mockResolvedValue(BigInt(0))
     jest.mocked(encodeFunctionData).mockReturnValue('0xencodedData')
+    jest.mocked(getDynamicConfigParams).mockImplementation(({ configName, defaultValues }) => {
+      if (configName === StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG) {
+        return { ...defaultValues, depositGasPadding: 100 }
+      }
+      return defaultValues
+    })
   })
 
   describe('prepareSupplyTransactions', () => {
@@ -101,7 +110,7 @@ describe('prepareTransactions', () => {
           from: '0x1234',
           to: '0x5678',
           data: '0xencodedData',
-          gas: BigInt(50000),
+          gas: BigInt(50100),
           _estimatedGasUse: BigInt(49800),
         },
       ]
@@ -164,7 +173,7 @@ describe('prepareTransactions', () => {
           from: '0x1234',
           to: '0x5678',
           data: '0xencodedData',
-          gas: BigInt(50000),
+          gas: BigInt(50100),
           _estimatedGasUse: BigInt(49800),
         },
       ]

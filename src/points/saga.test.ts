@@ -4,6 +4,7 @@ import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
+import { select } from 'redux-saga/effects'
 import { Actions as AppActions } from 'src/app/actions'
 import * as pointsSaga from 'src/points/saga'
 import {
@@ -16,6 +17,7 @@ import {
   sendPointsEvent,
   watchAppMounted,
 } from 'src/points/saga'
+import { trackOnceActivitiesSelector } from 'src/points/selectors'
 import pointsReducer, {
   PendingPointsEvent,
   getHistoryError,
@@ -392,6 +394,7 @@ describe('sendPointsEvent', () => {
     return expectSaga(sendPointsEvent, mockAction)
       .provide([
         [matchers.call.fn(pointsSaga.fetchTrackPointsEventsEndpoint), mockServerSuccessResponse],
+        [select(trackOnceActivitiesSelector), { 'create-wallet': false }],
       ])
       .put(
         sendPointsEventStarted({
@@ -410,6 +413,7 @@ describe('sendPointsEvent', () => {
     await expectSaga(sendPointsEvent, mockAction)
       .provide([
         [matchers.call.fn(pointsSaga.fetchTrackPointsEventsEndpoint), mockServerErrorResponse],
+        [select(trackOnceActivitiesSelector), { 'create-wallet': false }],
       ])
       .put(
         sendPointsEventStarted({
@@ -429,12 +433,22 @@ describe('sendPointsEvent', () => {
       mockServerErrorMessage
     )
   })
+
+  it('should ignore any track once activities that were already tracked', async () => {
+    const mockAction = trackPointsEvent({ activityId: 'create-wallet' })
+
+    return expectSaga(sendPointsEvent, mockAction)
+      .provide([[select(trackOnceActivitiesSelector), { 'create-wallet': true }]])
+      .not.put(sendPointsEventStarted(expect.anything()))
+      .not.call(fetchTrackPointsEventsEndpoint)
+      .not.put(pointsEventProcessed(expect.anything()))
+      .run()
+  })
 })
 
 describe('sendPendingPointsEvents', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-
     jest.useFakeTimers({ now: new Date(mockTime).getTime() })
   })
 

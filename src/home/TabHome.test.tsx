@@ -127,8 +127,8 @@ describe('TabHome', () => {
     })
 
     // Multiple elements use this text with the scroll aware header
-    expect(tree.queryAllByText('bottomTabsNavigator.home.title')).toBeTruthy()
-    expect(tree.queryByTestId('HomeActionsCarousel')).toBeTruthy()
+    expect(tree.getAllByText('bottomTabsNavigator.home.title')).toBeTruthy()
+    expect(tree.getByTestId('HomeActionsCarousel')).toBeTruthy()
     expect(tree.queryByText('notificationCenterSpotlight.message')).toBeFalsy()
     expect(tree.queryByTestId('HomeTokenBalance')).toBeFalsy()
     expect(tree.queryByTestId('cashInBtn')).toBeFalsy()
@@ -137,6 +137,7 @@ describe('TabHome', () => {
         'HOME/VISIT_HOME',
         'HOME/REFRESH_BALANCES',
         'IDENTITY/IMPORT_CONTACTS',
+        'points/trackPointsEvent',
       ])
     )
   })
