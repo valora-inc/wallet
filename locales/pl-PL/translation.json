@@ -1825,8 +1825,8 @@
       "appFeeValue_free": "Bezpłatnie",
       "appFeeValue_placeholder": "-",
       "appFeeInfo": "{{appName}} Opłata\n\nPobieramy opłatę za wymianę tokenów na {{appName}}. Opłata wynosi {{appFeePercentage}}% kwoty, którą wymieniasz.",
-      "appFeeInfo_free": "{{appName}} Fee\n\nThis swap is free of charge.",
-      "appFeeInfo_placeholder": "{{appName}} Fee\n\nThe fee is calculated based on the quote you receive.",
+      "appFeeInfo_free": "{{appName}} Opłata\n\nTa wymiana jest bezpłatna.",
+      "appFeeInfo_placeholder": "{{appName}} Opłata\n\nOpłata jest obliczana na podstawie otrzymanej wyceny.",
       "appFeeInfoDismissButton": "Rozumiem",
       "slippagePercentage": "Tolerancja poślizgu",
       "networkFeeInfo": "Dokonujesz wymiany w sieci {{networkName}}.\n\nTa szacunkowa opłata sieciowa jest wymagana do przeprowadzenia transakcji w sieci {{networkName}}. Opłata ta zabezpiecza Twoją transakcję i przeznaczana jest na utrzymanie działania sieci.",
@@ -2340,6 +2340,15 @@
       "moreComing": {
         "title": "Więcej już wkrótce!"
       }
+    },
+    "discoverCard": {
+      "title": "{{appName}} Punkty",
+      "description": "Łatwo zdobywaj punkty dzięki {{appName}}. Korzystanie z aplikacji, w tym wymiana, prowadzi do zdobywania punktów!"
+    },
+    "intro": {
+      "title": "Zdobywaj punkty bez wysiłku",
+      "description": "Poznaj nowy sposób zarabiania! Twoje działania na {{appName}} przynoszą teraz punkty. Zacznij zarabiać już dziś i odblokuj niesamowite korzyści.",
+      "cta": "Rozpocznij swoją podróż po punkty"
     }
   },
   "earnFlow": {
