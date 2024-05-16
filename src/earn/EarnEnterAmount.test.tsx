@@ -165,6 +165,11 @@ describe('EarnEnterAmount', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       EarnEvents.earn_enter_amount_continue_press,
       {
+        amountEnteredIn: 'token',
+        amountInUsd: '8',
+        networkId: NetworkId['arbitrum-sepolia'],
+        tokenAmount: '8',
+        tokenId: networkConfig.arbUsdcTokenId,
         userHasFunds: true,
       }
     )
@@ -191,6 +196,11 @@ describe('EarnEnterAmount', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       EarnEvents.earn_enter_amount_continue_press,
       {
+        amountEnteredIn: 'token',
+        amountInUsd: '12',
+        networkId: NetworkId['arbitrum-sepolia'],
+        tokenAmount: '12',
+        tokenId: networkConfig.arbUsdcTokenId,
         userHasFunds: false,
       }
     )

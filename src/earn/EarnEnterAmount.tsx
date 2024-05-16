@@ -243,7 +243,6 @@ function InfoBottomSheet({
     <BottomSheet
       forwardedRef={infoBottomSheetRef}
       title={t('earnFlow.enterAmount.infoBottomSheet.title')}
-      description={t('earnFlow.enterAmount.infoBottomSheet.description')}
       testId={'Earn/EnterAmount/InfoBottomSheet'}
       titleStyle={styles.infoBottomSheetTitle}
     >
@@ -272,7 +271,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderWidth: 1,
     borderColor: Colors.gray2,
-    marginTop: Spacing.Thick24,
+    marginTop: 20,
   },
   line: {
     flexDirection: 'row',
@@ -314,7 +313,7 @@ const styles = StyleSheet.create({
   },
   infoBottomSheetText: {
     ...typeScale.bodySmall,
-    marginVertical: Spacing.Regular16,
+    marginBottom: Spacing.Thick24,
   },
   linkText: {
     textDecorationLine: 'underline',

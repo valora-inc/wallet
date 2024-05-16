@@ -305,7 +305,7 @@ function EnterAmount({
   const disabled =
     disableProceed ||
     (disableBalanceCheck
-      ? !!tokenAmount?.lte(token.balance) && !transactionIsPossible // Should disable if the user has enough balance but the transaction is not possible (also catches 0 case), shouldn't disable if they enter an amount larger than their balance as they will go to add flow
+      ? !!tokenAmount?.isZero() || (!!tokenAmount?.lte(token.balance) && !transactionIsPossible) // Should disable if the user enters 0 or has enough balance but the transaction is not possible, shouldn't disable if they enter an amount larger than their balance as they will go to add flow
       : !transactionIsPossible)
 
   const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency ?? feeCurrencies[0]
@@ -454,7 +454,10 @@ function EnterAmount({
             description={t('sendEnterAmountScreen.notEnoughBalanceForGasWarning.description', {
               feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
             })}
-            style={styles.warning}
+            style={[
+              styles.warning,
+              hideNetworkFee && { marginTop: Spacing.Regular16, marginBottom: 0 },
+            ]}
             testID="SendEnterAmount/NotEnoughForGasWarning"
           />
         )}
