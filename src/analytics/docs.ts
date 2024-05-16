@@ -599,7 +599,8 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [EarnEvents.earn_deposit_cancel]: `When a user taps on the cancel button on the deposit bottom sheet`,
   [EarnEvents.earn_view_pools_press]: `When the user taps on the view pools button from token details`,
   [EarnEvents.earn_enter_amount_info_press]: `When a user taps on the info icon on the earn enter amount screen`,
-  [EarnEvents.earn_enter_amount_continue_press]: `When a user taps continue on the earn enter amount screen`,
+  [EarnEvents.earn_enter_amount_continue_press]: `When a user taps continue on the earn enter amount`,
+  [EarnEvents.earn_enter_amount_info_more_pools]: `When a user taps to see other Aave pools`,
 
   // Legacy event docs
   //  The below events had docs, but are no longer produced by the latest app version.

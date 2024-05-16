@@ -73,12 +73,14 @@ interface Props {
   tokenSelectionDisabled?: boolean
   onPressProceed(args: ProceedArgs): void
   onPressInfo?(): void
-  onSetTokenAmount?(amount: BigNumber): void
+  onChangeTokenAmount?(amount: BigNumber): void
   disableProceed?: boolean
   children?: React.ReactNode
   ProceedComponent: ComponentType<ProceedComponentProps>
   disableBalanceCheck?: boolean
-  proceedComponentStatic?: boolean
+  proceedComponentStatic?: boolean // If true, the ProceedComponent will stay right below the enter amount box, it will not move with the keyboard
+  hideNetworkFee?: boolean
+  bottomSheets?: React.ReactNode[]
 }
 
 const TOKEN_SELECTOR_BORDER_RADIUS = 100
@@ -155,12 +157,14 @@ function EnterAmount({
   tokenSelectionDisabled = false,
   onPressProceed,
   onPressInfo,
-  onSetTokenAmount,
+  onChangeTokenAmount,
   disableProceed = false,
   children,
   ProceedComponent,
   disableBalanceCheck = false,
   proceedComponentStatic = false,
+  hideNetworkFee = false,
+  bottomSheets,
 }: Props) {
   const { t } = useTranslation()
 
@@ -231,8 +235,8 @@ function EnterAmount({
   const localToToken = useLocalToTokenAmount(parsedLocalAmount, token.tokenId)
   const { tokenAmount, localAmount } = useMemo(() => {
     if (enteredIn === 'token') {
-      if (onSetTokenAmount) {
-        onSetTokenAmount(parsedTokenAmount)
+      if (onChangeTokenAmount) {
+        onChangeTokenAmount(parsedTokenAmount)
       }
       setLocalAmountInput(
         tokenToLocal && tokenToLocal.gt(0)
@@ -252,8 +256,8 @@ function EnterAmount({
               .replace(new RegExp(`[${decimalSeparator}]?0+$`), '')
           : ''
       )
-      if (onSetTokenAmount) {
-        onSetTokenAmount(localToToken ?? new BigNumber(0))
+      if (onChangeTokenAmount) {
+        onChangeTokenAmount(localToToken ?? new BigNumber(0))
       }
       return {
         tokenAmount: localToToken,
@@ -301,7 +305,7 @@ function EnterAmount({
   const disabled =
     disableProceed ||
     (disableBalanceCheck
-      ? !!tokenAmount?.isZero() || (!!tokenAmount?.lte(token.balance) && !transactionIsPossible)
+      ? !!tokenAmount?.lte(token.balance) && !transactionIsPossible // Should disable if the user has enough balance but the transaction is not possible (also catches 0 case), shouldn't disable if they enter an amount larger than their balance as they will go to add flow
       : !transactionIsPossible)
 
   const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency ?? feeCurrencies[0]
@@ -359,11 +363,10 @@ function EnterAmount({
     <SafeAreaView style={styles.safeAreaContainer}>
       <CustomHeader style={{ paddingHorizontal: Spacing.Thick24 }} left={<BackButton />} />
       <KeyboardAwareScrollView
-        contentContainerStyle={
-          proceedComponentStatic
-            ? styles.contentContainer
-            : { ...styles.contentContainer, flexGrow: 1 }
-        }
+        contentContainerStyle={[
+          styles.contentContainer,
+          !proceedComponentStatic && { flexGrow: 1 },
+        ]}
       >
         <View style={styles.inputContainer}>
           <Text style={styles.title}>{t('sendEnterAmountScreen.title')}</Text>
@@ -419,7 +422,7 @@ function EnterAmount({
               )}
             </View>
           </View>
-          {!disableBalanceCheck && (
+          {!hideNetworkFee && (
             <View style={styles.feeContainer}>
               <Text style={styles.feeLabel}>
                 {t('sendEnterAmountScreen.networkFee', {
@@ -465,6 +468,8 @@ function EnterAmount({
           />
         )}
 
+        {children}
+
         <ProceedComponent
           tokenAmount={tokenAmount}
           localAmount={localAmount}
@@ -476,6 +481,7 @@ function EnterAmount({
         />
         <KeyboardSpacer />
       </KeyboardAwareScrollView>
+      {!!bottomSheets && { ...bottomSheets }}
       <TokenBottomSheet
         forwardedRef={tokenBottomSheetRef}
         snapPoints={['90%']}
@@ -486,7 +492,6 @@ function EnterAmount({
         TokenOptionComponent={TokenBalanceItemOption}
         titleStyle={styles.title}
       />
-      {children}
     </SafeAreaView>
   )
 }

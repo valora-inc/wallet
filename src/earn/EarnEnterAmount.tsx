@@ -2,7 +2,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useRef, useState } from 'react'
 import { useAsync } from 'react-async-hook'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -15,10 +15,11 @@ import { fetchAavePoolInfo } from 'src/earn/poolInfo'
 import { usePrepareSupplyTransactions } from 'src/earn/prepareTransactions'
 import InfoIcon from 'src/icons/InfoIcon'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useSelector } from 'src/redux/hooks'
-import EnterAmount, { ProceedComponentProps } from 'src/send/EnterAmount'
+import EnterAmount, { ProceedArgs, ProceedComponentProps } from 'src/send/EnterAmount'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -78,9 +79,14 @@ function EarnEnterAmount({ route }: Props) {
     return null
   }
 
-  const onPressContinue = () => {
+  const onPressContinue = ({ tokenAmount, token, amountEnteredIn }: ProceedArgs) => {
     ValoraAnalytics.track(EarnEvents.earn_enter_amount_continue_press, {
       userHasFunds: token.balance?.gte(tokenAmount),
+      tokenAmount: tokenAmount.toString(),
+      amountInUsd: tokenAmount.multipliedBy(token.priceUsd ?? 0).toFixed(2),
+      amountEnteredIn,
+      tokenId: token.tokenId,
+      networkId: token.networkId,
     })
     tokenAmount?.gt(token.balance)
       ? addCryptoBottomSheetRef.current?.snapToIndex(0)
@@ -90,6 +96,26 @@ function EarnEnterAmount({ route }: Props) {
   const onPressInfo = () => {
     ValoraAnalytics.track(EarnEvents.earn_enter_amount_info_press)
     infoBottomSheetRef.current?.snapToIndex(0)
+  }
+
+  const bottomeSheets = [
+    <Text>{'abc'}</Text>,
+    <InfoBottomSheet infoBottomSheetRef={infoBottomSheetRef} />,
+    <EarnAddCryptoBottomSheet
+      forwardedRef={addCryptoBottomSheetRef}
+      token={token}
+      tokenAmount={tokenAmount.minus(token.balance)}
+    />,
+  ]
+  if (prepareTransactionsResult?.type === 'possible') {
+    bottomeSheets.push(
+      <EarnDepositBottomSheet
+        forwardedRef={reviewBottomSheetRef}
+        preparedTransaction={prepareTransactionsResult}
+        amount={tokenAmount.toString()}
+        tokenId={token.tokenId}
+      />
+    )
   }
 
   return (
@@ -103,26 +129,12 @@ function EarnEnterAmount({ route }: Props) {
       tokenSelectionDisabled={true}
       onPressProceed={onPressContinue}
       onPressInfo={onPressInfo}
-      onSetTokenAmount={(amount: BigNumber) => setTokenAmount(amount)}
+      onChangeTokenAmount={(amount: BigNumber) => setTokenAmount(amount)}
       ProceedComponent={EarnProceed}
       proceedComponentStatic={true}
       disableBalanceCheck={true}
-    >
-      <InfoBottomSheet infoBottomSheetRef={infoBottomSheetRef} />
-      <EarnAddCryptoBottomSheet
-        forwardedRef={addCryptoBottomSheetRef}
-        token={token}
-        tokenAmount={tokenAmount.minus(token.balance)}
-      />
-      {prepareTransactionsResult && prepareTransactionsResult.type === 'possible' && (
-        <EarnDepositBottomSheet
-          forwardedRef={reviewBottomSheetRef}
-          preparedTransaction={prepareTransactionsResult}
-          amount={tokenAmount.toString()}
-          tokenId={token.tokenId}
-        />
-      )}
-    </EnterAmount>
+      hideNetworkFee={true}
+    />
   )
 }
 
@@ -132,8 +144,8 @@ function EarnProceed({
   token,
   amountEnteredIn,
   disabled,
-  onPressProceed,
   onPressInfo,
+  onPressProceed,
 }: ProceedComponentProps) {
   const { t } = useTranslation()
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
@@ -222,6 +234,10 @@ function InfoBottomSheet({
   const onPressDismiss = () => {
     infoBottomSheetRef.current?.close()
   }
+  const onPressMorePools = () => {
+    ValoraAnalytics.track(EarnEvents.earn_enter_amount_info_more_pools)
+    navigate(Screens.WebViewScreen, { uri: 'https://app.aave.com/markets/' })
+  }
 
   return (
     <BottomSheet
@@ -229,14 +245,22 @@ function InfoBottomSheet({
       title={t('earnFlow.enterAmount.infoBottomSheet.title')}
       description={t('earnFlow.enterAmount.infoBottomSheet.description')}
       testId={'Earn/EnterAmount/InfoBottomSheet'}
-      titleStyle={styles.infoTitle}
+      titleStyle={styles.infoBottomSheetTitle}
     >
+      <Text style={styles.infoBottomSheetText}>
+        <Trans i18nKey="earnFlow.enterAmount.infoBottomSheet.description">
+          <Text
+            testID={'Earn/EnterAmount/InfoBottomSheet/Link'}
+            onPress={onPressMorePools}
+            style={styles.linkText}
+          />
+        </Trans>
+      </Text>
       <Button
         onPress={onPressDismiss}
         text={t('earnFlow.enterAmount.infoBottomSheet.dismiss')}
         size={BtnSizes.FULL}
         type={BtnTypes.GRAY_WITH_BORDER}
-        style={{ marginTop: Spacing.Regular16 }}
       />
     </BottomSheet>
   )
@@ -284,9 +308,16 @@ const styles = StyleSheet.create({
     ...typeScale.bodyXSmall,
     color: Colors.gray4,
   },
-  infoTitle: {
+  infoBottomSheetTitle: {
     ...typeScale.titleSmall,
     color: Colors.black,
+  },
+  infoBottomSheetText: {
+    ...typeScale.bodySmall,
+    marginVertical: Spacing.Regular16,
+  },
+  linkText: {
+    textDecorationLine: 'underline',
   },
 })
 

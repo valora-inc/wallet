@@ -1584,7 +1584,15 @@ interface EarnEventsProperties {
   [EarnEvents.earn_deposit_cancel]: undefined
   [EarnEvents.earn_view_pools_press]: undefined
   [EarnEvents.earn_enter_amount_info_press]: undefined
-  [EarnEvents.earn_enter_amount_continue_press]: { userHasFunds: boolean }
+  [EarnEvents.earn_enter_amount_continue_press]: {
+    userHasFunds: boolean
+    tokenAmount: string | null
+    amountInUsd: string | null
+    amountEnteredIn: AmountEnteredIn
+    tokenId: string | null
+    networkId: string | null
+  }
+  [EarnEvents.earn_enter_amount_info_more_pools]: undefined
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &
