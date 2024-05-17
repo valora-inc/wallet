@@ -336,13 +336,13 @@ describe('prepareTransactions', () => {
       })
       expect(encodeFunctionData).toHaveBeenCalledWith({
         abi: aaveIncentivesV3Abi,
-        functionName: 'claimRewards',
-        args: [['0x5678'], BigInt(2e15), '0x1234', mockArbArbAddress],
+        functionName: 'claimRewardsToSelf',
+        args: [['0x5678'], BigInt(2e15), mockArbArbAddress],
       })
       expect(encodeFunctionData).toHaveBeenCalledWith({
         abi: aaveIncentivesV3Abi,
-        functionName: 'claimRewards',
-        args: [['0x5678'], BigInt(3000), '0x1234', mockTokenAddress],
+        functionName: 'claimRewardsToSelf',
+        args: [['0x5678'], BigInt(3000), mockTokenAddress],
       })
       expect(prepareTransactions).toHaveBeenCalledWith({
         baseTransactions: expectedTransactions,

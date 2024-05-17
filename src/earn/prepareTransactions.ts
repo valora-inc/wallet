@@ -181,8 +181,8 @@ export async function prepareWithdrawAndClaimTransactions({
       to: networkConfig.arbAaveIncentivesV3ContractAddress,
       data: encodeFunctionData({
         abi: aaveIncentivesV3Abi,
-        functionName: 'claimRewards',
-        args: [[poolTokenAddress], amountToClaim, walletAddress, tokenInfo.address],
+        functionName: 'claimRewardsToSelf',
+        args: [[poolTokenAddress], amountToClaim, tokenInfo.address],
       }),
     })
   })
