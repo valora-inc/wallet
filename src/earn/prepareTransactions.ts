@@ -1,7 +1,9 @@
 import BigNumber from 'bignumber.js'
 import { useAsyncCallback } from 'react-async-hook'
+import aaveIncentivesV3Abi from 'src/abis/AaveIncentivesV3'
 import aavePool from 'src/abis/AavePoolV3'
 import erc20 from 'src/abis/IERC20'
+import { RewardsInfo } from 'src/earn/types'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
@@ -152,4 +154,63 @@ export function usePrepareSupplyTransactions() {
     clearPreparedTransactions: prepareTransactions.reset,
     prepareTransactionError: prepareTransactions.error,
   }
+}
+
+export async function prepareWithdrawAndClaimTransactions({
+  amount,
+  token,
+  walletAddress,
+  feeCurrencies,
+  rewards,
+  poolTokenAddress,
+}: {
+  amount: string
+  token: TokenBalance
+  poolTokenAddress: Address
+  walletAddress: Address
+  feeCurrencies: TokenBalance[]
+  rewards: RewardsInfo[]
+}) {
+  const baseTransactions: TransactionRequest[] = []
+
+  if (!token.address || !isAddress(token.address)) {
+    // should never happen
+    throw new Error(`Cannot use a token without address. Token id: ${token.tokenId}`)
+  }
+
+  const amountToWithdraw = parseUnits(amount, token.decimals)
+
+  baseTransactions.push({
+    from: walletAddress,
+    to: networkConfig.arbAavePoolV3ContractAddress,
+    data: encodeFunctionData({
+      abi: aavePool,
+      functionName: 'withdraw',
+      args: [token.address, amountToWithdraw, walletAddress],
+    }),
+  })
+
+  rewards.forEach(({ amount, tokenInfo }) => {
+    const amountToClaim = parseUnits(amount, tokenInfo.decimals)
+
+    if (!tokenInfo.address || !isAddress(tokenInfo.address)) {
+      // should never happen
+      throw new Error(`Cannot use a token without address. Token id: ${token.tokenId}`)
+    }
+
+    baseTransactions.push({
+      from: walletAddress,
+      to: networkConfig.arbAaveIncentivesV3ContractAddress,
+      data: encodeFunctionData({
+        abi: aaveIncentivesV3Abi,
+        functionName: 'claimRewardsToSelf',
+        args: [[poolTokenAddress], amountToClaim, tokenInfo.address],
+      }),
+    })
+  })
+
+  return prepareTransactions({
+    feeCurrencies,
+    baseTransactions,
+  })
 }

@@ -1,14 +1,20 @@
 import BigNumber from 'bignumber.js'
 import { FetchMock } from 'jest-fetch-mock/types'
+import aaveIncentivesV3Abi from 'src/abis/AaveIncentivesV3'
 import aavePool from 'src/abis/AavePoolV3'
 import erc20 from 'src/abis/IERC20'
-import { prepareSupplyTransactions } from 'src/earn/prepareTransactions'
+import {
+  prepareSupplyTransactions,
+  prepareWithdrawAndClaimTransactions,
+} from 'src/earn/prepareTransactions'
 import { getDynamicConfigParams } from 'src/statsig'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { Network, NetworkId } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
 import { prepareTransactions } from 'src/viem/prepareTransactions'
+import networkConfig from 'src/web3/networkConfig'
+import { mockArbArbAddress, mockArbArbTokenBalance } from 'test/values'
 import { Address, encodeFunctionData } from 'viem'
 
 const mockFeeCurrency: TokenBalance = {
@@ -276,6 +282,106 @@ describe('prepareTransactions', () => {
           poolContractAddress: '0x5678',
         })
       ).rejects.toThrow('Expected 2 simulated transactions, got 1')
+    })
+  })
+
+  describe('prepareWithdrawAndClaimTransactions', () => {
+    it('prepares withdraw and claim transactions', async () => {
+      const rewards = [
+        {
+          amount: '0.002',
+          tokenInfo: mockArbArbTokenBalance,
+        },
+        {
+          amount: '0.003',
+          tokenInfo: mockToken,
+        },
+      ]
+      const result = await prepareWithdrawAndClaimTransactions({
+        amount: '5',
+        token: mockToken,
+        walletAddress: '0x1234',
+        feeCurrencies: [mockFeeCurrency],
+        rewards,
+        poolTokenAddress: '0x5678',
+      })
+
+      const expectedTransactions = [
+        {
+          from: '0x1234',
+          to: networkConfig.arbAavePoolV3ContractAddress,
+          data: '0xencodedData',
+        },
+        {
+          from: '0x1234',
+          to: networkConfig.arbAaveIncentivesV3ContractAddress,
+          data: '0xencodedData',
+        },
+        {
+          from: '0x1234',
+          to: networkConfig.arbAaveIncentivesV3ContractAddress,
+          data: '0xencodedData',
+        },
+      ]
+      expect(result).toEqual({
+        type: 'possible',
+        feeCurrency: mockFeeCurrency,
+        transactions: expectedTransactions,
+      })
+      expect(encodeFunctionData).toHaveBeenCalledTimes(3)
+      expect(encodeFunctionData).toHaveBeenCalledWith({
+        abi: aavePool,
+        functionName: 'withdraw',
+        args: [mockTokenAddress, BigInt(5e6), '0x1234'],
+      })
+      expect(encodeFunctionData).toHaveBeenCalledWith({
+        abi: aaveIncentivesV3Abi,
+        functionName: 'claimRewardsToSelf',
+        args: [['0x5678'], BigInt(2e15), mockArbArbAddress],
+      })
+      expect(encodeFunctionData).toHaveBeenCalledWith({
+        abi: aaveIncentivesV3Abi,
+        functionName: 'claimRewardsToSelf',
+        args: [['0x5678'], BigInt(3000), mockTokenAddress],
+      })
+      expect(prepareTransactions).toHaveBeenCalledWith({
+        baseTransactions: expectedTransactions,
+        feeCurrencies: [mockFeeCurrency],
+      })
+    })
+
+    it('prepares only withdraw transaction if no rewards', async () => {
+      const result = await prepareWithdrawAndClaimTransactions({
+        amount: '5',
+        token: mockToken,
+        walletAddress: '0x1234',
+        feeCurrencies: [mockFeeCurrency],
+        rewards: [],
+        poolTokenAddress: '0x5678',
+      })
+
+      const expectedTransactions = [
+        {
+          from: '0x1234',
+          to: networkConfig.arbAavePoolV3ContractAddress,
+          data: '0xencodedData',
+        },
+      ]
+      expect(result).toEqual({
+        type: 'possible',
+        feeCurrency: mockFeeCurrency,
+        transactions: expectedTransactions,
+      })
+      expect(encodeFunctionData).toHaveBeenCalledTimes(1)
+      expect(encodeFunctionData).toHaveBeenCalledWith({
+        abi: aavePool,
+        functionName: 'withdraw',
+        args: [mockTokenAddress, BigInt(5e6), '0x1234'],
+      })
+      expect(prepareTransactions).toHaveBeenCalledWith({
+        baseTransactions: expectedTransactions,
+        feeCurrencies: [mockFeeCurrency],
+      })
     })
   })
 })
