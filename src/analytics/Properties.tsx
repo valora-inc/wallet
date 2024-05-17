@@ -1599,6 +1599,12 @@ interface EarnEventsProperties {
   }
   [EarnEvents.earn_deposit_submit_cancel]: EarnDepositProperties
   [EarnEvents.earn_view_pools_press]: undefined
+  [EarnEvents.earn_exit_pool_press]: {
+    poolTokenId: string
+    networkId: NetworkId
+    tokenAmount: string
+    providerId: string
+  }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

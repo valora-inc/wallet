@@ -81,7 +81,10 @@ export type StackParamList = {
     rewardId: string
   }
   [Screens.Debug]: undefined
-  [Screens.EarnCollectScreen]: undefined
+  [Screens.EarnCollectScreen]: {
+    depositTokenId: string
+    poolTokenId: string
+  }
   [Screens.ErrorScreen]: {
     errorMessage?: string
   }
