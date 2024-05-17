@@ -476,7 +476,9 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [RewardsEvents.claimed_reward]: ``,
 
   // Events related to Valora Points program
-  [PointsEvents.points_screen_open]: `when Points home screen is opened`,
+  [PointsEvents.points_discover_press]: `when points card is pressed in the discover tab`,
+  [PointsEvents.points_intro_dismiss]: `when points intro is dismissed`,
+  [PointsEvents.points_intro_back]: `when back button is pressed from points intro screen`,
   [PointsEvents.points_screen_back]: `when back button is pressed from Points home screen`,
   [PointsEvents.points_screen_card_press]: `when an activity card is pressed from Points home screen`,
   [PointsEvents.points_screen_card_cta_press]: `when a CTA is pressed on an activity card bottom sheet from the Points home screen`,
@@ -597,10 +599,15 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [EarnEvents.earn_deposit_terms_and_conditions_press]: `When a user taps on the terms and conditions link on the deposit bottom sheet`,
   [EarnEvents.earn_deposit_complete]: `When a user taps on the complete button on the deposit bottom sheet`,
   [EarnEvents.earn_deposit_cancel]: `When a user taps on the cancel button on the deposit bottom sheet`,
+  [EarnEvents.earn_deposit_submit_start]: `When the wallet is about to submit the deposit transaction to the network`,
+  [EarnEvents.earn_deposit_submit_success]: `When the deposit transaction succeeds`,
+  [EarnEvents.earn_deposit_submit_error]: `When the deposit transaction fails`,
+  [EarnEvents.earn_deposit_submit_cancel]: `When the user cancels the deposit after submitting by cancelling PIN input`,
   [EarnEvents.earn_view_pools_press]: `When the user taps on the view pools button from token details`,
   [EarnEvents.earn_enter_amount_info_press]: `When a user taps on the info icon on the earn enter amount screen`,
   [EarnEvents.earn_enter_amount_continue_press]: `When a user taps continue on the earn enter amount`,
   [EarnEvents.earn_enter_amount_info_more_pools]: `When a user taps to see other Aave pools`,
+  [EarnEvents.earn_exit_pool_press]: `When the user taps on the exit pool button from the earn card in discover tab`,
 
   // Legacy event docs
   //  The below events had docs, but are no longer produced by the latest app version.

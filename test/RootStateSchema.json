@@ -2848,6 +2848,7 @@
                 "PincodeEnter",
                 "PincodeSet",
                 "PointsHome",
+                "PointsIntro",
                 "Profile",
                 "ProfileMenu",
                 "ProtectWallet",
@@ -4320,6 +4321,9 @@
                     ],
                     "type": "string"
                 },
+                "introHasBeenDismissed": {
+                    "type": "boolean"
+                },
                 "nextPageUrl": {
                     "type": [
                         "null",
@@ -4370,17 +4374,40 @@
                         "$ref": "#/definitions/ClaimHistory"
                     },
                     "type": "array"
+                },
+                "trackOnceActivities": {
+                    "$ref": "#/definitions/{swap?:boolean|undefined;\"create-wallet\"?:boolean|undefined;\"more-coming\"?:boolean|undefined;}"
                 }
             },
             "required": [
                 "getHistoryStatus",
+                "introHasBeenDismissed",
                 "nextPageUrl",
                 "pendingPointsEvents",
                 "pointsBalance",
                 "pointsBalanceStatus",
                 "pointsConfig",
                 "pointsConfigStatus",
-                "pointsHistory"
+                "pointsHistory",
+                "trackOnceActivities"
+            ],
+            "type": "object"
+        },
+        "State_28": {
+            "additionalProperties": false,
+            "properties": {
+                "depositStatus": {
+                    "enum": [
+                        "error",
+                        "idle",
+                        "started",
+                        "success"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "depositStatus"
             ],
             "type": "object"
         },
@@ -6218,6 +6245,21 @@
             },
             "type": "object"
         },
+        "{swap?:boolean|undefined;\"create-wallet\"?:boolean|undefined;\"more-coming\"?:boolean|undefined;}": {
+            "additionalProperties": false,
+            "properties": {
+                "create-wallet": {
+                    "type": "boolean"
+                },
+                "more-coming": {
+                    "type": "boolean"
+                },
+                "swap": {
+                    "type": "boolean"
+                }
+            },
+            "type": "object"
+        },
         "{swap?:{pointsAmount:number;}|undefined;\"create-wallet\"?:{pointsAmount:number;}|undefined;\"more-coming\"?:{pointsAmount:number;}|undefined;}": {
             "additionalProperties": false,
             "properties": {
@@ -6276,6 +6318,9 @@
         },
         "dapps": {
             "$ref": "#/definitions/State_19"
+        },
+        "earn": {
+            "$ref": "#/definitions/State_28"
         },
         "escrow": {
             "$ref": "#/definitions/State_10"
@@ -6379,6 +6424,7 @@
         "alert",
         "app",
         "dapps",
+        "earn",
         "escrow",
         "fees",
         "fiatConnect",

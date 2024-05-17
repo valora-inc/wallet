@@ -665,7 +665,9 @@ export enum JumpstartEvents {
 }
 
 export enum PointsEvents {
-  points_screen_open = 'points_screen_open',
+  points_discover_press = 'points_discover_press',
+  points_intro_dismiss = 'points_intro_dismiss',
+  points_intro_back = 'points_intro_back',
   points_screen_back = 'points_screen_back',
   points_screen_card_press = 'points_screen_card_press',
   points_screen_card_cta_press = 'points_screen_card_cta_press',
@@ -682,8 +684,13 @@ export enum EarnEvents {
   earn_deposit_terms_and_conditions_press = 'earn_deposit_terms_and_conditions_press',
   earn_deposit_complete = 'earn_deposit_complete',
   earn_deposit_cancel = 'earn_deposit_cancel',
+  earn_deposit_submit_start = 'earn_deposit_submit_start',
+  earn_deposit_submit_success = 'earn_deposit_submit_success',
+  earn_deposit_submit_error = 'earn_deposit_submit_error',
+  earn_deposit_submit_cancel = 'earn_deposit_submit_cancel',
   earn_view_pools_press = 'earn_view_pools_press',
   earn_enter_amount_info_press = 'earn_enter_amount_info_press',
   earn_enter_amount_continue_press = 'earn_enter_amount_continue_press',
   earn_enter_amount_info_more_pools = 'earn_enter_amount_info_more_pools',
+  earn_exit_pool_press = 'earn_exit_pool_press',
 }

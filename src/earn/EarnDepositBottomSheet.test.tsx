@@ -5,12 +5,14 @@ import { Provider } from 'react-redux'
 import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
+import { depositStart } from 'src/earn/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { getDynamicConfigParams } from 'src/statsig'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
+import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import { createMockStore } from 'test/utils'
-import { mockARBTokenId, mockTokenBalances } from 'test/values'
+import { mockArbEthTokenId, mockTokenBalances } from 'test/values'
 
 jest.mock('src/statsig')
 
@@ -37,7 +39,7 @@ const mockPreparedTransaction: PreparedTransactionsPossible = {
     },
   ],
   feeCurrency: {
-    ...mockTokenBalances[mockARBTokenId],
+    ...mockTokenBalances[mockArbEthTokenId],
     isNative: true,
     balance: new BigNumber(10),
     priceUsd: new BigNumber(1),
@@ -68,7 +70,7 @@ describe('EarnDepositBottomSheet', () => {
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
           amount={'100'}
-          tokenId={mockARBTokenId}
+          tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
         />
       </Provider>
@@ -95,14 +97,14 @@ describe('EarnDepositBottomSheet', () => {
     expect(getByTestId('EarnDeposit/SecondaryCta')).toBeTruthy()
   })
 
-  it('pressing complete fires analytics event', () => {
-    // TODO(ACT-1178): assert that the transaction is submitted
+  it('pressing complete submits action and fires analytics event', () => {
+    const store = createMockStore({ tokens: { tokenBalances: mockTokenBalances } })
     const { getByTestId } = render(
-      <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
+      <Provider store={store}>
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
           amount={'100'}
-          tokenId={mockARBTokenId}
+          tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
         />
       </Provider>
@@ -110,6 +112,18 @@ describe('EarnDepositBottomSheet', () => {
 
     fireEvent.press(getByTestId('EarnDeposit/PrimaryCta'))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_complete)
+    expect(store.getActions()).toEqual([
+      {
+        type: depositStart.type,
+        payload: {
+          amount: '100',
+          tokenId: mockArbEthTokenId,
+          preparedTransactions: getSerializablePreparedTransactions(
+            mockPreparedTransaction.transactions
+          ),
+        },
+      },
+    ])
   })
 
   it('pressing cancel fires analytics event', () => {
@@ -118,7 +132,7 @@ describe('EarnDepositBottomSheet', () => {
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
           amount={'100'}
-          tokenId={mockARBTokenId}
+          tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
         />
       </Provider>
@@ -134,7 +148,7 @@ describe('EarnDepositBottomSheet', () => {
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
           amount={'100'}
-          tokenId={mockARBTokenId}
+          tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
         />
       </Provider>
@@ -151,7 +165,7 @@ describe('EarnDepositBottomSheet', () => {
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
           amount={'100'}
-          tokenId={mockARBTokenId}
+          tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
         />
       </Provider>
@@ -162,5 +176,26 @@ describe('EarnDepositBottomSheet', () => {
       EarnEvents.earn_deposit_terms_and_conditions_press
     )
     expect(navigate).toHaveBeenCalledWith('WebViewScreen', { uri: 'termsUrl' })
+  })
+
+  it('shows loading state and buttons are disabled when deposit is submitted', () => {
+    const store = createMockStore({
+      tokens: { tokenBalances: mockTokenBalances },
+      earn: { depositStatus: 'started' },
+    })
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <EarnDepositBottomSheet
+          forwardedRef={{ current: null }}
+          amount={'100'}
+          tokenId={mockArbEthTokenId}
+          preparedTransaction={mockPreparedTransaction}
+        />
+      </Provider>
+    )
+
+    expect(getByTestId('EarnDeposit/PrimaryCta')).toBeDisabled()
+    expect(getByTestId('EarnDeposit/SecondaryCta')).toBeDisabled()
+    expect(getByTestId('EarnDeposit/PrimaryCta')).toContainElement(getByTestId('Button/Loading'))
   })
 })
