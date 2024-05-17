@@ -2391,9 +2391,11 @@
       "total": "TOTAL",
       "plus": "MÁS",
       "rate": "Tasa (est.)",
-      "apy": "~{{apy}}% APY",
+      "apy": "{{apy}}% APY",
       "fee": "Tasa del gas",
-      "cta": "Recaudar ingresos"
+      "cta": "Recaudar ingresos",
+      "errorTitle": "Algo salió mal",
+      "errorDescription": "No se han podido obtener los datos del depósito. Vuelve a intentarlo."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
