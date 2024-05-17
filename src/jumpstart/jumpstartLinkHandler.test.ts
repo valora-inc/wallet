@@ -55,12 +55,15 @@ describe('jumpstartLinkHandler', () => {
     )
   })
 
-  it('throws an error if the funds were already claimed', async () => {
+  it('throws an error if all funds were already claimed', async () => {
+    mockErc20ClaimsCall.mockResolvedValueOnce({ claimed: true })
     mockErc20ClaimsCall.mockResolvedValueOnce({ claimed: true })
     mockErc20ClaimsCall.mockRejectedValue(new Error('execution reverted'))
 
     await expect(
       jumpstartLinkHandler(networkConfig.defaultNetworkId, '0xTEST', privateKey, mockAccount2)
     ).rejects.toThrow('Already claimed all jumpstart rewards for celo-alfajores')
+
+    expect(fetchWithTimeout).not.toHaveBeenCalled()
   })
 })
