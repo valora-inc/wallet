@@ -147,7 +147,7 @@ describe('EarnCollectScreen', () => {
 
   it('skips error and enables cta if only apy loading fails', async () => {
     jest.mocked(fetchAavePoolInfo).mockRejectedValue(new Error('Failed to fetch apy'))
-    const { getByText, getByTestId, queryByTestId } = render(
+    const { getByText, getByTestId, queryByTestId, queryByText } = render(
       <Provider store={store}>
         <MockedNavigator
           component={EarnCollectScreen}
@@ -168,8 +168,12 @@ describe('EarnCollectScreen', () => {
     await waitFor(() => {
       expect(queryByTestId('EarnCollect/RewardsLoading')).toBeFalsy()
     })
+    await waitFor(() => {
+      expect(queryByTestId('EarnCollect/ApyLoading')).toBeFalsy()
+    })
     expect(getByText('earnFlow.collect.apy, {"apy":"--"}')).toBeTruthy()
     expect(getByText('earnFlow.collect.plus')).toBeTruthy()
     expect(getByTestId('EarnCollectScreen/CTA')).toBeEnabled()
+    expect(queryByText('earnFlow.collect.errorTitle')).toBeFalsy()
   })
 })
