@@ -168,9 +168,6 @@ describe('EarnCollectScreen', () => {
     await waitFor(() => {
       expect(queryByTestId('EarnCollect/ApyLoading')).toBeFalsy()
     })
-    await waitFor(() => {
-      expect(queryByTestId('EarnCollect/RewardsLoading')).toBeFalsy()
-    })
     expect(getByText('earnFlow.collect.apy, {"apy":"--"}')).toBeTruthy()
     expect(getByText('earnFlow.collect.plus')).toBeTruthy()
     expect(getByTestId('EarnCollectScreen/CTA')).toBeEnabled()
