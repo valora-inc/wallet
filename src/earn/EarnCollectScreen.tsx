@@ -8,7 +8,7 @@ import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
-import { useAavePoolInfo, useAaveRewardsInfo } from 'src/earn/hooks'
+import { useAavePoolInfo, useAaveRewardsInfoAndPrepareTransactions } from 'src/earn/hooks'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useSelector } from 'src/redux/hooks'
@@ -18,6 +18,7 @@ import { Spacing } from 'src/styles/styles'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
+import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.EarnCollectScreen>
 
@@ -32,18 +33,32 @@ export default function EarnCollectScreen({ route }: Props) {
     throw new Error('Deposit / pool token not found')
   }
 
-  const asyncRewardsInfo = useAaveRewardsInfo({ poolTokenId })
-
-  // TODO(ACT-1180): prepare a tx and handle these
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, depositToken.networkId))
-  const maxFeeAmount = new BigNumber(0.0001)
+  const { asyncRewardsInfo, asyncPreparedTransactions } = useAaveRewardsInfoAndPrepareTransactions({
+    poolTokenId,
+    depositTokenId,
+    feeCurrencies,
+  })
   const onPress = () => {
-    // Todo handle prepared transactions
+    // TODO(ACT-1180): submit the tx
   }
 
   // skipping apy fetch error because that isn't blocking collecting rewards
-  const error = asyncRewardsInfo.error
-  const ctaDisabled = asyncRewardsInfo.loading || asyncRewardsInfo.error
+  const error = asyncRewardsInfo.error || asyncPreparedTransactions.error
+  const ctaDisabled =
+    asyncRewardsInfo.loading ||
+    asyncRewardsInfo.error ||
+    asyncPreparedTransactions.loading ||
+    asyncPreparedTransactions.error ||
+    asyncPreparedTransactions.result?.type !== 'possible'
+
+  const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(asyncPreparedTransactions.result)
+  let feeSection = <GasFeeLoading />
+  if (maxFeeAmount && feeCurrency) {
+    feeSection = <GasFee maxFeeAmount={maxFeeAmount} feeCurrency={feeCurrency} />
+  } else if (!asyncPreparedTransactions.loading) {
+    feeSection = <GasFeeError />
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -70,7 +85,10 @@ export default function EarnCollectScreen({ route }: Props) {
           ))}
           <View style={styles.separator} />
           <Rate depositToken={depositToken} />
-          <GasFee maxFeeAmount={maxFeeAmount} feeCurrency={feeCurrencies[0]} />
+          <View>
+            <Text style={styles.rateText}>{t('earnFlow.collect.fee')}</Text>
+            {feeSection}
+          </View>
         </View>
         {error && (
           <InLineNotification
@@ -163,6 +181,28 @@ function Rate({ depositToken }: { depositToken: TokenBalance }) {
   )
 }
 
+function GasFeeError() {
+  return (
+    <View testID="EarnCollect/GasError">
+      <Text style={styles.apyText}> -- </Text>
+      <Text style={styles.gasFeeFiat}> -- </Text>
+    </View>
+  )
+}
+
+function GasFeeLoading() {
+  return (
+    <View testID="EarnCollect/GasLoading">
+      <SkeletonPlaceholder backgroundColor={Colors.gray2} highlightColor={Colors.white}>
+        <View style={styles.gasFeeCryptoLoading} />
+      </SkeletonPlaceholder>
+      <SkeletonPlaceholder backgroundColor={Colors.gray2} highlightColor={Colors.white}>
+        <View style={styles.gasFeeFiatLoading} />
+      </SkeletonPlaceholder>
+    </View>
+  )
+}
+
 function GasFee({
   maxFeeAmount,
   feeCurrency,
@@ -170,24 +210,23 @@ function GasFee({
   maxFeeAmount: BigNumber
   feeCurrency: TokenBalance
 }) {
-  const { t } = useTranslation()
-
   return (
-    <View>
-      <Text style={styles.rateText}>{t('earnFlow.collect.fee')}</Text>
+    <>
       <TokenDisplay
         style={styles.apyText}
         tokenId={feeCurrency.tokenId}
         amount={maxFeeAmount}
         showLocalAmount={false}
+        testID="EarnCollect/GasFeeCryptoAmount"
       />
       <TokenDisplay
         style={styles.gasFeeFiat}
         tokenId={feeCurrency.tokenId}
         amount={maxFeeAmount}
         showLocalAmount={true}
+        testID="EarnCollect/GasFeeFiatAmount"
       />
-    </View>
+    </>
   )
 }
 
@@ -264,5 +303,15 @@ const styles = StyleSheet.create({
   },
   error: {
     marginTop: Spacing.Regular16,
+  },
+  gasFeeCryptoLoading: {
+    width: 80,
+    borderRadius: 100,
+    ...typeScale.labelSemiBoldSmall,
+  },
+  gasFeeFiatLoading: {
+    width: 64,
+    borderRadius: 100,
+    ...typeScale.bodyXSmall,
   },
 })

@@ -1,7 +1,9 @@
 import { useAsync } from 'react-async-hook'
 import { fetchAavePoolInfo, fetchAaveRewards } from 'src/earn/poolInfo'
+import { prepareWithdrawAndClaimTransactions } from 'src/earn/prepareTransactions'
 import { useSelector } from 'src/redux/hooks'
 import { useTokenInfo, useTokensList } from 'src/tokens/hooks'
+import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -38,12 +40,21 @@ export function useAavePoolInfo({ depositTokenId }: { depositTokenId: string }) 
   return asyncPoolInfo
 }
 
-export function useAaveRewardsInfo({ poolTokenId }: { poolTokenId: string }) {
+export function useAaveRewardsInfoAndPrepareTransactions({
+  poolTokenId,
+  depositTokenId,
+  feeCurrencies,
+}: {
+  poolTokenId: string
+  depositTokenId: string
+  feeCurrencies: TokenBalance[]
+}) {
   const poolTokenInfo = useTokenInfo(poolTokenId)
+  const depositTokenInfo = useTokenInfo(depositTokenId)
   const walletAddress = useSelector(walletAddressSelector)
   const allTokens = useTokensList()
 
-  return useAsync(
+  const asyncRewardsInfo = useAsync(
     async () => {
       if (!poolTokenInfo || !poolTokenInfo.address) {
         throw new Error(`Token with id ${networkConfig.aaveArbUsdcTokenId} not found`)
@@ -74,4 +85,31 @@ export function useAaveRewardsInfo({ poolTokenId }: { poolTokenId: string }) {
       },
     }
   )
+
+  const asyncPreparedTransactions = useAsync(async () => {
+    if (!asyncRewardsInfo.result) {
+      return
+    }
+
+    if (
+      !walletAddress ||
+      !isAddress(walletAddress) ||
+      !poolTokenInfo?.address ||
+      !isAddress(poolTokenInfo.address) ||
+      !depositTokenInfo
+    ) {
+      // should never happen
+      throw new Error('Invalid wallet or pool token address')
+    }
+
+    return prepareWithdrawAndClaimTransactions({
+      amount: poolTokenInfo.balance.toString(),
+      token: depositTokenInfo,
+      walletAddress,
+      feeCurrencies,
+      rewards: asyncRewardsInfo.result,
+      poolTokenAddress: poolTokenInfo.address,
+    })
+  }, [asyncRewardsInfo.result])
+  return { asyncRewardsInfo, asyncPreparedTransactions }
 }
