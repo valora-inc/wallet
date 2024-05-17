@@ -12,7 +12,7 @@ import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
-import { mockARBTokenId, mockAccount, mockTokenBalances } from 'test/values'
+import { mockAccount, mockArbEthTokenId, mockTokenBalances } from 'test/values'
 
 jest.mock('src/earn/prepareTransactions')
 
@@ -39,7 +39,7 @@ const mockPreparedTransaction: PreparedTransactionsPossible = {
     },
   ],
   feeCurrency: {
-    ...mockTokenBalances[mockARBTokenId],
+    ...mockTokenBalances[mockArbEthTokenId],
     isNative: true,
     balance: new BigNumber(10),
     priceUsd: new BigNumber(1),
@@ -49,7 +49,7 @@ const mockPreparedTransaction: PreparedTransactionsPossible = {
 
 const mockFeeCurrencies: TokenBalance[] = [
   {
-    ...mockTokenBalances[mockARBTokenId],
+    ...mockTokenBalances[mockArbEthTokenId],
     isNative: true,
     balance: new BigNumber(1),
     priceUsd: new BigNumber(1500),
@@ -70,8 +70,8 @@ const store = createMockStore({
         networkId: NetworkId['arbitrum-sepolia'],
         balance: '10',
       },
-      mockARBTokenId: {
-        ...mockTokenBalances[mockARBTokenId],
+      mockArbEthTokenId: {
+        ...mockTokenBalances[mockArbEthTokenId],
         balance: '1',
       },
     },
