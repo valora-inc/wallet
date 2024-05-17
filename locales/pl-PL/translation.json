@@ -2395,9 +2395,11 @@
       "total": "RAZEM",
       "plus": "PLUS",
       "rate": "Stawka (szacunkowa)",
-      "apy": "~{{apy}}% APY",
+      "apy": "{{apy}}% RRSO",
       "fee": "Opłata za gaz",
-      "cta": "Zbieraj zarobki"
+      "cta": "Zbieraj zarobki",
+      "errorTitle": "Coś poszło nie tak",
+      "errorDescription": "Nie można pobrać szczegółów wpłaty. Spróbuj ponownie."
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
