@@ -2400,6 +2400,14 @@
       "cta": "Собирайте заработок",
       "errorTitle": "Что-то пошло не так",
       "errorDescription": "Невозможно получить данные о депозите. Пожалуйста, попробуй еще раз."
+    },
+    "transactionFeed": {
+      "earnClaimTitle": "Собрано",
+      "earnClaimSubtitle": "с сайта {{providerName}} Pool",
+      "earnDepositTitle": "Депозит",
+      "earnDepositSubtitle": "на {{providerName}} Pool",
+      "earnWithdrawTitle": "Отказаться от",
+      "earnWithdrawSubtitle": "с сайта {{providerName}} Pool"
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
