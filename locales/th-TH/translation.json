@@ -2394,6 +2394,14 @@
       "cta": "Collect Earnings",
       "errorTitle": "มีบางอย่างผิดปกติ",
       "errorDescription": "Unable to fetch deposit details. Please try again."
+    },
+    "transactionFeed": {
+      "earnClaimTitle": "Collected",
+      "earnClaimSubtitle": "from {{providerName}} Pool",
+      "earnDepositTitle": "Deposited",
+      "earnDepositSubtitle": "to {{providerName}} Pool",
+      "earnWithdrawTitle": "Withdrew",
+      "earnWithdrawSubtitle": "from {{providerName}} Pool"
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
