@@ -2391,9 +2391,11 @@
       "total": "GESAMT",
       "plus": "PLUS",
       "rate": "Rate (geschätzt)",
-      "apy": "~{{apy}}% APY",
+      "apy": "{{apy}}% APY",
       "fee": "Gasgebühr",
-      "cta": "Verdienste sammeln"
+      "cta": "Verdienste sammeln",
+      "errorTitle": "Etwas ist schief gelaufen",
+      "errorDescription": "Die Einzahlungsdetails können nicht abgerufen werden. Bitte versuche es erneut."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
