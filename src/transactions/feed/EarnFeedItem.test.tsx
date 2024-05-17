@@ -9,7 +9,7 @@ import EarnFeedItem from 'src/transactions/feed/EarnFeedItem'
 import { NetworkId, TransactionStatus } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
-import { mockARBTokenId, mockAaveArbUsdcAddress } from 'test/values'
+import { mockAaveArbUsdcAddress, mockArbArbTokenId } from 'test/values'
 
 const store = createMockStore({
   tokens: {
@@ -21,8 +21,8 @@ const store = createMockStore({
         priceFetchedAt: Date.now(),
         networkId: NetworkId['arbitrum-sepolia'],
       },
-      [mockARBTokenId]: {
-        tokenId: mockARBTokenId,
+      [mockArbArbTokenId]: {
+        tokenId: mockArbArbTokenId,
         symbol: 'ARB',
         priceUsd: '0.9898',
         priceFetchedAt: Date.now(),
@@ -63,7 +63,7 @@ describe.each([
           amount: {
             localAmount: null,
             tokenAddress: null,
-            tokenId: mockARBTokenId,
+            tokenId: mockArbArbTokenId,
             value: '0.00000229122',
           },
           type: 'SECURITY_FEE',
@@ -103,7 +103,7 @@ describe.each([
           amount: {
             localAmount: null,
             tokenAddress: null,
-            tokenId: mockARBTokenId,
+            tokenId: mockArbArbTokenId,
             value: '0.00000284243',
           },
           type: 'SECURITY_FEE',
@@ -128,7 +128,7 @@ describe.each([
       amount: {
         localAmount: null,
         tokenAddress: '0xhij',
-        tokenId: mockARBTokenId,
+        tokenId: mockArbArbTokenId,
         value: '1.5',
       },
       block: '211278852',
@@ -137,7 +137,7 @@ describe.each([
           amount: {
             localAmount: null,
             tokenAddress: null,
-            tokenId: mockARBTokenId,
+            tokenId: mockArbArbTokenId,
             value: '0.00000146037',
           },
           type: 'SECURITY_FEE',

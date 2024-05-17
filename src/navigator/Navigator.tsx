@@ -99,6 +99,7 @@ import Welcome from 'src/onboarding/welcome/Welcome'
 import PincodeEnter from 'src/pincode/PincodeEnter'
 import PincodeSet from 'src/pincode/PincodeSet'
 import PointsHome from 'src/points/PointsHome'
+import PointsIntro from 'src/points/PointsIntro'
 import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
 import SendConfirmation, { sendConfirmationScreenNavOptions } from 'src/send/SendConfirmation'
@@ -578,6 +579,7 @@ const assetScreens = (Navigator: typeof Stack) => (
 const pointsScreens = (Navigator: typeof Stack) => (
   <>
     <Navigator.Screen name={Screens.PointsHome} component={PointsHome} options={noHeader} />
+    <Navigator.Screen name={Screens.PointsIntro} component={PointsIntro} options={noHeader} />
   </>
 )
 const mapStateToProps = (state: RootState) => {
