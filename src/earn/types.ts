@@ -12,12 +12,14 @@ export interface RewardsInfo {
   tokenInfo: TokenBalance
 }
 
+export interface SerializableRewardsInfo {
+  amount: string
+  tokenId: string
+}
+
 export interface WithdrawInfo {
   amount: string
   tokenId: string
   preparedTransactions: SerializableTransactionRequest[]
-  rewards: {
-    amount: string
-    tokenId: string
-  }[]
+  rewards: SerializableRewardsInfo[]
 }

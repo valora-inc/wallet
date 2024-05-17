@@ -691,4 +691,5 @@ export enum EarnEvents {
   earn_view_pools_press = 'earn_view_pools_press',
   earn_exit_pool_press = 'earn_exit_pool_press',
   earn_feed_item_select = 'earn_feed_item_select',
+  earn_collect_earnings_press = 'earn_collect_earnings_press',
 }

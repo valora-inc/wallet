@@ -4,14 +4,18 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
+import { EarnEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import { useAavePoolInfo, useAaveRewardsInfoAndPrepareTransactions } from 'src/earn/hooks'
+import { withdrawStatusSelector } from 'src/earn/selectors'
+import { withdrawStart } from 'src/earn/slice'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { useSelector } from 'src/redux/hooks'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -19,14 +23,17 @@ import { useTokenInfo } from 'src/tokens/hooks'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
+import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.EarnCollectScreen>
 
 export default function EarnCollectScreen({ route }: Props) {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
   const { depositTokenId, poolTokenId } = route.params
   const depositToken = useTokenInfo(depositTokenId)
   const poolToken = useTokenInfo(poolTokenId)
+  const withdrawStatus = useSelector(withdrawStatusSelector)
 
   if (!depositToken || !poolToken) {
     // should never happen
@@ -40,7 +47,34 @@ export default function EarnCollectScreen({ route }: Props) {
     feeCurrencies,
   })
   const onPress = () => {
-    // TODO(ACT-1180): submit the tx
+    if (!asyncRewardsInfo.result || asyncPreparedTransactions.result?.type !== 'possible') {
+      // should never happen because button is disabled if withdraw is not possible
+      throw new Error('Cannot be called without possible prepared transactions')
+    }
+
+    const serializedRewards = asyncRewardsInfo.result.map((info) => ({
+      amount: info.amount.toString(),
+      tokenId: info.tokenInfo.tokenId,
+    }))
+
+    dispatch(
+      withdrawStart({
+        amount: poolToken.balance.toString(),
+        tokenId: depositTokenId,
+        preparedTransactions: getSerializablePreparedTransactions(
+          asyncPreparedTransactions.result.transactions
+        ),
+        rewards: serializedRewards,
+      })
+    )
+
+    ValoraAnalytics.track(EarnEvents.earn_collect_earnings_press, {
+      tokenId: depositTokenId,
+      amount: poolToken.balance.toString(),
+      networkId: depositToken.networkId,
+      providerId: 'aave-v3',
+      rewards: serializedRewards,
+    })
   }
 
   // skipping apy fetch error because that isn't blocking collecting rewards
@@ -107,6 +141,7 @@ export default function EarnCollectScreen({ route }: Props) {
         onPress={onPress}
         testID="EarnCollectScreen/CTA"
         disabled={!!ctaDisabled}
+        showLoading={withdrawStatus === 'loading'}
       />
     </SafeAreaView>
   )
