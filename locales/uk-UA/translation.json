@@ -2400,6 +2400,14 @@
       "cta": "Збирайте заробіток",
       "errorTitle": "Щось пішло не так",
       "errorDescription": "Не вдається отримати інформацію про депозит. Спробуйте ще раз."
+    },
+    "transactionFeed": {
+      "earnClaimTitle": "Зібрано",
+      "earnClaimSubtitle": "від {{providerName}} Пул",
+      "earnDepositTitle": "Депоновано",
+      "earnDepositSubtitle": "на {{providerName}} Пул",
+      "earnWithdrawTitle": "Вийшов з гри.",
+      "earnWithdrawSubtitle": "від {{providerName}} Пул"
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
