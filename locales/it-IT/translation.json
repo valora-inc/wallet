@@ -1815,6 +1815,15 @@
       "networkFeeNoNetwork": "Commissione di rete",
       "swapFee": "Commissione di {{appName}}",
       "swapFeeWaived": "Gratuito",
+      "appFee": "Commissione di {{appName}}",
+      "appFeeValue": "<0></0> <1>(<0></0>)</1>",
+      "appFeeValue_withoutPriceUsd": "<0></0>",
+      "appFeeValue_free": "Gratuito",
+      "appFeeValue_placeholder": "-",
+      "appFeeInfo": "{{appName}} Commissione\n\nApplichiamo una commissione per lo scambio di token su {{appName}}. La commissione è pari al {{appFeePercentage}}% dell'importo che stai scambiando.",
+      "appFeeInfo_free": "{{appName}} Costo\n\nQuesto scambio è gratuito.",
+      "appFeeInfo_placeholder": "{{appName}} Tariffa\n\nLa tariffa viene calcolata in base al preventivo ricevuto.",
+      "appFeeInfoDismissButton": "Ho capito",
       "slippagePercentage": "Tolleranza slippage",
       "networkFeeInfo": "Stai effettuando uno scambio sulla rete {{networkName}}.\n\nQuesta commissione di rete stimata è necessaria per eseguire una transazione sulla rete {{networkName}}. Questa commissione protegge la tua transazione e serve a mantenere operativa la rete.",
       "networkFeeInfoV1_76": "Stai effettuando uno scambio sulla Rete {{networkName}}.\n\nPer effettuare una transazione sulla Rete {{networkName}} è richiesta una commissione di rete. Questa commissione garantisce la sicurezza della transazione e viene pagata ai validatori della rete.\n\nPoiché le condizioni della rete determinano l'importo esatto, la stima indicata è la somma che ci aspettiamo corrisponda alla commissione effettiva. La commissione non supererà l'importo massimo previsto.",
@@ -2327,6 +2336,15 @@
       "moreComing": {
         "title": "Prossimamente ne arriveranno altri!"
       }
+    },
+    "discoverCard": {
+      "title": "{{appName}} Punti",
+      "description": "Guadagna punti facilmente con {{appName}}. L'utilizzo dell'app, compreso lo scambio, porta a guadagnare punti!"
+    },
+    "intro": {
+      "title": "Accumula punti senza fatica",
+      "description": "Scopri un nuovo modo di guadagnare! Le tue azioni su {{appName}} ora fanno guadagnare punti. Inizia a guadagnare oggi stesso e sblocca fantastici vantaggi.",
+      "cta": "Inizia il tuo viaggio a punti"
     }
   },
   "earnFlow": {
@@ -2373,9 +2391,11 @@
       "total": "TOTALE",
       "plus": "PIÙ",
       "rate": "Tasso (est.)",
-      "apy": "~{{apy}}% APY",
+      "apy": "{{apy}}% APY",
       "fee": "Tassa sul gas",
-      "cta": "Raccogli i guadagni"
+      "cta": "Raccogli i guadagni",
+      "errorTitle": "Si è verificato un errore",
+      "errorDescription": "Impossibile recuperare i dettagli del deposito. Riprova."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

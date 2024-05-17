@@ -1813,6 +1813,15 @@
       "networkFeeNoNetwork": "网络费用",
       "swapFee": "{{appName}} 费用",
       "swapFeeWaived": "免费",
+      "appFee": "{{appName}} 费用",
+      "appFeeValue": "<0></0> <1>(<0></0>)</1>",
+      "appFeeValue_withoutPriceUsd": "<0></0>",
+      "appFeeValue_free": "免费",
+      "appFeeValue_placeholder": "-",
+      "appFeeInfo": "{{appName}} 费用\n\n我们对在 {{appName}}上交换代币收取一定费用。费用为您兑换金额的 {{appFeePercentage}}%。",
+      "appFeeInfo_free": "{{appName}} 费用\n\n本次交换是免费的。",
+      "appFeeInfo_placeholder": "{{appName}} 费用\n\n费用根据您收到的报价计算。",
+      "appFeeInfoDismissButton": "知道了",
       "slippagePercentage": "滑点调整",
       "networkFeeInfo": "您正在 {{networkName}} 网络上进行交换。\n\n在 {{networkName}} 网络上进行交易需要支付该预估网络费用。该费用可确保您的交易安全，并用于维持网络正常运行。",
       "networkFeeInfoV1_76": "您正在 {{networkName}} 网络上进行交换。\n\n在 {{networkName}} 网络上进行交易需要支付网络费用。该费用可确保您的交易安全，并支付给网络验证机构。\n\n由于网络条件决定了确切的金额，因此列出的估算费用是我们预计的实际费用。该费用不会超过最大费用金额。",
@@ -2325,6 +2334,15 @@
       "moreComing": {
         "title": "更多内容即将推出！"
       }
+    },
+    "discoverCard": {
+      "title": "{{appName}} 积分",
+      "description": "通过 {{appName}}轻松赚取积分。使用应用程序（包括交换）可获得积分！"
+    },
+    "intro": {
+      "title": "轻松赚取积分",
+      "description": "跳转到新的赚钱方式！您的 {{appName}} 行动现在可以赚取积分。今天就开始赚取积分，享受超值优惠。",
+      "cta": "开始您的积分之旅"
     }
   },
   "earnFlow": {
@@ -2371,9 +2389,11 @@
       "total": "总计",
       "plus": "加",
       "rate": "比率（估计值）",
-      "apy": "~{{apy}}% APY",
+      "apy": "{{apy}}年利率",
       "fee": "燃气费",
-      "cta": "收取收益"
+      "cta": "收取收益",
+      "errorTitle": "出错了",
+      "errorDescription": "无法获取存款详情。请重试。"
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
