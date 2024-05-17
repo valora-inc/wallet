@@ -70,12 +70,6 @@ function EarnEnterAmount({ route }: Props) {
   const { tokenId } = route.params
   const token = useTokenInfo(tokenId)
 
-  if (!token) {
-    // This should never happen but need token to not be undefined to proceed
-    Logger.error(TAG, 'Token not found')
-    return null
-  }
-
   const infoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const addCryptoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const reviewBottomSheetRef = useRef<BottomSheetRefType>(null)
@@ -94,6 +88,12 @@ function EarnEnterAmount({ route }: Props) {
     clearPreparedTransactions,
     prepareTransactionError,
   } = usePrepareSupplyTransactions()
+
+  if (!token) {
+    // This should never happen but need token to not be undefined to proceed
+    Logger.error(TAG, 'Token not found')
+    return null
+  }
 
   const walletAddress = useSelector(walletAddressSelector) as Address
 
