@@ -2396,6 +2396,14 @@
       "cta": "Recaudar ingresos",
       "errorTitle": "Algo salió mal",
       "errorDescription": "No se han podido obtener los datos del depósito. Vuelve a intentarlo."
+    },
+    "transactionFeed": {
+      "earnClaimTitle": "Recopilado",
+      "earnClaimSubtitle": "de {{providerName}} Pool",
+      "earnDepositTitle": "Depositado",
+      "earnDepositSubtitle": "a {{providerName}} Piscina",
+      "earnWithdrawTitle": "Retirada",
+      "earnWithdrawSubtitle": "de {{providerName}} Pool"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
