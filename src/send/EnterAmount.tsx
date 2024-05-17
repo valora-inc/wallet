@@ -52,7 +52,7 @@ export interface ProceedArgs {
   amountEnteredIn: AmountEnteredIn
 }
 
-export type ProceedComponentProps = Omit<ProceedArgs, 'tokenAmount'> & {
+type ProceedComponentProps = Omit<ProceedArgs, 'tokenAmount'> & {
   onPressProceed(args: ProceedArgs): void
   disabled: boolean
   tokenAmount: BigNumber | null

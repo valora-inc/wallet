@@ -35,7 +35,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useSelector } from 'src/redux/hooks'
-import { AmountInput, ProceedArgs, ProceedComponentProps } from 'src/send/EnterAmount'
+import { AmountInput, ProceedArgs } from 'src/send/EnterAmount'
 import { AmountEnteredIn } from 'src/send/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -56,6 +56,13 @@ const TAG = 'EarnEnterAmount'
 const TOKEN_SELECTOR_BORDER_RADIUS = 100
 const MAX_BORDER_RADIUS = 96
 const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME = 250
+
+type ProceedComponentProps = Omit<ProceedArgs, 'tokenAmount'> & {
+  onPressProceed(args: ProceedArgs): void
+  onPressInfo(): void
+  disabled: boolean
+  tokenAmount: BigNumber | null
+}
 
 function EarnEnterAmount({ route }: Props) {
   const { t } = useTranslation()
@@ -178,7 +185,7 @@ function EarnEnterAmount({ route }: Props) {
     return () => clearTimeout(debouncedRefreshTransactions)
   }, [tokenAmount, token])
 
-  const isAmountLessThanBalance = tokenAmount && tokenAmount.lt(token.balance)
+  const isAmountLessThanBalance = tokenAmount && tokenAmount.lte(token.balance)
   const showNotEnoughBalanceForGasWarning =
     isAmountLessThanBalance &&
     prepareTransactionsResult &&
@@ -264,92 +271,6 @@ function EarnEnterAmount({ route }: Props) {
     infoBottomSheetRef.current?.snapToIndex(0)
   }
 
-  const EarnProceed = ({
-    tokenAmount,
-    localAmount,
-    token,
-    amountEnteredIn,
-    disabled,
-    onPressProceed,
-  }: ProceedComponentProps) => {
-    const { t } = useTranslation()
-    const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-
-    const asyncPoolInfo = useAsync(
-      async () => {
-        if (!token || !token.address) {
-          throw new Error(`Token with id ${token} not found`)
-        }
-
-        if (!isAddress(token.address)) {
-          throw new Error(`Token with id ${token} does not contain a valid address`)
-        }
-
-        return fetchAavePoolInfo({
-          assetAddress: token.address,
-          contractAddress: networkConfig.arbAavePoolV3ContractAddress,
-          network: networkIdToNetwork[token.networkId],
-        })
-      },
-      [],
-      {
-        onError: (error) => {
-          Logger.warn(TAG, error.message)
-        },
-      }
-    )
-
-    return (
-      <View style={styles.infoContainer}>
-        <View style={styles.line}>
-          <Text style={styles.label}>{t('earnFlow.enterAmount.earnUpToLabel')}</Text>
-          <Text style={styles.label}>{t('earnFlow.enterAmount.rateLabel')}</Text>
-        </View>
-        <View style={styles.line}>
-          <Text style={styles.valuesText} testID="EarnEnterAmount/EarnUpTo">
-            {t('earnFlow.enterAmount.earnUpTo', {
-              fiatSymbol: localCurrencySymbol,
-              amount:
-                asyncPoolInfo?.result && !!asyncPoolInfo.result.apy && tokenAmount?.gt(0)
-                  ? tokenAmount.multipliedBy(new BigNumber(asyncPoolInfo.result.apy)).toFormat(2)
-                  : '--',
-            })}
-          </Text>
-          <View style={styles.apy}>
-            <TokenIcon token={token} size={IconSize.XSMALL} />
-            <Text style={styles.valuesText} testID="EarnEnterAmount/Apy">
-              {t('earnFlow.enterAmount.rate', {
-                rate:
-                  asyncPoolInfo?.result && !!asyncPoolInfo.result.apy
-                    ? (asyncPoolInfo.result.apy * 100).toFixed(2)
-                    : '--',
-              })}
-            </Text>
-          </View>
-        </View>
-        <Button
-          onPress={() =>
-            tokenAmount && onPressProceed({ tokenAmount, localAmount, token, amountEnteredIn })
-          }
-          text={t('earnFlow.enterAmount.continue')}
-          style={styles.continueButton}
-          size={BtnSizes.FULL}
-          disabled={disabled}
-        />
-        <View style={styles.row}>
-          <Text style={styles.infoText}>{t('earnFlow.enterAmount.info')}</Text>
-          <TouchableOpacity
-            onPress={onPressInfo}
-            hitSlop={variables.iconHitslop}
-            testID="EarnEnterAmount/InfoIcon"
-          >
-            <InfoIcon color={Colors.black} />
-          </TouchableOpacity>
-        </View>
-      </View>
-    )
-  }
-
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <CustomHeader style={{ paddingHorizontal: Spacing.Thick24 }} left={<BackButton />} />
@@ -425,6 +346,7 @@ function EarnEnterAmount({ route }: Props) {
           token={token}
           amountEnteredIn={enteredIn}
           onPressProceed={onPressContinue}
+          onPressInfo={onPressInfo}
           disabled={disabled}
         />
         <KeyboardSpacer />
@@ -444,6 +366,93 @@ function EarnEnterAmount({ route }: Props) {
         />
       )}
     </SafeAreaView>
+  )
+}
+
+function EarnProceed({
+  tokenAmount,
+  localAmount,
+  token,
+  amountEnteredIn,
+  disabled,
+  onPressProceed,
+  onPressInfo,
+}: ProceedComponentProps) {
+  const { t } = useTranslation()
+  const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
+
+  const asyncPoolInfo = useAsync(
+    async () => {
+      if (!token || !token.address) {
+        throw new Error(`Token with id ${token} not found`)
+      }
+
+      if (!isAddress(token.address)) {
+        throw new Error(`Token with id ${token} does not contain a valid address`)
+      }
+
+      return fetchAavePoolInfo({
+        assetAddress: token.address,
+        contractAddress: networkConfig.arbAavePoolV3ContractAddress,
+        network: networkIdToNetwork[token.networkId],
+      })
+    },
+    [],
+    {
+      onError: (error) => {
+        Logger.warn(TAG, error.message)
+      },
+    }
+  )
+
+  return (
+    <View style={styles.infoContainer}>
+      <View style={styles.line}>
+        <Text style={styles.label}>{t('earnFlow.enterAmount.earnUpToLabel')}</Text>
+        <Text style={styles.label}>{t('earnFlow.enterAmount.rateLabel')}</Text>
+      </View>
+      <View style={styles.line}>
+        <Text style={styles.valuesText} testID="EarnEnterAmount/EarnUpTo">
+          {t('earnFlow.enterAmount.earnUpTo', {
+            fiatSymbol: localCurrencySymbol,
+            amount:
+              asyncPoolInfo?.result && !!asyncPoolInfo.result.apy && tokenAmount?.gt(0)
+                ? tokenAmount.multipliedBy(new BigNumber(asyncPoolInfo.result.apy)).toFormat(2)
+                : '--',
+          })}
+        </Text>
+        <View style={styles.apy}>
+          <TokenIcon token={token} size={IconSize.XSMALL} />
+          <Text style={styles.valuesText} testID="EarnEnterAmount/Apy">
+            {t('earnFlow.enterAmount.rate', {
+              rate:
+                asyncPoolInfo?.result && !!asyncPoolInfo.result.apy
+                  ? (asyncPoolInfo.result.apy * 100).toFixed(2)
+                  : '--',
+            })}
+          </Text>
+        </View>
+      </View>
+      <Button
+        onPress={() =>
+          tokenAmount && onPressProceed({ tokenAmount, localAmount, token, amountEnteredIn })
+        }
+        text={t('earnFlow.enterAmount.continue')}
+        style={styles.continueButton}
+        size={BtnSizes.FULL}
+        disabled={disabled}
+      />
+      <View style={styles.row}>
+        <Text style={styles.infoText}>{t('earnFlow.enterAmount.info')}</Text>
+        <TouchableOpacity
+          onPress={onPressInfo}
+          hitSlop={variables.iconHitslop}
+          testID="EarnEnterAmount/InfoIcon"
+        >
+          <InfoIcon color={Colors.black} />
+        </TouchableOpacity>
+      </View>
+    </View>
   )
 }
 
