@@ -1,5 +1,4 @@
 import React from 'react'
-import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { EarnEvents } from 'src/analytics/Events'
@@ -7,7 +6,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import TokenDisplay from 'src/components/TokenDisplay'
-import { fetchAavePoolInfo } from 'src/earn/poolInfo'
+import { useAavePoolInfo } from 'src/earn/hooks'
 import UpwardGraph from 'src/icons/UpwardGraph'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -16,8 +15,6 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokenInfo } from 'src/tokens/hooks'
 import Logger from 'src/utils/Logger'
-import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
-import { isAddress } from 'viem'
 
 const TAG = 'earn/EarnActivePool'
 
@@ -45,31 +42,8 @@ interface Props {
 
 export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Props) {
   const { t } = useTranslation()
-  const depositToken = useTokenInfo(depositTokenId)
   const poolToken = useTokenInfo(poolTokenId)
-  const asyncPoolInfo = useAsync(
-    async () => {
-      if (!depositToken || !depositToken.address) {
-        throw new Error(`Token with id ${depositTokenId} not found`)
-      }
-
-      if (!isAddress(depositToken.address)) {
-        throw new Error(`Token with id ${depositTokenId} does not contain a valid address`)
-      }
-
-      return fetchAavePoolInfo({
-        assetAddress: depositToken.address,
-        contractAddress: networkConfig.arbAavePoolV3ContractAddress,
-        network: networkIdToNetwork[depositToken.networkId],
-      })
-    },
-    [],
-    {
-      onError: (error) => {
-        Logger.warn(TAG, error.message)
-      },
-    }
-  )
+  const asyncPoolInfo = useAavePoolInfo({ depositTokenId })
 
   return (
     <View style={styles.card} testID="EarnActivePool">
@@ -114,9 +88,17 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
           <View style={styles.buttonContainer}>
             <Button
               onPress={() => {
-                // TODO (act-1180) create earn review withdraw screen
-                // Will navigate to this screen with appropriate props
-                // fire analytics
+                if (!poolToken) {
+                  Logger.warn(TAG, 'No pool token found')
+                  return
+                }
+                ValoraAnalytics.track(EarnEvents.earn_exit_pool_press, {
+                  poolTokenId,
+                  networkId: poolToken.networkId,
+                  tokenAmount: poolToken.balance.toString(),
+                  providerId: 'aave-v3',
+                })
+                navigate(Screens.EarnCollectScreen, { depositTokenId, poolTokenId })
               }}
               text={t('earnFlow.activePools.exitPool')}
               type={BtnTypes.GRAY_WITH_BORDER}

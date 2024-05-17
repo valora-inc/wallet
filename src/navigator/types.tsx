@@ -81,7 +81,10 @@ export type StackParamList = {
     rewardId: string
   }
   [Screens.Debug]: undefined
-  [Screens.EarnCollectScreen]: undefined
+  [Screens.EarnCollectScreen]: {
+    depositTokenId: string
+    poolTokenId: string
+  }
   [Screens.ErrorScreen]: {
     errorMessage?: string
   }
@@ -201,6 +204,7 @@ export type StackParamList = {
       }
     | undefined
   [Screens.PointsHome]: undefined
+  [Screens.PointsIntro]: undefined
   [Screens.ProtectWallet]: undefined
   [Screens.OnboardingRecoveryPhrase]: undefined
   [Screens.Profile]: undefined

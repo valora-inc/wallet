@@ -1252,6 +1252,7 @@ export enum SwapShowInfoType {
   ESTIMATED_NETWORK_FEE,
   SLIPPAGE,
   EXCHANGE_RATE,
+  APP_FEE,
 }
 interface SwapEventsProperties {
   [SwapEvents.swap_screen_open]: undefined
@@ -1557,7 +1558,9 @@ interface JumpstartEventsProperties {
 }
 
 interface PointsEventsProperties {
-  [PointsEvents.points_screen_open]: undefined
+  [PointsEvents.points_discover_press]: undefined
+  [PointsEvents.points_intro_dismiss]: undefined
+  [PointsEvents.points_intro_back]: undefined
   [PointsEvents.points_screen_back]: undefined
   [PointsEvents.points_screen_card_press]: {
     activityId: PointsActivityId
@@ -1573,6 +1576,13 @@ interface PointsEventsProperties {
   [PointsEvents.points_screen_activity_learn_more_press]: undefined
 }
 
+interface EarnDepositProperties {
+  tokenId: string
+  networkId: NetworkId
+  tokenAmount: string
+  providerId: string
+}
+
 interface EarnEventsProperties {
   [EarnEvents.earn_cta_press]: undefined
   [EarnEvents.earn_add_crypto_action_press]: {
@@ -1582,7 +1592,19 @@ interface EarnEventsProperties {
   [EarnEvents.earn_deposit_terms_and_conditions_press]: undefined
   [EarnEvents.earn_deposit_complete]: undefined
   [EarnEvents.earn_deposit_cancel]: undefined
+  [EarnEvents.earn_deposit_submit_start]: EarnDepositProperties
+  [EarnEvents.earn_deposit_submit_success]: EarnDepositProperties
+  [EarnEvents.earn_deposit_submit_error]: EarnDepositProperties & {
+    error: string
+  }
+  [EarnEvents.earn_deposit_submit_cancel]: EarnDepositProperties
   [EarnEvents.earn_view_pools_press]: undefined
+  [EarnEvents.earn_exit_pool_press]: {
+    poolTokenId: string
+    networkId: NetworkId
+    tokenAmount: string
+    providerId: string
+  }
   [EarnEvents.earn_feed_item_select]: {
     origin: 'EarnDeposit' | 'EarnWithdraw' | 'EarnClaimReward'
   }

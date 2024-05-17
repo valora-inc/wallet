@@ -1,17 +1,9 @@
 import { debounce } from 'lodash'
 import React, { ReactNode, useCallback } from 'react'
-import {
-  ActivityIndicator,
-  StyleProp,
-  StyleSheet,
-  Text,
-  TextStyle,
-  View,
-  ViewStyle,
-} from 'react-native'
+import { ActivityIndicator, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import Touchable from 'src/components/Touchable'
 import colors, { Colors } from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { vibrateInformative } from 'src/styles/hapticFeedback'
 
 const BUTTON_TAP_DEBOUNCE_TIME = 300 // milliseconds
@@ -51,7 +43,6 @@ export interface ButtonProps {
   testID?: string
   touchableStyle?: StyleProp<ViewStyle>
   iconMargin?: number
-  fontStyle?: TextStyle
 }
 
 export default React.memo(function Button(props: ButtonProps) {
@@ -70,7 +61,6 @@ export default React.memo(function Button(props: ButtonProps) {
     loadingColor,
     touchableStyle,
     iconMargin = 4,
-    fontStyle = fontStyles.regular600,
   } = props
 
   // Debounce onPress event so that it is called once on trigger and
@@ -117,7 +107,7 @@ export default React.memo(function Button(props: ButtonProps) {
                 maxFontSizeMultiplier={1}
                 accessibilityLabel={accessibilityLabel}
                 style={{
-                  ...fontStyle, // this has to be before color because the legacy font styles default to colors.dark, which will end up overriding the button type based colors
+                  ...styles.fontStyle,
                   color: textColor,
                   marginLeft: icon && iconPositionLeft ? iconMargin : 0,
                   marginRight: icon && !iconPositionLeft ? iconMargin : 0,
@@ -159,6 +149,9 @@ const styles = StyleSheet.create({
     height: 48,
     flexGrow: 1,
   },
+  fontStyle: {
+    ...typeScale.labelSemiBoldMedium,
+  },
 })
 
 function getColors(type: BtnTypes, disabled: boolean | undefined) {
@@ -169,7 +162,8 @@ function getColors(type: BtnTypes, disabled: boolean | undefined) {
   switch (type) {
     case BtnTypes.PRIMARY:
       textColor = colors.white
-      backgroundColor = disabled ? colors.primaryDisabled : colors.primary
+      backgroundColor = colors.black
+      opacity = disabled ? 0.25 : 1.0
       break
     case BtnTypes.SECONDARY:
       textColor = disabled ? colors.gray4 : colors.black
@@ -193,6 +187,7 @@ function getColors(type: BtnTypes, disabled: boolean | undefined) {
       textColor = colors.black
       backgroundColor = colors.gray1
       borderColor = colors.gray2
+      opacity = disabled ? 0.5 : 1.0
       break
   }
 

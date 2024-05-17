@@ -10,8 +10,8 @@ import { NetworkId } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
 import {
-  mockARBTokenId,
   mockAaveArbUsdcAddress,
+  mockArbArbTokenId,
   mockEarnClaimRewardTransaction,
   mockEarnDepositTransaction,
   mockEarnWithdrawTransaction,
@@ -27,8 +27,8 @@ const store = createMockStore({
         priceFetchedAt: Date.now(),
         networkId: NetworkId['arbitrum-sepolia'],
       },
-      [mockARBTokenId]: {
-        tokenId: mockARBTokenId,
+      [mockArbArbTokenId]: {
+        tokenId: mockArbArbTokenId,
         symbol: 'ARB',
         priceUsd: '0.9898',
         priceFetchedAt: Date.now(),

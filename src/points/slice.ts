@@ -30,7 +30,7 @@ export interface PendingPointsEvent {
   event: PointsEvent
 }
 
-export interface State {
+interface State {
   pointsHistory: ClaimHistory[]
   nextPageUrl: string | null
   getHistoryStatus: 'idle' | 'loading' | 'errorFirstPage' | 'errorNextPage'
@@ -39,9 +39,13 @@ export interface State {
   pendingPointsEvents: PendingPointsEvent[]
   pointsBalanceStatus: 'idle' | 'loading' | 'error' | 'success'
   pointsBalance: string
+  trackOnceActivities: {
+    [key in PointsActivityId]?: boolean
+  }
+  introHasBeenDismissed: boolean
 }
 
-const initialState: State = {
+export const initialState: State = {
   pointsHistory: [],
   nextPageUrl: null,
   getHistoryStatus: 'idle',
@@ -50,6 +54,10 @@ const initialState: State = {
   pendingPointsEvents: [],
   pointsBalanceStatus: 'idle',
   pointsBalance: '0',
+  trackOnceActivities: {
+    'create-wallet': false,
+  },
+  introHasBeenDismissed: false,
 }
 
 const slice = createSlice({
@@ -88,10 +96,12 @@ const slice = createSlice({
     getPointsConfigRetry: (state) => ({
       ...state,
     }),
-    sendPointsEventStarted: (state, action: PayloadAction<PendingPointsEvent>) => ({
-      ...state,
-      pendingPointsEvents: [...state.pendingPointsEvents, action.payload],
-    }),
+    sendPointsEventStarted: (state, action: PayloadAction<PendingPointsEvent>) => {
+      state.pendingPointsEvents = [...state.pendingPointsEvents, action.payload]
+      if (action.payload.event.activityId in state.trackOnceActivities) {
+        state.trackOnceActivities[action.payload.event.activityId] = true
+      }
+    },
     pointsEventProcessed: (state, action: PayloadAction<Pick<PendingPointsEvent, 'id'>>) => ({
       ...state,
       pendingPointsEvents: state.pendingPointsEvents.filter(
@@ -110,6 +120,10 @@ const slice = createSlice({
     getPointsBalanceError: (state) => ({
       ...state,
       pointsBalanceStatus: 'error',
+    }),
+    pointsIntroDismissed: (state) => ({
+      ...state,
+      introHasBeenDismissed: true,
     }),
   },
   extraReducers: (builder) => {
@@ -136,6 +150,7 @@ export const {
   getPointsBalanceStarted,
   getPointsBalanceSucceeded,
   getPointsBalanceError,
+  pointsIntroDismissed,
 } = slice.actions
 
 // action handled in saga
