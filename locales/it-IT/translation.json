@@ -2396,6 +2396,14 @@
       "cta": "Raccogli i guadagni",
       "errorTitle": "Si è verificato un errore",
       "errorDescription": "Impossibile recuperare i dettagli del deposito. Riprova."
+    },
+    "transactionFeed": {
+      "earnClaimTitle": "Raccolta",
+      "earnClaimSubtitle": "da {{providerName}} Pool",
+      "earnDepositTitle": "Depositato",
+      "earnDepositSubtitle": "a {{providerName}} Pool",
+      "earnWithdrawTitle": "Ritirata",
+      "earnWithdrawSubtitle": "da {{providerName}} Pool"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
