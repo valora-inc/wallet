@@ -166,17 +166,23 @@ export function useFetchTransactions(): QueryHookResult {
     Logger.error(TAG, 'Error while fetching transactions', error)
   }
 
-  // Query for new transaction every POLL_INTERVAL
+  // Query for new transactions every POLL_INTERVAL
   const { loading, error } = useAsync(
     async () => {
-      const result = await queryTransactionsFeed({
+      const generator = queryTransactionsFeed({
         address,
         localCurrencyCode,
-        params: allowedNetworkIds.map((networkId) => {
-          return { networkId }
-        }),
+        params: allowedNetworkIds.map((networkId) => ({ networkId })),
       })
-      handleResult(result, true)
+      for await (const result of generator) {
+        if (result instanceof Error) {
+          // Handle the error case
+          handleError(result)
+        } else {
+          // Handle the result normally
+          handleResult(result, true)
+        }
+      }
     },
     [counter],
     {
@@ -201,13 +207,22 @@ export function useFetchTransactions(): QueryHookResult {
           return { networkId, afterCursor: pageInfo?.endCursor }
         })
         .filter((networkParams) => fetchedResult.pageInfo[networkParams.networkId]?.hasNextPage)
-      const result = await queryTransactionsFeed({
+      const generator = queryTransactionsFeed({
         address,
         localCurrencyCode,
         params,
       })
+
       setFetchingMoreTransactions(false)
-      handleResult(result, false)
+      for await (const result of generator) {
+        if (result instanceof Error) {
+          // Handle the error case
+          handleError(result)
+        } else {
+          // Handle the result normally
+          handleResult(result, true)
+        }
+      }
     },
     [fetchingMoreTransactions],
     {
@@ -278,7 +293,7 @@ function anyNetworkHasTransactionsOnCurrentPage(hasTransactionsOnCurrentPage: {
 
 // Queries for transactions feed for any number of networks in parallel,
 // with optional pagination support.
-async function queryTransactionsFeed({
+async function* queryTransactionsFeed({
   address,
   localCurrencyCode,
   params,
@@ -289,24 +304,31 @@ async function queryTransactionsFeed({
     networkId: NetworkId
     afterCursor?: string
   }>
-}): Promise<{ [key in NetworkId]?: QueryResponse }> {
-  const results = await Promise.all(
-    params.map(({ networkId, afterCursor }) =>
-      queryChainTransactionsFeed({
-        address,
-        localCurrencyCode,
-        networkId,
-        afterCursor,
-      })
-    )
+}): AsyncGenerator<{ [key in NetworkId]?: QueryResponse }> {
+  const promises = params.map(
+    async ({
+      networkId,
+      afterCursor,
+    }): Promise<{ networkId: NetworkId; result: QueryResponse | Error }> => {
+      try {
+        const result = await queryChainTransactionsFeed({
+          address,
+          localCurrencyCode,
+          networkId,
+          afterCursor,
+        })
+        return { networkId, result }
+      } catch (error) {
+        // Assuming error is of type Error
+        return { networkId, result: error as Error }
+      }
+    }
   )
 
-  return results.reduce((acc, result, index) => {
-    return {
-      ...acc,
-      [params[index].networkId]: result,
-    }
-  }, {})
+  for (const promise of promises) {
+    const { networkId, result } = await promise
+    yield { [networkId]: result }
+  }
 }
 
 async function queryChainTransactionsFeed({
