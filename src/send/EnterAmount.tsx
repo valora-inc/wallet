@@ -54,7 +54,6 @@ export interface ProceedArgs {
 
 export type ProceedComponentProps = Omit<ProceedArgs, 'tokenAmount'> & {
   onPressProceed(args: ProceedArgs): void
-  onPressInfo?(): void
   disabled: boolean
   tokenAmount: BigNumber | null
 }
@@ -72,15 +71,10 @@ interface Props {
   prepareTransactionError?: Error
   tokenSelectionDisabled?: boolean
   onPressProceed(args: ProceedArgs): void
-  onPressInfo?(): void
-  onChangeTokenAmount?(amount: BigNumber): void
   disableProceed?: boolean
   children?: React.ReactNode
   ProceedComponent: ComponentType<ProceedComponentProps>
   disableBalanceCheck?: boolean
-  proceedComponentStatic?: boolean // If true, the ProceedComponent will stay right below the enter amount box, it will not move with the keyboard
-  hideNetworkFee?: boolean
-  bottomSheets?: React.ReactNode
 }
 
 const TOKEN_SELECTOR_BORDER_RADIUS = 100
@@ -104,7 +98,6 @@ export const SendProceed = ({
       text={t('review')}
       style={styles.reviewButton}
       size={BtnSizes.FULL}
-      fontStyle={styles.reviewButtonText}
       disabled={disabled}
       testID="SendEnterAmount/ReviewButton"
     />
@@ -156,15 +149,10 @@ function EnterAmount({
   prepareTransactionError,
   tokenSelectionDisabled = false,
   onPressProceed,
-  onPressInfo,
-  onChangeTokenAmount,
   disableProceed = false,
   children,
   ProceedComponent,
   disableBalanceCheck = false,
-  proceedComponentStatic = false,
-  hideNetworkFee = false,
-  bottomSheets,
 }: Props) {
   const { t } = useTranslation()
 
@@ -235,9 +223,6 @@ function EnterAmount({
   const localToToken = useLocalToTokenAmount(parsedLocalAmount, token.tokenId)
   const { tokenAmount, localAmount } = useMemo(() => {
     if (enteredIn === 'token') {
-      if (onChangeTokenAmount) {
-        onChangeTokenAmount(parsedTokenAmount)
-      }
       setLocalAmountInput(
         tokenToLocal && tokenToLocal.gt(0)
           ? `${localCurrencySymbol}${tokenToLocal.toFormat(2)}` // automatically adds grouping separators
@@ -256,9 +241,6 @@ function EnterAmount({
               .replace(new RegExp(`[${decimalSeparator}]?0+$`), '')
           : ''
       )
-      if (onChangeTokenAmount) {
-        onChangeTokenAmount(localToToken ?? new BigNumber(0))
-      }
       return {
         tokenAmount: localToToken,
         localAmount: parsedLocalAmount,
@@ -303,10 +285,7 @@ function EnterAmount({
     prepareTransactionsResult.transactions.length > 0
 
   const disabled =
-    disableProceed ||
-    (disableBalanceCheck
-      ? !!tokenAmount?.isZero() || (!!tokenAmount?.lte(token.balance) && !transactionIsPossible) // Should disable if the user enters 0 or has enough balance but the transaction is not possible, shouldn't disable if they enter an amount larger than their balance as they will go to add flow
-      : !transactionIsPossible)
+    disableProceed || (disableBalanceCheck ? !!tokenAmount?.isZero() : !transactionIsPossible)
 
   const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency ?? feeCurrencies[0]
   let feeAmountSection = <FeeLoading />
@@ -362,12 +341,7 @@ function EnterAmount({
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <CustomHeader style={{ paddingHorizontal: Spacing.Thick24 }} left={<BackButton />} />
-      <KeyboardAwareScrollView
-        contentContainerStyle={[
-          styles.contentContainer,
-          !proceedComponentStatic && { flexGrow: 1 },
-        ]}
-      >
+      <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.inputContainer}>
           <Text style={styles.title}>{t('sendEnterAmountScreen.title')}</Text>
           <View style={styles.inputBox}>
@@ -422,16 +396,14 @@ function EnterAmount({
               )}
             </View>
           </View>
-          {!hideNetworkFee && (
-            <View style={styles.feeContainer}>
-              <Text style={styles.feeLabel}>
-                {t('sendEnterAmountScreen.networkFee', {
-                  networkName: NETWORK_NAMES[token.networkId],
-                })}
-              </Text>
-              <View style={styles.feeAmountContainer}>{feeAmountSection}</View>
-            </View>
-          )}
+          <View style={styles.feeContainer}>
+            <Text style={styles.feeLabel}>
+              {t('sendEnterAmountScreen.networkFee', {
+                networkName: NETWORK_NAMES[token.networkId],
+              })}
+            </Text>
+            <View style={styles.feeAmountContainer}>{feeAmountSection}</View>
+          </View>
         </View>
 
         {showMaxAmountWarning && (
@@ -454,10 +426,7 @@ function EnterAmount({
             description={t('sendEnterAmountScreen.notEnoughBalanceForGasWarning.description', {
               feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
             })}
-            style={[
-              styles.warning,
-              hideNetworkFee && { marginTop: Spacing.Regular16, marginBottom: 0 },
-            ]}
+            style={styles.warning}
             testID="SendEnterAmount/NotEnoughForGasWarning"
           />
         )}
@@ -479,12 +448,10 @@ function EnterAmount({
           token={token}
           amountEnteredIn={enteredIn}
           onPressProceed={onPressProceed}
-          onPressInfo={onPressInfo}
           disabled={disabled}
         />
         <KeyboardSpacer />
       </KeyboardAwareScrollView>
-      {bottomSheets}
       <TokenBottomSheet
         forwardedRef={tokenBottomSheetRef}
         snapPoints={['90%']}
@@ -499,7 +466,7 @@ function EnterAmount({
   )
 }
 
-function AmountInput({
+export function AmountInput({
   inputValue,
   onInputChange,
   inputRef,
@@ -576,6 +543,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingHorizontal: Spacing.Thick24,
     paddingTop: Spacing.Thick24,
+    flexGrow: 1,
   },
   title: {
     ...typeScale.titleSmall,
@@ -680,9 +648,6 @@ const styles = StyleSheet.create({
   },
   reviewButton: {
     paddingVertical: Spacing.Thick24,
-  },
-  reviewButtonText: {
-    ...typeScale.labelSemiBoldMedium,
   },
   warning: {
     marginBottom: Spacing.Regular16,

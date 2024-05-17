@@ -1,30 +1,48 @@
+import { parseInputAmount } from '@celo/utils/lib/parsing'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { Trans, useTranslation } from 'react-i18next'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { EarnEvents } from 'src/analytics/Events'
+import {
+  TextInput as RNTextInput,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
+import { getNumberFormatSettings } from 'react-native-localize'
+import { EarnEvents, SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
+import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
+import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
+import Touchable from 'src/components/Touchable'
+import CustomHeader from 'src/components/header/CustomHeader'
 import EarnAddCryptoBottomSheet from 'src/earn/EarnAddCryptoBottomSheet'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import { fetchAavePoolInfo } from 'src/earn/poolInfo'
 import { usePrepareSupplyTransactions } from 'src/earn/prepareTransactions'
 import InfoIcon from 'src/icons/InfoIcon'
+import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useSelector } from 'src/redux/hooks'
-import EnterAmount, { ProceedArgs, ProceedComponentProps } from 'src/send/EnterAmount'
+import { AmountInput, ProceedArgs, ProceedComponentProps } from 'src/send/EnterAmount'
+import { AmountEnteredIn } from 'src/send/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import { useTokenInfo } from 'src/tokens/hooks'
+import { useLocalToTokenAmount, useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
+import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
@@ -35,15 +53,33 @@ type Props = NativeStackScreenProps<StackParamList, Screens.EarnEnterAmount>
 
 const TAG = 'EarnEnterAmount'
 
+const TOKEN_SELECTOR_BORDER_RADIUS = 100
+const MAX_BORDER_RADIUS = 96
+const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME = 250
+
 function EarnEnterAmount({ route }: Props) {
+  const { t } = useTranslation()
+
   const { tokenId } = route.params
   const token = useTokenInfo(tokenId)
 
-  const [tokenAmount, setTokenAmount] = useState(new BigNumber(0))
+  if (!token) {
+    // This should never happen but need token to not be undefined to proceed
+    Logger.error(TAG, 'Token not found')
+    return null
+  }
 
   const infoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const addCryptoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const reviewBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const tokenAmountInputRef = useRef<RNTextInput>(null)
+  const localAmountInputRef = useRef<RNTextInput>(null)
+
+  const [tokenAmountInput, setTokenAmountInput] = useState<string>('')
+  const [localAmountInput, setLocalAmountInput] = useState<string>('')
+  const [enteredIn, setEnteredIn] = useState<AmountEnteredIn>('token')
+  // this should never be null, just adding a default to make TS happy
+  const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
 
   const {
     prepareTransactionsResult,
@@ -73,10 +109,140 @@ function EarnEnterAmount({ route }: Props) {
     })
   }
 
-  if (!token) {
-    // This should never happen but need token to not be undefined to proceed
-    Logger.error(TAG, 'Token not found')
-    return null
+  const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
+  // only allow numbers, one decimal separator, and two decimal places
+  const localAmountRegex = new RegExp(
+    `^(\\d+([${decimalSeparator}])?\\d{0,2}|[${decimalSeparator}]\\d{0,2}|[${decimalSeparator}])$`
+  )
+  // only allow numbers, one decimal separator
+  const tokenAmountRegex = new RegExp(
+    `^(?:\\d+[${decimalSeparator}]?\\d*|[${decimalSeparator}]\\d*|[${decimalSeparator}])$`
+  )
+  const parsedTokenAmount = useMemo(
+    () => parseInputAmount(tokenAmountInput, decimalSeparator),
+    [tokenAmountInput]
+  )
+  const parsedLocalAmount = useMemo(
+    () =>
+      parseInputAmount(
+        localAmountInput.replaceAll(groupingSeparator, '').replace(localCurrencySymbol, ''),
+        decimalSeparator
+      ),
+    [localAmountInput]
+  )
+
+  const tokenToLocal = useTokenToLocalAmount(parsedTokenAmount, token.tokenId)
+  const localToToken = useLocalToTokenAmount(parsedLocalAmount, token.tokenId)
+  const { tokenAmount, localAmount } = useMemo(() => {
+    if (enteredIn === 'token') {
+      setLocalAmountInput(
+        tokenToLocal && tokenToLocal.gt(0)
+          ? `${localCurrencySymbol}${tokenToLocal.toFormat(2)}` // automatically adds grouping separators
+          : ''
+      )
+      return {
+        tokenAmount: parsedTokenAmount,
+        localAmount: tokenToLocal,
+      }
+    } else {
+      setTokenAmountInput(
+        localToToken && localToToken.gt(0)
+          ? // no group separator for token amount, round to token.decimals and strip trailing zeros
+            localToToken
+              .toFormat(token.decimals, { decimalSeparator })
+              .replace(new RegExp(`[${decimalSeparator}]?0+$`), '')
+          : ''
+      )
+      return {
+        tokenAmount: localToToken,
+        localAmount: parsedLocalAmount,
+      }
+    }
+  }, [tokenAmountInput, localAmountInput, enteredIn, token])
+
+  const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, token.networkId))
+
+  useEffect(() => {
+    clearPreparedTransactions()
+
+    if (
+      !tokenAmount ||
+      tokenAmount.isLessThanOrEqualTo(0) ||
+      tokenAmount.isGreaterThan(token.balance)
+    ) {
+      return
+    }
+    const debouncedRefreshTransactions = setTimeout(() => {
+      return handleRefreshPreparedTransactions(tokenAmount, token, feeCurrencies)
+    }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
+    return () => clearTimeout(debouncedRefreshTransactions)
+  }, [tokenAmount, token])
+
+  const isAmountLessThanBalance = tokenAmount && tokenAmount.lt(token.balance)
+  const showNotEnoughBalanceForGasWarning =
+    isAmountLessThanBalance &&
+    prepareTransactionsResult &&
+    prepareTransactionsResult.type === 'not-enough-balance-for-gas'
+  const transactionIsPossible =
+    isAmountLessThanBalance &&
+    prepareTransactionsResult &&
+    prepareTransactionsResult.type === 'possible' &&
+    prepareTransactionsResult.transactions.length > 0
+
+  const disabled =
+    !!tokenAmount?.isZero() || (!!tokenAmount?.lte(token.balance) && !transactionIsPossible) // Should disable if the user enters 0 or has enough balance but the transaction is not possible, shouldn't disable if they enter an amount larger than their balance as they will go to add flow
+
+  const onTokenAmountInputChange = (value: string) => {
+    if (!value) {
+      setTokenAmountInput('')
+      setEnteredIn('token')
+    } else {
+      if (value.startsWith(decimalSeparator)) {
+        value = `0${value}`
+      }
+      if (value.match(tokenAmountRegex)) {
+        setTokenAmountInput(value)
+        setEnteredIn('token')
+      }
+    }
+  }
+
+  const onLocalAmountInputChange = (value: string) => {
+    // remove leading currency symbol and grouping separators
+    if (value.startsWith(localCurrencySymbol)) {
+      value = value.slice(1)
+    }
+    value = value.replaceAll(groupingSeparator, '')
+    if (!value) {
+      setLocalAmountInput('')
+      setEnteredIn('local')
+    } else {
+      if (value.startsWith(decimalSeparator)) {
+        value = `0${value}`
+      }
+      if (value.match(localAmountRegex)) {
+        // add back currency symbol and grouping separators
+        setLocalAmountInput(
+          `${localCurrencySymbol}${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, groupingSeparator)
+        )
+        setEnteredIn('local')
+      }
+    }
+  }
+
+  const onMaxAmountPress = async () => {
+    // eventually we may want to do something smarter here, like subtracting gas fees from the max amount if
+    // this is a gas-paying token. for now, we are just showing a warning to the user prompting them to lower the amount
+    // if there is not enough for gas
+    setTokenAmountInput(token.balance.toString())
+    setEnteredIn('token')
+    tokenAmountInputRef.current?.blur()
+    localAmountInputRef.current?.blur()
+    ValoraAnalytics.track(SendEvents.max_pressed, {
+      tokenId: token.tokenId,
+      tokenAddress: token.address,
+      networkId: token.networkId,
+    })
   }
 
   const onPressContinue = ({ tokenAmount, token, amountEnteredIn }: ProceedArgs) => {
@@ -98,130 +264,186 @@ function EarnEnterAmount({ route }: Props) {
     infoBottomSheetRef.current?.snapToIndex(0)
   }
 
-  const bottomeSheets = (
-    <>
+  const EarnProceed = ({
+    tokenAmount,
+    localAmount,
+    token,
+    amountEnteredIn,
+    disabled,
+    onPressProceed,
+  }: ProceedComponentProps) => {
+    const { t } = useTranslation()
+    const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
+
+    const asyncPoolInfo = useAsync(
+      async () => {
+        if (!token || !token.address) {
+          throw new Error(`Token with id ${token} not found`)
+        }
+
+        if (!isAddress(token.address)) {
+          throw new Error(`Token with id ${token} does not contain a valid address`)
+        }
+
+        return fetchAavePoolInfo({
+          assetAddress: token.address,
+          contractAddress: networkConfig.arbAavePoolV3ContractAddress,
+          network: networkIdToNetwork[token.networkId],
+        })
+      },
+      [],
+      {
+        onError: (error) => {
+          Logger.warn(TAG, error.message)
+        },
+      }
+    )
+
+    return (
+      <View style={styles.infoContainer}>
+        <View style={styles.line}>
+          <Text style={styles.label}>{t('earnFlow.enterAmount.earnUpToLabel')}</Text>
+          <Text style={styles.label}>{t('earnFlow.enterAmount.rateLabel')}</Text>
+        </View>
+        <View style={styles.line}>
+          <Text style={styles.valuesText} testID="EarnEnterAmount/EarnUpTo">
+            {t('earnFlow.enterAmount.earnUpTo', {
+              fiatSymbol: localCurrencySymbol,
+              amount:
+                asyncPoolInfo?.result && !!asyncPoolInfo.result.apy && tokenAmount?.gt(0)
+                  ? tokenAmount.multipliedBy(new BigNumber(asyncPoolInfo.result.apy)).toFormat(2)
+                  : '--',
+            })}
+          </Text>
+          <View style={styles.apy}>
+            <TokenIcon token={token} size={IconSize.XSMALL} />
+            <Text style={styles.valuesText} testID="EarnEnterAmount/Apy">
+              {t('earnFlow.enterAmount.rate', {
+                rate:
+                  asyncPoolInfo?.result && !!asyncPoolInfo.result.apy
+                    ? (asyncPoolInfo.result.apy * 100).toFixed(2)
+                    : '--',
+              })}
+            </Text>
+          </View>
+        </View>
+        <Button
+          onPress={() =>
+            tokenAmount && onPressProceed({ tokenAmount, localAmount, token, amountEnteredIn })
+          }
+          text={t('earnFlow.enterAmount.continue')}
+          style={styles.continueButton}
+          size={BtnSizes.FULL}
+          disabled={disabled}
+        />
+        <View style={styles.row}>
+          <Text style={styles.infoText}>{t('earnFlow.enterAmount.info')}</Text>
+          <TouchableOpacity
+            onPress={onPressInfo}
+            hitSlop={variables.iconHitslop}
+            testID="EarnEnterAmount/InfoIcon"
+          >
+            <InfoIcon color={Colors.black} />
+          </TouchableOpacity>
+        </View>
+      </View>
+    )
+  }
+
+  return (
+    <SafeAreaView style={styles.safeAreaContainer}>
+      <CustomHeader style={{ paddingHorizontal: Spacing.Thick24 }} left={<BackButton />} />
+      <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
+        <View style={styles.inputContainer}>
+          <Text style={styles.title}>{t('sendEnterAmountScreen.title')}</Text>
+          <View style={styles.inputBox}>
+            <View style={styles.inputRow}>
+              <AmountInput
+                inputRef={tokenAmountInputRef}
+                inputValue={tokenAmountInput}
+                onInputChange={onTokenAmountInputChange}
+                inputStyle={styles.inputText}
+                autoFocus
+                placeholder={new BigNumber(0).toFormat(2)}
+                testID="SendEnterAmount/TokenAmountInput"
+              />
+              <View style={styles.tokenView} testID="SendEnterAmount/TokenSelect">
+                <>
+                  <TokenIcon token={token} size={IconSize.SMALL} />
+                  <Text style={styles.tokenName}>{token.symbol}</Text>
+                </>
+              </View>
+            </View>
+            <View style={styles.localAmountRow}>
+              <AmountInput
+                inputValue={token.priceUsd ? localAmountInput : '-'}
+                onInputChange={onLocalAmountInputChange}
+                inputRef={localAmountInputRef}
+                inputStyle={styles.localAmount}
+                placeholder={`${localCurrencySymbol}${new BigNumber(0).toFormat(2)}`}
+                testID="SendEnterAmount/LocalAmountInput"
+                editable={!!token.priceUsd}
+              />
+              {!token.balance.isZero() && (
+                <Touchable
+                  borderRadius={MAX_BORDER_RADIUS}
+                  onPress={onMaxAmountPress}
+                  style={styles.maxTouchable}
+                  testID="SendEnterAmount/Max"
+                >
+                  <Text style={styles.maxText}>{t('max')}</Text>
+                </Touchable>
+              )}
+            </View>
+          </View>
+        </View>
+        {showNotEnoughBalanceForGasWarning && (
+          <InLineNotification
+            variant={NotificationVariant.Warning}
+            title={t('sendEnterAmountScreen.notEnoughBalanceForGasWarning.title', {
+              feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
+            })}
+            description={t('sendEnterAmountScreen.notEnoughBalanceForGasWarning.description', {
+              feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
+            })}
+            style={styles.warning}
+            testID="SendEnterAmount/NotEnoughForGasWarning"
+          />
+        )}
+        {prepareTransactionError && (
+          <InLineNotification
+            variant={NotificationVariant.Error}
+            title={t('sendEnterAmountScreen.prepareTransactionError.title')}
+            description={t('sendEnterAmountScreen.prepareTransactionError.description')}
+            style={styles.warning}
+            testID="SendEnterAmount/PrepareTransactionError"
+          />
+        )}
+        <EarnProceed
+          tokenAmount={tokenAmount}
+          localAmount={localAmount}
+          token={token}
+          amountEnteredIn={enteredIn}
+          onPressProceed={onPressContinue}
+          disabled={disabled}
+        />
+        <KeyboardSpacer />
+      </KeyboardAwareScrollView>
       <InfoBottomSheet infoBottomSheetRef={infoBottomSheetRef} />
       <EarnAddCryptoBottomSheet
         forwardedRef={addCryptoBottomSheetRef}
         token={token}
-        tokenAmount={tokenAmount.minus(token.balance)}
+        tokenAmount={tokenAmount ? tokenAmount.minus(token.balance) : new BigNumber(0)}
       />
       {prepareTransactionsResult?.type === 'possible' && (
         <EarnDepositBottomSheet
           forwardedRef={reviewBottomSheetRef}
           preparedTransaction={prepareTransactionsResult}
-          amount={tokenAmount.toString()}
+          amount={tokenAmount ? tokenAmount.toString() : '0'}
           tokenId={token.tokenId}
         />
       )}
-    </>
-  )
-
-  return (
-    <EnterAmount
-      tokens={[token]}
-      defaultToken={token}
-      prepareTransactionsResult={prepareTransactionsResult}
-      onClearPreparedTransactions={clearPreparedTransactions}
-      onRefreshPreparedTransactions={handleRefreshPreparedTransactions}
-      prepareTransactionError={prepareTransactionError}
-      tokenSelectionDisabled={true}
-      onPressProceed={onPressContinue}
-      onPressInfo={onPressInfo}
-      onChangeTokenAmount={(amount: BigNumber) => setTokenAmount(amount)}
-      ProceedComponent={EarnProceed}
-      proceedComponentStatic={true}
-      disableBalanceCheck={true}
-      hideNetworkFee={true}
-      bottomSheets={bottomeSheets}
-    />
-  )
-}
-
-function EarnProceed({
-  tokenAmount,
-  localAmount,
-  token,
-  amountEnteredIn,
-  disabled,
-  onPressInfo,
-  onPressProceed,
-}: ProceedComponentProps) {
-  const { t } = useTranslation()
-  const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-
-  const asyncPoolInfo = useAsync(
-    async () => {
-      if (!token || !token.address) {
-        throw new Error(`Token with id ${token} not found`)
-      }
-
-      if (!isAddress(token.address)) {
-        throw new Error(`Token with id ${token} does not contain a valid address`)
-      }
-
-      return fetchAavePoolInfo({
-        assetAddress: token.address,
-        contractAddress: networkConfig.arbAavePoolV3ContractAddress,
-        network: networkIdToNetwork[token.networkId],
-      })
-    },
-    [],
-    {
-      onError: (error) => {
-        Logger.warn(TAG, error.message)
-      },
-    }
-  )
-
-  return (
-    <View style={styles.infoContainer}>
-      <View style={styles.line}>
-        <Text style={styles.label}>{t('earnFlow.enterAmount.earnUpToLabel')}</Text>
-        <Text style={styles.label}>{t('earnFlow.enterAmount.rateLabel')}</Text>
-      </View>
-      <View style={styles.line}>
-        <Text style={styles.valuesText} testID="EarnEnterAmount/EarnUpTo">
-          {t('earnFlow.enterAmount.earnUpTo', {
-            fiatSymbol: localCurrencySymbol,
-            amount:
-              asyncPoolInfo?.result && !!asyncPoolInfo.result.apy && tokenAmount?.gt(0)
-                ? tokenAmount.multipliedBy(new BigNumber(asyncPoolInfo.result.apy)).toFormat(2)
-                : '--',
-          })}
-        </Text>
-        <View style={styles.apy}>
-          <TokenIcon token={token} size={IconSize.XSMALL} />
-          <Text style={styles.valuesText} testID="EarnEnterAmount/Apy">
-            {t('earnFlow.enterAmount.rate', {
-              rate:
-                asyncPoolInfo?.result && !!asyncPoolInfo.result.apy
-                  ? (asyncPoolInfo.result.apy * 100).toFixed(2)
-                  : '--',
-            })}
-          </Text>
-        </View>
-      </View>
-      <Button
-        onPress={() =>
-          tokenAmount && onPressProceed({ tokenAmount, localAmount, token, amountEnteredIn })
-        }
-        text={t('earnFlow.enterAmount.continue')}
-        style={styles.continueButton}
-        size={BtnSizes.FULL}
-        disabled={disabled}
-      />
-      <View style={styles.row}>
-        <Text style={styles.infoText}>{t('earnFlow.enterAmount.info')}</Text>
-        <TouchableOpacity
-          onPress={onPressInfo}
-          hitSlop={variables.iconHitslop}
-          testID="EarnEnterAmount/InfoIcon"
-        >
-          <InfoIcon color={Colors.black} />
-        </TouchableOpacity>
-      </View>
-    </View>
+    </SafeAreaView>
   )
 }
 
@@ -317,6 +539,80 @@ const styles = StyleSheet.create({
   },
   linkText: {
     textDecorationLine: 'underline',
+  },
+  safeAreaContainer: {
+    flex: 1,
+  },
+  contentContainer: {
+    paddingHorizontal: Spacing.Thick24,
+    paddingTop: Spacing.Thick24,
+  },
+  title: {
+    ...typeScale.titleSmall,
+  },
+  inputContainer: {
+    flex: 1,
+  },
+  inputBox: {
+    marginTop: Spacing.Large32,
+    backgroundColor: '#FAFAFA',
+    borderWidth: 1,
+    borderRadius: 16,
+    borderColor: Colors.gray2,
+  },
+  inputRow: {
+    paddingHorizontal: Spacing.Regular16,
+    paddingTop: Spacing.Smallest8,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  localAmountRow: {
+    marginTop: Spacing.Thick24,
+    marginLeft: Spacing.Regular16,
+    paddingRight: Spacing.Regular16,
+    paddingBottom: Spacing.Regular16,
+    paddingTop: Spacing.Thick24,
+    borderTopColor: Colors.gray2,
+    borderTopWidth: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  inputText: {
+    ...typeScale.titleMedium,
+  },
+  tokenView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.white,
+    borderWidth: 1,
+    borderColor: Colors.gray2,
+    borderRadius: TOKEN_SELECTOR_BORDER_RADIUS,
+    paddingHorizontal: Spacing.Smallest8,
+    paddingVertical: Spacing.Tiny4,
+  },
+  tokenName: {
+    ...typeScale.labelSmall,
+    paddingLeft: Spacing.Tiny4,
+    paddingRight: Spacing.Smallest8,
+  },
+  localAmount: {
+    ...typeScale.labelMedium,
+  },
+  maxTouchable: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    backgroundColor: Colors.gray2,
+    borderWidth: 1,
+    borderColor: Colors.gray2,
+    borderRadius: MAX_BORDER_RADIUS,
+  },
+  maxText: {
+    ...typeScale.labelSmall,
+  },
+  warning: {
+    marginTop: Spacing.Regular16,
+    paddingHorizontal: Spacing.Regular16,
+    borderRadius: 16,
   },
 })
 
