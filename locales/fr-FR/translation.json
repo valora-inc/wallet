@@ -2391,9 +2391,11 @@
       "total": "TOTAL",
       "plus": "PLUS",
       "rate": "Taux (est.)",
-      "apy": "~{{apy}}% APY",
+      "apy": "{{apy}}% APY",
       "fee": "Frais de gaz",
-      "cta": "Collecter les gains"
+      "cta": "Collecter les gains",
+      "errorTitle": "Une erreur s'est produite",
+      "errorDescription": "Impossible de récupérer les détails du dépôt. Essaie à nouveau."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
