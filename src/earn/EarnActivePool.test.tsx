@@ -95,6 +95,9 @@ describe('EarnActivePool', () => {
       tokenAmount: '10.75',
       providerId: 'aave-v3',
     })
-    expect(navigate).toBeCalledWith(Screens.EarnCollectScreen)
+    expect(navigate).toBeCalledWith(Screens.EarnCollectScreen, {
+      depositTokenId: networkConfig.arbUsdcTokenId,
+      poolTokenId: networkConfig.aaveArbUsdcTokenId,
+    })
   })
 })
