@@ -604,6 +604,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [EarnEvents.earn_deposit_submit_error]: `When the deposit transaction fails`,
   [EarnEvents.earn_deposit_submit_cancel]: `When the user cancels the deposit after submitting by cancelling PIN input`,
   [EarnEvents.earn_view_pools_press]: `When the user taps on the view pools button from token details`,
+  [EarnEvents.earn_exit_pool_press]: `When the user taps on the exit pool button from the earn card in discover tab`,
 
   // Legacy event docs
   //  The below events had docs, but are no longer produced by the latest app version.
