@@ -2389,9 +2389,11 @@
       "total": "TOTAL",
       "plus": "PLUS",
       "rate": "Rate (est.)",
-      "apy": "~{{apy}}% APY",
+      "apy": "{{apy}}% APY",
       "fee": "Gas Fee",
-      "cta": "Collect Earnings"
+      "cta": "Collect Earnings",
+      "errorTitle": "Đã xảy ra lỗi",
+      "errorDescription": "Unable to fetch deposit details. Please try again."
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
