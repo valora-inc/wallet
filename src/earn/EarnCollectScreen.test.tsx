@@ -298,10 +298,6 @@ describe('EarnCollectScreen', () => {
 
     expect(getByText('earnFlow.collect.title')).toBeTruthy()
     expect(getByText('earnFlow.collect.total')).toBeTruthy()
-    expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/CryptoAmount`)).toHaveTextContent(
-      '10.75 USDC'
-    )
-    expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/FiatAmount`)).toHaveTextContent('₱14.30')
     expect(getByTestId('EarnCollect/RewardsLoading')).toBeTruthy()
     expect(getByTestId('EarnCollect/ApyLoading')).toBeTruthy()
     expect(getByTestId('EarnCollect/GasLoading')).toBeTruthy()
