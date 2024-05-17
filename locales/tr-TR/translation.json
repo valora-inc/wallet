@@ -2391,9 +2391,11 @@
       "total": "TOPLAM",
       "plus": "ARTI",
       "rate": "Oran (tahmini)",
-      "apy": "~{{apy}}% APY",
+      "apy": "{{apy}}% APY",
       "fee": "Gaz Ücreti",
-      "cta": "Kazançları Toplayın"
+      "cta": "Kazançları Toplayın",
+      "errorTitle": "Bir şeyler ters gitti",
+      "errorDescription": "Para yatırma detayları alınamıyor. Lütfen tekrar deneyin."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
