@@ -1605,6 +1605,9 @@ interface EarnEventsProperties {
     tokenAmount: string
     providerId: string
   }
+  [EarnEvents.earn_feed_item_select]: {
+    origin: 'EarnDeposit' | 'EarnWithdraw' | 'EarnClaimReward'
+  }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &
