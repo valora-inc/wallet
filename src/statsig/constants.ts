@@ -141,6 +141,7 @@ export const DynamicConfigs = {
       providerName: 'Aave',
       providerLogoUrl: '',
       providerTermsAndConditionsUrl: '',
+      depositGasPadding: 0,
     },
   },
 } satisfies {

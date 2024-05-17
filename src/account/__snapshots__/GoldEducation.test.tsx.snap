@@ -555,7 +555,7 @@ exports[`renders correctly 1`] = `
                 "color": "#2E3338",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
-                "lineHeight": 22,
+                "lineHeight": 24,
                 "marginLeft": 0,
                 "marginRight": 0,
               }
