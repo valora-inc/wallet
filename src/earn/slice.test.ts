@@ -16,7 +16,7 @@ describe('Earn Slice', () => {
       depositStart({ amount: '100', tokenId: 'tokenId', preparedTransactions: [] })
     )
 
-    expect(updatedState).toHaveProperty('depositStatus', 'started')
+    expect(updatedState).toHaveProperty('depositStatus', 'loading')
   })
 
   it('should handle deposit success', () => {
@@ -43,7 +43,7 @@ describe('Earn Slice', () => {
       withdrawStart({ amount: '100', tokenId: 'tokenId', preparedTransactions: [], rewards: [] })
     )
 
-    expect(updatedState).toHaveProperty('withdrawStatus', 'started')
+    expect(updatedState).toHaveProperty('withdrawStatus', 'loading')
   })
 
   it('should handle withdraw success', () => {
