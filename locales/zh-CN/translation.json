@@ -2394,6 +2394,14 @@
       "cta": "收取收益",
       "errorTitle": "出错了",
       "errorDescription": "无法获取存款详情。请重试。"
+    },
+    "transactionFeed": {
+      "earnClaimTitle": "收藏",
+      "earnClaimSubtitle": "来自 {{providerName}} Pool",
+      "earnDepositTitle": "存入",
+      "earnDepositSubtitle": "至 {{providerName}} 池",
+      "earnWithdrawTitle": "撤回",
+      "earnWithdrawSubtitle": "来自 {{providerName}} Pool"
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
