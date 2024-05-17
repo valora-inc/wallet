@@ -2391,9 +2391,11 @@
       "total": "TOTAL",
       "plus": "MAIS",
       "rate": "Taxa (est.)",
-      "apy": "~{{apy}}% APY",
+      "apy": "{{apy}}% APY",
       "fee": "Taxa de gás",
-      "cta": "Coleta de ganhos"
+      "cta": "Coleta de ganhos",
+      "errorTitle": "Algo deu errado",
+      "errorDescription": "Não foi possível obter os detalhes do depósito. Por favor, tente novamente."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
