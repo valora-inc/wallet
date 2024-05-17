@@ -2391,9 +2391,11 @@
       "total": "TOTALE",
       "plus": "PIÙ",
       "rate": "Tasso (est.)",
-      "apy": "~{{apy}}% APY",
+      "apy": "{{apy}}% APY",
       "fee": "Tassa sul gas",
-      "cta": "Raccogli i guadagni"
+      "cta": "Raccogli i guadagni",
+      "errorTitle": "Si è verificato un errore",
+      "errorDescription": "Impossibile recuperare i dettagli del deposito. Riprova."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
