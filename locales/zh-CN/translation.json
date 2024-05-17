@@ -2389,9 +2389,11 @@
       "total": "总计",
       "plus": "加",
       "rate": "比率（估计值）",
-      "apy": "~{{apy}}% APY",
+      "apy": "{{apy}}年利率",
       "fee": "燃气费",
-      "cta": "收取收益"
+      "cta": "收取收益",
+      "errorTitle": "出错了",
+      "errorDescription": "无法获取存款详情。请重试。"
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
