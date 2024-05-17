@@ -1815,6 +1815,15 @@
       "networkFeeNoNetwork": "Taxa de rede",
       "swapFee": "Taxa da {{appName}}",
       "swapFeeWaived": "Grátis",
+      "appFee": "Taxa da {{appName}}",
+      "appFeeValue": "<0></0> <1>(<0></0>)</1>",
+      "appFeeValue_withoutPriceUsd": "<0></0>",
+      "appFeeValue_free": "Grátis",
+      "appFeeValue_placeholder": "-",
+      "appFeeInfo": "{{appName}} Taxa\n\nCobramos uma taxa para você trocar tokens em {{appName}}. A taxa é {{appFeePercentage}}% do valor que você está trocando.",
+      "appFeeInfo_free": "{{appName}} Tarifa\n\nEssa troca é gratuita.",
+      "appFeeInfo_placeholder": "{{appName}} Taxa\n\nA taxa é calculada com base na cotação que você receber.",
+      "appFeeInfoDismissButton": "Entendi",
       "slippagePercentage": "Tolerância do slippage",
       "networkFeeInfo": "Você está trocando na rede {{networkName}}.\n\nEsta taxa de rede estimada é necessária para realizar uma transação na rede {{networkName}}. Essa taxa protege a sua transação e visa manter a rede operacional.",
       "networkFeeInfoV1_76": "Você está trocando na rede {{networkName}}.\n\nUma taxa de rede é necessária para realizar uma transação na rede {{networkName}}. Essa taxa protege sua transação e é paga aos validadores da rede.\n\nComo as condições da rede determinam a quantia exata, a estimativa listada é o que esperamos que seja a taxa real. A taxa não excederá a quantia máxima da taxa.",
@@ -2327,6 +2336,15 @@
       "moreComing": {
         "title": "Em breve, você receberá mais informações!"
       }
+    },
+    "discoverCard": {
+      "title": "{{appName}} Pontos",
+      "description": "Ganhe pontos facilmente com o {{appName}}. Ao usar o aplicativo, incluindo a troca, você ganha pontos!"
+    },
+    "intro": {
+      "title": "Ganhe pontos sem esforço",
+      "description": "Você está em uma nova forma de ganhar! Agora você ganha pontos com as ações do {{appName}} . Comece a ganhar pontos hoje mesmo e desbloqueie benefícios incríveis.",
+      "cta": "Comece sua jornada de pontos"
     }
   },
   "earnFlow": {
@@ -2373,9 +2391,11 @@
       "total": "TOTAL",
       "plus": "MAIS",
       "rate": "Taxa (est.)",
-      "apy": "~{{apy}}% APY",
+      "apy": "{{apy}}% APY",
       "fee": "Taxa de gás",
-      "cta": "Coleta de ganhos"
+      "cta": "Coleta de ganhos",
+      "errorTitle": "Algo deu errado",
+      "errorDescription": "Não foi possível obter os detalhes do depósito. Por favor, tente novamente."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

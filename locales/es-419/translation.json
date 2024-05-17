@@ -1815,6 +1815,15 @@
       "networkFeeNoNetwork": "Tarifa de red",
       "swapFee": "Tarifa de {{appName}}",
       "swapFeeWaived": "Gratis",
+      "appFee": "Tarifa de {{appName}}",
+      "appFeeValue": "<0></0> <1>(<0></0>)</1>",
+      "appFeeValue_withoutPriceUsd": "<0></0>",
+      "appFeeValue_free": "Gratis",
+      "appFeeValue_placeholder": "-",
+      "appFeeInfo": "{{appName}} Comisión\n\nCobramos una comisión por intercambiar fichas en {{appName}}. La comisión es {{appFeePercentage}}% de la cantidad que intercambies.",
+      "appFeeInfo_free": "{{appName}} Tarifa\n\nEste intercambio es gratuito.",
+      "appFeeInfo_placeholder": "{{appName}} Tarifa\n\nLa tarifa se calcula en función del presupuesto que recibas.",
+      "appFeeInfoDismissButton": "Entendido",
       "slippagePercentage": "Tolerancia al slippage",
       "networkFeeInfo": "Estás intercambiando en la red {{networkName}}.\n\nSe requiere esta tarifa de red estimada para realizar una transacción en la red {{networkName}}. Esta tarifa asegura tu transacción y se destina a mantener la red.",
       "networkFeeInfoV1_76": "Estás intercambiando en la Red {{networkName}}.\n\nSe requiere una tarifa de red para realizar una transacción en la Red {{networkName}}. Esta tarifa asegura tu transacción y se paga a los validadores de la red.\n\nDado que las condiciones de la red determinan el monto exacto, la estimación indicada es lo que esperamos que sea la tarifa real. La tarifa no superará el monto máximo.",
@@ -2327,6 +2336,15 @@
       "moreComing": {
         "title": "¡Pronto más!"
       }
+    },
+    "discoverCard": {
+      "title": "{{appName}} Puntos",
+      "description": "Gana puntos fácilmente con {{appName}}. Utilizar la aplicación, incluidos los intercambios, ¡conlleva puntos!"
+    },
+    "intro": {
+      "title": "Gana puntos sin esfuerzo",
+      "description": "¡Entra en una nueva forma de ganar! Tus acciones en {{appName}} ahora ganan puntos. Empieza a ganar hoy y desbloquea increíbles ventajas.",
+      "cta": "Comienza tu viaje por los puntos"
     }
   },
   "earnFlow": {
@@ -2373,9 +2391,11 @@
       "total": "TOTAL",
       "plus": "MÁS",
       "rate": "Tasa (est.)",
-      "apy": "~{{apy}}% APY",
+      "apy": "{{apy}}% APY",
       "fee": "Tasa del gas",
-      "cta": "Recaudar ingresos"
+      "cta": "Recaudar ingresos",
+      "errorTitle": "Algo salió mal",
+      "errorDescription": "No se han podido obtener los datos del depósito. Vuelve a intentarlo."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
