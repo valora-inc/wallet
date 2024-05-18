@@ -2396,6 +2396,14 @@
       "cta": "Collecter les gains",
       "errorTitle": "Une erreur s'est produite",
       "errorDescription": "Impossible de récupérer les détails du dépôt. Essaie à nouveau."
+    },
+    "transactionFeed": {
+      "earnClaimTitle": "Recueilli",
+      "earnClaimSubtitle": "de {{providerName}} Pool",
+      "earnDepositTitle": "Déposé",
+      "earnDepositSubtitle": "à {{providerName}} Pool",
+      "earnWithdrawTitle": "Retire-toi",
+      "earnWithdrawSubtitle": "de {{providerName}} Pool"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

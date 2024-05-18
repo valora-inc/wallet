@@ -2400,6 +2400,14 @@
       "cta": "Zbieraj zarobki",
       "errorTitle": "Coś poszło nie tak",
       "errorDescription": "Nie można pobrać szczegółów wpłaty. Spróbuj ponownie."
+    },
+    "transactionFeed": {
+      "earnClaimTitle": "Zebrane",
+      "earnClaimSubtitle": "z {{providerName}} Pool",
+      "earnDepositTitle": "Wpłacono",
+      "earnDepositSubtitle": "na {{providerName}} Pool",
+      "earnWithdrawTitle": "Wycofany",
+      "earnWithdrawSubtitle": "z {{providerName}} Pool"
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",

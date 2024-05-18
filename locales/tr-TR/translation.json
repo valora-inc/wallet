@@ -2396,6 +2396,14 @@
       "cta": "Kazançları Toplayın",
       "errorTitle": "Bir şeyler ters gitti",
       "errorDescription": "Para yatırma detayları alınamıyor. Lütfen tekrar deneyin."
+    },
+    "transactionFeed": {
+      "earnClaimTitle": "Toplanmış",
+      "earnClaimSubtitle": "{{providerName}} Pool'dan",
+      "earnDepositTitle": "Yatırılan",
+      "earnDepositSubtitle": "{{providerName}} Havuzuna",
+      "earnWithdrawTitle": "Geri çekildi",
+      "earnWithdrawSubtitle": "{{providerName}} Pool'dan"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

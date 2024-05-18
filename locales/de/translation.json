@@ -2396,6 +2396,14 @@
       "cta": "Verdienste sammeln",
       "errorTitle": "Etwas ist schief gelaufen",
       "errorDescription": "Die Einzahlungsdetails können nicht abgerufen werden. Bitte versuche es erneut."
+    },
+    "transactionFeed": {
+      "earnClaimTitle": "Gesammelt",
+      "earnClaimSubtitle": "von {{providerName}} Pool",
+      "earnDepositTitle": "Hinterlegt",
+      "earnDepositSubtitle": "zu {{providerName}} Pool",
+      "earnWithdrawTitle": "Zurückgezogen",
+      "earnWithdrawSubtitle": "von {{providerName}} Pool"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

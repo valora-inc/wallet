@@ -2396,6 +2396,14 @@
       "cta": "Coleta de ganhos",
       "errorTitle": "Algo deu errado",
       "errorDescription": "Não foi possível obter os detalhes do depósito. Por favor, tente novamente."
+    },
+    "transactionFeed": {
+      "earnClaimTitle": "Coletânea",
+      "earnClaimSubtitle": "do site {{providerName}} Pool",
+      "earnDepositTitle": "Depositado",
+      "earnDepositSubtitle": "para {{providerName}} Pool",
+      "earnWithdrawTitle": "Retirada",
+      "earnWithdrawSubtitle": "do site {{providerName}} Pool"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
