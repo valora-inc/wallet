@@ -1,12 +1,16 @@
-import { render, waitFor } from '@testing-library/react-native'
+import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Provider } from 'react-redux'
+import { EarnEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import EarnCollectScreen from 'src/earn/EarnCollectScreen'
 import { fetchAavePoolInfo, fetchAaveRewards } from 'src/earn/poolInfo'
 import { prepareWithdrawAndClaimTransactions } from 'src/earn/prepareTransactions'
+import { withdrawStart } from 'src/earn/slice'
 import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
+import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, mockStoreBalancesToTokenBalances } from 'test/utils'
@@ -20,22 +24,22 @@ import {
   mockTokenBalances,
 } from 'test/values'
 
-const store = createMockStore({
-  tokens: {
-    tokenBalances: {
-      ...mockTokenBalances,
-      [networkConfig.aaveArbUsdcTokenId]: {
-        networkId: NetworkId['arbitrum-sepolia'],
-        address: mockAaveArbUsdcAddress,
-        tokenId: networkConfig.aaveArbUsdcTokenId,
-        symbol: 'aArbSepUSDC',
-        priceUsd: '1',
-        balance: '10.75',
-        priceFetchedAt: Date.now(),
-      },
+const mockStoreTokens = {
+  tokenBalances: {
+    ...mockTokenBalances,
+    [networkConfig.aaveArbUsdcTokenId]: {
+      networkId: NetworkId['arbitrum-sepolia'],
+      address: mockAaveArbUsdcAddress,
+      tokenId: networkConfig.aaveArbUsdcTokenId,
+      symbol: 'aArbSepUSDC',
+      priceUsd: '1',
+      balance: '10.75',
+      priceFetchedAt: Date.now(),
     },
   },
-})
+}
+
+const store = createMockStore({ tokens: mockStoreTokens })
 
 jest.mock('src/earn/poolInfo')
 jest.mock('src/earn/prepareTransactions')
@@ -78,6 +82,7 @@ describe('EarnCollectScreen', () => {
     jest.mocked(fetchAavePoolInfo).mockResolvedValue({ apy: 0.03 })
     jest.mocked(fetchAaveRewards).mockResolvedValue(mockRewards)
     jest.mocked(prepareWithdrawAndClaimTransactions).mockResolvedValue(mockPreparedTransaction)
+    store.clearActions()
   })
 
   it('renders total balance, rewards, apy and gas after fetching rewards and preparing tx', async () => {
@@ -314,5 +319,65 @@ describe('EarnCollectScreen', () => {
     })
     expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
     expect(getByTestId('EarnCollect/GasError')).toBeTruthy()
+  })
+
+  it('pressing cta dispatches withdraw action and fires analytics event', async () => {
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator
+          component={EarnCollectScreen}
+          params={{
+            depositTokenId: mockArbUsdcTokenId,
+            poolTokenId: networkConfig.aaveArbUsdcTokenId,
+          }}
+        />
+      </Provider>
+    )
+
+    await waitFor(() => {
+      expect(getByTestId('EarnCollectScreen/CTA')).toBeEnabled()
+    })
+
+    fireEvent.press(getByTestId('EarnCollectScreen/CTA'))
+
+    expect(store.getActions()).toEqual([
+      {
+        type: withdrawStart.type,
+        payload: {
+          amount: '10.75',
+          tokenId: mockArbUsdcTokenId,
+          preparedTransactions: getSerializablePreparedTransactions(
+            mockPreparedTransaction.transactions
+          ),
+          rewards: [{ amount: '0.01', tokenId: mockArbArbTokenId }],
+        },
+      },
+    ])
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_collect_earnings_press, {
+      tokenId: mockArbUsdcTokenId,
+      amount: '10.75',
+      networkId: NetworkId['arbitrum-sepolia'],
+      providerId: 'aave-v3',
+      rewards: [{ amount: '0.01', tokenId: mockArbArbTokenId }],
+    })
+  })
+
+  it('disables cta and shows loading spinner when withdraw is submitted', async () => {
+    const store = createMockStore({ tokens: mockStoreTokens, earn: { withdrawStatus: 'loading' } })
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator
+          component={EarnCollectScreen}
+          params={{
+            depositTokenId: mockArbUsdcTokenId,
+            poolTokenId: networkConfig.aaveArbUsdcTokenId,
+          }}
+        />
+      </Provider>
+    )
+
+    expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
+    expect(getByTestId('EarnCollectScreen/CTA')).toContainElement(getByTestId('Button/Loading'))
   })
 })
