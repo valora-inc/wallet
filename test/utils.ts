@@ -6,6 +6,7 @@ import configureMockStore from 'redux-mock-store'
 import i18n from 'src/i18n'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
+import { StoredTokenBalance, TokenBalance } from 'src/tokens/slice'
 import { getLatestSchema } from 'test/schemas'
 import {
   mockAddressToE164Number,
@@ -155,4 +156,17 @@ export function getElementText(instance: ReactTestInstance | string): string {
       return getElementText(child)
     })
     .join('')
+}
+
+export const mockStoreBalancesToTokenBalances = (
+  storeBalances: StoredTokenBalance[]
+): TokenBalance[] => {
+  return storeBalances.map(
+    (token): TokenBalance => ({
+      ...token,
+      balance: new BigNumber(token.balance ?? 0),
+      priceUsd: new BigNumber(token.priceUsd ?? 0),
+      lastKnownPriceUsd: token.priceUsd ? new BigNumber(token.priceUsd) : null,
+    })
+  )
 }
