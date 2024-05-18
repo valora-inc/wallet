@@ -1584,6 +1584,14 @@ interface EarnDepositProperties {
   providerId: string
 }
 
+interface EarnWithdrawProperties {
+  tokenId: string
+  tokenAmount: string
+  networkId: NetworkId
+  providerId: string
+  rewards: SerializableRewardsInfo[]
+}
+
 interface EarnEventsProperties {
   [EarnEvents.earn_cta_press]: undefined
   [EarnEvents.earn_add_crypto_action_press]: {
@@ -1609,13 +1617,13 @@ interface EarnEventsProperties {
   [EarnEvents.earn_feed_item_select]: {
     origin: 'EarnDeposit' | 'EarnWithdraw' | 'EarnClaimReward'
   }
-  [EarnEvents.earn_collect_earnings_press]: {
-    tokenId: string
-    amount: string
-    networkId: NetworkId
-    providerId: string
-    rewards: SerializableRewardsInfo[]
+  [EarnEvents.earn_collect_earnings_press]: EarnWithdrawProperties
+  [EarnEvents.earn_withdraw_submit_start]: EarnWithdrawProperties
+  [EarnEvents.earn_withdraw_submit_success]: EarnWithdrawProperties
+  [EarnEvents.earn_withdraw_submit_error]: EarnWithdrawProperties & {
+    error: string
   }
+  [EarnEvents.earn_withdraw_submit_cancel]: EarnWithdrawProperties
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

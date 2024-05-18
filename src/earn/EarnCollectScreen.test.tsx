@@ -356,7 +356,7 @@ describe('EarnCollectScreen', () => {
 
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_collect_earnings_press, {
       tokenId: mockArbUsdcTokenId,
-      amount: '10.75',
+      tokenAmount: '10.75',
       networkId: NetworkId['arbitrum-sepolia'],
       providerId: 'aave-v3',
       rewards: [{ amount: '0.01', tokenId: mockArbArbTokenId }],

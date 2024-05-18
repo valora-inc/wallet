@@ -8,6 +8,8 @@ import {
   depositError,
   depositStart,
   depositSuccess,
+  withdrawCancel,
+  withdrawError,
   withdrawStart,
   withdrawSuccess,
 } from 'src/earn/slice'
@@ -182,9 +184,154 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
 }
 
 export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
-  // TODO: submit the tx
-  navigateHome()
-  yield* put(withdrawSuccess())
+  const {
+    tokenId,
+    preparedTransactions: serializablePreparedTransactions,
+    amount,
+    rewards,
+  } = action.payload
+
+  const preparedTransactions = getPreparedTransactions(serializablePreparedTransactions)
+
+  const tokenInfo = yield* call(getTokenInfo, tokenId)
+
+  if (!tokenInfo) {
+    Logger.error(`${TAG}/withdrawSubmitSaga`, 'Token info not found for token id', tokenId)
+    yield* put(withdrawError())
+    return
+  }
+
+  const networkId = tokenInfo.networkId
+  let submitted = false
+  const commonAnalyticsProps = {
+    tokenId,
+    networkId,
+    tokenAmount: amount,
+    providerId: 'aave-v3',
+    rewards,
+  }
+
+  try {
+    Logger.debug(
+      `${TAG}/withdrawSubmitSaga`,
+      `Starting withdraw for token ${tokenId}, total transactions: ${preparedTransactions.length}`
+    )
+
+    const createWithdrawStandbyTxHandlers = []
+
+    // Assumes the first tx is withdraw and the rest are claim rewards
+    const createWithdrawStandbyTxHandler = (
+      transactionHash: string,
+      feeCurrencyId?: string
+    ): BaseStandbyTransaction => {
+      return {
+        // TODO: replace with withdraw pending tx
+        context: newTransactionContext(TAG, 'Earn/Withdraw'),
+        __typename: 'TokenExchangeV3',
+        networkId,
+        type: TokenTransactionTypeV2.SwapTransaction,
+        inAmount: {
+          value: amount,
+          tokenId,
+        },
+        outAmount: {
+          value: amount,
+          tokenId: networkConfig.aaveArbUsdcTokenId,
+        },
+        transactionHash,
+        feeCurrencyId,
+      }
+    }
+
+    createWithdrawStandbyTxHandlers.push(createWithdrawStandbyTxHandler)
+
+    rewards.forEach(({ amount, tokenId }, index) => {
+      const createClaimRewardStandbyTx = (
+        transactionHash: string,
+        feeCurrencyId?: string
+      ): BaseStandbyTransaction => {
+        return {
+          // TODO: replace with claim reward pending tx
+          context: newTransactionContext(TAG, `Earn/ClaimReward-${index + 1}`),
+          __typename: 'TokenTransferV3',
+          networkId,
+          amount: {
+            value: amount,
+            tokenId,
+          },
+          type: TokenTransactionTypeV2.Received,
+          transactionHash,
+          feeCurrencyId,
+          address: '',
+          metadata: {},
+        }
+      }
+      createWithdrawStandbyTxHandlers.push(createClaimRewardStandbyTx)
+    })
+
+    ValoraAnalytics.track(EarnEvents.earn_withdraw_submit_start, commonAnalyticsProps)
+
+    const txHashes = yield* call(
+      sendPreparedTransactions,
+      serializablePreparedTransactions,
+      networkId,
+      createWithdrawStandbyTxHandlers
+    )
+
+    Logger.debug(
+      `${TAG}/withd`,
+      'Successfully sent withdraw transaction(s) to the network',
+      txHashes
+    )
+
+    navigateHome()
+    submitted = true
+
+    // wait for the tx receipts, so that we can track them
+    Logger.debug(`${TAG}/withdrawSubmitSaga`, 'Waiting for transaction receipts')
+    const txReceipts = yield* all(
+      txHashes.map((txHash) => {
+        return call([publicClient[networkIdToNetwork[networkId]], 'waitForTransactionReceipt'], {
+          hash: txHash,
+        })
+      })
+    )
+    txReceipts.forEach((receipt, index) => {
+      Logger.debug(
+        `${TAG}/withdrawSubmitSaga`,
+        `Received transaction receipt ${index + 1} of ${txReceipts.length}`,
+        receipt
+      )
+    })
+
+    txReceipts.forEach((receipt, index) => {
+      if (receipt.status !== 'success') {
+        throw new Error(`Transaction ${index + 1} reverted: ${receipt?.transactionHash}`)
+      }
+    })
+
+    yield* put(withdrawSuccess())
+    ValoraAnalytics.track(EarnEvents.earn_withdraw_submit_success, commonAnalyticsProps)
+  } catch (err) {
+    if (err === CANCELLED_PIN_INPUT) {
+      Logger.info(`${TAG}/withdrawSubmitSaga`, 'Transaction cancelled by user')
+      yield* put(withdrawCancel())
+      ValoraAnalytics.track(EarnEvents.earn_withdraw_submit_cancel, commonAnalyticsProps)
+      return
+    }
+
+    const error = ensureError(err)
+    Logger.error(`${TAG}/withdrawSubmitSaga`, 'Error sending withdraw transaction', error)
+    yield* put(withdrawError())
+    ValoraAnalytics.track(EarnEvents.earn_withdraw_submit_error, {
+      ...commonAnalyticsProps,
+      error: error.message,
+    })
+
+    if (!submitted) {
+      vibrateError()
+    }
+  }
 }
 
 export function* earnSaga() {
