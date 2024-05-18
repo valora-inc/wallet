@@ -4560,17 +4560,15 @@
             "additionalProperties": false,
             "properties": {
                 "depositStatus": {
-                    "enum": [
-                        "error",
-                        "idle",
-                        "started",
-                        "success"
-                    ],
-                    "type": "string"
+                    "$ref": "#/definitions/Status_1"
+                },
+                "withdrawStatus": {
+                    "$ref": "#/definitions/Status_1"
                 }
             },
             "required": [
-                "depositStatus"
+                "depositStatus",
+                "withdrawStatus"
             ],
             "type": "object"
         },
@@ -4945,6 +4943,15 @@
             "type": "object"
         },
         "Status": {
+            "enum": [
+                "error",
+                "idle",
+                "loading",
+                "success"
+            ],
+            "type": "string"
+        },
+        "Status_1": {
             "enum": [
                 "error",
                 "idle",
