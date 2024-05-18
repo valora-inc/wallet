@@ -56,14 +56,12 @@ export function useAaveRewardsInfoAndPrepareTransactions({
 
   const asyncRewardsInfo = useAsync(
     async () => {
-      if (!poolTokenInfo || !poolTokenInfo.address) {
-        throw new Error(`Token with id ${networkConfig.aaveArbUsdcTokenId} not found`)
+      if (!poolTokenInfo) {
+        throw new Error(`Token with id ${poolTokenId} not found`)
       }
 
-      if (!isAddress(poolTokenInfo.address)) {
-        throw new Error(
-          `Token with id ${networkConfig.arbUsdcTokenId} does not contain a valid address`
-        )
+      if (!poolTokenInfo.address || !isAddress(poolTokenInfo.address)) {
+        throw new Error(`Token with id ${poolTokenId} does not contain a valid address`)
       }
 
       if (!walletAddress || !isAddress(walletAddress)) {
@@ -81,35 +79,43 @@ export function useAaveRewardsInfoAndPrepareTransactions({
     [],
     {
       onError: (error) => {
-        Logger.warn(`${TAG}/useAaveRewardsInfo`, error.message)
+        Logger.warn(`${TAG}/useAaveRewardsInfoAndPrepareTransactions`, error)
       },
     }
   )
 
-  const asyncPreparedTransactions = useAsync(async () => {
-    if (!asyncRewardsInfo.result) {
-      return
-    }
+  const asyncPreparedTransactions = useAsync(
+    async () => {
+      if (!asyncRewardsInfo.result) {
+        return
+      }
 
-    if (
-      !walletAddress ||
-      !isAddress(walletAddress) ||
-      !poolTokenInfo?.address ||
-      !isAddress(poolTokenInfo.address) ||
-      !depositTokenInfo
-    ) {
-      // should never happen
-      throw new Error('Invalid wallet or pool token address')
-    }
+      if (
+        !walletAddress ||
+        !isAddress(walletAddress) ||
+        !poolTokenInfo?.address ||
+        !isAddress(poolTokenInfo.address) ||
+        !depositTokenInfo
+      ) {
+        // should never happen
+        throw new Error('Invalid wallet or pool token address')
+      }
 
-    return prepareWithdrawAndClaimTransactions({
-      amount: poolTokenInfo.balance.toString(),
-      token: depositTokenInfo,
-      walletAddress,
-      feeCurrencies,
-      rewards: asyncRewardsInfo.result,
-      poolTokenAddress: poolTokenInfo.address,
-    })
-  }, [asyncRewardsInfo.result])
+      return prepareWithdrawAndClaimTransactions({
+        amount: poolTokenInfo.balance.toString(),
+        token: depositTokenInfo,
+        walletAddress,
+        feeCurrencies,
+        rewards: asyncRewardsInfo.result,
+        poolTokenAddress: poolTokenInfo.address,
+      })
+    },
+    [asyncRewardsInfo.result],
+    {
+      onError: (error) => {
+        Logger.warn(`${TAG}/useAaveRewardsInfoAndPrepareTransactions`, error)
+      },
+    }
+  )
   return { asyncRewardsInfo, asyncPreparedTransactions }
 }
