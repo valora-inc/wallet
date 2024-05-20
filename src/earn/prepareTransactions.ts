@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { useAsyncCallback } from 'react-async-hook'
 import aaveIncentivesV3Abi from 'src/abis/AaveIncentivesV3'
 import aavePool from 'src/abis/AavePoolV3'
 import erc20 from 'src/abis/IERC20'
@@ -7,11 +8,15 @@ import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
+import Logger from 'src/utils/Logger'
+import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { publicClient } from 'src/viem'
 import { TransactionRequest, prepareTransactions } from 'src/viem/prepareTransactions'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { Address, encodeFunctionData, isAddress, parseUnits } from 'viem'
+
+const TAG = 'earn/prepareTransactions'
 
 type SimulatedTransactionResponse = {
   status: 'OK'
@@ -132,6 +137,25 @@ export async function prepareSupplyTransactions({
     spendToken: token,
     spendTokenAmount: new BigNumber(amount),
   })
+}
+
+/**
+ * Hook to prepare transactions for supplying crypto.
+ */
+export function usePrepareSupplyTransactions() {
+  const prepareTransactions = useAsyncCallback(prepareSupplyTransactions, {
+    onError: (err) => {
+      const error = ensureError(err)
+      Logger.error(TAG, 'usePrepareSupplyTransactions', error)
+    },
+  })
+
+  return {
+    prepareTransactionsResult: prepareTransactions.result,
+    refreshPreparedTransactions: prepareTransactions.execute,
+    clearPreparedTransactions: prepareTransactions.reset,
+    prepareTransactionError: prepareTransactions.error,
+  }
 }
 
 export async function prepareWithdrawAndClaimTransactions({

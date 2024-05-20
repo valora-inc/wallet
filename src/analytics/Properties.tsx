@@ -1608,12 +1608,23 @@ interface EarnEventsProperties {
   }
   [EarnEvents.earn_deposit_submit_cancel]: EarnDepositProperties
   [EarnEvents.earn_view_pools_press]: undefined
+  [EarnEvents.earn_enter_amount_info_press]: undefined
+  [EarnEvents.earn_enter_amount_continue_press]: {
+    userHasFunds: boolean
+    tokenAmount: string
+    amountInUsd: string
+    amountEnteredIn: AmountEnteredIn
+    tokenId: string
+    networkId: string
+  }
+  [EarnEvents.earn_enter_amount_info_more_pools]: undefined
   [EarnEvents.earn_exit_pool_press]: {
     poolTokenId: string
     networkId: NetworkId
     tokenAmount: string
     providerId: string
   }
+  [EarnEvents.earn_deposit_add_gas_press]: { gasTokenId: string }
   [EarnEvents.earn_feed_item_select]: {
     origin: 'EarnDeposit' | 'EarnWithdraw' | 'EarnClaimReward'
   }
