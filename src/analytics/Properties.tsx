@@ -1615,6 +1615,7 @@ interface EarnEventsProperties {
     tokenAmount: string
     providerId: string
   }
+  [EarnEvents.earn_deposit_add_gas_press]: { gasTokenId: string }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

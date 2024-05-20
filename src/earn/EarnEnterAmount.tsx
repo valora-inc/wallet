@@ -337,6 +337,9 @@ function EarnEnterAmount({ route }: Props) {
               network: NETWORK_NAMES[prepareTransactionsResult.feeCurrencies[0].networkId],
             })}
             onPressCta={() => {
+              ValoraAnalytics.track(EarnEvents.earn_deposit_add_gas_press, {
+                gasTokenId: feeCurrencies[0].tokenId,
+              })
               navigate(Screens.FiatExchangeAmount, {
                 tokenId: prepareTransactionsResult.feeCurrencies[0].tokenId,
                 flow: CICOFlow.CashIn,
