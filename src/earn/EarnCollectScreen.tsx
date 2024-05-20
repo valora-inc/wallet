@@ -16,6 +16,7 @@ import { withdrawStart } from 'src/earn/slice'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
+import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -129,6 +130,24 @@ export default function EarnCollectScreen({ route }: Props) {
             variant={NotificationVariant.Error}
             title={t('earnFlow.collect.errorTitle')}
             description={t('earnFlow.collect.errorDescription')}
+            style={styles.error}
+          />
+        )}
+        {asyncPreparedTransactions.result?.type === 'not-enough-balance-for-gas' && (
+          <InLineNotification
+            variant={NotificationVariant.Warning}
+            title={t('earnFlow.collect.noGasTitle', { symbol: feeCurrencies[0].symbol })}
+            description={t('earnFlow.collect.noGasDescription', {
+              symbol: feeCurrencies[0].symbol,
+              network: NETWORK_NAMES[depositToken.networkId],
+            })}
+            ctaLabel={t('earnFlow.collect.noGasCta', {
+              symbol: feeCurrencies[0].symbol,
+              network: NETWORK_NAMES[depositToken.networkId],
+            })}
+            onPressCta={() => {
+              // navigate
+            }}
             style={styles.error}
           />
         )}

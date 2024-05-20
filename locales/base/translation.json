@@ -2397,7 +2397,10 @@
       "fee": "Gas Fee",
       "cta": "Collect Earnings",
       "errorTitle": "Something went wrong",
-      "errorDescription": "Unable to fetch deposit details. Please try again."
+      "errorDescription": "Unable to fetch deposit details. Please try again.",
+      "noGasTitle": "You need more {{symbol}} to continue",
+      "noGasDescription": "Add {{symbol}} on {{network}} to cover your gas fees",
+      "noGasCta": "Buy {{symbol}} on {{network}}"
     },
     "transactionFeed": {
       "earnClaimTitle": "Collected",
