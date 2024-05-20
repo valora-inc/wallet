@@ -2367,6 +2367,24 @@
       "subtitle": "Deposite hoje e ganhe retornos",
       "description": "Veja quanto você pode ganhar ao fornecer um pool de empréstimos"
     },
+    "enterAmount": {
+      "earnUpToLabel": "Você pode ganhar até:",
+      "rateLabel": "Taxa (est.)",
+      "earnUpTo": "~{{fiatSymbol}}{{amount}} / ano",
+      "rate": "{{rate}}% APY",
+      "continue": "Continuar",
+      "info": "Esta piscina é alimentada por Aave",
+      "infoBottomSheet": {
+        "title": "Por que essa piscina?",
+        "description": "Esse pool da Aave tem mais de US$ 150 milhões em TVL e mais de 6.000 contribuintes, o que indica forte liquidez e confiabilidade. Ele também usa USDC como seu token e Abritrum como sua rede, o que reduz a volatilidade e garante que os usuários recebam taxas de gás baratas.\n\nTudo isso faz dela uma opção segura e atraente com APY competitivo, garantindo uma oportunidade de investimento benéfica para nossos usuários.\n\nVocê pode explorar outros pools da Aave <0>aqui</0>.",
+        "dismiss": "Ignorar"
+      },
+      "notEnoughBalanceForGasWarning": {
+        "title": "Você precisa de mais {{feeTokenSymbol}} para continuar",
+        "description": "Adicione {{feeTokenSymbol}} em {{network}} para cobrir suas taxas de gás",
+        "noGasCta": "Compre {{feeTokenSymbol}} em {{network}}"
+      }
+    },
     "activePools": {
       "title": "Piscinas ativas",
       "totalValue": "Valor Total:",
@@ -2395,7 +2413,10 @@
       "fee": "Taxa de gás",
       "cta": "Coleta de ganhos",
       "errorTitle": "Algo deu errado",
-      "errorDescription": "Não foi possível obter os detalhes do depósito. Por favor, tente novamente."
+      "errorDescription": "Não foi possível obter os detalhes do depósito. Por favor, tente novamente.",
+      "noGasTitle": "Você precisa de mais {{symbol}} para continuar",
+      "noGasDescription": "Adicione {{symbol}} em {{network}} para cobrir suas taxas de gás",
+      "noGasCta": "Compre {{symbol}} em {{network}}"
     },
     "transactionFeed": {
       "earnClaimTitle": "Coletânea",
