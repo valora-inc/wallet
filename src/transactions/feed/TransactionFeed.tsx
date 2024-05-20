@@ -8,6 +8,7 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
 import NoActivity from 'src/transactions/NoActivity'
+import EarnFeedItem from 'src/transactions/feed/EarnFeedItem'
 import NftFeedItem from 'src/transactions/feed/NftFeedItem'
 import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
 import TokenApprovalFeedItem from 'src/transactions/feed/TokenApprovalFeedItem'
@@ -78,6 +79,10 @@ function TransactionFeed() {
         return <NftFeedItem key={tx.transactionHash} transaction={tx} />
       case 'TokenApproval':
         return <TokenApprovalFeedItem key={tx.transactionHash} transaction={tx} />
+      case 'EarnDeposit':
+      case 'EarnWithdraw':
+      case 'EarnClaimReward':
+        return <EarnFeedItem key={tx.transactionHash} transaction={tx} />
     }
   }
 

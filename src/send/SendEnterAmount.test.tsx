@@ -11,10 +11,9 @@ import { RecipientType } from 'src/recipients/recipient'
 import SendEnterAmount from 'src/send/SendEnterAmount'
 import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
 import { getDynamicConfigParams } from 'src/statsig'
-import { StoredTokenBalance, TokenBalance } from 'src/tokens/slice'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import MockedNavigator from 'test/MockedNavigator'
-import { createMockStore } from 'test/utils'
+import { createMockStore, mockStoreBalancesToTokenBalances } from 'test/utils'
 import {
   mockAccount,
   mockCeloAddress,
@@ -55,16 +54,6 @@ const mockPrepareTransactionsResultPossible: PreparedTransactionsPossible = {
   feeCurrency: mockCeloTokenBalance,
 }
 
-const mockStoreBalancesToTokenBalances = (storeBalances: StoredTokenBalance[]): TokenBalance[] => {
-  return storeBalances.map(
-    (token): TokenBalance => ({
-      ...token,
-      balance: new BigNumber(token.balance ?? 0),
-      priceUsd: new BigNumber(token.priceUsd ?? 0),
-      lastKnownPriceUsd: token.priceUsd ? new BigNumber(token.priceUsd) : null,
-    })
-  )
-}
 const tokenBalances = {
   [mockCeloTokenId]: { ...mockTokenBalances[mockCeloTokenId], balance: '10' },
   [mockCusdTokenId]: { ...mockTokenBalances[mockCusdTokenId], balance: '10' },

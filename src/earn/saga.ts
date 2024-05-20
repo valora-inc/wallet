@@ -3,8 +3,15 @@ import BigNumber from 'bignumber.js'
 import erc20 from 'src/abis/IERC20'
 import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { depositCancel, depositError, depositStart, depositSuccess } from 'src/earn/slice'
-import { DepositInfo } from 'src/earn/types'
+import {
+  depositCancel,
+  depositError,
+  depositStart,
+  depositSuccess,
+  withdrawStart,
+  withdrawSuccess,
+} from 'src/earn/slice'
+import { DepositInfo, WithdrawInfo } from 'src/earn/types'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
 import { vibrateError } from 'src/styles/hapticFeedback'
@@ -174,6 +181,13 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
   }
 }
 
+export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
+  // TODO: submit the tx
+  navigateHome()
+  yield* put(withdrawSuccess())
+}
+
 export function* earnSaga() {
   yield* takeLeading(depositStart.type, safely(depositSubmitSaga))
+  yield* takeLeading(withdrawStart.type, safely(withdrawSubmitSaga))
 }

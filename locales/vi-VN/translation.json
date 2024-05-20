@@ -1813,6 +1813,15 @@
       "networkFeeNoNetwork": "Phí mạng lưới",
       "swapFee": "Phí {{appName}}",
       "swapFeeWaived": "Miễn phí",
+      "appFee": "Phí {{appName}}",
+      "appFeeValue": "<0></0> <1>(<0></0>)</1>",
+      "appFeeValue_withoutPriceUsd": "<0></0>",
+      "appFeeValue_free": "Miễn phí",
+      "appFeeValue_placeholder": "-",
+      "appFeeInfo": "{{appName}} Fee\n\nWe charge a fee to swap tokens on {{appName}}. The fee is {{appFeePercentage}}% of the amount you are exchanging.",
+      "appFeeInfo_free": "{{appName}} Fee\n\nThis swap is free of charge.",
+      "appFeeInfo_placeholder": "{{appName}} Fee\n\nThe fee is calculated based on the quote you receive.",
+      "appFeeInfoDismissButton": "Đã hiểu",
       "slippagePercentage": "Tỷ lệ trượt giá chấp nhận",
       "networkFeeInfo": "Bạn đang trao đổi trên Mạng {{networkName}}.\n\nĐể thực hiện giao dịch trên Mạng {{networkName}}, bạn bắt buộc phải trả khoản phí mạng lưới ước tính này. Khoản phí này sẽ đảm bảo cho giao dịch của bạn và được sử dụng để duy trì hoạt động của mạng.",
       "networkFeeInfoV1_76": "Bạn đang trao đổi trên Mạng {{networkName}}.\n\nĐể thực hiện giao dịch trên Mạng {{networkName}}, bạn bắt buộc phải trả khoản phí mạng này. Khoản phí này sẽ đảm bảo cho giao dịch của bạn và được sử dụng để thanh toán cho các trình xác thực mạng.\n\nDo phí giao dịch chính xác phụ thuộc vào tình trạng mạng, nên mức phí ước tính được nêu tại đây là số tiền chúng tôi dự đoán. Khoản phí này sẽ không vượt quá mức phí tối đa.",
@@ -2325,6 +2334,15 @@
       "moreComing": {
         "title": "More coming soon!"
       }
+    },
+    "discoverCard": {
+      "title": "{{appName}} Points",
+      "description": "Earn points easily with {{appName}}. Using the app, including swapping, leads to points!"
+    },
+    "intro": {
+      "title": "Earn points effortlessly",
+      "description": "Jump into a new way to earn! Your {{appName}} actions now earn points. Start earning today and unlock awesome benefits.",
+      "cta": "Start your points journey"
     }
   },
   "earnFlow": {
@@ -2371,9 +2389,19 @@
       "total": "TOTAL",
       "plus": "PLUS",
       "rate": "Rate (est.)",
-      "apy": "~{{apy}}% APY",
+      "apy": "{{apy}}% APY",
       "fee": "Gas Fee",
-      "cta": "Collect Earnings"
+      "cta": "Collect Earnings",
+      "errorTitle": "Đã xảy ra lỗi",
+      "errorDescription": "Unable to fetch deposit details. Please try again."
+    },
+    "transactionFeed": {
+      "earnClaimTitle": "Collected",
+      "earnClaimSubtitle": "from {{providerName}} Pool",
+      "earnDepositTitle": "Deposited",
+      "earnDepositSubtitle": "to {{providerName}} Pool",
+      "earnWithdrawTitle": "Withdrew",
+      "earnWithdrawSubtitle": "from {{providerName}} Pool"
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"

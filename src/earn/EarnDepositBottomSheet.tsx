@@ -46,7 +46,7 @@ export default function EarnDepositBottomSheet({
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const depositStatus = useSelector(depositStatusSelector)
-  const transactionSubmitted = depositStatus === 'started'
+  const transactionSubmitted = depositStatus === 'loading'
 
   const { estimatedFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(preparedTransaction)
 

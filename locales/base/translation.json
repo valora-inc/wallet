@@ -2396,9 +2396,19 @@
       "total": "TOTAL",
       "plus": "PLUS",
       "rate": "Rate (est.)",
-      "apy": "~{{apy}}% APY",
+      "apy": "{{apy}}% APY",
       "fee": "Gas Fee",
-      "cta": "Collect Earnings"
+      "cta": "Collect Earnings",
+      "errorTitle": "Something went wrong",
+      "errorDescription": "Unable to fetch deposit details. Please try again."
+    },
+    "transactionFeed": {
+      "earnClaimTitle": "Collected",
+      "earnClaimSubtitle": "from {{providerName}} Pool",
+      "earnDepositTitle": "Deposited",
+      "earnDepositSubtitle": "to {{providerName}} Pool",
+      "earnWithdrawTitle": "Withdrew",
+      "earnWithdrawSubtitle": "from {{providerName}} Pool"
     }
   }
 }

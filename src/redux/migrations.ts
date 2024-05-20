@@ -1792,4 +1792,11 @@ export const migrations = {
       introHasBeenDismissed: false,
     },
   }),
+  216: (state: any) => ({
+    ...state,
+    earn: {
+      depositStatus: 'idle',
+      withdrawStatus: 'idle',
+    },
+  }),
 }

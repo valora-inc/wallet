@@ -1815,6 +1815,15 @@
       "networkFeeNoNetwork": "Netzwerkgebühr",
       "swapFee": "{{appName}}-Gebühr",
       "swapFeeWaived": "Kostenlos",
+      "appFee": "{{appName}}-Gebühr",
+      "appFeeValue": "<0></0> <1>(<0></0>)</1>",
+      "appFeeValue_withoutPriceUsd": "<0></0>",
+      "appFeeValue_free": "Kostenlos",
+      "appFeeValue_placeholder": "-",
+      "appFeeInfo": "{{appName}} Gebühr\n\nWir erheben eine Gebühr für den Tausch von Token auf {{appName}}. Die Gebühr beträgt {{appFeePercentage}}% des Betrags, den du tauschst.",
+      "appFeeInfo_free": "{{appName}} Gebühr\n\nDieser Tausch ist kostenlos.",
+      "appFeeInfo_placeholder": "{{appName}} Gebühr\n\nDie Gebühr wird auf der Grundlage des Angebots berechnet, das du erhältst.",
+      "appFeeInfoDismissButton": "Verstanden",
       "slippagePercentage": "Slippage-Toleranz",
       "networkFeeInfo": "Du tauschst über das {{networkName}}-Netzwerk.\n\nUm eine Transaktion über das {{networkName}}-Netzwerk durchzuführen, musst du diese geschätzte Netzwerkgebühr bezahlen. Diese Gebühr sichert deine Transaktion und trägt dazu bei, das Netzwerk aufrechtzuerhalten.",
       "networkFeeInfoV1_76": "Du tauschst über das {{networkName}} Netzwerk.\n\nUm eine Transaktion über das {{networkName}} Netzwerk durchzuführen, ist eine Netzwerkgebühr erforderlich. Diese Gebühr sichert deine Transaktion ab und wird an die Netzwerk-Validierer gezahlt.\n\nDa der genaue Betrag von den Netzwerkbedingungen abhängt, ist die angegebene Gebühr der erwartete Betrag. Die Gebühr wird den maximalen Betrag nicht überschreiten.",
@@ -2327,6 +2336,15 @@
       "moreComing": {
         "title": "Mehr dazu demnächst!"
       }
+    },
+    "discoverCard": {
+      "title": "{{appName}} Punkte",
+      "description": "Sammle ganz einfach Punkte mit {{appName}}. Die Nutzung der App, einschließlich des Tauschens, führt zu Punkten!"
+    },
+    "intro": {
+      "title": "Mühelos Punkte sammeln",
+      "description": "Erlebe eine neue Art zu verdienen! Für deine {{appName}} Aktionen gibt es jetzt Punkte. Fang noch heute an zu verdienen und schalte tolle Vorteile frei.",
+      "cta": "Beginne deine Punkte-Reise"
     }
   },
   "earnFlow": {
@@ -2373,9 +2391,19 @@
       "total": "GESAMT",
       "plus": "PLUS",
       "rate": "Rate (geschätzt)",
-      "apy": "~{{apy}}% APY",
+      "apy": "{{apy}}% APY",
       "fee": "Gasgebühr",
-      "cta": "Verdienste sammeln"
+      "cta": "Verdienste sammeln",
+      "errorTitle": "Etwas ist schief gelaufen",
+      "errorDescription": "Die Einzahlungsdetails können nicht abgerufen werden. Bitte versuche es erneut."
+    },
+    "transactionFeed": {
+      "earnClaimTitle": "Gesammelt",
+      "earnClaimSubtitle": "von {{providerName}} Pool",
+      "earnDepositTitle": "Hinterlegt",
+      "earnDepositSubtitle": "zu {{providerName}} Pool",
+      "earnWithdrawTitle": "Zurückgezogen",
+      "earnWithdrawSubtitle": "von {{providerName}} Pool"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

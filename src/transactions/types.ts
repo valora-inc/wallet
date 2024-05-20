@@ -106,7 +106,14 @@ export enum TransactionStatus {
   Failed = 'Failed',
 }
 
-export type TokenTransaction = TokenTransfer | TokenExchange | NftTransfer | TokenApproval
+export type TokenTransaction =
+  | TokenTransfer
+  | TokenExchange
+  | NftTransfer
+  | TokenApproval
+  | EarnDeposit
+  | EarnWithdraw
+  | EarnClaimReward
 
 export interface TokenAmount {
   value: BigNumber.Value
@@ -131,6 +138,9 @@ export enum TokenTransactionTypeV2 {
   NftSent = 'NFT_SENT',
   SwapTransaction = 'SWAP_TRANSACTION',
   Approval = 'APPROVAL',
+  EarnDeposit = 'EARN_DEPOSIT',
+  EarnWithdraw = 'EARN_WITHDRAW',
+  EarnClaimReward = 'EARN_CLAIM_REWARD',
 }
 
 // Can we optional the fields `transactionHash` and `block`?
@@ -208,5 +218,46 @@ export interface TokenApproval {
   tokenId: string
   approvedAmount: string | null // null represents infinite approval
   fees: Fee[]
+  status: TransactionStatus
+}
+
+export interface EarnDeposit {
+  __typename: 'EarnDeposit'
+  networkId: NetworkId
+  type: TokenTransactionTypeV2
+  transactionHash: string
+  timestamp: number
+  block: string
+  fees: Fee[]
+  providerId: string
+  inAmount: TokenAmount
+  outAmount: TokenAmount
+  status: TransactionStatus
+}
+
+export interface EarnWithdraw {
+  __typename: 'EarnWithdraw'
+  networkId: NetworkId
+  type: TokenTransactionTypeV2
+  transactionHash: string
+  timestamp: number
+  block: string
+  fees: Fee[]
+  providerId: string
+  inAmount: TokenAmount
+  outAmount: TokenAmount
+  status: TransactionStatus
+}
+
+export interface EarnClaimReward {
+  __typename: 'EarnClaimReward'
+  networkId: NetworkId
+  amount: TokenAmount
+  type: TokenTransactionTypeV2
+  transactionHash: string
+  timestamp: number
+  block: string
+  fees: Fee[]
+  providerId: string
   status: TransactionStatus
 }

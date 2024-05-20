@@ -60,6 +60,7 @@ import {
   RewardsScreenOrigin,
 } from 'src/consumerIncentives/analyticsEventsTracker'
 import { DappSection } from 'src/dapps/types'
+import { SerializableRewardsInfo } from 'src/earn/types'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { HomeActionName, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
@@ -1603,6 +1604,22 @@ interface EarnEventsProperties {
   }
   [EarnEvents.earn_deposit_submit_cancel]: EarnDepositProperties
   [EarnEvents.earn_view_pools_press]: undefined
+  [EarnEvents.earn_exit_pool_press]: {
+    poolTokenId: string
+    networkId: NetworkId
+    tokenAmount: string
+    providerId: string
+  }
+  [EarnEvents.earn_feed_item_select]: {
+    origin: 'EarnDeposit' | 'EarnWithdraw' | 'EarnClaimReward'
+  }
+  [EarnEvents.earn_collect_earnings_press]: {
+    tokenId: string
+    amount: string
+    networkId: NetworkId
+    providerId: string
+    rewards: SerializableRewardsInfo[]
+  }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &
