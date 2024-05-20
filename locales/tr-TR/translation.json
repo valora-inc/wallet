@@ -255,8 +255,8 @@
       "text": "Kurtarma Kelimelerinize sahip herhangi bir kişi hesabınıza erişebilir. Başkaları ile paylaşmayın."
     }
   ],
-  "consumerIncentivesTitle": "Supercharge'ı kullanmaya başlayın",
-  "consumerIncentivesSummary": "Karşınızda Supercharge! Supercharge ile en yüksek Celo stablecoin bakiyeniz için (cEUR, cUSD, cREAL, vb.) yıllık {{percent}}% ödüller kazanın. Sınırlı bir süre için geçerlidir. Supercharge şöyle çalışır:",
+  "consumerIncentivesTitle": "Supercharge sona eriyor",
+  "consumerIncentivesSummary": "Ancak daha fazla ödül size doğru geliyor. 28 Mayıs'a kadar, en yüksek stablecoin bakiyeniz (cUSD, cEUR veya cREAL) üzerinden {{percent}}% yıllık ödüller kazanın. İşte nasıl çalıştığı:",
   "earnWeekly": {
     "header": "Telefon numaranızı bağlayın",
     "text": "Daha önce bağlamadıysanız Telefon Numaranı Bağlaya dokun."
@@ -271,14 +271,14 @@
     "text": "Böylelikle ödüllerinizin güvende ve kontrolünüzde olmasını sağlanacaktır."
   },
   "conclusion": "İşte bu kadar basit. Kriptonuzu hemen Supercharge'layın!",
-  "superchargeTitle": "Supercharge'lamaya başlayın",
-  "superchargeDescription": "{{token}} bakiyeniz için yıllık %12 oranında ödül kazanın. Başlamak için şunları yapmanız yeterli:",
+  "superchargeTitle": "Supercharge sona eriyor",
+  "superchargeDescription": "Ama daha fazla ödül size doğru geliyor. 28 Mayıs'a kadar en yüksek {{token}} bakiyeniz üzerinden {{apy}}% yıllık ödül kazanın. İşte nasıl çalıştığı:",
   "superchargeConnectNumber": "Telefon numaranı bağla",
   "superchargeReconnectNumber": "Telefon numaranızı yeniden bağlayın\n<0>Gelişmiş bir Süper charge deneyimi başlattık. {{token}} tokeninizde ödüller kazanmaya devam etmek için telefon numaranızı yeniden bağlayın.</0>",
   "superchargeMinimumBalance": "En az {{amount}} {{token}} olacak şekilde bakiye ekleyin",
-  "superchargeDisclaimer": "Maksimum ödül kazanmak için {{amount}} {{token}}'a kadar ekleme yapabilirsiniz",
-  "superchargeDisclaimerMaxRewards": "{{token}} ile maksimum ödül alıyorsunuz",
-  "superchargeDisclaimerDayLimit": "Ödülleriniz 28 gün içinde talep edilmelidir. <0>Daha fazla bilgi edinin</0>",
+  "superchargeDisclaimer": "Bu durum bakiyenizi veya önceki kazançlarınızı etkilemeyecektir.",
+  "superchargeDisclaimerMaxRewards": "Bu durum bakiyenizi veya önceki kazançlarınızı etkilemeyecektir.",
+  "superchargeDisclaimerDayLimit": "Bu durum bakiyenizi veya önceki kazançlarınızı etkilemeyecektir. <0>Daha fazla bilgi</0>",
   "superchargeTokenDetailsDialog": {
     "title": "Hangi varlıklara Supercharge uygulayabilirim?",
     "body": "Celo stablecoinlerinizden en yüksek değeri olanla (cEUR, cUSD, cREAL) haftalık olarak ödüllendirileceksiniz.",
@@ -286,11 +286,11 @@
   },
   "superchargingTitle": "Uygulama güncellemesi gerekli",
   "superchargingDescription": "Supercharge ödüllerini almaya devam etmek için Valora uygulamasını güncelleyin.",
-  "superchargingTitleV1_54": "Supercharge uygulanan varlık: {{token}}",
-  "superchargingDescriptionV1_54": "Yıllık %{{apy}} alıyorsunuz. Ödülleriniz hazır olduğunda her hafta bir bildirim alacaksınız, onları almak için buraya geri gelin.",
+  "superchargingTitleV1_54": "Supercharge sona eriyor",
+  "superchargingDescriptionV1_54": "Haftalık ödüller 28 Mayıs Salı günü UTC ile saat 23:59'a kadar talep edilebilecektir. 29 Mayıs'tan itibaren Süper Şarj ödüllerini artık talep edemeyeceksiniz.",
   "superchargeRewardsAvailable": "{{amount}} {{token}} almaya hak kazandınız!",
   "superchargeRewardsAvailableMultipleTokens": "{{amounts}} almaya hak kazandınız!",
-  "superchargeClaimText": "Отримайте свої нагороди, щоб додати їх до вашого залишку.",
+  "superchargeClaimText": "Ödüllerinizi 28 Mayıs Salı günü UTC ile saat 23:59'a kadar talep edin. 29 Mayıs'tan itibaren artık Süper Şarj ödüllerini talep edemeyeceksiniz.",
   "superchargeClaimButton": "Ödüllerinizi Alın",
   "superchargeFetchRewardsFailed": "Bekleyen Supercharge ödüllerini alırken bir hata oluştu. Lütfen tekrar deneyin.",
   "superchargeClaimSuccess": "Supercharge ödülleriniz Toplam Bakiyenize eklendi.",
@@ -2367,6 +2367,24 @@
       "subtitle": "Bugün para yatırın ve getiri kazanın",
       "description": "Bir kredi havuzu sağlarken ne kadar kazanabileceğinizi görün"
     },
+    "enterAmount": {
+      "earnUpToLabel": "Şu kadar kazanabilirsiniz:",
+      "rateLabel": "Oran (tahmini)",
+      "earnUpTo": "~{{fiatSymbol}}{{amount}} / yıl",
+      "rate": "{{rate}}% APY",
+      "continue": "İleri",
+      "info": "Bu havuz Aave tarafından desteklenmektedir",
+      "infoBottomSheet": {
+        "title": "Neden bu havuz?",
+        "description": "Bu Aave havuzu 150 milyon doların üzerinde TVL'ye ve 6.000'den fazla katılımcıya sahiptir, bu da güçlü likidite ve güvenilirliği gösterir. Ayrıca token olarak USDC ve ağ olarak Abritrum kullanır, bu da oynaklığı azaltır ve kullanıcıların ucuz gaz oranları almasını sağlar.\n\nTüm bunlar bir araya geldiğinde, rekabetçi APY ile güvenli ve cazip bir seçenek haline gelir ve kullanıcılarımız için faydalı bir yatırım fırsatı sağlar.\n\nDiğer Aave havuzlarını <0>buradan</0> keşfedebilirsiniz.",
+        "dismiss": "Yoksay"
+      },
+      "notEnoughBalanceForGasWarning": {
+        "title": "Devam etmek için daha fazlasına ihtiyacınız var {{feeTokenSymbol}}",
+        "description": "Gaz ücretlerinizi karşılamak için {{feeTokenSymbol}} adresini {{network}} adresine ekleyin",
+        "noGasCta": "{{feeTokenSymbol}} adresini {{network}}adresinden satın alın"
+      }
+    },
     "activePools": {
       "title": "Aktif Havuzlar",
       "totalValue": "Toplam Değer:",
@@ -2395,7 +2413,10 @@
       "fee": "Gaz Ücreti",
       "cta": "Kazançları Toplayın",
       "errorTitle": "Bir şeyler ters gitti",
-      "errorDescription": "Para yatırma detayları alınamıyor. Lütfen tekrar deneyin."
+      "errorDescription": "Para yatırma detayları alınamıyor. Lütfen tekrar deneyin.",
+      "noGasTitle": "Devam etmek için daha fazlasına ihtiyacınız var {{symbol}}",
+      "noGasDescription": "Gaz ücretlerinizi karşılamak için {{symbol}} adresini {{network}} adresine ekleyin",
+      "noGasCta": "{{symbol}} adresini {{network}}adresinden satın alın"
     },
     "transactionFeed": {
       "earnClaimTitle": "Toplanmış",
@@ -2404,6 +2425,18 @@
       "earnDepositSubtitle": "{{providerName}} Havuzuna",
       "earnWithdrawTitle": "Geri çekildi",
       "earnWithdrawSubtitle": "{{providerName}} Pool'dan"
+    },
+    "transactionDetails": {
+      "descriptionLabel": "Detaylar",
+      "earnClaimTitle": "Toplanmış",
+      "earnClaimSubtitle": "{{tokenSymbol}} {{providerName}} Havuzundan Toplandı",
+      "earnClaimDetails": "Tahsil Edilen Tutar",
+      "earnDepositTitle": "Yatırılan",
+      "earnDepositSubtitle": "{{tokenSymbol}} adresinden {{providerName}} Havuzuna yatırıldı",
+      "earnDepositDetails": "Yatırılan Toplam",
+      "earnWithdrawTitle": "Geri çekildi",
+      "earnWithdrawSubtitle": "{{tokenSymbol}} adresini {{providerName}} havuzundan geri çekti",
+      "earnWithdrawDetails": "Çekilen Tutar"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

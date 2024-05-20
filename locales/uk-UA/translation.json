@@ -255,8 +255,8 @@
       "text": "Будь-хто з вашою фразою матиме доступ до вашого облікового запису та всіх його коштів. Не повідомляйте її іншим."
     }
   ],
-  "consumerIncentivesTitle": "Почніть із надбавкою",
-  "consumerIncentivesSummary": "Надбавка вже тут! Отримайте нагороду в розмірі {{percent}}% річних на ваш найбільший залишок у стейблкойнах (cUSD, cEUR, або cREAL). Доступно протягом обмеженого часу. Ось як це працює:",
+  "consumerIncentivesTitle": "Суперзаряд закінчується",
+  "consumerIncentivesSummary": "Але на вас чекають ще більші винагороди. До 28 травня отримуйте {{percent}}% річної винагороди на свій найбільший баланс у стейблкоінах (cUSD, CEUR або cREAL). Ось як це працює:",
   "earnWeekly": {
     "header": "Під’єднайте ваш телефонний номер",
     "text": "Натисніть «Під’єднати», якщо ви ще не під’єдналися до мережі."
@@ -271,14 +271,14 @@
     "text": "Це гарантуватиме, що ваші винагороди безпечні та під вашим контролем."
   },
   "conclusion": "Це так просто. Отримуйте надбавку за криптовалюту сьогодні!",
-  "superchargeTitle": "Почати дію надбавки",
-  "superchargeDescription": "Отримайте нагороду в розмірі {{apy}}% річних на залишок у {{token}}. Ось як почати:",
+  "superchargeTitle": "Суперзаряд закінчується",
+  "superchargeDescription": "Але на вас чекають ще більші винагороди. До 28 травня отримуйте {{apy}}% річних винагород на свій найбільший баланс {{token}} . Ось як це працює:",
   "superchargeConnectNumber": "Під’єднати свій телефонний номер",
   "superchargeReconnectNumber": "Повторно під’єднайте свій номер телефону\n<0>Ми випустили оновлення щодо винагород Supercharge. Повторно під’єднайте свій номер телефону, щоб і надалі отримувати винагороди на свій {{token}}.</0>",
   "superchargeMinimumBalance": "Додати мінімальний залишок {{amount}} {{token}}",
-  "superchargeDisclaimer": "Максимізуйте винагороду, додавши суму до {{amount}} {{token}}",
-  "superchargeDisclaimerMaxRewards": "Ви отримуєте максимальну винагороду в {{token}}",
-  "superchargeDisclaimerDayLimit": "Вашу винагороду має бути зараховано протягом 28 днів. <0>Дізнатися більше</0>",
+  "superchargeDisclaimer": "Це не вплине на ваш баланс або попередні заробітки.",
+  "superchargeDisclaimerMaxRewards": "Це не вплине на ваш баланс або попередні заробітки.",
+  "superchargeDisclaimerDayLimit": "Це не вплине на ваш баланс або попередні заробітки. <0>Дізнатися більше</0>",
   "superchargeTokenDetailsDialog": {
     "title": "Які активи можна суперзарядити?",
     "body": "Ви отримаєте винагороду щотижня за ваші стейблкойни Celo з найбільшою вартістю (cEUR, cUSD, cREAL).",
@@ -286,11 +286,11 @@
   },
   "superchargingTitle": "Треба оновити застосунок",
   "superchargingDescription": "Оновіть застосунок Valora, щоб і надалі щотижня отримувати винагороди Supercharge.",
-  "superchargingTitleV1_54": "Ваш {{token}} отримав надбавку",
-  "superchargingDescriptionV1_54": "Ви отримуєте {{apy}}% річних. Щотижня ви отримуватимете повідомлення, коли ваші винагороди будуть готові, повертайтеся сюди, щоб забрати їх.",
+  "superchargingTitleV1_54": "Суперзаряд закінчується",
+  "superchargingDescriptionV1_54": "Щотижневі винагороди можна буде отримати до вівторка, 28 травня, 23:59 UTC. Починаючи з 29 травня, ви більше не зможете отримати винагороди Supercharge.",
   "superchargeRewardsAvailable": "У вас доступно {{amount}} {{token}} для запиту!",
   "superchargeRewardsAvailableMultipleTokens": "У вас доступно {{amounts}} для запиту!",
-  "superchargeClaimText": "Отримайте свої нагороди, щоб додати їх до вашого залишку. Якщо ви берете участь у Supercharge зі стейблкойнами Moola, ви зможете отримати всі свої винагороди, коли Moola знову запрацює.",
+  "superchargeClaimText": "Отримайте свої винагороди до вівторка, 28 травня, 23:59 UTC. Починаючи з 29 травня, ви більше не зможете отримати винагороди Supercharge.",
   "superchargeClaimButton": "Запит винагороди",
   "superchargeFetchRewardsFailed": "Помилка при отриманні очікуваних нагород за надбавку. Просимо, спробуйте ще раз пізніше.",
   "superchargeClaimSuccess": "Ваші нагороди за надбавку додані до вашого загального залишку.",
@@ -2371,6 +2371,24 @@
       "subtitle": "Поповнюйте рахунок сьогодні та отримуйте прибуток",
       "description": "Дізнайтеся, скільки ви можете заробити, надаючи послуги кредитного пулу"
     },
+    "enterAmount": {
+      "earnUpToLabel": "Ти можеш заробити до..:",
+      "rateLabel": "Ставка (ест.)",
+      "earnUpTo": "~{{fiatSymbol}}{{amount}} / yr",
+      "rate": "{{rate}}% APY",
+      "continue": "Продовжити",
+      "info": "Цей басейн працює від Aave",
+      "infoBottomSheet": {
+        "title": "Чому саме цей басейн?",
+        "description": "Цей пул Aave має понад $150 млн ТВЛ і понад 6 000 учасників, що свідчить про високу ліквідність і надійність. Він також використовує USDC як токен і Abritrum як мережу, що знижує волатильність і гарантує користувачам недорогі тарифи на газ.\n\nВсе це робить його безпечним і привабливим варіантом з конкурентоспроможним APY, що забезпечує вигідні інвестиційні можливості для наших користувачів.\n\nВи можете ознайомитися з іншими пулами Aave <0>тут</0>.",
+        "dismiss": "Відхилити"
+      },
+      "notEnoughBalanceForGasWarning": {
+        "title": "Вам потрібно більше {{feeTokenSymbol}} для продовження",
+        "description": "Додайте {{feeTokenSymbol}} на {{network}} , щоб оплатити рахунки за газ",
+        "noGasCta": "Купуйте {{feeTokenSymbol}} на {{network}}"
+      }
+    },
     "activePools": {
       "title": "Активні пули",
       "totalValue": "Загальна вартість:",
@@ -2399,7 +2417,10 @@
       "fee": "Плата за газ",
       "cta": "Збирайте заробіток",
       "errorTitle": "Щось пішло не так",
-      "errorDescription": "Не вдається отримати інформацію про депозит. Спробуйте ще раз."
+      "errorDescription": "Не вдається отримати інформацію про депозит. Спробуйте ще раз.",
+      "noGasTitle": "Вам потрібно більше {{symbol}} для продовження",
+      "noGasDescription": "Додайте {{symbol}} на {{network}} , щоб оплатити рахунки за газ",
+      "noGasCta": "Купуйте {{symbol}} на {{network}}"
     },
     "transactionFeed": {
       "earnClaimTitle": "Зібрано",
@@ -2408,6 +2429,18 @@
       "earnDepositSubtitle": "на {{providerName}} Пул",
       "earnWithdrawTitle": "Вийшов з гри.",
       "earnWithdrawSubtitle": "від {{providerName}} Пул"
+    },
+    "transactionDetails": {
+      "descriptionLabel": "Подробиці",
+      "earnClaimTitle": "Зібрано",
+      "earnClaimSubtitle": "Зібрано {{tokenSymbol}} з пулу {{providerName}}",
+      "earnClaimDetails": "Сума зібраних коштів",
+      "earnDepositTitle": "Депоновано",
+      "earnDepositSubtitle": "Вніс {{tokenSymbol}} на рахунок {{providerName}} Пулу",
+      "earnDepositDetails": "Суму внесено",
+      "earnWithdrawTitle": "Вийшов з гри.",
+      "earnWithdrawSubtitle": "Виведено {{tokenSymbol}} з пулу {{providerName}}",
+      "earnWithdrawDetails": "Знята сума"
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
