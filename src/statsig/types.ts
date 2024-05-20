@@ -31,6 +31,7 @@ export enum StatsigFeatureGates {
   SHOW_JUMPSTART_SEND = 'show_jumpstart_send',
   SHOW_POINTS = 'show_points',
   SHOW_STABLECOIN_EARN = 'show_stablecoin_earn',
+  COVER_STABLECOIN_EARN_GAS_FEES = 'cover_stablecoin_earn_gas_fees',
 }
 
 export enum StatsigExperiments {
