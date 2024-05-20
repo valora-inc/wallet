@@ -2404,6 +2404,18 @@
       "earnDepositSubtitle": "a {{providerName}} Piscina",
       "earnWithdrawTitle": "Retirada",
       "earnWithdrawSubtitle": "de {{providerName}} Pool"
+    },
+    "transactionDetails": {
+      "descriptionLabel": "Detalles",
+      "earnClaimTitle": "Recopilado",
+      "earnClaimSubtitle": "Recogida {{tokenSymbol}} de {{providerName}} Piscina",
+      "earnClaimDetails": "Importe recaudado",
+      "earnDepositTitle": "Depositado",
+      "earnDepositSubtitle": "Depositado {{tokenSymbol}} en {{providerName}} Pool",
+      "earnDepositDetails": "Monto depositado",
+      "earnWithdrawTitle": "Retirada",
+      "earnWithdrawSubtitle": "Retirado {{tokenSymbol}} de {{providerName}} Pool",
+      "earnWithdrawDetails": "Monto retirado"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
