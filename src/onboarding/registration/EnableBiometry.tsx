@@ -129,7 +129,7 @@ export default function EnableBiometry({ navigation }: Props) {
             biometryType: t(`biometryType.${supportedBiometryType}`),
           })}
           size={BtnSizes.FULL}
-          type={BtnTypes.ONBOARDING}
+          type={BtnTypes.PRIMARY}
           testID="EnableBiometryButton"
           icon={
             supportedBiometryType && (
