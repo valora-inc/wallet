@@ -100,9 +100,9 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
     ): BaseStandbyTransaction => {
       return {
         context: newTransactionContext(TAG, 'Earn/Deposit'),
-        __typename: 'TokenExchangeV3',
+        __typename: 'EarnDeposit',
         networkId,
-        type: TokenTransactionTypeV2.SwapTransaction,
+        type: TokenTransactionTypeV2.EarnDeposit,
         inAmount: {
           value: amount,
           tokenId: networkConfig.aaveArbUsdcTokenId,
@@ -111,6 +111,7 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
           value: amount,
           tokenId,
         },
+        providerId: 'aave-v3',
         transactionHash,
         feeCurrencyId,
       }
@@ -225,11 +226,10 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
       feeCurrencyId?: string
     ): BaseStandbyTransaction => {
       return {
-        // TODO: replace with withdraw pending tx
         context: newTransactionContext(TAG, 'Earn/Withdraw'),
-        __typename: 'TokenExchangeV3',
+        __typename: 'EarnWithdraw',
         networkId,
-        type: TokenTransactionTypeV2.SwapTransaction,
+        type: TokenTransactionTypeV2.EarnWithdraw,
         inAmount: {
           value: amount,
           tokenId,
@@ -240,6 +240,7 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
         },
         transactionHash,
         feeCurrencyId,
+        providerId: 'aave-v3',
       }
     }
 
@@ -251,19 +252,17 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
         feeCurrencyId?: string
       ): BaseStandbyTransaction => {
         return {
-          // TODO: replace with claim reward pending tx
           context: newTransactionContext(TAG, `Earn/ClaimReward-${index + 1}`),
-          __typename: 'TokenTransferV3',
+          __typename: 'EarnClaimReward',
           networkId,
           amount: {
             value: amount,
             tokenId,
           },
-          type: TokenTransactionTypeV2.Received,
+          type: TokenTransactionTypeV2.EarnClaimReward,
           transactionHash,
           feeCurrencyId,
-          address: '',
-          metadata: {},
+          providerId: 'aave-v3',
         }
       }
       createWithdrawStandbyTxHandlers.push(createClaimRewardStandbyTx)
