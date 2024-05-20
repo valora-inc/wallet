@@ -255,8 +255,8 @@
       "text": "Bất kỳ ai có Cụm từ của bạn đều sẽ được quyền truy cập vào tài khoản của bạn và tất cả tiền trong đó. Không chia sẻ Cụm từ này cho bất kỳ ai."
     }
   ],
-  "consumerIncentivesTitle": "Bắt đầu với chương trình Supercharge",
-  "consumerIncentivesSummary": "Chương trình Supercharge đã ra mắt! Nhận {{percent}}% tiền thưởng mỗi năm tính trên số dư stablecoin cao nhất của bạn (cUSD, cEUR hoặc cREAL). Có áp dụng giới hạn thời gian triển khai. Cách thức như sau:",
+  "consumerIncentivesTitle": "Supercharge is ending",
+  "consumerIncentivesSummary": "But more rewards are headed your way. Until May 28, get {{percent}}% annual rewards on your highest stablecoin balance (cUSD, cEUR, or cREAL). Here's how it works:",
   "earnWeekly": {
     "header": "Kết nối số điện thoại của bạn",
     "text": "Nhấn vào Kết nối số nếu bạn chưa kết nối."
@@ -271,14 +271,14 @@
     "text": "Cụm từ này đảm bảo tiền thưởng được an toàn và bạn luôn nắm được quyền kiểm soát."
   },
   "conclusion": "Đơn giản vậy thôi. Hãy kiếm thêm tiền điện tử ngay hôm nay với Supercharge!",
-  "superchargeTitle": "Bắt đầu tham gia Supercharge",
-  "superchargeDescription": "Nhận {{apy}}% tiền thưởng hằng năm tính trên số dư {{token}}. Sau đây là cách bắt đầu:",
+  "superchargeTitle": "Supercharge is ending",
+  "superchargeDescription": "But more rewards are headed your way. Until May 28, get {{apy}}% annual rewards on your highest {{token}} balance. Here's how it works:",
   "superchargeConnectNumber": "Kết nối số điện thoại của bạn",
   "superchargeReconnectNumber": "Kết nối lại với điện thoại\n<0>Chúng tôi đã khởi chạy trải nghiệm chương trình Supercharge cải tiến. Kết nối lại số điện thoại của bạn để tiếp tục kiếm tiền thưởng từ {{token}}.</0>",
   "superchargeMinimumBalance": "Thêm số dư tối thiểu là {{amount}} {{token}}",
-  "superchargeDisclaimer": "Tăng tối đa tiền thưởng bằng cách nạp đến {{amount}} {{token}}",
-  "superchargeDisclaimerMaxRewards": "Bạn sẽ nhận được tiền thưởng tối đa tính trên {{token}} của mình",
-  "superchargeDisclaimerDayLimit": "Bạn phải xác nhận tiền thưởng trong vòng 28 ngày. <0>Tìm hiểu thêm </0>",
+  "superchargeDisclaimer": "This will not affect your balance or previous earnings.",
+  "superchargeDisclaimerMaxRewards": "This will not affect your balance or previous earnings.",
+  "superchargeDisclaimerDayLimit": "This will not affect your balance or previous earnings. <0>Learn more</0>",
   "superchargeTokenDetailsDialog": {
     "title": "Tôi có thể sử dụng Supercharge cho những tài sản nào?",
     "body": "Bạn sẽ được nhận thưởng mỗi tuần tính trên stablecoin Celo có giá trị cao nhất (cEUR, cUSD, cREAL).",
@@ -286,11 +286,11 @@
   },
   "superchargingTitle": "Cần cập nhật ứng dụng",
   "superchargingDescription": "Cập nhật ứng dụng Valora để tiếp tục nhận tiền thưởng Supercharge hàng tuần.",
-  "superchargingTitleV1_54": "{{token}} của bạn đang được áp dụng Supercharge",
-  "superchargingDescriptionV1_54": "Bạn đang nhận được {{apy}}% mỗi năm. Hằng tuần, bạn sẽ nhận được thông báo khi tiền thưởng đã về, hãy quay lại đây để xác nhận.",
+  "superchargingTitleV1_54": "Supercharge is ending",
+  "superchargingDescriptionV1_54": "Weekly rewards will be available to claim until Tuesday, May 28, at 23:59 UTC. Beginning May 29, you will nor longer be able to claim Supercharge rewards.",
   "superchargeRewardsAvailable": "Bạn có {{amount}} {{token}} cần xác nhận!",
   "superchargeRewardsAvailableMultipleTokens": "Bạn có {{amounts}} cần xác nhận!",
-  "superchargeClaimText": "Xác nhận tiền thưởng của bạn để thêm vào số dư.",
+  "superchargeClaimText": "Claim your rewards until Tuesday, May 28, at 23:59 UTC. Beginning May 29, you will no longer be able to claim Supercharge rewards.",
   "superchargeClaimButton": "Xác nhận tiền thưởng",
   "superchargeFetchRewardsFailed": "Đã xảy ra lỗi khi tìm nạp tiền thưởng Supercharge đang chờ xử lý. Vui lòng thử lại sau.",
   "superchargeClaimSuccess": "Tiền thưởng Supercharge đã được thêm vào Tổng số dư của bạn.",
