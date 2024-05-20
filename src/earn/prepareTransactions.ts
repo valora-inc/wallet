@@ -146,7 +146,7 @@ export function usePrepareSupplyTransactions() {
   const prepareTransactions = useAsyncCallback(prepareSupplyTransactions, {
     onError: (err) => {
       const error = ensureError(err)
-      Logger.error(TAG, `usePrepareSupplyTransactions: ${error}`)
+      Logger.error(TAG, 'usePrepareSupplyTransactions', error)
     },
   })
 
