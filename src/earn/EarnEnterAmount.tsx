@@ -324,10 +324,10 @@ function EarnEnterAmount({ route }: Props) {
           <InLineNotification
             variant={NotificationVariant.Warning}
             title={t('sendEnterAmountScreen.notEnoughBalanceForGasWarning.title', {
-              feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
+              feeTokenSymbol: `${prepareTransactionsResult.feeCurrencies[0].symbol} on ${prepareTransactionsResult.feeCurrencies[0].networkId}`,
             })}
             description={t('sendEnterAmountScreen.notEnoughBalanceForGasWarning.description', {
-              feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
+              feeTokenSymbol: `${prepareTransactionsResult.feeCurrencies[0].symbol} on ${prepareTransactionsResult.feeCurrencies[0].networkId}`,
             })}
             style={styles.warning}
             testID="SendEnterAmount/NotEnoughForGasWarning"
