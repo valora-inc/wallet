@@ -611,6 +611,10 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [EarnEvents.earn_deposit_add_gas_press]: `When the user doesn't have enough for gas when trying to deposit and clicks on the button to add gas token`,
   [EarnEvents.earn_feed_item_select]: `When the users taps on an earn transaction feed item`,
   [EarnEvents.earn_collect_earnings_press]: `When the user taps on the collect earnings button in the collect screen`,
+  [EarnEvents.earn_withdraw_submit_start]: `When the wallet is about to submit the withdraw and claim transactions to the network`,
+  [EarnEvents.earn_withdraw_submit_success]: `When the withdraw and claim transactions succeed`,
+  [EarnEvents.earn_withdraw_submit_error]: `When the withdraw and claim transactions fail`,
+  [EarnEvents.earn_withdraw_submit_cancel]: `When the user cancels the withdraw and claim transactions after submitting by cancelling PIN input`,
 
   // Legacy event docs
   //  The below events had docs, but are no longer produced by the latest app version.

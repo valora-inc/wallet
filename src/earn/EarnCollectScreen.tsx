@@ -70,7 +70,7 @@ export default function EarnCollectScreen({ route }: Props) {
 
     ValoraAnalytics.track(EarnEvents.earn_collect_earnings_press, {
       tokenId: depositTokenId,
-      amount: poolToken.balance.toString(),
+      tokenAmount: poolToken.balance.toString(),
       networkId: depositToken.networkId,
       providerId: 'aave-v3',
       rewards: serializedRewards,

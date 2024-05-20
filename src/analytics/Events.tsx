@@ -696,4 +696,8 @@ export enum EarnEvents {
   earn_deposit_add_gas_press = 'earn_deposit_add_gas_press',
   earn_feed_item_select = 'earn_feed_item_select',
   earn_collect_earnings_press = 'earn_collect_earnings_press',
+  earn_withdraw_submit_start = 'earn_withdraw_submit_start',
+  earn_withdraw_submit_success = 'earn_withdraw_submit_success',
+  earn_withdraw_submit_error = 'earn_withdraw_submit_error',
+  earn_withdraw_submit_cancel = 'earn_withdraw_submit_cancel',
 }
