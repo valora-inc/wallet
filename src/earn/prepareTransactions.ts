@@ -9,6 +9,7 @@ import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
+import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { publicClient } from 'src/viem'
 import { TransactionRequest, prepareTransactions } from 'src/viem/prepareTransactions'
@@ -143,7 +144,8 @@ export async function prepareSupplyTransactions({
  */
 export function usePrepareSupplyTransactions() {
   const prepareTransactions = useAsyncCallback(prepareSupplyTransactions, {
-    onError: (error) => {
+    onError: (err) => {
+      const error = ensureError(err)
       Logger.error(TAG, `usePrepareSupplyTransactions: ${error}`)
     },
   })
