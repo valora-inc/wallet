@@ -266,8 +266,8 @@ function EarnEnterAmount({ route }: Props) {
       networkId: token.networkId,
     })
     isAmountLessThanBalance
-      ? addCryptoBottomSheetRef.current?.snapToIndex(0)
-      : reviewBottomSheetRef.current?.snapToIndex(0)
+      ? reviewBottomSheetRef.current?.snapToIndex(0)
+      : addCryptoBottomSheetRef.current?.snapToIndex(0)
   }
 
   const onPressInfo = () => {
