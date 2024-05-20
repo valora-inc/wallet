@@ -6,8 +6,13 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
+import { getDynamicConfigParams } from 'src/statsig'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
 import {
+  EarnClaimReward,
+  EarnDeposit,
+  EarnWithdraw,
   Fee,
   FeeType,
   NetworkId,
@@ -39,6 +44,9 @@ import {
   mockCusdTokenId,
   mockDisplayNumber2,
   mockE164Number2,
+  mockEarnClaimRewardTransaction,
+  mockEarnDepositTransaction,
+  mockEarnWithdrawTransaction,
 } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
@@ -172,6 +180,33 @@ describe('TransactionDetailsScreen', () => {
   }: Partial<TokenApproval>): TokenApproval {
     return {
       ...mockApprovalTransaction,
+      status,
+    }
+  }
+
+  function earnClaimTransaction({
+    status = TransactionStatus.Complete,
+  }: Partial<EarnClaimReward>): EarnClaimReward {
+    return {
+      ...mockEarnClaimRewardTransaction,
+      status,
+    }
+  }
+
+  function earnDepositTransaction({
+    status = TransactionStatus.Complete,
+  }: Partial<EarnDeposit>): EarnDeposit {
+    return {
+      ...mockEarnDepositTransaction,
+      status,
+    }
+  }
+
+  function earnWithdrawTransaction({
+    status = TransactionStatus.Complete,
+  }: Partial<EarnWithdraw>): EarnWithdraw {
+    return {
+      ...mockEarnWithdrawTransaction,
       status,
     }
   }
@@ -338,7 +373,85 @@ describe('TransactionDetailsScreen', () => {
     expect(getByText('transactionDetailsActions.checkPendingTransactionStatus')).toBeTruthy()
   })
 
-  it(`renders the correct details for ${TokenTransactionTypeV2.Approval} transacton`, () => {
+  describe('Earn', () => {
+    beforeEach(() => {
+      jest.clearAllMocks()
+      jest.mocked(getDynamicConfigParams).mockImplementation(({ configName, defaultValues }) => {
+        switch (configName) {
+          case StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG:
+            return {
+              providerName: 'Aave',
+              providerLogoUrl: 'logoUrl',
+              providerTermsAndConditionsUrl: 'termsUrl',
+            }
+          default:
+            return defaultValues
+        }
+      })
+    })
+
+    it(`renders check status action for pending ${TokenTransactionTypeV2.EarnClaimReward} transaction`, () => {
+      const { getByText } = renderScreen({
+        transaction: earnClaimTransaction({
+          status: TransactionStatus.Pending,
+        }),
+      })
+
+      expect(getByText('transactionDetailsActions.checkPendingTransactionStatus')).toBeTruthy()
+    })
+
+    it(`renders check status action for pending ${TokenTransactionTypeV2.EarnDeposit} transaction`, () => {
+      const { getByText } = renderScreen({
+        transaction: earnDepositTransaction({
+          status: TransactionStatus.Pending,
+        }),
+      })
+
+      expect(getByText('transactionDetailsActions.checkPendingTransactionStatus')).toBeTruthy()
+    })
+
+    it(`renders check status action for pending ${TokenTransactionTypeV2.EarnWithdraw} transaction`, () => {
+      const { getByText } = renderScreen({
+        transaction: earnWithdrawTransaction({
+          status: TransactionStatus.Pending,
+        }),
+      })
+
+      expect(getByText('transactionDetailsActions.checkPendingTransactionStatus')).toBeTruthy()
+    })
+
+    it(`renders details action for complete ${TokenTransactionTypeV2.EarnClaimReward} transaction`, () => {
+      const { getByText } = renderScreen({
+        transaction: earnClaimTransaction({
+          status: TransactionStatus.Complete,
+        }),
+      })
+
+      expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
+    })
+
+    it(`renders details action for complete ${TokenTransactionTypeV2.EarnDeposit} transaction`, () => {
+      const { getByText } = renderScreen({
+        transaction: earnDepositTransaction({
+          status: TransactionStatus.Complete,
+        }),
+      })
+
+      expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
+    })
+
+    it(`renders details action for complete ${TokenTransactionTypeV2.EarnWithdraw} transaction`, () => {
+      const { getByText } = renderScreen({
+        transaction: earnWithdrawTransaction({
+          status: TransactionStatus.Complete,
+        }),
+      })
+
+      expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
+    })
+  })
+
+  it(`renders the correct details for ${TokenTransactionTypeV2.Approval} transaction`, () => {
     const { getByText, getByTestId } = renderScreen({
       transaction: approvalTransaction({
         status: TransactionStatus.Complete,

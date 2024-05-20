@@ -6,10 +6,16 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import EarnFeedItem from 'src/transactions/feed/EarnFeedItem'
-import { NetworkId, TransactionStatus } from 'src/transactions/types'
+import { NetworkId } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
-import { mockAaveArbUsdcAddress, mockArbArbTokenId } from 'test/values'
+import {
+  mockAaveArbUsdcAddress,
+  mockArbArbTokenId,
+  mockEarnClaimRewardTransaction,
+  mockEarnDepositTransaction,
+  mockEarnWithdrawTransaction,
+} from 'test/values'
 
 const store = createMockStore({
   tokens: {
@@ -43,39 +49,7 @@ const store = createMockStore({
 describe.each([
   {
     type: 'EarnWithdraw',
-    transaction: {
-      __typename: 'EarnWithdraw',
-      inAmount: {
-        localAmount: null,
-        tokenAddress: '0xdef',
-        tokenId: networkConfig.arbUsdcTokenId,
-        value: '1',
-      },
-      outAmount: {
-        localAmount: null,
-        tokenAddress: mockAaveArbUsdcAddress,
-        tokenId: networkConfig.aaveArbUsdcTokenId,
-        value: '0.996614',
-      },
-      block: '211276583',
-      fees: [
-        {
-          amount: {
-            localAmount: null,
-            tokenAddress: null,
-            tokenId: mockArbArbTokenId,
-            value: '0.00000229122',
-          },
-          type: 'SECURITY_FEE',
-        },
-      ],
-      networkId: NetworkId['arbitrum-sepolia'],
-      providerId: 'aave-v3',
-      timestamp: Date.now(),
-      transactionHash: '0xHASH0',
-      type: 'EARN_WITHDRAW',
-      status: TransactionStatus.Complete,
-    },
+    transaction: mockEarnWithdrawTransaction,
     expectedTitle: 'earnFlow.transactionFeed.earnWithdrawTitle',
     expectedSubTitle: 'earnFlow.transactionFeed.earnWithdrawSubtitle, {"providerName":"Aave"}',
     expectedTotal: '+1.00 USDC',
@@ -83,39 +57,7 @@ describe.each([
   },
   {
     type: 'EarnDeposit',
-    transaction: {
-      __typename: 'EarnDeposit',
-      inAmount: {
-        localAmount: null,
-        tokenAddress: mockAaveArbUsdcAddress,
-        tokenId: networkConfig.aaveArbUsdcTokenId,
-        value: '10',
-      },
-      outAmount: {
-        localAmount: null,
-        tokenAddress: '0xdef',
-        tokenId: networkConfig.arbUsdcTokenId,
-        value: '10',
-      },
-      block: '210927567',
-      fees: [
-        {
-          amount: {
-            localAmount: null,
-            tokenAddress: null,
-            tokenId: mockArbArbTokenId,
-            value: '0.00000284243',
-          },
-          type: 'SECURITY_FEE',
-        },
-      ],
-      networkId: NetworkId['arbitrum-sepolia'],
-      providerId: 'aave-v3',
-      timestamp: Date.now(),
-      transactionHash: '0xHASH1',
-      type: 'EARN_DEPOSIT',
-      status: TransactionStatus.Complete,
-    },
+    transaction: mockEarnDepositTransaction,
     expectedTitle: 'earnFlow.transactionFeed.earnDepositTitle',
     expectedSubTitle: 'earnFlow.transactionFeed.earnDepositSubtitle, {"providerName":"Aave"}',
     expectedTotal: '-10.00 USDC',
@@ -123,33 +65,7 @@ describe.each([
   },
   {
     type: 'EarnClaimReward',
-    transaction: {
-      __typename: 'EarnClaimReward',
-      amount: {
-        localAmount: null,
-        tokenAddress: '0xhij',
-        tokenId: mockArbArbTokenId,
-        value: '1.5',
-      },
-      block: '211278852',
-      fees: [
-        {
-          amount: {
-            localAmount: null,
-            tokenAddress: null,
-            tokenId: mockArbArbTokenId,
-            value: '0.00000146037',
-          },
-          type: 'SECURITY_FEE',
-        },
-      ],
-      networkId: NetworkId['arbitrum-sepolia'],
-      providerId: 'aave-v3',
-      timestamp: Date.now(),
-      transactionHash: '0xHASH2',
-      type: 'EARN_CLAIM_REWARD',
-      status: TransactionStatus.Complete,
-    } as any,
+    transaction: mockEarnClaimRewardTransaction,
     expectedTitle: 'earnFlow.transactionFeed.earnClaimTitle',
     expectedSubTitle: 'earnFlow.transactionFeed.earnClaimSubtitle, {"providerName":"Aave"}',
     expectedTotal: '+1.50 ARB',
