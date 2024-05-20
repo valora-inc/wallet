@@ -2367,6 +2367,24 @@
       "subtitle": "Bugün para yatırın ve getiri kazanın",
       "description": "Bir kredi havuzu sağlarken ne kadar kazanabileceğinizi görün"
     },
+    "enterAmount": {
+      "earnUpToLabel": "Şu kadar kazanabilirsiniz:",
+      "rateLabel": "Oran (tahmini)",
+      "earnUpTo": "~{{fiatSymbol}}{{amount}} / yıl",
+      "rate": "{{rate}}% APY",
+      "continue": "İleri",
+      "info": "Bu havuz Aave tarafından desteklenmektedir",
+      "infoBottomSheet": {
+        "title": "Neden bu havuz?",
+        "description": "Bu Aave havuzu 150 milyon doların üzerinde TVL'ye ve 6.000'den fazla katılımcıya sahiptir, bu da güçlü likidite ve güvenilirliği gösterir. Ayrıca token olarak USDC ve ağ olarak Abritrum kullanır, bu da oynaklığı azaltır ve kullanıcıların ucuz gaz oranları almasını sağlar.\n\nTüm bunlar bir araya geldiğinde, rekabetçi APY ile güvenli ve cazip bir seçenek haline gelir ve kullanıcılarımız için faydalı bir yatırım fırsatı sağlar.\n\nDiğer Aave havuzlarını <0>buradan</0> keşfedebilirsiniz.",
+        "dismiss": "Yoksay"
+      },
+      "notEnoughBalanceForGasWarning": {
+        "title": "Devam etmek için daha fazlasına ihtiyacınız var {{feeTokenSymbol}}",
+        "description": "Gaz ücretlerinizi karşılamak için {{feeTokenSymbol}} adresini {{network}} adresine ekleyin",
+        "noGasCta": "{{feeTokenSymbol}} adresini {{network}}adresinden satın alın"
+      }
+    },
     "activePools": {
       "title": "Aktif Havuzlar",
       "totalValue": "Toplam Değer:",
@@ -2395,7 +2413,10 @@
       "fee": "Gaz Ücreti",
       "cta": "Kazançları Toplayın",
       "errorTitle": "Bir şeyler ters gitti",
-      "errorDescription": "Para yatırma detayları alınamıyor. Lütfen tekrar deneyin."
+      "errorDescription": "Para yatırma detayları alınamıyor. Lütfen tekrar deneyin.",
+      "noGasTitle": "Devam etmek için daha fazlasına ihtiyacınız var {{symbol}}",
+      "noGasDescription": "Gaz ücretlerinizi karşılamak için {{symbol}} adresini {{network}} adresine ekleyin",
+      "noGasCta": "{{symbol}} adresini {{network}}adresinden satın alın"
     },
     "transactionFeed": {
       "earnClaimTitle": "Toplanmış",
