@@ -69,7 +69,7 @@ export function EarnDepositContent({ transaction }: EarnDepositProps) {
   const tokenSymbol = tokenInfo?.symbol ?? ''
 
   return (
-    <View>
+    <>
       <Text style={styles.detailsTitle}>{t('earnFlow.transactionDetails.descriptionLabel')}</Text>
       <Text style={styles.detailsSubtitle}>
         {t('earnFlow.transactionDetails.earnDepositSubtitle', { providerName, tokenSymbol })}
@@ -96,7 +96,7 @@ export function EarnDepositContent({ transaction }: EarnDepositProps) {
       </View>
       <RowDivider />
       <NetworkFeeRowItem fees={transaction.fees} transactionStatus={transaction.status} />
-    </View>
+    </>
   )
 }
 
@@ -113,7 +113,7 @@ export function EarnWithdrawContent({ transaction }: EarnWithdrawProps) {
   const tokenSymbol = tokenInfo?.symbol ?? ''
 
   return (
-    <View>
+    <>
       <Text style={styles.detailsTitle}>{t('earnFlow.transactionDetails.descriptionLabel')}</Text>
       <Text style={styles.detailsSubtitle}>
         {t('earnFlow.transactionDetails.earnWithdrawSubtitle', { providerName, tokenSymbol })}
@@ -140,7 +140,7 @@ export function EarnWithdrawContent({ transaction }: EarnWithdrawProps) {
       </View>
       <RowDivider />
       <NetworkFeeRowItem fees={transaction.fees} transactionStatus={transaction.status} />
-    </View>
+    </>
   )
 }
 
