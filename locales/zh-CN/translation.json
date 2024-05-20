@@ -2402,6 +2402,18 @@
       "earnDepositSubtitle": "至 {{providerName}} 池",
       "earnWithdrawTitle": "撤回",
       "earnWithdrawSubtitle": "来自 {{providerName}} Pool"
+    },
+    "transactionDetails": {
+      "descriptionLabel": "详细信息",
+      "earnClaimTitle": "收藏",
+      "earnClaimSubtitle": "从 {{providerName}} Pool 收集的 {{tokenSymbol}}",
+      "earnClaimDetails": "收款金额",
+      "earnDepositTitle": "存入",
+      "earnDepositSubtitle": "存入 {{tokenSymbol}} 至 {{providerName}} 奖池",
+      "earnDepositDetails": "已转入金额",
+      "earnWithdrawTitle": "撤回",
+      "earnWithdrawSubtitle": "从 {{providerName}} Pool 提取 {{tokenSymbol}}",
+      "earnWithdrawDetails": "已提取金额"
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
