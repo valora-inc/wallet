@@ -2367,6 +2367,24 @@
       "subtitle": "Deposita oggi stesso e guadagna",
       "description": "Scopri quanto puoi guadagnare fornendo un pool di prestiti"
     },
+    "enterAmount": {
+      "earnUpToLabel": "Potresti guadagnare fino a:",
+      "rateLabel": "Tasso (est.)",
+      "earnUpTo": "~{{fiatSymbol}}{{amount}} / anno",
+      "rate": "{{rate}}% APY",
+      "continue": "Continua",
+      "info": "Questa piscina è alimentata da Aave",
+      "infoBottomSheet": {
+        "title": "Perché questa piscina?",
+        "description": "Questo pool di Aave ha oltre 150 milioni di dollari di TVL e più di 6.000 contributori, il che indica una forte liquidità e affidabilità. Inoltre, utilizza USDC come token e Abritrum come rete, il che riduce la volatilità e garantisce agli utenti tariffe economiche.\n\nTutto ciò la rende un'opzione sicura e attraente con un APY competitivo, garantendo un'opportunità di investimento vantaggiosa per i nostri utenti.\n\nPuoi esplorare gli altri pool di Aave <0>qui</0>.",
+        "dismiss": "Ignorare"
+      },
+      "notEnoughBalanceForGasWarning": {
+        "title": "Hai bisogno di più {{feeTokenSymbol}} per continuare",
+        "description": "Aggiungi {{feeTokenSymbol}} su {{network}} per coprire le spese del gas.",
+        "noGasCta": "Acquista {{feeTokenSymbol}} su {{network}}"
+      }
+    },
     "activePools": {
       "title": "Piscine attive",
       "totalValue": "Valore totale:",
@@ -2395,7 +2413,10 @@
       "fee": "Tassa sul gas",
       "cta": "Raccogli i guadagni",
       "errorTitle": "Si è verificato un errore",
-      "errorDescription": "Impossibile recuperare i dettagli del deposito. Riprova."
+      "errorDescription": "Impossibile recuperare i dettagli del deposito. Riprova.",
+      "noGasTitle": "Hai bisogno di più {{symbol}} per continuare",
+      "noGasDescription": "Aggiungi {{symbol}} su {{network}} per coprire le spese del gas.",
+      "noGasCta": "Acquista {{symbol}} su {{network}}"
     },
     "transactionFeed": {
       "earnClaimTitle": "Raccolta",
