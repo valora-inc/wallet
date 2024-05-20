@@ -2404,6 +2404,18 @@
       "earnDepositSubtitle": "para {{providerName}} Pool",
       "earnWithdrawTitle": "Retirada",
       "earnWithdrawSubtitle": "do site {{providerName}} Pool"
+    },
+    "transactionDetails": {
+      "descriptionLabel": "Detalhes",
+      "earnClaimTitle": "Coletânea",
+      "earnClaimSubtitle": "Coletado {{tokenSymbol}} de {{providerName}} Pool",
+      "earnClaimDetails": "Valor coletado",
+      "earnDepositTitle": "Depositado",
+      "earnDepositSubtitle": "Depositado {{tokenSymbol}} para {{providerName}} Pool",
+      "earnDepositDetails": "Quantia depositada",
+      "earnWithdrawTitle": "Retirada",
+      "earnWithdrawSubtitle": "Você retirou o site {{tokenSymbol}} do pool {{providerName}}",
+      "earnWithdrawDetails": "Quantia retirada"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
