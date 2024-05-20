@@ -15,7 +15,7 @@ import { TransactionRequest, prepareTransactions } from 'src/viem/prepareTransac
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { Address, encodeFunctionData, isAddress, parseUnits } from 'viem'
 
-const TAG = 'src/earn/prepareTransactions'
+const TAG = 'earn/prepareTransactions'
 
 type SimulatedTransactionResponse = {
   status: 'OK'

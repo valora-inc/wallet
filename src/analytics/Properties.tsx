@@ -1602,11 +1602,11 @@ interface EarnEventsProperties {
   [EarnEvents.earn_enter_amount_info_press]: undefined
   [EarnEvents.earn_enter_amount_continue_press]: {
     userHasFunds: boolean
-    tokenAmount: string | null
-    amountInUsd: string | null
+    tokenAmount: string
+    amountInUsd: string
     amountEnteredIn: AmountEnteredIn
-    tokenId: string | null
-    networkId: string | null
+    tokenId: string
+    networkId: string
   }
   [EarnEvents.earn_enter_amount_info_more_pools]: undefined
   [EarnEvents.earn_exit_pool_press]: {

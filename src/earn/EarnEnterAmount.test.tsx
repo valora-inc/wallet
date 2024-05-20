@@ -173,6 +173,7 @@ describe('EarnEnterAmount', () => {
         userHasFunds: true,
       }
     )
+    await waitFor(() => expect(getByText('earnFlow.depositBottomSheet.title')).toBeVisible())
   })
   it('should handle navigating to the add crypto bottom sheet', async () => {
     jest.mocked(usePrepareSupplyTransactions).mockReturnValue({
@@ -203,6 +204,9 @@ describe('EarnEnterAmount', () => {
         tokenId: networkConfig.arbUsdcTokenId,
         userHasFunds: false,
       }
+    )
+    await waitFor(() =>
+      expect(getByText('earnFlow.addCryptoBottomSheet.description')).toBeVisible()
     )
   })
 })

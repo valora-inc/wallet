@@ -2,7 +2,6 @@ import { parseInputAmount } from '@celo/utils/lib/parsing'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { useAsync } from 'react-async-hook'
 import { Trans, useTranslation } from 'react-i18next'
 import {
   TextInput as RNTextInput,
@@ -26,7 +25,7 @@ import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import EarnAddCryptoBottomSheet from 'src/earn/EarnAddCryptoBottomSheet'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
-import { fetchAavePoolInfo } from 'src/earn/poolInfo'
+import { useAavePoolInfo } from 'src/earn/hooks'
 import { usePrepareSupplyTransactions } from 'src/earn/prepareTransactions'
 import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
@@ -37,6 +36,9 @@ import { StackParamList } from 'src/navigator/types'
 import { useSelector } from 'src/redux/hooks'
 import { AmountInput, ProceedArgs } from 'src/send/EnterAmount'
 import { AmountEnteredIn } from 'src/send/types'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -45,9 +47,9 @@ import { useLocalToTokenAmount, useTokenInfo, useTokenToLocalAmount } from 'src/
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
-import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
+import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { Address, isAddress } from 'viem'
+import { isAddress } from 'viem'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.EarnEnterAmount>
 
@@ -93,14 +95,14 @@ function EarnEnterAmount({ route }: Props) {
     prepareTransactionError,
   } = usePrepareSupplyTransactions()
 
-  const walletAddress = useSelector(walletAddressSelector) as Address
+  const walletAddress = useSelector(walletAddressSelector)
 
   const handleRefreshPreparedTransactions = (
     amount: BigNumber,
     token: TokenBalance,
     feeCurrencies: TokenBalance[]
   ) => {
-    if (!walletAddress) {
+    if (!walletAddress || !isAddress(walletAddress)) {
       Logger.error(TAG, 'Wallet address not set. Cannot refresh prepared transactions.')
       return
     }
@@ -195,7 +197,9 @@ function EarnEnterAmount({ route }: Props) {
     prepareTransactionsResult.transactions.length > 0
 
   const disabled =
-    !!tokenAmount?.isZero() || (!!tokenAmount?.lte(token.balance) && !transactionIsPossible) // Should disable if the user enters 0 or has enough balance but the transaction is not possible, shouldn't disable if they enter an amount larger than their balance as they will go to add flow
+    // Should disable if the user enters 0 or has enough balance but the transaction is not possible,
+    // shouldn't disable if they enter an amount larger than their balance as they will go to add flow
+    !!tokenAmount?.isZero() || (!!tokenAmount?.lte(token.balance) && !transactionIsPossible)
 
   const onTokenAmountInputChange = (value: string) => {
     if (!value) {
@@ -252,14 +256,14 @@ function EarnEnterAmount({ route }: Props) {
 
   const onPressContinue = ({ tokenAmount, token, amountEnteredIn }: ProceedArgs) => {
     ValoraAnalytics.track(EarnEvents.earn_enter_amount_continue_press, {
-      userHasFunds: token.balance?.gte(tokenAmount),
+      userHasFunds: !!isAmountLessThanBalance,
       tokenAmount: tokenAmount.toString(),
       amountInUsd: tokenAmount.multipliedBy(token.priceUsd ?? 0).toFixed(2),
       amountEnteredIn,
       tokenId: token.tokenId,
       networkId: token.networkId,
     })
-    tokenAmount?.gt(token.balance)
+    isAmountLessThanBalance
       ? addCryptoBottomSheetRef.current?.snapToIndex(0)
       : reviewBottomSheetRef.current?.snapToIndex(0)
   }
@@ -355,11 +359,11 @@ function EarnEnterAmount({ route }: Props) {
         token={token}
         tokenAmount={tokenAmount ? tokenAmount.minus(token.balance) : new BigNumber(0)}
       />
-      {prepareTransactionsResult?.type === 'possible' && (
+      {tokenAmount && prepareTransactionsResult?.type === 'possible' && (
         <EarnDepositBottomSheet
           forwardedRef={reviewBottomSheetRef}
           preparedTransaction={prepareTransactionsResult}
-          amount={tokenAmount ? tokenAmount.toString() : '0'}
+          amount={tokenAmount.toString()}
           tokenId={token.tokenId}
         />
       )}
@@ -379,29 +383,7 @@ function EarnProceed({
   const { t } = useTranslation()
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
-  const asyncPoolInfo = useAsync(
-    async () => {
-      if (!token || !token.address) {
-        throw new Error(`Token with id ${token} not found`)
-      }
-
-      if (!isAddress(token.address)) {
-        throw new Error(`Token with id ${token} does not contain a valid address`)
-      }
-
-      return fetchAavePoolInfo({
-        assetAddress: token.address,
-        contractAddress: networkConfig.arbAavePoolV3ContractAddress,
-        network: networkIdToNetwork[token.networkId],
-      })
-    },
-    [],
-    {
-      onError: (error) => {
-        Logger.warn(TAG, error.message)
-      },
-    }
-  )
+  const asyncPoolInfo = useAavePoolInfo({ depositTokenId: token.tokenId })
 
   return (
     <View style={styles.infoContainer}>
@@ -460,12 +442,16 @@ function InfoBottomSheet({
   infoBottomSheetRef: React.RefObject<BottomSheetRefType>
 }) {
   const { t } = useTranslation()
+
+  const { moreAavePoolsUrl } = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG]
+  )
   const onPressDismiss = () => {
     infoBottomSheetRef.current?.close()
   }
   const onPressMorePools = () => {
     ValoraAnalytics.track(EarnEvents.earn_enter_amount_info_more_pools)
-    navigate(Screens.WebViewScreen, { uri: 'https://app.aave.com/markets/' })
+    moreAavePoolsUrl && navigate(Screens.WebViewScreen, { uri: moreAavePoolsUrl })
   }
 
   return (
@@ -543,6 +529,7 @@ const styles = StyleSheet.create({
   infoBottomSheetText: {
     ...typeScale.bodySmall,
     marginBottom: Spacing.Thick24,
+    color: Colors.black,
   },
   linkText: {
     textDecorationLine: 'underline',
@@ -556,6 +543,7 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.titleSmall,
+    color: Colors.black,
   },
   inputContainer: {
     flex: 1,
@@ -586,6 +574,7 @@ const styles = StyleSheet.create({
   },
   inputText: {
     ...typeScale.titleMedium,
+    color: Colors.black,
   },
   tokenView: {
     flexDirection: 'row',
@@ -601,6 +590,7 @@ const styles = StyleSheet.create({
     ...typeScale.labelSmall,
     paddingLeft: Spacing.Tiny4,
     paddingRight: Spacing.Smallest8,
+    color: Colors.black,
   },
   localAmount: {
     ...typeScale.labelMedium,
@@ -615,6 +605,7 @@ const styles = StyleSheet.create({
   },
   maxText: {
     ...typeScale.labelSmall,
+    color: Colors.black,
   },
   warning: {
     marginTop: Spacing.Regular16,
