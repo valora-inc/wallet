@@ -2383,7 +2383,8 @@
       },
       "notEnoughBalanceForGasWarning": {
         "title": "You need more {{feeTokenSymbol}} for gas",
-        "description": "Add {{feeTokenSymbol}} on {{network}} to cover your gas fees"
+        "description": "Add {{feeTokenSymbol}} on {{network}} to cover your gas fees",
+        "noGasCta": "Buy {{feeTokenSymbol}} on {{network}}"
       }
     },
     "activePools": {

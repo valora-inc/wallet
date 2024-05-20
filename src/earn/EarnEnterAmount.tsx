@@ -27,6 +27,7 @@ import EarnAddCryptoBottomSheet from 'src/earn/EarnAddCryptoBottomSheet'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import { useAavePoolInfo } from 'src/earn/hooks'
 import { usePrepareSupplyTransactions } from 'src/earn/prepareTransactions'
+import { CICOFlow } from 'src/fiatExchanges/utils'
 import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
@@ -331,6 +332,17 @@ function EarnEnterAmount({ route }: Props) {
               feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
               network: NETWORK_NAMES[prepareTransactionsResult.feeCurrencies[0].networkId],
             })}
+            ctaLabel={t('earnFlow.enterAmount.notEnoughBalanceForGasWarning.noGasCta', {
+              feeTokenSymbol: feeCurrencies[0].symbol,
+              network: NETWORK_NAMES[prepareTransactionsResult.feeCurrencies[0].networkId],
+            })}
+            onPressCta={() => {
+              navigate(Screens.FiatExchangeAmount, {
+                tokenId: prepareTransactionsResult.feeCurrencies[0].tokenId,
+                flow: CICOFlow.CashIn,
+                tokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
+              })
+            }}
             style={styles.warning}
             testID="EarnEnterAmount/NotEnoughForGasWarning"
           />
