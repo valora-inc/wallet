@@ -8,6 +8,8 @@ import EarnCollectScreen from 'src/earn/EarnCollectScreen'
 import { fetchAavePoolInfo, fetchAaveRewards } from 'src/earn/poolInfo'
 import { prepareWithdrawAndClaimTransactions } from 'src/earn/prepareTransactions'
 import { withdrawStart } from 'src/earn/slice'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
@@ -381,7 +383,12 @@ describe('EarnCollectScreen', () => {
     expect(getByTestId('EarnCollectScreen/CTA')).toContainElement(getByTestId('Button/Loading'))
   })
 
-  it('fires event on press', async () => {
+  it('navigate and fire analytics on no gas CTA press', async () => {
+    jest.mocked(prepareWithdrawAndClaimTransactions).mockResolvedValue({
+      type: 'not-enough-balance-for-gas',
+      feeCurrencies: [mockPreparedTransaction.feeCurrency],
+    })
+
     const { getByText, queryByTestId } = render(
       <Provider store={store}>
         <MockedNavigator
@@ -401,18 +408,20 @@ describe('EarnCollectScreen', () => {
       expect(queryByTestId('EarnCollect/ApyLoading')).toBeFalsy()
     })
 
-    fireEvent.press(getByText('earnFlow.collect.cta'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_collect_earnings_press, {
-      rewards: [
-        {
-          amount: '0.01',
-          tokenId: mockArbArbTokenId,
-        },
-      ],
-      networkId: NetworkId['arbitrum-sepolia'],
-      providerId: 'aave-v3',
-      tokenAmount: '10.75',
-      tokenId: mockArbUsdcTokenId,
+    expect(
+      getByText('earnFlow.collect.noGasCta, {"symbol":"ETH","network":"Arbitrum Sepolia"}')
+    ).toBeTruthy()
+    fireEvent.press(
+      getByText('earnFlow.collect.noGasCta, {"symbol":"ETH","network":"Arbitrum Sepolia"}')
+    )
+
+    expect(navigate).toBeCalledWith(Screens.FiatExchangeAmount, {
+      flow: 'CashIn',
+      tokenId: mockArbEthTokenId,
+      tokenSymbol: 'ETH',
+    })
+    expect(ValoraAnalytics.track).toBeCalledWith(EarnEvents.earn_withdraw_add_gas_press, {
+      gasTokenId: mockArbEthTokenId,
     })
   })
 })
