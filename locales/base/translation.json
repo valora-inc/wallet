@@ -2416,6 +2416,26 @@
       "cta": "Collect Earnings",
       "errorTitle": "Something went wrong",
       "errorDescription": "Unable to fetch deposit details. Please try again."
+    },
+    "transactionFeed": {
+      "earnClaimTitle": "Collected",
+      "earnClaimSubtitle": "from {{providerName}} Pool",
+      "earnDepositTitle": "Deposited",
+      "earnDepositSubtitle": "to {{providerName}} Pool",
+      "earnWithdrawTitle": "Withdrew",
+      "earnWithdrawSubtitle": "from {{providerName}} Pool"
+    },
+    "transactionDetails": {
+      "descriptionLabel": "Details",
+      "earnClaimTitle": "Collected",
+      "earnClaimSubtitle": "Collected {{tokenSymbol}} from {{providerName}} Pool",
+      "earnClaimDetails": "Amount Collected",
+      "earnDepositTitle": "Deposited",
+      "earnDepositSubtitle": "Deposited {{tokenSymbol}} to {{providerName}} Pool",
+      "earnDepositDetails": "Amount Deposited",
+      "earnWithdrawTitle": "Withdrew",
+      "earnWithdrawSubtitle": "Withdrew {{tokenSymbol}} from {{providerName}} Pool",
+      "earnWithdrawDetails": "Amount Withdrawn"
     }
   }
 }

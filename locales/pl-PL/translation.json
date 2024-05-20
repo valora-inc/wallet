@@ -1819,6 +1819,15 @@
       "networkFeeNoNetwork": "Opłata sieciowa",
       "swapFee": "Opłata w aplikacji {{appName}}",
       "swapFeeWaived": "Bezpłatnie",
+      "appFee": "Opłata w aplikacji {{appName}}",
+      "appFeeValue": "<0></0> <1>(<0></0>)</1>",
+      "appFeeValue_withoutPriceUsd": "<0></0>",
+      "appFeeValue_free": "Bezpłatnie",
+      "appFeeValue_placeholder": "-",
+      "appFeeInfo": "{{appName}} Opłata\n\nPobieramy opłatę za wymianę tokenów na {{appName}}. Opłata wynosi {{appFeePercentage}}% kwoty, którą wymieniasz.",
+      "appFeeInfo_free": "{{appName}} Opłata\n\nTa wymiana jest bezpłatna.",
+      "appFeeInfo_placeholder": "{{appName}} Opłata\n\nOpłata jest obliczana na podstawie otrzymanej wyceny.",
+      "appFeeInfoDismissButton": "Rozumiem",
       "slippagePercentage": "Tolerancja poślizgu",
       "networkFeeInfo": "Dokonujesz wymiany w sieci {{networkName}}.\n\nTa szacunkowa opłata sieciowa jest wymagana do przeprowadzenia transakcji w sieci {{networkName}}. Opłata ta zabezpiecza Twoją transakcję i przeznaczana jest na utrzymanie działania sieci.",
       "networkFeeInfoV1_76": "Dokonujesz wymiany w sieci {{networkName}}.\n\nDo przeprowadzenia transakcji w sieci {{networkName}} wymagana jest opłata sieciowa. Zabezpiecza ona Twoją transakcję i jest wypłacana weryfikatorom sieci.\n\nWarunki sieciowe określają dokładną kwotę, dlatego podane szacunki przedstawiają oczekiwaną przez nas opłatę. Nie przekroczy ona maksymalnej kwoty opłaty.",
@@ -2331,6 +2340,15 @@
       "moreComing": {
         "title": "Więcej już wkrótce!"
       }
+    },
+    "discoverCard": {
+      "title": "{{appName}} Punkty",
+      "description": "Łatwo zdobywaj punkty dzięki {{appName}}. Korzystanie z aplikacji, w tym wymiana, prowadzi do zdobywania punktów!"
+    },
+    "intro": {
+      "title": "Zdobywaj punkty bez wysiłku",
+      "description": "Poznaj nowy sposób zarabiania! Twoje działania na {{appName}} przynoszą teraz punkty. Zacznij zarabiać już dziś i odblokuj niesamowite korzyści.",
+      "cta": "Rozpocznij swoją podróż po punkty"
     }
   },
   "earnFlow": {
@@ -2377,9 +2395,19 @@
       "total": "RAZEM",
       "plus": "PLUS",
       "rate": "Stawka (szacunkowa)",
-      "apy": "~{{apy}}% APY",
+      "apy": "{{apy}}% RRSO",
       "fee": "Opłata za gaz",
-      "cta": "Zbieraj zarobki"
+      "cta": "Zbieraj zarobki",
+      "errorTitle": "Coś poszło nie tak",
+      "errorDescription": "Nie można pobrać szczegółów wpłaty. Spróbuj ponownie."
+    },
+    "transactionFeed": {
+      "earnClaimTitle": "Zebrane",
+      "earnClaimSubtitle": "z {{providerName}} Pool",
+      "earnDepositTitle": "Wpłacono",
+      "earnDepositSubtitle": "na {{providerName}} Pool",
+      "earnWithdrawTitle": "Wycofany",
+      "earnWithdrawSubtitle": "z {{providerName}} Pool"
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",

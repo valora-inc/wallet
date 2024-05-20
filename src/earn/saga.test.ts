@@ -5,8 +5,15 @@ import { StaticProvider, dynamic, throwError } from 'redux-saga-test-plan/provid
 import erc20 from 'src/abis/IERC20'
 import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { depositSubmitSaga } from 'src/earn/saga'
-import { depositCancel, depositError, depositStart, depositSuccess } from 'src/earn/slice'
+import { depositSubmitSaga, withdrawSubmitSaga } from 'src/earn/saga'
+import {
+  depositCancel,
+  depositError,
+  depositStart,
+  depositSuccess,
+  withdrawStart,
+  withdrawSuccess,
+} from 'src/earn/slice'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
 import { Network, NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
@@ -311,5 +318,23 @@ describe('depositSubmitSaga', () => {
       ...expectedAnalyticsProps,
       error: 'Deposit transaction reverted: 0x2',
     })
+  })
+})
+
+describe('withdrawSubmitSaga', () => {
+  it('navigates home and fires success event', async () => {
+    await expectSaga(withdrawSubmitSaga, {
+      type: withdrawStart.type,
+      payload: {
+        amount: '100',
+        tokenId: mockArbUsdcTokenId,
+        preparedTransactions: [],
+        rewards: [],
+      },
+    })
+      .put(withdrawSuccess())
+      .run()
+
+    expect(navigateHome).toHaveBeenCalled()
   })
 })

@@ -315,7 +315,7 @@ function Setup() {
             onPress={onPressLater}
             text={t('keylessBackupStatus.setup.failed.later')}
             size={BtnSizes.FULL}
-            type={BtnTypes.ONBOARDING}
+            type={BtnTypes.PRIMARY}
             style={styles.button}
             touchableStyle={styles.buttonTouchable}
           />
@@ -324,7 +324,7 @@ function Setup() {
             onPress={onPressManual}
             text={t('keylessBackupStatus.setup.failed.manual')}
             size={BtnSizes.FULL}
-            type={BtnTypes.ONBOARDING_SECONDARY}
+            type={BtnTypes.GRAY_WITH_BORDER}
             style={styles.button}
             touchableStyle={styles.buttonTouchable}
           />

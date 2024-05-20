@@ -181,7 +181,7 @@ export class RegulatoryTerms extends React.Component<Props> {
           {(insets) => (
             <Button
               style={[styles.button, insets && insets.bottom <= MARGIN && { marginBottom: MARGIN }]}
-              type={BtnTypes.ONBOARDING}
+              type={BtnTypes.PRIMARY}
               size={BtnSizes.FULL}
               text={t('accept')}
               onPress={this.onPressAccept}

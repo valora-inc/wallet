@@ -181,7 +181,7 @@ describe('EarnDepositBottomSheet', () => {
   it('shows loading state and buttons are disabled when deposit is submitted', () => {
     const store = createMockStore({
       tokens: { tokenBalances: mockTokenBalances },
-      earn: { depositStatus: 'started' },
+      earn: { depositStatus: 'loading' },
     })
     const { getByTestId } = render(
       <Provider store={store}>
