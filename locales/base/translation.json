@@ -2369,6 +2369,24 @@
       "subtitle": "Deposit today and earn returns",
       "description": "See how much you can earn when supplying a lending pool"
     },
+    "enterAmount": {
+      "earnUpToLabel": "You could earn up to:",
+      "rateLabel": "Rate (est.)",
+      "earnUpTo": "~{{fiatSymbol}}{{amount}} / yr",
+      "rate": "{{rate}}% APY",
+      "continue": "Continue",
+      "info": "This pool is powered by Aave",
+      "infoBottomSheet": {
+        "title": "Why this pool?",
+        "description": "This Aave pool has over $150M TVL and more than 6,000 contributors, indicating strong liquidity and trustworthiness. It also uses USDC as its token and Abritrum as its network, which reduces volatility and ensures users will receive inexpensive gas rates.\n\nAll together this makes it a safe and attractive option with competitive APY, ensuring a beneficial investment opportunity for our users.\n\nYou can explore other Aave pools <0>here</0>.",
+        "dismiss": "Dismiss"
+      },
+      "notEnoughBalanceForGasWarning": {
+        "title": "You need more {{feeTokenSymbol}} to continue",
+        "description": "Add {{feeTokenSymbol}} on {{network}} to cover your gas fees",
+        "noGasCta": "Buy {{feeTokenSymbol}} on {{network}}"
+      }
+    },
     "activePools": {
       "title": "Active Pools",
       "totalValue": "Total Value:",
@@ -2397,7 +2415,10 @@
       "fee": "Gas Fee",
       "cta": "Collect Earnings",
       "errorTitle": "Something went wrong",
-      "errorDescription": "Unable to fetch deposit details. Please try again."
+      "errorDescription": "Unable to fetch deposit details. Please try again.",
+      "noGasTitle": "You need more {{symbol}} to continue",
+      "noGasDescription": "Add {{symbol}} on {{network}} to cover your gas fees",
+      "noGasCta": "Buy {{symbol}} on {{network}}"
     },
     "transactionFeed": {
       "earnClaimTitle": "Collected",
