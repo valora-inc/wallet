@@ -380,4 +380,39 @@ describe('EarnCollectScreen', () => {
     expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
     expect(getByTestId('EarnCollectScreen/CTA')).toContainElement(getByTestId('Button/Loading'))
   })
+
+  it('fires event on press', async () => {
+    const { getByText, queryByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator
+          component={EarnCollectScreen}
+          params={{
+            depositTokenId: mockArbUsdcTokenId,
+            poolTokenId: networkConfig.aaveArbUsdcTokenId,
+          }}
+        />
+      </Provider>
+    )
+
+    await waitFor(() => {
+      expect(queryByTestId('EarnCollect/RewardsLoading')).toBeFalsy()
+    })
+    await waitFor(() => {
+      expect(queryByTestId('EarnCollect/ApyLoading')).toBeFalsy()
+    })
+
+    fireEvent.press(getByText('earnFlow.collect.cta'))
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_collect_earnings_press, {
+      rewards: [
+        {
+          amount: '0.01',
+          tokenId: mockArbArbTokenId,
+        },
+      ],
+      networkId: NetworkId['arbitrum-sepolia'],
+      providerId: 'aave-v3',
+      tokenAmount: '10.75',
+      tokenId: mockArbUsdcTokenId,
+    })
+  })
 })
