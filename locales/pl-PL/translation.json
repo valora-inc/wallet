@@ -2371,6 +2371,24 @@
       "subtitle": "Dokonaj wpłaty już dziś i zarabiaj",
       "description": "Zobacz ile możesz zarobić zasilając pulę pożyczkową"
     },
+    "enterAmount": {
+      "earnUpToLabel": "Możesz zarobić do:",
+      "rateLabel": "Stawka (szacunkowa)",
+      "earnUpTo": "~{{fiatSymbol}}{{amount}} / rok",
+      "rate": "{{rate}}% RRSO",
+      "continue": "Kontynuuj",
+      "info": "Ta pula jest zasilana przez Aave",
+      "infoBottomSheet": {
+        "title": "Dlaczego ten basen?",
+        "description": "Ta pula Aave ma ponad 150 mln USD TVL i ponad 6000 współpracowników, co wskazuje na dużą płynność i wiarygodność. Wykorzystuje również USDC jako token i Abritrum jako sieć, co zmniejsza zmienność i zapewnia użytkownikom niedrogie stawki za gaz.\n\nWszystko to razem sprawia, że jest to bezpieczna i atrakcyjna opcja z konkurencyjnym APY, zapewniająca korzystne możliwości inwestycyjne dla naszych użytkowników.\n\nMożesz zapoznać się z innymi pulami Aave <0>tutaj</0>.",
+        "dismiss": "Odrzuć"
+      },
+      "notEnoughBalanceForGasWarning": {
+        "title": "Potrzebujesz więcej {{feeTokenSymbol}} , aby kontynuować",
+        "description": "Dodaj {{feeTokenSymbol}} na {{network}} , aby pokryć opłaty za gaz",
+        "noGasCta": "Kup {{feeTokenSymbol}} na {{network}}"
+      }
+    },
     "activePools": {
       "title": "Aktywne baseny",
       "totalValue": "Całkowita wartość:",
@@ -2399,7 +2417,10 @@
       "fee": "Opłata za gaz",
       "cta": "Zbieraj zarobki",
       "errorTitle": "Coś poszło nie tak",
-      "errorDescription": "Nie można pobrać szczegółów wpłaty. Spróbuj ponownie."
+      "errorDescription": "Nie można pobrać szczegółów wpłaty. Spróbuj ponownie.",
+      "noGasTitle": "Potrzebujesz więcej {{symbol}} , aby kontynuować",
+      "noGasDescription": "Dodaj {{symbol}} na {{network}} , aby pokryć opłaty za gaz",
+      "noGasCta": "Kup {{symbol}} na {{network}}"
     },
     "transactionFeed": {
       "earnClaimTitle": "Zebrane",
