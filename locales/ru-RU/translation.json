@@ -2408,6 +2408,18 @@
       "earnDepositSubtitle": "на {{providerName}} Pool",
       "earnWithdrawTitle": "Отказаться от",
       "earnWithdrawSubtitle": "с сайта {{providerName}} Pool"
+    },
+    "transactionDetails": {
+      "descriptionLabel": "Подробности",
+      "earnClaimTitle": "Собрано",
+      "earnClaimSubtitle": "Собрал {{tokenSymbol}} в бассейне {{providerName}}",
+      "earnClaimDetails": "Собранная сумма",
+      "earnDepositTitle": "Депозит",
+      "earnDepositSubtitle": "Депозит {{tokenSymbol}} на {{providerName}}",
+      "earnDepositDetails": "Вложенная сумма",
+      "earnWithdrawTitle": "Отказаться от",
+      "earnWithdrawSubtitle": "Вывел {{tokenSymbol}} из пула {{providerName}}",
+      "earnWithdrawDetails": "Сумма выведено"
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
