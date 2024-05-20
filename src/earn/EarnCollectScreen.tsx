@@ -148,6 +148,9 @@ export default function EarnCollectScreen({ route }: Props) {
               network: NETWORK_NAMES[depositToken.networkId],
             })}
             onPressCta={() => {
+              ValoraAnalytics.track(EarnEvents.earn_withdraw_add_gas_press, {
+                gasTokenId: feeCurrencies[0].tokenId,
+              })
               navigate(Screens.FiatExchangeAmount, {
                 tokenId: feeCurrencies[0].tokenId,
                 flow: CICOFlow.CashIn,

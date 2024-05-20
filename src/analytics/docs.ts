@@ -611,6 +611,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [EarnEvents.earn_withdraw_submit_success]: `When the withdraw and claim transactions succeed`,
   [EarnEvents.earn_withdraw_submit_error]: `When the withdraw and claim transactions fail`,
   [EarnEvents.earn_withdraw_submit_cancel]: `When the user cancels the withdraw and claim transactions after submitting by cancelling PIN input`,
+  [EarnEvents.earn_withdraw_add_gas_press]: `When the user doesn't have enough for gas and clicks on the button to add gas token`,
 
   // Legacy event docs
   //  The below events had docs, but are no longer produced by the latest app version.
