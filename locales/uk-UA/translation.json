@@ -2408,6 +2408,18 @@
       "earnDepositSubtitle": "на {{providerName}} Пул",
       "earnWithdrawTitle": "Вийшов з гри.",
       "earnWithdrawSubtitle": "від {{providerName}} Пул"
+    },
+    "transactionDetails": {
+      "descriptionLabel": "Подробиці",
+      "earnClaimTitle": "Зібрано",
+      "earnClaimSubtitle": "Зібрано {{tokenSymbol}} з пулу {{providerName}}",
+      "earnClaimDetails": "Сума зібраних коштів",
+      "earnDepositTitle": "Депоновано",
+      "earnDepositSubtitle": "Вніс {{tokenSymbol}} на рахунок {{providerName}} Пулу",
+      "earnDepositDetails": "Суму внесено",
+      "earnWithdrawTitle": "Вийшов з гри.",
+      "earnWithdrawSubtitle": "Виведено {{tokenSymbol}} з пулу {{providerName}}",
+      "earnWithdrawDetails": "Знята сума"
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
