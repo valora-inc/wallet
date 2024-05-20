@@ -139,7 +139,7 @@ describe('depositSubmitSaga', () => {
   }
 
   const expectedDepositStandbyTx = {
-    __typename: 'TokenExchangeV3',
+    __typename: 'EarnDeposit',
     context: {
       id: 'id-earn/saga-Earn/Deposit',
       tag: 'earn/saga',
@@ -155,8 +155,9 @@ describe('depositSubmitSaga', () => {
       tokenId: mockArbUsdcTokenId,
     },
     transactionHash: '0x2',
-    type: TokenTransactionTypeV2.SwapTransaction,
+    type: TokenTransactionTypeV2.EarnDeposit,
     feeCurrencyId: undefined,
+    providerId: 'aave-v3',
   }
 
   beforeEach(() => {
@@ -386,9 +387,8 @@ describe('withdrawSubmitSaga', () => {
     rewards: [],
   }
 
-  // TODO: replace with EarnWithdraw type
   const expectedWithdrawStandbyTx = {
-    __typename: 'TokenExchangeV3',
+    __typename: 'EarnWithdraw',
     context: {
       id: 'id-earn/saga-Earn/Withdraw',
       tag: 'earn/saga',
@@ -404,13 +404,14 @@ describe('withdrawSubmitSaga', () => {
       tokenId: networkConfig.aaveArbUsdcTokenId,
     },
     transactionHash: '0x1',
-    type: TokenTransactionTypeV2.SwapTransaction,
+    type: TokenTransactionTypeV2.EarnWithdraw,
     feeCurrencyId: undefined,
+    providerId: 'aave-v3',
   }
 
   // TODO: replace with EarnClaimReward type
   const expectedClaimRewardTx = {
-    __typename: 'TokenTransferV3',
+    __typename: 'EarnClaimReward',
     context: {
       id: 'id-earn/saga-Earn/ClaimReward-1',
       tag: 'earn/saga',
@@ -422,10 +423,9 @@ describe('withdrawSubmitSaga', () => {
       tokenId: mockArbArbTokenId,
     },
     transactionHash: '0x2',
-    type: TokenTransactionTypeV2.Received,
+    type: TokenTransactionTypeV2.EarnClaimReward,
     feeCurrencyId: undefined,
-    address: '',
-    metadata: {},
+    providerId: 'aave-v3',
   }
 
   beforeEach(() => {
