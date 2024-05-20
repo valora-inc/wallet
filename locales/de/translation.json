@@ -2367,6 +2367,24 @@
       "subtitle": "Heute einzahlen und Rendite verdienen",
       "description": "Erfahre, wie viel du verdienen kannst, wenn du einen Kreditpool bereitstellst"
     },
+    "enterAmount": {
+      "earnUpToLabel": "Du könntest bis zu:",
+      "rateLabel": "Rate (geschätzt)",
+      "earnUpTo": "~{{fiatSymbol}}{{amount}} / yr",
+      "rate": "{{rate}}% APY",
+      "continue": "Weiter",
+      "info": "Dieser Pool wird von Aave betrieben",
+      "infoBottomSheet": {
+        "title": "Warum dieser Pool?",
+        "description": "Dieser Aave-Pool hat über 150 Mio. USD TVL und mehr als 6.000 Beitragszahler, was für eine hohe Liquidität und Vertrauenswürdigkeit spricht. Außerdem verwendet er USDC als Token und Abritrum als Netzwerk, was die Volatilität reduziert und sicherstellt, dass die Nutzer günstige Gasraten erhalten.\n\nAlles zusammen macht es zu einer sicheren und attraktiven Option mit wettbewerbsfähigen APY, die eine vorteilhafte Investitionsmöglichkeit für unsere Nutzer/innen darstellt.\n\nAndere Aave-Pools kannst du <0>hier</0> entdecken.",
+        "dismiss": "Verwerfen"
+      },
+      "notEnoughBalanceForGasWarning": {
+        "title": "Du brauchst mehr {{feeTokenSymbol}} um weiterzumachen",
+        "description": "Füge {{feeTokenSymbol}} auf {{network}} hinzu, um deine Gaskosten zu decken.",
+        "noGasCta": "Kaufen Sie {{feeTokenSymbol}} auf {{network}}"
+      }
+    },
     "activePools": {
       "title": "Aktive Pools",
       "totalValue": "Gesamtwert:",
@@ -2395,7 +2413,10 @@
       "fee": "Gasgebühr",
       "cta": "Verdienste sammeln",
       "errorTitle": "Etwas ist schief gelaufen",
-      "errorDescription": "Die Einzahlungsdetails können nicht abgerufen werden. Bitte versuche es erneut."
+      "errorDescription": "Die Einzahlungsdetails können nicht abgerufen werden. Bitte versuche es erneut.",
+      "noGasTitle": "Du brauchst mehr {{symbol}} um weiterzumachen",
+      "noGasDescription": "Füge {{symbol}} auf {{network}} hinzu, um deine Gaskosten zu decken.",
+      "noGasCta": "Kaufen Sie {{symbol}} auf {{network}}"
     },
     "transactionFeed": {
       "earnClaimTitle": "Gesammelt",
