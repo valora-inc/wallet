@@ -2404,6 +2404,18 @@
       "earnDepositSubtitle": "{{providerName}} Havuzuna",
       "earnWithdrawTitle": "Geri çekildi",
       "earnWithdrawSubtitle": "{{providerName}} Pool'dan"
+    },
+    "transactionDetails": {
+      "descriptionLabel": "Detaylar",
+      "earnClaimTitle": "Toplanmış",
+      "earnClaimSubtitle": "{{tokenSymbol}} {{providerName}} Havuzundan Toplandı",
+      "earnClaimDetails": "Tahsil Edilen Tutar",
+      "earnDepositTitle": "Yatırılan",
+      "earnDepositSubtitle": "{{tokenSymbol}} adresinden {{providerName}} Havuzuna yatırıldı",
+      "earnDepositDetails": "Yatırılan Toplam",
+      "earnWithdrawTitle": "Geri çekildi",
+      "earnWithdrawSubtitle": "{{tokenSymbol}} adresini {{providerName}} havuzundan geri çekti",
+      "earnWithdrawDetails": "Çekilen Tutar"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
