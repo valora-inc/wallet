@@ -2408,6 +2408,18 @@
       "earnDepositSubtitle": "na {{providerName}} Pool",
       "earnWithdrawTitle": "Wycofany",
       "earnWithdrawSubtitle": "z {{providerName}} Pool"
+    },
+    "transactionDetails": {
+      "descriptionLabel": "Szczegóły",
+      "earnClaimTitle": "Zebrane",
+      "earnClaimSubtitle": "Zebrano {{tokenSymbol}} z {{providerName}} Pool",
+      "earnClaimDetails": "Zebrana kwota",
+      "earnDepositTitle": "Wpłacono",
+      "earnDepositSubtitle": "Wpłacono {{tokenSymbol}} do puli {{providerName}}",
+      "earnDepositDetails": "Kwota wpłacona",
+      "earnWithdrawTitle": "Wycofany",
+      "earnWithdrawSubtitle": "Wycofano {{tokenSymbol}} z puli {{providerName}}",
+      "earnWithdrawDetails": "Wypłacona kwota"
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
