@@ -255,8 +255,8 @@
       "text": "Qualquer pessoa com sua frase terá acesso à sua conta e a todos os seus fundos. Não compartilhe com outras pessoas."
     }
   ],
-  "consumerIncentivesTitle": "Comece com o Supercharge",
-  "consumerIncentivesSummary": "O Supercharge chegou! Obtenha {{percent}}% de recompensas anuais sobre seu saldo mais alto de stablecoins (cUSD, cEUR ou cREAL). Disponível por um tempo limitado. Veja com funciona:",
+  "consumerIncentivesTitle": "O Supercharge está acabando",
+  "consumerIncentivesSummary": "Mas mais recompensas estão chegando até você. Até 28 de maio, você receberá {{percent}}% de recompensas anuais sobre seu saldo mais alto em stablecoin (cUSD, cEUR ou cREAL). Veja como isso funciona:",
   "earnWeekly": {
     "header": "Conecte seu número de celular",
     "text": "Toque em Conectar o número caso ainda não o tenha conectado."
@@ -271,14 +271,14 @@
     "text": "Isto irá garantir que suas recompensas estejam seguras em seu controle."
   },
   "conclusion": "É muito simples. Aumente seu cripto hoje mesmo!",
-  "superchargeTitle": "Entre no Supercharge",
-  "superchargeDescription": "Receba {{apy}}% de recompensas anuais no seu saldo de {{token}} . Veja como começar:",
+  "superchargeTitle": "O Supercharge está acabando",
+  "superchargeDescription": "Mas mais recompensas estão indo em sua direção. Até 28 de maio, você receberá {{apy}}% de prêmios anuais sobre seu saldo mais alto no site {{token}} . Veja como funciona:",
   "superchargeConnectNumber": "Conecte seu número de celular",
   "superchargeReconnectNumber": "Reconecte seu número de celular\n<0>Lançamos uma experiência aprimorada do Supercharge. Reconecte o seu número de celular para continuar ganhando recompensas com {{token}}.</0>",
   "superchargeMinimumBalance": "Adicione um saldo mínimo de {{amount}} {{token}}",
-  "superchargeDisclaimer": "Obtenha o máximo de recompensas com até {{amount}} {{token}}",
-  "superchargeDisclaimerMaxRewards": "Você está recebendo o máximo de recompensas no seus {{token}}",
-  "superchargeDisclaimerDayLimit": "As suas recompensas devem ser reclamadas dentro de 28 dias. <0>Saiba mais</0>",
+  "superchargeDisclaimer": "Isso não afetará seu saldo ou ganhos anteriores.",
+  "superchargeDisclaimerMaxRewards": "Isso não afetará seu saldo ou ganhos anteriores.",
+  "superchargeDisclaimerDayLimit": "Isso não afetará seu saldo ou ganhos anteriores. <0>Saiba mais</0>",
   "superchargeTokenDetailsDialog": {
     "title": "Quais ativos recebem recompensas de Supercharge?",
     "body": "Você receberá recompensas semanalmente na sua stablecoin de Celo com o maior saldo (cEUR, cUSD, cREAL).",
@@ -286,11 +286,11 @@
   },
   "superchargingTitle": "Atualização do app necessária",
   "superchargingDescription": "Atualize o app da Valora para continuar recebendo recompensas do Supercharge semanalmente.",
-  "superchargingTitleV1_54": "Você está recebendo recompensas de Supercharge no seus {{token}}",
-  "superchargingDescriptionV1_54": "Você recebe {{apy}}% anualmente. Toda semana você receberá uma notificação avisando quando as suas recompensas estiverem pronta. Basta voltar aqui para resgatá-las.",
+  "superchargingTitleV1_54": "O Supercharge está acabando",
+  "superchargingDescriptionV1_54": "Você poderá resgatar as recompensas semanais até terça-feira, 28 de maio, às 23h59 UTC. A partir de 29 de maio, você não poderá mais resgatar as recompensas do Supercharge.",
   "superchargeRewardsAvailable": "Você tem {{amount}} {{token}} disponíveis para resgatar!",
   "superchargeRewardsAvailableMultipleTokens": "Você tem {{amounts}} disponíveis para resgatar!",
-  "superchargeClaimText": "Resgate suas recompensas para adicioná-las ao seu saldo.",
+  "superchargeClaimText": "Você pode solicitar suas recompensas até terça-feira, 28 de maio, às 23h59 UTC. A partir de 29 de maio, você não poderá mais reivindicar as recompensas do Supercharge.",
   "superchargeClaimButton": "Resgatar recompensas",
   "superchargeFetchRewardsFailed": "Ocorreu um erro ao resgatar recompensas de Supercharge pendentes. Tente novamente mais tarde.",
   "superchargeClaimSuccess": "Suas recompensas de Supercharge foram adicionadas ao seu saldo total.",
