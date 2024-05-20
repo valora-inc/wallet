@@ -2367,6 +2367,24 @@
       "subtitle": "Deposita hoy y obtén beneficios",
       "description": "Comprueba cuánto puedes ganar al abastecer un fondo común de préstamos"
     },
+    "enterAmount": {
+      "earnUpToLabel": "Podrías ganar hasta:",
+      "rateLabel": "Tasa (est.)",
+      "earnUpTo": "~{{fiatSymbol}}{{amount}} / año",
+      "rate": "{{rate}}% APY",
+      "continue": "Continuar",
+      "info": "Esta piscina funciona con Aave",
+      "infoBottomSheet": {
+        "title": "¿Por qué esta piscina?",
+        "description": "Este pool de Aave tiene más de 150 millones de USDC y más de 6.000 contribuyentes, lo que indica una gran liquidez y fiabilidad. También utiliza USDC como token y Abritrum como red, lo que reduce la volatilidad y garantiza que los usuarios recibirán tarifas de gas baratas.\n\nTodo ello lo convierte en una opción segura y atractiva con un APY competitivo, que garantiza una oportunidad de inversión beneficiosa para nuestros usuarios.\n\nPuedes explorar otros fondos de Aave <0>aquí</0>.",
+        "dismiss": "Ignorar"
+      },
+      "notEnoughBalanceForGasWarning": {
+        "title": "Necesitas más {{feeTokenSymbol}} para continuar",
+        "description": "Añade {{feeTokenSymbol}} en {{network}} para cubrir tus gastos de gasolina",
+        "noGasCta": "Compra {{feeTokenSymbol}} en {{network}}"
+      }
+    },
     "activePools": {
       "title": "Piscinas activas",
       "totalValue": "Valor total:",
@@ -2395,7 +2413,10 @@
       "fee": "Tasa del gas",
       "cta": "Recaudar ingresos",
       "errorTitle": "Algo salió mal",
-      "errorDescription": "No se han podido obtener los datos del depósito. Vuelve a intentarlo."
+      "errorDescription": "No se han podido obtener los datos del depósito. Vuelve a intentarlo.",
+      "noGasTitle": "Necesitas más {{symbol}} para continuar",
+      "noGasDescription": "Añade {{symbol}} en {{network}} para cubrir tus gastos de gasolina",
+      "noGasCta": "Compra {{symbol}} en {{network}}"
     },
     "transactionFeed": {
       "earnClaimTitle": "Recopilado",
