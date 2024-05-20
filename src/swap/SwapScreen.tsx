@@ -698,14 +698,12 @@ export function SwapScreen({ route }: Props) {
     {
       fieldType: Field.FROM,
       tokens: swappableFromTokens,
-      title: t('swapScreen.selectTokenTitle'),
       filterChips: filterChipsFrom,
       origin: TokenPickerOrigin.SwapFrom,
     },
     {
       fieldType: Field.TO,
       tokens: swappableToTokens,
-      title: t('swapScreen.selectTokenTitle'),
       filterChips: filterChipsTo,
       origin: TokenPickerOrigin.SwapTo,
     },
@@ -734,14 +732,14 @@ export function SwapScreen({ route }: Props) {
             autoFocus
             inputError={fromSwapAmountError}
             onPressMax={handleSetMaxFromAmount}
-            buttonPlaceholder={t('swapScreen.selectToken')}
+            buttonPlaceholder={t('swapScreen.selectTokenLabel')}
             borderRadius={Spacing.Regular16}
           />
           <View style={styles.switchTokensContainer}>
             <Touchable
               borderless
               borderRadius={Spacing.Regular16}
-              useForeground
+              shouldRenderRippleAbove
               style={styles.switchTokens}
               onPress={handleSwitchTokens}
               testID="SwapScreen/SwitchTokens"
@@ -759,7 +757,7 @@ export function SwapScreen({ route }: Props) {
             token={toToken}
             style={styles.toSwapAmountInput}
             loading={updatedField === Field.FROM && quoteUpdatePending}
-            buttonPlaceholder={t('swapScreen.selectToken')}
+            buttonPlaceholder={t('swapScreen.selectTokenLabel')}
             editable={swapBuyAmountEnabled}
             borderRadius={Spacing.Regular16}
           />
@@ -859,12 +857,12 @@ export function SwapScreen({ route }: Props) {
           showLoading={confirmSwapIsLoading}
         />
       </ScrollView>
-      {tokenBottomSheetsConfig.map(({ fieldType, tokens, title, filterChips, origin }) => (
+      {tokenBottomSheetsConfig.map(({ fieldType, tokens, filterChips, origin }) => (
         <TokenBottomSheet
           key={`TokenBottomSheet/${fieldType}`}
           forwardedRef={tokenBottomSheetRefs[fieldType]}
           tokens={tokens}
-          title={title}
+          title={t('swapScreen.tokenBottomSheetTitle')}
           filterChips={filterChips}
           origin={origin}
           snapPoints={['90%']}
@@ -1017,11 +1015,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   fromSwapAmountInput: {
-    zIndex: -1,
     marginBottom: Spacing.Smallest8,
   },
   toSwapAmountInput: {
-    zIndex: -1,
     marginBottom: Spacing.Small12,
   },
   disclaimerText: {
@@ -1052,6 +1048,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   switchTokensContainer: {
+    zIndex: 1,
     alignItems: 'center',
   },
 })

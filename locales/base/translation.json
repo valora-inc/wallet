@@ -1769,8 +1769,8 @@
     "swapToTokenSelection": "SWAP TO",
     "tokenUsdValueUnknown": "-",
     "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
-    "selectToken": "Select token",
-    "selectTokenTitle": "Select Token",
+    "selectTokenLabel": "Select token",
+    "tokenBottomSheetTitle": "Select Token",
     "onNetwork": "on {{networkName}}",
     "switchedToNetworkWarning": {
       "title": "You switched to the {{networkName}} network",

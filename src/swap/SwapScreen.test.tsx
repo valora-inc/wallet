@@ -318,10 +318,10 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.title')).toBeTruthy()
     expect(getByText('swapScreen.confirmSwap')).toBeDisabled()
 
-    expect(within(swapFromContainer).getByText('swapScreen.selectToken')).toBeTruthy()
+    expect(within(swapFromContainer).getByText('swapScreen.selectTokenLabel')).toBeTruthy()
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect')).toBeTruthy()
 
-    expect(within(swapToContainer).getByText('swapScreen.selectToken')).toBeTruthy()
+    expect(within(swapToContainer).getByText('swapScreen.selectTokenLabel')).toBeTruthy()
     expect(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect')).toBeTruthy()
   })
 
@@ -329,14 +329,14 @@ describe('SwapScreen', () => {
     const { swapFromContainer, swapToContainer } = renderScreen({ fromTokenId: mockCeurTokenId })
 
     expect(within(swapFromContainer).getByText('cEUR')).toBeTruthy()
-    expect(within(swapToContainer).getByText('swapScreen.selectToken')).toBeTruthy()
+    expect(within(swapToContainer).getByText('swapScreen.selectTokenLabel')).toBeTruthy()
   })
 
   it('should allow selecting tokens', async () => {
     const { swapFromContainer, swapToContainer, swapScreen } = renderScreen({})
 
-    expect(within(swapFromContainer).getByText('swapScreen.selectToken')).toBeTruthy()
-    expect(within(swapToContainer).getByText('swapScreen.selectToken')).toBeTruthy()
+    expect(within(swapFromContainer).getByText('swapScreen.selectTokenLabel')).toBeTruthy()
+    expect(within(swapToContainer).getByText('swapScreen.selectTokenLabel')).toBeTruthy()
 
     selectSwapTokens('CELO', 'cUSD', swapScreen)
 
@@ -416,7 +416,7 @@ describe('SwapScreen', () => {
       )
     ).toBeFalsy()
     expect(tokenBottomSheet).toBeVisible()
-    expect(within(swapToContainer).getByText('swapScreen.selectToken')).toBeTruthy()
+    expect(within(swapToContainer).getByText('swapScreen.selectTokenLabel')).toBeTruthy()
     expect(ValoraAnalytics.track).not.toHaveBeenCalledWith(
       SwapEvents.swap_screen_confirm_token,
       expect.anything()
@@ -439,7 +439,7 @@ describe('SwapScreen', () => {
 
     selectSwapTokens('CELO', 'CELO', swapScreen)
 
-    expect(within(swapFromContainer).getByText('swapScreen.selectToken')).toBeTruthy()
+    expect(within(swapFromContainer).getByText('swapScreen.selectTokenLabel')).toBeTruthy()
     expect(within(swapToContainer).getByText('CELO')).toBeTruthy()
   })
 

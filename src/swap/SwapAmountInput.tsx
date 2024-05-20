@@ -69,20 +69,16 @@ const SwapAmountInput = ({
 
   const touchableBorderStyle = token
     ? {
-        borderRadius: 0,
         borderTopLeftRadius: borderRadius,
         borderTopRightRadius: borderRadius,
       }
-    : {
-        borderRadius,
-      }
+    : borderRadius
 
   return (
     <View style={[styles.container, { borderRadius }, style]} testID="SwapAmountInput">
       <Touchable
         borderless
-        borderRadius={borderRadius}
-        touchableStyle={touchableBorderStyle}
+        borderRadius={touchableBorderStyle}
         onPress={onSelectToken}
         testID="SwapAmountInput/TokenSelect"
       >
@@ -154,7 +150,7 @@ const SwapAmountInput = ({
             )}
           </View>
           {!loading && parsedInputValue?.gt(0) && token && (
-            <Text style={styles.fiatValue} testID="SwapAmountInput/FiatValue">
+            <Text numberOfLines={1} style={styles.fiatValue} testID="SwapAmountInput/FiatValue">
               <TokenDisplay
                 amount={parsedInputValue ?? 0}
                 showLocalAmount
@@ -233,7 +229,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.gray2,
     borderRadius: Spacing.Tiny4,
     paddingVertical: Spacing.Tiny4,
-    paddingHorizontal: 6,
+    paddingHorizontal: Spacing.Tiny4,
   },
   maxText: {
     ...typeScale.labelXXSmall,
