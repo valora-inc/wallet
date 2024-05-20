@@ -255,8 +255,8 @@
       "text": "任何拥有您的短语的人都将能够访问您的账户和其中的所有资金。切勿将短语泄露给他人。"
     }
   ],
-  "consumerIncentivesTitle": "Supercharge 已结束",
-  "consumerIncentivesSummary": "Supercharge 计划启动！基于您的稳定币 (cUSD、cEUR 或 cREAL) 最高余额，获取 {{percent}}% 的年度奖励。限时福利，切勿错过。具体方式如下：",
+  "consumerIncentivesTitle": "超级充电站即将关闭",
+  "consumerIncentivesSummary": "但更多奖励正在向您走来。在 5 月 28 日之前，稳定币最高余额（cUSD、cEUR 或 cREAL）可获得 {{percent}}% 的年度奖励。具体操作如下",
   "earnWeekly": {
     "header": "关联您的手机号码",
     "text": "如果您尚未关联，请点按“关联号码”。"
@@ -271,14 +271,14 @@
     "text": "这将确保您的奖励安全可控。"
   },
   "conclusion": "就是如此简单，立即 Supercharge 您的加密货币吧！",
-  "superchargeTitle": "Supercharge 已结束",
-  "superchargeDescription": "基于您的 {{token}} 余额获取 {{apy}}% 的年度奖励。具体方式如下：",
+  "superchargeTitle": "超级充电站即将关闭",
+  "superchargeDescription": "但更多奖励正在向您走来。在 5 月 28 日之前， {{token}} 最高余额可获得 {{apy}}% 的年度奖励。具体操作如下：",
   "superchargeConnectNumber": "关联您的手机号码",
   "superchargeReconnectNumber": "重新关联您的手机号码\n<0>我们已经改进 Supercharge 体验。重新关联您的手机号码，继续获取基于您的 {{token}} 的奖励。</0>",
   "superchargeMinimumBalance": "添加 {{amount}} {{token}} 的最低余额",
-  "superchargeDisclaimer": "通过添加至 {{amount}} {{token}} 获取最高奖励",
-  "superchargeDisclaimerMaxRewards": "您即将获得基于您的 {{token}} 的最高奖励",
-  "superchargeDisclaimerDayLimit": "您必须在 28 天内领取奖励。<0>了解更多</0>",
+  "superchargeDisclaimer": "这不会影响您的余额或之前的收入。",
+  "superchargeDisclaimerMaxRewards": "这不会影响您的余额或之前的收入。",
+  "superchargeDisclaimerDayLimit": "这不会影响您的余额或之前的收入。<0>了解更多信息</0>",
   "superchargeTokenDetailsDialog": {
     "title": "我可以 Supercharge 哪种资产？",
     "body": "您将每周获得基于您的 Celo 稳定币最高价值（cEUR、cUSD、cREAL）的奖励。",
@@ -286,11 +286,11 @@
   },
   "superchargingTitle": "必须更新应用",
   "superchargingDescription": "更新 Valora 应用以继续领取您每周的 Supercharge 奖励.",
-  "superchargingTitleV1_54": "Supercharge 已结束",
-  "superchargingDescriptionV1_54": "您将获得年度 {{apy}}% 的奖励。每周当您的奖励准备就绪时，您将获得通知，请记得返回此处领取奖励。",
+  "superchargingTitleV1_54": "超级充电站即将关闭",
+  "superchargingDescriptionV1_54": "每周奖励可在 5 月 28 日（星期二）23:59（世界协调时）之前领取。从 5 月 29 日起，您将无法再领取超级充值奖励。",
   "superchargeRewardsAvailable": "您有 {{amount}} {{token}} 可领取！",
   "superchargeRewardsAvailableMultipleTokens": "您有 {{amounts}} 可领取！",
-  "superchargeClaimText": "领取您的奖励以将它添加到您的余额。",
+  "superchargeClaimText": "在世界协调时 5 月 28 日（星期二）23:59 之前领取奖励。自 5 月 29 日起，您将无法再领取超级充值奖励。",
   "superchargeClaimButton": "领取奖励",
   "superchargeFetchRewardsFailed": "获取待处理的 Supercharge 奖励时出错。请稍后再试。",
   "superchargeClaimSuccess": "您的 Supercharge 奖励已添加到您的总余额中。",
