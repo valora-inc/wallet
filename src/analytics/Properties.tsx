@@ -1624,6 +1624,7 @@ interface EarnEventsProperties {
     error: string
   }
   [EarnEvents.earn_withdraw_submit_cancel]: EarnWithdrawProperties
+  [EarnEvents.earn_withdraw_add_gas_press]: { gasTokenId: string }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

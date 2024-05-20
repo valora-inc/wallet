@@ -13,9 +13,12 @@ import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import { useAavePoolInfo, useAaveRewardsInfoAndPrepareTransactions } from 'src/earn/hooks'
 import { withdrawStatusSelector } from 'src/earn/selectors'
 import { withdrawStart } from 'src/earn/slice'
+import { CICOFlow } from 'src/fiatExchanges/utils'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
+import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -129,6 +132,31 @@ export default function EarnCollectScreen({ route }: Props) {
             variant={NotificationVariant.Error}
             title={t('earnFlow.collect.errorTitle')}
             description={t('earnFlow.collect.errorDescription')}
+            style={styles.error}
+          />
+        )}
+        {asyncPreparedTransactions.result?.type === 'not-enough-balance-for-gas' && (
+          <InLineNotification
+            variant={NotificationVariant.Warning}
+            title={t('earnFlow.collect.noGasTitle', { symbol: feeCurrencies[0].symbol })}
+            description={t('earnFlow.collect.noGasDescription', {
+              symbol: feeCurrencies[0].symbol,
+              network: NETWORK_NAMES[depositToken.networkId],
+            })}
+            ctaLabel={t('earnFlow.collect.noGasCta', {
+              symbol: feeCurrencies[0].symbol,
+              network: NETWORK_NAMES[depositToken.networkId],
+            })}
+            onPressCta={() => {
+              ValoraAnalytics.track(EarnEvents.earn_withdraw_add_gas_press, {
+                gasTokenId: feeCurrencies[0].tokenId,
+              })
+              navigate(Screens.FiatExchangeAmount, {
+                tokenId: feeCurrencies[0].tokenId,
+                flow: CICOFlow.CashIn,
+                tokenSymbol: feeCurrencies[0].symbol,
+              })
+            }}
             style={styles.error}
           />
         )}
