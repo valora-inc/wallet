@@ -36,6 +36,7 @@ import { StackParamList } from 'src/navigator/types'
 import { useSelector } from 'src/redux/hooks'
 import { AmountInput, ProceedArgs } from 'src/send/EnterAmount'
 import { AmountEnteredIn } from 'src/send/types'
+import { NETWORK_NAMES } from 'src/shared/conts'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
@@ -288,9 +289,9 @@ function EarnEnterAmount({ route }: Props) {
                 inputStyle={styles.inputText}
                 autoFocus
                 placeholder={new BigNumber(0).toFormat(2)}
-                testID="SendEnterAmount/TokenAmountInput"
+                testID="EarnEnterAmount/TokenAmountInput"
               />
-              <View style={styles.tokenView} testID="SendEnterAmount/TokenSelect">
+              <View style={styles.tokenView} testID="EarnEnterAmount/TokenSelect">
                 <>
                   <TokenIcon token={token} size={IconSize.SMALL} />
                   <Text style={styles.tokenName}>{token.symbol}</Text>
@@ -304,7 +305,7 @@ function EarnEnterAmount({ route }: Props) {
                 inputRef={localAmountInputRef}
                 inputStyle={styles.localAmount}
                 placeholder={`${localCurrencySymbol}${new BigNumber(0).toFormat(2)}`}
-                testID="SendEnterAmount/LocalAmountInput"
+                testID="EarnEnterAmount/LocalAmountInput"
                 editable={!!token.priceUsd}
               />
               {!token.balance.isZero() && (
@@ -312,7 +313,7 @@ function EarnEnterAmount({ route }: Props) {
                   borderRadius={MAX_BORDER_RADIUS}
                   onPress={onMaxAmountPress}
                   style={styles.maxTouchable}
-                  testID="SendEnterAmount/Max"
+                  testID="EarnEnterAmount/Max"
                 >
                   <Text style={styles.maxText}>{t('max')}</Text>
                 </Touchable>
@@ -323,14 +324,15 @@ function EarnEnterAmount({ route }: Props) {
         {showNotEnoughBalanceForGasWarning && (
           <InLineNotification
             variant={NotificationVariant.Warning}
-            title={t('sendEnterAmountScreen.notEnoughBalanceForGasWarning.title', {
-              feeTokenSymbol: `${prepareTransactionsResult.feeCurrencies[0].symbol} on ${prepareTransactionsResult.feeCurrencies[0].networkId}`,
+            title={t('enterAmount.notEnoughBalanceForGasWarning.title', {
+              feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
             })}
-            description={t('sendEnterAmountScreen.notEnoughBalanceForGasWarning.description', {
-              feeTokenSymbol: `${prepareTransactionsResult.feeCurrencies[0].symbol} on ${prepareTransactionsResult.feeCurrencies[0].networkId}`,
+            description={t('enterAmount.notEnoughBalanceForGasWarning.description', {
+              feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
+              network: NETWORK_NAMES[prepareTransactionsResult.feeCurrencies[0].networkId],
             })}
             style={styles.warning}
-            testID="SendEnterAmount/NotEnoughForGasWarning"
+            testID="EarnEnterAmount/NotEnoughForGasWarning"
           />
         )}
         {prepareTransactionError && (
@@ -339,7 +341,7 @@ function EarnEnterAmount({ route }: Props) {
             title={t('sendEnterAmountScreen.prepareTransactionError.title')}
             description={t('sendEnterAmountScreen.prepareTransactionError.description')}
             style={styles.warning}
-            testID="SendEnterAmount/PrepareTransactionError"
+            testID="EarnEnterAmount/PrepareTransactionError"
           />
         )}
         <EarnProceed

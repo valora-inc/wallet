@@ -123,7 +123,7 @@ describe('EarnEnterAmount', () => {
       </Provider>
     )
 
-    fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '.25')
+    fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '.25')
 
     await waitFor(() => expect(refreshPreparedTransactionsSpy).toHaveBeenCalledTimes(1))
     expect(refreshPreparedTransactionsSpy).toHaveBeenCalledWith({
@@ -156,7 +156,7 @@ describe('EarnEnterAmount', () => {
       </Provider>
     )
 
-    fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '8')
+    fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '8')
 
     await waitFor(() => expect(getByText('earnFlow.enterAmount.continue')).not.toBeDisabled())
     fireEvent.press(getByText('earnFlow.enterAmount.continue'))
@@ -188,7 +188,7 @@ describe('EarnEnterAmount', () => {
       </Provider>
     )
 
-    fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '12')
+    fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '12')
 
     await waitFor(() => expect(getByText('earnFlow.enterAmount.continue')).not.toBeDisabled())
     fireEvent.press(getByText('earnFlow.enterAmount.continue'))
