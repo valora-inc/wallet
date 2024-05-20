@@ -2382,7 +2382,7 @@
         "dismiss": "Dismiss"
       },
       "notEnoughBalanceForGasWarning": {
-        "title": "You need more {{feeTokenSymbol}} for gas",
+        "title": "You need more {{feeTokenSymbol}} to continue",
         "description": "Add {{feeTokenSymbol}} on {{network}} to cover your gas fees",
         "noGasCta": "Buy {{feeTokenSymbol}} on {{network}}"
       }
