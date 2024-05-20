@@ -2402,6 +2402,18 @@
       "earnDepositSubtitle": "to {{providerName}} Pool",
       "earnWithdrawTitle": "Withdrew",
       "earnWithdrawSubtitle": "from {{providerName}} Pool"
+    },
+    "transactionDetails": {
+      "descriptionLabel": "รายละเอียด",
+      "earnClaimTitle": "Collected",
+      "earnClaimSubtitle": "Collected {{tokenSymbol}} from {{providerName}} Pool",
+      "earnClaimDetails": "Amount Collected",
+      "earnDepositTitle": "Deposited",
+      "earnDepositSubtitle": "Deposited {{tokenSymbol}} to {{providerName}} Pool",
+      "earnDepositDetails": "จำนวนเงินที่ฝาก",
+      "earnWithdrawTitle": "Withdrew",
+      "earnWithdrawSubtitle": "Withdrew {{tokenSymbol}} from {{providerName}} Pool",
+      "earnWithdrawDetails": "จำนวนเงินที่ถอนแล้ว"
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
