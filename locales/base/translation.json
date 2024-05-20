@@ -255,8 +255,8 @@
       "text": "Anyone with your Phrase will have access to your account and all of its funds. Don’t share it with others."
     }
   ],
-  "consumerIncentivesTitle": "Get started with Supercharge",
-  "consumerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your highest stablecoin balance (cUSD, cEUR, or cREAL). Available for a limited time. Here's how it works:",
+  "consumerIncentivesTitle": "Supercharge is ending",
+  "consumerIncentivesSummary": "But more rewards are headed your way. Until May 28, get {{percent}}% annual rewards on your highest stablecoin balance (cUSD, cEUR, or cREAL). Here's how it works:",
   "earnWeekly": {
     "header": "Connect your phone number",
     "text": "Tap Connect Number if you haven't connected it yet."
@@ -271,14 +271,14 @@
     "text": "This will ensure your rewards are safe and in your control."
   },
   "conclusion": "It’s that simple. Supercharge your crypto today!",
-  "superchargeTitle": "Start Supercharging",
-  "superchargeDescription": "Get {{apy}}% annual rewards on your {{token}} balance. Here's how to start:",
+  "superchargeTitle": "Supercharge is ending",
+  "superchargeDescription": "But more rewards are headed your way. Until May 28, get {{apy}}% annual rewards on your highest {{token}} balance. Here's how it works:",
   "superchargeConnectNumber": "Connect your phone number",
   "superchargeReconnectNumber": "Reconnect your phone number\n<0>We have launched an improved Supercharge experience. Reconnect your phone number to keep earning rewards on your {{token}}.</0>",
   "superchargeMinimumBalance": "Add a minimum balance of {{amount}} {{token}}",
-  "superchargeDisclaimer": "Max-out rewards by adding up to {{amount}} {{token}}",
-  "superchargeDisclaimerMaxRewards": "You’re getting maximum rewards on your {{token}}",
-  "superchargeDisclaimerDayLimit": "Your rewards must be claimed within 28 days. <0>Learn more</0>",
+  "superchargeDisclaimer": "This will not affect your balance or previous earnings.",
+  "superchargeDisclaimerMaxRewards": "This will not affect your balance or previous earnings.",
+  "superchargeDisclaimerDayLimit": "This will not affect your balance or previous earnings. <0>Learn more</0>",
   "superchargeTokenDetailsDialog": {
     "title": "Which assets can I Supercharge?",
     "body": "You’ll get rewarded weekly on your Celo stablecoin with the highest value (cEUR, cUSD, cREAL).",
@@ -286,11 +286,11 @@
   },
   "superchargingTitle": "App update required",
   "superchargingDescription": "Update the Valora app to continue receiving your weekly Supercharge rewards.",
-  "superchargingTitleV1_54": "Your {{token}} is being Supercharged",
-  "superchargingDescriptionV1_54": "You’re getting {{apy}}% annually. Every week you'll get a notification when your rewards are ready, come back here to claim them.",
+  "superchargingTitleV1_54": "Supercharge is ending",
+  "superchargingDescriptionV1_54": "Weekly rewards will be available to claim until Tuesday, May 28, at 23:59 UTC. Beginning May 29, you will nor longer be able to claim Supercharge rewards.",
   "superchargeRewardsAvailable": "You have {{amount}} {{token}} available to claim!",
   "superchargeRewardsAvailableMultipleTokens": "You have {{amounts}} available to claim!",
-  "superchargeClaimText": "Claim your rewards to add them to your balance.",
+  "superchargeClaimText": "Claim your rewards until Tuesday, May 28, at 23:59 UTC. Beginning May 29, you will no longer be able to claim Supercharge rewards.",
   "superchargeClaimButton": "Claim Rewards",
   "superchargeFetchRewardsFailed": "Error while fetching pending Supercharge rewards. Please try again later.",
   "superchargeClaimSuccess": "Your Supercharge rewards have been added to your Total Balance.",
@@ -2409,6 +2409,18 @@
       "earnDepositSubtitle": "to {{providerName}} Pool",
       "earnWithdrawTitle": "Withdrew",
       "earnWithdrawSubtitle": "from {{providerName}} Pool"
+    },
+    "transactionDetails": {
+      "descriptionLabel": "Details",
+      "earnClaimTitle": "Collected",
+      "earnClaimSubtitle": "Collected {{tokenSymbol}} from {{providerName}} Pool",
+      "earnClaimDetails": "Amount Collected",
+      "earnDepositTitle": "Deposited",
+      "earnDepositSubtitle": "Deposited {{tokenSymbol}} to {{providerName}} Pool",
+      "earnDepositDetails": "Amount Deposited",
+      "earnWithdrawTitle": "Withdrew",
+      "earnWithdrawSubtitle": "Withdrew {{tokenSymbol}} from {{providerName}} Pool",
+      "earnWithdrawDetails": "Amount Withdrawn"
     }
   }
 }

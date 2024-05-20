@@ -232,7 +232,7 @@ function VerificationStartScreen({
         <Button
           text={t('phoneVerificationScreen.startButtonLabel')}
           onPress={onPressStart}
-          type={BtnTypes.ONBOARDING}
+          type={BtnTypes.PRIMARY}
           size={BtnSizes.FULL}
           showLoading={!signedMessageCreated}
           style={styles.startButton}
