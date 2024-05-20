@@ -13,6 +13,8 @@ import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import { useAavePoolInfo, useAaveRewardsInfoAndPrepareTransactions } from 'src/earn/hooks'
 import { withdrawStatusSelector } from 'src/earn/selectors'
 import { withdrawStart } from 'src/earn/slice'
+import { CICOFlow } from 'src/fiatExchanges/utils'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
@@ -146,7 +148,11 @@ export default function EarnCollectScreen({ route }: Props) {
               network: NETWORK_NAMES[depositToken.networkId],
             })}
             onPressCta={() => {
-              // navigate
+              navigate(Screens.FiatExchangeAmount, {
+                tokenId: feeCurrencies[0].tokenId,
+                flow: CICOFlow.CashIn,
+                tokenSymbol: feeCurrencies[0].symbol,
+              })
             }}
             style={styles.error}
           />
