@@ -33,7 +33,7 @@ export default function ClipboardAwarePasteButton({
   return (
     <Button
       text={t('paste')}
-      type={BtnTypes.GRAY_WITH_BORDER}
+      type={BtnTypes.ONBOARDING_SECONDARY}
       rounded={false}
       size={BtnSizes.FULL}
       onPress={onPressInternal}

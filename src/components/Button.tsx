@@ -17,6 +17,7 @@ export enum BtnTypes {
   SECONDARY = 'Secondary',
   SECONDARY_WHITE_BG = 'SecondaryWhiteBg',
   GRAY_WITH_BORDER = 'GrayWithBorder',
+  ONBOARDING_SECONDARY = 'OnboardingSecondary',
 }
 
 export enum BtnSizes {
@@ -175,6 +176,12 @@ function getColors(type: BtnTypes, disabled: boolean | undefined) {
       textColor = colors.black
       backgroundColor = colors.gray1
       borderColor = colors.gray2
+      opacity = disabled ? 0.5 : 1.0
+      break
+    /** @deprecated TODO(ACT-1200): Remove and replace with GRAY_WITHBORDER*/
+    case BtnTypes.ONBOARDING_SECONDARY:
+      textColor = colors.successDark
+      backgroundColor = colors.white
       opacity = disabled ? 0.5 : 1.0
       break
   }
