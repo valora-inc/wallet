@@ -2404,6 +2404,18 @@
       "earnDepositSubtitle": "à {{providerName}} Pool",
       "earnWithdrawTitle": "Retire-toi",
       "earnWithdrawSubtitle": "de {{providerName}} Pool"
+    },
+    "transactionDetails": {
+      "descriptionLabel": "Détails",
+      "earnClaimTitle": "Recueilli",
+      "earnClaimSubtitle": "Recueille {{tokenSymbol}} à partir de {{providerName}} Pool",
+      "earnClaimDetails": "Montant perçu",
+      "earnDepositTitle": "Déposé",
+      "earnDepositSubtitle": "Dépôt {{tokenSymbol}} à {{providerName}} Pool",
+      "earnDepositDetails": "Montant déposé",
+      "earnWithdrawTitle": "Retire-toi",
+      "earnWithdrawSubtitle": "Retire {{tokenSymbol}} de la cagnotte {{providerName}}",
+      "earnWithdrawDetails": "Montant du retrait"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
