@@ -255,8 +255,8 @@
       "text": "Cualquier persona que acceda a tu frase tendrá acceso a tu cuenta y a todos tus fondos. No la compartas con nadie."
     }
   ],
-  "consumerIncentivesTitle": "Gana recompensas con Supercharge",
-  "consumerIncentivesSummary": "¡Supercharge está aquí! Obtén un {{percent}}% de recompensas anuales sobre tu mayor saldo en stablecoin (cUSD, cEUR, o cREAL). Disponible por tiempo limitado. Así funciona:",
+  "consumerIncentivesTitle": "Se acaba la Supercarga",
+  "consumerIncentivesSummary": "Pero te esperan más recompensas. Hasta el 28 de mayo, obtén {{percent}}% de recompensas anuales en tu saldo más alto de stablecoin (cUSD, cEUR o cREAL). Así es como funciona:",
   "earnWeekly": {
     "header": "Conecta tu número de teléfono",
     "text": "Toca Conecta tu número si aún no lo haz hecho."
@@ -271,14 +271,14 @@
     "text": "Esto garantizará que tus fondos estén seguros y siempre tengas acceso a ellos."
   },
   "conclusion": "Es así de simple. ¡Recárgate de cripto hoy!",
-  "superchargeTitle": "¡Súmate a Supercharge!",
-  "superchargeDescription": "Obtén un {{apy}}% de recompensas anuales en tu balance de {{token}} . Aquí está cómo empezar:",
+  "superchargeTitle": "Se acaba la Supercarga",
+  "superchargeDescription": "Pero te esperan más recompensas. Hasta el 28 de mayo, obtén {{apy}}% de recompensa anual en tu saldo más alto de {{token}} . Así es como funciona:",
   "superchargeConnectNumber": "Conecta tu número de teléfono",
   "superchargeReconnectNumber": "Reconecta tu número de teléfono\n<0>Lanzamos un experiencia mejorada de Supercharge. Reconecta tu número de teléfono para seguir recibiendo recompensas sobre tus {{token}}.</0>",
   "superchargeMinimumBalance": "Agrega un saldo mínimo de {{amount}} {{token}}",
-  "superchargeDisclaimer": "Maximiza las recompensas sumando hasta {{amount}} {{token}}",
-  "superchargeDisclaimerMaxRewards": "Has alcanzado el saldo máximo en {{token}} sobre el cual puedes recibir recompensas",
-  "superchargeDisclaimerDayLimit": "Debes reclamar tus recompensas dentro de los 28 días de distribuidas. <0>Más información</0>",
+  "superchargeDisclaimer": "Esto no afectará a tu saldo ni a tus ganancias anteriores.",
+  "superchargeDisclaimerMaxRewards": "Esto no afectará a tu saldo ni a tus ganancias anteriores.",
+  "superchargeDisclaimerDayLimit": "Esto no afectará a tu saldo ni a tus ganancias anteriores. <0>Más información</0>",
   "superchargeTokenDetailsDialog": {
     "title": "¿Qué activos generan recompensas con Supercharge?",
     "body": "Recibirás recompensas semanales sobre tu stablecoin Celo con mayor saldo (cEUR, cUSD, cREAL).",
@@ -286,11 +286,11 @@
   },
   "superchargingTitle": "Actualización de aplicación necesaria",
   "superchargingDescription": "Actualiza la app Valora para seguir recibiendo tus recompensas semanales Supercharge.",
-  "superchargingTitleV1_54": "Estás participando en Supercharge con tus {{token}}",
-  "superchargingDescriptionV1_54": "Estás recibiendo un {{apy}}% anual en recompensas. Recibirás una notificación cada semana cuando las recompensas estén listas, vuelve a esta pantalla para reclamarlas.",
+  "superchargingTitleV1_54": "Se acaba la Supercarga",
+  "superchargingDescriptionV1_54": "Podrás reclamar las recompensas semanales hasta el martes 28 de mayo a las 23:59 UTC. A partir del 29 de mayo, ya no podrás reclamar recompensas de Supercarga.",
   "superchargeRewardsAvailable": "¡Has acumulado {{amount}} {{token}} en recompensas!",
   "superchargeRewardsAvailableMultipleTokens": "¡Has acumulado {{amounts}} en recompensas!",
-  "superchargeClaimText": "Reclama tus recompensas y multiplica tu saldo.",
+  "superchargeClaimText": "Reclama tus recompensas hasta el martes 28 de mayo a las 23:59 UTC. A partir del 29 de mayo, ya no podrás reclamar recompensas de Supercarga.",
   "superchargeClaimButton": "Reclamar recompensas",
   "superchargeFetchRewardsFailed": "Hubo un error al recuperar tus recompensas de Supercharge pendientes. Vuelve a intentarlo más tarde.",
   "superchargeClaimSuccess": "Se agregaron tus recompensas de Supercharge a tu saldo total.",
