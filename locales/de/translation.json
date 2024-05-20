@@ -2404,6 +2404,18 @@
       "earnDepositSubtitle": "zu {{providerName}} Pool",
       "earnWithdrawTitle": "Zurückgezogen",
       "earnWithdrawSubtitle": "von {{providerName}} Pool"
+    },
+    "transactionDetails": {
+      "descriptionLabel": "Details",
+      "earnClaimTitle": "Gesammelt",
+      "earnClaimSubtitle": "Gesammelt {{tokenSymbol}} von {{providerName}} Pool",
+      "earnClaimDetails": "Eingesammelter Betrag",
+      "earnDepositTitle": "Hinterlegt",
+      "earnDepositSubtitle": "Hinterlegt {{tokenSymbol}} auf {{providerName}} Pool",
+      "earnDepositDetails": "Eingezahlter Betrag",
+      "earnWithdrawTitle": "Zurückgezogen",
+      "earnWithdrawSubtitle": "Ziehe {{tokenSymbol}} aus dem {{providerName}} Pool zurück",
+      "earnWithdrawDetails": "Betrag abgehoben"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
