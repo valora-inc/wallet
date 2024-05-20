@@ -255,8 +255,8 @@
       "text": "ใครก็ตามที่มีวลีของคุณจะมีสิทธิ์เข้าถึงบัญชีและเงินทั้งหมดในบัญชีของคุณ ดังนั้นโปรดอย่าแบ่งปันให้ผู้อื่นทราบ"
     }
   ],
-  "consumerIncentivesTitle": "เริ่มต้นใช้งานด้วย Supercharge",
-  "consumerIncentivesSummary": "Supercharge มาแล้ว! รับรางวัลรายปี {{percent}}% ในยอดคงเหลือ Stablecoin ที่สูงที่สุดของคุณ (cUSD, cEUR หรือ cREAL) ก่อนที่จะหมดเวลา โดยมีหลักการดังนี้",
+  "consumerIncentivesTitle": "Supercharge is ending",
+  "consumerIncentivesSummary": "But more rewards are headed your way. Until May 28, get {{percent}}% annual rewards on your highest stablecoin balance (cUSD, cEUR, or cREAL). Here's how it works:",
   "earnWeekly": {
     "header": "เชื่อมต่อหมายเลขโทรศัพท์ของคุณ",
     "text": "แตะเชื่อมต่อหมายเลข หากคุณยังไม่เชื่อมต่อ"
@@ -271,14 +271,14 @@
     "text": "เพื่อให้แน่ใจว่ารางวัลของคุณปลอดภัยและอยู่ในการควบคุมของคุณ"
   },
   "conclusion": "ง่ายเพียงเท่านี้ Supercharge คริปโตของคุณวันนี้",
-  "superchargeTitle": "เริ่ม Supercharge",
-  "superchargeDescription": "รับรางวัลรายปี {{apy}}% ในยอดคงเหลือ {{token}} ของคุณ โดยมีวิธีการเริ่มต้นดังนี้",
+  "superchargeTitle": "Supercharge is ending",
+  "superchargeDescription": "But more rewards are headed your way. Until May 28, get {{apy}}% annual rewards on your highest {{token}} balance. Here's how it works:",
   "superchargeConnectNumber": "เชื่อมต่อหมายเลขโทรศัพท์ของคุณ",
   "superchargeReconnectNumber": "เชื่อมต่อหมายเลขโทรศัพท์อีกครั้ง\n<0>เราได้เปิดตัว Supercharge ที่ปรับปรุงใหม่ โปรดเชื่อมต่อหมายเลขโทรศัพท์ของคุณอีกครั้งเพื่อรับรางวัลเป็น {{token}} ของคุณ</0>",
   "superchargeMinimumBalance": "เพิ่มยอดคงเหลือขั้นต่ำที่ {{amount}} {{token}}",
-  "superchargeDisclaimer": "รับรางวัลสูงสุดโดยการเพิ่มให้ถึง {{amount}} {{token}}",
-  "superchargeDisclaimerMaxRewards": "คุณกำลังจะได้รับรางวัลสูงสุดเป็น {{token}}",
-  "superchargeDisclaimerDayLimit": "คุณต้องขอรับรางวัลภายใน 28 วัน<0>ดูข้อมูลเพิ่มเติม</0>",
+  "superchargeDisclaimer": "This will not affect your balance or previous earnings.",
+  "superchargeDisclaimerMaxRewards": "This will not affect your balance or previous earnings.",
+  "superchargeDisclaimerDayLimit": "This will not affect your balance or previous earnings. <0>Learn more</0>",
   "superchargeTokenDetailsDialog": {
     "title": "สินทรัพย์ใดที่ฉันสามารถ Supercharge ได้",
     "body": "คุณจะได้รับรางวัลทุกสัปดาห์ในรูปแบบ Celo stablecoin ด้วยมูลค่าสูงสุด (cEUR, cUSD, cREAL)",
@@ -286,11 +286,11 @@
   },
   "superchargingTitle": "ต้องอัปเดตแอป",
   "superchargingDescription": "อัปเดตแอป Valora เพื่อรับรางวัล Supercharge ทุกสัปดาห์อย่างต่อเนื่อง.",
-  "superchargingTitleV1_54": "กำลัง Supercharge {{token}} ของคุณ",
-  "superchargingDescriptionV1_54": "คุณจะได้รับ {{apy}}% ทุกปี ในแต่ละสัปดาห์ คุณจะได้รับการแจ้งเตือนเมื่อรางวัลของคุณพร้อม กลับมาที่นี่เพื่อขอรับรางวัล",
+  "superchargingTitleV1_54": "Supercharge is ending",
+  "superchargingDescriptionV1_54": "Weekly rewards will be available to claim until Tuesday, May 28, at 23:59 UTC. Beginning May 29, you will nor longer be able to claim Supercharge rewards.",
   "superchargeRewardsAvailable": "คุณมี {{amount}} {{token}} ที่สามารถขอรับได้!",
   "superchargeRewardsAvailableMultipleTokens": "คุณมี {{amounts}} ที่สามารถขอรับได้!",
-  "superchargeClaimText": "ขอรับรางวัลเพื่อเพิ่มไปยังยอดคงเหลือของคุณ",
+  "superchargeClaimText": "Claim your rewards until Tuesday, May 28, at 23:59 UTC. Beginning May 29, you will no longer be able to claim Supercharge rewards.",
   "superchargeClaimButton": "ขอรับรางวัล",
   "superchargeFetchRewardsFailed": "เกิดข้อผิดพลาดขณะเรียกดูรางวัล Supercharge ที่รอดำเนินการ โปรดลองอีกครั้งภายหลัง",
   "superchargeClaimSuccess": "เพิ่มรางวัล Supercharge ของคุณไปยังยอดคงเหลือรวมแล้ว",
