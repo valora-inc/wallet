@@ -2236,12 +2236,13 @@
   },
   "jumpstartStatus": {
     "loading": {
-      "title": "您的资金正在到账中",
-      "description": "您朋友给您的资金正在汇入。请稍候... "
+      "title": "检查您的资金",
+      "description": "请稍候，我们将检查您的 Live Link。可申请的资金将很快到账。"
     },
     "error": {
       "title": "无法领取资金",
-      "description": "再次尝试您的实时链接以尝试接收资金，或请您的朋友尝试发送一个新链接",
+      "description": "此链接无法申请，原因不明",
+      "alreadyClaimedDescription": "链接已被使用。请让您的朋友发送一个新链接",
       "contactSupport": "联系支持团队",
       "dismiss": "忽略"
     }
