@@ -14,7 +14,7 @@ import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import { createMockStore } from 'test/utils'
-import { mockArbEthTokenId, mockArbUsdcTokenId, mockTokenBalances } from 'test/values'
+import { mockArbEthTokenId, mockTokenBalances } from 'test/values'
 
 jest.mock('src/statsig')
 
@@ -51,7 +51,7 @@ const mockPreparedTransaction: PreparedTransactionsPossible = {
 
 describe('EarnDepositBottomSheet', () => {
   const expectedAnalyticsProperties = {
-    depositTokenId: mockArbUsdcTokenId,
+    depositTokenId: mockArbEthTokenId,
     tokenAmount: '100',
     networkId: NetworkId['arbitrum-sepolia'],
     providerId: PROVIDER_ID,
