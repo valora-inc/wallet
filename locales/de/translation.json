@@ -2238,12 +2238,13 @@
   },
   "jumpstartStatus": {
     "loading": {
-      "title": "Dein Guthaben ist auf dem Weg",
-      "description": "Das Guthaben, das du von deinem Freund bekommen hast, wird gerade gesendet. Bitte warten ... "
+      "title": "Kontrolle über dein Geld",
+      "description": "Bitte warte, während wir deinen Live Link überprüfen. Anspruchsberechtigte Gelder werden in Kürze eintreffen."
     },
     "error": {
       "title": "Guthaben kann nicht in Anspruch genommen werden",
-      "description": "Probiere deinen Live-Link erneut aus, um zu versuchen, Guthaben zu erhalten, oder bitte deinen Freund, einen neuen Link zu senden",
+      "description": "Dieser Link konnte aus einem unbekannten Grund nicht beansprucht werden",
+      "alreadyClaimedDescription": "Der Link wurde bereits beansprucht. Bitte deinen Freund, einen neuen Link zu senden.",
       "contactSupport": "Support kontaktieren",
       "dismiss": "Verwerfen"
     }
