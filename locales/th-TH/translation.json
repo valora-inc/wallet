@@ -2236,12 +2236,13 @@
   },
   "jumpstartStatus": {
     "loading": {
-      "title": "คุณกำลังจะได้รับเงินทุนเร็วๆ นี้",
-      "description": "เงินทุนที่เพื่อนมอบให้คุณกำลังถูกส่งมา โปรดรอ... "
+      "title": "Checking on your funds",
+      "description": "Please wait while we check your Live Link. Claimable funds will arrive shortly."
     },
     "error": {
       "title": "ไม่สามารถขอรับเงินทุนได้",
-      "description": "ลองใช้ลิงก์สดของคุณอีกครั้งเพื่อพยายามรับเงินทุน หรือขอให้เพื่อนลองส่งลิงก์ใหม่ให้",
+      "description": "This link was not able to be claimed for an unknown reason",
+      "alreadyClaimedDescription": "The link has already been claimed. Please ask your friend to send a new link",
       "contactSupport": "ติดต่อฝ่ายบริการลูกค้า",
       "dismiss": "ปิด"
     }
