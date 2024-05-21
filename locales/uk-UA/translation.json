@@ -1771,6 +1771,9 @@
     "swapToTokenSelection": "СВОП НА",
     "tokenUsdValueUnknown": "-",
     "unsupportedSwapTokens": "Вибрані токени не підтримуються організаторами свопа.",
+    "selectTokenLabel": "Виберіть токен",
+    "tokenBottomSheetTitle": "Виберіть токен",
+    "onNetwork": "на {{networkName}}",
     "switchedToNetworkWarning": {
       "title": "Ви перейшли до мережі {{networkName}}",
       "body_swapFrom": "Щоб продовжити, виберіть, який токен ви хочете обміняти для свопу в мережі {{networkName}}.",
@@ -1824,7 +1827,7 @@
       "appFeeValue_withoutPriceUsd": "<0></0>",
       "appFeeValue_free": "Безплатно",
       "appFeeValue_placeholder": "-",
-      "appFeeInfo": "{{appName}} Комісія\n\nМи стягуємо комісію за обмін токенів на {{appName}}. Комісія становить {{appFeePercentage}}% від суми, яку ви обмінюєте.",
+      "appFeeInfo": "{{appName}} Комісія\n\nКомісія {{appName}} у розмірі {{appFeePercentage}}% покликана покращити ваш досвід, забезпечуючи швидкі, надійні та безпечні обміни.",
       "appFeeInfo_free": "{{appName}} Вартість\n\nЦей обмін безкоштовний.",
       "appFeeInfo_placeholder": "{{appName}} Комісія\n\nКомісія розраховується на основі отриманої вами пропозиції.",
       "appFeeInfoDismissButton": "Зрозуміло",
