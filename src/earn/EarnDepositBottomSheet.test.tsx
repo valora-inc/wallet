@@ -5,14 +5,16 @@ import { Provider } from 'react-redux'
 import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
+import { PROVIDER_ID } from 'src/earn/constants'
 import { depositStart } from 'src/earn/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { getDynamicConfigParams } from 'src/statsig'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import { createMockStore } from 'test/utils'
-import { mockArbEthTokenId, mockTokenBalances } from 'test/values'
+import { mockArbEthTokenId, mockArbUsdcTokenId, mockTokenBalances } from 'test/values'
 
 jest.mock('src/statsig')
 
@@ -48,6 +50,13 @@ const mockPreparedTransaction: PreparedTransactionsPossible = {
 }
 
 describe('EarnDepositBottomSheet', () => {
+  const expectedAnalyticsProperties = {
+    depositTokenId: mockArbUsdcTokenId,
+    tokenAmount: '100',
+    networkId: NetworkId['arbitrum-sepolia'],
+    providerId: PROVIDER_ID,
+  }
+
   beforeEach(() => {
     jest.clearAllMocks()
     jest.mocked(getDynamicConfigParams).mockImplementation(({ configName, defaultValues }) => {
@@ -72,6 +81,7 @@ describe('EarnDepositBottomSheet', () => {
           amount={'100'}
           tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
+          networkId={NetworkId['arbitrum-sepolia']}
         />
       </Provider>
     )
@@ -106,12 +116,16 @@ describe('EarnDepositBottomSheet', () => {
           amount={'100'}
           tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
+          networkId={NetworkId['arbitrum-sepolia']}
         />
       </Provider>
     )
 
     fireEvent.press(getByTestId('EarnDeposit/PrimaryCta'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_complete)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      EarnEvents.earn_deposit_complete,
+      expectedAnalyticsProperties
+    )
     expect(store.getActions()).toEqual([
       {
         type: depositStart.type,
@@ -134,12 +148,16 @@ describe('EarnDepositBottomSheet', () => {
           amount={'100'}
           tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
+          networkId={NetworkId['arbitrum-sepolia']}
         />
       </Provider>
     )
 
     fireEvent.press(getByTestId('EarnDeposit/SecondaryCta'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_cancel)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      EarnEvents.earn_deposit_cancel,
+      expectedAnalyticsProperties
+    )
   })
 
   it('pressing provider info opens the terms and conditions', () => {
@@ -150,12 +168,16 @@ describe('EarnDepositBottomSheet', () => {
           amount={'100'}
           tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
+          networkId={NetworkId['arbitrum-sepolia']}
         />
       </Provider>
     )
 
     fireEvent.press(getByTestId('EarnDeposit/ProviderInfo'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_provider_info_press)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      EarnEvents.earn_deposit_provider_info_press,
+      expectedAnalyticsProperties
+    )
     expect(navigate).toHaveBeenCalledWith('WebViewScreen', { uri: 'termsUrl' })
   })
 
@@ -167,13 +189,15 @@ describe('EarnDepositBottomSheet', () => {
           amount={'100'}
           tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
+          networkId={NetworkId['arbitrum-sepolia']}
         />
       </Provider>
     )
 
     fireEvent.press(getByTestId('EarnDeposit/TermsAndConditions'))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      EarnEvents.earn_deposit_terms_and_conditions_press
+      EarnEvents.earn_deposit_terms_and_conditions_press,
+      expectedAnalyticsProperties
     )
     expect(navigate).toHaveBeenCalledWith('WebViewScreen', { uri: 'termsUrl' })
   })
@@ -190,6 +214,7 @@ describe('EarnDepositBottomSheet', () => {
           amount={'100'}
           tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
+          networkId={NetworkId['arbitrum-sepolia']}
         />
       </Provider>
     )

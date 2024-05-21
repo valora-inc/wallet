@@ -121,7 +121,7 @@ describe('depositSubmitSaga', () => {
   ]
 
   const expectedAnalyticsProps = {
-    tokenId: mockArbUsdcTokenId,
+    depositTokenId: mockArbUsdcTokenId,
     tokenAmount: '100',
     networkId: NetworkId['arbitrum-sepolia'],
     providerId: 'aave-v3',
@@ -426,7 +426,7 @@ describe('withdrawSubmitSaga', () => {
   ]
 
   const expectedAnalyticsPropsWithRewards = {
-    tokenId: mockArbUsdcTokenId,
+    depositTokenId: mockArbUsdcTokenId,
     tokenAmount: '100',
     networkId: NetworkId['arbitrum-sepolia'],
     providerId: 'aave-v3',

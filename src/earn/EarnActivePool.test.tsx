@@ -73,7 +73,11 @@ describe('EarnActivePool', () => {
     )
 
     fireEvent.press(getByText('earnFlow.activePools.viewPools'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_view_pools_press)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_view_pools_press, {
+      poolTokenId: networkConfig.aaveArbUsdcTokenId,
+      networkId: NetworkId['arbitrum-sepolia'],
+      providerId: 'aave-v3',
+    })
     expect(navigate).toBeCalledWith(Screens.TabDiscover)
   })
 
@@ -90,7 +94,7 @@ describe('EarnActivePool', () => {
 
     fireEvent.press(getByText('earnFlow.activePools.exitPool'))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_exit_pool_press, {
-      poolTokenId: networkConfig.aaveArbUsdcTokenId,
+      depositTokenId: networkConfig.arbUsdcTokenId,
       networkId: NetworkId['arbitrum-sepolia'],
       tokenAmount: '10.75',
       providerId: 'aave-v3',
@@ -116,6 +120,7 @@ describe('EarnActivePool', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_more_press, {
       depositTokenId: networkConfig.arbUsdcTokenId,
       providerId: 'aave-v3',
+      networkId: NetworkId['arbitrum-sepolia'],
     })
     expect(navigate).toBeCalledWith(Screens.EarnEnterAmount, {
       tokenId: networkConfig.arbUsdcTokenId,

@@ -169,8 +169,9 @@ describe('EarnEnterAmount', () => {
         amountInUsd: '8.00',
         networkId: NetworkId['arbitrum-sepolia'],
         tokenAmount: '8',
-        tokenId: networkConfig.arbUsdcTokenId,
+        depositTokenId: networkConfig.arbUsdcTokenId,
         userHasFunds: true,
+        providerId: 'aave-v3',
       }
     )
     await waitFor(() => expect(getByText('earnFlow.depositBottomSheet.title')).toBeVisible())
@@ -201,8 +202,9 @@ describe('EarnEnterAmount', () => {
         amountInUsd: '12.00',
         networkId: NetworkId['arbitrum-sepolia'],
         tokenAmount: '12',
-        tokenId: networkConfig.arbUsdcTokenId,
+        depositTokenId: networkConfig.arbUsdcTokenId,
         userHasFunds: false,
+        providerId: 'aave-v3',
       }
     )
     await waitFor(() =>
