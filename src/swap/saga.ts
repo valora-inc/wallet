@@ -349,6 +349,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       trackPointsEvent({
         activityId: 'swap',
         transactionHash: swapTxReceipt.transactionHash,
+        network,
       })
     )
     ValoraAnalytics.track(SwapEvents.swap_execute_success, {

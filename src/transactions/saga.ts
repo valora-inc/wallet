@@ -7,6 +7,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { Actions as IdentityActions } from 'src/identity/actions'
 import { AddressToE164NumberType } from 'src/identity/reducer'
 import { addressToE164NumberSelector } from 'src/identity/selectors'
+import { trackPointsEvent } from 'src/points/slice'
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { tokensByIdSelector } from 'src/tokens/selectors'
@@ -255,7 +256,7 @@ export function* getTransactionReceipt(
   transaction: StandbyTransaction & { transactionHash: string },
   network: Network
 ) {
-  const { feeCurrencyId, transactionHash } = transaction
+  const { feeCurrencyId, transactionHash, __typename } = transaction
 
   try {
     const receipt = yield* call([publicClient[network], 'waitForTransactionReceipt'], {
@@ -270,6 +271,12 @@ export function* getTransactionReceipt(
         networkConfig.networkToNetworkId[network],
         feeCurrencyId
       )
+    }
+
+    if (receipt.status === 'success') {
+      if (__typename === 'TokenExchangeV3') {
+        yield* put(trackPointsEvent({ activityId: 'swap', transactionHash, network }))
+      }
     }
   } catch (e) {
     Logger.warn(
