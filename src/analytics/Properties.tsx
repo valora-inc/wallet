@@ -1588,6 +1588,14 @@ interface EarnDepositProperties {
   providerId: string
 }
 
+interface EarnWithdrawProperties {
+  tokenId: string
+  tokenAmount: string
+  networkId: NetworkId
+  providerId: string
+  rewards: SerializableRewardsInfo[]
+}
+
 interface EarnEventsProperties {
   [EarnEvents.earn_cta_press]: undefined
   [EarnEvents.earn_add_crypto_action_press]: {
@@ -1604,22 +1612,38 @@ interface EarnEventsProperties {
   }
   [EarnEvents.earn_deposit_submit_cancel]: EarnDepositProperties
   [EarnEvents.earn_view_pools_press]: undefined
+  [EarnEvents.earn_enter_amount_info_press]: undefined
+  [EarnEvents.earn_enter_amount_continue_press]: {
+    userHasFunds: boolean
+    tokenAmount: string
+    amountInUsd: string
+    amountEnteredIn: AmountEnteredIn
+    tokenId: string
+    networkId: string
+  }
+  [EarnEvents.earn_enter_amount_info_more_pools]: undefined
   [EarnEvents.earn_exit_pool_press]: {
     poolTokenId: string
     networkId: NetworkId
     tokenAmount: string
     providerId: string
   }
+  [EarnEvents.earn_deposit_more_press]: {
+    depositTokenId: string
+    providerId: string
+  }
+  [EarnEvents.earn_deposit_add_gas_press]: { gasTokenId: string }
   [EarnEvents.earn_feed_item_select]: {
     origin: 'EarnDeposit' | 'EarnWithdraw' | 'EarnClaimReward'
   }
-  [EarnEvents.earn_collect_earnings_press]: {
-    tokenId: string
-    amount: string
-    networkId: NetworkId
-    providerId: string
-    rewards: SerializableRewardsInfo[]
+  [EarnEvents.earn_collect_earnings_press]: EarnWithdrawProperties
+  [EarnEvents.earn_withdraw_submit_start]: EarnWithdrawProperties
+  [EarnEvents.earn_withdraw_submit_success]: EarnWithdrawProperties
+  [EarnEvents.earn_withdraw_submit_error]: EarnWithdrawProperties & {
+    error: string
   }
+  [EarnEvents.earn_withdraw_submit_cancel]: EarnWithdrawProperties
+  [EarnEvents.earn_withdraw_add_gas_press]: { gasTokenId: string }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

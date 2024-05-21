@@ -9,9 +9,17 @@ import { coinbasePaySendersSelector, rewardsSendersSelector } from 'src/recipien
 import { useSelector } from 'src/redux/hooks'
 import { useTokenInfo } from 'src/tokens/hooks'
 import TransactionDetails from 'src/transactions/feed/TransactionDetails'
+import {
+  EarnClaimContent,
+  EarnDepositContent,
+  EarnWithdrawContent,
+} from 'src/transactions/feed/detailContent/EarnContent'
 import TokenApprovalDetails from 'src/transactions/feed/detailContent/TokenApprovalDetails'
 import TransferSentContent from 'src/transactions/feed/detailContent/TransferSentContent'
 import {
+  EarnClaimReward,
+  EarnDeposit,
+  EarnWithdraw,
   TokenApproval,
   TokenExchange,
   TokenTransaction,
@@ -112,9 +120,13 @@ function TransactionDetailsScreen({ route }: Props) {
       retryHandler = () => navigate(Screens.SwapScreenWithBack)
       break
     case TokenTransactionTypeV2.EarnClaimReward:
+      content = <EarnClaimContent transaction={transaction as EarnClaimReward} />
+      break
     case TokenTransactionTypeV2.EarnWithdraw:
+      content = <EarnWithdrawContent transaction={transaction as EarnWithdraw} />
+      break
     case TokenTransactionTypeV2.EarnDeposit:
-      content = null //TODO (act-1198): details for Earn
+      content = <EarnDepositContent transaction={transaction as EarnDeposit} />
       break
     case TokenTransactionTypeV2.Approval:
       content = <TokenApprovalDetails transaction={transaction as TokenApproval} />
