@@ -2238,12 +2238,13 @@
   },
   "jumpstartStatus": {
     "loading": {
-      "title": "I tuoi fondi sono in arrivo",
-      "description": "I fondi che il tuo amico ti ha dato sono in fase di invio. Attendi... "
+      "title": "Controllo dei tuoi fondi",
+      "description": "Attendi che controlliamo il tuo Live Link. I fondi richiedibili arriveranno a breve."
     },
     "error": {
       "title": "Impossibile reclamare i fondi",
-      "description": "Riprova il tuo link diretto per tentare di ricevere i fondi, oppure chiedi al tuo amico di provare a inviare un nuovo link",
+      "description": "Per un motivo sconosciuto non è stato possibile richiedere questo link.",
+      "alreadyClaimedDescription": "Il link è già stato richiesto. Chiedi al tuo amico di inviare un nuovo link",
       "contactSupport": "Contatta il supporto tecnico",
       "dismiss": "Ignora"
     }
