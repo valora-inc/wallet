@@ -1602,7 +1602,7 @@ type DepositTxReceiptProperties = PrefixedTxReceiptProperties<'deposit'>
 export type EarnDepositTxsReceiptProperties = Partial<ApproveTxReceiptProperties> &
   Partial<DepositTxReceiptProperties> &
   Partial<{
-    gasUsed: number // Gas used by the swap (approve + deposit)
+    gasUsed: number // Gas used by the deposit (approve + deposit)
     gasFee: number | undefined // Actual gas fee of the deposit (approve + deposit) in feeCurrency (decimal value)
     gasFeeUsd: number | undefined // Actual gas fee of the deposit (approve + deposit) in USD
   }>
