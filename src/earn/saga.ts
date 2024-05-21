@@ -20,7 +20,7 @@ import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
 import { vibrateError } from 'src/styles/hapticFeedback'
 import { getTokenInfo } from 'src/tokens/saga'
 import { tokensByIdSelector } from 'src/tokens/selectors'
-import { TokenBalances } from 'src/tokens/slice'
+import { TokenBalances, fetchTokenBalances } from 'src/tokens/slice'
 import { BaseStandbyTransaction } from 'src/transactions/actions'
 import {
   NetworkId,
@@ -215,6 +215,7 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
       ...getDepositTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),
     })
     yield* put(depositSuccess())
+    yield* put(fetchTokenBalances({ showLoading: false }))
   } catch (err) {
     if (err === CANCELLED_PIN_INPUT) {
       Logger.info(`${TAG}/depositSubmitSaga`, 'Transaction cancelled by user')
@@ -366,6 +367,7 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
     })
 
     yield* put(withdrawSuccess())
+    yield* put(fetchTokenBalances({ showLoading: false }))
     ValoraAnalytics.track(EarnEvents.earn_withdraw_submit_success, commonAnalyticsProps)
   } catch (err) {
     if (err === CANCELLED_PIN_INPUT) {
