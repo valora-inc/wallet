@@ -2238,12 +2238,13 @@
   },
   "jumpstartStatus": {
     "loading": {
-      "title": "Seus fundos estão a caminho",
-      "description": "Os fundos que seu amigo deu a você estão sendo transferidos. Aguarde... "
+      "title": "Verificação de seus fundos",
+      "description": "Aguarde enquanto verificamos seu Live Link. Você receberá os fundos reivindicados em breve."
     },
     "error": {
       "title": "Não foi possível resgatar os fundos",
-      "description": "Tente usar o link ativo novamente para tentar receber fundos ou peça ao seu amigo para tentar enviar um novo link",
+      "description": "Por um motivo desconhecido, não foi possível reivindicar este link",
+      "alreadyClaimedDescription": "O link já foi solicitado. Peça a seu amigo que envie um novo link",
       "contactSupport": "Contate o suporte",
       "dismiss": "Ignorar"
     }
