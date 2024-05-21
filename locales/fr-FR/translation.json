@@ -255,8 +255,8 @@
       "text": "Quiconque possède votre phrase pourra accéder à votre compte et à tous les fonds qui s'y trouvent. Ne la partagez avec personne."
     }
   ],
-  "consumerIncentivesTitle": "Démarrez avec Supercharge",
-  "consumerIncentivesSummary": "Le programme Supercharge est désormais disponible ! Obtenez 12 % de récompenses annuelles sur votre stablecoin avec le solde le plus élevé (cUSD, cEUR, ou cREAL). Disponible pour une durée limitée :",
+  "consumerIncentivesTitle": "La supercharge se termine",
+  "consumerIncentivesSummary": "Mais d'autres récompenses t'attendent. Jusqu'au 28 mai, obtiens {{percent}}% de récompenses annuelles sur ton solde stablecoin le plus élevé (cUSD, cEUR ou cREAL). Voici comment cela fonctionne :",
   "earnWeekly": {
     "header": "Connectez votre numéro de téléphone",
     "text": "Appuyez sur Connecter le numéro si vous ne l'avez pas encore connecté."
@@ -271,14 +271,14 @@
     "text": "Cela vous assurera que vos récompenses sont sécurisées et sous votre contrôle."
   },
   "conclusion": "C'est aussi simple que ça. Superchargez votre compte crypto sans attendre !",
-  "superchargeTitle": "Commencez avec Supercharge !",
-  "superchargeDescription": "Obtenez {{apy}} % de récompenses annuelles sur votre solde en {{token}} . Voici comment commencer :",
+  "superchargeTitle": "La supercharge se termine",
+  "superchargeDescription": "Mais d'autres récompenses t'attendent. Jusqu'au 28 mai, obtiens {{apy}}% de récompenses annuelles sur ton solde {{token}} le plus élevé. Voici comment cela fonctionne :",
   "superchargeConnectNumber": "Connectez votre numéro de téléphone",
   "superchargeReconnectNumber": "Reconnectez votre numéro de téléphone\n<0>Nous vous proposons un programme Supercharge amélioré. Reconnectez votre numéro de téléphone pour continuer à gagner des récompenses en {{token}}.</0>",
   "superchargeMinimumBalance": "Ajoutez un minimum de {{amount}} {{token}}",
-  "superchargeDisclaimer": "Ajoutez jusqu'à {{maxBalance}} {{currency}} pour maximiser vos récompenses.",
-  "superchargeDisclaimerMaxRewards": "Vous obtenez désormais le maximum de récompenses sur vos {{token}}",
-  "superchargeDisclaimerDayLimit": "Vos récompenses doivent être réclamées dans un délai de 28 jours. <0>En savoir plus</0>",
+  "superchargeDisclaimer": "Cela n'affectera pas ton solde ou tes gains antérieurs.",
+  "superchargeDisclaimerMaxRewards": "Cela n'affectera pas ton solde ou tes gains antérieurs.",
+  "superchargeDisclaimerDayLimit": "Cela n'affectera pas ton solde ou tes gains antérieurs. <0>En savoir plus</0>",
   "superchargeTokenDetailsDialog": {
     "title": "Quels actifs puis-je Supercharger ?",
     "body": "Vous serez récompensé chaque semaine sur votre stablecoin Celo avec le solde la plus élevée (cEUR, cUSD, cREAL).",
@@ -286,11 +286,11 @@
   },
   "superchargingTitle": "Mise à jour nécessaire",
   "superchargingDescription": "Mettez à jour l'appli pour continuer à recevoir vos récompenses Supercharge hebdomadaires.",
-  "superchargingTitleV1_54": "Vos {{token}} sont Superchargé",
-  "superchargingDescriptionV1_54": "Vous recevez {{apy}}% par an. Chaque semaine, vous recevrez une notification quand vos récompenses seront prêtes, revenez ici pour les demander.",
+  "superchargingTitleV1_54": "La supercharge se termine",
+  "superchargingDescriptionV1_54": "Les récompenses hebdomadaires pourront être réclamées jusqu'au mardi 28 mai à 23h59 UTC. À partir du 29 mai, tu ne pourras plus réclamer de récompenses Supercharge.",
   "superchargeRewardsAvailable": "Vous avez {{amount}} {{token}} à réclamer !",
   "superchargeRewardsAvailableMultipleTokens": "Vous avez {{amounts}} à réclamer !",
-  "superchargeClaimText": "Réclamez vos récompenses pour les ajouter à votre solde.",
+  "superchargeClaimText": "Réclame tes récompenses jusqu'au mardi 28 mai à 23h59 UTC. À partir du 29 mai, tu ne pourras plus réclamer de récompenses Supercharge.",
   "superchargeClaimButton": "Réclamer des récompenses",
   "superchargeFetchRewardsFailed": "Une erreur s'est produite lors de la récupération des récompenses. Veuillez réessayer plus tard.",
   "superchargeClaimSuccess": "Vos récompenses Supercharge ont été ajoutées à votre solde total.",
@@ -677,8 +677,8 @@
     "body": "Vous recevrez tous les deux un NFT exclusif une fois que votre ami aura configuré son wallet {{appName}} et connecté son numéro."
   },
   "inviteRewardsBannerCUSD": {
-    "title": "Invitez des amis pour être récompensé",
-    "body": "Une fois que votre contact aura paramétré son compte et ajouté 5 USD à son portefeuille {{appName}} , vous recevrez tous les deux 0,50 cUSD."
+    "title": "Invite des amis et reçois jusqu'à 12 cUSD",
+    "body": "Une fois qu'ils auront connecté leur numéro et ajouté des fonds sur {{appName}}, vous recevrez tous les deux 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Invitez des amis",
@@ -692,8 +692,8 @@
       "body": "Invitez vos amis et votre famille à télécharger {{appName}} et chacun d'entre vous recevra un NFT exclusif"
     },
     "rewardsActiveCUSD": {
-      "title": "DURÉE LIMITÉE. Recevez des cUSD en invitant des amis sur Valora !",
-      "body": "Recevez 0,50 cUSD pour chaque ami que vous invitez sur {{appName}}. Une fois que votre ami aura ajouté 5 dollars en cUSD, cEUR, cREAL, USDC ou USDT sur Celo et conservé des fonds pendant 7 jours, vous recevrez tous les deux 0,50 cUSD. Dépêchez-vous, les fonds sont limités !"
+      "title": "GAGNE JUSQU'À 12 cUSD pour avoir invité tes amis à Valora !",
+      "body": "Obtiens 0,50 cUSD pour chaque ami que tu invites sur {{appName}}. Une fois qu'il aura connecté son numéro, ajouté des fonds et les aura conservés pendant 7 jours, vous recevrez tous les deux 0,50 cUSD. Dépêche-toi, les fonds sont limités ! (Limite de 25 amis)."
     }
   },
   "getReward": "Obtenez {{reward}}$",
@@ -1034,7 +1034,7 @@
   "inviteWithoutPayment": "Bonjour ! J'utilise {{appName}} pour envoyer des cryptomonnaies dans le monde entier. C'est facile, et je vous invite à découvrir également ce service en utilisant ce lien : {{link}}",
   "inviteWithEscrowedPayment": "Bonjour ! J'utilise {{appName}} pour envoyer des cryptomonnaies dans le monde entier. Je viens juste de vous envoyer {{amount}} {{token}}. Vous pouvez télécharger l'appli {{appName}} et échanger votre {{token}} en utilisant ce lien : {{link}}",
   "inviteWithRewards": "Bonjour ! 👋 J'utilise {{appName}} comme portefeuille de cryptomonnaies. Télécharger l'application est très rapide, tout comme connecter ton numéro de téléphone. En plus, si tu t'inscris, nous recevrons tous les deux un NFT en édition spéciale comme récompense. 💫 \n\nUtilisez ce lien pour télécharger : {{link}}",
-  "inviteWithRewardsCUSD": "Salut ! En ce moment, nous pouvons tous les deux recevoir une récompense de 0,50 USD si tu t'inscris et que tu déposes des fonds sur ton portefeuille Valora. Je l'utilise pour faire fructifier mes économies en USD et en crypto, et tu peux le configurer en quelques secondes avec un simple numéro de téléphone. Utilise mon lien de parrainage pour t'inscrire ici : \n\n{{link}} \n\nDépêche-toi car cete offre de parrainage se termine bientôt.",
+  "inviteWithRewardsCUSD": "Hé ! En ce moment, nous pouvons tous les deux obtenir une récompense gratuite de 0,50 $ si tu t'inscris, connectes ton numéro et alimentes ton portefeuille Valora. Je l'utilise pour faire fructifier mes économies en USD et en crypto, et tu peux le configurer en quelques secondes avec juste un numéro de téléphone. Assure-toi de t'inscrire avec mon lien de parrainage ici : \n\n{{link}} \n\n Dépêche-toi, la promotion de parrainage se termine bientôt.",
   "loadingContacts": "Trouver vos contacts",
   "myCode": "Mon code",
   "scanCode": "Scanner",
@@ -1815,6 +1815,15 @@
       "networkFeeNoNetwork": "Frais de réseau",
       "swapFee": "Frais de {{appName}}",
       "swapFeeWaived": "Gratuit",
+      "appFee": "Frais de {{appName}}",
+      "appFeeValue": "<0></0> <1>(<0></0>)</1>",
+      "appFeeValue_withoutPriceUsd": "<0></0>",
+      "appFeeValue_free": "Gratuit",
+      "appFeeValue_placeholder": "-",
+      "appFeeInfo": "{{appName}} Frais\n\nNous facturons des frais pour échanger des jetons sur {{appName}}. Ces frais s'élèvent à {{appFeePercentage}}% du montant que tu échanges.",
+      "appFeeInfo_free": "{{appName}} Frais\n\nCet échange est gratuit.",
+      "appFeeInfo_placeholder": "{{appName}} Frais\n\nLes frais sont calculés en fonction du devis que tu reçois.",
+      "appFeeInfoDismissButton": "J'ai compris",
       "slippagePercentage": "Tolérance de glissement",
       "networkFeeInfo": "Vous échangez sur le réseau {{networkName}} .\n\nCes frais de réseau estimés sont nécessaires pour effectuer une transaction sur le réseau {{networkName}}. Ces frais sécurisent votre transaction et permettent le bon fonctionnement du réseau.",
       "networkFeeInfoV1_76": "Vous êtes en train d'échanger sur le réseau {{networkName}}.\n\nUne taxe de réseau est demandée pour effectuer une transaction sur le réseau {{networkName}}. Ces frais sécurisent votre transaction et sont reversés aux validateurs du réseau.\n\nDans la mesure où les conditions du réseau déterminent le montant exact, le montant indiqué correspond à une estimation des frais réels. Les frais ne dépasseront pas le montant maximum.",
@@ -2286,6 +2295,11 @@
         "refresh": "Actualiser"
       }
     },
+    "fetchBalanceError": {
+      "title": "Impossible de charger tes points",
+      "description": "Oups, quelque chose s'est mal passé en essayant de charger tes points. Il se peut que les informations de cette page soient obsolètes. Actualise-les s'il te plaît.",
+      "retryCta": "Actualiser"
+    },
     "loading": {
       "title": "Rassembler tes points de vue",
       "description": "Nous sommes en train de comptabiliser tes points, accroche-toi bien."
@@ -2322,12 +2336,108 @@
       "moreComing": {
         "title": "Plus d'informations bientôt !"
       }
+    },
+    "discoverCard": {
+      "title": "{{appName}} Points",
+      "description": "Gagne facilement des points avec {{appName}}. L'utilisation de l'application, y compris l'échange, permet de gagner des points !"
+    },
+    "intro": {
+      "title": "Gagne des points sans effort",
+      "description": "Saute dans une nouvelle façon de gagner de l'argent ! Tes actions sur {{appName}} te permettent désormais de gagner des points. Commence à gagner des points dès aujourd'hui et débloque des avantages impressionnants.",
+      "cta": "Commence ton voyage de points"
     }
   },
-  "earnStablecoin": {
-    "title": "Gagne sur tes stablecoins",
-    "subtitle": "Dépose aujourd'hui et gagne en rendement",
-    "description": "Si tu déposes <0></0>, tu peux obtenir jusqu'à <1></1> à la fin de l'année !"
+  "earnFlow": {
+    "addCryptoBottomSheet": {
+      "title": "Ajoute {{tokenSymbol}} sur {{tokenNetwork}}",
+      "description": "Une fois que tu auras ajouté des jetons, tu devras revenir pour finir de déposer dans une cagnotte.",
+      "actions": {
+        "add": "Acheter",
+        "transfer": "Transfert",
+        "swap": "Échanger"
+      },
+      "actionDescriptions": {
+        "add": "Achète {{tokenSymbol}} sur {{tokenNetwork}} en utilisant l'un de nos fournisseurs de confiance",
+        "transfer": "Utilise n'importe quel portefeuille ou échange compatible avec {{tokenNetwork}} pour déposer {{tokenSymbol}}.",
+        "swap": "Swap dans {{tokenSymbol}} à partir d'un autre jeton {{tokenNetwork}}"
+      }
+    },
+    "cta": {
+      "title": "Gagne sur tes stablecoins",
+      "subtitle": "Dépose aujourd'hui et gagne en rendement",
+      "description": "Vois combien tu peux gagner en alimentant un pool de prêt."
+    },
+    "enterAmount": {
+      "earnUpToLabel": "Tu pourrais gagner jusqu'à :",
+      "rateLabel": "Taux (est.)",
+      "earnUpTo": "~{{fiatSymbol}}{{amount}} / an",
+      "rate": "{{rate}}% APY",
+      "continue": "Continuer",
+      "info": "Cette piscine est alimentée par Aave",
+      "infoBottomSheet": {
+        "title": "Pourquoi cette piscine ?",
+        "description": "Ce pool Aave dispose de plus de 150 millions de dollars de TVL et de plus de 6 000 contributeurs, ce qui indique une forte liquidité et une grande fiabilité. Il utilise également USDC comme jeton et Abritrum comme réseau, ce qui réduit la volatilité et garantit que les utilisateurs recevront des taux de gaz peu coûteux.\n\nTout cela en fait une option sûre et attrayante avec un APY compétitif, garantissant une opportunité d'investissement bénéfique pour nos utilisateurs.\n\nTu peux explorer d'autres pools Aave <0>ici</0>.",
+        "dismiss": "Refuser"
+      },
+      "notEnoughBalanceForGasWarning": {
+        "title": "Tu as besoin de plus de {{feeTokenSymbol}} pour continuer",
+        "description": "Ajoute {{feeTokenSymbol}} sur {{network}} pour couvrir tes frais d'essence.",
+        "noGasCta": "Acheter {{feeTokenSymbol}} sur {{network}}"
+      }
+    },
+    "activePools": {
+      "title": "Piscines actives",
+      "totalValue": "Valeur totale :",
+      "apy": "~{{apy}}% APY",
+      "exitPool": "Exit Pool",
+      "depositMore": "Dépôt Plus",
+      "viewPools": "Voir les piscines"
+    },
+    "depositBottomSheet": {
+      "title": "Révision et dépôt",
+      "description": "Avant de déposer dans un pool Aave, tu dois examiner les détails de la transaction ci-dessous.",
+      "amount": "Montant déposé",
+      "fee": "Est. Frais de gaz",
+      "provider": "Fournisseur de revenus",
+      "network": "Réseau",
+      "footer": "En déposant des crypto dans un pool Aave, tu acceptes les risques liés à l'utilisation d'Aave. <0>Conditions générales d'utilisation</0>",
+      "primaryCta": "Complète",
+      "secondaryCta": "Annuler"
+    },
+    "collect": {
+      "title": "Félicitations ! Vérifier et collecter tes gains",
+      "total": "TOTAL",
+      "plus": "PLUS",
+      "rate": "Taux (est.)",
+      "apy": "{{apy}}% APY",
+      "fee": "Frais de gaz",
+      "cta": "Collecter les gains",
+      "errorTitle": "Une erreur s'est produite",
+      "errorDescription": "Impossible de récupérer les détails du dépôt. Essaie à nouveau.",
+      "noGasTitle": "Tu as besoin de plus de {{symbol}} pour continuer",
+      "noGasDescription": "Ajoute {{symbol}} sur {{network}} pour couvrir tes frais d'essence.",
+      "noGasCta": "Acheter {{symbol}} sur {{network}}"
+    },
+    "transactionFeed": {
+      "earnClaimTitle": "Recueilli",
+      "earnClaimSubtitle": "de {{providerName}} Pool",
+      "earnDepositTitle": "Déposé",
+      "earnDepositSubtitle": "à {{providerName}} Pool",
+      "earnWithdrawTitle": "Retire-toi",
+      "earnWithdrawSubtitle": "de {{providerName}} Pool"
+    },
+    "transactionDetails": {
+      "descriptionLabel": "Détails",
+      "earnClaimTitle": "Recueilli",
+      "earnClaimSubtitle": "Recueille {{tokenSymbol}} à partir de {{providerName}} Pool",
+      "earnClaimDetails": "Montant perçu",
+      "earnDepositTitle": "Déposé",
+      "earnDepositSubtitle": "Dépôt {{tokenSymbol}} à {{providerName}} Pool",
+      "earnDepositDetails": "Montant déposé",
+      "earnWithdrawTitle": "Retire-toi",
+      "earnWithdrawSubtitle": "Retire {{tokenSymbol}} de la cagnotte {{providerName}}",
+      "earnWithdrawDetails": "Montant du retrait"
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

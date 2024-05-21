@@ -255,8 +255,8 @@
       "text": "ใครก็ตามที่มีวลีของคุณจะมีสิทธิ์เข้าถึงบัญชีและเงินทั้งหมดในบัญชีของคุณ ดังนั้นโปรดอย่าแบ่งปันให้ผู้อื่นทราบ"
     }
   ],
-  "consumerIncentivesTitle": "เริ่มต้นใช้งานด้วย Supercharge",
-  "consumerIncentivesSummary": "Supercharge มาแล้ว! รับรางวัลรายปี {{percent}}% ในยอดคงเหลือ Stablecoin ที่สูงที่สุดของคุณ (cUSD, cEUR หรือ cREAL) ก่อนที่จะหมดเวลา โดยมีหลักการดังนี้",
+  "consumerIncentivesTitle": "Supercharge is ending",
+  "consumerIncentivesSummary": "But more rewards are headed your way. Until May 28, get {{percent}}% annual rewards on your highest stablecoin balance (cUSD, cEUR, or cREAL). Here's how it works:",
   "earnWeekly": {
     "header": "เชื่อมต่อหมายเลขโทรศัพท์ของคุณ",
     "text": "แตะเชื่อมต่อหมายเลข หากคุณยังไม่เชื่อมต่อ"
@@ -271,14 +271,14 @@
     "text": "เพื่อให้แน่ใจว่ารางวัลของคุณปลอดภัยและอยู่ในการควบคุมของคุณ"
   },
   "conclusion": "ง่ายเพียงเท่านี้ Supercharge คริปโตของคุณวันนี้",
-  "superchargeTitle": "เริ่ม Supercharge",
-  "superchargeDescription": "รับรางวัลรายปี {{apy}}% ในยอดคงเหลือ {{token}} ของคุณ โดยมีวิธีการเริ่มต้นดังนี้",
+  "superchargeTitle": "Supercharge is ending",
+  "superchargeDescription": "But more rewards are headed your way. Until May 28, get {{apy}}% annual rewards on your highest {{token}} balance. Here's how it works:",
   "superchargeConnectNumber": "เชื่อมต่อหมายเลขโทรศัพท์ของคุณ",
   "superchargeReconnectNumber": "เชื่อมต่อหมายเลขโทรศัพท์อีกครั้ง\n<0>เราได้เปิดตัว Supercharge ที่ปรับปรุงใหม่ โปรดเชื่อมต่อหมายเลขโทรศัพท์ของคุณอีกครั้งเพื่อรับรางวัลเป็น {{token}} ของคุณ</0>",
   "superchargeMinimumBalance": "เพิ่มยอดคงเหลือขั้นต่ำที่ {{amount}} {{token}}",
-  "superchargeDisclaimer": "รับรางวัลสูงสุดโดยการเพิ่มให้ถึง {{amount}} {{token}}",
-  "superchargeDisclaimerMaxRewards": "คุณกำลังจะได้รับรางวัลสูงสุดเป็น {{token}}",
-  "superchargeDisclaimerDayLimit": "คุณต้องขอรับรางวัลภายใน 28 วัน<0>ดูข้อมูลเพิ่มเติม</0>",
+  "superchargeDisclaimer": "This will not affect your balance or previous earnings.",
+  "superchargeDisclaimerMaxRewards": "This will not affect your balance or previous earnings.",
+  "superchargeDisclaimerDayLimit": "This will not affect your balance or previous earnings. <0>Learn more</0>",
   "superchargeTokenDetailsDialog": {
     "title": "สินทรัพย์ใดที่ฉันสามารถ Supercharge ได้",
     "body": "คุณจะได้รับรางวัลทุกสัปดาห์ในรูปแบบ Celo stablecoin ด้วยมูลค่าสูงสุด (cEUR, cUSD, cREAL)",
@@ -286,11 +286,11 @@
   },
   "superchargingTitle": "ต้องอัปเดตแอป",
   "superchargingDescription": "อัปเดตแอป Valora เพื่อรับรางวัล Supercharge ทุกสัปดาห์อย่างต่อเนื่อง.",
-  "superchargingTitleV1_54": "กำลัง Supercharge {{token}} ของคุณ",
-  "superchargingDescriptionV1_54": "คุณจะได้รับ {{apy}}% ทุกปี ในแต่ละสัปดาห์ คุณจะได้รับการแจ้งเตือนเมื่อรางวัลของคุณพร้อม กลับมาที่นี่เพื่อขอรับรางวัล",
+  "superchargingTitleV1_54": "Supercharge is ending",
+  "superchargingDescriptionV1_54": "Weekly rewards will be available to claim until Tuesday, May 28, at 23:59 UTC. Beginning May 29, you will nor longer be able to claim Supercharge rewards.",
   "superchargeRewardsAvailable": "คุณมี {{amount}} {{token}} ที่สามารถขอรับได้!",
   "superchargeRewardsAvailableMultipleTokens": "คุณมี {{amounts}} ที่สามารถขอรับได้!",
-  "superchargeClaimText": "ขอรับรางวัลเพื่อเพิ่มไปยังยอดคงเหลือของคุณ",
+  "superchargeClaimText": "Claim your rewards until Tuesday, May 28, at 23:59 UTC. Beginning May 29, you will no longer be able to claim Supercharge rewards.",
   "superchargeClaimButton": "ขอรับรางวัล",
   "superchargeFetchRewardsFailed": "เกิดข้อผิดพลาดขณะเรียกดูรางวัล Supercharge ที่รอดำเนินการ โปรดลองอีกครั้งภายหลัง",
   "superchargeClaimSuccess": "เพิ่มรางวัล Supercharge ของคุณไปยังยอดคงเหลือรวมแล้ว",
@@ -677,8 +677,8 @@
     "body": "เมื่อมีการตั้งค่ากระเป๋าเงิน {{appName}} และเชื่อมต่อหมายเลขแล้ว คุณแต่ละคนจะได้รับ NFT พิเศษ"
   },
   "inviteRewardsBannerCUSD": {
-    "title": "เชิญเพื่อนแล้วรับรางวัล",
-    "body": "เมื่อเพื่อนของคุณตั้งค่าและเติมเงินในกระเป๋าเงิน {{appName}} แล้ว คุณทั้งคู่จะได้รับ 0.50 cUSD"
+    "title": "Invite friends and get up to 12 cUSD",
+    "body": "Once they connect their number and add funds to {{appName}}, you’ll both receive 0.50 cUSD."
   },
   "inviteWithUrl": {
     "title": "เชิญเพื่อน",
@@ -692,8 +692,8 @@
       "body": "เชิญเพื่อนและครอบครัวให้ดาวน์โหลด {{appName}} ซึ่งคุณแต่ละคนจะได้รับ NFT พิเศษ"
     },
     "rewardsActiveCUSD": {
-      "title": "ด่วน! รับ cUSD ฟรีเมื่อเชิญเพื่อนมาเทรดกับ Valora ภายในเวลาที่กำหนด",
-      "body": "รางวัลแนะนำเพื่อนกลับมาแล้วและง่ายยิ่งกว่าเดิม รับ 0.50 cUSD ทุกครั้งที่เชิญเพื่อนของคุณมาใช้ {{appName}} เมื่อเพื่อนของคุณฝากเงินและถือไว้เป็นเวลา 7 วัน คุณทั้งสองคนจะได้รับ 0.50 cUSD ด่วน มีจำนวนจำกัด (จำกัดเพื่อนสูงสุด 25 คน)"
+      "title": "GET UP TO 12 cUSD for inviting your friends to Valora!",
+      "body": "Get 0.50 cUSD for every friend you invite to {{appName}}. Once they connect their number, add funds, and hold them for 7 days, you’ll both get 0.50 cUSD. Hurry, funds are limited! (Limit 25 friends)."
     }
   },
   "getReward": "รับ ${{reward}}",
@@ -1032,7 +1032,7 @@
   "inviteWithoutPayment": "สวัสดี ฉันกำลังใช้ {{appName}} ส่งคริปโตไปทั่วโลก ลองใช้แอปได้ง่ายๆ และฉันต้องการเชิญคุณเข้าไปดูลิงก์นี้: {{link}}",
   "inviteWithEscrowedPayment": "สวัสดี ฉันกำลังใช้ {{appName}} ส่งคริปโตไปทั่วโลก ฉันเพิ่งส่ง {{amount}} {{token}} ให้คุณ โปรดดาวน์โหลดแอป {{appName}} และแลก {{token}} ของคุณ โดยใช้ลิงก์นี้: {{link}}",
   "inviteWithRewards": "สวัสดี 👋 ฉันใช้ {{appName}} เป็นกระเป๋าเงินคริปโต วิธีดาวน์โหลดแอปและเชื่อมต่อหมายเลขโทรศัพท์ทำได้เร็วมาก และเราทั้งสองคนจะได้รับ NFT รุ่นพิเศษเป็นรางวัลด้วย 💫\n\nใช้ลิงก์นี้เพื่อดาวน์โหลด: {{link}}",
-  "inviteWithRewardsCUSD": "สวัสดี ตอนนี้ เราทั้งสองคนจะรับรางวัล $0.50 ฟรี หากคุณลงทะเบียนและฝากเงินเข้ากระเป๋าเงิน Valora ของคุณ ฉันใช้กระเป๋าเงินนี้สะสมดอลลาร์และคริปโต ซึ่งคุณก็ใช้ได้ในเวลาไม่กี่วินาทีเพียงมีหมายเลขโทรศัพท์ อย่าลืมลงทะเบียนด้วยลิงก์แนะนำของฉันที่นี่\n\n{{link}} \n\nอย่าช้า โปรโมชั่นการแนะนำจะสิ้นสุดเร็วๆ นี้",
+  "inviteWithRewardsCUSD": "Hey! Right now we can both get a free $0.50 reward if you sign up, connect your number, and fund your Valora wallet. I use it to grow my savings in USD and crypto, and you can set it up in seconds with just a phone number. Make sure to sign up with my referral link here: \n\n{{link}} \n\n Hurry, the referral promotion ends soon.",
   "loadingContacts": "การค้นหาผู้ติดต่อของคุณ",
   "myCode": "รหัสของฉัน",
   "scanCode": "สแกน",
@@ -1813,6 +1813,15 @@
       "networkFeeNoNetwork": "ค่าธรรมเนียมเครือข่าย",
       "swapFee": "ค่าธรรมเนียม {{appName}}",
       "swapFeeWaived": "ฟรี",
+      "appFee": "ค่าธรรมเนียม {{appName}}",
+      "appFeeValue": "<0></0> <1>(<0></0>)</1>",
+      "appFeeValue_withoutPriceUsd": "<0></0>",
+      "appFeeValue_free": "ฟรี",
+      "appFeeValue_placeholder": "-",
+      "appFeeInfo": "{{appName}} Fee\n\nWe charge a fee to swap tokens on {{appName}}. The fee is {{appFeePercentage}}% of the amount you are exchanging.",
+      "appFeeInfo_free": "{{appName}} Fee\n\nThis swap is free of charge.",
+      "appFeeInfo_placeholder": "{{appName}} Fee\n\nThe fee is calculated based on the quote you receive.",
+      "appFeeInfoDismissButton": "เข้าใจแล้ว",
       "slippagePercentage": "การยอมรับราคาคลาดเคลื่อน",
       "networkFeeInfo": "คุณกำลังสว็อปบนเครือข่าย {{networkName}}\n\nการดำเนินการธุรกรรมบนเครือข่าย {{networkName}} จำเป็นต้องมีค่าธรรมเนียมเครือข่ายโดยประมาณนี้ ค่าธรรมเนียมนี้จะช่วยดูแลธุรกรรมของคุณให้ปลอดภัยและสนับสนุนการดำเนินงานของเครือข่าย",
       "networkFeeInfoV1_76": "คุณกำลังสว็อปบนเครือข่าย {{networkName}}\n\nการทำธุรกรรมบนเครือข่าย {{networkName}} มีค่าธรรมเนียมเครือข่าย ค่าธรรมเนียมดังกล่าวเป็นการรักษาความปลอดภัยให้กับธุรกรรมของคุณโดยจะชำระให้กับผู้ตรวจสอบเครือข่าย\n\nเนื่องจากเงื่อนไขของเครือข่ายมีการกำหนดจำนวนเงินที่แน่นอน เราจึงคาดว่ารายการค่าธรรมเนียมประมาณการนี้เป็นค่าธรรมเนียมที่แท้จริง ค่าธรรมเนียมจะไม่เกินกว่าจำนวนค่าธรรมเนียมสูงสุด",
@@ -2284,6 +2293,11 @@
         "refresh": "รีเฟรช"
       }
     },
+    "fetchBalanceError": {
+      "title": "Unable to load your points",
+      "description": "Oops, something went wrong when trying to load your points. The information on this page may be out of date. Please refresh.",
+      "retryCta": "รีเฟรช"
+    },
     "loading": {
       "title": "Gathering your points",
       "description": "We're in the process of tallying up your points, hang tight"
@@ -2320,12 +2334,108 @@
       "moreComing": {
         "title": "More coming soon!"
       }
+    },
+    "discoverCard": {
+      "title": "{{appName}} Points",
+      "description": "Earn points easily with {{appName}}. Using the app, including swapping, leads to points!"
+    },
+    "intro": {
+      "title": "Earn points effortlessly",
+      "description": "Jump into a new way to earn! Your {{appName}} actions now earn points. Start earning today and unlock awesome benefits.",
+      "cta": "Start your points journey"
     }
   },
-  "earnStablecoin": {
-    "title": "Earn on your stablecoins",
-    "subtitle": "Deposit today and earn returns",
-    "description": "If you deposit <0></0>, you can get up to <1></1> at the end of the year!"
+  "earnFlow": {
+    "addCryptoBottomSheet": {
+      "title": "Add {{tokenSymbol}} on {{tokenNetwork}}",
+      "description": "Once you add tokens you'll have to come back to finish depositing into a pool.",
+      "actions": {
+        "add": "ซื้อ",
+        "transfer": "Transfer",
+        "swap": "สว็อป"
+      },
+      "actionDescriptions": {
+        "add": "Buy {{tokenSymbol}} on {{tokenNetwork}} using one of our trusted providers",
+        "transfer": "Use any {{tokenNetwork}} compatible wallet or exchange to deposit {{tokenSymbol}}",
+        "swap": "Swap into {{tokenSymbol}} from another {{tokenNetwork}} token"
+      }
+    },
+    "cta": {
+      "title": "Earn on your stablecoins",
+      "subtitle": "Deposit today and earn returns",
+      "description": "See how much you can earn when supplying a lending pool"
+    },
+    "enterAmount": {
+      "earnUpToLabel": "You could earn up to:",
+      "rateLabel": "Rate (est.)",
+      "earnUpTo": "~{{fiatSymbol}}{{amount}} / yr",
+      "rate": "{{rate}}% APY",
+      "continue": "ดำเนินการต่อ",
+      "info": "This pool is powered by Aave",
+      "infoBottomSheet": {
+        "title": "Why this pool?",
+        "description": "This Aave pool has over $150M TVL and more than 6,000 contributors, indicating strong liquidity and trustworthiness. It also uses USDC as its token and Abritrum as its network, which reduces volatility and ensures users will receive inexpensive gas rates.\n\nAll together this makes it a safe and attractive option with competitive APY, ensuring a beneficial investment opportunity for our users.\n\nYou can explore other Aave pools <0>here</0>.",
+        "dismiss": "ปิด"
+      },
+      "notEnoughBalanceForGasWarning": {
+        "title": "You need more {{feeTokenSymbol}} to continue",
+        "description": "Add {{feeTokenSymbol}} on {{network}} to cover your gas fees",
+        "noGasCta": "Buy {{feeTokenSymbol}} on {{network}}"
+      }
+    },
+    "activePools": {
+      "title": "Active Pools",
+      "totalValue": "Total Value:",
+      "apy": "~{{apy}}% APY",
+      "exitPool": "Exit Pool",
+      "depositMore": "Deposit More",
+      "viewPools": "View Pools"
+    },
+    "depositBottomSheet": {
+      "title": "Review & Deposit",
+      "description": "Before depositing to an Aave pool, please review the transaction details below",
+      "amount": "จำนวนเงินที่ฝาก",
+      "fee": "Est. Gas Fees",
+      "provider": "Earnings provider",
+      "network": "เครือข่าย",
+      "footer": "By depositing crypto into an Aave pool, you accept the risks associated with using Aave. <0>Terms & Conditions</0>",
+      "primaryCta": "Complete",
+      "secondaryCta": "ยกเลิก"
+    },
+    "collect": {
+      "title": "Congratulations! Review & collect your earnings",
+      "total": "TOTAL",
+      "plus": "PLUS",
+      "rate": "Rate (est.)",
+      "apy": "{{apy}}% APY",
+      "fee": "Gas Fee",
+      "cta": "Collect Earnings",
+      "errorTitle": "มีบางอย่างผิดปกติ",
+      "errorDescription": "Unable to fetch deposit details. Please try again.",
+      "noGasTitle": "You need more {{symbol}} to continue",
+      "noGasDescription": "Add {{symbol}} on {{network}} to cover your gas fees",
+      "noGasCta": "Buy {{symbol}} on {{network}}"
+    },
+    "transactionFeed": {
+      "earnClaimTitle": "Collected",
+      "earnClaimSubtitle": "from {{providerName}} Pool",
+      "earnDepositTitle": "Deposited",
+      "earnDepositSubtitle": "to {{providerName}} Pool",
+      "earnWithdrawTitle": "Withdrew",
+      "earnWithdrawSubtitle": "from {{providerName}} Pool"
+    },
+    "transactionDetails": {
+      "descriptionLabel": "รายละเอียด",
+      "earnClaimTitle": "Collected",
+      "earnClaimSubtitle": "Collected {{tokenSymbol}} from {{providerName}} Pool",
+      "earnClaimDetails": "Amount Collected",
+      "earnDepositTitle": "Deposited",
+      "earnDepositSubtitle": "Deposited {{tokenSymbol}} to {{providerName}} Pool",
+      "earnDepositDetails": "จำนวนเงินที่ฝาก",
+      "earnWithdrawTitle": "Withdrew",
+      "earnWithdrawSubtitle": "Withdrew {{tokenSymbol}} from {{providerName}} Pool",
+      "earnWithdrawDetails": "จำนวนเงินที่ถอนแล้ว"
+    }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }

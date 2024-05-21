@@ -6,6 +6,7 @@ import { reducer as alert } from 'src/alert/reducer'
 import { appReducer as app } from 'src/app/reducers'
 import superchargeReducer from 'src/consumerIncentives/slice'
 import dappsReducer from 'src/dapps/slice'
+import earnReducer from 'src/earn/slice'
 import { escrowReducer as escrow } from 'src/escrow/reducer'
 import { reducer as fees } from 'src/fees/reducer'
 import { reducer as fiatExchanges } from 'src/fiatExchanges/reducer'
@@ -59,6 +60,7 @@ const appReducer = combineReducers({
   priceHistory: priceHistoryReducer,
   jumpstart: jumpstartReducer,
   points: pointsReducer,
+  earn: earnReducer,
 })
 
 const rootReducer = (state: RootState | undefined, action: Action): RootState => {

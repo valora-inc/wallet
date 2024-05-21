@@ -10,7 +10,6 @@ import { FeeEstimates } from 'src/fees/reducer'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { KeylessBackupDeleteStatus, KeylessBackupStatus } from 'src/keylessBackup/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { Position } from 'src/positions/types'
 import { updateCachedQuoteParams } from 'src/redux/migrations'
 import { RootState } from 'src/redux/store'
 import { Network, NetworkId, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
@@ -1964,7 +1963,7 @@ export const v103Schema = {
 }
 
 export const v104Schema = {
-  ...(_.omit(v103Schema, ['goldToken', 'stableToken']) as any),
+  ..._.omit(v103Schema, ['goldToken', 'stableToken']),
   _persist: {
     ...v103Schema._persist,
     version: 104,
@@ -2303,14 +2302,7 @@ export const v131Schema = {
         }
       }
     ),
-    activeDapp: v130Schema.dapps.activeDapp
-      ? {
-          ...v130Schema.dapps.activeDapp,
-          categories: v130Schema.dapps.activeDapp.categories ?? [
-            v130Schema.dapps.activeDapp.categoryId,
-          ],
-        }
-      : null,
+    activeDapp: null,
   },
 }
 
@@ -2322,7 +2314,7 @@ export const v132Schema = {
   },
   positions: {
     ...v131Schema.positions,
-    positions: v131Schema.positions.positions.map((position: Position) => ({
+    positions: v131Schema.positions.positions.map((position: any) => ({
       ...position,
       availableShortcutIds: [],
     })),
@@ -2683,7 +2675,7 @@ export const v159Schema = {
 }
 
 export const v160Schema = {
-  ...(_.omit(v159Schema, 'paymentRequest') as any),
+  ..._.omit(v159Schema, 'paymentRequest'),
   _persist: {
     ...v159Schema._persist,
     version: 160,
@@ -3269,7 +3261,6 @@ export const v209Schema = {
   },
   points: {
     ...v208Schema.points,
-
     pendingPointsEvents: [],
   },
 }
@@ -3294,6 +3285,68 @@ export const v211Schema = {
   },
 }
 
+export const v212Schema = {
+  ...v211Schema,
+  _persist: {
+    ...v211Schema._persist,
+    version: 212,
+  },
+  points: {
+    ...v211Schema.points,
+    pointsBalance: '0',
+    pointsBalanceStatus: 'idle',
+  },
+}
+
+export const v213Schema = {
+  ...v212Schema,
+  _persist: {
+    ...v212Schema._persist,
+    version: 213,
+  },
+  earn: {
+    depositStatus: 'idle',
+  },
+}
+
+export const v214Schema = {
+  ...v213Schema,
+  _persist: {
+    ...v213Schema._persist,
+    version: 214,
+  },
+  points: {
+    ...v213Schema.points,
+    trackOnceActivities: {
+      'create-wallet': false,
+    },
+  },
+}
+
+export const v215Schema = {
+  ...v214Schema,
+  _persist: {
+    ...v214Schema._persist,
+    version: 215,
+  },
+  points: {
+    ...v214Schema.points,
+    introHasBeenDismissed: false,
+  },
+}
+
+export const v216Schema = {
+  ...v215Schema,
+  _persist: {
+    ...v215Schema._persist,
+    version: 216,
+  },
+  earn: {
+    depositStatus: 'idle',
+    withdrawStatus: 'idle',
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v211Schema as Partial<RootState>
+  return v216Schema as Partial<RootState>
 }

@@ -57,6 +57,9 @@ import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import networkConfig from 'src/web3/networkConfig'
 import { v4 as uuidv4 } from 'uuid'
+import DownIndicator from 'src/icons/DownIndicator'
+import CircledIcon from 'src/icons/CircledIcon'
+import Touchable from 'src/components/Touchable'
 
 const TAG = 'SwapScreen'
 
@@ -231,6 +234,7 @@ export function SwapScreen({ route }: Props) {
   const preparedTransactionsReviewBottomSheetRef = useRef<BottomSheetRefType>(null)
   const exchangeRateInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const networkFeeInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const appFeeInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const slippageInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const fundYourWalletBottomSheetRef = useRef<BottomSheetRefType>(null)
   const tokensWithBalance = useTokensWithTokenBalance()
@@ -472,6 +476,17 @@ export function SwapScreen({ route }: Props) {
     }
   }
 
+  const handleSwitchTokens = () => {
+    ValoraAnalytics.track(SwapEvents.swap_switch_tokens, { fromTokenId, toTokenId })
+    localDispatch(
+      selectTokens({
+        fromTokenId: toTokenId,
+        toTokenId: fromTokenId,
+        switchedToNetworkId: null,
+      })
+    )
+  }
+
   const handleShowTokenSelect = (fieldType: Field) => () => {
     ValoraAnalytics.track(SwapEvents.swap_screen_select_token, { fieldType })
     localDispatch(startSelectToken({ fieldType }))
@@ -634,9 +649,19 @@ export function SwapScreen({ route }: Props) {
     return getNetworkFee(quote, fromToken?.networkId)
   }, [fromToken, quote])
 
-  const appFeePercentage = quote?.appFeePercentageIncludedInPrice
-    ? new BigNumber(quote.appFeePercentageIncludedInPrice)
-    : undefined
+  const appFee = useMemo(() => {
+    if (!quote || !fromToken) {
+      return undefined
+    }
+
+    const percentage = new BigNumber(quote.appFeePercentageIncludedInPrice || 0)
+
+    return {
+      amount: parsedSwapAmount[Field.FROM].multipliedBy(percentage).dividedBy(100),
+      token: fromToken,
+      percentage,
+    }
+  }, [quote, parsedSwapAmount, fromToken])
 
   useEffect(() => {
     if (showPriceImpactWarning || showMissingPriceImpactWarning) {
@@ -673,14 +698,12 @@ export function SwapScreen({ route }: Props) {
     {
       fieldType: Field.FROM,
       tokens: swappableFromTokens,
-      title: t('swapScreen.swapFromTokenSelection'),
       filterChips: filterChipsFrom,
       origin: TokenPickerOrigin.SwapFrom,
     },
     {
       fieldType: Field.TO,
       tokens: swappableToTokens,
-      title: t('swapScreen.swapToTokenSelection'),
       filterChips: filterChipsTo,
       origin: TokenPickerOrigin.SwapTo,
     },
@@ -699,7 +722,6 @@ export function SwapScreen({ route }: Props) {
       >
         <View style={styles.swapAmountsContainer}>
           <SwapAmountInput
-            label={t('swapScreen.swapFrom')}
             onInputChange={handleChangeAmount(Field.FROM)}
             inputValue={inputSwapAmount[Field.FROM]}
             parsedInputValue={parsedSwapAmount[Field.FROM]}
@@ -710,10 +732,24 @@ export function SwapScreen({ route }: Props) {
             autoFocus
             inputError={fromSwapAmountError}
             onPressMax={handleSetMaxFromAmount}
-            buttonPlaceholder={t('swapScreen.swapFromTokenSelection')}
+            buttonPlaceholder={t('swapScreen.selectTokenLabel')}
+            borderRadius={Spacing.Regular16}
           />
+          <View style={styles.switchTokensContainer}>
+            <Touchable
+              borderless
+              borderRadius={Spacing.Regular16}
+              shouldRenderRippleAbove
+              style={styles.switchTokens}
+              onPress={handleSwitchTokens}
+              testID="SwapScreen/SwitchTokens"
+            >
+              <CircledIcon radius={Spacing.Large32} backgroundColor={colors.black}>
+                <DownIndicator color={colors.white} size={15} />
+              </CircledIcon>
+            </Touchable>
+          </View>
           <SwapAmountInput
-            label={t('swapScreen.swapTo')}
             onInputChange={handleChangeAmount(Field.TO)}
             parsedInputValue={parsedSwapAmount[Field.TO]}
             inputValue={inputSwapAmount[Field.TO]}
@@ -721,8 +757,9 @@ export function SwapScreen({ route }: Props) {
             token={toToken}
             style={styles.toSwapAmountInput}
             loading={updatedField === Field.FROM && quoteUpdatePending}
-            buttonPlaceholder={t('swapScreen.swapToTokenSelection')}
+            buttonPlaceholder={t('swapScreen.selectTokenLabel')}
             editable={swapBuyAmountEnabled}
+            borderRadius={Spacing.Regular16}
           />
 
           <SwapTransactionDetails
@@ -735,10 +772,11 @@ export function SwapScreen({ route }: Props) {
             fromToken={fromToken}
             toToken={toToken}
             exchangeRatePrice={quote?.price}
+            exchangeRateInfoBottomSheetRef={exchangeRateInfoBottomSheetRef}
             swapAmount={parsedSwapAmount[Field.FROM]}
             fetchingSwapQuote={quoteUpdatePending}
-            enableAppFee={enableAppFee}
-            exchangeRateInfoBottomSheetRef={exchangeRateInfoBottomSheetRef}
+            appFee={appFee}
+            appFeeInfoBottomSheetRef={appFeeInfoBottomSheetRef}
           />
           {showSwitchedToNetworkWarning && (
             <InLineNotification
@@ -819,12 +857,12 @@ export function SwapScreen({ route }: Props) {
           showLoading={confirmSwapIsLoading}
         />
       </ScrollView>
-      {tokenBottomSheetsConfig.map(({ fieldType, tokens, title, filterChips, origin }) => (
+      {tokenBottomSheetsConfig.map(({ fieldType, tokens, filterChips, origin }) => (
         <TokenBottomSheet
           key={`TokenBottomSheet/${fieldType}`}
           forwardedRef={tokenBottomSheetRefs[fieldType]}
           tokens={tokens}
-          title={title}
+          title={t('swapScreen.tokenBottomSheetTitle')}
           filterChips={filterChips}
           origin={origin}
           snapPoints={['90%']}
@@ -854,10 +892,10 @@ export function SwapScreen({ route }: Props) {
       <BottomSheet
         forwardedRef={exchangeRateInfoBottomSheetRef}
         description={t('swapScreen.transactionDetails.exchangeRateInfo', {
-          context: appFeePercentage?.isGreaterThan(0) ? 'withAppFee' : '',
+          context: appFee?.percentage?.isGreaterThan(0) ? 'withAppFee' : '',
           networkName: NETWORK_NAMES[fromToken?.networkId || networkConfig.defaultNetworkId],
           slippagePercentage: parsedSlippagePercentage,
-          appFeePercentage: appFeePercentage?.toFormat(),
+          appFeePercentage: appFee?.percentage?.toFormat(),
         })}
         testId="ExchangeRateInfoBottomSheet"
       >
@@ -886,6 +924,30 @@ export function SwapScreen({ route }: Props) {
             networkFeeInfoBottomSheetRef.current?.close()
           }}
           text={t('swapScreen.transactionDetails.networkFeeInfoDismissButton')}
+        />
+      </BottomSheet>
+      <BottomSheet
+        forwardedRef={appFeeInfoBottomSheetRef}
+        description={t('swapScreen.transactionDetails.appFeeInfo', {
+          networkName: NETWORK_NAMES[fromToken?.networkId || networkConfig.defaultNetworkId],
+          context:
+            !appFee || fetchingSwapQuote
+              ? 'placeholder'
+              : appFee.percentage.isLessThanOrEqualTo(0)
+                ? 'free'
+                : undefined,
+          appFeePercentage: appFee?.percentage?.toFormat(),
+        })}
+        testId="AppFeeInfoBottomSheet"
+      >
+        <Button
+          type={BtnTypes.SECONDARY}
+          size={BtnSizes.FULL}
+          style={styles.bottomSheetButton}
+          onPress={() => {
+            appFeeInfoBottomSheetRef.current?.close()
+          }}
+          text={t('swapScreen.transactionDetails.appFeeInfoDismissButton')}
         />
       </BottomSheet>
       <BottomSheet
@@ -953,13 +1015,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   fromSwapAmountInput: {
-    borderBottomWidth: 0,
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
+    marginBottom: Spacing.Smallest8,
   },
   toSwapAmountInput: {
-    borderBottomLeftRadius: 16,
-    borderBottomRightRadius: 16,
     marginBottom: Spacing.Small12,
   },
   disclaimerText: {
@@ -982,6 +1040,16 @@ const styles = StyleSheet.create({
   bottomSheetTitle: {
     ...typeScale.titleSmall,
     marginTop: -Spacing.Regular16,
+  },
+  switchTokens: {
+    position: 'absolute',
+    top: -20,
+    left: -Spacing.Regular16,
+    zIndex: 1,
+  },
+  switchTokensContainer: {
+    zIndex: 1,
+    alignItems: 'center',
   },
 })
 

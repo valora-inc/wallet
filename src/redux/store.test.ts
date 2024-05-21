@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 211,
+          "version": 216,
         },
         "account": {
           "acceptedTerms": false,
@@ -186,6 +186,10 @@ describe('store state', () => {
           "maxNumRecentDapps": 0,
           "mostPopularDappIds": [],
           "recentDappIds": [],
+        },
+        "earn": {
+          "depositStatus": "idle",
+          "withdrawStatus": "idle",
         },
         "escrow": {
           "isReclaiming": false,
@@ -286,13 +290,19 @@ describe('store state', () => {
         },
         "points": {
           "getHistoryStatus": "idle",
+          "introHasBeenDismissed": false,
           "nextPageUrl": null,
           "pendingPointsEvents": [],
+          "pointsBalance": "0",
+          "pointsBalanceStatus": "idle",
           "pointsConfig": {
             "activitiesById": {},
           },
           "pointsConfigStatus": "idle",
           "pointsHistory": [],
+          "trackOnceActivities": {
+            "create-wallet": false,
+          },
         },
         "positions": {
           "positions": [],

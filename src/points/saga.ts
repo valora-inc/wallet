@@ -1,12 +1,20 @@
 import { differenceInDays } from 'date-fns'
 import { Actions as AppActions } from 'src/app/actions'
 import { Actions as HomeActions } from 'src/home/actions'
-import { nextPageUrlSelector, pendingPointsEvents } from 'src/points/selectors'
+import { retrieveSignedMessage } from 'src/pincode/authentication'
+import {
+  nextPageUrlSelector,
+  pendingPointsEvents,
+  trackOnceActivitiesSelector,
+} from 'src/points/selectors'
 import {
   PointsConfig,
   getHistoryError,
   getHistoryStarted,
   getHistorySucceeded,
+  getPointsBalanceError,
+  getPointsBalanceStarted,
+  getPointsBalanceSucceeded,
   getPointsConfigError,
   getPointsConfigRetry,
   getPointsConfigStarted,
@@ -17,9 +25,10 @@ import {
 } from 'src/points/slice'
 import {
   GetHistoryResponse,
-  isPointsActivityId,
-  isClaimActivityId,
+  GetPointsBalanceResponse,
   PointsEvent,
+  isClaimActivityId,
+  isPointsActivityId,
 } from 'src/points/types'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -35,16 +44,52 @@ const TAG = 'Points/saga'
 
 const POINTS_EVENT_EXPIRY_DAYS = 30
 
+export function* getPointsBalance({ type, payload }: ReturnType<typeof getHistoryStarted>) {
+  if (type === getHistoryStarted.type && payload.getNextPage) {
+    // prevent fetching points balance when fetching more history
+    return
+  }
+
+  const address = yield* select(walletAddressSelector)
+  if (!address) {
+    Logger.error(TAG, 'No wallet address found when fetching points balance')
+    return
+  }
+
+  try {
+    yield* put(getPointsBalanceStarted())
+    const response = yield* call(
+      fetchWithTimeout,
+      `${networkConfig.getPointsBalanceUrl}?address=${address}`,
+      {
+        method: 'GET',
+      }
+    )
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch points balance: ${response.status} ${response.statusText}`)
+    }
+    const { balance }: GetPointsBalanceResponse = yield* call([response, 'json'])
+    yield* put(getPointsBalanceSucceeded(balance))
+  } catch (error) {
+    Logger.warn(TAG, 'Error fetching points balance', error)
+    yield* put(getPointsBalanceError())
+  }
+}
+
 export async function fetchHistory(
   address: string,
-  url?: string | null
+  nextPageUrl?: string | null
 ): Promise<GetHistoryResponse> {
-  const response = await fetchWithTimeout(
-    url ?? `${networkConfig.getPointsHistoryUrl}?` + new URLSearchParams({ address }),
-    {
-      method: 'GET',
-    }
-  )
+  const firstPageQueryParams = new URLSearchParams({
+    address,
+    pageSize: '10', // enough to fill up the history bottom sheet
+  }).toString()
+  const firstPageUrl = `${networkConfig.getPointsHistoryUrl}?${firstPageQueryParams}`
+
+  const response = await fetchWithTimeout(nextPageUrl ?? firstPageUrl, {
+    method: 'GET',
+  })
   if (response.ok) {
     return response.json() as Promise<GetHistoryResponse>
   } else {
@@ -58,7 +103,7 @@ export function* getHistory({ payload: params }: ReturnType<typeof getHistorySta
     Logger.error(TAG, 'No wallet address found when fetching points history')
     yield* put(
       getHistoryError({
-        resetHistory: !params.getNextPage,
+        getNextPage: params.getNextPage,
       })
     )
     return
@@ -93,19 +138,13 @@ export function* getHistory({ payload: params }: ReturnType<typeof getHistorySta
     Logger.error(TAG, 'Error fetching points history', e)
     yield* put(
       getHistoryError({
-        resetHistory: !params.getNextPage,
+        getNextPage: params.getNextPage,
       })
     )
   }
 }
 
 export function* getPointsConfig() {
-  const showPoints = getFeatureGate(StatsigFeatureGates.SHOW_POINTS)
-  if (!showPoints) {
-    Logger.info(TAG, 'Points feature is disabled, not fetching points config')
-    return
-  }
-
   yield* put(getPointsConfigStarted())
 
   try {
@@ -133,14 +172,27 @@ export function* getPointsConfig() {
   }
 }
 
-export async function fetchTrackPointsEventsEndpoint(event: PointsEvent) {
-  return fetchWithTimeout(networkConfig.trackPointsEventUrl, {
+export function* fetchTrackPointsEventsEndpoint(event: PointsEvent) {
+  const address = yield* select(walletAddressSelector)
+  const signedMessage = yield* call(retrieveSignedMessage)
+
+  return yield* call(fetchWithTimeout, networkConfig.trackPointsEventUrl, {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: `Valora ${address}:${signedMessage}`,
+    },
     body: JSON.stringify(event),
   })
 }
 
 export function* sendPointsEvent({ payload: event }: ReturnType<typeof trackPointsEvent>) {
+  const trackOnceActivities = yield* select(trackOnceActivitiesSelector)
+  if (trackOnceActivities[event.activityId]) {
+    Logger.debug(TAG, `Skipping already tracked activity: ${event.activityId}`)
+    return
+  }
+
   const id = uuidv4()
 
   yield* put(
@@ -199,6 +251,7 @@ export function* sendPendingPointsEvents() {
 
 function* watchGetHistory() {
   yield* takeLeading(getHistoryStarted.type, safely(getHistory))
+  yield* takeLeading(getHistoryStarted.type, safely(getPointsBalance))
 }
 
 function* watchGetConfig() {
@@ -215,6 +268,12 @@ export function* watchAppMounted() {
 }
 
 export function* pointsSaga() {
+  const showPoints = getFeatureGate(StatsigFeatureGates.SHOW_POINTS)
+  if (!showPoints) {
+    Logger.info(TAG, 'Points feature is disabled, not spawning points sagas')
+    return
+  }
+
   yield* spawn(watchGetHistory)
   yield* spawn(watchGetConfig)
   yield* spawn(watchTrackPointsEvent)

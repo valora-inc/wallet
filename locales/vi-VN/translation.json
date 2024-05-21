@@ -255,8 +255,8 @@
       "text": "Bất kỳ ai có Cụm từ của bạn đều sẽ được quyền truy cập vào tài khoản của bạn và tất cả tiền trong đó. Không chia sẻ Cụm từ này cho bất kỳ ai."
     }
   ],
-  "consumerIncentivesTitle": "Bắt đầu với chương trình Supercharge",
-  "consumerIncentivesSummary": "Chương trình Supercharge đã ra mắt! Nhận {{percent}}% tiền thưởng mỗi năm tính trên số dư stablecoin cao nhất của bạn (cUSD, cEUR hoặc cREAL). Có áp dụng giới hạn thời gian triển khai. Cách thức như sau:",
+  "consumerIncentivesTitle": "Supercharge is ending",
+  "consumerIncentivesSummary": "But more rewards are headed your way. Until May 28, get {{percent}}% annual rewards on your highest stablecoin balance (cUSD, cEUR, or cREAL). Here's how it works:",
   "earnWeekly": {
     "header": "Kết nối số điện thoại của bạn",
     "text": "Nhấn vào Kết nối số nếu bạn chưa kết nối."
@@ -271,14 +271,14 @@
     "text": "Cụm từ này đảm bảo tiền thưởng được an toàn và bạn luôn nắm được quyền kiểm soát."
   },
   "conclusion": "Đơn giản vậy thôi. Hãy kiếm thêm tiền điện tử ngay hôm nay với Supercharge!",
-  "superchargeTitle": "Bắt đầu tham gia Supercharge",
-  "superchargeDescription": "Nhận {{apy}}% tiền thưởng hằng năm tính trên số dư {{token}}. Sau đây là cách bắt đầu:",
+  "superchargeTitle": "Supercharge is ending",
+  "superchargeDescription": "But more rewards are headed your way. Until May 28, get {{apy}}% annual rewards on your highest {{token}} balance. Here's how it works:",
   "superchargeConnectNumber": "Kết nối số điện thoại của bạn",
   "superchargeReconnectNumber": "Kết nối lại với điện thoại\n<0>Chúng tôi đã khởi chạy trải nghiệm chương trình Supercharge cải tiến. Kết nối lại số điện thoại của bạn để tiếp tục kiếm tiền thưởng từ {{token}}.</0>",
   "superchargeMinimumBalance": "Thêm số dư tối thiểu là {{amount}} {{token}}",
-  "superchargeDisclaimer": "Tăng tối đa tiền thưởng bằng cách nạp đến {{amount}} {{token}}",
-  "superchargeDisclaimerMaxRewards": "Bạn sẽ nhận được tiền thưởng tối đa tính trên {{token}} của mình",
-  "superchargeDisclaimerDayLimit": "Bạn phải xác nhận tiền thưởng trong vòng 28 ngày. <0>Tìm hiểu thêm </0>",
+  "superchargeDisclaimer": "This will not affect your balance or previous earnings.",
+  "superchargeDisclaimerMaxRewards": "This will not affect your balance or previous earnings.",
+  "superchargeDisclaimerDayLimit": "This will not affect your balance or previous earnings. <0>Learn more</0>",
   "superchargeTokenDetailsDialog": {
     "title": "Tôi có thể sử dụng Supercharge cho những tài sản nào?",
     "body": "Bạn sẽ được nhận thưởng mỗi tuần tính trên stablecoin Celo có giá trị cao nhất (cEUR, cUSD, cREAL).",
@@ -286,11 +286,11 @@
   },
   "superchargingTitle": "Cần cập nhật ứng dụng",
   "superchargingDescription": "Cập nhật ứng dụng Valora để tiếp tục nhận tiền thưởng Supercharge hàng tuần.",
-  "superchargingTitleV1_54": "{{token}} của bạn đang được áp dụng Supercharge",
-  "superchargingDescriptionV1_54": "Bạn đang nhận được {{apy}}% mỗi năm. Hằng tuần, bạn sẽ nhận được thông báo khi tiền thưởng đã về, hãy quay lại đây để xác nhận.",
+  "superchargingTitleV1_54": "Supercharge is ending",
+  "superchargingDescriptionV1_54": "Weekly rewards will be available to claim until Tuesday, May 28, at 23:59 UTC. Beginning May 29, you will nor longer be able to claim Supercharge rewards.",
   "superchargeRewardsAvailable": "Bạn có {{amount}} {{token}} cần xác nhận!",
   "superchargeRewardsAvailableMultipleTokens": "Bạn có {{amounts}} cần xác nhận!",
-  "superchargeClaimText": "Xác nhận tiền thưởng của bạn để thêm vào số dư.",
+  "superchargeClaimText": "Claim your rewards until Tuesday, May 28, at 23:59 UTC. Beginning May 29, you will no longer be able to claim Supercharge rewards.",
   "superchargeClaimButton": "Xác nhận tiền thưởng",
   "superchargeFetchRewardsFailed": "Đã xảy ra lỗi khi tìm nạp tiền thưởng Supercharge đang chờ xử lý. Vui lòng thử lại sau.",
   "superchargeClaimSuccess": "Tiền thưởng Supercharge đã được thêm vào Tổng số dư của bạn.",
@@ -677,8 +677,8 @@
     "body": "Sau khi họ thiết lập ví {{appName}} và kết nối số điện thoại, mỗi bạn sẽ nhận được một NFT độc quyền."
   },
   "inviteRewardsBannerCUSD": {
-    "title": "Mời bạn bè và nhận tiền thưởng",
-    "body": "Sau khi họ thiết lập và nạp tiền vào ví {{appName}}, cả hai bạn sẽ nhận được 0,50 cUSD."
+    "title": "Invite friends and get up to 12 cUSD",
+    "body": "Once they connect their number and add funds to {{appName}}, you’ll both receive 0.50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Mời bạn bè",
@@ -692,8 +692,8 @@
       "body": "Mời bạn bè và gia đình tải xuống {{appName}} và mỗi người trong số các bạn sẽ nhận được một NFT độc quyền"
     },
     "rewardsActiveCUSD": {
-      "title": "THỜI GIAN CÓ HẠN. Nhận cUSD miễn phí khi mời bạn bè tham gia Valora!",
-      "body": "Chương trình Tiền thưởng giới thiệu đã quay trở lại và còn dễ dàng nhận được hơn trước. Nhận 0,50 cUSD mỗi khi bạn mời được một người bạn tham gia {{appName}}. Sau khi họ nạp tiền và giữ tiền trong 7 ngày, cả hai bạn sẽ nhận được 0,50 cUSD. Hãy nhanh tay lên, số tiền có hạn! (Giới hạn 25 bạn bè)."
+      "title": "GET UP TO 12 cUSD for inviting your friends to Valora!",
+      "body": "Get 0.50 cUSD for every friend you invite to {{appName}}. Once they connect their number, add funds, and hold them for 7 days, you’ll both get 0.50 cUSD. Hurry, funds are limited! (Limit 25 friends)."
     }
   },
   "getReward": "Nhận ${{reward}}",
@@ -1032,7 +1032,7 @@
   "inviteWithoutPayment": "Xin chào! Tôi đang sử dụng {{appName}} để gửi tiền điện tử trên toàn thế giới. Ứng dụng này rất dễ dùng nên tôi muốn mời bạn dùng thử bằng đường liên kết sau: {{link}}",
   "inviteWithEscrowedPayment": "Xin chào! Tôi đang sử dụng {{appName}} để gửi tiền điện tử trên toàn thế giới. Tôi vừa gửi cho bạn {{amount}} {{token}}. Vui lòng tải xuống Ứng dụng {{appName}} và chấp nhận {{token}} của bạn bằng đường liên kết sau: {{link}}",
   "inviteWithRewards": "Xin chào! 👋 Tôi đang sử dụng ví tiền điện tử {{appName}}. Bạn có thể tải nhanh ứng dụng này xuống và kết nối số điện thoại của mình, tất cả chúng ta sẽ cùng nhận được tiền thưởng dạng NFT phiên bản đặc biệt. 💫 \n\nSử dụng đường liên kết này để tải xuống: {{link}}",
-  "inviteWithRewardsCUSD": "Chào bạn! Ngay lúc này, cả hai chúng ta đều có thể nhận được tiền thưởng $0,50 miễn phí nếu bạn đăng ký và nạp tiền vào ví Valora. Tôi sử dụng ví này để gia tăng giá trị tiết kiệm bằng USD và tiền điện tử và bạn có thể dễ dàng tạo ví trong vòng vài giây bằng số điện thoại. Hãy nhớ đăng ký bằng đường liên kết giới thiệu này của tôi ở đây nhé: \n\n{{link}} \n\nHãy nhanh tay lên nhé, chương trình ưu đãi dành cho người giới thiệu sẽ sớm kết thúc.",
+  "inviteWithRewardsCUSD": "Hey! Right now we can both get a free $0.50 reward if you sign up, connect your number, and fund your Valora wallet. I use it to grow my savings in USD and crypto, and you can set it up in seconds with just a phone number. Make sure to sign up with my referral link here: \n\n{{link}} \n\n Hurry, the referral promotion ends soon.",
   "loadingContacts": "Đang tìm danh bạ của bạn",
   "myCode": "Mã của tôi",
   "scanCode": "Quét",
@@ -1813,6 +1813,15 @@
       "networkFeeNoNetwork": "Phí mạng lưới",
       "swapFee": "Phí {{appName}}",
       "swapFeeWaived": "Miễn phí",
+      "appFee": "Phí {{appName}}",
+      "appFeeValue": "<0></0> <1>(<0></0>)</1>",
+      "appFeeValue_withoutPriceUsd": "<0></0>",
+      "appFeeValue_free": "Miễn phí",
+      "appFeeValue_placeholder": "-",
+      "appFeeInfo": "{{appName}} Fee\n\nWe charge a fee to swap tokens on {{appName}}. The fee is {{appFeePercentage}}% of the amount you are exchanging.",
+      "appFeeInfo_free": "{{appName}} Fee\n\nThis swap is free of charge.",
+      "appFeeInfo_placeholder": "{{appName}} Fee\n\nThe fee is calculated based on the quote you receive.",
+      "appFeeInfoDismissButton": "Đã hiểu",
       "slippagePercentage": "Tỷ lệ trượt giá chấp nhận",
       "networkFeeInfo": "Bạn đang trao đổi trên Mạng {{networkName}}.\n\nĐể thực hiện giao dịch trên Mạng {{networkName}}, bạn bắt buộc phải trả khoản phí mạng lưới ước tính này. Khoản phí này sẽ đảm bảo cho giao dịch của bạn và được sử dụng để duy trì hoạt động của mạng.",
       "networkFeeInfoV1_76": "Bạn đang trao đổi trên Mạng {{networkName}}.\n\nĐể thực hiện giao dịch trên Mạng {{networkName}}, bạn bắt buộc phải trả khoản phí mạng này. Khoản phí này sẽ đảm bảo cho giao dịch của bạn và được sử dụng để thanh toán cho các trình xác thực mạng.\n\nDo phí giao dịch chính xác phụ thuộc vào tình trạng mạng, nên mức phí ước tính được nêu tại đây là số tiền chúng tôi dự đoán. Khoản phí này sẽ không vượt quá mức phí tối đa.",
@@ -2284,6 +2293,11 @@
         "refresh": "Làm mới"
       }
     },
+    "fetchBalanceError": {
+      "title": "Unable to load your points",
+      "description": "Oops, something went wrong when trying to load your points. The information on this page may be out of date. Please refresh.",
+      "retryCta": "Làm mới"
+    },
     "loading": {
       "title": "Gathering your points",
       "description": "We're in the process of tallying up your points, hang tight"
@@ -2320,12 +2334,108 @@
       "moreComing": {
         "title": "More coming soon!"
       }
+    },
+    "discoverCard": {
+      "title": "{{appName}} Points",
+      "description": "Earn points easily with {{appName}}. Using the app, including swapping, leads to points!"
+    },
+    "intro": {
+      "title": "Earn points effortlessly",
+      "description": "Jump into a new way to earn! Your {{appName}} actions now earn points. Start earning today and unlock awesome benefits.",
+      "cta": "Start your points journey"
     }
   },
-  "earnStablecoin": {
-    "title": "Earn on your stablecoins",
-    "subtitle": "Deposit today and earn returns",
-    "description": "If you deposit <0></0>, you can get up to <1></1> at the end of the year!"
+  "earnFlow": {
+    "addCryptoBottomSheet": {
+      "title": "Add {{tokenSymbol}} on {{tokenNetwork}}",
+      "description": "Once you add tokens you'll have to come back to finish depositing into a pool.",
+      "actions": {
+        "add": "Mua",
+        "transfer": "Transfer",
+        "swap": "Trao đổi"
+      },
+      "actionDescriptions": {
+        "add": "Buy {{tokenSymbol}} on {{tokenNetwork}} using one of our trusted providers",
+        "transfer": "Use any {{tokenNetwork}} compatible wallet or exchange to deposit {{tokenSymbol}}",
+        "swap": "Swap into {{tokenSymbol}} from another {{tokenNetwork}} token"
+      }
+    },
+    "cta": {
+      "title": "Earn on your stablecoins",
+      "subtitle": "Deposit today and earn returns",
+      "description": "See how much you can earn when supplying a lending pool"
+    },
+    "enterAmount": {
+      "earnUpToLabel": "You could earn up to:",
+      "rateLabel": "Rate (est.)",
+      "earnUpTo": "~{{fiatSymbol}}{{amount}} / yr",
+      "rate": "{{rate}}% APY",
+      "continue": "Tiếp tục",
+      "info": "This pool is powered by Aave",
+      "infoBottomSheet": {
+        "title": "Why this pool?",
+        "description": "This Aave pool has over $150M TVL and more than 6,000 contributors, indicating strong liquidity and trustworthiness. It also uses USDC as its token and Abritrum as its network, which reduces volatility and ensures users will receive inexpensive gas rates.\n\nAll together this makes it a safe and attractive option with competitive APY, ensuring a beneficial investment opportunity for our users.\n\nYou can explore other Aave pools <0>here</0>.",
+        "dismiss": "Loại bỏ"
+      },
+      "notEnoughBalanceForGasWarning": {
+        "title": "You need more {{feeTokenSymbol}} to continue",
+        "description": "Add {{feeTokenSymbol}} on {{network}} to cover your gas fees",
+        "noGasCta": "Buy {{feeTokenSymbol}} on {{network}}"
+      }
+    },
+    "activePools": {
+      "title": "Active Pools",
+      "totalValue": "Total Value:",
+      "apy": "~{{apy}}% APY",
+      "exitPool": "Exit Pool",
+      "depositMore": "Deposit More",
+      "viewPools": "View Pools"
+    },
+    "depositBottomSheet": {
+      "title": "Review & Deposit",
+      "description": "Before depositing to an Aave pool, please review the transaction details below",
+      "amount": "Số tiền đã nạp",
+      "fee": "Est. Gas Fees",
+      "provider": "Earnings provider",
+      "network": "Mạng lưới",
+      "footer": "By depositing crypto into an Aave pool, you accept the risks associated with using Aave. <0>Terms & Conditions</0>",
+      "primaryCta": "Complete",
+      "secondaryCta": "Hủy"
+    },
+    "collect": {
+      "title": "Congratulations! Review & collect your earnings",
+      "total": "TOTAL",
+      "plus": "PLUS",
+      "rate": "Rate (est.)",
+      "apy": "{{apy}}% APY",
+      "fee": "Gas Fee",
+      "cta": "Collect Earnings",
+      "errorTitle": "Đã xảy ra lỗi",
+      "errorDescription": "Unable to fetch deposit details. Please try again.",
+      "noGasTitle": "You need more {{symbol}} to continue",
+      "noGasDescription": "Add {{symbol}} on {{network}} to cover your gas fees",
+      "noGasCta": "Buy {{symbol}} on {{network}}"
+    },
+    "transactionFeed": {
+      "earnClaimTitle": "Collected",
+      "earnClaimSubtitle": "from {{providerName}} Pool",
+      "earnDepositTitle": "Deposited",
+      "earnDepositSubtitle": "to {{providerName}} Pool",
+      "earnWithdrawTitle": "Withdrew",
+      "earnWithdrawSubtitle": "from {{providerName}} Pool"
+    },
+    "transactionDetails": {
+      "descriptionLabel": "Chi tiết",
+      "earnClaimTitle": "Collected",
+      "earnClaimSubtitle": "Collected {{tokenSymbol}} from {{providerName}} Pool",
+      "earnClaimDetails": "Amount Collected",
+      "earnDepositTitle": "Deposited",
+      "earnDepositSubtitle": "Deposited {{tokenSymbol}} to {{providerName}} Pool",
+      "earnDepositDetails": "Số tiền đã nạp",
+      "earnWithdrawTitle": "Withdrew",
+      "earnWithdrawSubtitle": "Withdrew {{tokenSymbol}} from {{providerName}} Pool",
+      "earnWithdrawDetails": "Số tiền đã rút"
+    }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }

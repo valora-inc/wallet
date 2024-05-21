@@ -5,7 +5,7 @@ import { getNumberFormatSettings } from 'react-native-localize'
 import { Provider } from 'react-redux'
 import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import EnterAmount from 'src/send/EnterAmount'
+import EnterAmount, { SendProceed } from 'src/send/EnterAmount'
 import { StoredTokenBalance, TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
@@ -15,6 +15,7 @@ import {
   mockCeloTokenId,
   mockCeurTokenId,
   mockCrealTokenId,
+  mockCusdTokenBalance,
   mockCusdTokenId,
   mockEthTokenBalance,
   mockEthTokenId,
@@ -124,6 +125,7 @@ const defaultParams = {
   onRefreshPreparedTransactions: onRefreshPreparedTransactionsSpy,
   prepareTransactionError: undefined,
   onPressProceed: onPressProceedSpy,
+  ProceedComponent: SendProceed,
 }
 
 describe('EnterAmount', () => {
@@ -177,6 +179,18 @@ describe('EnterAmount', () => {
       getByText('sendEnterAmountScreen.networkFee, {"networkName":"Ethereum Sepolia"}')
     ).toBeTruthy()
     expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
+  })
+
+  it('hides the max button if the user has no balance for the given token', () => {
+    const store = createMockStore(mockStore)
+
+    const { queryByTestId } = render(
+      <Provider store={store}>
+        <EnterAmount {...defaultParams} defaultToken={mockCusdTokenBalance} />
+      </Provider>
+    )
+
+    expect(queryByTestId('SendEnterAmount/Max')).toBeFalsy()
   })
 
   describe.each([
@@ -525,6 +539,47 @@ describe('EnterAmount', () => {
     expect(queryByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeFalsy()
     expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
     expect(queryByTestId('SendEnterAmount/FeePlaceholder')).toBeTruthy()
+  })
+
+  it.each(['7', '5', '3'])(
+    'disableBalanceChecks allows any %i amount above 0 to proceed',
+    (amount) => {
+      const store = createMockStore(mockStore)
+
+      const { getByTestId, queryByTestId } = render(
+        <Provider store={store}>
+          <EnterAmount
+            {...defaultParams}
+            disableBalanceCheck={true}
+            prepareTransactionsResult={mockPrepareTransactionsResultPossible}
+          />
+        </Provider>
+      )
+
+      // token balance 5
+      fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), amount)
+      expect(queryByTestId('SendEnterAmount/LowerAmountError')).toBeFalsy()
+      expect(getByTestId('SendEnterAmount/ReviewButton')).toBeEnabled()
+    }
+  )
+
+  it('disableBalanceChecks does not allow 0 to proceed', () => {
+    const store = createMockStore(mockStore)
+
+    const { getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <EnterAmount
+          {...defaultParams}
+          disableBalanceCheck={true}
+          prepareTransactionsResult={mockPrepareTransactionsResultPossible}
+        />
+      </Provider>
+    )
+
+    // token balance 5
+    fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '0')
+    expect(queryByTestId('SendEnterAmount/LowerAmountError')).toBeFalsy()
+    expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
   })
 
   it('entering local amount above balance displays error message', () => {

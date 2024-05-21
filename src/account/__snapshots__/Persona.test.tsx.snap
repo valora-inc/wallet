@@ -61,12 +61,12 @@ exports[`Persona renders correctly 1`] = `
         [
           {
             "alignItems": "center",
-            "backgroundColor": "#1AB77580",
+            "backgroundColor": "#2E3338",
             "flexDirection": "row",
             "height": 48,
             "justifyContent": "center",
             "minWidth": 120,
-            "opacity": undefined,
+            "opacity": 0.25,
             "paddingHorizontal": 24,
             "paddingVertical": 5,
           },
@@ -82,7 +82,7 @@ exports[`Persona renders correctly 1`] = `
             "color": "#FFFFFF",
             "fontFamily": "Inter-SemiBold",
             "fontSize": 16,
-            "lineHeight": 22,
+            "lineHeight": 24,
             "marginLeft": 0,
             "marginRight": 0,
           }

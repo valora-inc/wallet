@@ -49,6 +49,7 @@ import {
   v200Schema,
   v201Schema,
   v203Schema,
+  v214Schema,
   v21Schema,
   v28Schema,
   v2Schema,
@@ -1356,7 +1357,7 @@ describe('Redux persist migrations', () => {
         address: '0x123',
         hash: 'someHash',
       },
-    ]
+    ] as any
     const migratedSchema = migrations[161](preMigrationSchema)
 
     expect(migratedSchema.transactions.standbyTransactions).toEqual([
@@ -1584,7 +1585,7 @@ describe('Redux persist migrations', () => {
     const oldSchema = {
       ...v203Schema,
       positions: {
-        ...v203Schema.positions,
+        ...(v203Schema.positions as any),
         positions: mockPositionsLegacy,
         shortcuts: mockShortcutsLegacy,
       },
@@ -1608,6 +1609,14 @@ describe('Redux persist migrations', () => {
     }
     const expectedSchema = _.cloneDeep(oldSchema)
     const migratedSchema = migrations[204](oldSchema)
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from 214 to 215', () => {
+    const oldSchema = v214Schema
+    const migratedSchema = migrations[215](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.points.introHasBeenDismissed = false
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

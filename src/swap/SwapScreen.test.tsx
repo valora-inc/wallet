@@ -318,28 +318,25 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.title')).toBeTruthy()
     expect(getByText('swapScreen.confirmSwap')).toBeDisabled()
 
-    expect(within(swapFromContainer).getByText('swapScreen.swapFrom')).toBeTruthy()
-    expect(within(swapFromContainer).getByTestId('SwapAmountInput/MaxButton')).toBeTruthy()
+    expect(within(swapFromContainer).getByText('swapScreen.selectTokenLabel')).toBeTruthy()
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect')).toBeTruthy()
-    expect(within(swapFromContainer).getByText('swapScreen.swapFromTokenSelection')).toBeTruthy()
 
-    expect(within(swapToContainer).getByText('swapScreen.swapTo')).toBeTruthy()
+    expect(within(swapToContainer).getByText('swapScreen.selectTokenLabel')).toBeTruthy()
     expect(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect')).toBeTruthy()
-    expect(within(swapToContainer).getByText('swapScreen.swapToTokenSelection')).toBeTruthy()
   })
 
   it('should display the token set via fromTokenId prop', () => {
     const { swapFromContainer, swapToContainer } = renderScreen({ fromTokenId: mockCeurTokenId })
 
     expect(within(swapFromContainer).getByText('cEUR')).toBeTruthy()
-    expect(within(swapToContainer).getByText('swapScreen.swapToTokenSelection')).toBeTruthy()
+    expect(within(swapToContainer).getByText('swapScreen.selectTokenLabel')).toBeTruthy()
   })
 
   it('should allow selecting tokens', async () => {
     const { swapFromContainer, swapToContainer, swapScreen } = renderScreen({})
 
-    expect(within(swapFromContainer).getByText('swapScreen.swapFromTokenSelection')).toBeTruthy()
-    expect(within(swapToContainer).getByText('swapScreen.swapToTokenSelection')).toBeTruthy()
+    expect(within(swapFromContainer).getByText('swapScreen.selectTokenLabel')).toBeTruthy()
+    expect(within(swapToContainer).getByText('swapScreen.selectTokenLabel')).toBeTruthy()
 
     selectSwapTokens('CELO', 'cUSD', swapScreen)
 
@@ -419,7 +416,7 @@ describe('SwapScreen', () => {
       )
     ).toBeFalsy()
     expect(tokenBottomSheet).toBeVisible()
-    expect(within(swapToContainer).getByText('swapScreen.swapToTokenSelection')).toBeTruthy()
+    expect(within(swapToContainer).getByText('swapScreen.selectTokenLabel')).toBeTruthy()
     expect(ValoraAnalytics.track).not.toHaveBeenCalledWith(
       SwapEvents.swap_screen_confirm_token,
       expect.anything()
@@ -442,7 +439,7 @@ describe('SwapScreen', () => {
 
     selectSwapTokens('CELO', 'CELO', swapScreen)
 
-    expect(within(swapFromContainer).getByText('swapScreen.swapFromTokenSelection')).toBeTruthy()
+    expect(within(swapFromContainer).getByText('swapScreen.selectTokenLabel')).toBeTruthy()
     expect(within(swapToContainer).getByText('CELO')).toBeTruthy()
   })
 
@@ -1180,11 +1177,40 @@ describe('SwapScreen', () => {
     expect(within(tokenBottomSheet).queryByText('Test Token')).toBeFalsy()
   })
 
-  it('should disable buy amount input when swap buy amount experiment is set is false', () => {
+  it('should not show input sections if tokens are not selected', () => {
     jest.mocked(getExperimentParams).mockReturnValue({
       swapBuyAmountEnabled: false,
     })
     const { swapFromContainer, swapToContainer } = renderScreen({})
+
+    expect(within(swapFromContainer).queryByTestId('SwapAmountInput/Input')).toBeFalsy()
+    expect(within(swapToContainer).queryByTestId('SwapAmountInput/Input')).toBeFalsy()
+  })
+
+  it('should be able to switch tokens by pressing arrow button', async () => {
+    jest.mocked(getExperimentParams).mockReturnValue({
+      swapBuyAmountEnabled: false,
+    })
+    const { swapFromContainer, swapToContainer, swapScreen, getByTestId } = renderScreen({})
+
+    selectSwapTokens('CELO', 'cUSD', swapScreen)
+
+    expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input')).toBeTruthy()
+    expect(within(swapToContainer).getByTestId('SwapAmountInput/Input')).toBeTruthy()
+
+    fireEvent.press(getByTestId('SwapScreen/SwitchTokens'))
+
+    expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input')).toBeTruthy()
+    expect(within(swapToContainer).getByTestId('SwapAmountInput/Input')).toBeTruthy()
+  })
+
+  it('should disable buy amount input when swap buy amount experiment is set is false', () => {
+    jest.mocked(getExperimentParams).mockReturnValue({
+      swapBuyAmountEnabled: false,
+    })
+    const { swapFromContainer, swapToContainer, swapScreen } = renderScreen({})
+
+    selectSwapTokens('CELO', 'cUSD', swapScreen)
 
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.editable).toBe(true)
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.editable).toBe(false)
@@ -1204,8 +1230,10 @@ describe('SwapScreen', () => {
     expect(getByTestId('SwapTransactionDetails/EstimatedNetworkFee')).toHaveTextContent('-')
     expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.maxNetworkFee')
     expect(getByTestId('SwapTransactionDetails/MaxNetworkFee')).toHaveTextContent('-')
-    expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.swapFee')
-    expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.swapFeeWaived')
+    expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.appFee')
+    expect(transactionDetails).toHaveTextContent(
+      'swapScreen.transactionDetails.appFeeValue, {"context":"placeholder","appFeePercentage":"0"}'
+    )
     expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.slippagePercentage')
     expect(getByTestId('SwapTransactionDetails/Slippage')).toHaveTextContent('0.3%')
 
@@ -1818,7 +1846,7 @@ describe('SwapScreen', () => {
 
   describe('app fee', () => {
     describe('when disabled', () => {
-      it('should show the free swap fee line item and exchange rate without fees when tapping the exchange rate info button', async () => {
+      it('should show the free app fee line item', async () => {
         mockFetch.mockResponse(defaultQuoteResponse)
         const { swapScreen, swapFromContainer, getByText, getByTestId } = renderScreen({})
 
@@ -1846,14 +1874,18 @@ describe('SwapScreen', () => {
         expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
           '1 CELO ≈ 1.23456 cUSD'
         )
-        expect(getByText('swapScreen.transactionDetails.swapFee')).toBeTruthy()
-        expect(getByText('swapScreen.transactionDetails.swapFeeWaived')).toBeTruthy()
+        expect(getByText('swapScreen.transactionDetails.appFee')).toBeTruthy()
+        expect(getByTestId('SwapTransactionDetails/AppFee')).toHaveTextContent(
+          'swapScreen.transactionDetails.appFeeValue, {"context":"free","appFeePercentage":"0"}'
+        )
 
-        fireEvent.press(getByText('swapScreen.transactionDetails.exchangeRate'))
+        fireEvent.press(getByText('swapScreen.transactionDetails.appFee'))
 
-        const exchangeRateInfo =
-          'swapScreen.transactionDetails.exchangeRateInfo, {"context":"","networkName":"Celo Alfajores","slippagePercentage":"0.3"}'
-        expect(getByText(exchangeRateInfo)).toBeTruthy()
+        expect(
+          getByText(
+            'swapScreen.transactionDetails.appFeeInfo, {"networkName":"Celo Alfajores","context":"free","appFeePercentage":"0"}'
+          )
+        ).toBeTruthy()
       })
     })
 
@@ -1868,11 +1900,9 @@ describe('SwapScreen', () => {
         })
       })
 
-      it('should hide the free swap fee line item and show the exchange rate without the app fee when tapping the exchange rate info button, when the quote does not include a positive app fee', async () => {
+      it('should show the free app fee line item, when the quote does not include a positive app fee', async () => {
         mockFetch.mockResponse(defaultQuoteResponse)
-        const { swapScreen, swapFromContainer, getByText, getByTestId, queryByText } = renderScreen(
-          {}
-        )
+        const { swapScreen, swapFromContainer, getByText, getByTestId } = renderScreen({})
 
         selectSwapTokens('CELO', 'cUSD', swapScreen)
         fireEvent.changeText(
@@ -1898,17 +1928,21 @@ describe('SwapScreen', () => {
         expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
           '1 CELO ≈ 1.23456 cUSD'
         )
-        expect(queryByText('swapScreen.transactionDetails.swapFee')).toBeFalsy()
-        expect(queryByText('swapScreen.transactionDetails.swapFeeWaived')).toBeFalsy()
+        expect(getByText('swapScreen.transactionDetails.appFee')).toBeTruthy()
+        expect(getByTestId('SwapTransactionDetails/AppFee')).toHaveTextContent(
+          'swapScreen.transactionDetails.appFeeValue, {"context":"free","appFeePercentage":"0"}'
+        )
 
-        fireEvent.press(getByText('swapScreen.transactionDetails.exchangeRate'))
+        fireEvent.press(getByText('swapScreen.transactionDetails.appFee'))
 
-        const exchangeRateInfo =
-          'swapScreen.transactionDetails.exchangeRateInfo, {"context":"","networkName":"Celo Alfajores","slippagePercentage":"0.3"}'
-        expect(getByText(exchangeRateInfo)).toBeTruthy()
+        expect(
+          getByText(
+            'swapScreen.transactionDetails.appFeeInfo, {"networkName":"Celo Alfajores","context":"free","appFeePercentage":"0"}'
+          )
+        ).toBeTruthy()
       })
 
-      it('should hide the free swap fee line item and show the exchange rate with the app fee when tapping the exchange rate info button, when the quote includes a positive app fee', async () => {
+      it('should show the app fee line item when the quote includes a positive app fee', async () => {
         mockFetch.mockResponse(
           JSON.stringify({
             ...defaultQuote,
@@ -1918,9 +1952,7 @@ describe('SwapScreen', () => {
             },
           })
         )
-        const { swapScreen, swapFromContainer, getByText, getByTestId, queryByText } = renderScreen(
-          {}
-        )
+        const { swapScreen, swapFromContainer, getByText, getByTestId } = renderScreen({})
 
         selectSwapTokens('CELO', 'cUSD', swapScreen)
         fireEvent.changeText(
@@ -1946,14 +1978,16 @@ describe('SwapScreen', () => {
         expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
           '1 CELO ≈ 1.23456 cUSD'
         )
-        expect(queryByText('swapScreen.transactionDetails.swapFee')).toBeFalsy()
-        expect(queryByText('swapScreen.transactionDetails.swapFeeWaived')).toBeFalsy()
+        expect(getByText('swapScreen.transactionDetails.appFee')).toBeTruthy()
+        expect(getByTestId('SwapTransactionDetails/AppFee')).toHaveTextContent(
+          'swapScreen.transactionDetails.appFeeValue, {"appFeePercentage":"2"}~₱0.430.025 CELO'
+        )
 
-        fireEvent.press(getByText('swapScreen.transactionDetails.exchangeRate'))
+        fireEvent.press(getByText('swapScreen.transactionDetails.appFee'))
 
         expect(
           getByText(
-            'swapScreen.transactionDetails.exchangeRateInfo, {"context":"withAppFee","networkName":"Celo Alfajores","slippagePercentage":"0.3","appFeePercentage":"2"}'
+            'swapScreen.transactionDetails.appFeeInfo, {"networkName":"Celo Alfajores","appFeePercentage":"2"}'
           )
         ).toBeTruthy()
       })

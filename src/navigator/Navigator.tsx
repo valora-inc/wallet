@@ -31,6 +31,8 @@ import DappKitAccountScreen from 'src/dappkit/DappKitAccountScreen'
 import DappKitSignTxScreen from 'src/dappkit/DappKitSignTxScreen'
 import DappShortcutTransactionRequest from 'src/dapps/DappShortcutTransactionRequest'
 import DappShortcutsRewards from 'src/dapps/DappShortcutsRewards'
+import EarnCollectScreen from 'src/earn/EarnCollectScreen'
+import EarnEnterAmount from 'src/earn/EarnEnterAmount'
 import EscrowedPaymentListScreen from 'src/escrow/EscrowedPaymentListScreen'
 import ReclaimPaymentConfirmationScreen from 'src/escrow/ReclaimPaymentConfirmationScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
@@ -98,6 +100,7 @@ import Welcome from 'src/onboarding/welcome/Welcome'
 import PincodeEnter from 'src/pincode/PincodeEnter'
 import PincodeSet from 'src/pincode/PincodeSet'
 import PointsHome from 'src/points/PointsHome'
+import PointsIntro from 'src/points/PointsIntro'
 import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
 import SendConfirmation, { sendConfirmationScreenNavOptions } from 'src/send/SendConfirmation'
@@ -533,6 +536,21 @@ const generalScreens = (Navigator: typeof Stack) => (
   </>
 )
 
+const earnScreens = (Navigator: typeof Stack) => (
+  <>
+    <Navigator.Screen
+      name={Screens.EarnCollectScreen}
+      component={EarnCollectScreen}
+      options={headerWithBackButton}
+    />
+    <Navigator.Screen
+      name={Screens.EarnEnterAmount}
+      component={EarnEnterAmount}
+      options={noHeader}
+    />
+  </>
+)
+
 const swapScreens = (Navigator: typeof Stack) => (
   <>
     <Navigator.Screen name={Screens.SwapScreenWithBack} component={SwapScreen} options={noHeader} />
@@ -567,6 +585,7 @@ const assetScreens = (Navigator: typeof Stack) => (
 const pointsScreens = (Navigator: typeof Stack) => (
   <>
     <Navigator.Screen name={Screens.PointsHome} component={PointsHome} options={noHeader} />
+    <Navigator.Screen name={Screens.PointsIntro} component={PointsIntro} options={noHeader} />
   </>
 )
 const mapStateToProps = (state: RootState) => {
@@ -634,6 +653,7 @@ export function MainStackScreen() {
       {settingsScreens(Stack)}
       {generalScreens(Stack)}
       {swapScreens(Stack)}
+      {earnScreens(Stack)}
       {nftScreens(Stack)}
       {assetScreens(Stack)}
       {pointsScreens(Stack)}

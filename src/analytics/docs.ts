@@ -476,7 +476,9 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [RewardsEvents.claimed_reward]: ``,
 
   // Events related to Valora Points program
-  [PointsEvents.points_screen_open]: `when Points home screen is opened`,
+  [PointsEvents.points_discover_press]: `when points card is pressed in the discover tab`,
+  [PointsEvents.points_intro_dismiss]: `when points intro is dismissed`,
+  [PointsEvents.points_intro_back]: `when back button is pressed from points intro screen`,
   [PointsEvents.points_screen_back]: `when back button is pressed from Points home screen`,
   [PointsEvents.points_screen_card_press]: `when an activity card is pressed from Points home screen`,
   [PointsEvents.points_screen_card_cta_press]: `when a CTA is pressed on an activity card bottom sheet from the Points home screen`,
@@ -549,6 +551,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [SwapEvents.swap_show_info]: `When a user taps an info icon to show more information on the swap screen`,
   [SwapEvents.swap_show_fund_your_wallet]: `When "Fund your wallet" bottom sheet is displayed`,
   [SwapEvents.swap_add_funds]: `When user taps "Add funds" button is "Fund your wallet" bottom sheet`,
+  [SwapEvents.swap_switch_tokens]: `When a user taps the button to switch the to and from tokens`,
   [CeloNewsEvents.celo_news_screen_open]: `When the screen is mounted`,
   [CeloNewsEvents.celo_news_article_tap]: `When a user taps on a news article`,
   [CeloNewsEvents.celo_news_bottom_read_more_tap]: `When a user taps on the read more button at the bottom of the screen`,
@@ -592,6 +595,29 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
 
   // Events related to earn program
   [EarnEvents.earn_cta_press]: `When a user taps on the earn your stablecoins CTA on the discover tab`,
+  [EarnEvents.earn_add_crypto_action_press]: `When a user in the Earn flow enters an amount higher than their balance and chooses an option to add crypto`,
+  [EarnEvents.earn_deposit_provider_info_press]: `When a user taps on the info icon next to the provider name on the deposit bottom sheet`,
+  [EarnEvents.earn_deposit_terms_and_conditions_press]: `When a user taps on the terms and conditions link on the deposit bottom sheet`,
+  [EarnEvents.earn_deposit_complete]: `When a user taps on the complete button on the deposit bottom sheet`,
+  [EarnEvents.earn_deposit_cancel]: `When a user taps on the cancel button on the deposit bottom sheet`,
+  [EarnEvents.earn_deposit_submit_start]: `When the wallet is about to submit the deposit transaction to the network`,
+  [EarnEvents.earn_deposit_submit_success]: `When the deposit transaction succeeds`,
+  [EarnEvents.earn_deposit_submit_error]: `When the deposit transaction fails`,
+  [EarnEvents.earn_deposit_submit_cancel]: `When the user cancels the deposit after submitting by cancelling PIN input`,
+  [EarnEvents.earn_view_pools_press]: `When the user taps on the view pools button from token details`,
+  [EarnEvents.earn_enter_amount_info_press]: `When a user taps on the info icon on the earn enter amount screen`,
+  [EarnEvents.earn_enter_amount_continue_press]: `When a user taps continue on the earn enter amount`,
+  [EarnEvents.earn_enter_amount_info_more_pools]: `When a user taps to see other Aave pools`,
+  [EarnEvents.earn_exit_pool_press]: `When the user taps on the exit pool button from the earn card in discover tab`,
+  [EarnEvents.earn_deposit_more_press]: `When the user taps deposit more button from the earn card in discover tab`,
+  [EarnEvents.earn_deposit_add_gas_press]: `When the user doesn't have enough for gas when trying to deposit and clicks on the button to add gas token`,
+  [EarnEvents.earn_feed_item_select]: `When the users taps on an earn transaction feed item`,
+  [EarnEvents.earn_collect_earnings_press]: `When the user taps on the collect earnings button in the collect screen`,
+  [EarnEvents.earn_withdraw_submit_start]: `When the wallet is about to submit the withdraw and claim transactions to the network`,
+  [EarnEvents.earn_withdraw_submit_success]: `When the withdraw and claim transactions succeed`,
+  [EarnEvents.earn_withdraw_submit_error]: `When the withdraw and claim transactions fail`,
+  [EarnEvents.earn_withdraw_submit_cancel]: `When the user cancels the withdraw and claim transactions after submitting by cancelling PIN input`,
+  [EarnEvents.earn_withdraw_add_gas_press]: `When the user doesn't have enough for gas and clicks on the button to add gas token`,
 
   // Legacy event docs
   //  The below events had docs, but are no longer produced by the latest app version.

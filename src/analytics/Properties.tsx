@@ -60,6 +60,7 @@ import {
   RewardsScreenOrigin,
 } from 'src/consumerIncentives/analyticsEventsTracker'
 import { DappSection } from 'src/dapps/types'
+import { SerializableRewardsInfo } from 'src/earn/types'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { HomeActionName, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
@@ -72,7 +73,7 @@ import { PointsActivityId } from 'src/points/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { AmountEnteredIn, QrCode } from 'src/send/types'
 import { Field } from 'src/swap/types'
-import { TokenDetailsActionName } from 'src/tokens/types'
+import { TokenActionName } from 'src/tokens/types'
 import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 
 type Web3LibraryProps = { web3Library: 'contract-kit' | 'viem' }
@@ -1252,6 +1253,7 @@ export enum SwapShowInfoType {
   ESTIMATED_NETWORK_FEE,
   SLIPPAGE,
   EXCHANGE_RATE,
+  APP_FEE,
 }
 interface SwapEventsProperties {
   [SwapEvents.swap_screen_open]: undefined
@@ -1317,6 +1319,10 @@ interface SwapEventsProperties {
   }
   [SwapEvents.swap_show_fund_your_wallet]: undefined
   [SwapEvents.swap_add_funds]: undefined
+  [SwapEvents.swap_switch_tokens]: {
+    fromTokenId: string | undefined
+    toTokenId: string | undefined
+  }
 }
 
 interface CeloNewsEventsProperties {
@@ -1393,11 +1399,11 @@ interface AssetsEventsProperties {
       } & TokenProperties)
   [AssetsEvents.tap_claim_rewards]: undefined
   [AssetsEvents.tap_token_details_action]: {
-    action: TokenDetailsActionName
+    action: TokenActionName
   } & TokenProperties
   [AssetsEvents.tap_token_details_learn_more]: TokenProperties
   [AssetsEvents.tap_token_details_bottom_sheet_action]: {
-    action: TokenDetailsActionName
+    action: TokenActionName
   } & TokenProperties
   [AssetsEvents.import_token_screen_open]: undefined
   [AssetsEvents.import_token_submit]: {
@@ -1557,7 +1563,9 @@ interface JumpstartEventsProperties {
 }
 
 interface PointsEventsProperties {
-  [PointsEvents.points_screen_open]: undefined
+  [PointsEvents.points_discover_press]: undefined
+  [PointsEvents.points_intro_dismiss]: undefined
+  [PointsEvents.points_intro_back]: undefined
   [PointsEvents.points_screen_back]: undefined
   [PointsEvents.points_screen_card_press]: {
     activityId: PointsActivityId
@@ -1573,8 +1581,81 @@ interface PointsEventsProperties {
   [PointsEvents.points_screen_activity_learn_more_press]: undefined
 }
 
+interface EarnDepositProperties {
+  tokenId: string
+  networkId: NetworkId
+  tokenAmount: string
+  providerId: string
+}
+
+interface EarnWithdrawProperties {
+  tokenId: string
+  tokenAmount: string
+  networkId: NetworkId
+  providerId: string
+  rewards: SerializableRewardsInfo[]
+}
+
+// Adds `deposit` prefix to all properties of TxReceiptProperties
+type DepositTxReceiptProperties = PrefixedTxReceiptProperties<'deposit'>
+
+export type EarnDepositTxsReceiptProperties = Partial<ApproveTxReceiptProperties> &
+  Partial<DepositTxReceiptProperties> &
+  Partial<{
+    gasUsed: number // Gas used by the deposit (approve + deposit)
+    gasFee: number | undefined // Actual gas fee of the deposit (approve + deposit) in feeCurrency (decimal value)
+    gasFeeUsd: number | undefined // Actual gas fee of the deposit (approve + deposit) in USD
+  }>
+
 interface EarnEventsProperties {
   [EarnEvents.earn_cta_press]: undefined
+  [EarnEvents.earn_add_crypto_action_press]: {
+    action: TokenActionName
+  } & TokenProperties
+  [EarnEvents.earn_deposit_provider_info_press]: undefined
+  [EarnEvents.earn_deposit_terms_and_conditions_press]: undefined
+  [EarnEvents.earn_deposit_complete]: undefined
+  [EarnEvents.earn_deposit_cancel]: undefined
+  [EarnEvents.earn_deposit_submit_start]: EarnDepositProperties
+  [EarnEvents.earn_deposit_submit_success]: EarnDepositProperties & EarnDepositTxsReceiptProperties
+  [EarnEvents.earn_deposit_submit_error]: EarnDepositProperties &
+    EarnDepositTxsReceiptProperties & {
+      error: string
+    }
+  [EarnEvents.earn_deposit_submit_cancel]: EarnDepositProperties
+  [EarnEvents.earn_view_pools_press]: undefined
+  [EarnEvents.earn_enter_amount_info_press]: undefined
+  [EarnEvents.earn_enter_amount_continue_press]: {
+    userHasFunds: boolean
+    tokenAmount: string
+    amountInUsd: string
+    amountEnteredIn: AmountEnteredIn
+    tokenId: string
+    networkId: string
+  }
+  [EarnEvents.earn_enter_amount_info_more_pools]: undefined
+  [EarnEvents.earn_exit_pool_press]: {
+    poolTokenId: string
+    networkId: NetworkId
+    tokenAmount: string
+    providerId: string
+  }
+  [EarnEvents.earn_deposit_more_press]: {
+    depositTokenId: string
+    providerId: string
+  }
+  [EarnEvents.earn_deposit_add_gas_press]: { gasTokenId: string }
+  [EarnEvents.earn_feed_item_select]: {
+    origin: 'EarnDeposit' | 'EarnWithdraw' | 'EarnClaimReward'
+  }
+  [EarnEvents.earn_collect_earnings_press]: EarnWithdrawProperties
+  [EarnEvents.earn_withdraw_submit_start]: EarnWithdrawProperties
+  [EarnEvents.earn_withdraw_submit_success]: EarnWithdrawProperties
+  [EarnEvents.earn_withdraw_submit_error]: EarnWithdrawProperties & {
+    error: string
+  }
+  [EarnEvents.earn_withdraw_submit_cancel]: EarnWithdrawProperties
+  [EarnEvents.earn_withdraw_add_gas_press]: { gasTokenId: string }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

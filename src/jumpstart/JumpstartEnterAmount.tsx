@@ -16,7 +16,7 @@ import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localC
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
-import EnterAmount, { ProceedArgs } from 'src/send/EnterAmount'
+import EnterAmount, { ProceedArgs, SendProceed } from 'src/send/EnterAmount'
 import { AmountEnteredIn } from 'src/send/types'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
@@ -174,6 +174,7 @@ function JumpstartEnterAmount() {
       prepareTransactionError={prepareJumpstartTransactions.error}
       onPressProceed={handleProceed.execute}
       disableProceed={disableProceed}
+      ProceedComponent={SendProceed}
     >
       {sendAmountExceedsThreshold && (
         <InLineNotification

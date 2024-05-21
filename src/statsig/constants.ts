@@ -28,6 +28,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_JUMPSTART_SEND]: false,
   [StatsigFeatureGates.SHOW_POINTS]: false,
   [StatsigFeatureGates.SHOW_STABLECOIN_EARN]: false,
+  [StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES]: false,
 } satisfies { [key in StatsigFeatureGates]: boolean }
 
 export const ExperimentConfigs = {
@@ -133,6 +134,16 @@ export const DynamicConfigs = {
       deepLink: '',
       rewardExpirationDate: new Date(0).toISOString(),
       rewardReminderDate: new Date(0).toISOString(),
+    },
+  },
+  [StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG]: {
+    configName: StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG,
+    defaultValues: {
+      providerName: 'Aave',
+      providerLogoUrl: '',
+      providerTermsAndConditionsUrl: '',
+      depositGasPadding: 0,
+      moreAavePoolsUrl: '',
     },
   },
 } satisfies {

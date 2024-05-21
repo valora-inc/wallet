@@ -1777,4 +1777,26 @@ export const migrations = {
   211: (state: any) => ({
     ...(_.omit(state, 'exchange') as any),
   }),
+  212: (state: any) => state,
+  213: (state: any) => ({
+    ...state,
+    earn: {
+      depositStatus: 'idle',
+    },
+  }),
+  214: (state: any) => state,
+  215: (state: any) => ({
+    ...state,
+    points: {
+      ...state.points,
+      introHasBeenDismissed: false,
+    },
+  }),
+  216: (state: any) => ({
+    ...state,
+    earn: {
+      depositStatus: 'idle',
+      withdrawStatus: 'idle',
+    },
+  }),
 }

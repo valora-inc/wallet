@@ -9,9 +9,17 @@ import { coinbasePaySendersSelector, rewardsSendersSelector } from 'src/recipien
 import { useSelector } from 'src/redux/hooks'
 import { useTokenInfo } from 'src/tokens/hooks'
 import TransactionDetails from 'src/transactions/feed/TransactionDetails'
+import {
+  EarnClaimContent,
+  EarnDepositContent,
+  EarnWithdrawContent,
+} from 'src/transactions/feed/detailContent/EarnContent'
 import TokenApprovalDetails from 'src/transactions/feed/detailContent/TokenApprovalDetails'
 import TransferSentContent from 'src/transactions/feed/detailContent/TransferSentContent'
 import {
+  EarnClaimReward,
+  EarnDeposit,
+  EarnWithdraw,
   TokenApproval,
   TokenExchange,
   TokenTransaction,
@@ -67,6 +75,12 @@ function useHeaderTitle(transaction: TokenTransaction) {
       return t('swapScreen.title')
     case TokenTransactionTypeV2.Approval:
       return t('transactionFeed.approvalTransactionTitle')
+    case TokenTransactionTypeV2.EarnWithdraw:
+      return t('earnFlow.transactionFeed.earnWithdrawTitle')
+    case TokenTransactionTypeV2.EarnClaimReward:
+      return t('earnFlow.transactionFeed.earnClaimTitle')
+    case TokenTransactionTypeV2.EarnDeposit:
+      return t('earnFlow.transactionFeed.earnDepositTitle')
   }
 }
 
@@ -100,11 +114,19 @@ function TransactionDetailsScreen({ route }: Props) {
       } else {
         content = <TransferReceivedContent transfer={receivedTransfer} />
       }
-
       break
     case TokenTransactionTypeV2.SwapTransaction:
       content = <SwapContent exchange={transaction as TokenExchange} />
       retryHandler = () => navigate(Screens.SwapScreenWithBack)
+      break
+    case TokenTransactionTypeV2.EarnClaimReward:
+      content = <EarnClaimContent transaction={transaction as EarnClaimReward} />
+      break
+    case TokenTransactionTypeV2.EarnWithdraw:
+      content = <EarnWithdrawContent transaction={transaction as EarnWithdraw} />
+      break
+    case TokenTransactionTypeV2.EarnDeposit:
+      content = <EarnDepositContent transaction={transaction as EarnDeposit} />
       break
     case TokenTransactionTypeV2.Approval:
       content = <TokenApprovalDetails transaction={transaction as TokenApproval} />

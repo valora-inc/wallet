@@ -384,6 +384,9 @@ export const TRANSACTIONS_QUERY = gql`
         ...TokenTransferItemV3
         ...NftTransferItemV3
         ...TokenExchangeItemV3
+        ...EarnDepositItem
+        ...EarnWithdrawItem
+        ...EarnClaimRewardItem
         ...TokenApprovalItem
       }
     }
@@ -481,6 +484,125 @@ export const TRANSACTIONS_QUERY = gql`
       }
     }
     outAmount {
+      value
+      tokenAddress
+      tokenId
+      localAmount {
+        value
+        currencyCode
+        exchangeRate
+      }
+    }
+    fees {
+      type
+      amount {
+        value
+        tokenAddress
+        tokenId
+        localAmount {
+          value
+          currencyCode
+          exchangeRate
+        }
+      }
+    }
+  }
+
+  fragment EarnDepositItem on EarnDeposit {
+    __typename
+    type
+    transactionHash
+    status
+    providerId
+    timestamp
+    block
+    inAmount {
+      value
+      tokenAddress
+      tokenId
+      localAmount {
+        value
+        currencyCode
+        exchangeRate
+      }
+    }
+    outAmount {
+      value
+      tokenAddress
+      tokenId
+      localAmount {
+        value
+        currencyCode
+        exchangeRate
+      }
+    }
+    fees {
+      type
+      amount {
+        value
+        tokenAddress
+        tokenId
+        localAmount {
+          value
+          currencyCode
+          exchangeRate
+        }
+      }
+    }
+  }
+
+  fragment EarnWithdrawItem on EarnWithdraw {
+    __typename
+    type
+    transactionHash
+    status
+    providerId
+    timestamp
+    block
+    inAmount {
+      value
+      tokenAddress
+      tokenId
+      localAmount {
+        value
+        currencyCode
+        exchangeRate
+      }
+    }
+    outAmount {
+      value
+      tokenAddress
+      tokenId
+      localAmount {
+        value
+        currencyCode
+        exchangeRate
+      }
+    }
+    fees {
+      type
+      amount {
+        value
+        tokenAddress
+        tokenId
+        localAmount {
+          value
+          currencyCode
+          exchangeRate
+        }
+      }
+    }
+  }
+
+  fragment EarnClaimRewardItem on EarnClaimReward {
+    __typename
+    type
+    transactionHash
+    status
+    providerId
+    timestamp
+    block
+    amount {
       value
       tokenAddress
       tokenId
