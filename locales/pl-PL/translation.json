@@ -1771,6 +1771,9 @@
     "swapToTokenSelection": "ZAMIANA NA",
     "tokenUsdValueUnknown": "-",
     "unsupportedSwapTokens": "Wybrane tokeny nie są obsługiwane przez naszych dostawców swapów.",
+    "selectTokenLabel": "Wybierz token",
+    "tokenBottomSheetTitle": "Wybierz token",
+    "onNetwork": "na {{networkName}}",
     "switchedToNetworkWarning": {
       "title": "Przełączono do sieci {{networkName}}",
       "body_swapFrom": "Aby kontynuować, wybierz token do wymiany w sieci {{networkName}}.",
@@ -1824,7 +1827,7 @@
       "appFeeValue_withoutPriceUsd": "<0></0>",
       "appFeeValue_free": "Bezpłatnie",
       "appFeeValue_placeholder": "-",
-      "appFeeInfo": "{{appName}} Opłata\n\nPobieramy opłatę za wymianę tokenów na {{appName}}. Opłata wynosi {{appFeePercentage}}% kwoty, którą wymieniasz.",
+      "appFeeInfo": "{{appName}} Opłata\n\nOpłata {{appName}} w wysokości {{appFeePercentage}}% ma na celu zwiększenie Twojego doświadczenia poprzez zapewnienie szybkich, niezawodnych i bezpiecznych swapów.",
       "appFeeInfo_free": "{{appName}} Opłata\n\nTa wymiana jest bezpłatna.",
       "appFeeInfo_placeholder": "{{appName}} Opłata\n\nOpłata jest obliczana na podstawie otrzymanej wyceny.",
       "appFeeInfoDismissButton": "Rozumiem",
