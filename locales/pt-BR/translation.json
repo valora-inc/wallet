@@ -1767,6 +1767,9 @@
     "swapToTokenSelection": "TROCA PARA",
     "tokenUsdValueUnknown": "-",
     "unsupportedSwapTokens": "Os tokens selecionados não são suportados por nossos fornecedores de troca.",
+    "selectTokenLabel": "Selecione o token",
+    "tokenBottomSheetTitle": "Selecionar token",
+    "onNetwork": "Em {{networkName}}",
     "switchedToNetworkWarning": {
       "title": "Você mudou para a rede {{networkName}}",
       "body_swapFrom": "Selecione um token de origem para trocar na rede {{networkName}} para continuar.",
@@ -1820,7 +1823,7 @@
       "appFeeValue_withoutPriceUsd": "<0></0>",
       "appFeeValue_free": "Grátis",
       "appFeeValue_placeholder": "-",
-      "appFeeInfo": "{{appName}} Taxa\n\nCobramos uma taxa para você trocar tokens em {{appName}}. A taxa é {{appFeePercentage}}% do valor que você está trocando.",
+      "appFeeInfo": "{{appName}} Taxa\n\nA taxa {{appName}} de {{appFeePercentage}}% foi criada para aprimorar sua experiência, garantindo swaps rápidos, confiáveis e seguros.",
       "appFeeInfo_free": "{{appName}} Tarifa\n\nEssa troca é gratuita.",
       "appFeeInfo_placeholder": "{{appName}} Taxa\n\nA taxa é calculada com base na cotação que você receber.",
       "appFeeInfoDismissButton": "Entendi",
