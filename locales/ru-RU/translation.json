@@ -1771,6 +1771,9 @@
     "swapToTokenSelection": "На что обменять",
     "tokenUsdValueUnknown": "-",
     "unsupportedSwapTokens": "Выбранные токены не поддерживаются.",
+    "selectTokenLabel": "Выберите токен",
+    "tokenBottomSheetTitle": "Выбрать токен",
+    "onNetwork": "на {{networkName}}",
     "switchedToNetworkWarning": {
       "title": "Вы переключились на сеть {{networkName}}",
       "body_swapFrom": "Выберите токен, с которого нужно выполнить обмен, в сеть {{networkName}}.",
@@ -1824,7 +1827,7 @@
       "appFeeValue_withoutPriceUsd": "<0></0>",
       "appFeeValue_free": "Бесплатно",
       "appFeeValue_placeholder": "-",
-      "appFeeInfo": "{{appName}} Комиссия\n\nМы взимаем комиссию за обмен токенов на сайте {{appName}}. Комиссия составляет {{appFeePercentage}}% от суммы, которую ты обмениваешь.",
+      "appFeeInfo": "{{appName}} Комиссия\n\nКомиссия {{appName}} в размере {{appFeePercentage}}% призвана улучшить твой опыт, обеспечивая быстрые, надежные и безопасные свопы.",
       "appFeeInfo_free": "{{appName}} Плата\n\nЭтот своп бесплатный.",
       "appFeeInfo_placeholder": "{{appName}} Гонорар\n\nГонорар рассчитывается на основе полученной тобой цитаты.",
       "appFeeInfoDismissButton": "Понятно",
