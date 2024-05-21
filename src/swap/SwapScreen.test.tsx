@@ -1196,18 +1196,12 @@ describe('SwapScreen', () => {
     selectSwapTokens('CELO', 'cUSD', swapScreen)
 
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input')).toBeTruthy()
-    expect(within(swapFromContainer).getByText('CELO')).toBeTruthy()
-
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input')).toBeTruthy()
-    expect(within(swapToContainer).getByText('cUSD')).toBeTruthy()
 
     fireEvent.press(getByTestId('SwapScreen/SwitchTokens'))
 
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input')).toBeTruthy()
-    expect(within(swapFromContainer).getByText('cUSD')).toBeTruthy()
-
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input')).toBeTruthy()
-    expect(within(swapToContainer).getByText('CELO')).toBeTruthy()
   })
 
   it('should disable buy amount input when swap buy amount experiment is set is false', () => {

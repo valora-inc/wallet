@@ -188,6 +188,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   tokenInfo: {
+    alignItems: 'center',
     flexDirection: 'row',
   },
   contentContainer: {
