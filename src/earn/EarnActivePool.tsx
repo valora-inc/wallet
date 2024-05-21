@@ -107,18 +107,10 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
             />
             <Button
               onPress={() => {
-                if (!poolToken) {
-                  Logger.warn(TAG, 'No pool token found')
-                  return
-                }
-
                 ValoraAnalytics.track(EarnEvents.earn_deposit_more_press, {
-                  poolTokenId,
-                  networkId: poolToken.networkId,
-                  tokenAmount: poolToken.balance.toString(),
+                  depositTokenId,
                   providerId: 'aave-v3',
                 })
-
                 navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })
               }}
               text={t('earnFlow.activePools.depositMore')}

@@ -114,9 +114,7 @@ describe('EarnActivePool', () => {
 
     fireEvent.press(getByText('earnFlow.activePools.depositMore'))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_more_press, {
-      poolTokenId: networkConfig.aaveArbUsdcTokenId,
-      networkId: NetworkId['arbitrum-sepolia'],
-      tokenAmount: '10.75',
+      depositTokenId: networkConfig.arbUsdcTokenId,
       providerId: 'aave-v3',
     })
     expect(navigate).toBeCalledWith(Screens.EarnEnterAmount, {

@@ -1625,9 +1625,7 @@ interface EarnEventsProperties {
     providerId: string
   }
   [EarnEvents.earn_deposit_more_press]: {
-    poolTokenId: string
-    networkId: NetworkId
-    tokenAmount: string
+    depositTokenId: string
     providerId: string
   }
   [EarnEvents.earn_deposit_add_gas_press]: { gasTokenId: string }
