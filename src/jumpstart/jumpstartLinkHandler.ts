@@ -29,14 +29,18 @@ export async function jumpstartLinkHandler(
 
   const jumpstart: Contract = await getContract(walletJumpstart.abi, contractAddress)
 
-  const transactionHashes = (
-    await Promise.all([
-      executeClaims(kit, jumpstart, publicKey, userAddress, 'erc20', privateKey, networkId),
-      executeClaims(kit, jumpstart, publicKey, userAddress, 'erc721', privateKey, networkId),
-    ])
-  ).flat()
+  const results = await Promise.all([
+    executeClaims(kit, jumpstart, publicKey, userAddress, 'erc20', privateKey, networkId),
+    executeClaims(kit, jumpstart, publicKey, userAddress, 'erc721', privateKey, networkId),
+  ])
+
+  const transactionHashes = results.flatMap((result) => result.transactionHashes)
+  const hasClaimedAssets = results.some((result) => result.hasClaimedAssets)
 
   if (transactionHashes.length === 0) {
+    if (hasClaimedAssets) {
+      throw new Error(`Already claimed all jumpstart rewards for ${networkId}`)
+    }
     throw new Error(`Failed to claim any jumpstart reward for ${networkId}`)
   }
 
@@ -51,16 +55,19 @@ export async function executeClaims(
   assetType: 'erc20' | 'erc721',
   privateKey: string,
   networkId: NetworkId
-): Promise<Hash[]> {
+): Promise<{ transactionHashes: Hash[]; hasClaimedAssets: boolean }> {
   let index = 0
   const transactionHashes: Hash[] = []
+  let hasClaimedAssets = false
   while (true) {
     try {
       const info =
         assetType === 'erc20'
           ? await jumpstart.methods.erc20Claims(beneficiary, index).call()
           : await jumpstart.methods.erc721Claims(beneficiary, index).call()
+
       if (info.claimed) {
+        hasClaimedAssets = true
         continue
       }
 
@@ -102,7 +109,7 @@ export async function executeClaims(
       } else {
         Logger.error(TAG, 'Error claiming jumpstart reward', error)
       }
-      return transactionHashes
+      return { transactionHashes, hasClaimedAssets }
     } finally {
       index++
     }

@@ -2240,12 +2240,13 @@
   },
   "jumpstartStatus": {
     "loading": {
-      "title": "Your funds are on their way",
-      "description": "The funds that your friend gave you are being sent over. Please wait... "
+      "title": "Checking on your funds",
+      "description": "Please wait while we check your Live Link. Claimable funds will arrive shortly."
     },
     "error": {
       "title": "Unable to claim funds",
-      "description": "Try your live link again to attempt to receive funds, or ask your friend to try sending a new link",
+      "description": "This link was not able to be claimed for an unknown reason",
+      "alreadyClaimedDescription": "The link has already been claimed. Please ask your friend to send a new link",
       "contactSupport": "Contact Support",
       "dismiss": "Dismiss"
     }
