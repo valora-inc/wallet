@@ -1596,6 +1596,17 @@ interface EarnWithdrawProperties {
   rewards: SerializableRewardsInfo[]
 }
 
+// Adds `deposit` prefix to all properties of TxReceiptProperties
+type DepositTxReceiptProperties = PrefixedTxReceiptProperties<'deposit'>
+
+export type EarnDepositTxsReceiptProperties = Partial<ApproveTxReceiptProperties> &
+  Partial<DepositTxReceiptProperties> &
+  Partial<{
+    gasUsed: number // Gas used by the swap (approve + deposit)
+    gasFee: number | undefined // Actual gas fee of the deposit (approve + deposit) in feeCurrency (decimal value)
+    gasFeeUsd: number | undefined // Actual gas fee of the deposit (approve + deposit) in USD
+  }>
+
 interface EarnEventsProperties {
   [EarnEvents.earn_cta_press]: undefined
   [EarnEvents.earn_add_crypto_action_press]: {
@@ -1606,10 +1617,11 @@ interface EarnEventsProperties {
   [EarnEvents.earn_deposit_complete]: undefined
   [EarnEvents.earn_deposit_cancel]: undefined
   [EarnEvents.earn_deposit_submit_start]: EarnDepositProperties
-  [EarnEvents.earn_deposit_submit_success]: EarnDepositProperties
-  [EarnEvents.earn_deposit_submit_error]: EarnDepositProperties & {
-    error: string
-  }
+  [EarnEvents.earn_deposit_submit_success]: EarnDepositProperties & EarnDepositTxsReceiptProperties
+  [EarnEvents.earn_deposit_submit_error]: EarnDepositProperties &
+    EarnDepositTxsReceiptProperties & {
+      error: string
+    }
   [EarnEvents.earn_deposit_submit_cancel]: EarnDepositProperties
   [EarnEvents.earn_view_pools_press]: undefined
   [EarnEvents.earn_enter_amount_info_press]: undefined
