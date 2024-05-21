@@ -2238,12 +2238,13 @@
   },
   "jumpstartStatus": {
     "loading": {
-      "title": "Tus fondos están en camino",
-      "description": "Se están enviando los fondos que te dio tu amigo. Por favor, espera... "
+      "title": "Comprobación de tus fondos",
+      "description": "Espera mientras comprobamos tu Live Link. Los fondos reclamables llegarán en breve."
     },
     "error": {
       "title": "No se pueden recuperar los fondos",
-      "description": "Prueba de nuevo tu enlace activo para recibir fondos, o pide a tu amigo que intente enviar un nuevo enlace",
+      "description": "Este enlace no ha podido ser reclamado por una razón desconocida",
+      "alreadyClaimedDescription": "El enlace ya ha sido reclamado. Por favor, pide a tu amigo que envíe un nuevo enlace",
       "contactSupport": "Contactar a Soporte",
       "dismiss": "Ignorar"
     }
