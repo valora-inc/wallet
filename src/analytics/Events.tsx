@@ -568,6 +568,7 @@ export enum SwapEvents {
   swap_show_info = 'swap_show_info',
   swap_show_fund_your_wallet = 'swap_show_fund_your_wallet',
   swap_add_funds = 'swap_add_funds',
+  swap_switch_tokens = 'swap_switch_tokens',
 }
 
 export enum CeloNewsEvents {
