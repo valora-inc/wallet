@@ -1767,6 +1767,9 @@
     "swapToTokenSelection": "ŞUNA TAKAS",
     "tokenUsdValueUnknown": "-",
     "unsupportedSwapTokens": "Seçilen tokenleri swap sağlayıcılarımız desteklemiyor.",
+    "selectTokenLabel": "Belirteç seçin",
+    "tokenBottomSheetTitle": "Belirteç Seçin",
+    "onNetwork": "{{networkName}}adresinde",
     "switchedToNetworkWarning": {
       "title": "{{networkName}} ağına geçtiniz",
       "body_swapFrom": "Devam etmek için {{networkName}} ağında kendisinden swap yapılacak bir token seçin.",
@@ -1820,7 +1823,7 @@
       "appFeeValue_withoutPriceUsd": "<0></0>",
       "appFeeValue_free": "Ücretsiz",
       "appFeeValue_placeholder": "-",
-      "appFeeInfo": "{{appName}} Ücret\n\nJetonları {{appName}}adresinde takas etmek için bir ücret alıyoruz. Ücret, takas ettiğiniz miktarın {{appFeePercentage}}%'sidir.",
+      "appFeeInfo": "{{appName}} Ücret\n\n {{appName}} ücreti {{appFeePercentage}}%, hızlı, güvenilir ve güvenli takaslar sağlayarak deneyiminizi geliştirmek için tasarlanmıştır.",
       "appFeeInfo_free": "{{appName}} Ücret\n\nBu takas ücretsizdir.",
       "appFeeInfo_placeholder": "{{appName}} Ücret\n\nÜcret, aldığınız teklife göre hesaplanır.",
       "appFeeInfoDismissButton": "Anladım",
