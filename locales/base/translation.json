@@ -1769,6 +1769,9 @@
     "swapToTokenSelection": "SWAP TO",
     "tokenUsdValueUnknown": "-",
     "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
+    "selectTokenLabel": "Select token",
+    "tokenBottomSheetTitle": "Select Token",
+    "onNetwork": "on {{networkName}}",
     "switchedToNetworkWarning": {
       "title": "You switched to the {{networkName}} network",
       "body_swapFrom": "Select a token to swap from on the {{networkName}} network to continue.",
@@ -1822,7 +1825,7 @@
       "appFeeValue_withoutPriceUsd": "<0></0>",
       "appFeeValue_free": "Free",
       "appFeeValue_placeholder": "-",
-      "appFeeInfo": "{{appName}} Fee\n\nWe charge a fee to swap tokens on {{appName}}. The fee is {{appFeePercentage}}% of the amount you are exchanging.",
+      "appFeeInfo": "{{appName}} Fee\n\nThe {{appName}} fee of {{appFeePercentage}}% is designed to enhance your experience by ensuring fast, reliable, and secure swaps.",
       "appFeeInfo_free": "{{appName}} Fee\n\nThis swap is free of charge.",
       "appFeeInfo_placeholder": "{{appName}} Fee\n\nThe fee is calculated based on the quote you receive.",
       "appFeeInfoDismissButton": "Got it",
@@ -2240,12 +2243,13 @@
   },
   "jumpstartStatus": {
     "loading": {
-      "title": "Your funds are on their way",
-      "description": "The funds that your friend gave you are being sent over. Please wait... "
+      "title": "Checking on your funds",
+      "description": "Please wait while we check your Live Link. Claimable funds will arrive shortly."
     },
     "error": {
       "title": "Unable to claim funds",
-      "description": "Try your live link again to attempt to receive funds, or ask your friend to try sending a new link",
+      "description": "This link was not able to be claimed for an unknown reason",
+      "alreadyClaimedDescription": "The link has already been claimed. Please ask your friend to send a new link",
       "contactSupport": "Contact Support",
       "dismiss": "Dismiss"
     }

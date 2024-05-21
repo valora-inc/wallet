@@ -100,4 +100,25 @@ describe('EarnActivePool', () => {
       poolTokenId: networkConfig.aaveArbUsdcTokenId,
     })
   })
+
+  it('should have correct analytics and navigation with deposit more cta tap', () => {
+    const { getByText } = render(
+      <Provider store={store}>
+        <EarnActivePool
+          cta="ExitAndDeposit"
+          depositTokenId={networkConfig.arbUsdcTokenId}
+          poolTokenId={networkConfig.aaveArbUsdcTokenId}
+        />
+      </Provider>
+    )
+
+    fireEvent.press(getByText('earnFlow.activePools.depositMore'))
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_more_press, {
+      depositTokenId: networkConfig.arbUsdcTokenId,
+      providerId: 'aave-v3',
+    })
+    expect(navigate).toBeCalledWith(Screens.EarnEnterAmount, {
+      tokenId: networkConfig.arbUsdcTokenId,
+    })
+  })
 })

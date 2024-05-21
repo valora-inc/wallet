@@ -1,6 +1,8 @@
 import BigNumber from 'bignumber.js'
 import { Nft } from 'src/nfts/types'
+import { TransactionRequest } from 'src/viem/prepareTransactions'
 import { v4 as uuidv4 } from 'uuid'
+import { Hash, TransactionReceipt } from 'viem'
 
 export enum Network {
   Celo = 'celo',
@@ -245,4 +247,10 @@ export interface EarnClaimReward {
   fees: Fee[]
   providerId: string
   status: TransactionStatus
+}
+
+export interface TrackedTx {
+  tx: TransactionRequest | undefined
+  txHash: Hash | undefined
+  txReceipt: TransactionReceipt | undefined
 }

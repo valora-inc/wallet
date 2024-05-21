@@ -4800,6 +4800,7 @@
                 "claimStatus": {
                     "enum": [
                         "error",
+                        "errorAlreadyClaimed",
                         "idle",
                         "loading"
                     ],

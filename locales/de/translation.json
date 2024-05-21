@@ -255,8 +255,8 @@
       "text": "Jeder mit deiner Phrase hat Zugriff auf dein Konto und alle Guthaben. Teile es nicht mit anderen."
     }
   ],
-  "consumerIncentivesTitle": "Beginne Supercharge",
-  "consumerIncentivesSummary": "Supercharge ist da! Erhalte {{percent}}% jährliche Rewards auf dein höchstes Stablecoin-Guthaben (cUSD, cEUR, oder cREAL). Nur für eine begrenzte Zeit verfügbar. Und so funktioniert's:",
+  "consumerIncentivesTitle": "Supercharge wird beendet",
+  "consumerIncentivesSummary": "Aber es warten noch mehr Belohnungen auf dich. Bis zum 28. Mai bekommst du {{percent}}% jährliche Rewards auf dein höchstes Stablecoin-Guthaben (cUSD, cEUR, oder cREAL). Und so funktioniert's:",
   "earnWeekly": {
     "header": "Verbinde deine Telefonnummer",
     "text": "Tippe auf Nummer verbinden, wenn du sie noch nicht verbunden hast."
@@ -271,14 +271,14 @@
     "text": "Dies wird sicherstellen, dass deine Rewards sicher und in deiner Kontrolle sind."
   },
   "conclusion": "Es ist ganz einfach. Lade dein Guthaben noch heute auf!",
-  "superchargeTitle": "Supercharge starten",
-  "superchargeDescription": "Erhalte {{apy}}% jährliche Rewards auf dein {{token}} -Guthaben. Hier ist, wie man beginnt:",
+  "superchargeTitle": "Supercharge wird beendet",
+  "superchargeDescription": "Aber es kommen noch mehr Prämien auf dich zu. Bis zum 28. Mai bekommst du {{apy}}% Jahresprämie auf dein höchstes {{token}} Guthaben. Und so funktioniert's:",
   "superchargeConnectNumber": "Verbinde deine Telefonnummer",
   "superchargeReconnectNumber": "Verbinde deine Telefonnummer erneut. \n<0>Wir haben das Supercharge-Erlebnis eingeführt und verbessert. Verbinde deine Telefonnummer erneut, um weiterhin Rewards auf deinem {{token}} zu verdienen.</0>",
   "superchargeMinimumBalance": "Füge einen Mindestsaldo von {{amount}} {{token}} hinzu",
-  "superchargeDisclaimer": "Maximiere die Rewards, indem du bis zu {{amount}} {{token}} hinzufügst",
-  "superchargeDisclaimerMaxRewards": "Du erhältst maximale Rewards für dein {{token}}",
-  "superchargeDisclaimerDayLimit": "Deine Rewards müssen innerhalb von 28 Tagen in Anspruch genommen werden. <0>Mehr Infos</0>",
+  "superchargeDisclaimer": "Dies hat keine Auswirkungen auf dein Guthaben oder deine bisherigen Einnahmen.",
+  "superchargeDisclaimerMaxRewards": "Dies hat keine Auswirkungen auf dein Guthaben oder deine bisherigen Einnahmen.",
+  "superchargeDisclaimerDayLimit": "Dies hat keine Auswirkungen auf dein Guthaben oder deine bisherigen Einnahmen. <0>Mehr erfahren</0>",
   "superchargeTokenDetailsDialog": {
     "title": "Welche Vermögen kann ich aufladen?",
     "body": "Du wirst wöchentlich für deinen Celo-Stablecoin mit dem höchsten Guthaben (cEUR, cUSD, cREAL) belohnt.",
@@ -286,11 +286,11 @@
   },
   "superchargingTitle": "Aktualisierung der App erforderlich",
   "superchargingDescription": "Aktualisiere die Valora-App, um weiterhin deine wöchentlichen Supercharge-Rewards zu erhalten.",
-  "superchargingTitleV1_54": "Dein {{token}} wird aufgeladen",
-  "superchargingDescriptionV1_54": "Du erhältst jährlich {{apy}} %. Du erhältst jede Woche eine Benachrichtigung, wenn deine Rewards bereit sind – komm hierher zurück, um sie in Anspruch zu nehmen.",
+  "superchargingTitleV1_54": "Supercharge wird beendet",
+  "superchargingDescriptionV1_54": "Die wöchentlichen Belohnungen kannst du bis Dienstag, den 28. Mai, um 23:59 Uhr UTC einfordern. Ab dem 29. Mai kannst du keine Supercharge-Belohnungen mehr einfordern.",
   "superchargeRewardsAvailable": "Du hast {{amount}} {{token}} verfügbar zum Abholen!",
   "superchargeRewardsAvailableMultipleTokens": "Du hast {{amounts}} verfügbar zum Abholen!",
-  "superchargeClaimText": "Beanspruche deine Rewards, um sie deinem Guthaben hinzuzufügen.",
+  "superchargeClaimText": "Fordere deine Rewards bis Dienstag, 28. Mai, um 23:59 Uhr UTC an. Ab dem 29. Mai kannst du keine Supercharge-Belohnungen mehr einfordern.",
   "superchargeClaimButton": "Rewards beanspruchen",
   "superchargeFetchRewardsFailed": "Fehler beim Abrufen ausstehender Supercharge-Rewards. Bitte versuche es später erneut.",
   "superchargeClaimSuccess": "Deine Supercharge-Rewards wurden deinem Gesamtguthaben hinzugefügt.",
@@ -2367,6 +2367,24 @@
       "subtitle": "Heute einzahlen und Rendite verdienen",
       "description": "Erfahre, wie viel du verdienen kannst, wenn du einen Kreditpool bereitstellst"
     },
+    "enterAmount": {
+      "earnUpToLabel": "Du könntest bis zu:",
+      "rateLabel": "Rate (geschätzt)",
+      "earnUpTo": "~{{fiatSymbol}}{{amount}} / yr",
+      "rate": "{{rate}}% APY",
+      "continue": "Weiter",
+      "info": "Dieser Pool wird von Aave betrieben",
+      "infoBottomSheet": {
+        "title": "Warum dieser Pool?",
+        "description": "Dieser Aave-Pool hat über 150 Mio. USD TVL und mehr als 6.000 Beitragszahler, was für eine hohe Liquidität und Vertrauenswürdigkeit spricht. Außerdem verwendet er USDC als Token und Abritrum als Netzwerk, was die Volatilität reduziert und sicherstellt, dass die Nutzer günstige Gasraten erhalten.\n\nAlles zusammen macht es zu einer sicheren und attraktiven Option mit wettbewerbsfähigen APY, die eine vorteilhafte Investitionsmöglichkeit für unsere Nutzer/innen darstellt.\n\nAndere Aave-Pools kannst du <0>hier</0> entdecken.",
+        "dismiss": "Verwerfen"
+      },
+      "notEnoughBalanceForGasWarning": {
+        "title": "Du brauchst mehr {{feeTokenSymbol}} um weiterzumachen",
+        "description": "Füge {{feeTokenSymbol}} auf {{network}} hinzu, um deine Gaskosten zu decken.",
+        "noGasCta": "Kaufen Sie {{feeTokenSymbol}} auf {{network}}"
+      }
+    },
     "activePools": {
       "title": "Aktive Pools",
       "totalValue": "Gesamtwert:",
@@ -2395,7 +2413,10 @@
       "fee": "Gasgebühr",
       "cta": "Verdienste sammeln",
       "errorTitle": "Etwas ist schief gelaufen",
-      "errorDescription": "Die Einzahlungsdetails können nicht abgerufen werden. Bitte versuche es erneut."
+      "errorDescription": "Die Einzahlungsdetails können nicht abgerufen werden. Bitte versuche es erneut.",
+      "noGasTitle": "Du brauchst mehr {{symbol}} um weiterzumachen",
+      "noGasDescription": "Füge {{symbol}} auf {{network}} hinzu, um deine Gaskosten zu decken.",
+      "noGasCta": "Kaufen Sie {{symbol}} auf {{network}}"
     },
     "transactionFeed": {
       "earnClaimTitle": "Gesammelt",
@@ -2404,6 +2425,18 @@
       "earnDepositSubtitle": "zu {{providerName}} Pool",
       "earnWithdrawTitle": "Zurückgezogen",
       "earnWithdrawSubtitle": "von {{providerName}} Pool"
+    },
+    "transactionDetails": {
+      "descriptionLabel": "Details",
+      "earnClaimTitle": "Gesammelt",
+      "earnClaimSubtitle": "Gesammelt {{tokenSymbol}} von {{providerName}} Pool",
+      "earnClaimDetails": "Eingesammelter Betrag",
+      "earnDepositTitle": "Hinterlegt",
+      "earnDepositSubtitle": "Hinterlegt {{tokenSymbol}} auf {{providerName}} Pool",
+      "earnDepositDetails": "Eingezahlter Betrag",
+      "earnWithdrawTitle": "Zurückgezogen",
+      "earnWithdrawSubtitle": "Ziehe {{tokenSymbol}} aus dem {{providerName}} Pool zurück",
+      "earnWithdrawDetails": "Betrag abgehoben"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
