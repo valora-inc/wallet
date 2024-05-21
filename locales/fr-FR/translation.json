@@ -2238,12 +2238,13 @@
   },
   "jumpstartStatus": {
     "loading": {
-      "title": "Vos fonds sont en route",
-      "description": "Les fonds que votre ami vous a donnés sont en cours d'envoi. Veuillez patienter... "
+      "title": "Vérifier tes fonds",
+      "description": "Merci de patienter pendant que nous vérifions ton Live Link. Les fonds à réclamer arriveront sous peu."
     },
     "error": {
       "title": "Impossible de récupérer les fonds",
-      "description": "Réessayez votre lien direct pour faire une nouvelle tentative de récupération des fonds, ou demandez à votre ami de vous envoyer un nouveau lien",
+      "description": "Ce lien n'a pas pu être réclamé pour une raison inconnue.",
+      "alreadyClaimedDescription": "Le lien a déjà été réclamé. Demande à ton ami de t'envoyer un nouveau lien",
       "contactSupport": "Contacter le Support",
       "dismiss": "Refuser"
     }
