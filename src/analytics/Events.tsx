@@ -693,6 +693,7 @@ export enum EarnEvents {
   earn_enter_amount_continue_press = 'earn_enter_amount_continue_press',
   earn_enter_amount_info_more_pools = 'earn_enter_amount_info_more_pools',
   earn_exit_pool_press = 'earn_exit_pool_press',
+  earn_deposit_more_press = 'earn_deposit_more_press',
   earn_deposit_add_gas_press = 'earn_deposit_add_gas_press',
   earn_feed_item_select = 'earn_feed_item_select',
   earn_collect_earnings_press = 'earn_collect_earnings_press',
