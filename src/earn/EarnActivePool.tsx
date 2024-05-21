@@ -107,9 +107,19 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
             />
             <Button
               onPress={() => {
-                // TODO (act-1176) create earn enter amount screen
-                // Will navigate to this screen with appropriate props
-                // fire analytics
+                if (!poolToken) {
+                  Logger.warn(TAG, 'No pool token found')
+                  return
+                }
+
+                ValoraAnalytics.track(EarnEvents.earn_deposit_more_press, {
+                  poolTokenId,
+                  networkId: poolToken.networkId,
+                  tokenAmount: poolToken.balance.toString(),
+                  providerId: 'aave-v3',
+                })
+
+                navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })
               }}
               text={t('earnFlow.activePools.depositMore')}
               type={BtnTypes.PRIMARY}

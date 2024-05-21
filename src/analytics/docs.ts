@@ -608,6 +608,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [EarnEvents.earn_enter_amount_continue_press]: `When a user taps continue on the earn enter amount`,
   [EarnEvents.earn_enter_amount_info_more_pools]: `When a user taps to see other Aave pools`,
   [EarnEvents.earn_exit_pool_press]: `When the user taps on the exit pool button from the earn card in discover tab`,
+  [EarnEvents.earn_deposit_more_press]: `When the user taps deposit more button from the earn card in discover tab`,
   [EarnEvents.earn_deposit_add_gas_press]: `When the user doesn't have enough for gas when trying to deposit and clicks on the button to add gas token`,
   [EarnEvents.earn_feed_item_select]: `When the users taps on an earn transaction feed item`,
   [EarnEvents.earn_collect_earnings_press]: `When the user taps on the collect earnings button in the collect screen`,
