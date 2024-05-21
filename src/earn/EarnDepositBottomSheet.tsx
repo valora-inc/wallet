@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import React, { RefObject } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -10,20 +11,23 @@ import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
+import { EarnApyAndAmount } from 'src/earn/EarnEnterAmount'
 import { depositStatusSelector } from 'src/earn/selectors'
 import { depositStart } from 'src/earn/slice'
 import InfoIcon from 'src/icons/InfoIcon'
 import Logo from 'src/icons/Logo'
+import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getDynamicConfigParams } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
+import { TokenBalance } from 'src/tokens/slice'
 import {
   PreparedTransactionsPossible,
   getFeeCurrencyAndAmounts,
@@ -37,16 +41,22 @@ export default function EarnDepositBottomSheet({
   preparedTransaction,
   amount,
   tokenId,
+  apy,
+  token,
 }: {
   forwardedRef: RefObject<BottomSheetRefType>
   preparedTransaction: PreparedTransactionsPossible
-  amount: string
+  amount: BigNumber
   tokenId: string
+  apy: number | undefined
+  token: TokenBalance
 }) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const depositStatus = useSelector(depositStatusSelector)
   const transactionSubmitted = depositStatus === 'loading'
+
+  const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
   const { estimatedFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(preparedTransaction)
 
@@ -54,6 +64,8 @@ export default function EarnDepositBottomSheet({
     // should never happen since a possible prepared tx should include fee currency and amount
     return null
   }
+
+  const isGasSubsidized = getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
 
   const { providerName, providerLogoUrl, providerTermsAndConditionsUrl } = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG]
@@ -74,7 +86,7 @@ export default function EarnDepositBottomSheet({
   const onPressComplete = () => {
     dispatch(
       depositStart({
-        amount,
+        amount: amount.toString(),
         tokenId,
         preparedTransactions: getSerializablePreparedTransactions(preparedTransaction.transactions),
       })
@@ -93,6 +105,12 @@ export default function EarnDepositBottomSheet({
         <Logos providerUrl={providerLogoUrl} />
         <Text style={styles.title}>{t('earnFlow.depositBottomSheet.title')}</Text>
         <Text style={styles.description}>{t('earnFlow.depositBottomSheet.description')}</Text>
+        <EarnApyAndAmount
+          apy={apy}
+          tokenAmount={amount}
+          localCurrencySymbol={localCurrencySymbol}
+          token={token}
+        />
         <LabelledItem label={t('earnFlow.depositBottomSheet.amount')}>
           <TokenDisplay
             testID="EarnDeposit/Amount"
@@ -107,9 +125,14 @@ export default function EarnDepositBottomSheet({
             testID="EarnDeposit/Fee"
             amount={estimatedFeeAmount}
             tokenId={feeCurrency.tokenId}
-            style={styles.value}
+            style={[styles.value, isGasSubsidized && { textDecorationLine: 'line-through' }]}
             showLocalAmount={false}
           />
+          {isGasSubsidized && (
+            <Text style={styles.gasSubsidized}>
+              {t('earnFlow.depositBottomSheet.gasSubsidized')}
+            </Text>
+          )}
         </LabelledItem>
         <LabelledItem label={t('earnFlow.depositBottomSheet.provider')}>
           <View style={styles.providerNameContainer}>
@@ -251,5 +274,9 @@ const styles = StyleSheet.create({
   cta: {
     flexGrow: 1,
     flexBasis: 0,
+  },
+  gasSubsidized: {
+    ...typeScale.labelXSmall,
+    color: Colors.primary,
   },
 })

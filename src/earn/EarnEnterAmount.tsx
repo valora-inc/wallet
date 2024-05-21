@@ -66,6 +66,7 @@ type ProceedComponentProps = Omit<ProceedArgs, 'tokenAmount'> & {
   onPressInfo(): void
   disabled: boolean
   tokenAmount: BigNumber | null
+  apy: number | undefined
 }
 
 function EarnEnterAmount({ route }: Props) {
@@ -89,6 +90,9 @@ function EarnEnterAmount({ route }: Props) {
   const [enteredIn, setEnteredIn] = useState<AmountEnteredIn>('token')
   // this should never be null, just adding a default to make TS happy
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
+
+  const asyncPoolInfo = useAavePoolInfo({ depositTokenId: token.tokenId })
+  const apy = asyncPoolInfo?.result?.apy
 
   const {
     prepareTransactionsResult,
@@ -367,6 +371,7 @@ function EarnEnterAmount({ route }: Props) {
           onPressProceed={onPressContinue}
           onPressInfo={onPressInfo}
           disabled={disabled}
+          apy={apy}
         />
         <KeyboardSpacer />
       </KeyboardAwareScrollView>
@@ -380,11 +385,56 @@ function EarnEnterAmount({ route }: Props) {
         <EarnDepositBottomSheet
           forwardedRef={reviewBottomSheetRef}
           preparedTransaction={prepareTransactionsResult}
-          amount={tokenAmount.toString()}
+          amount={tokenAmount}
           tokenId={token.tokenId}
+          apy={apy}
+          token={token}
         />
       )}
     </SafeAreaView>
+  )
+}
+
+export function EarnApyAndAmount({
+  apy,
+  tokenAmount,
+  localCurrencySymbol,
+  token,
+}: {
+  apy: number | undefined
+  tokenAmount: BigNumber | null
+  localCurrencySymbol: LocalCurrencySymbol | null
+  token: TokenBalance
+}) {
+  const { t } = useTranslation()
+
+  const apyString = apy ? (apy * 100).toFixed(2) : '--'
+  const earnUpTo =
+    apy && tokenAmount?.gt(0) ? tokenAmount.multipliedBy(new BigNumber(apy)).toFormat(2) : '--'
+
+  return (
+    <>
+      <View style={styles.line}>
+        <Text style={styles.label}>{t('earnFlow.enterAmount.earnUpToLabel')}</Text>
+        <Text style={styles.label}>{t('earnFlow.enterAmount.rateLabel')}</Text>
+      </View>
+      <View style={styles.line}>
+        <Text style={styles.valuesText} testID="EarnEnterAmount/EarnUpTo">
+          {t('earnFlow.enterAmount.earnUpTo', {
+            fiatSymbol: localCurrencySymbol,
+            amount: earnUpTo,
+          })}
+        </Text>
+        <View style={styles.apy}>
+          <TokenIcon token={token} size={IconSize.XSMALL} />
+          <Text style={styles.valuesText} testID="EarnEnterAmount/Apy">
+            {t('earnFlow.enterAmount.rate', {
+              rate: apyString,
+            })}
+          </Text>
+        </View>
+      </View>
+    </>
   )
 }
 
@@ -396,40 +446,19 @@ function EarnProceed({
   disabled,
   onPressProceed,
   onPressInfo,
+  apy,
 }: ProceedComponentProps) {
   const { t } = useTranslation()
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
-  const asyncPoolInfo = useAavePoolInfo({ depositTokenId: token.tokenId })
-
   return (
     <View style={styles.infoContainer}>
-      <View style={styles.line}>
-        <Text style={styles.label}>{t('earnFlow.enterAmount.earnUpToLabel')}</Text>
-        <Text style={styles.label}>{t('earnFlow.enterAmount.rateLabel')}</Text>
-      </View>
-      <View style={styles.line}>
-        <Text style={styles.valuesText} testID="EarnEnterAmount/EarnUpTo">
-          {t('earnFlow.enterAmount.earnUpTo', {
-            fiatSymbol: localCurrencySymbol,
-            amount:
-              asyncPoolInfo?.result && !!asyncPoolInfo.result.apy && tokenAmount?.gt(0)
-                ? tokenAmount.multipliedBy(new BigNumber(asyncPoolInfo.result.apy)).toFormat(2)
-                : '--',
-          })}
-        </Text>
-        <View style={styles.apy}>
-          <TokenIcon token={token} size={IconSize.XSMALL} />
-          <Text style={styles.valuesText} testID="EarnEnterAmount/Apy">
-            {t('earnFlow.enterAmount.rate', {
-              rate:
-                asyncPoolInfo?.result && !!asyncPoolInfo.result.apy
-                  ? (asyncPoolInfo.result.apy * 100).toFixed(2)
-                  : '--',
-            })}
-          </Text>
-        </View>
-      </View>
+      <EarnApyAndAmount
+        apy={apy}
+        tokenAmount={tokenAmount}
+        localCurrencySymbol={localCurrencySymbol}
+        token={token}
+      />
       <Button
         onPress={() =>
           tokenAmount && onPressProceed({ tokenAmount, localAmount, token, amountEnteredIn })
