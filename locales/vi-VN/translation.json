@@ -2236,12 +2236,13 @@
   },
   "jumpstartStatus": {
     "loading": {
-      "title": "Tiền của bạn đang được chuyển",
-      "description": "Số tiền mà bạn bè gửi cho bạn đang được chuyển qua. Vui lòng đợi... "
+      "title": "Checking on your funds",
+      "description": "Please wait while we check your Live Link. Claimable funds will arrive shortly."
     },
     "error": {
       "title": "Không nhận được tiền",
-      "description": "Hãy thử lại đường liên kết trực tiếp của mình để nhận tiền hoặc nhờ bạn bè gửi lại một đường liên kết mới",
+      "description": "This link was not able to be claimed for an unknown reason",
+      "alreadyClaimedDescription": "The link has already been claimed. Please ask your friend to send a new link",
       "contactSupport": "Liên hệ với bộ phận hỗ trợ",
       "dismiss": "Loại bỏ"
     }
