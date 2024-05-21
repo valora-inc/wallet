@@ -8,6 +8,8 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import { Spacing } from 'src/styles/styles'
 import { useTokenInfo } from 'src/tokens/hooks'
 
+const MIN_POOL_BALANCE = 0.001
+
 interface Props {
   depositTokenId: string
   poolTokenId: string
@@ -18,7 +20,7 @@ export function EarnCardDiscover({ depositTokenId, poolTokenId }: Props) {
   const poolToken = useTokenInfo(poolTokenId)
 
   if (showStablecoinEarn) {
-    return poolToken && poolToken.balance.gt(0) ? (
+    return poolToken && poolToken.balance.gt(MIN_POOL_BALANCE) ? (
       <EarnActivePool
         cta="ExitAndDeposit"
         depositTokenId={depositTokenId}
@@ -35,7 +37,7 @@ export function EarnCardTokenDetails({ depositTokenId, poolTokenId }: Props) {
   const showStablecoinEarn = getFeatureGate(StatsigFeatureGates.SHOW_STABLECOIN_EARN)
   const poolToken = useTokenInfo(poolTokenId)
 
-  return showStablecoinEarn && poolToken && poolToken.balance.gt(0) ? (
+  return showStablecoinEarn && poolToken && poolToken.balance.gt(MIN_POOL_BALANCE) ? (
     <>
       <ItemSeparator />
       <View style={{ margin: Spacing.Regular16 }}>
