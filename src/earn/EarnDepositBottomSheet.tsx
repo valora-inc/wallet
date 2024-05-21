@@ -105,12 +105,14 @@ export default function EarnDepositBottomSheet({
         <Logos providerUrl={providerLogoUrl} />
         <Text style={styles.title}>{t('earnFlow.depositBottomSheet.title')}</Text>
         <Text style={styles.description}>{t('earnFlow.depositBottomSheet.description')}</Text>
-        <EarnApyAndAmount
-          apy={apy}
-          tokenAmount={amount}
-          localCurrencySymbol={localCurrencySymbol}
-          token={token}
-        />
+        <View style={styles.infoContainer}>
+          <EarnApyAndAmount
+            apy={apy}
+            tokenAmount={amount}
+            localCurrencySymbol={localCurrencySymbol}
+            token={token}
+          />
+        </View>
         <LabelledItem label={t('earnFlow.depositBottomSheet.amount')}>
           <TokenDisplay
             testID="EarnDeposit/Amount"
@@ -278,5 +280,12 @@ const styles = StyleSheet.create({
   gasSubsidized: {
     ...typeScale.labelXSmall,
     color: Colors.primary,
+  },
+  infoContainer: {
+    padding: Spacing.Regular16,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: Colors.gray2,
+    marginTop: 20,
   },
 })
