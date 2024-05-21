@@ -1767,6 +1767,9 @@
     "swapToTokenSelection": "ÉCHANGER CONTRE",
     "tokenUsdValueUnknown": "-",
     "unsupportedSwapTokens": "Les jetons sélectionnés ne sont pas pris en charge par nos fournisseurs.",
+    "selectTokenLabel": "Sélectionne le jeton",
+    "tokenBottomSheetTitle": "Sélectionner un jeton",
+    "onNetwork": "sur {{networkName}}",
     "switchedToNetworkWarning": {
       "title": "Vous êtes passé au réseau {{networkName}}",
       "body_swapFrom": "Sélectionnez un jeton à échanger sur le réseau {{networkName}} pour continuer.",
@@ -1820,7 +1823,7 @@
       "appFeeValue_withoutPriceUsd": "<0></0>",
       "appFeeValue_free": "Gratuit",
       "appFeeValue_placeholder": "-",
-      "appFeeInfo": "{{appName}} Frais\n\nNous facturons des frais pour échanger des jetons sur {{appName}}. Ces frais s'élèvent à {{appFeePercentage}}% du montant que tu échanges.",
+      "appFeeInfo": "{{appName}} Frais\n\nLes frais {{appName}} de {{appFeePercentage}}% sont conçus pour améliorer ton expérience en garantissant des échanges rapides, fiables et sécurisés.",
       "appFeeInfo_free": "{{appName}} Frais\n\nCet échange est gratuit.",
       "appFeeInfo_placeholder": "{{appName}} Frais\n\nLes frais sont calculés en fonction du devis que tu reçois.",
       "appFeeInfoDismissButton": "J'ai compris",
