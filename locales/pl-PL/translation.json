@@ -2242,12 +2242,13 @@
   },
   "jumpstartStatus": {
     "loading": {
-      "title": "Twoje środki są w drodze",
-      "description": "Środki, które przekazał Ci Twój znajomy, są właśnie przesyłane. Poczekaj… "
+      "title": "Sprawdzanie Twoich środków",
+      "description": "Poczekaj, aż sprawdzimy Twój Live Link. Wkrótce otrzymasz środki możliwe do odebrania."
     },
     "error": {
       "title": "Nie można odebrać środków",
-      "description": "Użyj ponownie swojego aktywnego linku, aby spróbować otrzymać środki, lub poproś znajomego, aby przesłał nowy link",
+      "description": "Z nieznanego powodu nie można było odebrać tego linku",
+      "alreadyClaimedDescription": "Link został już zajęty. Poproś znajomego o przesłanie nowego linku",
       "contactSupport": "Skontaktuj się z Działem wsparcia",
       "dismiss": "Odrzuć"
     }
