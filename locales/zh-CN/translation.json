@@ -2350,6 +2350,7 @@
     }
   },
   "earnFlow": {
+    "gasSubsidized": "Valora 公司为此次交易提供天然气！",
     "addCryptoBottomSheet": {
       "title": "在 {{tokenNetwork}}上添加 {{tokenSymbol}}",
       "description": "一旦您添加了代币，您就必须回来完成存入池的工作。",
