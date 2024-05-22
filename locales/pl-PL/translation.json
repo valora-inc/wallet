@@ -2356,6 +2356,7 @@
     }
   },
   "earnFlow": {
+    "gasSubsidized": "Valora pokrywa koszty gazu dla tej transakcji!",
     "addCryptoBottomSheet": {
       "title": "Dodaj {{tokenSymbol}} na {{tokenNetwork}}",
       "description": "Po dodaniu żetonów będziesz musiał wrócić, aby dokończyć wpłatę do puli.",
