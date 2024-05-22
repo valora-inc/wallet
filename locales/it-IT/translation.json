@@ -2372,6 +2372,11 @@
       "subtitle": "Deposita oggi stesso e guadagna",
       "description": "Scopri quanto puoi guadagnare fornendo un pool di prestiti"
     },
+    "ctaV1_86": {
+      "title": "Massimizza i guadagni con le stablecoins",
+      "subtitle": "Acquista {{symbol}}",
+      "description": "Guadagna circa {{apy}}% all'anno quando aggiungi {{symbol}} a una piscina."
+    },
     "enterAmount": {
       "earnUpToLabel": "Potresti guadagnare fino a:",
       "rateLabel": "Tasso (est.)",
