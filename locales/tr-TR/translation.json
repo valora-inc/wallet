@@ -2352,6 +2352,7 @@
     }
   },
   "earnFlow": {
+    "gasSubsidized": "Valora bu işlem için benzini karşılıyor!",
     "addCryptoBottomSheet": {
       "title": "{{tokenSymbol}} adresini {{tokenNetwork}}adresine ekleyin",
       "description": "Jeton ekledikten sonra havuza para yatırma işlemini tamamlamak için geri gelmeniz gerekecektir.",
