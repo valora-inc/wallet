@@ -9,6 +9,7 @@ import { depositStart } from 'src/earn/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { getDynamicConfigParams } from 'src/statsig'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { TokenBalance } from 'src/tokens/slice'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import { createMockStore } from 'test/utils'
@@ -47,6 +48,14 @@ const mockPreparedTransaction: PreparedTransactionsPossible = {
   },
 }
 
+const mockToken: TokenBalance = {
+  ...mockTokenBalances[mockArbEthTokenId],
+  isNative: true,
+  balance: new BigNumber(1),
+  priceUsd: new BigNumber(1500),
+  lastKnownPriceUsd: new BigNumber(1500),
+}
+
 describe('EarnDepositBottomSheet', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -69,9 +78,11 @@ describe('EarnDepositBottomSheet', () => {
       <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
-          amount={'100'}
+          amount={new BigNumber(100)}
           tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
+          apy={0.1}
+          token={mockToken}
         />
       </Provider>
     )
@@ -103,9 +114,11 @@ describe('EarnDepositBottomSheet', () => {
       <Provider store={store}>
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
-          amount={'100'}
+          amount={new BigNumber(100)}
           tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
+          apy={0.1}
+          token={mockToken}
         />
       </Provider>
     )
@@ -131,9 +144,11 @@ describe('EarnDepositBottomSheet', () => {
       <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
-          amount={'100'}
+          amount={new BigNumber(100)}
           tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
+          apy={0.1}
+          token={mockToken}
         />
       </Provider>
     )
@@ -147,9 +162,11 @@ describe('EarnDepositBottomSheet', () => {
       <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
-          amount={'100'}
+          amount={new BigNumber(100)}
           tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
+          apy={0.1}
+          token={mockToken}
         />
       </Provider>
     )
@@ -164,9 +181,11 @@ describe('EarnDepositBottomSheet', () => {
       <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
-          amount={'100'}
+          amount={new BigNumber(100)}
           tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
+          apy={0.1}
+          token={mockToken}
         />
       </Provider>
     )
@@ -187,9 +206,11 @@ describe('EarnDepositBottomSheet', () => {
       <Provider store={store}>
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
-          amount={'100'}
+          amount={new BigNumber(100)}
           tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
+          apy={0.1}
+          token={mockToken}
         />
       </Provider>
     )

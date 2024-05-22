@@ -275,6 +275,5 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderWidth: 1,
     borderColor: Colors.gray2,
-    marginTop: 20,
   },
 })
