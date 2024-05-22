@@ -137,7 +137,7 @@ export default function EarnCollectScreen({ route }: Props) {
             <Text style={styles.rateText}>{t('earnFlow.collect.fee')}</Text>
             {feeSection}
             {isGasSubsidized && (
-              <Text style={styles.gasSubsidized} testID={'EarnDeposit/GasSubsidized'}>
+              <Text style={styles.gasSubsidized} testID={'EarnCollect/GasSubsidized'}>
                 {t('earnFlow.gasSubsidized')}
               </Text>
             )}
