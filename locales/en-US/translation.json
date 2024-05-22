@@ -2372,6 +2372,11 @@
       "subtitle": "Deposit today and earn returns",
       "description": "See how much you can earn when supplying a lending pool"
     },
+    "ctaV1_86": {
+      "title": "Maximize earnings on stablecoins",
+      "subtitle": "Buy {{symbol}}",
+      "description": "Earn approximately {{apy}}% per year when you add {{symbol}} to a pool"
+    },
     "enterAmount": {
       "earnUpToLabel": "You could earn up to:",
       "rateLabel": "Rate (est.)",
