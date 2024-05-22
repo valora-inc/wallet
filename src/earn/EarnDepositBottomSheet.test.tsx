@@ -75,7 +75,7 @@ describe('EarnDepositBottomSheet', () => {
   })
 
   it('renders all elements', () => {
-    const { getByTestId, getByText } = render(
+    const { getByTestId, queryByTestId, getByText } = render(
       <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
@@ -88,6 +88,8 @@ describe('EarnDepositBottomSheet', () => {
     )
     expect(getByText('earnFlow.depositBottomSheet.title')).toBeTruthy()
     expect(getByText('earnFlow.depositBottomSheet.description')).toBeTruthy()
+
+    expect(queryByTestId('EarnDeposit/GasSubsidized')).toBeFalsy()
 
     expect(getByText('earnFlow.depositBottomSheet.amount')).toBeTruthy()
     expect(getByTestId('EarnDeposit/Amount')).toHaveTextContent('100.00 ETH')

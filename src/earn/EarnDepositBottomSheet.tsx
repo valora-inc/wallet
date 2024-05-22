@@ -128,7 +128,7 @@ export default function EarnDepositBottomSheet({
           />
           {isGasSubsidized && (
             <Text style={styles.gasSubsidized} testID={'EarnDeposit/GasSubsidized'}>
-              {t('earnFlow.depositBottomSheet.gasSubsidized')}
+              {t('earnFlow.gasSubsidized')}
             </Text>
           )}
         </LabelledItem>
