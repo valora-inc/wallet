@@ -127,7 +127,7 @@ export default function EarnDepositBottomSheet({
             showLocalAmount={false}
           />
           {isGasSubsidized && (
-            <Text style={styles.gasSubsidized}>
+            <Text style={styles.gasSubsidized} testID={'EarnDeposit/GasSubsidized'}>
               {t('earnFlow.depositBottomSheet.gasSubsidized')}
             </Text>
           )}
