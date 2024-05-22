@@ -2408,7 +2408,8 @@
       "network": "Network",
       "footer": "By depositing crypto into an Aave pool, you accept the risks associated with using Aave. <0>Terms & Conditions</0>",
       "primaryCta": "Complete",
-      "secondaryCta": "Cancel"
+      "secondaryCta": "Cancel",
+      "gasSubsidized": "Valora's covering gas for this transaction!"
     },
     "collect": {
       "title": "Congratulations! Review & collect your earnings",
