@@ -10,11 +10,10 @@ import { depositStart } from 'src/earn/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { getDynamicConfigParams } from 'src/statsig'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
-import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
-import { createMockStore } from 'test/utils'
+import { createMockStore, mockStoreBalancesToTokenBalances } from 'test/utils'
 import { mockArbEthTokenId, mockTokenBalances } from 'test/values'
 
 jest.mock('src/statsig')
@@ -50,13 +49,7 @@ const mockPreparedTransaction: PreparedTransactionsPossible = {
   },
 }
 
-const mockToken: TokenBalance = {
-  ...mockTokenBalances[mockArbEthTokenId],
-  isNative: true,
-  balance: new BigNumber(1),
-  priceUsd: new BigNumber(1500),
-  lastKnownPriceUsd: new BigNumber(1500),
-}
+const mockToken = mockStoreBalancesToTokenBalances([mockTokenBalances[mockArbEthTokenId]])[0]
 
 describe('EarnDepositBottomSheet', () => {
   const expectedAnalyticsProperties = {
@@ -90,7 +83,6 @@ describe('EarnDepositBottomSheet', () => {
           amount={new BigNumber(100)}
           tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
-          apy={0.1}
           token={mockToken}
           networkId={NetworkId['arbitrum-sepolia']}
         />
@@ -134,7 +126,6 @@ describe('EarnDepositBottomSheet', () => {
           amount={new BigNumber(100)}
           tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
-          apy={0.1}
           token={mockToken}
           networkId={NetworkId['arbitrum-sepolia']}
         />
@@ -168,7 +159,6 @@ describe('EarnDepositBottomSheet', () => {
           amount={new BigNumber(100)}
           tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
-          apy={0.1}
           token={mockToken}
           networkId={NetworkId['arbitrum-sepolia']}
         />
@@ -190,7 +180,6 @@ describe('EarnDepositBottomSheet', () => {
           amount={new BigNumber(100)}
           tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
-          apy={0.1}
           token={mockToken}
           networkId={NetworkId['arbitrum-sepolia']}
         />
@@ -213,7 +202,6 @@ describe('EarnDepositBottomSheet', () => {
           amount={new BigNumber(100)}
           tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
-          apy={0.1}
           token={mockToken}
           networkId={NetworkId['arbitrum-sepolia']}
         />
@@ -240,7 +228,6 @@ describe('EarnDepositBottomSheet', () => {
           amount={new BigNumber(100)}
           tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
-          apy={0.1}
           token={mockToken}
           networkId={NetworkId['arbitrum-sepolia']}
         />

@@ -11,7 +11,7 @@ import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
-import { EarnApyAndAmount } from 'src/earn/EarnEnterAmount'
+import { EarnApyAndAmount } from 'src/earn/EarnApyAndAmount'
 import { PROVIDER_ID } from 'src/earn/constants'
 import { depositStatusSelector } from 'src/earn/selectors'
 import { depositStart } from 'src/earn/slice'
@@ -43,7 +43,6 @@ export default function EarnDepositBottomSheet({
   preparedTransaction,
   amount,
   tokenId,
-  apy,
   token,
   networkId,
 }: {
@@ -51,7 +50,6 @@ export default function EarnDepositBottomSheet({
   preparedTransaction: PreparedTransactionsPossible
   amount: BigNumber
   tokenId: string
-  apy: number | undefined
   token: TokenBalance
   networkId: NetworkId
 }) {
@@ -118,12 +116,7 @@ export default function EarnDepositBottomSheet({
         <Text style={styles.title}>{t('earnFlow.depositBottomSheet.title')}</Text>
         <Text style={styles.description}>{t('earnFlow.depositBottomSheet.description')}</Text>
         <View style={styles.infoContainer}>
-          <EarnApyAndAmount
-            apy={apy}
-            tokenAmount={amount}
-            localCurrencySymbol={localCurrencySymbol}
-            token={token}
-          />
+          <EarnApyAndAmount tokenAmount={amount} token={token} />
         </View>
         <LabelledItem label={t('earnFlow.depositBottomSheet.amount')}>
           <TokenDisplay

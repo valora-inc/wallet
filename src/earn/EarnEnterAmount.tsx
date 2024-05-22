@@ -18,9 +18,9 @@ import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import EarnAddCryptoBottomSheet from 'src/earn/EarnAddCryptoBottomSheet'
+import { EarnApyAndAmount } from 'src/earn/EarnApyAndAmount'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import { PROVIDER_ID } from 'src/earn/constants'
-import { useAavePoolInfo } from 'src/earn/hooks'
 import { usePrepareSupplyTransactions } from 'src/earn/prepareTransactions'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import InfoIcon from 'src/icons/InfoIcon'
@@ -61,7 +61,6 @@ type ProceedComponentProps = Omit<ProceedArgs, 'tokenAmount'> & {
   onPressInfo(): void
   disabled: boolean
   tokenAmount: BigNumber | null
-  apy: number | undefined
 }
 
 function EarnEnterAmount({ route }: Props) {
@@ -85,9 +84,6 @@ function EarnEnterAmount({ route }: Props) {
   const [enteredIn, setEnteredIn] = useState<AmountEnteredIn>('token')
   // this should never be null, just adding a default to make TS happy
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
-
-  const asyncPoolInfo = useAavePoolInfo({ depositTokenId: token.tokenId })
-  const apy = asyncPoolInfo?.result?.apy
 
   const {
     prepareTransactionsResult,
@@ -367,7 +363,6 @@ function EarnEnterAmount({ route }: Props) {
           onPressProceed={onPressContinue}
           onPressInfo={onPressInfo}
           disabled={disabled}
-          apy={apy}
         />
         <KeyboardSpacer />
       </KeyboardAwareScrollView>
@@ -383,55 +378,11 @@ function EarnEnterAmount({ route }: Props) {
           preparedTransaction={prepareTransactionsResult}
           amount={tokenAmount}
           tokenId={token.tokenId}
-          apy={apy}
           token={token}
           networkId={token.networkId}
         />
       )}
     </SafeAreaView>
-  )
-}
-
-export function EarnApyAndAmount({
-  apy,
-  tokenAmount,
-  localCurrencySymbol,
-  token,
-}: {
-  apy: number | undefined
-  tokenAmount: BigNumber | null
-  localCurrencySymbol: LocalCurrencySymbol | null
-  token: TokenBalance
-}) {
-  const { t } = useTranslation()
-
-  const apyString = apy ? (apy * 100).toFixed(2) : '--'
-  const earnUpTo =
-    apy && tokenAmount?.gt(0) ? tokenAmount.multipliedBy(new BigNumber(apy)).toFormat(2) : '--'
-
-  return (
-    <>
-      <View style={styles.line}>
-        <Text style={styles.label}>{t('earnFlow.enterAmount.earnUpToLabel')}</Text>
-        <Text style={styles.label}>{t('earnFlow.enterAmount.rateLabel')}</Text>
-      </View>
-      <View style={styles.line}>
-        <Text style={styles.valuesText} testID="EarnApyAndAmount/EarnUpTo">
-          {t('earnFlow.enterAmount.earnUpTo', {
-            fiatSymbol: localCurrencySymbol,
-            amount: earnUpTo,
-          })}
-        </Text>
-        <View style={styles.apy}>
-          <TokenIcon token={token} size={IconSize.XSMALL} />
-          <Text style={styles.valuesText} testID="EarnApyAndAmount/Apy">
-            {t('earnFlow.enterAmount.rate', {
-              rate: apyString,
-            })}
-          </Text>
-        </View>
-      </View>
-    </>
   )
 }
 
@@ -443,19 +394,12 @@ function EarnProceed({
   disabled,
   onPressProceed,
   onPressInfo,
-  apy,
 }: ProceedComponentProps) {
   const { t } = useTranslation()
-  const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
   return (
     <View style={styles.infoContainer}>
-      <EarnApyAndAmount
-        apy={apy}
-        tokenAmount={tokenAmount}
-        localCurrencySymbol={localCurrencySymbol}
-        token={token}
-      />
+      <EarnApyAndAmount tokenAmount={tokenAmount} token={token} />
       <Button
         onPress={() =>
           tokenAmount && onPressProceed({ tokenAmount, localAmount, token, amountEnteredIn })
@@ -531,13 +475,6 @@ const styles = StyleSheet.create({
     borderColor: Colors.gray2,
     marginTop: 20,
   },
-  line: {
-    flexDirection: 'row',
-    alignSelf: 'flex-end',
-    justifyContent: 'space-between',
-    width: '100%',
-    gap: Spacing.Smallest8,
-  },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -545,21 +482,8 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: Spacing.Tiny4,
   },
-  apy: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Spacing.Tiny4,
-  },
-  label: {
-    ...typeScale.bodySmall,
-    color: Colors.gray4,
-  },
   continueButton: {
     paddingVertical: Spacing.Thick24,
-  },
-  valuesText: {
-    ...typeScale.labelSemiBoldSmall,
-    marginVertical: Spacing.Tiny4,
   },
   infoText: {
     ...typeScale.bodyXSmall,
