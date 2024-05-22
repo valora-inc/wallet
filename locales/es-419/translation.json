@@ -2352,6 +2352,7 @@
     }
   },
   "earnFlow": {
+    "gasSubsidized": "¡Valora cubre la gasolina para esta transacción!",
     "addCryptoBottomSheet": {
       "title": "Añade {{tokenSymbol}} en {{tokenNetwork}}",
       "description": "Una vez que añadas fichas, tendrás que volver para terminar de depositarlas en un fondo común.",
