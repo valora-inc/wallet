@@ -17,7 +17,6 @@ import { depositStatusSelector } from 'src/earn/selectors'
 import { depositStart } from 'src/earn/slice'
 import InfoIcon from 'src/icons/InfoIcon'
 import Logo from 'src/icons/Logo'
-import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
@@ -57,8 +56,6 @@ export default function EarnDepositBottomSheet({
   const dispatch = useDispatch()
   const depositStatus = useSelector(depositStatusSelector)
   const transactionSubmitted = depositStatus === 'loading'
-
-  const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
   const commonAnalyticsProperties = {
     providerId: PROVIDER_ID,
