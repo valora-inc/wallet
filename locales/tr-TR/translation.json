@@ -2372,6 +2372,11 @@
       "subtitle": "Bugün para yatırın ve getiri kazanın",
       "description": "Bir kredi havuzu sağlarken ne kadar kazanabileceğinizi görün"
     },
+    "ctaV1_86": {
+      "title": "Sabit coinlerde kazancı en üst düzeye çıkarın",
+      "subtitle": "Satın Al {{symbol}}",
+      "description": "Bir havuza {{symbol}} eklediğinizde yılda yaklaşık {{apy}}% kazanın"
+    },
     "enterAmount": {
       "earnUpToLabel": "Şu kadar kazanabilirsiniz:",
       "rateLabel": "Oran (tahmini)",
