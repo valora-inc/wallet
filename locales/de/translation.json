@@ -2352,6 +2352,7 @@
     }
   },
   "earnFlow": {
+    "gasSubsidized": "Valora übernimmt das Benzin für diese Transaktion!",
     "addCryptoBottomSheet": {
       "title": "Füge {{tokenSymbol}} auf {{tokenNetwork}}hinzu.",
       "description": "Sobald du Jetons hinzugefügt hast, musst du zurückkommen, um die Einzahlung in einen Pool zu beenden.",
