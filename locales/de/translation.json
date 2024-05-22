@@ -2372,6 +2372,11 @@
       "subtitle": "Heute einzahlen und Rendite verdienen",
       "description": "Erfahre, wie viel du verdienen kannst, wenn du einen Kreditpool bereitstellst"
     },
+    "ctaV1_86": {
+      "title": "Maximiere den Ertrag von Stablecoins",
+      "subtitle": "Kaufen {{symbol}}",
+      "description": "Verdiene etwa {{apy}}% pro Jahr, wenn du {{symbol}} zu einem Pool hinzufügst"
+    },
     "enterAmount": {
       "earnUpToLabel": "Du könntest bis zu:",
       "rateLabel": "Rate (geschätzt)",
