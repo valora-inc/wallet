@@ -6,6 +6,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import TokenDisplay from 'src/components/TokenDisplay'
+import { PROVIDER_ID } from 'src/earn/constants'
 import { useAavePoolInfo } from 'src/earn/hooks'
 import UpwardGraph from 'src/icons/UpwardGraph'
 import { navigate } from 'src/navigator/NavigationService'
@@ -45,6 +46,12 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
   const poolToken = useTokenInfo(poolTokenId)
   const asyncPoolInfo = useAavePoolInfo({ depositTokenId })
 
+  if (!poolToken) {
+    // should never happen
+    Logger.error(TAG, `No pool token found ${poolTokenId}`)
+    return null
+  }
+
   return (
     <View style={styles.card} testID="EarnActivePool">
       <View style={styles.container}>
@@ -52,7 +59,7 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
         <View>
           <View style={styles.row}>
             <Text style={styles.totalValueText}>{t('earnFlow.activePools.totalValue')}</Text>
-            {poolToken && poolToken.balance && (
+            {poolToken.balance && (
               <TokenDisplay
                 amount={poolToken.balance}
                 showLocalAmount={false}
@@ -74,7 +81,7 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
                 <UpwardGraph />
               </View>
             )}
-            {poolToken && poolToken.balance && (
+            {poolToken.balance && (
               <TokenDisplay
                 amount={poolToken.balance}
                 showLocalAmount={true}
@@ -88,15 +95,11 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
           <View style={styles.buttonContainer}>
             <Button
               onPress={() => {
-                if (!poolToken) {
-                  Logger.warn(TAG, 'No pool token found')
-                  return
-                }
                 ValoraAnalytics.track(EarnEvents.earn_exit_pool_press, {
-                  poolTokenId,
+                  depositTokenId,
                   networkId: poolToken.networkId,
                   tokenAmount: poolToken.balance.toString(),
-                  providerId: 'aave-v3',
+                  providerId: PROVIDER_ID,
                 })
                 navigate(Screens.EarnCollectScreen, { depositTokenId, poolTokenId })
               }}
@@ -109,7 +112,8 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
               onPress={() => {
                 ValoraAnalytics.track(EarnEvents.earn_deposit_more_press, {
                   depositTokenId,
-                  providerId: 'aave-v3',
+                  providerId: PROVIDER_ID,
+                  networkId: poolToken.networkId,
                 })
                 navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })
               }}
@@ -124,7 +128,11 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
           <View style={styles.buttonContainer}>
             <Button
               onPress={() => {
-                ValoraAnalytics.track(EarnEvents.earn_view_pools_press)
+                ValoraAnalytics.track(EarnEvents.earn_view_pools_press, {
+                  poolTokenId,
+                  networkId: poolToken.networkId,
+                  providerId: PROVIDER_ID,
+                })
                 navigate(Screens.TabDiscover)
               }}
               text={t('earnFlow.activePools.viewPools')}

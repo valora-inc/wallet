@@ -10,6 +10,7 @@ import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
+import { PROVIDER_ID } from 'src/earn/constants'
 import { useAavePoolInfo, useAaveRewardsInfoAndPrepareTransactions } from 'src/earn/hooks'
 import { withdrawStatusSelector } from 'src/earn/selectors'
 import { withdrawStart } from 'src/earn/slice'
@@ -72,10 +73,10 @@ export default function EarnCollectScreen({ route }: Props) {
     )
 
     ValoraAnalytics.track(EarnEvents.earn_collect_earnings_press, {
-      tokenId: depositTokenId,
+      depositTokenId,
       tokenAmount: poolToken.balance.toString(),
       networkId: depositToken.networkId,
-      providerId: 'aave-v3',
+      providerId: PROVIDER_ID,
       rewards: serializedRewards,
     })
   }

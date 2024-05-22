@@ -4,6 +4,7 @@ import erc20 from 'src/abis/IERC20'
 import { EarnEvents } from 'src/analytics/Events'
 import { EarnDepositTxsReceiptProperties } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { PROVIDER_ID } from 'src/earn/constants'
 import {
   depositCancel,
   depositError,
@@ -20,7 +21,7 @@ import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
 import { vibrateError } from 'src/styles/hapticFeedback'
 import { getTokenInfo } from 'src/tokens/saga'
 import { tokensByIdSelector } from 'src/tokens/selectors'
-import { TokenBalances } from 'src/tokens/slice'
+import { TokenBalances, fetchTokenBalances } from 'src/tokens/slice'
 import { BaseStandbyTransaction } from 'src/transactions/actions'
 import {
   NetworkId,
@@ -86,10 +87,10 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
   const trackedTxs: TrackedTx[] = []
   const networkId = tokenInfo.networkId
   const commonAnalyticsProps = {
-    tokenId,
+    depositTokenId: tokenId,
     networkId,
     tokenAmount: amount,
-    providerId: 'aave-v3',
+    providerId: PROVIDER_ID,
   }
 
   let submitted = false
@@ -215,6 +216,7 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
       ...getDepositTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),
     })
     yield* put(depositSuccess())
+    yield* put(fetchTokenBalances({ showLoading: false }))
   } catch (err) {
     if (err === CANCELLED_PIN_INPUT) {
       Logger.info(`${TAG}/depositSubmitSaga`, 'Transaction cancelled by user')
@@ -261,10 +263,10 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
   const networkId = tokenInfo.networkId
   let submitted = false
   const commonAnalyticsProps = {
-    tokenId,
+    depositTokenId: tokenId,
     networkId,
     tokenAmount: amount,
-    providerId: 'aave-v3',
+    providerId: PROVIDER_ID,
     rewards,
   }
 
@@ -366,6 +368,7 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
     })
 
     yield* put(withdrawSuccess())
+    yield* put(fetchTokenBalances({ showLoading: false }))
     ValoraAnalytics.track(EarnEvents.earn_withdraw_submit_success, commonAnalyticsProps)
   } catch (err) {
     if (err === CANCELLED_PIN_INPUT) {

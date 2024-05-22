@@ -19,6 +19,7 @@ import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import EarnAddCryptoBottomSheet from 'src/earn/EarnAddCryptoBottomSheet'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
+import { PROVIDER_ID } from 'src/earn/constants'
 import { useAavePoolInfo } from 'src/earn/hooks'
 import { usePrepareSupplyTransactions } from 'src/earn/prepareTransactions'
 import { CICOFlow } from 'src/fiatExchanges/utils'
@@ -260,8 +261,9 @@ function EarnEnterAmount({ route }: Props) {
       tokenAmount: tokenAmount.toString(),
       amountInUsd: tokenAmount.multipliedBy(token.priceUsd ?? 0).toFixed(2),
       amountEnteredIn,
-      tokenId: token.tokenId,
+      depositTokenId: token.tokenId,
       networkId: token.networkId,
+      providerId: PROVIDER_ID,
     })
     isAmountLessThanBalance
       ? reviewBottomSheetRef.current?.snapToIndex(0)
@@ -383,6 +385,7 @@ function EarnEnterAmount({ route }: Props) {
           tokenId={token.tokenId}
           apy={apy}
           token={token}
+          networkId={token.networkId}
         />
       )}
     </SafeAreaView>

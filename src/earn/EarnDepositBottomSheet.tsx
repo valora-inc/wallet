@@ -12,6 +12,7 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { EarnApyAndAmount } from 'src/earn/EarnEnterAmount'
+import { PROVIDER_ID } from 'src/earn/constants'
 import { depositStatusSelector } from 'src/earn/selectors'
 import { depositStart } from 'src/earn/slice'
 import InfoIcon from 'src/icons/InfoIcon'
@@ -28,6 +29,7 @@ import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
+import { NetworkId } from 'src/transactions/types'
 import {
   PreparedTransactionsPossible,
   getFeeCurrencyAndAmounts,
@@ -43,6 +45,7 @@ export default function EarnDepositBottomSheet({
   tokenId,
   apy,
   token,
+  networkId,
 }: {
   forwardedRef: RefObject<BottomSheetRefType>
   preparedTransaction: PreparedTransactionsPossible
@@ -50,6 +53,7 @@ export default function EarnDepositBottomSheet({
   tokenId: string
   apy: number | undefined
   token: TokenBalance
+  networkId: NetworkId
 }) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -57,6 +61,13 @@ export default function EarnDepositBottomSheet({
   const transactionSubmitted = depositStatus === 'loading'
 
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
+  
+  const commonAnalyticsProperties = {
+    providerId: PROVIDER_ID,
+    depositTokenId: tokenId,
+    tokenAmount: amount,
+    networkId,
+  }
 
   const { estimatedFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(preparedTransaction)
 
@@ -70,13 +81,16 @@ export default function EarnDepositBottomSheet({
   )
 
   const onPressProviderIcon = () => {
-    ValoraAnalytics.track(EarnEvents.earn_deposit_provider_info_press)
+    ValoraAnalytics.track(EarnEvents.earn_deposit_provider_info_press, commonAnalyticsProperties)
     providerTermsAndConditionsUrl &&
       navigate(Screens.WebViewScreen, { uri: providerTermsAndConditionsUrl })
   }
 
   const onPressTermsAndConditions = () => {
-    ValoraAnalytics.track(EarnEvents.earn_deposit_terms_and_conditions_press)
+    ValoraAnalytics.track(
+      EarnEvents.earn_deposit_terms_and_conditions_press,
+      commonAnalyticsProperties
+    )
     providerTermsAndConditionsUrl &&
       navigate(Screens.WebViewScreen, { uri: providerTermsAndConditionsUrl })
   }
@@ -89,11 +103,11 @@ export default function EarnDepositBottomSheet({
         preparedTransactions: getSerializablePreparedTransactions(preparedTransaction.transactions),
       })
     )
-    ValoraAnalytics.track(EarnEvents.earn_deposit_complete)
+    ValoraAnalytics.track(EarnEvents.earn_deposit_complete, commonAnalyticsProperties)
   }
 
   const onPressCancel = () => {
-    ValoraAnalytics.track(EarnEvents.earn_deposit_cancel)
+    ValoraAnalytics.track(EarnEvents.earn_deposit_cancel, commonAnalyticsProperties)
     forwardedRef.current?.close()
   }
 
