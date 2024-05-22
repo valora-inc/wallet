@@ -4,6 +4,7 @@ import erc20 from 'src/abis/IERC20'
 import { EarnEvents } from 'src/analytics/Events'
 import { EarnDepositTxsReceiptProperties } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { PROVIDER_ID } from 'src/earn/constants'
 import {
   depositCancel,
   depositError,
@@ -86,10 +87,10 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
   const trackedTxs: TrackedTx[] = []
   const networkId = tokenInfo.networkId
   const commonAnalyticsProps = {
-    tokenId,
+    depositTokenId: tokenId,
     networkId,
     tokenAmount: amount,
-    providerId: 'aave-v3',
+    providerId: PROVIDER_ID,
   }
 
   let submitted = false
@@ -262,10 +263,10 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
   const networkId = tokenInfo.networkId
   let submitted = false
   const commonAnalyticsProps = {
-    tokenId,
+    depositTokenId: tokenId,
     networkId,
     tokenAmount: amount,
-    providerId: 'aave-v3',
+    providerId: PROVIDER_ID,
     rewards,
   }
 
