@@ -12,7 +12,7 @@ import { NetworkId } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
-import { mockAaveArbUsdcAddress, mockDappListWithCategoryNames } from 'test/values'
+import { mockAaveArbUsdcAddress, mockDappListWithCategoryNames, mockUSDCAddress } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/statsig', () => ({
@@ -751,11 +751,11 @@ describe('TabDiscover', () => {
         dapps: { dappListApiUrl: 'http://url.com', dappsList, dappsCategories },
         tokens: {
           tokenBalances: {
-            [networkConfig.aaveArbUsdcTokenId]: {
+            [networkConfig.arbUsdcTokenId]: {
               networkId: NetworkId['arbitrum-sepolia'],
-              address: mockAaveArbUsdcAddress,
-              tokenId: networkConfig.aaveArbUsdcTokenId,
-              symbol: 'aArbSepUSDC',
+              address: mockUSDCAddress,
+              tokenId: networkConfig.arbUsdcTokenId,
+              symbol: 'USDC',
               priceUsd: '1',
               balance: '0',
               priceFetchedAt: Date.now(),
