@@ -21,9 +21,9 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getDynamicConfigParams } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
@@ -70,6 +70,8 @@ export default function EarnDepositBottomSheet({
     // should never happen since a possible prepared tx should include fee currency and amount
     return null
   }
+
+  const isGasSubsidized = getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
 
   const { providerName, providerLogoUrl, providerTermsAndConditionsUrl } = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG]
@@ -129,9 +131,14 @@ export default function EarnDepositBottomSheet({
             testID="EarnDeposit/Fee"
             amount={estimatedFeeAmount}
             tokenId={feeCurrency.tokenId}
-            style={styles.value}
+            style={[styles.value, isGasSubsidized && { textDecorationLine: 'line-through' }]}
             showLocalAmount={false}
           />
+          {isGasSubsidized && (
+            <Text style={styles.gasSubsidized} testID={'EarnDeposit/GasSubsidized'}>
+              {t('earnFlow.gasSubsidized')}
+            </Text>
+          )}
         </LabelledItem>
         <LabelledItem label={t('earnFlow.depositBottomSheet.provider')}>
           <View style={styles.providerNameContainer}>
@@ -279,5 +286,9 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderWidth: 1,
     borderColor: Colors.gray2,
+  },
+  gasSubsidized: {
+    ...typeScale.labelXSmall,
+    color: Colors.primary,
   },
 })

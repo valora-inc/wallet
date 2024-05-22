@@ -8,8 +8,8 @@ import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import { PROVIDER_ID } from 'src/earn/constants'
 import { depositStart } from 'src/earn/slice'
 import { navigate } from 'src/navigator/NavigationService'
-import { getDynamicConfigParams } from 'src/statsig'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
@@ -73,10 +73,11 @@ describe('EarnDepositBottomSheet', () => {
           return defaultValues
       }
     })
+    jest.mocked(getFeatureGate).mockReturnValue(false)
   })
 
   it('renders all elements', () => {
-    const { getByTestId, getByText } = render(
+    const { getByTestId, queryByTestId, getByText } = render(
       <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
@@ -97,6 +98,7 @@ describe('EarnDepositBottomSheet', () => {
     expect(getByTestId('EarnApyAndAmount/EarnUpTo')).toHaveTextContent(
       'earnFlow.enterAmount.earnUpTo, {"fiatSymbol":"₱","amount":"10.00"}'
     )
+    expect(queryByTestId('EarnDeposit/GasSubsidized')).toBeFalsy()
 
     expect(getByText('earnFlow.depositBottomSheet.amount')).toBeTruthy()
     expect(getByTestId('EarnDeposit/Amount')).toHaveTextContent('100.00 ETH')
@@ -237,5 +239,27 @@ describe('EarnDepositBottomSheet', () => {
     expect(getByTestId('EarnDeposit/PrimaryCta')).toBeDisabled()
     expect(getByTestId('EarnDeposit/SecondaryCta')).toBeDisabled()
     expect(getByTestId('EarnDeposit/PrimaryCta')).toContainElement(getByTestId('Button/Loading'))
+  })
+
+  it('shows gas subsidized copy if feature gate is set', () => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation(
+        (featureGateName) =>
+          featureGateName === StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES
+      )
+    const { getByTestId } = render(
+      <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
+        <EarnDepositBottomSheet
+          forwardedRef={{ current: null }}
+          amount={'100'}
+          tokenId={mockArbEthTokenId}
+          preparedTransaction={mockPreparedTransaction}
+          networkId={NetworkId['arbitrum-sepolia']}
+        />
+      </Provider>
+    )
+
+    expect(getByTestId('EarnDeposit/GasSubsidized')).toBeTruthy()
   })
 })
