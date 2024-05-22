@@ -2372,6 +2372,11 @@
       "subtitle": "Deposita hoy y obtén beneficios",
       "description": "Comprueba cuánto puedes ganar al abastecer un fondo común de préstamos"
     },
+    "ctaV1_86": {
+      "title": "Maximizar las ganancias en stablecoins",
+      "subtitle": "Comprar {{symbol}}",
+      "description": "Gana aproximadamente {{apy}}% al año cuando añades {{symbol}} a una piscina"
+    },
     "enterAmount": {
       "earnUpToLabel": "Podrías ganar hasta:",
       "rateLabel": "Tasa (est.)",
