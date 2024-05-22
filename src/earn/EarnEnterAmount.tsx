@@ -416,7 +416,7 @@ export function EarnApyAndAmount({
         <Text style={styles.label}>{t('earnFlow.enterAmount.rateLabel')}</Text>
       </View>
       <View style={styles.line}>
-        <Text style={styles.valuesText} testID="EarnEnterAmount/EarnUpTo">
+        <Text style={styles.valuesText} testID="EarnApyAndAmount/EarnUpTo">
           {t('earnFlow.enterAmount.earnUpTo', {
             fiatSymbol: localCurrencySymbol,
             amount: earnUpTo,
@@ -424,7 +424,7 @@ export function EarnApyAndAmount({
         </Text>
         <View style={styles.apy}>
           <TokenIcon token={token} size={IconSize.XSMALL} />
-          <Text style={styles.valuesText} testID="EarnEnterAmount/Apy">
+          <Text style={styles.valuesText} testID="EarnApyAndAmount/Apy">
             {t('earnFlow.enterAmount.rate', {
               rate: apyString,
             })}

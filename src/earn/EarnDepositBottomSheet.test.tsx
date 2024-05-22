@@ -99,6 +99,13 @@ describe('EarnDepositBottomSheet', () => {
     expect(getByText('earnFlow.depositBottomSheet.title')).toBeTruthy()
     expect(getByText('earnFlow.depositBottomSheet.description')).toBeTruthy()
 
+    expect(getByTestId('EarnApyAndAmount/Apy')).toHaveTextContent(
+      'earnFlow.enterAmount.rate, {"rate":"10.00"}'
+    )
+    expect(getByTestId('EarnApyAndAmount/EarnUpTo')).toHaveTextContent(
+      'earnFlow.enterAmount.earnUpTo, {"fiatSymbol":"₱","amount":"10.00"}'
+    )
+
     expect(getByText('earnFlow.depositBottomSheet.amount')).toBeTruthy()
     expect(getByTestId('EarnDeposit/Amount')).toHaveTextContent('100.00 ETH')
 

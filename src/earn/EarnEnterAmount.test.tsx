@@ -101,8 +101,8 @@ describe('EarnEnterAmount', () => {
         <MockedNavigator component={EarnEnterAmount} params={params} />
       </Provider>
     )
-    expect(getByTestId('EarnEnterAmount/Apy')).toBeTruthy()
-    expect(getByTestId('EarnEnterAmount/EarnUpTo')).toBeTruthy()
+    expect(getByTestId('EarnApyAndAmount/Apy')).toBeTruthy()
+    expect(getByTestId('EarnApyAndAmount/EarnUpTo')).toBeTruthy()
   })
 
   it('should be able to tap info icon', async () => {
