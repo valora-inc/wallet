@@ -2376,6 +2376,11 @@
       "subtitle": "Dokonaj wpłaty już dziś i zarabiaj",
       "description": "Zobacz ile możesz zarobić zasilając pulę pożyczkową"
     },
+    "ctaV1_86": {
+      "title": "Maksymalizuj zarobki na stablecoinach",
+      "subtitle": "Kup {{symbol}}",
+      "description": "Zarabiaj około {{apy}}% rocznie, dodając {{symbol}} do puli."
+    },
     "enterAmount": {
       "earnUpToLabel": "Możesz zarobić do:",
       "rateLabel": "Stawka (szacunkowa)",
