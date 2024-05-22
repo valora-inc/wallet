@@ -115,7 +115,7 @@ export default function EarnDepositBottomSheet({
         <Text style={styles.title}>{t('earnFlow.depositBottomSheet.title')}</Text>
         <Text style={styles.description}>{t('earnFlow.depositBottomSheet.description')}</Text>
         <View style={styles.infoContainer}>
-          <EarnApyAndAmount tokenAmount={amount} token={token} />
+          <EarnApyAndAmount tokenAmount={amount} token={token} testID={'EarnDepositBottomSheet'} />
         </View>
         <LabelledItem label={t('earnFlow.depositBottomSheet.amount')}>
           <TokenDisplay

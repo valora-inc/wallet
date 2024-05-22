@@ -399,7 +399,7 @@ function EarnProceed({
 
   return (
     <View style={styles.infoContainer}>
-      <EarnApyAndAmount tokenAmount={tokenAmount} token={token} />
+      <EarnApyAndAmount tokenAmount={tokenAmount} token={token} testID={'EarnEnterAmount'} />
       <Button
         onPress={() =>
           tokenAmount && onPressProceed({ tokenAmount, localAmount, token, amountEnteredIn })
