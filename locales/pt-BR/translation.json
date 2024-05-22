@@ -2352,6 +2352,7 @@
     }
   },
   "earnFlow": {
+    "gasSubsidized": "Valora está cobrindo a gasolina para essa transação!",
     "addCryptoBottomSheet": {
       "title": "Adicionar {{tokenSymbol}} em {{tokenNetwork}}",
       "description": "Depois de adicionar tokens, você terá que voltar para terminar de depositar em um pool.",
