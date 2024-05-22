@@ -2352,6 +2352,7 @@
     }
   },
   "earnFlow": {
+    "gasSubsidized": "Valora copre la benzina per questa transazione!",
     "addCryptoBottomSheet": {
       "title": "Aggiungi {{tokenSymbol}} su {{tokenNetwork}}",
       "description": "Una volta aggiunti i gettoni, dovrai tornare per terminare il deposito in una piscina.",
