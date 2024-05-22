@@ -2372,6 +2372,11 @@
       "subtitle": "Deposite hoje e ganhe retornos",
       "description": "Veja quanto você pode ganhar ao fornecer um pool de empréstimos"
     },
+    "ctaV1_86": {
+      "title": "Maximizar os ganhos com stablecoins",
+      "subtitle": "Compre {{symbol}}",
+      "description": "Ganhe aproximadamente {{apy}}% por ano quando você adiciona {{symbol}} a um pool"
+    },
     "enterAmount": {
       "earnUpToLabel": "Você pode ganhar até:",
       "rateLabel": "Taxa (est.)",
