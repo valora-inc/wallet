@@ -61,11 +61,11 @@ export default function EarnDepositBottomSheet({
   const transactionSubmitted = depositStatus === 'loading'
 
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  
+
   const commonAnalyticsProperties = {
     providerId: PROVIDER_ID,
     depositTokenId: tokenId,
-    tokenAmount: amount,
+    tokenAmount: amount.toString(),
     networkId,
   }
 
