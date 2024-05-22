@@ -79,8 +79,12 @@
     },
     {
       // Avoid auto merge of major updates on rn, auth0, firebase and walletconnect
-      matchDepNames: ['react-native'],
-      matchPackagePatterns: ['^@react-native-firebase/', 'react-native-auth0', '^@walletconnect/'],
+      matchPackagePatterns: [
+        '^@react-native-firebase/',
+        'react-native-auth0',
+        '^@walletconnect/',
+        '^react-native$',
+      ],
       matchUpdateTypes: ['major'],
       automerge: false,
     },
