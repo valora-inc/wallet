@@ -2352,6 +2352,7 @@
     }
   },
   "earnFlow": {
+    "gasSubsidized": "Valora couvre le gaz pour cette transaction !",
     "addCryptoBottomSheet": {
       "title": "Ajoute {{tokenSymbol}} sur {{tokenNetwork}}",
       "description": "Une fois que tu auras ajouté des jetons, tu devras revenir pour finir de déposer dans une cagnotte.",
