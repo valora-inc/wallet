@@ -20,7 +20,7 @@ describe('Wallet Jumpstart', () => {
   })
 
   it('should handle jumpstart claim failure', () => {
-    const updatedState = reducer(undefined, jumpstartClaimFailed())
+    const updatedState = reducer(undefined, jumpstartClaimFailed({ isAlreadyClaimed: false }))
 
     expect(updatedState).toHaveProperty('claimStatus', 'error')
   })
