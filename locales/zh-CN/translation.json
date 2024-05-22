@@ -2370,6 +2370,11 @@
       "subtitle": "立即存款，赚取回报",
       "description": "了解您在提供贷款池时能赚多少钱"
     },
+    "ctaV1_86": {
+      "title": "最大化稳定币收益",
+      "subtitle": "购买 {{symbol}}",
+      "description": "将 {{symbol}} 加入游泳池后，每年可获得约 {{apy}}% 的收益"
+    },
     "enterAmount": {
       "earnUpToLabel": "您最多可以获得",
       "rateLabel": "比率（估计值）",
