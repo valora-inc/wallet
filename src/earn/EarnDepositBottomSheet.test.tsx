@@ -252,9 +252,10 @@ describe('EarnDepositBottomSheet', () => {
       <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
-          amount={'100'}
+          amount={new BigNumber(100)}
           tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
+          token={mockToken}
           networkId={NetworkId['arbitrum-sepolia']}
         />
       </Provider>
