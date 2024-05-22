@@ -2372,6 +2372,11 @@
       "subtitle": "Dépose aujourd'hui et gagne en rendement",
       "description": "Vois combien tu peux gagner en alimentant un pool de prêt."
     },
+    "ctaV1_86": {
+      "title": "Maximiser les gains sur les stablecoins",
+      "subtitle": "Acheter {{symbol}}",
+      "description": "Gagne environ {{apy}}% par an lorsque tu ajoutes {{symbol}} à une piscine."
+    },
     "enterAmount": {
       "earnUpToLabel": "Tu pourrais gagner jusqu'à :",
       "rateLabel": "Taux (est.)",
