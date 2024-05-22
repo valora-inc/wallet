@@ -2356,6 +2356,7 @@
     }
   },
   "earnFlow": {
+    "gasSubsidized": "Валора покриває газ для цієї транзакції!",
     "addCryptoBottomSheet": {
       "title": "Додайте {{tokenSymbol}} на {{tokenNetwork}}",
       "description": "Після того, як ви додасте токени, вам доведеться повернутися, щоб завершити депонування в пул.",
