@@ -2356,6 +2356,7 @@
     }
   },
   "earnFlow": {
+    "gasSubsidized": "Валора покрывает газ для этой сделки!",
     "addCryptoBottomSheet": {
       "title": "Добавь {{tokenSymbol}} на {{tokenNetwork}}",
       "description": "Как только ты добавишь жетоны, тебе придется вернуться, чтобы закончить пополнение счета в пуле.",
