@@ -2196,7 +2196,10 @@
   },
   "getStartedHome": {
     "title": "Kup kryptowaluty lub prześlij tokeny",
-    "body": "Kupuj lub przesyłaj kompatybilne tokeny, aby wysyłać kryptowaluty i odkrywać web3!"
+    "body": "Kupuj lub przesyłaj kompatybilne tokeny, aby wysyłać kryptowaluty i odkrywać web3!",
+    "titleV1_86": "Dodaj środki do swojego portfela",
+    "exploreTokens": "Poznaj wszystkie tokeny",
+    "exploreTokensBody": "Możesz kupić do 10+ tokenów w Valora. Sprawdź je!"
   },
   "nftCelebration": {
     "bottomSheet": {
