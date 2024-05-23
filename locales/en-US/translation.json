@@ -2192,7 +2192,10 @@
   },
   "getStartedHome": {
     "title": "Buy crypto or transfer tokens",
-    "body": "Buy or transfer compatible tokens to send crypto and explore web3!"
+    "body": "Buy or transfer compatible tokens to send crypto and explore web3!",
+    "titleV1_86": "Add funds to your wallet",
+    "exploreTokens": "Explore all tokens",
+    "exploreTokensBody": "You can buy up to 10+ tokens in Valora. Check them out!"
   },
   "nftCelebration": {
     "bottomSheet": {
