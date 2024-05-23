@@ -556,7 +556,13 @@ describe(swapSubmitSaga, () => {
         },
       })
       .call([publicClient.celo, 'waitForTransactionReceipt'], { hash: '0x1' })
-      .put(trackPointsEvent({ activityId: 'swap', transactionHash: '0x1', network: Network.Celo }))
+      .put(
+        trackPointsEvent({
+          activityId: 'swap',
+          transactionHash: '0x1',
+          networkId: NetworkId['celo-alfajores'],
+        })
+      )
       .run()
 
     expect(mockViemWallet.signTransaction).toHaveBeenCalledTimes(1)

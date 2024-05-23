@@ -1,4 +1,4 @@
-import { Network } from 'src/transactions/types'
+import { NetworkId } from 'src/transactions/types'
 import reducer, {
   PendingPointsEvent,
   initialState,
@@ -15,7 +15,7 @@ const pendingCreateWalletEvent: PendingPointsEvent = {
 const pendingSwapEvent: PendingPointsEvent = {
   id: 'test-id-2',
   timestamp: '2024-04-22T12:00:00.000Z',
-  event: { activityId: 'swap', transactionHash: '0xTEST', network: Network.Celo },
+  event: { activityId: 'swap', transactionHash: '0xTEST', networkId: NetworkId['celo-alfajores'] },
 }
 
 describe('pending points events', () => {

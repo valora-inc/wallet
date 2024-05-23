@@ -1901,17 +1901,6 @@
             ],
             "type": "string"
         },
-        "Network": {
-            "enum": [
-                "arbitrum",
-                "base",
-                "celo",
-                "ethereum",
-                "optimism",
-                "polygon-pos"
-            ],
-            "type": "string"
-        },
         "NetworkId": {
             "enum": [
                 "arbitrum-one",
@@ -2845,8 +2834,8 @@
                     "const": "swap",
                     "type": "string"
                 },
-                "network": {
-                    "$ref": "#/definitions/Network"
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
                 },
                 "transactionHash": {
                     "type": "string"
@@ -2854,7 +2843,7 @@
             },
             "required": [
                 "activityId",
-                "network",
+                "networkId",
                 "transactionHash"
             ],
             "type": "object"
