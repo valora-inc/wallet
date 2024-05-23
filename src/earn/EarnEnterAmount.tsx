@@ -3,15 +3,9 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import {
-  TextInput as RNTextInput,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import { TextInput as RNTextInput, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { EarnEvents, SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
@@ -25,6 +19,7 @@ import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import EarnAddCryptoBottomSheet from 'src/earn/EarnAddCryptoBottomSheet'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
+import { PROVIDER_ID } from 'src/earn/constants'
 import { useAavePoolInfo } from 'src/earn/hooks'
 import { usePrepareSupplyTransactions } from 'src/earn/prepareTransactions'
 import { CICOFlow } from 'src/fiatExchanges/utils'
@@ -262,8 +257,9 @@ function EarnEnterAmount({ route }: Props) {
       tokenAmount: tokenAmount.toString(),
       amountInUsd: tokenAmount.multipliedBy(token.priceUsd ?? 0).toFixed(2),
       amountEnteredIn,
-      tokenId: token.tokenId,
+      depositTokenId: token.tokenId,
       networkId: token.networkId,
+      providerId: PROVIDER_ID,
     })
     isAmountLessThanBalance
       ? reviewBottomSheetRef.current?.snapToIndex(0)
@@ -382,6 +378,7 @@ function EarnEnterAmount({ route }: Props) {
           preparedTransaction={prepareTransactionsResult}
           amount={tokenAmount.toString()}
           tokenId={token.tokenId}
+          networkId={token.networkId}
         />
       )}
     </SafeAreaView>

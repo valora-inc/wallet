@@ -2,7 +2,9 @@ import { PayloadAction } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import erc20 from 'src/abis/IERC20'
 import { EarnEvents } from 'src/analytics/Events'
+import { EarnDepositTxsReceiptProperties } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { PROVIDER_ID } from 'src/earn/constants'
 import {
   depositCancel,
   depositError,
@@ -18,8 +20,19 @@ import { navigateHome } from 'src/navigator/NavigationService'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
 import { vibrateError } from 'src/styles/hapticFeedback'
 import { getTokenInfo } from 'src/tokens/saga'
+import { tokensByIdSelector } from 'src/tokens/selectors'
+import { TokenBalances, fetchTokenBalances } from 'src/tokens/slice'
 import { BaseStandbyTransaction } from 'src/transactions/actions'
-import { TokenTransactionTypeV2, newTransactionContext } from 'src/transactions/types'
+import {
+  NetworkId,
+  TokenTransactionTypeV2,
+  TrackedTx,
+  newTransactionContext,
+} from 'src/transactions/types'
+import {
+  getPrefixedTxAnalyticsProperties,
+  getTxReceiptAnalyticsProperties,
+} from 'src/transactions/utils'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
@@ -27,10 +40,35 @@ import { publicClient } from 'src/viem'
 import { getPreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import { sendPreparedTransactions } from 'src/viem/saga'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
-import { all, call, put, takeLeading } from 'typed-redux-saga'
+import { all, call, put, select, takeLeading } from 'typed-redux-saga'
 import { decodeFunctionData } from 'viem'
 
 const TAG = 'earn/saga'
+
+function getDepositTxsReceiptAnalyticsProperties(
+  trackedTxs: TrackedTx[],
+  networkId: NetworkId,
+  tokensById: TokenBalances
+): EarnDepositTxsReceiptProperties {
+  const txs = trackedTxs.map((trackedTx) =>
+    getTxReceiptAnalyticsProperties(trackedTx, networkId, tokensById)
+  )
+
+  const approveTx = trackedTxs.length > 1 ? txs[0] : undefined
+  const depositTx = trackedTxs.length > 0 ? txs[txs.length - 1] : undefined
+
+  return {
+    ...getPrefixedTxAnalyticsProperties(approveTx || {}, 'approve'),
+    ...getPrefixedTxAnalyticsProperties(depositTx || {}, 'deposit'),
+    gasUsed: depositTx?.txGasUsed
+      ? txs.reduce((sum, tx) => sum + (tx.txGasUsed || 0), 0)
+      : undefined,
+    gasFee: depositTx?.txGasFee ? txs.reduce((sum, tx) => sum + (tx.txGasFee || 0), 0) : undefined,
+    gasFeeUsd: depositTx?.txGasFeeUsd
+      ? txs.reduce((sum, tx) => sum + (tx.txGasFeeUsd || 0), 0)
+      : undefined,
+  }
+}
 
 export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
   const { tokenId, preparedTransactions: serializablePreparedTransactions, amount } = action.payload
@@ -44,12 +82,15 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
     return
   }
 
+  const tokensById = yield* select((state) => tokensByIdSelector(state, [tokenInfo.networkId]))
+
+  const trackedTxs: TrackedTx[] = []
   const networkId = tokenInfo.networkId
   const commonAnalyticsProps = {
-    tokenId,
+    depositTokenId: tokenId,
     networkId,
     tokenAmount: amount,
-    providerId: 'aave-v3',
+    providerId: PROVIDER_ID,
   }
 
   let submitted = false
@@ -59,6 +100,14 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
       `${TAG}/depositSubmitSaga`,
       `Starting deposit for token ${tokenId}, total transactions: ${preparedTransactions.length}`
     )
+
+    for (const tx of preparedTransactions) {
+      trackedTxs.push({
+        tx,
+        txHash: undefined,
+        txReceipt: undefined,
+      })
+    }
 
     const createDepositStandbyTxHandlers = []
 
@@ -126,6 +175,9 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
       networkId,
       createDepositStandbyTxHandlers
     )
+    txHashes.forEach((txHash, i) => {
+      trackedTxs[i].txHash = txHash
+    })
 
     Logger.debug(
       `${TAG}/depositSubmitSaga`,
@@ -146,6 +198,7 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
       })
     )
     txReceipts.forEach((receipt, index) => {
+      trackedTxs[index].txReceipt = receipt
       Logger.debug(
         `${TAG}/depositSubmitSaga`,
         `Received transaction receipt ${index + 1} of ${txReceipts.length}`,
@@ -158,8 +211,12 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
       throw new Error(`Deposit transaction reverted: ${depositTxReceipt?.transactionHash}`)
     }
 
-    ValoraAnalytics.track(EarnEvents.earn_deposit_submit_success, commonAnalyticsProps)
+    ValoraAnalytics.track(EarnEvents.earn_deposit_submit_success, {
+      ...commonAnalyticsProps,
+      ...getDepositTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),
+    })
     yield* put(depositSuccess())
+    yield* put(fetchTokenBalances({ showLoading: false }))
   } catch (err) {
     if (err === CANCELLED_PIN_INPUT) {
       Logger.info(`${TAG}/depositSubmitSaga`, 'Transaction cancelled by user')
@@ -174,6 +231,7 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
     ValoraAnalytics.track(EarnEvents.earn_deposit_submit_error, {
       ...commonAnalyticsProps,
       error: error.message,
+      ...getDepositTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),
     })
 
     // Only vibrate if we haven't already submitted the transaction
@@ -205,10 +263,10 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
   const networkId = tokenInfo.networkId
   let submitted = false
   const commonAnalyticsProps = {
-    tokenId,
+    depositTokenId: tokenId,
     networkId,
     tokenAmount: amount,
-    providerId: 'aave-v3',
+    providerId: PROVIDER_ID,
     rewards,
   }
 
@@ -278,7 +336,7 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
     )
 
     Logger.debug(
-      `${TAG}/withd`,
+      `${TAG}/withdraw`,
       'Successfully sent withdraw transaction(s) to the network',
       txHashes
     )
@@ -310,6 +368,7 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
     })
 
     yield* put(withdrawSuccess())
+    yield* put(fetchTokenBalances({ showLoading: false }))
     ValoraAnalytics.track(EarnEvents.earn_withdraw_submit_success, commonAnalyticsProps)
   } catch (err) {
     if (err === CANCELLED_PIN_INPUT) {

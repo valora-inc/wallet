@@ -1767,6 +1767,9 @@
     "swapToTokenSelection": "ŞUNA TAKAS",
     "tokenUsdValueUnknown": "-",
     "unsupportedSwapTokens": "Seçilen tokenleri swap sağlayıcılarımız desteklemiyor.",
+    "selectTokenLabel": "Belirteç seçin",
+    "tokenBottomSheetTitle": "Belirteç Seçin",
+    "onNetwork": "{{networkName}}adresinde",
     "switchedToNetworkWarning": {
       "title": "{{networkName}} ağına geçtiniz",
       "body_swapFrom": "Devam etmek için {{networkName}} ağında kendisinden swap yapılacak bir token seçin.",
@@ -1820,7 +1823,7 @@
       "appFeeValue_withoutPriceUsd": "<0></0>",
       "appFeeValue_free": "Ücretsiz",
       "appFeeValue_placeholder": "-",
-      "appFeeInfo": "{{appName}} Ücret\n\nJetonları {{appName}}adresinde takas etmek için bir ücret alıyoruz. Ücret, takas ettiğiniz miktarın {{appFeePercentage}}%'sidir.",
+      "appFeeInfo": "{{appName}} Ücret\n\n {{appName}} ücreti {{appFeePercentage}}%, hızlı, güvenilir ve güvenli takaslar sağlayarak deneyiminizi geliştirmek için tasarlanmıştır.",
       "appFeeInfo_free": "{{appName}} Ücret\n\nBu takas ücretsizdir.",
       "appFeeInfo_placeholder": "{{appName}} Ücret\n\nÜcret, aldığınız teklife göre hesaplanır.",
       "appFeeInfoDismissButton": "Anladım",
@@ -2238,12 +2241,13 @@
   },
   "jumpstartStatus": {
     "loading": {
-      "title": "Paranız yolda",
-      "description": "Arkadaşınızın size verdiği fon gönderiliyor. Lütfen bekleyin... "
+      "title": "Fonlarınızı kontrol etme",
+      "description": "Canlı Bağlantınızı kontrol ederken lütfen bekleyin. Talep edilebilir fonlar kısa süre içinde ulaşacaktır."
     },
     "error": {
       "title": "Fon talep edilemiyor",
-      "description": "Fon almayı denemek için canlı bağlantınızı tekrar deneyin veya arkadaşınızdan yeni bir bağlantı göndermeyi denemesini isteyin",
+      "description": "Bu bağlantı bilinmeyen bir nedenle talep edilemedi",
+      "alreadyClaimedDescription": "Bağlantı zaten talep edildi. Lütfen arkadaşınızdan yeni bir bağlantı göndermesini isteyin",
       "contactSupport": "Destek ile İletişime Geç",
       "dismiss": "Yoksay"
     }

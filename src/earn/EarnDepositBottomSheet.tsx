@@ -10,6 +10,7 @@ import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
+import { PROVIDER_ID } from 'src/earn/constants'
 import { depositStatusSelector } from 'src/earn/selectors'
 import { depositStart } from 'src/earn/slice'
 import InfoIcon from 'src/icons/InfoIcon'
@@ -18,12 +19,13 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getDynamicConfigParams } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
+import { NetworkId } from 'src/transactions/types'
 import {
   PreparedTransactionsPossible,
   getFeeCurrencyAndAmounts,
@@ -37,16 +39,25 @@ export default function EarnDepositBottomSheet({
   preparedTransaction,
   amount,
   tokenId,
+  networkId,
 }: {
   forwardedRef: RefObject<BottomSheetRefType>
   preparedTransaction: PreparedTransactionsPossible
   amount: string
   tokenId: string
+  networkId: NetworkId
 }) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const depositStatus = useSelector(depositStatusSelector)
   const transactionSubmitted = depositStatus === 'loading'
+
+  const commonAnalyticsProperties = {
+    providerId: PROVIDER_ID,
+    depositTokenId: tokenId,
+    tokenAmount: amount,
+    networkId,
+  }
 
   const { estimatedFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(preparedTransaction)
 
@@ -55,18 +66,23 @@ export default function EarnDepositBottomSheet({
     return null
   }
 
+  const isGasSubsidized = getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
+
   const { providerName, providerLogoUrl, providerTermsAndConditionsUrl } = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG]
   )
 
   const onPressProviderIcon = () => {
-    ValoraAnalytics.track(EarnEvents.earn_deposit_provider_info_press)
+    ValoraAnalytics.track(EarnEvents.earn_deposit_provider_info_press, commonAnalyticsProperties)
     providerTermsAndConditionsUrl &&
       navigate(Screens.WebViewScreen, { uri: providerTermsAndConditionsUrl })
   }
 
   const onPressTermsAndConditions = () => {
-    ValoraAnalytics.track(EarnEvents.earn_deposit_terms_and_conditions_press)
+    ValoraAnalytics.track(
+      EarnEvents.earn_deposit_terms_and_conditions_press,
+      commonAnalyticsProperties
+    )
     providerTermsAndConditionsUrl &&
       navigate(Screens.WebViewScreen, { uri: providerTermsAndConditionsUrl })
   }
@@ -79,11 +95,11 @@ export default function EarnDepositBottomSheet({
         preparedTransactions: getSerializablePreparedTransactions(preparedTransaction.transactions),
       })
     )
-    ValoraAnalytics.track(EarnEvents.earn_deposit_complete)
+    ValoraAnalytics.track(EarnEvents.earn_deposit_complete, commonAnalyticsProperties)
   }
 
   const onPressCancel = () => {
-    ValoraAnalytics.track(EarnEvents.earn_deposit_cancel)
+    ValoraAnalytics.track(EarnEvents.earn_deposit_cancel, commonAnalyticsProperties)
     forwardedRef.current?.close()
   }
 
@@ -107,9 +123,14 @@ export default function EarnDepositBottomSheet({
             testID="EarnDeposit/Fee"
             amount={estimatedFeeAmount}
             tokenId={feeCurrency.tokenId}
-            style={styles.value}
+            style={[styles.value, isGasSubsidized && { textDecorationLine: 'line-through' }]}
             showLocalAmount={false}
           />
+          {isGasSubsidized && (
+            <Text style={styles.gasSubsidized} testID={'EarnDeposit/GasSubsidized'}>
+              {t('earnFlow.gasSubsidized')}
+            </Text>
+          )}
         </LabelledItem>
         <LabelledItem label={t('earnFlow.depositBottomSheet.provider')}>
           <View style={styles.providerNameContainer}>
@@ -251,5 +272,9 @@ const styles = StyleSheet.create({
   cta: {
     flexGrow: 1,
     flexBasis: 0,
+  },
+  gasSubsidized: {
+    ...typeScale.labelXSmall,
+    color: Colors.primary,
   },
 })

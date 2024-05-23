@@ -1767,6 +1767,9 @@
     "swapToTokenSelection": "SCAMBIA CON",
     "tokenUsdValueUnknown": "-",
     "unsupportedSwapTokens": "I token selezionati non sono supportati dai nostri provider di scambio.",
+    "selectTokenLabel": "Seleziona il token",
+    "tokenBottomSheetTitle": "Seleziona token",
+    "onNetwork": "su {{networkName}}",
     "switchedToNetworkWarning": {
       "title": "Sei passato alla rete {{networkName}}",
       "body_swapFrom": "Per continuare, seleziona un token da cui eseguire lo scambio sulla rete {{networkName}}.",
@@ -1820,7 +1823,7 @@
       "appFeeValue_withoutPriceUsd": "<0></0>",
       "appFeeValue_free": "Gratuito",
       "appFeeValue_placeholder": "-",
-      "appFeeInfo": "{{appName}} Commissione\n\nApplichiamo una commissione per lo scambio di token su {{appName}}. La commissione è pari al {{appFeePercentage}}% dell'importo che stai scambiando.",
+      "appFeeInfo": "{{appName}} Commissione\n\nLa commissione {{appName}} del {{appFeePercentage}}% è pensata per migliorare la tua esperienza garantendoti scambi veloci, affidabili e sicuri.",
       "appFeeInfo_free": "{{appName}} Costo\n\nQuesto scambio è gratuito.",
       "appFeeInfo_placeholder": "{{appName}} Tariffa\n\nLa tariffa viene calcolata in base al preventivo ricevuto.",
       "appFeeInfoDismissButton": "Ho capito",
@@ -2238,12 +2241,13 @@
   },
   "jumpstartStatus": {
     "loading": {
-      "title": "I tuoi fondi sono in arrivo",
-      "description": "I fondi che il tuo amico ti ha dato sono in fase di invio. Attendi... "
+      "title": "Controllo dei tuoi fondi",
+      "description": "Attendi che controlliamo il tuo Live Link. I fondi richiedibili arriveranno a breve."
     },
     "error": {
       "title": "Impossibile reclamare i fondi",
-      "description": "Riprova il tuo link diretto per tentare di ricevere i fondi, oppure chiedi al tuo amico di provare a inviare un nuovo link",
+      "description": "Per un motivo sconosciuto non è stato possibile richiedere questo link.",
+      "alreadyClaimedDescription": "Il link è già stato richiesto. Chiedi al tuo amico di inviare un nuovo link",
       "contactSupport": "Contatta il supporto tecnico",
       "dismiss": "Ignora"
     }

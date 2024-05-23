@@ -1767,6 +1767,9 @@
     "swapToTokenSelection": "ÉCHANGER CONTRE",
     "tokenUsdValueUnknown": "-",
     "unsupportedSwapTokens": "Les jetons sélectionnés ne sont pas pris en charge par nos fournisseurs.",
+    "selectTokenLabel": "Sélectionne le jeton",
+    "tokenBottomSheetTitle": "Sélectionner un jeton",
+    "onNetwork": "sur {{networkName}}",
     "switchedToNetworkWarning": {
       "title": "Vous êtes passé au réseau {{networkName}}",
       "body_swapFrom": "Sélectionnez un jeton à échanger sur le réseau {{networkName}} pour continuer.",
@@ -1820,7 +1823,7 @@
       "appFeeValue_withoutPriceUsd": "<0></0>",
       "appFeeValue_free": "Gratuit",
       "appFeeValue_placeholder": "-",
-      "appFeeInfo": "{{appName}} Frais\n\nNous facturons des frais pour échanger des jetons sur {{appName}}. Ces frais s'élèvent à {{appFeePercentage}}% du montant que tu échanges.",
+      "appFeeInfo": "{{appName}} Frais\n\nLes frais {{appName}} de {{appFeePercentage}}% sont conçus pour améliorer ton expérience en garantissant des échanges rapides, fiables et sécurisés.",
       "appFeeInfo_free": "{{appName}} Frais\n\nCet échange est gratuit.",
       "appFeeInfo_placeholder": "{{appName}} Frais\n\nLes frais sont calculés en fonction du devis que tu reçois.",
       "appFeeInfoDismissButton": "J'ai compris",
@@ -2238,12 +2241,13 @@
   },
   "jumpstartStatus": {
     "loading": {
-      "title": "Vos fonds sont en route",
-      "description": "Les fonds que votre ami vous a donnés sont en cours d'envoi. Veuillez patienter... "
+      "title": "Vérifier tes fonds",
+      "description": "Merci de patienter pendant que nous vérifions ton Live Link. Les fonds à réclamer arriveront sous peu."
     },
     "error": {
       "title": "Impossible de récupérer les fonds",
-      "description": "Réessayez votre lien direct pour faire une nouvelle tentative de récupération des fonds, ou demandez à votre ami de vous envoyer un nouveau lien",
+      "description": "Ce lien n'a pas pu être réclamé pour une raison inconnue.",
+      "alreadyClaimedDescription": "Le lien a déjà été réclamé. Demande à ton ami de t'envoyer un nouveau lien",
       "contactSupport": "Contacter le Support",
       "dismiss": "Refuser"
     }

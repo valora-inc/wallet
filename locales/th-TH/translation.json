@@ -1765,6 +1765,9 @@
     "swapToTokenSelection": "สว็อปเป็น",
     "tokenUsdValueUnknown": "-",
     "unsupportedSwapTokens": "ผู้ให้บริการสว็อปของเราไม่รองรับโทเค็นที่เลือก",
+    "selectTokenLabel": "Select token",
+    "tokenBottomSheetTitle": "Select Token",
+    "onNetwork": "on {{networkName}}",
     "switchedToNetworkWarning": {
       "title": "คุณเปลี่ยนไปใช้เครือข่าย {{networkName}} แล้ว",
       "body_swapFrom": "เลือกโทเค็นที่จะสว็อปจากบนเครือข่าย {{networkName}} เพื่อดำเนินการต่อ",
@@ -1818,7 +1821,7 @@
       "appFeeValue_withoutPriceUsd": "<0></0>",
       "appFeeValue_free": "ฟรี",
       "appFeeValue_placeholder": "-",
-      "appFeeInfo": "{{appName}} Fee\n\nWe charge a fee to swap tokens on {{appName}}. The fee is {{appFeePercentage}}% of the amount you are exchanging.",
+      "appFeeInfo": "{{appName}} Fee\n\nThe {{appName}} fee of {{appFeePercentage}}% is designed to enhance your experience by ensuring fast, reliable, and secure swaps.",
       "appFeeInfo_free": "{{appName}} Fee\n\nThis swap is free of charge.",
       "appFeeInfo_placeholder": "{{appName}} Fee\n\nThe fee is calculated based on the quote you receive.",
       "appFeeInfoDismissButton": "เข้าใจแล้ว",
@@ -2236,12 +2239,13 @@
   },
   "jumpstartStatus": {
     "loading": {
-      "title": "คุณกำลังจะได้รับเงินทุนเร็วๆ นี้",
-      "description": "เงินทุนที่เพื่อนมอบให้คุณกำลังถูกส่งมา โปรดรอ... "
+      "title": "Checking on your funds",
+      "description": "Please wait while we check your Live Link. Claimable funds will arrive shortly."
     },
     "error": {
       "title": "ไม่สามารถขอรับเงินทุนได้",
-      "description": "ลองใช้ลิงก์สดของคุณอีกครั้งเพื่อพยายามรับเงินทุน หรือขอให้เพื่อนลองส่งลิงก์ใหม่ให้",
+      "description": "This link was not able to be claimed for an unknown reason",
+      "alreadyClaimedDescription": "The link has already been claimed. Please ask your friend to send a new link",
       "contactSupport": "ติดต่อฝ่ายบริการลูกค้า",
       "dismiss": "ปิด"
     }

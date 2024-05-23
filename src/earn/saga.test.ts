@@ -18,6 +18,7 @@ import {
 } from 'src/earn/slice'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
+import { fetchTokenBalances } from 'src/tokens/slice'
 import { Network, NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
@@ -77,6 +78,8 @@ describe('depositSubmitSaga', () => {
     value: '100',
     data: '0x01',
     gas: '20000',
+    maxFeePerGas: '12000000000',
+    _baseFeePerGas: '6000000000',
   }
   const serializableDepositTx: SerializableTransactionRequest = {
     from: '0xa',
@@ -84,6 +87,8 @@ describe('depositSubmitSaga', () => {
     value: '100',
     data: '0x02',
     gas: '50000',
+    maxFeePerGas: '12000000000',
+    _baseFeePerGas: '6000000000',
   }
 
   const mockStandbyHandler = jest.fn()
@@ -117,7 +122,7 @@ describe('depositSubmitSaga', () => {
   ]
 
   const expectedAnalyticsProps = {
-    tokenId: mockArbUsdcTokenId,
+    depositTokenId: mockArbUsdcTokenId,
     tokenAmount: '100',
     networkId: NetworkId['arbitrum-sepolia'],
     providerId: 'aave-v3',
@@ -160,6 +165,46 @@ describe('depositSubmitSaga', () => {
     providerId: 'aave-v3',
   }
 
+  const expectedApproveGasAnalyticsProperties = {
+    approveTxCumulativeGasUsed: 3129217,
+    approveTxEffectiveGasPrice: 5000000000,
+    approveTxEstimatedGasFee: 0.00012,
+    approveTxEstimatedGasFeeUsd: 0.18,
+    approveTxFeeCurrency: undefined,
+    approveTxFeeCurrencySymbol: 'ETH',
+    approveTxGas: 20000,
+    approveTxGasFee: 0.00025789,
+    approveTxGasFeeUsd: 0.386835,
+    approveTxGasUsed: 51578,
+    approveTxHash: '0x1',
+    approveTxMaxGasFee: 0.00024,
+    approveTxMaxGasFeeUsd: 0.36,
+  }
+
+  const expectedDepositGasAnalyticsProperties = {
+    depositTxCumulativeGasUsed: 3899547,
+    depositTxEffectiveGasPrice: 5000000000,
+    depositTxEstimatedGasFee: 0.0003,
+    depositTxEstimatedGasFeeUsd: 0.45,
+    depositTxFeeCurrency: undefined,
+    depositTxFeeCurrencySymbol: 'ETH',
+    depositTxGas: 50000,
+    depositTxGasFee: 0.00185837,
+    depositTxGasFeeUsd: 2.787555,
+    depositTxGasUsed: 371674,
+    depositTxHash: '0x2',
+    depositTxMaxGasFee: 0.0006,
+    depositTxMaxGasFeeUsd: 0.9,
+  }
+
+  const expectedCumulativeGasAnalyticsProperties = {
+    gasFee: 0.00211626,
+    gasFeeUsd: 3.17439,
+    gasUsed: 423252,
+    ...expectedApproveGasAnalyticsProperties,
+    ...expectedDepositGasAnalyticsProperties,
+  }
+
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -176,6 +221,7 @@ describe('depositSubmitSaga', () => {
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
       .provide(sagaProviders)
       .put(depositSuccess())
+      .put(fetchTokenBalances({ showLoading: false }))
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
@@ -192,10 +238,10 @@ describe('depositSubmitSaga', () => {
       EarnEvents.earn_deposit_submit_start,
       expectedAnalyticsProps
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      EarnEvents.earn_deposit_submit_success,
-      expectedAnalyticsProps
-    )
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_submit_success, {
+      ...expectedAnalyticsProps,
+      ...expectedCumulativeGasAnalyticsProperties,
+    })
   })
 
   it('sends only deposit transaction, navigates home and dispatches the success action', async () => {
@@ -210,6 +256,7 @@ describe('depositSubmitSaga', () => {
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
       .provide(sagaProviders)
       .put(depositSuccess())
+      .put(fetchTokenBalances({ showLoading: false }))
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
       .run()
@@ -221,10 +268,13 @@ describe('depositSubmitSaga', () => {
       EarnEvents.earn_deposit_submit_start,
       expectedAnalyticsProps
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      EarnEvents.earn_deposit_submit_success,
-      expectedAnalyticsProps
-    )
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_submit_success, {
+      ...expectedAnalyticsProps,
+      ...expectedDepositGasAnalyticsProperties,
+      gasFee: 0.00185837,
+      gasFeeUsd: 2.787555,
+      gasUsed: 371674,
+    })
   })
 
   it('dispatches cancel action if pin input is cancelled and does not navigate home', async () => {
@@ -243,6 +293,7 @@ describe('depositSubmitSaga', () => {
         ...sagaProviders,
       ])
       .put(depositCancel())
+      .not.put.actionType(fetchTokenBalances.type)
       .call.like({ fn: sendPreparedTransactions })
       .not.call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'])
       .run()
@@ -274,6 +325,7 @@ describe('depositSubmitSaga', () => {
         ...sagaProviders,
       ])
       .put(depositError())
+      .not.put.actionType(fetchTokenBalances.type)
       .call.like({ fn: sendPreparedTransactions })
       .not.call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'])
       .run()
@@ -284,10 +336,13 @@ describe('depositSubmitSaga', () => {
       EarnEvents.earn_deposit_submit_start,
       expectedAnalyticsProps
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_submit_error, {
-      ...expectedAnalyticsProps,
-      error: 'Transaction failed',
-    })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      EarnEvents.earn_deposit_submit_error,
+      expect.objectContaining({
+        ...expectedAnalyticsProps,
+        error: 'Transaction failed',
+      })
+    )
   })
 
   it('dispatches error action and navigates home if deposit transaction status is reverted', async () => {
@@ -308,6 +363,7 @@ describe('depositSubmitSaga', () => {
         ...sagaProviders,
       ])
       .put(depositError())
+      .not.put.actionType(fetchTokenBalances.type)
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
@@ -327,6 +383,7 @@ describe('depositSubmitSaga', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_submit_error, {
       ...expectedAnalyticsProps,
       error: 'Deposit transaction reverted: 0x2',
+      ...expectedCumulativeGasAnalyticsProperties,
     })
   })
 })
@@ -375,7 +432,7 @@ describe('withdrawSubmitSaga', () => {
   ]
 
   const expectedAnalyticsPropsWithRewards = {
-    tokenId: mockArbUsdcTokenId,
+    depositTokenId: mockArbUsdcTokenId,
     tokenAmount: '100',
     networkId: NetworkId['arbitrum-sepolia'],
     providerId: 'aave-v3',
@@ -445,6 +502,7 @@ describe('withdrawSubmitSaga', () => {
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
       .provide(sagaProviders)
       .put(withdrawSuccess())
+      .put(fetchTokenBalances({ showLoading: false }))
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
@@ -477,6 +535,7 @@ describe('withdrawSubmitSaga', () => {
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
       .provide(sagaProviders)
       .put(withdrawSuccess())
+      .put(fetchTokenBalances({ showLoading: false }))
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
       .run()
@@ -510,6 +569,7 @@ describe('withdrawSubmitSaga', () => {
         ...sagaProviders,
       ])
       .put(withdrawCancel())
+      .not.put.actionType(fetchTokenBalances.type)
       .call.like({ fn: sendPreparedTransactions })
       .not.call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'])
       .run()
@@ -541,6 +601,7 @@ describe('withdrawSubmitSaga', () => {
         ...sagaProviders,
       ])
       .put(withdrawError())
+      .not.put.actionType(fetchTokenBalances.type)
       .call.like({ fn: sendPreparedTransactions })
       .not.call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'])
       .run()
@@ -581,6 +642,7 @@ describe('withdrawSubmitSaga', () => {
           ...sagaProviders,
         ])
         .put(withdrawError())
+        .not.put.actionType(fetchTokenBalances.type)
         .call.like({ fn: sendPreparedTransactions })
         .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
         .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })

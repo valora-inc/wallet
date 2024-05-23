@@ -1767,6 +1767,9 @@
     "swapToTokenSelection": "CAMBIAR A",
     "tokenUsdValueUnknown": "-",
     "unsupportedSwapTokens": "Los tokens seleccionados no son compatibles con nuestros proveedores de swap.",
+    "selectTokenLabel": "Seleccionar ficha",
+    "tokenBottomSheetTitle": "Seleccionar token",
+    "onNetwork": "en {{networkName}}",
     "switchedToNetworkWarning": {
       "title": "Has cambiado a la red {{networkName}}",
       "body_swapFrom": "Selecciona un token para intercambiar desde la red {{networkName}} para continuar.",
@@ -1820,7 +1823,7 @@
       "appFeeValue_withoutPriceUsd": "<0></0>",
       "appFeeValue_free": "Gratis",
       "appFeeValue_placeholder": "-",
-      "appFeeInfo": "{{appName}} Comisión\n\nCobramos una comisión por intercambiar fichas en {{appName}}. La comisión es {{appFeePercentage}}% de la cantidad que intercambies.",
+      "appFeeInfo": "{{appName}} Comisión\n\nLa comisión {{appName}} de {{appFeePercentage}}% está diseñada para mejorar tu experiencia garantizando intercambios rápidos, fiables y seguros.",
       "appFeeInfo_free": "{{appName}} Tarifa\n\nEste intercambio es gratuito.",
       "appFeeInfo_placeholder": "{{appName}} Tarifa\n\nLa tarifa se calcula en función del presupuesto que recibas.",
       "appFeeInfoDismissButton": "Entendido",
@@ -2238,12 +2241,13 @@
   },
   "jumpstartStatus": {
     "loading": {
-      "title": "Tus fondos están en camino",
-      "description": "Se están enviando los fondos que te dio tu amigo. Por favor, espera... "
+      "title": "Comprobación de tus fondos",
+      "description": "Espera mientras comprobamos tu Live Link. Los fondos reclamables llegarán en breve."
     },
     "error": {
       "title": "No se pueden recuperar los fondos",
-      "description": "Prueba de nuevo tu enlace activo para recibir fondos, o pide a tu amigo que intente enviar un nuevo enlace",
+      "description": "Este enlace no ha podido ser reclamado por una razón desconocida",
+      "alreadyClaimedDescription": "El enlace ya ha sido reclamado. Por favor, pide a tu amigo que envíe un nuevo enlace",
       "contactSupport": "Contactar a Soporte",
       "dismiss": "Ignorar"
     }

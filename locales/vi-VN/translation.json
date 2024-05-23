@@ -1765,6 +1765,9 @@
     "swapToTokenSelection": "TRAO ĐỔI SANG",
     "tokenUsdValueUnknown": "-",
     "unsupportedSwapTokens": "Các nhà cung cấp dịch vụ trao đổi của chúng tôi không hỗ trợ token đã chọn.",
+    "selectTokenLabel": "Select token",
+    "tokenBottomSheetTitle": "Select Token",
+    "onNetwork": "on {{networkName}}",
     "switchedToNetworkWarning": {
       "title": "Bạn đã chuyển sang mạng {{networkName}}",
       "body_swapFrom": "Để tiếp tục, hãy chọn một token để trao đổi từ mạng {{networkName}}.",
@@ -1818,7 +1821,7 @@
       "appFeeValue_withoutPriceUsd": "<0></0>",
       "appFeeValue_free": "Miễn phí",
       "appFeeValue_placeholder": "-",
-      "appFeeInfo": "{{appName}} Fee\n\nWe charge a fee to swap tokens on {{appName}}. The fee is {{appFeePercentage}}% of the amount you are exchanging.",
+      "appFeeInfo": "{{appName}} Fee\n\nThe {{appName}} fee of {{appFeePercentage}}% is designed to enhance your experience by ensuring fast, reliable, and secure swaps.",
       "appFeeInfo_free": "{{appName}} Fee\n\nThis swap is free of charge.",
       "appFeeInfo_placeholder": "{{appName}} Fee\n\nThe fee is calculated based on the quote you receive.",
       "appFeeInfoDismissButton": "Đã hiểu",
@@ -2236,12 +2239,13 @@
   },
   "jumpstartStatus": {
     "loading": {
-      "title": "Tiền của bạn đang được chuyển",
-      "description": "Số tiền mà bạn bè gửi cho bạn đang được chuyển qua. Vui lòng đợi... "
+      "title": "Checking on your funds",
+      "description": "Please wait while we check your Live Link. Claimable funds will arrive shortly."
     },
     "error": {
       "title": "Không nhận được tiền",
-      "description": "Hãy thử lại đường liên kết trực tiếp của mình để nhận tiền hoặc nhờ bạn bè gửi lại một đường liên kết mới",
+      "description": "This link was not able to be claimed for an unknown reason",
+      "alreadyClaimedDescription": "The link has already been claimed. Please ask your friend to send a new link",
       "contactSupport": "Liên hệ với bộ phận hỗ trợ",
       "dismiss": "Loại bỏ"
     }

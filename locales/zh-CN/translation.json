@@ -1765,6 +1765,9 @@
     "swapToTokenSelection": "替换至",
     "tokenUsdValueUnknown": "-",
     "unsupportedSwapTokens": "我们的交换提供商不支持所选令牌。",
+    "selectTokenLabel": "选择令牌",
+    "tokenBottomSheetTitle": "选择令牌",
+    "onNetwork": "{{networkName}}",
     "switchedToNetworkWarning": {
       "title": "您已转至 {{networkName}} 网络",
       "body_swapFrom": "在 {{networkName}} 网络上选择用于交换的代币，然后继续。",
@@ -1818,7 +1821,7 @@
       "appFeeValue_withoutPriceUsd": "<0></0>",
       "appFeeValue_free": "免费",
       "appFeeValue_placeholder": "-",
-      "appFeeInfo": "{{appName}} 费用\n\n我们对在 {{appName}}上交换代币收取一定费用。费用为您兑换金额的 {{appFeePercentage}}%。",
+      "appFeeInfo": "{{appName}} 费用\n\n {{appName}} 费用为 {{appFeePercentage}}%，旨在通过确保快速、可靠和安全的交换来提高您的体验。",
       "appFeeInfo_free": "{{appName}} 费用\n\n本次交换是免费的。",
       "appFeeInfo_placeholder": "{{appName}} 费用\n\n费用根据您收到的报价计算。",
       "appFeeInfoDismissButton": "知道了",
@@ -2236,12 +2239,13 @@
   },
   "jumpstartStatus": {
     "loading": {
-      "title": "您的资金正在到账中",
-      "description": "您朋友给您的资金正在汇入。请稍候... "
+      "title": "检查您的资金",
+      "description": "请稍候，我们将检查您的 Live Link。可申请的资金将很快到账。"
     },
     "error": {
       "title": "无法领取资金",
-      "description": "再次尝试您的实时链接以尝试接收资金，或请您的朋友尝试发送一个新链接",
+      "description": "此链接无法申请，原因不明",
+      "alreadyClaimedDescription": "链接已被使用。请让您的朋友发送一个新链接",
       "contactSupport": "联系支持团队",
       "dismiss": "忽略"
     }
