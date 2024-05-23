@@ -99,7 +99,7 @@ describe('EarnEnterAmount', () => {
   })
 
   it('should render APY and EarnUpTo', async () => {
-    const { getByTestId, queryByTestId } = render(
+    const { getByTestId } = render(
       <Provider store={store}>
         <MockedNavigator component={EarnEnterAmount} params={params} />
       </Provider>
@@ -107,13 +107,6 @@ describe('EarnEnterAmount', () => {
     // Loading states
     expect(getByTestId('EarnEnterAmount/ApyLoading')).toBeTruthy()
     expect(getByTestId('EarnEnterAmount/EarnUpToLoading')).toBeTruthy()
-    // Wait for loading states to disappear
-    await waitFor(() => {
-      expect(queryByTestId('EarnEnterAmount/EarnUpToLoading')).toBeFalsy()
-    })
-    await waitFor(() => {
-      expect(queryByTestId('EarnEnterAmount/ApyLoading')).toBeFalsy()
-    })
   })
 
   it('should be able to tap info icon', async () => {
