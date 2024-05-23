@@ -460,7 +460,7 @@ function InfoBottomSheet({
         onPress={onPressDismiss}
         text={t('earnFlow.enterAmount.infoBottomSheet.dismiss')}
         size={BtnSizes.FULL}
-        type={BtnTypes.GRAY_WITH_BORDER}
+        type={BtnTypes.SECONDARY}
       />
     </BottomSheet>
   )

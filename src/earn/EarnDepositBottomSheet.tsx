@@ -173,7 +173,7 @@ export default function EarnDepositBottomSheet({
             testID="EarnDeposit/SecondaryCta"
             size={BtnSizes.FULL}
             text={t('earnFlow.depositBottomSheet.secondaryCta')}
-            type={BtnTypes.GRAY_WITH_BORDER}
+            type={BtnTypes.SECONDARY}
             style={styles.cta}
             onPress={onPressCancel}
             disabled={transactionSubmitted}
