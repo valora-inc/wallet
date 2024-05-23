@@ -14,7 +14,7 @@ class ReviewHeader extends React.PureComponent<Props> {
     return (
       <View style={styles.container}>
         <Text style={[fontStyles.h1, styles.heading]}>{title}</Text>
-        {subtitle && subtitle.length > 0 && <Text style={fontStyles.regular}>{subtitle}</Text>}
+        {!!subtitle && subtitle.length > 0 && <Text style={fontStyles.regular}>{subtitle}</Text>}
       </View>
     )
   }

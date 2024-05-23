@@ -128,7 +128,7 @@ const ConfettiCelebration = ({
           onLayout={handleLayout}
         >
           <View style={styles.notification}>
-            {title && <Text style={styles.titleText}>{title}</Text>}
+            {!!title && <Text style={styles.titleText}>{title}</Text>}
             <Text style={styles.descriptionText}>{description}</Text>
           </View>
         </Animated.View>

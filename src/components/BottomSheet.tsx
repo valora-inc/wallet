@@ -50,7 +50,7 @@ const BottomSheet = ({
       onOpen={onOpen}
       snapPoints={snapPoints}
     >
-      {hasStickyHeader && (
+      {!!hasStickyHeader && (
         <View style={[styles.stickyHeaderContainer, styles.headerContentSpacing]}>
           {stickyTitle && <Text style={titleStyle}>{title}</Text>}
           {stickyHeaderComponent}
@@ -61,10 +61,10 @@ const BottomSheet = ({
         containerStyle={hasStickyHeader ? { paddingTop: 0 } : undefined}
         testId={testId}
       >
-        {!stickyTitle && title && (
+        {!stickyTitle && !!title && (
           <Text style={[titleStyle, styles.headerContentSpacing]}>{title}</Text>
         )}
-        {description && <Text style={styles.description}>{description}</Text>}
+        {!!description && <Text style={styles.description}>{description}</Text>}
         {children}
       </BottomSheetScrollView>
     </BottomSheetBase>

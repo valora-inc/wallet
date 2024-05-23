@@ -66,7 +66,7 @@ function Spend(props: Props) {
                     <Text style={styles.optionTitle}>{merchant.name}</Text>
                     <LinkArrow />
                   </View>
-                  {merchant.subtitleKey && (
+                  {!!merchant.subtitleKey && (
                     <Text style={styles.optionSubtitle}>{t(merchant.subtitleKey)}</Text>
                   )}
                 </ListItem>

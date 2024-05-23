@@ -296,7 +296,7 @@ function FormField({
   return (
     <View style={styles.inputView} key={`inputField-${field.name}`}>
       <View style={styles.row}>
-        {field.label && <Text style={styles.inputLabel}>{field.label}</Text>}
+        {!!field.label && <Text style={styles.inputLabel}>{field.label}</Text>}
         {field.infoDialog && (
           <TouchableOpacity
             testID={`infoIcon-${field.name}`}
@@ -355,7 +355,7 @@ function FormField({
           }}
         />
       )}
-      {errorMessage && showError && (
+      {!!errorMessage && showError && (
         <Text testID={`errorMessage-${field.name}`} style={styles.error}>
           {errorMessage}
         </Text>

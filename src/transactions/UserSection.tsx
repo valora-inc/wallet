@@ -59,7 +59,7 @@ export default function UserSection({
                   {displayName}
                 </Text>
               </Expandable>
-              {displayNumber && (
+              {!!displayNumber && (
                 <Expandable isExpandable={expandable && !!displayNumber} isExpanded={expanded}>
                   <Text style={styles.phoneNumber} testID={`${testID}/number`}>
                     {displayNumber}

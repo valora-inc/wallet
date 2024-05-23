@@ -256,7 +256,7 @@ export function HeaderTitleWithSubtitle({
 }) {
   return (
     <View style={styles.header} testID={testID}>
-      {title && (
+      {!!title && (
         <Text
           testID="HeaderTitle"
           style={styles.headerTitle}
@@ -266,7 +266,7 @@ export function HeaderTitleWithSubtitle({
           {title}
         </Text>
       )}
-      {subTitle && (
+      {!!subTitle && (
         <Text
           testID="HeaderSubTitle"
           style={styles.headerSubTitle}

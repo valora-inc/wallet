@@ -144,7 +144,7 @@ const Education = (props: Props) => {
             >
               {step.isTopTitle && <Text style={styles.headingTop}>{step.title}</Text>}
               <View style={styles.swipedContentInner}>
-                {step.image && (
+                {!!step.image && (
                   <Image source={step.image} style={styles.bodyImage} resizeMode="contain" />
                 )}
                 {!step.isTopTitle && <Text style={styles.heading}>{step.title}</Text>}

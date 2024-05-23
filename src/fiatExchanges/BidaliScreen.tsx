@@ -141,7 +141,7 @@ function BidaliScreen({ route, navigation }: Props) {
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
-      {initialJavaScript && (
+      {!!initialJavaScript && (
         <WebView
           ref={webViewRef}
           source={{ uri: networkConfig.bidaliUrl }}

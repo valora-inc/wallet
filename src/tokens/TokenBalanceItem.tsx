@@ -72,7 +72,7 @@ export const TokenBalanceItem = ({
             />
           )}
         </View>
-        {token.bridge && (
+        {!!token.bridge && (
           <Text
             testID="BridgeLabel"
             numberOfLines={1}

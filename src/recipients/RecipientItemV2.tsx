@@ -60,7 +60,7 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
             borderColor={Colors.gray2}
             DefaultIcon={() => <QuestionIcon />} // no need to honor color props here since the color we need match the defaults
           />
-          {showValoraIcon && (
+          {!!showValoraIcon && (
             <Logo
               color={colors.white}
               style={styles.valoraIcon}
@@ -73,7 +73,7 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
           <Text numberOfLines={1} ellipsizeMode={'tail'} style={styles.name}>
             {getDisplayName(recipient, t)}
           </Text>
-          {recipient.name && <Text style={styles.phone}>{getDisplayDetail(recipient)}</Text>}
+          {!!recipient.name && <Text style={styles.phone}>{getDisplayDetail(recipient)}</Text>}
         </View>
         {loading && (
           <View style={styles.rightIconContainer}>
