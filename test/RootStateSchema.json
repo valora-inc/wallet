@@ -3121,6 +3121,7 @@
                 "Debug",
                 "EarnCollectScreen",
                 "EarnEnterAmount",
+                "EarnInfoScreen",
                 "EnableBiometry",
                 "ErrorScreen",
                 "EscrowedPaymentListScreen",
