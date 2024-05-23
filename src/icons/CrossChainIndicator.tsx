@@ -19,14 +19,6 @@ function CrossChainIndicator({ size = 16, color = Colors.gray3 }: Props) {
           stroke={color}
           d="M14 10a6 6 0 0 0-12 0h1.41a4.59 4.59 0 0 1 9.18 0H14Z"
         />
-        <Path
-          fill={color}
-          stroke={color}
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M14 10a6 6 0 0 0-12 0h1.41a4.59 4.59 0 0 1 9.18 0H14Z"
-          mask="url(#b)"
-        />
       </G>
       <Defs>
         <ClipPath id="a">
