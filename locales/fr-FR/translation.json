@@ -2192,7 +2192,10 @@
   },
   "getStartedHome": {
     "title": "Acheter des cryptomonnaies ou des jetons de transfert",
-    "body": "Achetez ou transférez des jetons compatibles pour envoyer des cryptomonnaies et découvrir le web3 !"
+    "body": "Achetez ou transférez des jetons compatibles pour envoyer des cryptomonnaies et découvrir le web3 !",
+    "titleV1_86": "Ajoute des fonds à ton portefeuille",
+    "exploreTokens": "Explorer tous les jetons",
+    "exploreTokensBody": "Tu peux acheter jusqu'à plus de 10 jetons à Valora. Jette un coup d'œil !"
   },
   "nftCelebration": {
     "bottomSheet": {
