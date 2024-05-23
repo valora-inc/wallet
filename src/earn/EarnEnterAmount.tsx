@@ -377,7 +377,6 @@ function EarnEnterAmount({ route }: Props) {
           forwardedRef={reviewBottomSheetRef}
           preparedTransaction={prepareTransactionsResult}
           amount={tokenAmount}
-          tokenId={token.tokenId}
           token={token}
           networkId={token.networkId}
         />
@@ -399,7 +398,7 @@ function EarnProceed({
 
   return (
     <View style={styles.infoContainer}>
-      <EarnApyAndAmount tokenAmount={tokenAmount} token={token} testID={'EarnEnterAmount'} />
+      <EarnApyAndAmount tokenAmount={tokenAmount} token={token} testIDPrefix={'EarnEnterAmount'} />
       <Button
         onPress={() =>
           tokenAmount && onPressProceed({ tokenAmount, localAmount, token, amountEnteredIn })

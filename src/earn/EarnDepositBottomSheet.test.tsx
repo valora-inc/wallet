@@ -82,7 +82,6 @@ describe('EarnDepositBottomSheet', () => {
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
           amount={new BigNumber(100)}
-          tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
           token={mockToken}
           networkId={NetworkId['arbitrum-sepolia']}
@@ -123,7 +122,6 @@ describe('EarnDepositBottomSheet', () => {
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
           amount={new BigNumber(100)}
-          tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
           token={mockToken}
           networkId={NetworkId['arbitrum-sepolia']}
@@ -156,7 +154,6 @@ describe('EarnDepositBottomSheet', () => {
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
           amount={new BigNumber(100)}
-          tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
           token={mockToken}
           networkId={NetworkId['arbitrum-sepolia']}
@@ -177,7 +174,6 @@ describe('EarnDepositBottomSheet', () => {
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
           amount={new BigNumber(100)}
-          tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
           token={mockToken}
           networkId={NetworkId['arbitrum-sepolia']}
@@ -199,7 +195,6 @@ describe('EarnDepositBottomSheet', () => {
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
           amount={new BigNumber(100)}
-          tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
           token={mockToken}
           networkId={NetworkId['arbitrum-sepolia']}
@@ -225,7 +220,6 @@ describe('EarnDepositBottomSheet', () => {
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
           amount={new BigNumber(100)}
-          tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
           token={mockToken}
           networkId={NetworkId['arbitrum-sepolia']}
@@ -250,7 +244,6 @@ describe('EarnDepositBottomSheet', () => {
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
           amount={new BigNumber(100)}
-          tokenId={mockArbEthTokenId}
           preparedTransaction={mockPreparedTransaction}
           token={mockToken}
           networkId={NetworkId['arbitrum-sepolia']}

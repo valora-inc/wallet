@@ -41,14 +41,12 @@ export default function EarnDepositBottomSheet({
   forwardedRef,
   preparedTransaction,
   amount,
-  tokenId,
   token,
   networkId,
 }: {
   forwardedRef: RefObject<BottomSheetRefType>
   preparedTransaction: PreparedTransactionsPossible
   amount: BigNumber
-  tokenId: string
   token: TokenBalance
   networkId: NetworkId
 }) {
@@ -59,7 +57,7 @@ export default function EarnDepositBottomSheet({
 
   const commonAnalyticsProperties = {
     providerId: PROVIDER_ID,
-    depositTokenId: tokenId,
+    depositTokenId: token.tokenId,
     tokenAmount: amount.toString(),
     networkId,
   }
@@ -96,7 +94,7 @@ export default function EarnDepositBottomSheet({
     dispatch(
       depositStart({
         amount: amount.toString(),
-        tokenId,
+        tokenId: token.tokenId,
         preparedTransactions: getSerializablePreparedTransactions(preparedTransaction.transactions),
       })
     )
@@ -115,13 +113,17 @@ export default function EarnDepositBottomSheet({
         <Text style={styles.title}>{t('earnFlow.depositBottomSheet.title')}</Text>
         <Text style={styles.description}>{t('earnFlow.depositBottomSheet.description')}</Text>
         <View style={styles.infoContainer}>
-          <EarnApyAndAmount tokenAmount={amount} token={token} testID={'EarnDepositBottomSheet'} />
+          <EarnApyAndAmount
+            tokenAmount={amount}
+            token={token}
+            testIDPrefix={'EarnDepositBottomSheet'}
+          />
         </View>
         <LabelledItem label={t('earnFlow.depositBottomSheet.amount')}>
           <TokenDisplay
             testID="EarnDeposit/Amount"
             amount={amount}
-            tokenId={tokenId}
+            tokenId={token.tokenId}
             style={styles.value}
             showLocalAmount={false}
           />
