@@ -1,20 +1,29 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import GetStarted from 'src/home/GetStarted'
+import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
+import { mockArbUsdcTokenId, mockTokenBalances } from 'test/values'
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/earn/poolInfo', () => ({
+  fetchAavePoolInfo: jest.fn().mockResolvedValue({ apy: 0.0135 }),
+}))
 
 describe('GetStarted', () => {
-  it('should display the correct text', () => {
+  it('should display the correct text', async () => {
     const { getByText } = render(
       <Provider
         store={createMockStore({
-          app: {
-            superchargeApy: 12,
+          tokens: {
+            tokenBalances: {
+              [networkConfig.arbUsdcTokenId]: {
+                ...mockTokenBalances[mockArbUsdcTokenId],
+                tokenId: networkConfig.arbUsdcTokenId,
+              },
+            },
           },
         })}
       >
@@ -23,8 +32,16 @@ describe('GetStarted', () => {
     )
 
     expect(getByText('getStarted')).toBeTruthy()
-    expect(getByText('getStartedHome.title')).toBeTruthy()
-    expect(getByText('getStartedHome.body, {"apy":12}')).toBeTruthy()
+    expect(getByText('getStartedHome.titleV1_86')).toBeTruthy()
+    expect(getByText('earnFlow.ctaV1_86.subtitle, {"symbol":"USDC"}')).toBeTruthy()
+    expect(getByText('earnFlow.ctaV1_86.description, {"apy":"--","symbol":"USDC"}')).toBeTruthy()
+    expect(getByText('getStartedHome.exploreTokens')).toBeTruthy()
+    expect(getByText('getStartedHome.exploreTokensBody')).toBeTruthy()
+    await waitFor(() =>
+      expect(
+        getByText('earnFlow.ctaV1_86.description, {"apy":"1.35","symbol":"USDC"}')
+      ).toBeTruthy()
+    )
   })
 
   it('should trigger impression analytics event', () => {
@@ -46,7 +63,7 @@ describe('GetStarted', () => {
   })
 
   it('should trigger button tap analytics event', () => {
-    const { getByText } = render(
+    const { getByTestId } = render(
       <Provider
         store={createMockStore({
           app: {
@@ -58,7 +75,7 @@ describe('GetStarted', () => {
       </Provider>
     )
 
-    fireEvent.press(getByText('addFunds'))
+    fireEvent.press(getByTestId('GetStarted/Touchable'))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       FiatExchangeEvents.cico_add_get_started_selected
     )
