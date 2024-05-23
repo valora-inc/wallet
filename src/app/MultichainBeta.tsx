@@ -64,7 +64,7 @@ function MultichainBeta() {
           <Button
             style={styles.cta}
             touchableStyle={styles.ctaTouchable}
-            type={BtnTypes.SECONDARY_WHITE_BG}
+            type={BtnTypes.SECONDARY}
             size={BtnSizes.FULL}
             text={t('multichainBeta.secondaryCta')}
             onPress={() => onPressCta(false)}
