@@ -77,6 +77,17 @@
       matchPackagePatterns: ['^prettier'],
       groupName: 'prettier',
     },
+    {
+      // Avoid auto merge of major updates on rn, auth0, firebase and walletconnect
+      matchPackagePatterns: [
+        '^@react-native-firebase/',
+        'react-native-auth0',
+        '^@walletconnect/',
+        '^react-native$',
+      ],
+      matchUpdateTypes: ['major'],
+      automerge: false,
+    },
   ],
   // A list of dependencies to be ignored by Renovate - "exact match" only
   ignoreDeps: [
