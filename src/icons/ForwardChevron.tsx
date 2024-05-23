@@ -3,11 +3,11 @@ import colors from 'src/styles/colors'
 import Svg, { Path } from 'svgs'
 
 interface Props {
-  height: number
-  color: string
+  height?: number
+  color?: string
 }
 
-function ForwardChevron({ color, height }: Props) {
+function ForwardChevron({ color = colors.black, height = 16 }: Props) {
   return (
     <Svg
       height={height}
@@ -25,11 +25,6 @@ function ForwardChevron({ color, height }: Props) {
       />
     </Svg>
   )
-}
-
-ForwardChevron.defaultProps = {
-  height: 16,
-  color: colors.black,
 }
 
 export default ForwardChevron
