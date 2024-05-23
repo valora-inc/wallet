@@ -254,17 +254,15 @@ function* watchAddressToE164PhoneNumberUpdate() {
 
 export function* getTransactionReceipt(
   transaction: StandbyTransaction & { transactionHash: string },
-  networkId: NetworkId
+  network: Network
 ) {
   const { feeCurrencyId, transactionHash, __typename } = transaction
+  const networkId = networkConfig.networkToNetworkId[network]
 
   try {
-    const receipt = yield* call(
-      [publicClient[networkIdToNetwork[networkId]], 'waitForTransactionReceipt'],
-      {
-        hash: transactionHash as Hash,
-      }
-    )
+    const receipt = yield* call([publicClient[network], 'waitForTransactionReceipt'], {
+      hash: transactionHash as Hash,
+    })
 
     if (receipt) {
       yield* call(
@@ -284,30 +282,27 @@ export function* getTransactionReceipt(
   } catch (e) {
     Logger.warn(
       TAG,
-      `Error found when trying to fetch status for transaction with hash: ${transactionHash} in ${networkId}`,
+      `Error found when trying to fetch status for transaction with hash: ${transactionHash} in ${network}`,
       (e as Error).message
     )
   }
 }
 
-export function* internalWatchPendingTransactionsInNetwork(networkId: NetworkId) {
+export function* internalWatchPendingTransactionsInNetwork(network: Network) {
   const pendingStandbyTransactions = yield* select(pendingStandbyTransactionsSelector)
   const filteredPendingTxs = pendingStandbyTransactions.filter((tx) => {
-    return tx.networkId === networkId && tx.transactionHash
+    return tx.networkId === networkConfig.networkToNetworkId[network] && tx.transactionHash
   })
 
   for (const transaction of filteredPendingTxs) {
-    yield* fork(getTransactionReceipt, transaction, networkId)
+    yield* fork(getTransactionReceipt, transaction, network)
   }
 }
 
-export function* watchPendingTransactionsInNetwork(networkId: NetworkId) {
+export function* watchPendingTransactionsInNetwork(network: Network) {
   while (true) {
-    yield* call(internalWatchPendingTransactionsInNetwork, networkId)
-    const delayTimeMs = Math.max(
-      WATCHING_DELAY_BY_NETWORK[networkIdToNetwork[networkId]],
-      MIN_WATCHING_DELAY_MS
-    )
+    yield* call(internalWatchPendingTransactionsInNetwork, network)
+    const delayTimeMs = Math.max(WATCHING_DELAY_BY_NETWORK[network], MIN_WATCHING_DELAY_MS)
     yield* delay(delayTimeMs) // avoid polling too often and using up CPU
   }
 }
@@ -315,13 +310,18 @@ export function* watchPendingTransactionsInNetwork(networkId: NetworkId) {
 export function* watchPendingTransactions() {
   const supportedNetworkIdsForSend = yield* call(getSupportedNetworkIdsForSend)
   const supportedNetworkIdsForSwap = yield* call(getSupportedNetworkIdsForSwap)
+  const supportedNetworksByViem = Object.keys(publicClient) as Network[]
   const supportedNetworkIds = new Set([
     ...supportedNetworkIdsForSend,
     ...supportedNetworkIdsForSwap,
   ])
 
-  for (const networkId of supportedNetworkIds) {
-    yield* spawn(watchPendingTransactionsInNetwork, networkId)
+  const supportedNetworks = supportedNetworksByViem.filter((network) =>
+    supportedNetworkIds.has(networkConfig.networkToNetworkId[network])
+  )
+
+  for (const network of supportedNetworks) {
+    yield* spawn(watchPendingTransactionsInNetwork, network)
   }
 }
 

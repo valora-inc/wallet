@@ -177,7 +177,7 @@ describe('watchPendingTransactions', () => {
   }
 
   it('updates the pending standby transaction when reverted without fee details', async () => {
-    await expectSaga(internalWatchPendingTransactionsInNetwork, NetworkId['celo-alfajores'])
+    await expectSaga(internalWatchPendingTransactionsInNetwork, Network.Celo)
       .withState(
         createMockStore({
           transactions: {
@@ -237,7 +237,7 @@ describe('watchPendingTransactions', () => {
       },
       metadata: {},
     }
-    await expectSaga(internalWatchPendingTransactionsInNetwork, NetworkId['celo-alfajores'])
+    await expectSaga(internalWatchPendingTransactionsInNetwork, Network.Celo)
       .withState(
         createMockStore({
           transactions: {
@@ -269,7 +269,7 @@ describe('watchPendingTransactions', () => {
   })
 
   it('updates the pending standby transaction when successful with fee details in cUSD', async () => {
-    await expectSaga(internalWatchPendingTransactionsInNetwork, NetworkId['celo-alfajores'])
+    await expectSaga(internalWatchPendingTransactionsInNetwork, Network.Celo)
       .withState(
         createMockStore({
           transactions: {
@@ -303,7 +303,7 @@ describe('watchPendingTransactions', () => {
   })
 
   it('updates the pending standby transaction when successful with fee details in Ether', async () => {
-    await expectSaga(internalWatchPendingTransactionsInNetwork, NetworkId['ethereum-sepolia'])
+    await expectSaga(internalWatchPendingTransactionsInNetwork, Network.Ethereum)
       .withState(
         createMockStore({
           transactions: {
@@ -345,7 +345,7 @@ describe('watchPendingTransactions', () => {
   })
 
   it('does not update the pending transaction when there is no receipt', async () => {
-    await expectSaga(internalWatchPendingTransactionsInNetwork, NetworkId['celo-alfajores'])
+    await expectSaga(internalWatchPendingTransactionsInNetwork, Network.Celo)
       .withState(
         createMockStore({
           transactions: {
@@ -378,8 +378,8 @@ describe('watchPendingTransactions', () => {
           (effect) => effect.type === 'FORK' && effect.payload.detached
         )
         expect(spawnCalls).toHaveLength(2)
-        expect(spawnCalls[0].payload.args[0]).toEqual(NetworkId['celo-alfajores'])
-        expect(spawnCalls[1].payload.args[0]).toEqual(NetworkId['ethereum-sepolia'])
+        expect(spawnCalls[0].payload.args[0]).toEqual(Network.Celo)
+        expect(spawnCalls[1].payload.args[0]).toEqual(Network.Ethereum)
       })
   })
 
@@ -396,7 +396,7 @@ describe('watchPendingTransactions', () => {
           (effect) => effect.type === 'FORK' && effect.payload.detached
         )
         expect(spawnCalls).toHaveLength(1)
-        expect(spawnCalls[0].payload.args[0]).toEqual(NetworkId['celo-alfajores'])
+        expect(spawnCalls[0].payload.args[0]).toEqual(Network.Celo)
       })
   })
 })
