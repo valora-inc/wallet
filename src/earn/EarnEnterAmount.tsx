@@ -18,9 +18,9 @@ import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import EarnAddCryptoBottomSheet from 'src/earn/EarnAddCryptoBottomSheet'
+import { EarnApyAndAmount } from 'src/earn/EarnApyAndAmount'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import { PROVIDER_ID } from 'src/earn/constants'
-import { useAavePoolInfo } from 'src/earn/hooks'
 import { usePrepareSupplyTransactions } from 'src/earn/prepareTransactions'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import InfoIcon from 'src/icons/InfoIcon'
@@ -376,8 +376,8 @@ function EarnEnterAmount({ route }: Props) {
         <EarnDepositBottomSheet
           forwardedRef={reviewBottomSheetRef}
           preparedTransaction={prepareTransactionsResult}
-          amount={tokenAmount.toString()}
-          tokenId={token.tokenId}
+          amount={tokenAmount}
+          token={token}
           networkId={token.networkId}
         />
       )}
@@ -395,38 +395,10 @@ function EarnProceed({
   onPressInfo,
 }: ProceedComponentProps) {
   const { t } = useTranslation()
-  const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-
-  const asyncPoolInfo = useAavePoolInfo({ depositTokenId: token.tokenId })
 
   return (
     <View style={styles.infoContainer}>
-      <View style={styles.line}>
-        <Text style={styles.label}>{t('earnFlow.enterAmount.earnUpToLabel')}</Text>
-        <Text style={styles.label}>{t('earnFlow.enterAmount.rateLabel')}</Text>
-      </View>
-      <View style={styles.line}>
-        <Text style={styles.valuesText} testID="EarnEnterAmount/EarnUpTo">
-          {t('earnFlow.enterAmount.earnUpTo', {
-            fiatSymbol: localCurrencySymbol,
-            amount:
-              asyncPoolInfo?.result && !!asyncPoolInfo.result.apy && tokenAmount?.gt(0)
-                ? tokenAmount.multipliedBy(new BigNumber(asyncPoolInfo.result.apy)).toFormat(2)
-                : '--',
-          })}
-        </Text>
-        <View style={styles.apy}>
-          <TokenIcon token={token} size={IconSize.XSMALL} />
-          <Text style={styles.valuesText} testID="EarnEnterAmount/Apy">
-            {t('earnFlow.enterAmount.rate', {
-              rate:
-                asyncPoolInfo?.result && !!asyncPoolInfo.result.apy
-                  ? (asyncPoolInfo.result.apy * 100).toFixed(2)
-                  : '--',
-            })}
-          </Text>
-        </View>
-      </View>
+      <EarnApyAndAmount tokenAmount={tokenAmount} token={token} testIDPrefix={'EarnEnterAmount'} />
       <Button
         onPress={() =>
           tokenAmount && onPressProceed({ tokenAmount, localAmount, token, amountEnteredIn })
@@ -502,13 +474,6 @@ const styles = StyleSheet.create({
     borderColor: Colors.gray2,
     marginTop: 20,
   },
-  line: {
-    flexDirection: 'row',
-    alignSelf: 'flex-end',
-    justifyContent: 'space-between',
-    width: '100%',
-    gap: Spacing.Smallest8,
-  },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -516,21 +481,8 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: Spacing.Tiny4,
   },
-  apy: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Spacing.Tiny4,
-  },
-  label: {
-    ...typeScale.bodySmall,
-    color: Colors.gray4,
-  },
   continueButton: {
     paddingVertical: Spacing.Thick24,
-  },
-  valuesText: {
-    ...typeScale.labelSemiBoldSmall,
-    marginVertical: Spacing.Tiny4,
   },
   infoText: {
     ...typeScale.bodyXSmall,
