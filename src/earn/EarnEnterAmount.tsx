@@ -14,7 +14,6 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
-import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
@@ -578,12 +577,6 @@ const styles = StyleSheet.create({
     marginTop: Spacing.Regular16,
     paddingHorizontal: Spacing.Regular16,
     borderRadius: 16,
-  },
-  loadingSkeleton: {
-    ...typeScale.labelSemiBoldSmall,
-    marginVertical: Spacing.Smallest8,
-    width: 100,
-    borderRadius: 100,
   },
 })
 

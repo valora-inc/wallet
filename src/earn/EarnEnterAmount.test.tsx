@@ -105,8 +105,8 @@ describe('EarnEnterAmount', () => {
       </Provider>
     )
     // Loading states
-    expect(getByTestId('EarnEnterAmount/ApyLoading')).toBeTruthy()
-    expect(getByTestId('EarnEnterAmount/EarnUpToLoading')).toBeTruthy()
+    expect(getByTestId('EarnEnterAmount/EarnApyAndAmount/Apy/Loading')).toBeTruthy()
+    expect(getByTestId('EarnEnterAmount/EarnApyAndAmount/EarnUpTo/Loading')).toBeTruthy()
   })
 
   it('should be able to tap info icon', async () => {
