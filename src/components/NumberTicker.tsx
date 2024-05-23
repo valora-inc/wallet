@@ -26,7 +26,11 @@ interface TickProps {
 const numberRange = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
 function TickText({ value, textStyle }: TickTextProps) {
-  return <Text style={[styles.tickerText, textStyle]}>{value}</Text>
+  return (
+    <Text allowFontScaling={false} style={[styles.tickerText, textStyle]}>
+      {value}
+    </Text>
+  )
 }
 
 function Tick({ startValue, endValue, textStyle, textHeight, animationDuration }: TickProps) {

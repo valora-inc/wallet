@@ -265,6 +265,7 @@ function* watchTrackPointsEvent() {
 export function* watchAppMounted() {
   yield* take(AppActions.APP_MOUNTED)
   yield* call(safely, sendPendingPointsEvents)
+  yield* call(safely, getPointsBalance)
 }
 
 export function* pointsSaga() {
