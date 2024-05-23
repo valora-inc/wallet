@@ -2190,7 +2190,10 @@
   },
   "getStartedHome": {
     "title": "购买加密货币或转移代币。",
-    "body": "购买或转移兼容的代币，发送加密货币并探索 Web3！"
+    "body": "购买或转移兼容的代币，发送加密货币并探索 Web3！",
+    "titleV1_86": "为钱包添加资金",
+    "exploreTokens": "探索所有代币",
+    "exploreTokensBody": "您最多可以在瓦罗拉购买 10 多个代币。查看它们！"
   },
   "nftCelebration": {
     "bottomSheet": {
