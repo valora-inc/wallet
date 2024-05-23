@@ -2192,7 +2192,10 @@
   },
   "getStartedHome": {
     "title": "Krypto kaufen oder Tokens überweisen",
-    "body": "Kaufe oder überweise kompatible Token, um Krypto zu senden und web3 zu erkunden!"
+    "body": "Kaufe oder überweise kompatible Token, um Krypto zu senden und web3 zu erkunden!",
+    "titleV1_86": "Guthaben zu deinem Geldbeutel hinzufügen",
+    "exploreTokens": "Alle Token erforschen",
+    "exploreTokensBody": "Du kannst bis zu 10+ Token in Valora kaufen. Schau sie dir an!"
   },
   "nftCelebration": {
     "bottomSheet": {
