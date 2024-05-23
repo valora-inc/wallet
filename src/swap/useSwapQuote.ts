@@ -34,6 +34,7 @@ export interface QuoteResult {
   allowanceTarget: string
   preparedTransactions: PreparedTransactionsResult
   receivedAt: number
+  unvalidatedSwapTransaction: SwapTransaction
 }
 
 async function createBaseSwapTransactions(
@@ -224,6 +225,7 @@ function useSwapQuote({
         allowanceTarget: quote.unvalidatedSwapTransaction.allowanceTarget,
         preparedTransactions,
         receivedAt: Date.now(),
+        unvalidatedSwapTransaction: quote.unvalidatedSwapTransaction,
       }
 
       return quoteResult

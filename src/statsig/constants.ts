@@ -28,6 +28,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_JUMPSTART_SEND]: false,
   [StatsigFeatureGates.SHOW_POINTS]: false,
   [StatsigFeatureGates.SHOW_STABLECOIN_EARN]: false,
+  [StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS]: false,
 } satisfies { [key in StatsigFeatureGates]: boolean }
 
 export const ExperimentConfigs = {
