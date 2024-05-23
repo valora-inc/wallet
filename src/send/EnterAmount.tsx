@@ -466,7 +466,7 @@ function EnterAmount({
   )
 }
 
-function AmountInput({
+export function AmountInput({
   inputValue,
   onInputChange,
   inputRef,

@@ -1581,45 +1581,76 @@ interface PointsEventsProperties {
   [PointsEvents.points_screen_activity_learn_more_press]: undefined
 }
 
-interface EarnDepositProperties {
-  tokenId: string
+interface EarnCommonProperties {
+  providerId: 'aave-v3'
   networkId: NetworkId
-  tokenAmount: string
-  providerId: string
+  depositTokenId: string
 }
 
+interface EarnDepositProperties extends EarnCommonProperties {
+  tokenAmount: string
+}
+
+interface EarnWithdrawProperties extends EarnCommonProperties {
+  tokenAmount: string
+  rewards: SerializableRewardsInfo[]
+}
+
+// Adds `deposit` prefix to all properties of TxReceiptProperties
+type DepositTxReceiptProperties = PrefixedTxReceiptProperties<'deposit'>
+
+export type EarnDepositTxsReceiptProperties = Partial<ApproveTxReceiptProperties> &
+  Partial<DepositTxReceiptProperties> &
+  Partial<{
+    gasUsed: number // Gas used by the deposit (approve + deposit)
+    gasFee: number | undefined // Actual gas fee of the deposit (approve + deposit) in feeCurrency (decimal value)
+    gasFeeUsd: number | undefined // Actual gas fee of the deposit (approve + deposit) in USD
+  }>
+
 interface EarnEventsProperties {
-  [EarnEvents.earn_cta_press]: undefined
+  [EarnEvents.earn_cta_press]: EarnCommonProperties
   [EarnEvents.earn_add_crypto_action_press]: {
     action: TokenActionName
   } & TokenProperties
-  [EarnEvents.earn_deposit_provider_info_press]: undefined
-  [EarnEvents.earn_deposit_terms_and_conditions_press]: undefined
-  [EarnEvents.earn_deposit_complete]: undefined
-  [EarnEvents.earn_deposit_cancel]: undefined
+  [EarnEvents.earn_deposit_provider_info_press]: EarnDepositProperties
+  [EarnEvents.earn_deposit_terms_and_conditions_press]: EarnDepositProperties
+  [EarnEvents.earn_deposit_complete]: EarnDepositProperties
+  [EarnEvents.earn_deposit_cancel]: EarnDepositProperties
   [EarnEvents.earn_deposit_submit_start]: EarnDepositProperties
-  [EarnEvents.earn_deposit_submit_success]: EarnDepositProperties
-  [EarnEvents.earn_deposit_submit_error]: EarnDepositProperties & {
-    error: string
-  }
+  [EarnEvents.earn_deposit_submit_success]: EarnDepositProperties & EarnDepositTxsReceiptProperties
+  [EarnEvents.earn_deposit_submit_error]: EarnDepositProperties &
+    EarnDepositTxsReceiptProperties & {
+      error: string
+    }
   [EarnEvents.earn_deposit_submit_cancel]: EarnDepositProperties
-  [EarnEvents.earn_view_pools_press]: undefined
-  [EarnEvents.earn_exit_pool_press]: {
+  [EarnEvents.earn_view_pools_press]: {
     poolTokenId: string
-    networkId: NetworkId
-    tokenAmount: string
-    providerId: string
+    networkId: string
+    providerId: 'aave-v3'
   }
+  [EarnEvents.earn_enter_amount_info_press]: undefined
+  [EarnEvents.earn_enter_amount_continue_press]: {
+    userHasFunds: boolean
+    amountInUsd: string
+    amountEnteredIn: AmountEnteredIn
+  } & EarnDepositProperties
+  [EarnEvents.earn_enter_amount_info_more_pools]: undefined
+  [EarnEvents.earn_exit_pool_press]: {
+    tokenAmount: string
+  } & EarnCommonProperties
+  [EarnEvents.earn_deposit_more_press]: EarnCommonProperties
+  [EarnEvents.earn_deposit_add_gas_press]: { gasTokenId: string }
   [EarnEvents.earn_feed_item_select]: {
     origin: 'EarnDeposit' | 'EarnWithdraw' | 'EarnClaimReward'
   }
-  [EarnEvents.earn_collect_earnings_press]: {
-    tokenId: string
-    amount: string
-    networkId: NetworkId
-    providerId: string
-    rewards: SerializableRewardsInfo[]
+  [EarnEvents.earn_collect_earnings_press]: EarnWithdrawProperties
+  [EarnEvents.earn_withdraw_submit_start]: EarnWithdrawProperties
+  [EarnEvents.earn_withdraw_submit_success]: EarnWithdrawProperties
+  [EarnEvents.earn_withdraw_submit_error]: EarnWithdrawProperties & {
+    error: string
   }
+  [EarnEvents.earn_withdraw_submit_cancel]: EarnWithdrawProperties
+  [EarnEvents.earn_withdraw_add_gas_press]: { gasTokenId: string }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

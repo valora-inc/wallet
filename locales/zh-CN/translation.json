@@ -255,8 +255,8 @@
       "text": "任何拥有您的短语的人都将能够访问您的账户和其中的所有资金。切勿将短语泄露给他人。"
     }
   ],
-  "consumerIncentivesTitle": "Supercharge 入门",
-  "consumerIncentivesSummary": "Supercharge 计划启动！基于您的稳定币 (cUSD、cEUR 或 cREAL) 最高余额，获取 {{percent}}% 的年度奖励。限时福利，切勿错过。具体方式如下：",
+  "consumerIncentivesTitle": "超级充电站即将关闭",
+  "consumerIncentivesSummary": "但更多奖励正在向您走来。在 5 月 28 日之前，稳定币最高余额（cUSD、cEUR 或 cREAL）可获得 {{percent}}% 的年度奖励。具体操作如下",
   "earnWeekly": {
     "header": "关联您的手机号码",
     "text": "如果您尚未关联，请点按“关联号码”。"
@@ -271,14 +271,14 @@
     "text": "这将确保您的奖励安全可控。"
   },
   "conclusion": "就是如此简单，立即 Supercharge 您的加密货币吧！",
-  "superchargeTitle": "开始 Supercharge",
-  "superchargeDescription": "基于您的 {{token}} 余额获取 {{apy}}% 的年度奖励。具体方式如下：",
+  "superchargeTitle": "超级充电站即将关闭",
+  "superchargeDescription": "但更多奖励正在向您走来。在 5 月 28 日之前， {{token}} 最高余额可获得 {{apy}}% 的年度奖励。具体操作如下：",
   "superchargeConnectNumber": "关联您的手机号码",
   "superchargeReconnectNumber": "重新关联您的手机号码\n<0>我们已经改进 Supercharge 体验。重新关联您的手机号码，继续获取基于您的 {{token}} 的奖励。</0>",
   "superchargeMinimumBalance": "添加 {{amount}} {{token}} 的最低余额",
-  "superchargeDisclaimer": "通过添加至 {{amount}} {{token}} 获取最高奖励",
-  "superchargeDisclaimerMaxRewards": "您即将获得基于您的 {{token}} 的最高奖励",
-  "superchargeDisclaimerDayLimit": "您必须在 28 天内领取奖励。<0>了解更多</0>",
+  "superchargeDisclaimer": "这不会影响您的余额或之前的收入。",
+  "superchargeDisclaimerMaxRewards": "这不会影响您的余额或之前的收入。",
+  "superchargeDisclaimerDayLimit": "这不会影响您的余额或之前的收入。<0>了解更多信息</0>",
   "superchargeTokenDetailsDialog": {
     "title": "我可以 Supercharge 哪种资产？",
     "body": "您将每周获得基于您的 Celo 稳定币最高价值（cEUR、cUSD、cREAL）的奖励。",
@@ -286,11 +286,11 @@
   },
   "superchargingTitle": "必须更新应用",
   "superchargingDescription": "更新 Valora 应用以继续领取您每周的 Supercharge 奖励.",
-  "superchargingTitleV1_54": "您的 {{token}} 正在进行 Supercharge",
-  "superchargingDescriptionV1_54": "您将获得年度 {{apy}}% 的奖励。每周当您的奖励准备就绪时，您将获得通知，请记得返回此处领取奖励。",
+  "superchargingTitleV1_54": "超级充电站即将关闭",
+  "superchargingDescriptionV1_54": "每周奖励可在 5 月 28 日（星期二）23:59（世界协调时）之前领取。从 5 月 29 日起，您将无法再领取超级充值奖励。",
   "superchargeRewardsAvailable": "您有 {{amount}} {{token}} 可领取！",
   "superchargeRewardsAvailableMultipleTokens": "您有 {{amounts}} 可领取！",
-  "superchargeClaimText": "领取您的奖励以将它添加到您的余额。",
+  "superchargeClaimText": "在世界协调时 5 月 28 日（星期二）23:59 之前领取奖励。自 5 月 29 日起，您将无法再领取超级充值奖励。",
   "superchargeClaimButton": "领取奖励",
   "superchargeFetchRewardsFailed": "获取待处理的 Supercharge 奖励时出错。请稍后再试。",
   "superchargeClaimSuccess": "您的 Supercharge 奖励已添加到您的总余额中。",
@@ -1765,6 +1765,9 @@
     "swapToTokenSelection": "替换至",
     "tokenUsdValueUnknown": "-",
     "unsupportedSwapTokens": "我们的交换提供商不支持所选令牌。",
+    "selectTokenLabel": "选择令牌",
+    "tokenBottomSheetTitle": "选择令牌",
+    "onNetwork": "{{networkName}}",
     "switchedToNetworkWarning": {
       "title": "您已转至 {{networkName}} 网络",
       "body_swapFrom": "在 {{networkName}} 网络上选择用于交换的代币，然后继续。",
@@ -1818,7 +1821,7 @@
       "appFeeValue_withoutPriceUsd": "<0></0>",
       "appFeeValue_free": "免费",
       "appFeeValue_placeholder": "-",
-      "appFeeInfo": "{{appName}} 费用\n\n我们对在 {{appName}}上交换代币收取一定费用。费用为您兑换金额的 {{appFeePercentage}}%。",
+      "appFeeInfo": "{{appName}} 费用\n\n {{appName}} 费用为 {{appFeePercentage}}%，旨在通过确保快速、可靠和安全的交换来提高您的体验。",
       "appFeeInfo_free": "{{appName}} 费用\n\n本次交换是免费的。",
       "appFeeInfo_placeholder": "{{appName}} 费用\n\n费用根据您收到的报价计算。",
       "appFeeInfoDismissButton": "知道了",
@@ -2236,12 +2239,13 @@
   },
   "jumpstartStatus": {
     "loading": {
-      "title": "您的资金正在到账中",
-      "description": "您朋友给您的资金正在汇入。请稍候... "
+      "title": "检查您的资金",
+      "description": "请稍候，我们将检查您的 Live Link。可申请的资金将很快到账。"
     },
     "error": {
       "title": "无法领取资金",
-      "description": "再次尝试您的实时链接以尝试接收资金，或请您的朋友尝试发送一个新链接",
+      "description": "此链接无法申请，原因不明",
+      "alreadyClaimedDescription": "链接已被使用。请让您的朋友发送一个新链接",
       "contactSupport": "联系支持团队",
       "dismiss": "忽略"
     }
@@ -2365,6 +2369,24 @@
       "subtitle": "立即存款，赚取回报",
       "description": "了解您在提供贷款池时能赚多少钱"
     },
+    "enterAmount": {
+      "earnUpToLabel": "您最多可以获得",
+      "rateLabel": "比率（估计值）",
+      "earnUpTo": "~{{fiatSymbol}}{{amount}} / 年",
+      "rate": "{{rate}}年利率",
+      "continue": "继续",
+      "info": "本泳池由 Aave 提供能源",
+      "infoBottomSheet": {
+        "title": "为什么是这个泳池？",
+        "description": "该 Aave 池拥有超过 1.5 亿美元的 TVL 和 6000 多名贡献者，这表明它具有很强的流动性和可信度。它还使用 USDC 作为代币，使用 Abritrum 作为网络，从而降低了波动性，确保用户获得低廉的天然气价格。\n\n所有这些都使其成为一个安全、有吸引力且年利率具有竞争力的选择，确保为我们的用户提供有利的投资机会。\n\n您可以<0>在这里</0>探索其他 Aave 池。",
+        "dismiss": "忽略"
+      },
+      "notEnoughBalanceForGasWarning": {
+        "title": "您需要更多 {{feeTokenSymbol}} 才能继续",
+        "description": "在 {{network}} 上添加 {{feeTokenSymbol}} 以支付汽油费",
+        "noGasCta": "在 {{network}}上购买 {{feeTokenSymbol}}"
+      }
+    },
     "activePools": {
       "title": "活动泳池",
       "totalValue": "总价值",
@@ -2393,7 +2415,10 @@
       "fee": "燃气费",
       "cta": "收取收益",
       "errorTitle": "出错了",
-      "errorDescription": "无法获取存款详情。请重试。"
+      "errorDescription": "无法获取存款详情。请重试。",
+      "noGasTitle": "您需要更多 {{symbol}} 才能继续",
+      "noGasDescription": "在 {{network}} 上添加 {{symbol}} 以支付汽油费",
+      "noGasCta": "在 {{network}}上购买 {{symbol}}"
     },
     "transactionFeed": {
       "earnClaimTitle": "收藏",
@@ -2402,6 +2427,18 @@
       "earnDepositSubtitle": "至 {{providerName}} 池",
       "earnWithdrawTitle": "撤回",
       "earnWithdrawSubtitle": "来自 {{providerName}} Pool"
+    },
+    "transactionDetails": {
+      "descriptionLabel": "详细信息",
+      "earnClaimTitle": "收藏",
+      "earnClaimSubtitle": "从 {{providerName}} Pool 收集的 {{tokenSymbol}}",
+      "earnClaimDetails": "收款金额",
+      "earnDepositTitle": "存入",
+      "earnDepositSubtitle": "存入 {{tokenSymbol}} 至 {{providerName}} 奖池",
+      "earnDepositDetails": "已转入金额",
+      "earnWithdrawTitle": "撤回",
+      "earnWithdrawSubtitle": "从 {{providerName}} Pool 提取 {{tokenSymbol}}",
+      "earnWithdrawDetails": "已提取金额"
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"

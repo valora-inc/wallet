@@ -255,8 +255,8 @@
       "text": "Любое лицо с помощью вашей фразы получит доступ к вашему аккаунту и всем его средствам. Не сообщайте ее другим людям."
     }
   ],
-  "consumerIncentivesTitle": "Программа Supercharge",
-  "consumerIncentivesSummary": "Воспользуйтесь программой Supercharge! Получите в качестве вознаграждения {{percent}}% годовых на ваш максимальный остаток в стейблкоинах (cUSD, cEUR или cREAL). Предложение действует в течение ограниченного времени. Вот как это работает.",
+  "consumerIncentivesTitle": "Суперзарядка заканчивается",
+  "consumerIncentivesSummary": "Но еще больше вознаграждений направляется в твою сторону. До 28 мая получай {{percent}}% годовых на свой самый высокий баланс в стабильных монетах (cUSD, cEUR или cREAL). Вот как это работает:",
   "earnWeekly": {
     "header": "Подключить номер телефона",
     "text": "Нажмите \"Подключить номер\", если подключение еще не выполнено."
@@ -271,14 +271,14 @@
     "text": "Это будет гарантировать, что ваши вознаграждения в безопасности и под вашим контролем."
   },
   "conclusion": "Все просто. Повысьте свои доходы от криптовалюты за счет программы Supercharge!",
-  "superchargeTitle": "Присоединяйтесь к программе Supercharge",
-  "superchargeDescription": "Получите вознаграждение {{apy}}% годовых на свой баланс {{token}}. Вот как начать:",
+  "superchargeTitle": "Суперзарядка заканчивается",
+  "superchargeDescription": "Но тебя ждут еще большие вознаграждения. До 28 мая получи {{apy}}% годовых на свой самый высокий баланс {{token}} . Вот как это работает:",
   "superchargeConnectNumber": "Подключите свой номер телефона",
   "superchargeReconnectNumber": "Переподключите свой номер телефона\n<0>Мы улучшили работу Supercharge. Переподключите свой номер телефона для получения вознаграждения по вашему {{token}}.</0>",
   "superchargeMinimumBalance": "Внесите минимальную сумму {{amount}} {{token}}",
-  "superchargeDisclaimer": "Получите максимальное вознаграждение, внеся до {{amount}} {{token}}",
-  "superchargeDisclaimerMaxRewards": "Вы получаете максимальное вознаграждение за {{token}}",
-  "superchargeDisclaimerDayLimit": "Вознаграждения необходимо получить в течение 28 дней. <0>Подробнее</0>",
+  "superchargeDisclaimer": "Это не повлияет на твой баланс или предыдущий заработок.",
+  "superchargeDisclaimerMaxRewards": "Это не повлияет на твой баланс или предыдущий заработок.",
+  "superchargeDisclaimerDayLimit": "Это не повлияет на твой баланс или предыдущие доходы. <0>Узнать больше</0>",
   "superchargeTokenDetailsDialog": {
     "title": "На какие активы распространяется программа Supercharge?",
     "body": "Вы будете еженедельно получать вознаграждение за стейблкойн Celo с наибольшей стоимостью (cEUR, cUSD, cREAL).",
@@ -286,11 +286,11 @@
   },
   "superchargingTitle": "Требуется обновление приложения",
   "superchargingDescription": "Обновите приложение Valora, чтобы по-прежнему получать вознаграждения по программе Supercharge.",
-  "superchargingTitleV1_54": "Для вашего {{token}} действует программа Supercharge",
-  "superchargingDescriptionV1_54": "Вы получаете {{apy}}% годовых. По готовности вознаграждений вы будете еженедельно получать уведомление. Вернитесь сюда, чтобы потребовать их.",
+  "superchargingTitleV1_54": "Суперзарядка заканчивается",
+  "superchargingDescriptionV1_54": "Еженедельные награды будут доступны для получения до вторника, 28 мая, в 23:59 по Гринвичу. Начиная с 29 мая ты больше не сможешь требовать вознаграждения за Supercharge.",
   "superchargeRewardsAvailable": "Вы можете заявить {{amount}} {{token}}!",
   "superchargeRewardsAvailableMultipleTokens": "У вас есть {{amounts}} для подачи заявки!",
-  "superchargeClaimText": "Заявите о своих вознаграждениях, чтобы добавить их на свой баланс.",
+  "superchargeClaimText": "Получи свои награды до вторника, 28 мая, в 23:59 по Гринвичу. Начиная с 29 мая ты больше не сможешь претендовать на награды Supercharge.",
   "superchargeClaimButton": "Заявить о вознаграждениях",
   "superchargeFetchRewardsFailed": "Ошибка при получении ожидаемых вознаграждений Supercharge. Повторите попытку позже.",
   "superchargeClaimSuccess": "Ваши вознаграждения Supercharge были добавлены на ваш общий баланс.",
@@ -1771,6 +1771,9 @@
     "swapToTokenSelection": "На что обменять",
     "tokenUsdValueUnknown": "-",
     "unsupportedSwapTokens": "Выбранные токены не поддерживаются.",
+    "selectTokenLabel": "Выберите токен",
+    "tokenBottomSheetTitle": "Выбрать токен",
+    "onNetwork": "на {{networkName}}",
     "switchedToNetworkWarning": {
       "title": "Вы переключились на сеть {{networkName}}",
       "body_swapFrom": "Выберите токен, с которого нужно выполнить обмен, в сеть {{networkName}}.",
@@ -1824,7 +1827,7 @@
       "appFeeValue_withoutPriceUsd": "<0></0>",
       "appFeeValue_free": "Бесплатно",
       "appFeeValue_placeholder": "-",
-      "appFeeInfo": "{{appName}} Комиссия\n\nМы взимаем комиссию за обмен токенов на сайте {{appName}}. Комиссия составляет {{appFeePercentage}}% от суммы, которую ты обмениваешь.",
+      "appFeeInfo": "{{appName}} Комиссия\n\nКомиссия {{appName}} в размере {{appFeePercentage}}% призвана улучшить твой опыт, обеспечивая быстрые, надежные и безопасные свопы.",
       "appFeeInfo_free": "{{appName}} Плата\n\nЭтот своп бесплатный.",
       "appFeeInfo_placeholder": "{{appName}} Гонорар\n\nГонорар рассчитывается на основе полученной тобой цитаты.",
       "appFeeInfoDismissButton": "Понятно",
@@ -2242,12 +2245,13 @@
   },
   "jumpstartStatus": {
     "loading": {
-      "title": "Ваши средства уже в пути",
-      "description": "Средства, переданные вам вашим другом, отправляются. Пожалуйста, подождите... "
+      "title": "Проверяй свои средства",
+      "description": "Пожалуйста, подожди, пока мы проверим твою Live Link. Средства, на которые можно претендовать, поступят в ближайшее время."
     },
     "error": {
       "title": "Не удается востребовать средства",
-      "description": "Попробуйте снова отправить свою прямую ссылку, чтобы попытаться получить средства, или попросите друга отправить новую ссылку",
+      "description": "Эта ссылка не может быть использована по неизвестной причине",
+      "alreadyClaimedDescription": "Эта ссылка уже была использована. Пожалуйста, попроси своего друга прислать новую ссылку",
       "contactSupport": "Обратитесь в службу поддержки",
       "dismiss": "Отклонить"
     }
@@ -2371,6 +2375,24 @@
       "subtitle": "Сделай депозит сегодня и получи доход",
       "description": "Узнай, сколько ты сможешь заработать, предоставляя кредитный пул."
     },
+    "enterAmount": {
+      "earnUpToLabel": "Ты можешь заработать до:",
+      "rateLabel": "Ставка (эст.)",
+      "earnUpTo": "~{{fiatSymbol}}{{amount}} / год",
+      "rate": "{{rate}}% APY",
+      "continue": "Продолжить",
+      "info": "Этот бассейн работает под управлением Aave",
+      "infoBottomSheet": {
+        "title": "Почему именно этот бассейн?",
+        "description": "Этот пул Aave имеет более $150M TVL и более 6 000 вкладчиков, что говорит о высокой ликвидности и надежности. Кроме того, он использует USDC в качестве своего токена и Abritrum в качестве сети, что снижает волатильность и гарантирует пользователям недорогие тарифы на газ.\n\nВсе вместе это делает его безопасным и привлекательным вариантом с конкурентоспособной APY, обеспечивая выгодную инвестиционную возможность для наших пользователей.\n\nИзучить другие пулы Aave ты можешь <0>здесь</0>.",
+        "dismiss": "Отклонить"
+      },
+      "notEnoughBalanceForGasWarning": {
+        "title": "Тебе нужно больше {{feeTokenSymbol}} , чтобы продолжить",
+        "description": "Добавь {{feeTokenSymbol}} на {{network}} , чтобы покрыть расходы на бензин.",
+        "noGasCta": "Купить {{feeTokenSymbol}} на {{network}}"
+      }
+    },
     "activePools": {
       "title": "Активные бассейны",
       "totalValue": "Общая стоимость:",
@@ -2399,7 +2421,10 @@
       "fee": "Плата за газ",
       "cta": "Собирайте заработок",
       "errorTitle": "Что-то пошло не так",
-      "errorDescription": "Невозможно получить данные о депозите. Пожалуйста, попробуй еще раз."
+      "errorDescription": "Невозможно получить данные о депозите. Пожалуйста, попробуй еще раз.",
+      "noGasTitle": "Тебе нужно больше {{symbol}} , чтобы продолжить",
+      "noGasDescription": "Добавь {{symbol}} на {{network}} , чтобы покрыть расходы на бензин.",
+      "noGasCta": "Купить {{symbol}} на {{network}}"
     },
     "transactionFeed": {
       "earnClaimTitle": "Собрано",
@@ -2408,6 +2433,18 @@
       "earnDepositSubtitle": "на {{providerName}} Pool",
       "earnWithdrawTitle": "Отказаться от",
       "earnWithdrawSubtitle": "с сайта {{providerName}} Pool"
+    },
+    "transactionDetails": {
+      "descriptionLabel": "Подробности",
+      "earnClaimTitle": "Собрано",
+      "earnClaimSubtitle": "Собрал {{tokenSymbol}} в бассейне {{providerName}}",
+      "earnClaimDetails": "Собранная сумма",
+      "earnDepositTitle": "Депозит",
+      "earnDepositSubtitle": "Депозит {{tokenSymbol}} на {{providerName}}",
+      "earnDepositDetails": "Вложенная сумма",
+      "earnWithdrawTitle": "Отказаться от",
+      "earnWithdrawSubtitle": "Вывел {{tokenSymbol}} из пула {{providerName}}",
+      "earnWithdrawDetails": "Сумма выведено"
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",

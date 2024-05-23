@@ -1,13 +1,17 @@
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { InviteTransactions } from 'src/transactions/reducer'
 import {
+  EarnClaimReward,
+  EarnDeposit,
+  EarnWithdraw,
   Fee,
   NetworkId,
-  PendingStandbyApproval,
-  PendingStandbyNFTTransfer,
-  PendingStandbySwap,
-  PendingStandbyTransfer,
+  NftTransfer,
+  PendingStandbyTransaction,
+  TokenApproval,
+  TokenExchange,
   TokenTransaction,
+  TokenTransfer,
   TransactionStatus,
 } from 'src/transactions/types'
 
@@ -22,11 +26,16 @@ export enum Actions {
   UPDATE_INVITE_TRANSACTIONS = 'TRANSACTIONS/UPDATE_INVITE_TRANSACTIONS',
 }
 
+type BaseStandbyTransactionType<T> = Omit<PendingStandbyTransaction<T>, 'timestamp' | 'status'>
+
 export type BaseStandbyTransaction =
-  | Omit<PendingStandbyTransfer, 'timestamp' | 'status'>
-  | Omit<PendingStandbySwap, 'timestamp' | 'status'>
-  | Omit<PendingStandbyApproval, 'timestamp' | 'status'>
-  | Omit<PendingStandbyNFTTransfer, 'timestamp' | 'status'>
+  | BaseStandbyTransactionType<TokenTransfer>
+  | BaseStandbyTransactionType<TokenExchange>
+  | BaseStandbyTransactionType<TokenApproval>
+  | BaseStandbyTransactionType<NftTransfer>
+  | BaseStandbyTransactionType<EarnDeposit>
+  | BaseStandbyTransactionType<EarnWithdraw>
+  | BaseStandbyTransactionType<EarnClaimReward>
 
 export interface AddStandbyTransactionAction {
   type: Actions.ADD_STANDBY_TRANSACTION

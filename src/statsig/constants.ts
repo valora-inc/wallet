@@ -28,6 +28,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_JUMPSTART_SEND]: false,
   [StatsigFeatureGates.SHOW_POINTS]: false,
   [StatsigFeatureGates.SHOW_STABLECOIN_EARN]: false,
+  [StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES]: false,
   [StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS]: false,
 } satisfies { [key in StatsigFeatureGates]: boolean }
 
@@ -143,6 +144,7 @@ export const DynamicConfigs = {
       providerLogoUrl: '',
       providerTermsAndConditionsUrl: '',
       depositGasPadding: 0,
+      moreAavePoolsUrl: '',
     },
   },
 } satisfies {

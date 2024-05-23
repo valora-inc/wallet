@@ -221,7 +221,7 @@ function ImportWallet({ navigation, route }: Props) {
                   onPress={onPressRestore}
                   text={t('restore')}
                   size={BtnSizes.FULL}
-                  type={BtnTypes.ONBOARDING}
+                  type={BtnTypes.PRIMARY}
                   disabled={
                     isImportingWallet || !isValidBackupPhrase(backupPhrase) || !appConnected
                   }

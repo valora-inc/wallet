@@ -10,12 +10,18 @@ import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
+import { PROVIDER_ID } from 'src/earn/constants'
 import { useAavePoolInfo, useAaveRewardsInfoAndPrepareTransactions } from 'src/earn/hooks'
 import { withdrawStatusSelector } from 'src/earn/selectors'
 import { withdrawStart } from 'src/earn/slice'
+import { CICOFlow } from 'src/fiatExchanges/utils'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
+import { NETWORK_NAMES } from 'src/shared/conts'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -39,6 +45,8 @@ export default function EarnCollectScreen({ route }: Props) {
     // should never happen
     throw new Error('Deposit / pool token not found')
   }
+
+  const isGasSubsidized = getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
 
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, depositToken.networkId))
   const { asyncRewardsInfo, asyncPreparedTransactions } = useAaveRewardsInfoAndPrepareTransactions({
@@ -69,10 +77,10 @@ export default function EarnCollectScreen({ route }: Props) {
     )
 
     ValoraAnalytics.track(EarnEvents.earn_collect_earnings_press, {
-      tokenId: depositTokenId,
-      amount: poolToken.balance.toString(),
+      depositTokenId,
+      tokenAmount: poolToken.balance.toString(),
       networkId: depositToken.networkId,
-      providerId: 'aave-v3',
+      providerId: PROVIDER_ID,
       rewards: serializedRewards,
     })
   }
@@ -89,7 +97,13 @@ export default function EarnCollectScreen({ route }: Props) {
   const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(asyncPreparedTransactions.result)
   let feeSection = <GasFeeLoading />
   if (maxFeeAmount && feeCurrency) {
-    feeSection = <GasFee maxFeeAmount={maxFeeAmount} feeCurrency={feeCurrency} />
+    feeSection = (
+      <GasFee
+        maxFeeAmount={maxFeeAmount}
+        feeCurrency={feeCurrency}
+        isGasSubsidized={isGasSubsidized}
+      />
+    )
   } else if (!asyncPreparedTransactions.loading) {
     feeSection = <GasFeeError />
   }
@@ -122,6 +136,11 @@ export default function EarnCollectScreen({ route }: Props) {
           <View>
             <Text style={styles.rateText}>{t('earnFlow.collect.fee')}</Text>
             {feeSection}
+            {isGasSubsidized && (
+              <Text style={styles.gasSubsidized} testID={'EarnCollect/GasSubsidized'}>
+                {t('earnFlow.gasSubsidized')}
+              </Text>
+            )}
           </View>
         </View>
         {error && (
@@ -129,6 +148,31 @@ export default function EarnCollectScreen({ route }: Props) {
             variant={NotificationVariant.Error}
             title={t('earnFlow.collect.errorTitle')}
             description={t('earnFlow.collect.errorDescription')}
+            style={styles.error}
+          />
+        )}
+        {asyncPreparedTransactions.result?.type === 'not-enough-balance-for-gas' && (
+          <InLineNotification
+            variant={NotificationVariant.Warning}
+            title={t('earnFlow.collect.noGasTitle', { symbol: feeCurrencies[0].symbol })}
+            description={t('earnFlow.collect.noGasDescription', {
+              symbol: feeCurrencies[0].symbol,
+              network: NETWORK_NAMES[depositToken.networkId],
+            })}
+            ctaLabel={t('earnFlow.collect.noGasCta', {
+              symbol: feeCurrencies[0].symbol,
+              network: NETWORK_NAMES[depositToken.networkId],
+            })}
+            onPressCta={() => {
+              ValoraAnalytics.track(EarnEvents.earn_withdraw_add_gas_press, {
+                gasTokenId: feeCurrencies[0].tokenId,
+              })
+              navigate(Screens.FiatExchangeAmount, {
+                tokenId: feeCurrencies[0].tokenId,
+                flow: CICOFlow.CashIn,
+                tokenSymbol: feeCurrencies[0].symbol,
+              })
+            }}
             style={styles.error}
           />
         )}
@@ -241,26 +285,30 @@ function GasFeeLoading() {
 function GasFee({
   maxFeeAmount,
   feeCurrency,
+  isGasSubsidized = false,
 }: {
   maxFeeAmount: BigNumber
   feeCurrency: TokenBalance
+  isGasSubsidized: Boolean
 }) {
   return (
     <>
       <TokenDisplay
-        style={styles.apyText}
+        style={[styles.apyText, isGasSubsidized && { textDecorationLine: 'line-through' }]}
         tokenId={feeCurrency.tokenId}
         amount={maxFeeAmount}
         showLocalAmount={false}
         testID="EarnCollect/GasFeeCryptoAmount"
       />
-      <TokenDisplay
-        style={styles.gasFeeFiat}
-        tokenId={feeCurrency.tokenId}
-        amount={maxFeeAmount}
-        showLocalAmount={true}
-        testID="EarnCollect/GasFeeFiatAmount"
-      />
+      {!isGasSubsidized && (
+        <TokenDisplay
+          style={styles.gasFeeFiat}
+          tokenId={feeCurrency.tokenId}
+          amount={maxFeeAmount}
+          showLocalAmount={true}
+          testID="EarnCollect/GasFeeFiatAmount"
+        />
+      )}
     </>
   )
 }
@@ -348,5 +396,10 @@ const styles = StyleSheet.create({
     width: 64,
     borderRadius: 100,
     ...typeScale.bodyXSmall,
+  },
+  gasSubsidized: {
+    ...typeScale.labelXSmall,
+    color: Colors.primary,
+    marginTop: Spacing.Tiny4,
   },
 })

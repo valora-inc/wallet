@@ -108,7 +108,7 @@ function OnboardingRecoveryPhrase({ navigation }: Props) {
             onPress={onPressContinue}
             text={t('recoveryPhrase.continue')}
             size={BtnSizes.FULL}
-            type={BtnTypes.ONBOARDING}
+            type={BtnTypes.PRIMARY}
             testID={'protectWalletBottomSheetContinue'}
           />
         </View>

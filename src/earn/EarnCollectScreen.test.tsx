@@ -8,6 +8,10 @@ import EarnCollectScreen from 'src/earn/EarnCollectScreen'
 import { fetchAavePoolInfo, fetchAaveRewards } from 'src/earn/poolInfo'
 import { prepareWithdrawAndClaimTransactions } from 'src/earn/prepareTransactions'
 import { withdrawStart } from 'src/earn/slice'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
@@ -42,6 +46,7 @@ const mockStoreTokens = {
 const store = createMockStore({ tokens: mockStoreTokens })
 
 jest.mock('src/earn/poolInfo')
+jest.mock('src/statsig')
 jest.mock('src/earn/prepareTransactions')
 
 const mockPreparedTransaction: PreparedTransactionsPossible = {
@@ -82,6 +87,7 @@ describe('EarnCollectScreen', () => {
     jest.mocked(fetchAavePoolInfo).mockResolvedValue({ apy: 0.03 })
     jest.mocked(fetchAaveRewards).mockResolvedValue(mockRewards)
     jest.mocked(prepareWithdrawAndClaimTransactions).mockResolvedValue(mockPreparedTransaction)
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     store.clearActions()
   })
 
@@ -127,6 +133,7 @@ describe('EarnCollectScreen', () => {
     })
     expect(getByTestId('EarnCollect/GasFeeCryptoAmount')).toHaveTextContent('0.06 ETH')
     expect(getByTestId('EarnCollect/GasFeeFiatAmount')).toHaveTextContent('₱119.70')
+    expect(queryByTestId('EarnCollect/GasSubsidized')).toBeFalsy()
     expect(getByTestId('EarnCollectScreen/CTA')).toBeEnabled()
     expect(prepareWithdrawAndClaimTransactions).toHaveBeenCalledWith({
       amount: '10.75',
@@ -355,8 +362,8 @@ describe('EarnCollectScreen', () => {
     ])
 
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_collect_earnings_press, {
-      tokenId: mockArbUsdcTokenId,
-      amount: '10.75',
+      depositTokenId: mockArbUsdcTokenId,
+      tokenAmount: '10.75',
       networkId: NetworkId['arbitrum-sepolia'],
       providerId: 'aave-v3',
       rewards: [{ amount: '0.01', tokenId: mockArbArbTokenId }],
@@ -379,5 +386,68 @@ describe('EarnCollectScreen', () => {
 
     expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
     expect(getByTestId('EarnCollectScreen/CTA')).toContainElement(getByTestId('Button/Loading'))
+  })
+
+  it('navigate and fire analytics on no gas CTA press', async () => {
+    jest.mocked(prepareWithdrawAndClaimTransactions).mockResolvedValue({
+      type: 'not-enough-balance-for-gas',
+      feeCurrencies: [mockPreparedTransaction.feeCurrency],
+    })
+
+    const { getByText, queryByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator
+          component={EarnCollectScreen}
+          params={{
+            depositTokenId: mockArbUsdcTokenId,
+            poolTokenId: networkConfig.aaveArbUsdcTokenId,
+          }}
+        />
+      </Provider>
+    )
+
+    await waitFor(() => {
+      expect(queryByTestId('EarnCollect/RewardsLoading')).toBeFalsy()
+    })
+    await waitFor(() => {
+      expect(queryByTestId('EarnCollect/ApyLoading')).toBeFalsy()
+    })
+
+    expect(
+      getByText('earnFlow.collect.noGasCta, {"symbol":"ETH","network":"Arbitrum Sepolia"}')
+    ).toBeTruthy()
+    fireEvent.press(
+      getByText('earnFlow.collect.noGasCta, {"symbol":"ETH","network":"Arbitrum Sepolia"}')
+    )
+
+    expect(navigate).toBeCalledWith(Screens.FiatExchangeAmount, {
+      flow: 'CashIn',
+      tokenId: mockArbEthTokenId,
+      tokenSymbol: 'ETH',
+    })
+    expect(ValoraAnalytics.track).toBeCalledWith(EarnEvents.earn_withdraw_add_gas_press, {
+      gasTokenId: mockArbEthTokenId,
+    })
+  })
+
+  it('shows gas subsidized copy when feature gate is true', async () => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation(
+        (featureGateName) =>
+          featureGateName === StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES
+      )
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator
+          component={EarnCollectScreen}
+          params={{
+            depositTokenId: mockArbUsdcTokenId,
+            poolTokenId: networkConfig.aaveArbUsdcTokenId,
+          }}
+        />
+      </Provider>
+    )
+    expect(getByTestId('EarnCollect/GasSubsidized')).toBeTruthy()
   })
 })

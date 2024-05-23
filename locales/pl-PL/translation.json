@@ -255,8 +255,8 @@
       "text": "Każdy, kto pozna Twoją frazę, będzie mieć dostęp do Twojego konta i wszystkich jego środków. Nie udostępniaj jej nikomu."
     }
   ],
-  "consumerIncentivesTitle": "Zacznij korzystać z programu Supercharge",
-  "consumerIncentivesSummary": "Program Supercharge jest już dostępny! Otrzymuj {{percent}}% rocznych nagród od najwyższego salda stablecoinów (cUSD, cEUR lub cREAL). Oferta ograniczona czasowo. Oto jak działa:",
+  "consumerIncentivesTitle": "Supercharge dobiega końca",
+  "consumerIncentivesSummary": "Ale jeszcze więcej nagród czeka na Ciebie. Do 28 maja otrzymuj {{percent}}% rocznych nagród od najwyższego salda stablecoinów (cUSD, cEUR lub cREAL). Oto jak to działa:",
   "earnWeekly": {
     "header": "Podłącz swój numer telefonu",
     "text": "Jeśli nie masz jeszcze podłączonego numeru telefonu, naciśnij polecenie Podłącz numer."
@@ -271,14 +271,14 @@
     "text": "Dzięki temu Twoje nagrody będą bezpieczne i zawsze pod Twoją kontrolą."
   },
   "conclusion": "To takie proste. Doładuj swoją kryptowalutę już dziś!",
-  "superchargeTitle": "Skorzystaj z programu Supercharge",
-  "superchargeDescription": "Otrzymuj {{apy}}% rocznych nagród za saldo tokenów {{token}}. Oto jak zacząć:",
+  "superchargeTitle": "Supercharge dobiega końca",
+  "superchargeDescription": "Ale jeszcze więcej nagród czeka na Ciebie. Do 28 maja zdobądź {{apy}}% rocznych nagród za najwyższe saldo {{token}} . Oto jak to działa:",
   "superchargeConnectNumber": "Podłącz swój numer telefonu",
   "superchargeReconnectNumber": "Podłącz ponownie swój numer telefonu\n<0>Uruchomiliśmy ulepszoną obsługę programu Supercharge. Podłącz ponownie swój numer telefonu, aby zdobywać nagrody na {{token}}.</0>",
   "superchargeMinimumBalance": "Dodaj minimalne saldo {{amount}} {{token}}",
-  "superchargeDisclaimer": "Maksymalizuj nagrody, zwiększając saldo do {{amount}} {{token}}",
-  "superchargeDisclaimerMaxRewards": "Otrzymujesz maksymalne nagrody za swoje saldo tokenów {{token}}",
-  "superchargeDisclaimerDayLimit": "Nagrody muszą zostać odebrane w ciągu 28 dni. <0>Dowiedz się więcej</0>",
+  "superchargeDisclaimer": "Nie wpłynie to na Twoje saldo ani poprzednie zarobki.",
+  "superchargeDisclaimerMaxRewards": "Nie wpłynie to na Twoje saldo ani poprzednie zarobki.",
+  "superchargeDisclaimerDayLimit": "Nie wpłynie to na Twoje saldo ani poprzednie zarobki. <0>Dowiedz się więcej</0>",
   "superchargeTokenDetailsDialog": {
     "title": "Które aktywa są objęte programem Supercharge?",
     "body": "Otrzymasz cotygodniową nagrodę za swój stablecoin Celo o najwyższej wartości (cEUR, cUSD lub cREAL).",
@@ -286,11 +286,11 @@
   },
   "superchargingTitle": "Wymagana aktualizacja aplikacji",
   "superchargingDescription": "Zaktualizuj aplikację Valora, aby kontynuować otrzymywanie cotygodniowych nagród w programie Supercharge.",
-  "superchargingTitleV1_54": "Twoje tokeny {{token}} biorą udział w programie Supercharge",
-  "superchargingDescriptionV1_54": "Otrzymujesz {{apy}}% rocznie. Co tydzień otrzymasz powiadomienie, gdy nagrody będą gotowe. Wróć tutaj, aby je odebrać.",
+  "superchargingTitleV1_54": "Supercharge dobiega końca",
+  "superchargingDescriptionV1_54": "Nagrody tygodniowe będzie można odbierać do wtorku, 28 maja, do godziny 23:59 UTC. Od 29 maja nie będziesz już mógł odbierać nagród Supercharge.",
   "superchargeRewardsAvailable": "Masz {{amount}} {{token}} dostępne do odbioru!",
   "superchargeRewardsAvailableMultipleTokens": "Masz {{amounts}} dostępne do odbioru!",
-  "superchargeClaimText": "Odbierz nagrody, aby dodać je do swojego salda.",
+  "superchargeClaimText": "Odbierz swoje nagrody do wtorku, 28 maja, do godziny 23:59 UTC. Od 29 maja nie będziesz już mógł odbierać nagród Supercharge.",
   "superchargeClaimButton": "Odbierz nagrody",
   "superchargeFetchRewardsFailed": "Wystąpił błąd podczas pobierania oczekujących nagród w ramach programu Supercharge. Spróbuj ponownie później.",
   "superchargeClaimSuccess": "Twoje nagrody Supercharge zostały dodane do Twojego salda całkowitego.",
@@ -1771,6 +1771,9 @@
     "swapToTokenSelection": "ZAMIANA NA",
     "tokenUsdValueUnknown": "-",
     "unsupportedSwapTokens": "Wybrane tokeny nie są obsługiwane przez naszych dostawców swapów.",
+    "selectTokenLabel": "Wybierz token",
+    "tokenBottomSheetTitle": "Wybierz token",
+    "onNetwork": "na {{networkName}}",
     "switchedToNetworkWarning": {
       "title": "Przełączono do sieci {{networkName}}",
       "body_swapFrom": "Aby kontynuować, wybierz token do wymiany w sieci {{networkName}}.",
@@ -1824,7 +1827,7 @@
       "appFeeValue_withoutPriceUsd": "<0></0>",
       "appFeeValue_free": "Bezpłatnie",
       "appFeeValue_placeholder": "-",
-      "appFeeInfo": "{{appName}} Opłata\n\nPobieramy opłatę za wymianę tokenów na {{appName}}. Opłata wynosi {{appFeePercentage}}% kwoty, którą wymieniasz.",
+      "appFeeInfo": "{{appName}} Opłata\n\nOpłata {{appName}} w wysokości {{appFeePercentage}}% ma na celu zwiększenie Twojego doświadczenia poprzez zapewnienie szybkich, niezawodnych i bezpiecznych swapów.",
       "appFeeInfo_free": "{{appName}} Opłata\n\nTa wymiana jest bezpłatna.",
       "appFeeInfo_placeholder": "{{appName}} Opłata\n\nOpłata jest obliczana na podstawie otrzymanej wyceny.",
       "appFeeInfoDismissButton": "Rozumiem",
@@ -2242,12 +2245,13 @@
   },
   "jumpstartStatus": {
     "loading": {
-      "title": "Twoje środki są w drodze",
-      "description": "Środki, które przekazał Ci Twój znajomy, są właśnie przesyłane. Poczekaj… "
+      "title": "Sprawdzanie Twoich środków",
+      "description": "Poczekaj, aż sprawdzimy Twój Live Link. Wkrótce otrzymasz środki możliwe do odebrania."
     },
     "error": {
       "title": "Nie można odebrać środków",
-      "description": "Użyj ponownie swojego aktywnego linku, aby spróbować otrzymać środki, lub poproś znajomego, aby przesłał nowy link",
+      "description": "Z nieznanego powodu nie można było odebrać tego linku",
+      "alreadyClaimedDescription": "Link został już zajęty. Poproś znajomego o przesłanie nowego linku",
       "contactSupport": "Skontaktuj się z Działem wsparcia",
       "dismiss": "Odrzuć"
     }
@@ -2371,6 +2375,24 @@
       "subtitle": "Dokonaj wpłaty już dziś i zarabiaj",
       "description": "Zobacz ile możesz zarobić zasilając pulę pożyczkową"
     },
+    "enterAmount": {
+      "earnUpToLabel": "Możesz zarobić do:",
+      "rateLabel": "Stawka (szacunkowa)",
+      "earnUpTo": "~{{fiatSymbol}}{{amount}} / rok",
+      "rate": "{{rate}}% RRSO",
+      "continue": "Kontynuuj",
+      "info": "Ta pula jest zasilana przez Aave",
+      "infoBottomSheet": {
+        "title": "Dlaczego ten basen?",
+        "description": "Ta pula Aave ma ponad 150 mln USD TVL i ponad 6000 współpracowników, co wskazuje na dużą płynność i wiarygodność. Wykorzystuje również USDC jako token i Abritrum jako sieć, co zmniejsza zmienność i zapewnia użytkownikom niedrogie stawki za gaz.\n\nWszystko to razem sprawia, że jest to bezpieczna i atrakcyjna opcja z konkurencyjnym APY, zapewniająca korzystne możliwości inwestycyjne dla naszych użytkowników.\n\nMożesz zapoznać się z innymi pulami Aave <0>tutaj</0>.",
+        "dismiss": "Odrzuć"
+      },
+      "notEnoughBalanceForGasWarning": {
+        "title": "Potrzebujesz więcej {{feeTokenSymbol}} , aby kontynuować",
+        "description": "Dodaj {{feeTokenSymbol}} na {{network}} , aby pokryć opłaty za gaz",
+        "noGasCta": "Kup {{feeTokenSymbol}} na {{network}}"
+      }
+    },
     "activePools": {
       "title": "Aktywne baseny",
       "totalValue": "Całkowita wartość:",
@@ -2399,7 +2421,10 @@
       "fee": "Opłata za gaz",
       "cta": "Zbieraj zarobki",
       "errorTitle": "Coś poszło nie tak",
-      "errorDescription": "Nie można pobrać szczegółów wpłaty. Spróbuj ponownie."
+      "errorDescription": "Nie można pobrać szczegółów wpłaty. Spróbuj ponownie.",
+      "noGasTitle": "Potrzebujesz więcej {{symbol}} , aby kontynuować",
+      "noGasDescription": "Dodaj {{symbol}} na {{network}} , aby pokryć opłaty za gaz",
+      "noGasCta": "Kup {{symbol}} na {{network}}"
     },
     "transactionFeed": {
       "earnClaimTitle": "Zebrane",
@@ -2408,6 +2433,18 @@
       "earnDepositSubtitle": "na {{providerName}} Pool",
       "earnWithdrawTitle": "Wycofany",
       "earnWithdrawSubtitle": "z {{providerName}} Pool"
+    },
+    "transactionDetails": {
+      "descriptionLabel": "Szczegóły",
+      "earnClaimTitle": "Zebrane",
+      "earnClaimSubtitle": "Zebrano {{tokenSymbol}} z {{providerName}} Pool",
+      "earnClaimDetails": "Zebrana kwota",
+      "earnDepositTitle": "Wpłacono",
+      "earnDepositSubtitle": "Wpłacono {{tokenSymbol}} do puli {{providerName}}",
+      "earnDepositDetails": "Kwota wpłacona",
+      "earnWithdrawTitle": "Wycofany",
+      "earnWithdrawSubtitle": "Wycofano {{tokenSymbol}} z puli {{providerName}}",
+      "earnWithdrawDetails": "Wypłacona kwota"
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
