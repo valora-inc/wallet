@@ -1608,7 +1608,7 @@ export type EarnDepositTxsReceiptProperties = Partial<ApproveTxReceiptProperties
   }>
 
 interface EarnEventsProperties {
-  [EarnEvents.earn_cta_press]: undefined
+  [EarnEvents.earn_cta_press]: EarnCommonProperties
   [EarnEvents.earn_add_crypto_action_press]: {
     action: TokenActionName
   } & TokenProperties
