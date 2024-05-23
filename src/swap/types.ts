@@ -16,14 +16,14 @@ export interface ParsedSwapAmount {
   [Field.TO]: BigNumber
 }
 
-export interface SwapUserInput {
+interface SwapUserInput {
   fromTokenId: string
   swapAmount: SwapAmount
   toTokenId: string
   updatedField: Field
 }
 
-export interface BaseSwapTransaction {
+interface BaseSwapTransaction {
   type: 'same-chain' | 'cross-chain'
   chainId: number
   buyAmount: string
