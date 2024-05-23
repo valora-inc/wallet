@@ -2374,6 +2374,29 @@
       "subtitle": "Deposit today and earn returns",
       "description": "See how much you can earn when supplying a lending pool"
     },
+    "earnInfo": {
+      "titleWithApy": "Earn {{apy}}% on your\n{{tokenSymbol}}",
+      "titleWithoutApy": "Earn on your\n{{tokenSymbol}}",
+      "details": {
+        "earn": {
+          "title": "Maximize Earnings without Gas Fees*",
+          "subtitle": "Earn on {{tokenSymbol}} and get rewards when you supply an {{providerName}} Pool.",
+          "footnote": "*Gas fees are temporarily covered by Valora"
+        },
+        "manage": {
+          "title": "Manage Directly from Valora",
+          "subtitle": "We’ll take care of the setup so you can manage your {{providerName}} position directly from Valora."
+        },
+        "access": {
+          "title": "Easily Access your Funds",
+          "subtitle": "Collect your funds effortlessly with a single tap. Enjoy the same instant access as you would through {{providerName}}."
+        }
+      },
+      "action": {
+        "learn": "Learn More",
+        "earn": "Start Earning"
+      }
+    },
     "enterAmount": {
       "earnUpToLabel": "You could earn up to:",
       "rateLabel": "Rate (est.)",
