@@ -14,6 +14,7 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
+import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
@@ -406,25 +407,48 @@ function EarnProceed({
         <Text style={styles.label}>{t('earnFlow.enterAmount.rateLabel')}</Text>
       </View>
       <View style={styles.line}>
-        <Text style={styles.valuesText} testID="EarnEnterAmount/EarnUpTo">
-          {t('earnFlow.enterAmount.earnUpTo', {
-            fiatSymbol: localCurrencySymbol,
-            amount:
-              asyncPoolInfo?.result && !!asyncPoolInfo.result.apy && tokenAmount?.gt(0)
-                ? tokenAmount.multipliedBy(new BigNumber(asyncPoolInfo.result.apy)).toFormat(2)
-                : '--',
-          })}
-        </Text>
-        <View style={styles.apy}>
-          <TokenIcon token={token} size={IconSize.XSMALL} />
-          <Text style={styles.valuesText} testID="EarnEnterAmount/Apy">
-            {t('earnFlow.enterAmount.rate', {
-              rate:
-                asyncPoolInfo?.result && !!asyncPoolInfo.result.apy
-                  ? (asyncPoolInfo.result.apy * 100).toFixed(2)
+        {asyncPoolInfo?.loading && (
+          <SkeletonPlaceholder
+            backgroundColor={Colors.gray2}
+            highlightColor={Colors.white}
+            testID="EarnEnterAmount/EarnUpToLoading"
+          >
+            <View style={styles.loadingSkeleton} />
+          </SkeletonPlaceholder>
+        )}
+        {!asyncPoolInfo?.loading && (
+          <Text style={styles.valuesText} testID="EarnEnterAmount/EarnUpTo">
+            {t('earnFlow.enterAmount.earnUpTo', {
+              fiatSymbol: localCurrencySymbol,
+              amount:
+                asyncPoolInfo?.result && !!asyncPoolInfo.result.apy && tokenAmount?.gt(0)
+                  ? tokenAmount.multipliedBy(new BigNumber(asyncPoolInfo.result.apy)).toFormat(2)
                   : '--',
             })}
           </Text>
+        )}
+        <View style={styles.apy}>
+          <TokenIcon token={token} size={IconSize.XSMALL} />
+
+          {asyncPoolInfo?.loading && (
+            <SkeletonPlaceholder
+              backgroundColor={Colors.gray2}
+              highlightColor={Colors.white}
+              testID="EarnEnterAmount/ApyLoading"
+            >
+              <View style={styles.loadingSkeleton} />
+            </SkeletonPlaceholder>
+          )}
+          {!asyncPoolInfo?.loading && (
+            <Text style={styles.valuesText} testID="EarnEnterAmount/Apy">
+              {t('earnFlow.enterAmount.rate', {
+                rate:
+                  asyncPoolInfo?.result && !!asyncPoolInfo.result.apy
+                    ? (asyncPoolInfo.result.apy * 100).toFixed(2)
+                    : '--',
+              })}
+            </Text>
+          )}
         </View>
       </View>
       <Button
@@ -625,6 +649,12 @@ const styles = StyleSheet.create({
     marginTop: Spacing.Regular16,
     paddingHorizontal: Spacing.Regular16,
     borderRadius: 16,
+  },
+  loadingSkeleton: {
+    ...typeScale.labelSemiBoldSmall,
+    marginVertical: Spacing.Smallest8,
+    width: 100,
+    borderRadius: 100,
   },
 })
 

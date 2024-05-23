@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
+import { fetchAavePoolInfo } from 'src/earn/poolInfo'
 import { usePrepareSupplyTransactions } from 'src/earn/prepareTransactions'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
@@ -15,6 +16,7 @@ import { createMockStore } from 'test/utils'
 import { mockAccount, mockArbEthTokenId, mockTokenBalances } from 'test/values'
 
 jest.mock('src/earn/prepareTransactions')
+jest.mock('src/earn/poolInfo')
 
 const mockPreparedTransaction: PreparedTransactionsPossible = {
   type: 'possible' as const,
@@ -93,16 +95,23 @@ const params = {
 describe('EarnEnterAmount', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    jest.mocked(fetchAavePoolInfo).mockResolvedValue({ apy: 0.1 })
   })
 
-  it('should render APY and EarnUpTo', () => {
-    const { getByTestId } = render(
+  it('should render APY and EarnUpTo', async () => {
+    const { getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <MockedNavigator component={EarnEnterAmount} params={params} />
       </Provider>
     )
-    expect(getByTestId('EarnEnterAmount/Apy')).toBeTruthy()
-    expect(getByTestId('EarnEnterAmount/EarnUpTo')).toBeTruthy()
+    expect(getByTestId('EarnEnterAmount/ApyLoading')).toBeTruthy()
+    expect(getByTestId('EarnEnterAmount/EarnUpToLoading')).toBeTruthy()
+    await waitFor(() => {
+      expect(queryByTestId('EarnEnterAmount/ApyLoading')).toBeFalsy()
+    })
+    await waitFor(() => {
+      expect(queryByTestId('EarnEnterAmount/EarnUpToLoading')).toBeFalsy()
+    })
   })
 
   it('should be able to tap info icon', async () => {
