@@ -104,8 +104,10 @@ describe('EarnEnterAmount', () => {
         <MockedNavigator component={EarnEnterAmount} params={params} />
       </Provider>
     )
+    // Loading states
     expect(getByTestId('EarnEnterAmount/ApyLoading')).toBeTruthy()
     expect(getByTestId('EarnEnterAmount/EarnUpToLoading')).toBeTruthy()
+    // Wait for loading states to disappear
     await waitFor(() => {
       expect(queryByTestId('EarnEnterAmount/ApyLoading')).toBeFalsy()
     })
