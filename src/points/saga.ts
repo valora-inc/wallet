@@ -1,6 +1,5 @@
 import { differenceInDays } from 'date-fns'
 import { Actions as AppActions } from 'src/app/actions'
-import { Actions as HomeActions } from 'src/home/actions'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import {
   nextPageUrlSelector,
@@ -37,7 +36,7 @@ import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { call, put, select, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
+import { all, call, put, select, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
 import { v4 as uuidv4 } from 'uuid'
 
 const TAG = 'Points/saga'
@@ -255,7 +254,7 @@ function* watchGetHistory() {
 }
 
 function* watchGetConfig() {
-  yield* takeLeading([getPointsConfigRetry.type, HomeActions.VISIT_HOME], safely(getPointsConfig))
+  yield* takeLeading(getPointsConfigRetry.type, safely(getPointsConfig))
 }
 
 function* watchTrackPointsEvent() {
@@ -264,8 +263,7 @@ function* watchTrackPointsEvent() {
 
 export function* watchAppMounted() {
   yield* take(AppActions.APP_MOUNTED)
-  yield* call(safely, sendPendingPointsEvents)
-  yield* call(safely, getPointsBalance)
+  yield* all([safely(getPointsConfig), safely(getPointsBalance), safely(sendPendingPointsEvents)])
 }
 
 export function* pointsSaga() {

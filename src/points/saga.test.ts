@@ -557,6 +557,7 @@ describe('watchAppMounted', () => {
   it('should call sendPendingPointsEvents only once even if multiple "app mounted" actions are dispatched', async () => {
     const mockSendPendingPointsEvents = jest.fn()
     const mockGetPointsBalance = jest.fn()
+    const mockGetPointsConfig = jest.fn()
     const mockAction = { type: AppActions.APP_MOUNTED }
 
     await expectSaga(watchAppMounted)
@@ -564,6 +565,7 @@ describe('watchAppMounted', () => {
       .provide([
         [matchers.call.fn(pointsSaga.sendPendingPointsEvents), mockSendPendingPointsEvents()],
         [matchers.call.fn(pointsSaga.getPointsBalance), mockGetPointsBalance()],
+        [matchers.call.fn(pointsSaga.getPointsConfig), mockGetPointsConfig()],
       ])
       .dispatch(mockAction)
       .dispatch(mockAction)
@@ -571,6 +573,7 @@ describe('watchAppMounted', () => {
 
     expect(mockSendPendingPointsEvents).toHaveBeenCalledTimes(1)
     expect(mockGetPointsBalance).toHaveBeenCalledTimes(1)
+    expect(mockGetPointsConfig).toHaveBeenCalledTimes(1)
   })
 })
 
