@@ -91,8 +91,8 @@ describe('EarnDepositBottomSheet', () => {
     expect(getByText('earnFlow.depositBottomSheet.title')).toBeTruthy()
     expect(getByText('earnFlow.depositBottomSheet.description')).toBeTruthy()
 
-    expect(getByTestId('EarnDepositBottomSheet/EarnApyAndAmount/Apy')).toBeTruthy()
-    expect(getByTestId('EarnDepositBottomSheet/EarnApyAndAmount/EarnUpTo')).toBeTruthy()
+    expect(getByTestId('EarnDepositBottomSheet/EarnApyAndAmount/Apy/Loading')).toBeTruthy()
+    expect(getByTestId('EarnDepositBottomSheet/EarnApyAndAmount/EarnUpTo/Loading')).toBeTruthy()
 
     expect(queryByTestId('EarnDeposit/GasSubsidized')).toBeFalsy()
 

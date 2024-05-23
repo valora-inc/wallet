@@ -125,7 +125,7 @@ export default function Welcome() {
           onPress={onPressRestoreAccount}
           text={t('welcome.hasWallet')}
           size={BtnSizes.FULL}
-          type={BtnTypes.GRAY_WITH_BORDER}
+          type={BtnTypes.SECONDARY}
           testID={'RestoreAccountButton'}
           disabled={buttonsDisabled}
         />

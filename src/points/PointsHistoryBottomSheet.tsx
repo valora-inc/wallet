@@ -130,7 +130,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
           testID={'PointsHistoryBottomSheet/TryAgain'}
           onPress={() => onPressTryAgain(false)}
           text={t('points.history.error.tryAgain')}
-          type={BtnTypes.GRAY_WITH_BORDER}
+          type={BtnTypes.SECONDARY}
           size={BtnSizes.FULL}
           style={{ width: '100%' }}
         />
@@ -145,7 +145,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
           testID={'PointsHistoryBottomSheet/GotIt'}
           onPress={onPressLearnMore}
           text={t('points.history.empty.gotIt')}
-          type={BtnTypes.GRAY_WITH_BORDER}
+          type={BtnTypes.SECONDARY}
           size={BtnSizes.FULL}
           style={{ width: '100%' }}
         />

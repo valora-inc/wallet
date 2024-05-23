@@ -8,6 +8,7 @@ import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import { PROVIDER_ID } from 'src/earn/constants'
 import { useAavePoolInfo } from 'src/earn/hooks'
+import CircledIcon from 'src/icons/CircledIcon'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Colors from 'src/styles/colors'
@@ -51,7 +52,9 @@ export default function EarnCta({ depositTokenId }: { depositTokenId: string }) 
         <>
           <Text style={styles.title}>{t('earnFlow.ctaV1_86.title')}</Text>
           <View style={styles.row}>
-            <TokenIcon token={depositToken} size={IconSize.SMALL} viewStyle={styles.icon} />
+            <CircledIcon radius={32} backgroundColor={Colors.gray1}>
+              <TokenIcon token={depositToken} size={IconSize.SMALL} />
+            </CircledIcon>
             <View style={styles.subtitleContainer}>
               <Text style={styles.subtitle}>
                 {t('earnFlow.ctaV1_86.subtitle', { symbol: depositToken.symbol })}
@@ -99,8 +102,5 @@ const styles = StyleSheet.create({
   description: {
     ...typeScale.bodyXSmall,
     color: Colors.gray4,
-  },
-  icon: {
-    marginTop: Spacing.Tiny4,
   },
 })

@@ -69,7 +69,7 @@ export default function LinkPhoneNumber({ navigation }: Props) {
             text={t('linkPhoneNumber.later')}
             onPress={laterButtonOnPress}
             style={styles.button}
-            type={BtnTypes.GRAY_WITH_BORDER}
+            type={BtnTypes.SECONDARY}
             size={BtnSizes.FULL}
             testID="LinkPhoneNumberLater"
           />
