@@ -2192,7 +2192,10 @@
   },
   "getStartedHome": {
     "title": "Acquista criptovalute o trasferisci token",
-    "body": "Compra o trasferisci token compatibili per inviare criptovalute ed esplorare il Web3!"
+    "body": "Compra o trasferisci token compatibili per inviare criptovalute ed esplorare il Web3!",
+    "titleV1_86": "Aggiungi fondi al tuo portafoglio",
+    "exploreTokens": "Esplora tutti i gettoni",
+    "exploreTokensBody": "Puoi acquistare fino a 10+ gettoni a Valora. Dai un'occhiata!"
   },
   "nftCelebration": {
     "bottomSheet": {
