@@ -2192,7 +2192,10 @@
   },
   "getStartedHome": {
     "title": "Comprar cripto o transferir tokens",
-    "body": "Compra o transfiere tokens compatibles para enviar cripto y explora web3"
+    "body": "Compra o transfiere tokens compatibles para enviar cripto y explora web3",
+    "titleV1_86": "Agrega fondos a tu wallet",
+    "exploreTokens": "Explorar todas las fichas",
+    "exploreTokensBody": "Puedes comprar hasta más de 10 fichas en Valora. ¡Compruébalo!"
   },
   "nftCelebration": {
     "bottomSheet": {
