@@ -109,10 +109,10 @@ describe('EarnEnterAmount', () => {
     expect(getByTestId('EarnEnterAmount/EarnUpToLoading')).toBeTruthy()
     // Wait for loading states to disappear
     await waitFor(() => {
-      expect(queryByTestId('EarnEnterAmount/ApyLoading')).toBeFalsy()
+      expect(queryByTestId('EarnEnterAmount/EarnUpToLoading')).toBeFalsy()
     })
     await waitFor(() => {
-      expect(queryByTestId('EarnEnterAmount/EarnUpToLoading')).toBeFalsy()
+      expect(queryByTestId('EarnEnterAmount/ApyLoading')).toBeFalsy()
     })
   })
 
