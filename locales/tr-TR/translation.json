@@ -2375,6 +2375,29 @@
       "subtitle": "Bugün para yatırın ve getiri kazanın",
       "description": "Bir kredi havuzu sağlarken ne kadar kazanabileceğinizi görün"
     },
+    "earnInfo": {
+      "title": "\nstablecoin'lerinizden kazanın",
+      "details": {
+        "earn": {
+          "titleGasSubsidy": "Gaz Ücretleri Olmadan Kazancınızı En Üst Düzeye Çıkarın*",
+          "title": "Maximize Earnings",
+          "subtitle": "Sabit coin'lerinizden kazanın ve bir havuz tedarik ettiğinizde ödüller kazanın.",
+          "footnoteSubsidy": "*Gaz ücretleri geçici olarak Valora tarafından karşılanmaktadır"
+        },
+        "manage": {
+          "title": "Manage Directly from Valora",
+          "subtitle": "We’ll take care of the setup so you can manage your position directly from Valora."
+        },
+        "access": {
+          "title": "Easily Access your Funds",
+          "subtitle": "Collect your funds effortlessly with a single tap. Enjoy the same instant access as you would directly through your favorite protocols."
+        }
+      },
+      "action": {
+        "learn": "Daha Fazla Bilgi Edinin",
+        "earn": "Kazanmaya Başlayın"
+      }
+    },
     "ctaV1_86": {
       "title": "Sabit coinlerde kazancı en üst düzeye çıkarın",
       "subtitle": "{{symbol}} satın alın",
