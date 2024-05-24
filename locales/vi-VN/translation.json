@@ -2373,6 +2373,29 @@
       "subtitle": "Nạp tiền ngay hôm nay và nhận tiền lãi",
       "description": "Xem số tiền bạn có thể kiếm được khi nạp tiền vào quỹ cho vay"
     },
+    "earnInfo": {
+      "title": "Earn on your\nstablecoins",
+      "details": {
+        "earn": {
+          "titleGasSubsidy": "Maximize Earnings without Gas Fees*",
+          "title": "Maximize Earnings",
+          "subtitle": "Earn on your stablecoins and get rewards when you supply a pool.",
+          "footnoteSubsidy": "*Gas fees are temporarily covered by Valora"
+        },
+        "manage": {
+          "title": "Manage Directly from Valora",
+          "subtitle": "We’ll take care of the setup so you can manage your position directly from Valora."
+        },
+        "access": {
+          "title": "Easily Access your Funds",
+          "subtitle": "Collect your funds effortlessly with a single tap. Enjoy the same instant access as you would directly through your favorite protocols."
+        }
+      },
+      "action": {
+        "learn": "Tìm hiểu thêm",
+        "earn": "Bắt đầu kiếm tiền"
+      }
+    },
     "ctaV1_86": {
       "title": "Tối đa hóa thu nhập trên stablecoin",
       "subtitle": "Mua {{symbol}}",
