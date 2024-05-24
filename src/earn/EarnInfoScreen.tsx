@@ -2,7 +2,7 @@ import { useHeaderHeight } from '@react-navigation/elements'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { EARN_STABLECOINS_LEARN_MORE } from 'src/brandingConfig'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -53,9 +53,13 @@ type Props = NativeStackScreenProps<StackParamList, Screens.EarnInfoScreen>
 export default function EarnInfoScreen({ route }: Props) {
   const { t } = useTranslation()
   const { depositTokenId } = route.params
+  const isGasSubsidized = getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
+
   const headerHeight = useHeaderHeight()
   const { bottom } = useSafeAreaInsets()
-  const isGasSubsidized = getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
+  const insetsStyle = Platform.OS === 'android' && {
+    paddingBottom: Math.max(bottom, Spacing.Regular16),
+  }
 
   return (
     <SafeAreaView
@@ -89,7 +93,7 @@ export default function EarnInfoScreen({ route }: Props) {
           />
         </View>
       </ScrollView>
-      <View style={[styles.buttonContainer, { marginBottom: Math.max(bottom, Spacing.Thick24) }]}>
+      <View style={[styles.buttonContainer, insetsStyle]}>
         <Button
           onPress={() => {
             navigate(Screens.WebViewScreen, { uri: EARN_STABLECOINS_LEARN_MORE })
