@@ -82,7 +82,7 @@ export type StackParamList = {
   }
   [Screens.Debug]: undefined
   [Screens.EarnInfoScreen]: {
-    depositTokenId: string
+    tokenId: string
   }
   [Screens.EarnEnterAmount]: {
     tokenId: string

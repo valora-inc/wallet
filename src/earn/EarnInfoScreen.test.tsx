@@ -1,6 +1,8 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
+import { EarnEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { EARN_STABLECOINS_LEARN_MORE } from 'src/config'
 import EarnInfoScreen from 'src/earn/EarnInfoScreen'
 import { navigate } from 'src/navigator/NavigationService'
@@ -16,6 +18,7 @@ jest.mock('src/statsig', () => ({
 }))
 
 const store = createMockStore({})
+const tokenId = networkConfig.arbUsdcTokenId
 
 describe('EarnInfoScreen', () => {
   beforeEach(() => {
@@ -25,10 +28,7 @@ describe('EarnInfoScreen', () => {
   it('should render correctly when no gas subsidy', async () => {
     const { getByText, queryByText } = render(
       <Provider store={store}>
-        <MockedNavigator
-          component={EarnInfoScreen}
-          params={{ tokenId: networkConfig.arbUsdcTokenId }}
-        />
+        <MockedNavigator component={EarnInfoScreen} params={{ tokenId }} />
       </Provider>
     )
 
@@ -58,10 +58,7 @@ describe('EarnInfoScreen', () => {
 
     const { getByText, queryByText } = render(
       <Provider store={store}>
-        <MockedNavigator
-          component={EarnInfoScreen}
-          params={{ depositTokenId: networkConfig.arbUsdcTokenId }}
-        />
+        <MockedNavigator component={EarnInfoScreen} params={{ tokenId }} />
       </Provider>
     )
 
@@ -70,13 +67,10 @@ describe('EarnInfoScreen', () => {
     expect(queryByText('earnFlow.earnInfo.details.earn.title')).toBeFalsy()
   })
 
-  it('should navigate to correctly on Learn More button press', () => {
+  it('should navigate and fire analytics correctly on Learn More button press', () => {
     const { getByText } = render(
       <Provider store={store}>
-        <MockedNavigator
-          component={EarnInfoScreen}
-          params={{ depositTokenId: networkConfig.arbUsdcTokenId }}
-        />
+        <MockedNavigator component={EarnInfoScreen} params={{ tokenId }} />
       </Provider>
     )
 
@@ -84,21 +78,20 @@ describe('EarnInfoScreen', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
       uri: EARN_STABLECOINS_LEARN_MORE,
     })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_info_learn_press)
   })
 
-  it('should navigate to correctly on Start Earning button press', () => {
+  it('should navigate and fire analytics correctly on Start Earning button press', () => {
     const { getByText } = render(
       <Provider store={store}>
-        <MockedNavigator
-          component={EarnInfoScreen}
-          params={{ depositTokenId: networkConfig.arbUsdcTokenId }}
-        />
+        <MockedNavigator component={EarnInfoScreen} params={{ tokenId }} />
       </Provider>
     )
 
     fireEvent.press(getByText('earnFlow.earnInfo.action.earn'))
     expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, {
-      tokenId: networkConfig.arbUsdcTokenId,
+      tokenId,
     })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_info_earn_press, { tokenId })
   })
 })

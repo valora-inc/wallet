@@ -4,6 +4,8 @@ import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
+import { EarnEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { EARN_STABLECOINS_LEARN_MORE } from 'src/config'
 import ArrowDown from 'src/icons/ArrowDown'
@@ -54,7 +56,7 @@ type Props = NativeStackScreenProps<StackParamList, Screens.EarnInfoScreen>
 
 export default function EarnInfoScreen({ route }: Props) {
   const { t } = useTranslation()
-  const { depositTokenId } = route.params
+  const { tokenId } = route.params
   const isGasSubsidized = getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
 
   const headerHeight = useHeaderHeight()
@@ -98,6 +100,7 @@ export default function EarnInfoScreen({ route }: Props) {
       <View style={[styles.buttonContainer, insetsStyle]}>
         <Button
           onPress={() => {
+            ValoraAnalytics.track(EarnEvents.earn_info_learn_press)
             navigate(Screens.WebViewScreen, { uri: EARN_STABLECOINS_LEARN_MORE })
           }}
           text={t('earnFlow.earnInfo.action.learn')}
@@ -106,7 +109,8 @@ export default function EarnInfoScreen({ route }: Props) {
         />
         <Button
           onPress={() => {
-            navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })
+            ValoraAnalytics.track(EarnEvents.earn_info_earn_press, { tokenId })
+            navigate(Screens.EarnEnterAmount, { tokenId })
           }}
           text={t('earnFlow.earnInfo.action.earn')}
           type={BtnTypes.PRIMARY}
