@@ -125,7 +125,7 @@ function SmartTopAlert({ alert }: Props) {
             {!!title && <Text style={[fontStyles.small500, styles.text]}> {title} </Text>}
             {message}
           </Text>
-          {buttonMessage && (
+          {!!buttonMessage && (
             <SmallButton
               onPress={onPress}
               text={buttonMessage}

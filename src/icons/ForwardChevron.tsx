@@ -3,15 +3,15 @@ import colors from 'src/styles/colors'
 import Svg, { Path } from 'svgs'
 
 interface Props {
-  height?: number
-  color?: string
+  height: number
+  color: string
 }
 
 function ForwardChevron({ color, height }: Props) {
   return (
     <Svg
       height={height}
-      width={height && height / 2}
+      width={height / 2}
       viewBox="0 0 8 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

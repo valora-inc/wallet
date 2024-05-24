@@ -193,12 +193,12 @@ export default function NftsInfoCarousel({ route }: Props) {
         {/* Nft Details */}
         {activeNft.metadata && (
           <>
-            {activeNft.metadata?.name && (
+            {!!activeNft.metadata?.name && (
               <View style={styles.sectionContainer}>
                 <Text style={styles.title}>{activeNft.metadata?.name}</Text>
               </View>
             )}
-            {activeNft.metadata?.description && (
+            {!!activeNft.metadata?.description && (
               <View style={styles.sectionContainer}>
                 <Text style={styles.subSectionTitle}>{t('nftInfoCarousel.description')}</Text>
                 <Text style={styles.text}>{activeNft.metadata?.description}</Text>
@@ -218,7 +218,7 @@ export default function NftsInfoCarousel({ route }: Props) {
           </>
         )}
         {/* Nft Explorer Link */}
-        {blockExplorerUri && (
+        {!!blockExplorerUri && (
           <View style={[styles.sectionContainer, styles.sectionContainerLast]}>
             <Touchable onPress={pressExplorerLink} testID="ViewOnExplorer">
               <View style={styles.explorerLinkContainer}>
