@@ -2196,7 +2196,10 @@
   },
   "getStartedHome": {
     "title": "Kup kryptowaluty lub prześlij tokeny",
-    "body": "Kupuj lub przesyłaj kompatybilne tokeny, aby wysyłać kryptowaluty i odkrywać web3!"
+    "body": "Kupuj lub przesyłaj kompatybilne tokeny, aby wysyłać kryptowaluty i odkrywać web3!",
+    "titleV1_86": "Dodaj środki do swojego portfela",
+    "exploreTokens": "Poznaj wszystkie tokeny",
+    "exploreTokensBody": "Możesz kupić do 10+ tokenów w Valora. Sprawdź je!"
   },
   "nftCelebration": {
     "bottomSheet": {
@@ -2356,6 +2359,7 @@
     }
   },
   "earnFlow": {
+    "gasSubsidized": "Valora pokrywa koszty gazu dla tej transakcji!",
     "addCryptoBottomSheet": {
       "title": "Dodaj {{tokenSymbol}} na {{tokenNetwork}}",
       "description": "Po dodaniu żetonów będziesz musiał wrócić, aby dokończyć wpłatę do puli.",
@@ -2374,6 +2378,11 @@
       "title": "Zarabiaj na swoich stablecoinach",
       "subtitle": "Dokonaj wpłaty już dziś i zarabiaj",
       "description": "Zobacz ile możesz zarobić zasilając pulę pożyczkową"
+    },
+    "ctaV1_86": {
+      "title": "Maksymalizuj zarobki na stablecoinach",
+      "subtitle": "Kup {{symbol}}",
+      "description": "Zarabiaj około {{apy}}% rocznie, dodając {{symbol}} do puli."
     },
     "enterAmount": {
       "earnUpToLabel": "Możesz zarobić do:",

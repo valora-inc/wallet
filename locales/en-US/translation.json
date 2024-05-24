@@ -2192,7 +2192,10 @@
   },
   "getStartedHome": {
     "title": "Buy crypto or transfer tokens",
-    "body": "Buy or transfer compatible tokens to send crypto and explore web3!"
+    "body": "Buy or transfer compatible tokens to send crypto and explore web3!",
+    "titleV1_86": "Add funds to your wallet",
+    "exploreTokens": "Explore all tokens",
+    "exploreTokensBody": "You can buy up to 10+ tokens in Valora. Check them out!"
   },
   "nftCelebration": {
     "bottomSheet": {
@@ -2352,6 +2355,7 @@
     }
   },
   "earnFlow": {
+    "gasSubsidized": "Valora's covering gas for this transaction!",
     "addCryptoBottomSheet": {
       "title": "Add {{tokenSymbol}} on {{tokenNetwork}}",
       "description": "Once you add tokens you'll have to come back to finish depositing into a pool.",
@@ -2370,6 +2374,11 @@
       "title": "Earn on your stablecoins",
       "subtitle": "Deposit today and earn returns",
       "description": "See how much you can earn when supplying a lending pool"
+    },
+    "ctaV1_86": {
+      "title": "Maximize earnings on stablecoins",
+      "subtitle": "Buy {{symbol}}",
+      "description": "Earn approximately {{apy}}% per year when you add {{symbol}} to a pool"
     },
     "enterAmount": {
       "earnUpToLabel": "You could earn up to:",

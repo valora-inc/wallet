@@ -2833,8 +2833,14 @@
                     "const": "swap",
                     "type": "string"
                 },
+                "fromTokenId": {
+                    "type": "string"
+                },
                 "networkId": {
                     "$ref": "#/definitions/NetworkId"
+                },
+                "toTokenId": {
+                    "type": "string"
                 },
                 "transactionHash": {
                     "type": "string"
@@ -2842,7 +2848,9 @@
             },
             "required": [
                 "activityId",
+                "fromTokenId",
                 "networkId",
+                "toTokenId",
                 "transactionHash"
             ],
             "type": "object"

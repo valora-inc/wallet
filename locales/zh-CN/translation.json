@@ -2190,7 +2190,10 @@
   },
   "getStartedHome": {
     "title": "购买加密货币或转移代币。",
-    "body": "购买或转移兼容的代币，发送加密货币并探索 Web3！"
+    "body": "购买或转移兼容的代币，发送加密货币并探索 Web3！",
+    "titleV1_86": "为钱包添加资金",
+    "exploreTokens": "探索所有代币",
+    "exploreTokensBody": "您最多可以在瓦罗拉购买 10 多个代币。查看它们！"
   },
   "nftCelebration": {
     "bottomSheet": {
@@ -2350,6 +2353,7 @@
     }
   },
   "earnFlow": {
+    "gasSubsidized": "Valora 公司为此次交易提供天然气！",
     "addCryptoBottomSheet": {
       "title": "在 {{tokenNetwork}}上添加 {{tokenSymbol}}",
       "description": "一旦您添加了代币，您就必须回来完成存入池的工作。",
@@ -2368,6 +2372,11 @@
       "title": "赚取稳定币",
       "subtitle": "立即存款，赚取回报",
       "description": "了解您在提供贷款池时能赚多少钱"
+    },
+    "ctaV1_86": {
+      "title": "最大化稳定币收益",
+      "subtitle": "购买 {{symbol}}",
+      "description": "将 {{symbol}} 加入游泳池后，每年可获得约 {{apy}}% 的收益"
     },
     "enterAmount": {
       "earnUpToLabel": "您最多可以获得",

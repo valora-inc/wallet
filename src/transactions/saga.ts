@@ -276,7 +276,15 @@ export function* getTransactionReceipt(
 
     if (receipt.status === 'success') {
       if (__typename === 'TokenExchangeV3') {
-        yield* put(trackPointsEvent({ activityId: 'swap', transactionHash, networkId }))
+        yield* put(
+          trackPointsEvent({
+            activityId: 'swap',
+            transactionHash,
+            networkId,
+            fromTokenId: transaction.outAmount.tokenId,
+            toTokenId: transaction.inAmount.tokenId,
+          })
+        )
       }
     }
   } catch (e) {

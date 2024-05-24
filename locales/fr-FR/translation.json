@@ -2192,7 +2192,10 @@
   },
   "getStartedHome": {
     "title": "Acheter des cryptomonnaies ou des jetons de transfert",
-    "body": "Achetez ou transférez des jetons compatibles pour envoyer des cryptomonnaies et découvrir le web3 !"
+    "body": "Achetez ou transférez des jetons compatibles pour envoyer des cryptomonnaies et découvrir le web3 !",
+    "titleV1_86": "Ajoute des fonds à ton portefeuille",
+    "exploreTokens": "Explorer tous les jetons",
+    "exploreTokensBody": "Tu peux acheter jusqu'à plus de 10 jetons à Valora. Jette un coup d'œil !"
   },
   "nftCelebration": {
     "bottomSheet": {
@@ -2352,6 +2355,7 @@
     }
   },
   "earnFlow": {
+    "gasSubsidized": "Valora couvre le gaz pour cette transaction !",
     "addCryptoBottomSheet": {
       "title": "Ajoute {{tokenSymbol}} sur {{tokenNetwork}}",
       "description": "Une fois que tu auras ajouté des jetons, tu devras revenir pour finir de déposer dans une cagnotte.",
@@ -2370,6 +2374,11 @@
       "title": "Gagne sur tes stablecoins",
       "subtitle": "Dépose aujourd'hui et gagne en rendement",
       "description": "Vois combien tu peux gagner en alimentant un pool de prêt."
+    },
+    "ctaV1_86": {
+      "title": "Maximiser les gains sur les stablecoins",
+      "subtitle": "Acheter {{symbol}}",
+      "description": "Gagne environ {{apy}}% par an lorsque tu ajoutes {{symbol}} à une piscine."
     },
     "enterAmount": {
       "earnUpToLabel": "Tu pourrais gagner jusqu'à :",

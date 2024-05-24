@@ -86,6 +86,8 @@ interface PointsEventSwap {
   activityId: 'swap'
   transactionHash: string
   networkId: NetworkId
+  toTokenId: string
+  fromTokenId: string
 }
 
 export type PointsEvent = PointsEventCreateWallet | PointsEventSwap
