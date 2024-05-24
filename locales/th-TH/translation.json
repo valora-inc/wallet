@@ -2373,6 +2373,29 @@
       "subtitle": "ฝากวันนี้แล้วรับผลตอบแทน",
       "description": "ดูรายได้ที่คุณสามารถรับเมื่อเข้าร่วมพูลการให้ยืม"
     },
+    "earnInfo": {
+      "title": "Earn on your\nstablecoins",
+      "details": {
+        "earn": {
+          "titleGasSubsidy": "Maximize Earnings without Gas Fees*",
+          "title": "Maximize Earnings",
+          "subtitle": "Earn on your stablecoins and get rewards when you supply a pool.",
+          "footnoteSubsidy": "*Gas fees are temporarily covered by Valora"
+        },
+        "manage": {
+          "title": "Manage Directly from Valora",
+          "subtitle": "We’ll take care of the setup so you can manage your position directly from Valora."
+        },
+        "access": {
+          "title": "Easily Access your Funds",
+          "subtitle": "Collect your funds effortlessly with a single tap. Enjoy the same instant access as you would directly through your favorite protocols."
+        }
+      },
+      "action": {
+        "learn": "ดูข้อมูลเพิ่มเติม",
+        "earn": "เริ่มสร้างรายได้"
+      }
+    },
     "ctaV1_86": {
       "title": "สร้างรายได้สูงสุดผ่าน Stablecoin",
       "subtitle": "ซื้อ {{symbol}}",
