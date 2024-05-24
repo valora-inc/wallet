@@ -534,12 +534,15 @@ exports[`AccountKeyEducation renders correctly 1`] = `
             [
               {
                 "alignItems": "center",
-                "backgroundColor": "#F9F6F0",
+                "backgroundColor": "#F8F9F9",
+                "borderColor": "#E6E6E6",
+                "borderRadius": 100,
+                "borderWidth": 1,
                 "flexDirection": "row",
                 "height": 48,
                 "justifyContent": "center",
                 "minWidth": 120,
-                "opacity": undefined,
+                "opacity": 1,
                 "paddingHorizontal": 24,
                 "paddingVertical": 5,
               },

@@ -2834,12 +2834,16 @@
                     "const": "swap",
                     "type": "string"
                 },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
                 "transactionHash": {
                     "type": "string"
                 }
             },
             "required": [
                 "activityId",
+                "networkId",
                 "transactionHash"
             ],
             "type": "object"

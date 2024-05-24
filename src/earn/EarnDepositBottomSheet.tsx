@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import React, { RefObject } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -10,6 +11,7 @@ import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
+import { EarnApyAndAmount } from 'src/earn/EarnApyAndAmount'
 import { PROVIDER_ID } from 'src/earn/constants'
 import { depositStatusSelector } from 'src/earn/selectors'
 import { depositStart } from 'src/earn/slice'
@@ -25,6 +27,7 @@ import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
+import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import {
   PreparedTransactionsPossible,
@@ -38,13 +41,13 @@ export default function EarnDepositBottomSheet({
   forwardedRef,
   preparedTransaction,
   amount,
-  tokenId,
+  token,
   networkId,
 }: {
   forwardedRef: RefObject<BottomSheetRefType>
   preparedTransaction: PreparedTransactionsPossible
-  amount: string
-  tokenId: string
+  amount: BigNumber
+  token: TokenBalance
   networkId: NetworkId
 }) {
   const { t } = useTranslation()
@@ -54,8 +57,8 @@ export default function EarnDepositBottomSheet({
 
   const commonAnalyticsProperties = {
     providerId: PROVIDER_ID,
-    depositTokenId: tokenId,
-    tokenAmount: amount,
+    depositTokenId: token.tokenId,
+    tokenAmount: amount.toString(),
     networkId,
   }
 
@@ -90,8 +93,8 @@ export default function EarnDepositBottomSheet({
   const onPressComplete = () => {
     dispatch(
       depositStart({
-        amount,
-        tokenId,
+        amount: amount.toString(),
+        tokenId: token.tokenId,
         preparedTransactions: getSerializablePreparedTransactions(preparedTransaction.transactions),
       })
     )
@@ -109,11 +112,18 @@ export default function EarnDepositBottomSheet({
         <Logos providerUrl={providerLogoUrl} />
         <Text style={styles.title}>{t('earnFlow.depositBottomSheet.title')}</Text>
         <Text style={styles.description}>{t('earnFlow.depositBottomSheet.description')}</Text>
+        <View style={styles.infoContainer}>
+          <EarnApyAndAmount
+            tokenAmount={amount}
+            token={token}
+            testIDPrefix={'EarnDepositBottomSheet'}
+          />
+        </View>
         <LabelledItem label={t('earnFlow.depositBottomSheet.amount')}>
           <TokenDisplay
             testID="EarnDeposit/Amount"
             amount={amount}
-            tokenId={tokenId}
+            tokenId={token.tokenId}
             style={styles.value}
             showLocalAmount={false}
           />
@@ -163,7 +173,7 @@ export default function EarnDepositBottomSheet({
             testID="EarnDeposit/SecondaryCta"
             size={BtnSizes.FULL}
             text={t('earnFlow.depositBottomSheet.secondaryCta')}
-            type={BtnTypes.GRAY_WITH_BORDER}
+            type={BtnTypes.SECONDARY}
             style={styles.cta}
             onPress={onPressCancel}
             disabled={transactionSubmitted}
@@ -272,6 +282,12 @@ const styles = StyleSheet.create({
   cta: {
     flexGrow: 1,
     flexBasis: 0,
+  },
+  infoContainer: {
+    padding: Spacing.Regular16,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: Colors.gray2,
   },
   gasSubsidized: {
     ...typeScale.labelXSmall,
