@@ -1,3 +1,4 @@
+import { useHeaderHeight } from '@react-navigation/elements'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as Sentry from '@sentry/react-native'
 import locales from 'locales'
@@ -69,6 +70,7 @@ import {
 import { deleteKeylessBackupStarted, hideDeleteKeylessBackupError } from 'src/keylessBackup/slice'
 import { KeylessBackupDeleteStatus } from 'src/keylessBackup/types'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
+import { headerWithBackButton } from 'src/navigator/Headers'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -116,6 +118,7 @@ export const Account = ({ navigation, route }: Props) => {
   const showDeleteKeylessBackupError = useSelector(showDeleteKeylessBackupErrorSelector)
   const walletConnectEnabled = v2
   const connectedApplications = sessions.length
+  const headerHeight = useHeaderHeight()
 
   useEffect(() => {
     if (ValoraAnalytics.getSessionId() !== sessionId) {
@@ -434,7 +437,10 @@ export const Account = ({ navigation, route }: Props) => {
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom', 'left', 'right']}>
+    <SafeAreaView
+      style={[styles.container, { paddingTop: headerHeight }]}
+      edges={['bottom', 'left', 'right']}
+    >
       <ScrollView testID="SettingsScrollView">
         <TouchableWithoutFeedback onPress={onDevSettingsTriggerPress}>
           <Text style={styles.title} testID={'SettingsTitle'}>
@@ -603,6 +609,15 @@ export const Account = ({ navigation, route }: Props) => {
     </SafeAreaView>
   )
 }
+
+Account.navigationOptions = () => ({
+  ...headerWithBackButton,
+  headerTransparent: true,
+  headerShown: true,
+  headerStyle: {
+    backgroundColor: 'transparent',
+  },
+})
 
 const styles = StyleSheet.create({
   container: {

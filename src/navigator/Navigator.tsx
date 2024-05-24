@@ -12,7 +12,7 @@ import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
 import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
 import Profile from 'src/account/Profile'
-import SettingsScreen from 'src/account/Settings'
+import SettingsScreen, { Account } from 'src/account/Settings'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import Support from 'src/account/Support'
 import SupportContact from 'src/account/SupportContact'
@@ -529,7 +529,7 @@ const generalScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.Settings}
       component={SettingsScreen}
-      options={headerWithBackButton}
+      options={Account.navigationOptions}
     />
     <Navigator.Screen name={Screens.Invite} component={Invite} options={noHeader} />
     <Navigator.Screen name={Screens.Support} component={Support} options={headerWithBackButton} />
