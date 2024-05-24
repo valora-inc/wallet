@@ -2384,17 +2384,17 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "Maksymalizuj zarobki bez opłat za gaz*",
-          "title": "Maximize Earnings",
+          "title": "Maksymalizuj zarobki",
           "subtitle": "Zarabiaj na stablecoinach i otrzymuj nagrody za zasilenie puli.",
           "footnoteSubsidy": "*Opłaty za gaz są tymczasowo pokrywane przez Valora"
         },
         "manage": {
-          "title": "Manage Directly from Valora",
-          "subtitle": "We’ll take care of the setup so you can manage your position directly from Valora."
+          "title": "Zarządzaj bezpośrednio z Valora",
+          "subtitle": "Zajmiemy się konfiguracją, abyś mógł zarządzać swoją pozycją bezpośrednio z Valora."
         },
         "access": {
-          "title": "Easily Access your Funds",
-          "subtitle": "Collect your funds effortlessly with a single tap. Enjoy the same instant access as you would directly through your favorite protocols."
+          "title": "Łatwy dostęp do Twoich środków",
+          "subtitle": "Zbieraj środki bez wysiłku za pomocą jednego dotknięcia. Ciesz się tak samo natychmiastowym dostępem, jak bezpośrednio przez ulubione protokoły."
         }
       },
       "action": {
