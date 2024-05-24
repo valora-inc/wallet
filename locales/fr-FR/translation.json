@@ -2375,6 +2375,29 @@
       "subtitle": "Déposez des fonds et obtenez un retour sur investissement",
       "description": "Voyez combien vous pouvez gagner en participant à un pool de prêt"
     },
+    "earnInfo": {
+      "title": "Gagne sur tes\nstablecoins",
+      "details": {
+        "earn": {
+          "titleGasSubsidy": "Maximiser les gains sans frais d'essence*",
+          "title": "Maximize Earnings",
+          "subtitle": "Gagne sur tes stablecoins et obtiens des récompenses lorsque tu alimentes un pool.",
+          "footnoteSubsidy": "*Les frais de gaz sont temporairement couverts par Valora."
+        },
+        "manage": {
+          "title": "Manage Directly from Valora",
+          "subtitle": "We’ll take care of the setup so you can manage your position directly from Valora."
+        },
+        "access": {
+          "title": "Easily Access your Funds",
+          "subtitle": "Collect your funds effortlessly with a single tap. Enjoy the same instant access as you would directly through your favorite protocols."
+        }
+      },
+      "action": {
+        "learn": "En savoir plus",
+        "earn": "Commencer à gagner"
+      }
+    },
     "ctaV1_86": {
       "title": "Maximiser les gains sur les stablecoins",
       "subtitle": "Acheter {{symbol}}",
