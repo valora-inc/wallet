@@ -2379,6 +2379,29 @@
       "subtitle": "Внесіть кошти сьогодні й отримуйте прибуток",
       "description": "Дізнайтеся, скільки ви можете заробити, надаючи послуги кредитного пулу"
     },
+    "earnInfo": {
+      "title": "Заробляйте на своїх\nстейблкоїнах",
+      "details": {
+        "earn": {
+          "titleGasSubsidy": "Максимізуйте заробіток без плати за газ*.",
+          "title": "Maximize Earnings",
+          "subtitle": "Заробляйте на своїх стейблкоінах і отримуйте винагороду, коли надаєте пул.",
+          "footnoteSubsidy": "*Плата за газ тимчасово покривається компанією Valora"
+        },
+        "manage": {
+          "title": "Manage Directly from Valora",
+          "subtitle": "We’ll take care of the setup so you can manage your position directly from Valora."
+        },
+        "access": {
+          "title": "Easily Access your Funds",
+          "subtitle": "Collect your funds effortlessly with a single tap. Enjoy the same instant access as you would directly through your favorite protocols."
+        }
+      },
+      "action": {
+        "learn": "Дізнатися більше",
+        "earn": "Почати заробляти"
+      }
+    },
     "ctaV1_86": {
       "title": "Максимізуйте заробіток на стейблкоінах",
       "subtitle": "Купити {{symbol}}",
