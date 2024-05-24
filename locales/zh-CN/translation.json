@@ -2378,17 +2378,17 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "无需汽油费即可实现收益最大化*。",
-          "title": "Maximize Earnings",
+          "title": "收益最大化",
           "subtitle": "赚取稳定币，并在提供资金池时获得奖励。",
           "footnoteSubsidy": "*燃气费暂时由 Valora 公司承担"
         },
         "manage": {
-          "title": "Manage Directly from Valora",
-          "subtitle": "We’ll take care of the setup so you can manage your position directly from Valora."
+          "title": "直接从 Valora 进行管理",
+          "subtitle": "我们将为您进行设置，您可以直接从 Valora 管理您的仓位。"
         },
         "access": {
-          "title": "Easily Access your Funds",
-          "subtitle": "Collect your funds effortlessly with a single tap. Enjoy the same instant access as you would directly through your favorite protocols."
+          "title": "轻松访问您的资金",
+          "subtitle": "只需轻轻一点，即可轻松收取资金。享受与直接通过您最喜爱的协议相同的即时访问。"
         }
       },
       "action": {
