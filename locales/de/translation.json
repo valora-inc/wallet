@@ -2375,6 +2375,29 @@
       "subtitle": "Zahle heute ein und verdiene Rendite",
       "description": "Erfahre, wie viel du an der Bereitstellung eines Kreditpools verdienen kannst"
     },
+    "earnInfo": {
+      "title": "Verdiene mit deinen\nstablecoins",
+      "details": {
+        "earn": {
+          "titleGasSubsidy": "Maximiere deine Einnahmen ohne Gasgebühren*",
+          "title": "Maximize Earnings",
+          "subtitle": "Verdiene an deinen Stablecoins und erhalte Belohnungen, wenn du einen Pool belieferst.",
+          "footnoteSubsidy": "*Gasgebühren werden vorübergehend von Valora übernommen"
+        },
+        "manage": {
+          "title": "Manage Directly from Valora",
+          "subtitle": "We’ll take care of the setup so you can manage your position directly from Valora."
+        },
+        "access": {
+          "title": "Easily Access your Funds",
+          "subtitle": "Collect your funds effortlessly with a single tap. Enjoy the same instant access as you would directly through your favorite protocols."
+        }
+      },
+      "action": {
+        "learn": "Weitere Info",
+        "earn": "Beginne zu verdienen"
+      }
+    },
     "ctaV1_86": {
       "title": "Maximiere den Ertrag von Stablecoins",
       "subtitle": "Kaufen {{symbol}}",
