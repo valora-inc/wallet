@@ -263,7 +263,11 @@ function* watchTrackPointsEvent() {
 
 export function* watchAppMounted() {
   yield* take(AppActions.APP_MOUNTED)
-  yield* all([safely(getPointsConfig), safely(getPointsBalance), safely(sendPendingPointsEvents)])
+  yield* all([
+    call(safely(getPointsConfig)),
+    call(safely(getPointsBalance), getHistoryStarted({ getNextPage: false })),
+    call(safely(sendPendingPointsEvents)),
+  ])
 }
 
 export function* pointsSaga() {

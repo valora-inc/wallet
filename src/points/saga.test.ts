@@ -37,6 +37,7 @@ import pointsReducer, {
 import { ClaimHistory, GetHistoryResponse, PointsEvent } from 'src/points/types'
 import Logger from 'src/utils/Logger'
 import * as fetchWithTimeout from 'src/utils/fetchWithTimeout'
+import { safely } from 'src/utils/safely'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
@@ -48,6 +49,8 @@ jest.mock('src/statsig')
 jest.mock('uuid')
 jest.mock('src/utils/Logger')
 jest.unmock('src/pincode/authentication')
+
+jest.mock('src/utils/safely')
 
 const MOCK_HISTORY_RESPONSE: GetHistoryResponse = {
   data: [
@@ -560,13 +563,20 @@ describe('watchAppMounted', () => {
     const mockGetPointsConfig = jest.fn()
     const mockAction = { type: AppActions.APP_MOUNTED }
 
+    jest.mocked(safely).mockImplementation((saga) => {
+      return function* () {
+        if (saga === pointsSaga.getPointsConfig) {
+          yield call(mockGetPointsConfig)
+        } else if (saga === pointsSaga.getPointsBalance) {
+          yield call(mockGetPointsBalance)
+        } else if (saga === pointsSaga.sendPendingPointsEvents) {
+          yield call(mockSendPendingPointsEvents)
+        }
+      }
+    })
+
     await expectSaga(watchAppMounted)
       .withState(createMockStore().getState())
-      .provide([
-        [matchers.call.fn(pointsSaga.sendPendingPointsEvents), mockSendPendingPointsEvents()],
-        [matchers.call.fn(pointsSaga.getPointsBalance), mockGetPointsBalance()],
-        [matchers.call.fn(pointsSaga.getPointsConfig), mockGetPointsConfig()],
-      ])
       .dispatch(mockAction)
       .dispatch(mockAction)
       .run()
