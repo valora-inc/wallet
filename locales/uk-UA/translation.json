@@ -2384,17 +2384,17 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "Максимізуйте заробіток без плати за газ*.",
-          "title": "Maximize Earnings",
+          "title": "Максимізація заробітку",
           "subtitle": "Заробляйте на своїх стейблкоінах і отримуйте винагороду, коли надаєте пул.",
           "footnoteSubsidy": "*Плата за газ тимчасово покривається компанією Valora"
         },
         "manage": {
-          "title": "Manage Directly from Valora",
-          "subtitle": "We’ll take care of the setup so you can manage your position directly from Valora."
+          "title": "Керуйте безпосередньо з Valora",
+          "subtitle": "Ми подбаємо про налаштування, щоб ви могли керувати своєю позицією безпосередньо з Valora."
         },
         "access": {
-          "title": "Easily Access your Funds",
-          "subtitle": "Collect your funds effortlessly with a single tap. Enjoy the same instant access as you would directly through your favorite protocols."
+          "title": "Легкий доступ до ваших коштів",
+          "subtitle": "Отримуйте кошти без зайвих зусиль одним дотиком. Насолоджуйтесь таким же миттєвим доступом, як і безпосередньо через ваші улюблені протоколи."
         }
       },
       "action": {
