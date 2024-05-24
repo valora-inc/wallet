@@ -2375,6 +2375,29 @@
       "subtitle": "Deposita oggi stesso e guadagna",
       "description": "Scopri quanto puoi guadagnare mettendo a disposizione un lending pool"
     },
+    "earnInfo": {
+      "title": "Guadagna sulle stablecoin di\n",
+      "details": {
+        "earn": {
+          "titleGasSubsidy": "Massimizza i guadagni senza le tasse sul gas*",
+          "title": "Maximize Earnings",
+          "subtitle": "Guadagna sulle tue stablecoin e ottieni ricompense quando rifornisci un pool.",
+          "footnoteSubsidy": "*Le spese per il gas sono temporaneamente coperte da Valora."
+        },
+        "manage": {
+          "title": "Manage Directly from Valora",
+          "subtitle": "We’ll take care of the setup so you can manage your position directly from Valora."
+        },
+        "access": {
+          "title": "Easily Access your Funds",
+          "subtitle": "Collect your funds effortlessly with a single tap. Enjoy the same instant access as you would directly through your favorite protocols."
+        }
+      },
+      "action": {
+        "learn": "Scopri di più",
+        "earn": "Inizia a guadagnare"
+      }
+    },
     "ctaV1_86": {
       "title": "Massimizza i guadagni sulle stablecoin",
       "subtitle": "Acquista {{symbol}}",
