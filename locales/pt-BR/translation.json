@@ -2192,7 +2192,10 @@
   },
   "getStartedHome": {
     "title": "Comprar cripto ou transferir tokens",
-    "body": "Compre ou transfira tokens compatíveis para enviar cripto e explorar a web3!"
+    "body": "Compre ou transfira tokens compatíveis para enviar cripto e explorar a web3!",
+    "titleV1_86": "Adicione fundos à sua carteira",
+    "exploreTokens": "Explore todos os tokens",
+    "exploreTokensBody": "Você pode comprar até 10+ tokens em Valora. Dê uma olhada neles!"
   },
   "nftCelebration": {
     "bottomSheet": {
@@ -2352,6 +2355,7 @@
     }
   },
   "earnFlow": {
+    "gasSubsidized": "Valora está cobrindo a gasolina para essa transação!",
     "addCryptoBottomSheet": {
       "title": "Adicionar {{tokenSymbol}} em {{tokenNetwork}}",
       "description": "Depois de adicionar tokens, você terá que voltar para terminar de depositar em um pool.",
@@ -2370,6 +2374,11 @@
       "title": "Ganhe com suas stablecoins",
       "subtitle": "Deposite hoje e ganhe retornos",
       "description": "Veja quanto você pode ganhar ao fornecer um pool de empréstimos"
+    },
+    "ctaV1_86": {
+      "title": "Maximizar os ganhos com stablecoins",
+      "subtitle": "Compre {{symbol}}",
+      "description": "Ganhe aproximadamente {{apy}}% por ano quando você adiciona {{symbol}} a um pool"
     },
     "enterAmount": {
       "earnUpToLabel": "Você pode ganhar até:",

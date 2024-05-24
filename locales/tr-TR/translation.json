@@ -2192,7 +2192,10 @@
   },
   "getStartedHome": {
     "title": "Kripto satın alın veya token transfer edin",
-    "body": "Kripto göndermek ve web3'ü keşfetmek için uyumlu tokenları satın alın veya transfer edin!"
+    "body": "Kripto göndermek ve web3'ü keşfetmek için uyumlu tokenları satın alın veya transfer edin!",
+    "titleV1_86": "Cüzdanınıza para ekleyin",
+    "exploreTokens": "Tüm jetonları keşfedin",
+    "exploreTokensBody": "Valora'da 10'dan fazla jeton satın alabilirsiniz. Şunlara bir göz atın!"
   },
   "nftCelebration": {
     "bottomSheet": {
@@ -2352,6 +2355,7 @@
     }
   },
   "earnFlow": {
+    "gasSubsidized": "Valora bu işlem için benzini karşılıyor!",
     "addCryptoBottomSheet": {
       "title": "{{tokenSymbol}} adresini {{tokenNetwork}}adresine ekleyin",
       "description": "Jeton ekledikten sonra havuza para yatırma işlemini tamamlamak için geri gelmeniz gerekecektir.",
@@ -2370,6 +2374,11 @@
       "title": "Sabit paralarınızdan kazanın",
       "subtitle": "Bugün para yatırın ve getiri kazanın",
       "description": "Bir kredi havuzu sağlarken ne kadar kazanabileceğinizi görün"
+    },
+    "ctaV1_86": {
+      "title": "Sabit coinlerde kazancı en üst düzeye çıkarın",
+      "subtitle": "Satın Al {{symbol}}",
+      "description": "Bir havuza {{symbol}} eklediğinizde yılda yaklaşık {{apy}}% kazanın"
     },
     "enterAmount": {
       "earnUpToLabel": "Şu kadar kazanabilirsiniz:",

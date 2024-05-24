@@ -2192,7 +2192,10 @@
   },
   "getStartedHome": {
     "title": "Krypto kaufen oder Tokens überweisen",
-    "body": "Kaufe oder überweise kompatible Token, um Krypto zu senden und web3 zu erkunden!"
+    "body": "Kaufe oder überweise kompatible Token, um Krypto zu senden und web3 zu erkunden!",
+    "titleV1_86": "Guthaben zu deinem Geldbeutel hinzufügen",
+    "exploreTokens": "Alle Token erforschen",
+    "exploreTokensBody": "Du kannst bis zu 10+ Token in Valora kaufen. Schau sie dir an!"
   },
   "nftCelebration": {
     "bottomSheet": {
@@ -2352,6 +2355,7 @@
     }
   },
   "earnFlow": {
+    "gasSubsidized": "Valora übernimmt das Benzin für diese Transaktion!",
     "addCryptoBottomSheet": {
       "title": "Füge {{tokenSymbol}} auf {{tokenNetwork}}hinzu.",
       "description": "Sobald du Jetons hinzugefügt hast, musst du zurückkommen, um die Einzahlung in einen Pool zu beenden.",
@@ -2370,6 +2374,11 @@
       "title": "Verdiene mit deinen Stablecoins",
       "subtitle": "Heute einzahlen und Rendite verdienen",
       "description": "Erfahre, wie viel du verdienen kannst, wenn du einen Kreditpool bereitstellst"
+    },
+    "ctaV1_86": {
+      "title": "Maximiere den Ertrag von Stablecoins",
+      "subtitle": "Kaufen {{symbol}}",
+      "description": "Verdiene etwa {{apy}}% pro Jahr, wenn du {{symbol}} zu einem Pool hinzufügst"
     },
     "enterAmount": {
       "earnUpToLabel": "Du könntest bis zu:",
