@@ -206,7 +206,7 @@ function Restore() {
             onPress={onPressCreateNewWallet}
             text={t('keylessBackupStatus.restore.failed.createNewWallet')}
             size={BtnSizes.FULL}
-            type={BtnTypes.GRAY_WITH_BORDER}
+            type={BtnTypes.SECONDARY}
             style={styles.button}
             touchableStyle={styles.buttonTouchable}
           />
@@ -238,7 +238,7 @@ function Restore() {
             onPress={onPressCreateNewWallet}
             text={t('keylessBackupStatus.restore.notFound.createNewWallet')}
             size={BtnSizes.FULL}
-            type={BtnTypes.GRAY_WITH_BORDER}
+            type={BtnTypes.SECONDARY}
             style={styles.button}
             touchableStyle={styles.buttonTouchable}
           />
@@ -324,7 +324,7 @@ function Setup() {
             onPress={onPressManual}
             text={t('keylessBackupStatus.setup.failed.manual')}
             size={BtnSizes.FULL}
-            type={BtnTypes.GRAY_WITH_BORDER}
+            type={BtnTypes.SECONDARY}
             style={styles.button}
             touchableStyle={styles.buttonTouchable}
           />

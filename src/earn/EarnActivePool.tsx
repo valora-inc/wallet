@@ -104,7 +104,7 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
                 navigate(Screens.EarnCollectScreen, { depositTokenId, poolTokenId })
               }}
               text={t('earnFlow.activePools.exitPool')}
-              type={BtnTypes.GRAY_WITH_BORDER}
+              type={BtnTypes.SECONDARY}
               size={BtnSizes.FULL}
               style={styles.button}
             />
@@ -136,7 +136,7 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
                 navigate(Screens.TabDiscover)
               }}
               text={t('earnFlow.activePools.viewPools')}
-              type={BtnTypes.GRAY_WITH_BORDER}
+              type={BtnTypes.SECONDARY}
               size={BtnSizes.FULL}
               style={styles.button}
             />
