@@ -263,6 +263,8 @@ describe('watchPendingTransactions', () => {
           activityId: 'swap',
           transactionHash,
           networkId: NetworkId['celo-alfajores'],
+          toTokenId: mockCeurTokenId,
+          fromTokenId: mockCusdTokenId,
         })
       )
       .run()

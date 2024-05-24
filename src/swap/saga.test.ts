@@ -561,6 +561,8 @@ describe(swapSubmitSaga, () => {
           activityId: 'swap',
           transactionHash: '0x1',
           networkId: NetworkId['celo-alfajores'],
+          toTokenId: mockCeloTokenId,
+          fromTokenId: mockCeurTokenId,
         })
       )
       .run()
