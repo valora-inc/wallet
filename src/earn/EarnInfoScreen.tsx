@@ -3,10 +3,9 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { EARN_STABLECOINS_LEARN_MORE } from 'src/brandingConfig'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import { useAavePoolInfo } from 'src/earn/hooks'
 import ArrowDown from 'src/icons/ArrowDown'
 import CircledIcon from 'src/icons/CircledIcon'
 import Logo from 'src/icons/Logo'
@@ -15,13 +14,11 @@ import { headerWithCloseButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
-import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { useTokenInfo } from 'src/tokens/hooks'
 
 const ICON_SIZE = 24
 const ICON_BACKGROUND_CIRCLE_SIZE = 36
@@ -57,17 +54,8 @@ export default function EarnInfoScreen({ route }: Props) {
   const { t } = useTranslation()
   const { depositTokenId } = route.params
   const headerHeight = useHeaderHeight()
-
-  const tokenInfo = useTokenInfo(depositTokenId)
-  const tokenSymbol = tokenInfo?.symbol
-
-  const asyncPoolInfo = useAavePoolInfo({ depositTokenId })
-  const apy = asyncPoolInfo?.result?.apy
-
+  const { bottom } = useSafeAreaInsets()
   const isGasSubsidized = getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
-  const { providerName } = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG]
-  )
 
   return (
     <SafeAreaView
@@ -75,35 +63,33 @@ export default function EarnInfoScreen({ route }: Props) {
       edges={['bottom']}
     >
       <ScrollView>
-        {apy ? (
-          <Text style={styles.title}>
-            {t('earnFlow.earnInfo.titleWithApy', { apy: (apy * 100).toFixed(2), tokenSymbol })}
-          </Text>
-        ) : (
-          <Text style={styles.title}>
-            {t('earnFlow.earnInfo.titleWithoutApy', { tokenSymbol })}
-          </Text>
-        )}
+        <Text style={styles.title}>{t('earnFlow.earnInfo.title')}</Text>
         <View style={styles.detailsContainer}>
           <DetailsItem
             icon={<UpwardGraph size={ICON_SIZE} color={Colors.black} />}
-            title={t('earnFlow.earnInfo.details.earn.title')}
-            subtitle={t('earnFlow.earnInfo.details.earn.subtitle', { tokenSymbol, providerName })}
-            footnote={isGasSubsidized ? t('earnFlow.earnInfo.details.earn.footnote') : undefined}
+            title={
+              isGasSubsidized
+                ? t('earnFlow.earnInfo.details.earn.titleGasSubsidy')
+                : t('earnFlow.earnInfo.details.earn.title')
+            }
+            subtitle={t('earnFlow.earnInfo.details.earn.subtitle')}
+            footnote={
+              isGasSubsidized ? t('earnFlow.earnInfo.details.earn.footnoteSubsidy') : undefined
+            }
           />
           <DetailsItem
             icon={<Logo size={ICON_SIZE} color={Colors.black} />}
             title={t('earnFlow.earnInfo.details.manage.title')}
-            subtitle={t('earnFlow.earnInfo.details.manage.subtitle', { providerName })}
+            subtitle={t('earnFlow.earnInfo.details.manage.subtitle')}
           />
           <DetailsItem
             icon={<ArrowDown size={ICON_SIZE} color={Colors.black} />}
             title={t('earnFlow.earnInfo.details.access.title')}
-            subtitle={t('earnFlow.earnInfo.details.access.subtitle', { providerName })}
+            subtitle={t('earnFlow.earnInfo.details.access.subtitle')}
           />
         </View>
       </ScrollView>
-      <View style={styles.buttonContainer}>
+      <View style={[styles.buttonContainer, { marginBottom: Math.max(bottom, Spacing.Thick24) }]}>
         <Button
           onPress={() => {
             navigate(Screens.WebViewScreen, { uri: EARN_STABLECOINS_LEARN_MORE })

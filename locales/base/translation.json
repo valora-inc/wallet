@@ -2375,21 +2375,21 @@
       "description": "See how much you can earn when supplying a lending pool"
     },
     "earnInfo": {
-      "titleWithApy": "Earn {{apy}}% on your\n{{tokenSymbol}}",
-      "titleWithoutApy": "Earn on your\n{{tokenSymbol}}",
+      "title": "Earn on your\nstablecoins",
       "details": {
         "earn": {
-          "title": "Maximize Earnings without Gas Fees*",
-          "subtitle": "Earn on {{tokenSymbol}} and get rewards when you supply an {{providerName}} Pool.",
-          "footnote": "*Gas fees are temporarily covered by Valora"
+          "titleGasSubsidy": "Maximize Earnings without Gas Fees*",
+          "title": "Maximize Earnings",
+          "subtitle": "Earn on your stablecoins and get rewards when you supply a pool.",
+          "footnoteSubsidy": "*Gas fees are temporarily covered by Valora"
         },
         "manage": {
           "title": "Manage Directly from Valora",
-          "subtitle": "We’ll take care of the setup so you can manage your {{providerName}} position directly from Valora."
+          "subtitle": "We’ll take care of the setup so you can manage your position directly from Valora."
         },
         "access": {
           "title": "Easily Access your Funds",
-          "subtitle": "Collect your funds effortlessly with a single tap. Enjoy the same instant access as you would through {{providerName}}."
+          "subtitle": "Collect your funds effortlessly with a single tap. Enjoy the same instant access as you would directly through your favorite protocols."
         }
       },
       "action": {
