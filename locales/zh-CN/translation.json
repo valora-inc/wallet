@@ -2373,6 +2373,29 @@
       "subtitle": "现在就存款，赚取收益",
       "description": "了解在提供贷款池时您能赚取多少收入"
     },
+    "earnInfo": {
+      "title": "赚取\n稳定币",
+      "details": {
+        "earn": {
+          "titleGasSubsidy": "无需汽油费即可实现收益最大化*。",
+          "title": "Maximize Earnings",
+          "subtitle": "赚取稳定币，并在提供资金池时获得奖励。",
+          "footnoteSubsidy": "*燃气费暂时由 Valora 公司承担"
+        },
+        "manage": {
+          "title": "Manage Directly from Valora",
+          "subtitle": "We’ll take care of the setup so you can manage your position directly from Valora."
+        },
+        "access": {
+          "title": "Easily Access your Funds",
+          "subtitle": "Collect your funds effortlessly with a single tap. Enjoy the same instant access as you would directly through your favorite protocols."
+        }
+      },
+      "action": {
+        "learn": "了解更多",
+        "earn": "开始赚钱"
+      }
+    },
     "ctaV1_86": {
       "title": "最大化稳定币收益",
       "subtitle": "购买 {{symbol}}",
