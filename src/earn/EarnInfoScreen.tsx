@@ -7,8 +7,10 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { EARN_STABLECOINS_LEARN_MORE } from 'src/brandingConfig'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import ArrowDown from 'src/icons/ArrowDown'
+import Blob from 'src/icons/Blob'
 import CircledIcon from 'src/icons/CircledIcon'
 import Logo from 'src/icons/Logo'
+import Palm from 'src/icons/Palm'
 import UpwardGraph from 'src/icons/UpwardGraph'
 import { headerWithCloseButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -111,6 +113,20 @@ export default function EarnInfoScreen({ route }: Props) {
           size={BtnSizes.FULL}
         />
       </View>
+      <Blob
+        style={{
+          position: 'absolute',
+          left: 53,
+          zIndex: -1,
+        }}
+      />
+      <Palm
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          zIndex: -1,
+        }}
+      />
     </SafeAreaView>
   )
 }
