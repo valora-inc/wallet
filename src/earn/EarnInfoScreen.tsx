@@ -43,7 +43,7 @@ function DetailsItem({
       <CircledIcon backgroundColor={Colors.gray2} radius={ICON_BACKGROUND_CIRCLE_SIZE}>
         {icon}
       </CircledIcon>
-      <View style={{ flex: 1 }}>
+      <View style={styles.flex}>
         <Text style={styles.detailsItemTitle}>{title}</Text>
         <Text style={styles.detailsItemSubtitle}>{subtitle}</Text>
         {!!footnote && <Text style={styles.detailsItemFootnote}>{footnote}</Text>}
@@ -148,6 +148,9 @@ const styles = StyleSheet.create({
   safeAreaContainer: {
     flex: 1,
     paddingHorizontal: Spacing.Regular16,
+  },
+  flex: {
+    flex: 1,
   },
   title: {
     color: Colors.black,
