@@ -18,7 +18,6 @@ export enum Colors {
   warningLight = '#FFF9EA',
   errorDark = '#C93717',
   errorLight = '#FBF2F0',
-  yellowishOrange = '#F9F5ED',
 
   /** @deprecated */
   goldBrand = '#FBCC5C',

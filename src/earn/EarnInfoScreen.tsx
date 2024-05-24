@@ -36,7 +36,7 @@ function DetailsItem({
 }) {
   return (
     <View style={styles.detailsItemContainer}>
-      <CircledIcon backgroundColor={Colors.white} radius={ICON_BACKGROUND_CIRCLE_SIZE}>
+      <CircledIcon backgroundColor={Colors.gray2} radius={ICON_BACKGROUND_CIRCLE_SIZE}>
         {icon}
       </CircledIcon>
       <View style={{ flex: 1 }}>
@@ -127,7 +127,6 @@ EarnInfoScreen.navigationOptions = () => ({
 const styles = StyleSheet.create({
   safeAreaContainer: {
     flex: 1,
-    backgroundColor: Colors.yellowishOrange,
     paddingHorizontal: Spacing.Regular16,
   },
   title: {
