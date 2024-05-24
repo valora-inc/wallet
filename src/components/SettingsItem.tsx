@@ -47,7 +47,7 @@ export function SettingsItemTextValue({
       <View style={styles.container}>
         <Title value={title} />
         <View style={styles.right}>
-          {value && (
+          {!!value && (
             <Text
               testID={testID ? `${testID}/value` : `${title}/value`}
               style={isValueActionable ? styles.valueActionable : styles.value}
@@ -55,7 +55,7 @@ export function SettingsItemTextValue({
               {value}
             </Text>
           )}
-          {(value || showChevron) && (
+          {(!!value || showChevron) && (
             <ForwardChevron color={isValueActionable ? colors.primary : undefined} />
           )}
         </View>
@@ -83,7 +83,7 @@ export function SettingsItemSwitch({
         <Title value={title} />
         <Switch testID={testID} value={value} onValueChange={onValueChange} />
       </View>
-      {details && (
+      {!!details && (
         <View>
           <Text style={styles.details}>{details}</Text>
         </View>
@@ -107,7 +107,7 @@ export function SettingsExpandedItem({
       <View style={styles.container}>
         <Title value={title} />
       </View>
-      {details && (
+      {!!details && (
         <View>
           <Text style={styles.details}>{details}</Text>
         </View>

@@ -45,7 +45,7 @@ function NoResults({ selectedFilter, removeFilter, testID, searchTerm }: Props) 
           </View>
         </View>
       )}
-      {selectedFilter?.id && (
+      {!!selectedFilter?.id && (
         <View style={styles.filterContainer}>
           <Text style={styles.filterAppliedText}>
             <Trans

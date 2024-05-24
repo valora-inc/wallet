@@ -39,13 +39,13 @@ export function Avatar(props: Props) {
       >
         {name}
       </Text>
-      {e164NumberToShow && (
+      {!!e164NumberToShow && (
         <PhoneNumberWithFlag
           e164PhoneNumber={e164NumberToShow}
           defaultCountryCode={defaultCountryCode}
         />
       )}
-      {!e164NumberToShow && address && recipient.name && (
+      {!e164NumberToShow && !!address && !!recipient.name && (
         <Text style={[fontStyles.small, styles.contactName]} numberOfLines={1} ellipsizeMode="tail">
           {formatShortenedAddress(address)}
         </Text>

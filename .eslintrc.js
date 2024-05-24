@@ -1,6 +1,6 @@
 module.exports = {
   extends: ['@valora/eslint-config-typescript'],
-  plugins: ['@jambit/typed-redux-saga'],
+  plugins: ['@jambit/typed-redux-saga', 'jsx-expressions'],
   parserOptions: {
     project: './tsconfig.eslint.json',
   },
@@ -17,6 +17,7 @@ module.exports = {
       excludedFiles: ['./**/*.test.ts', './**/*.test.tsx'],
       rules: {
         '@jambit/typed-redux-saga/use-typed-effects': 'error',
+        'jsx-expressions/strict-logical-expressions': 'error',
       },
     },
   ],

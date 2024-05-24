@@ -58,7 +58,7 @@ function PercentageIndicator({
     <View style={styles.container} testID={testID}>
       <View style={styles.indicator}>{indicator}</View>
       <Text style={[percentageTextStyle, { color }]}>{percentageString}</Text>
-      {suffixText && <Text style={[suffixTextStyle, { color }]}>{suffixText}</Text>}
+      {!!suffixText && <Text style={[suffixTextStyle, { color }]}>{suffixText}</Text>}
     </View>
   )
 }

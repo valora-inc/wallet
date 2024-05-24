@@ -14,9 +14,9 @@ function CustomHeader({ left, right, title, style }: Props) {
     typeof title === 'string' ? <Text style={headerStyles.headerTitle}>{title}</Text> : title
   return (
     <View style={style ? [styles.container, style] : styles.container}>
-      {title && <View style={styles.titleContainer}>{titleComponent}</View>}
-      {left && <View style={styles.buttonContainer}>{left}</View>}
-      {right && <View style={styles.buttonContainer}>{right}</View>}
+      {!!title && <View style={styles.titleContainer}>{titleComponent}</View>}
+      {!!left && <View style={styles.buttonContainer}>{left}</View>}
+      {!!right && <View style={styles.buttonContainer}>{right}</View>}
     </View>
   )
 }

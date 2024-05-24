@@ -22,7 +22,7 @@ export class HomeAction extends React.Component<HomeActionProps> {
         <View style={styles.textContainer}>
           <Text style={[fonts.small600, styles.title]}>{title}</Text>
           <Text style={[fonts.small, styles.subtitle]}>{subtitle}</Text>
-          {cta && ctaOnPress && <SmallButton solid={true} text={cta} onPress={ctaOnPress} />}
+          {!!cta && ctaOnPress && <SmallButton solid={true} text={cta} onPress={ctaOnPress} />}
         </View>
       </View>
     )
