@@ -2379,6 +2379,29 @@
       "subtitle": "Dokonaj wpłaty już dziś i zarabiaj",
       "description": "Zobacz, ile możesz zarobić, zasilając pulę pożyczkową"
     },
+    "earnInfo": {
+      "title": "Zarabiaj na swoich stablecoinach\n",
+      "details": {
+        "earn": {
+          "titleGasSubsidy": "Maksymalizuj zarobki bez opłat za gaz*",
+          "title": "Maximize Earnings",
+          "subtitle": "Zarabiaj na stablecoinach i otrzymuj nagrody za zasilenie puli.",
+          "footnoteSubsidy": "*Opłaty za gaz są tymczasowo pokrywane przez Valora"
+        },
+        "manage": {
+          "title": "Manage Directly from Valora",
+          "subtitle": "We’ll take care of the setup so you can manage your position directly from Valora."
+        },
+        "access": {
+          "title": "Easily Access your Funds",
+          "subtitle": "Collect your funds effortlessly with a single tap. Enjoy the same instant access as you would directly through your favorite protocols."
+        }
+      },
+      "action": {
+        "learn": "Dowiedz się więcej",
+        "earn": "Zacznij zarabiać"
+      }
+    },
     "ctaV1_86": {
       "title": "Maksymalizuj zarobki na stablecoinach",
       "subtitle": "Kup {{symbol}}",
