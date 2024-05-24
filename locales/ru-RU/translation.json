@@ -2379,6 +2379,29 @@
       "subtitle": "Депонируйте сегодня и получайте доходы",
       "description": "Узнайте, сколько можете заработать при предоставлении кредитного пула"
     },
+    "earnInfo": {
+      "title": "Зарабатывай на своих стабильных монетах\n.",
+      "details": {
+        "earn": {
+          "titleGasSubsidy": "Максимизируй заработок без платы за газ*.",
+          "title": "Maximize Earnings",
+          "subtitle": "Зарабатывай на своих стейблкоинах и получай вознаграждения, когда поставляешь пул.",
+          "footnoteSubsidy": "* Плата за газ временно покрывается компанией Valora"
+        },
+        "manage": {
+          "title": "Manage Directly from Valora",
+          "subtitle": "We’ll take care of the setup so you can manage your position directly from Valora."
+        },
+        "access": {
+          "title": "Easily Access your Funds",
+          "subtitle": "Collect your funds effortlessly with a single tap. Enjoy the same instant access as you would directly through your favorite protocols."
+        }
+      },
+      "action": {
+        "learn": "Подробнее",
+        "earn": "Начать зарабатывать"
+      }
+    },
     "ctaV1_86": {
       "title": "Максимальный заработок на стабильных монетах",
       "subtitle": "Купить {{symbol}}",
