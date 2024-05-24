@@ -2380,17 +2380,17 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "Maximiser les gains sans frais d'essence*",
-          "title": "Maximize Earnings",
+          "title": "Maximiser les gains",
           "subtitle": "Gagne sur tes stablecoins et obtiens des récompenses lorsque tu alimentes un pool.",
           "footnoteSubsidy": "*Les frais de gaz sont temporairement couverts par Valora."
         },
         "manage": {
-          "title": "Manage Directly from Valora",
-          "subtitle": "We’ll take care of the setup so you can manage your position directly from Valora."
+          "title": "Gérer directement à partir de Valora",
+          "subtitle": "Nous nous occupons de la mise en place pour que tu puisses gérer ta position directement depuis Valora."
         },
         "access": {
-          "title": "Easily Access your Funds",
-          "subtitle": "Collect your funds effortlessly with a single tap. Enjoy the same instant access as you would directly through your favorite protocols."
+          "title": "Accède facilement à tes fonds",
+          "subtitle": "Collecte tes fonds sans effort, d'une simple pression. Profite du même accès instantané que si tu passais directement par tes protocoles préférés."
         }
       },
       "action": {
