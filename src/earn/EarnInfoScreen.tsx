@@ -99,7 +99,7 @@ export default function EarnInfoScreen({ route }: Props) {
             navigate(Screens.WebViewScreen, { uri: EARN_STABLECOINS_LEARN_MORE })
           }}
           text={t('earnFlow.earnInfo.action.learn')}
-          type={BtnTypes.GRAY_WITH_BORDER}
+          type={BtnTypes.SECONDARY}
           size={BtnSizes.FULL}
         />
         <Button
