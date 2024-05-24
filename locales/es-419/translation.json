@@ -2375,6 +2375,29 @@
       "subtitle": "Deposita hoy y obtén beneficios",
       "description": "Comprueba cuánto puedes ganar al abastecer un fondo común de préstamos"
     },
+    "earnInfo": {
+      "title": "Gana con tus stablecoins\n",
+      "details": {
+        "earn": {
+          "titleGasSubsidy": "Maximiza las ganancias sin tasas de gas*.",
+          "title": "Maximize Earnings",
+          "subtitle": "Gana con tus stablecoins y obtén recompensas cuando suministres un pool.",
+          "footnoteSubsidy": "*Las tasas de gas las cubre temporalmente Valora"
+        },
+        "manage": {
+          "title": "Manage Directly from Valora",
+          "subtitle": "We’ll take care of the setup so you can manage your position directly from Valora."
+        },
+        "access": {
+          "title": "Easily Access your Funds",
+          "subtitle": "Collect your funds effortlessly with a single tap. Enjoy the same instant access as you would directly through your favorite protocols."
+        }
+      },
+      "action": {
+        "learn": "Más información",
+        "earn": "Comienza a ganar"
+      }
+    },
     "ctaV1_86": {
       "title": "Maximizar las ganancias en stablecoins",
       "subtitle": "Comprar {{symbol}}",
