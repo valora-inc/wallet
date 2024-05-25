@@ -42,7 +42,7 @@ export default function SimpleMessagingCard({
       <View style={styles.innerContainer}>
         <View style={styles.content}>
           <View>
-            {header && <Text style={styles.header}>{header}</Text>}
+            {!!header && <Text style={styles.header}>{header}</Text>}
             <Text style={styles.text} testID={`${testID}/Text`}>
               {text}
             </Text>

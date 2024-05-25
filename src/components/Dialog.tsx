@@ -54,17 +54,17 @@ export default function Dialog({
       onModalHide={onDialogHide}
     >
       <ScrollView contentContainerStyle={styles.root}>
-        {image && <Image style={styles.imageContainer} source={image} resizeMode="contain" />}
-        {title && <Text style={styles.title}>{title}</Text>}
+        {!!image && <Image style={styles.imageContainer} source={image} resizeMode="contain" />}
+        {!!title && <Text style={styles.title}>{title}</Text>}
         <Text style={styles.body}>{children}</Text>
       </ScrollView>
       <View style={styles.actions}>
-        {secondaryActionText && (
+        {!!secondaryActionText && (
           <TextButton
             style={styles.secondary}
             disabled={secondaryActionDisabled}
             onPress={secondaryActionPress}
-            testID={testID && `${testID}/SecondaryAction`}
+            testID={testID ? `${testID}/SecondaryAction` : undefined}
           >
             {secondaryActionText}
           </TextButton>
@@ -73,11 +73,11 @@ export default function Dialog({
           <ActivityIndicator style={styles.primary} size="small" color={colors.primary} />
         ) : (
           <>
-            {actionText && (
+            {!!actionText && (
               <TextButton
                 style={isActionHighlighted ? styles.primary : styles.secondary}
                 onPress={actionPress}
-                testID={testID && `${testID}/PrimaryAction`}
+                testID={testID ? `${testID}/PrimaryAction` : undefined}
               >
                 {actionText}
               </TextButton>

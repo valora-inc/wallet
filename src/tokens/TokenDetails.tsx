@@ -108,7 +108,7 @@ export default function TokenDetailsScreen({ route }: Props) {
         />
         <Text style={styles.yourBalance}>{t('tokenDetails.yourBalance')}</Text>
         <TokenBalanceItem token={token} />
-        {token.infoUrl && (
+        {!!token.infoUrl && (
           <LearnMore
             tokenName={token.name}
             infoUrl={token.infoUrl}

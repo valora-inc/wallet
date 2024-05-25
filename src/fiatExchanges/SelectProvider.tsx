@@ -479,7 +479,7 @@ function ExchangesSection({
             <Text style={styles.categoryText}>{text}</Text>
           </View>
 
-          {rightText && (
+          {!!rightText && (
             <View style={styles.right}>
               <Text style={styles.linkToOtherScreen}>{rightText}</Text>
             </View>

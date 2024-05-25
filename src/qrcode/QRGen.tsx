@@ -98,7 +98,7 @@ function QRCode({
   return (
     <Svg ref={svgRef} width={size} height={size}>
       <Rect width={size} height={size} fill={backgroundColor} />
-      {path && cellSize && <Path d={path} stroke={color} strokeWidth={cellSize} />}
+      {!!path && !!cellSize && <Path d={path} stroke={color} strokeWidth={cellSize} />}
     </Svg>
   )
 }

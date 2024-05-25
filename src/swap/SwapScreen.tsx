@@ -18,13 +18,13 @@ import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import Toast from 'src/components/Toast'
-import TokenBottomSheet, {
-  TokenBalanceItemOption,
-  TokenPickerOrigin,
-} from 'src/components/TokenBottomSheet'
+import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
+import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { SWAP_LEARN_MORE } from 'src/config'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
+import CircledIcon from 'src/icons/CircledIcon'
+import DownIndicator from 'src/icons/DownIndicator'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -57,9 +57,6 @@ import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import networkConfig from 'src/web3/networkConfig'
 import { v4 as uuidv4 } from 'uuid'
-import DownIndicator from 'src/icons/DownIndicator'
-import CircledIcon from 'src/icons/CircledIcon'
-import Touchable from 'src/components/Touchable'
 
 const TAG = 'SwapScreen'
 
@@ -868,7 +865,6 @@ export function SwapScreen({ route }: Props) {
           snapPoints={['90%']}
           onTokenSelected={handleSelectToken}
           searchEnabled={true}
-          TokenOptionComponent={TokenBalanceItemOption}
           showPriceUsdUnavailableWarning={true}
           areSwapTokensShuffled={areSwapTokensShuffled}
         />

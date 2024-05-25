@@ -33,7 +33,7 @@ function AccountErrorScreen({
       <TextButton onPress={onPress} testID={`${testID}Button`}>
         {buttonLabel}
       </TextButton>
-      {secondaryButtonLabel && onPressSecondary && (
+      {!!secondaryButtonLabel && onPressSecondary && (
         <TextButton
           style={styles.secondaryButton}
           onPress={onPressSecondary}

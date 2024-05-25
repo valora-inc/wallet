@@ -206,7 +206,7 @@ function TabDiscover({ navigation }: Props) {
   return (
     <SafeAreaView testID="DAppsExplorerScreen" style={styles.safeAreaContainer} edges={[]}>
       <>
-        {!loading && error && (
+        {!loading && !!error && (
           <View style={styles.centerContainer}>
             <Text style={fontStyles.regular}>{t('dappsScreen.errorMessage')}</Text>
           </View>

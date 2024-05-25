@@ -15,9 +15,6 @@ import FilterChipsCarousel, {
   isNetworkChip,
 } from 'src/components/FilterChipsCarousel'
 import SearchInput from 'src/components/SearchInput'
-import TokenDisplay from 'src/components/TokenDisplay'
-import TokenIcon, { IconSize } from 'src/components/TokenIcon'
-import Touchable from 'src/components/Touchable'
 import NetworkMultiSelectBottomSheet from 'src/components/multiSelect/NetworkMultiSelectBottomSheet'
 import InfoIcon from 'src/icons/InfoIcon'
 import colors, { Colors } from 'src/styles/colors'
@@ -35,7 +32,7 @@ export enum TokenPickerOrigin {
   SwapTo = 'Swap/To',
 }
 
-export const DEBOUCE_WAIT_TIME = 200
+export const DEBOUNCE_WAIT_TIME = 200
 
 export interface TokenBottomSheetProps<T extends TokenBalance> {
   forwardedRef: RefObject<BottomSheetRefType>
@@ -58,57 +55,6 @@ interface TokenOptionProps {
   index: number
   showPriceUsdUnavailableWarning?: boolean
 }
-
-/**
- * @deprecated new bottom sheets should use TokenBalanceItemOption
- */
-const TokenOption = React.memo(({ tokenInfo, onPress, index }: TokenOptionProps) => {
-  return (
-    <>
-      {index > 0 && <View style={styles.separator} />}
-      <Touchable onPress={onPress} testID={`${tokenInfo.symbol}Touchable`}>
-        <View style={styles.tokenOptionContainer}>
-          <TokenIcon token={tokenInfo} viewStyle={styles.tokenImage} size={IconSize.LARGE} />
-          <View style={styles.tokenNameContainer}>
-            <Text style={styles.localBalance}>{tokenInfo.symbol}</Text>
-            <Text style={styles.currencyBalance}>{tokenInfo.name}</Text>
-          </View>
-          <View style={styles.tokenBalanceContainer}>
-            <TokenDisplay
-              style={styles.localBalance}
-              amount={tokenInfo.balance}
-              tokenId={tokenInfo.tokenId}
-              showLocalAmount={true}
-              testID={`Local${tokenInfo.symbol}Balance`}
-            />
-            <TokenDisplay
-              style={styles.currencyBalance}
-              amount={tokenInfo.balance}
-              tokenId={tokenInfo.tokenId}
-              showLocalAmount={false}
-              testID={`${tokenInfo.symbol}Balance`}
-            />
-          </View>
-        </View>
-      </Touchable>
-    </>
-  )
-})
-
-export const TokenBalanceItemOption = React.memo(
-  ({ tokenInfo, onPress, showPriceUsdUnavailableWarning }: TokenOptionProps) => {
-    const { t } = useTranslation()
-    return (
-      <TokenBalanceItem
-        token={tokenInfo}
-        balanceUsdErrorFallback={t('tokenDetails.priceUnavailable') ?? undefined}
-        onPress={onPress}
-        containerStyle={styles.tokenBalanceItemContainer}
-        showPriceUsdUnavailableWarning={showPriceUsdUnavailableWarning}
-      />
-    )
-  }
-)
 
 function NoResults({
   testID = 'TokenBottomSheet/NoResult',
@@ -150,7 +96,6 @@ function TokenBottomSheet<T extends TokenBalance>({
   searchEnabled,
   title,
   titleStyle,
-  TokenOptionComponent = TokenOption,
   showPriceUsdUnavailableWarning,
   filterChips = [],
   areSwapTokensShuffled,
@@ -232,7 +177,7 @@ function TokenBottomSheet<T extends TokenBalance>({
         origin,
         searchInput,
       })
-    }, DEBOUCE_WAIT_TIME),
+    }, DEBOUNCE_WAIT_TIME),
     []
   )
 
@@ -298,10 +243,11 @@ function TokenBottomSheet<T extends TokenBalance>({
             scrollIndicatorInsets={{ top: headerHeight }}
             renderItem={({ item, index }) => {
               return (
-                <TokenOptionComponent
-                  tokenInfo={item}
+                <TokenBalanceItem
+                  token={item}
+                  balanceUsdErrorFallback={t('tokenDetails.priceUnavailable') ?? undefined}
                   onPress={onTokenPressed(item, index)}
-                  index={index}
+                  containerStyle={styles.tokenBalanceItemContainer}
                   showPriceUsdUnavailableWarning={showPriceUsdUnavailableWarning}
                 />
               )
@@ -372,41 +318,6 @@ TokenBottomSheet.navigationOptions = {}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  tokenOptionContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: Spacing.Regular16,
-  },
-  tokenImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    marginRight: Spacing.Small12,
-  },
-  tokenNameContainer: {
-    flex: 3,
-    alignItems: 'flex-start',
-    flexShrink: 1,
-  },
-  tokenBalanceContainer: {
-    flex: 2,
-    flexShrink: 1,
-    alignItems: 'flex-end',
-  },
-  localBalance: {
-    flexShrink: 1,
-    ...typeScale.labelMedium,
-  },
-  currencyBalance: {
-    flexShrink: 1,
-    ...typeScale.bodySmall,
-    color: colors.gray4,
-  },
-  separator: {
-    width: '100%',
-    height: 1,
-    backgroundColor: colors.gray2,
   },
   searchInput: {
     marginTop: Spacing.Regular16,
