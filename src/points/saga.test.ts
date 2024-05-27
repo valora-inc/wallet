@@ -105,7 +105,7 @@ const mockServerErrorResponse = {
   text: jest.fn(() => Promise.resolve(mockServerErrorMessage)),
 }
 
-xdescribe('fetchHistory', () => {
+describe('fetchHistory', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     mockFetch.resetMocks()
@@ -138,7 +138,7 @@ xdescribe('fetchHistory', () => {
   })
 })
 
-xdescribe('getHistory', () => {
+describe('getHistory', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -235,7 +235,7 @@ xdescribe('getHistory', () => {
   })
 })
 
-xdescribe('getPointsConfig', () => {
+describe('getPointsConfig', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -332,7 +332,7 @@ xdescribe('getPointsConfig', () => {
   })
 })
 
-xdescribe('getPointsBalance', () => {
+describe('getPointsBalance', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -384,7 +384,7 @@ xdescribe('getPointsBalance', () => {
   })
 })
 
-xdescribe('sendPointsEvent', () => {
+describe('sendPointsEvent', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.useFakeTimers({ now: new Date(mockTime).getTime() })
@@ -449,7 +449,7 @@ xdescribe('sendPointsEvent', () => {
   })
 })
 
-xdescribe('sendPendingPointsEvents', () => {
+describe('sendPendingPointsEvents', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.useFakeTimers({ now: new Date(mockTime).getTime() })
@@ -567,7 +567,7 @@ describe('watchAppMounted', () => {
       .dispatch(mockAction)
       .run()
 
-    expect(result.effects.call).toEqual([
+    expect(result.effects.fork).toEqual([
       spawn(getPointsConfig),
       spawn(getPointsBalance, getHistoryStarted({ getNextPage: false })),
       spawn(sendPendingPointsEvents),
@@ -575,7 +575,7 @@ describe('watchAppMounted', () => {
   })
 })
 
-xdescribe('fetchTrackPointsEventsEndpoint', () => {
+describe('fetchTrackPointsEventsEndpoint', () => {
   it('should call fetch with correct params', async () => {
     const mockEvent: PointsEvent = { activityId: 'create-wallet' }
     mockFetch.mockResponseOnce(JSON.stringify({ ok: true }))
