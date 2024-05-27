@@ -339,8 +339,6 @@ export function SwapTransactionDetails({
   if (!fromToken || !toToken || !exchangeRatePrice) {
     return null
   }
-
-  const exchangeRate = new BigNumber(exchangeRatePrice).toFormat(5, BigNumber.ROUND_DOWN)
   return (
     <>
       <View style={styles.detailsContainer}>
@@ -348,9 +346,9 @@ export function SwapTransactionDetails({
           <ExchangeRateIcon />
           <Text style={styles.detailsText}>
             {t('swapScreen.transactionDetails.approximateExchangeRate', {
-              fromTokenSymbol: fromToken?.symbol,
-              toTokenSymbol: toToken?.symbol,
-              exchangeRate,
+              fromTokenSymbol: fromToken.symbol,
+              toTokenSymbol: toToken.symbol,
+              exchangeRate: new BigNumber(exchangeRatePrice).toFormat(5, BigNumber.ROUND_DOWN),
             })}
           </Text>
         </View>
