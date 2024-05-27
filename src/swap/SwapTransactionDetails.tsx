@@ -6,13 +6,23 @@ import { SwapEvents } from 'src/analytics/Events'
 import { SwapShowInfoType } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
-import TokenDisplay from 'src/components/TokenDisplay'
+import TextButton from 'src/components/TextButton'
+import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import InfoIcon from 'src/icons/InfoIcon'
+import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
+import { useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import ExchangeRateIcon from 'src/swap/icons/ExchangeRateIcon'
+import FeesIcon from 'src/swap/icons/FeesIcon'
+import { useTokenInfo } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
+import { getTokenId } from 'src/tokens/utils'
+
+// Temporary flag while we build the new design incrementally
+const showNewCrossChainDesigns = false
 
 interface Props {
   maxNetworkFee?: BigNumber
@@ -126,24 +136,28 @@ function NetworkFeeDetails({
   )
 }
 
-export function SwapTransactionDetails({
-  maxNetworkFee,
-  estimatedNetworkFee,
-  networkFeeInfoBottomSheetRef,
-  slippageInfoBottomSheetRef,
-  feeTokenId,
-  slippagePercentage,
-  fromToken,
-  toToken,
-  exchangeRatePrice,
-  exchangeRateInfoBottomSheetRef,
-  swapAmount,
-  fetchingSwapQuote,
-  appFee,
-  appFeeInfoBottomSheetRef,
-}: Props) {
+export function SwapTransactionDetailsOld(props: Props) {
   const { t } = useTranslation()
 
+  if (showNewCrossChainDesigns) {
+    return <SwapTransactionDetails {...props} />
+  }
+
+  const {
+    maxNetworkFee,
+    estimatedNetworkFee,
+    networkFeeInfoBottomSheetRef,
+    slippageInfoBottomSheetRef,
+    feeTokenId,
+    slippagePercentage,
+    fromToken,
+    toToken,
+    exchangeRatePrice,
+    exchangeRateInfoBottomSheetRef,
+    fetchingSwapQuote,
+    appFee,
+    appFeeInfoBottomSheetRef,
+  } = props
   const placeholder = '-'
   return (
     <View style={styles.container} testID="SwapTransactionDetails">
@@ -263,7 +277,126 @@ export function SwapTransactionDetails({
   )
 }
 
+const useTotalSwapFeesInLocalCurrency = (
+  estimatedNetworkFee: BigNumber,
+  feeTokenId: string,
+  appFee: BigNumber,
+  appFeeTokenId: string,
+  estimatedCrossChainFee: BigNumber
+) => {
+  const networkFeeTokenInfo = useTokenInfo(feeTokenId)
+  const appFeeTokenInfo = useTokenInfo(appFeeTokenId)
+  const nativeTokenInfo = useTokenInfo(
+    networkFeeTokenInfo ? getTokenId(networkFeeTokenInfo.networkId) : undefined
+  )
+  const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
+
+  let totalFeesInUsd = new BigNumber(0)
+
+  if (
+    networkFeeTokenInfo &&
+    networkFeeTokenInfo.priceUsd &&
+    appFeeTokenInfo &&
+    appFeeTokenInfo.priceUsd &&
+    nativeTokenInfo &&
+    nativeTokenInfo.priceUsd
+  ) {
+    totalFeesInUsd = totalFeesInUsd
+      .plus(estimatedNetworkFee.multipliedBy(networkFeeTokenInfo.priceUsd))
+      .plus(appFee.multipliedBy(appFeeTokenInfo.priceUsd))
+      .plus(
+        estimatedCrossChainFee
+          .shiftedBy(-nativeTokenInfo.decimals) // TODO: check if this is needed
+          .multipliedBy(nativeTokenInfo.priceUsd)
+      )
+  }
+
+  return totalFeesInUsd.multipliedBy(usdToLocalRate ?? 0)
+}
+
+export function SwapTransactionDetails({
+  estimatedNetworkFee,
+  fromToken,
+  toToken,
+  exchangeRatePrice,
+  appFee,
+  feeTokenId: networkFeeTokenId,
+}: Props) {
+  const { t } = useTranslation()
+  const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
+  const totalFeesInLocalCurrency = useTotalSwapFeesInLocalCurrency(
+    estimatedNetworkFee ?? new BigNumber(0),
+    networkFeeTokenId,
+    appFee?.amount ?? new BigNumber(0),
+    appFee?.token.tokenId ?? '',
+    new BigNumber(0) // TODO add cross chain fee
+  )
+
+  const handleShowMoreDetails = () => {
+    // TODO: show more details
+  }
+
+  if (!fromToken || !toToken || !exchangeRatePrice) {
+    return null
+  }
+
+  const exchangeRate = new BigNumber(exchangeRatePrice).toFormat(5, BigNumber.ROUND_DOWN)
+  return (
+    <>
+      <View style={styles.detailsContainer}>
+        <View style={styles.detailsRow}>
+          <ExchangeRateIcon />
+          <Text style={styles.detailsText}>
+            {t('swapScreen.transactionDetails.approximateExchangeRate', {
+              fromTokenSymbol: fromToken?.symbol,
+              toTokenSymbol: toToken?.symbol,
+              exchangeRate,
+            })}
+          </Text>
+        </View>
+        <View style={styles.detailsRow}>
+          <FeesIcon />
+          <Text style={styles.detailsText}>
+            {t('swapScreen.transactionDetails.approximateFees', {
+              localCurrencySymbol,
+              feeAmountInLocalCurrency: formatValueToDisplay(totalFeesInLocalCurrency), // TODO handle when 0
+            })}
+          </Text>
+        </View>
+      </View>
+      <TextButton style={styles.viewMoreDetailsText} onPress={handleShowMoreDetails}>
+        {t('swapScreen.transactionDetails.viewAllDetailsCta')}
+      </TextButton>
+    </>
+  )
+}
+
 const styles = StyleSheet.create({
+  detailsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    padding: Spacing.Regular16,
+    borderRadius: 12,
+    borderColor: colors.gray2,
+    borderWidth: 1,
+    marginBottom: Spacing.Smallest8,
+    gap: Spacing.Smallest8,
+  },
+  detailsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.Tiny4,
+  },
+  detailsText: {
+    ...typeScale.labelXSmall,
+    color: colors.gray3,
+  },
+  viewMoreDetailsText: {
+    ...typeScale.labelXSmall,
+    color: colors.primary,
+    textAlign: 'center',
+  },
   container: {
     paddingHorizontal: Spacing.Tiny4,
   },
@@ -294,4 +427,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default SwapTransactionDetails
+export default SwapTransactionDetailsOld
