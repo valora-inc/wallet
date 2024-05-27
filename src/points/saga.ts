@@ -261,7 +261,7 @@ function* watchTrackPointsEvent() {
   yield* takeEvery(trackPointsEvent.type, safely(sendPointsEvent))
 }
 
-export function* watchAppMounted() {
+function* watchAppMounted() {
   yield* take(AppActions.APP_MOUNTED)
   yield* all([
     call(safely(getPointsConfig)),
