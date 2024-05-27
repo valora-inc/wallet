@@ -36,7 +36,7 @@ import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { all, call, put, select, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
+import { call, put, select, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
 import { v4 as uuidv4 } from 'uuid'
 
 const TAG = 'Points/saga'
@@ -263,7 +263,9 @@ function* watchTrackPointsEvent() {
 
 export function* watchAppMounted() {
   yield* take(AppActions.APP_MOUNTED)
-  yield* all([safely(getPointsConfig), safely(getPointsBalance), safely(sendPendingPointsEvents)])
+  yield* spawn(getPointsConfig)
+  yield* spawn(getPointsBalance, getHistoryStarted({ getNextPage: false }))
+  yield* spawn(sendPendingPointsEvents)
 }
 
 export function* pointsSaga() {
