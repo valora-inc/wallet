@@ -47,8 +47,6 @@ jest.mock('uuid')
 jest.mock('src/utils/Logger')
 jest.unmock('src/pincode/authentication')
 
-jest.mock('src/utils/safely')
-
 const MOCK_HISTORY_RESPONSE: GetHistoryResponse = {
   data: [
     {
