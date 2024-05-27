@@ -5,7 +5,6 @@ import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
-import { Actions as AppActions } from 'src/app/actions'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import * as pointsSaga from 'src/points/saga'
 import {
@@ -16,7 +15,6 @@ import {
   getPointsConfig,
   sendPendingPointsEvents,
   sendPointsEvent,
-  watchAppMounted,
 } from 'src/points/saga'
 import { trackOnceActivitiesSelector } from 'src/points/selectors'
 import pointsReducer, {
@@ -37,7 +35,6 @@ import pointsReducer, {
 import { ClaimHistory, GetHistoryResponse, PointsEvent } from 'src/points/types'
 import Logger from 'src/utils/Logger'
 import * as fetchWithTimeout from 'src/utils/fetchWithTimeout'
-import { safely } from 'src/utils/safely'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
@@ -549,41 +546,6 @@ describe('sendPendingPointsEvents', () => {
       .run()
 
     expect(Logger.warn).toHaveBeenCalledWith('Points/saga@sendPendingPointsEvents', mockError)
-  })
-})
-
-describe('watchAppMounted', () => {
-  beforeEach(() => {
-    jest.clearAllMocks()
-  })
-
-  it('should call sendPendingPointsEvents only once even if multiple "app mounted" actions are dispatched', async () => {
-    const mockSendPendingPointsEvents = jest.fn()
-    const mockGetPointsBalance = jest.fn()
-    const mockGetPointsConfig = jest.fn()
-    const mockAction = { type: AppActions.APP_MOUNTED }
-
-    jest.mocked(safely).mockImplementation((saga) => {
-      return function* () {
-        if (saga === pointsSaga.getPointsConfig) {
-          yield call(mockGetPointsConfig)
-        } else if (saga === pointsSaga.getPointsBalance) {
-          yield call(mockGetPointsBalance)
-        } else if (saga === pointsSaga.sendPendingPointsEvents) {
-          yield call(mockSendPendingPointsEvents)
-        }
-      }
-    })
-
-    await expectSaga(watchAppMounted)
-      .withState(createMockStore().getState())
-      .dispatch(mockAction)
-      .dispatch(mockAction)
-      .run()
-
-    expect(mockSendPendingPointsEvents).toHaveBeenCalledTimes(1)
-    expect(mockGetPointsBalance).toHaveBeenCalledTimes(1)
-    expect(mockGetPointsConfig).toHaveBeenCalledTimes(1)
   })
 })
 
