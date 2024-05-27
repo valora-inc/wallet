@@ -2375,6 +2375,29 @@
       "subtitle": "Deposit today and earn returns",
       "description": "See how much you can earn when supplying a lending pool"
     },
+    "earnInfo": {
+      "title": "Earn on your\nstablecoins",
+      "details": {
+        "earn": {
+          "titleGasSubsidy": "Maximize Earnings without Gas Fees*",
+          "title": "Maximize Earnings",
+          "subtitle": "Earn on your stablecoins and get rewards when you supply a pool.",
+          "footnoteSubsidy": "*Gas fees are temporarily covered by Valora"
+        },
+        "manage": {
+          "title": "Manage Directly from Valora",
+          "subtitle": "We’ll take care of the setup so you can manage your position directly from Valora."
+        },
+        "access": {
+          "title": "Easily Access your Funds",
+          "subtitle": "Collect your funds effortlessly with a single tap. Enjoy the same instant access as you would directly through your favorite protocols."
+        }
+      },
+      "action": {
+        "learn": "Learn More",
+        "earn": "Start Earning"
+      }
+    },
     "ctaV1_86": {
       "title": "Maximize earnings on stablecoins",
       "subtitle": "Buy {{symbol}}",
