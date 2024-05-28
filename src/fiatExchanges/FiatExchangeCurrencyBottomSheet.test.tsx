@@ -113,7 +113,6 @@ jest.mock('src/web3/networkConfig', () => {
 
 jest.mock('src/statsig', () => ({
   getDynamicConfigParams: jest.fn(),
-  getFeatureGate: jest.fn().mockReturnValue(true),
 }))
 
 describe(FiatExchangeCurrencyBottomSheet, () => {
@@ -281,21 +280,5 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
     expect(getAllByTestId('TokenBalanceItem')[2]).toHaveTextContent('cEUR')
     expect(getAllByTestId('TokenBalanceItem')[3]).toHaveTextContent('CELO')
     expect(getAllByTestId('TokenBalanceItem')[4]).toHaveTextContent('ETH')
-  })
-  it('renders correctly if token list is empty', () => {
-    const { queryByTestId, getByTestId } = render(
-      <Provider store={createMockStore({ tokens: { tokenBalances: {} } })}>
-        <MockedNavigator
-          component={FiatExchangeCurrencyBottomSheet}
-          params={{
-            flow: FiatExchangeFlow.CashIn,
-          }}
-        />
-      </Provider>
-    )
-    expect(queryByTestId('TokenBalanceItem')).toBeFalsy()
-    // asserts whether tokenList.length (0) isn't rendered, which causes a
-    // crash in the app
-    expect(getByTestId('FiatExchangeCurrencyBottomSheet')).not.toHaveTextContent('0')
   })
 })
