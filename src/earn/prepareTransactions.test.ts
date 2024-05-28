@@ -63,7 +63,7 @@ describe('prepareTransactions', () => {
     jest.mocked(encodeFunctionData).mockReturnValue('0xencodedData')
     jest.mocked(getDynamicConfigParams).mockImplementation(({ configName, defaultValues }) => {
       if (configName === StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG) {
-        return { ...defaultValues, depositGasPadding: 100 }
+        return { ...defaultValues, depositGasPadding: 100, approveGasPadding: 200 }
       }
       return defaultValues
     })
@@ -187,7 +187,7 @@ describe('prepareTransactions', () => {
           from: '0x1234',
           to: mockTokenAddress,
           data: '0xencodedData',
-          gas: BigInt(3100),
+          gas: BigInt(3200),
           _estimatedGasUse: BigInt(2800),
         },
         {

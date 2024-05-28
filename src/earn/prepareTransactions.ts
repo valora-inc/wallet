@@ -122,7 +122,7 @@ export async function prepareSupplyTransactions({
     )
   }
 
-  const { depositGasPadding } = getDynamicConfigParams(
+  const { depositGasPadding, approveGasPadding } = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG]
   )
 
@@ -140,7 +140,7 @@ export async function prepareSupplyTransactions({
         `Failed to simulate approve transaction. response: ${JSON.stringify(simulatedTransactions)}`
       )
     }
-    baseTransactions[0].gas = BigInt(approveSimulatedTx.gasNeeded) + BigInt(depositGasPadding)
+    baseTransactions[0].gas = BigInt(approveSimulatedTx.gasNeeded) + BigInt(approveGasPadding)
     baseTransactions[0]._estimatedGasUse = BigInt(approveSimulatedTx.gasUsed)
   }
 

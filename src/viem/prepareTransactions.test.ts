@@ -345,6 +345,46 @@ describe('prepareTransactions module', () => {
         decreasedSpendAmount: new BigNumber(4.35), // 70.0 balance minus maxGasFee
       })
     })
+    it("returns a 'possible' result when spending the exact max amount of a feeCurrency, and no other feeCurrency has enough balance to pay for the fee and isGasSubsidized is true", async () => {
+      mocked(estimateFeesPerGas).mockResolvedValue({
+        maxFeePerGas: BigInt(1),
+        maxPriorityFeePerGas: BigInt(2),
+        baseFeePerGas: BigInt(1),
+      })
+
+      const result = await prepareTransactions({
+        feeCurrencies: mockFeeCurrencies,
+        spendToken: mockFeeCurrencies[1],
+        spendTokenAmount: mockFeeCurrencies[1].balance.shiftedBy(mockFeeCurrencies[1].decimals),
+        decreasedAmountGasFeeMultiplier: 1.01,
+        isGasSubsidized: true,
+        baseTransactions: [
+          {
+            from: '0xfrom' as Address,
+            to: '0xto' as Address,
+            data: '0xdata',
+            _estimatedGasUse: BigInt(50),
+            gas: BigInt(15_000), // 50k will be added for fee currency 1 since it is non-native
+          },
+        ],
+      })
+      expect(result).toStrictEqual({
+        type: 'possible',
+        feeCurrency: mockFeeCurrencies[0],
+        transactions: [
+          {
+            _baseFeePerGas: BigInt(1),
+            _estimatedGasUse: BigInt(50),
+            from: '0xfrom',
+            gas: BigInt(15_000),
+            maxFeePerGas: BigInt(1),
+            maxPriorityFeePerGas: BigInt(2),
+            to: '0xto',
+            data: '0xdata',
+          },
+        ],
+      })
+    })
     it("returns a 'need-decrease-spend-amount-for-gas' result when spending close to the max amount of a feeCurrency, and no other feeCurrency has enough balance to pay for the fee", async () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(1),

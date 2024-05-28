@@ -261,6 +261,7 @@ export async function tryEstimateTransactions(
  * @param decreasedAmountGasFeeMultiplier
  * @param baseTransactions
  * @param throwOnSpendTokenAmountExceedsBalance
+ * @param isGasSubsidized - This flag should only be set to true if all of the baseTransactions already have gas estimates, aka the 'gas' and '_estimatedGasUse' fields are manually set
  */
 export async function prepareTransactions({
   feeCurrencies,

@@ -143,6 +143,7 @@ export const DynamicConfigs = {
       providerLogoUrl: '',
       providerTermsAndConditionsUrl: '',
       depositGasPadding: 0,
+      approveGasPadding: 0,
       moreAavePoolsUrl: '',
     },
   },

@@ -14,7 +14,7 @@ interface Props {
 }
 
 export function EarnCardDiscover({ depositTokenId, poolTokenId }: Props) {
-  const showStablecoinEarn = true
+  const showStablecoinEarn = getFeatureGate(StatsigFeatureGates.SHOW_STABLECOIN_EARN)
   const poolToken = useTokenInfo(poolTokenId)
 
   if (showStablecoinEarn) {
