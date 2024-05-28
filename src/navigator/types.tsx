@@ -13,7 +13,6 @@ import { Screens } from 'src/navigator/Screens'
 import { Nft } from 'src/nfts/types'
 import { Recipient } from 'src/recipients/recipient'
 import { QrCode, TransactionDataInput } from 'src/send/types'
-import { QuoteResult } from 'src/swap/types'
 import { AssetTabType } from 'src/tokens/types'
 import { NetworkId, TokenTransaction, TokenTransfer } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
@@ -276,7 +275,6 @@ export type StackParamList = {
         toTokenId?: string
       }
     | undefined
-  [Screens.SwapDetailsScreen]: { quote: QuoteResult; toTokenId: string; fromTokenId: string }
   [Screens.TabDiscover]: {} | undefined
   [Screens.TabHome]: {} | undefined
   [Screens.TabWallet]: { activeAssetTab?: AssetTabType } | undefined

@@ -1850,16 +1850,6 @@
       "addFundsButton": "Add Funds"
     }
   },
-  "swapDetailsScreen": {
-    "title": "Swap Details",
-    "swapSummary": {
-      "title": "Swap summary",
-      "from": "Swapping from",
-      "to": "Swapping to",
-      "network": "Network",
-      "crossChainInfo": "You are swapping to the {{destinationNetworkName}} network. Make sure you have a gas paying token on that network."
-    }
-  },
   "swapTransactionDetailPage": {
     "swapFrom": "Swap from",
     "swapTo": "Swap to",

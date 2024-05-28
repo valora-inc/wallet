@@ -113,7 +113,6 @@ import ValidateRecipientAccount, {
 import ValidateRecipientIntro, {
   validateRecipientIntroScreenNavOptions,
 } from 'src/send/ValidateRecipientIntro'
-import SwapDetailsScreen from 'src/swap/SwapDetailsScreen'
 import SwapScreen from 'src/swap/SwapScreen'
 import TokenDetailsScreen from 'src/tokens/TokenDetails'
 import TokenImportScreen from 'src/tokens/TokenImport'
@@ -561,11 +560,6 @@ const earnScreens = (Navigator: typeof Stack) => (
 const swapScreens = (Navigator: typeof Stack) => (
   <>
     <Navigator.Screen name={Screens.SwapScreenWithBack} component={SwapScreen} options={noHeader} />
-    <Navigator.Screen
-      name={Screens.SwapDetailsScreen}
-      component={SwapDetailsScreen}
-      options={noHeader}
-    />
   </>
 )
 

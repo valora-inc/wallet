@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-import { PreparedTransactionsResult } from 'src/viem/prepareTransactions'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 
 export enum Field {
@@ -67,17 +66,4 @@ export interface FetchQuoteResponse {
   details: {
     swapProvider: string
   }
-}
-
-export interface QuoteResult {
-  toTokenId: string
-  fromTokenId: string
-  swapAmount: BigNumber
-  price: string
-  appFeePercentageIncludedInPrice: string | undefined
-  provider: string
-  estimatedPriceImpact: string | null
-  allowanceTarget: string
-  preparedTransactions: PreparedTransactionsResult
-  receivedAt: number
 }
