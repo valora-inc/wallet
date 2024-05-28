@@ -244,8 +244,22 @@ describe('SwapTransactionDetailsOld', () => {
 })
 
 describe('SwapTransactionDetails', () => {
-  it('should render null if the swap quote is loading', () => {
+  it('should render null if there are no swap tokens selected', () => {
     const tree = render(
+      <Provider store={createMockStore()}>
+        <SwapTransactionDetails
+          estimatedNetworkFee={new BigNumber(0.00005)}
+          feeTokenId={mockCusdTokenId}
+          fetchingSwapQuote={false}
+        />
+      </Provider>
+    )
+
+    expect(tree.toJSON()).toBeNull()
+  })
+
+  it('should render the loaders when fetching the swap quote', () => {
+    const { getAllByTestId } = render(
       <Provider store={createMockStore()}>
         <SwapTransactionDetails
           estimatedNetworkFee={new BigNumber(0.00005)}
@@ -258,13 +272,13 @@ describe('SwapTransactionDetails', () => {
       </Provider>
     )
 
-    expect(tree.toJSON()).toBeNull()
+    expect(getAllByTestId('SwapTransactionDetails/Loader')).toHaveLength(2)
   })
 
   it('should render the exchange rate, network fee, and cta', () => {
     const expectedExchangeRate = '0.58370' // 5 significant digits
     const expectedFeeInLocalCurrency = '0.00033' // estimatedNetworkFee * priceUsd * local currency to USD exchange rate (0.0005 * 0.5 * 1.33)
-    const { getByText } = render(
+    const { getByText, queryAllByTestId } = render(
       <Provider store={createMockStore()}>
         <SwapTransactionDetails
           estimatedNetworkFee={new BigNumber(0.00005)}
@@ -293,6 +307,7 @@ describe('SwapTransactionDetails', () => {
       )
     ).toBeTruthy()
     expect(getByText('swapScreen.transactionDetails.viewAllDetailsCta')).toBeEnabled()
+    expect(queryAllByTestId('SwapTransactionDetails/Loader')).toHaveLength(0)
   })
 
   it('should render the total swap fee', () => {

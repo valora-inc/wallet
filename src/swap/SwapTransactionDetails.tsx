@@ -24,7 +24,7 @@ import { getTokenId } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
 
 // Temporary flag while we build the new design incrementally
-const showNewCrossChainDesigns = true
+const showNewCrossChainDesigns = false
 
 interface Props {
   estimatedNetworkFee?: BigNumber
