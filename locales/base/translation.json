@@ -1840,6 +1840,7 @@
       "exchangeRateInfoDismissButton": "Got it",
       "estimatedValue": "Estimated Value",
       "approximateFees": "Fees ≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}}",
+      "couldNotApproximateFees": "Fees could not be calculated",
       "approximateExchangeRate": "1 {{fromTokenSymbol}} ≈ {{exchangeRate}} {{toTokenSymbol}}",
       "viewAllDetailsCta": "View all details"
     },

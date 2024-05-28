@@ -1,7 +1,8 @@
 import BigNumber from 'bignumber.js'
-import React from 'react'
+import React, { useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
+import { useSharedValue } from 'react-native-reanimated'
 import { SwapEvents } from 'src/analytics/Events'
 import { SwapShowInfoType } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -9,6 +10,7 @@ import { BottomSheetRefType } from 'src/components/BottomSheet'
 import TextButton from 'src/components/TextButton'
 import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
+import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import InfoIcon from 'src/icons/InfoIcon'
 import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { useSelector } from 'src/redux/hooks'
@@ -43,6 +45,7 @@ interface Props {
     percentage: BigNumber
   }
   appFeeInfoBottomSheetRef: React.RefObject<BottomSheetRefType>
+  estimatedCrossChainFee?: BigNumber
 }
 
 function LabelWithInfo({
@@ -277,41 +280,83 @@ export function SwapTransactionDetailsOld(props: Props) {
   )
 }
 
-const useTotalSwapFeesInLocalCurrency = (
-  estimatedNetworkFee: BigNumber,
-  feeTokenId: string,
-  appFee: BigNumber,
-  appFeeTokenId: string,
-  estimatedCrossChainFee: BigNumber
-) => {
-  const networkFeeTokenInfo = useTokenInfo(feeTokenId)
+const useTotalSwapFeesInLocalCurrency = ({
+  estimatedNetworkFee,
+  networkFeeTokenId,
+  appFeeAmount,
+  appFeeTokenId,
+  estimatedCrossChainFee,
+}: {
+  estimatedNetworkFee?: BigNumber
+  networkFeeTokenId: string
+  appFeeAmount?: BigNumber
+  appFeeTokenId?: string
+  estimatedCrossChainFee?: BigNumber
+}) => {
+  const networkFeeTokenInfo = useTokenInfo(networkFeeTokenId)
   const appFeeTokenInfo = useTokenInfo(appFeeTokenId)
   const nativeTokenInfo = useTokenInfo(
     networkFeeTokenInfo ? getTokenId(networkFeeTokenInfo.networkId) : undefined
   )
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
 
-  let totalFeesInUsd = new BigNumber(0)
-
-  if (
-    networkFeeTokenInfo &&
-    networkFeeTokenInfo.priceUsd &&
-    appFeeTokenInfo &&
-    appFeeTokenInfo.priceUsd &&
-    nativeTokenInfo &&
-    nativeTokenInfo.priceUsd
-  ) {
-    totalFeesInUsd = totalFeesInUsd
-      .plus(estimatedNetworkFee.multipliedBy(networkFeeTokenInfo.priceUsd))
-      .plus(appFee.multipliedBy(appFeeTokenInfo.priceUsd))
-      .plus(
-        estimatedCrossChainFee
-          .shiftedBy(-nativeTokenInfo.decimals) // TODO: check if this is needed
-          .multipliedBy(nativeTokenInfo.priceUsd)
-      )
+  if (!usdToLocalRate) {
+    Logger.warn(
+      'swap/useTotalSwapFeesInLocalCurrency',
+      'Cannot calculate swap fees due to missing usdToLocalRate'
+    )
+    return null
   }
 
-  return totalFeesInUsd.multipliedBy(usdToLocalRate ?? 0)
+  if (!estimatedNetworkFee) {
+    Logger.warn(
+      'swap/useTotalSwapFeesInLocalCurrency',
+      `Cannot calculate swap fees due to missing estimatedNetworkFee`
+    )
+    return null
+  }
+
+  if (!networkFeeTokenInfo?.priceUsd) {
+    Logger.warn(
+      'swap/useTotalSwapFeesInLocalCurrency',
+      `Cannot calculate swap fees due to missing usd price for network fee token ${networkFeeTokenId}`
+    )
+    return null
+  }
+
+  if (appFeeAmount && appFeeTokenId && !appFeeTokenInfo?.priceUsd) {
+    Logger.warn(
+      'swap/useTotalSwapFeesInLocalCurrency',
+      `Cannot calculate swap fees due to missing usd price for app fee token ${appFeeTokenId}`
+    )
+    return null
+  }
+
+  if (estimatedCrossChainFee && !nativeTokenInfo?.priceUsd) {
+    Logger.warn(
+      'swap/useTotalSwapFeesInLocalCurrency',
+      `Cannot calculate swap fees due to missing usd price for native token for cross chain swap`
+    )
+    return null
+  }
+
+  const networkFee = estimatedNetworkFee.multipliedBy(networkFeeTokenInfo.priceUsd)
+  const appFee =
+    appFeeAmount && appFeeTokenInfo?.priceUsd
+      ? appFeeAmount.multipliedBy(appFeeTokenInfo.priceUsd)
+      : 0
+  const crossChainFee =
+    estimatedCrossChainFee && nativeTokenInfo?.priceUsd
+      ? estimatedCrossChainFee
+          .shiftedBy(-nativeTokenInfo.decimals) // TODO: check if this is needed
+          .multipliedBy(nativeTokenInfo.priceUsd)
+      : 0
+
+  return new BigNumber(0)
+    .plus(networkFee)
+    .plus(appFee)
+    .plus(crossChainFee)
+    .multipliedBy(usdToLocalRate)
 }
 
 export function SwapTransactionDetails({
@@ -321,22 +366,37 @@ export function SwapTransactionDetails({
   exchangeRatePrice,
   appFee,
   feeTokenId: networkFeeTokenId,
+  estimatedCrossChainFee,
+  fetchingSwapQuote,
 }: Props) {
+  const [isVisible, setIsVisible] = useState(!fetchingSwapQuote)
   const { t } = useTranslation()
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const totalFeesInLocalCurrency = useTotalSwapFeesInLocalCurrency(
-    estimatedNetworkFee ?? new BigNumber(0),
+  const totalFeesInLocalCurrency = useTotalSwapFeesInLocalCurrency({
+    estimatedNetworkFee,
     networkFeeTokenId,
-    appFee?.amount ?? new BigNumber(0),
-    appFee?.token.tokenId ?? '',
-    new BigNumber(0) // TODO add cross chain fee
+    appFeeAmount: appFee?.amount,
+    appFeeTokenId: appFee?.token.tokenId,
+    estimatedCrossChainFee, // TODO add cross chain fee
+  })
+
+  const progress = useSharedValue(0)
+  useShowOrHideAnimation(
+    progress,
+    !fetchingSwapQuote,
+    () => {
+      setIsVisible(true)
+    },
+    () => {
+      setIsVisible(false)
+    }
   )
 
   const handleShowMoreDetails = () => {
     // TODO: show more details
   }
 
-  if (!fromToken || !toToken || !exchangeRatePrice) {
+  if (!fromToken || !toToken || !exchangeRatePrice || !isVisible) {
     return null
   }
   return (
@@ -355,10 +415,12 @@ export function SwapTransactionDetails({
         <View style={styles.detailsRow}>
           <FeesIcon />
           <Text style={styles.detailsText}>
-            {t('swapScreen.transactionDetails.approximateFees', {
-              localCurrencySymbol,
-              feeAmountInLocalCurrency: formatValueToDisplay(totalFeesInLocalCurrency), // TODO handle when 0
-            })}
+            {totalFeesInLocalCurrency && totalFeesInLocalCurrency.isGreaterThan(0)
+              ? t('swapScreen.transactionDetails.approximateFees', {
+                  localCurrencySymbol,
+                  feeAmountInLocalCurrency: formatValueToDisplay(totalFeesInLocalCurrency),
+                })
+              : t('swapScreen.transactionDetails.couldNotApproximateFees')}
           </Text>
         </View>
       </View>
