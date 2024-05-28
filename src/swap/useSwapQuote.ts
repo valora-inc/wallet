@@ -2,7 +2,13 @@ import BigNumber from 'bignumber.js'
 import { useAsyncCallback } from 'react-async-hook'
 import erc20 from 'src/abis/IERC20'
 import { useSelector } from 'src/redux/hooks'
-import { FetchQuoteResponse, Field, ParsedSwapAmount, SwapTransaction } from 'src/swap/types'
+import {
+  FetchQuoteResponse,
+  Field,
+  ParsedSwapAmount,
+  QuoteResult,
+  SwapTransaction,
+} from 'src/swap/types'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
@@ -22,19 +28,6 @@ import { Address, Hex, encodeFunctionData, zeroAddress } from 'viem'
 const DECREASED_SWAP_AMOUNT_GAS_FEE_MULTIPLIER = 1.2
 
 export const NO_QUOTE_ERROR_MESSAGE = 'No quote available'
-
-export interface QuoteResult {
-  toTokenId: string
-  fromTokenId: string
-  swapAmount: BigNumber
-  price: string
-  appFeePercentageIncludedInPrice: string | undefined
-  provider: string
-  estimatedPriceImpact: string | null
-  allowanceTarget: string
-  preparedTransactions: PreparedTransactionsResult
-  receivedAt: number
-}
 
 async function createBaseSwapTransactions(
   fromToken: TokenBalance,

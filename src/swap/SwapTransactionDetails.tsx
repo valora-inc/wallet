@@ -12,12 +12,15 @@ import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import InfoIcon from 'src/icons/InfoIcon'
 import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import ExchangeRateIcon from 'src/swap/icons/ExchangeRateIcon'
 import FeesIcon from 'src/swap/icons/FeesIcon'
+import { QuoteResult } from 'src/swap/types'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { getTokenId } from 'src/tokens/utils'
@@ -39,6 +42,7 @@ interface Props {
     percentage: BigNumber
   }
   estimatedCrossChainFee?: BigNumber
+  quote: QuoteResult | null
 }
 
 interface PropsOld extends Props {
@@ -397,6 +401,7 @@ export function SwapTransactionDetails({
   feeTokenId: networkFeeTokenId,
   estimatedCrossChainFee,
   fetchingSwapQuote: loading,
+  quote,
 }: Props) {
   const { t } = useTranslation()
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
@@ -408,7 +413,13 @@ export function SwapTransactionDetails({
   })
 
   const handleShowMoreDetails = () => {
-    // TODO: show more details
+    if (quote && toToken && fromToken) {
+      navigate(Screens.SwapDetailsScreen, {
+        toTokenId: toToken?.tokenId,
+        fromTokenId: fromToken?.tokenId,
+        quote,
+      })
+    }
   }
 
   if (!fromToken || !toToken || !exchangeRatePrice) {

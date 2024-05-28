@@ -44,9 +44,9 @@ import SwapTransactionDetails from 'src/swap/SwapTransactionDetails'
 import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsProperties'
 import { currentSwapSelector, priceImpactWarningThresholdSelector } from 'src/swap/selectors'
 import { swapStart } from 'src/swap/slice'
-import { Field, SwapAmount } from 'src/swap/types'
+import { Field, QuoteResult, SwapAmount } from 'src/swap/types'
 import useFilterChips from 'src/swap/useFilterChips'
-import useSwapQuote, { NO_QUOTE_ERROR_MESSAGE, QuoteResult } from 'src/swap/useSwapQuote'
+import useSwapQuote, { NO_QUOTE_ERROR_MESSAGE } from 'src/swap/useSwapQuote'
 import { useSwappableTokens, useTokenInfo, useTokensWithTokenBalance } from 'src/tokens/hooks'
 import { feeCurrenciesWithPositiveBalancesSelector, tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
@@ -774,6 +774,7 @@ export function SwapScreen({ route }: Props) {
             fetchingSwapQuote={quoteUpdatePending}
             appFee={appFee}
             appFeeInfoBottomSheetRef={appFeeInfoBottomSheetRef}
+            quote={quote}
           />
           {showSwitchedToNetworkWarning && (
             <InLineNotification
