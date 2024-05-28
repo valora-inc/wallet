@@ -46,7 +46,6 @@ export default function PointsHome({ route, navigation }: Props) {
   const pointsBalanceStatus = useSelector(pointsBalanceStatusSelector)
   const pointsHistoryStatus = useSelector(pointsHistoryStatusSelector)
 
-  const lastKnownPointsBalance = useRef(pointsBalance)
   const historyBottomSheetRef = useRef<BottomSheetRefType>(null)
   const activityCardBottomSheetRef = useRef<BottomSheetRefType>(null)
 
@@ -62,12 +61,6 @@ export default function PointsHome({ route, navigation }: Props) {
   useEffect(() => {
     onRefreshHistoryAndBalance()
   }, [])
-
-  useEffect(() => {
-    if (pointsBalanceStatus === 'success') {
-      lastKnownPointsBalance.current = pointsBalance
-    }
-  }, [pointsBalanceStatus])
 
   const onRefreshHistoryAndBalance = () => {
     dispatch(getHistoryStarted({ getNextPage: false }))
@@ -153,7 +146,7 @@ export default function PointsHome({ route, navigation }: Props) {
               <NumberTicker
                 testID="PointsBalance"
                 value={pointsBalance}
-                disableAnimation={lastKnownPointsBalance.current === pointsBalance}
+                disableAnimation={pointsBalanceStatus === 'loading'}
               />
               <LogoHeart size={28} />
             </View>
