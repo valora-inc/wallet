@@ -23,10 +23,7 @@ import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import TextInput from 'src/components/TextInput'
-import TokenBottomSheet, {
-  TokenBalanceItemOption,
-  TokenPickerOrigin,
-} from 'src/components/TokenBottomSheet'
+import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
@@ -459,7 +456,6 @@ function EnterAmount({
         onTokenSelected={onSelectToken}
         tokens={tokens}
         title={t('sendEnterAmountScreen.selectToken')}
-        TokenOptionComponent={TokenBalanceItemOption}
         titleStyle={styles.title}
       />
     </SafeAreaView>
