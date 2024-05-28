@@ -7,7 +7,7 @@ import {
   prepareSupplyTransactions,
   prepareWithdrawAndClaimTransactions,
 } from 'src/earn/prepareTransactions'
-import { getDynamicConfigParams } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { Network, NetworkId } from 'src/transactions/types'
@@ -67,6 +67,7 @@ describe('prepareTransactions', () => {
       }
       return defaultValues
     })
+    jest.mocked(getFeatureGate).mockReturnValue(false)
   })
 
   describe('prepareSupplyTransactions', () => {
@@ -146,6 +147,84 @@ describe('prepareTransactions', () => {
         feeCurrencies: [mockFeeCurrency],
         spendToken: mockToken,
         spendTokenAmount: new BigNumber(5),
+        isGasSubsidized: false,
+      })
+    })
+    it('prepares fees from the cloud function for approve and supply when subsidizing gas fees', async () => {
+      mockFetch.mockResponseOnce(
+        JSON.stringify({
+          status: 'OK',
+          simulatedTransactions: [
+            {
+              status: 'success',
+              blockNumber: '1',
+              gasNeeded: 3000,
+              gasUsed: 2800,
+              gasPrice: '1',
+            },
+            {
+              status: 'success',
+              blockNumber: '1',
+              gasNeeded: 50000,
+              gasUsed: 49800,
+              gasPrice: '1',
+            },
+          ],
+        })
+      )
+      jest.mocked(getFeatureGate).mockReturnValue(true)
+
+      const result = await prepareSupplyTransactions({
+        amount: '5',
+        token: mockToken,
+        walletAddress: '0x1234',
+        feeCurrencies: [mockFeeCurrency],
+        poolContractAddress: '0x5678',
+      })
+
+      const expectedTransactions = [
+        {
+          from: '0x1234',
+          to: mockTokenAddress,
+          data: '0xencodedData',
+          gas: BigInt(3100),
+          _estimatedGasUse: BigInt(2800),
+        },
+        {
+          from: '0x1234',
+          to: '0x5678',
+          data: '0xencodedData',
+          gas: BigInt(50100),
+          _estimatedGasUse: BigInt(49800),
+        },
+      ]
+      expect(result).toEqual({
+        type: 'possible',
+        feeCurrency: mockFeeCurrency,
+        transactions: expectedTransactions,
+      })
+      expect(publicClient[Network.Arbitrum].readContract).toHaveBeenCalledWith({
+        address: mockTokenAddress,
+        abi: erc20.abi,
+        functionName: 'allowance',
+        args: ['0x1234', '0x5678'],
+      })
+      expect(encodeFunctionData).toHaveBeenNthCalledWith(1, {
+        abi: erc20.abi,
+        functionName: 'approve',
+        args: ['0x5678', BigInt(5e6)],
+      })
+      expect(encodeFunctionData).toHaveBeenNthCalledWith(2, {
+        abi: aavePool,
+        functionName: 'supply',
+        args: [mockTokenAddress, BigInt(5e6), '0x1234', 0],
+      })
+      expect(prepareTransactions).toHaveBeenCalledWith({
+        baseTransactions: expectedTransactions,
+        feeCurrencies: [mockFeeCurrency],
+        spendToken: mockToken,
+        spendTokenAmount: new BigNumber(5),
+        isGasSubsidized: true,
       })
     })
 
@@ -204,6 +283,7 @@ describe('prepareTransactions', () => {
         feeCurrencies: [mockFeeCurrency],
         spendToken: mockToken,
         spendTokenAmount: new BigNumber(5),
+        isGasSubsidized: false,
       })
     })
 

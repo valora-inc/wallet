@@ -198,6 +198,47 @@ describe('prepareTransactions module', () => {
         feeCurrencies: mockFeeCurrencies,
       })
     })
+    it("returns a 'possible' result when the balances for feeCurrencies are too low to cover the fee but isGasSubsidized is true", async () => {
+      mocked(estimateFeesPerGas).mockResolvedValue({
+        maxFeePerGas: BigInt(100),
+        maxPriorityFeePerGas: BigInt(2),
+        baseFeePerGas: BigInt(50),
+      })
+      mocked(estimateGas).mockResolvedValue(BigInt(1_000))
+
+      // max gas fee is 10 * 10k = 100k units, too high for either fee currency
+
+      const result = await prepareTransactions({
+        feeCurrencies: mockFeeCurrencies,
+        spendToken: mockSpendToken,
+        spendTokenAmount: new BigNumber(45_000),
+        decreasedAmountGasFeeMultiplier: 1,
+        baseTransactions: [
+          {
+            from: '0xfrom' as Address,
+            to: '0xto' as Address,
+            data: '0xdata',
+          },
+        ],
+        isGasSubsidized: true,
+      })
+      expect(result).toStrictEqual({
+        type: 'possible',
+        feeCurrency: mockFeeCurrencies[0],
+        transactions: [
+          {
+            from: '0xfrom',
+            to: '0xto',
+            data: '0xdata',
+
+            gas: BigInt(1000),
+            maxFeePerGas: BigInt(100),
+            maxPriorityFeePerGas: BigInt(2),
+            _baseFeePerGas: BigInt(50),
+          },
+        ],
+      })
+    })
     it("returns a 'not-enough-balance-for-gas' result when gas estimation throws error due to insufficient funds", async () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(100),

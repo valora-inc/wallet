@@ -1,5 +1,4 @@
 import {
-  ALCHEMY_ARBITRUM_API_KEY,
   ALCHEMY_BASE_API_KEY,
   ALCHEMY_ETHEREUM_API_KEY,
   ALCHEMY_OPTIMISM_API_KEY,
@@ -18,13 +17,7 @@ export const viemTransports: Record<Network, Transport> = {
       },
     },
   }),
-  [Network.Arbitrum]: http(networkConfig.alchemyRpcUrl[Network.Arbitrum], {
-    fetchOptions: {
-      headers: {
-        Authorization: `Bearer ${ALCHEMY_ARBITRUM_API_KEY}`,
-      },
-    },
-  }),
+  [Network.Arbitrum]: http('https://rpc.mainnet.valora.xyz'),
   [Network.Optimism]: http(networkConfig.alchemyRpcUrl[Network.Optimism], {
     fetchOptions: {
       headers: {
