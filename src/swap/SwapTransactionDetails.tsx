@@ -22,11 +22,27 @@ import FeesIcon from 'src/swap/icons/FeesIcon'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { getTokenId } from 'src/tokens/utils'
+import Logger from 'src/utils/Logger'
 
 // Temporary flag while we build the new design incrementally
-const showNewCrossChainDesigns = false
+const showNewCrossChainDesigns = true
 
 interface Props {
+  estimatedNetworkFee?: BigNumber
+  feeTokenId: string
+  fromToken?: TokenBalance
+  toToken?: TokenBalance
+  exchangeRatePrice?: string
+  fetchingSwapQuote: boolean
+  appFee?: {
+    amount: BigNumber
+    token: TokenBalance
+    percentage: BigNumber
+  }
+  estimatedCrossChainFee?: BigNumber
+}
+
+interface PropsOld extends Props {
   maxNetworkFee?: BigNumber
   estimatedNetworkFee?: BigNumber
   networkFeeInfoBottomSheetRef: React.RefObject<BottomSheetRefType>
@@ -139,7 +155,7 @@ function NetworkFeeDetails({
   )
 }
 
-export function SwapTransactionDetailsOld(props: Props) {
+export function SwapTransactionDetailsOld(props: PropsOld) {
   const { t } = useTranslation()
 
   if (showNewCrossChainDesigns) {
@@ -283,18 +299,19 @@ export function SwapTransactionDetailsOld(props: Props) {
 const useTotalSwapFeesInLocalCurrency = ({
   estimatedNetworkFee,
   networkFeeTokenId,
-  appFeeAmount,
-  appFeeTokenId,
+  appFee,
   estimatedCrossChainFee,
 }: {
   estimatedNetworkFee?: BigNumber
   networkFeeTokenId: string
-  appFeeAmount?: BigNumber
-  appFeeTokenId?: string
+  appFee?: {
+    amount: BigNumber
+    token: TokenBalance
+    percentage: BigNumber
+  }
   estimatedCrossChainFee?: BigNumber
 }) => {
   const networkFeeTokenInfo = useTokenInfo(networkFeeTokenId)
-  const appFeeTokenInfo = useTokenInfo(appFeeTokenId)
   const nativeTokenInfo = useTokenInfo(
     networkFeeTokenInfo ? getTokenId(networkFeeTokenInfo.networkId) : undefined
   )
@@ -324,10 +341,10 @@ const useTotalSwapFeesInLocalCurrency = ({
     return null
   }
 
-  if (appFeeAmount && appFeeTokenId && !appFeeTokenInfo?.priceUsd) {
+  if (appFee && appFee.amount.gt(0) && !appFee.token.priceUsd) {
     Logger.warn(
       'swap/useTotalSwapFeesInLocalCurrency',
-      `Cannot calculate swap fees due to missing usd price for app fee token ${appFeeTokenId}`
+      `Cannot calculate swap fees due to missing usd price for app fee token ${appFee.token.tokenId}`
     )
     return null
   }
@@ -340,12 +357,10 @@ const useTotalSwapFeesInLocalCurrency = ({
     return null
   }
 
-  const networkFee = estimatedNetworkFee.multipliedBy(networkFeeTokenInfo.priceUsd)
-  const appFee =
-    appFeeAmount && appFeeTokenInfo?.priceUsd
-      ? appFeeAmount.multipliedBy(appFeeTokenInfo.priceUsd)
-      : 0
-  const crossChainFee =
+  const networkFeeUsd = estimatedNetworkFee.multipliedBy(networkFeeTokenInfo.priceUsd)
+  const appFeeUsd =
+    appFee && appFee.token.priceUsd ? appFee.amount.multipliedBy(appFee.token.priceUsd) : 0
+  const crossChainFeeUsd =
     estimatedCrossChainFee && nativeTokenInfo?.priceUsd
       ? estimatedCrossChainFee
           .shiftedBy(-nativeTokenInfo.decimals) // TODO: check if this is needed
@@ -353,9 +368,9 @@ const useTotalSwapFeesInLocalCurrency = ({
       : 0
 
   return new BigNumber(0)
-    .plus(networkFee)
-    .plus(appFee)
-    .plus(crossChainFee)
+    .plus(networkFeeUsd)
+    .plus(appFeeUsd)
+    .plus(crossChainFeeUsd)
     .multipliedBy(usdToLocalRate)
 }
 
@@ -375,8 +390,7 @@ export function SwapTransactionDetails({
   const totalFeesInLocalCurrency = useTotalSwapFeesInLocalCurrency({
     estimatedNetworkFee,
     networkFeeTokenId,
-    appFeeAmount: appFee?.amount,
-    appFeeTokenId: appFee?.token.tokenId,
+    appFee,
     estimatedCrossChainFee, // TODO add cross chain fee
   })
 

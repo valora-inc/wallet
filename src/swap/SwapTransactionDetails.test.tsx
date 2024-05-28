@@ -2,20 +2,21 @@ import { render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Provider } from 'react-redux'
-import SwapTransactionDetails from 'src/swap/SwapTransactionDetails'
+import SwapTransactionDetailsOld, { SwapTransactionDetails } from 'src/swap/SwapTransactionDetails'
 import { createMockStore } from 'test/utils'
 import {
   mockCeloTokenBalance,
   mockCeloTokenId,
+  mockCusdTokenBalance,
   mockCusdTokenId,
   mockTokenBalances,
 } from 'test/values'
 
-describe('SwapTransactionDetails', () => {
+describe('SwapTransactionDetailsOld', () => {
   it('should render the correct exchange rate and estimated value', () => {
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore()}>
-        <SwapTransactionDetails
+        <SwapTransactionDetailsOld
           maxNetworkFee={new BigNumber(0.0001)}
           estimatedNetworkFee={new BigNumber(0.00005)}
           networkFeeInfoBottomSheetRef={{ current: null }}
@@ -49,7 +50,7 @@ describe('SwapTransactionDetails', () => {
   it('should render correctly without the fromToken and fees', () => {
     const { getByText, getByTestId, queryByTestId } = render(
       <Provider store={createMockStore()}>
-        <SwapTransactionDetails
+        <SwapTransactionDetailsOld
           networkFeeInfoBottomSheetRef={{ current: null }}
           slippageInfoBottomSheetRef={{ current: null }}
           exchangeRateInfoBottomSheetRef={{ current: null }}
@@ -73,7 +74,7 @@ describe('SwapTransactionDetails', () => {
   it('should render correctly with fees', () => {
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore()}>
-        <SwapTransactionDetails
+        <SwapTransactionDetailsOld
           maxNetworkFee={new BigNumber(0.0001)}
           estimatedNetworkFee={new BigNumber(0.00005)}
           networkFeeInfoBottomSheetRef={{ current: null }}
@@ -104,7 +105,7 @@ describe('SwapTransactionDetails', () => {
   it('should render correctly with slippage info', () => {
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore()}>
-        <SwapTransactionDetails
+        <SwapTransactionDetailsOld
           maxNetworkFee={new BigNumber(0.0001)}
           estimatedNetworkFee={new BigNumber(0.00005)}
           networkFeeInfoBottomSheetRef={{ current: null }}
@@ -128,7 +129,7 @@ describe('SwapTransactionDetails', () => {
   it('should render correctly when app fee is >= 0 and token has USD price', () => {
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore()}>
-        <SwapTransactionDetails
+        <SwapTransactionDetailsOld
           maxNetworkFee={new BigNumber(0.0001)}
           estimatedNetworkFee={new BigNumber(0.00005)}
           networkFeeInfoBottomSheetRef={{ current: null }}
@@ -158,7 +159,7 @@ describe('SwapTransactionDetails', () => {
   it('should render correctly when app fee is >= 0 and token has no USD price', () => {
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore()}>
-        <SwapTransactionDetails
+        <SwapTransactionDetailsOld
           maxNetworkFee={new BigNumber(0.0001)}
           estimatedNetworkFee={new BigNumber(0.00005)}
           networkFeeInfoBottomSheetRef={{ current: null }}
@@ -188,7 +189,7 @@ describe('SwapTransactionDetails', () => {
   it('should render correctly when app fee is 0', () => {
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore()}>
-        <SwapTransactionDetails
+        <SwapTransactionDetailsOld
           maxNetworkFee={new BigNumber(0.0001)}
           estimatedNetworkFee={new BigNumber(0.00005)}
           networkFeeInfoBottomSheetRef={{ current: null }}
@@ -218,7 +219,7 @@ describe('SwapTransactionDetails', () => {
   it('should render correctly when app fee is undefined', () => {
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore()}>
-        <SwapTransactionDetails
+        <SwapTransactionDetailsOld
           maxNetworkFee={new BigNumber(0.0001)}
           estimatedNetworkFee={new BigNumber(0.00005)}
           networkFeeInfoBottomSheetRef={{ current: null }}
@@ -239,5 +240,149 @@ describe('SwapTransactionDetails', () => {
     expect(getByTestId('SwapTransactionDetails/AppFee')).toHaveTextContent(
       'swapScreen.transactionDetails.appFeeValue, {"context":"placeholder","appFeePercentage":"0"}'
     )
+  })
+})
+
+describe('SwapTransactionDetails', () => {
+  it('should render null if the swap quote is loading', () => {
+    const tree = render(
+      <Provider store={createMockStore()}>
+        <SwapTransactionDetails
+          estimatedNetworkFee={new BigNumber(0.00005)}
+          feeTokenId={mockCusdTokenId}
+          fetchingSwapQuote={true}
+          fromToken={mockCusdTokenBalance}
+          toToken={mockCeloTokenBalance}
+          exchangeRatePrice="0.5837"
+        />
+      </Provider>
+    )
+
+    expect(tree.toJSON()).toBeNull()
+  })
+
+  it('should render the exchange rate, network fee, and cta', () => {
+    const expectedExchangeRate = '0.58370' // 5 significant digits
+    const expectedFeeInLocalCurrency = '0.00033' // estimatedNetworkFee * priceUsd * local currency to USD exchange rate (0.0005 * 0.5 * 1.33)
+    const { getByText } = render(
+      <Provider store={createMockStore()}>
+        <SwapTransactionDetails
+          estimatedNetworkFee={new BigNumber(0.00005)}
+          feeTokenId={mockCeloTokenId}
+          fetchingSwapQuote={false}
+          fromToken={{
+            ...mockTokenBalances[mockCusdTokenId],
+            lastKnownPriceUsd: null,
+            balance: BigNumber('10'),
+            priceUsd: BigNumber('1'),
+          }}
+          toToken={mockCeloTokenBalance}
+          exchangeRatePrice="0.5837"
+        />
+      </Provider>
+    )
+
+    expect(
+      getByText(
+        `swapScreen.transactionDetails.approximateExchangeRate, {"fromTokenSymbol":"cUSD","toTokenSymbol":"CELO","exchangeRate":"${expectedExchangeRate}"}`
+      )
+    ).toBeTruthy()
+    expect(
+      getByText(
+        `swapScreen.transactionDetails.approximateFees, {"localCurrencySymbol":"₱","feeAmountInLocalCurrency":"${expectedFeeInLocalCurrency}"}`
+      )
+    ).toBeTruthy()
+    expect(getByText('swapScreen.transactionDetails.viewAllDetailsCta')).toBeEnabled()
+  })
+
+  it('should render the total swap fee', () => {
+    const expectedFeeInLocalCurrency = '0.027' // sum of network fee, app fee, and cross-chain fee in usd * local currency to USD exchange rate
+    const { getByText } = render(
+      <Provider store={createMockStore()}>
+        <SwapTransactionDetails
+          estimatedNetworkFee={new BigNumber(0.00005)}
+          feeTokenId={mockCeloTokenId}
+          fetchingSwapQuote={false}
+          fromToken={mockCusdTokenBalance}
+          toToken={mockCeloTokenBalance}
+          exchangeRatePrice="0.5837"
+          appFee={{
+            amount: new BigNumber(0.02),
+            token: mockCusdTokenBalance,
+            percentage: new BigNumber(0.6),
+          }}
+          estimatedCrossChainFee={new BigNumber(0.1)}
+        />
+      </Provider>
+    )
+
+    expect(
+      getByText(
+        `swapScreen.transactionDetails.approximateFees, {"localCurrencySymbol":"₱","feeAmountInLocalCurrency":"${expectedFeeInLocalCurrency}"}`
+      )
+    ).toBeTruthy()
+  })
+
+  it.each`
+    condition                    | props
+    ${'network fee'}             | ${{ estimatedNetworkFee: undefined }}
+    ${'network fee token price'} | ${{ feeTokenId: 'someTokenId' }}
+    ${'app fee token price'}     | ${{ appFee: { amount: new BigNumber(0.02), token: { ...mockCeloTokenBalance, priceUsd: null }, percentage: new BigNumber(0.6) } }}
+    ${'native token price'}      | ${{ estimatedCrossChainFee: new BigNumber(0.1) }}
+  `(
+    'should render an error if the fee cannot be calculated due to missing $condition',
+    ({ props }) => {
+      const { getByText } = render(
+        <Provider
+          store={createMockStore({
+            tokens: {
+              tokenBalances: {
+                ...mockTokenBalances,
+                [mockCeloTokenId]: {
+                  ...mockCeloTokenBalance,
+                  priceUsd: undefined,
+                  balance: '10',
+                },
+              },
+            },
+          })}
+        >
+          <SwapTransactionDetails
+            estimatedNetworkFee={new BigNumber(0.00005)}
+            feeTokenId={mockCusdTokenId}
+            fetchingSwapQuote={false}
+            fromToken={mockCusdTokenBalance}
+            toToken={mockCeloTokenBalance}
+            exchangeRatePrice="0.5837"
+            {...props}
+          />
+        </Provider>
+      )
+
+      expect(getByText('swapScreen.transactionDetails.couldNotApproximateFees')).toBeTruthy()
+    }
+  )
+
+  it('should render an error if the local rate to USD exchange rate is missing', () => {
+    const { getByText } = render(
+      <Provider
+        store={createMockStore({
+          localCurrency: {
+            usdToLocalRate: null,
+          },
+        })}
+      >
+        <SwapTransactionDetails
+          estimatedNetworkFee={new BigNumber(0.00005)}
+          feeTokenId={mockCusdTokenId}
+          fetchingSwapQuote={false}
+          fromToken={mockCusdTokenBalance}
+          toToken={mockCeloTokenBalance}
+          exchangeRatePrice="0.5837"
+        />
+      </Provider>
+    )
+
+    expect(getByText('swapScreen.transactionDetails.couldNotApproximateFees')).toBeTruthy()
   })
 })
