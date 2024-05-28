@@ -1,8 +1,8 @@
 import BigNumber from 'bignumber.js'
-import React, { useState } from 'react'
+import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { useSharedValue } from 'react-native-reanimated'
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
 import { SwapEvents } from 'src/analytics/Events'
 import { SwapShowInfoType } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -10,7 +10,6 @@ import { BottomSheetRefType } from 'src/components/BottomSheet'
 import TextButton from 'src/components/TextButton'
 import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
-import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import InfoIcon from 'src/icons/InfoIcon'
 import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { useSelector } from 'src/redux/hooks'
@@ -374,6 +373,21 @@ const useTotalSwapFeesInLocalCurrency = ({
     .multipliedBy(usdToLocalRate)
 }
 
+function Loader() {
+  return (
+    <View style={styles.loaderContainer}>
+      <SkeletonPlaceholder
+        borderRadius={100} // ensure rounded corners with font scaling
+        backgroundColor={colors.gray2}
+        highlightColor={colors.white}
+        testID="SwapTransactionDetails/Loader"
+      >
+        <View style={styles.loader} />
+      </SkeletonPlaceholder>
+    </View>
+  )
+}
+
 export function SwapTransactionDetails({
   estimatedNetworkFee,
   fromToken,
@@ -382,9 +396,8 @@ export function SwapTransactionDetails({
   appFee,
   feeTokenId: networkFeeTokenId,
   estimatedCrossChainFee,
-  fetchingSwapQuote,
+  fetchingSwapQuote: loading,
 }: Props) {
-  const [isVisible, setIsVisible] = useState(!fetchingSwapQuote)
   const { t } = useTranslation()
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const totalFeesInLocalCurrency = useTotalSwapFeesInLocalCurrency({
@@ -394,23 +407,11 @@ export function SwapTransactionDetails({
     estimatedCrossChainFee, // TODO add cross chain fee
   })
 
-  const progress = useSharedValue(0)
-  useShowOrHideAnimation(
-    progress,
-    !fetchingSwapQuote,
-    () => {
-      setIsVisible(true)
-    },
-    () => {
-      setIsVisible(false)
-    }
-  )
-
   const handleShowMoreDetails = () => {
     // TODO: show more details
   }
 
-  if (!fromToken || !toToken || !exchangeRatePrice || !isVisible) {
+  if (!fromToken || !toToken || !exchangeRatePrice) {
     return null
   }
   return (
@@ -425,6 +426,7 @@ export function SwapTransactionDetails({
               exchangeRate: new BigNumber(exchangeRatePrice).toFormat(5, BigNumber.ROUND_DOWN),
             })}
           </Text>
+          {loading && <Loader />}
         </View>
         <View style={styles.detailsRow}>
           <FeesIcon />
@@ -436,6 +438,7 @@ export function SwapTransactionDetails({
                 })
               : t('swapScreen.transactionDetails.couldNotApproximateFees')}
           </Text>
+          {loading && <Loader />}
         </View>
       </View>
       <TextButton style={styles.viewMoreDetailsText} onPress={handleShowMoreDetails}>
@@ -465,6 +468,17 @@ const styles = StyleSheet.create({
   detailsText: {
     ...typeScale.labelXSmall,
     color: colors.gray3,
+  },
+  loaderContainer: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    height: '100%',
+    width: '100%',
+  },
+  loader: {
+    height: '100%',
+    width: '100%',
   },
   viewMoreDetailsText: {
     ...typeScale.labelXSmall,
