@@ -32,6 +32,8 @@ import DappKitSignTxScreen from 'src/dappkit/DappKitSignTxScreen'
 import DappShortcutTransactionRequest from 'src/dapps/DappShortcutTransactionRequest'
 import DappShortcutsRewards from 'src/dapps/DappShortcutsRewards'
 import EarnCollectScreen from 'src/earn/EarnCollectScreen'
+import EarnEnterAmount from 'src/earn/EarnEnterAmount'
+import EarnInfoScreen from 'src/earn/EarnInfoScreen'
 import EscrowedPaymentListScreen from 'src/escrow/EscrowedPaymentListScreen'
 import ReclaimPaymentConfirmationScreen from 'src/escrow/ReclaimPaymentConfirmationScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
@@ -541,6 +543,16 @@ const earnScreens = (Navigator: typeof Stack) => (
       name={Screens.EarnCollectScreen}
       component={EarnCollectScreen}
       options={headerWithBackButton}
+    />
+    <Navigator.Screen
+      name={Screens.EarnEnterAmount}
+      component={EarnEnterAmount}
+      options={noHeader}
+    />
+    <Navigator.Screen
+      name={Screens.EarnInfoScreen}
+      component={EarnInfoScreen}
+      options={EarnInfoScreen.navigationOptions}
     />
   </>
 )

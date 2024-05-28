@@ -15,7 +15,7 @@ export interface JumpstartTransactionStartedAction {
   sendAmount: string
 }
 interface State {
-  claimStatus: 'idle' | 'loading' | 'error'
+  claimStatus: 'idle' | 'loading' | 'error' | 'errorAlreadyClaimed'
   depositStatus: 'idle' | 'loading' | 'error' | 'success'
   reclaimStatus: 'idle' | 'loading' | 'error' | 'success'
 }
@@ -34,22 +34,18 @@ const slice = createSlice({
       ...state,
       claimStatus: 'loading',
     }),
-
     jumpstartClaimSucceeded: (state) => ({
       ...state,
       claimStatus: 'idle',
     }),
-
-    jumpstartClaimFailed: (state) => ({
+    jumpstartClaimFailed: (state, action: PayloadAction<{ isAlreadyClaimed: boolean }>) => ({
       ...state,
-      claimStatus: 'error',
+      claimStatus: action.payload.isAlreadyClaimed ? 'errorAlreadyClaimed' : 'error',
     }),
-
     jumpstartClaimLoadingDismissed: (state) => ({
       ...state,
       claimStatus: 'idle',
     }),
-
     jumpstartClaimErrorDismissed: (state) => ({
       ...state,
       claimStatus: 'idle',

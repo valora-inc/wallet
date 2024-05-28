@@ -78,12 +78,12 @@ export function InLineNotification({
           </View>
         )}
         <View style={styles.contentContainer}>
-          {title && <Text style={styles.titleText}>{title}</Text>}
+          {!!title && <Text style={styles.titleText}>{title}</Text>}
           <Text style={[styles.bodyText]}>{description}</Text>
         </View>
       </View>
 
-      {(ctaLabel || ctaLabel2) && (
+      {(!!ctaLabel || !!ctaLabel2) && (
         <View style={[styles.row, styles.ctaRow]}>
           {renderCtaLabel(ctaLabel, onPressCta, variantColor.primary)}
           {renderCtaLabel(ctaLabel2, onPressCta2, variantColor.primary)}

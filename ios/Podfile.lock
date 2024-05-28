@@ -560,10 +560,10 @@ PODS:
     - Toast (~> 4)
   - react-native-splash-screen (3.3.0):
     - React-Core
-  - react-native-video (6.0.0-rc.0):
+  - react-native-video (6.1.2):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-    - react-native-video/Video (= 6.0.0-rc.0)
+    - react-native-video/Video (= 6.1.2)
   - react-native-webview (13.8.6):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
@@ -658,7 +658,7 @@ PODS:
     - React-Core
   - RNCMaskedView (0.3.1):
     - React-Core
-  - RNCPicker (2.7.5):
+  - RNCPicker (2.7.6):
     - React-Core
   - RNDeviceInfo (10.13.2):
     - React-Core
@@ -762,7 +762,7 @@ PODS:
     - Sentry/HybridSDK (= 8.24.0)
   - RNShare (10.2.0):
     - React-Core
-  - RNSVG (15.2.0):
+  - RNSVG (15.3.0):
     - React-Core
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
@@ -1215,7 +1215,7 @@ SPEC CHECKSUMS:
   react-native-shake: 8036ba95a1953c9b10821bdc33f5814c5d0bcef6
   react-native-simple-toast: 1f1cc551d419bc0ab05dcb0136554006c274789d
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
-  react-native-video: e820b3ba1ad07e5b2bae137aa92966ea26086d21
+  react-native-video: 120b5403dabb33bee00e121216230a3a7aeb5594
   react-native-webview: a987704e6cd3f5a21d372ef316e43f7b442d59ca
   React-perflogger: 2588b59d386dbbc1df392da9493a8baa690bc89c
   React-RCTActionSheet: 057d6c6fc29e2a6d183d323ef35d9f6aedae936b
@@ -1234,7 +1234,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 826b603ae9c0f88b5ac4e956801f755109fa4d5c
   RNCClipboard: 0a720adef5ec193aa0e3de24c3977222c7e52a37
   RNCMaskedView: 090213d32d8b3bb83a4dcb7d12c18f0152591906
-  RNCPicker: 3e2c37a8328f368ce14da050cdc8231deb5fc9f9
+  RNCPicker: f58e790450cb0a74c09dd1c677bd1de41a5741b9
   RNDeviceInfo: 42aadf1282ffa0a88dc38a504a7be145eb010dfa
   RNExitApp: 00036cabe7bacbb413d276d5520bf74ba39afa6a
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
@@ -1258,7 +1258,7 @@ SPEC CHECKSUMS:
   RNSecureRandom: ff25041dd065a945810ca01a2bcd06f8d141b81d
   RNSentry: 7ae2a06a5563de39ec09dcb1e751ac0c67f1883c
   RNShare: 554a91f5cfbe4adac4cfe3654826ee8b299fe365
-  RNSVG: 43b64ed39c14ce830d840903774154ca0c1f27ec
+  RNSVG: a48668fd382115bc89761ce291a81c4ca5f2fd2e
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
   segment-analytics-react-native: 1c36d83c0a735795e304178241331e7701dc5d2a

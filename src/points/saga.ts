@@ -1,6 +1,5 @@
 import { differenceInDays } from 'date-fns'
 import { Actions as AppActions } from 'src/app/actions'
-import { Actions as HomeActions } from 'src/home/actions'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import {
   nextPageUrlSelector,
@@ -255,7 +254,7 @@ function* watchGetHistory() {
 }
 
 function* watchGetConfig() {
-  yield* takeLeading([getPointsConfigRetry.type, HomeActions.VISIT_HOME], safely(getPointsConfig))
+  yield* takeLeading(getPointsConfigRetry.type, safely(getPointsConfig))
 }
 
 function* watchTrackPointsEvent() {
@@ -264,7 +263,9 @@ function* watchTrackPointsEvent() {
 
 export function* watchAppMounted() {
   yield* take(AppActions.APP_MOUNTED)
-  yield* call(safely, sendPendingPointsEvents)
+  yield* spawn(getPointsConfig)
+  yield* spawn(getPointsBalance, getHistoryStarted({ getNextPage: false }))
+  yield* spawn(sendPendingPointsEvents)
 }
 
 export function* pointsSaga() {

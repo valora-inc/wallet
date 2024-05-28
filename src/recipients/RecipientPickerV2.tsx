@@ -28,7 +28,7 @@ function RecipientPicker({
 }: Props) {
   return (
     <View style={[styles.body, style]} testID={testID}>
-      {title && <Text style={styles.title}>{title}</Text>}
+      {!!title && <Text style={styles.title}>{title}</Text>}
       <FlatList
         keyboardShouldPersistTaps={'always'}
         scrollEnabled={false}

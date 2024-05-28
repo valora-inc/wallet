@@ -116,7 +116,7 @@ export default function Welcome() {
           onPress={onPressCreateAccount}
           text={t('welcome.getStarted')}
           size={BtnSizes.FULL}
-          type={BtnTypes.ONBOARDING}
+          type={BtnTypes.PRIMARY}
           style={styles.createAccountButton}
           testID={'CreateAccountButton'}
           disabled={buttonsDisabled}
@@ -125,7 +125,7 @@ export default function Welcome() {
           onPress={onPressRestoreAccount}
           text={t('welcome.hasWallet')}
           size={BtnSizes.FULL}
-          type={BtnTypes.ONBOARDING_SECONDARY}
+          type={BtnTypes.SECONDARY}
           testID={'RestoreAccountButton'}
           disabled={buttonsDisabled}
         />

@@ -1,33 +1,70 @@
+import BigNumber from 'bignumber.js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
-import EarnAave from 'src/icons/EarnAave'
+import { PROVIDER_ID } from 'src/earn/constants'
+import { useAavePoolInfo } from 'src/earn/hooks'
+import CircledIcon from 'src/icons/CircledIcon'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import { useTokenInfo } from 'src/tokens/hooks'
+import Logger from 'src/utils/Logger'
 
-export default function EarnCta() {
+const TAG = 'earn/EarnCta'
+
+export default function EarnCta({ depositTokenId }: { depositTokenId: string }) {
   const { t } = useTranslation()
+  const depositToken = useTokenInfo(depositTokenId)
+  const asyncPoolInfo = useAavePoolInfo({ depositTokenId })
+
+  if (!depositToken) {
+    // should never happen
+    Logger.error(TAG, `No deposit token found: ${depositTokenId}`)
+    return null
+  }
+
+  const apyDisplay = asyncPoolInfo.result
+    ? new BigNumber(asyncPoolInfo.result.apy).multipliedBy(100).toFixed(2)
+    : '--'
+
   return (
     <View style={styles.container}>
       <Touchable
         borderRadius={8}
         style={styles.touchable}
         onPress={() => {
-          ValoraAnalytics.track(EarnEvents.earn_cta_press)
+          ValoraAnalytics.track(EarnEvents.earn_cta_press, {
+            depositTokenId,
+            providerId: PROVIDER_ID,
+            networkId: depositToken.networkId,
+          })
+          navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })
         }}
         testID="EarnCta"
       >
         <>
-          <Text style={styles.title}>{t('earnFlow.cta.title')}</Text>
+          <Text style={styles.title}>{t('earnFlow.ctaV1_86.title')}</Text>
           <View style={styles.row}>
-            <EarnAave />
+            <CircledIcon radius={32} backgroundColor={Colors.gray1}>
+              <TokenIcon token={depositToken} size={IconSize.SMALL} />
+            </CircledIcon>
             <View style={styles.subtitleContainer}>
-              <Text style={styles.subtitle}>{t('earnFlow.cta.subtitle')}</Text>
-              <Text style={styles.description}>{t('earnFlow.cta.description')}</Text>
+              <Text style={styles.subtitle}>
+                {t('earnFlow.ctaV1_86.subtitle', { symbol: depositToken.symbol })}
+              </Text>
+              <Text style={styles.description}>
+                {t('earnFlow.ctaV1_86.description', {
+                  apy: apyDisplay,
+                  symbol: depositToken.symbol,
+                })}
+              </Text>
             </View>
           </View>
         </>

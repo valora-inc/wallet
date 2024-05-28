@@ -4,7 +4,7 @@ import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
-import { call, select } from 'redux-saga/effects'
+import { call, select, spawn } from 'redux-saga/effects'
 import { Actions as AppActions } from 'src/app/actions'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import * as pointsSaga from 'src/points/saga'
@@ -554,20 +554,24 @@ describe('watchAppMounted', () => {
     jest.clearAllMocks()
   })
 
-  it('should call sendPendingPointsEvents only once even if multiple "app mounted" actions are dispatched', async () => {
-    const mockSendPendingPointsEvents = jest.fn()
+  it('should spawn all sagas only once even if multiple "app mounted" actions are dispatched', async () => {
     const mockAction = { type: AppActions.APP_MOUNTED }
 
-    await expectSaga(watchAppMounted)
-      .withState(createMockStore().getState())
+    const result = await expectSaga(watchAppMounted)
       .provide([
-        [matchers.call.fn(pointsSaga.sendPendingPointsEvents), mockSendPendingPointsEvents()],
+        [spawn(getPointsConfig), null],
+        [spawn(getPointsBalance, getHistoryStarted({ getNextPage: false })), null],
+        [spawn(sendPendingPointsEvents), null],
       ])
       .dispatch(mockAction)
       .dispatch(mockAction)
       .run()
 
-    expect(mockSendPendingPointsEvents).toHaveBeenCalledTimes(1)
+    expect(result.effects.fork).toEqual([
+      spawn(getPointsConfig),
+      spawn(getPointsBalance, getHistoryStarted({ getNextPage: false })),
+      spawn(sendPendingPointsEvents),
+    ])
   })
 })
 

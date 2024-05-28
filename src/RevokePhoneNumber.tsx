@@ -73,7 +73,7 @@ export const RevokePhoneNumber = ({ forwardedRef }: Props) => {
         title={t('revokePhoneNumber.bottomSheetTitle')}
         testId="RevokePhoneNumberBottomSheet"
       >
-        {e164PhoneNumber && (
+        {!!e164PhoneNumber && (
           <PhoneNumberWithFlag
             e164PhoneNumber={e164PhoneNumber}
             defaultCountryCode={defaultCountryCode ?? undefined}

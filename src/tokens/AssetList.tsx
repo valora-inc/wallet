@@ -187,7 +187,7 @@ export default function AssetList({
             ErrorComponent={
               <View style={styles.nftsErrorView}>
                 <ImageErrorIcon />
-                {item.metadata?.name && (
+                {!!item.metadata?.name && (
                   <Text numberOfLines={2} style={styles.nftsNoMetadataText}>
                     {item.metadata.name}
                   </Text>

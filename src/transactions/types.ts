@@ -1,6 +1,8 @@
 import BigNumber from 'bignumber.js'
 import { Nft } from 'src/nfts/types'
+import { TransactionRequest } from 'src/viem/prepareTransactions'
 import { v4 as uuidv4 } from 'uuid'
+import { Hash, TransactionReceipt } from 'viem'
 
 export enum Network {
   Celo = 'celo',
@@ -26,39 +28,21 @@ export enum NetworkId {
   'base-sepolia' = 'base-sepolia',
 }
 
-export type PendingStandbySwap = {
+export type PendingStandbyTransaction<T> = {
   transactionHash?: string
   context: TransactionContext
   status: TransactionStatus.Pending
   feeCurrencyId?: string
-} & Omit<TokenExchange, 'block' | 'fees' | 'transactionHash' | 'status'>
-
-export type PendingStandbyTransfer = {
-  transactionHash?: string
-  context: TransactionContext
-  status: TransactionStatus.Pending
-  feeCurrencyId?: string
-} & Omit<TokenTransfer, 'block' | 'fees' | 'transactionHash' | 'status'>
-
-export type PendingStandbyApproval = {
-  transactionHash?: string
-  context: TransactionContext
-  status: TransactionStatus.Pending
-  feeCurrencyId?: string
-} & Omit<TokenApproval, 'block' | 'fees' | 'transactionHash' | 'status'>
-
-export type PendingStandbyNFTTransfer = {
-  transactionHash?: string
-  context: TransactionContext
-  status: TransactionStatus.Pending
-  feeCurrencyId?: string
-} & Omit<NftTransfer, 'block' | 'fees' | 'transactionHash' | 'status'>
+} & Omit<T, 'block' | 'fees' | 'transactionHash' | 'status'>
 
 export type ConfirmedStandbyTransaction = (
   | Omit<TokenExchange, 'status'>
   | Omit<TokenTransfer, 'status'>
   | Omit<TokenApproval, 'status'>
   | Omit<NftTransfer, 'status'>
+  | Omit<EarnDeposit, 'status'>
+  | Omit<EarnWithdraw, 'status'>
+  | Omit<EarnClaimReward, 'status'>
 ) & {
   status: TransactionStatus.Complete | TransactionStatus.Failed
   context: TransactionContext
@@ -66,10 +50,13 @@ export type ConfirmedStandbyTransaction = (
 }
 
 export type StandbyTransaction =
-  | PendingStandbySwap
-  | PendingStandbyTransfer
-  | PendingStandbyApproval
-  | PendingStandbyNFTTransfer
+  | PendingStandbyTransaction<TokenExchange>
+  | PendingStandbyTransaction<TokenTransfer>
+  | PendingStandbyTransaction<TokenApproval>
+  | PendingStandbyTransaction<NftTransfer>
+  | PendingStandbyTransaction<EarnDeposit>
+  | PendingStandbyTransaction<EarnWithdraw>
+  | PendingStandbyTransaction<EarnClaimReward>
   | ConfirmedStandbyTransaction
 
 // Context used for logging the transaction execution flow.
@@ -260,4 +247,10 @@ export interface EarnClaimReward {
   fees: Fee[]
   providerId: string
   status: TransactionStatus
+}
+
+export interface TrackedTx {
+  tx: TransactionRequest | undefined
+  txHash: Hash | undefined
+  txReceipt: TransactionReceipt | undefined
 }

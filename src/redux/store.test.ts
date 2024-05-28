@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 215,
+          "version": 216,
         },
         "account": {
           "acceptedTerms": false,
@@ -189,6 +189,7 @@ describe('store state', () => {
         },
         "earn": {
           "depositStatus": "idle",
+          "withdrawStatus": "idle",
         },
         "escrow": {
           "isReclaiming": false,

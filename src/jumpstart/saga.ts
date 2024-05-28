@@ -67,10 +67,12 @@ export function* jumpstartClaim(privateKey: string, networkId: NetworkId, wallet
     ValoraAnalytics.track(JumpstartEvents.jumpstart_claim_succeeded)
 
     yield* put(jumpstartClaimSucceeded())
-  } catch (error) {
+  } catch (error: any) {
     Logger.error(TAG, 'Error handling jumpstart link', error)
     ValoraAnalytics.track(JumpstartEvents.jumpstart_claim_failed)
-    yield* put(jumpstartClaimFailed())
+    yield* put(
+      jumpstartClaimFailed({ isAlreadyClaimed: error?.message?.includes('Already claimed') })
+    )
   }
 }
 

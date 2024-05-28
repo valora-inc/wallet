@@ -3,12 +3,7 @@ import { PayloadAction } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import erc20 from 'src/abis/IERC20'
 import { SwapEvents } from 'src/analytics/Events'
-import {
-  PrefixedTxReceiptProperties,
-  SwapTimeMetrics,
-  SwapTxsReceiptProperties,
-  TxReceiptProperties,
-} from 'src/analytics/Properties'
+import { SwapTimeMetrics, SwapTxsReceiptProperties } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
@@ -21,26 +16,27 @@ import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance, TokenBalances } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import { BaseStandbyTransaction } from 'src/transactions/actions'
-import { NetworkId, TokenTransactionTypeV2, newTransactionContext } from 'src/transactions/types'
+import {
+  NetworkId,
+  TokenTransactionTypeV2,
+  TrackedTx,
+  newTransactionContext,
+} from 'src/transactions/types'
+import {
+  getPrefixedTxAnalyticsProperties,
+  getTxReceiptAnalyticsProperties,
+} from 'src/transactions/utils'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
-import {
-  TransactionRequest,
-  getEstimatedGasFee,
-  getFeeCurrency,
-  getFeeCurrencyToken,
-  getFeeDecimals,
-  getMaxGasFee,
-} from 'src/viem/prepareTransactions'
 import { getPreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import { sendPreparedTransactions } from 'src/viem/saga'
 import { getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getNetworkFromNetworkId } from 'src/web3/utils'
 import { call, put, select, takeEvery } from 'typed-redux-saga'
-import { Hash, TransactionReceipt, decodeFunctionData } from 'viem'
+import { decodeFunctionData } from 'viem'
 
 const TAG = 'swap/saga'
 
@@ -56,75 +52,6 @@ function calculateEstimatedUsdValue({
   }
 
   return valueToBigNumber(tokenAmount).times(tokenInfo.priceUsd).toNumber()
-}
-
-interface TrackedTx {
-  tx: TransactionRequest | undefined
-  txHash: Hash | undefined
-  txReceipt: TransactionReceipt | undefined
-}
-
-function getTxReceiptAnalyticsProperties(
-  { tx, txHash, txReceipt }: TrackedTx,
-  networkId: NetworkId,
-  tokensById: TokenBalances
-): Partial<TxReceiptProperties> {
-  const feeCurrencyToken = tx && getFeeCurrencyToken([tx], networkId, tokensById)
-  const feeDecimals = tx && feeCurrencyToken ? getFeeDecimals([tx], feeCurrencyToken) : undefined
-
-  const txMaxGasFee = tx && feeDecimals ? getMaxGasFee([tx]).shiftedBy(-feeDecimals) : undefined
-  const txMaxGasFeeUsd =
-    feeCurrencyToken && txMaxGasFee && feeCurrencyToken.priceUsd
-      ? txMaxGasFee.times(feeCurrencyToken.priceUsd)
-      : undefined
-  const txEstimatedGasFee =
-    tx && feeDecimals ? getEstimatedGasFee([tx]).shiftedBy(-feeDecimals) : undefined
-  const txEstimatedGasFeeUsd =
-    feeCurrencyToken && txEstimatedGasFee && feeCurrencyToken.priceUsd
-      ? txEstimatedGasFee.times(feeCurrencyToken.priceUsd)
-      : undefined
-
-  const txGasFee =
-    txReceipt?.gasUsed && txReceipt?.effectiveGasPrice && feeDecimals
-      ? new BigNumber((txReceipt.gasUsed * txReceipt.effectiveGasPrice).toString()).shiftedBy(
-          -feeDecimals
-        )
-      : undefined
-  const txGasFeeUsd =
-    feeCurrencyToken && txGasFee && feeCurrencyToken.priceUsd
-      ? txGasFee.times(feeCurrencyToken.priceUsd)
-      : undefined
-
-  return {
-    txCumulativeGasUsed: txReceipt?.cumulativeGasUsed
-      ? Number(txReceipt.cumulativeGasUsed)
-      : undefined,
-    txEffectiveGasPrice: txReceipt?.effectiveGasPrice
-      ? Number(txReceipt.effectiveGasPrice)
-      : undefined,
-    txGas: tx?.gas ? Number(tx.gas) : undefined,
-    txMaxGasFee: txMaxGasFee?.toNumber(),
-    txMaxGasFeeUsd: txMaxGasFeeUsd?.toNumber(),
-    txEstimatedGasFee: txEstimatedGasFee?.toNumber(),
-    txEstimatedGasFeeUsd: txEstimatedGasFeeUsd?.toNumber(),
-    txGasUsed: txReceipt?.gasUsed ? Number(txReceipt.gasUsed) : undefined,
-    txGasFee: txGasFee?.toNumber(),
-    txGasFeeUsd: txGasFeeUsd?.toNumber(),
-    txHash,
-    txFeeCurrency: tx && getFeeCurrency(tx),
-    txFeeCurrencySymbol: feeCurrencyToken?.symbol,
-  }
-}
-
-function getPrefixedTxAnalyticsProperties<Prefix extends string>(
-  receiptProperties: Partial<TxReceiptProperties>,
-  prefix: Prefix
-): Partial<PrefixedTxReceiptProperties<Prefix>> {
-  const prefixedProperties: Record<string, any> = {}
-  for (const [key, value] of Object.entries(receiptProperties)) {
-    prefixedProperties[`${prefix}${key[0].toUpperCase()}${key.slice(1)}`] = value
-  }
-  return prefixedProperties as Partial<PrefixedTxReceiptProperties<Prefix>>
 }
 
 function getSwapTxsReceiptAnalyticsProperties(
@@ -349,6 +276,9 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       trackPointsEvent({
         activityId: 'swap',
         transactionHash: swapTxReceipt.transactionHash,
+        networkId,
+        toTokenId,
+        fromTokenId,
       })
     )
     ValoraAnalytics.track(SwapEvents.swap_execute_success, {

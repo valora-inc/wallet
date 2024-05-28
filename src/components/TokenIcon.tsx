@@ -5,6 +5,7 @@ import colors from 'src/styles/colors'
 import { BaseToken } from 'src/tokens/slice'
 
 export enum IconSize {
+  XSMALL = 'xsmall',
   SMALL = 'small',
   MEDIUM = 'medium',
   LARGE = 'large',
@@ -12,6 +13,12 @@ export enum IconSize {
 }
 
 const IconSizeToStyle = {
+  [IconSize.XSMALL]: {
+    tokenImageSize: 20,
+    networkImageSize: 10,
+    networkImagePosition: 12,
+    tokenTextSize: 4,
+  },
   [IconSize.SMALL]: {
     tokenImageSize: 24,
     networkImageSize: 9,
@@ -84,7 +91,7 @@ export default function TokenIcon({ token, viewStyle, testID, size = IconSize.ME
         </View>
       )}
 
-      {token.networkIconUrl && (
+      {!!token.networkIconUrl && (
         <FastImage
           source={{ uri: token.networkIconUrl }}
           style={[

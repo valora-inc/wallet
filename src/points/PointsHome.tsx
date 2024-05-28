@@ -129,7 +129,7 @@ export default function PointsHome({ route, navigation }: Props) {
             <Button
               onPress={onRetryLoadConfig}
               text={t('points.error.retryCta')}
-              type={BtnTypes.GRAY_WITH_BORDER}
+              type={BtnTypes.SECONDARY}
               size={BtnSizes.FULL}
               style={styles.loadingRetryButton}
             />
@@ -144,7 +144,7 @@ export default function PointsHome({ route, navigation }: Props) {
                 testID={'PointsActivityButton'}
                 onPress={onPressActivity}
                 text={t('points.activity')}
-                type={BtnTypes.GRAY_WITH_BORDER}
+                type={BtnTypes.SECONDARY}
                 size={BtnSizes.FULL}
                 touchableStyle={styles.buttonStyle}
               />

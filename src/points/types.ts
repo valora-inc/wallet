@@ -1,4 +1,5 @@
 import React from 'react'
+import { NetworkId } from 'src/transactions/types'
 
 const pointsActivities = ['create-wallet', 'swap', 'more-coming'] as const
 export type PointsActivityId = (typeof pointsActivities)[number]
@@ -84,6 +85,9 @@ interface PointsEventCreateWallet {
 interface PointsEventSwap {
   activityId: 'swap'
   transactionHash: string
+  networkId: NetworkId
+  toTokenId: string
+  fromTokenId: string
 }
 
 export type PointsEvent = PointsEventCreateWallet | PointsEventSwap

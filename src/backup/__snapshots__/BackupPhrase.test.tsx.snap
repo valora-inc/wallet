@@ -661,12 +661,15 @@ exports[`BackupPhrase renders correctly with backup not completed 1`] = `
           [
             {
               "alignItems": "center",
-              "backgroundColor": "#F9F6F0",
+              "backgroundColor": "#F8F9F9",
+              "borderColor": "#E6E6E6",
+              "borderRadius": 100,
+              "borderWidth": 1,
               "flexDirection": "row",
               "flexGrow": 1,
               "height": 48,
               "justifyContent": "center",
-              "opacity": undefined,
+              "opacity": 0.5,
               "paddingHorizontal": 24,
               "paddingVertical": 5,
             },
@@ -679,7 +682,7 @@ exports[`BackupPhrase renders correctly with backup not completed 1`] = `
           maxFontSizeMultiplier={1}
           style={
             {
-              "color": "#666666",
+              "color": "#2E3338",
               "fontFamily": "Inter-SemiBold",
               "fontSize": 16,
               "lineHeight": 24,

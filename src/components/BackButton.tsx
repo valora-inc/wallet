@@ -21,6 +21,7 @@ function BackButton(props: Props) {
 
 BackButton.defaultProps = {
   onPress: navigateBack,
+  ...BackChevron.defaultProps,
 }
 
 const styles = StyleSheet.create({

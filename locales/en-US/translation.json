@@ -255,7 +255,7 @@
       "text": "Anyone with your Phrase will have access to your account and all of its funds. Don’t share it with others."
     }
   ],
-  "consumerIncentivesTitle": "Get started with Supercharge",
+  "consumerIncentivesTitle": "Supercharge is ending",
   "consumerIncentivesSummary": "But more rewards are headed your way. Until May 28, get {{percent}}% annual rewards on your highest stablecoin balance (cUSD, cEUR, or cREAL). Here's how it works:",
   "earnWeekly": {
     "header": "Connect your phone number",
@@ -271,14 +271,14 @@
     "text": "This will ensure your rewards are safe and in your control."
   },
   "conclusion": "It’s that simple. Supercharge your crypto today!",
-  "superchargeTitle": "Start Supercharging",
-  "superchargeDescription": "Get {{apy}}% annual rewards on your {{token}} balance. Here's how to start:",
+  "superchargeTitle": "Supercharge is ending",
+  "superchargeDescription": "But more rewards are headed your way. Until May 28, get {{apy}}% annual rewards on your highest {{token}} balance. Here's how it works:",
   "superchargeConnectNumber": "Connect your phone number",
   "superchargeReconnectNumber": "Reconnect your phone number\n<0>We have launched an improved Supercharge experience. Reconnect your phone number to keep earning rewards on your {{token}}.</0>",
   "superchargeMinimumBalance": "Add a minimum balance of {{amount}} {{token}}",
-  "superchargeDisclaimer": "Max-out rewards by adding up to {{amount}} {{token}}",
-  "superchargeDisclaimerMaxRewards": "You’re getting maximum rewards on your {{token}}",
-  "superchargeDisclaimerDayLimit": "Your rewards must be claimed within 28 days. <0>Learn more</0>",
+  "superchargeDisclaimer": "This will not affect your balance or previous earnings.",
+  "superchargeDisclaimerMaxRewards": "This will not affect your balance or previous earnings.",
+  "superchargeDisclaimerDayLimit": "This will not affect your balance or previous earnings. <0>Learn more</0>",
   "superchargeTokenDetailsDialog": {
     "title": "Which assets can I Supercharge?",
     "body": "You’ll get rewarded weekly on your Celo stablecoin with the highest value (cEUR, cUSD, cREAL).",
@@ -286,11 +286,11 @@
   },
   "superchargingTitle": "App update required",
   "superchargingDescription": "Update the Valora app to continue receiving your weekly Supercharge rewards.",
-  "superchargingTitleV1_54": "Your {{token}} is being Supercharged",
-  "superchargingDescriptionV1_54": "You’re getting {{apy}}% annually. Every week you'll get a notification when your rewards are ready, come back here to claim them.",
+  "superchargingTitleV1_54": "Supercharge is ending",
+  "superchargingDescriptionV1_54": "Weekly rewards will be available to claim until Tuesday, May 28, at 23:59 UTC. Beginning May 29, you will nor longer be able to claim Supercharge rewards.",
   "superchargeRewardsAvailable": "You have {{amount}} {{token}} available to claim!",
   "superchargeRewardsAvailableMultipleTokens": "You have {{amounts}} available to claim!",
-  "superchargeClaimText": "Claim your rewards to add them to your balance.",
+  "superchargeClaimText": "Claim your rewards until Tuesday, May 28, at 23:59 UTC. Beginning May 29, you will no longer be able to claim Supercharge rewards.",
   "superchargeClaimButton": "Claim Rewards",
   "superchargeFetchRewardsFailed": "Error while fetching pending Supercharge rewards. Please try again later.",
   "superchargeClaimSuccess": "Your Supercharge rewards have been added to your Total Balance.",
@@ -1767,6 +1767,9 @@
     "swapToTokenSelection": "SWAP TO",
     "tokenUsdValueUnknown": "-",
     "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
+    "selectTokenLabel": "Select token",
+    "tokenBottomSheetTitle": "Select Token",
+    "onNetwork": "on {{networkName}}",
     "switchedToNetworkWarning": {
       "title": "You switched to the {{networkName}} network",
       "body_swapFrom": "Select a token to swap from on the {{networkName}} network to continue.",
@@ -1820,7 +1823,7 @@
       "appFeeValue_withoutPriceUsd": "<0></0>",
       "appFeeValue_free": "Free",
       "appFeeValue_placeholder": "-",
-      "appFeeInfo": "{{appName}} Fee\n\nWe charge a fee to swap tokens on {{appName}}. The fee is {{appFeePercentage}}% of the amount you are exchanging.",
+      "appFeeInfo": "{{appName}} Fee\n\nThe {{appName}} fee of {{appFeePercentage}}% is designed to enhance your experience by ensuring fast, reliable, and secure swaps.",
       "appFeeInfo_free": "{{appName}} Fee\n\nThis swap is free of charge.",
       "appFeeInfo_placeholder": "{{appName}} Fee\n\nThe fee is calculated based on the quote you receive.",
       "appFeeInfoDismissButton": "Got it",
@@ -2189,7 +2192,10 @@
   },
   "getStartedHome": {
     "title": "Buy crypto or transfer tokens",
-    "body": "Buy or transfer compatible tokens to send crypto and explore web3!"
+    "body": "Buy or transfer compatible tokens to send crypto and explore web3!",
+    "titleV1_86": "Add funds to your wallet",
+    "exploreTokens": "Explore all tokens",
+    "exploreTokensBody": "You can buy up to 10+ tokens in Valora. Check them out!"
   },
   "nftCelebration": {
     "bottomSheet": {
@@ -2238,12 +2244,13 @@
   },
   "jumpstartStatus": {
     "loading": {
-      "title": "Your funds are on their way",
-      "description": "The funds that your friend gave you are being sent over. Please wait... "
+      "title": "Checking on your funds",
+      "description": "Please wait while we check your Live Link. Claimable funds will arrive shortly."
     },
     "error": {
       "title": "Unable to claim funds",
-      "description": "Try your live link again to attempt to receive funds, or ask your friend to try sending a new link",
+      "description": "This link was not able to be claimed for an unknown reason",
+      "alreadyClaimedDescription": "The link has already been claimed. Please ask your friend to send a new link",
       "contactSupport": "Contact Support",
       "dismiss": "Dismiss"
     }
@@ -2348,6 +2355,7 @@
     }
   },
   "earnFlow": {
+    "gasSubsidized": "Valora's covering gas for this transaction!",
     "addCryptoBottomSheet": {
       "title": "Add {{tokenSymbol}} on {{tokenNetwork}}",
       "description": "Once you add tokens you'll have to come back to finish depositing into a pool.",
@@ -2366,6 +2374,52 @@
       "title": "Earn on your stablecoins",
       "subtitle": "Deposit today and earn returns",
       "description": "See how much you can earn when supplying a lending pool"
+    },
+    "earnInfo": {
+      "title": "Earn on your\nstablecoins",
+      "details": {
+        "earn": {
+          "titleGasSubsidy": "Maximize Earnings without Gas Fees*",
+          "title": "Maximize Earnings",
+          "subtitle": "Earn on your stablecoins and get rewards when you supply a pool.",
+          "footnoteSubsidy": "*Gas fees are temporarily covered by Valora"
+        },
+        "manage": {
+          "title": "Manage Directly from Valora",
+          "subtitle": "We’ll take care of the setup so you can manage your position directly from Valora."
+        },
+        "access": {
+          "title": "Easily Access your Funds",
+          "subtitle": "Collect your funds effortlessly with a single tap. Enjoy the same instant access as you would directly through your favorite protocols."
+        }
+      },
+      "action": {
+        "learn": "Learn More",
+        "earn": "Start Earning"
+      }
+    },
+    "ctaV1_86": {
+      "title": "Maximize earnings on stablecoins",
+      "subtitle": "Buy {{symbol}}",
+      "description": "Earn approximately {{apy}}% per year when you add {{symbol}} to a pool"
+    },
+    "enterAmount": {
+      "earnUpToLabel": "You could earn up to:",
+      "rateLabel": "Rate (est.)",
+      "earnUpTo": "~{{fiatSymbol}}{{amount}} / yr",
+      "rate": "{{rate}}% APY",
+      "continue": "Continue",
+      "info": "This pool is powered by Aave",
+      "infoBottomSheet": {
+        "title": "Why this pool?",
+        "description": "This Aave pool has over $150M TVL and more than 6,000 contributors, indicating strong liquidity and trustworthiness. It also uses USDC as its token and Abritrum as its network, which reduces volatility and ensures users will receive inexpensive gas rates.\n\nAll together this makes it a safe and attractive option with competitive APY, ensuring a beneficial investment opportunity for our users.\n\nYou can explore other Aave pools <0>here</0>.",
+        "dismiss": "Dismiss"
+      },
+      "notEnoughBalanceForGasWarning": {
+        "title": "You need more {{feeTokenSymbol}} to continue",
+        "description": "Add {{feeTokenSymbol}} on {{network}} to cover your gas fees",
+        "noGasCta": "Buy {{feeTokenSymbol}} on {{network}}"
+      }
     },
     "activePools": {
       "title": "Active Pools",
@@ -2395,7 +2449,30 @@
       "fee": "Gas Fee",
       "cta": "Collect Earnings",
       "errorTitle": "Something went wrong",
-      "errorDescription": "Unable to fetch deposit details. Please try again."
+      "errorDescription": "Unable to fetch deposit details. Please try again.",
+      "noGasTitle": "You need more {{symbol}} to continue",
+      "noGasDescription": "Add {{symbol}} on {{network}} to cover your gas fees",
+      "noGasCta": "Buy {{symbol}} on {{network}}"
+    },
+    "transactionFeed": {
+      "earnClaimTitle": "Collected",
+      "earnClaimSubtitle": "from {{providerName}} Pool",
+      "earnDepositTitle": "Deposited",
+      "earnDepositSubtitle": "to {{providerName}} Pool",
+      "earnWithdrawTitle": "Withdrew",
+      "earnWithdrawSubtitle": "from {{providerName}} Pool"
+    },
+    "transactionDetails": {
+      "descriptionLabel": "Details",
+      "earnClaimTitle": "Collected",
+      "earnClaimSubtitle": "Collected {{tokenSymbol}} from {{providerName}} Pool",
+      "earnClaimDetails": "Amount Collected",
+      "earnDepositTitle": "Deposited",
+      "earnDepositSubtitle": "Deposited {{tokenSymbol}} to {{providerName}} Pool",
+      "earnDepositDetails": "Amount Deposited",
+      "earnWithdrawTitle": "Withdrew",
+      "earnWithdrawSubtitle": "Withdrew {{tokenSymbol}} from {{providerName}} Pool",
+      "earnWithdrawDetails": "Amount Withdrawn"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
