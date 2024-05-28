@@ -1,4 +1,3 @@
-import { useHeaderHeight } from '@react-navigation/elements'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as Sentry from '@sentry/react-native'
 import locales from 'locales'
@@ -46,6 +45,7 @@ import {
   supportedBiometryTypeSelector,
   walletConnectEnabledSelector,
 } from 'src/app/selectors'
+import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
@@ -59,6 +59,7 @@ import {
   SettingsItemTextValue,
 } from 'src/components/SettingsItem'
 import Toast from 'src/components/Toast'
+import CustomHeader from 'src/components/header/CustomHeader'
 import { PRIVACY_LINK, TOS_LINK } from 'src/config'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import ForwardChevron from 'src/icons/ForwardChevron'
@@ -70,7 +71,7 @@ import {
 import { deleteKeylessBackupStarted, hideDeleteKeylessBackupError } from 'src/keylessBackup/slice'
 import { KeylessBackupDeleteStatus } from 'src/keylessBackup/types'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
-import { headerWithBackButton } from 'src/navigator/Headers'
+import { noHeader } from 'src/navigator/Headers'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -81,6 +82,7 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
 import { navigateToURI } from 'src/utils/linking'
 import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
@@ -118,7 +120,6 @@ export const Account = ({ navigation, route }: Props) => {
   const showDeleteKeylessBackupError = useSelector(showDeleteKeylessBackupErrorSelector)
   const walletConnectEnabled = v2
   const connectedApplications = sessions.length
-  const headerHeight = useHeaderHeight()
 
   useEffect(() => {
     if (ValoraAnalytics.getSessionId() !== sessionId) {
@@ -437,10 +438,8 @@ export const Account = ({ navigation, route }: Props) => {
   }
 
   return (
-    <SafeAreaView
-      style={[styles.container, { paddingTop: headerHeight }]}
-      edges={['bottom', 'left', 'right']}
-    >
+    <SafeAreaView style={styles.container} edges={['bottom', 'left', 'right', 'top']}>
+      <CustomHeader left={<BackButton />} style={{ paddingHorizontal: variables.contentPadding }} />
       <ScrollView testID="SettingsScrollView">
         <TouchableWithoutFeedback onPress={onDevSettingsTriggerPress}>
           <Text style={styles.title} testID={'SettingsTitle'}>
@@ -611,12 +610,7 @@ export const Account = ({ navigation, route }: Props) => {
 }
 
 Account.navigationOptions = () => ({
-  ...headerWithBackButton,
-  headerTransparent: true,
-  headerShown: true,
-  headerStyle: {
-    backgroundColor: 'transparent',
-  },
+  ...noHeader,
 })
 
 const styles = StyleSheet.create({
