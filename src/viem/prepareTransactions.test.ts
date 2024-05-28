@@ -364,7 +364,7 @@ describe('prepareTransactions module', () => {
             to: '0xto' as Address,
             data: '0xdata',
             _estimatedGasUse: BigInt(50),
-            gas: BigInt(15_000), // 50k will be added for fee currency 1 since it is non-native
+            gas: BigInt(15_000),
           },
         ],
       })
