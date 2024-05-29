@@ -2281,25 +2281,25 @@
           "subtitle": "Membro di {{appName}}"
         },
         "swap": {
-          "title": "Scambia",
+          "title": "Scambio",
           "subtitle": "{{fromToken}} > {{toToken}}"
         }
       },
-      "title": "I miei punti attività",
+      "title": "Azioni punteggiate",
       "error": {
-        "title": "Impossibile caricare i punti attività",
-        "subtitle": "Ops. Qualcosa non ha funzionato durante il tentativo di caricare il feed dei tuoi punti attività. Riprova.",
+        "title": "Impossibile caricare le azioni punteggiate",
+        "subtitle": "Ops. Qualcosa non ha funzionato durante il tentativo di caricare il feed dei azioni punteggiate. Riprova.",
         "tryAgain": "Riprova"
       },
       "empty": {
-        "title": "Non ci sono ancora punti attività",
+        "title": "Non ci sono ancora azione punteggiata",
         "subtitle": "Sembra che tu non abbia ancora guadagnato punti. Usa {{appName}} per iniziare ad accumulare punti!",
         "gotIt": "Ho capito"
       },
       "pageError": {
         "title": "Impossibile caricare",
         "subtitle": "Ops. Qualcosa è andato storto durante il caricamento. Riprova.",
-        "refresh": "Aggiornare"
+        "refresh": "Aggiorna"
       }
     },
     "fetchBalanceError": {
@@ -2376,21 +2376,21 @@
       "description": "Scopri quanto puoi guadagnare mettendo a disposizione un lending pool"
     },
     "earnInfo": {
-      "title": "Guadagna sulle stablecoin di\n",
+      "title": "Guadagna sulle tue stablecoin",
       "details": {
         "earn": {
-          "titleGasSubsidy": "Massimizza i guadagni senza le tasse sul gas*",
-          "title": "Massimizzare i guadagni",
-          "subtitle": "Guadagna sulle tue stablecoin e ottieni ricompense quando rifornisci un pool.",
-          "footnoteSubsidy": "*Le spese per il gas sono temporaneamente coperte da Valora."
+          "titleGasSubsidy": "Massimizza i guadagni senza Gas fee*",
+          "title": "Massimizza i guadagni",
+          "subtitle": "Guadagna sulle tue stablecoin e ottieni premi quando alimenti un pool.",
+          "footnoteSubsidy": "*Le gas fee sono temporaneamente coperte da Valora"
         },
         "manage": {
           "title": "Gestisci direttamente da Valora",
-          "subtitle": "Ci occuperemo noi della configurazione in modo che tu possa gestire la tua posizione direttamente da Valora."
+          "subtitle": "Ci occupiamo noi della configurazione in modo che tu possa gestire la tua posizione direttamente da Valora."
         },
         "access": {
           "title": "Accedi facilmente ai tuoi fondi",
-          "subtitle": "Raccogli i tuoi fondi senza sforzo con un solo tocco. Goditi lo stesso accesso istantaneo che otterresti direttamente attraverso i tuoi protocolli preferiti."
+          "subtitle": "Riscuoti facilmente i tuoi fondi con un solo tocco. Usufruisci dello stesso accesso istantaneo che otterresti direttamente attraverso i tuoi protocolli preferiti."
         }
       },
       "action": {
