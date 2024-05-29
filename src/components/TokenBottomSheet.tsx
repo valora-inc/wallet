@@ -28,10 +28,11 @@ import { NetworkId } from 'src/transactions/types'
 
 export enum TokenPickerOrigin {
   Send = 'Send',
-  SendConfirmation = 'SendConfirmation',
-  Exchange = 'Exchange',
   SwapFrom = 'Swap/From',
   SwapTo = 'Swap/To',
+  CashIn = 'CashIn',
+  CashOut = 'CashOut',
+  Spend = 'Spend',
 }
 
 export const DEBOUNCE_WAIT_TIME = 200
