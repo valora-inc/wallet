@@ -34,15 +34,15 @@ export enum TokenPickerOrigin {
 
 export const DEBOUNCE_WAIT_TIME = 200
 
-export interface TokenBottomSheetProps<T extends TokenBalance> {
+export interface TokenBottomSheetProps {
   forwardedRef: RefObject<BottomSheetRefType>
   origin: TokenPickerOrigin
-  onTokenSelected: (token: T, tokenPositionInList: number) => void
+  onTokenSelected: (token: TokenBalance, tokenPositionInList: number) => void
   title: string
   titleStyle?: TextStyle
   searchEnabled?: boolean
   snapPoints?: (string | number)[]
-  tokens: T[]
+  tokens: TokenBalance[]
   TokenOptionComponent?: React.ComponentType<TokenOptionProps>
   showPriceUsdUnavailableWarning?: boolean
   filterChips?: FilterChip<TokenBalance>[]
@@ -87,7 +87,7 @@ function NoResults({
   )
 }
 
-function TokenBottomSheet<T extends TokenBalance>({
+function TokenBottomSheet({
   forwardedRef,
   snapPoints,
   origin,
@@ -99,7 +99,7 @@ function TokenBottomSheet<T extends TokenBalance>({
   showPriceUsdUnavailableWarning,
   filterChips = [],
   areSwapTokensShuffled,
-}: TokenBottomSheetProps<T>) {
+}: TokenBottomSheetProps) {
   const insets = useSafeAreaInsets()
 
   const filterChipsCarouselRef = useRef<ScrollView>(null)
@@ -157,7 +157,7 @@ function TokenBottomSheet<T extends TokenBalance>({
     }
   }
 
-  const onTokenPressed = (token: T, index: number) => () => {
+  const onTokenPressed = (token: TokenBalance, index: number) => () => {
     ValoraAnalytics.track(TokenBottomSheetEvents.token_selected, {
       origin,
       tokenAddress: token.address,
