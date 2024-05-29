@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 import { Animated, StyleSheet, Text, TextStyle, View } from 'react-native'
 import { typeScale } from 'src/styles/fonts'
 
@@ -67,14 +67,18 @@ export default function NumberTicker({
 }: Props) {
   const textStyle = typeScale[typeScaleName]
   const textHeight = textStyle.lineHeight
-  const finalValueArray = value.toString().split('')
 
-  // For the startValueArray, map over each character in the finalValueArray to
-  // replace digits with random digits, do not change non-digit characters (e.g.
-  // decimal separator)
-  const startValueArray = finalValueArray.map((char) => {
-    return char.match(/\d/) ? Math.floor(Math.random() * 10).toString() : char
-  })
+  const { startValueArray, finalValueArray } = useMemo(() => {
+    const valueArray = value.toString().split('')
+    return {
+      finalValueArray: valueArray,
+      // map over each character in the value to replace digits with random
+      // digits, do not change non-digit characters (e.g. decimal separator)
+      startValueArray: valueArray.map((char) => {
+        return char.match(/\d/) ? Math.floor(Math.random() * 10).toString() : char
+      }),
+    }
+  }, [value])
 
   return (
     <View style={[styles.container, { height: textHeight }]} testID={testID}>
