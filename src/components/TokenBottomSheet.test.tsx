@@ -109,12 +109,20 @@ const mockStore = createMockStore({
 
 const onTokenSelectedMock = jest.fn()
 
-describe('TokenBottomSheet', () => {
+describe.each([
+  { isScreen: true, testName: 'screen' },
+  { isScreen: false, testName: 'component' },
+])('TokenBottomSheet (as $testName)', ({ isScreen }) => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
-  function renderBottomSheet(props: Partial<TokenBottomSheetProps> = {}) {
+  function renderBottomSheet(
+    props: Partial<Omit<TokenBottomSheetProps, 'isScreen' | 'forwardedRef'>> = {}
+  ) {
+    const additionalProps = isScreen
+      ? { isScreen: true as const }
+      : { forwardedRef: { current: null } }
     return render(
       <Provider store={mockStore}>
         <TokenBottomSheet
@@ -123,8 +131,7 @@ describe('TokenBottomSheet', () => {
           onTokenSelected={onTokenSelectedMock}
           tokens={tokens}
           {...props}
-          forwardedRef={{ current: null }}
-          isScreen={false}
+          {...additionalProps}
         />
       </Provider>
     )
