@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Animated, StyleSheet, Text, TextStyle, View } from 'react-native'
 import { typeScale } from 'src/styles/fonts'
 
@@ -34,15 +34,20 @@ function TickText({ value, textStyle }: TickTextProps) {
 }
 
 function Tick({ startValue, endValue, textStyle, textHeight, animationDuration }: TickProps) {
-  const animatedValue = new Animated.Value(startValue * textHeight * -1)
-  const transformStyle = { transform: [{ translateY: animatedValue }] }
+  const animatedValue = useRef(new Animated.Value(startValue * textHeight * -1))
+
+  const transformStyle = { transform: [{ translateY: animatedValue.current }] }
   const duration = animationDuration ?? 1300
 
-  Animated.timing(animatedValue, {
-    toValue: endValue * textHeight * -1,
-    duration,
-    useNativeDriver: true,
-  }).start()
+  useEffect(() => {
+    if (animatedValue.current) {
+      Animated.timing(animatedValue.current, {
+        toValue: endValue * textHeight * -1,
+        duration,
+        useNativeDriver: true,
+      }).start()
+    }
+  }, [endValue])
 
   return (
     <Animated.View style={transformStyle}>
@@ -83,7 +88,7 @@ export default function NumberTicker({
         const startValue = parseInt(startValueArray[index], 10)
         return (
           <Tick
-            key={`${value}-${index}-${startValueArray[index]}`}
+            key={`${value}-${index}}`}
             startValue={startValue}
             endValue={endValue}
             textHeight={textHeight}
