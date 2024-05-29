@@ -175,16 +175,19 @@ export function useFetchTransactions(): QueryHookResult {
       for (const networkId of allowedNetworkIds) {
         if (activeRequests[networkId]) continue
         setActiveRequests((prev) => ({ ...prev, [networkId]: true }))
-        const generator = queryTransactionsFeed({
-          address,
-          localCurrencyCode,
-          params: [{ networkId }],
-        })
+        try {
+          const generator = queryTransactionsFeed({
+            address,
+            localCurrencyCode,
+            params: [{ networkId }],
+          })
 
-        for await (const result of generator) {
-          handleResult(result, true)
+          for await (const result of generator) {
+            handleResult(result, true)
+          }
+        } finally {
+          setActiveRequests((prev) => ({ ...prev, [networkId]: false }))
         }
-        setActiveRequests((prev) => ({ ...prev, [networkId]: false }))
       }
     },
     [counter],
@@ -217,16 +220,19 @@ export function useFetchTransactions(): QueryHookResult {
         const { networkId } = param
         if (activeRequests[networkId]) continue // Skip if already fetching
         setActiveRequests((prev) => ({ ...prev, [networkId]: true }))
-        const generator = queryTransactionsFeed({
-          address,
-          localCurrencyCode,
-          params: [param],
-        })
+        try {
+          const generator = queryTransactionsFeed({
+            address,
+            localCurrencyCode,
+            params: [param],
+          })
 
-        for await (const result of generator) {
-          handleResult(result, false)
+          for await (const result of generator) {
+            handleResult(result, false)
+          }
+        } finally {
+          setActiveRequests((prev) => ({ ...prev, [networkId]: false }))
         }
-        setActiveRequests((prev) => ({ ...prev, [networkId]: false }))
       }
     },
     [fetchingMoreTransactions],
