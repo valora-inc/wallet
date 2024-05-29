@@ -2281,18 +2281,18 @@
           "subtitle": "Membro da {{appName}}"
         },
         "swap": {
-          "title": "Trocar",
-          "subtitle": "{{fromToken}} para {{toToken}}"
+          "title": "Troca",
+          "subtitle": "{{fromToken}} > {{toToken}}"
         }
       },
       "title": "Minha atividade de pontos",
       "error": {
-        "title": "Não foi possível carregar a atividade de pontos",
-        "subtitle": "Ops, algo deu errado ao tentar carregar seu feed de atividades de pontos. Tente novamente.",
+        "title": "Não foi possível carregar as ações pontuadas",
+        "subtitle": "Ops, algo deu errado ao tentar carregar seu feed de ações pontuadas. Tente novamente.",
         "tryAgain": "Tentar novamente"
       },
       "empty": {
-        "title": "Nenhuma atividade de pontos por enquanto",
+        "title": "Nenhuma ação pontuada por enquanto",
         "subtitle": "Parece que você ainda não ganhou nenhum ponto. Use a {{appName}} para começar a ganhar pontos!",
         "gotIt": "Entendi"
       },
@@ -2333,9 +2333,9 @@
         "title": "Crie uma carteira {{appName}}"
       },
       "swap": {
-        "title": "Trocar ativos",
+        "title": "Troque ativos",
         "bottomSheet": {
-          "title": "Trocar ativos",
+          "title": "Troque ativos",
           "body": "Este espaço será usado para fornecer todos os detalhes necessários. Talvez o valor mínimo para você trocar. \n\nGanhe {{pointsValue}} pontos sempre que você trocar um ativo usando a {{appName}}.",
           "cta": "Ir para a troca"
         }
