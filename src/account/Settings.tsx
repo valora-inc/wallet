@@ -437,8 +437,8 @@ export const Account = ({ navigation, route }: Props) => {
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom', 'left', 'right', 'top']}>
-      <CustomHeader left={<BackButton />} style={{ paddingHorizontal: variables.contentPadding }} />
+    <SafeAreaView style={styles.container}>
+      <CustomHeader left={<BackButton />} style={styles.paddingHorizontal} />
       <ScrollView testID="SettingsScrollView">
         <TouchableWithoutFeedback onPress={onDevSettingsTriggerPress}>
           <Text style={styles.title} testID={'SettingsTitle'}>
@@ -646,6 +646,9 @@ const styles = StyleSheet.create({
     color: colors.gray4,
     marginRight: Spacing.Smallest8,
     marginLeft: 4,
+  },
+  paddingHorizontal: {
+    paddingHorizontal: variables.contentPadding,
   },
 })
 
