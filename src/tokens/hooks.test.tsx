@@ -25,6 +25,7 @@ import {
   mockCusdTokenId,
   mockPoofTokenId,
   mockTokenBalances,
+  mockUSDCTokenId,
 } from 'test/values'
 
 jest.mock('src/statsig')
@@ -345,6 +346,7 @@ describe('useCashInTokens', () => {
       mockCeloTokenId,
       mockCrealTokenId,
       ethTokenId,
+      mockUSDCTokenId,
     ])
   })
 })
