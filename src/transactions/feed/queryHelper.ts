@@ -101,7 +101,10 @@ export function useFetchTransactions(): QueryHookResult {
     }, {}),
   })
 
+  // Managing fetch state
   const [fetchingMoreTransactions, setFetchingMoreTransactions] = useState(false)
+  type ActiveRequests = { [key in NetworkId]: boolean }
+  const [activeRequests, setActiveRequests] = useState({} as ActiveRequests)
 
   // Update the counter variable every |POLL_INTERVAL| so that a query is made to the backend.
   const [counter, setCounter] = useState(0)
@@ -169,19 +172,19 @@ export function useFetchTransactions(): QueryHookResult {
   // Query for new transactions every POLL_INTERVAL
   const { loading, error } = useAsync(
     async () => {
-      const generator = queryTransactionsFeed({
-        address,
-        localCurrencyCode,
-        params: allowedNetworkIds.map((networkId) => ({ networkId })),
-      })
-      for await (const result of generator) {
-        if (result instanceof Error) {
-          // Handle the error case
-          handleError(result)
-        } else {
-          // Handle the result normally
+      for (const networkId of allowedNetworkIds) {
+        if (activeRequests[networkId]) continue
+        setActiveRequests((prev) => ({ ...prev, [networkId]: true }))
+        const generator = queryTransactionsFeed({
+          address,
+          localCurrencyCode,
+          params: [{ networkId }],
+        })
+
+        for await (const result of generator) {
           handleResult(result, true)
         }
+        setActiveRequests((prev) => ({ ...prev, [networkId]: false }))
       }
     },
     [counter],
@@ -207,21 +210,23 @@ export function useFetchTransactions(): QueryHookResult {
           return { networkId, afterCursor: pageInfo?.endCursor }
         })
         .filter((networkParams) => fetchedResult.pageInfo[networkParams.networkId]?.hasNextPage)
-      const generator = queryTransactionsFeed({
-        address,
-        localCurrencyCode,
-        params,
-      })
-
       setFetchingMoreTransactions(false)
-      for await (const result of generator) {
-        if (result instanceof Error) {
-          // Handle the error case
-          handleError(result)
-        } else {
-          // Handle the result normally
-          handleResult(result, true)
+
+      // Iterate over the parameters and query only if no active request is in place
+      for (const param of params) {
+        const { networkId } = param
+        if (activeRequests[networkId]) continue // Skip if already fetching
+        setActiveRequests((prev) => ({ ...prev, [networkId]: true }))
+        const generator = queryTransactionsFeed({
+          address,
+          localCurrencyCode,
+          params: [param],
+        })
+
+        for await (const result of generator) {
+          handleResult(result, false)
         }
+        setActiveRequests((prev) => ({ ...prev, [networkId]: false }))
       }
     },
     [fetchingMoreTransactions],
@@ -310,18 +315,13 @@ async function* queryTransactionsFeed({
       networkId,
       afterCursor,
     }): Promise<{ networkId: NetworkId; result: QueryResponse | Error }> => {
-      try {
-        const result = await queryChainTransactionsFeed({
-          address,
-          localCurrencyCode,
-          networkId,
-          afterCursor,
-        })
-        return { networkId, result }
-      } catch (error) {
-        // Assuming error is of type Error
-        return { networkId, result: error as Error }
-      }
+      const result = await queryChainTransactionsFeed({
+        address,
+        localCurrencyCode,
+        networkId,
+        afterCursor,
+      })
+      return { networkId, result }
     }
   )
 
