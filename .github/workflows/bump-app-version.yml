@@ -27,7 +27,7 @@ jobs:
           secrets: |-
             BOT_SSH_KEY:projects/1027349420744/secrets/BOT_SSH_PRIVATE_KEY
             VALORA_BOT_TOKEN:projects/1027349420744/secrets/VALORA_BOT_TOKEN
-      - uses: webfactory/ssh-agent@v0.8.0
+      - uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ steps.google-secrets.outputs.BOT_SSH_KEY }}
       - uses: actions/checkout@v3
