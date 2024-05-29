@@ -2194,8 +2194,8 @@
     "title": "Comprar cripto ou transferir tokens",
     "body": "Compre ou transfira tokens compatíveis para enviar cripto e explorar a web3!",
     "titleV1_86": "Adicione fundos à sua carteira",
-    "exploreTokens": "Explore todos os tokens",
-    "exploreTokensBody": "Você pode comprar até 10+ tokens em Valora. Dê uma olhada neles!"
+    "exploreTokens": "Explorar todos os tokens",
+    "exploreTokensBody": "Você pode comprar até 10 ou mais tokens na Valora. Confira!"
   },
   "nftCelebration": {
     "bottomSheet": {
@@ -2355,7 +2355,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "Valora está cobrindo a gasolina para essa transação!",
+    "gasSubsidized": "A Valora está cobrindo o gás desta transação!",
     "addCryptoBottomSheet": {
       "title": "Adicionar {{tokenSymbol}} na {{tokenNetwork}}",
       "description": "Após adicionar tokens, você terá que voltar para terminar de depositar em um pool.",
@@ -2376,21 +2376,21 @@
       "description": "Veja quanto você pode ganhar ao fornecer um pool de empréstimos"
     },
     "earnInfo": {
-      "title": "Ganhe com suas stablecoins\n",
+      "title": "Ganhe com as\nsuas stablecoins",
       "details": {
         "earn": {
-          "titleGasSubsidy": "Maximize os ganhos sem taxas de gás*",
-          "title": "Maximizar os ganhos",
-          "subtitle": "Ganhe em suas stablecoins e receba recompensas quando você abastecer um pool.",
-          "footnoteSubsidy": "*As taxas de gás são temporariamente cobertas pela Valora"
+          "titleGasSubsidy": "Maximize seus ganhos sem taxas de gás*",
+          "title": "Maximize seus ganhos",
+          "subtitle": "Ganhe com suas stablecoins e receba recompensas quando fornecer um pool.",
+          "footnoteSubsidy": "*As taxas de gás estão temporariamente cobertas pela Valora"
         },
         "manage": {
-          "title": "Gerencie diretamente da Valora",
-          "subtitle": "Nós cuidaremos da configuração para que você possa gerenciar sua posição diretamente da Valora."
+          "title": "Gerenciar diretamente pela Valora",
+          "subtitle": "Cuidaremos da configuração para que você possa gerenciar sua posição diretamente pela Valora."
         },
         "access": {
-          "title": "Acesse facilmente seus fundos",
-          "subtitle": "Colete seus fundos sem esforço com um único toque. Aproveite o mesmo acesso instantâneo que você teria diretamente por meio de seus protocolos favoritos."
+          "title": "Acesse seus fundos com facilidade",
+          "subtitle": "Colete seus fundos sem esforço com um único toque. Aproveite o mesmo acesso instantâneo que você teria diretamente por meio dos seus protocolos favoritos."
         }
       },
       "action": {
@@ -2399,9 +2399,9 @@
       }
     },
     "ctaV1_86": {
-      "title": "Maximizar os ganhos com stablecoins",
-      "subtitle": "Compre {{symbol}}",
-      "description": "Ganhe aproximadamente {{apy}}% por ano quando você adiciona {{symbol}} a um pool"
+      "title": "Maximize seus ganhos com stablecoins",
+      "subtitle": "Comprar {{symbol}}",
+      "description": "Ganhe cerca de {{apy}}% por ano ao adicionar {{symbol}} a um pool"
     },
     "enterAmount": {
       "earnUpToLabel": "Você pode ganhar até:",
