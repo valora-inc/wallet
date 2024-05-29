@@ -71,7 +71,6 @@ import {
 import { deleteKeylessBackupStarted, hideDeleteKeylessBackupError } from 'src/keylessBackup/slice'
 import { KeylessBackupDeleteStatus } from 'src/keylessBackup/types'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
-import { noHeader } from 'src/navigator/Headers'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -608,10 +607,6 @@ export const Account = ({ navigation, route }: Props) => {
     </SafeAreaView>
   )
 }
-
-Account.navigationOptions = () => ({
-  ...noHeader,
-})
 
 const styles = StyleSheet.create({
   container: {
