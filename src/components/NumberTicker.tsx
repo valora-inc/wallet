@@ -92,7 +92,7 @@ export default function NumberTicker({
         const startValue = parseInt(startValueArray[index], 10)
         return (
           <Tick
-            key={`${value}-${index}}`}
+            key={`${value}-${index}`}
             startValue={startValue}
             endValue={endValue}
             textHeight={textHeight}
