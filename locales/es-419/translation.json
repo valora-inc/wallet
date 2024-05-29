@@ -516,7 +516,7 @@
   "to": "Para",
   "for": "Motivo",
   "reclaim": "Recuperar",
-  "claimed": "Reclamada",
+  "claimed": "Ganancias",
   "celoGold": "CELO",
   "celoEuros": "Celo Euros",
   "balanceAvailable": "<0></0> disponibles",
@@ -2277,11 +2277,11 @@
     "history": {
       "cards": {
         "createWallet": {
-          "title": "Crear Wallet",
+          "title": "Registro",
           "subtitle": "Miembro de {{appName}}"
         },
         "swap": {
-          "title": "Cambiar",
+          "title": "Cambio",
           "subtitle": "{{fromToken}} > {{toToken}}"
         }
       },
@@ -2330,7 +2330,7 @@
     },
     "activityCards": {
       "createWallet": {
-        "title": "Crear una billetera {{appName}}"
+        "title": "Crea una wallet {{appName}}"
       },
       "swap": {
         "title": "Intercambia activos",
@@ -2386,11 +2386,11 @@
         },
         "manage": {
           "title": "Gestiona tus ganancias directamente en Valora",
-          "subtitle": "Nosotros haremos la configuración para que gestiones tu posición directamente desde Valora."
+          "subtitle": "Nos encargamos de todo para darte más facilidad."
         },
         "access": {
           "title": "Accede fácilmente a tus fondos",
-          "subtitle": "Recibe tus fondos sin esfuerzo con un solo toque. Disfruta del mismo acceso instantáneo que tendrías directamente a través de tus protocolos favoritos."
+          "subtitle": "Recibe tus fondos con un solo toque. Disfruta del mismo acceso instantáneo que tendrías directamente a través de tus protocolos favoritos."
         }
       },
       "action": {
@@ -2399,44 +2399,44 @@
       }
     },
     "ctaV1_86": {
-      "title": "Maximiza las ganancias de las stablecoins",
-      "subtitle": "Comprar {{symbol}}",
-      "description": "Gana aproximadamente {{apy}}% al año cuando agregas {{symbol}} a un pool"
+      "title": "Maximiza tus ganancias en stablecoins",
+      "subtitle": "Compra {{symbol}}",
+      "description": "Gana aproximadamente {{apy}}% al año en la pool de {{symbol}}"
     },
     "enterAmount": {
       "earnUpToLabel": "Podrías ganar hasta:",
       "rateLabel": "Tasa (est.)",
-      "earnUpTo": "~{{fiatSymbol}}{{amount}} / año",
+      "earnUpTo": "~{{fiatSymbol}}{{amount}}/año",
       "rate": "APY ~{{rate}}%",
       "continue": "Continuar",
-      "info": "Este pool está alimentado por Aave",
+      "info": "Esta pool es administrada por Aave",
       "infoBottomSheet": {
-        "title": "¿Por qué este pool?",
-        "description": "Este pool de Aave tiene más de $150M de TVL y más de 6.000 contribuyentes, lo que indica una gran liquidez y fiabilidad. También utiliza USDC como token y Abritrum como red, lo que reduce la volatilidad y garantiza que los usuarios recibirán tasas baratas.\n\nTodo ello lo convierte en una opción segura y atractiva con un APY competitivo, que garantiza una oportunidad de inversión beneficiosa para nuestros usuarios.\n\nPuedes explorar otros pools de Aave <0>aquí</0>.",
+        "title": "¿Por qué esta pool?",
+        "description": "Esta pool de Aave tiene más de $150M de TVL y más de 6000 contribuyentes, lo que indica una gran liquidez y fiabilidad. También utiliza USDC como token y Abritrum como red, lo que reduce la volatilidad y garantiza que los usuarios recibirán tasas baratas.\n\nTodo ello la convierte en una opción segura y atractiva con un APY competitivo, que garantiza una oportunidad de inversión beneficiosa para nuestros usuarios.\n\nPuedes explorar otras pools de Aave <0>aquí</0>.",
         "dismiss": "Ignorar"
       },
       "notEnoughBalanceForGasWarning": {
         "title": "Necesitas más {{feeTokenSymbol}} para continuar",
-        "description": "Agrega {{feeTokenSymbol}} en {{network}} para cubrir tus tarifas",
+        "description": "Agrega {{feeTokenSymbol}} en {{network}} para cubrir las tarifas",
         "noGasCta": "Compra {{feeTokenSymbol}} en {{network}}"
       }
     },
     "activePools": {
-      "title": "Pools activos",
+      "title": "Pools activas",
       "totalValue": "Valor total:",
       "apy": "APY ~{{apy}}%",
-      "exitPool": "Salir de Pool",
-      "depositMore": "Depositar más",
+      "exitPool": "Retirar",
+      "depositMore": "Depositar +",
       "viewPools": "Ver Pools"
     },
     "depositBottomSheet": {
-      "title": "Revisión y depósito",
-      "description": "Antes de depositar en un pool Aave, revisa los detalles de la transacción a continuación",
+      "title": "Revisar y depositar",
+      "description": "Antes de depositar en una pool de Aave, revisa los detalles de la transacción a continuación",
       "amount": "Monto depositado",
       "fee": "Tarifas estimadas",
       "provider": "Proveedor de ganancias",
       "network": "Red",
-      "footer": "Al depositar cripto en un pool de Aave, aceptas los riesgos asociados al uso de Aave. <0>Términos y condiciones</0>",
+      "footer": "Al depositar cripto en una pool de Aave, aceptas los riesgos asociados a su uso. <0>Términos y condiciones</0>",
       "primaryCta": "Finalizar",
       "secondaryCta": "Cancelar"
     },
@@ -2447,31 +2447,31 @@
       "rate": "Tasa (est.)",
       "apy": "APY {{apy}}%",
       "fee": "Tarifa estimada",
-      "cta": "Recibir ganancias",
+      "cta": "Recoger ganancias",
       "errorTitle": "Algo salió mal",
-      "errorDescription": "No se han podido obtener los datos del depósito. Vuelve a intentarlo.",
+      "errorDescription": "No fue posible obtener los datos del depósito. Vuelve a intentarlo.",
       "noGasTitle": "Necesitas más {{symbol}} para continuar",
       "noGasDescription": "Agrega {{symbol}} en {{network}} para cubrir tus tarifas",
       "noGasCta": "Compra {{symbol}} en {{network}}"
     },
     "transactionFeed": {
-      "earnClaimTitle": "Recibido",
-      "earnClaimSubtitle": "del pool {{providerName}}",
-      "earnDepositTitle": "Depositado",
-      "earnDepositSubtitle": "a pool {{providerName}}",
-      "earnWithdrawTitle": "Retirado",
-      "earnWithdrawSubtitle": "del pool {{providerName}}"
+      "earnClaimTitle": "Ganancias recibidas",
+      "earnClaimSubtitle": "de la pool {{providerName}}",
+      "earnDepositTitle": "Fondos depositados",
+      "earnDepositSubtitle": "en la pool {{providerName}}",
+      "earnWithdrawTitle": "Fondos retirados",
+      "earnWithdrawSubtitle": "de la pool {{providerName}}"
     },
     "transactionDetails": {
       "descriptionLabel": "Detalles",
-      "earnClaimTitle": "Recibido",
-      "earnClaimSubtitle": "{{tokenSymbol}} recogido de pool {{providerName}}",
+      "earnClaimTitle": "Ganancias recibidas",
+      "earnClaimSubtitle": "{{tokenSymbol}} recibidos de la pool {{providerName}}",
       "earnClaimDetails": "Monto recibido",
-      "earnDepositTitle": "Depositado",
-      "earnDepositSubtitle": "{{tokenSymbol}} depositado a pool {{providerName}}",
+      "earnDepositTitle": "Fondos depositados",
+      "earnDepositSubtitle": "{{tokenSymbol}} depositados en la pool {{providerName}}",
       "earnDepositDetails": "Monto depositado",
-      "earnWithdrawTitle": "Retirado",
-      "earnWithdrawSubtitle": "{{tokenSymbol}} retirado de pool {{providerName}}",
+      "earnWithdrawTitle": "Fondos retirados",
+      "earnWithdrawSubtitle": "{{tokenSymbol}} retirados de la pool {{providerName}}",
       "earnWithdrawDetails": "Monto retirado"
     }
   },
