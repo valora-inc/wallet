@@ -114,7 +114,7 @@ describe('TokenBottomSheet', () => {
     jest.clearAllMocks()
   })
 
-  function renderBottomSheet(props: Partial<TokenBottomSheetProps<TokenBalance>> = {}) {
+  function renderBottomSheet(props: Partial<TokenBottomSheetProps> = {}) {
     return render(
       <Provider store={mockStore}>
         <TokenBottomSheet

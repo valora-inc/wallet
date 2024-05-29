@@ -45,6 +45,7 @@ import {
   supportedBiometryTypeSelector,
   walletConnectEnabledSelector,
 } from 'src/app/selectors'
+import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
@@ -58,6 +59,7 @@ import {
   SettingsItemTextValue,
 } from 'src/components/SettingsItem'
 import Toast from 'src/components/Toast'
+import CustomHeader from 'src/components/header/CustomHeader'
 import { PRIVACY_LINK, TOS_LINK } from 'src/config'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import ForwardChevron from 'src/icons/ForwardChevron'
@@ -79,6 +81,7 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
 import { navigateToURI } from 'src/utils/linking'
 import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
@@ -434,7 +437,8 @@ export const Account = ({ navigation, route }: Props) => {
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom', 'left', 'right']}>
+    <SafeAreaView style={styles.container}>
+      <CustomHeader left={<BackButton />} style={styles.paddingHorizontal} />
       <ScrollView testID="SettingsScrollView">
         <TouchableWithoutFeedback onPress={onDevSettingsTriggerPress}>
           <Text style={styles.title} testID={'SettingsTitle'}>
@@ -642,6 +646,9 @@ const styles = StyleSheet.create({
     color: colors.gray4,
     marginRight: Spacing.Smallest8,
     marginLeft: 4,
+  },
+  paddingHorizontal: {
+    paddingHorizontal: variables.contentPadding,
   },
 })
 
