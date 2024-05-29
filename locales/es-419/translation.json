@@ -2263,8 +2263,8 @@
       "retryCta": "Reintentar"
     },
     "reclaimError": {
-      "title": "No se pueden recuperar los fondos",
-      "description": "Intenta recuperar de nuevo, o ponte en contacto con soporte técnico"
+      "title": "No fue posible recuperar los fondos",
+      "description": "Inténtalo de nuevo, o contacta al soporte técnico"
     }
   },
   "multiSelect": {
@@ -2277,7 +2277,7 @@
     "history": {
       "cards": {
         "createWallet": {
-          "title": "Portabilletera",
+          "title": "Crear Wallet",
           "subtitle": "Miembro de {{appName}}"
         },
         "swap": {
@@ -2285,44 +2285,44 @@
           "subtitle": "{{fromToken}} > {{toToken}}"
         }
       },
-      "title": "Mi actividad de puntos",
+      "title": "Acciones puntuadas",
       "error": {
-        "title": "No se puede cargar la actividad de puntos",
-        "subtitle": "Ups, algo salió mal al intentar cargar la actividad de tus puntos. Vuelve a intentarlo.",
-        "tryAgain": "Inténtalo de nuevo"
+        "title": "Error al cargar las acciones puntuadas",
+        "subtitle": "Ups, algo salió mal al intentar cargar tus acciones puntuadas. Inténtalo de nuevo.",
+        "tryAgain": "Reintentar"
       },
       "empty": {
-        "title": "Aún no hay actividad de puntos",
+        "title": "Aún no tienes acciones puntuadas",
         "subtitle": "Parece que aún no has ganado puntos. ¡Utiliza {{appName}} para empezar a ganar puntos!",
         "gotIt": "Entendido"
       },
       "pageError": {
-        "title": "No se puede cargar",
+        "title": "Error al cargar",
         "subtitle": "Ups, algo salió mal al finalizar la carga. Vuelve a intentarlo.",
         "refresh": "Actualizar"
       }
     },
     "fetchBalanceError": {
-      "title": "No se pueden cargar tus puntos",
-      "description": "Ups, algo salió mal al intentar cargar tus puntos. La información de esta página puede no estar actualizada. Por favor, actualízala.",
+      "title": "No fue posible cargar tus puntos",
+      "description": "Ups, algo salió mal al cargar tus puntos. La información de esta página puede no estar actualizada. Por favor, actualízala.",
       "retryCta": "Actualizar"
     },
     "loading": {
-      "title": "Recolectando tus puntos",
-      "description": "Estamos en proceso de contabilizar tus puntos, agárrate fuerte"
+      "title": "Recolectando puntos",
+      "description": "Estamos contabilizando tus puntos, aguarda un momento"
     },
     "error": {
-      "title": "No se pueden cargar puntos",
-      "description": "Ups, algo salió mal al intentar cargar tus puntos. Vuelve a intentarlo.",
-      "retryCta": "Inténtalo de nuevo"
+      "title": "No fue posible cargar tus puntos",
+      "description": "Ups, algo salió mal al cargar tus puntos. Vuelve a intentarlo.",
+      "retryCta": "Reintentar"
     },
     "infoCard": {
-      "title": "Más formas de ganar puntos próximamente 🚀",
-      "body": "Estamos trabajando en añadir más formas de ganar puntos usando la aplicación. Sigue revisando para obtener actualizaciones."
+      "title": "Más formas de ganar puntos pronto 🚀",
+      "body": "Estamos trabajando para agregar más formas de ganar puntos. ¡No te pierdas lo que se viene!"
     },
     "activitySection": {
       "title": "¿Cómo gano puntos?",
-      "body": "¡Es fácil! Gana puntos simplemente utilizando la aplicación."
+      "body": "¡Es fácil! Solo tienes que usar la app."
     },
     "noActivities": {
       "title": "Actualiza para desbloquear más puntos 🔓",
@@ -2333,11 +2333,11 @@
         "title": "Crear una billetera {{appName}}"
       },
       "swap": {
-        "title": "Intercambiar activos",
+        "title": "Intercambia activos",
         "bottomSheet": {
-          "title": "Intercambiar activos",
-          "body": "Este espacio se utilizará para dar todos los detalles necesarios para ello. Tal vez el monto mínimo para intercambiar. \n\nGana puntos {{pointsValue}} cada vez que intercambies un activo utilizando {{appName}}.",
-          "cta": "Ir al intercambio"
+          "title": "Intercambia activos",
+          "body": "Este espacio se utilizará para traerte más detalles. \n\nGana puntos {{pointsValue}} cada vez que intercambies un activo utilizando {{appName}}.",
+          "cta": "Ir a Intercambiar"
         }
       },
       "moreComing": {
@@ -2346,46 +2346,46 @@
     },
     "discoverCard": {
       "title": "Puntos de {{appName}}",
-      "description": "Gana puntos fácilmente con {{appName}}. Utilizar la aplicación, incluidos los intercambios, ¡conlleva puntos!"
+      "description": "Gana puntos fácilmente con {{appName}}. ¡Solo tienes que usar la app!"
     },
     "intro": {
       "title": "Gana puntos sin esfuerzo",
-      "description": "¡Entra en una nueva forma de ganar! Tus acciones en {{appName}} ahora ganan puntos. Empieza a ganar hoy y desbloquea increíbles beneficios.",
-      "cta": "Comienza tu viaje por los puntos"
+      "description": "¡Entra en una nueva forma de ganar! Tus acciones en {{appName}} ahora tienen puntos. Empieza a ganar hoy y desbloquea increíbles beneficios.",
+      "cta": "¡No pares de ganar puntos!"
     }
   },
   "earnFlow": {
-    "gasSubsidized": "¡Valora cubre la tarifa para esta transacción!",
+    "gasSubsidized": "¡Valora cubre la tarifa de esta transacción!",
     "addCryptoBottomSheet": {
-      "title": "Añade {{tokenSymbol}} en {{tokenNetwork}}",
-      "description": "Una vez que añadas tokens tendrás que volver para terminar de depositar en un pool.",
+      "title": "Agrega {{tokenSymbol}} en {{tokenNetwork}}",
+      "description": "Una vez que agregues tokens, tendrás que volver para terminar de depositar en esta pool.",
       "actions": {
         "add": "Comprar",
         "transfer": "Transferir",
         "swap": "Cambiar"
       },
       "actionDescriptions": {
-        "add": "Compra {{tokenSymbol}} en {{tokenNetwork}} utilizando uno de nuestros proveedores de confianza",
-        "transfer": "Utiliza cualquier billetera o exchange compatible con {{tokenNetwork}} para depositar {{tokenSymbol}}",
-        "swap": "Cambiar a {{tokenSymbol}} desde otro token {{tokenNetwork}}"
+        "add": "Compra {{tokenSymbol}} en {{tokenNetwork}} a uno de nuestros proveedores de confianza.",
+        "transfer": "Usa cualquier wallet o exchange compatible con {{tokenNetwork}} para depositar {{tokenSymbol}}.",
+        "swap": "Cambia otro token en {{tokenNetwork}} por {{tokenSymbol}}."
       }
     },
     "cta": {
       "title": "Gana con tus stablecoins",
       "subtitle": "Deposita hoy y gana beneficios",
-      "description": "Mira cuánto puedes ganar al suministrar un pool de préstamo"
+      "description": "Mira cuánto puedes ganar en una pool de préstamo"
     },
     "earnInfo": {
       "title": "Gana con tus \nstablecoins",
       "details": {
         "earn": {
-          "titleGasSubsidy": "Maximiza las ganancias sin tarifas*",
-          "title": "Maximiza las ganancias",
-          "subtitle": "Gana con tus stablecoins y obtén recompensas cuando agregues a un pool.",
-          "footnoteSubsidy": "*Las tarifas las cubre temporalmente Valora"
+          "titleGasSubsidy": "Maximiza tus ganancias sin tarifas*",
+          "title": "Maximiza tus ganancias",
+          "subtitle": "Gana con tus stablecoins y obtén recompensas por participar en una pool.",
+          "footnoteSubsidy": "*Por ahora, Valora cubrirá las tarifas de transacción."
         },
         "manage": {
-          "title": "Gestiona directamente desde Valora",
+          "title": "Gestiona tus ganancias directamente en Valora",
           "subtitle": "Nosotros haremos la configuración para que gestiones tu posición directamente desde Valora."
         },
         "access": {
