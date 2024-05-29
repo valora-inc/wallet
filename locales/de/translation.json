@@ -2278,7 +2278,7 @@
       "cards": {
         "createWallet": {
           "title": "Wallet-Inhaber",
-          "subtitle": "Mitglied von {{appName}}"
+          "subtitle": "{{appName}}-Mitglied"
         },
         "swap": {
           "title": "Tauschen",
@@ -2330,7 +2330,7 @@
     },
     "activityCards": {
       "createWallet": {
-        "title": "Erstelle eine {{appName}} Wallet"
+        "title": "{{appName}}-Wallet erstellen"
       },
       "swap": {
         "title": "Vermögen tauschen",
