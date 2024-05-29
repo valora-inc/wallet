@@ -119,11 +119,12 @@ describe('TokenBottomSheet', () => {
       <Provider store={mockStore}>
         <TokenBottomSheet
           title="testTitle"
-          forwardedRef={{ current: null }}
           origin={TokenPickerOrigin.Send}
           onTokenSelected={onTokenSelectedMock}
           tokens={tokens}
           {...props}
+          forwardedRef={{ current: null }}
+          isScreen={false}
         />
       </Provider>
     )

@@ -111,6 +111,7 @@ function TokenBottomSheet({
   const filterChipsCarouselRef = useRef<ScrollView>(null)
   const tokenListBottomSheetFlatListRef = useRef<BottomSheetFlatListMethods>(null)
   const tokenListFlatListRef = useRef<FlatList>(null)
+  const tokenListRef = isScreen ? tokenListFlatListRef : tokenListBottomSheetFlatListRef
   const [headerHeight, setHeaderHeight] = useState(0)
   const [searchTerm, setSearchTerm] = useState('')
   const [filters, setFilters] = useState(filterChips)
@@ -236,7 +237,6 @@ function TokenBottomSheet({
     : (props: BottomSheetFlatListProps<TokenBalance>) => (
         <BottomSheetFlatList ref={tokenListBottomSheetFlatListRef} {...props} />
       )
-  const tokenListRef = isScreen ? tokenListFlatListRef : tokenListBottomSheetFlatListRef
 
   // This component implements a sticky header using an absolutely positioned
   // component on top of a blank container of the same height in the
@@ -246,7 +246,7 @@ function TokenBottomSheet({
   // that the header would be stuck to the wrong position between sheet reopens.
   // See https://valora-app.slack.com/archives/C04B61SJ6DS/p1707757919681089
   const content = (
-    <View style={styles.container} testID="TokenBottomSheet">
+    <>
       <FlatListComponent
         data={tokenList}
         keyExtractor={(item) => item.tokenId}
@@ -303,16 +303,20 @@ function TokenBottomSheet({
           />
         )}
       </View>
-    </View>
+    </>
   )
 
   return (
     <>
       {isScreen ? (
-        <View style={{ height: variables.height * 0.9 }}>{content}</View>
+        <View style={styles.screenContainer} testID="TokenBottomSheet">
+          {content}
+        </View>
       ) : (
         <BottomSheetBase forwardedRef={forwardedRef} snapPoints={snapPoints}>
-          {content}
+          <View style={styles.container} testID="TokenBottomSheet">
+            {content}
+          </View>
         </BottomSheetBase>
       )}
       {networkChip && (
@@ -339,6 +343,9 @@ TokenBottomSheet.navigationOptions = {}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  screenContainer: {
+    maxHeight: variables.height * 0.9,
   },
   searchInput: {
     marginTop: Spacing.Regular16,
