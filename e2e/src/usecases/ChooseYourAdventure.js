@@ -41,10 +41,10 @@ export default ChooseYourAdventure = () => {
     await element(by.text('Add funds')).tap()
 
     // Check that we are on the bottom sheet
-    await waitForElementId('FiatExchangeCurrencyBottomSheet')
+    await waitForElementId('TokenBottomSheet')
 
     // dismissing the bottom sheet should show home screen
-    await element(by.id('FiatExchangeCurrencyBottomSheet')).swipe('down')
+    await element(by.id('TokenBottomSheet')).swipe('down')
     await waitForElementId('HomeAction-Send')
   })
 
