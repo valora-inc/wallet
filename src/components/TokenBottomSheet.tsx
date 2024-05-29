@@ -232,6 +232,9 @@ function TokenBottomSheet({
     setHeaderHeight(event.nativeEvent.layout.height)
   }
 
+  // same issue as BottomSheetScrollView, BottomSheetFlatList does not scroll
+  // correctly when used in a screen. See comment in
+  // src/components/BottomSheetScrollView for more details
   const FlatListComponent = isScreen
     ? (props: FlatListProps<TokenBalance>) => <FlatList ref={tokenListFlatListRef} {...props} />
     : (props: BottomSheetFlatListProps<TokenBalance>) => (
