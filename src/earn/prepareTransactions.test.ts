@@ -8,7 +8,7 @@ import {
   prepareWithdrawAndClaimTransactions,
 } from 'src/earn/prepareTransactions'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { Network, NetworkId } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
@@ -67,7 +67,12 @@ describe('prepareTransactions', () => {
       }
       return defaultValues
     })
-    jest.mocked(getFeatureGate).mockReturnValue(false)
+    jest.mocked(getFeatureGate).mockImplementation((featureGate) => {
+      if (featureGate === StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES) {
+        return false
+      }
+      throw new Error(`Unexpected feature gate: ${featureGate}`)
+    })
   })
 
   describe('prepareSupplyTransactions', () => {
@@ -172,7 +177,12 @@ describe('prepareTransactions', () => {
           ],
         })
       )
-      jest.mocked(getFeatureGate).mockReturnValue(true)
+      jest.mocked(getFeatureGate).mockImplementation((featureGate) => {
+        if (featureGate === StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES) {
+          return true
+        }
+        throw new Error(`Unexpected feature gate: ${featureGate}`)
+      })
 
       const result = await prepareSupplyTransactions({
         amount: '5',
