@@ -2193,8 +2193,8 @@
   "getStartedHome": {
     "title": "Krypto kaufen oder Tokens überweisen",
     "body": "Kaufe oder überweise kompatible Token, um Krypto zu senden und web3 zu erkunden!",
-    "titleV1_86": "Guthaben zu deinem Geldbeutel hinzufügen",
-    "exploreTokens": "Alle Token erforschen",
+    "titleV1_86": "Füge Guthaben zu deinem Wallet hinzu",
+    "exploreTokens": "Erkunde alle Token",
     "exploreTokensBody": "Du kannst bis zu 10+ Token in Valora kaufen. Schau sie dir an!"
   },
   "nftCelebration": {
@@ -2355,7 +2355,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "Valora übernimmt das Benzin für diese Transaktion!",
+    "gasSubsidized": "Valora übernimmt das Gas für diese Transaktion!",
     "addCryptoBottomSheet": {
       "title": "Füge {{tokenSymbol}} auf {{tokenNetwork}} hinzu",
       "description": "Sobald du Tokens hinzugefügt hast, musst du zurückkommen, um die Einzahlung in einen Pool zu beenden.",
@@ -2376,12 +2376,12 @@
       "description": "Erfahre, wie viel du an der Bereitstellung eines Kreditpools verdienen kannst"
     },
     "earnInfo": {
-      "title": "Verdiene mit deinen\nstablecoins",
+      "title": "Verdiene mit deinen\nStablecoins",
       "details": {
         "earn": {
-          "titleGasSubsidy": "Maximiere deine Einnahmen ohne Gasgebühren*",
-          "title": "Gewinne maximieren",
-          "subtitle": "Verdiene an deinen Stablecoins und erhalte Belohnungen, wenn du einen Pool belieferst.",
+          "titleGasSubsidy": "Maximiere Verdienste ohne Gasgebühren*",
+          "title": "Maximiere Verdienste",
+          "subtitle": "Verdiene an deinen Stablecoins und erhalte Rewards, wenn du einen Pool belieferst.",
           "footnoteSubsidy": "*Gasgebühren werden vorübergehend von Valora übernommen"
         },
         "manage": {
@@ -2389,8 +2389,8 @@
           "subtitle": "Wir kümmern uns um die Einrichtung, damit du deine Position direkt von Valora aus verwalten kannst."
         },
         "access": {
-          "title": "Einfacher Zugriff auf dein Geld",
-          "subtitle": "Sammle dein Geld mühelos mit einem einzigen Tap. Genieße den gleichen sofortigen Zugang wie direkt über deine Lieblingsprotokolle."
+          "title": "Einfacher Zugriff auf dein Guthaben",
+          "subtitle": "Erhalte dein Guthaben mühelos mit einem einzigen Tippen. Genieße den gleichen sofortigen Zugang wie direkt über deine Lieblingsprotokolle."
         }
       },
       "action": {
@@ -2399,8 +2399,8 @@
       }
     },
     "ctaV1_86": {
-      "title": "Maximiere den Ertrag von Stablecoins",
-      "subtitle": "Kaufen {{symbol}}",
+      "title": "Maximiere den Verdienst von Stablecoins",
+      "subtitle": "Kaufe {{symbol}}",
       "description": "Verdiene etwa {{apy}}% pro Jahr, wenn du {{symbol}} zu einem Pool hinzufügst"
     },
     "enterAmount": {
