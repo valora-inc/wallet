@@ -1956,8 +1956,8 @@
       "recentlySwapped": "Scambiato di recente",
       "network": "Rete {{networkName}}",
       "selectNetwork": "Rete",
-      "stablecoins": "Stablecoins",
-      "gasTokens": "Gettoni del gas"
+      "stablecoins": "Stablecoin",
+      "gasTokens": "Token per commissioni"
     }
   },
   "homeActions": {
