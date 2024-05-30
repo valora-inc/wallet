@@ -316,7 +316,7 @@ dependencies {
     // this ensures 1.5.0+ version is not picked by
     // https://github.com/invertase/react-native-firebase/blob/v11.5.0/packages/auth/android/build.gradle#L88
     // which requires minCompileSdk 33
-    implementation 'androidx.browser:browser:1.4.0'
+    implementation 'androidx.browser:browser:1.8.0'
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
