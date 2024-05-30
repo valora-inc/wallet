@@ -312,7 +312,12 @@ function TokenBottomSheet({
   return (
     <>
       {isScreen ? (
-        <View style={styles.screenContainer} testID="TokenBottomSheet">
+        <View
+          // use fixed height if there are filter chips, otherwise the bottom
+          // sheet height changes as tokens as filtered
+          style={filterChips.length ? styles.screenContainerFixed : styles.screenContainer}
+          testID="TokenBottomSheet"
+        >
           {content}
         </View>
       ) : (
@@ -349,6 +354,9 @@ const styles = StyleSheet.create({
   },
   screenContainer: {
     maxHeight: variables.height * 0.9,
+  },
+  screenContainerFixed: {
+    height: variables.height * 0.9,
   },
   searchInput: {
     marginTop: Spacing.Regular16,
