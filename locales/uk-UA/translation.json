@@ -1959,7 +1959,9 @@
       "popular": "Популярні",
       "recentlySwapped": "Недавно використані у свопі",
       "network": "Мережа: {{networkName}}",
-      "selectNetwork": "Мережа"
+      "selectNetwork": "Мережа",
+      "stablecoins": "Стейблкоіни",
+      "gasTokens": "Газові жетони"
     }
   },
   "homeActions": {
