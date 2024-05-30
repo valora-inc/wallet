@@ -2199,7 +2199,7 @@
     "body": "Kupuj lub przesyłaj kompatybilne tokeny, aby wysyłać kryptowaluty i odkrywać web3!",
     "titleV1_86": "Dodaj środki do swojego portfela",
     "exploreTokens": "Poznaj wszystkie tokeny",
-    "exploreTokensBody": "Możesz kupić do 10+ tokenów w Valora. Sprawdź je!"
+    "exploreTokensBody": "Możesz kupić do 10+ tokenów w Valorze. Sprawdź je!"
   },
   "nftCelebration": {
     "bottomSheet": {
@@ -2380,21 +2380,21 @@
       "description": "Zobacz, ile możesz zarobić, zasilając pulę pożyczkową"
     },
     "earnInfo": {
-      "title": "Zarabiaj na swoich stablecoinach\n",
+      "title": "Zarabiaj na swoich\nstablecoinach",
       "details": {
         "earn": {
           "titleGasSubsidy": "Maksymalizuj zarobki bez opłat za gaz*",
           "title": "Maksymalizuj zarobki",
           "subtitle": "Zarabiaj na stablecoinach i otrzymuj nagrody za zasilenie puli.",
-          "footnoteSubsidy": "*Opłaty za gaz są tymczasowo pokrywane przez Valora"
+          "footnoteSubsidy": "* Opłaty za gaz są tymczasowo pokrywane przez Valorę"
         },
         "manage": {
-          "title": "Zarządzaj bezpośrednio z Valora",
-          "subtitle": "Zajmiemy się konfiguracją, abyś mógł zarządzać swoją pozycją bezpośrednio z Valora."
+          "title": "Zarządzaj bezpośrednio z Valory",
+          "subtitle": "Zajmiemy się konfiguracją, abyś mógł/mogła zarządzać swoją pozycją bezpośrednio z Valory."
         },
         "access": {
           "title": "Łatwy dostęp do Twoich środków",
-          "subtitle": "Zbieraj środki bez wysiłku za pomocą jednego dotknięcia. Ciesz się tak samo natychmiastowym dostępem, jak bezpośrednio przez ulubione protokoły."
+          "subtitle": "Zbieraj środki bez problemów za pomocą jednego dotknięcia. Ciesz się takim samym natychmiastowym dostępem, jak bezpośrednio przez ulubione protokoły."
         }
       },
       "action": {
@@ -2405,7 +2405,7 @@
     "ctaV1_86": {
       "title": "Maksymalizuj zarobki na stablecoinach",
       "subtitle": "Kup {{symbol}}",
-      "description": "Zarabiaj około {{apy}}% rocznie, dodając {{symbol}} do puli."
+      "description": "Zarabiaj około {{apy}}% rocznie, dodając {{symbol}} do puli"
     },
     "enterAmount": {
       "earnUpToLabel": "Możesz zarobić do:",

@@ -2191,9 +2191,9 @@
   "getStartedHome": {
     "title": "购买加密货币或转移代币。",
     "body": "购买或转移兼容的代币，发送加密货币并探索 Web3！",
-    "titleV1_86": "为钱包添加资金",
-    "exploreTokens": "探索所有代币",
-    "exploreTokensBody": "您最多可以在瓦罗拉购买 10 多个代币。查看它们！"
+    "titleV1_86": "添加资金到钱包中",
+    "exploreTokens": "了解所有代币",
+    "exploreTokensBody": "您可以在 Valora 购买多达超过 10 个代币。快去试试吧！"
   },
   "nftCelebration": {
     "bottomSheet": {
@@ -2353,7 +2353,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "Valora 公司为此次交易提供天然气！",
+    "gasSubsidized": "Valora 目前会为此交易承担手续费！",
     "addCryptoBottomSheet": {
       "title": "在 {{tokenNetwork}} 上添加 {{tokenSymbol}}",
       "description": "添加代币后，就必须返回并完成将资金存入池中。",
@@ -2374,21 +2374,21 @@
       "description": "了解在提供贷款池时您能赚取多少收入"
     },
     "earnInfo": {
-      "title": "赚取\n稳定币",
+      "title": "通过稳定币赚取收入",
       "details": {
         "earn": {
-          "titleGasSubsidy": "无需汽油费即可实现收益最大化*。",
-          "title": "收益最大化",
-          "subtitle": "赚取稳定币，并在提供资金池时获得奖励。",
-          "footnoteSubsidy": "*燃气费暂时由 Valora 公司承担"
+          "titleGasSubsidy": "实现收入最大化，且无需手续费*",
+          "title": "实现收入最大化",
+          "subtitle": "通过稳定币赚取收入，并在提供资金池后获取奖励。",
+          "footnoteSubsidy": "*手续费目前暂时由 Valora 承担"
         },
         "manage": {
-          "title": "直接从 Valora 进行管理",
-          "subtitle": "我们将为您进行设置，您可以直接从 Valora 管理您的仓位。"
+          "title": "直接在 Valora 管理",
+          "subtitle": "我们会处理好设置问题，以便您能直接在 Valora 管理持仓。"
         },
         "access": {
-          "title": "轻松访问您的资金",
-          "subtitle": "只需轻轻一点，即可轻松收取资金。享受与直接通过您最喜爱的协议相同的即时访问。"
+          "title": "轻松获取资金",
+          "subtitle": "只需轻轻一按，即可轻松收取资金。直接通过最喜欢的协议收取，享受即时获取的便利。"
         }
       },
       "action": {
@@ -2397,9 +2397,9 @@
       }
     },
     "ctaV1_86": {
-      "title": "最大化稳定币收益",
+      "title": "实现稳定币收入最大化",
       "subtitle": "购买 {{symbol}}",
-      "description": "将 {{symbol}} 加入游泳池后，每年可获得约 {{apy}}% 的收益"
+      "description": "将 {{symbol}} 添加到池中，每年可赚取大约 {{apy}}%"
     },
     "enterAmount": {
       "earnUpToLabel": "您最多可以赚取：",

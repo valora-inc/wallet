@@ -2191,9 +2191,9 @@
   "getStartedHome": {
     "title": "ซื้อคริปโตหรือโอนโทเค็น",
     "body": "ซื้อหรือโอนโทเค็นที่เข้ากันได้เพื่อส่งคริปโตและสำรวจ web3!",
-    "titleV1_86": "Add funds to your wallet",
-    "exploreTokens": "Explore all tokens",
-    "exploreTokensBody": "You can buy up to 10+ tokens in Valora. Check them out!"
+    "titleV1_86": "เพิ่มเงินทุนในกระเป๋าเงิน",
+    "exploreTokens": "สำรวจโทเค็นทั้งหมด",
+    "exploreTokensBody": "คุณสามารถซื้อโทเค็นได้สูงสุด 10+ รายการใน Valora ไปดูเลย!"
   },
   "nftCelebration": {
     "bottomSheet": {
@@ -2374,21 +2374,21 @@
       "description": "ดูรายได้ที่คุณสามารถรับเมื่อเข้าร่วมพูลการให้ยืม"
     },
     "earnInfo": {
-      "title": "Earn on your\nstablecoins",
+      "title": "สร้างรายได้ผ่าน\nStablecoin",
       "details": {
         "earn": {
-          "titleGasSubsidy": "Maximize Earnings without Gas Fees*",
-          "title": "Maximize Earnings",
-          "subtitle": "Earn on your stablecoins and get rewards when you supply a pool.",
-          "footnoteSubsidy": "*Gas fees are temporarily covered by Valora"
+          "titleGasSubsidy": "สร้างรายได้สูงสุดโดยไม่เสียค่าก๊าซ*",
+          "title": "สร้างรายได้สูงสุด",
+          "subtitle": "สร้างรายได้ผ่าน Stablecoin และรับรางวัลเมื่อคุณเข้าร่วมพูล",
+          "footnoteSubsidy": "*Valora เป็นผู้รับผิดชอบค่าก๊าซชั่วคราว"
         },
         "manage": {
-          "title": "Manage Directly from Valora",
-          "subtitle": "We’ll take care of the setup so you can manage your position directly from Valora."
+          "title": "จัดการโดยตรงจาก Valora",
+          "subtitle": "เราจะดูแลการตั้งค่าให้คุณสามารถจัดการสถานะของคุณได้โดยตรงจาก Valora"
         },
         "access": {
-          "title": "Easily Access your Funds",
-          "subtitle": "Collect your funds effortlessly with a single tap. Enjoy the same instant access as you would directly through your favorite protocols."
+          "title": "เข้าถึงเงินทุนของคุณได้ง่ายๆ",
+          "subtitle": "เก็บเงินทุนของคุณได้ง่ายๆ เพียงแตะครั้งเดียว รับการเข้าถึงทันทีอย่างที่ทำได้โดยตรงผ่านโปรโตคอลโปรดของคุณ"
         }
       },
       "action": {
