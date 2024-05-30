@@ -1955,7 +1955,9 @@
       "popular": "Popüler",
       "recentlySwapped": "Yakın zamanda takas edildi",
       "network": "{{networkName}} Ağı",
-      "selectNetwork": "Ağ"
+      "selectNetwork": "Ağ",
+      "stablecoins": "Stablecoins",
+      "gasTokens": "Gaz Jetonları"
     }
   },
   "homeActions": {
