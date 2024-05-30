@@ -188,7 +188,7 @@ export function useFetchTransactions(): QueryHookResult {
   // Query for more transactions if requested
   useAsync(
     async () => {
-      if (!fetchingMoreTransactions || !anyNetworkHasMorePages(fetchedResult.pageInfo)) {
+      if (!anyNetworkHasMorePages(fetchedResult.pageInfo)) {
         return
       }
       // If we're requested to fetch more transactions, only fetch them for networks
