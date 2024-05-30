@@ -4,9 +4,9 @@ import aaveIncentivesV3Abi from 'src/abis/AaveIncentivesV3'
 import aavePool from 'src/abis/AavePoolV3'
 import erc20 from 'src/abis/IERC20'
 import { RewardsInfo } from 'src/earn/types'
-import { getDynamicConfigParams } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
@@ -122,7 +122,7 @@ export async function prepareSupplyTransactions({
     )
   }
 
-  const { depositGasPadding } = getDynamicConfigParams(
+  const { depositGasPadding, approveGasPadding } = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG]
   )
 
@@ -131,11 +131,25 @@ export async function prepareSupplyTransactions({
   )
   baseTransactions[baseTransactions.length - 1]._estimatedGasUse = BigInt(supplySimulatedTx.gasUsed)
 
+  const isGasSubsidized = getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
+  if (isGasSubsidized && baseTransactions.length > 1) {
+    // extract fee of the approve transaction and set gas fields
+    const approveSimulatedTx = simulatedTransactions[0]
+    if (approveSimulatedTx.status !== 'success') {
+      throw new Error(
+        `Failed to simulate approve transaction. response: ${JSON.stringify(simulatedTransactions)}`
+      )
+    }
+    baseTransactions[0].gas = BigInt(approveSimulatedTx.gasNeeded) + BigInt(approveGasPadding)
+    baseTransactions[0]._estimatedGasUse = BigInt(approveSimulatedTx.gasUsed)
+  }
+
   return prepareTransactions({
     feeCurrencies,
     baseTransactions,
     spendToken: token,
     spendTokenAmount: new BigNumber(amount),
+    isGasSubsidized,
   })
 }
 

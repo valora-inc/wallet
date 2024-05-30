@@ -261,6 +261,7 @@ export async function tryEstimateTransactions(
  * @param decreasedAmountGasFeeMultiplier
  * @param baseTransactions
  * @param throwOnSpendTokenAmountExceedsBalance
+ * @param isGasSubsidized - This flag should only be set to true if all of the baseTransactions already have gas estimates, aka the 'gas' and '_estimatedGasUse' fields have been manually set
  */
 export async function prepareTransactions({
   feeCurrencies,
@@ -269,6 +270,7 @@ export async function prepareTransactions({
   decreasedAmountGasFeeMultiplier = 1,
   baseTransactions,
   throwOnSpendTokenAmountExceedsBalance = true,
+  isGasSubsidized = false,
 }: {
   feeCurrencies: TokenBalance[]
   spendToken?: TokenBalance
@@ -276,6 +278,7 @@ export async function prepareTransactions({
   decreasedAmountGasFeeMultiplier?: number
   baseTransactions: (TransactionRequest & { gas?: bigint })[]
   throwOnSpendTokenAmountExceedsBalance?: boolean
+  isGasSubsidized?: boolean
 }): Promise<PreparedTransactionsResult> {
   if (!spendToken && spendTokenAmount.isGreaterThan(0)) {
     throw new Error(
@@ -299,7 +302,7 @@ export async function prepareTransactions({
     estimatedGasFeeInDecimal: BigNumber
   }> = []
   for (const feeCurrency of feeCurrencies) {
-    if (feeCurrency.balance.isLessThanOrEqualTo(0)) {
+    if (feeCurrency.balance.isLessThanOrEqualTo(0) && !isGasSubsidized) {
       // No balance, try next fee currency
       continue
     }
@@ -314,7 +317,7 @@ export async function prepareTransactions({
     const estimatedGasFee = getEstimatedGasFee(estimatedTransactions)
     const estimatedGasFeeInDecimal = estimatedGasFee?.shiftedBy(-feeDecimals)
     gasFees.push({ feeCurrency, maxGasFeeInDecimal, estimatedGasFeeInDecimal })
-    if (maxGasFeeInDecimal.isGreaterThan(feeCurrency.balance)) {
+    if (maxGasFeeInDecimal.isGreaterThan(feeCurrency.balance) && !isGasSubsidized) {
       // Not enough balance to pay for gas, try next fee currency
       continue
     }
@@ -322,7 +325,8 @@ export async function prepareTransactions({
     if (
       spendToken &&
       spendToken.tokenId === feeCurrency.tokenId &&
-      spendAmountDecimal.plus(maxGasFeeInDecimal).isGreaterThan(spendToken.balance)
+      spendAmountDecimal.plus(maxGasFeeInDecimal).isGreaterThan(spendToken.balance) &&
+      !isGasSubsidized
     ) {
       // Not enough balance to pay for gas, try next fee currency
       continue
