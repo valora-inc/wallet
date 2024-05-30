@@ -188,8 +188,7 @@ export function useFetchTransactions(): QueryHookResult {
   // Query for more transactions if requested
   useAsync(
     async () => {
-      if (!fetchingMoreTransactions || !anyNetworkHasMorePages(fetchedResult.pageInfo)) {
-        setFetchingMoreTransactions(false)
+      if (!anyNetworkHasMorePages(fetchedResult.pageInfo)) {
         return
       }
       // If we're requested to fetch more transactions, only fetch them for networks
@@ -209,13 +208,15 @@ export function useFetchTransactions(): QueryHookResult {
         params,
       })
 
-      setFetchingMoreTransactions(false)
       for await (const result of generator) {
         handleResult(result, false)
       }
     },
     [fetchingMoreTransactions],
     {
+      onSuccess: () => {
+        setFetchingMoreTransactions(false)
+      },
       onError: (e) => {
         setFetchingMoreTransactions(false)
         dispatch(showError(ErrorMessages.FETCH_FAILED))
