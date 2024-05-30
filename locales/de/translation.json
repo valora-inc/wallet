@@ -1957,7 +1957,7 @@
       "network": "{{networkName}} Netzwerk",
       "selectNetwork": "Netzwerk",
       "stablecoins": "Stablecoins",
-      "gasTokens": "Gasmünzen"
+      "gasTokens": "Gasgebühr-Token"
     }
   },
   "homeActions": {
