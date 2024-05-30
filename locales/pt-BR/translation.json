@@ -1957,7 +1957,7 @@
       "network": "Rede {{networkName}}",
       "selectNetwork": "Rede",
       "stablecoins": "Stablecoins",
-      "gasTokens": "Fichas de gás"
+      "gasTokens": "Tokens de gás"
     }
   },
   "homeActions": {
