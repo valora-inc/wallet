@@ -1956,8 +1956,8 @@
       "recentlySwapped": "Échangés récemment",
       "network": "Réseau {{networkName}}",
       "selectNetwork": "Réseau",
-      "stablecoins": "Monnaie stable",
-      "gasTokens": "Jetons de gaz"
+      "stablecoins": "Stablecoins",
+      "gasTokens": "Jetons de frais"
     }
   },
   "homeActions": {
