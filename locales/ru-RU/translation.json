@@ -1959,7 +1959,9 @@
       "popular": "Популярные",
       "recentlySwapped": "Недавно обмененные",
       "network": "Сеть {{networkName}}",
-      "selectNetwork": "Сообщество"
+      "selectNetwork": "Сообщество",
+      "stablecoins": "Стабильные монеты",
+      "gasTokens": "Газовые жетоны"
     }
   },
   "homeActions": {
