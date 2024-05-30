@@ -1957,7 +1957,7 @@
       "network": "Red {{networkName}}",
       "selectNetwork": "Red",
       "stablecoins": "Stablecoins",
-      "gasTokens": "Fichas de gas"
+      "gasTokens": "Tokens de gas"
     }
   },
   "homeActions": {
