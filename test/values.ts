@@ -468,6 +468,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     priceFetchedAt: Date.now(),
     isCashInEligible: true,
     isCashOutEligible: true,
+    isStableCoin: true,
   },
   [mockCusdTokenId]: {
     priceUsd: '1.001',
@@ -486,6 +487,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     showZeroBalance: true,
     isCashInEligible: true,
     isCashOutEligible: true,
+    isStableCoin: true,
   },
   [mockCeloTokenId]: {
     priceUsd: '13.25085583155252100584',
@@ -521,6 +523,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     canTransferWithComment: true,
     priceFetchedAt: Date.now(),
     isCashInEligible: true,
+    isStableCoin: true,
   },
   [mockEthTokenId]: {
     priceUsd: '1500',
@@ -535,6 +538,8 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     balance: '0',
     priceFetchedAt: Date.now(),
     isNative: true,
+    isCashInEligible: true,
+    isCashOutEligible: true,
   },
   [mockUSDCTokenId]: {
     name: 'USDC coin',
@@ -547,6 +552,9 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     balance: '0',
     priceUsd: '1',
     priceFetchedAt: Date.now(),
+    isStableCoin: true,
+    isCashInEligible: true,
+    isCashOutEligible: true,
   },
   [mockArbEthTokenId]: {
     name: 'Ethereum',

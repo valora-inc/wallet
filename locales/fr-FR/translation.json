@@ -2193,9 +2193,9 @@
   "getStartedHome": {
     "title": "Acheter des cryptomonnaies ou des jetons de transfert",
     "body": "Achetez ou transférez des jetons compatibles pour envoyer des cryptomonnaies et découvrir le web3 !",
-    "titleV1_86": "Ajoute des fonds à ton portefeuille",
-    "exploreTokens": "Explorer tous les jetons",
-    "exploreTokensBody": "Tu peux acheter jusqu'à plus de 10 jetons à Valora. Jette un coup d'œil !"
+    "titleV1_86": "Ajouter des fonds à votre portefeuille",
+    "exploreTokens": "Découvrir tous les jetons",
+    "exploreTokensBody": "Vous pouvez acheter plus de 10 jetons sur Valora. Découvrez-les !"
   },
   "nftCelebration": {
     "bottomSheet": {
@@ -2281,18 +2281,18 @@
           "subtitle": "Membre de {{appName}}"
         },
         "swap": {
-          "title": "Échanger",
+          "title": "Échange",
           "subtitle": "{{fromToken}} > {{toToken}}"
         }
       },
-      "title": "L'activité de mes points",
+      "title": "Mes actions ponctuées",
       "error": {
-        "title": "Impossible de charger l'activité des points",
-        "subtitle": "Oups, une erreur s'est produite lors du chargement de l'activité de vos points. Veuillez réessayer.",
+        "title": "Impossible de charger les actions ponctuées",
+        "subtitle": "Oups, une erreur s'est produite lors du chargement de vos actions ponctuées. Veuillez réessayer.",
         "tryAgain": "Veuillez réessayer"
       },
       "empty": {
-        "title": "Encore aucune activité de points",
+        "title": "Encore aucune action ponctuée",
         "subtitle": "Il semble que vous n'ayez pas encore gagné de points. Utilisez {{appName}} pour commencer à en gagner !",
         "gotIt": "J'ai compris"
       },
@@ -2330,12 +2330,12 @@
     },
     "activityCards": {
       "createWallet": {
-        "title": "Créer un portefeuille {{appName}}"
+        "title": "Créez un portefeuille {{appName}}"
       },
       "swap": {
-        "title": "Échanger des actifs",
+        "title": "Échangez des actifs",
         "bottomSheet": {
-          "title": "Échanger des actifs",
+          "title": "Échangez des actifs",
           "body": "Cet espace vous présentera tous les détails nécessaires. Il s'agira peut-être d'un montant minimum à échanger. \n\nGagnez {{pointsValue}} points chaque fois que vous échangez un actif avec {{appName}}.",
           "cta": "Aller à l'échange"
         }
@@ -2355,7 +2355,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "Valora couvre le gaz pour cette transaction !",
+    "gasSubsidized": "Valora couvre les frais de gaz pour cette transaction !",
     "addCryptoBottomSheet": {
       "title": "Ajouter {{tokenSymbol}} sur {{tokenNetwork}}",
       "description": "Une fois que vous ajoutez des jetons, vous devrez revenir pour finaliser votre dépôt dans un pool.",
@@ -2376,21 +2376,21 @@
       "description": "Voyez combien vous pouvez gagner en participant à un pool de prêt"
     },
     "earnInfo": {
-      "title": "Gagne sur tes\nstablecoins",
+      "title": "Gagnez de l'argent sur vos stablecoins",
       "details": {
         "earn": {
-          "titleGasSubsidy": "Maximiser les gains sans frais d'essence*",
+          "titleGasSubsidy": "Maximiser vos gains sans frais de gaz*",
           "title": "Maximiser les gains",
-          "subtitle": "Gagne sur tes stablecoins et obtiens des récompenses lorsque tu alimentes un pool.",
-          "footnoteSubsidy": "*Les frais de gaz sont temporairement couverts par Valora."
+          "subtitle": "Gagnez sur vos stablecoins et obtenez des récompenses quand vous approvisionnez un pool.",
+          "footnoteSubsidy": "*Les frais de gaz sont temporairement couverts par Valora"
         },
         "manage": {
-          "title": "Gérer directement à partir de Valora",
-          "subtitle": "Nous nous occupons de la mise en place pour que tu puisses gérer ta position directement depuis Valora."
+          "title": "Gérez vos transat directement sur Valora",
+          "subtitle": "Nous nous chargerons de la configuration de votre compte pour vous permettre de le gérer directement sur Valora."
         },
         "access": {
-          "title": "Accède facilement à tes fonds",
-          "subtitle": "Collecte tes fonds sans effort, d'une simple pression. Profite du même accès instantané que si tu passais directement par tes protocoles préférés."
+          "title": "Accédez facilement à vos fonds",
+          "subtitle": "Collectez vos fonds en un seul clic. Profitez du même accès instantané que sur vos protocoles préférés."
         }
       },
       "action": {
@@ -2401,7 +2401,7 @@
     "ctaV1_86": {
       "title": "Maximiser les gains sur les stablecoins",
       "subtitle": "Acheter {{symbol}}",
-      "description": "Gagne environ {{apy}}% par an lorsque tu ajoutes {{symbol}} à une piscine."
+      "description": "Gagnez environ {{apy}}% par an lorsque vous ajoutez {{symbol}} à un pool"
     },
     "enterAmount": {
       "earnUpToLabel": "Vous pourriez gagner jusqu'à :",
