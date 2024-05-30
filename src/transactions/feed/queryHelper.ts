@@ -258,7 +258,9 @@ export function useFetchTransactions(): QueryHookResult {
     transactions: fetchedResult.transactions,
     fetchingMoreTransactions,
     fetchMoreTransactions: () => {
-      if (!fetchedResult.pageInfo) {
+      // Prevent fetching more transactions if we are already fetching
+      if (fetchingMoreTransactions) return
+      else if (!fetchedResult.pageInfo) {
         dispatch(showError(ErrorMessages.FETCH_FAILED))
       } else if (
         !anyNetworkHasMorePages(fetchedResult.pageInfo) &&
