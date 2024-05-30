@@ -101,10 +101,7 @@ export function useFetchTransactions(): QueryHookResult {
     }, {}),
   })
 
-  // Managing fetch state
   const [fetchingMoreTransactions, setFetchingMoreTransactions] = useState(false)
-  type ActiveRequests = { [key in NetworkId]: boolean }
-  const [activeRequests, setActiveRequests] = useState({} as ActiveRequests)
 
   // Update the counter variable every |POLL_INTERVAL| so that a query is made to the backend.
   const [counter, setCounter] = useState(0)
@@ -172,22 +169,14 @@ export function useFetchTransactions(): QueryHookResult {
   // Query for new transactions every POLL_INTERVAL
   const { loading, error } = useAsync(
     async () => {
-      for (const networkId of allowedNetworkIds) {
-        if (activeRequests[networkId]) continue
-        setActiveRequests((prev) => ({ ...prev, [networkId]: true }))
-        try {
-          const generator = queryTransactionsFeed({
-            address,
-            localCurrencyCode,
-            params: [{ networkId }],
-          })
+      const generator = queryTransactionsFeed({
+        address,
+        localCurrencyCode,
+        params: allowedNetworkIds.map((networkId) => ({ networkId })),
+      })
 
-          for await (const result of generator) {
-            handleResult(result, true)
-          }
-        } finally {
-          setActiveRequests((prev) => ({ ...prev, [networkId]: false }))
-        }
+      for await (const result of generator) {
+        handleResult(result, true)
       }
     },
     [counter],
@@ -213,26 +202,16 @@ export function useFetchTransactions(): QueryHookResult {
           return { networkId, afterCursor: pageInfo?.endCursor }
         })
         .filter((networkParams) => fetchedResult.pageInfo[networkParams.networkId]?.hasNextPage)
+
+      const generator = queryTransactionsFeed({
+        address,
+        localCurrencyCode,
+        params,
+      })
+
       setFetchingMoreTransactions(false)
-
-      // Iterate over the parameters and query only if no active request is in place
-      for (const param of params) {
-        const { networkId } = param
-        if (activeRequests[networkId]) continue // Skip if already fetching
-        setActiveRequests((prev) => ({ ...prev, [networkId]: true }))
-        try {
-          const generator = queryTransactionsFeed({
-            address,
-            localCurrencyCode,
-            params: [param],
-          })
-
-          for await (const result of generator) {
-            handleResult(result, false)
-          }
-        } finally {
-          setActiveRequests((prev) => ({ ...prev, [networkId]: false }))
-        }
+      for await (const result of generator) {
+        handleResult(result, false)
       }
     },
     [fetchingMoreTransactions],
