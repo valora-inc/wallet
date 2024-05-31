@@ -492,6 +492,13 @@ export const feeCurrenciesSelector = createSelector(
   }
 )
 
+export const allFeeCurrenciesSelector = createSelector(
+  feeCurrenciesByNetworkIdSelector,
+  (feeCurrencies) => {
+    return Object.values(feeCurrencies).flat()
+  }
+)
+
 // Note this takes a networkId as parameter
 export const feeCurrenciesWithPositiveBalancesSelector = createSelector(
   feeCurrenciesSelector,
