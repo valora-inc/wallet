@@ -1,5 +1,5 @@
 import { FetchMock } from 'jest-fetch-mock'
-import { fetchSimulatedTransactions } from 'src/earn/fetchSimulatedTransactions'
+import { simulateTransactions } from 'src/earn/simulateTransactions'
 import { NetworkId } from 'src/transactions/types'
 import { TransactionRequest } from 'src/viem/prepareTransactions'
 import networkConfig from 'src/web3/networkConfig'
@@ -34,7 +34,7 @@ const mockSimulatedTransactions = [
   },
 ]
 
-describe('fetchSimulatedTransactions', () => {
+describe('simulateTransactions', () => {
   const mockFetch = fetch as FetchMock
   beforeEach(() => {
     mockFetch.resetMocks()
@@ -47,7 +47,7 @@ describe('fetchSimulatedTransactions', () => {
         simulatedTransactions: mockSimulatedTransactions,
       })
     )
-    const simulatedTransactions = await fetchSimulatedTransactions({
+    const simulatedTransactions = await simulateTransactions({
       baseTransactions: mockBaseTransactions,
       networkId: NetworkId['arbitrum-sepolia'],
     })
@@ -75,7 +75,7 @@ describe('fetchSimulatedTransactions', () => {
       { status: 500 }
     )
     await expect(
-      fetchSimulatedTransactions({
+      simulateTransactions({
         baseTransactions: mockBaseTransactions,
         networkId: NetworkId['arbitrum-sepolia'],
       })
@@ -91,7 +91,7 @@ describe('fetchSimulatedTransactions', () => {
       })
     )
     await expect(
-      fetchSimulatedTransactions({
+      simulateTransactions({
         baseTransactions: mockBaseTransactions,
         networkId: NetworkId['arbitrum-sepolia'],
       })
@@ -110,7 +110,7 @@ describe('fetchSimulatedTransactions', () => {
       })
     )
     await expect(
-      fetchSimulatedTransactions({
+      simulateTransactions({
         baseTransactions: mockBaseTransactions,
         networkId: NetworkId['arbitrum-sepolia'],
       })

@@ -14,7 +14,7 @@ type SimulatedTransactionResponse = {
   }[]
 }
 
-export async function fetchSimulatedTransactions({
+export async function simulateTransactions({
   baseTransactions,
   networkId,
 }: {

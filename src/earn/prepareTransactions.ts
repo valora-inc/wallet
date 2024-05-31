@@ -3,7 +3,7 @@ import { useAsyncCallback } from 'react-async-hook'
 import aaveIncentivesV3Abi from 'src/abis/AaveIncentivesV3'
 import aavePool from 'src/abis/AavePoolV3'
 import erc20 from 'src/abis/IERC20'
-import { fetchSimulatedTransactions } from 'src/earn/fetchSimulatedTransactions'
+import { simulateTransactions } from 'src/earn/simulateTransactions'
 import { RewardsInfo } from 'src/earn/types'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
@@ -77,7 +77,7 @@ export async function prepareSupplyTransactions({
 
   baseTransactions.push(supplyTx)
 
-  const simulatedTransactions = await fetchSimulatedTransactions({
+  const simulatedTransactions = await simulateTransactions({
     baseTransactions,
     networkId: token.networkId,
   })
@@ -185,7 +185,7 @@ export async function prepareWithdrawAndClaimTransactions({
   const isGasSubsidized = getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
 
   if (isGasSubsidized) {
-    const simulatedTransactions = await fetchSimulatedTransactions({
+    const simulatedTransactions = await simulateTransactions({
       baseTransactions,
       networkId: token.networkId,
     })

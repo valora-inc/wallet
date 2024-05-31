@@ -2,11 +2,11 @@ import BigNumber from 'bignumber.js'
 import aaveIncentivesV3Abi from 'src/abis/AaveIncentivesV3'
 import aavePool from 'src/abis/AavePoolV3'
 import erc20 from 'src/abis/IERC20'
-import { fetchSimulatedTransactions } from 'src/earn/fetchSimulatedTransactions'
 import {
   prepareSupplyTransactions,
   prepareWithdrawAndClaimTransactions,
 } from 'src/earn/prepareTransactions'
+import { simulateTransactions } from 'src/earn/simulateTransactions'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
@@ -50,7 +50,7 @@ jest.mock('viem', () => ({
   ...jest.requireActual('viem'),
   encodeFunctionData: jest.fn(),
 }))
-jest.mock('src/earn/fetchSimulatedTransactions')
+jest.mock('src/earn/simulateTransactions')
 
 describe('prepareTransactions', () => {
   beforeEach(() => {
@@ -74,7 +74,7 @@ describe('prepareTransactions', () => {
       }
       throw new Error(`Unexpected feature gate: ${featureGate}`)
     })
-    jest.mocked(fetchSimulatedTransactions).mockResolvedValue([
+    jest.mocked(simulateTransactions).mockResolvedValue([
       {
         status: 'success',
         blockNumber: '1',
@@ -209,7 +209,7 @@ describe('prepareTransactions', () => {
 
     it('prepares transactions with supply if already approved', async () => {
       jest.spyOn(publicClient[Network.Arbitrum], 'readContract').mockResolvedValue(BigInt(5e6))
-      jest.mocked(fetchSimulatedTransactions).mockResolvedValueOnce([
+      jest.mocked(simulateTransactions).mockResolvedValueOnce([
         {
           status: 'success',
           blockNumber: '1',
@@ -376,7 +376,7 @@ describe('prepareTransactions', () => {
         })
       })
       it('prepares withdraw and claim transactions with gas fees added from the simulated transaction', async () => {
-        jest.mocked(fetchSimulatedTransactions).mockResolvedValue([
+        jest.mocked(simulateTransactions).mockResolvedValue([
           {
             status: 'success',
             blockNumber: '1',
@@ -468,7 +468,7 @@ describe('prepareTransactions', () => {
         })
       })
       it('prepares only withdraw transaction if no rewards', async () => {
-        jest.mocked(fetchSimulatedTransactions).mockResolvedValue([
+        jest.mocked(simulateTransactions).mockResolvedValue([
           {
             status: 'success',
             blockNumber: '1',
