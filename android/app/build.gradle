@@ -311,7 +311,7 @@ dependencies {
 
     // this fixes an crash on devices with API level 31+ that requires a
     // FLAG_IMMUTABLE or FLAG_MUTABLE be specified when creating a PendingIntent
-    implementation 'androidx.work:work-runtime:2.7.1'
+    implementation 'androidx.work:work-runtime:2.9.0'
 
     // this ensures 1.5.0+ version is not picked by
     // https://github.com/invertase/react-native-firebase/blob/v11.5.0/packages/auth/android/build.gradle#L88
