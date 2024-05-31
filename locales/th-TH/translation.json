@@ -1953,7 +1953,9 @@
       "popular": "ยอดนิยม",
       "recentlySwapped": "ที่สว็อปเมื่อเร็วๆ นี้",
       "network": "เครือข่าย {{networkName}}",
-      "selectNetwork": "เครือข่าย"
+      "selectNetwork": "เครือข่าย",
+      "stablecoins": "Stablecoins",
+      "gasTokens": "Gas Tokens"
     }
   },
   "homeActions": {
