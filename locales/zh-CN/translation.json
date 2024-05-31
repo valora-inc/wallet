@@ -1953,7 +1953,9 @@
       "popular": "热门",
       "recentlySwapped": "最近交换",
       "network": "{{networkName}} 网络",
-      "selectNetwork": "网络"
+      "selectNetwork": "网络",
+      "stablecoins": "稳定币",
+      "gasTokens": "瓦斯令牌"
     }
   },
   "homeActions": {

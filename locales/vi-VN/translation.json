@@ -1953,7 +1953,9 @@
       "popular": "Thông dụng",
       "recentlySwapped": "Đã trao đổi gần đây",
       "network": "Mạng {{networkName}}",
-      "selectNetwork": "Mạng lưới"
+      "selectNetwork": "Mạng lưới",
+      "stablecoins": "Stablecoins",
+      "gasTokens": "Gas Tokens"
     }
   },
   "homeActions": {

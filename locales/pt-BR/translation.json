@@ -1955,7 +1955,9 @@
       "popular": "Popular",
       "recentlySwapped": "Trocado recentemente",
       "network": "Rede {{networkName}}",
-      "selectNetwork": "Rede"
+      "selectNetwork": "Rede",
+      "stablecoins": "Stablecoins",
+      "gasTokens": "Tokens de gás"
     }
   },
   "homeActions": {

@@ -1955,7 +1955,9 @@
       "popular": "Populaires",
       "recentlySwapped": "Échangés récemment",
       "network": "Réseau {{networkName}}",
-      "selectNetwork": "Réseau"
+      "selectNetwork": "Réseau",
+      "stablecoins": "Stablecoins",
+      "gasTokens": "Jetons de frais"
     }
   },
   "homeActions": {
