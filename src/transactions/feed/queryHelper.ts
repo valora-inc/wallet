@@ -44,6 +44,8 @@ export interface QueryResponse {
   }
 }
 
+type ActiveRequests = { [key in NetworkId]: boolean }
+
 const TAG = 'transactions/feed/queryHelper'
 
 // Query poll interval
@@ -102,7 +104,12 @@ export function useFetchTransactions(): QueryHookResult {
   })
 
   const [fetchingMoreTransactions, setFetchingMoreTransactions] = useState(false)
-
+  const [activeRequests, setActiveRequests] = useState<ActiveRequests>(
+    allowedNetworkIds.reduce((acc, networkId) => {
+      acc[networkId] = false
+      return acc
+    }, {} as ActiveRequests)
+  )
   // Update the counter variable every |POLL_INTERVAL| so that a query is made to the backend.
   const [counter, setCounter] = useState(0)
   useInterval(() => setCounter((n) => n + 1), POLL_INTERVAL)
@@ -169,10 +176,14 @@ export function useFetchTransactions(): QueryHookResult {
   // Query for new transactions every POLL_INTERVAL
   const { loading, error } = useAsync(
     async () => {
+      const filterParams = allowedNetworkIds
+        .filter((networkId) => !activeRequests[networkId])
+        .map((networkId) => ({ networkId }))
       const generator = queryTransactionsFeed({
         address,
         localCurrencyCode,
-        params: allowedNetworkIds.map((networkId) => ({ networkId })),
+        params: filterParams,
+        setActiveRequests,
       })
 
       for await (const result of generator) {
@@ -206,6 +217,7 @@ export function useFetchTransactions(): QueryHookResult {
         address,
         localCurrencyCode,
         params,
+        setActiveRequests,
       })
 
       for await (const result of generator) {
@@ -290,6 +302,7 @@ async function* queryTransactionsFeed({
   address,
   localCurrencyCode,
   params,
+  setActiveRequests,
 }: {
   address: string | null
   localCurrencyCode: string
@@ -297,19 +310,25 @@ async function* queryTransactionsFeed({
     networkId: NetworkId
     afterCursor?: string
   }>
+  setActiveRequests: (updateFunc: (prevState: ActiveRequests) => ActiveRequests) => void
 }): AsyncGenerator<{ [key in NetworkId]?: QueryResponse }> {
   const promises = params.map(
     async ({
       networkId,
       afterCursor,
     }): Promise<{ networkId: NetworkId; result: QueryResponse | Error }> => {
-      const result = await queryChainTransactionsFeed({
-        address,
-        localCurrencyCode,
-        networkId,
-        afterCursor,
-      })
-      return { networkId, result }
+      setActiveRequests((prev) => ({ ...prev, [networkId]: true }))
+      try {
+        const result = await queryChainTransactionsFeed({
+          address,
+          localCurrencyCode,
+          networkId,
+          afterCursor,
+        })
+        return { networkId, result }
+      } finally {
+        setActiveRequests((prev) => ({ ...prev, [networkId]: false }))
+      }
     }
   )
 
