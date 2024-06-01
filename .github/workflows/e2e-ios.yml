@@ -82,13 +82,13 @@ jobs:
           report_paths: 'e2e/test-results/junit.xml'
       - name: 'Upload iOS E2E Artifacts'
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ios-${{ inputs.ios-version }}-e2e-artifact
           path: e2e/artifacts
       - name: 'Upload iOS E2E HTML Report'
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ios-${{ inputs.ios-version }}-test-report
           path: e2e/test-results
