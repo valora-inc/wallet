@@ -21,7 +21,7 @@ jobs:
     name: Vulnerabilities
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/yarn-install
       - run: ./scripts/ci_check_vulnerabilities.sh
 
@@ -29,7 +29,7 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/yarn-install
       - run: yarn run format:check
       - run: yarn run lint
@@ -38,28 +38,28 @@ jobs:
     name: 'yarn.lock Up-to-date'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/yarn-install
       - run: git diff --exit-code
   licenses:
     name: Licenses
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/yarn-install
       - run: yarn check-licenses
   knip-depcheck:
     name: Dependencies
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/yarn-install
       - run: yarn knip:depcheck
   knip-regression:
     name: Knip Regression
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 2
       - uses: ./.github/actions/yarn-install
