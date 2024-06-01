@@ -10,7 +10,7 @@ on:
 jobs:
   bump-app-version:
     # this job uses the pre-deploy script and agvtool which is only available on macos
-    runs-on: macos-11
+    runs-on: macos-14
     permissions:
       pull-requests: write
     env:
