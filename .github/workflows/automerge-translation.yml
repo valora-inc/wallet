@@ -13,7 +13,7 @@ jobs:
     permissions:
       pull-requests: write
     steps:
-      - uses: google-github-actions/auth@v1
+      - uses: google-github-actions/auth@v2
         with:
           project_id: celo-mobile-mainnet
           credentials_json: ${{ secrets.MAINNET_SERVICE_ACCOUNT_KEY }}
