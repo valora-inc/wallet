@@ -37,7 +37,7 @@ jobs:
       - run: yarn ts-node .github/scripts/createAppVersionPr.ts
         env:
           VALORA_BOT_TOKEN: ${{ steps.google-secrets.outputs.VALORA_BOT_TOKEN }}
-      - uses: actions/github-script@v5
+      - uses: actions/github-script@v7
         with:
           script: |
             const allowedUpdatedFiles = [
@@ -48,7 +48,7 @@ jobs:
             ]
             const script = require('.github/scripts/autoApprovePr.js')
             await script({github, context, core, allowedUpdatedFiles})
-      - uses: actions/github-script@v5
+      - uses: actions/github-script@v7
         with:
           github-token: ${{ steps.google-secrets.outputs.VALORA_BOT_TOKEN }}
           script: |
