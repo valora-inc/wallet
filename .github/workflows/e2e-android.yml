@@ -17,7 +17,7 @@ jobs:
     # If it takes longer it usually fails, so no need to pay for more
     timeout-minutes: 25
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set env
         run: |
           ANDROID_HOME="$HOME/android-tools"
