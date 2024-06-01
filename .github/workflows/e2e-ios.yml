@@ -16,7 +16,7 @@ jobs:
     name: iOS (${{ inputs.ios-version  }})
     runs-on: ios-e2e-group
     steps:
-      - uses: google-github-actions/auth@v1
+      - uses: google-github-actions/auth@v2
         if: ${{ env.SECRETS_AVAILABLE }}
         with:
           project_id: celo-mobile-mainnet
