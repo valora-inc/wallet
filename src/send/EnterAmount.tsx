@@ -265,7 +265,7 @@ function EnterAmount({
     return () => clearTimeout(debouncedRefreshTransactions)
   }, [tokenAmount, token])
 
-  const isAmountLessThanBalance = tokenAmount && tokenAmount.lt(token.balance)
+  const isAmountLessThanBalance = tokenAmount && tokenAmount.lte(token.balance)
   const showLowerAmountError = !isAmountLessThanBalance && !disableBalanceCheck
   const showMaxAmountWarning =
     !showLowerAmountError &&
