@@ -343,7 +343,8 @@
     "crypto-js": "^4.2.0",
     "browserify-sign": "^4.2.3",
     "follow-redirects": "^1.15.6",
-    "redux": "^5.0.1"
+    "redux": "^5.0.1",
+    "braces": "^3.0.3"
   },
   "detox": {
     "testRunner": {
