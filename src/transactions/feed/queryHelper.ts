@@ -337,8 +337,6 @@ async function queryTransactionsFeed({
       })
       Logger.info(TAG, `Fetched transactions for ${networkId}`, result)
       updateTransactionState(networkId, result) // Update state as soon as data is available
-    } catch (error) {
-      Logger.error(TAG, `Error fetching transactions for ${networkId}`, error)
     } finally {
       setActiveRequests((prev) => ({ ...prev, [networkId]: false }))
     }
