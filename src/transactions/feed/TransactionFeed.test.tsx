@@ -330,7 +330,7 @@ describe('TransactionFeed', () => {
   })
 
   it('renders correct status for a complete transaction', async () => {
-    mockFetch.mockResponse(JSON.stringify(MOCK_RESPONSE))
+    mockFetch.mockResponse(JSON.stringify(MOCK_RESPONSE_NO_NEXT_PAGE))
 
     const { getByTestId, getByText } = renderScreen({})
 
