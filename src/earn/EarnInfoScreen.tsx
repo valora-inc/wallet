@@ -2,7 +2,7 @@ import { useHeaderHeight } from '@react-navigation/elements'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -61,15 +61,12 @@ export default function EarnInfoScreen({ route }: Props) {
 
   const headerHeight = useHeaderHeight()
   const { bottom } = useSafeAreaInsets()
-  const insetsStyle = Platform.OS === 'android' && {
+  const insetsStyle = {
     paddingBottom: Math.max(bottom, Spacing.Regular16),
   }
 
   return (
-    <SafeAreaView
-      style={[styles.safeAreaContainer, { paddingTop: headerHeight }]}
-      edges={['bottom']}
-    >
+    <SafeAreaView style={[styles.safeAreaContainer, { paddingTop: headerHeight }]} edges={[]}>
       <ScrollView>
         <Text style={styles.title}>{t('earnFlow.earnInfo.title')}</Text>
         <View style={styles.detailsContainer}>
