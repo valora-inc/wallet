@@ -28,10 +28,8 @@ export interface QuoteResult {
   fromTokenId: string
   swapAmount: BigNumber
   price: string
-  appFeePercentageIncludedInPrice: string | undefined
   provider: string
   estimatedPriceImpact: string | null
-  allowanceTarget: string
   preparedTransactions: PreparedTransactionsResult
   receivedAt: number
   unvalidatedSwapTransaction: SwapTransaction
@@ -218,11 +216,8 @@ function useSwapQuote({
         fromTokenId: fromToken.tokenId,
         swapAmount: swapAmount[updatedField],
         price,
-        appFeePercentageIncludedInPrice:
-          quote.unvalidatedSwapTransaction.appFeePercentageIncludedInPrice,
         provider: quote.details.swapProvider,
         estimatedPriceImpact,
-        allowanceTarget: quote.unvalidatedSwapTransaction.allowanceTarget,
         preparedTransactions,
         receivedAt: Date.now(),
         unvalidatedSwapTransaction: quote.unvalidatedSwapTransaction,

@@ -1775,7 +1775,7 @@
     "crossChainNotification": "Swapping tokens between different networks",
     "crossChainFeeWarning": {
       "title": "You need more {{tokenSymbol}}",
-      "body": "You need more {{tokenSymbol}} to pay for cross-chain swap fees. Add {{tokenAmount}} more {{tokenSymbol}} to continue."
+      "body": "You need more {{tokenSymbol}} on {{networkName}} to pay for cross-chain swap fees. Add {{tokenAmount}} more {{tokenSymbol}} to continue."
     },
     "insufficientBalanceWarning": {
       "title": "You need more {{tokenSymbol}}",

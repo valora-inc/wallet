@@ -46,11 +46,7 @@ import { Field, SwapAmount } from 'src/swap/types'
 import useFilterChips from 'src/swap/useFilterChips'
 import useSwapQuote, { NO_QUOTE_ERROR_MESSAGE, QuoteResult } from 'src/swap/useSwapQuote'
 import { useSwappableTokens, useTokenInfo } from 'src/tokens/hooks'
-import {
-  feeCurrenciesWithPositiveBalancesSelector,
-  tokensByIdSelector,
-  feeCurrenciesSelector,
-} from 'src/tokens/selectors'
+import { feeCurrenciesWithPositiveBalancesSelector, tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSwap, getTokenId } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
@@ -63,7 +59,7 @@ import DownIndicator from 'src/icons/DownIndicator'
 import CircledIcon from 'src/icons/CircledIcon'
 import Touchable from 'src/components/Touchable'
 import CrossChainIndicator from 'src/icons/CrossChainIndicator'
-import { getEstimatedGasFee } from 'src/viem/prepareTransactions'
+import useCrossChainFee from 'src/swap/useCrossChainFee'
 
 const TAG = 'SwapScreen'
 
@@ -221,67 +217,6 @@ function getNetworkFee(quote: QuoteResult | null, networkId?: NetworkId) {
     feeTokenId: feeCurrency?.tokenId ?? getTokenId(networkId ?? networkConfig.defaultNetworkId), // native token
     maxNetworkFee: maxFeeAmount,
     estimatedNetworkFee: estimatedFeeAmount,
-  }
-}
-
-function useCrossChainFee(
-  quote: QuoteResult | null,
-  sourceNetworkId: NetworkId
-): {
-  crossChainFeeToken: TokenBalance
-  maxCrossChainFeeAmount: BigNumber
-  maxCrossChainFeeMissingAmountInDecimal: BigNumber
-} {
-  // Fee currencies arrays always have the native currency first, and cross chain
-  // swap fees are always paid with the chain's native currency.
-  const feeCurrency = useSelector((state) => feeCurrenciesSelector(state, sourceNetworkId))[0]
-
-  if (quote?.unvalidatedSwapTransaction.type !== 'cross-chain') {
-    return {
-      crossChainFeeToken: feeCurrency,
-      maxCrossChainFeeAmount: new BigNumber(0),
-      maxCrossChainFeeMissingAmountInDecimal: new BigNumber(0),
-    }
-  }
-
-  let gasNeededInCrossChainFeeCurrency = new BigNumber(0)
-
-  // Gas is going to eat into our budget for the cross chain fee
-  if (
-    quote.preparedTransactions.type === 'possible' &&
-    quote.preparedTransactions.feeCurrency.tokenId === feeCurrency.tokenId
-  ) {
-    gasNeededInCrossChainFeeCurrency = getEstimatedGasFee(quote.preparedTransactions.transactions)
-  } else if (
-    quote.preparedTransactions.type === 'need-decrease-spend-amount-for-gas' &&
-    quote.preparedTransactions.feeCurrency.tokenId === feeCurrency.tokenId
-  ) {
-    gasNeededInCrossChainFeeCurrency = quote.preparedTransactions.maxGasFeeInDecimal.multipliedBy(
-      new BigNumber(10).pow(feeCurrency.decimals)
-    )
-  }
-
-  const maxCrossChainFee = new BigNumber(quote.unvalidatedSwapTransaction.maxCrossChainFee)
-
-  let availableFeeCurrencyBalance = feeCurrency.balance
-    .multipliedBy(new BigNumber(10).pow(feeCurrency.decimals))
-    .minus(gasNeededInCrossChainFeeCurrency)
-
-  // If we're selling the fee currency, the sell amount cannot be used to pay cross-chain fees
-  if (quote.fromTokenId === feeCurrency.tokenId) {
-    availableFeeCurrencyBalance = BigNumber.max(
-      0,
-      availableFeeCurrencyBalance.minus(new BigNumber(quote.unvalidatedSwapTransaction.sellAmount))
-    )
-  }
-
-  return {
-    crossChainFeeToken: feeCurrency,
-    maxCrossChainFeeAmount: maxCrossChainFee,
-    maxCrossChainFeeMissingAmountInDecimal: BigNumber.max(
-      0,
-      maxCrossChainFee.minus(availableFeeCurrencyBalance)
-    ).dividedBy(new BigNumber(10).pow(feeCurrency.decimals)),
   }
 }
 
@@ -459,7 +394,7 @@ export function SwapScreen({ route }: Props) {
     }
 
     const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
-    const { estimatedPriceImpact, price, appFeePercentageIncludedInPrice, allowanceTarget } = quote
+    const { estimatedPriceImpact, price, unvalidatedSwapTransaction } = quote
 
     const resultType = quote.preparedTransactions.type
     switch (resultType) {
@@ -480,10 +415,11 @@ export function SwapScreen({ route }: Props) {
           fromTokenIsImported: !!fromToken.isManuallyImported,
           amount: inputSwapAmount[updatedField],
           amountType: swapAmountParam,
-          allowanceTarget,
+          allowanceTarget: unvalidatedSwapTransaction.allowanceTarget,
           estimatedPriceImpact,
           price,
-          appFeePercentageIncludedInPrice,
+          appFeePercentageIncludedInPrice:
+            unvalidatedSwapTransaction.appFeePercentageIncludedInPrice,
           provider: quote.provider,
           web3Library: 'viem',
           ...getSwapTxsAnalyticsProperties(
@@ -504,10 +440,11 @@ export function SwapScreen({ route }: Props) {
               ),
               receivedAt: quote.receivedAt,
               price: quote.price,
-              appFeePercentageIncludedInPrice: quote.appFeePercentageIncludedInPrice,
+              appFeePercentageIncludedInPrice:
+                unvalidatedSwapTransaction.appFeePercentageIncludedInPrice,
               provider: quote.provider,
               estimatedPriceImpact,
-              allowanceTarget,
+              allowanceTarget: unvalidatedSwapTransaction.allowanceTarget,
             },
             userInput,
             areSwapTokensShuffled,
@@ -755,7 +692,9 @@ export function SwapScreen({ route }: Props) {
       return undefined
     }
 
-    const percentage = new BigNumber(quote.appFeePercentageIncludedInPrice || 0)
+    const percentage = new BigNumber(
+      quote.unvalidatedSwapTransaction.appFeePercentageIncludedInPrice || 0
+    )
 
     return {
       amount: parsedSwapAmount[Field.FROM].multipliedBy(percentage).dividedBy(100),
@@ -899,6 +838,7 @@ export function SwapScreen({ route }: Props) {
                 tokenSymbol: crossChainFeeInfo?.crossChainFeeToken.symbol,
               })}
               description={t('swapScreen.crossChainFeeWarning.body', {
+                networkName: NETWORK_NAMES[crossChainFeeInfo?.crossChainFeeToken.networkId],
                 tokenSymbol: crossChainFeeInfo?.crossChainFeeToken.symbol,
                 tokenAmount: crossChainFeeInfo?.maxCrossChainFeeMissingAmountInDecimal.toFixed(4),
               })}

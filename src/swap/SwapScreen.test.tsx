@@ -592,7 +592,7 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.confirmSwap')).toBeDisabled()
     expect(
       getByText(
-        'swapScreen.crossChainFeeWarning.body, {"tokenSymbol":"CELO","tokenAmount":"1.0000"}'
+        'swapScreen.crossChainFeeWarning.body, {"networkName":"Celo Alfajores","tokenSymbol":"CELO","tokenAmount":"1.0000"}'
       )
     ).toBeTruthy()
   })
@@ -627,7 +627,7 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.confirmSwap')).toBeDisabled()
     expect(
       getByText(
-        'swapScreen.crossChainFeeWarning.body, {"tokenSymbol":"CELO","tokenAmount":"1.0000"}'
+        'swapScreen.crossChainFeeWarning.body, {"networkName":"Celo Alfajores","tokenSymbol":"CELO","tokenAmount":"1.0000"}'
       )
     ).toBeTruthy()
   })
