@@ -32,6 +32,11 @@ import Logger from 'src/utils/Logger'
 
 const TAG = 'keylessBackup/KeylessBackupProgress'
 
+export enum Origin {
+  Onboarding = 'Onboarding',
+  Settings = 'Settings',
+}
+
 function KeylessBackupProgress({
   route,
   navigation,
@@ -254,6 +259,8 @@ function Setup() {
   const keylessBackupStatus = useSelector(keylessBackupStatusSelector)
   const { t } = useTranslation()
 
+  const navigatedFromSettings = true // use prop to determine
+
   const onPressContinue = () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_progress_completed_continue)
     navigateHome()
@@ -274,6 +281,16 @@ function Setup() {
   const onPressLater = () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_progress_failed_later)
     navigate(Screens.Settings)
+  }
+
+  const onPressManualOnboarding = () => {
+    ValoraAnalytics.track(KeylessBackupEvents.cab_progress_failed_manual_onboarding)
+    navigate(Screens.AccountKeyEducation)
+  }
+
+  const onPressSkip = () => {
+    ValoraAnalytics.track(KeylessBackupEvents.cab_progress_failed_skip_onboarding)
+    navigate(Screens.ChooseYourAdventure)
   }
 
   switch (keylessBackupStatus) {
@@ -312,8 +329,12 @@ function Setup() {
           </View>
           <Button
             testID="KeylessBackupProgress/Later"
-            onPress={onPressLater}
-            text={t('keylessBackupStatus.setup.failed.later')}
+            onPress={navigatedFromSettings ? onPressLater : onPressManualOnboarding}
+            text={t(
+              navigatedFromSettings
+                ? 'keylessBackupStatus.setup.failed.later'
+                : 'keylessBackupStatus.setup.failed.manual'
+            )}
             size={BtnSizes.FULL}
             type={BtnTypes.PRIMARY}
             style={styles.button}
@@ -321,8 +342,12 @@ function Setup() {
           />
           <Button
             testID="KeylessBackupProgress/Manual"
-            onPress={onPressManual}
-            text={t('keylessBackupStatus.setup.failed.manual')}
+            onPress={navigatedFromSettings ? onPressManual : onPressSkip}
+            text={t(
+              navigatedFromSettings
+                ? 'keylessBackupStatus.setup.failed.manual'
+                : 'keylessBackupStatus.setup.failed.skip'
+            )}
             size={BtnSizes.FULL}
             type={BtnTypes.SECONDARY}
             style={styles.button}

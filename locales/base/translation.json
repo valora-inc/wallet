@@ -129,7 +129,8 @@
         "title": "Backup unavailable",
         "body": "You can set up wallet backup later or protect your account now by saving your recovery phrase.",
         "later": "I'll set up backup later",
-        "manual": "Save recovery phrase"
+        "manual": "Save recovery phrase",
+        "skip": "Skip (not recommended)"
       }
     },
     "restore": {
