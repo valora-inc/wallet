@@ -91,7 +91,7 @@ export default function TokenIcon({ token, viewStyle, testID, size = IconSize.ME
         </View>
       )}
 
-      {token.networkIconUrl && (
+      {!!token.networkIconUrl && (
         <FastImage
           source={{ uri: token.networkIconUrl }}
           style={[

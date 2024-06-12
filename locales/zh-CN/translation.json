@@ -255,8 +255,8 @@
       "text": "任何拥有您的短语的人都将能够访问您的账户和其中的所有资金。切勿将短语泄露给他人。"
     }
   ],
-  "consumerIncentivesTitle": "超级充电站即将关闭",
-  "consumerIncentivesSummary": "但更多奖励正在向您走来。在 5 月 28 日之前，稳定币最高余额（cUSD、cEUR 或 cREAL）可获得 {{percent}}% 的年度奖励。具体操作如下",
+  "consumerIncentivesTitle": "Supercharge 即将结束",
+  "consumerIncentivesSummary": "但还有更多奖励正等着您。在 5 月 28 日之前，稳定币最高余额（cUSD、cEUR 或 cREAL）可获得 {{percent}}% 的年度奖励。具体操作如下：",
   "earnWeekly": {
     "header": "关联您的手机号码",
     "text": "如果您尚未关联，请点按“关联号码”。"
@@ -271,14 +271,14 @@
     "text": "这将确保您的奖励安全可控。"
   },
   "conclusion": "就是如此简单，立即 Supercharge 您的加密货币吧！",
-  "superchargeTitle": "超级充电站即将关闭",
-  "superchargeDescription": "但更多奖励正在向您走来。在 5 月 28 日之前， {{token}} 最高余额可获得 {{apy}}% 的年度奖励。具体操作如下：",
+  "superchargeTitle": "Supercharge 即将结束",
+  "superchargeDescription": "但还有更多奖励正等着您。在 5 月 28 日之前， {{token}} 最高余额可获得 {{apy}}% 的年度奖励。具体操作如下：",
   "superchargeConnectNumber": "关联您的手机号码",
   "superchargeReconnectNumber": "重新关联您的手机号码\n<0>我们已经改进 Supercharge 体验。重新关联您的手机号码，继续获取基于您的 {{token}} 的奖励。</0>",
   "superchargeMinimumBalance": "添加 {{amount}} {{token}} 的最低余额",
   "superchargeDisclaimer": "这不会影响您的余额或之前的收入。",
   "superchargeDisclaimerMaxRewards": "这不会影响您的余额或之前的收入。",
-  "superchargeDisclaimerDayLimit": "这不会影响您的余额或之前的收入。<0>了解更多信息</0>",
+  "superchargeDisclaimerDayLimit": "这不会影响您的余额或之前的收入。<0>了解更多</0>",
   "superchargeTokenDetailsDialog": {
     "title": "我可以 Supercharge 哪种资产？",
     "body": "您将每周获得基于您的 Celo 稳定币最高价值（cEUR、cUSD、cREAL）的奖励。",
@@ -286,11 +286,11 @@
   },
   "superchargingTitle": "必须更新应用",
   "superchargingDescription": "更新 Valora 应用以继续领取您每周的 Supercharge 奖励.",
-  "superchargingTitleV1_54": "超级充电站即将关闭",
-  "superchargingDescriptionV1_54": "每周奖励可在 5 月 28 日（星期二）23:59（世界协调时）之前领取。从 5 月 29 日起，您将无法再领取超级充值奖励。",
+  "superchargingTitleV1_54": "Supercharge 即将结束",
+  "superchargingDescriptionV1_54": "每周奖励可在 5 月 28 日（星期二）23:59（世界协调时）之前领取。从 5 月 29 日起，您将无法再领取 Supercharge 奖励。",
   "superchargeRewardsAvailable": "您有 {{amount}} {{token}} 可领取！",
   "superchargeRewardsAvailableMultipleTokens": "您有 {{amounts}} 可领取！",
-  "superchargeClaimText": "在世界协调时 5 月 28 日（星期二）23:59 之前领取奖励。自 5 月 29 日起，您将无法再领取超级充值奖励。",
+  "superchargeClaimText": "请在世界协调时 5 月 28 日（星期二）23:59 之前领取奖励。自 5 月 29 日起，您将无法再领取 Supercharge 奖励。",
   "superchargeClaimButton": "领取奖励",
   "superchargeFetchRewardsFailed": "获取待处理的 Supercharge 奖励时出错。请稍后再试。",
   "superchargeClaimSuccess": "您的 Supercharge 奖励已添加到您的总余额中。",
@@ -677,8 +677,8 @@
     "body": "在他们成功设置 {{appName}} 钱包并关联手机号码后，你们每个人都将获得一个专属 NFT。"
   },
   "inviteRewardsBannerCUSD": {
-    "title": "邀请朋友最多可获得 12 cUSD",
-    "body": "一旦他们连接了自己的号码并将资金添加到 {{appName}}，你们都将收到 0.50 cUSD。"
+    "title": "邀请朋友，最多可获得 12 cUSD",
+    "body": "他们连接了自己的号码并将资金添加到 {{appName}} 后，你们都将收到 0.50 cUSD。"
   },
   "inviteWithUrl": {
     "title": "邀请朋友",
@@ -692,8 +692,8 @@
       "body": "邀请您的朋友和家人下载 {{appName}} ，你们每个人都将获得一个独家的 NFT"
     },
     "rewardsActiveCUSD": {
-      "title": "邀请您的朋友加入 Valora，即可获得高达 12 美分！",
-      "body": "每邀请一位朋友登录 {{appName}}，即可获得 0.50 cUSD。一旦他们连接号码、添加资金并持有 7 天，你们都将获得 0.50 cUSD。快点，资金有限！(仅限 25 位好友）。"
+      "title": "邀请您的朋友加入 Valora，即可获得高达 12 cUSD！",
+      "body": "每邀请一位朋友加入 {{appName}}，即可获得 0.50 cUSD。他们连接号码、添加资金并持有 7 天后，你们都将获得 0.50 cUSD。立即行动，资金有限哦！（限 25 位好友）。"
     }
   },
   "getReward": "获得 ${{reward}}",
@@ -710,15 +710,15 @@
     "goldDisclaimer": "当您使用 Valora 创建一个“账户”时，您创建的是一个只有您拥有密钥的数字钱包。包括 Valora 在内的任何其他个人或实体都无法恢复您的密钥、更改或撤消交易或者追回丢失的资金。请注意，加密货币是新资产类别的一部分，存在财务损失风险。在购买任何资产之前，请仔细考虑您的财务状况和对财务风险的承受能力。"
   },
   "termsColloquial": {
-    "title": "让我们从创建钱包开始",
-    "privacyHeading": "您的信息和隐私",
-    "privacy1": "我们收集的使用数据有助于我们改进应用程序和安全性。我们收集的信息类型、使用方式以及您与这些信息相关的权利，请参阅我们的<0>隐私政策</0>。",
-    "privacy2": "如果您决定链接您的电话号码，我们将存储一份加密副本。",
+    "title": "先从创建钱包开始",
+    "privacyHeading": "您的信息和隐私：",
+    "privacy1": "我们收集的使用数据有助于我们改进应用程序和安全性。有关我们收集的信息类型、我们对信息的使用方式以及您与这些信息相关的权利，请参阅我们的<0>隐私政策</0>。",
+    "privacy2": "如果您决定关联您的电话号码，我们将存储该电话号码的加密副本。",
     "privacy3": "如果您决定连接您的联系人，我们会使用他们的姓名、电话号码和个人资料图片，以方便查找。",
-    "walletHeading": "您的电子钱包",
+    "walletHeading": "您的 Valora 电子钱包：",
     "wallet1": "您即将创建一个数字钱包。只有您才拥有钱包的密钥。如果您丢失了密钥，我们无法恢复您的密钥或您的资产。我们也无法逆转通过 Valora 在区块链上进行的操作。",
-    "wallet2": "数字资产是您与Valora互动的资产，具有独特的风险。通过使用Valora，您接受了这些风险并承担了相应的责任。在做出选择之前，请考虑您的财务状况和风险承受能力。",
-    "fullTerms": "阅读我们的完整<0>条款和条件</0>"
+    "wallet2": "数字资产是您与 Valora 互动的资产，具有独特的风险。使用 Valora 即表示您接受这些风险并承担相应的责任。在做出选择之前，请先考虑您的财务状况和风险承受能力。",
+    "fullTerms": "阅读我们完整的<0>条款和条件</0>"
   },
   "fullNameOrPsuedonym": "全名或化名",
   "namePlaceholder": "例如：姓名",
@@ -1032,7 +1032,7 @@
   "inviteWithoutPayment": "嗨！我一直在使用 {{appName}} 作为我的加密货币钱包。它使用简便，我想邀请您访问此链接试用： {{link}}",
   "inviteWithEscrowedPayment": "嗨！我一直在使用 {{appName}} 将加密货币发送到世界各地。我刚刚向您发送了 {{amount}} {{token}}。请使用此链接下载 {{appName}} 应用程序并兑换您的 {{token}}：{{link}}",
   "inviteWithRewards": "嗨！👋 我正在使用 {{appName}} 作为加密货币钱包。您可以快速下载此应用程序并关联手机号码，之后我们都可以获得一个特别版的 NFT 作为奖励。💫 \n\n请使用此链接下载: {{link}}",
-  "inviteWithRewardsCUSD": "嘿！现在，如果你注册、连接你的号码并为你的 Valora 钱包充值，我们都可以免费获得 0.5 美元的奖励。我用它来增加我的美元和加密货币储蓄，而你只需一个电话号码就能在几秒钟内完成设置。确保使用我的推荐链接注册： \n\n{{link}} \n\n 快点，推荐促销即将结束。",
+  "inviteWithRewardsCUSD": "嗨！如果您现在注册、连接您的号码并为您的 Valora 钱包充值，我们都可以免费获得 0.5 美元的奖励。我用奖励来增加我的美元和加密货币储蓄，您只需一个电话号码就能在几秒钟内完成设置。请务必通过我的推荐链接注册： \n\n{{link}} \n\n 赶快行动吧，推荐促销很快就结束了。",
   "loadingContacts": "查找您的联系人",
   "myCode": "我的代码",
   "scanCode": "扫描",
@@ -1765,9 +1765,9 @@
     "swapToTokenSelection": "替换至",
     "tokenUsdValueUnknown": "-",
     "unsupportedSwapTokens": "我们的交换提供商不支持所选令牌。",
-    "selectTokenLabel": "选择令牌",
-    "tokenBottomSheetTitle": "选择令牌",
-    "onNetwork": "{{networkName}}",
+    "selectTokenLabel": "选择代币",
+    "tokenBottomSheetTitle": "选择代币",
+    "onNetwork": "在 {{networkName}}",
     "switchedToNetworkWarning": {
       "title": "您已转至 {{networkName}} 网络",
       "body_swapFrom": "在 {{networkName}} 网络上选择用于交换的代币，然后继续。",
@@ -1821,8 +1821,8 @@
       "appFeeValue_withoutPriceUsd": "<0></0>",
       "appFeeValue_free": "免费",
       "appFeeValue_placeholder": "-",
-      "appFeeInfo": "{{appName}} 费用\n\n {{appName}} 费用为 {{appFeePercentage}}%，旨在通过确保快速、可靠和安全的交换来提高您的体验。",
-      "appFeeInfo_free": "{{appName}} 费用\n\n本次交换是免费的。",
+      "appFeeInfo": "{{appName}} 费用\n\n{{appFeePercentage}}% 的 {{appName}} 费用旨在通过确保快速、可靠、安全的交换来提高您的体验。",
+      "appFeeInfo_free": "{{appName}} 费用\n\n本次交换免费。",
       "appFeeInfo_placeholder": "{{appName}} 费用\n\n费用根据您收到的报价计算。",
       "appFeeInfoDismissButton": "知道了",
       "slippagePercentage": "滑点调整",
@@ -1831,8 +1831,8 @@
       "slippageToleranceInfo": "滑点调整\n\n您的交换将在滑点调整百分比范围内执行。如果价格变动超过滑点调整，{{appName}} 将阻止交易执行，为您提供保护。",
       "networkFeeInfoDismissButton": "知道了",
       "exchangeRate": "汇率",
-      "exchangeRateInfo": "汇率\n\n我们为您找到了最佳汇率。您的交易将以 {{slippagePercentage}}% 的估算价格完成，否则交易将被取消，资金将退回您的钱包。",
-      "exchangeRateInfo_withAppFee": "汇率\n\n我们为您找到了最佳汇率。您的交易将以 {{slippagePercentage}}% 的估算价格完成，否则交易将被取消，资金将返还到您的钱包。\n\n估算汇率包括 {{appName}} 费用 {{appFeePercentage}}%。",
+      "exchangeRateInfo": "汇率\n\n我们为您找到了最佳汇率。您的交易将以 {{slippagePercentage}}% 的估算价格完成，否则交易将被取消，且资金将退回您的钱包。",
+      "exchangeRateInfo_withAppFee": "汇率\n\n我们为您找到了最佳汇率。您的交易将以 {{slippagePercentage}}% 的估算价格完成，否则交易将被取消，且资金将返还到您的钱包。\n\n估算汇率包含 {{appFeePercentage}}% 的 {{appName}} 费用。",
       "exchangeRateInfoDismissButton": "知道了",
       "estimatedValue": "估计价值"
     },
@@ -1953,7 +1953,9 @@
       "popular": "热门",
       "recentlySwapped": "最近交换",
       "network": "{{networkName}} 网络",
-      "selectNetwork": "网络"
+      "selectNetwork": "网络",
+      "stablecoins": "稳定币",
+      "gasTokens": "瓦斯令牌"
     }
   },
   "homeActions": {
@@ -2062,7 +2064,7 @@
     },
     "jumpstart": {
       "title": "通过实时链接发送",
-      "subtitle": "分享链接，像发送文本一样发送加密货币"
+      "subtitle": "分享链接，使发送加密货币就像发送文本一样简单"
     },
     "getStarted": {
       "title": "在 Valora 上发送资金的方式",
@@ -2154,7 +2156,7 @@
     }
   },
   "jumpstartShareLinkScreen": {
-    "title": "分享您的实时链接",
+    "title": "共享实时链接",
     "description": "复制链接，通过您选择的消息应用程序发送 {{tokenSymbol}} ，或使用二维码。",
     "linkLabel": "实时链接",
     "linkCopiedMessage": "复制的实时链接",
@@ -2164,7 +2166,7 @@
       "ctaNavigate": "返回主页"
     },
     "ctaShare": "共享链接",
-    "ctaScanQRCode": "显示 QR 码",
+    "ctaScanQRCode": "显示二维码",
     "shareMessage": "你好！我给您发了一个链接，资金来自 {{tokenAmount}} {{tokenSymbol}} ，网址是 {{appName}}。使用此链接下载应用程序，资金就会到账，等着您。 {{link}}",
     "qrCodeBottomSheet": {
       "title": "扫描代码接收资金",
@@ -2191,9 +2193,9 @@
   "getStartedHome": {
     "title": "购买加密货币或转移代币。",
     "body": "购买或转移兼容的代币，发送加密货币并探索 Web3！",
-    "titleV1_86": "为钱包添加资金",
-    "exploreTokens": "探索所有代币",
-    "exploreTokensBody": "您最多可以在瓦罗拉购买 10 多个代币。查看它们！"
+    "titleV1_86": "添加资金到钱包中",
+    "exploreTokens": "了解所有代币",
+    "exploreTokensBody": "您可以在 Valora 购买多达超过 10 个代币。快去试试吧！"
   },
   "nftCelebration": {
     "bottomSheet": {
@@ -2207,13 +2209,13 @@
     },
     "rewardBottomSheet": {
       "title": "赚取 5 美元 ETH",
-      "description": "在太平洋时间 2024 年 4 月 4 日下午 12:00 之前用任何以太坊代币为您的钱包充值，我们将在太平洋时间 2024 年 4 月 5 日下午 11:59 之前为您提供 5 美元的 ETH。\n\n这是对早期以太坊探索者的独家优惠。",
+      "description": "只要在太平洋时间 2024 年 4 月 4 日中午 12:00 之前用任何以太坊代币为您的钱包充值，我们就将在太平洋时间 2024 年 4 月 5 日晚上 11:59 之前为您提供 5 美元的 ETH。\n\n这是对早期以太坊探索者的独家优惠。",
       "expirationLabel": "过期 {{expirationLabelText}}",
       "cta": "使用奖励"
     },
     "rewardReminderBottomSheet": {
       "title": "不要错过，赚取 5 美元 ETH",
-      "description": "在太平洋时间 2024 年 4 月 4 日下午 12:00 之前用任何以太坊代币为您的钱包充值，我们将在太平洋时间 2024 年 4 月 5 日下午 11:59 之前为您提供 5 美元的 ETH。\n\n这是对早期以太坊探索者的独家优惠。",
+      "description": "只要在太平洋时间 2024 年 4 月 4 日中午 12:00 之前用任何以太坊代币为您的钱包充值，我们就将在太平洋时间 2024 年 4 月 5 日晚上 11:59 之前为您提供 5 美元的 ETH。\n\n这是对早期以太坊探索者的独家优惠。",
       "expirationLabel": "过期 {{expirationLabelText}}",
       "cta": "使用奖励"
     }
@@ -2242,27 +2244,27 @@
   },
   "jumpstartStatus": {
     "loading": {
-      "title": "检查您的资金",
-      "description": "请稍候，我们将检查您的 Live Link。可申请的资金将很快到账。"
+      "title": "正在检查您的资金",
+      "description": "请稍候，我们将检查您的实时链接。可申领的资金将很快到账。"
     },
     "error": {
       "title": "无法领取资金",
-      "description": "此链接无法申请，原因不明",
+      "description": "由于未知原因，无法使用此链接",
       "alreadyClaimedDescription": "链接已被使用。请让您的朋友发送一个新链接",
       "contactSupport": "联系支持团队",
       "dismiss": "忽略"
     }
   },
   "jumpstartReclaim": {
-    "description": "恢复链接需要支付网络气体费用，您是否愿意继续？",
+    "description": "恢复链接需要支付网络手续费，是否要继续？",
     "fetchStatusError": {
       "title": "哎呀，出错了",
       "description": "我们无法获取该邀请的申请状态，请稍后再试或联系支持人员",
       "retryCta": "重试"
     },
     "reclaimError": {
-      "title": "无法收回资金",
-      "description": "尝试再次回收，或联系支持人员"
+      "title": "无法领取资金",
+      "description": "尝试重新领取，或联系支持人员"
     }
   },
   "multiSelect": {
@@ -2270,13 +2272,13 @@
     "allNetworks": "所有网络"
   },
   "points": {
-    "title": "瓦洛拉积分",
+    "title": "Valora 积分",
     "activity": "活动",
     "history": {
       "cards": {
         "createWallet": {
-          "title": "钱包夹",
-          "subtitle": "{{appName}}成员"
+          "title": "钱包所有者",
+          "subtitle": "{{appName}} 成员"
         },
         "swap": {
           "title": "交换",
@@ -2285,13 +2287,13 @@
       },
       "title": "我的积分活动",
       "error": {
-        "title": "无法加载点活动",
-        "subtitle": "哎呀，在加载您的积分活动提要时出了点问题。请重试。",
+        "title": "无法加载积分活动",
+        "subtitle": "哎呀，在加载积分活动提要时出了点问题。请重试。",
         "tryAgain": "再试一次"
       },
       "empty": {
         "title": "尚无积分活动",
-        "subtitle": "看来您还没有获得任何积分。使用 {{appName}} 开始赚取积分！",
+        "subtitle": "您似乎还没有获得任何积分。使用 {{appName}} 开始赚取积分吧！",
         "gotIt": "知道了"
       },
       "pageError": {
@@ -2302,40 +2304,40 @@
     },
     "fetchBalanceError": {
       "title": "无法加载您的积分",
-      "description": "哎呀，在加载您的积分时出了点问题。本页面上的信息可能已经过时。请刷新。",
+      "description": "哎呀，在加载积分时出了点问题。本页面上的信息可能已过时。请刷新。",
       "retryCta": "刷新"
     },
     "loading": {
-      "title": "收集要点",
-      "description": "我们正在统计您的积分，请抓紧时间"
+      "title": "收集积分",
+      "description": "我们正在统计您的积分，请稍等"
     },
     "error": {
-      "title": "无法加载点",
-      "description": "哎呀，在加载您的积分时出了点问题。请重试。",
+      "title": "无法加载积分",
+      "description": "哎呀，在加载积分时出了点问题。请重试。",
       "retryCta": "再试一次"
     },
     "infoCard": {
-      "title": "更多赚取积分的方法即将推出 🚀",
+      "title": "即将推出更多赚取积分的方法 🚀",
       "body": "我们正在努力增加更多通过使用应用程序赚取积分的方法。请随时查看更新。"
     },
     "activitySection": {
-      "title": "如何获得积分？",
-      "body": "非常简单！只需使用该应用程序即可获得积分。"
+      "title": "如何赚取积分？",
+      "body": "非常简单！只需使用该应用程序即可赚取积分。"
     },
     "noActivities": {
-      "title": "更新以解锁更多积分 🔓",
-      "body": "哎呀！您使用的似乎是旧版本的 {{appName}}。立即更新，了解赚取积分的所有令人兴奋的新方法。"
+      "title": "进行更新，以解锁更多积分 🔓",
+      "body": "哎呀！您使用的似乎是旧版本的 {{appName}}。请立即更新，了解所有激动人心的赚取积分的新方式。"
     },
     "activityCards": {
       "createWallet": {
-        "title": "创建 {{appName}}  钱包"
+        "title": "创建 {{appName}} 钱包"
       },
       "swap": {
-        "title": "掉期资产",
+        "title": "交换资产",
         "bottomSheet": {
-          "title": "掉期资产",
-          "body": "这个空格将用来提供这方面所需的所有细节。也许是交换的最低金额。 \n\n每当您使用 {{appName}}进行资产交换时，都可以赚取 {{pointsValue}} 积分。",
-          "cta": "去交换"
+          "title": "交换资产",
+          "body": "这个空间将用来提供这方面所需的所有细节。也许是交换的最低金额。 \n\n每当您使用 {{appName}} 进行资产交换时，都可以赚取 {{pointsValue}} 积分。",
+          "cta": "前往交换"
         }
       },
       "moreComing": {
@@ -2344,109 +2346,132 @@
     },
     "discoverCard": {
       "title": "{{appName}} 积分",
-      "description": "通过 {{appName}}轻松赚取积分。使用应用程序（包括交换）可获得积分！"
+      "description": "通过 {{appName}} 轻松赚取积分。使用本应用程序（包括交换）可获得积分！"
     },
     "intro": {
       "title": "轻松赚取积分",
-      "description": "跳转到新的赚钱方式！您的 {{appName}} 行动现在可以赚取积分。今天就开始赚取积分，享受超值优惠。",
+      "description": "采用新的赚钱方式！您的 {{appName}} 行动现在可以赚取积分了。现在就开始赚取积分，享受超值优惠。",
       "cta": "开始您的积分之旅"
     }
   },
   "earnFlow": {
-    "gasSubsidized": "Valora 公司为此次交易提供天然气！",
+    "gasSubsidized": "Valora 目前会为此交易承担手续费！",
     "addCryptoBottomSheet": {
-      "title": "在 {{tokenNetwork}}上添加 {{tokenSymbol}}",
-      "description": "一旦您添加了代币，您就必须回来完成存入池的工作。",
+      "title": "在 {{tokenNetwork}} 上添加 {{tokenSymbol}}",
+      "description": "添加代币后，就必须返回并完成将资金存入池中。",
       "actions": {
         "add": "买入",
-        "transfer": "转让",
+        "transfer": "转账",
         "swap": "交换"
       },
       "actionDescriptions": {
-        "add": "使用我们值得信赖的供应商之一在 {{tokenNetwork}} 上购买 {{tokenSymbol}}",
-        "transfer": "使用任何与 {{tokenNetwork}} 兼容的钱包或交易所存款 {{tokenSymbol}}",
-        "swap": "从另一个 {{tokenNetwork}} 令牌换入 {{tokenSymbol}}"
+        "add": "使用我们值得信赖的提供商之一，在 {{tokenNetwork}} 上购买 {{tokenSymbol}}",
+        "transfer": "使用任何与 {{tokenNetwork}} 兼容的钱包或交易所，来存入 {{tokenSymbol}}",
+        "swap": "从另一个 {{tokenNetwork}} 代币换入 {{tokenSymbol}}"
       }
     },
     "cta": {
-      "title": "赚取稳定币",
-      "subtitle": "立即存款，赚取回报",
-      "description": "了解您在提供贷款池时能赚多少钱"
+      "title": "通过稳定币赚取收入",
+      "subtitle": "现在就存款，赚取收益",
+      "description": "了解在提供贷款池时您能赚取多少收入"
+    },
+    "earnInfo": {
+      "title": "通过稳定币赚取收入",
+      "details": {
+        "earn": {
+          "titleGasSubsidy": "实现收入最大化，且无需手续费*",
+          "title": "实现收入最大化",
+          "subtitle": "通过稳定币赚取收入，并在提供资金池后获取奖励。",
+          "footnoteSubsidy": "*手续费目前暂时由 Valora 承担"
+        },
+        "manage": {
+          "title": "直接在 Valora 管理",
+          "subtitle": "我们会处理好设置问题，以便您能直接在 Valora 管理持仓。"
+        },
+        "access": {
+          "title": "轻松获取资金",
+          "subtitle": "只需轻轻一按，即可轻松收取资金。直接通过最喜欢的协议收取，享受即时获取的便利。"
+        }
+      },
+      "action": {
+        "learn": "了解更多",
+        "earn": "开始赚钱"
+      }
     },
     "ctaV1_86": {
-      "title": "最大化稳定币收益",
+      "title": "实现稳定币收入最大化",
       "subtitle": "购买 {{symbol}}",
-      "description": "将 {{symbol}} 加入游泳池后，每年可获得约 {{apy}}% 的收益"
+      "description": "将 {{symbol}} 添加到池中，每年可赚取大约 {{apy}}%"
     },
     "enterAmount": {
-      "earnUpToLabel": "您最多可以获得",
-      "rateLabel": "比率（估计值）",
-      "earnUpTo": "~{{fiatSymbol}}{{amount}} / 年",
-      "rate": "{{rate}}年利率",
+      "earnUpToLabel": "您最多可以赚取：",
+      "rateLabel": "费率（估算）",
+      "earnUpTo": "~{{fiatSymbol}}{{amount}}/年",
+      "rate": "{{rate}}% APY",
       "continue": "继续",
-      "info": "本泳池由 Aave 提供能源",
+      "info": "此池由 Aave 提供支持",
       "infoBottomSheet": {
-        "title": "为什么是这个泳池？",
-        "description": "该 Aave 池拥有超过 1.5 亿美元的 TVL 和 6000 多名贡献者，这表明它具有很强的流动性和可信度。它还使用 USDC 作为代币，使用 Abritrum 作为网络，从而降低了波动性，确保用户获得低廉的天然气价格。\n\n所有这些都使其成为一个安全、有吸引力且年利率具有竞争力的选择，确保为我们的用户提供有利的投资机会。\n\n您可以<0>在这里</0>探索其他 Aave 池。",
+        "title": "为什么使用此池？",
+        "description": "这个 Aave 池拥有超过 1.5 亿美元的 TVL 和 6000 多名贡献者，这表明此池具有很强的流动性和可信度。此池还使用 USDC 作为代币，并以 Abritrum 作为网络，从而降低了波动性，确保用户获得低廉的手续费。\n\n结合所有方面来看，此池是一个安全、有吸引力且年利率具有竞争力的选择，确保为我们的用户提供有利的投资机会。\n\n您可以在<0>此处</0>探索其他 Aave 池。",
         "dismiss": "忽略"
       },
       "notEnoughBalanceForGasWarning": {
         "title": "您需要更多 {{feeTokenSymbol}} 才能继续",
-        "description": "在 {{network}} 上添加 {{feeTokenSymbol}} 以支付汽油费",
-        "noGasCta": "在 {{network}}上购买 {{feeTokenSymbol}}"
+        "description": "在 {{network}} 上添加 {{feeTokenSymbol}} 以支付手续费",
+        "noGasCta": "在 {{network}} 上购买 {{feeTokenSymbol}}"
       }
     },
     "activePools": {
-      "title": "活动泳池",
-      "totalValue": "总价值",
+      "title": "活动池",
+      "totalValue": "总值：",
       "apy": "~{{apy}}% APY",
-      "exitPool": "出口池",
-      "depositMore": "存款 更多",
-      "viewPools": "查看泳池"
+      "exitPool": "退出池",
+      "depositMore": "存入更多",
+      "viewPools": "查看各类池"
     },
     "depositBottomSheet": {
       "title": "审查和存款",
-      "description": "在向 Aave 奖池存款之前，请查看以下交易详情",
+      "description": "在向 Aave 池存款之前，请查看以下交易详情",
       "amount": "已转入金额",
-      "fee": "估计天然气费",
+      "fee": "估计手续费",
       "provider": "收入提供者",
       "network": "网络",
       "footer": "向 Aave 池存入加密货币，即表示您接受与使用 Aave 相关的风险。<0>条款和条件</0>",
-      "primaryCta": "完整",
+      "primaryCta": "完成",
       "secondaryCta": "取消"
     },
     "collect": {
-      "title": "恭喜您查看并领取收益",
+      "title": "恭喜！查看并领取您的收益",
       "total": "总计",
-      "plus": "加",
-      "rate": "比率（估计值）",
-      "apy": "{{apy}}年利率",
-      "fee": "燃气费",
-      "cta": "收取收益",
+      "plus": "PLUS",
+      "rate": "费率（估算）",
+      "apy": "{{apy}}% APY",
+      "fee": "手续费",
+      "cta": "领取收入",
       "errorTitle": "出错了",
       "errorDescription": "无法获取存款详情。请重试。",
       "noGasTitle": "您需要更多 {{symbol}} 才能继续",
-      "noGasDescription": "在 {{network}} 上添加 {{symbol}} 以支付汽油费",
-      "noGasCta": "在 {{network}}上购买 {{symbol}}"
+      "noGasDescription": "在 {{network}} 上添加 {{symbol}} 以支付手续费",
+      "noGasCta": "在 {{network}} 上购买 {{symbol}}"
     },
     "transactionFeed": {
-      "earnClaimTitle": "收藏",
-      "earnClaimSubtitle": "来自 {{providerName}} Pool",
-      "earnDepositTitle": "存入",
+      "earnClaimTitle": "已领取",
+      "earnClaimSubtitle": "从 {{providerName}} 池",
+      "earnDepositTitle": "已存入",
       "earnDepositSubtitle": "至 {{providerName}} 池",
-      "earnWithdrawTitle": "撤回",
-      "earnWithdrawSubtitle": "来自 {{providerName}} Pool"
+      "earnWithdrawTitle": "已取出",
+      "earnWithdrawSubtitle": "从 {{providerName}} 池"
     },
     "transactionDetails": {
       "descriptionLabel": "详细信息",
-      "earnClaimTitle": "收藏",
-      "earnClaimSubtitle": "从 {{providerName}} Pool 收集的 {{tokenSymbol}}",
-      "earnClaimDetails": "收款金额",
-      "earnDepositTitle": "存入",
-      "earnDepositSubtitle": "存入 {{tokenSymbol}} 至 {{providerName}} 奖池",
+      "earnClaimTitle": "已领取",
+      "earnClaimSubtitle": "已从 {{providerName}} 池领取 {{tokenSymbol}}",
+      "earnClaimDetails": "已领取金额",
+      "earnDepositTitle": "已存入",
+      "earnDepositSubtitle": "已向 {{providerName}} 池存入 {{tokenSymbol}}",
       "earnDepositDetails": "已转入金额",
-      "earnWithdrawTitle": "撤回",
-      "earnWithdrawSubtitle": "从 {{providerName}} Pool 提取 {{tokenSymbol}}",
+      "earnWithdrawTitle": "已取出",
+      "earnWithdrawSubtitle": "已从 {{providerName}} 池取出 {{tokenSymbol}}",
       "earnWithdrawDetails": "已提取金额"
     }
   },

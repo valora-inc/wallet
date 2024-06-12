@@ -255,8 +255,8 @@
       "text": "Cualquier persona que acceda a tu frase tendrá acceso a tu cuenta y a todos tus fondos. No la compartas con nadie."
     }
   ],
-  "consumerIncentivesTitle": "Se acaba la Supercarga",
-  "consumerIncentivesSummary": "Pero te esperan más recompensas. Hasta el 28 de mayo, obtén {{percent}}% de recompensas anuales en tu saldo más alto de stablecoin (cUSD, cEUR o cREAL). Así es como funciona:",
+  "consumerIncentivesTitle": "Supercharge llega a su fin",
+  "consumerIncentivesSummary": "Pero te esperan más recompensas. Hasta el 28 de mayo, obtén {{percent}}% en recompensas anuales sobre tu saldo más alto de cUSD, cEUR o cREAL. Así funciona:",
   "earnWeekly": {
     "header": "Conecta tu número de teléfono",
     "text": "Toca Conecta tu número si aún no lo haz hecho."
@@ -271,14 +271,14 @@
     "text": "Esto garantizará que tus fondos estén seguros y siempre tengas acceso a ellos."
   },
   "conclusion": "Es así de simple. ¡Recárgate de cripto hoy!",
-  "superchargeTitle": "Se acaba la Supercarga",
-  "superchargeDescription": "Pero te esperan más recompensas. Hasta el 28 de mayo, obtén {{apy}}% de recompensa anual en tu saldo más alto de {{token}} . Así es como funciona:",
+  "superchargeTitle": "Supercharge llega a su fin",
+  "superchargeDescription": "Pero te esperan más recompensas. Hasta el 28 de mayo, obtén {{apy}}% en recompensas anuales sobre tu saldo más alto de {{token}} . Así es como funciona:",
   "superchargeConnectNumber": "Conecta tu número de teléfono",
   "superchargeReconnectNumber": "Reconecta tu número de teléfono\n<0>Lanzamos un experiencia mejorada de Supercharge. Reconecta tu número de teléfono para seguir recibiendo recompensas sobre tus {{token}}.</0>",
   "superchargeMinimumBalance": "Agrega un saldo mínimo de {{amount}} {{token}}",
-  "superchargeDisclaimer": "Esto no afectará a tu saldo ni a tus ganancias anteriores.",
-  "superchargeDisclaimerMaxRewards": "Esto no afectará a tu saldo ni a tus ganancias anteriores.",
-  "superchargeDisclaimerDayLimit": "Esto no afectará a tu saldo ni a tus ganancias anteriores. <0>Más información</0>",
+  "superchargeDisclaimer": "Esto no afectará tu saldo ni tus ganancias anteriores.",
+  "superchargeDisclaimerMaxRewards": "Esto no afectará tu saldo ni tus ganancias anteriores.",
+  "superchargeDisclaimerDayLimit": "Esto no afectará tu saldo ni tus ganancias anteriores. <0>Más información</0>",
   "superchargeTokenDetailsDialog": {
     "title": "¿Qué activos generan recompensas con Supercharge?",
     "body": "Recibirás recompensas semanales sobre tu stablecoin Celo con mayor saldo (cEUR, cUSD, cREAL).",
@@ -286,11 +286,11 @@
   },
   "superchargingTitle": "Actualización de aplicación necesaria",
   "superchargingDescription": "Actualiza la app Valora para seguir recibiendo tus recompensas semanales Supercharge.",
-  "superchargingTitleV1_54": "Se acaba la Supercarga",
-  "superchargingDescriptionV1_54": "Podrás reclamar las recompensas semanales hasta el martes 28 de mayo a las 23:59 UTC. A partir del 29 de mayo, ya no podrás reclamar recompensas de Supercarga.",
+  "superchargingTitleV1_54": "Supercharge llega a su fin",
+  "superchargingDescriptionV1_54": "Podrás reclamar las recompensas semanales hasta el martes 28 de mayo a las 23:59 UTC. A partir del 29 de mayo, ya no podrás reclamar recompensas de Supercharge.",
   "superchargeRewardsAvailable": "¡Has acumulado {{amount}} {{token}} en recompensas!",
   "superchargeRewardsAvailableMultipleTokens": "¡Has acumulado {{amounts}} en recompensas!",
-  "superchargeClaimText": "Reclama tus recompensas hasta el martes 28 de mayo a las 23:59 UTC. A partir del 29 de mayo, ya no podrás reclamar recompensas de Supercarga.",
+  "superchargeClaimText": "Reclama tus recompensas hasta el martes 28 de mayo a las 23:59 UTC. A partir del 29 de mayo, ya no podrás reclamar recompensas de Supercharge.",
   "superchargeClaimButton": "Reclamar recompensas",
   "superchargeFetchRewardsFailed": "Hubo un error al recuperar tus recompensas de Supercharge pendientes. Vuelve a intentarlo más tarde.",
   "superchargeClaimSuccess": "Se agregaron tus recompensas de Supercharge a tu saldo total.",
@@ -516,7 +516,7 @@
   "to": "Para",
   "for": "Motivo",
   "reclaim": "Recuperar",
-  "claimed": "Reclamada",
+  "claimed": "Ganancias",
   "celoGold": "CELO",
   "celoEuros": "Celo Euros",
   "balanceAvailable": "<0></0> disponibles",
@@ -678,7 +678,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Invita a amigos y consigue hasta 12 cUSD",
-    "body": "Una vez que conecten su número y añadan fondos a {{appName}}, ambos recibiréis 0,50 cUSD."
+    "body": "Una vez que conecten su número y agreguen fondos a {{appName}}, ambos recibirán 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Invita a tus amigos",
@@ -693,7 +693,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "¡GANA HASTA 12 cUSD por invitar a tus amigos a Valora!",
-      "body": "Consigue 0,50 cUSD por cada amigo que invites a {{appName}}. Una vez que conecten su número, añadan fondos y los mantengan durante 7 días, ambos obtendréis 0,50 cUSD. Date prisa, ¡los fondos son limitados! (Límite de 25 amigos)."
+      "body": "Obtén 0,50 cUSD por cada amigo que invites a {{appName}}. Una vez que conecten su número, agreguen fondos y los mantengan durante 7 días, ambos obtendrán 0,50 cUSD. Date prisa, ¡los fondos son limitados! (límite de 25 amigos)."
     }
   },
   "getReward": "Obtén ${{reward}}",
@@ -710,15 +710,15 @@
     "goldDisclaimer": "Cuando creas una \"cuenta\" en Valora, estás creando una billetera digital de la que sólo tú tienes las claves. Ninguna otra persona o entidad, incluyendo Valora, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Ten en cuenta que las criptomonedas forman parte de una nueva clase de activos y presentan un riesgo de pérdida financiera. Considera cuidadosamente tu circunstancia financiera y tu tolerancia al riesgo financiero antes de comprar cualquier activo."
   },
   "termsColloquial": {
-    "title": "Empecemos por crear tu monedero",
+    "title": "Empecemos por crear tu wallet",
     "privacyHeading": "Tu información y privacidad:",
-    "privacy1": "Recopilamos datos de uso que nos ayudan a mejorar la aplicación y la seguridad. El tipo de información que recopilamos, cómo la utilizamos y tus derechos relacionados con esa información pueden consultarse en nuestra <0>Política de privacidad</0>.",
-    "privacy2": "Si decides vincular tu número de teléfono, almacenaremos una copia encriptada del mismo.",
-    "privacy3": "Si decides conectar tus contactos, utilizamos sus nombres, números y fotos de perfil para que sea más fácil encontrarlos.",
-    "walletHeading": "Tu Billetera Digital con Valora:",
-    "wallet1": "Estás a punto de crear un monedero digital. Sólo tú tienes la clave de tu monedero. No podemos recuperar tu clave ni tus activos si la pierdes. Tampoco podemos revertir las acciones realizadas a través de Valora en blockchains.",
-    "wallet2": "Los activos digitales, los activos con los que interactuarás con Valora, conllevan riesgos únicos. Al utilizar Valora, aceptas estos riesgos y te responsabilizas de ellos. Por favor, considera tus finanzas y tu tolerancia al riesgo antes de tomar decisiones.",
-    "fullTerms": "Lee nuestros <0>Términos y condiciones</0> completos"
+    "privacy1": "Recopilamos datos de uso que nos ayudan a mejorar la aplicación y la seguridad. Puedes consultar el tipo de información que recopilamos, cómo la utilizamos y tus derechos relacionados con esa información en nuestra <0>Política de privacidad</0>.",
+    "privacy2": "Si decides vincular tu número de teléfono, almacenaremos una copia encriptada de este.",
+    "privacy3": "Si decides conectar tus contactos, utilizaremos sus nombres, números y fotos de perfil para que sea más fácil encontrarlos.",
+    "walletHeading": "Tu wallet digital en Valora:",
+    "wallet1": "Estás a punto de crear una wallet digital. Solo tú tienes la clave para acceder a ella. Si la pierdes, no podremos recuperar tu clave o activos. Tampoco podemos revertir las acciones tomadas a través de Valora en las blockchains habilitadas.",
+    "wallet2": "Los activos digitales, con los que interactuarás con Valora, conllevan riesgos únicos. Al utilizar Valora, aceptas estos riesgos y te responsabilizas de ellos. Toma en cuenta tus finanzas y tolerancia al riesgo antes de tomar decisiones.",
+    "fullTerms": "Lee nuestros <0>Términos y condiciones</0>."
   },
   "fullNameOrPsuedonym": "Nombre o alias",
   "namePlaceholder": "p. ej. nombre",
@@ -827,7 +827,7 @@
     "hasWallet": "Ya tengo una wallet",
     "header": "¡Te damos la bienvenida a {{appName}}! Demos el primer paso, creemos tu wallet.",
     "getStarted": "Primeros pasos",
-    "agreeToTerms": "Al crear un monedero aceptas nuestros <0>Términos y Condiciones</0>"
+    "agreeToTerms": "Al crear una wallet aceptas nuestros <0>Términos y condiciones</0>."
   },
   "accessContacts": {
     "disclosure": {
@@ -1011,7 +1011,7 @@
   "receivedFrom": "De",
   "commentLabel": "Mensaje",
   "amountSent": "Monto enviado",
-  "amountReceived": "Importe recibido",
+  "amountReceived": "Monto recibido",
   "amountCeloWithdrawn": "Monto (CELO)",
   "feeEducation": "Las blockchains cobran una tarifa de transacción para mantener el soporte de la red y que funcione sin problemas.",
   "reviewPayment": "Revisar pago",
@@ -1034,7 +1034,7 @@
   "inviteWithoutPayment": "¡Hola! Estoy usando {{appName}} para enviar cripto en todo el mundo. Es fácil de usar y me gustaría invitarte a probarla con este link: {{link}}",
   "inviteWithEscrowedPayment": "¡Hola! Estoy usando {{appName}} para enviar dinero en todo el mundo. Acabo de enviarte {{amount}} {{token}}. Puedes descargar la app de {{appName}} y reclamar tus {{token}} con este link: {{link}}",
   "inviteWithRewards": "¡Hola! 👋 Estoy usando la wallet cripto de {{appName}}. Descargarla y conectar tu número es muy fácil, y si lo haces ahora ambos recibiremos un NFT como recompensa 💫 \n\nUsa este enlace: {{link}}",
-  "inviteWithRewardsCUSD": "Hola! Ahora mismo ambos podemos conseguir una recompensa gratuita de 0,50 $ si te registras, conectas tu número y financias tu monedero Valora. Yo lo utilizo para aumentar mis ahorros en USD y criptomonedas, y tú puedes configurarlo en segundos con sólo un número de teléfono. Asegúrate de registrarte con mi enlace de recomendación aquí: \n\n{{link}} \n\n Date prisa, la promoción de recomendación termina pronto.",
+  "inviteWithRewardsCUSD": "¡Hola! Ahora mismo, ambos podemos obtener una recompensa de USD 0,50 si te registras, conectas tu número de teléfono y agregas fondos en tu wallet Valora. Yo la utilizo para hacer crecer mis ahorros en USD y cripto, y puedes configurarla en segundos con solo un número de teléfono. Asegúrate de registrarte con mi enlace de referencia aquí: \n\n{{link}} \n\nDate prisa, ¡la promoción termina pronto!",
   "loadingContacts": "Estamos encontrando tus contactos",
   "myCode": "Mi código",
   "scanCode": "Escanear",
@@ -1767,7 +1767,7 @@
     "swapToTokenSelection": "CAMBIAR A",
     "tokenUsdValueUnknown": "-",
     "unsupportedSwapTokens": "Los tokens seleccionados no son compatibles con nuestros proveedores de swap.",
-    "selectTokenLabel": "Seleccionar ficha",
+    "selectTokenLabel": "Selecciona un token",
     "tokenBottomSheetTitle": "Seleccionar token",
     "onNetwork": "en {{networkName}}",
     "switchedToNetworkWarning": {
@@ -1823,9 +1823,9 @@
       "appFeeValue_withoutPriceUsd": "<0></0>",
       "appFeeValue_free": "Gratis",
       "appFeeValue_placeholder": "-",
-      "appFeeInfo": "{{appName}} Comisión\n\nLa comisión {{appName}} de {{appFeePercentage}}% está diseñada para mejorar tu experiencia garantizando intercambios rápidos, fiables y seguros.",
-      "appFeeInfo_free": "{{appName}} Tarifa\n\nEste intercambio es gratuito.",
-      "appFeeInfo_placeholder": "{{appName}} Tarifa\n\nLa tarifa se calcula en función del presupuesto que recibas.",
+      "appFeeInfo": "Tarifa de {{appName}}\n\nLa tarifa de {{appName}} del {{appFeePercentage}}% está diseñada para mejorar tu experiencia, garantizando intercambios rápidos, fiables y seguros.",
+      "appFeeInfo_free": "Tarifa de {{appName}}\n\nEste intercambio es gratuito.",
+      "appFeeInfo_placeholder": "Tarifa de {{appName}}\n\nLa tarifa se calcula en función de la cotización que recibas.",
       "appFeeInfoDismissButton": "Entendido",
       "slippagePercentage": "Tolerancia al slippage",
       "networkFeeInfo": "Estás intercambiando en la red {{networkName}}.\n\nSe requiere esta tarifa de red estimada para realizar una transacción en la red {{networkName}}. Esta tarifa asegura tu transacción y se destina a mantener la red.",
@@ -1833,8 +1833,8 @@
       "slippageToleranceInfo": "Tolerancia de deslizamiento\n\nTu swap se ejecutará dentro del porcentaje de tolerancia de deslizamiento. Si el precio varía más que la tolerancia de deslizamiento, {{appName}} te protege impidiendo que se ejecute la operación.",
       "networkFeeInfoDismissButton": "Entendido",
       "exchangeRate": "Tasa de cambio",
-      "exchangeRateInfo": "Tipo de cambio\n\nHemos encontrado el mejor tipo de cambio para ti. Tu intercambio se completará a un precio dentro de {{slippagePercentage}}% de la estimación o la transacción se cancelará y los fondos se devolverán a tu monedero.",
-      "exchangeRateInfo_withAppFee": "Tipo de cambio\n\nHemos encontrado el mejor tipo de cambio para ti. Tu intercambio se completará a un precio dentro de {{slippagePercentage}}% de la estimación o la transacción se cancelará y los fondos se devolverán a tu monedero.\n\nEl tipo de cambio estimado incluye una comisión de {{appName}} del {{appFeePercentage}}%.",
+      "exchangeRateInfo": "Tasa de cambio\n\nHemos encontrado la mejor tasa de cambio para ti. Tu intercambio se completará a un precio dentro del {{slippagePercentage}}% del estimado o la transacción se cancelará y los fondos se devolverán a tu wallet.",
+      "exchangeRateInfo_withAppFee": "Tasa de cambio\n\nHemos encontrado la mejor tasa de cambio para ti. Tu intercambio se completará a un precio dentro del {{slippagePercentage}}% del estimado o la transacción se cancelará y los fondos se devolverán a tu wallet.\n\nLa tasa estimada incluye una tarifa de {{appName}} del {{appFeePercentage}}%.",
       "exchangeRateInfoDismissButton": "Entendido",
       "estimatedValue": "Valor estimado"
     },
@@ -1955,7 +1955,9 @@
       "popular": "Popular",
       "recentlySwapped": "Intercambiado recientemente",
       "network": "Red {{networkName}}",
-      "selectNetwork": "Red"
+      "selectNetwork": "Red",
+      "stablecoins": "Stablecoins",
+      "gasTokens": "Tokens de gas"
     }
   },
   "homeActions": {
@@ -2063,8 +2065,8 @@
       "subtitle": "Envía fondos o una invitación a tus contactos"
     },
     "jumpstart": {
-      "title": "Enviar con un enlace en directo",
-      "subtitle": "Comparte un enlace para enviar criptomonedas como un texto"
+      "title": "Envia con un enlace directo",
+      "subtitle": "Comparte un enlace para enviar cripto como envías mensajes a tus amigos"
     },
     "getStarted": {
       "title": "Formas de enviar fondos en Valora",
@@ -2145,7 +2147,7 @@
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Crear un enlace en directo",
+    "title": "Crear un enlace directo",
     "sendAmountLabel": "Monto del enlace activo",
     "confirmButton": "Enviar y crear enlace",
     "info": "Cuando creas un enlace, los fondos se retiran de tu billetera. Puedes recuperar el enlace en cualquier momento. Comparte enlaces con cuidado.",
@@ -2156,7 +2158,7 @@
     }
   },
   "jumpstartShareLinkScreen": {
-    "title": "Comparte tu enlace en directo",
+    "title": "Comparte tu enlace directo",
     "description": "Copia el enlace para enviar {{tokenSymbol}} a través de la app de mensajería que prefieras, o usa el código QR.",
     "linkLabel": "Enlace activo",
     "linkCopiedMessage": "Enlace activo copiado",
@@ -2194,8 +2196,8 @@
     "title": "Comprar cripto o transferir tokens",
     "body": "Compra o transfiere tokens compatibles para enviar cripto y explora web3",
     "titleV1_86": "Agrega fondos a tu wallet",
-    "exploreTokens": "Explorar todas las fichas",
-    "exploreTokensBody": "Puedes comprar hasta más de 10 fichas en Valora. ¡Compruébalo!"
+    "exploreTokens": "Explora todos los tokens",
+    "exploreTokensBody": "Puedes comprar más de 10 tokens en Valora. ¡Descúbrelos todos!"
   },
   "nftCelebration": {
     "bottomSheet": {
@@ -2208,14 +2210,14 @@
       "description": "Puedes encontrar tu nuevo NFT {{rewardName}} en tus \"Coleccionables\""
     },
     "rewardBottomSheet": {
-      "title": "Gana 5$ de ETH",
-      "description": "Deposita en tu monedero cualquier token de Ethereum antes del 4 de abril de 2024 a las 12:00 PM PDT, y te daremos 5 $ de ETH el 5 de abril de 2024 antes de las 11:59 PM PDT.\n\nSe trata de una oferta exclusiva por ser un Explorador Temprano de Ethereum.",
+      "title": "Gana $5 de ETH",
+      "description": "Deposita cualquier token de Ethereum antes del 4 de abril de 2024 a las 12:00 PM PDT, y te daremos $5 de ETH el 5 de abril de 2024 antes de las 11:59 PM PDT.\n\nEsta es una oferta exclusiva por ser un explorador temprano de Ethereum.",
       "expirationLabel": "Caduca en {{expirationLabelText}}",
       "cta": "Utiliza la recompensa"
     },
     "rewardReminderBottomSheet": {
-      "title": "No te lo pierdas, gana 5$ de ETH",
-      "description": "Deposita en tu monedero cualquier token de Ethereum antes del 4 de abril de 2024 a las 12:00 PM PDT, y te daremos 5 $ de ETH el 5 de abril de 2024 antes de las 11:59 PM PDT.\n\nSe trata de una oferta exclusiva por ser un Explorador Temprano de Ethereum.",
+      "title": "No te lo pierdas, gana $5 de ETH",
+      "description": "Deposita cualquier token de Ethereum antes del 4 de abril de 2024 a las 12:00 PM PDT, y te daremos $5 de ETH el 5 de abril de 2024 antes de las 11:59 PM PDT.\n\nEsta es una oferta exclusiva por ser un explorador temprano de Ethereum.",
       "expirationLabel": "Caduca en {{expirationLabelText}}",
       "cta": "Utiliza la recompensa"
     }
@@ -2235,7 +2237,7 @@
     },
     "home": {
       "tabName": "Inicio",
-      "title": "¡Saludos!"
+      "title": "¡Hola!"
     },
     "discover": {
       "tabName": "Explorar",
@@ -2244,31 +2246,31 @@
   },
   "jumpstartStatus": {
     "loading": {
-      "title": "Comprobación de tus fondos",
-      "description": "Espera mientras comprobamos tu Live Link. Los fondos reclamables llegarán en breve."
+      "title": "Estamos verificando tus fondos",
+      "description": "Espera mientras comprobamos tu enlace directo. Los fondos recuperables llegarán en breve."
     },
     "error": {
       "title": "No se pueden recuperar los fondos",
-      "description": "Este enlace no ha podido ser reclamado por una razón desconocida",
-      "alreadyClaimedDescription": "El enlace ya ha sido reclamado. Por favor, pide a tu amigo que envíe un nuevo enlace",
+      "description": "No fue posible recuperar los fondos en este enlace por una razón desconocida",
+      "alreadyClaimedDescription": "Los fondos en este enlace ya han sido recuperados por alguien más.",
       "contactSupport": "Contactar a Soporte",
       "dismiss": "Ignorar"
     }
   },
   "jumpstartReclaim": {
-    "description": "Reclamar tu enlace conlleva una tasa de gas de red, ¿quieres proceder?",
+    "description": "Reclamar los fondos en tu enlace conlleva una tarifa de red, ¿deseas continuar?",
     "fetchStatusError": {
-      "title": "Uy, algo ha salido mal",
-      "description": "No hemos podido obtener el estado de la solicitud de esta invitación, inténtalo más tarde o ponte en contacto con el servicio de asistencia.",
+      "title": "Uy, algo salió mal",
+      "description": "No pudimos obtener el estado de esta invitación, inténtalo de nuevo más tarde o contacta a soporte técnico",
       "retryCta": "Reintentar"
     },
     "reclaimError": {
-      "title": "No se pueden reclamar los fondos",
-      "description": "Intenta reclamar de nuevo, o ponte en contacto con el servicio de asistencia"
+      "title": "No fue posible recuperar los fondos",
+      "description": "Inténtalo de nuevo, o contacta al soporte técnico"
     }
   },
   "multiSelect": {
-    "switchNetwork": "Red de conmutación",
+    "switchNetwork": "Cambiar red",
     "allNetworks": "Todas las redes"
   },
   "points": {
@@ -2277,178 +2279,201 @@
     "history": {
       "cards": {
         "createWallet": {
-          "title": "Portacarteras",
+          "title": "Registro",
           "subtitle": "Miembro de {{appName}}"
         },
         "swap": {
-          "title": "Cambiar",
+          "title": "Cambio",
           "subtitle": "{{fromToken}} > {{toToken}}"
         }
       },
-      "title": "Mi actividad de puntos",
+      "title": "Acciones puntuadas",
       "error": {
-        "title": "No se puede cargar la actividad de puntos",
-        "subtitle": "Oops, algo ha ido mal al intentar cargar tu feed de actividad de puntos. Vuelve a intentarlo.",
-        "tryAgain": "Inténtalo de nuevo"
+        "title": "Error al cargar las acciones puntuadas",
+        "subtitle": "Ups, algo salió mal al intentar cargar tus acciones puntuadas. Inténtalo de nuevo.",
+        "tryAgain": "Reintentar"
       },
       "empty": {
-        "title": "Aún no hay actividad de puntos",
+        "title": "Aún no tienes acciones puntuadas",
         "subtitle": "Parece que aún no has ganado puntos. ¡Utiliza {{appName}} para empezar a ganar puntos!",
         "gotIt": "Entendido"
       },
       "pageError": {
-        "title": "No se puede cargar",
-        "subtitle": "Ups, algo ha ido mal al intentar finalizar la carga. Vuelve a intentarlo.",
+        "title": "Error al cargar",
+        "subtitle": "Ups, algo salió mal al finalizar la carga. Vuelve a intentarlo.",
         "refresh": "Actualizar"
       }
     },
     "fetchBalanceError": {
-      "title": "No se pueden cargar tus puntos",
-      "description": "Ups, algo ha ido mal al intentar cargar tus puntos. La información de esta página puede no estar actualizada. Por favor, actualízala.",
+      "title": "No fue posible cargar tus puntos",
+      "description": "Ups, algo salió mal al cargar tus puntos. La información de esta página puede no estar actualizada. Por favor, actualízala.",
       "retryCta": "Actualizar"
     },
     "loading": {
-      "title": "Reunir tus puntos",
-      "description": "Estamos en proceso de contabilizar tus puntos, agárrate fuerte"
+      "title": "Recolectando puntos",
+      "description": "Estamos contabilizando tus puntos, aguarda un momento"
     },
     "error": {
-      "title": "No se pueden cargar puntos",
-      "description": "Ups, algo ha ido mal al intentar cargar tus puntos. Vuelve a intentarlo.",
-      "retryCta": "Inténtalo de nuevo"
+      "title": "No fue posible cargar tus puntos",
+      "description": "Ups, algo salió mal al cargar tus puntos. Vuelve a intentarlo.",
+      "retryCta": "Reintentar"
     },
     "infoCard": {
-      "title": "Pronto más formas de ganar puntos 🚀",
-      "body": "Estamos trabajando para añadir más formas de ganar puntos utilizando la aplicación. Mantente informado."
+      "title": "Más formas de ganar puntos pronto 🚀",
+      "body": "Estamos trabajando para agregar más formas de ganar puntos. ¡No te pierdas lo que se viene!"
     },
     "activitySection": {
       "title": "¿Cómo gano puntos?",
-      "body": "¡Es muy fácil! Gana puntos simplemente utilizando la aplicación."
+      "body": "¡Es fácil! Solo tienes que usar la app."
     },
     "noActivities": {
-      "title": "Actualización para desbloquear más puntos 🔓",
-      "body": "¡Uy! Parece que estás utilizando una versión anterior de {{appName}}. Actualízate ahora para descubrir todas las nuevas y emocionantes formas de ganar puntos."
+      "title": "Actualiza para desbloquear más puntos 🔓",
+      "body": "¡Uy! Parece que estás utilizando una versión anterior de {{appName}}. Actualiza ahora para descubrir todas las nuevas y emocionantes formas de ganar puntos."
     },
     "activityCards": {
       "createWallet": {
-        "title": "Crea una Cartera {{appName}}"
+        "title": "Crea una wallet {{appName}}"
       },
       "swap": {
-        "title": "Activos de permuta",
+        "title": "Intercambia activos",
         "bottomSheet": {
-          "title": "Activos de permuta",
-          "body": "Este espacio se utilizará para dar todos los detalles necesarios para ello. Tal vez la cantidad mínima para intercambiar. \n\nGana {{pointsValue}} puntos cada vez que intercambies un activo utilizando {{appName}}.",
-          "cta": "Ir al intercambio"
+          "title": "Intercambia activos",
+          "body": "Este espacio se utilizará para traerte más detalles. \n\nGana puntos {{pointsValue}} cada vez que intercambies un activo utilizando {{appName}}.",
+          "cta": "Ir a Intercambiar"
         }
       },
       "moreComing": {
-        "title": "¡Pronto más!"
+        "title": "¡Muy pronto!"
       }
     },
     "discoverCard": {
-      "title": "{{appName}} Puntos",
-      "description": "Gana puntos fácilmente con {{appName}}. Utilizar la aplicación, incluidos los intercambios, ¡conlleva puntos!"
+      "title": "Puntos de {{appName}}",
+      "description": "Gana puntos fácilmente con {{appName}}. ¡Solo tienes que usar la app!"
     },
     "intro": {
       "title": "Gana puntos sin esfuerzo",
-      "description": "¡Entra en una nueva forma de ganar! Tus acciones en {{appName}} ahora ganan puntos. Empieza a ganar hoy y desbloquea increíbles ventajas.",
-      "cta": "Comienza tu viaje por los puntos"
+      "description": "¡Entra en una nueva forma de ganar! Tus acciones en {{appName}} ahora tienen puntos. Empieza a ganar hoy y desbloquea increíbles beneficios.",
+      "cta": "¡No pares de ganar puntos!"
     }
   },
   "earnFlow": {
-    "gasSubsidized": "¡Valora cubre la gasolina para esta transacción!",
+    "gasSubsidized": "¡Valora cubre la tarifa de esta transacción!",
     "addCryptoBottomSheet": {
-      "title": "Añade {{tokenSymbol}} en {{tokenNetwork}}",
-      "description": "Una vez que añadas fichas, tendrás que volver para terminar de depositarlas en un fondo común.",
+      "title": "Agrega {{tokenSymbol}} en {{tokenNetwork}}",
+      "description": "Una vez que agregues tokens, tendrás que volver para terminar de depositar en esta pool.",
       "actions": {
         "add": "Comprar",
-        "transfer": "Transferencia",
+        "transfer": "Transferir",
         "swap": "Cambiar"
       },
       "actionDescriptions": {
-        "add": "Compra {{tokenSymbol}} en {{tokenNetwork}} utilizando uno de nuestros proveedores de confianza",
-        "transfer": "Utiliza cualquier monedero o bolsa compatible con {{tokenNetwork}} para depositar {{tokenSymbol}}",
-        "swap": "Cambia a {{tokenSymbol}} desde otra ficha {{tokenNetwork}}"
+        "add": "Compra {{tokenSymbol}} en {{tokenNetwork}} a uno de nuestros proveedores de confianza.",
+        "transfer": "Usa cualquier wallet o exchange compatible con {{tokenNetwork}} para depositar {{tokenSymbol}}.",
+        "swap": "Cambia otro token en {{tokenNetwork}} por {{tokenSymbol}}."
       }
     },
     "cta": {
       "title": "Gana con tus stablecoins",
-      "subtitle": "Deposita hoy y obtén beneficios",
-      "description": "Comprueba cuánto puedes ganar al abastecer un fondo común de préstamos"
+      "subtitle": "Deposita hoy y gana beneficios",
+      "description": "Mira cuánto puedes ganar en una pool de préstamo"
+    },
+    "earnInfo": {
+      "title": "Gana con tus \nstablecoins",
+      "details": {
+        "earn": {
+          "titleGasSubsidy": "Maximiza tus ganancias sin tarifas*",
+          "title": "Maximiza tus ganancias",
+          "subtitle": "Gana con tus stablecoins y obtén recompensas por participar en una pool.",
+          "footnoteSubsidy": "*Por ahora, Valora cubrirá las tarifas de transacción."
+        },
+        "manage": {
+          "title": "Gestiona tus ganancias directamente en Valora",
+          "subtitle": "Nos encargamos de todo para darte más facilidad."
+        },
+        "access": {
+          "title": "Accede fácilmente a tus fondos",
+          "subtitle": "Recibe tus fondos con un solo toque. Disfruta del mismo acceso instantáneo que tendrías directamente a través de tus protocolos favoritos."
+        }
+      },
+      "action": {
+        "learn": "Más información",
+        "earn": "Comienza a ganar"
+      }
     },
     "ctaV1_86": {
-      "title": "Maximizar las ganancias en stablecoins",
-      "subtitle": "Comprar {{symbol}}",
-      "description": "Gana aproximadamente {{apy}}% al año cuando añades {{symbol}} a una piscina"
+      "title": "Maximiza tus ganancias en stablecoins",
+      "subtitle": "Compra {{symbol}}",
+      "description": "Gana aproximadamente {{apy}}% al año en la pool de {{symbol}}"
     },
     "enterAmount": {
       "earnUpToLabel": "Podrías ganar hasta:",
       "rateLabel": "Tasa (est.)",
-      "earnUpTo": "~{{fiatSymbol}}{{amount}} / año",
-      "rate": "{{rate}}% APY",
+      "earnUpTo": "~{{fiatSymbol}}{{amount}}/año",
+      "rate": "APY ~{{rate}}%",
       "continue": "Continuar",
-      "info": "Esta piscina funciona con Aave",
+      "info": "Esta pool es administrada por Aave",
       "infoBottomSheet": {
-        "title": "¿Por qué esta piscina?",
-        "description": "Este pool de Aave tiene más de 150 millones de USDC y más de 6.000 contribuyentes, lo que indica una gran liquidez y fiabilidad. También utiliza USDC como token y Abritrum como red, lo que reduce la volatilidad y garantiza que los usuarios recibirán tarifas de gas baratas.\n\nTodo ello lo convierte en una opción segura y atractiva con un APY competitivo, que garantiza una oportunidad de inversión beneficiosa para nuestros usuarios.\n\nPuedes explorar otros fondos de Aave <0>aquí</0>.",
+        "title": "¿Por qué esta pool?",
+        "description": "Esta pool de Aave tiene más de $150M de TVL y más de 6000 contribuyentes, lo que indica una gran liquidez y fiabilidad. También utiliza USDC como token y Abritrum como red, lo que reduce la volatilidad y garantiza que los usuarios recibirán tasas baratas.\n\nTodo ello la convierte en una opción segura y atractiva con un APY competitivo, que garantiza una oportunidad de inversión beneficiosa para nuestros usuarios.\n\nPuedes explorar otras pools de Aave <0>aquí</0>.",
         "dismiss": "Ignorar"
       },
       "notEnoughBalanceForGasWarning": {
         "title": "Necesitas más {{feeTokenSymbol}} para continuar",
-        "description": "Añade {{feeTokenSymbol}} en {{network}} para cubrir tus gastos de gasolina",
+        "description": "Agrega {{feeTokenSymbol}} en {{network}} para cubrir las tarifas",
         "noGasCta": "Compra {{feeTokenSymbol}} en {{network}}"
       }
     },
     "activePools": {
-      "title": "Piscinas activas",
+      "title": "Pools activas",
       "totalValue": "Valor total:",
-      "apy": "~{{apy}}% APY",
-      "exitPool": "Piscina de salida",
-      "depositMore": "Depositar más",
-      "viewPools": "Ver piscinas"
+      "apy": "APY ~{{apy}}%",
+      "exitPool": "Retirar",
+      "depositMore": "Depositar +",
+      "viewPools": "Ver Pools"
     },
     "depositBottomSheet": {
-      "title": "Revisión y depósito",
-      "description": "Antes de depositar en un fondo Aave, revisa los detalles de la transacción que aparecen a continuación",
+      "title": "Revisar y depositar",
+      "description": "Antes de depositar en una pool de Aave, revisa los detalles de la transacción a continuación",
       "amount": "Monto depositado",
-      "fee": "Est. Tasas de gas",
-      "provider": "Proveedor de ingresos",
+      "fee": "Tarifas estimadas",
+      "provider": "Proveedor de ganancias",
       "network": "Red",
-      "footer": "Al depositar criptomonedas en un pool de Aave, aceptas los riesgos asociados al uso de Aave. <0>Condiciones de uso</0>",
-      "primaryCta": "Completa",
+      "footer": "Al depositar cripto en una pool de Aave, aceptas los riesgos asociados a su uso. <0>Términos y condiciones</0>",
+      "primaryCta": "Finalizar",
       "secondaryCta": "Cancelar"
     },
     "collect": {
-      "title": "¡Enhorabuena! Revisa y cobra tus ganancias",
+      "title": "¡Felicidades! Revisa y recoge tus ganancias",
       "total": "TOTAL",
       "plus": "MÁS",
       "rate": "Tasa (est.)",
-      "apy": "{{apy}}% APY",
-      "fee": "Tasa del gas",
-      "cta": "Recaudar ingresos",
+      "apy": "APY {{apy}}%",
+      "fee": "Tarifa estimada",
+      "cta": "Recoger ganancias",
       "errorTitle": "Algo salió mal",
-      "errorDescription": "No se han podido obtener los datos del depósito. Vuelve a intentarlo.",
+      "errorDescription": "No fue posible obtener los datos del depósito. Vuelve a intentarlo.",
       "noGasTitle": "Necesitas más {{symbol}} para continuar",
-      "noGasDescription": "Añade {{symbol}} en {{network}} para cubrir tus gastos de gasolina",
+      "noGasDescription": "Agrega {{symbol}} en {{network}} para cubrir tus tarifas",
       "noGasCta": "Compra {{symbol}} en {{network}}"
     },
     "transactionFeed": {
-      "earnClaimTitle": "Recopilado",
-      "earnClaimSubtitle": "de {{providerName}} Pool",
-      "earnDepositTitle": "Depositado",
-      "earnDepositSubtitle": "a {{providerName}} Piscina",
-      "earnWithdrawTitle": "Retirada",
-      "earnWithdrawSubtitle": "de {{providerName}} Pool"
+      "earnClaimTitle": "Ganancias recibidas",
+      "earnClaimSubtitle": "de la pool {{providerName}}",
+      "earnDepositTitle": "Fondos depositados",
+      "earnDepositSubtitle": "en la pool {{providerName}}",
+      "earnWithdrawTitle": "Fondos retirados",
+      "earnWithdrawSubtitle": "de la pool {{providerName}}"
     },
     "transactionDetails": {
       "descriptionLabel": "Detalles",
-      "earnClaimTitle": "Recopilado",
-      "earnClaimSubtitle": "Recogida {{tokenSymbol}} de {{providerName}} Piscina",
-      "earnClaimDetails": "Importe recaudado",
-      "earnDepositTitle": "Depositado",
-      "earnDepositSubtitle": "Depositado {{tokenSymbol}} en {{providerName}} Pool",
+      "earnClaimTitle": "Ganancias recibidas",
+      "earnClaimSubtitle": "{{tokenSymbol}} recibidos de la pool {{providerName}}",
+      "earnClaimDetails": "Monto recibido",
+      "earnDepositTitle": "Fondos depositados",
+      "earnDepositSubtitle": "{{tokenSymbol}} depositados en la pool {{providerName}}",
       "earnDepositDetails": "Monto depositado",
-      "earnWithdrawTitle": "Retirada",
-      "earnWithdrawSubtitle": "Retirado {{tokenSymbol}} de {{providerName}} Pool",
+      "earnWithdrawTitle": "Fondos retirados",
+      "earnWithdrawSubtitle": "{{tokenSymbol}} retirados de la pool {{providerName}}",
       "earnWithdrawDetails": "Monto retirado"
     }
   },

@@ -4,7 +4,7 @@ import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
-import { call, select } from 'redux-saga/effects'
+import { call, select, spawn } from 'redux-saga/effects'
 import { Actions as AppActions } from 'src/app/actions'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import * as pointsSaga from 'src/points/saga'
@@ -18,7 +18,7 @@ import {
   sendPointsEvent,
   watchAppMounted,
 } from 'src/points/saga'
-import { trackOnceActivitiesSelector } from 'src/points/selectors'
+import { pendingPointsEventsSelector, trackOnceActivitiesSelector } from 'src/points/selectors'
 import pointsReducer, {
   PendingPointsEvent,
   getHistoryError,
@@ -35,6 +35,7 @@ import pointsReducer, {
   trackPointsEvent,
 } from 'src/points/slice'
 import { ClaimHistory, GetHistoryResponse, PointsEvent } from 'src/points/types'
+import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import * as fetchWithTimeout from 'src/utils/fetchWithTimeout'
 import networkConfig from 'src/web3/networkConfig'
@@ -398,6 +399,7 @@ describe('sendPointsEvent', () => {
       .provide([
         [matchers.call.fn(pointsSaga.fetchTrackPointsEventsEndpoint), mockServerSuccessResponse],
         [select(trackOnceActivitiesSelector), { 'create-wallet': false }],
+        [select(pendingPointsEventsSelector), []],
       ])
       .put(
         sendPointsEventStarted({
@@ -417,6 +419,7 @@ describe('sendPointsEvent', () => {
       .provide([
         [matchers.call.fn(pointsSaga.fetchTrackPointsEventsEndpoint), mockServerErrorResponse],
         [select(trackOnceActivitiesSelector), { 'create-wallet': false }],
+        [select(pendingPointsEventsSelector), []],
       ])
       .put(
         sendPointsEventStarted({
@@ -441,7 +444,34 @@ describe('sendPointsEvent', () => {
     const mockAction = trackPointsEvent({ activityId: 'create-wallet' })
 
     return expectSaga(sendPointsEvent, mockAction)
-      .provide([[select(trackOnceActivitiesSelector), { 'create-wallet': true }]])
+      .provide([
+        [select(trackOnceActivitiesSelector), { 'create-wallet': true }],
+        [select(pendingPointsEventsSelector), []],
+      ])
+      .not.put(sendPointsEventStarted(expect.anything()))
+      .not.call(fetchTrackPointsEventsEndpoint)
+      .not.put(pointsEventProcessed(expect.anything()))
+      .run()
+  })
+
+  it('should ignore any activities that are currently being tracked', async () => {
+    const mockSwapEvent = {
+      activityId: 'swap' as const,
+      transactionHash: '0x1234',
+      networkId: NetworkId['celo-mainnet'],
+      toTokenId: 'toTokenId',
+      fromTokenId: 'fromTokenId',
+    }
+    const mockAction = trackPointsEvent(mockSwapEvent)
+
+    return expectSaga(sendPointsEvent, mockAction)
+      .provide([
+        [select(trackOnceActivitiesSelector), { 'create-wallet': true }],
+        [
+          select(pendingPointsEventsSelector),
+          [{ id: 'someId', timestamp: 1234, event: mockSwapEvent }],
+        ],
+      ])
       .not.put(sendPointsEventStarted(expect.anything()))
       .not.call(fetchTrackPointsEventsEndpoint)
       .not.put(pointsEventProcessed(expect.anything()))
@@ -554,26 +584,24 @@ describe('watchAppMounted', () => {
     jest.clearAllMocks()
   })
 
-  it('should call sendPendingPointsEvents only once even if multiple "app mounted" actions are dispatched', async () => {
-    const mockSendPendingPointsEvents = jest.fn()
-    const mockGetPointsBalance = jest.fn()
-    const mockGetPointsConfig = jest.fn()
+  it('should spawn all sagas only once even if multiple "app mounted" actions are dispatched', async () => {
     const mockAction = { type: AppActions.APP_MOUNTED }
 
-    await expectSaga(watchAppMounted)
-      .withState(createMockStore().getState())
+    const result = await expectSaga(watchAppMounted)
       .provide([
-        [matchers.call.fn(pointsSaga.sendPendingPointsEvents), mockSendPendingPointsEvents()],
-        [matchers.call.fn(pointsSaga.getPointsBalance), mockGetPointsBalance()],
-        [matchers.call.fn(pointsSaga.getPointsConfig), mockGetPointsConfig()],
+        [spawn(getPointsConfig), null],
+        [spawn(getPointsBalance, getHistoryStarted({ getNextPage: false })), null],
+        [spawn(sendPendingPointsEvents), null],
       ])
       .dispatch(mockAction)
       .dispatch(mockAction)
       .run()
 
-    expect(mockSendPendingPointsEvents).toHaveBeenCalledTimes(1)
-    expect(mockGetPointsBalance).toHaveBeenCalledTimes(1)
-    expect(mockGetPointsConfig).toHaveBeenCalledTimes(1)
+    expect(result.effects.fork).toEqual([
+      spawn(getPointsConfig),
+      spawn(getPointsBalance, getHistoryStarted({ getNextPage: false })),
+      spawn(sendPendingPointsEvents),
+    ])
   })
 })
 

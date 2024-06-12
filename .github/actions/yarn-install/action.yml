@@ -3,12 +3,12 @@ description: 'Runs setup node + cache + yarn install'
 runs:
   using: 'composite'
   steps:
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v4
       id: setup-node
       with:
         node-version-file: 'package.json'
         check-latest: true
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       with:
         path: |
           node_modules

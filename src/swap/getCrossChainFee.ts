@@ -12,7 +12,7 @@ function getCrossChainFee(
       nativeTokenBalanceDeficit: BigNumber
     }
   | undefined {
-  if (!quote || quote?.unvalidatedSwapTransaction.swapType !== 'cross-chain' || !feeCurrency) return
+  if (!quote || quote?.swapType !== 'cross-chain' || !feeCurrency) return
 
   let networkFeeInNativeToken = new BigNumber(0)
 
@@ -31,9 +31,9 @@ function getCrossChainFee(
     networkFeeInNativeToken = quote.preparedTransactions.maxGasFeeInDecimal
   }
 
-  const maxCrossChainFeeAmount = new BigNumber(
-    quote.unvalidatedSwapTransaction.maxCrossChainFee
-  ).shiftedBy(-feeCurrency.decimals)
+  const maxCrossChainFeeAmount = new BigNumber(quote.maxCrossChainFee).shiftedBy(
+    -feeCurrency.decimals
+  )
 
   return {
     maxCrossChainFeeAmount,
@@ -44,9 +44,7 @@ function getCrossChainFee(
         .minus(maxCrossChainFeeAmount)
         .minus(
           quote.fromTokenId === feeCurrency.tokenId
-            ? new BigNumber(quote.unvalidatedSwapTransaction.sellAmount).shiftedBy(
-                -feeCurrency.decimals
-              )
+            ? new BigNumber(quote.sellAmount).shiftedBy(-feeCurrency.decimals)
             : 0
         )
     ),

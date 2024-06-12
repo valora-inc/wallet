@@ -45,7 +45,7 @@ export default function EarnCta({ depositTokenId }: { depositTokenId: string }) 
             providerId: PROVIDER_ID,
             networkId: depositToken.networkId,
           })
-          navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })
+          navigate(Screens.EarnInfoScreen, { tokenId: depositTokenId })
         }}
         testID="EarnCta"
       >

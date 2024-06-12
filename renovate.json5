@@ -48,6 +48,11 @@
       prPriority: 0,
     },
     {
+      // Low priority for gradle dependencies
+      matchManagers: ['gradle', 'gradle-wrapper'],
+      prPriority: -1,
+    },
+    {
       // Group updates for @celo packages
       matchPackagePatterns: ['^@celo/'],
       groupName: 'celo',

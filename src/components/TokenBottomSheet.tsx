@@ -1,9 +1,10 @@
 import { BottomSheetFlatList, BottomSheetFlatListMethods } from '@gorhom/bottom-sheet'
+import { BottomSheetFlatListProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetScrollable/types'
 import { debounce } from 'lodash'
 import React, { RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, TextStyle, View } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
+import { FlatListProps, StyleSheet, Text, TextStyle, View } from 'react-native'
+import { FlatList, ScrollView } from 'react-native-gesture-handler'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -15,42 +16,43 @@ import FilterChipsCarousel, {
   isNetworkChip,
 } from 'src/components/FilterChipsCarousel'
 import SearchInput from 'src/components/SearchInput'
-import TokenDisplay from 'src/components/TokenDisplay'
-import TokenIcon, { IconSize } from 'src/components/TokenIcon'
-import Touchable from 'src/components/Touchable'
 import NetworkMultiSelectBottomSheet from 'src/components/multiSelect/NetworkMultiSelectBottomSheet'
 import InfoIcon from 'src/icons/InfoIcon'
 import colors, { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 
 export enum TokenPickerOrigin {
   Send = 'Send',
-  SendConfirmation = 'SendConfirmation',
-  Exchange = 'Exchange',
   SwapFrom = 'Swap/From',
   SwapTo = 'Swap/To',
+  CashIn = 'CashIn',
+  CashOut = 'CashOut',
+  Spend = 'Spend',
 }
 
-export const DEBOUCE_WAIT_TIME = 200
+export const DEBOUNCE_WAIT_TIME = 200
 
-export interface TokenBottomSheetProps<T extends TokenBalance> {
-  forwardedRef: RefObject<BottomSheetRefType>
+export type TokenBottomSheetProps = {
   origin: TokenPickerOrigin
-  onTokenSelected: (token: T, tokenPositionInList: number) => void
+  onTokenSelected: (token: TokenBalance, tokenPositionInList: number) => void
   title: string
   titleStyle?: TextStyle
   searchEnabled?: boolean
   snapPoints?: (string | number)[]
-  tokens: T[]
+  tokens: TokenBalance[]
   TokenOptionComponent?: React.ComponentType<TokenOptionProps>
   showPriceUsdUnavailableWarning?: boolean
   filterChips?: FilterChip<TokenBalance>[]
   areSwapTokensShuffled?: boolean
-}
+} & (
+  | { isScreen: true; forwardedRef?: undefined }
+  | { forwardedRef: RefObject<BottomSheetRefType>; isScreen?: false }
+)
 
 interface TokenOptionProps {
   tokenInfo: TokenBalance
@@ -58,57 +60,6 @@ interface TokenOptionProps {
   index: number
   showPriceUsdUnavailableWarning?: boolean
 }
-
-/**
- * @deprecated new bottom sheets should use TokenBalanceItemOption
- */
-const TokenOption = React.memo(({ tokenInfo, onPress, index }: TokenOptionProps) => {
-  return (
-    <>
-      {index > 0 && <View style={styles.separator} />}
-      <Touchable onPress={onPress} testID={`${tokenInfo.symbol}Touchable`}>
-        <View style={styles.tokenOptionContainer}>
-          <TokenIcon token={tokenInfo} viewStyle={styles.tokenImage} size={IconSize.LARGE} />
-          <View style={styles.tokenNameContainer}>
-            <Text style={styles.localBalance}>{tokenInfo.symbol}</Text>
-            <Text style={styles.currencyBalance}>{tokenInfo.name}</Text>
-          </View>
-          <View style={styles.tokenBalanceContainer}>
-            <TokenDisplay
-              style={styles.localBalance}
-              amount={tokenInfo.balance}
-              tokenId={tokenInfo.tokenId}
-              showLocalAmount={true}
-              testID={`Local${tokenInfo.symbol}Balance`}
-            />
-            <TokenDisplay
-              style={styles.currencyBalance}
-              amount={tokenInfo.balance}
-              tokenId={tokenInfo.tokenId}
-              showLocalAmount={false}
-              testID={`${tokenInfo.symbol}Balance`}
-            />
-          </View>
-        </View>
-      </Touchable>
-    </>
-  )
-})
-
-export const TokenBalanceItemOption = React.memo(
-  ({ tokenInfo, onPress, showPriceUsdUnavailableWarning }: TokenOptionProps) => {
-    const { t } = useTranslation()
-    return (
-      <TokenBalanceItem
-        token={tokenInfo}
-        balanceUsdErrorFallback={t('tokenDetails.priceUnavailable') ?? undefined}
-        onPress={onPress}
-        containerStyle={styles.tokenBalanceItemContainer}
-        showPriceUsdUnavailableWarning={showPriceUsdUnavailableWarning}
-      />
-    )
-  }
-)
 
 function NoResults({
   testID = 'TokenBottomSheet/NoResult',
@@ -141,7 +92,7 @@ function NoResults({
   )
 }
 
-function TokenBottomSheet<T extends TokenBalance>({
+function TokenBottomSheet({
   forwardedRef,
   snapPoints,
   origin,
@@ -150,15 +101,17 @@ function TokenBottomSheet<T extends TokenBalance>({
   searchEnabled,
   title,
   titleStyle,
-  TokenOptionComponent = TokenOption,
   showPriceUsdUnavailableWarning,
   filterChips = [],
   areSwapTokensShuffled,
-}: TokenBottomSheetProps<T>) {
+  isScreen,
+}: TokenBottomSheetProps) {
   const insets = useSafeAreaInsets()
 
   const filterChipsCarouselRef = useRef<ScrollView>(null)
-  const tokenListRef = useRef<BottomSheetFlatListMethods>(null)
+  const tokenListBottomSheetFlatListRef = useRef<BottomSheetFlatListMethods>(null)
+  const tokenListFlatListRef = useRef<FlatList>(null)
+  const tokenListRef = isScreen ? tokenListFlatListRef : tokenListBottomSheetFlatListRef
   const [headerHeight, setHeaderHeight] = useState(0)
   const [searchTerm, setSearchTerm] = useState('')
   const [filters, setFilters] = useState(filterChips)
@@ -212,7 +165,7 @@ function TokenBottomSheet<T extends TokenBalance>({
     }
   }
 
-  const onTokenPressed = (token: T, index: number) => () => {
+  const onTokenPressed = (token: TokenBalance, index: number) => () => {
     ValoraAnalytics.track(TokenBottomSheetEvents.token_selected, {
       origin,
       tokenAddress: token.address,
@@ -232,7 +185,7 @@ function TokenBottomSheet<T extends TokenBalance>({
         origin,
         searchInput,
       })
-    }, DEBOUCE_WAIT_TIME),
+    }, DEBOUNCE_WAIT_TIME),
     []
   )
 
@@ -279,6 +232,15 @@ function TokenBottomSheet<T extends TokenBalance>({
     setHeaderHeight(event.nativeEvent.layout.height)
   }
 
+  // same issue as BottomSheetScrollView, BottomSheetFlatList does not scroll
+  // correctly when used in a screen. See comment in
+  // src/components/BottomSheetScrollView for more details
+  const FlatListComponent = isScreen
+    ? (props: FlatListProps<TokenBalance>) => <FlatList ref={tokenListFlatListRef} {...props} />
+    : (props: BottomSheetFlatListProps<TokenBalance>) => (
+        <BottomSheetFlatList ref={tokenListBottomSheetFlatListRef} {...props} />
+      )
+
   // This component implements a sticky header using an absolutely positioned
   // component on top of a blank container of the same height in the
   // ListHeaderComponent of the Flatlist. Unfortunately the out of the box
@@ -286,68 +248,85 @@ function TokenBottomSheet<T extends TokenBalance>({
   // scroll methods inside dynamically sized bottom sheets and it was observed
   // that the header would be stuck to the wrong position between sheet reopens.
   // See https://valora-app.slack.com/archives/C04B61SJ6DS/p1707757919681089
+  const content = (
+    <>
+      <FlatListComponent
+        data={tokenList}
+        keyExtractor={(item) => item.tokenId}
+        contentContainerStyle={[styles.tokenListContainer, { paddingBottom: insets.bottom }]}
+        scrollIndicatorInsets={{ top: headerHeight }}
+        renderItem={({ item, index }) => {
+          return (
+            <TokenBalanceItem
+              token={item}
+              balanceUsdErrorFallback={t('tokenDetails.priceUnavailable') ?? undefined}
+              onPress={onTokenPressed(item, index)}
+              containerStyle={styles.tokenBalanceItemContainer}
+              showPriceUsdUnavailableWarning={showPriceUsdUnavailableWarning}
+            />
+          )
+        }}
+        ListHeaderComponent={<View style={{ height: headerHeight }} />}
+        ListEmptyComponent={() => {
+          if (searchEnabled || filterChips.length > 0) {
+            return <NoResults searchTerm={searchTerm} activeFilters={activeFilters} />
+          }
+          return null
+        }}
+      />
+      <View style={styles.headerContainer} onLayout={handleMeasureHeader}>
+        <Text style={[styles.title, titleStyle]}>{title}</Text>
+        {searchEnabled && (
+          <SearchInput
+            placeholder={t('tokenBottomSheet.searchAssets') ?? undefined}
+            value={searchTerm}
+            onChangeText={(text) => {
+              setSearchTerm(text)
+              sendAnalytics(text)
+            }}
+            style={styles.searchInput}
+            returnKeyType={'search'}
+            // disable autoCorrect and spellCheck since the search terms here
+            // are token names which autoCorrect would get in the way of. This
+            // combination also hides the keyboard suggestions bar from the top
+            // of the iOS keyboard, preserving screen real estate.
+            autoCorrect={false}
+            spellCheck={false}
+          />
+        )}
+        {filterChips.length > 0 && (
+          <FilterChipsCarousel
+            chips={filters}
+            onSelectChip={handleToggleFilterChip}
+            primaryColor={colors.successDark}
+            secondaryColor={colors.successLight}
+            style={styles.filterChipsCarouselContainer}
+            forwardedRef={filterChipsCarouselRef}
+            scrollEnabled={false}
+          />
+        )}
+      </View>
+    </>
+  )
+
   return (
     <>
-      <BottomSheetBase forwardedRef={forwardedRef} snapPoints={snapPoints}>
-        <View style={styles.container} testID="TokenBottomSheet">
-          <BottomSheetFlatList
-            ref={tokenListRef}
-            data={tokenList}
-            keyExtractor={(item) => item.tokenId}
-            contentContainerStyle={[styles.tokenListContainer, { paddingBottom: insets.bottom }]}
-            scrollIndicatorInsets={{ top: headerHeight }}
-            renderItem={({ item, index }) => {
-              return (
-                <TokenOptionComponent
-                  tokenInfo={item}
-                  onPress={onTokenPressed(item, index)}
-                  index={index}
-                  showPriceUsdUnavailableWarning={showPriceUsdUnavailableWarning}
-                />
-              )
-            }}
-            ListHeaderComponent={<View style={{ height: headerHeight }} />}
-            ListEmptyComponent={() => {
-              if (searchEnabled || filterChips.length > 0) {
-                return <NoResults searchTerm={searchTerm} activeFilters={activeFilters} />
-              }
-              return null
-            }}
-          />
-          <View style={styles.headerContainer} onLayout={handleMeasureHeader}>
-            <Text style={[styles.title, titleStyle]}>{title}</Text>
-            {searchEnabled && (
-              <SearchInput
-                placeholder={t('tokenBottomSheet.searchAssets') ?? undefined}
-                value={searchTerm}
-                onChangeText={(text) => {
-                  setSearchTerm(text)
-                  sendAnalytics(text)
-                }}
-                style={styles.searchInput}
-                returnKeyType={'search'}
-                // disable autoCorrect and spellCheck since the search terms here
-                // are token names which autoCorrect would get in the way of. This
-                // combination also hides the keyboard suggestions bar from the top
-                // of the iOS keyboard, preserving screen real estate.
-                autoCorrect={false}
-                spellCheck={false}
-              />
-            )}
-            {filterChips.length > 0 && (
-              <FilterChipsCarousel
-                chips={filters}
-                onSelectChip={handleToggleFilterChip}
-                primaryColor={colors.successDark}
-                secondaryColor={colors.successLight}
-                style={styles.filterChipsCarouselContainer}
-                forwardedRef={filterChipsCarouselRef}
-                scrollEnabled={false}
-              />
-            )}
-          </View>
+      {isScreen ? (
+        <View
+          // use fixed height if there are filter chips, otherwise the bottom
+          // sheet height changes as tokens as filtered
+          style={filterChips.length ? styles.screenContainerFixed : styles.screenContainer}
+          testID="TokenBottomSheet"
+        >
+          {content}
         </View>
-      </BottomSheetBase>
+      ) : (
+        <BottomSheetBase forwardedRef={forwardedRef} snapPoints={snapPoints}>
+          <View style={styles.container} testID="TokenBottomSheet">
+            {content}
+          </View>
+        </BottomSheetBase>
+      )}
       {networkChip && (
         <NetworkMultiSelectBottomSheet
           allNetworkIds={networkChip.allNetworkIds}
@@ -373,40 +352,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  tokenOptionContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: Spacing.Regular16,
+  screenContainer: {
+    maxHeight: variables.height * 0.9,
   },
-  tokenImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    marginRight: Spacing.Small12,
-  },
-  tokenNameContainer: {
-    flex: 3,
-    alignItems: 'flex-start',
-    flexShrink: 1,
-  },
-  tokenBalanceContainer: {
-    flex: 2,
-    flexShrink: 1,
-    alignItems: 'flex-end',
-  },
-  localBalance: {
-    flexShrink: 1,
-    ...typeScale.labelMedium,
-  },
-  currencyBalance: {
-    flexShrink: 1,
-    ...typeScale.bodySmall,
-    color: colors.gray4,
-  },
-  separator: {
-    width: '100%',
-    height: 1,
-    backgroundColor: colors.gray2,
+  screenContainerFixed: {
+    height: variables.height * 0.9,
   },
   searchInput: {
     marginTop: Spacing.Regular16,

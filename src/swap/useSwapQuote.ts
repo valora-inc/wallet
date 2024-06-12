@@ -23,7 +23,8 @@ const DECREASED_SWAP_AMOUNT_GAS_FEE_MULTIPLIER = 1.2
 
 export const NO_QUOTE_ERROR_MESSAGE = 'No quote available'
 
-export interface QuoteResult {
+interface BaseQuoteResult {
+  swapType: 'same-chain' | 'cross-chain'
   toTokenId: string
   fromTokenId: string
   swapAmount: BigNumber
@@ -32,8 +33,21 @@ export interface QuoteResult {
   estimatedPriceImpact: string | null
   preparedTransactions: PreparedTransactionsResult
   receivedAt: number
-  unvalidatedSwapTransaction: SwapTransaction
+  allowanceTarget: string
+  appFeePercentageIncludedInPrice: string | undefined
+  sellAmount: string
 }
+
+interface SameChainQuoteResult extends BaseQuoteResult {
+  swapType: 'same-chain'
+}
+
+interface CrossChainQuoteResult extends BaseQuoteResult {
+  swapType: 'cross-chain'
+  maxCrossChainFee: string
+}
+
+export type QuoteResult = SameChainQuoteResult | CrossChainQuoteResult
 
 async function createBaseSwapTransactions(
   fromToken: TokenBalance,
@@ -211,7 +225,9 @@ function useSwapQuote({
         feeCurrencies,
         walletAddress
       )
-      const quoteResult: QuoteResult = {
+
+      const baseQuoteResult: BaseQuoteResult = {
+        swapType: quote.unvalidatedSwapTransaction.swapType,
         toTokenId: toToken.tokenId,
         fromTokenId: fromToken.tokenId,
         swapAmount: swapAmount[updatedField],
@@ -220,10 +236,20 @@ function useSwapQuote({
         estimatedPriceImpact,
         preparedTransactions,
         receivedAt: Date.now(),
-        unvalidatedSwapTransaction: quote.unvalidatedSwapTransaction,
+        appFeePercentageIncludedInPrice:
+          quote.unvalidatedSwapTransaction.appFeePercentageIncludedInPrice,
+        allowanceTarget: quote.unvalidatedSwapTransaction.allowanceTarget,
+        sellAmount: quote.unvalidatedSwapTransaction.sellAmount,
       }
 
-      return quoteResult
+      if (quote.unvalidatedSwapTransaction.swapType === 'cross-chain') {
+        return {
+          ...baseQuoteResult,
+          maxCrossChainFee: quote.unvalidatedSwapTransaction.maxCrossChainFee,
+        }
+      } else {
+        return baseQuoteResult as SameChainQuoteResult
+      }
     },
     {
       // Keep last result when refreshing

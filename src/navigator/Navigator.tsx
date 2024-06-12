@@ -33,6 +33,7 @@ import DappShortcutTransactionRequest from 'src/dapps/DappShortcutTransactionReq
 import DappShortcutsRewards from 'src/dapps/DappShortcutsRewards'
 import EarnCollectScreen from 'src/earn/EarnCollectScreen'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
+import EarnInfoScreen from 'src/earn/EarnInfoScreen'
 import EscrowedPaymentListScreen from 'src/escrow/EscrowedPaymentListScreen'
 import ReclaimPaymentConfirmationScreen from 'src/escrow/ReclaimPaymentConfirmationScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
@@ -526,11 +527,7 @@ const generalScreens = (Navigator: typeof Stack) => (
       component={ProfileMenu}
       options={ProfileMenu.navigationOptions as NativeStackNavigationOptions}
     />
-    <Navigator.Screen
-      name={Screens.Settings}
-      component={SettingsScreen}
-      options={headerWithBackButton}
-    />
+    <Navigator.Screen name={Screens.Settings} component={SettingsScreen} options={noHeader} />
     <Navigator.Screen name={Screens.Invite} component={Invite} options={noHeader} />
     <Navigator.Screen name={Screens.Support} component={Support} options={headerWithBackButton} />
   </>
@@ -547,6 +544,11 @@ const earnScreens = (Navigator: typeof Stack) => (
       name={Screens.EarnEnterAmount}
       component={EarnEnterAmount}
       options={noHeader}
+    />
+    <Navigator.Screen
+      name={Screens.EarnInfoScreen}
+      component={EarnInfoScreen}
+      options={EarnInfoScreen.navigationOptions}
     />
   </>
 )

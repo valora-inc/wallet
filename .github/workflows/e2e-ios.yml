@@ -16,7 +16,7 @@ jobs:
     name: iOS (${{ inputs.ios-version  }})
     runs-on: ios-e2e-group
     steps:
-      - uses: google-github-actions/auth@v1
+      - uses: google-github-actions/auth@v2
         if: ${{ env.SECRETS_AVAILABLE }}
         with:
           project_id: celo-mobile-mainnet
@@ -24,11 +24,11 @@ jobs:
       - name: Google Secrets
         if: ${{ env.SECRETS_AVAILABLE }}
         id: google-secrets
-        uses: google-github-actions/get-secretmanager-secrets@v1.0.1
+        uses: google-github-actions/get-secretmanager-secrets@v2.1.3
         with:
           secrets: |-
             EMERGE_API_TOKEN:projects/1027349420744/secrets/EMERGE_API_TOKEN
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/yarn-install
       # Since the e2e runners have access to the Valora branding,
       # This check ensures there are no type errors there.
@@ -76,19 +76,19 @@ jobs:
         timeout-minutes: 45
       - name: Publish iOS JUnit Report
         if: always()
-        uses: mikepenz/action-junit-report@v3
+        uses: mikepenz/action-junit-report@v4
         with:
           check_name: iOS (${{ inputs.ios-version }}) e2e Test Report
           report_paths: 'e2e/test-results/junit.xml'
       - name: 'Upload iOS E2E Artifacts'
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ios-${{ inputs.ios-version }}-e2e-artifact
           path: e2e/artifacts
       - name: 'Upload iOS E2E HTML Report'
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ios-${{ inputs.ios-version }}-test-report
           path: e2e/test-results

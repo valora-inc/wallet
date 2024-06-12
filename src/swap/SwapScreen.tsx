@@ -18,12 +18,12 @@ import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import Toast from 'src/components/Toast'
-import TokenBottomSheet, {
-  TokenBalanceItemOption,
-  TokenPickerOrigin,
-} from 'src/components/TokenBottomSheet'
+import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
+import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { SWAP_LEARN_MORE } from 'src/config'
+import CircledIcon from 'src/icons/CircledIcon'
+import DownIndicator from 'src/icons/DownIndicator'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -59,9 +59,6 @@ import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import networkConfig from 'src/web3/networkConfig'
 import { v4 as uuidv4 } from 'uuid'
-import DownIndicator from 'src/icons/DownIndicator'
-import CircledIcon from 'src/icons/CircledIcon'
-import Touchable from 'src/components/Touchable'
 import CrossChainIndicator from 'src/icons/CrossChainIndicator'
 import getCrossChainFee from 'src/swap/getCrossChainFee'
 
@@ -398,7 +395,7 @@ export function SwapScreen({ route }: Props) {
     }
 
     const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
-    const { estimatedPriceImpact, price, unvalidatedSwapTransaction } = quote
+    const { estimatedPriceImpact, price, allowanceTarget, appFeePercentageIncludedInPrice } = quote
 
     const resultType = quote.preparedTransactions.type
     switch (resultType) {
@@ -419,11 +416,10 @@ export function SwapScreen({ route }: Props) {
           fromTokenIsImported: !!fromToken.isManuallyImported,
           amount: inputSwapAmount[updatedField],
           amountType: swapAmountParam,
-          allowanceTarget: unvalidatedSwapTransaction.allowanceTarget,
+          allowanceTarget,
           estimatedPriceImpact,
           price,
-          appFeePercentageIncludedInPrice:
-            unvalidatedSwapTransaction.appFeePercentageIncludedInPrice,
+          appFeePercentageIncludedInPrice,
           provider: quote.provider,
           web3Library: 'viem',
           ...getSwapTxsAnalyticsProperties(
@@ -444,11 +440,10 @@ export function SwapScreen({ route }: Props) {
               ),
               receivedAt: quote.receivedAt,
               price: quote.price,
-              appFeePercentageIncludedInPrice:
-                unvalidatedSwapTransaction.appFeePercentageIncludedInPrice,
+              appFeePercentageIncludedInPrice,
               provider: quote.provider,
               estimatedPriceImpact,
-              allowanceTarget: unvalidatedSwapTransaction.allowanceTarget,
+              allowanceTarget,
             },
             userInput,
             areSwapTokensShuffled,
@@ -703,9 +698,7 @@ export function SwapScreen({ route }: Props) {
       return undefined
     }
 
-    const percentage = new BigNumber(
-      quote.unvalidatedSwapTransaction.appFeePercentageIncludedInPrice || 0
-    )
+    const percentage = new BigNumber(quote.appFeePercentageIncludedInPrice || 0)
 
     return {
       amount: parsedSwapAmount[Field.FROM].multipliedBy(percentage).dividedBy(100),
@@ -1005,7 +998,6 @@ export function SwapScreen({ route }: Props) {
           snapPoints={['90%']}
           onTokenSelected={handleSelectToken}
           searchEnabled={true}
-          TokenOptionComponent={TokenBalanceItemOption}
           showPriceUsdUnavailableWarning={true}
           areSwapTokensShuffled={areSwapTokensShuffled}
         />

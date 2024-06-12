@@ -56,6 +56,7 @@ function FilterChipsCarousel<T>({
       style={[styles.container, style]}
       contentContainerStyle={[styles.contentContainer, { width: scrollEnabled ? 'auto' : '100%' }]}
       ref={forwardedRef}
+      testID="FilterChipsCarousel"
     >
       {chips.map((chip) => {
         return (

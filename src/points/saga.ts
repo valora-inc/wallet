@@ -1,9 +1,10 @@
 import { differenceInDays } from 'date-fns'
+import { isEqual } from 'lodash'
 import { Actions as AppActions } from 'src/app/actions'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import {
   nextPageUrlSelector,
-  pendingPointsEvents,
+  pendingPointsEventsSelector,
   trackOnceActivitiesSelector,
 } from 'src/points/selectors'
 import {
@@ -36,7 +37,7 @@ import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { all, call, put, select, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
+import { call, put, select, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
 import { v4 as uuidv4 } from 'uuid'
 
 const TAG = 'Points/saga'
@@ -192,6 +193,17 @@ export function* sendPointsEvent({ payload: event }: ReturnType<typeof trackPoin
     return
   }
 
+  const pendingPointsEvents = yield* select(pendingPointsEventsSelector)
+  if (pendingPointsEvents.some((pendingEvent) => isEqual(pendingEvent.event, event))) {
+    // this can happen for events that are tracked after a transaction is
+    // confirmed within the same app session, if it is also picked up by the
+    // internal transactions watcher. The trackPointsEvent action could be
+    // dispatched by the specific feature saga as well as the internal
+    // transactions watcher.
+    Logger.debug(TAG, `Skipping already pending tracked event: ${JSON.stringify(event)}`)
+    return
+  }
+
   const id = uuidv4()
 
   yield* put(
@@ -222,7 +234,7 @@ export function* sendPendingPointsEvents() {
   const LOG_TAG = `${TAG}@sendPendingPointsEvents`
 
   const now = new Date()
-  const pendingEvents = yield* select(pendingPointsEvents)
+  const pendingEvents = yield* select(pendingPointsEventsSelector)
 
   for (const pendingEvent of pendingEvents) {
     const { id, timestamp, event } = pendingEvent
@@ -263,7 +275,9 @@ function* watchTrackPointsEvent() {
 
 export function* watchAppMounted() {
   yield* take(AppActions.APP_MOUNTED)
-  yield* all([safely(getPointsConfig), safely(getPointsBalance), safely(sendPendingPointsEvents)])
+  yield* spawn(getPointsConfig)
+  yield* spawn(getPointsBalance, getHistoryStarted({ getNextPage: false }))
+  yield* spawn(sendPendingPointsEvents)
 }
 
 export function* pointsSaga() {
