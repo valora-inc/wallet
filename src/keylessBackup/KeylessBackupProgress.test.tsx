@@ -142,7 +142,7 @@ describe('KeylessBackupProgress', () => {
         KeylessBackupEvents.cab_progress_failed_manual_onboarding
       )
     })
-    it('navigates to recovery phrase on failure when coming from onboarding', async () => {
+    it('navigates to CYA on failure when coming from onboarding', async () => {
       jest.mocked(ensurePincode).mockResolvedValueOnce(true)
       const { getByTestId } = render(
         <Provider store={createStore(KeylessBackupStatus.Failed)}>
