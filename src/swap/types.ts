@@ -24,7 +24,7 @@ interface SwapUserInput {
 }
 
 interface BaseSwapTransaction {
-  type: 'same-chain' | 'cross-chain'
+  swapType: 'same-chain' | 'cross-chain'
   chainId: number
   buyAmount: string
   sellAmount: string
@@ -48,11 +48,11 @@ interface BaseSwapTransaction {
 }
 
 interface SameChainSwapTransaction extends BaseSwapTransaction {
-  type: 'same-chain'
+  swapType: 'same-chain'
 }
 
 interface CrossChainSwapTransaction extends BaseSwapTransaction {
-  type: 'cross-chain'
+  swapType: 'cross-chain'
   // Swap duration estimation in seconds
   estimatedDuration: number
   maxCrossChainFee: string

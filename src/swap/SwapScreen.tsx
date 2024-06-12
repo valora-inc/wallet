@@ -46,7 +46,11 @@ import { Field, SwapAmount } from 'src/swap/types'
 import useFilterChips from 'src/swap/useFilterChips'
 import useSwapQuote, { NO_QUOTE_ERROR_MESSAGE, QuoteResult } from 'src/swap/useSwapQuote'
 import { useSwappableTokens, useTokenInfo } from 'src/tokens/hooks'
-import { feeCurrenciesWithPositiveBalancesSelector, tokensByIdSelector } from 'src/tokens/selectors'
+import {
+  feeCurrenciesWithPositiveBalancesSelector,
+  tokensByIdSelector,
+  feeCurrenciesSelector,
+} from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSwap, getTokenId } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
@@ -59,7 +63,7 @@ import DownIndicator from 'src/icons/DownIndicator'
 import CircledIcon from 'src/icons/CircledIcon'
 import Touchable from 'src/components/Touchable'
 import CrossChainIndicator from 'src/icons/CrossChainIndicator'
-import useCrossChainFee from 'src/swap/useCrossChainFee'
+import getCrossChainFee from 'src/swap/getCrossChainFee'
 
 const TAG = 'SwapScreen'
 
@@ -502,16 +506,20 @@ export function SwapScreen({ route }: Props) {
     } else if (selectingField === Field.FROM) {
       newFromToken = selectedToken
       newSwitchedToNetworkId =
-        toToken && toToken.networkId !== newFromToken.networkId ? newFromToken.networkId : null
-      if (newSwitchedToNetworkId && !allowCrossChainSwaps) {
+        toToken && toToken.networkId !== newFromToken.networkId && !allowCrossChainSwaps
+          ? newFromToken.networkId
+          : null
+      if (newSwitchedToNetworkId) {
         // reset the toToken if the user is switching networks
         newToToken = undefined
       }
     } else if (selectingField === Field.TO) {
       newToToken = selectedToken
       newSwitchedToNetworkId =
-        fromToken && fromToken.networkId !== newToToken.networkId ? newToToken.networkId : null
-      if (newSwitchedToNetworkId && !allowCrossChainSwaps) {
+        fromToken && fromToken.networkId !== newToToken.networkId && !allowCrossChainSwaps
+          ? newToToken.networkId
+          : null
+      if (newSwitchedToNetworkId) {
         // reset the fromToken if the user is switching networks
         newFromToken = undefined
       }
@@ -610,17 +618,20 @@ export function SwapScreen({ route }: Props) {
 
   const showCrossChainSwapNotification =
     toToken && fromToken && toToken.networkId !== fromToken.networkId && allowCrossChainSwaps
-  const crossChainFeeInfo = useCrossChainFee(
-    quote,
-    fromToken?.networkId || networkConfig.defaultNetworkId
-  )
+
+  const crossChainFeeCurrency = useSelector((state) =>
+    feeCurrenciesSelector(state, fromToken?.networkId || networkConfig.defaultNetworkId)
+  ).find((token) => token.isNative)
+  const crossChainFeeInfo = getCrossChainFee(quote, crossChainFeeCurrency)
 
   const getWarningStatuses = () => {
+    // NOTE: If a new condition is added here, make sure to update `allowSwap` below if
+    // the condition should prevent the user from swapping.
     const checks = {
       showSwitchedToNetworkWarning: !!switchedToNetworkId,
       showUnsupportedTokensWarning: fetchSwapQuoteError?.message.includes(NO_QUOTE_ERROR_MESSAGE),
       showInsufficientBalanceWarning: parsedSwapAmount[Field.FROM].gt(fromTokenBalance),
-      showCrossChainFeeWarning: crossChainFeeInfo?.maxCrossChainFeeMissingAmountInDecimal.gt(0),
+      showCrossChainFeeWarning: crossChainFeeInfo?.nativeTokenBalanceDeficit.lt(0),
       showDecreaseSpendForGasWarning:
         quote?.preparedTransactions.type === 'need-decrease-spend-amount-for-gas',
       showNotEnoughBalanceForGasWarning:
@@ -835,12 +846,13 @@ export function SwapScreen({ route }: Props) {
             <InLineNotification
               variant={NotificationVariant.Warning}
               title={t('swapScreen.crossChainFeeWarning.title', {
-                tokenSymbol: crossChainFeeInfo?.crossChainFeeToken.symbol,
+                tokenSymbol: crossChainFeeCurrency?.symbol,
               })}
               description={t('swapScreen.crossChainFeeWarning.body', {
-                networkName: NETWORK_NAMES[crossChainFeeInfo?.crossChainFeeToken.networkId],
-                tokenSymbol: crossChainFeeInfo?.crossChainFeeToken.symbol,
-                tokenAmount: crossChainFeeInfo?.maxCrossChainFeeMissingAmountInDecimal.toFixed(4),
+                networkName:
+                  NETWORK_NAMES[crossChainFeeCurrency?.networkId || networkConfig.defaultNetworkId],
+                tokenSymbol: crossChainFeeCurrency?.symbol,
+                tokenAmount: crossChainFeeInfo?.nativeTokenBalanceDeficit.abs().toFormat(),
               })}
               style={styles.warning}
             />
@@ -1148,7 +1160,6 @@ const styles = StyleSheet.create({
     ...typeScale.labelXXSmall,
     paddingLeft: Spacing.Tiny4,
     color: colors.gray4,
-    textAlign: 'center',
   },
 })
 

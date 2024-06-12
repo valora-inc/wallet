@@ -182,7 +182,7 @@ const renderScreen = ({
 
 const defaultQuote: FetchQuoteResponse = {
   unvalidatedSwapTransaction: {
-    type: 'same-chain',
+    swapType: 'same-chain',
     chainId: 44787,
     price: '1.2345678',
     guaranteedPrice: '1.1234567',
@@ -572,7 +572,7 @@ describe('SwapScreen', () => {
         ...defaultQuote,
         unvalidatedSwapTransaction: {
           ...defaultQuote.unvalidatedSwapTransaction,
-          type: 'cross-chain',
+          swapType: 'cross-chain',
           sellAmount: new BigNumber(10).times(new BigNumber(10).pow(18)).toString(),
           maxCrossChainFee: new BigNumber(10).pow(18).toString(),
         },
@@ -592,7 +592,7 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.confirmSwap')).toBeDisabled()
     expect(
       getByText(
-        'swapScreen.crossChainFeeWarning.body, {"networkName":"Celo Alfajores","tokenSymbol":"CELO","tokenAmount":"1.0000"}'
+        'swapScreen.crossChainFeeWarning.body, {"networkName":"Celo Alfajores","tokenSymbol":"CELO","tokenAmount":"1"}'
       )
     ).toBeTruthy()
   })
@@ -606,7 +606,7 @@ describe('SwapScreen', () => {
         ...defaultQuote,
         unvalidatedSwapTransaction: {
           ...defaultQuote.unvalidatedSwapTransaction,
-          type: 'cross-chain',
+          swapType: 'cross-chain',
           sellAmount: new BigNumber(10).times(new BigNumber(10).pow(18)).toString(),
           maxCrossChainFee: new BigNumber(10).pow(18).toString(),
         },
@@ -627,7 +627,7 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.confirmSwap')).toBeDisabled()
     expect(
       getByText(
-        'swapScreen.crossChainFeeWarning.body, {"networkName":"Celo Alfajores","tokenSymbol":"CELO","tokenAmount":"1.0000"}'
+        'swapScreen.crossChainFeeWarning.body, {"networkName":"Celo Alfajores","tokenSymbol":"CELO","tokenAmount":"1"}'
       )
     ).toBeTruthy()
   })
@@ -641,7 +641,7 @@ describe('SwapScreen', () => {
         ...defaultQuote,
         unvalidatedSwapTransaction: {
           ...defaultQuote.unvalidatedSwapTransaction,
-          type: 'cross-chain',
+          swapType: 'cross-chain',
           sellAmount: new BigNumber(10).times(new BigNumber(10).pow(18)).toString(),
           maxCrossChainFee: new BigNumber(10).pow(18).toString(),
         },
