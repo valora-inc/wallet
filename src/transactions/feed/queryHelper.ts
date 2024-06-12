@@ -138,7 +138,7 @@ export function useFetchTransactions(): QueryHookResult {
         params: allowedNetworkIds.map((networkId) => {
           return { networkId }
         }),
-        updateTransactionState: (networkId, result) => {
+        onNetworkResponse: (networkId, result) => {
           const returnedTransactions = result?.data.tokenTransactionsV3?.transactions ?? []
           const returnedPageInfo = result?.data.tokenTransactionsV3?.pageInfo ?? null
 
@@ -212,7 +212,7 @@ export function useFetchTransactions(): QueryHookResult {
         address,
         localCurrencyCode,
         params,
-        updateTransactionState: (networkId, result) => {
+        onNetworkResponse: (networkId, result) => {
           const returnedTransactions = result?.data.tokenTransactionsV3?.transactions ?? []
           const returnedPageInfo = result?.data.tokenTransactionsV3?.pageInfo ?? null
           if (returnedTransactions.length || returnedPageInfo?.hasNextPage) {
@@ -304,7 +304,7 @@ async function queryTransactionsFeed({
   address,
   localCurrencyCode,
   params,
-  updateTransactionState,
+  onNetworkResponse,
   setActiveRequests,
   activeRequests,
 }: {
@@ -314,7 +314,7 @@ async function queryTransactionsFeed({
     networkId: NetworkId
     afterCursor?: string
   }>
-  updateTransactionState: (networkId: NetworkId, data: QueryResponse | null) => void
+  onNetworkResponse: (networkId: NetworkId, data: QueryResponse | null) => void
   setActiveRequests: (updateFunc: (prevState: ActiveRequests) => ActiveRequests) => void
   activeRequests: ActiveRequests
 }): Promise<void> {
@@ -336,7 +336,7 @@ async function queryTransactionsFeed({
         afterCursor,
       })
       Logger.info(TAG, `Fetched transactions for ${networkId}`, result)
-      updateTransactionState(networkId, result) // Update state as soon as data is available
+      onNetworkResponse(networkId, result) // Update state as soon as data is available
     } finally {
       setActiveRequests((prev) => ({ ...prev, [networkId]: false }))
     }
