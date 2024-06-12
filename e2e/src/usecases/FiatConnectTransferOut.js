@@ -106,7 +106,7 @@ async function onboardAndBeginTransferOut(token, fundingAmount, cashOutAmount) {
   // For now the balance only updates when the home screen is visible
   await waitFor(element(by.text(`${fundingAmount} cUSD`))) // need a balance to withdraw
     .toBeVisible()
-    .withTimeout(60000) // in case funding tx is still pending. balance must be updated before amount can be selected.
+    .withTimeout(120000) // in case funding tx is still pending. balance must be updated before amount can be selected.
 
   await navigateToFiatExchangeScreen()
 
@@ -238,12 +238,13 @@ export const fiatConnectKycTransferOut = () => {
     // Manually wait for Take Photo button to appear, withTimeout didn't work
     await sleep(10000)
 
-    // License photo back
-    await element(by.label('Take photo')).tap()
-    await element(by.text('Use this photo')).tap()
+    // License photo back -- personal stopped requesting back photo, commenting
+    // for now to unblock CI
+    // await element(by.label('Take photo')).tap()
+    // await element(by.text('Use this photo')).tap()
 
     // Manually wait for Take Photo button to appear, withTimeout didn't work
-    await sleep(10000)
+    // await sleep(10000)
 
     // License photo barcode
     await element(by.label('Take photo')).tap()
