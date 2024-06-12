@@ -10,6 +10,7 @@ import CancelButton from 'src/components/CancelButton'
 import Card from 'src/components/Card'
 import TextButton from 'src/components/TextButton'
 import EnvelopeIcon from 'src/keylessBackup/EnvelopeIcon'
+import { KeylessBackupOrigin } from 'src/keylessBackup/KeylessBackupProgress'
 import SmartphoneIcon from 'src/keylessBackup/SmartphoneIcon'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { emptyHeader } from 'src/navigator/Headers'
@@ -84,7 +85,10 @@ function KeylessBackupIntro({ route }: Props) {
         testID="keylessBackupIntro/Continue"
         onPress={() => {
           ValoraAnalytics.track(KeylessBackupEvents.cab_intro_continue, { keylessBackupFlow })
-          navigate(Screens.SignInWithEmail, { keylessBackupFlow })
+          navigate(Screens.SignInWithEmail, {
+            keylessBackupFlow,
+            origin: KeylessBackupOrigin.Settings,
+          })
         }}
         text={isSetup ? t('continue') : t('next')}
         size={BtnSizes.FULL}

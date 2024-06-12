@@ -11,6 +11,7 @@ import Card from 'src/components/Card'
 import Touchable from 'src/components/Touchable'
 import CloudCheck from 'src/icons/CloudCheck'
 import Lock from 'src/icons/Lock'
+import { KeylessBackupOrigin } from 'src/keylessBackup/KeylessBackupProgress'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate, navigateClearingStack } from 'src/navigator/NavigationService'
@@ -91,7 +92,10 @@ export default function ImportSelect({ navigation }: Props) {
             description={t('importSelect.emailAndPhone.description')}
             icon={<CloudCheck color={colors.successDark} />}
             onPress={() =>
-              navigate(Screens.SignInWithEmail, { keylessBackupFlow: KeylessBackupFlow.Restore })
+              navigate(Screens.SignInWithEmail, {
+                keylessBackupFlow: KeylessBackupFlow.Restore,
+                origin: KeylessBackupOrigin.Onboarding,
+              })
             }
             testID="ImportSelect/CloudBackup"
           />

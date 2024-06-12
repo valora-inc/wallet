@@ -57,7 +57,7 @@ function SignInWithEmail({ route }: Props) {
       if (!credentials.idToken) {
         throw new Error('got an empty token from auth0')
       }
-      navigate(Screens.KeylessBackupPhoneInput, { keylessBackupFlow })
+      navigate(Screens.KeylessBackupPhoneInput, { keylessBackupFlow, origin: route.params.origin })
       dispatch(googleSignInCompleted({ idToken: credentials.idToken }))
       ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_google_success, {
         keylessBackupFlow,

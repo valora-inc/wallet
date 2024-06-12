@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import KeylessBackupProgress from 'src/keylessBackup/KeylessBackupProgress'
+import KeylessBackupProgress, { KeylessBackupOrigin } from 'src/keylessBackup/KeylessBackupProgress'
 import { keylessBackupAcceptZeroBalance, keylessBackupBail } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
 import { ensurePincode, navigate, navigateHome } from 'src/navigator/NavigationService'
@@ -43,6 +43,7 @@ function createStore(keylessBackupStatus: KeylessBackupStatus, zeroBalance = fal
 function getProps(flow: KeylessBackupFlow = KeylessBackupFlow.Setup) {
   return getMockStackScreenProps(Screens.KeylessBackupProgress, {
     keylessBackupFlow: flow,
+    origin: KeylessBackupOrigin.Settings,
   })
 }
 

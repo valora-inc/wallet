@@ -32,7 +32,7 @@ import Logger from 'src/utils/Logger'
 
 const TAG = 'keylessBackup/KeylessBackupProgress'
 
-export enum Origin {
+export enum KeylessBackupOrigin {
   Onboarding = 'Onboarding',
   Settings = 'Settings',
 }
@@ -43,6 +43,8 @@ function KeylessBackupProgress({
 }: NativeStackScreenProps<StackParamList, Screens.KeylessBackupProgress>) {
   const keylessBackupStatus = useSelector(keylessBackupStatusSelector)
   const { t } = useTranslation()
+
+  const navigatedFromSettings = route.params.origin === KeylessBackupOrigin.Settings
 
   const onPressHelp = () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_restore_failed_help)
@@ -74,7 +76,7 @@ function KeylessBackupProgress({
   if (route.params.keylessBackupFlow === KeylessBackupFlow.Restore) {
     return <Restore />
   } else {
-    return <Setup />
+    return <Setup navigatedFromSettings={navigatedFromSettings} />
   }
 }
 
@@ -255,11 +257,9 @@ function Restore() {
   }
 }
 
-function Setup() {
+function Setup({ navigatedFromSettings }: { navigatedFromSettings: boolean }) {
   const keylessBackupStatus = useSelector(keylessBackupStatusSelector)
   const { t } = useTranslation()
-
-  const navigatedFromSettings = true // use prop to determine
 
   const onPressContinue = () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_progress_completed_continue)

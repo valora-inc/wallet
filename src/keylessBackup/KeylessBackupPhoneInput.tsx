@@ -78,6 +78,7 @@ function KeylessBackupPhoneInput({ route }: Props) {
         navigate(Screens.KeylessBackupPhoneInput, {
           keylessBackupFlow,
           selectedCountryCodeAlpha2: countryCodeAlpha2,
+          origin: route.params.origin,
         })
       },
     })
@@ -90,6 +91,7 @@ function KeylessBackupPhoneInput({ route }: Props) {
     navigate(Screens.KeylessBackupPhoneCodeInput, {
       keylessBackupFlow,
       e164Number: phoneNumberInfo.e164Number,
+      origin: route.params.origin,
     })
   }
 
