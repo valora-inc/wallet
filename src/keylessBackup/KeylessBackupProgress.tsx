@@ -328,7 +328,11 @@ function Setup({ navigatedFromSettings }: { navigatedFromSettings: boolean }) {
             <Text style={styles.body}>{t('keylessBackupStatus.setup.failed.body')}</Text>
           </View>
           <Button
-            testID="KeylessBackupProgress/Later"
+            testID={
+              navigatedFromSettings
+                ? 'KeylessBackupProgress/Later'
+                : 'KeylessBackupProgress/ManualOnboarding'
+            }
             onPress={navigatedFromSettings ? onPressLater : onPressManualOnboarding}
             text={t(
               navigatedFromSettings
@@ -341,7 +345,9 @@ function Setup({ navigatedFromSettings }: { navigatedFromSettings: boolean }) {
             touchableStyle={styles.buttonTouchable}
           />
           <Button
-            testID="KeylessBackupProgress/Manual"
+            testID={
+              navigatedFromSettings ? 'KeylessBackupProgress/Manual' : 'KeylessBackupProgress/Skip'
+            }
             onPress={navigatedFromSettings ? onPressManual : onPressSkip}
             text={t(
               navigatedFromSettings

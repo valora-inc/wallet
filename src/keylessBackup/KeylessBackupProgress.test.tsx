@@ -40,10 +40,13 @@ function createStore(keylessBackupStatus: KeylessBackupStatus, zeroBalance = fal
   })
 }
 
-function getProps(flow: KeylessBackupFlow = KeylessBackupFlow.Setup) {
+function getProps(
+  flow: KeylessBackupFlow = KeylessBackupFlow.Setup,
+  origin: KeylessBackupOrigin = KeylessBackupOrigin.Settings
+) {
   return getMockStackScreenProps(Screens.KeylessBackupProgress, {
     keylessBackupFlow: flow,
-    origin: KeylessBackupOrigin.Settings,
+    origin,
   })
 }
 
@@ -117,6 +120,46 @@ describe('KeylessBackupProgress', () => {
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
         KeylessBackupEvents.cab_progress_failed_manual
+      )
+    })
+    it('navigates to recovery phrase on failure when coming from onboarding', async () => {
+      jest.mocked(ensurePincode).mockResolvedValueOnce(true)
+      const { getByTestId } = render(
+        <Provider store={createStore(KeylessBackupStatus.Failed)}>
+          <KeylessBackupProgress
+            {...getProps(KeylessBackupFlow.Setup, KeylessBackupOrigin.Onboarding)}
+          />
+        </Provider>
+      )
+      expect(getByTestId('KeylessBackupProgress/ManualOnboarding')).toBeTruthy()
+      fireEvent.press(getByTestId('KeylessBackupProgress/ManualOnboarding'))
+
+      await waitFor(() => expect(navigate).toHaveBeenCalledTimes(1))
+      expect(navigate).toHaveBeenCalledWith(Screens.AccountKeyEducation)
+
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        KeylessBackupEvents.cab_progress_failed_manual_onboarding
+      )
+    })
+    it('navigates to recovery phrase on failure when coming from onboarding', async () => {
+      jest.mocked(ensurePincode).mockResolvedValueOnce(true)
+      const { getByTestId } = render(
+        <Provider store={createStore(KeylessBackupStatus.Failed)}>
+          <KeylessBackupProgress
+            {...getProps(KeylessBackupFlow.Setup, KeylessBackupOrigin.Onboarding)}
+          />
+        </Provider>
+      )
+      expect(getByTestId('KeylessBackupProgress/Skip')).toBeTruthy()
+      fireEvent.press(getByTestId('KeylessBackupProgress/Skip'))
+
+      await waitFor(() => expect(navigate).toHaveBeenCalledTimes(1))
+      expect(navigate).toHaveBeenCalledWith(Screens.ChooseYourAdventure)
+
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        KeylessBackupEvents.cab_progress_failed_skip_onboarding
       )
     })
   })
