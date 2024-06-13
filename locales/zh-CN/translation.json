@@ -2336,8 +2336,8 @@
         "title": "交换资产",
         "bottomSheet": {
           "title": "交换资产",
-          "body": "这个空间将用来提供这方面所需的所有细节。也许是交换的最低金额。 \n\n每当您使用 {{appName}} 进行资产交换时，都可以赚取 {{pointsValue}} 积分。",
-          "cta": "前往交换"
+          "body": "每次使用 {{appName}}交换资产都可赚取 {{pointsValue}} 积分。 \n\n点击下方开始交换并赚取积分！",
+          "cta": "开始交换"
         }
       },
       "moreComing": {
