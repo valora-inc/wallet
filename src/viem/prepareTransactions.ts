@@ -11,8 +11,8 @@ import {
 import { getTokenId } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import { publicClient, valoraPublicClient } from 'src/viem'
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
-import { publicClient } from 'src/viem/index'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
 import {
   Address,
@@ -196,12 +196,20 @@ export async function tryEstimateTransaction({
 
 export async function tryEstimateTransactions(
   baseTransactions: TransactionRequest[],
-  feeCurrency: TokenBalance
+  feeCurrency: TokenBalance,
+  useValoraTransport: boolean = false
 ) {
   const transactions: TransactionRequest[] = []
 
   const network = networkIdToNetwork[feeCurrency.networkId]
-  const client = publicClient[network]
+
+  if (useValoraTransport && !(network in valoraPublicClient)) {
+    throw new Error(`Valora transport not available for network ${network}`)
+  }
+
+  const client = useValoraTransport
+    ? valoraPublicClient[network as keyof typeof valoraPublicClient]
+    : publicClient[network]
   const feeCurrencyAddress = getFeeCurrencyAddress(feeCurrency)
   const { maxFeePerGas, maxPriorityFeePerGas, baseFeePerGas } = await estimateFeesPerGas(
     client,
@@ -261,7 +269,7 @@ export async function tryEstimateTransactions(
  * @param decreasedAmountGasFeeMultiplier
  * @param baseTransactions
  * @param throwOnSpendTokenAmountExceedsBalance
- * @param isGasSubsidized - This flag should only be set to true if all of the baseTransactions already have gas estimates, aka the 'gas' and '_estimatedGasUse' fields have been manually set
+ * @param isGasSubsidized
  */
 export async function prepareTransactions({
   feeCurrencies,
@@ -306,7 +314,11 @@ export async function prepareTransactions({
       // No balance, try next fee currency
       continue
     }
-    const estimatedTransactions = await tryEstimateTransactions(baseTransactions, feeCurrency)
+    const estimatedTransactions = await tryEstimateTransactions(
+      baseTransactions,
+      feeCurrency,
+      isGasSubsidized
+    )
     if (!estimatedTransactions) {
       // Not enough balance to pay for gas, try next fee currency
       continue
