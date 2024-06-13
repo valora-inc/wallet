@@ -2342,8 +2342,8 @@
         "title": "Dokonaj swapu aktywów",
         "bottomSheet": {
           "title": "Dokonaj swapu aktywów",
-          "body": "To miejsce zostanie wykorzystane do podania wszystkich potrzebnych szczegółów. Może to być minimalna kwota do swapu. \n\nZdobywaj {{pointsValue}} punkty(-ów) za każdym razem, gdy dokonujesz swapu aktywów za pomocą {{appName}}.",
-          "cta": "Przejdź do swapu"
+          "body": "Zdobywaj punkty {{pointsValue}} za każdym razem, gdy wymieniasz aktywa za pomocą {{appName}}. \n\nKliknij poniżej, aby rozpocząć wymianę i zarabianie!",
+          "cta": "Rozpocznij wymianę"
         }
       },
       "moreComing": {
