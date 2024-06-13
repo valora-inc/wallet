@@ -2336,8 +2336,8 @@
         "title": "สว็อปสินทรัพย์",
         "bottomSheet": {
           "title": "สว็อปสินทรัพย์",
-          "body": "ส่วนนี้จะแสดงรายละเอียดทั้งหมดที่จำเป็นสำหรับการดำเนินการนี้ รวมถึงจำนวนขั้นต่ำในการสว็อป\n\nรับ {{pointsValue}} คะแนนทุกครั้งที่คุณสว็อปสินทรัพย์โดยใช้ {{appName}}",
-          "cta": "ไปที่สว็อป"
+          "body": "Earn {{pointsValue}} points every time you swap an asset using {{appName}}. \n\nTap below to start swapping and earning!",
+          "cta": "Start a swap"
         }
       },
       "moreComing": {
