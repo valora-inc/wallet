@@ -14,7 +14,7 @@ import { NativeSafeAreaViewProps, SafeAreaView } from 'react-native-safe-area-co
 import { OnboardingEvents } from 'src/analytics/Events'
 import { ScrollDirection } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import Button, { BtnTypes } from 'src/components/Button'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Pagination from 'src/components/Pagination'
 import BackChevron from 'src/icons/BackChevron'
 import Times from 'src/icons/Times'
@@ -160,15 +160,15 @@ const Education = (props: Props) => {
           dotStyle={dotStyle}
           activeDotStyle={activeDotStyle}
         />
-        <Button
-          testID="Education/progressButton"
-          onPress={nextStep}
-          text={currentIndex === stepInfo.length - 1 ? finalButtonText : buttonText}
-          type={currentIndex === stepInfo.length - 1 ? finalButtonType : buttonType}
-          touchableStyle={
-            currentIndex === stepInfo.length - 1 ? { backgroundColor: '#EEB93C' } : undefined
-          }
-        />
+        <View style={styles.buttonContainer}>
+          <Button
+            testID="Education/progressButton"
+            onPress={nextStep}
+            text={currentIndex === stepInfo.length - 1 ? finalButtonText : buttonText}
+            type={currentIndex === stepInfo.length - 1 ? finalButtonType : buttonType}
+            size={BtnSizes.FULL}
+          />
+        </View>
       </View>
     </SafeAreaView>
   )
@@ -186,9 +186,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    justifyContent: 'center',
     paddingBottom: 24,
   },
   heading: {
@@ -227,6 +224,9 @@ const styles = StyleSheet.create({
   },
   pagination: {
     paddingBottom: variables.contentPadding,
+  },
+  buttonContainer: {
+    paddingHorizontal: variables.contentPadding,
   },
 })
 
