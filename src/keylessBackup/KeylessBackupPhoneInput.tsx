@@ -28,7 +28,7 @@ type Props = NativeStackScreenProps<StackParamList, Screens.KeylessBackupPhoneIn
 
 function KeylessBackupPhoneInput({ route }: Props) {
   const { t } = useTranslation()
-  const { selectedCountryCodeAlpha2, keylessBackupFlow } = route.params
+  const { selectedCountryCodeAlpha2, keylessBackupFlow, origin } = route.params
   const cachedNumber = useSelector(e164NumberSelector)
   const cachedCountryCallingCode = useSelector(defaultCountryCodeSelector)
   const countries = useMemo(() => new Countries(i18n.language), [i18n.language])
@@ -78,7 +78,7 @@ function KeylessBackupPhoneInput({ route }: Props) {
         navigate(Screens.KeylessBackupPhoneInput, {
           keylessBackupFlow,
           selectedCountryCodeAlpha2: countryCodeAlpha2,
-          origin: route.params.origin,
+          origin,
         })
       },
     })
