@@ -1957,7 +1957,7 @@
       "network": "{{networkName}} Ağı",
       "selectNetwork": "Ağ",
       "stablecoins": "Stabilcoinler",
-      "gasTokens": "Gaz Jetonları"
+      "gasTokens": "Tokenler"
     }
   },
   "homeActions": {
