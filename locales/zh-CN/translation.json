@@ -1955,7 +1955,7 @@
       "network": "{{networkName}} 网络",
       "selectNetwork": "网络",
       "stablecoins": "稳定币",
-      "gasTokens": "瓦斯令牌"
+      "gasTokens": "费用代币"
     }
   },
   "homeActions": {
