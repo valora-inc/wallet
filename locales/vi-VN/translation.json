@@ -1954,8 +1954,8 @@
       "recentlySwapped": "Đã trao đổi gần đây",
       "network": "Mạng {{networkName}}",
       "selectNetwork": "Mạng lưới",
-      "stablecoins": "Stablecoins",
-      "gasTokens": "Gas Tokens"
+      "stablecoins": "Stablecoin",
+      "gasTokens": "Token cho gas"
     }
   },
   "homeActions": {
