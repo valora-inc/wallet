@@ -1,6 +1,6 @@
 import { Network } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { viemTransports } from 'src/viem'
+import { valoraViemTransports, viemTransports } from 'src/viem'
 import { KeychainLock } from 'src/web3/KeychainLock'
 import networkConfig from 'src/web3/networkConfig'
 import {
@@ -27,12 +27,25 @@ import { Prettify } from 'viem/chains'
 
 const TAG = 'viem/getLockableWallet'
 
-export function getTransport(chain: Chain): Transport {
+export function getTransport({
+  chain,
+  useValora,
+}: {
+  chain: Chain
+  useValora?: boolean
+}): Transport {
   const result = Object.entries(networkConfig.viemChain).find(
     ([_, viemChain]) => chain === viemChain
   )
   if (!result) {
     throw new Error(`No network defined for viem chain ${chain}, cannot create wallet`)
+  }
+  if (useValora) {
+    const valoraTransport = valoraViemTransports[result[0] as keyof typeof valoraViemTransports]
+    if (!valoraTransport) {
+      throw new Error(`No valora transport defined for network ${result[0]}, cannot create wallet`)
+    }
+    return valoraTransport
   }
   return viemTransports[result[0] as Network]
 }
@@ -60,7 +73,8 @@ type Actions<
 export default function getLockableViemWallet(
   lock: KeychainLock,
   chain: Chain,
-  privateKey: Address
+  privateKey: Address,
+  useValoraTransport: boolean = false
 ): ViemWallet {
   const account = privateKeyToAccount(privateKey)
   Logger.debug(TAG, `getting viem wallet for ${account.address} on ${chain.name}`)
@@ -72,7 +86,7 @@ export default function getLockableViemWallet(
 
   return createWalletClient({
     chain,
-    transport: getTransport(chain),
+    transport: getTransport({ chain, useValora: useValoraTransport }),
     account,
   }).extend((client): Actions<Chain, PrivateKeyAccount> => {
     return {

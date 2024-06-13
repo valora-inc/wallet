@@ -75,5 +75,25 @@ describe('getViemWallet', () => {
     // Verifying that the wallet is cached
     await expectSaga(getViemWallet, celo).returns('foo').run()
     expect(getLockableViemWallet).toHaveBeenCalledTimes(1)
+
+    // get a wallet with valora transport and ensure it is not from the cache
+    await expectSaga(getViemWallet, celo, true)
+      .provide([
+        [select(walletAddressSelector), '0x123'],
+        [call(listStoredAccounts), [{ address: '0x123', createdAt: date }]],
+        [call(getPasswordSaga, '0x123', true, false), 'password'],
+        [
+          call(getStoredPrivateKey, { address: '0x123', createdAt: new Date() }, 'password'),
+          'password',
+        ],
+      ])
+      .returns('foo')
+      .run()
+
+    expect(getLockableViemWallet).toHaveBeenCalledTimes(2)
+
+    // Verifying that the valora transport wallet is cached
+    await expectSaga(getViemWallet, celo, true).returns('foo').run()
+    expect(getLockableViemWallet).toHaveBeenCalledTimes(2)
   })
 })
