@@ -6,6 +6,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import EarnCta from 'src/earn/EarnCta'
 import { fetchAavePoolInfo } from 'src/earn/poolInfo'
 import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
 import { mockArbUsdcTokenId, mockTokenBalances } from 'test/values'
@@ -61,7 +62,7 @@ describe('EarnCta', () => {
     )
   })
 
-  it('navigates to EarnEnterAmount when pressed', async () => {
+  it('navigates to EarnInfoScreen when pressed', async () => {
     const { getByTestId } = render(
       <Provider store={createStore()}>
         <EarnCta depositTokenId={mockArbUsdcTokenId} />
@@ -74,8 +75,6 @@ describe('EarnCta', () => {
       providerId: 'aave-v3',
       networkId: NetworkId['arbitrum-sepolia'],
     })
-    expect(navigate).toHaveBeenCalledWith('EarnEnterAmount', {
-      tokenId: mockArbUsdcTokenId,
-    })
+    expect(navigate).toHaveBeenCalledWith(Screens.EarnInfoScreen, { tokenId: mockArbUsdcTokenId })
   })
 })
