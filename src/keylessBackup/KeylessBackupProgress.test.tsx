@@ -119,7 +119,8 @@ describe('KeylessBackupProgress', () => {
 
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-        KeylessBackupEvents.cab_progress_failed_manual
+        KeylessBackupEvents.cab_progress_failed_manual,
+        { origin: KeylessBackupOrigin.Settings }
       )
     })
     it('navigates to recovery phrase on failure when coming from onboarding', async () => {
@@ -139,7 +140,8 @@ describe('KeylessBackupProgress', () => {
 
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-        KeylessBackupEvents.cab_progress_failed_manual
+        KeylessBackupEvents.cab_progress_failed_manual,
+        { origin: KeylessBackupOrigin.Onboarding }
       )
     })
     it('navigates to CYA on failure when coming from onboarding', async () => {
