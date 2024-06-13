@@ -16971,7 +16971,7 @@ MIT, ISC, BSD-2-Clause, BSD-3-Clause, Apache-2.0
 
 ## Bundled dependencies
 
-### @angular/compiler@v18.0.0
+### @angular/compiler@v18.0.2
 
 > Angular - the compiler library
 
@@ -16981,7 +16981,7 @@ Author: angular
 
 ----------------------------------------
 
-### @babel/code-frame@v7.24.6
+### @babel/code-frame@v7.24.7
 
 > Generate errors that contain a code frame that point to source locations.
 
@@ -17015,7 +17015,7 @@ Author: The Babel Team (https://babel.dev/team)
 
 ----------------------------------------
 
-### @babel/helper-validator-identifier@v7.24.6
+### @babel/helper-validator-identifier@v7.24.7
 
 > Validate identifier/keywords name
 
@@ -17048,7 +17048,7 @@ Author: The Babel Team (https://babel.dev/team)
 
 ----------------------------------------
 
-### @babel/highlight@v7.24.6
+### @babel/highlight@v7.24.7
 
 > Syntax highlight JavaScript strings for output in terminals.
 
@@ -17082,7 +17082,7 @@ Author: The Babel Team (https://babel.dev/team)
 
 ----------------------------------------
 
-### @babel/parser@v7.24.6
+### @babel/parser@v7.24.7
 
 > A JavaScript parser
 
@@ -17410,7 +17410,7 @@ Author: Alex Bell <alex@bellandwhistle.net>
 
 ----------------------------------------
 
-### @typescript-eslint/types@v7.10.0
+### @typescript-eslint/types@v7.13.0
 
 > Types for the TypeScript-ESTree AST spec
 
@@ -17442,7 +17442,7 @@ Repository: <https://github.com/typescript-eslint/typescript-eslint.git>
 
 ----------------------------------------
 
-### @typescript-eslint/typescript-estree@v7.10.0
+### @typescript-eslint/typescript-estree@v7.13.0
 
 > A parser that converts TypeScript source code into an ESTree compatible form
 
@@ -18482,7 +18482,7 @@ Contributors:
 
 ----------------------------------------
 
-### flow-parser@v0.236.0
+### flow-parser@v0.237.2
 
 > JavaScript parser written in OCaml. Produces ESTree AST
 
@@ -19518,7 +19518,7 @@ Repository: <git@github.com:teambition/merge2.git>
 
 ----------------------------------------
 
-### meriyah@v4.4.3
+### meriyah@v4.5.0
 
 > A 100% compliant, self-hosted javascript parser with high focus on both performance and stability
 
@@ -19788,7 +19788,7 @@ Author: Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)
 
 ----------------------------------------
 
-### picocolors@v1.0.0
+### picocolors@v1.0.1
 
 > The tiniest and the fastest library for terminal output formatting with ANSI colors
 
