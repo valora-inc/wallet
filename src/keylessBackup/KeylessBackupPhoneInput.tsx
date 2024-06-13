@@ -91,7 +91,7 @@ function KeylessBackupPhoneInput({ route }: Props) {
     navigate(Screens.KeylessBackupPhoneCodeInput, {
       keylessBackupFlow,
       e164Number: phoneNumberInfo.e164Number,
-      origin: route.params.origin,
+      origin,
     })
   }
 

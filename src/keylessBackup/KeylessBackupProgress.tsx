@@ -43,6 +43,7 @@ function KeylessBackupProgress({
 }: NativeStackScreenProps<StackParamList, Screens.KeylessBackupProgress>) {
   const keylessBackupStatus = useSelector(keylessBackupStatusSelector)
   const { t } = useTranslation()
+  const { keylessBackupFlow, origin } = route.params
 
   const onPressHelp = () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_restore_failed_help)
@@ -60,7 +61,7 @@ function KeylessBackupProgress({
     navigation.setOptions({
       headerRight: () =>
         keylessBackupStatus === KeylessBackupStatus.Failed &&
-        route.params.keylessBackupFlow === KeylessBackupFlow.Restore && (
+        keylessBackupFlow === KeylessBackupFlow.Restore && (
           <TopBarTextButton
             title={t('keylessBackupStatus.restore.failed.help')}
             testID="KeylessBackupRestoreHelp"
@@ -71,10 +72,10 @@ function KeylessBackupProgress({
     })
   })
 
-  if (route.params.keylessBackupFlow === KeylessBackupFlow.Restore) {
+  if (keylessBackupFlow === KeylessBackupFlow.Restore) {
     return <Restore />
   } else {
-    return <Setup origin={route.params.origin} />
+    return <Setup origin={origin} />
   }
 }
 
