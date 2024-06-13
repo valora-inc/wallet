@@ -144,7 +144,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [KeylessBackupEvents.cab_progress_completed_continue]: ``,
   [KeylessBackupEvents.cab_progress_failed_later]: ``,
   [KeylessBackupEvents.cab_progress_failed_manual]: ``,
-  [KeylessBackupEvents.cab_progress_failed_manual_onboarding]: ``,
   [KeylessBackupEvents.cab_progress_failed_skip_onboarding]: ``,
   [KeylessBackupEvents.cab_post_encrypted_mnemonic_failed]: ``,
   [KeylessBackupEvents.cab_torus_keyshare_timeout]: ``,

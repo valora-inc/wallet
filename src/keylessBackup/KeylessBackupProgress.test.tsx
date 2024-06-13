@@ -139,7 +139,7 @@ describe('KeylessBackupProgress', () => {
 
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-        KeylessBackupEvents.cab_progress_failed_manual_onboarding
+        KeylessBackupEvents.cab_progress_failed_manual
       )
     })
     it('navigates to CYA on failure when coming from onboarding', async () => {

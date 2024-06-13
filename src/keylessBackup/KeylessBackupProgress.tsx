@@ -44,8 +44,6 @@ function KeylessBackupProgress({
   const keylessBackupStatus = useSelector(keylessBackupStatusSelector)
   const { t } = useTranslation()
 
-  const navigatedFromSettings = route.params.origin === KeylessBackupOrigin.Settings
-
   const onPressHelp = () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_restore_failed_help)
     navigate(Screens.SupportContact)
@@ -76,7 +74,7 @@ function KeylessBackupProgress({
   if (route.params.keylessBackupFlow === KeylessBackupFlow.Restore) {
     return <Restore />
   } else {
-    return <Setup navigatedFromSettings={navigatedFromSettings} />
+    return <Setup origin={route.params.origin} />
   }
 }
 
@@ -257,9 +255,11 @@ function Restore() {
   }
 }
 
-function Setup({ navigatedFromSettings }: { navigatedFromSettings: boolean }) {
+function Setup({ origin }: { origin: KeylessBackupOrigin }) {
   const keylessBackupStatus = useSelector(keylessBackupStatusSelector)
   const { t } = useTranslation()
+
+  const navigatedFromSettings = origin === KeylessBackupOrigin.Settings
 
   const onPressContinue = () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_progress_completed_continue)
@@ -267,7 +267,7 @@ function Setup({ navigatedFromSettings }: { navigatedFromSettings: boolean }) {
   }
 
   const onPressManual = async () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_progress_failed_manual)
+    ValoraAnalytics.track(KeylessBackupEvents.cab_progress_failed_manual, { origin })
     try {
       const pinIsCorrect = await ensurePincode()
       if (pinIsCorrect) {
@@ -284,7 +284,7 @@ function Setup({ navigatedFromSettings }: { navigatedFromSettings: boolean }) {
   }
 
   const onPressManualOnboarding = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_progress_failed_manual_onboarding)
+    ValoraAnalytics.track(KeylessBackupEvents.cab_progress_failed_manual, { origin })
     navigate(Screens.AccountKeyEducation)
   }
 
