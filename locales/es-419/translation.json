@@ -2338,8 +2338,8 @@
         "title": "Intercambia activos",
         "bottomSheet": {
           "title": "Intercambia activos",
-          "body": "Este espacio se utilizará para traerte más detalles. \n\nGana puntos {{pointsValue}} cada vez que intercambies un activo utilizando {{appName}}.",
-          "cta": "Ir a Intercambiar"
+          "body": "Gana {{pointsValue}} puntos cada vez que intercambies un bien utilizando {{appName}}. \n\n¡Toca abajo para empezar a intercambiar y ganar!",
+          "cta": "Iniciar un intercambio"
         }
       },
       "moreComing": {
