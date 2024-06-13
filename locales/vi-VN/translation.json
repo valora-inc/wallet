@@ -2336,8 +2336,8 @@
         "title": "Trao đổi tài sản",
         "bottomSheet": {
           "title": "Trao đổi tài sản",
-          "body": "Vùng này sẽ được sử dụng để cung cấp tất cả thông tin chi tiết cần thiết để thực hiện việc này. Bạn có thể điền số tiền tối thiểu để trao đổi. \n\nKiếm {{pointsValue}} điểm bất cứ khi nào bạn trao đổi tài sản bằng {{appName}}.",
-          "cta": "Bắt đầu trao đổi"
+          "body": "Earn {{pointsValue}} points every time you swap an asset using {{appName}}. \n\nTap below to start swapping and earning!",
+          "cta": "Start a swap"
         }
       },
       "moreComing": {
