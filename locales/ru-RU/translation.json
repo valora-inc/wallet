@@ -1960,8 +1960,8 @@
       "recentlySwapped": "Недавно обмененные",
       "network": "Сеть {{networkName}}",
       "selectNetwork": "Сообщество",
-      "stablecoins": "Стабильные монеты",
-      "gasTokens": "Газовые жетоны"
+      "stablecoins": "Стейблкоинам",
+      "gasTokens": "Газоплатные токены"
     }
   },
   "homeActions": {
