@@ -129,7 +129,8 @@
         "title": "Backup non disponibile",
         "body": "Puoi impostare il backup in un secondo momento o proteggere il tuo account ora salvando la frase di recupero.",
         "later": "Preparerò un backup più tardi",
-        "manual": "Salva frase di recupero"
+        "manual": "Salva frase di recupero",
+        "skip": "Salta (non consigliato)"
       }
     },
     "restore": {
