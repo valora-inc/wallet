@@ -372,7 +372,7 @@ describe('EarnCollectScreen', () => {
 
   it('disables cta and shows loading spinner when withdraw is submitted', async () => {
     const store = createMockStore({ tokens: mockStoreTokens, earn: { withdrawStatus: 'loading' } })
-    const { getByTestId } = render(
+    const { getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <MockedNavigator
           component={EarnCollectScreen}
@@ -383,6 +383,16 @@ describe('EarnCollectScreen', () => {
         />
       </Provider>
     )
+
+    await waitFor(() => {
+      expect(queryByTestId('EarnCollect/RewardsLoading')).toBeFalsy()
+    })
+    await waitFor(() => {
+      expect(queryByTestId('EarnCollect/ApyLoading')).toBeFalsy()
+    })
+    await waitFor(() => {
+      expect(queryByTestId('EarnCollect/GasLoading')).toBeFalsy()
+    })
 
     expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
     expect(getByTestId('EarnCollectScreen/CTA')).toContainElement(getByTestId('Button/Loading'))
