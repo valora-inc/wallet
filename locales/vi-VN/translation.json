@@ -129,7 +129,8 @@
         "title": "Không hỗ trợ sao lưu",
         "body": "Bạn có thể thiết lập sao lưu ví sau hoặc bảo vệ tài khoản của mình ngay bằng cách lưu cụm từ khôi phục.",
         "later": "Tôi sẽ thiết lập sao lưu sau",
-        "manual": "Lưu cụm từ khôi phục"
+        "manual": "Lưu cụm từ khôi phục",
+        "skip": "Skip (not recommended)"
       }
     },
     "restore": {
