@@ -242,7 +242,7 @@ function EarnEnterAmount({ route }: Props) {
     // eventually we may want to do something smarter here, like subtracting gas fees from the max amount if
     // this is a gas-paying token. for now, we are just showing a warning to the user prompting them to lower the amount
     // if there is not enough for gas
-    setTokenAmountInput(token.balance.toString())
+    setTokenAmountInput(token.balance.toFormat({ decimalSeparator }))
     setEnteredIn('token')
     tokenAmountInputRef.current?.blur()
     localAmountInputRef.current?.blur()
