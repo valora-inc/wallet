@@ -18,6 +18,8 @@ import {
 import { DepositInfo, WithdrawInfo } from 'src/earn/types'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { vibrateError } from 'src/styles/hapticFeedback'
 import { getTokenInfo } from 'src/tokens/saga'
 import { tokensByIdSelector } from 'src/tokens/selectors'
@@ -173,7 +175,8 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
       sendPreparedTransactions,
       serializablePreparedTransactions,
       networkId,
-      createDepositStandbyTxHandlers
+      createDepositStandbyTxHandlers,
+      getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
     )
     txHashes.forEach((txHash, i) => {
       trackedTxs[i].txHash = txHash
@@ -332,7 +335,8 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
       sendPreparedTransactions,
       serializablePreparedTransactions,
       networkId,
-      createWithdrawStandbyTxHandlers
+      createWithdrawStandbyTxHandlers,
+      getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
     )
 
     Logger.debug(

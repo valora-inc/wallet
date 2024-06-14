@@ -286,7 +286,7 @@ describe(swapSubmitSaga, () => {
   function createDefaultProviders(network: Network) {
     let callCount = 0
     const defaultProviders: (EffectProviders | StaticProvider)[] = [
-      [matchers.call(getViemWallet, networkConfig.viemChain[network]), mockViemWallet],
+      [matchers.call(getViemWallet, networkConfig.viemChain[network], false), mockViemWallet],
       [matchers.call.fn(getTransactionCount), 10],
       [matchers.call.fn(getConnectedUnlockedAccount), mockAccount],
       [

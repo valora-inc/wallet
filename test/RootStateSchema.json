@@ -2973,6 +2973,7 @@
                 "expiryTimestamp",
                 "id",
                 "optionalNamespaces",
+                "pairingTopic",
                 "proposer",
                 "relays",
                 "requiredNamespaces"

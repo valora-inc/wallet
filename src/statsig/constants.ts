@@ -30,6 +30,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_STABLECOIN_EARN]: false,
   [StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES]: false,
   [StatsigFeatureGates.SHOW_CASH_IN_TOKEN_FILTERS]: false,
+  [StatsigFeatureGates.SHOW_CAB_IN_ONBOARDING]: false,
 } satisfies { [key in StatsigFeatureGates]: boolean }
 
 export const ExperimentConfigs = {
@@ -145,6 +146,8 @@ export const DynamicConfigs = {
       providerTermsAndConditionsUrl: '',
       depositGasPadding: 0,
       approveGasPadding: 0,
+      withdrawGasPadding: 0,
+      rewardsGasPadding: 0,
       moreAavePoolsUrl: '',
     },
   },

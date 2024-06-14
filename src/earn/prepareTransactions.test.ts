@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-import { FetchMock } from 'jest-fetch-mock/types'
 import aaveIncentivesV3Abi from 'src/abis/AaveIncentivesV3'
 import aavePool from 'src/abis/AavePoolV3'
 import erc20 from 'src/abis/IERC20'
@@ -7,6 +6,7 @@ import {
   prepareSupplyTransactions,
   prepareWithdrawAndClaimTransactions,
 } from 'src/earn/prepareTransactions'
+import { simulateTransactions } from 'src/earn/simulateTransactions'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
@@ -50,6 +50,7 @@ jest.mock('viem', () => ({
   ...jest.requireActual('viem'),
   encodeFunctionData: jest.fn(),
 }))
+jest.mock('src/earn/simulateTransactions')
 
 describe('prepareTransactions', () => {
   beforeEach(() => {
@@ -63,7 +64,7 @@ describe('prepareTransactions', () => {
     jest.mocked(encodeFunctionData).mockReturnValue('0xencodedData')
     jest.mocked(getDynamicConfigParams).mockImplementation(({ configName, defaultValues }) => {
       if (configName === StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG) {
-        return { ...defaultValues, depositGasPadding: 100, approveGasPadding: 200 }
+        return { ...defaultValues, depositGasPadding: 100 }
       }
       return defaultValues
     })
@@ -73,37 +74,26 @@ describe('prepareTransactions', () => {
       }
       throw new Error(`Unexpected feature gate: ${featureGate}`)
     })
+    jest.mocked(simulateTransactions).mockResolvedValue([
+      {
+        status: 'success',
+        blockNumber: '1',
+        gasNeeded: 3000,
+        gasUsed: 2800,
+        gasPrice: '1',
+      },
+      {
+        status: 'success',
+        blockNumber: '1',
+        gasNeeded: 50000,
+        gasUsed: 49800,
+        gasPrice: '1',
+      },
+    ])
   })
 
   describe('prepareSupplyTransactions', () => {
-    const mockFetch = fetch as FetchMock
-    beforeEach(() => {
-      mockFetch.resetMocks()
-    })
-
-    it('prepares transactions with approve and supply if not already approved', async () => {
-      mockFetch.mockResponseOnce(
-        JSON.stringify({
-          status: 'OK',
-          simulatedTransactions: [
-            {
-              status: 'success',
-              blockNumber: '1',
-              gasNeeded: 3000,
-              gasUsed: 2800,
-              gasPrice: '1',
-            },
-            {
-              status: 'success',
-              blockNumber: '1',
-              gasNeeded: 50000,
-              gasUsed: 49800,
-              gasPrice: '1',
-            },
-          ],
-        })
-      )
-
+    it('prepares transactions with approve and supply if not already approved with gas subsidy off', async () => {
       const result = await prepareSupplyTransactions({
         amount: '5',
         token: mockToken,
@@ -155,28 +145,18 @@ describe('prepareTransactions', () => {
         isGasSubsidized: false,
       })
     })
-    it('prepares fees from the cloud function for approve and supply when subsidizing gas fees', async () => {
-      mockFetch.mockResponseOnce(
-        JSON.stringify({
-          status: 'OK',
-          simulatedTransactions: [
-            {
-              status: 'success',
-              blockNumber: '1',
-              gasNeeded: 3000,
-              gasUsed: 2800,
-              gasPrice: '1',
-            },
-            {
-              status: 'success',
-              blockNumber: '1',
-              gasNeeded: 50000,
-              gasUsed: 49800,
-              gasPrice: '1',
-            },
-          ],
-        })
-      )
+
+    it('prepares transactions with supply if already approved with gas subsidy on', async () => {
+      jest.spyOn(publicClient[Network.Arbitrum], 'readContract').mockResolvedValue(BigInt(5e6))
+      jest.mocked(simulateTransactions).mockResolvedValueOnce([
+        {
+          status: 'success',
+          blockNumber: '1',
+          gasNeeded: 50000,
+          gasUsed: 49800,
+          gasPrice: '1',
+        },
+      ])
       jest.mocked(getFeatureGate).mockImplementation((featureGate) => {
         if (featureGate === StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES) {
           return true
@@ -195,13 +175,6 @@ describe('prepareTransactions', () => {
       const expectedTransactions = [
         {
           from: '0x1234',
-          to: mockTokenAddress,
-          data: '0xencodedData',
-          gas: BigInt(3200),
-          _estimatedGasUse: BigInt(2800),
-        },
-        {
-          from: '0x1234',
           to: '0x5678',
           data: '0xencodedData',
           gas: BigInt(50100),
@@ -220,11 +193,6 @@ describe('prepareTransactions', () => {
         args: ['0x1234', '0x5678'],
       })
       expect(encodeFunctionData).toHaveBeenNthCalledWith(1, {
-        abi: erc20.abi,
-        functionName: 'approve',
-        args: ['0x5678', BigInt(5e6)],
-      })
-      expect(encodeFunctionData).toHaveBeenNthCalledWith(2, {
         abi: aavePool,
         functionName: 'supply',
         args: [mockTokenAddress, BigInt(5e6), '0x1234', 0],
@@ -237,146 +205,16 @@ describe('prepareTransactions', () => {
         isGasSubsidized: true,
       })
     })
-
-    it('prepares transactions with supply if already approved', async () => {
-      jest.spyOn(publicClient[Network.Arbitrum], 'readContract').mockResolvedValue(BigInt(5e6))
-      mockFetch.mockResponseOnce(
-        JSON.stringify({
-          status: 'OK',
-          simulatedTransactions: [
-            {
-              status: 'success',
-              blockNumber: '1',
-              gasNeeded: 50000,
-              gasUsed: 49800,
-              gasPrice: '1',
-            },
-          ],
-        })
-      )
-
-      const result = await prepareSupplyTransactions({
-        amount: '5',
-        token: mockToken,
-        walletAddress: '0x1234',
-        feeCurrencies: [mockFeeCurrency],
-        poolContractAddress: '0x5678',
-      })
-
-      const expectedTransactions = [
-        {
-          from: '0x1234',
-          to: '0x5678',
-          data: '0xencodedData',
-          gas: BigInt(50100),
-          _estimatedGasUse: BigInt(49800),
-        },
-      ]
-      expect(result).toEqual({
-        type: 'possible',
-        feeCurrency: mockFeeCurrency,
-        transactions: expectedTransactions,
-      })
-      expect(publicClient[Network.Arbitrum].readContract).toHaveBeenCalledWith({
-        address: mockTokenAddress,
-        abi: erc20.abi,
-        functionName: 'allowance',
-        args: ['0x1234', '0x5678'],
-      })
-      expect(encodeFunctionData).toHaveBeenNthCalledWith(1, {
-        abi: aavePool,
-        functionName: 'supply',
-        args: [mockTokenAddress, BigInt(5e6), '0x1234', 0],
-      })
-      expect(prepareTransactions).toHaveBeenCalledWith({
-        baseTransactions: expectedTransactions,
-        feeCurrencies: [mockFeeCurrency],
-        spendToken: mockToken,
-        spendTokenAmount: new BigNumber(5),
-        isGasSubsidized: false,
-      })
-    })
-
-    it('throws if simulate transactions sends a non 200 response', async () => {
-      mockFetch.mockResponseOnce(
-        JSON.stringify({
-          status: 'ERROR',
-          error: 'something went wrong',
-        }),
-        { status: 500 }
-      )
-
-      await expect(
-        prepareSupplyTransactions({
-          amount: '5',
-          token: mockToken,
-          walletAddress: '0x1234',
-          feeCurrencies: [mockFeeCurrency],
-          poolContractAddress: '0x5678',
-        })
-      ).rejects.toThrow('Failed to simulate transactions')
-    })
-
-    it('throws if supply transaction simulation status is failure', async () => {
-      mockFetch.mockResponseOnce(
-        JSON.stringify({
-          status: 'OK',
-          simulatedTransactions: [
-            {
-              status: 'success',
-              blockNumber: '1',
-              gasNeeded: 3000,
-              gasUsed: 2800,
-              gasPrice: '1',
-            },
-            {
-              status: 'failure',
-            },
-          ],
-        })
-      )
-
-      await expect(
-        prepareSupplyTransactions({
-          amount: '5',
-          token: mockToken,
-          walletAddress: '0x1234',
-          feeCurrencies: [mockFeeCurrency],
-          poolContractAddress: '0x5678',
-        })
-      ).rejects.toThrow('Failed to simulate supply transaction')
-    })
-
-    it('throws if simulated transactions length does not match base transactions length', async () => {
-      mockFetch.mockResponseOnce(
-        JSON.stringify({
-          status: 'OK',
-          simulatedTransactions: [
-            {
-              status: 'success',
-              blockNumber: '1',
-              gasNeeded: 3000,
-              gasUsed: 2800,
-              gasPrice: '1',
-            },
-          ],
-        })
-      )
-
-      await expect(
-        prepareSupplyTransactions({
-          amount: '5',
-          token: mockToken,
-          walletAddress: '0x1234',
-          feeCurrencies: [mockFeeCurrency],
-          poolContractAddress: '0x5678',
-        })
-      ).rejects.toThrow('Expected 2 simulated transactions, got 1')
-    })
   })
 
   describe('prepareWithdrawAndClaimTransactions', () => {
-    it('prepares withdraw and claim transactions', async () => {
+    it('prepares withdraw and claim transactions with gas subsidy on', async () => {
+      jest.mocked(getFeatureGate).mockImplementation((featureGate) => {
+        if (featureGate === StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES) {
+          return true
+        }
+        throw new Error(`Unexpected feature gate: ${featureGate}`)
+      })
       const rewards = [
         {
           amount: '0.002',
@@ -437,10 +275,11 @@ describe('prepareTransactions', () => {
       expect(prepareTransactions).toHaveBeenCalledWith({
         baseTransactions: expectedTransactions,
         feeCurrencies: [mockFeeCurrency],
+        isGasSubsidized: true,
       })
     })
 
-    it('prepares only withdraw transaction if no rewards', async () => {
+    it('prepares only withdraw transaction if no rewards with gas subsidy off', async () => {
       const result = await prepareWithdrawAndClaimTransactions({
         amount: '5',
         token: mockToken,
@@ -471,6 +310,7 @@ describe('prepareTransactions', () => {
       expect(prepareTransactions).toHaveBeenCalledWith({
         baseTransactions: expectedTransactions,
         feeCurrencies: [mockFeeCurrency],
+        isGasSubsidized: false,
       })
     })
   })

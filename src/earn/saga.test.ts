@@ -18,6 +18,8 @@ import {
 } from 'src/earn/slice'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import { Network, NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
@@ -53,6 +55,8 @@ jest.mock('src/transactions/types', () => {
     })),
   }
 })
+
+jest.mock('src/statsig')
 
 const mockTxReceipt1 = {
   status: 'success',
@@ -92,6 +96,7 @@ describe('depositSubmitSaga', () => {
   }
 
   const mockStandbyHandler = jest.fn()
+  const mockIsGasSubsidizedCheck = jest.fn() // a mock to ensure sendPreparedTransactions is called with the correct isGasSubsidized value
 
   const sagaProviders: StaticProvider[] = [
     [
@@ -100,7 +105,8 @@ describe('depositSubmitSaga', () => {
     ],
     [
       matchers.call.fn(sendPreparedTransactions),
-      dynamic(({ args: [txs, _networkId, standbyHandlers] }) => {
+      dynamic(({ args: [txs, _networkId, standbyHandlers, isGasSubsidized] }) => {
+        mockIsGasSubsidizedCheck(isGasSubsidized)
         if (txs.length === 1) {
           mockStandbyHandler(standbyHandlers[0]('0x2'))
           return ['0x2']
@@ -207,9 +213,13 @@ describe('depositSubmitSaga', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
+    jest.mocked(getFeatureGate).mockReturnValue(false)
   })
 
-  it('sends approve and deposit transactions, navigates home and dispatches the success action', async () => {
+  it('sends approve and deposit transactions, navigates home and dispatches the success action (gas subsidy on)', async () => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((gate) => gate === StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
     await expectSaga(depositSubmitSaga, {
       type: depositStart.type,
       payload: {
@@ -242,9 +252,11 @@ describe('depositSubmitSaga', () => {
       ...expectedAnalyticsProps,
       ...expectedCumulativeGasAnalyticsProperties,
     })
+    expect(mockIsGasSubsidizedCheck).toHaveBeenCalledWith(true)
+    expect(mockIsGasSubsidizedCheck).not.toHaveBeenCalledWith(false)
   })
 
-  it('sends only deposit transaction, navigates home and dispatches the success action', async () => {
+  it('sends only deposit transaction, navigates home and dispatches the success action (gas subsidy off)', async () => {
     await expectSaga(depositSubmitSaga, {
       type: depositStart.type,
       payload: {
@@ -275,6 +287,8 @@ describe('depositSubmitSaga', () => {
       gasFeeUsd: 2.787555,
       gasUsed: 371674,
     })
+    expect(mockIsGasSubsidizedCheck).toHaveBeenCalledWith(false)
+    expect(mockIsGasSubsidizedCheck).not.toHaveBeenCalledWith(true)
   })
 
   it('dispatches cancel action if pin input is cancelled and does not navigate home', async () => {
@@ -406,11 +420,13 @@ describe('withdrawSubmitSaga', () => {
   }
 
   const mockStandbyHandler = jest.fn()
+  const mockIsGasSubsidizedCheck = jest.fn() // a mock to ensure sendPreparedTransactions is called with the correct isGasSubsidized value
 
   const sagaProviders: StaticProvider[] = [
     [
       matchers.call.fn(sendPreparedTransactions),
-      dynamic(({ args: [txs, _networkId, standbyHandlers] }) => {
+      dynamic(({ args: [txs, _networkId, standbyHandlers, isGasSubsidized] }) => {
+        mockIsGasSubsidizedCheck(isGasSubsidized)
         if (txs.length === 1) {
           mockStandbyHandler(standbyHandlers[0]('0x1'))
           return ['0x1']
@@ -487,9 +503,10 @@ describe('withdrawSubmitSaga', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
+    jest.mocked(getFeatureGate).mockReturnValue(false)
   })
 
-  it('sends withdraw and claim transactions, navigates home and dispatches the success action', async () => {
+  it('sends withdraw and claim transactions, navigates home and dispatches the success action (gas subsidy off)', async () => {
     await expectSaga(withdrawSubmitSaga, {
       type: withdrawStart.type,
       payload: {
@@ -520,9 +537,14 @@ describe('withdrawSubmitSaga', () => {
       EarnEvents.earn_withdraw_submit_success,
       expectedAnalyticsPropsWithRewards
     )
+    expect(mockIsGasSubsidizedCheck).toHaveBeenCalledWith(false)
+    expect(mockIsGasSubsidizedCheck).not.toHaveBeenCalledWith(true)
   })
 
-  it('sends only withdraw if there are no rewards', async () => {
+  it('sends only withdraw if there are no rewards (gas subsidy on)', async () => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((gate) => gate === StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
     await expectSaga(withdrawSubmitSaga, {
       type: withdrawStart.type,
       payload: {
@@ -551,6 +573,8 @@ describe('withdrawSubmitSaga', () => {
       EarnEvents.earn_withdraw_submit_success,
       expectedAnalyticsPropsNoRewards
     )
+    expect(mockIsGasSubsidizedCheck).toHaveBeenCalledWith(true)
+    expect(mockIsGasSubsidizedCheck).not.toHaveBeenCalledWith(false)
   })
 
   it('dispatches cancel action if pin input is cancelled and does not navigate home', async () => {

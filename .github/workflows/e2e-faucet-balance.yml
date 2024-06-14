@@ -17,7 +17,7 @@ jobs:
     name: balance-and-fund
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/yarn-install
       - name: Create E2E Fund .env File
         env:
