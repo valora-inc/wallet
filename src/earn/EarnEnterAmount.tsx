@@ -61,6 +61,7 @@ type ProceedComponentProps = Omit<ProceedArgs, 'tokenAmount'> & {
   onPressInfo(): void
   disabled: boolean
   tokenAmount: BigNumber | null
+  loading: boolean
 }
 
 function EarnEnterAmount({ route }: Props) {
@@ -90,6 +91,7 @@ function EarnEnterAmount({ route }: Props) {
     refreshPreparedTransactions,
     clearPreparedTransactions,
     prepareTransactionError,
+    isPreparingTransactions,
   } = usePrepareSupplyTransactions()
 
   const walletAddress = useSelector(walletAddressSelector)
@@ -363,6 +365,7 @@ function EarnEnterAmount({ route }: Props) {
           onPressProceed={onPressContinue}
           onPressInfo={onPressInfo}
           disabled={disabled}
+          loading={isPreparingTransactions}
         />
         <KeyboardSpacer />
       </KeyboardAwareScrollView>
@@ -393,6 +396,7 @@ function EarnProceed({
   disabled,
   onPressProceed,
   onPressInfo,
+  loading,
 }: ProceedComponentProps) {
   const { t } = useTranslation()
 
@@ -407,6 +411,8 @@ function EarnProceed({
         style={styles.continueButton}
         size={BtnSizes.FULL}
         disabled={disabled}
+        showLoading={loading}
+        testID="EarnEnterAmount/Continue"
       />
       <View style={styles.row}>
         <Text style={styles.infoText}>{t('earnFlow.enterAmount.info')}</Text>

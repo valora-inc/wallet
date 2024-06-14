@@ -86,6 +86,7 @@ jest.mocked(usePrepareSupplyTransactions).mockReturnValue({
   refreshPreparedTransactions: refreshPreparedTransactionsSpy,
   clearPreparedTransactions: jest.fn(),
   prepareTransactionError: undefined,
+  isPreparingTransactions: false,
 })
 
 const params = {
@@ -153,6 +154,7 @@ describe('EarnEnterAmount', () => {
       refreshPreparedTransactions: jest.fn(),
       clearPreparedTransactions: jest.fn(),
       prepareTransactionError: undefined,
+      isPreparingTransactions: false,
     })
     const { getByTestId, getByText } = render(
       <Provider store={store}>
@@ -186,6 +188,7 @@ describe('EarnEnterAmount', () => {
       refreshPreparedTransactions: jest.fn(),
       clearPreparedTransactions: jest.fn(),
       prepareTransactionError: undefined,
+      isPreparingTransactions: false,
     })
     const { getByTestId, getByText } = render(
       <Provider store={store}>
@@ -214,5 +217,29 @@ describe('EarnEnterAmount', () => {
     await waitFor(() =>
       expect(getByText('earnFlow.addCryptoBottomSheet.description')).toBeVisible()
     )
+  })
+
+  it('should show loading spinner when preparing transaction', async () => {
+    jest.mocked(usePrepareSupplyTransactions).mockReturnValue({
+      prepareTransactionsResult: undefined,
+      refreshPreparedTransactions: jest.fn(),
+      clearPreparedTransactions: jest.fn(),
+      prepareTransactionError: undefined,
+      isPreparingTransactions: true,
+    })
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={EarnEnterAmount} params={params} />
+      </Provider>
+    )
+
+    fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '8')
+
+    await waitFor(() =>
+      expect(getByTestId('EarnEnterAmount/Continue')).toContainElement(
+        getByTestId('Button/Loading')
+      )
+    )
+    expect(getByTestId('EarnEnterAmount/Continue')).toBeDisabled()
   })
 })
