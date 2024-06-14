@@ -15,7 +15,11 @@ import { Help } from 'src/icons/Help'
 import RedLoadingSpinnerToInfo from 'src/icons/RedLoadingSpinnerToInfo'
 import { keylessBackupStatusSelector } from 'src/keylessBackup/selectors'
 import { keylessBackupAcceptZeroBalance, keylessBackupBail } from 'src/keylessBackup/slice'
-import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
+import {
+  KeylessBackupFlow,
+  KeylessBackupOrigin,
+  KeylessBackupStatus,
+} from 'src/keylessBackup/types'
 import { useDollarsToLocalAmount, useLocalCurrencyCode } from 'src/localCurrency/hooks'
 import { ensurePincode, navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -31,11 +35,6 @@ import { useTotalTokenBalance } from 'src/tokens/hooks'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'keylessBackup/KeylessBackupProgress'
-
-export enum KeylessBackupOrigin {
-  Onboarding = 'Onboarding',
-  Settings = 'Settings',
-}
 
 function KeylessBackupProgress({
   route,

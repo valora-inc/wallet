@@ -64,8 +64,11 @@ import { SerializableRewardsInfo } from 'src/earn/types'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { HomeActionName, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
-import { KeylessBackupOrigin } from 'src/keylessBackup/KeylessBackupProgress'
-import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
+import {
+  KeylessBackupFlow,
+  KeylessBackupOrigin,
+  KeylessBackupStatus,
+} from 'src/keylessBackup/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NftOrigin } from 'src/nfts/types'
 import { NotificationReceiveState } from 'src/notifications/types'
