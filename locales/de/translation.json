@@ -129,7 +129,8 @@
         "title": "Sicherung nicht verfügbar",
         "body": "Du kannst später eine Sicherung deiner Wallet einrichten oder dein Konto jetzt schützen, indem du deine Wiederherstellungsphrase speicherst.",
         "later": "Ich richte später eine Sicherung ein",
-        "manual": "Wiederherstellungsphrase speichern"
+        "manual": "Wiederherstellungsphrase speichern",
+        "skip": "Überspringen (nicht empfohlen)"
       }
     },
     "restore": {
