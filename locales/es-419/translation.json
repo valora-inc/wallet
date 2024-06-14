@@ -129,7 +129,8 @@
         "title": "Copia de seguridad no disponible",
         "body": "Puedes configurar una copia de seguridad de tu billetera más adelante o proteger tu cuenta ahora guardando tu frase de recuperación.",
         "later": "Configuraré una copia de seguridad más tarde",
-        "manual": "Guardar frase de recuperación"
+        "manual": "Guardar frase de recuperación",
+        "skip": "Saltar (no recomendado)"
       }
     },
     "restore": {
