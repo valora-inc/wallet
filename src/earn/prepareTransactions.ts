@@ -126,6 +126,7 @@ export function usePrepareSupplyTransactions() {
     refreshPreparedTransactions: prepareTransactions.execute,
     clearPreparedTransactions: prepareTransactions.reset,
     prepareTransactionError: prepareTransactions.error,
+    isPreparingTransactions: prepareTransactions.loading,
   }
 }
 

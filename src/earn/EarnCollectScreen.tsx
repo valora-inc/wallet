@@ -92,7 +92,8 @@ export default function EarnCollectScreen({ route }: Props) {
     asyncRewardsInfo.error ||
     asyncPreparedTransactions.loading ||
     asyncPreparedTransactions.error ||
-    asyncPreparedTransactions.result?.type !== 'possible'
+    asyncPreparedTransactions.result?.type !== 'possible' ||
+    withdrawStatus === 'loading'
 
   const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(asyncPreparedTransactions.result)
   let feeSection = <GasFeeLoading />
