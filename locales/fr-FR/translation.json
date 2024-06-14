@@ -129,7 +129,8 @@
         "title": "Sauvegarde indisponible",
         "body": "Vous pouvez configurer une sauvegarde plus tard ou protéger votre compte maintenant en sauvegardant votre phrase de récupération.",
         "later": "Je sauvegarderai plus tard",
-        "manual": "Sauvegarder phrase de récupération"
+        "manual": "Sauvegarder phrase de récupération",
+        "skip": "Ignorer (non recommandé)"
       }
     },
     "restore": {
