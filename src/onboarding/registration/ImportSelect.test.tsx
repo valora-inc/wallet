@@ -2,6 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
+import { KeylessBackupOrigin } from 'src/keylessBackup/KeylessBackupProgress'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -37,6 +38,7 @@ describe('ImportSelect', () => {
     fireEvent.press(getByTestId('ImportSelect/CloudBackup'))
     expect(navigate).toHaveBeenCalledWith(Screens.SignInWithEmail, {
       keylessBackupFlow: KeylessBackupFlow.Restore,
+      origin: KeylessBackupOrigin.Onboarding,
     })
   })
 

@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import KeylessBackupProgress from 'src/keylessBackup/KeylessBackupProgress'
+import KeylessBackupProgress, { KeylessBackupOrigin } from 'src/keylessBackup/KeylessBackupProgress'
 import { keylessBackupAcceptZeroBalance, keylessBackupBail } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
 import { ensurePincode, navigate, navigateHome } from 'src/navigator/NavigationService'
@@ -40,9 +40,13 @@ function createStore(keylessBackupStatus: KeylessBackupStatus, zeroBalance = fal
   })
 }
 
-function getProps(flow: KeylessBackupFlow = KeylessBackupFlow.Setup) {
+function getProps(
+  flow: KeylessBackupFlow = KeylessBackupFlow.Setup,
+  origin: KeylessBackupOrigin = KeylessBackupOrigin.Settings
+) {
   return getMockStackScreenProps(Screens.KeylessBackupProgress, {
     keylessBackupFlow: flow,
+    origin,
   })
 }
 
@@ -115,7 +119,49 @@ describe('KeylessBackupProgress', () => {
 
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-        KeylessBackupEvents.cab_progress_failed_manual
+        KeylessBackupEvents.cab_progress_failed_manual,
+        { origin: KeylessBackupOrigin.Settings }
+      )
+    })
+    it('navigates to recovery phrase on failure when coming from onboarding', async () => {
+      jest.mocked(ensurePincode).mockResolvedValueOnce(true)
+      const { getByTestId } = render(
+        <Provider store={createStore(KeylessBackupStatus.Failed)}>
+          <KeylessBackupProgress
+            {...getProps(KeylessBackupFlow.Setup, KeylessBackupOrigin.Onboarding)}
+          />
+        </Provider>
+      )
+      expect(getByTestId('KeylessBackupProgress/ManualOnboarding')).toBeTruthy()
+      fireEvent.press(getByTestId('KeylessBackupProgress/ManualOnboarding'))
+
+      await waitFor(() => expect(navigate).toHaveBeenCalledTimes(1))
+      expect(navigate).toHaveBeenCalledWith(Screens.AccountKeyEducation)
+
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        KeylessBackupEvents.cab_progress_failed_manual,
+        { origin: KeylessBackupOrigin.Onboarding }
+      )
+    })
+    it('navigates to CYA on failure when coming from onboarding', async () => {
+      jest.mocked(ensurePincode).mockResolvedValueOnce(true)
+      const { getByTestId } = render(
+        <Provider store={createStore(KeylessBackupStatus.Failed)}>
+          <KeylessBackupProgress
+            {...getProps(KeylessBackupFlow.Setup, KeylessBackupOrigin.Onboarding)}
+          />
+        </Provider>
+      )
+      expect(getByTestId('KeylessBackupProgress/Skip')).toBeTruthy()
+      fireEvent.press(getByTestId('KeylessBackupProgress/Skip'))
+
+      await waitFor(() => expect(navigate).toHaveBeenCalledTimes(1))
+      expect(navigate).toHaveBeenCalledWith(Screens.ChooseYourAdventure)
+
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        KeylessBackupEvents.cab_progress_failed_skip_onboarding
       )
     })
   })
