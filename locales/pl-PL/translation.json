@@ -129,7 +129,8 @@
         "title": "Kopia zapasowa niedostępna",
         "body": "Możesz skonfigurować kopię zapasową portfela później lub zapewnić ochronę swojego konta już teraz, zapisując frazę odzyskiwania.",
         "later": "Utworzę kopię zapasową później",
-        "manual": "Zapisz frazę odzyskiwania"
+        "manual": "Zapisz frazę odzyskiwania",
+        "skip": "Pomiń (niezalecane)"
       }
     },
     "restore": {
