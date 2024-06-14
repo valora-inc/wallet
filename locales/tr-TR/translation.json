@@ -129,7 +129,8 @@
         "title": "Yedekleme kullanılamıyor",
         "body": "Cüzdan yedeklemesini daha sonra ayarlayabilir veya kurtarma ifadenizi kaydederek hesabınızı şimdi koruyabilirsiniz.",
         "later": "Yedeklemeyi daha sonra ayarlayacağım",
-        "manual": "Kurtarma ifadesini kaydet"
+        "manual": "Kurtarma ifadesini kaydet",
+        "skip": "Atla (önerilmez)"
       }
     },
     "restore": {
