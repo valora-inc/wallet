@@ -48,6 +48,10 @@ export const viemTransports: Record<Network, Transport> = {
   }),
 }
 
+export const valoraViemTransports = {
+  [Network.Arbitrum]: http(networkConfig.valoraRpcUrl.arbitrum),
+} satisfies Partial<Record<Network, Transport>>
+
 export const publicClient = {
   [Network.Celo]: createPublicClient({
     chain: networkConfig.viemChain.celo,
@@ -72,5 +76,12 @@ export const publicClient = {
   [Network.Base]: createPublicClient({
     chain: networkConfig.viemChain.base,
     transport: viemTransports[Network.Base],
+  }),
+}
+
+export const valoraPublicClient = {
+  [Network.Arbitrum]: createPublicClient({
+    chain: networkConfig.viemChain.arbitrum,
+    transport: valoraViemTransports[Network.Arbitrum],
   }),
 }

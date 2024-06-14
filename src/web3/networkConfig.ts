@@ -94,6 +94,7 @@ interface NetworkConfig {
   arbAavePoolV3ContractAddress: Address
   arbAaveIncentivesV3ContractAddress: Address
   aaveArbUsdcTokenId: string
+  valoraRpcUrl: Record<Network.Arbitrum, string>
 }
 
 const ALCHEMY_ETHEREUM_RPC_URL_STAGING = 'https://eth-sepolia.g.alchemy.com/v2/'
@@ -281,6 +282,9 @@ const GET_POINTS_BALANCE_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getPointsBalance`
 const SIMULATE_TRANSACTIONS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/simulateTransactions`
 const SIMULATE_TRANSACTIONS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/simulateTransactions`
 
+const VALORA_ARBITRUM_RPC_URL_STAGING = `${CLOUD_FUNCTIONS_STAGING}/rpc/${NetworkId['arbitrum-sepolia']}`
+const VALORA_ARBITRUM_RPC_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/rpc/${NetworkId['arbitrum-one']}`
+
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
     networkId: '44787',
@@ -379,6 +383,9 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     arbAavePoolV3ContractAddress: ARB_AAVE_POOL_V3_CONTRACT_ADDRESS_STAGING,
     arbAaveIncentivesV3ContractAddress: ARB_AAVE_INCENTIVES_V3_CONTRACT_ADDRESS_STAGING,
     aaveArbUsdcTokenId: AAVE_ARB_USDC_TOKEN_ID_STAGING,
+    valoraRpcUrl: {
+      [Network.Arbitrum]: VALORA_ARBITRUM_RPC_URL_STAGING,
+    },
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -476,6 +483,9 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     arbAavePoolV3ContractAddress: ARB_AAVE_POOL_V3_CONTRACT_ADDRESS_MAINNET,
     arbAaveIncentivesV3ContractAddress: ARB_AAVE_INCENTIVES_V3_CONTRACT_ADDRESS_MAINNET,
     aaveArbUsdcTokenId: AAVE_ARB_USDC_TOKEN_ID_MAINNET,
+    valoraRpcUrl: {
+      [Network.Arbitrum]: VALORA_ARBITRUM_RPC_URL_MAINNET,
+    },
   },
 }
 

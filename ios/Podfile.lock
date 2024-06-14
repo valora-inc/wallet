@@ -524,7 +524,7 @@ PODS:
     - React-Core
   - react-native-camera/RN (4.2.1):
     - React-Core
-  - react-native-compat (2.12.2):
+  - react-native-compat (2.13.2):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - react-native-config (1.5.1):
@@ -658,7 +658,7 @@ PODS:
     - React-Core
   - RNCMaskedView (0.3.1):
     - React-Core
-  - RNCPicker (2.7.6):
+  - RNCPicker (2.7.7):
     - React-Core
   - RNDeviceInfo (10.13.2):
     - React-Core
@@ -1200,7 +1200,7 @@ SPEC CHECKSUMS:
   React-logger: a41d4cad677e9726b71a45a4012431d2fb1edd80
   react-native-adjust: 83114d391a4a7a438e2c4d8e8137bc7810e7076f
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
-  react-native-compat: c741279b875109d2d9fc8da22e80c00ef91311a6
+  react-native-compat: 5b81b2d5f3f6be5e149ad2d3af3b9fc03f07f9d3
   react-native-config: 86038147314e2e6d10ea9972022aa171e6b1d4d8
   react-native-contacts: fd1614c74777089ebb6b0a0e3847dd78130ef9f4
   react-native-cookies: 672b2431ca44da2e2942af086d0c83aae42b989a
@@ -1234,7 +1234,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 826b603ae9c0f88b5ac4e956801f755109fa4d5c
   RNCClipboard: 0a720adef5ec193aa0e3de24c3977222c7e52a37
   RNCMaskedView: 090213d32d8b3bb83a4dcb7d12c18f0152591906
-  RNCPicker: f58e790450cb0a74c09dd1c677bd1de41a5741b9
+  RNCPicker: b7873ba797dc586bfaf3307d737cbdc620a9ff3e
   RNDeviceInfo: 42aadf1282ffa0a88dc38a504a7be145eb010dfa
   RNExitApp: 00036cabe7bacbb413d276d5520bf74ba39afa6a
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8

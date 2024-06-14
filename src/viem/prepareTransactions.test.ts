@@ -4,7 +4,7 @@ import stableToken from 'src/abis/StableToken'
 import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import { Network, NetworkId } from 'src/transactions/types'
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
-import { publicClient } from 'src/viem/index'
+import { publicClient, valoraPublicClient } from 'src/viem/index'
 import {
   TransactionRequest,
   getEstimatedGasFee,
@@ -42,6 +42,17 @@ jest.mock('viem', () => ({
 jest.mock('viem/actions', () => ({
   ...jest.requireActual('viem/actions'),
   estimateGas: jest.fn(),
+}))
+jest.mock('src/viem/index', () => ({
+  publicClient: {
+    celo: {} as unknown as jest.Mocked<(typeof publicClient)[Network.Celo]>,
+    arbitrum: {} as unknown as jest.Mocked<(typeof publicClient)[Network.Arbitrum]>,
+    ethereum: {} as unknown as jest.Mocked<(typeof publicClient)[Network.Ethereum]>,
+  },
+  valoraPublicClient: {
+    celo: {} as unknown as jest.Mocked<(typeof publicClient)[Network.Celo]>,
+    arbitrum: {} as unknown as jest.Mocked<(typeof publicClient)[Network.Arbitrum]>,
+  },
 }))
 
 beforeEach(() => {
@@ -838,6 +849,32 @@ describe('prepareTransactions module', () => {
           _estimatedGasUse: undefined,
         },
       ])
+    })
+    it.each([
+      { client: 'valora public', expectedClient: valoraPublicClient },
+      { client: 'public', expectedClient: publicClient },
+    ])('uses the $client client for estimating gas', async ({ client, expectedClient }) => {
+      mocked(estimateFeesPerGas).mockResolvedValue({
+        maxFeePerGas: BigInt(10),
+        maxPriorityFeePerGas: BigInt(2),
+        baseFeePerGas: BigInt(5),
+      })
+      mocked(estimateGas).mockResolvedValue(BigInt(123))
+      await tryEstimateTransactions(
+        [{ from: '0x123' }],
+        { ...mockFeeCurrencies[0], networkId: NetworkId['arbitrum-sepolia'] },
+        client === 'valora public'
+      )
+      expect(estimateGas).toHaveBeenCalledWith(expectedClient[Network.Arbitrum], expect.anything())
+    })
+    it('throws if no valora public client exists', async () => {
+      await expect(
+        tryEstimateTransactions(
+          [{ from: '0x123' }],
+          { ...mockFeeCurrencies[0], networkId: NetworkId['ethereum-sepolia'] },
+          true
+        )
+      ).rejects.toThrowError('Valora transport not available for network ethereum')
     })
   })
   describe('getMaxGasFee', () => {
