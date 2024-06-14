@@ -129,7 +129,8 @@
         "title": "Backup indisponível",
         "body": "Você pode configurar o backup da carteira mais tarde ou proteger sua conta agora salvando sua frase de recuperação.",
         "later": "Vou configurar o backup mais tarde",
-        "manual": "Salvar frase de recuperação"
+        "manual": "Salvar frase de recuperação",
+        "skip": "Pular (não recomendado)"
       }
     },
     "restore": {
