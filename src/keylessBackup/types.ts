@@ -18,3 +18,8 @@ export enum KeylessBackupDeleteStatus {
   Completed = 'Completed',
   Failed = 'Failed',
 }
+
+export enum KeylessBackupOrigin {
+  Onboarding = 'Onboarding',
+  Settings = 'Settings',
+}
