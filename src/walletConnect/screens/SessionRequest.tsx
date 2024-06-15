@@ -52,9 +52,9 @@ function SessionRequest({
   const matchedSupportedChains = (namespacesToApprove?.['eip155']?.chains ?? []).filter((chainId) =>
     supportedChains.includes(chainId)
   )
-  const networkNames = matchedSupportedChains.map(
-    (chain) => NETWORK_NAMES[walletConnectChainIdToNetworkId[chain]]
-  )
+  const networkNames = matchedSupportedChains
+    .map((chain) => NETWORK_NAMES[walletConnectChainIdToNetworkId[chain]])
+    .sort()
   if (networkNames.length > 0) {
     requestDetails.push({
       label: t('walletConnectRequest.networksList'),
@@ -199,6 +199,7 @@ const styles = StyleSheet.create({
   },
   networkChipsContainer: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: Spacing.Tiny4,
   },
   networkChip: {
