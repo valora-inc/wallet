@@ -1,6 +1,7 @@
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import React from 'react'
+import { getNumberFormatSettings } from 'react-native-localize'
 import { Provider } from 'react-redux'
 import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -17,6 +18,7 @@ import { mockAccount, mockArbEthTokenId, mockTokenBalances } from 'test/values'
 
 jest.mock('src/earn/prepareTransactions')
 jest.mock('src/earn/poolInfo')
+jest.mock('react-native-localize')
 
 const mockPreparedTransaction: PreparedTransactionsPossible = {
   type: 'possible' as const,
@@ -86,6 +88,7 @@ jest.mocked(usePrepareSupplyTransactions).mockReturnValue({
   refreshPreparedTransactions: refreshPreparedTransactionsSpy,
   clearPreparedTransactions: jest.fn(),
   prepareTransactionError: undefined,
+  isPreparingTransactions: false,
 })
 
 const params = {
@@ -96,6 +99,9 @@ describe('EarnEnterAmount', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.mocked(fetchAavePoolInfo).mockResolvedValue({ apy: 0.1 })
+    jest
+      .mocked(getNumberFormatSettings)
+      .mockReturnValue({ decimalSeparator: '.', groupingSeparator: ',' })
   })
 
   it('should render APY and EarnUpTo', async () => {
@@ -153,6 +159,7 @@ describe('EarnEnterAmount', () => {
       refreshPreparedTransactions: jest.fn(),
       clearPreparedTransactions: jest.fn(),
       prepareTransactionError: undefined,
+      isPreparingTransactions: false,
     })
     const { getByTestId, getByText } = render(
       <Provider store={store}>
@@ -186,6 +193,7 @@ describe('EarnEnterAmount', () => {
       refreshPreparedTransactions: jest.fn(),
       clearPreparedTransactions: jest.fn(),
       prepareTransactionError: undefined,
+      isPreparingTransactions: false,
     })
     const { getByTestId, getByText } = render(
       <Provider store={store}>
@@ -214,5 +222,81 @@ describe('EarnEnterAmount', () => {
     await waitFor(() =>
       expect(getByText('earnFlow.addCryptoBottomSheet.description')).toBeVisible()
     )
+  })
+
+  it('should show loading spinner when preparing transaction', async () => {
+    jest.mocked(usePrepareSupplyTransactions).mockReturnValue({
+      prepareTransactionsResult: undefined,
+      refreshPreparedTransactions: jest.fn(),
+      clearPreparedTransactions: jest.fn(),
+      prepareTransactionError: undefined,
+      isPreparingTransactions: true,
+    })
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={EarnEnterAmount} params={params} />
+      </Provider>
+    )
+
+    fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '8')
+
+    await waitFor(() =>
+      expect(getByTestId('EarnEnterAmount/Continue')).toContainElement(
+        getByTestId('Button/Loading')
+      )
+    )
+    expect(getByTestId('EarnEnterAmount/Continue')).toBeDisabled()
+  })
+
+  describe.each([
+    { decimal: '.', group: ',' },
+    { decimal: ',', group: '.' },
+  ])('with decimal separator "$decimal" and group separator "$group"', ({ decimal, group }) => {
+    const replaceSeparators = (value: string) =>
+      value.replace(/\./g, '|').replace(/,/g, group).replace(/\|/g, decimal)
+
+    beforeEach(() => {
+      jest
+        .mocked(getNumberFormatSettings)
+        .mockReturnValue({ decimalSeparator: decimal, groupingSeparator: group })
+      BigNumber.config({
+        FORMAT: {
+          decimalSeparator: decimal,
+          groupSeparator: group,
+          groupSize: 3,
+        },
+      })
+    })
+
+    const mockStore = createMockStore({
+      tokens: {
+        tokenBalances: {
+          [networkConfig.arbUsdcTokenId]: {
+            tokenId: networkConfig.arbUsdcTokenId,
+            symbol: 'USDC',
+            priceUsd: '1',
+            priceFetchedAt: priceFetchedAt,
+            networkId: NetworkId['arbitrum-sepolia'],
+            balance: '100000.42',
+          },
+        },
+      },
+    })
+
+    it('entering MAX token applies correct decimal separator', async () => {
+      const { getByTestId } = render(
+        <Provider store={mockStore}>
+          <MockedNavigator component={EarnEnterAmount} params={params} />
+        </Provider>
+      )
+
+      fireEvent.press(getByTestId('EarnEnterAmount/Max'))
+      expect(getByTestId('EarnEnterAmount/TokenAmountInput').props.value).toBe(
+        replaceSeparators('100000.42')
+      )
+      expect(getByTestId('EarnEnterAmount/LocalAmountInput').props.value).toBe(
+        replaceSeparators('₱133,000.56')
+      )
+    })
   })
 })

@@ -11,7 +11,7 @@ import Card from 'src/components/Card'
 import TextButton from 'src/components/TextButton'
 import EnvelopeIcon from 'src/keylessBackup/EnvelopeIcon'
 import SmartphoneIcon from 'src/keylessBackup/SmartphoneIcon'
-import { KeylessBackupFlow } from 'src/keylessBackup/types'
+import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -84,7 +84,10 @@ function KeylessBackupIntro({ route }: Props) {
         testID="keylessBackupIntro/Continue"
         onPress={() => {
           ValoraAnalytics.track(KeylessBackupEvents.cab_intro_continue, { keylessBackupFlow })
-          navigate(Screens.SignInWithEmail, { keylessBackupFlow })
+          navigate(Screens.SignInWithEmail, {
+            keylessBackupFlow,
+            origin: KeylessBackupOrigin.Settings,
+          })
         }}
         text={isSetup ? t('continue') : t('next')}
         size={BtnSizes.FULL}

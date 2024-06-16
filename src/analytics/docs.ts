@@ -144,6 +144,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [KeylessBackupEvents.cab_progress_completed_continue]: ``,
   [KeylessBackupEvents.cab_progress_failed_later]: ``,
   [KeylessBackupEvents.cab_progress_failed_manual]: ``,
+  [KeylessBackupEvents.cab_progress_failed_skip_onboarding]: ``,
   [KeylessBackupEvents.cab_post_encrypted_mnemonic_failed]: ``,
   [KeylessBackupEvents.cab_torus_keyshare_timeout]: ``,
   [KeylessBackupEvents.cab_handle_keyless_backup_failed]: `When keyless backup fails to generate store encrypted mnemonic for setup or fails to retrieve and decrypt mnemonic for restore`,

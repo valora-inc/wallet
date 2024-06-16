@@ -320,6 +320,26 @@ describe('EnterAmount', () => {
       expect(tokenAmountInput.props.value).toBe(replaceSeparators('1000'))
       expect(localAmountInput.props.value).toBe(replaceSeparators('₱133'))
     })
+
+    it('entering MAX token applies correct decimal separator', async () => {
+      const store = createMockStore(mockStore)
+      const tokenBalances = mockStoreBalancesToTokenBalances([
+        { ...mockStoreTokenBalances[mockCeloTokenId], balance: '100000.42' },
+      ])
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <EnterAmount {...defaultParams} tokens={tokenBalances} />
+        </Provider>
+      )
+
+      fireEvent.press(getByTestId('SendEnterAmount/Max'))
+      expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe(
+        replaceSeparators('100000.42')
+      )
+      expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe(
+        replaceSeparators('₱66,500.28')
+      )
+    })
   })
 
   it.each([

@@ -61,6 +61,7 @@ type ProceedComponentProps = Omit<ProceedArgs, 'tokenAmount'> & {
   onPressInfo(): void
   disabled: boolean
   tokenAmount: BigNumber | null
+  loading: boolean
 }
 
 function EarnEnterAmount({ route }: Props) {
@@ -90,6 +91,7 @@ function EarnEnterAmount({ route }: Props) {
     refreshPreparedTransactions,
     clearPreparedTransactions,
     prepareTransactionError,
+    isPreparingTransactions,
   } = usePrepareSupplyTransactions()
 
   const walletAddress = useSelector(walletAddressSelector)
@@ -240,7 +242,7 @@ function EarnEnterAmount({ route }: Props) {
     // eventually we may want to do something smarter here, like subtracting gas fees from the max amount if
     // this is a gas-paying token. for now, we are just showing a warning to the user prompting them to lower the amount
     // if there is not enough for gas
-    setTokenAmountInput(token.balance.toString())
+    setTokenAmountInput(token.balance.toFormat({ decimalSeparator }))
     setEnteredIn('token')
     tokenAmountInputRef.current?.blur()
     localAmountInputRef.current?.blur()
@@ -363,6 +365,7 @@ function EarnEnterAmount({ route }: Props) {
           onPressProceed={onPressContinue}
           onPressInfo={onPressInfo}
           disabled={disabled}
+          loading={isPreparingTransactions}
         />
         <KeyboardSpacer />
       </KeyboardAwareScrollView>
@@ -393,6 +396,7 @@ function EarnProceed({
   disabled,
   onPressProceed,
   onPressInfo,
+  loading,
 }: ProceedComponentProps) {
   const { t } = useTranslation()
 
@@ -407,6 +411,8 @@ function EarnProceed({
         style={styles.continueButton}
         size={BtnSizes.FULL}
         disabled={disabled}
+        showLoading={loading}
+        testID="EarnEnterAmount/Continue"
       />
       <View style={styles.row}>
         <Text style={styles.infoText}>{t('earnFlow.enterAmount.info')}</Text>

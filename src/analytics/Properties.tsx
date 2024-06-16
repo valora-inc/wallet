@@ -64,7 +64,11 @@ import { SerializableRewardsInfo } from 'src/earn/types'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { HomeActionName, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
-import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
+import {
+  KeylessBackupFlow,
+  KeylessBackupOrigin,
+  KeylessBackupStatus,
+} from 'src/keylessBackup/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NftOrigin } from 'src/nfts/types'
 import { NotificationReceiveState } from 'src/notifications/types'
@@ -264,7 +268,8 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.cab_issue_valora_keyshare_error]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_progress_completed_continue]: undefined
   [KeylessBackupEvents.cab_progress_failed_later]: undefined
-  [KeylessBackupEvents.cab_progress_failed_manual]: undefined
+  [KeylessBackupEvents.cab_progress_failed_manual]: { origin: KeylessBackupOrigin }
+  [KeylessBackupEvents.cab_progress_failed_skip_onboarding]: undefined
   [KeylessBackupEvents.cab_post_encrypted_mnemonic_failed]: {
     backupAlreadyExists: boolean
   }
