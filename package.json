@@ -344,7 +344,8 @@
     "browserify-sign": "^4.2.3",
     "follow-redirects": "^1.15.6",
     "redux": "^5.0.1",
-    "braces": "^3.0.3"
+    "braces": "^3.0.3",
+    "ws": "^8.17.1"
   },
   "detox": {
     "testRunner": {
