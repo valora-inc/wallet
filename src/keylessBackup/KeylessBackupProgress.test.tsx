@@ -3,9 +3,13 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import KeylessBackupProgress, { KeylessBackupOrigin } from 'src/keylessBackup/KeylessBackupProgress'
+import KeylessBackupProgress from 'src/keylessBackup/KeylessBackupProgress'
 import { keylessBackupAcceptZeroBalance, keylessBackupBail } from 'src/keylessBackup/slice'
-import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
+import {
+  KeylessBackupFlow,
+  KeylessBackupOrigin,
+  KeylessBackupStatus,
+} from 'src/keylessBackup/types'
 import { ensurePincode, navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { goToNextOnboardingScreen } from 'src/onboarding/steps'

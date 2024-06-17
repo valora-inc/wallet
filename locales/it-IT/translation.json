@@ -129,7 +129,8 @@
         "title": "Backup non disponibile",
         "body": "Puoi impostare il backup in un secondo momento o proteggere il tuo account ora salvando la frase di recupero.",
         "later": "Preparerò un backup più tardi",
-        "manual": "Salva frase di recupero"
+        "manual": "Salva frase di recupero",
+        "skip": "Salta (non consigliato)"
       }
     },
     "restore": {
@@ -2338,8 +2339,8 @@
         "title": "Scambia asset",
         "bottomSheet": {
           "title": "Scambia asset",
-          "body": "In questo spazio troverai tutte le informazioni relative a questa attività. Verranno indicate anche le quantità minima da scambiare. \n\nGuadagna {{pointsValue}} punti ogni volta che scambii un asset usando {{appName}}.",
-          "cta": "Vai allo scambio"
+          "body": "Guadagna {{pointsValue}} punti ogni volta che scambi un bene utilizzando {{appName}}. \n\nTocca qui sotto per iniziare a scambiare e guadagnare!",
+          "cta": "Avvia uno scambio"
         }
       },
       "moreComing": {

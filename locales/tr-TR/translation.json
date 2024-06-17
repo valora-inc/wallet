@@ -129,7 +129,8 @@
         "title": "Yedekleme kullanılamıyor",
         "body": "Cüzdan yedeklemesini daha sonra ayarlayabilir veya kurtarma ifadenizi kaydederek hesabınızı şimdi koruyabilirsiniz.",
         "later": "Yedeklemeyi daha sonra ayarlayacağım",
-        "manual": "Kurtarma ifadesini kaydet"
+        "manual": "Kurtarma ifadesini kaydet",
+        "skip": "Atla (önerilmez)"
       }
     },
     "restore": {
@@ -1956,8 +1957,8 @@
       "recentlySwapped": "Yakın zamanda takas edildi",
       "network": "{{networkName}} Ağı",
       "selectNetwork": "Ağ",
-      "stablecoins": "Stablecoins",
-      "gasTokens": "Gaz Jetonları"
+      "stablecoins": "Stabilcoinler",
+      "gasTokens": "Tokenler"
     }
   },
   "homeActions": {
@@ -2338,8 +2339,8 @@
         "title": "Varlıkları takas edin",
         "bottomSheet": {
           "title": "Varlıkları takas edin",
-          "body": "Bu alan, bununla ilgili gereken tüm ayrıntıları vermek için kullanılacaktır. Takas için minimum tutar olabilir. \n\n{{appName}} uygulamasını kullanarak bir varlığı takas ettiğinizde {{pointsValue}} puan kazanın.",
-          "cta": "Takasa gidin"
+          "body": "{{appName}}adresini kullanarak her varlık takası yaptığınızda {{pointsValue}} puanı kazanın. \n\nTakas etmeye ve kazanmaya başlamak için aşağıya dokunun!",
+          "cta": "Bir takas başlatın"
         }
       },
       "moreComing": {
