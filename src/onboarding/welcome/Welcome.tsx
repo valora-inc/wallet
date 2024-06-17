@@ -148,11 +148,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  title: {
-    ...typeScale.titleMedium,
-    marginTop: Spacing.Smallest8,
-    textAlign: 'center',
-  },
   createAccountButton: {
     marginBottom: Spacing.Smallest8,
   },
