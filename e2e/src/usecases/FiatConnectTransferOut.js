@@ -106,7 +106,7 @@ async function onboardAndBeginTransferOut(token, fundingAmount, cashOutAmount) {
   // For now the balance only updates when the home screen is visible
   await waitFor(element(by.text(`${fundingAmount} cUSD`))) // need a balance to withdraw
     .toBeVisible()
-    .withTimeout(120000) // in case funding tx is still pending. balance must be updated before amount can be selected.
+    .withTimeout(240_000) // in case funding tx is still pending. balance must be updated before amount can be selected.
 
   await navigateToFiatExchangeScreen()
 
