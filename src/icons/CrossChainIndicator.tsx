@@ -9,7 +9,7 @@ interface Props {
 
 function CrossChainIndicator({ size = 16, color = Colors.gray3 }: Props) {
   return (
-    <Svg width={size} height={size} fill="none">
+    <Svg width={size} height={size} fill="none" viewBox="0 0 16 16">
       <G clipPath="url(#a)">
         <Circle cx={3} cy={11} r={1.5} stroke={color} />
         <Circle cx={13} cy={11} r={1.5} fill={color} stroke={color} />
