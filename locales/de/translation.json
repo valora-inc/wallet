@@ -129,7 +129,8 @@
         "title": "Sicherung nicht verfügbar",
         "body": "Du kannst später eine Sicherung deiner Wallet einrichten oder dein Konto jetzt schützen, indem du deine Wiederherstellungsphrase speicherst.",
         "later": "Ich richte später eine Sicherung ein",
-        "manual": "Wiederherstellungsphrase speichern"
+        "manual": "Wiederherstellungsphrase speichern",
+        "skip": "Überspringen (nicht empfohlen)"
       }
     },
     "restore": {
@@ -2338,8 +2339,8 @@
         "title": "Vermögen tauschen",
         "bottomSheet": {
           "title": "Vermögen tauschen",
-          "body": "Hier kannst du alle Details angeben, die du dafür brauchst. Vielleicht ein Mindestbetrag zum Tauschen? \n\nVerdiene {{pointsValue}} Punkte, wenn du Vermögen über {{appName}} tauschst.",
-          "cta": "Zum Tausch gehen"
+          "body": "Verdiene {{pointsValue}} Punkte, wenn du einen Vermögenswert mit {{appName}}tauschst. \n\nTippe unten, um mit dem Tauschen und Sammeln zu beginnen!",
+          "cta": "Einen Tausch starten"
         }
       },
       "moreComing": {

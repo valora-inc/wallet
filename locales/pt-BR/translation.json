@@ -129,7 +129,8 @@
         "title": "Backup indisponível",
         "body": "Você pode configurar o backup da carteira mais tarde ou proteger sua conta agora salvando sua frase de recuperação.",
         "later": "Vou configurar o backup mais tarde",
-        "manual": "Salvar frase de recuperação"
+        "manual": "Salvar frase de recuperação",
+        "skip": "Pular (não recomendado)"
       }
     },
     "restore": {
@@ -2338,8 +2339,8 @@
         "title": "Troque ativos",
         "bottomSheet": {
           "title": "Troque ativos",
-          "body": "Este espaço será usado para fornecer todos os detalhes necessários. Talvez o valor mínimo para você trocar. \n\nGanhe {{pointsValue}} pontos sempre que você trocar um ativo usando a {{appName}}.",
-          "cta": "Ir para a troca"
+          "body": "Ganhe {{pointsValue}} pontos toda vez que você trocar um ativo usando {{appName}}. \n\nToque abaixo para você começar a trocar e ganhar!",
+          "cta": "Iniciar uma troca"
         }
       },
       "moreComing": {

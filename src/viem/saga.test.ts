@@ -118,7 +118,7 @@ describe('sendPreparedTransactions', () => {
     )
       .withState(createMockStore({}).getState())
       .provide(createDefaultProviders())
-      .call(getViemWallet, networkConfig.viemChain.celo)
+      .call(getViemWallet, networkConfig.viemChain.celo, false)
       .put(
         addStandbyTransaction({
           ...mockStandbyTransactions[0],

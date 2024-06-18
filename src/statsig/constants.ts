@@ -30,6 +30,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_STABLECOIN_EARN]: false,
   [StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES]: false,
   [StatsigFeatureGates.SHOW_CASH_IN_TOKEN_FILTERS]: false,
+  [StatsigFeatureGates.SHOW_CAB_IN_ONBOARDING]: false,
   [StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS]: false,
 } satisfies { [key in StatsigFeatureGates]: boolean }
 

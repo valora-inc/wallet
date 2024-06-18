@@ -129,7 +129,8 @@
         "title": "Backup unavailable",
         "body": "You can set up wallet backup later or protect your account now by saving your recovery phrase.",
         "later": "I'll set up backup later",
-        "manual": "Save recovery phrase"
+        "manual": "Save recovery phrase",
+        "skip": "Skip (not recommended)"
       }
     },
     "restore": {
@@ -2358,8 +2359,8 @@
         "title": "Swap assets",
         "bottomSheet": {
           "title": "Swap assets",
-          "body": "This space will be used to give all the details needed for this. Maybe minimum amount to swap. \n\nEarn {{pointsValue}} points whenever you swap an asset using {{appName}}.",
-          "cta": "Go to swap"
+          "body": "Earn {{pointsValue}} points every time you swap an asset using {{appName}}. \n\nTap below to start swapping and earning!",
+          "cta": "Start a swap"
         }
       },
       "moreComing": {

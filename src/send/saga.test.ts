@@ -139,7 +139,7 @@ describe(sendPaymentSaga, () => {
       await expectSaga(sendPaymentSaga, { ...sendAction, fromModal })
         .withState(createMockStore({}).getState())
         .provide(createDefaultProviders())
-        .call(getViemWallet, networkConfig.viemChain.celo)
+        .call(getViemWallet, networkConfig.viemChain.celo, false)
         .put(
           addStandbyTransaction({
             __typename: 'TokenTransferV3',
@@ -182,7 +182,7 @@ describe(sendPaymentSaga, () => {
     await expectSaga(sendPaymentSaga, { ...sendAction, tokenId: mockCeloTokenId })
       .withState(createMockStore({}).getState())
       .provide(createDefaultProviders())
-      .call(getViemWallet, networkConfig.viemChain.celo)
+      .call(getViemWallet, networkConfig.viemChain.celo, false)
       .put(
         addStandbyTransaction({
           __typename: 'TokenTransferV3',
@@ -245,7 +245,7 @@ describe(sendPaymentSaga, () => {
         [matchers.call.fn(mockViemWallet.sendRawTransaction), throwError(new Error('tx failed'))],
         ...createDefaultProviders(),
       ])
-      .call(getViemWallet, networkConfig.viemChain.celo)
+      .call(getViemWallet, networkConfig.viemChain.celo, false)
       .put(sendPaymentFailure())
       .put(showError(ErrorMessages.SEND_PAYMENT_FAILED))
       .not.put.actionType(TransactionActions.ADD_STANDBY_TRANSACTION)
