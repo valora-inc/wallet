@@ -3246,10 +3246,10 @@
   resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-firebase/-/analytics-react-native-plugin-firebase-0.4.1.tgz#b08816e8e875dde7bd4cb9e43ca72cf7d8034bb1"
   integrity sha512-ywYQZ1LorvtV2uuaBl6qYF1gkM535EbxxRoJ4vmvew/kwLAyPdYynH1qyiwtQNEPnW5dt7jZcWT+ZhtWX8TGpw==
 
-"@segment/analytics-react-native@^2.19.1":
-  version "2.19.1"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native/-/analytics-react-native-2.19.1.tgz#17c36b19c2921839095dd739f611dcde03f5f493"
-  integrity sha512-p/FIF6s6DOrF4WF3oGoFknwB6Z8h5ZCJ02T0ICPjprQUDlsShyCFs5xc1lj0P3Exk/8t5de60VsBp7AU3T0GRg==
+"@segment/analytics-react-native@^2.19.2":
+  version "2.19.2"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native/-/analytics-react-native-2.19.2.tgz#d6eb32b17496698a0e65602d537664b03c28ac63"
+  integrity sha512-9vsh8v/hplahzDO57BBBj96cZr54f6Oq4b4T17TU79UQi+kPtSm7Hfsh6wFIjkquvD5zWNrVhQwb3ClMQ4OtDw==
   dependencies:
     "@segment/tsub" "^2"
     deepmerge "^4.3.1"
