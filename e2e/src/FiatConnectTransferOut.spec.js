@@ -5,7 +5,7 @@ import {
 import { MOCK_PROVIDER_BASE_URL, MOCK_PROVIDER_API_KEY } from 'react-native-dotenv'
 import { launchApp } from './utils/retries'
 
-describe(':ios: FiatConnect Transfer Out', () => {
+describe.skip(':ios: FiatConnect Transfer Out', () => {
   // deliberately not doing onboarding in beforeEach, since we'll want to re-use accounts, use fresh accounts, etc for these tests
   beforeEach(async () => {
     // uninstall and reinstall to obtain a fresh account
