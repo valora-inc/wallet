@@ -116,6 +116,7 @@ function KeylessBackupPhoneCodeInput({
         onSuccess={() => {
           navigate(Screens.KeylessBackupProgress, {
             keylessBackupFlow: route.params.keylessBackupFlow,
+            origin: route.params.origin,
           })
         }}
         title={<Text style={styles.title}>{t('phoneVerificationInput.title')}</Text>}

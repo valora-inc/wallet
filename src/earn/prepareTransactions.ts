@@ -84,7 +84,7 @@ export async function prepareSupplyTransactions({
 
   const supplySimulatedTx = simulatedTransactions[simulatedTransactions.length - 1]
 
-  const { depositGasPadding, approveGasPadding } = getDynamicConfigParams(
+  const { depositGasPadding } = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG]
   )
 
@@ -94,12 +94,6 @@ export async function prepareSupplyTransactions({
   baseTransactions[baseTransactions.length - 1]._estimatedGasUse = BigInt(supplySimulatedTx.gasUsed)
 
   const isGasSubsidized = getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
-  if (isGasSubsidized && baseTransactions.length > 1) {
-    // extract fee of the approve transaction and set gas fields
-    const approveSimulatedTx = simulatedTransactions[0]
-    baseTransactions[0].gas = BigInt(approveSimulatedTx.gasNeeded) + BigInt(approveGasPadding)
-    baseTransactions[0]._estimatedGasUse = BigInt(approveSimulatedTx.gasUsed)
-  }
 
   return prepareTransactions({
     feeCurrencies,
@@ -126,6 +120,7 @@ export function usePrepareSupplyTransactions() {
     refreshPreparedTransactions: prepareTransactions.execute,
     clearPreparedTransactions: prepareTransactions.reset,
     prepareTransactionError: prepareTransactions.error,
+    isPreparingTransactions: prepareTransactions.loading,
   }
 }
 
@@ -184,26 +179,9 @@ export async function prepareWithdrawAndClaimTransactions({
 
   const isGasSubsidized = getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
 
-  if (isGasSubsidized) {
-    const simulatedTransactions = await simulateTransactions({
-      baseTransactions,
-      networkId: token.networkId,
-    })
-
-    const { withdrawGasPadding, rewardsGasPadding } = getDynamicConfigParams(
-      DynamicConfigs[StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG]
-    )
-
-    baseTransactions.forEach((tx, index) => {
-      const simulatedTx = simulatedTransactions[index]
-      tx.gas =
-        BigInt(simulatedTx.gasNeeded) + BigInt(index === 0 ? withdrawGasPadding : rewardsGasPadding)
-      tx._estimatedGasUse = BigInt(simulatedTx.gasUsed)
-    })
-  }
-
   return prepareTransactions({
     feeCurrencies,
     baseTransactions,
+    isGasSubsidized,
   })
 }
