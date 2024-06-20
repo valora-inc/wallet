@@ -9,7 +9,7 @@ interface Props {
   style?: ViewStyle
 }
 
-export default function Logo({ width, height, style }: Props) {
+export default function WelcomeLogo({ width, height, style }: Props) {
   return (
     <View style={style}>
       <Svg width={width} height={height} viewBox="0 0 25 25" fill="none">
