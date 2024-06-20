@@ -1,14 +1,12 @@
 import BigNumber from 'bignumber.js'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
-import { useSelector } from 'react-redux'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
+import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import { useAavePoolInfo } from 'src/earn/hooks'
-import { LocalCurrencySymbol } from 'src/localCurrency/consts'
-import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
@@ -24,14 +22,12 @@ export function EarnApyAndAmount({
 }) {
   const { t } = useTranslation()
 
-  const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
-
   const asyncPoolInfo = useAavePoolInfo({ depositTokenId: token.tokenId })
   const apy = asyncPoolInfo?.result?.apy
 
   const apyString = apy ? (apy * 100).toFixed(2) : '--'
   const earnUpTo =
-    apy && tokenAmount?.gt(0) ? tokenAmount.multipliedBy(new BigNumber(apy)).toFormat(2) : '--'
+    apy && tokenAmount?.gt(0) ? tokenAmount.multipliedBy(new BigNumber(apy)) : new BigNumber(0)
 
   return (
     <>
@@ -40,23 +36,16 @@ export function EarnApyAndAmount({
         <Text style={styles.label}>{t('earnFlow.enterAmount.rateLabel')}</Text>
       </View>
       <View style={styles.line}>
-        {asyncPoolInfo?.loading && (
-          <SkeletonPlaceholder
-            backgroundColor={Colors.gray2}
-            highlightColor={Colors.white}
-            testID={`${testIDPrefix}/EarnApyAndAmount/EarnUpTo/Loading`}
-          >
-            <View style={styles.loadingSkeleton} />
-          </SkeletonPlaceholder>
-        )}
-        {!asyncPoolInfo?.loading && (
-          <Text style={styles.valuesText} testID={`${testIDPrefix}/EarnApyAndAmount/EarnUpTo`}>
-            {t('earnFlow.enterAmount.earnUpTo', {
-              fiatSymbol: localCurrencySymbol,
-              amount: earnUpTo,
-            })}
-          </Text>
-        )}
+        <Text style={styles.valuesText} testID={`${testIDPrefix}/EarnApyAndAmount/EarnUpTo`}>
+          <Trans i18nKey="earnFlow.enterAmount.earnUpToV1_87">
+            <TokenDisplay
+              tokenId={token.tokenId}
+              amount={earnUpTo}
+              showLocalAmount={token.priceUsd !== null}
+              showApprox={true}
+            />
+          </Trans>
+        </Text>
         <View style={styles.apy}>
           <TokenIcon token={token} size={IconSize.XSMALL} />
 
