@@ -34,6 +34,7 @@ export enum StatsigFeatureGates {
   SUBSIDIZE_STABLECOIN_EARN_GAS_FEES = 'subsidize_stablecoin_earn_gas_fees',
   SHOW_CASH_IN_TOKEN_FILTERS = 'show_cash_in_token_filters',
   SHOW_CAB_IN_ONBOARDING = 'show_cab_in_onboarding',
+  ALLOW_CROSS_CHAIN_SWAPS = 'allow_cross_chain_swaps',
 }
 
 export enum StatsigExperiments {
