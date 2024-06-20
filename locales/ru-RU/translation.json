@@ -1775,22 +1775,22 @@
     "selectTokenLabel": "Выберите токен",
     "tokenBottomSheetTitle": "Выбрать токен",
     "onNetwork": "в {{networkName}}",
-    "crossChainNotification": "Swapping tokens between different networks",
+    "crossChainNotification": "Обмен жетонами между разными сетями",
     "crossChainFeeWarning": {
       "title": "Тебе нужно больше {{tokenSymbol}}",
-      "body": "You need more {{tokenSymbol}} on {{networkName}} to pay for cross-chain swap fees. Add {{tokenAmount}} more {{tokenSymbol}} to continue."
+      "body": "Тебе нужно больше {{tokenSymbol}} на {{networkName}} , чтобы оплатить комиссионные за своп кросс-цепочек. Добавь еще {{tokenAmount}} и {{tokenSymbol}} , чтобы продолжить."
     },
     "insufficientBalanceWarning": {
-      "title": "You need more {{tokenSymbol}}",
+      "title": "Тебе нужно больше {{tokenSymbol}}",
       "body": "Недостаточный остаток {{tokenSymbol}}. Попробуйте внести меньшую сумму или выбрать другой актив."
     },
     "unsupportedTokensWarning": {
-      "title": "Incompatible Selection",
+      "title": "Несовместимый выбор",
       "body": "Выбранные жетоны нельзя поменять местами. Пожалуйста, выбери другой жетон, совместимый с твоим выбором."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Вам нужно больше {{feeTokenSymbol}} за газ",
-      "body": "Add {{feeTokenSymbol}} to cover your gas fees or adjust the amount you are swapping",
+      "body": "Добавь {{feeTokenSymbol}} , чтобы покрыть расходы на бензин, или скорректируй сумму, которую ты обмениваешь.",
       "cta": "Обменять меньшую сумму"
     },
     "switchedToNetworkWarning": {
