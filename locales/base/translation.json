@@ -826,6 +826,7 @@
     "createNewWallet": "Create new wallet",
     "restoreWallet": "Restore wallet",
     "hasWallet": "I already have a wallet",
+    "hasWalletV1_88": "I have a wallet",
     "header": "Welcome to {{appName}}! Let's create your crypto wallet.",
     "getStarted": "Get Started",
     "agreeToTerms": "By creating a wallet you agree to our <0>Terms and Conditions</0>"

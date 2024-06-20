@@ -132,6 +132,7 @@ ios/.xcode.env
 src/brandingConfig.ts
 src/icons/LogoHeart.tsx
 src/icons/Logo.tsx
+src/icons/WelcomeLogo.tsx
 src/icons/Home.tsx
 src/images/*
 !src/images/Images.ts
