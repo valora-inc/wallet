@@ -2414,6 +2414,7 @@
       "earnUpToLabel": "Możesz zarobić do:",
       "rateLabel": "Stawka (szac.)",
       "earnUpTo": "~{{amount}}{{fiatSymbol}} / rok",
+      "earnUpToV1_87": "<0></0> / rok",
       "rate": "{{rate}}% APY",
       "continue": "Kontynuuj",
       "info": "Ta pula jest zapewniana przez Aave",
