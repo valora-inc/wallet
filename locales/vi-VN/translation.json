@@ -2408,6 +2408,7 @@
       "earnUpToLabel": "Bạn có thể kiếm được đến:",
       "rateLabel": "Tỷ giá (ước tính)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / năm",
+      "earnUpToV1_87": "<0></0> / yr",
       "rate": "{{rate}}% APY",
       "continue": "Tiếp tục",
       "info": "Quỹ này do Aave cung cấp",
