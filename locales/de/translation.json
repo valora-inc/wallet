@@ -2410,6 +2410,7 @@
       "earnUpToLabel": "Verdienst von bis zu:",
       "rateLabel": "Rate (geschätzt)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / Jahr",
+      "earnUpToV1_87": "<0></0> / Jahr",
       "rate": "{{rate}} % jährliche prozentuale Rendite",
       "continue": "Weiter",
       "info": "Dieser Pool wird von Aave unterstützt",
