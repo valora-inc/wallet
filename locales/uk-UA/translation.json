@@ -1775,6 +1775,24 @@
     "selectTokenLabel": "Вибрати токен",
     "tokenBottomSheetTitle": "Вибрати токен",
     "onNetwork": "у мережі {{networkName}}",
+    "crossChainNotification": "Swapping tokens between different networks",
+    "crossChainFeeWarning": {
+      "title": "Вам потрібно більше {{tokenSymbol}}",
+      "body": "You need more {{tokenSymbol}} on {{networkName}} to pay for cross-chain swap fees. Add {{tokenAmount}} more {{tokenSymbol}} to continue."
+    },
+    "insufficientBalanceWarning": {
+      "title": "You need more {{tokenSymbol}}",
+      "body": "{{tokenSymbol}}: недостатній баланс. Спробуйте меншу суму або виберіть інший актив."
+    },
+    "unsupportedTokensWarning": {
+      "title": "Incompatible Selection",
+      "body": "Вибрані токени не можна міняти місцями. Будь ласка, виберіть інший токен, сумісний з вашим вибором."
+    },
+    "decreaseSwapAmountForGasWarning": {
+      "title": "Вам потрібно більше {{feeTokenSymbol}} за комісію за газ",
+      "body": "Add {{feeTokenSymbol}} to cover your gas fees or adjust the amount you are swapping",
+      "cta": "Обміняти меншу суму"
+    },
     "switchedToNetworkWarning": {
       "title": "Ви перейшли до мережі {{networkName}}",
       "body_swapFrom": "Щоб продовжити, виберіть, який токен ви хочете обміняти для свопу в мережі {{networkName}}.",
