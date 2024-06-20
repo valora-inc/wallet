@@ -826,6 +826,7 @@
     "createNewWallet": "Criar carteira",
     "restoreWallet": "Restaurar carteira",
     "hasWallet": "Já tenho uma carteira",
+    "hasWalletV1_88": "Eu tenho uma carteira",
     "header": "Nossas boas-vindas! Vamos criar a sua carteira cripto.",
     "getStarted": "Começar",
     "agreeToTerms": "Ao criar uma carteira, você concorda com nossos <0>Termos e condições</0>"
