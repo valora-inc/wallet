@@ -1130,7 +1130,7 @@ export const mockOnboardingProps = {
   recoveringFromStoreWipe: true,
   choseToRestoreAccount: false,
   supportedBiometryType: null,
-  skipVerification: true,
+  skipVerification: false,
   numberAlreadyVerifiedCentrally: false,
   showRecoveryPhrase: false,
   showCloudAccountBackupRestore: false,
