@@ -1771,6 +1771,24 @@
     "selectTokenLabel": "Sélectionner un jeton",
     "tokenBottomSheetTitle": "Sélectionner un jeton",
     "onNetwork": "sur {{networkName}}",
+    "crossChainNotification": "Swapping tokens between different networks",
+    "crossChainFeeWarning": {
+      "title": "Tu as besoin de plus de {{tokenSymbol}}",
+      "body": "You need more {{tokenSymbol}} on {{networkName}} to pay for cross-chain swap fees. Add {{tokenAmount}} more {{tokenSymbol}} to continue."
+    },
+    "insufficientBalanceWarning": {
+      "title": "You need more {{tokenSymbol}}",
+      "body": "Insufficient {{tokenSymbol}} balance. Try a smaller amount or choose a different asset."
+    },
+    "unsupportedTokensWarning": {
+      "title": "Incompatible Selection",
+      "body": "Les jetons sélectionnés ne peuvent pas être échangés entre eux. Choisis un autre jeton compatible avec ta sélection."
+    },
+    "decreaseSwapAmountForGasWarning": {
+      "title": "You need more {{feeTokenSymbol}} for gas",
+      "body": "Add {{feeTokenSymbol}} to cover your gas fees or adjust the amount you are swapping",
+      "cta": "Échanger une plus petite quantité"
+    },
     "switchedToNetworkWarning": {
       "title": "Vous êtes passé au réseau {{networkName}}",
       "body_swapFrom": "Sélectionnez un jeton à échanger sur le réseau {{networkName}} pour continuer.",
