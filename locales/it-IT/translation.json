@@ -2410,6 +2410,7 @@
       "earnUpToLabel": "Puoi guadagnare fino a:",
       "rateLabel": "Tasso (stima)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / anno",
+      "earnUpToV1_87": "<0></0> / anno",
       "rate": "{{rate}}% APY",
       "continue": "Continua",
       "info": "Questo pool è supportato da Aave",

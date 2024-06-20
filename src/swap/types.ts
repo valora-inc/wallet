@@ -16,14 +16,15 @@ export interface ParsedSwapAmount {
   [Field.TO]: BigNumber
 }
 
-export interface SwapUserInput {
+interface SwapUserInput {
   fromTokenId: string
   swapAmount: SwapAmount
   toTokenId: string
   updatedField: Field
 }
 
-export interface SwapTransaction {
+interface BaseSwapTransaction {
+  swapType: 'same-chain' | 'cross-chain'
   chainId: number
   buyAmount: string
   sellAmount: string
@@ -45,6 +46,20 @@ export interface SwapTransaction {
   from: string
   allowanceTarget: string
 }
+
+interface SameChainSwapTransaction extends BaseSwapTransaction {
+  swapType: 'same-chain'
+}
+
+interface CrossChainSwapTransaction extends BaseSwapTransaction {
+  swapType: 'cross-chain'
+  // Swap duration estimation in seconds
+  estimatedDuration: number
+  maxCrossChainFee: string
+  estimatedCrossChainFee: string
+}
+
+export type SwapTransaction = SameChainSwapTransaction | CrossChainSwapTransaction
 
 export interface SwapInfo {
   swapId: string

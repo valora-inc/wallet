@@ -2408,6 +2408,7 @@
       "earnUpToLabel": "您最多可以赚取：",
       "rateLabel": "费率（估算）",
       "earnUpTo": "~{{fiatSymbol}}{{amount}}/年",
+      "earnUpToV1_87": "<0></0> / 年",
       "rate": "{{rate}}% APY",
       "continue": "继续",
       "info": "此池由 Aave 提供支持",

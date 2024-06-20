@@ -2410,6 +2410,7 @@
       "earnUpToLabel": "Vous pourriez gagner jusqu'à :",
       "rateLabel": "Taux (est.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / an",
+      "earnUpToV1_87": "<0></0> / an",
       "rate": "{{rate}}% APY",
       "continue": "Continuer",
       "info": "Ce pool est alimenté par Aave",
