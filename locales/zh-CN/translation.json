@@ -826,6 +826,7 @@
     "createNewWallet": "新建钱包",
     "restoreWallet": "恢复钱包",
     "hasWallet": "我已有钱包",
+    "hasWalletV1_88": "我有一个钱包",
     "header": "欢迎使用 {{appName}}！请创建您的加密货币钱包。",
     "getStarted": "开始使用",
     "agreeToTerms": "创建钱包即表示您同意我们的<0>条款和条件</0>"
