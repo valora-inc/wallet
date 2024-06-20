@@ -37,7 +37,7 @@ export function EarnApyAndAmount({
       </View>
       <View style={styles.line}>
         <Text style={styles.valuesText} testID={`${testIDPrefix}/EarnApyAndAmount/EarnUpTo`}>
-          <Trans i18nKey="earnFlow.enterAmount.earnUpToV2">
+          <Trans i18nKey="earnFlow.enterAmount.earnUpToV1_87">
             <TokenDisplay
               tokenId={token.tokenId}
               amount={earnUpTo}
