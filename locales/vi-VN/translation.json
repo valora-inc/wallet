@@ -826,6 +826,7 @@
     "createNewWallet": "Tạo ví mới",
     "restoreWallet": "Khôi phục ví",
     "hasWallet": "Tôi đã có ví",
+    "hasWalletV1_88": "I have a wallet",
     "header": "Chào mừng bạn đến với {{appName}}! Hãy tạo ví tiền điện tử của bạn.",
     "getStarted": "Bắt đầu",
     "agreeToTerms": "Khi tạo ví, bạn đồng ý với <0>Điều khoản và Điều kiện</0> của chúng tôi"
