@@ -1771,22 +1771,22 @@
     "selectTokenLabel": "Selecionar token",
     "tokenBottomSheetTitle": "Selecionar token",
     "onNetwork": "na {{networkName}}",
-    "crossChainNotification": "Swapping tokens between different networks",
+    "crossChainNotification": "Troca de tokens entre redes diferentes",
     "crossChainFeeWarning": {
       "title": "Você precisa de mais {{tokenSymbol}}",
-      "body": "You need more {{tokenSymbol}} on {{networkName}} to pay for cross-chain swap fees. Add {{tokenAmount}} more {{tokenSymbol}} to continue."
+      "body": "Você precisa de mais {{tokenSymbol}} em {{networkName}} para pagar as taxas de troca entre cadeias. Você precisa de mais {{tokenAmount}} e {{tokenSymbol}} para continuar."
     },
     "insufficientBalanceWarning": {
-      "title": "You need more {{tokenSymbol}}",
+      "title": "Você precisa de mais {{tokenSymbol}}",
       "body": "Saldo de {{tokenSymbol}} insuficiente. Insira um valor menor ou escolha um ativo diferente."
     },
     "unsupportedTokensWarning": {
-      "title": "Incompatible Selection",
+      "title": "Seleção incompatível",
       "body": "Os tokens selecionados não podem ser trocados entre si. Escolha outro token que seja compatível com sua seleção."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Você precisa de mais {{feeTokenSymbol}} para o Gas",
-      "body": "Add {{feeTokenSymbol}} to cover your gas fees or adjust the amount you are swapping",
+      "body": "Adicione {{feeTokenSymbol}} para cobrir suas taxas de gás ou ajuste o valor que você está trocando",
       "cta": "Trocar uma quantia menor"
     },
     "switchedToNetworkWarning": {
