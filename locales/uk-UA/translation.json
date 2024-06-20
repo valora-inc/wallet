@@ -2414,6 +2414,7 @@
       "earnUpToLabel": "Можна заробити до:",
       "rateLabel": "Ставка (орієнт.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / yr",
+      "earnUpToV1_87": "<0></0> / рік",
       "rate": "{{rate}}% APY",
       "continue": "Продовжити",
       "info": "Цей пул на платформі Aave",
