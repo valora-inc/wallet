@@ -2408,6 +2408,7 @@
       "earnUpToLabel": "คุณสามารถสร้างรายได้สูงถึง:",
       "rateLabel": "อัตรา (โดยประมาณ)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / ปี",
+      "earnUpToV1_87": "<0></0> / yr",
       "rate": "{{rate}}% APY",
       "continue": "ดำเนินการต่อ",
       "info": "พูลนี้ดำเนินการโดย Aave",

@@ -2410,6 +2410,7 @@
       "earnUpToLabel": "Podrías ganar hasta:",
       "rateLabel": "Tasa (est.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}}/año",
+      "earnUpToV1_87": "<0></0> / año",
       "rate": "APY ~{{rate}}%",
       "continue": "Continuar",
       "info": "Esta pool es administrada por Aave",

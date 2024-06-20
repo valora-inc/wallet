@@ -2410,6 +2410,7 @@
       "earnUpToLabel": "Şu kadar kazanabilirsiniz:",
       "rateLabel": "Oran (tahmini)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / yıl",
+      "earnUpToV1_87": "<0></0> / yıl",
       "rate": "%{{rate}} Yıllık Getiri Oranı (APY)",
       "continue": "İleri",
       "info": "Bu havuz Aave tarafından desteklenmektedir",

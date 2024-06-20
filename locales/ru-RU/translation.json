@@ -2414,6 +2414,7 @@
       "earnUpToLabel": "Вы можете заработать до:",
       "rateLabel": "Ставка (прибл.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / год",
+      "earnUpToV1_87": "<0></0> / гг.",
       "rate": "Годовая ставка {{rate}}%",
       "continue": "Продолжить",
       "info": "Этот пул поддерживается Aave",
