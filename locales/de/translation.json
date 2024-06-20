@@ -1771,6 +1771,24 @@
     "selectTokenLabel": "Token auswählen",
     "tokenBottomSheetTitle": "Token auswählen",
     "onNetwork": "auf {{networkName}}",
+    "crossChainNotification": "Swapping tokens between different networks",
+    "crossChainFeeWarning": {
+      "title": "Du brauchst mehr {{tokenSymbol}}",
+      "body": "You need more {{tokenSymbol}} on {{networkName}} to pay for cross-chain swap fees. Add {{tokenAmount}} more {{tokenSymbol}} to continue."
+    },
+    "insufficientBalanceWarning": {
+      "title": "You need more {{tokenSymbol}}",
+      "body": "Unzureichendes {{tokenSymbol}}-Guthaben. Versuche es mit einem kleineren Betrag oder wähle ein anderes Vermögen."
+    },
+    "unsupportedTokensWarning": {
+      "title": "Incompatible Selection",
+      "body": "Die ausgewählten Token können nicht untereinander getauscht werden. Bitte wähle einen anderen Token, der mit deiner Auswahl kompatibel ist."
+    },
+    "decreaseSwapAmountForGasWarning": {
+      "title": "Du benötigst mehr {{feeTokenSymbol}} für Gas.",
+      "body": "Add {{feeTokenSymbol}} to cover your gas fees or adjust the amount you are swapping",
+      "cta": "Kleineren Betrag tauschen"
+    },
     "switchedToNetworkWarning": {
       "title": "Du bist zum Netzwerk {{networkName}} gewechselt",
       "body_swapFrom": "Wähle einen Token aus, den du im {{networkName}} Netzwerk tauschen möchtest, um fortzufahren.",
