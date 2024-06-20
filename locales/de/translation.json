@@ -826,6 +826,7 @@
     "createNewWallet": "Wallet erstellen",
     "restoreWallet": "Wallet wiederherstellen",
     "hasWallet": "Ich habe bereits eine Wallet",
+    "hasWalletV1_88": "Ich habe ein Portemonnaie",
     "header": "Willkommen bei {{appName}}! Lass uns deine Wallet erstellen.",
     "getStarted": "Erste Schritte",
     "agreeToTerms": "Wenn du eine Wallet erstellst, stimmst du unseren <0>Allgemeinen Nutzungsbedingungen</0> zu"
