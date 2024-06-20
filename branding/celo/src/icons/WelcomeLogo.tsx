@@ -12,7 +12,7 @@ interface Props {
 export default function WelcomeLogo({ width = 25, height = 25, style }: Props) {
   return (
     <View style={style}>
-      <Svg width={width} height={height} viewBox="0 0 25 25" fill="none">
+      <Svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} fill="none">
         <Path
           d="M9.86842 22.3684C13.8653 22.3684 17.1053 19.1284 17.1053 15.1316C17.1053 11.1348 13.8653 7.89476 9.86842 7.89476C5.87158 7.89476 2.63158 11.1348 2.63158 15.1316C2.63158 19.1284 5.87158 22.3684 9.86842 22.3684ZM9.86842 25C4.41842 25 0 20.5816 0 15.1316C0 9.6816 4.41842 5.26318 9.86842 5.26318C15.3184 5.26318 19.7368 9.6816 19.7368 15.1316C19.7368 20.5816 15.3184 25 9.86842 25Z"
           fill={colors.goldBrand}
