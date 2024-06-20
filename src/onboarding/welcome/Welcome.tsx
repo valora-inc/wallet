@@ -9,7 +9,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { TOS_LINK } from 'src/brandingConfig'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CheckBox from 'src/icons/CheckBox'
-import Valora from 'src/icons/Valora'
+import WelcomeLogo from 'src/icons/WelcomeLogo'
 import { welcomeBackground } from 'src/images/Images'
 import { nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -90,7 +90,7 @@ export default function Welcome() {
     <SafeAreaView style={styles.container}>
       <ImageBackground source={welcomeBackground} resizeMode="stretch" style={styles.image}>
         <View style={styles.contentContainer}>
-          <Valora />
+          <WelcomeLogo />
         </View>
         <View style={{ ...styles.buttonView, marginBottom: Math.max(0, 40 - insets.bottom) }}>
           {showTermsCheckbox && (
