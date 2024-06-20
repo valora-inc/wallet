@@ -1771,22 +1771,22 @@
     "selectTokenLabel": "Selecciona un token",
     "tokenBottomSheetTitle": "Seleccionar token",
     "onNetwork": "en {{networkName}}",
-    "crossChainNotification": "Swapping tokens between different networks",
+    "crossChainNotification": "Intercambiar fichas entre diferentes redes",
     "crossChainFeeWarning": {
       "title": "Necesitas más {{tokenSymbol}}",
-      "body": "You need more {{tokenSymbol}} on {{networkName}} to pay for cross-chain swap fees. Add {{tokenAmount}} more {{tokenSymbol}} to continue."
+      "body": "Necesitas más {{tokenSymbol}} en {{networkName}} para pagar las tasas de intercambio de cadenas cruzadas. Añade {{tokenAmount}} más {{tokenSymbol}} para continuar."
     },
     "insufficientBalanceWarning": {
-      "title": "You need more {{tokenSymbol}}",
-      "body": "Insufficient {{tokenSymbol}} balance. Try a smaller amount or choose a different asset."
+      "title": "Necesitas más {{tokenSymbol}}",
+      "body": "Saldo en {{tokenSymbol}} insuficiente. Ingresa un monto menor o elige otro activo."
     },
     "unsupportedTokensWarning": {
-      "title": "Incompatible Selection",
+      "title": "Selección incompatible",
       "body": "Las fichas seleccionadas no pueden intercambiarse entre sí. Por favor, elige otra ficha que sea compatible con tu selección."
     },
     "decreaseSwapAmountForGasWarning": {
-      "title": "You need more {{feeTokenSymbol}} for gas",
-      "body": "Add {{feeTokenSymbol}} to cover your gas fees or adjust the amount you are swapping",
+      "title": "Necesitas más {{feeTokenSymbol}} para cubrir las tarifas",
+      "body": "Añade {{feeTokenSymbol}} para cubrir los gastos de gasolina o ajusta la cantidad que estás intercambiando",
       "cta": "Intercambiar monto menor"
     },
     "switchedToNetworkWarning": {
