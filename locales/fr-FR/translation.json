@@ -1771,22 +1771,22 @@
     "selectTokenLabel": "Sélectionner un jeton",
     "tokenBottomSheetTitle": "Sélectionner un jeton",
     "onNetwork": "sur {{networkName}}",
-    "crossChainNotification": "Swapping tokens between different networks",
+    "crossChainNotification": "Échanger des jetons entre différents réseaux",
     "crossChainFeeWarning": {
       "title": "Tu as besoin de plus de {{tokenSymbol}}",
-      "body": "You need more {{tokenSymbol}} on {{networkName}} to pay for cross-chain swap fees. Add {{tokenAmount}} more {{tokenSymbol}} to continue."
+      "body": "Tu as besoin de plus de {{tokenSymbol}} sur {{networkName}} pour payer les frais d'échange entre chaînes. Ajoute {{tokenAmount}} plus {{tokenSymbol}} pour continuer."
     },
     "insufficientBalanceWarning": {
-      "title": "You need more {{tokenSymbol}}",
-      "body": "Insufficient {{tokenSymbol}} balance. Try a smaller amount or choose a different asset."
+      "title": "Tu as besoin de plus de {{tokenSymbol}}",
+      "body": "{{tokenSymbol}} insuffisants. Veuillez saisir un montant inférieur ou choisissez un autre actif."
     },
     "unsupportedTokensWarning": {
-      "title": "Incompatible Selection",
+      "title": "Sélection incompatible",
       "body": "Les jetons sélectionnés ne peuvent pas être échangés entre eux. Choisis un autre jeton compatible avec ta sélection."
     },
     "decreaseSwapAmountForGasWarning": {
-      "title": "You need more {{feeTokenSymbol}} for gas",
-      "body": "Add {{feeTokenSymbol}} to cover your gas fees or adjust the amount you are swapping",
+      "title": "Vous avez besoin de plus de {{feeTokenSymbol}} pour le gas",
+      "body": "Ajoute {{feeTokenSymbol}} pour couvrir tes frais d'essence ou ajuste le montant que tu échanges.",
       "cta": "Échanger une plus petite quantité"
     },
     "switchedToNetworkWarning": {
