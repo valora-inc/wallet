@@ -826,6 +826,7 @@
     "createNewWallet": "Utwórz portfel",
     "restoreWallet": "Przywróć portfel",
     "hasWallet": "Mam już portfel",
+    "hasWalletV1_88": "Mam portfel",
     "header": "Witamy w {{appName}}! Stwórzmy Twój portfel kryptowalutowy.",
     "getStarted": "Rozpocznij",
     "agreeToTerms": "Tworząc portfel, zgadzasz się na nasze <0>Warunki</0>"
