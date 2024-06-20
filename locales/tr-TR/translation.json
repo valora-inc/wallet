@@ -1771,22 +1771,22 @@
     "selectTokenLabel": "Token seçin",
     "tokenBottomSheetTitle": "Token Seç",
     "onNetwork": "{{networkName}} üzerinde",
-    "crossChainNotification": "Swapping tokens between different networks",
+    "crossChainNotification": "Farklı ağlar arasında jeton değiştirme",
     "crossChainFeeWarning": {
       "title": "Daha fazlasına ihtiyacınız var {{tokenSymbol}}",
-      "body": "You need more {{tokenSymbol}} on {{networkName}} to pay for cross-chain swap fees. Add {{tokenAmount}} more {{tokenSymbol}} to continue."
+      "body": "Zincirler arası takas ücretlerini ödemek için {{networkName}} adresinde daha fazla {{tokenSymbol}} adresine ihtiyacınız var. Devam etmek için {{tokenAmount}} daha fazla {{tokenSymbol}} ekleyin."
     },
     "insufficientBalanceWarning": {
-      "title": "You need more {{tokenSymbol}}",
+      "title": "Daha fazlasına ihtiyacınız var {{tokenSymbol}}",
       "body": "Yetersiz {{tokenSymbol}}. Lütfen daha küçük bir miktar girin veya farklı bir varlık seçin."
     },
     "unsupportedTokensWarning": {
-      "title": "Incompatible Selection",
+      "title": "Uyumsuz Seçim",
       "body": "Seçilen jetonlar arasında geçiş yapılamaz. Lütfen seçiminizle uyumlu başka bir token seçin."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Gas için daha fazla {{feeTokenSymbol}} bakiyesine ihtiyacınız var",
-      "body": "Add {{feeTokenSymbol}} to cover your gas fees or adjust the amount you are swapping",
+      "body": "Gaz ücretlerinizi karşılamak için {{feeTokenSymbol}} adresini ekleyin veya takas ettiğiniz miktarı ayarlayın",
       "cta": "Daha düşük bir tutarı swap edin"
     },
     "switchedToNetworkWarning": {
