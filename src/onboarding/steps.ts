@@ -81,7 +81,7 @@ export const onboardingPropsSelector = createSelector(
       StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE
     )
 
-    const skipVerification = getFeatureGate(StatsigFeatureGates.SHOW_ONBOARDING_PHONE_VERIFICATION)
+    const skipVerification = !getFeatureGate(StatsigFeatureGates.SHOW_ONBOARDING_PHONE_VERIFICATION)
 
     return {
       recoveringFromStoreWipe,
