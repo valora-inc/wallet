@@ -35,7 +35,7 @@ export enum StatsigFeatureGates {
   SHOW_CASH_IN_TOKEN_FILTERS = 'show_cash_in_token_filters',
   SHOW_CAB_IN_ONBOARDING = 'show_cab_in_onboarding',
   ALLOW_CROSS_CHAIN_SWAPS = 'allow_cross_chain_swaps',
-  ONBOARDING_PHONE_VERIFICATION = 'onboarding_phone_verification',
+  SHOW_ONBOARDING_PHONE_VERIFICATION = 'show_onboarding_phone_verification',
 }
 
 export enum StatsigExperiments {
