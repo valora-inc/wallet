@@ -826,6 +826,7 @@
     "createNewWallet": "Wallet erstellen",
     "restoreWallet": "Wallet wiederherstellen",
     "hasWallet": "Ich habe bereits eine Wallet",
+    "hasWalletV1_88": "Ich habe ein Portemonnaie",
     "header": "Willkommen bei {{appName}}! Lass uns deine Wallet erstellen.",
     "getStarted": "Erste Schritte",
     "agreeToTerms": "Wenn du eine Wallet erstellst, stimmst du unseren <0>Allgemeinen Nutzungsbedingungen</0> zu"
@@ -1771,6 +1772,24 @@
     "selectTokenLabel": "Token auswählen",
     "tokenBottomSheetTitle": "Token auswählen",
     "onNetwork": "auf {{networkName}}",
+    "crossChainNotification": "Token zwischen verschiedenen Netzwerken austauschen",
+    "crossChainFeeWarning": {
+      "title": "Du brauchst mehr {{tokenSymbol}}",
+      "body": "Du brauchst mehr {{tokenSymbol}} auf {{networkName}} , um die Cross-Chain-Swap-Gebühren zu bezahlen. Füge {{tokenAmount}} mehr {{tokenSymbol}} hinzu, um fortzufahren."
+    },
+    "insufficientBalanceWarning": {
+      "title": "Du brauchst mehr {{tokenSymbol}}",
+      "body": "Unzureichendes {{tokenSymbol}}-Guthaben. Versuche es mit einem kleineren Betrag oder wähle ein anderes Vermögen."
+    },
+    "unsupportedTokensWarning": {
+      "title": "Inkompatible Auswahl",
+      "body": "Die ausgewählten Token können nicht untereinander getauscht werden. Bitte wähle einen anderen Token, der mit deiner Auswahl kompatibel ist."
+    },
+    "decreaseSwapAmountForGasWarning": {
+      "title": "Du benötigst mehr {{feeTokenSymbol}} für Gas.",
+      "body": "Füge {{feeTokenSymbol}} hinzu, um deine Gaskosten zu decken oder passe den Betrag an, den du tauschst",
+      "cta": "Kleineren Betrag tauschen"
+    },
     "switchedToNetworkWarning": {
       "title": "Du bist zum Netzwerk {{networkName}} gewechselt",
       "body_swapFrom": "Wähle einen Token aus, den du im {{networkName}} Netzwerk tauschen möchtest, um fortzufahren.",

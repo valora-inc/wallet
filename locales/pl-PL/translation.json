@@ -826,6 +826,7 @@
     "createNewWallet": "Utwórz portfel",
     "restoreWallet": "Przywróć portfel",
     "hasWallet": "Mam już portfel",
+    "hasWalletV1_88": "Mam portfel",
     "header": "Witamy w {{appName}}! Stwórzmy Twój portfel kryptowalutowy.",
     "getStarted": "Rozpocznij",
     "agreeToTerms": "Tworząc portfel, zgadzasz się na nasze <0>Warunki</0>"
@@ -1775,6 +1776,24 @@
     "selectTokenLabel": "Wybierz token",
     "tokenBottomSheetTitle": "Wybierz token",
     "onNetwork": "w {{networkName}}",
+    "crossChainNotification": "Wymiana tokenów między różnymi sieciami",
+    "crossChainFeeWarning": {
+      "title": "Potrzebujesz więcej {{tokenSymbol}}",
+      "body": "Potrzebujesz więcej {{tokenSymbol}} na {{networkName}} , aby zapłacić za opłaty za wymianę międzyłańcuchową. Dodaj {{tokenAmount}} więcej {{tokenSymbol}} , aby kontynuować."
+    },
+    "insufficientBalanceWarning": {
+      "title": "Potrzebujesz więcej {{tokenSymbol}}",
+      "body": "Niewystarczające saldo {{tokenSymbol}}. Spróbuj wpłacić mniejszą kwotę lub wybierz inny aktyw."
+    },
+    "unsupportedTokensWarning": {
+      "title": "Niezgodny wybór",
+      "body": "Wybranych tokenów nie można zamieniać. Wybierz inny token, który jest zgodny z Twoim wyborem."
+    },
+    "decreaseSwapAmountForGasWarning": {
+      "title": "Potrzebujesz więcej {{feeTokenSymbol}} na gaz",
+      "body": "Dodaj {{feeTokenSymbol}} , aby pokryć opłaty za gaz lub dostosuj kwotę, którą wymieniasz.",
+      "cta": "Wymień mniejszą kwotę"
+    },
     "switchedToNetworkWarning": {
       "title": "Przełączono do sieci {{networkName}}",
       "body_swapFrom": "Aby kontynuować, wybierz token do wymiany w sieci {{networkName}}.",

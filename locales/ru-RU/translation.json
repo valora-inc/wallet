@@ -826,6 +826,7 @@
     "createNewWallet": "Создать кошелек",
     "restoreWallet": "Восстановить кошелек",
     "hasWallet": "У меня уже есть кошелек",
+    "hasWalletV1_88": "У меня есть бумажник",
     "header": "Добро пожаловать в {{appName}}! Давайте создадим ваш криптокошелек.",
     "getStarted": "Начать",
     "agreeToTerms": "Создавая кошелек, вы соглашаетесь с нашими <0>Положениями и условиями</0>"
@@ -1775,6 +1776,24 @@
     "selectTokenLabel": "Выберите токен",
     "tokenBottomSheetTitle": "Выбрать токен",
     "onNetwork": "в {{networkName}}",
+    "crossChainNotification": "Обмен жетонами между разными сетями",
+    "crossChainFeeWarning": {
+      "title": "Тебе нужно больше {{tokenSymbol}}",
+      "body": "Тебе нужно больше {{tokenSymbol}} на {{networkName}} , чтобы оплатить комиссионные за своп кросс-цепочек. Добавь еще {{tokenAmount}} и {{tokenSymbol}} , чтобы продолжить."
+    },
+    "insufficientBalanceWarning": {
+      "title": "Тебе нужно больше {{tokenSymbol}}",
+      "body": "Недостаточный остаток {{tokenSymbol}}. Попробуйте внести меньшую сумму или выбрать другой актив."
+    },
+    "unsupportedTokensWarning": {
+      "title": "Несовместимый выбор",
+      "body": "Выбранные жетоны нельзя поменять местами. Пожалуйста, выбери другой жетон, совместимый с твоим выбором."
+    },
+    "decreaseSwapAmountForGasWarning": {
+      "title": "Вам нужно больше {{feeTokenSymbol}} за газ",
+      "body": "Добавь {{feeTokenSymbol}} , чтобы покрыть расходы на бензин, или скорректируй сумму, которую ты обмениваешь.",
+      "cta": "Обменять меньшую сумму"
+    },
     "switchedToNetworkWarning": {
       "title": "Вы переключились на сеть {{networkName}}",
       "body_swapFrom": "Выберите токен, с которого нужно выполнить обмен, в сеть {{networkName}}.",
