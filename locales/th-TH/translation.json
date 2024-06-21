@@ -826,6 +826,7 @@
     "createNewWallet": "สร้างกระเป๋าเงินใหม่",
     "restoreWallet": "กู้คืนกระเป๋าเงิน",
     "hasWallet": "ฉันมีกระเป๋าเงินอยู่แล้ว",
+    "hasWalletV1_88": "I have a wallet",
     "header": "ยินดีต้อนรับสู่ {{appName}}! เรามาสร้างกระเป๋าเงินคริปโตกัน",
     "getStarted": "เริ่มต้นใช้งาน",
     "agreeToTerms": "เมื่อสร้างกระเป๋าเงิน คุณยอมรับ<0>ข้อกำหนดและเงื่อนไข</0>ของเรา"
@@ -1769,6 +1770,24 @@
     "selectTokenLabel": "เลือกโทเค็น",
     "tokenBottomSheetTitle": "เลือกโทเค็น",
     "onNetwork": "บน {{networkName}}",
+    "crossChainNotification": "Swapping tokens between different networks",
+    "crossChainFeeWarning": {
+      "title": "You need more {{tokenSymbol}}",
+      "body": "You need more {{tokenSymbol}} on {{networkName}} to pay for cross-chain swap fees. Add {{tokenAmount}} more {{tokenSymbol}} to continue."
+    },
+    "insufficientBalanceWarning": {
+      "title": "You need more {{tokenSymbol}}",
+      "body": "ยอดคงเหลือ {{tokenSymbol}} ไม่เพียงพอ ลองจำนวนเงินที่น้อยลงหรือเลือกสินทรัพย์อื่น"
+    },
+    "unsupportedTokensWarning": {
+      "title": "Incompatible Selection",
+      "body": "The tokens selected cannot be swapped between. Please choose another token that is compatible with your selection."
+    },
+    "decreaseSwapAmountForGasWarning": {
+      "title": "คุณต้องใช้อีก {{feeTokenSymbol}} สำหรับค่าก๊าซ",
+      "body": "Add {{feeTokenSymbol}} to cover your gas fees or adjust the amount you are swapping",
+      "cta": "สว็อปจำนวนเงินที่น้อยลง"
+    },
     "switchedToNetworkWarning": {
       "title": "คุณเปลี่ยนไปใช้เครือข่าย {{networkName}} แล้ว",
       "body_swapFrom": "เลือกโทเค็นที่จะสว็อปจากบนเครือข่าย {{networkName}} เพื่อดำเนินการต่อ",

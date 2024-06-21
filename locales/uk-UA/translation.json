@@ -826,6 +826,7 @@
     "createNewWallet": "Створити гаманець",
     "restoreWallet": "Відновити гаманець",
     "hasWallet": "У мене вже є гаманець",
+    "hasWalletV1_88": "У мене є гаманець.",
     "header": "Ласкаво просимо до {{appName}}! Створімо ваш криптогаманець.",
     "getStarted": "Почати роботу",
     "agreeToTerms": "Якщо ви створюєте гаманець, то погоджуєтеся з нашими <0>Умовами надання послуг</0>"
@@ -1775,6 +1776,24 @@
     "selectTokenLabel": "Вибрати токен",
     "tokenBottomSheetTitle": "Вибрати токен",
     "onNetwork": "у мережі {{networkName}}",
+    "crossChainNotification": "Обмін токенами між різними мережами",
+    "crossChainFeeWarning": {
+      "title": "Вам потрібно більше {{tokenSymbol}}",
+      "body": "Вам потрібно більше {{tokenSymbol}} на {{networkName}} , щоб оплатити комісію за міжланцюговий своп. Додайте {{tokenAmount}} ще {{tokenSymbol}} , щоб продовжити."
+    },
+    "insufficientBalanceWarning": {
+      "title": "Вам потрібно більше {{tokenSymbol}}",
+      "body": "{{tokenSymbol}}: недостатній баланс. Спробуйте меншу суму або виберіть інший актив."
+    },
+    "unsupportedTokensWarning": {
+      "title": "Несумісний вибір",
+      "body": "Вибрані токени не можна міняти місцями. Будь ласка, виберіть інший токен, сумісний з вашим вибором."
+    },
+    "decreaseSwapAmountForGasWarning": {
+      "title": "Вам потрібно більше {{feeTokenSymbol}} за комісію за газ",
+      "body": "Додайте {{feeTokenSymbol}} , щоб покрити плату за газ або скоригувати суму, яку ви обмінюєте",
+      "cta": "Обміняти меншу суму"
+    },
     "switchedToNetworkWarning": {
       "title": "Ви перейшли до мережі {{networkName}}",
       "body_swapFrom": "Щоб продовжити, виберіть, який токен ви хочете обміняти для свопу в мережі {{networkName}}.",

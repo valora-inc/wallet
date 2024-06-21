@@ -21,7 +21,7 @@ echo $mobile_root
 cd "$mobile_root"
 
 # Please update the sha when valora branding updates are needed
-valora_branding_sha=5df16830b1a6ef7f4ede64f2b14637c9257a781f
+valora_branding_sha=e94a6ddedbf2713ea0739e9ff48c72af37235d95
 
 if [[ "$branding" == "valora" ]]; then
   # prevents git from asking credentials

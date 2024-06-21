@@ -826,6 +826,7 @@
     "createNewWallet": "Cüzdan oluştur",
     "restoreWallet": "Cüzdan Yeniden Kur",
     "hasWallet": "Zaten cüzdanım var",
+    "hasWalletV1_88": "Bir cüzdanım var.",
     "header": "{{appName}} uygulamasına hoş geldiniz! Kripto cüzdanınızı oluşturalım.",
     "getStarted": "Başlayın",
     "agreeToTerms": "Bir cüzdan oluşturarak <0>Şartlar ve Koşullarımızı</0> kabul etmiş olursunuz"
@@ -1771,6 +1772,24 @@
     "selectTokenLabel": "Token seçin",
     "tokenBottomSheetTitle": "Token Seç",
     "onNetwork": "{{networkName}} üzerinde",
+    "crossChainNotification": "Farklı ağlar arasında jeton değiştirme",
+    "crossChainFeeWarning": {
+      "title": "Daha fazlasına ihtiyacınız var {{tokenSymbol}}",
+      "body": "Zincirler arası takas ücretlerini ödemek için {{networkName}} adresinde daha fazla {{tokenSymbol}} adresine ihtiyacınız var. Devam etmek için {{tokenAmount}} daha fazla {{tokenSymbol}} ekleyin."
+    },
+    "insufficientBalanceWarning": {
+      "title": "Daha fazlasına ihtiyacınız var {{tokenSymbol}}",
+      "body": "Yetersiz {{tokenSymbol}}. Lütfen daha küçük bir miktar girin veya farklı bir varlık seçin."
+    },
+    "unsupportedTokensWarning": {
+      "title": "Uyumsuz Seçim",
+      "body": "Seçilen jetonlar arasında geçiş yapılamaz. Lütfen seçiminizle uyumlu başka bir token seçin."
+    },
+    "decreaseSwapAmountForGasWarning": {
+      "title": "Gas için daha fazla {{feeTokenSymbol}} bakiyesine ihtiyacınız var",
+      "body": "Gaz ücretlerinizi karşılamak için {{feeTokenSymbol}} adresini ekleyin veya takas ettiğiniz miktarı ayarlayın",
+      "cta": "Daha düşük bir tutarı swap edin"
+    },
     "switchedToNetworkWarning": {
       "title": "{{networkName}} ağına geçtiniz",
       "body_swapFrom": "Devam etmek için {{networkName}} ağında kendisinden swap yapılacak bir token seçin.",

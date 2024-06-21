@@ -826,6 +826,7 @@
     "createNewWallet": "Créer un wallet",
     "restoreWallet": "Restaurer un wallet",
     "hasWallet": "J'ai déjà un wallet",
+    "hasWalletV1_88": "J'ai un portefeuille",
     "header": "Bienvenue sur {{appName}} ! Créons votre wallet crypto.",
     "getStarted": "Commencer",
     "agreeToTerms": "En créant un portefeuille, vous acceptez nos <0>Conditions Générales</0>"
@@ -1771,6 +1772,24 @@
     "selectTokenLabel": "Sélectionner un jeton",
     "tokenBottomSheetTitle": "Sélectionner un jeton",
     "onNetwork": "sur {{networkName}}",
+    "crossChainNotification": "Échanger des jetons entre différents réseaux",
+    "crossChainFeeWarning": {
+      "title": "Tu as besoin de plus de {{tokenSymbol}}",
+      "body": "Tu as besoin de plus de {{tokenSymbol}} sur {{networkName}} pour payer les frais d'échange entre chaînes. Ajoute {{tokenAmount}} plus {{tokenSymbol}} pour continuer."
+    },
+    "insufficientBalanceWarning": {
+      "title": "Tu as besoin de plus de {{tokenSymbol}}",
+      "body": "{{tokenSymbol}} insuffisants. Veuillez saisir un montant inférieur ou choisissez un autre actif."
+    },
+    "unsupportedTokensWarning": {
+      "title": "Sélection incompatible",
+      "body": "Les jetons sélectionnés ne peuvent pas être échangés entre eux. Choisis un autre jeton compatible avec ta sélection."
+    },
+    "decreaseSwapAmountForGasWarning": {
+      "title": "Vous avez besoin de plus de {{feeTokenSymbol}} pour le gas",
+      "body": "Ajoute {{feeTokenSymbol}} pour couvrir tes frais d'essence ou ajuste le montant que tu échanges.",
+      "cta": "Échanger une plus petite quantité"
+    },
     "switchedToNetworkWarning": {
       "title": "Vous êtes passé au réseau {{networkName}}",
       "body_swapFrom": "Sélectionnez un jeton à échanger sur le réseau {{networkName}} pour continuer.",
