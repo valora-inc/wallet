@@ -1,5 +1,5 @@
 import { isEmpty } from 'lodash'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import Toast from 'react-native-simple-toast'
@@ -82,7 +82,7 @@ export function useFetchTransactions(): QueryHookResult {
   const allowedNetworkIds = getAllowedNetworkIds()
 
   // Track which networks are currently fetching transactions via polling to avoid duplicate requests
-  const [activePollingRequests, setActivePollingRequests] = useState<ActiveRequests>(
+  const [activePollingRequests, setActivePollingRequestsState] = useState<ActiveRequests>(
     allowedNetworkIds.reduce((acc, networkId) => {
       acc[networkId] = false
       return acc
@@ -90,11 +90,31 @@ export function useFetchTransactions(): QueryHookResult {
   )
 
   // Track which networks are currently fetching transactions via pagination to avoid duplicate requests
-  const [activePaginationRequests, setActivePaginationRequests] = useState<ActiveRequests>(
+  const [activePaginationRequests, setActivePaginationRequestsState] = useState<ActiveRequests>(
     allowedNetworkIds.reduce((acc, networkId) => {
       acc[networkId] = false
       return acc
     }, {} as ActiveRequests)
+  )
+
+  // Prevent unnecessary re-renders
+  const setActivePollingRequests = useCallback(
+    (updateFunc: (prevState: ActiveRequests) => ActiveRequests) => {
+      setActivePollingRequestsState((prevState) => {
+        const updatedState = updateFunc(prevState)
+        return updatedState
+      })
+    },
+    [setActivePollingRequestsState]
+  )
+  const setActivePaginationRequests = useCallback(
+    (updateFunc: (prevState: ActiveRequests) => ActiveRequests) => {
+      setActivePaginationRequestsState((prevState) => {
+        const updatedState = updateFunc(prevState)
+        return updatedState
+      })
+    },
+    [setActivePaginationRequestsState]
   )
 
   // Track cumulative transactions and most recent page info for all chains in one
