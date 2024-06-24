@@ -5,6 +5,7 @@ import {
   KycStatus as FiatConnectKycStatus,
 } from '@fiatconnect/fiatconnect-types'
 import { ShareAction } from 'react-native'
+import { Screens } from 'src/navigator/Screens'
 import { PermissionStatus } from 'react-native-permissions'
 import {
   AppEvents,
@@ -1129,6 +1130,7 @@ interface DappExplorerEventsProperties {
     activeFilter?: string
     activeSearchTerm?: string
     position?: number
+    fromScreen?: Screens
   }
   [DappExplorerEvents.dapp_close]: DappEventProperties
   [DappExplorerEvents.dapp_screen_open]: undefined
@@ -1140,6 +1142,7 @@ interface DappExplorerEventsProperties {
     remove: boolean
   }
   [DappExplorerEvents.dapp_rankings_open]: undefined
+  [DappExplorerEvents.dapp_explore_all]: undefined
 }
 
 interface WebViewEventsProperties {

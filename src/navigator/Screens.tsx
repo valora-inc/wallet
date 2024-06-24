@@ -15,6 +15,7 @@ export enum Screens {
   DappKitSignTxScreen = 'DappKitSignTxScreen',
   DappShortcutsRewards = 'DappShortcutsRewards',
   DappShortcutTransactionRequest = 'DappShortcutTransactionRequest',
+  DappScreen = 'DappScreen',
   Debug = 'Debug',
   EarnInfoScreen = 'EarnInfoScreen',
   EarnEnterAmount = 'EarnEnterAmount',

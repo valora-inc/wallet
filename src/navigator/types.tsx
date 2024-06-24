@@ -80,6 +80,7 @@ export type StackParamList = {
   [Screens.DappShortcutTransactionRequest]: {
     rewardId: string
   }
+  [Screens.DappScreen]: undefined
   [Screens.Debug]: undefined
   [Screens.EarnInfoScreen]: {
     tokenId: string

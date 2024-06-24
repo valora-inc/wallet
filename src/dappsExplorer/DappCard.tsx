@@ -13,19 +13,22 @@ import { useDispatch, useSelector } from 'src/redux/hooks'
 import { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
-import { Shadow, Spacing } from 'src/styles/styles'
+import { Spacing } from 'src/styles/styles'
 
 interface DappCardContentProps {
   dapp: Dapp
   onFavoriteDapp?: (dapp: Dapp) => void
   favoritedFromSection: DappSection
+  disableFavorite?: boolean
 }
 
 interface Props {
   onPressDapp: () => void
   dapp: Dapp
   testID: string
+  disableFavorite?: boolean
   onFavoriteDapp?: (dapp: Dapp) => void
+  showBorder?: boolean
 }
 
 // Since this icon exists within a touchable, make the hitslop bigger than usual
@@ -35,6 +38,7 @@ export function DappCardContent({
   dapp,
   onFavoriteDapp,
   favoritedFromSection,
+  disableFavorite,
 }: DappCardContentProps) {
   const dispatch = useDispatch()
   const favoriteDappIds = useSelector(favoriteDappIdsSelector)
@@ -68,24 +72,45 @@ export function DappCardContent({
         <Text style={styles.title}>{dapp.name}</Text>
         <Text style={styles.subtitle}>{dapp.description}</Text>
       </View>
-      <Touchable
-        onPress={onPressFavorite}
-        hitSlop={favoriteIconHitslop}
-        testID={`Dapp/Favorite/${dapp.id}`}
-      >
-        {isFavorited ? <Star /> : <StarOutline />}
-      </Touchable>
+      {disableFavorite ? (
+        isFavorited ? (
+          <Star />
+        ) : (
+          <></>
+        )
+      ) : (
+        <Touchable
+          onPress={onPressFavorite}
+          hitSlop={favoriteIconHitslop}
+          testID={`Dapp/Favorite/${dapp.id}`}
+        >
+          {isFavorited ? <Star /> : <StarOutline />}
+        </Touchable>
+      )}
     </View>
   )
 }
 
-function DappCard({ dapp, onPressDapp, onFavoriteDapp, testID }: Props) {
+function DappCard({
+  dapp,
+  onPressDapp,
+  onFavoriteDapp,
+  disableFavorite,
+  showBorder,
+  testID,
+}: Props) {
   return (
-    <Card testID={testID} style={styles.card} rounded={true} shadow={Shadow.SoftLight}>
+    <Card
+      testID={testID}
+      style={[styles.card, showBorder ? styles.borderStyle : {}]}
+      rounded={true}
+      shadow={null}
+    >
       <Touchable onPress={onPressDapp} borderRadius={8} testID={`Dapp/${dapp.id}`}>
         <DappCardContent
           dapp={dapp}
           onFavoriteDapp={onFavoriteDapp}
+          disableFavorite={disableFavorite}
           favoritedFromSection={DappSection.All}
         />
       </Touchable>
@@ -97,6 +122,10 @@ const styles = StyleSheet.create({
   itemTextContainer: {
     flex: 1,
     marginRight: Spacing.Regular16,
+  },
+  borderStyle: {
+    borderWidth: 1,
+    borderColor: Colors.gray2,
   },
   dappIcon: {
     width: 40,
