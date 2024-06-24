@@ -31,6 +31,8 @@ export const FeatureGates = {
   [StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES]: false,
   [StatsigFeatureGates.SHOW_CASH_IN_TOKEN_FILTERS]: false,
   [StatsigFeatureGates.SHOW_CAB_IN_ONBOARDING]: false,
+  [StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS]: false,
+  [StatsigFeatureGates.SHOW_ONBOARDING_PHONE_VERIFICATION]: true,
 } satisfies { [key in StatsigFeatureGates]: boolean }
 
 export const ExperimentConfigs = {
@@ -45,12 +47,6 @@ export const ExperimentConfigs = {
     experimentName: StatsigExperiments.SWAP_BUY_AMOUNT,
     defaultValues: {
       swapBuyAmountEnabled: true,
-    },
-  },
-  [StatsigExperiments.ONBOARDING_PHONE_VERIFICATION]: {
-    experimentName: StatsigExperiments.ONBOARDING_PHONE_VERIFICATION,
-    defaultValues: {
-      skipVerification: false,
     },
   },
   [StatsigExperiments.ONBOARDING_TERMS_AND_CONDITIONS]: {

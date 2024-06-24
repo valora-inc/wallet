@@ -112,7 +112,6 @@ describe('EarnEnterAmount', () => {
     )
     // Loading states
     expect(getByTestId('EarnEnterAmount/EarnApyAndAmount/Apy/Loading')).toBeTruthy()
-    expect(getByTestId('EarnEnterAmount/EarnApyAndAmount/EarnUpTo/Loading')).toBeTruthy()
   })
 
   it('should be able to tap info icon', async () => {

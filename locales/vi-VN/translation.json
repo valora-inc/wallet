@@ -826,6 +826,7 @@
     "createNewWallet": "Tạo ví mới",
     "restoreWallet": "Khôi phục ví",
     "hasWallet": "Tôi đã có ví",
+    "hasWalletV1_88": "I have a wallet",
     "header": "Chào mừng bạn đến với {{appName}}! Hãy tạo ví tiền điện tử của bạn.",
     "getStarted": "Bắt đầu",
     "agreeToTerms": "Khi tạo ví, bạn đồng ý với <0>Điều khoản và Điều kiện</0> của chúng tôi"
@@ -1769,6 +1770,24 @@
     "selectTokenLabel": "Chọn token",
     "tokenBottomSheetTitle": "Chọn token",
     "onNetwork": "trên {{networkName}}",
+    "crossChainNotification": "Swapping tokens between different networks",
+    "crossChainFeeWarning": {
+      "title": "You need more {{tokenSymbol}}",
+      "body": "You need more {{tokenSymbol}} on {{networkName}} to pay for cross-chain swap fees. Add {{tokenAmount}} more {{tokenSymbol}} to continue."
+    },
+    "insufficientBalanceWarning": {
+      "title": "You need more {{tokenSymbol}}",
+      "body": "Không đủ số dư {{tokenSymbol}}. Hãy thử số tiền nhỏ hơn hoặc chọn một tài sản khác."
+    },
+    "unsupportedTokensWarning": {
+      "title": "Incompatible Selection",
+      "body": "The tokens selected cannot be swapped between. Please choose another token that is compatible with your selection."
+    },
+    "decreaseSwapAmountForGasWarning": {
+      "title": "Bạn cần thêm {{feeTokenSymbol}} để trả phí gas",
+      "body": "Add {{feeTokenSymbol}} to cover your gas fees or adjust the amount you are swapping",
+      "cta": "Trao đổi số tiền nhỏ hơn"
+    },
     "switchedToNetworkWarning": {
       "title": "Bạn đã chuyển sang mạng {{networkName}}",
       "body_swapFrom": "Để tiếp tục, hãy chọn một token để trao đổi từ mạng {{networkName}}.",
@@ -2408,6 +2427,7 @@
       "earnUpToLabel": "Bạn có thể kiếm được đến:",
       "rateLabel": "Tỷ giá (ước tính)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / năm",
+      "earnUpToV1_87": "<0></0> / yr",
       "rate": "{{rate}}% APY",
       "continue": "Tiếp tục",
       "info": "Quỹ này do Aave cung cấp",

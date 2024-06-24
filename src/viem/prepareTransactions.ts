@@ -45,7 +45,7 @@ export interface PreparedTransactionsPossible {
   feeCurrency: TokenBalance
 }
 
-export interface PreparedTransactionsNeedDecreaseSpendAmountForGas {
+interface PreparedTransactionsNeedDecreaseSpendAmountForGas {
   type: 'need-decrease-spend-amount-for-gas'
   feeCurrency: TokenBalance
   maxGasFeeInDecimal: BigNumber
@@ -53,7 +53,7 @@ export interface PreparedTransactionsNeedDecreaseSpendAmountForGas {
   decreasedSpendAmount: BigNumber
 }
 
-export interface PreparedTransactionsNotEnoughBalanceForGas {
+interface PreparedTransactionsNotEnoughBalanceForGas {
   type: 'not-enough-balance-for-gas'
   feeCurrencies: TokenBalance[]
 }

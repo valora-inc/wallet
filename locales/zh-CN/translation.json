@@ -826,6 +826,7 @@
     "createNewWallet": "新建钱包",
     "restoreWallet": "恢复钱包",
     "hasWallet": "我已有钱包",
+    "hasWalletV1_88": "我有一个钱包",
     "header": "欢迎使用 {{appName}}！请创建您的加密货币钱包。",
     "getStarted": "开始使用",
     "agreeToTerms": "创建钱包即表示您同意我们的<0>条款和条件</0>"
@@ -1769,6 +1770,24 @@
     "selectTokenLabel": "选择代币",
     "tokenBottomSheetTitle": "选择代币",
     "onNetwork": "在 {{networkName}}",
+    "crossChainNotification": "在不同网络之间交换令牌",
+    "crossChainFeeWarning": {
+      "title": "您需要更多 {{tokenSymbol}}",
+      "body": "您需要在 {{networkName}} 上添加更多 {{tokenSymbol}} 来支付跨链交换费用。添加 {{tokenAmount}} 更多 {{tokenSymbol}} 才能继续。"
+    },
+    "insufficientBalanceWarning": {
+      "title": "您需要更多 {{tokenSymbol}}",
+      "body": "{{tokenSymbol}} 余额不足，请尝试使用较小的金额或选择其他资产。"
+    },
+    "unsupportedTokensWarning": {
+      "title": "不兼容的选择",
+      "body": "所选令牌不能互换。请选择与您的选择相匹配的其他令牌。"
+    },
+    "decreaseSwapAmountForGasWarning": {
+      "title": "您需要更多 {{feeTokenSymbol}} 来支付手续费",
+      "body": "添加 {{feeTokenSymbol}} 以支付汽油费或调整您的交换金额",
+      "cta": "交换较少金额"
+    },
     "switchedToNetworkWarning": {
       "title": "您已转至 {{networkName}} 网络",
       "body_swapFrom": "在 {{networkName}} 网络上选择用于交换的代币，然后继续。",
@@ -2408,6 +2427,7 @@
       "earnUpToLabel": "您最多可以赚取：",
       "rateLabel": "费率（估算）",
       "earnUpTo": "~{{fiatSymbol}}{{amount}}/年",
+      "earnUpToV1_87": "<0></0> / 年",
       "rate": "{{rate}}% APY",
       "continue": "继续",
       "info": "此池由 Aave 提供支持",

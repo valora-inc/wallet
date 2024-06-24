@@ -34,12 +34,13 @@ export enum StatsigFeatureGates {
   SUBSIDIZE_STABLECOIN_EARN_GAS_FEES = 'subsidize_stablecoin_earn_gas_fees',
   SHOW_CASH_IN_TOKEN_FILTERS = 'show_cash_in_token_filters',
   SHOW_CAB_IN_ONBOARDING = 'show_cab_in_onboarding',
+  ALLOW_CROSS_CHAIN_SWAPS = 'allow_cross_chain_swaps',
+  SHOW_ONBOARDING_PHONE_VERIFICATION = 'show_onboarding_phone_verification',
 }
 
 export enum StatsigExperiments {
   DAPP_RANKINGS = 'dapp_rankings',
   SWAP_BUY_AMOUNT = 'swap_buy_amount',
-  ONBOARDING_PHONE_VERIFICATION = 'onboarding_phone_verification',
   ONBOARDING_TERMS_AND_CONDITIONS = 'onboarding_terms_and_conditions',
 }
 

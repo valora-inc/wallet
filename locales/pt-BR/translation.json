@@ -826,6 +826,7 @@
     "createNewWallet": "Criar carteira",
     "restoreWallet": "Restaurar carteira",
     "hasWallet": "Já tenho uma carteira",
+    "hasWalletV1_88": "Eu tenho uma carteira",
     "header": "Nossas boas-vindas! Vamos criar a sua carteira cripto.",
     "getStarted": "Começar",
     "agreeToTerms": "Ao criar uma carteira, você concorda com nossos <0>Termos e condições</0>"
@@ -1771,6 +1772,24 @@
     "selectTokenLabel": "Selecionar token",
     "tokenBottomSheetTitle": "Selecionar token",
     "onNetwork": "na {{networkName}}",
+    "crossChainNotification": "Troca de tokens entre redes diferentes",
+    "crossChainFeeWarning": {
+      "title": "Você precisa de mais {{tokenSymbol}}",
+      "body": "Você precisa de mais {{tokenSymbol}} em {{networkName}} para pagar as taxas de troca entre cadeias. Você precisa de mais {{tokenAmount}} e {{tokenSymbol}} para continuar."
+    },
+    "insufficientBalanceWarning": {
+      "title": "Você precisa de mais {{tokenSymbol}}",
+      "body": "Saldo de {{tokenSymbol}} insuficiente. Insira um valor menor ou escolha um ativo diferente."
+    },
+    "unsupportedTokensWarning": {
+      "title": "Seleção incompatível",
+      "body": "Os tokens selecionados não podem ser trocados entre si. Escolha outro token que seja compatível com sua seleção."
+    },
+    "decreaseSwapAmountForGasWarning": {
+      "title": "Você precisa de mais {{feeTokenSymbol}} para o Gas",
+      "body": "Adicione {{feeTokenSymbol}} para cobrir suas taxas de gás ou ajuste o valor que você está trocando",
+      "cta": "Trocar uma quantia menor"
+    },
     "switchedToNetworkWarning": {
       "title": "Você mudou para a rede {{networkName}}",
       "body_swapFrom": "Selecione um token de origem para trocar na rede {{networkName}} para continuar.",
@@ -2410,6 +2429,7 @@
       "earnUpToLabel": "Você pode ganhar até:",
       "rateLabel": "Taxa (est.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}}/ano",
+      "earnUpToV1_87": "<0></0> / ano",
       "rate": "{{rate}}% de APY",
       "continue": "Continuar",
       "info": "Este pool é desenvolvido pela Aave",

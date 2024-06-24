@@ -22,7 +22,6 @@ import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomS
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { SWAP_LEARN_MORE } from 'src/config'
-import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import CircledIcon from 'src/icons/CircledIcon'
 import DownIndicator from 'src/icons/DownIndicator'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
@@ -31,14 +30,13 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getDynamicConfigParams, getExperimentParams } from 'src/statsig'
+import { getDynamicConfigParams, getExperimentParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs, ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs, StatsigExperiments } from 'src/statsig/types'
+import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import PreparedTransactionsReviewBottomSheet from 'src/swap/PreparedTransactionsReviewBottomSheet'
 import SwapAmountInput from 'src/swap/SwapAmountInput'
 import SwapTransactionDetails from 'src/swap/SwapTransactionDetails'
 import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsProperties'
@@ -47,8 +45,12 @@ import { swapStart } from 'src/swap/slice'
 import { Field, SwapAmount } from 'src/swap/types'
 import useFilterChips from 'src/swap/useFilterChips'
 import useSwapQuote, { NO_QUOTE_ERROR_MESSAGE, QuoteResult } from 'src/swap/useSwapQuote'
-import { useSwappableTokens, useTokenInfo, useTokensWithTokenBalance } from 'src/tokens/hooks'
-import { feeCurrenciesWithPositiveBalancesSelector, tokensByIdSelector } from 'src/tokens/selectors'
+import { useSwappableTokens, useTokenInfo } from 'src/tokens/hooks'
+import {
+  feeCurrenciesWithPositiveBalancesSelector,
+  tokensByIdSelector,
+  feeCurrenciesSelector,
+} from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSwap, getTokenId } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
@@ -57,6 +59,8 @@ import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import networkConfig from 'src/web3/networkConfig'
 import { v4 as uuidv4 } from 'uuid'
+import CrossChainIndicator from 'src/icons/CrossChainIndicator'
+import getCrossChainFee from 'src/swap/getCrossChainFee'
 
 const TAG = 'SwapScreen'
 
@@ -228,13 +232,12 @@ export function SwapScreen({ route }: Props) {
     [Field.FROM]: tokenBottomSheetFromRef,
     [Field.TO]: tokenBottomSheetToRef,
   }
-  const preparedTransactionsReviewBottomSheetRef = useRef<BottomSheetRefType>(null)
   const exchangeRateInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const networkFeeInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const appFeeInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const slippageInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const fundYourWalletBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const tokensWithBalance = useTokensWithTokenBalance()
+
+  const allowCrossChainSwaps = getFeatureGate(StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS)
 
   const { decimalSeparator } = getNumberFormatSettings()
 
@@ -326,13 +329,6 @@ export function SwapScreen({ route }: Props) {
 
   const confirmSwapIsLoading = swapStatus === 'started'
   const confirmSwapFailed = swapStatus === 'error'
-  const allowSwap = useMemo(
-    () =>
-      !confirmSwapIsLoading &&
-      !quoteUpdatePending &&
-      Object.values(parsedSwapAmount).every((amount) => amount.gt(0)),
-    [parsedSwapAmount, quoteUpdatePending, confirmSwapIsLoading]
-  )
 
   useEffect(() => {
     ValoraAnalytics.track(SwapEvents.swap_screen_open)
@@ -340,9 +336,7 @@ export function SwapScreen({ route }: Props) {
 
   useEffect(() => {
     if (fetchSwapQuoteError) {
-      if (fetchSwapQuoteError.message.includes(NO_QUOTE_ERROR_MESSAGE)) {
-        dispatch(showError(ErrorMessages.UNSUPPORTED_SWAP_TOKENS))
-      } else {
+      if (!fetchSwapQuoteError.message.includes(NO_QUOTE_ERROR_MESSAGE)) {
         dispatch(showError(ErrorMessages.FETCH_SWAP_QUOTE_FAILED))
       }
     }
@@ -390,17 +384,6 @@ export function SwapScreen({ route }: Props) {
 
     localDispatch(startConfirmSwap())
 
-    if (tokensWithBalance.length === 0) {
-      ValoraAnalytics.track(SwapEvents.swap_show_fund_your_wallet)
-      fundYourWalletBottomSheetRef.current?.snapToIndex(0)
-      return
-    }
-
-    if (parsedSwapAmount[Field.FROM].gt(fromTokenBalance)) {
-      dispatch(showError(t('swapScreen.insufficientFunds', { token: fromToken.symbol })))
-      return
-    }
-
     const userInput = {
       toTokenId: toToken.tokenId,
       fromTokenId: fromToken.tokenId,
@@ -412,13 +395,14 @@ export function SwapScreen({ route }: Props) {
     }
 
     const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
-    const { estimatedPriceImpact, price, appFeePercentageIncludedInPrice, allowanceTarget } = quote
+    const { estimatedPriceImpact, price, allowanceTarget, appFeePercentageIncludedInPrice } = quote
 
     const resultType = quote.preparedTransactions.type
     switch (resultType) {
       case 'need-decrease-spend-amount-for-gas': // fallthrough on purpose
       case 'not-enough-balance-for-gas':
-        preparedTransactionsReviewBottomSheetRef.current?.snapToIndex(0)
+        // This should never actually happen, since the user should not be able
+        // to confirm the swap in this case.
         break
       case 'possible':
         ValoraAnalytics.track(SwapEvents.swap_review_submit, {
@@ -456,7 +440,7 @@ export function SwapScreen({ route }: Props) {
               ),
               receivedAt: quote.receivedAt,
               price: quote.price,
-              appFeePercentageIncludedInPrice: quote.appFeePercentageIncludedInPrice,
+              appFeePercentageIncludedInPrice,
               provider: quote.provider,
               estimatedPriceImpact,
               allowanceTarget,
@@ -517,7 +501,9 @@ export function SwapScreen({ route }: Props) {
     } else if (selectingField === Field.FROM) {
       newFromToken = selectedToken
       newSwitchedToNetworkId =
-        toToken && toToken.networkId !== newFromToken.networkId ? newFromToken.networkId : null
+        toToken && toToken.networkId !== newFromToken.networkId && !allowCrossChainSwaps
+          ? newFromToken.networkId
+          : null
       if (newSwitchedToNetworkId) {
         // reset the toToken if the user is switching networks
         newToToken = undefined
@@ -525,7 +511,9 @@ export function SwapScreen({ route }: Props) {
     } else if (selectingField === Field.TO) {
       newToToken = selectedToken
       newSwitchedToNetworkId =
-        fromToken && fromToken.networkId !== newToToken.networkId ? newToToken.networkId : null
+        fromToken && fromToken.networkId !== newToToken.networkId && !allowCrossChainSwaps
+          ? newToToken.networkId
+          : null
       if (newSwitchedToNetworkId) {
         // reset the fromToken if the user is switching networks
         newFromToken = undefined
@@ -552,7 +540,7 @@ export function SwapScreen({ route }: Props) {
       selectTokens({
         fromTokenId: newFromToken?.tokenId,
         toTokenId: newToToken?.tokenId,
-        switchedToNetworkId: newSwitchedToNetworkId,
+        switchedToNetworkId: allowCrossChainSwaps ? null : newSwitchedToNetworkId,
       })
     )
 
@@ -621,30 +609,89 @@ export function SwapScreen({ route }: Props) {
     navigate(Screens.WebViewScreen, { uri: TRANSACTION_FEES_LEARN_MORE })
   }
 
-  const showSwitchedToNetworkWarning = !!switchedToNetworkId
   const switchedToNetworkName = switchedToNetworkId && NETWORK_NAMES[switchedToNetworkId]
-  const showMaxSwapAmountWarning =
-    !confirmSwapFailed && !showSwitchedToNetworkWarning && shouldShowMaxSwapAmountWarning
-  const showNoUsdPriceWarning =
-    !confirmSwapFailed && !quoteUpdatePending && toToken && !toToken.priceUsd
-  const showPriceImpactWarning =
-    !confirmSwapFailed &&
-    !quoteUpdatePending &&
-    !showNoUsdPriceWarning &&
-    (quote?.estimatedPriceImpact
-      ? new BigNumber(quote.estimatedPriceImpact).gte(priceImpactWarningThreshold)
-      : false)
-  const showMissingPriceImpactWarning =
-    !confirmSwapFailed &&
-    !quoteUpdatePending &&
-    !showPriceImpactWarning &&
-    !showNoUsdPriceWarning &&
-    quote &&
-    !quote.estimatedPriceImpact
 
+  const showCrossChainSwapNotification =
+    toToken && fromToken && toToken.networkId !== fromToken.networkId && allowCrossChainSwaps
+
+  const crossChainFeeCurrency = useSelector((state) =>
+    feeCurrenciesSelector(state, fromToken?.networkId || networkConfig.defaultNetworkId)
+  ).find((token) => token.isNative)
+  const crossChainFeeInfo = getCrossChainFee(quote, crossChainFeeCurrency)
+
+  const getWarningStatuses = () => {
+    // NOTE: If a new condition is added here, make sure to update `allowSwap` below if
+    // the condition should prevent the user from swapping.
+    const checks = {
+      showSwitchedToNetworkWarning: !!switchedToNetworkId,
+      showUnsupportedTokensWarning: fetchSwapQuoteError?.message.includes(NO_QUOTE_ERROR_MESSAGE),
+      showInsufficientBalanceWarning: parsedSwapAmount[Field.FROM].gt(fromTokenBalance),
+      showCrossChainFeeWarning: crossChainFeeInfo?.nativeTokenBalanceDeficit.lt(0),
+      showDecreaseSpendForGasWarning:
+        quote?.preparedTransactions.type === 'need-decrease-spend-amount-for-gas',
+      showNotEnoughBalanceForGasWarning:
+        quote?.preparedTransactions.type === 'not-enough-balance-for-gas',
+      showMaxSwapAmountWarning: shouldShowMaxSwapAmountWarning && !confirmSwapFailed,
+      showNoUsdPriceWarning:
+        !confirmSwapFailed && !quoteUpdatePending && toToken && !toToken.priceUsd,
+      showPriceImpactWarning:
+        !confirmSwapFailed &&
+        !quoteUpdatePending &&
+        (quote?.estimatedPriceImpact
+          ? new BigNumber(quote.estimatedPriceImpact).gte(priceImpactWarningThreshold)
+          : false),
+      showMissingPriceImpactWarning: quote && !quote.estimatedPriceImpact,
+    }
+
+    // Only ever show a single warning, according to precedence as above.
+    // Warnings that prevent the user from confirming the swap should
+    // take higher priority over others.
+    return Object.entries(checks).reduce(
+      (acc, [name, status]) => {
+        acc[name] = Object.values(acc).some(Boolean) ? false : !!status
+        return acc
+      },
+      {} as Record<string, boolean>
+    )
+  }
+
+  const {
+    showCrossChainFeeWarning,
+    showDecreaseSpendForGasWarning,
+    showNotEnoughBalanceForGasWarning,
+    showInsufficientBalanceWarning,
+    showSwitchedToNetworkWarning,
+    showMaxSwapAmountWarning,
+    showNoUsdPriceWarning,
+    showPriceImpactWarning,
+    showUnsupportedTokensWarning,
+    showMissingPriceImpactWarning,
+  } = getWarningStatuses()
+
+  const allowSwap = useMemo(
+    () =>
+      !showDecreaseSpendForGasWarning &&
+      !showNotEnoughBalanceForGasWarning &&
+      !showInsufficientBalanceWarning &&
+      !showCrossChainFeeWarning &&
+      !confirmSwapIsLoading &&
+      !quoteUpdatePending &&
+      Object.values(parsedSwapAmount).every((amount) => amount.gt(0)),
+    [
+      parsedSwapAmount,
+      quoteUpdatePending,
+      confirmSwapIsLoading,
+      showInsufficientBalanceWarning,
+      showDecreaseSpendForGasWarning,
+      showNotEnoughBalanceForGasWarning,
+      showCrossChainFeeWarning,
+    ]
+  )
   const { feeTokenId, maxNetworkFee, estimatedNetworkFee } = useMemo(() => {
     return getNetworkFee(quote, fromToken?.networkId)
   }, [fromToken, quote])
+
+  const feeToken = tokensById[feeTokenId]
 
   const appFee = useMemo(() => {
     if (!quote || !fromToken) {
@@ -690,6 +737,11 @@ export function SwapScreen({ route }: Props) {
       })
     }
   }, [showPriceImpactWarning || showMissingPriceImpactWarning])
+
+  const feeCurrencies =
+    quote && quote.preparedTransactions.type === 'not-enough-balance-for-gas'
+      ? quote.preparedTransactions.feeCurrencies.map((feeCurrency) => feeCurrency.symbol).join(', ')
+      : ''
 
   const tokenBottomSheetsConfig = [
     {
@@ -759,6 +811,14 @@ export function SwapScreen({ route }: Props) {
             borderRadius={Spacing.Regular16}
           />
 
+          {showCrossChainSwapNotification && (
+            <View style={styles.crossChainNotificationWrapper}>
+              <CrossChainIndicator />
+              <Text style={styles.crossChainNotification}>
+                {t('swapScreen.crossChainNotification')}
+              </Text>
+            </View>
+          )}
           <SwapTransactionDetails
             maxNetworkFee={maxNetworkFee}
             estimatedNetworkFee={estimatedNetworkFee}
@@ -775,6 +835,79 @@ export function SwapScreen({ route }: Props) {
             appFee={appFee}
             appFeeInfoBottomSheetRef={appFeeInfoBottomSheetRef}
           />
+          {showCrossChainFeeWarning && (
+            <InLineNotification
+              variant={NotificationVariant.Warning}
+              title={t('swapScreen.crossChainFeeWarning.title', {
+                tokenSymbol: crossChainFeeCurrency?.symbol,
+              })}
+              description={t('swapScreen.crossChainFeeWarning.body', {
+                networkName:
+                  NETWORK_NAMES[crossChainFeeCurrency?.networkId || networkConfig.defaultNetworkId],
+                tokenSymbol: crossChainFeeCurrency?.symbol,
+                tokenAmount: crossChainFeeInfo?.nativeTokenBalanceDeficit.abs().toFormat(),
+              })}
+              style={styles.warning}
+            />
+          )}
+          {showDecreaseSpendForGasWarning && (
+            <InLineNotification
+              variant={NotificationVariant.Warning}
+              title={t('swapScreen.decreaseSwapAmountForGasWarning.title', {
+                feeTokenSymbol: feeToken?.symbol,
+              })}
+              description={t('swapScreen.decreaseSwapAmountForGasWarning.body', {
+                feeTokenSymbol: feeToken?.symbol,
+              })}
+              onPressCta={() => {
+                if (
+                  !quote ||
+                  quote.preparedTransactions.type !== 'need-decrease-spend-amount-for-gas'
+                )
+                  return
+                handleChangeAmount(updatedField)(
+                  // ensure units are for the asset whose amount is being selected by the user
+                  (updatedField === Field.FROM
+                    ? quote.preparedTransactions.decreasedSpendAmount
+                    : quote.preparedTransactions.decreasedSpendAmount.times(quote.price)
+                  ).toString()
+                )
+              }}
+              ctaLabel={t('swapScreen.decreaseSwapAmountForGasWarning.cta')}
+              style={styles.warning}
+            />
+          )}
+          {showNotEnoughBalanceForGasWarning && (
+            <InLineNotification
+              variant={NotificationVariant.Warning}
+              title={t('swapScreen.notEnoughBalanceForGas.title')}
+              description={t('swapScreen.notEnoughBalanceForGas.description', {
+                feeCurrencies,
+              })}
+              style={styles.warning}
+              onPressCta={onPressLearnMoreFees}
+            />
+          )}
+          {showInsufficientBalanceWarning && (
+            <InLineNotification
+              variant={NotificationVariant.Warning}
+              title={t('swapScreen.insufficientBalanceWarning.title', {
+                tokenSymbol: fromToken?.symbol,
+              })}
+              description={t('swapScreen.insufficientBalanceWarning.body', {
+                tokenSymbol: fromToken?.symbol,
+              })}
+              style={styles.warning}
+            />
+          )}
+          {showUnsupportedTokensWarning && (
+            <InLineNotification
+              variant={NotificationVariant.Info}
+              title={t('swapScreen.unsupportedTokensWarning.title')}
+              description={t('swapScreen.unsupportedTokensWarning.body')}
+              style={styles.warning}
+            />
+          )}
           {showSwitchedToNetworkWarning && (
             <InLineNotification
               variant={NotificationVariant.Info}
@@ -869,22 +1002,6 @@ export function SwapScreen({ route }: Props) {
           areSwapTokensShuffled={areSwapTokensShuffled}
         />
       ))}
-      {quote?.preparedTransactions && (
-        <PreparedTransactionsReviewBottomSheet
-          forwardedRef={preparedTransactionsReviewBottomSheetRef}
-          preparedTransactions={quote.preparedTransactions}
-          onAcceptDecreaseSwapAmountForGas={({ decreasedSpendAmount }) => {
-            handleChangeAmount(updatedField)(
-              // ensure units are for the asset whose amount is being selected by the user
-              (updatedField === Field.FROM
-                ? decreasedSpendAmount
-                : decreasedSpendAmount.times(quote.price)
-              ).toString()
-            )
-            preparedTransactionsReviewBottomSheetRef.current?.close()
-          }}
-        />
-      )}
       <BottomSheet
         forwardedRef={exchangeRateInfoBottomSheetRef}
         description={t('swapScreen.transactionDetails.exchangeRateInfo', {
@@ -976,24 +1093,6 @@ export function SwapScreen({ route }: Props) {
         onPressCta={handleDismissSelectTokenNoUsdPrice}
         onDismiss={handleDismissSelectTokenNoUsdPrice}
       />
-      <BottomSheet
-        forwardedRef={fundYourWalletBottomSheetRef}
-        title={t('swapScreen.fundYourWalletBottomSheet.title')}
-        titleStyle={styles.bottomSheetTitle}
-        description={t('swapScreen.fundYourWalletBottomSheet.description')}
-        testId="FundYourWalletBottomSheet"
-      >
-        <Button
-          type={BtnTypes.PRIMARY}
-          size={BtnSizes.FULL}
-          style={styles.bottomSheetButton}
-          onPress={() => {
-            ValoraAnalytics.track(SwapEvents.swap_add_funds)
-            navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
-          }}
-          text={t('swapScreen.fundYourWalletBottomSheet.addFundsButton')}
-        />
-      </BottomSheet>
     </SafeAreaView>
   )
 }
@@ -1033,10 +1132,6 @@ const styles = StyleSheet.create({
   bottomSheetButton: {
     marginTop: Spacing.Thick24,
   },
-  bottomSheetTitle: {
-    ...typeScale.titleSmall,
-    marginTop: -Spacing.Regular16,
-  },
   switchTokens: {
     position: 'absolute',
     top: -20,
@@ -1046,6 +1141,17 @@ const styles = StyleSheet.create({
   switchTokensContainer: {
     zIndex: 1,
     alignItems: 'center',
+  },
+  crossChainNotificationWrapper: {
+    alignSelf: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingBottom: Spacing.Thick24,
+  },
+  crossChainNotification: {
+    ...typeScale.labelXXSmall,
+    paddingLeft: Spacing.Tiny4,
+    color: colors.gray4,
   },
 })
 

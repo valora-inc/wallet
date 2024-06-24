@@ -826,6 +826,7 @@
     "createNewWallet": "Crear wallet",
     "restoreWallet": "Restaurar wallet",
     "hasWallet": "Ya tengo una wallet",
+    "hasWalletV1_88": "Tengo una cartera",
     "header": "¡Te damos la bienvenida a {{appName}}! Demos el primer paso, creemos tu wallet.",
     "getStarted": "Primeros pasos",
     "agreeToTerms": "Al crear una wallet aceptas nuestros <0>Términos y condiciones</0>."
@@ -1771,6 +1772,24 @@
     "selectTokenLabel": "Selecciona un token",
     "tokenBottomSheetTitle": "Seleccionar token",
     "onNetwork": "en {{networkName}}",
+    "crossChainNotification": "Intercambiar fichas entre diferentes redes",
+    "crossChainFeeWarning": {
+      "title": "Necesitas más {{tokenSymbol}}",
+      "body": "Necesitas más {{tokenSymbol}} en {{networkName}} para pagar las tasas de intercambio de cadenas cruzadas. Añade {{tokenAmount}} más {{tokenSymbol}} para continuar."
+    },
+    "insufficientBalanceWarning": {
+      "title": "Necesitas más {{tokenSymbol}}",
+      "body": "Saldo en {{tokenSymbol}} insuficiente. Ingresa un monto menor o elige otro activo."
+    },
+    "unsupportedTokensWarning": {
+      "title": "Selección incompatible",
+      "body": "Las fichas seleccionadas no pueden intercambiarse entre sí. Por favor, elige otra ficha que sea compatible con tu selección."
+    },
+    "decreaseSwapAmountForGasWarning": {
+      "title": "Necesitas más {{feeTokenSymbol}} para cubrir las tarifas",
+      "body": "Añade {{feeTokenSymbol}} para cubrir los gastos de gasolina o ajusta la cantidad que estás intercambiando",
+      "cta": "Intercambiar monto menor"
+    },
     "switchedToNetworkWarning": {
       "title": "Has cambiado a la red {{networkName}}",
       "body_swapFrom": "Selecciona un token para intercambiar desde la red {{networkName}} para continuar.",
@@ -2410,6 +2429,7 @@
       "earnUpToLabel": "Podrías ganar hasta:",
       "rateLabel": "Tasa (est.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}}/año",
+      "earnUpToV1_87": "<0></0> / año",
       "rate": "APY ~{{rate}}%",
       "continue": "Continuar",
       "info": "Esta pool es administrada por Aave",

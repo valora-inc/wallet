@@ -77,7 +77,6 @@ import Language from 'src/language/Language'
 import SelectLocalCurrency from 'src/localCurrency/SelectLocalCurrency'
 import {
   emptyHeader,
-  headerTransparentWithBack,
   headerWithBackButton,
   noHeader,
   nuxNavigationOptions,
@@ -570,7 +569,11 @@ const nftScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.NftsInfoCarousel}
       component={NftsInfoCarousel}
-      options={headerTransparentWithBack}
+      options={{
+        ...headerWithBackButton,
+        animation: 'slide_from_right',
+        animationDuration: 130,
+      }}
     />
   </>
 )

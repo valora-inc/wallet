@@ -826,6 +826,7 @@
     "createNewWallet": "Create new wallet",
     "restoreWallet": "Restore wallet",
     "hasWallet": "I already have a wallet",
+    "hasWalletV1_88": "I have a wallet",
     "header": "Welcome to {{appName}}! Let's create your crypto wallet.",
     "getStarted": "Get Started",
     "agreeToTerms": "By creating a wallet you agree to our <0>Terms and Conditions</0>"
@@ -1776,6 +1777,24 @@
     "selectTokenLabel": "Select token",
     "tokenBottomSheetTitle": "Select Token",
     "onNetwork": "on {{networkName}}",
+    "crossChainNotification": "Swapping tokens between different networks",
+    "crossChainFeeWarning": {
+      "title": "You need more {{tokenSymbol}}",
+      "body": "You need more {{tokenSymbol}} on {{networkName}} to pay for cross-chain swap fees. Add {{tokenAmount}} more {{tokenSymbol}} to continue."
+    },
+    "insufficientBalanceWarning": {
+      "title": "You need more {{tokenSymbol}}",
+      "body": "Insufficient {{tokenSymbol}} balance. Try a smaller amount or choose a different asset."
+    },
+    "unsupportedTokensWarning": {
+      "title": "Incompatible Selection",
+      "body": "The tokens selected cannot be swapped between. Please choose another token that is compatible with your selection."
+    },
+    "decreaseSwapAmountForGasWarning": {
+      "title": "You need more {{feeTokenSymbol}} for gas",
+      "body": "Add {{feeTokenSymbol}} to cover your gas fees or adjust the amount you are swapping",
+      "cta": "Swap smaller amount"
+    },
     "switchedToNetworkWarning": {
       "title": "You switched to the {{networkName}} network",
       "body_swapFrom": "Select a token to swap from on the {{networkName}} network to continue.",
@@ -2415,6 +2434,7 @@
       "earnUpToLabel": "You could earn up to:",
       "rateLabel": "Rate (est.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / yr",
+      "earnUpToV1_87": "<0></0> / yr",
       "rate": "{{rate}}% APY",
       "continue": "Continue",
       "info": "This pool is powered by Aave",

@@ -150,7 +150,6 @@ describe('onboarding steps', () => {
           firstScreenInCurrentStep: Screens.EnableBiometry,
           onboardingProps: {
             ...onboardingProps,
-            skipVerification: false,
             choseToRestoreAccount: false,
           },
         })
@@ -196,7 +195,10 @@ describe('onboarding steps', () => {
       it('should navigate to the CYA screen if skipVerification is true', () => {
         goToNextOnboardingScreen({
           firstScreenInCurrentStep: Screens.ImportWallet,
-          onboardingProps: { ...onboardingProps },
+          onboardingProps: {
+            ...onboardingProps,
+            skipVerification: true,
+          },
         })
         expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
         expect(mockStore.dispatch).toHaveBeenCalledWith(
@@ -208,7 +210,6 @@ describe('onboarding steps', () => {
           firstScreenInCurrentStep: Screens.ImportWallet,
           onboardingProps: {
             ...onboardingProps,
-            skipVerification: false,
             numberAlreadyVerifiedCentrally: true,
           },
         })
@@ -222,7 +223,6 @@ describe('onboarding steps', () => {
           firstScreenInCurrentStep: Screens.ImportWallet,
           onboardingProps: {
             ...onboardingProps,
-            skipVerification: false,
           },
         })
         expect(mockStore.dispatch).not.toHaveBeenCalled()
@@ -233,7 +233,10 @@ describe('onboarding steps', () => {
       it('should navigate to the CYA screen if skipVerification is true', () => {
         goToNextOnboardingScreen({
           firstScreenInCurrentStep: Screens.ImportSelect,
-          onboardingProps: { ...onboardingProps },
+          onboardingProps: {
+            ...onboardingProps,
+            skipVerification: true,
+          },
         })
         expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
         expect(mockStore.dispatch).toHaveBeenCalledWith(
@@ -245,7 +248,6 @@ describe('onboarding steps', () => {
           firstScreenInCurrentStep: Screens.ImportSelect,
           onboardingProps: {
             ...onboardingProps,
-            skipVerification: false,
             numberAlreadyVerifiedCentrally: true,
           },
         })
@@ -259,7 +261,6 @@ describe('onboarding steps', () => {
           firstScreenInCurrentStep: Screens.ImportSelect,
           onboardingProps: {
             ...onboardingProps,
-            skipVerification: false,
           },
         })
         expect(mockStore.dispatch).not.toHaveBeenCalled()
@@ -284,7 +285,10 @@ describe('onboarding steps', () => {
       it('should navigate to the CYA screen if skipVerification is true', () => {
         goToNextOnboardingScreen({
           firstScreenInCurrentStep: Screens.ProtectWallet,
-          onboardingProps,
+          onboardingProps: {
+            ...onboardingProps,
+            skipVerification: true,
+          },
         })
         expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
         expect(mockStore.dispatch).toHaveBeenCalledWith(
@@ -296,7 +300,6 @@ describe('onboarding steps', () => {
           firstScreenInCurrentStep: Screens.ProtectWallet,
           onboardingProps: {
             ...onboardingProps,
-            skipVerification: false,
             choseToRestoreAccount: false,
           },
         })
