@@ -24,6 +24,9 @@ export default NewAccountPhoneVerification = () => {
     await launchApp({
       delete: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
+      launchArgs: {
+        statsigGateOverrides: `show_onboarding_phone_verification=true`,
+      },
     })
 
     // Create new account
