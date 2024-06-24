@@ -3128,6 +3128,7 @@
                 "ConsumerIncentivesHomeScreen",
                 "DappKitAccountScreen",
                 "DappKitSignTxScreen",
+                "DappScreen",
                 "DappShortcutTransactionRequest",
                 "DappShortcutsRewards",
                 "Debug",
