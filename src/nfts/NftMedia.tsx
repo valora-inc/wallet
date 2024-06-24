@@ -141,7 +141,7 @@ export default function NftMedia({
             style={{
               height: Platform.OS === 'android' ? scaledHeight : height,
               width: variables.width,
-              zIndex: 1, // Make sure the video player is in front of the loading skeleton'
+              zIndex: 1, // Make sure the video player is in front of the loading skeleton
               marginTop: 0,
             }}
             onLoad={({ naturalSize }) => {
