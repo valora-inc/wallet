@@ -564,6 +564,9 @@ PODS:
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - react-native-video/Video (= 6.1.2)
+  - react-native-video/Video (6.1.2):
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core
   - react-native-webview (13.8.6):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
@@ -1271,6 +1274,6 @@ SPEC CHECKSUMS:
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   Yoga: fb40589bb1a96e2573358586fc2903b3811ce254
 
-PODFILE CHECKSUM: 81b64061bfc811164c7f86731fc3327e217c8ce4
+PODFILE CHECKSUM: b2bc3d3413b41af3eb01acd7ffcf28a91b7e0bfb
 
 COCOAPODS: 1.15.2
