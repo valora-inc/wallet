@@ -16,7 +16,7 @@ describe('Discover tab', () => {
     await scrollIntoView('Explore All', 'DappsExplorerScrollView')
     await element(by.text('Explore All')).tap()
 
-    await waitFor(element(by.id(`DappScreen/DappsList`)))
+    await waitFor(element(by.id(`DappsScreen/DappsList`)))
   })
 
   describe('Dapp List Display', DappListDisplay)

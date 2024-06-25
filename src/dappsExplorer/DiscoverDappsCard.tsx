@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { RefreshControl, SectionList, SectionListProps, StyleSheet, Text, View } from 'react-native'
-import Animated from 'react-native-reanimated'
+import { RefreshControl, SectionList, StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -22,9 +21,6 @@ import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import TextButton from 'src/components/TextButton'
 import { navigate } from 'src/navigator/NavigationService'
-
-const AnimatedSectionList =
-  Animated.createAnimatedComponent<SectionListProps<Dapp, SectionData>>(SectionList)
 
 interface SectionData {
   data: Dapp[]
@@ -94,14 +90,14 @@ function DiscoverDappsCard() {
 
   const onPressExploreAll = () => {
     ValoraAnalytics.track(DappExplorerEvents.dapp_explore_all)
-    navigate(Screens.DappScreen)
+    navigate(Screens.DappsScreen)
   }
 
   if (!sections.length) return null
 
   return (
-    <View testID="DiscoverDappsCard" style={styles.safeAreaContainer}>
-      <AnimatedSectionList
+    <View testID="DiscoverDappsCard" style={styles.container}>
+      <SectionList
         refreshControl={
           <RefreshControl
             tintColor={Colors.primary}
@@ -111,8 +107,6 @@ function DiscoverDappsCard() {
             onRefresh={() => dispatch(fetchDappsList())}
           />
         }
-        // TODO: resolve type error
-        // @ts-expect-error
         ref={sectionListRef}
         scrollEnabled={false}
         ListHeaderComponent={<Text style={styles.title}>{t('dappsScreen.exploreDapps')}</Text>}
@@ -128,12 +122,14 @@ function DiscoverDappsCard() {
         sections={sections}
         renderItem={({ item: dapp, index, section }) => {
           return (
-            <DappCard
-              dapp={dapp}
-              onPressDapp={() => onPressDapp({ ...dapp, openedFrom: section.dappSection }, index)}
-              disableFavorite={true}
-              testID={`${section.testID}/DappCard`}
-            />
+            <View style={styles.cardContainer}>
+              <DappCard
+                dapp={dapp}
+                onPressDapp={() => onPressDapp({ ...dapp, openedFrom: section.dappSection }, index)}
+                disableFavoriting={true}
+                testID={`${section.testID}/DappCard`}
+              />
+            </View>
           )
         }}
         renderSectionHeader={({ section: { sectionName, testID } }) => {
@@ -155,7 +151,7 @@ function DiscoverDappsCard() {
 }
 
 const styles = StyleSheet.create({
-  safeAreaContainer: {
+  container: {
     padding: Spacing.Regular16,
     paddingBottom: 0,
     gap: Spacing.Smallest8,
@@ -164,7 +160,7 @@ const styles = StyleSheet.create({
     borderRadius: Spacing.Smallest8,
   },
   sectionListContentContainer: {
-    padding: Spacing.Regular16,
+    paddingTop: Spacing.Regular16,
     flexGrow: 1,
   },
   refreshControl: {
@@ -173,6 +169,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     ...fontStyles.label,
     paddingTop: Spacing.Small12,
+    paddingLeft: Spacing.Regular16,
     color: Colors.gray4,
   },
   listFooterComponent: {
@@ -189,6 +186,10 @@ const styles = StyleSheet.create({
     ...typeScale.titleMedium,
     color: Colors.black,
     marginBottom: Spacing.Large32,
+    paddingLeft: Spacing.Regular16,
+  },
+  cardContainer: {
+    paddingLeft: Spacing.Smallest8,
   },
 })
 

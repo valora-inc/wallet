@@ -19,14 +19,15 @@ interface DappCardContentProps {
   dapp: Dapp
   onFavoriteDapp?: (dapp: Dapp) => void
   favoritedFromSection: DappSection
-  disableFavorite?: boolean
+  disableFavoriting?: boolean
+  showBorder?: boolean
 }
 
 interface Props {
   onPressDapp: () => void
   dapp: Dapp
   testID: string
-  disableFavorite?: boolean
+  disableFavoriting?: boolean
   onFavoriteDapp?: (dapp: Dapp) => void
   showBorder?: boolean
 }
@@ -38,7 +39,8 @@ export function DappCardContent({
   dapp,
   onFavoriteDapp,
   favoritedFromSection,
-  disableFavorite,
+  disableFavoriting,
+  showBorder,
 }: DappCardContentProps) {
   const dispatch = useDispatch()
   const favoriteDappIds = useSelector(favoriteDappIdsSelector)
@@ -64,29 +66,28 @@ export function DappCardContent({
 
     vibrateSuccess()
   }
-
   return (
-    <View style={styles.pressableCard}>
+    <View
+      style={[
+        styles.pressableCard,
+        {
+          paddingHorizontal: showBorder ? Spacing.Regular16 : Spacing.Smallest8,
+        },
+      ]}
+    >
       <Image source={{ uri: dapp.iconUrl }} style={styles.dappIcon} />
       <View style={styles.itemTextContainer}>
         <Text style={styles.title}>{dapp.name}</Text>
         <Text style={styles.subtitle}>{dapp.description}</Text>
       </View>
-      {disableFavorite ? (
-        isFavorited ? (
-          <Star />
-        ) : (
-          <></>
-        )
-      ) : (
-        <Touchable
-          onPress={onPressFavorite}
-          hitSlop={favoriteIconHitslop}
-          testID={`Dapp/Favorite/${dapp.id}`}
-        >
-          {isFavorited ? <Star /> : <StarOutline />}
-        </Touchable>
-      )}
+      <Touchable
+        disabled={disableFavoriting}
+        onPress={onPressFavorite}
+        hitSlop={favoriteIconHitslop}
+        testID={`Dapp/Favorite/${dapp.id}`}
+      >
+        {isFavorited ? <Star /> : !disableFavoriting ? <StarOutline /> : <></>}
+      </Touchable>
     </View>
   )
 }
@@ -95,7 +96,7 @@ function DappCard({
   dapp,
   onPressDapp,
   onFavoriteDapp,
-  disableFavorite,
+  disableFavoriting,
   showBorder,
   testID,
 }: Props) {
@@ -110,8 +111,9 @@ function DappCard({
         <DappCardContent
           dapp={dapp}
           onFavoriteDapp={onFavoriteDapp}
-          disableFavorite={disableFavorite}
+          disableFavoriting={disableFavoriting}
           favoritedFromSection={DappSection.All}
+          showBorder={showBorder}
         />
       </Touchable>
     </Card>
@@ -137,7 +139,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     flex: 1,
-    padding: Spacing.Regular16,
+    paddingVertical: Spacing.Regular16,
   },
   card: {
     marginTop: Spacing.Regular16,

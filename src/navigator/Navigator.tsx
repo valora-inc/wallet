@@ -123,7 +123,7 @@ import VerificationStartScreen from 'src/verify/VerificationStartScreen'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
 import WalletConnectRequest from 'src/walletConnect/screens/WalletConnectRequest'
 import WebViewScreen from 'src/webview/WebViewScreen'
-import DappScreen from 'src/dapps/DappScreen'
+import DappsScreen from 'src/dapps/DappsScreen'
 
 const TAG = 'Navigator'
 
@@ -290,8 +290,8 @@ const consumerIncentivesScreens = (Navigator: typeof Stack) => (
       options={headerWithBackButton}
     />
     <Navigator.Screen
-      name={Screens.DappScreen}
-      component={DappScreen}
+      name={Screens.DappsScreen}
+      component={DappsScreen}
       options={headerWithBackButton}
     />
   </>

@@ -132,9 +132,6 @@ describe('TabDiscover', () => {
     expect(mostPopularSectionResults[4]).toHaveTextContent(dappsList[4].description)
 
     expect(queryByTestId('DiscoverDappsCard/FavoritesSection/Title')).toBeFalsy()
-
-    // Pressable favorite button should not be present
-    expect(queryByTestId('Dapp/Favorite/dapp1')).toBeFalsy()
   })
 
   it('renders correctly when there are <=2 favorite dapps', () => {
@@ -329,7 +326,7 @@ describe('TabDiscover', () => {
     fireEvent.press(getByText('dappsScreen.exploreAll'))
 
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_explore_all)
-    expect(navigate).toHaveBeenCalledWith(Screens.DappScreen)
+    expect(navigate).toHaveBeenCalledWith(Screens.DappsScreen)
   })
 
   describe('earn', () => {
