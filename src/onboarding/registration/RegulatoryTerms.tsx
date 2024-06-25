@@ -17,9 +17,9 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { firstOnboardingScreen } from 'src/onboarding/steps'
 import { RootState } from 'src/redux/reducers'
-import { getExperimentParams } from 'src/statsig'
+import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments } from 'src/statsig/types'
+import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -77,6 +77,7 @@ export class RegulatoryTerms extends React.Component<Props> {
 
   renderTerms() {
     const { t } = this.props
+    const pointsEnabled = getFeatureGate(StatsigFeatureGates.SHOW_POINTS)
 
     return (
       <ScrollView
@@ -98,7 +99,9 @@ export class RegulatoryTerms extends React.Component<Props> {
           </Trans>
         </Text>
         <Text style={styles.header}>{t('terms.heading2')}</Text>
-        <Text style={styles.disclaimer}>{t('terms.goldDisclaimer')}</Text>
+        <Text style={styles.disclaimer}>
+          {pointsEnabled ? t('terms.goldDisclaimerWithPoints') : t('terms.goldDisclaimer')}
+        </Text>
       </ScrollView>
     )
   }
