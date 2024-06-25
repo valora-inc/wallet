@@ -12,9 +12,8 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { updateStatsigAndNavigate } from 'src/onboarding/actions'
 import { store } from 'src/redux/store'
-import { getExperimentParams, getFeatureGate } from 'src/statsig'
-import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 
 export const END_OF_ONBOARDING_SCREENS = [Screens.TabHome, Screens.ChooseYourAdventure]
 
@@ -82,9 +81,7 @@ export const onboardingPropsSelector = createSelector(
       StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE
     )
 
-    const { skipVerification } = getExperimentParams(
-      ExperimentConfigs[StatsigExperiments.ONBOARDING_PHONE_VERIFICATION]
-    )
+    const skipVerification = !getFeatureGate(StatsigFeatureGates.SHOW_ONBOARDING_PHONE_VERIFICATION)
 
     return {
       recoveringFromStoreWipe,

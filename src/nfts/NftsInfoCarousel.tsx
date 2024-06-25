@@ -161,7 +161,7 @@ export default function NftsInfoCarousel({ route }: Props) {
   }
 
   return (
-    <SafeAreaView edges={['top']} style={styles.safeAreaView} testID="NftsInfoCarousel">
+    <SafeAreaView edges={[]} style={styles.safeAreaView} testID="NftsInfoCarousel">
       <ScrollView>
         {/* Main Nft Video or Image */}
         <NftMedia

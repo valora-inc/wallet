@@ -2,10 +2,9 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import Modal from 'react-native-modal'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { WebViewEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import colors from 'src/styles/colors'
+import { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { navigateToURI } from 'src/utils/linking'
@@ -64,7 +63,7 @@ const styles = StyleSheet.create({
     margin: 0,
   },
   centerContainer: {
-    backgroundColor: colors.white,
+    backgroundColor: Colors.white,
   },
   // Needed to add icons in the pressable buttons
   pressable: {

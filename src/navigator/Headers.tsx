@@ -1,7 +1,7 @@
 import { NativeStackNavigationOptions } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { Trans } from 'react-i18next'
-import { Dimensions, PixelRatio, Platform, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, PixelRatio, StyleSheet, Text, View } from 'react-native'
 import AccountCircleButton from 'src/components/AccountCircleButton'
 import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
@@ -12,9 +12,6 @@ import QrScanButton from 'src/components/QrScanButton'
 import TokenDisplay from 'src/components/TokenDisplay'
 import NotificationBell from 'src/home/NotificationBell'
 import i18n from 'src/i18n'
-import BackChevronCentered from 'src/icons/BackChevronCentered'
-import { navigateBack } from 'src/navigator/NavigationService'
-import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -32,43 +29,6 @@ export const noHeaderGestureDisabled: NativeStackNavigationOptions = {
   gestureEnabled: false,
 }
 
-const android_ripple = {
-  color: colors.gray2,
-  foreground: true,
-  borderless: true,
-}
-
-export const headerTransparentWithBack: NativeStackNavigationOptions = {
-  animation: 'slide_from_right',
-  animationDuration: 130,
-  headerShown: true,
-  headerTransparent: true,
-  // Needed for Android to truly make the header transparent
-  headerStyle: {
-    backgroundColor: 'transparent',
-  },
-  headerLeft: ({ canGoBack }) =>
-    canGoBack ? (
-      Platform.OS === 'ios' ? (
-        <TopBarIconButton
-          onPress={navigateBack}
-          icon={<BackChevronCentered />}
-          style={styles.floatingButton}
-          testID="FloatingBackButton"
-        />
-      ) : (
-        <Pressable
-          android_ripple={android_ripple}
-          onPress={navigateBack}
-          style={styles.floatingButton}
-          testID="FloatingBackButton"
-        >
-          <BackChevronCentered />
-        </Pressable>
-      )
-    ) : null,
-}
-
 export const styles = StyleSheet.create({
   headerTitle: {
     ...typeScale.labelSemiBoldMedium,
@@ -84,23 +44,6 @@ export const styles = StyleSheet.create({
   screenHeader: {
     textAlign: 'center',
     fontWeight: undefined,
-  },
-  floatingButton: {
-    alignItems: 'center',
-    backgroundColor: colors.white,
-    borderColor: colors.black,
-    borderRadius: 100,
-    elevation: 4,
-    height: 32,
-    justifyContent: 'center',
-    shadowColor: colors.black,
-    shadowOffset: {
-      height: 2,
-      width: 0,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    width: 32,
   },
   topElementsContainer: {
     flexDirection: 'row',
