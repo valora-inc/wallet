@@ -164,16 +164,16 @@ const styles = StyleSheet.create({
   },
   detailsItemTitle: {
     color: Colors.black,
-    ...typeScale.labelSemiBoldSmall,
+    ...typeScale.labelSemiBoldMedium,
   },
   detailsItemSubtitle: {
     color: Colors.black,
-    ...typeScale.bodyXSmall,
+    ...typeScale.bodySmall,
   },
   detailsItemFootnote: {
     color: Colors.black,
     marginTop: Spacing.Smallest8,
-    ...typeScale.bodyXXSmall,
+    ...typeScale.bodyXSmall,
   },
   buttonContainer: {
     gap: Spacing.Smallest8,
