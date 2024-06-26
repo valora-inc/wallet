@@ -805,6 +805,7 @@
     "spend": "Используйте криптовалюту для покупки любимых брендов"
   },
   "enableBiometry": {
+    "title": "Защитите ваш кошелек",
     "description": "{{biometryType}} поможет защитить ваш кошелек и упростить использование {{appName}}",
     "cta": "Включить {{biometryType}}",
     "guideTitle": "Хотите добавить {{biometryType}}?",
