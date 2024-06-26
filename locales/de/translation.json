@@ -827,7 +827,7 @@
     "createNewWallet": "Wallet erstellen",
     "restoreWallet": "Wallet wiederherstellen",
     "hasWallet": "Ich habe bereits eine Wallet",
-    "hasWalletV1_88": "Ich habe ein Portemonnaie",
+    "hasWalletV1_88": "Ich habe ein Wallet",
     "header": "Willkommen bei {{appName}}! Lass uns deine Wallet erstellen.",
     "getStarted": "Erste Schritte",
     "agreeToTerms": "Wenn du eine Wallet erstellst, stimmst du unseren <0>Allgemeinen Nutzungsbedingungen</0> zu"
@@ -1775,11 +1775,11 @@
     "onNetwork": "auf {{networkName}}",
     "crossChainNotification": "Token zwischen verschiedenen Netzwerken austauschen",
     "crossChainFeeWarning": {
-      "title": "Du brauchst mehr {{tokenSymbol}}",
-      "body": "Du brauchst mehr {{tokenSymbol}} auf {{networkName}} , um die Cross-Chain-Swap-Gebühren zu bezahlen. Füge {{tokenAmount}} mehr {{tokenSymbol}} hinzu, um fortzufahren."
+      "title": "Du benötigst mehr {{tokenSymbol}}",
+      "body": "Du benötigst mehr {{tokenSymbol}} auf {{networkName}}, um die Cross-Chain-Tausch-Gebühren zu bezahlen. Füge {{tokenAmount}} {{tokenSymbol}} hinzu, um fortzufahren."
     },
     "insufficientBalanceWarning": {
-      "title": "Du brauchst mehr {{tokenSymbol}}",
+      "title": "Du benötigst mehr {{tokenSymbol}}",
       "body": "Unzureichendes {{tokenSymbol}}-Guthaben. Versuche es mit einem kleineren Betrag oder wähle ein anderes Vermögen."
     },
     "unsupportedTokensWarning": {
@@ -1788,7 +1788,7 @@
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Du benötigst mehr {{feeTokenSymbol}} für Gas.",
-      "body": "Füge {{feeTokenSymbol}} hinzu, um deine Gaskosten zu decken oder passe den Betrag an, den du tauschst",
+      "body": "Füge {{feeTokenSymbol}} hinzu, um deine Gasgebühren zu begleichen, oder passe den Betrag an, den du tauschen möchtest",
       "cta": "Kleineren Betrag tauschen"
     },
     "switchedToNetworkWarning": {
@@ -2359,7 +2359,7 @@
         "title": "Vermögen tauschen",
         "bottomSheet": {
           "title": "Vermögen tauschen",
-          "body": "Verdiene {{pointsValue}} Punkte, wenn du einen Vermögenswert mit {{appName}}tauschst. \n\nTippe unten, um mit dem Tauschen und Sammeln zu beginnen!",
+          "body": "Verdiene {{pointsValue}} Punkte, wenn du einen Vermögenswert mit {{appName}} tauschst.\n\nTippe unten, um mit dem Tauschen und Verdienen zu beginnen!",
           "cta": "Einen Tausch starten"
         }
       },
@@ -2430,7 +2430,7 @@
       "earnUpToLabel": "Verdienst von bis zu:",
       "rateLabel": "Rate (geschätzt)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / Jahr",
-      "earnUpToV1_87": "<0></0> / Jahr",
+      "earnUpToV1_87": "<0></0>/Jahr",
       "rate": "{{rate}} % jährliche prozentuale Rendite",
       "continue": "Weiter",
       "info": "Dieser Pool wird von Aave unterstützt",
