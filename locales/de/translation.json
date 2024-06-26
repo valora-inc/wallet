@@ -1438,11 +1438,14 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Entdecke",
+    "exploreDapps": "Dapps erforschen",
+    "exploreAll": "Alles erforschen",
     "message": "Finde heraus, wie du dein Vermögen nutzen kannst",
     "errorMessage": "Beim Laden Dapps ist ein Fehler aufgetreten",
     "featuredDapp": "Empfohlen",
     "allDapps": "Alle",
     "favoriteDapps": "Lieblings-Dapps",
+    "mostPopularDapps": "Am beliebtesten",
     "favoriteDappsAndAll": "Meine Favoriten & Alle",
     "searchPlaceHolder": "Dapps suchen",
     "noFavorites": {
