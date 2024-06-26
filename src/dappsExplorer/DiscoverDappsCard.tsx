@@ -1,14 +1,10 @@
 import React, { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { RefreshControl, SectionList, StyleSheet, Text, View } from 'react-native'
+import { SectionList, StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import {
-  dappsListLoadingSelector,
-  mostPopularDappsSelector,
-  favoriteDappsSelector,
-} from 'src/dapps/selectors'
+import { mostPopularDappsSelector, favoriteDappsSelector } from 'src/dapps/selectors'
 import { fetchDappsList } from 'src/dapps/slice'
 import { ActiveDapp, Dapp, DappSection } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
@@ -40,7 +36,6 @@ function DiscoverDappsCard() {
 
   const language = useSelector(currentLanguageSelector)
   const dispatch = useDispatch()
-  const loading = useSelector(dappsListLoadingSelector)
   const favoriteDapps = useSelector(favoriteDappsSelector)
   const mostPopularDapps = useSelector(mostPopularDappsSelector)
 
@@ -98,15 +93,6 @@ function DiscoverDappsCard() {
   return (
     <View testID="DiscoverDappsCard" style={styles.container}>
       <SectionList
-        refreshControl={
-          <RefreshControl
-            tintColor={Colors.primary}
-            colors={[Colors.primary]}
-            style={styles.refreshControl}
-            refreshing={loading}
-            onRefresh={() => dispatch(fetchDappsList())}
-          />
-        }
         ref={sectionListRef}
         scrollEnabled={false}
         ListHeaderComponent={<Text style={styles.title}>{t('dappsScreen.exploreDapps')}</Text>}
@@ -162,9 +148,6 @@ const styles = StyleSheet.create({
   sectionListContentContainer: {
     paddingTop: Spacing.Regular16,
     flexGrow: 1,
-  },
-  refreshControl: {
-    backgroundColor: Colors.white,
   },
   sectionTitle: {
     ...fontStyles.label,
