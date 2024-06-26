@@ -17,8 +17,9 @@ export default DappListDisplay = () => {
   })
 
   it('should open internal webview with correct dapp when dapp opened', async () => {
-    await scrollIntoView(dappToTest.dapp.name, 'DAppsExplorerScreen/DappsList')
+    await scrollIntoView(dappToTest.dapp.name, 'DappsScreen/DappsList')
     await element(by.text(dappToTest.dapp.name)).tap()
+
     await waitFor(element(by.id(`WebViewScreen/${dappToTest.dapp.name}`)))
       .toBeVisible()
       .withTimeout(10 * 1000)
@@ -32,7 +33,7 @@ export default DappListDisplay = () => {
 
   it(':ios: should correctly filter dapp list based on user agent', async () => {
     const iOSDappList = await fetchDappList('Valora/1.0.0 (iOS 15.0; iPhone)')
-    const dappCards = await getElementTextList('DAppsExplorerScreen/AllSection/DappCard')
+    const dappCards = await getElementTextList('DappsScreen/AllSection/DappCard')
     jestExpect(dappCards.length).toEqual(iOSDappList.applications.length)
   })
 }

@@ -535,6 +535,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [DappExplorerEvents.dapp_unfavorite]: `when user unfavorites a dapp`,
   [DappExplorerEvents.dapp_filter]: `when a user taps on a filter`,
   [DappExplorerEvents.dapp_rankings_open]: `when a user taps on the dapp rankings card`,
+  [DappExplorerEvents.dapp_explore_all]: `when a user taps on the explore all button`,
   [WebViewEvents.webview_more_options]: `when user taps "triple dot icon" from the webview`,
   [WebViewEvents.webview_open_in_browser]: `when user taps "Open in External Browser" from the webview options`,
   [CoinbasePayEvents.coinbase_pay_flow_start]: `When user is navigated to Coinbase Pay experience`,

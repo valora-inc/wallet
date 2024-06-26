@@ -83,7 +83,7 @@ export const mostPopularDappsSelector = createSelector(
   }
 )
 
-const favoriteDappsSelector = createSelector(
+export const favoriteDappsSelector = createSelector(
   dappsListSelector,
   favoriteDappIdsSelector,
   (dapps, favoriteDappIds) => dapps.filter((dapp) => favoriteDappIds.includes(dapp.id))
