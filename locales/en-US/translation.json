@@ -805,6 +805,7 @@
     "spend": "Use your crypto to shop your favorite brands"
   },
   "enableBiometry": {
+    "title": "Secure your wallet",
     "description": "{{biometryType}} secures your wallet and makes it easier to use {{appName}}",
     "cta": "Turn on {{biometryType}}",
     "guideTitle": "Want to add {{biometryType}}?",
