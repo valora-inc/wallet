@@ -1799,4 +1799,13 @@ export const migrations = {
       withdrawStatus: 'idle',
     },
   }),
+  217: (state: any) => ({
+    ...state,
+    points: {
+      ...state.points,
+      trackOnceActivities: {
+        'create-wallet': false,
+      },
+    },
+  }),
 }
