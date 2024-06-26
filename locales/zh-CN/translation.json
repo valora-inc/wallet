@@ -805,6 +805,7 @@
     "spend": "使用加密货币购买您喜爱的品牌"
   },
   "enableBiometry": {
+    "title": "保护您的钱包",
     "description": "{{biometryType}} 可保护您的钱包并让您可以更轻松地使用 {{appName}}",
     "cta": "开启 {{biometryType}}",
     "guideTitle": "要添加 {{biometryType}}？",
