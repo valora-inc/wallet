@@ -1438,14 +1438,14 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Descubre",
-    "exploreDapps": "Explora las Dapps",
-    "exploreAll": "Explorar todo",
+    "exploreDapps": "Explorar dapps",
+    "exploreAll": "Explorar todas",
     "message": "Explora las distintas formas de usar tus activos",
     "errorMessage": "Hubo un error al cargar las dapps",
     "featuredDapp": "Destacadas",
     "allDapps": "Todas",
     "favoriteDapps": "Mis favoritas",
-    "mostPopularDapps": "Los más populares",
+    "mostPopularDapps": "Populares",
     "favoriteDappsAndAll": "Mis favoritas y todas",
     "searchPlaceHolder": "Buscar dapps",
     "noFavorites": {
