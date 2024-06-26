@@ -563,7 +563,7 @@ const nftScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.NftsInfoCarousel}
       component={NftsInfoCarousel}
-      options={NftsInfoCarousel.navigationOptions}
+      options={NftsInfoCarousel.navigationOptions as NativeStackNavigationOptions}
     />
   </>
 )

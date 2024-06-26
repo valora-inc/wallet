@@ -1,4 +1,3 @@
-import { useHeaderHeight } from '@react-navigation/elements'
 import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import FastImage from 'react-native-fast-image'
@@ -71,7 +70,6 @@ export default function NftMedia({
   const [status, setStatus] = useState<Status>(!nft.metadata ? 'error' : 'loading')
   const [scaledHeight, setScaledHeight] = useState(DEFAULT_HEIGHT)
   const [reloadAttempt, setReloadAttempt] = useState(0)
-  const headerHeight = useHeaderHeight()
 
   const fetchingNfts = useSelector(nftsLoadingSelector)
 
