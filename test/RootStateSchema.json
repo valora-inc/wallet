@@ -3130,6 +3130,7 @@
                 "DappKitSignTxScreen",
                 "DappShortcutTransactionRequest",
                 "DappShortcutsRewards",
+                "DappsScreen",
                 "Debug",
                 "EarnCollectScreen",
                 "EarnEnterAmount",
