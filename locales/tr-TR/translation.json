@@ -1438,11 +1438,14 @@
   "dappsScreen": {
     "title": "Dapp'ler",
     "titleDiscover": "Keşfedin",
+    "exploreDapps": "Dapps'i Keşfedin",
+    "exploreAll": "Tümünü Keşfet",
     "message": "Varlıklarınızı kullanmanın yollarını keşfedin",
     "errorMessage": "Dapp'ler yüklenirken bir hata oluştu",
     "featuredDapp": "Öne Çıkan",
     "allDapps": "Tümü",
     "favoriteDapps": "Favorilerim",
+    "mostPopularDapps": "En Popüler",
     "favoriteDappsAndAll": "Favorilerim & Hepsi",
     "searchPlaceHolder": "Dapp'leri ara",
     "noFavorites": {
