@@ -1,9 +1,10 @@
+import { useHeaderHeight } from '@react-navigation/elements'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import * as Keychain from 'react-native-keychain'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { setPincodeSuccess } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
 import { OnboardingEvents } from 'src/analytics/Events'
@@ -15,9 +16,15 @@ import FaceID from 'src/icons/biometry/FaceID'
 import Fingerprint from 'src/icons/biometry/Fingerprint'
 import { Iris } from 'src/icons/biometry/Iris'
 import TouchID from 'src/icons/biometry/TouchID'
+import {
+  biometryFace,
+  biometryFaceId,
+  biometryFingerprint,
+  biometryIris,
+  biometryTouchId,
+} from 'src/images/Images'
 import { HeaderTitleWithSubtitle, nuxNavigationOptionsOnboarding } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
-import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import {
   getOnboardingStepValues,
@@ -27,8 +34,7 @@ import {
 import { setPincodeWithBiometry } from 'src/pincode/authentication'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { isUserCancelledError } from 'src/storage/keychain'
-import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
@@ -45,9 +51,24 @@ const biometryIconMap: { [key in Keychain.BIOMETRY_TYPE]: JSX.Element } = {
   [Keychain.BIOMETRY_TYPE.IRIS]: <Iris />,
 }
 
+const biometryImageMap: { [key in Keychain.BIOMETRY_TYPE]: JSX.Element } = {
+  [Keychain.BIOMETRY_TYPE.FACE_ID]: <Image testID="Image/FaceID" source={biometryFaceId} />,
+  [Keychain.BIOMETRY_TYPE.TOUCH_ID]: <Image testID="Image/TouchID" source={biometryTouchId} />,
+  [Keychain.BIOMETRY_TYPE.FINGERPRINT]: (
+    <Image testID="Image/Fingerprint" source={biometryFingerprint} />
+  ),
+  [Keychain.BIOMETRY_TYPE.FACE]: <Image testID="Image/Face" source={biometryFace} />,
+  [Keychain.BIOMETRY_TYPE.IRIS]: <Image testID="Image/Iris" source={biometryIris} />,
+}
+
 export default function EnableBiometry({ navigation }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  const headerHeight = useHeaderHeight()
+  const { bottom } = useSafeAreaInsets()
+  const insetsStyle = {
+    marginBottom: Math.max(bottom, 40),
+  }
 
   // This screen would not be displayed if supportedBiometryType were null
   const supportedBiometryType = useSelector(supportedBiometryTypeSelector)
@@ -65,14 +86,6 @@ export default function EnableBiometry({ navigation }: Props) {
         <HeaderTitleWithSubtitle
           title={t(`biometryType.${supportedBiometryType}`)}
           subTitle={t('registrationSteps', { step, totalSteps })}
-        />
-      ),
-      headerRight: () => (
-        <TopBarTextButton
-          title={t('skip')}
-          testID="EnableBiometrySkipHeader"
-          onPress={onPressSkip}
-          titleStyle={{ color: colors.onboardingBrownLight }}
         />
       ),
     })
@@ -107,22 +120,25 @@ export default function EnableBiometry({ navigation }: Props) {
   }
 
   return (
-    <ScrollView style={styles.contentContainer}>
-      <SafeAreaView style={styles.container}>
-        {
-          <>
-            <Text style={styles.guideTitle}>
-              {t('enableBiometry.guideTitle', {
-                biometryType: t(`biometryType.${supportedBiometryType}`),
-              })}
-            </Text>
+    <SafeAreaView style={[styles.container, { paddingTop: headerHeight }]} edges={['top']}>
+      <ScrollView>
+        <>
+          {supportedBiometryType && (
+            <View style={{ alignItems: 'center', margin: Spacing.Thick24 }}>
+              {biometryImageMap[supportedBiometryType]}
+            </View>
+          )}
+          <View style={styles.descriptionContainer}>
+            <Text style={styles.guideTitle}>{t('enableBiometry.title')}</Text>
             <Text style={styles.guideText}>
               {t('enableBiometry.guideDescription', {
                 biometryType: t(`biometryType.${supportedBiometryType}`),
               })}
             </Text>
-          </>
-        }
+          </View>
+        </>
+      </ScrollView>
+      <View style={[styles.buttonContainer, insetsStyle]}>
         <Button
           onPress={onPressUseBiometry}
           text={t('enableBiometry.cta', {
@@ -136,10 +152,16 @@ export default function EnableBiometry({ navigation }: Props) {
               <View style={styles.biometryIcon}>{biometryIconMap[supportedBiometryType]}</View>
             )
           }
-          style={styles.biometryButton}
         />
-      </SafeAreaView>
-    </ScrollView>
+        <Button
+          onPress={onPressSkip}
+          text={t('skip')}
+          size={BtnSizes.FULL}
+          type={BtnTypes.SECONDARY}
+          testID="EnableBiometrySkip"
+        />
+      </View>
+    </SafeAreaView>
   )
 }
 
@@ -147,28 +169,24 @@ EnableBiometry.navigationOptions = nuxNavigationOptionsOnboarding
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 72,
-    paddingHorizontal: 40,
-    alignItems: 'center',
-  },
-  contentContainer: {
     flex: 1,
-    backgroundColor: colors.onboardingBackground,
+    paddingHorizontal: Spacing.Thick24,
   },
-  biometryButton: {
-    width: '100%',
+  descriptionContainer: {
+    gap: Spacing.Regular16,
   },
   guideTitle: {
-    ...fontStyles.h1,
-    marginBottom: Spacing.Regular16,
+    ...typeScale.titleMedium,
     textAlign: 'center',
   },
   guideText: {
-    ...fontStyles.regular,
-    marginBottom: Spacing.Large32,
+    ...typeScale.bodyMedium,
     textAlign: 'center',
   },
   biometryIcon: {
     paddingRight: 4,
+  },
+  buttonContainer: {
+    gap: Spacing.Smallest8,
   },
 })
