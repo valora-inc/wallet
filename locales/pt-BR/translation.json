@@ -1438,8 +1438,8 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Descobrir",
-    "exploreDapps": "Explorar Dapps",
-    "exploreAll": "Explorar tudo",
+    "exploreDapps": "Explorar dapps",
+    "exploreAll": "Explorar todos",
     "message": "Explore formas de usar seus ativos",
     "errorMessage": "Ocorreu um erro ao carregar os dapps",
     "featuredDapp": "Em destaque",
