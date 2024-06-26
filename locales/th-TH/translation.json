@@ -1436,11 +1436,14 @@
   "dappsScreen": {
     "title": "Dapp",
     "titleDiscover": "สำรวจ",
+    "exploreDapps": "Explore Dapps",
+    "exploreAll": "Explore All",
     "message": "สำรวจวิธีใช้สินทรัพย์ของคุณ",
     "errorMessage": "มีข้อผิดพลาดขณะโหลด Dapp",
     "featuredDapp": "โดดเด่น",
     "allDapps": "ทั้งหมด",
     "favoriteDapps": "สิ่งที่ฉันชอบ",
+    "mostPopularDapps": "Most Popular",
     "favoriteDappsAndAll": "รายการโปรดของฉันและทั้งหมด",
     "searchPlaceHolder": "ค้นหา Dapp",
     "noFavorites": {
