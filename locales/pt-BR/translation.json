@@ -1776,7 +1776,7 @@
     "crossChainNotification": "Troca de tokens entre redes diferentes",
     "crossChainFeeWarning": {
       "title": "Você precisa de mais {{tokenSymbol}}",
-      "body": "Você precisa de mais {{tokenSymbol}} em {{networkName}} para pagar as taxas de troca entre cadeias. Você precisa de mais {{tokenAmount}} e {{tokenSymbol}} para continuar."
+      "body": "Você precisa de mais {{tokenSymbol}} na {{networkName}} para pagar as taxas de troca entre cadeias. Adicione mais {{tokenAmount}} {{tokenSymbol}} para continuar."
     },
     "insufficientBalanceWarning": {
       "title": "Você precisa de mais {{tokenSymbol}}",
@@ -1788,7 +1788,7 @@
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Você precisa de mais {{feeTokenSymbol}} para o Gas",
-      "body": "Adicione {{feeTokenSymbol}} para cobrir suas taxas de gás ou ajuste o valor que você está trocando",
+      "body": "Adicione {{feeTokenSymbol}} para cobrir suas taxas de gás ou ajuste a quantia que você está trocando",
       "cta": "Trocar uma quantia menor"
     },
     "switchedToNetworkWarning": {
@@ -2359,7 +2359,7 @@
         "title": "Troque ativos",
         "bottomSheet": {
           "title": "Troque ativos",
-          "body": "Ganhe {{pointsValue}} pontos toda vez que você trocar um ativo usando {{appName}}. \n\nToque abaixo para você começar a trocar e ganhar!",
+          "body": "Ganhe {{pointsValue}} pontos toda vez que você trocar um ativo usando a {{appName}}. \n\nToque abaixo para começar a trocar e ganhar!",
           "cta": "Iniciar uma troca"
         }
       },
@@ -2430,7 +2430,7 @@
       "earnUpToLabel": "Você pode ganhar até:",
       "rateLabel": "Taxa (est.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}}/ano",
-      "earnUpToV1_87": "<0></0> / ano",
+      "earnUpToV1_87": "<0></0>/ano",
       "rate": "{{rate}}% de APY",
       "continue": "Continuar",
       "info": "Este pool é desenvolvido pela Aave",
