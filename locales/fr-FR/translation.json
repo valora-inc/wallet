@@ -1775,20 +1775,20 @@
     "onNetwork": "sur {{networkName}}",
     "crossChainNotification": "Échanger des jetons entre différents réseaux",
     "crossChainFeeWarning": {
-      "title": "Tu as besoin de plus de {{tokenSymbol}}",
-      "body": "Tu as besoin de plus de {{tokenSymbol}} sur {{networkName}} pour payer les frais d'échange entre chaînes. Ajoute {{tokenAmount}} plus {{tokenSymbol}} pour continuer."
+      "title": "Vous avez besoin de plus de {{tokenSymbol}}",
+      "body": "Vous avez besoin de plus de {{tokenSymbol}} sur {{networkName}} pour payer des frais de swap inter-chaîne. Ajoutez {{tokenAmount}} supplémentaires {{tokenSymbol}} pour continuer."
     },
     "insufficientBalanceWarning": {
-      "title": "Tu as besoin de plus de {{tokenSymbol}}",
+      "title": "Vous avez besoin de plus de {{tokenSymbol}}",
       "body": "{{tokenSymbol}} insuffisants. Veuillez saisir un montant inférieur ou choisissez un autre actif."
     },
     "unsupportedTokensWarning": {
       "title": "Sélection incompatible",
-      "body": "Les jetons sélectionnés ne peuvent pas être échangés entre eux. Choisis un autre jeton compatible avec ta sélection."
+      "body": "Les jetons sélectionnés ne peuvent pas être échangés entre eux. Veuillez choisir un autre jeton compatible avec votre sélection."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Vous avez besoin de plus de {{feeTokenSymbol}} pour le gas",
-      "body": "Ajoute {{feeTokenSymbol}} pour couvrir tes frais d'essence ou ajuste le montant que tu échanges.",
+      "body": "Ajoutez {{feeTokenSymbol}} pour couvrir vos frais de gas ou modifiez le montant que vous échangez",
       "cta": "Échanger une plus petite quantité"
     },
     "switchedToNetworkWarning": {
@@ -2359,8 +2359,8 @@
         "title": "Échangez des actifs",
         "bottomSheet": {
           "title": "Échangez des actifs",
-          "body": "Gagne {{pointsValue}} points chaque fois que tu échanges un bien en utilisant {{appName}}. \n\nTape ci-dessous pour commencer à échanger et à gagner !",
-          "cta": "Commence un échange"
+          "body": "Gagnez {{pointsValue}} points chaque fois que vous échangez un actif en utilisant {{appName}}. \n\nAppuyez ci-dessous pour commencer à échanger et à gagner !",
+          "cta": "Lancer un échange"
         }
       },
       "moreComing": {

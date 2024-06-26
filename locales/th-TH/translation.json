@@ -130,7 +130,7 @@
         "body": "คุณสามารถตั้งค่าการสำรองข้อมูลกระเป๋าเงินได้ในภายหลังหรือปกป้องบัญชีผู้ใช้ของคุณในตอนนี้เลยโดยบันทึกวลีกู้คืนรหัสของคุณ",
         "later": "ฉันจะตั้งค่าการสำรองข้อมูลในภายหลัง",
         "manual": "บันทึกวลีกู้คืนรหัสของคุณ",
-        "skip": "Skip (not recommended)"
+        "skip": "ข้าม (ไม่แนะนำ)"
       }
     },
     "restore": {
@@ -827,7 +827,7 @@
     "createNewWallet": "สร้างกระเป๋าเงินใหม่",
     "restoreWallet": "กู้คืนกระเป๋าเงิน",
     "hasWallet": "ฉันมีกระเป๋าเงินอยู่แล้ว",
-    "hasWalletV1_88": "I have a wallet",
+    "hasWalletV1_88": "ฉันมีกระเป๋าเงิน",
     "header": "ยินดีต้อนรับสู่ {{appName}}! เรามาสร้างกระเป๋าเงินคริปโตกัน",
     "getStarted": "เริ่มต้นใช้งาน",
     "agreeToTerms": "เมื่อสร้างกระเป๋าเงิน คุณยอมรับ<0>ข้อกำหนดและเงื่อนไข</0>ของเรา"
@@ -1771,22 +1771,22 @@
     "selectTokenLabel": "เลือกโทเค็น",
     "tokenBottomSheetTitle": "เลือกโทเค็น",
     "onNetwork": "บน {{networkName}}",
-    "crossChainNotification": "Swapping tokens between different networks",
+    "crossChainNotification": "การสว็อปโทเค็นระหว่างเครือข่าย",
     "crossChainFeeWarning": {
-      "title": "You need more {{tokenSymbol}}",
-      "body": "You need more {{tokenSymbol}} on {{networkName}} to pay for cross-chain swap fees. Add {{tokenAmount}} more {{tokenSymbol}} to continue."
+      "title": "คุณต้องใช้อีก {{tokenSymbol}}",
+      "body": "คุณต้องใช้อีก {{tokenSymbol}} บน {{networkName}} เพื่อจ่ายค่าสว็อปข้ามเชน เพิ่ม {{tokenSymbol}} อีก {{tokenAmount}} เพื่อดำเนินการต่อ"
     },
     "insufficientBalanceWarning": {
-      "title": "You need more {{tokenSymbol}}",
+      "title": "คุณต้องใช้อีก {{tokenSymbol}}",
       "body": "ยอดคงเหลือ {{tokenSymbol}} ไม่เพียงพอ ลองจำนวนเงินที่น้อยลงหรือเลือกสินทรัพย์อื่น"
     },
     "unsupportedTokensWarning": {
-      "title": "Incompatible Selection",
-      "body": "The tokens selected cannot be swapped between. Please choose another token that is compatible with your selection."
+      "title": "การเลือกเข้ากันไม่ได้",
+      "body": "ไม่สามารถสว็อประหว่างโทเค็นที่เลือกได้ โปรดเลือกโทเค็นอื่นที่เข้ากันได้กับตัวเลือกของคุณ"
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "คุณต้องใช้อีก {{feeTokenSymbol}} สำหรับค่าก๊าซ",
-      "body": "Add {{feeTokenSymbol}} to cover your gas fees or adjust the amount you are swapping",
+      "body": "เพิ่ม {{feeTokenSymbol}} เพื่อให้เพียงพอสำหรับค่าก๊าซหรือปรับจำนวนเงินที่คุณจะสว็อป",
       "cta": "สว็อปจำนวนเงินที่น้อยลง"
     },
     "switchedToNetworkWarning": {
@@ -2357,8 +2357,8 @@
         "title": "สว็อปสินทรัพย์",
         "bottomSheet": {
           "title": "สว็อปสินทรัพย์",
-          "body": "Earn {{pointsValue}} points every time you swap an asset using {{appName}}. \n\nTap below to start swapping and earning!",
-          "cta": "Start a swap"
+          "body": "รับ {{pointsValue}} คะแนนทุกครั้งที่คุณสว็อปสินทรัพย์โดยใช้ {{appName}} \n\nแตะด้านล่างเพื่อเริ่มสว็อปและรับคะแนนเลย!",
+          "cta": "เริ่มสว็อป"
         }
       },
       "moreComing": {
@@ -2428,7 +2428,7 @@
       "earnUpToLabel": "คุณสามารถสร้างรายได้สูงถึง:",
       "rateLabel": "อัตรา (โดยประมาณ)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / ปี",
-      "earnUpToV1_87": "<0></0> / yr",
+      "earnUpToV1_87": "<0></0> / ปี",
       "rate": "{{rate}}% APY",
       "continue": "ดำเนินการต่อ",
       "info": "พูลนี้ดำเนินการโดย Aave",
