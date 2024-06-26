@@ -805,6 +805,7 @@
     "spend": "Verwende Krypto, um deine Lieblingsmarken zu kaufen"
   },
   "enableBiometry": {
+    "title": "Sichere dein Wallet",
     "description": "{{biometryType}} sichert dein Wallet und erleichtert die Verwendung von {{appName}}",
     "cta": "{{biometryType}} einschalten",
     "guideTitle": "Willst du {{biometryType}} einschalten?",
