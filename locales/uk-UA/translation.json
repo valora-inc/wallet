@@ -1442,11 +1442,14 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Дізнатися",
+    "exploreDapps": "Дослідіть Dapps",
+    "exploreAll": "Дослідити все",
     "message": "Дізнайтеся, як використовувати свої активи",
     "errorMessage": "Сталася помилка під час завантаження застосунків dapps",
     "featuredDapp": "Рекомендовано",
     "allDapps": "Усі",
     "favoriteDapps": "Мої вподобання",
+    "mostPopularDapps": "Найпопулярніші",
     "favoriteDappsAndAll": "Мої вподобання і загальний вміст",
     "searchPlaceHolder": "Пошук застосунків Dapp",
     "noFavorites": {
