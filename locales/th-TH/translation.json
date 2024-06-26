@@ -805,6 +805,7 @@
     "spend": "ใช้คริปโตของคุณซื้อสินค้าแบรนด์โปรด"
   },
   "enableBiometry": {
+    "title": "ดูแลกระเป๋าเงินของคุณให้ปลอดภัย",
     "description": "{{biometryType}} ดูแลกระเป๋าเงินของคุณให้ปลอดภัยและทำให้ใช้งาน {{appName}} ได้ง่ายขึ้น",
     "cta": "เปิด {{biometryType}}",
     "guideTitle": "ต้องการเพิ่ม {{biometryType}} หรือไม่",
@@ -1435,11 +1436,14 @@
   "dappsScreen": {
     "title": "Dapp",
     "titleDiscover": "สำรวจ",
+    "exploreDapps": "Explore Dapps",
+    "exploreAll": "Explore All",
     "message": "สำรวจวิธีใช้สินทรัพย์ของคุณ",
     "errorMessage": "มีข้อผิดพลาดขณะโหลด Dapp",
     "featuredDapp": "โดดเด่น",
     "allDapps": "ทั้งหมด",
     "favoriteDapps": "สิ่งที่ฉันชอบ",
+    "mostPopularDapps": "Most Popular",
     "favoriteDappsAndAll": "รายการโปรดของฉันและทั้งหมด",
     "searchPlaceHolder": "ค้นหา Dapp",
     "noFavorites": {

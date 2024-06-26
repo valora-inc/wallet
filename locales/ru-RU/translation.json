@@ -805,6 +805,7 @@
     "spend": "Используйте криптовалюту для покупки любимых брендов"
   },
   "enableBiometry": {
+    "title": "Защитите ваш кошелек",
     "description": "{{biometryType}} поможет защитить ваш кошелек и упростить использование {{appName}}",
     "cta": "Включить {{biometryType}}",
     "guideTitle": "Хотите добавить {{biometryType}}?",
@@ -1441,11 +1442,14 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Узнать",
+    "exploreDapps": "Исследуй Dapps",
+    "exploreAll": "Изучить все",
     "message": "Изучите способы использования своих активов",
     "errorMessage": "Произошла ошибка при загрузке dapps",
     "featuredDapp": "Подборка",
     "allDapps": "Все",
     "favoriteDapps": "Мое избранное",
+    "mostPopularDapps": "Самые популярные",
     "favoriteDappsAndAll": "Мое избранное и все",
     "searchPlaceHolder": "Поиск dapps",
     "noFavorites": {

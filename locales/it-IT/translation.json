@@ -709,7 +709,7 @@
     "info": "Per usare i nostri servizi, leggi e accetta il nostro <0>Accordo con l’utente e termini</0> facendo clic sull’apposito pulsante di seguito.",
     "privacy": "Partecipando a questa rete, ci autorizzi a raccogliere informazioni anonime sul tuo utilizzo dell'app. Inoltre, se colleghi il tuo numero telefonico, ne verrà memorizzata una copia con hash. Se concedi a Valora l'accesso al tuo elenco di contatti, Valora importerà il nome, il numero telefonico e l'immagine del profilo di ciascun contatto per consentire agli utenti di connettersi tramite l'app Valora. Per sapere come raccogliamo e utilizziamo queste informazioni, consulta la nostra <0>Informativa sulla privacy</0>.",
     "goldDisclaimer": "Quando crei un \"account\" con Valora, crei un portafoglio digitale di cui solo tu possiedi le chiavi. Nessun'altra persona o entità, inclusa Valora, può recuperare la tua chiave, modificare o annullare le transazioni o recuperare fondi perduti. Considera che le criptovalute fanno parte di una nuova classe di asset e comportano un rischio di perdita finanziaria. Prima di acquistare qualsiasi asset, valuta attentamente la tua situazione finanziaria e la tua tolleranza al rischio finanziario.",
-    "goldDisclaimerWithPoints": "Creare un \"account\" con Valora significa creare un portafoglio digitale a cui solo tu puoi accedere. Nessun'altra persona o entità, inclusa Valora, può recuperare la tua chiave di accesso, modificare o annullare le transazioni o recuperare i fondi persi. Valora concede agli utenti premi fedeltà (\"Punti\") tokenizzati per aver svolto determinate attività all'interno dell'applicazione. I Punti possono essere raccolti on-chain, non sono trasferibili o riscattabili. Non viene fornita alcuna garanzia sulla disponibilità o sul valore dei Punti. Sii consapevole che gli asset digitali fanno parte di una nuova classe di asset e presentano un rischio di perdita finanziaria. Considera attentamente la tua situazione finanziaria e la tua tolleranza al rischio prima di acquistare qualsiasi asset digitale."
+    "goldDisclaimerWithPoints": "Quando crei un \"account\" con Valora, crei un portafoglio digitale di cui solo tu possiedi le chiavi. Nessun'altra persona o entità, inclusa Valora, può recuperare la tua chiave, modificare o annullare le transazioni o recuperare fondi perduti. Valora concede agli utenti premi fedeltà (\"Punti\") tokenizzati per aver svolto determinate attività all'interno dell'applicazione. I Punti possono essere raccolti on-chain, non sono trasferibili o riscattabili. Non viene fornita alcuna garanzia sulla disponibilità o sul valore dei Punti. Considera che le criptovalute fanno parte di una nuova classe di asset e comportano un rischio di perdita finanziaria. Prima di acquistare qualsiasi asset, valuta attentamente la tua situazione finanziaria e la tua tolleranza al rischio finanziario."
   },
   "termsColloquial": {
     "title": "Per cominciare, crea il tuo wallet",
@@ -805,6 +805,7 @@
     "spend": "Usa le tue criptovalute per acquistare i tuoi marchi preferiti"
   },
   "enableBiometry": {
+    "title": "Proteggi il tuo portafoglio",
     "description": "{{biometryType}} protegge il tuo wallet e rende più facile usare {{appName}}",
     "cta": "Abilita {{biometryType}}",
     "guideTitle": "Vuoi abilitare {{biometryType}}?",
@@ -1437,11 +1438,14 @@
   "dappsScreen": {
     "title": "Dapp",
     "titleDiscover": "Scopri",
+    "exploreDapps": "Esplora le dapp",
+    "exploreAll": "Esplora tutte",
     "message": "Scopri i modi per utilizzare i tuoi asset",
     "errorMessage": "Errore durante il caricamento delle Dapp.",
     "featuredDapp": "In primo piano",
     "allDapps": "Tutti",
     "favoriteDapps": "Le mie dapp preferite",
+    "mostPopularDapps": "Popolare",
     "favoriteDappsAndAll": "I miei Preferiti e Tutto",
     "searchPlaceHolder": "Cerca dapp",
     "noFavorites": {

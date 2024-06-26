@@ -805,6 +805,7 @@
     "spend": "Sử dụng tiền điện tử để mua sắm thương hiệu yêu thích"
   },
   "enableBiometry": {
+    "title": "Bảo mật ví của bạn",
     "description": "{{biometryType}} bảo mật ví của bạn và giúp bạn sử dụng {{appName}} dễ dàng hơn",
     "cta": "Bật {{biometryType}}",
     "guideTitle": "Bạn muốn nạp {{biometryType}}?",
@@ -1435,11 +1436,14 @@
   "dappsScreen": {
     "title": "Dapp",
     "titleDiscover": "Khám phá",
+    "exploreDapps": "Explore Dapps",
+    "exploreAll": "Explore All",
     "message": "Khám phá những phương thức sử dụng tài sản",
     "errorMessage": "Đã xảy ra lỗi khi tải dapp",
     "featuredDapp": "Nổi bật",
     "allDapps": "Tất cả",
     "favoriteDapps": "Dapps yêu thích của tôi",
+    "mostPopularDapps": "Most Popular",
     "favoriteDappsAndAll": "Mục yêu thích của tôi và Tất cả",
     "searchPlaceHolder": "Tìm kiếm Dapp",
     "noFavorites": {

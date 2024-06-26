@@ -805,6 +805,7 @@
     "spend": "使用加密货币购买您喜爱的品牌"
   },
   "enableBiometry": {
+    "title": "保护您的钱包",
     "description": "{{biometryType}} 可保护您的钱包并让您可以更轻松地使用 {{appName}}",
     "cta": "开启 {{biometryType}}",
     "guideTitle": "要添加 {{biometryType}}？",
@@ -1435,11 +1436,14 @@
   "dappsScreen": {
     "title": "Dapp",
     "titleDiscover": "探索",
+    "exploreDapps": "探索 Dapps",
+    "exploreAll": "探索全部",
     "message": "探索如何使用您的资产",
     "errorMessage": "加在 dapp 时出错",
     "featuredDapp": "精选",
     "allDapps": "全部",
     "favoriteDapps": "我的收藏",
+    "mostPopularDapps": "最受欢迎",
     "favoriteDappsAndAll": "我的收藏夹和所有",
     "searchPlaceHolder": "搜索应用",
     "noFavorites": {
