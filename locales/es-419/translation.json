@@ -827,7 +827,7 @@
     "createNewWallet": "Crear wallet",
     "restoreWallet": "Restaurar wallet",
     "hasWallet": "Ya tengo una wallet",
-    "hasWalletV1_88": "Tengo una cartera",
+    "hasWalletV1_88": "Tengo una billetera",
     "header": "¡Te damos la bienvenida a {{appName}}! Demos el primer paso, creemos tu wallet.",
     "getStarted": "Primeros pasos",
     "agreeToTerms": "Al crear una wallet aceptas nuestros <0>Términos y condiciones</0>."
@@ -1773,10 +1773,10 @@
     "selectTokenLabel": "Selecciona un token",
     "tokenBottomSheetTitle": "Seleccionar token",
     "onNetwork": "en {{networkName}}",
-    "crossChainNotification": "Intercambiar fichas entre diferentes redes",
+    "crossChainNotification": "Intercambiar tokens entre diferentes redes",
     "crossChainFeeWarning": {
       "title": "Necesitas más {{tokenSymbol}}",
-      "body": "Necesitas más {{tokenSymbol}} en {{networkName}} para pagar las tasas de intercambio de cadenas cruzadas. Añade {{tokenAmount}} más {{tokenSymbol}} para continuar."
+      "body": "Necesitas más {{tokenSymbol}} en {{networkName}} para pagar las tarifas de intercambio entre cadenas. Añade {{tokenAmount}} más de {{tokenSymbol}} para continuar."
     },
     "insufficientBalanceWarning": {
       "title": "Necesitas más {{tokenSymbol}}",
@@ -1784,11 +1784,11 @@
     },
     "unsupportedTokensWarning": {
       "title": "Selección incompatible",
-      "body": "Las fichas seleccionadas no pueden intercambiarse entre sí. Por favor, elige otra ficha que sea compatible con tu selección."
+      "body": "Los tokens seleccionados no se pueden intercambiar entre sí. Por favor, elige otro token que sea compatible con tu selección."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Necesitas más {{feeTokenSymbol}} para cubrir las tarifas",
-      "body": "Añade {{feeTokenSymbol}} para cubrir los gastos de gasolina o ajusta la cantidad que estás intercambiando",
+      "body": "Agrega {{feeTokenSymbol}} para cubrir las tarifas o ajusta el monto que estás intercambiando",
       "cta": "Intercambiar monto menor"
     },
     "switchedToNetworkWarning": {
@@ -2359,7 +2359,7 @@
         "title": "Intercambia activos",
         "bottomSheet": {
           "title": "Intercambia activos",
-          "body": "Gana {{pointsValue}} puntos cada vez que intercambies un bien utilizando {{appName}}. \n\n¡Toca abajo para empezar a intercambiar y ganar!",
+          "body": "Gana {{pointsValue}} puntos cada vez que intercambies un activo utilizando {{appName}}. \n\n¡Toca abajo para empezar a intercambiar y ganar!",
           "cta": "Iniciar un intercambio"
         }
       },
