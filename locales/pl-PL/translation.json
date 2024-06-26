@@ -805,6 +805,7 @@
     "spend": "Wykorzystuj swoje kryptowaluty do zakupu ulubionych marek"
   },
   "enableBiometry": {
+    "title": "Zabezpiecz swój portfel",
     "description": "{{biometryType}} zabezpiecza portfel i ułatwia korzystanie z aplikacji {{appName}}",
     "cta": "Włącz {{biometryType}}",
     "guideTitle": "Chcesz dodać {{biometryType}}?",
