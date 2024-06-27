@@ -58,7 +58,7 @@
   },
   "promptConfirmRemovalModal": {
     "header": "¿Estás seguro de que quieres continuar?",
-    "body": "Estás a punto de borrar tu billetera de este dispositivo. Este paso es definitivo y no se puede revertir. No hay forma de recuperar tu Frase de recuperación si no la has escrito.",
+    "body": "Estás a punto de borrar tu wallet de este dispositivo. Este paso es definitivo y no se puede revertir. No hay forma de recuperar tu Frase de recuperación si no la has escrito.",
     "resetNow": "Continuar"
   },
   "protectWallet": {
@@ -96,14 +96,14 @@
       "reminder": "<0>Recuerda</0> que esta información es la única forma de acceder a tu billetera si pierdes o te roban el dispositivo. Valora no almacena tu correo electrónico ni tu número de teléfono. ¡Mantenlo a salvo!"
     },
     "restore": {
-      "description": "Asegúrate de que dispones de lo siguiente para restaurar tu billetera.",
+      "description": "Asegúrate de que dispones de lo siguiente para restaurar tu wallet.",
       "reminder": "<0>Recuerda</0> que necesitas acceder al mismo correo electrónico y número de teléfono que utilizaste cuando hiciste la copia de seguridad"
     }
   },
   "signInWithEmail": {
     "title": "Iniciar sesión con email",
     "subtitle": "Inicia sesión con tu correo electrónico para configurarlo como respaldo.\n\nSi pierdes acceso a tu wallet, se te pedirá que inicies sesión de esta forma.",
-    "subtitleRestore": "Inicia sesión con el correo electrónico que utilizaste para configurar la copia de seguridad de tu billetera.",
+    "subtitleRestore": "Inicia sesión con el correo electrónico que usaste para configurar la copia de seguridad de tu wallet.",
     "google": "Iniciar sesión con Google"
   },
   "keylessBackupPhoneInput": {
@@ -127,7 +127,7 @@
       },
       "failed": {
         "title": "Copia de seguridad no disponible",
-        "body": "Puedes configurar una copia de seguridad de tu billetera más adelante o proteger tu cuenta ahora guardando tu frase de recuperación.",
+        "body": "Puedes configurar una copia de seguridad de tu wallet más adelante o proteger tu cuenta ahora guardando tu frase de recuperación.",
         "later": "Configuraré una copia de seguridad más tarde",
         "manual": "Guardar frase de recuperación",
         "skip": "Saltar (no recomendado)"
@@ -135,23 +135,23 @@
     },
     "restore": {
       "inProgress": {
-        "title": "Restaurando tu billetera"
+        "title": "Restaurando wallet"
       },
       "completed": {
-        "title": "¡Tu billetera ha sido restaurada!",
-        "bodyZeroBalance": "Puedes agregar fondos a tu billetera una vez que hayas terminado de configurarla.",
+        "title": "¡Tu wallet ha sido restaurada!",
+        "bodyZeroBalance": "Puedes agregar fondos a tu wallet una vez que hayas terminado de configurarla.",
         "bodyBalance": "Tienes un saldo de <0></0>"
       },
       "failed": {
-        "title": "Tu billetera no ha sido restaurada",
-        "body": "Hubo un problema técnico al restaurar tu billetera. Ponte en contacto con el equipo de soporte técnico para obtener más información.",
+        "title": "Tu wallet no ha sido restaurada",
+        "body": "Hubo un problema técnico al restaurar tu wallet. Ponte en contacto con el equipo de soporte técnico para obtener más información.",
         "tryAgain": "Reintentar",
         "createNewWallet": "Crear wallet",
         "help": "Ayuda"
       },
       "notFound": {
-        "title": "Billetera no encontrada",
-        "body": "Para restaurar tu billetera, utiliza la <0>misma dirección de correo electrónico y el mismo número de teléfono</0> que utilizaste al configurarla.\n\nTambién puedes restaurar tu billetera con tu frase de recuperación.",
+        "title": "No se encontró la wallet",
+        "body": "Para restaurar tu wallet, usa la <0>misma dirección de correo electrónico y el mismo número de teléfono</0> que usaste al configurarla.\n\nTambién puedes restaurar tu wallet con tu frase de recuperación.",
         "tryAgain": "Reintentar",
         "createNewWallet": "Crear wallet"
       }
@@ -686,7 +686,7 @@
     "body": "Conéctate y comparte valor con tus amigos y familiares en {{appName}}.",
     "button": "Enviar invitación",
     "error": "Hubo un error al crear el enlace compartible",
-    "share": "Hola, regístrate en la billetera {{appName}}. Yo la utilizo para hacer crecer mis ahorros en USD y cripto, y puedes configurarla en segundos con sólo un número de teléfono. Asegúrate de registrarte con mi enlace de referencia aquí: {{shareUrl}}.",
+    "share": "Hola, regístrate en la wallet {{appName}}. Yo la utilizo para multiplicar mis ahorros en USD y cripto, y puedes configurarla en segundos con solo un número de teléfono. Asegúrate de registrarte con mi enlace de referencia aquí: {{shareUrl}}.",
     "help": "Para recibir esta recompensa, el invitado debe descargar la app a través del enlace de recomendación, conectar su número de teléfono, agregar fondos y mantenerlos en {{appName}} durante 7 días. <0>Ver todas las condiciones</0>",
     "rewardsActive": {
       "title": "Invita a tus amigos y obtén NFTs",
@@ -708,8 +708,8 @@
     "heading2": "Activos digitales y {{appName}}",
     "info": "Para poder usar nuestros servicios, lee nuestro <0>Acuerdo de condiciones de uso</0> y toca el botón Aceptar para indicar que estás de acuerdo.",
     "privacy": "Al unirte a esta red, nos das permiso para recopilar información anónima sobre tu uso de la aplicación. Además, si conectas tu número de teléfono, se guardará una copia cifrada. Si decides conectar tu lista de contactos, Valora importará el nombre, número de teléfono y foto de perfil de tus contactos para permitirte conectar con ellos a través de Valora. Para obtener más información sobre cómo recopilamos y usamos tus datos, consulta nuestra <0>Política de privacidad</0>.",
-    "goldDisclaimer": "Cuando creas una \"cuenta\" en Valora, estás creando una billetera digital de la que sólo tú tienes las claves. Ninguna otra persona o entidad, incluyendo Valora, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Ten en cuenta que las criptomonedas forman parte de una nueva clase de activos y presentan un riesgo de pérdida financiera. Considera cuidadosamente tu circunstancia financiera y tu tolerancia al riesgo financiero antes de comprar cualquier activo.",
-    "goldDisclaimerWithPoints": "Cuando creas una \"cuenta\" en Valora, estás creando una billetera digital de la que sólo tú tienes las claves. Ninguna otra persona o entidad, incluyendo Valora, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Valora concede recompensas de fidelidad tokenizadas (\"Puntos\") a los Usuarios por participar en determinadas actividades dentro de la aplicación. Los Puntos son tokens coleccionables, intransferibles y no canjeables. No se garantiza la disponibilidad ni el valor de los Puntos. Ten en cuenta que las criptomonedas forman parte de una nueva clase de activos y presentan un riesgo de pérdida financiera. Considera cuidadosamente tu circunstancia financiera y tu tolerancia al riesgo financiero antes de comprar cualquier activo."
+    "goldDisclaimer": "Cuando creas una \"cuenta\" en Valora, estás creando una wallet digital de la que sólo tú tienes las claves. Ninguna otra persona o entidad, incluyendo Valora, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Ten en cuenta que las criptomonedas forman parte de una nueva clase de activos y presentan un riesgo de pérdida financiera. Considera cuidadosamente tu circunstancia financiera y tu tolerancia al riesgo financiero antes de comprar cualquier activo.",
+    "goldDisclaimerWithPoints": "Cuando creas una \"cuenta\" en Valora, estás creando una wallet digital de la que sólo tú tienes las claves. Ninguna otra persona o entidad, incluyendo Valora, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Valora concede recompensas de fidelidad tokenizadas (\"Puntos\") a los Usuarios por participar en determinadas actividades dentro de la aplicación. Los Puntos son tokens coleccionables, intransferibles y no canjeables. No se garantiza la disponibilidad ni el valor de los Puntos. Ten en cuenta que las criptomonedas forman parte de una nueva clase de activos y presentan un riesgo de pérdida financiera. Considera cuidadosamente tu circunstancia financiera y tu tolerancia al riesgo financiero antes de comprar cualquier activo."
   },
   "termsColloquial": {
     "title": "Empecemos por crear tu wallet",
@@ -828,7 +828,7 @@
     "createNewWallet": "Crear wallet",
     "restoreWallet": "Restaurar wallet",
     "hasWallet": "Ya tengo una wallet",
-    "hasWalletV1_88": "Tengo una billetera",
+    "hasWalletV1_88": "Tengo una wallet",
     "header": "¡Te damos la bienvenida a {{appName}}! Demos el primer paso, creemos tu wallet.",
     "getStarted": "Primeros pasos",
     "agreeToTerms": "Al crear una wallet aceptas nuestros <0>Términos y condiciones</0>."
@@ -879,7 +879,7 @@
   },
   "verificationSkipDialog": {
     "title": "¿Quieres omitir este paso?",
-    "body": "Conectar tu número de teléfono te permite enviar y recibir fondos con facilidad.\n\nLas cuentas que no están conectadas solo pueden enviar pagos usando direcciones de billetera o códigos QR.",
+    "body": "Conectar tu número de teléfono te permite enviar y recibir fondos con facilidad.\n\nLas cuentas que no están conectadas solo pueden enviar pagos usando direcciones de wallet o códigos QR.",
     "cancel": "Regresar",
     "confirm": "Omitir por ahora"
   },
@@ -933,11 +933,11 @@
     }
   },
   "importSelect": {
-    "title": "Restaura tu billetera",
-    "description": "Si configuras una copia de seguridad para proteger tu billetera, elige una de las siguientes opciones.",
+    "title": "Restaura tu wallet",
+    "description": "Si configuras una copia de seguridad para proteger tu wallet, elige una de las siguientes opciones.",
     "emailAndPhone": {
       "title": "Desde copia de seguridad de correo electrónico y teléfono",
-      "description": "Restaura tu billetera con el número de teléfono y el correo electrónico que configuraste anteriormente"
+      "description": "Restaura tu wallet con el número de teléfono y el correo electrónico que configuraste anteriormente"
     },
     "recoveryPhrase": {
       "title": "Desde la frase de recuperación",
@@ -1077,31 +1077,31 @@
     "importing": "Importando..."
   },
   "confirmAccount": {
-    "header": "{{displayName}} tiene múltiples billeteras.",
-    "headerNoDisplayName": "Este número de teléfono tiene varias billeteras.",
-    "button": "Confirma la dirección de la billetera"
+    "header": "{{displayName}} tiene múltiples wallets.",
+    "headerNoDisplayName": "Este número de teléfono tiene varias wallets.",
+    "button": "Confirma la dirección de wallet"
   },
   "secureSendExplanation": {
-    "body1": "Hay múltiples billeteras asociadas a {{e164PhoneNumber}}. Para confirmar que tienes la cuenta correcta, por favor escanea su código QR o introduce su dirección de billetera.",
+    "body1": "Hay múltiples wallets asociadas a {{e164PhoneNumber}}. Para confirmar que tienes la cuenta correcta, por favor escanea su código QR o introduce su dirección de wallet.",
     "body2": "Debes escanear un código QR o confirmar la Dirección de cuenta antes de realizar una transacción."
   },
   "confirmAccountNumber": {
-    "title": "Confirma la dirección de la billetera",
-    "bodyPartial": "Pídele a {{displayName}} los últimos cuatro dígitos de su dirección de billetera. Lo más seguro es hacerlo en persona o por teléfono.",
-    "bodyPartialNoDisplayName": "Pídele a tu contacto los cuatro últimos dígitos de la dirección de su billetera. Lo más seguro es hacerlo en persona o por teléfono.",
-    "body1Full": "Pídele a {{displayName}} la dirección de su billetera.",
-    "body1FullNoDisplayName": "Pídele a tu contacto la dirección de su billetera.",
+    "title": "Confirma la dirección de wallet",
+    "bodyPartial": "Pídele a {{displayName}} los últimos cuatro dígitos de su dirección de wallet. Lo más seguro es hacerlo en persona o por teléfono.",
+    "bodyPartialNoDisplayName": "Pídele a tu contacto los cuatro últimos dígitos de su dirección de wallet. Lo más seguro es hacerlo en persona o por teléfono.",
+    "body1Full": "Pídele a {{displayName}} su dirección de wallet.",
+    "body1FullNoDisplayName": "Pídele a tu contacto su dirección de wallet.",
     "body2Full": "La forma más segura de hacerlo es en persona. Por seguridad, no utilices mensajes de texto (SMS).",
-    "help": "¿Dónde puedo encontrar una Dirección de billetera?",
+    "help": "¿Dónde puedo encontrar la dirección de wallet?",
     "submit": "Enviar"
   },
   "accountInputHeaderPartial": "Los últimos 4 dígitos",
   "accountInputHeaderFull": "Dirección de cuenta",
   "helpModal": {
-    "header": "Localizar una dirección de billetera",
-    "body1": "La dirección de tu billetera se encuentra en el menú. Abre el menú tocando el icono del menú en la esquina superior izquierda.",
-    "body2": "La dirección de tu billetera está cerca de la parte inferior del menú.",
-    "body3": "Las direcciones de las billeteras empiezan con \"0x\" y tienen 42 caracteres"
+    "header": "Localizar una dirección de wallet",
+    "body1": "Tu dirección de wallet se encuentra en el menú. Abre el menú tocando el icono del menú en la esquina superior izquierda.",
+    "body2": "Tu dirección de wallet está cerca de la parte inferior del menú.",
+    "body3": "Las direcciones de wallet empiezan con \"0x\" y tienen 42 caracteres"
   },
   "transferAddressChanged": "Este contacto cambió su Dirección de cuenta desde la última transacción. Este pago fue enviado a:",
   "addressConfirmed": "Dirección de cuenta confirmada",
@@ -1156,7 +1156,7 @@
     "transactionDataCopied": "Datos de transacción copiados",
     "estimatedNetworkFee": "Estimación de la tarifa de la red {{networkName}}",
     "networksList": "Redes",
-    "connectWalletAction": "Conectar billetera",
+    "connectWalletAction": "Conectar wallet",
     "signTransactionAction": "Firmar",
     "sendTransactionAction": "Enviar",
     "unsupportedChain": {
@@ -1167,7 +1167,7 @@
     },
     "notEnoughBalanceForGas": {
       "title": "Saldo insuficiente para cubrir tarifas de transacción",
-      "description": "No tienes suficientes {{feeCurrencies}} para cubrir los gastos de gasolina. Por favor, agrega {{feeCurrencies}} a tu billetera para completar esta transacción."
+      "description": "No tienes suficientes {{feeCurrencies}} para cubrir los gastos de gasolina. Por favor, agrega {{feeCurrencies}} a tu wallet para completar esta transacción."
     },
     "failedToPrepareTransaction": {
       "title": "Error al preparar la transacción",
@@ -1804,7 +1804,7 @@
       "title": "Intercambio de monto MAX",
       "titleV1_74": "Intercambio de monto MAX",
       "body": "Asegúrate de contar con suficiente CELO en tu wallet para cubrir las tarifas de próximas transacciones.",
-      "bodyV1_74": "Asegúrate de que tienes {{tokenSymbol}} en tu billetera para cubrir las tarifas de gasolina en futuras transacciones",
+      "bodyV1_74": "Asegúrate de que tienes {{tokenSymbol}} en tu wallet para cubrir las tarifas de gasolina en futuras transacciones",
       "learnMore": "Más información"
     },
     "priceImpactWarning": {
@@ -1865,7 +1865,7 @@
     },
     "fundYourWalletBottomSheet": {
       "title": "Agregar fondos a tu billetera",
-      "description": "Antes de poder intercambiar tokens, tendrás que agregar fondos a tu billetera comprando cripto o transfiriendo tokens.",
+      "description": "Antes de poder intercambiar tokens, tendrás que agregar fondos a tu wallet comprando cripto o transfiriendo tokens.",
       "addFundsButton": "Agregar fondos"
     }
   },
@@ -1939,7 +1939,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Invita a {{contactName}} a {{appName}} y gana 0,50 cUSD",
-      "body": "Parece que {{contactName}} no está en Valora. Puedes enviarle un pago si conoces su dirección de billetera, o bien envíale una invitación. \n\nUna vez de que descargue Valora, conecte su número de teléfono, agregue fondos y los mantenga durante 7 días, ambos obtendrán 0,50 cUSD mientras duren los fondos."
+      "body": "Parece que {{contactName}} no está en Valora. Puedes enviarle un pago si conoces su dirección de wallet, o bien envíale una invitación. \n\nUna vez de que descargue Valora, conecte su número de teléfono, agregue fondos y los mantenga durante 7 días, ambos obtendrán 0,50 cUSD mientras duren los fondos."
     }
   },
   "celoNews": {
@@ -2099,7 +2099,7 @@
       "options": {
         "one": {
           "title": "Dirección de wallet",
-          "subtitle": "Introduce una dirección de billetera compatible (ej. 0x123...abcde)"
+          "subtitle": "Introduce una dirección de wallet compatible (ej. 0x123...abcde)"
         },
         "two": {
           "title": "Número de teléfono",
@@ -2175,7 +2175,7 @@
     "title": "Crear un enlace directo",
     "sendAmountLabel": "Monto del enlace activo",
     "confirmButton": "Enviar y crear enlace",
-    "info": "Cuando creas un enlace, los fondos se retiran de tu billetera. Puedes recuperar el enlace en cualquier momento. Comparte enlaces con cuidado.",
+    "info": "Cuando creas un enlace, los fondos se retiran de tu wallet. Puedes recuperar el enlace en cualquier momento. Comparte enlaces con cuidado.",
     "sendError": {
       "title": "No se puede crear el enlace",
       "description": "No se creó tu enlace activo. Inténtalo de nuevo.",
@@ -2250,8 +2250,8 @@
   "pleaseWait": "Espera, por favor",
   "error": "Error",
   "linkPhoneNumber": {
-    "title": "Vincular un número de teléfono a la dirección de tu billetera",
-    "description": "¡Se acabaron las direcciones de billetera desordenadas! Envía cripto a otros usuarios de Celo con sólo un número de teléfono",
+    "title": "Vincular un número de teléfono a tu dirección de wallet",
+    "description": "¡Se acabaron las direcciones de wallet desordenadas! Envía cripto a otros usuarios de Celo con sólo un número de teléfono",
     "startButtonLabel": "Vincula el número de teléfono",
     "later": "Lo haré más tarde"
   },
