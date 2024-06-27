@@ -11,7 +11,7 @@ import { isAddress } from 'viem'
 
 const TAG = 'earn/hooks'
 
-export function useAavePoolInfo({ depositTokenId }: { depositTokenId: string }) {
+function useAavePoolInfo({ depositTokenId }: { depositTokenId: string }) {
   const depositToken = useTokenInfo(depositTokenId)
   const asyncPoolInfo = useAsync(
     async () => {
