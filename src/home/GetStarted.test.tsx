@@ -1,32 +1,33 @@
-import { fireEvent, render, waitFor } from '@testing-library/react-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { fetchPoolInfo } from 'src/earn/slice'
 import GetStarted from 'src/home/GetStarted'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
 import { mockArbUsdcTokenId, mockTokenBalances } from 'test/values'
 
-jest.mock('src/earn/poolInfo', () => ({
-  fetchAavePoolInfo: jest.fn().mockResolvedValue({ apy: 0.0135 }),
-}))
-
 describe('GetStarted', () => {
-  it('should display the correct text', async () => {
-    const { getByText } = render(
-      <Provider
-        store={createMockStore({
-          tokens: {
-            tokenBalances: {
-              [networkConfig.arbUsdcTokenId]: {
-                ...mockTokenBalances[mockArbUsdcTokenId],
-                tokenId: networkConfig.arbUsdcTokenId,
-              },
-            },
+  it('should display the correct text', () => {
+    const store = createMockStore({
+      tokens: {
+        tokenBalances: {
+          [networkConfig.arbUsdcTokenId]: {
+            ...mockTokenBalances[mockArbUsdcTokenId],
+            tokenId: networkConfig.arbUsdcTokenId,
           },
-        })}
-      >
+        },
+      },
+      earn: {
+        poolInfo: {
+          apy: 0.0135,
+        },
+      },
+    })
+    const { getByText } = render(
+      <Provider store={store}>
         <GetStarted />
       </Provider>
     )
@@ -34,14 +35,31 @@ describe('GetStarted', () => {
     expect(getByText('getStarted')).toBeTruthy()
     expect(getByText('getStartedHome.titleV1_86')).toBeTruthy()
     expect(getByText('earnFlow.ctaV1_86.subtitle, {"symbol":"USDC"}')).toBeTruthy()
-    expect(getByText('earnFlow.ctaV1_86.description, {"apy":"--","symbol":"USDC"}')).toBeTruthy()
+    expect(getByText('earnFlow.ctaV1_86.description, {"apy":"1.35","symbol":"USDC"}')).toBeTruthy()
     expect(getByText('getStartedHome.exploreTokens')).toBeTruthy()
     expect(getByText('getStartedHome.exploreTokensBody')).toBeTruthy()
-    await waitFor(() =>
-      expect(
-        getByText('earnFlow.ctaV1_86.description, {"apy":"1.35","symbol":"USDC"}')
-      ).toBeTruthy()
+    expect(store.getActions()).toEqual([fetchPoolInfo()])
+  })
+
+  it('should display fallback if apy is not available', () => {
+    const store = createMockStore({
+      tokens: {
+        tokenBalances: {
+          [networkConfig.arbUsdcTokenId]: {
+            ...mockTokenBalances[mockArbUsdcTokenId],
+            tokenId: networkConfig.arbUsdcTokenId,
+          },
+        },
+      },
+    })
+    const { getByText } = render(
+      <Provider store={store}>
+        <GetStarted />
+      </Provider>
     )
+
+    expect(getByText('earnFlow.ctaV1_86.description, {"apy":"--","symbol":"USDC"}')).toBeTruthy()
+    expect(store.getActions()).toEqual([fetchPoolInfo()])
   })
 
   it('should trigger impression analytics event', () => {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { EarnEvents } from 'src/analytics/Events'
@@ -7,10 +7,12 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import TokenDisplay from 'src/components/TokenDisplay'
 import { PROVIDER_ID } from 'src/earn/constants'
-import { useAavePoolInfo } from 'src/earn/hooks'
+import { poolInfoFetchStatusSelector, poolInfoSelector } from 'src/earn/selectors'
+import { fetchPoolInfo } from 'src/earn/slice'
 import UpwardGraph from 'src/icons/UpwardGraph'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -43,8 +45,14 @@ interface Props {
 
 export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Props) {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
   const poolToken = useTokenInfo(poolTokenId)
-  const asyncPoolInfo = useAavePoolInfo({ depositTokenId })
+  const poolInfo = useSelector(poolInfoSelector)
+  const poolInfoFetchStatus = useSelector(poolInfoFetchStatusSelector)
+
+  useEffect(() => {
+    dispatch(fetchPoolInfo())
+  }, [])
 
   if (!poolToken) {
     // should never happen
@@ -69,17 +77,19 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
             )}
           </View>
           <View style={styles.row}>
-            {asyncPoolInfo.error && <View />}
-            {asyncPoolInfo.loading && <PoolDetailsLoading />}
-            {asyncPoolInfo.result && !!asyncPoolInfo.result.apy && (
+            {poolInfoFetchStatus === 'loading' ? (
+              <PoolDetailsLoading />
+            ) : poolInfo?.apy ? (
               <View style={styles.apyContainer}>
                 <Text style={styles.apyText}>
                   {t('earnFlow.activePools.apy', {
-                    apy: (asyncPoolInfo.result.apy * 100).toFixed(2),
+                    apy: (poolInfo.apy * 100).toFixed(2),
                   })}
                 </Text>
                 <UpwardGraph />
               </View>
+            ) : (
+              <View />
             )}
             {poolToken.balance && (
               <TokenDisplay

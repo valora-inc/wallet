@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { EarnEvents } from 'src/analytics/Events'
@@ -7,10 +7,12 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import { PROVIDER_ID } from 'src/earn/constants'
-import { useAavePoolInfo } from 'src/earn/hooks'
+import { poolInfoSelector } from 'src/earn/selectors'
+import { fetchPoolInfo } from 'src/earn/slice'
 import CircledIcon from 'src/icons/CircledIcon'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -21,8 +23,13 @@ const TAG = 'earn/EarnCta'
 
 export default function EarnCta({ depositTokenId }: { depositTokenId: string }) {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
   const depositToken = useTokenInfo(depositTokenId)
-  const asyncPoolInfo = useAavePoolInfo({ depositTokenId })
+  const poolInfo = useSelector(poolInfoSelector)
+
+  useEffect(() => {
+    dispatch(fetchPoolInfo())
+  }, [])
 
   if (!depositToken) {
     // should never happen
@@ -30,9 +37,7 @@ export default function EarnCta({ depositTokenId }: { depositTokenId: string }) 
     return null
   }
 
-  const apyDisplay = asyncPoolInfo.result
-    ? new BigNumber(asyncPoolInfo.result.apy).multipliedBy(100).toFixed(2)
-    : '--'
+  const apyDisplay = poolInfo ? new BigNumber(poolInfo.apy).multipliedBy(100).toFixed(2) : '--'
 
   return (
     <View style={styles.container}>
