@@ -45,7 +45,7 @@ export default function AccountKeyEducation(props: Props) {
       finalButtonText={t('completeEducation')}
       buttonText={t('next')}
       finalButtonType={BtnTypes.PRIMARY}
-      style={{ backgroundColor: Colors.onboardingBackground }}
+      style={isFromCabOnboarding && { backgroundColor: Colors.onboardingBackground }}
     />
   )
 }
