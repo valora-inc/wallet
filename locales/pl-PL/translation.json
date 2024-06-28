@@ -709,7 +709,7 @@
     "info": "Aby móc korzystać z naszych usług, przeczytaj <0>Umowę z użytkownikiem i Regulamin</0> oraz zaakceptuj je, klikając poniższy przycisk akceptacji.",
     "privacy": "Dołączając do tej sieci, udzielasz nam zgody na gromadzenie anonimowych informacji o korzystaniu z aplikacji. Ponadto jeśli podłączysz swój numer telefonu, zostanie zapisana jego zaszyfrowana kopia. Jeśli przyznasz Valora dostęp do swojej listy kontaktów, Valora zaimportuje nazwę, numer telefonu i zdjęcie profilowe każdego kontaktu, aby umożliwić użytkownikom łączenie się za pośrednictwem aplikacji Valora. Aby dowiedzieć się, w jaki sposób zbieramy i wykorzystujemy te informacje, zapoznaj się z naszą <0>Polityką prywatności</0>.",
     "goldDisclaimer": "Tworząc „konto” w Valora, tworzysz cyfrowy portfel, do którego klucze posiadasz tylko Ty. Żadna inna osoba ani podmiot, w tym Valora, nie może odzyskać Twojego klucza, zmienić ani cofnąć transakcji ani odzyskać utraconych środków. Pamiętaj, że kryptowaluty są częścią nowej klasy aktywów i wiążą się z ryzykiem strat finansowych. Przed zakupem jakichkolwiek aktywów dokładnie rozważ swoją sytuację finansową i tolerancję na ryzyko finansowe.",
-    "goldDisclaimerWithPoints": "Tworząc \"konto\" w Valora, tworzysz cyfrowy portfel, do którego tylko Ty posiadasz klucze. Żadna inna osoba ani podmiot, w tym Valora, nie może odzyskać Twojego klucza, zmienić lub cofnąć transakcji ani odzyskać utraconych środków. Valora przyznaje tokenizowane nagrody lojalnościowe (\"Punkty\") Użytkownikom za angażowanie się w określone działania w aplikacji. Punkty są niezbywalnymi i niewymienialnymi przedmiotami kolekcjonerskimi. Nie gwarantujemy dostępności ani wartości Punktów. Pamiętaj, że aktywa cyfrowe są częścią nowej klasy aktywów i wiążą się z ryzykiem strat finansowych. Przed zakupem jakichkolwiek aktywów cyfrowych dokładnie rozważ swoją sytuację finansową i tolerancję na ryzyko finansowe."
+    "goldDisclaimerWithPoints": "Utworzenie „konta” w aplikacji Valora powoduje utworzenie cyfrowego portfela, do którego dostęp ma tylko użytkownik. Żadna inna osoba ani podmiot, w tym firma Valora, nie może uzyskać do niego dostępu, zmieniać ani cofać transakcji lub odzyskiwać utraconych środków. Valora przyznaje nagrody lojalnościowe w postaci tokenów („Punkty”) użytkownikkom za wykonywanie pewnych czynności w aplikacji. Punkty są powiązanymi, niezbywalnymi i niewymienialnymi kolekcjami. Firma nie udziela żadnych gwarancji co do dostępności ani wartości Punktów. Pamiętaj, że cyfrowe aktywa są częścią nowej klasy aktywów i wiążą się z ryzykiem strat finansowych. Użytkownik musi ostrożnie oszacować swoją sytuację finansową i zakres możliwego do podjęcia ryzyka finansowego przed zakupem jakichkolwiek cyfrowych aktywów."
   },
   "termsColloquial": {
     "title": "Zacznijmy od stworzenia Twojego portfela",
@@ -1442,8 +1442,8 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Odkryj",
-    "exploreDapps": "Eksploruj Dapps",
-    "exploreAll": "Odkryj wszystko",
+    "exploreDapps": "Przeglądaj aplikacje Dapps",
+    "exploreAll": "Przeglądaj wszystko",
     "message": "Przeglądaj sposoby korzystania ze swoich aktywów",
     "errorMessage": "Wystąpił błąd podczas ładowania Dapps",
     "featuredDapp": "Polecane",
@@ -1781,10 +1781,10 @@
     "selectTokenLabel": "Wybierz token",
     "tokenBottomSheetTitle": "Wybierz token",
     "onNetwork": "w {{networkName}}",
-    "crossChainNotification": "Wymiana tokenów między różnymi sieciami",
+    "crossChainNotification": "Tokeny wymienne pomiędzy różnymi sieciami",
     "crossChainFeeWarning": {
       "title": "Potrzebujesz więcej {{tokenSymbol}}",
-      "body": "Potrzebujesz więcej {{tokenSymbol}} na {{networkName}} , aby zapłacić za opłaty za wymianę międzyłańcuchową. Dodaj {{tokenAmount}} więcej {{tokenSymbol}} , aby kontynuować."
+      "body": "Potrzebujesz więcej {{tokenSymbol}} w sieci {{networkName}}, aby zapłacić opłaty za wymianę międzyłańcuchową. Dodaj kolejne {{tokenSymbol}} ({{tokenAmount}}), aby kontynuować."
     },
     "insufficientBalanceWarning": {
       "title": "Potrzebujesz więcej {{tokenSymbol}}",
@@ -1792,11 +1792,11 @@
     },
     "unsupportedTokensWarning": {
       "title": "Niezgodny wybór",
-      "body": "Wybranych tokenów nie można zamieniać. Wybierz inny token, który jest zgodny z Twoim wyborem."
+      "body": "Nie można wymieniać wybranych tokenów. Wybierz inny token, który jest zgodny z bieżącym wyborem."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Potrzebujesz więcej {{feeTokenSymbol}} na gaz",
-      "body": "Dodaj {{feeTokenSymbol}} , aby pokryć opłaty za gaz lub dostosuj kwotę, którą wymieniasz.",
+      "body": "Dodaj {{feeTokenSymbol}}, aby pokryć opłaty za gaz lub skoryguj wymienianą kwotę.",
       "cta": "Wymień mniejszą kwotę"
     },
     "switchedToNetworkWarning": {
@@ -2367,7 +2367,7 @@
         "title": "Dokonaj swapu aktywów",
         "bottomSheet": {
           "title": "Dokonaj swapu aktywów",
-          "body": "Zdobywaj punkty {{pointsValue}} za każdym razem, gdy wymieniasz aktywa za pomocą {{appName}}. \n\nKliknij poniżej, aby rozpocząć wymianę i zarabianie!",
+          "body": "Zdobywaj punkty {{pointsValue}} przy każdej wymianie aktywów za pomocą aplikacji {{appName}}.\n\nDotknij poniżej, aby rozpocząć wymienianie i zarabianie.",
           "cta": "Rozpocznij wymianę"
         }
       },

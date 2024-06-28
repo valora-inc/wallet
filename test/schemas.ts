@@ -3361,6 +3361,18 @@ export const v217Schema = {
   },
 }
 
+export const v218Schema = {
+  ...v217Schema,
+  _persist: {
+    ...v217Schema._persist,
+    version: 218,
+  },
+  earn: {
+    ...v217Schema.earn,
+    poolInfoFetchStatus: 'idle',
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v217Schema as Partial<RootState>
+  return v218Schema as Partial<RootState>
 }

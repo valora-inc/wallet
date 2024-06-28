@@ -31,6 +31,7 @@ import DappKitAccountScreen from 'src/dappkit/DappKitAccountScreen'
 import DappKitSignTxScreen from 'src/dappkit/DappKitSignTxScreen'
 import DappShortcutTransactionRequest from 'src/dapps/DappShortcutTransactionRequest'
 import DappShortcutsRewards from 'src/dapps/DappShortcutsRewards'
+import DappsScreen from 'src/dapps/DappsScreen'
 import EarnCollectScreen from 'src/earn/EarnCollectScreen'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
 import EarnInfoScreen from 'src/earn/EarnInfoScreen'
@@ -123,7 +124,6 @@ import VerificationStartScreen from 'src/verify/VerificationStartScreen'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
 import WalletConnectRequest from 'src/walletConnect/screens/WalletConnectRequest'
 import WebViewScreen from 'src/webview/WebViewScreen'
-import DappsScreen from 'src/dapps/DappsScreen'
 
 const TAG = 'Navigator'
 
@@ -479,7 +479,7 @@ const settingsScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen
       name={Screens.KeylessBackupPhoneCodeInput}
-      options={{ headerStyle: {} }}
+      options={noHeader}
       component={KeylessBackupPhoneCodeInput}
     />
     <Navigator.Screen

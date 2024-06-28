@@ -709,7 +709,7 @@
     "info": "Hizmetlerimizi kullanmak için lütfen <0>Kullanıcı Sözleşmemizi ve Şartlarımızı</0> okuyun ve hemen altındaki kabul et düğmesini tıklayarak kabul edin.",
     "privacy": "Bu ağa katılarak, uygulamayı kullanımınız hakkında anonim bilgi toplamamıza izin veriyorsunuz. Ek olarak, telefon numaranızı bağlarsanız, bunun hash'li bir kopyası saklanır. Valora'ya kişi listenize erişim izni verirseniz, Valora, kullanıcıların Valora uygulaması aracılığıyla bağlanmasına izin vermek için her kişinin adını, telefon numarasını ve profil resmini içe aktarır. Bu bilgileri nasıl topladığımızı ve kullandığımızı öğrenmek için lütfen <0>Gizlilik Politikamızı</0> inceleyin.",
     "goldDisclaimer": "Valora ile bir \"hesap\" oluşturduğunuzda, anahtarlarını yalnızca sizin tuttuğunuz bir dijital cüzdan yaratmış olursunuz. Valora dahil olmak üzere başka hiçbir kişi veya kuruluş anahtarınızı geri alamaz, işlemleri değiştiremez veya geri alamaz ya da kaybedilen parayı geri alamaz. Kripto paraların yeni bir varlık sınıfının parçası olduğunu ve finansal kayıp riski taşıdığını unutmayın. Herhangi bir varlık satın almadan önce finansal durumunuzu ve finansal risk toleransınızı dikkatlice değerlendirin.",
-    "goldDisclaimerWithPoints": "Valora'da bir \"hesap\" oluşturduğunuzda, anahtarlarına yalnızca sizin sahip olduğunuz bir dijital cüzdan oluşturmuş olursunuz. Valora dahil olmak üzere başka hiçbir kişi veya kuruluş anahtarınızı kurtaramaz, işlemleri değiştiremez veya geri alamaz veya kaybedilen fonları geri alamaz. Valora, belirli uygulama içi etkinliklere katıldıkları için Kullanıcılara tokenize sadakat ödülleri (\"Puanlar\") verir. Puanlar zincir üzerinde, devredilemez ve geri alınamaz koleksiyonlardır. Puanların kullanılabilirliği veya değeri hakkında hiçbir garanti verilmez. Dijital varlıkların yeni bir varlık sınıfının parçası olduğunu ve finansal kayıp riski taşıdığını unutmayın. Herhangi bir dijital varlık satın almadan önce finansal koşullarınızı ve finansal risk toleransınızı dikkatlice değerlendirin."
+    "goldDisclaimerWithPoints": "Valora'da bir \"hesap\" oluşturduğunuzda, anahtarlarına yalnızca sizin sahip olduğunuz bir dijital cüzdan oluşturmuş olursunuz. Valora dahil olmak üzere başka hiçbir kişi veya kuruluş anahtarınızı kurtaramaz, işlemleri değiştiremez veya geri alamaz ya da kaybedilen fonları geri alamaz. Valora, belirli uygulama içi etkinliklere katıldıkları için Kullanıcılara tokenleştirilmiş sadakat ödülleri (\"Puanlar\") verir. Puanlar zincir üzerinde, devredilemez ve geri alınamaz koleksiyonlardır. Puanların kullanılabilirliği veya değeri hakkında hiçbir garanti verilmez. Dijital varlıkların yeni bir varlık sınıfının parçası olduğunu ve finansal kayıp riski taşıdığını unutmayın. Herhangi bir dijital varlık satın almadan önce finansal koşullarınızı ve finansal risk toleransınızı dikkatlice değerlendirin."
   },
   "termsColloquial": {
     "title": "Cüzdanınızı oluşturarak başlayalım",
@@ -828,7 +828,7 @@
     "createNewWallet": "Cüzdan oluştur",
     "restoreWallet": "Cüzdan Yeniden Kur",
     "hasWallet": "Zaten cüzdanım var",
-    "hasWalletV1_88": "Bir cüzdanım var.",
+    "hasWalletV1_88": "Bir cüzdanım var",
     "header": "{{appName}} uygulamasına hoş geldiniz! Kripto cüzdanınızı oluşturalım.",
     "getStarted": "Başlayın",
     "agreeToTerms": "Bir cüzdan oluşturarak <0>Şartlar ve Koşullarımızı</0> kabul etmiş olursunuz"
@@ -1438,7 +1438,7 @@
   "dappsScreen": {
     "title": "Dapp'ler",
     "titleDiscover": "Keşfedin",
-    "exploreDapps": "Dapps'i Keşfedin",
+    "exploreDapps": "Dapp'leri Keşfedin",
     "exploreAll": "Tümünü Keşfet",
     "message": "Varlıklarınızı kullanmanın yollarını keşfedin",
     "errorMessage": "Dapp'ler yüklenirken bir hata oluştu",
@@ -1777,22 +1777,22 @@
     "selectTokenLabel": "Token seçin",
     "tokenBottomSheetTitle": "Token Seç",
     "onNetwork": "{{networkName}} üzerinde",
-    "crossChainNotification": "Farklı ağlar arasında jeton değiştirme",
+    "crossChainNotification": "Farklı ağlar arasında token takas etme",
     "crossChainFeeWarning": {
-      "title": "Daha fazlasına ihtiyacınız var {{tokenSymbol}}",
-      "body": "Zincirler arası takas ücretlerini ödemek için {{networkName}} adresinde daha fazla {{tokenSymbol}} adresine ihtiyacınız var. Devam etmek için {{tokenAmount}} daha fazla {{tokenSymbol}} ekleyin."
+      "title": "Daha fazla {{tokenSymbol}} bakiyesine ihtiyacınız var",
+      "body": "Zincirler arası takas ücretlerini ödemek için {{networkName}} üzerinde daha fazla {{tokenSymbol}} bakiyesine ihtiyacınız var. Devam etmek için {{tokenAmount}} {{tokenSymbol}} daha ekleyin."
     },
     "insufficientBalanceWarning": {
-      "title": "Daha fazlasına ihtiyacınız var {{tokenSymbol}}",
+      "title": "Daha fazla {{tokenSymbol}} bakiyesine ihtiyacınız var",
       "body": "Yetersiz {{tokenSymbol}}. Lütfen daha küçük bir miktar girin veya farklı bir varlık seçin."
     },
     "unsupportedTokensWarning": {
       "title": "Uyumsuz Seçim",
-      "body": "Seçilen jetonlar arasında geçiş yapılamaz. Lütfen seçiminizle uyumlu başka bir token seçin."
+      "body": "Seçilen tokenler arasında takas yapılamaz. Lütfen seçiminizle uyumlu başka bir token seçin."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Gas için daha fazla {{feeTokenSymbol}} bakiyesine ihtiyacınız var",
-      "body": "Gaz ücretlerinizi karşılamak için {{feeTokenSymbol}} adresini ekleyin veya takas ettiğiniz miktarı ayarlayın",
+      "body": "Gas ücretlerinizi karşılamak için {{feeTokenSymbol}} ekleyin veya takas ettiğiniz tutarı ayarlayın",
       "cta": "Daha düşük bir tutarı swap edin"
     },
     "switchedToNetworkWarning": {
@@ -2363,7 +2363,7 @@
         "title": "Varlıkları takas edin",
         "bottomSheet": {
           "title": "Varlıkları takas edin",
-          "body": "{{appName}}adresini kullanarak her varlık takası yaptığınızda {{pointsValue}} puanı kazanın. \n\nTakas etmeye ve kazanmaya başlamak için aşağıya dokunun!",
+          "body": "{{appName}} uygulamasını kullanarak her varlık takası yaptığınızda {{pointsValue}} puanı kazanın. \n\nTakas etmeye ve kazanmaya başlamak için aşağıya dokunun!",
           "cta": "Bir takas başlatın"
         }
       },
