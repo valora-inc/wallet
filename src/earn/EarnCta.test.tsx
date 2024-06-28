@@ -1,65 +1,55 @@
-import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
+import { act, fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import EarnCta from 'src/earn/EarnCta'
-import { fetchAavePoolInfo } from 'src/earn/poolInfo'
+import { fetchPoolInfo } from 'src/earn/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
 import { mockArbUsdcTokenId, mockTokenBalances } from 'test/values'
 
-const createStore = (balance: string = '0') =>
+const createStore = (apy?: number) =>
   createMockStore({
     tokens: {
-      tokenBalances: {
-        [mockArbUsdcTokenId]: {
-          ...mockTokenBalances[mockArbUsdcTokenId],
-          balance,
-        },
-      },
+      tokenBalances: mockTokenBalances,
+    },
+    earn: {
+      poolInfo: apy ? { apy } : undefined,
     },
   })
-
-jest.mock('src/earn/poolInfo')
 
 describe('EarnCta', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.mocked(fetchAavePoolInfo).mockResolvedValue({ apy: 0.02345 })
   })
 
-  it('renders correctly with APY', async () => {
+  it('renders correctly with APY', () => {
+    const store = createStore(0.02345)
     const { getByText } = render(
-      <Provider store={createStore()}>
+      <Provider store={store}>
         <EarnCta depositTokenId={mockArbUsdcTokenId} />
       </Provider>
     )
 
     expect(getByText('earnFlow.ctaV1_86.title')).toBeTruthy()
     expect(getByText('earnFlow.ctaV1_86.subtitle, {"symbol":"USDC"}')).toBeTruthy()
-    expect(getByText('earnFlow.ctaV1_86.description, {"apy":"--","symbol":"USDC"}')).toBeTruthy()
-    await waitFor(() =>
-      expect(
-        getByText('earnFlow.ctaV1_86.description, {"apy":"2.35","symbol":"USDC"}')
-      ).toBeTruthy()
-    )
+    expect(getByText('earnFlow.ctaV1_86.description, {"apy":"2.35","symbol":"USDC"}')).toBeTruthy()
+    expect(store.getActions()).toEqual([fetchPoolInfo()])
   })
 
   it('renders description correctly when apy is not available', async () => {
-    jest.mocked(fetchAavePoolInfo).mockRejectedValue(new Error('error'))
+    const store = createStore()
     const { getByText } = render(
-      <Provider store={createStore()}>
+      <Provider store={store}>
         <EarnCta depositTokenId={mockArbUsdcTokenId} />
       </Provider>
     )
 
     expect(getByText('earnFlow.ctaV1_86.description, {"apy":"--","symbol":"USDC"}')).toBeTruthy()
-    await waitFor(() =>
-      expect(getByText('earnFlow.ctaV1_86.description, {"apy":"--","symbol":"USDC"}')).toBeTruthy()
-    )
+    expect(store.getActions()).toEqual([fetchPoolInfo()])
   })
 
   it('navigates to EarnInfoScreen when pressed', async () => {

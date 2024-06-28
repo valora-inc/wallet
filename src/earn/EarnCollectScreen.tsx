@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
@@ -11,9 +11,13 @@ import InLineNotification, { NotificationVariant } from 'src/components/InLineNo
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import { PROVIDER_ID } from 'src/earn/constants'
-import { useAavePoolInfo, useAaveRewardsInfoAndPrepareTransactions } from 'src/earn/hooks'
-import { withdrawStatusSelector } from 'src/earn/selectors'
-import { withdrawStart } from 'src/earn/slice'
+import { useAaveRewardsInfoAndPrepareTransactions } from 'src/earn/hooks'
+import {
+  poolInfoFetchStatusSelector,
+  poolInfoSelector,
+  withdrawStatusSelector,
+} from 'src/earn/selectors'
+import { fetchPoolInfo, withdrawStart } from 'src/earn/slice'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -231,20 +235,22 @@ function CollectItem({
 
 function Rate({ depositToken }: { depositToken: TokenBalance }) {
   const { t } = useTranslation()
-  const asyncPoolInfo = useAavePoolInfo({ depositTokenId: depositToken.tokenId })
+  const dispatch = useDispatch()
+
+  const poolInfo = useSelector(poolInfoSelector)
+  const poolInfoFetchStatus = useSelector(poolInfoFetchStatusSelector)
+
+  useEffect(() => {
+    dispatch(fetchPoolInfo())
+  }, [])
+
   return (
     <View>
       <Text style={styles.rateText}>{t('earnFlow.collect.rate')}</Text>
       <View style={styles.row}>
         <TokenIcon token={depositToken} size={IconSize.SMALL} />
-        {asyncPoolInfo.result && (
-          <Text style={styles.apyText}>
-            {t('earnFlow.collect.apy', {
-              apy: (asyncPoolInfo.result.apy * 100).toFixed(2),
-            })}
-          </Text>
-        )}
-        {asyncPoolInfo.loading && (
+
+        {poolInfoFetchStatus === 'loading' ? (
           <SkeletonPlaceholder
             backgroundColor={Colors.gray2}
             highlightColor={Colors.white}
@@ -252,8 +258,13 @@ function Rate({ depositToken }: { depositToken: TokenBalance }) {
           >
             <View style={styles.apyLoading} />
           </SkeletonPlaceholder>
-        )}
-        {asyncPoolInfo.error && (
+        ) : poolInfo?.apy ? (
+          <Text style={styles.apyText}>
+            {t('earnFlow.collect.apy', {
+              apy: (poolInfo.apy * 100).toFixed(2),
+            })}
+          </Text>
+        ) : (
           <Text style={styles.apyText}>{t('earnFlow.collect.apy', { apy: '--' })}</Text>
         )}
       </View>

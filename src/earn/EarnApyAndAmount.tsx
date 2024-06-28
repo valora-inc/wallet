@@ -1,11 +1,13 @@
 import BigNumber from 'bignumber.js'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
-import { useAavePoolInfo } from 'src/earn/hooks'
+import { poolInfoFetchStatusSelector, poolInfoSelector } from 'src/earn/selectors'
+import { fetchPoolInfo } from 'src/earn/slice'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -21,9 +23,15 @@ export function EarnApyAndAmount({
   testIDPrefix?: string
 }) {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
+  const poolInfo = useSelector(poolInfoSelector)
+  const poolInfoFetchStatus = useSelector(poolInfoFetchStatusSelector)
 
-  const asyncPoolInfo = useAavePoolInfo({ depositTokenId: token.tokenId })
-  const apy = asyncPoolInfo?.result?.apy
+  useEffect(() => {
+    dispatch(fetchPoolInfo())
+  }, [])
+
+  const apy = poolInfo?.apy
 
   const apyString = apy ? (apy * 100).toFixed(2) : '--'
   const earnUpTo =
@@ -49,7 +57,7 @@ export function EarnApyAndAmount({
         <View style={styles.apy}>
           <TokenIcon token={token} size={IconSize.XSMALL} />
 
-          {asyncPoolInfo?.loading && (
+          {poolInfoFetchStatus === 'loading' ? (
             <SkeletonPlaceholder
               backgroundColor={Colors.gray2}
               highlightColor={Colors.white}
@@ -57,8 +65,7 @@ export function EarnApyAndAmount({
             >
               <View style={styles.loadingSkeleton} />
             </SkeletonPlaceholder>
-          )}
-          {!asyncPoolInfo?.loading && (
+          ) : (
             <Text style={styles.valuesText} testID={`${testIDPrefix}/EarnApyAndAmount/Apy`}>
               {t('earnFlow.enterAmount.rate', {
                 rate: apyString,

@@ -6,7 +6,7 @@ import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import { PROVIDER_ID } from 'src/earn/constants'
-import { depositStart } from 'src/earn/slice'
+import { depositStart, fetchPoolInfo } from 'src/earn/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
@@ -78,7 +78,12 @@ describe('EarnDepositBottomSheet', () => {
 
   it('renders all elements', () => {
     const { getByTestId, queryByTestId, getByText } = render(
-      <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
+      <Provider
+        store={createMockStore({
+          tokens: { tokenBalances: mockTokenBalances },
+          earn: { poolInfoFetchStatus: 'loading' },
+        })}
+      >
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
           amount={new BigNumber(100)}
@@ -134,6 +139,9 @@ describe('EarnDepositBottomSheet', () => {
       expectedAnalyticsProperties
     )
     expect(store.getActions()).toEqual([
+      {
+        type: fetchPoolInfo.type,
+      },
       {
         type: depositStart.type,
         payload: {

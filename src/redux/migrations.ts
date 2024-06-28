@@ -1808,4 +1808,11 @@ export const migrations = {
       },
     },
   }),
+  218: (state: any) => ({
+    ...state,
+    earn: {
+      ...state.earn,
+      poolInfoFetchStatus: 'idle',
+    },
+  }),
 }

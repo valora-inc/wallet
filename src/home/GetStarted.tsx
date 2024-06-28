@@ -6,12 +6,14 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
-import { useAavePoolInfo } from 'src/earn/hooks'
+import { poolInfoSelector } from 'src/earn/selectors'
+import { fetchPoolInfo } from 'src/earn/slice'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import CircledIcon from 'src/icons/CircledIcon'
 import ExploreTokens from 'src/icons/ExploreTokens'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -20,17 +22,21 @@ import networkConfig from 'src/web3/networkConfig'
 
 export default function GetStarted() {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
+  const poolInfo = useSelector(poolInfoSelector)
+
   const goToAddFunds = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_add_get_started_selected)
     navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
   }
 
-  const earnToken = useTokenInfo(networkConfig.arbUsdcTokenId)
-  const asyncPoolInfo = useAavePoolInfo({ depositTokenId: networkConfig.arbUsdcTokenId })
+  useEffect(() => {
+    dispatch(fetchPoolInfo())
+  }, [])
 
-  const apyDisplay = asyncPoolInfo.result
-    ? new BigNumber(asyncPoolInfo.result.apy).multipliedBy(100).toFixed(2)
-    : '--'
+  const earnToken = useTokenInfo(networkConfig.arbUsdcTokenId)
+
+  const apyDisplay = poolInfo?.apy ? new BigNumber(poolInfo.apy).multipliedBy(100).toFixed(2) : '--'
 
   useEffect(() => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_add_get_started_impression)
