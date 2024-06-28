@@ -143,9 +143,9 @@ function KeylessBackupPhoneCodeInput({
           />
         }
         title={
-          isSetupInOnboarding ? (
+          isSetupInOnboarding && (
             <Text style={styles.title}>{t('phoneVerificationInput.title')}</Text>
-          ) : undefined
+          )
         }
       />
       <VerificationCodeInput
