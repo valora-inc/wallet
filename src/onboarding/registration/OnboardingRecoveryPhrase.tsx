@@ -32,7 +32,8 @@ import Logger from 'src/utils/Logger'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.OnboardingRecoveryPhrase>
 
-function OnboardingRecoveryPhrase({ navigation }: Props) {
+function OnboardingRecoveryPhrase({ navigation, route }: Props) {
+  const isFromCabOnboarding = route.params.origin === 'CabOnboarding'
   const onboardingProps = useSelector(onboardingPropsSelector)
   const { step, totalSteps } = getOnboardingStepValues(Screens.ProtectWallet, onboardingProps)
   const accountKey = useAccountKey()
@@ -47,7 +48,7 @@ function OnboardingRecoveryPhrase({ navigation }: Props) {
         return (
           <HeaderTitleWithSubtitle
             title={t('protectWallet.title')}
-            subTitle={t('registrationSteps', { step, totalSteps })}
+            subTitle={!isFromCabOnboarding ? t('registrationSteps', { step, totalSteps }) : null}
           />
         )
       },

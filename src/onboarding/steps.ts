@@ -7,6 +7,7 @@ import {
 } from 'src/account/selectors'
 import { phoneNumberVerifiedSelector, supportedBiometryTypeSelector } from 'src/app/selectors'
 import { setHasSeenVerificationNux } from 'src/identity/actions'
+import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 import * as NavigationService from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -38,6 +39,8 @@ export interface OnboardingProps {
   skipVerification: boolean
   numberAlreadyVerifiedCentrally: boolean
   showCloudAccountBackupRestore: boolean
+  showCloudAccountBackupSetup: boolean
+  showRecoveryPhraseEducation: boolean
 }
 
 /**
@@ -83,6 +86,9 @@ export const onboardingPropsSelector = createSelector(
 
     const skipVerification = !getFeatureGate(StatsigFeatureGates.SHOW_ONBOARDING_PHONE_VERIFICATION)
 
+    const showCloudAccountBackupSetup =
+      true || getFeatureGate(StatsigFeatureGates.SHOW_CAB_IN_ONBOARDING)
+
     return {
       recoveringFromStoreWipe,
       choseToRestoreAccount,
@@ -90,6 +96,8 @@ export const onboardingPropsSelector = createSelector(
       skipVerification,
       numberAlreadyVerifiedCentrally,
       showCloudAccountBackupRestore,
+      showCloudAccountBackupSetup,
+      showRecoveryPhraseEducation: false,
     }
   }
 )
@@ -195,6 +203,8 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
     supportedBiometryType,
     skipVerification,
     numberAlreadyVerifiedCentrally,
+    showCloudAccountBackupSetup,
+    showRecoveryPhraseEducation,
   } = props
 
   const navigateImportOrImportSelect = () => {
@@ -214,6 +224,12 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
           } else if (choseToRestoreAccount) {
             popToScreen(Screens.Welcome)
             navigateImportOrImportSelect()
+          } else if (showCloudAccountBackupSetup) {
+            dispatch(initializeAccount())
+            navigate(Screens.SignInWithEmail, {
+              keylessBackupFlow: KeylessBackupFlow.Setup,
+              origin: KeylessBackupOrigin.Onboarding,
+            })
           } else {
             dispatch(initializeAccount())
             navigate(Screens.ProtectWallet)
@@ -240,6 +256,23 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
           } else {
             // DO NOT CLEAR NAVIGATION STACK HERE - breaks restore flow on initial app open in native-stack v6
             navigate(Screens.LinkPhoneNumber)
+          }
+        },
+      }
+    case Screens.SignInWithEmail:
+      return {
+        next: () => {
+          if (showRecoveryPhraseEducation) {
+            navigate(Screens.AccountKeyEducation, {
+              origin: 'CabOnboarding',
+              nextScreen: Screens.OnboardingRecoveryPhrase,
+            })
+          } else if (skipVerification || numberAlreadyVerifiedCentrally) {
+            dispatch(setHasSeenVerificationNux(true))
+            finishOnboarding(Screens.ChooseYourAdventure)
+          } else {
+            // DO NOT CLEAR NAVIGATION STACK HERE - breaks restore flow on initial app open in native-stack v6
+            navigate(Screens.VerificationStartScreen)
           }
         },
       }

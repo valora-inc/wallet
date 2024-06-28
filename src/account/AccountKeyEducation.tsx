@@ -11,13 +11,19 @@ import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import Colors from 'src/styles/colors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.AccountKeyEducation>
 
 export default function AccountKeyEducation(props: Props) {
+  const isFromCabOnboarding =
+    props.route.params?.nextScreen === Screens.OnboardingRecoveryPhrase &&
+    props.route.params?.origin === 'CabOnboarding'
   function onComplete() {
     ValoraAnalytics.track(OnboardingEvents.backup_education_complete)
-    if (props.route.params?.nextScreen) {
+    if (isFromCabOnboarding) {
+      navigate(Screens.OnboardingRecoveryPhrase, { origin: 'CabOnboarding' })
+    } else if (props.route.params?.nextScreen) {
       navigate(props.route.params?.nextScreen)
     } else {
       navigate(Screens.BackupPhrase)
@@ -39,6 +45,7 @@ export default function AccountKeyEducation(props: Props) {
       finalButtonText={t('completeEducation')}
       buttonText={t('next')}
       finalButtonType={BtnTypes.PRIMARY}
+      style={{ backgroundColor: Colors.onboardingBackground }}
     />
   )
 }

@@ -37,7 +37,7 @@ describe('ImportSelect', () => {
     fireEvent.press(getByTestId('ImportSelect/CloudBackup'))
     expect(navigate).toHaveBeenCalledWith(Screens.SignInWithEmail, {
       keylessBackupFlow: KeylessBackupFlow.Restore,
-      origin: KeylessBackupOrigin.Onboarding,
+      origin: KeylessBackupOrigin.Restore,
     })
   })
 

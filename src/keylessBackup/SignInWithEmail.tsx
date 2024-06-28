@@ -1,26 +1,76 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SafeAreaView, ScrollView, StyleSheet, Text } from 'react-native'
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useAuth0 } from 'react-native-auth0'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import BackButton from 'src/components/BackButton'
+import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import CustomHeader from 'src/components/header/CustomHeader'
 import GoogleIcon from 'src/icons/Google'
+import { email } from 'src/images/Images'
 import KeylessBackupCancelButton from 'src/keylessBackup/KeylessBackupCancelButton'
 import { googleSignInCompleted, keylessBackupStarted } from 'src/keylessBackup/slice'
-import { KeylessBackupFlow } from 'src/keylessBackup/types'
-import { emptyHeader } from 'src/navigator/Headers'
+import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { useDispatch } from 'src/redux/hooks'
+import {
+  getOnboardingStepValues,
+  goToNextOnboardingScreen,
+  onboardingPropsSelector,
+} from 'src/onboarding/steps'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'keylessBackup/SignInWithEmail'
+
+function SignInWithEmailBottomSheet({
+  onPressContinue,
+  onPressSkip,
+  bottomSheetRef,
+}: {
+  onPressContinue: () => void
+  onPressSkip: () => void
+  bottomSheetRef: React.RefObject<BottomSheetRefType>
+}) {
+  const { t } = useTranslation()
+
+  return (
+    <BottomSheet
+      forwardedRef={bottomSheetRef}
+      title={t('signInWithEmail.bottomSheet.title')}
+      titleStyle={styles.bottomSheetTitle}
+      testId="KeylessBackupPhoneCodeInput/HelpInfoBottomSheet"
+    >
+      <Text style={styles.bottomSheetDescription}>
+        {t('signInWithEmail.bottomSheet.description')}
+      </Text>
+      <View style={styles.bottomSheetButtonContainer}>
+        <Button
+          testID="BottomSheet/Continue"
+          onPress={onPressContinue}
+          text={t('signInWithEmail.bottomSheet.continue')}
+          size={BtnSizes.FULL}
+          type={BtnTypes.PRIMARY}
+        />
+        <Button
+          testID="BottomSheet/Skip"
+          onPress={onPressSkip}
+          size={BtnSizes.FULL}
+          type={BtnTypes.SECONDARY}
+          text={t('signInWithEmail.bottomSheet.skip')}
+        />
+      </View>
+    </BottomSheet>
+  )
+}
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SignInWithEmail>
 
@@ -30,6 +80,41 @@ function SignInWithEmail({ route }: Props) {
   const { authorize, getCredentials, clearCredentials } = useAuth0()
   const { keylessBackupFlow, origin } = route.params
   const [loading, setLoading] = useState(false)
+  const onboardingProps = useSelector(onboardingPropsSelector)
+  const { step, totalSteps } = getOnboardingStepValues(Screens.SignInWithEmail, onboardingProps)
+  const { bottom } = useSafeAreaInsets()
+  const insetsStyle = {
+    paddingBottom: Math.max(0, 40 - bottom),
+  }
+  const isOnboarding = origin === KeylessBackupOrigin.Onboarding
+
+  const bottomSheetRef = useRef<BottomSheetRefType>(null)
+
+  const onPressSignInAnotherWay = () => {
+    ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_another_way, {
+      keylessBackupFlow,
+    })
+    bottomSheetRef.current?.snapToIndex(0)
+  }
+
+  const onPressContinue = () => {
+    ValoraAnalytics.track(KeylessBackupEvents.cab_setup_recovery_phrase)
+    bottomSheetRef.current?.close()
+    goToNextOnboardingScreen({
+      firstScreenInCurrentStep: Screens.SignInWithEmail,
+      onboardingProps: { ...onboardingProps, showRecoveryPhraseEducation: true },
+    })
+  }
+
+  const onPressSkip = () => {
+    ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_email_screen_skip, {
+      keylessBackupFlow,
+    })
+    goToNextOnboardingScreen({
+      firstScreenInCurrentStep: Screens.SignInWithEmail,
+      onboardingProps,
+    })
+  }
 
   const onPressGoogle = async () => {
     setLoading(true)
@@ -73,8 +158,32 @@ function SignInWithEmail({ route }: Props) {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, isOnboarding && { backgroundColor: Colors.onboardingBackground }]}
+    >
+      <CustomHeader
+        style={styles.header}
+        left={
+          route.params.origin === KeylessBackupOrigin.Settings ? (
+            <KeylessBackupCancelButton
+              flow={route.params.keylessBackupFlow}
+              eventName={KeylessBackupEvents.cab_sign_in_with_email_screen_cancel}
+            />
+          ) : (
+            // This includes Onboarding and Restore
+            <BackButton />
+          )
+        }
+        title={t('keylessBackupOnboardingTitle')}
+        subTitle={
+          // We only show the step number for onboarding new users
+          isOnboarding ? t('registrationSteps', { step, totalSteps }) : null
+        }
+      />
       <ScrollView style={styles.scrollContainer}>
+        <View style={styles.imageContainer}>
+          <Image testID="Email" source={email} />
+        </View>
         <Text style={styles.title}>{t('signInWithEmail.title')}</Text>
         <Text style={styles.subtitle}>
           {keylessBackupFlow === KeylessBackupFlow.Setup
@@ -82,32 +191,43 @@ function SignInWithEmail({ route }: Props) {
             : t('signInWithEmail.subtitleRestore')}
         </Text>
       </ScrollView>
-      <Button
-        testID="SignInWithEmail/Google"
-        onPress={onPressGoogle}
-        text={t('signInWithEmail.google')}
-        size={BtnSizes.FULL}
-        type={BtnTypes.SECONDARY}
-        style={styles.button}
-        icon={<GoogleIcon />}
-        iconMargin={12}
-        touchableStyle={[styles.buttonTouchable, !loading && { justifyContent: 'flex-start' }]}
-        showLoading={loading}
-        disabled={loading}
-      />
+      <View
+        style={[
+          styles.buttonContainer,
+          isOnboarding ? insetsStyle : { marginBottom: Spacing.Thick24 },
+        ]}
+      >
+        <Button
+          testID="SignInWithEmail/Google"
+          onPress={onPressGoogle}
+          text={t('signInWithEmail.google')}
+          size={BtnSizes.FULL}
+          type={BtnTypes.PRIMARY}
+          icon={<GoogleIcon color={Colors.white} />}
+          iconMargin={12}
+          showLoading={loading}
+          disabled={loading}
+        />
+        {isOnboarding && (
+          <Button
+            testID="SignInWithEmail/SignInAnotherWay"
+            onPress={onPressSignInAnotherWay}
+            size={BtnSizes.FULL}
+            type={BtnTypes.SECONDARY}
+            text={t('signInWithEmail.signInAnotherWay')}
+          />
+        )}
+      </View>
+      {isOnboarding && (
+        <SignInWithEmailBottomSheet
+          onPressContinue={onPressContinue}
+          onPressSkip={onPressSkip}
+          bottomSheetRef={bottomSheetRef}
+        />
+      )}
     </SafeAreaView>
   )
 }
-
-SignInWithEmail.navigationOptions = ({ route }: Props) => ({
-  ...emptyHeader,
-  headerLeft: () => (
-    <KeylessBackupCancelButton
-      flow={route.params.keylessBackupFlow}
-      eventName={KeylessBackupEvents.cab_sign_in_with_email_screen_cancel}
-    />
-  ),
-})
 
 export default SignInWithEmail
 
@@ -119,8 +239,15 @@ const styles = StyleSheet.create({
   scrollContainer: {
     padding: Spacing.Thick24,
   },
+  header: {
+    paddingHorizontal: Spacing.Thick24,
+  },
+  imageContainer: {
+    alignItems: 'center',
+    paddingVertical: Spacing.Thick24,
+  },
   title: {
-    ...typeScale.labelSemiBoldLarge,
+    ...typeScale.titleMedium,
     textAlign: 'center',
     color: Colors.black,
   },
@@ -130,13 +257,26 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.Regular16,
     color: Colors.black,
   },
+  buttonContainer: {
+    gap: Spacing.Smallest8,
+    marginHorizontal: Spacing.Thick24,
+  },
   button: {
     padding: Spacing.Thick24,
   },
-  buttonTouchable: {
-    backgroundColor: Colors.gray1,
-    borderColor: Colors.gray2,
-    borderWidth: 1,
-    borderRadius: 100,
+  bottomSheetTitle: {
+    ...typeScale.titleSmall,
+    textAlign: 'center',
+    color: Colors.black,
+  },
+  bottomSheetDescription: {
+    ...typeScale.bodyMedium,
+    paddingHorizontal: Spacing.Thick24,
+    paddingVertical: Spacing.Small12,
+    textAlign: 'center',
+    color: Colors.black,
+  },
+  bottomSheetButtonContainer: {
+    gap: Spacing.Smallest8,
   },
 })
