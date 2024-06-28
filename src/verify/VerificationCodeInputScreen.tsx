@@ -97,16 +97,9 @@ function VerificationCodeInputScreen({
   )
 }
 
-VerificationCodeInputScreen.navigationOptions = {
-  headerStyle: {
-    backgroundColor: colors.onboardingBackground,
-  },
-}
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.onboardingBackground,
   },
 })
 
