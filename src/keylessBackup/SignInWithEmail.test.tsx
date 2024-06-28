@@ -5,6 +5,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import SignInWithEmail from 'src/keylessBackup/SignInWithEmail'
 import { googleSignInCompleted } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
+import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
@@ -32,7 +33,7 @@ const renderComponent = (keylessBackupFlow: KeylessBackupFlow = KeylessBackupFlo
         params={{
           keylessBackupFlow,
         }}
-        options={SignInWithEmail.navigationOptions}
+        options={noHeader}
       />
     </Provider>
   )

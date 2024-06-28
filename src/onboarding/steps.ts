@@ -264,7 +264,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
         next: () => {
           if (showRecoveryPhraseEducation) {
             navigate(Screens.AccountKeyEducation, {
-              origin: 'CabOnboarding',
+              origin: 'cabOnboarding',
               nextScreen: Screens.OnboardingRecoveryPhrase,
             })
           } else if (skipVerification || numberAlreadyVerifiedCentrally) {
