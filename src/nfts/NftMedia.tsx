@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Platform, View } from 'react-native'
+import { View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import Video, { ResizeMode } from 'react-native-video'
 import { NftEvents } from 'src/analytics/Events'
@@ -139,10 +139,9 @@ export default function NftMedia({
             }}
             key={`${nft.contractAddress}-${nft.tokenId}-${reloadAttempt}`}
             style={{
-              height: Platform.OS === 'android' ? scaledHeight : height,
+              height: shouldAutoScaleHeight ? scaledHeight : height,
               width: variables.width,
               zIndex: 1, // Make sure the video player is in front of the loading skeleton
-              marginTop: 0,
             }}
             onLoad={({ naturalSize }) => {
               const aspectRatio = naturalSize.width / naturalSize.height

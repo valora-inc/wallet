@@ -805,6 +805,7 @@
     "spend": "Wykorzystuj swoje kryptowaluty do zakupu ulubionych marek"
   },
   "enableBiometry": {
+    "title": "Zabezpiecz swój portfel",
     "description": "{{biometryType}} zabezpiecza portfel i ułatwia korzystanie z aplikacji {{appName}}",
     "cta": "Włącz {{biometryType}}",
     "guideTitle": "Chcesz dodać {{biometryType}}?",
@@ -1441,11 +1442,14 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Odkryj",
+    "exploreDapps": "Eksploruj Dapps",
+    "exploreAll": "Odkryj wszystko",
     "message": "Przeglądaj sposoby korzystania ze swoich aktywów",
     "errorMessage": "Wystąpił błąd podczas ładowania Dapps",
     "featuredDapp": "Polecane",
     "allDapps": "Wszystkie",
     "favoriteDapps": "Moje ulubione",
+    "mostPopularDapps": "Najpopularniejsze",
     "favoriteDappsAndAll": "Moje ulubione i wszystkie",
     "searchPlaceHolder": "Wyszukaj dapps",
     "noFavorites": {

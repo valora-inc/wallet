@@ -1,3 +1,4 @@
+import { useHeaderHeight } from '@react-navigation/elements'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -6,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import Touchable from 'src/components/Touchable'
 import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
+import { headerWithBackButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -106,6 +108,7 @@ export default function NftsInfoCarousel({ route }: Props) {
   const { nfts, networkId } = route.params
   const [activeNft, setActiveNft] = useState<Nft | null>(nfts[0] ?? null)
   const { t } = useTranslation()
+  const headerHeight = useHeaderHeight()
 
   const blockExplorerUri = useMemo(() => {
     if (
@@ -161,7 +164,11 @@ export default function NftsInfoCarousel({ route }: Props) {
   }
 
   return (
-    <SafeAreaView edges={[]} style={styles.safeAreaView} testID="NftsInfoCarousel">
+    <SafeAreaView
+      style={[styles.safeAreaView, { paddingTop: headerHeight }]}
+      edges={[]}
+      testID="NftsInfoCarousel"
+    >
       <ScrollView>
         {/* Main Nft Video or Image */}
         <NftMedia
@@ -232,6 +239,17 @@ export default function NftsInfoCarousel({ route }: Props) {
     </SafeAreaView>
   )
 }
+
+NftsInfoCarousel.navigationOptions = () => ({
+  ...headerWithBackButton,
+  headerTransparent: true,
+  headerShown: true,
+  headerStyle: {
+    backgroundColor: 'transparent',
+  },
+  animation: 'slide_from_right',
+  animationDuration: 130,
+})
 
 const styles = StyleSheet.create({
   attributeText: {

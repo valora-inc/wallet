@@ -52,14 +52,13 @@ describe('EnableBiometry', () => {
 
   it('should render the correct elements', () => {
     const { getByText, getByTestId } = renderComponent()
-    expect(
-      getByText('enableBiometry.guideTitle, {"biometryType":"biometryType.FaceID"}')
-    ).toBeTruthy()
+    expect(getByText('enableBiometry.title')).toBeTruthy()
     expect(
       getByText('enableBiometry.guideDescription, {"biometryType":"biometryType.FaceID"}')
     ).toBeTruthy()
     expect(getByText('enableBiometry.cta, {"biometryType":"biometryType.FaceID"}')).toBeTruthy()
     expect(getByTestId('FaceIDBiometryIcon')).toBeTruthy()
+    expect(getByTestId('Image/FaceID')).toBeTruthy()
   })
 
   it('should enable biometry', async () => {
@@ -155,16 +154,15 @@ describe('EnableBiometry', () => {
         activeScreen: Screens.EnableBiometry,
       },
     })
-    const { getByText } = render(
+    const { getByText, getByTestId } = render(
       <Provider store={store}>
         <MockedNavigator component={EnableBiometry} />
       </Provider>
     )
-    expect(
-      getByText('enableBiometry.guideTitle, {"biometryType":"biometryType.FaceID"}')
-    ).toBeTruthy()
+    expect(getByText('enableBiometry.title')).toBeTruthy()
     expect(
       getByText('enableBiometry.guideDescription, {"biometryType":"biometryType.FaceID"}')
     ).toBeTruthy()
+    expect(getByTestId('Image/FaceID')).toBeTruthy()
   })
 })

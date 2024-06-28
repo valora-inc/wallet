@@ -31,6 +31,7 @@ import DappKitAccountScreen from 'src/dappkit/DappKitAccountScreen'
 import DappKitSignTxScreen from 'src/dappkit/DappKitSignTxScreen'
 import DappShortcutTransactionRequest from 'src/dapps/DappShortcutTransactionRequest'
 import DappShortcutsRewards from 'src/dapps/DappShortcutsRewards'
+import DappsScreen from 'src/dapps/DappsScreen'
 import EarnCollectScreen from 'src/earn/EarnCollectScreen'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
 import EarnInfoScreen from 'src/earn/EarnInfoScreen'
@@ -288,6 +289,11 @@ const consumerIncentivesScreens = (Navigator: typeof Stack) => (
       component={DappShortcutsRewards}
       options={headerWithBackButton}
     />
+    <Navigator.Screen
+      name={Screens.DappsScreen}
+      component={DappsScreen}
+      options={headerWithBackButton}
+    />
   </>
 )
 
@@ -473,7 +479,7 @@ const settingsScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen
       name={Screens.KeylessBackupPhoneCodeInput}
-      options={{ headerStyle: {} }}
+      options={noHeader}
       component={KeylessBackupPhoneCodeInput}
     />
     <Navigator.Screen
@@ -563,11 +569,7 @@ const nftScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.NftsInfoCarousel}
       component={NftsInfoCarousel}
-      options={{
-        ...headerWithBackButton,
-        animation: 'slide_from_right',
-        animationDuration: 130,
-      }}
+      options={NftsInfoCarousel.navigationOptions as NativeStackNavigationOptions}
     />
   </>
 )

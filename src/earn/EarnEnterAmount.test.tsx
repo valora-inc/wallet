@@ -6,7 +6,6 @@ import { Provider } from 'react-redux'
 import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
-import { fetchAavePoolInfo } from 'src/earn/poolInfo'
 import { usePrepareSupplyTransactions } from 'src/earn/prepareTransactions'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
@@ -17,7 +16,6 @@ import { createMockStore } from 'test/utils'
 import { mockAccount, mockArbEthTokenId, mockTokenBalances } from 'test/values'
 
 jest.mock('src/earn/prepareTransactions')
-jest.mock('src/earn/poolInfo')
 jest.mock('react-native-localize')
 
 const mockPreparedTransaction: PreparedTransactionsPossible = {
@@ -80,6 +78,7 @@ const store = createMockStore({
       },
     },
   },
+  earn: { poolInfoFetchStatus: 'loading' },
 })
 
 const refreshPreparedTransactionsSpy = jest.fn()
@@ -98,10 +97,10 @@ const params = {
 describe('EarnEnterAmount', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.mocked(fetchAavePoolInfo).mockResolvedValue({ apy: 0.1 })
     jest
       .mocked(getNumberFormatSettings)
       .mockReturnValue({ decimalSeparator: '.', groupingSeparator: ',' })
+    store.clearActions()
   })
 
   it('should render APY and EarnUpTo', async () => {

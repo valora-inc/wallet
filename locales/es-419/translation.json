@@ -709,7 +709,7 @@
     "info": "Para poder usar nuestros servicios, lee nuestro <0>Acuerdo de condiciones de uso</0> y toca el botón Aceptar para indicar que estás de acuerdo.",
     "privacy": "Al unirte a esta red, nos das permiso para recopilar información anónima sobre tu uso de la aplicación. Además, si conectas tu número de teléfono, se guardará una copia cifrada. Si decides conectar tu lista de contactos, Valora importará el nombre, número de teléfono y foto de perfil de tus contactos para permitirte conectar con ellos a través de Valora. Para obtener más información sobre cómo recopilamos y usamos tus datos, consulta nuestra <0>Política de privacidad</0>.",
     "goldDisclaimer": "Cuando creas una \"cuenta\" en Valora, estás creando una billetera digital de la que sólo tú tienes las claves. Ninguna otra persona o entidad, incluyendo Valora, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Ten en cuenta que las criptomonedas forman parte de una nueva clase de activos y presentan un riesgo de pérdida financiera. Considera cuidadosamente tu circunstancia financiera y tu tolerancia al riesgo financiero antes de comprar cualquier activo.",
-    "goldDisclaimerWithPoints": "Cuando creas una \"cuenta\" con Valora, estás creando un monedero digital del que sólo tú tienes las claves. Ninguna otra persona o entidad, incluida Valora, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Valora concede recompensas de fidelidad tokenizadas (\"Puntos\") a los Usuarios por participar en determinadas actividades dentro de la aplicación. Los Puntos son coleccionables en cadena, intransferibles y no canjeables. No se garantiza la disponibilidad ni el valor de los Puntos. Ten en cuenta que los activos digitales forman parte de una nueva clase de activos y presentan un riesgo de pérdida financiera. Considera cuidadosamente tus circunstancias financieras y tu tolerancia al riesgo financiero antes de comprar cualquier activo digital."
+    "goldDisclaimerWithPoints": "Cuando creas una \"cuenta\" en Valora, estás creando una billetera digital de la que sólo tú tienes las claves. Ninguna otra persona o entidad, incluyendo Valora, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Valora concede recompensas de fidelidad tokenizadas (\"Puntos\") a los Usuarios por participar en determinadas actividades dentro de la aplicación. Los Puntos son tokens coleccionables, intransferibles y no canjeables. No se garantiza la disponibilidad ni el valor de los Puntos. Ten en cuenta que las criptomonedas forman parte de una nueva clase de activos y presentan un riesgo de pérdida financiera. Considera cuidadosamente tu circunstancia financiera y tu tolerancia al riesgo financiero antes de comprar cualquier activo."
   },
   "termsColloquial": {
     "title": "Empecemos por crear tu wallet",
@@ -805,6 +805,7 @@
     "spend": "Usa tu cripto para comprar tus marcas favoritas"
   },
   "enableBiometry": {
+    "title": "Asegure su cartera",
     "description": "{{biometryType}} matiene tu cuenta segura y facilita el uso de {{appName}}",
     "cta": "Habilitar {{biometryType}}",
     "guideTitle": "¿Te gustaría habilitar {{biometryType}}?",
@@ -827,7 +828,7 @@
     "createNewWallet": "Crear wallet",
     "restoreWallet": "Restaurar wallet",
     "hasWallet": "Ya tengo una wallet",
-    "hasWalletV1_88": "Tengo una cartera",
+    "hasWalletV1_88": "Tengo una billetera",
     "header": "¡Te damos la bienvenida a {{appName}}! Demos el primer paso, creemos tu wallet.",
     "getStarted": "Primeros pasos",
     "agreeToTerms": "Al crear una wallet aceptas nuestros <0>Términos y condiciones</0>."
@@ -1437,11 +1438,14 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Descubre",
+    "exploreDapps": "Explorar dapps",
+    "exploreAll": "Explorar todas",
     "message": "Explora las distintas formas de usar tus activos",
     "errorMessage": "Hubo un error al cargar las dapps",
     "featuredDapp": "Destacadas",
     "allDapps": "Todas",
     "favoriteDapps": "Mis favoritas",
+    "mostPopularDapps": "Populares",
     "favoriteDappsAndAll": "Mis favoritas y todas",
     "searchPlaceHolder": "Buscar dapps",
     "noFavorites": {
@@ -1773,10 +1777,10 @@
     "selectTokenLabel": "Selecciona un token",
     "tokenBottomSheetTitle": "Seleccionar token",
     "onNetwork": "en {{networkName}}",
-    "crossChainNotification": "Intercambiar fichas entre diferentes redes",
+    "crossChainNotification": "Intercambiar tokens entre diferentes redes",
     "crossChainFeeWarning": {
       "title": "Necesitas más {{tokenSymbol}}",
-      "body": "Necesitas más {{tokenSymbol}} en {{networkName}} para pagar las tasas de intercambio de cadenas cruzadas. Añade {{tokenAmount}} más {{tokenSymbol}} para continuar."
+      "body": "Necesitas más {{tokenSymbol}} en {{networkName}} para pagar las tarifas de intercambio entre cadenas. Añade {{tokenAmount}} más de {{tokenSymbol}} para continuar."
     },
     "insufficientBalanceWarning": {
       "title": "Necesitas más {{tokenSymbol}}",
@@ -1784,11 +1788,11 @@
     },
     "unsupportedTokensWarning": {
       "title": "Selección incompatible",
-      "body": "Las fichas seleccionadas no pueden intercambiarse entre sí. Por favor, elige otra ficha que sea compatible con tu selección."
+      "body": "Los tokens seleccionados no se pueden intercambiar entre sí. Por favor, elige otro token que sea compatible con tu selección."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Necesitas más {{feeTokenSymbol}} para cubrir las tarifas",
-      "body": "Añade {{feeTokenSymbol}} para cubrir los gastos de gasolina o ajusta la cantidad que estás intercambiando",
+      "body": "Agrega {{feeTokenSymbol}} para cubrir las tarifas o ajusta el monto que estás intercambiando",
       "cta": "Intercambiar monto menor"
     },
     "switchedToNetworkWarning": {
@@ -2359,7 +2363,7 @@
         "title": "Intercambia activos",
         "bottomSheet": {
           "title": "Intercambia activos",
-          "body": "Gana {{pointsValue}} puntos cada vez que intercambies un bien utilizando {{appName}}. \n\n¡Toca abajo para empezar a intercambiar y ganar!",
+          "body": "Gana {{pointsValue}} puntos cada vez que intercambies un activo utilizando {{appName}}. \n\n¡Toca abajo para empezar a intercambiar y ganar!",
           "cta": "Iniciar un intercambio"
         }
       },

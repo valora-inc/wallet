@@ -805,6 +805,7 @@
     "spend": "Используйте криптовалюту для покупки любимых брендов"
   },
   "enableBiometry": {
+    "title": "Защитите ваш кошелек",
     "description": "{{biometryType}} поможет защитить ваш кошелек и упростить использование {{appName}}",
     "cta": "Включить {{biometryType}}",
     "guideTitle": "Хотите добавить {{biometryType}}?",
@@ -827,7 +828,7 @@
     "createNewWallet": "Создать кошелек",
     "restoreWallet": "Восстановить кошелек",
     "hasWallet": "У меня уже есть кошелек",
-    "hasWalletV1_88": "У меня есть бумажник",
+    "hasWalletV1_88": "У меня есть кошелек",
     "header": "Добро пожаловать в {{appName}}! Давайте создадим ваш криптокошелек.",
     "getStarted": "Начать",
     "agreeToTerms": "Создавая кошелек, вы соглашаетесь с нашими <0>Положениями и условиями</0>"
@@ -1441,11 +1442,14 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Узнать",
+    "exploreDapps": "Исследуй Dapps",
+    "exploreAll": "Изучить все",
     "message": "Изучите способы использования своих активов",
     "errorMessage": "Произошла ошибка при загрузке dapps",
     "featuredDapp": "Подборка",
     "allDapps": "Все",
     "favoriteDapps": "Мое избранное",
+    "mostPopularDapps": "Самые популярные",
     "favoriteDappsAndAll": "Мое избранное и все",
     "searchPlaceHolder": "Поиск dapps",
     "noFavorites": {
@@ -1777,22 +1781,22 @@
     "selectTokenLabel": "Выберите токен",
     "tokenBottomSheetTitle": "Выбрать токен",
     "onNetwork": "в {{networkName}}",
-    "crossChainNotification": "Обмен жетонами между разными сетями",
+    "crossChainNotification": "Обмен токенами в различных сетях",
     "crossChainFeeWarning": {
-      "title": "Тебе нужно больше {{tokenSymbol}}",
-      "body": "Тебе нужно больше {{tokenSymbol}} на {{networkName}} , чтобы оплатить комиссионные за своп кросс-цепочек. Добавь еще {{tokenAmount}} и {{tokenSymbol}} , чтобы продолжить."
+      "title": "Вам нужно больше {{tokenSymbol}}",
+      "body": "Вам нужно больше {{tokenSymbol}} на {{networkName}}, чтобы оплатить комиссионные за кроссчейн-обмен. Добавь еще {{tokenAmount}} и {{tokenSymbol}}, чтобы продолжить."
     },
     "insufficientBalanceWarning": {
-      "title": "Тебе нужно больше {{tokenSymbol}}",
+      "title": "Вам нужно больше {{tokenSymbol}}",
       "body": "Недостаточный остаток {{tokenSymbol}}. Попробуйте внести меньшую сумму или выбрать другой актив."
     },
     "unsupportedTokensWarning": {
       "title": "Несовместимый выбор",
-      "body": "Выбранные жетоны нельзя поменять местами. Пожалуйста, выбери другой жетон, совместимый с твоим выбором."
+      "body": "Выбранные токены не подлежат обмену. Выберите другой токен, совместимый с вашим выбором."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Вам нужно больше {{feeTokenSymbol}} за газ",
-      "body": "Добавь {{feeTokenSymbol}} , чтобы покрыть расходы на бензин, или скорректируй сумму, которую ты обмениваешь.",
+      "body": "Добавьте {{feeTokenSymbol}}, чтобы покрыть комиссии за газ, или измените сумму обмена",
       "cta": "Обменять меньшую сумму"
     },
     "switchedToNetworkWarning": {
@@ -2363,8 +2367,8 @@
         "title": "Обменять активы",
         "bottomSheet": {
           "title": "Обменять активы",
-          "body": "Зарабатывай {{pointsValue}} очков каждый раз, когда обмениваешь актив, используя {{appName}}. \n\nНажми ниже, чтобы начать обмениваться и зарабатывать!",
-          "cta": "Начни обмен"
+          "body": "Зарабатывайте по {{pointsValue}} баллов за каждый обмен актива с помощью {{appName}}. \n\nНажми ниже, чтобы начать обмениваться и зарабатывать!",
+          "cta": "Начать обмен"
         }
       },
       "moreComing": {
@@ -2434,7 +2438,7 @@
       "earnUpToLabel": "Вы можете заработать до:",
       "rateLabel": "Ставка (прибл.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / год",
-      "earnUpToV1_87": "<0></0> / гг.",
+      "earnUpToV1_87": "<0></0> / г.",
       "rate": "Годовая ставка {{rate}}%",
       "continue": "Продолжить",
       "info": "Этот пул поддерживается Aave",

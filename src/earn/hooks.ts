@@ -1,44 +1,15 @@
 import { useAsync } from 'react-async-hook'
-import { fetchAavePoolInfo, fetchAaveRewards } from 'src/earn/poolInfo'
+import { fetchAaveRewards } from 'src/earn/poolInfo'
 import { prepareWithdrawAndClaimTransactions } from 'src/earn/prepareTransactions'
 import { useSelector } from 'src/redux/hooks'
 import { useTokenInfo, useTokensList } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
-import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
+import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { isAddress } from 'viem'
 
 const TAG = 'earn/hooks'
-
-export function useAavePoolInfo({ depositTokenId }: { depositTokenId: string }) {
-  const depositToken = useTokenInfo(depositTokenId)
-  const asyncPoolInfo = useAsync(
-    async () => {
-      if (!depositToken || !depositToken.address) {
-        throw new Error(`Token with id ${depositTokenId} not found`)
-      }
-
-      if (!isAddress(depositToken.address)) {
-        throw new Error(`Token with id ${depositTokenId} does not contain a valid address`)
-      }
-
-      return fetchAavePoolInfo({
-        assetAddress: depositToken.address,
-        contractAddress: networkConfig.arbAavePoolV3ContractAddress,
-        network: networkIdToNetwork[depositToken.networkId],
-      })
-    },
-    [],
-    {
-      onError: (error) => {
-        Logger.warn(`${TAG}/useAavePoolInfo`, error.message)
-      },
-    }
-  )
-
-  return asyncPoolInfo
-}
 
 export function useAaveRewardsInfoAndPrepareTransactions({
   poolTokenId,

@@ -2855,6 +2855,18 @@
             ],
             "type": "object"
         },
+        "PoolInfo": {
+            "additionalProperties": false,
+            "properties": {
+                "apy": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "apy"
+            ],
+            "type": "object"
+        },
         "Position": {
             "anyOf": [
                 {
@@ -3130,6 +3142,7 @@
                 "DappKitSignTxScreen",
                 "DappShortcutTransactionRequest",
                 "DappShortcutsRewards",
+                "DappsScreen",
                 "Debug",
                 "EarnCollectScreen",
                 "EarnEnterAmount",
@@ -4935,12 +4948,19 @@
                 "depositStatus": {
                     "$ref": "#/definitions/Status_1"
                 },
+                "poolInfo": {
+                    "$ref": "#/definitions/PoolInfo"
+                },
+                "poolInfoFetchStatus": {
+                    "$ref": "#/definitions/Status_1"
+                },
                 "withdrawStatus": {
                     "$ref": "#/definitions/Status_1"
                 }
             },
             "required": [
                 "depositStatus",
+                "poolInfoFetchStatus",
                 "withdrawStatus"
             ],
             "type": "object"

@@ -805,6 +805,7 @@
     "spend": "Use your crypto to shop your favorite brands"
   },
   "enableBiometry": {
+    "title": "Secure your wallet",
     "description": "{{biometryType}} secures your wallet and makes it easier to use {{appName}}",
     "cta": "Turn on {{biometryType}}",
     "guideTitle": "Want to add {{biometryType}}?",
@@ -1439,11 +1440,14 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Discover",
+    "exploreDapps": "Explore Dapps",
+    "exploreAll": "Explore All",
     "message": "Explore ways to use your assets",
     "errorMessage": "There was an error loading dapps",
     "featuredDapp": "Featured",
     "allDapps": "All",
     "favoriteDapps": "My Favorites",
+    "mostPopularDapps": "Most Popular",
     "favoriteDappsAndAll": "My Favorites & All",
     "searchPlaceHolder": "Search dapps",
     "noFavorites": {

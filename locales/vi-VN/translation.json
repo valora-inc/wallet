@@ -130,7 +130,7 @@
         "body": "Bạn có thể thiết lập sao lưu ví sau hoặc bảo vệ tài khoản của mình ngay bằng cách lưu cụm từ khôi phục.",
         "later": "Tôi sẽ thiết lập sao lưu sau",
         "manual": "Lưu cụm từ khôi phục",
-        "skip": "Skip (not recommended)"
+        "skip": "Bỏ qua (không khuyến khích)"
       }
     },
     "restore": {
@@ -805,6 +805,7 @@
     "spend": "Sử dụng tiền điện tử để mua sắm thương hiệu yêu thích"
   },
   "enableBiometry": {
+    "title": "Bảo mật ví của bạn",
     "description": "{{biometryType}} bảo mật ví của bạn và giúp bạn sử dụng {{appName}} dễ dàng hơn",
     "cta": "Bật {{biometryType}}",
     "guideTitle": "Bạn muốn nạp {{biometryType}}?",
@@ -827,7 +828,7 @@
     "createNewWallet": "Tạo ví mới",
     "restoreWallet": "Khôi phục ví",
     "hasWallet": "Tôi đã có ví",
-    "hasWalletV1_88": "I have a wallet",
+    "hasWalletV1_88": "Tôi đã có ví",
     "header": "Chào mừng bạn đến với {{appName}}! Hãy tạo ví tiền điện tử của bạn.",
     "getStarted": "Bắt đầu",
     "agreeToTerms": "Khi tạo ví, bạn đồng ý với <0>Điều khoản và Điều kiện</0> của chúng tôi"
@@ -1435,11 +1436,14 @@
   "dappsScreen": {
     "title": "Dapp",
     "titleDiscover": "Khám phá",
+    "exploreDapps": "Explore Dapps",
+    "exploreAll": "Explore All",
     "message": "Khám phá những phương thức sử dụng tài sản",
     "errorMessage": "Đã xảy ra lỗi khi tải dapp",
     "featuredDapp": "Nổi bật",
     "allDapps": "Tất cả",
     "favoriteDapps": "Dapps yêu thích của tôi",
+    "mostPopularDapps": "Most Popular",
     "favoriteDappsAndAll": "Mục yêu thích của tôi và Tất cả",
     "searchPlaceHolder": "Tìm kiếm Dapp",
     "noFavorites": {
@@ -1771,22 +1775,22 @@
     "selectTokenLabel": "Chọn token",
     "tokenBottomSheetTitle": "Chọn token",
     "onNetwork": "trên {{networkName}}",
-    "crossChainNotification": "Swapping tokens between different networks",
+    "crossChainNotification": "Trao đổi token giữa các mạng lưới",
     "crossChainFeeWarning": {
-      "title": "You need more {{tokenSymbol}}",
-      "body": "You need more {{tokenSymbol}} on {{networkName}} to pay for cross-chain swap fees. Add {{tokenAmount}} more {{tokenSymbol}} to continue."
+      "title": "Bạn cần thêm {{tokenSymbol}}",
+      "body": "Bạn cần thêm {{tokenSymbol}} trên {{networkName}} để thanh toán phí trao đổi chuỗi chéo. Hãy nạp thêm {{tokenAmount}} {{tokenSymbol}} nữa để tiếp tục."
     },
     "insufficientBalanceWarning": {
-      "title": "You need more {{tokenSymbol}}",
+      "title": "Bạn cần thêm {{tokenSymbol}}",
       "body": "Không đủ số dư {{tokenSymbol}}. Hãy thử số tiền nhỏ hơn hoặc chọn một tài sản khác."
     },
     "unsupportedTokensWarning": {
-      "title": "Incompatible Selection",
-      "body": "The tokens selected cannot be swapped between. Please choose another token that is compatible with your selection."
+      "title": "Lựa chọn không phù hợp",
+      "body": "Bạn không thể trao đổi các token đã chọn. Vui lòng chọn một token khác phù hợp với lựa chọn của bạn."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Bạn cần thêm {{feeTokenSymbol}} để trả phí gas",
-      "body": "Add {{feeTokenSymbol}} to cover your gas fees or adjust the amount you are swapping",
+      "body": "Nạp thêm {{feeTokenSymbol}} để trả phí gas hoặc điều chỉnh số tiền cần trao đổi",
       "cta": "Trao đổi số tiền nhỏ hơn"
     },
     "switchedToNetworkWarning": {
@@ -2357,8 +2361,8 @@
         "title": "Trao đổi tài sản",
         "bottomSheet": {
           "title": "Trao đổi tài sản",
-          "body": "Earn {{pointsValue}} points every time you swap an asset using {{appName}}. \n\nTap below to start swapping and earning!",
-          "cta": "Start a swap"
+          "body": "Nhận được {{pointsValue}} điểm mỗi khi trao đổi tài sản bằng {{appName}}. \n\nHãy nhấn vào bên dưới để bắt đầu trao đổi và kiếm tiền!",
+          "cta": "Bắt đầu trao đổi"
         }
       },
       "moreComing": {
@@ -2428,7 +2432,7 @@
       "earnUpToLabel": "Bạn có thể kiếm được đến:",
       "rateLabel": "Tỷ giá (ước tính)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / năm",
-      "earnUpToV1_87": "<0></0> / yr",
+      "earnUpToV1_87": "<0></0>/năm",
       "rate": "{{rate}}% APY",
       "continue": "Tiếp tục",
       "info": "Quỹ này do Aave cung cấp",
