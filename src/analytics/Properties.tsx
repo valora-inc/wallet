@@ -5,7 +5,6 @@ import {
   KycStatus as FiatConnectKycStatus,
 } from '@fiatconnect/fiatconnect-types'
 import { ShareAction } from 'react-native'
-import { Screens } from 'src/navigator/Screens'
 import { PermissionStatus } from 'react-native-permissions'
 import {
   AppEvents,
@@ -71,6 +70,7 @@ import {
   KeylessBackupStatus,
 } from 'src/keylessBackup/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { Screens } from 'src/navigator/Screens'
 import { NftOrigin } from 'src/nfts/types'
 import { NotificationReceiveState } from 'src/notifications/types'
 import { AdventureCardName } from 'src/onboarding/types'
@@ -290,6 +290,7 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.cab_phone_verification_help]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_phone_verification_help_skip]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_phone_verification_help_go_back]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_phone_verification_help_use_recovery_phrase]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_setup_hashed_keyshares]: {
     hashedKeysharePhone: string
     hashedKeyshareEmail: string
