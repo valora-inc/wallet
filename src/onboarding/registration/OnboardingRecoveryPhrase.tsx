@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     borderColor: colors.gray2,
     borderRadius: 8,
     marginTop: 0,
-    backgroundColor: colors.ivory,
+    backgroundColor: colors.gray1,
   },
   contentContainer: {
     flexGrow: 1,
