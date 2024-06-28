@@ -2357,7 +2357,7 @@
     },
     "activityCards": {
       "createWallet": {
-        "title": "{{appName}}-Wallet erstellen"
+        "title": "Erstelle eine {{appName}} Brieftasche"
       },
       "swap": {
         "title": "Vermögen tauschen",
