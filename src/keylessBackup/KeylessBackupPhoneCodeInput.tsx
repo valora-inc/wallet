@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useLayoutEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -7,6 +7,7 @@ import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import TextButton from 'src/components/TextButton'
+import CustomHeader from 'src/components/header/CustomHeader'
 import KeylessBackupCancelButton from 'src/keylessBackup/KeylessBackupCancelButton'
 import { useVerifyPhoneNumber } from 'src/keylessBackup/hooks'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
@@ -88,27 +89,25 @@ function KeylessBackupPhoneCodeInput({
     keylessBackupFlow === KeylessBackupFlow.Setup ? navigateHome() : navigate(Screens.ImportSelect)
   }
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <TopBarTextButton
-          title={t('phoneVerificationInput.help')}
-          testID="KeylessBackupPhoneCodeInputHelp"
-          onPress={onPressHelp}
-          titleStyle={styles.help}
-        />
-      ),
-      headerLeft: () => (
-        <KeylessBackupCancelButton
-          flow={keylessBackupFlow}
-          eventName={KeylessBackupEvents.cab_enter_phone_code_cancel}
-        />
-      ),
-    })
-  })
-
   return (
-    <SafeAreaView style={styles.container} edges={['bottom']}>
+    <SafeAreaView style={styles.container}>
+      <CustomHeader
+        style={styles.header}
+        left={
+          <KeylessBackupCancelButton
+            flow={keylessBackupFlow}
+            eventName={KeylessBackupEvents.cab_enter_phone_code_cancel}
+          />
+        }
+        right={
+          <TopBarTextButton
+            title={t('phoneVerificationInput.help')}
+            testID="KeylessBackupPhoneCodeInputHelp"
+            onPress={onPressHelp}
+            titleStyle={styles.help}
+          />
+        }
+      />
       <VerificationCodeInput
         phoneNumber={route.params.e164Number}
         verificationStatus={verificationStatus}
@@ -134,6 +133,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  header: {
+    paddingHorizontal: Spacing.Thick24,
+  },
   title: {
     ...typeScale.labelSemiBoldLarge,
     textAlign: 'center',
@@ -149,7 +151,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   bottomSheetView: {
-    paddingHorizontal: 24,
+    paddingHorizontal: Spacing.Thick24,
     display: 'flex',
     flexDirection: 'column',
   },

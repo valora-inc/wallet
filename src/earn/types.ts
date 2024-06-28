@@ -23,3 +23,7 @@ export interface WithdrawInfo {
   preparedTransactions: SerializableTransactionRequest[]
   rewards: SerializableRewardsInfo[]
 }
+
+export interface PoolInfo {
+  apy: number
+}

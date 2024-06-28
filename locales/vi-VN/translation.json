@@ -709,7 +709,7 @@
     "info": "Để sử dụng dịch vụ, vui lòng đọc và chấp nhận <0>Thỏa thuận và điều khoản người dùng</0> bằng cách nhấp vào nút chấp nhận bên dưới.",
     "privacy": "Bằng việc tham gia mạng này, bạn cho phép chúng tôi thu thập thông tin ẩn danh về việc bạn sử dụng ứng dụng. Ngoài ra, nếu bạn kết nối số điện thoại, chúng tôi sẽ lưu trữ bản sao đã băm của số điện thoại. Nếu bạn cấp cho Valora quyền truy cập vào danh bạ, Valora sẽ nhập tên, số điện thoại và ảnh hồ sơ của từng người liên hệ để cho phép người dùng kết nối qua ứng dụng Valora. Để tìm hiểu cách chúng tôi thu thập và sử dụng thông tin này, vui lòng xem lại <0>Chính sách quyền riêng tư</0> của chúng tôi.",
     "goldDisclaimer": "Khi tạo \"tài khoản\" bằng Valora, bạn tạo một ví điện tử mà chỉ bạn giữ mã khóa. Không cá nhân hoặc tổ chức nào khác, bao gồm Valora, có thể khôi phục mã khóa của bạn, thay đổi hay hủy giao dịch hoặc thu hồi số tiền đã mất. Xin lưu ý rằng tiền điện tử thuộc loại tài sản mới và luôn tiềm ẩn rủi ro về tổn thất tài chính. Hãy cân nhắc kỹ tình hình tài chính của bạn cũng như khả năng chấp nhận rủi ro tài chính trước khi mua bất kỳ tài sản nào.",
-    "goldDisclaimerWithPoints": "When you create an \"account\" with Valora you are creating a digital wallet to which only you hold the keys. No other person or entity, including Valora, can recover your key, change or undo transactions, or recover lost funds. Valora grants tokenized loyalty rewards (\"Points\") to Users for engaging in certain in-app activities. Points are on-chain, non-transferable, and non-redeemable collectibles. No guarantees are made about Points availability or value. Be aware that digital assets are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstances and tolerance for financial risk before purchasing any digital asset."
+    "goldDisclaimerWithPoints": "Khi tạo \"tài khoản\" với Valora, bạn đang tạo một ví kỹ thuật số mà chỉ bạn là người nắm giữ mã khóa. Không cá nhân hoặc tổ chức nào khác, kể cả Valora, có thể khôi phục mã khóa của bạn, thay đổi hoặc hoàn tác giao dịch hoặc lấy lại số tiền bị mất. Valora cấp phần thưởng khách hàng thân thiết được mã hóa (\"Điểm\") cho Người dùng khi tham gia vào một số hoạt động nhất định trong ứng dụng. Điểm là vật phẩm sưu tầm trên chuỗi, không chuyển nhượng và không đổi được. Valora không đưa ra bất kỳ đảm bảo nào về tính sẵn có hoặc giá trị của Điểm. Cần lưu ý rằng tài sản kỹ thuật số là một phần của loại tài sản mới và có rủi ro thua lỗ về tài chính. Hãy cân nhắc cẩn thận tình hình tài chính và khả năng chấp nhận rủi ro tài chính của bạn trước khi mua bất kỳ tài sản kỹ thuật số nào."
   },
   "termsColloquial": {
     "title": "Hãy bắt đầu từ bước tạo ví",
@@ -1436,14 +1436,14 @@
   "dappsScreen": {
     "title": "Dapp",
     "titleDiscover": "Khám phá",
-    "exploreDapps": "Explore Dapps",
-    "exploreAll": "Explore All",
+    "exploreDapps": "Khám phá các ứng dụng dapp",
+    "exploreAll": "Khám phá tất cả",
     "message": "Khám phá những phương thức sử dụng tài sản",
     "errorMessage": "Đã xảy ra lỗi khi tải dapp",
     "featuredDapp": "Nổi bật",
     "allDapps": "Tất cả",
     "favoriteDapps": "Dapps yêu thích của tôi",
-    "mostPopularDapps": "Most Popular",
+    "mostPopularDapps": "Phổ biến nhất",
     "favoriteDappsAndAll": "Mục yêu thích của tôi và Tất cả",
     "searchPlaceHolder": "Tìm kiếm Dapp",
     "noFavorites": {
