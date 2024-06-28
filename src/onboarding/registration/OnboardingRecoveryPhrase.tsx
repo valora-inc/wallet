@@ -33,7 +33,7 @@ import Logger from 'src/utils/Logger'
 type Props = NativeStackScreenProps<StackParamList, Screens.OnboardingRecoveryPhrase>
 
 function OnboardingRecoveryPhrase({ navigation, route }: Props) {
-  const isFromCabOnboarding = route.params.origin === 'CabOnboarding'
+  const isFromCabOnboarding = route.params?.origin === 'CabOnboarding' ?? false
   const onboardingProps = useSelector(onboardingPropsSelector)
   const { step, totalSteps } = getOnboardingStepValues(Screens.ProtectWallet, onboardingProps)
   const accountKey = useAccountKey()
