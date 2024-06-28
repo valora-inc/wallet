@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import SignInWithEmail from 'src/keylessBackup/SignInWithEmail'
 import { googleSignInCompleted } from 'src/keylessBackup/slice'
-import { KeylessBackupFlow } from 'src/keylessBackup/types'
+import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -32,6 +32,7 @@ const renderComponent = (keylessBackupFlow: KeylessBackupFlow = KeylessBackupFlo
         component={SignInWithEmail}
         params={{
           keylessBackupFlow,
+          origin: KeylessBackupOrigin.Settings,
         }}
         options={noHeader}
       />
@@ -74,6 +75,7 @@ describe('SignInWithEmail', () => {
     await waitFor(() => expect(navigate).toHaveBeenCalledTimes(1))
     expect(navigate).toHaveBeenCalledWith(Screens.KeylessBackupPhoneInput, {
       keylessBackupFlow: KeylessBackupFlow.Setup,
+      origin: KeylessBackupOrigin.Settings,
     })
     expect(mockClearCredentials).toHaveBeenCalledTimes(1)
     expect(mockAuthorize).toHaveBeenCalledTimes(1)

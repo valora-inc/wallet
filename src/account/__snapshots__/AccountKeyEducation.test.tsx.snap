@@ -15,7 +15,7 @@ exports[`AccountKeyEducation renders correctly 1`] = `
       {
         "flex": 1,
       },
-      undefined,
+      false,
     ]
   }
   testID="Education"
