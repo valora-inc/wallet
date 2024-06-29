@@ -56,7 +56,7 @@ function OnboardingRecoveryPhrase({ navigation }: Props) {
           testID="helpButton"
           title={t('help')}
           onPress={onPressHelp}
-          titleStyle={{ color: colors.onboardingBrownLight }}
+          titleStyle={{ color: colors.black }}
         />
       ),
     })
