@@ -261,9 +261,6 @@ const styles = StyleSheet.create({
     gap: Spacing.Smallest8,
     marginHorizontal: Spacing.Thick24,
   },
-  button: {
-    padding: Spacing.Thick24,
-  },
   bottomSheetTitle: {
     ...typeScale.titleSmall,
     textAlign: 'center',
