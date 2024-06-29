@@ -4604,7 +4604,7 @@
   resolved "https://registry.yarnpkg.com/@th3rdwave/react-navigation-bottom-sheet/-/react-navigation-bottom-sheet-0.2.7.tgz#c9a0d1a270c5d5d275769fc4cccb8cebe25f22f8"
   integrity sha512-tO6W7RJTQVWJb/Q4aD3mokmilKFCU//g5YCvh1Al7fveMGLZDTaZGwte/ReuRm5Wl5oKIYd6IURruCE1G8/n9A==
 
-"@toruslabs/constants@^13.2.0", "@toruslabs/constants@^13.3.0", "@toruslabs/constants@^13.4.0":
+"@toruslabs/constants@^13.2.0", "@toruslabs/constants@^13.4.0":
   version "13.4.0"
   resolved "https://registry.yarnpkg.com/@toruslabs/constants/-/constants-13.4.0.tgz#4e986a4d6b87bf0e8a389dddabbb21ed6a1a1320"
   integrity sha512-CjmnMQ5Oj0bqSBGkhv7Xm3LciGJDHwe4AJ1LF6mijlP+QcCnUM5I6kVp60j7zZ/r0DT7nIEiuHHHczGpCZor0A==
@@ -4616,22 +4616,22 @@
   dependencies:
     elliptic "^6.5.4"
 
-"@toruslabs/fetch-node-details@^13.3.0":
-  version "13.3.0"
-  resolved "https://registry.yarnpkg.com/@toruslabs/fetch-node-details/-/fetch-node-details-13.3.0.tgz#1c1c520a52ebf7abf2f167016d6af258e2054516"
-  integrity sha512-UXU2ZnJ954ZvyWYbN0n5rXrIYkNjipTuXsNyLCtWgNU5zkf1ODGE6uNeEbA3LbdUCQj6r9GPIY9hQgKYyzjlhw==
+"@toruslabs/fetch-node-details@^13.4.0":
+  version "13.4.0"
+  resolved "https://registry.yarnpkg.com/@toruslabs/fetch-node-details/-/fetch-node-details-13.4.0.tgz#47e1c010fcb5c3d0995cd83174a2a09dd80b29bb"
+  integrity sha512-WTfI47Q5sldlz4nh8kNPI95PXm3hjm3IEDnYRY3rlcCrs9sVwdQItKf4D0i5s9sRmwLIpG3po+IpEcdO82CIuA==
   dependencies:
-    "@toruslabs/constants" "^13.3.0"
-    "@toruslabs/fnd-base" "^13.3.0"
+    "@toruslabs/constants" "^13.4.0"
+    "@toruslabs/fnd-base" "^13.4.0"
     "@toruslabs/http-helpers" "^6.1.1"
     loglevel "^1.9.1"
 
-"@toruslabs/fnd-base@^13.3.0":
-  version "13.3.0"
-  resolved "https://registry.yarnpkg.com/@toruslabs/fnd-base/-/fnd-base-13.3.0.tgz#2467cf8e5d04291f896a37a7b8be3072d5592048"
-  integrity sha512-sxIO+Seg6f3SxwZ++W92b2nY7KvA/atfrixuu9tz1JTQD6IMKQqq0MtYvsm8A4+e1CMrFetCeL9KQv3HeITH8w==
+"@toruslabs/fnd-base@^13.4.0":
+  version "13.4.0"
+  resolved "https://registry.yarnpkg.com/@toruslabs/fnd-base/-/fnd-base-13.4.0.tgz#c336354ba31ce0f3773d89ce30675fcf8f0d6917"
+  integrity sha512-Fc3uFj5ZfDmR4uWAMRyLVvBsSLXJWBHQoHOsucVqvxXpNeLSrFEQIxqlXsgjRfQPOSKtpljSl1MaXibhb5/hfA==
   dependencies:
-    "@toruslabs/constants" "^13.3.0"
+    "@toruslabs/constants" "^13.4.0"
 
 "@toruslabs/http-helpers@^6.1.0", "@toruslabs/http-helpers@^6.1.1":
   version "6.1.1"
