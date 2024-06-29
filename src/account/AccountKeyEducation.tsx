@@ -11,7 +11,6 @@ import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import Colors from 'src/styles/colors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.AccountKeyEducation>
 
@@ -45,7 +44,6 @@ export default function AccountKeyEducation(props: Props) {
       finalButtonText={t('completeEducation')}
       buttonText={t('next')}
       finalButtonType={BtnTypes.PRIMARY}
-      style={isFromCabOnboarding && { backgroundColor: Colors.onboardingBackground }}
     />
   )
 }
