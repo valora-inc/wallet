@@ -1347,10 +1347,10 @@
   resolved "https://registry.yarnpkg.com/@chevrotain/utils/-/utils-11.0.3.tgz#e39999307b102cff3645ec4f5b3665f5297a2224"
   integrity sha512-YslZMgtJUyuMbZ+aKvfF3x1f5liK4mWNxghFRv7jqRR9C3R3fAOGTTKvxXDa2Y1s9zSbcpuO0cAxDYsc9SrXoQ==
 
-"@coinbase/cbpay-js@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@coinbase/cbpay-js/-/cbpay-js-2.1.0.tgz#1bdbc77aced3cef19134dd113ebdb9f1cccbba2d"
-  integrity sha512-J9kuMY7qiEM9fV6k6sBJ44S2fDjdXfX7SeDCDv7fWoni5QnP7Ca3k6pHE0TSBRCkzzC0x1zK6wgieG4RyDPeNw==
+"@coinbase/cbpay-js@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@coinbase/cbpay-js/-/cbpay-js-2.2.0.tgz#7be6642d1d4b7ea1202336cf60d111f3125aad50"
+  integrity sha512-axTmgdxj57OmLFDjiHmMfZe/kdntBPHRFUektvTZoH8fX94gslw0+WSZgOdrLGkxaOv1TEnJRg+p6xq5MI0uAA==
 
 "@crowdin/ota-client@^0.7.0":
   version "0.7.0"
