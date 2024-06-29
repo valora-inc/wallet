@@ -125,7 +125,7 @@ function VerificationStartScreen({
             title={t('skip')}
             testID="PhoneVerificationSkipHeader"
             onPress={onPressSkip}
-            titleStyle={{ color: colors.onboardingBrownLight }}
+            titleStyle={{ color: colors.black }}
           />
         ),
       headerLeft: () => route.params?.hasOnboarded && <BackButton />,
@@ -292,7 +292,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   learnMore: {
-    color: colors.onboardingBrownLight,
+    color: colors.gray3,
   },
 })
 
