@@ -158,9 +158,7 @@ function SignInWithEmail({ route }: Props) {
   }
 
   return (
-    <SafeAreaView
-      style={[styles.container, isOnboarding && { backgroundColor: Colors.onboardingBackground }]}
-    >
+    <SafeAreaView style={styles.container}>
       <CustomHeader
         style={styles.header}
         left={
