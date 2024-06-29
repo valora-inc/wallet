@@ -4604,7 +4604,7 @@
   resolved "https://registry.yarnpkg.com/@th3rdwave/react-navigation-bottom-sheet/-/react-navigation-bottom-sheet-0.2.7.tgz#c9a0d1a270c5d5d275769fc4cccb8cebe25f22f8"
   integrity sha512-tO6W7RJTQVWJb/Q4aD3mokmilKFCU//g5YCvh1Al7fveMGLZDTaZGwte/ReuRm5Wl5oKIYd6IURruCE1G8/n9A==
 
-"@toruslabs/constants@^13.2.0", "@toruslabs/constants@^13.4.0":
+"@toruslabs/constants@^13.4.0":
   version "13.4.0"
   resolved "https://registry.yarnpkg.com/@toruslabs/constants/-/constants-13.4.0.tgz#4e986a4d6b87bf0e8a389dddabbb21ed6a1a1320"
   integrity sha512-CjmnMQ5Oj0bqSBGkhv7Xm3LciGJDHwe4AJ1LF6mijlP+QcCnUM5I6kVp60j7zZ/r0DT7nIEiuHHHczGpCZor0A==
@@ -4633,7 +4633,7 @@
   dependencies:
     "@toruslabs/constants" "^13.4.0"
 
-"@toruslabs/http-helpers@^6.1.0", "@toruslabs/http-helpers@^6.1.1":
+"@toruslabs/http-helpers@^6.1.1":
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/@toruslabs/http-helpers/-/http-helpers-6.1.1.tgz#0869fe78a31c8a6b5d9447f353e1b59700ee00ec"
   integrity sha512-bJYOaltRzklzObhRdutT1wau17vXyrCCBKJOeN46F1t99MUXi5udQNeErFOcr9qBsvrq2q67eVBkU5XOeBMX5A==
@@ -4641,14 +4641,14 @@
     lodash.merge "^4.6.2"
     loglevel "^1.9.1"
 
-"@toruslabs/torus.js@^12.2.0":
-  version "12.2.0"
-  resolved "https://registry.yarnpkg.com/@toruslabs/torus.js/-/torus.js-12.2.0.tgz#286bce6ba4723057424d9c6221df85e5abbf8515"
-  integrity sha512-XcpabndkplUDg6KGQqSdZQ/SmZBcpkqCTURkALIfkRkZw4uIa1LxRqflca+wjG58ulQxdS7u85B9LJW8FrDajg==
+"@toruslabs/torus.js@^12.3.6":
+  version "12.3.6"
+  resolved "https://registry.yarnpkg.com/@toruslabs/torus.js/-/torus.js-12.3.6.tgz#69d73d12c5ab5be166dcdb0df4ed4b7f7d8e4d0f"
+  integrity sha512-cXPC+Cyw4W05eZW784pPd+QyJRmvK54wTYbBocU9gVaqZhGXNryVrqhBYZSOmAr3pUtOubjRZfeXCZLn7BA77Q==
   dependencies:
-    "@toruslabs/constants" "^13.2.0"
+    "@toruslabs/constants" "^13.4.0"
     "@toruslabs/eccrypto" "^4.0.0"
-    "@toruslabs/http-helpers" "^6.1.0"
+    "@toruslabs/http-helpers" "^6.1.1"
     bn.js "^5.2.1"
     elliptic "^6.5.5"
     ethereum-cryptography "^2.1.3"
