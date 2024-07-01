@@ -35,6 +35,7 @@ function HelpInfoBottomSheet({
   const onGoBack = () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help_go_back, {
       keylessBackupFlow,
+      origin,
     })
     bottomSheetRef.current?.close()
   }
@@ -42,6 +43,7 @@ function HelpInfoBottomSheet({
   const onSkip = () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help_skip, {
       keylessBackupFlow,
+      origin,
     })
     keylessBackupFlow === KeylessBackupFlow.Setup ? navigateHome() : navigate(Screens.ImportSelect)
   }
@@ -49,6 +51,7 @@ function HelpInfoBottomSheet({
   const onUseRecoveryPhrase = () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help_use_recovery_phrase, {
       keylessBackupFlow,
+      origin,
     })
     navigate(Screens.AccountKeyEducation)
   }
@@ -108,12 +111,19 @@ function KeylessBackupPhoneCodeInput({
 }: NativeStackScreenProps<StackParamList, Screens.KeylessBackupPhoneCodeInput>) {
   const { t } = useTranslation()
   const { e164Number, keylessBackupFlow, origin } = route.params
-  const { setSmsCode, verificationStatus } = useVerifyPhoneNumber(e164Number, keylessBackupFlow)
+  const { setSmsCode, verificationStatus } = useVerifyPhoneNumber(
+    e164Number,
+    keylessBackupFlow,
+    origin
+  )
 
   const bottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const onPressHelp = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help, { keylessBackupFlow })
+    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help, {
+      keylessBackupFlow,
+      origin,
+    })
     bottomSheetRef.current?.snapToIndex(0)
   }
 
@@ -126,6 +136,7 @@ function KeylessBackupPhoneCodeInput({
     <KeylessBackupCancelButton
       flow={keylessBackupFlow}
       eventName={KeylessBackupEvents.cab_enter_phone_code_cancel}
+      origin={origin}
     />
   )
 

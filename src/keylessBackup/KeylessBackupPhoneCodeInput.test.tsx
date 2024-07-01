@@ -123,6 +123,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
         keyshare: 'valora-keyshare',
         keylessBackupFlow: KeylessBackupFlow.Setup,
         jwt: 'abc.def.ghi',
+        origin: KeylessBackupOrigin.Onboarding,
       }),
     ])
 
@@ -191,7 +192,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
       expect(getByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet')).toBeTruthy()
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
         KeylessBackupEvents.cab_phone_verification_help,
-        { keylessBackupFlow }
+        { keylessBackupFlow, origin }
       )
       expect(getByText(`phoneVerificationInput.helpDialog.${body}`)).toBeTruthy()
       expect(
@@ -209,7 +210,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
     fireEvent.press(getByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/PrimaryCta'))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       KeylessBackupEvents.cab_phone_verification_help_go_back,
-      { keylessBackupFlow: KeylessBackupFlow.Restore }
+      { keylessBackupFlow: KeylessBackupFlow.Restore, origin: KeylessBackupOrigin.Onboarding }
     )
   })
   it('goes to recovery education and track analytics event when pressing primary cta in setup flow on onboarding', async () => {
@@ -220,7 +221,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.AccountKeyEducation)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       KeylessBackupEvents.cab_phone_verification_help_use_recovery_phrase,
-      { keylessBackupFlow: KeylessBackupFlow.Setup }
+      { keylessBackupFlow: KeylessBackupFlow.Setup, origin: KeylessBackupOrigin.Onboarding }
     )
   })
   it('goes to home screen and track analytics event when pressing secondary cta in setup flow on settings', async () => {
@@ -231,7 +232,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
     expect(navigateHome).toHaveBeenCalledWith()
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       KeylessBackupEvents.cab_phone_verification_help_skip,
-      { keylessBackupFlow: KeylessBackupFlow.Setup }
+      { keylessBackupFlow: KeylessBackupFlow.Setup, origin: KeylessBackupOrigin.Settings }
     )
   })
   it('goes to ImportSelect screen and track analytics event when pressing secondary cta in restore flow', async () => {
@@ -242,7 +243,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.ImportSelect)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       KeylessBackupEvents.cab_phone_verification_help_skip,
-      { keylessBackupFlow: KeylessBackupFlow.Restore }
+      { keylessBackupFlow: KeylessBackupFlow.Restore, origin: KeylessBackupOrigin.Onboarding }
     )
   })
   it('tracks go back analytics event when pressing secondary cta in setup flow in onboarding', async () => {
@@ -252,7 +253,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
     fireEvent.press(getByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/SecondaryCta'))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       KeylessBackupEvents.cab_phone_verification_help_go_back,
-      { keylessBackupFlow: KeylessBackupFlow.Setup }
+      { keylessBackupFlow: KeylessBackupFlow.Setup, origin: KeylessBackupOrigin.Onboarding }
     )
   })
 })

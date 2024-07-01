@@ -27,6 +27,7 @@ describe('KeylessBackupIntro', () => {
       fireEvent.press(continueButton)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(KeylessBackupEvents.cab_intro_continue, {
         keylessBackupFlow: KeylessBackupFlow.Setup,
+        origin: KeylessBackupOrigin.Settings,
       })
       expect(navigate).toHaveBeenCalledWith(Screens.SignInWithEmail, {
         keylessBackupFlow: KeylessBackupFlow.Setup,
@@ -66,6 +67,7 @@ describe('KeylessBackupIntro', () => {
       fireEvent.press(continueButton)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(KeylessBackupEvents.cab_intro_continue, {
         keylessBackupFlow: KeylessBackupFlow.Restore,
+        origin: KeylessBackupOrigin.Settings,
       })
       expect(navigate).toHaveBeenCalledWith(Screens.SignInWithEmail, {
         keylessBackupFlow: KeylessBackupFlow.Restore,

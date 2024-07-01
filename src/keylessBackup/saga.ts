@@ -48,7 +48,7 @@ export const DELAY_INTERVAL_MS = 500 // how long to wait between checks for keys
 export const WAIT_FOR_KEYSHARE_TIMEOUT_MS = 25 * 1000 // how long to wait for keyshares before failing
 
 export function* handleValoraKeyshareIssued({
-  payload: { keylessBackupFlow, keyshare, jwt },
+  payload: { keylessBackupFlow, origin, keyshare, jwt },
 }: ReturnType<typeof valoraKeyshareIssued>) {
   try {
     const torusKeyshare = yield* waitForTorusKeyshare()
@@ -84,6 +84,7 @@ export function* handleValoraKeyshareIssued({
 
     ValoraAnalytics.track(KeylessBackupEvents.cab_handle_keyless_backup_success, {
       keylessBackupFlow,
+      origin,
     })
     if (keylessBackupFlow === KeylessBackupFlow.Setup) {
       ValoraAnalytics.track(KeylessBackupEvents.cab_setup_hashed_keyshares, {
@@ -95,6 +96,7 @@ export function* handleValoraKeyshareIssued({
     Logger.error(TAG, `Error handling keyless backup ${keylessBackupFlow}`, error)
     ValoraAnalytics.track(KeylessBackupEvents.cab_handle_keyless_backup_failed, {
       keylessBackupFlow,
+      origin,
     })
     yield* put(keylessBackupFailed())
     return

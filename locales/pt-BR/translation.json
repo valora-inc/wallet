@@ -2357,7 +2357,7 @@
     },
     "activityCards": {
       "createWallet": {
-        "title": "Crie uma carteira {{appName}}"
+        "title": "Criar uma carteira {{appName}}"
       },
       "swap": {
         "title": "Troque ativos",

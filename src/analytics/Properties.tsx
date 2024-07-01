@@ -249,6 +249,7 @@ interface SettingsEventsProperties {
 
 interface CommonKeylessBackupProps {
   keylessBackupFlow: KeylessBackupFlow
+  origin: KeylessBackupOrigin
 }
 
 interface KeylessBackupEventsProperties {

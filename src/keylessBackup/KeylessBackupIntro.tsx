@@ -83,7 +83,10 @@ function KeylessBackupIntro({ route }: Props) {
       <Button
         testID="keylessBackupIntro/Continue"
         onPress={() => {
-          ValoraAnalytics.track(KeylessBackupEvents.cab_intro_continue, { keylessBackupFlow })
+          ValoraAnalytics.track(KeylessBackupEvents.cab_intro_continue, {
+            keylessBackupFlow,
+            origin: KeylessBackupOrigin.Settings,
+          })
           navigate(Screens.SignInWithEmail, {
             keylessBackupFlow,
             origin: KeylessBackupOrigin.Settings,
