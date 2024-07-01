@@ -2440,7 +2440,7 @@
       "info": "Esta pool es administrada por Aave",
       "infoBottomSheet": {
         "title": "¿Por qué esta pool?",
-        "description": "Esta pool de Aave tiene más de $150M de TVL y más de 6000 contribuyentes, lo que indica una gran liquidez y fiabilidad. También utiliza USDC como token y Arbitrum como red, lo que reduce la volatilidad y garantiza que los usuarios recibirán tasas baratas.\n\nTodo ello la convierte en una opción segura y atractiva con un APY competitivo, que garantiza una oportunidad de inversión beneficiosa para nuestros usuarios.\n\nPuedes explorar otras pools de Aave <0>aquí</0>.",
+        "description": "Este pool de Aave tiene más de 150 millones de dólares de TVL y más de 6.000 contribuyentes, lo que indica una gran liquidez y fiabilidad. También utiliza USDC como token y Arbitrum como red, lo que reduce la volatilidad y garantiza que los usuarios recibirán tarifas de gas baratas.\n\nTodo ello lo convierte en una opción segura y atractiva con un APY competitivo, que garantiza una oportunidad de inversión beneficiosa para nuestros usuarios.\n\nPuedes explorar otros pools de Aave <0>aquí</0>.",
         "dismiss": "Ignorar"
       },
       "notEnoughBalanceForGasWarning": {
