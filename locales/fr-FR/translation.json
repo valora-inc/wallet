@@ -2440,7 +2440,7 @@
       "info": "Ce pool est alimenté par Aave",
       "infoBottomSheet": {
         "title": "Pourquoi ce pool ?",
-        "description": "Ce pool Aave dispose de plus de 150 millions de dollars de TVL et de plus de 6 000 contributeurs, ce qui indique une forte liquidité et une grande fiabilité. Il utilise également USDC comme jeton et Abritrum comme réseau, ce qui réduit la volatilité et garantit que les utilisateurs seront soumis à des taux de gaz faibles.\n\nTout cela en fait une option sûre et attrayante avec un APY compétitif, garantissant une opportunité d'investissement bénéfique pour nos utilisateurs.\n\nVous pouvez découvrir d'autres pools Aave <0>ici</0>.",
+        "description": "Ce pool Aave dispose de plus de 150 millions de dollars de TVL et de plus de 6 000 contributeurs, ce qui indique une forte liquidité et une grande fiabilité. Il utilise également USDC comme jeton et Arbitrum comme réseau, ce qui réduit la volatilité et garantit que les utilisateurs seront soumis à des taux de gaz faibles.\n\nTout cela en fait une option sûre et attrayante avec un APY compétitif, garantissant une opportunité d'investissement bénéfique pour nos utilisateurs.\n\nVous pouvez découvrir d'autres pools Aave <0>ici</0>.",
         "dismiss": "Refuser"
       },
       "notEnoughBalanceForGasWarning": {
