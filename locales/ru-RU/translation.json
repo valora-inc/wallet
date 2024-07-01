@@ -2361,7 +2361,7 @@
     },
     "activityCards": {
       "createWallet": {
-        "title": "Создай кошелек {{appName}}"
+        "title": "Создайте кошелек {{appName}}"
       },
       "swap": {
         "title": "Обменять активы",
