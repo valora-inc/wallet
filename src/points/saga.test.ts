@@ -5,6 +5,7 @@ import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call, select, spawn } from 'redux-saga/effects'
+import { Actions as AccountActions } from 'src/account/actions'
 import { Actions as AppActions } from 'src/app/actions'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import * as pointsSaga from 'src/points/saga'
@@ -17,6 +18,7 @@ import {
   sendPendingPointsEvents,
   sendPointsEvent,
   watchAppMounted,
+  watchInitializeAccountSuccess,
 } from 'src/points/saga'
 import { pendingPointsEventsSelector, trackOnceActivitiesSelector } from 'src/points/selectors'
 import pointsReducer, {
@@ -579,30 +581,36 @@ describe('sendPendingPointsEvents', () => {
   })
 })
 
-describe('watchAppMounted', () => {
+describe('points initialization', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
-  it('should spawn all sagas only once even if multiple "app mounted" actions are dispatched', async () => {
-    const mockAction = { type: AppActions.APP_MOUNTED }
+  it.each([
+    [AppActions.APP_MOUNTED, watchAppMounted],
+    [AccountActions.INITIALIZE_ACCOUNT_SUCCESS, watchInitializeAccountSuccess],
+  ])(
+    'should spawn all sagas only once even if multiple "%s" actions are dispatched',
+    async (actionType, saga) => {
+      const mockAction = { type: actionType }
 
-    const result = await expectSaga(watchAppMounted)
-      .provide([
-        [spawn(getPointsConfig), null],
-        [spawn(getPointsBalance, getHistoryStarted({ getNextPage: false })), null],
-        [spawn(sendPendingPointsEvents), null],
+      const result = await expectSaga(saga)
+        .provide([
+          [spawn(getPointsConfig), null],
+          [spawn(getPointsBalance, getHistoryStarted({ getNextPage: false })), null],
+          [spawn(sendPendingPointsEvents), null],
+        ])
+        .dispatch(mockAction)
+        .dispatch(mockAction)
+        .run()
+
+      expect(result.effects.fork).toEqual([
+        spawn(getPointsConfig),
+        spawn(getPointsBalance, getHistoryStarted({ getNextPage: false })),
+        spawn(sendPendingPointsEvents),
       ])
-      .dispatch(mockAction)
-      .dispatch(mockAction)
-      .run()
-
-    expect(result.effects.fork).toEqual([
-      spawn(getPointsConfig),
-      spawn(getPointsBalance, getHistoryStarted({ getNextPage: false })),
-      spawn(sendPendingPointsEvents),
-    ])
-  })
+    }
+  )
 })
 
 describe('fetchTrackPointsEventsEndpoint', () => {
