@@ -57,7 +57,7 @@ export type StackParamList = {
     | undefined
     | {
         nextScreen?: keyof StackParamList
-        origin?: 'cabOnboarding' | 'onboarding' | 'settings'
+        origin?: 'cabOnboarding'
       }
   [Screens.AccounSetupFailureScreen]: undefined
   [Screens.BackupPhrase]: { isAccountRemoval?: boolean } | undefined
