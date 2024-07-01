@@ -2440,7 +2440,7 @@
       "info": "Questo pool è supportato da Aave",
       "infoBottomSheet": {
         "title": "Qual è lo scopo di questo pool?",
-        "description": "Questo pool Aave ha oltre 150 milioni di dollari di TVL e oltre 6.000 contributori: questo indica una forte liquidità e affidabilità. Inoltre utilizza USDC come token e Abritrum come rete: questo riduce la volatilità e permette agli utenti di pagare basse commissioni sulle transazioni.\n\nPer questi motivi è un'opzione sicura e interessante con un rendimento APY competitivo e rappresenta una vantaggiosa opportunità di investimento per i nostri utenti.\n\nPuoi esplorare altri pool Aave <0>qui</0>.",
+        "description": "Questo pool Aave ha oltre 150 milioni di dollari di TVL e oltre 6.000 contributori: questo indica una forte liquidità e affidabilità. Inoltre utilizza USDC come token e Arbitrum come rete: questo riduce la volatilità e permette agli utenti di pagare basse commissioni sulle transazioni.\n\nPer questi motivi è un'opzione sicura e interessante con un rendimento APY competitivo e rappresenta una vantaggiosa opportunità di investimento per i nostri utenti.\n\nPuoi esplorare altri pool Aave <0>qui</0>.",
         "dismiss": "Ignorare"
       },
       "notEnoughBalanceForGasWarning": {
