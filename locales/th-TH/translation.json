@@ -914,8 +914,10 @@
     "helpDialog": {
       "title": "ความช่วยเหลือ",
       "body": "เราได้ส่ง SMS ไปยังหมายเลขโทรศัพท์ของคุณ โปรดตรวจสอบข้อความของคุณเพื่อดูรหัส 6 ตัว หากคุณมีปัญหาในการรับข้อความ คุณสามารถข้ามขั้นตอนนี้ไปก่อนและลองอีกครั้งภายหลัง",
+      "bodyCloudBackupOnboarding": "We sent an SMS to your phone number. Please check your text messages to find the 6 digit code. \n \n If you’re having trouble receiving messages, we recommend backing up with a Recovery Phrase. You can try signing in with your email and phone later.",
       "skip": "ข้าม",
-      "dismiss": "ย้อนกลับ"
+      "dismiss": "ย้อนกลับ",
+      "useRecoveryPhrase": "ใช้วลีกู้คืนรหัส"
     },
     "verificationFailure": "ขออภัย มีบางอย่างผิดปกติ โปรดลองอีกครั้งภายหลัง",
     "resendButtonNotYetAvailable": "สามารถส่งอีกครั้งได้ในอีก {{secondsRemaining}} วินาที",
