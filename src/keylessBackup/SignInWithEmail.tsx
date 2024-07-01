@@ -47,7 +47,7 @@ function SignInWithEmailBottomSheet({
       forwardedRef={bottomSheetRef}
       title={t('signInWithEmail.bottomSheet.title')}
       titleStyle={styles.bottomSheetTitle}
-      testId="KeylessBackupPhoneCodeInput/HelpInfoBottomSheet"
+      testId="KeylessBackupSignInWithEmail/HelpInfoBottomSheet"
     >
       <Text style={styles.bottomSheetDescription}>
         {t('signInWithEmail.bottomSheet.description')}

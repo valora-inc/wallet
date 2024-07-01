@@ -1,6 +1,7 @@
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
+import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import SignInWithEmail from 'src/keylessBackup/SignInWithEmail'
 import { googleSignInCompleted } from 'src/keylessBackup/slice'
@@ -175,5 +176,52 @@ describe('SignInWithEmail', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(logWarnSpy).not.toHaveBeenCalled()
     expect(queryByTestId('Button/Loading')).toBeNull()
+  })
+
+  it("pressing 'Sign in another way' then 'continue' navigates to recovery phrase education", () => {
+    const { getByTestId, getByText } = renderComponent(
+      KeylessBackupFlow.Setup,
+      KeylessBackupOrigin.Onboarding
+    )
+    expect(getByText('signInWithEmail.title')).toBeTruthy()
+    expect(getByText('signInWithEmail.subtitle')).toBeTruthy()
+    expect(getByTestId('SignInWithEmail/Google')).toBeTruthy()
+    expect(getByTestId('SignInWithEmail/SignInAnotherWay')).toBeTruthy()
+
+    fireEvent.press(getByTestId('SignInWithEmail/SignInAnotherWay'))
+    expect(getByTestId('KeylessBackupSignInWithEmail/HelpInfoBottomSheet')).toBeTruthy()
+
+    fireEvent.press(getByText('signInWithEmail.bottomSheet.continue'))
+    expect(navigate).toHaveBeenCalledWith(Screens.AccountKeyEducation, {
+      nextScreen: Screens.OnboardingRecoveryPhrase,
+      origin: 'cabOnboarding',
+    })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      KeylessBackupEvents.cab_setup_recovery_phrase
+    )
+  })
+
+  it("pressing 'Sign in another way' then 'Skip (not recommended)' navigates to next onboarding screen", () => {
+    const { getByTestId, getByText } = renderComponent(
+      KeylessBackupFlow.Setup,
+      KeylessBackupOrigin.Onboarding
+    )
+    expect(getByText('signInWithEmail.title')).toBeTruthy()
+    expect(getByText('signInWithEmail.subtitle')).toBeTruthy()
+    expect(getByTestId('SignInWithEmail/Google')).toBeTruthy()
+    expect(getByTestId('SignInWithEmail/SignInAnotherWay')).toBeTruthy()
+
+    fireEvent.press(getByTestId('SignInWithEmail/SignInAnotherWay'))
+    expect(getByTestId('KeylessBackupSignInWithEmail/HelpInfoBottomSheet')).toBeTruthy()
+
+    fireEvent.press(getByText('signInWithEmail.bottomSheet.skip'))
+    expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      KeylessBackupEvents.cab_sign_in_with_email_screen_skip,
+      {
+        keylessBackupFlow: KeylessBackupFlow.Setup,
+        origin: KeylessBackupOrigin.Onboarding,
+      }
+    )
   })
 })
