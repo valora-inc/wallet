@@ -2440,7 +2440,7 @@
       "info": "Dieser Pool wird von Aave unterstützt",
       "infoBottomSheet": {
         "title": "Warum dieser Pool?",
-        "description": "Dieser Aave-Pool hat über 150 Millionen Dollar TVL und mehr als 6.000 Beitragszahler, was für eine hohe Liquidität und Vertrauenswürdigkeit spricht. Außerdem verwendet er USDC als Token und Abritrum als Netzwerk, was die Volatilität reduziert und sicherstellt, dass die Nutzer günstige Gasgebühren erhalten.\n\nDas alles macht den Aave-Pool zu einer sicheren und attraktiven Option mit wettbewerbsfähiger jährlicher prozentualer Rendite, die eine vorteilhafte Investitionsmöglichkeit für unsere Nutzer darstellt.\n\nWeitere Aave-Pools findest du <0>hier</0>.",
+        "description": "Dieser Aave-Pool hat über 150 Millionen Dollar TVL und mehr als 6.000 Beitragszahler, was für eine hohe Liquidität und Vertrauenswürdigkeit spricht. Außerdem verwendet er USDC als Token und Arbitrum als Netzwerk, was die Volatilität reduziert und sicherstellt, dass die Nutzer günstige Gasgebühren erhalten.\n\nDas alles macht den Aave-Pool zu einer sicheren und attraktiven Option mit wettbewerbsfähiger jährlicher prozentualer Rendite, die eine vorteilhafte Investitionsmöglichkeit für unsere Nutzer darstellt.\n\nWeitere Aave-Pools findest du <0>hier</0>.",
         "dismiss": "Verwerfen"
       },
       "notEnoughBalanceForGasWarning": {
