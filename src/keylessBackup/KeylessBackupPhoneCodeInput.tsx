@@ -135,8 +135,8 @@ function KeylessBackupPhoneCodeInput({
   ) : (
     <KeylessBackupCancelButton
       flow={keylessBackupFlow}
-      eventName={KeylessBackupEvents.cab_enter_phone_code_cancel}
       origin={origin}
+      eventName={KeylessBackupEvents.cab_enter_phone_code_cancel}
     />
   )
 
