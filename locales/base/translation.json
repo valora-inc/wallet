@@ -914,8 +914,10 @@
     "helpDialog": {
       "title": "Help",
       "body": "We sent an SMS to your phone number. Please check your text messages to find the 6 digit code. \n \n If you’re having trouble receiving messages, you can skip this step for now and try again later.",
+      "bodyCloudBackupOnboarding": "We sent an SMS to your phone number. Please check your text messages to find the 6 digit code. \n \n If you’re having trouble receiving messages, we recommend backing up with a Recovery Phrase. You can try signing in with your email and phone later.",
       "skip": "Skip",
-      "dismiss": "Go back"
+      "dismiss": "Go back",
+      "useRecoveryPhrase": "Use Recovery Phrase"
     },
     "verificationFailure": "Oops! Something went wrong, please try again later.",
     "resendButtonNotYetAvailable": "Resend available in {{secondsRemaining}} second(s)",
