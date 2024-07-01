@@ -93,6 +93,7 @@ function SignInWithEmail({ route }: Props) {
   const onPressSignInAnotherWay = () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_another_way, {
       keylessBackupFlow,
+      origin,
     })
     bottomSheetRef.current?.snapToIndex(0)
   }
@@ -109,6 +110,7 @@ function SignInWithEmail({ route }: Props) {
   const onPressSkip = () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_email_screen_skip, {
       keylessBackupFlow,
+      origin,
     })
     goToNextOnboardingScreen({
       firstScreenInCurrentStep: Screens.SignInWithEmail,
@@ -123,7 +125,10 @@ function SignInWithEmail({ route }: Props) {
         keylessBackupFlow,
       })
     )
-    ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_google, { keylessBackupFlow })
+    ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_google, {
+      keylessBackupFlow,
+      origin,
+    })
     try {
       // clear any existing saved credentials
       await clearCredentials()
@@ -146,6 +151,7 @@ function SignInWithEmail({ route }: Props) {
       dispatch(googleSignInCompleted({ idToken: credentials.idToken }))
       ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_google_success, {
         keylessBackupFlow,
+        origin,
       })
       setTimeout(() => {
         // to avoid screen flash
@@ -165,6 +171,7 @@ function SignInWithEmail({ route }: Props) {
           route.params.origin === KeylessBackupOrigin.Settings ? (
             <KeylessBackupCancelButton
               flow={route.params.keylessBackupFlow}
+              origin={route.params.origin}
               eventName={KeylessBackupEvents.cab_sign_in_with_email_screen_cancel}
             />
           ) : (

@@ -2355,7 +2355,7 @@
     },
     "activityCards": {
       "createWallet": {
-        "title": "สร้างกระเป๋าเงิน {{appName}}"
+        "title": "Create a {{appName}} Wallet"
       },
       "swap": {
         "title": "สว็อปสินทรัพย์",

@@ -2357,7 +2357,7 @@
     },
     "activityCards": {
       "createWallet": {
-        "title": "Crea un wallet {{appName}}"
+        "title": "Crea un portafoglio {{appName}}"
       },
       "swap": {
         "title": "Scambia asset",
