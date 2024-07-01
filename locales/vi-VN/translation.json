@@ -914,8 +914,10 @@
     "helpDialog": {
       "title": "Trợ giúp",
       "body": "Chúng tôi đã gửi tin nhắn SMS đến số điện thoại của bạn. Vui lòng kiểm tra tin nhắn văn bản để tìm mã gồm 6 chữ số. Nếu gặp sự cố khi nhận tin nhắn, bạn có thể tạm thời bỏ qua bước này và thử lại sau.",
+      "bodyCloudBackupOnboarding": "We sent an SMS to your phone number. Please check your text messages to find the 6 digit code. \n \n If you’re having trouble receiving messages, we recommend backing up with a Recovery Phrase. You can try signing in with your email and phone later.",
       "skip": "Bỏ qua",
-      "dismiss": "Quay lại"
+      "dismiss": "Quay lại",
+      "useRecoveryPhrase": "Sử dụng Cụm từ khôi phục"
     },
     "verificationFailure": "Rất tiếc! Đã xảy ra lỗi, vui lòng thử lại sau.",
     "resendButtonNotYetAvailable": "Có thể gửi lại trong {{secondsRemaining}} giây nữa",
