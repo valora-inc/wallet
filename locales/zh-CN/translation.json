@@ -914,8 +914,10 @@
     "helpDialog": {
       "title": "帮助",
       "body": "我们向您的手机号码发送了短信。请查看您短信中的 6 位数字代码。\n\n如果您在接收短信方面有问题，可以暂时跳过这一步，稍后再试。",
+      "bodyCloudBackupOnboarding": "我们向您的电话号码发送了短信。请查看短信，查找 6 位数字代码。 \n \n 如果您在接收短信时遇到问题，我们建议您使用恢复短语进行备份。您可以稍后尝试使用电子邮件和手机登录。",
       "skip": "跳过",
-      "dismiss": "返回"
+      "dismiss": "返回",
+      "useRecoveryPhrase": "使用恢复短语"
     },
     "verificationFailure": "糟糕！出错了，请稍后再试。",
     "resendButtonNotYetAvailable": "{{secondsRemaining}} 秒后可重新发送",
