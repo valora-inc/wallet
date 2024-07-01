@@ -914,8 +914,10 @@
     "helpDialog": {
       "title": "Ayuda",
       "body": "Hemos enviado un SMS a tu número de teléfono. Busca el código de 6 dígitos en tus mensajes.\n\nSi tienes problemas para recibir los mensajes, puedes omitir este paso por ahora e intentarlo más tarde.",
+      "bodyCloudBackupOnboarding": "Hemos enviado un SMS a tu número de teléfono. Comprueba tus mensajes de texto para encontrar el código de 6 dígitos. \n \n Si tienes problemas para recibir mensajes, te recomendamos que hagas una copia de seguridad con una Frase de recuperación. Puedes intentar iniciar sesión con tu correo electrónico y teléfono más tarde.",
       "skip": "Omitir",
-      "dismiss": "Regresar"
+      "dismiss": "Regresar",
+      "useRecoveryPhrase": "Usar frase de recuperación"
     },
     "verificationFailure": "Algo salió mal, inténtalo de nuevo más tarde.",
     "resendButtonNotYetAvailable": "Reenvío disponible en {{secondsRemaining}} segundo(s)",
