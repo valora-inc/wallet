@@ -805,7 +805,7 @@
     "spend": "Usa tu cripto para comprar tus marcas favoritas"
   },
   "enableBiometry": {
-    "title": "Asegure su cartera",
+    "title": "Asegura tu wallet",
     "description": "{{biometryType}} matiene tu cuenta segura y facilita el uso de {{appName}}",
     "cta": "Habilitar {{biometryType}}",
     "guideTitle": "¿Te gustaría habilitar {{biometryType}}?",
@@ -2357,7 +2357,7 @@
     },
     "activityCards": {
       "createWallet": {
-        "title": "Crea una Cartera {{appName}}"
+        "title": "Crear una wallet {{appName}}"
       },
       "swap": {
         "title": "Intercambia activos",
