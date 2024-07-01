@@ -220,7 +220,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
     fireEvent.press(getByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/PrimaryCta'))
     expect(navigate).toHaveBeenCalledWith(Screens.AccountKeyEducation)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      KeylessBackupEvents.cab_phone_verification_help_use_recovery_phrase,
+      KeylessBackupEvents.cab_phone_verification_help_use_phrase,
       { keylessBackupFlow: KeylessBackupFlow.Setup, origin: KeylessBackupOrigin.Onboarding }
     )
   })

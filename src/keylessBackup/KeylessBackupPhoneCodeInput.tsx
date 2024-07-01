@@ -49,7 +49,7 @@ function HelpInfoBottomSheet({
   }
 
   const onUseRecoveryPhrase = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help_use_recovery_phrase, {
+    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help_use_phrase, {
       keylessBackupFlow,
       origin,
     })
