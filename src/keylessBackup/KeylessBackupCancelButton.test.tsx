@@ -3,7 +3,7 @@ import React from 'react'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import KeylessBackupCancelButton from 'src/keylessBackup/KeylessBackupCancelButton'
-import { KeylessBackupFlow } from 'src/keylessBackup/types'
+import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 
@@ -16,6 +16,7 @@ describe('KeylessBackupCancelButton', () => {
     const { getByTestId } = render(
       <KeylessBackupCancelButton
         eventName={KeylessBackupEvents.cab_enter_phone_number_cancel}
+        origin={KeylessBackupOrigin.Settings}
         flow={KeylessBackupFlow.Setup}
       />
     )
@@ -27,7 +28,7 @@ describe('KeylessBackupCancelButton', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       KeylessBackupEvents.cab_enter_phone_number_cancel,
-      { keylessBackupFlow: KeylessBackupFlow.Setup }
+      { keylessBackupFlow: KeylessBackupFlow.Setup, origin: KeylessBackupOrigin.Settings }
     )
   })
 
@@ -35,6 +36,7 @@ describe('KeylessBackupCancelButton', () => {
     const { getByTestId } = render(
       <KeylessBackupCancelButton
         eventName={KeylessBackupEvents.cab_sign_in_with_email_screen_cancel}
+        origin={KeylessBackupOrigin.Settings}
         flow={KeylessBackupFlow.Restore}
       />
     )
@@ -47,7 +49,7 @@ describe('KeylessBackupCancelButton', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       KeylessBackupEvents.cab_sign_in_with_email_screen_cancel,
-      { keylessBackupFlow: KeylessBackupFlow.Restore }
+      { keylessBackupFlow: KeylessBackupFlow.Restore, origin: KeylessBackupOrigin.Settings }
     )
   })
 })

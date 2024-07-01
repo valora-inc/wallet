@@ -38,7 +38,10 @@ function SignInWithEmail({ route }: Props) {
         keylessBackupFlow,
       })
     )
-    ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_google, { keylessBackupFlow })
+    ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_google, {
+      keylessBackupFlow,
+      origin,
+    })
     try {
       // clear any existing saved credentials
       await clearCredentials()
@@ -61,6 +64,7 @@ function SignInWithEmail({ route }: Props) {
       dispatch(googleSignInCompleted({ idToken: credentials.idToken }))
       ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_google_success, {
         keylessBackupFlow,
+        origin,
       })
       setTimeout(() => {
         // to avoid screen flash
@@ -104,6 +108,7 @@ SignInWithEmail.navigationOptions = ({ route }: Props) => ({
   headerLeft: () => (
     <KeylessBackupCancelButton
       flow={route.params.keylessBackupFlow}
+      origin={route.params.origin}
       eventName={KeylessBackupEvents.cab_sign_in_with_email_screen_cancel}
     />
   ),

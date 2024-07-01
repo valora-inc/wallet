@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import SignInWithEmail from 'src/keylessBackup/SignInWithEmail'
 import { googleSignInCompleted } from 'src/keylessBackup/slice'
-import { KeylessBackupFlow } from 'src/keylessBackup/types'
+import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
@@ -24,13 +24,17 @@ jest.mock('react-native-auth0', () => ({
 }))
 
 const store = createMockStore()
-const renderComponent = (keylessBackupFlow: KeylessBackupFlow = KeylessBackupFlow.Setup) =>
+const renderComponent = (
+  keylessBackupFlow: KeylessBackupFlow = KeylessBackupFlow.Setup,
+  origin: KeylessBackupOrigin = KeylessBackupOrigin.Settings
+) =>
   render(
     <Provider store={store}>
       <MockedNavigator
         component={SignInWithEmail}
         params={{
           keylessBackupFlow,
+          origin,
         }}
         options={SignInWithEmail.navigationOptions}
       />
@@ -68,11 +72,13 @@ describe('SignInWithEmail', () => {
     fireEvent.press(continueButton)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_with_google', {
       keylessBackupFlow: KeylessBackupFlow.Setup,
+      origin: KeylessBackupOrigin.Settings,
     })
     expect(getByTestId('Button/Loading')).toBeTruthy()
     await waitFor(() => expect(navigate).toHaveBeenCalledTimes(1))
     expect(navigate).toHaveBeenCalledWith(Screens.KeylessBackupPhoneInput, {
       keylessBackupFlow: KeylessBackupFlow.Setup,
+      origin: KeylessBackupOrigin.Settings,
     })
     expect(mockClearCredentials).toHaveBeenCalledTimes(1)
     expect(mockAuthorize).toHaveBeenCalledTimes(1)
@@ -86,6 +92,7 @@ describe('SignInWithEmail', () => {
     ])
     expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_with_google_success', {
       keylessBackupFlow: KeylessBackupFlow.Setup,
+      origin: KeylessBackupOrigin.Settings,
     })
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
     expect(logWarnSpy).not.toHaveBeenCalled()
@@ -99,6 +106,7 @@ describe('SignInWithEmail', () => {
     expect(getByTestId('Button/Loading')).toBeTruthy()
     expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_with_google', {
       keylessBackupFlow: KeylessBackupFlow.Setup,
+      origin: KeylessBackupOrigin.Settings,
     })
     await waitFor(() => expect(logWarnSpy).toHaveBeenCalledTimes(1))
     expect(navigate).not.toHaveBeenCalled()
@@ -123,6 +131,7 @@ describe('SignInWithEmail', () => {
     expect(getByTestId('Button/Loading')).toBeTruthy()
     expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_with_google', {
       keylessBackupFlow: KeylessBackupFlow.Setup,
+      origin: KeylessBackupOrigin.Settings,
     })
     await waitFor(() => expect(logWarnSpy).toHaveBeenCalledTimes(1))
     expect(navigate).not.toHaveBeenCalled()
@@ -147,6 +156,7 @@ describe('SignInWithEmail', () => {
     expect(getByTestId('Button/Loading')).toBeTruthy()
     expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_with_google', {
       keylessBackupFlow: KeylessBackupFlow.Setup,
+      origin: KeylessBackupOrigin.Settings,
     })
     await waitFor(() =>
       expect(logDebugSpy).toHaveBeenCalledWith('keylessBackup/SignInWithEmail', 'login cancelled')

@@ -8,7 +8,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import KeylessBackupPhoneCodeInput from 'src/keylessBackup/KeylessBackupPhoneCodeInput'
 import { valoraKeyshareIssued } from 'src/keylessBackup/slice'
-import { KeylessBackupFlow } from 'src/keylessBackup/types'
+import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import networkConfig from 'src/web3/networkConfig'
@@ -18,13 +18,17 @@ import { createMockStore } from 'test/utils'
 const mockFetch = fetch as FetchMock
 const store = createMockStore()
 
-const renderComponent = (keylessBackupFlow: KeylessBackupFlow = KeylessBackupFlow.Setup) =>
+const renderComponent = (
+  keylessBackupFlow: KeylessBackupFlow = KeylessBackupFlow.Setup,
+  origin: KeylessBackupOrigin = KeylessBackupOrigin.Settings
+) =>
   render(
     <Provider store={store}>
       <MockedNavigator
         component={KeylessBackupPhoneCodeInput}
         params={{
           keylessBackupFlow,
+          origin,
           e164Number: '+15555555555',
         }}
       />
@@ -99,6 +103,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
       valoraKeyshareIssued({
         keyshare: 'valora-keyshare',
         keylessBackupFlow: KeylessBackupFlow.Setup,
+        origin: KeylessBackupOrigin.Settings,
         jwt: 'abc.def.ghi',
       }),
     ])
@@ -106,6 +111,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
     expect(navigate).toHaveBeenCalledTimes(1)
     expect(navigate).toHaveBeenCalledWith(Screens.KeylessBackupProgress, {
       keylessBackupFlow: KeylessBackupFlow.Setup,
+      origin: KeylessBackupOrigin.Settings,
     })
   })
 
@@ -143,7 +149,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
     expect(getByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet')).toBeTruthy()
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       KeylessBackupEvents.cab_phone_verification_help,
-      { keylessBackupFlow: KeylessBackupFlow.Setup }
+      { keylessBackupFlow: KeylessBackupFlow.Setup, origin: KeylessBackupOrigin.Settings }
     )
   })
   it('tracks analytics event when pressing go back button', async () => {
@@ -155,7 +161,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
     fireEvent.press(getByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/GoBack'))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       KeylessBackupEvents.cab_phone_verification_help_go_back,
-      { keylessBackupFlow: KeylessBackupFlow.Setup }
+      { keylessBackupFlow: KeylessBackupFlow.Setup, origin: KeylessBackupOrigin.Settings }
     )
   })
   it('goes to home screen and track analytics event when pressing skip button in setup flow', async () => {
@@ -168,7 +174,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
     expect(navigateHome).toHaveBeenCalledWith()
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       KeylessBackupEvents.cab_phone_verification_help_skip,
-      { keylessBackupFlow: KeylessBackupFlow.Setup }
+      { keylessBackupFlow: KeylessBackupFlow.Setup, origin: KeylessBackupOrigin.Settings }
     )
   })
   it('goes to ImportSelect screen and track analytics event when pressing skip button in restore flow', async () => {
@@ -181,7 +187,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.ImportSelect)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       KeylessBackupEvents.cab_phone_verification_help_skip,
-      { keylessBackupFlow: KeylessBackupFlow.Restore }
+      { keylessBackupFlow: KeylessBackupFlow.Restore, origin: KeylessBackupOrigin.Settings }
     )
   })
 })
