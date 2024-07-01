@@ -1,5 +1,6 @@
 import { differenceInDays } from 'date-fns'
 import { isEqual } from 'lodash'
+import { Actions as AccountActions } from 'src/account/actions'
 import { Actions as AppActions } from 'src/app/actions'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import {
@@ -275,6 +276,15 @@ function* watchTrackPointsEvent() {
 
 export function* watchAppMounted() {
   yield* take(AppActions.APP_MOUNTED)
+  yield* call(initializePoints)
+}
+
+export function* watchInitializeAccountSuccess() {
+  yield* take(AccountActions.INITIALIZE_ACCOUNT_SUCCESS)
+  yield* call(initializePoints)
+}
+
+function* initializePoints() {
   yield* spawn(getPointsConfig)
   yield* spawn(getPointsBalance, getHistoryStarted({ getNextPage: false }))
   yield* spawn(sendPendingPointsEvents)
@@ -291,4 +301,5 @@ export function* pointsSaga() {
   yield* spawn(watchGetConfig)
   yield* spawn(watchTrackPointsEvent)
   yield* spawn(watchAppMounted)
+  yield* spawn(watchInitializeAccountSuccess)
 }
