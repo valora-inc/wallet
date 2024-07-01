@@ -20,6 +20,7 @@ import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSeri
 import { ActionRequestProps } from 'src/walletConnect/screens/ActionRequest'
 import { SessionRequestProps } from 'src/walletConnect/screens/SessionRequest'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
+import { Address } from 'viem'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -255,6 +256,7 @@ export type StackParamList = {
     sendAmount: string
     tokenId: string
     serializablePreparedTransactions: SerializableTransactionRequest[]
+    beneficiaryAddress: Address
   }
   [Screens.JumpstartShareLink]: {
     link: string

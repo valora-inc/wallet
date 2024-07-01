@@ -31,7 +31,8 @@ type Props = NativeStackScreenProps<StackParamList, Screens.JumpstartSendConfirm
 const TAG = 'JumpstartSendConfirmation'
 
 function JumpstartSendConfirmation({ route }: Props) {
-  const { tokenId, sendAmount, serializablePreparedTransactions, link } = route.params
+  const { tokenId, sendAmount, serializablePreparedTransactions, link, beneficiaryAddress } =
+    route.params
   const parsedAmount = new BigNumber(sendAmount)
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -64,6 +65,7 @@ function JumpstartSendConfirmation({ route }: Props) {
           sendToken: token,
           sendAmount,
           serializablePreparedTransactions,
+          beneficiaryAddress,
         })
       )
 

@@ -104,6 +104,7 @@ function JumpstartEnterAmount() {
           serializablePreparedTransactions: getSerializablePreparedTransactions(
             prepareJumpstartTransactions.result.transactions
           ),
+          beneficiaryAddress: jumpstartLink.publicKey,
         })
 
         ValoraAnalytics.track(JumpstartEvents.jumpstart_send_amount_continue, {

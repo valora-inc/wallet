@@ -39,6 +39,7 @@ import { sendPreparedTransactions } from 'src/viem/saga'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { all, call, fork, put, select, spawn, takeEvery } from 'typed-redux-saga'
 import { Address, Hash, TransactionReceipt, parseAbi, parseEventLogs } from 'viem'
+import { trackPointsEvent } from 'src/points/slice'
 
 const TAG = 'WalletJumpstart/saga'
 
@@ -214,7 +215,8 @@ export function* dispatchPendingERC721Transactions(
 export function* sendJumpstartTransactions(
   action: PayloadAction<JumpstartTransactionStartedAction>
 ) {
-  const { serializablePreparedTransactions, sendToken, sendAmount } = action.payload
+  const { serializablePreparedTransactions, sendToken, sendAmount, beneficiaryAddress } =
+    action.payload
   const networkId = sendToken.networkId
   const localCurrency = yield* select(getLocalCurrencyCode)
   const localCurrencyExchangeRate = yield* select(usdToLocalCurrencyRateSelector)
@@ -329,6 +331,17 @@ export function* sendJumpstartTransactions(
 
     ValoraAnalytics.track(JumpstartEvents.jumpstart_send_succeeded, trackedProperties)
     yield* put(depositTransactionSucceeded())
+    yield* put(
+      trackPointsEvent({
+        activityId: 'create-live-link',
+        liveLinkType: 'erc20',
+        beneficiaryAddress,
+        transactionHash: jumpstartTxReceipt.transactionHash,
+        networkId,
+        tokenId: sendToken.tokenId,
+        amount: sendAmount,
+      })
+    )
   } catch (err) {
     if (err === CANCELLED_PIN_INPUT) {
       Logger.info(TAG, 'Transaction cancelled by user')

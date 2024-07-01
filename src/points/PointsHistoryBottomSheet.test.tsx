@@ -19,6 +19,23 @@ jest.mock('src/statsig', () => ({
 const MOCK_RESPONSE_NO_NEXT_PAGE: GetHistoryResponse = {
   data: [
     {
+      activityId: 'create-live-link',
+      pointsAmount: 10,
+      createdAt: '2024-03-05T19:26:25.000Z',
+      metadata: {
+        liveLinkType: 'erc721',
+      },
+    },
+    {
+      activityId: 'create-live-link',
+      pointsAmount: 20,
+      createdAt: '2024-03-05T19:26:25.000Z',
+      metadata: {
+        liveLinkType: 'erc20',
+        tokenId: 'celo-alfajores:native',
+      },
+    },
+    {
       activityId: 'swap',
       pointsAmount: 20,
       createdAt: '2024-03-05T19:26:25.000Z',
@@ -87,6 +104,10 @@ describe(PointsHistoryBottomSheet, () => {
     })
     await waitFor(() => expect(tree.getByTestId('PointsHistoryList').props.data.length).toBe(3))
 
+    expect(
+      tree.getByText('points.history.cards.createLiveLink.subtitle.erc20, {"tokenSymbol":"CELO"}')
+    ).toBeTruthy()
+    expect(tree.getByText('points.history.cards.createLiveLink.subtitle.erc721')).toBeTruthy()
     expect(
       tree.getByText('points.history.cards.swap.subtitle, {"fromToken":"CELO","toToken":"cUSD"}')
     ).toBeTruthy()
