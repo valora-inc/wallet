@@ -34,10 +34,9 @@ type Props = NativeStackScreenProps<StackParamList, Screens.OnboardingRecoveryPh
 
 function OnboardingRecoveryPhrase({ navigation, route }: Props) {
   const onboardingProps = useSelector(onboardingPropsSelector)
-  const isFromCabOnboarding = route.params?.origin === 'cabOnboarding'
   // Use a lower step count for CAB onboarding
   const { step, totalSteps } = getOnboardingStepValues(
-    isFromCabOnboarding ? Screens.SignInWithEmail : Screens.ProtectWallet,
+    route.params?.origin === 'cabOnboarding' ? Screens.SignInWithEmail : Screens.ProtectWallet,
     onboardingProps
   )
   const accountKey = useAccountKey()

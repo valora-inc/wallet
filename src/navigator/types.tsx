@@ -219,7 +219,7 @@ export type StackParamList = {
   [Screens.ProtectWallet]: undefined
   [Screens.OnboardingRecoveryPhrase]:
     | {
-        origin?: 'cabOnboarding' | 'onboarding'
+        origin?: 'cabOnboarding'
       }
     | undefined
   [Screens.Profile]: undefined

@@ -193,7 +193,6 @@ describe('SignInWithEmail', () => {
 
     fireEvent.press(getByText('signInWithEmail.bottomSheet.continue'))
     expect(navigate).toHaveBeenCalledWith(Screens.AccountKeyEducation, {
-      nextScreen: Screens.OnboardingRecoveryPhrase,
       origin: 'cabOnboarding',
     })
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
