@@ -35,6 +35,7 @@ export const notificationOutgoingRequest = require('src/images/notification-outg
 export const onboardingEducation1 = require('src/images/onboarding-education-1.png')
 export const onboardingEducation2 = require('src/images/onboarding-education-2.png')
 export const onboardingEducation3 = require('src/images/onboarding-education-3.png')
+export const pointsCardBackground = require('src/images/points-card-background.png')
 export const pointsIllustration = require('src/images/points-illustration.png')
 export const ringsPlusCircle = require('src/images/rings-plus-circle.png')
 export const sendFee = require('src/images/send-fee.png')
