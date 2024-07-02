@@ -914,8 +914,10 @@
     "helpDialog": {
       "title": "Pomoc",
       "body": "Wysłaliśmy wiadomość SMS pod Twój numer telefonu. Sprawdź swoje wiadomości tekstowe, aby znaleźć 6-cyfrowy kod. \n\nJeśli masz problemy z odbieraniem wiadomości, możesz pominąć ten krok i spróbować ponownie później.",
+      "bodyCloudBackupOnboarding": "Wysłaliśmy wiadomość SMS na Twój numer telefonu. Sprawdź swoje wiadomości tekstowe, aby znaleźć 6-cyfrowy kod. \n \n Jeśli masz problemy z odbieraniem wiadomości, zalecamy utworzenie kopii zapasowej za pomocą frazy odzyskiwania. Możesz spróbować zalogować się za pomocą adresu e-mail i telefonu później.",
       "skip": "Pomiń",
-      "dismiss": "Wróć"
+      "dismiss": "Wróć",
+      "useRecoveryPhrase": "Użyj frazy odzyskiwania"
     },
     "verificationFailure": "Coś poszło nie tak, spróbuj ponownie później.",
     "resendButtonNotYetAvailable": "Możliwość ponownego wysłania za {{secondsRemaining}} sek.",
@@ -2444,7 +2446,7 @@
       "info": "Ta pula jest zapewniana przez Aave",
       "infoBottomSheet": {
         "title": "Dlaczego ta pula?",
-        "description": "Ta pula Aave ma ponad 150 mln USD TVL i ponad 6000 uczestników, co wskazuje na dużą płynność i wiarygodność. Wykorzystuje również USDC jako token i Abritrum jako sieć, co zmniejsza zmienność i zapewnia użytkownikom niskie opłaty za gaz.\n\nWszystko to sprawia, że jest to bezpieczna i atrakcyjna opcja z konkurencyjnym APY, zapewniająca korzystne możliwości inwestycyjne dla naszych użytkowników.\n\nMożesz zapoznać się z innymi pulami Aave <0>tutaj</0>.",
+        "description": "Ta pula Aave ma ponad 150 mln USD TVL i ponad 6000 współpracowników, co wskazuje na dużą płynność i wiarygodność. Wykorzystuje również USDC jako token i Arbitrum jako sieć, co zmniejsza zmienność i zapewnia użytkownikom niedrogie stawki za gaz.\n\nWszystko to razem sprawia, że jest to bezpieczna i atrakcyjna opcja z konkurencyjnym APY, zapewniająca korzystne możliwości inwestycyjne dla naszych użytkowników.\n\nMożesz zapoznać się z innymi pulami Aave <0>tutaj</0>.",
         "dismiss": "Odrzuć"
       },
       "notEnoughBalanceForGasWarning": {

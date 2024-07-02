@@ -914,8 +914,10 @@
     "helpDialog": {
       "title": "Ajuda",
       "body": "Enviamos um SMS para o seu número de celular com um código de 6 dígitos.\n\nSe você estiver tendo problemas para receber mensagens, pode pular esta etapa e tentar novamente mais tarde.",
+      "bodyCloudBackupOnboarding": "Enviamos um SMS para o seu número de telefone. Verifique suas mensagens de texto para encontrar o código de 6 dígitos. \n \n Se você estiver tendo problemas para receber mensagens, recomendamos fazer backup com uma frase de recuperação. Você pode tentar fazer login com seu e-mail e telefone mais tarde.",
       "skip": "Pular",
-      "dismiss": "Voltar"
+      "dismiss": "Voltar",
+      "useRecoveryPhrase": "Usar frase de recuperação"
     },
     "verificationFailure": "Algo deu errado, tente novamente mais tarde.",
     "resendButtonNotYetAvailable": "Reenvio disponível em {{secondsRemaining}} segundo(s)",
@@ -2440,7 +2442,7 @@
       "info": "Este pool é desenvolvido pela Aave",
       "infoBottomSheet": {
         "title": "Por que este pool?",
-        "description": "Este pool da Aave tem mais de US$ 150 milhões em TVL e mais de 6.000 contribuintes, o que indica forte liquidez e confiabilidade. Ele também usa USDC como seu token e Abritrum como sua rede, o que reduz a volatilidade e garante que os usuários recebam taxas de gas baratas.\n\nTudo isso faz dele uma opção segura e atrativa com APY competitivo, garantindo uma oportunidade de investimento benéfica para nossos usuários.\n\nVocê pode explorar outros pools da Aave <0>aqui</0>.",
+        "description": "Esse pool da Aave tem mais de US$ 150 milhões de TVL e mais de 6.000 contribuintes, o que indica forte liquidez e confiabilidade. Ele também usa USDC como seu token e Arbitrum como sua rede, o que reduz a volatilidade e garante que os usuários recebam taxas de gás baratas.\n\nTudo isso faz dela uma opção segura e atraente com APY competitivo, garantindo uma oportunidade de investimento benéfica para nossos usuários.\n\nVocê pode explorar outros pools da Aave <0>aqui</0>.",
         "dismiss": "Ignorar"
       },
       "notEnoughBalanceForGasWarning": {
