@@ -40,7 +40,9 @@ describe('PointsDiscoverCard', () => {
 
     expect(getByText('points.discoverCard.title')).toBeTruthy()
     expect(getByText('points.discoverCard.description')).toBeTruthy()
-    expect(getByText('BALANCE_AMOUNT')).toBeTruthy()
+    expect(
+      getByText('points.discoverCard.balance, {"pointsBalance":"BALANCE_AMOUNT"}')
+    ).toBeTruthy()
   })
 
   it('does not render when feature gate is disabled', () => {
