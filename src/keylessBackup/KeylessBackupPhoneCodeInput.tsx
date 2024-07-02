@@ -5,12 +5,13 @@ import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import TextButton from 'src/components/TextButton'
 import CustomHeader from 'src/components/header/CustomHeader'
 import KeylessBackupCancelButton from 'src/keylessBackup/KeylessBackupCancelButton'
 import { useVerifyPhoneNumber } from 'src/keylessBackup/hooks'
-import { KeylessBackupFlow } from 'src/keylessBackup/types'
+import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
@@ -21,15 +22,56 @@ import { Spacing } from 'src/styles/styles'
 import VerificationCodeInput from 'src/verify/VerificationCodeInput'
 
 function HelpInfoBottomSheet({
-  onPressHelpGoBack,
-  onPressHelpSkip,
   bottomSheetRef,
+  keylessBackupFlow,
+  origin,
 }: {
-  onPressHelpGoBack: () => void
-  onPressHelpSkip: () => void
   bottomSheetRef: React.RefObject<BottomSheetRefType>
+  keylessBackupFlow: KeylessBackupFlow
+  origin: KeylessBackupOrigin
 }) {
   const { t } = useTranslation()
+
+  const onGoBack = () => {
+    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help_go_back, {
+      keylessBackupFlow,
+      origin,
+    })
+    bottomSheetRef.current?.close()
+  }
+
+  const onSkip = () => {
+    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help_skip, {
+      keylessBackupFlow,
+      origin,
+    })
+    keylessBackupFlow === KeylessBackupFlow.Setup ? navigateHome() : navigate(Screens.ImportSelect)
+  }
+
+  const onUseRecoveryPhrase = () => {
+    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help_use_phrase, {
+      keylessBackupFlow,
+      origin,
+    })
+    navigate(Screens.AccountKeyEducation)
+  }
+
+  // for restore (which is always in onboarding) and setup from settings
+  let body = t('phoneVerificationInput.helpDialog.body')
+  let primaryCta = t('phoneVerificationInput.helpDialog.dismiss')
+  let secondaryCta = t('phoneVerificationInput.helpDialog.skip')
+  let onPressPrimaryCta = onGoBack
+  let onPressSecondaryCta = onSkip
+
+  // for setup from onboarding
+  if (origin === KeylessBackupOrigin.Onboarding && keylessBackupFlow === KeylessBackupFlow.Setup) {
+    body = t('phoneVerificationInput.helpDialog.bodyCloudBackupOnboarding')
+    primaryCta = t('phoneVerificationInput.helpDialog.useRecoveryPhrase')
+    secondaryCta = t('phoneVerificationInput.helpDialog.dismiss')
+    onPressPrimaryCta = onUseRecoveryPhrase
+    onPressSecondaryCta = onGoBack
+  }
+
   return (
     <BottomSheet
       forwardedRef={bottomSheetRef}
@@ -38,22 +80,26 @@ function HelpInfoBottomSheet({
       testId="KeylessBackupPhoneCodeInput/HelpInfoBottomSheet"
     >
       <View style={styles.bottomSheetView}>
-        <Text style={styles.bottomSheetBody}>{t('phoneVerificationInput.helpDialog.body')}</Text>
+        <Text style={styles.bottomSheetBody}>{body}</Text>
         <View style={styles.buttonContainer}>
-          <TextButton
-            onPress={onPressHelpSkip}
-            testID="KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/Skip"
-            style={styles.skipButton}
-          >
-            {t('phoneVerificationInput.helpDialog.skip')}
-          </TextButton>
-          <TextButton
-            onPress={onPressHelpGoBack}
-            testID="KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/GoBack"
-            style={styles.goBackButton}
-          >
-            {t('phoneVerificationInput.helpDialog.dismiss')}
-          </TextButton>
+          <View style={styles.button}>
+            <TextButton
+              onPress={onPressSecondaryCta}
+              testID="KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/SecondaryCta"
+              style={styles.secondaryCta}
+            >
+              {secondaryCta}
+            </TextButton>
+          </View>
+          <View style={styles.button}>
+            <TextButton
+              onPress={onPressPrimaryCta}
+              testID="KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/PrimaryCta"
+              style={styles.primaryCta}
+            >
+              {primaryCta}
+            </TextButton>
+          </View>
         </View>
       </View>
     </BottomSheet>
@@ -62,43 +108,43 @@ function HelpInfoBottomSheet({
 
 function KeylessBackupPhoneCodeInput({
   route,
-  navigation,
 }: NativeStackScreenProps<StackParamList, Screens.KeylessBackupPhoneCodeInput>) {
   const { t } = useTranslation()
-  const { e164Number, keylessBackupFlow } = route.params
-  const { setSmsCode, verificationStatus } = useVerifyPhoneNumber(e164Number, keylessBackupFlow)
+  const { e164Number, keylessBackupFlow, origin } = route.params
+  const { setSmsCode, verificationStatus } = useVerifyPhoneNumber(
+    e164Number,
+    keylessBackupFlow,
+    origin
+  )
 
   const bottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const onPressHelp = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help, { keylessBackupFlow })
+    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help, {
+      keylessBackupFlow,
+      origin,
+    })
     bottomSheetRef.current?.snapToIndex(0)
   }
 
-  const onPressHelpGoBack = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help_go_back, {
-      keylessBackupFlow,
-    })
-    bottomSheetRef.current?.close()
-  }
+  const isSetupInOnboarding =
+    keylessBackupFlow === KeylessBackupFlow.Setup && origin === KeylessBackupOrigin.Onboarding
 
-  const onPressHelpSkip = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help_skip, {
-      keylessBackupFlow,
-    })
-    keylessBackupFlow === KeylessBackupFlow.Setup ? navigateHome() : navigate(Screens.ImportSelect)
-  }
+  const headerLeft = isSetupInOnboarding ? (
+    <BackButton testID="BackButton" />
+  ) : (
+    <KeylessBackupCancelButton
+      flow={keylessBackupFlow}
+      origin={origin}
+      eventName={KeylessBackupEvents.cab_enter_phone_code_cancel}
+    />
+  )
 
   return (
     <SafeAreaView style={styles.container}>
       <CustomHeader
         style={styles.header}
-        left={
-          <KeylessBackupCancelButton
-            flow={keylessBackupFlow}
-            eventName={KeylessBackupEvents.cab_enter_phone_code_cancel}
-          />
-        }
+        left={headerLeft}
         right={
           <TopBarTextButton
             title={t('phoneVerificationInput.help')}
@@ -106,6 +152,11 @@ function KeylessBackupPhoneCodeInput({
             onPress={onPressHelp}
             titleStyle={styles.help}
           />
+        }
+        title={
+          isSetupInOnboarding && (
+            <Text style={styles.title}>{t('phoneVerificationInput.title')}</Text>
+          )
         }
       />
       <VerificationCodeInput
@@ -118,12 +169,18 @@ function KeylessBackupPhoneCodeInput({
             origin: route.params.origin,
           })
         }}
-        title={<Text style={styles.title}>{t('phoneVerificationInput.title')}</Text>}
+        title={
+          !isSetupInOnboarding ? (
+            <Text style={[styles.title, styles.titleOnSettings]}>
+              {t('phoneVerificationInput.title')}
+            </Text>
+          ) : undefined
+        }
       />
       <HelpInfoBottomSheet
-        onPressHelpGoBack={onPressHelpGoBack}
-        onPressHelpSkip={onPressHelpSkip}
         bottomSheetRef={bottomSheetRef}
+        keylessBackupFlow={keylessBackupFlow}
+        origin={origin}
       />
     </SafeAreaView>
   )
@@ -140,6 +197,8 @@ const styles = StyleSheet.create({
     ...typeScale.labelSemiBoldLarge,
     textAlign: 'center',
     color: colors.black,
+  },
+  titleOnSettings: {
     marginBottom: Spacing.Regular16,
   },
   help: {
@@ -151,27 +210,31 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   bottomSheetView: {
-    paddingHorizontal: Spacing.Thick24,
     display: 'flex',
     flexDirection: 'column',
   },
   bottomSheetBody: {
     ...typeScale.bodyMedium,
     textAlign: 'center',
+    paddingHorizontal: Spacing.Thick24,
   },
   buttonContainer: {
     flexDirection: 'row',
     marginTop: 37,
     marginBottom: 9,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 96,
+    marginHorizontal: Spacing.Smallest8,
   },
-  goBackButton: {
+  primaryCta: {
     color: colors.primary,
+    textAlign: 'center',
   },
-  skipButton: {
+  secondaryCta: {
     color: colors.gray4,
+    textAlign: 'center',
+  },
+  button: {
+    flex: 1,
+    justifyContent: 'center',
   },
 })
 
