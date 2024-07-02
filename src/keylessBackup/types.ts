@@ -21,5 +21,6 @@ export enum KeylessBackupDeleteStatus {
 
 export enum KeylessBackupOrigin {
   Onboarding = 'Onboarding',
+  Restore = 'Restore',
   Settings = 'Settings',
 }

@@ -1,17 +1,23 @@
 import React from 'react'
 import { Platform, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
-import { styles as headerStyles } from 'src/navigator/Headers'
+import { HeaderTitleWithSubtitle, styles as headerStyles } from 'src/navigator/Headers'
 
 interface Props {
   left?: React.ReactNode
   right?: React.ReactNode
   title?: React.ReactNode | string
+  subTitle?: string | React.ReactNode
   style?: StyleProp<ViewStyle>
 }
 
-function CustomHeader({ left, right, title, style }: Props) {
-  const titleComponent =
-    typeof title === 'string' ? <Text style={headerStyles.headerTitle}>{title}</Text> : title
+function CustomHeader({ left, right, title, style, subTitle }: Props) {
+  const titleComponent = subTitle ? (
+    <HeaderTitleWithSubtitle title={title} subTitle={subTitle} />
+  ) : typeof title === 'string' ? (
+    <Text style={headerStyles.headerTitle}>{title}</Text>
+  ) : (
+    title
+  )
   return (
     <View style={style ? [styles.container, style] : styles.container}>
       {!!title && <View style={styles.titleContainer}>{titleComponent}</View>}
