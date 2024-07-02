@@ -37,7 +37,7 @@ function OnboardingRecoveryPhrase({ navigation, route }: Props) {
   const isFromCabOnboarding = route.params?.origin === 'cabOnboarding'
   // Use a lower step count for CAB onboarding
   const { step, totalSteps } = getOnboardingStepValues(
-    isFromCabOnboarding ? Screens.SignInWithEmail : Screens.OnboardingRecoveryPhrase,
+    isFromCabOnboarding ? Screens.SignInWithEmail : Screens.ProtectWallet,
     onboardingProps
   )
   const accountKey = useAccountKey()
