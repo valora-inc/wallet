@@ -157,7 +157,6 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     justifyContent: 'space-between',
-    backgroundColor: colors.onboardingBackground,
   },
   scrollContainer: {
     padding: 24,
@@ -176,6 +175,7 @@ const styles = StyleSheet.create({
   },
   card: {
     marginTop: Spacing.Smallest8,
+    backgroundColor: colors.gray1,
     flex: 1,
     padding: 0,
   },
@@ -199,6 +199,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   skip: {
-    color: colors.onboardingBrownLight,
+    color: colors.gray3,
   },
 })
