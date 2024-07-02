@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.gray2,
     borderRadius: 100,
+    pointerEvents: 'none',
   },
   balance: {
     ...typeScale.labelSemiBoldSmall,
