@@ -1,6 +1,5 @@
 import { differenceInDays } from 'date-fns'
 import { isEqual } from 'lodash'
-import { Actions as AccountActions } from 'src/account/actions'
 import { Actions as AppActions } from 'src/app/actions'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import {
@@ -37,6 +36,7 @@ import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
 import networkConfig from 'src/web3/networkConfig'
+import { getWalletAddress } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, put, select, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
 import { v4 as uuidv4 } from 'uuid'
@@ -276,22 +276,17 @@ function* watchTrackPointsEvent() {
 
 export function* watchAppMounted() {
   yield* take(AppActions.APP_MOUNTED)
-  yield* call(initializePoints)
-}
 
-export function* watchInitializeAccountSuccess() {
-  yield* take(AccountActions.INITIALIZE_ACCOUNT_SUCCESS)
-  yield* call(initializePoints)
-}
+  // Wait for wallet address to exist before proceeding
+  yield* call(getWalletAddress)
 
-function* initializePoints() {
   yield* spawn(getPointsConfig)
   yield* spawn(getPointsBalance, getHistoryStarted({ getNextPage: false }))
   yield* spawn(sendPendingPointsEvents)
 }
 
 export function* pointsSaga() {
-  const showPoints = getFeatureGate(StatsigFeatureGates.SHOW_POINTS)
+  const showPoints = getFeatureGate(StatsigFeatureGates.SHOW_POINTS) || true
   if (!showPoints) {
     Logger.info(TAG, 'Points feature is disabled, not spawning points sagas')
     return
@@ -301,5 +296,4 @@ export function* pointsSaga() {
   yield* spawn(watchGetConfig)
   yield* spawn(watchTrackPointsEvent)
   yield* spawn(watchAppMounted)
-  yield* spawn(watchInitializeAccountSuccess)
 }
