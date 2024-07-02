@@ -37,7 +37,7 @@ import {
   torusKeyshareIssued,
   valoraKeyshareIssued,
 } from 'src/keylessBackup/slice'
-import { KeylessBackupFlow } from 'src/keylessBackup/types'
+import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 import { getTorusPrivateKey } from 'src/keylessBackup/web3auth'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -187,6 +187,7 @@ describe('keylessBackup saga', () => {
           payload: {
             keyshare: mockValoraKeyshare,
             keylessBackupFlow: KeylessBackupFlow.Setup,
+            origin: KeylessBackupOrigin.Settings,
             jwt: mockJwt,
           },
           type: valoraKeyshareIssued.type,
@@ -232,6 +233,7 @@ describe('keylessBackup saga', () => {
         })
         expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_success', {
           keylessBackupFlow: KeylessBackupFlow.Setup,
+          origin: KeylessBackupOrigin.Settings,
         })
       })
       it('puts failure event if error occurs storing encrypted mnemonic', async () => {
@@ -239,6 +241,7 @@ describe('keylessBackup saga', () => {
           payload: {
             keyshare: mockValoraKeyshare,
             keylessBackupFlow: KeylessBackupFlow.Setup,
+            origin: KeylessBackupOrigin.Settings,
             jwt: mockJwt,
           },
           type: valoraKeyshareIssued.type,
@@ -276,6 +279,7 @@ describe('keylessBackup saga', () => {
           .run()
         expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_failed', {
           keylessBackupFlow: KeylessBackupFlow.Setup,
+          origin: KeylessBackupOrigin.Settings,
         })
       })
     })
@@ -286,6 +290,7 @@ describe('keylessBackup saga', () => {
           payload: {
             keyshare: mockValoraKeyshare,
             keylessBackupFlow: KeylessBackupFlow.Restore,
+            origin: KeylessBackupOrigin.Settings,
             jwt: mockJwt,
           },
           type: valoraKeyshareIssued.type,
@@ -327,6 +332,7 @@ describe('keylessBackup saga', () => {
         )
         expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_success', {
           keylessBackupFlow: KeylessBackupFlow.Restore,
+          origin: KeylessBackupOrigin.Settings,
         })
       })
       it('bails if the user does not have a balance and chooses to exit', async () => {
@@ -334,6 +340,7 @@ describe('keylessBackup saga', () => {
           payload: {
             keyshare: mockValoraKeyshare,
             keylessBackupFlow: KeylessBackupFlow.Restore,
+            origin: KeylessBackupOrigin.Settings,
             jwt: mockJwt,
           },
           type: valoraKeyshareIssued.type,
@@ -365,6 +372,7 @@ describe('keylessBackup saga', () => {
           .run()
         expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_success', {
           keylessBackupFlow: KeylessBackupFlow.Restore,
+          origin: KeylessBackupOrigin.Settings,
         })
         expect(navigate).toBeCalledWith(Screens.ImportSelect)
       })
@@ -373,6 +381,7 @@ describe('keylessBackup saga', () => {
           payload: {
             keyshare: mockValoraKeyshare,
             keylessBackupFlow: KeylessBackupFlow.Restore,
+            origin: KeylessBackupOrigin.Settings,
             jwt: mockJwt,
           },
           type: valoraKeyshareIssued.type,
@@ -395,6 +404,7 @@ describe('keylessBackup saga', () => {
           .run()
         expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_failed', {
           keylessBackupFlow: KeylessBackupFlow.Restore,
+          origin: KeylessBackupOrigin.Settings,
         })
       })
       it('puts not found event if encrypted mnemonic not found', async () => {
@@ -402,6 +412,7 @@ describe('keylessBackup saga', () => {
           payload: {
             keyshare: mockValoraKeyshare,
             keylessBackupFlow: KeylessBackupFlow.Restore,
+            origin: KeylessBackupOrigin.Settings,
             jwt: mockJwt,
           },
           type: valoraKeyshareIssued.type,
