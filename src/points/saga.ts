@@ -286,7 +286,7 @@ export function* watchAppMounted() {
 }
 
 export function* pointsSaga() {
-  const showPoints = getFeatureGate(StatsigFeatureGates.SHOW_POINTS) || true
+  const showPoints = getFeatureGate(StatsigFeatureGates.SHOW_POINTS)
   if (!showPoints) {
     Logger.info(TAG, 'Points feature is disabled, not spawning points sagas')
     return
