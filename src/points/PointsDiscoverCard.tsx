@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 72,
+    height: 56,
     imageResizeMode: 'cover',
   },
   content: {
@@ -91,13 +91,13 @@ const styles = StyleSheet.create({
     marginTop: Spacing.Regular16,
     paddingHorizontal: Spacing.Small12,
     paddingVertical: Spacing.Smallest8,
-    backgroundColor: Colors.successLight,
+    backgroundColor: Colors.gray1,
     borderWidth: 1,
-    borderColor: Colors.primary,
+    borderColor: Colors.gray2,
     borderRadius: 100,
   },
   balance: {
     ...typeScale.labelSemiBoldSmall,
-    color: Colors.primary,
+    color: Colors.black,
   },
 })
