@@ -1,16 +1,24 @@
 import React from 'react'
-import { PointsActivityId, PointsCardMetadata, ClaimHistoryCardItem } from 'src/points/types'
+import {
+  PointsActivityId,
+  PointsCardMetadata,
+  ClaimHistoryCardItem,
+  CreateLiveLinkClaimHistory,
+} from 'src/points/types'
 import Celebration from 'src/icons/Celebration'
 import SwapArrows from 'src/icons/SwapArrows'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Rocket from 'src/icons/Rocket'
+import MagicWand from 'src/icons/MagicWand'
 import { useTranslation } from 'react-i18next'
 import colors from 'src/styles/colors'
 import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import { useSelector } from 'src/redux/hooks'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import Logger from 'src/utils/Logger'
+import { TokenBalances } from 'src/tokens/slice'
+import { TFunction } from 'i18next'
 
 const TAG = 'Points/cardDefinitions'
 
@@ -52,6 +60,46 @@ export default function useCardDefinitions(
       icon: <Rocket />,
       defaultCompletionStatus: false,
     },
+    'create-live-link': {
+      title: t('points.activityCards.createLiveLink.title'),
+      icon: <MagicWand color={colors.black} />,
+      defaultCompletionStatus: false,
+      bottomSheet: {
+        title: t('points.activityCards.createLiveLink.bottomSheet.title'),
+        body: t('points.activityCards.createLiveLink.bottomSheet.body', { pointsValue }),
+        cta: {
+          text: t('points.activityCards.createLiveLink.bottomSheet.cta'),
+          onPress: () => {
+            navigate(Screens.JumpstartEnterAmount)
+          },
+        },
+      },
+    },
+  }
+}
+
+function getCreateLiveLinkHistorySubtitle(
+  history: Omit<CreateLiveLinkClaimHistory, 'createdAt'>,
+  tokensById: TokenBalances,
+  t: TFunction
+): string | undefined {
+  const liveLinkType = history.metadata.liveLinkType
+  switch (liveLinkType) {
+    case 'erc20': {
+      const token = tokensById[history.metadata.tokenId]
+      if (!token) {
+        Logger.error(TAG, `Cannot find token ${history.metadata.tokenId}`)
+        return
+      }
+      return t('points.history.cards.createLiveLink.subtitle.erc20', { tokenSymbol: token.symbol })
+    }
+    case 'erc721': {
+      return t('points.history.cards.createLiveLink.subtitle.erc721')
+    }
+    default: {
+      const exhaustiveCheck: never = liveLinkType
+      return exhaustiveCheck
+    }
   }
 }
 
@@ -87,6 +135,19 @@ export function useGetHistoryDefinition(): (
             fromToken: fromToken.symbol,
             toToken: toToken.symbol,
           }),
+          pointsAmount: history.pointsAmount,
+        }
+      }
+      case 'create-live-link': {
+        const subtitle = getCreateLiveLinkHistorySubtitle(history, tokensById, t)
+        if (!subtitle) {
+          Logger.error(TAG, `Cannot generate subtitle, skipping`)
+          return
+        }
+        return {
+          icon: <MagicWand />,
+          title: t('points.history.cards.createLiveLink.title'),
+          subtitle,
           pointsAmount: history.pointsAmount,
         }
       }

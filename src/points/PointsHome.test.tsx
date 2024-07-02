@@ -23,6 +23,9 @@ const renderPointsHome = (storeOverrides?: RecursivePartial<RootState>) => {
             swap: {
               pointsAmount: 50,
             },
+            'create-live-link': {
+              pointsAmount: 50,
+            },
             'create-wallet': {
               pointsAmount: 20,
             },
@@ -130,9 +133,11 @@ describe(PointsHome, () => {
     expect(getByTestId('PointsActivitySection-20')).toBeTruthy()
 
     expect(getByTestId('PointsActivityCard-swap-50')).toBeTruthy()
+    expect(getByTestId('PointsActivityCard-create-live-link-50')).toBeTruthy()
     expect(queryByTestId('PointsActivityCard-create-wallet-50')).toBeFalsy()
 
     expect(queryByTestId('PointsActivityCard-swap-20')).toBeFalsy()
+    expect(queryByTestId('PointsActivityCard-create-live-link-20')).toBeFalsy()
     expect(getByTestId('PointsActivityCard-more-coming-20')).toBeTruthy()
     expect(getByTestId('PointsActivityCard-create-wallet-20')).toBeTruthy()
 

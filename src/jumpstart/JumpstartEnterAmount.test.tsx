@@ -35,6 +35,7 @@ jest.mock('viem/accounts', () => ({
 }))
 jest.mock('src/firebase/dynamicLinks')
 
+const mockPublicKey = '0x2CEc3C5e83eE37261F9f9BB050B2Fbf59d13eEc0' // matches mock private key
 const mockStoreBalancesToTokenBalances = (storeBalances: StoredTokenBalance[]): TokenBalance[] => {
   return storeBalances.map(
     (token): TokenBalance => ({
@@ -129,7 +130,7 @@ describe('JumpstartEnterAmount', () => {
       sendTokenAmountInSmallestUnit: new BigNumber('250000000000000000'),
       token: mockStoreBalancesToTokenBalances([tokenBalances[mockCeurTokenId]])[0],
       walletAddress: mockAccount.toLowerCase(),
-      publicKey: '0x2CEc3C5e83eE37261F9f9BB050B2Fbf59d13eEc0', // matches mock private key
+      publicKey: mockPublicKey,
       feeCurrencies: mockStoreBalancesToTokenBalances(feeCurrencies),
     })
   })
@@ -180,6 +181,7 @@ describe('JumpstartEnterAmount', () => {
         sendAmount: '0.25',
         tokenId: mockCeurTokenId,
         serializablePreparedTransactions: getSerializablePreparedTransactions(mockTransactions),
+        beneficiaryAddress: mockPublicKey,
       })
     )
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(

@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId, TokenAmount } from 'src/transactions/types'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
+import { Address } from 'viem'
 
 export interface JumpstarReclaimAction {
   reclaimTx: SerializableTransactionRequest
@@ -13,6 +14,7 @@ export interface JumpstartTransactionStartedAction {
   serializablePreparedTransactions: SerializableTransactionRequest[]
   sendToken: TokenBalance
   sendAmount: string
+  beneficiaryAddress: Address
 }
 interface State {
   claimStatus: 'idle' | 'loading' | 'error' | 'errorAlreadyClaimed'
