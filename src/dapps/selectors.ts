@@ -19,10 +19,6 @@ function getDappsById(dapps: Dapp[], dappIds: string[]) {
 
 export const dappsListApiUrlSelector = (state: RootState) => state.dapps.dappListApiUrl
 
-export const maxNumRecentDappsSelector = (state: RootState) => state.dapps.maxNumRecentDapps
-
-export const recentDappIdsSelector = (state: RootState) => state.dapps.recentDappIds
-
 export const activeDappSelector = (state: RootState) =>
   state.dapps.dappsWebViewEnabled ? state.dapps.activeDapp : null
 
@@ -84,14 +80,6 @@ export const mostPopularDappsSelector = createSelector(
   mostPopularDappIdsSelector,
   (dapps, mostPopularDappIds) => {
     return getDappsById(dapps, mostPopularDappIds)
-  }
-)
-
-export const recentDappsSelector = createSelector(
-  dappsListSelector,
-  recentDappIdsSelector,
-  (dapps, recentDappIds) => {
-    return getDappsById(dapps, recentDappIds)
   }
 )
 

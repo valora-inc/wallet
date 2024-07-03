@@ -1,14 +1,12 @@
 import CeloEducation from './usecases/CeloEducation'
 import PriceChart from './usecases/PriceChart'
 import CeloNews from './usecases/CeloNews'
-import { quickOnboarding, waitForElementByIdAndTap } from './utils/utils'
-import { celoEducation } from './utils/celoEducation'
+import { quickOnboarding } from './utils/utils'
+import { launchApp } from './utils/retries'
 
 describe('Celo page', () => {
   beforeAll(async () => {
     await quickOnboarding()
-    await waitForElementByIdAndTap('Hamburger')
-    await waitForElementByIdAndTap('CELO')
   })
 
   describe('celo education', CeloEducation)

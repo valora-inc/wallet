@@ -143,12 +143,12 @@ exports[`ErrorScreen with errorMessage renders correctly 1`] = `
             [
               {
                 "alignItems": "center",
-                "backgroundColor": "#1AB775",
+                "backgroundColor": "#2E3338",
                 "flexDirection": "row",
                 "height": 48,
                 "justifyContent": "center",
                 "minWidth": 120,
-                "opacity": undefined,
+                "opacity": 1,
                 "paddingHorizontal": 24,
                 "paddingVertical": 5,
               },
@@ -164,7 +164,7 @@ exports[`ErrorScreen with errorMessage renders correctly 1`] = `
                 "color": "#FFFFFF",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
-                "lineHeight": 22,
+                "lineHeight": 24,
                 "marginLeft": 0,
                 "marginRight": 0,
               }
@@ -322,12 +322,12 @@ exports[`ErrorScreen without errorMessage renders correctly 1`] = `
             [
               {
                 "alignItems": "center",
-                "backgroundColor": "#1AB775",
+                "backgroundColor": "#2E3338",
                 "flexDirection": "row",
                 "height": 48,
                 "justifyContent": "center",
                 "minWidth": 120,
-                "opacity": undefined,
+                "opacity": 1,
                 "paddingHorizontal": 24,
                 "paddingVertical": 5,
               },
@@ -343,7 +343,7 @@ exports[`ErrorScreen without errorMessage renders correctly 1`] = `
                 "color": "#FFFFFF",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
-                "lineHeight": 22,
+                "lineHeight": 24,
                 "marginLeft": 0,
                 "marginRight": 0,
               }

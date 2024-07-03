@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import {
   KeylessBackupDeleteStatus,
   KeylessBackupFlow,
+  KeylessBackupOrigin,
   KeylessBackupStatus,
 } from 'src/keylessBackup/types'
 
@@ -32,7 +33,12 @@ export const slice = createSlice({
     },
     valoraKeyshareIssued: (
       state,
-      action: PayloadAction<{ keyshare: string; keylessBackupFlow: KeylessBackupFlow; jwt: string }>
+      action: PayloadAction<{
+        keyshare: string
+        keylessBackupFlow: KeylessBackupFlow
+        origin: KeylessBackupOrigin
+        jwt: string
+      }>
     ) => {
       state.valoraKeyshare = action.payload.keyshare
     },

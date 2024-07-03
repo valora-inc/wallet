@@ -5,8 +5,7 @@ import { Provider } from 'react-redux'
 import { TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import TokenBottomSheet, {
-  DEBOUCE_WAIT_TIME,
-  TokenBalanceItemOption,
+  DEBOUNCE_WAIT_TIME,
   TokenBottomSheetProps,
   TokenPickerOrigin,
 } from 'src/components/TokenBottomSheet'
@@ -110,38 +109,36 @@ const mockStore = createMockStore({
 
 const onTokenSelectedMock = jest.fn()
 
-describe('TokenBottomSheet', () => {
+describe.each([
+  { isScreen: true, testName: 'screen' },
+  { isScreen: false, testName: 'component' },
+])('TokenBottomSheet (as $testName)', ({ isScreen }) => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
-  function renderBottomSheet(props: Partial<TokenBottomSheetProps<TokenBalance>> = {}) {
+  function renderBottomSheet(
+    props: Partial<Omit<TokenBottomSheetProps, 'isScreen' | 'forwardedRef'>> = {}
+  ) {
+    const additionalProps = isScreen
+      ? { isScreen: true as const }
+      : { forwardedRef: { current: null } }
     return render(
       <Provider store={mockStore}>
         <TokenBottomSheet
           title="testTitle"
-          forwardedRef={{ current: null }}
           origin={TokenPickerOrigin.Send}
           onTokenSelected={onTokenSelectedMock}
           tokens={tokens}
           {...props}
+          {...additionalProps}
         />
       </Provider>
     )
   }
 
   it('renders correctly', () => {
-    const { getByTestId } = renderBottomSheet()
-
-    expect(getByTestId('cUSDBalance')).toHaveTextContent('10.00 cUSD')
-    expect(getByTestId('LocalcUSDBalance')).toHaveTextContent('₱13.30')
-    expect(getByTestId('cEURBalance')).toHaveTextContent('20.00 cEUR')
-    expect(getByTestId('LocalcEURBalance')).toHaveTextContent('₱31.92') // 20 * 1.2 (cEUR price) * 1.33 (PHP price)
-    expect(getByTestId('TTBalance')).toHaveTextContent('10.00 TT')
-  })
-
-  it('renders correctly with TokenBalanceItem', () => {
-    const { getAllByTestId } = renderBottomSheet({ TokenOptionComponent: TokenBalanceItemOption })
+    const { getAllByTestId } = renderBottomSheet()
 
     expect(getAllByTestId('TokenBalanceItem')).toHaveLength(3)
     expect(getAllByTestId('TokenBalanceItem')[0]).toHaveTextContent('10.00 cUSD')
@@ -152,28 +149,6 @@ describe('TokenBottomSheet', () => {
   })
 
   it('handles the choosing of a token correctly', () => {
-    const { getByTestId } = renderBottomSheet()
-
-    fireEvent.press(getByTestId('cUSDTouchable'))
-    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(
-      tokens.find((token) => token.tokenId === mockCusdTokenId),
-      0
-    )
-
-    fireEvent.press(getByTestId('cEURTouchable'))
-    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(
-      tokens.find((token) => token.tokenId === mockCeurTokenId),
-      1
-    )
-
-    fireEvent.press(getByTestId('TTTouchable'))
-    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(
-      tokens.find((token) => token.tokenId === mockTestTokenTokenId),
-      2
-    )
-  })
-
-  it('handles the choosing of a token correctly with TokenBalanceItem', () => {
     const commonAnalyticsProps = {
       areSwapTokensShuffled: undefined,
       networkId: 'celo-alfajores',
@@ -181,7 +156,7 @@ describe('TokenBottomSheet', () => {
       selectedFilters: [],
       usedSearchTerm: false,
     }
-    const { getAllByTestId } = renderBottomSheet({ TokenOptionComponent: TokenBalanceItemOption })
+    const { getAllByTestId } = renderBottomSheet()
 
     fireEvent.press(getAllByTestId('TokenBalanceItem')[0])
     expect(onTokenSelectedMock).toHaveBeenLastCalledWith(
@@ -227,13 +202,13 @@ describe('TokenBottomSheet', () => {
     const searchInput = getByPlaceholderText('tokenBottomSheet.searchAssets')
     expect(searchInput).toBeTruthy()
 
-    expect(getByTestId('cUSDTouchable')).toBeTruthy()
-    expect(getByTestId('cEURTouchable')).toBeTruthy()
-    expect(getByTestId('TTTouchable')).toBeTruthy()
+    expect(getByTestId(`TokenBalanceItemTouchable/${mockCusdTokenId}`)).toBeTruthy()
+    expect(getByTestId(`TokenBalanceItemTouchable/${mockCeurTokenId}`)).toBeTruthy()
+    expect(getByTestId(`TokenBalanceItemTouchable/${mockTestTokenTokenId}`)).toBeTruthy()
 
     fireEvent.changeText(searchInput, 'Celo')
     // Wait for the analytics debounce
-    jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
+    jest.advanceTimersByTime(DEBOUNCE_WAIT_TIME)
 
     expect(ValoraAnalytics.track).toBeCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
@@ -241,13 +216,13 @@ describe('TokenBottomSheet', () => {
       searchInput: 'Celo',
     })
 
-    expect(getByTestId('cUSDTouchable')).toBeTruthy()
-    expect(getByTestId('cEURTouchable')).toBeTruthy()
-    expect(queryByTestId('TTTouchable')).toBeNull()
+    expect(getByTestId(`TokenBalanceItemTouchable/${mockCusdTokenId}`)).toBeTruthy()
+    expect(getByTestId(`TokenBalanceItemTouchable/${mockCeurTokenId}`)).toBeTruthy()
+    expect(queryByTestId(`TokenBalanceItemTouchable/${mockTestTokenTokenId}`)).toBeNull()
 
     fireEvent.changeText(searchInput, 'Test')
     // Wait for the analytics debounce
-    jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
+    jest.advanceTimersByTime(DEBOUNCE_WAIT_TIME)
 
     expect(ValoraAnalytics.track).toBeCalledTimes(2)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
@@ -255,13 +230,13 @@ describe('TokenBottomSheet', () => {
       searchInput: 'Test',
     })
 
-    expect(queryByTestId('cUSDTouchable')).toBeNull()
-    expect(queryByTestId('cEURTouchable')).toBeNull()
-    expect(getByTestId('TTTouchable')).toBeTruthy()
+    expect(queryByTestId(`TokenBalanceItemTouchable/${mockCusdTokenId}`)).toBeNull()
+    expect(queryByTestId(`TokenBalanceItemTouchable/${mockCeurTokenId}`)).toBeNull()
+    expect(getByTestId(`TokenBalanceItemTouchable/${mockTestTokenTokenId}`)).toBeTruthy()
 
     fireEvent.changeText(searchInput, 'Usd')
     // Wait for the analytics debounce
-    jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
+    jest.advanceTimersByTime(DEBOUNCE_WAIT_TIME)
 
     expect(ValoraAnalytics.track).toBeCalledTimes(3)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
@@ -269,9 +244,9 @@ describe('TokenBottomSheet', () => {
       searchInput: 'Usd',
     })
 
-    expect(getByTestId('cUSDTouchable')).toBeTruthy()
-    expect(queryByTestId('cEURTouchable')).toBeNull()
-    expect(queryByTestId('TTTouchable')).toBeNull()
+    expect(getByTestId(`TokenBalanceItemTouchable/${mockCusdTokenId}`)).toBeTruthy()
+    expect(queryByTestId(`TokenBalanceItemTouchable/${mockCeurTokenId}`)).toBeNull()
+    expect(queryByTestId(`TokenBalanceItemTouchable/${mockTestTokenTokenId}`)).toBeNull()
   })
 
   it('renders and applies a filter', () => {
@@ -284,7 +259,6 @@ describe('TokenBottomSheet', () => {
           isSelected: false,
         },
       ],
-      TokenOptionComponent: TokenBalanceItemOption,
       tokens,
     })
 
@@ -305,7 +279,6 @@ describe('TokenBottomSheet', () => {
     }
     const { getByText, getAllByTestId } = renderBottomSheet({
       filterChips: [fitler],
-      TokenOptionComponent: TokenBalanceItemOption,
       tokens,
     })
 
@@ -328,7 +301,6 @@ describe('TokenBottomSheet', () => {
     const { getByPlaceholderText, getAllByTestId } = renderBottomSheet({
       filterChips: [fitler],
       searchEnabled: true,
-      TokenOptionComponent: TokenBalanceItemOption,
       tokens,
       areSwapTokensShuffled: true,
       origin: TokenPickerOrigin.SwapFrom,
@@ -342,7 +314,7 @@ describe('TokenBottomSheet', () => {
     fireEvent.changeText(getByPlaceholderText('tokenBottomSheet.searchAssets'), 'Celo')
 
     // Wait for the analytics debounce
-    jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
+    jest.advanceTimersByTime(DEBOUNCE_WAIT_TIME)
 
     expect(getAllByTestId('TokenBalanceItem')).toHaveLength(1)
     expect(getAllByTestId('TokenBalanceItem')[0]).toHaveTextContent('Celo Dollar')
@@ -367,7 +339,7 @@ describe('TokenBottomSheet', () => {
     fireEvent.changeText(searchInput, 'TemporaryInput')
     fireEvent.changeText(searchInput, 'FinalInput')
     // Wait for the analytics debounce
-    jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
+    jest.advanceTimersByTime(DEBOUNCE_WAIT_TIME)
 
     expect(ValoraAnalytics.track).toBeCalledTimes(1)
     // We don't send events for intermediate search inputs

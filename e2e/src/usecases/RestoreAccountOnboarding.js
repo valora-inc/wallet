@@ -1,6 +1,5 @@
 import { getAddressChunks } from '@celo/utils/lib/address'
 import {
-  EXAMPLE_NAME,
   SAMPLE_BACKUP_KEY,
   SAMPLE_BACKUP_KEY_12_WORDS,
   SAMPLE_WALLET_ADDRESS,
@@ -18,20 +17,21 @@ export default RestoreAccountOnboarding = () => {
   beforeEach(async () => {
     await device.uninstallApp()
     await device.installApp()
+    await launchApp({
+      permissions: { notifications: 'YES', contacts: 'YES' },
+      launchArgs: {
+        statsigGateOverrides: `show_onboarding_phone_verification=true`,
+      },
+    })
   })
 
   it.each`
-    wordCount | phrase                        | walletAddress                     | navType
-    ${'12'}   | ${SAMPLE_BACKUP_KEY_12_WORDS} | ${SAMPLE_WALLET_ADDRESS_12_WORDS} | ${'tab'}
-    ${'24'}   | ${SAMPLE_BACKUP_KEY}          | ${SAMPLE_WALLET_ADDRESS}          | ${'drawer'}
+    wordCount | phrase                        | walletAddress
+    ${'12'}   | ${SAMPLE_BACKUP_KEY_12_WORDS} | ${SAMPLE_WALLET_ADDRESS_12_WORDS}
+    ${'24'}   | ${SAMPLE_BACKUP_KEY}          | ${SAMPLE_WALLET_ADDRESS}
   `(
-    'restores an existing wallet using a $wordCount word recovery phrase ($navType)',
-    async ({ phrase, walletAddress, navType }) => {
-      // TODO(ACT-1133): move this back to beforeEach
-      await launchApp({
-        permissions: { notifications: 'YES', contacts: 'YES' },
-        launchArgs: { statsigGateOverrides: `use_tab_navigator=${navType === 'tab'}` },
-      })
+    'restores an existing wallet using a $wordCount word recovery phrase',
+    async ({ phrase, walletAddress }) => {
       // choose restore flow
       await element(by.id('RestoreAccountButton')).tap()
 
@@ -39,10 +39,6 @@ export default RestoreAccountOnboarding = () => {
       await element(by.id('scrollView')).scrollTo('bottom')
       await expect(element(by.id('AcceptTermsButton'))).toBeVisible()
       await element(by.id('AcceptTermsButton')).tap()
-
-      // enter name
-      await element(by.id('NameEntry')).replaceText(EXAMPLE_NAME)
-      await element(by.id('NameAndPictureContinueButton')).tap()
 
       // Set and verify pin
       await enterPinUi()
@@ -74,11 +70,14 @@ export default RestoreAccountOnboarding = () => {
       await waitForElementId('PhoneVerificationSkipHeader')
       await element(by.id('PhoneVerificationSkipHeader')).tap()
 
+      // Choose your own adventure (CYA screen)
+      await waitForElementByIdAndTap('ChooseYourAdventure/Later')
+
       // verify that we land on the home screen
       await expect(element(by.id('HomeAction-Send'))).toBeVisible()
 
       // verify that the correct account was restored
-      await waitForElementByIdAndTap(navType === 'tab' ? 'WalletHome/AccountCircle' : 'Hamburger')
+      await waitForElementByIdAndTap('WalletHome/AccountCircle')
       await scrollIntoView('Account Address', 'SettingsScrollView')
 
       const addressString = '0x ' + getAddressChunks(walletAddress).join(' ')

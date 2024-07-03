@@ -7,6 +7,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { Actions as IdentityActions } from 'src/identity/actions'
 import { AddressToE164NumberType } from 'src/identity/reducer'
 import { addressToE164NumberSelector } from 'src/identity/selectors'
+import { trackPointsEvent } from 'src/points/slice'
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { tokensByIdSelector } from 'src/tokens/selectors'
@@ -58,6 +59,8 @@ const WATCHING_DELAY_BY_NETWORK: Record<Network, number> = {
   [Network.Ethereum]: 15000,
   [Network.Arbitrum]: 2000,
   [Network.Optimism]: 2000,
+  [Network.PolygonPoS]: 2000,
+  [Network.Base]: 2000,
 }
 const MIN_WATCHING_DELAY_MS = 2000
 
@@ -253,7 +256,8 @@ export function* getTransactionReceipt(
   transaction: StandbyTransaction & { transactionHash: string },
   network: Network
 ) {
-  const { feeCurrencyId, transactionHash } = transaction
+  const { feeCurrencyId, transactionHash, __typename } = transaction
+  const networkId = networkConfig.networkToNetworkId[network]
 
   try {
     const receipt = yield* call([publicClient[network], 'waitForTransactionReceipt'], {
@@ -265,9 +269,23 @@ export function* getTransactionReceipt(
         handleTransactionReceiptReceived,
         transaction.context.id,
         receipt,
-        networkConfig.networkToNetworkId[network],
+        networkId,
         feeCurrencyId
       )
+    }
+
+    if (receipt.status === 'success') {
+      if (__typename === 'TokenExchangeV3') {
+        yield* put(
+          trackPointsEvent({
+            activityId: 'swap',
+            transactionHash,
+            networkId,
+            fromTokenId: transaction.outAmount.tokenId,
+            toTokenId: transaction.inAmount.tokenId,
+          })
+        )
+      }
     }
   } catch (e) {
     Logger.warn(

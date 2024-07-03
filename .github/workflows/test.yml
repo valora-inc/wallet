@@ -1,22 +1,26 @@
 name: Test
 
 on:
-  # ..any pull request and merge queue (covers main)
+  # Run on pushes to main..
+  push:
+    branches:
+      - main
+  # ..any pull request and merge queue
   pull_request:
   merge_group:
 
-# Cancel any non merge queue in progress run of the workflow for a given PR
+# Cancel any in progress run of the workflow for a given PR
 # This avoids building outdated code
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
-  cancel-in-progress: ${{ github.event_name != 'merge_group' }}
+  cancel-in-progress: true
 
 jobs:
   mobile:
     name: Mobile
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/yarn-install
       - name: Build
         run: yarn build
@@ -29,10 +33,10 @@ jobs:
           mkdir -p test-results/jest
           yarn test:ci
       - name: Upload Coverage Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           path: coverage/lcov-report
       - name: 'Upload to Codecov'
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}

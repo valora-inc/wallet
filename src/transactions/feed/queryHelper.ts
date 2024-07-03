@@ -1,5 +1,5 @@
 import { isEmpty } from 'lodash'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import Toast from 'react-native-simple-toast'
@@ -14,7 +14,7 @@ import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { updateTransactions } from 'src/transactions/actions'
 import { transactionHashesByNetworkIdSelector } from 'src/transactions/reducer'
-import { NetworkId, TokenTransaction, TransactionStatus } from 'src/transactions/types'
+import { NetworkId, TokenTransaction } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { gql } from 'src/utils/gql'
 import config from 'src/web3/networkConfig'
@@ -43,6 +43,8 @@ export interface QueryResponse {
     }
   }
 }
+
+type ActiveRequests = { [key in NetworkId]: boolean }
 
 const TAG = 'transactions/feed/queryHelper'
 
@@ -79,6 +81,42 @@ export function useFetchTransactions(): QueryHookResult {
   // on the home feed, since they get cached in Redux -- this is just a network optimization.
   const allowedNetworkIds = getAllowedNetworkIds()
 
+  // Track which networks are currently fetching transactions via polling to avoid duplicate requests
+  const [activePollingRequests, setActivePollingRequestsState] = useState<ActiveRequests>(
+    allowedNetworkIds.reduce((acc, networkId) => {
+      acc[networkId] = false
+      return acc
+    }, {} as ActiveRequests)
+  )
+
+  // Track which networks are currently fetching transactions via pagination to avoid duplicate requests
+  const [activePaginationRequests, setActivePaginationRequestsState] = useState<ActiveRequests>(
+    allowedNetworkIds.reduce((acc, networkId) => {
+      acc[networkId] = false
+      return acc
+    }, {} as ActiveRequests)
+  )
+
+  // Prevent unnecessary re-renders
+  const setActivePollingRequests = useCallback(
+    (updateFunc: (prevState: ActiveRequests) => ActiveRequests) => {
+      setActivePollingRequestsState((prevState) => {
+        const updatedState = updateFunc(prevState)
+        return updatedState
+      })
+    },
+    [setActivePollingRequestsState]
+  )
+  const setActivePaginationRequests = useCallback(
+    (updateFunc: (prevState: ActiveRequests) => ActiveRequests) => {
+      setActivePaginationRequestsState((prevState) => {
+        const updatedState = updateFunc(prevState)
+        return updatedState
+      })
+    },
+    [setActivePaginationRequestsState]
+  )
+
   // Track cumulative transactions and most recent page info for all chains in one
   // piece of state so that they don't become out of sync.
   const [fetchedResult, setFetchedResult] = useState<{
@@ -107,66 +145,6 @@ export function useFetchTransactions(): QueryHookResult {
   const [counter, setCounter] = useState(0)
   useInterval(() => setCounter((n) => n + 1), POLL_INTERVAL)
 
-  const handleResult = (results: { [key in NetworkId]?: QueryResponse }, isPollResult: boolean) => {
-    Logger.info(TAG, `Fetched ${isPollResult ? 'new' : 'next page of'} transactions`)
-
-    for (const [networkId, result] of Object.entries(results) as Array<
-      [NetworkId, QueryResponse]
-    >) {
-      const returnedTransactions = (result.data?.tokenTransactionsV3?.transactions ?? []).map(
-        (transaction) => ({
-          ...transaction,
-          status: TransactionStatus.Complete,
-        })
-      )
-
-      const returnedPageInfo = result.data?.tokenTransactionsV3?.pageInfo ?? null
-
-      // the initial feed fetch is from polling, exclude polled updates from that scenario
-      const isPolledUpdate = isPollResult && fetchedResult.pageInfo[networkId] !== null
-
-      if (returnedTransactions?.length || returnedPageInfo?.hasNextPage) {
-        setFetchedResult((prev) => ({
-          transactions: deduplicateTransactions(prev.transactions, returnedTransactions),
-          // avoid updating pageInfo and hasReturnedTransactions for polled
-          // updates, as these variables are used for fetching the next pages
-          pageInfo: isPolledUpdate
-            ? prev.pageInfo
-            : { ...prev.pageInfo, [networkId]: returnedPageInfo },
-          hasTransactionsOnCurrentPage: isPolledUpdate
-            ? prev.hasTransactionsOnCurrentPage
-            : {
-                ...prev.hasTransactionsOnCurrentPage,
-                [networkId]: returnedTransactions.length > 0,
-              },
-        }))
-
-        if (isPollResult && returnedTransactions.length) {
-          // We store the first page in redux to show them to the users when they open the app.
-          // Filter out now empty transactions to avoid redux issues
-          const nonEmptyTransactions = returnedTransactions.filter(
-            (returnedTransaction) => !isEmpty(returnedTransaction)
-          )
-          const knownTransactionHashes = transactionHashesByNetwork[networkId]
-          let hasNewTransaction = false
-
-          // Compare the new tx hashes with the ones we already have in redux
-          for (const tx of nonEmptyTransactions) {
-            if (!knownTransactionHashes || !knownTransactionHashes.has(tx.transactionHash)) {
-              hasNewTransaction = true
-              break // We only need one new tx justify a refresh
-            }
-          }
-          // If there are new transactions update transactions in redux and fetch balances
-          if (hasNewTransaction) {
-            dispatch(updateTransactions(networkId, nonEmptyTransactions))
-            vibrateSuccess()
-          }
-        }
-      }
-    }
-  }
-
   const handleError = (error: Error) => {
     Logger.error(TAG, 'Error while fetching transactions', error)
   }
@@ -174,14 +152,58 @@ export function useFetchTransactions(): QueryHookResult {
   // Query for new transaction every POLL_INTERVAL
   const { loading, error } = useAsync(
     async () => {
-      const result = await queryTransactionsFeed({
+      await queryTransactionsFeed({
         address,
         localCurrencyCode,
         params: allowedNetworkIds.map((networkId) => {
           return { networkId }
         }),
+        onNetworkResponse: (networkId, result) => {
+          const returnedTransactions = result?.data.tokenTransactionsV3?.transactions ?? []
+          const returnedPageInfo = result?.data.tokenTransactionsV3?.pageInfo ?? null
+
+          // During the initial feed fetch we need to perform some first time setup
+          const isInitialFetch = fetchedResult.pageInfo[networkId] === null
+          if (returnedTransactions.length || returnedPageInfo?.hasNextPage) {
+            setFetchedResult((prev) => ({
+              transactions: deduplicateTransactions(prev.transactions, returnedTransactions),
+              pageInfo: isInitialFetch
+                ? { ...prev.pageInfo, [networkId]: returnedPageInfo }
+                : prev.pageInfo,
+              hasTransactionsOnCurrentPage: isInitialFetch
+                ? {
+                    ...prev.hasTransactionsOnCurrentPage,
+                    [networkId]: returnedTransactions.length > 0,
+                  }
+                : prev.hasTransactionsOnCurrentPage,
+            }))
+          }
+          if (returnedTransactions.length) {
+            // We store the first page in redux to show them to the users when they open the app.
+            // Filter out now empty transactions to avoid redux issues
+            const nonEmptyTransactions = returnedTransactions.filter(
+              (returnedTransaction) => !isEmpty(returnedTransaction)
+            )
+            const knownTransactionHashes = transactionHashesByNetwork[networkId]
+            let hasNewTransaction = false
+
+            // Compare the new tx hashes with the ones we already have in redux
+            for (const tx of nonEmptyTransactions) {
+              if (!knownTransactionHashes || !knownTransactionHashes.has(tx.transactionHash)) {
+                hasNewTransaction = true
+                break // We only need one new tx justify a refresh
+              }
+            }
+            // If there are new transactions update transactions in redux and fetch balances
+            if (hasNewTransaction) {
+              dispatch(updateTransactions(networkId, nonEmptyTransactions))
+              vibrateSuccess()
+            }
+          }
+        },
+        setActiveRequests: setActivePollingRequests,
+        activeRequests: activePollingRequests,
       })
-      handleResult(result, true)
     },
     [counter],
     {
@@ -192,7 +214,7 @@ export function useFetchTransactions(): QueryHookResult {
   // Query for more transactions if requested
   useAsync(
     async () => {
-      if (!fetchingMoreTransactions || !anyNetworkHasMorePages(fetchedResult.pageInfo)) {
+      if (!anyNetworkHasMorePages(fetchedResult.pageInfo)) {
         setFetchingMoreTransactions(false)
         return
       }
@@ -206,13 +228,28 @@ export function useFetchTransactions(): QueryHookResult {
           return { networkId, afterCursor: pageInfo?.endCursor }
         })
         .filter((networkParams) => fetchedResult.pageInfo[networkParams.networkId]?.hasNextPage)
-      const result = await queryTransactionsFeed({
+      await queryTransactionsFeed({
         address,
         localCurrencyCode,
         params,
+        onNetworkResponse: (networkId, result) => {
+          const returnedTransactions = result?.data.tokenTransactionsV3?.transactions ?? []
+          const returnedPageInfo = result?.data.tokenTransactionsV3?.pageInfo ?? null
+          if (returnedTransactions.length || returnedPageInfo?.hasNextPage) {
+            setFetchedResult((prev) => ({
+              transactions: deduplicateTransactions(prev.transactions, returnedTransactions),
+              pageInfo: { ...prev.pageInfo, [networkId]: returnedPageInfo },
+              hasTransactionsOnCurrentPage: {
+                ...prev.hasTransactionsOnCurrentPage,
+                [networkId]: returnedTransactions.length > 0,
+              },
+            }))
+          }
+        },
+        setActiveRequests: setActivePaginationRequests,
+        activeRequests: activePaginationRequests,
       })
       setFetchingMoreTransactions(false)
-      handleResult(result, false)
     },
     [fetchingMoreTransactions],
     {
@@ -236,10 +273,10 @@ export function useFetchTransactions(): QueryHookResult {
     //
     // This has the effect of setting the fetchingMoreTransactions flag to true iff
     // - We are not already loading
-    // - There exists at least one chain that has futher pages
+    // - There exists at least one chain that has further pages
     // - EITHER we do not yet have enough TXs, OR NO chains whatsoever produced results
     //    in the most recent round of fetching (which corresponds to case 2. above
-    //    occuring for all chains simaltaneously)
+    //    occurring for all chains simultaneously)
     const { transactions, pageInfo, hasTransactionsOnCurrentPage } = fetchedResult
     if (
       !loading &&
@@ -287,6 +324,9 @@ async function queryTransactionsFeed({
   address,
   localCurrencyCode,
   params,
+  onNetworkResponse,
+  setActiveRequests,
+  activeRequests,
 }: {
   address: string | null
   localCurrencyCode: string
@@ -294,24 +334,35 @@ async function queryTransactionsFeed({
     networkId: NetworkId
     afterCursor?: string
   }>
-}): Promise<{ [key in NetworkId]?: QueryResponse }> {
-  const results = await Promise.all(
-    params.map(({ networkId, afterCursor }) =>
-      queryChainTransactionsFeed({
+  onNetworkResponse: (networkId: NetworkId, data: QueryResponse | null) => void
+  setActiveRequests: (updateFunc: (prevState: ActiveRequests) => ActiveRequests) => void
+  activeRequests: ActiveRequests
+}): Promise<void> {
+  // Launch all network requests without waiting for each to finish before starting the next
+  const requests = params.map(async ({ networkId, afterCursor }) => {
+    // Prevent duplicate requests for the same network
+    if (activeRequests[networkId]) {
+      Logger.info(TAG, `Skipping fetch for ${networkId} as it is already active`)
+      return
+    } else {
+      Logger.info(TAG, `Fetching transactions for ${networkId} with cursor: ${afterCursor}`)
+      setActiveRequests((prev) => ({ ...prev, [networkId]: true }))
+    }
+    try {
+      const result = await queryChainTransactionsFeed({
         address,
         localCurrencyCode,
         networkId,
         afterCursor,
       })
-    )
-  )
-
-  return results.reduce((acc, result, index) => {
-    return {
-      ...acc,
-      [params[index].networkId]: result,
+      Logger.info(TAG, `Fetched transactions for ${networkId}`, result)
+      onNetworkResponse(networkId, result) // Update state as soon as data is available
+    } finally {
+      setActiveRequests((prev) => ({ ...prev, [networkId]: false }))
     }
-  }, {})
+  })
+
+  await Promise.all(requests) // Wait for all requests to finish for use in useAsync hooks
 }
 
 async function queryChainTransactionsFeed({
@@ -389,6 +440,9 @@ export const TRANSACTIONS_QUERY = gql`
         ...TokenTransferItemV3
         ...NftTransferItemV3
         ...TokenExchangeItemV3
+        ...EarnDepositItem
+        ...EarnWithdrawItem
+        ...EarnClaimRewardItem
         ...TokenApprovalItem
       }
     }
@@ -399,6 +453,7 @@ export const TRANSACTIONS_QUERY = gql`
     type
     transactionHash
     timestamp
+    status
     block
     address
     metadata {
@@ -436,6 +491,7 @@ export const TRANSACTIONS_QUERY = gql`
     __typename
     type
     transactionHash
+    status
     timestamp
     block
     nfts {
@@ -466,6 +522,7 @@ export const TRANSACTIONS_QUERY = gql`
     __typename
     type
     transactionHash
+    status
     timestamp
     block
     metadata {
@@ -507,12 +564,132 @@ export const TRANSACTIONS_QUERY = gql`
     }
   }
 
+  fragment EarnDepositItem on EarnDeposit {
+    __typename
+    type
+    transactionHash
+    status
+    providerId
+    timestamp
+    block
+    inAmount {
+      value
+      tokenAddress
+      tokenId
+      localAmount {
+        value
+        currencyCode
+        exchangeRate
+      }
+    }
+    outAmount {
+      value
+      tokenAddress
+      tokenId
+      localAmount {
+        value
+        currencyCode
+        exchangeRate
+      }
+    }
+    fees {
+      type
+      amount {
+        value
+        tokenAddress
+        tokenId
+        localAmount {
+          value
+          currencyCode
+          exchangeRate
+        }
+      }
+    }
+  }
+
+  fragment EarnWithdrawItem on EarnWithdraw {
+    __typename
+    type
+    transactionHash
+    status
+    providerId
+    timestamp
+    block
+    inAmount {
+      value
+      tokenAddress
+      tokenId
+      localAmount {
+        value
+        currencyCode
+        exchangeRate
+      }
+    }
+    outAmount {
+      value
+      tokenAddress
+      tokenId
+      localAmount {
+        value
+        currencyCode
+        exchangeRate
+      }
+    }
+    fees {
+      type
+      amount {
+        value
+        tokenAddress
+        tokenId
+        localAmount {
+          value
+          currencyCode
+          exchangeRate
+        }
+      }
+    }
+  }
+
+  fragment EarnClaimRewardItem on EarnClaimReward {
+    __typename
+    type
+    transactionHash
+    status
+    providerId
+    timestamp
+    block
+    amount {
+      value
+      tokenAddress
+      tokenId
+      localAmount {
+        value
+        currencyCode
+        exchangeRate
+      }
+    }
+    fees {
+      type
+      amount {
+        value
+        tokenAddress
+        tokenId
+        localAmount {
+          value
+          currencyCode
+          exchangeRate
+        }
+      }
+    }
+  }
+
   fragment TokenApprovalItem on TokenApproval {
     __typename
     type
     timestamp
     block
     transactionHash
+    status
     tokenId
     approvedAmount
     fees {

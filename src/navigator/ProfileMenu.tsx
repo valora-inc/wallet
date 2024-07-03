@@ -49,7 +49,7 @@ export default function ProfileMenu({ route }: Props) {
                 {displayName}
               </Text>
             )}
-            {phoneNumberVerified && e164PhoneNumber && (
+            {phoneNumberVerified && !!e164PhoneNumber && (
               <PhoneNumberWithFlag
                 e164PhoneNumber={e164PhoneNumber}
                 defaultCountryCode={defaultCountryCode ? defaultCountryCode : undefined}

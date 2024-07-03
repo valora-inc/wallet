@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import {
   Image,
   ImageSourcePropType,
@@ -14,11 +14,10 @@ import { NativeSafeAreaViewProps, SafeAreaView } from 'react-native-safe-area-co
 import { OnboardingEvents } from 'src/analytics/Events'
 import { ScrollDirection } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import Button, { BtnTypes } from 'src/components/Button'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Pagination from 'src/components/Pagination'
 import BackChevron from 'src/icons/BackChevron'
 import Times from 'src/icons/Times'
-import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import colors from 'src/styles/colors'
@@ -26,13 +25,7 @@ import fontStyles from 'src/styles/fonts'
 import progressDots from 'src/styles/progressDots'
 import variables from 'src/styles/variables'
 
-export enum EmbeddedNavBar {
-  Close = 'Close',
-  Drawer = 'Drawer',
-}
-
 export enum EducationTopic {
-  onboarding = 'onboarding',
   backup = 'backup',
   celo = 'celo',
 }
@@ -47,7 +40,6 @@ interface EducationStep {
 }
 
 export type Props = NativeSafeAreaViewProps & {
-  embeddedNavBar: EmbeddedNavBar | null
   stepInfo: EducationStep[]
   buttonType?: BtnTypes
   buttonText: string
@@ -61,7 +53,6 @@ export type Props = NativeSafeAreaViewProps & {
 const Education = (props: Props) => {
   const {
     style,
-    embeddedNavBar,
     stepInfo,
     buttonType = BtnTypes.SECONDARY,
     buttonText,
@@ -74,9 +65,6 @@ const Education = (props: Props) => {
   } = props
 
   const [currentIndex, setCurrentIndex] = useState(0)
-  // This variable tracks the last scrolled to carousel screen, so that impression
-  // events are not dispatched twice for the same carousel screen
-  const lastViewedIndex = useRef(-1)
   // Scroll View Ref for button clicks
   const scrollViewRef = useRef<ScrollView>(null)
 
@@ -98,27 +86,10 @@ const Education = (props: Props) => {
         currentStep: currentIndex,
         direction: direction,
       })
-    } else if (topic === EducationTopic.onboarding) {
-      ValoraAnalytics.track(OnboardingEvents.onboarding_education_scroll, {
-        currentStep: currentIndex,
-        direction: direction,
-      })
     }
 
     setCurrentIndex(Math.round(event.nativeEvent.contentOffset.x / variables.width))
   }
-
-  useEffect(() => {
-    const { topic } = stepInfo[currentIndex]
-    if (stepInfo.length > 0 && lastViewedIndex.current < currentIndex) {
-      lastViewedIndex.current = currentIndex
-    }
-    if (topic === EducationTopic.onboarding) {
-      ValoraAnalytics.track(OnboardingEvents.onboarding_education_step_impression, {
-        step: currentIndex,
-      })
-    }
-  }, [currentIndex])
 
   if (!stepInfo.length) {
     // No Steps, no slider
@@ -146,28 +117,15 @@ const Education = (props: Props) => {
       : scrollViewRef.current?.scrollTo({ x: variables.width * (currentIndex + 1), animated: true })
   }
 
-  const renderEmbeddedNavBar = () => {
-    switch (embeddedNavBar) {
-      case EmbeddedNavBar.Close:
-        return (
-          <View style={styles.top} testID="Education/top">
-            <TopBarIconButton
-              testID={`Education/${currentIndex === 0 ? 'Close' : 'Back'}Icon`}
-              onPress={goBack}
-              icon={currentIndex === 0 ? <Times /> : <BackChevron color={colors.black} />}
-            />
-          </View>
-        )
-      case EmbeddedNavBar.Drawer:
-        return <DrawerTopBar testID="DrawerTopBar" />
-      default:
-        return null
-    }
-  }
-
   return (
     <SafeAreaView testID="Education" style={[styles.root, style]} {...passThroughProps}>
-      {renderEmbeddedNavBar()}
+      <View style={styles.top} testID="Education/top">
+        <TopBarIconButton
+          testID={`Education/${currentIndex === 0 ? 'Close' : 'Back'}Icon`}
+          onPress={goBack}
+          icon={currentIndex === 0 ? <Times /> : <BackChevron color={colors.black} />}
+        />
+      </View>
       <View style={styles.container}>
         <ScrollView
           ref={scrollViewRef}
@@ -186,7 +144,7 @@ const Education = (props: Props) => {
             >
               {step.isTopTitle && <Text style={styles.headingTop}>{step.title}</Text>}
               <View style={styles.swipedContentInner}>
-                {step.image && (
+                {!!step.image && (
                   <Image source={step.image} style={styles.bodyImage} resizeMode="contain" />
                 )}
                 {!step.isTopTitle && <Text style={styles.heading}>{step.title}</Text>}
@@ -202,15 +160,15 @@ const Education = (props: Props) => {
           dotStyle={dotStyle}
           activeDotStyle={activeDotStyle}
         />
-        <Button
-          testID="Education/progressButton"
-          onPress={nextStep}
-          text={currentIndex === stepInfo.length - 1 ? finalButtonText : buttonText}
-          type={currentIndex === stepInfo.length - 1 ? finalButtonType : buttonType}
-          touchableStyle={
-            currentIndex === stepInfo.length - 1 ? { backgroundColor: '#EEB93C' } : undefined
-          }
-        />
+        <View style={styles.buttonContainer}>
+          <Button
+            testID="Education/progressButton"
+            onPress={nextStep}
+            text={currentIndex === stepInfo.length - 1 ? finalButtonText : buttonText}
+            type={currentIndex === stepInfo.length - 1 ? finalButtonType : buttonType}
+            size={BtnSizes.FULL}
+          />
+        </View>
       </View>
     </SafeAreaView>
   )
@@ -228,9 +186,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    justifyContent: 'center',
     paddingBottom: 24,
   },
   heading: {
@@ -269,6 +224,9 @@ const styles = StyleSheet.create({
   },
   pagination: {
     paddingBottom: variables.contentPadding,
+  },
+  buttonContainer: {
+    paddingHorizontal: variables.contentPadding,
   },
 })
 

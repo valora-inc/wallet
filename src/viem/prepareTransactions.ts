@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-import { TransactionRequestCIP42 } from 'node_modules/viem/_types/celo/types'
 import erc20 from 'src/abis/IERC20'
 import stableToken from 'src/abis/StableToken'
 import { STATIC_GAS_PADDING } from 'src/config'
@@ -12,8 +11,8 @@ import {
 import { getTokenId } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import { publicClient, valoraPublicClient } from 'src/viem'
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
-import { publicClient } from 'src/viem/index'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
 import {
   Address,
@@ -27,11 +26,12 @@ import {
   encodeFunctionData,
 } from 'viem'
 import { estimateGas } from 'viem/actions'
+import { TransactionRequestCIP64 } from 'viem/chains'
 
 const TAG = 'viem/prepareTransactions'
 
 // Supported transaction types
-export type TransactionRequest = (TransactionRequestCIP42 | TransactionRequestEIP1559) & {
+export type TransactionRequest = (TransactionRequestCIP64 | TransactionRequestEIP1559) & {
   // Custom fields needed for showing the user the estimated gas fee
   // underscored to denote that they are not part of the TransactionRequest fields from viem
   // and only intended for internal use in Valora
@@ -45,7 +45,7 @@ export interface PreparedTransactionsPossible {
   feeCurrency: TokenBalance
 }
 
-export interface PreparedTransactionsNeedDecreaseSpendAmountForGas {
+interface PreparedTransactionsNeedDecreaseSpendAmountForGas {
   type: 'need-decrease-spend-amount-for-gas'
   feeCurrency: TokenBalance
   maxGasFeeInDecimal: BigNumber
@@ -53,7 +53,7 @@ export interface PreparedTransactionsNeedDecreaseSpendAmountForGas {
   decreasedSpendAmount: BigNumber
 }
 
-export interface PreparedTransactionsNotEnoughBalanceForGas {
+interface PreparedTransactionsNotEnoughBalanceForGas {
   type: 'not-enough-balance-for-gas'
   feeCurrencies: TokenBalance[]
 }
@@ -196,12 +196,20 @@ export async function tryEstimateTransaction({
 
 export async function tryEstimateTransactions(
   baseTransactions: TransactionRequest[],
-  feeCurrency: TokenBalance
+  feeCurrency: TokenBalance,
+  useValoraTransport: boolean = false
 ) {
   const transactions: TransactionRequest[] = []
 
   const network = networkIdToNetwork[feeCurrency.networkId]
-  const client = publicClient[network]
+
+  if (useValoraTransport && !(network in valoraPublicClient)) {
+    throw new Error(`Valora transport not available for network ${network}`)
+  }
+
+  const client = useValoraTransport
+    ? valoraPublicClient[network as keyof typeof valoraPublicClient]
+    : publicClient[network]
   const feeCurrencyAddress = getFeeCurrencyAddress(feeCurrency)
   const { maxFeePerGas, maxPriorityFeePerGas, baseFeePerGas } = await estimateFeesPerGas(
     client,
@@ -261,6 +269,7 @@ export async function tryEstimateTransactions(
  * @param decreasedAmountGasFeeMultiplier
  * @param baseTransactions
  * @param throwOnSpendTokenAmountExceedsBalance
+ * @param isGasSubsidized
  */
 export async function prepareTransactions({
   feeCurrencies,
@@ -269,6 +278,7 @@ export async function prepareTransactions({
   decreasedAmountGasFeeMultiplier = 1,
   baseTransactions,
   throwOnSpendTokenAmountExceedsBalance = true,
+  isGasSubsidized = false,
 }: {
   feeCurrencies: TokenBalance[]
   spendToken?: TokenBalance
@@ -276,6 +286,7 @@ export async function prepareTransactions({
   decreasedAmountGasFeeMultiplier?: number
   baseTransactions: (TransactionRequest & { gas?: bigint })[]
   throwOnSpendTokenAmountExceedsBalance?: boolean
+  isGasSubsidized?: boolean
 }): Promise<PreparedTransactionsResult> {
   if (!spendToken && spendTokenAmount.isGreaterThan(0)) {
     throw new Error(
@@ -299,11 +310,15 @@ export async function prepareTransactions({
     estimatedGasFeeInDecimal: BigNumber
   }> = []
   for (const feeCurrency of feeCurrencies) {
-    if (feeCurrency.balance.isLessThanOrEqualTo(0)) {
+    if (feeCurrency.balance.isLessThanOrEqualTo(0) && !isGasSubsidized) {
       // No balance, try next fee currency
       continue
     }
-    const estimatedTransactions = await tryEstimateTransactions(baseTransactions, feeCurrency)
+    const estimatedTransactions = await tryEstimateTransactions(
+      baseTransactions,
+      feeCurrency,
+      isGasSubsidized
+    )
     if (!estimatedTransactions) {
       // Not enough balance to pay for gas, try next fee currency
       continue
@@ -314,7 +329,7 @@ export async function prepareTransactions({
     const estimatedGasFee = getEstimatedGasFee(estimatedTransactions)
     const estimatedGasFeeInDecimal = estimatedGasFee?.shiftedBy(-feeDecimals)
     gasFees.push({ feeCurrency, maxGasFeeInDecimal, estimatedGasFeeInDecimal })
-    if (maxGasFeeInDecimal.isGreaterThan(feeCurrency.balance)) {
+    if (maxGasFeeInDecimal.isGreaterThan(feeCurrency.balance) && !isGasSubsidized) {
       // Not enough balance to pay for gas, try next fee currency
       continue
     }
@@ -322,7 +337,8 @@ export async function prepareTransactions({
     if (
       spendToken &&
       spendToken.tokenId === feeCurrency.tokenId &&
-      spendAmountDecimal.plus(maxGasFeeInDecimal).isGreaterThan(spendToken.balance)
+      spendAmountDecimal.plus(maxGasFeeInDecimal).isGreaterThan(spendToken.balance) &&
+      !isGasSubsidized
     ) {
       // Not enough balance to pay for gas, try next fee currency
       continue

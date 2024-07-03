@@ -7,7 +7,7 @@ export enum StatsigDynamicConfigs {
   CICO_TOKEN_INFO = 'cico_token_info',
   WALLET_JUMPSTART_CONFIG = 'wallet_jumpstart_config',
   NFT_CELEBRATION_CONFIG = 'nft_celebration_config',
-  POINTS_CONFIG = 'points_config',
+  EARN_STABLECOIN_CONFIG = 'earn_stablecoin_config',
 }
 
 export enum StatsigFeatureGates {
@@ -22,7 +22,6 @@ export enum StatsigFeatureGates {
   SHOW_MULTICHAIN_BETA_SCREEN = 'show_multichain_beta_screen',
   SHOW_BETA_TAG = 'show_beta_tag',
   SAVE_CONTACTS = 'save_contacts',
-  USE_PRICE_HISTORY_FROM_BLOCKCHAIN_API = 'use_price_history_from_blockchain_api',
   SHOW_GET_STARTED = 'show_get_started',
   CLEVERTAP_INBOX = 'clevertap_inbox',
   SHOW_SWAP_TOKEN_FILTERS = 'show_swap_token_filters',
@@ -30,15 +29,19 @@ export enum StatsigFeatureGates {
   SHOW_NFT_CELEBRATION = 'show_nft_celebration',
   SHOW_NFT_REWARD = 'show_nft_reward',
   SHOW_JUMPSTART_SEND = 'show_jumpstart_send',
-  USE_TAB_NAVIGATOR = 'use_tab_navigator',
   SHOW_POINTS = 'show_points',
+  SHOW_STABLECOIN_EARN = 'show_stablecoin_earn',
+  SUBSIDIZE_STABLECOIN_EARN_GAS_FEES = 'subsidize_stablecoin_earn_gas_fees',
+  SHOW_CASH_IN_TOKEN_FILTERS = 'show_cash_in_token_filters',
+  SHOW_CAB_IN_ONBOARDING = 'show_cab_in_onboarding',
+  ALLOW_CROSS_CHAIN_SWAPS = 'allow_cross_chain_swaps',
+  SHOW_ONBOARDING_PHONE_VERIFICATION = 'show_onboarding_phone_verification',
 }
 
 export enum StatsigExperiments {
-  CHOOSE_YOUR_ADVENTURE = 'choose_your_adventure',
-  SWAPPING_NON_NATIVE_TOKENS = 'swapping_non_native_tokens',
   DAPP_RANKINGS = 'dapp_rankings',
   SWAP_BUY_AMOUNT = 'swap_buy_amount',
+  ONBOARDING_TERMS_AND_CONDITIONS = 'onboarding_terms_and_conditions',
 }
 
 export type StatsigParameter =

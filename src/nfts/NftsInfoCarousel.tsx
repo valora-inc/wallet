@@ -1,3 +1,4 @@
+import { useHeaderHeight } from '@react-navigation/elements'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -6,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import Touchable from 'src/components/Touchable'
 import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
+import { headerWithBackButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -106,6 +108,7 @@ export default function NftsInfoCarousel({ route }: Props) {
   const { nfts, networkId } = route.params
   const [activeNft, setActiveNft] = useState<Nft | null>(nfts[0] ?? null)
   const { t } = useTranslation()
+  const headerHeight = useHeaderHeight()
 
   const blockExplorerUri = useMemo(() => {
     if (
@@ -122,8 +125,11 @@ export default function NftsInfoCarousel({ route }: Props) {
       case NetworkId['celo-mainnet']:
       case NetworkId['celo-alfajores']:
         return `${blockExplorerUrls[networkId].baseNftUrl}${activeNft.contractAddress}/instance/${tokenId}/metadata`
-      default:
+      case NetworkId['ethereum-mainnet']:
+      case NetworkId['ethereum-sepolia']:
         return `${blockExplorerUrls[networkId].baseNftUrl}${activeNft.contractAddress}/${tokenId}`
+      default:
+        return `${blockExplorerUrls[networkId].baseNftUrl}${activeNft.contractAddress}?a=${tokenId}`
     }
   }, [activeNft, networkId])
 
@@ -151,10 +157,18 @@ export default function NftsInfoCarousel({ route }: Props) {
     [NetworkId['arbitrum-sepolia']]: t('viewOnArbiscan'),
     [NetworkId['op-mainnet']]: t('viewOnOPMainnetExplorer'),
     [NetworkId['op-sepolia']]: t('viewOnOPSepoliaExplorer'),
+    [NetworkId['polygon-pos-mainnet']]: t('viewOnPolygonPoSScan'),
+    [NetworkId['polygon-pos-amoy']]: t('viewOnPolygonPoSScan'),
+    [NetworkId['base-mainnet']]: t('viewOnBaseScan'),
+    [NetworkId['base-sepolia']]: t('viewOnBaseScan'),
   }
 
   return (
-    <SafeAreaView edges={['top']} style={styles.safeAreaView} testID="NftsInfoCarousel">
+    <SafeAreaView
+      style={[styles.safeAreaView, { paddingTop: headerHeight }]}
+      edges={[]}
+      testID="NftsInfoCarousel"
+    >
       <ScrollView>
         {/* Main Nft Video or Image */}
         <NftMedia
@@ -186,12 +200,12 @@ export default function NftsInfoCarousel({ route }: Props) {
         {/* Nft Details */}
         {activeNft.metadata && (
           <>
-            {activeNft.metadata?.name && (
+            {!!activeNft.metadata?.name && (
               <View style={styles.sectionContainer}>
                 <Text style={styles.title}>{activeNft.metadata?.name}</Text>
               </View>
             )}
-            {activeNft.metadata?.description && (
+            {!!activeNft.metadata?.description && (
               <View style={styles.sectionContainer}>
                 <Text style={styles.subSectionTitle}>{t('nftInfoCarousel.description')}</Text>
                 <Text style={styles.text}>{activeNft.metadata?.description}</Text>
@@ -211,7 +225,7 @@ export default function NftsInfoCarousel({ route }: Props) {
           </>
         )}
         {/* Nft Explorer Link */}
-        {blockExplorerUri && (
+        {!!blockExplorerUri && (
           <View style={[styles.sectionContainer, styles.sectionContainerLast]}>
             <Touchable onPress={pressExplorerLink} testID="ViewOnExplorer">
               <View style={styles.explorerLinkContainer}>
@@ -225,6 +239,17 @@ export default function NftsInfoCarousel({ route }: Props) {
     </SafeAreaView>
   )
 }
+
+NftsInfoCarousel.navigationOptions = () => ({
+  ...headerWithBackButton,
+  headerTransparent: true,
+  headerShown: true,
+  headerStyle: {
+    backgroundColor: 'transparent',
+  },
+  animation: 'slide_from_right',
+  animationDuration: 130,
+})
 
 const styles = StyleSheet.create({
   attributeText: {

@@ -31,7 +31,7 @@ const mockUbeTokenId = `celo-alfajores:${mockUbeAddress}`
 
 const getPositionWithClaimableBalance = (balance?: string): Position => ({
   type: 'contract-position',
-  network: 'celo',
+  networkId: NetworkId['celo-mainnet'],
   address: '0xda7f463c27ec862cfbf2369f3f74c364d050d93f',
   appId: 'ubeswap',
   appName: 'Ubeswap',
@@ -43,7 +43,7 @@ const getPositionWithClaimableBalance = (balance?: string): Position => ({
   tokens: [
     {
       type: 'app-token',
-      network: 'celo',
+      networkId: NetworkId['celo-mainnet'],
       address: '0x1e593f1fe7b61c53874b54ec0c59fd0d5eb8621e',
       appId: 'ubeswap',
       symbol: 'ULP',
@@ -57,7 +57,7 @@ const getPositionWithClaimableBalance = (balance?: string): Position => ({
       tokens: [
         {
           type: 'base-token',
-          network: 'celo',
+          networkId: NetworkId['celo-mainnet'],
           address: '0x471ece3750da237f93b8e339c536989b8978a438',
           symbol: 'CELO',
           decimals: 18,
@@ -67,7 +67,7 @@ const getPositionWithClaimableBalance = (balance?: string): Position => ({
         },
         {
           type: 'base-token',
-          network: 'celo',
+          networkId: NetworkId['celo-mainnet'],
           address: '0x765de816845861e75a25fca122bb6898b8b1282a',
           symbol: 'cUSD',
           decimals: 18,
@@ -86,7 +86,7 @@ const getPositionWithClaimableBalance = (balance?: string): Position => ({
       type: 'base-token',
       category: 'claimable',
       decimals: 18,
-      network: 'celo',
+      networkId: NetworkId['celo-mainnet'],
       balance: balance ?? '0.098322815093446616',
       symbol: 'UBE',
       address: '0x00be915b9dcf56a3cbe739d9b9c202ca692409ec',
@@ -182,7 +182,7 @@ describe('DappShortcutsRewards', () => {
             "data": {
               "address": "0x0000000000000000000000000000000000007e57",
               "appId": "ubeswap",
-              "network": "celo",
+              "networkId": "celo-mainnet",
               "positionAddress": "0xda7f463c27ec862cfbf2369f3f74c364d050d93f",
               "shortcutId": "claim-reward",
             },

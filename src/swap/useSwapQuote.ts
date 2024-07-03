@@ -23,17 +23,33 @@ const DECREASED_SWAP_AMOUNT_GAS_FEE_MULTIPLIER = 1.2
 
 export const NO_QUOTE_ERROR_MESSAGE = 'No quote available'
 
-export interface QuoteResult {
+interface BaseQuoteResult {
+  swapType: 'same-chain' | 'cross-chain'
   toTokenId: string
   fromTokenId: string
   swapAmount: BigNumber
   price: string
   provider: string
   estimatedPriceImpact: string | null
-  allowanceTarget: string
   preparedTransactions: PreparedTransactionsResult
   receivedAt: number
+  allowanceTarget: string
+  appFeePercentageIncludedInPrice: string | undefined
+  sellAmount: string
 }
+
+interface SameChainQuoteResult extends BaseQuoteResult {
+  swapType: 'same-chain'
+}
+
+interface CrossChainQuoteResult extends BaseQuoteResult {
+  swapType: 'cross-chain'
+  estimatedDuration: number
+  maxCrossChainFee: string
+  estimatedCrossChainFee: string
+}
+
+export type QuoteResult = SameChainQuoteResult | CrossChainQuoteResult
 
 async function createBaseSwapTransactions(
   fromToken: TokenBalance,
@@ -136,7 +152,15 @@ async function prepareSwapTransactions(
   })
 }
 
-function useSwapQuote(networkId: NetworkId, slippagePercentage: string) {
+function useSwapQuote({
+  networkId,
+  slippagePercentage,
+  enableAppFee,
+}: {
+  networkId: NetworkId
+  slippagePercentage: string
+  enableAppFee: boolean
+}) {
   const walletAddress = useSelector(walletAddressSelector)
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, networkId))
 
@@ -174,6 +198,7 @@ function useSwapQuote(networkId: NetworkId, slippagePercentage: string) {
         [swapAmountParam]: swapAmountInWei.toFixed(0, BigNumber.ROUND_DOWN),
         userAddress: walletAddress ?? '',
         slippagePercentage,
+        ...(enableAppFee === true && { enableAppFee: enableAppFee.toString() }),
       }
       const queryParams = new URLSearchParams({ ...params }).toString()
       const requestUrl = `${networkConfig.getSwapQuoteUrl}?${queryParams}`
@@ -202,19 +227,33 @@ function useSwapQuote(networkId: NetworkId, slippagePercentage: string) {
         feeCurrencies,
         walletAddress
       )
-      const quoteResult: QuoteResult = {
+
+      const baseQuoteResult: BaseQuoteResult = {
+        swapType: quote.unvalidatedSwapTransaction.swapType,
         toTokenId: toToken.tokenId,
         fromTokenId: fromToken.tokenId,
         swapAmount: swapAmount[updatedField],
         price,
         provider: quote.details.swapProvider,
         estimatedPriceImpact,
-        allowanceTarget: quote.unvalidatedSwapTransaction.allowanceTarget,
         preparedTransactions,
         receivedAt: Date.now(),
+        appFeePercentageIncludedInPrice:
+          quote.unvalidatedSwapTransaction.appFeePercentageIncludedInPrice,
+        allowanceTarget: quote.unvalidatedSwapTransaction.allowanceTarget,
+        sellAmount: quote.unvalidatedSwapTransaction.sellAmount,
       }
 
-      return quoteResult
+      if (quote.unvalidatedSwapTransaction.swapType === 'cross-chain') {
+        return {
+          ...baseQuoteResult,
+          estimatedDuration: quote.unvalidatedSwapTransaction.estimatedDuration,
+          maxCrossChainFee: quote.unvalidatedSwapTransaction.maxCrossChainFee,
+          estimatedCrossChainFee: quote.unvalidatedSwapTransaction.estimatedCrossChainFee,
+        }
+      } else {
+        return baseQuoteResult as SameChainQuoteResult
+      }
     },
     {
       // Keep last result when refreshing

@@ -7,13 +7,15 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Price } from 'src/priceHistory/slice'
 import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import TokenDetailsScreen from 'src/tokens/TokenDetails'
 import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
+import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import {
-  exchangePriceHistory,
+  mockAaveArbUsdcAddress,
   mockCeloTokenId,
   mockPoofTokenId,
   mockTestTokenTokenId,
@@ -178,26 +180,7 @@ describe('TokenDetails', () => {
     expect(queryByText('tokenDetails.priceUnavailable')).toBeFalsy()
   })
 
-  it('renders chart and news feed if token is native (celo) using firebase', () => {
-    jest.mocked(getFeatureGate).mockReturnValue(false) // Use old prices from firebase
-    const store = createMockStore({
-      exchange: {
-        history: exchangePriceHistory,
-      },
-    })
-
-    const { getByTestId, queryByText } = render(
-      <Provider store={store}>
-        <MockedNavigator component={TokenDetailsScreen} params={{ tokenId: mockCeloTokenId }} />
-      </Provider>
-    )
-
-    expect(getByTestId('TokenDetails/Chart')).toBeTruthy()
-    expect(queryByText('celoNews.headerTitle')).toBeTruthy()
-  })
-
   it('renders chart loader using blockchain API', () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true) // Use new prices from blockchain API
     const store = createMockStore({
       priceHistory: {
         [mockCeloTokenId]: {
@@ -279,6 +262,38 @@ describe('TokenDetails', () => {
     )
 
     expect(queryByText('celoNews.headerTitle')).toBeTruthy()
+  })
+
+  it('renders earn card for Aave Arbitrum Usdc when user has balance', () => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((featureGate) => featureGate === StatsigFeatureGates.SHOW_STABLECOIN_EARN)
+    const store = createMockStore({
+      tokens: {
+        tokenBalances: {
+          [networkConfig.aaveArbUsdcTokenId]: {
+            networkId: NetworkId['arbitrum-sepolia'],
+            address: mockAaveArbUsdcAddress,
+            tokenId: networkConfig.aaveArbUsdcTokenId,
+            symbol: 'aArbSepUSDC',
+            priceUsd: '1',
+            balance: '10.74',
+            priceFetchedAt: Date.now(),
+          },
+        },
+      },
+    })
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator
+          component={TokenDetailsScreen}
+          params={{ tokenId: networkConfig.aaveArbUsdcTokenId }}
+        />
+      </Provider>
+    )
+
+    expect(getByTestId('EarnActivePool')).toBeTruthy()
   })
 
   it('does not render chart if no prices are found and error status', () => {

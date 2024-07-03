@@ -129,7 +129,8 @@
         "title": "Backup unavailable",
         "body": "You can set up wallet backup later or protect your account now by saving your recovery phrase.",
         "later": "I'll set up backup later",
-        "manual": "Save recovery phrase"
+        "manual": "Save recovery phrase",
+        "skip": "Skip (not recommended)"
       }
     },
     "restore": {
@@ -219,6 +220,7 @@
   "moreInfo": "More Info",
   "savedConfirmation": "Yes, I have written down my Phrase.",
   "backupQuizWordCount": "What's the <0>{{ordinal}}</0> word of your Recovery Phrase?",
+  "backupQuizWordCountV1_83": "What's the <0>{{wordNumber}}</0> word of your Recovery Phrase?",
   "importBackupFailed": "Importing Wallet Failed",
   "backupQuizFailed": "The Recovery Phrase you entered is incorrect. Please try again.",
   "invalidBackupPhrase": "Recovery Phrase is not valid",
@@ -254,8 +256,8 @@
       "text": "Anyone with your Phrase will have access to your account and all of its funds. Don’t share it with others."
     }
   ],
-  "consumerIncentivesTitle": "Get started with Supercharge",
-  "consumerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your highest stablecoin balance (cUSD, cEUR, or cREAL). Available for a limited time. Here's how it works:",
+  "consumerIncentivesTitle": "Supercharge is ending",
+  "consumerIncentivesSummary": "But more rewards are headed your way. Until May 28, get {{percent}}% annual rewards on your highest stablecoin balance (cUSD, cEUR, or cREAL). Here's how it works:",
   "earnWeekly": {
     "header": "Connect your phone number",
     "text": "Tap Connect Number if you haven't connected it yet."
@@ -270,14 +272,14 @@
     "text": "This will ensure your rewards are safe and in your control."
   },
   "conclusion": "It’s that simple. Supercharge your crypto today!",
-  "superchargeTitle": "Start Supercharging",
-  "superchargeDescription": "Get {{apy}}% annual rewards on your {{token}} balance. Here's how to start:",
+  "superchargeTitle": "Supercharge is ending",
+  "superchargeDescription": "But more rewards are headed your way. Until May 28, get {{apy}}% annual rewards on your highest {{token}} balance. Here's how it works:",
   "superchargeConnectNumber": "Connect your phone number",
   "superchargeReconnectNumber": "Reconnect your phone number\n<0>We have launched an improved Supercharge experience. Reconnect your phone number to keep earning rewards on your {{token}}.</0>",
   "superchargeMinimumBalance": "Add a minimum balance of {{amount}} {{token}}",
-  "superchargeDisclaimer": "Max-out rewards by adding up to {{amount}} {{token}}",
-  "superchargeDisclaimerMaxRewards": "You’re getting maximum rewards on your {{token}}",
-  "superchargeDisclaimerDayLimit": "Your rewards must be claimed within 28 days. <0>Learn more</0>",
+  "superchargeDisclaimer": "This will not affect your balance or previous earnings.",
+  "superchargeDisclaimerMaxRewards": "This will not affect your balance or previous earnings.",
+  "superchargeDisclaimerDayLimit": "This will not affect your balance or previous earnings. <0>Learn more</0>",
   "superchargeTokenDetailsDialog": {
     "title": "Which assets can I Supercharge?",
     "body": "You’ll get rewarded weekly on your Celo stablecoin with the highest value (cEUR, cUSD, cREAL).",
@@ -285,11 +287,11 @@
   },
   "superchargingTitle": "App update required",
   "superchargingDescription": "Update the Valora app to continue receiving your weekly Supercharge rewards.",
-  "superchargingTitleV1_54": "Your {{token}} is being Supercharged",
-  "superchargingDescriptionV1_54": "You’re getting {{apy}}% annually. Every week you'll get a notification when your rewards are ready, come back here to claim them.",
+  "superchargingTitleV1_54": "Supercharge is ending",
+  "superchargingDescriptionV1_54": "Weekly rewards will be available to claim until Tuesday, May 28, at 23:59 UTC. Beginning May 29, you will nor longer be able to claim Supercharge rewards.",
   "superchargeRewardsAvailable": "You have {{amount}} {{token}} available to claim!",
   "superchargeRewardsAvailableMultipleTokens": "You have {{amounts}} available to claim!",
-  "superchargeClaimText": "Claim your rewards to add them to your balance.",
+  "superchargeClaimText": "Claim your rewards until Tuesday, May 28, at 23:59 UTC. Beginning May 29, you will no longer be able to claim Supercharge rewards.",
   "superchargeClaimButton": "Claim Rewards",
   "superchargeFetchRewardsFailed": "Error while fetching pending Supercharge rewards. Please try again later.",
   "superchargeClaimSuccess": "Your Supercharge rewards have been added to your Total Balance.",
@@ -676,8 +678,8 @@
     "body": "Once they set up their {{appName}} wallet and connect their number, you’ll each get an exclusive NFT."
   },
   "inviteRewardsBannerCUSD": {
-    "title": "Invite friends and get rewarded",
-    "body": "Once they set up and add funds to their {{appName}} wallet, you’ll both receive 0.50 cUSD."
+    "title": "Invite friends and get up to 12 cUSD",
+    "body": "Once they connect their number and add funds to {{appName}}, you’ll both receive 0.50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Invite a friend",
@@ -691,8 +693,8 @@
       "body": "Invite your friends and family to download {{appName}} and each of you will get an exclusive NFT"
     },
     "rewardsActiveCUSD": {
-      "title": "LIMITED TIME. Get free cUSD for inviting friends to Valora!",
-      "body": "Referral Rewards are back and even easier than before. Get 0.50 cUSD for every friend you invite to {{appName}}. Once they add funds, and hold them for 7 days, you’ll both get 0.50 cUSD. Hurry, funds are limited! (Limit 25 friends)."
+      "title": "GET UP TO 12 cUSD for inviting your friends to Valora!",
+      "body": "Get 0.50 cUSD for every friend you invite to {{appName}}. Once they connect their number, add funds, and hold them for 7 days, you’ll both get 0.50 cUSD. Hurry, funds are limited! (Limit 25 friends)."
     }
   },
   "getReward": "Get ${{reward}}",
@@ -706,7 +708,19 @@
     "heading2": "Digital Assets and {{appName}}",
     "info": "In order to use our services, please read and accept our <0>User Agreement and Terms</0> by clicking the accept button below.",
     "privacy": "By joining this network, you give us permission to collect anonymous information about your use of the app. Additionally, if you connect your phone number, a hashed copy of it will be stored. If you grant Valora access to your contact list, Valora will import each contact's name, phone number and profile picture to allow users to connect through the Valora app. To learn how we collect and use this information please review our <0>Privacy Policy</0>.",
-    "goldDisclaimer": "When you create an \"account\" with Valora you are creating a digital wallet to which only you hold the keys. No other person or entity, including Valora, can recover your key, change or undo transactions, or recover lost funds. Be aware that digital assets are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstances and tolerance for financial risk before purchasing any digital asset."
+    "goldDisclaimer": "When you create an \"account\" with Valora you are creating a digital wallet to which only you hold the keys. No other person or entity, including Valora, can recover your key, change or undo transactions, or recover lost funds. Be aware that digital assets are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstances and tolerance for financial risk before purchasing any digital asset.",
+    "goldDisclaimerWithPoints": "When you create an \"account\" with Valora you are creating a digital wallet to which only you hold the keys. No other person or entity, including Valora, can recover your key, change or undo transactions, or recover lost funds. Valora grants tokenized loyalty rewards (\"Points\") to Users for engaging in certain in-app activities. Points are on-chain, non-transferable, and non-redeemable collectibles. No guarantees are made about Points availability or value. Be aware that digital assets are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstances and tolerance for financial risk before purchasing any digital asset."
+  },
+  "termsColloquial": {
+    "title": "Let’s start by creating your wallet",
+    "privacyHeading": "Your Info & Privacy:",
+    "privacy1": "We gather usage data which helps us improve the app and security. The type of information we collect, how we use it and your rights related to that information can all be seen in our <0>Privacy Policy</0>.",
+    "privacy2": "If you decide to link your phone number, we will store an encrypted copy of it.",
+    "privacy3": "If you decide to connect your contacts, we use their names, numbers, and profile pictures to make it easier to find them.",
+    "walletHeading": "Your Digital Wallet with Valora:",
+    "wallet1": "You’re about to create a digital wallet. Only you have the key to your wallet. We cannot recover your key or your assets if you lose your key. We also cannot reverse actions taken through Valora on blockchains.",
+    "wallet2": "Digital assets, the assets with which you will interact with Valora, come with unique risks. By using Valora, you accept these risks and take responsibility for them. Please consider your finances and risk tolerance before making choices.",
+    "fullTerms": "Read our full <0>Terms & Conditions</0>"
   },
   "fullNameOrPsuedonym": "Full name or pseudonym",
   "namePlaceholder": "ex. name",
@@ -791,6 +805,7 @@
     "spend": "Use your crypto to shop your favorite brands"
   },
   "enableBiometry": {
+    "title": "Secure your wallet",
     "description": "{{biometryType}} secures your wallet and makes it easier to use {{appName}}",
     "cta": "Turn on {{biometryType}}",
     "guideTitle": "Want to add {{biometryType}}?",
@@ -813,8 +828,10 @@
     "createNewWallet": "Create new wallet",
     "restoreWallet": "Restore wallet",
     "hasWallet": "I already have a wallet",
+    "hasWalletV1_88": "I have a wallet",
     "header": "Welcome to {{appName}}! Let's create your crypto wallet.",
-    "getStarted": "Get Started"
+    "getStarted": "Get Started",
+    "agreeToTerms": "By creating a wallet you agree to our <0>Terms and Conditions</0>"
   },
   "accessContacts": {
     "disclosure": {
@@ -897,8 +914,10 @@
     "helpDialog": {
       "title": "Help",
       "body": "We sent an SMS to your phone number. Please check your text messages to find the 6 digit code. \n \n If you’re having trouble receiving messages, you can skip this step for now and try again later.",
+      "bodyCloudBackupOnboarding": "We sent an SMS to your phone number. Please check your text messages to find the 6 digit code. \n \n If you’re having trouble receiving messages, we recommend backing up with a Recovery Phrase. You can try signing in with your email and phone later.",
       "skip": "Skip",
-      "dismiss": "Go back"
+      "dismiss": "Go back",
+      "useRecoveryPhrase": "Use Recovery Phrase"
     },
     "verificationFailure": "Oops! Something went wrong, please try again later.",
     "resendButtonNotYetAvailable": "Resend available in {{secondsRemaining}} second(s)",
@@ -1023,7 +1042,7 @@
   "inviteWithoutPayment": "Hi! I’ve been using {{appName}} to send crypto worldwide. It’s easy to try and I want to invite you to check it out with this link: {{link}}",
   "inviteWithEscrowedPayment": "Hi! I’ve been using {{appName}} to send crypto worldwide. I just sent you {{amount}} {{token}}. Please download the {{appName}} App and redeem your {{token}} using this link: {{link}}",
   "inviteWithRewards": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get a special edition NFT as a reward. 💫 \n\nUse this link to download: {{link}}",
-  "inviteWithRewardsCUSD": "Hey! Right now we can both get a free $0.50 reward if you sign up and fund your Valora wallet. I use it to grow my savings in USD and crypto, and you can set it up in seconds with just a phone number. Make sure to sign up with my referral link here: \n\n{{link}} \n\n Hurry, the referral promotion ends soon.",
+  "inviteWithRewardsCUSD": "Hey! Right now we can both get a free $0.50 reward if you sign up, connect your number, and fund your Valora wallet. I use it to grow my savings in USD and crypto, and you can set it up in seconds with just a phone number. Make sure to sign up with my referral link here: \n\n{{link}} \n\n Hurry, the referral promotion ends soon.",
   "loadingContacts": "Finding your contacts",
   "myCode": "My Code",
   "scanCode": "Scan",
@@ -1423,11 +1442,14 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Discover",
+    "exploreDapps": "Explore Dapps",
+    "exploreAll": "Explore All",
     "message": "Explore ways to use your assets",
     "errorMessage": "There was an error loading dapps",
     "featuredDapp": "Featured",
     "allDapps": "All",
     "favoriteDapps": "My Favorites",
+    "mostPopularDapps": "Most Popular",
     "favoriteDappsAndAll": "My Favorites & All",
     "searchPlaceHolder": "Search dapps",
     "noFavorites": {
@@ -1756,6 +1778,27 @@
     "swapToTokenSelection": "SWAP TO",
     "tokenUsdValueUnknown": "-",
     "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
+    "selectTokenLabel": "Select token",
+    "tokenBottomSheetTitle": "Select Token",
+    "onNetwork": "on {{networkName}}",
+    "crossChainNotification": "Swapping tokens between different networks",
+    "crossChainFeeWarning": {
+      "title": "You need more {{tokenSymbol}}",
+      "body": "You need more {{tokenSymbol}} on {{networkName}} to pay for cross-chain swap fees. Add {{tokenAmount}} more {{tokenSymbol}} to continue."
+    },
+    "insufficientBalanceWarning": {
+      "title": "You need more {{tokenSymbol}}",
+      "body": "Insufficient {{tokenSymbol}} balance. Try a smaller amount or choose a different asset."
+    },
+    "unsupportedTokensWarning": {
+      "title": "Incompatible Selection",
+      "body": "The tokens selected cannot be swapped between. Please choose another token that is compatible with your selection."
+    },
+    "decreaseSwapAmountForGasWarning": {
+      "title": "You need more {{feeTokenSymbol}} for gas",
+      "body": "Add {{feeTokenSymbol}} to cover your gas fees or adjust the amount you are swapping",
+      "cta": "Swap smaller amount"
+    },
     "switchedToNetworkWarning": {
       "title": "You switched to the {{networkName}} network",
       "body_swapFrom": "Select a token to swap from on the {{networkName}} network to continue.",
@@ -1804,12 +1847,24 @@
       "networkFeeNoNetwork": "Network Fee",
       "swapFee": "{{appName}} Fee",
       "swapFeeWaived": "Free",
+      "appFee": "{{appName}} Fee",
+      "appFeeValue": "<0></0> <1>(<0></0>)</1>",
+      "appFeeValue_withoutPriceUsd": "<0></0>",
+      "appFeeValue_free": "Free",
+      "appFeeValue_placeholder": "-",
+      "appFeeInfo": "{{appName}} Fee\n\nThe {{appName}} fee of {{appFeePercentage}}% is designed to enhance your experience by ensuring fast, reliable, and secure swaps.",
+      "appFeeInfo_free": "{{appName}} Fee\n\nThis swap is free of charge.",
+      "appFeeInfo_placeholder": "{{appName}} Fee\n\nThe fee is calculated based on the quote you receive.",
+      "appFeeInfoDismissButton": "Got it",
       "slippagePercentage": "Slippage Tolerance",
       "networkFeeInfo": "You are swapping on the {{networkName}} Network.\n\nThis estimated network fee is required to conduct a transaction on the {{networkName}} Network. This fee secures your transaction and goes towards keeping the network operational.",
       "networkFeeInfoV1_76": "You are swapping on the {{networkName}} Network.\n\nA network fee is required to conduct a transaction on the {{networkName}} Network. This fee secures your transaction and is paid to network validators.\n\nSince network conditions determine the exact amount, the listed estimate is what we expect the actual fee to be. The fee will not exceed the max fee amount.",
       "slippageToleranceInfo": "Slippage tolerance\n\nYour swap will execute within the slippage tolerance percentage. If the price changes more than the slippage tolerance, {{appName}} protects you by preventing the trade from executing.",
       "networkFeeInfoDismissButton": "Got it",
       "exchangeRate": "Exchange Rate",
+      "exchangeRateInfo": "Exchange Rate\n\nWe've found the best exchange rate for you. Your trade will be completed at a price within {{slippagePercentage}}% of the estimate or the transaction will be cancelled & funds returned to your wallet.",
+      "exchangeRateInfo_withAppFee": "Exchange Rate\n\nWe've found the best exchange rate for you. Your trade will be completed at a price within {{slippagePercentage}}% of the estimate or the transaction will be cancelled & funds returned to your wallet.\n\nThe estimated rate includes a {{appName}} fee of {{appFeePercentage}}%.",
+      "exchangeRateInfoDismissButton": "Got it",
       "estimatedValue": "Estimated Value"
     },
     "fundYourWalletBottomSheet": {
@@ -1929,7 +1984,9 @@
       "popular": "Popular",
       "recentlySwapped": "Recently swapped",
       "network": "{{networkName}} Network",
-      "selectNetwork": "Network"
+      "selectNetwork": "Network",
+      "stablecoins": "Stablecoins",
+      "gasTokens": "Gas Tokens"
     }
   },
   "homeActions": {
@@ -2034,7 +2091,7 @@
     },
     "invite": {
       "title": "Send crypto to your friends",
-      "subtitle": "Invite friends from your contacts list"
+      "subtitle": "Send funds or an invite to your contacts"
     },
     "jumpstart": {
       "title": "Send with a Live Link",
@@ -2092,6 +2149,8 @@
   "viewOnArbiscan": "View on Arbiscan",
   "viewOnOPMainnetExplorer": "View on OP Mainnet Explorer",
   "viewOnOPSepoliaExplorer": "View on OP Sepolia Explorer",
+  "viewOnPolygonPoSScan": "View on PolygonScan",
+  "viewOnBaseScan": "View on BaseScan",
   "sendEnterAmountScreen": {
     "title": "Enter Amount",
     "selectToken": "Select a Token",
@@ -2117,7 +2176,7 @@
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Create Live Link",
+    "title": "Create a Live Link",
     "sendAmountLabel": "Live Link Amount",
     "confirmButton": "Send and create link",
     "info": "When you create a link, funds are withdrawn from your wallet. You can reclaim the link anytime. Share links with care.",
@@ -2128,7 +2187,7 @@
     }
   },
   "jumpstartShareLinkScreen": {
-    "title": "Share Live Link",
+    "title": "Share your Live Link",
     "description": "Copy the link to send {{tokenSymbol}} via your messaging app of choice, or use the QR code.",
     "linkLabel": "Live Link",
     "linkCopiedMessage": "Live Link copied",
@@ -2138,7 +2197,7 @@
       "ctaNavigate": "Go Home"
     },
     "ctaShare": "Share Link",
-    "ctaScanQRCode": "Scan QR Code",
+    "ctaScanQRCode": "Show QR Code",
     "shareMessage": "Hi! I’m sending you a link funded with {{tokenAmount}} {{tokenSymbol}} on {{appName}}. Use this link to download the app and the funds will be live, waiting for you. {{link}}",
     "qrCodeBottomSheet": {
       "title": "Scan the code to receive funds",
@@ -2164,7 +2223,10 @@
   },
   "getStartedHome": {
     "title": "Buy crypto or transfer tokens",
-    "body": "Buy or transfer compatible tokens to send crypto and explore web3!"
+    "body": "Buy or transfer compatible tokens to send crypto and explore web3!",
+    "titleV1_86": "Add funds to your wallet",
+    "exploreTokens": "Explore all tokens",
+    "exploreTokensBody": "You can buy up to 10+ tokens in Valora. Check them out!"
   },
   "nftCelebration": {
     "bottomSheet": {
@@ -2213,12 +2275,13 @@
   },
   "jumpstartStatus": {
     "loading": {
-      "title": "Your funds are on their way",
-      "description": "The funds that your friend gave you are being sent over. Please wait... "
+      "title": "Checking on your funds",
+      "description": "Please wait while we check your Live Link. Claimable funds will arrive shortly."
     },
     "error": {
       "title": "Unable to claim funds",
-      "description": "Try your live link again to attempt to receive funds, or ask your friend to try sending a new link",
+      "description": "This link was not able to be claimed for an unknown reason",
+      "alreadyClaimedDescription": "The link has already been claimed. Please ask your friend to send a new link",
       "contactSupport": "Contact Support",
       "dismiss": "Dismiss"
     }
@@ -2242,6 +2305,48 @@
   "points": {
     "title": "Valora Points",
     "activity": "Activity",
+    "history": {
+      "cards": {
+        "createWallet": {
+          "title": "Wallet holder",
+          "subtitle": "Member of {{appName}}"
+        },
+        "swap": {
+          "title": "Swap",
+          "subtitle": "{{fromToken}} to {{toToken}}"
+        }
+      },
+      "title": "My points activity",
+      "error": {
+        "title": "Unable to load points activity",
+        "subtitle": "Oops, something went wrong when trying to load your points activity feed. Please try again.",
+        "tryAgain": "Try again"
+      },
+      "empty": {
+        "title": "No points activity yet",
+        "subtitle": "It looks like you haven't earned any points yet. Use {{appName}} to start earning points!",
+        "gotIt": "Got it"
+      },
+      "pageError": {
+        "title": "Unable to load",
+        "subtitle": "Oops, something went wrong when trying to finish loading. Please try again.",
+        "refresh": "Refresh"
+      }
+    },
+    "fetchBalanceError": {
+      "title": "Unable to load your points",
+      "description": "Oops, something went wrong when trying to load your points. The information on this page may be out of date. Please refresh.",
+      "retryCta": "Refresh"
+    },
+    "loading": {
+      "title": "Gathering your points",
+      "description": "We're in the process of tallying up your points, hang tight"
+    },
+    "error": {
+      "title": "Unable to load points",
+      "description": "Oops, something went wrong when trying to load your points. Please try again.",
+      "retryCta": "Try again"
+    },
     "infoCard": {
       "title": "More ways to earn points coming soon 🚀",
       "body": "We are working on adding more ways to earn points through using the app. Keep checking in for updates."
@@ -2250,21 +2355,157 @@
       "title": "How do I earn points?",
       "body": "It's easy! Earn points by simply using the app."
     },
+    "noActivities": {
+      "title": "Update to Unlock More Points 🔓",
+      "body": "Oops! It seems you're using an older version of {{appName}}. Update now to discover all the exciting new ways you can earn points."
+    },
     "activityCards": {
       "createWallet": {
-        "title": "Create a {{appName}}  Wallet"
+        "title": "Create a {{appName}} Wallet"
       },
       "swap": {
         "title": "Swap assets",
         "bottomSheet": {
           "title": "Swap assets",
-          "body": "This space will be used to give all the details needed for this. Maybe minimum amount to swap. \n\nEarn {{pointsValue}} points whenever you swap an asset using {{appName}}.",
-          "cta": "Go to swap"
+          "body": "Earn {{pointsValue}} points every time you swap an asset using {{appName}}. \n\nTap below to start swapping and earning!",
+          "cta": "Start a swap"
         }
       },
       "moreComing": {
         "title": "More coming soon!"
       }
+    },
+    "discoverCard": {
+      "title": "{{appName}} Points",
+      "description": "Earn points easily with {{appName}}. Using the app, including swapping, leads to points!",
+      "balance": "{{pointsBalance}} points"
+    },
+    "intro": {
+      "title": "Earn points effortlessly",
+      "description": "Jump into a new way to earn! Your {{appName}} actions now earn points. Start earning today and unlock awesome benefits.",
+      "cta": "Start your points journey"
+    }
+  },
+  "earnFlow": {
+    "gasSubsidized": "Valora's covering gas for this transaction!",
+    "addCryptoBottomSheet": {
+      "title": "Add {{tokenSymbol}} on {{tokenNetwork}}",
+      "description": "Once you add tokens you'll have to come back to finish depositing into a pool.",
+      "actions": {
+        "add": "Buy",
+        "transfer": "Transfer",
+        "swap": "Swap"
+      },
+      "actionDescriptions": {
+        "add": "Buy {{tokenSymbol}} on {{tokenNetwork}} using one of our trusted providers",
+        "transfer": "Use any {{tokenNetwork}} compatible wallet or exchange to deposit {{tokenSymbol}}",
+        "swap": "Swap into {{tokenSymbol}} from another {{tokenNetwork}} token"
+      }
+    },
+    "cta": {
+      "title": "Earn on your stablecoins",
+      "subtitle": "Deposit today and earn returns",
+      "description": "See how much you can earn when supplying a lending pool"
+    },
+    "earnInfo": {
+      "title": "Earn on your\nstablecoins",
+      "details": {
+        "earn": {
+          "titleGasSubsidy": "Maximize Earnings without Gas Fees*",
+          "title": "Maximize Earnings",
+          "subtitle": "Earn on your stablecoins and get rewards when you supply a pool.",
+          "footnoteSubsidy": "*Gas fees are temporarily covered by Valora"
+        },
+        "manage": {
+          "title": "Manage Directly from Valora",
+          "subtitle": "We’ll take care of the setup so you can manage your position directly from Valora."
+        },
+        "access": {
+          "title": "Easily Access your Funds",
+          "subtitle": "Collect your funds effortlessly with a single tap. Enjoy the same instant access as you would directly through your favorite protocols."
+        }
+      },
+      "action": {
+        "learn": "Learn More",
+        "earn": "Start Earning"
+      }
+    },
+    "ctaV1_86": {
+      "title": "Maximize earnings on stablecoins",
+      "subtitle": "Buy {{symbol}}",
+      "description": "Earn approximately {{apy}}% per year when you add {{symbol}} to a pool"
+    },
+    "enterAmount": {
+      "earnUpToLabel": "You could earn up to:",
+      "rateLabel": "Rate (est.)",
+      "earnUpTo": "~{{fiatSymbol}}{{amount}} / yr",
+      "earnUpToV1_87": "<0></0> / yr",
+      "rate": "{{rate}}% APY",
+      "continue": "Continue",
+      "info": "This pool is powered by Aave",
+      "infoBottomSheet": {
+        "title": "Why this pool?",
+        "description": "This Aave pool has over $150M TVL and more than 6,000 contributors, indicating strong liquidity and trustworthiness. It also uses USDC as its token and Arbitrum as its network, which reduces volatility and ensures users will receive inexpensive gas rates.\n\nAll together this makes it a safe and attractive option with competitive APY, ensuring a beneficial investment opportunity for our users.\n\nYou can explore other Aave pools <0>here</0>.",
+        "dismiss": "Dismiss"
+      },
+      "notEnoughBalanceForGasWarning": {
+        "title": "You need more {{feeTokenSymbol}} to continue",
+        "description": "Add {{feeTokenSymbol}} on {{network}} to cover your gas fees",
+        "noGasCta": "Buy {{feeTokenSymbol}} on {{network}}"
+      }
+    },
+    "activePools": {
+      "title": "Active Pools",
+      "totalValue": "Total Value:",
+      "apy": "~{{apy}}% APY",
+      "exitPool": "Exit Pool",
+      "depositMore": "Deposit More",
+      "viewPools": "View Pools"
+    },
+    "depositBottomSheet": {
+      "title": "Review & Deposit",
+      "description": "Before depositing to an Aave pool, please review the transaction details below",
+      "amount": "Amount Deposited",
+      "fee": "Est. Gas Fees",
+      "provider": "Earnings provider",
+      "network": "Network",
+      "footer": "By depositing crypto into an Aave pool, you accept the risks associated with using Aave. <0>Terms & Conditions</0>",
+      "primaryCta": "Complete",
+      "secondaryCta": "Cancel"
+    },
+    "collect": {
+      "title": "Congratulations! Review & collect your earnings",
+      "total": "TOTAL",
+      "plus": "PLUS",
+      "rate": "Rate (est.)",
+      "apy": "{{apy}}% APY",
+      "fee": "Gas Fee",
+      "cta": "Collect Earnings",
+      "errorTitle": "Something went wrong",
+      "errorDescription": "Unable to fetch deposit details. Please try again.",
+      "noGasTitle": "You need more {{symbol}} to continue",
+      "noGasDescription": "Add {{symbol}} on {{network}} to cover your gas fees",
+      "noGasCta": "Buy {{symbol}} on {{network}}"
+    },
+    "transactionFeed": {
+      "earnClaimTitle": "Collected",
+      "earnClaimSubtitle": "from {{providerName}} Pool",
+      "earnDepositTitle": "Deposited",
+      "earnDepositSubtitle": "to {{providerName}} Pool",
+      "earnWithdrawTitle": "Withdrew",
+      "earnWithdrawSubtitle": "from {{providerName}} Pool"
+    },
+    "transactionDetails": {
+      "descriptionLabel": "Details",
+      "earnClaimTitle": "Collected",
+      "earnClaimSubtitle": "Collected {{tokenSymbol}} from {{providerName}} Pool",
+      "earnClaimDetails": "Amount Collected",
+      "earnDepositTitle": "Deposited",
+      "earnDepositSubtitle": "Deposited {{tokenSymbol}} to {{providerName}} Pool",
+      "earnDepositDetails": "Amount Deposited",
+      "earnWithdrawTitle": "Withdrew",
+      "earnWithdrawSubtitle": "Withdrew {{tokenSymbol}} from {{providerName}} Pool",
+      "earnWithdrawDetails": "Amount Withdrawn"
     }
   }
 }

@@ -45,6 +45,7 @@ import {
   supportedBiometryTypeSelector,
   walletConnectEnabledSelector,
 } from 'src/app/selectors'
+import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
@@ -58,6 +59,7 @@ import {
   SettingsItemTextValue,
 } from 'src/components/SettingsItem'
 import Toast from 'src/components/Toast'
+import CustomHeader from 'src/components/header/CustomHeader'
 import { PRIVACY_LINK, TOS_LINK } from 'src/config'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import ForwardChevron from 'src/icons/ForwardChevron'
@@ -69,7 +71,6 @@ import {
 import { deleteKeylessBackupStarted, hideDeleteKeylessBackupError } from 'src/keylessBackup/slice'
 import { KeylessBackupDeleteStatus } from 'src/keylessBackup/types'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
-import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -80,19 +81,19 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
 import { navigateToURI } from 'src/utils/linking'
 import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
 import { selectSessions } from 'src/walletConnect/selectors'
 import { walletAddressSelector } from 'src/web3/selectors'
 
-type Props = NativeStackScreenProps<StackParamList, Screens.Settings | Screens.SettingsDrawer>
+type Props = NativeStackScreenProps<StackParamList, Screens.Settings>
 
 export const Account = ({ navigation, route }: Props) => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const promptConfirmRemovalModal = route.params?.promptConfirmRemovalModal
-  const isTabNav = route.name === Screens.Settings
 
   const revokeBottomSheetRef = useRef<BottomSheetRefType>(null)
   const deleteAccountBottomSheetRef = useRef<BottomSheetRefType>(null)
@@ -307,9 +308,7 @@ export const Account = ({ navigation, route }: Props) => {
       const pinIsCorrect = await ensurePincode()
       if (pinIsCorrect) {
         ValoraAnalytics.track(SettingsEvents.start_account_removal)
-        navigate(Screens.BackupPhrase, {
-          settingsScreen: isTabNav ? Screens.Settings : Screens.SettingsDrawer,
-        })
+        navigate(Screens.BackupPhrase, { isAccountRemoval: true })
       }
     } catch (error) {
       Logger.error('SettingsItem@onPress', 'PIN ensure error', error)
@@ -438,11 +437,8 @@ export const Account = ({ navigation, route }: Props) => {
   }
 
   return (
-    <SafeAreaView
-      style={styles.container}
-      edges={isTabNav ? ['bottom', 'left', 'right'] : undefined}
-    >
-      {!isTabNav && <DrawerTopBar />}
+    <SafeAreaView style={styles.container}>
+      <CustomHeader left={<BackButton />} style={styles.paddingHorizontal} />
       <ScrollView testID="SettingsScrollView">
         <TouchableWithoutFeedback onPress={onDevSettingsTriggerPress}>
           <Text style={styles.title} testID={'SettingsTitle'}>
@@ -650,6 +646,9 @@ const styles = StyleSheet.create({
     color: colors.gray4,
     marginRight: Spacing.Smallest8,
     marginLeft: 4,
+  },
+  paddingHorizontal: {
+    paddingHorizontal: variables.contentPadding,
   },
 })
 

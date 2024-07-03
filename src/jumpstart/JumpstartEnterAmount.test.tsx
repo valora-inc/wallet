@@ -122,7 +122,7 @@ describe('JumpstartEnterAmount', () => {
       </Provider>
     )
 
-    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '.25')
+    fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '.25')
 
     await waitFor(() => expect(executeSpy).toHaveBeenCalledTimes(1))
     expect(executeSpy).toHaveBeenCalledWith({
@@ -142,7 +142,7 @@ describe('JumpstartEnterAmount', () => {
     )
 
     // default selected token is cEUR, priceUsd: '1.16' so max send amount will be 50 / 1.16 = 43.10
-    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '43.5')
+    fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '43.5')
 
     await waitFor(() => expect(executeSpy).toHaveBeenCalledTimes(1))
     expect(getByText('review')).toBeDisabled()
@@ -153,7 +153,7 @@ describe('JumpstartEnterAmount', () => {
     ).toBeTruthy()
     expect(getByText('jumpstartEnterAmountScreen.maxAmountWarning.description')).toBeTruthy()
 
-    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '43')
+    fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '43')
 
     await waitFor(() => expect(getByText('review')).not.toBeDisabled())
     expect(queryByText('jumpstartEnterAmountScreen.maxAmountWarning.title')).toBeFalsy()
@@ -169,7 +169,7 @@ describe('JumpstartEnterAmount', () => {
       </Provider>
     )
 
-    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '.25')
+    fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '.25')
 
     await waitFor(() => expect(executeSpy).toHaveBeenCalledTimes(1))
     fireEvent.press(getByText('review'))
@@ -192,6 +192,7 @@ describe('JumpstartEnterAmount', () => {
         tokenAmount: '0.25',
         tokenId: mockCeurTokenId,
         tokenSymbol: 'cEUR',
+        amountEnteredIn: 'token',
       }
     )
   })
@@ -205,7 +206,7 @@ describe('JumpstartEnterAmount', () => {
 
     expect(store.getActions()).toEqual([depositTransactionFlowStarted()])
 
-    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '.25')
+    fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '.25')
     await waitFor(() => expect(executeSpy).toHaveBeenCalledTimes(1))
     expect(getByTestId('SendEnterAmount/ReviewButton')).toBeEnabled()
 
@@ -225,7 +226,7 @@ describe('JumpstartEnterAmount', () => {
 
     // depositTransactionFlowStarted should not be dispatched
     expect(updatedStore.getActions()).toEqual([])
-    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '.30')
+    fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '.30')
     // prepare transaction for a second time on this screen
     await waitFor(() => expect(executeSpy).toHaveBeenCalledTimes(2))
     // review button should remain disabled

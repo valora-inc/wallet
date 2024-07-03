@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SwapEvents } from 'src/analytics/Events'
 import { SwapShowInfoType } from 'src/analytics/Properties'
@@ -24,8 +24,15 @@ interface Props {
   fromToken?: TokenBalance
   toToken?: TokenBalance
   exchangeRatePrice?: string
+  exchangeRateInfoBottomSheetRef: React.RefObject<BottomSheetRefType>
   swapAmount?: BigNumber
   fetchingSwapQuote: boolean
+  appFee?: {
+    amount: BigNumber
+    token: TokenBalance
+    percentage: BigNumber
+  }
+  appFeeInfoBottomSheetRef: React.RefObject<BottomSheetRefType>
 }
 
 function LabelWithInfo({
@@ -129,8 +136,11 @@ export function SwapTransactionDetails({
   fromToken,
   toToken,
   exchangeRatePrice,
+  exchangeRateInfoBottomSheetRef,
   swapAmount,
   fetchingSwapQuote,
+  appFee,
+  appFeeInfoBottomSheetRef,
 }: Props) {
   const { t } = useTranslation()
 
@@ -138,7 +148,16 @@ export function SwapTransactionDetails({
   return (
     <View style={styles.container} testID="SwapTransactionDetails">
       <View style={styles.row} testID="SwapTransactionDetails/ExchangeRate">
-        <Text style={styles.label}>{t('swapScreen.transactionDetails.exchangeRate')}</Text>
+        <LabelWithInfo
+          onPress={() => {
+            ValoraAnalytics.track(SwapEvents.swap_show_info, {
+              type: SwapShowInfoType.EXCHANGE_RATE,
+            })
+            exchangeRateInfoBottomSheetRef.current?.snapToIndex(0)
+          }}
+          label={t('swapScreen.transactionDetails.exchangeRate')}
+          testID="SwapTransactionDetails/ExchangeRate/MoreInfo"
+        />
         <Text style={styles.value}>
           {!fetchingSwapQuote && fromToken && toToken && exchangeRatePrice ? (
             <>
@@ -182,9 +201,49 @@ export function SwapTransactionDetails({
         testID={`SwapTransactionDetails/MaxNetworkFee`}
       />
       <View style={styles.row}>
-        <Text style={styles.label}>{t('swapScreen.transactionDetails.swapFee')}</Text>
-        <Text testID={'SwapFee'} style={styles.value}>
-          {t('swapScreen.transactionDetails.swapFeeWaived')}
+        <LabelWithInfo
+          onPress={() => {
+            ValoraAnalytics.track(SwapEvents.swap_show_info, {
+              type: SwapShowInfoType.APP_FEE,
+            })
+            appFeeInfoBottomSheetRef.current?.snapToIndex(0)
+          }}
+          label={t('swapScreen.transactionDetails.appFee')}
+          testID="SwapTransactionDetails/AppFee/MoreInfo"
+        />
+        <Text testID={'SwapTransactionDetails/AppFee'} style={styles.value}>
+          <Trans
+            i18nKey={'swapScreen.transactionDetails.appFeeValue'}
+            context={
+              !appFee || fetchingSwapQuote
+                ? 'placeholder'
+                : appFee.percentage.isLessThanOrEqualTo(0)
+                  ? 'free'
+                  : !appFee.token.priceUsd
+                    ? 'withoutPriceUsd'
+                    : undefined
+            }
+            tOptions={{ appFeePercentage: appFee?.percentage.toFormat() ?? '0' }}
+          >
+            {appFee && (
+              <TokenDisplay
+                amount={appFee.amount}
+                tokenId={appFee.token.tokenId}
+                showLocalAmount={!!appFee.token.priceUsd}
+                showApprox={!!appFee.token.priceUsd}
+                style={styles.value}
+              />
+            )}
+            {appFee && !!appFee.token.priceUsd && (
+              <Text style={styles.noBold}>
+                <TokenDisplay
+                  amount={appFee.amount}
+                  tokenId={appFee.token.tokenId}
+                  showLocalAmount={false}
+                />
+              </Text>
+            )}
+          </Trans>
         </Text>
       </View>
       <View style={styles.row} testID="SwapTransactionDetails/Slippage">
@@ -221,6 +280,9 @@ const styles = StyleSheet.create({
     ...typeScale.bodyXSmall,
     color: colors.gray4,
     fontWeight: '600',
+  },
+  noBold: {
+    fontWeight: '400',
   },
   label: {
     ...typeScale.bodyXSmall,

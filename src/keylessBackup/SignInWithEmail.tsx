@@ -28,7 +28,7 @@ function SignInWithEmail({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const { authorize, getCredentials, clearCredentials } = useAuth0()
-  const { keylessBackupFlow } = route.params
+  const { keylessBackupFlow, origin } = route.params
   const [loading, setLoading] = useState(false)
 
   const onPressGoogle = async () => {
@@ -38,7 +38,10 @@ function SignInWithEmail({ route }: Props) {
         keylessBackupFlow,
       })
     )
-    ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_google, { keylessBackupFlow })
+    ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_google, {
+      keylessBackupFlow,
+      origin,
+    })
     try {
       // clear any existing saved credentials
       await clearCredentials()
@@ -57,10 +60,11 @@ function SignInWithEmail({ route }: Props) {
       if (!credentials.idToken) {
         throw new Error('got an empty token from auth0')
       }
-      navigate(Screens.KeylessBackupPhoneInput, { keylessBackupFlow })
+      navigate(Screens.KeylessBackupPhoneInput, { keylessBackupFlow, origin })
       dispatch(googleSignInCompleted({ idToken: credentials.idToken }))
       ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_google_success, {
         keylessBackupFlow,
+        origin,
       })
       setTimeout(() => {
         // to avoid screen flash
@@ -104,6 +108,7 @@ SignInWithEmail.navigationOptions = ({ route }: Props) => ({
   headerLeft: () => (
     <KeylessBackupCancelButton
       flow={route.params.keylessBackupFlow}
+      origin={route.params.origin}
       eventName={KeylessBackupEvents.cab_sign_in_with_email_screen_cancel}
     />
   ),

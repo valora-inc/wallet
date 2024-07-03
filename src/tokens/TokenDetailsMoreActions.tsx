@@ -9,7 +9,7 @@ import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
-import { TokenDetailsAction } from 'src/tokens/types'
+import { TokenAction } from 'src/tokens/types'
 import { getTokenAnalyticsProps } from 'src/tokens/utils'
 
 export default function TokenDetailsMoreActions({
@@ -18,7 +18,7 @@ export default function TokenDetailsMoreActions({
   token,
 }: {
   forwardedRef: RefObject<BottomSheetRefType>
-  actions: TokenDetailsAction[]
+  actions: TokenAction[]
   token: TokenBalance
 }) {
   const { t } = useTranslation()

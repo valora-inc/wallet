@@ -5,6 +5,7 @@ import { EffectProviders, StaticProvider, dynamic } from 'redux-saga-test-plan/p
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import { trackPointsEvent } from 'src/points/slice'
 import { getDynamicConfigParams } from 'src/statsig'
 import { swapSubmitSaga } from 'src/swap/saga'
 import { swapCancel, swapError, swapStart, swapSuccess } from 'src/swap/slice'
@@ -97,6 +98,7 @@ const mockSwapFromParams = (toTokenId: string, feeCurrency?: Address): PayloadAc
           },
         ]),
         price: '1',
+        appFeePercentageIncludedInPrice: '0.6',
         provider: '0x',
         estimatedPriceImpact: '0.1',
         allowanceTarget: mockAllowanceTarget,
@@ -145,6 +147,7 @@ const mockSwapEthereum: PayloadAction<SwapInfo> = {
         },
       ]),
       price: '1',
+      appFeePercentageIncludedInPrice: '0.6',
       provider: '0x',
       estimatedPriceImpact: '0.1',
       allowanceTarget: mockAllowanceTarget,
@@ -283,7 +286,7 @@ describe(swapSubmitSaga, () => {
   function createDefaultProviders(network: Network) {
     let callCount = 0
     const defaultProviders: (EffectProviders | StaticProvider)[] = [
-      [matchers.call(getViemWallet, networkConfig.viemChain[network]), mockViemWallet],
+      [matchers.call(getViemWallet, networkConfig.viemChain[network], false), mockViemWallet],
       [matchers.call.fn(getTransactionCount), 10],
       [matchers.call.fn(getConnectedUnlockedAccount), mockAccount],
       [
@@ -430,6 +433,7 @@ describe(swapSubmitSaga, () => {
         amount: swapPrepared.payload.userInput.swapAmount[Field.TO],
         amountType: 'buyAmount',
         price: '1',
+        appFeePercentageIncludedInPrice: '0.6',
         allowanceTarget: '0xdef1c0ded9bec7f1a1670819833240f027b25eff',
         estimatedPriceImpact: '0.1',
         provider: '0x',
@@ -440,6 +444,7 @@ describe(swapSubmitSaga, () => {
         quoteToTransactionElapsedTimeInMs: 10_000,
         estimatedBuyTokenUsdValue: 100,
         estimatedSellTokenUsdValue: 100,
+        estimatedAppFeeUsdValue: 0.6,
         web3Library: 'viem',
         gas: 1384480,
         maxGasFee: 0.01661376,
@@ -551,6 +556,15 @@ describe(swapSubmitSaga, () => {
         },
       })
       .call([publicClient.celo, 'waitForTransactionReceipt'], { hash: '0x1' })
+      .put(
+        trackPointsEvent({
+          activityId: 'swap',
+          transactionHash: '0x1',
+          networkId: NetworkId['celo-alfajores'],
+          toTokenId: mockCeloTokenId,
+          fromTokenId: mockCeurTokenId,
+        })
+      )
       .run()
 
     expect(mockViemWallet.signTransaction).toHaveBeenCalledTimes(1)
@@ -663,6 +677,7 @@ describe(swapSubmitSaga, () => {
       amount: mockSwap.payload.userInput.swapAmount[Field.TO],
       amountType: 'buyAmount',
       price: '1',
+      appFeePercentageIncludedInPrice: '0.6',
       allowanceTarget: '0xdef1c0ded9bec7f1a1670819833240f027b25eff',
       estimatedPriceImpact: '0.1',
       provider: '0x',
@@ -673,6 +688,7 @@ describe(swapSubmitSaga, () => {
       quoteToTransactionElapsedTimeInMs: 10_000,
       estimatedBuyTokenUsdValue: 100,
       estimatedSellTokenUsdValue: 100,
+      estimatedAppFeeUsdValue: 0.6,
       web3Library: 'viem',
       gas: 1384480,
       maxGasFee: 0.01661376,

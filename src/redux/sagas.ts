@@ -17,11 +17,11 @@ import {
 import { superchargeSaga } from 'src/consumerIncentives/saga'
 import { dappKitSaga } from 'src/dappkit/dappkit'
 import { dappsSaga } from 'src/dapps/saga'
+import { earnSaga } from 'src/earn/saga'
 import { escrowSaga } from 'src/escrow/saga'
-import { Actions as ExchangeActions } from 'src/exchange/actions'
 import { feesSaga } from 'src/fees/saga'
-import { fiatConnectSaga } from 'src/fiatconnect/saga'
 import { fiatExchangesSaga } from 'src/fiatExchanges/saga'
+import { fiatConnectSaga } from 'src/fiatconnect/saga'
 import { firebaseSaga } from 'src/firebase/saga'
 import { homeSaga } from 'src/home/saga'
 import { i18nSaga } from 'src/i18n/saga'
@@ -33,6 +33,7 @@ import { keylessBackupSaga } from 'src/keylessBackup/saga'
 import { localCurrencySaga } from 'src/localCurrency/saga'
 import { networkInfoSaga } from 'src/networkInfo/saga'
 import { nftsSaga } from 'src/nfts/saga'
+import { pointsSaga } from 'src/points/saga'
 import { positionsSaga } from 'src/positions/saga'
 import { priceHistorySaga } from 'src/priceHistory/saga'
 import { setPhoneRecipientCache, updateValoraRecipientCache } from 'src/recipients/reducer'
@@ -43,8 +44,8 @@ import { swapSaga } from 'src/swap/saga'
 import { tokensSaga } from 'src/tokens/saga'
 import { Actions as TransactionActions } from 'src/transactions/actions'
 import { transactionSaga } from 'src/transactions/saga'
-import { checkAccountExistenceSaga } from 'src/utils/accountChecker'
 import Logger from 'src/utils/Logger'
+import { checkAccountExistenceSaga } from 'src/utils/accountChecker'
 import { walletConnectSaga } from 'src/walletConnect/saga'
 import { Actions as Web3Actions } from 'src/web3/actions'
 import { web3Saga } from 'src/web3/saga'
@@ -54,7 +55,6 @@ const loggerBlocklist = [
   REHYDRATE,
   AppActions.PHONE_NUMBER_VERIFICATION_COMPLETED,
   AccountActions.SET_PHONE_NUMBER,
-  ExchangeActions.UPDATE_CELO_GOLD_EXCHANGE_RATE_HISTORY, // Not private, just noisy
   ImportActions.IMPORT_BACKUP_PHRASE,
   setPhoneRecipientCache.toString(),
   updateValoraRecipientCache.toString(),
@@ -139,6 +139,8 @@ export function* rootSaga() {
     yield* spawn(keylessBackupSaga)
     yield* spawn(nftsSaga)
     yield* spawn(priceHistorySaga)
+    yield* spawn(pointsSaga)
+    yield* spawn(earnSaga)
   } catch (error) {
     Logger.error('@rootSaga', 'Error while initializing sagas', error)
     // Propagate so it's handled by Sentry

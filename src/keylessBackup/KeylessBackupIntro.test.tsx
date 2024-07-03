@@ -3,7 +3,7 @@ import React from 'react'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import KeylessBackupIntro from 'src/keylessBackup/KeylessBackupIntro'
-import { KeylessBackupFlow } from 'src/keylessBackup/types'
+import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import MockedNavigator from 'test/MockedNavigator'
@@ -27,9 +27,11 @@ describe('KeylessBackupIntro', () => {
       fireEvent.press(continueButton)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(KeylessBackupEvents.cab_intro_continue, {
         keylessBackupFlow: KeylessBackupFlow.Setup,
+        origin: KeylessBackupOrigin.Settings,
       })
       expect(navigate).toHaveBeenCalledWith(Screens.SignInWithEmail, {
         keylessBackupFlow: KeylessBackupFlow.Setup,
+        origin: KeylessBackupOrigin.Settings,
       })
     })
 
@@ -65,9 +67,11 @@ describe('KeylessBackupIntro', () => {
       fireEvent.press(continueButton)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(KeylessBackupEvents.cab_intro_continue, {
         keylessBackupFlow: KeylessBackupFlow.Restore,
+        origin: KeylessBackupOrigin.Settings,
       })
       expect(navigate).toHaveBeenCalledWith(Screens.SignInWithEmail, {
         keylessBackupFlow: KeylessBackupFlow.Restore,
+        origin: KeylessBackupOrigin.Settings,
       })
     })
   })

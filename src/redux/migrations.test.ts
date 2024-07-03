@@ -1,8 +1,7 @@
 import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import { FinclusiveKycStatus } from 'src/account/reducer'
-import { initialState as exchangeInitialState } from 'src/exchange/reducer'
-import { migrations } from 'src/redux/migrations'
+import { exchangeInitialState, migrations } from 'src/redux/migrations'
 import {
   Network,
   NetworkId,
@@ -49,6 +48,9 @@ import {
   v1Schema,
   v200Schema,
   v201Schema,
+  v203Schema,
+  v214Schema,
+  v216Schema,
   v21Schema,
   v28Schema,
   v2Schema,
@@ -81,8 +83,12 @@ import {
 import {
   mockInvitableRecipient,
   mockInvitableRecipient2,
+  mockPositions,
+  mockPositionsLegacy,
   mockRecipient,
   mockRecipient2,
+  mockShortcuts,
+  mockShortcutsLegacy,
 } from 'test/values'
 
 describe('Redux persist migrations', () => {
@@ -1352,7 +1358,7 @@ describe('Redux persist migrations', () => {
         address: '0x123',
         hash: 'someHash',
       },
-    ]
+    ] as any
     const migratedSchema = migrations[161](preMigrationSchema)
 
     expect(migratedSchema.transactions.standbyTransactions).toEqual([
@@ -1572,6 +1578,56 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[202](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.walletConnect.pendingSessions = []
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from 203 to 204: recently inactive users', () => {
+    // users inactive since 4/2/2024 have legacy values in state
+    const oldSchema = {
+      ...v203Schema,
+      positions: {
+        ...(v203Schema.positions as any),
+        positions: mockPositionsLegacy,
+        shortcuts: mockShortcutsLegacy,
+      },
+    }
+    const expectedSchema = _.cloneDeep(oldSchema)
+    expectedSchema.positions.positions = mockPositions
+    expectedSchema.positions.shortcuts = mockShortcuts
+    const migratedSchema = migrations[204](oldSchema)
+
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from 203 to 204: recently active users', () => {
+    // api has been returning 'networkId' and 'networkIds' fields since 4/2/2024. users active since then will have noop migration
+    const oldSchema = {
+      ...v203Schema,
+      positions: {
+        positions: mockPositions,
+        shortcuts: mockShortcuts,
+      },
+    }
+    const expectedSchema = _.cloneDeep(oldSchema)
+    const migratedSchema = migrations[204](oldSchema)
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from 214 to 215', () => {
+    const oldSchema = v214Schema
+    const migratedSchema = migrations[215](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.points.introHasBeenDismissed = false
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from 216 to 217', () => {
+    const oldSchema = v216Schema
+    const migratedSchema = migrations[217](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.points.trackOnceActivities = {
+      'create-wallet': false,
+    }
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

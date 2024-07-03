@@ -37,7 +37,7 @@ import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 const PERSISTENCE_KEY = 'NAVIGATION_STATE'
 
 // @ts-ignore https://reactnavigation.org/docs/screen-tracking/
-export const getActiveRouteName = (state: NavigationState) => {
+const getActiveRouteName = (state: NavigationState) => {
   const route = state.routes[state.index]
 
   if (route.state) {

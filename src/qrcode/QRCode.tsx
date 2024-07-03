@@ -88,7 +88,7 @@ export default function QRCodeDisplay(props: Props) {
         <StyledQRCode qrSvgRef={qrSvgRef} />
       </View>
 
-      {displayName && (
+      {!!displayName && (
         <Text
           style={[styles.name, fontStyles.displayName]}
           numberOfLines={1}

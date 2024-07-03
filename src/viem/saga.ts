@@ -1,5 +1,3 @@
-import { TAG } from 'src/send/saga'
-
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { BaseStandbyTransaction, addStandbyTransaction } from 'src/transactions/actions'
 import { NetworkId } from 'src/transactions/types'
@@ -17,6 +15,8 @@ import { call, put, select } from 'typed-redux-saga'
 import { Hash } from 'viem'
 import { getTransactionCount } from 'viem/actions'
 
+const TAG = 'viem/saga'
+
 /**
  * Sends prepared transactions and adds standby transactions to the store.
  * Returns the hashes of the sent transactions. Throws if the transactions fail
@@ -28,6 +28,9 @@ import { getTransactionCount } from 'viem/actions'
  * @param {number} createBaseStandbyTransactions - functions that create the
  * standby transactions, each element corresponding to the prepared transaction
  * of the matching index
+ * @param {boolean} isGasSubsidized - an optional boolean that indicates whether
+ * gas is subsidized for the transaction, which means a valora rpc node will be
+ * used instead of the default alchemy rpc node
  */
 export function* sendPreparedTransactions(
   serializablePreparedTransactions: SerializableTransactionRequest[],
@@ -35,7 +38,8 @@ export function* sendPreparedTransactions(
   createBaseStandbyTransactions: ((
     transactionHash: string,
     feeCurrencyId?: string
-  ) => BaseStandbyTransaction)[]
+  ) => BaseStandbyTransaction)[],
+  isGasSubsidized: boolean = false
 ) {
   if (serializablePreparedTransactions.length !== createBaseStandbyTransactions.length) {
     throw new Error('Mismatch in number of prepared transactions and standby transaction creators')
@@ -46,7 +50,7 @@ export function* sendPreparedTransactions(
     throw new Error(`No matching network found for network id: ${networkId}`)
   }
 
-  const wallet = yield* call(getViemWallet, networkConfig.viemChain[network])
+  const wallet = yield* call(getViemWallet, networkConfig.viemChain[network], isGasSubsidized)
   if (!wallet.account) {
     // this should never happen
     throw new Error('No account found in the wallet')

@@ -1,4 +1,4 @@
-import { quickOnboarding, waitForElementByIdAndTap } from './utils/utils'
+import { quickOnboarding, waitForElementByIdAndTap, scrollIntoView } from './utils/utils'
 import { launchApp } from './utils/retries'
 import DappListDisplay from './usecases/DappListDisplay'
 
@@ -10,11 +10,13 @@ describe('Discover tab', () => {
     await launchApp({
       newInstance: true,
       permissions: { notifications: 'YES', contacts: 'YES', camera: 'YES' },
-      launchArgs: {
-        statsigGateOverrides: `use_tab_navigator=true`,
-      },
     })
     await waitForElementByIdAndTap('Tab/Discover')
+
+    await scrollIntoView('Explore All', 'DappsExplorerScrollView')
+    await element(by.text('Explore All')).tap()
+
+    await waitFor(element(by.id(`DappsScreen/DappsList`)))
   })
 
   describe('Dapp List Display', DappListDisplay)

@@ -7,7 +7,7 @@ import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { valoraKeyshareIssued } from 'src/keylessBackup/slice'
-import { KeylessBackupFlow } from 'src/keylessBackup/types'
+import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 import { useDispatch } from 'src/redux/hooks'
 import Logger from 'src/utils/Logger'
 import { PhoneNumberVerificationStatus } from 'src/verify/hooks'
@@ -15,7 +15,11 @@ import networkConfig from 'src/web3/networkConfig'
 
 const TAG = 'keylessBackup/hooks'
 
-export function useVerifyPhoneNumber(phoneNumber: string, keylessBackupFlow: KeylessBackupFlow) {
+export function useVerifyPhoneNumber(
+  phoneNumber: string,
+  keylessBackupFlow: KeylessBackupFlow,
+  origin: KeylessBackupOrigin
+) {
   const verificationCodeRequested = useRef(false)
 
   const dispatch = useDispatch()
@@ -37,7 +41,10 @@ export function useVerifyPhoneNumber(phoneNumber: string, keylessBackupFlow: Key
         return
       }
 
-      ValoraAnalytics.track(KeylessBackupEvents.cab_issue_sms_code_start, { keylessBackupFlow })
+      ValoraAnalytics.track(KeylessBackupEvents.cab_issue_sms_code_start, {
+        keylessBackupFlow,
+        origin,
+      })
       Logger.debug(`${TAG}/issueSmsCode`, 'Initiating request')
 
       const response = await fetch(networkConfig.cabIssueSmsCodeUrl, {
@@ -60,7 +67,10 @@ export function useVerifyPhoneNumber(phoneNumber: string, keylessBackupFlow: Key
     [phoneNumber],
     {
       onError: (error: Error) => {
-        ValoraAnalytics.track(KeylessBackupEvents.cab_issue_sms_code_error, { keylessBackupFlow })
+        ValoraAnalytics.track(KeylessBackupEvents.cab_issue_sms_code_error, {
+          keylessBackupFlow,
+          origin,
+        })
         Logger.debug(`${TAG}/issueSmsCode`, 'Received error from issueSmsCode', error)
         dispatch(showError(ErrorMessages.PHONE_NUMBER_VERIFICATION_FAILURE))
       },
@@ -71,7 +81,10 @@ export function useVerifyPhoneNumber(phoneNumber: string, keylessBackupFlow: Key
         setIssueCodeCompleted(true)
         verificationCodeRequested.current = true
 
-        ValoraAnalytics.track(KeylessBackupEvents.cab_issue_sms_code_success, { keylessBackupFlow })
+        ValoraAnalytics.track(KeylessBackupEvents.cab_issue_sms_code_success, {
+          keylessBackupFlow,
+          origin,
+        })
         Logger.debug(`${TAG}/issueSmsCode`, 'Successfully issued sms code')
       },
     }
@@ -88,6 +101,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, keylessBackupFlow: Key
 
       ValoraAnalytics.track(KeylessBackupEvents.cab_issue_valora_keyshare_start, {
         keylessBackupFlow,
+        origin,
       })
       Logger.debug(
         `${TAG}/issueValoraKeyshare`,
@@ -123,17 +137,19 @@ export function useVerifyPhoneNumber(phoneNumber: string, keylessBackupFlow: Key
         const { keyshare, token } = await response.json()
         ValoraAnalytics.track(KeylessBackupEvents.cab_issue_valora_keyshare_success, {
           keylessBackupFlow,
+          origin,
         })
         Logger.debug(
           `${TAG}/issueValoraKeyShare`,
           'Successfully verified sms code and got keyshare'
         )
         setVerificationStatus(PhoneNumberVerificationStatus.SUCCESSFUL)
-        dispatch(valoraKeyshareIssued({ keyshare, keylessBackupFlow, jwt: token }))
+        dispatch(valoraKeyshareIssued({ keyshare, keylessBackupFlow, origin, jwt: token }))
       },
       onError: (error: Error) => {
         ValoraAnalytics.track(KeylessBackupEvents.cab_issue_valora_keyshare_error, {
           keylessBackupFlow,
+          origin,
         })
         Logger.debug(`${TAG}/issueValoraKeyShare`, `Received error from issueValoraKeyShare`, error)
         setVerificationStatus(PhoneNumberVerificationStatus.FAILED)

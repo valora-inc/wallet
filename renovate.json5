@@ -2,7 +2,7 @@
   extends: ['github>valora-inc/renovate-config:default.json5', ':disableDigestUpdates'],
 
   // Limit number of concurrent renovate branches/PRs, to avoid spamming the repo
-  prConcurrentLimit: 2,
+  prConcurrentLimit: 4,
 
   // timezone for automerge schedule
   timezone: 'America/Los_Angeles',
@@ -48,6 +48,11 @@
       prPriority: 0,
     },
     {
+      // Low priority for gradle dependencies
+      matchManagers: ['gradle', 'gradle-wrapper'],
+      prPriority: -1,
+    },
+    {
       // Group updates for @celo packages
       matchPackagePatterns: ['^@celo/'],
       groupName: 'celo',
@@ -64,6 +69,8 @@
       // Group updates for @react-native-firebase packages
       matchPackagePatterns: ['^@react-native-firebase/'],
       groupName: 'react-native-firebase',
+      // TODO(ENG-105): enable once we have migrated away from react-native-sms-retriever
+      enabled: false,
     },
     {
       // Group updates for @segment packages
@@ -75,5 +82,20 @@
       matchPackagePatterns: ['^prettier'],
       groupName: 'prettier',
     },
+    {
+      // Avoid auto merge of major updates on rn, auth0, firebase and walletconnect
+      matchPackagePatterns: [
+        '^@react-native-firebase/',
+        'react-native-auth0',
+        '^@walletconnect/',
+        '^react-native$',
+      ],
+      matchUpdateTypes: ['major'],
+      automerge: false,
+    },
+  ],
+  // A list of dependencies to be ignored by Renovate - "exact match" only
+  ignoreDeps: [
+    'lottie-react-native', // TODO (act-1187): handle 6.x breaking changes and upgrade
   ],
 }

@@ -7,12 +7,12 @@ import { FAQ_LINK, FORUM_LINK } from 'src/config'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { navigateToURI } from 'src/utils/linking'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { createMockStore } from 'test/utils'
 
 const renderSupport = () =>
   render(
     <Provider store={createMockStore()}>
-      <Support {...getMockStackScreenProps(Screens.SupportDrawer)} />
+      <Support />
     </Provider>
   )
 

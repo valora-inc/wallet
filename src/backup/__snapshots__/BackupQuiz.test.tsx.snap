@@ -871,7 +871,7 @@ exports[`BackupQuiz renders correctly 1`] = `
             }
           }
         >
-          backupQuizWordCount, {"ordinal":"ordinals.1"}
+          backupQuizWordCountV1_83, {"wordNumber":"ordinals.1"}
           <Text
             style={
               {

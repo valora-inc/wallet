@@ -5,7 +5,6 @@ export default onRamps = () => {
   beforeAll(async () => {
     await launchApp({
       newInstance: true,
-      launchArgs: { statsigGateOverrides: `use_tab_navigator=true` },
     })
   })
   beforeEach(async () => {

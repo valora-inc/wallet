@@ -64,5 +64,4 @@ export enum ErrorMessages {
   INSUFFICIENT_BALANCE_STABLE = 'insufficientBalanceStable',
   HOOKS_INVALID_PREVIEW_API_URL = 'hooksPreview.invalidApiUrl',
   SHORTCUT_CLAIM_REWARD_FAILED = 'dappShortcuts.claimRewardFailure',
-  UNSUPPORTED_SWAP_TOKENS = 'swapScreen.unsupportedSwapTokens',
 }

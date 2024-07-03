@@ -33,10 +33,7 @@ export enum AppEvents {
 }
 
 export enum HomeEvents {
-  hamburger_tapped = 'hamburger_tapped',
   account_circle_tapped = 'account_circle_tapped',
-  drawer_navigation = 'drawer_navigation',
-  drawer_address_copy = 'drawer_address_copy',
   profile_address_copy = 'profile_address_copy',
   notification_scroll = 'notification_scroll',
   notification_impression = 'notification_impression',
@@ -115,6 +112,7 @@ export enum KeylessBackupEvents {
   cab_progress_completed_continue = 'cab_progress_completed_continue',
   cab_progress_failed_later = 'cab_progress_failed_later',
   cab_progress_failed_manual = 'cab_progress_failed_manual',
+  cab_progress_failed_skip_onboarding = 'cab_progress_failed_skip_onboarding',
   cab_post_encrypted_mnemonic_failed = 'cab_post_encrypted_mnemonic_failed',
   cab_torus_keyshare_timeout = 'cab_torus_keyshare_timeout',
   cab_handle_keyless_backup_failed = 'cab_handle_keyless_backup_failed',
@@ -129,13 +127,11 @@ export enum KeylessBackupEvents {
   cab_phone_verification_help = 'cab_phone_verification_help',
   cab_phone_verification_help_skip = 'cab_phone_verification_help_skip',
   cab_phone_verification_help_go_back = 'cab_phone_verification_help_go_back',
+  cab_phone_verification_help_use_phrase = 'cab_phone_verification_help_use_phrase',
   cab_setup_hashed_keyshares = 'cab_setup_hashed_keyshares',
 }
 
 export enum OnboardingEvents {
-  onboarding_education_scroll = 'onboarding_education_scroll',
-  onboarding_education_step_impression = 'onboarding_education_step_impression',
-
   create_account_start = 'create_account_start',
 
   restore_account_start = 'restore_account_start',
@@ -357,11 +353,7 @@ export enum TransactionEvents {
 }
 
 export enum CeloExchangeEvents {
-  celo_home_info = 'celo_home_info',
-
   celo_withdraw_completed = 'celo_withdraw_completed',
-
-  celo_chart_tapped = 'celo_chart_tapped',
 }
 
 export enum FiatExchangeEvents {
@@ -552,6 +544,7 @@ export enum DappExplorerEvents {
   dapp_unfavorite = 'dapp_unfavorite',
   dapp_filter = 'dapp_filter',
   dapp_rankings_open = 'dapp_rankings_open',
+  dapp_explore_all = 'dapp_explore_all',
 }
 
 export enum WebViewEvents {
@@ -578,6 +571,7 @@ export enum SwapEvents {
   swap_show_info = 'swap_show_info',
   swap_show_fund_your_wallet = 'swap_show_fund_your_wallet',
   swap_add_funds = 'swap_add_funds',
+  swap_switch_tokens = 'swap_switch_tokens',
 }
 
 export enum CeloNewsEvents {
@@ -675,8 +669,43 @@ export enum JumpstartEvents {
 }
 
 export enum PointsEvents {
-  points_screen_open = 'points_screen_open',
+  points_discover_press = 'points_discover_press',
+  points_intro_dismiss = 'points_intro_dismiss',
+  points_intro_back = 'points_intro_back',
   points_screen_back = 'points_screen_back',
   points_screen_card_press = 'points_screen_card_press',
   points_screen_card_cta_press = 'points_screen_card_cta_press',
+  points_screen_activity_press = 'points_screen_activity_press',
+  points_screen_activity_try_again_press = 'points_screen_activity_try_again_press',
+  points_screen_activity_fetch_more = 'points_screen_activity_fetch_more',
+  points_screen_activity_learn_more_press = 'points_screen_activity_learn_more_press',
+}
+
+export enum EarnEvents {
+  earn_cta_press = 'earn_cta_press',
+  earn_add_crypto_action_press = 'earn_add_crypto_action_press',
+  earn_deposit_provider_info_press = 'earn_deposit_provider_info_press',
+  earn_deposit_terms_and_conditions_press = 'earn_deposit_terms_and_conditions_press',
+  earn_deposit_complete = 'earn_deposit_complete',
+  earn_deposit_cancel = 'earn_deposit_cancel',
+  earn_deposit_submit_start = 'earn_deposit_submit_start',
+  earn_deposit_submit_success = 'earn_deposit_submit_success',
+  earn_deposit_submit_error = 'earn_deposit_submit_error',
+  earn_deposit_submit_cancel = 'earn_deposit_submit_cancel',
+  earn_view_pools_press = 'earn_view_pools_press',
+  earn_enter_amount_info_press = 'earn_enter_amount_info_press',
+  earn_enter_amount_continue_press = 'earn_enter_amount_continue_press',
+  earn_enter_amount_info_more_pools = 'earn_enter_amount_info_more_pools',
+  earn_exit_pool_press = 'earn_exit_pool_press',
+  earn_deposit_more_press = 'earn_deposit_more_press',
+  earn_deposit_add_gas_press = 'earn_deposit_add_gas_press',
+  earn_feed_item_select = 'earn_feed_item_select',
+  earn_collect_earnings_press = 'earn_collect_earnings_press',
+  earn_withdraw_submit_start = 'earn_withdraw_submit_start',
+  earn_withdraw_submit_success = 'earn_withdraw_submit_success',
+  earn_withdraw_submit_error = 'earn_withdraw_submit_error',
+  earn_withdraw_submit_cancel = 'earn_withdraw_submit_cancel',
+  earn_withdraw_add_gas_press = 'earn_withdraw_add_gas_press',
+  earn_info_learn_press = 'earn_info_learn_press',
+  earn_info_earn_press = 'earn_info_earn_press',
 }

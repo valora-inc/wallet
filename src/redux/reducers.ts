@@ -6,8 +6,8 @@ import { reducer as alert } from 'src/alert/reducer'
 import { appReducer as app } from 'src/app/reducers'
 import superchargeReducer from 'src/consumerIncentives/slice'
 import dappsReducer from 'src/dapps/slice'
+import earnReducer from 'src/earn/slice'
 import { escrowReducer as escrow } from 'src/escrow/reducer'
-import { reducer as exchange } from 'src/exchange/reducer'
 import { reducer as fees } from 'src/fees/reducer'
 import { reducer as fiatExchanges } from 'src/fiatExchanges/reducer'
 import fiatConnectReducer from 'src/fiatconnect/slice'
@@ -20,6 +20,7 @@ import keylessBackupReducer from 'src/keylessBackup/slice'
 import { reducer as localCurrency } from 'src/localCurrency/reducer'
 import { reducer as networkInfo } from 'src/networkInfo/reducer'
 import nftsReducer from 'src/nfts/slice'
+import pointsReducer from 'src/points/slice'
 import positionsReducer from 'src/positions/slice'
 import priceHistoryReducer from 'src/priceHistory/slice'
 import { recipientsReducer as recipients } from 'src/recipients/reducer'
@@ -37,7 +38,6 @@ const appReducer = combineReducers({
   alert,
   send,
   home,
-  exchange,
   transactions,
   web3,
   identity,
@@ -59,6 +59,8 @@ const appReducer = combineReducers({
   nfts: nftsReducer,
   priceHistory: priceHistoryReducer,
   jumpstart: jumpstartReducer,
+  points: pointsReducer,
+  earn: earnReducer,
 })
 
 const rootReducer = (state: RootState | undefined, action: Action): RootState => {

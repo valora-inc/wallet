@@ -31,6 +31,10 @@ import DappKitAccountScreen from 'src/dappkit/DappKitAccountScreen'
 import DappKitSignTxScreen from 'src/dappkit/DappKitSignTxScreen'
 import DappShortcutTransactionRequest from 'src/dapps/DappShortcutTransactionRequest'
 import DappShortcutsRewards from 'src/dapps/DappShortcutsRewards'
+import DappsScreen from 'src/dapps/DappsScreen'
+import EarnCollectScreen from 'src/earn/EarnCollectScreen'
+import EarnEnterAmount from 'src/earn/EarnEnterAmount'
+import EarnInfoScreen from 'src/earn/EarnInfoScreen'
 import EscrowedPaymentListScreen from 'src/escrow/EscrowedPaymentListScreen'
 import ReclaimPaymentConfirmationScreen from 'src/escrow/ReclaimPaymentConfirmationScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
@@ -72,10 +76,8 @@ import SignInWithEmail from 'src/keylessBackup/SignInWithEmail'
 import WalletSecurityPrimer from 'src/keylessBackup/WalletSecurityPrimer'
 import Language from 'src/language/Language'
 import SelectLocalCurrency from 'src/localCurrency/SelectLocalCurrency'
-import DrawerNavigator from 'src/navigator/DrawerNavigator'
 import {
   emptyHeader,
-  headerTransparentWithBack,
   headerWithBackButton,
   noHeader,
   nuxNavigationOptions,
@@ -90,7 +92,6 @@ import NftsInfoCarousel from 'src/nfts/NftsInfoCarousel'
 import ChooseYourAdventure from 'src/onboarding/ChooseYourAdventure'
 import EnableBiometry from 'src/onboarding/registration/EnableBiometry'
 import ImportSelect from 'src/onboarding/registration/ImportSelect'
-import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
 import OnboardingRecoveryPhrase from 'src/onboarding/registration/OnboardingRecoveryPhrase'
 import ProtectWallet from 'src/onboarding/registration/ProtectWallet'
 import RegulatoryTerms from 'src/onboarding/registration/RegulatoryTerms'
@@ -99,6 +100,8 @@ import OnboardingSuccessScreen from 'src/onboarding/success/OnboardingSuccessScr
 import Welcome from 'src/onboarding/welcome/Welcome'
 import PincodeEnter from 'src/pincode/PincodeEnter'
 import PincodeSet from 'src/pincode/PincodeSet'
+import PointsHome from 'src/points/PointsHome'
+import PointsIntro from 'src/points/PointsIntro'
 import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
 import SendConfirmation, { sendConfirmationScreenNavOptions } from 'src/send/SendConfirmation'
@@ -111,7 +114,6 @@ import ValidateRecipientIntro, {
   validateRecipientIntroScreenNavOptions,
 } from 'src/send/ValidateRecipientIntro'
 import SwapScreen from 'src/swap/SwapScreen'
-import AssetsScreen from 'src/tokens/Assets'
 import TokenDetailsScreen from 'src/tokens/TokenDetails'
 import TokenImportScreen from 'src/tokens/TokenImport'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
@@ -122,7 +124,6 @@ import VerificationStartScreen from 'src/verify/VerificationStartScreen'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
 import WalletConnectRequest from 'src/walletConnect/screens/WalletConnectRequest'
 import WebViewScreen from 'src/webview/WebViewScreen'
-import PointsHome from 'src/points/PointsHome'
 
 const TAG = 'Navigator'
 
@@ -170,7 +171,7 @@ const verificationScreens = (Navigator: typeof Stack) => {
       <Navigator.Screen
         name={Screens.VerificationCodeInputScreen}
         component={VerificationCodeInputScreen}
-        options={VerificationCodeInputScreen.navigationOptions}
+        options={nuxNavigationOptions}
       />
     </>
   )
@@ -182,11 +183,6 @@ const nuxScreens = (Navigator: typeof Stack) => (
       name={Screens.Welcome}
       component={Welcome}
       options={Welcome.navigationOptions}
-    />
-    <Navigator.Screen
-      name={Screens.NameAndPicture}
-      component={NameAndPicture}
-      options={NameAndPicture.navOptions}
     />
     <Navigator.Screen
       name={Screens.ProtectWallet}
@@ -291,6 +287,11 @@ const consumerIncentivesScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.DappShortcutsRewards}
       component={DappShortcutsRewards}
+      options={headerWithBackButton}
+    />
+    <Navigator.Screen
+      name={Screens.DappsScreen}
+      component={DappsScreen}
       options={headerWithBackButton}
     />
   </>
@@ -478,7 +479,7 @@ const settingsScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen
       name={Screens.KeylessBackupPhoneCodeInput}
-      options={{ headerStyle: {} }}
+      options={noHeader}
       component={KeylessBackupPhoneCodeInput}
     />
     <Navigator.Screen
@@ -531,13 +532,29 @@ const generalScreens = (Navigator: typeof Stack) => (
       component={ProfileMenu}
       options={ProfileMenu.navigationOptions as NativeStackNavigationOptions}
     />
-    <Navigator.Screen
-      name={Screens.Settings}
-      component={SettingsScreen}
-      options={headerWithBackButton}
-    />
+    <Navigator.Screen name={Screens.Settings} component={SettingsScreen} options={noHeader} />
     <Navigator.Screen name={Screens.Invite} component={Invite} options={noHeader} />
     <Navigator.Screen name={Screens.Support} component={Support} options={headerWithBackButton} />
+  </>
+)
+
+const earnScreens = (Navigator: typeof Stack) => (
+  <>
+    <Navigator.Screen
+      name={Screens.EarnCollectScreen}
+      component={EarnCollectScreen}
+      options={headerWithBackButton}
+    />
+    <Navigator.Screen
+      name={Screens.EarnEnterAmount}
+      component={EarnEnterAmount}
+      options={noHeader}
+    />
+    <Navigator.Screen
+      name={Screens.EarnInfoScreen}
+      component={EarnInfoScreen}
+      options={EarnInfoScreen.navigationOptions}
+    />
   </>
 )
 
@@ -552,18 +569,13 @@ const nftScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.NftsInfoCarousel}
       component={NftsInfoCarousel}
-      options={headerTransparentWithBack}
+      options={NftsInfoCarousel.navigationOptions as NativeStackNavigationOptions}
     />
   </>
 )
 
 const assetScreens = (Navigator: typeof Stack) => (
   <>
-    <Navigator.Screen
-      name={Screens.Assets}
-      component={AssetsScreen}
-      options={AssetsScreen.navigationOptions}
-    />
     <Navigator.Screen
       name={Screens.TokenDetails}
       component={TokenDetailsScreen}
@@ -580,6 +592,7 @@ const assetScreens = (Navigator: typeof Stack) => (
 const pointsScreens = (Navigator: typeof Stack) => (
   <>
     <Navigator.Screen name={Screens.PointsHome} component={PointsHome} options={noHeader} />
+    <Navigator.Screen name={Screens.PointsIntro} component={PointsIntro} options={noHeader} />
   </>
 )
 const mapStateToProps = (state: RootState) => {
@@ -638,7 +651,6 @@ export function MainStackScreen() {
   return (
     <Stack.Navigator initialRouteName={initialRouteName} screenOptions={emptyHeader}>
       <Stack.Screen name={Screens.TabNavigator} component={TabNavigator} options={noHeader} />
-      <Stack.Screen name={Screens.DrawerNavigator} component={DrawerNavigator} options={noHeader} />
       {commonScreens(Stack)}
       {sendScreens(Stack)}
       {nuxScreens(Stack)}
@@ -648,6 +660,7 @@ export function MainStackScreen() {
       {settingsScreens(Stack)}
       {generalScreens(Stack)}
       {swapScreens(Stack)}
+      {earnScreens(Stack)}
       {nftScreens(Stack)}
       {assetScreens(Stack)}
       {pointsScreens(Stack)}

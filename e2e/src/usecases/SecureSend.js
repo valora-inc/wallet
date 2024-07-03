@@ -39,7 +39,7 @@ export default SecureSend = () => {
         newInstance: true,
         permissions: { notifications: 'YES', contacts: 'YES' },
       })
-      await quickOnboarding(SAMPLE_BACKUP_KEY_SINGLE_ADDRESS_VERIFIED)
+      await quickOnboarding({ mnemonic: SAMPLE_BACKUP_KEY_SINGLE_ADDRESS_VERIFIED })
     })
 
     it('Send cUSD to phone number with multiple mappings', async () => {
@@ -68,9 +68,9 @@ export default SecureSend = () => {
       await waitForElementByIdAndTap('cUSDSymbol', 30_000)
 
       // Enter the amount and review
-      await element(by.id('SendEnterAmount/Input')).tap()
-      await element(by.id('SendEnterAmount/Input')).replaceText(AMOUNT_TO_SEND)
-      await element(by.id('SendEnterAmount/Input')).tapReturnKey()
+      await element(by.id('SendEnterAmount/TokenAmountInput')).tap()
+      await element(by.id('SendEnterAmount/TokenAmountInput')).replaceText(AMOUNT_TO_SEND)
+      await element(by.id('SendEnterAmount/TokenAmountInput')).tapReturnKey()
       await element(by.id('SendEnterAmount/ReviewButton')).tap()
 
       // Write a comment.

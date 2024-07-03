@@ -81,7 +81,7 @@ describe('AppInitGate', () => {
 
   it('should update the language if none was set', async () => {
     jest
-      .spyOn(RNLocalize, 'findBestAvailableLanguage')
+      .spyOn(RNLocalize, 'findBestLanguageTag')
       .mockReturnValue({ languageTag: 'de-DE', isRTL: true })
 
     const { getByText, store } = renderAppInitGate(null)

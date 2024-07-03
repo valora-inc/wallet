@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 203,
+          "version": 218,
         },
         "account": {
           "acceptedTerms": false,
@@ -169,7 +169,6 @@ describe('store state', () => {
           "sessionId": "",
           "showNotificationSpotlight": true,
           "showSwapMenuInDrawerMenu": false,
-          "skipVerification": false,
           "superchargeApy": 12,
           "superchargeTokenConfigByToken": {},
           "supportedBiometryType": null,
@@ -188,18 +187,15 @@ describe('store state', () => {
           "mostPopularDappIds": [],
           "recentDappIds": [],
         },
+        "earn": {
+          "depositStatus": "idle",
+          "poolInfo": undefined,
+          "poolInfoFetchStatus": "idle",
+          "withdrawStatus": "idle",
+        },
         "escrow": {
           "isReclaiming": false,
           "sentEscrowedPayments": [],
-        },
-        "exchange": {
-          "history": {
-            "aggregatedExchangeRates": [],
-            "celoGoldExchangeRates": [],
-            "granularity": 60,
-            "lastTimeUpdated": 0,
-            "range": 2592000000,
-          },
         },
         "fees": {
           "estimates": {},
@@ -254,6 +250,7 @@ describe('store state', () => {
           },
           "lastSavedContactsHash": null,
           "secureSendPhoneNumberMapping": {},
+          "shouldRefreshStoredPasswordHash": true,
           "walletToAccountAddress": {},
         },
         "imports": {
@@ -292,6 +289,22 @@ describe('store state', () => {
           "nfts": [],
           "nftsError": null,
           "nftsLoading": false,
+        },
+        "points": {
+          "getHistoryStatus": "idle",
+          "introHasBeenDismissed": false,
+          "nextPageUrl": null,
+          "pendingPointsEvents": [],
+          "pointsBalance": "0",
+          "pointsBalanceStatus": "idle",
+          "pointsConfig": {
+            "activitiesById": {},
+          },
+          "pointsConfigStatus": "idle",
+          "pointsHistory": [],
+          "trackOnceActivities": {
+            "create-wallet": false,
+          },
         },
         "positions": {
           "positions": [],

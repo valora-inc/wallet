@@ -33,7 +33,7 @@ describe('StoreWipRecoverScreen', () => {
       fireEvent.press(getByText('storeRecoveryButton'))
     })
 
-    expect(navigate).toHaveBeenCalledWith(Screens.NameAndPicture)
+    expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet)
     expect(store.getActions()).toEqual([startStoreWipeRecovery(mockAccount)])
   })
 })

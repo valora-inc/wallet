@@ -1,6 +1,6 @@
 import { newKit } from '@celo/contractkit'
-import { ALFAJORES_FORNO_URL, DEFAULT_PIN, EXAMPLE_NAME, SAMPLE_BACKUP_KEY } from '../utils/consts'
 import jestExpect from 'expect'
+import { ALFAJORES_FORNO_URL, DEFAULT_PIN, SAMPLE_BACKUP_KEY } from '../utils/consts'
 const childProcess = require('child_process')
 const fs = require('fs')
 const PNG = require('pngjs').PNG
@@ -148,13 +148,11 @@ export async function waitForElementByIdAndTap(elementId, timeout = 10 * 1000, i
     : await element(by.id(elementId)).atIndex(index).tap()
 }
 
-export function quote(s) {
-  // on ios the command line uses double quotes around the string
-  // while on android it does not, so we add it
-  return device.getPlatform() === 'ios' ? s : `"${s}"`
-}
-
-export async function quickOnboarding(mnemonic = SAMPLE_BACKUP_KEY, cloudBackupEnabled = false) {
+export async function quickOnboarding({
+  mnemonic = SAMPLE_BACKUP_KEY,
+  cloudBackupEnabled = false,
+  stopOnCYA = false,
+} = {}) {
   try {
     // Tap Restore Account
     await element(by.id('RestoreAccountButton')).tap()
@@ -165,10 +163,6 @@ export async function quickOnboarding(mnemonic = SAMPLE_BACKUP_KEY, cloudBackupE
       await expect(element(by.id('AcceptTermsButton'))).toBeVisible()
       await element(by.id('AcceptTermsButton')).tap()
     } catch {}
-
-    // Name and Picture
-    await element(by.id('NameEntry')).replaceText(EXAMPLE_NAME)
-    await element(by.id('NameAndPictureContinueButton')).tap()
 
     // Set pin
     await enterPinUi()
@@ -214,6 +208,13 @@ export async function quickOnboarding(mnemonic = SAMPLE_BACKUP_KEY, cloudBackupE
         'Error trying to skip phone verification step during onboarding, likely due to wallet already being verified'
       )
     }
+
+    // Choose your own adventure (CYA screen)
+    if (stopOnCYA) {
+      await waitForElementId('ChooseYourAdventure/Later')
+      return
+    }
+    await waitForElementByIdAndTap('ChooseYourAdventure/Later')
 
     // Assert on Wallet Home Screen
     await expect(element(by.id('HomeAction-Send'))).toBeVisible()
@@ -278,6 +279,22 @@ export async function scrollIntoView(scrollTo, scrollIn, speed = 350, direction 
   } catch {}
 }
 
+/**
+ * Scrolls to an element by testID within another
+ * @param {string} scrollTo - The element to scroll to by testID.
+ * @param {string} scrollIn - The element to scroll within to by testID.
+ * @param {number} [speed=350] -  The speed at which to scroll
+ * @param {string} [direction='down'] - The direction of which to scroll
+ */
+export async function scrollIntoViewByTestId(scrollTo, scrollIn, speed = 350, direction = 'down') {
+  try {
+    await waitFor(element(by.id(scrollTo)))
+      .toBeVisible()
+      .whileElement(by.id(scrollIn))
+      .scroll(speed, direction)
+  } catch {}
+}
+
 export function getDeviceModel() {
   return device.name.split(/\s(.+)/)[1].replace(/[(]|[)]/g, '')
 }
@@ -327,12 +344,9 @@ export async function confirmTransaction(commentText) {
       .toBeVisible()
       .withTimeout(60 * 1000)
 
-    // getAttributes() for multiple elements only supported on iOS for Detox < 20.12.0
-    if (device.getPlatform() === 'ios') {
-      // Comment should be present in the feed
-      const { elements } = await element(by.id('TransferFeedItem/subtitle')).getAttributes()
-      jestExpect(elements.some((element) => element.text === commentText)).toBeTruthy()
-    }
+    // Comment should be present in the feed
+    const { elements } = await element(by.id('TransferFeedItem/subtitle')).getAttributes()
+    jestExpect(elements.some((element) => element.text === commentText)).toBeTruthy()
 
     // Scroll to transaction
     await waitFor(element(by.text(commentText)))
@@ -430,15 +444,7 @@ export const createCommentText = () => {
   return `${new Date().getTime()}-${parseInt(Math.random() * 100_000)}`
 }
 
-export async function navigateToSettings(navType) {
-  if (navType === 'tab') {
-    await waitForElementByIdAndTap('WalletHome/AccountCircle')
-    await waitForElementByIdAndTap('ProfileMenu/Settings')
-  } else {
-    await waitForElementId('Hamburger')
-    await element(by.id('Hamburger')).tap()
-    await scrollIntoView('Settings', 'SettingsScrollView')
-    await waitForElementId('Settings')
-    await element(by.id('Settings')).tap()
-  }
+export async function navigateToSettings() {
+  await waitForElementByIdAndTap('WalletHome/AccountCircle')
+  await waitForElementByIdAndTap('ProfileMenu/Settings')
 }

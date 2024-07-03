@@ -17,7 +17,7 @@ jobs:
     # If it takes longer it usually fails, so no need to pay for more
     timeout-minutes: 25
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set env
         run: |
           ANDROID_HOME="$HOME/android-tools"
@@ -88,19 +88,19 @@ jobs:
           --device-boot-args="-snapshot ci_boot"
       - name: Publish Android JUnit Report
         if: always()
-        uses: mikepenz/action-junit-report@v3
+        uses: mikepenz/action-junit-report@v4
         with:
           check_name: Android (${{ inputs.android-api-level }}) e2e Test Report
           report_paths: 'e2e/test-results/junit.xml'
       - name: 'Upload Android E2E Artifacts'
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: android-${{ inputs.android-api-level }}-e2e-artifact
           path: e2e/artifacts
       - name: 'Upload Android E2E HTML Report'
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: android-${{ inputs.android-api-level }}-e2e-test-report
           path: e2e/test-results

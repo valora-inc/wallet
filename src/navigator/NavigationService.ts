@@ -20,8 +20,6 @@ import {
   requestPincodeInput,
 } from 'src/pincode/authentication'
 import { store } from 'src/redux/store'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import { isUserCancelledError } from 'src/storage/keychain'
 import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
@@ -225,13 +223,40 @@ export async function isBottomSheetVisible(screen: Screens) {
 export function navigateHome(fromModal?: boolean) {
   const timeout = fromModal && Platform.OS === 'ios' ? 500 : 0
   setTimeout(() => {
-    getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)
-      ? navigateClearingStack(Screens.TabNavigator, { initialScreen: Screens.TabHome })
-      : navigateClearingStack(Screens.DrawerNavigator, { initialScreen: Screens.WalletHome })
+    navigateClearingStack(Screens.TabNavigator, { initialScreen: Screens.TabHome })
   }, timeout)
 }
 
 export function navigateToError(errorMessage: string, error?: Error) {
   Logger.debug(`${TAG}@navigateToError`, `Navigating to error screen: ${errorMessage}`, error)
   navigate(Screens.ErrorScreen, { errorMessage })
+}
+
+/**
+ * Helper to navigate to home and then to another screen. Used in the CYA
+ * screen. This doesn't work for bottom sheet screens.
+ */
+export function navigateHomeAndThenToScreen<RouteName extends keyof StackParamList>(
+  ...args: undefined extends StackParamList[RouteName]
+    ? [RouteName] | [RouteName, StackParamList[RouteName]]
+    : [RouteName, StackParamList[RouteName]]
+) {
+  const [routeName, params] = args
+  ensureNavigator()
+    .then(() => {
+      Logger.debug(`${TAG}@navigateHomeAndThenToScreen`, `Dispatch ${routeName}`)
+
+      navigationRef.current?.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [
+            { name: Screens.TabNavigator, params: { initialScreen: Screens.TabHome } },
+            { name: routeName, params },
+          ],
+        })
+      )
+    })
+    .catch((reason) => {
+      Logger.error(`${TAG}@navigateHomeAndThenToScreen`, 'Navigation failure', reason)
+    })
 }

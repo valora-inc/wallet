@@ -1,6 +1,10 @@
-import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
+import {
+  StatsigDynamicConfigs,
+  StatsigExperiments,
+  StatsigFeatureGates,
+  StatsigParameter,
+} from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
-import { PointsMetadata } from 'src/points/types'
 import networkConfig from 'src/web3/networkConfig'
 
 export const FeatureGates = {
@@ -15,7 +19,6 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_MULTICHAIN_BETA_SCREEN]: false,
   [StatsigFeatureGates.SHOW_BETA_TAG]: false,
   [StatsigFeatureGates.SAVE_CONTACTS]: false,
-  [StatsigFeatureGates.USE_PRICE_HISTORY_FROM_BLOCKCHAIN_API]: false,
   [StatsigFeatureGates.SHOW_GET_STARTED]: false,
   [StatsigFeatureGates.CLEVERTAP_INBOX]: false,
   [StatsigFeatureGates.SHOW_SWAP_TOKEN_FILTERS]: false,
@@ -23,20 +26,17 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_NFT_CELEBRATION]: false,
   [StatsigFeatureGates.SHOW_NFT_REWARD]: false,
   [StatsigFeatureGates.SHOW_JUMPSTART_SEND]: false,
-  [StatsigFeatureGates.USE_TAB_NAVIGATOR]: false,
   [StatsigFeatureGates.SHOW_POINTS]: false,
-}
+  [StatsigFeatureGates.SHOW_STABLECOIN_EARN]: false,
+  [StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES]: false,
+  [StatsigFeatureGates.SHOW_CASH_IN_TOKEN_FILTERS]: false,
+  [StatsigFeatureGates.SHOW_CAB_IN_ONBOARDING]: false,
+  [StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS]: false,
+  [StatsigFeatureGates.SHOW_ONBOARDING_PHONE_VERIFICATION]: true,
+} satisfies { [key in StatsigFeatureGates]: boolean }
 
 export const ExperimentConfigs = {
   // NOTE: the keys of defaultValues MUST be parameter names
-  [StatsigExperiments.CHOOSE_YOUR_ADVENTURE]: {
-    experimentName: StatsigExperiments.CHOOSE_YOUR_ADVENTURE,
-    defaultValues: {
-      onboardingNameScreenEnabled: true,
-      chooseAdventureEnabled: false,
-      cashInBottomSheetEnabled: true,
-    },
-  },
   [StatsigExperiments.DAPP_RANKINGS]: {
     experimentName: StatsigExperiments.DAPP_RANKINGS,
     defaultValues: {
@@ -49,6 +49,17 @@ export const ExperimentConfigs = {
       swapBuyAmountEnabled: true,
     },
   },
+  [StatsigExperiments.ONBOARDING_TERMS_AND_CONDITIONS]: {
+    experimentName: StatsigExperiments.ONBOARDING_TERMS_AND_CONDITIONS,
+    defaultValues: {
+      variant: 'control' as 'control' | 'colloquial_terms' | 'checkbox',
+    },
+  },
+} satisfies {
+  [key in StatsigExperiments]: {
+    experimentName: key
+    defaultValues: { [key: string]: StatsigParameter }
+  }
 }
 
 export const DynamicConfigs = {
@@ -77,6 +88,8 @@ export const DynamicConfigs = {
       showWalletConnect: [networkConfig.defaultNetworkId],
       showApprovalTxsInHomefeed: [],
       showNfts: [networkConfig.defaultNetworkId],
+      showPositions: [networkConfig.defaultNetworkId],
+      showShortcuts: [networkConfig.defaultNetworkId],
     },
   },
   [StatsigDynamicConfigs.DAPP_WEBVIEW_CONFIG]: {
@@ -89,6 +102,7 @@ export const DynamicConfigs = {
     configName: StatsigDynamicConfigs.SWAP_CONFIG,
     defaultValues: {
       maxSlippagePercentage: '0.3',
+      enableAppFee: false,
       popularTokenIds: [] as string[],
     },
   },
@@ -102,7 +116,11 @@ export const DynamicConfigs = {
     configName: StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG,
     defaultValues: {
       jumpstartContracts: {} as {
-        [key in NetworkId]?: { contractAddress?: string; depositERC20GasEstimate: string }
+        [key in NetworkId]?: {
+          contractAddress?: string
+          depositERC20GasEstimate: string
+          retiredContractAddresses?: string[]
+        }
       },
       maxAllowedSendAmountUsd: 100,
     },
@@ -116,10 +134,22 @@ export const DynamicConfigs = {
       rewardReminderDate: new Date(0).toISOString(),
     },
   },
-  [StatsigDynamicConfigs.POINTS_CONFIG]: {
-    configName: StatsigDynamicConfigs.POINTS_CONFIG,
+  [StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG]: {
+    configName: StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG,
     defaultValues: {
-      pointsMetadata: [] as PointsMetadata[],
+      providerName: 'Aave',
+      providerLogoUrl: '',
+      providerTermsAndConditionsUrl: '',
+      depositGasPadding: 0,
+      approveGasPadding: 0,
+      withdrawGasPadding: 0,
+      rewardsGasPadding: 0,
+      moreAavePoolsUrl: '',
     },
   },
+} satisfies {
+  [key in StatsigDynamicConfigs]: {
+    configName: key
+    defaultValues: { [key: string]: StatsigParameter }
+  }
 }

@@ -10,7 +10,6 @@ import { BuilderHooksEvents, DappShortcutsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { DEFAULT_TESTNET } from 'src/config'
 import i18n from 'src/i18n'
 import { isBottomSheetVisible, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -40,11 +39,11 @@ import {
 import { Position, Shortcut } from 'src/positions/types'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import { sendTransaction } from 'src/transactions/send'
-import { newTransactionContext } from 'src/transactions/types'
+import { NetworkId, newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
@@ -54,6 +53,7 @@ import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
 import { call, put, select, spawn, takeEvery, takeLeading } from 'typed-redux-saga'
+import { DynamicConfigs } from 'src/statsig/constants'
 
 const TAG = 'positions/saga'
 
@@ -71,14 +71,15 @@ function getHooksApiFunctionUrl(
 async function fetchHooks(
   hooksApiUrl: string,
   functionName: 'getPositions' | 'v2/getShortcuts',
-  walletAddress: string
+  walletAddress: string,
+  networkIds: NetworkId[]
 ) {
+  const urlSearchParams = new URLSearchParams({
+    address: walletAddress,
+  })
+  networkIds.forEach((networkId) => urlSearchParams.append('networkIds', networkId))
   const response = await fetchWithTimeout(
-    `${getHooksApiFunctionUrl(hooksApiUrl, functionName)}?` +
-      new URLSearchParams({
-        network: DEFAULT_TESTNET === 'mainnet' ? 'celo' : 'celoAlfajores',
-        address: walletAddress,
-      }),
+    `${getHooksApiFunctionUrl(hooksApiUrl, functionName)}?` + urlSearchParams,
     null,
     POSITIONS_FETCH_TIMEOUT
   )
@@ -90,11 +91,17 @@ async function fetchHooks(
 }
 
 async function fetchPositions(hooksApiUrl: string, walletAddress: string) {
-  return (await fetchHooks(hooksApiUrl, 'getPositions', walletAddress)) as Position[]
+  const networkIds = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
+  ).showPositions
+  return (await fetchHooks(hooksApiUrl, 'getPositions', walletAddress, networkIds)) as Position[]
 }
 
 async function fetchShortcuts(hooksApiUrl: string, walletAddress: string) {
-  return (await fetchHooks(hooksApiUrl, 'v2/getShortcuts', walletAddress)) as Shortcut[]
+  const networkIds = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
+  ).showShortcuts
+  return (await fetchHooks(hooksApiUrl, 'v2/getShortcuts', walletAddress, networkIds)) as Shortcut[]
 }
 
 export function* fetchShortcutsSaga() {
@@ -254,7 +261,7 @@ export function* executeShortcutSaga({ payload }: ReturnType<typeof executeShort
   const trackedShortcutProperties = {
     appName: shortcut.appName,
     appId: shortcut.appId,
-    network: shortcut.network,
+    network: shortcut.networkId,
     shortcutId: shortcut.shortcutId,
     rewardId: payload,
   }

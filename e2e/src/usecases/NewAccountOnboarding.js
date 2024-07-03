@@ -44,7 +44,7 @@ export default NewAccountOnboarding = () => {
       delete: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
       launchArgs: {
-        statsigGateOverrides: `use_tab_navigator=true,show_cloud_account_backup_setup=true,show_cloud_account_backup_restore=true`,
+        statsigGateOverrides: `show_cloud_account_backup_setup=true,show_cloud_account_backup_restore=true,show_onboarding_phone_verification=true`,
       },
     })
     await sleep(5000)
@@ -58,10 +58,6 @@ export default NewAccountOnboarding = () => {
     await expect(element(by.id('AcceptTermsButton'))).toBeVisible()
     await element(by.id('AcceptTermsButton')).tap()
 
-    // Set name and number
-    await element(by.id('NameEntry')).replaceText(EXAMPLE_NAME)
-    await element(by.id('NameAndPictureContinueButton')).tap()
-
     // Set & Verify pin
     await enterPinUi()
     await enterPinUi()
@@ -71,6 +67,9 @@ export default NewAccountOnboarding = () => {
 
     // Skip Phone Number verification
     await element(by.id('PhoneVerificationSkipHeader')).tap()
+
+    // Choose your own adventure (CYA screen)
+    await waitForElementByIdAndTap('ChooseYourAdventure/Later')
 
     // Arrived to Home screen
     await arriveAtHomeScreen()
@@ -138,7 +137,7 @@ export default NewAccountOnboarding = () => {
     await element(by.id('WalletHome/NotificationBell')).tap()
     await expect(element(by.text('Back up now'))).not.toExist()
     await element(by.id('BackChevron')).tap()
-    await navigateToSettings('tab')
+    await navigateToSettings()
     await waitForElementId('RecoveryPhrase')
     await element(by.id('RecoveryPhrase')).tap()
     await enterPinUi()
@@ -158,11 +157,12 @@ export default NewAccountOnboarding = () => {
     await device.uninstallApp()
     await device.installApp()
     await launchApp({
+      newInstance: true,
       launchArgs: {
-        statsigGateOverrides: `use_tab_navigator=true,show_cloud_account_backup_setup=true,show_cloud_account_backup_restore=true`,
+        statsigGateOverrides: `show_cloud_account_backup_setup=true,show_cloud_account_backup_restore=true,show_onboarding_phone_verification=true`,
       },
     })
-    await quickOnboarding(testRecoveryPhrase, true)
+    await quickOnboarding({ mnemonic: testRecoveryPhrase, cloudBackupEnabled: true })
     await waitForElementByIdAndTap('WalletHome/AccountCircle')
     await scrollIntoView('Account Address', 'SettingsScrollView')
     const addressString = '0x ' + getAddressChunks(testAccountAddress).join(' ')

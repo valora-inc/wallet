@@ -10,8 +10,6 @@ assignees: ''
 
 Have an issue that needs support, e.g. transaction issues specific to an account? Contact our support team in-app, the preferred method, by shaking your device or navigating to: ☰ > (?) Help > Contact. Alternatively, contact support from our website 👉 https://valoraapp.com/support
 
-Have a question about development? Join our Discord 👉 https://discord.gg/7tKnCbHv5j
-
 As an open source project - it may take some time for your issue to be addressed. Please be patient and we will respond as soon as we can. 🙏 -->
 
 ### Current behavior

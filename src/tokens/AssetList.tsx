@@ -1,4 +1,3 @@
-import { useHeaderHeight } from '@react-navigation/elements'
 import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -12,7 +11,6 @@ import {
   View,
 } from 'react-native'
 import Animated from 'react-native-reanimated'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { hideWalletBalancesSelector } from 'src/app/selectors'
@@ -84,26 +82,20 @@ export default function AssetList({
   activeTab,
   listHeaderHeight,
   handleScroll,
-  isWalletTab,
 }: {
   activeTab: AssetTabType
   listHeaderHeight: number
   handleScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void
-  // TODO(act-1133): temporary parameter while we build the tab navigator, should be cleaned up
-  // when we remove the drawer
-  isWalletTab?: boolean
 }) {
   const dispatch = useDispatch()
   const { t } = useTranslation()
-  const insets = useSafeAreaInsets()
-  const headerHeight = useHeaderHeight()
 
   const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
   const tokens = useSelector((state) =>
     sortedTokensWithBalanceOrShowZeroBalanceSelector(state, supportedNetworkIds)
   )
 
-  const hideWalletBalances = useSelector(hideWalletBalancesSelector) && isWalletTab
+  const hideWalletBalances = useSelector(hideWalletBalancesSelector)
 
   const positions = useSelector(positionsSelector)
   const positionSections = useMemo(() => {
@@ -169,7 +161,7 @@ export default function AssetList({
       // Ideally we wouldn't need the index here, but we need to differentiate
       // between positions with the same address (e.g. Uniswap V3 pool NFTs)
       // We may want to consider adding a unique identifier to the position type.
-      return `${activeTab}-${item.appId}-${item.network}-${item.address}-${index}`
+      return `${activeTab}-${item.appId}-${item.networkId}-${item.address}-${index}`
     } else if ('balance' in item) {
       return `${activeTab}-${item.tokenId}`
     } else {
@@ -195,7 +187,7 @@ export default function AssetList({
             ErrorComponent={
               <View style={styles.nftsErrorView}>
                 <ImageErrorIcon />
-                {item.metadata?.name && (
+                {!!item.metadata?.name && (
                   <Text numberOfLines={2} style={styles.nftsNoMetadataText}>
                     {item.metadata.name}
                   </Text>
@@ -272,20 +264,12 @@ export default function AssetList({
   }
 
   const showImportTokenFooter =
-    isWalletTab &&
-    activeTab === AssetTabType.Tokens &&
-    getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW)
+    activeTab === AssetTabType.Tokens && getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW)
 
   return (
     <AnimatedSectionList
       contentContainerStyle={[
-        // TODO (ACT-1133): remove conditional and headerHeight
-        // Only needed on Android with DrawerTopBar; headerHeight is 0 on iOS
-        { minHeight: variables.height + (isWalletTab ? 0 : headerHeight) },
-        {
-          paddingBottom: isWalletTab ? 0 : insets.bottom,
-          opacity: listHeaderHeight > 0 ? 1 : 0,
-        },
+        { minHeight: variables.height, opacity: listHeaderHeight > 0 ? 1 : 0 },
         activeTab === AssetTabType.Collectibles &&
           !nftsError &&
           nfts.length > 0 &&

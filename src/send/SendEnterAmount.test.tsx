@@ -11,10 +11,9 @@ import { RecipientType } from 'src/recipients/recipient'
 import SendEnterAmount from 'src/send/SendEnterAmount'
 import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
 import { getDynamicConfigParams } from 'src/statsig'
-import { StoredTokenBalance, TokenBalance } from 'src/tokens/slice'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import MockedNavigator from 'test/MockedNavigator'
-import { createMockStore } from 'test/utils'
+import { createMockStore, mockStoreBalancesToTokenBalances } from 'test/utils'
 import {
   mockAccount,
   mockCeloAddress,
@@ -55,16 +54,6 @@ const mockPrepareTransactionsResultPossible: PreparedTransactionsPossible = {
   feeCurrency: mockCeloTokenBalance,
 }
 
-const mockStoreBalancesToTokenBalances = (storeBalances: StoredTokenBalance[]): TokenBalance[] => {
-  return storeBalances.map(
-    (token): TokenBalance => ({
-      ...token,
-      balance: new BigNumber(token.balance ?? 0),
-      priceUsd: new BigNumber(token.priceUsd ?? 0),
-      lastKnownPriceUsd: token.priceUsd ? new BigNumber(token.priceUsd) : null,
-    })
-  )
-}
 const tokenBalances = {
   [mockCeloTokenId]: { ...mockTokenBalances[mockCeloTokenId], balance: '10' },
   [mockCusdTokenId]: { ...mockTokenBalances[mockCusdTokenId], balance: '10' },
@@ -130,7 +119,7 @@ describe('SendEnterAmount', () => {
       </Provider>
     )
 
-    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '.25')
+    fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '.25')
 
     await waitFor(() => expect(refreshPreparedTransactionsSpy).toHaveBeenCalledTimes(1))
     expect(refreshPreparedTransactionsSpy).toHaveBeenCalledWith({
@@ -159,17 +148,17 @@ describe('SendEnterAmount', () => {
       </Provider>
     )
 
-    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '8')
+    fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '8')
 
     await waitFor(() => expect(getByText('review')).not.toBeDisabled())
     fireEvent.press(getByText('review'))
 
     await waitFor(() => expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_amount_continue, {
-      amountInUsd: null,
+      amountInUsd: '106.01',
       isScan: false,
       localCurrency: 'PHP',
-      localCurrencyAmount: '140.9891060477188235021376',
+      localCurrencyAmount: '140.99',
       localCurrencyExchangeRate: '1.33',
       networkId: 'celo-alfajores',
       origin: 'app_send_flow',
@@ -178,6 +167,7 @@ describe('SendEnterAmount', () => {
       underlyingAmount: '8',
       underlyingTokenAddress: mockCeloAddress,
       underlyingTokenSymbol: 'CELO',
+      amountEnteredIn: 'token',
     })
     expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
       origin: params.origin,

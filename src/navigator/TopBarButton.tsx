@@ -57,8 +57,7 @@ export type TopBarIconButtonProps = CommonProps & {
 }
 
 /**
- * Please avoid use in new header icons
- * TODO: ACT-1134 alternative component
+ * Please avoid use in new header icons - use TopBarIconButtonV2 instead
  * @deprecated
  */
 export function TopBarIconButton(props: TopBarIconButtonProps) {

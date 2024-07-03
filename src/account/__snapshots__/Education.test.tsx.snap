@@ -105,10 +105,7 @@ exports[`Education renders correctly 1`] = `
   <View
     style={
       {
-        "alignItems": "center",
         "flex": 1,
-        "flexWrap": "wrap",
-        "justifyContent": "center",
         "paddingBottom": 24,
       }
     }
@@ -183,95 +180,101 @@ exports[`Education renders correctly 1`] = `
     </RCTScrollView>
     <View
       style={
-        [
-          {
-            "flexDirection": "row",
-          },
-          undefined,
-        ]
+        {
+          "paddingHorizontal": 16,
+        }
       }
     >
       <View
         style={
           [
             {
-              "overflow": "hidden",
+              "flexDirection": "column",
             },
-            {
-              "borderRadius": 100,
-            },
+            undefined,
           ]
         }
       >
         <View
-          accessibilityState={
-            {
-              "busy": undefined,
-              "checked": undefined,
-              "disabled": undefined,
-              "expanded": undefined,
-              "selected": undefined,
-            }
-          }
-          accessibilityValue={
-            {
-              "max": undefined,
-              "min": undefined,
-              "now": undefined,
-              "text": undefined,
-            }
-          }
-          accessible={true}
-          focusable={true}
-          nativeBackgroundAndroid={
-            {
-              "attribute": "selectableItemBackground",
-              "rippleRadius": undefined,
-              "type": "ThemeAttrAndroid",
-            }
-          }
-          onClick={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
           style={
             [
               {
-                "alignItems": "center",
-                "backgroundColor": "#1AB775",
-                "flexDirection": "row",
-                "height": 48,
-                "justifyContent": "center",
-                "minWidth": 120,
-                "opacity": undefined,
-                "paddingHorizontal": 24,
-                "paddingVertical": 5,
+                "overflow": "hidden",
               },
               {
-                "backgroundColor": "#EEB93C",
+                "borderRadius": 100,
               },
             ]
           }
-          testID="Education/progressButton"
         >
-          <Text
-            maxFontSizeMultiplier={1}
-            style={
+          <View
+            accessibilityState={
               {
-                "color": "#FFFFFF",
-                "fontFamily": "Inter-SemiBold",
-                "fontSize": 16,
-                "lineHeight": 22,
-                "marginLeft": 0,
-                "marginRight": 0,
+                "busy": undefined,
+                "checked": undefined,
+                "disabled": undefined,
+                "expanded": undefined,
+                "selected": undefined,
               }
             }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
+              }
+            }
+            accessible={true}
+            focusable={true}
+            nativeBackgroundAndroid={
+              {
+                "attribute": "selectableItemBackground",
+                "rippleRadius": undefined,
+                "type": "ThemeAttrAndroid",
+              }
+            }
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              [
+                {
+                  "alignItems": "center",
+                  "backgroundColor": "#2E3338",
+                  "flexDirection": "row",
+                  "flexGrow": 1,
+                  "height": 48,
+                  "justifyContent": "center",
+                  "opacity": 1,
+                  "paddingHorizontal": 24,
+                  "paddingVertical": 5,
+                },
+                undefined,
+              ]
+            }
+            testID="Education/progressButton"
           >
-            Done
-          </Text>
+            <Text
+              maxFontSizeMultiplier={1}
+              style={
+                {
+                  "color": "#FFFFFF",
+                  "fontFamily": "Inter-SemiBold",
+                  "fontSize": 16,
+                  "lineHeight": 24,
+                  "marginLeft": 0,
+                  "marginRight": 0,
+                }
+              }
+            >
+              Done
+            </Text>
+          </View>
         </View>
       </View>
     </View>

@@ -1,17 +1,9 @@
 import { debounce } from 'lodash'
 import React, { ReactNode, useCallback } from 'react'
-import {
-  ActivityIndicator,
-  StyleProp,
-  StyleSheet,
-  Text,
-  TextStyle,
-  View,
-  ViewStyle,
-} from 'react-native'
+import { ActivityIndicator, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import Touchable from 'src/components/Touchable'
 import colors, { Colors } from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { vibrateInformative } from 'src/styles/hapticFeedback'
 
 const BUTTON_TAP_DEBOUNCE_TIME = 300 // milliseconds
@@ -23,10 +15,7 @@ const DEBOUNCE_OPTIONS = {
 export enum BtnTypes {
   PRIMARY = 'Primary',
   SECONDARY = 'Secondary',
-  SECONDARY_WHITE_BG = 'SecondaryWhiteBg',
-  ONBOARDING = 'Onboarding',
   ONBOARDING_SECONDARY = 'OnboardingSecondary',
-  GRAY_WITH_BORDER = 'GrayWithBorder',
 }
 
 export enum BtnSizes {
@@ -51,7 +40,6 @@ export interface ButtonProps {
   testID?: string
   touchableStyle?: StyleProp<ViewStyle>
   iconMargin?: number
-  fontStyle?: TextStyle
 }
 
 export default React.memo(function Button(props: ButtonProps) {
@@ -70,7 +58,6 @@ export default React.memo(function Button(props: ButtonProps) {
     loadingColor,
     touchableStyle,
     iconMargin = 4,
-    fontStyle = fontStyles.regular600,
   } = props
 
   // Debounce onPress event so that it is called once on trigger and
@@ -117,7 +104,7 @@ export default React.memo(function Button(props: ButtonProps) {
                 maxFontSizeMultiplier={1}
                 accessibilityLabel={accessibilityLabel}
                 style={{
-                  ...fontStyle, // this has to be before color because the legacy font styles default to colors.dark, which will end up overriding the button type based colors
+                  ...styles.fontStyle,
                   color: textColor,
                   marginLeft: icon && iconPositionLeft ? iconMargin : 0,
                   marginRight: icon && !iconPositionLeft ? iconMargin : 0,
@@ -159,6 +146,9 @@ const styles = StyleSheet.create({
     height: 48,
     flexGrow: 1,
   },
+  fontStyle: {
+    ...typeScale.labelSemiBoldMedium,
+  },
 })
 
 function getColors(type: BtnTypes, disabled: boolean | undefined) {
@@ -169,30 +159,20 @@ function getColors(type: BtnTypes, disabled: boolean | undefined) {
   switch (type) {
     case BtnTypes.PRIMARY:
       textColor = colors.white
-      backgroundColor = disabled ? colors.primaryDisabled : colors.primary
+      backgroundColor = colors.black
+      opacity = disabled ? 0.25 : 1.0
       break
     case BtnTypes.SECONDARY:
-      textColor = disabled ? colors.gray4 : colors.black
-      backgroundColor = colors.onboardingBackground
-      break
-    case BtnTypes.SECONDARY_WHITE_BG:
-      textColor = colors.gray3
-      backgroundColor = colors.white
-      break
-    case BtnTypes.ONBOARDING:
-      textColor = colors.white
-      backgroundColor = colors.successDark
+      textColor = colors.black
+      backgroundColor = colors.gray1
+      borderColor = colors.gray2
       opacity = disabled ? 0.5 : 1.0
       break
+    /** @deprecated TODO(ACT-1200): Remove and replace with GRAY_WITHBORDER*/
     case BtnTypes.ONBOARDING_SECONDARY:
       textColor = colors.successDark
       backgroundColor = colors.white
       opacity = disabled ? 0.5 : 1.0
-      break
-    case BtnTypes.GRAY_WITH_BORDER:
-      textColor = colors.black
-      backgroundColor = colors.gray1
-      borderColor = colors.gray2
       break
   }
 

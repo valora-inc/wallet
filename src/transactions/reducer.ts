@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect'
-import { ActionTypes as ExchangeActionTypes } from 'src/exchange/actions'
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
@@ -57,7 +56,7 @@ const initialState = {
 
 export const reducer = (
   state: State | undefined = initialState,
-  action: ActionTypes | RehydrateAction | ExchangeActionTypes
+  action: ActionTypes | RehydrateAction
 ): State => {
   switch (action.type) {
     case REHYDRATE: {

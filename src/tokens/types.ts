@@ -1,15 +1,16 @@
 import Colors from 'src/styles/colors'
 
-export enum TokenDetailsActionName {
+export enum TokenActionName {
   Send = 'Send',
   Swap = 'Swap',
   Add = 'Add',
   Withdraw = 'Withdraw',
   More = 'More',
+  Transfer = 'Transfer',
 }
 
-export interface TokenDetailsAction {
-  name: TokenDetailsActionName
+export interface TokenAction {
+  name: TokenActionName
   title: string
   details: string
   iconComponent: React.MemoExoticComponent<({ color }: { color: Colors }) => JSX.Element>

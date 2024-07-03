@@ -4,6 +4,7 @@ import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { call } from 'redux-saga/effects'
+import { trackPointsEvent } from 'src/points/slice'
 import { getSupportedNetworkIdsForSend, getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import {
   transactionConfirmed,
@@ -30,6 +31,7 @@ import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { createMockStore } from 'test/utils'
 import {
   mockAccount,
+  mockCeurTokenId,
   mockCusdAddress,
   mockCusdTokenId,
   mockEthTokenId,
@@ -210,6 +212,61 @@ describe('watchPendingTransactions', () => {
           1701102971000
         )
       )
+      .not.put(trackPointsEvent(expect.any(Object))) // transaction reverted, no points
+      .run()
+  })
+
+  it('updates and tracks the pending swap transaction', async () => {
+    const standbySwaptransaction: StandbyTransaction = {
+      __typename: 'TokenExchangeV3',
+      context: {
+        id: transactionId,
+      },
+      status: TransactionStatus.Pending,
+      networkId: NetworkId['celo-alfajores'],
+      type: TokenTransactionTypeV2.SwapTransaction,
+      transactionHash,
+      timestamp: 1234,
+      inAmount: {
+        tokenId: mockCeurTokenId,
+        value: 2.93,
+      },
+      outAmount: {
+        tokenId: mockCusdTokenId,
+        value: 2.87,
+      },
+      metadata: {},
+    }
+    await expectSaga(internalWatchPendingTransactionsInNetwork, Network.Celo)
+      .withState(
+        createMockStore({
+          transactions: {
+            standbyTransactions: [standbySwaptransaction],
+          },
+        }).getState()
+      )
+      .provide(createDefaultProviders(Network.Celo))
+      .put(
+        transactionConfirmed(
+          transactionId,
+          {
+            transactionHash,
+            block: '123',
+            status: TransactionStatus.Complete,
+            fees: [],
+          },
+          1701102971000
+        )
+      )
+      .put(
+        trackPointsEvent({
+          activityId: 'swap',
+          transactionHash,
+          networkId: NetworkId['celo-alfajores'],
+          toTokenId: mockCeurTokenId,
+          fromTokenId: mockCusdTokenId,
+        })
+      )
       .run()
   })
 
@@ -243,6 +300,7 @@ describe('watchPendingTransactions', () => {
           1701102971000
         )
       )
+      .not.put(trackPointsEvent(expect.any(Object))) // not a swap transaction
       .run()
   })
 
@@ -302,6 +360,7 @@ describe('watchPendingTransactions', () => {
         ...createDefaultProviders(Network.Celo),
       ])
       .not.put(transactionConfirmed(expect.any(String), expect.any(Object), expect.any(Number)))
+      .not.put(trackPointsEvent(expect.any(Object))) // no receipt, no points
       .run()
   })
 

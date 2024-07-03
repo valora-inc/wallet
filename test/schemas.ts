@@ -10,7 +10,6 @@ import { FeeEstimates } from 'src/fees/reducer'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { KeylessBackupDeleteStatus, KeylessBackupStatus } from 'src/keylessBackup/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { Position } from 'src/positions/types'
 import { updateCachedQuoteParams } from 'src/redux/migrations'
 import { RootState } from 'src/redux/store'
 import { Network, NetworkId, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
@@ -21,6 +20,8 @@ import {
   mockCeurAddress,
   mockCusdAddress,
   mockPositions,
+  mockPositionsLegacy,
+  mockShortcuts,
   mockTestTokenAddress,
 } from 'test/values'
 
@@ -1962,7 +1963,7 @@ export const v103Schema = {
 }
 
 export const v104Schema = {
-  ...(_.omit(v103Schema, ['goldToken', 'stableToken']) as any),
+  ..._.omit(v103Schema, ['goldToken', 'stableToken']),
   _persist: {
     ...v103Schema._persist,
     version: 104,
@@ -2208,7 +2209,7 @@ export const v124Schema = {
     version: 124,
   },
   positions: {
-    positions: mockPositions,
+    positions: mockPositionsLegacy,
     status: 'idle',
   },
 }
@@ -2301,14 +2302,7 @@ export const v131Schema = {
         }
       }
     ),
-    activeDapp: v130Schema.dapps.activeDapp
-      ? {
-          ...v130Schema.dapps.activeDapp,
-          categories: v130Schema.dapps.activeDapp.categories ?? [
-            v130Schema.dapps.activeDapp.categoryId,
-          ],
-        }
-      : null,
+    activeDapp: null,
   },
 }
 
@@ -2320,7 +2314,7 @@ export const v132Schema = {
   },
   positions: {
     ...v131Schema.positions,
-    positions: v131Schema.positions.positions.map((position: Position) => ({
+    positions: v131Schema.positions.positions.map((position: any) => ({
       ...position,
       availableShortcutIds: [],
     })),
@@ -2681,7 +2675,7 @@ export const v159Schema = {
 }
 
 export const v160Schema = {
-  ...(_.omit(v159Schema, 'paymentRequest') as any),
+  ..._.omit(v159Schema, 'paymentRequest'),
   _persist: {
     ...v159Schema._persist,
     version: 160,
@@ -3199,6 +3193,186 @@ export const v203Schema = {
   },
 }
 
+export const v204Schema = {
+  ...v203Schema,
+  _persist: {
+    ...v203Schema._persist,
+    version: 204,
+  },
+  positions: {
+    ...v203Schema.positions,
+    positions: mockPositions,
+    shortcuts: mockShortcuts,
+  },
+}
+
+export const v205Schema = {
+  ...v204Schema,
+  _persist: {
+    ...v204Schema._persist,
+    version: 205,
+  },
+  points: {
+    pointsHistory: [],
+    nextPageUrl: null,
+    getHistoryStatus: 'idle',
+  },
+}
+
+export const v206Schema = {
+  ...v205Schema,
+  _persist: {
+    ...v205Schema._persist,
+    version: 206,
+  },
+  app: _.omit(v205Schema.app, 'skipVerification'),
+}
+
+export const v207Schema = {
+  ...v206Schema,
+  _persist: {
+    ...v206Schema._persist,
+    version: 207,
+  },
+  points: {
+    ...v206Schema.points,
+    pointsConfig: { activitiesById: {} },
+    pointsConfigStatus: 'idle',
+  },
+}
+
+export const v208Schema = {
+  ...v207Schema,
+  _persist: {
+    ...v207Schema._persist,
+    version: 208,
+  },
+  identity: {
+    ...v207Schema.identity,
+    shouldRefreshStoredPasswordHash: true,
+  },
+}
+
+export const v209Schema = {
+  ...v208Schema,
+  _persist: {
+    ...v208Schema._persist,
+    version: 209,
+  },
+  points: {
+    ...v208Schema.points,
+    pendingPointsEvents: [],
+  },
+}
+
+export const v210Schema = {
+  ...v209Schema,
+  _persist: {
+    ...v209Schema._persist,
+    version: 210,
+  },
+  points: {
+    ...v209Schema.points,
+    pointsHistory: [],
+  },
+}
+
+export const v211Schema = {
+  ..._.omit(v210Schema, 'exchange'),
+  _persist: {
+    ...v210Schema._persist,
+    version: 211,
+  },
+}
+
+export const v212Schema = {
+  ...v211Schema,
+  _persist: {
+    ...v211Schema._persist,
+    version: 212,
+  },
+  points: {
+    ...v211Schema.points,
+    pointsBalance: '0',
+    pointsBalanceStatus: 'idle',
+  },
+}
+
+export const v213Schema = {
+  ...v212Schema,
+  _persist: {
+    ...v212Schema._persist,
+    version: 213,
+  },
+  earn: {
+    depositStatus: 'idle',
+  },
+}
+
+export const v214Schema = {
+  ...v213Schema,
+  _persist: {
+    ...v213Schema._persist,
+    version: 214,
+  },
+  points: {
+    ...v213Schema.points,
+    trackOnceActivities: {
+      'create-wallet': false,
+    },
+  },
+}
+
+export const v215Schema = {
+  ...v214Schema,
+  _persist: {
+    ...v214Schema._persist,
+    version: 215,
+  },
+  points: {
+    ...v214Schema.points,
+    introHasBeenDismissed: false,
+  },
+}
+
+export const v216Schema = {
+  ...v215Schema,
+  _persist: {
+    ...v215Schema._persist,
+    version: 216,
+  },
+  earn: {
+    depositStatus: 'idle',
+    withdrawStatus: 'idle',
+  },
+}
+
+export const v217Schema = {
+  ...v216Schema,
+  _persist: {
+    ...v216Schema._persist,
+    version: 217,
+  },
+  points: {
+    ...v216Schema.points,
+    trackOnceActivities: {
+      'create-wallet': false,
+    },
+  },
+}
+
+export const v218Schema = {
+  ...v217Schema,
+  _persist: {
+    ...v217Schema._persist,
+    version: 218,
+  },
+  earn: {
+    ...v217Schema.earn,
+    poolInfoFetchStatus: 'idle',
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v203Schema as Partial<RootState>
+  return v218Schema as Partial<RootState>
 }

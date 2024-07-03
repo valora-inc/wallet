@@ -17,6 +17,8 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { getStoredMnemonic, storeMnemonic } from 'src/backup/utils'
 import i18n from 'src/i18n'
+import { storedPasswordRefreshed } from 'src/identity/actions'
+import { shouldRefreshStoredPasswordHashSelector } from 'src/identity/selectors'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import {
@@ -140,6 +142,7 @@ export async function retrieveOrGeneratePepper(account = DEFAULT_CACHE_ACCOUNT) 
   if (!getCachedPepper(account)) {
     let storedPepper = await retrieveStoredItem(STORAGE_KEYS.PEPPER)
     if (!storedPepper) {
+      Logger.debug(TAG, 'No stored pepper, generating new pepper and storing it to the keychain')
       const randomBytes = await generateSecureRandom(PEPPER_LENGTH)
       const pepper = Buffer.from(randomBytes).toString('hex')
       await storeItem({ key: STORAGE_KEYS.PEPPER, value: pepper })
@@ -395,15 +398,19 @@ export async function requestPincodeInput(
 
 // Confirm pin is correct by checking it against the stored password hash
 export async function checkPin(pin: string, account: string) {
+  const shouldRefreshStoredPasswordHash = shouldRefreshStoredPasswordHashSelector(store.getState())
+
   const hashForPin = await getPasswordHashForPin(pin)
   const correctHash = await retrievePasswordHash(account)
 
-  if (!correctHash) {
-    Logger.warn(`${TAG}@checkPin`, 'No password hash stored. Checking with rpcWallet instead.')
+  if (!correctHash || shouldRefreshStoredPasswordHash) {
+    Logger.warn(`${TAG}@checkPin`, 'Validating pin without stored password hash')
     const password = await getPasswordForPin(pin)
     const unlocked = await ensureCorrectPassword(password, account)
     if (unlocked) {
       await storePasswordHash(hashForPin, account)
+      store.dispatch(storedPasswordRefreshed())
+
       return true
     }
     return false

@@ -51,6 +51,9 @@ import {
 import { TransactionDataInput } from 'src/send/types'
 import { NativeTokenBalance, StoredTokenBalance, TokenBalance } from 'src/tokens/slice'
 import {
+  EarnClaimReward,
+  EarnDeposit,
+  EarnWithdraw,
   NetworkId,
   TokenApproval,
   TokenTransactionTypeV2,
@@ -58,6 +61,7 @@ import {
 } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
+import networkConfig from 'src/web3/networkConfig'
 
 export const nullAddress = '0x0'
 
@@ -126,6 +130,8 @@ export const mockTestTokenAddress = '0x048F47d358EC521a6cf384461d674750a3cB58C8'
 export const mockCrealAddress = '0xE4D517785D091D3c54818832dB6094bcc2744545'.toLowerCase()
 export const mockWBTCAddress = '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599'.toLowerCase()
 export const mockUSDCAddress = '0x94a9d9ac8a22534e3faca9f4e7f2e2cf85d5e4c8'.toLowerCase()
+export const mockAaveArbUsdcAddress = '0x460b97BD498E1157530AEb3086301d5225b91216'.toLowerCase()
+export const mockArbArbAddress = '0x912CE59144191C1204E64559FE8253a0e49E6548'.toLowerCase()
 
 export const mockCusdTokenId = `celo-alfajores:${mockCusdAddress}`
 export const mockCeurTokenId = `celo-alfajores:${mockCeurAddress}`
@@ -136,6 +142,10 @@ export const mockCrealTokenId = `celo-alfajores:${mockCrealAddress}`
 export const mockWBTCTokenId = `celo-alfajores:${mockWBTCAddress}`
 export const mockEthTokenId = 'ethereum-sepolia:native'
 export const mockUSDCTokenId = `ethereum-sepolia:${mockUSDCAddress}`
+export const mockArbEthTokenId = `arbitrum-sepolia:native`
+export const mockOPTokenId = `op-sepolia:native`
+export const mockArbUsdcTokenId = `arbitrum-sepolia:${mockUSDCAddress}`
+export const mockArbArbTokenId = `arbitrum-sepolia:${mockArbArbAddress}`
 
 export const mockQrCodeData2 = {
   address: mockAccount2Invite,
@@ -458,6 +468,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     priceFetchedAt: Date.now(),
     isCashInEligible: true,
     isCashOutEligible: true,
+    isStableCoin: true,
   },
   [mockCusdTokenId]: {
     priceUsd: '1.001',
@@ -476,6 +487,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     showZeroBalance: true,
     isCashInEligible: true,
     isCashOutEligible: true,
+    isStableCoin: true,
   },
   [mockCeloTokenId]: {
     priceUsd: '13.25085583155252100584',
@@ -511,6 +523,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     canTransferWithComment: true,
     priceFetchedAt: Date.now(),
     isCashInEligible: true,
+    isStableCoin: true,
   },
   [mockEthTokenId]: {
     priceUsd: '1500',
@@ -525,6 +538,8 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     balance: '0',
     priceFetchedAt: Date.now(),
     isNative: true,
+    isCashInEligible: true,
+    isCashOutEligible: true,
   },
   [mockUSDCTokenId]: {
     name: 'USDC coin',
@@ -532,10 +547,68 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     tokenId: mockUSDCTokenId,
     address: mockUSDCAddress,
     symbol: 'USDC',
-    decimals: 18,
+    decimals: 6,
     imageUrl: '',
     balance: '0',
     priceUsd: '1',
+    priceFetchedAt: Date.now(),
+    isStableCoin: true,
+    isCashInEligible: true,
+    isCashOutEligible: true,
+  },
+  [mockArbEthTokenId]: {
+    name: 'Ethereum',
+    networkId: NetworkId['arbitrum-sepolia'],
+    tokenId: mockArbEthTokenId,
+    address: null,
+    symbol: 'ETH',
+    decimals: 18,
+    imageUrl:
+      'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+    balance: '0',
+    priceUsd: '1500',
+    isNative: true,
+    priceFetchedAt: Date.now(),
+  },
+  [mockOPTokenId]: {
+    name: 'Ethereum',
+    networkId: NetworkId['op-sepolia'],
+    tokenId: mockOPTokenId,
+    address: null,
+    symbol: 'ETH',
+    decimals: 18,
+    imageUrl:
+      'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+    balance: '0',
+    priceUsd: '1500',
+    isNative: true,
+    priceFetchedAt: Date.now(),
+  },
+  [mockArbUsdcTokenId]: {
+    name: 'USD Coin',
+    networkId: NetworkId['arbitrum-sepolia'],
+    tokenId: mockArbUsdcTokenId,
+    address: mockUSDCAddress,
+    symbol: 'USDC',
+    decimals: 6,
+    imageUrl:
+      'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+    balance: '0',
+    priceUsd: '1',
+    priceFetchedAt: Date.now(),
+  },
+  [mockArbArbTokenId]: {
+    name: 'Arbitrum',
+    networkId: NetworkId['arbitrum-sepolia'],
+    tokenId: mockArbArbTokenId,
+    address: mockArbArbAddress,
+    symbol: 'ARB',
+    decimals: 18,
+    imageUrl:
+      'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ARB.png',
+    balance: '0',
+    priceUsd: '1.2',
+    priceFetchedAt: Date.now(),
   },
 }
 
@@ -559,6 +632,13 @@ export const mockEthTokenBalance: NativeTokenBalance = {
   lastKnownPriceUsd: new BigNumber(1500),
   balance: new BigNumber(0.1),
   isNative: true,
+}
+
+export const mockArbArbTokenBalance: TokenBalance = {
+  ...mockTokenBalances[mockArbArbTokenId],
+  priceUsd: new BigNumber(1.2),
+  lastKnownPriceUsd: new BigNumber(1.2),
+  balance: new BigNumber(0),
 }
 
 export const mockTokenBalancesWithHistoricalPrices = {
@@ -1050,11 +1130,9 @@ export const mockOnboardingProps = {
   recoveringFromStoreWipe: true,
   choseToRestoreAccount: false,
   supportedBiometryType: null,
-  skipVerification: true,
+  skipVerification: false,
   numberAlreadyVerifiedCentrally: false,
-  chooseAdventureEnabled: false,
   showRecoveryPhrase: false,
-  onboardingNameScreenEnabled: true,
   showCloudAccountBackupRestore: false,
 }
 
@@ -1133,7 +1211,8 @@ export const priceHistory = {
   prices,
 }
 
-export const mockPositions: Position[] = [
+export const mockPositionsLegacy = [
+  // positions before hooks API update from 4/2/2024 and wallet redux migration 204
   {
     type: 'app-token',
     network: 'celo',
@@ -1280,11 +1359,169 @@ export const mockPositions: Position[] = [
   },
 ]
 
-export const mockShortcuts: Shortcut[] = [
+export const mockPositions: Position[] = [
+  {
+    type: 'app-token',
+    networkId: NetworkId['celo-mainnet'],
+    address: '0x19a75250c5a3ab22a8662e55a2b90ff9d3334b00',
+    appId: 'ubeswap',
+    symbol: 'ULP',
+    decimals: 18,
+    appName: 'Ubeswap',
+    displayProps: {
+      title: 'MOO / CELO',
+      description: 'Pool',
+      imageUrl: '',
+    },
+    tokens: [
+      {
+        type: 'base-token',
+        networkId: NetworkId['celo-mainnet'],
+        address: '0x17700282592d6917f6a73d0bf8accf4d578c131e',
+        symbol: 'MOO',
+        decimals: 18,
+        priceUsd: '0.006945061569050171',
+        balance: '180.868419020792201216',
+      },
+      {
+        type: 'base-token',
+        networkId: NetworkId['celo-mainnet'],
+        address: '0x471ece3750da237f93b8e339c536989b8978a438',
+        symbol: 'CELO',
+        decimals: 18,
+        priceUsd: '0.6959536890241361',
+        balance: '1.801458498251141632',
+      },
+    ],
+    pricePerShare: ['15.203387577266431', '0.15142650055521278'],
+    priceUsd: '0.21097429445966362',
+    balance: '11.896586737763895000',
+    supply: '29726.018516587721136286',
+    availableShortcutIds: [],
+  },
+  {
+    type: 'app-token',
+    networkId: NetworkId['celo-mainnet'],
+    address: '0x31f9dee850b4284b81b52b25a3194f2fc8ff18cf',
+    appId: 'ubeswap',
+    symbol: 'ULP',
+    decimals: 18,
+    appName: 'Ubeswap',
+    displayProps: {
+      title: 'G$ / cUSD',
+      description: 'Pool',
+      imageUrl: '',
+    },
+    tokens: [
+      {
+        type: 'base-token',
+        networkId: NetworkId['celo-mainnet'],
+        address: '0x62b8b11039fcfe5ab0c56e502b1c372a3d2a9c7a',
+        symbol: 'G$',
+        decimals: 18,
+        priceUsd: '0.00016235559507324788',
+        balance: '12400.197092864986',
+      },
+      {
+        type: 'base-token',
+        networkId: NetworkId['celo-mainnet'],
+        address: '0x765de816845861e75a25fca122bb6898b8b1282a',
+        symbol: 'cUSD',
+        decimals: 18,
+        priceUsd: '1',
+        balance: '2.066998331535406848',
+      },
+    ],
+    pricePerShare: ['77.49807502864574', '0.012918213362397938'],
+    priceUsd: '0.025500459450704928',
+    balance: '160.006517430032700000',
+    supply: '232.413684885485035933',
+    availableShortcutIds: [],
+  },
+  {
+    type: 'contract-position',
+    networkId: NetworkId['celo-mainnet'],
+    address: '0xda7f463c27ec862cfbf2369f3f74c364d050d93f',
+    appId: 'ubeswap',
+    appName: 'Ubeswap',
+    displayProps: {
+      title: 'CELO / cUSD',
+      description: 'Farm',
+      imageUrl: '',
+    },
+    tokens: [
+      {
+        type: 'app-token',
+        networkId: NetworkId['celo-mainnet'],
+        address: '0x1e593f1fe7b61c53874b54ec0c59fd0d5eb8621e',
+        appId: 'ubeswap',
+        symbol: 'ULP',
+        decimals: 18,
+        appName: 'Ubeswap',
+        displayProps: {
+          title: 'CELO / cUSD',
+          description: 'Pool',
+          imageUrl: '',
+        },
+        tokens: [
+          {
+            type: 'base-token',
+            networkId: NetworkId['celo-mainnet'],
+            address: '0x471ece3750da237f93b8e339c536989b8978a438',
+            symbol: 'CELO',
+            decimals: 18,
+            priceUsd: '0.6959536890241361',
+            balance: '0.950545800159603456', // total USD value = priceUsd * balance = $0.66
+            category: 'claimable',
+          },
+          {
+            type: 'base-token',
+            networkId: NetworkId['celo-mainnet'],
+            address: '0x765de816845861e75a25fca122bb6898b8b1282a',
+            symbol: 'cUSD',
+            decimals: 18,
+            priceUsd: '1',
+            balance: '0.659223169268731392',
+          },
+        ],
+        pricePerShare: ['2.827719585853931', '1.961082008754231'],
+        priceUsd: '3.9290438860550765',
+        balance: '0.336152780111169400',
+        supply: '42744.727037884449180591',
+        availableShortcutIds: [],
+      },
+      {
+        priceUsd: '0.00904673476946796903',
+        type: 'base-token',
+        category: 'claimable',
+        decimals: 18,
+        networkId: NetworkId['celo-mainnet'],
+        balance: '0.098322815093446616', // total USD value = priceUsd * balance = $0.00009
+        symbol: 'UBE',
+        address: '0x00be915b9dcf56a3cbe739d9b9c202ca692409ec',
+      },
+    ],
+    balanceUsd: '1.3207590254762067',
+    availableShortcutIds: ['claim-reward'],
+  },
+]
+
+export const mockShortcutsLegacy = [
   {
     category: 'claim',
     name: 'Claim',
     networks: ['celo'],
+    description: 'Claim rewards for staked liquidity',
+    id: 'claim-reward',
+    appId: 'ubeswap',
+  },
+]
+
+export const mockShortcuts: Shortcut[] = [
+  {
+    category: 'claim',
+    name: 'Claim',
+    networkIds: [NetworkId['celo-mainnet']],
     description: 'Claim rewards for staked liquidity',
     id: 'claim-reward',
     appId: 'ubeswap',
@@ -1436,6 +1673,102 @@ export const mockApprovalTransaction: TokenApproval = {
       },
     },
   ],
+  status: TransactionStatus.Complete,
+}
+
+export const mockEarnClaimRewardTransaction: EarnClaimReward = {
+  type: TokenTransactionTypeV2.EarnClaimReward,
+  __typename: 'EarnClaimReward',
+  amount: {
+    localAmount: undefined,
+    tokenAddress: mockArbArbAddress,
+    tokenId: mockArbArbTokenId,
+    value: '1.5',
+  },
+  block: '211278852',
+  fees: [
+    {
+      amount: {
+        localAmount: undefined,
+        tokenAddress: mockArbArbAddress,
+        tokenId: mockArbArbTokenId,
+        value: '0.00000146037',
+      },
+      type: 'SECURITY_FEE',
+    },
+  ],
+  networkId: NetworkId['arbitrum-sepolia'],
+  providerId: 'aave-v3',
+  timestamp: Date.now(),
+  transactionHash: '0xHASH2',
+  status: TransactionStatus.Complete,
+}
+
+export const mockEarnDepositTransaction: EarnDeposit = {
+  __typename: 'EarnDeposit',
+  inAmount: {
+    localAmount: undefined,
+    tokenAddress: mockAaveArbUsdcAddress,
+    tokenId: networkConfig.aaveArbUsdcTokenId,
+    value: '10',
+  },
+  outAmount: {
+    localAmount: undefined,
+    tokenAddress: '0xdef',
+    tokenId: networkConfig.arbUsdcTokenId,
+    value: '10',
+  },
+  block: '210927567',
+  fees: [
+    {
+      amount: {
+        localAmount: undefined,
+        tokenAddress: mockArbArbAddress,
+        tokenId: mockArbArbTokenId,
+        value: '0.00000284243',
+      },
+      type: 'SECURITY_FEE',
+    },
+  ],
+  networkId: NetworkId['arbitrum-sepolia'],
+  providerId: 'aave-v3',
+  timestamp: Date.now(),
+  transactionHash: '0xHASH1',
+  status: TransactionStatus.Complete,
+  type: TokenTransactionTypeV2.EarnDeposit,
+}
+
+export const mockEarnWithdrawTransaction: EarnWithdraw = {
+  __typename: 'EarnWithdraw',
+  inAmount: {
+    localAmount: undefined,
+    tokenAddress: '0xdef',
+    tokenId: networkConfig.arbUsdcTokenId,
+    value: '1',
+  },
+  outAmount: {
+    localAmount: undefined,
+    tokenAddress: mockAaveArbUsdcAddress,
+    tokenId: networkConfig.aaveArbUsdcTokenId,
+    value: '0.996614',
+  },
+  block: '211276583',
+  fees: [
+    {
+      amount: {
+        localAmount: undefined,
+        tokenAddress: mockArbArbAddress,
+        tokenId: mockArbArbTokenId,
+        value: '0.00000229122',
+      },
+      type: 'SECURITY_FEE',
+    },
+  ],
+  networkId: NetworkId['arbitrum-sepolia'],
+  providerId: 'aave-v3',
+  timestamp: Date.now(),
+  transactionHash: '0xHASH0',
+  type: TokenTransactionTypeV2.EarnWithdraw,
   status: TransactionStatus.Complete,
 }
 

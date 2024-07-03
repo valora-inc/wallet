@@ -17,7 +17,7 @@ export default function IconWithNetworkBadge({ networkId, children }: Props) {
   return (
     <View>
       {children}
-      {networkImageUrl && (
+      {!!networkImageUrl && (
         <FastImage
           source={{
             uri: networkImageUrl,

@@ -188,4 +188,26 @@ describe('JumpstartSendConfirmation', () => {
 
     expect(updatedMockStore.getActions()).toEqual([depositErrorDismissed()])
   })
+
+  it('should dismiss the send status error when entering the screen', () => {
+    const store = createMockStore({
+      jumpstart: {
+        depositStatus: 'error',
+      },
+    })
+    render(
+      <Provider store={store}>
+        <MockedNavigator
+          component={JumpstartSendConfirmation}
+          params={{
+            tokenId: mockCusdTokenId,
+            sendAmount: '12.345',
+            serializablePreparedTransactions,
+          }}
+        />
+      </Provider>
+    )
+
+    expect(store.getActions()).toEqual([depositErrorDismissed()])
+  })
 })

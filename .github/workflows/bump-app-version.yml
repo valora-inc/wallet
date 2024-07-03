@@ -10,34 +10,34 @@ on:
 jobs:
   bump-app-version:
     # this job uses the pre-deploy script and agvtool which is only available on macos
-    runs-on: macos-11
+    runs-on: macos-14
     permissions:
       pull-requests: write
     env:
       BRANCH_NAME: valora-bot/bump-app-version
     steps:
-      - uses: google-github-actions/auth@v1
+      - uses: google-github-actions/auth@v2
         with:
           project_id: celo-mobile-mainnet
           credentials_json: ${{ secrets.MAINNET_SERVICE_ACCOUNT_KEY }}
       - name: Google Secrets
         id: google-secrets
-        uses: google-github-actions/get-secretmanager-secrets@v1.0.1
+        uses: google-github-actions/get-secretmanager-secrets@v2.1.3
         with:
           secrets: |-
             BOT_SSH_KEY:projects/1027349420744/secrets/BOT_SSH_PRIVATE_KEY
             VALORA_BOT_TOKEN:projects/1027349420744/secrets/VALORA_BOT_TOKEN
-      - uses: webfactory/ssh-agent@v0.8.0
+      - uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ steps.google-secrets.outputs.BOT_SSH_KEY }}
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: main
       - uses: ./.github/actions/yarn-install
       - run: yarn ts-node .github/scripts/createAppVersionPr.ts
         env:
           VALORA_BOT_TOKEN: ${{ steps.google-secrets.outputs.VALORA_BOT_TOKEN }}
-      - uses: actions/github-script@v5
+      - uses: actions/github-script@v7
         with:
           script: |
             const allowedUpdatedFiles = [
@@ -48,7 +48,7 @@ jobs:
             ]
             const script = require('.github/scripts/autoApprovePr.js')
             await script({github, context, core, allowedUpdatedFiles})
-      - uses: actions/github-script@v5
+      - uses: actions/github-script@v7
         with:
           github-token: ${{ steps.google-secrets.outputs.VALORA_BOT_TOKEN }}
           script: |

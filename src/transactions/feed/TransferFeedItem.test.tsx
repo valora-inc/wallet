@@ -10,7 +10,6 @@ import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
 import {
   Fee,
@@ -43,6 +42,7 @@ const MOCK_CONTACT = {
   contactId: 'contactId',
   address: MOCK_ADDRESS,
 }
+const mockRetiredJumpstartAdddress = '0xabc'
 
 jest.mock('src/statsig')
 
@@ -68,7 +68,10 @@ describe('TransferFeedItem', () => {
     jest.mocked(getFeatureGate).mockReturnValue(true)
     jest.mocked(getDynamicConfigParams).mockReturnValue({
       jumpstartContracts: {
-        [NetworkId['celo-alfajores']]: { contractAddress: mockJumpstartAdddress },
+        [NetworkId['celo-alfajores']]: {
+          contractAddress: mockJumpstartAdddress,
+          retiredContractAddresses: [mockRetiredJumpstartAdddress],
+        },
       },
     })
   })
@@ -636,28 +639,13 @@ describe('TransferFeedItem', () => {
     })
   })
 
-  it('shows balance when feature gate true, root state hide home balances flag is set', async () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation((featureGate) => featureGate === StatsigFeatureGates.USE_TAB_NAVIGATOR)
-    const { getByTestId } = renderScreen({ storeOverrides: { app: { hideBalances: true } } })
-    expect(getByTestId('TransferFeedItem/amount')).toBeTruthy()
-    expect(getByTestId('TransferFeedItem/tokenAmount')).toBeTruthy()
-  })
-
-  it('hides balance when feature gate false, root state hide home balances flag is set', async () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation((featureGate) => featureGate !== StatsigFeatureGates.USE_TAB_NAVIGATOR)
-    const { queryByTestId } = renderScreen({ storeOverrides: { app: { hideBalances: true } } })
-    expect(queryByTestId('TransferFeedItem/amount')).toBeNull()
-    expect(queryByTestId('TransferFeedItem/tokenAmount')).toBeNull()
-  })
-
-  it('renders correctly for jumpstart deposit', async () => {
+  it.each([
+    { address: mockJumpstartAdddress, addressType: 'current' },
+    { address: mockRetiredJumpstartAdddress, addressType: 'retired' },
+  ])('renders correctly for jumpstart deposit to $addressType contract', async ({ address }) => {
     const { getByTestId } = renderScreen({
       type: TokenTransactionTypeV2.Sent,
-      address: mockJumpstartAdddress,
+      address,
       amount: {
         tokenAddress: mockCusdAddress,
         tokenId: mockCusdTokenId,

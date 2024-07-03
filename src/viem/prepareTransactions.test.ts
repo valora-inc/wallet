@@ -4,7 +4,7 @@ import stableToken from 'src/abis/StableToken'
 import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import { Network, NetworkId } from 'src/transactions/types'
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
-import { publicClient } from 'src/viem/index'
+import { publicClient, valoraPublicClient } from 'src/viem/index'
 import {
   TransactionRequest,
   getEstimatedGasFee,
@@ -42,6 +42,17 @@ jest.mock('viem', () => ({
 jest.mock('viem/actions', () => ({
   ...jest.requireActual('viem/actions'),
   estimateGas: jest.fn(),
+}))
+jest.mock('src/viem/index', () => ({
+  publicClient: {
+    celo: {} as unknown as jest.Mocked<(typeof publicClient)[Network.Celo]>,
+    arbitrum: {} as unknown as jest.Mocked<(typeof publicClient)[Network.Arbitrum]>,
+    ethereum: {} as unknown as jest.Mocked<(typeof publicClient)[Network.Ethereum]>,
+  },
+  valoraPublicClient: {
+    celo: {} as unknown as jest.Mocked<(typeof publicClient)[Network.Celo]>,
+    arbitrum: {} as unknown as jest.Mocked<(typeof publicClient)[Network.Arbitrum]>,
+  },
 }))
 
 beforeEach(() => {
@@ -178,7 +189,7 @@ describe('prepareTransactions module', () => {
       })
       mocked(estimateGas).mockResolvedValue(BigInt(1_000))
 
-      // max gas fee is 10 * 10k = 100k units, too high for either fee currency
+      // max gas fee is 100 * 1k = 100k units, too high for either fee currency
 
       const result = await prepareTransactions({
         feeCurrencies: mockFeeCurrencies,
@@ -196,6 +207,47 @@ describe('prepareTransactions module', () => {
       expect(result).toStrictEqual({
         type: 'not-enough-balance-for-gas',
         feeCurrencies: mockFeeCurrencies,
+      })
+    })
+    it("returns a 'possible' result when the balances for feeCurrencies are too low to cover the fee but isGasSubsidized is true", async () => {
+      mocked(estimateFeesPerGas).mockResolvedValue({
+        maxFeePerGas: BigInt(100),
+        maxPriorityFeePerGas: BigInt(2),
+        baseFeePerGas: BigInt(50),
+      })
+      mocked(estimateGas).mockResolvedValue(BigInt(1_000))
+
+      // max gas fee is 100 * 1k = 100k units, too high for either fee currency
+
+      const result = await prepareTransactions({
+        feeCurrencies: mockFeeCurrencies,
+        spendToken: mockSpendToken,
+        spendTokenAmount: new BigNumber(45_000),
+        decreasedAmountGasFeeMultiplier: 1,
+        baseTransactions: [
+          {
+            from: '0xfrom' as Address,
+            to: '0xto' as Address,
+            data: '0xdata',
+          },
+        ],
+        isGasSubsidized: true,
+      })
+      expect(result).toStrictEqual({
+        type: 'possible',
+        feeCurrency: mockFeeCurrencies[0],
+        transactions: [
+          {
+            from: '0xfrom',
+            to: '0xto',
+            data: '0xdata',
+
+            gas: BigInt(1000),
+            maxFeePerGas: BigInt(100),
+            maxPriorityFeePerGas: BigInt(2),
+            _baseFeePerGas: BigInt(50),
+          },
+        ],
       })
     })
     it("returns a 'not-enough-balance-for-gas' result when gas estimation throws error due to insufficient funds", async () => {
@@ -302,6 +354,46 @@ describe('prepareTransactions module', () => {
         estimatedGasFeeInDecimal: new BigNumber('65'), // 15k + 50k non-native gas token buffer / 1000 feeCurrency1 decimals
         feeCurrency: mockFeeCurrencies[1],
         decreasedSpendAmount: new BigNumber(4.35), // 70.0 balance minus maxGasFee
+      })
+    })
+    it("returns a 'possible' result when spending the exact max amount of a feeCurrency, and no other feeCurrency has enough balance to pay for the fee and isGasSubsidized is true", async () => {
+      mocked(estimateFeesPerGas).mockResolvedValue({
+        maxFeePerGas: BigInt(1),
+        maxPriorityFeePerGas: BigInt(2),
+        baseFeePerGas: BigInt(1),
+      })
+
+      const result = await prepareTransactions({
+        feeCurrencies: mockFeeCurrencies,
+        spendToken: mockFeeCurrencies[1],
+        spendTokenAmount: mockFeeCurrencies[1].balance.shiftedBy(mockFeeCurrencies[1].decimals),
+        decreasedAmountGasFeeMultiplier: 1.01,
+        isGasSubsidized: true,
+        baseTransactions: [
+          {
+            from: '0xfrom' as Address,
+            to: '0xto' as Address,
+            data: '0xdata',
+            _estimatedGasUse: BigInt(50),
+            gas: BigInt(15_000),
+          },
+        ],
+      })
+      expect(result).toStrictEqual({
+        type: 'possible',
+        feeCurrency: mockFeeCurrencies[0],
+        transactions: [
+          {
+            _baseFeePerGas: BigInt(1),
+            _estimatedGasUse: BigInt(50),
+            from: '0xfrom',
+            gas: BigInt(15_000),
+            maxFeePerGas: BigInt(1),
+            maxPriorityFeePerGas: BigInt(2),
+            to: '0xto',
+            data: '0xdata',
+          },
+        ],
       })
     })
     it("returns a 'need-decrease-spend-amount-for-gas' result when spending close to the max amount of a feeCurrency, and no other feeCurrency has enough balance to pay for the fee", async () => {
@@ -757,6 +849,32 @@ describe('prepareTransactions module', () => {
           _estimatedGasUse: undefined,
         },
       ])
+    })
+    it.each([
+      { client: 'valora public', expectedClient: valoraPublicClient },
+      { client: 'public', expectedClient: publicClient },
+    ])('uses the $client client for estimating gas', async ({ client, expectedClient }) => {
+      mocked(estimateFeesPerGas).mockResolvedValue({
+        maxFeePerGas: BigInt(10),
+        maxPriorityFeePerGas: BigInt(2),
+        baseFeePerGas: BigInt(5),
+      })
+      mocked(estimateGas).mockResolvedValue(BigInt(123))
+      await tryEstimateTransactions(
+        [{ from: '0x123' }],
+        { ...mockFeeCurrencies[0], networkId: NetworkId['arbitrum-sepolia'] },
+        client === 'valora public'
+      )
+      expect(estimateGas).toHaveBeenCalledWith(expectedClient[Network.Arbitrum], expect.anything())
+    })
+    it('throws if no valora public client exists', async () => {
+      await expect(
+        tryEstimateTransactions(
+          [{ from: '0x123' }],
+          { ...mockFeeCurrencies[0], networkId: NetworkId['ethereum-sepolia'] },
+          true
+        )
+      ).rejects.toThrowError('Valora transport not available for network ethereum')
     })
   })
   describe('getMaxGasFee', () => {

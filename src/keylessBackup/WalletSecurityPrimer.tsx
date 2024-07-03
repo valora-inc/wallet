@@ -8,7 +8,6 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import KeylessBackup from 'src/icons/KeylessBackup'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
-import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -16,16 +15,12 @@ import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
-type Props =
-  | NativeStackScreenProps<StackParamList, Screens.WalletSecurityPrimer>
-  | NativeStackScreenProps<StackParamList, Screens.WalletSecurityPrimerDrawer>
+type Props = NativeStackScreenProps<StackParamList, Screens.WalletSecurityPrimer>
 
 function WalletSecurityPrimer({ route }: Props) {
   const { t } = useTranslation()
-  const showDrawerTopBar = route.params?.showDrawerTopBar
   return (
-    <SafeAreaView style={styles.container} edges={showDrawerTopBar ? undefined : ['bottom']}>
-      {showDrawerTopBar && <DrawerTopBar testID="WalletSecurityPrimer/DrawerTopBar" />}
+    <SafeAreaView style={styles.container} edges={['bottom']}>
       <ScrollView style={styles.scrollContainer}>
         <KeylessBackup style={styles.icon} />
         <Text style={styles.title}>{t('walletSecurityPrimer.title')}</Text>

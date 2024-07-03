@@ -109,13 +109,12 @@ const mockErc721Logs = [
 ] as unknown as ReturnType<typeof parseEventLogs>
 
 describe('jumpstartClaim', () => {
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks()
+    jest.mocked(getDynamicConfigParams).mockReturnValue(mockJumpstartRemoteConfig)
   })
 
-  it('handles the happy path', async () => {
-    jest.mocked(getDynamicConfigParams).mockReturnValue(mockJumpstartRemoteConfig)
-
+  it('handles a successful claim', async () => {
     await expectSaga(jumpstartClaim, mockPrivateKey, networkId, mockWalletAddress)
       .provide([
         [matchers.call.fn(jumpstartLinkHandler), mockTransactionHashes],
@@ -130,12 +129,10 @@ describe('jumpstartClaim', () => {
   })
 
   it('handles the jumpstartLinkHandler error', async () => {
-    jest.mocked(getDynamicConfigParams).mockReturnValue(mockJumpstartRemoteConfig)
-
     await expectSaga(jumpstartClaim, mockPrivateKey, networkId, mockWalletAddress)
       .provide([[matchers.call.fn(jumpstartLinkHandler), throwError(mockError)]])
       .put(jumpstartClaimStarted())
-      .put(jumpstartClaimFailed())
+      .put(jumpstartClaimFailed({ isAlreadyClaimed: false }))
       .run()
 
     expect(Logger.error).toHaveBeenCalledWith(
@@ -147,9 +144,23 @@ describe('jumpstartClaim', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_claim_failed)
   })
 
-  it('does not fail when dispatching pending transactions fails', async () => {
-    jest.mocked(getDynamicConfigParams).mockReturnValue(mockJumpstartRemoteConfig)
+  it('handles the already claimed error', async () => {
+    const alreadyClaimedError = new Error('Already claimed')
+    await expectSaga(jumpstartClaim, mockPrivateKey, networkId, mockWalletAddress)
+      .provide([[matchers.call.fn(jumpstartLinkHandler), throwError(alreadyClaimedError)]])
+      .put(jumpstartClaimStarted())
+      .put(jumpstartClaimFailed({ isAlreadyClaimed: true }))
+      .run()
 
+    expect(Logger.error).toHaveBeenCalledWith(
+      'WalletJumpstart/saga',
+      'Error handling jumpstart link',
+      alreadyClaimedError
+    )
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_claim_failed)
+  })
+
+  it('does not fail when dispatching pending transactions fails', async () => {
     return expectSaga(jumpstartClaim, mockPrivateKey, networkId, mockWalletAddress)
       .provide([
         [matchers.call.fn(jumpstartLinkHandler), mockTransactionHashes],
@@ -166,7 +177,7 @@ describe('jumpstartClaim', () => {
     await expectSaga(jumpstartClaim, mockPrivateKey, networkId, mockWalletAddress)
       .provide([[matchers.call.fn(jumpstartLinkHandler), mockTransactionHashes]])
       .put(jumpstartClaimStarted())
-      .put(jumpstartClaimFailed())
+      .put(jumpstartClaimFailed({ isAlreadyClaimed: false }))
       .run()
 
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_claim_failed)
@@ -174,7 +185,7 @@ describe('jumpstartClaim', () => {
 })
 
 describe('dispatchPendingTransactions', () => {
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks()
   })
 
@@ -213,7 +224,7 @@ describe('dispatchPendingTransactions', () => {
 })
 
 describe('dispatchPendingERC20Transactions', () => {
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks()
   })
 
@@ -273,7 +284,7 @@ describe('dispatchPendingERC20Transactions', () => {
 })
 
 describe('dispatchPendingERC721Transactions', () => {
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks()
   })
 

@@ -101,12 +101,12 @@ async function setWalletKycStatus(kycStatus, walletAddress) {
 async function onboardAndBeginTransferOut(token, fundingAmount, cashOutAmount) {
   const mnemonic = await generateMnemonic()
   const { address: walletAddress } = await generateKeys(mnemonic)
-  await quickOnboarding(mnemonic) // ends on home screen
+  await quickOnboarding({ mnemonic }) // ends on home screen
   await fundWallet(SAMPLE_PRIVATE_KEY, walletAddress, token, fundingAmount)
   // For now the balance only updates when the home screen is visible
   await waitFor(element(by.text(`${fundingAmount} cUSD`))) // need a balance to withdraw
     .toBeVisible()
-    .withTimeout(60000) // in case funding tx is still pending. balance must be updated before amount can be selected.
+    .withTimeout(120000) // in case funding tx is still pending. balance must be updated before amount can be selected.
 
   await navigateToFiatExchangeScreen()
 
@@ -189,11 +189,6 @@ export const fiatConnectNonKycTransferOut = () => {
 
 export const fiatConnectKycTransferOut = () => {
   it('FiatConnect cash out', async () => {
-    await launchApp({
-      newInstance: true,
-      permissions: { notifications: 'YES', contacts: 'YES', camera: 'YES' },
-      launchArgs: { statsigGateOverrides: `use_tab_navigator=true` },
-    })
     // ******** First time experience ************
     const cashOutAmount = 0.01
     const gasAmount = 0.015
@@ -243,12 +238,13 @@ export const fiatConnectKycTransferOut = () => {
     // Manually wait for Take Photo button to appear, withTimeout didn't work
     await sleep(10000)
 
-    // License photo back
-    await element(by.label('Take photo')).tap()
-    await element(by.text('Use this photo')).tap()
+    // License photo back -- personal stopped requesting back photo, commenting
+    // for now to unblock CI
+    // await element(by.label('Take photo')).tap()
+    // await element(by.text('Use this photo')).tap()
 
     // Manually wait for Take Photo button to appear, withTimeout didn't work
-    await sleep(10000)
+    // await sleep(10000)
 
     // License photo barcode
     await element(by.label('Take photo')).tap()
