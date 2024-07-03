@@ -240,6 +240,12 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
         next: () => {
           if (choseToRestoreAccount) {
             navigateImportOrImportSelect()
+          } else if (showCloudAccountBackupSetup) {
+            dispatch(initializeAccount())
+            navigate(Screens.SignInWithEmail, {
+              keylessBackupFlow: KeylessBackupFlow.Setup,
+              origin: KeylessBackupOrigin.Onboarding,
+            })
           } else {
             dispatch(initializeAccount())
             navigate(Screens.ProtectWallet)
