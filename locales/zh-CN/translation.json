@@ -2373,7 +2373,8 @@
     },
     "discoverCard": {
       "title": "{{appName}} 积分",
-      "description": "通过 {{appName}} 轻松赚取积分。使用本应用程序（包括交换）可获得积分！"
+      "description": "通过 {{appName}} 轻松赚取积分。使用本应用程序（包括交换）可获得积分！",
+      "balance": "{{pointsBalance}} 积分"
     },
     "intro": {
       "title": "轻松赚取积分",
