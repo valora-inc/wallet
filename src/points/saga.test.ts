@@ -39,6 +39,7 @@ import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import * as fetchWithTimeout from 'src/utils/fetchWithTimeout'
 import networkConfig from 'src/web3/networkConfig'
+import { getWalletAddress } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import { mockAccount } from 'test/values'
@@ -589,6 +590,7 @@ describe('watchAppMounted', () => {
 
     const result = await expectSaga(watchAppMounted)
       .provide([
+        [call(getWalletAddress), mockAccount],
         [spawn(getPointsConfig), null],
         [spawn(getPointsBalance, getHistoryStarted({ getNextPage: false })), null],
         [spawn(sendPendingPointsEvents), null],
