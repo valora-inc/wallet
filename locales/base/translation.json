@@ -2385,7 +2385,8 @@
     },
     "discoverCard": {
       "title": "{{appName}} Points",
-      "description": "Earn points easily with {{appName}}. Using the app, including swapping, leads to points!"
+      "description": "Earn points easily with {{appName}}. Using the app, including swapping, leads to points!",
+      "balance": "{{pointsBalance}} points"
     },
     "intro": {
       "title": "Earn points effortlessly",
