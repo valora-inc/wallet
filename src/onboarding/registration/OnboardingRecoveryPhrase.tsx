@@ -60,7 +60,7 @@ function OnboardingRecoveryPhrase({ navigation, route }: Props) {
           testID="helpButton"
           title={t('help')}
           onPress={onPressHelp}
-          titleStyle={{ color: colors.onboardingBrownLight }}
+          titleStyle={{ color: colors.black }}
         />
       ),
     })
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     marginTop: 37,
     marginBottom: 9,
     textAlign: 'center',
-    color: colors.onboardingBrownLight,
+    color: colors.gray3,
   },
   bottomSheetTitle: {
     ...fontStyles.h2,
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     borderColor: colors.gray2,
     borderRadius: 8,
     marginTop: 0,
-    backgroundColor: colors.white,
+    backgroundColor: colors.gray1,
   },
   contentContainer: {
     flexGrow: 1,
@@ -191,7 +191,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: colors.onboardingBackground,
   },
   recoveryPhraseBody: {
     textAlign: 'center',
