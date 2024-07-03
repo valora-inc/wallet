@@ -2373,7 +2373,8 @@
     },
     "discoverCard": {
       "title": "Điểm {{appName}}",
-      "description": "Kiếm điểm dễ dàng với {{appName}}. Bạn có thể kiếm điểm bằng cách sử dụng ứng dụng, bao gồm cả hoạt động trao đổi!"
+      "description": "Kiếm điểm dễ dàng với {{appName}}. Bạn có thể kiếm điểm bằng cách sử dụng ứng dụng, bao gồm cả hoạt động trao đổi!",
+      "balance": "điểm {{pointsBalance}}"
     },
     "intro": {
       "title": "Kiếm điểm dễ dàng",
