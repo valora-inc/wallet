@@ -2375,7 +2375,8 @@
     },
     "discoverCard": {
       "title": "Pontos {{appName}}",
-      "description": "Ganhe pontos facilmente com a {{appName}}. Ao usar o aplicativo, incluindo para trocas, você ganha pontos!"
+      "description": "Ganhe pontos facilmente com a {{appName}}. Ao usar o aplicativo, incluindo para trocas, você ganha pontos!",
+      "balance": "pontos {{pointsBalance}}"
     },
     "intro": {
       "title": "Ganhe pontos sem esforço",
