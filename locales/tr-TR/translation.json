@@ -2375,7 +2375,8 @@
     },
     "discoverCard": {
       "title": "{{appName}} Puanları",
-      "description": "{{appName}} ile kolayca puan kazanın. Takas işlemi dahil olmak üzere uygulamayı kullanmak puan kazandırır!"
+      "description": "{{appName}} ile kolayca puan kazanın. Takas işlemi dahil olmak üzere uygulamayı kullanmak puan kazandırır!",
+      "balance": "{{pointsBalance}} puanları"
     },
     "intro": {
       "title": "Zahmetsizce puan kazanın",
