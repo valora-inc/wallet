@@ -66,10 +66,10 @@ function VerificationCodeInputScreen({
           title={t('phoneVerificationInput.help')}
           testID="PhoneVerificationHelpHeader"
           onPress={onPressHelp}
-          titleStyle={{ color: colors.onboardingBrownLight }}
+          titleStyle={{ color: colors.black }}
         />
       ),
-      headerLeft: () => <BackButton color={colors.onboardingBrownLight} />,
+      headerLeft: () => <BackButton color={colors.black} />,
       headerTransparent: true,
     })
   }, [navigation, route.params])
@@ -97,16 +97,9 @@ function VerificationCodeInputScreen({
   )
 }
 
-VerificationCodeInputScreen.navigationOptions = {
-  headerStyle: {
-    backgroundColor: colors.onboardingBackground,
-  },
-}
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.onboardingBackground,
   },
 })
 
