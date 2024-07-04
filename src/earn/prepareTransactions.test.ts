@@ -15,7 +15,7 @@ import { publicClient } from 'src/viem'
 import { prepareTransactions } from 'src/viem/prepareTransactions'
 import networkConfig from 'src/web3/networkConfig'
 import { mockArbArbAddress, mockArbArbTokenBalance } from 'test/values'
-import { Address, encodeFunctionData } from 'viem'
+import { Address, encodeFunctionData, maxUint256 } from 'viem'
 
 const mockFeeCurrency: TokenBalance = {
   address: null,
@@ -260,7 +260,7 @@ describe('prepareTransactions', () => {
       expect(encodeFunctionData).toHaveBeenCalledWith({
         abi: aavePool,
         functionName: 'withdraw',
-        args: [mockTokenAddress, BigInt(5e6), '0x1234'],
+        args: [mockTokenAddress, maxUint256, '0x1234'],
       })
       expect(encodeFunctionData).toHaveBeenCalledWith({
         abi: aaveIncentivesV3Abi,
@@ -305,7 +305,7 @@ describe('prepareTransactions', () => {
       expect(encodeFunctionData).toHaveBeenCalledWith({
         abi: aavePool,
         functionName: 'withdraw',
-        args: [mockTokenAddress, BigInt(5e6), '0x1234'],
+        args: [mockTokenAddress, maxUint256, '0x1234'],
       })
       expect(prepareTransactions).toHaveBeenCalledWith({
         baseTransactions: expectedTransactions,

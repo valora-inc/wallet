@@ -2379,7 +2379,8 @@
     },
     "discoverCard": {
       "title": "Punkty {{appName}}",
-      "description": "Łatwo zdobywaj punkty dzięki {{appName}}. Korzystanie z aplikacji, włączając w to dokonywanie swapów, prowadzi do zdobywania punktów!"
+      "description": "Łatwo zdobywaj punkty dzięki {{appName}}. Korzystanie z aplikacji, włączając w to dokonywanie swapów, prowadzi do zdobywania punktów!",
+      "balance": "punkty {{pointsBalance}}"
     },
     "intro": {
       "title": "Zdobywaj punkty bez wysiłku",
