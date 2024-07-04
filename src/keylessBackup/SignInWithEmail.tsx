@@ -165,22 +165,28 @@ function SignInWithEmail({ route }: Props) {
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <SafeAreaView style={styles.container}>
       <CustomHeader
         style={styles.header}
         left={
-          route.params.origin === KeylessBackupOrigin.Settings ? (
+          origin === KeylessBackupOrigin.Settings ? (
             <KeylessBackupCancelButton
-              flow={route.params.keylessBackupFlow}
-              origin={route.params.origin}
+              flow={keylessBackupFlow}
+              origin={origin}
               eventName={KeylessBackupEvents.cab_sign_in_with_email_screen_cancel}
             />
           ) : (
             // This includes Onboarding and Restore
-            <BackButton />
+            <BackButton
+              eventName={KeylessBackupEvents.cab_sign_in_with_email_screen_cancel}
+              eventProperties={{
+                keylessBackupFlow,
+                origin,
+              }}
+            />
           )
         }
-        title={t('keylessBackupOnboardingTitle')}
+        title={isOnboarding ? t('keylessBackupOnboardingTitle') : null}
         subTitle={
           // We only show the step number for onboarding new users
           isOnboarding ? t('registrationSteps', { step, totalSteps }) : null
