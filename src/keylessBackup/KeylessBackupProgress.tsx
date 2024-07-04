@@ -1,14 +1,15 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useLayoutEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { BackHandler, ScrollView, StyleSheet, Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
 import TokenDisplay from 'src/components/TokenDisplay'
+import CustomHeader from 'src/components/header/CustomHeader'
 import GreenLoadingSpinner from 'src/icons/GreenLoadingSpinner'
 import GreenLoadingSpinnerToCheck from 'src/icons/GreenLoadingSpinnerToCheck'
 import { Help } from 'src/icons/Help'
@@ -25,12 +26,17 @@ import { ensurePincode, navigate, navigateHome } from 'src/navigator/NavigationS
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import { goToNextOnboardingScreen, onboardingPropsSelector } from 'src/onboarding/steps'
+import {
+  getOnboardingStepValues,
+  goToNextOnboardingScreen,
+  onboardingPropsSelector,
+} from 'src/onboarding/steps'
 import { totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 import { useTotalTokenBalance } from 'src/tokens/hooks'
 import Logger from 'src/utils/Logger'
 
@@ -38,16 +44,8 @@ const TAG = 'keylessBackup/KeylessBackupProgress'
 
 function KeylessBackupProgress({
   route,
-  navigation,
 }: NativeStackScreenProps<StackParamList, Screens.KeylessBackupProgress>) {
-  const keylessBackupStatus = useSelector(keylessBackupStatusSelector)
-  const { t } = useTranslation()
   const { keylessBackupFlow, origin } = route.params
-
-  const onPressHelp = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_restore_failed_help)
-    navigate(Screens.SupportContact)
-  }
 
   // Disable back button on Android
   useEffect(() => {
@@ -55,21 +53,6 @@ function KeylessBackupProgress({
     BackHandler.addEventListener('hardwareBackPress', backPressListener)
     return () => BackHandler.removeEventListener('hardwareBackPress', backPressListener)
   }, [])
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () =>
-        keylessBackupStatus === KeylessBackupStatus.Failed &&
-        keylessBackupFlow === KeylessBackupFlow.Restore && (
-          <TopBarTextButton
-            title={t('keylessBackupStatus.restore.failed.help')}
-            testID="KeylessBackupRestoreHelp"
-            onPress={onPressHelp}
-            titleStyle={styles.help}
-          />
-        ),
-    })
-  })
 
   if (keylessBackupFlow === KeylessBackupFlow.Restore) {
     return <Restore />
@@ -89,8 +72,15 @@ function Restore() {
   const totalPositionsBalanceLocal = useDollarsToLocalAmount(totalPositionsBalanceUsd)
   const totalBalanceLocal = totalTokenBalanceLocal?.plus(totalPositionsBalanceLocal ?? 0)
 
+  const iconMarginTop = { marginTop: variables.height / 4 }
+
   const { t } = useTranslation()
   const dispatch = useDispatch()
+
+  const onPressHelp = () => {
+    ValoraAnalytics.track(KeylessBackupEvents.cab_restore_failed_help)
+    navigate(Screens.SupportContact)
+  }
 
   const onPressTryAgain = () => {
     dispatch(keylessBackupBail())
@@ -108,11 +98,20 @@ function Restore() {
 
   switch (keylessBackupStatus) {
     case KeylessBackupStatus.InProgress: {
-      return renderInProgressState(t('keylessBackupStatus.restore.inProgress.title'))
+      return (
+        <SafeAreaView style={styles.safeAreaView}>
+          <ScrollView contentContainerStyle={styles.bodyContainer}>
+            <View style={iconMarginTop}>
+              <GreenLoadingSpinner />
+            </View>
+            <Text style={styles.title}>{t('keylessBackupStatus.setup.inProgress.title')}</Text>
+          </ScrollView>
+        </SafeAreaView>
+      )
     }
     case KeylessBackupStatus.RestoreZeroBalance: {
       return (
-        <SafeAreaView>
+        <SafeAreaView style={styles.safeAreaView}>
           <Dialog
             title={
               <Trans i18nKey="importExistingKey.emptyWalletDialog.title">
@@ -147,9 +146,9 @@ function Restore() {
     }
     case KeylessBackupStatus.Completed: {
       return (
-        <SafeAreaView style={styles.container}>
-          <View style={styles.finishedContainer}>
-            <View style={styles.iconContainer}>
+        <SafeAreaView style={styles.safeAreaView}>
+          <ScrollView contentContainerStyle={styles.bodyContainer}>
+            <View style={iconMarginTop}>
               <GreenLoadingSpinnerToCheck />
             </View>
             <Text style={styles.title}>{t('keylessBackupStatus.restore.completed.title')}</Text>
@@ -169,58 +168,71 @@ function Restore() {
                 t('keylessBackupStatus.restore.completed.bodyZeroBalance')
               )}
             </Text>
+          </ScrollView>
+          <View style={styles.buttonContainerRestore}>
+            <Button
+              testID="KeylessBackupProgress/Continue"
+              onPress={() => {
+                ValoraAnalytics.track(KeylessBackupEvents.cab_restore_completed_continue)
+                goToNextOnboardingScreen({
+                  onboardingProps,
+                  firstScreenInCurrentStep: Screens.ImportSelect,
+                })
+              }}
+              text={t('continue')}
+              touchableStyle={styles.buttonTouchable}
+              type={BtnTypes.PRIMARY}
+              size={BtnSizes.FULL}
+            />
           </View>
-
-          <Button
-            testID="KeylessBackupProgress/Continue"
-            onPress={() => {
-              ValoraAnalytics.track(KeylessBackupEvents.cab_restore_completed_continue)
-              goToNextOnboardingScreen({
-                onboardingProps,
-                firstScreenInCurrentStep: Screens.ImportSelect,
-              })
-            }}
-            text={t('continue')}
-            style={styles.button}
-            touchableStyle={styles.buttonTouchable}
-            type={BtnTypes.PRIMARY}
-            size={BtnSizes.FULL}
-          />
         </SafeAreaView>
       )
     }
     case KeylessBackupStatus.Failed:
       return (
-        <SafeAreaView style={styles.container}>
-          <View style={styles.finishedContainer}>
-            <RedLoadingSpinnerToInfo />
+        <SafeAreaView style={styles.safeAreaView}>
+          <CustomHeader
+            style={styles.header}
+            right={
+              <TopBarTextButton
+                title={t('keylessBackupStatus.restore.failed.help')}
+                testID="Header/KeylessBackupRestoreHelp"
+                onPress={onPressHelp}
+                titleStyle={styles.help}
+              />
+            }
+          />
+          <ScrollView contentContainerStyle={styles.bodyContainer}>
+            <View style={iconMarginTop}>
+              <RedLoadingSpinnerToInfo />
+            </View>
             <Text style={styles.title}>{t('keylessBackupStatus.restore.failed.title')}</Text>
             <Text style={styles.body}>{t('keylessBackupStatus.restore.failed.body')}</Text>
+          </ScrollView>
+          <View style={styles.buttonContainerRestore}>
+            <Button
+              testID="KeylessBackupProgress/RestoreFailedTryAgain"
+              onPress={onPressTryAgain}
+              text={t('keylessBackupStatus.restore.failed.tryAgain')}
+              size={BtnSizes.FULL}
+              type={BtnTypes.PRIMARY}
+              touchableStyle={styles.buttonTouchable}
+            />
+            <Button
+              testID="KeylessBackupProgress/RestoreFailedCreateNewWallet"
+              onPress={onPressCreateNewWallet}
+              text={t('keylessBackupStatus.restore.failed.createNewWallet')}
+              size={BtnSizes.FULL}
+              type={BtnTypes.SECONDARY}
+              touchableStyle={styles.buttonTouchable}
+            />
           </View>
-          <Button
-            testID="KeylessBackupProgress/RestoreFailedTryAgain"
-            onPress={onPressTryAgain}
-            text={t('keylessBackupStatus.restore.failed.tryAgain')}
-            size={BtnSizes.FULL}
-            type={BtnTypes.PRIMARY}
-            style={styles.button}
-            touchableStyle={styles.buttonTouchable}
-          />
-          <Button
-            testID="KeylessBackupProgress/RestoreFailedCreateNewWallet"
-            onPress={onPressCreateNewWallet}
-            text={t('keylessBackupStatus.restore.failed.createNewWallet')}
-            size={BtnSizes.FULL}
-            type={BtnTypes.SECONDARY}
-            style={styles.button}
-            touchableStyle={styles.buttonTouchable}
-          />
         </SafeAreaView>
       )
     case KeylessBackupStatus.NotFound:
       return (
-        <SafeAreaView style={styles.container}>
-          <ScrollView contentContainerStyle={styles.finishedContainer}>
+        <SafeAreaView style={styles.safeAreaView}>
+          <ScrollView contentContainerStyle={styles.bodyContainer}>
             <Help size={60} color={colors.gray4} />
             <Text style={styles.title}>{t('keylessBackupStatus.restore.notFound.title')}</Text>
             <Text style={styles.body}>
@@ -229,24 +241,24 @@ function Restore() {
               </Trans>
             </Text>
           </ScrollView>
-          <Button
-            testID="KeylessBackupProgress/RestoreNotFoundTryAgain"
-            onPress={onPressTryAgain}
-            text={t('keylessBackupStatus.restore.notFound.tryAgain')}
-            size={BtnSizes.FULL}
-            type={BtnTypes.PRIMARY}
-            style={styles.button}
-            touchableStyle={styles.buttonTouchable}
-          />
-          <Button
-            testID="KeylessBackupProgress/RestoreNotFoundCreateNewWallet"
-            onPress={onPressCreateNewWallet}
-            text={t('keylessBackupStatus.restore.notFound.createNewWallet')}
-            size={BtnSizes.FULL}
-            type={BtnTypes.SECONDARY}
-            style={styles.button}
-            touchableStyle={styles.buttonTouchable}
-          />
+          <View style={styles.buttonContainerRestore}>
+            <Button
+              testID="KeylessBackupProgress/RestoreNotFoundTryAgain"
+              onPress={onPressTryAgain}
+              text={t('keylessBackupStatus.restore.notFound.tryAgain')}
+              size={BtnSizes.FULL}
+              type={BtnTypes.PRIMARY}
+              touchableStyle={styles.buttonTouchable}
+            />
+            <Button
+              testID="KeylessBackupProgress/RestoreNotFoundCreateNewWallet"
+              onPress={onPressCreateNewWallet}
+              text={t('keylessBackupStatus.restore.notFound.createNewWallet')}
+              size={BtnSizes.FULL}
+              type={BtnTypes.SECONDARY}
+              touchableStyle={styles.buttonTouchable}
+            />
+          </View>
         </SafeAreaView>
       )
     default:
@@ -257,14 +269,23 @@ function Restore() {
 
 function Setup({ origin }: { origin: KeylessBackupOrigin }) {
   const keylessBackupStatus = useSelector(keylessBackupStatusSelector)
+  const onboardingProps = useSelector(onboardingPropsSelector)
+  const { step, totalSteps } = getOnboardingStepValues(Screens.SignInWithEmail, onboardingProps)
   const { t } = useTranslation()
+  const { bottom } = useSafeAreaInsets()
+  const insetsStyle = {
+    paddingBottom: Math.max(0, 40 - bottom),
+  }
 
   const navigatedFromSettings = origin === KeylessBackupOrigin.Settings
+  const isOnboarding = origin === KeylessBackupOrigin.Onboarding
 
   const onPressContinue = () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_progress_completed_continue)
     navigateHome()
   }
+
+  const iconMarginTop = { marginTop: variables.height / 4 }
 
   const onPressManual = async () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_progress_failed_manual, { origin })
@@ -285,80 +306,138 @@ function Setup({ origin }: { origin: KeylessBackupOrigin }) {
 
   const onPressManualOnboarding = () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_progress_failed_manual, { origin })
-    navigate(Screens.AccountKeyEducation)
+    isOnboarding
+      ? goToNextOnboardingScreen({
+          firstScreenInCurrentStep: Screens.SignInWithEmail,
+          onboardingProps: { ...onboardingProps, showRecoveryPhraseEducation: true },
+        })
+      : navigate(Screens.AccountKeyEducation)
   }
 
   const onPressSkip = () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_progress_failed_skip_onboarding)
-    navigate(Screens.ChooseYourAdventure)
+    isOnboarding
+      ? goToNextOnboardingScreen({
+          firstScreenInCurrentStep: Screens.SignInWithEmail,
+          onboardingProps,
+        })
+      : navigate(Screens.ChooseYourAdventure)
   }
 
   switch (keylessBackupStatus) {
     case KeylessBackupStatus.InProgress: {
-      return renderInProgressState(t('keylessBackupStatus.setup.inProgress.title'))
+      return (
+        <SafeAreaView style={styles.safeAreaView}>
+          {isOnboarding && (
+            <CustomHeader
+              title={t('keylessBackupStatus.setup.inProgress.title')}
+              subTitle={t('registrationSteps', { step, totalSteps })}
+              style={styles.header}
+            />
+          )}
+          <ScrollView contentContainerStyle={styles.bodyContainer}>
+            <View style={iconMarginTop}>
+              <GreenLoadingSpinner />
+            </View>
+            {!isOnboarding && (
+              <Text style={styles.title}>{t('keylessBackupStatus.setup.inProgress.title')}</Text>
+            )}
+          </ScrollView>
+        </SafeAreaView>
+      )
     }
     case KeylessBackupStatus.Completed: {
       return (
-        <SafeAreaView style={styles.container}>
-          <View style={styles.finishedContainer}>
-            <View style={styles.iconContainer}>
+        <SafeAreaView style={styles.safeAreaView}>
+          {isOnboarding && (
+            <CustomHeader
+              title={t('keylessBackupStatus.setup.completed.title')}
+              subTitle={t('registrationSteps', { step, totalSteps })}
+            />
+          )}
+          <ScrollView contentContainerStyle={styles.bodyContainer}>
+            <View style={iconMarginTop}>
               <GreenLoadingSpinnerToCheck />
             </View>
-            <Text style={styles.title}>{t('keylessBackupStatus.setup.completed.title')}</Text>
+            {!isOnboarding && (
+              <Text style={styles.title}>{t('keylessBackupStatus.setup.completed.title')}</Text>
+            )}
             <Text style={styles.body}>{t('keylessBackupStatus.setup.completed.body')}</Text>
+          </ScrollView>
+          <View
+            style={[
+              styles.buttonContainer,
+              isOnboarding ? insetsStyle : { marginBottom: Spacing.Thick24 },
+            ]}
+          >
+            <Button
+              testID="KeylessBackupProgress/Continue"
+              onPress={onPressContinue}
+              text={t('continue')}
+              size={BtnSizes.FULL}
+              type={BtnTypes.PRIMARY}
+              touchableStyle={styles.buttonTouchable}
+            />
           </View>
-          <Button
-            testID="KeylessBackupProgress/Continue"
-            onPress={onPressContinue}
-            text={t('continue')}
-            size={BtnSizes.FULL}
-            type={BtnTypes.PRIMARY}
-            style={styles.button}
-            touchableStyle={styles.buttonTouchable}
-          />
         </SafeAreaView>
       )
     }
     case KeylessBackupStatus.Failed: {
       return (
-        <SafeAreaView style={styles.container}>
-          <View style={styles.finishedContainer}>
-            <RedLoadingSpinnerToInfo />
-            <Text style={styles.title}>{t('keylessBackupStatus.setup.failed.title')}</Text>
+        <SafeAreaView style={styles.safeAreaView}>
+          {isOnboarding && (
+            <CustomHeader
+              title={t('keylessBackupStatus.setup.failed.title')}
+              subTitle={t('registrationSteps', { step, totalSteps })}
+              style={styles.header}
+            />
+          )}
+          <ScrollView contentContainerStyle={styles.bodyContainer}>
+            <View style={iconMarginTop}>
+              <RedLoadingSpinnerToInfo />
+            </View>
+            {!isOnboarding && (
+              <Text style={styles.title}>{t('keylessBackupStatus.setup.failed.title')}</Text>
+            )}
             <Text style={styles.body}>{t('keylessBackupStatus.setup.failed.body')}</Text>
+          </ScrollView>
+          <View
+            style={[
+              styles.buttonContainer,
+              isOnboarding ? insetsStyle : { marginBottom: Spacing.Thick24 },
+            ]}
+          >
+            <Button
+              testID={
+                navigatedFromSettings
+                  ? 'KeylessBackupProgress/Later'
+                  : 'KeylessBackupProgress/ManualOnboarding'
+              }
+              onPress={navigatedFromSettings ? onPressLater : onPressManualOnboarding}
+              text={t(
+                navigatedFromSettings
+                  ? 'keylessBackupStatus.setup.failed.later'
+                  : 'keylessBackupStatus.setup.failed.manual'
+              )}
+              size={BtnSizes.FULL}
+              type={BtnTypes.PRIMARY}
+            />
+            <Button
+              testID={
+                navigatedFromSettings
+                  ? 'KeylessBackupProgress/Manual'
+                  : 'KeylessBackupProgress/Skip'
+              }
+              onPress={navigatedFromSettings ? onPressManual : onPressSkip}
+              text={t(
+                navigatedFromSettings
+                  ? 'keylessBackupStatus.setup.failed.manual'
+                  : 'keylessBackupStatus.setup.failed.skip'
+              )}
+              size={BtnSizes.FULL}
+              type={BtnTypes.SECONDARY}
+            />
           </View>
-          <Button
-            testID={
-              navigatedFromSettings
-                ? 'KeylessBackupProgress/Later'
-                : 'KeylessBackupProgress/ManualOnboarding'
-            }
-            onPress={navigatedFromSettings ? onPressLater : onPressManualOnboarding}
-            text={t(
-              navigatedFromSettings
-                ? 'keylessBackupStatus.setup.failed.later'
-                : 'keylessBackupStatus.setup.failed.manual'
-            )}
-            size={BtnSizes.FULL}
-            type={BtnTypes.PRIMARY}
-            style={styles.button}
-            touchableStyle={styles.buttonTouchable}
-          />
-          <Button
-            testID={
-              navigatedFromSettings ? 'KeylessBackupProgress/Manual' : 'KeylessBackupProgress/Skip'
-            }
-            onPress={navigatedFromSettings ? onPressManual : onPressSkip}
-            text={t(
-              navigatedFromSettings
-                ? 'keylessBackupStatus.setup.failed.manual'
-                : 'keylessBackupStatus.setup.failed.skip'
-            )}
-            size={BtnSizes.FULL}
-            type={BtnTypes.SECONDARY}
-            style={styles.button}
-            touchableStyle={styles.buttonTouchable}
-          />
         </SafeAreaView>
       )
     }
@@ -368,36 +447,20 @@ function Setup({ origin }: { origin: KeylessBackupOrigin }) {
   }
 }
 
-function renderInProgressState(title: string) {
-  return (
-    <SafeAreaView style={styles.progressContainer}>
-      <GreenLoadingSpinner />
-      <Text style={styles.title}>{title}</Text>
-    </SafeAreaView>
-  )
-}
-
 const styles = StyleSheet.create({
-  iconContainer: {},
   bold: {
     fontWeight: '700',
   },
-  progressContainer: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexGrow: 1,
+  safeAreaView: {
+    flex: 1,
   },
-  container: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    flexGrow: 1,
-    marginHorizontal: Spacing.Thick24,
+  header: {
+    paddingHorizontal: variables.contentPadding,
   },
-  finishedContainer: {
+  bodyContainer: {
     flexGrow: 1,
-    justifyContent: 'center',
     alignItems: 'center',
+    padding: Spacing.Thick24,
   },
   title: {
     ...typeScale.labelSemiBoldLarge,
@@ -410,8 +473,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: Spacing.Regular16,
   },
-  button: {
-    paddingVertical: Spacing.Smallest8,
+  buttonContainer: {
+    gap: Spacing.Smallest8,
+    marginHorizontal: Spacing.Thick24,
+  },
+  buttonContainerRestore: {
+    gap: Spacing.Smallest8,
+    marginHorizontal: Spacing.Thick24,
+    marginBottom: Spacing.Thick24,
   },
   buttonTouchable: {
     justifyContent: 'center',

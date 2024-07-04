@@ -484,7 +484,7 @@ const settingsScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen
       name={Screens.KeylessBackupProgress}
-      options={{ headerStyle: {} }}
+      options={noHeader}
       component={KeylessBackupProgress}
     />
     <Navigator.Screen
