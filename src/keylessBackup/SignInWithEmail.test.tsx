@@ -189,7 +189,7 @@ describe('SignInWithEmail', () => {
     expect(getByTestId('SignInWithEmail/SignInAnotherWay')).toBeTruthy()
 
     fireEvent.press(getByTestId('SignInWithEmail/SignInAnotherWay'))
-    expect(getByTestId('KeylessBackupSignInWithEmail/HelpInfoBottomSheet')).toBeTruthy()
+    expect(getByTestId('KeylessBackupSignInWithEmail/BottomSheet')).toBeTruthy()
 
     fireEvent.press(getByText('signInWithEmail.bottomSheet.continue'))
     expect(navigate).toHaveBeenCalledWith(Screens.AccountKeyEducation, {
@@ -211,7 +211,7 @@ describe('SignInWithEmail', () => {
     expect(getByTestId('SignInWithEmail/SignInAnotherWay')).toBeTruthy()
 
     fireEvent.press(getByTestId('SignInWithEmail/SignInAnotherWay'))
-    expect(getByTestId('KeylessBackupSignInWithEmail/HelpInfoBottomSheet')).toBeTruthy()
+    expect(getByTestId('KeylessBackupSignInWithEmail/BottomSheet')).toBeTruthy()
 
     fireEvent.press(getByText('signInWithEmail.bottomSheet.skip'))
     expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen)
