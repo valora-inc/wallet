@@ -474,7 +474,7 @@ const settingsScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen
       name={Screens.KeylessBackupPhoneInput}
-      options={KeylessBackupPhoneInput.navigationOptions}
+      options={noHeader}
       component={KeylessBackupPhoneInput}
     />
     <Navigator.Screen

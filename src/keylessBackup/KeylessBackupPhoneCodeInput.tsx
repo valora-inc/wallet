@@ -16,6 +16,8 @@ import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import { getOnboardingStepValues, onboardingPropsSelector } from 'src/onboarding/steps'
+import { useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -116,6 +118,8 @@ function KeylessBackupPhoneCodeInput({
     keylessBackupFlow,
     origin
   )
+  const onboardingProps = useSelector(onboardingPropsSelector)
+  const { step, totalSteps } = getOnboardingStepValues(Screens.SignInWithEmail, onboardingProps)
 
   const bottomSheetRef = useRef<BottomSheetRefType>(null)
 
@@ -131,7 +135,14 @@ function KeylessBackupPhoneCodeInput({
     keylessBackupFlow === KeylessBackupFlow.Setup && origin === KeylessBackupOrigin.Onboarding
 
   const headerLeft = isSetupInOnboarding ? (
-    <BackButton testID="BackButton" />
+    <BackButton
+      testID="BackButton"
+      eventName={KeylessBackupEvents.cab_enter_phone_code_back}
+      eventProperties={{
+        keylessBackupFlow,
+        origin,
+      }}
+    />
   ) : (
     <KeylessBackupCancelButton
       flow={keylessBackupFlow}
@@ -158,6 +169,7 @@ function KeylessBackupPhoneCodeInput({
             <Text style={styles.title}>{t('phoneVerificationInput.title')}</Text>
           )
         }
+        subTitle={isSetupInOnboarding ? t('registrationSteps', { step, totalSteps }) : null}
       />
       <VerificationCodeInput
         phoneNumber={route.params.e164Number}

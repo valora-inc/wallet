@@ -3,6 +3,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import KeylessBackupPhoneInput from 'src/keylessBackup/KeylessBackupPhoneInput'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
+import { noHeader } from 'src/navigator/Headers'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 
@@ -25,7 +26,7 @@ describe('KeylessBackupPhoneInput', () => {
             keylessBackupFlow: KeylessBackupFlow.Setup,
             selectedCountryCodeAlpha2: 'US',
           }}
-          options={KeylessBackupPhoneInput.navigationOptions}
+          options={noHeader}
         />
       </Provider>
     )
