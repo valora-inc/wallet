@@ -70,7 +70,6 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: 56,
-    imageResizeMode: 'cover',
   },
   content: {
     paddingTop: Spacing.Smallest8,
