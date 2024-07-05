@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: {
+    marginTop: 56,
     marginBottom: Spacing.Regular16,
   },
   title: {
