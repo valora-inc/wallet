@@ -93,8 +93,8 @@ export const getCurrentUserTraits = createSelector(
     backupCompletedSelector,
     pincodeTypeSelector,
     superchargeInfoSelector,
-    (_state: RootState, networkIds: NetworkId[]) => networkIds,
     pointsBalanceSelector,
+    (_state: RootState, networkIds: NetworkId[]) => networkIds,
   ],
   (
     rawWalletAddress,
@@ -116,8 +116,8 @@ export const getCurrentUserTraits = createSelector(
     hasCompletedBackup,
     pincodeType,
     superchargeInfo,
-    networkIds,
-    pointsBalance
+    pointsBalance,
+    networkIds
   ) => {
     const feeTokenIds = new Set(feeTokens.map(({ tokenId }) => tokenId))
     const tokensByUsdBalance = tokensWithBalance.sort(sortByUsdBalance)

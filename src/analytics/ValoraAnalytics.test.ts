@@ -124,6 +124,9 @@ const state = getMockStoreData({
   app: {
     phoneNumberVerified: true,
   },
+  points: {
+    pointsBalance: '50',
+  },
 })
 
 // Disable __DEV__ so analytics is enabled
@@ -167,6 +170,7 @@ const defaultSuperProperties = {
   sSuperchargingToken: 'cEUR',
   sHasTokenBalance: true,
   sHasCeloAlfajoresTokenBalance: true,
+  sPointsBalance: '50',
 }
 
 const defaultProperties = {
