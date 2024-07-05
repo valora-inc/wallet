@@ -1,15 +1,15 @@
 import React from 'react'
-import { PointsActivityId, PointsCardMetadata, ClaimHistoryCardItem } from 'src/points/types'
+import { useTranslation } from 'react-i18next'
 import Celebration from 'src/icons/Celebration'
+import ComingSoonClock from 'src/icons/ComingSoonClock'
 import SwapArrows from 'src/icons/SwapArrows'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import Rocket from 'src/icons/Rocket'
-import { useTranslation } from 'react-i18next'
-import colors from 'src/styles/colors'
-import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
+import { ClaimHistoryCardItem, PointsActivityId, PointsCardMetadata } from 'src/points/types'
 import { useSelector } from 'src/redux/hooks'
+import colors from 'src/styles/colors'
 import { tokensByIdSelector } from 'src/tokens/selectors'
+import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'Points/cardDefinitions'
@@ -49,7 +49,7 @@ export default function useCardDefinitions(
     },
     'more-coming': {
       title: t('points.activityCards.moreComing.title'),
-      icon: <Rocket />,
+      icon: <ComingSoonClock />,
       defaultCompletionStatus: false,
     },
   }
