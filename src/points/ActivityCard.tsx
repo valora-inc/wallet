@@ -32,13 +32,14 @@ export default function ActivityCard({
 
   return (
     <Touchable
+      testID={`ActivityCard/${activityId}`}
       style={[styles.card, completed && styles.faded]}
       borderRadius={Spacing.Smallest8}
       disabled={completed}
       onPress={handleOnPress}
     >
       <>
-        {completed ? <CheckCircle /> : icon}
+        {completed ? <CheckCircle testID="CheckCircleIcon" /> : icon}
         <Text style={styles.cardTitle}>{title}</Text>
         <View style={styles.pointsAmountContainer}>
           <Text style={styles.previousPointsAmount}>{previousPointsAmount}</Text>
