@@ -35,6 +35,8 @@ import pointsReducer, {
   trackPointsEvent,
 } from 'src/points/slice'
 import { ClaimHistory, GetHistoryResponse, PointsEvent } from 'src/points/types'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import * as fetchWithTimeout from 'src/utils/fetchWithTimeout'
@@ -46,6 +48,12 @@ import { mockAccount } from 'test/values'
 import { v4 as uuidv4 } from 'uuid'
 
 jest.mock('src/statsig')
+jest.mocked(getFeatureGate).mockImplementation((featureGate) => {
+  if (featureGate === StatsigFeatureGates.SHOW_POINTS) {
+    return true
+  }
+  throw new Error(`Unexpected feature gate: ${featureGate}`)
+})
 
 jest.mock('uuid')
 jest.mock('src/utils/Logger')
