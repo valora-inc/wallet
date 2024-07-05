@@ -1,6 +1,6 @@
 import { Props as ActivityCardProps } from 'src/points/ActivityCard'
 
-export function sortByAmountAndTitle(a: ActivityCardProps, b: ActivityCardProps) {
+export function compareAmountAndTitle(a: ActivityCardProps, b: ActivityCardProps) {
   // sort by decreasing points amount
   if (b.pointsAmount !== a.pointsAmount) {
     return b.pointsAmount - a.pointsAmount

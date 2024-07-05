@@ -6,7 +6,7 @@ import SwapArrows from 'src/icons/SwapArrows'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import ActivityCard, { Props as ActivityCardProps, MoreComingCard } from 'src/points/ActivityCard'
-import { sortByAmountAndTitle } from 'src/points/cardSort'
+import { compareAmountAndTitle } from 'src/points/cardSort'
 import { BottomSheetParams, PointsActivity } from 'src/points/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -55,10 +55,13 @@ export default function ActivityCardSection({ pointsActivities, onCardPress }: P
     }
   }
 
-  const preparedActivities = pointsActivities.map(mapActivityToCardProps).sort(sortByAmountAndTitle)
+  const sortedActivities = React.useMemo(
+    () => pointsActivities.map(mapActivityToCardProps).sort(compareAmountAndTitle),
+    [pointsActivities]
+  )
 
-  const incompleteActivities = preparedActivities.filter(({ completed }) => !completed)
-  const completedActivities = preparedActivities.filter(({ completed }) => completed)
+  const incompleteActivities = sortedActivities.filter(({ completed }) => !completed)
+  const completedActivities = sortedActivities.filter(({ completed }) => completed)
 
   return (
     <View style={styles.container}>

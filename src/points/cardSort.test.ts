@@ -1,5 +1,5 @@
 import { Props as ActivityCardProps } from 'src/points/ActivityCard'
-import { sortByAmountAndTitle } from 'src/points/cardSort'
+import { compareAmountAndTitle } from 'src/points/cardSort'
 
 describe('sortByAmountAndTitle', () => {
   test('sorts by points amount in decreasing order', () => {
@@ -8,7 +8,7 @@ describe('sortByAmountAndTitle', () => {
       { pointsAmount: 100 } as ActivityCardProps,
       { pointsAmount: 75 } as ActivityCardProps,
     ]
-    activities.sort(sortByAmountAndTitle)
+    activities.sort(compareAmountAndTitle)
     expect(activities).toEqual([{ pointsAmount: 100 }, { pointsAmount: 75 }, { pointsAmount: 50 }])
   })
 
@@ -18,7 +18,7 @@ describe('sortByAmountAndTitle', () => {
       { pointsAmount: 100, previousPointsAmount: 25 } as ActivityCardProps,
       { pointsAmount: 100, previousPointsAmount: 75 } as ActivityCardProps,
     ]
-    activities.sort(sortByAmountAndTitle)
+    activities.sort(compareAmountAndTitle)
     expect(activities).toEqual([
       { pointsAmount: 100, previousPointsAmount: 25 },
       { pointsAmount: 100, previousPointsAmount: 50 },
@@ -32,7 +32,7 @@ describe('sortByAmountAndTitle', () => {
       { pointsAmount: 100, previousPointsAmount: 50, title: 'B' } as ActivityCardProps,
       { pointsAmount: 100, previousPointsAmount: 50, title: 'A' } as ActivityCardProps,
     ]
-    activities.sort(sortByAmountAndTitle)
+    activities.sort(compareAmountAndTitle)
     expect(activities).toEqual([
       { pointsAmount: 100, previousPointsAmount: 50, title: 'A' },
       { pointsAmount: 100, previousPointsAmount: 50, title: 'B' },
@@ -47,7 +47,7 @@ describe('sortByAmountAndTitle', () => {
       { pointsAmount: 0, previousPointsAmount: 0 } as ActivityCardProps,
       { pointsAmount: 100, previousPointsAmount: undefined } as ActivityCardProps,
     ]
-    activities.sort(sortByAmountAndTitle)
+    activities.sort(compareAmountAndTitle)
     expect(activities).toEqual([
       { pointsAmount: 100, previousPointsAmount: 50 },
       { pointsAmount: 100, previousPointsAmount: undefined },
