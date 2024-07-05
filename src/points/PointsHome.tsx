@@ -20,11 +20,11 @@ import { StackParamList } from 'src/navigator/types'
 import ActivityCardSection from 'src/points/ActivityCardSection'
 import PointsHistoryBottomSheet from 'src/points/PointsHistoryBottomSheet'
 import {
+  pointsActivitiesSelector,
   pointsBalanceSelector,
   pointsBalanceStatusSelector,
   pointsConfigStatusSelector,
   pointsHistoryStatusSelector,
-  pointsSectionsSelector,
 } from 'src/points/selectors'
 import { getHistoryStarted, getPointsConfigRetry } from 'src/points/slice'
 import { BottomSheetParams, PointsActivityId } from 'src/points/types'
@@ -40,7 +40,7 @@ export default function PointsHome({ route, navigation }: Props) {
 
   const dispatch = useDispatch()
 
-  const pointsSections = useSelector(pointsSectionsSelector)
+  const pointsActivities = useSelector(pointsActivitiesSelector)
   const pointsConfigStatus = useSelector(pointsConfigStatusSelector)
   const pointsBalance = useSelector(pointsBalanceSelector)
   const pointsBalanceStatus = useSelector(pointsBalanceStatusSelector)
@@ -151,13 +151,17 @@ export default function PointsHome({ route, navigation }: Props) {
               <LogoHeart size={28} />
             </View>
 
-            {pointsSections.length > 0 ? (
+            {pointsActivities.length > 0 ? (
               <>
                 <View style={styles.infoCard}>
                   <Text style={styles.infoCardTitle}>{t('points.infoCard.title')}</Text>
                   <Text style={styles.infoCardBody}>{t('points.infoCard.body')}</Text>
                 </View>
-                <ActivityCardSection onCardPress={onCardPress} pointsSections={pointsSections} />
+
+                <ActivityCardSection
+                  pointsActivities={pointsActivities}
+                  onCardPress={onCardPress}
+                />
               </>
             ) : (
               <InLineNotification
@@ -183,6 +187,9 @@ export default function PointsHome({ route, navigation }: Props) {
         {bottomSheetParams && (
           <>
             <View style={styles.bottomSheetPointAmountContainer}>
+              <Text style={styles.bottomSheetPreviousPointsAmount}>
+                {bottomSheetParams.previousPointsAmount}
+              </Text>
               <Text style={styles.bottomSheetPointAmount}>{bottomSheetParams.pointsAmount}</Text>
               <LogoHeart size={16} />
             </View>
@@ -253,6 +260,11 @@ const styles = StyleSheet.create({
   bottomSheetPointAmount: {
     ...typeScale.labelSemiBoldXSmall,
     color: Colors.successDark,
+  },
+  bottomSheetPreviousPointsAmount: {
+    ...typeScale.labelSemiBoldXSmall,
+    color: Colors.gray3,
+    textDecorationLine: 'line-through',
   },
   bottomSheetTitle: {
     ...typeScale.titleSmall,
