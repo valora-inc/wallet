@@ -2,11 +2,10 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import Celebration from 'src/icons/Celebration'
-import RushingClock from 'src/icons/RushingClock'
 import SwapArrows from 'src/icons/SwapArrows'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import ActivityCard, { Props as ActivityCardProps } from 'src/points/ActivityCard'
+import ActivityCard, { Props as ActivityCardProps, MoreComingCard } from 'src/points/ActivityCard'
 import { sortByAmountAndTitle } from 'src/points/cardSort'
 import { BottomSheetParams, PointsActivity } from 'src/points/types'
 import Colors from 'src/styles/colors'
@@ -74,17 +73,6 @@ export default function ActivityCardSection({ pointsActivities, onCardPress }: P
   )
 }
 
-function MoreComingCard() {
-  const { t } = useTranslation()
-
-  return (
-    <View style={styles.moreComingCard}>
-      <RushingClock />
-      <Text style={styles.moreComingTitle}>{t('points.activityCards.moreComing.title')}</Text>
-    </View>
-  )
-}
-
 function renderActivityCard(props: ActivityCardProps) {
   return <ActivityCard key={props.activityId} {...props} />
 }
@@ -108,15 +96,5 @@ const styles = StyleSheet.create({
     ...typeScale.bodyXSmall,
     color: Colors.gray3,
     marginTop: Spacing.Tiny4,
-  },
-  moreComingTitle: {
-    ...typeScale.labelSmall,
-  },
-  moreComingCard: {
-    backgroundColor: Colors.gray1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: Spacing.Regular16,
-    gap: Spacing.Smallest8,
   },
 })
