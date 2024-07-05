@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { ClaimHistoryCardItem, PointsActivity } from 'src/points/types'
+import { ClaimHistoryCardItem, PointsActivity, PointsActivityId } from 'src/points/types'
 import { RootState } from 'src/redux/reducers'
 
 export const nextPageUrlSelector = (state: RootState) => {
@@ -27,17 +27,24 @@ export const pointsHistorySelector = createSelector(
   }
 )
 
+export const trackOnceActivitiesSelector = (state: RootState) => {
+  return state.points.trackOnceActivities
+}
+
 export const pointsConfigStatusSelector = (state: RootState) => state.points.pointsConfigStatus
 
 const pointsConfigSelector = (state: RootState) => state.points.pointsConfig
 
-export const pointsActivitiesSelector = createSelector([pointsConfigSelector], (pointsConfig) => {
-  return Object.entries(pointsConfig.activitiesById).map(([activityId, metadata]) => ({
-    ...metadata,
-    activityId,
-    completed: activityId === 'create-wallet',
-  })) as PointsActivity[]
-})
+export const pointsActivitiesSelector = createSelector(
+  [pointsConfigSelector, trackOnceActivitiesSelector],
+  (pointsConfig, trackOnceActivities) => {
+    return Object.entries(pointsConfig.activitiesById).map(([activityId, metadata]) => ({
+      ...metadata,
+      activityId,
+      completed: trackOnceActivities[activityId as PointsActivityId] ?? false,
+    })) as PointsActivity[]
+  }
+)
 
 export const pendingPointsEventsSelector = (state: RootState) => {
   return state.points.pendingPointsEvents
@@ -49,10 +56,6 @@ export const pointsBalanceSelector = (state: RootState) => {
 
 export const pointsBalanceStatusSelector = (state: RootState) => {
   return state.points.pointsBalanceStatus
-}
-
-export const trackOnceActivitiesSelector = (state: RootState) => {
-  return state.points.trackOnceActivities
 }
 
 export const pointsIntroHasBeenDismissedSelector = (state: RootState) => {

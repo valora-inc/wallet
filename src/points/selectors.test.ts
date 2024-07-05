@@ -49,6 +49,9 @@ describe('pointsActivitiesSelector', () => {
             'create-wallet': { pointsAmount: 10 },
           },
         },
+        trackOnceActivities: {
+          'create-wallet': true,
+        },
       },
     })
     const result = pointsActivitiesSelector(stateWithPointsConfig)
