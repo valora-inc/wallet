@@ -11,6 +11,7 @@ import { superchargeInfoSelector } from 'src/consumerIncentives/selectors'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
+import { pointsBalanceSelector } from 'src/points/selectors'
 import { getPositionBalanceUsd } from 'src/positions/getPositionBalanceUsd'
 import {
   hooksPreviewApiUrlSelector,
@@ -93,6 +94,7 @@ export const getCurrentUserTraits = createSelector(
     pincodeTypeSelector,
     superchargeInfoSelector,
     (_state: RootState, networkIds: NetworkId[]) => networkIds,
+    pointsBalanceSelector,
   ],
   (
     rawWalletAddress,
@@ -114,7 +116,8 @@ export const getCurrentUserTraits = createSelector(
     hasCompletedBackup,
     pincodeType,
     superchargeInfo,
-    networkIds
+    networkIds,
+    pointsBalance
   ) => {
     const feeTokenIds = new Set(feeTokens.map(({ tokenId }) => tokenId))
     const tokensByUsdBalance = tokensWithBalance.sort(sortByUsdBalance)
@@ -198,6 +201,7 @@ export const getCurrentUserTraits = createSelector(
       superchargingToken: superchargeInfo.superchargingTokenConfig?.tokenSymbol,
       superchargingAmountInUsd: superchargeInfo.superchargeUsdBalance,
       ...hasTokenBalanceFields,
+      pointsBalance,
     } satisfies Record<string, string | boolean | number | null | undefined>
   }
 )
