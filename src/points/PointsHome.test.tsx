@@ -124,12 +124,12 @@ describe(PointsHome, () => {
   })
 
   it('renders multiple sections', async () => {
-    const { queryByText } = renderPointsHome()
+    const { getByText, queryByText } = renderPointsHome()
 
-    expect(queryByText('points.activityCards.createWallet.title')).toBeTruthy()
-    expect(queryByText('points.activityCards.swap.title')).toBeTruthy()
+    expect(getByText('points.activityCards.createWallet.title')).toBeTruthy()
+    expect(getByText('points.activityCards.swap.title')).toBeTruthy()
 
-    expect(queryByText('points.activityCards.moreComing.title')).toBeTruthy()
+    expect(getByText('points.activityCards.moreComing.title')).toBeTruthy()
 
     expect(queryByText('points.loading.title')).toBeFalsy()
     expect(queryByText('points.error.title')).toBeFalsy()
