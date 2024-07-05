@@ -7,20 +7,20 @@ import ActivityCard, { Props } from './ActivityCard'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
+const mockProps: Props = {
+  activityId: 'swap',
+  pointsAmount: 20,
+  previousPointsAmount: 10,
+  completed: false,
+  title: 'Swap',
+  icon: <SwapArrows testID="SwapArrowsIcon" />,
+  onPress: jest.fn(),
+}
+
 describe('ActivityCard', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
-
-  const mockProps: Props = {
-    activityId: 'swap',
-    pointsAmount: 20,
-    previousPointsAmount: 10,
-    completed: false,
-    title: 'Swap',
-    icon: <SwapArrows testID="SwapArrowsIcon" />,
-    onPress: jest.fn(),
-  }
 
   it('renders correctly', () => {
     const { getByText, getByTestId } = render(<ActivityCard {...mockProps} />)
