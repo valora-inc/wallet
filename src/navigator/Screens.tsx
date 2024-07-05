@@ -11,8 +11,6 @@ export enum Screens {
   ChooseYourAdventure = 'ChooseYourAdventure',
   CoinbasePayScreen = 'CoinbasePayScreen',
   ConsumerIncentivesHomeScreen = 'ConsumerIncentivesHomeScreen',
-  DappKitAccountScreen = 'DappKitAccountScreen',
-  DappKitSignTxScreen = 'DappKitSignTxScreen',
   DappShortcutsRewards = 'DappShortcutsRewards',
   DappShortcutTransactionRequest = 'DappShortcutTransactionRequest',
   DappsScreen = 'DappsScreen',

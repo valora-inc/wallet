@@ -45,7 +45,7 @@ type RouteProps = NativeStackScreenProps<StackParamList, Screens.WebViewScreen>
 type Props = RouteProps
 
 function WebViewScreen({ route, navigation }: Props) {
-  const { uri, dappkitDeeplink } = route.params
+  const { uri } = route.params
 
   const dispatch = useDispatch()
   const { t } = useTranslation()
@@ -129,14 +129,6 @@ function WebViewScreen({ route, navigation }: Props) {
       }
     }
   }, [])
-
-  useEffect(() => {
-    if (activeDapp && dappkitDeeplink) {
-      webViewRef.current?.injectJavaScript(
-        `window.history.replaceState({}, "", "${dappkitDeeplink}"); true;`
-      )
-    }
-  }, [dappkitDeeplink, activeDapp])
 
   useBackHandler(() => {
     // android hardware back button functions as either browser back button or
