@@ -55,13 +55,16 @@ export default function ActivityCardSection({ pointsActivities, onCardPress }: P
     }
   }
 
-  const sortedActivities = React.useMemo(
-    () => pointsActivities.map(mapActivityToCardProps).sort(compareAmountAndTitle),
-    [pointsActivities]
-  )
+  const { incompleteActivities, completedActivities } = React.useMemo(() => {
+    const sortedActivities = pointsActivities
+      .map(mapActivityToCardProps)
+      .sort(compareAmountAndTitle)
 
-  const incompleteActivities = sortedActivities.filter(({ completed }) => !completed)
-  const completedActivities = sortedActivities.filter(({ completed }) => completed)
+    const incompleteActivities = sortedActivities.filter(({ completed }) => !completed)
+    const completedActivities = sortedActivities.filter(({ completed }) => completed)
+
+    return { incompleteActivities, completedActivities }
+  }, [pointsActivities])
 
   return (
     <View style={styles.container}>
