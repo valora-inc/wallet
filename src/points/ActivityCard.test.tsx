@@ -8,6 +8,10 @@ import ActivityCard, { Props } from './ActivityCard'
 jest.mock('src/analytics/ValoraAnalytics')
 
 describe('ActivityCard', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   const mockProps: Props = {
     activityId: 'swap',
     pointsAmount: 20,
