@@ -7,6 +7,7 @@ import SwapArrows from 'src/icons/SwapArrows'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import ActivityCard, { Props as ActivityCardProps } from 'src/points/ActivityCard'
+import { sortByAmountAndTitle } from 'src/points/cardSort'
 import { BottomSheetParams, PointsActivity } from 'src/points/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -86,28 +87,6 @@ function MoreComingCard() {
 
 function renderActivityCard(props: ActivityCardProps) {
   return <ActivityCard key={props.activityId} {...props} />
-}
-
-const sortByAmountAndTitle = (a: ActivityCardProps, b: ActivityCardProps) => {
-  const aPointsAmount = a.pointsAmount ?? 0
-  const bPointsAmount = b.pointsAmount ?? 0
-  const aPreviousPointsAmount = a.previousPointsAmount ?? 0
-  const bPreviousPointsAmount = b.previousPointsAmount ?? 0
-
-  // sort by decreasing points amount
-  if (bPointsAmount !== aPointsAmount) {
-    return bPointsAmount - aPointsAmount
-  }
-
-  // within the same points amount, promote the maximum increase from previous value
-  const diffA = aPointsAmount - aPreviousPointsAmount
-  const diffB = bPointsAmount - bPreviousPointsAmount
-  if (diffB !== diffA) {
-    return diffB - diffA
-  }
-
-  // finally, sort alphabetically
-  return a.title.localeCompare(b.title)
 }
 
 const styles = StyleSheet.create({
