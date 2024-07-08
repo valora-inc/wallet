@@ -171,10 +171,10 @@ function SignInWithEmail({ route }: Props) {
       <CustomHeader
         style={styles.header}
         left={
-          route.params.origin === KeylessBackupOrigin.Settings ? (
+          origin === KeylessBackupOrigin.Settings ? (
             <KeylessBackupCancelButton
-              flow={route.params.keylessBackupFlow}
-              origin={route.params.origin}
+              flow={keylessBackupFlow}
+              origin={origin}
               eventName={KeylessBackupEvents.cab_sign_in_with_email_screen_cancel}
             />
           ) : (
