@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
+import { useDispatch } from 'react-redux'
 import { PointsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
@@ -8,6 +9,7 @@ import { pointsCardBackground } from 'src/images/Images'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { pointsBalanceSelector, pointsIntroHasBeenDismissedSelector } from 'src/points/selectors'
+import { getHistoryStarted } from 'src/points/slice'
 import { useSelector } from 'src/redux/hooks'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -18,6 +20,7 @@ import { Spacing } from 'src/styles/styles'
 export default function PointsDiscoverCard() {
   const showPoints = getFeatureGate(StatsigFeatureGates.SHOW_POINTS)
 
+  const dispatch = useDispatch()
   const { t } = useTranslation()
   const pointsBalance = useSelector(pointsBalanceSelector)
   const pointsIntroHasBeenDismissed = useSelector(pointsIntroHasBeenDismissedSelector)
@@ -30,6 +33,10 @@ export default function PointsDiscoverCard() {
       navigate(Screens.PointsIntro)
     }
   }
+
+  useEffect(() => {
+    dispatch(getHistoryStarted({ getNextPage: false }))
+  }, [])
 
   if (!showPoints) {
     return null
