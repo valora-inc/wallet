@@ -7,6 +7,7 @@
   "engines": {
     "node": "20.11.1"
   },
+  "packageManager": "yarn@3.6.4",
   "scripts": {
     "lint": "eslint --ext=.tsx,.ts src/",
     "format": "prettier --loglevel error --write .",
