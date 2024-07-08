@@ -37,7 +37,6 @@ import {
   sentryNetworkErrorsSelector,
   shouldRunVerificationMigrationSelector,
 } from 'src/app/selectors'
-import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { initI18n } from 'src/i18n'
@@ -73,7 +72,6 @@ import {
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockTokenBalances } from 'test/values'
 
-jest.mock('src/dappkit/dappkit')
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/sentry/Sentry')
 jest.mock('src/sentry/SentryTransactionHub')
@@ -105,19 +103,6 @@ mockedDEK.compressedPubKey = jest.fn().mockReturnValue('publicKeyForUser')
 describe('handleDeepLink', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-  })
-
-  it('Handles Dappkit deep link', async () => {
-    const deepLink = 'celo://wallet/dappkit?abcdsa'
-    await expectSaga(handleDeepLink, openDeepLink(deepLink))
-      .provide([[select(walletAddressSelector), mockAccount]])
-      .run()
-    expect(handleDappkitDeepLink).toHaveBeenCalledWith(deepLink)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
-      pathStartsWith: 'dappkit',
-      fullPath: '/dappkit',
-      query: 'abcdsa',
-    })
   })
 
   it('Handles payment deep link', async () => {
