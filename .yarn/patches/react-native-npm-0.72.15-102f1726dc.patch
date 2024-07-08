@@ -1,0 +1,21 @@
+diff --git a/Libraries/AppDelegate/RCTAppDelegate.h b/Libraries/AppDelegate/RCTAppDelegate.h
+index a5bd94cb730a6266f78225da523f54544d539bab..a595044377839e714be6a0bc56ca7b63378ed08b 100644
+--- a/Libraries/AppDelegate/RCTAppDelegate.h
++++ b/Libraries/AppDelegate/RCTAppDelegate.h
+@@ -7,6 +7,7 @@
+ 
+ #import <React/RCTBridge.h>
+ #import <React/RCTBridgeDelegate.h>
++#import <UserNotifications/UserNotifications.h>
+ #import <UIKit/UIKit.h>
+ 
+ @class RCTSurfacePresenterBridgeAdapter;
+@@ -49,7 +50,7 @@
+                                                          (const facebook::react::ObjCTurboModule::InitParams &)params
+  *   - (id<RCTTurboModule>)getModuleInstanceFromClass:(Class)moduleClass
+  */
+-@interface RCTAppDelegate : UIResponder <UIApplicationDelegate, RCTBridgeDelegate>
++@interface RCTAppDelegate : UIResponder <UIApplicationDelegate, RCTBridgeDelegate, UNUserNotificationCenterDelegate>
+ 
+ /// The window object, used to render the UViewControllers
+ @property (nonatomic, strong) UIWindow *window;

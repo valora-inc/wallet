@@ -344,7 +344,8 @@
     "follow-redirects": "^1.15.6",
     "redux": "^5.0.1",
     "braces": "^3.0.3",
-    "blind-threshold-bls": "https://github.com/celo-org/blind-threshold-bls-wasm.git#e1e2f8a1ab5154c2f0b1c55cb0d61fbb1d907208"
+    "blind-threshold-bls": "https://github.com/celo-org/blind-threshold-bls-wasm.git#e1e2f8a1ab5154c2f0b1c55cb0d61fbb1d907208",
+    "react-native@0.72.15": "patch:react-native@npm%3A0.72.15#./.yarn/patches/react-native-npm-0.72.15-102f1726dc.patch"
   },
   "detox": {
     "testRunner": {
