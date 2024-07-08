@@ -1,4 +1,4 @@
-import { pointsSectionsSelector, pointsHistorySelector } from 'src/points/selectors'
+import { pointsActivitiesSelector, pointsHistorySelector } from 'src/points/selectors'
 import { getMockStoreData } from 'test/utils'
 
 describe('pointsHistorySelector', () => {
@@ -26,7 +26,7 @@ describe('pointsHistorySelector', () => {
   })
 })
 
-describe('pointsMetadataSelector', () => {
+describe('pointsActivitiesSelector', () => {
   it('should return an empty array if there are no activities', () => {
     const stateWithoutPointsConfig = getMockStoreData({
       points: {
@@ -35,12 +35,12 @@ describe('pointsMetadataSelector', () => {
         },
       },
     })
-    const result = pointsSectionsSelector(stateWithoutPointsConfig)
+    const result = pointsActivitiesSelector(stateWithoutPointsConfig)
 
     expect(result).toEqual([])
   })
 
-  it('should return the points config as points metadata', () => {
+  it('should return points activities as per config', () => {
     const stateWithPointsConfig = getMockStoreData({
       points: {
         pointsConfig: {
@@ -49,39 +49,16 @@ describe('pointsMetadataSelector', () => {
             'create-wallet': { pointsAmount: 10 },
           },
         },
-      },
-    })
-    const result = pointsSectionsSelector(stateWithPointsConfig)
-
-    expect(result).toEqual([
-      {
-        pointsAmount: 10,
-        activities: [
-          { activityId: 'swap' },
-          {
-            activityId: 'create-wallet',
-          },
-        ],
-      },
-    ])
-  })
-
-  it('should return points metadata ordered by points value', () => {
-    const stateWithPointsConfig = getMockStoreData({
-      points: {
-        pointsConfig: {
-          activitiesById: {
-            swap: { pointsAmount: 10 },
-            'create-wallet': { pointsAmount: 20 },
-          },
+        trackOnceActivities: {
+          'create-wallet': true,
         },
       },
     })
-    const result = pointsSectionsSelector(stateWithPointsConfig)
+    const result = pointsActivitiesSelector(stateWithPointsConfig)
 
     expect(result).toEqual([
-      { pointsAmount: 20, activities: [{ activityId: 'create-wallet' }] },
-      { pointsAmount: 10, activities: [{ activityId: 'swap' }] },
+      { activityId: 'swap', pointsAmount: 10, completed: false },
+      { activityId: 'create-wallet', pointsAmount: 10, completed: true },
     ])
   })
 })
