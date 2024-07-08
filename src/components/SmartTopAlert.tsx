@@ -23,7 +23,7 @@ function SmartTopAlert({ alert }: Props) {
   const [visibleAlertState, setVisibleAlertState] = useState(alert)
   const insets = useSafeAreaInsets()
   const yOffset = useRef(new Animated.Value(-500))
-  const containerRef = useRef<View>()
+  const containerRef = useRef<View>(null)
 
   function hide() {
     if (!containerRef.current) {
