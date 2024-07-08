@@ -183,7 +183,7 @@ function SignInWithEmail({ route }: Props) {
             <BackButton />
           )
         }
-        title={isSetup ? t('keylessBackupSetupTitle') : null}
+        title={isSetupInOnboarding ? t('keylessBackupSetupTitle') : null}
         subTitle={
           // We only show the step number for onboarding new users
           isSetupInOnboarding ? t('registrationSteps', { step, totalSteps }) : null
