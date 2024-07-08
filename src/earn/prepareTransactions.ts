@@ -14,7 +14,7 @@ import { ensureError } from 'src/utils/ensureError'
 import { publicClient } from 'src/viem'
 import { TransactionRequest, prepareTransactions } from 'src/viem/prepareTransactions'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
-import { Address, encodeFunctionData, isAddress, parseUnits } from 'viem'
+import { Address, encodeFunctionData, isAddress, maxUint256, parseUnits } from 'viem'
 
 const TAG = 'earn/prepareTransactions'
 
@@ -146,7 +146,7 @@ export async function prepareWithdrawAndClaimTransactions({
     throw new Error(`Cannot use a token without address. Token id: ${token.tokenId}`)
   }
 
-  const amountToWithdraw = parseUnits(amount, token.decimals)
+  const amountToWithdraw = maxUint256 // Withdraws entire balance https://docs.aave.com/developers/core-contracts/pool#withdraw
 
   baseTransactions.push({
     from: walletAddress,

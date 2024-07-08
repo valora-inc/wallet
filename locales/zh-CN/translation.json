@@ -2344,7 +2344,7 @@
       "retryCta": "再试一次"
     },
     "infoCard": {
-      "title": "即将推出更多赚取积分的方法 🚀",
+      "title": "更多赢取积分的方法即将推出",
       "body": "我们正在努力增加更多通过使用应用程序赚取积分的方法。请随时查看更新。"
     },
     "activitySection": {
@@ -2373,7 +2373,8 @@
     },
     "discoverCard": {
       "title": "{{appName}} 积分",
-      "description": "通过 {{appName}} 轻松赚取积分。使用本应用程序（包括交换）可获得积分！"
+      "description": "通过 {{appName}} 轻松赚取积分。使用本应用程序（包括交换）可获得积分！",
+      "balance": "{{pointsBalance}} 积分"
     },
     "intro": {
       "title": "轻松赚取积分",

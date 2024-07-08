@@ -2346,7 +2346,7 @@
       "retryCta": "Reintentar"
     },
     "infoCard": {
-      "title": "Más formas de ganar puntos pronto 🚀",
+      "title": "Próximamente más formas de ganar puntos",
       "body": "Estamos trabajando para agregar más formas de ganar puntos. ¡No te pierdas lo que se viene!"
     },
     "activitySection": {
@@ -2375,7 +2375,8 @@
     },
     "discoverCard": {
       "title": "Puntos de {{appName}}",
-      "description": "Gana puntos fácilmente con {{appName}}. ¡Solo tienes que usar la app!"
+      "description": "Gana puntos fácilmente con {{appName}}. ¡Solo tienes que usar la app!",
+      "balance": "puntos de {{pointsBalance}}"
     },
     "intro": {
       "title": "Gana puntos sin esfuerzo",

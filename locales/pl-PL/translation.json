@@ -2350,7 +2350,7 @@
       "retryCta": "Spróbuj ponownie"
     },
     "infoCard": {
-      "title": "Więcej sposobów na zdobywanie punktów już wkrótce 🚀",
+      "title": "Więcej sposobów na zdobywanie punktów już wkrótce",
       "body": "Pracujemy nad dodaniem kolejnych sposobów na zdobywanie punktów za pomocą aplikacji. Sprawdzaj na bieżąco aktualizacje."
     },
     "activitySection": {
@@ -2379,7 +2379,8 @@
     },
     "discoverCard": {
       "title": "Punkty {{appName}}",
-      "description": "Łatwo zdobywaj punkty dzięki {{appName}}. Korzystanie z aplikacji, włączając w to dokonywanie swapów, prowadzi do zdobywania punktów!"
+      "description": "Łatwo zdobywaj punkty dzięki {{appName}}. Korzystanie z aplikacji, włączając w to dokonywanie swapów, prowadzi do zdobywania punktów!",
+      "balance": "punkty {{pointsBalance}}"
     },
     "intro": {
       "title": "Zdobywaj punkty bez wysiłku",
