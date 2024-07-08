@@ -87,7 +87,9 @@ function SignInWithEmail({ route }: Props) {
   const insetsStyle = {
     paddingBottom: Math.max(0, 40 - bottom),
   }
-  const isOnboarding = origin === KeylessBackupOrigin.Onboarding
+
+  const isSetupInOnboarding =
+    keylessBackupFlow === KeylessBackupFlow.Setup && origin === KeylessBackupOrigin.Onboarding
 
   const bottomSheetRef = useRef<BottomSheetRefType>(null)
 
@@ -183,7 +185,7 @@ function SignInWithEmail({ route }: Props) {
         title={t('keylessBackupOnboardingTitle')}
         subTitle={
           // We only show the step number for onboarding new users
-          isOnboarding ? t('registrationSteps', { step, totalSteps }) : null
+          isSetupInOnboarding ? t('registrationSteps', { step, totalSteps }) : null
         }
       />
       <ScrollView style={styles.scrollContainer}>
@@ -200,7 +202,7 @@ function SignInWithEmail({ route }: Props) {
       <View
         style={[
           styles.buttonContainer,
-          isOnboarding ? insetsStyle : { marginBottom: Spacing.Thick24 },
+          isSetupInOnboarding ? insetsStyle : { marginBottom: Spacing.Thick24 },
         ]}
       >
         <Button
@@ -214,7 +216,7 @@ function SignInWithEmail({ route }: Props) {
           showLoading={loading}
           disabled={loading}
         />
-        {isOnboarding && (
+        {isSetupInOnboarding && (
           <Button
             testID="SignInWithEmail/SignInAnotherWay"
             onPress={onPressSignInAnotherWay}
@@ -224,7 +226,7 @@ function SignInWithEmail({ route }: Props) {
           />
         )}
       </View>
-      {isOnboarding && (
+      {isSetupInOnboarding && (
         <SignInWithEmailBottomSheet
           onPressContinue={onPressContinue}
           onPressSkip={onPressSkip}
