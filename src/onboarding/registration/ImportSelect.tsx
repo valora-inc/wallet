@@ -93,7 +93,7 @@ export default function ImportSelect({ navigation }: Props) {
             onPress={() =>
               navigate(Screens.SignInWithEmail, {
                 keylessBackupFlow: KeylessBackupFlow.Restore,
-                origin: KeylessBackupOrigin.Restore,
+                origin: KeylessBackupOrigin.Onboarding,
               })
             }
             testID="ImportSelect/CloudBackup"
