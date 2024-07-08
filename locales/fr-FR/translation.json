@@ -2346,7 +2346,7 @@
       "retryCta": "Veuillez réessayer"
     },
     "infoCard": {
-      "title": "Plus de façons de gagner des points seront bientôt disponibles 🚀",
+      "title": "D'autres façons de gagner des points seront bientôt disponibles",
       "body": "Nous ajouterons bientôt d'autres façons de gagner des points en utilisant l'application. Restez connecté pour connaître les dernières mises à jour."
     },
     "activitySection": {
@@ -2375,7 +2375,8 @@
     },
     "discoverCard": {
       "title": "{{appName}} Points",
-      "description": "Gagnez facilement des points avec {{appName}}. Utilisez l'application, notamment en faisant du swapping et à vous les points !"
+      "description": "Gagnez facilement des points avec {{appName}}. Utilisez l'application, notamment en faisant du swapping et à vous les points !",
+      "balance": "{{pointsBalance}} points"
     },
     "intro": {
       "title": "Gagnez des points en toute simplicité",

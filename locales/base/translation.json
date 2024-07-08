@@ -29,7 +29,7 @@
   "dataSaver": "Data Saver",
   "enableDataSaver": "Enable Data Saver",
   "dataSaverDetail": "Data Saver mode allows you to communicate with the the network through a trusted node. You can always change this mode in app settings.",
-  "keylessBackupOnboardingTitle": "Create Login",
+  "keylessBackupSetupTitle": "Create Login",
   "keylessBackupSettingsTitle": "Email & Phone Backup",
   "keylessBackupSettingsDeleteError": "Your backup was not able to be deleted, please wait & try again later.",
   "setup": "Set Up",
@@ -2356,7 +2356,7 @@
       "retryCta": "Try again"
     },
     "infoCard": {
-      "title": "More ways to earn points coming soon 🚀",
+      "title": "More ways to earn points coming soon",
       "body": "We are working on adding more ways to earn points through using the app. Keep checking in for updates."
     },
     "activitySection": {

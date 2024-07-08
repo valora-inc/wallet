@@ -2346,7 +2346,7 @@
       "retryCta": "Riprova"
     },
     "infoCard": {
-      "title": "A breve potrai scoprire altri modi per guadagnare punti 🚀",
+      "title": "Altri modi per guadagnare punti in arrivo",
       "body": "Aggiungiamo continuamente nuovi modi per guadagnare punti utilizzando l'app. Continua a seguirci."
     },
     "activitySection": {
@@ -2375,7 +2375,8 @@
     },
     "discoverCard": {
       "title": "Punti {{appName}}",
-      "description": "Guadagna punti facilmente con {{appName}}. Usa l'app, che permette anche lo scambio, e guadagna punti!"
+      "description": "Guadagna punti facilmente con {{appName}}. Usa l'app, che permette anche lo scambio, e guadagna punti!",
+      "balance": "punti {{pointsBalance}}"
     },
     "intro": {
       "title": "Guadagna punti senza fatica",

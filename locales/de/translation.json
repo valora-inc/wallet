@@ -2346,7 +2346,7 @@
       "retryCta": "Erneut versuchen"
     },
     "infoCard": {
-      "title": "Bald hast du noch mehr Möglichkeiten, Punkte zu verdienen 🚀",
+      "title": "Bald gibt es mehr Möglichkeiten, Punkte zu sammeln",
       "body": "Wir arbeiten daran, weitere Möglichkeiten zum Verdienen von Punkten mit der App hinzuzufügen. Wir halten dich auf dem Laufenden!"
     },
     "activitySection": {
@@ -2375,7 +2375,8 @@
     },
     "discoverCard": {
       "title": "{{appName}} Punkte",
-      "description": "Sammle ganz einfach Punkte mit {{appName}}. Mit der Nutzung der App, einschließlich des Tauschens, erhältst du Punkte!"
+      "description": "Sammle ganz einfach Punkte mit {{appName}}. Mit der Nutzung der App, einschließlich des Tauschens, erhältst du Punkte!",
+      "balance": "{{pointsBalance}} punkte"
     },
     "intro": {
       "title": "Verdiene mühelos Punkte",

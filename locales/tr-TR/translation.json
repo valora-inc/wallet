@@ -2346,7 +2346,7 @@
       "retryCta": "Tekrar deneyin"
     },
     "infoCard": {
-      "title": "Puan kazanmanın daha fazla yolu çok yakında 🚀",
+      "title": "Puan kazanmanın daha fazla yolu çok yakında",
       "body": "Uygulamayı kullanarak puan kazanmanın daha fazla yolunu eklemek için çalışıyoruz. Güncellemeler için kontrol etmeye devam edin."
     },
     "activitySection": {
@@ -2375,7 +2375,8 @@
     },
     "discoverCard": {
       "title": "{{appName}} Puanları",
-      "description": "{{appName}} ile kolayca puan kazanın. Takas işlemi dahil olmak üzere uygulamayı kullanmak puan kazandırır!"
+      "description": "{{appName}} ile kolayca puan kazanın. Takas işlemi dahil olmak üzere uygulamayı kullanmak puan kazandırır!",
+      "balance": "{{pointsBalance}} puanları"
     },
     "intro": {
       "title": "Zahmetsizce puan kazanın",
