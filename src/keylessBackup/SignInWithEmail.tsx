@@ -33,15 +33,35 @@ import Logger from 'src/utils/Logger'
 const TAG = 'keylessBackup/SignInWithEmail'
 
 function SignInWithEmailBottomSheet({
-  onPressContinue,
-  onPressSkip,
+  keylessBackupFlow,
+  origin,
   bottomSheetRef,
 }: {
-  onPressContinue: () => void
-  onPressSkip: () => void
+  keylessBackupFlow: KeylessBackupFlow
+  origin: KeylessBackupOrigin
   bottomSheetRef: React.RefObject<BottomSheetRefType>
 }) {
   const { t } = useTranslation()
+  const onboardingProps = useSelector(onboardingPropsSelector)
+  const onPressContinue = () => {
+    ValoraAnalytics.track(KeylessBackupEvents.cab_setup_recovery_phrase)
+    bottomSheetRef.current?.close()
+    goToNextOnboardingScreen({
+      firstScreenInCurrentStep: Screens.SignInWithEmail,
+      onboardingProps: { ...onboardingProps, showRecoveryPhraseEducation: true },
+    })
+  }
+
+  const onPressSkip = () => {
+    ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_email_screen_skip, {
+      keylessBackupFlow,
+      origin,
+    })
+    goToNextOnboardingScreen({
+      firstScreenInCurrentStep: Screens.SignInWithEmail,
+      onboardingProps,
+    })
+  }
 
   return (
     <BottomSheet
@@ -100,26 +120,6 @@ function SignInWithEmail({ route }: Props) {
       origin,
     })
     bottomSheetRef.current?.snapToIndex(0)
-  }
-
-  const onPressContinue = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_setup_recovery_phrase)
-    bottomSheetRef.current?.close()
-    goToNextOnboardingScreen({
-      firstScreenInCurrentStep: Screens.SignInWithEmail,
-      onboardingProps: { ...onboardingProps, showRecoveryPhraseEducation: true },
-    })
-  }
-
-  const onPressSkip = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_email_screen_skip, {
-      keylessBackupFlow,
-      origin,
-    })
-    goToNextOnboardingScreen({
-      firstScreenInCurrentStep: Screens.SignInWithEmail,
-      onboardingProps,
-    })
   }
 
   const onPressGoogle = async () => {
@@ -227,8 +227,8 @@ function SignInWithEmail({ route }: Props) {
       </View>
       {isSetupInOnboarding && (
         <SignInWithEmailBottomSheet
-          onPressContinue={onPressContinue}
-          onPressSkip={onPressSkip}
+          keylessBackupFlow={keylessBackupFlow}
+          origin={origin}
           bottomSheetRef={bottomSheetRef}
         />
       )}
