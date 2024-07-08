@@ -25,3 +25,5 @@ e2e/test-results/*
 # Ignore generated fastlane files
 fastlane/README.md
 
+# yarn v3
+.yarn/releases/*
