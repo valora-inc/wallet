@@ -88,6 +88,7 @@ function SignInWithEmail({ route }: Props) {
     paddingBottom: Math.max(0, 40 - bottom),
   }
 
+  const isSetup = keylessBackupFlow === KeylessBackupFlow.Setup
   const isSetupInOnboarding =
     keylessBackupFlow === KeylessBackupFlow.Setup && origin === KeylessBackupOrigin.Onboarding
 
@@ -182,7 +183,7 @@ function SignInWithEmail({ route }: Props) {
             <BackButton />
           )
         }
-        title={t('keylessBackupOnboardingTitle')}
+        title={isSetup ? t('keylessBackupSetupTitle') : null}
         subTitle={
           // We only show the step number for onboarding new users
           isSetupInOnboarding ? t('registrationSteps', { step, totalSteps }) : null
@@ -194,9 +195,7 @@ function SignInWithEmail({ route }: Props) {
         </View>
         <Text style={styles.title}>{t('signInWithEmail.title')}</Text>
         <Text style={styles.subtitle}>
-          {keylessBackupFlow === KeylessBackupFlow.Setup
-            ? t('signInWithEmail.subtitle')
-            : t('signInWithEmail.subtitleRestore')}
+          {isSetup ? t('signInWithEmail.subtitle') : t('signInWithEmail.subtitleRestore')}
         </Text>
       </ScrollView>
       <View
