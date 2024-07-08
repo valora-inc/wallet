@@ -196,6 +196,9 @@ export function* getPointsConfig() {
 export function* fetchTrackPointsEventsEndpoint(event: PointsEvent) {
   const address = yield* select(walletAddressSelector)
   const signedMessage = yield* call(retrieveSignedMessage)
+  if (!signedMessage) {
+    throw new Error(`No signed message found when tracking points event ${event.activityId}`)
+  }
 
   return yield* call(fetchWithTimeout, networkConfig.trackPointsEventUrl, {
     method: 'POST',
@@ -243,20 +246,18 @@ export function* sendPointsEvent({ payload: event }: ReturnType<typeof trackPoin
       event,
     })
   )
+  try {
+    const response = yield* call(fetchTrackPointsEventsEndpoint, event)
+    if (!response.ok) {
+      const responseText = yield* call([response, response.text])
+      throw new Error(
+        `Failed to track points event ${event.activityId}: ${response.status} ${responseText}`
+      )
+    }
 
-  const response = yield* call(fetchTrackPointsEventsEndpoint, event)
-
-  if (response.ok) {
     yield* put(pointsEventProcessed({ id }))
-  } else {
-    const responseText = yield* call([response, response.text])
-    Logger.warn(
-      `${TAG}@sendPointsEvent`,
-      event.activityId,
-      response.status,
-      response.statusText,
-      responseText
-    )
+  } catch (error) {
+    Logger.warn(`${TAG}@sendPointsEvent`, event.activityId, error)
   }
 }
 

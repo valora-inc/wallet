@@ -442,10 +442,36 @@ describe('sendPointsEvent', () => {
     expect(Logger.warn).toHaveBeenCalledWith(
       'Points/saga@sendPointsEvent',
       mockAction.payload.activityId,
-      mockServerErrorResponse.status,
-      mockServerErrorResponse.statusText,
-      mockServerErrorMessage
+      new Error('Failed to track points event create-wallet: 500 Error message from server')
     )
+  })
+
+  it('should not send the tracked event if the user does not have a signed message', async () => {
+    const mockAction = trackPointsEvent({ activityId: 'create-wallet' })
+
+    await expectSaga(sendPointsEvent, mockAction)
+      .provide([
+        [select(walletAddressSelector), '0xabc'],
+        [call(retrieveSignedMessage), null],
+        [select(trackOnceActivitiesSelector), { 'create-wallet': false }],
+        [select(pendingPointsEventsSelector), []],
+      ])
+      .put(
+        sendPointsEventStarted({
+          id: mockId,
+          timestamp: mockTime,
+          event: mockAction.payload,
+        })
+      )
+      .not.put(pointsEventProcessed({ id: mockId }))
+      .run()
+
+    expect(Logger.warn).toHaveBeenCalledWith(
+      'Points/saga@sendPointsEvent',
+      mockAction.payload.activityId,
+      new Error('No signed message found when tracking points event create-wallet')
+    )
+    expect(fetchWithTimeoutSpy).not.toHaveBeenCalled()
   })
 
   it('should ignore any track once activities that were already tracked', async () => {
