@@ -1,6 +1,6 @@
 import { differenceInDays } from 'date-fns'
 import { isEqual } from 'lodash'
-import { Actions as AppActions } from 'src/app/actions'
+import { Actions as HomeActions } from 'src/home/actions'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import {
   nextPageUrlSelector,
@@ -36,7 +36,6 @@ import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
 import networkConfig from 'src/web3/networkConfig'
-import { getWalletAddress } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, put, select, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
 import { v4 as uuidv4 } from 'uuid'
@@ -309,12 +308,8 @@ function* watchTrackPointsEvent() {
   yield* takeEvery(trackPointsEvent.type, safely(sendPointsEvent))
 }
 
-export function* watchAppMounted() {
-  yield* take(AppActions.APP_MOUNTED)
-
-  // Wait for wallet address to exist before proceeding
-  yield* call(getWalletAddress)
-
+export function* watchHomeScreenVisit() {
+  yield* take(HomeActions.VISIT_HOME)
   yield* spawn(getPointsConfig)
   yield* spawn(getPointsBalance, getHistoryStarted({ getNextPage: false }))
   yield* spawn(sendPendingPointsEvents)
@@ -324,5 +319,5 @@ export function* pointsSaga() {
   yield* spawn(watchGetHistory)
   yield* spawn(watchGetConfig)
   yield* spawn(watchTrackPointsEvent)
-  yield* spawn(watchAppMounted)
+  yield* spawn(watchHomeScreenVisit)
 }

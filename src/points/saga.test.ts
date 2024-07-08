@@ -5,7 +5,7 @@ import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call, select, spawn } from 'redux-saga/effects'
-import { Actions as AppActions } from 'src/app/actions'
+import { Actions as HomeActions } from 'src/home/actions'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import * as pointsSaga from 'src/points/saga'
 import {
@@ -16,7 +16,7 @@ import {
   getPointsConfig,
   sendPendingPointsEvents,
   sendPointsEvent,
-  watchAppMounted,
+  watchHomeScreenVisit,
 } from 'src/points/saga'
 import { pendingPointsEventsSelector, trackOnceActivitiesSelector } from 'src/points/selectors'
 import pointsReducer, {
@@ -41,7 +41,6 @@ import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import * as fetchWithTimeout from 'src/utils/fetchWithTimeout'
 import networkConfig from 'src/web3/networkConfig'
-import { getWalletAddress } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import { mockAccount } from 'test/values'
@@ -588,17 +587,16 @@ describe('sendPendingPointsEvents', () => {
   })
 })
 
-describe('watchAppMounted', () => {
+describe('watchHomeScreenVisit', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
   it('should spawn all sagas only once even if multiple "app mounted" actions are dispatched', async () => {
-    const mockAction = { type: AppActions.APP_MOUNTED }
+    const mockAction = { type: HomeActions.VISIT_HOME }
 
-    const result = await expectSaga(watchAppMounted)
+    const result = await expectSaga(watchHomeScreenVisit)
       .provide([
-        [call(getWalletAddress), mockAccount],
         [spawn(getPointsConfig), null],
         [spawn(getPointsBalance, getHistoryStarted({ getNextPage: false })), null],
         [spawn(sendPendingPointsEvents), null],
