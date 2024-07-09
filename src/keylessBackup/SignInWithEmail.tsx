@@ -47,10 +47,7 @@ function SignInWithEmailBottomSheet({
   const onPressContinue = () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_setup_recovery_phrase)
     bottomSheetRef.current?.close()
-    goToNextOnboardingScreen({
-      firstScreenInCurrentStep: Screens.SignInWithEmail,
-      onboardingProps: { ...onboardingProps, showRecoveryPhraseEducation: true },
-    })
+    navigate(Screens.AccountKeyEducation, { origin: 'cabOnboarding' })
   }
 
   const onPressSkip = () => {
