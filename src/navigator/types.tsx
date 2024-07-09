@@ -1,5 +1,4 @@
 import { Countries } from '@celo/phone-utils'
-import { AccountAuthRequest, SignTxRequest } from '@celo/utils'
 import { KycSchema } from '@fiatconnect/fiatconnect-types'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
@@ -71,12 +70,6 @@ export type StackParamList = {
   [Screens.CashInSuccess]: { provider?: string }
   [Screens.ChooseYourAdventure]: undefined
   [Screens.ConsumerIncentivesHomeScreen]: undefined
-  [Screens.DappKitAccountScreen]: {
-    dappKitRequest: AccountAuthRequest
-  }
-  [Screens.DappKitSignTxScreen]: {
-    dappKitRequest: SignTxRequest
-  }
   [Screens.DappShortcutsRewards]: undefined
   [Screens.DappShortcutTransactionRequest]: {
     rewardId: string
@@ -322,7 +315,7 @@ export type StackParamList = {
     | { type: WalletConnectRequestType.TimeOut }
   [Screens.WalletConnectSessions]: undefined
   [Screens.WalletSecurityPrimer]: undefined
-  [Screens.WebViewScreen]: { uri: string; dappkitDeeplink?: string }
+  [Screens.WebViewScreen]: { uri: string }
   [Screens.Welcome]: undefined
   [Screens.WithdrawSpend]: undefined
 }

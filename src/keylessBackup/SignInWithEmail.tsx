@@ -15,6 +15,7 @@ import { email } from 'src/images/Images'
 import KeylessBackupCancelButton from 'src/keylessBackup/KeylessBackupCancelButton'
 import { googleSignInCompleted, keylessBackupStarted } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
+import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -189,10 +190,13 @@ function SignInWithEmail({ route }: Props) {
             />
           )
         }
-        title={isSetupInOnboarding ? t('keylessBackupSetupTitle') : null}
-        subTitle={
-          // We only show the step number for onboarding new users
-          isSetupInOnboarding ? t('registrationSteps', { step, totalSteps }) : null
+        title={
+          isSetupInOnboarding ? (
+            <HeaderTitleWithSubtitle
+              title={t('keylessBackupSetupTitle')}
+              subTitle={t('registrationSteps', { step, totalSteps })}
+            />
+          ) : null
         }
       />
       <ScrollView style={styles.scrollContainer}>

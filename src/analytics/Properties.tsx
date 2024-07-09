@@ -1,4 +1,3 @@
-import { DappKitRequestTypes } from '@celo/utils'
 import {
   FiatAccountSchema,
   FiatConnectError,
@@ -17,7 +16,6 @@ import {
   CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
-  DappKitEvents,
   DappShortcutsEvents,
   EarnEvents,
   EscrowEvents,
@@ -1087,31 +1085,6 @@ interface WalletConnectProperties {
   [WalletConnectEvents.wc_copy_request_payload]: WalletConnectRequestDefaultProperties
 }
 
-interface DappKitRequestDefaultProperties {
-  dappRequestOrigin: DappRequestOrigin
-  dappName: string
-  dappUrl: string
-  requestType: DappKitRequestTypes
-  requestCallback: string
-  requestId: string
-}
-
-interface DappKitProperties {
-  [DappKitEvents.dappkit_parse_deeplink_error]: {
-    dappRequestOrigin: DappRequestOrigin
-    deeplink: string
-    error: string
-  }
-  [DappKitEvents.dappkit_request_propose]: DappKitRequestDefaultProperties
-  [DappKitEvents.dappkit_request_cancel]: DappKitRequestDefaultProperties
-  [DappKitEvents.dappkit_copy_request_details]: DappKitRequestDefaultProperties
-  [DappKitEvents.dappkit_request_accept_start]: DappKitRequestDefaultProperties
-  [DappKitEvents.dappkit_request_accept_success]: DappKitRequestDefaultProperties
-  [DappKitEvents.dappkit_request_accept_error]: DappKitRequestDefaultProperties & {
-    error: string
-  }
-}
-
 interface CICOEventsProperties {
   [CICOEvents.persona_kyc_start]: undefined
   [CICOEvents.persona_kyc_success]: undefined
@@ -1693,7 +1666,6 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   NavigationProperties &
   RewardsProperties &
   WalletConnectProperties &
-  DappKitProperties &
   CICOEventsProperties &
   DappExplorerEventsProperties &
   WebViewEventsProperties &

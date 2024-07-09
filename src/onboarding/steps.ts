@@ -280,18 +280,6 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
           }
         },
       }
-    case Screens.AccountKeyEducation:
-      return {
-        next: () => {
-          navigate(Screens.OnboardingRecoveryPhrase)
-        },
-      }
-    case Screens.OnboardingRecoveryPhrase:
-      return {
-        next: () => {
-          finishOnboarding(Screens.ChooseYourAdventure)
-        },
-      }
     case Screens.ImportWallet:
       return {
         next: () => {
