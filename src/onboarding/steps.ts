@@ -40,7 +40,6 @@ export interface OnboardingProps {
   numberAlreadyVerifiedCentrally: boolean
   showCloudAccountBackupRestore: boolean
   showCloudAccountBackupSetup: boolean
-  showRecoveryPhraseEducation: boolean
 }
 
 /**
@@ -96,7 +95,6 @@ export const onboardingPropsSelector = createSelector(
       numberAlreadyVerifiedCentrally,
       showCloudAccountBackupRestore,
       showCloudAccountBackupSetup,
-      showRecoveryPhraseEducation: false,
     }
   }
 )
@@ -203,7 +201,6 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
     skipVerification,
     numberAlreadyVerifiedCentrally,
     showCloudAccountBackupSetup,
-    showRecoveryPhraseEducation,
   } = props
 
   const navigateImportOrImportSelect = () => {
@@ -267,11 +264,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
     case Screens.SignInWithEmail:
       return {
         next: () => {
-          if (showRecoveryPhraseEducation) {
-            navigate(Screens.AccountKeyEducation, {
-              origin: 'cabOnboarding',
-            })
-          } else if (skipVerification || numberAlreadyVerifiedCentrally) {
+          if (skipVerification || numberAlreadyVerifiedCentrally) {
             dispatch(setHasSeenVerificationNux(true))
             finishOnboarding(Screens.ChooseYourAdventure)
           } else {
