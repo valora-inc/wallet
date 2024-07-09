@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: Spacing.Regular16,
     gap: Spacing.Smallest8,
+    borderRadius: Spacing.Smallest8,
   },
   faded: {
     opacity: 0.5,
