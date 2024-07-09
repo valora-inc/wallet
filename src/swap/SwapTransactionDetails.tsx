@@ -8,7 +8,9 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
+import { currentLanguageSelector } from 'src/i18n/selectors'
 import InfoIcon from 'src/icons/InfoIcon'
+import { useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -19,6 +21,7 @@ interface Props {
   estimatedNetworkFee?: BigNumber
   networkFeeInfoBottomSheetRef: React.RefObject<BottomSheetRefType>
   slippageInfoBottomSheetRef: React.RefObject<BottomSheetRefType>
+  estimatedDurationBottomSheetRef: React.RefObject<BottomSheetRefType>
   slippagePercentage: string
   feeTokenId: string
   fromToken?: TokenBalance
@@ -33,6 +36,7 @@ interface Props {
     percentage: BigNumber
   }
   appFeeInfoBottomSheetRef: React.RefObject<BottomSheetRefType>
+  estimatedDurationInSeconds?: number
 }
 
 function LabelWithInfo({
@@ -131,6 +135,7 @@ export function SwapTransactionDetails({
   estimatedNetworkFee,
   networkFeeInfoBottomSheetRef,
   slippageInfoBottomSheetRef,
+  estimatedDurationBottomSheetRef,
   feeTokenId,
   slippagePercentage,
   fromToken,
@@ -141,8 +146,10 @@ export function SwapTransactionDetails({
   fetchingSwapQuote,
   appFee,
   appFeeInfoBottomSheetRef,
+  estimatedDurationInSeconds,
 }: Props) {
   const { t } = useTranslation()
+  const locale = useSelector(currentLanguageSelector)
 
   const placeholder = '-'
   return (
@@ -246,6 +253,26 @@ export function SwapTransactionDetails({
           </Trans>
         </Text>
       </View>
+      {!!estimatedDurationInSeconds && (
+        <View style={styles.row} testID="SwapTransactionDetails/EstimatedDuration">
+          <LabelWithInfo
+            onPress={() => {
+              ValoraAnalytics.track(SwapEvents.swap_show_info, {
+                type: SwapShowInfoType.ESTIMATED_DURATION,
+              })
+              estimatedDurationBottomSheetRef.current?.snapToIndex(0)
+            }}
+            label={t('swapScreen.transactionDetails.estimatedTransactionTime')}
+            testID="SwapTransactionDetails/EstimatedDuration/MoreInfo"
+          />
+          <Text style={styles.value}>
+            {t('swapScreen.transactionDetails.estimatedTransactionTimeInMinutes', {
+              minutes: Math.ceil(estimatedDurationInSeconds / 60),
+            })}
+          </Text>
+        </View>
+      )}
+
       <View style={styles.row} testID="SwapTransactionDetails/Slippage">
         <LabelWithInfo
           onPress={() => {
@@ -265,27 +292,29 @@ export function SwapTransactionDetails({
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: Spacing.Tiny4,
+    padding: Spacing.Regular16,
+    borderWidth: 1,
+    borderColor: colors.gray2,
+    borderRadius: 12,
+    gap: Spacing.Regular16,
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingBottom: Spacing.Small12,
   },
   touchableRow: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   value: {
-    ...typeScale.bodyXSmall,
-    color: colors.gray4,
-    fontWeight: '600',
+    ...typeScale.bodySmall,
+    color: colors.black,
   },
   noBold: {
     fontWeight: '400',
   },
   label: {
-    ...typeScale.bodyXSmall,
+    ...typeScale.bodySmall,
     color: colors.gray4,
     marginRight: Spacing.Tiny4,
   },

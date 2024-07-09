@@ -1237,6 +1237,7 @@ export enum SwapShowInfoType {
   SLIPPAGE,
   EXCHANGE_RATE,
   APP_FEE,
+  ESTIMATED_DURATION,
 }
 interface SwapEventsProperties {
   [SwapEvents.swap_screen_open]: undefined

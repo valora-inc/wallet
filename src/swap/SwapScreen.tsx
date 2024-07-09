@@ -23,6 +23,7 @@ import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { SWAP_LEARN_MORE } from 'src/config'
 import CircledIcon from 'src/icons/CircledIcon'
+import CrossChainIndicator from 'src/icons/CrossChainIndicator'
 import DownIndicator from 'src/icons/DownIndicator'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
@@ -34,11 +35,12 @@ import { getDynamicConfigParams, getExperimentParams, getFeatureGate } from 'src
 import { DynamicConfigs, ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import SwapAmountInput from 'src/swap/SwapAmountInput'
 import SwapTransactionDetails from 'src/swap/SwapTransactionDetails'
+import getCrossChainFee from 'src/swap/getCrossChainFee'
 import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsProperties'
 import { currentSwapSelector, priceImpactWarningThresholdSelector } from 'src/swap/selectors'
 import { swapStart } from 'src/swap/slice'
@@ -47,9 +49,9 @@ import useFilterChips from 'src/swap/useFilterChips'
 import useSwapQuote, { NO_QUOTE_ERROR_MESSAGE, QuoteResult } from 'src/swap/useSwapQuote'
 import { useSwappableTokens, useTokenInfo } from 'src/tokens/hooks'
 import {
+  feeCurrenciesSelector,
   feeCurrenciesWithPositiveBalancesSelector,
   tokensByIdSelector,
-  feeCurrenciesSelector,
 } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSwap, getTokenId } from 'src/tokens/utils'
@@ -59,8 +61,6 @@ import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import networkConfig from 'src/web3/networkConfig'
 import { v4 as uuidv4 } from 'uuid'
-import CrossChainIndicator from 'src/icons/CrossChainIndicator'
-import getCrossChainFee from 'src/swap/getCrossChainFee'
 
 const TAG = 'SwapScreen'
 
@@ -236,6 +236,7 @@ export function SwapScreen({ route }: Props) {
   const networkFeeInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const appFeeInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const slippageInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const estimatedDurationBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const allowCrossChainSwaps = getFeatureGate(StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS)
 
@@ -824,6 +825,7 @@ export function SwapScreen({ route }: Props) {
             estimatedNetworkFee={estimatedNetworkFee}
             networkFeeInfoBottomSheetRef={networkFeeInfoBottomSheetRef}
             slippageInfoBottomSheetRef={slippageInfoBottomSheetRef}
+            estimatedDurationBottomSheetRef={estimatedDurationBottomSheetRef}
             feeTokenId={feeTokenId}
             slippagePercentage={parsedSlippagePercentage}
             fromToken={fromToken}
@@ -834,6 +836,9 @@ export function SwapScreen({ route }: Props) {
             fetchingSwapQuote={quoteUpdatePending}
             appFee={appFee}
             appFeeInfoBottomSheetRef={appFeeInfoBottomSheetRef}
+            estimatedDurationInSeconds={
+              quote && quote.swapType === 'cross-chain' ? quote.estimatedDuration : undefined
+            }
           />
           {showCrossChainFeeWarning && (
             <InLineNotification
@@ -1004,7 +1009,8 @@ export function SwapScreen({ route }: Props) {
       ))}
       <BottomSheet
         forwardedRef={exchangeRateInfoBottomSheetRef}
-        description={t('swapScreen.transactionDetails.exchangeRateInfo', {
+        title={t('swapScreen.transactionDetails.exchangeRate')}
+        description={t('swapScreen.transactionDetails.exchangeRateInfoV1_90', {
           context: appFee?.percentage?.isGreaterThan(0) ? 'withAppFee' : '',
           networkName: NETWORK_NAMES[fromToken?.networkId || networkConfig.defaultNetworkId],
           slippagePercentage: parsedSlippagePercentage,
@@ -1064,8 +1070,25 @@ export function SwapScreen({ route }: Props) {
         />
       </BottomSheet>
       <BottomSheet
+        forwardedRef={estimatedDurationBottomSheetRef}
+        title={t('swapScreen.transactionDetails.estimatedTransactionTime')}
+        description={t('swapScreen.transactionDetails.estimatedTransactionTimeInfo')}
+        testId="EstimatedDurationBottomSheet"
+      >
+        <Button
+          type={BtnTypes.SECONDARY}
+          size={BtnSizes.FULL}
+          style={styles.bottomSheetButton}
+          onPress={() => {
+            estimatedDurationBottomSheetRef.current?.close()
+          }}
+          text={t('swapScreen.transactionDetails.infoDismissButton')}
+        />
+      </BottomSheet>
+      <BottomSheet
         forwardedRef={slippageInfoBottomSheetRef}
-        description={t('swapScreen.transactionDetails.slippageToleranceInfo')}
+        title={t('swapScreen.transactionDetails.slippagePercentage')}
+        description={t('swapScreen.transactionDetails.slippageToleranceInfoV1_90')}
         testId="SlippageInfoBottomSheet"
       >
         <Button
@@ -1116,15 +1139,15 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.Small12,
   },
   disclaimerText: {
-    ...fontStyles.xsmall,
+    ...typeScale.labelXXSmall,
     paddingBottom: Spacing.Smallest8,
     flexWrap: 'wrap',
-    color: colors.gray5,
+    color: colors.gray3,
     textAlign: 'center',
   },
   disclaimerLink: {
-    textDecorationLine: 'underline',
-    color: colors.primary,
+    ...typeScale.labelXXSmall,
+    color: colors.black,
   },
   warning: {
     marginTop: Spacing.Thick24,
@@ -1149,7 +1172,7 @@ const styles = StyleSheet.create({
     paddingBottom: Spacing.Thick24,
   },
   crossChainNotification: {
-    ...typeScale.labelXXSmall,
+    ...typeScale.labelXSmall,
     paddingLeft: Spacing.Tiny4,
     color: colors.gray4,
   },
