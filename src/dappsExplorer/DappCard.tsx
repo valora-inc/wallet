@@ -19,12 +19,14 @@ interface DappCardContentProps {
   dapp: Dapp
   onFavoriteDapp?: (dapp: Dapp) => void
   favoritedFromSection: DappSection
+  disableFavoriting?: boolean
 }
 
 interface Props {
   onPressDapp: () => void
   dapp: Dapp
   testID: string
+  disableFavoriting?: boolean
   onFavoriteDapp?: (dapp: Dapp) => void
   showBorder?: boolean
   cardContentContainerStyle?: ViewStyle
@@ -38,12 +40,12 @@ export function DappCardContent({
   dapp,
   onFavoriteDapp,
   favoritedFromSection,
+  disableFavoriting,
 }: DappCardContentProps) {
   const dispatch = useDispatch()
   const favoriteDappIds = useSelector(favoriteDappIdsSelector)
 
   const isFavorited = favoriteDappIds.includes(dapp.id)
-  const favouritesEnabled = !!onFavoriteDapp
 
   const onPressFavorite = () => {
     const eventProperties = {
@@ -72,12 +74,12 @@ export function DappCardContent({
         <Text style={styles.subtitle}>{dapp.description}</Text>
       </View>
       <Touchable
-        disabled={!favouritesEnabled}
+        disabled={disableFavoriting}
         onPress={onPressFavorite}
         hitSlop={favoriteIconHitslop}
         testID={`Dapp/Favorite/${dapp.id}`}
       >
-        {isFavorited ? <Star /> : favouritesEnabled ? <StarOutline /> : <></>}
+        {isFavorited ? <Star /> : !disableFavoriting ? <StarOutline /> : <></>}
       </Touchable>
     </>
   )
@@ -87,6 +89,7 @@ function DappCard({
   dapp,
   onPressDapp,
   onFavoriteDapp,
+  disableFavoriting,
   showBorder,
   cardContentContainerStyle,
   cardStyle,
@@ -108,6 +111,7 @@ function DappCard({
         <DappCardContent
           dapp={dapp}
           onFavoriteDapp={onFavoriteDapp}
+          disableFavoriting={disableFavoriting}
           favoritedFromSection={DappSection.All}
         />
       </Touchable>

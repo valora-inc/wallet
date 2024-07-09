@@ -107,6 +107,7 @@ function DiscoverDappsCard() {
             <DappCard
               dapp={dapp}
               onPressDapp={() => onPressDapp({ ...dapp, openedFrom: section.dappSection }, index)}
+              disableFavoriting={true}
               testID={`${section.testID}/DappCard`}
               cardContentContainerStyle={styles.dappCardContentContainer}
             />
