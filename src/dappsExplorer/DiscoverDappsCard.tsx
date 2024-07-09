@@ -4,19 +4,19 @@ import { SectionList, StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { mostPopularDappsSelector, favoriteDappsSelector } from 'src/dapps/selectors'
+import TextButton from 'src/components/TextButton'
+import { favoriteDappsSelector, mostPopularDappsSelector } from 'src/dapps/selectors'
 import { fetchDappsList } from 'src/dapps/slice'
 import { ActiveDapp, Dapp, DappSection } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import { currentLanguageSelector } from 'src/i18n/selectors'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { Colors } from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import TextButton from 'src/components/TextButton'
-import { navigate } from 'src/navigator/NavigationService'
 
 interface SectionData {
   data: Dapp[]
@@ -62,7 +62,7 @@ function DiscoverDappsCard() {
           data: mostPopularDapps
             .filter((dapp) => !favoriteDappIds.includes(dapp.id))
             .slice(0, MAX_DAPPS - favoriteDapps.length),
-          sectionName: t('dappsScreen.mostPopularDapps').toLocaleUpperCase(language ?? 'en-US'),
+          sectionName: t('dappsScreen.mostPopularDapps'),
           dappSection: DappSection.MostPopular,
           testID: 'DiscoverDappsCard/MostPopularSection',
         },
@@ -73,7 +73,7 @@ function DiscoverDappsCard() {
         ? [
             {
               data: favoriteDapps.slice(0, MAX_DAPPS),
-              sectionName: t('dappsScreen.favoriteDapps').toLocaleUpperCase(language ?? 'en-US'),
+              sectionName: t('dappsScreen.favoriteDapps'),
               dappSection: DappSection.FavoritesDappScreen,
               testID: 'DiscoverDappsCard/FavoritesSection',
             },
@@ -101,21 +101,15 @@ function DiscoverDappsCard() {
             {t('dappsScreen.exploreAll')}
           </TextButton>
         }
-        contentContainerStyle={[
-          styles.sectionListContentContainer,
-          { paddingBottom: Math.max(insets.bottom, Spacing.Regular16) },
-        ]}
         sections={sections}
         renderItem={({ item: dapp, index, section }) => {
           return (
-            <View style={styles.cardContainer}>
-              <DappCard
-                dapp={dapp}
-                onPressDapp={() => onPressDapp({ ...dapp, openedFrom: section.dappSection }, index)}
-                disableFavoriting={true}
-                testID={`${section.testID}/DappCard`}
-              />
-            </View>
+            <DappCard
+              dapp={dapp}
+              onPressDapp={() => onPressDapp({ ...dapp, openedFrom: section.dappSection }, index)}
+              testID={`${section.testID}/DappCard`}
+              cardContentContainerStyle={styles.dappCardContentContainer}
+            />
           )
         }}
         renderSectionHeader={({ section: { sectionName, testID } }) => {
@@ -139,26 +133,18 @@ function DiscoverDappsCard() {
 const styles = StyleSheet.create({
   container: {
     padding: Spacing.Regular16,
-    paddingBottom: 0,
-    gap: Spacing.Smallest8,
     borderColor: Colors.gray2,
     borderWidth: 1,
     borderRadius: Spacing.Smallest8,
   },
-  sectionListContentContainer: {
-    paddingTop: Spacing.Regular16,
-    flexGrow: 1,
-  },
   sectionTitle: {
-    ...fontStyles.label,
-    paddingTop: Spacing.Small12,
-    paddingLeft: Spacing.Regular16,
+    ...typeScale.labelXSmall,
     color: Colors.gray4,
+    marginTop: Spacing.Smallest8,
   },
   listFooterComponent: {
     flex: 1,
-    alignItems: 'center',
-    paddingTop: Spacing.Regular16,
+    alignSelf: 'center',
   },
   footer: {
     ...typeScale.labelSemiBoldXSmall,
@@ -166,13 +152,13 @@ const styles = StyleSheet.create({
     color: Colors.primary,
   },
   title: {
-    ...typeScale.titleMedium,
+    ...typeScale.labelSemiBoldMedium,
     color: Colors.black,
-    marginBottom: Spacing.Large32,
-    paddingLeft: Spacing.Regular16,
+    marginBottom: Spacing.Smallest8,
   },
-  cardContainer: {
-    paddingLeft: Spacing.Smallest8,
+  dappCardContentContainer: {
+    padding: 0,
+    paddingVertical: Spacing.Regular16,
   },
 })
 

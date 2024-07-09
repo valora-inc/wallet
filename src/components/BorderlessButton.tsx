@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { StyleProp, Text, TextStyle, ViewStyle } from 'react-native'
 import Touchable, { Props as TouchableProps } from 'src/components/Touchable'
+import variables from 'src/styles/variables'
 
 export type Props = Omit<TouchableProps, 'style'> & {
   style?: StyleProp<TextStyle>
@@ -12,7 +13,12 @@ export type Props = Omit<TouchableProps, 'style'> & {
 export default function BorderlessButton(props: Props) {
   const { style, containerStyle, children, notScaleFont, ...passThroughProps } = props
   return (
-    <Touchable {...passThroughProps} borderless={true} style={containerStyle}>
+    <Touchable
+      {...passThroughProps}
+      borderless={true}
+      style={containerStyle}
+      hitSlop={variables.iconHitslop}
+    >
       {notScaleFont ? (
         <Text allowFontScaling={false} style={style}>
           {children}
