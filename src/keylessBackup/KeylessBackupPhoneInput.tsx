@@ -18,6 +18,7 @@ import CustomHeader from 'src/components/header/CustomHeader'
 import i18n from 'src/i18n'
 import KeylessBackupCancelButton from 'src/keylessBackup/KeylessBackupCancelButton'
 import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
+import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -125,10 +126,13 @@ function KeylessBackupPhoneInput({ route }: Props) {
             />
           )
         }
-        title={isSetupInOnboarding ? t('keylessBackupOnboardingTitle') : null}
-        subTitle={
-          // We only show the step number for onboarding new users
-          isSetupInOnboarding ? t('registrationSteps', { step, totalSteps }) : null
+        title={
+          isSetupInOnboarding && (
+            <HeaderTitleWithSubtitle
+              title={t('phoneVerificationScreen.screenTitle')}
+              subTitle={t('registrationSteps', { step, totalSteps })}
+            />
+          )
         }
       />
       <KeyboardAwareScrollView style={styles.scrollContainer}>

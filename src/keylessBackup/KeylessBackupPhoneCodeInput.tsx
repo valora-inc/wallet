@@ -12,6 +12,7 @@ import CustomHeader from 'src/components/header/CustomHeader'
 import KeylessBackupCancelButton from 'src/keylessBackup/KeylessBackupCancelButton'
 import { useVerifyPhoneNumber } from 'src/keylessBackup/hooks'
 import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
+import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
@@ -166,10 +167,12 @@ function KeylessBackupPhoneCodeInput({
         }
         title={
           isSetupInOnboarding && (
-            <Text style={styles.title}>{t('phoneVerificationInput.title')}</Text>
+            <HeaderTitleWithSubtitle
+              title={t('phoneVerificationInput.title')}
+              subTitle={t('registrationSteps', { step, totalSteps })}
+            />
           )
         }
-        subTitle={isSetupInOnboarding ? t('registrationSteps', { step, totalSteps }) : null}
       />
       <VerificationCodeInput
         phoneNumber={route.params.e164Number}

@@ -22,6 +22,7 @@ import {
   KeylessBackupStatus,
 } from 'src/keylessBackup/types'
 import { useDollarsToLocalAmount, useLocalCurrencyCode } from 'src/localCurrency/hooks'
+import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { ensurePincode, navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
@@ -330,8 +331,12 @@ function Setup({ origin }: { origin: KeylessBackupOrigin }) {
         <SafeAreaView style={styles.safeAreaView}>
           {isOnboarding && (
             <CustomHeader
-              title={t('keylessBackupStatus.setup.inProgress.title')}
-              subTitle={t('registrationSteps', { step, totalSteps })}
+              title={
+                <HeaderTitleWithSubtitle
+                  title={t('keylessBackupStatus.setup.inProgress.title')}
+                  subTitle={t('registrationSteps', { step, totalSteps })}
+                />
+              }
               style={styles.header}
             />
           )}
@@ -351,8 +356,12 @@ function Setup({ origin }: { origin: KeylessBackupOrigin }) {
         <SafeAreaView style={styles.safeAreaView}>
           {isOnboarding && (
             <CustomHeader
-              title={t('keylessBackupStatus.setup.completed.title')}
-              subTitle={t('registrationSteps', { step, totalSteps })}
+              title={
+                <HeaderTitleWithSubtitle
+                  title={t('keylessBackupStatus.setup.completed.title')}
+                  subTitle={t('registrationSteps', { step, totalSteps })}
+                />
+              }
             />
           )}
           <ScrollView contentContainerStyle={styles.bodyContainer}>
@@ -387,8 +396,12 @@ function Setup({ origin }: { origin: KeylessBackupOrigin }) {
         <SafeAreaView style={styles.safeAreaView}>
           {isOnboarding && (
             <CustomHeader
-              title={t('keylessBackupStatus.setup.failed.title')}
-              subTitle={t('registrationSteps', { step, totalSteps })}
+              title={
+                <HeaderTitleWithSubtitle
+                  title={t('keylessBackupStatus.setup.failed.title')}
+                  subTitle={t('registrationSteps', { step, totalSteps })}
+                />
+              }
               style={styles.header}
             />
           )}
