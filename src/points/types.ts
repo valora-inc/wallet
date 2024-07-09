@@ -24,13 +24,6 @@ export interface BottomSheetParams extends PointsActivity {
   }
 }
 
-export type PointsMetadata = {
-  pointsAmount: number
-  activities: Array<{
-    activityId: PointsActivityId
-  }>
-}
-
 const claimActivities = ['create-wallet', 'swap', 'create-live-link'] as const
 type ClaimActivityId = (typeof claimActivities)[number]
 
