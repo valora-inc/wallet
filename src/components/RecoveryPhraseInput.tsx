@@ -68,7 +68,7 @@ export default function RecoveryPhraseInput({
   return (
     <Card
       rounded={true}
-      shadow={showInput ? Shadow.SoftLight : null}
+      shadow={showInput ? null : Shadow.SoftLight}
       style={[showInput ? styles.containerActive : styles.container]}
     >
       {/* These views cannot be combined as it will cause the shadow to be clipped on iOS */}
@@ -83,6 +83,7 @@ export default function RecoveryPhraseInput({
                 showClearButton={false}
                 value={inputValue}
                 placeholder={inputPlaceholder}
+                placeholderTextColor={colors.gray3}
                 onChangeText={onInputChange}
                 multiline={true}
                 // This disables keyboard suggestions on iOS, but unfortunately NOT on Android
@@ -134,10 +135,14 @@ export default function RecoveryPhraseInput({
 const styles = StyleSheet.create({
   container: {
     padding: 0,
-    backgroundColor: 'rgba(103, 99, 86, 0.1)',
+    backgroundColor: colors.white,
   },
   containerActive: {
     padding: 0,
+    backgroundColor: colors.gray1,
+    borderColor: colors.gray2,
+    borderRadius: Spacing.Smallest8,
+    borderWidth: 1,
   },
   // Applying overflow 'hidden' to `Card` also hides its shadow
   // that's why we're using a separate container

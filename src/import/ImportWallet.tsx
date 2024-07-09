@@ -24,7 +24,7 @@ import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import RecoveryPhraseInput, { RecoveryPhraseInputStatus } from 'src/components/RecoveryPhraseInput'
 import { importBackupPhrase } from 'src/import/actions'
-import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
+import { nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate, navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -33,7 +33,7 @@ import { useDispatch, useSelector } from 'src/redux/hooks'
 import { isAppConnected } from 'src/redux/selectors'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
 import useBackHandler from 'src/utils/useBackHandler'
@@ -95,12 +95,6 @@ function ImportWallet({ navigation, route }: Props) {
     navigation.setOptions({
       headerLeft: () => (
         <TopBarTextButtonOnboarding title={t('cancel')} onPress={handleNavigateBack} />
-      ),
-      headerTitle: () => (
-        <HeaderTitleWithSubtitle
-          testID="Header/RestoreBackup"
-          title={t('importExistingKey.header')}
-        />
       ),
       headerStyle: {
         backgroundColor: 'transparent',
@@ -206,7 +200,6 @@ function ImportWallet({ navigation, route }: Props) {
                 testID="ImportWalletKeyboardAwareScrollView"
               >
                 <Text style={styles.title}>{t('importExistingKey.title')}</Text>
-                <Text style={styles.description}>{t('importExistingKey.description')}</Text>
                 <RecoveryPhraseInput
                   status={codeStatus}
                   inputValue={backupPhrase}
@@ -214,8 +207,8 @@ function ImportWallet({ navigation, route }: Props) {
                   onInputChange={formatAndSetBackupPhrase}
                   shouldShowClipboard={shouldShowClipboard}
                 />
+                <Text style={styles.description}>{t('importExistingKey.description_v1_90')}</Text>
                 <Button
-                  style={styles.button}
                   testID="ImportWalletButton"
                   onPress={onPressRestore}
                   text={t('restore')}
@@ -271,18 +264,15 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 24,
   },
-  button: {
-    paddingVertical: 32,
-  },
   title: {
     textAlign: 'center',
-    ...fontStyles.h1,
+    paddingBottom: 24,
+    ...typeScale.labelSemiBoldLarge,
   },
   description: {
-    paddingTop: 16,
-    paddingBottom: 24,
-    textAlign: 'center',
-    ...fontStyles.regular,
+    paddingTop: 65,
+    paddingBottom: 28,
+    ...typeScale.bodySmall,
   },
 })
 
