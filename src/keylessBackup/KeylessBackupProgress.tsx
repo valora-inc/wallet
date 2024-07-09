@@ -312,12 +312,7 @@ function Setup({ origin }: { origin: KeylessBackupOrigin }) {
 
   const onPressSkip = () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_progress_failed_skip_onboarding)
-    isOnboarding
-      ? goToNextOnboardingScreen({
-          firstScreenInCurrentStep: Screens.SignInWithEmail,
-          onboardingProps,
-        })
-      : navigate(Screens.ChooseYourAdventure)
+    navigate(Screens.ChooseYourAdventure)
   }
 
   switch (keylessBackupStatus) {
