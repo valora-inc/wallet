@@ -42,8 +42,8 @@ export default React.memo(function ClipboardAwarePasteButton({
   // Debounce onPress event so that it is called once on trigger and
   // consecutive calls in given period are ignored.
   const debouncedOnPress = debounce(
-    () => {
-      onPressInternal()
+    async () => {
+      await onPressInternal()
     },
     BUTTON_TAP_DEBOUNCE_TIME,
     DEBOUNCE_OPTIONS
