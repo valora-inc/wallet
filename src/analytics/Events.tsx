@@ -518,16 +518,6 @@ export enum WalletConnectEvents {
   wc_copy_request_payload = 'wc_copy_request_payload',
 }
 
-export enum DappKitEvents {
-  dappkit_parse_deeplink_error = 'dappkit_parse_deeplink_error',
-  dappkit_request_propose = 'dappkit_request_propose',
-  dappkit_request_cancel = 'dappkit_request_cancel',
-  dappkit_copy_request_details = 'dappkit_copy_request_details',
-  dappkit_request_accept_start = 'dappkit_request_accept_start',
-  dappkit_request_accept_success = 'dappkit_request_accept_success',
-  dappkit_request_accept_error = 'dappkit_request_accept_error',
-}
-
 export enum CICOEvents {
   persona_kyc_start = 'persona_kyc_start',
   persona_kyc_success = 'persona_kyc_success',

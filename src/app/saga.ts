@@ -42,7 +42,6 @@ import { CeloNewsConfig } from 'src/celoNews/types'
 import { DEFAULT_APP_LANGUAGE, FETCH_TIMEOUT_DURATION, isE2EEnv } from 'src/config'
 import { claimRewardsSuccess } from 'src/consumerIncentives/slice'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
-import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import { appVersionDeprecationChannel, fetchRemoteConfigValues } from 'src/firebase/firebase'
@@ -315,7 +314,6 @@ export function* handleDeepLink(action: OpenDeepLink) {
     // don't accidentally log sensitive information on new deeplinks. 'jumpstart' is specifically excluded
     const pathStartsWithAllowList = [
       'pay',
-      'dappkit',
       'cashIn',
       'bidali',
       'cash-in-success',
@@ -331,8 +329,6 @@ export function* handleDeepLink(action: OpenDeepLink) {
     })
     if (rawParams.path.startsWith('/pay')) {
       yield* call(handlePaymentDeeplink, deepLink)
-    } else if (rawParams.path.startsWith('/dappkit')) {
-      yield* call(handleDappkitDeepLink, deepLink)
     } else if (rawParams.path === '/cashIn') {
       navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
     } else if (rawParams.pathname === '/bidali') {

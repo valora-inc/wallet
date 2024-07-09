@@ -27,8 +27,6 @@ import BackupIntroduction from 'src/backup/BackupIntroduction'
 import BackupPhrase, { navOptionsForBackupPhrase } from 'src/backup/BackupPhrase'
 import BackupQuiz, { navOptionsForQuiz } from 'src/backup/BackupQuiz'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
-import DappKitAccountScreen from 'src/dappkit/DappKitAccountScreen'
-import DappKitSignTxScreen from 'src/dappkit/DappKitSignTxScreen'
 import DappShortcutTransactionRequest from 'src/dapps/DappShortcutTransactionRequest'
 import DappShortcutsRewards from 'src/dapps/DappShortcutsRewards'
 import DappsScreen from 'src/dapps/DappsScreen'
@@ -711,8 +709,6 @@ function nativeBottomSheets(BottomSheet: typeof RootStack) {
   return (
     <>
       <BottomSheet.Screen name={Screens.WalletConnectRequest} component={WalletConnectRequest} />
-      <BottomSheet.Screen name={Screens.DappKitAccountScreen} component={DappKitAccountScreen} />
-      <BottomSheet.Screen name={Screens.DappKitSignTxScreen} component={DappKitSignTxScreen} />
       <BottomSheet.Screen
         name={Screens.DappShortcutTransactionRequest}
         component={DappShortcutTransactionRequest}
