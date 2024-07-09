@@ -278,11 +278,13 @@ export function* getTransactionReceipt(
       if (__typename === 'TokenExchangeV3') {
         yield* put(
           trackPointsEvent({
-            activityId: 'swap',
-            transactionHash,
-            networkId,
-            fromTokenId: transaction.outAmount.tokenId,
-            toTokenId: transaction.inAmount.tokenId,
+            pointsEvent: {
+              activityId: 'swap',
+              transactionHash,
+              networkId,
+              fromTokenId: transaction.outAmount.tokenId,
+              toTokenId: transaction.inAmount.tokenId,
+            },
           })
         )
       }

@@ -154,7 +154,11 @@ export const {
   pointsIntroDismissed,
 } = slice.actions
 
-// action handled in saga
-export const trackPointsEvent = createAction<PointsEvent>('points/trackPointsEvent')
+// Action handled in saga. Only use this to track points events when
+// no other action would otherwise be emitted which we could listen to and
+// attach points event data to.
+export const trackPointsEvent = createAction<{ pointsEvent: PointsEvent }>(
+  'points/trackPointsEvent'
+)
 
 export default slice.reducer

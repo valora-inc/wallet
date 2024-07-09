@@ -3,6 +3,7 @@ import { REHYDRATE, RehydrateAction } from 'redux-persist'
 import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
 import { getRehydratePayload } from 'src/redux/persist-helper'
 import { SwapInfo } from 'src/swap/types'
+import { PointsEvent } from 'src/points/types'
 
 type SwapStatus = 'idle' | 'started' | 'success' | 'error'
 
@@ -15,6 +16,7 @@ interface SwapResult {
   swapId: string
   fromTokenId: string
   toTokenId: string
+  pointsEvent: PointsEvent
 }
 
 export interface State {

@@ -260,11 +260,13 @@ describe('watchPendingTransactions', () => {
       )
       .put(
         trackPointsEvent({
-          activityId: 'swap',
-          transactionHash,
-          networkId: NetworkId['celo-alfajores'],
-          toTokenId: mockCeurTokenId,
-          fromTokenId: mockCusdTokenId,
+          pointsEvent: {
+            activityId: 'swap',
+            transactionHash,
+            networkId: NetworkId['celo-alfajores'],
+            toTokenId: mockCeurTokenId,
+            fromTokenId: mockCusdTokenId,
+          },
         })
       )
       .run()

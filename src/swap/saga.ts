@@ -7,7 +7,6 @@ import { SwapTimeMetrics, SwapTxsReceiptProperties } from 'src/analytics/Propert
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
-import { trackPointsEvent } from 'src/points/slice'
 import { vibrateError } from 'src/styles/hapticFeedback'
 import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsProperties'
 import { swapCancel, swapError, swapStart, swapSuccess } from 'src/swap/slice'
@@ -271,16 +270,21 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       throw new Error(`Swap transaction reverted: ${swapTxReceipt?.transactionHash}`)
     }
 
-    yield* put(swapSuccess({ swapId, fromTokenId, toTokenId }))
     yield* put(
-      trackPointsEvent({
-        activityId: 'swap',
-        transactionHash: swapTxReceipt.transactionHash,
-        networkId,
-        toTokenId,
+      swapSuccess({
+        swapId,
         fromTokenId,
+        toTokenId,
+        pointsEvent: {
+          activityId: 'swap',
+          transactionHash: swapTxReceipt.transactionHash,
+          networkId,
+          toTokenId,
+          fromTokenId,
+        },
       })
     )
+
     ValoraAnalytics.track(SwapEvents.swap_execute_success, {
       ...defaultSwapExecuteProps,
       ...getTimeMetrics(),

@@ -401,7 +401,7 @@ describe('sendPointsEvent', () => {
   })
 
   it('should add and remove pending points event in case of successful fetch', () => {
-    const mockAction = trackPointsEvent({ activityId: 'create-wallet' })
+    const mockAction = trackPointsEvent({ pointsEvent: { activityId: 'create-wallet' } })
 
     return expectSaga(sendPointsEvent, mockAction)
       .provide([
@@ -413,7 +413,7 @@ describe('sendPointsEvent', () => {
         sendPointsEventStarted({
           id: mockId,
           timestamp: mockTime,
-          event: mockAction.payload,
+          event: mockAction.payload.pointsEvent,
         })
       )
       .put(pointsEventProcessed({ id: mockId }))
@@ -421,7 +421,7 @@ describe('sendPointsEvent', () => {
   })
 
   it('should add and not remove pending points event in case of server error', async () => {
-    const mockAction = trackPointsEvent({ activityId: 'create-wallet' })
+    const mockAction = trackPointsEvent({ pointsEvent: { activityId: 'create-wallet' } })
 
     await expectSaga(sendPointsEvent, mockAction)
       .provide([
@@ -433,7 +433,7 @@ describe('sendPointsEvent', () => {
         sendPointsEventStarted({
           id: mockId,
           timestamp: mockTime,
-          event: mockAction.payload,
+          event: mockAction.payload.pointsEvent,
         })
       )
       .not.put(pointsEventProcessed({ id: mockId }))
@@ -441,13 +441,13 @@ describe('sendPointsEvent', () => {
 
     expect(Logger.warn).toHaveBeenCalledWith(
       'Points/saga@sendPointsEvent',
-      mockAction.payload.activityId,
+      mockAction.payload.pointsEvent.activityId,
       new Error('Failed to track points event create-wallet: 500 Error message from server')
     )
   })
 
   it('should not send the tracked event if the user does not have a signed message', async () => {
-    const mockAction = trackPointsEvent({ activityId: 'create-wallet' })
+    const mockAction = trackPointsEvent({ pointsEvent: { activityId: 'create-wallet' } })
 
     await expectSaga(sendPointsEvent, mockAction)
       .provide([
@@ -460,7 +460,7 @@ describe('sendPointsEvent', () => {
         sendPointsEventStarted({
           id: mockId,
           timestamp: mockTime,
-          event: mockAction.payload,
+          event: mockAction.payload.pointsEvent,
         })
       )
       .not.put(pointsEventProcessed({ id: mockId }))
@@ -468,14 +468,14 @@ describe('sendPointsEvent', () => {
 
     expect(Logger.warn).toHaveBeenCalledWith(
       'Points/saga@sendPointsEvent',
-      mockAction.payload.activityId,
+      mockAction.payload.pointsEvent.activityId,
       new Error('No signed message found when tracking points event create-wallet')
     )
     expect(fetchWithTimeoutSpy).not.toHaveBeenCalled()
   })
 
   it('should ignore any track once activities that were already tracked', async () => {
-    const mockAction = trackPointsEvent({ activityId: 'create-wallet' })
+    const mockAction = trackPointsEvent({ pointsEvent: { activityId: 'create-wallet' } })
 
     return expectSaga(sendPointsEvent, mockAction)
       .provide([
@@ -496,7 +496,7 @@ describe('sendPointsEvent', () => {
       toTokenId: 'toTokenId',
       fromTokenId: 'fromTokenId',
     }
-    const mockAction = trackPointsEvent(mockSwapEvent)
+    const mockAction = trackPointsEvent({ pointsEvent: mockSwapEvent })
 
     return expectSaga(sendPointsEvent, mockAction)
       .provide([
@@ -623,6 +623,17 @@ describe('watchHomeScreenVisit', () => {
 
     const result = await expectSaga(watchHomeScreenVisit)
       .provide([
+        [
+          spawn(
+            sendPointsEvent,
+            trackPointsEvent({
+              pointsEvent: {
+                activityId: 'create-wallet',
+              },
+            })
+          ),
+          null,
+        ],
         [spawn(getPointsConfig), null],
         [spawn(getPointsBalance, getHistoryStarted({ getNextPage: false })), null],
         [spawn(sendPendingPointsEvents), null],
@@ -632,6 +643,14 @@ describe('watchHomeScreenVisit', () => {
       .run()
 
     expect(result.effects.fork).toEqual([
+      spawn(
+        sendPointsEvent,
+        trackPointsEvent({
+          pointsEvent: {
+            activityId: 'create-wallet',
+          },
+        })
+      ),
       spawn(getPointsConfig),
       spawn(getPointsBalance, getHistoryStarted({ getNextPage: false })),
       spawn(sendPendingPointsEvents),

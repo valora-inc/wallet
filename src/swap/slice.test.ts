@@ -6,6 +6,7 @@ import reducer, {
   swapSuccess,
   updateLastSwappedTokens,
 } from 'src/swap/slice'
+import { NetworkId } from 'src/transactions/types'
 import { SwapInfo } from 'src/swap/types'
 import { mockCeloTokenId, mockCeurTokenId } from 'test/values'
 
@@ -93,6 +94,13 @@ describe('reducer', () => {
       swapId: 'test-swap-id',
       fromTokenId: mockCeurTokenId,
       toTokenId: mockCeloTokenId,
+      pointsEvent: {
+        activityId: 'swap',
+        transactionHash: '0x2',
+        networkId: NetworkId['celo-alfajores'],
+        toTokenId: mockCeloTokenId,
+        fromTokenId: mockCeurTokenId,
+      },
     })
 
     const resultState = reducer(initialState, action) as State

@@ -39,6 +39,7 @@ import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, put, select, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
 import { v4 as uuidv4 } from 'uuid'
+import { swapSuccess } from 'src/swap/slice'
 
 const TAG = 'Points/saga'
 
@@ -210,7 +211,8 @@ export function* fetchTrackPointsEventsEndpoint(event: PointsEvent) {
   })
 }
 
-export function* sendPointsEvent({ payload: event }: ReturnType<typeof trackPointsEvent>) {
+export function* sendPointsEvent({ payload }: ReturnType<typeof trackPointsEvent>) {
+  const event = payload.pointsEvent
   const showPoints = getFeatureGate(StatsigFeatureGates.SHOW_POINTS)
   if (!showPoints) {
     Logger.info(`${TAG}@sendPointsEvent`, 'Points feature is disabled, skipping saga execution')
@@ -309,8 +311,20 @@ function* watchTrackPointsEvent() {
   yield* takeEvery(trackPointsEvent.type, safely(sendPointsEvent))
 }
 
+function* watchSwapSuccess() {
+  yield* takeEvery(swapSuccess.type, safely(sendPointsEvent))
+}
+
 export function* watchHomeScreenVisit() {
   yield* take(HomeActions.VISIT_HOME)
+  yield* spawn(
+    sendPointsEvent,
+    trackPointsEvent({
+      pointsEvent: {
+        activityId: 'create-wallet',
+      },
+    })
+  )
   yield* spawn(getPointsConfig)
   yield* spawn(getPointsBalance, getHistoryStarted({ getNextPage: false }))
   yield* spawn(sendPendingPointsEvents)
@@ -321,4 +335,5 @@ export function* pointsSaga() {
   yield* spawn(watchGetConfig)
   yield* spawn(watchTrackPointsEvent)
   yield* spawn(watchHomeScreenVisit)
+  yield* spawn(watchSwapSuccess)
 }
