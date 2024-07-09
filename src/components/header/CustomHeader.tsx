@@ -12,7 +12,6 @@ interface Props {
 function CustomHeader({ left, right, title, style }: Props) {
   const titleComponent =
     typeof title === 'string' ? <Text style={headerStyles.headerTitle}>{title}</Text> : title
-
   return (
     <View style={style ? [styles.container, style] : styles.container}>
       {!!title && <View style={styles.titleContainer}>{titleComponent}</View>}
