@@ -8,9 +8,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
-import { currentLanguageSelector } from 'src/i18n/selectors'
 import InfoIcon from 'src/icons/InfoIcon'
-import { useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -149,7 +147,6 @@ export function SwapTransactionDetails({
   estimatedDurationInSeconds,
 }: Props) {
   const { t } = useTranslation()
-  const locale = useSelector(currentLanguageSelector)
 
   const placeholder = '-'
   return (
