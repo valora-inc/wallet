@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SectionList, StyleSheet, Text, View } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import TextButton from 'src/components/TextButton'
@@ -10,7 +9,6 @@ import { fetchDappsList } from 'src/dapps/slice'
 import { ActiveDapp, Dapp, DappSection } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
-import { currentLanguageSelector } from 'src/i18n/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useDispatch, useSelector } from 'src/redux/hooks'
@@ -30,11 +28,8 @@ const MAX_DAPPS = 5
 function DiscoverDappsCard() {
   const { t } = useTranslation()
 
-  const insets = useSafeAreaInsets()
-
   const sectionListRef = useRef<SectionList>(null)
 
-  const language = useSelector(currentLanguageSelector)
   const dispatch = useDispatch()
   const favoriteDapps = useSelector(favoriteDappsSelector)
   const mostPopularDapps = useSelector(mostPopularDappsSelector)
