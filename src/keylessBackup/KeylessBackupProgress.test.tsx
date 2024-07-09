@@ -139,10 +139,7 @@ describe('KeylessBackupProgress', () => {
       expect(getByTestId('KeylessBackupProgress/ManualOnboarding')).toBeTruthy()
       fireEvent.press(getByTestId('KeylessBackupProgress/ManualOnboarding'))
 
-      expect(goToNextOnboardingScreen).toBeCalledWith({
-        firstScreenInCurrentStep: Screens.SignInWithEmail,
-        onboardingProps: { ...mockOnboardingProps, showRecoveryPhraseEducation: true },
-      })
+      expect(navigate).toBeCalledWith(Screens.AccountKeyEducation, { origin: 'cabOnboarding' })
 
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
@@ -162,10 +159,7 @@ describe('KeylessBackupProgress', () => {
       expect(getByTestId('KeylessBackupProgress/Skip')).toBeTruthy()
       fireEvent.press(getByTestId('KeylessBackupProgress/Skip'))
 
-      expect(goToNextOnboardingScreen).toBeCalledWith({
-        firstScreenInCurrentStep: Screens.SignInWithEmail,
-        onboardingProps: mockOnboardingProps,
-      })
+      expect(navigate).toBeCalledWith(Screens.ChooseYourAdventure)
 
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
