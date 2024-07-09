@@ -14,10 +14,10 @@ export default function BorderlessButton(props: Props) {
   const { style, containerStyle, children, notScaleFont, ...passThroughProps } = props
   return (
     <Touchable
-      {...passThroughProps}
-      borderless={true}
-      style={containerStyle}
       hitSlop={variables.iconHitslop}
+      borderless={true}
+      {...passThroughProps}
+      style={containerStyle}
     >
       {notScaleFont ? (
         <Text allowFontScaling={false} style={style}>

@@ -92,9 +92,11 @@ function DiscoverDappsCard() {
         scrollEnabled={false}
         ListHeaderComponent={<Text style={styles.title}>{t('dappsScreen.exploreDapps')}</Text>}
         ListFooterComponent={
-          <TextButton style={styles.footer} onPress={onPressExploreAll}>
-            {t('dappsScreen.exploreAll')}
-          </TextButton>
+          <View>
+            <TextButton style={styles.footer} onPress={onPressExploreAll}>
+              {t('dappsScreen.exploreAll')}
+            </TextButton>
+          </View>
         }
         sections={sections}
         renderItem={({ item: dapp, index, section }) => {
@@ -144,7 +146,6 @@ const styles = StyleSheet.create({
   },
   footer: {
     ...typeScale.labelSemiBoldXSmall,
-    flex: 1,
     color: Colors.primary,
   },
   title: {
@@ -154,7 +155,7 @@ const styles = StyleSheet.create({
   },
   dappCardContentContainer: {
     padding: 0,
-    paddingVertical: Spacing.Regular16,
+    marginVertical: Spacing.Regular16,
   },
 })
 
