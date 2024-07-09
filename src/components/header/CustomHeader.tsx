@@ -6,7 +6,6 @@ interface Props {
   left?: React.ReactNode
   right?: React.ReactNode
   title?: React.ReactNode | string
-  subTitle?: string | React.ReactNode
   style?: StyleProp<ViewStyle>
 }
 
