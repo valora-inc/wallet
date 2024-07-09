@@ -1,33 +1,27 @@
-import React from 'react'
 import { NetworkId } from 'src/transactions/types'
 import { Address, Hash } from 'viem'
 
-const pointsActivities = ['create-wallet', 'swap', 'create-live-link', 'more-coming'] as const
+const pointsActivities = ['create-wallet', 'swap', 'create-live-link'] as const
 export type PointsActivityId = (typeof pointsActivities)[number]
 
 export function isPointsActivityId(activity: unknown): activity is PointsActivityId {
   return typeof activity === 'string' && pointsActivities.includes(activity as PointsActivityId)
 }
 
-export interface PointsCardMetadata {
-  bottomSheet?: BottomSheetMetadata
-  title: string
-  icon: React.ReactNode
-  defaultCompletionStatus: boolean
+export interface PointsActivity {
+  activityId: PointsActivityId
+  pointsAmount: number
+  previousPointsAmount?: number
+  completed: boolean
 }
 
-export interface BottomSheetMetadata {
+export interface BottomSheetParams extends PointsActivity {
   title: string
   body: string
   cta?: {
     text: string
     onPress: () => void
   }
-}
-
-export type BottomSheetParams = BottomSheetMetadata & {
-  pointsAmount: number
-  activityId: PointsActivityId
 }
 
 export type PointsMetadata = {

@@ -914,8 +914,10 @@
     "helpDialog": {
       "title": "Trợ giúp",
       "body": "Chúng tôi đã gửi tin nhắn SMS đến số điện thoại của bạn. Vui lòng kiểm tra tin nhắn văn bản để tìm mã gồm 6 chữ số. Nếu gặp sự cố khi nhận tin nhắn, bạn có thể tạm thời bỏ qua bước này và thử lại sau.",
+      "bodyCloudBackupOnboarding": "We sent an SMS to your phone number. Please check your text messages to find the 6 digit code. \n \n If you’re having trouble receiving messages, we recommend backing up with a Recovery Phrase. You can try signing in with your email and phone later.",
       "skip": "Bỏ qua",
-      "dismiss": "Quay lại"
+      "dismiss": "Quay lại",
+      "useRecoveryPhrase": "Sử dụng Cụm từ khôi phục"
     },
     "verificationFailure": "Rất tiếc! Đã xảy ra lỗi, vui lòng thử lại sau.",
     "resendButtonNotYetAvailable": "Có thể gửi lại trong {{secondsRemaining}} giây nữa",
@@ -2342,7 +2344,7 @@
       "retryCta": "Thử lại"
     },
     "infoCard": {
-      "title": "Bạn sắp có thêm nhiều cách để kiếm điểm 🚀",
+      "title": "More ways to earn points coming soon",
       "body": "Chúng tôi đang cố gắng bổ sung thêm nhiều cách kiếm điểm trong quá trình sử dụng ứng dụng. Hãy kiểm tra thường xuyên để biết thông tin cập nhật."
     },
     "activitySection": {
@@ -2355,7 +2357,7 @@
     },
     "activityCards": {
       "createWallet": {
-        "title": "Create a {{appName}} Wallet"
+        "title": "Tạo Ví {{appName}}"
       },
       "swap": {
         "title": "Trao đổi tài sản",
@@ -2371,7 +2373,8 @@
     },
     "discoverCard": {
       "title": "Điểm {{appName}}",
-      "description": "Kiếm điểm dễ dàng với {{appName}}. Bạn có thể kiếm điểm bằng cách sử dụng ứng dụng, bao gồm cả hoạt động trao đổi!"
+      "description": "Kiếm điểm dễ dàng với {{appName}}. Bạn có thể kiếm điểm bằng cách sử dụng ứng dụng, bao gồm cả hoạt động trao đổi!",
+      "balance": "điểm {{pointsBalance}}"
     },
     "intro": {
       "title": "Kiếm điểm dễ dàng",
@@ -2438,7 +2441,7 @@
       "info": "Quỹ này do Aave cung cấp",
       "infoBottomSheet": {
         "title": "Tại sao bạn nên chọn quỹ này?",
-        "description": "Quỹ Aave này có hơn $150 triệu TVL và hơn 6.000 người đóng góp, cho thấy tính thanh khoản và độ uy tín cao. Quỹ cũng sử dụng USDC làm token và Abritrum làm mạng lưới giúp giảm biến động và đảm bảo người dùng sẽ nhận được mức phí ga rẻ.\n\nTất cả những yếu tố này tạo nên một lựa chọn an toàn và hấp dẫn với APY cạnh tranh, đảm bảo cơ hội đầu tư có lợi cho người dùng.\n\nBạn có thể khám phá các quỹ Aave khác <0>tại đây</0>.",
+        "description": "This Aave pool has over $150M TVL and more than 6,000 contributors, indicating strong liquidity and trustworthiness. It also uses USDC as its token and Arbitrum as its network, which reduces volatility and ensures users will receive inexpensive gas rates.\n\nAll together this makes it a safe and attractive option with competitive APY, ensuring a beneficial investment opportunity for our users.\n\nYou can explore other Aave pools <0>here</0>.",
         "dismiss": "Loại bỏ"
       },
       "notEnoughBalanceForGasWarning": {

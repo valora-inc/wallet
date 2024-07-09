@@ -914,8 +914,10 @@
     "helpDialog": {
       "title": "Guida",
       "body": "Abbiamo inviato un SMS al tuo numero telefonico. Controlla i tuoi SMS per trovare il codice di 6 cifre.\n\nSe hai problemi a ricevere i messaggi, puoi saltare questo passaggio e riprovare più tardi.",
+      "bodyCloudBackupOnboarding": "Abbiamo inviato un SMS al tuo numero di telefono. Controlla i tuoi messaggi per trovare il codice di 6 cifre. \n \n Se hai problemi a ricevere i messaggi, ti consigliamo di fare un backup con una frase di recupero. Puoi provare ad accedere con la tua e-mail e il tuo telefono in un secondo momento.",
       "skip": "Salta",
-      "dismiss": "Indietro"
+      "dismiss": "Indietro",
+      "useRecoveryPhrase": "Usa la Frase di recupero"
     },
     "verificationFailure": "Si è verificato un errore, riprova più tardi.",
     "resendButtonNotYetAvailable": "Nuovo invio disponibile tra {{secondsRemaining}} secondo/i",
@@ -2344,7 +2346,7 @@
       "retryCta": "Riprova"
     },
     "infoCard": {
-      "title": "A breve potrai scoprire altri modi per guadagnare punti 🚀",
+      "title": "Altri modi per guadagnare punti in arrivo",
       "body": "Aggiungiamo continuamente nuovi modi per guadagnare punti utilizzando l'app. Continua a seguirci."
     },
     "activitySection": {
@@ -2357,7 +2359,7 @@
     },
     "activityCards": {
       "createWallet": {
-        "title": "Crea un portafoglio {{appName}}"
+        "title": "Creare un wallet {{appName}}"
       },
       "swap": {
         "title": "Scambia asset",
@@ -2373,7 +2375,8 @@
     },
     "discoverCard": {
       "title": "Punti {{appName}}",
-      "description": "Guadagna punti facilmente con {{appName}}. Usa l'app, che permette anche lo scambio, e guadagna punti!"
+      "description": "Guadagna punti facilmente con {{appName}}. Usa l'app, che permette anche lo scambio, e guadagna punti!",
+      "balance": "punti {{pointsBalance}}"
     },
     "intro": {
       "title": "Guadagna punti senza fatica",
@@ -2440,7 +2443,7 @@
       "info": "Questo pool è supportato da Aave",
       "infoBottomSheet": {
         "title": "Qual è lo scopo di questo pool?",
-        "description": "Questo pool Aave ha oltre 150 milioni di dollari di TVL e oltre 6.000 contributori: questo indica una forte liquidità e affidabilità. Inoltre utilizza USDC come token e Abritrum come rete: questo riduce la volatilità e permette agli utenti di pagare basse commissioni sulle transazioni.\n\nPer questi motivi è un'opzione sicura e interessante con un rendimento APY competitivo e rappresenta una vantaggiosa opportunità di investimento per i nostri utenti.\n\nPuoi esplorare altri pool Aave <0>qui</0>.",
+        "description": "Questo pool di Aave ha oltre 150 milioni di dollari di TVL e più di 6.000 contributori, il che indica una forte liquidità e affidabilità. Inoltre, utilizza USDC come token e Arbitrum come rete, il che riduce la volatilità e garantisce agli utenti tariffe convenienti.\n\nTutto ciò la rende un'opzione sicura e attraente con un APY competitivo, garantendo un'opportunità di investimento vantaggiosa per i nostri utenti.\n\nPuoi esplorare gli altri pool di Aave <0>qui</0>.",
         "dismiss": "Ignorare"
       },
       "notEnoughBalanceForGasWarning": {

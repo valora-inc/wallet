@@ -914,8 +914,10 @@
     "helpDialog": {
       "title": "Yardım",
       "body": "Telefon numaranıza bir SMS gönderdik. Lütfen 6 haneli kodu bulmak için kısa mesajlarınızı kontrol edin. \n \n Mesaj almakta sorun yaşıyorsanız şimdilik bu adımı atlayabilir ve daha sonra tekrar deneyebilirsiniz.",
+      "bodyCloudBackupOnboarding": "Telefon numaranıza bir SMS gönderdik. Lütfen 6 haneli kodu bulmak için kısa mesajlarınızı kontrol edin. \n \n Mesajları almakta sorun yaşıyorsanız, bir Kurtarma İfadesi ile yedekleme yapmanızı öneririz. Daha sonra e-posta adresiniz ve telefonunuzla oturum açmayı deneyebilirsiniz.",
       "skip": "Atla",
-      "dismiss": "Geri dön"
+      "dismiss": "Geri dön",
+      "useRecoveryPhrase": "Kurtarma İfadesini Kullan"
     },
     "verificationFailure": "Bir şeyler ters gitti. Lütfen daha sonra tekrar deneyiniz.",
     "resendButtonNotYetAvailable": "{{secondsRemaining}} saniye sonra tekrar gönderilebilir",
@@ -2344,7 +2346,7 @@
       "retryCta": "Tekrar deneyin"
     },
     "infoCard": {
-      "title": "Puan kazanmanın daha fazla yolu çok yakında 🚀",
+      "title": "Puan kazanmanın daha fazla yolu çok yakında",
       "body": "Uygulamayı kullanarak puan kazanmanın daha fazla yolunu eklemek için çalışıyoruz. Güncellemeler için kontrol etmeye devam edin."
     },
     "activitySection": {
@@ -2373,7 +2375,8 @@
     },
     "discoverCard": {
       "title": "{{appName}} Puanları",
-      "description": "{{appName}} ile kolayca puan kazanın. Takas işlemi dahil olmak üzere uygulamayı kullanmak puan kazandırır!"
+      "description": "{{appName}} ile kolayca puan kazanın. Takas işlemi dahil olmak üzere uygulamayı kullanmak puan kazandırır!",
+      "balance": "{{pointsBalance}} puanları"
     },
     "intro": {
       "title": "Zahmetsizce puan kazanın",
@@ -2440,7 +2443,7 @@
       "info": "Bu havuz Aave tarafından desteklenmektedir",
       "infoBottomSheet": {
         "title": "Neden bu havuz?",
-        "description": "Bu Aave havuzu 150 milyon ABD dolarının üzerinde TVL'ye ve 6000'den fazla katılımcıya sahiptir, bu da güçlü likidite ve güvenilirliği gösterir. Ayrıca token olarak USDC ve ağ olarak Abritrum kullanır, bu da oynaklığı azaltır ve kullanıcıların ucuz gas oranları almasını sağlar.\n\nTüm bunlar bir araya geldiğinde, rekabetçi Yıllık Getiri Oranı ile güvenli ve cazip bir seçenek haline gelir ve kullanıcılarımız için faydalı bir yatırım fırsatı sağlar.\n\nDiğer Aave havuzlarını <0>buradan</0> keşfedebilirsiniz.",
+        "description": "Bu Aave havuzu 150 milyon doların üzerinde TVL'ye ve 6.000'den fazla katılımcıya sahiptir, bu da güçlü likidite ve güvenilirliği gösterir. Ayrıca token olarak USDC ve ağ olarak Arbitrum kullanır, bu da oynaklığı azaltır ve kullanıcıların ucuz gaz oranları almasını sağlar.\n\nTüm bunlar bir araya geldiğinde, rekabetçi APY ile güvenli ve cazip bir seçenek haline gelir ve kullanıcılarımız için faydalı bir yatırım fırsatı sağlar.\n\nDiğer Aave havuzlarını <0>buradan</0> keşfedebilirsiniz.",
         "dismiss": "Yoksay"
       },
       "notEnoughBalanceForGasWarning": {

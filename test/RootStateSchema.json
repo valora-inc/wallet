@@ -3323,8 +3323,6 @@
                 "ChooseYourAdventure",
                 "CoinbasePayScreen",
                 "ConsumerIncentivesHomeScreen",
-                "DappKitAccountScreen",
-                "DappKitSignTxScreen",
                 "DappShortcutTransactionRequest",
                 "DappShortcutsRewards",
                 "DappsScreen",
@@ -5086,7 +5084,7 @@
                     "additionalProperties": false,
                     "properties": {
                         "activitiesById": {
-                            "$ref": "#/definitions/{swap?:{pointsAmount:number;}|undefined;\"create-wallet\"?:{pointsAmount:number;}|undefined;\"create-live-link\"?:{pointsAmount:number;}|undefined;\"more-coming\"?:{pointsAmount:number;}|undefined;}"
+                            "$ref": "#/definitions/{swap?:{pointsAmount:number;previousPointsAmount?:number|undefined;}|undefined;\"create-wallet\"?:{pointsAmount:number;previousPointsAmount?:number|undefined;}|undefined;\"create-live-link\"?:{pointsAmount:number;previousPointsAmount?:number|undefined;}|undefined;}"
                         }
                     },
                     "required": [
@@ -5110,7 +5108,7 @@
                     "type": "array"
                 },
                 "trackOnceActivities": {
-                    "$ref": "#/definitions/{swap?:boolean|undefined;\"create-wallet\"?:boolean|undefined;\"create-live-link\"?:boolean|undefined;\"more-coming\"?:boolean|undefined;}"
+                    "$ref": "#/definitions/{swap?:boolean|undefined;\"create-wallet\"?:boolean|undefined;\"create-live-link\"?:boolean|undefined;}"
                 }
             },
             "required": [
@@ -7005,16 +7003,13 @@
             },
             "type": "object"
         },
-        "{swap?:boolean|undefined;\"create-wallet\"?:boolean|undefined;\"create-live-link\"?:boolean|undefined;\"more-coming\"?:boolean|undefined;}": {
+        "{swap?:boolean|undefined;\"create-wallet\"?:boolean|undefined;\"create-live-link\"?:boolean|undefined;}": {
             "additionalProperties": false,
             "properties": {
                 "create-live-link": {
                     "type": "boolean"
                 },
                 "create-wallet": {
-                    "type": "boolean"
-                },
-                "more-coming": {
                     "type": "boolean"
                 },
                 "swap": {
@@ -7023,13 +7018,16 @@
             },
             "type": "object"
         },
-        "{swap?:{pointsAmount:number;}|undefined;\"create-wallet\"?:{pointsAmount:number;}|undefined;\"create-live-link\"?:{pointsAmount:number;}|undefined;\"more-coming\"?:{pointsAmount:number;}|undefined;}": {
+        "{swap?:{pointsAmount:number;previousPointsAmount?:number|undefined;}|undefined;\"create-wallet\"?:{pointsAmount:number;previousPointsAmount?:number|undefined;}|undefined;\"create-live-link\"?:{pointsAmount:number;previousPointsAmount?:number|undefined;}|undefined;}": {
             "additionalProperties": false,
             "properties": {
                 "create-live-link": {
                     "additionalProperties": false,
                     "properties": {
                         "pointsAmount": {
+                            "type": "number"
+                        },
+                        "previousPointsAmount": {
                             "type": "number"
                         }
                     },
@@ -7043,17 +7041,8 @@
                     "properties": {
                         "pointsAmount": {
                             "type": "number"
-                        }
-                    },
-                    "required": [
-                        "pointsAmount"
-                    ],
-                    "type": "object"
-                },
-                "more-coming": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "pointsAmount": {
+                        },
+                        "previousPointsAmount": {
                             "type": "number"
                         }
                     },
@@ -7066,6 +7055,9 @@
                     "additionalProperties": false,
                     "properties": {
                         "pointsAmount": {
+                            "type": "number"
+                        },
+                        "previousPointsAmount": {
                             "type": "number"
                         }
                     },

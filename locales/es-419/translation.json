@@ -805,7 +805,7 @@
     "spend": "Usa tu cripto para comprar tus marcas favoritas"
   },
   "enableBiometry": {
-    "title": "Asegure su cartera",
+    "title": "Asegura tu wallet",
     "description": "{{biometryType}} matiene tu cuenta segura y facilita el uso de {{appName}}",
     "cta": "Habilitar {{biometryType}}",
     "guideTitle": "¿Te gustaría habilitar {{biometryType}}?",
@@ -914,8 +914,10 @@
     "helpDialog": {
       "title": "Ayuda",
       "body": "Hemos enviado un SMS a tu número de teléfono. Busca el código de 6 dígitos en tus mensajes.\n\nSi tienes problemas para recibir los mensajes, puedes omitir este paso por ahora e intentarlo más tarde.",
+      "bodyCloudBackupOnboarding": "Hemos enviado un SMS a tu número de teléfono. Comprueba tus mensajes de texto para encontrar el código de 6 dígitos. \n \n Si tienes problemas para recibir mensajes, te recomendamos que hagas una copia de seguridad con una Frase de recuperación. Puedes intentar iniciar sesión con tu correo electrónico y teléfono más tarde.",
       "skip": "Omitir",
-      "dismiss": "Regresar"
+      "dismiss": "Regresar",
+      "useRecoveryPhrase": "Usar frase de recuperación"
     },
     "verificationFailure": "Algo salió mal, inténtalo de nuevo más tarde.",
     "resendButtonNotYetAvailable": "Reenvío disponible en {{secondsRemaining}} segundo(s)",
@@ -2344,7 +2346,7 @@
       "retryCta": "Reintentar"
     },
     "infoCard": {
-      "title": "Más formas de ganar puntos pronto 🚀",
+      "title": "Próximamente más formas de ganar puntos",
       "body": "Estamos trabajando para agregar más formas de ganar puntos. ¡No te pierdas lo que se viene!"
     },
     "activitySection": {
@@ -2357,7 +2359,7 @@
     },
     "activityCards": {
       "createWallet": {
-        "title": "Crea una Cartera {{appName}}"
+        "title": "Crear una wallet {{appName}}"
       },
       "swap": {
         "title": "Intercambia activos",
@@ -2373,7 +2375,8 @@
     },
     "discoverCard": {
       "title": "Puntos de {{appName}}",
-      "description": "Gana puntos fácilmente con {{appName}}. ¡Solo tienes que usar la app!"
+      "description": "Gana puntos fácilmente con {{appName}}. ¡Solo tienes que usar la app!",
+      "balance": "puntos de {{pointsBalance}}"
     },
     "intro": {
       "title": "Gana puntos sin esfuerzo",
@@ -2440,7 +2443,7 @@
       "info": "Esta pool es administrada por Aave",
       "infoBottomSheet": {
         "title": "¿Por qué esta pool?",
-        "description": "Esta pool de Aave tiene más de $150M de TVL y más de 6000 contribuyentes, lo que indica una gran liquidez y fiabilidad. También utiliza USDC como token y Abritrum como red, lo que reduce la volatilidad y garantiza que los usuarios recibirán tasas baratas.\n\nTodo ello la convierte en una opción segura y atractiva con un APY competitivo, que garantiza una oportunidad de inversión beneficiosa para nuestros usuarios.\n\nPuedes explorar otras pools de Aave <0>aquí</0>.",
+        "description": "Este pool de Aave tiene más de 150 millones de dólares de TVL y más de 6.000 contribuyentes, lo que indica una gran liquidez y fiabilidad. También utiliza USDC como token y Arbitrum como red, lo que reduce la volatilidad y garantiza que los usuarios recibirán tarifas de gas baratas.\n\nTodo ello lo convierte en una opción segura y atractiva con un APY competitivo, que garantiza una oportunidad de inversión beneficiosa para nuestros usuarios.\n\nPuedes explorar otros pools de Aave <0>aquí</0>.",
         "dismiss": "Ignorar"
       },
       "notEnoughBalanceForGasWarning": {

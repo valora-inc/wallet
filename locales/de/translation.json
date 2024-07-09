@@ -914,8 +914,10 @@
     "helpDialog": {
       "title": "Hilfe",
       "body": "Wir haben eine SMS an deine Telefonnummer geschickt. Bitte überprüfe deine SMS, um den 6-stelligen Code zu finden.\n\nWenn du Probleme beim Empfang von Nachrichten hast, kannst du diesen Schritt überspringen.",
+      "bodyCloudBackupOnboarding": "Wir haben eine SMS an deine Telefonnummer geschickt. Bitte überprüfe deine Textnachrichten, um den 6-stelligen Code zu finden. \n \n Wenn du Probleme beim Empfang von Nachrichten hast, empfehlen wir dir, eine Wiederherstellungsphrase zu verwenden. Du kannst später versuchen, dich mit deiner E-Mail und deinem Telefon anzumelden.",
       "skip": "Überspringen",
-      "dismiss": "Zurück"
+      "dismiss": "Zurück",
+      "useRecoveryPhrase": "Wiederherstellungsphrase verwenden"
     },
     "verificationFailure": "Etwas ist schief gelaufen, bitte versuche es später erneut.",
     "resendButtonNotYetAvailable": "„Erneut senden“ in {{secondsRemaining}} Sekunde(n) verfügbar",
@@ -2344,7 +2346,7 @@
       "retryCta": "Erneut versuchen"
     },
     "infoCard": {
-      "title": "Bald hast du noch mehr Möglichkeiten, Punkte zu verdienen 🚀",
+      "title": "Bald gibt es mehr Möglichkeiten, Punkte zu sammeln",
       "body": "Wir arbeiten daran, weitere Möglichkeiten zum Verdienen von Punkten mit der App hinzuzufügen. Wir halten dich auf dem Laufenden!"
     },
     "activitySection": {
@@ -2357,7 +2359,7 @@
     },
     "activityCards": {
       "createWallet": {
-        "title": "Erstelle eine {{appName}} Brieftasche"
+        "title": "{{appName}}-Wallet erstellen"
       },
       "swap": {
         "title": "Vermögen tauschen",
@@ -2373,7 +2375,8 @@
     },
     "discoverCard": {
       "title": "{{appName}} Punkte",
-      "description": "Sammle ganz einfach Punkte mit {{appName}}. Mit der Nutzung der App, einschließlich des Tauschens, erhältst du Punkte!"
+      "description": "Sammle ganz einfach Punkte mit {{appName}}. Mit der Nutzung der App, einschließlich des Tauschens, erhältst du Punkte!",
+      "balance": "{{pointsBalance}} punkte"
     },
     "intro": {
       "title": "Verdiene mühelos Punkte",
@@ -2440,7 +2443,7 @@
       "info": "Dieser Pool wird von Aave unterstützt",
       "infoBottomSheet": {
         "title": "Warum dieser Pool?",
-        "description": "Dieser Aave-Pool hat über 150 Millionen Dollar TVL und mehr als 6.000 Beitragszahler, was für eine hohe Liquidität und Vertrauenswürdigkeit spricht. Außerdem verwendet er USDC als Token und Abritrum als Netzwerk, was die Volatilität reduziert und sicherstellt, dass die Nutzer günstige Gasgebühren erhalten.\n\nDas alles macht den Aave-Pool zu einer sicheren und attraktiven Option mit wettbewerbsfähiger jährlicher prozentualer Rendite, die eine vorteilhafte Investitionsmöglichkeit für unsere Nutzer darstellt.\n\nWeitere Aave-Pools findest du <0>hier</0>.",
+        "description": "Dieser Aave-Pool hat über 150 Mio. USD TVL und mehr als 6.000 Teilnehmer, was für eine hohe Liquidität und Vertrauenswürdigkeit spricht. Außerdem verwendet er USDC als Token und Arbitrum als Netzwerk, was die Volatilität reduziert und sicherstellt, dass die Nutzer günstige Gasraten erhalten.\n\nAlles zusammen macht ihn zu einer sicheren und attraktiven Option mit wettbewerbsfähigen APY, die eine vorteilhafte Investitionsmöglichkeit für unsere Nutzer/innen darstellt.\n\nAndere Aave-Pools kannst du <0>hier</0> entdecken.",
         "dismiss": "Verwerfen"
       },
       "notEnoughBalanceForGasWarning": {

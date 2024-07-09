@@ -914,8 +914,10 @@
     "helpDialog": {
       "title": "Aide",
       "body": "Nous avons envoyé un SMS à votre numéro de téléphone. Veuillez consulter vos SMS, un code à 6 chiffres devrait s'y trouver.\n\nSi vous ne recevez pas nos messages, vous pouvez ignorer cette étape et réessayer plus tard.",
+      "bodyCloudBackupOnboarding": "Nous avons envoyé un SMS à ton numéro de téléphone. Vérifie tes SMS pour trouver le code à 6 chiffres. \n \n Si tu as des difficultés à recevoir des messages, nous te recommandons de faire une sauvegarde avec une phrase de récupération. Tu pourras essayer de te connecter avec ton email et ton téléphone plus tard.",
       "skip": "Ignorer",
-      "dismiss": "Retour"
+      "dismiss": "Retour",
+      "useRecoveryPhrase": "Utiliser la Phrase de récupération"
     },
     "verificationFailure": "Une erreur s'est produite, veuillez réessayer plus tard.",
     "resendButtonNotYetAvailable": "Renvoi disponible dans {{secondsRemaining}} seconde(s)",
@@ -2344,7 +2346,7 @@
       "retryCta": "Veuillez réessayer"
     },
     "infoCard": {
-      "title": "Plus de façons de gagner des points seront bientôt disponibles 🚀",
+      "title": "D'autres façons de gagner des points seront bientôt disponibles",
       "body": "Nous ajouterons bientôt d'autres façons de gagner des points en utilisant l'application. Restez connecté pour connaître les dernières mises à jour."
     },
     "activitySection": {
@@ -2373,7 +2375,8 @@
     },
     "discoverCard": {
       "title": "{{appName}} Points",
-      "description": "Gagnez facilement des points avec {{appName}}. Utilisez l'application, notamment en faisant du swapping et à vous les points !"
+      "description": "Gagnez facilement des points avec {{appName}}. Utilisez l'application, notamment en faisant du swapping et à vous les points !",
+      "balance": "{{pointsBalance}} points"
     },
     "intro": {
       "title": "Gagnez des points en toute simplicité",
@@ -2440,7 +2443,7 @@
       "info": "Ce pool est alimenté par Aave",
       "infoBottomSheet": {
         "title": "Pourquoi ce pool ?",
-        "description": "Ce pool Aave dispose de plus de 150 millions de dollars de TVL et de plus de 6 000 contributeurs, ce qui indique une forte liquidité et une grande fiabilité. Il utilise également USDC comme jeton et Abritrum comme réseau, ce qui réduit la volatilité et garantit que les utilisateurs seront soumis à des taux de gaz faibles.\n\nTout cela en fait une option sûre et attrayante avec un APY compétitif, garantissant une opportunité d'investissement bénéfique pour nos utilisateurs.\n\nVous pouvez découvrir d'autres pools Aave <0>ici</0>.",
+        "description": "Ce pool Aave a plus de 150M$ de TVL et plus de 6 000 contributeurs, ce qui indique une forte liquidité et une grande fiabilité. Il utilise également USDC comme jeton et Arbitrum comme réseau, ce qui réduit la volatilité et garantit que les utilisateurs recevront des taux de gaz peu coûteux.\n\nTout cela en fait une option sûre et attrayante avec un APY compétitif, assurant une opportunité d'investissement bénéfique pour nos utilisateurs.\n\nTu peux explorer d'autres pools Aave <0>ici</0>.",
         "dismiss": "Refuser"
       },
       "notEnoughBalanceForGasWarning": {

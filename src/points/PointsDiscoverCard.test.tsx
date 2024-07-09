@@ -36,11 +36,19 @@ describe('PointsDiscoverCard', () => {
   })
 
   it('renders when feature gate is enabled', () => {
-    const { getByText } = renderPointsDiscoverCard({ points: { pointsBalance: 'BALANCE_AMOUNT' } })
+    const { getByText, store } = renderPointsDiscoverCard({
+      points: { pointsBalance: 'BALANCE_AMOUNT' },
+    })
 
     expect(getByText('points.discoverCard.title')).toBeTruthy()
     expect(getByText('points.discoverCard.description')).toBeTruthy()
-    expect(getByText('BALANCE_AMOUNT')).toBeTruthy()
+    expect(
+      getByText('points.discoverCard.balance, {"pointsBalance":"BALANCE_AMOUNT"}')
+    ).toBeTruthy()
+
+    expect(store.getActions()).toEqual([
+      { type: 'points/getHistoryStarted', payload: { getNextPage: false } },
+    ])
   })
 
   it('does not render when feature gate is disabled', () => {

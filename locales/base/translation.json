@@ -2355,7 +2355,7 @@
       "retryCta": "Try again"
     },
     "infoCard": {
-      "title": "More ways to earn points coming soon 🚀",
+      "title": "More ways to earn points coming soon",
       "body": "We are working on adding more ways to earn points through using the app. Keep checking in for updates."
     },
     "activitySection": {
@@ -2392,7 +2392,8 @@
     },
     "discoverCard": {
       "title": "{{appName}} Points",
-      "description": "Earn points easily with {{appName}}. Using the app, including swapping, leads to points!"
+      "description": "Earn points easily with {{appName}}. Using the app, including swapping, leads to points!",
+      "balance": "{{pointsBalance}} points"
     },
     "intro": {
       "title": "Earn points effortlessly",

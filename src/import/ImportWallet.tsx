@@ -33,7 +33,6 @@ import { useDispatch, useSelector } from 'src/redux/hooks'
 import { isAppConnected } from 'src/redux/selectors'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
-import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
@@ -267,7 +266,6 @@ ImportWallet.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.onboardingBackground,
   },
   scrollContainer: {
     paddingVertical: 16,

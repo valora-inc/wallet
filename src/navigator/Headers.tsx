@@ -66,8 +66,7 @@ export const nuxNavigationOptions: NativeStackNavigationOptions = {
 
 export const nuxNavigationOptionsOnboarding: NativeStackNavigationOptions = {
   ...nuxNavigationOptions,
-  headerLeft: ({ canGoBack }) =>
-    canGoBack ? <BackButton color={colors.onboardingBrownLight} /> : <View />,
+  headerLeft: ({ canGoBack }) => (canGoBack ? <BackButton color={colors.black} /> : <View />),
 }
 
 export const nuxNavigationOptionsNoBackButton: NativeStackNavigationOptions = {

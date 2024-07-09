@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexDirection: 'row',
     marginTop: 8,
-    backgroundColor: colors.onboardingBackground,
+    backgroundColor: colors.ivory,
     borderRadius: 8,
     alignContent: 'center',
     justifyContent: 'center',

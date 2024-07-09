@@ -127,19 +127,12 @@ describe(PointsHome, () => {
   })
 
   it('renders multiple sections', async () => {
-    const { getByTestId, queryByTestId, queryByText } = renderPointsHome()
+    const { getByText, queryByText } = renderPointsHome()
 
-    expect(getByTestId('PointsActivitySection-50')).toBeTruthy()
-    expect(getByTestId('PointsActivitySection-20')).toBeTruthy()
+    expect(getByText('points.activityCards.createWallet.title')).toBeTruthy()
+    expect(getByText('points.activityCards.swap.title')).toBeTruthy()
 
-    expect(getByTestId('PointsActivityCard-swap-50')).toBeTruthy()
-    expect(getByTestId('PointsActivityCard-create-live-link-50')).toBeTruthy()
-    expect(queryByTestId('PointsActivityCard-create-wallet-50')).toBeFalsy()
-
-    expect(queryByTestId('PointsActivityCard-swap-20')).toBeFalsy()
-    expect(queryByTestId('PointsActivityCard-create-live-link-20')).toBeFalsy()
-    expect(getByTestId('PointsActivityCard-more-coming-20')).toBeTruthy()
-    expect(getByTestId('PointsActivityCard-create-wallet-20')).toBeTruthy()
+    expect(getByText('points.activityCards.moreComing.title')).toBeTruthy()
 
     expect(queryByText('points.loading.title')).toBeFalsy()
     expect(queryByText('points.error.title')).toBeFalsy()
@@ -164,8 +157,8 @@ describe(PointsHome, () => {
   })
 
   it('opens Swap bottom sheet', async () => {
-    const { getByTestId } = renderPointsHome()
-    fireEvent.press(getByTestId('PointsActivityCard-swap-50'))
+    const { getByText } = renderPointsHome()
+    fireEvent.press(getByText('points.activityCards.swap.title'))
     await waitFor(() =>
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_press, {
         activityId: 'swap',
@@ -174,15 +167,15 @@ describe(PointsHome, () => {
   })
 
   it('navigates to Swap screen on CTA press', async () => {
-    const { getByTestId } = renderPointsHome()
-    fireEvent.press(getByTestId('PointsActivityCard-swap-50'))
+    const { getByText } = renderPointsHome()
+    fireEvent.press(getByText('points.activityCards.swap.title'))
     await waitFor(() =>
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_press, {
         activityId: 'swap',
       })
     )
 
-    fireEvent.press(getByTestId('PointsHomeBottomSheetCtaButton'))
+    fireEvent.press(getByText('points.activityCards.swap.bottomSheet.cta'))
     await waitFor(() => expect(navigate).toHaveBeenCalledWith(Screens.SwapScreenWithBack))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_cta_press, {
       activityId: 'swap',

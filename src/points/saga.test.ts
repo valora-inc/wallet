@@ -5,7 +5,7 @@ import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call, select, spawn } from 'redux-saga/effects'
-import { Actions as AppActions } from 'src/app/actions'
+import { Actions as HomeActions } from 'src/home/actions'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import * as pointsSaga from 'src/points/saga'
 import {
@@ -16,7 +16,7 @@ import {
   getPointsConfig,
   sendPendingPointsEvents,
   sendPointsEvent,
-  watchAppMounted,
+  watchHomeScreenVisit,
 } from 'src/points/saga'
 import { pendingPointsEventsSelector, trackOnceActivitiesSelector } from 'src/points/selectors'
 import pointsReducer, {
@@ -35,6 +35,8 @@ import pointsReducer, {
   trackPointsEvent,
 } from 'src/points/slice'
 import { ClaimHistory, GetHistoryResponse, PointsEvent } from 'src/points/types'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import * as fetchWithTimeout from 'src/utils/fetchWithTimeout'
@@ -45,6 +47,12 @@ import { mockAccount } from 'test/values'
 import { v4 as uuidv4 } from 'uuid'
 
 jest.mock('src/statsig')
+jest.mocked(getFeatureGate).mockImplementation((featureGate) => {
+  if (featureGate === StatsigFeatureGates.SHOW_POINTS) {
+    return true
+  }
+  throw new Error(`Unexpected feature gate: ${featureGate}`)
+})
 
 jest.mock('uuid')
 jest.mock('src/utils/Logger')
@@ -434,10 +442,36 @@ describe('sendPointsEvent', () => {
     expect(Logger.warn).toHaveBeenCalledWith(
       'Points/saga@sendPointsEvent',
       mockAction.payload.activityId,
-      mockServerErrorResponse.status,
-      mockServerErrorResponse.statusText,
-      mockServerErrorMessage
+      new Error('Failed to track points event create-wallet: 500 Error message from server')
     )
+  })
+
+  it('should not send the tracked event if the user does not have a signed message', async () => {
+    const mockAction = trackPointsEvent({ activityId: 'create-wallet' })
+
+    await expectSaga(sendPointsEvent, mockAction)
+      .provide([
+        [select(walletAddressSelector), '0xabc'],
+        [call(retrieveSignedMessage), null],
+        [select(trackOnceActivitiesSelector), { 'create-wallet': false }],
+        [select(pendingPointsEventsSelector), []],
+      ])
+      .put(
+        sendPointsEventStarted({
+          id: mockId,
+          timestamp: mockTime,
+          event: mockAction.payload,
+        })
+      )
+      .not.put(pointsEventProcessed({ id: mockId }))
+      .run()
+
+    expect(Logger.warn).toHaveBeenCalledWith(
+      'Points/saga@sendPointsEvent',
+      mockAction.payload.activityId,
+      new Error('No signed message found when tracking points event create-wallet')
+    )
+    expect(fetchWithTimeoutSpy).not.toHaveBeenCalled()
   })
 
   it('should ignore any track once activities that were already tracked', async () => {
@@ -579,15 +613,15 @@ describe('sendPendingPointsEvents', () => {
   })
 })
 
-describe('watchAppMounted', () => {
+describe('watchHomeScreenVisit', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
   it('should spawn all sagas only once even if multiple "app mounted" actions are dispatched', async () => {
-    const mockAction = { type: AppActions.APP_MOUNTED }
+    const mockAction = { type: HomeActions.VISIT_HOME }
 
-    const result = await expectSaga(watchAppMounted)
+    const result = await expectSaga(watchHomeScreenVisit)
       .provide([
         [spawn(getPointsConfig), null],
         [spawn(getPointsBalance, getHistoryStarted({ getNextPage: false })), null],

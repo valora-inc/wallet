@@ -1,132 +1,127 @@
 import React from 'react'
-import ActivityCard from 'src/points/ActivityCard'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import LogoHeart from 'src/icons/LogoHeart'
-import { BottomSheetParams, PointsMetadata, isPointsActivityId } from 'src/points/types'
-import { Colors } from 'src/styles/colors'
+import Celebration from 'src/icons/Celebration'
+import SwapArrows from 'src/icons/SwapArrows'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import ActivityCard, { Props as ActivityCardProps, MoreComingCard } from 'src/points/ActivityCard'
+import { compareAmountAndTitle } from 'src/points/cardSort'
+import { BottomSheetParams, PointsActivity } from 'src/points/types'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import MagicWand from 'src/icons/MagicWand'
 
 interface Props {
+  pointsActivities: PointsActivity[]
   onCardPress: (bottomSheetDetails: BottomSheetParams) => void
-  pointsSections: PointsMetadata[]
 }
 
-export default function ActivityCardSection({ onCardPress, pointsSections }: Props) {
+export default function ActivityCardSection({ pointsActivities, onCardPress }: Props) {
   const { t } = useTranslation()
 
-  function makeSection(pointsMetadata: PointsMetadata, sectionIndex: number): React.ReactNode {
-    const pointsAmount = pointsMetadata.pointsAmount
-
-    const cards = pointsMetadata.activities
-      .filter((activity) => isPointsActivityId(activity.activityId))
-      .map((activity) => (
-        <ActivityCard
-          key={activity.activityId}
-          activityId={activity.activityId}
-          pointsAmount={pointsAmount}
-          onPress={onCardPress}
-        />
-      ))
-
-    // add the "more coming" card to the last section
-    if (sectionIndex === pointsSections.length - 1) {
-      cards.push(
-        <ActivityCard
-          key="more-coming"
-          activityId="more-coming"
-          pointsAmount={pointsAmount}
-          onPress={onCardPress}
-        />
-      )
+  function mapActivityToCardProps(activity: PointsActivity): ActivityCardProps {
+    switch (activity.activityId) {
+      case 'create-wallet':
+        return {
+          ...activity,
+          title: t('points.activityCards.createWallet.title'),
+          icon: <Celebration />,
+        }
+      case 'swap':
+        return {
+          ...activity,
+          title: t('points.activityCards.swap.title'),
+          icon: <SwapArrows />,
+          onPress: () =>
+            onCardPress({
+              ...activity,
+              title: t('points.activityCards.swap.bottomSheet.title'),
+              body: t('points.activityCards.swap.bottomSheet.body', {
+                pointsValue: activity.pointsAmount,
+              }),
+              cta: {
+                text: t('points.activityCards.swap.bottomSheet.cta'),
+                onPress: () => {
+                  navigate(Screens.SwapScreenWithBack)
+                },
+              },
+            }),
+        }
+      case 'create-live-link':
+        return {
+          ...activity,
+          title: t('points.activityCards.createLiveLink.title'),
+          icon: <MagicWand color={Colors.black} />,
+          onPress: () =>
+            onCardPress({
+              ...activity,
+              title: t('points.activityCards.createLiveLink.bottomSheet.title'),
+              body: t('points.activityCards.createLiveLink.bottomSheet.body', {
+                pointsValue: activity.pointsAmount,
+              }),
+              cta: {
+                text: t('points.activityCards.createLiveLink.bottomSheet.cta'),
+                onPress: () => {
+                  navigate(Screens.JumpstartEnterAmount)
+                },
+              },
+            }),
+        }
+      default:
+        // To catch any missing cases at compile time
+        const assertNever: never = activity.activityId
+        return assertNever
     }
-
-    if (!cards.length) {
-      return <View key={pointsAmount}></View>
-    }
-
-    return (
-      <View
-        testID={`PointsActivitySection-${pointsAmount}`}
-        key={pointsAmount}
-        style={styles.pointsSection}
-      >
-        <View style={styles.pointsSectionHeader}>
-          <View style={styles.hr} />
-          <View style={styles.pointsSectionHeaderAmountContainer}>
-            <Text style={styles.pointsSectionHeaderAmount}>{pointsAmount}</Text>
-            <LogoHeart size={16} />
-          </View>
-          <View style={styles.hr} />
-        </View>
-        <View style={styles.pointsSectionContent}>{cards}</View>
-      </View>
-    )
   }
+
+  const { incompleteActivities, completedActivities } = React.useMemo(() => {
+    const sortedActivities = pointsActivities
+      .map(mapActivityToCardProps)
+      .sort(compareAmountAndTitle)
+
+    const incompleteActivities = sortedActivities.filter(({ completed }) => !completed)
+    const completedActivities = sortedActivities.filter(({ completed }) => completed)
+
+    return { incompleteActivities, completedActivities }
+  }, [pointsActivities])
 
   return (
     <View style={styles.container}>
-      <View style={styles.textContainer}>
-        <Text style={styles.title}>{t('points.activitySection.title')}</Text>
-        <Text style={styles.body}>{t('points.activitySection.body')}</Text>
+      <Text style={styles.title}>{t('points.activitySection.title')}</Text>
+      <Text style={styles.body}>{t('points.activitySection.body')}</Text>
+      <View style={styles.cardsContainer}>
+        {incompleteActivities.map(renderActivityCard)}
+        <MoreComingCard />
+        {completedActivities.map(renderActivityCard)}
       </View>
-      {pointsSections.map(makeSection)}
     </View>
   )
 }
 
+function renderActivityCard(props: ActivityCardProps) {
+  return <ActivityCard key={props.activityId} {...props} />
+}
+
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
+    padding: Spacing.Regular16,
     borderWidth: 1,
     borderColor: Colors.gray2,
     borderRadius: Spacing.Small12,
   },
-  hr: {
-    flexGrow: 1,
-    marginHorizontal: Spacing.Smallest8,
-    borderColor: Colors.gray2,
-    borderBottomWidth: 1,
-  },
-  pointsSectionHeaderAmountContainer: {
-    borderWidth: 1,
-    borderColor: Colors.gray2,
-    paddingHorizontal: Spacing.Small12,
-    paddingVertical: Spacing.Tiny4,
-    borderRadius: Spacing.XLarge48,
-    flexDirection: 'row',
-    gap: Spacing.Tiny4,
-  },
-  pointsSectionHeaderAmount: {
-    ...typeScale.labelSemiBoldXSmall,
-    color: Colors.successDark,
-  },
-  pointsSectionHeader: {
-    flexDirection: 'row',
-    flexGrow: 1,
-    alignItems: 'center',
-  },
-  pointsSectionContent: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-  },
-  textContainer: {
-    padding: Spacing.Regular16,
-    paddingBottom: 0,
-  },
-  pointsSection: {
-    margin: Spacing.Smallest8,
-    marginTop: 0,
+  cardsContainer: {
+    gap: Spacing.Regular16,
+    marginTop: Spacing.Thick24,
   },
   title: {
     ...typeScale.labelSemiBoldMedium,
-    marginBottom: Spacing.Tiny4,
+    color: Colors.black,
   },
   body: {
     ...typeScale.bodyXSmall,
     color: Colors.gray3,
-    marginBottom: Spacing.Thick24,
+    marginTop: Spacing.Tiny4,
   },
 })

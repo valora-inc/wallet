@@ -1,21 +1,13 @@
 import React from 'react'
-import {
-  PointsActivityId,
-  PointsCardMetadata,
-  ClaimHistoryCardItem,
-  CreateLiveLinkClaimHistory,
-} from 'src/points/types'
+import { ClaimHistoryCardItem, CreateLiveLinkClaimHistory } from 'src/points/types'
 import Celebration from 'src/icons/Celebration'
 import SwapArrows from 'src/icons/SwapArrows'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
-import Rocket from 'src/icons/Rocket'
 import MagicWand from 'src/icons/MagicWand'
 import { useTranslation } from 'react-i18next'
-import colors from 'src/styles/colors'
-import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import { useSelector } from 'src/redux/hooks'
+import colors from 'src/styles/colors'
 import { tokensByIdSelector } from 'src/tokens/selectors'
+import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
 import { TokenBalances } from 'src/tokens/slice'
 import { TFunction } from 'i18next'
@@ -27,55 +19,6 @@ export interface HistoryCardMetadata {
   title: string
   subtitle: string
   pointsAmount: number
-}
-
-export default function useCardDefinitions(
-  pointsValue: number
-): Record<PointsActivityId, PointsCardMetadata> {
-  const { t } = useTranslation()
-
-  return {
-    'create-wallet': {
-      title: t('points.activityCards.createWallet.title'),
-      icon: <Celebration />,
-      defaultCompletionStatus: true,
-    },
-    swap: {
-      title: t('points.activityCards.swap.title'),
-      icon: <SwapArrows />,
-      defaultCompletionStatus: false,
-      bottomSheet: {
-        title: t('points.activityCards.swap.bottomSheet.title'),
-        body: t('points.activityCards.swap.bottomSheet.body', { pointsValue }),
-        cta: {
-          text: t('points.activityCards.swap.bottomSheet.cta'),
-          onPress: () => {
-            navigate(Screens.SwapScreenWithBack)
-          },
-        },
-      },
-    },
-    'more-coming': {
-      title: t('points.activityCards.moreComing.title'),
-      icon: <Rocket />,
-      defaultCompletionStatus: false,
-    },
-    'create-live-link': {
-      title: t('points.activityCards.createLiveLink.title'),
-      icon: <MagicWand color={colors.black} />,
-      defaultCompletionStatus: false,
-      bottomSheet: {
-        title: t('points.activityCards.createLiveLink.bottomSheet.title'),
-        body: t('points.activityCards.createLiveLink.bottomSheet.body', { pointsValue }),
-        cta: {
-          text: t('points.activityCards.createLiveLink.bottomSheet.cta'),
-          onPress: () => {
-            navigate(Screens.JumpstartEnterAmount)
-          },
-        },
-      },
-    },
-  }
 }
 
 function getCreateLiveLinkHistorySubtitle(
@@ -102,7 +45,6 @@ function getCreateLiveLinkHistorySubtitle(
     }
   }
 }
-
 export function useGetHistoryDefinition(): (
   history: ClaimHistoryCardItem
 ) => HistoryCardMetadata | undefined {

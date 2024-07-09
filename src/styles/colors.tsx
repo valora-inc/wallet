@@ -4,6 +4,7 @@ export enum Colors {
   primary = '#1AB775',
   primaryDisabled = `${primary}80`, // 50% opacity
   white = '#FFFFFF',
+  ivory = '#F9F6F0',
   black = '#2E3338',
   gray5 = '#505050',
   gray4 = '#666666',
@@ -23,8 +24,6 @@ export enum Colors {
   goldBrand = '#FBCC5C',
   /** @deprecated */
   onboardingBrownLight = '#A49B80',
-  /** @deprecated */
-  onboardingBackground = '#F9F6F0',
 }
 
 export default Colors

@@ -914,8 +914,10 @@
     "helpDialog": {
       "title": "帮助",
       "body": "我们向您的手机号码发送了短信。请查看您短信中的 6 位数字代码。\n\n如果您在接收短信方面有问题，可以暂时跳过这一步，稍后再试。",
+      "bodyCloudBackupOnboarding": "我们向您的电话号码发送了短信。请查看短信，查找 6 位数字代码。 \n \n 如果您在接收短信时遇到问题，我们建议您使用恢复短语进行备份。您可以稍后尝试使用电子邮件和手机登录。",
       "skip": "跳过",
-      "dismiss": "返回"
+      "dismiss": "返回",
+      "useRecoveryPhrase": "使用恢复短语"
     },
     "verificationFailure": "糟糕！出错了，请稍后再试。",
     "resendButtonNotYetAvailable": "{{secondsRemaining}} 秒后可重新发送",
@@ -2342,7 +2344,7 @@
       "retryCta": "再试一次"
     },
     "infoCard": {
-      "title": "即将推出更多赚取积分的方法 🚀",
+      "title": "更多赢取积分的方法即将推出",
       "body": "我们正在努力增加更多通过使用应用程序赚取积分的方法。请随时查看更新。"
     },
     "activitySection": {
@@ -2371,7 +2373,8 @@
     },
     "discoverCard": {
       "title": "{{appName}} 积分",
-      "description": "通过 {{appName}} 轻松赚取积分。使用本应用程序（包括交换）可获得积分！"
+      "description": "通过 {{appName}} 轻松赚取积分。使用本应用程序（包括交换）可获得积分！",
+      "balance": "{{pointsBalance}} 积分"
     },
     "intro": {
       "title": "轻松赚取积分",
@@ -2438,7 +2441,7 @@
       "info": "此池由 Aave 提供支持",
       "infoBottomSheet": {
         "title": "为什么使用此池？",
-        "description": "这个 Aave 池拥有超过 1.5 亿美元的 TVL 和 6000 多名贡献者，这表明此池具有很强的流动性和可信度。此池还使用 USDC 作为代币，并以 Abritrum 作为网络，从而降低了波动性，确保用户获得低廉的手续费。\n\n结合所有方面来看，此池是一个安全、有吸引力且年利率具有竞争力的选择，确保为我们的用户提供有利的投资机会。\n\n您可以在<0>此处</0>探索其他 Aave 池。",
+        "description": "该 Aave 池拥有超过 1.5 亿美元的 TVL 和 6000 多名贡献者，这表明它具有很强的流动性和可信度。它还使用 USDC 作为代币，使用 Arbitrum 作为网络，从而降低了波动性，确保用户获得低廉的天然气价格。\n\n所有这些都使其成为一个安全、有吸引力且年利率具有竞争力的选择，确保为我们的用户提供有利的投资机会。\n\n您可以<0>在这里</0>探索其他 Aave 池。",
         "dismiss": "忽略"
       },
       "notEnoughBalanceForGasWarning": {

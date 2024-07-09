@@ -914,8 +914,10 @@
     "helpDialog": {
       "title": "Help",
       "body": "We sent an SMS to your phone number. Please check your text messages to find the 6 digit code. \n \n If you’re having trouble receiving messages, you can skip this step for now and try again later.",
+      "bodyCloudBackupOnboarding": "We sent an SMS to your phone number. Please check your text messages to find the 6 digit code. \n \n If you’re having trouble receiving messages, we recommend backing up with a Recovery Phrase. You can try signing in with your email and phone later.",
       "skip": "Skip",
-      "dismiss": "Go back"
+      "dismiss": "Go back",
+      "useRecoveryPhrase": "Use Recovery Phrase"
     },
     "verificationFailure": "Oops! Something went wrong, please try again later.",
     "resendButtonNotYetAvailable": "Resend available in {{secondsRemaining}} second(s)",
@@ -2344,7 +2346,7 @@
       "retryCta": "Try again"
     },
     "infoCard": {
-      "title": "More ways to earn points coming soon 🚀",
+      "title": "More ways to earn points coming soon",
       "body": "We are working on adding more ways to earn points through using the app. Keep checking in for updates."
     },
     "activitySection": {
@@ -2373,7 +2375,8 @@
     },
     "discoverCard": {
       "title": "{{appName}} Points",
-      "description": "Earn points easily with {{appName}}. Using the app, including swapping, leads to points!"
+      "description": "Earn points easily with {{appName}}. Using the app, including swapping, leads to points!",
+      "balance": "{{pointsBalance}} points"
     },
     "intro": {
       "title": "Earn points effortlessly",
@@ -2440,7 +2443,7 @@
       "info": "This pool is powered by Aave",
       "infoBottomSheet": {
         "title": "Why this pool?",
-        "description": "This Aave pool has over $150M TVL and more than 6,000 contributors, indicating strong liquidity and trustworthiness. It also uses USDC as its token and Abritrum as its network, which reduces volatility and ensures users will receive inexpensive gas rates.\n\nAll together this makes it a safe and attractive option with competitive APY, ensuring a beneficial investment opportunity for our users.\n\nYou can explore other Aave pools <0>here</0>.",
+        "description": "This Aave pool has over $150M TVL and more than 6,000 contributors, indicating strong liquidity and trustworthiness. It also uses USDC as its token and Arbitrum as its network, which reduces volatility and ensures users will receive inexpensive gas rates.\n\nAll together this makes it a safe and attractive option with competitive APY, ensuring a beneficial investment opportunity for our users.\n\nYou can explore other Aave pools <0>here</0>.",
         "dismiss": "Dismiss"
       },
       "notEnoughBalanceForGasWarning": {
