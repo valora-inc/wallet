@@ -307,12 +307,7 @@ function Setup({ origin }: { origin: KeylessBackupOrigin }) {
 
   const onPressManualOnboarding = () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_progress_failed_manual, { origin })
-    isOnboarding
-      ? goToNextOnboardingScreen({
-          firstScreenInCurrentStep: Screens.SignInWithEmail,
-          onboardingProps: { ...onboardingProps, showRecoveryPhraseEducation: true },
-        })
-      : navigate(Screens.AccountKeyEducation)
+    navigate(Screens.AccountKeyEducation, { origin: 'cabOnboarding' })
   }
 
   const onPressSkip = () => {
