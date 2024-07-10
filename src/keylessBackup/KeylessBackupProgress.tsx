@@ -283,7 +283,12 @@ function Setup({ origin }: { origin: KeylessBackupOrigin }) {
 
   const onPressContinue = () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_progress_completed_continue)
-    navigateHome()
+    isOnboarding
+      ? goToNextOnboardingScreen({
+          onboardingProps,
+          firstScreenInCurrentStep: Screens.SignInWithEmail,
+        })
+      : navigateHome()
   }
 
   const iconMarginTop = { marginTop: variables.height / 4 }
