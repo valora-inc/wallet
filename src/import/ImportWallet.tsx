@@ -1,11 +1,11 @@
 import { normalizeMnemonic } from '@celo/cryptographic-utils'
-import { HeaderHeightContext } from '@react-navigation/elements'
+import { useHeaderHeight } from '@react-navigation/elements'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Keyboard, StyleSheet, Text, View } from 'react-native'
-import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { cancelCreateOrRestoreAccount } from 'src/account/actions'
 import { accountToRecoverSelector, recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert } from 'src/alert/actions'
@@ -49,6 +49,11 @@ type Props = NativeStackScreenProps<StackParamList, Screens.ImportWallet>
 function ImportWallet({ navigation, route }: Props) {
   const [backupPhrase, setBackupPhrase] = useState('')
   const [keyboardVisible, setKeyboardVisible] = useState(false)
+  const headerHeight = useHeaderHeight()
+  const insets = useSafeAreaInsets()
+  const insetsStyle = {
+    paddingBottom: Math.max(insets.bottom, Spacing.Regular16),
+  }
 
   const isImportingWallet = useSelector((state) => state.imports.isImportingWallet)
   const appConnected = useSelector(isAppConnected)
@@ -187,69 +192,61 @@ function ImportWallet({ navigation, route }: Props) {
   }
 
   return (
-    <HeaderHeightContext.Consumer>
-      {(headerHeight) => (
-        <SafeAreaInsetsContext.Consumer>
-          {(insets) => (
-            <View style={styles.container}>
-              <KeyboardAwareScrollView
-                style={headerHeight ? { marginTop: headerHeight } : undefined}
-                contentContainerStyle={[
-                  styles.scrollContainer,
-                  !keyboardVisible && insets && { marginBottom: insets.bottom },
-                ]}
-                keyboardShouldPersistTaps={'always'}
-                testID="ImportWalletKeyboardAwareScrollView"
-              >
-                <Text style={styles.title}>{t('importExistingKey.title')}</Text>
-                <RecoveryPhraseInput
-                  status={codeStatus}
-                  inputValue={backupPhrase}
-                  inputPlaceholder={t('importExistingKey.keyPlaceholder')}
-                  onInputChange={formatAndSetBackupPhrase}
-                  shouldShowClipboard={shouldShowClipboard}
-                />
-                <Text style={styles.description}>{t('importExistingKey.descriptionV1_89')}</Text>
-                <KeyboardSpacer />
-              </KeyboardAwareScrollView>
-              <View style={{ padding: variables.contentPadding }}>
-                <Button
-                  testID="ImportWalletButton"
-                  onPress={onPressRestore}
-                  text={t('restore')}
-                  size={BtnSizes.FULL}
-                  type={BtnTypes.PRIMARY}
-                  disabled={
-                    isImportingWallet || !isValidBackupPhrase(backupPhrase) || !appConnected
-                  }
-                />
-              </View>
-              <KeyboardSpacer onToggle={onToggleKeyboard} />
-              <Dialog
-                title={
-                  <Trans i18nKey="importExistingKey.emptyWalletDialog.title">
-                    <CurrencyDisplay
-                      amount={{
-                        value: new BigNumber(0),
-                        currencyCode: Currency.Dollar,
-                      }}
-                    />
-                  </Trans>
-                }
-                isVisible={!!route.params?.showZeroBalanceModal}
-                actionText={t('importExistingKey.emptyWalletDialog.action')}
-                actionPress={onPressRestore}
-                secondaryActionPress={onPressTryAnotherKey}
-                secondaryActionText={t('goBack')}
-                testID="ConfirmUseAccountDialog"
-              >
-                {t('importExistingKey.emptyWalletDialog.description')}
-              </Dialog>
-            </View>
-          )}
-        </SafeAreaInsetsContext.Consumer>
-      )}
-    </HeaderHeightContext.Consumer>
+    <SafeAreaView style={styles.container} edges={[]}>
+      <KeyboardAwareScrollView
+        style={headerHeight ? { marginTop: headerHeight } : undefined}
+        contentContainerStyle={[
+          styles.scrollContainer,
+          !keyboardVisible && insets && { marginBottom: insets.bottom },
+        ]}
+        keyboardShouldPersistTaps={'always'}
+        testID="ImportWalletKeyboardAwareScrollView"
+      >
+        <Text style={styles.title}>{t('importExistingKey.title')}</Text>
+        <RecoveryPhraseInput
+          status={codeStatus}
+          inputValue={backupPhrase}
+          inputPlaceholder={t('importExistingKey.keyPlaceholder')}
+          onInputChange={formatAndSetBackupPhrase}
+          shouldShowClipboard={shouldShowClipboard}
+        />
+        <Text style={styles.description}>{t('importExistingKey.descriptionV1_89')}</Text>
+        <KeyboardSpacer />
+      </KeyboardAwareScrollView>
+      <View
+        style={[{ padding: variables.contentPadding }, !keyboardVisible && insets && insetsStyle]}
+      >
+        <Button
+          testID="ImportWalletButton"
+          onPress={onPressRestore}
+          text={t('restore')}
+          size={BtnSizes.FULL}
+          type={BtnTypes.PRIMARY}
+          disabled={isImportingWallet || !isValidBackupPhrase(backupPhrase) || !appConnected}
+        />
+      </View>
+      <KeyboardSpacer onToggle={onToggleKeyboard} />
+      <Dialog
+        title={
+          <Trans i18nKey="importExistingKey.emptyWalletDialog.title">
+            <CurrencyDisplay
+              amount={{
+                value: new BigNumber(0),
+                currencyCode: Currency.Dollar,
+              }}
+            />
+          </Trans>
+        }
+        isVisible={!!route.params?.showZeroBalanceModal}
+        actionText={t('importExistingKey.emptyWalletDialog.action')}
+        actionPress={onPressRestore}
+        secondaryActionPress={onPressTryAnotherKey}
+        secondaryActionText={t('goBack')}
+        testID="ConfirmUseAccountDialog"
+      >
+        {t('importExistingKey.emptyWalletDialog.description')}
+      </Dialog>
+    </SafeAreaView>
   )
 }
 
