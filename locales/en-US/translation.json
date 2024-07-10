@@ -29,6 +29,7 @@
   "dataSaver": "Data Saver",
   "enableDataSaver": "Enable Data Saver",
   "dataSaverDetail": "Data Saver mode allows you to communicate with the the network through a trusted node. You can always change this mode in app settings.",
+  "keylessBackupSetupTitle": "Create Login",
   "keylessBackupSettingsTitle": "Email & Phone Backup",
   "keylessBackupSettingsDeleteError": "Your backup was not able to be deleted, please wait & try again later.",
   "setup": "Set Up",
@@ -102,9 +103,16 @@
   },
   "signInWithEmail": {
     "title": "Sign in with email",
-    "subtitle": "Sign in with your email to set it up as a backup.\n\nYou will be prompted to sign in again if you ever lose your wallet.",
+    "subtitle": "Sign in with your email to set it up as a backup. You will be prompted to sign in again if you ever lose your wallet.",
     "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
-    "google": "Sign in with Google"
+    "google": "Sign in with Google",
+    "signInAnotherWay": "Sign in another way",
+    "bottomSheet": {
+      "title": "Save your recovery phrase to create a wallet",
+      "description": "We’re going to be supporting other email providers soon, but in the meanwhile you’ll have to save your recovery phrase to finish creating a wallet.",
+      "continue": "Continue",
+      "skip": "Skip (not recommended)"
+    }
   },
   "keylessBackupPhoneInput": {
     "setup": {
