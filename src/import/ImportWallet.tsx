@@ -34,6 +34,7 @@ import { isAppConnected } from 'src/redux/selectors'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
 import useBackHandler from 'src/utils/useBackHandler'
@@ -261,12 +262,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContainer: {
-    paddingVertical: 16,
-    paddingHorizontal: 24,
+    paddingVertical: Spacing.Regular16,
+    paddingHorizontal: Spacing.Thick24,
   },
   title: {
     textAlign: 'center',
-    paddingBottom: 24,
+    paddingBottom: Spacing.Thick24,
     ...typeScale.labelSemiBoldLarge,
   },
   description: {
