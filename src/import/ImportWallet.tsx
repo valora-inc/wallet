@@ -35,6 +35,7 @@ import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
 import useBackHandler from 'src/utils/useBackHandler'
@@ -208,7 +209,10 @@ function ImportWallet({ navigation, route }: Props) {
                   onInputChange={formatAndSetBackupPhrase}
                   shouldShowClipboard={shouldShowClipboard}
                 />
-                <Text style={styles.description}>{t('importExistingKey.description_V1_89')}</Text>
+                <Text style={styles.description}>{t('importExistingKey.descriptionV1_89')}</Text>
+                <KeyboardSpacer />
+              </KeyboardAwareScrollView>
+              <View style={{ padding: variables.contentPadding }}>
                 <Button
                   testID="ImportWalletButton"
                   onPress={onPressRestore}
@@ -219,9 +223,7 @@ function ImportWallet({ navigation, route }: Props) {
                     isImportingWallet || !isValidBackupPhrase(backupPhrase) || !appConnected
                   }
                 />
-
-                <KeyboardSpacer />
-              </KeyboardAwareScrollView>
+              </View>
               <KeyboardSpacer onToggle={onToggleKeyboard} />
               <Dialog
                 title={
@@ -271,8 +273,8 @@ const styles = StyleSheet.create({
     ...typeScale.labelSemiBoldLarge,
   },
   description: {
-    paddingTop: 65,
-    paddingBottom: 28,
+    paddingTop: Spacing.Thick24,
+    paddingBottom: Spacing.Thick24,
     ...typeScale.bodySmall,
   },
 })

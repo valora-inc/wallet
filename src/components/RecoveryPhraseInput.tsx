@@ -9,7 +9,6 @@ import {
   Text,
   View,
 } from 'react-native'
-import { isValidBackupPhrase } from 'src/backup/utils'
 import Card from 'src/components/Card'
 import ClipboardAwarePasteButton from 'src/components/ClipboardAwarePasteButton'
 import TextInput, { LINE_HEIGHT } from 'src/components/TextInput'
@@ -69,8 +68,8 @@ export default function RecoveryPhraseInput({
   return (
     <Card
       rounded={true}
-      shadow={!isValidBackupPhrase(inputValue) ? null : Shadow.SoftLight}
-      style={[!isValidBackupPhrase(inputValue) ? styles.containerActive : styles.container]}
+      shadow={showInput ? null : Shadow.SoftLight}
+      style={[showInput ? styles.containerActive : styles.container]}
     >
       {/* These views cannot be combined as it will cause the shadow to be clipped on iOS */}
       <View style={styles.containRadius}>
@@ -137,6 +136,9 @@ const styles = StyleSheet.create({
   container: {
     padding: 0,
     backgroundColor: colors.white,
+    borderColor: colors.white,
+    borderRadius: Spacing.Smallest8,
+    borderWidth: 1,
   },
   containerActive: {
     padding: 0,
