@@ -170,22 +170,21 @@ function Restore() {
               )}
             </Text>
           </ScrollView>
-          <View style={styles.buttonContainerRestore}>
-            <Button
-              testID="KeylessBackupProgress/Continue"
-              onPress={() => {
-                ValoraAnalytics.track(KeylessBackupEvents.cab_restore_completed_continue)
-                goToNextOnboardingScreen({
-                  onboardingProps,
-                  firstScreenInCurrentStep: Screens.ImportSelect,
-                })
-              }}
-              text={t('continue')}
-              touchableStyle={styles.buttonTouchable}
-              type={BtnTypes.PRIMARY}
-              size={BtnSizes.FULL}
-            />
-          </View>
+          <Button
+            testID="KeylessBackupProgress/Continue"
+            onPress={() => {
+              ValoraAnalytics.track(KeylessBackupEvents.cab_restore_completed_continue)
+              goToNextOnboardingScreen({
+                onboardingProps,
+                firstScreenInCurrentStep: Screens.ImportSelect,
+              })
+            }}
+            text={t('continue')}
+            touchableStyle={styles.buttonTouchable}
+            type={BtnTypes.PRIMARY}
+            size={BtnSizes.FULL}
+            style={styles.buttonContainerRestore}
+          />
         </SafeAreaView>
       )
     }
@@ -368,21 +367,18 @@ function Setup({ origin }: { origin: KeylessBackupOrigin }) {
             )}
             <Text style={styles.body}>{t('keylessBackupStatus.setup.completed.body')}</Text>
           </ScrollView>
-          <View
+          <Button
+            testID="KeylessBackupProgress/Continue"
+            onPress={onPressContinue}
+            text={t('continue')}
+            size={BtnSizes.FULL}
+            type={BtnTypes.PRIMARY}
+            touchableStyle={styles.buttonTouchable}
             style={[
               styles.buttonContainer,
               isOnboarding ? insetsStyle : { marginBottom: Spacing.Thick24 },
             ]}
-          >
-            <Button
-              testID="KeylessBackupProgress/Continue"
-              onPress={onPressContinue}
-              text={t('continue')}
-              size={BtnSizes.FULL}
-              type={BtnTypes.PRIMARY}
-              touchableStyle={styles.buttonTouchable}
-            />
-          </View>
+          />
         </SafeAreaView>
       )
     }
