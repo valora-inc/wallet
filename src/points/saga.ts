@@ -298,20 +298,20 @@ export function* sendPendingPointsEvents() {
   }
 }
 
-function* watchGetHistory() {
+export function* watchGetHistory() {
   yield* takeLeading(getHistoryStarted.type, safely(getHistory))
   yield* takeLeading(getHistoryStarted.type, safely(getPointsBalance))
 }
 
-function* watchGetConfig() {
+export function* watchGetConfig() {
   yield* takeLeading(getPointsConfigRetry.type, safely(getPointsConfig))
 }
 
-function* watchTrackPointsEvent() {
+export function* watchTrackPointsEvent() {
   yield* takeEvery(trackPointsEvent.type, safely(sendPointsEvent))
 }
 
-function* watchSwapSuccess() {
+export function* watchSwapSuccess() {
   yield* takeEvery(swapSuccess.type, safely(sendPointsEvent))
 }
 
