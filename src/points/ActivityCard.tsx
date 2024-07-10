@@ -5,8 +5,8 @@ import { PointsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
 import CheckCircle from 'src/icons/CheckCircle'
+import ComingSoon from 'src/icons/ComingSoon'
 import LogoHeart from 'src/icons/LogoHeart'
-import RushingClock from 'src/icons/RushingClock'
 import { PointsActivity } from 'src/points/types'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -58,7 +58,7 @@ export function MoreComingCard() {
 
   return (
     <View style={styles.card}>
-      <RushingClock />
+      <ComingSoon />
       <Text style={styles.cardTitle}>{t('points.activityCards.moreComing.title')}</Text>
     </View>
   )
@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: Spacing.Regular16,
     gap: Spacing.Smallest8,
+    borderRadius: Spacing.Smallest8,
   },
   faded: {
     opacity: 0.5,
