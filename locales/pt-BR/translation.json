@@ -29,6 +29,7 @@
   "dataSaver": "Economia de Dados",
   "enableDataSaver": "Ativar Economia de Dados",
   "dataSaverDetail": "O modo de Economia de Dados permite a comunicação com a rede por meio de um nó confiável. Você sempre pode alterar esse modo nas configurações do aplicativo.",
+  "keylessBackupSetupTitle": "Criar login",
   "keylessBackupSettingsTitle": "Backup com e-mail e telefone",
   "keylessBackupSettingsDeleteError": "Seu backup não pôde ser excluído, aguarde e tente novamente mais tarde.",
   "setup": "Configurar",
@@ -102,9 +103,16 @@
   },
   "signInWithEmail": {
     "title": "Entrar com e-mail",
-    "subtitle": "Entre com seu e-mail para configurá-lo como um backup.\n\nSerá solicitado que você entre novamente se perder sua carteira.",
+    "subtitle": "Faça login com seu e-mail para configurá-lo como um backup. Você será solicitado a fazer login novamente se perder sua carteira.",
     "subtitleRestore": "Entre com o e-mail que você usou para configurar seu backup de carteira.",
-    "google": "Entrar com o Google"
+    "google": "Entrar com o Google",
+    "signInAnotherWay": "Assine de outra forma",
+    "bottomSheet": {
+      "title": "Salve sua frase de recuperação para criar uma carteira",
+      "description": "Em breve, ofereceremos suporte a outros provedores de e-mail, mas, enquanto isso, você terá que salvar sua frase de recuperação para concluir a criação de uma carteira.",
+      "continue": "Continuar",
+      "skip": "Pular (não recomendado)"
+    }
   },
   "keylessBackupPhoneInput": {
     "setup": {
