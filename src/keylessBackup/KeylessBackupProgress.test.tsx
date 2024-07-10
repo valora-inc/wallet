@@ -75,7 +75,7 @@ describe('KeylessBackupProgress', () => {
       )
       expect(getByTestId('GreenLoadingSpinner')).toBeTruthy()
     })
-    it('navigates to home on success', async () => {
+    it('navigates to home on success of the non onboarding flow', async () => {
       const { getByTestId } = render(
         <Provider store={createStore(KeylessBackupStatus.Completed)}>
           <KeylessBackupProgress {...getProps()} />
@@ -91,6 +91,29 @@ describe('KeylessBackupProgress', () => {
         KeylessBackupEvents.cab_progress_completed_continue
       )
     })
+
+    it('navigates to next onboarding screen on success of the onboarding flow', async () => {
+      const { getByTestId } = render(
+        <Provider store={createStore(KeylessBackupStatus.Completed)}>
+          <KeylessBackupProgress
+            {...getProps(KeylessBackupFlow.Setup, KeylessBackupOrigin.Onboarding)}
+          />
+        </Provider>
+      )
+      expect(getByTestId('GreenLoadingSpinnerToCheck')).toBeTruthy()
+      expect(getByTestId('KeylessBackupProgress/Continue')).toBeTruthy()
+      fireEvent.press(getByTestId('KeylessBackupProgress/Continue'))
+
+      expect(goToNextOnboardingScreen).toHaveBeenCalledWith({
+        onboardingProps: mockOnboardingProps,
+        firstScreenInCurrentStep: Screens.SignInWithEmail,
+      })
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        KeylessBackupEvents.cab_progress_completed_continue
+      )
+    })
+
     it('navigates to settings on failure', async () => {
       const { getByTestId } = render(
         <Provider store={createStore(KeylessBackupStatus.Failed)}>
