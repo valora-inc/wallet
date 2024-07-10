@@ -276,6 +276,7 @@ function DappsScreen({ navigation }: Props) {
                   onFavoriteDapp={onFavoriteDapp}
                   showBorder={true}
                   testID={`${section.testID}/DappCard`}
+                  cardStyle={styles.dappCard}
                 />
               )
             }}
@@ -361,6 +362,9 @@ const styles = StyleSheet.create({
     ...typeScale.titleMedium,
     color: Colors.black,
     marginBottom: Spacing.Thick24,
+  },
+  dappCard: {
+    marginTop: Spacing.Regular16,
   },
 })
 

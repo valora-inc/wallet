@@ -56,7 +56,8 @@ export type StackParamList = {
   [Screens.AccountKeyEducation]:
     | undefined
     | {
-        nextScreen: keyof StackParamList
+        nextScreen?: keyof StackParamList
+        origin?: 'cabOnboarding'
       }
   [Screens.AccounSetupFailureScreen]: undefined
   [Screens.BackupPhrase]: { isAccountRemoval?: boolean } | undefined
@@ -210,7 +211,11 @@ export type StackParamList = {
   [Screens.PointsHome]: undefined
   [Screens.PointsIntro]: undefined
   [Screens.ProtectWallet]: undefined
-  [Screens.OnboardingRecoveryPhrase]: undefined
+  [Screens.OnboardingRecoveryPhrase]:
+    | {
+        origin?: 'cabOnboarding'
+      }
+    | undefined
   [Screens.Profile]: undefined
   [Screens.ProfileMenu]: undefined
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
