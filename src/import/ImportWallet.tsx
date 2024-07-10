@@ -52,7 +52,7 @@ function ImportWallet({ navigation, route }: Props) {
   const headerHeight = useHeaderHeight()
   const insets = useSafeAreaInsets()
   const insetsStyle = {
-    paddingBottom: Math.max(insets.bottom, Spacing.Regular16),
+    paddingBottom: Math.max(0, 40 - insets.bottom),
   }
 
   const isImportingWallet = useSelector((state) => state.imports.isImportingWallet)
@@ -192,7 +192,7 @@ function ImportWallet({ navigation, route }: Props) {
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={[]}>
+    <SafeAreaView style={styles.container} edges={['bottom']}>
       <KeyboardAwareScrollView
         style={headerHeight ? { marginTop: headerHeight } : undefined}
         contentContainerStyle={[
