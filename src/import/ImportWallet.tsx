@@ -207,7 +207,7 @@ function ImportWallet({ navigation, route }: Props) {
                   onInputChange={formatAndSetBackupPhrase}
                   shouldShowClipboard={shouldShowClipboard}
                 />
-                <Text style={styles.description}>{t('importExistingKey.description_v1_89')}</Text>
+                <Text style={styles.description}>{t('importExistingKey.description_V1_89')}</Text>
                 <Button
                   testID="ImportWalletButton"
                   onPress={onPressRestore}
