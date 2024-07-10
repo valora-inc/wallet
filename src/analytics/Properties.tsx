@@ -259,10 +259,10 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.cab_sign_in_with_email_screen_back]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_sign_in_with_email_screen_cancel]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_sign_in_with_email_screen_skip]: CommonKeylessBackupProps
-  [KeylessBackupEvents.cab_enter_phone_number_continue]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_enter_phone_number_back]: CommonKeylessBackupProps
-  [KeylessBackupEvents.cab_intro_continue]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_enter_phone_number_cancel]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_enter_phone_number_continue]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_intro_continue]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_sms_code_start]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_sms_code_success]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_sms_code_error]: CommonKeylessBackupProps
