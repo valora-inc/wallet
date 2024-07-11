@@ -11,16 +11,9 @@ import Star from 'src/icons/Star'
 import StarOutline from 'src/icons/StarOutline'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { Colors } from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
-
-interface DappCardContentProps {
-  dapp: Dapp
-  onFavoriteDapp?: (dapp: Dapp) => void
-  favoritedFromSection: DappSection
-  disableFavoriting?: boolean
-}
 
 interface Props {
   onPressDapp: () => void
@@ -36,12 +29,16 @@ interface Props {
 // Since this icon exists within a touchable, make the hitslop bigger than usual
 const favoriteIconHitslop = { top: 20, right: 20, bottom: 20, left: 20 }
 
-export function DappCardContent({
+function DappCard({
   dapp,
+  onPressDapp,
   onFavoriteDapp,
-  favoritedFromSection,
   disableFavoriting,
-}: DappCardContentProps) {
+  showBorder,
+  cardContentContainerStyle,
+  cardStyle,
+  testID,
+}: Props) {
   const dispatch = useDispatch()
   const favoriteDappIds = useSelector(favoriteDappIdsSelector)
 
@@ -52,7 +49,7 @@ export function DappCardContent({
       categories: dapp.categories,
       dappId: dapp.id,
       dappName: dapp.name,
-      section: favoritedFromSection,
+      section: DappSection.All,
     }
 
     if (isFavorited) {
@@ -66,35 +63,7 @@ export function DappCardContent({
 
     vibrateSuccess()
   }
-  return (
-    <>
-      <Image source={{ uri: dapp.iconUrl }} style={styles.dappIcon} />
-      <View style={styles.itemTextContainer}>
-        <Text style={styles.title}>{dapp.name}</Text>
-        <Text style={styles.subtitle}>{dapp.description}</Text>
-      </View>
-      <Touchable
-        disabled={disableFavoriting}
-        onPress={onPressFavorite}
-        hitSlop={favoriteIconHitslop}
-        testID={`Dapp/Favorite/${dapp.id}`}
-      >
-        {isFavorited ? <Star /> : !disableFavoriting ? <StarOutline /> : <></>}
-      </Touchable>
-    </>
-  )
-}
 
-function DappCard({
-  dapp,
-  onPressDapp,
-  onFavoriteDapp,
-  disableFavoriting,
-  showBorder,
-  cardContentContainerStyle,
-  cardStyle,
-  testID,
-}: Props) {
   return (
     <Card
       testID={testID}
@@ -108,12 +77,21 @@ function DappCard({
         borderRadius={showBorder ? 8 : undefined}
         testID={`Dapp/${dapp.id}`}
       >
-        <DappCardContent
-          dapp={dapp}
-          onFavoriteDapp={onFavoriteDapp}
-          disableFavoriting={disableFavoriting}
-          favoritedFromSection={DappSection.All}
-        />
+        <>
+          <Image source={{ uri: dapp.iconUrl }} style={styles.dappIcon} />
+          <View style={styles.itemTextContainer}>
+            <Text style={styles.title}>{dapp.name}</Text>
+            <Text style={styles.subtitle}>{dapp.description}</Text>
+          </View>
+          <Touchable
+            disabled={disableFavoriting}
+            onPress={onPressFavorite}
+            hitSlop={favoriteIconHitslop}
+            testID={`Dapp/Favorite/${dapp.id}`}
+          >
+            {isFavorited ? <Star /> : !disableFavoriting ? <StarOutline /> : <></>}
+          </Touchable>
+        </>
       </Touchable>
     </Card>
   )
@@ -144,13 +122,13 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   title: {
-    ...fontStyles.small500,
+    ...typeScale.labelSemiBoldSmall,
     lineHeight: 24,
     color: Colors.black,
   },
   subtitle: {
-    ...fontStyles.xsmall,
-    color: Colors.gray5,
+    ...typeScale.bodyXSmall,
+    color: Colors.gray4,
   },
 })
 
