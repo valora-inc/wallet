@@ -269,6 +269,32 @@ function Restore() {
   }
 }
 
+function KeylessBackupSetupContainer({
+  isOnboarding,
+  title,
+  subtitle,
+  children,
+}: {
+  isOnboarding: boolean
+  title: string
+  subtitle: string
+  step: number
+  totalSteps: number
+  children: React.ReactNode
+}) {
+  return (
+    <SafeAreaView style={styles.safeAreaView}>
+      {isOnboarding && (
+        <CustomHeader
+          title={<HeaderTitleWithSubtitle title={title} subTitle={subtitle} />}
+          style={styles.header}
+        />
+      )}
+      {children}
+    </SafeAreaView>
+  )
+}
+
 function Setup({ origin }: { origin: KeylessBackupOrigin }) {
   const keylessBackupStatus = useSelector(keylessBackupStatusSelector)
   const onboardingProps = useSelector(onboardingPropsSelector)
@@ -324,18 +350,13 @@ function Setup({ origin }: { origin: KeylessBackupOrigin }) {
   switch (keylessBackupStatus) {
     case KeylessBackupStatus.InProgress: {
       return (
-        <SafeAreaView style={styles.safeAreaView}>
-          {isOnboarding && (
-            <CustomHeader
-              title={
-                <HeaderTitleWithSubtitle
-                  title={t('keylessBackupStatus.setup.inProgress.title')}
-                  subTitle={t('registrationSteps', { step, totalSteps })}
-                />
-              }
-              style={styles.header}
-            />
-          )}
+        <KeylessBackupSetupContainer
+          isOnboarding={isOnboarding}
+          title={t('keylessBackupStatus.setup.inProgress.title')}
+          subtitle={t('registrationSteps', { step, totalSteps })}
+          step={step}
+          totalSteps={totalSteps}
+        >
           <ScrollView contentContainerStyle={styles.bodyContainer}>
             <View style={iconMarginTop}>
               <GreenLoadingSpinner />
@@ -344,22 +365,18 @@ function Setup({ origin }: { origin: KeylessBackupOrigin }) {
               <Text style={styles.title}>{t('keylessBackupStatus.setup.inProgress.title')}</Text>
             )}
           </ScrollView>
-        </SafeAreaView>
+        </KeylessBackupSetupContainer>
       )
     }
     case KeylessBackupStatus.Completed: {
       return (
-        <SafeAreaView style={styles.safeAreaView}>
-          {isOnboarding && (
-            <CustomHeader
-              title={
-                <HeaderTitleWithSubtitle
-                  title={t('keylessBackupStatus.setup.completed.title')}
-                  subTitle={t('registrationSteps', { step, totalSteps })}
-                />
-              }
-            />
-          )}
+        <KeylessBackupSetupContainer
+          isOnboarding={isOnboarding}
+          title={t('keylessBackupStatus.setup.completed.title')}
+          subtitle={t('registrationSteps', { step, totalSteps })}
+          step={step}
+          totalSteps={totalSteps}
+        >
           <ScrollView contentContainerStyle={styles.bodyContainer}>
             <View style={iconMarginTop}>
               <GreenLoadingSpinnerToCheck />
@@ -381,23 +398,18 @@ function Setup({ origin }: { origin: KeylessBackupOrigin }) {
               isOnboarding ? insetsStyle : { marginBottom: Spacing.Thick24 },
             ]}
           />
-        </SafeAreaView>
+        </KeylessBackupSetupContainer>
       )
     }
     case KeylessBackupStatus.Failed: {
       return (
-        <SafeAreaView style={styles.safeAreaView}>
-          {isOnboarding && (
-            <CustomHeader
-              title={
-                <HeaderTitleWithSubtitle
-                  title={t('keylessBackupStatus.setup.failed.title')}
-                  subTitle={t('registrationSteps', { step, totalSteps })}
-                />
-              }
-              style={styles.header}
-            />
-          )}
+        <KeylessBackupSetupContainer
+          isOnboarding={isOnboarding}
+          title={t('keylessBackupStatus.setup.failed.title')}
+          subtitle={t('registrationSteps', { step, totalSteps })}
+          step={step}
+          totalSteps={totalSteps}
+        >
           <ScrollView contentContainerStyle={styles.bodyContainer}>
             <View style={iconMarginTop}>
               <RedLoadingSpinnerToInfo />
@@ -444,7 +456,7 @@ function Setup({ origin }: { origin: KeylessBackupOrigin }) {
               type={BtnTypes.SECONDARY}
             />
           </View>
-        </SafeAreaView>
+        </KeylessBackupSetupContainer>
       )
     }
     default:
