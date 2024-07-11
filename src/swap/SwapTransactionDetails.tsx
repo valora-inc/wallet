@@ -147,6 +147,11 @@ export function SwapTransactionDetails({
   })
 
   const placeholder = '-'
+
+  if (!toToken || !fromToken || !exchangeRatePrice) {
+    return null
+  }
+
   return (
     <View style={styles.container} testID="SwapTransactionDetails">
       <View style={styles.row} testID="SwapTransactionDetails/ExchangeRate">
@@ -162,13 +167,9 @@ export function SwapTransactionDetails({
         />
         <ValueWithLoading
           isLoading={fetchingSwapQuote}
-          value={
-            fromToken && toToken && exchangeRatePrice
-              ? `1 ${fromToken.symbol} ≈ ${new BigNumber(exchangeRatePrice).toFormat(5, BigNumber.ROUND_DOWN)} ${
-                  toToken.symbol
-                }`
-              : placeholder
-          }
+          value={`1 ${fromToken.symbol} ≈ ${new BigNumber(exchangeRatePrice).toFormat(5, BigNumber.ROUND_DOWN)} ${
+            toToken.symbol
+          }`}
         />
       </View>
       <View style={styles.row} testID="SwapTransactionDetails/Fees">

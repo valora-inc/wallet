@@ -48,26 +48,6 @@ describe('SwapTransactionDetails', () => {
     expect(getByTestId('SwapTransactionDetails/ExchangeRate/MoreInfo')).not.toBeDisabled()
   })
 
-  it('should render correctly on initial render with no user inputs', () => {
-    const { getByText, getByTestId } = render(
-      <Provider store={createMockStore()}>
-        <SwapTransactionDetails {...defaultProps} />
-      </Provider>
-    )
-
-    expect(getByText('swapScreen.transactionDetails.exchangeRate')).toBeTruthy()
-    expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent('-')
-    expect(getByTestId('SwapTransactionDetails/ExchangeRate/MoreInfo')).toBeTruthy()
-
-    expect(getByText('swapScreen.transactionDetails.fees')).toBeTruthy()
-    expect(getByTestId('SwapTransactionDetails/Fees')).toHaveTextContent('-')
-    expect(getByTestId('SwapTransactionDetails/Fees/MoreInfo')).toBeTruthy()
-
-    expect(getByText('swapScreen.transactionDetails.slippagePercentage')).toBeTruthy()
-    expect(getByTestId('SwapTransactionDetails/Slippage')).toHaveTextContent('0.5%')
-    expect(getByTestId('SwapTransactionDetails/Slippage/MoreInfo')).toBeTruthy()
-  })
-
   it('should render correctly with estimated duration', () => {
     const { getByText } = render(
       <Provider store={createMockStore()}>
