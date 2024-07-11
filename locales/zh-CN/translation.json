@@ -2318,6 +2318,13 @@
         "swap": {
           "title": "交换",
           "subtitle": "{{fromToken}} 至 {{toToken}}"
+        },
+        "createLiveLink": {
+          "title": "实时链接",
+          "subtitle": {
+            "erc20": "发送至 {{tokenSymbol}}",
+            "erc721": "发出的 NFT"
+          }
         }
       },
       "title": "我的积分活动",
@@ -2377,6 +2384,14 @@
       },
       "moreComing": {
         "title": "更多内容即将推出！"
+      },
+      "createLiveLink": {
+        "title": "通过实时链接发送",
+        "bottomSheet": {
+          "title": "通过实时链接发送",
+          "body": "Earn {{pointsValue}} points every time you send funds using a Live Link in {{appName}}. \n\nTap below to start sending and earning!",
+          "cta": "通过实时链接发送"
+        }
       }
     },
     "discoverCard": {
