@@ -19,24 +19,21 @@ const defaultProps = {
   estimatedDurationBottomSheetRef: { current: null },
   slippagePercentage: '0.5',
   fetchingSwapQuote: false,
+  fromToken: {
+    ...mockTokenBalances[mockCusdTokenId],
+    lastKnownPriceUsd: null,
+    balance: BigNumber('10'),
+    priceUsd: BigNumber('1'),
+  },
+  toToken: mockCeloTokenBalance,
+  exchangeRatePrice: '0.5837',
 }
 
 describe('SwapTransactionDetails', () => {
   it('should render the correct exchange rate and estimated value', () => {
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore()}>
-        <SwapTransactionDetails
-          {...defaultProps}
-          fromToken={{
-            ...mockTokenBalances[mockCusdTokenId],
-            lastKnownPriceUsd: null,
-            balance: BigNumber('10'),
-            priceUsd: BigNumber('1'),
-          }}
-          toToken={mockCeloTokenBalance}
-          exchangeRatePrice="0.5837"
-          swapAmount={BigNumber('1')}
-        />
+        <SwapTransactionDetails {...defaultProps} swapAmount={BigNumber('1')} />
       </Provider>
     )
 
