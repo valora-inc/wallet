@@ -2324,6 +2324,13 @@
         "swap": {
           "title": "Zamieniaj",
           "subtitle": "{{fromToken}} do {{toToken}}"
+        },
+        "createLiveLink": {
+          "title": "Aktywny link",
+          "subtitle": {
+            "erc20": "Wysłano {{tokenSymbol}}",
+            "erc721": "Wysłane NFT"
+          }
         }
       },
       "title": "Moja aktywność w zakresie punktów",
@@ -2383,6 +2390,14 @@
       },
       "moreComing": {
         "title": "Więcej już wkrótce!"
+      },
+      "createLiveLink": {
+        "title": "Wyślij za pomocą aktywnego linku",
+        "bottomSheet": {
+          "title": "Wyślij za pomocą aktywnego linku",
+          "body": "Earn {{pointsValue}} points every time you send funds using a Live Link in {{appName}}. \n\nTap below to start sending and earning!",
+          "cta": "Wyślij za pomocą aktywnego linku"
+        }
       }
     },
     "discoverCard": {
