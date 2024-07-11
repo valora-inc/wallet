@@ -936,6 +936,7 @@
     "header": "กู้คืนกระเป๋าเงิน",
     "title": "ป้อนวลีการกู้คืนของคุณ",
     "description": "ใช้วลี 12 หรือ 24 คำที่คุณบันทึกเมื่อคุณตั้งค่ากระเป๋าเงินเพื่อกู้คืน",
+    "descriptionV1_90": "Your Recovery Phrase is a 12 or 24-word phrase that you wrote down and saved when you set up your wallet. Please enter it here to restore your wallet.",
     "emptyWalletDialog": {
       "description": "กระเป๋าเงินนี้ไม่มีเงินทุนใด ๆ คุณยังต้องการใช้หรือไม่?",
       "action": "ใช้กระเป๋าเงิน",
