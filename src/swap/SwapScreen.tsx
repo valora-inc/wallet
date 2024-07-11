@@ -38,6 +38,7 @@ import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
+import FeeInfoBottomSheet from 'src/swap/FeeInfoBottomSheet'
 import SwapAmountInput from 'src/swap/SwapAmountInput'
 import SwapTransactionDetails from 'src/swap/SwapTransactionDetails'
 import getCrossChainFee from 'src/swap/getCrossChainFee'
@@ -1059,6 +1060,13 @@ export function SwapScreen({ route }: Props) {
           text={t('swapScreen.transactionDetails.infoDismissButton')}
         />
       </BottomSheet>
+      <FeeInfoBottomSheet
+        forwardedRef={feeInfoBottomSheetRef}
+        crossChainFee={crossChainFee}
+        networkFee={networkFee}
+        appFee={appFee}
+        fetchingSwapQuote={fetchingSwapQuote}
+      />
       <Toast
         withBackdrop
         showToast={!!selectingNoUsdPriceToken}
