@@ -84,7 +84,7 @@ import {
   takeEvery,
   takeLeading,
 } from 'typed-redux-saga'
-import { Address, BaseError, GetTransactionCountParameters, hexToBigInt, isHex } from 'viem'
+import { BaseError, GetTransactionCountParameters, hexToBigInt, isHex } from 'viem'
 import { getTransactionCount } from 'viem/actions'
 
 let client: IWeb3Wallet | null = null
@@ -397,7 +397,7 @@ export function* normalizeTransaction(rawTx: any, network: Network) {
     }
 
     const txCountParams: GetTransactionCountParameters = {
-      address: walletAddress as Address,
+      address: walletAddress,
       blockTag: 'pending',
     }
     tx.nonce = yield* call(getTransactionCount, publicClient[network], txCountParams)

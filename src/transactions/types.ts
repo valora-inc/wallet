@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import { Nft } from 'src/nfts/types'
 import { TransactionRequest } from 'src/viem/prepareTransactions'
 import { v4 as uuidv4 } from 'uuid'
-import { Hash, TransactionReceipt } from 'viem'
+import { Address, Hash, TransactionReceipt } from 'viem'
 
 export enum Network {
   Celo = 'celo',
@@ -104,7 +104,7 @@ export type TokenTransaction =
 
 export interface TokenAmount {
   value: BigNumber.Value
-  tokenAddress?: string
+  tokenAddress?: Address
   localAmount?: LocalAmount
   tokenId: string
 }
@@ -138,7 +138,7 @@ export interface TokenTransfer {
   transactionHash: string
   timestamp: number
   block: string
-  address: string
+  address: Address
   amount: TokenAmount
   metadata: TokenTransferMetadata
   fees: Fee[]

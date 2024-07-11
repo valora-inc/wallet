@@ -22,7 +22,7 @@ import { RootState } from 'src/redux/reducers'
 import { tokensListSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
 import { sortByUsdBalance } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
-import { mtwAddressSelector, rawWalletAddressSelector } from 'src/web3/selectors'
+import { mtwAddressSelector, walletAddressSelector } from 'src/web3/selectors'
 
 function toPascalCase(str: string) {
   const camelCaseStr = camelCase(str)
@@ -81,7 +81,7 @@ const positionsAnalyticsSelector = createSelector(
 
 export const getCurrentUserTraits = createSelector(
   [
-    rawWalletAddressSelector,
+    walletAddressSelector,
     mtwAddressSelector,
     defaultCountryCodeSelector,
     userLocationDataSelector,

@@ -3373,6 +3373,18 @@ export const v218Schema = {
   },
 }
 
+export const v219Schema = {
+  ...v218Schema,
+  _persist: {
+    ...v218Schema._persist,
+    version: 219,
+  },
+  web3: {
+    ...v218Schema.web3,
+    account: v218Schema.web3.account.toLowerCase(),
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v218Schema as Partial<RootState>
+  return v219Schema as Partial<RootState>
 }

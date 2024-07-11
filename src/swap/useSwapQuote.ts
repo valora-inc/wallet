@@ -55,7 +55,7 @@ async function createBaseSwapTransactions(
   fromToken: TokenBalance,
   updatedField: Field,
   unvalidatedSwapTransaction: SwapTransaction,
-  walletAddress: string
+  walletAddress: Address
 ) {
   const baseTransactions: TransactionRequest[] = []
 
@@ -85,22 +85,22 @@ async function createBaseSwapTransactions(
     const approvedAllowanceForSpender = await publicClient[
       networkIdToNetwork[fromToken.networkId]
     ].readContract({
-      address: fromToken.address as Address,
+      address: fromToken.address,
       abi: erc20.abi,
       functionName: 'allowance',
-      args: [walletAddress as Address, allowanceTarget as Address],
+      args: [walletAddress, allowanceTarget],
     })
 
     if (approvedAllowanceForSpender < amountToApprove) {
       const data = encodeFunctionData({
         abi: erc20.abi,
         functionName: 'approve',
-        args: [allowanceTarget as Address, amountToApprove],
+        args: [allowanceTarget, amountToApprove],
       })
 
       const approveTx: TransactionRequest = {
-        from: from as Address,
-        to: fromToken.address as Address,
+        from,
+        to: fromToken.address,
         data,
       }
       baseTransactions.push(approveTx)
@@ -108,8 +108,8 @@ async function createBaseSwapTransactions(
   }
 
   const swapTx: TransactionRequest & { gas: bigint } = {
-    from: from as Address,
-    to: to as Address,
+    from,
+    to,
     value: BigInt(value ?? 0),
     data: data as Hex,
     // This may not be entirely accurate for now
@@ -133,7 +133,7 @@ async function prepareSwapTransactions(
   updatedField: Field,
   unvalidatedSwapTransaction: SwapTransaction,
   feeCurrencies: TokenBalance[],
-  walletAddress: string
+  walletAddress: Address
 ): Promise<PreparedTransactionsResult> {
   const { amountToApprove, baseTransactions } = await createBaseSwapTransactions(
     fromToken,

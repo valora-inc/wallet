@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
+import { Address } from 'viem'
 
 export enum Field {
   FROM = 'FROM',
@@ -28,8 +29,8 @@ interface BaseSwapTransaction {
   chainId: number
   buyAmount: string
   sellAmount: string
-  buyTokenAddress: string
-  sellTokenAddress: string
+  buyTokenAddress: Address
+  sellTokenAddress: Address
   // be careful -- price means different things when using sellAmount vs buyAmount
   price: string
   guaranteedPrice: string
@@ -40,11 +41,11 @@ interface BaseSwapTransaction {
   estimatedPriceImpact: string | null
   gas: string
   estimatedGasUse: string | null | undefined
-  to: string
+  to: Address
   value: string
   data: string
-  from: string
-  allowanceTarget: string
+  from: Address
+  allowanceTarget: Address
 }
 
 interface SameChainSwapTransaction extends BaseSwapTransaction {

@@ -180,8 +180,8 @@
         "AddressValidationType": {
             "enum": [
                 "full",
-                "none",
-                "partial"
+                "partial",
+                "none"
             ],
             "type": "string"
         },
@@ -323,16 +323,16 @@
         },
         "AlertTypes": {
             "enum": [
-                "error",
                 "message",
+                "error",
                 "toast"
             ],
             "type": "string"
         },
         "AppState": {
             "enum": [
-                "Active",
                 "Background",
+                "Active",
                 "Inactive"
             ],
             "type": "string"
@@ -827,10 +827,10 @@
         "CiCoCurrency": {
             "enum": [
                 "CELO",
-                "ETH",
+                "cUSD",
                 "cEUR",
                 "cREAL",
-                "cUSD"
+                "ETH"
             ],
             "type": "string"
         },
@@ -1084,10 +1084,10 @@
         },
         "CryptoType": {
             "enum": [
-                "CELO",
+                "cUSD",
                 "cEUR",
                 "cREAL",
-                "cUSD"
+                "CELO"
             ],
             "type": "string"
         },
@@ -1152,9 +1152,9 @@
         },
         "DappSection": {
             "enum": [
+                "featured",
                 "all",
                 "favorites dapp screen",
-                "featured",
                 "mostPopular"
             ],
             "type": "string"
@@ -1477,10 +1477,10 @@
         "FiatAccountSchema": {
             "enum": [
                 "AccountNumber",
+                "MobileMoney",
                 "DuniaWallet",
                 "IBANNumber",
                 "IFSCAccount",
-                "MobileMoney",
                 "PIXAccount"
             ],
             "type": "string"
@@ -1494,36 +1494,36 @@
         "FiatAccountType": {
             "enum": [
                 "BankAccount",
-                "DuniaWallet",
-                "MobileMoney"
+                "MobileMoney",
+                "DuniaWallet"
             ],
             "type": "string"
         },
         "FiatConnectError": {
             "enum": [
-                "ContractLoginNotSupported",
-                "CryptoAmountTooHigh",
-                "CryptoAmountTooLow",
-                "CryptoNotSupported",
-                "ExpirationTooLong",
-                "FiatAmountTooHigh",
-                "FiatAmountTooLow",
-                "FiatNotSupported",
-                "GeoNotSupported",
-                "InvalidFiatAccount",
-                "InvalidParameters",
-                "InvalidQuote",
-                "InvalidSchema",
                 "InvalidSignature",
-                "IssuedTooEarly",
-                "KycExpired",
-                "NonceInUse",
+                "GeoNotSupported",
+                "CryptoAmountTooLow",
+                "CryptoAmountTooHigh",
+                "FiatAmountTooLow",
+                "FiatAmountTooHigh",
+                "CryptoNotSupported",
+                "FiatNotSupported",
+                "UnsupportedSchema",
+                "InvalidSchema",
                 "ResourceExists",
                 "ResourceNotFound",
-                "SessionExpired",
                 "TransferNotAllowed",
+                "KycExpired",
                 "Unauthorized",
-                "UnsupportedSchema"
+                "SessionExpired",
+                "InvalidParameters",
+                "ContractLoginNotSupported",
+                "NonceInUse",
+                "IssuedTooEarly",
+                "ExpirationTooLong",
+                "InvalidFiatAccount",
+                "InvalidQuote"
             ],
             "type": "string"
         },
@@ -1723,35 +1723,35 @@
         },
         "FiatType": {
             "enum": [
+                "USD",
+                "EUR",
+                "BRL",
+                "GNF",
+                "INR",
+                "NGN",
+                "GHS",
+                "KES",
+                "ZAR",
+                "PHP",
+                "UGX",
+                "GBP",
+                "XOF",
+                "RWF",
+                "CNY",
+                "XAF",
                 "ARS",
                 "BOB",
-                "BRL",
                 "CLP",
-                "CNY",
                 "COP",
-                "EUR",
                 "FKP",
-                "GBP",
-                "GHS",
-                "GNF",
                 "GYD",
-                "INR",
-                "KES",
-                "MXN",
-                "NGN",
-                "PAB",
-                "PEN",
-                "PHP",
                 "PYG",
-                "RWF",
+                "PEN",
                 "SRD",
-                "UGX",
-                "USD",
                 "UYU",
                 "VES",
-                "XAF",
-                "XOF",
-                "ZAR"
+                "MXN",
+                "PAB"
             ],
             "type": "string"
         },
@@ -1838,21 +1838,21 @@
         },
         "KeylessBackupDeleteStatus": {
             "enum": [
-                "Completed",
-                "Failed",
+                "NotStarted",
                 "InProgress",
-                "NotStarted"
+                "Completed",
+                "Failed"
             ],
             "type": "string"
         },
         "KeylessBackupStatus": {
             "enum": [
+                "NotStarted",
+                "InProgress",
+                "RestoreZeroBalance",
                 "Completed",
                 "Failed",
-                "InProgress",
-                "NotFound",
-                "NotStarted",
-                "RestoreZeroBalance"
+                "NotFound"
             ],
             "type": "string"
         },
@@ -1902,18 +1902,18 @@
         },
         "NetworkId": {
             "enum": [
-                "arbitrum-one",
-                "arbitrum-sepolia",
-                "base-mainnet",
-                "base-sepolia",
-                "celo-alfajores",
                 "celo-mainnet",
+                "celo-alfajores",
                 "ethereum-mainnet",
                 "ethereum-sepolia",
+                "arbitrum-one",
+                "arbitrum-sepolia",
                 "op-mainnet",
                 "op-sepolia",
+                "polygon-pos-mainnet",
                 "polygon-pos-amoy",
-                "polygon-pos-mainnet"
+                "base-mainnet",
+                "base-sepolia"
             ],
             "type": "string"
         },
@@ -1965,12 +1965,12 @@
         },
         "NftCelebrationStatus": {
             "enum": [
-                "celebrationDisplayed",
                 "celebrationReadyToDisplay",
-                "reminderDisplayed",
-                "reminderReadyToDisplay",
+                "celebrationDisplayed",
+                "rewardReadyToDisplay",
                 "rewardDisplayed",
-                "rewardReadyToDisplay"
+                "reminderReadyToDisplay",
+                "reminderDisplayed"
             ],
             "type": "string"
         },
@@ -2735,6 +2735,7 @@
                     "type": "string"
                 },
                 "address": {
+                    "pattern": "^0x.*$",
                     "type": "string"
                 },
                 "amount": {
@@ -2797,9 +2798,9 @@
         },
         "PincodeType": {
             "enum": [
+                "Unset",
                 "CustomPin",
-                "PhoneAuth",
-                "Unset"
+                "PhoneAuth"
             ],
             "type": "string"
         },
@@ -3088,9 +3089,9 @@
         "RecipientType": {
             "enum": [
                 "Address",
-                "Merchant",
+                "PhoneNumber",
                 "Nomspace",
-                "PhoneNumber"
+                "Merchant"
             ],
             "type": "string"
         },
@@ -3104,9 +3105,9 @@
         },
         "RecoveryPhraseInOnboardingStatus": {
             "enum": [
-                "Completed",
+                "NotStarted",
                 "InProgress",
-                "NotStarted"
+                "Completed"
             ],
             "type": "string"
         },
@@ -3127,37 +3128,37 @@
         },
         "Screens": {
             "enum": [
-                "AccounSetupFailureScreen",
                 "AccountKeyEducation",
+                "AccounSetupFailureScreen",
                 "BackupComplete",
                 "BackupIntroduction",
                 "BackupPhrase",
                 "BackupQuiz",
+                "FiatDetailsScreen",
                 "BidaliScreen",
                 "CashInSuccess",
                 "ChooseYourAdventure",
                 "CoinbasePayScreen",
                 "ConsumerIncentivesHomeScreen",
-                "DappShortcutTransactionRequest",
                 "DappShortcutsRewards",
+                "DappShortcutTransactionRequest",
                 "DappsScreen",
                 "Debug",
-                "EarnCollectScreen",
-                "EarnEnterAmount",
                 "EarnInfoScreen",
+                "EarnEnterAmount",
+                "EarnCollectScreen",
                 "EnableBiometry",
                 "ErrorScreen",
                 "EscrowedPaymentListScreen",
-                "ExchangeQR",
                 "ExternalExchanges",
-                "FiatConnectLinkAccount",
-                "FiatConnectRefetchQuote",
-                "FiatConnectReview",
-                "FiatConnectTransferStatus",
-                "FiatDetailsScreen",
+                "ExchangeQR",
                 "FiatExchangeAmount",
                 "FiatExchangeCurrency",
                 "FiatExchangeCurrencyBottomSheet",
+                "FiatConnectLinkAccount",
+                "FiatConnectReview",
+                "FiatConnectRefetchQuote",
+                "FiatConnectTransferStatus",
                 "GoldEducation",
                 "ImportSelect",
                 "ImportWallet",
@@ -3165,24 +3166,24 @@
                 "JumpstartEnterAmount",
                 "JumpstartSendConfirmation",
                 "JumpstartShareLink",
-                "JumpstartTransactionDetailsScreen",
-                "KeylessBackupIntro",
-                "KeylessBackupPhoneCodeInput",
                 "KeylessBackupPhoneInput",
+                "KeylessBackupPhoneCodeInput",
                 "KeylessBackupProgress",
-                "KycDenied",
-                "KycExpired",
+                "KeylessBackupIntro",
                 "KycLanding",
+                "KycDenied",
                 "KycPending",
+                "KycExpired",
                 "Language",
                 "LanguageModal",
                 "Licenses",
                 "LinkPhoneNumber",
+                "JumpstartTransactionDetailsScreen",
                 "Main",
                 "MainModal",
                 "MultichainBeta",
-                "NftsInfoCarousel",
                 "NotificationCenter",
+                "NftsInfoCarousel",
                 "OnboardingRecoveryPhrase",
                 "OnboardingSuccessScreen",
                 "PincodeEnter",
@@ -3201,10 +3202,10 @@
                 "SelectCountry",
                 "SelectLocalCurrency",
                 "SelectProvider",
+                "SendSelectRecipient",
                 "SendConfirmation",
                 "SendConfirmationModal",
                 "SendEnterAmount",
-                "SendSelectRecipient",
                 "Settings",
                 "SignInWithEmail",
                 "Simplex",
@@ -3213,9 +3214,9 @@
                 "Support",
                 "SupportContact",
                 "SwapScreenWithBack",
+                "TabNavigator",
                 "TabDiscover",
                 "TabHome",
-                "TabNavigator",
                 "TabWallet",
                 "TokenDetails",
                 "TokenDetailsMoreActions",
@@ -3267,17 +3268,17 @@
         },
         "SendingFiatAccountStatus": {
             "enum": [
-                "KycApproved",
                 "NotSending",
-                "Sending"
+                "Sending",
+                "KycApproved"
             ],
             "type": "string"
         },
         "SendingTransferStatus": {
             "enum": [
+                "Sending",
                 "Completed",
                 "Failed",
-                "Sending",
                 "TxProcessing"
             ],
             "type": "string"
@@ -3496,6 +3497,7 @@
                             "type": "string"
                         },
                         "address": {
+                            "pattern": "^0x.*$",
                             "type": "string"
                         },
                         "amount": {
@@ -5119,9 +5121,14 @@
             "additionalProperties": false,
             "properties": {
                 "account": {
-                    "type": [
-                        "null",
-                        "string"
+                    "anyOf": [
+                        {
+                            "pattern": "^0x.*$",
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
                     ]
                 },
                 "accountInWeb3Keystore": {
@@ -5355,9 +5362,14 @@
             "additionalProperties": false,
             "properties": {
                 "address": {
-                    "type": [
-                        "null",
-                        "string"
+                    "anyOf": [
+                        {
+                            "pattern": "^0x.*$",
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
                     ]
                 },
                 "balance": {
@@ -5376,10 +5388,8 @@
                     "type": "number"
                 },
                 "feeCurrencyAdapterAddress": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
+                    "pattern": "^0x.*$",
+                    "type": "string"
                 },
                 "feeCurrencyAdapterDecimals": {
                     "type": "number"
@@ -5612,6 +5622,7 @@
                     "$ref": "#/definitions/LocalAmount"
                 },
                 "tokenAddress": {
+                    "pattern": "^0x.*$",
                     "type": "string"
                 },
                 "tokenId": {
@@ -5776,18 +5787,18 @@
         },
         "TokenTransactionTypeV2": {
             "enum": [
-                "APPROVAL",
-                "EARN_CLAIM_REWARD",
-                "EARN_DEPOSIT",
-                "EARN_WITHDRAW",
                 "EXCHANGE",
-                "INVITE_RECEIVED",
-                "INVITE_SENT",
-                "NFT_RECEIVED",
-                "NFT_SENT",
                 "RECEIVED",
                 "SENT",
-                "SWAP_TRANSACTION"
+                "INVITE_SENT",
+                "INVITE_RECEIVED",
+                "NFT_RECEIVED",
+                "NFT_SENT",
+                "SWAP_TRANSACTION",
+                "APPROVAL",
+                "EARN_DEPOSIT",
+                "EARN_WITHDRAW",
+                "EARN_CLAIM_REWARD"
             ],
             "type": "string"
         },
@@ -5799,6 +5810,7 @@
                     "type": "string"
                 },
                 "address": {
+                    "pattern": "^0x.*$",
                     "type": "string"
                 },
                 "amount": {
@@ -5885,9 +5897,9 @@
         },
         "TransactionStatus": {
             "enum": [
+                "Pending",
                 "Complete",
-                "Failed",
-                "Pending"
+                "Failed"
             ],
             "type": "string"
         },

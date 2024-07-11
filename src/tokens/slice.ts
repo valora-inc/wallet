@@ -6,7 +6,7 @@ import { NetworkId } from 'src/transactions/types'
 import { Address } from 'viem'
 
 export interface BaseToken {
-  address: string | null
+  address: Address | null
   tokenId: string
   decimals: number
   imageUrl?: string
@@ -47,7 +47,7 @@ export interface StoredTokenBalance extends BaseToken {
 }
 
 export interface StoredTokenBalanceWithAddress extends StoredTokenBalance {
-  address: string
+  address: Address
 }
 
 export interface TokenBalance extends BaseToken {
@@ -64,7 +64,7 @@ export interface TokenBalance extends BaseToken {
 // if a token doesn't have an address.
 
 export interface TokenBalanceWithAddress extends TokenBalance {
-  address: string
+  address: Address
 }
 
 export interface NativeTokenBalance extends TokenBalance {

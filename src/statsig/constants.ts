@@ -6,6 +6,7 @@ import {
 } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
+import { Address } from 'viem'
 
 export const FeatureGates = {
   [StatsigFeatureGates.SHOW_POSITIONS]: false,
@@ -117,9 +118,9 @@ export const DynamicConfigs = {
     defaultValues: {
       jumpstartContracts: {} as {
         [key in NetworkId]?: {
-          contractAddress?: string
+          contractAddress?: Address
           depositERC20GasEstimate: string
-          retiredContractAddresses?: string[]
+          retiredContractAddresses?: Address[]
         }
       },
       maxAllowedSendAmountUsd: 100,

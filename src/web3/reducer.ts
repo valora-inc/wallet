@@ -1,9 +1,10 @@
 import { UpdateConfigValuesAction } from 'src/app/actions'
 import { REHYDRATE, RehydrateAction, getRehydratePayload } from 'src/redux/persist-helper'
 import { ActionTypes, Actions } from 'src/web3/actions'
+import { Address } from 'viem'
 
 interface State {
-  account: string | null // this is the wallet address (EOA)
+  account: Address | null // this is the wallet address (EOA)
   mtwAddress: string | null // this is the account address
   accountInWeb3Keystore: string | null
   // The DEK private key
@@ -35,7 +36,7 @@ export const reducer = (
     case Actions.SET_ACCOUNT:
       return {
         ...state,
-        account: action.address.toLowerCase(),
+        account: action.address.toLowerCase() as Address,
       }
     case Actions.SET_MTW_ADDRESS:
       return {

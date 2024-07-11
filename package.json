@@ -299,7 +299,7 @@
     "ts-retry-promise": "^0.6.0",
     "twilio": "^3.69.0",
     "typescript": "^5.4.3",
-    "typescript-json-schema": "^0.59.0",
+    "typescript-json-schema": "^0.64.0",
     "yargs": "^17.7.2"
   },
   "resolutions": {

@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 218,
+          "version": 219,
         },
         "account": {
           "acceptedTerms": false,
@@ -362,7 +362,7 @@ describe('store state', () => {
           "sessions": [],
         },
         "web3": {
-          "account": "0x0000000000000000000000000000000000007E57",
+          "account": "0x0000000000000000000000000000000000007e57",
           "accountInWeb3Keystore": "0x0000000000000000000000000000000000007E57",
           "dataEncryptionKey": "0x0000000000000000000000000000000000008F68",
           "isDekRegistered": false,

@@ -41,7 +41,7 @@ import { TransactionRequest, prepareTransactions } from 'src/viem/prepareTransac
 import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import EstimatedNetworkFee from 'src/walletConnect/screens/EstimatedNetworkFee'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { Address, Hash, encodeFunctionData } from 'viem'
+import { Hash, encodeFunctionData } from 'viem'
 
 const TAG = 'JumpstartTransactionDetailsScreen'
 
@@ -73,11 +73,11 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
 
   const fetchClaimData = useAsync(
     async () => {
-      if (!isDeposit) {
+      if (!isDeposit || !walletAddress) {
         return null
       }
       const { claimed, beneficiary, index } = await fetchClaimStatus(
-        jumpstartContractAddress as Address,
+        jumpstartContractAddress,
         networkId,
         transaction.transactionHash as Hash
       )
@@ -87,8 +87,8 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
       }
 
       const reclaimTx: TransactionRequest = {
-        from: walletAddress as Address,
-        to: jumpstartContractAddress as Address,
+        from: walletAddress,
+        to: jumpstartContractAddress,
         value: BigInt(0),
         data: encodeFunctionData({
           abi: walletJumpstart.abi,

@@ -199,7 +199,7 @@ export async function getTokensInfo(): Promise<StoredTokenBalances> {
 
 export function* fetchTokenBalancesSaga() {
   try {
-    const address: string | null = yield* select(walletAddressSelector)
+    const address = yield* select(walletAddressSelector)
     if (!address) {
       Logger.debug(TAG, 'Skipping fetching tokens since no address was found')
       return
@@ -230,7 +230,7 @@ export function* fetchTokenBalancesSaga() {
      */
     const importedTokensWithBalance = yield* call(
       fetchImportedTokenBalances,
-      address as Address,
+      address,
       importedTokens,
       fetchedBalancesByTokenId
     )
@@ -348,13 +348,13 @@ export async function fetchImportedTokenBalances(
         return
       }
 
-      let fetchedBalance
+      let fetchedBalance = '0'
       if (knownTokenBalances[importedToken.tokenId]) {
         fetchedBalance = knownTokenBalances[importedToken.tokenId].balance
-      } else {
+      } else if (importedToken && importedToken.address) {
         const contract = getContract({
           abi: erc20.abi,
-          address: importedToken!.address as Address,
+          address: importedToken.address,
           client: {
             public: publicClient[networkIdToNetwork[importedToken.networkId]],
           },

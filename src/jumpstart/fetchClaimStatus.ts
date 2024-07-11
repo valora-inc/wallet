@@ -32,7 +32,7 @@ export async function fetchClaimStatus(
   Logger.debug(TAG, 'Decoded event', { beneficiary, index })
 
   const erc20Claim = await viemClient.readContract({
-    address: jumpstartContractAddress as Address,
+    address: jumpstartContractAddress,
     abi: walletJumpstart.abi,
     functionName: 'erc20Claims',
     args: [beneficiary, index],

@@ -104,7 +104,7 @@ export function getFeeCurrencyAddress(feeCurrency: TokenBalance): Address | unde
       // This should never happen
       throw new Error(`Fee currency address is missing for fee currency ${feeCurrency.tokenId}`)
     }
-    return feeCurrency.address as Address
+    return feeCurrency.address
   }
 
   // Fee currency adapter
@@ -401,8 +401,8 @@ export async function prepareERC20TransferTransaction(
     amount,
     feeCurrencies,
   }: {
-    fromWalletAddress: string
-    toWalletAddress: string
+    fromWalletAddress: Address
+    toWalletAddress: Address
     sendToken: TokenBalanceWithAddress
     amount: bigint
     feeCurrencies: TokenBalance[]
@@ -410,12 +410,12 @@ export async function prepareERC20TransferTransaction(
   prepareTxs = prepareTransactions // for unit testing
 ): Promise<PreparedTransactionsResult> {
   const baseSendTx: TransactionRequest = {
-    from: fromWalletAddress as Address,
-    to: sendToken.address as Address,
+    from: fromWalletAddress,
+    to: sendToken.address,
     data: encodeFunctionData({
       abi: erc20.abi,
       functionName: 'transfer',
-      args: [toWalletAddress as Address, amount],
+      args: [toWalletAddress, amount],
     }),
   }
   return prepareTxs({
@@ -448,8 +448,8 @@ export async function prepareTransferWithCommentTransaction(
     feeCurrencies,
     comment,
   }: {
-    fromWalletAddress: string
-    toWalletAddress: string
+    fromWalletAddress: Address
+    toWalletAddress: Address
     sendToken: TokenBalanceWithAddress
     amount: bigint
     feeCurrencies: TokenBalance[]
@@ -458,12 +458,12 @@ export async function prepareTransferWithCommentTransaction(
   prepareTxs = prepareTransactions // for unit testing
 ): Promise<PreparedTransactionsResult> {
   const baseSendTx: TransactionRequest = {
-    from: fromWalletAddress as Address,
-    to: sendToken.address as Address,
+    from: fromWalletAddress,
+    to: sendToken.address,
     data: encodeFunctionData({
       abi: stableToken.abi,
       functionName: 'transferWithComment',
-      args: [toWalletAddress as Address, amount, comment ?? ''],
+      args: [toWalletAddress, amount, comment ?? ''],
     }),
   }
   return prepareTxs({
@@ -494,8 +494,8 @@ export function prepareSendNativeAssetTransaction(
     feeCurrencies,
     sendToken,
   }: {
-    fromWalletAddress: string
-    toWalletAddress: string
+    fromWalletAddress: Address
+    toWalletAddress: Address
     amount: bigint
     feeCurrencies: TokenBalance[]
     sendToken: NativeTokenBalance
@@ -503,8 +503,8 @@ export function prepareSendNativeAssetTransaction(
   prepareTxs = prepareTransactions
 ): Promise<PreparedTransactionsResult> {
   const baseSendTx: TransactionRequest = {
-    from: fromWalletAddress as Address,
-    to: toWalletAddress as Address,
+    from: fromWalletAddress,
+    to: toWalletAddress,
     value: amount,
   }
   return prepareTxs({

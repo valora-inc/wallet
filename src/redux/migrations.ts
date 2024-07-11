@@ -1815,4 +1815,11 @@ export const migrations = {
       poolInfoFetchStatus: 'idle',
     },
   }),
+  219: (state: any) => ({
+    ...state,
+    web3: {
+      ...state.web3,
+      account: state.web3.account ? state.web3.account.toLowerCase() : null,
+    },
+  }),
 }
