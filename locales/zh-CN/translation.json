@@ -936,6 +936,7 @@
     "header": "恢复钱包",
     "title": "输入您的恢复短语",
     "description": "使用您在设置钱包时保存的 12 或 24 字短语进行恢复。",
+    "descriptionV1_90": "您的恢复短语是您在设置钱包时写下并保存的 12 或 24 个字的短语。请在此输入该短语以恢复钱包。",
     "emptyWalletDialog": {
       "description": "此钱包内没有任何资金。您仍要使用它吗？",
       "action": "使用钱包",
@@ -2389,7 +2390,7 @@
         "title": "通过实时链接发送",
         "bottomSheet": {
           "title": "通过实时链接发送",
-          "body": "Earn {{pointsValue}} points every time you send funds using a Live Link in {{appName}}. \n\nTap below to start sending and earning!",
+          "body": "每次使用 {{appName}}中的实时链接发送资金，都可赚取 {{pointsValue}} 积分。 \n\n点击下面的链接开始发送并赚取积分！",
           "cta": "通过实时链接发送"
         }
       }
