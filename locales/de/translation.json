@@ -29,6 +29,7 @@
   "dataSaver": "Datensparmodus",
   "enableDataSaver": "Datensparmodus aktivieren",
   "dataSaverDetail": "Der Datensparmodus ermöglicht die Kommunikation mit dem Netzwerk über einen vertrauenswürdigen Knoten. Du kannst diesen Modus jederzeit in den App-Einstellungen ändern.",
+  "keylessBackupSetupTitle": "Anmeldung erstellen",
   "keylessBackupSettingsTitle": "Sicherung von E-Mail und Telefonnummer",
   "keylessBackupSettingsDeleteError": "Deine Sicherung konnte nicht gelöscht werden. Bitte warte und versuche es später noch einmal.",
   "setup": "Einrichten",
@@ -102,9 +103,16 @@
   },
   "signInWithEmail": {
     "title": "Mit der E-Mail-Adresse anmelden",
-    "subtitle": "Melde dich mit deiner E-Mail-Adresse an, um diese als Sicherung einzurichten.\nDu wirst aufgefordert, dich erneut anzumelden, wenn du jemals deine Wallet verlierst.",
+    "subtitle": "Melde dich mit deiner E-Mail an, um sie als Backup einzurichten. Wenn du dein Portemonnaie verlierst, wirst du aufgefordert, dich erneut anzumelden.",
     "subtitleRestore": "Melde dich mit der E-Mail an, mit der du deine Wallet-Sicherung eingerichtet hast.",
-    "google": "Mit Google anmelden"
+    "google": "Mit Google anmelden",
+    "signInAnotherWay": "Auf andere Weise unterschreiben",
+    "bottomSheet": {
+      "title": "Speichere deine Wiederherstellungsphrase, um eine Brieftasche zu erstellen",
+      "description": "Wir werden bald auch andere E-Mail-Anbieter unterstützen, aber in der Zwischenzeit musst du deine Wiederherstellungsphrase speichern, um die Erstellung einer Brieftasche abzuschließen.",
+      "continue": "Weiter",
+      "skip": "Überspringen (nicht empfohlen)"
+    }
   },
   "keylessBackupPhoneInput": {
     "setup": {

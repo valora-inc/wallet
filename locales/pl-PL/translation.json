@@ -29,6 +29,7 @@
   "dataSaver": "Oszczędzanie danych",
   "enableDataSaver": "Włącz oszczędzanie danych",
   "dataSaverDetail": "Tryb oszczędzania danych umożliwia komunikację z siecią poprzez zaufany węzeł. Zawsze możesz zmienić ten tryb w ustawieniach aplikacji.",
+  "keylessBackupSetupTitle": "Utwórz login",
   "keylessBackupSettingsTitle": "Kopia zapasowa poczty e-mail i telefonu",
   "keylessBackupSettingsDeleteError": "Twoja kopia zapasowa nie mogła zostać usunięta, poczekaj i spróbuj ponownie później.",
   "setup": "Ustaw",
@@ -102,9 +103,16 @@
   },
   "signInWithEmail": {
     "title": "Zaloguj się za pomocą adresu e-mail",
-    "subtitle": "Zaloguj się za pomocą swojego adresu e-mail, aby wykorzystać go do tworzenia kopii zapasowych.\n\nW przypadku utraty portfela zostaniesz poproszony(-a) o ponowne zalogowanie się.",
+    "subtitle": "Zaloguj się za pomocą adresu e-mail, aby skonfigurować go jako kopię zapasową. Zostaniesz poproszony o ponowne zalogowanie się, jeśli kiedykolwiek zgubisz portfel.",
     "subtitleRestore": "Zaloguj się za pomocą adresu e-mail, którego użyto do konfiguracji kopii zapasowej portfela.",
-    "google": "Zaloguj się przez Google"
+    "google": "Zaloguj się przez Google",
+    "signInAnotherWay": "Podpisz się w inny sposób",
+    "bottomSheet": {
+      "title": "Zapisz swoją frazę odzyskiwania, aby utworzyć portfel",
+      "description": "Wkrótce będziemy obsługiwać innych dostawców poczty e-mail, ale w międzyczasie będziesz musiał zapisać swoją frazę odzyskiwania, aby zakończyć tworzenie portfela.",
+      "continue": "Kontynuuj",
+      "skip": "Pomiń (niezalecane)"
+    }
   },
   "keylessBackupPhoneInput": {
     "setup": {
