@@ -36,11 +36,9 @@ export default React.memo(function ClipboardAwarePasteButton({
   return (
     <View style={styles.container}>
       <Touchable onPress={onPressInternal} style={styles.button} testID={'PasteButton'}>
-        <>
-          <Text maxFontSizeMultiplier={1} style={styles.fontStyle}>
-            {t('paste')}
-          </Text>
-        </>
+        <Text maxFontSizeMultiplier={1} style={styles.fontStyle}>
+          {t('paste')}
+        </Text>
       </Touchable>
     </View>
   )
