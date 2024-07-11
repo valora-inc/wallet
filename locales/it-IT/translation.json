@@ -936,6 +936,7 @@
     "header": "Ripristina un wallet",
     "title": "Immetti la tua frase di recupero",
     "description": "Utilizza la frase di 12 o 24 parole che hai salvato quando hai impostato il wallet per il ripristino.",
+    "descriptionV1_90": "La tua frase di ripristino è una frase di 12 o 24 parole che hai scritto e salvato quando hai configurato il tuo portafoglio. Inseriscila qui per ripristinare il tuo portafoglio.",
     "emptyWalletDialog": {
       "description": "Questo wallet non contiene fondi. Desideri utilizzarlo comunque?",
       "action": "Usa il wallet",
@@ -2391,7 +2392,7 @@
         "title": "Invia con un Live Link",
         "bottomSheet": {
           "title": "Invia con un Live Link",
-          "body": "Earn {{pointsValue}} points every time you send funds using a Live Link in {{appName}}. \n\nTap below to start sending and earning!",
+          "body": "Guadagna {{pointsValue}} punti ogni volta che invii fondi utilizzando un Live Link su {{appName}}. \n\nTocca qui sotto per iniziare a inviare e guadagnare!",
           "cta": "Invia con un Live Link"
         }
       }
