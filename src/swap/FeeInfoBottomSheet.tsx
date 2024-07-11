@@ -35,7 +35,7 @@ function FeeAmount({
   const zeroFeeText = t('swapScreen.transactionDetails.swapFeeWaived')
 
   return (
-    <Text style={styles.bodyText}>
+    <Text style={styles.feeAmountText}>
       {isLoading ? (
         loadingText
       ) : isFeeZero ? (
@@ -179,6 +179,11 @@ const styles = StyleSheet.create({
   },
   bodyText: {
     ...typeScale.bodySmall,
+  },
+  feeAmountText: {
+    ...typeScale.bodySmall,
+    textAlign: 'right',
+    flex: 1,
   },
   infoText: {
     ...typeScale.bodySmall,
