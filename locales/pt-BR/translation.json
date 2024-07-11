@@ -936,6 +936,7 @@
     "header": "Restaurar carteira",
     "title": "Insira a sua frase de recuperação",
     "description": "Use a frase de 12 ou 24 palavras que você salvou quando configurou sua carteira para restaurar.",
+    "descriptionV1_90": "Sua frase de recuperação é uma frase de 12 ou 24 palavras que você escreveu e salvou quando configurou sua carteira. Digite-a aqui para restaurar sua carteira.",
     "emptyWalletDialog": {
       "description": "Esta carteira não tem fundos. Você ainda gostaria de usá-la?",
       "action": "Usar carteira",
