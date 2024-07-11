@@ -936,6 +936,7 @@
     "header": "Khôi phục ví",
     "title": "Nhập cụm từ khôi phục của bạn",
     "description": "Sử dụng cụm từ 12 hoặc 24 từ mà bạn đã lưu khi bạn thiết lập ví của mình để khôi phục.",
+    "descriptionV1_90": "Your Recovery Phrase is a 12 or 24-word phrase that you wrote down and saved when you set up your wallet. Please enter it here to restore your wallet.",
     "emptyWalletDialog": {
       "description": "Ví khoản này không có tiền. Bạn vẫn muốn sử dụng chứ?",
       "action": "Sử dụng ví",
