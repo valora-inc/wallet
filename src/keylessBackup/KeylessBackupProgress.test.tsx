@@ -88,7 +88,8 @@ describe('KeylessBackupProgress', () => {
       expect(navigateHome).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-        KeylessBackupEvents.cab_progress_completed_continue
+        KeylessBackupEvents.cab_progress_completed_continue,
+        { origin: KeylessBackupOrigin.Settings }
       )
     })
 
@@ -110,7 +111,10 @@ describe('KeylessBackupProgress', () => {
       })
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-        KeylessBackupEvents.cab_progress_completed_continue
+        KeylessBackupEvents.cab_progress_completed_continue,
+        {
+          origin: KeylessBackupOrigin.Onboarding,
+        }
       )
     })
 
