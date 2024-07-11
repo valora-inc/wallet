@@ -393,10 +393,7 @@ function Setup({ origin }: { origin: KeylessBackupOrigin }) {
             size={BtnSizes.FULL}
             type={BtnTypes.PRIMARY}
             touchableStyle={styles.buttonTouchable}
-            style={[
-              styles.buttonContainer,
-              isOnboarding ? insetsStyle : { marginBottom: Spacing.Thick24 },
-            ]}
+            style={[styles.buttonContainer, insetsStyle]}
           />
         </KeylessBackupSetupContainer>
       )
@@ -419,12 +416,7 @@ function Setup({ origin }: { origin: KeylessBackupOrigin }) {
             )}
             <Text style={styles.body}>{t('keylessBackupStatus.setup.failed.body')}</Text>
           </ScrollView>
-          <View
-            style={[
-              styles.buttonContainer,
-              isOnboarding ? insetsStyle : { marginBottom: Spacing.Thick24 },
-            ]}
-          >
+          <View style={[styles.buttonContainer, insetsStyle]}>
             <Button
               testID={
                 navigatedFromSettings
