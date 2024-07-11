@@ -2318,6 +2318,13 @@
         "swap": {
           "title": "สว็อป",
           "subtitle": "{{fromToken}} เป็น {{toToken}}"
+        },
+        "createLiveLink": {
+          "title": "ลิงก์สด",
+          "subtitle": {
+            "erc20": "Sent {{tokenSymbol}}",
+            "erc721": "NFT ที่ส่ง"
+          }
         }
       },
       "title": "ประวัติคะแนนของฉัน",
@@ -2377,6 +2384,14 @@
       },
       "moreComing": {
         "title": "จะเพิ่มในเร็วๆ นี้!"
+      },
+      "createLiveLink": {
+        "title": "ส่งพร้อมลิงก์สด",
+        "bottomSheet": {
+          "title": "ส่งพร้อมลิงก์สด",
+          "body": "Earn {{pointsValue}} points every time you send funds using a Live Link in {{appName}}. \n\nTap below to start sending and earning!",
+          "cta": "ส่งพร้อมลิงก์สด"
+        }
       }
     },
     "discoverCard": {
