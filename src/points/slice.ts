@@ -20,6 +20,7 @@ export type PointsConfig = {
   activitiesById: {
     [activityId in PointsActivityId]?: {
       pointsAmount: number
+      previousPointsAmount?: number
     }
   }
 }

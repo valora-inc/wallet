@@ -4,8 +4,6 @@ interface SentryTransactionInfo {
 }
 
 export enum SentryTransaction {
-  dappkit_connection = 'DAppKitConnection',
-  dappkit_transaction = 'DAppKitTransaction',
   fetch_balances = 'FetchBalances',
   fetch_positions = 'FetchPositions',
   import_contacts = 'ImportContacts',
@@ -20,14 +18,6 @@ export enum SentryTransaction {
 type values = (typeof SentryTransaction)[keyof typeof SentryTransaction]
 
 export const SentryTransactions: Record<values, SentryTransactionInfo> = {
-  DAppKitConnection: {
-    name: 'DAppKit Connection',
-    op: 'dappkit_connection',
-  },
-  DAppKitTransaction: {
-    name: 'DAppKit Transaction',
-    op: 'dappkit_transaction',
-  },
   FetchBalances: {
     name: 'Fetch Balances',
     op: 'fetch_balances',

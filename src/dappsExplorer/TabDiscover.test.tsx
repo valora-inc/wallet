@@ -266,10 +266,12 @@ describe('TabDiscover', () => {
 
     fireEvent.press(getByText('Dapp 1'))
 
-    expect(store.getActions()).toEqual([
-      fetchDappsList(),
-      dappSelected({ dapp: { ...dappsList[0], openedFrom: DappSection.FavoritesDappScreen } }),
-    ])
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        fetchDappsList(),
+        dappSelected({ dapp: { ...dappsList[0], openedFrom: DappSection.FavoritesDappScreen } }),
+      ])
+    )
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       DappExplorerEvents.dapp_open,
       defaultExpectedDappOpenProps
@@ -294,10 +296,12 @@ describe('TabDiscover', () => {
 
     fireEvent.press(getByText('Dapp 2'))
 
-    expect(store.getActions()).toEqual([
-      fetchDappsList(),
-      dappSelected({ dapp: { ...dappsList[1], openedFrom: DappSection.MostPopular } }),
-    ])
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        fetchDappsList(),
+        dappSelected({ dapp: { ...dappsList[1], openedFrom: DappSection.MostPopular } }),
+      ])
+    )
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_open, {
       ...defaultExpectedDappOpenProps,
       categories: ['2'],

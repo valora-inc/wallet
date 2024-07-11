@@ -1,15 +1,12 @@
 import React from 'react'
-import { PointsActivityId, PointsCardMetadata, ClaimHistoryCardItem } from 'src/points/types'
+import { useTranslation } from 'react-i18next'
 import Celebration from 'src/icons/Celebration'
 import SwapArrows from 'src/icons/SwapArrows'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
-import Rocket from 'src/icons/Rocket'
-import { useTranslation } from 'react-i18next'
-import colors from 'src/styles/colors'
-import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
+import { ClaimHistoryCardItem } from 'src/points/types'
 import { useSelector } from 'src/redux/hooks'
+import colors from 'src/styles/colors'
 import { tokensByIdSelector } from 'src/tokens/selectors'
+import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'Points/cardDefinitions'
@@ -19,40 +16,6 @@ export interface HistoryCardMetadata {
   title: string
   subtitle: string
   pointsAmount: number
-}
-
-export default function useCardDefinitions(
-  pointsValue: number
-): Record<PointsActivityId, PointsCardMetadata> {
-  const { t } = useTranslation()
-
-  return {
-    'create-wallet': {
-      title: t('points.activityCards.createWallet.title'),
-      icon: <Celebration />,
-      defaultCompletionStatus: true,
-    },
-    swap: {
-      title: t('points.activityCards.swap.title'),
-      icon: <SwapArrows />,
-      defaultCompletionStatus: false,
-      bottomSheet: {
-        title: t('points.activityCards.swap.bottomSheet.title'),
-        body: t('points.activityCards.swap.bottomSheet.body', { pointsValue }),
-        cta: {
-          text: t('points.activityCards.swap.bottomSheet.cta'),
-          onPress: () => {
-            navigate(Screens.SwapScreenWithBack)
-          },
-        },
-      },
-    },
-    'more-coming': {
-      title: t('points.activityCards.moreComing.title'),
-      icon: <Rocket />,
-      defaultCompletionStatus: false,
-    },
-  }
 }
 
 export function useGetHistoryDefinition(): (

@@ -22,7 +22,7 @@ export function navigateToURI(uri: string, backupUri?: string) {
 
   // We're NOT using `Linking.canOpenURL` here because we would need
   // the scheme to be added to LSApplicationQueriesSchemes on iOS
-  // which is not possible for DappKit callbacks
+  // which is not possible for arbitrary callbacks from other apps (DAppKit used to do this)
   Linking.openURL(uri).catch((reason) => {
     Logger.debug(TAG, 'URI not supported', uri)
     if (backupUri) {

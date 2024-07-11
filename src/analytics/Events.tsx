@@ -95,9 +95,11 @@ export enum SettingsEvents {
 export enum KeylessBackupEvents {
   wallet_security_primer_get_started = 'wallet_security_primer_get_started',
   cab_setup_recovery_phrase = 'cab_setup_recovery_phrase',
+  cab_sign_in_another_way = 'cab_sign_in_another_way',
   cab_sign_in_with_google = 'cab_sign_in_with_google',
   cab_sign_in_with_google_success = 'cab_sign_in_with_google_success',
   cab_sign_in_with_email_screen_cancel = 'cab_sign_in_with_email_screen_cancel',
+  cab_sign_in_with_email_screen_skip = 'cab_sign_in_with_email_screen_skip',
   cab_get_torus_keyshare_failed = 'cab_get_torus_keyshare_failed',
   cab_enter_phone_number_continue = 'cab_enter_phone_number_continue',
   cab_enter_phone_number_cancel = 'cab_enter_phone_number_cancel',
@@ -514,16 +516,6 @@ export enum WalletConnectEvents {
   wc_request_deny_error = 'wc_request_deny_error',
 
   wc_copy_request_payload = 'wc_copy_request_payload',
-}
-
-export enum DappKitEvents {
-  dappkit_parse_deeplink_error = 'dappkit_parse_deeplink_error',
-  dappkit_request_propose = 'dappkit_request_propose',
-  dappkit_request_cancel = 'dappkit_request_cancel',
-  dappkit_copy_request_details = 'dappkit_copy_request_details',
-  dappkit_request_accept_start = 'dappkit_request_accept_start',
-  dappkit_request_accept_success = 'dappkit_request_accept_success',
-  dappkit_request_accept_error = 'dappkit_request_accept_error',
 }
 
 export enum CICOEvents {

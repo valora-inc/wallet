@@ -1,98 +1,101 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
+import { useTranslation } from 'react-i18next'
+import { StyleSheet, Text, View } from 'react-native'
+import { PointsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
+import CheckCircle from 'src/icons/CheckCircle'
+import ComingSoon from 'src/icons/ComingSoon'
+import LogoHeart from 'src/icons/LogoHeart'
+import { PointsActivity } from 'src/points/types'
+import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { StyleSheet, Text, View } from 'react-native'
-import { Colors } from 'src/styles/colors'
-import Checkmark from 'src/icons/Checkmark'
-import { PointsActivityId, BottomSheetMetadata, BottomSheetParams } from 'src/points/types'
-import useCardDefinitions from 'src/points/cardDefinitions'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { PointsEvents } from 'src/analytics/Events'
 
-interface Props {
-  activityId: PointsActivityId
-  pointsAmount: number
-  onPress: (bottomSheetParams: BottomSheetParams) => void
-  completed?: boolean
+export interface Props extends PointsActivity {
+  title: string
+  icon: ReactNode
+  onPress?: () => void
 }
 
-export default function ActivityCard({ activityId, pointsAmount, onPress, completed }: Props) {
-  const cardDefinition = useCardDefinitions(pointsAmount)[activityId]
-
-  const isCompleted = completed !== undefined ? completed : cardDefinition.defaultCompletionStatus
-
-  const onPressWrapper = (bottomSheetMetadata: BottomSheetMetadata) => {
-    return () => {
-      ValoraAnalytics.track(PointsEvents.points_screen_card_press, {
-        activityId,
-      })
-      onPress({
-        ...bottomSheetMetadata,
-        pointsAmount,
-        activityId,
-      })
-    }
+export default function ActivityCard({
+  activityId,
+  pointsAmount,
+  previousPointsAmount,
+  completed = false,
+  title,
+  icon,
+  onPress,
+}: Props) {
+  const handleOnPress = () => {
+    ValoraAnalytics.track(PointsEvents.points_screen_card_press, { activityId })
+    onPress?.()
   }
 
-  const cardStyle = {
-    ...styles.card,
-    opacity: isCompleted ? 0.5 : 1,
-  }
   return (
-    <View style={styles.container}>
-      <View style={styles.cardContainer}>
-        <Touchable
-          testID={`PointsActivityCard-${activityId}-${pointsAmount}`}
-          style={cardStyle}
-          onPress={
-            cardDefinition.bottomSheet ? onPressWrapper(cardDefinition.bottomSheet) : undefined
-          }
-          disabled={!cardDefinition.bottomSheet}
-          borderRadius={Spacing.Regular16}
-        >
-          <>
-            {isCompleted && (
-              <View style={styles.checkmarkIcon}>
-                <Checkmark height={12} width={12} color={Colors.black} stroke={true} />
-              </View>
-            )}
-            {cardDefinition.icon}
-            <Text style={styles.cardTitle}>{cardDefinition.title}</Text>
-          </>
-        </Touchable>
-      </View>
+    <Touchable
+      testID={`ActivityCard/${activityId}`}
+      style={[styles.card, completed && styles.faded]}
+      borderRadius={Spacing.Smallest8}
+      disabled={completed}
+      onPress={handleOnPress}
+    >
+      <>
+        {completed ? <CheckCircle testID="CheckCircleIcon" /> : icon}
+        <Text style={styles.cardTitle}>{title}</Text>
+        <View style={styles.pointsAmountContainer}>
+          <Text style={styles.previousPointsAmount}>{previousPointsAmount}</Text>
+          <Text style={styles.pointsAmount}>{pointsAmount}</Text>
+          <LogoHeart size={Spacing.Regular16} />
+        </View>
+      </>
+    </Touchable>
+  )
+}
+
+export function MoreComingCard() {
+  const { t } = useTranslation()
+
+  return (
+    <View style={styles.card}>
+      <ComingSoon />
+      <Text style={styles.cardTitle}>{t('points.activityCards.moreComing.title')}</Text>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexBasis: '50%',
-    padding: Spacing.Smallest8,
-  },
-  checkmarkIcon: {
-    position: 'absolute',
-    top: Spacing.Smallest8,
-    right: Spacing.Smallest8,
-    borderRadius: 16,
-    borderWidth: 1.5,
-    borderColor: Colors.black,
-  },
   cardTitle: {
-    ...typeScale.labelXSmall,
-    paddingTop: Spacing.Smallest8,
-    textAlign: 'center',
-  },
-  cardContainer: {
-    borderRadius: Spacing.Regular16,
-    backgroundColor: Colors.gray1,
+    ...typeScale.labelSmall,
   },
   card: {
-    flex: 1,
-    justifyContent: 'center',
+    backgroundColor: Colors.gray1,
+    flexDirection: 'row',
     alignItems: 'center',
     padding: Spacing.Regular16,
-    minHeight: 96,
+    gap: Spacing.Smallest8,
+    borderRadius: Spacing.Smallest8,
+  },
+  faded: {
+    opacity: 0.5,
+  },
+  pointsAmountContainer: {
+    marginLeft: 'auto',
+    flexDirection: 'row',
+    borderRadius: 100,
+    borderWidth: 1,
+    borderColor: Colors.gray2,
+    paddingHorizontal: Spacing.Smallest8,
+    paddingVertical: Spacing.Tiny4,
+    gap: Spacing.Tiny4,
+  },
+  pointsAmount: {
+    ...typeScale.labelXSmall,
+    color: Colors.black,
+  },
+  previousPointsAmount: {
+    ...typeScale.labelXSmall,
+    color: Colors.gray3,
+    textDecorationLine: 'line-through',
   },
 })

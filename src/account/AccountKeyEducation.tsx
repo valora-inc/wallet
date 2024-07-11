@@ -17,7 +17,9 @@ type Props = NativeStackScreenProps<StackParamList, Screens.AccountKeyEducation>
 export default function AccountKeyEducation(props: Props) {
   function onComplete() {
     ValoraAnalytics.track(OnboardingEvents.backup_education_complete)
-    if (props.route.params?.nextScreen) {
+    if (props.route.params?.origin === 'cabOnboarding') {
+      navigate(Screens.OnboardingRecoveryPhrase, { origin: 'cabOnboarding' })
+    } else if (props.route.params?.nextScreen) {
       navigate(props.route.params?.nextScreen)
     } else {
       navigate(Screens.BackupPhrase)
