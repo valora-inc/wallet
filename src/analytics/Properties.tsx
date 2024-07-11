@@ -1118,7 +1118,6 @@ interface DappExplorerEventsProperties {
     filterId: string
     remove: boolean
   }
-  [DappExplorerEvents.dapp_rankings_open]: undefined
   [DappExplorerEvents.dapp_explore_all]: undefined
 }
 
