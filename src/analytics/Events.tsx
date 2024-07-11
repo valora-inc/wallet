@@ -535,7 +535,6 @@ export enum DappExplorerEvents {
   dapp_favorite = 'dapp_favorite',
   dapp_unfavorite = 'dapp_unfavorite',
   dapp_filter = 'dapp_filter',
-  dapp_rankings_open = 'dapp_rankings_open',
   dapp_explore_all = 'dapp_explore_all',
 }
 
