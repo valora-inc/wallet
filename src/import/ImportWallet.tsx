@@ -210,12 +210,10 @@ function ImportWallet({ navigation, route }: Props) {
           onInputChange={formatAndSetBackupPhrase}
           shouldShowClipboard={shouldShowClipboard}
         />
-        <Text style={styles.description}>{t('importExistingKey.descriptionV1_89')}</Text>
+        <Text style={styles.description}>{t('importExistingKey.descriptionV1_90')}</Text>
         <KeyboardSpacer />
       </KeyboardAwareScrollView>
-      <View
-        style={[{ padding: variables.contentPadding }, !keyboardVisible && insets && insetsStyle]}
-      >
+      <View style={[styles.buttonContainer, !keyboardVisible && insets && insetsStyle]}>
         <Button
           testID="ImportWalletButton"
           onPress={onPressRestore}
@@ -274,6 +272,7 @@ const styles = StyleSheet.create({
     paddingBottom: Spacing.Thick24,
     ...typeScale.bodySmall,
   },
+  buttonContainer: { padding: variables.contentPadding },
 })
 
 export default ImportWallet

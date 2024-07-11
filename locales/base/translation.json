@@ -928,7 +928,7 @@
     "header": "Restore wallet",
     "title": "Enter your recovery phrase",
     "description": "Use the 12 or 24-word phrase that you saved when you set up your wallet to restore.",
-    "descriptionV1_89": "Your Recovery Phrase is a 12 or 24-word phrase that you wrote down and saved when you set up your wallet. Please enter it here to restore your wallet.",
+    "descriptionV1_90": "Your Recovery Phrase is a 12 or 24-word phrase that you wrote down and saved when you set up your wallet. Please enter it here to restore your wallet.",
     "emptyWalletDialog": {
       "description": "This wallet doesn’t have any funds. Would you still like to use it?",
       "action": "Use Wallet",
