@@ -936,6 +936,7 @@
     "header": "Restore wallet",
     "title": "Enter your recovery phrase",
     "description": "Use the 12 or 24-word phrase that you saved when you set up your wallet to restore.",
+    "descriptionV1_90": "Your Recovery Phrase is a 12 or 24-word phrase that you wrote down and saved when you set up your wallet. Please enter it here to restore your wallet.",
     "emptyWalletDialog": {
       "description": "This wallet doesn’t have any funds. Would you still like to use it?",
       "action": "Use Wallet",
@@ -2322,6 +2323,13 @@
         "swap": {
           "title": "Swap",
           "subtitle": "{{fromToken}} to {{toToken}}"
+        },
+        "createLiveLink": {
+          "title": "Live Link",
+          "subtitle": {
+            "erc20": "Sent {{tokenSymbol}}",
+            "erc721": "Sent NFT"
+          }
         }
       },
       "title": "My points activity",
@@ -2381,6 +2389,14 @@
       },
       "moreComing": {
         "title": "More coming soon!"
+      },
+      "createLiveLink": {
+        "title": "Send with a Live Link",
+        "bottomSheet": {
+          "title": "Send with a Live Link",
+          "body": "Earn {{pointsValue}} points every time you send funds using a Live Link in {{appName}}. \n\nTap below to start sending and earning!",
+          "cta": "Send with a Live Link"
+        }
       }
     },
     "discoverCard": {
