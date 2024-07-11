@@ -29,6 +29,7 @@
   "dataSaver": "数据保护模式",
   "enableDataSaver": "启用数据保护模式",
   "dataSaverDetail": "数据保护模式允许您通过可信节点与网络通信。您可以随时在应用程序设置中更改该模式。",
+  "keylessBackupSetupTitle": "创建登录",
   "keylessBackupSettingsTitle": "电子邮件和电话备份",
   "keylessBackupSettingsDeleteError": "您的备份无法删除，请稍后再试。",
   "setup": "设置",
@@ -102,9 +103,16 @@
   },
   "signInWithEmail": {
     "title": "使用电子邮件登录",
-    "subtitle": "使用您的电子邮件登录，以将其设置为备份。\n\n如果您的钱包丢失，系统将提示您重新登录。",
+    "subtitle": "使用电子邮件登录，将其设置为备份。如果您丢失了钱包，系统会提示您再次登录。",
     "subtitleRestore": "使用您用来设置钱包备份的电子邮件登录。",
-    "google": "使用 Google 登录"
+    "google": "使用 Google 登录",
+    "signInAnotherWay": "以其他方式签名",
+    "bottomSheet": {
+      "title": "保存恢复短语以创建钱包",
+      "description": "我们将很快支持其他电子邮件提供商，但在此期间，您必须保存恢复短语才能完成钱包创建。",
+      "continue": "继续",
+      "skip": "跳过（不推荐）"
+    }
   },
   "keylessBackupPhoneInput": {
     "setup": {

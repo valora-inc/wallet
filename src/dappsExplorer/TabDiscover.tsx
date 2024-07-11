@@ -1,14 +1,12 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { useSharedValue } from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { DappExplorerEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
 import { DappFeaturedActions } from 'src/dappsExplorer/DappFeaturedActions'
+import DiscoverDappsCard from 'src/dappsExplorer/DiscoverDappsCard'
 import { EarnCardDiscover } from 'src/earn/EarnCard'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
@@ -18,19 +16,11 @@ import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import networkConfig from 'src/web3/networkConfig'
-import DiscoverDappsCard from 'src/dappsExplorer/DiscoverDappsCard'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TabDiscover>
 
 function TabDiscover({ navigation }: Props) {
   const { t } = useTranslation()
-
-  const dappRankingsBottomSheetRef = useRef<BottomSheetRefType>(null)
-
-  const handleShowDappRankings = () => {
-    ValoraAnalytics.track(DappExplorerEvents.dapp_rankings_open)
-    dappRankingsBottomSheetRef.current?.snapToIndex(0)
-  }
 
   // Scroll Aware Header
   const scrollPosition = useSharedValue(0)
@@ -49,7 +39,7 @@ function TabDiscover({ navigation }: Props) {
       <SafeAreaView testID="DAppsExplorerScreen" style={styles.safeAreaContainer} edges={[]}>
         <View style={styles.contentContainer}>
           <Text style={styles.title}>{t('bottomTabsNavigator.discover.title')}</Text>
-          <DappFeaturedActions onPressShowDappRankings={handleShowDappRankings} />
+          <DappFeaturedActions />
           <PointsDiscoverCard />
           <EarnCardDiscover
             poolTokenId={networkConfig.aaveArbUsdcTokenId}

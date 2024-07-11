@@ -29,6 +29,7 @@
   "dataSaver": "Veri Tasarrufu",
   "enableDataSaver": "Veri Tasarrufunu Etkinleştir",
   "dataSaverDetail": "Veri Tasarrufu modu, güvenilir bir node aracılığıyla ağ ile iletişim kurmanıza olanak tanır. Bu modu her zaman uygulama ayarlarından değiştirebilirsiniz.",
+  "keylessBackupSetupTitle": "Giriş Oluştur",
   "keylessBackupSettingsTitle": "E-posta ve Telefon Yedekleme",
   "keylessBackupSettingsDeleteError": "Yedeklemeniz silinemedi, lütfen bekleyin ve daha sonra tekrar deneyin.",
   "setup": "Oluştur",
@@ -102,9 +103,16 @@
   },
   "signInWithEmail": {
     "title": "E-posta ile oturum aç",
-    "subtitle": "Yedek olarak ayarlamak için e-postanızla oturum açın.\n\nCüzdanınızı kaybetmeniz durumunda tekrar oturum açmanız istenecektir.",
+    "subtitle": "Yedek olarak ayarlamak için e-postanızla oturum açın. Cüzdanınızı kaybetmeniz durumunda tekrar oturum açmanız istenecektir.",
     "subtitleRestore": "Cüzdan yedeklemenizi ayarladığınız e-postayla oturum açın.",
-    "google": "Google ile oturum aç"
+    "google": "Google ile oturum aç",
+    "signInAnotherWay": "Başka bir şekilde imzalayın",
+    "bottomSheet": {
+      "title": "Bir cüzdan oluşturmak için kurtarma ifadenizi kaydedin",
+      "description": "Yakında diğer e-posta sağlayıcılarını da destekleyeceğiz, ancak bu arada bir cüzdan oluşturmayı bitirmek için kurtarma ifadenizi kaydetmeniz gerekecek.",
+      "continue": "İleri",
+      "skip": "Atla (önerilmez)"
+    }
   },
   "keylessBackupPhoneInput": {
     "setup": {
