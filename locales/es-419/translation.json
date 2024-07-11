@@ -936,6 +936,7 @@
     "header": "Restaurar wallet",
     "title": "Ingresa tu frase de recuperación",
     "description": "Usa la frase de 12 ó 24 palabras que guardaste cuando configuraste tu wallet para restaurarla.",
+    "descriptionV1_90": "Tu frase de recuperación es una frase de 12 ó 24 palabras que escribiste y guardaste cuando configuraste tu monedero. Introdúcela aquí para recuperar tu monedero.",
     "emptyWalletDialog": {
       "description": "Esta wallet no tiene fondos. ¿Quieres usarla de todos modos?",
       "action": "Usar wallet",
@@ -2391,7 +2392,7 @@
         "title": "Envia con un enlace directo",
         "bottomSheet": {
           "title": "Envia con un enlace directo",
-          "body": "Earn {{pointsValue}} points every time you send funds using a Live Link in {{appName}}. \n\nTap below to start sending and earning!",
+          "body": "Gana puntos {{pointsValue}} cada vez que envíes fondos utilizando un Live Link en {{appName}}. \n\n¡Toca abajo para empezar a enviar y ganar!",
           "cta": "Envia con un enlace directo"
         }
       }
