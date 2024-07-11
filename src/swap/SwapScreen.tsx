@@ -44,7 +44,7 @@ import getCrossChainFee from 'src/swap/getCrossChainFee'
 import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsProperties'
 import { currentSwapSelector, priceImpactWarningThresholdSelector } from 'src/swap/selectors'
 import { swapStart } from 'src/swap/slice'
-import { Field, SwapAmount } from 'src/swap/types'
+import { AppFeeAmount, Field, SwapAmount, SwapFeeAmount } from 'src/swap/types'
 import useFilterChips from 'src/swap/useFilterChips'
 import useSwapQuote, { NO_QUOTE_ERROR_MESSAGE, QuoteResult } from 'src/swap/useSwapQuote'
 import { useSwappableTokens, useTokenInfo } from 'src/tokens/hooks'
@@ -54,7 +54,7 @@ import {
   tokensByIdSelector,
 } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { getSupportedNetworkIdsForSwap, getTokenId } from 'src/tokens/utils'
+import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
@@ -210,15 +210,17 @@ const {
 
 const swapStateReducer = swapSlice.reducer
 
-function getNetworkFee(quote: QuoteResult | null, networkId?: NetworkId) {
+function getNetworkFee(quote: QuoteResult | null) {
   const { feeCurrency, maxFeeAmount, estimatedFeeAmount } = getFeeCurrencyAndAmounts(
     quote?.preparedTransactions
   )
-  return {
-    feeTokenId: feeCurrency?.tokenId ?? getTokenId(networkId ?? networkConfig.defaultNetworkId), // native token
-    maxNetworkFee: maxFeeAmount,
-    estimatedNetworkFee: estimatedFeeAmount,
-  }
+  return feeCurrency && estimatedFeeAmount
+    ? {
+        token: feeCurrency,
+        maxAmount: maxFeeAmount,
+        amount: estimatedFeeAmount,
+      }
+    : undefined
 }
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SwapScreenWithBack>
@@ -233,8 +235,7 @@ export function SwapScreen({ route }: Props) {
     [Field.TO]: tokenBottomSheetToRef,
   }
   const exchangeRateInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const networkFeeInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const appFeeInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const feeInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const slippageInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const estimatedDurationBottomSheetRef = useRef<BottomSheetRefType>(null)
 
@@ -618,7 +619,7 @@ export function SwapScreen({ route }: Props) {
   const crossChainFeeCurrency = useSelector((state) =>
     feeCurrenciesSelector(state, fromToken?.networkId || networkConfig.defaultNetworkId)
   ).find((token) => token.isNative)
-  const crossChainFeeInfo = getCrossChainFee(quote, crossChainFeeCurrency)
+  const crossChainFee = getCrossChainFee(quote, crossChainFeeCurrency)
 
   const getWarningStatuses = () => {
     // NOTE: If a new condition is added here, make sure to update `allowSwap` below if
@@ -627,7 +628,7 @@ export function SwapScreen({ route }: Props) {
       showSwitchedToNetworkWarning: !!switchedToNetworkId,
       showUnsupportedTokensWarning: fetchSwapQuoteError?.message.includes(NO_QUOTE_ERROR_MESSAGE),
       showInsufficientBalanceWarning: parsedSwapAmount[Field.FROM].gt(fromTokenBalance),
-      showCrossChainFeeWarning: crossChainFeeInfo?.nativeTokenBalanceDeficit.lt(0),
+      showCrossChainFeeWarning: crossChainFee?.nativeTokenBalanceDeficit.lt(0),
       showDecreaseSpendForGasWarning:
         quote?.preparedTransactions.type === 'need-decrease-spend-amount-for-gas',
       showNotEnoughBalanceForGasWarning:
@@ -688,13 +689,13 @@ export function SwapScreen({ route }: Props) {
       showCrossChainFeeWarning,
     ]
   )
-  const { feeTokenId, maxNetworkFee, estimatedNetworkFee } = useMemo(() => {
-    return getNetworkFee(quote, fromToken?.networkId)
+  const networkFee: SwapFeeAmount | undefined = useMemo(() => {
+    return getNetworkFee(quote)
   }, [fromToken, quote])
 
-  const feeToken = tokensById[feeTokenId]
+  const feeToken = networkFee?.token ? tokensById[networkFee.token.tokenId] : undefined
 
-  const appFee = useMemo(() => {
+  const appFee: AppFeeAmount | undefined = useMemo(() => {
     if (!quote || !fromToken) {
       return undefined
     }
@@ -821,12 +822,9 @@ export function SwapScreen({ route }: Props) {
             </View>
           )}
           <SwapTransactionDetails
-            maxNetworkFee={maxNetworkFee}
-            estimatedNetworkFee={estimatedNetworkFee}
-            networkFeeInfoBottomSheetRef={networkFeeInfoBottomSheetRef}
+            feeInfoBottomSheetRef={feeInfoBottomSheetRef}
             slippageInfoBottomSheetRef={slippageInfoBottomSheetRef}
             estimatedDurationBottomSheetRef={estimatedDurationBottomSheetRef}
-            feeTokenId={feeTokenId}
             slippagePercentage={parsedSlippagePercentage}
             fromToken={fromToken}
             toToken={toToken}
@@ -835,10 +833,11 @@ export function SwapScreen({ route }: Props) {
             swapAmount={parsedSwapAmount[Field.FROM]}
             fetchingSwapQuote={quoteUpdatePending}
             appFee={appFee}
-            appFeeInfoBottomSheetRef={appFeeInfoBottomSheetRef}
             estimatedDurationInSeconds={
               quote && quote.swapType === 'cross-chain' ? quote.estimatedDuration : undefined
             }
+            crossChainFee={crossChainFee}
+            networkFee={networkFee}
           />
           {showCrossChainFeeWarning && (
             <InLineNotification
@@ -850,7 +849,7 @@ export function SwapScreen({ route }: Props) {
                 networkName:
                   NETWORK_NAMES[crossChainFeeCurrency?.networkId || networkConfig.defaultNetworkId],
                 tokenSymbol: crossChainFeeCurrency?.symbol,
-                tokenAmount: crossChainFeeInfo?.nativeTokenBalanceDeficit.abs().toFormat(),
+                tokenAmount: crossChainFee?.nativeTokenBalanceDeficit.abs().toFormat(),
               })}
               style={styles.warning}
             />
@@ -1025,48 +1024,7 @@ export function SwapScreen({ route }: Props) {
           onPress={() => {
             exchangeRateInfoBottomSheetRef.current?.close()
           }}
-          text={t('swapScreen.transactionDetails.exchangeRateInfoDismissButton')}
-        />
-      </BottomSheet>
-      <BottomSheet
-        forwardedRef={networkFeeInfoBottomSheetRef}
-        description={t('swapScreen.transactionDetails.networkFeeInfoV1_76', {
-          networkName: NETWORK_NAMES[fromToken?.networkId || networkConfig.defaultNetworkId],
-        })}
-        testId="NetworkFeeInfoBottomSheet"
-      >
-        <Button
-          type={BtnTypes.SECONDARY}
-          size={BtnSizes.FULL}
-          style={styles.bottomSheetButton}
-          onPress={() => {
-            networkFeeInfoBottomSheetRef.current?.close()
-          }}
-          text={t('swapScreen.transactionDetails.networkFeeInfoDismissButton')}
-        />
-      </BottomSheet>
-      <BottomSheet
-        forwardedRef={appFeeInfoBottomSheetRef}
-        description={t('swapScreen.transactionDetails.appFeeInfo', {
-          networkName: NETWORK_NAMES[fromToken?.networkId || networkConfig.defaultNetworkId],
-          context:
-            !appFee || fetchingSwapQuote
-              ? 'placeholder'
-              : appFee.percentage.isLessThanOrEqualTo(0)
-                ? 'free'
-                : undefined,
-          appFeePercentage: appFee?.percentage?.toFormat(),
-        })}
-        testId="AppFeeInfoBottomSheet"
-      >
-        <Button
-          type={BtnTypes.SECONDARY}
-          size={BtnSizes.FULL}
-          style={styles.bottomSheetButton}
-          onPress={() => {
-            appFeeInfoBottomSheetRef.current?.close()
-          }}
-          text={t('swapScreen.transactionDetails.appFeeInfoDismissButton')}
+          text={t('swapScreen.transactionDetails.infoDismissButton')}
         />
       </BottomSheet>
       <BottomSheet
@@ -1098,7 +1056,7 @@ export function SwapScreen({ route }: Props) {
           onPress={() => {
             slippageInfoBottomSheetRef.current?.close()
           }}
-          text={t('swapScreen.transactionDetails.networkFeeInfoDismissButton')}
+          text={t('swapScreen.transactionDetails.infoDismissButton')}
         />
       </BottomSheet>
       <Toast

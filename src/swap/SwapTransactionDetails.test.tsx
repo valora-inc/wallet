@@ -3,21 +3,20 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Provider } from 'react-redux'
 import SwapTransactionDetails from 'src/swap/SwapTransactionDetails'
+import { AppFeeAmount, SwapFeeAmount } from 'src/swap/types'
 import { createMockStore } from 'test/utils'
 import {
   mockCeloTokenBalance,
-  mockCeloTokenId,
+  mockCusdTokenBalance,
   mockCusdTokenId,
   mockTokenBalances,
 } from 'test/values'
 
 const defaultProps = {
-  networkFeeInfoBottomSheetRef: { current: null },
+  feeInfoBottomSheetRef: { current: null },
   slippageInfoBottomSheetRef: { current: null },
   exchangeRateInfoBottomSheetRef: { current: null },
-  appFeeInfoBottomSheetRef: { current: null },
   estimatedDurationBottomSheetRef: { current: null },
-  feeTokenId: 'someId',
   slippagePercentage: '0.5',
   fetchingSwapQuote: false,
 }
@@ -28,8 +27,6 @@ describe('SwapTransactionDetails', () => {
       <Provider store={createMockStore()}>
         <SwapTransactionDetails
           {...defaultProps}
-          maxNetworkFee={new BigNumber(0.0001)}
-          estimatedNetworkFee={new BigNumber(0.00005)}
           fromToken={{
             ...mockTokenBalances[mockCusdTokenId],
             lastKnownPriceUsd: null,
@@ -51,65 +48,24 @@ describe('SwapTransactionDetails', () => {
     expect(getByTestId('SwapTransactionDetails/ExchangeRate/MoreInfo')).not.toBeDisabled()
   })
 
-  it('should render correctly without the fromToken and fees', () => {
+  it('should render correctly on initial render with no user inputs', () => {
     const { getByText, getByTestId, queryByTestId } = render(
       <Provider store={createMockStore()}>
         <SwapTransactionDetails {...defaultProps} />
       </Provider>
     )
 
-    expect(getByText('swapScreen.transactionDetails.estimatedNetworkFee')).toBeTruthy()
-    expect(getByTestId('SwapTransactionDetails/EstimatedNetworkFee')).toHaveTextContent('-')
-    expect(queryByTestId('SwapTransactionDetails/EstimatedNetworkFee/MoreInfo')).toBeTruthy()
+    expect(getByText('swapScreen.transactionDetails.exchangeRate')).toBeTruthy()
+    expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent('-')
+    expect(queryByTestId('SwapTransactionDetails/ExchangeRate/MoreInfo')).toBeTruthy()
 
-    expect(getByText('swapScreen.transactionDetails.maxNetworkFee')).toBeTruthy()
-    expect(getByTestId('SwapTransactionDetails/MaxNetworkFee')).toHaveTextContent('-')
-    expect(queryByTestId('SwapTransactionDetails/MaxNetworkFee/MoreInfo')).toBeTruthy()
-  })
-
-  it('should render correctly with fees', () => {
-    const { getByText, getByTestId } = render(
-      <Provider store={createMockStore()}>
-        <SwapTransactionDetails
-          {...defaultProps}
-          maxNetworkFee={new BigNumber(0.0001)}
-          estimatedNetworkFee={new BigNumber(0.00005)}
-          feeTokenId={mockCeloTokenId}
-          fromToken={mockCeloTokenBalance}
-        />
-      </Provider>
-    )
-
-    expect(getByText('swapScreen.transactionDetails.estimatedNetworkFee')).toBeTruthy()
-    expect(getByTestId('SwapTransactionDetails/EstimatedNetworkFee')).toHaveTextContent(
-      '~₱0.00033 (0.00005 CELO)'
-    )
-    expect(getByTestId('SwapTransactionDetails/EstimatedNetworkFee/MoreInfo/Icon')).toBeTruthy()
-    expect(getByTestId('SwapTransactionDetails/EstimatedNetworkFee/MoreInfo')).not.toBeDisabled()
-
-    expect(getByText('swapScreen.transactionDetails.maxNetworkFee')).toBeTruthy()
-    expect(getByTestId('SwapTransactionDetails/MaxNetworkFee')).toHaveTextContent('0.0001 CELO')
-    expect(getByTestId('SwapTransactionDetails/MaxNetworkFee/MoreInfo/Icon')).toBeTruthy()
-    expect(getByTestId('SwapTransactionDetails/MaxNetworkFee/MoreInfo')).not.toBeDisabled()
-  })
-
-  it('should render correctly with slippage info', () => {
-    const { getByText, getByTestId } = render(
-      <Provider store={createMockStore()}>
-        <SwapTransactionDetails
-          {...defaultProps}
-          maxNetworkFee={new BigNumber(0.0001)}
-          estimatedNetworkFee={new BigNumber(0.00005)}
-          feeTokenId={mockCeloTokenId}
-          fromToken={mockCeloTokenBalance}
-        />
-      </Provider>
-    )
+    expect(getByText('swapScreen.transactionDetails.fees')).toBeTruthy()
+    expect(getByTestId('SwapTransactionDetails/Fees')).toHaveTextContent('-')
+    expect(queryByTestId('SwapTransactionDetails/Fees/MoreInfo')).toBeTruthy()
 
     expect(getByText('swapScreen.transactionDetails.slippagePercentage')).toBeTruthy()
     expect(getByTestId('SwapTransactionDetails/Slippage')).toHaveTextContent('0.5%')
-    expect(getByTestId('SwapTransactionDetails/Slippage/MoreInfo/Icon')).toBeTruthy()
-    expect(getByTestId('SwapTransactionDetails/Slippage/MoreInfo')).not.toBeDisabled()
+    expect(queryByTestId('SwapTransactionDetails/Slippage/MoreInfo')).toBeTruthy()
   })
 
   it('should render correctly with estimated duration', () => {
@@ -125,99 +81,114 @@ describe('SwapTransactionDetails', () => {
     ).toBeTruthy()
   })
 
-  it('should render correctly when app fee is >= 0 and token has USD price', () => {
-    const { getByText, getByTestId } = render(
-      <Provider store={createMockStore()}>
-        <SwapTransactionDetails
-          {...defaultProps}
-          maxNetworkFee={new BigNumber(0.0001)}
-          estimatedNetworkFee={new BigNumber(0.00005)}
-          appFee={{
-            amount: new BigNumber(0.02),
-            token: mockCeloTokenBalance,
-            percentage: new BigNumber(7.7),
-          }}
-          feeTokenId={mockCeloTokenId}
-          fromToken={mockCeloTokenBalance}
-        />
-      </Provider>
+  describe('total fees', () => {
+    const mockNetworkFee: SwapFeeAmount = {
+      amount: new BigNumber(0.01),
+      token: mockCusdTokenBalance,
+      maxAmount: new BigNumber(0.02),
+    }
+    const mockCrossChainFee: SwapFeeAmount = {
+      amount: new BigNumber(1.3),
+      token: mockCeloTokenBalance,
+      maxAmount: new BigNumber(1.7),
+    }
+    const mockAppFee: AppFeeAmount = {
+      amount: new BigNumber(0.07),
+      token: mockCeloTokenBalance,
+      percentage: new BigNumber(0.6),
+    }
+
+    // the fee components are calculated from the mock fee objects. the
+    // calculation is amount * token price usd * local currency exchange rate
+    // (1.33).
+    // expectedNetworkFeeInLocalCurrency = 0.01 * 1.001 * 1.33 = 0.0133133
+    // expectedCrossChainFeeInLocalCurrency = 1.3 * 0.5 * 1.33 = 0.8645
+    // expectedAppFeeInLocalCurrency = 0.07 * 0.5 * 1.33 = 0.04655
+
+    it.each`
+      feeName            | feeValue
+      ${'networkFee'}    | ${{ ...mockNetworkFee, token: undefined }}
+      ${'appFee'}        | ${{ ...mockAppFee, token: undefined }}
+      ${'crossChainFee'} | ${{ ...mockCrossChainFee, token: undefined }}
+    `(
+      'should render a fallback message if the $feeName token info is missing',
+      ({ feeName, feeValue }) => {
+        const testProps = { [feeName]: feeValue }
+        const { getByTestId } = render(
+          <Provider store={createMockStore()}>
+            <SwapTransactionDetails
+              {...defaultProps}
+              crossChainFee={mockCrossChainFee}
+              networkFee={mockNetworkFee}
+              appFee={mockAppFee}
+              {...testProps}
+            />
+          </Provider>
+        )
+
+        expect(getByTestId('SwapTransactionDetails/Fees')).toHaveTextContent(
+          'swapScreen.transactionDetails.feesCalculationError'
+        )
+      }
     )
 
-    expect(getByText('swapScreen.transactionDetails.appFee')).toBeTruthy()
-    // Content is a bit weird to read here because of the way we render translations in tests
-    expect(getByTestId('SwapTransactionDetails/AppFee')).toHaveTextContent(
-      'swapScreen.transactionDetails.appFeeValue, {"appFeePercentage":"7.7"}~₱0.130.02 CELO'
-    )
-  })
+    it('should render the total fees in fiat', () => {
+      const { getByTestId } = render(
+        <Provider store={createMockStore()}>
+          <SwapTransactionDetails
+            {...defaultProps}
+            networkFee={mockNetworkFee}
+            appFee={mockAppFee}
+            crossChainFee={mockCrossChainFee}
+          />
+        </Provider>
+      )
 
-  it('should render correctly when app fee is >= 0 and token has no USD price', () => {
-    const { getByText, getByTestId } = render(
-      <Provider store={createMockStore()}>
-        <SwapTransactionDetails
-          {...defaultProps}
-          maxNetworkFee={new BigNumber(0.0001)}
-          estimatedNetworkFee={new BigNumber(0.00005)}
-          appFee={{
-            amount: new BigNumber(0.02),
-            token: { ...mockCeloTokenBalance, priceUsd: null },
-            percentage: new BigNumber(7.7),
-          }}
-          feeTokenId={mockCeloTokenId}
-          fromToken={mockCeloTokenBalance}
-        />
-      </Provider>
-    )
+      expect(getByTestId('SwapTransactionDetails/Fees')).toHaveTextContent('≈ ₱0.92')
+    })
 
-    expect(getByText('swapScreen.transactionDetails.appFee')).toBeTruthy()
-    // Content is a bit weird to read here because of the way we render translations in tests
-    expect(getByTestId('SwapTransactionDetails/AppFee')).toHaveTextContent(
-      'swapScreen.transactionDetails.appFeeValue, {"context":"withoutPriceUsd","appFeePercentage":"7.7"}0.02 CELO'
-    )
-  })
+    it('should render the total fees with fiat and token values when priceUsd is missing', () => {
+      const { getByTestId } = render(
+        <Provider store={createMockStore()}>
+          <SwapTransactionDetails
+            {...defaultProps}
+            networkFee={mockNetworkFee}
+            appFee={{
+              ...mockAppFee,
+              token: {
+                ...mockCeloTokenBalance,
+                priceUsd: null,
+              },
+            }}
+          />
+        </Provider>
+      )
 
-  it('should render correctly when app fee is 0', () => {
-    const { getByText, getByTestId } = render(
-      <Provider store={createMockStore()}>
-        <SwapTransactionDetails
-          {...defaultProps}
-          maxNetworkFee={new BigNumber(0.0001)}
-          estimatedNetworkFee={new BigNumber(0.00005)}
-          appFee={{
-            amount: new BigNumber(0),
-            token: mockCeloTokenBalance,
-            percentage: new BigNumber(0),
-          }}
-          feeTokenId={mockCeloTokenId}
-          fromToken={mockCeloTokenBalance}
-        />
-      </Provider>
-    )
+      expect(getByTestId('SwapTransactionDetails/Fees')).toHaveTextContent('≈ ₱0.013 + 0.07 CELO')
+    })
 
-    expect(getByText('swapScreen.transactionDetails.appFee')).toBeTruthy()
-    // Content is a bit weird to read here because of the way we render translations in tests
-    expect(getByTestId('SwapTransactionDetails/AppFee')).toHaveTextContent(
-      'swapScreen.transactionDetails.appFeeValue, {"context":"free","appFeePercentage":"0"}~₱0.000.00 CELO'
-    )
-  })
+    it.each`
+      feeName            | expectedTotalFee
+      ${'appFee'}        | ${`≈ ₱0.88`}
+      ${'crossChainFee'} | ${`≈ ₱0.06`}
+    `(
+      'should render the total fees when the $feeName is undefined',
+      ({ feeName, expectedTotalFee }) => {
+        const testProps = { [feeName]: undefined }
+        const { getByTestId } = render(
+          <Provider store={createMockStore()}>
+            <SwapTransactionDetails
+              {...defaultProps}
+              crossChainFee={mockCrossChainFee}
+              networkFee={mockNetworkFee}
+              appFee={mockAppFee}
+              {...testProps}
+            />
+          </Provider>
+        )
 
-  it('should render correctly when app fee is undefined', () => {
-    const { getByText, getByTestId } = render(
-      <Provider store={createMockStore()}>
-        <SwapTransactionDetails
-          {...defaultProps}
-          maxNetworkFee={new BigNumber(0.0001)}
-          estimatedNetworkFee={new BigNumber(0.00005)}
-          appFee={undefined}
-          feeTokenId={mockCeloTokenId}
-          fromToken={mockCeloTokenBalance}
-        />
-      </Provider>
-    )
-
-    expect(getByText('swapScreen.transactionDetails.appFee')).toBeTruthy()
-    // Content is a bit weird to read here because of the way we render translations in tests
-    expect(getByTestId('SwapTransactionDetails/AppFee')).toHaveTextContent(
-      'swapScreen.transactionDetails.appFeeValue, {"context":"placeholder","appFeePercentage":"0"}'
+        expect(getByTestId('SwapTransactionDetails/Fees')).toHaveTextContent(expectedTotalFee)
+      }
     )
   })
 })
