@@ -271,7 +271,7 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.cab_issue_valora_keyshare_start]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_valora_keyshare_success]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_valora_keyshare_error]: CommonKeylessBackupProps
-  [KeylessBackupEvents.cab_progress_completed_continue]: undefined
+  [KeylessBackupEvents.cab_progress_completed_continue]: { origin: KeylessBackupOrigin }
   [KeylessBackupEvents.cab_progress_failed_later]: undefined
   [KeylessBackupEvents.cab_progress_failed_manual]: { origin: KeylessBackupOrigin }
   [KeylessBackupEvents.cab_progress_failed_skip_onboarding]: undefined

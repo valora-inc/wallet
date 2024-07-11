@@ -307,7 +307,7 @@ function Setup({ origin }: { origin: KeylessBackupOrigin }) {
   const isOnboarding = origin === KeylessBackupOrigin.Onboarding
 
   const onPressContinue = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_progress_completed_continue)
+    ValoraAnalytics.track(KeylessBackupEvents.cab_progress_completed_continue, { origin })
     isOnboarding
       ? goToNextOnboardingScreen({
           onboardingProps,
