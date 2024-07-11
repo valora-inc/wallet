@@ -278,8 +278,6 @@ function KeylessBackupSetupContainer({
   isOnboarding: boolean
   title: string
   subtitle: string
-  step: number
-  totalSteps: number
   children: React.ReactNode
 }) {
   return (
@@ -354,8 +352,6 @@ function Setup({ origin }: { origin: KeylessBackupOrigin }) {
           isOnboarding={isOnboarding}
           title={t('keylessBackupStatus.setup.inProgress.title')}
           subtitle={t('registrationSteps', { step, totalSteps })}
-          step={step}
-          totalSteps={totalSteps}
         >
           <ScrollView contentContainerStyle={styles.bodyContainer}>
             <View style={iconMarginTop}>
@@ -374,8 +370,6 @@ function Setup({ origin }: { origin: KeylessBackupOrigin }) {
           isOnboarding={isOnboarding}
           title={t('keylessBackupStatus.setup.completed.title')}
           subtitle={t('registrationSteps', { step, totalSteps })}
-          step={step}
-          totalSteps={totalSteps}
         >
           <ScrollView contentContainerStyle={styles.bodyContainer}>
             <View style={iconMarginTop}>
@@ -404,8 +398,6 @@ function Setup({ origin }: { origin: KeylessBackupOrigin }) {
           isOnboarding={isOnboarding}
           title={t('keylessBackupStatus.setup.failed.title')}
           subtitle={t('registrationSteps', { step, totalSteps })}
-          step={step}
-          totalSteps={totalSteps}
         >
           <ScrollView contentContainerStyle={styles.bodyContainer}>
             <View style={iconMarginTop}>
