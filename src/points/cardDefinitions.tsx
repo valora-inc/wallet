@@ -1,13 +1,16 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { ClaimHistoryCardItem, CreateLiveLinkClaimHistory } from 'src/points/types'
 import Celebration from 'src/icons/Celebration'
 import SwapArrows from 'src/icons/SwapArrows'
-import { ClaimHistoryCardItem } from 'src/points/types'
+import MagicWand from 'src/icons/MagicWand'
+import { useTranslation } from 'react-i18next'
 import { useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
+import { TokenBalances } from 'src/tokens/slice'
+import { TFunction } from 'i18next'
 
 const TAG = 'Points/cardDefinitions'
 
@@ -18,6 +21,30 @@ export interface HistoryCardMetadata {
   pointsAmount: number
 }
 
+function getCreateLiveLinkHistorySubtitle(
+  history: Omit<CreateLiveLinkClaimHistory, 'createdAt'>,
+  tokensById: TokenBalances,
+  t: TFunction
+): string | undefined {
+  const liveLinkType = history.metadata.liveLinkType
+  switch (liveLinkType) {
+    case 'erc20': {
+      const token = tokensById[history.metadata.tokenId]
+      if (!token) {
+        Logger.error(TAG, `Cannot find token ${history.metadata.tokenId}`)
+        return
+      }
+      return t('points.history.cards.createLiveLink.subtitle.erc20', { tokenSymbol: token.symbol })
+    }
+    case 'erc721': {
+      return t('points.history.cards.createLiveLink.subtitle.erc721')
+    }
+    default: {
+      const exhaustiveCheck: never = liveLinkType
+      return exhaustiveCheck
+    }
+  }
+}
 export function useGetHistoryDefinition(): (
   history: ClaimHistoryCardItem
 ) => HistoryCardMetadata | undefined {
@@ -50,6 +77,19 @@ export function useGetHistoryDefinition(): (
             fromToken: fromToken.symbol,
             toToken: toToken.symbol,
           }),
+          pointsAmount: history.pointsAmount,
+        }
+      }
+      case 'create-live-link': {
+        const subtitle = getCreateLiveLinkHistorySubtitle(history, tokensById, t)
+        if (!subtitle) {
+          Logger.error(TAG, `Cannot generate subtitle, skipping`)
+          return
+        }
+        return {
+          icon: <MagicWand />,
+          title: t('points.history.cards.createLiveLink.title'),
+          subtitle,
           pointsAmount: history.pointsAmount,
         }
       }

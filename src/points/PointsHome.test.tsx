@@ -23,6 +23,9 @@ const renderPointsHome = (storeOverrides?: RecursivePartial<RootState>) => {
             swap: {
               pointsAmount: 50,
             },
+            'create-live-link': {
+              pointsAmount: 50,
+            },
             'create-wallet': {
               pointsAmount: 20,
             },
