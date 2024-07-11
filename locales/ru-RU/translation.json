@@ -2324,6 +2324,13 @@
         "swap": {
           "title": "Обмен",
           "subtitle": "{{fromToken}} в {{toToken}}"
+        },
+        "createLiveLink": {
+          "title": "Прямая ссылка",
+          "subtitle": {
+            "erc20": "Отправлено {{tokenSymbol}}",
+            "erc721": "Отправленный NFT"
+          }
         }
       },
       "title": "Моя активность по набору баллов",
@@ -2383,6 +2390,14 @@
       },
       "moreComing": {
         "title": "Скоро появятся новые возможности!"
+      },
+      "createLiveLink": {
+        "title": "Отправить по прямой ссылке",
+        "bottomSheet": {
+          "title": "Отправить по прямой ссылке",
+          "body": "Earn {{pointsValue}} points every time you send funds using a Live Link in {{appName}}. \n\nTap below to start sending and earning!",
+          "cta": "Отправить по прямой ссылке"
+        }
       }
     },
     "discoverCard": {
