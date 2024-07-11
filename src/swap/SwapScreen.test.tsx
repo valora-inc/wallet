@@ -1341,12 +1341,6 @@ describe('SwapScreen', () => {
       cUSDBalance: '10',
     })
 
-    const transactionDetails = getByTestId('SwapTransactionDetails')
-    expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.fee')
-    expect(getByTestId('SwapTransactionDetails/Fees')).toHaveTextContent('-')
-    expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.slippagePercentage')
-    expect(getByTestId('SwapTransactionDetails/Slippage')).toHaveTextContent('0.3%')
-
     selectSwapTokens('CELO', 'cUSD', swapScreen)
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '2')
 
@@ -1354,8 +1348,12 @@ describe('SwapScreen', () => {
       jest.runOnlyPendingTimers()
     })
 
+    const transactionDetails = getByTestId('SwapTransactionDetails')
+    expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.fee')
     // matches mocked value (0.015 CELO) provided to estimateFeesPerGas, estimateGas, and gas in defaultQuoteResponse
     expect(getByTestId('SwapTransactionDetails/Fees')).toHaveTextContent('≈ ₱0.25')
+    expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.slippagePercentage')
+    expect(getByTestId('SwapTransactionDetails/Slippage')).toHaveTextContent('0.3%')
   })
 
   it('should disable the confirm button after a swap has been submitted', async () => {
@@ -1494,7 +1492,7 @@ describe('SwapScreen', () => {
     expect(queryByTestId('MaxSwapAmountWarning')).toBeFalsy()
 
     // Check the quote is cleared
-    expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent('-')
+    expect(queryByTestId('SwapTransactionDetails/ExchangeRate')).toBeFalsy()
 
     // Disabled, until the user selects a token from the same network
     expect(getByText('swapScreen.confirmSwap')).toBeDisabled()
