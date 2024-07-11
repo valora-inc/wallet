@@ -303,7 +303,6 @@ function Setup({ origin }: { origin: KeylessBackupOrigin }) {
     paddingBottom: Math.max(0, 40 - bottom),
   }
 
-  const navigatedFromSettings = origin === KeylessBackupOrigin.Settings
   const isOnboarding = origin === KeylessBackupOrigin.Onboarding
 
   const onPressContinue = () => {
@@ -411,30 +410,26 @@ function Setup({ origin }: { origin: KeylessBackupOrigin }) {
           <View style={[styles.buttonContainer, insetsStyle]}>
             <Button
               testID={
-                navigatedFromSettings
-                  ? 'KeylessBackupProgress/Later'
-                  : 'KeylessBackupProgress/ManualOnboarding'
+                isOnboarding
+                  ? 'KeylessBackupProgress/ManualOnboarding'
+                  : 'KeylessBackupProgress/Later'
               }
-              onPress={navigatedFromSettings ? onPressLater : onPressManualOnboarding}
+              onPress={isOnboarding ? onPressManualOnboarding : onPressLater}
               text={t(
-                navigatedFromSettings
-                  ? 'keylessBackupStatus.setup.failed.later'
-                  : 'keylessBackupStatus.setup.failed.manual'
+                isOnboarding
+                  ? 'keylessBackupStatus.setup.failed.manual'
+                  : 'keylessBackupStatus.setup.failed.later'
               )}
               size={BtnSizes.FULL}
               type={BtnTypes.PRIMARY}
             />
             <Button
-              testID={
-                navigatedFromSettings
-                  ? 'KeylessBackupProgress/Manual'
-                  : 'KeylessBackupProgress/Skip'
-              }
-              onPress={navigatedFromSettings ? onPressManual : onPressSkip}
+              testID={isOnboarding ? 'KeylessBackupProgress/Skip' : 'KeylessBackupProgress/Manual'}
+              onPress={isOnboarding ? onPressSkip : onPressManual}
               text={t(
-                navigatedFromSettings
-                  ? 'keylessBackupStatus.setup.failed.manual'
-                  : 'keylessBackupStatus.setup.failed.skip'
+                isOnboarding
+                  ? 'keylessBackupStatus.setup.failed.skip'
+                  : 'keylessBackupStatus.setup.failed.manual'
               )}
               size={BtnSizes.FULL}
               type={BtnTypes.SECONDARY}
