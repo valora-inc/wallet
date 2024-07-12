@@ -27,7 +27,7 @@ import {
 } from 'src/onboarding/steps'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.OnboardingRecoveryPhrase>
@@ -88,8 +88,7 @@ function OnboardingRecoveryPhrase({ navigation, route }: Props) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.contentContainer}>
-        <Text style={styles.recoveryPhraseTitle}>{t('recoveryPhrase.title')}</Text>
-        <Text style={styles.recoveryPhraseBody}>{t('recoveryPhrase.body')}</Text>
+        <Text style={styles.recoveryPhraseTitle}>{t('recoveryPhrase.titleV1_90')}</Text>
         <BackupPhraseContainer
           readOnlyStyle={styles.backupPhrase}
           value={accountKey}
@@ -97,6 +96,7 @@ function OnboardingRecoveryPhrase({ navigation, route }: Props) {
           type={BackupPhraseType.BACKUP_KEY}
           includeHeader={false}
         />
+        <Text style={styles.recoveryPhraseBody}>{t('recoveryPhrase.bodyV1_90')}</Text>
         <View style={styles.bottomSection}>
           <TextButton
             style={styles.copyButtonStyle}
@@ -104,7 +104,7 @@ function OnboardingRecoveryPhrase({ navigation, route }: Props) {
             testID={'protectWalletCopy'}
           >
             <View style={styles.copyIconStyle}>
-              <CopyIcon color={colors.successDark} />
+              <CopyIcon color={colors.black} />
             </View>
             {t('recoveryPhrase.copy')}
           </TextButton>
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'center',
     paddingBottom: 30,
-    color: colors.successDark,
+    color: colors.black,
   },
   buttonStyle: {
     marginTop: 37,
@@ -193,14 +193,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   recoveryPhraseBody: {
-    textAlign: 'center',
-    marginTop: 16,
-    ...fontStyles.regular,
-    paddingBottom: 20,
+    marginTop: 28,
+    ...typeScale.labelSmall,
   },
   recoveryPhraseTitle: {
-    textAlign: 'center',
     marginTop: 36,
-    ...fontStyles.h1,
+    marginBottom: 18,
+    ...typeScale.titleSmall,
   },
 })
