@@ -20,6 +20,7 @@ import { convertLocalToTokenAmount, getSupportedNetworkIdsForSend } from 'src/to
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { call, put, select } from 'typed-redux-saga'
+import { Address } from 'viem'
 
 export const COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE = ' '.repeat(MAX_ENCRYPTED_COMMENT_LENGTH_APPROX)
 
@@ -31,7 +32,7 @@ export function* handleSendPaymentData(
   cachedRecipient?: Recipient
 ) {
   const recipient: AddressRecipient = {
-    address: data.address.toLowerCase(),
+    address: data.address.toLowerCase() as Address,
     name: data.displayName || cachedRecipient?.name,
     e164PhoneNumber: data.e164PhoneNumber,
     displayNumber: cachedRecipient?.displayNumber,

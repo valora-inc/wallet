@@ -26,7 +26,7 @@ import {
   mockCusdTokenId,
   mockJumpstartAdddress,
 } from 'test/values'
-import { encodeFunctionData } from 'viem'
+import { Address, encodeFunctionData } from 'viem'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/statsig')
@@ -110,7 +110,7 @@ describe('JumpstartTransactionDetailsScreen', () => {
     status = TransactionStatus.Complete,
   }: {
     type: TokenTransactionTypeV2
-    address?: string
+    address?: Address
     amount?: TokenAmount
     metadata?: TokenTransferMetadata
     fees?: Fee[]

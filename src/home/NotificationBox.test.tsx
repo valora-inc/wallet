@@ -17,6 +17,7 @@ import {
   mockE164NumberPepper,
   mockTokenBalances,
 } from 'test/values'
+import { Address } from 'viem'
 
 const TWO_DAYS_MS = 2 * 24 * 60 * 1000
 const BACKUP_TIME = new Date().getTime() - TWO_DAYS_MS
@@ -86,7 +87,7 @@ const storeDataNotificationsDisabled = {
 
 const superchargeSetUp = {
   web3: {
-    account: 'account',
+    account: '0xabc' as Address,
   },
   app: {
     phoneNumberVerified: true,

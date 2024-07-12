@@ -34,6 +34,7 @@ import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { buildTxo } from 'src/web3/utils'
 import { all, call, put, select, spawn, takeEvery, takeLatest } from 'typed-redux-saga'
+import { Address } from 'viem'
 
 const TAG = 'SuperchargeRewardsClaimer'
 export const SUPERCHARGE_FETCH_TIMEOUT = 45_000
@@ -51,9 +52,9 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
     Logger.debug(TAG, `Starting to claim ${rewards.length} rewards with baseNonce: ${baseNonce}`)
 
     let receivedRewards: {
-      fundsSource: string
+      fundsSource: Address
       amount: string
-      tokenAddress: string
+      tokenAddress: Address
       txHash: string
     }[] = []
 
@@ -61,9 +62,9 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
       receivedRewards = (yield* all(
         rewards.map((reward, index) => call(claimReward, reward, index, baseNonce))
       )) as {
-        fundsSource: string
+        fundsSource: Address
         amount: string
-        tokenAddress: string
+        tokenAddress: Address
         txHash: string
       }[]
     }

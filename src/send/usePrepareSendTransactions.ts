@@ -9,6 +9,7 @@ import {
   prepareSendNativeAssetTransaction,
   prepareTransferWithCommentTransaction,
 } from 'src/viem/prepareTransactions'
+import { Address } from 'viem'
 
 const TAG = 'src/send/usePrepareSendTransactions'
 
@@ -22,8 +23,8 @@ export async function prepareSendTransactionsCallback({
 }: {
   amount: BigNumber
   token: TokenBalance
-  recipientAddress: string
-  walletAddress: string
+  recipientAddress: Address
+  walletAddress: Address
   feeCurrencies: TokenBalance[]
   comment?: string
 }) {

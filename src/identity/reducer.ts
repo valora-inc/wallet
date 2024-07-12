@@ -4,13 +4,14 @@ import { Actions as AccountActions, ClearStoredAccountAction } from 'src/account
 import { ActionTypes, Actions } from 'src/identity/actions'
 import { ImportContactsStatus } from 'src/identity/types'
 import { REHYDRATE, getRehydratePayload } from 'src/redux/persist-helper'
+import { Address } from 'viem'
 
 export interface AddressToE164NumberType {
-  [address: string]: string | null
+  [address: Address]: string | null
 }
 
 export interface E164NumberToAddressType {
-  [e164PhoneNumber: string]: string[] | null | undefined // null means unverified
+  [e164PhoneNumber: string]: Address[] | null | undefined // null means unverified
 }
 
 export interface E164NumberToSaltType {
@@ -22,7 +23,7 @@ export interface IdentifierToE164NumberType {
 }
 
 export interface AddressToDataEncryptionKeyType {
-  [address: string]: string | null // null means no DEK registered
+  [address: Address]: string | null // null means no DEK registered
 }
 
 export interface AddressInfoToDisplay {
@@ -35,11 +36,11 @@ export interface AddressInfoToDisplay {
 // This mapping is just for storing provider info from firebase
 // other known recipient should be stored in the valoraRecipientCache
 export interface AddressToDisplayNameType {
-  [address: string]: AddressInfoToDisplay | undefined
+  [address: Address]: AddressInfoToDisplay | undefined
 }
 
 export interface WalletToAccountAddressType {
-  [address: string]: string
+  [address: Address]: string
 }
 
 export interface ImportContactProgress {
@@ -59,7 +60,7 @@ export interface SecureSendPhoneNumberMapping {
 }
 
 export interface SecureSendDetails {
-  address?: string
+  address?: Address
   addressValidationType: AddressValidationType
   isFetchingAddresses?: boolean
   lastFetchSuccessful?: boolean

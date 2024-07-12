@@ -380,8 +380,8 @@ export function getAddressFromPhoneNumber(
   e164Number: string,
   e164NumberToAddress: E164NumberToAddressType,
   secureSendPhoneNumberMapping: SecureSendPhoneNumberMapping,
-  requesterAddress?: string
-): string | null | undefined {
+  requesterAddress?: Address
+): Address | null | undefined {
   const addresses = e164NumberToAddress[e164Number]
 
   // If there are no verified addresses for the number,

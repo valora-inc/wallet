@@ -43,7 +43,7 @@ const TAG = 'tokens/TokenImport'
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenImport>
 
 interface TokenDetails {
-  address: string
+  address: Address
   symbol: string
   decimals: number
   name: string

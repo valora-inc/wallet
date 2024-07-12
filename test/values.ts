@@ -62,13 +62,14 @@ import {
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import networkConfig from 'src/web3/networkConfig'
+import { Address } from 'viem'
 
 export const nullAddress = '0x0'
 
 export const mockName = 'John Doe'
-export const mockAccount = '0x0000000000000000000000000000000000007E57'
-export const mockAccount2 = '0x1Ff482D42D8727258A1686102Fa4ba925C46Bc42'
-export const mockAccount3 = '0x1230000000000000000000000000000000007E57'
+export const mockAccount: Address = '0x0000000000000000000000000000000000007E57'
+export const mockAccount2: Address = '0x1Ff482D42D8727258A1686102Fa4ba925C46Bc42'
+export const mockAccount3: Address = '0x1230000000000000000000000000000000007E57'
 
 export const mockMnemonic =
   'prosper winner find donate tape history measure umbrella agent patrol want rhythm old unable wash wrong need fluid hammer coach reveal plastic trust lake'
@@ -122,16 +123,20 @@ export const mockAccount2Invite = '0x8e1Df47B7064D005Ef071a89D0D7dc8634BC8A9C'
 export const mockAccountInvite2PrivKey =
   '0xb33eac631fd3a415f3738649db8cad57da78b99ec92cd8f77b76b5dae2ebdf27'
 
-export const mockCusdAddress = '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'.toLowerCase()
-export const mockCeurAddress = '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F'.toLowerCase()
-export const mockCeloAddress = '0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9'.toLowerCase()
-export const mockPoofAddress = '0x00400FcbF0816bebB94654259de7273f4A05c762'.toLowerCase()
-export const mockTestTokenAddress = '0x048F47d358EC521a6cf384461d674750a3cB58C8'.toLowerCase()
-export const mockCrealAddress = '0xE4D517785D091D3c54818832dB6094bcc2744545'.toLowerCase()
-export const mockWBTCAddress = '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599'.toLowerCase()
-export const mockUSDCAddress = '0x94a9d9ac8a22534e3faca9f4e7f2e2cf85d5e4c8'.toLowerCase()
-export const mockAaveArbUsdcAddress = '0x460b97BD498E1157530AEb3086301d5225b91216'.toLowerCase()
-export const mockArbArbAddress = '0x912CE59144191C1204E64559FE8253a0e49E6548'.toLowerCase()
+export const mockCusdAddress = '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'.toLowerCase() as Address
+export const mockCeurAddress = '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F'.toLowerCase() as Address
+export const mockCeloAddress = '0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9'.toLowerCase() as Address
+export const mockPoofAddress = '0x00400FcbF0816bebB94654259de7273f4A05c762'.toLowerCase() as Address
+export const mockTestTokenAddress =
+  '0x048F47d358EC521a6cf384461d674750a3cB58C8'.toLowerCase() as Address
+export const mockCrealAddress =
+  '0xE4D517785D091D3c54818832dB6094bcc2744545'.toLowerCase() as Address
+export const mockWBTCAddress = '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599'.toLowerCase() as Address
+export const mockUSDCAddress = '0x94a9d9ac8a22534e3faca9f4e7f2e2cf85d5e4c8'.toLowerCase() as Address
+export const mockAaveArbUsdcAddress =
+  '0x460b97BD498E1157530AEb3086301d5225b91216'.toLowerCase() as Address
+export const mockArbArbAddress =
+  '0x912CE59144191C1204E64559FE8253a0e49E6548'.toLowerCase() as Address
 
 export const mockCusdTokenId = `celo-alfajores:${mockCusdAddress}`
 export const mockCeurTokenId = `celo-alfajores:${mockCeurAddress}`
@@ -308,9 +313,9 @@ export const mockAddressToE164Number: AddressToE164NumberType = {
 }
 
 export const mockE164NumberToAddress: E164NumberToAddressType = {
-  [mockE164Number]: [mockAccount.toLowerCase()],
-  [mockE164NumberInvite]: [mockAccountInvite.toLowerCase()],
-  [mockE164Number2Invite]: [mockAccount2Invite.toLowerCase()],
+  [mockE164Number]: [mockAccount.toLowerCase() as Address],
+  [mockE164NumberInvite]: [mockAccountInvite.toLowerCase() as Address],
+  [mockE164Number2Invite]: [mockAccount2Invite.toLowerCase() as Address],
 }
 
 export const mockContactWithPhone: MinimalContact = {
@@ -406,7 +411,7 @@ export const mockUriData: UriData[] = [
 ]
 
 export const mockQRCodeRecipient: AddressRecipient = {
-  address: mockUriData[3].address.toLowerCase(),
+  address: mockUriData[3].address.toLowerCase() as Address,
   displayNumber: mockUriData[3].e164PhoneNumber,
   name: mockUriData[3].displayName,
   e164PhoneNumber: mockUriData[3].e164PhoneNumber,
@@ -1929,4 +1934,4 @@ export const mockStoreRewardReayWithDifferentNft = {
   },
 }
 
-export const mockJumpstartAdddress = '0x7BF3fefE9881127553D23a8Cd225a2c2442c438C'
+export const mockJumpstartAdddress: Address = '0x7BF3fefE9881127553D23a8Cd225a2c2442c438C'

@@ -42,6 +42,7 @@ import colors from 'src/styles/colors'
 import { fontStyles, typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
+import { Address } from 'viem'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SendSelectRecipient>
 
@@ -245,7 +246,7 @@ function SendSelectRecipient({ route }: Props) {
 
   const nextScreen = (selectedRecipient: Recipient) => {
     // use the address from the recipient object
-    let address: string | null | undefined = selectedRecipient.address
+    let address: Address | undefined | null = selectedRecipient.address
 
     // if not present there must be a phone number, route through secure send or get
     // the secure send mapped address
@@ -263,7 +264,7 @@ function SendSelectRecipient({ route }: Props) {
         })
         return
       }
-      address = getAddressFromPhoneNumber(
+      const testaddress = getAddressFromPhoneNumber(
         selectedRecipient.e164PhoneNumber,
         e164NumberToAddress,
         secureSendPhoneNumberMapping,

@@ -46,6 +46,7 @@ import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { call, put, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
 import * as utf8 from 'utf8'
+import { Address } from 'viem'
 
 export const TAG = 'send/saga'
 
@@ -102,9 +103,9 @@ export function* buildSendTx(
  */
 export function* buildAndSendPayment(
   context: TransactionContext,
-  recipientAddress: string,
+  recipientAddress: Address,
   amount: BigNumber,
-  tokenAddress: string,
+  tokenAddress: Address,
   comment: string,
   feeInfo: FeeInfo
 ) {

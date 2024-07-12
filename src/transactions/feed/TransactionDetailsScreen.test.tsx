@@ -48,6 +48,7 @@ import {
   mockEarnDepositTransaction,
   mockEarnWithdrawTransaction,
 } from 'test/values'
+import { Address } from 'viem'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/statsig')
@@ -107,7 +108,7 @@ describe('TransactionDetailsScreen', () => {
     status = TransactionStatus.Complete,
   }: {
     type: TokenTransactionTypeV2
-    address?: string
+    address?: Address
     amount?: TokenAmount
     metadata?: TokenTransferMetadata
     fees?: Fee[]

@@ -26,6 +26,7 @@ import {
   mockEscrowedPayment,
   mockExpectedCleverTapInboxMessage,
 } from 'test/values'
+import { Address } from 'viem'
 
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
@@ -98,7 +99,7 @@ const storeDataNotificationsDisabled = {
 const superchargeSetUp = {
   ...storeDataNotificationsDisabled,
   web3: {
-    account: 'account',
+    account: '0xabc' as Address,
   },
   app: {
     phoneNumberVerified: true,
