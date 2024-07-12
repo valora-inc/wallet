@@ -1878,7 +1878,17 @@
       "estimatedTransactionTimeInfo": "完成交易的时间由提供商决定。\n\n如果您要在不同的链之间交换，交易完成的时间可能会稍长一些。",
       "infoDismissButton": "知道了",
       "fees": "费用",
-      "feesCalculationError": "无法计算费用"
+      "feesCalculationError": "无法计算费用",
+      "estimatedCrossChainFee": "跨链费用估算",
+      "maxCrossChainFee": "最大跨链费用",
+      "feesBreakdown": "细目",
+      "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
+      "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
+      "feesMoreInfoLabel": "更多信息",
+      "feesInfo_sameChain": "处理交易需要支付网络费，以确保安全性和可靠性。",
+      "feesInfo_crossChain": "处理交易需要支付网络费，以确保安全性和可靠性。提供商收取跨链费，以便在不同区块链之间进行顺畅、安全的交换。",
+      "feesInfo_sameChainWithAppFee": "处理交易需要支付网络费，以确保安全性和可靠性。 {{appName}} 费用为 {{appFeePercentage}}%，可确保快速、可靠和安全的交换，从而提升您的体验。",
+      "feesInfo_crossChainWithAppFee": "处理交易需要支付网络费，以确保安全性和可靠性。提供商会收取跨链费用，以便在不同区块链之间进行平稳、安全的交换。 {{appName}} 费用为 {{appFeePercentage}}%，可确保快速、可靠和安全的交换，从而提升您的体验。"
     },
     "fundYourWalletBottomSheet": {
       "title": "为您的钱包提供资金。",
