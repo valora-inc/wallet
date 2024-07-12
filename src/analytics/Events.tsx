@@ -95,9 +95,11 @@ export enum SettingsEvents {
 export enum KeylessBackupEvents {
   wallet_security_primer_get_started = 'wallet_security_primer_get_started',
   cab_setup_recovery_phrase = 'cab_setup_recovery_phrase',
+  cab_sign_in_another_way = 'cab_sign_in_another_way',
   cab_sign_in_with_google = 'cab_sign_in_with_google',
   cab_sign_in_with_google_success = 'cab_sign_in_with_google_success',
   cab_sign_in_with_email_screen_cancel = 'cab_sign_in_with_email_screen_cancel',
+  cab_sign_in_with_email_screen_skip = 'cab_sign_in_with_email_screen_skip',
   cab_get_torus_keyshare_failed = 'cab_get_torus_keyshare_failed',
   cab_enter_phone_number_continue = 'cab_enter_phone_number_continue',
   cab_enter_phone_number_cancel = 'cab_enter_phone_number_cancel',
@@ -533,7 +535,6 @@ export enum DappExplorerEvents {
   dapp_favorite = 'dapp_favorite',
   dapp_unfavorite = 'dapp_unfavorite',
   dapp_filter = 'dapp_filter',
-  dapp_rankings_open = 'dapp_rankings_open',
   dapp_explore_all = 'dapp_explore_all',
 }
 

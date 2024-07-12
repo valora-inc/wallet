@@ -467,7 +467,7 @@ const settingsScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen
       name={Screens.SignInWithEmail}
-      options={SignInWithEmail.navigationOptions}
+      options={noHeader}
       component={SignInWithEmail}
     />
     <Navigator.Screen

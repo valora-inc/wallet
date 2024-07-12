@@ -1,6 +1,7 @@
 import { NetworkId } from 'src/transactions/types'
+import { Address, Hash } from 'viem'
 
-const pointsActivities = ['create-wallet', 'swap'] as const
+const pointsActivities = ['create-wallet', 'swap', 'create-live-link'] as const
 export type PointsActivityId = (typeof pointsActivities)[number]
 
 export function isPointsActivityId(activity: unknown): activity is PointsActivityId {
@@ -23,8 +24,11 @@ export interface BottomSheetParams extends PointsActivity {
   }
 }
 
-const claimActivities = ['create-wallet', 'swap'] as const
+const claimActivities = ['create-wallet', 'swap', 'create-live-link'] as const
 type ClaimActivityId = (typeof claimActivities)[number]
+
+const liveLinkTypes = ['erc20', 'erc721'] as const
+type LiveLinkType = (typeof liveLinkTypes)[number]
 
 export function isClaimActivityId(activity: unknown): activity is ClaimActivityId {
   return typeof activity === 'string' && claimActivities.includes(activity as ClaimActivityId)
@@ -46,8 +50,28 @@ type SwapClaimHistory = BaseClaimHistory & {
     from: string
   }
 }
+type BaseCreateLiveLinkClaimHistory = BaseClaimHistory & {
+  activityId: 'create-live-link'
+  metadata: {
+    liveLinkType: LiveLinkType
+  }
+}
+type Erc20CreateLiveLinkClaimHistory = BaseCreateLiveLinkClaimHistory & {
+  metadata: {
+    liveLinkType: 'erc20'
+    tokenId: string
+  }
+}
+type Erc721CreateLiveLinkClaimHistory = BaseCreateLiveLinkClaimHistory & {
+  metadata: {
+    liveLinkType: 'erc721'
+  }
+}
+export type CreateLiveLinkClaimHistory =
+  | Erc20CreateLiveLinkClaimHistory
+  | Erc721CreateLiveLinkClaimHistory
 
-export type ClaimHistory = CreateWalletClaimHistory | SwapClaimHistory
+export type ClaimHistory = CreateWalletClaimHistory | SwapClaimHistory | CreateLiveLinkClaimHistory
 
 // See https://stackoverflow.com/questions/59794474/omitting-a-shared-property-from-a-union-type-of-objects-results-in-error-when-us
 type DistributiveOmit<T, K extends keyof any> = T extends any ? Omit<T, K> : never
@@ -77,4 +101,26 @@ interface PointsEventSwap {
   fromTokenId: string
 }
 
-export type PointsEvent = PointsEventCreateWallet | PointsEventSwap
+interface PointsEventBaseCreateLiveLink {
+  activityId: 'create-live-link'
+  liveLinkType: LiveLinkType
+  beneficiaryAddress: Address
+  transactionHash: Hash
+  networkId: NetworkId
+}
+
+type PointsEventErc20CreateLiveLink = PointsEventBaseCreateLiveLink & {
+  liveLinkType: 'erc20'
+  tokenId: string
+  amount: string
+}
+
+type PointsEventErc721CreateLiveLink = PointsEventBaseCreateLiveLink & {
+  liveLinkType: 'erc721'
+  tokenAddress: Address
+  erc721TokenId: string
+}
+
+type PointsEventCreateLiveLink = PointsEventErc20CreateLiveLink | PointsEventErc721CreateLiveLink
+
+export type PointsEvent = PointsEventCreateWallet | PointsEventSwap | PointsEventCreateLiveLink

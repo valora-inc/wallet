@@ -54,7 +54,10 @@ function FilterChipsCarousel<T>({
       scrollEnabled={scrollEnabled}
       showsHorizontalScrollIndicator={false}
       style={[styles.container, style]}
-      contentContainerStyle={[styles.contentContainer, { width: scrollEnabled ? 'auto' : '100%' }]}
+      contentContainerStyle={[
+        styles.contentContainer,
+        { flexWrap: scrollEnabled ? 'nowrap' : 'wrap', width: scrollEnabled ? 'auto' : '100%' },
+      ]}
       ref={forwardedRef}
       testID="FilterChipsCarousel"
     >
@@ -108,7 +111,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingHorizontal: Spacing.Thick24,
     gap: Spacing.Smallest8,
-    flexWrap: 'wrap',
   },
   filterChipBackground: {
     overflow: 'hidden',
