@@ -144,6 +144,41 @@ describe('SwapTransactionDetails', () => {
       expect(getByTestId('SwapTransactionDetails/Fees')).toHaveTextContent('≈ ₱0.013 + 0.07 CELO')
     })
 
+    it('should render the total fees in only token values when all priceUsd is missing', () => {
+      const { getByTestId } = render(
+        <Provider store={createMockStore()}>
+          <SwapTransactionDetails
+            {...defaultProps}
+            networkFee={{
+              ...mockNetworkFee,
+              token: {
+                ...mockCusdTokenBalance,
+                priceUsd: null,
+              },
+            }}
+            appFee={{
+              ...mockAppFee,
+              token: {
+                ...mockCeloTokenBalance,
+                priceUsd: null,
+              },
+            }}
+            crossChainFee={{
+              ...mockCrossChainFee,
+              token: {
+                ...mockCeloTokenBalance,
+                priceUsd: null,
+              },
+            }}
+          />
+        </Provider>
+      )
+
+      expect(getByTestId('SwapTransactionDetails/Fees')).toHaveTextContent(
+        '≈ 1.37 CELO + 0.01 cUSD'
+      )
+    })
+
     it.each`
       feeName            | expectedTotalFee
       ${'appFee'}        | ${`≈ ₱0.88`}
