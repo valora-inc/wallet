@@ -936,6 +936,7 @@
     "header": "Przywróć portfel",
     "title": "Wprowadź frazę odzyskiwania",
     "description": "Użyj zapisanej frazy składającej się z 12 lub 24 słów podczas konfigurowania przywracania portfela.",
+    "descriptionV1_90": "Twoja fraza odzyskiwania to 12- lub 24-wyrazowa fraza, którą zapisałeś i zachowałeś podczas konfigurowania portfela. Wprowadź ją tutaj, aby przywrócić swój portfel.",
     "emptyWalletDialog": {
       "description": "W tym portfelu nie ma żadnych środków. Czy nadal chcesz z niego korzystać?",
       "action": "Użyj Portfela",
@@ -2324,6 +2325,13 @@
         "swap": {
           "title": "Zamieniaj",
           "subtitle": "{{fromToken}} do {{toToken}}"
+        },
+        "createLiveLink": {
+          "title": "Aktywny link",
+          "subtitle": {
+            "erc20": "Wysłano {{tokenSymbol}}",
+            "erc721": "Wysłane NFT"
+          }
         }
       },
       "title": "Moja aktywność w zakresie punktów",
@@ -2383,6 +2391,14 @@
       },
       "moreComing": {
         "title": "Więcej już wkrótce!"
+      },
+      "createLiveLink": {
+        "title": "Wyślij za pomocą aktywnego linku",
+        "bottomSheet": {
+          "title": "Wyślij za pomocą aktywnego linku",
+          "body": "Zdobywaj punkty {{pointsValue}} za każdym razem, gdy wysyłasz środki za pomocą Live Link w {{appName}}. \n\nKliknij poniżej, aby zacząć wysyłać i zarabiać!",
+          "cta": "Wyślij za pomocą aktywnego linku"
+        }
       }
     },
     "discoverCard": {

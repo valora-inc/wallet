@@ -936,6 +936,7 @@
     "header": "Wallet wiederherstellen",
     "title": "Gib deine Recovery Phrase ein",
     "description": "Verwende die 12- oder 24-Wort-Phrase, die du beim Einrichten deiner Wallet gespeichert hast, um sie wiederherzustellen.",
+    "descriptionV1_90": "Deine Wiederherstellungsphrase ist eine Phrase mit 12 oder 24 Wörtern, die du bei der Einrichtung deiner Geldbörse aufgeschrieben und gespeichert hast. Bitte gib sie hier ein, um deine Brieftasche wiederherzustellen.",
     "emptyWalletDialog": {
       "description": "Diese Wallet hat kein Guthaben. Möchtest du es trotzdem verwenden?",
       "action": "Wallet benutzen",
@@ -2320,6 +2321,13 @@
         "swap": {
           "title": "Tauschen",
           "subtitle": "{{fromToken}} zu {{toToken}}"
+        },
+        "createLiveLink": {
+          "title": "Live-Link",
+          "subtitle": {
+            "erc20": "Gesendet {{tokenSymbol}}",
+            "erc721": "Gesendetes NFT"
+          }
         }
       },
       "title": "Meine Punkteaktivität",
@@ -2379,6 +2387,14 @@
       },
       "moreComing": {
         "title": "Mehr dazu demnächst!"
+      },
+      "createLiveLink": {
+        "title": "Mit einem Live-Link senden",
+        "bottomSheet": {
+          "title": "Mit einem Live-Link senden",
+          "body": "Verdiene jedes Mal {{pointsValue}} Punkte, wenn du über einen Live Link auf {{appName}}Geld versendest. \n\nTippe unten, um mit dem Senden und Sammeln zu beginnen!",
+          "cta": "Mit einem Live-Link senden"
+        }
       }
     },
     "discoverCard": {

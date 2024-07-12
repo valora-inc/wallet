@@ -936,6 +936,7 @@
     "header": "Cüzdan Yeniden Kur",
     "title": "Kurtarma ifadenizi girin",
     "description": "Geri yüklemek için cüzdanınızı ayarlarken kaydettiğiniz 12 veya 24 kelimelik ifadeyi kullanın.",
+    "descriptionV1_90": "Kurtarma İfadeniz, cüzdanınızı kurarken yazdığınız ve kaydettiğiniz 12 veya 24 kelimelik bir ifadedir. Cüzdanınızı geri yüklemek için lütfen buraya girin.",
     "emptyWalletDialog": {
       "description": "Bu cüzdanda hiç bakiye yok. Yine de kullanmak ister misiniz?",
       "action": "Cüzdan Kullan",
@@ -2320,6 +2321,13 @@
         "swap": {
           "title": "Swap",
           "subtitle": "{{fromToken}} - {{toToken}}"
+        },
+        "createLiveLink": {
+          "title": "Canlı Bağlantı",
+          "subtitle": {
+            "erc20": "Gönderildi {{tokenSymbol}}",
+            "erc721": "Gönderilen NFT"
+          }
         }
       },
       "title": "Puan faaliyetim",
@@ -2379,6 +2387,14 @@
       },
       "moreComing": {
         "title": "Daha fazlası yakında!"
+      },
+      "createLiveLink": {
+        "title": "Canlı Bağlantı ile Gönder",
+        "bottomSheet": {
+          "title": "Canlı Bağlantı ile Gönder",
+          "body": "{{appName}}adresindeki bir Canlı Bağlantı kullanarak her para gönderdiğinizde {{pointsValue}} puan kazanın. \n\nGöndermeye ve kazanmaya başlamak için aşağıya dokunun!",
+          "cta": "Canlı Bağlantı ile Gönder"
+        }
       }
     },
     "discoverCard": {

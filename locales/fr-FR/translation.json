@@ -936,6 +936,7 @@
     "header": "Restaurer un wallet",
     "title": "Saisissez votre phrase de récupération",
     "description": "Utilisez la phrase de 12 ou 24 mots que vous avez enregistrée lorsque vous avez configuré votre wallet pour le restaurer.",
+    "descriptionV1_90": "Ta phrase de récupération est une phrase de 12 ou 24 mots que tu as écrite et sauvegardée lorsque tu as configuré ton portefeuille. Saisis-la ici pour restaurer ton portefeuille.",
     "emptyWalletDialog": {
       "description": "Ce wallet n'a pas de fonds. Voulez-vous l'utiliser ?",
       "action": "Utiliser le wallet",
@@ -2320,6 +2321,13 @@
         "swap": {
           "title": "Échange",
           "subtitle": "{{fromToken}} > {{toToken}}"
+        },
+        "createLiveLink": {
+          "title": "Lien direct",
+          "subtitle": {
+            "erc20": "Envoyé {{tokenSymbol}}",
+            "erc721": "NFT envoyé"
+          }
         }
       },
       "title": "Mes actions ponctuées",
@@ -2379,6 +2387,14 @@
       },
       "moreComing": {
         "title": "Plus d'informations bientôt !"
+      },
+      "createLiveLink": {
+        "title": "Envoyer avec un lien direct",
+        "bottomSheet": {
+          "title": "Envoyer avec un lien direct",
+          "body": "Gagne {{pointsValue}} points chaque fois que tu envoies des fonds en utilisant un Live Link sur {{appName}}. \n\nTape ci-dessous pour commencer à envoyer et à gagner !",
+          "cta": "Envoyer avec un lien direct"
+        }
       }
     },
     "discoverCard": {
