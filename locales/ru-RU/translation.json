@@ -1882,7 +1882,9 @@
       "estimatedTransactionTime": "Примерное время транзакции",
       "estimatedTransactionTimeInMinutes": "≈ {{minutes}} мин.",
       "estimatedTransactionTimeInfo": "Время завершения транзакции определяется провайдером.\n\nЕсли ты меняешься между разными цепочками, то транзакция может занять немного больше времени.",
-      "infoDismissButton": "Понятно"
+      "infoDismissButton": "Понятно",
+      "fees": "Комиссия",
+      "feesCalculationError": "Невозможно рассчитать плату"
     },
     "fundYourWalletBottomSheet": {
       "title": "Пополните свой кошелек",
