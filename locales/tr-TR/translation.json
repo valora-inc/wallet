@@ -1867,12 +1867,18 @@
       "networkFeeInfo": "{{networkName}} Ağında swap işlemi yapıyorsunuz.\n\nBu tahmini ağ ücreti, {{networkName}} Ağında bir işlem gerçekleştirmek için gereklidir. Bu ücret işleminizi güvence altına alır ve ağın çalışır durumda kalmasını sağlar.",
       "networkFeeInfoV1_76": "{{networkName}} Ağında takas yapıyorsunuz.\n\n{{networkName}} Ağında işlem gerçekleştirmek için bir ağ ücreti gereklidir. Bu ücret işleminizi güvence altına alır ve ağ doğrulayıcılarına ödenir.\n\nAğ koşulları kesin tutarı belirlediğinden, listelenen tahmin, gerçek ücretin ne olmasını beklediğimizdir. Ücret, maksimum ücret tutarını aşmayacaktır.",
       "slippageToleranceInfo": "Slipaj toleransı\n\nSwap işleminiz slipaj toleransı yüzdesi dahilinde gerçekleşecektir. Fiyat slipaj toleransından fazla değişirse {{appName}} işlemin gerçekleşmesini engelleyerek sizi korur.",
+      "slippageToleranceInfoV1_90": "Takas işleminiz kayma toleransı yüzdesi dahilinde gerçekleşecektir. Fiyat kayma toleransından daha fazla değişirse, {{appName}} işlemin gerçekleşmesini engelleyerek sizi korur.",
       "networkFeeInfoDismissButton": "Anladım",
       "exchangeRate": "Döviz Kuru",
-      "exchangeRateInfo": "Kur\n\nSizin için en iyi kuru bulduk. İşleminiz, tahminin %{{slippagePercentage}} oranı dahilinde bir fiyatla tamamlanacak veya işlem iptal edilecek ve fonlar cüzdanınıza iade edilecektir.",
+      "exchangeRateInfo": "Döviz Kuru\n\nSizin için en iyi döviz kurunu bulduk. İşleminiz tahmin edilenin % {{slippagePercentage}}içinde bir fiyatla tamamlanacak veya işlem iptal edilecek ve paranız cüzdanınıza iade edilecektir.",
+      "exchangeRateInfoV1_90": "Sizin için en iyi döviz kurunu bulduk. İşleminiz tahmin edilenin % {{slippagePercentage}}içinde bir fiyatla tamamlanacak veya işlem iptal edilecek ve paranız cüzdanınıza iade edilecektir.",
       "exchangeRateInfo_withAppFee": "Kur\n\nSizin için en iyi kuru bulduk. İşleminiz, tahminin %{{slippagePercentage}} oranı dahilinde bir fiyatla tamamlanacak veya işlem iptal edilecek ve fonlar cüzdanınıza iade edilecektir.\n\nTahmini kura %{{appFeePercentage}} oranında {{appName}} ücreti dahildir.",
       "exchangeRateInfoDismissButton": "Anladım",
-      "estimatedValue": "Tahmini Değer"
+      "estimatedValue": "Tahmini Değer",
+      "estimatedTransactionTime": "Tahmini İşlem Süresi",
+      "estimatedTransactionTimeInMinutes": "≈ {{minutes}} dk",
+      "estimatedTransactionTimeInfo": "İşlemin tamamlanma süresi sağlayıcı tarafından belirlenir.\n\nFarklı zincirler arasında geçiş yapıyorsanız, işlemin tamamlanması biraz daha uzun sürebilir.",
+      "infoDismissButton": "Anladım"
     },
     "fundYourWalletBottomSheet": {
       "title": "Cüzdanınıza fon ekleyin",
