@@ -1876,7 +1876,9 @@
       "estimatedTransactionTime": "预计交易时间",
       "estimatedTransactionTimeInMinutes": "≈ {{minutes}} min",
       "estimatedTransactionTimeInfo": "完成交易的时间由提供商决定。\n\n如果您要在不同的链之间交换，交易完成的时间可能会稍长一些。",
-      "infoDismissButton": "知道了"
+      "infoDismissButton": "知道了",
+      "fees": "费用",
+      "feesCalculationError": "无法计算费用"
     },
     "fundYourWalletBottomSheet": {
       "title": "为您的钱包提供资金。",
