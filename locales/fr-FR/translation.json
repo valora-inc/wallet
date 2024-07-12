@@ -1880,7 +1880,17 @@
       "estimatedTransactionTimeInfo": "Le temps nécessaire pour effectuer la transaction est déterminé par le fournisseur.\n\nSi tu effectues un échange entre différentes chaînes, la transaction pourrait prendre un peu plus de temps.",
       "infoDismissButton": "J'ai compris",
       "fees": "Frais",
-      "feesCalculationError": "Impossible de calculer les frais"
+      "feesCalculationError": "Impossible de calculer les frais",
+      "estimatedCrossChainFee": "Estimation des frais de la chaîne croisée",
+      "maxCrossChainFee": "Frais maximums de la chaîne croisée",
+      "feesBreakdown": "Répartition",
+      "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
+      "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
+      "feesMoreInfoLabel": "Plus d'informations",
+      "feesInfo_sameChain": "Des frais de réseau sont exigés pour traiter la transaction, ce qui garantit la sécurité et la fiabilité.",
+      "feesInfo_crossChain": "Des frais de réseau sont exigés pour traiter la transaction, ce qui garantit la sécurité et la fiabilité. Des frais inter-chaînes sont facturés par le fournisseur pour permettre des échanges fluides et sécurisés entre différentes blockchains.",
+      "feesInfo_sameChainWithAppFee": "Des frais de réseau sont exigés pour traiter la transaction, ce qui garantit la sécurité et la fiabilité. Les frais de {{appName}} de {{appFeePercentage}}% améliorent ton expérience en garantissant des échanges rapides, fiables et sécurisés.",
+      "feesInfo_crossChainWithAppFee": "Des frais de réseau sont exigés pour traiter la transaction, ce qui garantit la sécurité et la fiabilité. Des frais inter-chaînes sont facturés par le fournisseur pour permettre des échanges fluides et sécurisés entre différentes blockchains. Les frais de {{appName}} de {{appFeePercentage}}% améliorent ton expérience en garantissant des échanges rapides, fiables et sécurisés."
     },
     "fundYourWalletBottomSheet": {
       "title": "Approvisionner votre portefeuille",
