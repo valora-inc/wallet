@@ -1878,7 +1878,9 @@
       "estimatedTransactionTime": "Tiempo estimado de la transacción",
       "estimatedTransactionTimeInMinutes": "≈ {{minutes}} min",
       "estimatedTransactionTimeInfo": "El tiempo para completar la transacción lo determina el proveedor.\n\nSi estás intercambiando entre diferentes cadenas, la transacción podría tardar un poco más en completarse.",
-      "infoDismissButton": "Entendido"
+      "infoDismissButton": "Entendido",
+      "fees": "Tarifas",
+      "feesCalculationError": "No se pueden calcular las tasas"
     },
     "fundYourWalletBottomSheet": {
       "title": "Agregar fondos a tu billetera",
