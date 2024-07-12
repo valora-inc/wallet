@@ -1882,7 +1882,9 @@
       "estimatedTransactionTime": "Орієнтовний час транзакції",
       "estimatedTransactionTimeInMinutes": "≈ {{minutes}} хв",
       "estimatedTransactionTimeInfo": "Час виконання транзакції визначається провайдером.\n\nЯкщо ви обмінюєтесь між різними мережами, транзакція може зайняти трохи більше часу.",
-      "infoDismissButton": "Зрозуміло"
+      "infoDismissButton": "Зрозуміло",
+      "fees": "Комісії",
+      "feesCalculationError": "Неможливо розрахувати комісію"
     },
     "fundYourWalletBottomSheet": {
       "title": "Поповніть свій гаманець",
