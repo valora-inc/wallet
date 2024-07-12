@@ -256,19 +256,22 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.cab_sign_in_another_way]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_sign_in_with_google]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_sign_in_with_google_success]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_sign_in_with_email_screen_back]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_sign_in_with_email_screen_cancel]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_sign_in_with_email_screen_skip]: CommonKeylessBackupProps
-  [KeylessBackupEvents.cab_enter_phone_number_continue]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_enter_phone_number_back]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_enter_phone_number_cancel]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_enter_phone_number_continue]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_intro_continue]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_sms_code_start]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_sms_code_success]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_sms_code_error]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_enter_phone_code_back]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_enter_phone_code_cancel]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_valora_keyshare_start]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_valora_keyshare_success]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_valora_keyshare_error]: CommonKeylessBackupProps
-  [KeylessBackupEvents.cab_progress_completed_continue]: undefined
+  [KeylessBackupEvents.cab_progress_completed_continue]: { origin: KeylessBackupOrigin }
   [KeylessBackupEvents.cab_progress_failed_later]: undefined
   [KeylessBackupEvents.cab_progress_failed_manual]: { origin: KeylessBackupOrigin }
   [KeylessBackupEvents.cab_progress_failed_skip_onboarding]: undefined
