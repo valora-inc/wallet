@@ -1878,7 +1878,17 @@
       "estimatedTransactionTimeInfo": "The time to complete the transaction is determined by the provider.\n\nIf you are swapping between different chains, the transaction could take a bit longer to complete.",
       "infoDismissButton": "Đã hiểu",
       "fees": "Phí",
-      "feesCalculationError": "Unable to calculate fees"
+      "feesCalculationError": "Unable to calculate fees",
+      "estimatedCrossChainFee": "Estimated cross-chain fees",
+      "maxCrossChainFee": "Max cross-chain fees",
+      "feesBreakdown": "Breakdown",
+      "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
+      "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
+      "feesMoreInfoLabel": "More information",
+      "feesInfo_sameChain": "A network fee is required to process the transaction, ensuring security and reliability.",
+      "feesInfo_crossChain": "A network fee is required to process the transaction, ensuring security and reliability. A cross-chain fee is charged by the provider to enable smooth and secure exchanges between different blockchains.",
+      "feesInfo_sameChainWithAppFee": "A network fee is required to process the transaction, ensuring security and reliability. The {{appName}} fee of {{appFeePercentage}}% enhances your experience by ensuring fast, reliable, and secure swaps.",
+      "feesInfo_crossChainWithAppFee": "A network fee is required to process the transaction, ensuring security and reliability. A cross-chain fee is charged by the provider to enable smooth and secure exchanges between different blockchains. The {{appName}} fee of {{appFeePercentage}}% enhances your experience by ensuring fast, reliable, and secure swaps."
     },
     "fundYourWalletBottomSheet": {
       "title": "Nạp tiền vào ví của bạn",
