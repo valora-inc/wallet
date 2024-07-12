@@ -11,20 +11,25 @@ import {
   mockTokenBalances,
 } from 'test/values'
 
+const defaultProps = {
+  networkFeeInfoBottomSheetRef: { current: null },
+  slippageInfoBottomSheetRef: { current: null },
+  exchangeRateInfoBottomSheetRef: { current: null },
+  appFeeInfoBottomSheetRef: { current: null },
+  estimatedDurationBottomSheetRef: { current: null },
+  feeTokenId: 'someId',
+  slippagePercentage: '0.5',
+  fetchingSwapQuote: false,
+}
+
 describe('SwapTransactionDetails', () => {
   it('should render the correct exchange rate and estimated value', () => {
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore()}>
         <SwapTransactionDetails
+          {...defaultProps}
           maxNetworkFee={new BigNumber(0.0001)}
           estimatedNetworkFee={new BigNumber(0.00005)}
-          networkFeeInfoBottomSheetRef={{ current: null }}
-          slippageInfoBottomSheetRef={{ current: null }}
-          exchangeRateInfoBottomSheetRef={{ current: null }}
-          appFeeInfoBottomSheetRef={{ current: null }}
-          feeTokenId={'someId'}
-          slippagePercentage={'0.5'}
-          fetchingSwapQuote={false}
           fromToken={{
             ...mockTokenBalances[mockCusdTokenId],
             lastKnownPriceUsd: null,
@@ -49,15 +54,7 @@ describe('SwapTransactionDetails', () => {
   it('should render correctly without the fromToken and fees', () => {
     const { getByText, getByTestId, queryByTestId } = render(
       <Provider store={createMockStore()}>
-        <SwapTransactionDetails
-          networkFeeInfoBottomSheetRef={{ current: null }}
-          slippageInfoBottomSheetRef={{ current: null }}
-          exchangeRateInfoBottomSheetRef={{ current: null }}
-          appFeeInfoBottomSheetRef={{ current: null }}
-          feeTokenId={'someId'}
-          slippagePercentage={'0.5'}
-          fetchingSwapQuote={false}
-        />
+        <SwapTransactionDetails {...defaultProps} />
       </Provider>
     )
 
@@ -74,16 +71,11 @@ describe('SwapTransactionDetails', () => {
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore()}>
         <SwapTransactionDetails
+          {...defaultProps}
           maxNetworkFee={new BigNumber(0.0001)}
           estimatedNetworkFee={new BigNumber(0.00005)}
-          networkFeeInfoBottomSheetRef={{ current: null }}
-          slippageInfoBottomSheetRef={{ current: null }}
-          exchangeRateInfoBottomSheetRef={{ current: null }}
-          appFeeInfoBottomSheetRef={{ current: null }}
           feeTokenId={mockCeloTokenId}
-          slippagePercentage={'0.5'}
           fromToken={mockCeloTokenBalance}
-          fetchingSwapQuote={false}
         />
       </Provider>
     )
@@ -105,16 +97,11 @@ describe('SwapTransactionDetails', () => {
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore()}>
         <SwapTransactionDetails
+          {...defaultProps}
           maxNetworkFee={new BigNumber(0.0001)}
           estimatedNetworkFee={new BigNumber(0.00005)}
-          networkFeeInfoBottomSheetRef={{ current: null }}
-          slippageInfoBottomSheetRef={{ current: null }}
-          exchangeRateInfoBottomSheetRef={{ current: null }}
-          appFeeInfoBottomSheetRef={{ current: null }}
           feeTokenId={mockCeloTokenId}
-          slippagePercentage={'0.5'}
           fromToken={mockCeloTokenBalance}
-          fetchingSwapQuote={false}
         />
       </Provider>
     )
@@ -125,25 +112,33 @@ describe('SwapTransactionDetails', () => {
     expect(getByTestId('SwapTransactionDetails/Slippage/MoreInfo')).not.toBeDisabled()
   })
 
+  it('should render correctly with estimated duration', () => {
+    const { getByText } = render(
+      <Provider store={createMockStore()}>
+        <SwapTransactionDetails {...defaultProps} estimatedDurationInSeconds={800} />
+      </Provider>
+    )
+
+    expect(getByText('swapScreen.transactionDetails.estimatedTransactionTime')).toBeTruthy()
+    expect(
+      getByText('swapScreen.transactionDetails.estimatedTransactionTimeInMinutes, {"minutes":14}')
+    ).toBeTruthy()
+  })
+
   it('should render correctly when app fee is >= 0 and token has USD price', () => {
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore()}>
         <SwapTransactionDetails
+          {...defaultProps}
           maxNetworkFee={new BigNumber(0.0001)}
           estimatedNetworkFee={new BigNumber(0.00005)}
-          networkFeeInfoBottomSheetRef={{ current: null }}
-          slippageInfoBottomSheetRef={{ current: null }}
-          exchangeRateInfoBottomSheetRef={{ current: null }}
-          appFeeInfoBottomSheetRef={{ current: null }}
           appFee={{
             amount: new BigNumber(0.02),
             token: mockCeloTokenBalance,
             percentage: new BigNumber(7.7),
           }}
           feeTokenId={mockCeloTokenId}
-          slippagePercentage={'0.5'}
           fromToken={mockCeloTokenBalance}
-          fetchingSwapQuote={false}
         />
       </Provider>
     )
@@ -159,21 +154,16 @@ describe('SwapTransactionDetails', () => {
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore()}>
         <SwapTransactionDetails
+          {...defaultProps}
           maxNetworkFee={new BigNumber(0.0001)}
           estimatedNetworkFee={new BigNumber(0.00005)}
-          networkFeeInfoBottomSheetRef={{ current: null }}
-          slippageInfoBottomSheetRef={{ current: null }}
-          exchangeRateInfoBottomSheetRef={{ current: null }}
-          appFeeInfoBottomSheetRef={{ current: null }}
           appFee={{
             amount: new BigNumber(0.02),
             token: { ...mockCeloTokenBalance, priceUsd: null },
             percentage: new BigNumber(7.7),
           }}
           feeTokenId={mockCeloTokenId}
-          slippagePercentage={'0.5'}
           fromToken={mockCeloTokenBalance}
-          fetchingSwapQuote={false}
         />
       </Provider>
     )
@@ -189,21 +179,16 @@ describe('SwapTransactionDetails', () => {
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore()}>
         <SwapTransactionDetails
+          {...defaultProps}
           maxNetworkFee={new BigNumber(0.0001)}
           estimatedNetworkFee={new BigNumber(0.00005)}
-          networkFeeInfoBottomSheetRef={{ current: null }}
-          slippageInfoBottomSheetRef={{ current: null }}
-          exchangeRateInfoBottomSheetRef={{ current: null }}
-          appFeeInfoBottomSheetRef={{ current: null }}
           appFee={{
             amount: new BigNumber(0),
             token: mockCeloTokenBalance,
             percentage: new BigNumber(0),
           }}
           feeTokenId={mockCeloTokenId}
-          slippagePercentage={'0.5'}
           fromToken={mockCeloTokenBalance}
-          fetchingSwapQuote={false}
         />
       </Provider>
     )
@@ -219,17 +204,12 @@ describe('SwapTransactionDetails', () => {
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore()}>
         <SwapTransactionDetails
+          {...defaultProps}
           maxNetworkFee={new BigNumber(0.0001)}
           estimatedNetworkFee={new BigNumber(0.00005)}
-          networkFeeInfoBottomSheetRef={{ current: null }}
-          slippageInfoBottomSheetRef={{ current: null }}
-          exchangeRateInfoBottomSheetRef={{ current: null }}
-          appFeeInfoBottomSheetRef={{ current: null }}
           appFee={undefined}
           feeTokenId={mockCeloTokenId}
-          slippagePercentage={'0.5'}
           fromToken={mockCeloTokenBalance}
-          fetchingSwapQuote={false}
         />
       </Provider>
     )
