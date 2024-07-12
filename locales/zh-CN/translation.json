@@ -29,6 +29,7 @@
   "dataSaver": "数据保护模式",
   "enableDataSaver": "启用数据保护模式",
   "dataSaverDetail": "数据保护模式允许您通过可信节点与网络通信。您可以随时在应用程序设置中更改该模式。",
+  "keylessBackupSetupTitle": "创建登录",
   "keylessBackupSettingsTitle": "电子邮件和电话备份",
   "keylessBackupSettingsDeleteError": "您的备份无法删除，请稍后再试。",
   "setup": "设置",
@@ -102,9 +103,16 @@
   },
   "signInWithEmail": {
     "title": "使用电子邮件登录",
-    "subtitle": "使用您的电子邮件登录，以将其设置为备份。\n\n如果您的钱包丢失，系统将提示您重新登录。",
+    "subtitle": "使用电子邮件登录，将其设置为备份。如果您丢失了钱包，系统会提示您再次登录。",
     "subtitleRestore": "使用您用来设置钱包备份的电子邮件登录。",
-    "google": "使用 Google 登录"
+    "google": "使用 Google 登录",
+    "signInAnotherWay": "以其他方式签名",
+    "bottomSheet": {
+      "title": "保存恢复短语以创建钱包",
+      "description": "我们将很快支持其他电子邮件提供商，但在此期间，您必须保存恢复短语才能完成钱包创建。",
+      "continue": "继续",
+      "skip": "跳过（不推荐）"
+    }
   },
   "keylessBackupPhoneInput": {
     "setup": {
@@ -928,6 +936,7 @@
     "header": "恢复钱包",
     "title": "输入您的恢复短语",
     "description": "使用您在设置钱包时保存的 12 或 24 字短语进行恢复。",
+    "descriptionV1_90": "您的恢复短语是您在设置钱包时写下并保存的 12 或 24 个字的短语。请在此输入该短语以恢复钱包。",
     "emptyWalletDialog": {
       "description": "此钱包内没有任何资金。您仍要使用它吗？",
       "action": "使用钱包",
@@ -2310,6 +2319,13 @@
         "swap": {
           "title": "交换",
           "subtitle": "{{fromToken}} 至 {{toToken}}"
+        },
+        "createLiveLink": {
+          "title": "实时链接",
+          "subtitle": {
+            "erc20": "发送至 {{tokenSymbol}}",
+            "erc721": "发出的 NFT"
+          }
         }
       },
       "title": "我的积分活动",
@@ -2369,6 +2385,14 @@
       },
       "moreComing": {
         "title": "更多内容即将推出！"
+      },
+      "createLiveLink": {
+        "title": "通过实时链接发送",
+        "bottomSheet": {
+          "title": "通过实时链接发送",
+          "body": "每次使用 {{appName}}中的实时链接发送资金，都可赚取 {{pointsValue}} 积分。 \n\n点击下面的链接开始发送并赚取积分！",
+          "cta": "通过实时链接发送"
+        }
       }
     },
     "discoverCard": {

@@ -19,6 +19,7 @@ import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSeri
 import { ActionRequestProps } from 'src/walletConnect/screens/ActionRequest'
 import { SessionRequestProps } from 'src/walletConnect/screens/SessionRequest'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
+import { Address } from 'viem'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -55,7 +56,8 @@ export type StackParamList = {
   [Screens.AccountKeyEducation]:
     | undefined
     | {
-        nextScreen: keyof StackParamList
+        nextScreen?: keyof StackParamList
+        origin?: 'cabOnboarding'
       }
   [Screens.AccounSetupFailureScreen]: undefined
   [Screens.BackupPhrase]: { isAccountRemoval?: boolean } | undefined
@@ -209,7 +211,11 @@ export type StackParamList = {
   [Screens.PointsHome]: undefined
   [Screens.PointsIntro]: undefined
   [Screens.ProtectWallet]: undefined
-  [Screens.OnboardingRecoveryPhrase]: undefined
+  [Screens.OnboardingRecoveryPhrase]:
+    | {
+        origin?: 'cabOnboarding'
+      }
+    | undefined
   [Screens.Profile]: undefined
   [Screens.ProfileMenu]: undefined
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
@@ -248,6 +254,7 @@ export type StackParamList = {
     sendAmount: string
     tokenId: string
     serializablePreparedTransactions: SerializableTransactionRequest[]
+    beneficiaryAddress: Address
   }
   [Screens.JumpstartShareLink]: {
     link: string

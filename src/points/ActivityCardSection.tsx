@@ -11,6 +11,7 @@ import { BottomSheetParams, PointsActivity } from 'src/points/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import MagicWand from 'src/icons/MagicWand'
 
 interface Props {
   pointsActivities: PointsActivity[]
@@ -44,6 +45,26 @@ export default function ActivityCardSection({ pointsActivities, onCardPress }: P
                 text: t('points.activityCards.swap.bottomSheet.cta'),
                 onPress: () => {
                   navigate(Screens.SwapScreenWithBack)
+                },
+              },
+            }),
+        }
+      case 'create-live-link':
+        return {
+          ...activity,
+          title: t('points.activityCards.createLiveLink.title'),
+          icon: <MagicWand color={Colors.black} />,
+          onPress: () =>
+            onCardPress({
+              ...activity,
+              title: t('points.activityCards.createLiveLink.bottomSheet.title'),
+              body: t('points.activityCards.createLiveLink.bottomSheet.body', {
+                pointsValue: activity.pointsAmount,
+              }),
+              cta: {
+                text: t('points.activityCards.createLiveLink.bottomSheet.cta'),
+                onPress: () => {
+                  navigate(Screens.JumpstartEnterAmount)
                 },
               },
             }),
