@@ -1878,7 +1878,9 @@
       "estimatedTransactionTime": "Durée estimée de la transaction",
       "estimatedTransactionTimeInMinutes": "≈ {{minutes}} min",
       "estimatedTransactionTimeInfo": "Le temps nécessaire pour effectuer la transaction est déterminé par le fournisseur.\n\nSi tu effectues un échange entre différentes chaînes, la transaction pourrait prendre un peu plus de temps.",
-      "infoDismissButton": "J'ai compris"
+      "infoDismissButton": "J'ai compris",
+      "fees": "Frais",
+      "feesCalculationError": "Impossible de calculer les frais"
     },
     "fundYourWalletBottomSheet": {
       "title": "Approvisionner votre portefeuille",
