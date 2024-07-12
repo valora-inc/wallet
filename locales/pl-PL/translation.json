@@ -1882,7 +1882,9 @@
       "estimatedTransactionTime": "Szacowany czas transakcji",
       "estimatedTransactionTimeInMinutes": "≈ {{minutes}} min",
       "estimatedTransactionTimeInfo": "Czas ukończenia transakcji jest określany przez dostawcę.\n\nJeśli wymieniasz się między różnymi łańcuchami, transakcja może potrwać nieco dłużej.",
-      "infoDismissButton": "Rozumiem"
+      "infoDismissButton": "Rozumiem",
+      "fees": "Opłaty",
+      "feesCalculationError": "Brak możliwości obliczenia opłat"
     },
     "fundYourWalletBottomSheet": {
       "title": "Zasil swój portfel",
