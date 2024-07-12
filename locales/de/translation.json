@@ -1880,7 +1880,17 @@
       "estimatedTransactionTimeInfo": "Die Zeit bis zum Abschluss der Transaktion wird vom Anbieter bestimmt.\n\nWenn du zwischen verschiedenen Ketten tauschst, kann es etwas länger dauern, bis die Transaktion abgeschlossen ist.",
       "infoDismissButton": "Verstanden",
       "fees": "Gebühren",
-      "feesCalculationError": "Gebühren können nicht berechnet werden"
+      "feesCalculationError": "Gebühren können nicht berechnet werden",
+      "estimatedCrossChainFee": "Geschätzte kettenübergreifende Gebühren",
+      "maxCrossChainFee": "Maximale kettenübergreifende Gebühren",
+      "feesBreakdown": "Panne",
+      "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
+      "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
+      "feesMoreInfoLabel": "Mehr Informationen",
+      "feesInfo_sameChain": "Für die Abwicklung der Transaktion ist eine Netzwerkgebühr erforderlich, die Sicherheit und Zuverlässigkeit gewährleistet.",
+      "feesInfo_crossChain": "Für die Abwicklung der Transaktion ist eine Netzwerkgebühr erforderlich, die Sicherheit und Zuverlässigkeit gewährleistet. Eine Cross-Chain-Gebühr wird vom Anbieter erhoben, um einen reibungslosen und sicheren Austausch zwischen verschiedenen Blockchains zu ermöglichen.",
+      "feesInfo_sameChainWithAppFee": "Für die Abwicklung der Transaktion ist eine Netzwerkgebühr erforderlich, die Sicherheit und Zuverlässigkeit gewährleistet. Die {{appName}} Gebühr von {{appFeePercentage}}sorgt für schnelle, zuverlässige und sichere Tauschvorgänge und verbessert so dein Erlebnis.",
+      "feesInfo_crossChainWithAppFee": "Für die Abwicklung der Transaktion ist eine Netzwerkgebühr erforderlich, die Sicherheit und Zuverlässigkeit gewährleistet. Eine Cross-Chain-Gebühr wird vom Anbieter erhoben, um einen reibungslosen und sicheren Austausch zwischen verschiedenen Blockchains zu ermöglichen. Die {{appName}} Gebühr von {{appFeePercentage}}sorgt für schnelle, zuverlässige und sichere Tauschvorgänge und verbessert so dein Erlebnis."
     },
     "fundYourWalletBottomSheet": {
       "title": "Deine Wallet aufladen",
