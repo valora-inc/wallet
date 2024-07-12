@@ -116,19 +116,21 @@ function LabelWithInfo({
 function ValueWithLoading({ value, isLoading }: { value: React.ReactNode; isLoading: boolean }) {
   return (
     <View style={styles.valueContainer}>
-      <Text style={[styles.value, { opacity: isLoading ? 0 : 1 }]}>{value}</Text>
-      {isLoading && (
-        <View style={styles.loaderContainer}>
-          <SkeletonPlaceholder
-            borderRadius={100}
-            backgroundColor={colors.gray2}
-            highlightColor={colors.white}
-            testID="SwapTransactionDetails/ExchangeRate/Loader"
-          >
-            <View style={styles.loader} />
-          </SkeletonPlaceholder>
-        </View>
-      )}
+      <View>
+        <Text style={[styles.value, { opacity: isLoading ? 0 : 1 }]}>{value}</Text>
+        {isLoading && (
+          <View style={styles.loaderContainer}>
+            <SkeletonPlaceholder
+              borderRadius={100}
+              backgroundColor={colors.gray2}
+              highlightColor={colors.white}
+              testID="SwapTransactionDetails/ExchangeRate/Loader"
+            >
+              <View style={styles.loader} />
+            </SkeletonPlaceholder>
+          </View>
+        )}
+      </View>
     </View>
   )
 }
@@ -271,9 +273,7 @@ const styles = StyleSheet.create({
     marginRight: Spacing.Tiny4,
   },
   loaderContainer: {
-    position: 'absolute',
-    height: '100%',
-    width: '100%',
+    ...StyleSheet.absoluteFillObject,
   },
   loader: {
     height: '100%',
