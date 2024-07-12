@@ -1884,7 +1884,17 @@
       "estimatedTransactionTimeInfo": "Czas ukończenia transakcji jest określany przez dostawcę.\n\nJeśli wymieniasz się między różnymi łańcuchami, transakcja może potrwać nieco dłużej.",
       "infoDismissButton": "Rozumiem",
       "fees": "Opłaty",
-      "feesCalculationError": "Brak możliwości obliczenia opłat"
+      "feesCalculationError": "Brak możliwości obliczenia opłat",
+      "estimatedCrossChainFee": "Szacowane opłaty cross-chain",
+      "maxCrossChainFee": "Maksymalne opłaty cross-chain",
+      "feesBreakdown": "Podział",
+      "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
+      "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
+      "feesMoreInfoLabel": "Więcej informacji",
+      "feesInfo_sameChain": "Do przetworzenia transakcji wymagana jest opłata sieciowa, zapewniająca bezpieczeństwo i niezawodność.",
+      "feesInfo_crossChain": "Opłata sieciowa jest wymagana do przetworzenia transakcji, zapewniając bezpieczeństwo i niezawodność. Dostawca pobiera opłatę cross-chain, aby umożliwić płynną i bezpieczną wymianę między różnymi łańcuchami bloków.",
+      "feesInfo_sameChainWithAppFee": "Do przetwarzania transakcji wymagana jest opłata sieciowa, zapewniająca bezpieczeństwo i niezawodność. Opłata {{appName}} w wysokości {{appFeePercentage}}% zwiększa Twoje doświadczenie, zapewniając szybką, niezawodną i bezpieczną wymianę.",
+      "feesInfo_crossChainWithAppFee": "Opłata sieciowa jest wymagana do przetworzenia transakcji, zapewniając bezpieczeństwo i niezawodność. Dostawca pobiera opłatę cross-chain, aby umożliwić płynną i bezpieczną wymianę między różnymi łańcuchami bloków. Opłata {{appName}} w wysokości {{appFeePercentage}}% zwiększa Twoje doświadczenie, zapewniając szybkie, niezawodne i bezpieczne swapy."
     },
     "fundYourWalletBottomSheet": {
       "title": "Zasil swój portfel",
