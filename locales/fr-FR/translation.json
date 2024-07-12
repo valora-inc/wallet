@@ -1867,12 +1867,18 @@
       "networkFeeInfo": "Vous échangez sur le réseau {{networkName}} .\n\nCes frais de réseau estimés sont nécessaires pour effectuer une transaction sur le réseau {{networkName}}. Ces frais sécurisent votre transaction et permettent le bon fonctionnement du réseau.",
       "networkFeeInfoV1_76": "Vous êtes en train d'échanger sur le réseau {{networkName}}.\n\nUne taxe de réseau est demandée pour effectuer une transaction sur le réseau {{networkName}}. Ces frais sécurisent votre transaction et sont reversés aux validateurs du réseau.\n\nDans la mesure où les conditions du réseau déterminent le montant exact, le montant indiqué correspond à une estimation des frais réels. Les frais ne dépasseront pas le montant maximum.",
       "slippageToleranceInfo": "Tolérance sur le slippage\n\nVotre échange s'exécutera dans le cadre du pourcentage de tolérance au slippage. Si le prix évolue au-delà de la tolérance au slippage, {{appName}} vous protège en empêchant la négociation.",
+      "slippageToleranceInfoV1_90": "Ton swap sera exécuté dans la limite du pourcentage de tolérance du slippage. Si le prix varie plus que la tolérance de glissement, {{appName}} te protège en empêchant l'exécution de la transaction.",
       "networkFeeInfoDismissButton": "J'ai compris",
       "exchangeRate": "Taux de change",
-      "exchangeRateInfo": "Taux de change\n\nNous avons trouvé le meilleur taux de change pour vous. Votre échange sera effectué à un prix se situant dans les {{slippagePercentage}}% de l'estimation ou la transaction sera annulée et les fonds seront renvoyés dans votre portefeuille.",
+      "exchangeRateInfo": "Taux de change\n\nNous avons trouvé le meilleur taux de change pour toi. Ton échange sera réalisé à un prix compris dans {{slippagePercentage}}% de l'estimation ou la transaction sera annulée et les fonds retournés dans ton porte-monnaie.",
+      "exchangeRateInfoV1_90": "Nous avons trouvé le meilleur taux de change pour toi. Ton échange sera réalisé à un prix compris dans {{slippagePercentage}}% de l'estimation ou la transaction sera annulée et les fonds retournés dans ton porte-monnaie.",
       "exchangeRateInfo_withAppFee": "Taux de change\n\nNous avons trouvé le meilleur taux de change pour vous. Votre échange sera effectué à un prix se situant dans les {{slippagePercentage}}% de l'estimation ou la transaction sera annulée et les fonds seront renvoyés dans votre portefeuille.\n\nLe taux estimé comprend des frais de {{appName}} de {{appFeePercentage}}%.",
       "exchangeRateInfoDismissButton": "J'ai compris",
-      "estimatedValue": "Valeur estimée"
+      "estimatedValue": "Valeur estimée",
+      "estimatedTransactionTime": "Durée estimée de la transaction",
+      "estimatedTransactionTimeInMinutes": "≈ {{minutes}} min",
+      "estimatedTransactionTimeInfo": "Le temps nécessaire pour effectuer la transaction est déterminé par le fournisseur.\n\nSi tu effectues un échange entre différentes chaînes, la transaction pourrait prendre un peu plus de temps.",
+      "infoDismissButton": "J'ai compris"
     },
     "fundYourWalletBottomSheet": {
       "title": "Approvisionner votre portefeuille",
