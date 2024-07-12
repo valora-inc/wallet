@@ -1878,7 +1878,9 @@
       "estimatedTransactionTime": "Geschätzte Transaktionszeit",
       "estimatedTransactionTimeInMinutes": "≈ {{minutes}} min",
       "estimatedTransactionTimeInfo": "Die Zeit bis zum Abschluss der Transaktion wird vom Anbieter bestimmt.\n\nWenn du zwischen verschiedenen Ketten tauschst, kann es etwas länger dauern, bis die Transaktion abgeschlossen ist.",
-      "infoDismissButton": "Verstanden"
+      "infoDismissButton": "Verstanden",
+      "fees": "Gebühren",
+      "feesCalculationError": "Gebühren können nicht berechnet werden"
     },
     "fundYourWalletBottomSheet": {
       "title": "Deine Wallet aufladen",
