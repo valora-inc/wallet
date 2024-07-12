@@ -1878,7 +1878,9 @@
       "estimatedTransactionTime": "Tempo estimado da transação",
       "estimatedTransactionTimeInMinutes": "≈ {{minutes}} min",
       "estimatedTransactionTimeInfo": "O tempo para concluir a transação é determinado pelo provedor.\n\nSe você estiver trocando entre cadeias diferentes, a transação poderá demorar um pouco mais para ser concluída.",
-      "infoDismissButton": "Entendi"
+      "infoDismissButton": "Entendi",
+      "fees": "Taxas",
+      "feesCalculationError": "Não é possível calcular as taxas"
     },
     "fundYourWalletBottomSheet": {
       "title": "Adicione fundos à sua carteira",
