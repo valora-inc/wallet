@@ -97,26 +97,26 @@ function OnboardingRecoveryPhrase({ navigation, route }: Props) {
           includeHeader={false}
         />
         <Text style={styles.recoveryPhraseBody}>{t('recoveryPhrase.bodyV1_90')}</Text>
-        <View style={styles.bottomSection}>
-          <TextButton
-            style={styles.copyButtonStyle}
-            onPress={onPressCopy}
-            testID={'protectWalletCopy'}
-          >
-            <View style={styles.copyIconStyle}>
-              <CopyIcon color={colors.black} />
-            </View>
-            {t('recoveryPhrase.copy')}
-          </TextButton>
-          <Button
-            onPress={onPressContinue}
-            text={t('recoveryPhrase.continue')}
-            size={BtnSizes.FULL}
-            type={BtnTypes.PRIMARY}
-            testID={'protectWalletBottomSheetContinue'}
-          />
-        </View>
       </ScrollView>
+      <View style={styles.bottomSection}>
+        <TextButton
+          style={styles.copyButtonStyle}
+          onPress={onPressCopy}
+          testID={'protectWalletCopy'}
+        >
+          <View style={styles.copyIconStyle}>
+            <CopyIcon color={colors.black} />
+          </View>
+          {t('recoveryPhrase.copy')}
+        </TextButton>
+        <Button
+          onPress={onPressContinue}
+          text={t('recoveryPhrase.continue')}
+          size={BtnSizes.FULL}
+          type={BtnTypes.PRIMARY}
+          testID={'protectWalletBottomSheetContinue'}
+        />
+      </View>
 
       <BottomSheetLegacy
         testID="OnboardingRecoveryPhraseBottomSheet"
