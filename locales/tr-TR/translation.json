@@ -1878,7 +1878,9 @@
       "estimatedTransactionTime": "Tahmini İşlem Süresi",
       "estimatedTransactionTimeInMinutes": "≈ {{minutes}} dk",
       "estimatedTransactionTimeInfo": "İşlemin tamamlanma süresi sağlayıcı tarafından belirlenir.\n\nFarklı zincirler arasında geçiş yapıyorsanız, işlemin tamamlanması biraz daha uzun sürebilir.",
-      "infoDismissButton": "Anladım"
+      "infoDismissButton": "Anladım",
+      "fees": "Ücretler",
+      "feesCalculationError": "Ücretler hesaplanamıyor"
     },
     "fundYourWalletBottomSheet": {
       "title": "Cüzdanınıza fon ekleyin",
