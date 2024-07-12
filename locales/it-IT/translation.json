@@ -1880,7 +1880,17 @@
       "estimatedTransactionTimeInfo": "Il tempo per completare la transazione è determinato dal fornitore.\n\nSe stai scambiando tra diverse catene, la transazione potrebbe richiedere un po' più di tempo per essere completata.",
       "infoDismissButton": "Ho capito",
       "fees": "Commissioni",
-      "feesCalculationError": "Impossibile calcolare le tariffe"
+      "feesCalculationError": "Impossibile calcolare le tariffe",
+      "estimatedCrossChainFee": "Spese stimate per la catena incrociata",
+      "maxCrossChainFee": "Spese massime per la catena incrociata",
+      "feesBreakdown": "Ripartizione",
+      "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
+      "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
+      "feesMoreInfoLabel": "Ulteriori informazioni",
+      "feesInfo_sameChain": "Per elaborare la transazione è richiesta una commissione di rete che garantisce sicurezza e affidabilità.",
+      "feesInfo_crossChain": "Per elaborare la transazione è richiesta una commissione di rete che garantisce sicurezza e affidabilità. Il fornitore addebita una tariffa cross-chain per consentire scambi fluidi e sicuri tra diverse blockchain.",
+      "feesInfo_sameChainWithAppFee": "Per elaborare la transazione è richiesta una commissione di rete che garantisce sicurezza e affidabilità. La commissione di {{appName}} di {{appFeePercentage}}% migliora la tua esperienza garantendo scambi veloci, affidabili e sicuri.",
+      "feesInfo_crossChainWithAppFee": "Per elaborare la transazione è richiesta una commissione di rete che garantisce sicurezza e affidabilità. Il fornitore addebita una commissione cross-chain per consentire scambi fluidi e sicuri tra diverse blockchain. La commissione di {{appName}} di {{appFeePercentage}}% migliora la tua esperienza garantendo scambi veloci, affidabili e sicuri."
     },
     "fundYourWalletBottomSheet": {
       "title": "Aggiungi fondi al tuo portafoglio",
