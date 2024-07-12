@@ -1880,7 +1880,17 @@
       "estimatedTransactionTimeInfo": "İşlemin tamamlanma süresi sağlayıcı tarafından belirlenir.\n\nFarklı zincirler arasında geçiş yapıyorsanız, işlemin tamamlanması biraz daha uzun sürebilir.",
       "infoDismissButton": "Anladım",
       "fees": "Ücretler",
-      "feesCalculationError": "Ücretler hesaplanamıyor"
+      "feesCalculationError": "Ücretler hesaplanamıyor",
+      "estimatedCrossChainFee": "Tahmini çapraz zincir ücretleri",
+      "maxCrossChainFee": "Maksimum çapraz zincir ücretleri",
+      "feesBreakdown": "Dağılım",
+      "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
+      "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
+      "feesMoreInfoLabel": "Daha fazla bilgi",
+      "feesInfo_sameChain": "İşlemin gerçekleştirilmesi için güvenlik ve güvenilirliği sağlayan bir ağ ücreti gereklidir.",
+      "feesInfo_crossChain": "İşlemin gerçekleştirilmesi, güvenlik ve güvenilirliğin sağlanması için bir ağ ücreti gereklidir. Farklı blok zincirleri arasında sorunsuz ve güvenli alışverişi sağlamak için sağlayıcı tarafından bir çapraz zincir ücreti alınır.",
+      "feesInfo_sameChainWithAppFee": "İşlemi gerçekleştirmek için güvenlik ve güvenilirlik sağlayan bir ağ ücreti gereklidir. {{appName}} {{appFeePercentage}}% ücreti, hızlı, güvenilir ve güvenli takaslar sağlayarak deneyiminizi geliştirir.",
+      "feesInfo_crossChainWithAppFee": "İşlemin gerçekleştirilmesi, güvenlik ve güvenilirliğin sağlanması için bir ağ ücreti gereklidir. Farklı blok zincirleri arasında sorunsuz ve güvenli değişimler sağlamak için sağlayıcı tarafından bir çapraz zincir ücreti alınır. {{appName}} {{appFeePercentage}}% ücreti, hızlı, güvenilir ve güvenli takaslar sağlayarak deneyiminizi geliştirir."
     },
     "fundYourWalletBottomSheet": {
       "title": "Cüzdanınıza fon ekleyin",
