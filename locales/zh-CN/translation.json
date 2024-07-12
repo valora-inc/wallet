@@ -1865,12 +1865,18 @@
       "networkFeeInfo": "您正在 {{networkName}} 网络上进行交换。\n\n在 {{networkName}} 网络上进行交易需要支付该预估网络费用。该费用可确保您的交易安全，并用于维持网络正常运行。",
       "networkFeeInfoV1_76": "您正在 {{networkName}} 网络上进行交换。\n\n在 {{networkName}} 网络上进行交易需要支付网络费用。该费用可确保您的交易安全，并支付给网络验证机构。\n\n由于网络条件决定了确切的金额，因此列出的估算费用是我们预计的实际费用。该费用不会超过最大费用金额。",
       "slippageToleranceInfo": "滑点调整\n\n您的交换将在滑点调整百分比范围内执行。如果价格变动超过滑点调整，{{appName}} 将阻止交易执行，为您提供保护。",
+      "slippageToleranceInfoV1_90": "您的掉期交易将在滑点容差百分比范围内执行。如果价格变动超过滑点容差， {{appName}} 将阻止交易执行，为您提供保护。",
       "networkFeeInfoDismissButton": "知道了",
       "exchangeRate": "汇率",
-      "exchangeRateInfo": "汇率\n\n我们为您找到了最佳汇率。您的交易将以 {{slippagePercentage}}% 的估算价格完成，否则交易将被取消，且资金将退回您的钱包。",
+      "exchangeRateInfo": "汇率\n\n我们为您找到了最佳汇率。您的交易将以 {{slippagePercentage}}% 的估算价格完成，否则交易将被取消，资金将返还到您的钱包。",
+      "exchangeRateInfoV1_90": "我们为您找到了最佳汇率。您的交易将以 {{slippagePercentage}}% 的估算价格完成，否则交易将被取消，资金将返还到您的钱包。",
       "exchangeRateInfo_withAppFee": "汇率\n\n我们为您找到了最佳汇率。您的交易将以 {{slippagePercentage}}% 的估算价格完成，否则交易将被取消，且资金将返还到您的钱包。\n\n估算汇率包含 {{appFeePercentage}}% 的 {{appName}} 费用。",
       "exchangeRateInfoDismissButton": "知道了",
-      "estimatedValue": "估计价值"
+      "estimatedValue": "估计价值",
+      "estimatedTransactionTime": "预计交易时间",
+      "estimatedTransactionTimeInMinutes": "≈ {{minutes}} min",
+      "estimatedTransactionTimeInfo": "完成交易的时间由提供商决定。\n\n如果您要在不同的链之间交换，交易完成的时间可能会稍长一些。",
+      "infoDismissButton": "知道了"
     },
     "fundYourWalletBottomSheet": {
       "title": "为您的钱包提供资金。",
