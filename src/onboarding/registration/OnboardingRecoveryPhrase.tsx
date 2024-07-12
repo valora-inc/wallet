@@ -152,6 +152,7 @@ const styles = StyleSheet.create({
   bottomSection: {
     flexGrow: 1,
     justifyContent: 'flex-end',
+    padding: 24,
   },
   copyIconStyle: {
     paddingRight: 10,
