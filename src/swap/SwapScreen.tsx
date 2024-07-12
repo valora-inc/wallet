@@ -834,7 +834,7 @@ export function SwapScreen({ route }: Props) {
             fetchingSwapQuote={quoteUpdatePending}
             appFee={appFee}
             estimatedDurationInSeconds={
-              quote && quote.swapType === 'cross-chain' ? quote.estimatedDuration : undefined
+              quote?.swapType === 'cross-chain' ? quote.estimatedDurationInSeconds : undefined
             }
             crossChainFee={crossChainFee}
             networkFee={networkFee}

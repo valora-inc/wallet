@@ -11,9 +11,9 @@ import { EARN_STABLECOINS_LEARN_MORE } from 'src/config'
 import ArrowDown from 'src/icons/ArrowDown'
 import Blob from 'src/icons/Blob'
 import CircledIcon from 'src/icons/CircledIcon'
+import EarnCoins from 'src/icons/EarnCoins'
 import Logo from 'src/icons/Logo'
 import Palm from 'src/icons/Palm'
-import UpwardGraph from 'src/icons/UpwardGraph'
 import { headerWithCloseButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -71,7 +71,7 @@ export default function EarnInfoScreen({ route }: Props) {
         <Text style={styles.title}>{t('earnFlow.earnInfo.title')}</Text>
         <View style={styles.detailsContainer}>
           <DetailsItem
-            icon={<UpwardGraph size={ICON_SIZE} color={Colors.black} />}
+            icon={<EarnCoins size={ICON_SIZE} color={Colors.black} />}
             title={
               isGasSubsidized
                 ? t('earnFlow.earnInfo.details.earn.titleGasSubsidy')

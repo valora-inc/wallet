@@ -253,9 +253,11 @@ interface CommonKeylessBackupProps {
 interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.wallet_security_primer_get_started]: undefined
   [KeylessBackupEvents.cab_setup_recovery_phrase]: undefined
+  [KeylessBackupEvents.cab_sign_in_another_way]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_sign_in_with_google]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_sign_in_with_google_success]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_sign_in_with_email_screen_cancel]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_sign_in_with_email_screen_skip]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_enter_phone_number_continue]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_enter_phone_number_cancel]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_intro_continue]: CommonKeylessBackupProps
@@ -1116,7 +1118,6 @@ interface DappExplorerEventsProperties {
     filterId: string
     remove: boolean
   }
-  [DappExplorerEvents.dapp_rankings_open]: undefined
   [DappExplorerEvents.dapp_explore_all]: undefined
 }
 

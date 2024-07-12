@@ -9,7 +9,6 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import { PROVIDER_ID } from 'src/earn/constants'
 import { poolInfoFetchStatusSelector, poolInfoSelector } from 'src/earn/selectors'
 import { fetchPoolInfo } from 'src/earn/slice'
-import UpwardGraph from 'src/icons/UpwardGraph'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useDispatch, useSelector } from 'src/redux/hooks'
@@ -86,7 +85,6 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
                     apy: (poolInfo.apy * 100).toFixed(2),
                   })}
                 </Text>
-                <UpwardGraph />
               </View>
             ) : (
               <View />

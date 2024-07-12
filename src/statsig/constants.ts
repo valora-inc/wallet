@@ -37,12 +37,6 @@ export const FeatureGates = {
 
 export const ExperimentConfigs = {
   // NOTE: the keys of defaultValues MUST be parameter names
-  [StatsigExperiments.DAPP_RANKINGS]: {
-    experimentName: StatsigExperiments.DAPP_RANKINGS,
-    defaultValues: {
-      dappRankingsEnabled: false,
-    },
-  },
   [StatsigExperiments.SWAP_BUY_AMOUNT]: {
     experimentName: StatsigExperiments.SWAP_BUY_AMOUNT,
     defaultValues: {
