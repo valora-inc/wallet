@@ -75,27 +75,27 @@ describe('FeeInfoBottomSheet', () => {
 
     expect(getByText('swapScreen.transactionDetails.estimatedNetworkFee')).toBeTruthy()
     expect(getByTestId('SwapScreen/FeeInfoBottomSheet/EstimatedNetworkFee')).toHaveTextContent(
-      '≈ ₱0.013 (0.01 cUSD)'
+      'swapScreen.transactionDetails.feeAmount, {"localCurrencySymbol":"₱","feeAmountInLocalCurrency":"0.013","tokenAmount":"0.01","tokenSymbol":"cUSD"}'
     )
 
     expect(getByText('swapScreen.transactionDetails.maxNetworkFee')).toBeTruthy()
     expect(getByTestId('SwapScreen/FeeInfoBottomSheet/MaxNetworkFee')).toHaveTextContent(
-      '≈ ₱0.027 (0.02 cUSD)'
+      'swapScreen.transactionDetails.feeAmount, {"localCurrencySymbol":"₱","feeAmountInLocalCurrency":"0.027","tokenAmount":"0.02","tokenSymbol":"cUSD"}'
     )
 
     expect(getByText('swapScreen.transactionDetails.appFee')).toBeTruthy()
     expect(getByTestId('SwapScreen/FeeInfoBottomSheet/AppFee')).toHaveTextContent(
-      '≈ ₱0.047 (0.07 CELO)'
+      'swapScreen.transactionDetails.feeAmount, {"localCurrencySymbol":"₱","feeAmountInLocalCurrency":"0.047","tokenAmount":"0.07","tokenSymbol":"CELO"}'
     )
 
     expect(getByText('swapScreen.transactionDetails.estimatedCrossChainFee')).toBeTruthy()
     expect(getByTestId('SwapScreen/FeeInfoBottomSheet/EstimatedCrossChainFee')).toHaveTextContent(
-      '≈ ₱0.86 (1.30 CELO)'
+      'swapScreen.transactionDetails.feeAmount, {"localCurrencySymbol":"₱","feeAmountInLocalCurrency":"0.86","tokenAmount":"1.30","tokenSymbol":"CELO"}'
     )
 
     expect(getByText('swapScreen.transactionDetails.maxCrossChainFee')).toBeTruthy()
     expect(getByTestId('SwapScreen/FeeInfoBottomSheet/MaxCrossChainFee')).toHaveTextContent(
-      '≈ ₱1.13 (1.70 CELO)'
+      'swapScreen.transactionDetails.feeAmount, {"localCurrencySymbol":"₱","feeAmountInLocalCurrency":"1.13","tokenAmount":"1.70","tokenSymbol":"CELO"}'
     )
   })
 
@@ -130,10 +130,10 @@ describe('FeeInfoBottomSheet', () => {
     )
 
     expect(getByTestId('SwapScreen/FeeInfoBottomSheet/EstimatedNetworkFee')).toHaveTextContent(
-      '≈ 0.01 cUSD'
+      'swapScreen.transactionDetails.feeAmount, {"context":"noFiatPrice","localCurrencySymbol":"₱","tokenAmount":"0.01","tokenSymbol":"cUSD"}'
     )
     expect(getByTestId('SwapScreen/FeeInfoBottomSheet/MaxNetworkFee')).toHaveTextContent(
-      '≈ 0.02 cUSD'
+      'swapScreen.transactionDetails.feeAmount, {"context":"noFiatPrice","localCurrencySymbol":"₱","tokenAmount":"0.02","tokenSymbol":"cUSD"}'
     )
   })
 

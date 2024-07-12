@@ -1886,6 +1886,8 @@
       "estimatedCrossChainFee": "Estimated cross-chain fees",
       "maxCrossChainFee": "Max cross-chain fees",
       "feesBreakdown": "Breakdown",
+      "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
+      "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "More information",
       "feesInfo_sameChain": "A network fee is required to process the transaction, ensuring security and reliability.",
       "feesInfo_crossChain": "A network fee is required to process the transaction, ensuring security and reliability. A cross-chain fee is charged by the provider to enable smooth and secure exchanges between different blockchains.",

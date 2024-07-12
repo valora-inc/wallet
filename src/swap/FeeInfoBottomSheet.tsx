@@ -1,9 +1,11 @@
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
+import { useSelector } from 'react-redux'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import TokenDisplay from 'src/components/TokenDisplay'
+import { formatValueToDisplay } from 'src/components/TokenDisplay'
+import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -27,9 +29,16 @@ function FeeAmount({
   isLoading: boolean
 }) {
   const { t } = useTranslation()
+  const usdToLocalCurrencyRate = useSelector(usdToLocalCurrencyRateSelector)
+  const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
-  const displayAmount = showMaxAmount ? fee?.maxAmount : fee?.amount
-  const isFeeZero = displayAmount && displayAmount.isZero()
+  const feeAmount = showMaxAmount ? fee?.maxAmount : fee?.amount
+  const feeAmountInLocalCurrency =
+    feeAmount && fee?.token?.priceUsd && usdToLocalCurrencyRate
+      ? feeAmount.times(fee.token.priceUsd).times(usdToLocalCurrencyRate)
+      : undefined
+
+  const isFeeZero = feeAmount && feeAmount.isZero()
   const loadingText = t('loading')
   const fallbackText = t('unknown')
   const zeroFeeText = t('swapScreen.transactionDetails.swapFeeWaived')
@@ -40,36 +49,19 @@ function FeeAmount({
         loadingText
       ) : isFeeZero ? (
         zeroFeeText
-      ) : fee && fee.token && displayAmount ? (
-        <>
-          {`≈ `}
-          {fee.token.priceUsd ? (
-            <>
-              <TokenDisplay
-                amount={displayAmount}
-                tokenId={fee.token.tokenId}
-                style={styles.bodyText}
-                errorFallback=""
-              />
-              {` (`}
-              <TokenDisplay
-                amount={displayAmount}
-                tokenId={fee.token.tokenId}
-                showLocalAmount={false}
-                style={styles.bodyText}
-                errorFallback=""
-              />
-              {`)`}
-            </>
-          ) : (
-            <TokenDisplay
-              amount={displayAmount}
-              tokenId={fee.token.tokenId}
-              showLocalAmount={false}
-              style={styles.bodyText}
-            />
-          )}
-        </>
+      ) : fee && fee.token && feeAmount ? (
+        <Trans
+          i18nKey={'swapScreen.transactionDetails.feeAmount'}
+          context={feeAmountInLocalCurrency?.gt(0) ? undefined : 'noFiatPrice'}
+          tOptions={{
+            localCurrencySymbol,
+            feeAmountInLocalCurrency: feeAmountInLocalCurrency
+              ? formatValueToDisplay(feeAmountInLocalCurrency)
+              : undefined,
+            tokenAmount: formatValueToDisplay(feeAmount),
+            tokenSymbol: fee.token.symbol,
+          }}
+        />
       ) : (
         fallbackText
       )}
