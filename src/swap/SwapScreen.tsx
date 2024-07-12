@@ -837,7 +837,7 @@ export function SwapScreen({ route }: Props) {
             appFee={appFee}
             appFeeInfoBottomSheetRef={appFeeInfoBottomSheetRef}
             estimatedDurationInSeconds={
-              quote && quote.swapType === 'cross-chain' ? quote.estimatedDuration : undefined
+              quote?.swapType === 'cross-chain' ? quote.estimatedDurationInSeconds : undefined
             }
           />
           {showCrossChainFeeWarning && (
