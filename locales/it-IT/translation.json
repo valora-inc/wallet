@@ -1867,12 +1867,18 @@
       "networkFeeInfo": "Stai effettuando uno scambio sulla rete {{networkName}}.\n\nQuesta commissione di rete stimata è necessaria per eseguire una transazione sulla rete {{networkName}}. Questa commissione protegge la tua transazione e serve a mantenere operativa la rete.",
       "networkFeeInfoV1_76": "Stai effettuando uno scambio sulla Rete {{networkName}}.\n\nPer effettuare una transazione sulla Rete {{networkName}} è richiesta una commissione di rete. Questa commissione garantisce la sicurezza della transazione e viene pagata ai validatori della rete.\n\nPoiché le condizioni della rete determinano l'importo esatto, la stima indicata è la somma che ci aspettiamo corrisponda alla commissione effettiva. La commissione non supererà l'importo massimo previsto.",
       "slippageToleranceInfo": "Tolleranza slippage\n\nIl tuo scambio verrà eseguito entro la percentuale di tolleranza allo slippage. Se il prezzo cambia oltre la tolleranza allo slippage, {{appName}} ti protegge impedendo l'esecuzione della transazione.",
+      "slippageToleranceInfoV1_90": "Il tuo swap verrà eseguito entro la percentuale di tolleranza di slippage. Se il prezzo cambia più della tolleranza di slippage, {{appName}} ti protegge impedendo l'esecuzione dell'operazione.",
       "networkFeeInfoDismissButton": "Ho capito",
       "exchangeRate": "Tasso di cambio",
-      "exchangeRateInfo": "Tasso di cambio\n\nAbbiamo trovato il miglior tasso di cambio. La tua transazione sarà completata a un prezzo che potrebbe oscillare al massimo del {{slippagePercentage}}% rispetto alla stima; se non sarà possibile concluderla a tale prezzo, la transazione sarà annullata e i fondi torneranno nel tuo wallet.",
+      "exchangeRateInfo": "Tasso di cambio\n\nAbbiamo trovato il miglior tasso di cambio per te. La tua transazione sarà completata a un prezzo entro {{slippagePercentage}}% della stima o la transazione sarà annullata e i fondi saranno restituiti al tuo portafoglio.",
+      "exchangeRateInfoV1_90": "Abbiamo trovato il miglior tasso di cambio per te. La tua transazione sarà completata a un prezzo compreso tra {{slippagePercentage}}% della stima o la transazione sarà annullata e i fondi saranno restituiti al tuo portafoglio.",
       "exchangeRateInfo_withAppFee": "Tasso di cambio\n\nAbbiamo trovato il miglior tasso di cambio. La tua transazione sarà completata a un prezzo che potrebbe oscillare al massimo del {{slippagePercentage}}% rispetto alla stima; se non sarà possibile concluderla a tale prezzo, la transazione sarà annullata e i fondi torneranno nel tuo wallet.\n\nIl tasso stimato include la commissione {{appName}} pari al {{appFeePercentage}}%.",
       "exchangeRateInfoDismissButton": "Ho capito",
-      "estimatedValue": "Valore stimato"
+      "estimatedValue": "Valore stimato",
+      "estimatedTransactionTime": "Tempo stimato per la transazione",
+      "estimatedTransactionTimeInMinutes": "≈ {{minutes}} min",
+      "estimatedTransactionTimeInfo": "Il tempo per completare la transazione è determinato dal fornitore.\n\nSe stai scambiando tra diverse catene, la transazione potrebbe richiedere un po' più di tempo per essere completata.",
+      "infoDismissButton": "Ho capito"
     },
     "fundYourWalletBottomSheet": {
       "title": "Aggiungi fondi al tuo portafoglio",
