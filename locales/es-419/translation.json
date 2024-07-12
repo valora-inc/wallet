@@ -1880,7 +1880,17 @@
       "estimatedTransactionTimeInfo": "El tiempo para completar la transacción lo determina el proveedor.\n\nSi estás intercambiando entre diferentes cadenas, la transacción podría tardar un poco más en completarse.",
       "infoDismissButton": "Entendido",
       "fees": "Tarifas",
-      "feesCalculationError": "No se pueden calcular las tasas"
+      "feesCalculationError": "No se pueden calcular las tasas",
+      "estimatedCrossChainFee": "Estimación de las tasas de la cadena cruzada",
+      "maxCrossChainFee": "Comisiones máximas por cadena cruzada",
+      "feesBreakdown": "Avería",
+      "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
+      "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
+      "feesMoreInfoLabel": "Más información",
+      "feesInfo_sameChain": "Se requiere una cuota de red para procesar la transacción, lo que garantiza la seguridad y la fiabilidad.",
+      "feesInfo_crossChain": "Se requiere una tarifa de red para procesar la transacción, lo que garantiza la seguridad y la fiabilidad. El proveedor cobra una tarifa de cadena cruzada para permitir intercambios fluidos y seguros entre diferentes cadenas de bloques.",
+      "feesInfo_sameChainWithAppFee": "Se requiere una comisión de red para procesar la transacción, lo que garantiza la seguridad y la fiabilidad. La comisión de {{appName}} de {{appFeePercentage}}% mejora tu experiencia garantizando intercambios rápidos, fiables y seguros.",
+      "feesInfo_crossChainWithAppFee": "Se requiere una tarifa de red para procesar la transacción, lo que garantiza la seguridad y la fiabilidad. El proveedor cobra una comisión de cadena cruzada para permitir intercambios fluidos y seguros entre diferentes cadenas de bloques. La tarifa {{appName}} de {{appFeePercentage}}% mejora tu experiencia garantizando intercambios rápidos, fiables y seguros."
     },
     "fundYourWalletBottomSheet": {
       "title": "Agregar fondos a tu billetera",
