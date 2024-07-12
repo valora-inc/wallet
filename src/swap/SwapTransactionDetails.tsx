@@ -47,7 +47,8 @@ function getEstimatedTotalFees({
   errorFallback: string
 }) {
   let estimatedFeeInLocalCurrency = new BigNumber(0)
-  const estimatedFeeInTokenUnits: string[] = []
+  const estimatedFeeWithoutFiatPrice: { [tokenId: string]: { amount: BigNumber; symbol: string } } =
+    {}
 
   for (const feeComponent of feeComponents) {
     if (feeComponent) {
@@ -66,9 +67,18 @@ function getEstimatedTotalFees({
             .multipliedBy(usdToLocalCurrencyRate)
         )
       } else {
-        estimatedFeeInTokenUnits.push(
-          `${formatValueToDisplay(feeComponent.amount)} ${feeComponent.token.symbol}`
-        )
+        const existingFeeComponentForToken =
+          estimatedFeeWithoutFiatPrice[feeComponent.token.tokenId]
+        if (existingFeeComponentForToken) {
+          const existingFeeAmount = existingFeeComponentForToken.amount
+          estimatedFeeWithoutFiatPrice[feeComponent.token.tokenId].amount =
+            feeComponent.amount.plus(existingFeeAmount)
+        } else {
+          estimatedFeeWithoutFiatPrice[feeComponent.token.tokenId] = {
+            amount: feeComponent.amount,
+            symbol: feeComponent.token.symbol,
+          }
+        }
       }
     }
   }
@@ -76,7 +86,9 @@ function getEstimatedTotalFees({
   const fiatFeeString = estimatedFeeInLocalCurrency.gt(0)
     ? `${localCurrencySymbol}${formatValueToDisplay(estimatedFeeInLocalCurrency)}`
     : ''
-  const tokenFeeString = estimatedFeeInTokenUnits.join(' + ')
+  const tokenFeeString = Object.values(estimatedFeeWithoutFiatPrice)
+    .map((fee) => `${formatValueToDisplay(fee.amount)} ${fee.symbol}`)
+    .join(' + ')
   return fiatFeeString || tokenFeeString
     ? `≈ ${fiatFeeString}${fiatFeeString && tokenFeeString ? ' + ' : ''}${tokenFeeString}`
     : undefined
