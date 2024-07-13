@@ -1,16 +1,16 @@
-import { QuoteResult } from 'src/swap/useSwapQuote'
-import { getEstimatedGasFee } from 'src/viem/prepareTransactions'
 import BigNumber from 'bignumber.js'
+import { SwapFeeAmount } from 'src/swap/types'
+import { QuoteResult } from 'src/swap/useSwapQuote'
 import { TokenBalance } from 'src/tokens/slice'
+import { getEstimatedGasFee } from 'src/viem/prepareTransactions'
 
 function getCrossChainFee(
   quote: QuoteResult | null,
   feeCurrency?: TokenBalance
 ):
-  | {
-      maxCrossChainFeeAmount: BigNumber
+  | (SwapFeeAmount & {
       nativeTokenBalanceDeficit: BigNumber
-    }
+    })
   | undefined {
   if (!quote || quote?.swapType !== 'cross-chain' || !feeCurrency) return
 
@@ -36,7 +36,9 @@ function getCrossChainFee(
   )
 
   return {
-    maxCrossChainFeeAmount,
+    maxAmount: maxCrossChainFeeAmount,
+    amount: new BigNumber(quote.estimatedCrossChainFee).shiftedBy(-feeCurrency.decimals),
+    token: feeCurrency,
     nativeTokenBalanceDeficit: BigNumber.min(
       0,
       feeCurrency.balance
