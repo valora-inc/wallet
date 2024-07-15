@@ -3,6 +3,8 @@ import { REHYDRATE, RehydrateAction } from 'redux-persist'
 import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
 import { getRehydratePayload } from 'src/redux/persist-helper'
 import { SwapInfo } from 'src/swap/types'
+import { Hash } from 'viem'
+import { NetworkId } from 'src/transactions/types'
 
 type SwapStatus = 'idle' | 'started' | 'success' | 'error'
 
@@ -11,10 +13,12 @@ interface SwapTask {
   status: SwapStatus
 }
 
-interface SwapResult {
+export interface SwapResult {
   swapId: string
   fromTokenId: string
   toTokenId: string
+  transactionHash: Hash
+  networkId: NetworkId
 }
 
 export interface State {

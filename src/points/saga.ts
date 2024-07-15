@@ -1,6 +1,7 @@
 import { differenceInDays } from 'date-fns'
 import { isEqual } from 'lodash'
 import { Actions as HomeActions } from 'src/home/actions'
+import { PayloadAction } from '@reduxjs/toolkit'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import {
   nextPageUrlSelector,
@@ -39,6 +40,8 @@ import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, put, select, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
 import { v4 as uuidv4 } from 'uuid'
+import { depositTransactionSucceeded, DepositTransactionSucceededAction } from 'src/jumpstart/slice'
+import { swapSuccess, SwapResult } from 'src/swap/slice'
 
 const TAG = 'Points/saga'
 
@@ -296,6 +299,36 @@ export function* sendPendingPointsEvents() {
   }
 }
 
+function* watchSwapSuccess() {
+  yield* takeLeading(
+    swapSuccess.type,
+    safely((action: PayloadAction<SwapResult>) =>
+      sendPointsEvent({
+        type: trackPointsEvent.type,
+        payload: {
+          ...action.payload,
+          activityId: 'swap',
+        },
+      })
+    )
+  )
+}
+
+function* watchLiveLinkCreated() {
+  yield* takeLeading(
+    depositTransactionSucceeded.type,
+    safely((action: PayloadAction<DepositTransactionSucceededAction>) =>
+      sendPointsEvent({
+        type: trackPointsEvent.type,
+        payload: {
+          ...action.payload,
+          activityId: 'create-live-link',
+        },
+      })
+    )
+  )
+}
+
 function* watchGetHistory() {
   yield* takeLeading(getHistoryStarted.type, safely(getHistory))
   yield* takeLeading(getHistoryStarted.type, safely(getPointsBalance))
@@ -311,6 +344,12 @@ function* watchTrackPointsEvent() {
 
 export function* watchHomeScreenVisit() {
   yield* take(HomeActions.VISIT_HOME)
+  yield* spawn(
+    sendPointsEvent,
+    trackPointsEvent({
+      activityId: 'create-wallet',
+    })
+  )
   yield* spawn(getPointsConfig)
   yield* spawn(getPointsBalance, getHistoryStarted({ getNextPage: false }))
   yield* spawn(sendPendingPointsEvents)
@@ -321,4 +360,6 @@ export function* pointsSaga() {
   yield* spawn(watchGetConfig)
   yield* spawn(watchTrackPointsEvent)
   yield* spawn(watchHomeScreenVisit)
+  yield* spawn(watchLiveLinkCreated)
+  yield* spawn(watchSwapSuccess)
 }

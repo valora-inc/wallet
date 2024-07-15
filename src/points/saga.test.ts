@@ -623,6 +623,15 @@ describe('watchHomeScreenVisit', () => {
 
     const result = await expectSaga(watchHomeScreenVisit)
       .provide([
+        [
+          spawn(
+            sendPointsEvent,
+            trackPointsEvent({
+              activityId: 'create-wallet',
+            })
+          ),
+          null,
+        ],
         [spawn(getPointsConfig), null],
         [spawn(getPointsBalance, getHistoryStarted({ getNextPage: false })), null],
         [spawn(sendPendingPointsEvents), null],
@@ -632,6 +641,12 @@ describe('watchHomeScreenVisit', () => {
       .run()
 
     expect(result.effects.fork).toEqual([
+      spawn(
+        sendPointsEvent,
+        trackPointsEvent({
+          activityId: 'create-wallet',
+        })
+      ),
       spawn(getPointsConfig),
       spawn(getPointsBalance, getHistoryStarted({ getNextPage: false })),
       spawn(sendPendingPointsEvents),
