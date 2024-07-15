@@ -13,7 +13,7 @@ interface SwapTask {
   status: SwapStatus
 }
 
-export interface SwapResult {
+interface SwapResult {
   swapId: string
   fromTokenId: string
   toTokenId: string

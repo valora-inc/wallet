@@ -17,7 +17,7 @@ export interface JumpstartTransactionStartedAction {
   beneficiaryAddress: Address
 }
 
-export interface DepositTransactionSucceededAction {
+interface DepositTransactionSucceededAction {
   liveLinkType: 'erc20'
   beneficiaryAddress: Address
   transactionHash: Hash
