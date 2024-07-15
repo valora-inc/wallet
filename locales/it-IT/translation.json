@@ -73,7 +73,9 @@
   },
   "recoveryPhrase": {
     "title": "La tua Frase di recupero",
+    "titleV1_90": "La tua frase di recupero",
     "body": "Scrivi queste 12 parole in un posto sicuro, dove non possano essere rubate o danneggiate.",
+    "bodyV1_90": "Senza la tua Frase di recupero, perderai l’accesso a tutti i fondi in Valora.",
     "continue": "Le ho salvate",
     "copy": "Copia negli Appunti",
     "mnemonicCopied": "Frase di recupero copiata negli Appunti",
