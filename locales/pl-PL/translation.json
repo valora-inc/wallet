@@ -73,7 +73,9 @@
   },
   "recoveryPhrase": {
     "title": "Twoja fraza odzyskiwania",
+    "titleV1_90": "Twoja fraza odzyskiwania",
     "body": "Zapisz te 12 słów w bezpiecznym miejscu, gdzie nie mogą zostać skradzione lub zniszczone.",
+    "bodyV1_90": "Jeśli stracisz swoją frazę odzyskiwania, stracisz również dostęp do wszystkich funduszy przechowywanych w Valorze.",
     "continue": "Mam to zapisane",
     "copy": "Kopiuj do schowka",
     "mnemonicCopied": "Fraza skopiowana do schowka",
