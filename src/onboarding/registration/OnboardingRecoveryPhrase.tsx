@@ -158,8 +158,8 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
   copyButtonStyle: {
-    flex: 1,
     alignSelf: 'center',
+    justifyContent: 'center',
     paddingBottom: 30,
     color: colors.black,
   },
