@@ -299,7 +299,7 @@ export function* sendPendingPointsEvents() {
   }
 }
 
-function* watchSwapSuccess() {
+export function* watchSwapSuccess() {
   yield* takeLeading(
     swapSuccess.type,
     safely((action: PayloadAction<SwapResult>) =>
@@ -314,7 +314,7 @@ function* watchSwapSuccess() {
   )
 }
 
-function* watchLiveLinkCreated() {
+export function* watchLiveLinkCreated() {
   yield* takeLeading(
     depositTransactionSucceeded.type,
     safely((action: PayloadAction<DepositTransactionSucceededAction>) =>
@@ -329,16 +329,16 @@ function* watchLiveLinkCreated() {
   )
 }
 
-function* watchGetHistory() {
+export function* watchGetHistory() {
   yield* takeLeading(getHistoryStarted.type, safely(getHistory))
   yield* takeLeading(getHistoryStarted.type, safely(getPointsBalance))
 }
 
-function* watchGetConfig() {
+export function* watchGetConfig() {
   yield* takeLeading(getPointsConfigRetry.type, safely(getPointsConfig))
 }
 
-function* watchTrackPointsEvent() {
+export function* watchTrackPointsEvent() {
   yield* takeEvery(trackPointsEvent.type, safely(sendPointsEvent))
 }
 

@@ -676,3 +676,31 @@ describe('fetchTrackPointsEventsEndpoint', () => {
     })
   })
 })
+
+describe('pointsSaga', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  it('should spawn appropriate sagas', async () => {
+    const result = await expectSaga(pointsSaga.pointsSaga)
+      .provide([
+        [spawn(pointsSaga.watchGetHistory), null],
+        [spawn(pointsSaga.watchGetConfig), null],
+        [spawn(pointsSaga.watchTrackPointsEvent), null],
+        [spawn(pointsSaga.watchHomeScreenVisit), null],
+        [spawn(pointsSaga.watchLiveLinkCreated), null],
+        [spawn(pointsSaga.watchSwapSuccess), null],
+      ])
+      .run()
+
+    expect(result.effects.fork).toEqual([
+      spawn(pointsSaga.watchGetHistory),
+      spawn(pointsSaga.watchGetConfig),
+      spawn(pointsSaga.watchTrackPointsEvent),
+      spawn(pointsSaga.watchHomeScreenVisit),
+      spawn(pointsSaga.watchLiveLinkCreated),
+      spawn(pointsSaga.watchSwapSuccess),
+    ])
+  })
+})
