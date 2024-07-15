@@ -73,7 +73,9 @@
   },
   "recoveryPhrase": {
     "title": "Your recovery phrase",
+    "titleV1_90": "Your Recovery Phrase",
     "body": "Write these 12 words down somewhere safe, where it cannot be stolen or damaged.",
+    "bodyV1_90": "If you lose your recovery phrase, you will lose access to all funds held in Valora.",
     "continue": "I've saved it",
     "copy": "Copy to clipboard",
     "mnemonicCopied": "Recovery phrase copied to clipboard",
