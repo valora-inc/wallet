@@ -40,30 +40,32 @@ function MultiSelect({
 }
 
 describe('MultiSelectBottomSheet', () => {
+  const onCloseSpy = jest.fn()
+
   beforeEach(() => {
     jest.clearAllMocks()
   })
   it('only select all is checkmarked when all are selected', () => {
-    const { queryByTestId, queryByText } = render(
+    const { getByTestId, queryByTestId, getByText } = render(
       <MultiSelect selectedOptions={allOptionsSelected} />
     )
 
     // All of the icons are rendered
-    expect(queryByTestId('One-icon')).toBeTruthy()
-    expect(queryByTestId('Two-icon')).toBeTruthy()
-    expect(queryByTestId('Three-icon')).toBeTruthy()
-    expect(queryByTestId('Four-icon')).toBeTruthy()
+    expect(getByTestId('One-icon')).toBeTruthy()
+    expect(getByTestId('Two-icon')).toBeTruthy()
+    expect(getByTestId('Three-icon')).toBeTruthy()
+    expect(getByTestId('Four-icon')).toBeTruthy()
 
     // All of the text is rendered
-    expect(queryByText('Title')).toBeTruthy()
-    expect(queryByText('Select All')).toBeTruthy()
-    expect(queryByText('One')).toBeTruthy()
-    expect(queryByText('Two')).toBeTruthy()
-    expect(queryByText('Three')).toBeTruthy()
-    expect(queryByText('Four')).toBeTruthy()
+    expect(getByText('Title')).toBeTruthy()
+    expect(getByText('Select All')).toBeTruthy()
+    expect(getByText('One')).toBeTruthy()
+    expect(getByText('Two')).toBeTruthy()
+    expect(getByText('Three')).toBeTruthy()
+    expect(getByText('Four')).toBeTruthy()
 
     // Only the select all checkmark is rendered
-    expect(queryByTestId('Select All-checkmark')).toBeTruthy()
+    expect(getByTestId('Select All-checkmark')).toBeTruthy()
     expect(queryByTestId('One-checkmark')).toBeFalsy()
     expect(queryByTestId('Two-checkmark')).toBeFalsy()
     expect(queryByTestId('Three-checkmark')).toBeFalsy()
@@ -74,21 +76,21 @@ describe('MultiSelectBottomSheet', () => {
       <MultiSelect selectedOptions={oneOptionSelected} />
     )
 
-    expect(queryByTestId('One-checkmark')).toBeTruthy()
+    expect(getByTestId('One-checkmark')).toBeTruthy()
     expect(queryByTestId('Two-checkmark')).toBeFalsy()
     expect(queryByTestId('Three-checkmark')).toBeFalsy()
     expect(queryByTestId('Four-checkmark')).toBeFalsy()
 
     fireEvent.press(getByTestId('Two-icon'))
 
-    expect(queryByTestId('Two-checkmark')).toBeTruthy()
+    expect(getByTestId('Two-checkmark')).toBeTruthy()
   })
   it('Removes checkmark to de-select an option', () => {
     const { queryByTestId, getByTestId } = render(
       <MultiSelect selectedOptions={oneOptionSelected} />
     )
 
-    expect(queryByTestId('One-checkmark')).toBeTruthy()
+    expect(getByTestId('One-checkmark')).toBeTruthy()
     expect(queryByTestId('Two-checkmark')).toBeFalsy()
     expect(queryByTestId('Three-checkmark')).toBeFalsy()
     expect(queryByTestId('Four-checkmark')).toBeFalsy()
@@ -98,16 +100,18 @@ describe('MultiSelectBottomSheet', () => {
     expect(queryByTestId('One-checkmark')).toBeFalsy()
   })
   it('Adds all checkmarks to select all options', () => {
-    const { queryByTestId, getByText } = render(<MultiSelect selectedOptions={oneOptionSelected} />)
+    const { queryByTestId, getByTestId, getByText } = render(
+      <MultiSelect selectedOptions={oneOptionSelected} />
+    )
 
-    expect(queryByTestId('One-checkmark')).toBeTruthy()
+    expect(getByTestId('One-checkmark')).toBeTruthy()
     expect(queryByTestId('Two-checkmark')).toBeFalsy()
     expect(queryByTestId('Three-checkmark')).toBeFalsy()
     expect(queryByTestId('Four-checkmark')).toBeFalsy()
 
     fireEvent.press(getByText('Select All'))
 
-    expect(queryByTestId('Select All-checkmark')).toBeTruthy()
+    expect(getByTestId('Select All-checkmark')).toBeTruthy()
     expect(queryByTestId('One-checkmark')).toBeFalsy()
     expect(queryByTestId('Two-checkmark')).toBeFalsy()
     expect(queryByTestId('Three-checkmark')).toBeFalsy()
@@ -117,41 +121,39 @@ describe('MultiSelectBottomSheet', () => {
     const { getByTestId, queryByTestId } = render(
       <MultiSelect selectedOptions={allOptionsSelected} />
     )
-    expect(queryByTestId('Select All-checkmark')).toBeTruthy()
+    expect(getByTestId('Select All-checkmark')).toBeTruthy()
 
     fireEvent.press(getByTestId('One-icon'))
 
     expect(queryByTestId('Select All-checkmark')).toBeFalsy()
-    expect(queryByTestId('One-checkmark')).toBeTruthy()
+    expect(getByTestId('One-checkmark')).toBeTruthy()
     expect(queryByTestId('Two-checkmark')).toBeFalsy()
     expect(queryByTestId('Three-checkmark')).toBeFalsy()
     expect(queryByTestId('Four-checkmark')).toBeFalsy()
   })
   it('calls onClose when done is pressed', () => {
-    const onClose = jest.fn()
     const { getByTestId } = render(
-      <MultiSelect selectedOptions={oneOptionSelected} onClose={onClose} />
+      <MultiSelect selectedOptions={oneOptionSelected} onClose={onCloseSpy} />
     )
 
+    fireEvent.press(getByTestId('Two-icon'))
     fireEvent.press(getByTestId('MultiSelectBottomSheet/Done'))
 
-    expect(onClose).toHaveBeenCalled()
+    expect(onCloseSpy).toHaveBeenCalledTimes(1)
   })
   describe('select-all-or-one', () => {
-    it('de-selects all other options when selecting one', () => {
-      const { getByTestId, queryByTestId } = render(
-        <MultiSelect selectedOptions={oneOptionSelected} mode={'select-all-or-one'} />
+    it('calls onClose when an option is selected', () => {
+      const { getByTestId } = render(
+        <MultiSelect
+          selectedOptions={oneOptionSelected}
+          mode={'select-all-or-one'}
+          onClose={onCloseSpy}
+        />
       )
-
-      expect(queryByTestId('One-checkmark')).toBeTruthy()
 
       fireEvent.press(getByTestId('Two-icon'))
 
-      expect(queryByTestId('Select All-checkmark')).toBeFalsy()
-      expect(queryByTestId('One-checkmark')).toBeFalsy()
-      expect(queryByTestId('Two-checkmark')).toBeTruthy()
-      expect(queryByTestId('Three-checkmark')).toBeFalsy()
-      expect(queryByTestId('Four-checkmark')).toBeFalsy()
+      expect(onCloseSpy).toHaveBeenCalledTimes(1)
     })
   })
 })

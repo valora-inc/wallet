@@ -65,6 +65,11 @@ function MultiSelectBottomSheet<T extends string>({
         return [...prevSelectedOptions, option.id]
       }
     })
+
+    if (mode === 'select-all-or-one') {
+      // automatically close the bottom sheet after state update if only one option can be selected
+      handleClose()
+    }
   }
 
   return (
@@ -92,6 +97,7 @@ function MultiSelectBottomSheet<T extends string>({
             />
             {options.map((option) => (
               <OptionLineItem
+                key={option.id}
                 text={option.text}
                 iconUrl={option.iconUrl}
                 isSelected={!!selectedOptions.includes(option.id) && !isEveryOptionSelected}
