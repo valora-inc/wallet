@@ -345,12 +345,11 @@ function TokenBottomSheet({
           setSelectedNetworkIds={setSelectedNetworkIds}
           selectedNetworkIds={networkChip.selectedNetworkIds}
           forwardedRef={networkChipRef}
-          onClose={() => {
+          onSelect={(selectedNetworkIds: NetworkId[]) => {
             ValoraAnalytics.track(TokenBottomSheetEvents.network_filter_updated, {
-              selectedNetworkIds: networkChip.selectedNetworkIds,
+              selectedNetworkIds,
               origin,
             })
-            networkChipRef.current?.close()
           }}
         />
       )}

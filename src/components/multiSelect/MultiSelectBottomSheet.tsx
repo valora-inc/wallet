@@ -18,7 +18,7 @@ const MAX_OPTIONS_IN_VIEW = 5
 export interface MultiSelectBottomSheetProps<T extends string> {
   forwardedRef: React.RefObject<GorhomBottomSheet>
   onChange?: BottomSheetProps['onChange']
-  onClose?: () => void
+  onSelect?: (ids: T[]) => void
   onOpen?: () => void
   handleComponent?: BottomSheetProps['handleComponent']
   options: Option<T>[]
@@ -37,7 +37,7 @@ interface Option<T extends string> {
 
 function MultiSelectBottomSheet<T extends string>({
   forwardedRef,
-  onClose,
+  onSelect,
   onOpen,
   options,
   setSelectedOptions,
@@ -52,30 +52,41 @@ function MultiSelectBottomSheet<T extends string>({
   const isEveryOptionSelected = options.length === selectedOptions.length
 
   const handleClose = () => {
-    onClose?.()
+    forwardedRef.current?.close()
+  }
+
+  const handleSelection = (newOptions: T[]) => {
+    setSelectedOptions(newOptions)
+    onSelect?.(newOptions)
+  }
+
+  const handleSelectAll = () => {
+    handleSelection(options.map((option) => option.id))
+
+    if (mode === 'select-all-or-one') {
+      handleClose()
+    }
   }
 
   const toggleOption = (option: Option<T>) => {
-    setSelectedOptions((prevSelectedOptions) => {
-      if (mode === 'select-all-or-one' || options.length === prevSelectedOptions.length) {
-        return [option.id]
-      } else if (prevSelectedOptions.includes(option.id)) {
-        return prevSelectedOptions.filter((selectedOption) => selectedOption !== option.id)
-      } else {
-        return [...prevSelectedOptions, option.id]
-      }
-    })
-
     if (mode === 'select-all-or-one') {
       // automatically close the bottom sheet after state update if only one option can be selected
+      handleSelection([option.id])
       handleClose()
+    } else {
+      const isOptionPreviouslySelected = selectedOptions.includes(option.id)
+      const updatedSelectedOptions = isEveryOptionSelected
+        ? [option.id]
+        : isOptionPreviouslySelected
+          ? selectedOptions.filter((selectedOption) => selectedOption !== option.id)
+          : [...selectedOptions, option.id]
+      handleSelection(updatedSelectedOptions)
     }
   }
 
   return (
     <BottomSheetBase
       forwardedRef={forwardedRef}
-      onClose={handleClose}
       onOpen={onOpen}
       backgroundStyle={{ backgroundColor: 'transparent' }}
       handleIndicatorStyle={{ width: 0 }}
@@ -93,7 +104,7 @@ function MultiSelectBottomSheet<T extends string>({
             <OptionLineItem
               text={selectAllText}
               isSelected={isEveryOptionSelected}
-              onPress={() => setSelectedOptions(options.map((option) => option.id))}
+              onPress={handleSelectAll}
             />
             {options.map((option) => (
               <OptionLineItem

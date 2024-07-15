@@ -17,30 +17,32 @@ const allOptionsSelected = ['one', 'two', 'three', 'four']
 
 function MultiSelect({
   selectedOptions,
-  onClose,
+  onSelect,
   mode = 'select-multiple',
 }: {
   selectedOptions: MultiSelectBottomSheetProps<string>['selectedOptions']
-  onClose?: MultiSelectBottomSheetProps<string>['onClose']
+  onSelect?: MultiSelectBottomSheetProps<string>['onSelect']
   mode?: 'select-all-or-one' | 'select-multiple'
 }) {
   const [state, setState] = useState(selectedOptions)
   return (
     <MultiSelectBottomSheet
-      forwardedRef={{ current: null }}
+      forwardedRef={{
+        current: null,
+      }}
       options={allOptions}
       selectedOptions={state}
       setSelectedOptions={setState}
       selectAllText="Select All"
       title="Title"
-      onClose={onClose}
+      onSelect={onSelect}
       mode={mode}
     />
   )
 }
 
 describe('MultiSelectBottomSheet', () => {
-  const onCloseSpy = jest.fn()
+  const onSelectSpy = jest.fn()
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -117,7 +119,7 @@ describe('MultiSelectBottomSheet', () => {
     expect(queryByTestId('Three-checkmark')).toBeFalsy()
     expect(queryByTestId('Four-checkmark')).toBeFalsy()
   })
-  it('calls checkmarks correctly when going from all selected to one selected', () => {
+  it('renders checkmarks correctly when going from all selected to one selected', () => {
     const { getByTestId, queryByTestId } = render(
       <MultiSelect selectedOptions={allOptionsSelected} />
     )
@@ -131,29 +133,36 @@ describe('MultiSelectBottomSheet', () => {
     expect(queryByTestId('Three-checkmark')).toBeFalsy()
     expect(queryByTestId('Four-checkmark')).toBeFalsy()
   })
-  it('calls onClose when done is pressed', () => {
+  it('calls onSelect when a selection is made', () => {
     const { getByTestId } = render(
-      <MultiSelect selectedOptions={oneOptionSelected} onClose={onCloseSpy} />
+      <MultiSelect selectedOptions={oneOptionSelected} onSelect={onSelectSpy} />
     )
 
     fireEvent.press(getByTestId('Two-icon'))
-    fireEvent.press(getByTestId('MultiSelectBottomSheet/Done'))
+    expect(onSelectSpy).toHaveBeenCalledTimes(1)
+    expect(onSelectSpy).toHaveBeenCalledWith(['one', 'two']) // 'one' is selected in the props
 
-    expect(onCloseSpy).toHaveBeenCalledTimes(1)
+    fireEvent.press(getByTestId('Three-icon'))
+    expect(onSelectSpy).toHaveBeenCalledTimes(2)
+    expect(onSelectSpy).toHaveBeenNthCalledWith(2, ['one', 'two', 'three']) // 'one' is selected in the props
+
+    fireEvent.press(getByTestId('MultiSelectBottomSheet/Done'))
+    expect(onSelectSpy).toHaveBeenCalledTimes(2) // dismissing the bottom sheet does not trigger further calls
   })
   describe('select-all-or-one', () => {
-    it('calls onClose when an option is selected', () => {
+    it('calls onSelect when an option is selected', () => {
       const { getByTestId } = render(
         <MultiSelect
           selectedOptions={oneOptionSelected}
           mode={'select-all-or-one'}
-          onClose={onCloseSpy}
+          onSelect={onSelectSpy}
         />
       )
 
       fireEvent.press(getByTestId('Two-icon'))
 
-      expect(onCloseSpy).toHaveBeenCalledTimes(1)
+      expect(onSelectSpy).toHaveBeenCalledTimes(1)
+      expect(onSelectSpy).toHaveBeenCalledWith(['two'])
     })
   })
 })
