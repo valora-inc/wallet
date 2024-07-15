@@ -151,7 +151,7 @@ describe('MultiSelectBottomSheet', () => {
   })
   describe('select-all-or-one', () => {
     it('calls onSelect when an option is selected', () => {
-      const { getByTestId } = render(
+      const { getByTestId, getByText } = render(
         <MultiSelect
           selectedOptions={oneOptionSelected}
           mode={'select-all-or-one'}
@@ -160,9 +160,16 @@ describe('MultiSelectBottomSheet', () => {
       )
 
       fireEvent.press(getByTestId('Two-icon'))
-
       expect(onSelectSpy).toHaveBeenCalledTimes(1)
       expect(onSelectSpy).toHaveBeenCalledWith(['two'])
+
+      fireEvent.press(getByTestId('Three-icon'))
+      expect(onSelectSpy).toHaveBeenCalledTimes(2)
+      expect(onSelectSpy).toHaveBeenNthCalledWith(2, ['three'])
+
+      fireEvent.press(getByText('Select All'))
+      expect(onSelectSpy).toHaveBeenCalledTimes(3)
+      expect(onSelectSpy).toHaveBeenNthCalledWith(3, allOptionsSelected)
     })
   })
 })
