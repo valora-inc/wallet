@@ -1,7 +1,6 @@
 import { differenceInDays } from 'date-fns'
 import { isEqual } from 'lodash'
 import { Actions as HomeActions } from 'src/home/actions'
-import { PayloadAction } from '@reduxjs/toolkit'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import {
   nextPageUrlSelector,
@@ -40,8 +39,8 @@ import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, put, select, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
 import { v4 as uuidv4 } from 'uuid'
-import { depositTransactionSucceeded, DepositTransactionSucceededAction } from 'src/jumpstart/slice'
-import { swapSuccess, SwapResult } from 'src/swap/slice'
+import { depositTransactionSucceeded } from 'src/jumpstart/slice'
+import { swapSuccess } from 'src/swap/slice'
 
 const TAG = 'Points/saga'
 
@@ -299,34 +298,34 @@ export function* sendPendingPointsEvents() {
   }
 }
 
-export function* watchSwapSuccess() {
-  yield* takeLeading(
-    swapSuccess.type,
-    safely((action: PayloadAction<SwapResult>) =>
-      sendPointsEvent({
-        type: trackPointsEvent.type,
-        payload: {
-          ...action.payload,
-          activityId: 'swap',
-        },
-      })
-    )
+export function* watchSwapSuccessTransformPayload({
+  payload: params,
+}: ReturnType<typeof swapSuccess>) {
+  yield* call(
+    sendPointsEvent,
+    trackPointsEvent({
+      ...params,
+      activityId: 'swap',
+    })
   )
 }
+export function* watchSwapSuccess() {
+  yield* takeLeading(swapSuccess.type, safely(watchSwapSuccessTransformPayload))
+}
 
-export function* watchLiveLinkCreated() {
-  yield* takeLeading(
-    depositTransactionSucceeded.type,
-    safely((action: PayloadAction<DepositTransactionSucceededAction>) =>
-      sendPointsEvent({
-        type: trackPointsEvent.type,
-        payload: {
-          ...action.payload,
-          activityId: 'create-live-link',
-        },
-      })
-    )
+export function* watchLiveLinkCreatedTransformPayload({
+  payload: params,
+}: ReturnType<typeof depositTransactionSucceeded>) {
+  yield* call(
+    sendPointsEvent,
+    trackPointsEvent({
+      ...params,
+      activityId: 'create-live-link',
+    })
   )
+}
+export function* watchLiveLinkCreated() {
+  yield* takeLeading(depositTransactionSucceeded.type, safely(watchLiveLinkCreatedTransformPayload))
 }
 
 export function* watchGetHistory() {
