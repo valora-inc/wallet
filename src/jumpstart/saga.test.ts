@@ -50,6 +50,7 @@ import {
   mockCusdTokenId,
   mockNftAllFields,
   mockTokenBalances,
+  mockAccountInvite,
 } from 'test/values'
 import { Hash, TransactionReceipt, parseEventLogs } from 'viem'
 
@@ -68,6 +69,7 @@ jest.mock('src/viem/saga', () => ({
 const networkId = NetworkId['celo-alfajores']
 const network = Network.Celo
 
+const mockPublicKey = mockAccountInvite
 const mockPrivateKey = mockAccountInvitePrivKey
 const mockWalletAddress = mockAccount
 const mockTransactionHashes = ['0xHASH1', '0xHASH2'] as Hash[]
@@ -406,18 +408,29 @@ describe('sendJumpstartTransactions', () => {
     jest.clearAllMocks()
   })
 
-  it('should send the transactions and dispatch the success action', async () => {
+  it('should send the transactions and dispatch the success action and track points', async () => {
+    const sendAmount = '1000000000000000000'
     await expectSaga(sendJumpstartTransactions, {
       type: depositTransactionStarted.type,
       payload: {
         sendToken: mockCusdTokenBalance,
-        sendAmount: '1000000000000000000',
+        sendAmount,
         serializablePreparedTransactions,
+        beneficiaryAddress: mockPublicKey,
       },
     })
       .withState(createMockStore().getState())
       .provide(createDefaultProviders())
-      .put(depositTransactionSucceeded())
+      .put(
+        depositTransactionSucceeded({
+          liveLinkType: 'erc20',
+          beneficiaryAddress: mockPublicKey,
+          transactionHash: '0x2',
+          networkId,
+          tokenId: mockCusdTokenBalance.tokenId,
+          amount: sendAmount,
+        })
+      )
       .run()
 
     expect(sendPreparedTransactions).toHaveBeenCalledWith(
@@ -442,12 +455,13 @@ describe('sendJumpstartTransactions', () => {
         sendToken: mockCusdTokenBalance,
         sendAmount: '1000000000000000000',
         serializablePreparedTransactions,
+        beneficiaryAddress: mockPublicKey,
       },
     })
       .withState(createMockStore().getState())
       .provide(createDefaultProviders('reverted'))
       .put(depositTransactionFailed())
-      .not.put(depositTransactionSucceeded())
+      .not.put(depositTransactionSucceeded(expect.any(Object)))
       .run()
 
     expect(sendPreparedTransactions).toHaveBeenCalledWith(

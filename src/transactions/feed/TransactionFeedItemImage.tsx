@@ -4,10 +4,10 @@ import IconWithNetworkBadge from 'src/components/IconWithNetworkBadge'
 import Activity from 'src/icons/Activity'
 import AttentionIcon from 'src/icons/Attention'
 import CircledIcon from 'src/icons/CircledIcon'
+import EarnCoins from 'src/icons/EarnCoins'
 import GreenLoadingSpinner from 'src/icons/GreenLoadingSpinner'
 import MagicWand from 'src/icons/MagicWand'
 import SwapIcon from 'src/icons/SwapIcon'
-import UpwardGraph from 'src/icons/UpwardGraph'
 import { Recipient } from 'src/recipients/recipient'
 import Colors from 'src/styles/colors'
 import { NetworkId, TransactionStatus } from 'src/transactions/types'
@@ -71,7 +71,7 @@ function TransactionFeedItemBaseImage(props: Props) {
   if (['EarnWithdraw', 'EarnDeposit', 'EarnClaimReward'].includes(transactionType)) {
     return (
       <CircledIcon backgroundColor={Colors.successLight} radius={AVATAR_SIZE}>
-        <UpwardGraph size={30} color={Colors.successDark} />
+        <EarnCoins size={24} color={Colors.successDark} />
       </CircledIcon>
     )
   }

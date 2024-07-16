@@ -4,7 +4,7 @@ import { StyleSheet, Text, TextStyle, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import BottomSheetBase from 'src/components/BottomSheetBase'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 interface Props {
@@ -30,7 +30,7 @@ export type BottomSheetRefType = GorhomBottomSheet
 const BottomSheet = ({
   forwardedRef,
   title,
-  titleStyle = fontStyles.h2,
+  titleStyle = typeScale.titleSmall,
   description,
   children,
   onClose,
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     padding: Spacing.Thick24,
   },
   description: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     marginBottom: Spacing.Smallest8,
   },
 })

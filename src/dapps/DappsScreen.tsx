@@ -15,7 +15,6 @@ import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
 import FilterChipsCarousel, { BooleanFilterChip } from 'src/components/FilterChipsCarousel'
 import SearchInput from 'src/components/SearchInput'
 import {
@@ -29,7 +28,6 @@ import { fetchDappsList } from 'src/dapps/slice'
 import { ActiveDapp, Dapp, DappSection, DappWithCategoryNames } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import { DappFeaturedActions } from 'src/dappsExplorer/DappFeaturedActions'
-import { DappRankingsBottomSheet } from 'src/dappsExplorer/DappRankingsBottomSheet'
 import NoResults from 'src/dappsExplorer/NoResults'
 import { searchDappList } from 'src/dappsExplorer/searchDappList'
 import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
@@ -60,9 +58,7 @@ function DappsScreen({ navigation }: Props) {
   const insets = useSafeAreaInsets()
 
   const sectionListRef = useRef<SectionList>(null)
-
   const horizontalScrollView = useRef<ScrollView>(null)
-  const dappRankingsBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const dispatch = useDispatch()
   const loading = useSelector(dappsListLoadingSelector)
@@ -113,11 +109,6 @@ function DappsScreen({ navigation }: Props) {
         }
       })
     )
-  }
-
-  const handleShowDappRankings = () => {
-    ValoraAnalytics.track(DappExplorerEvents.dapp_rankings_open)
-    dappRankingsBottomSheetRef.current?.snapToIndex(0)
   }
 
   useEffect(() => {
@@ -233,7 +224,7 @@ function DappsScreen({ navigation }: Props) {
                     {t('dappsScreen.exploreDapps')}
                   </Text>
                 }
-                <DappFeaturedActions onPressShowDappRankings={handleShowDappRankings} />
+                <DappFeaturedActions />
                 <SearchInput
                   onChangeText={(text) => {
                     setSearchTerm(text)
@@ -276,6 +267,7 @@ function DappsScreen({ navigation }: Props) {
                   onFavoriteDapp={onFavoriteDapp}
                   showBorder={true}
                   testID={`${section.testID}/DappCard`}
+                  cardStyle={styles.dappCard}
                 />
               )
             }}
@@ -310,10 +302,6 @@ function DappsScreen({ navigation }: Props) {
         )}
       </>
       {DappFavoritedToast}
-      <DappRankingsBottomSheet
-        forwardedRef={dappRankingsBottomSheetRef}
-        onPressDapp={onPressDapp}
-      />
     </SafeAreaView>
   )
 }
@@ -361,6 +349,9 @@ const styles = StyleSheet.create({
     ...typeScale.titleMedium,
     color: Colors.black,
     marginBottom: Spacing.Thick24,
+  },
+  dappCard: {
+    marginTop: Spacing.Regular16,
   },
 })
 

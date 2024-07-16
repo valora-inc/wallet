@@ -29,6 +29,7 @@
   "dataSaver": "โหมดประหยัดข้อมูล",
   "enableDataSaver": "เปิดใช้งานโหมดประหยัดข้อมูล",
   "dataSaverDetail": "โหมดประหยัดข้อมูลช่วยให้คุณสื่อสารกับเครือข่ายผ่านโหนดที่เชื่อถือได้ คุณสามารถเปลี่ยนโหมดนี้ได้ตลอดเวลาในส่วนการตั้งค่าแอป",
+  "keylessBackupSetupTitle": "Create Login",
   "keylessBackupSettingsTitle": "การสำรองข้อมูลอีเมลและโทรศัพท์",
   "keylessBackupSettingsDeleteError": "ไม่สามารถลบข้อมูลสำรองของคุณได้ โปรดรอและลองอีกครั้งในภายหลัง",
   "setup": "ตั้งค่า",
@@ -72,7 +73,9 @@
   },
   "recoveryPhrase": {
     "title": "วลีกู้คืนรหัสของคุณ",
+    "titleV1_90": "วลีกู้คืนรหัสของคุณ",
     "body": "จดบันทึก 12 คำเหล่านี้ไว้ในที่ที่ปลอดภัยจากการถูกขโมยหรือทำให้เสียหาย",
+    "bodyV1_90": "หากคุณทำวลีกู้คืนรหัสหาย คุณจะไม่สามารถเข้าถึงเงินทุนทั้งหมดที่มีอยู่ใน Valora ได้",
     "continue": "ฉันบันทึกไว้แล้ว",
     "copy": "คัดลอกไปยังคลิปบอร์ด",
     "mnemonicCopied": "คัดลอกวลีกู้คืนรหัสไปยังคลิปบอร์ดแล้ว",
@@ -102,9 +105,16 @@
   },
   "signInWithEmail": {
     "title": "ลงชื่อเข้าใช้ด้วยอีเมล",
-    "subtitle": "ลงชื่อเข้าใช้ด้วยอีเมลของคุณเพื่อตั้งค่าเป็นข้อมูลสำรอง\n\nคุณจะได้รับแจ้งให้ลงชื่อเข้าใช้อีกครั้งหากทำกระเป๋าเงินหาย",
+    "subtitle": "Sign in with your email to set it up as a backup. You will be prompted to sign in again if you ever lose your wallet.",
     "subtitleRestore": "ลงชื่อเข้าใช้ด้วยอีเมลที่คุณใช้ในการตั้งค่าการสำรองข้อมูลกระเป๋าเงินของคุณ",
-    "google": "ลงชื่อเข้าใช้ด้วย Google"
+    "google": "ลงชื่อเข้าใช้ด้วย Google",
+    "signInAnotherWay": "Sign in another way",
+    "bottomSheet": {
+      "title": "Save your recovery phrase to create a wallet",
+      "description": "We’re going to be supporting other email providers soon, but in the meanwhile you’ll have to save your recovery phrase to finish creating a wallet.",
+      "continue": "ดำเนินการต่อ",
+      "skip": "ข้าม (ไม่แนะนำ)"
+    }
   },
   "keylessBackupPhoneInput": {
     "setup": {
@@ -928,6 +938,7 @@
     "header": "กู้คืนกระเป๋าเงิน",
     "title": "ป้อนวลีการกู้คืนของคุณ",
     "description": "ใช้วลี 12 หรือ 24 คำที่คุณบันทึกเมื่อคุณตั้งค่ากระเป๋าเงินเพื่อกู้คืน",
+    "descriptionV1_90": "Your Recovery Phrase is a 12 or 24-word phrase that you wrote down and saved when you set up your wallet. Please enter it here to restore your wallet.",
     "emptyWalletDialog": {
       "description": "กระเป๋าเงินนี้ไม่มีเงินทุนใด ๆ คุณยังต้องการใช้หรือไม่?",
       "action": "ใช้กระเป๋าเงิน",
@@ -1856,12 +1867,30 @@
       "networkFeeInfo": "คุณกำลังสว็อปบนเครือข่าย {{networkName}}\n\nการดำเนินการธุรกรรมบนเครือข่าย {{networkName}} จำเป็นต้องมีค่าธรรมเนียมเครือข่ายโดยประมาณนี้ ค่าธรรมเนียมนี้จะช่วยดูแลธุรกรรมของคุณให้ปลอดภัยและสนับสนุนการดำเนินงานของเครือข่าย",
       "networkFeeInfoV1_76": "คุณกำลังสว็อปบนเครือข่าย {{networkName}}\n\nการทำธุรกรรมบนเครือข่าย {{networkName}} มีค่าธรรมเนียมเครือข่าย ค่าธรรมเนียมดังกล่าวเป็นการรักษาความปลอดภัยให้กับธุรกรรมของคุณโดยจะชำระให้กับผู้ตรวจสอบเครือข่าย\n\nเนื่องจากเงื่อนไขของเครือข่ายมีการกำหนดจำนวนเงินที่แน่นอน เราจึงคาดว่ารายการค่าธรรมเนียมประมาณการนี้เป็นค่าธรรมเนียมที่แท้จริง ค่าธรรมเนียมจะไม่เกินกว่าจำนวนค่าธรรมเนียมสูงสุด",
       "slippageToleranceInfo": "ราคาคลาดเคลื่อนที่ยอมรับได้\n\nการสว็อปของคุณจะดำเนินการภายในเปอร์เซ็นต์ความคลาดเคลื่อนที่ยอมรับได้ หากราคาเปลี่ยนแปลงมากกว่าคลาดเคลื่อนที่ยอมรับได้ {{appName}} จะปกป้องคุณโดยการระงับการดำเนินการการเทรดนั้น",
+      "slippageToleranceInfoV1_90": "Your swap will execute within the slippage tolerance percentage. If the price changes more than the slippage tolerance, {{appName}} protects you by preventing the trade from executing.",
       "networkFeeInfoDismissButton": "เข้าใจแล้ว",
       "exchangeRate": "อัตราแลกเปลี่ยน",
-      "exchangeRateInfo": "อัตราแลกเปลี่ยน\n\nเราพบอัตราแลกเปลี่ยนที่ดีที่สุดสำหรับคุณแล้ว การซื้อขายจะดำเนินการที่ราคาภายใน {{slippagePercentage}}% ของค่าโดยประมาณ มิฉะนั้น ธุรกรรมจะถูกยกเลิกและจะมีการคืนเงินไปยังกระเป๋าเงินของคุณ",
+      "exchangeRateInfo": "Exchange Rate\n\nWe've found the best exchange rate for you. Your trade will be completed at a price within {{slippagePercentage}}% of the estimate or the transaction will be cancelled and funds returned to your wallet.",
+      "exchangeRateInfoV1_90": "We've found the best exchange rate for you. Your trade will be completed at a price within {{slippagePercentage}}% of the estimate or the transaction will be cancelled and funds returned to your wallet.",
       "exchangeRateInfo_withAppFee": "อัตราแลกเปลี่ยน\n\nเราพบอัตราแลกเปลี่ยนที่ดีที่สุดสำหรับคุณแล้ว การซื้อขายจะดำเนินการที่ราคาภายใน {{slippagePercentage}}% ของค่าโดยประมาณ มิฉะนั้น ธุรกรรมจะถูกยกเลิกและจะมีการคืนเงินไปยังกระเป๋าเงินของคุณ\n\nอัตราโดยประมาณรวมค่าธรรมเนียม {{appName}} {{appFeePercentage}}%",
       "exchangeRateInfoDismissButton": "เข้าใจแล้ว",
-      "estimatedValue": "ค่าโดยประมาณ"
+      "estimatedValue": "ค่าโดยประมาณ",
+      "estimatedTransactionTime": "Estimated Transaction Time",
+      "estimatedTransactionTimeInMinutes": "≈ {{minutes}} min",
+      "estimatedTransactionTimeInfo": "The time to complete the transaction is determined by the provider.\n\nIf you are swapping between different chains, the transaction could take a bit longer to complete.",
+      "infoDismissButton": "เข้าใจแล้ว",
+      "fees": "ค่าธรรมเนียม",
+      "feesCalculationError": "Unable to calculate fees",
+      "estimatedCrossChainFee": "Estimated cross-chain fees",
+      "maxCrossChainFee": "Max cross-chain fees",
+      "feesBreakdown": "Breakdown",
+      "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
+      "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
+      "feesMoreInfoLabel": "More information",
+      "feesInfo_sameChain": "A network fee is required to process the transaction, ensuring security and reliability.",
+      "feesInfo_crossChain": "A network fee is required to process the transaction, ensuring security and reliability. A cross-chain fee is charged by the provider to enable smooth and secure exchanges between different blockchains.",
+      "feesInfo_sameChainWithAppFee": "A network fee is required to process the transaction, ensuring security and reliability. The {{appName}} fee of {{appFeePercentage}}% enhances your experience by ensuring fast, reliable, and secure swaps.",
+      "feesInfo_crossChainWithAppFee": "A network fee is required to process the transaction, ensuring security and reliability. A cross-chain fee is charged by the provider to enable smooth and secure exchanges between different blockchains. The {{appName}} fee of {{appFeePercentage}}% enhances your experience by ensuring fast, reliable, and secure swaps."
     },
     "fundYourWalletBottomSheet": {
       "title": "ฝากเงินเข้ากระเป๋าเงินของคุณ",
@@ -2310,6 +2339,13 @@
         "swap": {
           "title": "สว็อป",
           "subtitle": "{{fromToken}} เป็น {{toToken}}"
+        },
+        "createLiveLink": {
+          "title": "ลิงก์สด",
+          "subtitle": {
+            "erc20": "Sent {{tokenSymbol}}",
+            "erc721": "NFT ที่ส่ง"
+          }
         }
       },
       "title": "ประวัติคะแนนของฉัน",
@@ -2369,6 +2405,14 @@
       },
       "moreComing": {
         "title": "จะเพิ่มในเร็วๆ นี้!"
+      },
+      "createLiveLink": {
+        "title": "ส่งพร้อมลิงก์สด",
+        "bottomSheet": {
+          "title": "ส่งพร้อมลิงก์สด",
+          "body": "Earn {{pointsValue}} points every time you send funds using a Live Link in {{appName}}. \n\nTap below to start sending and earning!",
+          "cta": "ส่งพร้อมลิงก์สด"
+        }
       }
     },
     "discoverCard": {

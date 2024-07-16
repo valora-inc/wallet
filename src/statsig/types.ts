@@ -39,8 +39,6 @@ export enum StatsigFeatureGates {
 }
 
 export enum StatsigExperiments {
-  DAPP_RANKINGS = 'dapp_rankings',
-  SWAP_BUY_AMOUNT = 'swap_buy_amount',
   ONBOARDING_TERMS_AND_CONDITIONS = 'onboarding_terms_and_conditions',
 }
 

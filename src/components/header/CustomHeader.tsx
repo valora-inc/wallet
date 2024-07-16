@@ -15,7 +15,8 @@ function CustomHeader({ left, right, title, style }: Props) {
   return (
     <View style={style ? [styles.container, style] : styles.container}>
       {!!title && <View style={styles.titleContainer}>{titleComponent}</View>}
-      {!!left && <View style={styles.buttonContainer}>{left}</View>}
+      {/* Need left element to be an empty view if not provided for right alignment to work */}
+      {left ? <View style={styles.buttonContainer}>{left}</View> : <View />}
       {!!right && <View style={styles.buttonContainer}>{right}</View>}
     </View>
   )

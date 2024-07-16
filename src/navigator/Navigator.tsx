@@ -467,12 +467,12 @@ const settingsScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen
       name={Screens.SignInWithEmail}
-      options={SignInWithEmail.navigationOptions}
+      options={noHeader}
       component={SignInWithEmail}
     />
     <Navigator.Screen
       name={Screens.KeylessBackupPhoneInput}
-      options={KeylessBackupPhoneInput.navigationOptions}
+      options={noHeader}
       component={KeylessBackupPhoneInput}
     />
     <Navigator.Screen
@@ -482,7 +482,7 @@ const settingsScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen
       name={Screens.KeylessBackupProgress}
-      options={{ headerStyle: {} }}
+      options={noHeader}
       component={KeylessBackupProgress}
     />
     <Navigator.Screen

@@ -214,7 +214,8 @@ export function* dispatchPendingERC721Transactions(
 export function* sendJumpstartTransactions(
   action: PayloadAction<JumpstartTransactionStartedAction>
 ) {
-  const { serializablePreparedTransactions, sendToken, sendAmount } = action.payload
+  const { serializablePreparedTransactions, sendToken, sendAmount, beneficiaryAddress } =
+    action.payload
   const networkId = sendToken.networkId
   const localCurrency = yield* select(getLocalCurrencyCode)
   const localCurrencyExchangeRate = yield* select(usdToLocalCurrencyRateSelector)
@@ -328,7 +329,16 @@ export function* sendJumpstartTransactions(
     }
 
     ValoraAnalytics.track(JumpstartEvents.jumpstart_send_succeeded, trackedProperties)
-    yield* put(depositTransactionSucceeded())
+    yield* put(
+      depositTransactionSucceeded({
+        liveLinkType: 'erc20',
+        beneficiaryAddress,
+        transactionHash: jumpstartTxReceipt.transactionHash,
+        networkId,
+        tokenId: sendToken.tokenId,
+        amount: sendAmount,
+      })
+    )
   } catch (err) {
     if (err === CANCELLED_PIN_INPUT) {
       Logger.info(TAG, 'Transaction cancelled by user')

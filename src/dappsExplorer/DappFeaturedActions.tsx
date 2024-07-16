@@ -3,16 +3,13 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import Touchable from 'src/components/Touchable'
-import { mostPopularDappsSelector } from 'src/dapps/selectors'
-import Trophy from 'src/icons/Trophy'
 import Wallet from 'src/icons/Wallet'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { positionsWithClaimableRewardsSelector } from 'src/positions/selectors'
 import { useSelector } from 'src/redux/hooks'
-import { getExperimentParams, getFeatureGate } from 'src/statsig'
-import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -40,18 +37,8 @@ function FeaturedAction({ title, description, Image, style, onPress }: Props) {
   )
 }
 
-export function DappFeaturedActions({
-  onPressShowDappRankings,
-}: {
-  onPressShowDappRankings: () => void
-}) {
+export function DappFeaturedActions() {
   const { t } = useTranslation()
-
-  const { dappRankingsEnabled } = getExperimentParams(
-    ExperimentConfigs[StatsigExperiments.DAPP_RANKINGS]
-  )
-  const mostPopularDapps = useSelector(mostPopularDappsSelector)
-  const showDappRankings = dappRankingsEnabled && mostPopularDapps.length > 0
 
   const dappShortcutsEnabled = getFeatureGate(StatsigFeatureGates.SHOW_CLAIM_SHORTCUTS)
   const positionsWithClaimableRewards = useSelector(positionsWithClaimableRewardsSelector)
@@ -63,9 +50,9 @@ export function DappFeaturedActions({
     navigate(Screens.DappShortcutsRewards)
   }
 
-  const scrollEnabled = showDappRankings && showClaimRewards // more than one item in the view
+  const scrollEnabled = false // only set to true if there can be more than one item in the view
 
-  if (!showDappRankings && !showClaimRewards) {
+  if (!showClaimRewards) {
     return null
   }
 
@@ -84,25 +71,6 @@ export function DappFeaturedActions({
           Image={<Wallet />}
           onPress={handleShowRewardsShortcuts}
           style={scrollEnabled ? styles.reducedWidthCard : undefined}
-        />
-      )}
-
-      {showDappRankings && (
-        <FeaturedAction
-          title={t('dappRankings.title')}
-          description={t('dappRankings.description')}
-          onPress={onPressShowDappRankings}
-          Image={<Trophy />}
-          style={
-            scrollEnabled
-              ? [
-                  styles.reducedWidthCard,
-                  {
-                    marginRight: 0,
-                  },
-                ]
-              : undefined
-          }
         />
       )}
     </ScrollView>
