@@ -39,7 +39,6 @@ export enum StatsigFeatureGates {
 }
 
 export enum StatsigExperiments {
-  SWAP_BUY_AMOUNT = 'swap_buy_amount',
   ONBOARDING_TERMS_AND_CONDITIONS = 'onboarding_terms_and_conditions',
 }
 

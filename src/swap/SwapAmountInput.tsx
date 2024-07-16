@@ -16,14 +16,14 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
+import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
-import { NETWORK_NAMES } from 'src/shared/conts'
 
 interface Props {
-  onInputChange(value: string): void
+  onInputChange?(value: string): void
   inputValue?: string | null
   parsedInputValue?: BigNumber | null
   onPressMax?(): void
@@ -106,7 +106,7 @@ const SwapAmountInput = ({
               forwardedRef={textInputRef}
               onChangeText={(value) => {
                 handleSetStartPosition(undefined)
-                onInputChange(value)
+                onInputChange?.(value)
               }}
               value={inputValue || undefined}
               placeholder="0"
