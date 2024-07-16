@@ -5,7 +5,6 @@ import { EffectProviders, StaticProvider, dynamic } from 'redux-saga-test-plan/p
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
-import { trackPointsEvent } from 'src/points/slice'
 import { getDynamicConfigParams } from 'src/statsig'
 import { swapSubmitSaga } from 'src/swap/saga'
 import { swapCancel, swapError, swapStart, swapSuccess } from 'src/swap/slice'
@@ -372,7 +371,15 @@ describe(swapSubmitSaga, () => {
       await expectSaga(swapSubmitSaga, swapPrepared)
         .withState(store.getState())
         .provide(createDefaultProviders(network))
-        .put(swapSuccess({ swapId: 'test-swap-id', fromTokenId, toTokenId }))
+        .put(
+          swapSuccess({
+            swapId: 'test-swap-id',
+            fromTokenId,
+            toTokenId,
+            transactionHash: '0x2',
+            networkId,
+          })
+        )
         .put(
           addStandbyTransaction({
             context: {
@@ -523,6 +530,8 @@ describe(swapSubmitSaga, () => {
           swapId: 'test-swap-id',
           fromTokenId: mockCeurTokenId,
           toTokenId: mockCeloTokenId,
+          transactionHash: '0x1',
+          networkId: NetworkId['celo-alfajores'],
         })
       )
       .put(
@@ -556,15 +565,6 @@ describe(swapSubmitSaga, () => {
         },
       })
       .call([publicClient.celo, 'waitForTransactionReceipt'], { hash: '0x1' })
-      .put(
-        trackPointsEvent({
-          activityId: 'swap',
-          transactionHash: '0x1',
-          networkId: NetworkId['celo-alfajores'],
-          toTokenId: mockCeloTokenId,
-          fromTokenId: mockCeurTokenId,
-        })
-      )
       .run()
 
     expect(mockViemWallet.signTransaction).toHaveBeenCalledTimes(1)
@@ -632,6 +632,8 @@ describe(swapSubmitSaga, () => {
           swapId: 'test-swap-id',
           fromTokenId: mockCeurTokenId,
           toTokenId: mockTestTokenTokenId,
+          transactionHash: '0x2',
+          networkId: NetworkId['celo-alfajores'],
         })
       )
       .run()

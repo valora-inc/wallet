@@ -2,7 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId, TokenAmount } from 'src/transactions/types'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
-import { Address } from 'viem'
+import { Address, Hash } from 'viem'
 
 export interface JumpstarReclaimAction {
   reclaimTx: SerializableTransactionRequest
@@ -16,6 +16,16 @@ export interface JumpstartTransactionStartedAction {
   sendAmount: string
   beneficiaryAddress: Address
 }
+
+interface DepositTransactionSucceededAction {
+  liveLinkType: 'erc20'
+  beneficiaryAddress: Address
+  transactionHash: Hash
+  networkId: NetworkId
+  tokenId: string
+  amount: string
+}
+
 interface State {
   claimStatus: 'idle' | 'loading' | 'error' | 'errorAlreadyClaimed'
   depositStatus: 'idle' | 'loading' | 'error' | 'success'
@@ -63,7 +73,10 @@ const slice = createSlice({
       ...state,
       depositStatus: 'loading',
     }),
-    depositTransactionSucceeded: (state) => ({
+    depositTransactionSucceeded: (
+      state,
+      _action: PayloadAction<DepositTransactionSucceededAction>
+    ) => ({
       ...state,
       depositStatus: 'success',
     }),

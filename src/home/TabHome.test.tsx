@@ -137,7 +137,6 @@ describe('TabHome', () => {
         'HOME/VISIT_HOME',
         'HOME/REFRESH_BALANCES',
         'IDENTITY/IMPORT_CONTACTS',
-        'points/trackPointsEvent',
       ])
     )
   })
