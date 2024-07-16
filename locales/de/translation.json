@@ -73,7 +73,9 @@
   },
   "recoveryPhrase": {
     "title": "Deine Wiederherstellungsphrase",
+    "titleV1_90": "Deine Wiederherstellungsphrase",
     "body": "Schreibe diese 12 Wörter auf und bewahre sie an einem sicheren Ort auf, wo sie nicht gestohlen oder beschädigt werden können.",
+    "bodyV1_90": "Solltest du deine Wiederherstellungsphrase verlieren, dann verlierst du Zugang auf dein gesamtes Guthaben in Valora.",
     "continue": "Ich habe sie gespeichert",
     "copy": "In Zwischenablage kopieren",
     "mnemonicCopied": "Wiederherstellungsphrase in die Zwischenablage kopiert",

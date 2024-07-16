@@ -73,7 +73,9 @@
   },
   "recoveryPhrase": {
     "title": "Cụm từ khôi phục của bạn",
+    "titleV1_90": "Cụm từ khôi phục của bạn",
     "body": "Hãy viết 12 từ này vào một nơi an toàn mà không ai có thể đánh cắp hoặc làm hư hỏng chúng.",
+    "bodyV1_90": "Nếu làm mất cụm từ khôi phục, bạn sẽ không thể truy cập vào toàn bộ số tiền bạn sở hữu trên Valora.",
     "continue": "Tôi đã lưu cụm từ khôi phục",
     "copy": "Sao chép vào bảng nhớ tạm",
     "mnemonicCopied": "Đã sao chép cụm từ khôi phục vào bảng nhớ tạm",
