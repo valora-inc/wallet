@@ -145,7 +145,7 @@ export const migrations = {
   },
   7: (state: any) => {
     const newAddressToDisplayName = Object.keys(state.identity.addressToDisplayName || {}).reduce(
-      (newMapping: AddressToDisplayNameType, address: string) => {
+      (newMapping: AddressToDisplayNameType, address: any) => {
         newMapping[address] = {
           name: state.identity.addressToDisplayName[address],
           imageUrl: null,

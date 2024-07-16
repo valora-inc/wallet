@@ -1,4 +1,3 @@
-import { Address } from '@celo/base'
 import { AttestationStat, AttestationsWrapper } from '@celo/contractkit/lib/wrappers/Attestations'
 import { isValidAddress } from '@celo/utils/lib/address'
 import { isAccountConsideredVerified } from '@celo/utils/lib/attestations'
@@ -55,6 +54,7 @@ import networkConfig from 'src/web3/networkConfig'
 import { getConnectedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, delay, put, race, select, spawn, take } from 'typed-redux-saga'
+import { Address } from 'viem'
 
 const TAG = 'identity/contactMapping'
 export const IMPORT_CONTACTS_TIMEOUT = 1 * 60 * 1000 // 1 minute
@@ -165,7 +165,7 @@ export function* fetchAddressesAndValidateSaga({
     // Clear existing entries for those numbers so our mapping consumers know new status is pending.
     yield* put(updateE164PhoneNumberAddresses({ [e164Number]: undefined }, {}))
 
-    const walletAddresses: string[] = yield* call(fetchWalletAddresses, e164Number)
+    const walletAddresses = yield* call(fetchWalletAddresses, e164Number)
 
     const e164NumberToAddressUpdates: E164NumberToAddressType = {}
     const addressToE164NumberUpdates: AddressToE164NumberType = {}
@@ -271,9 +271,9 @@ function* fetchWalletAddresses(e164Number: string) {
       throw new Error(`Failed to look up phone number: ${response.status} ${response.statusText}`)
     }
 
-    const { data }: { data: { addresses: string[] } } = yield* call([response, 'json'])
+    const { data }: { data: { addresses: Address[] } } = yield* call([response, 'json'])
 
-    return data.addresses.map((address) => address.toLowerCase())
+    return data.addresses.map((address) => address.toLowerCase() as Address)
   } catch (error) {
     Logger.debug(`${TAG}/fetchWalletAddresses`, 'Unable to look up phone number', error)
     throw new Error('Unable to fetch wallet address for this phone number')
@@ -325,11 +325,11 @@ export function* lookupAccountAddressesForIdentifier(id: string, lostAccounts: s
     contractKit.contracts.getAttestations,
   ])
 
-  const accounts = yield* call(
+  const accounts = (yield* call(
     [attestationsWrapper, attestationsWrapper.lookupAccountsForIdentifier],
     id
-  )
-  return accounts.filter((address: string) => !lostAccounts.includes(address.toLowerCase()))
+  )) as Address[]
+  return accounts.filter((address) => !lostAccounts.includes(address.toLowerCase()))
 }
 
 // Deconstruct the lookup result and return
@@ -365,7 +365,7 @@ export function* filterNonVerifiedAddresses(accountAddresses: Address[], phoneHa
       )
       continue
     }
-    verifiedAccountAddresses.push(address.toLowerCase())
+    verifiedAccountAddresses.push(address.toLowerCase() as Address)
   }
 
   return verifiedAccountAddresses
@@ -381,7 +381,7 @@ export function getAddressFromPhoneNumber(
   e164NumberToAddress: E164NumberToAddressType,
   secureSendPhoneNumberMapping: SecureSendPhoneNumberMapping,
   requesterAddress?: Address
-): Address | null | undefined {
+) {
   const addresses = e164NumberToAddress[e164Number]
 
   // If there are no verified addresses for the number,
@@ -391,9 +391,9 @@ export function getAddressFromPhoneNumber(
   }
 
   // If address is null (unverified) or undefined (in the process
-  // of being updated) then just return that falsy value
+  // of being updated) then just return a falsy value
   if (!addresses) {
-    return addresses
+    return undefined
   }
 
   // If there are multiple addresses, need to determine which to use

@@ -5,7 +5,6 @@ import BigNumber from 'bignumber.js'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { Actions as IdentityActions } from 'src/identity/actions'
-import { AddressToE164NumberType } from 'src/identity/reducer'
 import { addressToE164NumberSelector } from 'src/identity/selectors'
 import { trackPointsEvent } from 'src/points/slice'
 import { NumberToRecipient } from 'src/recipients/recipient'
@@ -24,7 +23,6 @@ import {
 } from 'src/transactions/actions'
 import { TxPromises } from 'src/transactions/contract-utils'
 import {
-  KnownFeedTransactionsType,
   inviteTransactionsSelector,
   knownFeedTransactionsSelector,
   pendingStandbyTransactionsSelector,
@@ -192,11 +190,9 @@ export function* sendAndMonitorTransaction<T>(
 }
 
 function* refreshRecentTxRecipients() {
-  const addressToE164Number: AddressToE164NumberType = yield* select(addressToE164NumberSelector)
-  const recipientCache: NumberToRecipient = yield* select(phoneRecipientCacheSelector)
-  const knownFeedTransactions: KnownFeedTransactionsType = yield* select(
-    knownFeedTransactionsSelector
-  )
+  const addressToE164Number = yield* select(addressToE164NumberSelector)
+  const recipientCache = yield* select(phoneRecipientCacheSelector)
+  const knownFeedTransactions = yield* select(knownFeedTransactionsSelector)
 
   // No way to match addresses to recipients without caches
   if (

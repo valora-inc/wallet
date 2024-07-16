@@ -28,7 +28,6 @@ import {
   updateAddressDekMap,
   updateWalletToAccountAddress,
 } from 'src/identity/actions'
-import { WalletToAccountAddressType } from 'src/identity/reducer'
 import { walletToAccountAddressSelector } from 'src/identity/selectors'
 import { DEK, retrieveOrGeneratePepper, retrieveSignedMessage } from 'src/pincode/authentication'
 import { CurrencyTokens, tokensByCurrencySelector } from 'src/tokens/selectors'
@@ -47,6 +46,7 @@ import {
   walletAddressSelector,
 } from 'src/web3/selectors'
 import { call, put, select } from 'typed-redux-saga'
+import { Address } from 'viem'
 
 const TAG = 'web3/dataEncryptionKey'
 
@@ -54,7 +54,7 @@ export function* fetchDataEncryptionKeyWrapper({ address }: FetchDataEncryptionK
   yield* call(doFetchDataEncryptionKey, address)
 }
 
-export function* fetchDEKDecentrally(walletAddress: string) {
+export function* fetchDEKDecentrally(walletAddress: Address) {
   // TODO consider caching here
   // We could use the values in the DekMap instead of looking up each time
   // But Deks can change, how should we invalidate the cache?
@@ -64,17 +64,15 @@ export function* fetchDEKDecentrally(walletAddress: string) {
     contractKit.contracts,
     contractKit.contracts.getAccounts,
   ])
-  const walletToAccountAddress: WalletToAccountAddressType = yield* select(
-    walletToAccountAddressSelector
-  )
+  const walletToAccountAddress = yield* select(walletToAccountAddressSelector)
   const accountAddress =
-    walletToAccountAddress[normalizeAddressWith0x(walletAddress)] ?? walletAddress
+    walletToAccountAddress[normalizeAddressWith0x(walletAddress) as Address] ?? walletAddress
   const dek: string = yield* call(accountsWrapper.getDataEncryptionKey, accountAddress)
   yield* put(updateAddressDekMap(accountAddress, dek || null))
   return dek
 }
 
-export function* doFetchDataEncryptionKey(addressToLookUp: string) {
+export function* doFetchDataEncryptionKey(addressToLookUp: Address) {
   const ownAddress = yield* select(walletAddressSelector)
   if (!ownAddress) {
     throw new Error('No wallet address found')
@@ -136,8 +134,8 @@ function* sendUserFundedSetAccountTx(
   contractKit: ContractKit,
   accountsWrapper: AccountsWrapper,
   publicDataKey: string,
-  accountAddress: string,
-  walletAddress: string
+  accountAddress: Address,
+  walletAddress: Address
 ) {
   const mtwAddressCreated: boolean = !!(yield* select(mtwAddressSelector))
   // Generate and send a transaction to set the DEK on-chain.
@@ -217,8 +215,8 @@ export function* registerAccountDek() {
       contractKit.contracts.getAccounts,
     ])
 
-    const accountAddress: string = yield* call(getAccountAddress)
-    const walletAddress: string = yield* call(getAccount)
+    const accountAddress = yield* call(getAccountAddress)
+    const walletAddress = yield* call(getAccount)
 
     const upToDate = yield* call(
       isAccountUpToDate,

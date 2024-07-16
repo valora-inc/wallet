@@ -109,7 +109,7 @@ export function* buildAndSendPayment(
   comment: string,
   feeInfo: FeeInfo
 ) {
-  const userAddress: string = yield* call(getConnectedUnlockedAccount)
+  const userAddress = yield* call(getConnectedUnlockedAccount)
 
   const encryptedComment = yield* call(encryptComment, comment, recipientAddress, userAddress, true)
 

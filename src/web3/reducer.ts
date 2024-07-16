@@ -5,7 +5,7 @@ import { Address } from 'viem'
 
 interface State {
   account: Address | null // this is the wallet address (EOA)
-  mtwAddress: string | null // this is the account address
+  mtwAddress: Address | null // this is the account address
   accountInWeb3Keystore: string | null
   // The DEK private key
   dataEncryptionKey: string | null

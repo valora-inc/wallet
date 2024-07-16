@@ -1,4 +1,5 @@
 import { ProviderFeedInfo, ProviderLogos } from 'src/fiatExchanges/reducer'
+import { Address } from 'viem'
 
 export enum Actions {
   BIDALI_PAYMENT_REQUESTED = 'FIAT_EXCHANGES/BIDALI_PAYMENT_REQUESTED',
@@ -8,7 +9,7 @@ export enum Actions {
 
 export interface BidaliPaymentRequestedAction {
   type: Actions.BIDALI_PAYMENT_REQUESTED
-  address: string
+  address: Address
   amount: string
   currency: string
   description: string
@@ -18,7 +19,7 @@ export interface BidaliPaymentRequestedAction {
 }
 
 export const bidaliPaymentRequested = (
-  address: string,
+  address: Address,
   amount: string,
   currency: string,
   description: string,

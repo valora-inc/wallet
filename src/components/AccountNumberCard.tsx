@@ -2,9 +2,10 @@ import React from 'react'
 import { StyleSheet, ViewStyle } from 'react-native'
 import AccountNumber from 'src/components/AccountNumber'
 import Card from 'src/components/Card'
+import { Address } from 'viem'
 
 interface Props {
-  address: string
+  address: Address
   style?: ViewStyle
 }
 

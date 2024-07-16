@@ -4,6 +4,7 @@ import { QrCode } from 'src/send/types'
 import { Currency } from 'src/utils/currencies'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { Svg } from 'svgs'
+import { Address } from 'viem'
 
 export type SVG = typeof Svg
 
@@ -27,7 +28,7 @@ export interface HandleQRCodeDetectedAction {
 export interface HandleQRCodeDetectedSecureSendAction {
   type: Actions.BARCODE_DETECTED_SECURE_SEND
   qrCode: QrCode
-  requesterAddress?: string
+  requesterAddress?: Address
   recipient: Recipient
   forceTokenId?: boolean
   defaultTokenIdOverride?: string
@@ -67,8 +68,8 @@ export interface UpdateLastUsedCurrencyAction {
 export interface EncryptCommentAction {
   type: Actions.ENCRYPT_COMMENT
   comment: string
-  fromAddress: string
-  toAddress: string
+  fromAddress: Address
+  toAddress: Address
 }
 
 interface EncryptCommentCompleteAction {
@@ -95,7 +96,7 @@ export const handleQRCodeDetected = (qrCode: QrCode): HandleQRCodeDetectedAction
 export const handleQRCodeDetectedSecureSend = (
   qrCode: QrCode,
   recipient: Recipient,
-  requesterAddress?: string,
+  requesterAddress?: Address,
   forceTokenId?: boolean,
   defaultTokenIdOverride?: string
 ): HandleQRCodeDetectedSecureSendAction => ({
@@ -158,8 +159,8 @@ export const encryptComment = ({
   toAddress,
 }: {
   comment: string
-  fromAddress: string
-  toAddress: string
+  fromAddress: Address
+  toAddress: Address
 }): EncryptCommentAction => ({
   type: Actions.ENCRYPT_COMMENT,
   comment,

@@ -40,7 +40,7 @@ export interface AddressToDisplayNameType {
 }
 
 export interface WalletToAccountAddressType {
-  [address: Address]: string
+  [address: Address]: Address
 }
 
 export interface ImportContactProgress {

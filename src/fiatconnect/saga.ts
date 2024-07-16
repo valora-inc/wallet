@@ -83,6 +83,7 @@ import { safely } from 'src/utils/safely'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, delay, put, race, select, spawn, take, takeLeading } from 'typed-redux-saga'
 import { v4 as uuidv4 } from 'uuid'
+import { Address } from 'viem'
 
 const TAG = 'FiatConnectSaga'
 
@@ -951,7 +952,7 @@ export function* _initiateSendTxToProvider({
   fiatConnectQuote,
   feeInfo,
 }: {
-  transferAddress: string
+  transferAddress: Address
   fiatConnectQuote: FiatConnectQuote
   feeInfo: FeeInfo
 }) {
@@ -1010,17 +1011,14 @@ export function* handleCreateFiatConnectTransfer(
   const quoteId = fiatConnectQuote.getQuoteId()
   let transactionHash: string | null = null
   try {
-    const { transferAddress, transferId }: TransferResponse = yield* call(
-      _initiateTransferWithProvider,
-      action
-    )
+    const { transferAddress, transferId } = yield* call(_initiateTransferWithProvider, action)
 
     if (flow === CICOFlow.CashOut) {
       if (!feeInfo) {
         // Should never happen since we disable the submit button if flow is cash out and there is no fee info
         throw new Error('Fee info is required for cash out')
       }
-      const cashOutTxHash: string = yield* call(_initiateSendTxToProvider, {
+      const cashOutTxHash = yield* call(_initiateSendTxToProvider, {
         transferAddress,
         fiatConnectQuote,
         feeInfo,

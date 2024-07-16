@@ -99,6 +99,7 @@ import {
   takeLatest,
 } from 'typed-redux-saga'
 import { parse } from 'url'
+import { Address } from 'viem'
 
 const TAG = 'app/saga'
 
@@ -237,7 +238,7 @@ export interface RemoteConfigValues {
   networkTimeoutSeconds: number
   celoNews: CeloNewsConfig
   priceImpactWarningThreshold: number
-  superchargeRewardContractAddress: string
+  superchargeRewardContractAddress: Address
 }
 
 export function* appRemoteFeatureFlagSaga() {

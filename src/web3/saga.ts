@@ -25,6 +25,7 @@ import {
   walletAddressSelector,
 } from 'src/web3/selectors'
 import { call, delay, put, select, spawn, take } from 'typed-redux-saga'
+import { Address } from 'viem'
 import { RootState } from '../redux/reducers'
 
 const TAG = 'web3/saga'
@@ -102,7 +103,7 @@ export function* getOrCreateAccount() {
 
 export function* assignAccountFromPrivateKey(privateKey: string, mnemonic: string) {
   try {
-    const account = privateKeyToAddress(privateKey)
+    const account = privateKeyToAddress(privateKey) as Address
     const wallet: UnlockableWallet = yield* call(getWallet)
     const password: string = yield* call(getPasswordSaga, account, false, true)
 
@@ -144,11 +145,11 @@ export function* assignAccountFromPrivateKey(privateKey: string, mnemonic: strin
  * @param addressSelector
  * @param action
  */
-function* getAddress<T extends { address: string | null }>({
+function* getAddress<T extends { address: Address | null }>({
   addressSelector,
   action,
 }: {
-  addressSelector: (state: RootState) => string | null
+  addressSelector: (state: RootState) => Address | null
   action: Actions
 }) {
   while (true) {
@@ -171,7 +172,7 @@ export function* getWalletAddress() {
     addressSelector: walletAddressSelector,
     action: Actions.SET_ACCOUNT,
   })
-  return address as string
+  return address
 }
 
 // deprecated, please use |getWalletAddress| instead.
@@ -214,14 +215,14 @@ export function* unlockAccount(account: string, force: boolean = false) {
 
 // Wait for account ready
 export function* getConnectedAccount() {
-  const account: string = yield* call(getAccount)
+  const account = yield* call(getAccount)
   return account
 }
 
 // Wait for geth to be connected, geth ready, and get unlocked account
 export function* getConnectedUnlockedAccount() {
-  const account: string = yield* call(getConnectedAccount)
-  const result: UnlockResult = yield* call(unlockAccount, account)
+  const account = yield* call(getConnectedAccount)
+  const result = yield* call(unlockAccount, account)
   if (result === UnlockResult.SUCCESS) {
     const signedMessage = yield* call(retrieveSignedMessage)
     if (!signedMessage) {
@@ -250,8 +251,8 @@ export function* getConnectedUnlockedAccount() {
 // used elsewhere that errouneously refers to the EOA
 // as `account`
 export function* getAccountAddress() {
-  const walletAddress: string = yield* call(getAccount)
-  const mtwAddress: string | null = yield* select(mtwAddressSelector)
+  const walletAddress = yield* call(getAccount)
+  const mtwAddress = yield* select(mtwAddressSelector)
   return mtwAddress ?? walletAddress
 }
 

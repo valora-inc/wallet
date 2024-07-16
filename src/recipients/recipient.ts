@@ -23,7 +23,7 @@ export type Recipient = {
   e164PhoneNumber?: string
   address?: Address
   recipientType: RecipientType
-} & ({ e164PhoneNumber: string } | { address: string })
+} & ({ e164PhoneNumber: string } | { address: Address })
 
 export type MobileRecipient = Recipient & {
   e164PhoneNumber: string
