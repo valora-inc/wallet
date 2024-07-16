@@ -16,12 +16,12 @@ import { Address, encodeFunctionData } from 'viem'
 const TAG = 'src/send/usePrepareJumpstartTransactions'
 
 async function createBaseJumpstartTransactions(
-  jumpstartContractAddress: string,
+  jumpstartContractAddress: Address,
   sendTokenAmountInSmallestUnit: BigNumber,
-  spendTokenAddress: string,
+  spendTokenAddress: Address,
   networkId: NetworkId,
-  walletAddress: string,
-  publicKey: string,
+  walletAddress: Address,
+  publicKey: Address,
   depositERC20GasEstimate: string
 ) {
   const baseTransactions: TransactionRequest[] = []
@@ -30,33 +30,33 @@ async function createBaseJumpstartTransactions(
   const approvedAllowanceForSpender = await publicClient[
     networkIdToNetwork[networkId]
   ].readContract({
-    address: spendTokenAddress as Address,
+    address: spendTokenAddress,
     abi: erc20.abi,
     functionName: 'allowance',
-    args: [walletAddress as Address, jumpstartContractAddress as Address],
+    args: [walletAddress, jumpstartContractAddress],
   })
 
   if (approvedAllowanceForSpender < spendAmount) {
     const approveTx: TransactionRequest = {
-      from: walletAddress as Address,
-      to: spendTokenAddress as Address,
+      from: walletAddress,
+      to: spendTokenAddress,
       data: encodeFunctionData({
         abi: erc20.abi,
         functionName: 'approve',
-        args: [jumpstartContractAddress as Address, spendAmount],
+        args: [jumpstartContractAddress, spendAmount],
       }),
     }
     baseTransactions.push(approveTx)
   }
 
   const transferTx: TransactionRequest = {
-    from: walletAddress as Address,
-    to: jumpstartContractAddress as Address,
+    from: walletAddress,
+    to: jumpstartContractAddress,
     value: BigInt(0),
     data: encodeFunctionData({
       abi: jumpstart.abi,
       functionName: 'depositERC20',
-      args: [publicKey as Address, spendTokenAddress as Address, spendAmount],
+      args: [publicKey, spendTokenAddress, spendAmount],
     }),
     gas: BigInt(depositERC20GasEstimate),
   }
@@ -74,10 +74,10 @@ export function usePrepareJumpstartTransactions() {
       feeCurrencies,
       publicKey,
     }: {
-      publicKey: string
+      publicKey: Address
       sendTokenAmountInSmallestUnit: BigNumber
       token: TokenBalance
-      walletAddress: string
+      walletAddress: Address
       feeCurrencies: TokenBalance[]
     }) => {
       if (sendTokenAmountInSmallestUnit.isLessThanOrEqualTo(0)) {

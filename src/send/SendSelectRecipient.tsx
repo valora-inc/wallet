@@ -245,7 +245,7 @@ function SendSelectRecipient({ route }: Props) {
 
   const nextScreen = (selectedRecipient: Recipient) => {
     // use the address from the recipient object
-    let address: string | null | undefined = selectedRecipient.address
+    let address = selectedRecipient.address
 
     // if not present there must be a phone number, route through secure send or get
     // the secure send mapped address

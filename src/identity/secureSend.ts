@@ -2,6 +2,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { AddressValidationType, SecureSendPhoneNumberMapping } from 'src/identity/reducer'
 import { Recipient, recipientHasNumber } from 'src/recipients/recipient'
 import Logger from 'src/utils/Logger'
+import { Address, isAddress } from 'viem'
 
 const TAG = 'identity/secureSend'
 
@@ -80,9 +81,9 @@ function hasSpecialChars(address: string, addressValidationType: AddressValidati
 }
 
 function validateFullAddressAndReturnMatch(
-  userInputtedAddress: string,
-  possibleRecievingAddresses: string[],
-  userAddress: string
+  userInputtedAddress: Address,
+  possibleRecievingAddresses: Address[],
+  userAddress: Address
 ) {
   if (userInputtedAddress.length !== 42 || userInputtedAddress.slice(0, 2) !== '0x') {
     throw Error(ErrorMessages.ADDRESS_VALIDATION_FULL_POORLY_FORMATTED)
@@ -101,8 +102,8 @@ function validateFullAddressAndReturnMatch(
 
 function validatePartialAddressAndReturnMatch(
   lastFourDigitsOfUserInputtedAddress: string,
-  possibleRecievingAddresses: string[],
-  userAddress: string
+  possibleRecievingAddresses: Address[],
+  userAddress: Address
 ) {
   if (lastFourDigitsOfUserInputtedAddress.length !== 4) {
     throw Error(ErrorMessages.ADDRESS_VALIDATION_PARTIAL_POORLY_FORMATTED)
@@ -125,17 +126,19 @@ function validatePartialAddressAndReturnMatch(
 
 export function validateAndReturnMatch(
   userInputOfFullAddressOrLastFourDigits: string,
-  possibleRecievingAddresses: string[],
-  userAddress: string,
+  possibleRecievingAddresses: Address[],
+  userAddress: Address,
   addressValidationType: AddressValidationType
 ) {
-  const userInput = userInputOfFullAddressOrLastFourDigits.toLowerCase()
-  const possibleAddresses = possibleRecievingAddresses.map((address) => address.toLowerCase())
-  const userOwnAddress = userAddress.toLowerCase()
+  const userInput: Address | string = userInputOfFullAddressOrLastFourDigits.toLowerCase()
+  const possibleAddresses = possibleRecievingAddresses.map(
+    (address) => address.toLowerCase() as Address
+  )
+  const userOwnAddress = userAddress.toLowerCase() as Address
 
   hasSpecialChars(userInputOfFullAddressOrLastFourDigits, addressValidationType)
 
-  if (addressValidationType === AddressValidationType.FULL) {
+  if (addressValidationType === AddressValidationType.FULL && isAddress(userInput)) {
     return validateFullAddressAndReturnMatch(userInput, possibleAddresses, userOwnAddress)
   }
   return validatePartialAddressAndReturnMatch(userInput, possibleAddresses, userOwnAddress)

@@ -11,6 +11,7 @@ import {
 } from 'src/identity/reducer'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import Logger from 'src/utils/Logger'
+import { Address } from 'viem'
 
 const TAG = 'recipients/recipient'
 
@@ -20,9 +21,9 @@ export type Recipient = {
   thumbnailPath?: string
   displayNumber?: string
   e164PhoneNumber?: string
-  address?: string
+  address?: Address
   recipientType: RecipientType
-} & ({ e164PhoneNumber: string } | { address: string })
+} & ({ e164PhoneNumber: string } | { address: Address })
 
 export type MobileRecipient = Recipient & {
   e164PhoneNumber: string
@@ -35,7 +36,7 @@ export type ContactRecipient = MobileRecipient & {
 }
 
 export type AddressRecipient = Recipient & {
-  address: string
+  address: Address
   recipientType: RecipientType.Address
 }
 
@@ -140,7 +141,7 @@ export interface RecipientInfo {
 }
 
 export function getRecipientFromAddress(
-  address: string,
+  address: Address,
   info: RecipientInfo,
   defaultName?: string | null,
   defaultImage?: string | null

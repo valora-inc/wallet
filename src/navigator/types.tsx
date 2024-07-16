@@ -43,7 +43,7 @@ type SendEnterAmountParams = {
 }
 
 interface ValidateRecipientParams {
-  requesterAddress?: string
+  requesterAddress?: Address
   origin: SendOrigin
   recipient: Recipient
   forceTokenId?: boolean

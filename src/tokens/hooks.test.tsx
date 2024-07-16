@@ -27,6 +27,7 @@ import {
   mockTokenBalances,
   mockUSDCTokenId,
 } from 'test/values'
+import { Address } from 'viem'
 
 jest.mock('src/statsig')
 
@@ -98,7 +99,7 @@ const store = (usdToLocalRate: string | null, priceFetchedAt: number) =>
     },
   })
 
-const storeWithMultipleNetworkTokens = (walletAddress?: string) =>
+const storeWithMultipleNetworkTokens = (walletAddress?: Address) =>
   createMockStore({
     web3: {
       account: walletAddress ?? mockAccount,

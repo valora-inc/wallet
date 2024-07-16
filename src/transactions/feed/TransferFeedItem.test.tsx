@@ -31,9 +31,10 @@ import {
   mockTestTokenAddress,
   mockTestTokenTokenId,
 } from 'test/values'
+import { Address } from 'viem'
 
 const MOCK_TX_HASH = '0x006b866d20452a24d1d90c7514422188cc7c5d873e2f1ed661ec3f810ad5331c'
-const MOCK_ADDRESS = '0xFdd8bD58115FfBf04e47411c1d228eCC45E93075'
+const MOCK_ADDRESS: Address = '0xFdd8bD58115FfBf04e47411c1d228eCC45E93075'
 const MOCK_E164_NUMBER = '+14155550001'
 const MOCK_CONTACT = {
   name: mockName,
@@ -42,7 +43,7 @@ const MOCK_CONTACT = {
   contactId: 'contactId',
   address: MOCK_ADDRESS,
 }
-const mockRetiredJumpstartAdddress = '0xabc'
+const mockRetiredJumpstartAdddress = '0xabc' as Address
 
 jest.mock('src/statsig')
 
@@ -94,7 +95,7 @@ describe('TransferFeedItem', () => {
     fees?: Fee[]
     storeOverrides?: RecursivePartial<RootState>
     status?: TransactionStatus
-    address?: string
+    address?: Address
   }) {
     const store = createMockStore({
       ...storeOverrides,

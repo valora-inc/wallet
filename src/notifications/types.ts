@@ -1,4 +1,5 @@
 import { KycSchema } from '@fiatconnect/fiatconnect-types'
+import { Address } from 'viem'
 
 export enum NotificationTypes {
   PAYMENT_RECEIVED = 'PAYMENT_RECEIVED',
@@ -6,14 +7,14 @@ export enum NotificationTypes {
 }
 
 export interface TransferNotificationData {
-  recipient: string
-  sender: string
+  recipient: Address
+  sender: Address
   value: string
   blockNumber: string
   txHash: string
   timestamp: string
   comment: string
-  tokenAddress: string
+  tokenAddress: Address
   type?: NotificationTypes.PAYMENT_RECEIVED
   name?: string
   imageUrl?: string

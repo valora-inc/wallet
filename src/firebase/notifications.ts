@@ -16,16 +16,17 @@ import {
   NotificationTypes,
   TransferNotificationData,
 } from 'src/notifications/types'
+import { getTokenId } from 'src/tokens/utils'
 import { TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { put } from 'typed-redux-saga'
 import networkConfig from 'src/web3/networkConfig'
-import { getTokenId } from 'src/tokens/utils'
+import { put } from 'typed-redux-saga'
+import { Address } from 'viem'
 
 const TAG = 'FirebaseNotifications'
 
 function handlePaymentReceived(transferNotification: TransferNotificationData) {
-  const address = transferNotification.sender.toLowerCase()
+  const address = transferNotification.sender.toLowerCase() as Address
 
   navigate(Screens.TransactionDetailsScreen, {
     transaction: {

@@ -10,6 +10,7 @@ import {
 } from 'src/identity/reducer'
 import { ImportContactsStatus } from 'src/identity/types'
 import { Recipient } from 'src/recipients/recipient'
+import { Address } from 'viem'
 
 export enum Actions {
   SET_SEEN_VERIFICATION_NUX = 'IDENTITY/SET_SEEN_VERIFICATION_NUX',
@@ -65,7 +66,7 @@ export interface UpdateKnownAddressesAction {
 export interface FetchAddressesAndValidateAction {
   type: Actions.FETCH_ADDRESSES_AND_VALIDATION_STATUS
   e164Number: string
-  requesterAddress?: string
+  requesterAddress?: Address
 }
 
 export interface EndFetchingAddressesAction {
@@ -103,13 +104,13 @@ export interface ValidateRecipientAddressAction {
   userInputOfFullAddressOrLastFourDigits: string
   addressValidationType: AddressValidationType
   recipient: Recipient
-  requesterAddress?: string
+  requesterAddress?: Address
 }
 
 export interface ValidateRecipientAddressSuccessAction {
   type: Actions.VALIDATE_RECIPIENT_ADDRESS_SUCCESS
   e164Number: string
-  validatedAddress: string
+  validatedAddress: Address
 }
 
 export interface ValidateRecipientAddressResetAction {
@@ -125,23 +126,23 @@ export interface RequireSecureSendAction {
 
 export interface FetchDataEncryptionKeyAction {
   type: Actions.FETCH_DATA_ENCRYPTION_KEY
-  address: string
+  address: Address
 }
 
 export interface UpdateAddressDekMapAction {
   type: Actions.UPDATE_ADDRESS_DEK_MAP
-  address: string
+  address: Address
   dataEncryptionKey: string | null
 }
 
 export interface FetchAddressVerificationAction {
   type: Actions.FETCH_ADDRESS_VERIFICATION_STATUS
-  address: string
+  address: Address
 }
 
 export interface AddressVerificationStatusReceivedAction {
   type: Actions.ADDRESS_VERIFICATION_STATUS_RECEIVED
-  address: string
+  address: Address
   addressVerified: boolean
 }
 
@@ -184,7 +185,7 @@ export const setHasSeenVerificationNux = (status: boolean): SetHasSeenVerificati
 
 export const fetchAddressesAndValidate = (
   e164Number: string,
-  requesterAddress?: string
+  requesterAddress?: Address
 ): FetchAddressesAndValidateAction => ({
   type: Actions.FETCH_ADDRESSES_AND_VALIDATION_STATUS,
   e164Number,
@@ -192,7 +193,7 @@ export const fetchAddressesAndValidate = (
 })
 
 export const addressVerificationStatusReceived = (
-  address: string,
+  address: Address,
   addressVerified: boolean
 ): AddressVerificationStatusReceivedAction => ({
   type: Actions.ADDRESS_VERIFICATION_STATUS_RECEIVED,
@@ -200,7 +201,7 @@ export const addressVerificationStatusReceived = (
   addressVerified,
 })
 
-export const fetchAddressVerification = (address: string): FetchAddressVerificationAction => ({
+export const fetchAddressVerification = (address: Address): FetchAddressVerificationAction => ({
   type: Actions.FETCH_ADDRESS_VERIFICATION_STATUS,
   address,
 })
@@ -227,14 +228,15 @@ export const updateWalletToAccountAddress = (
   walletToAccountAddress: WalletToAccountAddressType
 ): UpdateWalletToAccountAddressAction => {
   const newWalletToAccountAddresses: WalletToAccountAddressType = {}
-  const walletAddresses = Object.keys(walletToAccountAddress)
+  const walletAddresses = Object.keys(walletToAccountAddress) as Address[]
 
   for (const walletAddress of walletAddresses) {
-    const newWalletAddress = normalizeAddressWith0x(walletAddress)
-    const newAccountAddress = normalizeAddressWith0x(walletToAccountAddress[walletAddress])
+    const newWalletAddress = normalizeAddressWith0x(walletAddress) as Address
+    const newAccountAddress = normalizeAddressWith0x(
+      walletToAccountAddress[walletAddress]
+    ) as Address
     newWalletToAccountAddresses[newWalletAddress] = newAccountAddress
   }
-
   return {
     type: Actions.UPDATE_WALLET_TO_ACCOUNT_ADDRESS,
     walletToAccountAddress: newWalletToAccountAddresses,
@@ -287,7 +289,7 @@ export const validateRecipientAddress = (
   userInputOfFullAddressOrLastFourDigits: string,
   addressValidationType: AddressValidationType,
   recipient: Recipient,
-  requesterAddress?: string
+  requesterAddress?: Address
 ): ValidateRecipientAddressAction => ({
   type: Actions.VALIDATE_RECIPIENT_ADDRESS,
   userInputOfFullAddressOrLastFourDigits,
@@ -298,7 +300,7 @@ export const validateRecipientAddress = (
 
 export const validateRecipientAddressSuccess = (
   e164Number: E164Number,
-  validatedAddress: string
+  validatedAddress: Address
 ): ValidateRecipientAddressSuccessAction => ({
   type: Actions.VALIDATE_RECIPIENT_ADDRESS_SUCCESS,
   e164Number,
@@ -321,13 +323,13 @@ export const requireSecureSend = (
   addressValidationType,
 })
 
-export const fetchDataEncryptionKey = (address: string): FetchDataEncryptionKeyAction => ({
+export const fetchDataEncryptionKey = (address: Address): FetchDataEncryptionKeyAction => ({
   type: Actions.FETCH_DATA_ENCRYPTION_KEY,
   address,
 })
 
 export const updateAddressDekMap = (
-  address: string,
+  address: Address,
   dataEncryptionKey: string | null
 ): UpdateAddressDekMapAction => ({
   type: Actions.UPDATE_ADDRESS_DEK_MAP,

@@ -40,7 +40,7 @@ import Logger from 'src/utils/Logger'
 import { initialiseWalletConnect, isWalletConnectEnabled } from 'src/walletConnect/saga'
 import { handleLoadingWithTimeout } from 'src/walletConnect/walletConnect'
 import { call, fork, put, select } from 'typed-redux-saga'
-import { isAddress } from 'viem'
+import { Address, isAddress } from 'viem'
 
 export enum QRCodeTypes {
   QR_CODE = 'QR_CODE',
@@ -85,16 +85,16 @@ export async function shareSVGImage(svg: SVG) {
 }
 
 export function* handleSecureSend(
-  address: string,
+  address: Address,
   e164NumberToAddress: E164NumberToAddressType,
   recipient: Recipient,
-  requesterAddress?: string
+  requesterAddress?: Address
 ) {
   if (!recipientHasNumber(recipient)) {
     throw Error('Invalid recipient type for Secure Send, has no mobile number')
   }
 
-  const userScannedAddress = address.toLowerCase()
+  const userScannedAddress = address.toLowerCase() as Address
   const { e164PhoneNumber } = recipient
   const possibleReceivingAddresses = e164NumberToAddress[e164PhoneNumber]
   // This should never happen. Secure Send is triggered when there are
@@ -166,7 +166,7 @@ export function* handleQRCodeDefault({ qrCode }: HandleQRCodeDetectedAction) {
   }
 
   const qrData = yield* call(extractQRAddressData, qrCode)
-  if (!qrData) {
+  if (!qrData || !isAddress(qrData.address)) {
     return
   }
   const recipientInfo: RecipientInfo = yield* select(recipientInfoSelector)
@@ -186,11 +186,11 @@ export function* handleQRCodeSecureSend({
   ValoraAnalytics.track(QrScreenEvents.qr_scanned, qrCode)
 
   const qrData = yield* call(extractQRAddressData, qrCode)
-  if (!qrData) {
+  if (!qrData || !isAddress(qrData.address)) {
     return
   }
 
-  const success: boolean = yield* call(
+  const success = yield* call(
     handleSecureSend,
     qrData.address,
     e164NumberToAddress,

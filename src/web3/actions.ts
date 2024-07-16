@@ -1,3 +1,5 @@
+import { Address } from 'viem'
+
 export enum Actions {
   SET_ACCOUNT = 'WEB3/SET_ACCOUNT',
   SET_ACCOUNT_IN_WEB3_KEYSTORE = 'WEB3/SET_ACCOUNT_IN_WEB3_KEYSTORE',
@@ -8,17 +10,17 @@ export enum Actions {
 
 export interface SetAccountAction {
   type: Actions.SET_ACCOUNT
-  address: string
+  address: Address
 }
 
 export interface SetMtwAddressAction {
   type: Actions.SET_MTW_ADDRESS
-  address: string | null
+  address: Address | null
 }
 
 export interface SetAccountInWeb3KeystoreAction {
   type: Actions.SET_ACCOUNT_IN_WEB3_KEYSTORE
-  address: string
+  address: Address
 }
 
 export interface SetDataEncryptionKeyAction {
@@ -37,21 +39,21 @@ export type ActionTypes =
   | SetDataEncryptionKeyAction
   | RegisterDataEncryptionKeyAction
 
-export const setAccount = (address: string): SetAccountAction => {
+export const setAccount = (address: Address): SetAccountAction => {
   return {
     type: Actions.SET_ACCOUNT,
-    address: address.toLowerCase(),
+    address: address.toLowerCase() as Address,
   }
 }
 
-export const setMtwAddress = (address: string | null): SetMtwAddressAction => {
+export const setMtwAddress = (address: Address | null): SetMtwAddressAction => {
   return {
     type: Actions.SET_MTW_ADDRESS,
-    address: address?.toLowerCase() ?? address,
+    address: (address?.toLowerCase() as Address) ?? address,
   }
 }
 
-export const setAccountInWeb3Keystore = (address: string): SetAccountInWeb3KeystoreAction => {
+export const setAccountInWeb3Keystore = (address: Address): SetAccountInWeb3KeystoreAction => {
   return {
     type: Actions.SET_ACCOUNT_IN_WEB3_KEYSTORE,
     address,

@@ -7,7 +7,15 @@ import { Screens } from 'src/navigator/Screens'
 import { Position } from 'src/positions/types'
 import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
-import { mockCusdAddress, mockCusdTokenId, mockPositions, mockShortcuts } from 'test/values'
+import {
+  mockCeloAddress,
+  mockCeloTokenId,
+  mockCusdAddress,
+  mockCusdTokenId,
+  mockPositions,
+  mockShortcuts,
+} from 'test/values'
+import { Address } from 'viem'
 
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(() => true),
@@ -24,9 +32,7 @@ jest.mock('src/web3/networkConfig', () => {
   }
 })
 
-const mockCeloAddress = '0x471ece3750da237f93b8e339c536989b8978a438'
-const mockUbeAddress = '0x00be915b9dcf56a3cbe739d9b9c202ca692409ec'
-const mockCeloTokenId = `celo-alfajores:${mockCeloAddress}`
+const mockUbeAddress: Address = '0x00be915b9dcf56a3cbe739d9b9c202ca692409ec'
 const mockUbeTokenId = `celo-alfajores:${mockUbeAddress}`
 
 const getPositionWithClaimableBalance = (balance?: string): Position => ({

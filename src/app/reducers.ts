@@ -39,7 +39,7 @@ interface State {
   coinbasePayEnabled: boolean
   showSwapMenuInDrawerMenu: boolean
   maxSwapSlippagePercentage: number
-  inviterAddress: string | null
+  inviterAddress: Address | null
   networkTimeoutSeconds: number
   celoNews: CeloNewsConfig
   hapticFeedbackEnabled: boolean

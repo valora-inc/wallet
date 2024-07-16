@@ -86,7 +86,7 @@ describe('prepareTransactions module', () => {
   )
 
   const mockNativeFeeCurrency = {
-    address: '0xfee1',
+    address: '0xfee1' as Address,
     balance: new BigNumber(100), // 10k units, 100.0 decimals
     decimals: 2,
     priceUsd: null,
@@ -98,7 +98,7 @@ describe('prepareTransactions module', () => {
     isNative: true,
   }
   const mockErc20FeeCurrency = {
-    address: '0xfee2',
+    address: '0xfee2' as Address,
     balance: new BigNumber(70), // 70k units, 70.0 decimals
     decimals: 3,
     priceUsd: null,
@@ -111,7 +111,7 @@ describe('prepareTransactions module', () => {
     isFeeCurrency: true,
   }
   const mockFeeCurrencyWithAdapter: TokenBalanceWithAddress = {
-    address: '0xfee3',
+    address: '0xfee3' as Address,
     balance: new BigNumber(50), // 50k units, 50.0 decimals
     decimals: 3,
     priceUsd: null,

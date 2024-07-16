@@ -1,4 +1,5 @@
 import networkConfig from 'src/web3/networkConfig'
+import { Address } from 'viem'
 
 export interface RegistrationProperties {
   language?: string | null
@@ -8,7 +9,7 @@ export interface RegistrationProperties {
 }
 
 export async function updateAccountRegistration(
-  address: string | null,
+  address: Address | null,
   signature: string | null,
   properties: RegistrationProperties
 ): Promise<void> {

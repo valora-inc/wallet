@@ -1,5 +1,6 @@
 import { ZENDESK_API_KEY } from 'src/config'
 import Logger from 'src/utils/Logger'
+import { Address } from 'viem'
 
 const ZENDESK_PROJECT_NAME = 'valoraapp'
 
@@ -14,7 +15,7 @@ export interface DeviceInfo {
   deviceId: string
   deviceBrand: string
   deviceModel: string
-  address: string | null
+  address: Address | null
   sessionId: string
   numberVerifiedCentralized: boolean
   network: string

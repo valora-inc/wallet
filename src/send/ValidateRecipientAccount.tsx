@@ -26,11 +26,12 @@ import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { getDisplayName, Recipient } from 'src/recipients/recipient'
+import { Recipient, getDisplayName } from 'src/recipients/recipient'
 import { RootState } from 'src/redux/reducers'
 import { TransactionDataInput } from 'src/send/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { Address } from 'viem'
 
 const FULL_ADDRESS_PLACEHOLDER = '0xf1b1d5a6e7728g309c4a025k122d71ad75a61976'
 const PARTIAL_ADDRESS_PLACEHOLDER = ['a', '0', 'F', '4']
@@ -41,7 +42,7 @@ interface StateProps {
   addressValidationType: AddressValidationType
   validationSuccessful: boolean
   error?: ErrorMessages | null
-  validatedAddress?: string
+  validatedAddress?: Address
 }
 
 interface State {

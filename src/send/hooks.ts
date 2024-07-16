@@ -17,6 +17,7 @@ import {
 import { phoneRecipientCacheSelector, recipientInfoSelector } from 'src/recipients/reducer'
 import { resolveId } from 'src/recipients/resolve-id'
 import { useSelector } from 'src/redux/hooks'
+import { Address } from 'viem'
 
 const TYPING_DEBOUNCE_MILLSECONDS = 300
 const SEARCH_THROTTLE_TIME = 100
@@ -199,7 +200,7 @@ export function useUniqueSearchRecipient(searchQuery: string): Recipient | undef
     }
   }
   if (isValidAddress(searchQuery)) {
-    return getRecipientFromAddress(searchQuery.toLowerCase(), recipientInfo)
+    return getRecipientFromAddress(searchQuery.toLowerCase() as Address, recipientInfo)
   }
 }
 
@@ -214,7 +215,7 @@ export function useMapResolutionsToRecipients(
   const { t } = useTranslation()
 
   const resolvedRecipients = resolutions.map((resolution) => {
-    const lowerCaseAddress = resolution.address.toLowerCase()
+    const lowerCaseAddress = resolution.address.toLowerCase() as Address
     switch (resolution.kind) {
       case ResolutionKind.Address:
         return getRecipientFromAddress(lowerCaseAddress, recipientInfo)

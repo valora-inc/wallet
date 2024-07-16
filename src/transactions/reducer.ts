@@ -11,6 +11,7 @@ import {
   TokenTransaction,
   TransactionStatus,
 } from 'src/transactions/types'
+import { Address } from 'viem'
 
 export interface InviteTransactions {
   [txHash: string]: {
@@ -43,7 +44,7 @@ interface State {
 export interface KnownFeedTransactionsType {
   // Value will be an address string for transfer transactions
   // and true boolean for exchange transactions
-  [txHash: string]: string | boolean
+  [txHash: string]: Address | boolean
 }
 
 const initialState = {

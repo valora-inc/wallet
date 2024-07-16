@@ -2,7 +2,6 @@
 // Use these instead of the functions in @celo/utils/lib/commentEncryption
 // because these manage comment metadata
 
-import { Address } from '@celo/base'
 import { AccountsWrapper } from '@celo/contractkit/lib/wrappers/Accounts'
 import {
   decryptComment as decryptCommentRaw,
@@ -35,6 +34,7 @@ import { doFetchDataEncryptionKey } from 'src/web3/dataEncryptionKey'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { dataEncryptionKeySelector } from 'src/web3/selectors'
 import { all, call, put, select } from 'typed-redux-saga'
+import { Address } from 'viem'
 
 const TAG = 'identity/commentKey'
 // A separator to split the comment content from the metadata
@@ -161,7 +161,7 @@ export function extractPhoneNumberMetadata(commentData: string) {
 }
 
 interface IdentityMetadataInTx {
-  address: string
+  address: Address
   e164Number: string
   salt: string
   phoneHash?: string
@@ -253,10 +253,10 @@ function* verifyIdentityMetadata(data: IdentityMetadataInTx[]) {
   for (const metadata of data) {
     const phoneHash = getPhoneHash(metadata.e164Number, metadata.salt)
     metadata.phoneHash = phoneHash
-    const accountAddresses: Address[] = yield* call(lookupAccountAddressesForIdentifier, phoneHash)
+    const accountAddresses = yield* call(lookupAccountAddressesForIdentifier, phoneHash)
 
     // Check that there are verified addresses.
-    const verifiedAccountAddresses: Address[] = yield* call(
+    const verifiedAccountAddresses = yield* call(
       filterNonVerifiedAddresses,
       accountAddresses,
       phoneHash
@@ -268,11 +268,11 @@ function* verifyIdentityMetadata(data: IdentityMetadataInTx[]) {
       )
       continue
     }
-    const walletAddresses: Address[] = yield* all(
+    const walletAddresses = (yield* all(
       verifiedAccountAddresses.map((accountAddress) =>
         call(accountsWrapper.getWalletAddress, accountAddress)
       )
-    )
+    )) as Address[]
     if (!walletAddresses.some((walletAddress) => eqAddress(walletAddress, metadata.address))) {
       Logger.warn(
         TAG + 'verifyIdentityMetadata',
@@ -315,7 +315,7 @@ function* updatePhoneNumberMappings(newIdentityData: IdentityMetadataInTx[]) {
     e164NumberToSaltUpdates[e164Number] = salt
 
     // Merge new address in with old ones, create set to avoid duplicates
-    const addressSet = new Set<string>(e164NumberToAddress[e164Number])
+    const addressSet: Set<Address> = new Set<Address>(e164NumberToAddress[e164Number])
     addressSet.add(address)
     e164NumberToAddressUpdates[e164Number] = Array.from(addressSet)
     addressToE164NumberUpdates[address] = e164Number

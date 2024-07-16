@@ -161,7 +161,7 @@ export interface PhoneNumberRevoked {
 
 export interface InviteLinkConsumed {
   type: Actions.INVITE_LINK_CONSUMED
-  inviterAddress: string
+  inviterAddress: Address
 }
 
 interface HapticFeedbackSet {
@@ -358,7 +358,7 @@ export const phoneNumberRevoked = (e164PhoneNumber: string): PhoneNumberRevoked 
   }
 }
 
-export const inviteLinkConsumed = (inviterAddress: string): InviteLinkConsumed => {
+export const inviteLinkConsumed = (inviterAddress: Address): InviteLinkConsumed => {
   return {
     type: Actions.INVITE_LINK_CONSUMED,
     inviterAddress,

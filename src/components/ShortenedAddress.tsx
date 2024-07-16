@@ -1,12 +1,13 @@
 import * as React from 'react'
 import { StyleProp, Text, TextStyle } from 'react-native'
+import { Address } from 'viem'
 
 interface Props {
   style: StyleProp<TextStyle>
-  address: string
+  address: Address
 }
 
-export function formatShortenedAddress(address: string): string {
+export function formatShortenedAddress(address: Address): string {
   return `${address.slice(0, 6)}...${address.slice(-4)}`
 }
 
