@@ -44,7 +44,7 @@ interface SameChainQuoteResult extends BaseQuoteResult {
 
 interface CrossChainQuoteResult extends BaseQuoteResult {
   swapType: 'cross-chain'
-  estimatedDuration: number
+  estimatedDurationInSeconds: number
   maxCrossChainFee: string
   estimatedCrossChainFee: string
 }
@@ -247,7 +247,7 @@ function useSwapQuote({
       if (quote.unvalidatedSwapTransaction.swapType === 'cross-chain') {
         return {
           ...baseQuoteResult,
-          estimatedDuration: quote.unvalidatedSwapTransaction.estimatedDuration,
+          estimatedDurationInSeconds: quote.unvalidatedSwapTransaction.estimatedDuration,
           maxCrossChainFee: quote.unvalidatedSwapTransaction.maxCrossChainFee,
           estimatedCrossChainFee: quote.unvalidatedSwapTransaction.estimatedCrossChainFee,
         }

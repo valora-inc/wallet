@@ -73,7 +73,9 @@
   },
   "recoveryPhrase": {
     "title": "Cụm từ khôi phục của bạn",
+    "titleV1_90": "Cụm từ khôi phục của bạn",
     "body": "Hãy viết 12 từ này vào một nơi an toàn mà không ai có thể đánh cắp hoặc làm hư hỏng chúng.",
+    "bodyV1_90": "Nếu làm mất cụm từ khôi phục, bạn sẽ không thể truy cập vào toàn bộ số tiền bạn sở hữu trên Valora.",
     "continue": "Tôi đã lưu cụm từ khôi phục",
     "copy": "Sao chép vào bảng nhớ tạm",
     "mnemonicCopied": "Đã sao chép cụm từ khôi phục vào bảng nhớ tạm",
@@ -936,6 +938,7 @@
     "header": "Khôi phục ví",
     "title": "Nhập cụm từ khôi phục của bạn",
     "description": "Sử dụng cụm từ 12 hoặc 24 từ mà bạn đã lưu khi bạn thiết lập ví của mình để khôi phục.",
+    "descriptionV1_90": "Your Recovery Phrase is a 12 or 24-word phrase that you wrote down and saved when you set up your wallet. Please enter it here to restore your wallet.",
     "emptyWalletDialog": {
       "description": "Ví khoản này không có tiền. Bạn vẫn muốn sử dụng chứ?",
       "action": "Sử dụng ví",
@@ -1864,12 +1867,30 @@
       "networkFeeInfo": "Bạn đang trao đổi trên Mạng {{networkName}}.\n\nĐể thực hiện giao dịch trên Mạng {{networkName}}, bạn bắt buộc phải trả khoản phí mạng lưới ước tính này. Khoản phí này sẽ đảm bảo cho giao dịch của bạn và được sử dụng để duy trì hoạt động của mạng.",
       "networkFeeInfoV1_76": "Bạn đang trao đổi trên Mạng {{networkName}}.\n\nĐể thực hiện giao dịch trên Mạng {{networkName}}, bạn bắt buộc phải trả khoản phí mạng này. Khoản phí này sẽ đảm bảo cho giao dịch của bạn và được sử dụng để thanh toán cho các trình xác thực mạng.\n\nDo phí giao dịch chính xác phụ thuộc vào tình trạng mạng, nên mức phí ước tính được nêu tại đây là số tiền chúng tôi dự đoán. Khoản phí này sẽ không vượt quá mức phí tối đa.",
       "slippageToleranceInfo": "Tỷ lệ trượt giá chấp nhận\n\nViệc trao đổi sẽ được thực hiện trong phạm vi tỷ lệ trượt giá chấp nhận. Nếu giá thay đổi nhiều hơn tỷ lệ trượt giá chấp nhận, {{appName}} sẽ bảo vệ bạn bằng cách ngăn khớp lệnh giao dịch.",
+      "slippageToleranceInfoV1_90": "Your swap will execute within the slippage tolerance percentage. If the price changes more than the slippage tolerance, {{appName}} protects you by preventing the trade from executing.",
       "networkFeeInfoDismissButton": "Đã hiểu",
       "exchangeRate": "Tỷ giá quy đổi",
-      "exchangeRateInfo": "Tỷ giá hối đoái\n\nChúng tôi đã tìm được tỷ giá hối đoái tốt nhất cho bạn. Chúng tôi sẽ hoàn thành giao dịch của bạn ở mức giá nằm trong khoảng {{slippagePercentage}}% so với ước tính hoặc sẽ hủy giao dịch và hoàn tiền vào ví của bạn.",
+      "exchangeRateInfo": "Exchange Rate\n\nWe've found the best exchange rate for you. Your trade will be completed at a price within {{slippagePercentage}}% of the estimate or the transaction will be cancelled and funds returned to your wallet.",
+      "exchangeRateInfoV1_90": "We've found the best exchange rate for you. Your trade will be completed at a price within {{slippagePercentage}}% of the estimate or the transaction will be cancelled and funds returned to your wallet.",
       "exchangeRateInfo_withAppFee": "Tỷ giá hối đoái\n\nChúng tôi đã tìm được tỷ giá hối đoái tốt nhất cho bạn. Chúng tôi sẽ hoàn thành giao dịch của bạn ở mức giá nằm trong khoảng {{slippagePercentage}}% so với ước tính hoặc sẽ hủy giao dịch và hoàn tiền vào ví của bạn.\n\nTỷ giá ước tính bao gồm phí {{appName}} là {{appFeePercentage}}%.",
       "exchangeRateInfoDismissButton": "Đã hiểu",
-      "estimatedValue": "Giá trị ước tính"
+      "estimatedValue": "Giá trị ước tính",
+      "estimatedTransactionTime": "Estimated Transaction Time",
+      "estimatedTransactionTimeInMinutes": "≈ {{minutes}} min",
+      "estimatedTransactionTimeInfo": "The time to complete the transaction is determined by the provider.\n\nIf you are swapping between different chains, the transaction could take a bit longer to complete.",
+      "infoDismissButton": "Đã hiểu",
+      "fees": "Phí",
+      "feesCalculationError": "Unable to calculate fees",
+      "estimatedCrossChainFee": "Estimated cross-chain fees",
+      "maxCrossChainFee": "Max cross-chain fees",
+      "feesBreakdown": "Breakdown",
+      "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
+      "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
+      "feesMoreInfoLabel": "More information",
+      "feesInfo_sameChain": "A network fee is required to process the transaction, ensuring security and reliability.",
+      "feesInfo_crossChain": "A network fee is required to process the transaction, ensuring security and reliability. A cross-chain fee is charged by the provider to enable smooth and secure exchanges between different blockchains.",
+      "feesInfo_sameChainWithAppFee": "A network fee is required to process the transaction, ensuring security and reliability. The {{appName}} fee of {{appFeePercentage}}% enhances your experience by ensuring fast, reliable, and secure swaps.",
+      "feesInfo_crossChainWithAppFee": "A network fee is required to process the transaction, ensuring security and reliability. A cross-chain fee is charged by the provider to enable smooth and secure exchanges between different blockchains. The {{appName}} fee of {{appFeePercentage}}% enhances your experience by ensuring fast, reliable, and secure swaps."
     },
     "fundYourWalletBottomSheet": {
       "title": "Nạp tiền vào ví của bạn",
@@ -2318,6 +2339,13 @@
         "swap": {
           "title": "Trao đổi",
           "subtitle": "{{fromToken}} sang {{toToken}}"
+        },
+        "createLiveLink": {
+          "title": "Đường liên kết trực tiếp",
+          "subtitle": {
+            "erc20": "Sent {{tokenSymbol}}",
+            "erc721": "NFT đã gửi"
+          }
         }
       },
       "title": "Hoạt động tích điểm của tôi",
@@ -2377,6 +2405,14 @@
       },
       "moreComing": {
         "title": "Còn nhiều cách khác nữa!"
+      },
+      "createLiveLink": {
+        "title": "Gửi bằng đường liên kết trực tiếp",
+        "bottomSheet": {
+          "title": "Gửi bằng đường liên kết trực tiếp",
+          "body": "Earn {{pointsValue}} points every time you send funds using a Live Link in {{appName}}. \n\nTap below to start sending and earning!",
+          "cta": "Gửi bằng đường liên kết trực tiếp"
+        }
       }
     },
     "discoverCard": {

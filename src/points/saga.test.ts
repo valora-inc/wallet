@@ -4,8 +4,10 @@ import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
+import { Address, Hash } from 'viem'
 import { call, select, spawn } from 'redux-saga/effects'
 import { Actions as HomeActions } from 'src/home/actions'
+import { depositTransactionSucceeded } from 'src/jumpstart/slice'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import * as pointsSaga from 'src/points/saga'
 import {
@@ -45,6 +47,7 @@ import { walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import { mockAccount } from 'test/values'
 import { v4 as uuidv4 } from 'uuid'
+import { swapSuccess } from 'src/swap/slice'
 
 jest.mock('src/statsig')
 jest.mocked(getFeatureGate).mockImplementation((featureGate) => {
@@ -613,6 +616,67 @@ describe('sendPendingPointsEvents', () => {
   })
 })
 
+describe('watchSwapSuccess', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+  it('should call sendPointsEvent with transformed payload', async () => {
+    const mockAction = swapSuccess({
+      swapId: 'some-id',
+      fromTokenId: 'some-from-token-id',
+      toTokenId: 'some-to-token-id',
+      networkId: NetworkId['celo-alfajores'],
+      transactionHash: '0x123' as Hash,
+    })
+
+    await expectSaga(pointsSaga.watchSwapSuccessTransformPayload, mockAction)
+      .provide([
+        [
+          matchers.call(
+            sendPointsEvent,
+            trackPointsEvent({
+              ...mockAction.payload,
+              activityId: 'swap',
+            })
+          ),
+          null,
+        ],
+      ])
+      .run()
+  })
+})
+
+describe('watchLiveLinkCreated', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+  it('should call sendPointsEvent with transformed payload', async () => {
+    const mockAction = depositTransactionSucceeded({
+      liveLinkType: 'erc20' as const,
+      beneficiaryAddress: mockAccount as Address,
+      transactionHash: '0x456' as Hash,
+      networkId: NetworkId['celo-alfajores'],
+      tokenId: 'some-token-id',
+      amount: '10',
+    })
+
+    await expectSaga(pointsSaga.watchLiveLinkCreatedTransformPayload, mockAction)
+      .provide([
+        [
+          matchers.call(
+            sendPointsEvent,
+            trackPointsEvent({
+              ...mockAction.payload,
+              activityId: 'create-live-link',
+            })
+          ),
+          null,
+        ],
+      ])
+      .run()
+  })
+})
+
 describe('watchHomeScreenVisit', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -623,6 +687,15 @@ describe('watchHomeScreenVisit', () => {
 
     const result = await expectSaga(watchHomeScreenVisit)
       .provide([
+        [
+          spawn(
+            sendPointsEvent,
+            trackPointsEvent({
+              activityId: 'create-wallet',
+            })
+          ),
+          null,
+        ],
         [spawn(getPointsConfig), null],
         [spawn(getPointsBalance, getHistoryStarted({ getNextPage: false })), null],
         [spawn(sendPendingPointsEvents), null],
@@ -632,6 +705,12 @@ describe('watchHomeScreenVisit', () => {
       .run()
 
     expect(result.effects.fork).toEqual([
+      spawn(
+        sendPointsEvent,
+        trackPointsEvent({
+          activityId: 'create-wallet',
+        })
+      ),
       spawn(getPointsConfig),
       spawn(getPointsBalance, getHistoryStarted({ getNextPage: false })),
       spawn(sendPendingPointsEvents),
@@ -659,5 +738,33 @@ describe('fetchTrackPointsEventsEndpoint', () => {
       },
       body: JSON.stringify(mockEvent),
     })
+  })
+})
+
+describe('pointsSaga', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  it('should spawn appropriate sagas', async () => {
+    const result = await expectSaga(pointsSaga.pointsSaga)
+      .provide([
+        [spawn(pointsSaga.watchGetHistory), null],
+        [spawn(pointsSaga.watchGetConfig), null],
+        [spawn(pointsSaga.watchTrackPointsEvent), null],
+        [spawn(pointsSaga.watchHomeScreenVisit), null],
+        [spawn(pointsSaga.watchLiveLinkCreated), null],
+        [spawn(pointsSaga.watchSwapSuccess), null],
+      ])
+      .run()
+
+    expect(result.effects.fork).toEqual([
+      spawn(pointsSaga.watchGetHistory),
+      spawn(pointsSaga.watchGetConfig),
+      spawn(pointsSaga.watchTrackPointsEvent),
+      spawn(pointsSaga.watchHomeScreenVisit),
+      spawn(pointsSaga.watchLiveLinkCreated),
+      spawn(pointsSaga.watchSwapSuccess),
+    ])
   })
 })

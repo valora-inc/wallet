@@ -1,11 +1,11 @@
 import { normalizeMnemonic } from '@celo/cryptographic-utils'
-import { HeaderHeightContext } from '@react-navigation/elements'
+import { useHeaderHeight } from '@react-navigation/elements'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Keyboard, StyleSheet, Text, View } from 'react-native'
-import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { cancelCreateOrRestoreAccount } from 'src/account/actions'
 import { accountToRecoverSelector, recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert } from 'src/alert/actions'
@@ -24,7 +24,7 @@ import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import RecoveryPhraseInput, { RecoveryPhraseInputStatus } from 'src/components/RecoveryPhraseInput'
 import { importBackupPhrase } from 'src/import/actions'
-import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
+import { nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate, navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -33,7 +33,9 @@ import { useDispatch, useSelector } from 'src/redux/hooks'
 import { isAppConnected } from 'src/redux/selectors'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
 import useBackHandler from 'src/utils/useBackHandler'
@@ -47,6 +49,11 @@ type Props = NativeStackScreenProps<StackParamList, Screens.ImportWallet>
 function ImportWallet({ navigation, route }: Props) {
   const [backupPhrase, setBackupPhrase] = useState('')
   const [keyboardVisible, setKeyboardVisible] = useState(false)
+  const headerHeight = useHeaderHeight()
+  const insets = useSafeAreaInsets()
+  const insetsStyle = {
+    paddingBottom: Math.max(0, 40 - insets.bottom),
+  }
 
   const isImportingWallet = useSelector((state) => state.imports.isImportingWallet)
   const appConnected = useSelector(isAppConnected)
@@ -95,12 +102,6 @@ function ImportWallet({ navigation, route }: Props) {
     navigation.setOptions({
       headerLeft: () => (
         <TopBarTextButtonOnboarding title={t('cancel')} onPress={handleNavigateBack} />
-      ),
-      headerTitle: () => (
-        <HeaderTitleWithSubtitle
-          testID="Header/RestoreBackup"
-          title={t('importExistingKey.header')}
-        />
       ),
       headerStyle: {
         backgroundColor: 'transparent',
@@ -191,69 +192,59 @@ function ImportWallet({ navigation, route }: Props) {
   }
 
   return (
-    <HeaderHeightContext.Consumer>
-      {(headerHeight) => (
-        <SafeAreaInsetsContext.Consumer>
-          {(insets) => (
-            <View style={styles.container}>
-              <KeyboardAwareScrollView
-                style={headerHeight ? { marginTop: headerHeight } : undefined}
-                contentContainerStyle={[
-                  styles.scrollContainer,
-                  !keyboardVisible && insets && { marginBottom: insets.bottom },
-                ]}
-                keyboardShouldPersistTaps={'always'}
-                testID="ImportWalletKeyboardAwareScrollView"
-              >
-                <Text style={styles.title}>{t('importExistingKey.title')}</Text>
-                <Text style={styles.description}>{t('importExistingKey.description')}</Text>
-                <RecoveryPhraseInput
-                  status={codeStatus}
-                  inputValue={backupPhrase}
-                  inputPlaceholder={t('importExistingKey.keyPlaceholder')}
-                  onInputChange={formatAndSetBackupPhrase}
-                  shouldShowClipboard={shouldShowClipboard}
-                />
-                <Button
-                  style={styles.button}
-                  testID="ImportWalletButton"
-                  onPress={onPressRestore}
-                  text={t('restore')}
-                  size={BtnSizes.FULL}
-                  type={BtnTypes.PRIMARY}
-                  disabled={
-                    isImportingWallet || !isValidBackupPhrase(backupPhrase) || !appConnected
-                  }
-                />
-
-                <KeyboardSpacer />
-              </KeyboardAwareScrollView>
-              <KeyboardSpacer onToggle={onToggleKeyboard} />
-              <Dialog
-                title={
-                  <Trans i18nKey="importExistingKey.emptyWalletDialog.title">
-                    <CurrencyDisplay
-                      amount={{
-                        value: new BigNumber(0),
-                        currencyCode: Currency.Dollar,
-                      }}
-                    />
-                  </Trans>
-                }
-                isVisible={!!route.params?.showZeroBalanceModal}
-                actionText={t('importExistingKey.emptyWalletDialog.action')}
-                actionPress={onPressRestore}
-                secondaryActionPress={onPressTryAnotherKey}
-                secondaryActionText={t('goBack')}
-                testID="ConfirmUseAccountDialog"
-              >
-                {t('importExistingKey.emptyWalletDialog.description')}
-              </Dialog>
-            </View>
-          )}
-        </SafeAreaInsetsContext.Consumer>
-      )}
-    </HeaderHeightContext.Consumer>
+    <SafeAreaView style={styles.container} edges={['bottom']}>
+      <KeyboardAwareScrollView
+        style={headerHeight ? { marginTop: headerHeight } : undefined}
+        contentContainerStyle={[
+          styles.scrollContainer,
+          !keyboardVisible && insets && { marginBottom: insets.bottom },
+        ]}
+        keyboardShouldPersistTaps={'always'}
+        testID="ImportWalletKeyboardAwareScrollView"
+      >
+        <Text style={styles.title}>{t('importExistingKey.title')}</Text>
+        <RecoveryPhraseInput
+          status={codeStatus}
+          inputValue={backupPhrase}
+          inputPlaceholder={t('importExistingKey.keyPlaceholder')}
+          onInputChange={formatAndSetBackupPhrase}
+          shouldShowClipboard={shouldShowClipboard}
+        />
+        <Text style={styles.description}>{t('importExistingKey.descriptionV1_90')}</Text>
+        <KeyboardSpacer />
+      </KeyboardAwareScrollView>
+      <View style={[styles.buttonContainer, !keyboardVisible && insets && insetsStyle]}>
+        <Button
+          testID="ImportWalletButton"
+          onPress={onPressRestore}
+          text={t('restore')}
+          size={BtnSizes.FULL}
+          type={BtnTypes.PRIMARY}
+          disabled={isImportingWallet || !isValidBackupPhrase(backupPhrase) || !appConnected}
+        />
+      </View>
+      <KeyboardSpacer onToggle={onToggleKeyboard} />
+      <Dialog
+        title={
+          <Trans i18nKey="importExistingKey.emptyWalletDialog.title">
+            <CurrencyDisplay
+              amount={{
+                value: new BigNumber(0),
+                currencyCode: Currency.Dollar,
+              }}
+            />
+          </Trans>
+        }
+        isVisible={!!route.params?.showZeroBalanceModal}
+        actionText={t('importExistingKey.emptyWalletDialog.action')}
+        actionPress={onPressRestore}
+        secondaryActionPress={onPressTryAnotherKey}
+        secondaryActionText={t('goBack')}
+        testID="ConfirmUseAccountDialog"
+      >
+        {t('importExistingKey.emptyWalletDialog.description')}
+      </Dialog>
+    </SafeAreaView>
   )
 }
 
@@ -268,22 +259,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContainer: {
-    paddingVertical: 16,
-    paddingHorizontal: 24,
-  },
-  button: {
-    paddingVertical: 32,
+    paddingVertical: Spacing.Regular16,
+    paddingHorizontal: Spacing.Thick24,
   },
   title: {
     textAlign: 'center',
-    ...fontStyles.h1,
+    paddingBottom: Spacing.Thick24,
+    ...typeScale.labelSemiBoldLarge,
   },
   description: {
-    paddingTop: 16,
-    paddingBottom: 24,
-    textAlign: 'center',
-    ...fontStyles.regular,
+    paddingTop: Spacing.Thick24,
+    paddingBottom: Spacing.Thick24,
+    ...typeScale.bodySmall,
   },
+  buttonContainer: { padding: variables.contentPadding },
 })
 
 export default ImportWallet

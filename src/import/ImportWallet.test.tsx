@@ -30,7 +30,6 @@ describe('ImportWallet', () => {
       </Provider>
     )
 
-    expect(wrapper.getByTestId('HeaderTitle')).toHaveTextContent('importExistingKey.header')
     expect(wrapper.queryByTestId('HeaderSubTitle')).toBeFalsy()
     expect(wrapper.getByTestId('ImportWalletBackupKeyInputField')).toHaveTextContent('')
     expect(wrapper.getByTestId('ImportWalletButton')).toBeDisabled()

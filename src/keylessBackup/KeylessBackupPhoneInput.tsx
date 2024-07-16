@@ -2,27 +2,32 @@ import { Countries } from '@celo/phone-utils'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SafeAreaView, StyleSheet, Text } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import * as RNLocalize from 'react-native-localize'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
 import { getPhoneNumberDetails } from 'src/account/utils'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import PhoneNumberInput from 'src/components/PhoneNumberInput'
+import CustomHeader from 'src/components/header/CustomHeader'
 import i18n from 'src/i18n'
 import KeylessBackupCancelButton from 'src/keylessBackup/KeylessBackupCancelButton'
-import { KeylessBackupFlow } from 'src/keylessBackup/types'
-import { emptyHeader } from 'src/navigator/Headers'
+import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
+import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { getOnboardingStepValues, onboardingPropsSelector } from 'src/onboarding/steps'
 import { useSelector } from 'src/redux/hooks'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.KeylessBackupPhoneInput>
 
@@ -31,6 +36,10 @@ function KeylessBackupPhoneInput({ route }: Props) {
   const { selectedCountryCodeAlpha2, keylessBackupFlow, origin } = route.params
   const cachedNumber = useSelector(e164NumberSelector)
   const cachedCountryCallingCode = useSelector(defaultCountryCodeSelector)
+  const onboardingProps = useSelector(onboardingPropsSelector)
+  const { step, totalSteps } = getOnboardingStepValues(Screens.SignInWithEmail, onboardingProps)
+  const isSetupInOnboarding =
+    keylessBackupFlow === KeylessBackupFlow.Setup && origin === KeylessBackupOrigin.Onboarding
   const countries = useMemo(() => new Countries(i18n.language), [i18n.language])
   const [phoneNumberInfo, setPhoneNumberInfo] = useState(() =>
     getPhoneNumberDetails(
@@ -98,6 +107,34 @@ function KeylessBackupPhoneInput({ route }: Props) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <CustomHeader
+        style={styles.header}
+        left={
+          isSetupInOnboarding ? (
+            <BackButton
+              eventName={KeylessBackupEvents.cab_enter_phone_number_back}
+              eventProperties={{
+                keylessBackupFlow,
+                origin,
+              }}
+            />
+          ) : (
+            <KeylessBackupCancelButton
+              flow={keylessBackupFlow}
+              origin={origin}
+              eventName={KeylessBackupEvents.cab_enter_phone_number_cancel}
+            />
+          )
+        }
+        title={
+          isSetupInOnboarding && (
+            <HeaderTitleWithSubtitle
+              title={t('phoneVerificationScreen.screenTitle')}
+              subTitle={t('registrationSteps', { step, totalSteps })}
+            />
+          )
+        }
+      />
       <KeyboardAwareScrollView style={styles.scrollContainer}>
         <Text style={styles.title}>
           {keylessBackupFlow === KeylessBackupFlow.Setup
@@ -132,17 +169,6 @@ function KeylessBackupPhoneInput({ route }: Props) {
   )
 }
 
-KeylessBackupPhoneInput.navigationOptions = ({ route }: Props) => ({
-  ...emptyHeader,
-  headerLeft: () => (
-    <KeylessBackupCancelButton
-      flow={route.params.keylessBackupFlow}
-      origin={route.params.origin}
-      eventName={KeylessBackupEvents.cab_enter_phone_number_cancel}
-    />
-  ),
-})
-
 export default KeylessBackupPhoneInput
 
 const styles = StyleSheet.create({
@@ -152,6 +178,9 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     padding: Spacing.Thick24,
+  },
+  header: {
+    paddingHorizontal: variables.contentPadding,
   },
   title: {
     ...typeScale.labelSemiBoldLarge,

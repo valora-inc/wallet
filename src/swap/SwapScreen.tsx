@@ -23,6 +23,7 @@ import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { SWAP_LEARN_MORE } from 'src/config'
 import CircledIcon from 'src/icons/CircledIcon'
+import CrossChainIndicator from 'src/icons/CrossChainIndicator'
 import DownIndicator from 'src/icons/DownIndicator'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
@@ -34,33 +35,33 @@ import { getDynamicConfigParams, getExperimentParams, getFeatureGate } from 'src
 import { DynamicConfigs, ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
+import FeeInfoBottomSheet from 'src/swap/FeeInfoBottomSheet'
 import SwapAmountInput from 'src/swap/SwapAmountInput'
 import SwapTransactionDetails from 'src/swap/SwapTransactionDetails'
+import getCrossChainFee from 'src/swap/getCrossChainFee'
 import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsProperties'
 import { currentSwapSelector, priceImpactWarningThresholdSelector } from 'src/swap/selectors'
 import { swapStart } from 'src/swap/slice'
-import { Field, SwapAmount } from 'src/swap/types'
+import { AppFeeAmount, Field, SwapAmount, SwapFeeAmount } from 'src/swap/types'
 import useFilterChips from 'src/swap/useFilterChips'
 import useSwapQuote, { NO_QUOTE_ERROR_MESSAGE, QuoteResult } from 'src/swap/useSwapQuote'
 import { useSwappableTokens, useTokenInfo } from 'src/tokens/hooks'
 import {
+  feeCurrenciesSelector,
   feeCurrenciesWithPositiveBalancesSelector,
   tokensByIdSelector,
-  feeCurrenciesSelector,
 } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { getSupportedNetworkIdsForSwap, getTokenId } from 'src/tokens/utils'
+import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import networkConfig from 'src/web3/networkConfig'
 import { v4 as uuidv4 } from 'uuid'
-import CrossChainIndicator from 'src/icons/CrossChainIndicator'
-import getCrossChainFee from 'src/swap/getCrossChainFee'
 
 const TAG = 'SwapScreen'
 
@@ -210,15 +211,17 @@ const {
 
 const swapStateReducer = swapSlice.reducer
 
-function getNetworkFee(quote: QuoteResult | null, networkId?: NetworkId) {
+function getNetworkFee(quote: QuoteResult | null) {
   const { feeCurrency, maxFeeAmount, estimatedFeeAmount } = getFeeCurrencyAndAmounts(
     quote?.preparedTransactions
   )
-  return {
-    feeTokenId: feeCurrency?.tokenId ?? getTokenId(networkId ?? networkConfig.defaultNetworkId), // native token
-    maxNetworkFee: maxFeeAmount,
-    estimatedNetworkFee: estimatedFeeAmount,
-  }
+  return feeCurrency && estimatedFeeAmount
+    ? {
+        token: feeCurrency,
+        maxAmount: maxFeeAmount,
+        amount: estimatedFeeAmount,
+      }
+    : undefined
 }
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SwapScreenWithBack>
@@ -233,9 +236,9 @@ export function SwapScreen({ route }: Props) {
     [Field.TO]: tokenBottomSheetToRef,
   }
   const exchangeRateInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const networkFeeInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const appFeeInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const feeInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const slippageInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const estimatedDurationBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const allowCrossChainSwaps = getFeatureGate(StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS)
 
@@ -617,7 +620,7 @@ export function SwapScreen({ route }: Props) {
   const crossChainFeeCurrency = useSelector((state) =>
     feeCurrenciesSelector(state, fromToken?.networkId || networkConfig.defaultNetworkId)
   ).find((token) => token.isNative)
-  const crossChainFeeInfo = getCrossChainFee(quote, crossChainFeeCurrency)
+  const crossChainFee = getCrossChainFee(quote, crossChainFeeCurrency)
 
   const getWarningStatuses = () => {
     // NOTE: If a new condition is added here, make sure to update `allowSwap` below if
@@ -626,7 +629,7 @@ export function SwapScreen({ route }: Props) {
       showSwitchedToNetworkWarning: !!switchedToNetworkId,
       showUnsupportedTokensWarning: fetchSwapQuoteError?.message.includes(NO_QUOTE_ERROR_MESSAGE),
       showInsufficientBalanceWarning: parsedSwapAmount[Field.FROM].gt(fromTokenBalance),
-      showCrossChainFeeWarning: crossChainFeeInfo?.nativeTokenBalanceDeficit.lt(0),
+      showCrossChainFeeWarning: crossChainFee?.nativeTokenBalanceDeficit.lt(0),
       showDecreaseSpendForGasWarning:
         quote?.preparedTransactions.type === 'need-decrease-spend-amount-for-gas',
       showNotEnoughBalanceForGasWarning:
@@ -687,13 +690,13 @@ export function SwapScreen({ route }: Props) {
       showCrossChainFeeWarning,
     ]
   )
-  const { feeTokenId, maxNetworkFee, estimatedNetworkFee } = useMemo(() => {
-    return getNetworkFee(quote, fromToken?.networkId)
+  const networkFee: SwapFeeAmount | undefined = useMemo(() => {
+    return getNetworkFee(quote)
   }, [fromToken, quote])
 
-  const feeToken = tokensById[feeTokenId]
+  const feeToken = networkFee?.token ? tokensById[networkFee.token.tokenId] : undefined
 
-  const appFee = useMemo(() => {
+  const appFee: AppFeeAmount | undefined = useMemo(() => {
     if (!quote || !fromToken) {
       return undefined
     }
@@ -820,11 +823,9 @@ export function SwapScreen({ route }: Props) {
             </View>
           )}
           <SwapTransactionDetails
-            maxNetworkFee={maxNetworkFee}
-            estimatedNetworkFee={estimatedNetworkFee}
-            networkFeeInfoBottomSheetRef={networkFeeInfoBottomSheetRef}
+            feeInfoBottomSheetRef={feeInfoBottomSheetRef}
             slippageInfoBottomSheetRef={slippageInfoBottomSheetRef}
-            feeTokenId={feeTokenId}
+            estimatedDurationBottomSheetRef={estimatedDurationBottomSheetRef}
             slippagePercentage={parsedSlippagePercentage}
             fromToken={fromToken}
             toToken={toToken}
@@ -833,7 +834,11 @@ export function SwapScreen({ route }: Props) {
             swapAmount={parsedSwapAmount[Field.FROM]}
             fetchingSwapQuote={quoteUpdatePending}
             appFee={appFee}
-            appFeeInfoBottomSheetRef={appFeeInfoBottomSheetRef}
+            estimatedDurationInSeconds={
+              quote?.swapType === 'cross-chain' ? quote.estimatedDurationInSeconds : undefined
+            }
+            crossChainFee={crossChainFee}
+            networkFee={networkFee}
           />
           {showCrossChainFeeWarning && (
             <InLineNotification
@@ -845,7 +850,7 @@ export function SwapScreen({ route }: Props) {
                 networkName:
                   NETWORK_NAMES[crossChainFeeCurrency?.networkId || networkConfig.defaultNetworkId],
                 tokenSymbol: crossChainFeeCurrency?.symbol,
-                tokenAmount: crossChainFeeInfo?.nativeTokenBalanceDeficit.abs().toFormat(),
+                tokenAmount: crossChainFee?.nativeTokenBalanceDeficit.abs().toFormat(),
               })}
               style={styles.warning}
             />
@@ -1004,7 +1009,8 @@ export function SwapScreen({ route }: Props) {
       ))}
       <BottomSheet
         forwardedRef={exchangeRateInfoBottomSheetRef}
-        description={t('swapScreen.transactionDetails.exchangeRateInfo', {
+        title={t('swapScreen.transactionDetails.exchangeRate')}
+        description={t('swapScreen.transactionDetails.exchangeRateInfoV1_90', {
           context: appFee?.percentage?.isGreaterThan(0) ? 'withAppFee' : '',
           networkName: NETWORK_NAMES[fromToken?.networkId || networkConfig.defaultNetworkId],
           slippagePercentage: parsedSlippagePercentage,
@@ -1019,53 +1025,29 @@ export function SwapScreen({ route }: Props) {
           onPress={() => {
             exchangeRateInfoBottomSheetRef.current?.close()
           }}
-          text={t('swapScreen.transactionDetails.exchangeRateInfoDismissButton')}
+          text={t('swapScreen.transactionDetails.infoDismissButton')}
         />
       </BottomSheet>
       <BottomSheet
-        forwardedRef={networkFeeInfoBottomSheetRef}
-        description={t('swapScreen.transactionDetails.networkFeeInfoV1_76', {
-          networkName: NETWORK_NAMES[fromToken?.networkId || networkConfig.defaultNetworkId],
-        })}
-        testId="NetworkFeeInfoBottomSheet"
+        forwardedRef={estimatedDurationBottomSheetRef}
+        title={t('swapScreen.transactionDetails.estimatedTransactionTime')}
+        description={t('swapScreen.transactionDetails.estimatedTransactionTimeInfo')}
+        testId="EstimatedDurationBottomSheet"
       >
         <Button
           type={BtnTypes.SECONDARY}
           size={BtnSizes.FULL}
           style={styles.bottomSheetButton}
           onPress={() => {
-            networkFeeInfoBottomSheetRef.current?.close()
+            estimatedDurationBottomSheetRef.current?.close()
           }}
-          text={t('swapScreen.transactionDetails.networkFeeInfoDismissButton')}
-        />
-      </BottomSheet>
-      <BottomSheet
-        forwardedRef={appFeeInfoBottomSheetRef}
-        description={t('swapScreen.transactionDetails.appFeeInfo', {
-          networkName: NETWORK_NAMES[fromToken?.networkId || networkConfig.defaultNetworkId],
-          context:
-            !appFee || fetchingSwapQuote
-              ? 'placeholder'
-              : appFee.percentage.isLessThanOrEqualTo(0)
-                ? 'free'
-                : undefined,
-          appFeePercentage: appFee?.percentage?.toFormat(),
-        })}
-        testId="AppFeeInfoBottomSheet"
-      >
-        <Button
-          type={BtnTypes.SECONDARY}
-          size={BtnSizes.FULL}
-          style={styles.bottomSheetButton}
-          onPress={() => {
-            appFeeInfoBottomSheetRef.current?.close()
-          }}
-          text={t('swapScreen.transactionDetails.appFeeInfoDismissButton')}
+          text={t('swapScreen.transactionDetails.infoDismissButton')}
         />
       </BottomSheet>
       <BottomSheet
         forwardedRef={slippageInfoBottomSheetRef}
-        description={t('swapScreen.transactionDetails.slippageToleranceInfo')}
+        title={t('swapScreen.transactionDetails.slippagePercentage')}
+        description={t('swapScreen.transactionDetails.slippageToleranceInfoV1_90')}
         testId="SlippageInfoBottomSheet"
       >
         <Button
@@ -1075,9 +1057,16 @@ export function SwapScreen({ route }: Props) {
           onPress={() => {
             slippageInfoBottomSheetRef.current?.close()
           }}
-          text={t('swapScreen.transactionDetails.networkFeeInfoDismissButton')}
+          text={t('swapScreen.transactionDetails.infoDismissButton')}
         />
       </BottomSheet>
+      <FeeInfoBottomSheet
+        forwardedRef={feeInfoBottomSheetRef}
+        crossChainFee={crossChainFee}
+        networkFee={networkFee}
+        appFee={appFee}
+        fetchingSwapQuote={fetchingSwapQuote}
+      />
       <Toast
         withBackdrop
         showToast={!!selectingNoUsdPriceToken}
@@ -1116,15 +1105,15 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.Small12,
   },
   disclaimerText: {
-    ...fontStyles.xsmall,
+    ...typeScale.labelXXSmall,
     paddingBottom: Spacing.Smallest8,
     flexWrap: 'wrap',
-    color: colors.gray5,
+    color: colors.gray3,
     textAlign: 'center',
   },
   disclaimerLink: {
-    textDecorationLine: 'underline',
-    color: colors.primary,
+    ...typeScale.labelXXSmall,
+    color: colors.black,
   },
   warning: {
     marginTop: Spacing.Thick24,
@@ -1149,7 +1138,7 @@ const styles = StyleSheet.create({
     paddingBottom: Spacing.Thick24,
   },
   crossChainNotification: {
-    ...typeScale.labelXXSmall,
+    ...typeScale.labelXSmall,
     paddingLeft: Spacing.Tiny4,
     color: colors.gray4,
   },

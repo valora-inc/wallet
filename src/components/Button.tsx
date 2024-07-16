@@ -15,7 +15,6 @@ const DEBOUNCE_OPTIONS = {
 export enum BtnTypes {
   PRIMARY = 'Primary',
   SECONDARY = 'Secondary',
-  ONBOARDING_SECONDARY = 'OnboardingSecondary',
 }
 
 export enum BtnSizes {
@@ -34,7 +33,6 @@ export interface ButtonProps {
   type?: BtnTypes
   icon?: ReactNode
   iconPositionLeft?: boolean
-  rounded?: boolean
   disabled?: boolean
   size?: BtnSizes
   testID?: string
@@ -52,7 +50,6 @@ export default React.memo(function Button(props: ButtonProps) {
     icon,
     iconPositionLeft = true,
     type = BtnTypes.PRIMARY,
-    rounded = true,
     style,
     showLoading,
     loadingColor,
@@ -81,7 +78,7 @@ export default React.memo(function Button(props: ButtonProps) {
   return (
     <View style={getStyleForWrapper(size, style)}>
       {/* these Views cannot be combined as it will cause ripple to not respect the border radius */}
-      <View style={[styles.containRipple, rounded && styles.rounded]}>
+      <View style={[styles.containRipple, styles.rounded]}>
         <Touchable
           onPress={debouncedOnPress}
           disabled={disabled}
@@ -166,12 +163,6 @@ function getColors(type: BtnTypes, disabled: boolean | undefined) {
       textColor = colors.black
       backgroundColor = colors.gray1
       borderColor = colors.gray2
-      opacity = disabled ? 0.5 : 1.0
-      break
-    /** @deprecated TODO(ACT-1200): Remove and replace with GRAY_WITHBORDER*/
-    case BtnTypes.ONBOARDING_SECONDARY:
-      textColor = colors.successDark
-      backgroundColor = colors.white
       opacity = disabled ? 0.5 : 1.0
       break
   }

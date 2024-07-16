@@ -73,7 +73,9 @@
   },
   "recoveryPhrase": {
     "title": "您的恢复短语",
+    "titleV1_90": "您的恢复短语",
     "body": "将这 12 个单词记在某个安全的地方，以防被盗或损坏。",
+    "bodyV1_90": "如果丢失恢复短语，您将无法访问您在 Valora 持有的所有资金。",
     "continue": "我已保存好",
     "copy": "复制到剪贴板",
     "mnemonicCopied": "恢复短语已复制到剪贴板",
@@ -936,6 +938,7 @@
     "header": "恢复钱包",
     "title": "输入您的恢复短语",
     "description": "使用您在设置钱包时保存的 12 或 24 字短语进行恢复。",
+    "descriptionV1_90": "您的恢复短语是您在设置钱包时写下并保存的 12 或 24 个字的短语。请在此输入该短语以恢复钱包。",
     "emptyWalletDialog": {
       "description": "此钱包内没有任何资金。您仍要使用它吗？",
       "action": "使用钱包",
@@ -1864,12 +1867,30 @@
       "networkFeeInfo": "您正在 {{networkName}} 网络上进行交换。\n\n在 {{networkName}} 网络上进行交易需要支付该预估网络费用。该费用可确保您的交易安全，并用于维持网络正常运行。",
       "networkFeeInfoV1_76": "您正在 {{networkName}} 网络上进行交换。\n\n在 {{networkName}} 网络上进行交易需要支付网络费用。该费用可确保您的交易安全，并支付给网络验证机构。\n\n由于网络条件决定了确切的金额，因此列出的估算费用是我们预计的实际费用。该费用不会超过最大费用金额。",
       "slippageToleranceInfo": "滑点调整\n\n您的交换将在滑点调整百分比范围内执行。如果价格变动超过滑点调整，{{appName}} 将阻止交易执行，为您提供保护。",
+      "slippageToleranceInfoV1_90": "您的掉期交易将在滑点容差百分比范围内执行。如果价格变动超过滑点容差， {{appName}} 将阻止交易执行，为您提供保护。",
       "networkFeeInfoDismissButton": "知道了",
       "exchangeRate": "汇率",
-      "exchangeRateInfo": "汇率\n\n我们为您找到了最佳汇率。您的交易将以 {{slippagePercentage}}% 的估算价格完成，否则交易将被取消，且资金将退回您的钱包。",
+      "exchangeRateInfo": "汇率\n\n我们为您找到了最佳汇率。您的交易将以 {{slippagePercentage}}% 的估算价格完成，否则交易将被取消，资金将返还到您的钱包。",
+      "exchangeRateInfoV1_90": "我们为您找到了最佳汇率。您的交易将以 {{slippagePercentage}}% 的估算价格完成，否则交易将被取消，资金将返还到您的钱包。",
       "exchangeRateInfo_withAppFee": "汇率\n\n我们为您找到了最佳汇率。您的交易将以 {{slippagePercentage}}% 的估算价格完成，否则交易将被取消，且资金将返还到您的钱包。\n\n估算汇率包含 {{appFeePercentage}}% 的 {{appName}} 费用。",
       "exchangeRateInfoDismissButton": "知道了",
-      "estimatedValue": "估计价值"
+      "estimatedValue": "估计价值",
+      "estimatedTransactionTime": "预计交易时间",
+      "estimatedTransactionTimeInMinutes": "≈ {{minutes}} min",
+      "estimatedTransactionTimeInfo": "完成交易的时间由提供商决定。\n\n如果您要在不同的链之间交换，交易完成的时间可能会稍长一些。",
+      "infoDismissButton": "知道了",
+      "fees": "费用",
+      "feesCalculationError": "无法计算费用",
+      "estimatedCrossChainFee": "跨链费用估算",
+      "maxCrossChainFee": "最大跨链费用",
+      "feesBreakdown": "细目",
+      "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
+      "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
+      "feesMoreInfoLabel": "更多信息",
+      "feesInfo_sameChain": "处理交易需要支付网络费，以确保安全性和可靠性。",
+      "feesInfo_crossChain": "处理交易需要支付网络费，以确保安全性和可靠性。提供商收取跨链费，以便在不同区块链之间进行顺畅、安全的交换。",
+      "feesInfo_sameChainWithAppFee": "处理交易需要支付网络费，以确保安全性和可靠性。 {{appName}} 费用为 {{appFeePercentage}}%，可确保快速、可靠和安全的交换，从而提升您的体验。",
+      "feesInfo_crossChainWithAppFee": "处理交易需要支付网络费，以确保安全性和可靠性。提供商会收取跨链费用，以便在不同区块链之间进行平稳、安全的交换。 {{appName}} 费用为 {{appFeePercentage}}%，可确保快速、可靠和安全的交换，从而提升您的体验。"
     },
     "fundYourWalletBottomSheet": {
       "title": "为您的钱包提供资金。",
@@ -2318,6 +2339,13 @@
         "swap": {
           "title": "交换",
           "subtitle": "{{fromToken}} 至 {{toToken}}"
+        },
+        "createLiveLink": {
+          "title": "实时链接",
+          "subtitle": {
+            "erc20": "发送至 {{tokenSymbol}}",
+            "erc721": "发出的 NFT"
+          }
         }
       },
       "title": "我的积分活动",
@@ -2377,6 +2405,14 @@
       },
       "moreComing": {
         "title": "更多内容即将推出！"
+      },
+      "createLiveLink": {
+        "title": "通过实时链接发送",
+        "bottomSheet": {
+          "title": "通过实时链接发送",
+          "body": "每次使用 {{appName}}中的实时链接发送资金，都可赚取 {{pointsValue}} 积分。 \n\n点击下面的链接开始发送并赚取积分！",
+          "cta": "通过实时链接发送"
+        }
       }
     },
     "discoverCard": {

@@ -166,7 +166,7 @@ function SignInWithEmail({ route }: Props) {
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <SafeAreaView style={styles.container}>
       <CustomHeader
         style={styles.header}
         left={
@@ -178,7 +178,13 @@ function SignInWithEmail({ route }: Props) {
             />
           ) : (
             // This includes Onboarding and Restore
-            <BackButton />
+            <BackButton
+              eventName={KeylessBackupEvents.cab_sign_in_with_email_screen_cancel}
+              eventProperties={{
+                keylessBackupFlow,
+                origin,
+              }}
+            />
           )
         }
         title={

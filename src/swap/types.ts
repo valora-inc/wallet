@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { TokenBalance } from 'src/tokens/slice'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { Address } from 'viem'
 
@@ -82,4 +83,14 @@ export interface FetchQuoteResponse {
   details: {
     swapProvider: string
   }
+}
+
+export interface SwapFeeAmount {
+  amount: BigNumber
+  maxAmount?: BigNumber
+  token?: TokenBalance
+}
+
+export interface AppFeeAmount extends SwapFeeAmount {
+  percentage: BigNumber
 }
