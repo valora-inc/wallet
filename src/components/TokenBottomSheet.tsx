@@ -73,18 +73,22 @@ function NoResults({
 }) {
   const { t } = useTranslation()
 
-  const activeFilterNames = activeFilters.map((activeFilter) =>
-    isNetworkChip(activeFilter)
-      ? activeFilter.selectedNetworkIds
-          .map(
-            (selectedNetworkId) =>
-              `"${t('tokenBottomSheet.filters.network', {
-                networkName: NETWORK_NAMES[selectedNetworkId],
-              })}"`
-          )
-          .join(', ')
-      : `"${activeFilter.name}"`
-  )
+  const activeFilterNames = activeFilters.map((activeFilter) => {
+    if (!isNetworkChip(activeFilter)) {
+      return `"${activeFilter.name}"`
+    }
+
+    // use the network name as the filter name to give more information,
+    // rather than the filter name itself (which is "network")
+    return activeFilter.selectedNetworkIds
+      .map(
+        (selectedNetworkId) =>
+          `"${t('tokenBottomSheet.filters.network', {
+            networkName: NETWORK_NAMES[selectedNetworkId],
+          })}"`
+      )
+      .join(', ')
+  })
   const noResultsText =
     activeFilterNames.length > 0 && searchTerm.length > 0
       ? 'tokenBottomSheet.noFilterSearchResults'
