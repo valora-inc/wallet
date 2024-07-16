@@ -73,9 +73,9 @@ function NoResults({
 }) {
   const { t } = useTranslation()
 
-  const activeFilterNames = activeFilters.map((filter) =>
-    isNetworkChip(filter)
-      ? filter.selectedNetworkIds
+  const activeFilterNames = activeFilters.map((activeFilter) =>
+    isNetworkChip(activeFilter)
+      ? activeFilter.selectedNetworkIds
           .map(
             (selectedNetworkId) =>
               `"${t('tokenBottomSheet.filters.network', {
@@ -83,7 +83,7 @@ function NoResults({
               })}"`
           )
           .join(', ')
-      : `"${filter.name}"`
+      : `"${activeFilter.name}"`
   )
   const noResultsText =
     activeFilterNames.length > 0 && searchTerm.length > 0
