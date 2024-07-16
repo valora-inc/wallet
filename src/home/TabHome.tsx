@@ -31,7 +31,6 @@ import { importContacts } from 'src/identity/actions'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
-import { trackPointsEvent } from 'src/points/slice'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { initializeSentryUserContext } from 'src/sentry/actions'
@@ -122,8 +121,6 @@ function TabHome({ navigation }: Props) {
     // Waiting 1/2 sec before triggering to allow
     // rest of feed to load unencumbered
     setTimeout(tryImportContacts, 500)
-
-    dispatch(trackPointsEvent({ activityId: 'create-wallet' }))
   }, [])
 
   useEffect(() => {

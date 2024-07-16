@@ -52,7 +52,6 @@ import {
   mockTokenBalances,
   mockAccountInvite,
 } from 'test/values'
-import { trackPointsEvent } from 'src/points/slice'
 import { Hash, TransactionReceipt, parseEventLogs } from 'viem'
 
 jest.mock('src/statsig')
@@ -422,10 +421,8 @@ describe('sendJumpstartTransactions', () => {
     })
       .withState(createMockStore().getState())
       .provide(createDefaultProviders())
-      .put(depositTransactionSucceeded())
       .put(
-        trackPointsEvent({
-          activityId: 'create-live-link',
+        depositTransactionSucceeded({
           liveLinkType: 'erc20',
           beneficiaryAddress: mockPublicKey,
           transactionHash: '0x2',
@@ -464,7 +461,7 @@ describe('sendJumpstartTransactions', () => {
       .withState(createMockStore().getState())
       .provide(createDefaultProviders('reverted'))
       .put(depositTransactionFailed())
-      .not.put(depositTransactionSucceeded())
+      .not.put(depositTransactionSucceeded(expect.any(Object)))
       .run()
 
     expect(sendPreparedTransactions).toHaveBeenCalledWith(

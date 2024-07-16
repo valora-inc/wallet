@@ -73,7 +73,9 @@
   },
   "recoveryPhrase": {
     "title": "Votre Phrase de récupération",
+    "titleV1_90": "Votre phrase de récupération",
     "body": "Écrivez ces 12 mots dans un endroit sûr, où ils ne peuvent pas être volés ou endommagés.",
+    "bodyV1_90": "Si vous perdez votre Phrase de récupération, vous perdrez l'accès à tous vos fonds détenus sur Valora.",
     "continue": "Je l'ai enregistrée",
     "copy": "Copier dans le presse-papiers",
     "mnemonicCopied": "Phrase de récupération copiée dans le presse-papiers",

@@ -73,7 +73,9 @@
   },
   "recoveryPhrase": {
     "title": "Kurtarma ifadeniz",
+    "titleV1_90": "Kurtarma Cümleniz",
     "body": "Bu 12 kelimeyi çalınamayacak ya da zarar görmeyecek güvenli bir yere yazın.",
+    "bodyV1_90": "Kurtarma ifadenizi kaybederseniz Valora'da tutulan tüm fonlarınıza erişimi kaybedersiniz.",
     "continue": "Kaydettim",
     "copy": "Panoya kopyala",
     "mnemonicCopied": "Kurtarma ifadesi panoya kopyalandı",

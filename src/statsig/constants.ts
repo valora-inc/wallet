@@ -37,12 +37,6 @@ export const FeatureGates = {
 
 export const ExperimentConfigs = {
   // NOTE: the keys of defaultValues MUST be parameter names
-  [StatsigExperiments.SWAP_BUY_AMOUNT]: {
-    experimentName: StatsigExperiments.SWAP_BUY_AMOUNT,
-    defaultValues: {
-      swapBuyAmountEnabled: true,
-    },
-  },
   [StatsigExperiments.ONBOARDING_TERMS_AND_CONDITIONS]: {
     experimentName: StatsigExperiments.ONBOARDING_TERMS_AND_CONDITIONS,
     defaultValues: {
