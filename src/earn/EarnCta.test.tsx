@@ -65,6 +65,6 @@ describe('EarnCta', () => {
       providerId: 'aave-v3',
       networkId: NetworkId['arbitrum-sepolia'],
     })
-    expect(navigate).toHaveBeenCalledWith(Screens.EarnInfoScreen, { tokenId: mockArbUsdcTokenId })
+    expect(navigate).toHaveBeenCalledWith(Screens.EarnInfoScreen)
   })
 })

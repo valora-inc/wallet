@@ -1,5 +1,4 @@
 import { useHeaderHeight } from '@react-navigation/elements'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
@@ -17,12 +16,12 @@ import Palm from 'src/icons/Palm'
 import { headerWithCloseButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { StackParamList } from 'src/navigator/types'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import networkConfig from 'src/web3/networkConfig'
 
 const ICON_SIZE = 24
 const ICON_BACKGROUND_CIRCLE_SIZE = 36
@@ -52,11 +51,8 @@ function DetailsItem({
   )
 }
 
-type Props = NativeStackScreenProps<StackParamList, Screens.EarnInfoScreen>
-
-export default function EarnInfoScreen({ route }: Props) {
+export default function EarnInfoScreen() {
   const { t } = useTranslation()
-  const { tokenId } = route.params
   const isGasSubsidized = getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
 
   const headerHeight = useHeaderHeight()
@@ -106,8 +102,9 @@ export default function EarnInfoScreen({ route }: Props) {
         />
         <Button
           onPress={() => {
-            ValoraAnalytics.track(EarnEvents.earn_info_earn_press, { tokenId })
-            navigate(Screens.EarnEnterAmount, { tokenId })
+            ValoraAnalytics.track(EarnEvents.earn_info_earn_press)
+            // TODO(ACT-1260): navigate to earn home page
+            navigate(Screens.EarnEnterAmount, { tokenId: networkConfig.arbUsdcTokenId })
           }}
           text={t('earnFlow.earnInfo.action.earn')}
           type={BtnTypes.PRIMARY}
