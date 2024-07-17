@@ -11,8 +11,14 @@ import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
 import { TokenBalances } from 'src/tokens/slice'
 import { TFunction } from 'i18next'
+import { NETWORK_NAMES } from 'src/shared/conts'
+import EarnCoins from 'src/icons/EarnCoins'
+import IconWithNetworkBadge from 'src/components/IconWithNetworkBadge'
+import CircledIcon from 'src/icons/CircledIcon'
 
 const TAG = 'Points/cardDefinitions'
+
+const ICON_SIZE = 40
 
 export interface HistoryCardMetadata {
   icon: React.ReactNode
@@ -57,7 +63,11 @@ export function useGetHistoryDefinition(): (
     switch (history.activityId) {
       case 'create-wallet': {
         return {
-          icon: <Celebration color={colors.successDark} />,
+          icon: (
+            <CircledIcon backgroundColor={colors.successLight} radius={ICON_SIZE}>
+              <Celebration color={colors.successDark} />
+            </CircledIcon>
+          ),
           title: t('points.history.cards.createWallet.title'),
           subtitle: t('points.history.cards.createWallet.subtitle'),
           pointsAmount: history.pointsAmount,
@@ -71,7 +81,11 @@ export function useGetHistoryDefinition(): (
           return undefined
         }
         return {
-          icon: <SwapArrows color={colors.successDark} />,
+          icon: (
+            <CircledIcon backgroundColor={colors.successLight} radius={ICON_SIZE}>
+              <SwapArrows color={colors.successDark} />
+            </CircledIcon>
+          ),
           title: t('points.history.cards.swap.title'),
           subtitle: t('points.history.cards.swap.subtitle', {
             fromToken: fromToken.symbol,
@@ -87,9 +101,34 @@ export function useGetHistoryDefinition(): (
           return
         }
         return {
-          icon: <MagicWand />,
+          icon: (
+            <CircledIcon backgroundColor={colors.successLight} radius={ICON_SIZE}>
+              <MagicWand />
+            </CircledIcon>
+          ),
           title: t('points.history.cards.createLiveLink.title'),
           subtitle,
+          pointsAmount: history.pointsAmount,
+        }
+      }
+      case 'deposit-earn': {
+        const token = tokensById[history.metadata.tokenId]
+        if (!token) {
+          Logger.error(TAG, `Cannot find token ${history.metadata.tokenId}`)
+          return undefined
+        }
+        return {
+          icon: (
+            <IconWithNetworkBadge networkId={token.networkId}>
+              <CircledIcon backgroundColor={colors.successLight} radius={ICON_SIZE}>
+                <EarnCoins size={24} color={colors.successDark} />
+              </CircledIcon>
+            </IconWithNetworkBadge>
+          ),
+          title: t('points.history.cards.depositEarn.title'),
+          subtitle: t('points.history.cards.depositEarn.subtitle', {
+            network: NETWORK_NAMES[token.networkId],
+          }),
           pointsAmount: history.pointsAmount,
         }
       }

@@ -234,7 +234,13 @@ describe('depositSubmitSaga', () => {
     })
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
       .provide(sagaProviders)
-      .put(depositSuccess())
+      .put(
+        depositSuccess({
+          tokenId: mockArbUsdcTokenId,
+          networkId: NetworkId['arbitrum-sepolia'],
+          transactionHash: '0x2',
+        })
+      )
       .put(fetchTokenBalances({ showLoading: false }))
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
@@ -271,7 +277,13 @@ describe('depositSubmitSaga', () => {
     })
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
       .provide(sagaProviders)
-      .put(depositSuccess())
+      .put(
+        depositSuccess({
+          tokenId: mockArbUsdcTokenId,
+          networkId: NetworkId['arbitrum-sepolia'],
+          transactionHash: '0x2',
+        })
+      )
       .put(fetchTokenBalances({ showLoading: false }))
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })

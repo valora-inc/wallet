@@ -1,10 +1,18 @@
 import { TokenBalance } from 'src/tokens/slice'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
+import { NetworkId } from 'src/transactions/types'
+import { Hash } from 'viem'
 
 export interface DepositInfo {
   amount: string
   tokenId: string
   preparedTransactions: SerializableTransactionRequest[]
+}
+
+export interface DepositSuccess {
+  tokenId: string
+  transactionHash: Hash
+  networkId: NetworkId
 }
 
 export interface RewardsInfo {
