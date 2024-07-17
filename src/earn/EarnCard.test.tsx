@@ -11,6 +11,7 @@ jest.mock('src/statsig')
 
 describe('EarnCardDiscover', () => {
   beforeEach(() => {
+    jest.clearAllMocks()
     jest.mocked(getFeatureGate).mockReturnValue(false)
   })
 
