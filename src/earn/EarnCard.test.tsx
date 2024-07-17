@@ -69,7 +69,7 @@ describe('EarnCardDiscover', () => {
         (featureGateName) => featureGateName === StatsigFeatureGates.SHOW_STABLECOIN_EARN
       )
 
-    const { debug, getByTestId, queryByTestId } = render(
+    const { getByTestId, queryByTestId } = render(
       <Provider
         store={createMockStore({
           tokens: {
@@ -83,7 +83,6 @@ describe('EarnCardDiscover', () => {
       </Provider>
     )
 
-    debug()
     expect(getByTestId('EarnActivePool')).toBeTruthy()
     expect(queryByTestId('EarnEntryPoint')).toBeFalsy()
     expect(queryByTestId('EarnCta')).toBeFalsy()
