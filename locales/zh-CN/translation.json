@@ -2475,6 +2475,11 @@
       "subtitle": "购买 {{symbol}}",
       "description": "将 {{symbol}} 添加到池中，每年可赚取大约 {{apy}}%"
     },
+    "entrypoint": {
+      "title": "通过稳定币赚取收入",
+      "subtitle": "存款并赚取回报",
+      "description": "Explore pools to deposit assets and earn returns on your stablecoins"
+    },
     "enterAmount": {
       "earnUpToLabel": "您最多可以赚取：",
       "rateLabel": "费率（估算）",
