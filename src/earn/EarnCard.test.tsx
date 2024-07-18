@@ -4,10 +4,14 @@ import { Provider } from 'react-redux'
 import { EarnCardDiscover } from 'src/earn/EarnCard'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
+import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
 import { mockArbUsdcTokenId, mockTokenBalances } from 'test/values'
 
 jest.mock('src/statsig')
+
+const mockDepositTokenId = mockArbUsdcTokenId
+const mockPoolTokenId = networkConfig.aaveArbUsdcTokenId
 
 describe('EarnCardDiscover', () => {
   beforeEach(() => {
@@ -24,11 +28,45 @@ describe('EarnCardDiscover', () => {
 
     const { getByTestId, queryByTestId } = render(
       <Provider store={createMockStore()}>
-        <EarnCardDiscover depositTokenId={mockArbUsdcTokenId} poolTokenId={mockArbUsdcTokenId} />
+        <EarnCardDiscover depositTokenId={mockDepositTokenId} poolTokenId={mockPoolTokenId} />
       </Provider>
     )
 
     expect(getByTestId('EarnEntrypoint')).toBeTruthy()
+    expect(queryByTestId('EarnActivePools')).toBeFalsy()
+    expect(queryByTestId('EarnCta')).toBeFalsy()
+    expect(queryByTestId('EarnActivePool')).toBeFalsy()
+    expect(getFeatureGate).toHaveBeenCalledWith(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
+    expect(getFeatureGate).toHaveBeenCalledTimes(1)
+  })
+
+  it('renders EarnActivePools when multiple pools is enabled and there are active pools', () => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation(
+        (featureGateName) => featureGateName === StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS
+      )
+
+    const { getByTestId, queryByTestId } = render(
+      <Provider
+        store={createMockStore({
+          tokens: {
+            tokenBalances: {
+              [mockPoolTokenId]: {
+                ...mockTokenBalances[mockArbUsdcTokenId],
+                tokenId: mockPoolTokenId,
+                balance: '10',
+              },
+            },
+          },
+        })}
+      >
+        <EarnCardDiscover depositTokenId={mockDepositTokenId} poolTokenId={mockPoolTokenId} />
+      </Provider>
+    )
+
+    expect(getByTestId('EarnActivePools')).toBeTruthy()
+    expect(queryByTestId('EarnEntryPoint')).toBeFalsy()
     expect(queryByTestId('EarnCta')).toBeFalsy()
     expect(queryByTestId('EarnActivePool')).toBeFalsy()
     expect(getFeatureGate).toHaveBeenCalledWith(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
@@ -46,16 +84,17 @@ describe('EarnCardDiscover', () => {
       <Provider
         store={createMockStore({
           tokens: {
-            tokenBalances: { [mockArbUsdcTokenId]: mockTokenBalances[mockArbUsdcTokenId] },
+            tokenBalances: { [mockPoolTokenId]: mockTokenBalances[mockArbUsdcTokenId] },
           },
         })}
       >
-        <EarnCardDiscover depositTokenId={mockArbUsdcTokenId} poolTokenId={mockArbUsdcTokenId} />
+        <EarnCardDiscover depositTokenId={mockDepositTokenId} poolTokenId={mockPoolTokenId} />
       </Provider>
     )
 
     expect(getByTestId('EarnCta')).toBeTruthy()
     expect(queryByTestId('EarnEntryPoint')).toBeFalsy()
+    expect(queryByTestId('EarnActivePools')).toBeFalsy()
     expect(queryByTestId('EarnActivePool')).toBeFalsy()
     expect(getFeatureGate).toHaveBeenCalledWith(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
     expect(getFeatureGate).toHaveBeenCalledWith(StatsigFeatureGates.SHOW_STABLECOIN_EARN)
@@ -74,17 +113,22 @@ describe('EarnCardDiscover', () => {
         store={createMockStore({
           tokens: {
             tokenBalances: {
-              [mockArbUsdcTokenId]: { ...mockTokenBalances[mockArbUsdcTokenId], balance: '10' },
+              [mockPoolTokenId]: {
+                ...mockTokenBalances[mockArbUsdcTokenId],
+                tokenId: mockPoolTokenId,
+                balance: '10',
+              },
             },
           },
         })}
       >
-        <EarnCardDiscover depositTokenId={mockArbUsdcTokenId} poolTokenId={mockArbUsdcTokenId} />
+        <EarnCardDiscover depositTokenId={mockDepositTokenId} poolTokenId={mockPoolTokenId} />
       </Provider>
     )
 
     expect(getByTestId('EarnActivePool')).toBeTruthy()
     expect(queryByTestId('EarnEntryPoint')).toBeFalsy()
+    expect(queryByTestId('EarnActivePools')).toBeFalsy()
     expect(queryByTestId('EarnCta')).toBeFalsy()
     expect(getFeatureGate).toHaveBeenCalledWith(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
     expect(getFeatureGate).toHaveBeenCalledWith(StatsigFeatureGates.SHOW_STABLECOIN_EARN)
@@ -99,6 +143,7 @@ describe('EarnCardDiscover', () => {
     )
 
     expect(queryByTestId('EarnEntryPoint')).toBeFalsy()
+    expect(queryByTestId('EarnActivePools')).toBeFalsy()
     expect(queryByTestId('EarnCta')).toBeFalsy()
     expect(queryByTestId('EarnActivePool')).toBeFalsy()
     expect(getFeatureGate).toHaveBeenCalledWith(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
