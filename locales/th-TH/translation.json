@@ -2475,6 +2475,11 @@
       "subtitle": "ซื้อ {{symbol}}",
       "description": "สร้างรายได้ประมาณ {{apy}}% ต่อปีเมื่อเพิ่ม {{symbol}} ลงในพูล"
     },
+    "entrypoint": {
+      "title": "สร้างรายได้ผ่าน Stablecoin",
+      "subtitle": "Deposit and earn returns",
+      "description": "Explore pools to deposit assets and earn returns on your stablecoins"
+    },
     "enterAmount": {
       "earnUpToLabel": "คุณสามารถสร้างรายได้สูงถึง:",
       "rateLabel": "อัตรา (โดยประมาณ)",
