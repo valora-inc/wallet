@@ -121,7 +121,7 @@ export function useGetHistoryDefinition(): (
           icon: (
             <IconWithNetworkBadge networkId={token.networkId}>
               <CircledIcon backgroundColor={colors.successLight} radius={ICON_SIZE}>
-                <EarnCoins size={24} color={colors.successDark} />
+                <EarnCoins color={colors.successDark} />
               </CircledIcon>
             </IconWithNetworkBadge>
           ),
