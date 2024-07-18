@@ -2511,7 +2511,11 @@
       "apy": "~{{apy}}% APY",
       "exitPool": "Wyjdź z puli",
       "depositMore": "Wpłać więcej",
-      "viewPools": "Pokaż pule"
+      "viewPools": "Pokaż pule",
+      "poolsSupplied": "Dostarczone baseny",
+      "totalSupplied": "Całkowita dostarczona ilość",
+      "myPools": "Moje baseny",
+      "explore": "Explore Open"
     },
     "depositBottomSheet": {
       "title": "Przegląd i wpłata",
