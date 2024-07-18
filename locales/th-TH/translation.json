@@ -2505,7 +2505,11 @@
       "apy": "~{{apy}}% APY",
       "exitPool": "ออกจากพูล",
       "depositMore": "ฝากเพิ่ม",
-      "viewPools": "ดูพูล"
+      "viewPools": "ดูพูล",
+      "poolsSupplied": "Pools supplied",
+      "totalSupplied": "Total supplied",
+      "myPools": "My Pools",
+      "explore": "Explore Open"
     },
     "depositBottomSheet": {
       "title": "ตรวจสอบและฝากเงิน",
