@@ -1,5 +1,7 @@
 import { TokenBalance } from 'src/tokens/slice'
+import { NetworkId } from 'src/transactions/types'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
+import { Address } from 'viem'
 
 export interface DepositInfo {
   amount: string
@@ -22,6 +24,24 @@ export interface WithdrawInfo {
   tokenId: string
   preparedTransactions: SerializableTransactionRequest[]
   rewards: SerializableRewardsInfo[]
+}
+
+export interface Pool {
+  poolId: string
+  networkId: NetworkId
+  tokens: string[]
+  depositTokenId: string
+  poolTokenId: string
+  poolAddress: Address
+  apy: number
+  reward: number
+  tvl: number
+  provider: string
+}
+
+export enum EarnTabType {
+  OpenPools = 0,
+  MyPools = 1,
 }
 
 export interface PoolInfo {

@@ -23,11 +23,20 @@ export interface NetworkFilterChip<T> extends BaseFilterChip {
   selectedNetworkIds: NetworkId[]
 }
 
+export interface TokenSelectFilterChip<T> extends BaseFilterChip {
+  filterFn: (t: T, tokenId: string) => boolean
+  selectedTokenId: string
+}
+
 export function isNetworkChip<T>(chip: FilterChip<T>): chip is NetworkFilterChip<T> {
   return 'allNetworkIds' in chip
 }
 
-export type FilterChip<T> = BooleanFilterChip<T> | NetworkFilterChip<T>
+export function isTokenSelectChip<T>(chip: FilterChip<T>): chip is TokenSelectFilterChip<T> {
+  return 'selectedTokenId' in chip
+}
+
+export type FilterChip<T> = BooleanFilterChip<T> | NetworkFilterChip<T> | TokenSelectFilterChip<T>
 
 interface Props<T> {
   chips: FilterChip<T>[]
@@ -35,6 +44,7 @@ interface Props<T> {
   primaryColor: colors
   secondaryColor: colors
   style?: StyleProp<ViewStyle>
+  contentContainerStyle?: StyleProp<ViewStyle>
   forwardedRef?: React.RefObject<ScrollView>
   scrollEnabled?: boolean
 }
@@ -45,6 +55,7 @@ function FilterChipsCarousel<T>({
   primaryColor,
   secondaryColor,
   style,
+  contentContainerStyle,
   forwardedRef,
   scrollEnabled = true,
 }: Props<T>) {
@@ -56,7 +67,8 @@ function FilterChipsCarousel<T>({
       style={[styles.container, style]}
       contentContainerStyle={[
         styles.contentContainer,
-        { flexWrap: scrollEnabled ? 'nowrap' : 'wrap', width: scrollEnabled ? 'auto' : '100%' },
+        { width: scrollEnabled ? 'auto' : '100%' },
+        contentContainerStyle,
       ]}
       ref={forwardedRef}
       testID="FilterChipsCarousel"
@@ -87,7 +99,7 @@ function FilterChipsCarousel<T>({
                 >
                   {chip.name}
                 </Text>
-                {isNetworkChip(chip) && (
+                {(isNetworkChip(chip) || isTokenSelectChip(chip)) && (
                   <DownArrowIcon
                     color={chip.isSelected ? secondaryColor : primaryColor}
                     strokeWidth={2}
@@ -111,6 +123,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingHorizontal: Spacing.Thick24,
     gap: Spacing.Smallest8,
+    flexWrap: 'wrap',
   },
   filterChipBackground: {
     overflow: 'hidden',

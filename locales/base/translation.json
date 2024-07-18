@@ -2015,7 +2015,8 @@
       "network": "{{networkName}} Network",
       "selectNetwork": "Network",
       "stablecoins": "Stablecoins",
-      "gasTokens": "Gas Tokens"
+      "gasTokens": "Gas Tokens",
+      "tokens": "Token"
     }
   },
   "homeActions": {
@@ -2555,6 +2556,24 @@
       "earnWithdrawTitle": "Withdrew",
       "earnWithdrawSubtitle": "Withdrew {{tokenSymbol}} from {{providerName}} Pool",
       "earnWithdrawDetails": "Amount Withdrawn"
+    },
+    "home": {
+      "title": "Earn"
+    },
+    "poolCard": {
+      "onNetwork": "on {{networkName}}",
+      "rate": "Rate (est.)",
+      "reward": "Reward",
+      "tvl": "TVL",
+      "exitPool": "Exit Pool",
+      "addToPool": "Add to Pool",
+      "apy": "{{apy}}% APY",
+      "poweredBy": "Powered by {{providerName}}",
+      "deposited": "Supplied"
+    },
+    "poolFilters": {
+      "openPools": "Open Pools",
+      "myPools": "My Pools"
     }
   }
 }

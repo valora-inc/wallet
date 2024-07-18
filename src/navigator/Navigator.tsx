@@ -32,6 +32,7 @@ import DappShortcutsRewards from 'src/dapps/DappShortcutsRewards'
 import DappsScreen from 'src/dapps/DappsScreen'
 import EarnCollectScreen from 'src/earn/EarnCollectScreen'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
+import EarnHome from 'src/earn/EarnHome'
 import EarnInfoScreen from 'src/earn/EarnInfoScreen'
 import EscrowedPaymentListScreen from 'src/escrow/EscrowedPaymentListScreen'
 import ReclaimPaymentConfirmationScreen from 'src/escrow/ReclaimPaymentConfirmationScreen'
@@ -538,6 +539,7 @@ const generalScreens = (Navigator: typeof Stack) => (
 
 const earnScreens = (Navigator: typeof Stack) => (
   <>
+    <Navigator.Screen name={Screens.EarnHome} component={EarnHome} options={headerWithBackButton} />
     <Navigator.Screen
       name={Screens.EarnCollectScreen}
       component={EarnCollectScreen}
