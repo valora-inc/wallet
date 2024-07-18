@@ -2507,7 +2507,11 @@
       "apy": "~{{apy}}% APY",
       "exitPool": "Quitter le pool",
       "depositMore": "Déposer plus",
-      "viewPools": "Voir les pools"
+      "viewPools": "Voir les pools",
+      "poolsSupplied": "Piscines fournies",
+      "totalSupplied": "Total fourni",
+      "myPools": "Mes piscines",
+      "explore": "Explorer l'ouverture"
     },
     "depositBottomSheet": {
       "title": "Vérifier et déposer",
