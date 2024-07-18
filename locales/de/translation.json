@@ -2477,6 +2477,11 @@
       "subtitle": "Kaufe {{symbol}}",
       "description": "Verdiene etwa {{apy}}% pro Jahr, wenn du {{symbol}} zu einem Pool hinzufügst"
     },
+    "entrypoint": {
+      "title": "Verdiene an deinen Stablecoins",
+      "subtitle": "Einzahlen und Rendite verdienen",
+      "description": "Explore pools to deposit assets and earn returns on your stablecoins"
+    },
     "enterAmount": {
       "earnUpToLabel": "Verdienst von bis zu:",
       "rateLabel": "Rate (geschätzt)",
