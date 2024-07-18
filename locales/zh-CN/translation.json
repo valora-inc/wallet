@@ -2505,7 +2505,11 @@
       "apy": "~{{apy}}% APY",
       "exitPool": "退出池",
       "depositMore": "存入更多",
-      "viewPools": "查看各类池"
+      "viewPools": "查看各类池",
+      "poolsSupplied": "提供泳池",
+      "totalSupplied": "供应总量",
+      "myPools": "我的泳池",
+      "explore": "探索开放"
     },
     "depositBottomSheet": {
       "title": "审查和存款",
