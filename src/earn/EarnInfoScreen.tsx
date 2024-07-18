@@ -40,7 +40,11 @@ function DetailsItem({
 }) {
   return (
     <View style={styles.detailsItemContainer}>
-      <CircledIcon backgroundColor={Colors.gray2} radius={ICON_BACKGROUND_CIRCLE_SIZE}>
+      <CircledIcon
+        backgroundColor={Colors.gray1}
+        borderColor={Colors.gray2}
+        radius={ICON_BACKGROUND_CIRCLE_SIZE}
+      >
         {icon}
       </CircledIcon>
       <View style={styles.flex}>
