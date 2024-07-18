@@ -20,7 +20,9 @@ export function EarnCardDiscover({ depositTokenId, poolTokenId }: Props) {
   const poolToken = useTokenInfo(poolTokenId)
 
   if (showMultiplePools) {
-    // TODO(ACT-1268): use info from getEarnPositions
+    // For now directly using the poolTokenId, which is hardcoded to AAVE arb USDC.
+    // TODO(ACT-1268): use info from getEarnPositions to see if the user is part
+    // of any pools.
     return poolToken && poolToken.balance.gt(0) ? <EarnActivePools /> : <EarnEntrypoint />
   }
 

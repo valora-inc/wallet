@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import Button, { BtnSizes, BtnTypes, TextSizes } from 'src/components/Button'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
@@ -23,7 +23,8 @@ export default function EarnActivePools() {
 
   // TODO(ACT-1268): use info from getEarnPositions
   const poolToken = useTokenInfo(networkConfig.aaveArbUsdcTokenId)
-  const poolTokenInLocalCurrency = useDollarsToLocalAmount(poolToken?.balance ?? null)
+  const poolTokenBalanceInUsd = poolToken?.priceUsd?.times(poolToken?.balance)
+  const poolTokenInLocalCurrency = useDollarsToLocalAmount(poolTokenBalanceInUsd ?? null)
   if (!poolToken) {
     // should never happen
     Logger.error(TAG, `No pool token found ${networkConfig.aaveArbUsdcTokenId}`)
@@ -59,7 +60,7 @@ export default function EarnActivePools() {
             type={BtnTypes.TERTIARY}
             size={BtnSizes.FULL}
             style={styles.button}
-            fontStyle={typeScale.labelSemiBoldSmall}
+            textSize={TextSizes.SMALL}
           />
           <Button
             onPress={() => {
@@ -72,7 +73,7 @@ export default function EarnActivePools() {
             type={BtnTypes.SECONDARY}
             size={BtnSizes.FULL}
             style={styles.button}
-            fontStyle={typeScale.labelSemiBoldSmall}
+            textSize={TextSizes.SMALL}
           />
         </View>
       </View>
