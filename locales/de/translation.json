@@ -2507,7 +2507,11 @@
       "apy": "~{{apy}} % jährliche prozentuale Rendite",
       "exitPool": "Pool verlassen",
       "depositMore": "Mehr einzahlen",
-      "viewPools": "Pools anzeigen"
+      "viewPools": "Pools anzeigen",
+      "poolsSupplied": "Gelieferte Pools",
+      "totalSupplied": "Insgesamt geliefert",
+      "myPools": "Meine Pools",
+      "explore": "Erforschen Offen"
     },
     "depositBottomSheet": {
       "title": "Überprüfen und einzahlen",
