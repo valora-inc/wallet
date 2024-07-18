@@ -2481,6 +2481,11 @@
       "subtitle": "Купить {{symbol}}",
       "description": "Зарабатывайте примерно {{apy}}% в год при добавлении {{symbol}} в пул"
     },
+    "entrypoint": {
+      "title": "Зарабатывайте на своих стейблкоинах",
+      "subtitle": "Делай депозит и получай доход",
+      "description": "Explore pools to deposit assets and earn returns on your stablecoins"
+    },
     "enterAmount": {
       "earnUpToLabel": "Вы можете заработать до:",
       "rateLabel": "Ставка (прибл.)",
