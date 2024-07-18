@@ -2478,7 +2478,7 @@
     "entrypoint": {
       "title": "通过稳定币赚取收入",
       "subtitle": "存款并赚取回报",
-      "description": "Explore pools to deposit assets and earn returns on your stablecoins"
+      "description": "探索存放资产的池子，赚取稳定币回报"
     },
     "enterAmount": {
       "earnUpToLabel": "您最多可以赚取：",
