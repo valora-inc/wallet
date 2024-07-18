@@ -18,7 +18,6 @@ jest.mock('src/statsig', () => ({
 }))
 
 const store = createMockStore({})
-const tokenId = networkConfig.arbUsdcTokenId
 
 describe('EarnInfoScreen', () => {
   beforeEach(() => {
@@ -28,7 +27,7 @@ describe('EarnInfoScreen', () => {
   it('should render correctly when no gas subsidy', async () => {
     const { getByText, queryByText } = render(
       <Provider store={store}>
-        <MockedNavigator component={EarnInfoScreen} params={{ tokenId }} />
+        <MockedNavigator component={EarnInfoScreen} />
       </Provider>
     )
 
@@ -58,7 +57,7 @@ describe('EarnInfoScreen', () => {
 
     const { getByText, queryByText } = render(
       <Provider store={store}>
-        <MockedNavigator component={EarnInfoScreen} params={{ tokenId }} />
+        <MockedNavigator component={EarnInfoScreen} />
       </Provider>
     )
 
@@ -70,7 +69,7 @@ describe('EarnInfoScreen', () => {
   it('should navigate and fire analytics correctly on Learn More button press', () => {
     const { getByText } = render(
       <Provider store={store}>
-        <MockedNavigator component={EarnInfoScreen} params={{ tokenId }} />
+        <MockedNavigator component={EarnInfoScreen} />
       </Provider>
     )
 
@@ -84,14 +83,14 @@ describe('EarnInfoScreen', () => {
   it('should navigate and fire analytics correctly on Start Earning button press', () => {
     const { getByText } = render(
       <Provider store={store}>
-        <MockedNavigator component={EarnInfoScreen} params={{ tokenId }} />
+        <MockedNavigator component={EarnInfoScreen} />
       </Provider>
     )
 
     fireEvent.press(getByText('earnFlow.earnInfo.action.earn'))
     expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, {
-      tokenId,
+      tokenId: networkConfig.arbUsdcTokenId,
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_info_earn_press, { tokenId })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_info_earn_press)
   })
 })

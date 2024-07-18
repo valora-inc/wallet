@@ -1595,6 +1595,7 @@ export type EarnDepositTxsReceiptProperties = Partial<ApproveTxReceiptProperties
 
 interface EarnEventsProperties {
   [EarnEvents.earn_cta_press]: EarnCommonProperties
+  [EarnEvents.earn_entrypoint_press]: undefined
   [EarnEvents.earn_add_crypto_action_press]: {
     action: TokenActionName
   } & TokenProperties
@@ -1638,9 +1639,7 @@ interface EarnEventsProperties {
   [EarnEvents.earn_withdraw_submit_cancel]: EarnWithdrawProperties
   [EarnEvents.earn_withdraw_add_gas_press]: { gasTokenId: string }
   [EarnEvents.earn_info_learn_press]: undefined
-  [EarnEvents.earn_info_earn_press]: {
-    tokenId: string
-  }
+  [EarnEvents.earn_info_earn_press]: undefined
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

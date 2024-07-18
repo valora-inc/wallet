@@ -3,6 +3,7 @@ import { View } from 'react-native'
 import ItemSeparator from 'src/components/ItemSeparator'
 import EarnActivePool from 'src/earn/EarnActivePool'
 import EarnCta from 'src/earn/EarnCta'
+import EarnEntrypoint from 'src/earn/EarnEntrypoint'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { Spacing } from 'src/styles/styles'
@@ -14,8 +15,15 @@ interface Props {
 }
 
 export function EarnCardDiscover({ depositTokenId, poolTokenId }: Props) {
-  const showStablecoinEarn = getFeatureGate(StatsigFeatureGates.SHOW_STABLECOIN_EARN)
+  const showMultiplePools = getFeatureGate(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
   const poolToken = useTokenInfo(poolTokenId)
+
+  if (showMultiplePools) {
+    // TODO(ACT-1257): show active pools
+    return <EarnEntrypoint />
+  }
+
+  const showStablecoinEarn = getFeatureGate(StatsigFeatureGates.SHOW_STABLECOIN_EARN)
 
   if (showStablecoinEarn) {
     return poolToken && poolToken.balance.gt(0) ? (
