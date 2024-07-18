@@ -280,7 +280,7 @@ export default function EarnHome({ navigation, route }: Props) {
               <FilterChipsCarousel
                 chips={filters}
                 onSelectChip={handleToggleFilterChip}
-                primaryColor={colors.successDark}
+                primaryColor={colors.gray1}
                 secondaryColor={colors.successLight}
                 forwardedRef={filterChipsCarouselRef}
                 style={styles.filterChipsCarouselContainer}
