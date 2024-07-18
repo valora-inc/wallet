@@ -2477,6 +2477,11 @@
       "subtitle": "Acheter {{symbol}}",
       "description": "Gagnez environ {{apy}}% par an lorsque vous ajoutez {{symbol}} à un pool"
     },
+    "entrypoint": {
+      "title": "Gagnez de l'argent sur vos stablecoins",
+      "subtitle": "Dépose et gagne en rendement",
+      "description": "Explore pools to deposit assets and earn returns on your stablecoins"
+    },
     "enterAmount": {
       "earnUpToLabel": "Vous pourriez gagner jusqu'à :",
       "rateLabel": "Taux (est.)",
