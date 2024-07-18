@@ -2505,7 +2505,11 @@
       "apy": "~{{apy}}% APY",
       "exitPool": "Thoát quỹ",
       "depositMore": "Nạp thêm",
-      "viewPools": "Xem quỹ"
+      "viewPools": "Xem quỹ",
+      "poolsSupplied": "Pools supplied",
+      "totalSupplied": "Total supplied",
+      "myPools": "My Pools",
+      "explore": "Explore Open"
     },
     "depositBottomSheet": {
       "title": "Xem lại & Nạp tiền",
