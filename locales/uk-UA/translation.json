@@ -2481,6 +2481,11 @@
       "subtitle": "Купити {{symbol}}",
       "description": "Заробляйте близько {{apy}} % річних, якщо додасте {{symbol}} до пулу"
     },
+    "entrypoint": {
+      "title": "Заробляйте на своїх стейблкоїнах",
+      "subtitle": "Поповнюйте рахунок та отримуйте дохід",
+      "description": "Explore pools to deposit assets and earn returns on your stablecoins"
+    },
     "enterAmount": {
       "earnUpToLabel": "Можна заробити до:",
       "rateLabel": "Ставка (орієнт.)",
