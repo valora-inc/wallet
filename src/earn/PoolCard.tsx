@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import Button, { BtnSizes, BtnTypes, TextSizes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon from 'src/components/TokenIcon'
 import { Pool } from 'src/earn/types'
@@ -94,7 +94,8 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
                 navigate(Screens.EarnCollectScreen, { depositTokenId, poolTokenId })
               }}
               text={t('earnFlow.poolCard.exitPool')}
-              type={BtnTypes.PRIMARY} // TODO: Change to tertiary, update size
+              type={BtnTypes.TERTIARY}
+              textSize={TextSizes.SMALL}
               size={BtnSizes.FULL}
               style={styles.button}
             />
@@ -104,6 +105,7 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
               }}
               text={t('earnFlow.poolCard.addToPool')}
               type={BtnTypes.SECONDARY}
+              textSize={TextSizes.SMALL}
               size={BtnSizes.FULL}
               style={styles.button}
             />
@@ -116,6 +118,7 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
           }}
           text={t('earnFlow.poolCard.addToPool')}
           type={BtnTypes.SECONDARY}
+          textSize={TextSizes.SMALL}
           size={BtnSizes.FULL}
         />
       )}

@@ -2562,7 +2562,8 @@
       "earnWithdrawDetails": "Amount Withdrawn"
     },
     "home": {
-      "title": "Earn"
+      "title": "Earn",
+      "learnMore": "Learn more about yield pools."
     },
     "poolCard": {
       "onNetwork": "on {{networkName}}",

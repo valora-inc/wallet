@@ -67,7 +67,7 @@ const pools: Pool[] = [
   },
 ]
 
-export function useFilterChips(): FilterChip<TokenBalance>[] {
+function useFilterChips(): FilterChip<TokenBalance>[] {
   const { t } = useTranslation()
 
   const supportedNetworkIds = [...new Set(pools.map((pool) => pool.networkId))]
@@ -245,7 +245,7 @@ export default function EarnHome({ navigation, route }: Props) {
 
   useScrollAwareHeader({
     navigation,
-    title: t('bottomTabsNavigator.earn.title'),
+    title: t('earnFlow.home.title'),
     scrollPosition,
     startFadeInPosition: nonStickyHeaderHeight - HEADER_OPACITY_ANIMATION_START_OFFSET,
     animationDistance: HEADER_OPACITY_ANIMATION_DISTANCE,
@@ -280,8 +280,8 @@ export default function EarnHome({ navigation, route }: Props) {
               <FilterChipsCarousel
                 chips={filters}
                 onSelectChip={handleToggleFilterChip}
-                primaryColor={colors.gray1}
-                secondaryColor={colors.successLight}
+                primaryColor={colors.gray4}
+                secondaryColor={colors.gray1}
                 forwardedRef={filterChipsCarouselRef}
                 style={styles.filterChipsCarouselContainer}
                 contentContainerStyle={styles.contentContainerStyle}
@@ -300,6 +300,7 @@ export default function EarnHome({ navigation, route }: Props) {
             pool.tokens.some((token) => tokenList.map((token) => token.tokenId).includes(token))
           )}
         />
+        <Text style={styles.learnMore}>{t('earnFlow.home.learnMore')}</Text>
       </Animated.View>
       {networkChip && (
         <NetworkMultiSelectBottomSheet
@@ -350,12 +351,15 @@ const styles = StyleSheet.create({
   headerRow: {
     flexDirection: 'row',
   },
-  // eslint-disable-next-line react-native/no-unused-styles
   filterChipsCarouselContainer: {
     flexDirection: 'row',
   },
-  // eslint-disable-next-line react-native/no-unused-styles
   contentContainerStyle: {
     justifyContent: 'flex-end',
+  },
+  learnMore: {
+    ...typeScale.bodySmall,
+    color: Colors.black,
+    textAlign: 'center',
   },
 })
