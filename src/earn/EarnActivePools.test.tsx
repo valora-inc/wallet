@@ -33,7 +33,7 @@ describe('EarnActivePools', () => {
 
     expect(getByTestId('EarnActivePools')).toBeTruthy()
     expect(getByTestId('EarnActivePools/PoolsSupplied')).toContainElement(getByText('1'))
-    expect(getByTestId('EarnActivePools/TotalSupplied')).toContainElement(getByText('₱ 13.30'))
+    expect(getByTestId('EarnActivePools/TotalSupplied')).toContainElement(getByText('₱13.30'))
   })
 
   it('explore pools navigates to correct tab on earn home page', () => {

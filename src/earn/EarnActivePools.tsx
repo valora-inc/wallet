@@ -30,7 +30,7 @@ export default function EarnActivePools() {
     return null
   }
   const poolsSupplied = 1
-  const totalSupplied = `${localCurrencySymbol} ${poolTokenInLocalCurrency ? formatValueToDisplay(poolTokenInLocalCurrency) : '--'}`
+  const totalSupplied = `${localCurrencySymbol}${poolTokenInLocalCurrency ? formatValueToDisplay(poolTokenInLocalCurrency) : '--'}`
 
   return (
     <View style={styles.card} testID="EarnActivePools">
