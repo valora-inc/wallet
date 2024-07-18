@@ -2511,7 +2511,11 @@
       "apy": "~{{apy}}% APY",
       "exitPool": "Вийти з пулу",
       "depositMore": "Внести більше",
-      "viewPools": "Переглянути пули"
+      "viewPools": "Переглянути пули",
+      "poolsSupplied": "Басейни в комплекті",
+      "totalSupplied": "Всього поставлено",
+      "myPools": "Мої басейни",
+      "explore": "Дослідити Відкрити"
     },
     "depositBottomSheet": {
       "title": "Огляд і поповнення",
