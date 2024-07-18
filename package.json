@@ -218,6 +218,7 @@
     "@faker-js/faker": "^5.5.3",
     "@jambit/eslint-plugin-typed-redux-saga": "^0.4.0",
     "@mento-protocol/mento-sdk": "^0.2.3",
+    "@react-native/metro-config": "^0.72.12",
     "@sentry/types": "^7.111.0",
     "@testing-library/jest-native": "^5.4.3",
     "@testing-library/react-native": "^12.4.5",
