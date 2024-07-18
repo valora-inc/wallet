@@ -5,11 +5,40 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { fetchPoolInfo } from 'src/earn/slice'
 import GetStarted from 'src/home/GetStarted'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
 import { mockArbUsdcTokenId, mockTokenBalances } from 'test/values'
 
+jest.mock('src/statsig')
+
 describe('GetStarted', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+    jest.mocked(getFeatureGate).mockReturnValue(false)
+  })
+
+  it('should display the correct text when multiple pools gate is enabled', () => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
+    const store = createMockStore()
+    const { getByText } = render(
+      <Provider store={store}>
+        <GetStarted />
+      </Provider>
+    )
+
+    expect(getByText('getStarted')).toBeTruthy()
+    expect(getByText('getStartedHome.titleV1_86')).toBeTruthy()
+    expect(getByText('earnFlow.entrypoint.title')).toBeTruthy()
+    expect(getByText('earnFlow.entrypoint.description')).toBeTruthy()
+    expect(getByText('getStartedHome.exploreTokens')).toBeTruthy()
+    expect(getByText('getStartedHome.exploreTokensBody')).toBeTruthy()
+    expect(store.getActions()).toEqual([])
+  })
+
   it('should display the correct text', () => {
     const store = createMockStore({
       tokens: {
