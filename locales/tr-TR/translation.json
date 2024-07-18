@@ -2477,6 +2477,11 @@
       "subtitle": "{{symbol}} satın alın",
       "description": "Bir havuza {{symbol}} ekleyerek yılda yaklaşık %{{apy}} kazanın"
     },
+    "entrypoint": {
+      "title": "Sabit coinlerinizden kazanın",
+      "subtitle": "Para yatırın ve getiri kazanın",
+      "description": "Explore pools to deposit assets and earn returns on your stablecoins"
+    },
     "enterAmount": {
       "earnUpToLabel": "Şu kadar kazanabilirsiniz:",
       "rateLabel": "Oran (tahmini)",
