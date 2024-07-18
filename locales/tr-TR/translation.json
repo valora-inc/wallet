@@ -2507,7 +2507,11 @@
       "apy": "~%{{apy}} Yıllık Getiri Oranı (APY)",
       "exitPool": "Havuzdan Çık",
       "depositMore": "Daha Fazla Yatırın",
-      "viewPools": "Havuzları Görüntüle"
+      "viewPools": "Havuzları Görüntüle",
+      "poolsSupplied": "Tedarik edilen havuzlar",
+      "totalSupplied": "Toplam tedarik",
+      "myPools": "Havuzlarım",
+      "explore": "Açık Keşfet"
     },
     "depositBottomSheet": {
       "title": "İncele ve Para Yatır",
