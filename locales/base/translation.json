@@ -2510,7 +2510,11 @@
       "apy": "~{{apy}}% APY",
       "exitPool": "Exit Pool",
       "depositMore": "Deposit More",
-      "viewPools": "View Pools"
+      "viewPools": "View Pools",
+      "poolsSupplied": "Pools supplied",
+      "totalSupplied": "Total supplied",
+      "myPools": "My Pools",
+      "explore": "Explore Open"
     },
     "depositBottomSheet": {
       "title": "Review & Deposit",

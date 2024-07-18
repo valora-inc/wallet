@@ -1,6 +1,6 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
-import Button, { BtnTypes } from 'src/components/Button'
+import Button, { BtnTypes, TextSizes } from 'src/components/Button'
 
 describe('Button', () => {
   describe('when pressed', () => {
@@ -74,6 +74,19 @@ describe('Button', () => {
   describe('when type not given', () => {
     it('defaults to primary', () => {
       const tree = render(<Button onPress={jest.fn()} text={'Button'} />)
+      expect(tree).toMatchSnapshot()
+    })
+  })
+  describe('when type is TERTIARY and text size is small', () => {
+    it('renders', () => {
+      const tree = render(
+        <Button
+          onPress={jest.fn()}
+          text="Button"
+          type={BtnTypes.TERTIARY}
+          textSize={TextSizes.SMALL}
+        />
+      )
       expect(tree).toMatchSnapshot()
     })
   })
