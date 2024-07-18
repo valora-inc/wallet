@@ -15,12 +15,18 @@ const DEBOUNCE_OPTIONS = {
 export enum BtnTypes {
   PRIMARY = 'Primary',
   SECONDARY = 'Secondary',
+  TERTIARY = 'Tertiary',
 }
 
 export enum BtnSizes {
   SMALL = 'small',
   MEDIUM = 'medium',
   FULL = 'full',
+}
+
+export enum TextSizes {
+  SMALL = 'small',
+  MEDIUM = 'medium',
 }
 
 export interface ButtonProps {
@@ -38,6 +44,7 @@ export interface ButtonProps {
   testID?: string
   touchableStyle?: StyleProp<ViewStyle>
   iconMargin?: number
+  textSize?: TextSizes
 }
 
 export default React.memo(function Button(props: ButtonProps) {
@@ -55,6 +62,7 @@ export default React.memo(function Button(props: ButtonProps) {
     loadingColor,
     touchableStyle,
     iconMargin = 4,
+    textSize = TextSizes.MEDIUM,
   } = props
 
   // Debounce onPress event so that it is called once on trigger and
@@ -101,7 +109,7 @@ export default React.memo(function Button(props: ButtonProps) {
                 maxFontSizeMultiplier={1}
                 accessibilityLabel={accessibilityLabel}
                 style={{
-                  ...styles.fontStyle,
+                  ...getTextStyle(textSize),
                   color: textColor,
                   marginLeft: icon && iconPositionLeft ? iconMargin : 0,
                   marginRight: icon && !iconPositionLeft ? iconMargin : 0,
@@ -165,6 +173,12 @@ function getColors(type: BtnTypes, disabled: boolean | undefined) {
       borderColor = colors.gray2
       opacity = disabled ? 0.5 : 1.0
       break
+    case BtnTypes.TERTIARY:
+      textColor = colors.black
+      backgroundColor = colors.white
+      borderColor = colors.gray2
+      opacity = disabled ? 0.5 : 1.0
+      break
   }
 
   return { textColor, backgroundColor, opacity, borderColor }
@@ -207,6 +221,15 @@ function getStyle(
         ...commonStyles,
         ...styles.medium,
       }
+  }
+}
+
+function getTextStyle(textSize: TextSizes | undefined) {
+  switch (textSize) {
+    case TextSizes.SMALL:
+      return typeScale.labelSemiBoldSmall
+    default:
+      return typeScale.labelSemiBoldMedium
   }
 }
 
