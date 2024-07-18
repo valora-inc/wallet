@@ -24,7 +24,7 @@ export enum BtnSizes {
   FULL = 'full',
 }
 
-enum TextSizes {
+export enum TextSizes {
   SMALL = 'small',
   MEDIUM = 'medium',
 }
@@ -150,9 +150,6 @@ const styles = StyleSheet.create({
   full: {
     height: 48,
     flexGrow: 1,
-  },
-  fontStyle: {
-    ...typeScale.labelSemiBoldMedium,
   },
 })
 
