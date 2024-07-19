@@ -66,6 +66,7 @@ export function MoreComingCard() {
 
 const styles = StyleSheet.create({
   cardTitle: {
+    flex: 1,
     ...typeScale.labelSmall,
   },
   card: {

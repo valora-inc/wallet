@@ -33,16 +33,11 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_CAB_IN_ONBOARDING]: false,
   [StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS]: false,
   [StatsigFeatureGates.SHOW_ONBOARDING_PHONE_VERIFICATION]: true,
+  [StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS]: false,
 } satisfies { [key in StatsigFeatureGates]: boolean }
 
 export const ExperimentConfigs = {
   // NOTE: the keys of defaultValues MUST be parameter names
-  [StatsigExperiments.SWAP_BUY_AMOUNT]: {
-    experimentName: StatsigExperiments.SWAP_BUY_AMOUNT,
-    defaultValues: {
-      swapBuyAmountEnabled: true,
-    },
-  },
   [StatsigExperiments.ONBOARDING_TERMS_AND_CONDITIONS]: {
     experimentName: StatsigExperiments.ONBOARDING_TERMS_AND_CONDITIONS,
     defaultValues: {

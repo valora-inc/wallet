@@ -36,10 +36,10 @@ export enum StatsigFeatureGates {
   SHOW_CAB_IN_ONBOARDING = 'show_cab_in_onboarding',
   ALLOW_CROSS_CHAIN_SWAPS = 'allow_cross_chain_swaps',
   SHOW_ONBOARDING_PHONE_VERIFICATION = 'show_onboarding_phone_verification',
+  SHOW_MULTIPLE_EARN_POOLS = 'show_multiple_earn_pools',
 }
 
 export enum StatsigExperiments {
-  SWAP_BUY_AMOUNT = 'swap_buy_amount',
   ONBOARDING_TERMS_AND_CONDITIONS = 'onboarding_terms_and_conditions',
 }
 
