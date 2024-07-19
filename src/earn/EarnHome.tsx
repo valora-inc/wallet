@@ -10,7 +10,7 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
+import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import FilterChipsCarousel, {
   FilterChip,
   NetworkFilterChip,
@@ -141,6 +141,7 @@ export default function EarnHome({ navigation, route }: Props) {
 
   const networkChipRef = useRef<BottomSheetRefType>(null)
   const tokenBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const learnMoreBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   // The NetworkMultiSelectBottomSheet and TokenBottomSheet must be rendered at this level in order to be in
   // front of the bottom tabs navigator when they render. So, we need to manage the state of the filters here and pass them down
@@ -264,6 +265,10 @@ export default function EarnHome({ navigation, route }: Props) {
     })
   }, [pools, allTokens, activeTab])
 
+  const onPressLearnMore = () => {
+    learnMoreBottomSheetRef.current?.snapToIndex(0)
+  }
+
   return (
     <>
       <Animated.View testID="EarnScreen" style={styles.container}>
@@ -297,9 +302,10 @@ export default function EarnHome({ navigation, route }: Props) {
           displayPools={displayPools.filter((pool) =>
             pool.tokens.some((token) => tokenList.map((token) => token.tokenId).includes(token))
           )}
+          onPressLearnMore={onPressLearnMore}
         />
-        <Text style={styles.learnMore}>{t('earnFlow.home.learnMore')}</Text>
       </Animated.View>
+      <LearnMoreBottomSheet learnMoreBottomSheetRef={learnMoreBottomSheetRef} />
       {networkChip && (
         <NetworkMultiSelectBottomSheet
           allNetworkIds={networkChip.allNetworkIds}
@@ -321,6 +327,36 @@ export default function EarnHome({ navigation, route }: Props) {
         filterChips={[]}
       />
     </>
+  )
+}
+
+function LearnMoreBottomSheet({
+  learnMoreBottomSheetRef,
+}: {
+  learnMoreBottomSheetRef: React.RefObject<BottomSheetRefType>
+}) {
+  const { t } = useTranslation()
+
+  return (
+    <BottomSheet
+      forwardedRef={learnMoreBottomSheetRef}
+      title={t('earnFlow.home.learnMoreBottomSheet.title')}
+      testId={'Earn/Home/LearnMoreBottomSheet'}
+      titleStyle={styles.learnMoreTitle}
+    >
+      <Text style={styles.learnMoreSubTitle}>
+        {t('earnFlow.home.learnMoreBottomSheet.apySubtitle')}
+      </Text>
+      <Text style={styles.learnMoreDescription}>
+        {t('earnFlow.home.learnMoreBottomSheet.apyDescription')}
+      </Text>
+      <Text style={styles.learnMoreSubTitle}>
+        {t('earnFlow.home.learnMoreBottomSheet.tvlSubtitle')}
+      </Text>
+      <Text style={styles.learnMoreDescription}>
+        {t('earnFlow.home.learnMoreBottomSheet.tvlDescription')}
+      </Text>
+    </BottomSheet>
   )
 }
 
@@ -359,5 +395,19 @@ const styles = StyleSheet.create({
     ...typeScale.bodySmall,
     color: Colors.black,
     textAlign: 'center',
+  },
+  learnMoreTitle: {
+    ...typeScale.titleSmall,
+    colors: Colors.black,
+  },
+  learnMoreSubTitle: {
+    ...typeScale.labelSemiBoldSmall,
+    colors: Colors.black,
+    marginBottom: Spacing.Tiny4,
+  },
+  learnMoreDescription: {
+    ...typeScale.bodySmall,
+    colors: Colors.black,
+    marginBottom: Spacing.Thick24,
   },
 })
