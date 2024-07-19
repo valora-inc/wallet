@@ -27,7 +27,7 @@ import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
 import { useSelector } from 'src/redux/hooks'
-import colors, { Colors } from 'src/styles/colors'
+import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
 import { tokensByIdSelector } from 'src/tokens/selectors'
@@ -280,8 +280,6 @@ export default function EarnHome({ navigation, route }: Props) {
               <FilterChipsCarousel
                 chips={filters}
                 onSelectChip={handleToggleFilterChip}
-                primaryColor={colors.gray4}
-                secondaryColor={colors.gray1}
                 forwardedRef={filterChipsCarouselRef}
                 style={styles.filterChipsCarouselContainer}
                 contentContainerStyle={styles.contentContainerStyle}
