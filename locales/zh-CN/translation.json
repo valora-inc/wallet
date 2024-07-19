@@ -2346,6 +2346,10 @@
             "erc20": "发送至 {{tokenSymbol}}",
             "erc721": "发出的 NFT"
           }
+        },
+        "depositEarn": {
+          "title": "已存入",
+          "subtitle": "至 {{network}} 池"
         }
       },
       "title": "我的积分活动",
@@ -2412,6 +2416,14 @@
           "title": "通过实时链接发送",
           "body": "每次使用 {{appName}}中的实时链接发送资金，都可赚取 {{pointsValue}} 积分。 \n\n点击下面的链接开始发送并赚取积分！",
           "cta": "通过实时链接发送"
+        }
+      },
+      "depositEarn": {
+        "title": "存入 {{appName}}上的收益池",
+        "bottomSheet": {
+          "title": "Deposit into an earn pool",
+          "body": "每次将资金存入 {{appName}}上的收益池，即可赚取 {{pointsValue}} 积分。 \n\n点击下方开始赚取收益和积分！",
+          "cta": "去赚取水池"
         }
       }
     },
