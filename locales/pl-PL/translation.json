@@ -2352,6 +2352,10 @@
             "erc20": "Wysłano {{tokenSymbol}}",
             "erc721": "Wysłane NFT"
           }
+        },
+        "depositEarn": {
+          "title": "Wpłacono",
+          "subtitle": "do puli {{network}}"
         }
       },
       "title": "Moja aktywność w zakresie punktów",
@@ -2418,6 +2422,14 @@
           "title": "Wyślij za pomocą aktywnego linku",
           "body": "Zdobywaj punkty {{pointsValue}} za każdym razem, gdy wysyłasz środki za pomocą Live Link w {{appName}}. \n\nKliknij poniżej, aby zacząć wysyłać i zarabiać!",
           "cta": "Wyślij za pomocą aktywnego linku"
+        }
+      },
+      "depositEarn": {
+        "title": "Dokonaj wpłaty do puli zarobków na stronie {{appName}}.",
+        "bottomSheet": {
+          "title": "Deposit into an earn pool",
+          "body": "Zdobywaj punkty {{pointsValue}} za każdym razem, gdy wpłacasz środki do puli zarobkowej na {{appName}}. \n\nStuknij poniżej, aby zacząć zarabiać i zdobywać punkty!",
+          "cta": "Idź zarabiać w basenach"
         }
       }
     },
