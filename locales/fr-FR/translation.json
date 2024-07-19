@@ -2348,6 +2348,10 @@
             "erc20": "Envoyé {{tokenSymbol}}",
             "erc721": "NFT envoyé"
           }
+        },
+        "depositEarn": {
+          "title": "Déposé",
+          "subtitle": "vers le pool {{network}}"
         }
       },
       "title": "Mes actions ponctuées",
@@ -2414,6 +2418,14 @@
           "title": "Envoyer avec un lien direct",
           "body": "Gagne {{pointsValue}} points chaque fois que tu envoies des fonds en utilisant un Live Link sur {{appName}}. \n\nTape ci-dessous pour commencer à envoyer et à gagner !",
           "cta": "Envoyer avec un lien direct"
+        }
+      },
+      "depositEarn": {
+        "title": "Dépôt dans un pool de gains sur {{appName}}",
+        "bottomSheet": {
+          "title": "Deposit into an earn pool",
+          "body": "Gagne {{pointsValue}} points chaque fois que tu déposes des fonds dans un pool de gains sur {{appName}}. \n\nTape ci-dessous pour commencer à gagner du rendement et des points !",
+          "cta": "Va gagner des piscines"
         }
       }
     },
