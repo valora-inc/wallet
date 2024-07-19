@@ -2346,6 +2346,10 @@
             "erc20": "Sent {{tokenSymbol}}",
             "erc721": "NFT đã gửi"
           }
+        },
+        "depositEarn": {
+          "title": "Đã nạp",
+          "subtitle": "vào Quỹ {{network}}"
         }
       },
       "title": "Hoạt động tích điểm của tôi",
@@ -2412,6 +2416,14 @@
           "title": "Gửi bằng đường liên kết trực tiếp",
           "body": "Earn {{pointsValue}} points every time you send funds using a Live Link in {{appName}}. \n\nTap below to start sending and earning!",
           "cta": "Gửi bằng đường liên kết trực tiếp"
+        }
+      },
+      "depositEarn": {
+        "title": "Deposit into an earn pool on {{appName}}",
+        "bottomSheet": {
+          "title": "Deposit into an earn pool",
+          "body": "Earn {{pointsValue}} points every time you deposit funds into an earn pool on {{appName}}. \n\nTap below to start earning yield and points!",
+          "cta": "Go to earn pools"
         }
       }
     },
