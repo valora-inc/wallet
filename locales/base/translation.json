@@ -2565,7 +2565,7 @@
       "title": "Earn",
       "learnMore": "<0>Learn more</0> about yield pools.",
       "learnMoreBottomSheet": {
-        "title:": "Learn more about yield pools",
+        "bottomSheetTitle": "Learn more about yield pools",
         "apySubtitle": "What is an APY?",
         "apyDescription": "Annual percentage yield (APY) is a metric used to calculate the annualized return on crypto investments. It's a key indicator of a cryptocurrency's potential return and profitability.",
         "tvlSubtitle": "What is TVL?",
