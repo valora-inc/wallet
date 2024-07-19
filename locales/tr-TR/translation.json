@@ -2348,6 +2348,10 @@
             "erc20": "Gönderildi {{tokenSymbol}}",
             "erc721": "Gönderilen NFT"
           }
+        },
+        "depositEarn": {
+          "title": "Yatırılan",
+          "subtitle": "{{network}} Havuzuna"
         }
       },
       "title": "Puan faaliyetim",
@@ -2414,6 +2418,14 @@
           "title": "Canlı Bağlantı ile Gönder",
           "body": "{{appName}}adresindeki bir Canlı Bağlantı kullanarak her para gönderdiğinizde {{pointsValue}} puan kazanın. \n\nGöndermeye ve kazanmaya başlamak için aşağıya dokunun!",
           "cta": "Canlı Bağlantı ile Gönder"
+        }
+      },
+      "depositEarn": {
+        "title": "{{appName}}adresindeki kazanç havuzuna para yatırın",
+        "bottomSheet": {
+          "title": "Deposit into an earn pool",
+          "body": "{{appName}}adresindeki bir kazanç havuzuna her para yatırdığınızda {{pointsValue}} puan kazanın. \n\nGetiri ve puan kazanmaya başlamak için aşağıya dokunun!",
+          "cta": "Havuzları kazanmak için gidin"
         }
       }
     },
