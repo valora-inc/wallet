@@ -53,18 +53,6 @@ const pools: Pool[] = [
     tvl: 349_940_000,
     provider: 'Aave',
   },
-  {
-    poolId: 'aArbWETH',
-    networkId: NetworkId['arbitrum-one'],
-    tokens: [`${NetworkId['arbitrum-one']}:0x82af49447d8a07e3bd95bd0d56f35241523fbab1`],
-    depositTokenId: `${NetworkId['arbitrum-one']}:0x82af49447d8a07e3bd95bd0d56f35241523fbab1`,
-    poolTokenId: `${NetworkId['arbitrum-one']}:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8`,
-    poolAddress: '0x794a61358D6845594F94dc1DB02A252b5b4814aD',
-    apy: 0.023,
-    reward: 0,
-    tvl: 411_630_000,
-    provider: 'Aave',
-  },
 ]
 
 function useFilterChips(): FilterChip<TokenBalance>[] {
