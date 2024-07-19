@@ -2346,6 +2346,10 @@
             "erc20": "Sent {{tokenSymbol}}",
             "erc721": "NFT đã gửi"
           }
+        },
+        "depositEarn": {
+          "title": "Đã nạp",
+          "subtitle": "vào Quỹ {{network}}"
         }
       },
       "title": "Hoạt động tích điểm của tôi",
@@ -2413,6 +2417,14 @@
           "body": "Earn {{pointsValue}} points every time you send funds using a Live Link in {{appName}}. \n\nTap below to start sending and earning!",
           "cta": "Gửi bằng đường liên kết trực tiếp"
         }
+      },
+      "depositEarn": {
+        "title": "Deposit into an earn pool on {{appName}}",
+        "bottomSheet": {
+          "title": "Deposit into an earn pool",
+          "body": "Earn {{pointsValue}} points every time you deposit funds into an earn pool on {{appName}}. \n\nTap below to start earning yield and points!",
+          "cta": "Go to earn pools"
+        }
       }
     },
     "discoverCard": {
@@ -2475,6 +2487,11 @@
       "subtitle": "Mua {{symbol}}",
       "description": "Kiếm khoảng {{apy}}% mỗi năm khi bạn nạp {{symbol}} vào quỹ"
     },
+    "entrypoint": {
+      "title": "Nhận stablecoin",
+      "subtitle": "Deposit and earn returns",
+      "description": "Explore pools to deposit assets and earn returns on your stablecoins"
+    },
     "enterAmount": {
       "earnUpToLabel": "Bạn có thể kiếm được đến:",
       "rateLabel": "Tỷ giá (ước tính)",
@@ -2500,7 +2517,11 @@
       "apy": "~{{apy}}% APY",
       "exitPool": "Thoát quỹ",
       "depositMore": "Nạp thêm",
-      "viewPools": "Xem quỹ"
+      "viewPools": "Xem quỹ",
+      "poolsSupplied": "Pools supplied",
+      "totalSupplied": "Total supplied",
+      "myPools": "My Pools",
+      "explore": "Explore Open"
     },
     "depositBottomSheet": {
       "title": "Xem lại & Nạp tiền",
