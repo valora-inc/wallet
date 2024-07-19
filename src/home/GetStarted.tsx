@@ -10,33 +10,76 @@ import { poolInfoSelector } from 'src/earn/selectors'
 import { fetchPoolInfo } from 'src/earn/slice'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import CircledIcon from 'src/icons/CircledIcon'
+import EarnCoins from 'src/icons/EarnCoins'
 import ExploreTokens from 'src/icons/ExploreTokens'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useDispatch, useSelector } from 'src/redux/hooks'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokenInfo } from 'src/tokens/hooks'
 import networkConfig from 'src/web3/networkConfig'
 
-export default function GetStarted() {
+function EarnItem() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const poolInfo = useSelector(poolInfoSelector)
-
-  const goToAddFunds = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_add_get_started_selected)
-    navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
-  }
+  const showMultiplePools = getFeatureGate(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
 
   useEffect(() => {
-    dispatch(fetchPoolInfo())
+    if (!showMultiplePools) {
+      dispatch(fetchPoolInfo())
+    }
   }, [])
 
   const earnToken = useTokenInfo(networkConfig.arbUsdcTokenId)
 
   const apyDisplay = poolInfo?.apy ? new BigNumber(poolInfo.apy).multipliedBy(100).toFixed(2) : '--'
+
+  if (showMultiplePools) {
+    return (
+      <Item
+        icon={
+          <CircledIcon radius={32} backgroundColor={colors.successLight}>
+            <EarnCoins color={colors.successDark} />
+          </CircledIcon>
+        }
+        title={t('earnFlow.entrypoint.title')}
+        body={t('earnFlow.entrypoint.description')}
+      />
+    )
+  }
+
+  if (earnToken) {
+    return (
+      <Item
+        icon={
+          <CircledIcon radius={32} backgroundColor={colors.gray1}>
+            <TokenIcon token={earnToken} size={IconSize.SMALL} />
+          </CircledIcon>
+        }
+        title={t('earnFlow.ctaV1_86.subtitle', { symbol: earnToken.symbol })}
+        body={t('earnFlow.ctaV1_86.description', {
+          apy: apyDisplay,
+          symbol: earnToken.symbol,
+        })}
+      />
+    )
+  }
+
+  return null
+}
+
+export default function GetStarted() {
+  const { t } = useTranslation()
+
+  const goToAddFunds = () => {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_add_get_started_selected)
+    navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
+  }
 
   useEffect(() => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_add_get_started_impression)
@@ -53,20 +96,7 @@ export default function GetStarted() {
       >
         <View style={styles.touchableView}>
           <Text style={styles.cardTitle}>{t('getStartedHome.titleV1_86')}</Text>
-          {earnToken && (
-            <Item
-              icon={
-                <CircledIcon radius={32} backgroundColor={colors.gray1}>
-                  <TokenIcon token={earnToken} size={IconSize.SMALL} />
-                </CircledIcon>
-              }
-              title={t('earnFlow.ctaV1_86.subtitle', { symbol: earnToken.symbol })}
-              body={t('earnFlow.ctaV1_86.description', {
-                apy: apyDisplay,
-                symbol: earnToken.symbol,
-              })}
-            />
-          )}
+          <EarnItem />
           <Item
             icon={<ExploreTokens />}
             title={t('getStartedHome.exploreTokens')}

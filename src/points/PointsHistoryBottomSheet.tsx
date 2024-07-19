@@ -233,9 +233,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.Thick24,
   },
   cardIcon: {
-    backgroundColor: colors.successLight,
-    justifyContent: 'flex-end',
     alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 20,
     width: 40,
     height: 40,

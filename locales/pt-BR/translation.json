@@ -2348,6 +2348,10 @@
             "erc20": "Enviado {{tokenSymbol}}",
             "erc721": "NFT enviado"
           }
+        },
+        "depositEarn": {
+          "title": "Depositado",
+          "subtitle": "para o pool da {{network}}"
         }
       },
       "title": "Minha atividade de pontos",
@@ -2415,6 +2419,14 @@
           "body": "Ganhe {{pointsValue}} pontos toda vez que você enviar fundos usando um Live Link em {{appName}}. \n\nToque abaixo para começar a enviar e ganhar!",
           "cta": "Envie com um link ativo"
         }
+      },
+      "depositEarn": {
+        "title": "Deposite em um pool de ganhos em {{appName}}",
+        "bottomSheet": {
+          "title": "Deposit into an earn pool",
+          "body": "Ganhe {{pointsValue}} pontos toda vez que você depositar fundos em um pool de ganhos em {{appName}}. \n\nToque abaixo para que você comece a ganhar rendimento e pontos!",
+          "cta": "Ir para ganhar piscinas"
+        }
       }
     },
     "discoverCard": {
@@ -2477,6 +2489,11 @@
       "subtitle": "Comprar {{symbol}}",
       "description": "Ganhe cerca de {{apy}}% por ano ao adicionar {{symbol}} a um pool"
     },
+    "entrypoint": {
+      "title": "Ganhe com suas stablecoins",
+      "subtitle": "Deposite e obtenha retornos",
+      "description": "Explore pools para depositar ativos e obter retornos sobre suas stablecoins"
+    },
     "enterAmount": {
       "earnUpToLabel": "Você pode ganhar até:",
       "rateLabel": "Taxa (est.)",
@@ -2502,7 +2519,11 @@
       "apy": "~{{apy}}% de APY",
       "exitPool": "Sair do pool",
       "depositMore": "Depositar mais",
-      "viewPools": "Ver pools"
+      "viewPools": "Ver pools",
+      "poolsSupplied": "Piscinas fornecidas",
+      "totalSupplied": "Total fornecido",
+      "myPools": "Minhas piscinas",
+      "explore": "Explorar aberto"
     },
     "depositBottomSheet": {
       "title": "Revisar e depositar",

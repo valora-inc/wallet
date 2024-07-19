@@ -2352,6 +2352,10 @@
             "erc20": "Wysłano {{tokenSymbol}}",
             "erc721": "Wysłane NFT"
           }
+        },
+        "depositEarn": {
+          "title": "Wpłacono",
+          "subtitle": "do puli {{network}}"
         }
       },
       "title": "Moja aktywność w zakresie punktów",
@@ -2419,6 +2423,14 @@
           "body": "Zdobywaj punkty {{pointsValue}} za każdym razem, gdy wysyłasz środki za pomocą Live Link w {{appName}}. \n\nKliknij poniżej, aby zacząć wysyłać i zarabiać!",
           "cta": "Wyślij za pomocą aktywnego linku"
         }
+      },
+      "depositEarn": {
+        "title": "Dokonaj wpłaty do puli zarobków na stronie {{appName}}.",
+        "bottomSheet": {
+          "title": "Deposit into an earn pool",
+          "body": "Zdobywaj punkty {{pointsValue}} za każdym razem, gdy wpłacasz środki do puli zarobkowej na {{appName}}. \n\nStuknij poniżej, aby zacząć zarabiać i zdobywać punkty!",
+          "cta": "Idź zarabiać w basenach"
+        }
       }
     },
     "discoverCard": {
@@ -2481,6 +2493,11 @@
       "subtitle": "Kup {{symbol}}",
       "description": "Zarabiaj około {{apy}}% rocznie, dodając {{symbol}} do puli"
     },
+    "entrypoint": {
+      "title": "Zarabiaj na swoich stablecoinach",
+      "subtitle": "Wpłacaj i zarabiaj na zwrotach",
+      "description": "Przeglądaj pule, aby zdeponować aktywa i zarabiać na swoich stablecoinach"
+    },
     "enterAmount": {
       "earnUpToLabel": "Możesz zarobić do:",
       "rateLabel": "Stawka (szac.)",
@@ -2506,7 +2523,11 @@
       "apy": "~{{apy}}% APY",
       "exitPool": "Wyjdź z puli",
       "depositMore": "Wpłać więcej",
-      "viewPools": "Pokaż pule"
+      "viewPools": "Pokaż pule",
+      "poolsSupplied": "Dostarczone baseny",
+      "totalSupplied": "Całkowita dostarczona ilość",
+      "myPools": "Moje baseny",
+      "explore": "Explore Open"
     },
     "depositBottomSheet": {
       "title": "Przegląd i wpłata",

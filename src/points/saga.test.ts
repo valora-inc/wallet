@@ -48,6 +48,7 @@ import { createMockStore } from 'test/utils'
 import { mockAccount } from 'test/values'
 import { v4 as uuidv4 } from 'uuid'
 import { swapSuccess } from 'src/swap/slice'
+import { depositSuccess } from 'src/earn/slice'
 
 jest.mock('src/statsig')
 jest.mocked(getFeatureGate).mockImplementation((featureGate) => {
@@ -646,6 +647,34 @@ describe('watchSwapSuccess', () => {
   })
 })
 
+describe('watchDepositSuccess', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+  it('should call sendPointsEvent with transformed payload', async () => {
+    const mockAction = depositSuccess({
+      tokenId: 'token-id',
+      networkId: NetworkId['arbitrum-sepolia'],
+      transactionHash: '0x123' as Hash,
+    })
+
+    await expectSaga(pointsSaga.watchDepositSuccessTransformPayload, mockAction)
+      .provide([
+        [
+          matchers.call(
+            sendPointsEvent,
+            trackPointsEvent({
+              ...mockAction.payload,
+              activityId: 'deposit-earn',
+            })
+          ),
+          null,
+        ],
+      ])
+      .run()
+  })
+})
+
 describe('watchLiveLinkCreated', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -755,6 +784,7 @@ describe('pointsSaga', () => {
         [spawn(pointsSaga.watchHomeScreenVisit), null],
         [spawn(pointsSaga.watchLiveLinkCreated), null],
         [spawn(pointsSaga.watchSwapSuccess), null],
+        [spawn(pointsSaga.watchDepositSuccess), null],
       ])
       .run()
 
@@ -765,6 +795,7 @@ describe('pointsSaga', () => {
       spawn(pointsSaga.watchHomeScreenVisit),
       spawn(pointsSaga.watchLiveLinkCreated),
       spawn(pointsSaga.watchSwapSuccess),
+      spawn(pointsSaga.watchDepositSuccess),
     ])
   })
 })

@@ -222,7 +222,13 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
       ...commonAnalyticsProps,
       ...getDepositTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),
     })
-    yield* put(depositSuccess())
+    yield* put(
+      depositSuccess({
+        tokenId: tokenInfo.tokenId,
+        networkId,
+        transactionHash: txHashes[txHashes.length - 1],
+      })
+    )
     yield* put(fetchTokenBalances({ showLoading: false }))
   } catch (err) {
     if (err === CANCELLED_PIN_INPUT) {
