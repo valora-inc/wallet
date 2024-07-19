@@ -2348,6 +2348,10 @@
             "erc20": "Gesendet {{tokenSymbol}}",
             "erc721": "Gesendetes NFT"
           }
+        },
+        "depositEarn": {
+          "title": "Eingezahlt",
+          "subtitle": "in {{network}} Pool"
         }
       },
       "title": "Meine Punkteaktivität",
@@ -2414,6 +2418,14 @@
           "title": "Mit einem Live-Link senden",
           "body": "Verdiene jedes Mal {{pointsValue}} Punkte, wenn du über einen Live Link auf {{appName}}Geld versendest. \n\nTippe unten, um mit dem Senden und Sammeln zu beginnen!",
           "cta": "Mit einem Live-Link senden"
+        }
+      },
+      "depositEarn": {
+        "title": "Einzahlung in einen Verdienstpool auf {{appName}}",
+        "bottomSheet": {
+          "title": "Deposit into an earn pool",
+          "body": "Verdiene {{pointsValue}} Punkte jedes Mal, wenn du Geld in einen Ertragspool auf {{appName}}einzahlst. \n\nTippe unten, um Rendite und Punkte zu sammeln!",
+          "cta": "Gehe zum Pool verdienen"
         }
       }
     },
