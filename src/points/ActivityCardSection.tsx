@@ -12,6 +12,8 @@ import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import MagicWand from 'src/icons/MagicWand'
+import EarnCoins from 'src/icons/EarnCoins'
+import networkConfig from 'src/web3/networkConfig'
 
 interface Props {
   pointsActivities: PointsActivity[]
@@ -65,6 +67,28 @@ export default function ActivityCardSection({ pointsActivities, onCardPress }: P
                 text: t('points.activityCards.createLiveLink.bottomSheet.cta'),
                 onPress: () => {
                   navigate(Screens.JumpstartEnterAmount)
+                },
+              },
+            }),
+        }
+      case 'deposit-earn':
+        return {
+          ...activity,
+          title: t('points.activityCards.depositEarn.title'),
+          icon: <EarnCoins color={Colors.black} />,
+          onPress: () =>
+            onCardPress({
+              ...activity,
+              title: t('points.activityCards.depositEarn.bottomSheet.title'),
+              body: t('points.activityCards.depositEarn.bottomSheet.body', {
+                pointsValue: activity.pointsAmount,
+              }),
+              cta: {
+                text: t('points.activityCards.depositEarn.bottomSheet.cta'),
+                onPress: () => {
+                  navigate(Screens.EarnEnterAmount, {
+                    tokenId: networkConfig.arbUsdcTokenId,
+                  })
                 },
               },
             }),
