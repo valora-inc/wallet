@@ -379,11 +379,6 @@ const styles = StyleSheet.create({
   contentContainerStyle: {
     justifyContent: 'flex-end',
   },
-  learnMore: {
-    ...typeScale.bodySmall,
-    color: Colors.black,
-    textAlign: 'center',
-  },
   learnMoreTitle: {
     ...typeScale.titleSmall,
     colors: Colors.black,
