@@ -24,6 +24,7 @@ export interface AbstractPosition {
 // There's an opportunity to combine with the types in src/tokens/slice.ts
 // For now, we'll keep them separate
 export interface AbstractToken {
+  tokenId: string // Example: celo-mainnet:0x123...
   address: string // Example: 0x...
   networkId: NetworkId // Example: celo-mainnet
   symbol: string // Example: cUSD
