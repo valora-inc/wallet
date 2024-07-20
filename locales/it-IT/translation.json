@@ -2423,7 +2423,7 @@
       "depositEarn": {
         "title": "Deposita in un fondo di guadagno su {{appName}}",
         "bottomSheet": {
-          "title": "Deposit into an earn pool",
+          "title": "Deposito in un fondo di guadagno",
           "body": "Guadagna {{pointsValue}} punti ogni volta che depositi fondi in una piscina di guadagno su {{appName}}. \n\nTocca qui sotto per iniziare a guadagnare rendimento e punti!",
           "cta": "Vai a guadagnare piscine"
         }

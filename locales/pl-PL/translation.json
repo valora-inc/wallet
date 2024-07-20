@@ -2427,7 +2427,7 @@
       "depositEarn": {
         "title": "Dokonaj wpłaty do puli zarobków na stronie {{appName}}.",
         "bottomSheet": {
-          "title": "Deposit into an earn pool",
+          "title": "Wpłata do puli zarobków",
           "body": "Zdobywaj punkty {{pointsValue}} za każdym razem, gdy wpłacasz środki do puli zarobkowej na {{appName}}. \n\nStuknij poniżej, aby zacząć zarabiać i zdobywać punkty!",
           "cta": "Idź zarabiać w basenach"
         }

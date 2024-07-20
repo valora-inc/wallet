@@ -2423,7 +2423,7 @@
       "depositEarn": {
         "title": "Einzahlung in einen Verdienstpool auf {{appName}}",
         "bottomSheet": {
-          "title": "Deposit into an earn pool",
+          "title": "Einzahlung in einen Verdienstpool",
           "body": "Verdiene {{pointsValue}} Punkte jedes Mal, wenn du Geld in einen Ertragspool auf {{appName}}einzahlst. \n\nTippe unten, um Rendite und Punkte zu sammeln!",
           "cta": "Gehe zum Pool verdienen"
         }

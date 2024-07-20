@@ -2423,7 +2423,7 @@
       "depositEarn": {
         "title": "{{appName}}adresindeki kazanç havuzuna para yatırın",
         "bottomSheet": {
-          "title": "Deposit into an earn pool",
+          "title": "Bir kazanç havuzuna para yatırma",
           "body": "{{appName}}adresindeki bir kazanç havuzuna her para yatırdığınızda {{pointsValue}} puan kazanın. \n\nGetiri ve puan kazanmaya başlamak için aşağıya dokunun!",
           "cta": "Havuzları kazanmak için gidin"
         }
