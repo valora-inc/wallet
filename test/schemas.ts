@@ -3386,6 +3386,18 @@ export const v219Schema = {
   },
 }
 
+export const v220Schema = {
+  ...v219Schema,
+  _persist: {
+    ...v219Schema._persist,
+    version: 220,
+  },
+  positions: {
+    ...v219Schema.positions,
+    positionsFetchedAt: undefined,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v219Schema as Partial<RootState>
+  return v220Schema as Partial<RootState>
 }
