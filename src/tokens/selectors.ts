@@ -8,6 +8,7 @@ import {
   TOKEN_MIN_AMOUNT,
 } from 'src/config'
 import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
+import { Token } from 'src/positions/types'
 import { RootState } from 'src/redux/reducers'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
@@ -49,12 +50,49 @@ function isNetworkIdList(networkIds: any): networkIds is NetworkId[] {
 export const tokenFetchLoadingSelector = (state: RootState) => state.tokens.loading
 export const tokenFetchErrorSelector = (state: RootState) => state.tokens.error
 
+// Note: not importing from 'src/positions/selectors' to avoid circular dependency
+// TODO: address circular dependency
+const positionsSelector = (state: RootState) => state.positions.positions
+
+const positionTokensSelector = createSelector([positionsSelector], (positions) => {
+  const positionTokens: Record<string, Token> = {}
+
+  function visitToken(token: Token, isTopLevelAppToken: boolean) {
+    const tokenId = token.tokenId
+    if (!positionTokens[tokenId] || isTopLevelAppToken) {
+      positionTokens[tokenId] = {
+        ...token,
+        // Only keep the balance if it's a top level app-token
+        // Otherwise it doesn't represent a real user balance
+        balance: isTopLevelAppToken ? token.balance : '0',
+      }
+    }
+    if (token.type === 'app-token') {
+      for (const childToken of token.tokens) {
+        visitToken(childToken, false)
+      }
+    }
+  }
+
+  for (const position of positions) {
+    if (position.type === 'app-token') {
+      visitToken(position, true)
+    } else {
+      for (const token of position.tokens) {
+        visitToken(token, false)
+      }
+    }
+  }
+  return positionTokens
+})
+
 export const tokensByIdSelector = createSelector(
   [
     (state: RootState) => state.tokens.tokenBalances,
+    positionTokensSelector,
     (_state: RootState, networkIds: NetworkId[]) => networkIds,
   ],
-  (storedBalances, networkIds) => {
+  (storedBalances, positionTokens, networkIds) => {
     const tokenBalances: TokenBalances = {}
     for (const storedState of Object.values(storedBalances)) {
       if (
@@ -74,6 +112,41 @@ export const tokensByIdSelector = createSelector(
         lastKnownPriceUsd: !priceUsd.isNaN() ? priceUsd : null,
       }
     }
+
+    // Now enrich with position tokens
+    // This allows us to have priceUsd and balance for tokens
+    // decomposed via positions
+    for (const positionToken of Object.values(positionTokens)) {
+      if (!networkIds.includes(positionToken.networkId)) {
+        continue
+      }
+      const tokenId = positionToken.tokenId
+      const existingToken = tokenBalances[tokenId]
+      const priceUsd = new BigNumber(positionToken.priceUsd ?? NaN)
+      if (!existingToken) {
+        tokenBalances[tokenId] = {
+          ...positionToken,
+          // TODO: update hooks API to return name too
+          name: positionToken.symbol,
+          balance: new BigNumber(positionToken.balance),
+          priceUsd: priceUsd.isNaN() ? null : priceUsd,
+          // TODO: use position fetch time
+          priceFetchedAt: Date.now(),
+          lastKnownPriceUsd: null,
+          // So we can filter it out of the total balance
+          // i.e. we don't want to count it twice, once as a position and once as a token
+          isFromPosition: true,
+        }
+      } else if (existingToken.priceUsd === null) {
+        tokenBalances[tokenId] = {
+          ...existingToken,
+          priceUsd: priceUsd.isNaN() ? null : priceUsd,
+          // TODO: use position fetch time
+          priceFetchedAt: Date.now(),
+        }
+      }
+    }
+
     return tokenBalances
   },
   {
@@ -284,8 +357,8 @@ export const totalTokenBalanceSelector = createSelector(
     }
     let totalBalance = new BigNumber(0)
 
-    for (const token of tokensWithUsdValue.filter((token) =>
-      networkIds.includes(token.networkId)
+    for (const token of tokensWithUsdValue.filter(
+      (token) => networkIds.includes(token.networkId) && !token.isFromPosition
     )) {
       const tokenAmount = new BigNumber(token.balance)
         .multipliedBy(token.priceUsd)
