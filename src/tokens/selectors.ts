@@ -109,7 +109,11 @@ export const tokensByIdSelector = createSelector(
       const priceUsd = positionToken.priceUsd != '0' ? positionToken.priceUsd : undefined
       if (!existingToken) {
         allStoredBalances[tokenId] = {
-          ...positionToken,
+          tokenId,
+          address: positionToken.address,
+          networkId: positionToken.networkId,
+          decimals: positionToken.decimals,
+          symbol: positionToken.symbol,
           // TODO: update hooks API to return name too
           name: positionToken.symbol,
           balance: positionToken.balance,
