@@ -500,6 +500,14 @@ describe('sortedTokensWithBalanceSelector', () => {
     ])
   })
 
+  it('ignores position tokens', () => {
+    const tokens = sortedTokensWithBalanceSelector(stateWithPositions, [
+      NetworkId['celo-alfajores'],
+      NetworkId['ethereum-sepolia'],
+    ])
+    expect(tokens.every((token) => !token.isFromPosition)).toBeTruthy()
+  })
+
   it('avoids unnecessary recomputation', () => {
     const prevComputations = sortedTokensWithBalanceSelector.recomputations()
     const tokens = sortedTokensWithBalanceSelector(state, [NetworkId['celo-alfajores']])
@@ -886,6 +894,22 @@ describe('swappable tokens selectors', () => {
       },
       ...expectedSwappableToTokens,
     ])
+  })
+
+  it('ignores position tokens for swappable from tokens', () => {
+    const tokens = swappableFromTokensByNetworkIdSelector(stateWithPositions, [
+      NetworkId['celo-alfajores'],
+      NetworkId['ethereum-sepolia'],
+    ])
+    expect(tokens.every((token) => !token.isFromPosition)).toBeTruthy()
+  })
+
+  it('ignores position tokens for swappable to tokens', () => {
+    const tokens = swappableToTokensByNetworkIdSelector(stateWithPositions, [
+      NetworkId['celo-alfajores'],
+      NetworkId['ethereum-sepolia'],
+    ])
+    expect(tokens.every((token) => !token.isFromPosition)).toBeTruthy()
   })
 
   describe('importedTokensSelector', () => {

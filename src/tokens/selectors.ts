@@ -119,7 +119,7 @@ export const tokensByIdSelector = createSelector(
           balance: positionToken.balance,
           priceUsd,
           priceFetchedAt: positionsFetchedAt,
-          // So we can filter it out of the total balance
+          // So we can filter it out of the total balance / or other views
           // i.e. we don't want to count it twice, once as a position and once as a token
           isFromPosition: true,
         }
@@ -403,11 +403,12 @@ export const swappableFromTokensByNetworkIdSelector = createSelector(
       tokens
         .filter(
           (tokenInfo) =>
-            tokenInfo.isSwappable ||
-            tokenInfo.isManuallyImported ||
-            tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) ||
-            (tokenInfo.minimumAppVersionToSwap &&
-              !isVersionBelowMinimum(appVersion, tokenInfo.minimumAppVersionToSwap))
+            (tokenInfo.isSwappable ||
+              tokenInfo.isManuallyImported ||
+              tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) ||
+              (tokenInfo.minimumAppVersionToSwap &&
+                !isVersionBelowMinimum(appVersion, tokenInfo.minimumAppVersionToSwap))) &&
+            !tokenInfo.isFromPosition
         )
         // sort by balance USD (DESC) then name (ASC), tokens without a priceUsd
         // are pushed last, sorted by name (ASC)
@@ -484,7 +485,9 @@ const tokensWithBalanceOrShowZeroBalanceSelector = createSelector(
   (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
   (tokens) =>
     tokens.filter(
-      (tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) || tokenInfo.showZeroBalance
+      (tokenInfo) =>
+        (tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) || tokenInfo.showZeroBalance) &&
+        !tokenInfo.isFromPosition
     )
 )
 
