@@ -118,6 +118,7 @@ describe('positionsWithClaimableRewardsSelector', () => {
               "networkId": "celo-mainnet",
               "priceUsd": "0.00904673476946796903",
               "symbol": "UBE",
+              "tokenId": "celo-mainnet:0x00be915b9dcf56a3cbe739d9b9c202ca692409ec",
               "type": "base-token",
             },
             {
@@ -128,6 +129,7 @@ describe('positionsWithClaimableRewardsSelector', () => {
               "networkId": "celo-mainnet",
               "priceUsd": "0.6959536890241361",
               "symbol": "CELO",
+              "tokenId": "celo-mainnet:0x471ece3750da237f93b8e339c536989b8978a438",
               "type": "base-token",
             },
           ],

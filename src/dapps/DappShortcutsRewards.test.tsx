@@ -43,8 +43,9 @@ const getPositionWithClaimableBalance = (balance?: string): Position => ({
   tokens: [
     {
       type: 'app-token',
-      networkId: NetworkId['celo-mainnet'],
+      networkId: NetworkId['celo-alfajores'],
       address: '0x1e593f1fe7b61c53874b54ec0c59fd0d5eb8621e',
+      tokenId: `${NetworkId['celo-alfajores']}:0x1e593f1fe7b61c53874b54ec0c59fd0d5eb8621e`,
       appId: 'ubeswap',
       symbol: 'ULP',
       decimals: 18,
@@ -57,8 +58,9 @@ const getPositionWithClaimableBalance = (balance?: string): Position => ({
       tokens: [
         {
           type: 'base-token',
-          networkId: NetworkId['celo-mainnet'],
+          networkId: NetworkId['celo-alfajores'],
           address: '0x471ece3750da237f93b8e339c536989b8978a438',
+          tokenId: `${NetworkId['celo-alfajores']}:0x471ece3750da237f93b8e339c536989b8978a438`,
           symbol: 'CELO',
           decimals: 18,
           priceUsd: '0.6959536890241361',
@@ -67,8 +69,9 @@ const getPositionWithClaimableBalance = (balance?: string): Position => ({
         },
         {
           type: 'base-token',
-          networkId: NetworkId['celo-mainnet'],
+          networkId: NetworkId['celo-alfajores'],
           address: '0x765de816845861e75a25fca122bb6898b8b1282a',
+          tokenId: `${NetworkId['celo-alfajores']}:0x765de816845861e75a25fca122bb6898b8b1282a`,
           symbol: 'cUSD',
           decimals: 18,
           priceUsd: '1',
@@ -86,10 +89,11 @@ const getPositionWithClaimableBalance = (balance?: string): Position => ({
       type: 'base-token',
       category: 'claimable',
       decimals: 18,
-      networkId: NetworkId['celo-mainnet'],
+      networkId: NetworkId['celo-alfajores'],
       balance: balance ?? '0.098322815093446616',
       symbol: 'UBE',
       address: '0x00be915b9dcf56a3cbe739d9b9c202ca692409ec',
+      tokenId: `${NetworkId['celo-alfajores']}:0x00be915b9dcf56a3cbe739d9b9c202ca692409ec`,
     },
   ],
   balanceUsd: '1.3207590254762067',
