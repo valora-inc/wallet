@@ -20,7 +20,6 @@ export enum NotificationType {
   remote_notification = 'remote_notification',
   supercharging = 'supercharging',
   start_supercharging = 'start_supercharging',
-  reverify_using_CPV = 'reverify_using_CPV',
   clevertap_notification = 'clevertap_notification',
 }
 
