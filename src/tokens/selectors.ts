@@ -358,7 +358,10 @@ export const totalTokenBalanceSelector = createSelector(
     let totalBalance = new BigNumber(0)
 
     for (const token of tokensWithUsdValue.filter(
-      (token) => networkIds.includes(token.networkId) && !token.isFromPosition
+      (token) =>
+        networkIds.includes(token.networkId) &&
+        // Don't count tokens that are from positions
+        !token.isFromPosition
     )) {
       const tokenAmount = new BigNumber(token.balance)
         .multipliedBy(token.priceUsd)

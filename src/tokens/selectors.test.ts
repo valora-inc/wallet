@@ -173,6 +173,78 @@ const state: any = {
   },
 }
 
+const positions = [
+  {
+    type: 'app-token' as const,
+    networkId: NetworkId['celo-alfajores'],
+    tokenId: 'celo-alfajores:0x6',
+    name: '0x6 token',
+    address: '0x6',
+    priceUsd: '60', // This will update priceUsd for the token
+    balance: '3', // This will be ignored
+    displayProps: {
+      title: 'Title',
+    },
+    tokens: [
+      {
+        networkId: NetworkId['celo-alfajores'],
+        tokenId: 'celo-alfajores:0xa',
+        balance: '1',
+        priceUsd: '30',
+      },
+    ],
+    balanceUsd: '180',
+  },
+  {
+    type: 'app-token' as const,
+    networkId: NetworkId['celo-alfajores'],
+    tokenId: 'celo-alfajores:0xa',
+    symbol: '0xa token',
+    address: '0x6',
+    priceUsd: '30',
+    balance: '10',
+    displayProps: {
+      title: 'Title A',
+    },
+    tokens: [
+      {
+        networkId: NetworkId['celo-alfajores'],
+        tokenId: 'celo-alfajores:0xb',
+        symbol: '0xb token',
+        balance: '2',
+        priceUsd: '1.11',
+      },
+    ],
+    balanceUsd: '300',
+  },
+  {
+    type: 'contract-position' as const,
+    networkId: NetworkId['celo-alfajores'],
+    address: '0xb',
+    appId: 'b',
+    displayProps: {
+      title: 'Title B',
+    },
+    tokens: [
+      {
+        networkId: NetworkId['celo-alfajores'],
+        tokenId: 'celo-alfajores:0xb',
+        symbol: '0xb token',
+        balance: '1',
+        priceUsd: '1.11',
+      },
+    ],
+    balanceUsd: '1.11',
+  },
+]
+
+const stateWithPositions = {
+  ...state,
+  positions: {
+    positions,
+  },
+}
+
 describe(tokensByIdSelector, () => {
   describe('when fetching tokens by id', () => {
     it('returns the right tokens', () => {
@@ -195,76 +267,6 @@ describe(tokensByIdSelector, () => {
       expect(tokensByIdSelector.recomputations()).toEqual(2) // once for each different networkId
     })
     it('enriches the tokens with tokens coming from positions', () => {
-      const positions = [
-        {
-          type: 'app-token' as const,
-          networkId: NetworkId['celo-alfajores'],
-          tokenId: 'celo-alfajores:0x6',
-          name: '0x6 token',
-          address: '0x6',
-          priceUsd: '60', // This will update priceUsd for the token
-          balance: '3', // This will be ignored
-          displayProps: {
-            title: 'Title',
-          },
-          tokens: [
-            {
-              networkId: NetworkId['celo-alfajores'],
-              tokenId: 'celo-alfajores:0xa',
-              balance: '1',
-              priceUsd: '30',
-            },
-          ],
-          balanceUsd: '180',
-        },
-        {
-          type: 'app-token' as const,
-          networkId: NetworkId['celo-alfajores'],
-          tokenId: 'celo-alfajores:0xa',
-          symbol: '0xa token',
-          address: '0x6',
-          priceUsd: '30',
-          balance: '10',
-          displayProps: {
-            title: 'Title A',
-          },
-          tokens: [
-            {
-              networkId: NetworkId['celo-alfajores'],
-              tokenId: 'celo-alfajores:0xb',
-              symbol: '0xb token',
-              balance: '2',
-              priceUsd: '1.11',
-            },
-          ],
-          balanceUsd: '300',
-        },
-        {
-          type: 'contract-position' as const,
-          networkId: NetworkId['celo-alfajores'],
-          address: '0xb',
-          appId: 'b',
-          displayProps: {
-            title: 'Title B',
-          },
-          tokens: [
-            {
-              networkId: NetworkId['celo-alfajores'],
-              tokenId: 'celo-alfajores:0xb',
-              symbol: '0xb token',
-              balance: '1',
-              priceUsd: '1.11',
-            },
-          ],
-          balanceUsd: '1.11',
-        },
-      ]
-      const stateWithPositions = {
-        ...state,
-        positions: {
-          positions,
-        },
-      }
       const tokensById = tokensByIdSelector(stateWithPositions, [NetworkId['celo-alfajores']])
       expect(Object.keys(tokensById).length).toEqual(8)
       expect(tokensById['celo-alfajores:0xusd']?.symbol).toEqual('cUSD')
@@ -458,6 +460,11 @@ describe(totalTokenBalanceSelector, () => {
   describe('when fetching the total token balance', () => {
     it('returns the right amount', () => {
       expect(totalTokenBalanceSelector(state, [NetworkId['celo-alfajores']])).toEqual(
+        new BigNumber(107.5)
+      )
+    })
+    it('returns the right amount when positions are present', () => {
+      expect(totalTokenBalanceSelector(stateWithPositions, [NetworkId['celo-alfajores']])).toEqual(
         new BigNumber(107.5)
       )
     })
