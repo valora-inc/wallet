@@ -77,9 +77,7 @@ export type StackParamList = {
   }
   [Screens.DappsScreen]: undefined
   [Screens.Debug]: undefined
-  [Screens.EarnInfoScreen]: {
-    tokenId: string
-  }
+  [Screens.EarnInfoScreen]: undefined
   [Screens.EarnEnterAmount]: {
     tokenId: string
   }

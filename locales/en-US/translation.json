@@ -2348,6 +2348,10 @@
             "erc20": "Sent {{tokenSymbol}}",
             "erc721": "Sent NFT"
           }
+        },
+        "depositEarn": {
+          "title": "Deposited",
+          "subtitle": "to {{network}} Pool"
         }
       },
       "title": "My points activity",
@@ -2415,6 +2419,14 @@
           "body": "Earn {{pointsValue}} points every time you send funds using a Live Link in {{appName}}. \n\nTap below to start sending and earning!",
           "cta": "Send with a Live Link"
         }
+      },
+      "depositEarn": {
+        "title": "Deposit into an earn pool on {{appName}}",
+        "bottomSheet": {
+          "title": "Deposit into an earn pool",
+          "body": "Earn {{pointsValue}} points every time you deposit funds into an earn pool on {{appName}}. \n\nTap below to start earning yield and points!",
+          "cta": "Go to earn pools"
+        }
       }
     },
     "discoverCard": {
@@ -2477,6 +2489,11 @@
       "subtitle": "Buy {{symbol}}",
       "description": "Earn approximately {{apy}}% per year when you add {{symbol}} to a pool"
     },
+    "entrypoint": {
+      "title": "Earn on your stablecoins",
+      "subtitle": "Deposit and earn returns",
+      "description": "Explore pools to deposit assets and earn returns on your stablecoins"
+    },
     "enterAmount": {
       "earnUpToLabel": "You could earn up to:",
       "rateLabel": "Rate (est.)",
@@ -2502,7 +2519,11 @@
       "apy": "~{{apy}}% APY",
       "exitPool": "Exit Pool",
       "depositMore": "Deposit More",
-      "viewPools": "View Pools"
+      "viewPools": "View Pools",
+      "poolsSupplied": "Pools supplied",
+      "totalSupplied": "Total supplied",
+      "myPools": "My Pools",
+      "explore": "Explore Open"
     },
     "depositBottomSheet": {
       "title": "Review & Deposit",

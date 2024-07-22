@@ -3,36 +3,40 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import colors from 'src/styles/colors'
 
 interface Props {
-  backgroundColor?: string
+  backgroundColor?: colors
   radius?: number
   style?: StyleProp<ViewStyle>
   children?: React.ReactNode
+  borderColor?: colors
 }
 
-export default class CircledIcon extends React.PureComponent<Props> {
-  static defaultProps = {
-    backgroundColor: colors.primary,
-    radius: 50,
-  }
-
-  render() {
-    return (
-      <View
-        style={[
-          {
-            backgroundColor: this.props.backgroundColor,
-            height: this.props.radius,
-            width: this.props.radius,
-            borderRadius: this.props.radius,
-          },
-          styles.container,
-          this.props.style,
-        ]}
-      >
-        {this.props.children}
-      </View>
-    )
-  }
+export default function CircledIcon({
+  backgroundColor = colors.primary,
+  radius = 50,
+  borderColor,
+  style,
+  children,
+}: Props) {
+  return (
+    <View
+      style={[
+        {
+          backgroundColor,
+          height: radius,
+          width: radius,
+          borderRadius: radius,
+        },
+        borderColor && {
+          borderColor,
+          borderWidth: 1,
+        },
+        styles.container,
+        style,
+      ]}
+    >
+      {children}
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({

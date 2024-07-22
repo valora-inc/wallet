@@ -2348,6 +2348,10 @@
             "erc20": "Gönderildi {{tokenSymbol}}",
             "erc721": "Gönderilen NFT"
           }
+        },
+        "depositEarn": {
+          "title": "Yatırılan",
+          "subtitle": "{{network}} Havuzuna"
         }
       },
       "title": "Puan faaliyetim",
@@ -2415,6 +2419,14 @@
           "body": "{{appName}}adresindeki bir Canlı Bağlantı kullanarak her para gönderdiğinizde {{pointsValue}} puan kazanın. \n\nGöndermeye ve kazanmaya başlamak için aşağıya dokunun!",
           "cta": "Canlı Bağlantı ile Gönder"
         }
+      },
+      "depositEarn": {
+        "title": "{{appName}}adresindeki kazanç havuzuna para yatırın",
+        "bottomSheet": {
+          "title": "Bir kazanç havuzuna para yatırma",
+          "body": "{{appName}}adresindeki bir kazanç havuzuna her para yatırdığınızda {{pointsValue}} puan kazanın. \n\nGetiri ve puan kazanmaya başlamak için aşağıya dokunun!",
+          "cta": "Havuzları kazanmak için gidin"
+        }
       }
     },
     "discoverCard": {
@@ -2477,6 +2489,11 @@
       "subtitle": "{{symbol}} satın alın",
       "description": "Bir havuza {{symbol}} ekleyerek yılda yaklaşık %{{apy}} kazanın"
     },
+    "entrypoint": {
+      "title": "Sabit coinlerinizden kazanın",
+      "subtitle": "Para yatırın ve getiri kazanın",
+      "description": "Varlık yatırmak ve sabit paralarınızdan getiri elde etmek için havuzları keşfedin"
+    },
     "enterAmount": {
       "earnUpToLabel": "Şu kadar kazanabilirsiniz:",
       "rateLabel": "Oran (tahmini)",
@@ -2502,7 +2519,11 @@
       "apy": "~%{{apy}} Yıllık Getiri Oranı (APY)",
       "exitPool": "Havuzdan Çık",
       "depositMore": "Daha Fazla Yatırın",
-      "viewPools": "Havuzları Görüntüle"
+      "viewPools": "Havuzları Görüntüle",
+      "poolsSupplied": "Tedarik edilen havuzlar",
+      "totalSupplied": "Toplam tedarik",
+      "myPools": "Havuzlarım",
+      "explore": "Açık Keşfet"
     },
     "depositBottomSheet": {
       "title": "İncele ve Para Yatır",

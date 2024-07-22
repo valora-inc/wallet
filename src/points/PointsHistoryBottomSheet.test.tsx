@@ -19,6 +19,14 @@ jest.mock('src/statsig', () => ({
 const MOCK_RESPONSE_NO_NEXT_PAGE: GetHistoryResponse = {
   data: [
     {
+      activityId: 'deposit-earn',
+      pointsAmount: 10,
+      createdAt: '2024-03-05T20:26:25.000Z',
+      metadata: {
+        tokenId: 'celo-alfajores:0x874069fa1eb16d44d622f2e0ca25eea172369bc1',
+      },
+    },
+    {
       activityId: 'create-live-link',
       pointsAmount: 10,
       createdAt: '2024-03-05T19:26:25.000Z',
@@ -47,7 +55,7 @@ const MOCK_RESPONSE_NO_NEXT_PAGE: GetHistoryResponse = {
     {
       activityId: 'swap',
       pointsAmount: 20,
-      createdAt: '2024-01-04T19:26:25.000Z',
+      createdAt: '2024-03-05T19:26:25.000Z',
       metadata: {
         to: 'celo-alfajores:0x874069fa1eb16d44d622f2e0ca25eea172369bc1',
         from: 'celo-alfajores:native',
@@ -102,8 +110,11 @@ describe(PointsHistoryBottomSheet, () => {
     const tree = renderScreen({
       points: { pointsHistory: MOCK_RESPONSE_NO_NEXT_PAGE.data, getHistoryStatus: 'loading' },
     })
-    await waitFor(() => expect(tree.getByTestId('PointsHistoryList').props.data.length).toBe(3))
+    await waitFor(() => expect(tree.getByTestId('PointsHistoryList').props.data.length).toBe(2))
 
+    expect(
+      tree.getByText('points.history.cards.depositEarn.subtitle, {"network":"Celo Alfajores"}')
+    ).toBeTruthy()
     expect(
       tree.getByText('points.history.cards.createLiveLink.subtitle.erc20, {"tokenSymbol":"CELO"}')
     ).toBeTruthy()
@@ -116,8 +127,8 @@ describe(PointsHistoryBottomSheet, () => {
     ).toBeTruthy()
     expect(tree.getByText('points.history.cards.createWallet.subtitle')).toBeTruthy()
 
-    expect(tree.getByText('January')).toBeTruthy()
     expect(tree.getByText('March')).toBeTruthy()
+    expect(tree.getByText('December 2023')).toBeTruthy()
     expect(tree.getByTestId('PointsHistoryBottomSheet/Loading')).toBeTruthy()
   })
 

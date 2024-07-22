@@ -41,6 +41,7 @@ import { call, put, select, spawn, take, takeEvery, takeLeading } from 'typed-re
 import { v4 as uuidv4 } from 'uuid'
 import { depositTransactionSucceeded } from 'src/jumpstart/slice'
 import { swapSuccess } from 'src/swap/slice'
+import { depositSuccess } from 'src/earn/slice'
 
 const TAG = 'Points/saga'
 
@@ -328,6 +329,21 @@ export function* watchLiveLinkCreated() {
   yield* takeLeading(depositTransactionSucceeded.type, safely(watchLiveLinkCreatedTransformPayload))
 }
 
+export function* watchDepositSuccessTransformPayload({
+  payload: params,
+}: ReturnType<typeof depositSuccess>) {
+  yield* call(
+    sendPointsEvent,
+    trackPointsEvent({
+      ...params,
+      activityId: 'deposit-earn',
+    })
+  )
+}
+export function* watchDepositSuccess() {
+  yield* takeLeading(depositSuccess.type, safely(watchDepositSuccessTransformPayload))
+}
+
 export function* watchGetHistory() {
   yield* takeLeading(getHistoryStarted.type, safely(getHistory))
   yield* takeLeading(getHistoryStarted.type, safely(getPointsBalance))
@@ -361,4 +377,5 @@ export function* pointsSaga() {
   yield* spawn(watchHomeScreenVisit)
   yield* spawn(watchLiveLinkCreated)
   yield* spawn(watchSwapSuccess)
+  yield* spawn(watchDepositSuccess)
 }

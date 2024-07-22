@@ -21,6 +21,7 @@ import {
   mockCusdAddress,
   mockPositions,
   mockPositionsLegacy,
+  mockPositionsLegacy2,
   mockShortcuts,
   mockTestTokenAddress,
 } from 'test/values'
@@ -3201,7 +3202,7 @@ export const v204Schema = {
   },
   positions: {
     ...v203Schema.positions,
-    positions: mockPositions,
+    positions: mockPositionsLegacy2,
     shortcuts: mockShortcuts,
   },
 }
@@ -3373,6 +3374,18 @@ export const v218Schema = {
   },
 }
 
+export const v219Schema = {
+  ...v218Schema,
+  _persist: {
+    ...v218Schema._persist,
+    version: 219,
+  },
+  positions: {
+    ...v218Schema.positions,
+    positions: mockPositions,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v218Schema as Partial<RootState>
+  return v219Schema as Partial<RootState>
 }

@@ -2346,6 +2346,10 @@
             "erc20": "发送至 {{tokenSymbol}}",
             "erc721": "发出的 NFT"
           }
+        },
+        "depositEarn": {
+          "title": "已存入",
+          "subtitle": "至 {{network}} 池"
         }
       },
       "title": "我的积分活动",
@@ -2413,6 +2417,14 @@
           "body": "每次使用 {{appName}}中的实时链接发送资金，都可赚取 {{pointsValue}} 积分。 \n\n点击下面的链接开始发送并赚取积分！",
           "cta": "通过实时链接发送"
         }
+      },
+      "depositEarn": {
+        "title": "存入 {{appName}}上的收益池",
+        "bottomSheet": {
+          "title": "存入收入池",
+          "body": "每次将资金存入 {{appName}}上的收益池，即可赚取 {{pointsValue}} 积分。 \n\n点击下方开始赚取收益和积分！",
+          "cta": "去赚取水池"
+        }
       }
     },
     "discoverCard": {
@@ -2475,6 +2487,11 @@
       "subtitle": "购买 {{symbol}}",
       "description": "将 {{symbol}} 添加到池中，每年可赚取大约 {{apy}}%"
     },
+    "entrypoint": {
+      "title": "通过稳定币赚取收入",
+      "subtitle": "存款并赚取回报",
+      "description": "探索存放资产的池子，赚取稳定币回报"
+    },
     "enterAmount": {
       "earnUpToLabel": "您最多可以赚取：",
       "rateLabel": "费率（估算）",
@@ -2500,7 +2517,11 @@
       "apy": "~{{apy}}% APY",
       "exitPool": "退出池",
       "depositMore": "存入更多",
-      "viewPools": "查看各类池"
+      "viewPools": "查看各类池",
+      "poolsSupplied": "提供泳池",
+      "totalSupplied": "供应总量",
+      "myPools": "我的泳池",
+      "explore": "探索开放"
     },
     "depositBottomSheet": {
       "title": "审查和存款",

@@ -2348,6 +2348,10 @@
             "erc20": "Gesendet {{tokenSymbol}}",
             "erc721": "Gesendetes NFT"
           }
+        },
+        "depositEarn": {
+          "title": "Eingezahlt",
+          "subtitle": "in {{network}} Pool"
         }
       },
       "title": "Meine Punkteaktivität",
@@ -2415,6 +2419,14 @@
           "body": "Verdiene jedes Mal {{pointsValue}} Punkte, wenn du über einen Live Link auf {{appName}}Geld versendest. \n\nTippe unten, um mit dem Senden und Sammeln zu beginnen!",
           "cta": "Mit einem Live-Link senden"
         }
+      },
+      "depositEarn": {
+        "title": "Einzahlung in einen Verdienstpool auf {{appName}}",
+        "bottomSheet": {
+          "title": "Einzahlung in einen Verdienstpool",
+          "body": "Verdiene {{pointsValue}} Punkte jedes Mal, wenn du Geld in einen Ertragspool auf {{appName}}einzahlst. \n\nTippe unten, um Rendite und Punkte zu sammeln!",
+          "cta": "Gehe zum Pool verdienen"
+        }
       }
     },
     "discoverCard": {
@@ -2477,6 +2489,11 @@
       "subtitle": "Kaufe {{symbol}}",
       "description": "Verdiene etwa {{apy}}% pro Jahr, wenn du {{symbol}} zu einem Pool hinzufügst"
     },
+    "entrypoint": {
+      "title": "Verdiene an deinen Stablecoins",
+      "subtitle": "Einzahlen und Rendite verdienen",
+      "description": "Entdecke Pools, um Vermögenswerte zu hinterlegen und Renditen auf deine Stablecoins zu erzielen"
+    },
     "enterAmount": {
       "earnUpToLabel": "Verdienst von bis zu:",
       "rateLabel": "Rate (geschätzt)",
@@ -2502,7 +2519,11 @@
       "apy": "~{{apy}} % jährliche prozentuale Rendite",
       "exitPool": "Pool verlassen",
       "depositMore": "Mehr einzahlen",
-      "viewPools": "Pools anzeigen"
+      "viewPools": "Pools anzeigen",
+      "poolsSupplied": "Gelieferte Pools",
+      "totalSupplied": "Insgesamt geliefert",
+      "myPools": "Meine Pools",
+      "explore": "Erforschen Offen"
     },
     "depositBottomSheet": {
       "title": "Überprüfen und einzahlen",

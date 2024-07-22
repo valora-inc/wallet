@@ -29,6 +29,9 @@ const renderPointsHome = (storeOverrides?: RecursivePartial<RootState>) => {
             'create-wallet': {
               pointsAmount: 20,
             },
+            'deposit-earn': {
+              pointsAmount: 50,
+            },
           },
         },
         pointsConfigStatus: 'success',
@@ -131,6 +134,8 @@ describe(PointsHome, () => {
 
     expect(getByText('points.activityCards.createWallet.title')).toBeTruthy()
     expect(getByText('points.activityCards.swap.title')).toBeTruthy()
+    expect(getByText('points.activityCards.createLiveLink.title')).toBeTruthy()
+    expect(getByText('points.activityCards.depositEarn.title')).toBeTruthy()
 
     expect(getByText('points.activityCards.moreComing.title')).toBeTruthy()
 

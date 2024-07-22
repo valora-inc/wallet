@@ -593,7 +593,8 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [TransactionDetailsEvents.transaction_details_tap_block_explorer]: `When a user press 'View on block explorer' on transaction details page`,
 
   // Events related to earn program
-  [EarnEvents.earn_cta_press]: `When a user taps on the earn your stablecoins CTA on the discover tab`,
+  [EarnEvents.earn_cta_press]: `When a user taps on the earn your stablecoins CTA on the discover tab (only for MVP w/ AAVE)`,
+  [EarnEvents.earn_entrypoint_press]: `When a user taps on the earn your stablecoins entrypoint on the discover tab (only for multiple pools)`,
   [EarnEvents.earn_add_crypto_action_press]: `When a user in the Earn flow enters an amount higher than their balance and chooses an option to add crypto`,
   [EarnEvents.earn_deposit_provider_info_press]: `When a user taps on the info icon next to the provider name on the deposit bottom sheet`,
   [EarnEvents.earn_deposit_terms_and_conditions_press]: `When a user taps on the terms and conditions link on the deposit bottom sheet`,
@@ -619,6 +620,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [EarnEvents.earn_withdraw_add_gas_press]: `When the user doesn't have enough for gas and clicks on the button to add gas token`,
   [EarnEvents.earn_info_learn_press]: `When the user taps 'Learn More' on the earn info page`,
   [EarnEvents.earn_info_earn_press]: `When the user taps 'Start Earning' on the earn info page `,
+  [EarnEvents.earn_active_pools_cta_press]: `When the user taps one of the CTAs in the active pools card in the discover tab. The action property denotes the CTA, either myPools or exploreOpenPools`,
 
   // Legacy event docs
   //  The below events had docs, but are no longer produced by the latest app version.

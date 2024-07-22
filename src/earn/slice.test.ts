@@ -8,6 +8,7 @@ import reducer, {
   withdrawStart,
   withdrawSuccess,
 } from './slice'
+import { NetworkId } from 'src/transactions/types'
 
 describe('Earn Slice', () => {
   it('should handle deposit start', () => {
@@ -20,7 +21,14 @@ describe('Earn Slice', () => {
   })
 
   it('should handle deposit success', () => {
-    const updatedState = reducer(undefined, depositSuccess())
+    const updatedState = reducer(
+      undefined,
+      depositSuccess({
+        tokenId: 'tokenId',
+        networkId: NetworkId['celo-alfajores'],
+        transactionHash: '0x3',
+      })
+    )
 
     expect(updatedState).toHaveProperty('depositStatus', 'success')
   })
