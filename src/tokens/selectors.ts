@@ -95,8 +95,41 @@ export const tokensByIdSelector = createSelector(
     (_state: RootState, networkIds: NetworkId[]) => networkIds,
   ],
   (storedBalances, positionTokens, positionsFetchedAt, networkIds) => {
+    const allStoredBalances = { ...storedBalances }
+
+    // Enrich with position tokens
+    // This allows us to have priceUsd and balance for tokens
+    // decomposed via positions
+    for (const positionToken of Object.values(positionTokens)) {
+      if (!networkIds.includes(positionToken.networkId)) {
+        continue
+      }
+      const tokenId = positionToken.tokenId
+      const existingToken = allStoredBalances[tokenId]
+      const priceUsd = positionToken.priceUsd != '0' ? positionToken.priceUsd : undefined
+      if (!existingToken) {
+        allStoredBalances[tokenId] = {
+          ...positionToken,
+          // TODO: update hooks API to return name too
+          name: positionToken.symbol,
+          balance: positionToken.balance,
+          priceUsd,
+          priceFetchedAt: positionsFetchedAt,
+          // So we can filter it out of the total balance
+          // i.e. we don't want to count it twice, once as a position and once as a token
+          isFromPosition: true,
+        }
+      } else if (existingToken.priceUsd == null) {
+        allStoredBalances[tokenId] = {
+          ...existingToken,
+          priceUsd,
+          priceFetchedAt: positionsFetchedAt,
+        }
+      }
+    }
+
     const tokenBalances: TokenBalances = {}
-    for (const storedState of Object.values(storedBalances)) {
+    for (const storedState of Object.values(allStoredBalances)) {
       if (
         !storedState ||
         storedState.balance === null ||
@@ -112,38 +145,6 @@ export const tokensByIdSelector = createSelector(
         balance: new BigNumber(storedState.balance),
         priceUsd: priceUsd.isNaN() || tokenPriceUsdIsStale ? null : priceUsd,
         lastKnownPriceUsd: !priceUsd.isNaN() ? priceUsd : null,
-      }
-    }
-
-    // Now enrich with position tokens
-    // This allows us to have priceUsd and balance for tokens
-    // decomposed via positions
-    for (const positionToken of Object.values(positionTokens)) {
-      if (!networkIds.includes(positionToken.networkId)) {
-        continue
-      }
-      const tokenId = positionToken.tokenId
-      const existingToken = tokenBalances[tokenId]
-      const priceUsd = new BigNumber(positionToken.priceUsd ?? NaN)
-      if (!existingToken) {
-        tokenBalances[tokenId] = {
-          ...positionToken,
-          // TODO: update hooks API to return name too
-          name: positionToken.symbol,
-          balance: new BigNumber(positionToken.balance),
-          priceUsd: priceUsd.isNaN() ? null : priceUsd,
-          priceFetchedAt: positionsFetchedAt,
-          lastKnownPriceUsd: null,
-          // So we can filter it out of the total balance
-          // i.e. we don't want to count it twice, once as a position and once as a token
-          isFromPosition: true,
-        }
-      } else if (existingToken.priceUsd === null) {
-        tokenBalances[tokenId] = {
-          ...existingToken,
-          priceUsd: priceUsd.isNaN() ? null : priceUsd,
-          priceFetchedAt: positionsFetchedAt,
-        }
       }
     }
 

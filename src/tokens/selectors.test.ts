@@ -242,6 +242,7 @@ const stateWithPositions = {
   ...state,
   positions: {
     positions,
+    positionsFetchedAt: mockDate,
   },
 }
 
