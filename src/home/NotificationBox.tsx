@@ -13,11 +13,7 @@ import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ScrollDirection } from 'src/analytics/types'
 import { openUrl } from 'src/app/actions'
-import {
-  numberVerifiedDecentrallySelector,
-  phoneNumberVerifiedSelector,
-  rewardsEnabledSelector,
-} from 'src/app/selectors'
+import { phoneNumberVerifiedSelector, rewardsEnabledSelector } from 'src/app/selectors'
 import Pagination from 'src/components/Pagination'
 import SimpleMessagingCard, {
   Props as SimpleMessagingCardProps,
@@ -52,7 +48,6 @@ export const INVITES_PRIORITY = 400
 const CELO_EDUCATION_PRIORITY = 10
 const SUPERCHARGE_AVAILABLE_PRIORITY = 950
 const SUPERCHARGE_INFO_PRIORITY = 440
-const REVERIFY_ON_CPV_PRIORITY = 990
 
 interface SimpleAction extends SimpleMessagingCardProps {
   id: string
@@ -71,7 +66,6 @@ export function useSimpleActions() {
   } = useSelector((state) => state.account)
 
   const phoneNumberVerified = useSelector(phoneNumberVerifiedSelector)
-  const numberVerifiedDecentrally = useSelector(numberVerifiedDecentrallySelector)
 
   const celoEducationCompleted = useSelector(celoEducationCompletedSelector)
 
