@@ -43,7 +43,7 @@ const DEFAULT_MEMOIZE_MAX_SIZE = 10
 
 function isNetworkIdList(networkIds: any): networkIds is NetworkId[] {
   return (
-    networkIds.constructor === Array &&
+    Array.isArray(networkIds) &&
     networkIds.every((networkId) => Object.values(NetworkId).includes(networkId))
   )
 }
@@ -53,6 +53,7 @@ export const tokenFetchErrorSelector = (state: RootState) => state.tokens.error
 // Note: not importing from 'src/positions/selectors' to avoid circular dependency
 // TODO: address circular dependency
 const positionsSelector = (state: RootState) => state.positions.positions
+const positionsFetchedAtSelector = (state: RootState) => state.positions.positionsFetchedAt
 
 const positionTokensSelector = createSelector([positionsSelector], (positions) => {
   const positionTokens: Record<string, Token> = {}
@@ -90,9 +91,10 @@ export const tokensByIdSelector = createSelector(
   [
     (state: RootState) => state.tokens.tokenBalances,
     positionTokensSelector,
+    positionsFetchedAtSelector,
     (_state: RootState, networkIds: NetworkId[]) => networkIds,
   ],
-  (storedBalances, positionTokens, networkIds) => {
+  (storedBalances, positionTokens, positionsFetchedAt, networkIds) => {
     const tokenBalances: TokenBalances = {}
     for (const storedState of Object.values(storedBalances)) {
       if (
@@ -130,8 +132,7 @@ export const tokensByIdSelector = createSelector(
           name: positionToken.symbol,
           balance: new BigNumber(positionToken.balance),
           priceUsd: priceUsd.isNaN() ? null : priceUsd,
-          // TODO: use position fetch time
-          priceFetchedAt: Date.now(),
+          priceFetchedAt: positionsFetchedAt,
           lastKnownPriceUsd: null,
           // So we can filter it out of the total balance
           // i.e. we don't want to count it twice, once as a position and once as a token
@@ -141,8 +142,7 @@ export const tokensByIdSelector = createSelector(
         tokenBalances[tokenId] = {
           ...existingToken,
           priceUsd: priceUsd.isNaN() ? null : priceUsd,
-          // TODO: use position fetch time
-          priceFetchedAt: Date.now(),
+          priceFetchedAt: positionsFetchedAt,
         }
       }
     }

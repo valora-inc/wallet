@@ -215,7 +215,7 @@ describe(tokensByIdSelector, () => {
               priceUsd: '30',
             },
           ],
-          balanceUsd: '0',
+          balanceUsd: '180',
         },
         {
           type: 'app-token' as const,
