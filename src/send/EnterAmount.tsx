@@ -13,7 +13,7 @@ import {
 import { View } from 'react-native-animatable'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { SendEvents } from 'src/analytics/Events'
+import { SendEvents, TransactionEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
@@ -72,6 +72,7 @@ interface Props {
   children?: React.ReactNode
   ProceedComponent: ComponentType<ProceedComponentProps>
   disableBalanceCheck?: boolean
+  origin: 'send' | 'jumpstart-send'
 }
 
 const TOKEN_SELECTOR_BORDER_RADIUS = 100
@@ -150,6 +151,7 @@ function EnterAmount({
   children,
   ProceedComponent,
   disableBalanceCheck = false,
+  origin,
 }: Props) {
   const { t } = useTranslation()
 
@@ -264,6 +266,18 @@ function EnterAmount({
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
     return () => clearTimeout(debouncedRefreshTransactions)
   }, [tokenAmount, token])
+
+  useEffect(() => {
+    if (
+      prepareTransactionsResult?.type === 'need-decrease-spend-amount-for-gas' ||
+      prepareTransactionsResult?.type === 'not-enough-balance-for-gas'
+    ) {
+      ValoraAnalytics.track(TransactionEvents.transaction_prepare_insufficient_gas, {
+        origin,
+        networkId: token.networkId,
+      })
+    }
+  }, [token.networkId, prepareTransactionsResult?.type])
 
   const isAmountLessThanBalance = tokenAmount && tokenAmount.lte(token.balance)
   const showLowerAmountError = !isAmountLessThanBalance && !disableBalanceCheck

@@ -176,6 +176,7 @@ function JumpstartEnterAmount() {
       onPressProceed={handleProceed.execute}
       disableProceed={disableProceed}
       ProceedComponent={SendProceed}
+      origin="jumpstart-send"
     >
       {sendAmountExceedsThreshold && (
         <InLineNotification

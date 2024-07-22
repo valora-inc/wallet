@@ -6,7 +6,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import walletJumpstart from 'src/abis/IWalletJumpstart'
-import { JumpstartEvents } from 'src/analytics/Events'
+import { JumpstartEvents, TransactionEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
@@ -104,6 +104,10 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
       switch (preparedTransactions.type) {
         case 'need-decrease-spend-amount-for-gas': // fallthrough on purpose
         case 'not-enough-balance-for-gas':
+          ValoraAnalytics.track(TransactionEvents.transaction_prepare_insufficient_gas, {
+            origin: 'jumpstart-claim',
+            networkId,
+          })
           throw new Error('Not enough balance for gas')
         case 'possible':
           return {

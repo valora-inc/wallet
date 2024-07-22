@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { Provider } from 'react-redux'
-import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
+import { SendEvents, TokenBottomSheetEvents, TransactionEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import EnterAmount, { SendProceed } from 'src/send/EnterAmount'
 import { StoredTokenBalance, TokenBalance } from 'src/tokens/slice'
@@ -126,6 +126,7 @@ const defaultParams = {
   prepareTransactionError: undefined,
   onPressProceed: onPressProceedSpy,
   ProceedComponent: SendProceed,
+  origin: 'send' as const,
 }
 
 describe('EnterAmount', () => {
@@ -160,6 +161,7 @@ describe('EnterAmount', () => {
       getByText('sendEnterAmountScreen.networkFee, {"networkName":"Celo Alfajores"}')
     ).toBeTruthy()
     expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
+    expect(ValoraAnalytics.track).not.toHaveBeenCalled()
   })
 
   it('renders components with picker if a default token is provided', () => {
@@ -620,59 +622,79 @@ describe('EnterAmount', () => {
     expect(queryByTestId('SendEnterAmount/FeePlaceholder')).toBeTruthy()
   })
 
-  it('shows warning when prepareTransactionResult type is not-enough-balance-for-gas', () => {
-    const store = createMockStore(mockStore)
+  describe.each(['send' as const, 'jumpstart-send' as const])('with origin %s', (origin) => {
+    it('shows warning when prepareTransactionResult type is not-enough-balance-for-gas', () => {
+      const store = createMockStore(mockStore)
 
-    const { getByTestId, queryByTestId } = render(
-      <Provider store={store}>
-        <EnterAmount
-          {...defaultParams}
-          prepareTransactionsResult={{
-            type: 'not-enough-balance-for-gas',
-            feeCurrencies: mockFeeCurrencies,
-          }}
-        />
-      </Provider>
-    )
+      const { getByTestId, queryByTestId } = render(
+        <Provider store={store}>
+          <EnterAmount
+            {...defaultParams}
+            prepareTransactionsResult={{
+              type: 'not-enough-balance-for-gas',
+              feeCurrencies: mockFeeCurrencies,
+            }}
+            origin={origin}
+          />
+        </Provider>
+      )
 
-    expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('POOF')
-    fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '2')
-    expect(queryByTestId('SendEnterAmount/LowerAmountError')).toBeFalsy()
-    expect(queryByTestId('SendEnterAmount/MaxAmountWarning')).toBeFalsy()
-    expect(getByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeTruthy()
-    expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
-    expect(getByTestId('SendEnterAmount/FeePlaceholder')).toBeTruthy()
-  })
+      expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('POOF')
+      fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '2')
+      expect(queryByTestId('SendEnterAmount/LowerAmountError')).toBeFalsy()
+      expect(queryByTestId('SendEnterAmount/MaxAmountWarning')).toBeFalsy()
+      expect(getByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeTruthy()
+      expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
+      expect(getByTestId('SendEnterAmount/FeePlaceholder')).toBeTruthy()
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        TransactionEvents.transaction_prepare_insufficient_gas,
+        {
+          origin,
+          networkId: NetworkId['celo-alfajores'],
+        }
+      )
+    })
 
-  it('shows warning when prepareTransactionsResult type is need-decrease-spend-amount-for-gas', () => {
-    const { getByTestId, queryByTestId } = render(
-      <Provider store={createMockStore(mockStore)}>
-        <EnterAmount
-          {...defaultParams}
-          tokens={mockStoreBalancesToTokenBalances([
-            mockStoreTokenBalances[mockCeloTokenId],
-            mockStoreTokenBalances[mockPoofTokenId],
-            mockStoreTokenBalances[mockEthTokenId],
-            mockStoreTokenBalances[mockCusdTokenId],
-          ])}
-          prepareTransactionsResult={{
-            type: 'need-decrease-spend-amount-for-gas',
-            feeCurrency: mockCeloTokenBalance,
-            maxGasFeeInDecimal: new BigNumber(1),
-            estimatedGasFeeInDecimal: new BigNumber(1),
-            decreasedSpendAmount: new BigNumber(9),
-          }}
-        />
-      </Provider>
-    )
+    it('shows warning when prepareTransactionsResult type is need-decrease-spend-amount-for-gas', () => {
+      const { getByTestId, queryByTestId } = render(
+        <Provider store={createMockStore(mockStore)}>
+          <EnterAmount
+            {...defaultParams}
+            origin={origin}
+            tokens={mockStoreBalancesToTokenBalances([
+              mockStoreTokenBalances[mockCeloTokenId],
+              mockStoreTokenBalances[mockPoofTokenId],
+              mockStoreTokenBalances[mockEthTokenId],
+              mockStoreTokenBalances[mockCusdTokenId],
+            ])}
+            prepareTransactionsResult={{
+              type: 'need-decrease-spend-amount-for-gas',
+              feeCurrency: mockCeloTokenBalance,
+              maxGasFeeInDecimal: new BigNumber(1),
+              estimatedGasFeeInDecimal: new BigNumber(1),
+              decreasedSpendAmount: new BigNumber(9),
+            }}
+          />
+        </Provider>
+      )
 
-    expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('CELO')
-    fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '9.9999')
-    expect(queryByTestId('SendEnterAmount/LowerAmountError')).toBeFalsy()
-    expect(getByTestId('SendEnterAmount/MaxAmountWarning')).toBeTruthy()
-    expect(queryByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeFalsy()
-    expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
-    expect(getByTestId('SendEnterAmount/FeeInCrypto')).toBeTruthy()
+      expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('CELO')
+      fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '9.9999')
+      expect(queryByTestId('SendEnterAmount/LowerAmountError')).toBeFalsy()
+      expect(getByTestId('SendEnterAmount/MaxAmountWarning')).toBeTruthy()
+      expect(queryByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeFalsy()
+      expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
+      expect(getByTestId('SendEnterAmount/FeeInCrypto')).toBeTruthy()
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        TransactionEvents.transaction_prepare_insufficient_gas,
+        {
+          origin,
+          networkId: NetworkId['celo-alfajores'],
+        }
+      )
+    })
   })
 
   it('able to press Review when prepareTransactionsResult is type possible (input in token)', () => {

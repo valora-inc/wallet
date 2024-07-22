@@ -4,7 +4,7 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
-import { EarnEvents } from 'src/analytics/Events'
+import { EarnEvents, TransactionEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
@@ -58,6 +58,19 @@ export default function EarnCollectScreen({ route }: Props) {
     depositTokenId,
     feeCurrencies,
   })
+
+  useEffect(() => {
+    if (
+      asyncPreparedTransactions.result?.type === 'need-decrease-spend-amount-for-gas' ||
+      asyncPreparedTransactions.result?.type === 'not-enough-balance-for-gas'
+    ) {
+      ValoraAnalytics.track(TransactionEvents.transaction_prepare_insufficient_gas, {
+        origin: 'earn-withdraw',
+        networkId: depositToken.networkId,
+      })
+    }
+  }, [asyncPreparedTransactions.result?.type, depositToken.networkId])
+
   const onPress = () => {
     if (!asyncRewardsInfo.result || asyncPreparedTransactions.result?.type !== 'possible') {
       // should never happen because button is disabled if withdraw is not possible

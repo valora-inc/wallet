@@ -5,6 +5,8 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { call, select } from 'redux-saga-test-plan/matchers'
 import { EffectProviders, StaticProvider, throwError } from 'redux-saga-test-plan/providers'
 import { showMessage } from 'src/alert/actions'
+import { TransactionEvents, WalletConnectEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { DappRequestOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { walletConnectEnabledSelector } from 'src/app/selectors'
 import { activeDappSelector } from 'src/dapps/selectors'
@@ -12,7 +14,7 @@ import i18n from 'src/i18n'
 import { isBottomSheetVisible, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getDynamicConfigParams } from 'src/statsig'
-import { Network } from 'src/transactions/types'
+import { Network, NetworkId } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
 import { prepareTransactions } from 'src/viem/prepareTransactions'
 import {
@@ -570,6 +572,64 @@ describe('showActionRequest', () => {
       preparedTransaction: mockPreparedTransactions.transactions[0],
       prepareTransactionErrorMessage: undefined,
     })
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      WalletConnectEvents.wc_request_propose,
+      expect.anything()
+    )
+  })
+
+  it('navigates to the screen and logs analytics event if tx cannot be prepared due to insufficient gas', async () => {
+    const mockPreparedTransactions = {
+      type: 'not-enough-balance-for-gas',
+      transactions: [],
+    }
+    const state = createMockStore({}).getState()
+    await expectSaga(_showActionRequest, actionRequest)
+      .withState(state)
+      .provide([
+        [select(walletAddressSelector), mockAccount],
+        [
+          call(getTransactionCount, publicClient[Network.Celo], {
+            address: mockAccount,
+            blockTag: 'pending',
+          }),
+          123,
+        ],
+        [call.fn(prepareTransactions), mockPreparedTransactions],
+      ])
+      .run()
+
+    // 2 calls, one in loading state and one in the action request state
+    expect(navigate).toHaveBeenCalledTimes(2)
+    expect(navigate).toHaveBeenNthCalledWith(1, Screens.WalletConnectRequest, {
+      type: WalletConnectRequestType.Loading,
+      origin: WalletConnectPairingOrigin.Deeplink,
+    })
+    expect(navigate).toHaveBeenNthCalledWith(2, Screens.WalletConnectRequest, {
+      type: WalletConnectRequestType.Action,
+      pendingAction: actionRequest,
+      supportedChains: ['eip155:44787'],
+      version: 2,
+      hasInsufficientGasFunds: true,
+      feeCurrenciesSymbols: [],
+      preparedTransaction: mockPreparedTransactions.transactions[0],
+      prepareTransactionErrorMessage: undefined,
+    })
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
+    expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(
+      1,
+      WalletConnectEvents.wc_request_propose,
+      expect.anything()
+    )
+    expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(
+      2,
+      TransactionEvents.transaction_prepare_insufficient_gas,
+      {
+        origin: 'walletconnect',
+        networkId: NetworkId['celo-mainnet'],
+      }
+    )
   })
 
   it('navigates to the screen to reject the request when the transaction preparation fails', async () => {
@@ -605,6 +665,11 @@ describe('showActionRequest', () => {
       preparedTransaction: undefined,
       prepareTransactionErrorMessage: 'Some error',
     })
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      WalletConnectEvents.wc_request_propose,
+      expect.anything()
+    )
   })
 
   it('navigates to the screen to reject the request when the transaction preparation fails with a viem error', async () => {
@@ -640,6 +705,11 @@ describe('showActionRequest', () => {
       preparedTransaction: undefined,
       prepareTransactionErrorMessage: 'viem short message',
     })
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      WalletConnectEvents.wc_request_propose,
+      expect.anything()
+    )
   })
 })
 

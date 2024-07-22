@@ -9,7 +9,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { showError } from 'src/alert/actions'
-import { SwapEvents } from 'src/analytics/Events'
+import { SwapEvents, TransactionEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
@@ -359,6 +359,19 @@ export function SwapScreen({ route }: Props) {
   useEffect(() => {
     localDispatch(quoteUpdated({ quote }))
   }, [quote])
+
+  useEffect(() => {
+    if (
+      fromToken?.networkId &&
+      (quote?.preparedTransactions.type === 'need-decrease-spend-amount-for-gas' ||
+        quote?.preparedTransactions.type === 'not-enough-balance-for-gas')
+    ) {
+      ValoraAnalytics.track(TransactionEvents.transaction_prepare_insufficient_gas, {
+        networkId: fromToken.networkId,
+        origin: 'swap',
+      })
+    }
+  }, [quote?.preparedTransactions.type, fromToken?.networkId])
 
   const handleConfirmSwap = () => {
     if (!quote) {

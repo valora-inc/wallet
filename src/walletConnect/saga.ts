@@ -7,7 +7,7 @@ import { buildApprovedNamespaces, getSdkError, parseUri } from '@walletconnect/u
 import { IWeb3Wallet, Web3Wallet, Web3WalletTypes } from '@walletconnect/web3wallet'
 import { EventChannel, eventChannel } from 'redux-saga'
 import { showMessage } from 'src/alert/actions'
-import { WalletConnectEvents } from 'src/analytics/Events'
+import { TransactionEvents, WalletConnectEvents } from 'src/analytics/Events'
 import { WalletConnect2Properties } from 'src/analytics/Properties'
 import { DappRequestOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -495,6 +495,16 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
     preparedTransactionsResult?.type,
     preparedTransaction
   )
+
+  if (
+    preparedTransactionsResult?.type === 'not-enough-balance-for-gas' ||
+    preparedTransactionsResult?.type === 'need-decrease-spend-amount-for-gas'
+  ) {
+    ValoraAnalytics.track(TransactionEvents.transaction_prepare_insufficient_gas, {
+      networkId,
+      origin: 'walletconnect',
+    })
+  }
 
   navigate(Screens.WalletConnectRequest, {
     type: WalletConnectRequestType.Action,

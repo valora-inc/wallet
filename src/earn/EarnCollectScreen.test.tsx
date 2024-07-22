@@ -2,7 +2,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { EarnEvents } from 'src/analytics/Events'
+import { EarnEvents, TransactionEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import EarnCollectScreen from 'src/earn/EarnCollectScreen'
 import { fetchAaveRewards } from 'src/earn/poolInfo'
@@ -143,6 +143,7 @@ describe('EarnCollectScreen', () => {
       walletAddress: mockAccount.toLowerCase(),
     })
     expect(store.getActions()).toEqual([fetchPoolInfo()])
+    expect(ValoraAnalytics.track).not.toHaveBeenCalled()
   })
 
   it('skips rewards section when no rewards', async () => {
@@ -180,6 +181,7 @@ describe('EarnCollectScreen', () => {
       expect(queryByTestId('EarnCollect/GasLoading')).toBeFalsy()
     })
     expect(getByTestId('EarnCollectScreen/CTA')).toBeEnabled()
+    expect(ValoraAnalytics.track).not.toHaveBeenCalled()
   })
 
   it('shows error and keeps cta disabled if rewards loading fails', async () => {
@@ -245,6 +247,7 @@ describe('EarnCollectScreen', () => {
     expect(getByText('earnFlow.collect.errorTitle')).toBeTruthy()
     expect(getByTestId('EarnCollect/GasError')).toBeTruthy()
     expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
+    expect(ValoraAnalytics.track).not.toHaveBeenCalled()
   })
 
   it('skips error and enables cta if only apy loading fails', async () => {
@@ -281,6 +284,7 @@ describe('EarnCollectScreen', () => {
     expect(getByText('earnFlow.collect.plus')).toBeTruthy()
     expect(getByTestId('EarnCollectScreen/CTA')).toBeEnabled()
     expect(queryByText('earnFlow.collect.errorTitle')).toBeFalsy()
+    expect(ValoraAnalytics.track).not.toHaveBeenCalled()
   })
 
   it('enables cta when everything other than APY finishes loading', async () => {
@@ -317,6 +321,7 @@ describe('EarnCollectScreen', () => {
     expect(getByText('earnFlow.collect.plus')).toBeTruthy()
     expect(getByTestId('EarnCollectScreen/CTA')).toBeEnabled()
     expect(queryByText('earnFlow.collect.errorTitle')).toBeFalsy()
+    expect(ValoraAnalytics.track).not.toHaveBeenCalled()
   })
 
   it('disables cta if not enough balance for gas', async () => {
@@ -350,6 +355,14 @@ describe('EarnCollectScreen', () => {
     })
     expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
     expect(getByTestId('EarnCollect/GasError')).toBeTruthy()
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      TransactionEvents.transaction_prepare_insufficient_gas,
+      {
+        networkId: NetworkId['arbitrum-sepolia'],
+        origin: 'earn-withdraw',
+      }
+    )
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
   })
 
   it('pressing cta dispatches withdraw action and fires analytics event', async () => {
@@ -393,6 +406,7 @@ describe('EarnCollectScreen', () => {
       providerId: 'aave-v3',
       rewards: [{ amount: '0.01', tokenId: mockArbArbTokenId }],
     })
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
   })
 
   it('disables cta and shows loading spinner when withdraw is submitted', async () => {
@@ -457,6 +471,7 @@ describe('EarnCollectScreen', () => {
     expect(ValoraAnalytics.track).toBeCalledWith(EarnEvents.earn_withdraw_add_gas_press, {
       gasTokenId: mockArbEthTokenId,
     })
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
   })
 
   it('shows gas subsidized copy when feature gate is true', async () => {

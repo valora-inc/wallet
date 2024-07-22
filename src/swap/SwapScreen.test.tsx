@@ -5,7 +5,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { ReactTestInstance } from 'react-test-renderer'
 import { showError } from 'src/alert/actions'
-import { SwapEvents } from 'src/analytics/Events'
+import { SwapEvents, TransactionEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
@@ -1447,6 +1447,10 @@ describe('SwapScreen', () => {
         'swapScreen.notEnoughBalanceForGas.description, {"feeCurrencies":"CELO, cEUR, cUSD"}'
       )
     ).toBeTruthy()
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      TransactionEvents.transaction_prepare_insufficient_gas,
+      { origin: 'swap', networkId: NetworkId['celo-alfajores'] }
+    )
   })
 
   it('should warn when the balances for feeCurrencies are too low to cover the fee', async () => {
@@ -1471,6 +1475,10 @@ describe('SwapScreen', () => {
         'swapScreen.notEnoughBalanceForGas.description, {"feeCurrencies":"CELO, cUSD, cEUR"} '
       )
     ).toBeTruthy()
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      TransactionEvents.transaction_prepare_insufficient_gas,
+      { origin: 'swap', networkId: NetworkId['celo-alfajores'] }
+    )
   })
 
   it('should prompt the user to decrease the swap amount when swapping the max amount of a feeCurrency, and no other feeCurrency has enough balance to pay for the fee', async () => {
@@ -1520,6 +1528,10 @@ describe('SwapScreen', () => {
     })
 
     expect(queryByText('swapScreen.decreaseSwapAmountForGasWarning.cta')).toBeFalsy()
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      TransactionEvents.transaction_prepare_insufficient_gas,
+      { origin: 'swap', networkId: NetworkId['celo-alfajores'] }
+    )
   })
 
   it('should prompt the user to decrease the swap amount when swapping close to the max amount of a feeCurrency, and no other feeCurrency has enough balance to pay for the fee', async () => {
@@ -1573,6 +1585,10 @@ describe('SwapScreen', () => {
     })
 
     expect(queryByText('swapScreen.decreaseSwapAmountForGasWarning.cta')).toBeFalsy()
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      TransactionEvents.transaction_prepare_insufficient_gas,
+      { origin: 'swap', networkId: NetworkId['celo-alfajores'] }
+    )
   })
 
   it("should allow swapping the entered amount of a feeCurrency when there's enough balance to cover for the fee, while no other feeCurrency can pay for the fee", async () => {
@@ -1603,6 +1619,10 @@ describe('SwapScreen', () => {
 
     expect(queryByTestId('QuoteResultNotEnoughBalanceForGasBottomSheet')).toBeFalsy()
     expect(queryByTestId('QuoteResultNeedDecreaseSwapAmountForGasBottomSheet')).toBeFalsy()
+    expect(ValoraAnalytics.track).not.toHaveBeenCalledWith(
+      TransactionEvents.transaction_prepare_insufficient_gas,
+      { origin: 'swap', networkId: NetworkId['celo-alfajores'] }
+    )
   })
 
   it("should allow swapping the max balance of a feeCurrency when there's another feeCurrency to pay for the fee", async () => {
@@ -1629,6 +1649,10 @@ describe('SwapScreen', () => {
 
     expect(queryByTestId('QuoteResultNotEnoughBalanceForGasBottomSheet')).toBeFalsy()
     expect(queryByTestId('QuoteResultNeedDecreaseSwapAmountForGasBottomSheet')).toBeFalsy()
+    expect(ValoraAnalytics.track).not.toHaveBeenCalledWith(
+      TransactionEvents.transaction_prepare_insufficient_gas,
+      { origin: 'swap', networkId: NetworkId['celo-alfajores'] }
+    )
   })
 
   describe('filter tokens', () => {

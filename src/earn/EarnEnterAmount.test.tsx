@@ -3,10 +3,14 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { Provider } from 'react-redux'
-import { EarnEvents } from 'src/analytics/Events'
+import { EarnEvents, TransactionEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
 import { usePrepareSupplyTransactions } from 'src/earn/prepareTransactions'
+import { CICOFlow } from 'src/fiatExchanges/utils'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { getDynamicConfigParams } from 'src/statsig'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
@@ -17,6 +21,7 @@ import { mockAccount, mockArbEthTokenId, mockTokenBalances } from 'test/values'
 
 jest.mock('src/earn/prepareTransactions')
 jest.mock('react-native-localize')
+jest.mock('src/statsig')
 
 const mockPreparedTransaction: PreparedTransactionsPossible = {
   type: 'possible' as const,
@@ -81,14 +86,8 @@ const store = createMockStore({
   earn: { poolInfoFetchStatus: 'loading' },
 })
 
+jest.mocked(getDynamicConfigParams).mockImplementation(({ defaultValues }) => defaultValues)
 const refreshPreparedTransactionsSpy = jest.fn()
-jest.mocked(usePrepareSupplyTransactions).mockReturnValue({
-  prepareTransactionsResult: undefined,
-  refreshPreparedTransactions: refreshPreparedTransactionsSpy,
-  clearPreparedTransactions: jest.fn(),
-  prepareTransactionError: undefined,
-  isPreparingTransactions: false,
-})
 
 const params = {
   tokenId: networkConfig.arbUsdcTokenId,
@@ -100,6 +99,14 @@ describe('EarnEnterAmount', () => {
     jest
       .mocked(getNumberFormatSettings)
       .mockReturnValue({ decimalSeparator: '.', groupingSeparator: ',' })
+    jest.mocked(usePrepareSupplyTransactions).mockReturnValue({
+      prepareTransactionsResult: undefined,
+      refreshPreparedTransactions: refreshPreparedTransactionsSpy,
+      clearPreparedTransactions: jest.fn(),
+      prepareTransactionError: undefined,
+      isPreparingTransactions: false,
+    })
+
     store.clearActions()
   })
 
@@ -111,6 +118,7 @@ describe('EarnEnterAmount', () => {
     )
     // Loading states
     expect(getByTestId('EarnEnterAmount/EarnApyAndAmount/Apy/Loading')).toBeTruthy()
+    expect(ValoraAnalytics.track).not.toHaveBeenCalled()
   })
 
   it('should be able to tap info icon', async () => {
@@ -149,6 +157,7 @@ describe('EarnEnterAmount', () => {
       poolContractAddress: networkConfig.arbAavePoolV3ContractAddress,
       feeCurrencies: mockFeeCurrencies,
     })
+    expect(ValoraAnalytics.track).not.toHaveBeenCalled()
   })
 
   it('should handle navigating to the deposit bottom sheet', async () => {
@@ -244,6 +253,54 @@ describe('EarnEnterAmount', () => {
       )
     )
     expect(getByTestId('EarnEnterAmount/Continue')).toBeDisabled()
+    expect(ValoraAnalytics.track).not.toHaveBeenCalled()
+  })
+
+  it('should show warning and fire analytics event if transaction is not possible', async () => {
+    jest.mocked(usePrepareSupplyTransactions).mockReturnValue({
+      prepareTransactionsResult: {
+        type: 'not-enough-balance-for-gas',
+        feeCurrencies: mockFeeCurrencies,
+      },
+      refreshPreparedTransactions: jest.fn(),
+      clearPreparedTransactions: jest.fn(),
+      prepareTransactionError: undefined,
+      isPreparingTransactions: false,
+    })
+    const { getByText } = render(
+      <Provider store={store}>
+        <MockedNavigator component={EarnEnterAmount} params={params} />
+      </Provider>
+    )
+
+    expect(
+      getByText(
+        'earnFlow.enterAmount.notEnoughBalanceForGasWarning.title, {"feeTokenSymbol":"ETH"}'
+      )
+    ).toBeVisible()
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      TransactionEvents.transaction_prepare_insufficient_gas,
+      {
+        origin: 'earn-deposit',
+        networkId: NetworkId['arbitrum-sepolia'],
+      }
+    )
+
+    fireEvent.press(
+      getByText(
+        'earnFlow.enterAmount.notEnoughBalanceForGasWarning.noGasCta, {"feeTokenSymbol":"ETH","network":"Arbitrum Sepolia"}'
+      )
+    )
+    await waitFor(() => expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2))
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_add_gas_press, {
+      gasTokenId: mockFeeCurrencies[0].tokenId,
+    })
+    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
+      tokenId: mockFeeCurrencies[0].tokenId,
+      flow: CICOFlow.CashIn,
+      tokenSymbol: mockFeeCurrencies[0].symbol,
+    })
   })
 
   describe.each([

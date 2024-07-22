@@ -6,7 +6,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { TextInput as RNTextInput, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { EarnEvents, SendEvents } from 'src/analytics/Events'
+import { EarnEvents, SendEvents, TransactionEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
@@ -183,6 +183,18 @@ function EarnEnterAmount({ route }: Props) {
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
     return () => clearTimeout(debouncedRefreshTransactions)
   }, [tokenAmount, token])
+
+  useEffect(() => {
+    if (
+      prepareTransactionsResult?.type === 'need-decrease-spend-amount-for-gas' ||
+      prepareTransactionsResult?.type === 'not-enough-balance-for-gas'
+    ) {
+      ValoraAnalytics.track(TransactionEvents.transaction_prepare_insufficient_gas, {
+        origin: 'earn-deposit',
+        networkId: token.networkId,
+      })
+    }
+  }, [token.networkId, prepareTransactionsResult?.type])
 
   const isAmountLessThanBalance = tokenAmount && tokenAmount.lte(token.balance)
   const showNotEnoughBalanceForGasWarning =

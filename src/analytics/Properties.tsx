@@ -707,6 +707,17 @@ interface TransactionEventsProperties {
     error: string
     feeCurrencyAddress?: string
   } & Web3LibraryProps
+  [TransactionEvents.transaction_prepare_insufficient_gas]: {
+    networkId: NetworkId
+    origin:
+      | 'send'
+      | 'swap'
+      | 'earn-deposit'
+      | 'earn-withdraw'
+      | 'jumpstart-send'
+      | 'jumpstart-claim'
+      | 'walletconnect'
+  }
 }
 
 interface CeloExchangeEventsProperties {
