@@ -128,7 +128,7 @@ export const getCurrentUserTraits = createSelector(
     )
     for (const token of tokensByUsdBalance) {
       const tokenBalanceUsd = token.balance.multipliedBy(token.priceUsd ?? 0)
-      if (!tokenBalanceUsd.isNaN() && !token.isFromPosition) {
+      if (!tokenBalanceUsd.isNaN()) {
         totalBalanceUsd = totalBalanceUsd.plus(tokenBalanceUsd)
         totalBalanceUsdByNetworkIdBigNumber[`total${toPascalCase(token.networkId)}BalanceUsd`] =
           totalBalanceUsdByNetworkIdBigNumber[

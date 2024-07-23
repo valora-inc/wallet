@@ -257,6 +257,8 @@ describe(tokensByIdSelector, () => {
       expect(tokensById['celo-alfajores:0x1']?.name).toEqual('0x1 token')
       expect(tokensById['celo-alfajores:0x5']?.name).toEqual('0x5 token')
       expect(tokensById['celo-alfajores:0x6']?.name).toEqual('0x6 token')
+
+      expect(tokensById['celo-alfajores:0x6']?.priceUsd).toEqual(null)
     })
     it('avoids unnecessary recomputation', () => {
       const tokensById = tokensByIdSelector(state, [NetworkId['celo-alfajores']])
@@ -267,8 +269,26 @@ describe(tokensByIdSelector, () => {
       expect(tokensById).toEqual(tokensById2)
       expect(tokensByIdSelector.recomputations()).toEqual(2) // once for each different networkId
     })
-    it('enriches the tokens with tokens coming from positions', () => {
+    it('enriches the tokens with priceUsd coming from positions', () => {
       const tokensById = tokensByIdSelector(stateWithPositions, [NetworkId['celo-alfajores']])
+      expect(Object.keys(tokensById).length).toEqual(6)
+      expect(tokensById['celo-alfajores:0xusd']?.symbol).toEqual('cUSD')
+      expect(tokensById['celo-alfajores:0xeur']?.symbol).toEqual('cEUR')
+      expect(tokensById['celo-alfajores:0x4']?.symbol).toEqual('TT')
+      expect(tokensById['celo-alfajores:0x1']?.name).toEqual('0x1 token')
+      expect(tokensById['celo-alfajores:0x5']?.name).toEqual('0x5 token')
+      expect(tokensById['celo-alfajores:0x6']?.name).toEqual('0x6 token')
+
+      // This is the token that was enriched with the price from the position
+      expect(tokensById['celo-alfajores:0x6']?.priceUsd).toEqual(new BigNumber('60'))
+      // Still has the original balance
+      expect(tokensById['celo-alfajores:0x6']?.balance).toEqual(new BigNumber('0'))
+    })
+    it('includes positions tokens when asked', () => {
+      const tokensById = tokensByIdSelector(stateWithPositions, {
+        networkIds: [NetworkId['celo-alfajores']],
+        includePositionTokens: true,
+      })
       expect(Object.keys(tokensById).length).toEqual(8)
       expect(tokensById['celo-alfajores:0xusd']?.symbol).toEqual('cUSD')
       expect(tokensById['celo-alfajores:0xeur']?.symbol).toEqual('cEUR')
@@ -498,14 +518,6 @@ describe('sortedTokensWithBalanceSelector', () => {
       'celo-alfajores:0x5',
       'ethereum-sepolia:0x7',
     ])
-  })
-
-  it('ignores position tokens', () => {
-    const tokens = sortedTokensWithBalanceSelector(stateWithPositions, [
-      NetworkId['celo-alfajores'],
-      NetworkId['ethereum-sepolia'],
-    ])
-    expect(tokens.every((token) => !token.isFromPosition)).toBeTruthy()
   })
 
   it('avoids unnecessary recomputation', () => {
@@ -894,22 +906,6 @@ describe('swappable tokens selectors', () => {
       },
       ...expectedSwappableToTokens,
     ])
-  })
-
-  it('ignores position tokens for swappable from tokens', () => {
-    const tokens = swappableFromTokensByNetworkIdSelector(stateWithPositions, [
-      NetworkId['celo-alfajores'],
-      NetworkId['ethereum-sepolia'],
-    ])
-    expect(tokens.every((token) => !token.isFromPosition)).toBeTruthy()
-  })
-
-  it('ignores position tokens for swappable to tokens', () => {
-    const tokens = swappableToTokensByNetworkIdSelector(stateWithPositions, [
-      NetworkId['celo-alfajores'],
-      NetworkId['ethereum-sepolia'],
-    ])
-    expect(tokens.every((token) => !token.isFromPosition)).toBeTruthy()
   })
 
   describe('importedTokensSelector', () => {

@@ -87,14 +87,23 @@ const positionTokensSelector = createSelector([positionsSelector], (positions) =
   return positionTokens
 })
 
+type TokensByIdArgs =
+  | NetworkId[] // For backwards compatibility
+  | {
+      networkIds: NetworkId[]
+      includePositionTokens?: boolean
+    }
+
 export const tokensByIdSelector = createSelector(
   [
     (state: RootState) => state.tokens.tokenBalances,
     positionTokensSelector,
     positionsFetchedAtSelector,
-    (_state: RootState, networkIds: NetworkId[]) => networkIds,
+    (_state: RootState, args: TokensByIdArgs) => (Array.isArray(args) ? args : args.networkIds),
+    (_state: RootState, args: TokensByIdArgs) =>
+      Array.isArray(args) ? false : args.includePositionTokens ?? false,
   ],
-  (storedBalances, positionTokens, positionsFetchedAt, networkIds) => {
+  (storedBalances, positionTokens, positionsFetchedAt, networkIds, includePositionTokens) => {
     const allStoredBalances = { ...storedBalances }
 
     // Enrich with position tokens
@@ -108,20 +117,22 @@ export const tokensByIdSelector = createSelector(
       const existingToken = allStoredBalances[tokenId]
       const priceUsd = positionToken.priceUsd != '0' ? positionToken.priceUsd : undefined
       if (!existingToken) {
-        allStoredBalances[tokenId] = {
-          tokenId,
-          address: positionToken.address,
-          networkId: positionToken.networkId,
-          decimals: positionToken.decimals,
-          symbol: positionToken.symbol,
-          // TODO: update hooks API to return name too
-          name: positionToken.symbol,
-          balance: positionToken.balance,
-          priceUsd,
-          priceFetchedAt: positionsFetchedAt,
-          // So we can filter it out of the total balance / or other views
-          // i.e. we don't want to count it twice, once as a position and once as a token
-          isFromPosition: true,
+        if (includePositionTokens) {
+          allStoredBalances[tokenId] = {
+            tokenId,
+            address: positionToken.address,
+            networkId: positionToken.networkId,
+            decimals: positionToken.decimals,
+            symbol: positionToken.symbol,
+            // TODO: update hooks API to return name too
+            name: positionToken.symbol,
+            balance: positionToken.balance,
+            priceUsd,
+            priceFetchedAt: positionsFetchedAt,
+            // So we can filter it out of the total balance / or other views
+            // i.e. we don't want to count it twice, once as a position and once as a token
+            isFromPosition: true,
+          }
         }
       } else if (existingToken.priceUsd == null) {
         allStoredBalances[tokenId] = {
@@ -362,11 +373,8 @@ export const totalTokenBalanceSelector = createSelector(
     }
     let totalBalance = new BigNumber(0)
 
-    for (const token of tokensWithUsdValue.filter(
-      (token) =>
-        networkIds.includes(token.networkId) &&
-        // Don't count tokens that are from positions
-        !token.isFromPosition
+    for (const token of tokensWithUsdValue.filter((token) =>
+      networkIds.includes(token.networkId)
     )) {
       const tokenAmount = new BigNumber(token.balance)
         .multipliedBy(token.priceUsd)
@@ -403,12 +411,11 @@ export const swappableFromTokensByNetworkIdSelector = createSelector(
       tokens
         .filter(
           (tokenInfo) =>
-            (tokenInfo.isSwappable ||
-              tokenInfo.isManuallyImported ||
-              tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) ||
-              (tokenInfo.minimumAppVersionToSwap &&
-                !isVersionBelowMinimum(appVersion, tokenInfo.minimumAppVersionToSwap))) &&
-            !tokenInfo.isFromPosition
+            tokenInfo.isSwappable ||
+            tokenInfo.isManuallyImported ||
+            tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) ||
+            (tokenInfo.minimumAppVersionToSwap &&
+              !isVersionBelowMinimum(appVersion, tokenInfo.minimumAppVersionToSwap))
         )
         // sort by balance USD (DESC) then name (ASC), tokens without a priceUsd
         // are pushed last, sorted by name (ASC)
@@ -485,9 +492,7 @@ const tokensWithBalanceOrShowZeroBalanceSelector = createSelector(
   (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
   (tokens) =>
     tokens.filter(
-      (tokenInfo) =>
-        (tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) || tokenInfo.showZeroBalance) &&
-        !tokenInfo.isFromPosition
+      (tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) || tokenInfo.showZeroBalance
     )
 )
 

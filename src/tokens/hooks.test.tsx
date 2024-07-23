@@ -11,6 +11,7 @@ import {
   useCashOutTokens,
   useLocalToTokenAmount,
   useSwappableTokens,
+  useTokenInfo,
   useTokenPricesAreStale,
   useTokenToLocalAmount,
 } from 'src/tokens/hooks'
@@ -128,6 +129,29 @@ const storeWithMultipleNetworkTokens = (walletAddress?: string) =>
           minimumAppVersionToSwap: '0.0.1',
         },
       },
+    },
+    positions: {
+      positions: [
+        {
+          type: 'app-token' as const,
+          networkId: NetworkId['celo-alfajores'],
+          tokenId: 'celo-alfajores:0xa',
+          address: '0xa',
+          priceUsd: '60',
+          balance: '3',
+          displayProps: {
+            title: 'Title',
+          },
+          tokens: [
+            {
+              networkId: NetworkId['celo-alfajores'],
+              tokenId: 'celo-alfajores:0xb',
+              balance: '1',
+              priceUsd: '30',
+            },
+          ],
+        },
+      ],
     },
   })
 
@@ -373,5 +397,43 @@ describe('useCashOutTokens', () => {
     )
 
     expect(getByTestId('tokenIDs').props.children).toEqual([mockCeloTokenId, ethTokenId])
+  })
+})
+
+describe('useTokenInfo', () => {
+  it('returns the token when it exists', () => {
+    const { result } = renderHook(() => useTokenInfo(mockCeloTokenId), {
+      wrapper: (component) => (
+        <Provider store={storeWithMultipleNetworkTokens()}>
+          {component?.children ? component.children : component}
+        </Provider>
+      ),
+    })
+
+    expect(result.current?.tokenId).toEqual(mockCeloTokenId)
+  })
+
+  it('returns position tokens when they exist', () => {
+    const { result } = renderHook(() => useTokenInfo('celo-alfajores:0xb'), {
+      wrapper: (component) => (
+        <Provider store={storeWithMultipleNetworkTokens()}>
+          {component?.children ? component.children : component}
+        </Provider>
+      ),
+    })
+
+    expect(result.current?.tokenId).toEqual('celo-alfajores:0xb')
+  })
+
+  it('returns undefined if the tokenId is not found', () => {
+    const { result } = renderHook(() => useTokenInfo(undefined), {
+      wrapper: (component) => (
+        <Provider store={storeWithMultipleNetworkTokens()}>
+          {component?.children ? component.children : component}
+        </Provider>
+      ),
+    })
+
+    expect(result.current).toBeUndefined()
   })
 })
