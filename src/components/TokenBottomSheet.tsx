@@ -303,8 +303,6 @@ function TokenBottomSheet({
           <FilterChipsCarousel
             chips={filters}
             onSelectChip={handleToggleFilterChip}
-            primaryColor={colors.successDark}
-            secondaryColor={Colors.successLight}
             style={styles.filterChipsCarouselContainer}
             forwardedRef={filterChipsCarouselRef}
             scrollEnabled={false}
