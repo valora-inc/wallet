@@ -228,12 +228,12 @@ describe('Statsig helpers', () => {
       })
       ;(Statsig.getConfig as jest.Mock).mockImplementation(() => ({
         get: getMock,
-        getEvaluationDetails: () => ({ reason: EvaluationReason.Uninitialized }),
+        getEvaluationDetails: () => ({ reason: EvaluationReason.Network }),
       }))
       const defaultValues = { param1: 'defaultValue1', param2: 'defaultValue2' }
       const configName = 'mock_config' as StatsigDynamicConfigs
       const output = getDynamicConfigParams({ configName, defaultValues })
-      expect(Logger.warn).toHaveBeenCalled()
+      expect(Logger.warn).not.toHaveBeenCalled()
       expect(Statsig.getConfig).toHaveBeenCalledWith(configName)
       expect(getMock).toHaveBeenCalledWith('param1', 'defaultValue1')
       expect(getMock).toHaveBeenCalledWith('param2', 'defaultValue2')

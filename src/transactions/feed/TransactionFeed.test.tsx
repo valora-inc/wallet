@@ -170,7 +170,6 @@ describe('TransactionFeed', () => {
       showApprovalTxsInHomefeed: [NetworkId['celo-alfajores']],
     })
     jest.mocked(getDynamicConfigParams).mockReturnValue({
-      showApprovalTxsInHomefeed: ['celo-alfajores'],
       jumpstartContracts: {
         ['celo-alfajores']: { contractAddress: '0x7bf3fefe9881127553d23a8cd225a2c2442c438c' },
       },
