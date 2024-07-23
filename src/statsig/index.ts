@@ -3,13 +3,15 @@ import { LaunchArguments } from 'react-native-launch-arguments'
 import { startOnboardingTimeSelector } from 'src/account/selectors'
 import { multichainBetaStatusSelector } from 'src/app/selectors'
 import { isE2EEnv } from 'src/config'
-import { FeatureGates } from 'src/statsig/constants'
+import { DynamicConfigs, FeatureGates } from 'src/statsig/constants'
 import {
   StatsigDynamicConfigs,
   StatsigExperiments,
   StatsigFeatureGates,
+  StatsigMultiNetworkDynamicConfig,
   StatsigParameter,
 } from 'src/statsig/types'
+import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { EvaluationReason } from 'statsig-js'
@@ -57,6 +59,34 @@ export function getExperimentParams<T extends Record<string, StatsigParameter>>(
     Logger.warn(
       TAG,
       `getExperimentParams: Error getting params for experiment: ${experimentName}`,
+      error
+    )
+    return defaultValues
+  }
+}
+
+export function getMultichainFeatures() {
+  const defaultValues =
+    DynamicConfigs[StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES].defaultValues
+  try {
+    const config = Statsig.getConfig(StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES)
+    if (!isE2EEnv && config.getEvaluationDetails().reason === EvaluationReason.Uninitialized) {
+      Logger.warn(
+        TAG,
+        'getDynamicConfigParams: SDK is uninitialized when getting experiment',
+        config
+      )
+    }
+    const multichainParams = getParams({ config, defaultValues })
+    const filteredParams = {} as { [key: string]: NetworkId[] }
+    Object.entries(multichainParams).forEach(([key, value]) => {
+      filteredParams[key] = value.filter((networkId) => networkId in NetworkId)
+    })
+    return filteredParams
+  } catch (error) {
+    Logger.warn(
+      TAG,
+      `Error getting params for dynamic config: ${StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES}`,
       error
     )
     return defaultValues

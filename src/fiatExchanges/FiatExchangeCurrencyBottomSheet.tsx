@@ -8,7 +8,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import { useCashInTokens, useCashOutTokens, useSpendTokens } from 'src/tokens/hooks'
@@ -34,9 +34,7 @@ function useFilterChips(flow: FiatExchangeFlow): FilterChip<TokenBalance>[] {
   ) {
     return []
   }
-  const supportedNetworkIds = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
-  ).showCico
+  const supportedNetworkIds = getMultichainFeatures().showCico
   // reuse the same popular tokens as for swap
   const popularTokenIds: string[] = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
