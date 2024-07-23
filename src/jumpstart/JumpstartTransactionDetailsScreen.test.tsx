@@ -267,6 +267,7 @@ describe('JumpstartTransactionDetailsScreen', () => {
     expect(prepareTransactions).toHaveBeenCalledWith({
       baseTransactions: [expect.objectContaining({ to: mockRetiredContractAddress })],
       feeCurrencies: expect.any(Array),
+      origin: 'jumpstart-claim',
     })
   })
 
