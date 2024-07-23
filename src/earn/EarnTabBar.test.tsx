@@ -4,14 +4,14 @@ import EarnTabBar from 'src/earn/EarnTabBar'
 import { EarnTabType } from 'src/earn/types'
 import Colors from 'src/styles/colors'
 
-describe('AssetTabBar', () => {
+describe('EarnTabBar', () => {
   const onChange = jest.fn()
 
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
-  it('renders all items if positions is enabled', () => {
+  it('renders all tab bar items', () => {
     const { getAllByTestId } = render(
       <EarnTabBar activeTab={EarnTabType.OpenPools} onChange={onChange} />
     )
