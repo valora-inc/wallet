@@ -302,9 +302,6 @@ export default function EarnHome({ navigation, route }: Props) {
           setSelectedNetworkIds={setSelectedNetworkIds}
           selectedNetworkIds={networkChip.selectedNetworkIds}
           forwardedRef={networkChipRef}
-          onClose={() => {
-            networkChipRef.current?.close()
-          }}
         />
       )}
       <TokenBottomSheet
