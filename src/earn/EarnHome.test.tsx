@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import EarnHome from 'src/earn/EarnHome'
@@ -19,18 +19,6 @@ const pools: Pool[] = [
     apy: 0.0555,
     reward: 0,
     tvl: 349_940_000,
-    provider: 'Aave',
-  },
-  {
-    poolId: 'aArbWETH',
-    networkId: NetworkId['arbitrum-one'],
-    tokens: [`${NetworkId['arbitrum-one']}:0x82af49447d8a07e3bd95bd0d56f35241523fbab1`],
-    depositTokenId: `${NetworkId['arbitrum-one']}:0x82af49447d8a07e3bd95bd0d56f35241523fbab1`,
-    poolTokenId: `${NetworkId['arbitrum-one']}:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8`,
-    poolAddress: '0x794a61358D6845594F94dc1DB02A252b5b4814aD',
-    apy: 0.023,
-    reward: 0,
-    tvl: 411_630_000,
     provider: 'Aave',
   },
 ]
@@ -75,5 +63,109 @@ describe('EarnHome', () => {
     expect(tabItems).toHaveLength(2)
     expect(tabItems[0]).toHaveTextContent('openPools')
     expect(tabItems[1]).toHaveTextContent('myPools')
+  })
+
+  it('correctly shows pool under my pools if has balance', () => {
+    const mockPoolToken = {
+      name: 'Arbitrum',
+      networkId: NetworkId['arbitrum-one'],
+      tokenId: pools[0].poolTokenId,
+      address: mockArbArbAddress,
+      symbol: 'ARB',
+      decimals: 18,
+      imageUrl:
+        'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ARB.png',
+      balance: '10',
+      priceUsd: '1.2',
+      priceFetchedAt: Date.now(),
+    }
+    const { getByTestId, queryByTestId, getByText } = render(
+      <Provider
+        store={createMockStore({
+          tokens: {
+            tokenBalances: {
+              [pools[0].poolTokenId]: mockPoolToken,
+              [`${NetworkId['arbitrum-one']}:0xaf88d065e77c8cc2239327c5edb3a432268e5831`]: {
+                name: 'USDC',
+                networkId: NetworkId['arbitrum-one'],
+                tokenId: `${NetworkId['arbitrum-one']}:0xaf88d065e77c8cc2239327c5edb3a432268e5831`,
+                address: '0xaf88d065e77c8cc2239327c5edb3a432268e5831',
+                symbol: 'USDC',
+                decimals: 18,
+                imageUrl:
+                  'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/USDC.png',
+                balance: '1',
+                priceUsd: '1',
+                priceFetchedAt: Date.now(),
+              },
+            },
+          },
+        })}
+      >
+        <MockedNavigator
+          component={EarnHome}
+          params={{
+            activeEarnTab: EarnTabType.OpenPools,
+          }}
+        />
+      </Provider>
+    )
+
+    expect(queryByTestId(`PoolCard/${pools[0].poolId}`)).toBeFalsy()
+    fireEvent.press(getByText('earnFlow.poolFilters.myPools'))
+    expect(getByTestId(`PoolCard/${pools[0].poolId}`)).toBeTruthy()
+  })
+
+  it('correctly shows correct networks, tokens under filters', () => {
+    const mockPoolToken = {
+      name: 'Arbitrum',
+      networkId: NetworkId['arbitrum-one'],
+      tokenId: pools[0].tokens[0],
+      address: mockArbArbAddress,
+      symbol: 'ARB',
+      decimals: 18,
+      imageUrl:
+        'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ARB.png',
+      balance: '0',
+      priceUsd: '1.2',
+      priceFetchedAt: Date.now(),
+    }
+    const { getByTestId, getAllByTestId, getByText } = render(
+      <Provider
+        store={createMockStore({
+          tokens: {
+            tokenBalances: {
+              [pools[0].tokens[0]]: mockPoolToken,
+              [`${NetworkId['arbitrum-one']}:0xaf88d065e77c8cc2239327c5edb3a432268e5831`]: {
+                name: 'USDC',
+                networkId: NetworkId['arbitrum-one'],
+                tokenId: `${NetworkId['arbitrum-one']}:0xaf88d065e77c8cc2239327c5edb3a432268e5831`,
+                address: '0xaf88d065e77c8cc2239327c5edb3a432268e5831',
+                symbol: 'USDC',
+                decimals: 18,
+                imageUrl:
+                  'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/USDC.png',
+                balance: '0',
+                priceUsd: '1',
+                priceFetchedAt: Date.now(),
+              },
+            },
+          },
+        })}
+      >
+        <MockedNavigator
+          component={EarnHome}
+          params={{
+            activeEarnTab: EarnTabType.OpenPools,
+          }}
+        />
+      </Provider>
+    )
+
+    fireEvent.press(getByText('tokenBottomSheet.filters.selectNetwork'))
+    expect(getByTestId('Arbitrum One-icon')).toBeTruthy()
+
+    fireEvent.press(getByText('tokenBottomSheet.filters.tokens'))
+    expect(getAllByTestId('TokenBalanceItem')).toHaveLength(1)
   })
 })
