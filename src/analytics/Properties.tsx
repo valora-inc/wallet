@@ -75,7 +75,7 @@ import { AdventureCardName } from 'src/onboarding/types'
 import { PointsActivityId } from 'src/points/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { AmountEnteredIn, QrCode } from 'src/send/types'
-import { Field } from 'src/swap/types'
+import { Field, SwapType } from 'src/swap/types'
 import { TokenActionName } from 'src/tokens/types'
 import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 
@@ -1174,6 +1174,7 @@ type SwapQuoteEvent = SwapEvent & {
   price: string
   appFeePercentageIncludedInPrice: string | null | undefined
   provider: string
+  swapType: SwapType
 }
 
 export interface SwapTimeMetrics {

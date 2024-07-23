@@ -43,6 +43,7 @@ export type ConfirmedStandbyTransaction = (
   | Omit<EarnDeposit, 'status'>
   | Omit<EarnWithdraw, 'status'>
   | Omit<EarnClaimReward, 'status'>
+  | Omit<CrossChainTokenExchange, 'status'>
 ) & {
   status: TransactionStatus.Complete | TransactionStatus.Failed
   context: TransactionContext
@@ -57,6 +58,7 @@ export type StandbyTransaction =
   | PendingStandbyTransaction<EarnDeposit>
   | PendingStandbyTransaction<EarnWithdraw>
   | PendingStandbyTransaction<EarnClaimReward>
+  | PendingStandbyTransaction<CrossChainTokenExchange>
   | ConfirmedStandbyTransaction
 
 // Context used for logging the transaction execution flow.
@@ -96,6 +98,7 @@ export enum TransactionStatus {
 export type TokenTransaction =
   | TokenTransfer
   | TokenExchange
+  | CrossChainTokenExchange
   | NftTransfer
   | TokenApproval
   | EarnDeposit
@@ -124,6 +127,7 @@ export enum TokenTransactionTypeV2 {
   NftReceived = 'NFT_RECEIVED',
   NftSent = 'NFT_SENT',
   SwapTransaction = 'SWAP_TRANSACTION',
+  CrossChainSwapTransaction = 'CROSS_CHAIN_SWAP_TRANSACTION',
   Approval = 'APPROVAL',
   EarnDeposit = 'EARN_DEPOSIT',
   EarnWithdraw = 'EARN_WITHDRAW',
@@ -177,6 +181,15 @@ export interface TokenExchange {
   metadata?: TokenExchangeMetadata
   fees: Fee[]
   status: TransactionStatus
+}
+
+export interface CrossChainTokenExchange extends Omit<TokenExchange, 'inAmount' | '__typename'> {
+  // the inAmount value is not known until the cross chain transaction has
+  // settled on the destination chain
+  inAmount: Omit<TokenAmount, 'value'> & {
+    value: BigNumber.Value | null
+  }
+  __typename: 'CrossChainTokenExchange'
 }
 
 export interface TokenExchangeMetadata {
