@@ -284,7 +284,7 @@ describe(tokensByIdSelector, () => {
       // Still has the original balance
       expect(tokensById['celo-alfajores:0x6']?.balance).toEqual(new BigNumber('0'))
     })
-    it('includes positions tokens when asked', () => {
+    it('includes positions token when asked', () => {
       const tokensById = tokensByIdSelector(stateWithPositions, {
         networkIds: [NetworkId['celo-alfajores']],
         includePositionTokens: true,
