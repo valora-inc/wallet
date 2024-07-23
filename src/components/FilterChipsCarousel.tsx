@@ -41,12 +41,8 @@ export type FilterChip<T> = BooleanFilterChip<T> | NetworkFilterChip<T> | TokenS
 interface Props<T> {
   chips: FilterChip<T>[]
   onSelectChip(chip: FilterChip<T>): void
-  primaryColor?: colors
-  primaryBorderColor?: colors
-  primaryTextColor?: colors
-  secondaryColor?: colors
-  secondaryBorderColor?: colors
-  secondaryTextColor?: colors
+  primaryColor: colors
+  secondaryColor: colors
   style?: StyleProp<ViewStyle>
   contentContainerStyle?: StyleProp<ViewStyle>
   forwardedRef?: React.RefObject<ScrollView>
@@ -56,12 +52,8 @@ interface Props<T> {
 function FilterChipsCarousel<T>({
   chips,
   onSelectChip,
-  primaryColor = colors.black,
-  primaryBorderColor = colors.black,
-  primaryTextColor = colors.white,
-  secondaryColor = colors.gray1,
-  secondaryBorderColor = colors.gray2,
-  secondaryTextColor = colors.gray4,
+  primaryColor,
+  secondaryColor,
   style,
   contentContainerStyle,
   forwardedRef,
@@ -75,7 +67,7 @@ function FilterChipsCarousel<T>({
       style={[styles.container, style]}
       contentContainerStyle={[
         styles.contentContainer,
-        { width: scrollEnabled ? 'auto' : '100%' },
+        { flexWrap: scrollEnabled ? 'nowrap' : 'wrap', width: scrollEnabled ? 'auto' : '100%' },
         contentContainerStyle,
       ]}
       ref={forwardedRef}
@@ -88,8 +80,8 @@ function FilterChipsCarousel<T>({
             style={[
               styles.filterChipBackground,
               chip.isSelected
-                ? { backgroundColor: primaryColor, borderColor: primaryBorderColor }
-                : { backgroundColor: secondaryColor, borderColor: secondaryBorderColor },
+                ? { backgroundColor: primaryColor }
+                : { backgroundColor: secondaryColor },
             ]}
           >
             <Touchable
@@ -102,7 +94,7 @@ function FilterChipsCarousel<T>({
                 <Text
                   style={[
                     styles.filterChipText,
-                    chip.isSelected ? { color: primaryTextColor } : { color: secondaryTextColor },
+                    chip.isSelected ? { color: secondaryColor } : { color: primaryColor },
                   ]}
                 >
                   {chip.name}
@@ -131,12 +123,10 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingHorizontal: Spacing.Thick24,
     gap: Spacing.Smallest8,
-    flexWrap: 'wrap',
   },
   filterChipBackground: {
     overflow: 'hidden',
     borderRadius: 94,
-    borderWidth: 1,
   },
   filterChip: {
     minHeight: 32,
