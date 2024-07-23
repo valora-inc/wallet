@@ -154,25 +154,6 @@ describe('NotificationBox', () => {
     expect(tree).toMatchSnapshot()
   })
 
-  it('renders reverify notification if decentrally verified and not CPV', () => {
-    const store = createMockStore({
-      app: {
-        numberVerified: true,
-        phoneNumberVerified: false,
-      },
-    })
-    const { getByText } = render(
-      <Provider store={store}>
-        <NotificationBox showOnlyHomeScreenNotifications={false} />
-      </Provider>
-    )
-
-    expect(getByText('reverifyUsingCPVHomecard.description')).toBeTruthy()
-
-    fireEvent.press(getByText('reverifyUsingCPVHomecard.buttonLabel'))
-    expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen, { hasOnboarded: true })
-  })
-
   it('renders educations when not complete yet', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,

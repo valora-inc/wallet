@@ -2421,7 +2421,7 @@
       "depositEarn": {
         "title": "存入 {{appName}}上的收益池",
         "bottomSheet": {
-          "title": "Deposit into an earn pool",
+          "title": "存入收入池",
           "body": "每次将资金存入 {{appName}}上的收益池，即可赚取 {{pointsValue}} 积分。 \n\n点击下方开始赚取收益和积分！",
           "cta": "去赚取水池"
         }
