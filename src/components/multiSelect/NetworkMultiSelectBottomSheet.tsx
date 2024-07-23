@@ -9,7 +9,7 @@ import { NetworkId } from 'src/transactions/types'
 
 interface Props {
   forwardedRef: React.RefObject<GorhomBottomSheet>
-  onClose?: () => void
+  onSelect?: (networks: NetworkId[]) => void
   onOpen?: () => void
   allNetworkIds: NetworkId[]
   selectedNetworkIds: NetworkId[]
@@ -18,7 +18,7 @@ interface Props {
 
 function NetworkMultiSelectBottomSheet({
   forwardedRef,
-  onClose,
+  onSelect,
   onOpen,
   allNetworkIds,
   selectedNetworkIds,
@@ -41,7 +41,7 @@ function NetworkMultiSelectBottomSheet({
   return (
     <MultiSelectBottomSheet<NetworkId>
       forwardedRef={forwardedRef}
-      onClose={onClose}
+      onSelect={onSelect}
       onOpen={onOpen}
       options={options}
       selectedOptions={selectedNetworkIds}
