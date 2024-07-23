@@ -10,6 +10,8 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { EarnEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import FilterChipsCarousel, {
   FilterChip,
@@ -254,7 +256,7 @@ export default function EarnHome({ navigation, route }: Props) {
   }, [pools, allTokens, activeTab])
 
   const onPressLearnMore = () => {
-    // TODO (ACT-1260): Add analytics event
+    ValoraAnalytics.track(EarnEvents.earn_home_learn_more_press)
     learnMoreBottomSheetRef.current?.snapToIndex(0)
   }
 
@@ -301,9 +303,6 @@ export default function EarnHome({ navigation, route }: Props) {
           setSelectedNetworkIds={setSelectedNetworkIds}
           selectedNetworkIds={networkChip.selectedNetworkIds}
           forwardedRef={networkChipRef}
-          onClose={() => {
-            networkChipRef.current?.close()
-          }}
         />
       )}
       <TokenBottomSheet

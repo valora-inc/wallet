@@ -2,6 +2,8 @@ import BigNumber from 'bignumber.js'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
+import { EarnEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes, TextSizes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon from 'src/components/TokenIcon'
@@ -92,6 +94,7 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
             <Button
               onPress={() => {
                 // TODO (ACT-1260): Add analytics event
+                ValoraAnalytics.track(EarnEvents.earn_multi_pool_exit_pool_press)
                 navigate(Screens.EarnCollectScreen, { depositTokenId, poolTokenId })
               }}
               text={t('earnFlow.poolCard.exitPool')}
@@ -103,6 +106,7 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
             <Button
               onPress={() => {
                 // TODO (ACT-1260): Add analytics event
+                ValoraAnalytics.track(EarnEvents.earn_multi_pool_add_to_pool_press)
                 navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })
               }}
               text={t('earnFlow.poolCard.addToPool')}
@@ -117,6 +121,7 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
         <Button
           onPress={() => {
             // TODO (ACT-1260): Add analytics event
+            ValoraAnalytics.track(EarnEvents.earn_multi_pool_add_to_pool_press)
             navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })
           }}
           text={t('earnFlow.poolCard.addToPool')}
