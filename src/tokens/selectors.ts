@@ -88,7 +88,7 @@ const positionTokensSelector = createSelector([positionsSelector], (positions) =
 })
 
 type TokensByIdArgs =
-  | NetworkId[] // For backwards compatibility
+  | NetworkId[] // For backward compatibility
   | {
       networkIds: NetworkId[]
       includePositionTokens?: boolean
