@@ -183,14 +183,19 @@ export interface TokenExchange {
   status: TransactionStatus
 }
 
-export interface CrossChainTokenExchange extends Omit<TokenExchange, 'inAmount' | '__typename'> {
-  // the inAmount value is not known until the cross chain transaction has
-  // settled on the destination chain
-  inAmount: Omit<TokenAmount, 'value'> & {
-    value: BigNumber.Value | null
-  }
+export type CrossChainTokenExchange = Omit<TokenExchange, '__typename' | 'status' | 'inAmount'> & {
   __typename: 'CrossChainTokenExchange'
-}
+} & (
+    | { status: TransactionStatus.Complete | TransactionStatus.Failed; inAmount: TokenAmount }
+    // the inAmount value is not known until the cross chain transaction has
+    // settled on the destination chain
+    | {
+        status: TransactionStatus.Pending
+        inAmount: Omit<TokenAmount, 'value'> & {
+          value: BigNumber.Value | null
+        }
+      }
+  )
 
 export interface TokenExchangeMetadata {
   title?: string
