@@ -1815,4 +1815,11 @@ export const migrations = {
       poolInfoFetchStatus: 'idle',
     },
   }),
+  219: (state: any) => ({
+    ...state,
+    positions: {
+      ...state.positions,
+      positions: [], // clear positions, they will be fetched again
+    },
+  }),
 }

@@ -13,7 +13,7 @@ describe('NetworkMultiSelectBottomSheet', () => {
   it('calls MultiSelectBottomSheet with the correct props', () => {
     const setSelectedNetworkIds = jest.fn()
     const forwardedRef = { current: null }
-    const onClose = jest.fn()
+    const onSelect = jest.fn()
     const onOpen = jest.fn()
     const allNetworkIds = [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']]
     const selectedNetworkIds = [NetworkId['celo-alfajores']]
@@ -50,7 +50,7 @@ describe('NetworkMultiSelectBottomSheet', () => {
       >
         <NetworkMultiSelectBottomSheet
           forwardedRef={forwardedRef}
-          onClose={onClose}
+          onSelect={onSelect}
           onOpen={onOpen}
           allNetworkIds={allNetworkIds}
           selectedNetworkIds={selectedNetworkIds}
@@ -62,7 +62,7 @@ describe('NetworkMultiSelectBottomSheet', () => {
     expect(MultiSelectBottomSheet).toHaveBeenCalledWith(
       {
         forwardedRef,
-        onClose,
+        onSelect,
         onOpen,
         selectedOptions: [NetworkId['celo-alfajores']],
         setSelectedOptions: expect.any(Function),
