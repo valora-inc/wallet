@@ -311,7 +311,7 @@ export default function EarnHome({ navigation, route }: Props) {
         tokens={tokensInfo}
         onTokenSelected={onTokenPressed}
         title={t('sendEnterAmountScreen.selectToken')}
-        origin={TokenPickerOrigin.EarnFilter}
+        origin={TokenPickerOrigin.Earn}
         filterChips={[]}
       />
     </>

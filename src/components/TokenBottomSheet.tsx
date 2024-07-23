@@ -34,7 +34,7 @@ export enum TokenPickerOrigin {
   CashIn = 'CashIn',
   CashOut = 'CashOut',
   Spend = 'Spend',
-  EarnFilter = 'EarnFilter',
+  Earn = 'Earn',
 }
 
 export const DEBOUNCE_WAIT_TIME = 200
