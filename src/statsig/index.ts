@@ -65,39 +65,11 @@ export function getExperimentParams<T extends Record<string, StatsigParameter>>(
   }
 }
 
-export function getMultichainFeatures() {
-  const defaultValues =
-    DynamicConfigs[StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES].defaultValues
-  try {
-    const config = Statsig.getConfig(StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES)
-    if (!isE2EEnv && config.getEvaluationDetails().reason === EvaluationReason.Uninitialized) {
-      Logger.warn(
-        TAG,
-        'getDynamicConfigParams: SDK is uninitialized when getting experiment',
-        config
-      )
-    }
-    const multichainParams = getParams({ config, defaultValues })
-    const filteredParams = {} as { [key: string]: NetworkId[] }
-    Object.entries(multichainParams).forEach(([key, value]) => {
-      filteredParams[key] = value.filter((networkId) => networkId in NetworkId)
-    })
-    return filteredParams
-  } catch (error) {
-    Logger.warn(
-      TAG,
-      `Error getting params for dynamic config: ${StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES}`,
-      error
-    )
-    return defaultValues
-  }
-}
-
-export function getDynamicConfigParams<T extends Record<string, StatsigParameter>>({
+function _getDynamicConfigParams<T extends Record<string, StatsigParameter>>({
   configName,
   defaultValues,
 }: {
-  configName: StatsigDynamicConfigs
+  configName: StatsigDynamicConfigs | StatsigMultiNetworkDynamicConfig
   defaultValues: T
 }): T {
   try {
@@ -114,6 +86,32 @@ export function getDynamicConfigParams<T extends Record<string, StatsigParameter
     Logger.warn(TAG, `Error getting params for dynamic config: ${configName}`, error)
     return defaultValues
   }
+}
+
+export function getMultichainFeatures() {
+  const defaultValues =
+    DynamicConfigs[StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES].defaultValues
+  const multichainParams = _getDynamicConfigParams({
+    configName: StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES,
+    defaultValues,
+  })
+
+  const filteredParams = {} as { [key: string]: NetworkId[] }
+  Object.entries(multichainParams).forEach(([key, value]) => {
+    filteredParams[key] = value.filter((networkId) => networkId in NetworkId)
+  })
+  return filteredParams
+}
+
+// Cannot be used to retrieve dynamic config for multichain features
+export function getDynamicConfigParams<T extends Record<string, StatsigParameter>>({
+  configName,
+  defaultValues,
+}: {
+  configName: StatsigDynamicConfigs
+  defaultValues: T
+}): T {
+  return _getDynamicConfigParams({ configName, defaultValues })
 }
 
 export function getFeatureGate(featureGateName: StatsigFeatureGates) {

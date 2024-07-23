@@ -9,6 +9,7 @@ export enum StatsigDynamicConfigs {
   EARN_STABLECOIN_CONFIG = 'earn_stablecoin_config',
 }
 
+// Separating into different enum from StatsigDynamicConfigs to allow for more strict typing
 export enum StatsigMultiNetworkDynamicConfig {
   MULTI_CHAIN_FEATURES = 'multi_chain_features',
 }
