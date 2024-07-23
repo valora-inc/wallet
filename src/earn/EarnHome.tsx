@@ -254,6 +254,7 @@ export default function EarnHome({ navigation, route }: Props) {
   }, [pools, allTokens, activeTab])
 
   const onPressLearnMore = () => {
+    // TODO (ACT-1260): Add analytics event
     learnMoreBottomSheetRef.current?.snapToIndex(0)
   }
 

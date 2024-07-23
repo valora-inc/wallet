@@ -91,6 +91,7 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
           <View style={styles.buttonContainer}>
             <Button
               onPress={() => {
+                // TODO (ACT-1260): Add analytics event
                 navigate(Screens.EarnCollectScreen, { depositTokenId, poolTokenId })
               }}
               text={t('earnFlow.poolCard.exitPool')}
@@ -101,6 +102,7 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
             />
             <Button
               onPress={() => {
+                // TODO (ACT-1260): Add analytics event
                 navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })
               }}
               text={t('earnFlow.poolCard.addToPool')}
@@ -114,6 +116,7 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
       ) : (
         <Button
           onPress={() => {
+            // TODO (ACT-1260): Add analytics event
             navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })
           }}
           text={t('earnFlow.poolCard.addToPool')}
