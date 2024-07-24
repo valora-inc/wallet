@@ -9,7 +9,7 @@ import { AssetsTokenBalance, FiatExchangeTokenBalance } from 'src/components/Tok
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { createMockStore, getElementText } from 'test/utils'
@@ -98,7 +98,7 @@ const staleTokens = {
   },
 }
 
-jest.mocked(getDynamicConfigParams).mockReturnValue({
+jest.mocked(getMultichainFeatures).mockReturnValue({
   showBalances: [
     NetworkId['ethereum-sepolia'],
     NetworkId['celo-alfajores'],

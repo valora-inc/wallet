@@ -25,7 +25,7 @@ import {
 jest.mock('src/statsig', () => {
   return {
     getFeatureGate: jest.fn(),
-    getDynamicConfigParams: jest.fn(() => ({
+    getMultichainFeatures: jest.fn(() => ({
       showBalances: ['celo-alfajores', 'ethereum-sepolia'],
     })),
   }

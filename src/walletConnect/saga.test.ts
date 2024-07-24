@@ -11,8 +11,8 @@ import { activeDappSelector } from 'src/dapps/selectors'
 import i18n from 'src/i18n'
 import { isBottomSheetVisible, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getDynamicConfigParams } from 'src/statsig'
-import { Network } from 'src/transactions/types'
+import { getMultichainFeatures } from 'src/statsig'
+import { Network, NetworkId } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
 import { prepareTransactions } from 'src/viem/prepareTransactions'
 import {
@@ -122,8 +122,8 @@ function createSession(proposerMetadata: CoreTypes.Metadata): SessionTypes.Struc
 
 beforeEach(() => {
   jest.clearAllMocks()
-  jest.mocked(getDynamicConfigParams).mockReturnValue({
-    showWalletConnect: ['celo-alfajores'],
+  jest.mocked(getMultichainFeatures).mockReturnValue({
+    showWalletConnect: [NetworkId['celo-alfajores']],
   })
 })
 
@@ -285,8 +285,8 @@ describe('showSessionRequest', () => {
   })
 
   it('includes all supported chains for session approval', async () => {
-    jest.mocked(getDynamicConfigParams).mockReturnValue({
-      showWalletConnect: ['celo-alfajores', 'ethereum-sepolia'],
+    jest.mocked(getMultichainFeatures).mockReturnValue({
+      showWalletConnect: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
     })
     const state = createMockStore({}).getState()
     await expectSaga(_showSessionRequest, sessionProposal)

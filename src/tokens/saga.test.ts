@@ -5,7 +5,7 @@ import { dynamic, throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { getDynamicConfigParams } from 'src/statsig'
+import { getMultichainFeatures } from 'src/statsig'
 import {
   fetchImportedTokenBalances,
   fetchTokenBalancesForAddressByTokenId,
@@ -46,7 +46,7 @@ import {
 import { getContract } from 'viem'
 
 jest.mock('src/statsig', () => ({
-  getDynamicConfigParams: jest.fn(),
+  getMultichainFeatures: jest.fn(),
   getFeatureGate: jest.fn(),
 }))
 jest.mock('src/web3/networkConfig', () => {
@@ -165,7 +165,7 @@ describe(fetchTokenBalancesSaga, () => {
 
   it('get token info successfully', async () => {
     const supportedNetworks = [NetworkId['celo-alfajores']]
-    jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
+    jest.mocked(getMultichainFeatures).mockReturnValueOnce({
       showBalances: supportedNetworks,
     })
 
@@ -195,7 +195,7 @@ describe(fetchTokenBalancesSaga, () => {
 
   it("fires an event if there's an error", async () => {
     const supportedNetworks = [NetworkId['celo-alfajores']]
-    jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
+    jest.mocked(getMultichainFeatures).mockReturnValueOnce({
       showBalances: supportedNetworks,
     })
 
@@ -220,7 +220,7 @@ describe(fetchTokenBalancesSaga, () => {
 
   it('includes imported tokens for multiple networks', async () => {
     const supportedNetworks = [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']]
-    jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
+    jest.mocked(getMultichainFeatures).mockReturnValueOnce({
       showBalances: supportedNetworks,
     })
 
@@ -279,7 +279,7 @@ describe(fetchTokenBalancesSaga, () => {
 
 describe(fetchTokenBalancesForAddressByTokenId, () => {
   it('returns token balances for a single chain', async () => {
-    jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
+    jest.mocked(getMultichainFeatures).mockReturnValueOnce({
       showBalances: [NetworkId['celo-alfajores']],
     })
     mockFetch.mockImplementation(async (_, _requestInit) => {
@@ -310,7 +310,7 @@ describe(fetchTokenBalancesForAddressByTokenId, () => {
   })
 
   it('returns token balances for multiple chains', async () => {
-    jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
+    jest.mocked(getMultichainFeatures).mockReturnValueOnce({
       showBalances: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
     })
     mockFetch.mockImplementation(async (_, requestInit) => {
@@ -457,7 +457,9 @@ describe('watchAccountFundedOrLiquidated', () => {
   }
 
   it('dispatches the account funded event if the account is funded', async () => {
-    jest.mocked(getDynamicConfigParams).mockReturnValue({ showBalances: ['celo-alfajores'] })
+    jest
+      .mocked(getMultichainFeatures)
+      .mockReturnValue({ showBalances: [NetworkId['celo-alfajores']] })
     await expectSaga(watchAccountFundedOrLiquidated)
       .provide([
         [
@@ -474,7 +476,9 @@ describe('watchAccountFundedOrLiquidated', () => {
   })
 
   it('dispatches the account liquidated event when the account is liquidated', async () => {
-    jest.mocked(getDynamicConfigParams).mockReturnValue({ showBalances: ['celo-alfajores'] })
+    jest
+      .mocked(getMultichainFeatures)
+      .mockReturnValue({ showBalances: [NetworkId['celo-alfajores']] })
     await expectSaga(watchAccountFundedOrLiquidated)
       .provide([
         [
@@ -491,7 +495,9 @@ describe('watchAccountFundedOrLiquidated', () => {
   })
 
   it('does not dispatch the account funded event for an account restore', async () => {
-    jest.mocked(getDynamicConfigParams).mockReturnValue({ showBalances: ['celo-alfajores'] })
+    jest
+      .mocked(getMultichainFeatures)
+      .mockReturnValue({ showBalances: [NetworkId['celo-alfajores']] })
     await expectSaga(watchAccountFundedOrLiquidated)
       .provide([
         [
@@ -508,9 +514,11 @@ describe('watchAccountFundedOrLiquidated', () => {
 
   it('does not dispatch the account funded event when network ID added', async () => {
     jest
-      .mocked(getDynamicConfigParams)
-      .mockReturnValueOnce({ showBalances: ['celo-alfajores'] })
-      .mockReturnValueOnce({ showBalances: ['celo-alfajores', 'ethereum-sepolia'] })
+      .mocked(getMultichainFeatures)
+      .mockReturnValueOnce({ showBalances: [NetworkId['celo-alfajores']] })
+      .mockReturnValueOnce({
+        showBalances: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
+      })
     await expectSaga(watchAccountFundedOrLiquidated)
       .provide([
         [select(lastKnownTokenBalancesSelector, [NetworkId['celo-alfajores']]), new BigNumber(0)],
@@ -531,9 +539,11 @@ describe('watchAccountFundedOrLiquidated', () => {
 
   it('does not dispatch the account liquidated event when network ID removed', async () => {
     jest
-      .mocked(getDynamicConfigParams)
-      .mockReturnValueOnce({ showBalances: ['celo-alfajores', 'ethereum-sepolia'] })
-      .mockReturnValueOnce({ showBalances: ['celo-alfajores'] })
+      .mocked(getMultichainFeatures)
+      .mockReturnValueOnce({
+        showBalances: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
+      })
+      .mockReturnValueOnce({ showBalances: [NetworkId['celo-alfajores']] })
     await expectSaga(watchAccountFundedOrLiquidated)
       .provide([
         [select(lastKnownTokenBalancesSelector, [NetworkId['celo-alfajores']]), new BigNumber(0)],
@@ -554,9 +564,11 @@ describe('watchAccountFundedOrLiquidated', () => {
 
   it('account funded event dispatched even if network ID removed', async () => {
     jest
-      .mocked(getDynamicConfigParams)
-      .mockReturnValueOnce({ showBalances: ['celo-alfajores', 'ethereum-sepolia'] })
-      .mockReturnValueOnce({ showBalances: ['celo-alfajores'] })
+      .mocked(getMultichainFeatures)
+      .mockReturnValueOnce({
+        showBalances: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
+      })
+      .mockReturnValueOnce({ showBalances: [NetworkId['celo-alfajores']] })
     await expectSaga(watchAccountFundedOrLiquidated)
       .provide([
         [select(lastKnownTokenBalancesSelector, [NetworkId['celo-alfajores']]), new BigNumber(10)],
@@ -578,9 +590,11 @@ describe('watchAccountFundedOrLiquidated', () => {
 
   it('account liquidated event dispatched even if network ID added', async () => {
     jest
-      .mocked(getDynamicConfigParams)
-      .mockReturnValue({ showBalances: ['celo-alfajores', 'ethereum-sepolia'] })
-      .mockReturnValueOnce({ showBalances: ['celo-alfajores'] })
+      .mocked(getMultichainFeatures)
+      .mockReturnValue({
+        showBalances: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
+      })
+      .mockReturnValueOnce({ showBalances: [NetworkId['celo-alfajores']] })
     await expectSaga(watchAccountFundedOrLiquidated)
       .provide([
         [select(lastKnownTokenBalancesSelector, [NetworkId['celo-alfajores']]), new BigNumber(10)],

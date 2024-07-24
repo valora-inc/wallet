@@ -2,9 +2,8 @@ import BigNumber from 'bignumber.js'
 import { TIME_UNTIL_TOKEN_INFO_BECOMES_STALE } from 'src/config'
 import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { useSelector } from 'src/redux/hooks'
-import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
-import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
+import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import {
   cashInTokensByNetworkIdSelector,
   cashOutTokensByNetworkIdSelector,
@@ -83,9 +82,7 @@ export function useTokenPricesAreStale(networkIds: NetworkId[]) {
 }
 
 export function useSwappableTokens() {
-  const networkIdsForSwap = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
-  ).showSwap
+  const networkIdsForSwap = getMultichainFeatures().showSwap
   const shouldShuffleTokens = getFeatureGate(StatsigFeatureGates.SHUFFLE_SWAP_TOKENS_ORDER)
 
   const walletAddress = useSelector(walletAddressSelector)
@@ -112,25 +109,19 @@ export function useSwappableTokens() {
 }
 
 export function useCashInTokens() {
-  const networkIdsForCico = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
-  ).showCico
+  const networkIdsForCico = getMultichainFeatures().showCico
   return useSelector((state) => cashInTokensByNetworkIdSelector(state, networkIdsForCico))
 }
 
 export function useCashOutTokens(showZeroBalanceTokens: boolean = false) {
-  const networkIdsForCico = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
-  ).showCico
+  const networkIdsForCico = getMultichainFeatures().showCico
   return useSelector((state) =>
     cashOutTokensByNetworkIdSelector(state, networkIdsForCico, showZeroBalanceTokens)
   )
 }
 
 export function useSpendTokens() {
-  const networkIdsForCico = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
-  ).showCico
+  const networkIdsForCico = getMultichainFeatures().showCico
   return useSelector((state) => spendTokensByNetworkIdSelector(state, networkIdsForCico))
 }
 
