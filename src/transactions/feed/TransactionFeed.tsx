@@ -8,6 +8,7 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
 import NoActivity from 'src/transactions/NoActivity'
+import CrossChainSwapFeedItem from 'src/transactions/feed/CrossChainSwapFeedItem'
 import EarnFeedItem from 'src/transactions/feed/EarnFeedItem'
 import NftFeedItem from 'src/transactions/feed/NftFeedItem'
 import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
@@ -84,7 +85,7 @@ function TransactionFeed() {
       case 'EarnClaimReward':
         return <EarnFeedItem key={tx.transactionHash} transaction={tx} />
       case 'CrossChainTokenExchange':
-        return null // TODO
+        return <CrossChainSwapFeedItem transaction={tx} />
     }
   }
 

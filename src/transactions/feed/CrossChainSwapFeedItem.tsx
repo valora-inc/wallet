@@ -33,6 +33,7 @@ function CrossChainSwapFeedItem({ transaction }: Props) {
           status={transaction.status}
           transactionType={transaction.__typename}
           networkId={transaction.networkId}
+          hideNetworkIcon
         />
         <View style={styles.contentContainer}>
           <Text style={styles.title} testID={'SwapFeedItem/title'} numberOfLines={1}>
@@ -43,19 +44,18 @@ function CrossChainSwapFeedItem({ transaction }: Props) {
           </Text>
         </View>
         <View style={styles.tokenAmountContainer}>
-          {transaction.status === TransactionStatus.Complete &&
-            transaction.inAmount.value !== null && (
-              <TokenDisplay
-                amount={transaction.inAmount.value}
-                tokenId={transaction.inAmount.tokenId}
-                showLocalAmount={false}
-                showSymbol={true}
-                showExplicitPositiveSign={true}
-                hideSign={false}
-                style={styles.amount}
-                testID={'CrossChainSwapFeedItem/incomingAmount'}
-              />
-            )}
+          {transaction.status === TransactionStatus.Complete && !!transaction.inAmount.value && (
+            <TokenDisplay
+              amount={transaction.inAmount.value}
+              tokenId={transaction.inAmount.tokenId}
+              showLocalAmount={false}
+              showSymbol={true}
+              showExplicitPositiveSign={true}
+              hideSign={false}
+              style={styles.amount}
+              testID={'CrossChainSwapFeedItem/incomingAmount'}
+            />
+          )}
 
           <TokenDisplay
             amount={-transaction.outAmount.value}
