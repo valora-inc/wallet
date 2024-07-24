@@ -99,6 +99,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
       const preparedTransactions = await prepareTransactions({
         feeCurrencies,
         baseTransactions: [reclaimTx],
+        origin: 'jumpstart-claim',
       })
 
       switch (preparedTransactions.type) {

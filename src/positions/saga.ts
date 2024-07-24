@@ -145,7 +145,7 @@ export function* fetchPositionsSaga() {
     const hooksApiUrl = yield* select(hooksApiUrlSelector)
     const positions = yield* call(fetchPositions, hooksApiUrl, address)
     SentryTransactionHub.finishTransaction(SentryTransaction.fetch_positions)
-    yield* put(fetchPositionsSuccess(positions))
+    yield* put(fetchPositionsSuccess({ positions, fetchedAt: Date.now() }))
   } catch (err) {
     const error = ensureError(err)
     yield* put(fetchPositionsFailure(error))

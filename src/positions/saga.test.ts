@@ -99,7 +99,7 @@ describe(fetchPositionsSaga, () => {
         [select(hooksApiUrlSelector), networkConfig.hooksApiUrl],
       ])
       .put(fetchPositionsStart())
-      .put(fetchPositionsSuccess(MOCK_RESPONSE.data))
+      .put(fetchPositionsSuccess({ positions: MOCK_RESPONSE.data, fetchedAt: Date.now() }))
       .run()
   })
 

@@ -37,7 +37,7 @@ export default function useFilterChip(selectingField: Field | null): FilterChip<
       id: 'popular',
       name: t('tokenBottomSheet.filters.popular'),
       filterFn: (token: TokenBalance) => popularTokenIds.includes(token.tokenId),
-      isSelected: selectingField === Field.TO,
+      isSelected: false,
     },
     {
       id: 'recently-swapped',

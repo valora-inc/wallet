@@ -2051,7 +2051,7 @@
     "bannerTitle": "Visualização de hooks ativada, toque para desativar"
   },
   "assets": {
-    "claimRewards": "Reivindicar Recompensas",
+    "claimRewards": "Resgatar recompensas",
     "bridge": "Ponte via {{bridge}}",
     "networkName": "Rede {{networkName}}",
     "tabBar": {

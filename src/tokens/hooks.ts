@@ -127,7 +127,9 @@ export function useSpendTokens() {
 
 export function useTokenInfo(tokenId?: string): TokenBalance | undefined {
   const networkIds = Object.values(networkConfig.networkToNetworkId)
-  const tokens = useSelector((state) => tokensByIdSelector(state, networkIds))
+  const tokens = useSelector((state) =>
+    tokensByIdSelector(state, { networkIds, includePositionTokens: true })
+  )
   return tokenId ? tokens[tokenId] : undefined
 }
 
