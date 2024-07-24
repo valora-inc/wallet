@@ -2018,7 +2018,7 @@
       "selectNetwork": "Мережа",
       "stablecoins": "Стейблкоїнах",
       "gasTokens": "Токени для газу",
-      "tokens": "Token"
+      "tokens": "Токен."
     }
   },
   "homeActions": {
@@ -2577,28 +2577,28 @@
     },
     "home": {
       "title": "Заробляти",
-      "learnMore": "<0>Learn more</0> about yield pools.",
+      "learnMore": "<0>Дізнайтеся більше</0> про пули дохідності.",
       "learnMoreBottomSheet": {
-        "bottomSheetTitle": "Learn more about yield pools",
-        "apySubtitle": "What is an APY?",
-        "apyDescription": "Annual percentage yield (APY) is a metric used to calculate the annualized return on crypto investments. It's a key indicator of a cryptocurrency's potential return and profitability.",
-        "tvlSubtitle": "What is TVL?",
-        "tvlDescription": "TVL stands for Total Value Locked, and it's a metric used in the crypto industry to measure the value of digital assets locked on a blockchain network. TVL is calculated by adding up the value of all digital assets locked in a DeFi protocol or smart contract. These assets can include cryptocurrencies, stablecoins, and other tokens."
+        "bottomSheetTitle": "Дізнайтеся більше про пули дохідності",
+        "apySubtitle": "Що таке APY?",
+        "apyDescription": "Річна відсоткова прибутковість (APY) - це показник, який використовується для розрахунку річної прибутковості криптовалютних інвестицій. Це ключовий показник потенційної прибутковості та прибутковості криптовалюти.",
+        "tvlSubtitle": "Що таке TVL?",
+        "tvlDescription": "TVL розшифровується як Total Value Locked - це метрика, яка використовується в криптоіндустрії для вимірювання вартості цифрових активів, заблокованих у мережі блокчейн. TVL обчислюється шляхом додавання вартості всіх цифрових активів, заблокованих у протоколі DeFi або смарт-контракті. Ці активи можуть включати криптовалюти, стейблкоіни та інші токени."
       }
     },
     "poolCard": {
       "onNetwork": "у мережі {{networkName}}",
       "rate": "Ставка (орієнт.)",
-      "reward": "Reward",
+      "reward": "Винагорода",
       "tvl": "TVL",
       "exitPool": "Вийти з пулу",
-      "addToPool": "Add to Pool",
+      "addToPool": "Додати до пулу",
       "apy": "{{apy}}% APY",
       "poweredBy": "За підтримки {{providerName}}",
-      "deposited": "Supplied"
+      "deposited": "Поставляється"
     },
     "poolFilters": {
-      "openPools": "Open Pools",
+      "openPools": "Відкриті басейни",
       "myPools": "Мої пули"
     }
   },
