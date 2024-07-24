@@ -12,10 +12,10 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import TransactionFeedItemImage from 'src/transactions/feed/TransactionFeedItemImage'
-import { CrossChainTokenExchange, TransactionStatus } from 'src/transactions/types'
+import { TokenExchange, TransactionStatus } from 'src/transactions/types'
 
 interface Props {
-  transaction: CrossChainTokenExchange
+  transaction: TokenExchange
 }
 
 function CrossChainSwapFeedItem({ transaction }: Props) {
