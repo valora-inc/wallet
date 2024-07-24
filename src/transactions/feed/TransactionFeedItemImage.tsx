@@ -17,18 +17,18 @@ const AVATAR_SIZE = 40
 
 type Props = { networkId: NetworkId; status: TransactionStatus } & (
   | {
-      transactionType: 'TokenExchangeV3'
+      transactionType:
+        | 'TokenExchangeV3'
+        | 'TokenApproval'
+        | 'EarnDeposit'
+        | 'EarnWithdraw'
+        | 'EarnClaimReward'
+        | 'CrossChainTokenExchange'
     }
   | {
       transactionType: 'TokenTransferV3'
       recipient: Recipient
       isJumpstart: boolean
-    }
-  | {
-      transactionType: 'TokenApproval'
-    }
-  | {
-      transactionType: 'EarnDeposit' | 'EarnWithdraw' | 'EarnClaimReward'
     }
 )
 
