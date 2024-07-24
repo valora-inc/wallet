@@ -123,7 +123,7 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
                   providerId: PROVIDER_ID,
                   networkId: poolToken.networkId,
                 })
-                navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })
+                navigate(Screens.EarnHome)
               }}
               text={t('earnFlow.activePools.depositMore')}
               type={BtnTypes.PRIMARY}
