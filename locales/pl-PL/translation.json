@@ -2577,28 +2577,28 @@
     },
     "home": {
       "title": "Zarabiaj",
-      "learnMore": "<0>Learn more</0> about yield pools.",
+      "learnMore": "<0>Dowiedz się więcej</0> o pulach zysków.",
       "learnMoreBottomSheet": {
-        "bottomSheetTitle": "Learn more about yield pools",
-        "apySubtitle": "What is an APY?",
-        "apyDescription": "Annual percentage yield (APY) is a metric used to calculate the annualized return on crypto investments. It's a key indicator of a cryptocurrency's potential return and profitability.",
-        "tvlSubtitle": "What is TVL?",
-        "tvlDescription": "TVL stands for Total Value Locked, and it's a metric used in the crypto industry to measure the value of digital assets locked on a blockchain network. TVL is calculated by adding up the value of all digital assets locked in a DeFi protocol or smart contract. These assets can include cryptocurrencies, stablecoins, and other tokens."
+        "bottomSheetTitle": "Dowiedz się więcej o pulach zysków",
+        "apySubtitle": "Co to jest RRSO?",
+        "apyDescription": "Roczna rentowność procentowa (APY) to wskaźnik używany do obliczania rocznego zwrotu z inwestycji w kryptowaluty. Jest to kluczowy wskaźnik potencjalnego zwrotu i rentowności kryptowaluty.",
+        "tvlSubtitle": "Co to jest TVL?",
+        "tvlDescription": "TVL to skrót od Total Value Locked i jest to wskaźnik używany w branży kryptowalut do pomiaru wartości aktywów cyfrowych zablokowanych w sieci blockchain. TVL oblicza się poprzez zsumowanie wartości wszystkich aktywów cyfrowych zablokowanych w protokole DeFi lub inteligentnym kontrakcie. Aktywa te mogą obejmować kryptowaluty, stablecoiny i inne tokeny."
       }
     },
     "poolCard": {
       "onNetwork": "w {{networkName}}",
       "rate": "Stawka (szac.)",
-      "reward": "Reward",
+      "reward": "Nagroda",
       "tvl": "TVL",
       "exitPool": "Wyjdź z puli",
-      "addToPool": "Add to Pool",
+      "addToPool": "Dodaj do puli",
       "apy": "{{apy}}% APY",
       "poweredBy": "Obsługiwane przez {{providerName}}",
-      "deposited": "Supplied"
+      "deposited": "Dostarczone"
     },
     "poolFilters": {
-      "openPools": "Open Pools",
+      "openPools": "Otwarte baseny",
       "myPools": "Moje baseny"
     }
   },
