@@ -43,7 +43,6 @@ export type ConfirmedStandbyTransaction = (
   | Omit<EarnDeposit, 'status'>
   | Omit<EarnWithdraw, 'status'>
   | Omit<EarnClaimReward, 'status'>
-  | Omit<CrossChainTokenExchange, 'status'>
 ) & {
   status: TransactionStatus.Complete | TransactionStatus.Failed
   context: TransactionContext
@@ -58,7 +57,6 @@ export type StandbyTransaction =
   | PendingStandbyTransaction<EarnDeposit>
   | PendingStandbyTransaction<EarnWithdraw>
   | PendingStandbyTransaction<EarnClaimReward>
-  | PendingStandbyTransaction<CrossChainTokenExchange>
   | ConfirmedStandbyTransaction
 
 // Context used for logging the transaction execution flow.
@@ -98,7 +96,6 @@ export enum TransactionStatus {
 export type TokenTransaction =
   | TokenTransfer
   | TokenExchange
-  | CrossChainTokenExchange
   | NftTransfer
   | TokenApproval
   | EarnDeposit
@@ -170,7 +167,7 @@ export interface NftTransfer {
 
 // Can we optional the fields `transactionHash` and `block`?
 export interface TokenExchange {
-  __typename: 'TokenExchangeV3'
+  __typename: 'TokenExchangeV3' | 'CrossChainTokenExchange'
   networkId: NetworkId
   type: TokenTransactionTypeV2
   transactionHash: string
@@ -181,13 +178,6 @@ export interface TokenExchange {
   metadata?: TokenExchangeMetadata
   fees: Fee[]
   status: TransactionStatus
-}
-
-export type CrossChainTokenExchange = Omit<TokenExchange, '__typename' | 'inAmount'> & {
-  __typename: 'CrossChainTokenExchange'
-  inAmount: Omit<TokenAmount, 'value'> & {
-    value: BigNumber.Value | null
-  }
 }
 
 export interface TokenExchangeMetadata {
