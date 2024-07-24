@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     paddingTop: Spacing.Thick24,
     flexDirection: 'row',
-    gap: 8,
+    gap: Spacing.Smallest8,
   },
   button: {
     flexGrow: 1,
