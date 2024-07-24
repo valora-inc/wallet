@@ -17,6 +17,7 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
+
 export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; testID?: string }) {
   const { tokens, networkId, poolTokenId, depositTokenId } = pool
   const { t } = useTranslation()
@@ -201,7 +202,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     paddingTop: Spacing.Thick24,
     flexDirection: 'row',
-    gap: 8,
+    gap: Spacing.Smallest8,
   },
   button: {
     flexGrow: 1,

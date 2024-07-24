@@ -10,9 +10,11 @@ import {
 import { RootState } from 'src/redux/reducers'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
+import { tokensByIdSelector } from 'src/tokens/selectors'
 import { isPresent } from 'src/utils/typescript'
 import networkConfig from 'src/web3/networkConfig'
 import { getPositionBalanceUsd } from './getPositionBalanceUsd'
+import { NetworkId } from 'src/transactions/types'
 
 export const showPositionsSelector = () => getFeatureGate(StatsigFeatureGates.SHOW_POSITIONS)
 export const showClaimShortcutsSelector = () =>
@@ -25,19 +27,29 @@ export const positionsSelector = (state: RootState) =>
 export const positionsStatusSelector = (state: RootState) =>
   showPositionsSelector() ? state.positions.status : 'idle'
 
-export const totalPositionsBalanceUsdSelector = createSelector([positionsSelector], (positions) => {
-  if (positions.length === 0) {
-    return null
-  }
+export const totalPositionsBalanceUsdSelector = createSelector(
+  [positionsSelector, (state: RootState) => tokensByIdSelector(state, Object.values(NetworkId))],
+  (positions, tokensById) => {
+    if (positions.length === 0) {
+      return null
+    }
 
-  let totalBalanceUsd = new BigNumber(0)
-  for (const position of positions) {
-    const balanceUsd = getPositionBalanceUsd(position)
-    totalBalanceUsd = totalBalanceUsd.plus(balanceUsd)
-  }
+    let totalBalanceUsd = new BigNumber(0)
+    for (const position of positions) {
+      if ('tokenId' in position) {
+        const token = tokensById[position.tokenId]
+        // Skip tokens that are already counted as part of the regular token list
+        if (token && !token.isFromPosition) {
+          continue
+        }
+      }
+      const balanceUsd = getPositionBalanceUsd(position)
+      totalBalanceUsd = totalBalanceUsd.plus(balanceUsd)
+    }
 
-  return totalBalanceUsd
-})
+    return totalBalanceUsd
+  }
+)
 
 // Sort positions by USD balance (descending)
 function sortByBalanceUsd(position1: Position, position2: Position) {
@@ -92,7 +104,10 @@ export const positionsWithClaimableRewardsSelector = createSelector(
   (positions, shortcuts, triggeredShortcuts) => {
     const claimablePositions: ClaimablePosition[] = []
     positions.forEach((position) => {
-      const appShortcuts = shortcuts.filter((shortcut) => shortcut.appId === position.appId)
+      const appShortcuts = shortcuts.filter(
+        (shortcut) =>
+          shortcut.appId === position.appId && shortcut.networkIds.includes(position.networkId)
+      )
 
       appShortcuts.forEach((shortcut) => {
         const { availableShortcutIds, tokens, ...rest } = position

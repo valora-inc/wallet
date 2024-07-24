@@ -1,6 +1,9 @@
 import BigNumber from 'bignumber.js'
 import erc20 from 'src/abis/IERC20'
 import stableToken from 'src/abis/StableToken'
+import { TransactionEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { TransactionOrigin } from 'src/analytics/types'
 import { STATIC_GAS_PADDING } from 'src/config'
 import {
   NativeTokenBalance,
@@ -279,6 +282,7 @@ export async function prepareTransactions({
   baseTransactions,
   throwOnSpendTokenAmountExceedsBalance = true,
   isGasSubsidized = false,
+  origin,
 }: {
   feeCurrencies: TokenBalance[]
   spendToken?: TokenBalance
@@ -287,6 +291,7 @@ export async function prepareTransactions({
   baseTransactions: (TransactionRequest & { gas?: bigint })[]
   throwOnSpendTokenAmountExceedsBalance?: boolean
   isGasSubsidized?: boolean
+  origin: TransactionOrigin
 }): Promise<PreparedTransactionsResult> {
   if (!spendToken && spendTokenAmount.isGreaterThan(0)) {
     throw new Error(
@@ -350,6 +355,14 @@ export async function prepareTransactions({
       transactions: estimatedTransactions,
       feeCurrency,
     } satisfies PreparedTransactionsPossible
+  }
+
+  if (feeCurrencies.length > 0) {
+    // there should always be at least one fee currency, the if is just a safeguard
+    ValoraAnalytics.track(TransactionEvents.transaction_prepare_insufficient_gas, {
+      origin,
+      networkId: feeCurrencies[0].networkId,
+    })
   }
 
   // So far not enough balance to pay for gas
@@ -424,6 +437,7 @@ export async function prepareERC20TransferTransaction(
     spendTokenAmount: new BigNumber(amount.toString()),
     decreasedAmountGasFeeMultiplier: 1,
     baseTransactions: [baseSendTx],
+    origin: 'send',
   })
 }
 
@@ -472,6 +486,7 @@ export async function prepareTransferWithCommentTransaction(
     spendTokenAmount: new BigNumber(amount.toString()),
     decreasedAmountGasFeeMultiplier: 1,
     baseTransactions: [baseSendTx],
+    origin: 'send',
   })
 }
 
@@ -513,6 +528,7 @@ export function prepareSendNativeAssetTransaction(
     spendTokenAmount: new BigNumber(amount.toString()),
     decreasedAmountGasFeeMultiplier: 1,
     baseTransactions: [baseSendTx],
+    origin: 'send',
   })
 }
 

@@ -2051,7 +2051,7 @@
     "bannerTitle": "Visualização de hooks ativada, toque para desativar"
   },
   "assets": {
-    "claimRewards": "Reivindicar Recompensas",
+    "claimRewards": "Resgatar recompensas",
     "bridge": "Ponte via {{bridge}}",
     "networkName": "Rede {{networkName}}",
     "tabBar": {
@@ -2423,7 +2423,7 @@
       "depositEarn": {
         "title": "Deposite em um pool de ganhos em {{appName}}",
         "bottomSheet": {
-          "title": "Deposit into an earn pool",
+          "title": "Depósito em um pool de ganhos",
           "body": "Ganhe {{pointsValue}} pontos toda vez que você depositar fundos em um pool de ganhos em {{appName}}. \n\nToque abaixo para que você comece a ganhar rendimento e pontos!",
           "cta": "Ir para ganhar piscinas"
         }

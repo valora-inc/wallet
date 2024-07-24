@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getFeatureGate } from 'src/statsig'
+import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import TabWallet from 'src/tokens/TabWallet'
 import { NetworkId } from 'src/transactions/types'
@@ -21,14 +21,7 @@ import {
   mockShortcuts,
 } from 'test/values'
 
-jest.mock('src/statsig', () => {
-  return {
-    getFeatureGate: jest.fn(),
-    getDynamicConfigParams: jest.fn(() => ({
-      showBalances: ['celo-alfajores'],
-    })),
-  }
-})
+jest.mock('src/statsig')
 
 const storeWithTokenBalances = {
   tokens: {
@@ -103,6 +96,9 @@ describe('TabWallet', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.mocked(getFeatureGate).mockRestore()
+    jest.mocked(getMultichainFeatures).mockReturnValue({
+      showBalances: [NetworkId['celo-alfajores']],
+    })
   })
 
   it('renders tokens and collectibles tabs when positions is disabled', () => {

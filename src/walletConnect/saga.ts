@@ -476,6 +476,7 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
         feeCurrencies,
         decreasedAmountGasFeeMultiplier: 1,
         baseTransactions: [normalizedTx],
+        origin: 'wallet-connect' as const,
       })
     } catch (err) {
       Logger.warn(TAG + '@showActionRequest', 'Failed to prepare transaction', err)

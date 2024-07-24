@@ -3,7 +3,7 @@ import { PincodeType } from 'src/account/reducer'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalyticsModule from 'src/analytics/ValoraAnalytics'
 import { store } from 'src/redux/store'
-import { getDefaultStatsigUser, getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { getDefaultStatsigUser, getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
 import { Statsig } from 'statsig-react-native'
 import { getMockStoreData } from 'test/utils'
@@ -212,9 +212,9 @@ describe('ValoraAnalytics', () => {
     })
     mockStore.getState.mockImplementation(() => state)
     jest.mocked(getFeatureGate).mockReturnValue(true)
-    jest
-      .mocked(getDynamicConfigParams)
-      .mockReturnValue({ showBalances: [NetworkId['celo-alfajores']] })
+    jest.mocked(getMultichainFeatures).mockReturnValue({
+      showBalances: [NetworkId['celo-alfajores']],
+    })
   })
 
   it('creates statsig client on initialization with default statsig user', async () => {

@@ -5,14 +5,14 @@ import { Provider } from 'react-redux'
 import { navigate } from 'src/navigator/NavigationService'
 import ProfileMenu from 'src/navigator/ProfileMenu'
 import { Screens } from 'src/navigator/Screens'
-import { getDynamicConfigParams } from 'src/statsig'
+import { getMultichainFeatures } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn().mockReturnValue(false),
-  getDynamicConfigParams: jest.fn(() => ({
+  getMultichainFeatures: jest.fn(() => ({
     showBalances: ['celo-alfajores'],
   })),
 }))
@@ -110,7 +110,7 @@ describe('ProfileMenu', () => {
     ]
 
     it.each(testCases)('shows $testName correctly', ({ showBalances, expectedText }) => {
-      jest.mocked(getDynamicConfigParams).mockReturnValue({
+      jest.mocked(getMultichainFeatures).mockReturnValue({
         showBalances,
       })
 

@@ -49,6 +49,7 @@ import {
   HooksEnablePreviewOrigin,
   ScrollDirection,
   SendOrigin,
+  TransactionOrigin,
   WalletConnectPairingOrigin,
 } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -707,6 +708,10 @@ interface TransactionEventsProperties {
     error: string
     feeCurrencyAddress?: string
   } & Web3LibraryProps
+  [TransactionEvents.transaction_prepare_insufficient_gas]: {
+    networkId: NetworkId
+    origin: TransactionOrigin
+  }
 }
 
 interface CeloExchangeEventsProperties {

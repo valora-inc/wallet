@@ -11,7 +11,7 @@ import { RootState } from 'src/redux/reducers'
 import { RecursivePartial, createMockStore } from 'test/utils'
 
 jest.mock('src/statsig', () => ({
-  getDynamicConfigParams: jest.fn().mockReturnValue({
+  getMultichainFeatures: jest.fn().mockReturnValue({
     showSwap: ['celo-alfajores'],
   }),
 }))

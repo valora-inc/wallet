@@ -3,13 +3,15 @@ import { LaunchArguments } from 'react-native-launch-arguments'
 import { startOnboardingTimeSelector } from 'src/account/selectors'
 import { multichainBetaStatusSelector } from 'src/app/selectors'
 import { isE2EEnv } from 'src/config'
-import { FeatureGates } from 'src/statsig/constants'
+import { DynamicConfigs, FeatureGates } from 'src/statsig/constants'
 import {
   StatsigDynamicConfigs,
   StatsigExperiments,
   StatsigFeatureGates,
+  StatsigMultiNetworkDynamicConfig,
   StatsigParameter,
 } from 'src/statsig/types'
+import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { EvaluationReason } from 'statsig-js'
@@ -63,11 +65,11 @@ export function getExperimentParams<T extends Record<string, StatsigParameter>>(
   }
 }
 
-export function getDynamicConfigParams<T extends Record<string, StatsigParameter>>({
+function _getDynamicConfigParams<T extends Record<string, StatsigParameter>>({
   configName,
   defaultValues,
 }: {
-  configName: StatsigDynamicConfigs
+  configName: StatsigDynamicConfigs | StatsigMultiNetworkDynamicConfig
   defaultValues: T
 }): T {
   try {
@@ -84,6 +86,28 @@ export function getDynamicConfigParams<T extends Record<string, StatsigParameter
     Logger.warn(TAG, `Error getting params for dynamic config: ${configName}`, error)
     return defaultValues
   }
+}
+
+export function getMultichainFeatures() {
+  const multichainParams = _getDynamicConfigParams(
+    DynamicConfigs[StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES]
+  )
+  const filteredParams = {} as { [key: string]: NetworkId[] }
+  Object.entries(multichainParams).forEach(([key, value]) => {
+    filteredParams[key] = value.filter((networkId) => networkId in NetworkId)
+  })
+  return filteredParams
+}
+
+// Cannot be used to retrieve dynamic config for multichain features
+export function getDynamicConfigParams<T extends Record<string, StatsigParameter>>({
+  configName,
+  defaultValues,
+}: {
+  configName: StatsigDynamicConfigs
+  defaultValues: T
+}): T {
+  return _getDynamicConfigParams({ configName, defaultValues })
 }
 
 export function getFeatureGate(featureGateName: StatsigFeatureGates) {

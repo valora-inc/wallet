@@ -7,14 +7,14 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import EarnAddCryptoBottomSheet from 'src/earn/EarnAddCryptoBottomSheet'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getDynamicConfigParams } from 'src/statsig'
+import { getMultichainFeatures } from 'src/statsig'
 import { StoredTokenBalance, TokenBalance } from 'src/tokens/slice'
 import { TokenActionName } from 'src/tokens/types'
 import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
 
 jest.mock('src/statsig', () => ({
-  getDynamicConfigParams: jest.fn(),
+  getMultichainFeatures: jest.fn(),
   getFeatureGate: jest.fn().mockReturnValue(false),
 }))
 
@@ -68,9 +68,9 @@ const store = createMockStore({
 describe('EarnAddCryptoBottomSheet', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.mocked(getDynamicConfigParams).mockReturnValue({
-      showCico: ['arbitrum-sepolia'],
-      showSwap: ['arbitrum-sepolia'],
+    jest.mocked(getMultichainFeatures).mockReturnValue({
+      showCico: [NetworkId['arbitrum-sepolia']],
+      showSwap: [NetworkId['arbitrum-sepolia']],
     })
   })
   it('Renders all actions', () => {
@@ -119,9 +119,9 @@ describe('EarnAddCryptoBottomSheet', () => {
   })
 
   it('Does not render swap or add when network is not in dynamic config', () => {
-    jest.mocked(getDynamicConfigParams).mockReturnValue({
-      showCico: ['ethereum-sepolia'],
-      showSwap: ['ethereum-sepolia'],
+    jest.mocked(getMultichainFeatures).mockReturnValue({
+      showCico: [NetworkId['ethereum-sepolia']],
+      showSwap: [NetworkId['ethereum-sepolia']],
     })
     const { getByText, queryByText } = render(
       <Provider store={store}>

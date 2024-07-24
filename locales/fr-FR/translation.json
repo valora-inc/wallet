@@ -2423,7 +2423,7 @@
       "depositEarn": {
         "title": "Dépôt dans un pool de gains sur {{appName}}",
         "bottomSheet": {
-          "title": "Deposit into an earn pool",
+          "title": "Dépôt dans une réserve d'argent",
           "body": "Gagne {{pointsValue}} points chaque fois que tu déposes des fonds dans un pool de gains sur {{appName}}. \n\nTape ci-dessous pour commencer à gagner du rendement et des points !",
           "cta": "Va gagner des piscines"
         }

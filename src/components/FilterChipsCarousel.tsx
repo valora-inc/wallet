@@ -75,7 +75,7 @@ function FilterChipsCarousel<T>({
       style={[styles.container, style]}
       contentContainerStyle={[
         styles.contentContainer,
-        { width: scrollEnabled ? 'auto' : '100%' },
+        { flexWrap: scrollEnabled ? 'nowrap' : 'wrap', width: scrollEnabled ? 'auto' : '100%' },
         contentContainerStyle,
       ]}
       ref={forwardedRef}

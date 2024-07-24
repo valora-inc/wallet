@@ -5,6 +5,7 @@ import {
   positionsWithClaimableRewardsSelector,
   totalPositionsBalanceUsdSelector,
 } from 'src/positions/selectors'
+import { AppTokenPosition } from 'src/positions/types'
 import { getFeatureGate } from 'src/statsig'
 import { mockPositions, mockShortcuts } from 'test/values'
 
@@ -21,15 +22,44 @@ describe('totalPositionsBalanceUsdSelector', () => {
       positions: {
         positions: mockPositions,
       },
+      tokens: {
+        tokenBalances: {},
+      },
     }
     const total = totalPositionsBalanceUsdSelector(state)
     expect(total).toEqual(new BigNumber('7.9108727285271958646826057721455'))
+  })
+
+  it('returns the total balance ignoring tokens which are already counted as part of the regular token list', () => {
+    const appTokenPosition = mockPositions[0] as AppTokenPosition
+    const { tokens, ...appToken } = appTokenPosition
+    const state: any = {
+      positions: {
+        positions: mockPositions,
+      },
+      tokens: {
+        tokenBalances: {
+          [appToken.tokenId]: appToken, // the total will not include this token
+        },
+      },
+    }
+    const total = totalPositionsBalanceUsdSelector(state)
+    expect(total).toEqual(new BigNumber('5.4009987350492668528429330911456'))
+    const totalNoRegularTokens = totalPositionsBalanceUsdSelector({
+      ...state,
+      tokens: { tokenBalances: {} },
+    })
+    // This checks the difference is the balance of the app token
+    expect(totalNoRegularTokens).toEqual(total?.plus(getPositionBalanceUsd(appTokenPosition)))
   })
 
   it('returns null if there are no positions', () => {
     const state: any = {
       positions: {
         positions: [],
+      },
+      tokens: {
+        tokenBalances: {},
       },
     }
     const total = totalPositionsBalanceUsdSelector(state)
@@ -41,6 +71,9 @@ describe('totalPositionsBalanceUsdSelector', () => {
     const state: any = {
       positions: {
         positions: [],
+      },
+      tokens: {
+        tokenBalances: {},
       },
     }
     const total = totalPositionsBalanceUsdSelector(state)
@@ -118,6 +151,7 @@ describe('positionsWithClaimableRewardsSelector', () => {
               "networkId": "celo-mainnet",
               "priceUsd": "0.00904673476946796903",
               "symbol": "UBE",
+              "tokenId": "celo-mainnet:0x00be915b9dcf56a3cbe739d9b9c202ca692409ec",
               "type": "base-token",
             },
             {
@@ -128,6 +162,7 @@ describe('positionsWithClaimableRewardsSelector', () => {
               "networkId": "celo-mainnet",
               "priceUsd": "0.6959536890241361",
               "symbol": "CELO",
+              "tokenId": "celo-mainnet:0x471ece3750da237f93b8e339c536989b8978a438",
               "type": "base-token",
             },
           ],

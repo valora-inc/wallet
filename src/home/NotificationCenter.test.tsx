@@ -277,51 +277,6 @@ describe('NotificationCenter', () => {
     })
   })
 
-  describe('reverify using CPV', () => {
-    it('renders reverify notification if decentrally verified and not CPV', () => {
-      const store = createMockStore({
-        app: {
-          numberVerified: true,
-          phoneNumberVerified: false,
-        },
-      })
-      const { getByText } = render(
-        <Provider store={store}>
-          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
-        </Provider>
-      )
-
-      expect(getByText('reverifyUsingCPVHomecard.description')).toBeTruthy()
-
-      fireEvent.press(getByText('reverifyUsingCPVHomecard.buttonLabel'))
-      expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen, { hasOnboarded: true })
-    })
-
-    it('emits correct analytics event when CTA button is pressed', () => {
-      const store = createMockStore({
-        ...storeDataNotificationsDisabled,
-        app: {
-          numberVerified: true,
-          phoneNumberVerified: false,
-        },
-      })
-      const { getByText } = render(
-        <Provider store={store}>
-          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
-        </Provider>
-      )
-
-      fireEvent.press(getByText('reverifyUsingCPVHomecard.buttonLabel'))
-
-      expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationType.reverify_using_CPV,
-        selectedAction: NotificationBannerCTATypes.accept,
-        notificationId: NotificationType.reverify_using_CPV,
-        notificationPositionInList: 0,
-      })
-    })
-  })
-
   describe('education', () => {
     it('renders educations when not complete yet', () => {
       const store = createMockStore({
