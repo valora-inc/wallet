@@ -2014,7 +2014,7 @@
       "selectNetwork": "Ağ",
       "stablecoins": "Stabilcoinler",
       "gasTokens": "Tokenler",
-      "tokens": "Token"
+      "tokens": "Jeton"
     }
   },
   "homeActions": {
@@ -2573,28 +2573,28 @@
     },
     "home": {
       "title": "Kazan",
-      "learnMore": "<0>Learn more</0> about yield pools.",
+      "learnMore": "Getiri havuzları hakkında <0>daha fazla</0> bilgi edinin.",
       "learnMoreBottomSheet": {
-        "bottomSheetTitle": "Learn more about yield pools",
-        "apySubtitle": "What is an APY?",
-        "apyDescription": "Annual percentage yield (APY) is a metric used to calculate the annualized return on crypto investments. It's a key indicator of a cryptocurrency's potential return and profitability.",
-        "tvlSubtitle": "What is TVL?",
-        "tvlDescription": "TVL stands for Total Value Locked, and it's a metric used in the crypto industry to measure the value of digital assets locked on a blockchain network. TVL is calculated by adding up the value of all digital assets locked in a DeFi protocol or smart contract. These assets can include cryptocurrencies, stablecoins, and other tokens."
+        "bottomSheetTitle": "Getiri havuzları hakkında daha fazla bilgi edinin",
+        "apySubtitle": "APY nedir?",
+        "apyDescription": "Yıllık yüzde getiri (APY), kripto yatırımlarının yıllık getirisini hesaplamak için kullanılan bir metriktir. Bir kripto paranın potansiyel getirisi ve karlılığının önemli bir göstergesidir.",
+        "tvlSubtitle": "TVL nedir?",
+        "tvlDescription": "TVL, Total Value Locked (Kilitli Toplam Değer) anlamına gelir ve kripto sektöründe bir blockchain ağında kilitli dijital varlıkların değerini ölçmek için kullanılan bir metriktir. TVL, bir DeFi protokolünde ya da akıllı kontratta kilitli olan tüm dijital varlıkların değerinin toplanmasıyla hesaplanır. Bu varlıklar arasında kripto paralar, sabit coinler ve diğer tokenlar yer alabilir."
       }
     },
     "poolCard": {
       "onNetwork": "{{networkName}} üzerinde",
       "rate": "Oran (tahmini)",
-      "reward": "Reward",
+      "reward": "Ödül",
       "tvl": "TVL",
       "exitPool": "Havuzdan Çık",
-      "addToPool": "Add to Pool",
+      "addToPool": "Havuza Ekle",
       "apy": "%{{apy}} Yıllık Getiri Oranı (APY)",
       "poweredBy": "{{providerName}} tarafından desteklenmektedir",
-      "deposited": "Supplied"
+      "deposited": "Tedarik Edildi"
     },
     "poolFilters": {
-      "openPools": "Open Pools",
+      "openPools": "Açık Havuzlar",
       "myPools": "Havuzlarım"
     }
   },
