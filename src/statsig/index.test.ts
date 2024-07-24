@@ -19,7 +19,7 @@ import {
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { EvaluationReason } from 'statsig-js'
-import { Statsig } from 'statsig-react-native'
+import { DynamicConfig, Statsig } from 'statsig-react-native'
 import { getMockStoreData } from 'test/utils'
 
 jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))
@@ -132,7 +132,7 @@ describe('Statsig helpers', () => {
 
   describe('getMultichainFeatures', () => {
     it('returns default values if getting statsig dynamic config throws error', () => {
-      ;(Statsig.getConfig as jest.Mock).mockImplementation(() => {
+      jest.mocked(Statsig.getConfig).mockImplementation(() => {
         throw new Error('mock error')
       })
       const defaultValues =
@@ -157,10 +157,13 @@ describe('Statsig helpers', () => {
               .defaultValues[paramName]
           }
         })
-      ;(Statsig.getConfig as jest.Mock).mockImplementation(() => ({
-        get: getMock,
-        getEvaluationDetails: () => ({ reason: EvaluationReason.Network }),
-      }))
+      jest.mocked(Statsig.getConfig).mockImplementation(
+        () =>
+          ({
+            get: getMock,
+            getEvaluationDetails: () => ({ reason: EvaluationReason.Network }),
+          }) as unknown as DynamicConfig
+      )
       const output = getMultichainFeatures()
       expect(Logger.warn).not.toHaveBeenCalled()
       expect(output).toEqual({
@@ -188,10 +191,13 @@ describe('Statsig helpers', () => {
               .defaultValues[paramName]
           }
         })
-      ;(Statsig.getConfig as jest.Mock).mockImplementation(() => ({
-        get: getMock,
-        getEvaluationDetails: () => ({ reason: EvaluationReason.Network }),
-      }))
+      jest.mocked(Statsig.getConfig).mockImplementation(
+        () =>
+          ({
+            get: getMock,
+            getEvaluationDetails: () => ({ reason: EvaluationReason.Network }),
+          }) as unknown as DynamicConfig
+      )
       const output = getMultichainFeatures()
       expect(Logger.warn).not.toHaveBeenCalled()
       expect(output).toEqual({

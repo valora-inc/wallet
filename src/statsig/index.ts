@@ -89,13 +89,9 @@ function _getDynamicConfigParams<T extends Record<string, StatsigParameter>>({
 }
 
 export function getMultichainFeatures() {
-  const defaultValues =
-    DynamicConfigs[StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES].defaultValues
-  const multichainParams = _getDynamicConfigParams({
-    configName: StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES,
-    defaultValues,
-  })
-
+  const multichainParams = _getDynamicConfigParams(
+    DynamicConfigs[StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES]
+  )
   const filteredParams = {} as { [key: string]: NetworkId[] }
   Object.entries(multichainParams).forEach(([key, value]) => {
     filteredParams[key] = value.filter((networkId) => networkId in NetworkId)
