@@ -1,7 +1,6 @@
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { InviteTransactions } from 'src/transactions/reducer'
 import {
-  CrossChainTokenExchange,
   EarnClaimReward,
   EarnDeposit,
   EarnWithdraw,
@@ -37,7 +36,6 @@ export type BaseStandbyTransaction =
   | BaseStandbyTransactionType<EarnDeposit>
   | BaseStandbyTransactionType<EarnWithdraw>
   | BaseStandbyTransactionType<EarnClaimReward>
-  | BaseStandbyTransactionType<CrossChainTokenExchange>
 
 export interface AddStandbyTransactionAction {
   type: Actions.ADD_STANDBY_TRANSACTION
