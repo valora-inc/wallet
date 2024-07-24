@@ -41,6 +41,7 @@ import { patchUpdateStatsigUser } from 'src/statsig'
 import { restartApp } from 'src/utils/AppRestart'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
+import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
 import { clearStoredAccounts } from 'src/web3/KeychainLock'
 import { getContractKit, getWallet } from 'src/web3/contracts'
@@ -116,13 +117,17 @@ function* handlePreviouslyVerifiedPhoneNumber() {
       clientVersion: DeviceInfo.getVersion(),
     }).toString()
 
-    const response = yield* call(fetch, `${networkConfig.lookupAddressUrl}?${queryParams}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: `Valora ${address}:${signedMessage}`,
-      },
-    })
+    const response = yield* call(
+      fetchWithTimeout,
+      `${networkConfig.lookupAddressUrl}?${queryParams}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Valora ${address}:${signedMessage}`,
+        },
+      }
+    )
 
     const result = yield* call([response, 'json'])
     if (response.ok && result.data?.phoneNumbers) {
