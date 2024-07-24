@@ -2014,7 +2014,7 @@
       "selectNetwork": "Red",
       "stablecoins": "Stablecoins",
       "gasTokens": "Tokens de gas",
-      "tokens": "Token"
+      "tokens": "Ficha"
     }
   },
   "homeActions": {
@@ -2573,28 +2573,28 @@
     },
     "home": {
       "title": "Gana",
-      "learnMore": "<0>Learn more</0> about yield pools.",
+      "learnMore": "<0>Más</0> información sobre los fondos de rendimiento.",
       "learnMoreBottomSheet": {
-        "bottomSheetTitle": "Learn more about yield pools",
-        "apySubtitle": "What is an APY?",
-        "apyDescription": "Annual percentage yield (APY) is a metric used to calculate the annualized return on crypto investments. It's a key indicator of a cryptocurrency's potential return and profitability.",
-        "tvlSubtitle": "What is TVL?",
-        "tvlDescription": "TVL stands for Total Value Locked, and it's a metric used in the crypto industry to measure the value of digital assets locked on a blockchain network. TVL is calculated by adding up the value of all digital assets locked in a DeFi protocol or smart contract. These assets can include cryptocurrencies, stablecoins, and other tokens."
+        "bottomSheetTitle": "Más información sobre las agrupaciones de rendimiento",
+        "apySubtitle": "¿Qué es un APY?",
+        "apyDescription": "El rendimiento porcentual anual (APY) es una métrica utilizada para calcular el rendimiento anualizado de las criptoinversiones. Es un indicador clave del rendimiento y la rentabilidad potenciales de una criptomoneda.",
+        "tvlSubtitle": "¿Qué es la TVL?",
+        "tvlDescription": "TVL significa Valor Total Bloqueado, y es una métrica utilizada en la industria de las criptomonedas para medir el valor de los activos digitales bloqueados en una red blockchain. El TVL se calcula sumando el valor de todos los activos digitales bloqueados en un protocolo DeFi o contrato inteligente. Estos activos pueden incluir criptomonedas, stablecoins y otros tokens."
       }
     },
     "poolCard": {
       "onNetwork": "en {{networkName}}",
       "rate": "Tasa (est.)",
-      "reward": "Reward",
+      "reward": "Recompensa",
       "tvl": "TVL",
-      "exitPool": "Exit Pool",
-      "addToPool": "Add to Pool",
-      "apy": "{{apy}}% APY",
-      "poweredBy": "Powered by {{providerName}}",
-      "deposited": "Supplied"
+      "exitPool": "Retirar",
+      "addToPool": "Añadir a la piscina",
+      "apy": "APY {{apy}}%",
+      "poweredBy": "Con tecnología de {{providerName}}",
+      "deposited": "Suministrado"
     },
     "poolFilters": {
-      "openPools": "Open Pools",
+      "openPools": "Piscinas abiertas",
       "myPools": "Mis piscinas"
     }
   },
