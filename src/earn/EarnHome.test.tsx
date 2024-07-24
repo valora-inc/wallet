@@ -41,6 +41,48 @@ const mockPools: Pool[] = [
   },
 ]
 
+const mockPoolTokenUSDC = {
+  name: 'Aave Arbitrum USDC',
+  networkId: NetworkId['arbitrum-sepolia'],
+  tokenId: mockPools[0].poolTokenId,
+  address: '0x724dc807b04555b71ed48a6896b6f41593b8c637',
+  symbol: 'aArbUSDCn',
+  decimals: 18,
+  imageUrl:
+    'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ARB.png',
+  balance: '0',
+  priceUsd: '1.2',
+  priceFetchedAt: Date.now(),
+}
+
+const mockPoolTokenWETH = {
+  name: 'Aave Arbitrum WETH',
+  networkId: NetworkId['arbitrum-sepolia'],
+  tokenId: mockPools[1].poolTokenId,
+  address: '0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8',
+  symbol: 'aArbWETH',
+  decimals: 18,
+  imageUrl:
+    'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+  balance: '0',
+  priceUsd: '250',
+  priceFetchedAt: Date.now(),
+}
+
+const mockPoolTokenEthWETH = {
+  name: 'Aave Ethereum WETH',
+  networkId: NetworkId['ethereum-sepolia'],
+  tokenId: `${NetworkId['ethereum-sepolia']}:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8`,
+  address: '0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8',
+  symbol: 'aEthWETH',
+  decimals: 18,
+  imageUrl:
+    'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+  balance: '0',
+  priceUsd: '250',
+  priceFetchedAt: Date.now(),
+}
+
 jest.mock('src/earn/pools')
 
 describe('EarnHome', () => {
@@ -49,19 +91,7 @@ describe('EarnHome', () => {
   })
   it('renders open pools correctly', () => {
     jest.mocked(getPools).mockReturnValue(mockPools)
-    const mockPoolToken = {
-      name: 'Aave Arbitrum USDC',
-      networkId: NetworkId['arbitrum-sepolia'],
-      tokenId: mockPools[0].poolTokenId,
-      address: '0x724dc807b04555b71ed48a6896b6f41593b8c637',
-      symbol: 'aArbUSDCn',
-      decimals: 18,
-      imageUrl:
-        'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ARB.png',
-      balance: '0',
-      priceUsd: '1.2',
-      priceFetchedAt: Date.now(),
-    }
+    const mockPoolToken = mockPoolTokenUSDC
     const { getByTestId, getAllByTestId } = render(
       <Provider
         store={createMockStore({
@@ -69,6 +99,7 @@ describe('EarnHome', () => {
             tokenBalances: {
               ...mockTokenBalances,
               [mockPools[0].poolTokenId]: mockPoolToken,
+              [mockPools[1].poolTokenId]: mockPoolTokenWETH,
             },
           },
         })}
@@ -83,6 +114,7 @@ describe('EarnHome', () => {
     )
 
     expect(getByTestId(`PoolCard/${mockPools[0].poolId}`)).toBeTruthy()
+    expect(getByTestId(`PoolCard/${mockPools[1].poolId}`)).toBeTruthy()
 
     const tabItems = getAllByTestId('Earn/TabBarItem')
     expect(tabItems).toHaveLength(2)
@@ -93,17 +125,8 @@ describe('EarnHome', () => {
   it('correctly shows pool under my pools if has balance', () => {
     jest.mocked(getPools).mockReturnValue(mockPools)
     const mockPoolToken = {
-      name: 'Aave Arbitrum USDC',
-      networkId: NetworkId['arbitrum-sepolia'],
-      tokenId: mockPools[0].poolTokenId,
-      address: '0x724dc807b04555b71ed48a6896b6f41593b8c637',
-      symbol: 'aArbUSDCn',
-      decimals: 18,
-      imageUrl:
-        'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ARB.png',
+      ...mockPoolTokenUSDC,
       balance: '10',
-      priceUsd: '1.2',
-      priceFetchedAt: Date.now(),
     }
     const { getByTestId, queryByTestId, getByText } = render(
       <Provider
@@ -112,6 +135,7 @@ describe('EarnHome', () => {
             tokenBalances: {
               ...mockTokenBalances,
               [mockPools[0].poolTokenId]: mockPoolToken,
+              [mockPools[1].poolTokenId]: mockPoolTokenWETH,
             },
           },
         })}
@@ -132,19 +156,7 @@ describe('EarnHome', () => {
 
   it('correctly shows correct networks, tokens under filters', () => {
     jest.mocked(getPools).mockReturnValue(mockPools)
-    const mockPoolToken = {
-      name: 'Aave Arbitrum USDC',
-      networkId: NetworkId['arbitrum-sepolia'],
-      tokenId: mockPools[0].poolTokenId,
-      address: '0x724dc807b04555b71ed48a6896b6f41593b8c637',
-      symbol: 'aArbUSDCn',
-      decimals: 18,
-      imageUrl:
-        'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ARB.png',
-      balance: '0',
-      priceUsd: '1.2',
-      priceFetchedAt: Date.now(),
-    }
+    const mockPoolToken = mockPoolTokenUSDC
     const { getByTestId, getAllByTestId, getByText } = render(
       <Provider
         store={createMockStore({
@@ -152,6 +164,7 @@ describe('EarnHome', () => {
             tokenBalances: {
               ...mockTokenBalances,
               [mockPools[0].poolTokenId]: mockPoolToken,
+              [mockPools[1].poolTokenId]: mockPoolTokenWETH,
             },
           },
         })}
@@ -174,32 +187,6 @@ describe('EarnHome', () => {
 
   it('shows correct pool when filtering by token', () => {
     jest.mocked(getPools).mockReturnValue(mockPools)
-    const mockPoolTokenUSDC = {
-      name: 'Aave Arbitrum USDC',
-      networkId: NetworkId['arbitrum-sepolia'],
-      tokenId: mockPools[0].poolTokenId,
-      address: '0x724dc807b04555b71ed48a6896b6f41593b8c637',
-      symbol: 'aArbUSDCn',
-      decimals: 18,
-      imageUrl:
-        'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ARB.png',
-      balance: '0',
-      priceUsd: '1.2',
-      priceFetchedAt: Date.now(),
-    }
-    const mockPoolTokenWETH = {
-      name: 'Aave Arbitrum WETH',
-      networkId: NetworkId['arbitrum-sepolia'],
-      tokenId: mockPools[1].poolTokenId,
-      address: '0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8',
-      symbol: 'aArbWETH',
-      decimals: 18,
-      imageUrl:
-        'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
-      balance: '0',
-      priceUsd: '250',
-      priceFetchedAt: Date.now(),
-    }
     const { getByTestId, getByText, queryByTestId } = render(
       <Provider
         store={createMockStore({
@@ -248,32 +235,6 @@ describe('EarnHome', () => {
       },
     ]
     jest.mocked(getPools).mockReturnValue(mockPoolsForNetworkFilter)
-    const mockPoolTokenUSDC = {
-      name: 'Aave Arbitrum USDC',
-      networkId: NetworkId['arbitrum-sepolia'],
-      tokenId: mockPools[0].poolTokenId,
-      address: '0x724dc807b04555b71ed48a6896b6f41593b8c637',
-      symbol: 'aArbUSDCn',
-      decimals: 18,
-      imageUrl:
-        'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ARB.png',
-      balance: '0',
-      priceUsd: '1.2',
-      priceFetchedAt: Date.now(),
-    }
-    const mockPoolTokenWETH = {
-      name: 'Aave Ethereum WETH',
-      networkId: NetworkId['ethereum-sepolia'],
-      tokenId: `${NetworkId['ethereum-sepolia']}:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8`,
-      address: '0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8',
-      symbol: 'aEthWETH',
-      decimals: 18,
-      imageUrl:
-        'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
-      balance: '0',
-      priceUsd: '250',
-      priceFetchedAt: Date.now(),
-    }
     const { getByTestId, getByText, queryByTestId } = render(
       <Provider
         store={createMockStore({
@@ -281,7 +242,7 @@ describe('EarnHome', () => {
             tokenBalances: {
               ...mockTokenBalances,
               [mockPoolsForNetworkFilter[0].poolTokenId]: mockPoolTokenUSDC,
-              [mockPoolsForNetworkFilter[1].poolTokenId]: mockPoolTokenWETH,
+              [mockPoolsForNetworkFilter[1].poolTokenId]: mockPoolTokenEthWETH,
             },
           },
         })}
