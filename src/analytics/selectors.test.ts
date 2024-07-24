@@ -241,6 +241,13 @@ const mockState = {
         displayProps: {
           title: 'Title A',
         },
+        tokens: [
+          {
+            tokenId: 'celo-alfajores:0xa',
+            balance: '1',
+            priceUsd: '10',
+          },
+        ],
         balanceUsd: '10',
       },
       {
@@ -251,6 +258,13 @@ const mockState = {
         displayProps: {
           title: 'Title B',
         },
+        tokens: [
+          {
+            tokenId: 'celo-alfajores:0xb',
+            balance: '1',
+            priceUsd: '1.11',
+          },
+        ],
         balanceUsd: '1.11',
       },
       {
@@ -261,6 +275,13 @@ const mockState = {
         displayProps: {
           title: 'Title C',
         },
+        tokens: [
+          {
+            tokenId: 'celo-alfajores:0xc',
+            balance: '1',
+            priceUsd: '2.22',
+          },
+        ],
         balanceUsd: '2.22',
       },
       {
@@ -271,6 +292,13 @@ const mockState = {
         displayProps: {
           title: 'Title D which is really long and should be truncated',
         },
+        tokens: [
+          {
+            tokenId: 'celo-alfajores:0xd',
+            balance: '1',
+            priceUsd: '0.01234',
+          },
+        ],
         balanceUsd: '0.01234',
       },
       {
@@ -281,6 +309,13 @@ const mockState = {
         displayProps: {
           title: 'Title E',
         },
+        tokens: [
+          {
+            tokenId: 'celo-alfajores:0xe',
+            balance: '10',
+            priceUsd: '7',
+          },
+        ],
         balanceUsd: '70',
       },
     ],

@@ -3,8 +3,14 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import FiatExchangeCurrencyBottomSheet from 'src/fiatExchanges/FiatExchangeCurrencyBottomSheet'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
-import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
-import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
+import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import {
+  StatsigDynamicConfigs,
+  StatsigFeatureGates,
+  StatsigMultiNetworkDynamicConfig,
+} from 'src/statsig/types'
+import { NetworkId } from 'src/transactions/types'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import {
@@ -47,13 +53,12 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.mocked(getFeatureGate).mockReturnValue(false)
+    jest.mocked(getMultichainFeatures).mockReturnValue({
+      ...DynamicConfigs[StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES].defaultValues,
+      showCico: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
+    })
     jest.mocked(getDynamicConfigParams).mockImplementation(({ configName, defaultValues }) => {
       switch (configName) {
-        case StatsigDynamicConfigs.MULTI_CHAIN_FEATURES:
-          return {
-            ...defaultValues,
-            showCico: ['celo-alfajores', 'ethereum-sepolia'],
-          }
         case StatsigDynamicConfigs.CICO_TOKEN_INFO:
           return {
             tokenInfo: {
@@ -118,11 +123,6 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
   it('shows the correct order when cicoOrder missing/same value', () => {
     jest.mocked(getDynamicConfigParams).mockImplementation(({ configName, defaultValues }) => {
       switch (configName) {
-        case StatsigDynamicConfigs.MULTI_CHAIN_FEATURES:
-          return {
-            ...defaultValues,
-            showCico: ['celo-alfajores', 'ethereum-sepolia'],
-          }
         case StatsigDynamicConfigs.CICO_TOKEN_INFO:
           return {
             tokenInfo: {

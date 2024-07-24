@@ -14,7 +14,7 @@ import {
   importedTokensSelector,
   lastKnownTokenBalancesSelector,
   networksIconSelector,
-  tokensListSelector,
+  tokensByIdSelector,
   tokensListWithAddressSelector,
 } from 'src/tokens/selectors'
 import {
@@ -276,9 +276,10 @@ export function* getTokenInfoByAddress(tokenAddress: string) {
 
 export function* getTokenInfo(tokenId: string) {
   const networkIds = Object.values(networkConfig.networkToNetworkId)
-  const tokens: TokenBalance[] = yield* select((state) => tokensListSelector(state, networkIds))
-  const tokenInfo = tokens.find((token) => token.tokenId === tokenId)
-  return tokenInfo
+  const tokens = yield* select((state) =>
+    tokensByIdSelector(state, { networkIds, includePositionTokens: true })
+  )
+  return tokens[tokenId]
 }
 
 export function* watchFetchBalance() {

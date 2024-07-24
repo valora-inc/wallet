@@ -38,7 +38,7 @@ describe('PoolCard', () => {
     expect(getByText('$1,360,000')).toBeTruthy()
   })
 
-  it('navigates to enter amount', () => {
+  it('navigates to enter amount when no pool balance', () => {
     const { getByText } = render(
       <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
         <PoolCard
@@ -61,5 +61,101 @@ describe('PoolCard', () => {
     expect(getByText('earnFlow.poolCard.addToPool')).toBeTruthy()
     fireEvent.press(getByText('earnFlow.poolCard.addToPool'))
     expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, { tokenId: mockArbUsdcTokenId })
+  })
+  
+  it('navigates to enter amount when have pool balance', () => {
+    const { getByText } = render(
+      <Provider
+        store={createMockStore({
+          tokens: {
+            tokenBalances: {
+              ...mockTokenBalances,
+              [mockArbEthTokenId]: {
+                name: 'Ethereum',
+                networkId: NetworkId['arbitrum-sepolia'],
+                tokenId: mockArbEthTokenId,
+                address: null,
+                symbol: 'ETH',
+                decimals: 18,
+                imageUrl:
+                  'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+                balance: '10',
+                priceUsd: '1500',
+                isNative: true,
+                priceFetchedAt: Date.now(),
+              },
+            },
+          },
+        })}
+      >
+        <PoolCard
+          pool={{
+            poolId: 'pool1',
+            networkId: NetworkId['arbitrum-sepolia'],
+            tokens: [mockArbUsdcTokenId, mockArbEthTokenId],
+            depositTokenId: mockArbUsdcTokenId,
+            poolTokenId: mockArbEthTokenId,
+            provider: 'Test',
+            apy: 0.033,
+            reward: 0,
+            tvl: 1360000,
+            poolAddress: '0xvault',
+          }}
+        />
+      </Provider>
+    )
+
+    expect(getByText('earnFlow.poolCard.addToPool')).toBeTruthy()
+    fireEvent.press(getByText('earnFlow.poolCard.addToPool'))
+    expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, { tokenId: mockArbUsdcTokenId })
+  })
+  it('navigates to collect screen', () => {
+    const { getByText } = render(
+      <Provider
+        store={createMockStore({
+          tokens: {
+            tokenBalances: {
+              ...mockTokenBalances,
+              [mockArbEthTokenId]: {
+                name: 'Ethereum',
+                networkId: NetworkId['arbitrum-sepolia'],
+                tokenId: mockArbEthTokenId,
+                address: null,
+                symbol: 'ETH',
+                decimals: 18,
+                imageUrl:
+                  'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+                balance: '10',
+                priceUsd: '1500',
+                isNative: true,
+                priceFetchedAt: Date.now(),
+              },
+            },
+          },
+        })}
+      >
+        <PoolCard
+          pool={{
+            poolId: 'pool1',
+            networkId: NetworkId['arbitrum-sepolia'],
+            tokens: [mockArbUsdcTokenId, mockArbEthTokenId],
+            depositTokenId: mockArbUsdcTokenId,
+            poolTokenId: mockArbEthTokenId,
+            provider: 'Test',
+            apy: 0.033,
+            reward: 0,
+            tvl: 1360000,
+            poolAddress: '0xvault',
+          }}
+        />
+      </Provider>
+    )
+
+    expect(getByText('earnFlow.poolCard.exitPool')).toBeTruthy()
+    fireEvent.press(getByText('earnFlow.poolCard.exitPool'))
+    expect(navigate).toHaveBeenCalledWith(Screens.EarnCollectScreen, {
+      depositTokenId: mockArbUsdcTokenId,
+      poolTokenId: mockArbEthTokenId,
+    })
   })
 })
