@@ -2013,7 +2013,8 @@
       "network": "Rede {{networkName}}",
       "selectNetwork": "Rede",
       "stablecoins": "Stablecoins",
-      "gasTokens": "Tokens de gás"
+      "gasTokens": "Tokens de gás",
+      "tokens": "Token"
     }
   },
   "homeActions": {
@@ -2569,6 +2570,32 @@
       "earnWithdrawTitle": "Sacado",
       "earnWithdrawSubtitle": "{{tokenSymbol}} sacado do pool da {{providerName}}",
       "earnWithdrawDetails": "Quantia retirada"
+    },
+    "home": {
+      "title": "Ganhe",
+      "learnMore": "<0>Learn more</0> about yield pools.",
+      "learnMoreBottomSheet": {
+        "bottomSheetTitle": "Learn more about yield pools",
+        "apySubtitle": "What is an APY?",
+        "apyDescription": "Annual percentage yield (APY) is a metric used to calculate the annualized return on crypto investments. It's a key indicator of a cryptocurrency's potential return and profitability.",
+        "tvlSubtitle": "What is TVL?",
+        "tvlDescription": "TVL stands for Total Value Locked, and it's a metric used in the crypto industry to measure the value of digital assets locked on a blockchain network. TVL is calculated by adding up the value of all digital assets locked in a DeFi protocol or smart contract. These assets can include cryptocurrencies, stablecoins, and other tokens."
+      }
+    },
+    "poolCard": {
+      "onNetwork": "na {{networkName}}",
+      "rate": "Taxa (est.)",
+      "reward": "Reward",
+      "tvl": "TVL",
+      "exitPool": "Sair do pool",
+      "addToPool": "Add to Pool",
+      "apy": "{{apy}}% de APY",
+      "poweredBy": "Desenvolvido por {{providerName}}",
+      "deposited": "Supplied"
+    },
+    "poolFilters": {
+      "openPools": "Open Pools",
+      "myPools": "Minhas piscinas"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
