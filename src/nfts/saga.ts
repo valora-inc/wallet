@@ -11,7 +11,7 @@ import {
   fetchNftsFailed,
 } from 'src/nfts/slice'
 import { Nft, NftWithNetworkId } from 'src/nfts/types'
-import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
@@ -26,9 +26,7 @@ import { call, put, select, spawn, take, takeLeading } from 'typed-redux-saga'
 const TAG = 'NftsSaga'
 
 async function fetchNftsForSupportedNetworks(address: string): Promise<NftWithNetworkId[]> {
-  const supportedNetworkIds = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
-  ).showNfts
+  const supportedNetworkIds = getMultichainFeatures().showNfts
   const nfts = await Promise.all(
     supportedNetworkIds.map(async (networkId) => {
       const response = await fetchWithTimeout(

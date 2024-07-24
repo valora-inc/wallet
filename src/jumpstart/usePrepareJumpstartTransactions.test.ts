@@ -86,6 +86,7 @@ describe('usePrepareJumpstartTransactions', () => {
       spendToken: mockCeloTokenBalance,
       spendTokenAmount: new BigNumber(sendTokenAmountInSmallestUnit),
       baseTransactions: expectedBaseTransactions,
+      origin: 'jumpstart-send',
     })
     expect(publicClient.celo.readContract).toHaveBeenCalledTimes(1)
     expect(publicClient.celo.readContract).toHaveBeenCalledWith({

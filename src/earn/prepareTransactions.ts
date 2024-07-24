@@ -101,6 +101,7 @@ export async function prepareSupplyTransactions({
     spendToken: token,
     spendTokenAmount: new BigNumber(amount),
     isGasSubsidized,
+    origin: 'earn-deposit',
   })
 }
 
@@ -183,5 +184,6 @@ export async function prepareWithdrawAndClaimTransactions({
     feeCurrencies,
     baseTransactions,
     isGasSubsidized,
+    origin: 'earn-withdraw',
   })
 }

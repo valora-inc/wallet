@@ -12,9 +12,7 @@ import StyledQRCode from 'src/qrcode/StyledQRCode'
 import { useSelector } from 'src/redux/hooks'
 import { SVG } from 'src/send/actions'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getDynamicConfigParams } from 'src/statsig'
-import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { getMultichainFeatures } from 'src/statsig'
 import colors from 'src/styles/colors'
 import fontStyles, { typeScale } from 'src/styles/fonts'
 import { vibrateInformative } from 'src/styles/hapticFeedback'
@@ -62,9 +60,7 @@ export default function QRCodeDisplay(props: Props) {
   }
 
   const getSupportedNetworks = () => {
-    const supportedNetworkIds = getDynamicConfigParams(
-      DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
-    ).showBalances
+    const supportedNetworkIds = getMultichainFeatures().showBalances
     const networks = supportedNetworkIds.map((networkId: NetworkId) => {
       return NETWORK_NAMES[networkId]
     })

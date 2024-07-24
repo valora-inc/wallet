@@ -143,6 +143,7 @@ describe('prepareTransactions', () => {
         spendToken: mockToken,
         spendTokenAmount: new BigNumber(5),
         isGasSubsidized: false,
+        origin: 'earn-deposit',
       })
     })
 
@@ -203,6 +204,7 @@ describe('prepareTransactions', () => {
         spendToken: mockToken,
         spendTokenAmount: new BigNumber(5),
         isGasSubsidized: true,
+        origin: 'earn-deposit',
       })
     })
   })
@@ -276,6 +278,7 @@ describe('prepareTransactions', () => {
         baseTransactions: expectedTransactions,
         feeCurrencies: [mockFeeCurrency],
         isGasSubsidized: true,
+        origin: 'earn-withdraw',
       })
     })
 
@@ -311,6 +314,7 @@ describe('prepareTransactions', () => {
         baseTransactions: expectedTransactions,
         feeCurrencies: [mockFeeCurrency],
         isGasSubsidized: false,
+        origin: 'earn-withdraw',
       })
     })
   })
