@@ -355,6 +355,7 @@ export enum TransactionEvents {
   transaction_confirmed = 'transaction_confirmed',
   transaction_error = 'transaction_error',
   transaction_exception = 'transaction_exception',
+  transaction_prepare_insufficient_gas = 'transaction_prepare_insufficient_gas',
 }
 
 export enum CeloExchangeEvents {
