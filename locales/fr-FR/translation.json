@@ -2014,7 +2014,7 @@
       "selectNetwork": "Réseau",
       "stablecoins": "Stablecoins",
       "gasTokens": "Jetons de frais",
-      "tokens": "Token"
+      "tokens": "Jeton"
     }
   },
   "homeActions": {
@@ -2572,29 +2572,29 @@
       "earnWithdrawDetails": "Montant du retrait"
     },
     "home": {
-      "title": "Earn",
-      "learnMore": "<0>Learn more</0> about yield pools.",
+      "title": "Gagner",
+      "learnMore": "En <0>savoir plus</0> sur les pools de rendement.",
       "learnMoreBottomSheet": {
-        "bottomSheetTitle": "Learn more about yield pools",
-        "apySubtitle": "What is an APY?",
-        "apyDescription": "Annual percentage yield (APY) is a metric used to calculate the annualized return on crypto investments. It's a key indicator of a cryptocurrency's potential return and profitability.",
-        "tvlSubtitle": "What is TVL?",
-        "tvlDescription": "TVL stands for Total Value Locked, and it's a metric used in the crypto industry to measure the value of digital assets locked on a blockchain network. TVL is calculated by adding up the value of all digital assets locked in a DeFi protocol or smart contract. These assets can include cryptocurrencies, stablecoins, and other tokens."
+        "bottomSheetTitle": "En savoir plus sur les pools de rendement",
+        "apySubtitle": "Qu'est-ce qu'un APY ?",
+        "apyDescription": "Le rendement annuel en pourcentage (APY) est une métrique utilisée pour calculer le rendement annualisé des investissements en crypto-monnaies. C'est un indicateur clé du rendement potentiel et de la rentabilité d'une crypto-monnaie.",
+        "tvlSubtitle": "Qu'est-ce que TVL ?",
+        "tvlDescription": "TVL signifie Total Value Locked, et c'est une métrique utilisée dans l'industrie de la cryptographie pour mesurer la valeur des actifs numériques verrouillés sur un réseau blockchain. La TVL est calculée en additionnant la valeur de tous les actifs numériques verrouillés dans un protocole DeFi ou un contrat intelligent. Ces actifs peuvent inclure des crypto-monnaies, des stablecoins et d'autres jetons."
       }
     },
     "poolCard": {
-      "onNetwork": "on {{networkName}}",
+      "onNetwork": "sur {{networkName}}",
       "rate": "Taux (est.)",
-      "reward": "Reward",
+      "reward": "Récompense",
       "tvl": "TVL",
-      "exitPool": "Exit Pool",
-      "addToPool": "Add to Pool",
+      "exitPool": "Quitter le pool",
+      "addToPool": "Ajouter à la piscine",
       "apy": "{{apy}}% APY",
-      "poweredBy": "Powered by {{providerName}}",
-      "deposited": "Supplied"
+      "poweredBy": "Propulsé par {{providerName}}",
+      "deposited": "Fourni"
     },
     "poolFilters": {
-      "openPools": "Open Pools",
+      "openPools": "Piscines ouvertes",
       "myPools": "Mes piscines"
     }
   },
