@@ -1,6 +1,8 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
+import { EarnEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import PoolCard from 'src/earn/PoolCard'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -61,6 +63,14 @@ describe('PoolCard', () => {
     expect(getByText('earnFlow.poolCard.addToPool')).toBeTruthy()
     fireEvent.press(getByText('earnFlow.poolCard.addToPool'))
     expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, { tokenId: mockArbUsdcTokenId })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      EarnEvents.earn_multi_pool_add_to_pool_press,
+      {
+        poolId: 'pool1',
+        networkId: NetworkId['arbitrum-sepolia'],
+        poolBalance: 0,
+      }
+    )
   })
   it('navigates to enter amount when have pool balance', () => {
     const { getByText } = render(
@@ -107,6 +117,14 @@ describe('PoolCard', () => {
     expect(getByText('earnFlow.poolCard.addToPool')).toBeTruthy()
     fireEvent.press(getByText('earnFlow.poolCard.addToPool'))
     expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, { tokenId: mockArbUsdcTokenId })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      EarnEvents.earn_multi_pool_add_to_pool_press,
+      {
+        poolId: 'pool1',
+        networkId: NetworkId['arbitrum-sepolia'],
+        poolBalance: 10,
+      }
+    )
   })
   it('navigates to collect screen', () => {
     const { getByText } = render(
@@ -155,6 +173,11 @@ describe('PoolCard', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.EarnCollectScreen, {
       depositTokenId: mockArbUsdcTokenId,
       poolTokenId: mockArbEthTokenId,
+    })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_multi_pool_exit_pool_press, {
+      poolId: 'pool1',
+      networkId: NetworkId['arbitrum-sepolia'],
+      poolBalance: 10,
     })
   })
 })
