@@ -386,6 +386,9 @@
                 "symbol": {
                     "type": "string"
                 },
+                "tokenId": {
+                    "type": "string"
+                },
                 "tokens": {
                     "items": {
                         "$ref": "#/definitions/Token"
@@ -410,6 +413,7 @@
                 "priceUsd",
                 "supply",
                 "symbol",
+                "tokenId",
                 "tokens",
                 "type"
             ],
@@ -553,6 +557,9 @@
                 "symbol": {
                     "type": "string"
                 },
+                "tokenId": {
+                    "type": "string"
+                },
                 "type": {
                     "const": "base-token",
                     "type": "string"
@@ -565,6 +572,7 @@
                 "networkId",
                 "priceUsd",
                 "symbol",
+                "tokenId",
                 "type"
             ],
             "type": "object"

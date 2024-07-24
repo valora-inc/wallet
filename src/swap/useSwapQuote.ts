@@ -149,6 +149,7 @@ async function prepareSwapTransactions(
     baseTransactions,
     // We still want to prepare the transactions even if the user doesn't have enough balance
     throwOnSpendTokenAmountExceedsBalance: false,
+    origin: 'swap',
   })
 }
 

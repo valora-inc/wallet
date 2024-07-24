@@ -92,7 +92,10 @@ export const positionsWithClaimableRewardsSelector = createSelector(
   (positions, shortcuts, triggeredShortcuts) => {
     const claimablePositions: ClaimablePosition[] = []
     positions.forEach((position) => {
-      const appShortcuts = shortcuts.filter((shortcut) => shortcut.appId === position.appId)
+      const appShortcuts = shortcuts.filter(
+        (shortcut) =>
+          shortcut.appId === position.appId && shortcut.networkIds.includes(position.networkId)
+      )
 
       appShortcuts.forEach((shortcut) => {
         const { availableShortcutIds, tokens, ...rest } = position

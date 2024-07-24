@@ -8,6 +8,7 @@ import { DappShortcutsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes } from 'src/components/Button'
 import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
+import TokenDisplay from 'src/components/TokenDisplay'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import {
@@ -128,9 +129,9 @@ function DappShortcutsRewards() {
               {item.claimableShortcut.claimableTokens.map((token, index) => (
                 <React.Fragment key={token.address}>
                   {index > 0 && ', '}
-                  <LegacyTokenDisplay
+                  <TokenDisplay
                     amount={token.balance}
-                    tokenAddress={token.address}
+                    tokenId={token.tokenId}
                     showLocalAmount={false}
                   />
                 </React.Fragment>

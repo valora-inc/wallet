@@ -83,8 +83,8 @@ import {
 import {
   mockInvitableRecipient,
   mockInvitableRecipient2,
-  mockPositions,
   mockPositionsLegacy,
+  mockPositionsLegacy2,
   mockRecipient,
   mockRecipient2,
   mockShortcuts,
@@ -1592,7 +1592,7 @@ describe('Redux persist migrations', () => {
       },
     }
     const expectedSchema = _.cloneDeep(oldSchema)
-    expectedSchema.positions.positions = mockPositions
+    expectedSchema.positions.positions = mockPositionsLegacy2
     expectedSchema.positions.shortcuts = mockShortcuts
     const migratedSchema = migrations[204](oldSchema)
 
@@ -1604,7 +1604,7 @@ describe('Redux persist migrations', () => {
     const oldSchema = {
       ...v203Schema,
       positions: {
-        positions: mockPositions,
+        positions: mockPositionsLegacy2,
         shortcuts: mockShortcuts,
       },
     }
