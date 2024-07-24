@@ -40,6 +40,7 @@ import { Position, Shortcut } from 'src/positions/types'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import { sendTransaction } from 'src/transactions/send'
@@ -53,7 +54,6 @@ import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
 import { call, put, select, spawn, takeEvery, takeLeading } from 'typed-redux-saga'
-import { DynamicConfigs } from 'src/statsig/constants'
 
 const TAG = 'positions/saga'
 
@@ -150,7 +150,7 @@ export function* fetchPositionsSaga() {
     const hooksApiUrl = yield* select(hooksApiUrlSelector)
     const positions = yield* call(fetchPositions, hooksApiUrl, address)
     SentryTransactionHub.finishTransaction(SentryTransaction.fetch_positions)
-    yield* put(fetchPositionsSuccess(positions))
+    yield* put(fetchPositionsSuccess({ positions, fetchedAt: Date.now() }))
   } catch (err) {
     const error = ensureError(err)
     yield* put(fetchPositionsFailure(error))

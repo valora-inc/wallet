@@ -9,12 +9,12 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { isBottomSheetVisible, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import {
+  _confirmEnableHooksPreview,
   executeShortcutSaga,
   fetchPositionsSaga,
   fetchShortcutsSaga,
   handleEnableHooksPreviewDeepLink,
   triggerShortcutSaga,
-  _confirmEnableHooksPreview,
 } from 'src/positions/saga'
 import {
   hooksApiUrlSelector,
@@ -36,14 +36,14 @@ import {
   triggerShortcutFailure,
   triggerShortcutSuccess,
 } from 'src/positions/slice'
-import { getFeatureGate, getDynamicConfigParams } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { getContractKit } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockAccount, mockPositions, mockShortcuts } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/sentry/SentryTransactionHub')
 jest.mock('src/statsig')
@@ -98,7 +98,7 @@ describe(fetchPositionsSaga, () => {
         [select(hooksApiUrlSelector), networkConfig.hooksApiUrl],
       ])
       .put(fetchPositionsStart())
-      .put(fetchPositionsSuccess(MOCK_RESPONSE.data))
+      .put(fetchPositionsSuccess({ positions: MOCK_RESPONSE.data, fetchedAt: Date.now() }))
       .run()
   })
 

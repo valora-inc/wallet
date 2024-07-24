@@ -1822,4 +1822,5 @@ export const migrations = {
       positions: [], // clear positions, they will be fetched again
     },
   }),
+  220: (state: any) => state,
 }
