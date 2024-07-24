@@ -2018,7 +2018,7 @@
       "selectNetwork": "Сообщество",
       "stablecoins": "Стейблкоинам",
       "gasTokens": "Газоплатные токены",
-      "tokens": "Token"
+      "tokens": "Токен"
     }
   },
   "homeActions": {
@@ -2577,28 +2577,28 @@
     },
     "home": {
       "title": "Зарабатывайте",
-      "learnMore": "<0>Learn more</0> about yield pools.",
+      "learnMore": "<0>Узнай больше</0> о пулах доходности.",
       "learnMoreBottomSheet": {
-        "bottomSheetTitle": "Learn more about yield pools",
-        "apySubtitle": "What is an APY?",
-        "apyDescription": "Annual percentage yield (APY) is a metric used to calculate the annualized return on crypto investments. It's a key indicator of a cryptocurrency's potential return and profitability.",
-        "tvlSubtitle": "What is TVL?",
-        "tvlDescription": "TVL stands for Total Value Locked, and it's a metric used in the crypto industry to measure the value of digital assets locked on a blockchain network. TVL is calculated by adding up the value of all digital assets locked in a DeFi protocol or smart contract. These assets can include cryptocurrencies, stablecoins, and other tokens."
+        "bottomSheetTitle": "Узнай больше о пулах доходности",
+        "apySubtitle": "Что такое APY?",
+        "apyDescription": "Годовая процентная доходность (Annual percentage yield, APY) - это метрика, используемая для расчета годовой доходности криптоинвестиций. Это ключевой показатель потенциальной доходности и прибыльности криптовалюты.",
+        "tvlSubtitle": "Что такое ТВЛ?",
+        "tvlDescription": "TVL расшифровывается как Total Value Locked, и это метрика, используемая в криптоиндустрии для измерения стоимости цифровых активов, заблокированных в блокчейн-сети. TVL рассчитывается путем сложения стоимости всех цифровых активов, заблокированных в протоколе DeFi или смарт-контракте. Эти активы могут включать в себя криптовалюты, стейблкоины и другие токены."
       }
     },
     "poolCard": {
       "onNetwork": "в {{networkName}}",
       "rate": "Ставка (прибл.)",
-      "reward": "Reward",
+      "reward": "Вознаграждение",
       "tvl": "TVL",
       "exitPool": "Выход из пула",
-      "addToPool": "Add to Pool",
+      "addToPool": "Добавь в бассейн",
       "apy": "Годовая ставка {{apy}}%",
       "poweredBy": "При поддержке {{providerName}}",
-      "deposited": "Supplied"
+      "deposited": "Прилагается ."
     },
     "poolFilters": {
-      "openPools": "Open Pools",
+      "openPools": "Открытые бассейны",
       "myPools": "Мои бассейны"
     }
   },
