@@ -93,8 +93,11 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
           <View style={styles.buttonContainer}>
             <Button
               onPress={() => {
-                // TODO (ACT-1260): Add analytics event
-                ValoraAnalytics.track(EarnEvents.earn_multi_pool_exit_pool_press)
+                ValoraAnalytics.track(EarnEvents.earn_multi_pool_exit_pool_press, {
+                  poolId: pool.poolId,
+                  networkId: pool.networkId,
+                  poolBalance: poolTokenInfo.balance.toNumber(),
+                })
                 navigate(Screens.EarnCollectScreen, { depositTokenId, poolTokenId })
               }}
               text={t('earnFlow.poolCard.exitPool')}
@@ -105,8 +108,11 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
             />
             <Button
               onPress={() => {
-                // TODO (ACT-1260): Add analytics event
-                ValoraAnalytics.track(EarnEvents.earn_multi_pool_add_to_pool_press)
+                ValoraAnalytics.track(EarnEvents.earn_multi_pool_add_to_pool_press, {
+                  poolId: pool.poolId,
+                  networkId: pool.networkId,
+                  poolBalance: poolTokenInfo.balance.toNumber(),
+                })
                 navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })
               }}
               text={t('earnFlow.poolCard.addToPool')}
@@ -120,8 +126,11 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
       ) : (
         <Button
           onPress={() => {
-            // TODO (ACT-1260): Add analytics event
-            ValoraAnalytics.track(EarnEvents.earn_multi_pool_add_to_pool_press)
+            ValoraAnalytics.track(EarnEvents.earn_multi_pool_add_to_pool_press, {
+              poolId: pool.poolId,
+              networkId: pool.networkId,
+              poolBalance: 0,
+            })
             navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })
           }}
           text={t('earnFlow.poolCard.addToPool')}
