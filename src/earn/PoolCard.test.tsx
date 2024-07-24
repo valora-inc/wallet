@@ -62,7 +62,6 @@ describe('PoolCard', () => {
     fireEvent.press(getByText('earnFlow.poolCard.addToPool'))
     expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, { tokenId: mockArbUsdcTokenId })
   })
-  
   it('navigates to enter amount when have pool balance', () => {
     const { getByText } = render(
       <Provider

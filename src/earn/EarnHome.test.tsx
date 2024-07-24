@@ -27,8 +27,6 @@ const mockPools: Pool[] = [
     tvl: 349_940_000,
     provider: 'Aave',
   },
-]
-
   {
     poolId: 'aArbWETH',
     networkId: NetworkId['arbitrum-sepolia'],
