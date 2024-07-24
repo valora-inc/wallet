@@ -19,11 +19,11 @@ type Props = { networkId: NetworkId; status: TransactionStatus; hideNetworkIcon?
   | {
       transactionType:
         | 'TokenExchangeV3'
+        | 'CrossChainTokenExchange'
         | 'TokenApproval'
         | 'EarnDeposit'
         | 'EarnWithdraw'
         | 'EarnClaimReward'
-        | 'CrossChainTokenExchange'
     }
   | {
       transactionType: 'TokenTransferV3'
