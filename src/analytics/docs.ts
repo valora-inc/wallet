@@ -367,6 +367,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [TransactionEvents.transaction_confirmed]: `when a transaction is confirmed by the blockchain`,
   [TransactionEvents.transaction_error]: `when a transaction submission emits an error (only for contract-kit)`,
   [TransactionEvents.transaction_exception]: `when a transaction submission throws`,
+  [TransactionEvents.transaction_prepare_insufficient_gas]: `when a transaction cannot be prepared due to insufficient gas. Includes networkId and origin props to identify the transaction being attempted. For swaps, the networkId is always the source network`,
   [CeloExchangeEvents.celo_withdraw_completed]: `when the transaction for the withdrawal is completed`,
 
   // The CICO landing page accessible from the Settings Menu
