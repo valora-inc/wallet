@@ -2,35 +2,59 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import EarnHome from 'src/earn/EarnHome'
+import { getPools } from 'src/earn/pools'
 import { EarnTabType, Pool } from 'src/earn/types'
 import { NetworkId } from 'src/transactions/types'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
-import { mockArbArbAddress } from 'test/values'
+import {
+  mockArbEthTokenId,
+  mockArbUsdcTokenId,
+  mockEthTokenId,
+  mockTokenBalances,
+} from 'test/values'
 
-const pools: Pool[] = [
+const mockPools: Pool[] = [
   {
     poolId: 'aArbUSDCn',
-    networkId: NetworkId['arbitrum-one'],
-    tokens: [`${NetworkId['arbitrum-one']}:0xaf88d065e77c8cc2239327c5edb3a432268e5831`],
-    depositTokenId: `${NetworkId['arbitrum-one']}:0xaf88d065e77c8cc2239327c5edb3a432268e5831`,
-    poolTokenId: `${NetworkId['arbitrum-one']}:0x724dc807b04555b71ed48a6896b6f41593b8c637`,
+    networkId: NetworkId['arbitrum-sepolia'],
+    tokens: [mockArbUsdcTokenId],
+    depositTokenId: mockArbUsdcTokenId,
+    poolTokenId: `${NetworkId['arbitrum-sepolia']}:0x724dc807b04555b71ed48a6896b6f41593b8c637`,
     poolAddress: '0x794a61358D6845594F94dc1DB02A252b5b4814aD',
     apy: 0.0555,
     reward: 0,
     tvl: 349_940_000,
     provider: 'Aave',
   },
+  {
+    poolId: 'aArbWETH',
+    networkId: NetworkId['arbitrum-sepolia'],
+    tokens: [mockArbEthTokenId],
+    depositTokenId: mockArbEthTokenId,
+    poolTokenId: `${NetworkId['arbitrum-sepolia']}:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8`,
+    poolAddress: '0x794a61358D6845594F94dc1DB02A252b5b4814aD',
+    apy: 0.023,
+    reward: 0,
+    tvl: 411_630_000,
+    provider: 'Aave',
+  },
 ]
 
+jest.mock('src/earn/pools')
+
 describe('EarnHome', () => {
-  it('renders correctly', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+  it('renders open pools correctly', () => {
+    jest.mocked(getPools).mockReturnValue(mockPools)
     const mockPoolToken = {
-      name: 'Arbitrum',
-      networkId: NetworkId['arbitrum-one'],
-      tokenId: pools[0].tokens[0],
-      address: mockArbArbAddress,
-      symbol: 'ARB',
+      name: 'Aave Arbitrum USDC',
+      networkId: NetworkId['arbitrum-sepolia'],
+      tokenId: mockPools[0].poolTokenId,
+      address: '0x724dc807b04555b71ed48a6896b6f41593b8c637',
+      symbol: 'aArbUSDCn',
       decimals: 18,
       imageUrl:
         'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ARB.png',
@@ -43,7 +67,8 @@ describe('EarnHome', () => {
         store={createMockStore({
           tokens: {
             tokenBalances: {
-              [pools[0].tokens[0]]: mockPoolToken,
+              ...mockTokenBalances,
+              [mockPools[0].poolTokenId]: mockPoolToken,
             },
           },
         })}
@@ -57,7 +82,7 @@ describe('EarnHome', () => {
       </Provider>
     )
 
-    expect(getByTestId(`PoolCard/${pools[0].poolId}`)).toBeTruthy()
+    expect(getByTestId(`PoolCard/${mockPools[0].poolId}`)).toBeTruthy()
 
     const tabItems = getAllByTestId('Earn/TabBarItem')
     expect(tabItems).toHaveLength(2)
@@ -66,12 +91,13 @@ describe('EarnHome', () => {
   })
 
   it('correctly shows pool under my pools if has balance', () => {
+    jest.mocked(getPools).mockReturnValue(mockPools)
     const mockPoolToken = {
-      name: 'Arbitrum',
-      networkId: NetworkId['arbitrum-one'],
-      tokenId: pools[0].poolTokenId,
-      address: mockArbArbAddress,
-      symbol: 'ARB',
+      name: 'Aave Arbitrum USDC',
+      networkId: NetworkId['arbitrum-sepolia'],
+      tokenId: mockPools[0].poolTokenId,
+      address: '0x724dc807b04555b71ed48a6896b6f41593b8c637',
+      symbol: 'aArbUSDCn',
       decimals: 18,
       imageUrl:
         'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ARB.png',
@@ -84,20 +110,8 @@ describe('EarnHome', () => {
         store={createMockStore({
           tokens: {
             tokenBalances: {
-              [pools[0].poolTokenId]: mockPoolToken,
-              [`${NetworkId['arbitrum-one']}:0xaf88d065e77c8cc2239327c5edb3a432268e5831`]: {
-                name: 'USDC',
-                networkId: NetworkId['arbitrum-one'],
-                tokenId: `${NetworkId['arbitrum-one']}:0xaf88d065e77c8cc2239327c5edb3a432268e5831`,
-                address: '0xaf88d065e77c8cc2239327c5edb3a432268e5831',
-                symbol: 'USDC',
-                decimals: 18,
-                imageUrl:
-                  'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/USDC.png',
-                balance: '1',
-                priceUsd: '1',
-                priceFetchedAt: Date.now(),
-              },
+              ...mockTokenBalances,
+              [mockPools[0].poolTokenId]: mockPoolToken,
             },
           },
         })}
@@ -111,18 +125,19 @@ describe('EarnHome', () => {
       </Provider>
     )
 
-    expect(queryByTestId(`PoolCard/${pools[0].poolId}`)).toBeFalsy()
+    expect(queryByTestId(`PoolCard/${mockPools[0].poolId}`)).toBeFalsy()
     fireEvent.press(getByText('earnFlow.poolFilters.myPools'))
-    expect(getByTestId(`PoolCard/${pools[0].poolId}`)).toBeTruthy()
+    expect(getByTestId(`PoolCard/${mockPools[0].poolId}`)).toBeTruthy()
   })
 
   it('correctly shows correct networks, tokens under filters', () => {
+    jest.mocked(getPools).mockReturnValue(mockPools)
     const mockPoolToken = {
-      name: 'Arbitrum',
-      networkId: NetworkId['arbitrum-one'],
-      tokenId: pools[0].tokens[0],
-      address: mockArbArbAddress,
-      symbol: 'ARB',
+      name: 'Aave Arbitrum USDC',
+      networkId: NetworkId['arbitrum-sepolia'],
+      tokenId: mockPools[0].poolTokenId,
+      address: '0x724dc807b04555b71ed48a6896b6f41593b8c637',
+      symbol: 'aArbUSDCn',
       decimals: 18,
       imageUrl:
         'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ARB.png',
@@ -135,20 +150,8 @@ describe('EarnHome', () => {
         store={createMockStore({
           tokens: {
             tokenBalances: {
-              [pools[0].tokens[0]]: mockPoolToken,
-              [`${NetworkId['arbitrum-one']}:0xaf88d065e77c8cc2239327c5edb3a432268e5831`]: {
-                name: 'USDC',
-                networkId: NetworkId['arbitrum-one'],
-                tokenId: `${NetworkId['arbitrum-one']}:0xaf88d065e77c8cc2239327c5edb3a432268e5831`,
-                address: '0xaf88d065e77c8cc2239327c5edb3a432268e5831',
-                symbol: 'USDC',
-                decimals: 18,
-                imageUrl:
-                  'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/USDC.png',
-                balance: '0',
-                priceUsd: '1',
-                priceFetchedAt: Date.now(),
-              },
+              ...mockTokenBalances,
+              [mockPools[0].poolTokenId]: mockPoolToken,
             },
           },
         })}
@@ -163,9 +166,142 @@ describe('EarnHome', () => {
     )
 
     fireEvent.press(getByText('tokenBottomSheet.filters.selectNetwork'))
-    expect(getByTestId('Arbitrum One-icon')).toBeTruthy()
+    expect(getByTestId('Arbitrum Sepolia-icon')).toBeTruthy()
 
     fireEvent.press(getByText('tokenBottomSheet.filters.tokens'))
-    expect(getAllByTestId('TokenBalanceItem')).toHaveLength(1)
+    expect(getAllByTestId('TokenBalanceItem')).toHaveLength(2)
+  })
+
+  it('shows correct pool when filtering by token', () => {
+    jest.mocked(getPools).mockReturnValue(mockPools)
+    const mockPoolTokenUSDC = {
+      name: 'Aave Arbitrum USDC',
+      networkId: NetworkId['arbitrum-sepolia'],
+      tokenId: mockPools[0].poolTokenId,
+      address: '0x724dc807b04555b71ed48a6896b6f41593b8c637',
+      symbol: 'aArbUSDCn',
+      decimals: 18,
+      imageUrl:
+        'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ARB.png',
+      balance: '0',
+      priceUsd: '1.2',
+      priceFetchedAt: Date.now(),
+    }
+    const mockPoolTokenWETH = {
+      name: 'Aave Arbitrum WETH',
+      networkId: NetworkId['arbitrum-sepolia'],
+      tokenId: mockPools[1].poolTokenId,
+      address: '0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8',
+      symbol: 'aArbWETH',
+      decimals: 18,
+      imageUrl:
+        'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+      balance: '0',
+      priceUsd: '250',
+      priceFetchedAt: Date.now(),
+    }
+    const { getByTestId, getByText, queryByTestId } = render(
+      <Provider
+        store={createMockStore({
+          tokens: {
+            tokenBalances: {
+              ...mockTokenBalances,
+              [mockPools[0].poolTokenId]: mockPoolTokenUSDC,
+              [mockPools[1].poolTokenId]: mockPoolTokenWETH,
+            },
+          },
+        })}
+      >
+        <MockedNavigator
+          component={EarnHome}
+          params={{
+            activeEarnTab: EarnTabType.OpenPools,
+          }}
+        />
+      </Provider>
+    )
+
+    expect(getByTestId(`PoolCard/${mockPools[0].poolId}`)).toBeTruthy()
+    expect(getByTestId(`PoolCard/${mockPools[1].poolId}`)).toBeTruthy()
+
+    fireEvent.press(getByText('tokenBottomSheet.filters.tokens'))
+    fireEvent.press(getByTestId('USDCSymbol'))
+
+    expect(getByTestId(`PoolCard/${mockPools[0].poolId}`)).toBeTruthy()
+    expect(queryByTestId(`PoolCard/${mockPools[1].poolId}`)).toBeFalsy()
+  })
+
+  it('shows correct pool when filtering by network', () => {
+    const mockPoolsForNetworkFilter: Pool[] = [
+      mockPools[0],
+      {
+        poolId: 'aEthWETH',
+        networkId: NetworkId['ethereum-sepolia'],
+        tokens: [mockEthTokenId],
+        depositTokenId: mockEthTokenId,
+        poolTokenId: `${NetworkId['ethereum-sepolia']}:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8`,
+        poolAddress: '0x794a61358D6845594F94dc1DB02A252b5b4814aD',
+        apy: 0.023,
+        reward: 0,
+        tvl: 411_630_000,
+        provider: 'Aave',
+      },
+    ]
+    jest.mocked(getPools).mockReturnValue(mockPoolsForNetworkFilter)
+    const mockPoolTokenUSDC = {
+      name: 'Aave Arbitrum USDC',
+      networkId: NetworkId['arbitrum-sepolia'],
+      tokenId: mockPools[0].poolTokenId,
+      address: '0x724dc807b04555b71ed48a6896b6f41593b8c637',
+      symbol: 'aArbUSDCn',
+      decimals: 18,
+      imageUrl:
+        'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ARB.png',
+      balance: '0',
+      priceUsd: '1.2',
+      priceFetchedAt: Date.now(),
+    }
+    const mockPoolTokenWETH = {
+      name: 'Aave Ethereum WETH',
+      networkId: NetworkId['ethereum-sepolia'],
+      tokenId: `${NetworkId['ethereum-sepolia']}:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8`,
+      address: '0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8',
+      symbol: 'aEthWETH',
+      decimals: 18,
+      imageUrl:
+        'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+      balance: '0',
+      priceUsd: '250',
+      priceFetchedAt: Date.now(),
+    }
+    const { getByTestId, getByText, queryByTestId } = render(
+      <Provider
+        store={createMockStore({
+          tokens: {
+            tokenBalances: {
+              ...mockTokenBalances,
+              [mockPoolsForNetworkFilter[0].poolTokenId]: mockPoolTokenUSDC,
+              [mockPoolsForNetworkFilter[1].poolTokenId]: mockPoolTokenWETH,
+            },
+          },
+        })}
+      >
+        <MockedNavigator
+          component={EarnHome}
+          params={{
+            activeEarnTab: EarnTabType.OpenPools,
+          }}
+        />
+      </Provider>
+    )
+
+    expect(getByTestId(`PoolCard/${mockPoolsForNetworkFilter[0].poolId}`)).toBeTruthy()
+    expect(getByTestId(`PoolCard/${mockPoolsForNetworkFilter[1].poolId}`)).toBeTruthy()
+
+    fireEvent.press(getByText('tokenBottomSheet.filters.selectNetwork'))
+    fireEvent.press(getByTestId('Arbitrum Sepolia-icon'))
+
+    expect(getByTestId(`PoolCard/${mockPoolsForNetworkFilter[0].poolId}`)).toBeTruthy()
+    expect(queryByTestId(`PoolCard/${mockPoolsForNetworkFilter[1].poolId}`)).toBeFalsy()
   })
 })
