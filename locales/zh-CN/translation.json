@@ -2011,7 +2011,8 @@
       "network": "{{networkName}} 网络",
       "selectNetwork": "网络",
       "stablecoins": "稳定币",
-      "gasTokens": "费用代币"
+      "gasTokens": "费用代币",
+      "tokens": "代币"
     }
   },
   "homeActions": {
@@ -2567,6 +2568,32 @@
       "earnWithdrawTitle": "已取出",
       "earnWithdrawSubtitle": "已从 {{providerName}} 池取出 {{tokenSymbol}}",
       "earnWithdrawDetails": "已提取金额"
+    },
+    "home": {
+      "title": "赚钱",
+      "learnMore": "<0>了解</0>有关收益池的<0>更多</0>信息。",
+      "learnMoreBottomSheet": {
+        "bottomSheetTitle": "进一步了解收益池",
+        "apySubtitle": "什么是 APY？",
+        "apyDescription": "年收益率（APY）是用于计算加密货币投资年化收益率的指标。它是衡量加密货币潜在回报和盈利能力的关键指标。",
+        "tvlSubtitle": "什么是 TVL？",
+        "tvlDescription": "TVL 是锁定总价值（Total Value Locked）的缩写，是加密货币行业用来衡量锁定在区块链网络上的数字资产价值的指标。TVL 的计算方法是将锁定在 DeFi 协议或智能合约中的所有数字资产的价值相加。这些资产可以包括加密货币、稳定币和其他代币。"
+      }
+    },
+    "poolCard": {
+      "onNetwork": "在 {{networkName}}",
+      "rate": "费率（估算）",
+      "reward": "奖励",
+      "tvl": "TVL",
+      "exitPool": "退出池",
+      "addToPool": "添加到游泳池",
+      "apy": "{{apy}}% APY",
+      "poweredBy": "由 {{providerName}} 提供支持",
+      "deposited": "已提供"
+    },
+    "poolFilters": {
+      "openPools": "开放式泳池",
+      "myPools": "我的泳池"
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
