@@ -29,7 +29,7 @@
   "dataSaver": "数据保护模式",
   "enableDataSaver": "启用数据保护模式",
   "dataSaverDetail": "数据保护模式允许您通过可信节点与网络通信。您可以随时在应用程序设置中更改该模式。",
-  "keylessBackupSetupTitle": "创建登录",
+  "keylessBackupSetupTitle": "创建登录方式",
   "keylessBackupSettingsTitle": "电子邮件和电话备份",
   "keylessBackupSettingsDeleteError": "您的备份无法删除，请稍后再试。",
   "setup": "设置",
@@ -108,10 +108,10 @@
     "subtitle": "使用电子邮件登录，将其设置为备份。如果您丢失了钱包，系统会提示您再次登录。",
     "subtitleRestore": "使用您用来设置钱包备份的电子邮件登录。",
     "google": "使用 Google 登录",
-    "signInAnotherWay": "以其他方式签名",
+    "signInAnotherWay": "以其他方式登录",
     "bottomSheet": {
       "title": "保存恢复短语以创建钱包",
-      "description": "我们将很快支持其他电子邮件提供商，但在此期间，您必须保存恢复短语才能完成钱包创建。",
+      "description": "我们不久将支持其他电子邮件提供商，但在此期间，您必须保存恢复短语才能完成钱包创建。",
       "continue": "继续",
       "skip": "跳过（不推荐）"
     }
@@ -924,7 +924,7 @@
     "helpDialog": {
       "title": "帮助",
       "body": "我们向您的手机号码发送了短信。请查看您短信中的 6 位数字代码。\n\n如果您在接收短信方面有问题，可以暂时跳过这一步，稍后再试。",
-      "bodyCloudBackupOnboarding": "我们向您的电话号码发送了短信。请查看短信，查找 6 位数字代码。 \n \n 如果您在接收短信时遇到问题，我们建议您使用恢复短语进行备份。您可以稍后尝试使用电子邮件和手机登录。",
+      "bodyCloudBackupOnboarding": "我们向您的电话号码发送了短信。请查看短信中的 6 位数字代码。 \n \n 如果您在接收短信时遇到问题，我们建议您使用恢复短语进行备份。您可以稍后尝试使用电子邮件和手机登录。",
       "skip": "跳过",
       "dismiss": "返回",
       "useRecoveryPhrase": "使用恢复短语"
@@ -938,7 +938,7 @@
     "header": "恢复钱包",
     "title": "输入您的恢复短语",
     "description": "使用您在设置钱包时保存的 12 或 24 字短语进行恢复。",
-    "descriptionV1_90": "您的恢复短语是您在设置钱包时写下并保存的 12 或 24 个字的短语。请在此输入该短语以恢复钱包。",
+    "descriptionV1_90": "您的恢复短语是您在设置钱包时记下并保存的 12 或 24 个字的短语。请在此输入该短语以恢复钱包。",
     "emptyWalletDialog": {
       "description": "此钱包内没有任何资金。您仍要使用它吗？",
       "action": "使用钱包",
@@ -1867,30 +1867,30 @@
       "networkFeeInfo": "您正在 {{networkName}} 网络上进行交换。\n\n在 {{networkName}} 网络上进行交易需要支付该预估网络费用。该费用可确保您的交易安全，并用于维持网络正常运行。",
       "networkFeeInfoV1_76": "您正在 {{networkName}} 网络上进行交换。\n\n在 {{networkName}} 网络上进行交易需要支付网络费用。该费用可确保您的交易安全，并支付给网络验证机构。\n\n由于网络条件决定了确切的金额，因此列出的估算费用是我们预计的实际费用。该费用不会超过最大费用金额。",
       "slippageToleranceInfo": "滑点调整\n\n您的交换将在滑点调整百分比范围内执行。如果价格变动超过滑点调整，{{appName}} 将阻止交易执行，为您提供保护。",
-      "slippageToleranceInfoV1_90": "您的掉期交易将在滑点容差百分比范围内执行。如果价格变动超过滑点容差， {{appName}} 将阻止交易执行，为您提供保护。",
+      "slippageToleranceInfoV1_90": "您的交换将在滑点调整百分比范围内执行。如果价格变动超过滑点调整，{{appName}} 将阻止交易执行，为您提供保护。",
       "networkFeeInfoDismissButton": "知道了",
       "exchangeRate": "汇率",
-      "exchangeRateInfo": "汇率\n\n我们为您找到了最佳汇率。您的交易将以 {{slippagePercentage}}% 的估算价格完成，否则交易将被取消，资金将返还到您的钱包。",
-      "exchangeRateInfoV1_90": "我们为您找到了最佳汇率。您的交易将以 {{slippagePercentage}}% 的估算价格完成，否则交易将被取消，资金将返还到您的钱包。",
+      "exchangeRateInfo": "汇率\n\n我们为您找到了最佳汇率。您的交易将以 {{slippagePercentage}}% 的估算价格完成，否则交易将被取消，且资金将退回您的钱包。",
+      "exchangeRateInfoV1_90": "我们为您找到了最佳汇率。预计您将在 {{slippagePercentage}}% 的价格范围内完成交易，否则交易会被取消，资金将退回至您的钱包。",
       "exchangeRateInfo_withAppFee": "汇率\n\n我们为您找到了最佳汇率。您的交易将以 {{slippagePercentage}}% 的估算价格完成，否则交易将被取消，且资金将返还到您的钱包。\n\n估算汇率包含 {{appFeePercentage}}% 的 {{appName}} 费用。",
       "exchangeRateInfoDismissButton": "知道了",
       "estimatedValue": "估计价值",
-      "estimatedTransactionTime": "预计交易时间",
-      "estimatedTransactionTimeInMinutes": "≈ {{minutes}} min",
-      "estimatedTransactionTimeInfo": "完成交易的时间由提供商决定。\n\n如果您要在不同的链之间交换，交易完成的时间可能会稍长一些。",
+      "estimatedTransactionTime": "估计交易时间",
+      "estimatedTransactionTimeInMinutes": "≈ {{minutes}} 分钟",
+      "estimatedTransactionTimeInfo": "完成交易的时间由提供商决定。\n\n如果您在不同的链中交换，交易可能需要更长的时间才能完成。",
       "infoDismissButton": "知道了",
       "fees": "费用",
       "feesCalculationError": "无法计算费用",
-      "estimatedCrossChainFee": "跨链费用估算",
-      "maxCrossChainFee": "最大跨链费用",
+      "estimatedCrossChainFee": "预估跨链费用",
+      "maxCrossChainFee": "最高跨链费用",
       "feesBreakdown": "细目",
       "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "更多信息",
-      "feesInfo_sameChain": "处理交易需要支付网络费，以确保安全性和可靠性。",
-      "feesInfo_crossChain": "处理交易需要支付网络费，以确保安全性和可靠性。提供商收取跨链费，以便在不同区块链之间进行顺畅、安全的交换。",
-      "feesInfo_sameChainWithAppFee": "处理交易需要支付网络费，以确保安全性和可靠性。 {{appName}} 费用为 {{appFeePercentage}}%，可确保快速、可靠和安全的交换，从而提升您的体验。",
-      "feesInfo_crossChainWithAppFee": "处理交易需要支付网络费，以确保安全性和可靠性。提供商会收取跨链费用，以便在不同区块链之间进行平稳、安全的交换。 {{appName}} 费用为 {{appFeePercentage}}%，可确保快速、可靠和安全的交换，从而提升您的体验。"
+      "feesInfo_sameChain": "处理交易需要支付网络费用，以确保安全可靠。",
+      "feesInfo_crossChain": "处理交易需要支付网络费用，以确保安全可靠。提供商收取跨链费用，以便在不同区块链之间进行顺畅、安全的交换。",
+      "feesInfo_sameChainWithAppFee": "处理交易需要支付网络费用，以确保安全可靠。{{appFeePercentage}}% 的 {{appName}} 费用将确保交换快速、可靠和安全，从而提升您的体验。",
+      "feesInfo_crossChainWithAppFee": "处理交易需要支付网络费用，以确保安全可靠。提供商会收取跨链费用，以便在不同区块链之间进行顺畅、安全的交换。{{appFeePercentage}}% 的 {{appName}} 费用将确保交换快速、可靠和安全，从而提升您的体验。"
     },
     "fundYourWalletBottomSheet": {
       "title": "为您的钱包提供资金。",
@@ -2344,7 +2344,7 @@
         "createLiveLink": {
           "title": "实时链接",
           "subtitle": {
-            "erc20": "发送至 {{tokenSymbol}}",
+            "erc20": "已发送 {{tokenSymbol}}",
             "erc721": "发出的 NFT"
           }
         },
@@ -2385,7 +2385,7 @@
       "retryCta": "再试一次"
     },
     "infoCard": {
-      "title": "更多赢取积分的方法即将推出",
+      "title": "即将推出更多赚取积分的方式",
       "body": "我们正在努力增加更多通过使用应用程序赚取积分的方法。请随时查看更新。"
     },
     "activitySection": {
@@ -2415,16 +2415,16 @@
         "title": "通过实时链接发送",
         "bottomSheet": {
           "title": "通过实时链接发送",
-          "body": "每次使用 {{appName}}中的实时链接发送资金，都可赚取 {{pointsValue}} 积分。 \n\n点击下面的链接开始发送并赚取积分！",
+          "body": "每次使用 {{appName}} 中的实时链接发送资金均可赚取 {{pointsValue}} 积分。 \n\n点击下方开始发送资金并赚取积分！",
           "cta": "通过实时链接发送"
         }
       },
       "depositEarn": {
-        "title": "存入 {{appName}}上的收益池",
+        "title": "存入 {{appName}} 上的收益池",
         "bottomSheet": {
-          "title": "存入收入池",
-          "body": "每次将资金存入 {{appName}}上的收益池，即可赚取 {{pointsValue}} 积分。 \n\n点击下方开始赚取收益和积分！",
-          "cta": "去赚取水池"
+          "title": "存入收益池",
+          "body": "每次将资金存入 {{appName}} 上的收益池，即可赚取 {{pointsValue}} 积分。 \n\n点击下方开始赚取收益和积分！",
+          "cta": "转到收益池"
         }
       }
     },
@@ -2490,8 +2490,8 @@
     },
     "entrypoint": {
       "title": "通过稳定币赚取收入",
-      "subtitle": "存款并赚取回报",
-      "description": "探索存放资产的池子，赚取稳定币回报"
+      "subtitle": "存款并赚取收益",
+      "description": "探索存放资产的收益池，赚取稳定币收益"
     },
     "enterAmount": {
       "earnUpToLabel": "您最多可以赚取：",
@@ -2503,7 +2503,7 @@
       "info": "此池由 Aave 提供支持",
       "infoBottomSheet": {
         "title": "为什么使用此池？",
-        "description": "该 Aave 池拥有超过 1.5 亿美元的 TVL 和 6000 多名贡献者，这表明它具有很强的流动性和可信度。它还使用 USDC 作为代币，使用 Arbitrum 作为网络，从而降低了波动性，确保用户获得低廉的天然气价格。\n\n所有这些都使其成为一个安全、有吸引力且年利率具有竞争力的选择，确保为我们的用户提供有利的投资机会。\n\n您可以<0>在这里</0>探索其他 Aave 池。",
+        "description": "这个 Aave 池拥有超过 1.5 亿美元的 TVL 和 6000 多名贡献者，这表明此池具有很强的流动性和可信度。此池还使用 USDC 作为代币，并以 Arbitrum 作为网络，从而降低了波动性，确保用户获得低廉的手续费。\n\n结合所有方面来看，此池是一个安全、有吸引力且年利率具有竞争力的选择，确保为我们的用户提供有利的投资机会。\n\n您可以在<0>此处</0>探索其他 Aave 池。",
         "dismiss": "忽略"
       },
       "notEnoughBalanceForGasWarning": {
@@ -2519,10 +2519,10 @@
       "exitPool": "退出池",
       "depositMore": "存入更多",
       "viewPools": "查看各类池",
-      "poolsSupplied": "提供泳池",
-      "totalSupplied": "供应总量",
-      "myPools": "我的泳池",
-      "explore": "探索开放"
+      "poolsSupplied": "供应池数",
+      "totalSupplied": "总供应量",
+      "myPools": "我的池",
+      "explore": "探索打开"
     },
     "depositBottomSheet": {
       "title": "审查和存款",
