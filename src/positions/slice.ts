@@ -21,6 +21,7 @@ export type TriggeredShortcuts = Record<
 
 interface State {
   positions: Position[]
+  positionsFetchedAt?: number
   status: Status
   shortcuts: Shortcut[]
   shortcutsStatus: Status
@@ -65,9 +66,13 @@ const slice = createSlice({
       ...state,
       status: 'loading',
     }),
-    fetchPositionsSuccess: (state, action: PayloadAction<Position[]>) => ({
+    fetchPositionsSuccess: (
+      state,
+      action: PayloadAction<{ positions: Position[]; fetchedAt: number }>
+    ) => ({
       ...state,
-      positions: action.payload,
+      positions: action.payload.positions,
+      positionsFetchedAt: action.payload.fetchedAt,
       status: 'success',
     }),
     fetchPositionsFailure: (state, action: PayloadAction<Error>) => ({
@@ -91,6 +96,7 @@ const slice = createSlice({
       ...state,
       previewApiUrl: action.payload,
       positions: [],
+      positionsFetchedAt: undefined,
       status: 'idle',
       shortcuts: [],
       shortcutsStatus: 'idle',
@@ -99,6 +105,7 @@ const slice = createSlice({
       ...state,
       previewApiUrl: null,
       positions: [],
+      positionsFetchedAt: undefined,
       status: 'idle',
       shortcuts: [],
       shortcutsStatus: 'idle',

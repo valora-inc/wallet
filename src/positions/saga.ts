@@ -39,8 +39,8 @@ import {
 import { Position, Shortcut } from 'src/positions/types'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
-import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
-import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
+import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import { sendTransaction } from 'src/transactions/send'
 import { NetworkId, newTransactionContext } from 'src/transactions/types'
@@ -53,7 +53,6 @@ import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
 import { call, put, select, spawn, takeEvery, takeLeading } from 'typed-redux-saga'
-import { DynamicConfigs } from 'src/statsig/constants'
 
 const TAG = 'positions/saga'
 
@@ -91,16 +90,12 @@ async function fetchHooks(
 }
 
 async function fetchPositions(hooksApiUrl: string, walletAddress: string) {
-  const networkIds = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
-  ).showPositions
+  const networkIds = getMultichainFeatures().showPositions
   return (await fetchHooks(hooksApiUrl, 'getPositions', walletAddress, networkIds)) as Position[]
 }
 
 async function fetchShortcuts(hooksApiUrl: string, walletAddress: string) {
-  const networkIds = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
-  ).showShortcuts
+  const networkIds = getMultichainFeatures().showShortcuts
   return (await fetchHooks(hooksApiUrl, 'v2/getShortcuts', walletAddress, networkIds)) as Shortcut[]
 }
 
@@ -150,7 +145,7 @@ export function* fetchPositionsSaga() {
     const hooksApiUrl = yield* select(hooksApiUrlSelector)
     const positions = yield* call(fetchPositions, hooksApiUrl, address)
     SentryTransactionHub.finishTransaction(SentryTransaction.fetch_positions)
-    yield* put(fetchPositionsSuccess(positions))
+    yield* put(fetchPositionsSuccess({ positions, fetchedAt: Date.now() }))
   } catch (err) {
     const error = ensureError(err)
     yield* put(fetchPositionsFailure(error))

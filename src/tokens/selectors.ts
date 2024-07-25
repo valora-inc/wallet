@@ -8,6 +8,7 @@ import {
   TOKEN_MIN_AMOUNT,
 } from 'src/config'
 import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
+import { Token } from 'src/positions/types'
 import { RootState } from 'src/redux/reducers'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
@@ -42,21 +43,108 @@ const DEFAULT_MEMOIZE_MAX_SIZE = 10
 
 function isNetworkIdList(networkIds: any): networkIds is NetworkId[] {
   return (
-    networkIds.constructor === Array &&
+    Array.isArray(networkIds) &&
     networkIds.every((networkId) => Object.values(NetworkId).includes(networkId))
   )
 }
 export const tokenFetchLoadingSelector = (state: RootState) => state.tokens.loading
 export const tokenFetchErrorSelector = (state: RootState) => state.tokens.error
 
+// Note: not importing from 'src/positions/selectors' to avoid circular dependency
+// TODO: address circular dependency
+const positionsSelector = (state: RootState) => state.positions.positions
+const positionsFetchedAtSelector = (state: RootState) => state.positions.positionsFetchedAt
+
+const positionTokensSelector = createSelector([positionsSelector], (positions) => {
+  const positionTokens: Record<string, Token> = {}
+
+  function visitToken(token: Token, isTopLevelAppToken: boolean) {
+    const tokenId = token.tokenId
+    if (!positionTokens[tokenId] || isTopLevelAppToken) {
+      positionTokens[tokenId] = {
+        ...token,
+        // Only keep the balance if it's a top level app-token
+        // Otherwise it doesn't represent a real user balance
+        balance: isTopLevelAppToken ? token.balance : '0',
+      }
+    }
+    if (token.type === 'app-token') {
+      for (const childToken of token.tokens) {
+        visitToken(childToken, false)
+      }
+    }
+  }
+
+  for (const position of positions) {
+    if (position.type === 'app-token') {
+      visitToken(position, true)
+    } else {
+      for (const token of position.tokens) {
+        visitToken(token, false)
+      }
+    }
+  }
+  return positionTokens
+})
+
+type TokensByIdArgs =
+  | NetworkId[] // For backward compatibility
+  | {
+      networkIds: NetworkId[]
+      includePositionTokens?: boolean
+    }
+
 export const tokensByIdSelector = createSelector(
   [
     (state: RootState) => state.tokens.tokenBalances,
-    (_state: RootState, networkIds: NetworkId[]) => networkIds,
+    positionTokensSelector,
+    positionsFetchedAtSelector,
+    (_state: RootState, args: TokensByIdArgs) => (Array.isArray(args) ? args : args.networkIds),
+    (_state: RootState, args: TokensByIdArgs) =>
+      Array.isArray(args) ? false : args.includePositionTokens ?? false,
   ],
-  (storedBalances, networkIds) => {
+  (storedBalances, positionTokens, positionsFetchedAt, networkIds, includePositionTokens) => {
+    const allStoredBalances = { ...storedBalances }
+
+    // Enrich with position tokens
+    // This allows us to have priceUsd and balance for tokens
+    // decomposed via positions
+    for (const positionToken of Object.values(positionTokens)) {
+      if (!networkIds.includes(positionToken.networkId)) {
+        continue
+      }
+      const tokenId = positionToken.tokenId
+      const existingToken = allStoredBalances[tokenId]
+      const priceUsd = positionToken.priceUsd != '0' ? positionToken.priceUsd : undefined
+      if (!existingToken) {
+        if (includePositionTokens) {
+          allStoredBalances[tokenId] = {
+            tokenId,
+            address: positionToken.address,
+            networkId: positionToken.networkId,
+            decimals: positionToken.decimals,
+            symbol: positionToken.symbol,
+            // TODO: update hooks API to return name too
+            name: positionToken.symbol,
+            balance: positionToken.balance,
+            priceUsd,
+            priceFetchedAt: positionsFetchedAt,
+            // So we can filter it out of the total balance / or other views
+            // i.e. we don't want to count it twice, once as a position and once as a token
+            isFromPosition: true,
+          }
+        }
+      } else if (existingToken.priceUsd == null) {
+        allStoredBalances[tokenId] = {
+          ...existingToken,
+          priceUsd,
+          priceFetchedAt: positionsFetchedAt,
+        }
+      }
+    }
+
     const tokenBalances: TokenBalances = {}
-    for (const storedState of Object.values(storedBalances)) {
+    for (const storedState of Object.values(allStoredBalances)) {
       if (
         !storedState ||
         storedState.balance === null ||
@@ -74,6 +162,7 @@ export const tokensByIdSelector = createSelector(
         lastKnownPriceUsd: !priceUsd.isNaN() ? priceUsd : null,
       }
     }
+
     return tokenBalances
   },
   {

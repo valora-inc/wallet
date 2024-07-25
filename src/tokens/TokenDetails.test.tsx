@@ -23,7 +23,7 @@ import {
 } from 'test/values'
 
 jest.mock('src/statsig', () => ({
-  getDynamicConfigParams: jest.fn(() => {
+  getMultichainFeatures: jest.fn(() => {
     return {
       showCico: ['celo-alfajores', 'ethereum-sepolia'],
       showSend: ['celo-alfajores', 'ethereum-sepolia'],
