@@ -2011,7 +2011,8 @@
       "network": "เครือข่าย {{networkName}}",
       "selectNetwork": "เครือข่าย",
       "stablecoins": "Stablecoins",
-      "gasTokens": "Gas Tokens"
+      "gasTokens": "Gas Tokens",
+      "tokens": "Token"
     }
   },
   "homeActions": {
@@ -2567,6 +2568,32 @@
       "earnWithdrawTitle": "ถอนแล้ว",
       "earnWithdrawSubtitle": "ถอน {{tokenSymbol}} จากพูล {{providerName}} แล้ว",
       "earnWithdrawDetails": "จำนวนเงินที่ถอนแล้ว"
+    },
+    "home": {
+      "title": "สร้างรายได้",
+      "learnMore": "<0>Learn more</0> about yield pools.",
+      "learnMoreBottomSheet": {
+        "bottomSheetTitle": "Learn more about yield pools",
+        "apySubtitle": "What is an APY?",
+        "apyDescription": "Annual percentage yield (APY) is a metric used to calculate the annualized return on crypto investments. It's a key indicator of a cryptocurrency's potential return and profitability.",
+        "tvlSubtitle": "What is TVL?",
+        "tvlDescription": "TVL stands for Total Value Locked, and it's a metric used in the crypto industry to measure the value of digital assets locked on a blockchain network. TVL is calculated by adding up the value of all digital assets locked in a DeFi protocol or smart contract. These assets can include cryptocurrencies, stablecoins, and other tokens."
+      }
+    },
+    "poolCard": {
+      "onNetwork": "บน {{networkName}}",
+      "rate": "อัตรา (โดยประมาณ)",
+      "reward": "Reward",
+      "tvl": "TVL",
+      "exitPool": "ออกจากพูล",
+      "addToPool": "Add to Pool",
+      "apy": "{{apy}}% APY",
+      "poweredBy": "ดำเนินการโดย {{providerName}}",
+      "deposited": "Supplied"
+    },
+    "poolFilters": {
+      "openPools": "Open Pools",
+      "myPools": "My Pools"
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"

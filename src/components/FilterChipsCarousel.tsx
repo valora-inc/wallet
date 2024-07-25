@@ -3,7 +3,7 @@ import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import Touchable from 'src/components/Touchable'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
-import colors from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { NetworkId } from 'src/transactions/types'
@@ -41,12 +41,6 @@ export type FilterChip<T> = BooleanFilterChip<T> | NetworkFilterChip<T> | TokenS
 interface Props<T> {
   chips: FilterChip<T>[]
   onSelectChip(chip: FilterChip<T>): void
-  primaryColor?: colors
-  primaryBorderColor?: colors
-  primaryTextColor?: colors
-  secondaryColor?: colors
-  secondaryBorderColor?: colors
-  secondaryTextColor?: colors
   style?: StyleProp<ViewStyle>
   contentContainerStyle?: StyleProp<ViewStyle>
   forwardedRef?: React.RefObject<ScrollView>
@@ -56,12 +50,6 @@ interface Props<T> {
 function FilterChipsCarousel<T>({
   chips,
   onSelectChip,
-  primaryColor = colors.black,
-  primaryBorderColor = colors.black,
-  primaryTextColor = colors.white,
-  secondaryColor = colors.gray1,
-  secondaryBorderColor = colors.gray2,
-  secondaryTextColor = colors.gray4,
   style,
   contentContainerStyle,
   forwardedRef,
@@ -88,8 +76,8 @@ function FilterChipsCarousel<T>({
             style={[
               styles.filterChipBackground,
               chip.isSelected
-                ? { backgroundColor: primaryColor, borderColor: primaryBorderColor }
-                : { backgroundColor: secondaryColor, borderColor: secondaryBorderColor },
+                ? { backgroundColor: Colors.black, borderColor: Colors.black }
+                : { backgroundColor: Colors.gray1, borderColor: Colors.gray2 },
             ]}
           >
             <Touchable
@@ -102,14 +90,14 @@ function FilterChipsCarousel<T>({
                 <Text
                   style={[
                     styles.filterChipText,
-                    chip.isSelected ? { color: primaryTextColor } : { color: secondaryTextColor },
+                    chip.isSelected ? { color: Colors.white } : { color: Colors.gray4 },
                   ]}
                 >
                   {chip.name}
                 </Text>
                 {(isNetworkChip(chip) || isTokenSelectChip(chip)) && (
                   <DownArrowIcon
-                    color={chip.isSelected ? secondaryColor : primaryColor}
+                    color={chip.isSelected ? Colors.white : Colors.gray4}
                     strokeWidth={2}
                     height={Spacing.Regular16}
                     style={{ marginBottom: 2, marginLeft: 4 }}
