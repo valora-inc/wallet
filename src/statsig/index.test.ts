@@ -6,13 +6,20 @@ import {
   getDynamicConfigParams,
   getExperimentParams,
   getFeatureGate,
+  getMultichainFeatures,
   patchUpdateStatsigUser,
   setupOverridesFromLaunchArgs,
 } from 'src/statsig/index'
-import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
+import {
+  StatsigDynamicConfigs,
+  StatsigExperiments,
+  StatsigFeatureGates,
+  StatsigMultiNetworkDynamicConfig,
+} from 'src/statsig/types'
+import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { EvaluationReason } from 'statsig-js'
-import { Statsig } from 'statsig-react-native'
+import { DynamicConfig, Statsig } from 'statsig-react-native'
 import { getMockStoreData } from 'test/utils'
 
 jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))
@@ -120,6 +127,87 @@ describe('Statsig helpers', () => {
       const output = getFeatureGate(StatsigFeatureGates.APP_REVIEW)
       expect(Logger.warn).not.toHaveBeenCalled()
       expect(output).toEqual(true)
+    })
+  })
+
+  describe('getMultichainFeatures', () => {
+    it('returns default values if getting statsig dynamic config throws error', () => {
+      jest.mocked(Statsig.getConfig).mockImplementation(() => {
+        throw new Error('mock error')
+      })
+      const defaultValues =
+        DynamicConfigs[StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES].defaultValues
+      const output = getMultichainFeatures()
+      expect(Logger.warn).toHaveBeenCalled()
+      expect(output).toEqual(defaultValues)
+    })
+    it('filters out invalid NetworkIds', () => {
+      const defaultValues =
+        DynamicConfigs[StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES].defaultValues
+      const getMock = jest
+        .fn()
+        .mockImplementation((paramName: keyof typeof defaultValues, _defaultValue: string) => {
+          if (paramName === 'showCico') {
+            return [NetworkId['arbitrum-one'], NetworkId['base-mainnet']]
+          } else if (paramName === 'showBalances') {
+            // celo is not a valid network id
+            return [NetworkId['ethereum-mainnet'], 'celo']
+          } else {
+            return DynamicConfigs[StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES]
+              .defaultValues[paramName]
+          }
+        })
+      jest.mocked(Statsig.getConfig).mockImplementation(
+        () =>
+          ({
+            get: getMock,
+            getEvaluationDetails: () => ({ reason: EvaluationReason.Network }),
+          }) as unknown as DynamicConfig
+      )
+      const output = getMultichainFeatures()
+      expect(Logger.warn).not.toHaveBeenCalled()
+      expect(output).toEqual({
+        ...DynamicConfigs[StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES].defaultValues,
+        showCico: [NetworkId['arbitrum-one'], NetworkId['base-mainnet']],
+        showBalances: [NetworkId['ethereum-mainnet']],
+      })
+      expect(Statsig.getConfig).toHaveBeenCalledWith(
+        StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES
+      )
+    })
+    it('returns values and logs error if sdk uninitialized', () => {
+      const defaultValues =
+        DynamicConfigs[StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES].defaultValues
+      const getMock = jest
+        .fn()
+        .mockImplementation((paramName: keyof typeof defaultValues, _defaultValue: string) => {
+          if (paramName === 'showCico') {
+            return [NetworkId['arbitrum-one'], NetworkId['base-mainnet']]
+          } else if (paramName === 'showBalances') {
+            // celo is not a valid network id
+            return [NetworkId['ethereum-mainnet'], 'celo']
+          } else {
+            return DynamicConfigs[StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES]
+              .defaultValues[paramName]
+          }
+        })
+      jest.mocked(Statsig.getConfig).mockImplementation(
+        () =>
+          ({
+            get: getMock,
+            getEvaluationDetails: () => ({ reason: EvaluationReason.Network }),
+          }) as unknown as DynamicConfig
+      )
+      const output = getMultichainFeatures()
+      expect(Logger.warn).not.toHaveBeenCalled()
+      expect(output).toEqual({
+        ...DynamicConfigs[StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES].defaultValues,
+        showCico: [NetworkId['arbitrum-one'], NetworkId['base-mainnet']],
+        showBalances: [NetworkId['ethereum-mainnet']],
+      })
+      expect(Statsig.getConfig).toHaveBeenCalledWith(
+        StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES
+      )
     })
   })
 

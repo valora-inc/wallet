@@ -4,7 +4,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { ReactTestInstance } from 'react-test-renderer'
 import { RootState } from 'src/redux/reducers'
-import { getFeatureGate } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { QueryResponse } from 'src/transactions/feed/queryHelper'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
 import {
@@ -18,18 +18,7 @@ import networkConfig from 'src/web3/networkConfig'
 import { createMockStore, RecursivePartial } from 'test/utils'
 import { mockApprovalTransaction, mockCusdAddress, mockCusdTokenId } from 'test/values'
 
-jest.mock('src/statsig', () => ({
-  getFeatureGate: jest.fn(),
-  getDynamicConfigParams: jest.fn(() => ({
-    showCico: ['celo-alfajores'],
-    showBalances: ['celo-alfajores'],
-    showTransfers: ['celo-alfajores'],
-    showApprovalTxsInHomefeed: ['celo-alfajores'],
-    jumpstartContracts: {
-      ['celo-alfajores']: { contractAddress: '0x7bf3fefe9881127553d23a8cd225a2c2442c438c' },
-    },
-  })),
-}))
+jest.mock('src/statsig')
 
 const mockTransaction = (
   transactionHash: string,
@@ -174,6 +163,17 @@ describe('TransactionFeed', () => {
   beforeEach(() => {
     jest.useRealTimers()
     jest.clearAllMocks()
+    jest.mocked(getMultichainFeatures).mockReturnValue({
+      showCico: [NetworkId['celo-alfajores']],
+      showBalances: [NetworkId['celo-alfajores']],
+      showTransfers: [NetworkId['celo-alfajores']],
+      showApprovalTxsInHomefeed: [NetworkId['celo-alfajores']],
+    })
+    jest.mocked(getDynamicConfigParams).mockReturnValue({
+      jumpstartContracts: {
+        ['celo-alfajores']: { contractAddress: '0x7bf3fefe9881127553d23a8cd225a2c2442c438c' },
+      },
+    })
     mockFetch.resetMocks()
   })
 

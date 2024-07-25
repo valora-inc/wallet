@@ -14,10 +14,12 @@ import FilterChipsCarousel, {
   FilterChip,
   NetworkFilterChip,
   isNetworkChip,
+  isTokenSelectChip,
 } from 'src/components/FilterChipsCarousel'
 import SearchInput from 'src/components/SearchInput'
 import NetworkMultiSelectBottomSheet from 'src/components/multiSelect/NetworkMultiSelectBottomSheet'
 import InfoIcon from 'src/icons/InfoIcon'
+import { NETWORK_NAMES } from 'src/shared/conts'
 import colors, { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -33,6 +35,7 @@ export enum TokenPickerOrigin {
   CashIn = 'CashIn',
   CashOut = 'CashOut',
   Spend = 'Spend',
+  Earn = 'Earn',
 }
 
 export const DEBOUNCE_WAIT_TIME = 200
@@ -72,7 +75,22 @@ function NoResults({
 }) {
   const { t } = useTranslation()
 
-  const activeFilterNames = activeFilters.map((filter) => `"${filter.name}"`)
+  const activeFilterNames = activeFilters.map((activeFilter) => {
+    if (!isNetworkChip(activeFilter)) {
+      return `"${activeFilter.name}"`
+    }
+
+    // use the network name as the filter name to give more information,
+    // rather than the filter name itself (which is "network")
+    return activeFilter.selectedNetworkIds
+      .map(
+        (selectedNetworkId) =>
+          `"${t('tokenBottomSheet.filters.network', {
+            networkName: NETWORK_NAMES[selectedNetworkId],
+          })}"`
+      )
+      .join(', ')
+  })
   const noResultsText =
     activeFilterNames.length > 0 && searchTerm.length > 0
       ? 'tokenBottomSheet.noFilterSearchResults'
@@ -198,6 +216,9 @@ function TokenBottomSheet({
         !activeFilters.every((filter) => {
           if (isNetworkChip(filter)) {
             return filter.filterFn(token, filter.selectedNetworkIds)
+          }
+          if (isTokenSelectChip(filter)) {
+            return filter.filterFn(token, filter.selectedTokenId)
           }
           return filter.filterFn(token)
         })
@@ -333,12 +354,11 @@ function TokenBottomSheet({
           setSelectedNetworkIds={setSelectedNetworkIds}
           selectedNetworkIds={networkChip.selectedNetworkIds}
           forwardedRef={networkChipRef}
-          onClose={() => {
+          onSelect={(selectedNetworkIds: NetworkId[]) => {
             ValoraAnalytics.track(TokenBottomSheetEvents.network_filter_updated, {
-              selectedNetworkIds: networkChip.selectedNetworkIds,
+              selectedNetworkIds,
               origin,
             })
-            networkChipRef.current?.close()
           }}
         />
       )}

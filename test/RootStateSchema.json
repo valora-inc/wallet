@@ -1101,91 +1101,6 @@
             ],
             "type": "object"
         },
-        "CrossChainTokenExchange": {
-            "additionalProperties": false,
-            "properties": {
-                "__typename": {
-                    "const": "CrossChainTokenExchange",
-                    "type": "string"
-                },
-                "block": {
-                    "type": "string"
-                },
-                "fees": {
-                    "items": {
-                        "$ref": "#/definitions/Fee"
-                    },
-                    "type": "array"
-                },
-                "inAmount": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "localAmount": {
-                            "$ref": "#/definitions/LocalAmount"
-                        },
-                        "tokenAddress": {
-                            "type": "string"
-                        },
-                        "tokenId": {
-                            "type": "string"
-                        },
-                        "value": {
-                            "anyOf": [
-                                {
-                                    "$ref": "#/definitions/BigNumber.Instance"
-                                },
-                                {
-                                    "type": [
-                                        "null",
-                                        "string",
-                                        "number"
-                                    ]
-                                }
-                            ]
-                        }
-                    },
-                    "required": [
-                        "tokenId",
-                        "value"
-                    ],
-                    "type": "object"
-                },
-                "metadata": {
-                    "$ref": "#/definitions/TokenExchangeMetadata"
-                },
-                "networkId": {
-                    "$ref": "#/definitions/NetworkId"
-                },
-                "outAmount": {
-                    "$ref": "#/definitions/TokenAmount"
-                },
-                "status": {
-                    "$ref": "#/definitions/TransactionStatus"
-                },
-                "timestamp": {
-                    "type": "number"
-                },
-                "transactionHash": {
-                    "type": "string"
-                },
-                "type": {
-                    "$ref": "#/definitions/TokenTransactionTypeV2"
-                }
-            },
-            "required": [
-                "__typename",
-                "block",
-                "fees",
-                "inAmount",
-                "networkId",
-                "outAmount",
-                "status",
-                "timestamp",
-                "transactionHash",
-                "type"
-            ],
-            "type": "object"
-        },
         "CryptoType": {
             "enum": [
                 "CELO",
@@ -2646,87 +2561,6 @@
             ],
             "type": "object"
         },
-        "PendingStandbyTransaction<CrossChainTokenExchange>": {
-            "additionalProperties": false,
-            "properties": {
-                "__typename": {
-                    "const": "CrossChainTokenExchange",
-                    "type": "string"
-                },
-                "context": {
-                    "$ref": "#/definitions/TransactionContext"
-                },
-                "feeCurrencyId": {
-                    "type": "string"
-                },
-                "inAmount": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "localAmount": {
-                            "$ref": "#/definitions/LocalAmount"
-                        },
-                        "tokenAddress": {
-                            "type": "string"
-                        },
-                        "tokenId": {
-                            "type": "string"
-                        },
-                        "value": {
-                            "anyOf": [
-                                {
-                                    "$ref": "#/definitions/BigNumber.Instance"
-                                },
-                                {
-                                    "type": [
-                                        "null",
-                                        "string",
-                                        "number"
-                                    ]
-                                }
-                            ]
-                        }
-                    },
-                    "required": [
-                        "tokenId",
-                        "value"
-                    ],
-                    "type": "object"
-                },
-                "metadata": {
-                    "$ref": "#/definitions/TokenExchangeMetadata"
-                },
-                "networkId": {
-                    "$ref": "#/definitions/NetworkId"
-                },
-                "outAmount": {
-                    "$ref": "#/definitions/TokenAmount"
-                },
-                "status": {
-                    "const": "Pending",
-                    "type": "string"
-                },
-                "timestamp": {
-                    "type": "number"
-                },
-                "transactionHash": {
-                    "type": "string"
-                },
-                "type": {
-                    "$ref": "#/definitions/TokenTransactionTypeV2"
-                }
-            },
-            "required": [
-                "__typename",
-                "context",
-                "inAmount",
-                "networkId",
-                "outAmount",
-                "status",
-                "timestamp",
-                "type"
-            ],
-            "type": "object"
-        },
         "PendingStandbyTransaction<EarnClaimReward>": {
             "additionalProperties": false,
             "properties": {
@@ -2980,7 +2814,10 @@
             "additionalProperties": false,
             "properties": {
                 "__typename": {
-                    "const": "TokenExchangeV3",
+                    "enum": [
+                        "CrossChainTokenExchange",
+                        "TokenExchangeV3"
+                    ],
                     "type": "string"
                 },
                 "context": {
@@ -3572,6 +3409,7 @@
                 "Debug",
                 "EarnCollectScreen",
                 "EarnEnterAmount",
+                "EarnHome",
                 "EarnInfoScreen",
                 "EnableBiometry",
                 "ErrorScreen",
@@ -3854,7 +3692,10 @@
                     "additionalProperties": false,
                     "properties": {
                         "__typename": {
-                            "const": "TokenExchangeV3",
+                            "enum": [
+                                "CrossChainTokenExchange",
+                                "TokenExchangeV3"
+                            ],
                             "type": "string"
                         },
                         "block": {
@@ -4307,102 +4148,6 @@
                     "type": "object"
                 },
                 {
-                    "additionalProperties": false,
-                    "properties": {
-                        "__typename": {
-                            "const": "CrossChainTokenExchange",
-                            "type": "string"
-                        },
-                        "block": {
-                            "type": "string"
-                        },
-                        "context": {
-                            "$ref": "#/definitions/TransactionContext"
-                        },
-                        "feeCurrencyId": {
-                            "type": "string"
-                        },
-                        "fees": {
-                            "items": {
-                                "$ref": "#/definitions/Fee"
-                            },
-                            "type": "array"
-                        },
-                        "inAmount": {
-                            "additionalProperties": false,
-                            "properties": {
-                                "localAmount": {
-                                    "$ref": "#/definitions/LocalAmount"
-                                },
-                                "tokenAddress": {
-                                    "type": "string"
-                                },
-                                "tokenId": {
-                                    "type": "string"
-                                },
-                                "value": {
-                                    "anyOf": [
-                                        {
-                                            "$ref": "#/definitions/BigNumber.Instance"
-                                        },
-                                        {
-                                            "type": [
-                                                "null",
-                                                "string",
-                                                "number"
-                                            ]
-                                        }
-                                    ]
-                                }
-                            },
-                            "required": [
-                                "tokenId",
-                                "value"
-                            ],
-                            "type": "object"
-                        },
-                        "metadata": {
-                            "$ref": "#/definitions/TokenExchangeMetadata"
-                        },
-                        "networkId": {
-                            "$ref": "#/definitions/NetworkId"
-                        },
-                        "outAmount": {
-                            "$ref": "#/definitions/TokenAmount"
-                        },
-                        "status": {
-                            "enum": [
-                                "Complete",
-                                "Failed"
-                            ],
-                            "type": "string"
-                        },
-                        "timestamp": {
-                            "type": "number"
-                        },
-                        "transactionHash": {
-                            "type": "string"
-                        },
-                        "type": {
-                            "$ref": "#/definitions/TokenTransactionTypeV2"
-                        }
-                    },
-                    "required": [
-                        "__typename",
-                        "block",
-                        "context",
-                        "fees",
-                        "inAmount",
-                        "networkId",
-                        "outAmount",
-                        "status",
-                        "timestamp",
-                        "transactionHash",
-                        "type"
-                    ],
-                    "type": "object"
-                },
-                {
                     "$ref": "#/definitions/PendingStandbyTransaction<TokenExchange>"
                 },
                 {
@@ -4422,9 +4167,6 @@
                 },
                 {
                     "$ref": "#/definitions/PendingStandbyTransaction<EarnClaimReward>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<CrossChainTokenExchange>"
                 }
             ]
         },
@@ -5250,6 +4992,9 @@
                     },
                     "type": "array"
                 },
+                "positionsFetchedAt": {
+                    "type": "number"
+                },
                 "previewApiUrl": {
                     "type": [
                         "null",
@@ -5929,6 +5674,9 @@
                 "isFeeCurrency": {
                     "type": "boolean"
                 },
+                "isFromPosition": {
+                    "type": "boolean"
+                },
                 "isManuallyImported": {
                     "type": "boolean"
                 },
@@ -6213,7 +5961,10 @@
             "additionalProperties": false,
             "properties": {
                 "__typename": {
-                    "const": "TokenExchangeV3",
+                    "enum": [
+                        "CrossChainTokenExchange",
+                        "TokenExchangeV3"
+                    ],
                     "type": "string"
                 },
                 "block": {
@@ -6298,9 +6049,6 @@
                 },
                 {
                     "$ref": "#/definitions/EarnClaimReward"
-                },
-                {
-                    "$ref": "#/definitions/CrossChainTokenExchange"
                 }
             ]
         },

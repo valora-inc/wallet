@@ -13,11 +13,7 @@ import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ScrollDirection } from 'src/analytics/types'
 import { openUrl } from 'src/app/actions'
-import {
-  numberVerifiedDecentrallySelector,
-  phoneNumberVerifiedSelector,
-  rewardsEnabledSelector,
-} from 'src/app/selectors'
+import { phoneNumberVerifiedSelector, rewardsEnabledSelector } from 'src/app/selectors'
 import Pagination from 'src/components/Pagination'
 import SimpleMessagingCard, {
   Props as SimpleMessagingCardProps,
@@ -33,7 +29,7 @@ import { getExtraNotifications } from 'src/home/selectors'
 import { Notification, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import GuideKeyIcon from 'src/icons/GuideKeyHomeCardIcon'
 import KeylessBackup from 'src/icons/KeylessBackup'
-import { boostRewards, getVerified, learnCelo, lightningPhone } from 'src/images/Images'
+import { boostRewards, getVerified, learnCelo } from 'src/images/Images'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useDispatch, useSelector } from 'src/redux/hooks'
@@ -52,7 +48,6 @@ export const INVITES_PRIORITY = 400
 const CELO_EDUCATION_PRIORITY = 10
 const SUPERCHARGE_AVAILABLE_PRIORITY = 950
 const SUPERCHARGE_INFO_PRIORITY = 440
-const REVERIFY_ON_CPV_PRIORITY = 990
 
 interface SimpleAction extends SimpleMessagingCardProps {
   id: string
@@ -71,7 +66,6 @@ export function useSimpleActions() {
   } = useSelector((state) => state.account)
 
   const phoneNumberVerified = useSelector(phoneNumberVerifiedSelector)
-  const numberVerifiedDecentrally = useSelector(numberVerifiedDecentrallySelector)
 
   const celoEducationCompleted = useSelector(celoEducationCompletedSelector)
 
@@ -166,30 +160,6 @@ export function useSimpleActions() {
         ],
       })
     }
-  }
-
-  if (numberVerifiedDecentrally && !phoneNumberVerified) {
-    actions.push({
-      id: NotificationType.reverify_using_CPV,
-      type: NotificationType.reverify_using_CPV,
-      text: t('reverifyUsingCPVHomecard.description'),
-      icon: lightningPhone,
-      priority: REVERIFY_ON_CPV_PRIORITY,
-      callToActions: [
-        {
-          text: t('reverifyUsingCPVHomecard.buttonLabel'),
-          onPress: (params) => {
-            ValoraAnalytics.track(HomeEvents.notification_select, {
-              notificationType: NotificationType.reverify_using_CPV,
-              selectedAction: NotificationBannerCTATypes.accept,
-              notificationId: NotificationType.reverify_using_CPV,
-              notificationPositionInList: params?.index,
-            })
-            navigate(Screens.VerificationStartScreen, { hasOnboarded: true })
-          },
-        },
-      ],
-    })
   }
 
   if (rewardsEnabled) {

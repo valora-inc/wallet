@@ -8,9 +8,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import useInterval from 'src/hooks/useInterval'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { DynamicConfigs } from 'src/statsig/constants'
-import { getDynamicConfigParams } from 'src/statsig/index'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { getMultichainFeatures } from 'src/statsig/index'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { updateTransactions } from 'src/transactions/actions'
 import { transactionHashesByNetworkIdSelector } from 'src/transactions/reducer'
@@ -66,8 +64,7 @@ export const deduplicateTransactions = (
 }
 
 export function getAllowedNetworkIds(): Array<NetworkId> {
-  return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES])
-    .showTransfers
+  return getMultichainFeatures().showTransfers
 }
 
 export function useFetchTransactions(): QueryHookResult {

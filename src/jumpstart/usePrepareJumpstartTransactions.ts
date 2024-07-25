@@ -116,6 +116,7 @@ export function usePrepareJumpstartTransactions() {
         spendToken: token,
         spendTokenAmount: sendTokenAmountInSmallestUnit,
         baseTransactions,
+        origin: 'jumpstart-send',
       })
     },
     {

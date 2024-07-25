@@ -163,10 +163,86 @@ const state: any = {
       },
     },
   },
+  positions: {
+    positions: [],
+  },
   localCurrency: {
     preferredCurrencyCode: LocalCurrencyCode.EUR,
     fetchedCurrencyCode: LocalCurrencyCode.EUR,
     usdToLocalRate: '0.86',
+  },
+}
+
+const positions = [
+  {
+    type: 'app-token' as const,
+    networkId: NetworkId['celo-alfajores'],
+    tokenId: 'celo-alfajores:0x6',
+    name: '0x6 token',
+    address: '0x6',
+    priceUsd: '60', // This will update priceUsd for the token
+    balance: '3', // This will be ignored
+    displayProps: {
+      title: 'Title',
+    },
+    tokens: [
+      {
+        networkId: NetworkId['celo-alfajores'],
+        tokenId: 'celo-alfajores:0xa',
+        balance: '1',
+        priceUsd: '30',
+      },
+    ],
+    balanceUsd: '180',
+  },
+  {
+    type: 'app-token' as const,
+    networkId: NetworkId['celo-alfajores'],
+    tokenId: 'celo-alfajores:0xa',
+    symbol: '0xa token',
+    address: '0x6',
+    priceUsd: '30',
+    balance: '10',
+    displayProps: {
+      title: 'Title A',
+    },
+    tokens: [
+      {
+        networkId: NetworkId['celo-alfajores'],
+        tokenId: 'celo-alfajores:0xb',
+        symbol: '0xb token',
+        balance: '2',
+        priceUsd: '1.11',
+      },
+    ],
+    balanceUsd: '300',
+  },
+  {
+    type: 'contract-position' as const,
+    networkId: NetworkId['celo-alfajores'],
+    address: '0xb',
+    appId: 'b',
+    displayProps: {
+      title: 'Title B',
+    },
+    tokens: [
+      {
+        networkId: NetworkId['celo-alfajores'],
+        tokenId: 'celo-alfajores:0xb',
+        symbol: '0xb token',
+        balance: '1',
+        priceUsd: '1.11',
+      },
+    ],
+    balanceUsd: '1.11',
+  },
+]
+
+const stateWithPositions = {
+  ...state,
+  positions: {
+    positions,
+    positionsFetchedAt: mockDate,
   },
 }
 
@@ -181,6 +257,8 @@ describe(tokensByIdSelector, () => {
       expect(tokensById['celo-alfajores:0x1']?.name).toEqual('0x1 token')
       expect(tokensById['celo-alfajores:0x5']?.name).toEqual('0x5 token')
       expect(tokensById['celo-alfajores:0x6']?.name).toEqual('0x6 token')
+
+      expect(tokensById['celo-alfajores:0x6']?.priceUsd).toEqual(null)
     })
     it('avoids unnecessary recomputation', () => {
       const tokensById = tokensByIdSelector(state, [NetworkId['celo-alfajores']])
@@ -190,6 +268,48 @@ describe(tokensByIdSelector, () => {
       expect(tokensByIdSepolia).not.toEqual(tokensById)
       expect(tokensById).toEqual(tokensById2)
       expect(tokensByIdSelector.recomputations()).toEqual(2) // once for each different networkId
+    })
+    it('enriches the tokens with priceUsd coming from positions', () => {
+      const tokensById = tokensByIdSelector(stateWithPositions, [NetworkId['celo-alfajores']])
+      expect(Object.keys(tokensById).length).toEqual(6)
+      expect(tokensById['celo-alfajores:0xusd']?.symbol).toEqual('cUSD')
+      expect(tokensById['celo-alfajores:0xeur']?.symbol).toEqual('cEUR')
+      expect(tokensById['celo-alfajores:0x4']?.symbol).toEqual('TT')
+      expect(tokensById['celo-alfajores:0x1']?.name).toEqual('0x1 token')
+      expect(tokensById['celo-alfajores:0x5']?.name).toEqual('0x5 token')
+      expect(tokensById['celo-alfajores:0x6']?.name).toEqual('0x6 token')
+
+      // This is the token that was enriched with the price from the position
+      expect(tokensById['celo-alfajores:0x6']?.priceUsd).toEqual(new BigNumber('60'))
+      // Still has the original balance
+      expect(tokensById['celo-alfajores:0x6']?.balance).toEqual(new BigNumber('0'))
+    })
+    it('includes positions token when asked', () => {
+      const tokensById = tokensByIdSelector(stateWithPositions, {
+        networkIds: [NetworkId['celo-alfajores']],
+        includePositionTokens: true,
+      })
+      expect(Object.keys(tokensById).length).toEqual(8)
+      expect(tokensById['celo-alfajores:0xusd']?.symbol).toEqual('cUSD')
+      expect(tokensById['celo-alfajores:0xeur']?.symbol).toEqual('cEUR')
+      expect(tokensById['celo-alfajores:0x4']?.symbol).toEqual('TT')
+      expect(tokensById['celo-alfajores:0x1']?.name).toEqual('0x1 token')
+      expect(tokensById['celo-alfajores:0x5']?.name).toEqual('0x5 token')
+      expect(tokensById['celo-alfajores:0x6']?.name).toEqual('0x6 token')
+
+      // These are the tokens coming from positions
+      expect(tokensById['celo-alfajores:0xa']?.symbol).toEqual('0xa token')
+      expect(tokensById['celo-alfajores:0xa']?.priceUsd).toEqual(new BigNumber('30'))
+      expect(tokensById['celo-alfajores:0xa']?.balance).toEqual(new BigNumber('10'))
+      expect(tokensById['celo-alfajores:0xb']?.symbol).toEqual('0xb token')
+      expect(tokensById['celo-alfajores:0xb']?.priceUsd).toEqual(new BigNumber('1.11'))
+      // This one has no direct balance held by the user
+      expect(tokensById['celo-alfajores:0xb']?.balance).toEqual(new BigNumber('0'))
+
+      // This is the token that was enriched with the price from the position
+      expect(tokensById['celo-alfajores:0x6']?.priceUsd).toEqual(new BigNumber('60'))
+      // Still has the original balance
+      expect(tokensById['celo-alfajores:0x6']?.balance).toEqual(new BigNumber('0'))
     })
   })
 })
@@ -361,6 +481,11 @@ describe(totalTokenBalanceSelector, () => {
   describe('when fetching the total token balance', () => {
     it('returns the right amount', () => {
       expect(totalTokenBalanceSelector(state, [NetworkId['celo-alfajores']])).toEqual(
+        new BigNumber(107.5)
+      )
+    })
+    it('returns the right amount when positions are present', () => {
+      expect(totalTokenBalanceSelector(stateWithPositions, [NetworkId['celo-alfajores']])).toEqual(
         new BigNumber(107.5)
       )
     })
@@ -536,6 +661,9 @@ describe('feeCurrenciesSelector', () => {
         },
       },
     },
+    positions: {
+      positions: [],
+    },
   }
 
   it('returns feeCurrencies sorted by native currency first, then by USD balance, and balance otherwise', () => {
@@ -601,6 +729,9 @@ describe('feeCurrenciesWithPositiveBalancesSelector', () => {
           balance: '200',
         },
       },
+    },
+    positions: {
+      positions: [],
     },
   }
 
@@ -674,6 +805,9 @@ describe('lastKnownTokenBalancesSelector', () => {
           lastKnownPriceUsd: '500',
         },
       },
+    },
+    positions: {
+      positions: [],
     },
   }
 
@@ -798,6 +932,9 @@ describe('swappable tokens selectors', () => {
             isManuallyImported: true,
           },
         },
+      },
+      positions: {
+        positions: [],
       },
     }
 

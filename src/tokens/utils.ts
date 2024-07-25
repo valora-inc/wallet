@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { TokenProperties } from 'src/analytics/Properties'
-import { getDynamicConfigParams } from 'src/statsig'
+import { getDynamicConfigParams, getMultichainFeatures } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { CurrencyTokens } from 'src/tokens/selectors'
@@ -155,8 +155,7 @@ export function convertTokenToLocalAmount({
 }
 
 export function getSupportedNetworkIdsForTokenBalances(): NetworkId[] {
-  return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES])
-    .showBalances
+  return getMultichainFeatures().showBalances
 }
 
 export function getTokenId(networkId: NetworkId, tokenAddress?: string): string {
@@ -171,21 +170,19 @@ export function getTokenId(networkId: NetworkId, tokenAddress?: string): string 
 }
 
 export function getSupportedNetworkIdsForSend(): NetworkId[] {
-  return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]).showSend
+  return getMultichainFeatures().showSend
 }
 
 export function getSupportedNetworkIdsForSwap(): NetworkId[] {
-  return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]).showSwap
+  return getMultichainFeatures().showSwap
 }
 
 export function getSupportedNetworkIdsForWalletConnect(): NetworkId[] {
-  return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES])
-    .showWalletConnect
+  return getMultichainFeatures().showWalletConnect
 }
 
 export function getSupportedNetworkIdsForApprovalTxsInHomefeed(): NetworkId[] {
-  return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES])
-    .showApprovalTxsInHomefeed
+  return getMultichainFeatures().showApprovalTxsInHomefeed
 }
 
 export function getTokenAnalyticsProps(token: TokenBalance): TokenProperties {
