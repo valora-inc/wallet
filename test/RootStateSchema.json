@@ -362,6 +362,9 @@
                     "const": "claimable",
                     "type": "string"
                 },
+                "dataProps": {
+                    "$ref": "#/definitions/EarnDataProps"
+                },
                 "decimals": {
                     "type": "number"
                 },
@@ -1012,6 +1015,9 @@
                 "balanceUsd": {
                     "type": "string"
                 },
+                "dataProps": {
+                    "$ref": "#/definitions/EarnDataProps"
+                },
                 "displayProps": {
                     "$ref": "#/definitions/PositionDisplayProps"
                 },
@@ -1294,6 +1300,26 @@
                 "timestamp",
                 "transactionHash",
                 "type"
+            ],
+            "type": "object"
+        },
+        "EarnDataProps": {
+            "additionalProperties": false,
+            "properties": {
+                "apy": {
+                    "type": "number"
+                },
+                "depositTokenId": {
+                    "type": "string"
+                },
+                "withdrawTokenId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "apy",
+                "depositTokenId",
+                "withdrawTokenId"
             ],
             "type": "object"
         },
