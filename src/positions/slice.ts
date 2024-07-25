@@ -22,6 +22,7 @@ export type TriggeredShortcuts = Record<
 interface State {
   positions: Position[]
   positionsFetchedAt?: number
+  earnPositionIds: string[]
   status: Status
   shortcuts: Shortcut[]
   shortcutsStatus: Status
@@ -31,6 +32,7 @@ interface State {
 
 const initialState: State = {
   positions: [],
+  earnPositionIds: [],
   status: 'idle',
   shortcuts: [],
   shortcutsStatus: 'idle',
@@ -68,10 +70,11 @@ const slice = createSlice({
     }),
     fetchPositionsSuccess: (
       state,
-      action: PayloadAction<{ positions: Position[]; fetchedAt: number }>
+      action: PayloadAction<{ positions: Position[]; earnPositionIds: string[]; fetchedAt: number }>
     ) => ({
       ...state,
       positions: action.payload.positions,
+      earnPositionIds: action.payload.earnPositionIds,
       positionsFetchedAt: action.payload.fetchedAt,
       status: 'success',
     }),

@@ -33,6 +33,7 @@ const getPositionWithClaimableBalance = (balance?: string): Position => ({
   type: 'contract-position',
   networkId: NetworkId['celo-mainnet'],
   address: '0xda7f463c27ec862cfbf2369f3f74c364d050d93f',
+  positionId: `${NetworkId['celo-mainnet']}:0xda7f463c27ec862cfbf2369f3f74c364d050d93f`,
   appId: 'ubeswap',
   appName: 'Ubeswap',
   displayProps: {
@@ -46,6 +47,7 @@ const getPositionWithClaimableBalance = (balance?: string): Position => ({
       networkId: NetworkId['celo-alfajores'],
       address: '0x1e593f1fe7b61c53874b54ec0c59fd0d5eb8621e',
       tokenId: `${NetworkId['celo-alfajores']}:0x1e593f1fe7b61c53874b54ec0c59fd0d5eb8621e`,
+      positionId: `${NetworkId['celo-alfajores']}:0x1e593f1fe7b61c53874b54ec0c59fd0d5eb8621e`,
       appId: 'ubeswap',
       symbol: 'ULP',
       decimals: 18,

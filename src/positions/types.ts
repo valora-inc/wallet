@@ -9,15 +9,28 @@ export interface PositionDisplayProps {
   imageUrl: string
 }
 
+export type DataProps = EarnDataProps
+
+export interface EarnDataProps {
+  apy: number
+  depositTokenId: string
+  withdrawTokenId: string
+  // We'll add more fields here as needed
+}
+
 export type TokenCategory = 'claimable'
 
 export interface AbstractPosition {
+  // Should be unique across all positions
+  // And treated as an opaque identifier by consumers
+  positionId: string // Example: celo-mainnet:0x...
   address: string // Example: 0x...
   networkId: NetworkId // Example: celo-mainnet
   appId: string // Example: ubeswap
   appName: string
   tokens: Token[]
   displayProps: PositionDisplayProps
+  dataProps?: DataProps
   availableShortcutIds: string[]
 }
 

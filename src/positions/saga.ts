@@ -43,7 +43,7 @@ import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import { sendTransaction } from 'src/transactions/send'
-import { NetworkId, newTransactionContext } from 'src/transactions/types'
+import { newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
@@ -56,47 +56,72 @@ import { call, put, select, spawn, takeEvery, takeLeading } from 'typed-redux-sa
 
 const TAG = 'positions/saga'
 
-const POSITIONS_FETCH_TIMEOUT = 45_000 // 45 seconds
+const HOOKS_FETCH_TIMEOUT = 45_000 // 45 seconds
 
 function getHooksApiFunctionUrl(
   hooksApiUrl: string,
-  functionName: 'getPositions' | 'v2/getShortcuts' | 'triggerShortcut'
+  functionName: 'getPositions' | 'getEarnPositions' | 'v2/getShortcuts' | 'triggerShortcut'
 ) {
   const url = new URL(hooksApiUrl)
   url.pathname = path.join(url.pathname, functionName)
-  return url.toString()
+  return url
 }
 
-async function fetchHooks(
-  hooksApiUrl: string,
-  functionName: 'getPositions' | 'v2/getShortcuts',
-  walletAddress: string,
-  networkIds: NetworkId[]
+async function fetchHooks<T>(
+  url: string,
+  options: RequestInit | null = null,
+  duration: number = HOOKS_FETCH_TIMEOUT
 ) {
-  const urlSearchParams = new URLSearchParams({
-    address: walletAddress,
-  })
-  networkIds.forEach((networkId) => urlSearchParams.append('networkIds', networkId))
-  const response = await fetchWithTimeout(
-    `${getHooksApiFunctionUrl(hooksApiUrl, functionName)}?` + urlSearchParams,
-    null,
-    POSITIONS_FETCH_TIMEOUT
-  )
+  const response = await fetchWithTimeout(url, options, duration)
   if (!response.ok) {
-    throw new Error(`Unable to fetch ${functionName}: ${response.status} ${response.statusText}`)
+    throw new Error(`Unable to fetch ${url}: ${response.status} ${response.statusText}`)
   }
   const json = await response.json()
-  return json.data
+  return json.data as T
 }
 
 async function fetchPositions(hooksApiUrl: string, walletAddress: string) {
   const networkIds = getMultichainFeatures().showPositions
-  return (await fetchHooks(hooksApiUrl, 'getPositions', walletAddress, networkIds)) as Position[]
+
+  const getPositionsUrl = getHooksApiFunctionUrl(hooksApiUrl, 'getPositions')
+  getPositionsUrl.searchParams.set('address', walletAddress)
+  networkIds.forEach((networkId) => getPositionsUrl.searchParams.append('networkIds', networkId))
+
+  const getEarnPositionsUrl = getHooksApiFunctionUrl(hooksApiUrl, 'getEarnPositions')
+  networkIds.forEach((networkId) =>
+    getEarnPositionsUrl.searchParams.append('networkIds', networkId)
+  )
+
+  const [walletPositions, earnPositions] = await Promise.all([
+    fetchHooks<Position[]>(getPositionsUrl.toString()),
+    fetchHooks<Position[]>(getEarnPositionsUrl.toString()),
+  ])
+
+  const positionIds = new Set()
+  const positions: Position[] = []
+
+  for (const position of [...walletPositions, ...earnPositions]) {
+    if (positionIds.has(position.positionId)) {
+      continue
+    }
+    positionIds.add(position.positionId)
+    positions.push(position)
+  }
+
+  return {
+    positions,
+    earnPositionIds: earnPositions.map((position) => position.positionId),
+  }
 }
 
 async function fetchShortcuts(hooksApiUrl: string, walletAddress: string) {
   const networkIds = getMultichainFeatures().showShortcuts
-  return (await fetchHooks(hooksApiUrl, 'v2/getShortcuts', walletAddress, networkIds)) as Shortcut[]
+
+  const url = getHooksApiFunctionUrl(hooksApiUrl, 'v2/getShortcuts')
+  url.searchParams.set('address', walletAddress)
+  networkIds.forEach((networkId) => url.searchParams.append('networkIds', networkId))
+
+  return await fetchHooks<Shortcut[]>(url.toString())
 }
 
 export function* fetchShortcutsSaga() {
@@ -143,9 +168,9 @@ export function* fetchPositionsSaga() {
     yield* put(fetchPositionsStart())
     SentryTransactionHub.startTransaction(SentryTransaction.fetch_positions)
     const hooksApiUrl = yield* select(hooksApiUrlSelector)
-    const positions = yield* call(fetchPositions, hooksApiUrl, address)
+    const { positions, earnPositionIds } = yield* call(fetchPositions, hooksApiUrl, address)
     SentryTransactionHub.finishTransaction(SentryTransaction.fetch_positions)
-    yield* put(fetchPositionsSuccess({ positions, fetchedAt: Date.now() }))
+    yield* put(fetchPositionsSuccess({ positions, earnPositionIds, fetchedAt: Date.now() }))
   } catch (err) {
     const error = ensureError(err)
     yield* put(fetchPositionsFailure(error))
@@ -228,7 +253,7 @@ export function* triggerShortcutSaga({ payload }: ReturnType<typeof triggerShort
   try {
     const response = yield* call(
       fetchWithTimeout,
-      getHooksApiFunctionUrl(hooksApiUrl, 'triggerShortcut'),
+      getHooksApiFunctionUrl(hooksApiUrl, 'triggerShortcut').toString(),
       {
         method: 'POST',
         headers: {

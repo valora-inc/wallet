@@ -1823,4 +1823,13 @@ export const migrations = {
     },
   }),
   220: (state: any) => state,
+  221: (state: any) => ({
+    ...state,
+    positions: {
+      ...state.positions,
+      // Note: we're not clearing positions again here, even if we added positionId
+      // because migration 219 already cleared positions, and positionIds were already returned by the hooks API
+      earnPositionIds: [],
+    },
+  }),
 }

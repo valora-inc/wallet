@@ -371,6 +371,9 @@
                 "networkId": {
                     "$ref": "#/definitions/NetworkId"
                 },
+                "positionId": {
+                    "type": "string"
+                },
                 "pricePerShare": {
                     "items": {
                         "type": "string"
@@ -409,6 +412,7 @@
                 "decimals",
                 "displayProps",
                 "networkId",
+                "positionId",
                 "pricePerShare",
                 "priceUsd",
                 "supply",
@@ -1014,6 +1018,9 @@
                 "networkId": {
                     "$ref": "#/definitions/NetworkId"
                 },
+                "positionId": {
+                    "type": "string"
+                },
                 "tokens": {
                     "items": {
                         "$ref": "#/definitions/Token"
@@ -1033,6 +1040,7 @@
                 "balanceUsd",
                 "displayProps",
                 "networkId",
+                "positionId",
                 "tokens",
                 "type"
             ],
@@ -4980,6 +4988,12 @@
         "State_22": {
             "additionalProperties": false,
             "properties": {
+                "earnPositionIds": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
                 "positions": {
                     "items": {
                         "$ref": "#/definitions/Position"
@@ -5012,6 +5026,7 @@
                 }
             },
             "required": [
+                "earnPositionIds",
                 "positions",
                 "previewApiUrl",
                 "shortcuts",

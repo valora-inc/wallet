@@ -36,6 +36,7 @@ import {
   triggerShortcutFailure,
   triggerShortcutSuccess,
 } from 'src/positions/slice'
+import { Position } from 'src/positions/types'
 import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
@@ -58,6 +59,50 @@ jest.mock('react-native-simple-toast')
 const MOCK_RESPONSE = {
   message: 'OK',
   data: mockPositions,
+}
+
+const MOCK_EARN_POSITIONS_RESPONSE = {
+  message: 'OK',
+  data: [
+    {
+      type: 'app-token',
+      networkId: NetworkId['arbitrum-sepolia'],
+      address: '0x460b97bd498e1157530aeb3086301d5225b91216',
+      tokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+      positionId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+      appId: 'aave',
+      appName: 'Aave',
+      symbol: 'aArbSepUSDC',
+      decimals: 6,
+      displayProps: {
+        title: 'USDC',
+        description: 'Supplied (APY: 1.92%)',
+        imageUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/aave.png',
+      },
+      dataProps: {
+        apy: 1.9194202601763743,
+        depositTokenId: 'arbitrum-sepolia:0x75faf114eafb1bdbe2f0316df893fd58ce46aa4d',
+        withdrawTokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+      },
+      tokens: [
+        {
+          tokenId: 'arbitrum-sepolia:0x75faf114eafb1bdbe2f0316df893fd58ce46aa4d',
+          networkId: NetworkId['arbitrum-sepolia'],
+          address: '0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d',
+          symbol: 'USDC',
+          decimals: 6,
+          priceUsd: '0',
+          type: 'base-token',
+          balance: '0',
+        },
+      ],
+      pricePerShare: ['1'],
+      priceUsd: '0',
+      balance: '0',
+      supply: '190288.768509',
+      availableShortcutIds: ['deposit', 'withdraw'],
+    },
+  ] satisfies Position[],
 }
 
 const MOCK_SHORTCUTS_RESPONSE = {
@@ -88,7 +133,8 @@ beforeEach(() => {
 
 describe(fetchPositionsSaga, () => {
   it('fetches positions successfully', async () => {
-    mockFetch.mockResponse(JSON.stringify(MOCK_RESPONSE))
+    mockFetch.mockResponseOnce(JSON.stringify(MOCK_RESPONSE))
+    mockFetch.mockResponseOnce(JSON.stringify(MOCK_EARN_POSITIONS_RESPONSE))
     jest.mocked(getFeatureGate).mockReturnValue(true)
     jest.mocked(getMultichainFeatures).mockReturnValue({
       showPositions: [NetworkId['celo-mainnet']],
@@ -99,7 +145,36 @@ describe(fetchPositionsSaga, () => {
         [select(hooksApiUrlSelector), networkConfig.hooksApiUrl],
       ])
       .put(fetchPositionsStart())
-      .put(fetchPositionsSuccess({ positions: MOCK_RESPONSE.data, fetchedAt: Date.now() }))
+      .put(
+        fetchPositionsSuccess({
+          positions: [...MOCK_RESPONSE.data, ...MOCK_EARN_POSITIONS_RESPONSE.data],
+          earnPositionIds: MOCK_EARN_POSITIONS_RESPONSE.data.map((position) => position.positionId),
+          fetchedAt: Date.now(),
+        })
+      )
+      .run()
+  })
+
+  it("should return unique positions when there's an overlap between positions and earn positions", async () => {
+    mockFetch.mockResponseOnce(JSON.stringify(MOCK_RESPONSE))
+    mockFetch.mockResponseOnce(JSON.stringify(MOCK_RESPONSE)) // return the same response for earn positions
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getMultichainFeatures).mockReturnValue({
+      showPositions: [NetworkId['celo-mainnet']],
+    })
+    await expectSaga(fetchPositionsSaga)
+      .provide([
+        [select(walletAddressSelector), mockAccount],
+        [select(hooksApiUrlSelector), networkConfig.hooksApiUrl],
+      ])
+      .put(fetchPositionsStart())
+      .put(
+        fetchPositionsSuccess({
+          positions: MOCK_RESPONSE.data,
+          earnPositionIds: MOCK_RESPONSE.data.map((position) => position.positionId),
+          fetchedAt: Date.now(),
+        })
+      )
       .run()
   })
 
