@@ -10,7 +10,8 @@ import { Screens } from 'src/navigator/Screens'
 import { RecipientType } from 'src/recipients/recipient'
 import SendEnterAmount from 'src/send/SendEnterAmount'
 import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
-import { getDynamicConfigParams } from 'src/statsig'
+import { getMultichainFeatures } from 'src/statsig'
+import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, mockStoreBalancesToTokenBalances } from 'test/utils'
@@ -92,8 +93,8 @@ const params = {
 describe('SendEnterAmount', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.mocked(getDynamicConfigParams).mockReturnValue({
-      showSend: ['celo-alfajores'],
+    jest.mocked(getMultichainFeatures).mockReturnValue({
+      showSend: [NetworkId['celo-alfajores']],
     })
   })
 

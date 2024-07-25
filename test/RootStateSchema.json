@@ -3406,6 +3406,7 @@
                 "Debug",
                 "EarnCollectScreen",
                 "EarnEnterAmount",
+                "EarnHome",
                 "EarnInfoScreen",
                 "EnableBiometry",
                 "ErrorScreen",
@@ -4985,6 +4986,9 @@
                     },
                     "type": "array"
                 },
+                "positionsFetchedAt": {
+                    "type": "number"
+                },
                 "previewApiUrl": {
                     "type": [
                         "null",
@@ -5662,6 +5666,9 @@
                     "type": "boolean"
                 },
                 "isFeeCurrency": {
+                    "type": "boolean"
+                },
+                "isFromPosition": {
                     "type": "boolean"
                 },
                 "isManuallyImported": {

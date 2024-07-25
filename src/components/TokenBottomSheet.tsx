@@ -14,6 +14,7 @@ import FilterChipsCarousel, {
   FilterChip,
   NetworkFilterChip,
   isNetworkChip,
+  isTokenSelectChip,
 } from 'src/components/FilterChipsCarousel'
 import SearchInput from 'src/components/SearchInput'
 import NetworkMultiSelectBottomSheet from 'src/components/multiSelect/NetworkMultiSelectBottomSheet'
@@ -34,6 +35,7 @@ export enum TokenPickerOrigin {
   CashIn = 'CashIn',
   CashOut = 'CashOut',
   Spend = 'Spend',
+  Earn = 'Earn',
 }
 
 export const DEBOUNCE_WAIT_TIME = 200
@@ -214,6 +216,9 @@ function TokenBottomSheet({
         !activeFilters.every((filter) => {
           if (isNetworkChip(filter)) {
             return filter.filterFn(token, filter.selectedNetworkIds)
+          }
+          if (isTokenSelectChip(filter)) {
+            return filter.filterFn(token, filter.selectedTokenId)
           }
           return filter.filterFn(token)
         })
