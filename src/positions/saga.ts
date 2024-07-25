@@ -100,6 +100,8 @@ async function fetchPositions(hooksApiUrl: string, walletAddress: string) {
   const positionIds = new Set()
   const positions: Position[] = []
 
+  // Dedupe positions, so that earn positions already held by the user
+  // aren't shown twice
   for (const position of [...walletPositions, ...earnPositions]) {
     if (positionIds.has(position.positionId)) {
       continue

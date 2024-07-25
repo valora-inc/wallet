@@ -28,6 +28,8 @@ const earnPositionIdsSelector = (state: RootState) => state.positions.earnPositi
 export const positionsStatusSelector = (state: RootState) =>
   showPositionsSelector() ? state.positions.status : 'idle'
 
+// When displaying user positions, we don't want positions which don't have a balance
+// For instance earn positions which aren't yet held by the user
 export const positionsWithBalanceSelector = createSelector([positionsSelector], (positions) =>
   positions.filter((position) => {
     if (position.type === 'app-token') {
