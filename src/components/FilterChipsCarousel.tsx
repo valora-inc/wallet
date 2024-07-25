@@ -119,7 +119,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingHorizontal: Spacing.Thick24,
     gap: Spacing.Smallest8,
-    flexWrap: 'wrap',
   },
   filterChipBackground: {
     overflow: 'hidden',
