@@ -8,7 +8,6 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
 import NoActivity from 'src/transactions/NoActivity'
-import CrossChainSwapFeedItem from 'src/transactions/feed/CrossChainSwapFeedItem'
 import EarnFeedItem from 'src/transactions/feed/EarnFeedItem'
 import NftFeedItem from 'src/transactions/feed/NftFeedItem'
 import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
@@ -73,7 +72,8 @@ function TransactionFeed() {
   function renderItem({ item: tx }: { item: TokenTransaction; index: number }) {
     switch (tx.__typename) {
       case 'TokenExchangeV3':
-        return <SwapFeedItem key={tx.transactionHash} exchange={tx} />
+      case 'CrossChainTokenExchange':
+        return <SwapFeedItem key={tx.transactionHash} transaction={tx} />
       case 'TokenTransferV3':
         return <TransferFeedItem key={tx.transactionHash} transfer={tx} />
       case 'NftTransferV3':
@@ -84,8 +84,6 @@ function TransactionFeed() {
       case 'EarnWithdraw':
       case 'EarnClaimReward':
         return <EarnFeedItem key={tx.transactionHash} transaction={tx} />
-      case 'CrossChainTokenExchange':
-        return <CrossChainSwapFeedItem transaction={tx} />
     }
   }
 
