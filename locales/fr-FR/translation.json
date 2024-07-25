@@ -2013,7 +2013,8 @@
       "network": "Réseau {{networkName}}",
       "selectNetwork": "Réseau",
       "stablecoins": "Stablecoins",
-      "gasTokens": "Jetons de frais"
+      "gasTokens": "Jetons de frais",
+      "tokens": "Jeton"
     }
   },
   "homeActions": {
@@ -2569,6 +2570,32 @@
       "earnWithdrawTitle": "Retiré",
       "earnWithdrawSubtitle": "Retirer {{tokenSymbol}} du Pool {{providerName}}",
       "earnWithdrawDetails": "Montant du retrait"
+    },
+    "home": {
+      "title": "Gagner",
+      "learnMore": "En <0>savoir plus</0> sur les pools de rendement.",
+      "learnMoreBottomSheet": {
+        "bottomSheetTitle": "En savoir plus sur les pools de rendement",
+        "apySubtitle": "Qu'est-ce qu'un APY ?",
+        "apyDescription": "Le rendement annuel en pourcentage (APY) est une métrique utilisée pour calculer le rendement annualisé des investissements en crypto-monnaies. C'est un indicateur clé du rendement potentiel et de la rentabilité d'une crypto-monnaie.",
+        "tvlSubtitle": "Qu'est-ce que TVL ?",
+        "tvlDescription": "TVL signifie Total Value Locked, et c'est une métrique utilisée dans l'industrie de la cryptographie pour mesurer la valeur des actifs numériques verrouillés sur un réseau blockchain. La TVL est calculée en additionnant la valeur de tous les actifs numériques verrouillés dans un protocole DeFi ou un contrat intelligent. Ces actifs peuvent inclure des crypto-monnaies, des stablecoins et d'autres jetons."
+      }
+    },
+    "poolCard": {
+      "onNetwork": "sur {{networkName}}",
+      "rate": "Taux (est.)",
+      "reward": "Récompense",
+      "tvl": "TVL",
+      "exitPool": "Quitter le pool",
+      "addToPool": "Ajouter à la piscine",
+      "apy": "{{apy}}% APY",
+      "poweredBy": "Propulsé par {{providerName}}",
+      "deposited": "Fourni"
+    },
+    "poolFilters": {
+      "openPools": "Piscines ouvertes",
+      "myPools": "Mes piscines"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
