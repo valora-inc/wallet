@@ -2017,7 +2017,8 @@
       "network": "Sieć {{networkName}}",
       "selectNetwork": "Sieć",
       "stablecoins": "Stablecoiny",
-      "gasTokens": "Tokeny gazowe"
+      "gasTokens": "Tokeny gazowe",
+      "tokens": "Token"
     }
   },
   "homeActions": {
@@ -2573,6 +2574,32 @@
       "earnWithdrawTitle": "Wycofano",
       "earnWithdrawSubtitle": "Wycofano {{tokenSymbol}} z puli {{providerName}}",
       "earnWithdrawDetails": "Wypłacona kwota"
+    },
+    "home": {
+      "title": "Zarabiaj",
+      "learnMore": "<0>Dowiedz się więcej</0> o pulach zysków.",
+      "learnMoreBottomSheet": {
+        "bottomSheetTitle": "Dowiedz się więcej o pulach zysków",
+        "apySubtitle": "Co to jest RRSO?",
+        "apyDescription": "Roczna rentowność procentowa (APY) to wskaźnik używany do obliczania rocznego zwrotu z inwestycji w kryptowaluty. Jest to kluczowy wskaźnik potencjalnego zwrotu i rentowności kryptowaluty.",
+        "tvlSubtitle": "Co to jest TVL?",
+        "tvlDescription": "TVL to skrót od Total Value Locked i jest to wskaźnik używany w branży kryptowalut do pomiaru wartości aktywów cyfrowych zablokowanych w sieci blockchain. TVL oblicza się poprzez zsumowanie wartości wszystkich aktywów cyfrowych zablokowanych w protokole DeFi lub inteligentnym kontrakcie. Aktywa te mogą obejmować kryptowaluty, stablecoiny i inne tokeny."
+      }
+    },
+    "poolCard": {
+      "onNetwork": "w {{networkName}}",
+      "rate": "Stawka (szac.)",
+      "reward": "Nagroda",
+      "tvl": "TVL",
+      "exitPool": "Wyjdź z puli",
+      "addToPool": "Dodaj do puli",
+      "apy": "{{apy}}% APY",
+      "poweredBy": "Obsługiwane przez {{providerName}}",
+      "deposited": "Dostarczone"
+    },
+    "poolFilters": {
+      "openPools": "Otwarte baseny",
+      "myPools": "Moje baseny"
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",

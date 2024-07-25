@@ -2013,7 +2013,8 @@
       "network": "{{networkName}} Netzwerk",
       "selectNetwork": "Netzwerk",
       "stablecoins": "Stablecoins",
-      "gasTokens": "Gasgebühr-Token"
+      "gasTokens": "Gasgebühr-Token",
+      "tokens": "Token"
     }
   },
   "homeActions": {
@@ -2569,6 +2570,32 @@
       "earnWithdrawTitle": "Abgehoben",
       "earnWithdrawSubtitle": "{{tokenSymbol}} aus dem {{providerName}} Pool abgehoben",
       "earnWithdrawDetails": "Betrag abgehoben"
+    },
+    "home": {
+      "title": "Verdienen",
+      "learnMore": "<0>Erfahre mehr</0> über Ertragspools.",
+      "learnMoreBottomSheet": {
+        "bottomSheetTitle": "Erfahre mehr über Ertragspools",
+        "apySubtitle": "Was ist ein APY?",
+        "apyDescription": "Die jährliche prozentuale Rendite (Annual Percentage, APY) ist eine Kennzahl, mit der die jährliche Rendite von Krypto-Investitionen berechnet wird. Sie ist ein wichtiger Indikator für die potenzielle Rendite und Rentabilität einer Kryptowährung.",
+        "tvlSubtitle": "Was ist TVL?",
+        "tvlDescription": "TVL steht für Total Value Locked und ist eine Kennzahl, die in der Kryptoindustrie verwendet wird, um den Wert der in einem Blockchain-Netzwerk gesperrten digitalen Vermögenswerte zu messen. TVL wird berechnet, indem der Wert aller digitalen Vermögenswerte addiert wird, die in einem DeFi-Protokoll oder Smart Contract gesperrt sind. Zu diesen Vermögenswerten können Kryptowährungen, Stablecoins und andere Token gehören."
+      }
+    },
+    "poolCard": {
+      "onNetwork": "auf {{networkName}}",
+      "rate": "Rate (geschätzt)",
+      "reward": "Belohnung",
+      "tvl": "TVL",
+      "exitPool": "Pool verlassen",
+      "addToPool": "Zum Pool hinzufügen",
+      "apy": "{{apy}} % jährliche prozentuale Rendite",
+      "poweredBy": "Unterstützt von {{providerName}}",
+      "deposited": "Geliefert"
+    },
+    "poolFilters": {
+      "openPools": "Offene Pools",
+      "myPools": "Meine Pools"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
