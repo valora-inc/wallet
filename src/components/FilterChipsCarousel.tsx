@@ -3,7 +3,7 @@ import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import Touchable from 'src/components/Touchable'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
-import colors from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { NetworkId } from 'src/transactions/types'
@@ -41,8 +41,6 @@ export type FilterChip<T> = BooleanFilterChip<T> | NetworkFilterChip<T> | TokenS
 interface Props<T> {
   chips: FilterChip<T>[]
   onSelectChip(chip: FilterChip<T>): void
-  primaryColor: colors
-  secondaryColor: colors
   style?: StyleProp<ViewStyle>
   contentContainerStyle?: StyleProp<ViewStyle>
   forwardedRef?: React.RefObject<ScrollView>
@@ -52,8 +50,6 @@ interface Props<T> {
 function FilterChipsCarousel<T>({
   chips,
   onSelectChip,
-  primaryColor,
-  secondaryColor,
   style,
   contentContainerStyle,
   forwardedRef,
@@ -80,8 +76,8 @@ function FilterChipsCarousel<T>({
             style={[
               styles.filterChipBackground,
               chip.isSelected
-                ? { backgroundColor: primaryColor }
-                : { backgroundColor: secondaryColor },
+                ? { backgroundColor: Colors.black, borderColor: Colors.black }
+                : { backgroundColor: Colors.gray1, borderColor: Colors.gray2 },
             ]}
           >
             <Touchable
@@ -94,14 +90,14 @@ function FilterChipsCarousel<T>({
                 <Text
                   style={[
                     styles.filterChipText,
-                    chip.isSelected ? { color: secondaryColor } : { color: primaryColor },
+                    chip.isSelected ? { color: Colors.white } : { color: Colors.gray4 },
                   ]}
                 >
                   {chip.name}
                 </Text>
                 {(isNetworkChip(chip) || isTokenSelectChip(chip)) && (
                   <DownArrowIcon
-                    color={chip.isSelected ? secondaryColor : primaryColor}
+                    color={chip.isSelected ? Colors.white : Colors.gray4}
                     strokeWidth={2}
                     height={Spacing.Regular16}
                     style={{ marginBottom: 2, marginLeft: 4 }}
@@ -127,6 +123,7 @@ const styles = StyleSheet.create({
   filterChipBackground: {
     overflow: 'hidden',
     borderRadius: 94,
+    borderWidth: 1,
   },
   filterChip: {
     minHeight: 32,

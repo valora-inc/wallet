@@ -240,8 +240,6 @@ function DappsScreen({ navigation }: Props) {
                 <FilterChipsCarousel
                   chips={filterChips}
                   onSelectChip={handleToggleFilterChip}
-                  primaryColor={Colors.successDark}
-                  secondaryColor={Colors.successLight}
                   style={styles.dappFilterView}
                   forwardedRef={horizontalScrollView}
                 />
