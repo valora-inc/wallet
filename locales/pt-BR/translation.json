@@ -2577,9 +2577,9 @@
       "learnMoreBottomSheet": {
         "bottomSheetTitle": "Saiba mais sobre os pools de rendimento",
         "apySubtitle": "O que é um APY?",
-        "apyDescription": "O rendimento percentual anual (APY) é uma métrica usada para calcular o retorno anualizado dos investimentos em criptomoedas. É um indicador importante do potencial de retorno e lucratividade de uma criptomoeda.",
+        "apyDescription": "O rendimento percentual anual (APY) é uma métrica usada para calcular o retorno anualizado dos investimentos em cripto. É um indicador importante do potencial de retorno.",
         "tvlSubtitle": "O que é TVL?",
-        "tvlDescription": "TVL significa Total Value Locked (valor total bloqueado) e é uma métrica usada no setor de criptografia para medir o valor dos ativos digitais bloqueados em uma rede blockchain. O TVL é calculado pela soma do valor de todos os ativos digitais bloqueados em um protocolo DeFi ou contrato inteligente. Esses ativos podem incluir criptomoedas, stablecoins e outros tokens."
+        "tvlDescription": "O valor total bloqueado (TVL) é uma métrica usada para medir o valor dos ativos digitais bloqueados em uma rede blockchain. O TVL é calculado pela soma do valor de todos os ativos digitais bloqueados em um protocolo DeFi ou contrato inteligente. Esses ativos podem incluir criptomoedas, stablecoins e outros tokens."
       }
     },
     "poolCard": {
@@ -2588,14 +2588,14 @@
       "reward": "Recompensa",
       "tvl": "TVL",
       "exitPool": "Sair do pool",
-      "addToPool": "Adicionar à piscina",
+      "addToPool": "Adicionar ao pool",
       "apy": "{{apy}}% de APY",
       "poweredBy": "Desenvolvido por {{providerName}}",
-      "deposited": "Fornecido"
+      "deposited": "Fornecimento"
     },
     "poolFilters": {
-      "openPools": "Piscinas abertas",
-      "myPools": "Minhas piscinas"
+      "openPools": "Pools abertos",
+      "myPools": "Minhos pools"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
