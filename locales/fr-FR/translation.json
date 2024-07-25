@@ -2573,13 +2573,13 @@
     },
     "home": {
       "title": "Gagner",
-      "learnMore": "En <0>savoir plus</0> sur les pools de rendement.",
+      "learnMore": "En <0>savoir plus</0> sur les pools de liquidité.",
       "learnMoreBottomSheet": {
-        "bottomSheetTitle": "En savoir plus sur les pools de rendement",
-        "apySubtitle": "Qu'est-ce qu'un APY ?",
-        "apyDescription": "Le rendement annuel en pourcentage (APY) est une métrique utilisée pour calculer le rendement annualisé des investissements en crypto-monnaies. C'est un indicateur clé du rendement potentiel et de la rentabilité d'une crypto-monnaie.",
-        "tvlSubtitle": "Qu'est-ce que TVL ?",
-        "tvlDescription": "TVL signifie Total Value Locked, et c'est une métrique utilisée dans l'industrie de la cryptographie pour mesurer la valeur des actifs numériques verrouillés sur un réseau blockchain. La TVL est calculée en additionnant la valeur de tous les actifs numériques verrouillés dans un protocole DeFi ou un contrat intelligent. Ces actifs peuvent inclure des crypto-monnaies, des stablecoins et d'autres jetons."
+        "bottomSheetTitle": "En savoir plus sur les pools de liquidité",
+        "apySubtitle": "Qu'est-ce que l'APY ?",
+        "apyDescription": "Le rendement annuel en pourcentage (APY) est une métrique utilisée pour calculer le rendement annualisé des investissements crypto. C'est un indicateur clé du rendement potentiel d'une crypto-monnaie.",
+        "tvlSubtitle": "Qu'est-ce que la TVL ?",
+        "tvlDescription": "La valeur totale verrouillée (TVL) est une métrique utilisée pour mesurer la valeur des actifs numériques verrouillés sur un réseau blockchain. La TVL est calculée en additionnant la valeur de tous les actifs numériques verrouillés dans un protocole DeFi ou un contrat intelligent. Ces actifs peuvent inclure des crypto-monnaies, des stablecoins et d'autres jetons."
       }
     },
     "poolCard": {
@@ -2588,14 +2588,14 @@
       "reward": "Récompense",
       "tvl": "TVL",
       "exitPool": "Quitter le pool",
-      "addToPool": "Ajouter à la piscine",
+      "addToPool": "Ajouter au pool",
       "apy": "{{apy}}% APY",
       "poweredBy": "Propulsé par {{providerName}}",
       "deposited": "Fourni"
     },
     "poolFilters": {
-      "openPools": "Piscines ouvertes",
-      "myPools": "Mes piscines"
+      "openPools": "Pools ouverts",
+      "myPools": "Mes pools"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
