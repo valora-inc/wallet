@@ -100,7 +100,7 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
                   depositTokenId,
                   networkId: pool.networkId,
                   tokenAmount: poolTokenInfo.balance.toString(),
-                  providerId: PROVIDER_ID,
+                  providerId: PROVIDER_ID, // TODO(ACT-1319): Get providerId from pool
                   action: 'withdraw',
                 })
                 navigate(Screens.EarnCollectScreen, { depositTokenId, poolTokenId })
@@ -118,7 +118,7 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
                   depositTokenId,
                   networkId: pool.networkId,
                   tokenAmount: poolTokenInfo.balance.toString(),
-                  providerId: PROVIDER_ID,
+                  providerId: PROVIDER_ID, // TODO(ACT-1319): Get providerId from pool
                   action: 'deposit',
                 })
                 navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })
@@ -139,7 +139,7 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
               depositTokenId,
               networkId: pool.networkId,
               tokenAmount: '0',
-              providerId: PROVIDER_ID,
+              providerId: PROVIDER_ID, // TODO(ACT-1319): Get providerId from pool
               action: 'deposit',
             })
             navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })

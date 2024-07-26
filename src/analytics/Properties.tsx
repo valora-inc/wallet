@@ -1573,7 +1573,7 @@ interface PointsEventsProperties {
 }
 
 interface EarnCommonProperties {
-  providerId: 'aave-v3'
+  providerId: string
   networkId: NetworkId
   depositTokenId: string
 }

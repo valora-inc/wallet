@@ -132,7 +132,7 @@ describe('EarnCardDiscover', () => {
     expect(queryByTestId('EarnCta')).toBeFalsy()
     expect(getFeatureGate).toHaveBeenCalledWith(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
     expect(getFeatureGate).toHaveBeenCalledWith(StatsigFeatureGates.SHOW_STABLECOIN_EARN)
-    expect(getFeatureGate).toHaveBeenCalledTimes(2)
+    expect(getFeatureGate).toHaveBeenCalledTimes(3)
   })
 
   it('renders nothing if multiple pools and show stable coin earn are disabled', () => {
