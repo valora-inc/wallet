@@ -84,8 +84,6 @@ function TransactionFeed() {
       case 'EarnWithdraw':
       case 'EarnClaimReward':
         return <EarnFeedItem key={tx.transactionHash} transaction={tx} />
-      case 'CrossChainTokenExchange':
-        return null // TODO
     }
   }
 
