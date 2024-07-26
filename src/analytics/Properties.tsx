@@ -255,8 +255,12 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.wallet_security_primer_get_started]: undefined
   [KeylessBackupEvents.cab_setup_recovery_phrase]: undefined
   [KeylessBackupEvents.cab_sign_in_another_way]: CommonKeylessBackupProps
-  [KeylessBackupEvents.cab_sign_in_with_google]: CommonKeylessBackupProps
-  [KeylessBackupEvents.cab_sign_in_with_google_success]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_sign_in_with_email_start]: CommonKeylessBackupProps & {
+    provider: string
+  }
+  [KeylessBackupEvents.cab_sign_in_with_email_success]: CommonKeylessBackupProps & {
+    provider: string
+  }
   [KeylessBackupEvents.cab_sign_in_with_email_screen_back]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_sign_in_with_email_screen_cancel]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_sign_in_with_email_screen_skip]: CommonKeylessBackupProps
