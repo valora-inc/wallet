@@ -105,13 +105,13 @@
   },
   "signInWithEmail": {
     "title": "Iniciar sesión con email",
-    "subtitle": "Inicia sesión con tu correo electrónico para configurarlo como copia de seguridad. Se te pedirá que inicies sesión de nuevo si pierdes tu monedero.",
+    "subtitle": "Inicia sesión con tu correo electrónico para configurarlo como copia de seguridad. Se te pedirá que inicies sesión de nuevo si pierdes tu billetera.",
     "subtitleRestore": "Inicia sesión con el correo electrónico que usaste para configurar la copia de seguridad de tu wallet.",
     "google": "Iniciar sesión con Google",
-    "signInAnotherWay": "Firma de otra manera",
+    "signInAnotherWay": "Inicia sesión de otra manera",
     "bottomSheet": {
-      "title": "Guarda tu frase de recuperación para crear un monedero",
-      "description": "Pronto daremos soporte a otros proveedores de correo electrónico, pero mientras tanto tendrás que guardar tu frase de recuperación para terminar de crear un monedero.",
+      "title": "Guarda tu frase de recuperación para crear una billetera",
+      "description": "Pronto daremos soporte a otros proveedores de correo electrónico, pero mientras tanto tendrás que guardar tu frase de recuperación para terminar de crear una billetera.",
       "continue": "Continuar",
       "skip": "Saltar (no recomendado)"
     }
@@ -938,7 +938,7 @@
     "header": "Restaurar wallet",
     "title": "Ingresa tu frase de recuperación",
     "description": "Usa la frase de 12 ó 24 palabras que guardaste cuando configuraste tu wallet para restaurarla.",
-    "descriptionV1_90": "Tu frase de recuperación es una frase de 12 ó 24 palabras que escribiste y guardaste cuando configuraste tu monedero. Introdúcela aquí para recuperar tu monedero.",
+    "descriptionV1_90": "Tu frase de recuperación es una frase de 12 ó 24 palabras que escribiste y guardaste cuando configuraste tu billetera. Ingrésala aquí para recuperar tu monedero.",
     "emptyWalletDialog": {
       "description": "Esta wallet no tiene fondos. ¿Quieres usarla de todos modos?",
       "action": "Usar wallet",
@@ -1872,27 +1872,27 @@
       "slippageToleranceInfoV1_90": "Tu swap se ejecutará dentro del porcentaje de tolerancia de deslizamiento. Si el precio varía más que la tolerancia de deslizamiento, {{appName}} te protege impidiendo que se ejecute la operación.",
       "networkFeeInfoDismissButton": "Entendido",
       "exchangeRate": "Tasa de cambio",
-      "exchangeRateInfo": "Tipo de cambio\n\nHemos encontrado el mejor tipo de cambio para ti. Tu intercambio se completará a un precio dentro de {{slippagePercentage}}% de la estimación o la transacción se cancelará y los fondos se devolverán a tu monedero.",
-      "exchangeRateInfoV1_90": "Hemos encontrado el mejor tipo de cambio para ti. Tu intercambio se completará a un precio dentro del {{slippagePercentage}}% de la estimación o la transacción se cancelará y los fondos se devolverán a tu monedero.",
+      "exchangeRateInfo": "Tasa de cambio\n\nHemos encontrado la mejor tasa de cambio para ti. Tu intercambio se completará a un precio dentro de {{slippagePercentage}}% de la estimación o la transacción se cancelará y los fondos se devolverán a tu billetera.",
+      "exchangeRateInfoV1_90": "Hemos encontrado la mejor tasa de cambio para ti. Tu intercambio se completará a un precio dentro del {{slippagePercentage}}% de la estimación o la transacción se cancelará y los fondos se devolverán a tu billetera.",
       "exchangeRateInfo_withAppFee": "Tasa de cambio\n\nHemos encontrado la mejor tasa de cambio para ti. Tu intercambio se completará a un precio dentro del {{slippagePercentage}}% del estimado o la transacción se cancelará y los fondos se devolverán a tu wallet.\n\nLa tasa estimada incluye una tarifa de {{appName}} del {{appFeePercentage}}%.",
       "exchangeRateInfoDismissButton": "Entendido",
       "estimatedValue": "Valor estimado",
       "estimatedTransactionTime": "Tiempo estimado de la transacción",
-      "estimatedTransactionTimeInMinutes": "≈ {{minutes}} min",
+      "estimatedTransactionTimeInMinutes": "≈ {{minutes}} minutos",
       "estimatedTransactionTimeInfo": "El tiempo para completar la transacción lo determina el proveedor.\n\nSi estás intercambiando entre diferentes cadenas, la transacción podría tardar un poco más en completarse.",
       "infoDismissButton": "Entendido",
       "fees": "Tarifas",
-      "feesCalculationError": "No se pueden calcular las tasas",
-      "estimatedCrossChainFee": "Estimación de las tasas de la cadena cruzada",
-      "maxCrossChainFee": "Comisiones máximas por cadena cruzada",
-      "feesBreakdown": "Avería",
+      "feesCalculationError": "No se pueden calcular las tarifas",
+      "estimatedCrossChainFee": "Estimación de las tarifas entre cadenas",
+      "maxCrossChainFee": "Tarifas máximas entre cadenas",
+      "feesBreakdown": "Desglose",
       "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "Más información",
-      "feesInfo_sameChain": "Se requiere una cuota de red para procesar la transacción, lo que garantiza la seguridad y la fiabilidad.",
-      "feesInfo_crossChain": "Se requiere una tarifa de red para procesar la transacción, lo que garantiza la seguridad y la fiabilidad. El proveedor cobra una tarifa de cadena cruzada para permitir intercambios fluidos y seguros entre diferentes cadenas de bloques.",
-      "feesInfo_sameChainWithAppFee": "Se requiere una comisión de red para procesar la transacción, lo que garantiza la seguridad y la fiabilidad. La comisión de {{appName}} de {{appFeePercentage}}% mejora tu experiencia garantizando intercambios rápidos, fiables y seguros.",
-      "feesInfo_crossChainWithAppFee": "Se requiere una tarifa de red para procesar la transacción, lo que garantiza la seguridad y la fiabilidad. El proveedor cobra una comisión de cadena cruzada para permitir intercambios fluidos y seguros entre diferentes cadenas de bloques. La tarifa {{appName}} de {{appFeePercentage}}% mejora tu experiencia garantizando intercambios rápidos, fiables y seguros."
+      "feesInfo_sameChain": "Se requiere una tarifa de red para procesar la transacción, lo que garantiza la seguridad y la fiabilidad.",
+      "feesInfo_crossChain": "Se requiere una tarifa de red para procesar la transacción, lo que garantiza la seguridad y la fiabilidad. El proveedor cobra una tarifa entre cadenas para permitir intercambios fluidos y seguros entre diferentes blockchains.",
+      "feesInfo_sameChainWithAppFee": "Se requiere una tarifa de red para procesar la transacción, lo que garantiza la seguridad y la fiabilidad. La tarifa de {{appName}} de {{appFeePercentage}}% mejora tu experiencia garantizando intercambios rápidos, fiables y seguros.",
+      "feesInfo_crossChainWithAppFee": "Se requiere una tarifa de red para procesar la transacción, lo que garantiza la seguridad y la fiabilidad. El proveedor cobra una tarifa entre cadenas para permitir intercambios fluidos y seguros entre diferentes blockchains. La tarifa {{appName}} de {{appFeePercentage}}% mejora tu experiencia garantizando intercambios rápidos, fiables y seguros."
     },
     "fundYourWalletBottomSheet": {
       "title": "Agregar fondos a tu billetera",
@@ -2013,7 +2013,8 @@
       "network": "Red {{networkName}}",
       "selectNetwork": "Red",
       "stablecoins": "Stablecoins",
-      "gasTokens": "Tokens de gas"
+      "gasTokens": "Tokens de gas",
+      "tokens": "Ficha"
     }
   },
   "homeActions": {
@@ -2416,16 +2417,16 @@
         "title": "Envia con un enlace directo",
         "bottomSheet": {
           "title": "Envia con un enlace directo",
-          "body": "Gana puntos {{pointsValue}} cada vez que envíes fondos utilizando un Live Link en {{appName}}. \n\n¡Toca abajo para empezar a enviar y ganar!",
+          "body": "Gana {{pointsValue}} puntos cada vez que envíes fondos utilizando un Live Link en {{appName}}. \n\n¡Toca abajo para empezar a enviar y ganar!",
           "cta": "Envia con un enlace directo"
         }
       },
       "depositEarn": {
-        "title": "Deposita en un fondo de ganancias en {{appName}}",
+        "title": "Deposita en un pool de ganancias en {{appName}}",
         "bottomSheet": {
-          "title": "Depósito en un fondo de ganancias",
-          "body": "Gana puntos {{pointsValue}} cada vez que deposites fondos en un fondo de ganancias en {{appName}}. \n\n¡Toca abajo para empezar a ganar rendimiento y puntos!",
-          "cta": "Ir a ganar piscinas"
+          "title": "Deposita en un pool de ganancias",
+          "body": "Gana {{pointsValue}} puntos cada vez que deposites fondos utilizando un pool de ganancias en {{appName}}. \n\n¡Toca abajo para empezar a y ganar y acumular puntos!",
+          "cta": "Ir a pools de ganancias"
         }
       }
     },
@@ -2504,7 +2505,7 @@
       "info": "Esta pool es administrada por Aave",
       "infoBottomSheet": {
         "title": "¿Por qué esta pool?",
-        "description": "Este pool de Aave tiene más de 150 millones de dólares de TVL y más de 6.000 contribuyentes, lo que indica una gran liquidez y fiabilidad. También utiliza USDC como token y Arbitrum como red, lo que reduce la volatilidad y garantiza que los usuarios recibirán tarifas de gas baratas.\n\nTodo ello lo convierte en una opción segura y atractiva con un APY competitivo, que garantiza una oportunidad de inversión beneficiosa para nuestros usuarios.\n\nPuedes explorar otros pools de Aave <0>aquí</0>.",
+        "description": "Este pool de Aave tiene más de $150M de TVL y más de 6.000 contribuyentes, lo que indica una gran liquidez y fiabilidad. También utiliza USDC como token y Abitrum como red, lo que reduce la volatilidad y garantiza que los usuarios recibirán tasas baratas.\n\nTodo ello lo convierte en una opción segura y atractiva con un APY competitivo, que garantiza una oportunidad de inversión beneficiosa para nuestros usuarios.\n\nPuedes explorar otros pools de Aave <0>aquí</0>.",
         "dismiss": "Ignorar"
       },
       "notEnoughBalanceForGasWarning": {
@@ -2520,10 +2521,10 @@
       "exitPool": "Retirar",
       "depositMore": "Depositar +",
       "viewPools": "Ver Pools",
-      "poolsSupplied": "Piscinas suministradas",
+      "poolsSupplied": "Pools suministrados",
       "totalSupplied": "Total suministrado",
-      "myPools": "Mis piscinas",
-      "explore": "Explorar Abierto"
+      "myPools": "Mis Pools",
+      "explore": "Explorar abierto"
     },
     "depositBottomSheet": {
       "title": "Revisar y depositar",
@@ -2569,6 +2570,32 @@
       "earnWithdrawTitle": "Fondos retirados",
       "earnWithdrawSubtitle": "{{tokenSymbol}} retirados de la pool {{providerName}}",
       "earnWithdrawDetails": "Monto retirado"
+    },
+    "home": {
+      "title": "Gana",
+      "learnMore": "<0>Más</0> información sobre los fondos de rendimiento.",
+      "learnMoreBottomSheet": {
+        "bottomSheetTitle": "Más información sobre las agrupaciones de rendimiento",
+        "apySubtitle": "¿Qué es un APY?",
+        "apyDescription": "El rendimiento porcentual anual (APY) es una métrica utilizada para calcular el rendimiento anualizado de las criptoinversiones. Es un indicador clave del rendimiento y la rentabilidad potenciales de una criptomoneda.",
+        "tvlSubtitle": "¿Qué es la TVL?",
+        "tvlDescription": "TVL significa Valor Total Bloqueado, y es una métrica utilizada en la industria de las criptomonedas para medir el valor de los activos digitales bloqueados en una red blockchain. El TVL se calcula sumando el valor de todos los activos digitales bloqueados en un protocolo DeFi o contrato inteligente. Estos activos pueden incluir criptomonedas, stablecoins y otros tokens."
+      }
+    },
+    "poolCard": {
+      "onNetwork": "en {{networkName}}",
+      "rate": "Tasa (est.)",
+      "reward": "Recompensa",
+      "tvl": "TVL",
+      "exitPool": "Retirar",
+      "addToPool": "Añadir a la piscina",
+      "apy": "APY {{apy}}%",
+      "poweredBy": "Con tecnología de {{providerName}}",
+      "deposited": "Suministrado"
+    },
+    "poolFilters": {
+      "openPools": "Piscinas abiertas",
+      "myPools": "Mis piscinas"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

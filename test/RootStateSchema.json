@@ -2848,7 +2848,10 @@
             "additionalProperties": false,
             "properties": {
                 "__typename": {
-                    "const": "TokenExchangeV3",
+                    "enum": [
+                        "CrossChainTokenExchange",
+                        "TokenExchangeV3"
+                    ],
                     "type": "string"
                 },
                 "context": {
@@ -3723,7 +3726,10 @@
                     "additionalProperties": false,
                     "properties": {
                         "__typename": {
-                            "const": "TokenExchangeV3",
+                            "enum": [
+                                "CrossChainTokenExchange",
+                                "TokenExchangeV3"
+                            ],
                             "type": "string"
                         },
                         "block": {
@@ -5996,7 +6002,10 @@
             "additionalProperties": false,
             "properties": {
                 "__typename": {
-                    "const": "TokenExchangeV3",
+                    "enum": [
+                        "CrossChainTokenExchange",
+                        "TokenExchangeV3"
+                    ],
                     "type": "string"
                 },
                 "block": {
@@ -6087,6 +6096,7 @@
         "TokenTransactionTypeV2": {
             "enum": [
                 "APPROVAL",
+                "CROSS_CHAIN_SWAP_TRANSACTION",
                 "EARN_CLAIM_REWARD",
                 "EARN_DEPOSIT",
                 "EARN_WITHDRAW",
