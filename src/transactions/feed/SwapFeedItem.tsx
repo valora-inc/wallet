@@ -14,7 +14,7 @@ import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
 import TransactionFeedItemImage from 'src/transactions/feed/TransactionFeedItemImage'
-import { TokenExchange, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
+import { TokenExchange, TokenTransactionTypeV2 } from 'src/transactions/types'
 
 interface Props {
   transaction: TokenExchange
@@ -55,7 +55,7 @@ function SwapFeedItem({ transaction }: Props) {
           </Text>
         </View>
         <View style={styles.tokenAmountContainer}>
-          {transaction.status === TransactionStatus.Complete &&
+          {
             // for cross chain swaps specifically, the inAmount value is empty
             // until the transaction is completed on the destination network
             !new BigNumber(transaction.inAmount.value).isNaN() && (
@@ -69,7 +69,8 @@ function SwapFeedItem({ transaction }: Props) {
                 style={styles.amount}
                 testID={'SwapFeedItem/incomingAmount'}
               />
-            )}
+            )
+          }
 
           <TokenDisplay
             amount={-transaction.outAmount.value}

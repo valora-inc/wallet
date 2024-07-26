@@ -64,10 +64,14 @@ const WATCHING_DELAY_BY_NETWORK: Record<Network, number> = {
 }
 const MIN_WATCHING_DELAY_MS = 2000
 
-// Remove standby txs from redux state when the real ones show up in the feed
+// Remove any standby transactions that are returned by blockchain-api as completed.
 function* cleanupStandbyTransactions({ transactions, networkId }: UpdateTransactionsAction) {
   const standbyTxs: StandbyTransaction[] = yield* select(standbyTransactionsSelector)
-  const newFeedTxHashes = new Set(transactions.map((tx) => tx?.transactionHash))
+  const newFeedTxHashes = new Set(
+    transactions
+      .filter((tx) => !!tx.transactionHash && tx.status === TransactionStatus.Complete)
+      .map((tx) => tx.transactionHash)
+  )
   for (const standbyTx of standbyTxs) {
     if (
       standbyTx.transactionHash &&

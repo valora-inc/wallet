@@ -70,21 +70,6 @@ describe('SwapFeedItem', () => {
     })
   })
 
-  it('renders correctly for pending same-chain swap from cEUR to cUSD', async () => {
-    const { getByTestId, queryByTestId } = render(
-      <Provider store={createMockStore()}>
-        <SwapFeedItem transaction={{ ...swapTransaction, status: TransactionStatus.Pending }} />
-      </Provider>
-    )
-
-    expect(getByTestId('SwapFeedItem/title')).toHaveTextContent('swapScreen.title')
-    expect(getByTestId('SwapFeedItem/subtitle')).toHaveTextContent(
-      'feedItemSwapPath, {"token1":"cUSD","token2":"cEUR"}'
-    )
-    expect(queryByTestId('SwapFeedItem/incomingAmount')).toBeFalsy()
-    expect(getByTestId('SwapFeedItem/outgoingAmount')).toHaveTextContent('-2.87 cUSD')
-  })
-
   it('renders correctly for completed cross-chain swap from cUSD to ETH', () => {
     const { getByTestId } = render(
       <Provider
@@ -119,6 +104,10 @@ describe('SwapFeedItem', () => {
           transaction={{
             ...crossChainSwapTransaction,
             status: TransactionStatus.Pending,
+            inAmount: {
+              tokenId: mockEthTokenId,
+              value: '', // this value can be empty for pending cross-chain swaps that don't have a corresponding standby transaction, e.g. a restoring user
+            },
           }}
         />
       </Provider>

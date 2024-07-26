@@ -22,7 +22,7 @@ export interface InviteTransactions {
 type TransactionsByNetworkId = {
   [networkId in NetworkId]?: TokenTransaction[]
 }
-interface State {
+export interface State {
   // Tracks transactions that have been initiated by the user
   // before they are picked up by the chain explorer and
   // included in the tx feed. Necessary so it shows up in the
@@ -46,7 +46,7 @@ export interface KnownFeedTransactionsType {
   [txHash: string]: string | boolean
 }
 
-const initialState = {
+export const initialState = {
   standbyTransactions: [],
   knownFeedTransactions: {},
   recentTxRecipientsCache: {},
@@ -145,12 +145,65 @@ export const reducer = (
         }
       })
 
+      const receivedTransactions: TokenTransaction[] = []
+      const pendingTxsWithStandbyMatch: TokenTransaction[] = []
+      action.transactions.forEach((tx) => {
+        if (
+          tx.status === TransactionStatus.Pending &&
+          state.standbyTransactions.find(
+            (standbyTx) =>
+              tx.transactionHash === standbyTx.transactionHash &&
+              tx.networkId === standbyTx.networkId
+          )
+        ) {
+          pendingTxsWithStandbyMatch.push(tx)
+        } else {
+          receivedTransactions.push(tx)
+        }
+      })
+
       return {
         ...state,
         transactionsByNetworkId: {
           ...state.transactionsByNetworkId,
-          [action.networkId]: action.transactions,
+          [action.networkId]: receivedTransactions,
         },
+        standbyTransactions: state.standbyTransactions.map((standbyTx) => {
+          const matchingTx = pendingTxsWithStandbyMatch.find(
+            (tx) =>
+              tx.transactionHash === standbyTx.transactionHash &&
+              tx.networkId === standbyTx.networkId
+          )
+          if (standbyTx.transactionHash && !!matchingTx) {
+            if (
+              matchingTx.__typename === 'CrossChainTokenExchange' &&
+              standbyTx.__typename === 'CrossChainTokenExchange'
+            ) {
+              return {
+                ...standbyTx,
+                ...matchingTx,
+                inAmount: {
+                  ...matchingTx.inAmount,
+                  // pending cross chain swaps returned by blockchain-api do not
+                  // have an inAmount value until the transaction status is
+                  // completed (i.e. settled on the destination chain), so we
+                  // want to keep displaying the estimated amount.
+                  value: standbyTx.inAmount.value,
+                },
+              }
+            }
+
+            // augment standby transactions with any new information returned by
+            // blockchain-api, although currently blockchain-api only returns
+            // pending transactions for cross chain swaps
+            return {
+              ...standbyTx,
+              ...matchingTx,
+            }
+          }
+
+          return standbyTx
+        }),
         knownFeedTransactions: newKnownFeedTransactions,
       }
     case Actions.UPDATE_INVITE_TRANSACTIONS:
