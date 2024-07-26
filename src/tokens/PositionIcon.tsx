@@ -13,6 +13,7 @@ export const PositionIcon = ({ position, testID }: { position: Position; testID?
   const networkIconByNetworkId = useSelector(networksIconSelector)
   const networkIconUrl = networkIconByNetworkId[position.networkId]
 
+  // TODO(sbw): use https://linear.app/valora/issue/ACT-1137
   return (
     <View testID={testID}>
       <Image source={{ uri: position.displayProps.imageUrl }} style={styles.positionImg} />
