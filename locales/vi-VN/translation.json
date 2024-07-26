@@ -29,7 +29,7 @@
   "dataSaver": "Tiết kiệm dữ liệu",
   "enableDataSaver": "Bật chế độ Tiết kiệm dữ liệu",
   "dataSaverDetail": "Chế độ Tiết kiệm dữ liệu cho phép bạn kết nối với mạng qua một nút mạng đáng tin cậy. Bạn có thể thay đổi chế độ này bất cứ lúc nào trong phần cài đặt ứng dụng.",
-  "keylessBackupSetupTitle": "Create Login",
+  "keylessBackupSetupTitle": "Tạo thông tin đăng nhập",
   "keylessBackupSettingsTitle": "Sao lưu email và số điện thoại",
   "keylessBackupSettingsDeleteError": "Bạn không xóa được bản sao lưu, vui lòng đợi và thử lại sau.",
   "setup": "Thiết lập",
@@ -105,13 +105,13 @@
   },
   "signInWithEmail": {
     "title": "Đăng nhập bằng email",
-    "subtitle": "Sign in with your email to set it up as a backup. You will be prompted to sign in again if you ever lose your wallet.",
+    "subtitle": "Đăng nhập bằng email của bạn để thiết lập thành email sao lưu. Bạn sẽ được nhắc đăng nhập lại nếu chẳng may bị mất ví.",
     "subtitleRestore": "Đăng nhập bằng email bạn đã sử dụng để thiết lập sao lưu ví.",
     "google": "Đăng nhập bằng Google",
-    "signInAnotherWay": "Sign in another way",
+    "signInAnotherWay": "Đăng nhập bằng cách khác",
     "bottomSheet": {
-      "title": "Save your recovery phrase to create a wallet",
-      "description": "We’re going to be supporting other email providers soon, but in the meanwhile you’ll have to save your recovery phrase to finish creating a wallet.",
+      "title": "Lưu cụm từ khôi phục của bạn để tạo ví",
+      "description": "Chúng tôi sẽ sớm hỗ trợ các nhà cung cấp email khác, nhưng trong thời gian chờ đợi, bạn sẽ phải lưu cụm từ khôi phục của mình để hoàn tất quá trình tạo ví.",
       "continue": "Tiếp tục",
       "skip": "Bỏ qua (không khuyến khích)"
     }
@@ -924,7 +924,7 @@
     "helpDialog": {
       "title": "Trợ giúp",
       "body": "Chúng tôi đã gửi tin nhắn SMS đến số điện thoại của bạn. Vui lòng kiểm tra tin nhắn văn bản để tìm mã gồm 6 chữ số. Nếu gặp sự cố khi nhận tin nhắn, bạn có thể tạm thời bỏ qua bước này và thử lại sau.",
-      "bodyCloudBackupOnboarding": "We sent an SMS to your phone number. Please check your text messages to find the 6 digit code. \n \n If you’re having trouble receiving messages, we recommend backing up with a Recovery Phrase. You can try signing in with your email and phone later.",
+      "bodyCloudBackupOnboarding": "Chúng tôi đã gửi tin nhắn SMS đến số điện thoại của bạn. Vui lòng kiểm tra tin nhắn văn bản để tìm mã gồm 6 chữ số. \n \n Nếu gặp sự cố khi nhận tin nhắn, bạn nên sao lưu bằng Cụm từ khôi phục. Bạn có thể thử đăng nhập bằng email và số điện thoại của bạn sau.",
       "skip": "Bỏ qua",
       "dismiss": "Quay lại",
       "useRecoveryPhrase": "Sử dụng Cụm từ khôi phục"
@@ -938,7 +938,7 @@
     "header": "Khôi phục ví",
     "title": "Nhập cụm từ khôi phục của bạn",
     "description": "Sử dụng cụm từ 12 hoặc 24 từ mà bạn đã lưu khi bạn thiết lập ví của mình để khôi phục.",
-    "descriptionV1_90": "Your Recovery Phrase is a 12 or 24-word phrase that you wrote down and saved when you set up your wallet. Please enter it here to restore your wallet.",
+    "descriptionV1_90": "Cụm từ khôi phục là cụm từ gồm 12 hoặc 24 từ mà bạn đã viết ra và lưu lại khi thiết lập ví. Vui lòng nhập cụm từ đó vào đây để khôi phục ví của bạn.",
     "emptyWalletDialog": {
       "description": "Ví khoản này không có tiền. Bạn vẫn muốn sử dụng chứ?",
       "action": "Sử dụng ví",
@@ -1867,30 +1867,30 @@
       "networkFeeInfo": "Bạn đang trao đổi trên Mạng {{networkName}}.\n\nĐể thực hiện giao dịch trên Mạng {{networkName}}, bạn bắt buộc phải trả khoản phí mạng lưới ước tính này. Khoản phí này sẽ đảm bảo cho giao dịch của bạn và được sử dụng để duy trì hoạt động của mạng.",
       "networkFeeInfoV1_76": "Bạn đang trao đổi trên Mạng {{networkName}}.\n\nĐể thực hiện giao dịch trên Mạng {{networkName}}, bạn bắt buộc phải trả khoản phí mạng này. Khoản phí này sẽ đảm bảo cho giao dịch của bạn và được sử dụng để thanh toán cho các trình xác thực mạng.\n\nDo phí giao dịch chính xác phụ thuộc vào tình trạng mạng, nên mức phí ước tính được nêu tại đây là số tiền chúng tôi dự đoán. Khoản phí này sẽ không vượt quá mức phí tối đa.",
       "slippageToleranceInfo": "Tỷ lệ trượt giá chấp nhận\n\nViệc trao đổi sẽ được thực hiện trong phạm vi tỷ lệ trượt giá chấp nhận. Nếu giá thay đổi nhiều hơn tỷ lệ trượt giá chấp nhận, {{appName}} sẽ bảo vệ bạn bằng cách ngăn khớp lệnh giao dịch.",
-      "slippageToleranceInfoV1_90": "Your swap will execute within the slippage tolerance percentage. If the price changes more than the slippage tolerance, {{appName}} protects you by preventing the trade from executing.",
+      "slippageToleranceInfoV1_90": "Việc trao đổi sẽ được thực hiện trong phạm vi tỷ lệ trượt giá chấp nhận. Nếu giá thay đổi nhiều hơn tỷ lệ trượt giá chấp nhận, {{appName}} sẽ bảo vệ bạn bằng cách ngăn khớp lệnh giao dịch.",
       "networkFeeInfoDismissButton": "Đã hiểu",
       "exchangeRate": "Tỷ giá quy đổi",
-      "exchangeRateInfo": "Exchange Rate\n\nWe've found the best exchange rate for you. Your trade will be completed at a price within {{slippagePercentage}}% of the estimate or the transaction will be cancelled and funds returned to your wallet.",
-      "exchangeRateInfoV1_90": "We've found the best exchange rate for you. Your trade will be completed at a price within {{slippagePercentage}}% of the estimate or the transaction will be cancelled and funds returned to your wallet.",
+      "exchangeRateInfo": "Tỷ giá quy đổi\n\nChúng tôi đã tìm được tỷ giá quy đổi tốt nhất cho bạn. Chúng tôi sẽ hoàn thành giao dịch của bạn ở mức giá nằm trong khoảng {{slippagePercentage}}% so với ước tính hoặc sẽ hủy giao dịch và hoàn tiền vào ví của bạn.",
+      "exchangeRateInfoV1_90": "Chúng tôi đã tìm được tỷ giá quy đổi tốt nhất cho bạn. Chúng tôi sẽ hoàn thành giao dịch của bạn ở mức giá nằm trong khoảng {{slippagePercentage}}% so với ước tính hoặc sẽ hủy giao dịch và hoàn tiền vào ví của bạn.",
       "exchangeRateInfo_withAppFee": "Tỷ giá hối đoái\n\nChúng tôi đã tìm được tỷ giá hối đoái tốt nhất cho bạn. Chúng tôi sẽ hoàn thành giao dịch của bạn ở mức giá nằm trong khoảng {{slippagePercentage}}% so với ước tính hoặc sẽ hủy giao dịch và hoàn tiền vào ví của bạn.\n\nTỷ giá ước tính bao gồm phí {{appName}} là {{appFeePercentage}}%.",
       "exchangeRateInfoDismissButton": "Đã hiểu",
       "estimatedValue": "Giá trị ước tính",
-      "estimatedTransactionTime": "Estimated Transaction Time",
-      "estimatedTransactionTimeInMinutes": "≈ {{minutes}} min",
-      "estimatedTransactionTimeInfo": "The time to complete the transaction is determined by the provider.\n\nIf you are swapping between different chains, the transaction could take a bit longer to complete.",
+      "estimatedTransactionTime": "Thời gian giao dịch ước tính",
+      "estimatedTransactionTimeInMinutes": "≈ {{minutes}} phút",
+      "estimatedTransactionTimeInfo": "Thời gian hoàn thành giao dịch sẽ do nhà cung cấp xác định.\n\nNếu bạn đang trao đổi giữa các chuỗi khác nhau, giao dịch đó có thể mất nhiều thời gian hơn một chút để hoàn thành.",
       "infoDismissButton": "Đã hiểu",
       "fees": "Phí",
-      "feesCalculationError": "Unable to calculate fees",
-      "estimatedCrossChainFee": "Estimated cross-chain fees",
-      "maxCrossChainFee": "Max cross-chain fees",
-      "feesBreakdown": "Breakdown",
+      "feesCalculationError": "Không thể tính phí",
+      "estimatedCrossChainFee": "Phí trao đổi chuỗi chéo ước tính",
+      "maxCrossChainFee": "Phí trao đổi chuỗi chéo tối đa",
+      "feesBreakdown": "Chi tiết",
       "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
-      "feesMoreInfoLabel": "More information",
-      "feesInfo_sameChain": "A network fee is required to process the transaction, ensuring security and reliability.",
-      "feesInfo_crossChain": "A network fee is required to process the transaction, ensuring security and reliability. A cross-chain fee is charged by the provider to enable smooth and secure exchanges between different blockchains.",
-      "feesInfo_sameChainWithAppFee": "A network fee is required to process the transaction, ensuring security and reliability. The {{appName}} fee of {{appFeePercentage}}% enhances your experience by ensuring fast, reliable, and secure swaps.",
-      "feesInfo_crossChainWithAppFee": "A network fee is required to process the transaction, ensuring security and reliability. A cross-chain fee is charged by the provider to enable smooth and secure exchanges between different blockchains. The {{appName}} fee of {{appFeePercentage}}% enhances your experience by ensuring fast, reliable, and secure swaps."
+      "feesMoreInfoLabel": "Thông tin bổ sung",
+      "feesInfo_sameChain": "Bạn cần trả một khoản phí mạng để xử lý giao dịch nhằm đảm bảo tính bảo mật và độ tin cậy.",
+      "feesInfo_crossChain": "Bạn cần trả một khoản phí mạng để xử lý giao dịch nhằm đảm bảo tính bảo mật và độ tin cậy. Nhà cung cấp sẽ thu một khoản phí trao đổi chuỗi chéo để đảm bảo quá trình trao đổi giữa các chuỗi khối khác nhau diễn ra suôn sẻ và an toàn.",
+      "feesInfo_sameChainWithAppFee": "Bạn cần trả một khoản phí mạng để xử lý giao dịch nhằm đảm bảo tính bảo mật và độ tin cậy. Khoản phí {{appFeePercentage}}% của {{appName}} giúp nâng cao trải nghiệm của bạn bằng cách đảm bảo các giao dịch trao đổi diễn ra nhanh chóng, tin cậy và an toàn.",
+      "feesInfo_crossChainWithAppFee": "Bạn cần trả một khoản phí mạng để xử lý giao dịch nhằm đảm bảo tính bảo mật và độ tin cậy. Nhà cung cấp sẽ thu một khoản phí trao đổi chuỗi chéo để đảm bảo quá trình trao đổi giữa các chuỗi khối khác nhau diễn ra suôn sẻ và an toàn. Khoản phí {{appFeePercentage}}% của {{appName}} giúp nâng cao trải nghiệm của bạn bằng cách đảm bảo các giao dịch trao đổi diễn ra nhanh chóng, tin cậy và an toàn."
     },
     "fundYourWalletBottomSheet": {
       "title": "Nạp tiền vào ví của bạn",
@@ -2344,7 +2344,7 @@
         "createLiveLink": {
           "title": "Đường liên kết trực tiếp",
           "subtitle": {
-            "erc20": "Sent {{tokenSymbol}}",
+            "erc20": "Đã gửi {{tokenSymbol}}",
             "erc721": "NFT đã gửi"
           }
         },
@@ -2385,7 +2385,7 @@
       "retryCta": "Thử lại"
     },
     "infoCard": {
-      "title": "More ways to earn points coming soon",
+      "title": "Bạn sắp có thêm nhiều cách để kiếm điểm",
       "body": "Chúng tôi đang cố gắng bổ sung thêm nhiều cách kiếm điểm trong quá trình sử dụng ứng dụng. Hãy kiểm tra thường xuyên để biết thông tin cập nhật."
     },
     "activitySection": {
@@ -2415,16 +2415,16 @@
         "title": "Gửi bằng đường liên kết trực tiếp",
         "bottomSheet": {
           "title": "Gửi bằng đường liên kết trực tiếp",
-          "body": "Earn {{pointsValue}} points every time you send funds using a Live Link in {{appName}}. \n\nTap below to start sending and earning!",
+          "body": "Nhận {{pointsValue}} điểm mỗi khi bạn gửi tiền bằng Đường liên kết trực tiếp trong {{appName}}. \n\nHãy nhấn vào bên dưới để bắt đầu gửi tiền và kiếm điểm!",
           "cta": "Gửi bằng đường liên kết trực tiếp"
         }
       },
       "depositEarn": {
-        "title": "Deposit into an earn pool on {{appName}}",
+        "title": "Gửi tiền vào quỹ kiếm tiền trên {{appName}}",
         "bottomSheet": {
-          "title": "Deposit into an earn pool",
-          "body": "Earn {{pointsValue}} points every time you deposit funds into an earn pool on {{appName}}. \n\nTap below to start earning yield and points!",
-          "cta": "Go to earn pools"
+          "title": "Gửi tiền vào quỹ kiếm tiền",
+          "body": "Nhận {{pointsValue}} điểm mỗi khi bạn gửi tiền vào quỹ kiếm tiền trên {{appName}}. \n\nHãy nhấn vào bên dưới để bắt đầu kiếm tiền và điểm!",
+          "cta": "Đi đến các quỹ kiếm tiền"
         }
       }
     },
@@ -2490,8 +2490,8 @@
     },
     "entrypoint": {
       "title": "Nhận stablecoin",
-      "subtitle": "Deposit and earn returns",
-      "description": "Explore pools to deposit assets and earn returns on your stablecoins"
+      "subtitle": "Nạp tiền và nhận tiền lãi",
+      "description": "Khám phá các quỹ để gửi tài sản và nhận tiền lãi từ stablecoin của bạn"
     },
     "enterAmount": {
       "earnUpToLabel": "Bạn có thể kiếm được đến:",
@@ -2503,7 +2503,7 @@
       "info": "Quỹ này do Aave cung cấp",
       "infoBottomSheet": {
         "title": "Tại sao bạn nên chọn quỹ này?",
-        "description": "This Aave pool has over $150M TVL and more than 6,000 contributors, indicating strong liquidity and trustworthiness. It also uses USDC as its token and Arbitrum as its network, which reduces volatility and ensures users will receive inexpensive gas rates.\n\nAll together this makes it a safe and attractive option with competitive APY, ensuring a beneficial investment opportunity for our users.\n\nYou can explore other Aave pools <0>here</0>.",
+        "description": "Quỹ Aave này có hơn $150 triệu TVL và hơn 6.000 người đóng góp, cho thấy quỹ này có tính thanh khoản và độ uy tín cao. Quỹ cũng sử dụng USDC làm token và Arbitrum làm mạng lưới, giúp giảm biến động và đảm bảo người dùng nhận được mức phí ga rẻ.\n\nTất cả những yếu tố này tạo nên một lựa chọn an toàn và hấp dẫn với APY cạnh tranh, đảm bảo cơ hội đầu tư có lợi cho người dùng.\n\nBạn có thể khám phá các quỹ Aave khác <0>tại đây</0>.",
         "dismiss": "Loại bỏ"
       },
       "notEnoughBalanceForGasWarning": {
@@ -2519,10 +2519,10 @@
       "exitPool": "Thoát quỹ",
       "depositMore": "Nạp thêm",
       "viewPools": "Xem quỹ",
-      "poolsSupplied": "Pools supplied",
-      "totalSupplied": "Total supplied",
-      "myPools": "My Pools",
-      "explore": "Explore Open"
+      "poolsSupplied": "Các quỹ được cung cấp",
+      "totalSupplied": "Tổng quỹ được cung cấp",
+      "myPools": "Các quỹ của tôi",
+      "explore": "Khám phá các quỹ đang mở"
     },
     "depositBottomSheet": {
       "title": "Xem lại & Nạp tiền",
