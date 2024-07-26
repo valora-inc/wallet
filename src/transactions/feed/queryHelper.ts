@@ -441,6 +441,7 @@ export const TRANSACTIONS_QUERY = gql`
         ...EarnWithdrawItem
         ...EarnClaimRewardItem
         ...TokenApprovalItem
+        ...CrossChainTokenExchangeItem
       }
     }
   }
@@ -537,6 +538,48 @@ export const TRANSACTIONS_QUERY = gql`
       }
     }
     outAmount {
+      value
+      tokenAddress
+      tokenId
+      localAmount {
+        value
+        currencyCode
+        exchangeRate
+      }
+    }
+    fees {
+      type
+      amount {
+        value
+        tokenAddress
+        tokenId
+        localAmount {
+          value
+          currencyCode
+          exchangeRate
+        }
+      }
+    }
+  }
+
+  fragment CrossChainTokenExchangeItem on CrossChainTokenExchange {
+    __typename
+    type
+    transactionHash
+    status
+    timestamp
+    block
+    outAmount {
+      value
+      tokenAddress
+      tokenId
+      localAmount {
+        value
+        currencyCode
+        exchangeRate
+      }
+    }
+    inAmount {
       value
       tokenAddress
       tokenId

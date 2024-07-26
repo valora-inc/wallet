@@ -2,6 +2,8 @@ import BigNumber from 'bignumber.js'
 import { TokenBalance } from 'src/tokens/slice'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 
+export type SwapType = 'same-chain' | 'cross-chain'
+
 export enum Field {
   FROM = 'FROM',
   TO = 'TO',
@@ -25,7 +27,7 @@ interface SwapUserInput {
 }
 
 interface BaseSwapTransaction {
-  swapType: 'same-chain' | 'cross-chain'
+  swapType: SwapType
   chainId: number
   buyAmount: string
   sellAmount: string
@@ -73,6 +75,7 @@ export interface SwapInfo {
     provider: string
     estimatedPriceImpact: string | null
     allowanceTarget: string
+    swapType: SwapType
   }
   areSwapTokensShuffled: boolean
 }

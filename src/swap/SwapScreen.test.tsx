@@ -1035,6 +1035,7 @@ describe('SwapScreen', () => {
             provider: defaultQuote.details.swapProvider,
             estimatedPriceImpact: defaultQuote.unvalidatedSwapTransaction.estimatedPriceImpact,
             allowanceTarget: defaultQuote.unvalidatedSwapTransaction.allowanceTarget,
+            swapType: 'same-chain',
           },
           userInput: {
             toTokenId: mockCusdTokenId,
@@ -1088,6 +1089,7 @@ describe('SwapScreen', () => {
             provider: defaultQuote.details.swapProvider,
             estimatedPriceImpact: defaultQuote.unvalidatedSwapTransaction.estimatedPriceImpact,
             allowanceTarget: defaultQuote.unvalidatedSwapTransaction.allowanceTarget,
+            swapType: 'same-chain',
           },
           userInput: {
             toTokenId: mockCeloTokenId,
@@ -1135,6 +1137,7 @@ describe('SwapScreen', () => {
             provider: defaultQuote.details.swapProvider,
             estimatedPriceImpact: defaultQuote.unvalidatedSwapTransaction.estimatedPriceImpact,
             allowanceTarget: defaultQuote.unvalidatedSwapTransaction.allowanceTarget,
+            swapType: 'same-chain',
           },
           userInput: {
             toTokenId: mockCusdTokenId,
@@ -1192,6 +1195,7 @@ describe('SwapScreen', () => {
       feeCurrency: undefined,
       feeCurrencySymbol: 'CELO',
       txCount: 2,
+      swapType: 'same-chain',
     })
   })
 

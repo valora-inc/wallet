@@ -264,7 +264,13 @@ export function* getTransactionReceipt(
       hash: transactionHash as Hash,
     })
 
-    if (receipt) {
+    if (transaction.__typename === 'CrossChainTokenExchange' && receipt.status === 'success') {
+      // Do nothing for a cross chain swap that has a successful receipt because
+      // it is for the source network only, and we'll need to rely on
+      // blockchain-api to tell us when the whole cross chain swap has
+      // succeeded. However, we still want to mark the swap as failed if this
+      // source chain transaction has been reverted.
+    } else {
       yield* call(
         handleTransactionReceiptReceived,
         transaction.context.id,
