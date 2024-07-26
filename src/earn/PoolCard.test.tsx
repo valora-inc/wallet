@@ -63,14 +63,14 @@ describe('PoolCard', () => {
     expect(getByText('earnFlow.poolCard.addToPool')).toBeTruthy()
     fireEvent.press(getByText('earnFlow.poolCard.addToPool'))
     expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, { tokenId: mockArbUsdcTokenId })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      EarnEvents.earn_multi_pool_add_to_pool_press,
-      {
-        poolId: 'pool1',
-        networkId: NetworkId['arbitrum-sepolia'],
-        poolBalance: 0,
-      }
-    )
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_card_cta_press, {
+      poolId: 'pool1',
+      networkId: NetworkId['arbitrum-sepolia'],
+      depositTokenId: mockArbUsdcTokenId,
+      tokenAmount: '0',
+      providerId: 'aave-v3',
+      action: 'deposit',
+    })
   })
   it('navigates to enter amount when have pool balance', () => {
     const { getByText } = render(
@@ -117,14 +117,14 @@ describe('PoolCard', () => {
     expect(getByText('earnFlow.poolCard.addToPool')).toBeTruthy()
     fireEvent.press(getByText('earnFlow.poolCard.addToPool'))
     expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, { tokenId: mockArbUsdcTokenId })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      EarnEvents.earn_multi_pool_add_to_pool_press,
-      {
-        poolId: 'pool1',
-        networkId: NetworkId['arbitrum-sepolia'],
-        poolBalance: 10,
-      }
-    )
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_card_cta_press, {
+      poolId: 'pool1',
+      networkId: NetworkId['arbitrum-sepolia'],
+      depositTokenId: mockArbUsdcTokenId,
+      tokenAmount: '10',
+      providerId: 'aave-v3',
+      action: 'deposit',
+    })
   })
   it('navigates to collect screen', () => {
     const { getByText } = render(
@@ -174,10 +174,13 @@ describe('PoolCard', () => {
       depositTokenId: mockArbUsdcTokenId,
       poolTokenId: mockArbEthTokenId,
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_multi_pool_exit_pool_press, {
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_card_cta_press, {
       poolId: 'pool1',
       networkId: NetworkId['arbitrum-sepolia'],
-      poolBalance: 10,
+      depositTokenId: mockArbUsdcTokenId,
+      tokenAmount: '10',
+      providerId: 'aave-v3',
+      action: 'withdraw',
     })
   })
 })

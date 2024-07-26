@@ -7,6 +7,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes, TextSizes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon from 'src/components/TokenIcon'
+import { PROVIDER_ID } from 'src/earn/constants'
 import { Pool } from 'src/earn/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -94,10 +95,13 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
           <View style={styles.buttonContainer}>
             <Button
               onPress={() => {
-                ValoraAnalytics.track(EarnEvents.earn_multi_pool_exit_pool_press, {
+                ValoraAnalytics.track(EarnEvents.earn_pool_card_cta_press, {
                   poolId: pool.poolId,
+                  depositTokenId,
                   networkId: pool.networkId,
-                  poolBalance: poolTokenInfo.balance.toNumber(),
+                  tokenAmount: poolTokenInfo.balance.toString(),
+                  providerId: PROVIDER_ID,
+                  action: 'withdraw',
                 })
                 navigate(Screens.EarnCollectScreen, { depositTokenId, poolTokenId })
               }}
@@ -109,10 +113,13 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
             />
             <Button
               onPress={() => {
-                ValoraAnalytics.track(EarnEvents.earn_multi_pool_add_to_pool_press, {
+                ValoraAnalytics.track(EarnEvents.earn_pool_card_cta_press, {
                   poolId: pool.poolId,
+                  depositTokenId,
                   networkId: pool.networkId,
-                  poolBalance: poolTokenInfo.balance.toNumber(),
+                  tokenAmount: poolTokenInfo.balance.toString(),
+                  providerId: PROVIDER_ID,
+                  action: 'deposit',
                 })
                 navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })
               }}
@@ -127,10 +134,13 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
       ) : (
         <Button
           onPress={() => {
-            ValoraAnalytics.track(EarnEvents.earn_multi_pool_add_to_pool_press, {
+            ValoraAnalytics.track(EarnEvents.earn_pool_card_cta_press, {
               poolId: pool.poolId,
+              depositTokenId,
               networkId: pool.networkId,
-              poolBalance: 0,
+              tokenAmount: '0',
+              providerId: PROVIDER_ID,
+              action: 'deposit',
             })
             navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })
           }}
