@@ -108,7 +108,7 @@
     "subtitle": "Accedi con il tuo indirizzo e-mail per impostarlo come backup. Ti verrà richiesto di accedere nuovamente se dovessi perdere il tuo portafoglio.",
     "subtitleRestore": "Accedi con l'e-mail che hai utilizzato per impostare il backup.",
     "google": "Accedi con Google",
-    "signInAnotherWay": "Firma in un altro modo",
+    "signInAnotherWay": "Accedi in un altro modo",
     "bottomSheet": {
       "title": "Salva la tua frase di recupero per creare un portafoglio",
       "description": "Presto supporteremo altri provider di posta elettronica, ma nel frattempo dovrai salvare la tua frase di recupero per terminare la creazione di un portafoglio.",
@@ -938,7 +938,7 @@
     "header": "Ripristina un wallet",
     "title": "Immetti la tua frase di recupero",
     "description": "Utilizza la frase di 12 o 24 parole che hai salvato quando hai impostato il wallet per il ripristino.",
-    "descriptionV1_90": "La tua frase di ripristino è una frase di 12 o 24 parole che hai scritto e salvato quando hai configurato il tuo portafoglio. Inseriscila qui per ripristinare il tuo portafoglio.",
+    "descriptionV1_90": "La tua frase di recupero è una frase di 12 o 24 parole che hai scritto e salvato quando hai configurato il tuo portafoglio. Inseriscila qui per ripristinare il tuo portafoglio.",
     "emptyWalletDialog": {
       "description": "Questo wallet non contiene fondi. Desideri utilizzarlo comunque?",
       "action": "Usa il wallet",
@@ -1869,30 +1869,30 @@
       "networkFeeInfo": "Stai effettuando uno scambio sulla rete {{networkName}}.\n\nQuesta commissione di rete stimata è necessaria per eseguire una transazione sulla rete {{networkName}}. Questa commissione protegge la tua transazione e serve a mantenere operativa la rete.",
       "networkFeeInfoV1_76": "Stai effettuando uno scambio sulla Rete {{networkName}}.\n\nPer effettuare una transazione sulla Rete {{networkName}} è richiesta una commissione di rete. Questa commissione garantisce la sicurezza della transazione e viene pagata ai validatori della rete.\n\nPoiché le condizioni della rete determinano l'importo esatto, la stima indicata è la somma che ci aspettiamo corrisponda alla commissione effettiva. La commissione non supererà l'importo massimo previsto.",
       "slippageToleranceInfo": "Tolleranza slippage\n\nIl tuo scambio verrà eseguito entro la percentuale di tolleranza allo slippage. Se il prezzo cambia oltre la tolleranza allo slippage, {{appName}} ti protegge impedendo l'esecuzione della transazione.",
-      "slippageToleranceInfoV1_90": "Il tuo swap verrà eseguito entro la percentuale di tolleranza di slippage. Se il prezzo cambia più della tolleranza di slippage, {{appName}} ti protegge impedendo l'esecuzione dell'operazione.",
+      "slippageToleranceInfoV1_90": "Il tuo swap verrà eseguito entro la percentuale di tolleranza di slippage. Se il prezzo cambia più della tolleranza di slippage, {{appName}} ti protegge impedendo l'esecuzione della transazione.",
       "networkFeeInfoDismissButton": "Ho capito",
       "exchangeRate": "Tasso di cambio",
-      "exchangeRateInfo": "Tasso di cambio\n\nAbbiamo trovato il miglior tasso di cambio per te. La tua transazione sarà completata a un prezzo entro {{slippagePercentage}}% della stima o la transazione sarà annullata e i fondi saranno restituiti al tuo portafoglio.",
-      "exchangeRateInfoV1_90": "Abbiamo trovato il miglior tasso di cambio per te. La tua transazione sarà completata a un prezzo compreso tra {{slippagePercentage}}% della stima o la transazione sarà annullata e i fondi saranno restituiti al tuo portafoglio.",
+      "exchangeRateInfo": "Tasso di cambio\n\nAbbiamo trovato il miglior tasso di cambio per te. La tua transazione sarà completata a un prezzo entro il {{slippagePercentage}}% della stima oppure sarà annullata e i fondi saranno restituiti al tuo portafoglio.",
+      "exchangeRateInfoV1_90": "Abbiamo trovato il miglior tasso di cambio per te. La tua transazione sarà completata a un prezzo entro il {{slippagePercentage}}% della stima oppure sarà annullata e i fondi saranno restituiti al tuo portafoglio.",
       "exchangeRateInfo_withAppFee": "Tasso di cambio\n\nAbbiamo trovato il miglior tasso di cambio. La tua transazione sarà completata a un prezzo che potrebbe oscillare al massimo del {{slippagePercentage}}% rispetto alla stima; se non sarà possibile concluderla a tale prezzo, la transazione sarà annullata e i fondi torneranno nel tuo wallet.\n\nIl tasso stimato include la commissione {{appName}} pari al {{appFeePercentage}}%.",
       "exchangeRateInfoDismissButton": "Ho capito",
       "estimatedValue": "Valore stimato",
       "estimatedTransactionTime": "Tempo stimato per la transazione",
       "estimatedTransactionTimeInMinutes": "≈ {{minutes}} min",
-      "estimatedTransactionTimeInfo": "Il tempo per completare la transazione è determinato dal fornitore.\n\nSe stai scambiando tra diverse catene, la transazione potrebbe richiedere un po' più di tempo per essere completata.",
+      "estimatedTransactionTimeInfo": "Il tempo per completare la transazione dipende dal provider.\n\nSe lo swap è tra diverse chain, la transazione potrebbe richiedere un po' più di tempo per essere completata.",
       "infoDismissButton": "Ho capito",
       "fees": "Commissioni",
-      "feesCalculationError": "Impossibile calcolare le tariffe",
-      "estimatedCrossChainFee": "Spese stimate per la catena incrociata",
-      "maxCrossChainFee": "Spese massime per la catena incrociata",
-      "feesBreakdown": "Ripartizione",
+      "feesCalculationError": "Impossibile calcolare le commissioni",
+      "estimatedCrossChainFee": "Commissioni stimate cross-chain",
+      "maxCrossChainFee": "Commissioni massime cross-chain",
+      "feesBreakdown": "Breakdown",
       "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "Ulteriori informazioni",
       "feesInfo_sameChain": "Per elaborare la transazione è richiesta una commissione di rete che garantisce sicurezza e affidabilità.",
-      "feesInfo_crossChain": "Per elaborare la transazione è richiesta una commissione di rete che garantisce sicurezza e affidabilità. Il fornitore addebita una tariffa cross-chain per consentire scambi fluidi e sicuri tra diverse blockchain.",
-      "feesInfo_sameChainWithAppFee": "Per elaborare la transazione è richiesta una commissione di rete che garantisce sicurezza e affidabilità. La commissione di {{appName}} di {{appFeePercentage}}% migliora la tua esperienza garantendo scambi veloci, affidabili e sicuri.",
-      "feesInfo_crossChainWithAppFee": "Per elaborare la transazione è richiesta una commissione di rete che garantisce sicurezza e affidabilità. Il fornitore addebita una commissione cross-chain per consentire scambi fluidi e sicuri tra diverse blockchain. La commissione di {{appName}} di {{appFeePercentage}}% migliora la tua esperienza garantendo scambi veloci, affidabili e sicuri."
+      "feesInfo_crossChain": "Per elaborare la transazione è richiesta una commissione di rete che garantisce sicurezza e affidabilità. Il provider addebita una commissione cross-chain per consentire scambi fluidi e sicuri tra diverse blockchain.",
+      "feesInfo_sameChainWithAppFee": "Per elaborare la transazione è richiesta una commissione di rete che garantisce sicurezza e affidabilità. La commissione di {{appName}} del {{appFeePercentage}}% migliora la tua esperienza garantendoti swap veloci, affidabili e sicuri.",
+      "feesInfo_crossChainWithAppFee": "Per elaborare la transazione è richiesta una commissione di rete che garantisce sicurezza e affidabilità. Il provider addebita una commissione cross-chain per consentire scambi fluidi e sicuri tra diverse blockchain. La commissione di {{appName}} del {{appFeePercentage}}% migliora la tua esperienza garantendoti swap veloci, affidabili e sicuri."
     },
     "fundYourWalletBottomSheet": {
       "title": "Aggiungi fondi al tuo portafoglio",
@@ -2013,7 +2013,8 @@
       "network": "Rete {{networkName}}",
       "selectNetwork": "Rete",
       "stablecoins": "Stablecoin",
-      "gasTokens": "Token per commissioni"
+      "gasTokens": "Token per commissioni",
+      "tokens": "Token"
     }
   },
   "homeActions": {
@@ -2421,11 +2422,11 @@
         }
       },
       "depositEarn": {
-        "title": "Deposita in un fondo di guadagno su {{appName}}",
+        "title": "Deposita in un pool di guadagni su {{appName}}",
         "bottomSheet": {
-          "title": "Deposito in un fondo di guadagno",
-          "body": "Guadagna {{pointsValue}} punti ogni volta che depositi fondi in una piscina di guadagno su {{appName}}. \n\nTocca qui sotto per iniziare a guadagnare rendimento e punti!",
-          "cta": "Vai a guadagnare piscine"
+          "title": "Deposita in un pool di guadagni",
+          "body": "Guadagna {{pointsValue}} punti ogni volta che depositi fondi in un pool di guadagni su {{appName}}. \n\nTocca qui sotto per iniziare a guadagnare rendimento e punti!",
+          "cta": "Vai ai pool di guadagni"
         }
       }
     },
@@ -2491,8 +2492,8 @@
     },
     "entrypoint": {
       "title": "Guadagna sui tuoi stablecoin",
-      "subtitle": "Deposita e guadagna",
-      "description": "Esplora le piscine per depositare attività e guadagnare rendimenti sulle tue stablecoins"
+      "subtitle": "Deposita e guadagna rendimenti",
+      "description": "Esplora i pool per depositare asset e guadagnare rendimenti sulle tue stablecoin"
     },
     "enterAmount": {
       "earnUpToLabel": "Puoi guadagnare fino a:",
@@ -2520,10 +2521,10 @@
       "exitPool": "Abbandona il pool",
       "depositMore": "Deposita altro",
       "viewPools": "Visualizza i pool",
-      "poolsSupplied": "Piscine fornite",
+      "poolsSupplied": "Pool forniti",
       "totalSupplied": "Totale fornito",
-      "myPools": "Le mie piscine",
-      "explore": "Esplora Aperto"
+      "myPools": "I miei pool",
+      "explore": "Esplora aperti"
     },
     "depositBottomSheet": {
       "title": "Rivedi e deposita",
@@ -2569,6 +2570,32 @@
       "earnWithdrawTitle": "Preleva",
       "earnWithdrawSubtitle": "Prelevati {{tokenSymbol}} dal pool {{providerName}}",
       "earnWithdrawDetails": "Importo prelevato"
+    },
+    "home": {
+      "title": "Guadagna",
+      "learnMore": "<0>Scopri di più</0> sui pool di rendimento.",
+      "learnMoreBottomSheet": {
+        "bottomSheetTitle": "Scopri di più sui pool di rendimento",
+        "apySubtitle": "Cos'è l'APY?",
+        "apyDescription": "Il rendimento annuo percentuale (APY) è una metrica utilizzata per calcolare il rendimento annualizzato degli investimenti in cripto. È un indicatore chiave del potenziale rendimento di una criptovaluta.",
+        "tvlSubtitle": "Cos'è il TVL?",
+        "tvlDescription": "Il valore totale bloccato (TVL) è una metrica utilizzata per misurare il valore dei beni digitali bloccati su una rete blockchain. Il TVL viene calcolato sommando il valore di tutti gli asset digitali bloccati in un protocollo DeFi o in uno smart contract. Questi beni possono includere criptovalute, stablecoin e altri token."
+      }
+    },
+    "poolCard": {
+      "onNetwork": "su {{networkName}}",
+      "rate": "Tasso (stima)",
+      "reward": "Bonus",
+      "tvl": "TVL",
+      "exitPool": "Abbandona il pool",
+      "addToPool": "Deposita in pool",
+      "apy": "{{apy}}% APY",
+      "poweredBy": "Powered by {{providerName}}",
+      "deposited": "Forniti"
+    },
+    "poolFilters": {
+      "openPools": "Pool aperti",
+      "myPools": "I miei pool"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
