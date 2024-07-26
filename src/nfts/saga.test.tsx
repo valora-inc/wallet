@@ -8,7 +8,7 @@ import { nftCelebrationSelector } from 'src/home/selectors'
 import * as nftSaga from 'src/nfts/saga'
 import { handleFetchNfts, watchFirstFetchCompleted } from 'src/nfts/saga'
 import { fetchNftsCompleted, fetchNftsFailed } from 'src/nfts/slice'
-import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
@@ -68,7 +68,7 @@ describe('Given Nfts saga', () => {
     beforeEach(() => {
       mockFetch.resetMocks()
       jest.clearAllMocks()
-      jest.mocked(getDynamicConfigParams).mockReturnValue({
+      jest.mocked(getMultichainFeatures).mockReturnValue({
         showNfts: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
       })
     })

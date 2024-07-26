@@ -1822,7 +1822,8 @@ export const migrations = {
       positions: [], // clear positions, they will be fetched again
     },
   }),
-  220: (state: any) => ({
+  220: (state: any) => state,
+  221: (state: any) => ({
     ...state,
     keylessBackup: {
       ..._.omit(state.keylessBackup, 'googleIdToken'),

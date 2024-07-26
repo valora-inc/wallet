@@ -3392,6 +3392,18 @@ export const v220Schema = {
     ...v219Schema._persist,
     version: 220,
   },
+  positions: {
+    ...v219Schema.positions,
+    positionsFetchedAt: undefined,
+  },
+}
+
+export const v221Schema = {
+  ...v220Schema,
+  _persist: {
+    ...v220Schema._persist,
+    version: 221,
+  },
   keylessBackup: {
     ..._.omit(v219Schema.keylessBackup, 'googleIdToken'),
     auth0IdToken: null,
@@ -3399,5 +3411,5 @@ export const v220Schema = {
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v220Schema as Partial<RootState>
+  return v221Schema as Partial<RootState>
 }

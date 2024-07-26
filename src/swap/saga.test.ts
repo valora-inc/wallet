@@ -5,7 +5,7 @@ import { EffectProviders, StaticProvider, dynamic } from 'redux-saga-test-plan/p
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
-import { getDynamicConfigParams } from 'src/statsig'
+import { getMultichainFeatures } from 'src/statsig'
 import { swapSubmitSaga } from 'src/swap/saga'
 import { swapCancel, swapError, swapStart, swapSuccess } from 'src/swap/slice'
 import { Field, SwapInfo } from 'src/swap/types'
@@ -102,6 +102,7 @@ const mockSwapFromParams = (toTokenId: string, feeCurrency?: Address): PayloadAc
         estimatedPriceImpact: '0.1',
         allowanceTarget: mockAllowanceTarget,
         receivedAt: mockQuoteReceivedTimestamp,
+        swapType: 'same-chain',
       },
       areSwapTokensShuffled: false,
     },
@@ -151,6 +152,7 @@ const mockSwapEthereum: PayloadAction<SwapInfo> = {
       estimatedPriceImpact: '0.1',
       allowanceTarget: mockAllowanceTarget,
       receivedAt: mockQuoteReceivedTimestamp,
+      swapType: 'same-chain',
     },
     areSwapTokensShuffled: false,
   },
@@ -184,6 +186,20 @@ const mockSwapWithWBTCBuyToken: PayloadAction<SwapInfo> = {
     userInput: {
       ...mockSwap.payload.userInput,
       toTokenId: mockWBTCTokenId,
+    },
+  },
+}
+const mockCrossChainSwap: PayloadAction<SwapInfo> = {
+  ...mockSwap,
+  payload: {
+    ...mockSwap.payload,
+    quote: {
+      ...mockSwap.payload.quote,
+      swapType: 'cross-chain',
+    },
+    userInput: {
+      ...mockSwap.payload.userInput,
+      toTokenId: mockEthTokenId,
     },
   },
 }
@@ -307,8 +323,8 @@ describe(swapSubmitSaga, () => {
 
   beforeEach(() => {
     sendCallCount = 0
-    jest.mocked(getDynamicConfigParams).mockReturnValue({
-      showSwap: ['celo-alfajores', 'ethereum-sepolia'],
+    jest.mocked(getMultichainFeatures).mockReturnValue({
+      showSwap: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
     })
   })
 
@@ -491,6 +507,7 @@ describe(swapSubmitSaga, () => {
         swapTxGasFeeUsd: 0.000929185,
         swapTxHash: '0x2',
         areSwapTokensShuffled: false,
+        swapType: 'same-chain',
       })
 
       const analyticsProps = (ValoraAnalytics.track as jest.Mock).mock.calls[0][1]
@@ -618,6 +635,51 @@ describe(swapSubmitSaga, () => {
       .run()
   })
 
+  it('should display the correct standby values for a cross chain swap', async () => {
+    await expectSaga(swapSubmitSaga, mockCrossChainSwap)
+      .withState(store.getState())
+      .provide(createDefaultProviders(Network.Celo))
+      .put(
+        addStandbyTransaction({
+          context: {
+            id: 'id-swap/saga-Swap/Approve',
+            tag: 'swap/saga',
+            description: 'Swap/Approve',
+          },
+          __typename: 'TokenApproval',
+          networkId: NetworkId['celo-alfajores'],
+          type: TokenTransactionTypeV2.Approval,
+          transactionHash: mockApproveTxReceipt.transactionHash,
+          tokenId: mockCeurTokenId,
+          approvedAmount: '1',
+          feeCurrencyId: mockCeloTokenId,
+        })
+      )
+      .put(
+        addStandbyTransaction({
+          context: {
+            id: 'id-swap/saga-Swap/Execute',
+            tag: 'swap/saga',
+            description: 'Swap/Execute',
+          },
+          __typename: 'CrossChainTokenExchange',
+          networkId: NetworkId['celo-alfajores'],
+          type: TokenTransactionTypeV2.CrossChainSwapTransaction,
+          inAmount: {
+            value: mockSwap.payload.userInput.swapAmount[Field.TO],
+            tokenId: mockEthTokenId,
+          },
+          outAmount: {
+            value: mockSwap.payload.userInput.swapAmount[Field.FROM],
+            tokenId: mockCeurTokenId,
+          },
+          transactionHash: mockSwapTxReceipt.transactionHash,
+          feeCurrencyId: mockCeloTokenId,
+        })
+      )
+      .run()
+  })
+
   it('should track correctly the imported tokens', async () => {
     jest
       .spyOn(Date, 'now')
@@ -731,6 +793,7 @@ describe(swapSubmitSaga, () => {
       swapTxGasFeeUsd: undefined,
       swapTxHash: undefined,
       areSwapTokensShuffled: false,
+      swapType: 'same-chain',
     })
     const analyticsProps = (ValoraAnalytics.track as jest.Mock).mock.calls[0][1]
     expect(analyticsProps.gas).toBeCloseTo(

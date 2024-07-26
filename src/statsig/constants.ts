@@ -2,6 +2,7 @@ import {
   StatsigDynamicConfigs,
   StatsigExperiments,
   StatsigFeatureGates,
+  StatsigMultiNetworkDynamicConfig,
   StatsigParameter,
 } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
@@ -67,8 +68,8 @@ export const DynamicConfigs = {
       cico: 30,
     },
   },
-  [StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]: {
-    configName: StatsigDynamicConfigs.MULTI_CHAIN_FEATURES,
+  [StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES]: {
+    configName: StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES,
     defaultValues: {
       showCico: [networkConfig.defaultNetworkId],
       showBalances: [networkConfig.defaultNetworkId],
@@ -76,7 +77,7 @@ export const DynamicConfigs = {
       showSwap: [networkConfig.defaultNetworkId],
       showTransfers: [networkConfig.defaultNetworkId],
       showWalletConnect: [networkConfig.defaultNetworkId],
-      showApprovalTxsInHomefeed: [],
+      showApprovalTxsInHomefeed: [] as NetworkId[],
       showNfts: [networkConfig.defaultNetworkId],
       showPositions: [networkConfig.defaultNetworkId],
       showShortcuts: [networkConfig.defaultNetworkId],
@@ -138,7 +139,7 @@ export const DynamicConfigs = {
     },
   },
 } satisfies {
-  [key in StatsigDynamicConfigs]: {
+  [key in StatsigDynamicConfigs | StatsigMultiNetworkDynamicConfig]: {
     configName: key
     defaultValues: { [key: string]: StatsigParameter }
   }

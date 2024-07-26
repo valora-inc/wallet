@@ -88,6 +88,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     estimatedPriceImpact,
     preparedTransactions: serializablePreparedTransactions,
     receivedAt: quoteReceivedAt,
+    swapType,
   } = quote
   const amountType = updatedField === Field.TO ? ('buyAmount' as const) : ('sellAmount' as const)
   const amount = swapAmount[updatedField]
@@ -147,6 +148,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     web3Library: 'viem' as const,
     areSwapTokensShuffled,
     ...getSwapTxsAnalyticsProperties(preparedTransactions, fromToken.networkId, tokensById),
+    swapType,
   }
 
   let quoteToTransactionElapsedTimeInMs: number | undefined
@@ -225,9 +227,12 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       feeCurrencyId?: string
     ): BaseStandbyTransaction => ({
       context: swapExecuteContext,
-      __typename: 'TokenExchangeV3',
+      __typename: swapType === 'same-chain' ? 'TokenExchangeV3' : 'CrossChainTokenExchange',
       networkId,
-      type: TokenTransactionTypeV2.SwapTransaction,
+      type:
+        swapType === 'same-chain'
+          ? TokenTransactionTypeV2.SwapTransaction
+          : TokenTransactionTypeV2.CrossChainSwapTransaction,
       inAmount: {
         value: swapAmount[Field.TO],
         tokenId: toToken.tokenId,

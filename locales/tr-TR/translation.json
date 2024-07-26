@@ -108,10 +108,10 @@
     "subtitle": "Yedek olarak ayarlamak için e-postanızla oturum açın. Cüzdanınızı kaybetmeniz durumunda tekrar oturum açmanız istenecektir.",
     "subtitleRestore": "Cüzdan yedeklemenizi ayarladığınız e-postayla oturum açın.",
     "google": "Google ile oturum aç",
-    "signInAnotherWay": "Başka bir şekilde imzalayın",
+    "signInAnotherWay": "Başka bir şekilde oturum açın",
     "bottomSheet": {
       "title": "Bir cüzdan oluşturmak için kurtarma ifadenizi kaydedin",
-      "description": "Yakında diğer e-posta sağlayıcılarını da destekleyeceğiz, ancak bu arada bir cüzdan oluşturmayı bitirmek için kurtarma ifadenizi kaydetmeniz gerekecek.",
+      "description": "Yakında diğer e-posta sağlayıcılarını da destekleyeceğiz, ancak bu arada bir cüzdan oluşturmayı tamamlamak için kurtarma ifadenizi kaydetmeniz gerekecek.",
       "continue": "İleri",
       "skip": "Atla (önerilmez)"
     }
@@ -924,7 +924,7 @@
     "helpDialog": {
       "title": "Yardım",
       "body": "Telefon numaranıza bir SMS gönderdik. Lütfen 6 haneli kodu bulmak için kısa mesajlarınızı kontrol edin. \n \n Mesaj almakta sorun yaşıyorsanız şimdilik bu adımı atlayabilir ve daha sonra tekrar deneyebilirsiniz.",
-      "bodyCloudBackupOnboarding": "Telefon numaranıza bir SMS gönderdik. Lütfen 6 haneli kodu bulmak için kısa mesajlarınızı kontrol edin. \n \n Mesajları almakta sorun yaşıyorsanız, bir Kurtarma İfadesi ile yedekleme yapmanızı öneririz. Daha sonra e-posta adresiniz ve telefonunuzla oturum açmayı deneyebilirsiniz.",
+      "bodyCloudBackupOnboarding": "Telefon numaranıza bir SMS gönderdik. Lütfen 6 haneli kodu bulmak için kısa mesajlarınızı kontrol edin. \n \n Mesaj almakta sorun yaşıyorsanız bir Kurtarma İfadesi ile yedekleme yapmanızı öneririz. Daha sonra e-posta adresiniz ve telefonunuzla oturum açmayı deneyebilirsiniz.",
       "skip": "Atla",
       "dismiss": "Geri dön",
       "useRecoveryPhrase": "Kurtarma İfadesini Kullan"
@@ -938,7 +938,7 @@
     "header": "Cüzdan Yeniden Kur",
     "title": "Kurtarma ifadenizi girin",
     "description": "Geri yüklemek için cüzdanınızı ayarlarken kaydettiğiniz 12 veya 24 kelimelik ifadeyi kullanın.",
-    "descriptionV1_90": "Kurtarma İfadeniz, cüzdanınızı kurarken yazdığınız ve kaydettiğiniz 12 veya 24 kelimelik bir ifadedir. Cüzdanınızı geri yüklemek için lütfen buraya girin.",
+    "descriptionV1_90": "Kurtarma İfadeniz, cüzdanınızı oluştururken not ettiğiniz ve kaydettiğiniz 12 veya 24 kelimelik bir ifadedir. Cüzdanınızı geri yüklemek için lütfen ifadeyi buraya girin.",
     "emptyWalletDialog": {
       "description": "Bu cüzdanda hiç bakiye yok. Yine de kullanmak ister misiniz?",
       "action": "Cüzdan Kullan",
@@ -1869,30 +1869,30 @@
       "networkFeeInfo": "{{networkName}} Ağında swap işlemi yapıyorsunuz.\n\nBu tahmini ağ ücreti, {{networkName}} Ağında bir işlem gerçekleştirmek için gereklidir. Bu ücret işleminizi güvence altına alır ve ağın çalışır durumda kalmasını sağlar.",
       "networkFeeInfoV1_76": "{{networkName}} Ağında takas yapıyorsunuz.\n\n{{networkName}} Ağında işlem gerçekleştirmek için bir ağ ücreti gereklidir. Bu ücret işleminizi güvence altına alır ve ağ doğrulayıcılarına ödenir.\n\nAğ koşulları kesin tutarı belirlediğinden, listelenen tahmin, gerçek ücretin ne olmasını beklediğimizdir. Ücret, maksimum ücret tutarını aşmayacaktır.",
       "slippageToleranceInfo": "Slipaj toleransı\n\nSwap işleminiz slipaj toleransı yüzdesi dahilinde gerçekleşecektir. Fiyat slipaj toleransından fazla değişirse {{appName}} işlemin gerçekleşmesini engelleyerek sizi korur.",
-      "slippageToleranceInfoV1_90": "Takas işleminiz kayma toleransı yüzdesi dahilinde gerçekleşecektir. Fiyat kayma toleransından daha fazla değişirse, {{appName}} işlemin gerçekleşmesini engelleyerek sizi korur.",
+      "slippageToleranceInfoV1_90": "Takas işleminiz slipaj toleransı yüzdesi dahilinde gerçekleşecektir. Fiyat slipaj toleransından fazla değişirse {{appName}} işlemin gerçekleşmesini engelleyerek sizi korur.",
       "networkFeeInfoDismissButton": "Anladım",
       "exchangeRate": "Döviz Kuru",
-      "exchangeRateInfo": "Döviz Kuru\n\nSizin için en iyi döviz kurunu bulduk. İşleminiz tahmin edilenin % {{slippagePercentage}}içinde bir fiyatla tamamlanacak veya işlem iptal edilecek ve paranız cüzdanınıza iade edilecektir.",
-      "exchangeRateInfoV1_90": "Sizin için en iyi döviz kurunu bulduk. İşleminiz tahmin edilenin % {{slippagePercentage}}içinde bir fiyatla tamamlanacak veya işlem iptal edilecek ve paranız cüzdanınıza iade edilecektir.",
+      "exchangeRateInfo": "Kur\n\nSizin için en iyi kuru bulduk. İşleminiz, tahminin %{{slippagePercentage}} oranı dahilinde bir fiyatla tamamlanacak veya işlem iptal edilecek ve fonlar cüzdanınıza iade edilecektir.",
+      "exchangeRateInfoV1_90": "Sizin için en iyi kuru bulduk. İşleminiz, tahminin %{{slippagePercentage}} oranı dahilinde bir fiyatla tamamlanacak veya işlem iptal edilecek ve fonlar cüzdanınıza iade edilecektir.",
       "exchangeRateInfo_withAppFee": "Kur\n\nSizin için en iyi kuru bulduk. İşleminiz, tahminin %{{slippagePercentage}} oranı dahilinde bir fiyatla tamamlanacak veya işlem iptal edilecek ve fonlar cüzdanınıza iade edilecektir.\n\nTahmini kura %{{appFeePercentage}} oranında {{appName}} ücreti dahildir.",
       "exchangeRateInfoDismissButton": "Anladım",
       "estimatedValue": "Tahmini Değer",
       "estimatedTransactionTime": "Tahmini İşlem Süresi",
-      "estimatedTransactionTimeInMinutes": "≈ {{minutes}} dk",
-      "estimatedTransactionTimeInfo": "İşlemin tamamlanma süresi sağlayıcı tarafından belirlenir.\n\nFarklı zincirler arasında geçiş yapıyorsanız, işlemin tamamlanması biraz daha uzun sürebilir.",
+      "estimatedTransactionTimeInMinutes": "≈ {{minutes}} dak",
+      "estimatedTransactionTimeInfo": "İşlemin tamamlanma süresi sağlayıcı tarafından belirlenir.\n\nFarklı zincirler arasında takas yapıyorsanız işlemin tamamlanması biraz daha uzun sürebilir.",
       "infoDismissButton": "Anladım",
       "fees": "Ücretler",
       "feesCalculationError": "Ücretler hesaplanamıyor",
-      "estimatedCrossChainFee": "Tahmini çapraz zincir ücretleri",
-      "maxCrossChainFee": "Maksimum çapraz zincir ücretleri",
+      "estimatedCrossChainFee": "Tahmini zincirler arası işlem ücretleri",
+      "maxCrossChainFee": "Maksimum zincirler arası işlem ücretleri",
       "feesBreakdown": "Dağılım",
       "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "Daha fazla bilgi",
       "feesInfo_sameChain": "İşlemin gerçekleştirilmesi için güvenlik ve güvenilirliği sağlayan bir ağ ücreti gereklidir.",
-      "feesInfo_crossChain": "İşlemin gerçekleştirilmesi, güvenlik ve güvenilirliğin sağlanması için bir ağ ücreti gereklidir. Farklı blok zincirleri arasında sorunsuz ve güvenli alışverişi sağlamak için sağlayıcı tarafından bir çapraz zincir ücreti alınır.",
-      "feesInfo_sameChainWithAppFee": "İşlemi gerçekleştirmek için güvenlik ve güvenilirlik sağlayan bir ağ ücreti gereklidir. {{appName}} {{appFeePercentage}}% ücreti, hızlı, güvenilir ve güvenli takaslar sağlayarak deneyiminizi geliştirir.",
-      "feesInfo_crossChainWithAppFee": "İşlemin gerçekleştirilmesi, güvenlik ve güvenilirliğin sağlanması için bir ağ ücreti gereklidir. Farklı blok zincirleri arasında sorunsuz ve güvenli değişimler sağlamak için sağlayıcı tarafından bir çapraz zincir ücreti alınır. {{appName}} {{appFeePercentage}}% ücreti, hızlı, güvenilir ve güvenli takaslar sağlayarak deneyiminizi geliştirir."
+      "feesInfo_crossChain": "İşlemin gerçekleştirilmesi için güvenlik ve güvenilirliği sağlayan bir ağ ücreti gereklidir. Farklı blok zincirleri arasında sorunsuz ve güvenli alışverişi sağlamak için sağlayıcı tarafından bir zincirler arası işlem ücreti alınır.",
+      "feesInfo_sameChainWithAppFee": "İşlemin gerçekleştirilmesi için güvenlik ve güvenilirlik sağlayan bir ağ ücreti gereklidir. %{{appFeePercentage}} oranındaki {{appName}} ücreti, hızlı, güvenilir ve güvenli takaslar sağlayarak deneyiminizi iyileştirir.",
+      "feesInfo_crossChainWithAppFee": "İşlemin gerçekleştirilmesi için güvenlik ve güvenilirlik sağlayan bir ağ ücreti gereklidir. Farklı blok zincirleri arasında sorunsuz ve güvenli alışverişi sağlamak için sağlayıcı tarafından bir zincirler arası işlem ücreti alınır. %{{appFeePercentage}} oranındaki {{appName}} ücreti, hızlı, güvenilir ve güvenli takaslar sağlayarak deneyiminizi iyileştirir."
     },
     "fundYourWalletBottomSheet": {
       "title": "Cüzdanınıza fon ekleyin",
@@ -2013,7 +2013,8 @@
       "network": "{{networkName}} Ağı",
       "selectNetwork": "Ağ",
       "stablecoins": "Stabilcoinler",
-      "gasTokens": "Tokenler"
+      "gasTokens": "Tokenler",
+      "tokens": "Token"
     }
   },
   "homeActions": {
@@ -2345,7 +2346,7 @@
         "createLiveLink": {
           "title": "Canlı Bağlantı",
           "subtitle": {
-            "erc20": "Gönderildi {{tokenSymbol}}",
+            "erc20": "{{tokenSymbol}} gönderildi",
             "erc721": "Gönderilen NFT"
           }
         },
@@ -2416,16 +2417,16 @@
         "title": "Canlı Bağlantı ile Gönder",
         "bottomSheet": {
           "title": "Canlı Bağlantı ile Gönder",
-          "body": "{{appName}}adresindeki bir Canlı Bağlantı kullanarak her para gönderdiğinizde {{pointsValue}} puan kazanın. \n\nGöndermeye ve kazanmaya başlamak için aşağıya dokunun!",
+          "body": "{{appName}} uygulamasıyla bir Canlı Bağlantı kullanarak her fon gönderdiğinizde {{pointsValue}} puan kazanın. \n\nGöndermeye ve kazanmaya başlamak için aşağıya dokunun!",
           "cta": "Canlı Bağlantı ile Gönder"
         }
       },
       "depositEarn": {
-        "title": "{{appName}}adresindeki kazanç havuzuna para yatırın",
+        "title": "{{appName}} uygulamasındaki kazanç havuzuna para yatırın",
         "bottomSheet": {
           "title": "Bir kazanç havuzuna para yatırma",
-          "body": "{{appName}}adresindeki bir kazanç havuzuna her para yatırdığınızda {{pointsValue}} puan kazanın. \n\nGetiri ve puan kazanmaya başlamak için aşağıya dokunun!",
-          "cta": "Havuzları kazanmak için gidin"
+          "body": "{{appName}} uygulamasındaki bir kazanç havuzuna her fon yatırdığınızda {{pointsValue}} puan kazanın. \n\nGetiri ve puan kazanmaya başlamak için aşağıya dokunun!",
+          "cta": "Kazanç havuzlarına gidin"
         }
       }
     },
@@ -2492,7 +2493,7 @@
     "entrypoint": {
       "title": "Sabit coinlerinizden kazanın",
       "subtitle": "Para yatırın ve getiri kazanın",
-      "description": "Varlık yatırmak ve sabit paralarınızdan getiri elde etmek için havuzları keşfedin"
+      "description": "Varlık yatırmak ve sabit coinlerinizden getiri elde etmek için havuzları keşfedin"
     },
     "enterAmount": {
       "earnUpToLabel": "Şu kadar kazanabilirsiniz:",
@@ -2504,7 +2505,7 @@
       "info": "Bu havuz Aave tarafından desteklenmektedir",
       "infoBottomSheet": {
         "title": "Neden bu havuz?",
-        "description": "Bu Aave havuzu 150 milyon doların üzerinde TVL'ye ve 6.000'den fazla katılımcıya sahiptir, bu da güçlü likidite ve güvenilirliği gösterir. Ayrıca token olarak USDC ve ağ olarak Arbitrum kullanır, bu da oynaklığı azaltır ve kullanıcıların ucuz gaz oranları almasını sağlar.\n\nTüm bunlar bir araya geldiğinde, rekabetçi APY ile güvenli ve cazip bir seçenek haline gelir ve kullanıcılarımız için faydalı bir yatırım fırsatı sağlar.\n\nDiğer Aave havuzlarını <0>buradan</0> keşfedebilirsiniz.",
+        "description": "Bu Aave havuzu 150 milyon ABD dolarının üzerinde TVL'ye ve 6000'den fazla katılımcıya sahiptir, bu da güçlü likidite ve güvenilirliği gösterir. Ayrıca token olarak USDC ve ağ olarak Arbitrum kullanır, bu da oynaklığı azaltır ve kullanıcıların ucuz gas oranları almasını sağlar.\n\nTüm bunlar bir araya geldiğinde, rekabetçi Yıllık Getiri Oranı ile güvenli ve cazip bir seçenek haline gelir ve kullanıcılarımız için faydalı bir yatırım fırsatı sağlar.\n\nDiğer Aave havuzlarını <0>buradan</0> keşfedebilirsiniz.",
         "dismiss": "Yoksay"
       },
       "notEnoughBalanceForGasWarning": {
@@ -2520,10 +2521,10 @@
       "exitPool": "Havuzdan Çık",
       "depositMore": "Daha Fazla Yatırın",
       "viewPools": "Havuzları Görüntüle",
-      "poolsSupplied": "Tedarik edilen havuzlar",
-      "totalSupplied": "Toplam tedarik",
+      "poolsSupplied": "Para yatırılan havuzlar",
+      "totalSupplied": "Yatırılan toplam",
       "myPools": "Havuzlarım",
-      "explore": "Açık Keşfet"
+      "explore": "Açık Havuzları Keşfet"
     },
     "depositBottomSheet": {
       "title": "İncele ve Para Yatır",
@@ -2569,6 +2570,32 @@
       "earnWithdrawTitle": "Çekilen",
       "earnWithdrawSubtitle": "{{providerName}} Havuzundan {{tokenSymbol}} Çekildi",
       "earnWithdrawDetails": "Çekilen Tutar"
+    },
+    "home": {
+      "title": "Kazan",
+      "learnMore": "Getiri havuzları hakkında <0>daha fazla bilgi edinin</0>.",
+      "learnMoreBottomSheet": {
+        "bottomSheetTitle": "Getiri havuzları hakkında daha fazla bilgi edinin",
+        "apySubtitle": "APY nedir?",
+        "apyDescription": "Yıllık getiri oranı (APY), kripto yatırımlarının yıllık getirisini hesaplamak için kullanılan bir metriktir. Bir kripto paranın potansiyel getirisi ve kârlılığının önemli bir göstergesidir.",
+        "tvlSubtitle": "TVL nedir?",
+        "tvlDescription": "TVL, Total Value Locked (Kilitli Toplam Değer) anlamına gelir ve kripto sektöründe bir blok zincir ağında kilitli olan dijital varlıkların değerini ölçmek için kullanılan bir metriktir. TVL, bir DeFi protokolünde ya da akıllı kontratta kilitli olan tüm dijital varlıkların değerinin toplanmasıyla hesaplanır. Bu varlıklar arasında kripto paralar, sabit coinler ve diğer tokenlar yer alabilir."
+      }
+    },
+    "poolCard": {
+      "onNetwork": "{{networkName}} üzerinde",
+      "rate": "Oran (tahmini)",
+      "reward": "Ödül",
+      "tvl": "TVL",
+      "exitPool": "Havuzdan Çık",
+      "addToPool": "Havuza Ekle",
+      "apy": "%{{apy}} Yıllık Getiri Oranı (APY)",
+      "poweredBy": "{{providerName}} tarafından desteklenmektedir",
+      "deposited": "Yatırılan"
+    },
+    "poolFilters": {
+      "openPools": "Açık Havuzlar",
+      "myPools": "Havuzlarım"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

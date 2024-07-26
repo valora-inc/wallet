@@ -2814,7 +2814,10 @@
             "additionalProperties": false,
             "properties": {
                 "__typename": {
-                    "const": "TokenExchangeV3",
+                    "enum": [
+                        "CrossChainTokenExchange",
+                        "TokenExchangeV3"
+                    ],
                     "type": "string"
                 },
                 "context": {
@@ -3406,6 +3409,7 @@
                 "Debug",
                 "EarnCollectScreen",
                 "EarnEnterAmount",
+                "EarnHome",
                 "EarnInfoScreen",
                 "EnableBiometry",
                 "ErrorScreen",
@@ -3688,7 +3692,10 @@
                     "additionalProperties": false,
                     "properties": {
                         "__typename": {
-                            "const": "TokenExchangeV3",
+                            "enum": [
+                                "CrossChainTokenExchange",
+                                "TokenExchangeV3"
+                            ],
                             "type": "string"
                         },
                         "block": {
@@ -4985,6 +4992,9 @@
                     },
                     "type": "array"
                 },
+                "positionsFetchedAt": {
+                    "type": "number"
+                },
                 "previewApiUrl": {
                     "type": [
                         "null",
@@ -5664,6 +5674,9 @@
                 "isFeeCurrency": {
                     "type": "boolean"
                 },
+                "isFromPosition": {
+                    "type": "boolean"
+                },
                 "isManuallyImported": {
                     "type": "boolean"
                 },
@@ -5948,7 +5961,10 @@
             "additionalProperties": false,
             "properties": {
                 "__typename": {
-                    "const": "TokenExchangeV3",
+                    "enum": [
+                        "CrossChainTokenExchange",
+                        "TokenExchangeV3"
+                    ],
                     "type": "string"
                 },
                 "block": {
@@ -6039,6 +6055,7 @@
         "TokenTransactionTypeV2": {
             "enum": [
                 "APPROVAL",
+                "CROSS_CHAIN_SWAP_TRANSACTION",
                 "EARN_CLAIM_REWARD",
                 "EARN_DEPOSIT",
                 "EARN_WITHDRAW",

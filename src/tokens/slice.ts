@@ -30,6 +30,7 @@ export interface BaseToken {
   isCashOutEligible?: boolean
   isStableCoin?: boolean
   isManuallyImported?: boolean
+  isFromPosition?: boolean
 }
 
 interface HistoricalPricesUsd {
