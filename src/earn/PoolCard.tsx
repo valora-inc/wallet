@@ -7,7 +7,6 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes, TextSizes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon from 'src/components/TokenIcon'
-import { PROVIDER_ID } from 'src/earn/constants'
 import { Pool } from 'src/earn/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -100,7 +99,7 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
                   depositTokenId,
                   networkId: pool.networkId,
                   tokenAmount: poolTokenInfo.balance.toString(),
-                  providerId: PROVIDER_ID, // TODO(ACT-1319): Get providerId from pool
+                  providerId: pool.providerId,
                   action: 'withdraw',
                 })
                 navigate(Screens.EarnCollectScreen, { depositTokenId, poolTokenId })
@@ -118,7 +117,7 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
                   depositTokenId,
                   networkId: pool.networkId,
                   tokenAmount: poolTokenInfo.balance.toString(),
-                  providerId: PROVIDER_ID, // TODO(ACT-1319): Get providerId from pool
+                  providerId: pool.providerId,
                   action: 'deposit',
                 })
                 navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })
@@ -139,7 +138,7 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
               depositTokenId,
               networkId: pool.networkId,
               tokenAmount: '0',
-              providerId: PROVIDER_ID, // TODO(ACT-1319): Get providerId from pool
+              providerId: pool.providerId,
               action: 'deposit',
             })
             navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })

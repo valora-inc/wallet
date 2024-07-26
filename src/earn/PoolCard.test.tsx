@@ -17,6 +17,7 @@ describe('PoolCard', () => {
         <PoolCard
           pool={{
             poolId: 'pool1',
+            providerId: 'aave-v3',
             networkId: NetworkId['arbitrum-sepolia'],
             tokens: [mockArbUsdcTokenId, mockArbEthTokenId],
             depositTokenId: mockArbUsdcTokenId,
@@ -46,6 +47,7 @@ describe('PoolCard', () => {
         <PoolCard
           pool={{
             poolId: 'pool1',
+            providerId: 'aave-v3',
             networkId: NetworkId['arbitrum-sepolia'],
             tokens: [mockArbUsdcTokenId, mockArbEthTokenId],
             depositTokenId: mockArbUsdcTokenId,
@@ -100,6 +102,7 @@ describe('PoolCard', () => {
         <PoolCard
           pool={{
             poolId: 'pool1',
+            providerId: 'aave-v3',
             networkId: NetworkId['arbitrum-sepolia'],
             tokens: [mockArbUsdcTokenId, mockArbEthTokenId],
             depositTokenId: mockArbUsdcTokenId,
@@ -154,6 +157,7 @@ describe('PoolCard', () => {
         <PoolCard
           pool={{
             poolId: 'pool1',
+            providerId: 'aave-v3',
             networkId: NetworkId['arbitrum-sepolia'],
             tokens: [mockArbUsdcTokenId, mockArbEthTokenId],
             depositTokenId: mockArbUsdcTokenId,
