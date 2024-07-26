@@ -2,6 +2,7 @@ import { render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { PositionIcon } from 'src/tokens/PositionIcon'
+import { Position } from 'src/positions/types'
 import { createMockStore } from 'test/utils'
 import { mockCeloTokenId, mockTokenBalances } from 'test/values'
 
@@ -18,7 +19,7 @@ const MOCK_POSITION = {
     imageUrl: 'http://foo.com',
   },
   networkId: 'celo-alfajores',
-}
+} as unknown as Position
 
 describe('TokenIcon', () => {
   it('renders correctly with overlay', () => {
@@ -30,7 +31,7 @@ describe('TokenIcon', () => {
       },
     })
 
-    const { queryByTestId, getByTestId } = render(
+    const { queryByTestId } = render(
       <Provider store={store}>
         <PositionIcon testID="Position" position={MOCK_POSITION} />
       </Provider>
@@ -41,7 +42,7 @@ describe('TokenIcon', () => {
   it('renders correctly without overlay', () => {
     const store = createMockStore({})
 
-    const { queryByTestId, getByTestId } = render(
+    const { queryByTestId } = render(
       <Provider store={store}>
         <PositionIcon testID="Position" position={MOCK_POSITION} />
       </Provider>
