@@ -9,9 +9,9 @@ export interface PositionDisplayProps {
   imageUrl: string
 }
 
-export type DataProps = EarnDataProps
+type DataProps = EarnDataProps
 
-export interface EarnDataProps {
+interface EarnDataProps {
   apy: number
   depositTokenId: string
   withdrawTokenId: string
