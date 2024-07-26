@@ -97,7 +97,7 @@ describe('SwapFeedItem', () => {
     })
   })
 
-  it('renders correctly for pending cross-chain swap from cUSD to ETH', async () => {
+  it('renders correctly for pending cross-chain swap with no inAmount value', async () => {
     const { getByTestId, queryByTestId } = render(
       <Provider store={createMockStore()}>
         <SwapFeedItem
