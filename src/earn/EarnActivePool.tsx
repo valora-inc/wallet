@@ -12,6 +12,8 @@ import { fetchPoolInfo } from 'src/earn/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useDispatch, useSelector } from 'src/redux/hooks'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -48,6 +50,8 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
   const poolToken = useTokenInfo(poolTokenId)
   const poolInfo = useSelector(poolInfoSelector)
   const poolInfoFetchStatus = useSelector(poolInfoFetchStatusSelector)
+
+  const showMultiplePools = getFeatureGate(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
 
   useEffect(() => {
     dispatch(fetchPoolInfo())
@@ -141,7 +145,7 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
                   networkId: poolToken.networkId,
                   providerId: PROVIDER_ID,
                 })
-                navigate(Screens.TabDiscover)
+                navigate(showMultiplePools ? Screens.EarnHome : Screens.TabDiscover)
               }}
               text={t('earnFlow.activePools.viewPools')}
               type={BtnTypes.SECONDARY}
