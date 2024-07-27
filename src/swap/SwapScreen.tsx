@@ -411,6 +411,7 @@ export function SwapScreen({ route }: Props) {
           price,
           appFeePercentageIncludedInPrice,
           provider: quote.provider,
+          swapType: quote.swapType,
           web3Library: 'viem',
           ...getSwapTxsAnalyticsProperties(
             quote.preparedTransactions.transactions,
@@ -434,6 +435,7 @@ export function SwapScreen({ route }: Props) {
               provider: quote.provider,
               estimatedPriceImpact,
               allowanceTarget,
+              swapType: quote.swapType,
             },
             userInput,
             areSwapTokensShuffled,
