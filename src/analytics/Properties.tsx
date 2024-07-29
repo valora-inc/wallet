@@ -261,9 +261,9 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.cab_sign_in_success]: CommonKeylessBackupProps & {
     provider: string
   }
-  [KeylessBackupEvents.cab_sign_in_screen_back]: CommonKeylessBackupProps
-  [KeylessBackupEvents.cab_sign_in_screen_cancel]: CommonKeylessBackupProps
-  [KeylessBackupEvents.cab_sign_in_screen_skip]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_sign_in_with_email_screen_back]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_sign_in_with_email_screen_cancel]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_sign_in_with_email_screen_skip]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_enter_phone_number_back]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_enter_phone_number_cancel]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_enter_phone_number_continue]: CommonKeylessBackupProps

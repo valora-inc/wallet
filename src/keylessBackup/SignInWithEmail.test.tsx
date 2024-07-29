@@ -10,6 +10,7 @@ import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
@@ -55,7 +56,13 @@ describe('SignInWithEmail', () => {
     store.clearActions()
     mockAuthorize.mockResolvedValue(undefined)
     mockGetCredentials.mockResolvedValue({ idToken: 'mock-token' })
-    jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation(
+        (gate) =>
+          gate === StatsigFeatureGates.SHOW_APPLE_IN_CAB ||
+          gate === StatsigFeatureGates.SHOW_ONBOARDING_PHONE_VERIFICATION
+      )
     logWarnSpy = jest.spyOn(Logger, 'warn')
     logDebugSpy = jest.spyOn(Logger, 'debug')
   })
@@ -242,7 +249,7 @@ describe('SignInWithEmail', () => {
     fireEvent.press(getByText('signInWithEmail.bottomSheet.skip'))
     expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      KeylessBackupEvents.cab_sign_in_screen_skip,
+      KeylessBackupEvents.cab_sign_in_with_email_screen_skip,
       {
         keylessBackupFlow: KeylessBackupFlow.Setup,
         origin: KeylessBackupOrigin.Onboarding,

@@ -54,7 +54,7 @@ function SignInWithEmailBottomSheet({
   }
 
   const onPressSkip = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_screen_skip, {
+    ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_email_screen_skip, {
       keylessBackupFlow,
       origin,
     })
@@ -180,12 +180,12 @@ function SignInWithEmail({ route }: Props) {
             <KeylessBackupCancelButton
               flow={keylessBackupFlow}
               origin={origin}
-              eventName={KeylessBackupEvents.cab_sign_in_screen_cancel}
+              eventName={KeylessBackupEvents.cab_sign_in_with_email_screen_cancel}
             />
           ) : (
             // This includes Onboarding and Restore
             <BackButton
-              eventName={KeylessBackupEvents.cab_sign_in_screen_cancel}
+              eventName={KeylessBackupEvents.cab_sign_in_with_email_screen_cancel}
               eventProperties={{
                 keylessBackupFlow,
                 origin,
