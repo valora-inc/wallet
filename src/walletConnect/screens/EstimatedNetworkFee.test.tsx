@@ -45,7 +45,7 @@ describe('EstimatedNetworkFee', () => {
 
   it("shows the loading state when the network fee hasn't been calculated yet", () => {
     const store = createMockStore({})
-    const { getByText, getByTestId, queryByTestId } = render(
+    const { getByText, getByTestId } = render(
       <Provider store={store}>
         <EstimatedNetworkFee
           isLoading={true}
