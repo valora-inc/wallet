@@ -1,6 +1,8 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
+import { EarnEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import PoolCard from 'src/earn/PoolCard'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -15,6 +17,7 @@ describe('PoolCard', () => {
         <PoolCard
           pool={{
             poolId: 'pool1',
+            providerId: 'aave-v3',
             networkId: NetworkId['arbitrum-sepolia'],
             tokens: [mockArbUsdcTokenId, mockArbEthTokenId],
             depositTokenId: mockArbUsdcTokenId,
@@ -44,6 +47,7 @@ describe('PoolCard', () => {
         <PoolCard
           pool={{
             poolId: 'pool1',
+            providerId: 'aave-v3',
             networkId: NetworkId['arbitrum-sepolia'],
             tokens: [mockArbUsdcTokenId, mockArbEthTokenId],
             depositTokenId: mockArbUsdcTokenId,
@@ -61,6 +65,14 @@ describe('PoolCard', () => {
     expect(getByText('earnFlow.poolCard.addToPool')).toBeTruthy()
     fireEvent.press(getByText('earnFlow.poolCard.addToPool'))
     expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, { tokenId: mockArbUsdcTokenId })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_card_cta_press, {
+      poolId: 'pool1',
+      networkId: NetworkId['arbitrum-sepolia'],
+      depositTokenId: mockArbUsdcTokenId,
+      tokenAmount: '0',
+      providerId: 'aave-v3',
+      action: 'deposit',
+    })
   })
   it('navigates to enter amount when have pool balance', () => {
     const { getByText } = render(
@@ -90,6 +102,7 @@ describe('PoolCard', () => {
         <PoolCard
           pool={{
             poolId: 'pool1',
+            providerId: 'aave-v3',
             networkId: NetworkId['arbitrum-sepolia'],
             tokens: [mockArbUsdcTokenId, mockArbEthTokenId],
             depositTokenId: mockArbUsdcTokenId,
@@ -107,6 +120,14 @@ describe('PoolCard', () => {
     expect(getByText('earnFlow.poolCard.addToPool')).toBeTruthy()
     fireEvent.press(getByText('earnFlow.poolCard.addToPool'))
     expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, { tokenId: mockArbUsdcTokenId })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_card_cta_press, {
+      poolId: 'pool1',
+      networkId: NetworkId['arbitrum-sepolia'],
+      depositTokenId: mockArbUsdcTokenId,
+      tokenAmount: '10',
+      providerId: 'aave-v3',
+      action: 'deposit',
+    })
   })
   it('navigates to collect screen', () => {
     const { getByText } = render(
@@ -136,6 +157,7 @@ describe('PoolCard', () => {
         <PoolCard
           pool={{
             poolId: 'pool1',
+            providerId: 'aave-v3',
             networkId: NetworkId['arbitrum-sepolia'],
             tokens: [mockArbUsdcTokenId, mockArbEthTokenId],
             depositTokenId: mockArbUsdcTokenId,
@@ -155,6 +177,14 @@ describe('PoolCard', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.EarnCollectScreen, {
       depositTokenId: mockArbUsdcTokenId,
       poolTokenId: mockArbEthTokenId,
+    })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_card_cta_press, {
+      poolId: 'pool1',
+      networkId: NetworkId['arbitrum-sepolia'],
+      depositTokenId: mockArbUsdcTokenId,
+      tokenAmount: '10',
+      providerId: 'aave-v3',
+      action: 'withdraw',
     })
   })
 })
