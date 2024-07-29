@@ -35,7 +35,7 @@ describe('KeylessBackupCancelButton', () => {
   it('navigates correctly for restore', () => {
     const { getByTestId } = render(
       <KeylessBackupCancelButton
-        eventName={KeylessBackupEvents.cab_sign_in_with_email_screen_cancel}
+        eventName={KeylessBackupEvents.cab_sign_in_screen_cancel}
         origin={KeylessBackupOrigin.Settings}
         flow={KeylessBackupFlow.Restore}
       />
@@ -48,7 +48,7 @@ describe('KeylessBackupCancelButton', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.ImportSelect)
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      KeylessBackupEvents.cab_sign_in_with_email_screen_cancel,
+      KeylessBackupEvents.cab_sign_in_screen_cancel,
       { keylessBackupFlow: KeylessBackupFlow.Restore, origin: KeylessBackupOrigin.Settings }
     )
   })

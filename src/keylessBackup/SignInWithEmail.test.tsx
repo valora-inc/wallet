@@ -80,7 +80,7 @@ describe('SignInWithEmail', () => {
       const { getByTestId } = renderComponent()
       const continueButton = getByTestId(testId)
       fireEvent.press(continueButton)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_with_email_start', {
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_start', {
         keylessBackupFlow: KeylessBackupFlow.Setup,
         origin: KeylessBackupOrigin.Settings,
         provider,
@@ -101,7 +101,7 @@ describe('SignInWithEmail', () => {
         },
         auth0SignInCompleted({ idToken: 'mock-token' }),
       ])
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_with_email_success', {
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_success', {
         keylessBackupFlow: KeylessBackupFlow.Setup,
         origin: KeylessBackupOrigin.Settings,
         provider,
@@ -115,7 +115,7 @@ describe('SignInWithEmail', () => {
       const continueButton = getByTestId(testId)
       fireEvent.press(continueButton)
       expect(getByTestId('Button/Loading')).toBeTruthy()
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_with_email_start', {
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_start', {
         keylessBackupFlow: KeylessBackupFlow.Setup,
         origin: KeylessBackupOrigin.Settings,
         provider,
@@ -141,7 +141,7 @@ describe('SignInWithEmail', () => {
       const continueButton = getByTestId(testId)
       fireEvent.press(continueButton)
       expect(getByTestId('Button/Loading')).toBeTruthy()
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_with_email_start', {
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_start', {
         keylessBackupFlow: KeylessBackupFlow.Setup,
         origin: KeylessBackupOrigin.Settings,
         provider,
@@ -167,7 +167,7 @@ describe('SignInWithEmail', () => {
       const continueButton = getByTestId(testId)
       fireEvent.press(continueButton)
       expect(getByTestId('Button/Loading')).toBeTruthy()
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_with_email_start', {
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_start', {
         keylessBackupFlow: KeylessBackupFlow.Setup,
         origin: KeylessBackupOrigin.Settings,
         provider,
@@ -242,7 +242,7 @@ describe('SignInWithEmail', () => {
     fireEvent.press(getByText('signInWithEmail.bottomSheet.skip'))
     expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      KeylessBackupEvents.cab_sign_in_with_email_screen_skip,
+      KeylessBackupEvents.cab_sign_in_screen_skip,
       {
         keylessBackupFlow: KeylessBackupFlow.Setup,
         origin: KeylessBackupOrigin.Onboarding,

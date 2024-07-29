@@ -1823,11 +1823,5 @@ export const migrations = {
     },
   }),
   220: (state: any) => state,
-  221: (state: any) => ({
-    ...state,
-    keylessBackup: {
-      ..._.omit(state.keylessBackup, 'googleIdToken'),
-      auth0IdToken: null,
-    },
-  }),
+  221: (state: any) => state,
 }
