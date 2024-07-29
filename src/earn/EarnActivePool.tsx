@@ -51,8 +51,6 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
   const poolInfo = useSelector(poolInfoSelector)
   const poolInfoFetchStatus = useSelector(poolInfoFetchStatusSelector)
 
-  const showMultiplePools = getFeatureGate(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
-
   useEffect(() => {
     dispatch(fetchPoolInfo())
   }, [])
@@ -145,7 +143,11 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
                   networkId: poolToken.networkId,
                   providerId: PROVIDER_ID,
                 })
-                navigate(showMultiplePools ? Screens.EarnHome : Screens.TabDiscover)
+                navigate(
+                  getFeatureGate(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
+                    ? Screens.EarnHome
+                    : Screens.TabDiscover
+                )
               }}
               text={t('earnFlow.activePools.viewPools')}
               type={BtnTypes.SECONDARY}
