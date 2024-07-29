@@ -291,7 +291,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
           copySuccessMessage={t('walletConnectRequest.transactionDataCopied')}
           testID="JumpstarReclaimBottomSheet/RequestPayload"
         />
-        {reclaimTx && <EstimatedNetworkFee networkId={networkId} transaction={reclaimTx} />}
+        {reclaimTx && <EstimatedNetworkFee networkId={networkId} transactions={[reclaimTx]} />}
         <Button
           text={t('confirm')}
           showLoading={reclaimStatus === 'loading'}

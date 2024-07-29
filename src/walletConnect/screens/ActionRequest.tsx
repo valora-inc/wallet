@@ -180,7 +180,7 @@ function ActionRequest({
         preparedTransaction={preparedTransaction}
       />
       {preparedTransaction && (
-        <EstimatedNetworkFee networkId={networkId} transaction={preparedTransaction} />
+        <EstimatedNetworkFee networkId={networkId} transactions={[preparedTransaction]} />
       )}
       <DappsDisclaimer isDappListed={isDappListed} />
     </RequestContent>
