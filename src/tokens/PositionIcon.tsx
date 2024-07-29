@@ -9,7 +9,7 @@ import { Position } from 'src/positions/types'
 const networkImageSize = 12
 const networkImagePosition = 20
 
-export const PositionIcon = ({ position, testID }: { position: Position; testID?: string }) => {
+export function PositionIcon({ position, testID }: { position: Position; testID?: string }) {
   const networkIconByNetworkId = useSelector(networksIconSelector)
   const networkIconUrl = networkIconByNetworkId[position.networkId]
 
