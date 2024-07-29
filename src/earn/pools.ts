@@ -5,6 +5,7 @@ import { NetworkId } from 'src/transactions/types'
 const pools: Pool[] = [
   {
     poolId: 'aArbUSDCn',
+    providerId: 'aave-v3',
     networkId: NetworkId['arbitrum-one'],
     tokens: [`${NetworkId['arbitrum-one']}:0xaf88d065e77c8cc2239327c5edb3a432268e5831`],
     depositTokenId: `${NetworkId['arbitrum-one']}:0xaf88d065e77c8cc2239327c5edb3a432268e5831`,
