@@ -41,6 +41,7 @@ export enum StatsigFeatureGates {
   ALLOW_CROSS_CHAIN_SWAPS = 'allow_cross_chain_swaps',
   SHOW_ONBOARDING_PHONE_VERIFICATION = 'show_onboarding_phone_verification',
   SHOW_MULTIPLE_EARN_POOLS = 'show_multiple_earn_pools',
+  SHOW_APPLE_IN_CAB = 'show_apple_in_cab',
 }
 
 export enum StatsigExperiments {

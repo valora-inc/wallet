@@ -20,16 +20,16 @@ import { getSECP256k1PrivateKey, storeSECP256k1PrivateKey } from 'src/keylessBac
 import {
   DELAY_INTERVAL_MS,
   WAIT_FOR_KEYSHARE_TIMEOUT_MS,
+  handleAuth0SignInCompleted,
   handleDeleteKeylessBackup,
-  handleGoogleSignInCompleted,
   handleValoraKeyshareIssued,
   waitForTorusKeyshare,
 } from 'src/keylessBackup/saga'
 import { torusKeyshareSelector } from 'src/keylessBackup/selectors'
 import {
+  auth0SignInCompleted,
   deleteKeylessBackupCompleted,
   deleteKeylessBackupFailed,
-  googleSignInCompleted,
   keylessBackupBail,
   keylessBackupCompleted,
   keylessBackupFailed,
@@ -89,7 +89,7 @@ describe('keylessBackup saga', () => {
     const mockJwt = 'abc.def.ghi'
     it('success case', async () => {
       const mockTorusKeyshare = 'my-torus-keyshare'
-      await expectSaga(handleGoogleSignInCompleted, googleSignInCompleted({ idToken: mockJwt }))
+      await expectSaga(handleAuth0SignInCompleted, auth0SignInCompleted({ idToken: mockJwt }))
         .provide([
           [
             call(getTorusPrivateKey, { verifier: 'valora-cab-auth0', jwt: mockJwt }),
@@ -100,7 +100,7 @@ describe('keylessBackup saga', () => {
         .run()
     })
     it('failure case', async () => {
-      await expectSaga(handleGoogleSignInCompleted, googleSignInCompleted({ idToken: mockJwt }))
+      await expectSaga(handleAuth0SignInCompleted, auth0SignInCompleted({ idToken: mockJwt }))
         .provide([
           [
             call(getTorusPrivateKey, {

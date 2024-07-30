@@ -18,10 +18,10 @@ import {
 import { getSECP256k1PrivateKey, storeSECP256k1PrivateKey } from 'src/keylessBackup/keychain'
 import { torusKeyshareSelector } from 'src/keylessBackup/selectors'
 import {
+  auth0SignInCompleted,
   deleteKeylessBackupCompleted,
   deleteKeylessBackupFailed,
   deleteKeylessBackupStarted,
-  googleSignInCompleted,
   keylessBackupAcceptZeroBalance,
   keylessBackupBail,
   keylessBackupCompleted,
@@ -214,9 +214,9 @@ export function* waitForTorusKeyshare() {
   return torusKeyshare
 }
 
-export function* handleGoogleSignInCompleted({
+export function* handleAuth0SignInCompleted({
   payload: { idToken: jwt },
-}: ReturnType<typeof googleSignInCompleted>) {
+}: ReturnType<typeof auth0SignInCompleted>) {
   // Note: this is done async while the user verifies their phone number.
   try {
     const torusPrivateKey = yield* call(getTorusPrivateKey, { verifier: 'valora-cab-auth0', jwt })
@@ -242,7 +242,7 @@ export function* handleDeleteKeylessBackup() {
 }
 
 function* watchGoogleSignInCompleted() {
-  yield* takeLeading(googleSignInCompleted.type, handleGoogleSignInCompleted)
+  yield* takeLeading(auth0SignInCompleted.type, handleAuth0SignInCompleted)
 }
 
 function* watchValoraKeyshareIssued() {
