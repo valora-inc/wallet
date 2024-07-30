@@ -4,6 +4,9 @@ import { Provider } from 'react-redux'
 import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import EarnActivePools from 'src/earn/EarnActivePools'
+import { EarnTabType } from 'src/earn/types'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
 import { mockArbUsdcTokenId, mockTokenBalances } from 'test/values'
@@ -47,7 +50,9 @@ describe('EarnActivePools', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_active_pools_cta_press, {
       action: 'exploreOpenPools',
     })
-    // TODO(ACT-1260): add navigate assertion
+    expect(navigate).toHaveBeenCalledWith(Screens.EarnHome, {
+      activeEarnTab: EarnTabType.OpenPools,
+    })
   })
 
   it('my pools navigates to correct tab on earn home page', () => {
@@ -61,6 +66,6 @@ describe('EarnActivePools', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_active_pools_cta_press, {
       action: 'myPools',
     })
-    // TODO(ACT-1260): add navigate assertion
+    expect(navigate).toHaveBeenCalledWith(Screens.EarnHome, { activeEarnTab: EarnTabType.MyPools })
   })
 })

@@ -17,6 +17,7 @@ import {
 const mockPools: Pool[] = [
   {
     poolId: 'aArbUSDCn',
+    providerId: 'aave-v3',
     networkId: NetworkId['arbitrum-sepolia'],
     tokens: [mockArbUsdcTokenId],
     depositTokenId: mockArbUsdcTokenId,
@@ -29,6 +30,7 @@ const mockPools: Pool[] = [
   },
   {
     poolId: 'aArbWETH',
+    providerId: 'aave-v3',
     networkId: NetworkId['arbitrum-sepolia'],
     tokens: [mockArbEthTokenId],
     depositTokenId: mockArbEthTokenId,
@@ -223,6 +225,7 @@ describe('EarnHome', () => {
       mockPools[0],
       {
         poolId: 'aEthWETH',
+        providerId: 'aave-v3',
         networkId: NetworkId['ethereum-sepolia'],
         tokens: [mockEthTokenId],
         depositTokenId: mockEthTokenId,

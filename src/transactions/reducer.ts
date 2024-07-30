@@ -8,6 +8,7 @@ import {
   ConfirmedStandbyTransaction,
   NetworkId,
   StandbyTransaction,
+  TokenExchange,
   TokenTransaction,
   TransactionStatus,
 } from 'src/transactions/types'
@@ -53,6 +54,8 @@ export const initialState = {
   transactionsByNetworkId: {},
   inviteTransactions: {},
 }
+// export for testing
+export const _initialState = initialState
 
 export const reducer = (
   state: State | undefined = initialState,
@@ -90,13 +93,6 @@ export const reducer = (
           },
           ...otherStandbyTransactions,
         ],
-      }
-    case Actions.REMOVE_STANDBY_TRANSACTION:
-      return {
-        ...state,
-        standbyTransactions: state.standbyTransactions.filter(
-          (tx: StandbyTransaction) => tx.context.id !== action.idx
-        ),
       }
     case Actions.TRANSACTION_CONFIRMED: {
       const { status, transactionHash, block, fees } = action.receipt
@@ -145,22 +141,59 @@ export const reducer = (
         }
       })
 
+      const standbyTransactionHashes = new Set(
+        state.standbyTransactions
+          .map((tx) => tx.transactionHash)
+          .filter((hash) => hash !== undefined)
+      )
+
+      // separate pending cross chain swap transactions from the rest of the
+      // received transactions since we need to process them with custom logic
       const receivedTransactions: TokenTransaction[] = []
-      const pendingTxsWithStandbyMatch: TokenTransaction[] = []
+      const pendingCrossChainTxsWithStandby: TokenExchange[] = []
       action.transactions.forEach((tx) => {
         if (
           tx.status === TransactionStatus.Pending &&
-          state.standbyTransactions.find(
-            (standbyTx) =>
-              tx.transactionHash === standbyTx.transactionHash &&
-              tx.networkId === standbyTx.networkId
-          )
+          tx.__typename === 'CrossChainTokenExchange' &&
+          standbyTransactionHashes.has(tx.transactionHash)
         ) {
-          pendingTxsWithStandbyMatch.push(tx)
+          pendingCrossChainTxsWithStandby.push(tx)
         } else {
           receivedTransactions.push(tx)
         }
       })
+
+      const receivedTxHashes = new Set(receivedTransactions.map((tx) => tx.transactionHash))
+      const updatedStandbyTransactions = state.standbyTransactions
+        .filter(
+          // remove standby transactions that match non cross-chain swap transactions from blockchain-api
+          (standbyTx) =>
+            !standbyTx.transactionHash ||
+            standbyTx.networkId !== action.networkId ||
+            !receivedTxHashes.has(standbyTx.transactionHash)
+        )
+        .map((standbyTx) => {
+          // augment existing standby cross chain swap transactions with
+          // received tx information from blockchain-api, but keep the estimated
+          // inAmount value from the original standby transaction
+          if (standbyTx.transactionHash && standbyTx.__typename === 'CrossChainTokenExchange') {
+            const receivedCrossChainTx = pendingCrossChainTxsWithStandby.find(
+              (tx) => tx.transactionHash === standbyTx.transactionHash
+            )
+            if (receivedCrossChainTx) {
+              return {
+                ...standbyTx,
+                ...receivedCrossChainTx,
+                inAmount: {
+                  ...receivedCrossChainTx.inAmount,
+                  value: standbyTx.inAmount.value,
+                },
+              }
+            }
+          }
+
+          return standbyTx
+        })
 
       return {
         ...state,
@@ -168,43 +201,8 @@ export const reducer = (
           ...state.transactionsByNetworkId,
           [action.networkId]: receivedTransactions,
         },
-        standbyTransactions: state.standbyTransactions.map((standbyTx) => {
-          const matchingTx = pendingTxsWithStandbyMatch.find(
-            (tx) =>
-              tx.transactionHash === standbyTx.transactionHash &&
-              tx.networkId === standbyTx.networkId
-          )
-          if (standbyTx.transactionHash && !!matchingTx) {
-            if (
-              matchingTx.__typename === 'CrossChainTokenExchange' &&
-              standbyTx.__typename === 'CrossChainTokenExchange'
-            ) {
-              return {
-                ...standbyTx,
-                ...matchingTx,
-                inAmount: {
-                  ...matchingTx.inAmount,
-                  // pending cross chain swaps returned by blockchain-api do not
-                  // have an inAmount value until the transaction status is
-                  // completed (i.e. settled on the destination chain), so we
-                  // want to keep displaying the estimated amount.
-                  value: standbyTx.inAmount.value,
-                },
-              }
-            }
-
-            // augment standby transactions with any new information returned by
-            // blockchain-api, although currently blockchain-api only returns
-            // pending transactions for cross chain swaps
-            return {
-              ...standbyTx,
-              ...matchingTx,
-            }
-          }
-
-          return standbyTx
-        }),
         knownFeedTransactions: newKnownFeedTransactions,
+        standbyTransactions: updatedStandbyTransactions,
       }
     case Actions.UPDATE_INVITE_TRANSACTIONS:
       return {

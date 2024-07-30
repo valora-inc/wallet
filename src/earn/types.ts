@@ -34,6 +34,7 @@ export interface WithdrawInfo {
 
 export interface Pool {
   poolId: string
+  providerId: string
   networkId: NetworkId
   tokens: string[]
   depositTokenId: string

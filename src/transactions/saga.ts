@@ -17,7 +17,6 @@ import {
   Actions,
   UpdateTransactionsAction,
   addHashToStandbyTransaction,
-  removeStandbyTransaction,
   transactionConfirmed,
   updateInviteTransactions,
   updateRecentTxRecipientsCache,
@@ -28,7 +27,6 @@ import {
   inviteTransactionsSelector,
   knownFeedTransactionsSelector,
   pendingStandbyTransactionsSelector,
-  standbyTransactionsSelector,
 } from 'src/transactions/reducer'
 import { sendTransactionPromises, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import {
@@ -63,25 +61,6 @@ const WATCHING_DELAY_BY_NETWORK: Record<Network, number> = {
   [Network.Base]: 2000,
 }
 const MIN_WATCHING_DELAY_MS = 2000
-
-// Remove any standby transactions that are returned by blockchain-api as completed.
-function* cleanupStandbyTransactions({ transactions, networkId }: UpdateTransactionsAction) {
-  const standbyTxs: StandbyTransaction[] = yield* select(standbyTransactionsSelector)
-  const newFeedTxHashes = new Set(
-    transactions
-      .filter((tx) => !!tx.transactionHash && tx.status === TransactionStatus.Complete)
-      .map((tx) => tx.transactionHash)
-  )
-  for (const standbyTx of standbyTxs) {
-    if (
-      standbyTx.transactionHash &&
-      standbyTx.networkId === networkId &&
-      newFeedTxHashes.has(standbyTx.transactionHash)
-    ) {
-      yield* put(removeStandbyTransaction(standbyTx.context.id))
-    }
-  }
-}
 
 function* getInviteTransactionDetails(txHash: string, blockNumber: string) {
   const kit: ContractKit = yield* call(getContractKit)
@@ -244,7 +223,6 @@ function* refreshRecentTxRecipients() {
 }
 
 function* watchNewFeedTransactions() {
-  yield* takeEvery(Actions.UPDATE_TRANSACTIONS, safely(cleanupStandbyTransactions))
   yield* takeEvery(Actions.UPDATE_TRANSACTIONS, safely(getInviteTransactionsDetails))
   yield* takeLatest(Actions.UPDATE_TRANSACTIONS, safely(refreshRecentTxRecipients))
 }
