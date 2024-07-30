@@ -1,46 +1,18 @@
 import React from 'react'
-import { Image, StyleSheet, View } from 'react-native'
-import FastImage from 'react-native-fast-image'
-import { useSelector } from 'src/redux/hooks'
-import { networksIconSelector } from 'src/tokens/selectors'
+import { Image, StyleSheet } from 'react-native'
 import { Spacing } from 'src/styles/styles'
 import { Position } from 'src/positions/types'
-
-const networkImageSize = 12
-const networkImagePosition = 20
+import IconWithNetworkBadge, { NetworkBadgeSize } from 'src/components/IconWithNetworkBadge'
 
 export function PositionIcon({ position, testID }: { position: Position; testID?: string }) {
-  const networkIconByNetworkId = useSelector(networksIconSelector)
-  const networkIconUrl = networkIconByNetworkId[position.networkId]
-
-  // TODO(sbw): use https://linear.app/valora/issue/ACT-1137
   return (
-    <View testID={testID}>
+    <IconWithNetworkBadge networkId={position.networkId} size={NetworkBadgeSize.Medium}>
       <Image source={{ uri: position.displayProps.imageUrl }} style={styles.positionImg} />
-      {networkIconUrl ? (
-        <FastImage
-          source={{ uri: networkIconByNetworkId[position.networkId] }}
-          style={[
-            styles.networkImage,
-            {
-              width: networkImageSize,
-              height: networkImageSize,
-              borderRadius: networkImageSize / 2,
-              top: networkImagePosition,
-              left: networkImagePosition,
-            },
-          ]}
-          testID={testID ? `${testID}/NetworkIcon` : 'NetworkIcon'}
-        />
-      ) : null}
-    </View>
+    </IconWithNetworkBadge>
   )
 }
 
 const styles = StyleSheet.create({
-  networkImage: {
-    position: 'absolute',
-  },
   positionImg: {
     width: 32,
     height: 32,
