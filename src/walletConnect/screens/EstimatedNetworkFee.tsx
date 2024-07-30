@@ -22,6 +22,8 @@ import {
   getPreparedTransaction,
 } from 'src/viem/preparedTransactionSerialization'
 
+const TAG = 'WalletConnect/EstimatedNetworkFee'
+
 interface Props {
   isLoading: boolean
   networkId: NetworkId
@@ -37,7 +39,7 @@ function getNetworkFee(
     const preparedTransactions = transactions.map(getPreparedTransaction)
     const feeCurrency = getFeeCurrencyToken(preparedTransactions, networkId, tokensById)
     if (!feeCurrency) {
-      Logger.warn('WalletConnect', 'No fee token info found', { transactions, networkId })
+      Logger.warn(TAG, 'No fee token info found', { transactions, networkId })
       return null
     }
 
@@ -47,7 +49,7 @@ function getNetworkFee(
       amount: getEstimatedGasFee(preparedTransactions).shiftedBy(-feeDecimals),
     }
   } catch (error) {
-    Logger.warn('WalletConnect', 'Failed to get estimated gas fee', error)
+    Logger.warn(TAG, 'Failed to get estimated gas fee', error)
     return null
   }
 }
@@ -61,7 +63,7 @@ export default function EstimatedNetworkFee({ isLoading, networkId, transactions
   const networkName = NETWORK_NAMES[networkId]
 
   if (!networkFee || !networkName) {
-    Logger.warn('WalletConnect', 'Insufficient information to display fee details', {
+    Logger.warn(TAG, 'Insufficient information to display fee details', {
       networkName,
       transactions,
     })
