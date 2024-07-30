@@ -114,6 +114,7 @@ describe('ActionRequest with WalletConnect V2', () => {
     maxFeePerGas: '12000000000',
     maxPriorityFeePerGas: '2000000000',
     gas: '100000',
+    _baseFeePerGas: '5000000000',
   }
 
   const supportedChains = ['eip155:44787']
@@ -208,8 +209,8 @@ describe('ActionRequest with WalletConnect V2', () => {
         getByText('walletConnectRequest.estimatedNetworkFee, {"networkName":"Celo Alfajores"}')
       ).toBeTruthy()
       const fee = within(getByTestId('EstimatedNetworkFee'))
-      expect(fee.getByText('0.0012 CELO')).toBeTruthy()
-      expect(fee.getByText('₱0.008')).toBeTruthy()
+      expect(fee.getByText('0.0007 CELO')).toBeTruthy() // gas * (_baseFeePerGas + maxPriorityFeePerGas)
+      expect(fee.getByText('₱0.0047')).toBeTruthy()
 
       fireEvent.press(getByText('walletConnectRequest.sendTransactionAction'))
       expect(store.getActions()).toEqual([
