@@ -40,8 +40,8 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
   const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
   const addressToVerificationStatus = useSelector(addressToVerificationStatusSelector)
 
-  // TODO(ACT-980): avoid icon flash when a known valora contact is clicked
-  const showValoraIcon = useMemo(() => {
+  // TODO(ACT-980): avoid icon flash when a known contact is clicked
+  const showAppIcon = useMemo(() => {
     if (recipient.recipientType === RecipientType.PhoneNumber) {
       return recipient.e164PhoneNumber && !!e164NumberToAddress[recipient.e164PhoneNumber]
     }
@@ -60,12 +60,12 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
             borderColor={Colors.gray2}
             DefaultIcon={() => <QuestionIcon />} // no need to honor color props here since the color we need match the defaults
           />
-          {!!showValoraIcon && (
+          {!!showAppIcon && (
             <Logo
               color={colors.white}
-              style={styles.valoraIcon}
+              style={styles.appIcon}
               size={ICON_SIZE}
-              testID="RecipientItem/ValoraIcon"
+              testID="RecipientItem/AppIcon"
             />
           )}
         </View>
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  valoraIcon: {
+  appIcon: {
     position: 'absolute',
     top: 22,
     left: 22,

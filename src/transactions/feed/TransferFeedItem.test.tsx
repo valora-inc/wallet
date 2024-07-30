@@ -281,7 +281,7 @@ describe('TransferFeedItem', () => {
     const { getByTestId } = renderScreen({
       storeOverrides: {
         recipients: {
-          valoraRecipientCache: {
+          appRecipientCache: {
             [MOCK_ADDRESS]: { address: MOCK_ADDRESS, name: mockName },
           },
         },

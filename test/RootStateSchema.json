@@ -4428,6 +4428,9 @@
         "State_12": {
             "additionalProperties": false,
             "properties": {
+                "appRecipientCache": {
+                    "$ref": "#/definitions/AddressToRecipient"
+                },
                 "coinbasePaySenders": {
                     "items": {
                         "type": "string"
@@ -4448,17 +4451,14 @@
                         "type": "string"
                     },
                     "type": "array"
-                },
-                "valoraRecipientCache": {
-                    "$ref": "#/definitions/AddressToRecipient"
                 }
             },
             "required": [
+                "appRecipientCache",
                 "coinbasePaySenders",
                 "inviteRewardsSenders",
                 "phoneRecipientCache",
-                "rewardsSenders",
-                "valoraRecipientCache"
+                "rewardsSenders"
             ],
             "type": "object"
         },

@@ -1824,4 +1824,11 @@ export const migrations = {
   }),
   220: (state: any) => state,
   221: (state: any) => state,
+  222: (state: any) => ({
+    ...state,
+    recipients: {
+      ..._.omit(state.recipients, 'valoraRecipientCache'),
+      appRecipientCache: state.valoraRecipientCache,
+    },
+  }),
 }

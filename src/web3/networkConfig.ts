@@ -46,7 +46,7 @@ interface NetworkConfig {
   inHouseLiquidityURL: string
   setRegistrationPropertiesUrl: string
   fetchExchangesUrl: string
-  nftsValoraAppUrl: string
+  nftsAppUrl: string
   getSwapQuoteUrl: string
   walletJumpstartUrl: string
   verifyPhoneNumberUrl: string
@@ -233,7 +233,7 @@ const FETCH_AVAILABLE_SUPERCHARGE_REWARDS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/
 const RESOLVE_ID_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/resolveId`
 const RESOLVE_ID_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/resolveId`
 
-const NFTS_VALORA_APP_URL = 'https://nfts.valoraapp.com/'
+const NFTS_APP_URL = 'https://nfts.valoraapp.com/'
 
 const GET_SWAP_QUOTE_URL = `${CLOUD_FUNCTIONS_MAINNET}/getSwapQuote`
 
@@ -321,7 +321,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     inHouseLiquidityURL: 'https://liquidity-dot-celo-mobile-alfajores.appspot.com',
     setRegistrationPropertiesUrl: SET_REGISTRATION_PROPERTIES_ALFAJORES,
     fetchExchangesUrl: FETCH_EXCHANGES_URL_ALFAJORES,
-    nftsValoraAppUrl: NFTS_VALORA_APP_URL,
+    nftsAppUrl: NFTS_APP_URL,
     getSwapQuoteUrl: GET_SWAP_QUOTE_URL,
     walletJumpstartUrl: JUMPSTART_CLAIM_URL_ALFAJORES,
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_ALFAJORES,
@@ -421,7 +421,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     inHouseLiquidityURL: 'https://liquidity-dot-celo-mobile-mainnet.appspot.com',
     setRegistrationPropertiesUrl: SET_REGISTRATION_PROPERTIES_MAINNET,
     fetchExchangesUrl: FETCH_EXCHANGES_URL_MAINNET,
-    nftsValoraAppUrl: NFTS_VALORA_APP_URL,
+    nftsAppUrl: NFTS_APP_URL,
     getSwapQuoteUrl: GET_SWAP_QUOTE_URL,
     walletJumpstartUrl: JUMPSTART_CLAIM_URL_MAINNET,
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_MAINNET,

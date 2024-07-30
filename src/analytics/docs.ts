@@ -482,7 +482,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [RewardsEvents.learn_more_pressed]: ``,
   [RewardsEvents.claimed_reward]: ``,
 
-  // Events related to Valora Points program
+  // Events related to Points program
   [PointsEvents.points_discover_press]: `when points card is pressed in the discover tab`,
   [PointsEvents.points_intro_dismiss]: `when points intro is dismissed`,
   [PointsEvents.points_intro_back]: `when back button is pressed from points intro screen`,

@@ -134,7 +134,7 @@ export default function NftMedia({
             source={{
               uri: videoUrl,
               headers: {
-                origin: networkConfig.nftsValoraAppUrl,
+                origin: networkConfig.nftsAppUrl,
               },
             }}
             key={`${nft.contractAddress}-${nft.tokenId}-${reloadAttempt}`}
@@ -171,7 +171,7 @@ export default function NftMedia({
           source={{
             uri: imageUrl,
             headers: {
-              origin: networkConfig.nftsValoraAppUrl,
+              origin: networkConfig.nftsAppUrl,
             },
           }}
           onLoad={({ nativeEvent: { width, height } }) => {

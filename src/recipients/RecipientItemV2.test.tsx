@@ -25,7 +25,7 @@ describe('RecipientItemV2', () => {
     )
     expect(getByText(mockInvitableRecipient.name)).toBeTruthy()
     expect(getByText(mockInvitableRecipient.displayNumber)).toBeTruthy()
-    expect(queryByTestId('RecipientItem/ValoraIcon')).toBeFalsy()
+    expect(queryByTestId('RecipientItem/AppIcon')).toBeFalsy()
     expect(queryByTestId('RecipientItem/ActivityIndicator')).toBeFalsy()
   })
 
@@ -47,7 +47,7 @@ describe('RecipientItemV2', () => {
     )
     expect(getByText(mockInvitableRecipient.name)).toBeTruthy()
     expect(getByText(mockInvitableRecipient.displayNumber)).toBeTruthy()
-    expect(queryByTestId('RecipientItem/ValoraIcon')).toBeFalsy()
+    expect(queryByTestId('RecipientItem/AppIcon')).toBeFalsy()
     expect(queryByTestId('RecipientItem/ActivityIndicator')).toBeFalsy()
   })
 
@@ -64,7 +64,7 @@ describe('RecipientItemV2', () => {
     )
     expect(getByText(mockInvitableRecipient.name)).toBeTruthy()
     expect(getByText(mockInvitableRecipient.displayNumber)).toBeTruthy()
-    expect(getByTestId('RecipientItem/ValoraIcon')).toBeTruthy()
+    expect(getByTestId('RecipientItem/AppIcon')).toBeTruthy()
     expect(queryByTestId('RecipientItem/ActivityIndicator')).toBeFalsy()
   })
 
@@ -84,7 +84,7 @@ describe('RecipientItemV2', () => {
       </Provider>
     )
     expect(getByText(mockRecipient.name)).toBeTruthy()
-    expect(getByTestId('RecipientItem/ValoraIcon')).toBeTruthy()
+    expect(getByTestId('RecipientItem/AppIcon')).toBeTruthy()
     expect(queryByTestId('RecipientItem/ActivityIndicator')).toBeFalsy()
   })
 

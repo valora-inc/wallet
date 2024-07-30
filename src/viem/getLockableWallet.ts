@@ -1,6 +1,6 @@
 import { Network } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { valoraViemTransports, viemTransports } from 'src/viem'
+import { appViemTransports, viemTransports } from 'src/viem'
 import { KeychainLock } from 'src/web3/KeychainLock'
 import networkConfig from 'src/web3/networkConfig'
 import {
@@ -27,25 +27,19 @@ import { Prettify } from 'viem/chains'
 
 const TAG = 'viem/getLockableWallet'
 
-export function getTransport({
-  chain,
-  useValora,
-}: {
-  chain: Chain
-  useValora?: boolean
-}): Transport {
+export function getTransport({ chain, useApp }: { chain: Chain; useApp?: boolean }): Transport {
   const result = Object.entries(networkConfig.viemChain).find(
     ([_, viemChain]) => chain === viemChain
   )
   if (!result) {
     throw new Error(`No network defined for viem chain ${chain}, cannot create wallet`)
   }
-  if (useValora) {
-    const valoraTransport = valoraViemTransports[result[0] as keyof typeof valoraViemTransports]
-    if (!valoraTransport) {
-      throw new Error(`No valora transport defined for network ${result[0]}, cannot create wallet`)
+  if (useApp) {
+    const appTransport = appViemTransports[result[0] as keyof typeof appViemTransports]
+    if (!appTransport) {
+      throw new Error(`No app transport defined for network ${result[0]}, cannot create wallet`)
     }
-    return valoraTransport
+    return appTransport
   }
   return viemTransports[result[0] as Network]
 }
@@ -74,7 +68,7 @@ export default function getLockableViemWallet(
   lock: KeychainLock,
   chain: Chain,
   privateKey: Address,
-  useValoraTransport: boolean = false
+  useAppTransport: boolean = false
 ): ViemWallet {
   const account = privateKeyToAccount(privateKey)
   Logger.debug(TAG, `getting viem wallet for ${account.address} on ${chain.name}`)
@@ -86,7 +80,7 @@ export default function getLockableViemWallet(
 
   return createWalletClient({
     chain,
-    transport: getTransport({ chain, useValora: useValoraTransport }),
+    transport: getTransport({ chain, useApp: useAppTransport }),
     account,
   }).extend((client): Actions<Chain, PrivateKeyAccount> => {
     return {

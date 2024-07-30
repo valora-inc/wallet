@@ -6,7 +6,7 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import { Network, NetworkId } from 'src/transactions/types'
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
-import { publicClient, valoraPublicClient } from 'src/viem/index'
+import { publicClient, appPublicClient } from 'src/viem/index'
 import {
   TransactionRequest,
   getEstimatedGasFee,
@@ -924,7 +924,7 @@ describe('prepareTransactions module', () => {
       ])
     })
     it.each([
-      { client: 'valora public', expectedClient: valoraPublicClient },
+      { client: 'valora public', expectedClient: appPublicClient },
       { client: 'public', expectedClient: publicClient },
     ])('uses the $client client for estimating gas', async ({ client, expectedClient }) => {
       mocked(estimateFeesPerGas).mockResolvedValue({
@@ -947,7 +947,7 @@ describe('prepareTransactions module', () => {
           { ...mockFeeCurrencies[0], networkId: NetworkId['ethereum-sepolia'] },
           true
         )
-      ).rejects.toThrowError('Valora transport not available for network ethereum')
+      ).rejects.toThrowError('Apptransport not available for network ethereum')
     })
   })
   describe('getMaxGasFee', () => {

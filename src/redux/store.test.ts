@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 221,
+          "version": 222,
         },
         "account": {
           "acceptedTerms": false,
@@ -320,7 +320,7 @@ describe('store state', () => {
           "inviteRewardsSenders": [],
           "phoneRecipientCache": {},
           "rewardsSenders": [],
-          "valoraRecipientCache": {},
+          "appRecipientCache": {},
         },
         "send": {
           "encryptedComment": null,

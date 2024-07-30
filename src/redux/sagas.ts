@@ -35,7 +35,7 @@ import { nftsSaga } from 'src/nfts/saga'
 import { pointsSaga } from 'src/points/saga'
 import { positionsSaga } from 'src/positions/saga'
 import { priceHistorySaga } from 'src/priceHistory/saga'
-import { setPhoneRecipientCache, updateValoraRecipientCache } from 'src/recipients/reducer'
+import { setPhoneRecipientCache, updateAppRecipientCache } from 'src/recipients/reducer'
 import { recipientsSaga } from 'src/recipients/saga'
 import { sendSaga } from 'src/send/saga'
 import { sentrySaga } from 'src/sentry/saga'
@@ -56,7 +56,7 @@ const loggerBlocklist = [
   AccountActions.SET_PHONE_NUMBER,
   ImportActions.IMPORT_BACKUP_PHRASE,
   setPhoneRecipientCache.toString(),
-  updateValoraRecipientCache.toString(),
+  updateAppRecipientCache.toString(),
   TransactionActions.UPDATE_RECENT_TX_RECIPIENT_CACHE,
   TransactionActions.UPDATE_TRANSACTIONS,
   Web3Actions.SET_DATA_ENCRYPTION_KEY,
