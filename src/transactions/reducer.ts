@@ -23,7 +23,7 @@ export interface InviteTransactions {
 type TransactionsByNetworkId = {
   [networkId in NetworkId]?: TokenTransaction[]
 }
-export interface State {
+interface State {
   // Tracks transactions that have been initiated by the user
   // before they are picked up by the chain explorer and
   // included in the tx feed. Necessary so it shows up in the
@@ -47,7 +47,7 @@ export interface KnownFeedTransactionsType {
   [txHash: string]: string | boolean
 }
 
-export const initialState = {
+const initialState = {
   standbyTransactions: [],
   knownFeedTransactions: {},
   recentTxRecipientsCache: {},
@@ -147,8 +147,14 @@ export const reducer = (
           .filter((hash) => hash !== undefined)
       )
 
-      // separate pending cross chain swap transactions from the rest of the
-      // received transactions since we need to process them with custom logic
+      // Separate pending cross-chain swap transactions from other received
+      // transactions for custom processing. Usually transactions received from
+      // blockchain-api should overwrite standby transaction but for pending
+      // cross chain swaps, we want to augment the existing standby transaction
+      // with the received transaction information. This is because the standby
+      // transaction contains information about the intended inAmount value
+      // which blockchain-api does not have access to whilst the transaction is
+      // pending.
       const receivedTransactions: TokenTransaction[] = []
       const pendingCrossChainTxsWithStandby: TokenExchange[] = []
       action.transactions.forEach((tx) => {
