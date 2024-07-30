@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -10,6 +10,7 @@ import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { Currency } from 'src/utils/currencies'
+import { PositionIcon } from 'src/tokens/PositionIcon'
 
 export const PositionItem = ({
   position,
@@ -44,7 +45,8 @@ export const PositionItem = ({
       onPress={onPress}
     >
       <View style={styles.row}>
-        <Image source={{ uri: position.displayProps.imageUrl }} style={styles.tokenImg} />
+        <PositionIcon position={position} />
+
         <View style={styles.tokenLabels}>
           <Text style={styles.tokenName} numberOfLines={1}>
             {position.displayProps.title}
@@ -82,12 +84,6 @@ export const PositionItem = ({
 }
 
 const styles = StyleSheet.create({
-  tokenImg: {
-    width: 32,
-    height: 32,
-    borderRadius: 20,
-    marginRight: Spacing.Regular16,
-  },
   positionsContainer: {
     flexDirection: 'row',
     paddingHorizontal: Spacing.Thick24,
