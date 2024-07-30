@@ -171,7 +171,7 @@ describe('initializeAccount', () => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          authorization: `Valora 0xabc:some signed message`,
+          authorization: `${networkConfig.authHeaderIssuer} 0xabc:some signed message`,
         },
       }
     )

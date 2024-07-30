@@ -3420,6 +3420,10 @@ export const v222Schema = {
     ..._.omit(v221Schema.recipients, 'valoraRecipientCache'),
     appRecipientCache: v221Schema.recipients.valoraRecipientCache,
   },
+  keylessBackup: {
+    ..._.omit(v221Schema.keylessBackup, 'valoraKeyshare'),
+    appKeyshare: v221Schema.keylessBackup.valoraKeyshare,
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {

@@ -29,7 +29,7 @@ import {
   keylessBackupNotFound,
   keylessBackupShowZeroBalance,
   torusKeyshareIssued,
-  valoraKeyshareIssued,
+  appKeyshareIssued,
 } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { getTorusPrivateKey } from 'src/keylessBackup/web3auth'
@@ -41,15 +41,16 @@ import { assignAccountFromPrivateKey } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, delay, put, race, select, spawn, take, takeLeading } from 'typed-redux-saga'
 import { Hex } from 'viem'
+import networkConfig from 'src/web3/networkConfig'
 
 const TAG = 'keylessBackup/saga'
 
 export const DELAY_INTERVAL_MS = 500 // how long to wait between checks for keyshares
 export const WAIT_FOR_KEYSHARE_TIMEOUT_MS = 25 * 1000 // how long to wait for keyshares before failing
 
-export function* handleValoraKeyshareIssued({
+export function* handleAppKeyshareIssued({
   payload: { keylessBackupFlow, origin, keyshare, jwt },
-}: ReturnType<typeof valoraKeyshareIssued>) {
+}: ReturnType<typeof appKeyshareIssued>) {
   try {
     const torusKeyshare = yield* waitForTorusKeyshare()
     const hashedKeyshare = calculateSha256Hash(`CAB_PHONE_KEYSHARE_HASH_${keyshare}`)
@@ -58,18 +59,18 @@ export function* handleValoraKeyshareIssued({
       Logger.info(TAG, `Phone keyshare: ${hashedKeyshare}, Email keyshare: ${hashedTorusKeyshare}`)
     }
     const torusKeyshareBuffer = Buffer.from(torusKeyshare, 'hex')
-    const valoraKeyshareBuffer = Buffer.from(keyshare, 'hex')
+    const appKeyshareBuffer = Buffer.from(keyshare, 'hex')
     const { privateKey: encryptionPrivateKey } = yield* call(
       getSecp256K1KeyPair,
       torusKeyshareBuffer,
-      valoraKeyshareBuffer
+      appKeyshareBuffer
     )
 
     const encryptionAddress = getWalletAddressFromPrivateKey(encryptionPrivateKey)
     if (keylessBackupFlow === KeylessBackupFlow.Setup) {
       yield* handleKeylessBackupSetup({
         torusKeyshareBuffer,
-        valoraKeyshareBuffer,
+        appKeyshareBuffer,
         encryptionAddress,
         encryptionPrivateKey,
         jwt,
@@ -77,7 +78,7 @@ export function* handleValoraKeyshareIssued({
     } else {
       yield* handleKeylessBackupRestore({
         torusKeyshareBuffer,
-        valoraKeyshareBuffer,
+        appKeyshareBuffer,
         encryptionPrivateKey,
       })
     }
@@ -105,13 +106,13 @@ export function* handleValoraKeyshareIssued({
 
 function* handleKeylessBackupSetup({
   torusKeyshareBuffer,
-  valoraKeyshareBuffer,
+  appKeyshareBuffer,
   encryptionAddress,
   encryptionPrivateKey,
   jwt,
 }: {
   torusKeyshareBuffer: Buffer
-  valoraKeyshareBuffer: Buffer
+  appKeyshareBuffer: Buffer
   encryptionAddress: string
   encryptionPrivateKey: Hex
   jwt: string
@@ -124,7 +125,7 @@ function* handleKeylessBackupSetup({
   const encryptedMnemonic = yield* call(
     encryptPassphrase,
     torusKeyshareBuffer,
-    valoraKeyshareBuffer,
+    appKeyshareBuffer,
     mnemonic
   )
   yield* call(storeEncryptedMnemonic, {
@@ -139,11 +140,11 @@ function* handleKeylessBackupSetup({
 
 function* handleKeylessBackupRestore({
   torusKeyshareBuffer,
-  valoraKeyshareBuffer,
+  appKeyshareBuffer,
   encryptionPrivateKey,
 }: {
   torusKeyshareBuffer: Buffer
-  valoraKeyshareBuffer: Buffer
+  appKeyshareBuffer: Buffer
   encryptionPrivateKey: Hex
 }) {
   const encryptedMnemonic = yield* call(getEncryptedMnemonic, encryptionPrivateKey)
@@ -157,7 +158,7 @@ function* handleKeylessBackupRestore({
   const decryptedMnemonic = yield* call(
     decryptPassphrase,
     torusKeyshareBuffer,
-    valoraKeyshareBuffer,
+    appKeyshareBuffer,
     encryptedMnemonic
   )
 
@@ -219,7 +220,10 @@ export function* handleAuth0SignInCompleted({
 }: ReturnType<typeof auth0SignInCompleted>) {
   // Note: this is done async while the user verifies their phone number.
   try {
-    const torusPrivateKey = yield* call(getTorusPrivateKey, { verifier: 'valora-cab-auth0', jwt })
+    const torusPrivateKey = yield* call(getTorusPrivateKey, {
+      verifier: networkConfig.web3AuthVerifier,
+      jwt,
+    })
     yield* put(torusKeyshareIssued({ keyshare: torusPrivateKey }))
   } catch (error) {
     Logger.error(TAG, 'Error getting Torus private key from auth0 jwt', error)
@@ -245,8 +249,8 @@ function* watchGoogleSignInCompleted() {
   yield* takeLeading(auth0SignInCompleted.type, handleAuth0SignInCompleted)
 }
 
-function* watchValoraKeyshareIssued() {
-  yield* takeLeading(valoraKeyshareIssued.type, handleValoraKeyshareIssued)
+function* watchAppKeyshareIssued() {
+  yield* takeLeading(appKeyshareIssued.type, handleAppKeyshareIssued)
 }
 
 function* watchDeleteKeylessBackupStarted() {
@@ -255,6 +259,6 @@ function* watchDeleteKeylessBackupStarted() {
 
 export function* keylessBackupSaga() {
   yield* spawn(watchGoogleSignInCompleted)
-  yield* spawn(watchValoraKeyshareIssued)
+  yield* spawn(watchAppKeyshareIssued)
   yield* spawn(watchDeleteKeylessBackupStarted)
 }

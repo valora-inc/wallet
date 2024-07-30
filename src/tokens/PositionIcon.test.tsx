@@ -10,7 +10,7 @@ const MOCK_TOKEN_BALANCES = {
   [mockCeloTokenId]: {
     ...mockTokenBalances[mockCeloTokenId],
     networkIconUrl:
-      'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/CELO.png',
+      'https://raw.githubusercontent.com/address-metadata/main/assets/tokens/CELO.png',
   },
 }
 

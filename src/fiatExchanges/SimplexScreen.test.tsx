@@ -44,7 +44,7 @@ const mockStore = createMockStore({
 const MOCK_SIMPLEX_QUOTE = {
   user_id: mockAccount,
   quote_id: uuidv4(),
-  wallet_id: 'valorapp',
+  wallet_id: 'appname',
   digital_money: {
     currency: 'CUSD',
     amount: 25,

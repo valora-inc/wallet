@@ -267,7 +267,7 @@ describe('store state', () => {
           "deleteBackupStatus": "NotStarted",
           "showDeleteBackupError": false,
           "torusKeyshare": null,
-          "valoraKeyshare": null,
+          "appKeyshare": null,
         },
         "localCurrency": {
           "error": false,

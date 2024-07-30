@@ -22,7 +22,7 @@ import {
   WAIT_FOR_KEYSHARE_TIMEOUT_MS,
   handleAuth0SignInCompleted,
   handleDeleteKeylessBackup,
-  handleValoraKeyshareIssued,
+  handleAppKeyshareIssued,
   waitForTorusKeyshare,
 } from 'src/keylessBackup/saga'
 import { torusKeyshareSelector } from 'src/keylessBackup/selectors'
@@ -35,7 +35,7 @@ import {
   keylessBackupFailed,
   keylessBackupNotFound,
   torusKeyshareIssued,
-  valoraKeyshareIssued,
+  appKeyshareIssued,
 } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 import { getTorusPrivateKey } from 'src/keylessBackup/web3auth'
@@ -47,6 +47,7 @@ import { walletAddressSelector } from 'src/web3/selectors'
 import { mockAccount, mockPrivateDEK } from 'test/values'
 import { Hex } from 'viem'
 import { generatePrivateKey } from 'viem/accounts'
+import networkConfig from 'src/web3/networkConfig'
 
 jest.mock('src/keylessBackup/index')
 
@@ -92,7 +93,7 @@ describe('keylessBackup saga', () => {
       await expectSaga(handleAuth0SignInCompleted, auth0SignInCompleted({ idToken: mockJwt }))
         .provide([
           [
-            call(getTorusPrivateKey, { verifier: 'valora-cab-auth0', jwt: mockJwt }),
+            call(getTorusPrivateKey, { verifier: networkConfig.web3AuthVerifier, jwt: mockJwt }),
             mockTorusKeyshare,
           ],
         ])
@@ -104,7 +105,7 @@ describe('keylessBackup saga', () => {
         .provide([
           [
             call(getTorusPrivateKey, {
-              verifier: 'valora-auth0',
+              verifier: 'fake-verifier',
               jwt: mockJwt,
             }),
             throwError(new Error('(test) Error fetching Torus private key')),
@@ -161,11 +162,11 @@ describe('keylessBackup saga', () => {
     })
   })
 
-  describe('handleValoraKeyshareIssued', () => {
+  describe('handleAppKeyshareIssued', () => {
     const mockTorusKeyshare = '0x123'
     const mockTorusKeyshareBuffer = Buffer.from(mockTorusKeyshare, 'hex')
-    const mockValoraKeyshare = '0xabc'
-    const mockValoraKeyshareBuffer = Buffer.from(mockValoraKeyshare, 'hex')
+    const mockAppKeyshare = '0xabc'
+    const mockAppKeyshareBuffer = Buffer.from(mockAppKeyshare, 'hex')
     const mockJwt = 'abc.def.ghi'
 
     const mockEncryptionPrivateKey =
@@ -183,19 +184,19 @@ describe('keylessBackup saga', () => {
     const mockPrivateKey = mockPrivateDEK
     describe('setup', () => {
       it('stores encrypted mnemonic and puts success event if no errors', async () => {
-        await expectSaga(handleValoraKeyshareIssued, {
+        await expectSaga(handleAppKeyshareIssued, {
           payload: {
-            keyshare: mockValoraKeyshare,
+            keyshare: mockAppKeyshare,
             keylessBackupFlow: KeylessBackupFlow.Setup,
             origin: KeylessBackupOrigin.Settings,
             jwt: mockJwt,
           },
-          type: valoraKeyshareIssued.type,
+          type: appKeyshareIssued.type,
         })
           .provide([
             [select(torusKeyshareSelector), mockTorusKeyshare],
             [
-              call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockValoraKeyshareBuffer),
+              call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockAppKeyshareBuffer),
               {
                 privateKey: mockEncryptionPrivateKeyHex,
                 publicKey: mockEncryptionPublicKeyBuffer,
@@ -204,12 +205,7 @@ describe('keylessBackup saga', () => {
             [select(walletAddressSelector), mockWalletAddress],
             [call(getStoredMnemonic, mockWalletAddress), mockMnemonic],
             [
-              call(
-                encryptPassphrase,
-                mockTorusKeyshareBuffer,
-                mockValoraKeyshareBuffer,
-                mockMnemonic
-              ),
+              call(encryptPassphrase, mockTorusKeyshareBuffer, mockAppKeyshareBuffer, mockMnemonic),
               mockEncryptedMnemonic,
             ],
             [
@@ -237,19 +233,19 @@ describe('keylessBackup saga', () => {
         })
       })
       it('puts failure event if error occurs storing encrypted mnemonic', async () => {
-        await expectSaga(handleValoraKeyshareIssued, {
+        await expectSaga(handleAppKeyshareIssued, {
           payload: {
-            keyshare: mockValoraKeyshare,
+            keyshare: mockAppKeyshare,
             keylessBackupFlow: KeylessBackupFlow.Setup,
             origin: KeylessBackupOrigin.Settings,
             jwt: mockJwt,
           },
-          type: valoraKeyshareIssued.type,
+          type: appKeyshareIssued.type,
         })
           .provide([
             [select(torusKeyshareSelector), mockTorusKeyshare],
             [
-              call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockValoraKeyshareBuffer),
+              call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockAppKeyshareBuffer),
               {
                 privateKey: mockEncryptionPrivateKeyHex,
                 publicKey: mockEncryptionPublicKeyBuffer,
@@ -258,12 +254,7 @@ describe('keylessBackup saga', () => {
             [select(walletAddressSelector), mockWalletAddress],
             [call(getStoredMnemonic, mockWalletAddress), mockMnemonic],
             [
-              call(
-                encryptPassphrase,
-                mockTorusKeyshareBuffer,
-                mockValoraKeyshareBuffer,
-                mockMnemonic
-              ),
+              call(encryptPassphrase, mockTorusKeyshareBuffer, mockAppKeyshareBuffer, mockMnemonic),
               mockEncryptedMnemonic,
             ],
             [
@@ -286,19 +277,19 @@ describe('keylessBackup saga', () => {
 
     describe('restore', () => {
       it('gets encrypted mnemonic and puts success event if no errors', async () => {
-        await expectSaga(handleValoraKeyshareIssued, {
+        await expectSaga(handleAppKeyshareIssued, {
           payload: {
-            keyshare: mockValoraKeyshare,
+            keyshare: mockAppKeyshare,
             keylessBackupFlow: KeylessBackupFlow.Restore,
             origin: KeylessBackupOrigin.Settings,
             jwt: mockJwt,
           },
-          type: valoraKeyshareIssued.type,
+          type: appKeyshareIssued.type,
         })
           .provide([
             [select(torusKeyshareSelector), mockTorusKeyshare],
             [
-              call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockValoraKeyshareBuffer),
+              call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockAppKeyshareBuffer),
               {
                 privateKey: mockEncryptionPrivateKeyHex,
                 publicKey: mockEncryptionPublicKeyBuffer,
@@ -309,7 +300,7 @@ describe('keylessBackup saga', () => {
               call(
                 decryptPassphrase,
                 mockTorusKeyshareBuffer,
-                mockValoraKeyshareBuffer,
+                mockAppKeyshareBuffer,
                 mockEncryptedMnemonic
               ),
               mockMnemonic,
@@ -336,19 +327,19 @@ describe('keylessBackup saga', () => {
         })
       })
       it('bails if the user does not have a balance and chooses to exit', async () => {
-        await expectSaga(handleValoraKeyshareIssued, {
+        await expectSaga(handleAppKeyshareIssued, {
           payload: {
-            keyshare: mockValoraKeyshare,
+            keyshare: mockAppKeyshare,
             keylessBackupFlow: KeylessBackupFlow.Restore,
             origin: KeylessBackupOrigin.Settings,
             jwt: mockJwt,
           },
-          type: valoraKeyshareIssued.type,
+          type: appKeyshareIssued.type,
         })
           .provide([
             [select(torusKeyshareSelector), mockTorusKeyshare],
             [
-              call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockValoraKeyshareBuffer),
+              call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockAppKeyshareBuffer),
               {
                 privateKey: mockEncryptionPrivateKeyHex,
                 publicKey: mockEncryptionPublicKeyBuffer,
@@ -359,7 +350,7 @@ describe('keylessBackup saga', () => {
               call(
                 decryptPassphrase,
                 mockTorusKeyshareBuffer,
-                mockValoraKeyshareBuffer,
+                mockAppKeyshareBuffer,
                 mockEncryptedMnemonic
               ),
               mockMnemonic,
@@ -377,19 +368,19 @@ describe('keylessBackup saga', () => {
         expect(navigate).toBeCalledWith(Screens.ImportSelect)
       })
       it('puts failure event if error occurs storing encrypted mnemonic', async () => {
-        await expectSaga(handleValoraKeyshareIssued, {
+        await expectSaga(handleAppKeyshareIssued, {
           payload: {
-            keyshare: mockValoraKeyshare,
+            keyshare: mockAppKeyshare,
             keylessBackupFlow: KeylessBackupFlow.Restore,
             origin: KeylessBackupOrigin.Settings,
             jwt: mockJwt,
           },
-          type: valoraKeyshareIssued.type,
+          type: appKeyshareIssued.type,
         })
           .provide([
             [select(torusKeyshareSelector), mockTorusKeyshare],
             [
-              call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockValoraKeyshareBuffer),
+              call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockAppKeyshareBuffer),
               {
                 privateKey: mockEncryptionPrivateKeyHex,
                 publicKey: mockEncryptionPublicKeyBuffer,
@@ -408,19 +399,19 @@ describe('keylessBackup saga', () => {
         })
       })
       it('puts not found event if encrypted mnemonic not found', async () => {
-        await expectSaga(handleValoraKeyshareIssued, {
+        await expectSaga(handleAppKeyshareIssued, {
           payload: {
-            keyshare: mockValoraKeyshare,
+            keyshare: mockAppKeyshare,
             keylessBackupFlow: KeylessBackupFlow.Restore,
             origin: KeylessBackupOrigin.Settings,
             jwt: mockJwt,
           },
-          type: valoraKeyshareIssued.type,
+          type: appKeyshareIssued.type,
         })
           .provide([
             [select(torusKeyshareSelector), mockTorusKeyshare],
             [
-              call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockValoraKeyshareBuffer),
+              call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockAppKeyshareBuffer),
               {
                 privateKey: mockEncryptionPrivateKeyHex,
                 publicKey: mockEncryptionPublicKeyBuffer,

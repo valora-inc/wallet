@@ -160,7 +160,7 @@ describe('Account', () => {
     fireEvent.press(getByText('Reset app opened state'))
     fireEvent.press(getByText('Toggle backup state'))
     fireEvent.press(getByText('Wipe Redux Store'))
-    fireEvent.press(getByText('Valora Quick Reset'))
+    fireEvent.press(getByText('App Quick Reset'))
 
     expect(store.getActions()).toEqual([
       setNumberVerified(false),
@@ -398,7 +398,7 @@ describe('Account', () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization: 'Valora 0x0000000000000000000000000000000000007e57:someSignedMessage',
+        authorization: `${networkConfig.authHeaderIssuer} 0x0000000000000000000000000000000000007e57:someSignedMessage`,
       },
       body: '{"phoneNumber":"+14155550000","clientPlatform":"android","clientVersion":"0.0.1"}',
     })
@@ -461,7 +461,7 @@ describe('Account', () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization: 'Valora 0x0000000000000000000000000000000000007e57:someSignedMessage',
+        authorization: `${networkConfig.authHeaderIssuer} 0x0000000000000000000000000000000000007e57:someSignedMessage`,
       },
       body: '{"phoneNumber":"+14155550000","clientPlatform":"android","clientVersion":"0.0.1"}',
     })
@@ -520,7 +520,7 @@ describe('Account', () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization: 'Valora 0x0000000000000000000000000000000000007e57:someSignedMessage',
+        authorization: `${networkConfig.authHeaderIssuer} 0x0000000000000000000000000000000000007e57:someSignedMessage`,
       },
       body: '{"phoneNumber":"+14155550000","clientPlatform":"android","clientVersion":"0.0.1"}',
     })

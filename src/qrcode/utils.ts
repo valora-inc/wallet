@@ -48,9 +48,9 @@ export enum QRCodeTypes {
 
 const TAG = 'QR/utils'
 
-const QRFileName = '/valora_address-qr.png'
+const QRFileName = '/wallet_address-qr.png'
 
-// ValoraDeepLink generates a QR code that deeplinks into the walletconnect send flow of the valora app
+// DeepLink generates a QR code that deeplinks into the walletconnect send flow of the app
 // Address generates a QR code that has the walletAddress as plaintext that is readable by wallets such as Coinbase and Metamask
 export function useQRContent(data: {
   address: string

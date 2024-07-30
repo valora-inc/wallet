@@ -493,7 +493,7 @@ export function* runCentralPhoneVerificationMigration() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `Valora ${address}:${signedMessage}`,
+        authorization: `${networkConfig.authHeaderIssuer} ${address}:${signedMessage}`,
       },
       body: JSON.stringify({
         clientPlatform: Platform.OS,

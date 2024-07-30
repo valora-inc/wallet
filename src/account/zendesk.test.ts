@@ -1,6 +1,6 @@
 import { FetchMock } from 'jest-fetch-mock/types'
 import { DeviceInfo, _generateCustomFields, sendSupportRequest } from 'src/account/zendesk'
-import { ZENDESK_API_KEY } from 'src/config'
+import { ZENDESK_API_KEY, ZENDESK_PROJECT_NAME } from 'src/config'
 
 const mockFetch = fetch as FetchMock
 
@@ -63,11 +63,11 @@ describe('Zendesk', () => {
           return 'path1 contents'
         case 'file://path2/':
           return 'path2 contents'
-        case 'https://valoraapp.zendesk.com/api/v2/uploads.json?filename=name1&binary=false':
+        case `https://${ZENDESK_PROJECT_NAME}.zendesk.com/api/v2/uploads.json?filename=name1&binary=false`:
           return { status: 201, body: JSON.stringify({ upload: { token: 'uploadToken' } }) }
-        case 'https://valoraapp.zendesk.com/api/v2/uploads.json?filename=name2&binary=false':
+        case `https://${ZENDESK_PROJECT_NAME}.zendesk.com/api/v2/uploads.json?filename=name2&binary=false`:
           return { status: 201, body: JSON.stringify({ upload: { token: 'uploadToken2' } }) }
-        case 'https://valoraapp.zendesk.com/api/v2/requests':
+        case `https://${ZENDESK_PROJECT_NAME}.zendesk.com/api/v2/requests`:
           return JSON.stringify({ request: { id: 1234 } })
         default:
           throw new Error(`unexpected url: ${req.url}`)
@@ -77,7 +77,7 @@ describe('Zendesk', () => {
     await sendSupportRequest(args)
     expect(mockFetch.mock.calls.length).toEqual(5)
     expect(mockFetch).toHaveBeenCalledWith(
-      'https://valoraapp.zendesk.com/api/v2/uploads.json?filename=name1&binary=false',
+      `https://${ZENDESK_PROJECT_NAME}.zendesk.com/api/v2/uploads.json?filename=name1&binary=false`,
       {
         method: 'POST',
         headers: {
@@ -92,12 +92,13 @@ describe('Zendesk', () => {
 
     const callName1 = mockFetch.mock.calls.find(
       (call) =>
-        call[0] === 'https://valoraapp.zendesk.com/api/v2/uploads.json?filename=name1&binary=false'
+        call[0] ===
+        `https://${ZENDESK_PROJECT_NAME}.zendesk.com/api/v2/uploads.json?filename=name1&binary=false`
     )
     expect(callName1?.[1]?.body).toEqualBlob(new Blob(['path1 contents']))
 
     expect(mockFetch).toHaveBeenCalledWith(
-      'https://valoraapp.zendesk.com/api/v2/uploads.json?filename=name2&binary=false',
+      `https://${ZENDESK_PROJECT_NAME}.zendesk.com/api/v2/uploads.json?filename=name2&binary=false`,
       {
         method: 'POST',
         headers: {
@@ -112,35 +113,39 @@ describe('Zendesk', () => {
 
     const callName2 = mockFetch.mock.calls.find(
       (call) =>
-        call[0] === 'https://valoraapp.zendesk.com/api/v2/uploads.json?filename=name2&binary=false'
+        call[0] ===
+        `https://${ZENDESK_PROJECT_NAME}.zendesk.com/api/v2/uploads.json?filename=name2&binary=false`
     )
     expect(callName2?.[1]?.body).toEqualBlob(new Blob(['path2 contents']))
 
-    expect(mockFetch).toHaveBeenCalledWith('https://valoraapp.zendesk.com/api/v2/requests', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Basic ${Buffer.from(`${args.userEmail}/token:${ZENDESK_API_KEY}`).toString(
-          'base64'
-        )}`,
-      },
-      body: JSON.stringify({
-        request: {
-          subject: args.subject,
-          custom_fields: _generateCustomFields(args.deviceInfo),
-          comment: {
-            body: `${args.message}
+    expect(mockFetch).toHaveBeenCalledWith(
+      `https://${ZENDESK_PROJECT_NAME}.zendesk.com/api/v2/requests`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Basic ${Buffer.from(
+            `${args.userEmail}/token:${ZENDESK_API_KEY}`
+          ).toString('base64')}`,
+        },
+        body: JSON.stringify({
+          request: {
+            subject: args.subject,
+            custom_fields: _generateCustomFields(args.deviceInfo),
+            comment: {
+              body: `${args.message}
     
     ${JSON.stringify(args.deviceInfo)}
     `,
-            uploads: ['uploadToken', 'uploadToken2'],
+              uploads: ['uploadToken', 'uploadToken2'],
+            },
+            requester: {
+              email: args.userEmail,
+              name: args.userName,
+            },
           },
-          requester: {
-            email: args.userEmail,
-            name: args.userName,
-          },
-        },
-      }),
-    })
+        }),
+      }
+    )
   })
 })

@@ -106,7 +106,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          authorization: `Valora ${address}:${signedMessage}`,
+          authorization: `${networkConfig.authHeaderIssuer} ${address}:${signedMessage}`,
         },
         body: JSON.stringify({
           phoneNumber,
@@ -173,7 +173,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          authorization: `Valora ${address}:${signedMessage}`,
+          authorization: `${networkConfig.authHeaderIssuer} ${address}:${signedMessage}`,
         },
         body: JSON.stringify({
           phoneNumber,
@@ -262,7 +262,7 @@ export function useRevokeCurrentPhoneNumber() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          authorization: `Valora ${address}:${signedMessage}`,
+          authorization: `${networkConfig.authHeaderIssuer} ${address}:${signedMessage}`,
         },
         body: JSON.stringify({
           phoneNumber: e164Number,

@@ -1830,5 +1830,9 @@ export const migrations = {
       ..._.omit(state.recipients, 'valoraRecipientCache'),
       appRecipientCache: state.valoraRecipientCache,
     },
+    keylessBackup: {
+      ..._.omit(state.keylessBackup, 'valoraKeyshare'),
+      appKeyshare: state.keylessBackup.valoraKeyshare,
+    },
   }),
 }

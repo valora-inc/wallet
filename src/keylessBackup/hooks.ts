@@ -6,7 +6,7 @@ import { showError } from 'src/alert/actions'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { valoraKeyshareIssued } from 'src/keylessBackup/slice'
+import { appKeyshareIssued } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 import { useDispatch } from 'src/redux/hooks'
 import Logger from 'src/utils/Logger'
@@ -99,16 +99,16 @@ export function useVerifyPhoneNumber(
         return
       }
 
-      AppAnalytics.track(KeylessBackupEvents.cab_issue_valora_keyshare_start, {
+      AppAnalytics.track(KeylessBackupEvents.cab_issue_app_keyshare_start, {
         keylessBackupFlow,
         origin,
       })
       Logger.debug(
-        `${TAG}/issueValoraKeyshare`,
-        'Initiating request to issueValoraKeyshare to validate code and issue key share'
+        `${TAG}/issueAppKeyshare`,
+        'Initiating request to issueAppKeyshare to validate code and issue key share'
       )
 
-      const response = await fetch(networkConfig.cabIssueValoraKeyshareUrl, {
+      const response = await fetch(networkConfig.cabIssueAppKeyshareUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -135,23 +135,20 @@ export function useVerifyPhoneNumber(
         }
 
         const { keyshare, token } = await response.json()
-        AppAnalytics.track(KeylessBackupEvents.cab_issue_valora_keyshare_success, {
+        AppAnalytics.track(KeylessBackupEvents.cab_issue_app_keyshare_success, {
           keylessBackupFlow,
           origin,
         })
-        Logger.debug(
-          `${TAG}/issueValoraKeyShare`,
-          'Successfully verified sms code and got keyshare'
-        )
+        Logger.debug(`${TAG}/issueAppKeyShare`, 'Successfully verified sms code and got keyshare')
         setVerificationStatus(PhoneNumberVerificationStatus.SUCCESSFUL)
-        dispatch(valoraKeyshareIssued({ keyshare, keylessBackupFlow, origin, jwt: token }))
+        dispatch(appKeyshareIssued({ keyshare, keylessBackupFlow, origin, jwt: token }))
       },
       onError: (error: Error) => {
-        AppAnalytics.track(KeylessBackupEvents.cab_issue_valora_keyshare_error, {
+        AppAnalytics.track(KeylessBackupEvents.cab_issue_app_keyshare_error, {
           keylessBackupFlow,
           origin,
         })
-        Logger.debug(`${TAG}/issueValoraKeyShare`, `Received error from issueValoraKeyShare`, error)
+        Logger.debug(`${TAG}/issueAppKeyShare`, `Received error from issueAppKeyShare`, error)
         setVerificationStatus(PhoneNumberVerificationStatus.FAILED)
         setSmsCode('')
       },

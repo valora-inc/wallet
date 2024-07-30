@@ -5,6 +5,7 @@ import { Network, NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { Address } from 'viem'
+import { EIP712TypedData } from '@celo/utils/lib/sign-typed-data-utils'
 import {
   Chain as ViemChain,
   arbitrum,
@@ -45,6 +46,7 @@ interface NetworkConfig {
   personaEnvironment: PersonaEnvironment
   inHouseLiquidityURL: string
   setRegistrationPropertiesUrl: string
+  setRegistrationPropertiesAuth: EIP712TypedData
   fetchExchangesUrl: string
   nftsAppUrl: string
   getSwapQuoteUrl: string
@@ -61,7 +63,7 @@ interface NetworkConfig {
   resolveId: string
   getNftsByOwnerAddressUrl: string
   cabIssueSmsCodeUrl: string
-  cabIssueValoraKeyshareUrl: string
+  cabIssueAppKeyshareUrl: string
   cabStoreEncryptedMnemonicUrl: string
   cabGetEncryptedMnemonicUrl: string
   cabDeleteEncryptedMnemonicUrl: string
@@ -94,7 +96,9 @@ interface NetworkConfig {
   arbAavePoolV3ContractAddress: Address
   arbAaveIncentivesV3ContractAddress: Address
   aaveArbUsdcTokenId: string
-  valoraRpcUrl: Record<Network.Arbitrum, string>
+  internalRpcUrl: Record<Network.Arbitrum, string>
+  authHeaderIssuer: string
+  web3AuthVerifier: string
 }
 
 const ALCHEMY_ETHEREUM_RPC_URL_STAGING = 'https://eth-sepolia.g.alchemy.com/v2/'
@@ -251,8 +255,8 @@ const CAB_ISSUE_SMS_CODE_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/issueSmsCode`
 const CAB_STORE_ENCRYPTED_MNEMONIC_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/storeEncryptedMnemonic`
 const CAB_STORE_ENCRYPTED_MNEMONIC_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/storeEncryptedMnemonic`
 
-const CAB_ISSUE_VALORA_KEYSHARE_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/issueValoraKeyshare`
-const CAB_ISSUE_VALORA_KEYSHARE_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/issueValoraKeyshare`
+const CAB_ISSUE_APP_KEYSHARE_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/issueValoraKeyshare`
+const CAB_ISSUE_APP_KEYSHARE_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/issueValoraKeyshare`
 
 const CAB_LOGIN_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/cloudBackupLogin`
 const CAB_LOGIN_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/cloudBackupLogin`
@@ -282,8 +286,45 @@ const GET_POINTS_BALANCE_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getPointsBalance`
 const SIMULATE_TRANSACTIONS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/simulateTransactions`
 const SIMULATE_TRANSACTIONS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/simulateTransactions`
 
-const VALORA_ARBITRUM_RPC_URL_STAGING = `${CLOUD_FUNCTIONS_STAGING}/rpc/${NetworkId['arbitrum-sepolia']}`
-const VALORA_ARBITRUM_RPC_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/rpc/${NetworkId['arbitrum-one']}`
+const INTERNAL_ARBITRUM_RPC_URL_STAGING = `${CLOUD_FUNCTIONS_STAGING}/rpc/${NetworkId['arbitrum-sepolia']}`
+const INTERNAL_ARBITRUM_RPC_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/rpc/${NetworkId['arbitrum-one']}`
+
+const AUTH_HEADER_ISSUER = 'Valora'
+
+const WEB3_AUTH_VERIFIER = 'valora-cab-auth0'
+
+const BASE_SET_REGISTRATION_PROPERTIES_AUTH = {
+  types: {
+    EIP712Domain: [
+      { name: 'name', type: 'string' },
+      { name: 'version', type: 'string' },
+      { name: 'chainId', type: 'uint256' },
+    ],
+    Message: [{ name: 'content', type: 'string' }],
+  },
+  domain: {
+    name: 'Valora',
+    version: '1',
+  },
+  message: {
+    content: 'valora auth message',
+  },
+  primaryType: 'Message',
+}
+const SET_REGISTRATION_PROPERTIES_AUTH_MAINNET = {
+  ...BASE_SET_REGISTRATION_PROPERTIES_AUTH,
+  domain: {
+    ...BASE_SET_REGISTRATION_PROPERTIES_AUTH.domain,
+    chainId: '42220',
+  },
+}
+const SET_REGISTRATION_PROPERTIES_AUTH_ALFAJORES = {
+  ...BASE_SET_REGISTRATION_PROPERTIES_AUTH,
+  domain: {
+    ...BASE_SET_REGISTRATION_PROPERTIES_AUTH.domain,
+    chainId: '44787',
+  },
+}
 
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
@@ -320,6 +361,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     personaEnvironment: PersonaEnvironment.SANDBOX,
     inHouseLiquidityURL: 'https://liquidity-dot-celo-mobile-alfajores.appspot.com',
     setRegistrationPropertiesUrl: SET_REGISTRATION_PROPERTIES_ALFAJORES,
+    setRegistrationPropertiesAuth: SET_REGISTRATION_PROPERTIES_AUTH_ALFAJORES,
     fetchExchangesUrl: FETCH_EXCHANGES_URL_ALFAJORES,
     nftsAppUrl: NFTS_APP_URL,
     getSwapQuoteUrl: GET_SWAP_QUOTE_URL,
@@ -336,7 +378,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     resolveId: RESOLVE_ID_ALFAJORES,
     getNftsByOwnerAddressUrl: GET_NFTS_BY_OWNER_ADDRESS_ALFAJORES,
     cabIssueSmsCodeUrl: CAB_ISSUE_SMS_CODE_ALFAJORES,
-    cabIssueValoraKeyshareUrl: CAB_ISSUE_VALORA_KEYSHARE_ALFAJORES,
+    cabIssueAppKeyshareUrl: CAB_ISSUE_APP_KEYSHARE_ALFAJORES,
     cabStoreEncryptedMnemonicUrl: CAB_STORE_ENCRYPTED_MNEMONIC_ALFAJORES,
     cabGetEncryptedMnemonicUrl: CAB_GET_ENCRYPTED_MNEMONIC_ALFAJORES,
     cabDeleteEncryptedMnemonicUrl: CAB_DELETE_ENCRYPTED_MNEMONIC_ALFAJORES,
@@ -383,9 +425,11 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     arbAavePoolV3ContractAddress: ARB_AAVE_POOL_V3_CONTRACT_ADDRESS_STAGING,
     arbAaveIncentivesV3ContractAddress: ARB_AAVE_INCENTIVES_V3_CONTRACT_ADDRESS_STAGING,
     aaveArbUsdcTokenId: AAVE_ARB_USDC_TOKEN_ID_STAGING,
-    valoraRpcUrl: {
-      [Network.Arbitrum]: VALORA_ARBITRUM_RPC_URL_STAGING,
+    internalRpcUrl: {
+      [Network.Arbitrum]: INTERNAL_ARBITRUM_RPC_URL_STAGING,
     },
+    authHeaderIssuer: AUTH_HEADER_ISSUER,
+    web3AuthVerifier: WEB3_AUTH_VERIFIER,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -420,6 +464,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     personaEnvironment: PersonaEnvironment.PRODUCTION,
     inHouseLiquidityURL: 'https://liquidity-dot-celo-mobile-mainnet.appspot.com',
     setRegistrationPropertiesUrl: SET_REGISTRATION_PROPERTIES_MAINNET,
+    setRegistrationPropertiesAuth: SET_REGISTRATION_PROPERTIES_AUTH_MAINNET,
     fetchExchangesUrl: FETCH_EXCHANGES_URL_MAINNET,
     nftsAppUrl: NFTS_APP_URL,
     getSwapQuoteUrl: GET_SWAP_QUOTE_URL,
@@ -436,7 +481,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     resolveId: RESOLVE_ID_MAINNET,
     getNftsByOwnerAddressUrl: GET_NFTS_BY_OWNER_ADDRESS_MAINNET,
     cabIssueSmsCodeUrl: CAB_ISSUE_SMS_CODE_MAINNET,
-    cabIssueValoraKeyshareUrl: CAB_ISSUE_VALORA_KEYSHARE_MAINNET,
+    cabIssueAppKeyshareUrl: CAB_ISSUE_APP_KEYSHARE_MAINNET,
     cabStoreEncryptedMnemonicUrl: CAB_STORE_ENCRYPTED_MNEMONIC_MAINNET,
     cabGetEncryptedMnemonicUrl: CAB_GET_ENCRYPTED_MNEMONIC_MAINNET,
     cabDeleteEncryptedMnemonicUrl: CAB_DELETE_ENCRYPTED_MNEMONIC_MAINNET,
@@ -483,9 +528,11 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     arbAavePoolV3ContractAddress: ARB_AAVE_POOL_V3_CONTRACT_ADDRESS_MAINNET,
     arbAaveIncentivesV3ContractAddress: ARB_AAVE_INCENTIVES_V3_CONTRACT_ADDRESS_MAINNET,
     aaveArbUsdcTokenId: AAVE_ARB_USDC_TOKEN_ID_MAINNET,
-    valoraRpcUrl: {
-      [Network.Arbitrum]: VALORA_ARBITRUM_RPC_URL_MAINNET,
+    internalRpcUrl: {
+      [Network.Arbitrum]: INTERNAL_ARBITRUM_RPC_URL_MAINNET,
     },
+    authHeaderIssuer: AUTH_HEADER_ISSUER,
+    web3AuthVerifier: WEB3_AUTH_VERIFIER,
   },
 }
 

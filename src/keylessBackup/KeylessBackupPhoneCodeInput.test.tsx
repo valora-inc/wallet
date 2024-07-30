@@ -7,7 +7,7 @@ import { KeylessBackupEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import KeylessBackupPhoneCodeInput from 'src/keylessBackup/KeylessBackupPhoneCodeInput'
-import { valoraKeyshareIssued } from 'src/keylessBackup/slice'
+import { appKeyshareIssued } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -95,12 +95,9 @@ describe('KeylessBackupPhoneCodeInput', () => {
     mockFetch.mockResponseOnce(JSON.stringify({}), {
       status: 200,
     })
-    mockFetch.mockResponseOnce(
-      JSON.stringify({ keyshare: 'valora-keyshare', token: 'abc.def.ghi' }),
-      {
-        status: 200,
-      }
-    )
+    mockFetch.mockResponseOnce(JSON.stringify({ keyshare: 'app-keyshare', token: 'abc.def.ghi' }), {
+      status: 200,
+    })
 
     const { getByTestId } = renderComponent()
 
@@ -109,7 +106,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
     })
 
     await waitFor(() => expect(navigate).toHaveBeenCalledTimes(1))
-    expect(mockFetch).toHaveBeenNthCalledWith(2, `${networkConfig.cabIssueValoraKeyshareUrl}`, {
+    expect(mockFetch).toHaveBeenNthCalledWith(2, `${networkConfig.cabIssueAppKeyshareUrl}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -119,8 +116,8 @@ describe('KeylessBackupPhoneCodeInput', () => {
     expect(getByTestId('PhoneVerificationCode/CheckIcon')).toBeTruthy()
 
     expect(store.getActions()).toEqual([
-      valoraKeyshareIssued({
-        keyshare: 'valora-keyshare',
+      appKeyshareIssued({
+        keyshare: 'app-keyshare',
         keylessBackupFlow: KeylessBackupFlow.Setup,
         jwt: 'abc.def.ghi',
         origin: KeylessBackupOrigin.Onboarding,
@@ -147,7 +144,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
     })
 
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2))
-    expect(mockFetch).toHaveBeenNthCalledWith(2, `${networkConfig.cabIssueValoraKeyshareUrl}`, {
+    expect(mockFetch).toHaveBeenNthCalledWith(2, `${networkConfig.cabIssueAppKeyshareUrl}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

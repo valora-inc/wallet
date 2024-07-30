@@ -33,7 +33,7 @@ const dappsList = [
     categories: ['1'],
     categoryNames: ['Swap'],
     description: 'Some dapp thing',
-    iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp4.png',
+    iconUrl: 'https://raw.githubusercontent.com/app-list/main/assets/dapp4.png',
     dappUrl: 'https://app.dapp4.org/',
   },
   {
@@ -42,7 +42,7 @@ const dappsList = [
     categories: ['1'],
     categoryNames: ['Swap'],
     description: 'Some dapp thing',
-    iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp5.png',
+    iconUrl: 'https://raw.githubusercontent.com/app-list/main/assets/dapp5.png',
     dappUrl: 'https://app.dapp5.org/',
   },
   {
@@ -51,7 +51,7 @@ const dappsList = [
     categories: ['1'],
     categoryNames: ['Swap'],
     description: 'Some dapp thing',
-    iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp6.png',
+    iconUrl: 'https://raw.githubusercontent.com/app-list/main/assets/dapp6.png',
     dappUrl: 'https://app.dapp6.org/',
   },
 ]

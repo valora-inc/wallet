@@ -120,7 +120,7 @@ function* handlePreviouslyVerifiedPhoneNumber() {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `Valora ${address}:${signedMessage}`,
+        authorization: `${networkConfig.authHeaderIssuer} ${address}:${signedMessage}`,
       },
     })
 
@@ -160,30 +160,13 @@ export function* generateSignedMessage() {
     if (!address) {
       throw new Error('No address found')
     }
-    yield* call(unlockAccount, address)
 
-    const kit: ContractKit = yield* call(getContractKit)
-    const chainId = yield* call([kit.connection, 'chainId'])
-    const payload: EIP712TypedData = {
-      types: {
-        EIP712Domain: [
-          { name: 'name', type: 'string' },
-          { name: 'version', type: 'string' },
-          { name: 'chainId', type: 'uint256' },
-        ],
-        Message: [{ name: 'content', type: 'string' }],
-      },
-      domain: {
-        name: 'Valora',
-        version: '1',
-        chainId,
-      },
-      message: {
-        content: 'valora auth message',
-      },
-      primaryType: 'Message',
-    }
-    const signedTypedMessage = yield* call([wallet, 'signTypedData'], address, payload)
+    yield* call(unlockAccount, address)
+    const signedTypedMessage = yield* call(
+      [wallet, 'signTypedData'],
+      address,
+      networkConfig.setRegistrationPropertiesAuth
+    )
 
     yield* call(storeSignedMessage, signedTypedMessage)
     yield* put(saveSignedMessage())
