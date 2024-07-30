@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { AppEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { MultichainBetaStatus, optMultichainBeta } from 'src/app/actions'
 import { multichainBetaStatusSelector } from 'src/app/selectors'
 import BetaTag from 'src/components/BetaTag'
@@ -27,7 +27,7 @@ function MultichainBeta() {
   const multichainBetaStatus = useSelector(multichainBetaStatusSelector)
 
   const onPressCta = async (optedIn: boolean) => {
-    ValoraAnalytics.track(
+    AppAnalytics.track(
       optedIn ? AppEvents.multichain_beta_opt_in : AppEvents.multichain_beta_opt_out
     )
     dispatch(optMultichainBeta(optedIn))
@@ -85,7 +85,7 @@ MultichainBeta.navigationOptions = {
       testID="MultichainBeta/ContactSupport"
       style={styles.supportButton}
       onPress={() => {
-        ValoraAnalytics.track(AppEvents.multichain_beta_contact_support)
+        AppAnalytics.track(AppEvents.multichain_beta_contact_support)
         navigate(Screens.SupportContact)
       }}
     >

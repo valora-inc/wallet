@@ -3,7 +3,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
@@ -15,7 +15,7 @@ import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockCusdTokenId, mockFiatConnectQuotes } from 'test/values'
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 jest.mock('src/fiatconnect/kyc/getNavigationOptions')
 
 describe('KycExpired', () => {
@@ -82,8 +82,8 @@ describe('KycExpired', () => {
     )
     expect(queryByTestId('switchButton')).toBeTruthy()
     fireEvent.press(getByTestId('switchButton'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       FiatExchangeEvents.cico_fc_kyc_status_switch_method,
       {
         provider: mockQuote.getProviderId(),
@@ -111,8 +111,8 @@ describe('KycExpired', () => {
     )
     expect(queryByTestId('tryAgainButton')).toBeTruthy()
     fireEvent.press(getByTestId('tryAgainButton'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       FiatExchangeEvents.cico_fc_kyc_status_try_again,
       {
         provider: mockQuote.getProviderId(),

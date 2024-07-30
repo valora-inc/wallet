@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet } from 'react-native'
 import { DappShortcutsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
 import { Screens } from 'src/navigator/Screens'
@@ -36,7 +36,7 @@ function DappShortcutTransactionRequest({ route: { params } }: Props) {
   }
 
   useEffect(() => {
-    ValoraAnalytics.track(
+    AppAnalytics.track(
       DappShortcutsEvents.dapp_shortcuts_reward_tx_propose,
       trackedShortcutProperties
     )
@@ -50,7 +50,7 @@ function DappShortcutTransactionRequest({ route: { params } }: Props) {
     }
 
     dispatch(executeShortcut(rewardId))
-    ValoraAnalytics.track(
+    AppAnalytics.track(
       DappShortcutsEvents.dapp_shortcuts_reward_tx_accepted,
       trackedShortcutProperties
     )
@@ -60,7 +60,7 @@ function DappShortcutTransactionRequest({ route: { params } }: Props) {
     if (pendingAcceptShortcut) {
       dispatch(denyExecuteShortcut(rewardId))
 
-      ValoraAnalytics.track(
+      AppAnalytics.track(
         DappShortcutsEvents.dapp_shortcuts_reward_tx_rejected,
         trackedShortcutProperties
       )
@@ -69,7 +69,7 @@ function DappShortcutTransactionRequest({ route: { params } }: Props) {
 
   const handleTrackCopyTransactionDetails = () => {
     if (pendingAcceptShortcut) {
-      ValoraAnalytics.track(
+      AppAnalytics.track(
         DappShortcutsEvents.dapp_shortcuts_reward_tx_copy,
         trackedShortcutProperties
       )

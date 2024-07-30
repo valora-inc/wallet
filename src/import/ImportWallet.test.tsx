@@ -4,7 +4,7 @@ import 'react-native'
 import { Provider } from 'react-redux'
 import { cancelCreateOrRestoreAccount } from 'src/account/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { Actions } from 'src/import/actions'
 import ImportWallet from 'src/import/ImportWallet'
 import { navigate, navigateClearingStack } from 'src/navigator/NavigationService'
@@ -65,7 +65,7 @@ describe('ImportWallet', () => {
     fireEvent.press(wrapper.getByText('cancel'))
 
     expect(navigateClearingStack).toHaveBeenCalledWith(Screens.Welcome)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.restore_account_cancel)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.restore_account_cancel)
     expect(store.getActions()).toEqual([cancelCreateOrRestoreAccount()])
   })
 
@@ -81,7 +81,7 @@ describe('ImportWallet', () => {
     fireEvent.press(wrapper.getByText('cancel'))
 
     expect(navigate).toHaveBeenCalledWith(Screens.ImportSelect)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.restore_account_cancel)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.restore_account_cancel)
     expect(store.getActions()).toEqual([])
   })
 })

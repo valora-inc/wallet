@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import Modal from 'react-native-modal'
 import { WebViewEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -26,7 +26,7 @@ export function WebViewAndroidBottomSheet({
   const openExternalLink = () => {
     navigateToURI(currentUrl)
     toggleBottomSheet()
-    ValoraAnalytics.track(WebViewEvents.webview_open_in_browser, { currentUrl })
+    AppAnalytics.track(WebViewEvents.webview_open_in_browser, { currentUrl })
   }
 
   return (

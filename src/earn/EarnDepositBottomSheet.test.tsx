@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { EarnEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import { PROVIDER_ID } from 'src/earn/constants'
 import { depositStart, fetchPoolInfo } from 'src/earn/slice'
@@ -134,7 +134,7 @@ describe('EarnDepositBottomSheet', () => {
     )
 
     fireEvent.press(getByTestId('EarnDeposit/PrimaryCta'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       EarnEvents.earn_deposit_complete,
       expectedAnalyticsProperties
     )
@@ -169,7 +169,7 @@ describe('EarnDepositBottomSheet', () => {
     )
 
     fireEvent.press(getByTestId('EarnDeposit/SecondaryCta'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       EarnEvents.earn_deposit_cancel,
       expectedAnalyticsProperties
     )
@@ -189,7 +189,7 @@ describe('EarnDepositBottomSheet', () => {
     )
 
     fireEvent.press(getByTestId('EarnDeposit/ProviderInfo'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       EarnEvents.earn_deposit_provider_info_press,
       expectedAnalyticsProperties
     )
@@ -210,7 +210,7 @@ describe('EarnDepositBottomSheet', () => {
     )
 
     fireEvent.press(getByTestId('EarnDeposit/TermsAndConditions'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       EarnEvents.earn_deposit_terms_and_conditions_press,
       expectedAnalyticsProperties
     )

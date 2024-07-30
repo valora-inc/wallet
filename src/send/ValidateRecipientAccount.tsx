@@ -4,7 +4,7 @@ import { WithTranslation } from 'react-i18next'
 import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { connect } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import AccountNumberCard from 'src/components/AccountNumberCard'
 import BackButton from 'src/components/BackButton'
@@ -139,7 +139,7 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
         ? inputValue
         : singleDigitInputValueArr.join('')
 
-    ValoraAnalytics.track(SendEvents.send_secure_submit, {
+    AppAnalytics.track(SendEvents.send_secure_submit, {
       partialAddressValidation: addressValidationType === AddressValidationType.PARTIAL,
       address: inputToValidate,
     })
@@ -172,11 +172,11 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
     const { addressValidationType } = this.props
 
     if (this.state.isModalVisible) {
-      ValoraAnalytics.track(SendEvents.send_secure_info, {
+      AppAnalytics.track(SendEvents.send_secure_info, {
         partialAddressValidation: addressValidationType === AddressValidationType.PARTIAL,
       })
     } else {
-      ValoraAnalytics.track(SendEvents.send_secure_info_dismissed, {
+      AppAnalytics.track(SendEvents.send_secure_info_dismissed, {
         partialAddressValidation: addressValidationType === AddressValidationType.PARTIAL,
       })
     }

@@ -14,7 +14,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { DappExplorerEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import FilterChipsCarousel, { BooleanFilterChip } from 'src/components/FilterChipsCarousel'
 import SearchInput from 'src/components/SearchInput'
 import {
@@ -87,7 +87,7 @@ function DappsScreen({ navigation }: Props) {
   const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
 
   const removeFilter = (filter: BooleanFilterChip<DappWithCategoryNames>) => {
-    ValoraAnalytics.track(DappExplorerEvents.dapp_filter, {
+    AppAnalytics.track(DappExplorerEvents.dapp_filter, {
       filterId: filter.id,
       remove: true,
     })
@@ -96,7 +96,7 @@ function DappsScreen({ navigation }: Props) {
   }
 
   const handleToggleFilterChip = (filter: BooleanFilterChip<DappWithCategoryNames>) => {
-    ValoraAnalytics.track(DappExplorerEvents.dapp_filter, {
+    AppAnalytics.track(DappExplorerEvents.dapp_filter, {
       filterId: filter.id,
       remove: selectedFilter?.id === filter.id,
     })
@@ -113,7 +113,7 @@ function DappsScreen({ navigation }: Props) {
 
   useEffect(() => {
     dispatch(fetchDappsList())
-    ValoraAnalytics.track(DappExplorerEvents.dapp_screen_open)
+    AppAnalytics.track(DappExplorerEvents.dapp_screen_open)
   }, [])
 
   const onPressDapp = (dapp: ActiveDapp, index: number) => {

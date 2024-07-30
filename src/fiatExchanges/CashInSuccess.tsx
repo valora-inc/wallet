@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Button from 'src/components/Button'
 import { fiatExchange } from 'src/images/Images'
 import { noHeaderGestureDisabled } from 'src/navigator/Headers'
@@ -29,7 +29,7 @@ function CashInSuccessScreen({ route }: Props) {
   const { provider } = route.params
 
   useEffect(() => {
-    ValoraAnalytics.track(FiatExchangeEvents.cash_in_success, {
+    AppAnalytics.track(FiatExchangeEvents.cash_in_success, {
       provider,
     })
   }, [])

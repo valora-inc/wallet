@@ -1,7 +1,7 @@
 import { CeloTxObject, CeloTxReceipt } from '@celo/connect'
 import { BigNumber } from 'bignumber.js'
 import { TransactionEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { STATIC_GAS_PADDING } from 'src/config'
 import { fetchFeeCurrencySaga } from 'src/fees/saga'
@@ -49,7 +49,7 @@ const getLogger = (context: TransactionContext) => {
     switch (event.type) {
       case SendTransactionLogEventType.Started:
         Logger.debug(tag, `Sending transaction with id ${txId}`)
-        ValoraAnalytics.track(TransactionEvents.transaction_start, {
+        AppAnalytics.track(TransactionEvents.transaction_start, {
           txId,
           description: context.description,
           fornoMode: true,
@@ -63,7 +63,7 @@ const getLogger = (context: TransactionContext) => {
             event.prefilled ? 'using provided estimate' : 'estimated'
           } gas: ${event.gas}`
         )
-        ValoraAnalytics.track(TransactionEvents.transaction_gas_estimated, {
+        AppAnalytics.track(TransactionEvents.transaction_gas_estimated, {
           txId,
           estimatedGas: event.gas,
           prefilled: event.prefilled,
@@ -73,7 +73,7 @@ const getLogger = (context: TransactionContext) => {
         break
       case SendTransactionLogEventType.TransactionHashReceived:
         Logger.debug(tag, `Transaction id ${txId} hash received: ${event.hash}`)
-        ValoraAnalytics.track(TransactionEvents.transaction_hash_received, {
+        AppAnalytics.track(TransactionEvents.transaction_hash_received, {
           txId,
           txHash: event.hash,
           web3Library,
@@ -84,15 +84,15 @@ const getLogger = (context: TransactionContext) => {
           Logger.warn(tag, `Transaction id ${txId} extra confirmation received: ${event.number}`)
         }
         Logger.debug(tag, `Transaction confirmed with id: ${txId}`)
-        ValoraAnalytics.track(TransactionEvents.transaction_confirmed, { txId, web3Library })
+        AppAnalytics.track(TransactionEvents.transaction_confirmed, { txId, web3Library })
         break
       case SendTransactionLogEventType.ReceiptReceived:
         Logger.debug(tag, `Transaction id ${txId} received receipt:`, event.receipt)
-        ValoraAnalytics.track(TransactionEvents.transaction_receipt_received, { txId, web3Library })
+        AppAnalytics.track(TransactionEvents.transaction_receipt_received, { txId, web3Library })
         break
       case SendTransactionLogEventType.Failed:
         Logger.error(tag, `Transaction failed: ${txId}`, event.error)
-        ValoraAnalytics.track(TransactionEvents.transaction_error, {
+        AppAnalytics.track(TransactionEvents.transaction_error, {
           txId,
           error: event.error.message,
           web3Library,
@@ -100,7 +100,7 @@ const getLogger = (context: TransactionContext) => {
         break
       case SendTransactionLogEventType.Exception:
         Logger.error(tag, `Transaction Exception caught ${txId}:`, event.error)
-        ValoraAnalytics.track(TransactionEvents.transaction_exception, {
+        AppAnalytics.track(TransactionEvents.transaction_exception, {
           txId,
           error: event.error.message,
           feeCurrencyAddress: event.feeCurrencyAddress,

@@ -7,7 +7,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import walletJumpstart from 'src/abis/IWalletJumpstart'
 import { JumpstartEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -119,7 +119,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
     {
       onSuccess: (result) => {
         if (result) {
-          ValoraAnalytics.track(JumpstartEvents.jumpstart_claim_status_fetch_success, {
+          AppAnalytics.track(JumpstartEvents.jumpstart_claim_status_fetch_success, {
             networkId,
             depositTxHash: transaction.transactionHash,
             claimed: result.claimed,
@@ -127,7 +127,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
         }
       },
       onError: (error) => {
-        ValoraAnalytics.track(JumpstartEvents.jumpstart_claim_status_fetch_error, {
+        AppAnalytics.track(JumpstartEvents.jumpstart_claim_status_fetch_error, {
           networkId,
           depositTxHash: transaction.transactionHash,
         })
@@ -137,7 +137,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
   )
 
   const handleReclaimPress = () => {
-    ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_press, {
+    AppAnalytics.track(JumpstartEvents.jumpstart_reclaim_press, {
       networkId,
       depositTxHash: transaction.transactionHash,
     })
@@ -149,7 +149,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
   }
 
   const handleConfirmReclaim = () => {
-    ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_start, {
+    AppAnalytics.track(JumpstartEvents.jumpstart_reclaim_start, {
       networkId,
       depositTxHash: transaction.transactionHash,
     })
@@ -169,12 +169,12 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
   }
 
   const handleContactSupport = () => {
-    ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_contact_support)
+    AppAnalytics.track(JumpstartEvents.jumpstart_reclaim_contact_support)
     navigate(Screens.SupportContact)
   }
 
   const handleDismissReclaimError = () => {
-    ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_dismiss_error, {
+    AppAnalytics.track(JumpstartEvents.jumpstart_reclaim_dismiss_error, {
       networkId,
       depositTxHash: transaction.transactionHash,
     })

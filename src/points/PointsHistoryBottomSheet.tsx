@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, ListRenderItem, StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { PointsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BottomSheetBase from 'src/components/BottomSheetBase'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { NotificationVariant } from 'src/components/InLineNotification'
@@ -74,7 +74,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
       return
     }
 
-    ValoraAnalytics.track(PointsEvents.points_screen_activity_fetch_more)
+    AppAnalytics.track(PointsEvents.points_screen_activity_fetch_more)
     dispatch(
       getHistoryStarted({
         getNextPage: true,
@@ -93,7 +93,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
   }
 
   const onPressTryAgain = (getNextPage: boolean) => {
-    ValoraAnalytics.track(PointsEvents.points_screen_activity_try_again_press, {
+    AppAnalytics.track(PointsEvents.points_screen_activity_try_again_press, {
       getNextPage,
     })
     dispatch(
@@ -104,7 +104,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
   }
 
   const onPressLearnMore = () => {
-    ValoraAnalytics.track(PointsEvents.points_screen_activity_learn_more_press)
+    AppAnalytics.track(PointsEvents.points_screen_activity_learn_more_press)
     forwardedRef.current?.close()
   }
 

@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { TransactionDetailsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
@@ -49,7 +49,7 @@ import {
   mockEarnWithdrawTransaction,
 } from 'test/values'
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 jest.mock('src/statsig')
 
 const mockAddress = '0x8C3b8Af721384BB3479915C72CEe32053DeFca4E'
@@ -639,7 +639,7 @@ describe('TransactionDetailsScreen', () => {
     })
 
     fireEvent.press(getByTestId('transactionDetails/blockExplorerLink'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       TransactionDetailsEvents.transaction_details_tap_block_explorer,
       {
         transactionType: TokenTransactionTypeV2.SwapTransaction,

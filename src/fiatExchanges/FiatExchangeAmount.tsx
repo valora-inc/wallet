@@ -9,7 +9,7 @@ import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { showError } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -101,7 +101,7 @@ function FiatExchangeAmount({ route }: Props) {
   }
 
   function goToProvidersScreen() {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_amount_chosen, {
+    AppAnalytics.track(FiatExchangeEvents.cico_amount_chosen, {
       amount: inputCryptoAmount.toNumber(),
       currency: tokenSymbolToAnalyticsCurrency(tokenSymbol),
       flow,
@@ -147,7 +147,7 @@ function FiatExchangeAmount({ route }: Props) {
     if (flow === CICOFlow.CashIn) {
       if (inputLocalCurrencyAmount.isGreaterThan(localCurrencyMaxAmount)) {
         setShowingInvalidAmountDialog(true)
-        ValoraAnalytics.track(FiatExchangeEvents.cico_amount_chosen_invalid, {
+        AppAnalytics.track(FiatExchangeEvents.cico_amount_chosen_invalid, {
           amount: inputCryptoAmount.toNumber(),
           currency: tokenSymbolToAnalyticsCurrency(tokenSymbol),
           flow,

@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import { ReactTestInstance } from 'react-test-renderer'
 import { showError } from 'src/alert/actions'
 import { SwapEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import { navigate } from 'src/navigator/NavigationService'
@@ -356,14 +356,14 @@ describe('SwapScreen', () => {
       switchedNetworkId: false,
       tokenNetworkId: 'celo-alfajores',
     }
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_screen_confirm_token, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_screen_confirm_token, {
       ...commonAnalyticsProps,
       fieldType: 'FROM',
       tokenId: 'celo-alfajores:native',
       tokenPositionInList: 1,
       tokenSymbol: 'CELO',
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_screen_confirm_token, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_screen_confirm_token, {
       ...commonAnalyticsProps,
       fieldType: 'TO',
       tokenId: 'celo-alfajores:0x874069fa1eb16d44d622f2e0ca25eea172369bc1',
@@ -425,7 +425,7 @@ describe('SwapScreen', () => {
     ).toBeFalsy()
     expect(tokenBottomSheet).toBeVisible()
     expect(within(swapToContainer).getByText('swapScreen.selectTokenLabel')).toBeTruthy()
-    expect(ValoraAnalytics.track).not.toHaveBeenCalledWith(
+    expect(AppAnalytics.track).not.toHaveBeenCalledWith(
       SwapEvents.swap_screen_confirm_token,
       expect.anything()
     )
@@ -673,7 +673,7 @@ describe('SwapScreen', () => {
       '1 CELO ≈ 12.44445 cUSD'
     )
     expect(getByText('swapScreen.priceImpactWarning.title')).toBeTruthy()
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       SwapEvents.swap_price_impact_warning_displayed,
       {
         toToken: mockCusdAddress,
@@ -743,7 +743,7 @@ describe('SwapScreen', () => {
       '1 CELO ≈ 12.44445 cUSD'
     )
     expect(getByText('swapScreen.missingSwapImpactWarning.title')).toBeTruthy()
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       SwapEvents.swap_price_impact_warning_displayed,
       {
         toToken: mockCusdAddress,
@@ -1168,10 +1168,10 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
 
     // Clear any previous events
-    jest.mocked(ValoraAnalytics.track).mockClear()
+    jest.mocked(AppAnalytics.track).mockClear()
 
     fireEvent.press(getByText('swapScreen.confirmSwap'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_review_submit, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_review_submit, {
       toToken: mockCusdAddress,
       toTokenId: mockCusdTokenId,
       toTokenNetworkId: NetworkId['celo-alfajores'],

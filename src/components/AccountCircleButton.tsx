@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
 import { HomeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import AccountCircle from 'src/icons/AccountCircle'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -15,7 +15,7 @@ interface Props {
 
 export default function AccountCircleButton({ testID, size, style }: Props) {
   const onPress = () => {
-    ValoraAnalytics.track(HomeEvents.account_circle_tapped)
+    AppAnalytics.track(HomeEvents.account_circle_tapped)
     navigate(Screens.ProfileMenu)
   }
 

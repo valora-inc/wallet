@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { TransactionDetailsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import RowDivider from 'src/components/RowDivider'
 import Touchable from 'src/components/Touchable'
 import i18n from 'src/i18n'
@@ -84,7 +84,7 @@ function TransactionDetails({ transaction, title, children, retryHandler }: Prop
               style={styles.rowContainer}
               borderless={true}
               onPress={() => {
-                ValoraAnalytics.track(
+                AppAnalytics.track(
                   TransactionDetailsEvents.transaction_details_tap_block_explorer,
                   {
                     transactionType: transaction.type,

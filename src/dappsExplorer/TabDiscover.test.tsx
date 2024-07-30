@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { dappSelected, fetchDappsList } from 'src/dapps/slice'
 import { DappCategory, DappSection } from 'src/dapps/types'
 import TabDiscover from 'src/dappsExplorer/TabDiscover'
@@ -16,7 +16,7 @@ import { mockAaveArbUsdcAddress, mockDappListWithCategoryNames, mockUSDCAddress 
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 jest.mock('src/statsig', () => ({
   getExperimentParams: jest.fn(() => ({
     dappsFilterEnabled: true,
@@ -272,7 +272,7 @@ describe('TabDiscover', () => {
         dappSelected({ dapp: { ...dappsList[0], openedFrom: DappSection.FavoritesDappScreen } }),
       ])
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       DappExplorerEvents.dapp_open,
       defaultExpectedDappOpenProps
     )
@@ -302,7 +302,7 @@ describe('TabDiscover', () => {
         dappSelected({ dapp: { ...dappsList[1], openedFrom: DappSection.MostPopular } }),
       ])
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_open, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_open, {
       ...defaultExpectedDappOpenProps,
       categories: ['2'],
       dappId: 'dapp2',
@@ -329,7 +329,7 @@ describe('TabDiscover', () => {
 
     fireEvent.press(getByText('dappsScreen.exploreAll'))
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_explore_all)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_explore_all)
     expect(navigate).toHaveBeenCalledWith(Screens.DappsScreen)
   })
 

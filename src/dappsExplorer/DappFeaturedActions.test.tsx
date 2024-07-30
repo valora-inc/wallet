@@ -7,7 +7,7 @@ import { Screens } from 'src/navigator/Screens'
 import { createMockStore } from 'test/utils'
 import { mockDappList, mockPositions, mockShortcuts } from 'test/values'
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(() => true),

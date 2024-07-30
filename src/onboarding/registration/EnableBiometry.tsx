@@ -8,7 +8,7 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { setPincodeSuccess } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { supportedBiometryTypeSelector } from 'src/app/selectors'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Face from 'src/icons/biometry/Face'
@@ -77,7 +77,7 @@ export default function EnableBiometry({ navigation }: Props) {
   const { step, totalSteps } = getOnboardingStepValues(Screens.EnableBiometry, onboardingProps)
 
   useEffect(() => {
-    ValoraAnalytics.track(OnboardingEvents.biometry_opt_in_start)
+    AppAnalytics.track(OnboardingEvents.biometry_opt_in_start)
   }, [])
 
   useLayoutEffect(() => {
@@ -92,7 +92,7 @@ export default function EnableBiometry({ navigation }: Props) {
   }, [navigation, step, totalSteps])
 
   const onPressSkip = () => {
-    ValoraAnalytics.track(OnboardingEvents.biometry_opt_in_cancel)
+    AppAnalytics.track(OnboardingEvents.biometry_opt_in_cancel)
     handleNavigateToNextScreen()
   }
 
@@ -105,14 +105,14 @@ export default function EnableBiometry({ navigation }: Props) {
 
   const onPressUseBiometry = async () => {
     try {
-      ValoraAnalytics.track(OnboardingEvents.biometry_opt_in_approve)
+      AppAnalytics.track(OnboardingEvents.biometry_opt_in_approve)
       await setPincodeWithBiometry()
       dispatch(setPincodeSuccess(PincodeType.PhoneAuth))
-      ValoraAnalytics.track(OnboardingEvents.biometry_opt_in_complete)
+      AppAnalytics.track(OnboardingEvents.biometry_opt_in_complete)
       handleNavigateToNextScreen()
     } catch (err) {
       const error = ensureError(err)
-      ValoraAnalytics.track(OnboardingEvents.biometry_opt_in_error)
+      AppAnalytics.track(OnboardingEvents.biometry_opt_in_error)
       if (!isUserCancelledError(error)) {
         Logger.error(TAG, 'Error enabling biometry', error)
       }

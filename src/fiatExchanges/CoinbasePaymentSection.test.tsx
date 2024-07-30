@@ -4,7 +4,7 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { MockStoreEnhanced } from 'redux-mock-store'
 import { CoinbasePayEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import {
   CoinbasePaymentSection,
   CoinbasePaymentSectionProps,
@@ -24,7 +24,7 @@ import {
 const FAKE_APP_ID = 'fake app id'
 const FAKE_URL = 'www.coinbasepay.test'
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 
 jest.mock('@coinbase/cbpay-js', () => ({
   generateOnRampURL: jest.fn(),
@@ -107,7 +107,7 @@ describe('CoinbasePaymentSection', () => {
     await waitFor(() => expect(queryByText('Coinbase Pay')).toBeTruthy())
     fireEvent.press(getByTestId('coinbasePayCard'))
     await waitFor(() => {
-      expect(ValoraAnalytics.track).toBeCalledWith(
+      expect(AppAnalytics.track).toBeCalledWith(
         CoinbasePayEvents.coinbase_pay_flow_start,
         mockProviderSelectionAnalyticsData
       )

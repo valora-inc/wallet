@@ -6,7 +6,7 @@ import { Fields, Inquiry } from 'react-native-persona'
 import { KycStatus } from 'src/account/reducer'
 import { showError } from 'src/alert/actions'
 import { CICOEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { getPersonaTemplateId } from 'src/firebase/firebase'
@@ -66,22 +66,22 @@ const Persona = ({ kycStatus, text, onCanceled, onError, onPress, onSuccess, dis
       .onComplete((inquiryId: string, status: string, _fields: Fields) => {
         if (status === Status.failed) {
           onError?.()
-          ValoraAnalytics.track(CICOEvents.persona_kyc_failed)
+          AppAnalytics.track(CICOEvents.persona_kyc_failed)
           Logger.error(TAG, `Inquiry failed for ${inquiryId}`)
         } else {
           onSuccess?.()
-          ValoraAnalytics.track(CICOEvents.persona_kyc_success)
+          AppAnalytics.track(CICOEvents.persona_kyc_success)
           Logger.info(TAG, `Inquiry completed for ${inquiryId}`)
         }
       })
       .onCanceled(() => {
         onCanceled?.()
-        ValoraAnalytics.track(CICOEvents.persona_kyc_cancel)
+        AppAnalytics.track(CICOEvents.persona_kyc_cancel)
         Logger.info(TAG, 'Inquiry is canceled by the user.')
       })
       .onError((error: Error) => {
         onError?.()
-        ValoraAnalytics.track(CICOEvents.persona_kyc_error)
+        AppAnalytics.track(CICOEvents.persona_kyc_error)
         Logger.error(TAG, `Error: ${error.message}`)
       })
       .build()

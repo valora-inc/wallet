@@ -1,7 +1,7 @@
 import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { initializeAccountSaga } from 'src/account/saga'
 import { KeylessBackupEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { generateKeysFromMnemonic, getStoredMnemonic, storeMnemonic } from 'src/backup/utils'
 import { walletHasBalance } from 'src/import/saga'
 import {
@@ -82,19 +82,19 @@ export function* handleValoraKeyshareIssued({
       })
     }
 
-    ValoraAnalytics.track(KeylessBackupEvents.cab_handle_keyless_backup_success, {
+    AppAnalytics.track(KeylessBackupEvents.cab_handle_keyless_backup_success, {
       keylessBackupFlow,
       origin,
     })
     if (keylessBackupFlow === KeylessBackupFlow.Setup) {
-      ValoraAnalytics.track(KeylessBackupEvents.cab_setup_hashed_keyshares, {
+      AppAnalytics.track(KeylessBackupEvents.cab_setup_hashed_keyshares, {
         hashedKeysharePhone: hashedKeyshare,
         hashedKeyshareEmail: hashedTorusKeyshare,
       })
     }
   } catch (error) {
     Logger.error(TAG, `Error handling keyless backup ${keylessBackupFlow}`, error)
-    ValoraAnalytics.track(KeylessBackupEvents.cab_handle_keyless_backup_failed, {
+    AppAnalytics.track(KeylessBackupEvents.cab_handle_keyless_backup_failed, {
       keylessBackupFlow,
       origin,
     })
@@ -149,7 +149,7 @@ function* handleKeylessBackupRestore({
   const encryptedMnemonic = yield* call(getEncryptedMnemonic, encryptionPrivateKey)
 
   if (!encryptedMnemonic) {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_restore_mnemonic_not_found)
+    AppAnalytics.track(KeylessBackupEvents.cab_restore_mnemonic_not_found)
     yield* put(keylessBackupNotFound())
     return
   }
@@ -208,7 +208,7 @@ export function* waitForTorusKeyshare() {
     torusKeyshare = yield* select(torusKeyshareSelector)
   }
   if (!torusKeyshare) {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_torus_keyshare_timeout)
+    AppAnalytics.track(KeylessBackupEvents.cab_torus_keyshare_timeout)
     throw new Error(`Timed out waiting for torus keyshare.`)
   }
   return torusKeyshare
@@ -223,7 +223,7 @@ export function* handleAuth0SignInCompleted({
     yield* put(torusKeyshareIssued({ keyshare: torusPrivateKey }))
   } catch (error) {
     Logger.error(TAG, 'Error getting Torus private key from auth0 jwt', error)
-    ValoraAnalytics.track(KeylessBackupEvents.cab_get_torus_keyshare_failed)
+    AppAnalytics.track(KeylessBackupEvents.cab_get_torus_keyshare_failed)
     yield* put(keylessBackupFailed()) // this just updates state for now. when the user reaches the
     // KeylessBackupProgress screen (after phone verification), they will see the failure UI
   }

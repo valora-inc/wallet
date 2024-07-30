@@ -4,7 +4,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
 import fontStyles, { fontFamily } from 'src/styles/fonts'
@@ -28,15 +28,15 @@ export default function AccountNumber({ address, touchDisabled, location }: Prop
     vibrateInformative()
 
     if (location === Screens.TransactionDetailsScreen) {
-      ValoraAnalytics.track(HomeEvents.transaction_feed_address_copy)
+      AppAnalytics.track(HomeEvents.transaction_feed_address_copy)
     }
 
     if (location === Screens.ExternalExchanges) {
-      ValoraAnalytics.track(FiatExchangeEvents.cico_cash_out_copy_address)
+      AppAnalytics.track(FiatExchangeEvents.cico_cash_out_copy_address)
     }
 
     if (location === Screens.ProfileMenu) {
-      ValoraAnalytics.track(HomeEvents.profile_address_copy)
+      AppAnalytics.track(HomeEvents.profile_address_copy)
     }
   }
   // Turns '0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10'

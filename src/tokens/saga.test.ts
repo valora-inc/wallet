@@ -4,7 +4,7 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { dynamic, throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { AppEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { getMultichainFeatures } from 'src/statsig'
 import {
   fetchImportedTokenBalances,
@@ -213,7 +213,7 @@ describe(fetchTokenBalancesSaga, () => {
       .not.put(setTokenBalances(tokenBalancesAfterUpdate))
       .put(fetchTokenBalancesFailure())
       .run()
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.fetch_balance_error, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.fetch_balance_error, {
       error: 'Error message',
     })
   })
@@ -471,8 +471,8 @@ describe('watchAccountFundedOrLiquidated', () => {
       .dispatch({ type: 'TEST_ACTION_TYPE' })
       .run()
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.account_funded)
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.account_funded)
   })
 
   it('dispatches the account liquidated event when the account is liquidated', async () => {
@@ -490,8 +490,8 @@ describe('watchAccountFundedOrLiquidated', () => {
       .dispatch({ type: 'TEST_ACTION_TYPE' })
       .run()
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.account_liquidated)
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.account_liquidated)
   })
 
   it('does not dispatch the account funded event for an account restore', async () => {
@@ -509,7 +509,7 @@ describe('watchAccountFundedOrLiquidated', () => {
       .dispatch({ type: 'TEST_ACTION_TYPE' })
       .run()
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(0)
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(0)
   })
 
   it('does not dispatch the account funded event when network ID added', async () => {
@@ -534,7 +534,7 @@ describe('watchAccountFundedOrLiquidated', () => {
       .dispatch({ type: 'TEST_ACTION_TYPE' })
       .run()
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(0)
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(0)
   })
 
   it('does not dispatch the account liquidated event when network ID removed', async () => {
@@ -559,7 +559,7 @@ describe('watchAccountFundedOrLiquidated', () => {
       .dispatch({ type: 'TEST_ACTION_TYPE' })
       .run()
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(0)
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(0)
   })
 
   it('account funded event dispatched even if network ID removed', async () => {
@@ -584,8 +584,8 @@ describe('watchAccountFundedOrLiquidated', () => {
       .dispatch({ type: 'TEST_ACTION_TYPE' })
       .run()
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.account_funded)
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.account_funded)
   })
 
   it('account liquidated event dispatched even if network ID added', async () => {
@@ -610,7 +610,7 @@ describe('watchAccountFundedOrLiquidated', () => {
       .dispatch({ type: 'TEST_ACTION_TYPE' })
       .run()
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.account_liquidated)
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.account_liquidated)
   })
 })

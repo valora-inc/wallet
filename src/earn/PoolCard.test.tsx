@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { EarnEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import PoolCard from 'src/earn/PoolCard'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -65,7 +65,7 @@ describe('PoolCard', () => {
     expect(getByText('earnFlow.poolCard.addToPool')).toBeTruthy()
     fireEvent.press(getByText('earnFlow.poolCard.addToPool'))
     expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, { tokenId: mockArbUsdcTokenId })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_card_cta_press, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_card_cta_press, {
       poolId: 'pool1',
       networkId: NetworkId['arbitrum-sepolia'],
       depositTokenId: mockArbUsdcTokenId,
@@ -120,7 +120,7 @@ describe('PoolCard', () => {
     expect(getByText('earnFlow.poolCard.addToPool')).toBeTruthy()
     fireEvent.press(getByText('earnFlow.poolCard.addToPool'))
     expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, { tokenId: mockArbUsdcTokenId })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_card_cta_press, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_card_cta_press, {
       poolId: 'pool1',
       networkId: NetworkId['arbitrum-sepolia'],
       depositTokenId: mockArbUsdcTokenId,
@@ -178,7 +178,7 @@ describe('PoolCard', () => {
       depositTokenId: mockArbUsdcTokenId,
       poolTokenId: mockArbEthTokenId,
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_card_cta_press, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_card_cta_press, {
       poolId: 'pool1',
       networkId: NetworkId['arbitrum-sepolia'],
       depositTokenId: mockArbUsdcTokenId,

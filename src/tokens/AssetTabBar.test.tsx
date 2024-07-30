@@ -1,7 +1,7 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { AssetsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Colors from 'src/styles/colors'
 import AssetTabBar from 'src/tokens/AssetTabBar'
 import { AssetTabType } from 'src/tokens/types'
@@ -55,8 +55,8 @@ describe('AssetTabBar', () => {
     )
 
     fireEvent.press(getAllByTestId('Assets/TabBarItem')[tab])
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(event)
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(event)
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenCalledWith(tab)
   })

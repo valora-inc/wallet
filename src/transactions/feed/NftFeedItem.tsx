@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { HomeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import IconWithNetworkBadge from 'src/components/IconWithNetworkBadge'
 import Touchable from 'src/components/Touchable'
 import ImageErrorIcon from 'src/icons/ImageErrorIcon'
@@ -28,7 +28,7 @@ function NftFeedItem({ transaction }: Props) {
 
   const openNftTransactionDetails = () => {
     navigate(Screens.NftsInfoCarousel, { nfts, networkId: transaction.networkId })
-    ValoraAnalytics.track(HomeEvents.transaction_feed_item_select)
+    AppAnalytics.track(HomeEvents.transaction_feed_item_select)
   }
 
   return (

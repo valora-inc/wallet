@@ -8,7 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
 import { getPhoneNumberDetails } from 'src/account/utils'
 import { KeylessBackupEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
@@ -94,7 +94,7 @@ function KeylessBackupPhoneInput({ route }: Props) {
   }
 
   const onPressContinue = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_enter_phone_number_continue, {
+    AppAnalytics.track(KeylessBackupEvents.cab_enter_phone_number_continue, {
       keylessBackupFlow,
       origin,
     })

@@ -13,7 +13,7 @@ import {
 import { choseToRestoreAccountSelector } from 'src/account/selectors'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { Actions as AccountActions, phoneNumberVerificationCompleted } from 'src/app/actions'
 import { inviterAddressSelector } from 'src/app/selectors'
 import { currentLanguageSelector } from 'src/i18n/selectors'
@@ -35,7 +35,7 @@ mockedDEK.compressedPubKey = jest.fn().mockReturnValue('publicKeyForUser')
 
 const mockFetch = fetch as FetchMock
 jest.unmock('src/pincode/authentication')
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 
 jest.mock('@react-native-firebase/app', () => ({
   app: jest.fn(() => ({
@@ -175,10 +175,9 @@ describe('initializeAccount', () => {
         },
       }
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      OnboardingEvents.initialize_account_complete,
-      { inviterAddress }
-    )
+    expect(AppAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.initialize_account_complete, {
+      inviterAddress,
+    })
   })
 
   it('should handle if there is no previously verified phone number', async () => {

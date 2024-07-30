@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { AssetsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { TokenBalance } from 'src/tokens/slice'
 import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
 import { createMockStore } from 'test/utils'
@@ -86,7 +86,7 @@ describe('TokenBalanceItem', () => {
 
   it('correctly triggers optional onPress prop', () => {
     const onPress = () => {
-      ValoraAnalytics.track(AssetsEvents.tap_asset, {
+      AppAnalytics.track(AssetsEvents.tap_asset, {
         assetType: 'token',
         tokenId: mockTokenInfo.tokenId,
         networkId: mockTokenInfo.networkId,
@@ -105,8 +105,8 @@ describe('TokenBalanceItem', () => {
 
     fireEvent.press(getByText('Celo Dollar'))
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AssetsEvents.tap_asset, {
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(AssetsEvents.tap_asset, {
       assetType: 'token',
       tokenId: `celo-alfajores:${mockCusdAddress}`,
       networkId: mockTokenInfo.networkId,

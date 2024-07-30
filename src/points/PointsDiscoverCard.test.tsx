@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { PointsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import PointsDiscoverCard from 'src/points/PointsDiscoverCard'
@@ -10,7 +10,7 @@ import { RootState } from 'src/redux/store'
 import { getFeatureGate } from 'src/statsig/index'
 import { RecursivePartial, createMockStore } from 'test/utils'
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 jest.mock('src/statsig')
 
 const renderPointsDiscoverCard = (storeOverrides?: RecursivePartial<RootState>) => {
@@ -64,7 +64,7 @@ describe('PointsDiscoverCard', () => {
     const { getByText } = renderPointsDiscoverCard()
 
     fireEvent.press(getByText('points.discoverCard.title'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_discover_press)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_discover_press)
   })
 
   it('takes to the points intro screen if it has not been dismissed', () => {

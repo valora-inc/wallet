@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import { setPincodeSuccess } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { Screens } from 'src/navigator/Screens'
 import EnableBiometry from 'src/onboarding/registration/EnableBiometry'
 import { goToNextOnboardingScreen } from 'src/onboarding/steps'
@@ -24,7 +24,7 @@ jest.mock('src/onboarding/steps', () => ({
 
 const mockedSetPincodeWithBiometry = jest.mocked(setPincodeWithBiometry)
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
-const analyticsSpy = jest.spyOn(ValoraAnalytics, 'track')
+const analyticsSpy = jest.spyOn(AppAnalytics, 'track')
 
 const store = createMockStore({
   app: {

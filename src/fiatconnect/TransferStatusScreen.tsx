@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TextButton from 'src/components/TextButton'
@@ -44,7 +44,7 @@ const DESCRIPTION_STRINGS: Record<SettlementTime, string> = {
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectTransferStatus>
 
 function onBack(flow: CICOFlow, normalizedQuote: FiatConnectQuote, fiatAccount: FiatAccount) {
-  ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_error_retry, {
+  AppAnalytics.track(FiatExchangeEvents.cico_fc_transfer_error_retry, {
     flow,
     provider: normalizedQuote.getProviderId(),
   })
@@ -69,7 +69,7 @@ function FailureSection({
   const provider = normalizedQuote.getProviderId()
 
   const onPressSupport = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_error_contact_support, {
+    AppAnalytics.track(FiatExchangeEvents.cico_fc_transfer_error_contact_support, {
       flow,
       provider,
     })
@@ -164,7 +164,7 @@ function SuccessOrProcessingSection({
   }
 
   const onPressTxDetails = () => {
-    ValoraAnalytics.track(txDetailsEvent, {
+    AppAnalytics.track(txDetailsEvent, {
       flow,
       provider,
       txHash,
@@ -173,7 +173,7 @@ function SuccessOrProcessingSection({
   }
 
   const onPressContinue = () => {
-    ValoraAnalytics.track(continueEvent, {
+    AppAnalytics.track(continueEvent, {
       flow,
       provider,
       txHash,
@@ -215,7 +215,7 @@ export default function FiatConnectTransferStatusScreen({ route, navigation }: P
   const fiatConnectTransfer = useSelector(fiatConnectTransferSelector)!
 
   const onPressCancel = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_error_cancel, {
+    AppAnalytics.track(FiatExchangeEvents.cico_fc_transfer_error_cancel, {
       flow,
       provider: normalizedQuote.getProviderId(),
     })

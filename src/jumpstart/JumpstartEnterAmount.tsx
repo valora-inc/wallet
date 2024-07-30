@@ -4,7 +4,7 @@ import { useAsyncCallback } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import { JumpstartEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import { createJumpstartLink } from 'src/firebase/dynamicLinks'
 import { currentLanguageSelector } from 'src/i18n/selectors'
@@ -107,7 +107,7 @@ function JumpstartEnterAmount() {
           beneficiaryAddress: jumpstartLink.publicKey,
         })
 
-        ValoraAnalytics.track(JumpstartEvents.jumpstart_send_amount_continue, {
+        AppAnalytics.track(JumpstartEvents.jumpstart_send_amount_continue, {
           localCurrency: localCurrencyCode,
           localCurrencyExchangeRate: usdToLocalRate,
           tokenSymbol: token.symbol,
@@ -141,7 +141,7 @@ function JumpstartEnterAmount() {
     const sendAmountExceedsMax = sendAmountUsd.isGreaterThan(jumpstartSendThreshold)
     setSendAmountExceedsThreshold(sendAmountExceedsMax)
     if (sendAmountExceedsMax) {
-      ValoraAnalytics.track(JumpstartEvents.jumpstart_send_amount_exceeds_threshold, {
+      AppAnalytics.track(JumpstartEvents.jumpstart_send_amount_exceeds_threshold, {
         amountInUsd: sendAmountUsd.toFixed(2),
         tokenId: token.tokenId,
         thresholdUsd: jumpstartSendThreshold,

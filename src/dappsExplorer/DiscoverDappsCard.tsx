@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SectionList, StyleSheet, Text, View } from 'react-native'
 import { DappExplorerEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import TextButton from 'src/components/TextButton'
 import { favoriteDappsSelector, mostPopularDappsSelector } from 'src/dapps/selectors'
 import { fetchDappsList } from 'src/dapps/slice'
@@ -38,7 +38,7 @@ function DiscoverDappsCard() {
 
   useEffect(() => {
     dispatch(fetchDappsList())
-    ValoraAnalytics.track(DappExplorerEvents.dapp_screen_open)
+    AppAnalytics.track(DappExplorerEvents.dapp_screen_open)
   }, [])
 
   const onPressDapp = (dapp: ActiveDapp, index: number) => {
@@ -79,7 +79,7 @@ function DiscoverDappsCard() {
   }, [favoriteDapps, mostPopularDapps])
 
   const onPressExploreAll = () => {
-    ValoraAnalytics.track(DappExplorerEvents.dapp_explore_all)
+    AppAnalytics.track(DappExplorerEvents.dapp_explore_all)
     navigate(Screens.DappsScreen)
   }
 

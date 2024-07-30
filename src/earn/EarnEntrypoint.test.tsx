@@ -1,7 +1,7 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { EarnEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import EarnEntrypoint from 'src/earn/EarnEntrypoint'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -25,6 +25,6 @@ describe('EarnEntrypoint', () => {
     fireEvent.press(getByTestId('EarnEntrypoint'))
 
     expect(navigate).toHaveBeenCalledWith(Screens.EarnInfoScreen)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_entrypoint_press)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_entrypoint_press)
   })
 })

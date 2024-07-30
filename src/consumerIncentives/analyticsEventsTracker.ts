@@ -1,5 +1,5 @@
 import { RewardsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { Screens } from 'src/navigator/Screens'
 
 export enum RewardsScreenOrigin {
@@ -20,7 +20,7 @@ export enum RewardsScreenCta {
 
 export const trackRewardsScreenOpenEvent = (uri: string, origin: RewardsScreenOrigin) => {
   if (uri.includes(Screens.ConsumerIncentivesHomeScreen)) {
-    ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
+    AppAnalytics.track(RewardsEvents.rewards_screen_opened, {
       origin,
     })
   }

@@ -5,7 +5,7 @@ import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from 're
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { showError } from 'src/alert/actions'
 import { RewardsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
   numberVerifiedDecentrallySelector,
@@ -46,7 +46,7 @@ import { useCountryFeatures } from 'src/utils/countryFeatures'
 import { WEI_PER_TOKEN } from 'src/web3/consts'
 
 const onLearnMore = () => {
-  ValoraAnalytics.track(RewardsEvents.learn_more_pressed)
+  AppAnalytics.track(RewardsEvents.learn_more_pressed)
   navigate(Screens.WebViewScreen, { uri: SUPERCHARGE_LEARN_MORE })
 }
 
@@ -252,17 +252,17 @@ export default function ConsumerIncentivesHomeScreen() {
   const onPressCTA = async () => {
     if (canClaimRewards) {
       dispatch(claimRewards(superchargeRewards))
-      ValoraAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
+      AppAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
         buttonPressed: RewardsScreenCta.ClaimRewards,
       })
     } else if (userIsVerified) {
       navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
-      ValoraAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
+      AppAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
         buttonPressed: RewardsScreenCta.CashIn,
       })
     } else {
       navigate(Screens.VerificationStartScreen, { hasOnboarded: true })
-      ValoraAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
+      AppAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
         buttonPressed: RewardsScreenCta.VerifyPhone,
       })
     }

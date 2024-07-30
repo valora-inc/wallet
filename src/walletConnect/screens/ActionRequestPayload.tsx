@@ -4,7 +4,7 @@ import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { WalletConnectEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { useSelector } from 'src/redux/hooks'
@@ -49,7 +49,7 @@ function ActionRequestPayload(props: Props) {
       ...getDefaultRequestTrackedProperties(props.request),
     }
 
-    ValoraAnalytics.track(WalletConnectEvents.wc_copy_request_payload, defaultTrackedProps)
+    AppAnalytics.track(WalletConnectEvents.wc_copy_request_payload, defaultTrackedProps)
   }
 
   if (!moreInfoString) {

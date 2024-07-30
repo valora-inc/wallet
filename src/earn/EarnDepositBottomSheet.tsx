@@ -6,7 +6,7 @@ import FastImage from 'react-native-fast-image'
 import { ResizeMode } from 'react-native-video'
 import { useDispatch } from 'react-redux'
 import { EarnEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
@@ -76,13 +76,13 @@ export default function EarnDepositBottomSheet({
   )
 
   const onPressProviderIcon = () => {
-    ValoraAnalytics.track(EarnEvents.earn_deposit_provider_info_press, commonAnalyticsProperties)
+    AppAnalytics.track(EarnEvents.earn_deposit_provider_info_press, commonAnalyticsProperties)
     providerTermsAndConditionsUrl &&
       navigate(Screens.WebViewScreen, { uri: providerTermsAndConditionsUrl })
   }
 
   const onPressTermsAndConditions = () => {
-    ValoraAnalytics.track(
+    AppAnalytics.track(
       EarnEvents.earn_deposit_terms_and_conditions_press,
       commonAnalyticsProperties
     )
@@ -98,11 +98,11 @@ export default function EarnDepositBottomSheet({
         preparedTransactions: getSerializablePreparedTransactions(preparedTransaction.transactions),
       })
     )
-    ValoraAnalytics.track(EarnEvents.earn_deposit_complete, commonAnalyticsProperties)
+    AppAnalytics.track(EarnEvents.earn_deposit_complete, commonAnalyticsProperties)
   }
 
   const onPressCancel = () => {
-    ValoraAnalytics.track(EarnEvents.earn_deposit_cancel, commonAnalyticsProperties)
+    AppAnalytics.track(EarnEvents.earn_deposit_cancel, commonAnalyticsProperties)
     forwardedRef.current?.close()
   }
 

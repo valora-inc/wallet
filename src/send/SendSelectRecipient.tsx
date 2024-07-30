@@ -6,7 +6,7 @@ import { getFontScaleSync } from 'react-native-device-info'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { isAddressFormat } from 'src/account/utils'
 import { SendEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SendOrigin } from 'src/analytics/types'
 import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
@@ -236,7 +236,7 @@ function SendSelectRecipient({ route }: Props) {
   }
 
   const onSelectRecentRecipient = (recentRecipient: Recipient) => {
-    ValoraAnalytics.track(SendEvents.send_select_recipient_recent_press, {
+    AppAnalytics.track(SendEvents.send_select_recipient_recent_press, {
       recipientType: recentRecipient.recipientType,
     })
     setSelectedRecipient(recentRecipient)
@@ -295,13 +295,13 @@ function SendSelectRecipient({ route }: Props) {
       return
     }
     if (shouldInviteRecipient) {
-      ValoraAnalytics.track(SendEvents.send_select_recipient_invite_press, {
+      AppAnalytics.track(SendEvents.send_select_recipient_invite_press, {
         recipientType: recipient.recipientType,
       })
       setShowSendOrInviteButton(false)
       setShowInviteModal(true)
     } else {
-      ValoraAnalytics.track(SendEvents.send_select_recipient_send_press, {
+      AppAnalytics.track(SendEvents.send_select_recipient_send_press, {
         recipientType: recipient.recipientType,
       })
       nextScreen(recipient)

@@ -6,7 +6,7 @@ import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, BackHandler, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CancelButton from 'src/components/CancelButton'
@@ -134,7 +134,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   }
 
   const onPressBack = async () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_back, {
+    AppAnalytics.track(FiatExchangeEvents.cico_fc_review_back, {
       flow,
       provider: normalizedQuote.getProviderId(),
     })
@@ -142,7 +142,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   }
 
   const onPressSupport = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_error_contact_support, {
+    AppAnalytics.track(FiatExchangeEvents.cico_fc_review_error_contact_support, {
       flow,
       provider: normalizedQuote.getProviderId(),
     })
@@ -150,7 +150,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   }
 
   const onPressTryAgain = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_error_retry, {
+    AppAnalytics.track(FiatExchangeEvents.cico_fc_review_error_retry, {
       flow,
       provider: normalizedQuote.getProviderId(),
     })
@@ -264,7 +264,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
             if (normalizedQuote.getGuaranteedUntil() < new Date()) {
               setShowingExpiredQuoteDialog(true)
             } else {
-              ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_submit, {
+              AppAnalytics.track(FiatExchangeEvents.cico_fc_review_submit, {
                 flow,
                 provider: normalizedQuote.getProviderId(),
               })
@@ -642,7 +642,7 @@ FiatConnectReviewScreen.navigationOptions = ({
   headerRight: () => (
     <CancelButton
       onCancel={() => {
-        ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_cancel, {
+        AppAnalytics.track(FiatExchangeEvents.cico_fc_review_cancel, {
           flow: route.params.flow,
           provider: route.params.normalizedQuote.getProviderId(),
         })
