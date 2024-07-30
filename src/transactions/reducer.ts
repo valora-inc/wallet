@@ -53,6 +53,8 @@ const initialState = {
   transactionsByNetworkId: {},
   inviteTransactions: {},
 }
+// export for testing
+export const _initialState = initialState
 
 export const reducer = (
   state: State | undefined = initialState,
@@ -90,13 +92,6 @@ export const reducer = (
           },
           ...otherStandbyTransactions,
         ],
-      }
-    case Actions.REMOVE_STANDBY_TRANSACTION:
-      return {
-        ...state,
-        standbyTransactions: state.standbyTransactions.filter(
-          (tx: StandbyTransaction) => tx.context.id !== action.idx
-        ),
       }
     case Actions.TRANSACTION_CONFIRMED: {
       const { status, transactionHash, block, fees } = action.receipt
@@ -145,6 +140,15 @@ export const reducer = (
         }
       })
 
+      // remove standby transactions that were received from blockchain-api
+      const receivedTxHashes = new Set(action.transactions.map((tx) => tx.transactionHash))
+      const updatedStandbyTransactions = state.standbyTransactions.filter(
+        (standbyTx) =>
+          !standbyTx.transactionHash ||
+          standbyTx.networkId !== action.networkId ||
+          !receivedTxHashes.has(standbyTx.transactionHash)
+      )
+
       return {
         ...state,
         transactionsByNetworkId: {
@@ -152,6 +156,7 @@ export const reducer = (
           [action.networkId]: action.transactions,
         },
         knownFeedTransactions: newKnownFeedTransactions,
+        standbyTransactions: updatedStandbyTransactions,
       }
     case Actions.UPDATE_INVITE_TRANSACTIONS:
       return {
