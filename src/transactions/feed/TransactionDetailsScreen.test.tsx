@@ -218,7 +218,7 @@ describe('TransactionDetailsScreen', () => {
         address: mockAddress,
         fees: [
           {
-            type: 'fee_type',
+            type: FeeType.SecurityFee,
             amount: {
               value: '0.01',
               tokenAddress: mockCeloAddress,
@@ -240,8 +240,8 @@ describe('TransactionDetailsScreen', () => {
     const numberComponent = getByTestId('TransferSent/number')
     expect(getElementText(numberComponent)).toEqual(mockDisplayNumber2)
 
-    expect(getByTestId('TransactionDetails/NetworkFee')).toHaveTextContent('0.01 CELO')
-    expect(getByTestId('TransactionDetails/NetworkFeeLocalCurrency')).toHaveTextContent('₱0.067')
+    expect(getByTestId('TransactionDetails/FeeRowItem')).toHaveTextContent('0.01 CELO')
+    expect(getByTestId('TransactionDetails/FeeRowItem')).toHaveTextContent('₱0.067')
 
     expect(getByText('amountSent')).toBeTruthy()
     expect(getByTestId('TransferSent/AmountSentValue')).toHaveTextContent('10.00 cUSD')
@@ -304,11 +304,8 @@ describe('TransactionDetailsScreen', () => {
     expect(getElementText(rate)).toEqual('1 cUSD ≈ 2.00 cEUR')
 
     // Includes the fee
-    const estimatedFee = getByTestId('TransactionDetails/NetworkFee')
-    expect(getElementText(estimatedFee)).toEqual('0.10 cUSD')
-
-    const estimatedFeeInLocalCurrency = getByTestId('TransactionDetails/NetworkFeeLocalCurrency')
-    expect(getElementText(estimatedFeeInLocalCurrency)).toEqual('₱0.13')
+    expect(getByTestId('TransactionDetails/FeeRowItem')).toHaveTextContent('0.10 cUSD')
+    expect(getByTestId('TransactionDetails/FeeRowItem')).toHaveTextContent('₱0.13')
   })
 
   it.each([
@@ -487,8 +484,8 @@ describe('TransactionDetailsScreen', () => {
     expect(
       getByText('transactionFeed.infiniteApprovalDescription, {"tokenSymbol":"USDC"}')
     ).toBeTruthy()
-    expect(getByTestId('TransactionDetails/NetworkFee')).toHaveTextContent('0.001 ETH')
-    expect(getByTestId('TransactionDetails/NetworkFeeLocalCurrency')).toHaveTextContent('₱2.81')
+    expect(getByTestId('TransactionDetails/FeeRowItem')).toHaveTextContent('0.001 ETH')
+    expect(getByTestId('TransactionDetails/FeeRowItem')).toHaveTextContent('₱2.81')
   })
 
   it(`renders retry action for failed ${TokenTransactionTypeV2.Sent} transacton`, () => {
