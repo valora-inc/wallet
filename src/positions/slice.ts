@@ -8,7 +8,7 @@ import { Position, Shortcut, ShortcutStatus } from './types'
 
 type Status = 'idle' | 'loading' | 'success' | 'error'
 
-export type TriggeredShortcuts = Record<
+type TriggeredShortcuts = Record<
   string,
   | {
       status: ShortcutStatus
