@@ -8,8 +8,8 @@ import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokensList } from 'src/tokens/hooks'
-import NetworkFeeRowItem from 'src/transactions/feed/detailContent/NetworkFeeRowItem'
-import { TokenExchange } from 'src/transactions/types'
+import FeeRowItem from 'src/transactions/feed/detailContent/FeeRowItem'
+import { FeeType, TokenExchange } from 'src/transactions/types'
 export interface Props {
   exchange: TokenExchange
 }
@@ -61,7 +61,11 @@ export default function SwapContent({ exchange }: Props) {
           )} ${toTokenSymbol}`}
         </Text>
       </View>
-      <NetworkFeeRowItem fees={exchange.fees} transactionStatus={exchange.status} />
+      <FeeRowItem
+        fees={exchange.fees}
+        feeType={FeeType.SecurityFee}
+        transactionStatus={exchange.status}
+      />
     </View>
   )
 }
