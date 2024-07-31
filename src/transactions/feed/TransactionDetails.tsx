@@ -22,11 +22,12 @@ import { blockExplorerUrls } from 'src/web3/networkConfig'
 type Props = {
   transaction: TokenTransaction
   title?: string
+  subtitle?: string
   children?: React.ReactNode
   retryHandler?: () => void
 }
 
-function TransactionDetails({ transaction, title, children, retryHandler }: Props) {
+function TransactionDetails({ transaction, title, subtitle, children, retryHandler }: Props) {
   const { t } = useTranslation()
 
   const dateTime = getDatetimeDisplayString(transaction.timestamp, i18n)
@@ -64,7 +65,8 @@ function TransactionDetails({ transaction, title, children, retryHandler }: Prop
     <ScrollView contentContainerStyle={styles.container}>
       <SafeAreaView edges={['bottom']}>
         <Text style={styles.title}>{title}</Text>
-        <Text style={styles.dateTime}>{dateTime}</Text>
+        {!!subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
+        <Text style={styles.subtitle}>{dateTime}</Text>
         <View style={styles.status}>
           <TransactionStatusIndicator status={transaction.status} />
           {primaryActionHanlder && (
@@ -122,7 +124,7 @@ const styles = StyleSheet.create({
     ...typeScale.titleSmall,
     color: Colors.black,
   },
-  dateTime: {
+  subtitle: {
     ...typeScale.bodyXSmall,
     color: Colors.gray3,
     marginTop: 2,

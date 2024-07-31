@@ -1906,6 +1906,8 @@
     "swapFrom": "Swap from",
     "swapTo": "Swap to",
     "rate": "Rate",
+    "network": "Network",
+    "networkValue": "{{fromNetwork}} → {{toNetwork}}",
     "estimatedFee": "Est Network Fee",
     "networkFee": "Network Fee",
     "viewOnExplorer": "View on CeloExplorer"
