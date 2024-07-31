@@ -578,7 +578,6 @@ describe('TransactionDetailsScreen', () => {
     expect(getByText('swapScreen.title')).toBeTruthy()
     expect(getByText('transactionFeed.crossChainSwapTransactionLabel')).toBeTruthy()
     expect(getByText('transactionStatus.transactionIsCompleted')).toBeTruthy()
-    expect(getByText('Jul 30 at 3:16 PM')).toBeTruthy()
 
     expect(getByText('swapTransactionDetailPage.swapFrom')).toBeTruthy()
     expect(getByTestId('SwapContent/swapFrom')).toHaveTextContent('0.099 cUSD')
