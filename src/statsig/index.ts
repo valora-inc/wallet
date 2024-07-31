@@ -3,7 +3,7 @@ import { LaunchArguments } from 'react-native-launch-arguments'
 import { startOnboardingTimeSelector } from 'src/account/selectors'
 import { multichainBetaStatusSelector } from 'src/app/selectors'
 import { isE2EEnv } from 'src/config'
-import { DynamicConfigs, FeatureGates } from 'src/statsig/constants'
+import { DynamicConfigs } from 'src/statsig/constants'
 import {
   StatsigDynamicConfigs,
   StatsigExperiments,
@@ -115,7 +115,12 @@ export function getFeatureGate(featureGateName: StatsigFeatureGates) {
     return Statsig.checkGate(featureGateName)
   } catch (error) {
     Logger.warn(TAG, `Error getting feature gate: ${featureGateName}`, error)
-    return FeatureGates[featureGateName]
+    // gates should always default to false, this boolean is to just remain BC
+    // with two gates defaulting to true
+    return (
+      featureGateName === StatsigFeatureGates.ALLOW_HOOKS_PREVIEW ||
+      featureGateName === StatsigFeatureGates.SHOW_ONBOARDING_PHONE_VERIFICATION
+    )
   }
 }
 

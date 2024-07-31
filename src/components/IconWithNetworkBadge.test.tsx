@@ -1,10 +1,11 @@
 import { render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { PositionIcon } from 'src/tokens/PositionIcon'
-import { Position } from 'src/positions/types'
+import IconWithNetworkBadge from 'src/components/IconWithNetworkBadge'
 import { createMockStore } from 'test/utils'
 import { mockCeloTokenId, mockTokenBalances } from 'test/values'
+
+import { NetworkId } from 'src/transactions/types'
 
 const MOCK_TOKEN_BALANCES = {
   [mockCeloTokenId]: {
@@ -14,14 +15,7 @@ const MOCK_TOKEN_BALANCES = {
   },
 }
 
-const MOCK_POSITION = {
-  displayProps: {
-    imageUrl: 'http://foo.com',
-  },
-  networkId: 'celo-alfajores',
-} as unknown as Position
-
-describe('TokenIcon', () => {
+describe('IconWithNetworkBadge', () => {
   it('renders correctly with overlay', () => {
     const store = createMockStore({
       tokens: {
@@ -33,10 +27,12 @@ describe('TokenIcon', () => {
 
     const { queryByTestId } = render(
       <Provider store={store}>
-        <PositionIcon testID="Position" position={MOCK_POSITION} />
+        <IconWithNetworkBadge networkId={NetworkId['celo-alfajores']} testID="Icon">
+          <></>
+        </IconWithNetworkBadge>
       </Provider>
     )
-    expect(queryByTestId('Position/NetworkIcon')).toBeTruthy()
+    expect(queryByTestId('Icon/NetworkBadge')).toBeTruthy()
   })
 
   it('renders correctly without overlay', () => {
@@ -44,7 +40,9 @@ describe('TokenIcon', () => {
 
     const { queryByTestId } = render(
       <Provider store={store}>
-        <PositionIcon testID="Position" position={MOCK_POSITION} />
+        <IconWithNetworkBadge networkId={NetworkId['celo-alfajores']} testID="Icon">
+          <></>
+        </IconWithNetworkBadge>
       </Provider>
     )
     expect(queryByTestId('Position/NetworkIcon')).toBeFalsy()

@@ -4,11 +4,13 @@ import { Provider } from 'react-redux'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import SignInWithEmail from 'src/keylessBackup/SignInWithEmail'
-import { googleSignInCompleted } from 'src/keylessBackup/slice'
+import { auth0SignInCompleted } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
@@ -24,6 +26,8 @@ jest.mock('react-native-auth0', () => ({
     clearCredentials: mockClearCredentials,
   })),
 }))
+
+jest.mock('src/statsig')
 
 const store = createMockStore()
 const renderComponent = (
@@ -51,7 +55,14 @@ describe('SignInWithEmail', () => {
     jest.clearAllMocks()
     store.clearActions()
     mockAuthorize.mockResolvedValue(undefined)
-    mockGetCredentials.mockResolvedValue({ idToken: 'google-token' })
+    mockGetCredentials.mockResolvedValue({ idToken: 'mock-token' })
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation(
+        (gate) =>
+          gate === StatsigFeatureGates.SHOW_APPLE_IN_CAB ||
+          gate === StatsigFeatureGates.SHOW_ONBOARDING_PHONE_VERIFICATION
+      )
     logWarnSpy = jest.spyOn(Logger, 'warn')
     logDebugSpy = jest.spyOn(Logger, 'debug')
   })
@@ -68,114 +79,136 @@ describe('SignInWithEmail', () => {
     expect(getByTestId('CancelButton')).toBeTruthy()
   })
 
-  it('pressing button invokes authorize and dispatches action with idToken on success', async () => {
-    const { getByTestId } = renderComponent()
-    const continueButton = getByTestId('SignInWithEmail/Google')
-    fireEvent.press(continueButton)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_with_google', {
-      keylessBackupFlow: KeylessBackupFlow.Setup,
-      origin: KeylessBackupOrigin.Settings,
+  describe.each([
+    { provider: 'apple', testId: 'SignInWithEmail/Apple' },
+    { provider: 'google-oauth2', testId: 'SignInWithEmail/Google' },
+  ])('Google and Apple buttons', ({ provider, testId }) => {
+    it(`pressing ${testId} button invokes authorize and dispatches action with idToken on success`, async () => {
+      const { getByTestId } = renderComponent()
+      const continueButton = getByTestId(testId)
+      fireEvent.press(continueButton)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_start', {
+        keylessBackupFlow: KeylessBackupFlow.Setup,
+        origin: KeylessBackupOrigin.Settings,
+        provider,
+      })
+      expect(getByTestId('Button/Loading')).toBeTruthy()
+      await waitFor(() => expect(navigate).toHaveBeenCalledTimes(1))
+      expect(navigate).toHaveBeenCalledWith(Screens.KeylessBackupPhoneInput, {
+        keylessBackupFlow: KeylessBackupFlow.Setup,
+        origin: KeylessBackupOrigin.Settings,
+      })
+      expect(mockClearCredentials).toHaveBeenCalledTimes(1)
+      expect(mockAuthorize).toHaveBeenCalledTimes(1)
+      expect(mockGetCredentials).toHaveBeenCalledTimes(1)
+      expect(store.getActions()).toEqual([
+        {
+          payload: { keylessBackupFlow: 'setup' },
+          type: 'keylessBackup/keylessBackupStarted',
+        },
+        auth0SignInCompleted({ idToken: 'mock-token' }),
+      ])
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_success', {
+        keylessBackupFlow: KeylessBackupFlow.Setup,
+        origin: KeylessBackupOrigin.Settings,
+        provider,
+      })
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
+      expect(logWarnSpy).not.toHaveBeenCalled()
     })
-    expect(getByTestId('Button/Loading')).toBeTruthy()
-    await waitFor(() => expect(navigate).toHaveBeenCalledTimes(1))
-    expect(navigate).toHaveBeenCalledWith(Screens.KeylessBackupPhoneInput, {
-      keylessBackupFlow: KeylessBackupFlow.Setup,
-      origin: KeylessBackupOrigin.Settings,
+    it(`pressing ${testId} button invokes authorize and logs warning if authorize fails`, async () => {
+      mockAuthorize.mockRejectedValue(new Error('auth failed'))
+      const { getByTestId, queryByTestId } = renderComponent()
+      const continueButton = getByTestId(testId)
+      fireEvent.press(continueButton)
+      expect(getByTestId('Button/Loading')).toBeTruthy()
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_start', {
+        keylessBackupFlow: KeylessBackupFlow.Setup,
+        origin: KeylessBackupOrigin.Settings,
+        provider,
+      })
+      await waitFor(() => expect(logWarnSpy).toHaveBeenCalledTimes(1))
+      expect(navigate).not.toHaveBeenCalled()
+      expect(mockClearCredentials).toHaveBeenCalledTimes(1)
+      expect(mockAuthorize).toHaveBeenCalledTimes(1)
+      expect(mockGetCredentials).not.toHaveBeenCalled()
+      expect(store.getActions()).toEqual([
+        {
+          payload: { keylessBackupFlow: 'setup' },
+          type: 'keylessBackup/keylessBackupStarted',
+        },
+      ])
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(queryByTestId('Button/Loading')).toBeNull()
     })
-    expect(mockClearCredentials).toHaveBeenCalledTimes(1)
-    expect(mockAuthorize).toHaveBeenCalledTimes(1)
-    expect(mockGetCredentials).toHaveBeenCalledTimes(1)
-    expect(store.getActions()).toEqual([
-      {
-        payload: { keylessBackupFlow: 'setup' },
-        type: 'keylessBackup/keylessBackupStarted',
-      },
-      googleSignInCompleted({ idToken: 'google-token' }),
-    ])
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_with_google_success', {
-      keylessBackupFlow: KeylessBackupFlow.Setup,
-      origin: KeylessBackupOrigin.Settings,
+
+    it(`pressing ${testId} button invokes authorize and logs warning if idToken is not present in credentials`, async () => {
+      mockGetCredentials.mockResolvedValue({})
+      const { getByTestId, queryByTestId } = renderComponent()
+      const continueButton = getByTestId(testId)
+      fireEvent.press(continueButton)
+      expect(getByTestId('Button/Loading')).toBeTruthy()
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_start', {
+        keylessBackupFlow: KeylessBackupFlow.Setup,
+        origin: KeylessBackupOrigin.Settings,
+        provider,
+      })
+      await waitFor(() => expect(logWarnSpy).toHaveBeenCalledTimes(1))
+      expect(navigate).not.toHaveBeenCalled()
+      expect(mockClearCredentials).toHaveBeenCalledTimes(1)
+      expect(mockAuthorize).toHaveBeenCalledTimes(1)
+      expect(mockGetCredentials).toHaveBeenCalledTimes(1)
+      expect(store.getActions()).toEqual([
+        {
+          payload: { keylessBackupFlow: 'setup' },
+          type: 'keylessBackup/keylessBackupStarted',
+        },
+      ])
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(queryByTestId('Button/Loading')).toBeNull()
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
-    expect(logWarnSpy).not.toHaveBeenCalled()
+
+    it(`pressing ${testId} button invokes authorize and logs debug message if login is cancelled (empty credentials)`, async () => {
+      mockGetCredentials.mockResolvedValue(undefined)
+      const { getByTestId, queryByTestId } = renderComponent()
+      const continueButton = getByTestId(testId)
+      fireEvent.press(continueButton)
+      expect(getByTestId('Button/Loading')).toBeTruthy()
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_start', {
+        keylessBackupFlow: KeylessBackupFlow.Setup,
+        origin: KeylessBackupOrigin.Settings,
+        provider,
+      })
+      await waitFor(() =>
+        expect(logDebugSpy).toHaveBeenCalledWith('keylessBackup/SignInWithEmail', 'login cancelled')
+      )
+      expect(navigate).not.toHaveBeenCalled()
+      expect(mockClearCredentials).toHaveBeenCalledTimes(1)
+      expect(mockAuthorize).toHaveBeenCalledTimes(1)
+      expect(mockGetCredentials).toHaveBeenCalledTimes(1)
+      expect(store.getActions()).toEqual([
+        {
+          payload: { keylessBackupFlow: 'setup' },
+          type: 'keylessBackup/keylessBackupStarted',
+        },
+      ])
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(logWarnSpy).not.toHaveBeenCalled()
+      expect(queryByTestId('Button/Loading')).toBeNull()
+    })
   })
 
-  it('pressing button invokes authorize and logs warning if authorize fails', async () => {
-    mockAuthorize.mockRejectedValue(new Error('auth failed'))
-    const { getByTestId, queryByTestId } = renderComponent()
-    const continueButton = getByTestId('SignInWithEmail/Google')
-    fireEvent.press(continueButton)
-    expect(getByTestId('Button/Loading')).toBeTruthy()
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_with_google', {
-      keylessBackupFlow: KeylessBackupFlow.Setup,
-      origin: KeylessBackupOrigin.Settings,
-    })
-    await waitFor(() => expect(logWarnSpy).toHaveBeenCalledTimes(1))
-    expect(navigate).not.toHaveBeenCalled()
-    expect(mockClearCredentials).toHaveBeenCalledTimes(1)
-    expect(mockAuthorize).toHaveBeenCalledTimes(1)
-    expect(mockGetCredentials).not.toHaveBeenCalled()
-    expect(store.getActions()).toEqual([
-      {
-        payload: { keylessBackupFlow: 'setup' },
-        type: 'keylessBackup/keylessBackupStarted',
-      },
-    ])
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(queryByTestId('Button/Loading')).toBeNull()
-  })
+  it('Apple button is only rendered if feature flag is enabled', async () => {
+    jest.mocked(getFeatureGate).mockReturnValueOnce(false)
 
-  it('pressing button invokes authorize and logs warning if idToken is not present in credentials', async () => {
-    mockGetCredentials.mockResolvedValue({})
-    const { getByTestId, queryByTestId } = renderComponent()
-    const continueButton = getByTestId('SignInWithEmail/Google')
-    fireEvent.press(continueButton)
-    expect(getByTestId('Button/Loading')).toBeTruthy()
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_with_google', {
-      keylessBackupFlow: KeylessBackupFlow.Setup,
-      origin: KeylessBackupOrigin.Settings,
-    })
-    await waitFor(() => expect(logWarnSpy).toHaveBeenCalledTimes(1))
-    expect(navigate).not.toHaveBeenCalled()
-    expect(mockClearCredentials).toHaveBeenCalledTimes(1)
-    expect(mockAuthorize).toHaveBeenCalledTimes(1)
-    expect(mockGetCredentials).toHaveBeenCalledTimes(1)
-    expect(store.getActions()).toEqual([
-      {
-        payload: { keylessBackupFlow: 'setup' },
-        type: 'keylessBackup/keylessBackupStarted',
-      },
-    ])
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(queryByTestId('Button/Loading')).toBeNull()
-  })
+    const noAppleRender = renderComponent()
+    expect(noAppleRender.getByTestId('SignInWithEmail/Google')).toBeTruthy()
+    expect(noAppleRender.queryByTestId('SignInWithEmail/Apple')).toBeNull()
 
-  it('pressing button invokes authorize and logs debug message if login is cancelled (empty credentials)', async () => {
-    mockGetCredentials.mockResolvedValue(undefined)
-    const { getByTestId, queryByTestId } = renderComponent()
-    const continueButton = getByTestId('SignInWithEmail/Google')
-    fireEvent.press(continueButton)
-    expect(getByTestId('Button/Loading')).toBeTruthy()
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_with_google', {
-      keylessBackupFlow: KeylessBackupFlow.Setup,
-      origin: KeylessBackupOrigin.Settings,
-    })
-    await waitFor(() =>
-      expect(logDebugSpy).toHaveBeenCalledWith('keylessBackup/SignInWithEmail', 'login cancelled')
-    )
-    expect(navigate).not.toHaveBeenCalled()
-    expect(mockClearCredentials).toHaveBeenCalledTimes(1)
-    expect(mockAuthorize).toHaveBeenCalledTimes(1)
-    expect(mockGetCredentials).toHaveBeenCalledTimes(1)
-    expect(store.getActions()).toEqual([
-      {
-        payload: { keylessBackupFlow: 'setup' },
-        type: 'keylessBackup/keylessBackupStarted',
-      },
-    ])
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(logWarnSpy).not.toHaveBeenCalled()
-    expect(queryByTestId('Button/Loading')).toBeNull()
+    jest.mocked(getFeatureGate).mockReturnValueOnce(true)
+    const appleRender = renderComponent()
+    expect(appleRender.getByTestId('SignInWithEmail/Google')).toBeTruthy()
+    expect(appleRender.getByTestId('SignInWithEmail/Apple')).toBeTruthy()
   })
 
   it("pressing 'Sign in another way' then 'continue' navigates to recovery phrase education", () => {
