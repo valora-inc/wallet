@@ -611,7 +611,7 @@ describe('TransactionDetailsScreen', () => {
   })
 
   it(`renders approximate numbers for a pending ${TokenTransactionTypeV2.CrossChainSwapTransaction} transacton`, () => {
-    const { getByText, getByTestId, getAllByTestId } = renderScreen({
+    const { getByText, getByTestId, getAllByTestId, queryByText } = renderScreen({
       transaction: crossChainSwapTransaction({ status: TransactionStatus.Pending }),
       storeOverrides: {
         tokens: {
@@ -622,6 +622,7 @@ describe('TransactionDetailsScreen', () => {
 
     expect(getByText('transactionStatus.transactionIsPending')).toBeTruthy()
     expect(getByTestId('SwapContent/swapTo')).toHaveTextContent('~0.00003 ETH')
+    expect(queryByText('swapTransactionDetailPage.rate')).toBeFalsy()
 
     const [networkFee, appFee, crossChainFee] = getAllByTestId('TransactionDetails/FeeRowItem')
     expect(networkFee).toHaveTextContent('~0.0033 CELO')
@@ -633,10 +634,10 @@ describe('TransactionDetailsScreen', () => {
   })
 
   it(`renders a fallback swap to amount for a pending ${TokenTransactionTypeV2.CrossChainSwapTransaction} transacton`, () => {
-    const { getByText, getByTestId } = renderScreen({
+    const { getByTestId } = renderScreen({
       transaction: crossChainSwapTransaction({
         status: TransactionStatus.Pending,
-        inAmountValue: '',
+        inAmountValue: '', // can happen during account restore if there is an in flight cross-chain swap
       }),
       storeOverrides: {
         tokens: {
@@ -645,7 +646,6 @@ describe('TransactionDetailsScreen', () => {
       },
     })
 
-    expect(getByText('transactionStatus.transactionIsPending')).toBeTruthy()
     expect(getByTestId('SwapContent/swapTo')).toHaveTextContent('--')
   })
 

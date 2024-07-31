@@ -24,6 +24,12 @@ export default function SwapContent({ transaction }: Props) {
   const toToken = tokensList.find((token) => token.tokenId === transaction.inAmount.tokenId)
   const isCrossChainSwap = transaction.__typename === 'CrossChainTokenExchange'
 
+  const showExchangeRate =
+    transaction.status === TransactionStatus.Complete &&
+    !new BigNumber(transaction.inAmount.value).isNaN() &&
+    !!fromToken &&
+    !!toToken
+
   return (
     <View style={styles.contentContainer}>
       <View style={styles.row}>
@@ -63,20 +69,18 @@ export default function SwapContent({ transaction }: Props) {
         </View>
       )}
 
-      <RowDivider />
-      {transaction.status === TransactionStatus.Complete &&
-        !new BigNumber(transaction.inAmount.value).isNaN() &&
-        !!fromToken &&
-        !!toToken && (
-          <View style={styles.row}>
-            <Text style={styles.bodyText}>{t('swapTransactionDetailPage.rate')}</Text>
-            <Text testID="SwapContent/rate" style={styles.currencyAmountPrimaryText}>
-              {`1 ${fromToken.symbol} ≈ ${formatValueToDisplay(
-                new BigNumber(transaction.inAmount.value).dividedBy(transaction.outAmount.value)
-              )} ${toToken.symbol}`}
-            </Text>
-          </View>
-        )}
+      {(showExchangeRate || transaction.fees.length > 0) && <RowDivider />}
+
+      {showExchangeRate && (
+        <View style={styles.row}>
+          <Text style={styles.bodyText}>{t('swapTransactionDetailPage.rate')}</Text>
+          <Text testID="SwapContent/rate" style={styles.currencyAmountPrimaryText}>
+            {`1 ${fromToken.symbol} ≈ ${formatValueToDisplay(
+              new BigNumber(transaction.inAmount.value).dividedBy(transaction.outAmount.value)
+            )} ${toToken.symbol}`}
+          </Text>
+        </View>
+      )}
 
       <FeeRowItem
         fees={transaction.fees}
