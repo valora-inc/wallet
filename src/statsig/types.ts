@@ -24,7 +24,6 @@ export enum StatsigFeatureGates {
   RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY = 'restrict_supercharge_for_claim_only',
   SHOW_IMPORT_TOKENS_FLOW = 'show_import_tokens_flow',
   SHOW_MULTICHAIN_BETA_SCREEN = 'show_multichain_beta_screen',
-  SHOW_BETA_TAG = 'show_beta_tag',
   SAVE_CONTACTS = 'save_contacts',
   SHOW_GET_STARTED = 'show_get_started',
   CLEVERTAP_INBOX = 'clevertap_inbox',
@@ -41,6 +40,7 @@ export enum StatsigFeatureGates {
   ALLOW_CROSS_CHAIN_SWAPS = 'allow_cross_chain_swaps',
   SHOW_ONBOARDING_PHONE_VERIFICATION = 'show_onboarding_phone_verification',
   SHOW_MULTIPLE_EARN_POOLS = 'show_multiple_earn_pools',
+  SHOW_APPLE_IN_CAB = 'show_apple_in_cab',
 }
 
 export enum StatsigExperiments {

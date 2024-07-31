@@ -108,6 +108,7 @@
     "subtitle": "Entre com seu e-mail para configurá-lo como um backup. Será solicitado que você entre novamente se perder sua carteira.",
     "subtitleRestore": "Entre com o e-mail que você usou para configurar seu backup de carteira.",
     "google": "Entrar com o Google",
+    "apple": "Faça login com a Apple",
     "signInAnotherWay": "Entrar de outra forma",
     "bottomSheet": {
       "title": "Salve sua frase de recuperação para criar uma carteira",

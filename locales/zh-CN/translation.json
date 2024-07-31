@@ -108,6 +108,7 @@
     "subtitle": "使用电子邮件登录，将其设置为备份。如果您丢失了钱包，系统会提示您再次登录。",
     "subtitleRestore": "使用您用来设置钱包备份的电子邮件登录。",
     "google": "使用 Google 登录",
+    "apple": "使用 Apple 登录",
     "signInAnotherWay": "以其他方式登录",
     "bottomSheet": {
       "title": "保存恢复短语以创建钱包",

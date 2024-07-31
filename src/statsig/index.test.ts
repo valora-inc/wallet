@@ -1,7 +1,7 @@
 import { LaunchArguments } from 'react-native-launch-arguments'
 import { MultichainBetaStatus } from 'src/app/actions'
 import { store } from 'src/redux/store'
-import { DynamicConfigs, ExperimentConfigs, FeatureGates } from 'src/statsig/constants'
+import { DynamicConfigs, ExperimentConfigs } from 'src/statsig/constants'
 import {
   getDynamicConfigParams,
   getExperimentParams,
@@ -114,13 +114,13 @@ describe('Statsig helpers', () => {
   })
 
   describe('getFeatureGate', () => {
-    it('returns default values if getting statsig feature gate throws error', () => {
+    it('returns false if getting statsig feature gate throws error', () => {
       jest.mocked(Statsig.checkGate).mockImplementation(() => {
         throw new Error('mock error')
       })
       const output = getFeatureGate(StatsigFeatureGates.APP_REVIEW)
       expect(Logger.warn).toHaveBeenCalled()
-      expect(output).toEqual(FeatureGates[StatsigFeatureGates.APP_REVIEW])
+      expect(output).toEqual(false)
     })
     it('returns Statsig values if no error is thrown', () => {
       jest.mocked(Statsig.checkGate).mockImplementation(() => true)

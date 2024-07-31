@@ -127,8 +127,8 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [KeylessBackupEvents.wallet_security_primer_get_started]: ``,
   [KeylessBackupEvents.cab_setup_recovery_phrase]: `When the recovery phrase link is pressed in the setup wallet backup screen`,
   [KeylessBackupEvents.cab_sign_in_another_way]: `When the sign in another way button is pressed in the setup wallet backup screen`,
-  [KeylessBackupEvents.cab_sign_in_with_google]: ``,
-  [KeylessBackupEvents.cab_sign_in_with_google_success]: ``,
+  [KeylessBackupEvents.cab_sign_in_start]: `When the user presses 'Sign in with Apple' or 'Sign in with Google'`,
+  [KeylessBackupEvents.cab_sign_in_success]: `When the user has successfully signed in with google or apple`,
   [KeylessBackupEvents.cab_sign_in_with_email_screen_back]: `When the back button is pressed on the sign in with email screen`,
   [KeylessBackupEvents.cab_sign_in_with_email_screen_cancel]: ``,
   [KeylessBackupEvents.cab_sign_in_with_email_screen_skip]: `When the skip button is pressed on the sign in with email bottom sheet`,
@@ -663,4 +663,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   // [DappKitEvents.dappkit_request_accept_start]: `when user presses the button to accept a dapp request`,
   // [DappKitEvents.dappkit_request_accept_success]: `when the dapp request succeeds`,
   // [DappKitEvents.dappkit_request_accept_error]: `when the dapp request fails`,
+  // [KeylessBackupEvents.cab_sign_in_with_google]: ``, renamed to cab_sign_in_start when we started supporting Apple sign in
+  // [KeylessBackupEvents.cab_sign_in_with_google_success]: ``, renamed to cab_sign_in_success when we started supporting Apple sign in
 }
