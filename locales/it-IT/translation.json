@@ -2240,7 +2240,8 @@
     "finiteApprovalDescription": "Somma di {{approvedAmount}} {{tokenSymbol}} approvata per la transazione",
     "infiniteApprovalDescription": "Somma di {{tokenSymbol}} infiniti approvata per la transazione",
     "revokeApprovalDescription": "Revoca di {{tokenSymbol}} per la transazione",
-    "descriptionLabel": "Dettagli"
+    "descriptionLabel": "Dettagli",
+    "crossChainSwapTransactionLabel": "Catena incrociata"
   },
   "multichainBeta": {
     "beta": "BETA",
