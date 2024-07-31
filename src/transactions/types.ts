@@ -189,8 +189,6 @@ export enum FeeType {
   SecurityFee = 'SECURITY_FEE',
   GatewayFee = 'GATEWAY_FEE',
   EncryptionFee = 'ONE_TIME_ENCRYPTION_FEE',
-  AppFee = 'APP_FEE',
-  CrossChainFee = 'CROSS_CHAIN_FEE',
 }
 
 export interface Fee {
