@@ -108,6 +108,7 @@
     "subtitle": "Inicia sesión con tu correo electrónico para configurarlo como copia de seguridad. Se te pedirá que inicies sesión de nuevo si pierdes tu wallet.",
     "subtitleRestore": "Inicia sesión con el correo electrónico que usaste para configurar la copia de seguridad de tu wallet.",
     "google": "Iniciar sesión con Google",
+    "apple": "Iniciar sesión con Apple",
     "signInAnotherWay": "Inicia sesión de otra manera",
     "bottomSheet": {
       "title": "Guarda tu frase de recuperación para crear una wallet",

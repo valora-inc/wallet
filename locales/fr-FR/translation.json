@@ -108,6 +108,7 @@
     "subtitle": "Connectez-vous avec votre e-mail pour le configurer en tant que données de sauvegarde. Si vous perdez votre portefeuille, vous devrez vous reconnecter.",
     "subtitleRestore": "Connectez-vous avec l'e-mail que vous avez utilisé pour configurer la sauvegarde.",
     "google": "Se connecter avec Google",
+    "apple": "Connecte-toi avec Apple",
     "signInAnotherWay": "Se connecter d'une autre manière",
     "bottomSheet": {
       "title": "Enregistrez votre phrase de récupération pour créer un portefeuille",
