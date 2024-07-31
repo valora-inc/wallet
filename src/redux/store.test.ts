@@ -262,12 +262,12 @@ describe('store state', () => {
           "reclaimStatus": "idle",
         },
         "keylessBackup": {
+          "appKeyshare": null,
           "auth0IdToken": null,
           "backupStatus": "NotStarted",
           "deleteBackupStatus": "NotStarted",
           "showDeleteBackupError": false,
           "torusKeyshare": null,
-          "appKeyshare": null,
         },
         "localCurrency": {
           "error": false,
@@ -316,11 +316,11 @@ describe('store state', () => {
         },
         "priceHistory": {},
         "recipients": {
+          "appRecipientCache": {},
           "coinbasePaySenders": [],
           "inviteRewardsSenders": [],
           "phoneRecipientCache": {},
           "rewardsSenders": [],
-          "appRecipientCache": {},
         },
         "send": {
           "encryptedComment": null,
