@@ -83,6 +83,16 @@ export default function SwapContent({ transaction }: Props) {
         feeType={FeeType.SecurityFee}
         transactionStatus={transaction.status}
       />
+      <FeeRowItem
+        fees={transaction.fees}
+        feeType={FeeType.AppFee}
+        transactionStatus={transaction.status}
+      />
+      <FeeRowItem
+        fees={transaction.fees}
+        feeType={FeeType.CrossChainFee}
+        transactionStatus={transaction.status}
+      />
     </View>
   )
 }
