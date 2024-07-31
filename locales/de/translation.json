@@ -2240,7 +2240,8 @@
     "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}} für Handel genehmigt",
     "infiniteApprovalDescription": "Unendliche {{tokenSymbol}} für Handel genehmigt",
     "revokeApprovalDescription": "{{tokenSymbol}} für Handel widerrufen",
-    "descriptionLabel": "Details"
+    "descriptionLabel": "Details",
+    "crossChainSwapTransactionLabel": "Kettenübergreifend"
   },
   "multichainBeta": {
     "beta": "BETA",
