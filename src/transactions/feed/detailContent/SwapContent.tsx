@@ -23,8 +23,6 @@ export default function SwapContent({ transaction }: Props) {
   const fromToken = tokensList.find((token) => token.tokenId === transaction.outAmount.tokenId)
   const toToken = tokensList.find((token) => token.tokenId === transaction.inAmount.tokenId)
 
-  const swapFee = transaction.fees.find((fee) => fee.type === 'Swap')
-
   return (
     <View style={styles.contentContainer}>
       <View style={styles.row}>

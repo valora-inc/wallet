@@ -17,7 +17,7 @@ import TransactionPrimaryAction from 'src/transactions/feed/TransactionPrimaryAc
 import TransactionStatusIndicator from 'src/transactions/feed/TransactionStatusIndicator'
 import { NetworkId, TokenTransaction, TransactionStatus } from 'src/transactions/types'
 import { getDatetimeDisplayString } from 'src/utils/time'
-import { blockExplorerUrls } from 'src/web3/networkConfig'
+import networkConfig, { blockExplorerUrls } from 'src/web3/networkConfig'
 
 type Props = {
   transaction: TokenTransaction
@@ -31,17 +31,18 @@ function TransactionDetails({ transaction, title, subtitle, children, retryHandl
   const { t } = useTranslation()
 
   const dateTime = getDatetimeDisplayString(transaction.timestamp, i18n)
+  const isCrossChainSwap = transaction.__typename === 'CrossChainTokenExchange'
 
-  const openBlockExplorerHandler =
-    transaction.networkId in NetworkId
-      ? () =>
-          navigate(Screens.WebViewScreen, {
-            uri: new URL(
-              transaction.transactionHash,
-              blockExplorerUrls[transaction.networkId].baseTxUrl
-            ).toString(),
-          })
-      : undefined
+  const openBlockExplorerHandler = () => {
+    const explorerUrl = isCrossChainSwap
+      ? networkConfig.crossChainExplorerUrl
+      : blockExplorerUrls[transaction.networkId]?.baseTxUrl
+    if (explorerUrl) {
+      navigate(Screens.WebViewScreen, {
+        uri: new URL(transaction.transactionHash, explorerUrl).toString(),
+      })
+    }
+  }
 
   const primaryActionHanlder =
     transaction.status === TransactionStatus.Failed ? retryHandler : openBlockExplorerHandler
@@ -60,6 +61,10 @@ function TransactionDetails({ transaction, title, subtitle, children, retryHandl
     [NetworkId['base-mainnet']]: t('viewOnBaseScan'),
     [NetworkId['base-sepolia']]: t('viewOnBaseScan'),
   }
+
+  const explorerName = isCrossChainSwap
+    ? t('viewOnAxelarScan')
+    : networkIdToExplorerString[transaction.networkId]
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -98,9 +103,7 @@ function TransactionDetails({ transaction, title, subtitle, children, retryHandl
               testID="transactionDetails/blockExplorerLink"
             >
               <View style={styles.rowContainer}>
-                <Text style={styles.blockExplorerLink}>
-                  {networkIdToExplorerString[transaction.networkId]}
-                </Text>
+                <Text style={styles.blockExplorerLink}>{explorerName}</Text>
                 <ArrowRightThick size={16} />
               </View>
             </Touchable>
