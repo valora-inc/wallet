@@ -72,7 +72,8 @@ function TransactionFeed() {
   function renderItem({ item: tx }: { item: TokenTransaction; index: number }) {
     switch (tx.__typename) {
       case 'TokenExchangeV3':
-        return <SwapFeedItem key={tx.transactionHash} exchange={tx} />
+      case 'CrossChainTokenExchange':
+        return <SwapFeedItem key={tx.transactionHash} transaction={tx} />
       case 'TokenTransferV3':
         return <TransferFeedItem key={tx.transactionHash} transfer={tx} />
       case 'NftTransferV3':
@@ -83,8 +84,6 @@ function TransactionFeed() {
       case 'EarnWithdraw':
       case 'EarnClaimReward':
         return <EarnFeedItem key={tx.transactionHash} transaction={tx} />
-      case 'CrossChainTokenExchange':
-        return null // TODO
     }
   }
 

@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -13,64 +14,74 @@ import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
 import TransactionFeedItemImage from 'src/transactions/feed/TransactionFeedItemImage'
-import { TokenExchange } from 'src/transactions/types'
+import { TokenExchange, TokenTransactionTypeV2 } from 'src/transactions/types'
 
 interface Props {
-  exchange: TokenExchange
+  transaction: TokenExchange
 }
 
-function SwapFeedItem({ exchange }: Props) {
+function SwapFeedItem({ transaction }: Props) {
   const { t } = useTranslation()
-  const incomingTokenInfo = useTokenInfo(exchange.inAmount.tokenId)
-  const outgoingTokenInfo = useTokenInfo(exchange.outAmount.tokenId)
+  const incomingTokenInfo = useTokenInfo(transaction.inAmount.tokenId)
+  const outgoingTokenInfo = useTokenInfo(transaction.outAmount.tokenId)
 
-  const handleTransferDetails = () => {
-    navigate(Screens.TransactionDetailsScreen, { transaction: exchange })
+  const handleOpenTransactionDetails = () => {
+    navigate(Screens.TransactionDetailsScreen, { transaction: transaction })
     ValoraAnalytics.track(HomeEvents.transaction_feed_item_select)
   }
 
+  const isCrossChainSwap = transaction.type === TokenTransactionTypeV2.CrossChainSwapTransaction
+
   return (
-    <Touchable testID="SwapFeedItem" onPress={handleTransferDetails}>
+    <Touchable testID="SwapFeedItem" onPress={handleOpenTransactionDetails}>
       <View style={styles.container}>
         <TransactionFeedItemImage
-          status={exchange.status}
-          transactionType={exchange.__typename}
-          networkId={exchange.networkId}
+          status={transaction.status}
+          transactionType={transaction.__typename}
+          networkId={transaction.networkId}
+          hideNetworkIcon={isCrossChainSwap}
         />
         <View style={styles.contentContainer}>
           <Text style={styles.title} testID={'SwapFeedItem/title'} numberOfLines={1}>
             {t('swapScreen.title')}
           </Text>
           <Text style={styles.subtitle} testID={'SwapFeedItem/subtitle'} numberOfLines={1}>
-            {t('feedItemSwapPath', {
-              token1: outgoingTokenInfo?.symbol,
-              token2: incomingTokenInfo?.symbol,
-            })}
+            {isCrossChainSwap
+              ? t('transactionFeed.crossChainSwapTransactionLabel')
+              : t('feedItemSwapPath', {
+                  token1: outgoingTokenInfo?.symbol,
+                  token2: incomingTokenInfo?.symbol,
+                })}
           </Text>
         </View>
-        {
-          <View style={styles.tokenAmountContainer}>
-            <TokenDisplay
-              amount={exchange.inAmount.value}
-              tokenId={exchange.inAmount.tokenId}
-              showLocalAmount={false}
-              showSymbol={true}
-              showExplicitPositiveSign={true}
-              hideSign={false}
-              style={styles.amount}
-              testID={'SwapFeedItem/incomingAmount'}
-            />
-            <TokenDisplay
-              amount={-exchange.outAmount.value}
-              tokenId={exchange.outAmount.tokenId}
-              showLocalAmount={false}
-              showSymbol={true}
-              hideSign={false}
-              style={styles.tokenAmount}
-              testID={'SwapFeedItem/outgoingAmount'}
-            />
-          </View>
-        }
+        <View style={styles.tokenAmountContainer}>
+          {
+            // for cross chain swaps specifically, the inAmount value is empty
+            // until the transaction is completed on the destination network
+            !new BigNumber(transaction.inAmount.value).isNaN() && (
+              <TokenDisplay
+                amount={transaction.inAmount.value}
+                tokenId={transaction.inAmount.tokenId}
+                showLocalAmount={false}
+                showSymbol={true}
+                showExplicitPositiveSign={true}
+                hideSign={false}
+                style={styles.amount}
+                testID={'SwapFeedItem/incomingAmount'}
+              />
+            )
+          }
+
+          <TokenDisplay
+            amount={-transaction.outAmount.value}
+            tokenId={transaction.outAmount.tokenId}
+            showLocalAmount={false}
+            showSymbol={true}
+            hideSign={false}
+            style={styles.tokenAmount}
+            testID={'SwapFeedItem/outgoingAmount'}
+          />
+        </View>
       </View>
     </Touchable>
   )
