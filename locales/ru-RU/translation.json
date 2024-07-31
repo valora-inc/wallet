@@ -2244,7 +2244,8 @@
     "finiteApprovalDescription": "Утверждено {{approvedAmount}} {{tokenSymbol}} для сделки",
     "infiniteApprovalDescription": "Утвержден бесконечный {{tokenSymbol}} для сделки",
     "revokeApprovalDescription": "Отозван {{tokenSymbol}} для сделки",
-    "descriptionLabel": "Подробности"
+    "descriptionLabel": "Подробности",
+    "crossChainSwapTransactionLabel": "Межцепочечный"
   },
   "multichainBeta": {
     "beta": "BETA",
