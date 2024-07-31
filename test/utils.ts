@@ -98,7 +98,7 @@ export function getMockStoreData(overrides: RecursivePartial<RootState> = {}): R
     recipients: {
       ...defaultSchema.recipients,
       phoneRecipientCache: mockPhoneRecipientCache,
-      valoraRecipientCache: mockAppRecipientCache,
+      appRecipientCache: mockAppRecipientCache,
     },
   }
   const mockStoreData: any = {
