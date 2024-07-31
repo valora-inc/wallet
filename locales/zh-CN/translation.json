@@ -2238,7 +2238,8 @@
     "finiteApprovalDescription": "已批准 {{approvedAmount}} {{tokenSymbol}} 用于交易。",
     "infiniteApprovalDescription": "已批准无限 {{tokenSymbol}} 用于交易",
     "revokeApprovalDescription": "已撤销 {{tokenSymbol}} 用于交易",
-    "descriptionLabel": "详细信息"
+    "descriptionLabel": "详细信息",
+    "crossChainSwapTransactionLabel": "跨链"
   },
   "multichainBeta": {
     "beta": "BETA",
