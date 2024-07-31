@@ -33,18 +33,23 @@ function TransactionDetails({ transaction, title, subtitle, children, retryHandl
   const dateTime = getDatetimeDisplayString(transaction.timestamp, i18n)
   const isCrossChainSwap = transaction.__typename === 'CrossChainTokenExchange'
 
-  const openBlockExplorerHandler = () => {
-    const explorerUrl = isCrossChainSwap
-      ? networkConfig.crossChainExplorerUrl
-      : blockExplorerUrls[transaction.networkId]?.baseTxUrl
-    if (explorerUrl) {
-      navigate(Screens.WebViewScreen, {
-        uri: new URL(transaction.transactionHash, explorerUrl).toString(),
-      })
-    }
-  }
+  const openBlockExplorerHandler =
+    transaction.networkId in NetworkId || isCrossChainSwap
+      ? () => {
+          const explorerUrl = isCrossChainSwap
+            ? networkConfig.crossChainExplorerUrl
+            : blockExplorerUrls[transaction.networkId].baseTxUrl
+          navigate(Screens.WebViewScreen, {
+            uri: new URL(transaction.transactionHash, explorerUrl).toString(),
+          })
+          ValoraAnalytics.track(TransactionDetailsEvents.transaction_details_tap_block_explorer, {
+            transactionType: transaction.type,
+            transactionStatus: transaction.status,
+          })
+        }
+      : undefined
 
-  const primaryActionHanlder =
+  const primaryActionHandler =
     transaction.status === TransactionStatus.Failed ? retryHandler : openBlockExplorerHandler
 
   const networkIdToExplorerString: Record<NetworkId, string> = {
@@ -74,11 +79,11 @@ function TransactionDetails({ transaction, title, subtitle, children, retryHandl
         <Text style={styles.subtitle}>{dateTime}</Text>
         <View style={styles.status}>
           <TransactionStatusIndicator status={transaction.status} />
-          {primaryActionHanlder && (
+          {primaryActionHandler && (
             <TransactionPrimaryAction
               status={transaction.status}
               type={transaction.type}
-              onPress={primaryActionHanlder}
+              onPress={primaryActionHandler}
               testID="transactionDetails/primaryAction"
             />
           )}
@@ -90,16 +95,7 @@ function TransactionDetails({ transaction, title, subtitle, children, retryHandl
             <Touchable
               style={styles.rowContainer}
               borderless={true}
-              onPress={() => {
-                ValoraAnalytics.track(
-                  TransactionDetailsEvents.transaction_details_tap_block_explorer,
-                  {
-                    transactionType: transaction.type,
-                    transactionStatus: transaction.status,
-                  }
-                )
-                openBlockExplorerHandler()
-              }}
+              onPress={openBlockExplorerHandler}
               testID="transactionDetails/blockExplorerLink"
             >
               <View style={styles.rowContainer}>

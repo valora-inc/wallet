@@ -22,6 +22,7 @@ export default function SwapContent({ transaction }: Props) {
 
   const fromToken = tokensList.find((token) => token.tokenId === transaction.outAmount.tokenId)
   const toToken = tokensList.find((token) => token.tokenId === transaction.inAmount.tokenId)
+  const isCrossChainSwap = transaction.__typename === 'CrossChainTokenExchange'
 
   return (
     <View style={styles.contentContainer}>
@@ -46,10 +47,11 @@ export default function SwapContent({ transaction }: Props) {
           showLocalAmount={false}
           showSymbol={true}
           hideSign={true}
+          showApprox={transaction.status === TransactionStatus.Pending}
           testID="SwapContent/swapTo"
         />
       </View>
-      {transaction.__typename === 'CrossChainTokenExchange' && !!fromToken && !!toToken && (
+      {isCrossChainSwap && !!fromToken && !!toToken && (
         <View style={styles.row}>
           <Text style={styles.bodyText}>{t('swapTransactionDetailPage.network')}</Text>
           <Text style={styles.bodyText}>

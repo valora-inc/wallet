@@ -48,14 +48,17 @@ export default function FeeRowItem({ fees, feeType, transactionStatus }: Props) 
           showLocalAmount={false}
           showSymbol={true}
           hideSign={true}
+          showApprox={transactionStatus === TransactionStatus.Pending && feeType !== FeeType.AppFee}
         />
         <TokenDisplay
           style={styles.currencyAmountSecondaryText}
           amount={fee.amount.value}
           tokenId={fee.amount.tokenId}
           showLocalAmount={true}
+          localAmount={fee.amount.localAmount}
           showSymbol={true}
           hideSign={true}
+          showApprox={transactionStatus === TransactionStatus.Pending && feeType !== FeeType.AppFee}
         />
       </View>
     </View>
