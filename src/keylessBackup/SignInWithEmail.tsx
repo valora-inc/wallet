@@ -10,10 +10,11 @@ import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CustomHeader from 'src/components/header/CustomHeader'
+import AppleIcon from 'src/icons/Apple'
 import GoogleIcon from 'src/icons/Google'
 import { email } from 'src/images/Images'
 import KeylessBackupCancelButton from 'src/keylessBackup/KeylessBackupCancelButton'
-import { googleSignInCompleted, keylessBackupStarted } from 'src/keylessBackup/slice'
+import { auth0SignInCompleted, keylessBackupStarted } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -25,6 +26,8 @@ import {
   onboardingPropsSelector,
 } from 'src/onboarding/steps'
 import { useDispatch, useSelector } from 'src/redux/hooks'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -90,15 +93,16 @@ function SignInWithEmailBottomSheet({
     </BottomSheet>
   )
 }
-
+type OAuthProvider = 'google-oauth2' | 'apple'
 type Props = NativeStackScreenProps<StackParamList, Screens.SignInWithEmail>
 
 function SignInWithEmail({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  const showApple = getFeatureGate(StatsigFeatureGates.SHOW_APPLE_IN_CAB)
   const { authorize, getCredentials, clearCredentials } = useAuth0()
   const { keylessBackupFlow, origin } = route.params
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState<null | OAuthProvider>(null)
   const onboardingProps = useSelector(onboardingPropsSelector)
   const { step, totalSteps } = getOnboardingStepValues(Screens.SignInWithEmail, onboardingProps)
   const { bottom } = useSafeAreaInsets()
@@ -120,16 +124,17 @@ function SignInWithEmail({ route }: Props) {
     bottomSheetRef.current?.snapToIndex(0)
   }
 
-  const onPressGoogle = async () => {
-    setLoading(true)
+  const onPressSignIn = async (provider: OAuthProvider) => {
+    setLoading(provider)
     dispatch(
       keylessBackupStarted({
         keylessBackupFlow,
       })
     )
-    ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_google, {
+    ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_start, {
       keylessBackupFlow,
       origin,
+      provider,
     })
     try {
       // clear any existing saved credentials
@@ -137,12 +142,12 @@ function SignInWithEmail({ route }: Props) {
 
       Logger.debug(TAG, 'Starting auth0 login')
 
-      await authorize({ scope: 'email', connection: 'google-oauth2' })
+      await authorize({ scope: 'email', connection: provider })
       const credentials = await getCredentials()
 
       if (!credentials) {
         Logger.debug(TAG, 'login cancelled')
-        setLoading(false)
+        setLoading(null)
         return
       }
 
@@ -150,18 +155,19 @@ function SignInWithEmail({ route }: Props) {
         throw new Error('got an empty token from auth0')
       }
       navigate(Screens.KeylessBackupPhoneInput, { keylessBackupFlow, origin })
-      dispatch(googleSignInCompleted({ idToken: credentials.idToken }))
-      ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_google_success, {
+      dispatch(auth0SignInCompleted({ idToken: credentials.idToken }))
+      ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_success, {
         keylessBackupFlow,
         origin,
+        provider,
       })
       setTimeout(() => {
         // to avoid screen flash
-        setLoading(false)
+        setLoading(null)
       }, 1000)
     } catch (err) {
       Logger.warn(TAG, 'login failed', err)
-      setLoading(false)
+      setLoading(null)
     }
   }
 
@@ -213,15 +219,28 @@ function SignInWithEmail({ route }: Props) {
       >
         <Button
           testID="SignInWithEmail/Google"
-          onPress={onPressGoogle}
+          onPress={() => onPressSignIn('google-oauth2')}
           text={t('signInWithEmail.google')}
           size={BtnSizes.FULL}
           type={BtnTypes.PRIMARY}
           icon={<GoogleIcon color={Colors.white} />}
-          iconMargin={12}
-          showLoading={loading}
-          disabled={loading}
+          iconMargin={10}
+          showLoading={loading === 'google-oauth2'}
+          disabled={!!loading}
         />
+        {showApple && (
+          <Button
+            testID="SignInWithEmail/Apple"
+            onPress={() => onPressSignIn('apple')}
+            text={t('signInWithEmail.apple')}
+            size={BtnSizes.FULL}
+            type={BtnTypes.PRIMARY}
+            icon={<AppleIcon color={Colors.white} />}
+            iconMargin={10}
+            showLoading={loading === 'apple'}
+            disabled={!!loading}
+          />
+        )}
         {isSetupInOnboarding && (
           <Button
             testID="SignInWithEmail/SignInAnotherWay"

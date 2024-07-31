@@ -7,6 +7,7 @@ import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { EARN_STABLECOINS_LEARN_MORE } from 'src/config'
+import { EarnTabType } from 'src/earn/types'
 import ArrowDown from 'src/icons/ArrowDown'
 import Blob from 'src/icons/Blob'
 import CircledIcon from 'src/icons/CircledIcon'
@@ -58,6 +59,7 @@ function DetailsItem({
 export default function EarnInfoScreen() {
   const { t } = useTranslation()
   const isGasSubsidized = getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
+  const showMultiplePools = getFeatureGate(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
 
   const headerHeight = useHeaderHeight()
   const { bottom } = useSafeAreaInsets()
@@ -107,8 +109,9 @@ export default function EarnInfoScreen() {
         <Button
           onPress={() => {
             ValoraAnalytics.track(EarnEvents.earn_info_earn_press)
-            // TODO(ACT-1260): navigate to earn home page
-            navigate(Screens.EarnEnterAmount, { tokenId: networkConfig.arbUsdcTokenId })
+            showMultiplePools
+              ? navigate(Screens.EarnHome, { activeEarnTab: EarnTabType.OpenPools })
+              : navigate(Screens.EarnEnterAmount, { tokenId: networkConfig.arbUsdcTokenId })
           }}
           text={t('earnFlow.earnInfo.action.earn')}
           type={BtnTypes.PRIMARY}
