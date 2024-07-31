@@ -53,7 +53,9 @@ export default function SwapContent({ transaction }: Props) {
           showLocalAmount={false}
           showSymbol={true}
           hideSign={true}
-          showApprox={transaction.status === TransactionStatus.Pending}
+          showApprox={
+            !!transaction.inAmount.value && transaction.status === TransactionStatus.Pending
+          }
           testID="SwapContent/swapTo"
         />
       </View>
