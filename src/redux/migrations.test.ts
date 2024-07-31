@@ -51,6 +51,7 @@ import {
   v203Schema,
   v214Schema,
   v216Schema,
+  v221Schema,
   v21Schema,
   v28Schema,
   v2Schema,
@@ -1627,6 +1628,21 @@ describe('Redux persist migrations', () => {
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.points.trackOnceActivities = {
       'create-wallet': false,
+    }
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from 221 to 222', () => {
+    const oldSchema = v221Schema
+    const migratedSchema = migrations[222](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.recipients = {
+      ..._.omit(oldSchema.recipients, 'valoraRecipientCache'),
+      appRecipientCache: {},
+    }
+    expectedSchema.keylessBackup = {
+      ..._.omit(oldSchema.keylessBackup, 'valoraKeyshare'),
+      appKeyshare: null,
     }
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })

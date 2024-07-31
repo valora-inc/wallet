@@ -3422,7 +3422,7 @@ export const v222Schema = {
   },
   keylessBackup: {
     ..._.omit(v221Schema.keylessBackup, 'valoraKeyshare'),
-    appKeyshare: v221Schema.keylessBackup.valoraKeyshare,
+    appKeyshare: null,
   },
 }
 

@@ -1828,11 +1828,11 @@ export const migrations = {
     ...state,
     recipients: {
       ..._.omit(state.recipients, 'valoraRecipientCache'),
-      appRecipientCache: state.valoraRecipientCache,
+      appRecipientCache: state.recipients.valoraRecipientCache || {},
     },
     keylessBackup: {
       ..._.omit(state.keylessBackup, 'valoraKeyshare'),
-      appKeyshare: state.keylessBackup.valoraKeyshare,
+      appKeyshare: null,
     },
   }),
 }
