@@ -158,6 +158,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical: Spacing.Tiny4,
+    gap: Spacing.Smallest8,
   },
   divider: {
     marginVertical: Spacing.Small12,
