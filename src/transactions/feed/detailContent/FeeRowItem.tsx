@@ -37,6 +37,8 @@ export default function FeeRowItem({ fees, feeType, transactionStatus }: Props) 
     return null
   }
 
+  const showApproxFee =
+    transactionStatus === TransactionStatus.Pending && feeType !== FeeType.AppFee
   return (
     <View style={styles.row} testID="TransactionDetails/FeeRowItem">
       <Text style={styles.bodyText}>{label}</Text>
@@ -48,7 +50,7 @@ export default function FeeRowItem({ fees, feeType, transactionStatus }: Props) 
           showLocalAmount={false}
           showSymbol={true}
           hideSign={true}
-          showApprox={transactionStatus === TransactionStatus.Pending && feeType !== FeeType.AppFee}
+          showApprox={showApproxFee}
         />
         <TokenDisplay
           style={styles.currencyAmountSecondaryText}
@@ -58,7 +60,7 @@ export default function FeeRowItem({ fees, feeType, transactionStatus }: Props) 
           localAmount={fee.amount.localAmount}
           showSymbol={true}
           hideSign={true}
-          showApprox={transactionStatus === TransactionStatus.Pending && feeType !== FeeType.AppFee}
+          showApprox={showApproxFee}
         />
       </View>
     </View>
