@@ -1909,6 +1909,8 @@
     "swapFrom": "Что обменять",
     "swapTo": "На что обменять",
     "rate": "Курс",
+    "network": "Сообщество",
+    "networkValue": "{{fromNetwork}} → {{toNetwork}}",
     "estimatedFee": "Примерная комиссия сеть",
     "networkFee": "Комиссия сообщества",
     "viewOnExplorer": "Просмотреть в CeloExplorer"
@@ -2184,6 +2186,7 @@
   "viewOnOPSepoliaExplorer": "Просмотр в OP Sepolia Explorer",
   "viewOnPolygonPoSScan": "Просмотр в PolygonScan",
   "viewOnBaseScan": "Просмотр в BaseScan",
+  "viewOnAxelarScan": "Смотреть на AxelarScan",
   "sendEnterAmountScreen": {
     "title": "Введите сумму",
     "selectToken": "Выберите токен",
@@ -2241,6 +2244,9 @@
     "approvalTransactionTitle": "Утверждение",
     "estimatedNetworkFee": "Примерная комиссия сеть",
     "networkFee": "Комиссия сеть",
+    "appFee": "Плата за приложение",
+    "estimatedCrossChainFee": "Примерная стоимость кросс-цепочки",
+    "crossChainFee": "Плата за перекрестную цепочку",
     "finiteApprovalDescription": "Утверждено {{approvedAmount}} {{tokenSymbol}} для сделки",
     "infiniteApprovalDescription": "Утвержден бесконечный {{tokenSymbol}} для сделки",
     "revokeApprovalDescription": "Отозван {{tokenSymbol}} для сделки",
