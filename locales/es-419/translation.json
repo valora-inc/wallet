@@ -1905,6 +1905,8 @@
     "swapFrom": "Cambiar de",
     "swapTo": "Cambiar a",
     "rate": "Tasas",
+    "network": "Red",
+    "networkValue": "{{fromNetwork}} → {{toNetwork}}",
     "estimatedFee": "Tarifa de red estimada",
     "networkFee": "Tarifa de red",
     "viewOnExplorer": "Ver en CeloExplorer"
@@ -2180,6 +2182,7 @@
   "viewOnOPSepoliaExplorer": "Ver en OP Sepolia Explorer",
   "viewOnPolygonPoSScan": "Ver en PolygonScan",
   "viewOnBaseScan": "Ver en BaseScan",
+  "viewOnAxelarScan": "Ver en AxelarScan",
   "sendEnterAmountScreen": {
     "title": "Ingresa el monto",
     "selectToken": "Selecciona un token",
@@ -2237,6 +2240,9 @@
     "approvalTransactionTitle": "Aprobación",
     "estimatedNetworkFee": "Estimación de la tarifa de red",
     "networkFee": "Tarifa de red",
+    "appFee": "Tasa de aplicación",
+    "estimatedCrossChainFee": "Tasa estimada de la cadena cruzada",
+    "crossChainFee": "Tasa por cruce de cadenas",
     "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}} aprobados para operar",
     "infiniteApprovalDescription": "{{tokenSymbol}} infinitos aprobados para operar",
     "revokeApprovalDescription": "{{tokenSymbol}} revocado para operar",

@@ -1905,6 +1905,8 @@
     "swapFrom": "Échanger de",
     "swapTo": "Échanger pour",
     "rate": "Taux",
+    "network": "Réseau",
+    "networkValue": "{{fromNetwork}} → {{toNetwork}}",
     "estimatedFee": "Frais de réseau estimés",
     "networkFee": "Frais de réseau",
     "viewOnExplorer": "Voir sur CeloExplorer"
@@ -2180,6 +2182,7 @@
   "viewOnOPSepoliaExplorer": "Voir sur OP Sepolia Explorer",
   "viewOnPolygonPoSScan": "Voir sur PolygonScan",
   "viewOnBaseScan": "Voir sur BaseScan",
+  "viewOnAxelarScan": "Voir sur AxelarScan",
   "sendEnterAmountScreen": {
     "title": "Saisissez le montant",
     "selectToken": "Sélectionnez un jeton",
@@ -2237,6 +2240,9 @@
     "approvalTransactionTitle": "Approbation",
     "estimatedNetworkFee": "Estimation des frais de réseau",
     "networkFee": "Frais de réseau",
+    "appFee": "Frais d'application",
+    "estimatedCrossChainFee": "Estimation des frais de la chaîne croisée",
+    "crossChainFee": "Frais inter-chaînes",
     "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}} approuvé pour l'échange",
     "infiniteApprovalDescription": "{{tokenSymbol}} approuvé pour l'échange",
     "revokeApprovalDescription": "{{tokenSymbol}} retiré pour l'échange",

@@ -1903,6 +1903,8 @@
     "swapFrom": "Trao đổi từ",
     "swapTo": "Trao đổi sang",
     "rate": "Tỷ giá",
+    "network": "Mạng lưới",
+    "networkValue": "{{fromNetwork}} → {{toNetwork}}",
     "estimatedFee": "Phí mạng lưới ước tính",
     "networkFee": "Phí mạng lưới",
     "viewOnExplorer": "Xem trên CeloExplorer"
@@ -2178,6 +2180,7 @@
   "viewOnOPSepoliaExplorer": "Xem trên OP Sepolia Explorer",
   "viewOnPolygonPoSScan": "Xem trên PolygonScan",
   "viewOnBaseScan": "Xem trên BaseScan",
+  "viewOnAxelarScan": "View on AxelarScan",
   "sendEnterAmountScreen": {
     "title": "Nhập số tiền",
     "selectToken": "Chọn token",
@@ -2235,6 +2238,9 @@
     "approvalTransactionTitle": "Phê duyệt",
     "estimatedNetworkFee": "Phí mạng ước tính",
     "networkFee": "Phí mạng",
+    "appFee": "App fee",
+    "estimatedCrossChainFee": "Estimated cross-chain fee",
+    "crossChainFee": "Cross-chain fee",
     "finiteApprovalDescription": "Đã phê duyệt {{approvedAmount}} {{tokenSymbol}} để giao dịch",
     "infiniteApprovalDescription": "Đã phê duyệt {{tokenSymbol}} không giới hạn cho giao dịch",
     "revokeApprovalDescription": "Đã thu hồi {{tokenSymbol}} để giao dịch",

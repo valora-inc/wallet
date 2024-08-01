@@ -1905,6 +1905,8 @@
     "swapFrom": "Scambia da",
     "swapTo": "Scambia a",
     "rate": "Tasso",
+    "network": "Rete",
+    "networkValue": "{{fromNetwork}} → {{toNetwork}}",
     "estimatedFee": "Commissione di rete stimata",
     "networkFee": "Commissione di rete",
     "viewOnExplorer": "Visualizza su CeloExplorer"
@@ -2180,6 +2182,7 @@
   "viewOnOPSepoliaExplorer": "Visualizza su OP Sepolia Explorer",
   "viewOnPolygonPoSScan": "Visualizza su PolygonScan",
   "viewOnBaseScan": "Visualizza su BaseScan",
+  "viewOnAxelarScan": "Visualizza su AxelarScan",
   "sendEnterAmountScreen": {
     "title": "Inserisci l'importo",
     "selectToken": "Seleziona un token",
@@ -2237,6 +2240,9 @@
     "approvalTransactionTitle": "Approvazione",
     "estimatedNetworkFee": "Commissione di rete stimata",
     "networkFee": "Commissione di rete",
+    "appFee": "App a pagamento",
+    "estimatedCrossChainFee": "Costo stimato della catena incrociata",
+    "crossChainFee": "Tariffa trasversale alla catena",
     "finiteApprovalDescription": "Somma di {{approvedAmount}} {{tokenSymbol}} approvata per la transazione",
     "infiniteApprovalDescription": "Somma di {{tokenSymbol}} infiniti approvata per la transazione",
     "revokeApprovalDescription": "Revoca di {{tokenSymbol}} per la transazione",

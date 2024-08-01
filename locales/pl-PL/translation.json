@@ -1909,6 +1909,8 @@
     "swapFrom": "Zamień z",
     "swapTo": "Zamień na",
     "rate": "Stawka",
+    "network": "Sieć",
+    "networkValue": "{{fromNetwork}} → {{toNetwork}}",
     "estimatedFee": "Szacunkowa opłata sieciowa",
     "networkFee": "Opłata sieciowa",
     "viewOnExplorer": "Wyświetl w CeloExplorer"
@@ -2184,6 +2186,7 @@
   "viewOnOPSepoliaExplorer": "Wyświetl w OP Sepolia Explorer",
   "viewOnPolygonPoSScan": "Wyświetl w PolygonScan",
   "viewOnBaseScan": "Wyświetl w BaseScan",
+  "viewOnAxelarScan": "Wyświetl na AxelarScan",
   "sendEnterAmountScreen": {
     "title": "Wprowadź kwotę",
     "selectToken": "Wybierz token",
@@ -2241,6 +2244,9 @@
     "approvalTransactionTitle": "Zatwierdzenie",
     "estimatedNetworkFee": "Szacowana opłata sieciowa",
     "networkFee": "Opłata sieciowa",
+    "appFee": "Opłata za aplikację",
+    "estimatedCrossChainFee": "Szacowana opłata cross-chain",
+    "crossChainFee": "Opłata cross-chain",
     "finiteApprovalDescription": "Zatwierdzono {{approvedAmount}} {{tokenSymbol}} do wymiany",
     "infiniteApprovalDescription": "Zatwierdzono nieskończoną ilość {{tokenSymbol}} do wymiany",
     "revokeApprovalDescription": "Cofnięto {{tokenSymbol}} do wymiany",
