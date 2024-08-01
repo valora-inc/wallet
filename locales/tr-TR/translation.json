@@ -1905,6 +1905,8 @@
     "swapFrom": "Takas kaynağı",
     "swapTo": "Takas hedefi",
     "rate": "Oran",
+    "network": "Ağ",
+    "networkValue": "{{fromNetwork}} → {{toNetwork}}",
     "estimatedFee": "Tah Ağ Ücreti",
     "networkFee": "Ağ Ücreti",
     "viewOnExplorer": "CeloExplorer'da görüntüle"
@@ -2180,6 +2182,7 @@
   "viewOnOPSepoliaExplorer": "OP Sepolia Explorer'da görüntüle",
   "viewOnPolygonPoSScan": "PolygonScan'de görüntüle",
   "viewOnBaseScan": "BaseScan'de görüntüle",
+  "viewOnAxelarScan": "AxelarScan'de görüntüle",
   "sendEnterAmountScreen": {
     "title": "Tutar Girin",
     "selectToken": "Bir Token seçin",
@@ -2237,6 +2240,9 @@
     "approvalTransactionTitle": "Onay",
     "estimatedNetworkFee": "Tahmini ağ ücreti",
     "networkFee": "Ağ ücreti",
+    "appFee": "Uygulama ücreti",
+    "estimatedCrossChainFee": "Tahmini çapraz zincir ücreti",
+    "crossChainFee": "Çapraz zincir ücreti",
     "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}} işlem için onaylandı",
     "infiniteApprovalDescription": "{{tokenSymbol}} işlem için süresiz onaylandı",
     "revokeApprovalDescription": "{{tokenSymbol}} işlem için iptal edildi",
