@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import { Fee, FeeType, TransactionStatus } from 'src/transactions/types'
 
 export interface Props {
@@ -21,6 +22,13 @@ export default function FeeRowItem({ fees, feeType, transactionStatus }: Props) 
       transactionStatus === TransactionStatus.Pending
         ? t('transactionFeed.estimatedNetworkFee')
         : t('transactionFeed.networkFee')
+  } else if (feeType === FeeType.AppFee) {
+    label = t('transactionFeed.appFee')
+  } else if (feeType === FeeType.CrossChainFee) {
+    label =
+      transactionStatus === TransactionStatus.Pending
+        ? t('transactionFeed.estimatedCrossChainFee')
+        : t('transactionFeed.crossChainFee')
   }
 
   const fee = fees.find((fee) => fee.type === feeType)
@@ -29,10 +37,12 @@ export default function FeeRowItem({ fees, feeType, transactionStatus }: Props) 
     return null
   }
 
+  const showApproxFee =
+    transactionStatus === TransactionStatus.Pending && feeType !== FeeType.AppFee
   return (
-    <View testID="TransactionDetails/FeeRowItem">
-      <View style={styles.row}>
-        <Text style={styles.bodyText}>{label}</Text>
+    <View style={styles.row} testID="TransactionDetails/FeeRowItem">
+      <Text style={styles.bodyText}>{label}</Text>
+      <View>
         <TokenDisplay
           style={styles.currencyAmountPrimaryText}
           amount={fee.amount.value}
@@ -40,16 +50,19 @@ export default function FeeRowItem({ fees, feeType, transactionStatus }: Props) 
           showLocalAmount={false}
           showSymbol={true}
           hideSign={true}
+          showApprox={showApproxFee}
+        />
+        <TokenDisplay
+          style={styles.currencyAmountSecondaryText}
+          amount={fee.amount.value}
+          tokenId={fee.amount.tokenId}
+          showLocalAmount={true}
+          localAmount={fee.amount.localAmount}
+          showSymbol={true}
+          hideSign={true}
+          showApprox={showApproxFee}
         />
       </View>
-      <TokenDisplay
-        style={styles.currencyAmountSecondaryText}
-        amount={fee.amount.value}
-        tokenId={fee.amount.tokenId}
-        showLocalAmount={true}
-        showSymbol={true}
-        hideSign={true}
-      />
     </View>
   )
 }
@@ -59,6 +72,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    gap: Spacing.Small12,
   },
   bodyText: {
     ...typeScale.bodyMedium,
@@ -72,7 +86,7 @@ const styles = StyleSheet.create({
   },
   currencyAmountSecondaryText: {
     ...typeScale.bodySmall,
-    color: Colors.gray4,
-    marginLeft: 'auto',
+    color: Colors.gray3,
+    textAlign: 'right',
   },
 })
