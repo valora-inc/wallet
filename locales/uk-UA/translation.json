@@ -1909,6 +1909,8 @@
     "swapFrom": "Обміняти з",
     "swapTo": "Обміняти на",
     "rate": "Оцінка",
+    "network": "Мережа",
+    "networkValue": "{{fromNetwork}} → {{toNetwork}}",
     "estimatedFee": "Комісія за мережу Est",
     "networkFee": "Комісія за мережу",
     "viewOnExplorer": "Переглянути на CeloExplorer"
@@ -2184,6 +2186,7 @@
   "viewOnOPSepoliaExplorer": "Переглянути в провіднику OP Sepolia",
   "viewOnPolygonPoSScan": "Переглянути на PolygonScan",
   "viewOnBaseScan": "Переглянути на BaseScan",
+  "viewOnAxelarScan": "Переглянути на AxelarScan",
   "sendEnterAmountScreen": {
     "title": "Ввести суму",
     "selectToken": "Вибрати токен",
@@ -2241,6 +2244,9 @@
     "approvalTransactionTitle": "Затвердження",
     "estimatedNetworkFee": "Орієнтовна комісія мережі",
     "networkFee": "Комісія мережі",
+    "appFee": "Плата за додаток",
+    "estimatedCrossChainFee": "Орієнтовна комісія за перехресний ланцюжок",
+    "crossChainFee": "Міжланцюгова комісія",
     "finiteApprovalDescription": "За угодою затверджено {{approvedAmount}} {{tokenSymbol}}",
     "infiniteApprovalDescription": "За угодою затверджено неозначений {{tokenSymbol}}",
     "revokeApprovalDescription": "За угодою відкликано {{tokenSymbol}}",
