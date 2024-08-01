@@ -1823,7 +1823,8 @@ export const migrations = {
     },
   }),
   220: (state: any) => state,
-  221: (state: any) => ({
+  221: (state: any) => state,
+  222: (state: any) => ({
     ...state,
     positions: {
       ...state.positions,

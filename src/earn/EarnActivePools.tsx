@@ -5,8 +5,11 @@ import { EarnEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes, TextSizes } from 'src/components/Button'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
+import { EarnTabType } from 'src/earn/types'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -54,7 +57,7 @@ export default function EarnActivePools() {
               ValoraAnalytics.track(EarnEvents.earn_active_pools_cta_press, {
                 action: 'exploreOpenPools',
               })
-              // TODO(ACT-1260): navigate to earn home page
+              navigate(Screens.EarnHome, { activeEarnTab: EarnTabType.OpenPools })
             }}
             text={t('earnFlow.activePools.explore')}
             type={BtnTypes.TERTIARY}
@@ -67,7 +70,7 @@ export default function EarnActivePools() {
               ValoraAnalytics.track(EarnEvents.earn_active_pools_cta_press, {
                 action: 'myPools',
               })
-              // TODO(ACT-1260): navigate to earn home page
+              navigate(Screens.EarnHome, { activeEarnTab: EarnTabType.MyPools })
             }}
             text={t('earnFlow.activePools.myPools')}
             type={BtnTypes.SECONDARY}

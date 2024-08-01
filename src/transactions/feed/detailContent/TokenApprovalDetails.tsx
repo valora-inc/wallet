@@ -7,8 +7,8 @@ import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokensList } from 'src/tokens/hooks'
-import NetworkFeeRowItem from 'src/transactions/feed/detailContent/NetworkFeeRowItem'
-import { TokenApproval } from 'src/transactions/types'
+import FeeRowItem from 'src/transactions/feed/detailContent/FeeRowItem'
+import { FeeType, TokenApproval } from 'src/transactions/types'
 
 export interface Props {
   transaction: TokenApproval
@@ -42,7 +42,11 @@ export default function TokenApprovalDetails({ transaction }: Props) {
       <Text style={typeScale.labelSmall}>{t('transactionFeed.descriptionLabel')}</Text>
       <Text style={styles.description}>{description}</Text>
 
-      <NetworkFeeRowItem fees={transaction.fees} transactionStatus={transaction.status} />
+      <FeeRowItem
+        fees={transaction.fees}
+        feeType={FeeType.SecurityFee}
+        transactionStatus={transaction.status}
+      />
     </View>
   )
 }

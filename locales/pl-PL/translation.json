@@ -108,6 +108,7 @@
     "subtitle": "Zaloguj się za pomocą adresu e-mail, aby wykorzystać go do utworzenia kopii zapasowej. W przypadku utraty portfela poprosimy Cię o ponowne zalogowanie się.",
     "subtitleRestore": "Zaloguj się za pomocą adresu e-mail, którego użyto do konfiguracji kopii zapasowej portfela.",
     "google": "Zaloguj się przez Google",
+    "apple": "Zaloguj się za pomocą Apple",
     "signInAnotherWay": "Zaloguj się w inny sposób",
     "bottomSheet": {
       "title": "Zapisz swoją frazę odzyskiwania, aby utworzyć portfel",
@@ -2243,7 +2244,8 @@
     "finiteApprovalDescription": "Zatwierdzono {{approvedAmount}} {{tokenSymbol}} do wymiany",
     "infiniteApprovalDescription": "Zatwierdzono nieskończoną ilość {{tokenSymbol}} do wymiany",
     "revokeApprovalDescription": "Cofnięto {{tokenSymbol}} do wymiany",
-    "descriptionLabel": "Szczegóły"
+    "descriptionLabel": "Szczegóły",
+    "crossChainSwapTransactionLabel": "Łańcuch krzyżowy"
   },
   "multichainBeta": {
     "beta": "BETA",

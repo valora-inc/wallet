@@ -5071,17 +5071,17 @@
         "State_23": {
             "additionalProperties": false,
             "properties": {
+                "auth0IdToken": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
                 "backupStatus": {
                     "$ref": "#/definitions/KeylessBackupStatus"
                 },
                 "deleteBackupStatus": {
                     "$ref": "#/definitions/KeylessBackupDeleteStatus"
-                },
-                "googleIdToken": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
                 },
                 "showDeleteBackupError": {
                     "type": "boolean"
@@ -5100,9 +5100,9 @@
                 }
             },
             "required": [
+                "auth0IdToken",
                 "backupStatus",
                 "deleteBackupStatus",
-                "googleIdToken",
                 "showDeleteBackupError",
                 "torusKeyshare",
                 "valoraKeyshare"

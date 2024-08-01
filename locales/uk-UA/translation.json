@@ -108,6 +108,7 @@
     "subtitle": "Увійдіть за допомогою електронної пошти, щоб налаштувати її як резервну копію. У разі втрати гаманця, вам буде запропоновано увійти знову.",
     "subtitleRestore": "Увійдіть за адресою ел. пошти, яку використано для налаштування резервної копії гаманця.",
     "google": "Реєстрація за обліковим записом Google",
+    "apple": "Увійдіть за допомогою Apple",
     "signInAnotherWay": "Увійти іншим способом",
     "bottomSheet": {
       "title": "Збережіть фразу відновлення, щоб створити гаманець",
@@ -2243,7 +2244,8 @@
     "finiteApprovalDescription": "За угодою затверджено {{approvedAmount}} {{tokenSymbol}}",
     "infiniteApprovalDescription": "За угодою затверджено неозначений {{tokenSymbol}}",
     "revokeApprovalDescription": "За угодою відкликано {{tokenSymbol}}",
-    "descriptionLabel": "Подробиці"
+    "descriptionLabel": "Подробиці",
+    "crossChainSwapTransactionLabel": "Перехресний ланцюг"
   },
   "multichainBeta": {
     "beta": "BETA",

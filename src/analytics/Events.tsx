@@ -96,8 +96,8 @@ export enum KeylessBackupEvents {
   wallet_security_primer_get_started = 'wallet_security_primer_get_started',
   cab_setup_recovery_phrase = 'cab_setup_recovery_phrase',
   cab_sign_in_another_way = 'cab_sign_in_another_way',
-  cab_sign_in_with_google = 'cab_sign_in_with_google',
-  cab_sign_in_with_google_success = 'cab_sign_in_with_google_success',
+  cab_sign_in_start = 'cab_sign_in_start',
+  cab_sign_in_success = 'cab_sign_in_success',
   cab_sign_in_with_email_screen_back = 'cab_sign_in_with_email_screen_back',
   cab_sign_in_with_email_screen_cancel = 'cab_sign_in_with_email_screen_cancel',
   cab_sign_in_with_email_screen_skip = 'cab_sign_in_with_email_screen_skip',
@@ -705,4 +705,6 @@ export enum EarnEvents {
   earn_info_learn_press = 'earn_info_learn_press',
   earn_info_earn_press = 'earn_info_earn_press',
   earn_active_pools_cta_press = 'earn_active_pools_cta_press',
+  earn_home_learn_more_press = 'earn_home_learn_more_press',
+  earn_pool_card_cta_press = 'earn_pool_card_cta_press',
 }

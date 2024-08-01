@@ -8,6 +8,7 @@ import {
   ConfirmedStandbyTransaction,
   NetworkId,
   StandbyTransaction,
+  TokenExchange,
   TokenTransaction,
   TransactionStatus,
 } from 'src/transactions/types'
@@ -53,6 +54,8 @@ const initialState = {
   transactionsByNetworkId: {},
   inviteTransactions: {},
 }
+// export for testing
+export const _initialState = initialState
 
 export const reducer = (
   state: State | undefined = initialState,
@@ -90,13 +93,6 @@ export const reducer = (
           },
           ...otherStandbyTransactions,
         ],
-      }
-    case Actions.REMOVE_STANDBY_TRANSACTION:
-      return {
-        ...state,
-        standbyTransactions: state.standbyTransactions.filter(
-          (tx: StandbyTransaction) => tx.context.id !== action.idx
-        ),
       }
     case Actions.TRANSACTION_CONFIRMED: {
       const { status, transactionHash, block, fees } = action.receipt
@@ -145,13 +141,74 @@ export const reducer = (
         }
       })
 
+      const standbyTransactionHashes = new Set(
+        state.standbyTransactions
+          .map((tx) => tx.transactionHash)
+          .filter((hash) => hash !== undefined)
+      )
+
+      // Separate pending cross-chain swap transactions from other received
+      // transactions for custom processing. Usually transactions received from
+      // blockchain-api should overwrite standby transaction but for pending
+      // cross chain swaps, we want to augment the existing standby transaction
+      // with the received transaction information. This is because the standby
+      // transaction contains information about the intended inAmount value
+      // which blockchain-api does not have access to whilst the transaction is
+      // pending.
+      const receivedTransactions: TokenTransaction[] = []
+      const pendingCrossChainTxsWithStandby: TokenExchange[] = []
+      action.transactions.forEach((tx) => {
+        if (
+          tx.status === TransactionStatus.Pending &&
+          tx.__typename === 'CrossChainTokenExchange' &&
+          standbyTransactionHashes.has(tx.transactionHash)
+        ) {
+          pendingCrossChainTxsWithStandby.push(tx)
+        } else {
+          receivedTransactions.push(tx)
+        }
+      })
+
+      const receivedTxHashes = new Set(receivedTransactions.map((tx) => tx.transactionHash))
+      const updatedStandbyTransactions = state.standbyTransactions
+        .filter(
+          // remove standby transactions that match non cross-chain swap transactions from blockchain-api
+          (standbyTx) =>
+            !standbyTx.transactionHash ||
+            standbyTx.networkId !== action.networkId ||
+            !receivedTxHashes.has(standbyTx.transactionHash)
+        )
+        .map((standbyTx) => {
+          // augment existing standby cross chain swap transactions with
+          // received tx information from blockchain-api, but keep the estimated
+          // inAmount value from the original standby transaction
+          if (standbyTx.transactionHash && standbyTx.__typename === 'CrossChainTokenExchange') {
+            const receivedCrossChainTx = pendingCrossChainTxsWithStandby.find(
+              (tx) => tx.transactionHash === standbyTx.transactionHash
+            )
+            if (receivedCrossChainTx) {
+              return {
+                ...standbyTx,
+                ...receivedCrossChainTx,
+                inAmount: {
+                  ...receivedCrossChainTx.inAmount,
+                  value: standbyTx.inAmount.value,
+                },
+              }
+            }
+          }
+
+          return standbyTx
+        })
+
       return {
         ...state,
         transactionsByNetworkId: {
           ...state.transactionsByNetworkId,
-          [action.networkId]: action.transactions,
+          [action.networkId]: receivedTransactions,
         },
         knownFeedTransactions: newKnownFeedTransactions,
+        standbyTransactions: updatedStandbyTransactions,
       }
     case Actions.UPDATE_INVITE_TRANSACTIONS:
       return {
@@ -164,7 +221,7 @@ export const reducer = (
 }
 
 const allStandbyTransactionsSelector = (state: RootState) => state.transactions.standbyTransactions
-export const standbyTransactionsSelector = createSelector(
+const standbyTransactionsSelector = createSelector(
   [allStandbyTransactionsSelector, getSupportedNetworkIdsForApprovalTxsInHomefeed],
   (standbyTransactions, supportedNetworkIdsForApprovalTxs) => {
     return standbyTransactions.filter((tx) => {

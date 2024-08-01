@@ -108,6 +108,7 @@
     "subtitle": "Yedek olarak ayarlamak için e-postanızla oturum açın. Cüzdanınızı kaybetmeniz durumunda tekrar oturum açmanız istenecektir.",
     "subtitleRestore": "Cüzdan yedeklemenizi ayarladığınız e-postayla oturum açın.",
     "google": "Google ile oturum aç",
+    "apple": "Apple ile oturum açın",
     "signInAnotherWay": "Başka bir şekilde oturum açın",
     "bottomSheet": {
       "title": "Bir cüzdan oluşturmak için kurtarma ifadenizi kaydedin",
@@ -2239,7 +2240,8 @@
     "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}} işlem için onaylandı",
     "infiniteApprovalDescription": "{{tokenSymbol}} işlem için süresiz onaylandı",
     "revokeApprovalDescription": "{{tokenSymbol}} işlem için iptal edildi",
-    "descriptionLabel": "Detaylar"
+    "descriptionLabel": "Detaylar",
+    "crossChainSwapTransactionLabel": "Çapraz zincir"
   },
   "multichainBeta": {
     "beta": "BETA",

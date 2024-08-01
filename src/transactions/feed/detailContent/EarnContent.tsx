@@ -9,8 +9,8 @@ import { StatsigDynamicConfigs } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { useTokenInfo } from 'src/tokens/hooks'
-import NetworkFeeRowItem from 'src/transactions/feed/detailContent/NetworkFeeRowItem'
-import { EarnClaimReward, EarnDeposit, EarnWithdraw } from 'src/transactions/types'
+import FeeRowItem from 'src/transactions/feed/detailContent/FeeRowItem'
+import { EarnClaimReward, EarnDeposit, EarnWithdraw, FeeType } from 'src/transactions/types'
 
 interface EarnClaimRewardProps {
   transaction: EarnClaimReward
@@ -51,7 +51,11 @@ export function EarnClaimContent({ transaction }: EarnClaimRewardProps) {
         />
       </View>
       <RowDivider />
-      <NetworkFeeRowItem fees={transaction.fees} transactionStatus={transaction.status} />
+      <FeeRowItem
+        fees={transaction.fees}
+        feeType={FeeType.SecurityFee}
+        transactionStatus={transaction.status}
+      />
     </>
   )
 }
@@ -95,7 +99,11 @@ export function EarnDepositContent({ transaction }: EarnDepositProps) {
         />
       </View>
       <RowDivider />
-      <NetworkFeeRowItem fees={transaction.fees} transactionStatus={transaction.status} />
+      <FeeRowItem
+        fees={transaction.fees}
+        feeType={FeeType.SecurityFee}
+        transactionStatus={transaction.status}
+      />
     </>
   )
 }
@@ -139,7 +147,11 @@ export function EarnWithdrawContent({ transaction }: EarnWithdrawProps) {
         />
       </View>
       <RowDivider />
-      <NetworkFeeRowItem fees={transaction.fees} transactionStatus={transaction.status} />
+      <FeeRowItem
+        fees={transaction.fees}
+        feeType={FeeType.SecurityFee}
+        transactionStatus={transaction.status}
+      />
     </>
   )
 }

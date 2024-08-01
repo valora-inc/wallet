@@ -108,6 +108,7 @@
     "subtitle": "Accedi con il tuo indirizzo e-mail per impostarlo come backup. Ti verrà richiesto di accedere nuovamente se dovessi perdere il tuo portafoglio.",
     "subtitleRestore": "Accedi con l'e-mail che hai utilizzato per impostare il backup.",
     "google": "Accedi con Google",
+    "apple": "Accedi con Apple",
     "signInAnotherWay": "Accedi in un altro modo",
     "bottomSheet": {
       "title": "Salva la tua frase di recupero per creare un portafoglio",
@@ -2239,7 +2240,8 @@
     "finiteApprovalDescription": "Somma di {{approvedAmount}} {{tokenSymbol}} approvata per la transazione",
     "infiniteApprovalDescription": "Somma di {{tokenSymbol}} infiniti approvata per la transazione",
     "revokeApprovalDescription": "Revoca di {{tokenSymbol}} per la transazione",
-    "descriptionLabel": "Dettagli"
+    "descriptionLabel": "Dettagli",
+    "crossChainSwapTransactionLabel": "Catena incrociata"
   },
   "multichainBeta": {
     "beta": "BETA",

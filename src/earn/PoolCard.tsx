@@ -2,6 +2,8 @@ import BigNumber from 'bignumber.js'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
+import { EarnEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes, TextSizes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon from 'src/components/TokenIcon'
@@ -92,6 +94,14 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
           <View style={styles.buttonContainer}>
             <Button
               onPress={() => {
+                ValoraAnalytics.track(EarnEvents.earn_pool_card_cta_press, {
+                  poolId: pool.poolId,
+                  depositTokenId,
+                  networkId: pool.networkId,
+                  tokenAmount: poolTokenInfo.balance.toString(),
+                  providerId: pool.providerId,
+                  action: 'withdraw',
+                })
                 navigate(Screens.EarnCollectScreen, { depositTokenId, poolTokenId })
               }}
               text={t('earnFlow.poolCard.exitPool')}
@@ -102,6 +112,14 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
             />
             <Button
               onPress={() => {
+                ValoraAnalytics.track(EarnEvents.earn_pool_card_cta_press, {
+                  poolId: pool.poolId,
+                  depositTokenId,
+                  networkId: pool.networkId,
+                  tokenAmount: poolTokenInfo.balance.toString(),
+                  providerId: pool.providerId,
+                  action: 'deposit',
+                })
                 navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })
               }}
               text={t('earnFlow.poolCard.addToPool')}
@@ -115,6 +133,14 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
       ) : (
         <Button
           onPress={() => {
+            ValoraAnalytics.track(EarnEvents.earn_pool_card_cta_press, {
+              poolId: pool.poolId,
+              depositTokenId,
+              networkId: pool.networkId,
+              tokenAmount: '0',
+              providerId: pool.providerId,
+              action: 'deposit',
+            })
             navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })
           }}
           text={t('earnFlow.poolCard.addToPool')}

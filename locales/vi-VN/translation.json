@@ -108,6 +108,7 @@
     "subtitle": "Đăng nhập bằng email của bạn để thiết lập thành email sao lưu. Bạn sẽ được nhắc đăng nhập lại nếu chẳng may bị mất ví.",
     "subtitleRestore": "Đăng nhập bằng email bạn đã sử dụng để thiết lập sao lưu ví.",
     "google": "Đăng nhập bằng Google",
+    "apple": "Sign in with Apple",
     "signInAnotherWay": "Đăng nhập bằng cách khác",
     "bottomSheet": {
       "title": "Lưu cụm từ khôi phục của bạn để tạo ví",
@@ -2237,7 +2238,8 @@
     "finiteApprovalDescription": "Đã phê duyệt {{approvedAmount}} {{tokenSymbol}} để giao dịch",
     "infiniteApprovalDescription": "Đã phê duyệt {{tokenSymbol}} không giới hạn cho giao dịch",
     "revokeApprovalDescription": "Đã thu hồi {{tokenSymbol}} để giao dịch",
-    "descriptionLabel": "Chi tiết"
+    "descriptionLabel": "Chi tiết",
+    "crossChainSwapTransactionLabel": "Cross-chain"
   },
   "multichainBeta": {
     "beta": "BETA",
