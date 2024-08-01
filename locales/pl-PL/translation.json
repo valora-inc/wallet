@@ -2244,7 +2244,8 @@
     "finiteApprovalDescription": "Zatwierdzono {{approvedAmount}} {{tokenSymbol}} do wymiany",
     "infiniteApprovalDescription": "Zatwierdzono nieskończoną ilość {{tokenSymbol}} do wymiany",
     "revokeApprovalDescription": "Cofnięto {{tokenSymbol}} do wymiany",
-    "descriptionLabel": "Szczegóły"
+    "descriptionLabel": "Szczegóły",
+    "crossChainSwapTransactionLabel": "Łańcuch krzyżowy"
   },
   "multichainBeta": {
     "beta": "BETA",

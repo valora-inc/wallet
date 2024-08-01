@@ -2244,7 +2244,8 @@
     "finiteApprovalDescription": "За угодою затверджено {{approvedAmount}} {{tokenSymbol}}",
     "infiniteApprovalDescription": "За угодою затверджено неозначений {{tokenSymbol}}",
     "revokeApprovalDescription": "За угодою відкликано {{tokenSymbol}}",
-    "descriptionLabel": "Подробиці"
+    "descriptionLabel": "Подробиці",
+    "crossChainSwapTransactionLabel": "Перехресний ланцюг"
   },
   "multichainBeta": {
     "beta": "BETA",

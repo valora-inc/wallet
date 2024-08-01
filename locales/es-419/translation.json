@@ -2240,7 +2240,8 @@
     "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}} aprobados para operar",
     "infiniteApprovalDescription": "{{tokenSymbol}} infinitos aprobados para operar",
     "revokeApprovalDescription": "{{tokenSymbol}} revocado para operar",
-    "descriptionLabel": "Detalles"
+    "descriptionLabel": "Detalles",
+    "crossChainSwapTransactionLabel": "Cadena cruzada"
   },
   "multichainBeta": {
     "beta": "BETA",

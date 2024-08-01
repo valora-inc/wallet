@@ -1907,6 +1907,8 @@
     "swapFrom": "Swap from",
     "swapTo": "Swap to",
     "rate": "Rate",
+    "network": "Network",
+    "networkValue": "{{fromNetwork}} → {{toNetwork}}",
     "estimatedFee": "Est Network Fee",
     "networkFee": "Network Fee",
     "viewOnExplorer": "View on CeloExplorer"
@@ -2182,6 +2184,7 @@
   "viewOnOPSepoliaExplorer": "View on OP Sepolia Explorer",
   "viewOnPolygonPoSScan": "View on PolygonScan",
   "viewOnBaseScan": "View on BaseScan",
+  "viewOnAxelarScan": "View on AxelarScan",
   "sendEnterAmountScreen": {
     "title": "Enter Amount",
     "selectToken": "Select a Token",
@@ -2239,10 +2242,14 @@
     "approvalTransactionTitle": "Approval",
     "estimatedNetworkFee": "Estimated network fee",
     "networkFee": "Network fee",
+    "appFee": "App fee",
+    "estimatedCrossChainFee": "Estimated cross-chain fee",
+    "crossChainFee": "Cross-chain fee",
     "finiteApprovalDescription": "Approved {{approvedAmount}} {{tokenSymbol}} for trade",
     "infiniteApprovalDescription": "Approved infinite {{tokenSymbol}} for trade",
     "revokeApprovalDescription": "Revoked {{tokenSymbol}} for trade",
-    "descriptionLabel": "Details"
+    "descriptionLabel": "Details",
+    "crossChainSwapTransactionLabel": "Cross-chain"
   },
   "multichainBeta": {
     "beta": "BETA",
