@@ -39,7 +39,7 @@ function TransactionFeed() {
     // Filter out received pending transactions that are also in the pending
     // standby array because those will be displayed with the pending
     // transactions
-    const completedTransactionsOrWithoutPendingStandby = transactions.filter(
+    const completedOrNotPendingStandbyTransactions = transactions.filter(
       (tx) =>
         tx.status === TransactionStatus.Complete ||
         !allPendingTransactions.find(
@@ -50,8 +50,8 @@ function TransactionFeed() {
     )
 
     const confirmedTokenTransactions: TokenTransaction[] =
-      completedTransactionsOrWithoutPendingStandby.length > 0
-        ? completedTransactionsOrWithoutPendingStandby
+      completedOrNotPendingStandbyTransactions.length > 0
+        ? completedOrNotPendingStandbyTransactions
         : cachedTransactions
     const allConfirmedTransactions = deduplicateTransactions(
       confirmedTokenTransactions,
