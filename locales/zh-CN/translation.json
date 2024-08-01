@@ -1903,6 +1903,8 @@
     "swapFrom": "交换自",
     "swapTo": "交换至",
     "rate": "费率",
+    "network": "网络",
+    "networkValue": "{{fromNetwork}} → {{toNetwork}}",
     "estimatedFee": "预估网络费用",
     "networkFee": "网络费用",
     "viewOnExplorer": "在 CeloExplorer 上查看"
@@ -2178,6 +2180,7 @@
   "viewOnOPSepoliaExplorer": "在 OP Sepolia Explorer 上查看",
   "viewOnPolygonPoSScan": "在 PolygonScan 上查看",
   "viewOnBaseScan": "在 BaseScan 上查看",
+  "viewOnAxelarScan": "在 AxelarScan 上查看",
   "sendEnterAmountScreen": {
     "title": "输入金额",
     "selectToken": "选择代币",
@@ -2235,6 +2238,9 @@
     "approvalTransactionTitle": "批准",
     "estimatedNetworkFee": "估算的网络费用",
     "networkFee": "网络费用",
+    "appFee": "应用程序费用",
+    "estimatedCrossChainFee": "跨链费用估算",
+    "crossChainFee": "跨链费用",
     "finiteApprovalDescription": "已批准 {{approvedAmount}} {{tokenSymbol}} 用于交易。",
     "infiniteApprovalDescription": "已批准无限 {{tokenSymbol}} 用于交易",
     "revokeApprovalDescription": "已撤销 {{tokenSymbol}} 用于交易",
