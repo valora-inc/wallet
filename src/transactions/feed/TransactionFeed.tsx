@@ -15,7 +15,7 @@ import TokenApprovalFeedItem from 'src/transactions/feed/TokenApprovalFeedItem'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
 import {
   deduplicateTransactions,
-  getAllowedNetworkIds,
+  getAllowedNetworkIdsString,
   useFetchTransactions,
 } from 'src/transactions/feed/queryHelper'
 import {
@@ -33,7 +33,8 @@ function TransactionFeed() {
   const cachedTransactions = useSelector(transactionsSelector)
   const allPendingTransactions = useSelector(pendingStandbyTransactionsSelector)
   const allConfirmedStandbyTransactions = useSelector(confirmedStandbyTransactionsSelector)
-  const allowedNetworks = getAllowedNetworkIds()
+  const allowedNetworksString = getAllowedNetworkIdsString()
+  const allowedNetworks = useMemo(() => allowedNetworksString.split(','), [allowedNetworksString])
 
   const confirmedFeedTransactions = useMemo(() => {
     const confirmedTokenTransactions: TokenTransaction[] =
