@@ -1,5 +1,5 @@
 import { isEmpty } from 'lodash'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import Toast from 'react-native-simple-toast'
@@ -63,8 +63,9 @@ export const deduplicateTransactions = (
   return transactionsWithoutDuplicatedHash
 }
 
-export function getAllowedNetworkIds(): Array<NetworkId> {
-  return getMultichainFeatures().showTransfers
+export function getAllowedNetworkIdsString() {
+  // return a string to help react memoization
+  return getMultichainFeatures().showTransfers.join(', ')
 }
 
 export function useFetchTransactions(): QueryHookResult {
@@ -74,9 +75,12 @@ export function useFetchTransactions(): QueryHookResult {
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const transactionHashesByNetwork = useSelector(transactionHashesByNetworkIdSelector)
 
+  const allowedNetworkIdsString = getAllowedNetworkIdsString()
   // N.B: This fetch-time filtering does not suffice to prevent non-Celo TXs from appearing
   // on the home feed, since they get cached in Redux -- this is just a network optimization.
-  const allowedNetworkIds = getAllowedNetworkIds()
+  const allowedNetworkIds = useMemo(() => {
+    return allowedNetworkIdsString.split(',') as NetworkId[]
+  }, [allowedNetworkIdsString])
 
   // Track which networks are currently fetching transactions via polling to avoid duplicate requests
   const [activePollingRequests, setActivePollingRequestsState] = useState<ActiveRequests>(
