@@ -343,7 +343,8 @@ describe(triggerShortcutSaga, () => {
       address: mockAccount,
       appId: 'gooddollar',
       networkId: NetworkId['celo-mainnet'],
-      positionAddress: '0x43d72Ff17701B2DA814620735C39C620Ce0ea4A1',
+      positionId: `${NetworkId['celo-mainnet']}:0x43d72ff17701b2da814620735c39c620ce0ea4a1`,
+      positionAddress: '0x43d72ff17701b2da814620735c39c620ce0ea4a1',
       shortcutId: 'claim-reward',
     },
   }

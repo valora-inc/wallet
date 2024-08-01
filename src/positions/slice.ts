@@ -61,6 +61,7 @@ interface TriggerShortcut {
     networkId: NetworkId
     address: string
     appId: string
+    positionId: string
     positionAddress: string
     shortcutId: string
   }

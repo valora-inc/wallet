@@ -190,6 +190,7 @@ describe('DappShortcutsRewards', () => {
               "appId": "ubeswap",
               "networkId": "celo-mainnet",
               "positionAddress": "0xda7f463c27ec862cfbf2369f3f74c364d050d93f",
+              "positionId": "celo-mainnet:0xda7f463c27ec862cfbf2369f3f74c364d050d93f",
               "shortcutId": "claim-reward",
             },
             "id": "claim-reward-0xda7f463c27ec862cfbf2369f3f74c364d050d93f-1.048868615253050072",
