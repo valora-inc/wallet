@@ -2238,7 +2238,8 @@
     "finiteApprovalDescription": "อนุมัติ {{approvedAmount}} {{tokenSymbol}} สำหรับการเทรด",
     "infiniteApprovalDescription": "อนุมัติ {{tokenSymbol}} ไม่จำกัดสำหรับการเทรด",
     "revokeApprovalDescription": "ยกเลิก {{tokenSymbol}} สำหรับการเทรด",
-    "descriptionLabel": "รายละเอียด"
+    "descriptionLabel": "รายละเอียด",
+    "crossChainSwapTransactionLabel": "Cross-chain"
   },
   "multichainBeta": {
     "beta": "BETA",

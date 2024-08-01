@@ -2240,7 +2240,8 @@
     "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}} işlem için onaylandı",
     "infiniteApprovalDescription": "{{tokenSymbol}} işlem için süresiz onaylandı",
     "revokeApprovalDescription": "{{tokenSymbol}} işlem için iptal edildi",
-    "descriptionLabel": "Detaylar"
+    "descriptionLabel": "Detaylar",
+    "crossChainSwapTransactionLabel": "Çapraz zincir"
   },
   "multichainBeta": {
     "beta": "BETA",
