@@ -1,6 +1,3 @@
-import { CeloTxReceipt } from '@celo/connect'
-import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer'
-import { ContractKit } from '@celo/contractkit'
 import isIP from 'is-ip'
 import path from 'path'
 import { Alert, Platform } from 'react-native'
@@ -20,7 +17,6 @@ import {
   triggeredShortcutsStatusSelector,
 } from 'src/positions/selectors'
 import {
-  TriggeredShortcuts,
   executeShortcut,
   executeShortcutFailure,
   executeShortcutSuccess,
@@ -42,16 +38,13 @@ import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { fetchTokenBalances } from 'src/tokens/slice'
-import { sendTransaction } from 'src/transactions/send'
-import { NetworkId, newTransactionContext } from 'src/transactions/types'
+import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
-import { getContractKit } from 'src/web3/contracts'
-import { getConnectedUnlockedAccount } from 'src/web3/saga'
+import { sendPreparedTransactions } from 'src/viem/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
 import { call, put, select, spawn, takeEvery, takeLeading } from 'typed-redux-saga'
 
 const TAG = 'positions/saga'
@@ -248,53 +241,37 @@ export function* triggerShortcutSaga({ payload }: ReturnType<typeof triggerShort
   }
 }
 
-export function* executeShortcutSaga({ payload }: ReturnType<typeof executeShortcut>) {
+export function* executeShortcutSaga({
+  payload: { id, preparedTransactions },
+}: ReturnType<typeof executeShortcut>) {
   Logger.debug(`${TAG}/executeShortcutSaga`, 'Initiating execute shortcut')
 
-  const triggeredShortcuts: TriggeredShortcuts = yield* select(triggeredShortcutsStatusSelector)
-  const shortcut = triggeredShortcuts[payload]
+  const triggeredShortcuts = yield* select(triggeredShortcutsStatusSelector)
+  const shortcut = triggeredShortcuts[id]
+  if (!shortcut) {
+    // This should never happen
+    throw new Error(`Triggered shortcut with id ${id} not found`)
+  }
+
   const trackedShortcutProperties = {
     appName: shortcut.appName,
     appId: shortcut.appId,
     network: shortcut.networkId,
     shortcutId: shortcut.shortcutId,
-    rewardId: payload,
+    rewardId: id,
   }
 
   try {
-    const kit: ContractKit = yield* call(getContractKit)
-    const walletAddress: string = yield* call(getConnectedUnlockedAccount)
-    const normalizer = new TxParamsNormalizer(kit.connection)
+    yield* call(
+      sendPreparedTransactions,
+      preparedTransactions,
+      shortcut.networkId,
+      // We can't really create standby transactions for shortcuts
+      // since we don't have the necessary information
+      preparedTransactions.map(() => () => null)
+    )
 
-    // use JSON stringify / parse, otherwise the transaction fails with this
-    // error: 'Gas estimation failed: Could not decode transaction failure
-    // reason or Error: invalid argument 0: json: cannot unmarshal non-string
-    // into Go struct field TransactionArgs.chainId of type *hexutil.Big'
-    const shortcutTransactions = JSON.parse(JSON.stringify(shortcut?.transactions) ?? '[]')
-
-    Logger.debug(`${TAG}/executeShortcutSaga`, 'Starting to claim reward(s)', shortcutTransactions)
-
-    // TODO parallelize the send transactions
-    for (const transaction of shortcutTransactions) {
-      applyChainIdWorkaround(transaction, yield* call([kit.connection, 'chainId']))
-      const tx = yield* call([normalizer, 'populate'], transaction)
-      const txo = buildTxo(kit, tx)
-
-      const receipt: CeloTxReceipt = yield* call(
-        sendTransaction,
-        txo,
-        walletAddress,
-        newTransactionContext(TAG, 'Execute shortcut')
-      )
-
-      Logger.debug(
-        `${TAG}/executeShortcutSaga`,
-        'Claimed reward successful',
-        receipt.transactionHash
-      )
-    }
-
-    yield* put(executeShortcutSuccess(payload))
+    yield* put(executeShortcutSuccess(id))
     Toast.showWithGravity(
       i18n.t('dappShortcuts.claimRewardsScreen.claimSuccess'),
       Toast.SHORT,
@@ -306,7 +283,7 @@ export function* executeShortcutSaga({ payload }: ReturnType<typeof executeShort
       trackedShortcutProperties
     )
   } catch (error) {
-    yield* put(executeShortcutFailure(payload))
+    yield* put(executeShortcutFailure(id))
     // TODO customise error message when there are more shortcut types
     yield* put(showError(ErrorMessages.SHORTCUT_CLAIM_REWARD_FAILED))
     Logger.warn(`${TAG}/executeShortcutSaga`, 'Failed to claim reward', error)

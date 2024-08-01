@@ -1,8 +1,9 @@
 import { FetchMock } from 'jest-fetch-mock/types'
 import { Platform } from 'react-native'
 import { expectSaga } from 'redux-saga-test-plan'
-import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
-import { call, select } from 'redux-saga/effects'
+import { call } from 'redux-saga-test-plan/matchers'
+import { EffectProviders, StaticProvider, throwError } from 'redux-saga-test-plan/providers'
+import { select } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
 import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -39,9 +40,8 @@ import {
 import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { getContractKit } from 'src/web3/contracts'
+import { sendPreparedTransactions } from 'src/viem/saga'
 import networkConfig from 'src/web3/networkConfig'
-import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockAccount, mockPositions, mockShortcuts } from 'test/values'
 
@@ -68,17 +68,6 @@ const MOCK_SHORTCUTS_RESPONSE = {
 const mockFetch = fetch as FetchMock
 
 const originalPlatform = Platform.OS
-
-const contractKit = {
-  getWallet: jest.fn(),
-  getAccounts: jest.fn(),
-  connection: {
-    chainId: jest.fn(() => '42220'),
-    nonce: jest.fn(),
-    gasPrice: jest.fn(),
-    estimateGas: jest.fn(() => '1234'),
-  },
-}
 
 beforeEach(() => {
   jest.clearAllMocks()
@@ -286,11 +275,11 @@ describe(triggerShortcutSaga, () => {
 
   it('should successfully trigger a shortcut and send the transaction', async () => {
     const mockTransaction = {
-      network: 'celo',
+      networkId: NetworkId['celo-mainnet'],
       from: mockAccount,
       to: '0x43d72ff17701b2da814620735c39c620ce0ea4a1',
       data: '0x4e71d92d',
-    }
+    } as const
     mockFetch.mockResponse(
       JSON.stringify({
         message: 'OK',
@@ -344,14 +333,14 @@ describe(triggerShortcutSaga, () => {
 
 describe(executeShortcutSaga, () => {
   const mockTransaction = {
-    network: 'celo',
+    networkId: NetworkId['celo-mainnet'],
     from: mockAccount,
     to: '0x43d72ff17701b2da814620735c39c620ce0ea4a1',
     data: '0x4e71d92d',
-  }
+  } as const
+  // Just use the same transaction for simplicity
+  const preparedTransactions = [mockTransaction]
   const defaultProviders: (EffectProviders | StaticProvider)[] = [
-    [call(getContractKit), contractKit],
-    [call(getConnectedUnlockedAccount), mockAccount],
     [
       select(triggeredShortcutsStatusSelector),
       {
@@ -367,8 +356,8 @@ describe(executeShortcutSaga, () => {
   it('should successfully trigger a shortcut and send the transaction', async () => {
     mockSendTransaction.mockResolvedValueOnce({ transactionHash: '0x1234' })
 
-    await expectSaga(executeShortcutSaga, executeShortcut('someId'))
-      .provide(defaultProviders)
+    await expectSaga(executeShortcutSaga, executeShortcut({ id: 'someId', preparedTransactions }))
+      .provide([...defaultProviders, [call.fn(sendPreparedTransactions), ['0x1']]])
       .put(executeShortcutSuccess('someId'))
       .not.put(executeShortcutFailure(expect.anything()))
       .run()
@@ -379,8 +368,11 @@ describe(executeShortcutSaga, () => {
   it('should handle shortcut trigger failure', async () => {
     mockSendTransaction.mockRejectedValueOnce('some error')
 
-    await expectSaga(executeShortcutSaga, executeShortcut('someId'))
-      .provide(defaultProviders)
+    await expectSaga(executeShortcutSaga, executeShortcut({ id: 'someId', preparedTransactions }))
+      .provide([
+        ...defaultProviders,
+        [call.fn(sendPreparedTransactions), throwError(new Error('some error'))],
+      ])
       .not.put(executeShortcutSuccess(expect.anything()))
       .put(executeShortcutFailure('someId'))
       .put(showError(ErrorMessages.SHORTCUT_CLAIM_REWARD_FAILED))
