@@ -64,6 +64,7 @@ export const deduplicateTransactions = (
 }
 
 export function getAllowedNetworkIdsString() {
+  // return a string to help react memoization
   return getMultichainFeatures().showTransfers.join(', ')
 }
 
