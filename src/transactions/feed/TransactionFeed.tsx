@@ -23,7 +23,7 @@ import {
   pendingStandbyTransactionsSelector,
   transactionsSelector,
 } from 'src/transactions/reducer'
-import { TokenTransaction } from 'src/transactions/types'
+import { TokenTransaction, TransactionStatus } from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
 
 function TransactionFeed() {
@@ -36,8 +36,23 @@ function TransactionFeed() {
   const allowedNetworks = getAllowedNetworkIds()
 
   const confirmedFeedTransactions = useMemo(() => {
+    // Filter out received pending transactions that are also in the pending
+    // standby array because those will be displayed with the pending
+    // transactions
+    const completedTransactionsOrWithoutPendingStandby = transactions.filter(
+      (tx) =>
+        tx.status === TransactionStatus.Complete ||
+        !allPendingTransactions.find(
+          (pendingStandbyTx) =>
+            pendingStandbyTx.transactionHash === tx.transactionHash &&
+            pendingStandbyTx.networkId === tx.networkId
+        )
+    )
+
     const confirmedTokenTransactions: TokenTransaction[] =
-      transactions.length > 0 ? transactions : cachedTransactions
+      completedTransactionsOrWithoutPendingStandby.length > 0
+        ? completedTransactionsOrWithoutPendingStandby
+        : cachedTransactions
     const allConfirmedTransactions = deduplicateTransactions(
       confirmedTokenTransactions,
       allConfirmedStandbyTransactions
@@ -45,7 +60,13 @@ function TransactionFeed() {
     return allConfirmedTransactions.filter((tx) => {
       return allowedNetworks.includes(tx.networkId)
     })
-  }, [transactions, cachedTransactions, allowedNetworks, allConfirmedStandbyTransactions])
+  }, [
+    transactions,
+    cachedTransactions,
+    allowedNetworks,
+    allConfirmedStandbyTransactions,
+    allPendingTransactions,
+  ])
 
   const pendingTransactions = useMemo(() => {
     return allPendingTransactions.filter((tx) => {
