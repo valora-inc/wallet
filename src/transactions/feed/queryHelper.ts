@@ -582,11 +582,21 @@ export const TRANSACTIONS_QUERY = gql`
       value
       tokenAddress
       tokenId
+      localAmount {
+        value
+        currencyCode
+        exchangeRate
+      }
     }
     inAmount {
       value
       tokenAddress
       tokenId
+      localAmount {
+        value
+        currencyCode
+        exchangeRate
+      }
     }
     fees {
       type
