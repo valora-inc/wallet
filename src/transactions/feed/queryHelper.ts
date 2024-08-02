@@ -63,7 +63,7 @@ export const deduplicateTransactions = (
   return transactionsWithoutDuplicatedHash
 }
 
-export function useAllowedNetworkIds() {
+export function useAllowedNetworkIdsForTransfers() {
   // return a string to help react memoization
   const allowedNetworkIdsString = getMultichainFeatures().showTransfers.join(',')
   // N.B: This fetch-time filtering does not suffice to prevent non-Celo TXs from appearing
@@ -79,7 +79,7 @@ export function useFetchTransactions(): QueryHookResult {
   const address = useSelector(walletAddressSelector)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const transactionHashesByNetwork = useSelector(transactionHashesByNetworkIdSelector)
-  const allowedNetworkIds = useAllowedNetworkIds()
+  const allowedNetworkIds = useAllowedNetworkIdsForTransfers()
 
   // Track which networks are currently fetching transactions via polling to avoid duplicate requests
   const [activePollingRequests, setActivePollingRequestsState] = useState<ActiveRequests>(
