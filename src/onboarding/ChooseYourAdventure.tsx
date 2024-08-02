@@ -53,7 +53,7 @@ const AdventureCard = ({
     <Touchable style={styles.pressableCard} onPress={onPress}>
       <>
         <View style={styles.iconContainer}>{icon}</View>
-        <Text style={fontStyles.small500}>{text}</Text>
+        <Text style={styles.cardText}>{text}</Text>
       </>
     </Touchable>
   </Card>
@@ -200,5 +200,10 @@ const styles = StyleSheet.create({
   },
   skip: {
     color: colors.gray3,
+  },
+  cardText: {
+    ...fontStyles.small500,
+    flex: 1,
+    flexWrap: 'wrap',
   },
 })
