@@ -63,9 +63,14 @@ export const deduplicateTransactions = (
   return transactionsWithoutDuplicatedHash
 }
 
-export function getAllowedNetworkIdsString() {
+export function useAllowedNetworkIds() {
   // return a string to help react memoization
-  return getMultichainFeatures().showTransfers.join(', ')
+  const allowedNetworkIdsString = getMultichainFeatures().showTransfers.join(',')
+  // N.B: This fetch-time filtering does not suffice to prevent non-Celo TXs from appearing
+  // on the home feed, since they get cached in Redux -- this is just a network optimization.
+  return useMemo(() => {
+    return allowedNetworkIdsString.split(',') as NetworkId[]
+  }, [allowedNetworkIdsString])
 }
 
 export function useFetchTransactions(): QueryHookResult {
@@ -74,13 +79,7 @@ export function useFetchTransactions(): QueryHookResult {
   const address = useSelector(walletAddressSelector)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const transactionHashesByNetwork = useSelector(transactionHashesByNetworkIdSelector)
-
-  const allowedNetworkIdsString = getAllowedNetworkIdsString()
-  // N.B: This fetch-time filtering does not suffice to prevent non-Celo TXs from appearing
-  // on the home feed, since they get cached in Redux -- this is just a network optimization.
-  const allowedNetworkIds = useMemo(() => {
-    return allowedNetworkIdsString.split(',') as NetworkId[]
-  }, [allowedNetworkIdsString])
+  const allowedNetworkIds = useAllowedNetworkIds()
 
   // Track which networks are currently fetching transactions via polling to avoid duplicate requests
   const [activePollingRequests, setActivePollingRequestsState] = useState<ActiveRequests>(
