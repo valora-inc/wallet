@@ -70,6 +70,8 @@
     ]
   },
   "dependencies": {
+    "@0xsquid/sdk": "^2.8.23",
+    "@0xsquid/squid-types": "^0.1.93",
     "@badrap/result": "~0.2.13",
     "@celo/connect": "^3.2.0",
     "@celo/contractkit": "^3.2.0",

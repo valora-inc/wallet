@@ -611,6 +611,8 @@ export function SwapScreen({ route }: Props) {
   ).find((token) => token.isNative)
   const crossChainFee = getCrossChainFee(quote, crossChainFeeCurrency)
 
+  console.log('crossChainFee', crossChainFee)
+
   const getWarningStatuses = () => {
     // NOTE: If a new condition is added here, make sure to update `allowSwap` below if
     // the condition should prevent the user from swapping.

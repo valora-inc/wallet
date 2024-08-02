@@ -1,5 +1,9 @@
+import { Squid as SquidSdk } from '@0xsquid/sdk'
+import { ChainType, Estimate, RouteRequest } from '@0xsquid/sdk/dist/types'
+import { valueToBigNumber } from '@celo/contractkit/lib/wrappers/BaseWrapper'
 import BigNumber from 'bignumber.js'
 import { useAsyncCallback } from 'react-async-hook'
+import aavePool from 'src/abis/AavePoolV3'
 import erc20 from 'src/abis/IERC20'
 import { useSelector } from 'src/redux/hooks'
 import {
@@ -159,6 +163,177 @@ async function prepareSwapTransactions(
   })
 }
 
+async function getSquidPostHookQuote(
+  fromToken: TokenBalance,
+  toToken: TokenBalance,
+  sellAmount: string,
+  walletAddress: Address
+): Promise<FetchQuoteResponse | undefined> {
+  if (
+    fromToken.networkId !== NetworkId['celo-mainnet'] ||
+    toToken.networkId !== NetworkId['arbitrum-one'] ||
+    toToken.symbol !== 'USDC'
+  ) {
+    console.log('Squid: Unsupported network or token', fromToken.networkId, toToken.networkId)
+    return
+  }
+
+  const approveData = encodeFunctionData({
+    abi: erc20.abi,
+    functionName: 'approve',
+    args: [networkConfig.arbAavePoolV3ContractAddress, BigInt(0)],
+  })
+
+  const supplyData = encodeFunctionData({
+    abi: aavePool,
+    functionName: 'supply',
+    args: [toToken.address as Address, BigInt(0), walletAddress, 0],
+  })
+
+  const params: RouteRequest = {
+    fromChain: '42220',
+    fromToken: '0x471EcE3750Da237f93B8E339c536989b8978a438',
+    fromAmount: sellAmount,
+    toChain: '42161',
+    toToken: toToken.address!,
+    fromAddress: walletAddress,
+    toAddress: walletAddress,
+    postHook: {
+      chainType: ChainType.EVM,
+      calls: [
+        {
+          callType: 1,
+          target: toToken.address as Address,
+          callData: approveData,
+          estimatedGas: '50000',
+          chainType: ChainType.EVM,
+          payload: {
+            tokenAddress: toToken.address!,
+            inputPos: 1,
+          },
+          value: '0',
+        },
+        // {
+        //   callType: 1,
+        //   target: networkConfig.arbAavePoolV3ContractAddress,
+        //   callData: supplyData,
+        //   estimatedGas: '50000',
+        //   chainType: ChainType.EVM,
+        //   payload: {
+        //     tokenAddress: toToken.address!,
+        //     inputPos: 1,
+        //   },
+        //   value: '0',
+        // },
+      ],
+      description: 'Test arb post hook',
+      provider: 'Test',
+      logoURI: 'https://valoraapp.com/favicon.ico',
+    },
+  }
+
+  const squidSdk = new SquidSdk({
+    baseUrl: 'https://apiplus.squidrouter.com',
+    integratorId: '',
+    timeout: 5000,
+  })
+
+  await squidSdk.init()
+
+  console.log('init squid sdk')
+
+  const { route } = await squidSdk.getRoute(params)
+
+  console.log('Squid route', route)
+
+  const gasCosts = route.estimate.gasCosts[0]
+  const prices = calculatePrices(route.estimate)
+
+  const { transactionRequest } = route
+  if (!transactionRequest) {
+    throw new Error('Squid: route is missing transactionRequest')
+  }
+
+  const swapQuote = {
+    chainId: 42220,
+    buyAmount: route.estimate.toAmount,
+    sellAmount: route.estimate.fromAmount,
+    buyTokenAddress: toToken.address!,
+    sellTokenAddress: fromToken.address!,
+    price: prices.price,
+    guaranteedPrice: prices.guaranteedPrice,
+    estimatedPriceImpact: route.estimate.aggregatePriceImpact,
+    gas: gasCosts.gasLimit,
+    gasPrice: valueToBigNumber(gasCosts.amount)
+      .dividedBy(valueToBigNumber(gasCosts.gasLimit))
+      .toString(10),
+    to: transactionRequest.target,
+    value: transactionRequest.value,
+    data: transactionRequest.data,
+    from: walletAddress,
+    allowanceTarget: transactionRequest.target,
+    estimatedGasUse: valueToBigNumber(gasCosts.gasLimit).times(0.75).toFixed(0),
+    appFeePercentageIncludedInPrice: '0',
+  }
+
+  console.log('Squid quote', swapQuote)
+
+  return {
+    unvalidatedSwapTransaction: {
+      ...swapQuote,
+      swapType: 'cross-chain',
+      ...crossChainSwapProperties(route.estimate),
+    },
+    details: {
+      swapProvider: 'Squid',
+    },
+  }
+}
+
+function crossChainSwapProperties(estimate: Estimate) {
+  const sourceNetworkNativeToken = '0x471EcE3750Da237f93B8E339c536989b8978a438'
+
+  let maxCrossChainFee = BigInt(0)
+  if (estimate.feeCosts) {
+    for (const feeCost of estimate.feeCosts) {
+      const { amount, token, name: feeName, description: feeDescription } = feeCost
+
+      if (token.address.toLowerCase() === sourceNetworkNativeToken) {
+        maxCrossChainFee += BigInt(amount ?? 0)
+      } else {
+        console.log('Unexpected cross-chain swap fee token', {
+          feeTokenAddress: token.address,
+          feeName,
+          feeDescription,
+        })
+      }
+    }
+  }
+  const estimatedCrossChainGasRefund = (maxCrossChainFee * BigInt(25)) / BigInt(100)
+  const estimatedCrossChainFee = maxCrossChainFee - estimatedCrossChainGasRefund
+
+  return {
+    estimatedDuration: estimate.estimatedRouteDuration,
+    maxCrossChainFee: maxCrossChainFee.toString(),
+    estimatedCrossChainFee: estimatedCrossChainFee.toString(),
+  }
+}
+
+function calculatePrices(estimate: Estimate) {
+  // Price is the price of sellToken (or fromToken) in buyToken (or toToken).
+  // I.e., how many buyTokens the user gets for 1 sellToken.
+  return {
+    price: valueToBigNumber(estimate.toAmount)
+      .shiftedBy(-estimate.toToken.decimals)
+      .dividedBy(valueToBigNumber(estimate.fromAmount).shiftedBy(-estimate.fromToken.decimals))
+      .toString(10),
+    guaranteedPrice: valueToBigNumber(estimate.toAmountMin)
+      .shiftedBy(-estimate.toToken.decimals)
+      .dividedBy(valueToBigNumber(estimate.fromAmount).shiftedBy(-estimate.fromToken.decimals))
+      .toString(10),
+  }
+}
+
 function useSwapQuote({
   networkId,
   slippagePercentage,
@@ -215,9 +390,20 @@ function useSwapQuote({
         throw new Error(await response.text())
       }
 
-      const quote: FetchQuoteResponse = await response.json()
+      let quote: FetchQuoteResponse | undefined
 
-      if (!quote.unvalidatedSwapTransaction) {
+      quote = await getSquidPostHookQuote(
+        fromToken,
+        toToken,
+        swapAmountInWei.toFixed(),
+        walletAddress as Address
+      )
+
+      if (!quote) {
+        quote = await response.json()
+      }
+
+      if (!quote || !quote.unvalidatedSwapTransaction) {
         throw new Error(NO_QUOTE_ERROR_MESSAGE)
       }
 
