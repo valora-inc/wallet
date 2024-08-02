@@ -532,15 +532,29 @@ export const TRANSACTIONS_QUERY = gql`
     status
     timestamp
     block
+    metadata {
+      title
+      subtitle
+    }
     inAmount {
       value
       tokenAddress
       tokenId
+      localAmount {
+        value
+        currencyCode
+        exchangeRate
+      }
     }
     outAmount {
       value
       tokenAddress
       tokenId
+      localAmount {
+        value
+        currencyCode
+        exchangeRate
+      }
     }
     fees {
       type
