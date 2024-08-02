@@ -56,15 +56,15 @@ export const deduplicateTransactions = (
   existingTxs: TokenTransaction[],
   incomingTxs: TokenTransaction[]
 ) => {
-  const transactionMap: { [txHash: string]: TokenTransaction } = {}
+  const transactionsByTxHash: { [txHash: string]: TokenTransaction } = {}
   existingTxs.forEach((transaction) => {
-    transactionMap[transaction.transactionHash] = transaction
+    transactionsByTxHash[transaction.transactionHash] = transaction
   })
   incomingTxs.forEach((transaction) => {
-    transactionMap[transaction.transactionHash] = transaction
+    transactionsByTxHash[transaction.transactionHash] = transaction
   })
 
-  return Object.values(transactionMap).sort((a, b) => {
+  return Object.values(transactionsByTxHash).sort((a, b) => {
     return b.timestamp - a.timestamp
   })
 }
