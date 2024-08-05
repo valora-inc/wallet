@@ -57,10 +57,8 @@ export const deduplicateTransactions = (
   incomingTxs: TokenTransaction[]
 ) => {
   const transactionsByTxHash: { [txHash: string]: TokenTransaction } = {}
-  existingTxs.forEach((transaction) => {
-    transactionsByTxHash[transaction.transactionHash] = transaction
-  })
-  incomingTxs.forEach((transaction) => {
+  const combinedTxs = [...existingTxs, ...incomingTxs]
+  combinedTxs.forEach((transaction) => {
     transactionsByTxHash[transaction.transactionHash] = transaction
   })
 
