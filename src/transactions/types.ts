@@ -124,6 +124,7 @@ export enum TokenTransactionTypeV2 {
   NftReceived = 'NFT_RECEIVED',
   NftSent = 'NFT_SENT',
   SwapTransaction = 'SWAP_TRANSACTION',
+  CrossChainSwapTransaction = 'CROSS_CHAIN_SWAP_TRANSACTION',
   Approval = 'APPROVAL',
   EarnDeposit = 'EARN_DEPOSIT',
   EarnWithdraw = 'EARN_WITHDRAW',
@@ -166,7 +167,7 @@ export interface NftTransfer {
 
 // Can we optional the fields `transactionHash` and `block`?
 export interface TokenExchange {
-  __typename: 'TokenExchangeV3'
+  __typename: 'TokenExchangeV3' | 'CrossChainTokenExchange'
   networkId: NetworkId
   type: TokenTransactionTypeV2
   transactionHash: string
@@ -188,6 +189,8 @@ export enum FeeType {
   SecurityFee = 'SECURITY_FEE',
   GatewayFee = 'GATEWAY_FEE',
   EncryptionFee = 'ONE_TIME_ENCRYPTION_FEE',
+  AppFee = 'APP_FEE',
+  CrossChainFee = 'CROSS_CHAIN_FEE',
 }
 
 export interface Fee {

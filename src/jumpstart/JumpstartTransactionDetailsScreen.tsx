@@ -34,8 +34,8 @@ import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import TransactionDetails from 'src/transactions/feed/TransactionDetails'
-import NetworkFeeRowItem from 'src/transactions/feed/detailContent/NetworkFeeRowItem'
-import { TokenTransactionTypeV2 } from 'src/transactions/types'
+import FeeRowItem from 'src/transactions/feed/detailContent/FeeRowItem'
+import { FeeType, TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { TransactionRequest, prepareTransactions } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
@@ -99,6 +99,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
       const preparedTransactions = await prepareTransactions({
         feeCurrencies,
         baseTransactions: [reclaimTx],
+        origin: 'jumpstart-claim',
       })
 
       switch (preparedTransactions.type) {
@@ -236,7 +237,11 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
             />
           </View>
         )}
-        <NetworkFeeRowItem fees={transaction.fees} transactionStatus={transaction.status} />
+        <FeeRowItem
+          fees={transaction.fees}
+          feeType={FeeType.SecurityFee}
+          transactionStatus={transaction.status}
+        />
         <LineItemRow
           testID="JumpstartContent/TokenDetails"
           title={isDeposit ? t('amountSent') : t('amountReceived')}
@@ -290,7 +295,9 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
           copySuccessMessage={t('walletConnectRequest.transactionDataCopied')}
           testID="JumpstarReclaimBottomSheet/RequestPayload"
         />
-        {reclaimTx && <EstimatedNetworkFee networkId={networkId} transaction={reclaimTx} />}
+        {reclaimTx && (
+          <EstimatedNetworkFee isLoading={false} networkId={networkId} transactions={[reclaimTx]} />
+        )}
         <Button
           text={t('confirm')}
           showLoading={reclaimStatus === 'loading'}

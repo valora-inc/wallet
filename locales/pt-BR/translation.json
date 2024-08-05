@@ -105,13 +105,14 @@
   },
   "signInWithEmail": {
     "title": "Entrar com e-mail",
-    "subtitle": "Faça login com seu e-mail para configurá-lo como um backup. Você será solicitado a fazer login novamente se perder sua carteira.",
+    "subtitle": "Entre com seu e-mail para configurá-lo como um backup. Será solicitado que você entre novamente se perder sua carteira.",
     "subtitleRestore": "Entre com o e-mail que você usou para configurar seu backup de carteira.",
     "google": "Entrar com o Google",
-    "signInAnotherWay": "Assine de outra forma",
+    "apple": "Faça login com a Apple",
+    "signInAnotherWay": "Entrar de outra forma",
     "bottomSheet": {
       "title": "Salve sua frase de recuperação para criar uma carteira",
-      "description": "Em breve, ofereceremos suporte a outros provedores de e-mail, mas, enquanto isso, você terá que salvar sua frase de recuperação para concluir a criação de uma carteira.",
+      "description": "Vamos oferecer suporte a outros provedores de e-mail em breve. Enquanto isso, você terá que salvar sua frase de recuperação para terminar de criar a carteira.",
       "continue": "Continuar",
       "skip": "Pular (não recomendado)"
     }
@@ -924,7 +925,7 @@
     "helpDialog": {
       "title": "Ajuda",
       "body": "Enviamos um SMS para o seu número de celular com um código de 6 dígitos.\n\nSe você estiver tendo problemas para receber mensagens, pode pular esta etapa e tentar novamente mais tarde.",
-      "bodyCloudBackupOnboarding": "Enviamos um SMS para o seu número de telefone. Verifique suas mensagens de texto para encontrar o código de 6 dígitos. \n \n Se você estiver tendo problemas para receber mensagens, recomendamos fazer backup com uma frase de recuperação. Você pode tentar fazer login com seu e-mail e telefone mais tarde.",
+      "bodyCloudBackupOnboarding": "Enviamos um SMS para o seu número de celular. Verifique suas mensagens para encontrar o código de 6 dígitos.\n\nSe estiver com dificuldades para receber mensagens, recomendamos fazer backup com uma frase de recuperação. Você pode tentar entrar com seu e-mail e telefone mais tarde.",
       "skip": "Pular",
       "dismiss": "Voltar",
       "useRecoveryPhrase": "Usar frase de recuperação"
@@ -938,7 +939,7 @@
     "header": "Restaurar carteira",
     "title": "Insira a sua frase de recuperação",
     "description": "Use a frase de 12 ou 24 palavras que você salvou quando configurou sua carteira para restaurar.",
-    "descriptionV1_90": "Sua frase de recuperação é uma frase de 12 ou 24 palavras que você escreveu e salvou quando configurou sua carteira. Digite-a aqui para restaurar sua carteira.",
+    "descriptionV1_90": "Sua frase de recuperação é uma frase de 12 ou 24 palavras que você anotou e salvou ao configurar sua carteira. Insira-a aqui para restaurar sua carteira.",
     "emptyWalletDialog": {
       "description": "Esta carteira não tem fundos. Você ainda gostaria de usá-la?",
       "action": "Usar carteira",
@@ -1869,17 +1870,17 @@
       "networkFeeInfo": "Você está trocando na rede {{networkName}}.\n\nEsta taxa de rede estimada é necessária para realizar uma transação na rede {{networkName}}. Essa taxa protege a sua transação e visa manter a rede operacional.",
       "networkFeeInfoV1_76": "Você está trocando na rede {{networkName}}.\n\nUma taxa de rede é necessária para realizar uma transação na rede {{networkName}}. Essa taxa protege sua transação e é paga aos validadores da rede.\n\nComo as condições da rede determinam a quantia exata, a estimativa listada é o que esperamos que seja a taxa real. A taxa não excederá a quantia máxima da taxa.",
       "slippageToleranceInfo": "Tolerância de slippage\n\nSua troca será executada dentro da porcentagem de tolerância de slippage. Se o preço mudar mais do que a tolerância de slippage, a {{appName}} protege você impedindo a execução da negociação.",
-      "slippageToleranceInfoV1_90": "Seu swap será executado dentro da porcentagem de tolerância de slippage. Se o preço mudar mais do que a tolerância de slippage, o site {{appName}} protege você impedindo a execução da negociação.",
+      "slippageToleranceInfoV1_90": "Sua troca será executada dentro da porcentagem de tolerância de slippage. Se o preço mudar mais do que a tolerância de slippage, a {{appName}} protege você impedindo a execução da transação.",
       "networkFeeInfoDismissButton": "Entendi",
       "exchangeRate": "Taxa de câmbio",
-      "exchangeRateInfo": "Taxa de câmbio\n\nEncontramos a melhor taxa de câmbio para você. Sua negociação será concluída a um preço dentro de {{slippagePercentage}}% da estimativa ou a transação será cancelada e os fundos serão devolvidos à sua carteira.",
-      "exchangeRateInfoV1_90": "Encontramos a melhor taxa de câmbio para você. Sua negociação será concluída a um preço dentro de {{slippagePercentage}}% da estimativa ou a transação será cancelada e os fundos serão devolvidos à sua carteira.",
+      "exchangeRateInfo": "Taxa de câmbio\n\nEncontramos a melhor taxa de câmbio para você. Sua transação será concluída a um preço de {{slippagePercentage}}% da estimativa ou a transação será cancelada e os fundos serão devolvidos à sua carteira.",
+      "exchangeRateInfoV1_90": "Encontramos a melhor taxa de câmbio para você. Sua transação será concluída a um preço de {{slippagePercentage}}% da estimativa ou a transação será cancelada e os fundos serão devolvidos à sua carteira.",
       "exchangeRateInfo_withAppFee": "Taxa de câmbio\n\nEncontramos a melhor taxa de câmbio para você. Sua transação será concluída a um preço de {{slippagePercentage}}% da estimativa ou a transação será cancelada e os fundos serão devolvidos à sua carteira.\n\nA taxa estimada inclui uma taxa da {{appName}} de {{appFeePercentage}}%.",
       "exchangeRateInfoDismissButton": "Entendi",
       "estimatedValue": "Valor estimado",
       "estimatedTransactionTime": "Tempo estimado da transação",
       "estimatedTransactionTimeInMinutes": "≈ {{minutes}} min",
-      "estimatedTransactionTimeInfo": "O tempo para concluir a transação é determinado pelo provedor.\n\nSe você estiver trocando entre cadeias diferentes, a transação poderá demorar um pouco mais para ser concluída.",
+      "estimatedTransactionTimeInfo": "O tempo para concluir a transação é determinado pelo fornecedor.\n\nSe estiver trocando entre cadeias diferentes, a transação poderá demorar um pouco mais para ser concluída.",
       "infoDismissButton": "Entendi",
       "fees": "Taxas",
       "feesCalculationError": "Não é possível calcular as taxas",
@@ -1890,9 +1891,9 @@
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "Mais informações",
       "feesInfo_sameChain": "Uma taxa de rede é necessária para processar a transação, garantindo segurança e confiabilidade.",
-      "feesInfo_crossChain": "Uma taxa de rede é exigida para processar a transação, garantindo segurança e confiabilidade. Uma taxa de cadeia cruzada é cobrada pelo provedor para permitir trocas tranquilas e seguras entre diferentes cadeias de blocos.",
-      "feesInfo_sameChainWithAppFee": "Uma taxa de rede é necessária para processar a transação, garantindo segurança e confiabilidade. A taxa {{appName}} de {{appFeePercentage}}% aprimora sua experiência, garantindo swaps rápidos, confiáveis e seguros.",
-      "feesInfo_crossChainWithAppFee": "Uma taxa de rede é exigida para processar a transação, garantindo segurança e confiabilidade. O provedor cobra uma taxa de cadeia cruzada para permitir trocas tranquilas e seguras entre diferentes cadeias de blocos. A taxa {{appName}} de {{appFeePercentage}}% aprimora sua experiência, garantindo trocas rápidas, confiáveis e seguras."
+      "feesInfo_crossChain": "Uma taxa de rede é necessária para processar a transação, garantindo segurança e confiabilidade. O provedor cobra uma taxa de entre cadeias para viabilizar trocas seguras e eficientes entre diversas blockchains.",
+      "feesInfo_sameChainWithAppFee": "Uma taxa de rede é necessária para processar a transação, garantindo segurança e confiabilidade. A taxa da {{appName}} de {{appFeePercentage}}% aprimora sua experiência, garantindo trocas rápidas, confiáveis e seguras.",
+      "feesInfo_crossChainWithAppFee": "Uma taxa de rede é necessária para processar a transação, garantindo segurança e confiabilidade. O provedor cobra uma taxa de entre cadeias para viabilizar trocas seguras e eficientes entre diversas blockchains. A taxa da {{appName}} de {{appFeePercentage}}% aprimora sua experiência, garantindo trocas rápidas, confiáveis e seguras."
     },
     "fundYourWalletBottomSheet": {
       "title": "Adicione fundos à sua carteira",
@@ -1904,6 +1905,8 @@
     "swapFrom": "Trocar de",
     "swapTo": "Trocar para",
     "rate": "Taxa",
+    "network": "Rede",
+    "networkValue": "{{fromNetwork}} → {{toNetwork}}",
     "estimatedFee": "Taxa de rede est.",
     "networkFee": "Taxa de rede",
     "viewOnExplorer": "Ver no CeloExplorer"
@@ -2013,7 +2016,8 @@
       "network": "Rede {{networkName}}",
       "selectNetwork": "Rede",
       "stablecoins": "Stablecoins",
-      "gasTokens": "Tokens de gás"
+      "gasTokens": "Tokens de gás",
+      "tokens": "Token"
     }
   },
   "homeActions": {
@@ -2051,7 +2055,7 @@
     "bannerTitle": "Visualização de hooks ativada, toque para desativar"
   },
   "assets": {
-    "claimRewards": "Reivindicar Recompensas",
+    "claimRewards": "Resgatar recompensas",
     "bridge": "Ponte via {{bridge}}",
     "networkName": "Rede {{networkName}}",
     "tabBar": {
@@ -2178,6 +2182,7 @@
   "viewOnOPSepoliaExplorer": "Ver no OP Sepolia Explorer",
   "viewOnPolygonPoSScan": "Ver no PolygonScan",
   "viewOnBaseScan": "Ver no BaseScan",
+  "viewOnAxelarScan": "Exibir no AxelarScan",
   "sendEnterAmountScreen": {
     "title": "Insira o valor",
     "selectToken": "Selecione um token",
@@ -2235,10 +2240,14 @@
     "approvalTransactionTitle": "Aprovação",
     "estimatedNetworkFee": "Taxa de rede estimada",
     "networkFee": "Taxa de rede",
+    "appFee": "Taxa do aplicativo",
+    "estimatedCrossChainFee": "Taxa estimada entre cadeias",
+    "crossChainFee": "Taxa entre cadeias",
     "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}} aprovado(s) para negociação",
     "infiniteApprovalDescription": "{{tokenSymbol}} infinito aprovado para negociação",
     "revokeApprovalDescription": "{{tokenSymbol}} revogado para negociação",
-    "descriptionLabel": "Detalhes"
+    "descriptionLabel": "Detalhes",
+    "crossChainSwapTransactionLabel": "Cadeia cruzada"
   },
   "multichainBeta": {
     "beta": "BETA",
@@ -2386,7 +2395,7 @@
       "retryCta": "Tentar novamente"
     },
     "infoCard": {
-      "title": "Em breve, você terá mais maneiras de ganhar pontos",
+      "title": "Novas formas de acumular pontos em breve",
       "body": "Estamos trabalhando para adicionar mais maneiras de ganhar pontos usando o aplicativo. Continue verificando as atualizações."
     },
     "activitySection": {
@@ -2416,16 +2425,16 @@
         "title": "Envie com um link ativo",
         "bottomSheet": {
           "title": "Envie com um link ativo",
-          "body": "Ganhe {{pointsValue}} pontos toda vez que você enviar fundos usando um Live Link em {{appName}}. \n\nToque abaixo para começar a enviar e ganhar!",
+          "body": "Ganhe {{pointsValue}} pontos toda vez que você enviar fundos usando um link ativo na {{appName}}. \n\nToque abaixo para começar a enviar e ganhar!",
           "cta": "Envie com um link ativo"
         }
       },
       "depositEarn": {
-        "title": "Deposite em um pool de ganhos em {{appName}}",
+        "title": "Deposite em um pool de ganhos na {{appName}}",
         "bottomSheet": {
-          "title": "Depósito em um pool de ganhos",
-          "body": "Ganhe {{pointsValue}} pontos toda vez que você depositar fundos em um pool de ganhos em {{appName}}. \n\nToque abaixo para que você comece a ganhar rendimento e pontos!",
-          "cta": "Ir para ganhar piscinas"
+          "title": "Deposite em um pool de ganhos",
+          "body": "Ganhe {{pointsValue}} pontos toda vez que você depositar fundos em um pool de ganhos na {{appName}}. \n\nToque abaixo para começar a ganhar rendimentos e pontos!",
+          "cta": "Acesse os pools de ganhos"
         }
       }
     },
@@ -2504,7 +2513,7 @@
       "info": "Este pool é desenvolvido pela Aave",
       "infoBottomSheet": {
         "title": "Por que este pool?",
-        "description": "Esse pool da Aave tem mais de US$ 150 milhões de TVL e mais de 6.000 contribuintes, o que indica forte liquidez e confiabilidade. Ele também usa USDC como seu token e Arbitrum como sua rede, o que reduz a volatilidade e garante que os usuários recebam taxas de gás baratas.\n\nTudo isso faz dela uma opção segura e atraente com APY competitivo, garantindo uma oportunidade de investimento benéfica para nossos usuários.\n\nVocê pode explorar outros pools da Aave <0>aqui</0>.",
+        "description": "Este pool da Aave tem mais de US$ 150 milhões em TVL e mais de 6.000 contribuintes, o que indica forte liquidez e confiabilidade. Ele também usa USDC como seu token e Arbitrum como sua rede, o que reduz a volatilidade e garante que os usuários recebam taxas de gás baratas.\n\nTudo isso faz dele uma opção segura e atrativa com APY competitivo, garantindo uma oportunidade de investimento benéfica para nossos usuários.\n\nVocê pode explorar outros pools da Aave <0>aqui</0>.",
         "dismiss": "Ignorar"
       },
       "notEnoughBalanceForGasWarning": {
@@ -2520,10 +2529,10 @@
       "exitPool": "Sair do pool",
       "depositMore": "Depositar mais",
       "viewPools": "Ver pools",
-      "poolsSupplied": "Piscinas fornecidas",
+      "poolsSupplied": "Pools fornecidos",
       "totalSupplied": "Total fornecido",
-      "myPools": "Minhas piscinas",
-      "explore": "Explorar aberto"
+      "myPools": "Meus pools",
+      "explore": "Explorar abertos"
     },
     "depositBottomSheet": {
       "title": "Revisar e depositar",
@@ -2569,6 +2578,32 @@
       "earnWithdrawTitle": "Sacado",
       "earnWithdrawSubtitle": "{{tokenSymbol}} sacado do pool da {{providerName}}",
       "earnWithdrawDetails": "Quantia retirada"
+    },
+    "home": {
+      "title": "Ganhe",
+      "learnMore": "<0>Saiba mais</0> sobre os pools de rendimento.",
+      "learnMoreBottomSheet": {
+        "bottomSheetTitle": "Saiba mais sobre os pools de rendimento",
+        "apySubtitle": "O que é APY?",
+        "apyDescription": "O rendimento percentual anual (APY) é uma métrica usada para calcular o retorno anualizado dos investimentos em cripto. É um indicador importante do potencial de retorno.",
+        "tvlSubtitle": "O que é TVL?",
+        "tvlDescription": "O valor total bloqueado (TVL) é uma métrica usada para medir o valor dos ativos digitais bloqueados em uma rede blockchain. O TVL é calculado pela soma do valor de todos os ativos digitais bloqueados em um protocolo DeFi ou contrato inteligente. Esses ativos podem incluir criptomoedas, stablecoins e outros tokens."
+      }
+    },
+    "poolCard": {
+      "onNetwork": "na {{networkName}}",
+      "rate": "Taxa (est.)",
+      "reward": "Recompensa",
+      "tvl": "TVL",
+      "exitPool": "Sair do pool",
+      "addToPool": "Adicionar ao pool",
+      "apy": "{{apy}}% de APY",
+      "poweredBy": "Desenvolvido por {{providerName}}",
+      "deposited": "Fornecimento"
+    },
+    "poolFilters": {
+      "openPools": "Pools abertos",
+      "myPools": "Minhos pools"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

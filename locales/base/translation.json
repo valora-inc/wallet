@@ -108,6 +108,7 @@
     "subtitle": "Sign in with your email to set it up as a backup. You will be prompted to sign in again if you ever lose your wallet.",
     "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
     "google": "Sign in with Google",
+    "apple": "Sign in with Apple",
     "signInAnotherWay": "Sign in another way",
     "bottomSheet": {
       "title": "Save your recovery phrase to create a wallet",
@@ -1906,6 +1907,8 @@
     "swapFrom": "Swap from",
     "swapTo": "Swap to",
     "rate": "Rate",
+    "network": "Network",
+    "networkValue": "{{fromNetwork}} → {{toNetwork}}",
     "estimatedFee": "Est Network Fee",
     "networkFee": "Network Fee",
     "viewOnExplorer": "View on CeloExplorer"
@@ -2015,7 +2018,8 @@
       "network": "{{networkName}} Network",
       "selectNetwork": "Network",
       "stablecoins": "Stablecoins",
-      "gasTokens": "Gas Tokens"
+      "gasTokens": "Gas Tokens",
+      "tokens": "Token"
     }
   },
   "homeActions": {
@@ -2180,6 +2184,7 @@
   "viewOnOPSepoliaExplorer": "View on OP Sepolia Explorer",
   "viewOnPolygonPoSScan": "View on PolygonScan",
   "viewOnBaseScan": "View on BaseScan",
+  "viewOnAxelarScan": "View on AxelarScan",
   "sendEnterAmountScreen": {
     "title": "Enter Amount",
     "selectToken": "Select a Token",
@@ -2237,10 +2242,14 @@
     "approvalTransactionTitle": "Approval",
     "estimatedNetworkFee": "Estimated network fee",
     "networkFee": "Network fee",
+    "appFee": "App fee",
+    "estimatedCrossChainFee": "Estimated cross-chain fee",
+    "crossChainFee": "Cross-chain fee",
     "finiteApprovalDescription": "Approved {{approvedAmount}} {{tokenSymbol}} for trade",
     "infiniteApprovalDescription": "Approved infinite {{tokenSymbol}} for trade",
     "revokeApprovalDescription": "Revoked {{tokenSymbol}} for trade",
-    "descriptionLabel": "Details"
+    "descriptionLabel": "Details",
+    "crossChainSwapTransactionLabel": "Cross-chain"
   },
   "multichainBeta": {
     "beta": "BETA",
@@ -2571,6 +2580,32 @@
       "earnWithdrawTitle": "Withdrew",
       "earnWithdrawSubtitle": "Withdrew {{tokenSymbol}} from {{providerName}} Pool",
       "earnWithdrawDetails": "Amount Withdrawn"
+    },
+    "home": {
+      "title": "Earn",
+      "learnMore": "<0>Learn more</0> about yield pools.",
+      "learnMoreBottomSheet": {
+        "bottomSheetTitle": "Learn more about yield pools",
+        "apySubtitle": "What is an APY?",
+        "apyDescription": "Annual percentage yield (APY) is a metric used to calculate the annualized return on crypto investments. It's a key indicator of a cryptocurrency's potential return and profitability.",
+        "tvlSubtitle": "What is TVL?",
+        "tvlDescription": "TVL stands for Total Value Locked, and it's a metric used in the crypto industry to measure the value of digital assets locked on a blockchain network. TVL is calculated by adding up the value of all digital assets locked in a DeFi protocol or smart contract. These assets can include cryptocurrencies, stablecoins, and other tokens."
+      }
+    },
+    "poolCard": {
+      "onNetwork": "on {{networkName}}",
+      "rate": "Rate (est.)",
+      "reward": "Reward",
+      "tvl": "TVL",
+      "exitPool": "Exit Pool",
+      "addToPool": "Add to Pool",
+      "apy": "{{apy}}% APY",
+      "poweredBy": "Powered by {{providerName}}",
+      "deposited": "Supplied"
+    },
+    "poolFilters": {
+      "openPools": "Open Pools",
+      "myPools": "My Pools"
     }
   }
 }

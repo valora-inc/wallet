@@ -29,7 +29,7 @@
   "dataSaver": "โหมดประหยัดข้อมูล",
   "enableDataSaver": "เปิดใช้งานโหมดประหยัดข้อมูล",
   "dataSaverDetail": "โหมดประหยัดข้อมูลช่วยให้คุณสื่อสารกับเครือข่ายผ่านโหนดที่เชื่อถือได้ คุณสามารถเปลี่ยนโหมดนี้ได้ตลอดเวลาในส่วนการตั้งค่าแอป",
-  "keylessBackupSetupTitle": "Create Login",
+  "keylessBackupSetupTitle": "สร้างข้อมูลการเข้าสู่ระบบ",
   "keylessBackupSettingsTitle": "การสำรองข้อมูลอีเมลและโทรศัพท์",
   "keylessBackupSettingsDeleteError": "ไม่สามารถลบข้อมูลสำรองของคุณได้ โปรดรอและลองอีกครั้งในภายหลัง",
   "setup": "ตั้งค่า",
@@ -105,13 +105,14 @@
   },
   "signInWithEmail": {
     "title": "ลงชื่อเข้าใช้ด้วยอีเมล",
-    "subtitle": "Sign in with your email to set it up as a backup. You will be prompted to sign in again if you ever lose your wallet.",
+    "subtitle": "ลงชื่อเข้าใช้ด้วยอีเมลของคุณเพื่อตั้งค่าเป็นข้อมูลสำรอง คุณจะได้รับแจ้งให้ลงชื่อเข้าใช้อีกครั้งหากทำกระเป๋าเงินหาย",
     "subtitleRestore": "ลงชื่อเข้าใช้ด้วยอีเมลที่คุณใช้ในการตั้งค่าการสำรองข้อมูลกระเป๋าเงินของคุณ",
     "google": "ลงชื่อเข้าใช้ด้วย Google",
-    "signInAnotherWay": "Sign in another way",
+    "apple": "Sign in with Apple",
+    "signInAnotherWay": "ลงชื่อเข้าใช้ด้วยวิธีอื่น",
     "bottomSheet": {
-      "title": "Save your recovery phrase to create a wallet",
-      "description": "We’re going to be supporting other email providers soon, but in the meanwhile you’ll have to save your recovery phrase to finish creating a wallet.",
+      "title": "บันทึกวลีกู้คืนรหัสของคุณเพื่อสร้างกระเป๋าเงิน",
+      "description": "เราจะดำเนินการเพื่อรองรับผู้ให้บริการอีเมลรายอื่นเร็วๆ นี้ แต่ในระหว่างนี้ ขอให้คุณบันทึกวลีกู้คืนรหัสของคุณเพื่อสร้างกระเป๋าเงินให้เสร็จสิ้น",
       "continue": "ดำเนินการต่อ",
       "skip": "ข้าม (ไม่แนะนำ)"
     }
@@ -924,7 +925,7 @@
     "helpDialog": {
       "title": "ความช่วยเหลือ",
       "body": "เราได้ส่ง SMS ไปยังหมายเลขโทรศัพท์ของคุณ โปรดตรวจสอบข้อความของคุณเพื่อดูรหัส 6 ตัว หากคุณมีปัญหาในการรับข้อความ คุณสามารถข้ามขั้นตอนนี้ไปก่อนและลองอีกครั้งภายหลัง",
-      "bodyCloudBackupOnboarding": "We sent an SMS to your phone number. Please check your text messages to find the 6 digit code. \n \n If you’re having trouble receiving messages, we recommend backing up with a Recovery Phrase. You can try signing in with your email and phone later.",
+      "bodyCloudBackupOnboarding": "เราได้ส่ง SMS ไปยังหมายเลขโทรศัพท์ของคุณ โปรดตรวจสอบข้อความของคุณเพื่อดูรหัส 6 ตัว \n \n หากคุณมีปัญหาในการรับข้อความ ขอแนะนำให้คุณสำรองข้อมูลวลีกู้คืนรหัสไว้ โดยสามารถลองลงชื่อเข้าใช้ด้วยอีเมลและหมายเลขโทรศัพท์ของคุณได้ภายหลัง",
       "skip": "ข้าม",
       "dismiss": "ย้อนกลับ",
       "useRecoveryPhrase": "ใช้วลีกู้คืนรหัส"
@@ -938,7 +939,7 @@
     "header": "กู้คืนกระเป๋าเงิน",
     "title": "ป้อนวลีการกู้คืนของคุณ",
     "description": "ใช้วลี 12 หรือ 24 คำที่คุณบันทึกเมื่อคุณตั้งค่ากระเป๋าเงินเพื่อกู้คืน",
-    "descriptionV1_90": "Your Recovery Phrase is a 12 or 24-word phrase that you wrote down and saved when you set up your wallet. Please enter it here to restore your wallet.",
+    "descriptionV1_90": "วลีกู้คืนรหัสคือวลี 12 หรือ 24 คำที่คุณจดและบันทึกไว้เมื่อตั้งค่ากระเป๋าเงิน โปรดป้อนวลีที่นี่เพื่อกู้คืนกระเป๋าเงินของคุณ",
     "emptyWalletDialog": {
       "description": "กระเป๋าเงินนี้ไม่มีเงินทุนใด ๆ คุณยังต้องการใช้หรือไม่?",
       "action": "ใช้กระเป๋าเงิน",
@@ -1867,30 +1868,30 @@
       "networkFeeInfo": "คุณกำลังสว็อปบนเครือข่าย {{networkName}}\n\nการดำเนินการธุรกรรมบนเครือข่าย {{networkName}} จำเป็นต้องมีค่าธรรมเนียมเครือข่ายโดยประมาณนี้ ค่าธรรมเนียมนี้จะช่วยดูแลธุรกรรมของคุณให้ปลอดภัยและสนับสนุนการดำเนินงานของเครือข่าย",
       "networkFeeInfoV1_76": "คุณกำลังสว็อปบนเครือข่าย {{networkName}}\n\nการทำธุรกรรมบนเครือข่าย {{networkName}} มีค่าธรรมเนียมเครือข่าย ค่าธรรมเนียมดังกล่าวเป็นการรักษาความปลอดภัยให้กับธุรกรรมของคุณโดยจะชำระให้กับผู้ตรวจสอบเครือข่าย\n\nเนื่องจากเงื่อนไขของเครือข่ายมีการกำหนดจำนวนเงินที่แน่นอน เราจึงคาดว่ารายการค่าธรรมเนียมประมาณการนี้เป็นค่าธรรมเนียมที่แท้จริง ค่าธรรมเนียมจะไม่เกินกว่าจำนวนค่าธรรมเนียมสูงสุด",
       "slippageToleranceInfo": "ราคาคลาดเคลื่อนที่ยอมรับได้\n\nการสว็อปของคุณจะดำเนินการภายในเปอร์เซ็นต์ความคลาดเคลื่อนที่ยอมรับได้ หากราคาเปลี่ยนแปลงมากกว่าคลาดเคลื่อนที่ยอมรับได้ {{appName}} จะปกป้องคุณโดยการระงับการดำเนินการการเทรดนั้น",
-      "slippageToleranceInfoV1_90": "Your swap will execute within the slippage tolerance percentage. If the price changes more than the slippage tolerance, {{appName}} protects you by preventing the trade from executing.",
+      "slippageToleranceInfoV1_90": "สว็อปของคุณจะดำเนินการภายในเปอร์เซ็นต์ความคลาดเคลื่อนที่ยอมรับได้ หากราคาเปลี่ยนแปลงมากกว่าคลาดเคลื่อนที่ยอมรับได้ {{appName}} จะปกป้องคุณโดยการระงับการดำเนินการการเทรดนั้น",
       "networkFeeInfoDismissButton": "เข้าใจแล้ว",
       "exchangeRate": "อัตราแลกเปลี่ยน",
-      "exchangeRateInfo": "Exchange Rate\n\nWe've found the best exchange rate for you. Your trade will be completed at a price within {{slippagePercentage}}% of the estimate or the transaction will be cancelled and funds returned to your wallet.",
-      "exchangeRateInfoV1_90": "We've found the best exchange rate for you. Your trade will be completed at a price within {{slippagePercentage}}% of the estimate or the transaction will be cancelled and funds returned to your wallet.",
+      "exchangeRateInfo": "อัตราแลกเปลี่ยน\n\nเราพบอัตราแลกเปลี่ยนที่ดีที่สุดสำหรับคุณแล้ว การซื้อขายจะดำเนินการที่ราคาภายใน {{slippagePercentage}}% ของค่าโดยประมาณ หากเกินกว่านั้น ธุรกรรมจะถูกยกเลิกและจะมีการคืนเงินไปยังกระเป๋าเงินของคุณ",
+      "exchangeRateInfoV1_90": "เราพบอัตราแลกเปลี่ยนที่ดีที่สุดสำหรับคุณแล้ว การซื้อขายจะดำเนินการที่ราคาภายใน {{slippagePercentage}}% ของค่าโดยประมาณ หากเกินกว่านั้น ธุรกรรมจะถูกยกเลิกและจะมีการคืนเงินไปยังกระเป๋าเงินของคุณ",
       "exchangeRateInfo_withAppFee": "อัตราแลกเปลี่ยน\n\nเราพบอัตราแลกเปลี่ยนที่ดีที่สุดสำหรับคุณแล้ว การซื้อขายจะดำเนินการที่ราคาภายใน {{slippagePercentage}}% ของค่าโดยประมาณ มิฉะนั้น ธุรกรรมจะถูกยกเลิกและจะมีการคืนเงินไปยังกระเป๋าเงินของคุณ\n\nอัตราโดยประมาณรวมค่าธรรมเนียม {{appName}} {{appFeePercentage}}%",
       "exchangeRateInfoDismissButton": "เข้าใจแล้ว",
       "estimatedValue": "ค่าโดยประมาณ",
-      "estimatedTransactionTime": "Estimated Transaction Time",
-      "estimatedTransactionTimeInMinutes": "≈ {{minutes}} min",
-      "estimatedTransactionTimeInfo": "The time to complete the transaction is determined by the provider.\n\nIf you are swapping between different chains, the transaction could take a bit longer to complete.",
+      "estimatedTransactionTime": "เวลาทำธุรกรรมโดยประมาณ",
+      "estimatedTransactionTimeInMinutes": "≈ {{minutes}} นาที",
+      "estimatedTransactionTimeInfo": "ผู้ให้บริการเป็นผู้กำหนดเวลาในการทำธุรกรรมให้เสร็จสมบูรณ์\n\nหากคุณทำการสว็อประหว่างเชนที่แตกต่างกัน อาจต้องใช้เวลานานขึ้นเล็กน้อยในการทำธุรกรรมให้เสร็จสมบูรณ์",
       "infoDismissButton": "เข้าใจแล้ว",
       "fees": "ค่าธรรมเนียม",
-      "feesCalculationError": "Unable to calculate fees",
-      "estimatedCrossChainFee": "Estimated cross-chain fees",
-      "maxCrossChainFee": "Max cross-chain fees",
-      "feesBreakdown": "Breakdown",
+      "feesCalculationError": "ไม่สามารถคำนวณค่าธรรมเนียม",
+      "estimatedCrossChainFee": "ค่าธรรมเนียมการสว็อปข้ามเชนโดยประมาณ",
+      "maxCrossChainFee": "ค่าธรรมเนียมการสว็อปข้ามเชนสูงสุด",
+      "feesBreakdown": "รายละเอียด",
       "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
-      "feesMoreInfoLabel": "More information",
-      "feesInfo_sameChain": "A network fee is required to process the transaction, ensuring security and reliability.",
-      "feesInfo_crossChain": "A network fee is required to process the transaction, ensuring security and reliability. A cross-chain fee is charged by the provider to enable smooth and secure exchanges between different blockchains.",
-      "feesInfo_sameChainWithAppFee": "A network fee is required to process the transaction, ensuring security and reliability. The {{appName}} fee of {{appFeePercentage}}% enhances your experience by ensuring fast, reliable, and secure swaps.",
-      "feesInfo_crossChainWithAppFee": "A network fee is required to process the transaction, ensuring security and reliability. A cross-chain fee is charged by the provider to enable smooth and secure exchanges between different blockchains. The {{appName}} fee of {{appFeePercentage}}% enhances your experience by ensuring fast, reliable, and secure swaps."
+      "feesMoreInfoLabel": "ข้อมูลเพิ่มเติม",
+      "feesInfo_sameChain": "การดำเนินการธุรกรรมจำเป็นต้องมีค่าธรรมเนียมเครือข่ายเพื่อรับประกันความปลอดภัยและความน่าเชื่อถือ",
+      "feesInfo_crossChain": "การดำเนินการธุรกรรมจำเป็นต้องมีค่าธรรมเนียมเครือข่ายเพื่อรับประกันความปลอดภัยและความน่าเชื่อถือ โดยผู้ให้บริการจะเรียกเก็บค่าธรรมเนียมการสว็อปข้ามเชนเพื่อให้การแลกเปลี่ยนระหว่างบล็อกเชนต่างๆ มีความราบรื่นและปลอดภัย",
+      "feesInfo_sameChainWithAppFee": "การดำเนินการธุรกรรมจำเป็นต้องมีค่าธรรมเนียมเครือข่ายเพื่อรับประกันความปลอดภัยและความน่าเชื่อถือ ค่าธรรมเนียม {{appName}} จำนวน {{appFeePercentage}}% ช่วยให้การสว็อปของคุณเป็นไปด้วยความรวดเร็ว เชื่อถือได้ และปลอดภัย",
+      "feesInfo_crossChainWithAppFee": "การดำเนินการธุรกรรมจำเป็นต้องมีค่าธรรมเนียมเครือข่ายเพื่อรับประกันความปลอดภัยและความน่าเชื่อถือ โดยผู้ให้บริการจะเรียกเก็บค่าธรรมเนียมการสว็อปข้ามเชนเพื่อให้การแลกเปลี่ยนระหว่างบล็อกเชนต่างๆ มีความราบรื่นและปลอดภัย ค่าธรรมเนียม {{appName}} จำนวน {{appFeePercentage}}% ช่วยให้การสว็อปของคุณเป็นไปด้วยความรวดเร็ว เชื่อถือได้ และปลอดภัย"
     },
     "fundYourWalletBottomSheet": {
       "title": "ฝากเงินเข้ากระเป๋าเงินของคุณ",
@@ -1902,6 +1903,8 @@
     "swapFrom": "สว็อปจาก",
     "swapTo": "สว็อปเป็น",
     "rate": "อัตรา",
+    "network": "เครือข่าย",
+    "networkValue": "{{fromNetwork}} → {{toNetwork}}",
     "estimatedFee": "ค่าธรรมเนียมเครือข่าย Est",
     "networkFee": "ค่าธรรมเนียมเครือข่าย",
     "viewOnExplorer": "ดูใน CeloExplorer"
@@ -2011,7 +2014,8 @@
       "network": "เครือข่าย {{networkName}}",
       "selectNetwork": "เครือข่าย",
       "stablecoins": "Stablecoins",
-      "gasTokens": "Gas Tokens"
+      "gasTokens": "Gas Tokens",
+      "tokens": "Token"
     }
   },
   "homeActions": {
@@ -2176,6 +2180,7 @@
   "viewOnOPSepoliaExplorer": "ดูบน OP Sepolia Explorer",
   "viewOnPolygonPoSScan": "ดูบน PolygonScan",
   "viewOnBaseScan": "ดูบน BaseScan",
+  "viewOnAxelarScan": "View on AxelarScan",
   "sendEnterAmountScreen": {
     "title": "ป้อนจำนวนเงิน",
     "selectToken": "เลือกโทเค็น",
@@ -2233,10 +2238,14 @@
     "approvalTransactionTitle": "การอนุมัติ",
     "estimatedNetworkFee": "ค่าธรรมเนียมเครือข่ายโดยประมาณ",
     "networkFee": "ค่าธรรมเนียมเครือข่าย",
+    "appFee": "App fee",
+    "estimatedCrossChainFee": "Estimated cross-chain fee",
+    "crossChainFee": "Cross-chain fee",
     "finiteApprovalDescription": "อนุมัติ {{approvedAmount}} {{tokenSymbol}} สำหรับการเทรด",
     "infiniteApprovalDescription": "อนุมัติ {{tokenSymbol}} ไม่จำกัดสำหรับการเทรด",
     "revokeApprovalDescription": "ยกเลิก {{tokenSymbol}} สำหรับการเทรด",
-    "descriptionLabel": "รายละเอียด"
+    "descriptionLabel": "รายละเอียด",
+    "crossChainSwapTransactionLabel": "Cross-chain"
   },
   "multichainBeta": {
     "beta": "BETA",
@@ -2343,7 +2352,7 @@
         "createLiveLink": {
           "title": "ลิงก์สด",
           "subtitle": {
-            "erc20": "Sent {{tokenSymbol}}",
+            "erc20": "ส่ง {{tokenSymbol}} แล้ว",
             "erc721": "NFT ที่ส่ง"
           }
         },
@@ -2384,7 +2393,7 @@
       "retryCta": "ลองอีกครั้ง"
     },
     "infoCard": {
-      "title": "More ways to earn points coming soon",
+      "title": "สะสมคะแนนได้อีกหลายช่องทางเร็วๆ นี้",
       "body": "เรากำลังเพิ่มวิธีสะสมคะแนนผ่านการใช้แอป โปรดติดตามการอัปเดต"
     },
     "activitySection": {
@@ -2414,16 +2423,16 @@
         "title": "ส่งพร้อมลิงก์สด",
         "bottomSheet": {
           "title": "ส่งพร้อมลิงก์สด",
-          "body": "Earn {{pointsValue}} points every time you send funds using a Live Link in {{appName}}. \n\nTap below to start sending and earning!",
+          "body": "รับ {{pointsValue}} คะแนนทุกครั้งที่คุณส่งเงินโดยใช้ Live Link ใน {{appName}} \n\nแตะด้านล่างเพื่อเริ่มส่งและรับคะแนนเลย!",
           "cta": "ส่งพร้อมลิงก์สด"
         }
       },
       "depositEarn": {
-        "title": "Deposit into an earn pool on {{appName}}",
+        "title": "ฝากเงินเข้าพูลรายได้บน {{appName}}",
         "bottomSheet": {
-          "title": "Deposit into an earn pool",
-          "body": "Earn {{pointsValue}} points every time you deposit funds into an earn pool on {{appName}}. \n\nTap below to start earning yield and points!",
-          "cta": "Go to earn pools"
+          "title": "ฝากเงินเข้าพูลรายได้",
+          "body": "รับ {{pointsValue}} คะแนนทุกครั้งที่คุณฝากเงินเข้าพูลรายได้บน {{appName}} \n\nแตะด้านล่างเพื่อเริ่มรับผลตอบแทนและคะแนนเลย!",
+          "cta": "ไปยังพูลรายได้"
         }
       }
     },
@@ -2489,8 +2498,8 @@
     },
     "entrypoint": {
       "title": "สร้างรายได้ผ่าน Stablecoin",
-      "subtitle": "Deposit and earn returns",
-      "description": "Explore pools to deposit assets and earn returns on your stablecoins"
+      "subtitle": "ฝากเงินแล้วรับผลตอบแทน",
+      "description": "สำรวจพูลเพื่อฝากสินทรัพย์และรับผลตอบแทนจาก Stablecoin ของคุณ"
     },
     "enterAmount": {
       "earnUpToLabel": "คุณสามารถสร้างรายได้สูงถึง:",
@@ -2502,7 +2511,7 @@
       "info": "พูลนี้ดำเนินการโดย Aave",
       "infoBottomSheet": {
         "title": "ทำไมต้องเป็นพูลนี้",
-        "description": "This Aave pool has over $150M TVL and more than 6,000 contributors, indicating strong liquidity and trustworthiness. It also uses USDC as its token and Arbitrum as its network, which reduces volatility and ensures users will receive inexpensive gas rates.\n\nAll together this makes it a safe and attractive option with competitive APY, ensuring a beneficial investment opportunity for our users.\n\nYou can explore other Aave pools <0>here</0>.",
+        "description": "พูล Aave นี้มี TVL มูลค่ากว่า $150 ล้านและผู้เข้าร่วมมากกว่า 6,000 ราย ซึ่งแสดงให้เห็นถึงสภาพคล่องที่สูงและความน่าเชื่อถือ นอกจากนี้ยังใช้ USDC เป็นโทเค็นและใช้เครือข่าย Abritrum ที่ช่วยลดความผันผวนและรับประกันได้ว่าผู้ใช้จะได้รับค่าก๊าซในอัตราที่ไม่แพง\n\nทั้งหมดนี้ทำให้พูลนี้เป็นตัวเลือกที่ปลอดภัยและน่าสนใจด้วย APY ที่สูง ช่วยให้ผู้ใช้ของเรามีโอกาสในการลงทุนเพื่อการเติบโต\n\nคุณสามารถสำรวจพูลอื่นของ Aave ได้<0>ที่นี่</0>",
         "dismiss": "ปิด"
       },
       "notEnoughBalanceForGasWarning": {
@@ -2518,10 +2527,10 @@
       "exitPool": "ออกจากพูล",
       "depositMore": "ฝากเพิ่ม",
       "viewPools": "ดูพูล",
-      "poolsSupplied": "Pools supplied",
-      "totalSupplied": "Total supplied",
-      "myPools": "My Pools",
-      "explore": "Explore Open"
+      "poolsSupplied": "พูลที่เข้าร่วม",
+      "totalSupplied": "จำนวนทั้งหมดที่เข้าร่วม",
+      "myPools": "พูลของฉัน",
+      "explore": "สำรวจที่เปิดอยู่"
     },
     "depositBottomSheet": {
       "title": "ตรวจสอบและฝากเงิน",
@@ -2567,6 +2576,32 @@
       "earnWithdrawTitle": "ถอนแล้ว",
       "earnWithdrawSubtitle": "ถอน {{tokenSymbol}} จากพูล {{providerName}} แล้ว",
       "earnWithdrawDetails": "จำนวนเงินที่ถอนแล้ว"
+    },
+    "home": {
+      "title": "สร้างรายได้",
+      "learnMore": "<0>Learn more</0> about yield pools.",
+      "learnMoreBottomSheet": {
+        "bottomSheetTitle": "Learn more about yield pools",
+        "apySubtitle": "What is an APY?",
+        "apyDescription": "Annual percentage yield (APY) is a metric used to calculate the annualized return on crypto investments. It's a key indicator of a cryptocurrency's potential return and profitability.",
+        "tvlSubtitle": "What is TVL?",
+        "tvlDescription": "TVL stands for Total Value Locked, and it's a metric used in the crypto industry to measure the value of digital assets locked on a blockchain network. TVL is calculated by adding up the value of all digital assets locked in a DeFi protocol or smart contract. These assets can include cryptocurrencies, stablecoins, and other tokens."
+      }
+    },
+    "poolCard": {
+      "onNetwork": "บน {{networkName}}",
+      "rate": "อัตรา (โดยประมาณ)",
+      "reward": "Reward",
+      "tvl": "TVL",
+      "exitPool": "ออกจากพูล",
+      "addToPool": "Add to Pool",
+      "apy": "{{apy}}% APY",
+      "poweredBy": "ดำเนินการโดย {{providerName}}",
+      "deposited": "Supplied"
+    },
+    "poolFilters": {
+      "openPools": "Open Pools",
+      "myPools": "My Pools"
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"

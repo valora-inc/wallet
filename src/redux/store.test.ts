@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 219,
+          "version": 222,
         },
         "account": {
           "acceptedTerms": false,
@@ -262,9 +262,9 @@ describe('store state', () => {
           "reclaimStatus": "idle",
         },
         "keylessBackup": {
+          "auth0IdToken": null,
           "backupStatus": "NotStarted",
           "deleteBackupStatus": "NotStarted",
-          "googleIdToken": null,
           "showDeleteBackupError": false,
           "torusKeyshare": null,
           "valoraKeyshare": null,
@@ -307,6 +307,7 @@ describe('store state', () => {
           },
         },
         "positions": {
+          "earnPositionIds": [],
           "positions": [],
           "previewApiUrl": null,
           "shortcuts": [],

@@ -15,8 +15,8 @@ import { useTokenInfo } from 'src/tokens/hooks'
 import CommentSection from 'src/transactions/CommentSection'
 import TransferAvatars from 'src/transactions/TransferAvatars'
 import UserSection from 'src/transactions/UserSection'
-import NetworkFeeRowItem from 'src/transactions/feed/detailContent/NetworkFeeRowItem'
-import { TokenTransfer } from 'src/transactions/types'
+import FeeRowItem from 'src/transactions/feed/detailContent/FeeRowItem'
+import { FeeType, TokenTransfer } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
 
@@ -43,7 +43,11 @@ function TransferSentContent({ transfer }: { transfer: TokenTransfer }) {
       />
       <CommentSection comment={metadata.comment} isSend={true} />
       <HorizontalLine />
-      <NetworkFeeRowItem fees={transfer.fees} transactionStatus={transfer.status} />
+      <FeeRowItem
+        fees={transfer.fees}
+        feeType={FeeType.SecurityFee}
+        transactionStatus={transfer.status}
+      />
       <LineItemRow
         title={t('amountSent')}
         textStyle={typeScale.labelSemiBoldMedium}

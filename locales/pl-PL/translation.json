@@ -105,13 +105,14 @@
   },
   "signInWithEmail": {
     "title": "Zaloguj się za pomocą adresu e-mail",
-    "subtitle": "Zaloguj się za pomocą adresu e-mail, aby skonfigurować go jako kopię zapasową. Zostaniesz poproszony o ponowne zalogowanie się, jeśli kiedykolwiek zgubisz portfel.",
+    "subtitle": "Zaloguj się za pomocą adresu e-mail, aby wykorzystać go do utworzenia kopii zapasowej. W przypadku utraty portfela poprosimy Cię o ponowne zalogowanie się.",
     "subtitleRestore": "Zaloguj się za pomocą adresu e-mail, którego użyto do konfiguracji kopii zapasowej portfela.",
     "google": "Zaloguj się przez Google",
-    "signInAnotherWay": "Podpisz się w inny sposób",
+    "apple": "Zaloguj się za pomocą Apple",
+    "signInAnotherWay": "Zaloguj się w inny sposób",
     "bottomSheet": {
       "title": "Zapisz swoją frazę odzyskiwania, aby utworzyć portfel",
-      "description": "Wkrótce będziemy obsługiwać innych dostawców poczty e-mail, ale w międzyczasie będziesz musiał zapisać swoją frazę odzyskiwania, aby zakończyć tworzenie portfela.",
+      "description": "Wkrótce dostępna będzie obsługa innych dostawców poczty e-mail, ale w międzyczasie musisz zapisać swoją frazę odzyskiwania, aby zakończyć tworzenie portfela.",
       "continue": "Kontynuuj",
       "skip": "Pomiń (niezalecane)"
     }
@@ -924,7 +925,7 @@
     "helpDialog": {
       "title": "Pomoc",
       "body": "Wysłaliśmy wiadomość SMS pod Twój numer telefonu. Sprawdź swoje wiadomości tekstowe, aby znaleźć 6-cyfrowy kod. \n\nJeśli masz problemy z odbieraniem wiadomości, możesz pominąć ten krok i spróbować ponownie później.",
-      "bodyCloudBackupOnboarding": "Wysłaliśmy wiadomość SMS na Twój numer telefonu. Sprawdź swoje wiadomości tekstowe, aby znaleźć 6-cyfrowy kod. \n \n Jeśli masz problemy z odbieraniem wiadomości, zalecamy utworzenie kopii zapasowej za pomocą frazy odzyskiwania. Możesz spróbować zalogować się za pomocą adresu e-mail i telefonu później.",
+      "bodyCloudBackupOnboarding": "Wysłaliśmy SMS na Twój telefon. Sprawdź nasze wiadomości i odszukaj 6-cyfrowy kod. \n \n Jeśli masz problemy z odbieraniem wiadomości, zalecamy utworzenie kopii zapasowej za pomocą frazy odzyskiwania. Możesz spróbować zalogować się za pomocą adresu e-mail i numeru telefonu później.",
       "skip": "Pomiń",
       "dismiss": "Wróć",
       "useRecoveryPhrase": "Użyj frazy odzyskiwania"
@@ -938,7 +939,7 @@
     "header": "Przywróć portfel",
     "title": "Wprowadź frazę odzyskiwania",
     "description": "Użyj zapisanej frazy składającej się z 12 lub 24 słów podczas konfigurowania przywracania portfela.",
-    "descriptionV1_90": "Twoja fraza odzyskiwania to 12- lub 24-wyrazowa fraza, którą zapisałeś i zachowałeś podczas konfigurowania portfela. Wprowadź ją tutaj, aby przywrócić swój portfel.",
+    "descriptionV1_90": "Twoja fraza odzyskiwania to fraza składająca się z 12 lub 24 słów zapisana i zachowana podczas konfigurowania portfela. Wprowadź ją tutaj, aby przywrócić swój portfel.",
     "emptyWalletDialog": {
       "description": "W tym portfelu nie ma żadnych środków. Czy nadal chcesz z niego korzystać?",
       "action": "Użyj Portfela",
@@ -1873,17 +1874,17 @@
       "networkFeeInfo": "Dokonujesz wymiany w sieci {{networkName}}.\n\nTa szacunkowa opłata sieciowa jest wymagana do przeprowadzenia transakcji w sieci {{networkName}}. Opłata ta zabezpiecza Twoją transakcję i przeznaczana jest na utrzymanie działania sieci.",
       "networkFeeInfoV1_76": "Dokonujesz wymiany w sieci {{networkName}}.\n\nDo przeprowadzenia transakcji w sieci {{networkName}} wymagana jest opłata sieciowa. Zabezpiecza ona Twoją transakcję i jest wypłacana weryfikatorom sieci.\n\nWarunki sieciowe określają dokładną kwotę, dlatego podane szacunki przedstawiają oczekiwaną przez nas opłatę. Nie przekroczy ona maksymalnej kwoty opłaty.",
       "slippageToleranceInfo": "Tolerancja poślizgu\n\nTwój swap zostanie zrealizowany w ramach procentowej tolerancji poślizgu. Jeśli cena zmieni się bardziej niż tolerancja poślizgu, {{appName}} chroni Cię, uniemożliwiając realizację transakcji.",
-      "slippageToleranceInfoV1_90": "Twoja transakcja swap zostanie zrealizowana w ramach procentowej tolerancji poślizgu. Jeśli cena zmieni się bardziej niż tolerancja poślizgu, {{appName}} chroni Cię, uniemożliwiając realizację transakcji.",
+      "slippageToleranceInfoV1_90": "Wymiana zostanie zrealizowana zgodnie z ustawionym procentem tolerancji poślizgu. Jeśli zmiana ceny jest większa niż tolerancja poślizgu, {{appName}} chroni Cię, uniemożliwiając realizację transakcji.",
       "networkFeeInfoDismissButton": "Rozumiem",
       "exchangeRate": "Kurs wymiany",
-      "exchangeRateInfo": "Kurs wymiany\n\nZnaleźliśmy dla Ciebie najlepszy kurs wymiany. Twoja transakcja zostanie sfinalizowana po cenie mieszczącej się w {{slippagePercentage}}% oszacowania lub transakcja zostanie anulowana, a środki zwrócone do Twojego portfela.",
-      "exchangeRateInfoV1_90": "Znaleźliśmy dla Ciebie najlepszy kurs wymiany. Twoja transakcja zostanie sfinalizowana po cenie mieszczącej się w {{slippagePercentage}}% oszacowania lub transakcja zostanie anulowana, a środki zwrócone do Twojego portfela.",
+      "exchangeRateInfo": "Kurs wymiany\n\nZnaleźliśmy dla Ciebie najlepszy kurs wymiany. Twoja transakcja zostanie zrealizowana po cenie mieszczącej się w przedziale {{slippagePercentage}}% wartości szacunkowej lub zostanie anulowana, a środki zostaną zwrócone do Twojego portfela.",
+      "exchangeRateInfoV1_90": "Znaleźliśmy dla Ciebie najlepszy kurs wymiany. Twoja transakcja zostanie zrealizowana po cenie mieszczącej się w przedziale {{slippagePercentage}}% wartości szacunkowej lub zostanie anulowana, a środki zostaną zwrócone do Twojego portfela.",
       "exchangeRateInfo_withAppFee": "Kurs wymiany\n\nZnaleźliśmy dla Ciebie najlepszy kurs wymiany. Twoja transakcja zostanie zrealizowana po cenie mieszczącej się w przedziale {{slippagePercentage}}% wartości szacunkowej lub zostanie anulowana, a środki zostaną zwrócone do Twojego portfela.\n\nSzacowany kurs obejmuje opłatę {{appName}} w wysokości {{appFeePercentage}}%.",
       "exchangeRateInfoDismissButton": "Rozumiem",
       "estimatedValue": "Szacunkowa wartość",
       "estimatedTransactionTime": "Szacowany czas transakcji",
       "estimatedTransactionTimeInMinutes": "≈ {{minutes}} min",
-      "estimatedTransactionTimeInfo": "Czas ukończenia transakcji jest określany przez dostawcę.\n\nJeśli wymieniasz się między różnymi łańcuchami, transakcja może potrwać nieco dłużej.",
+      "estimatedTransactionTimeInfo": "To dostawca określa czas zakończenia transakcji.\n\nJeśli wymiana następuje między różnymi łańcuchami, transakcja może potrwać nieco dłużej.",
       "infoDismissButton": "Rozumiem",
       "fees": "Opłaty",
       "feesCalculationError": "Brak możliwości obliczenia opłat",
@@ -1893,10 +1894,10 @@
       "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "Więcej informacji",
-      "feesInfo_sameChain": "Do przetworzenia transakcji wymagana jest opłata sieciowa, zapewniająca bezpieczeństwo i niezawodność.",
-      "feesInfo_crossChain": "Opłata sieciowa jest wymagana do przetworzenia transakcji, zapewniając bezpieczeństwo i niezawodność. Dostawca pobiera opłatę cross-chain, aby umożliwić płynną i bezpieczną wymianę między różnymi łańcuchami bloków.",
-      "feesInfo_sameChainWithAppFee": "Do przetwarzania transakcji wymagana jest opłata sieciowa, zapewniająca bezpieczeństwo i niezawodność. Opłata {{appName}} w wysokości {{appFeePercentage}}% zwiększa Twoje doświadczenie, zapewniając szybką, niezawodną i bezpieczną wymianę.",
-      "feesInfo_crossChainWithAppFee": "Opłata sieciowa jest wymagana do przetworzenia transakcji, zapewniając bezpieczeństwo i niezawodność. Dostawca pobiera opłatę cross-chain, aby umożliwić płynną i bezpieczną wymianę między różnymi łańcuchami bloków. Opłata {{appName}} w wysokości {{appFeePercentage}}% zwiększa Twoje doświadczenie, zapewniając szybkie, niezawodne i bezpieczne swapy."
+      "feesInfo_sameChain": "Do przetworzenia transakcji wymagana jest opłata sieciowa zapewniająca bezpieczeństwo i niezawodność.",
+      "feesInfo_crossChain": "Do przetworzenia transakcji wymagana jest opłata sieciowa zapewniająca bezpieczeństwo i niezawodność. Dostawca pobiera opłatę cross-chain, aby umożliwić płynną i bezpieczną wymianę między różnymi blockchainami.",
+      "feesInfo_sameChainWithAppFee": "Do przetworzenia transakcji wymagana jest opłata sieciowa zapewniająca bezpieczeństwo i niezawodność. Opłata {{appName}} w wysokości {{appFeePercentage}}% poprawia obsługę klienta, zapewniając szybką, niezawodną i bezpieczną wymianę.",
+      "feesInfo_crossChainWithAppFee": "Do przetworzenia transakcji wymagana jest opłata sieciowa zapewniająca bezpieczeństwo i niezawodność. Dostawca pobiera opłatę cross-chain, aby umożliwić płynną i bezpieczną wymianę między różnymi blockchainami. Opłata {{appName}} w wysokości {{appFeePercentage}}% poprawia obsługę klienta, zapewniając szybką, niezawodną i bezpieczną wymianę."
     },
     "fundYourWalletBottomSheet": {
       "title": "Zasil swój portfel",
@@ -1908,6 +1909,8 @@
     "swapFrom": "Zamień z",
     "swapTo": "Zamień na",
     "rate": "Stawka",
+    "network": "Sieć",
+    "networkValue": "{{fromNetwork}} → {{toNetwork}}",
     "estimatedFee": "Szacunkowa opłata sieciowa",
     "networkFee": "Opłata sieciowa",
     "viewOnExplorer": "Wyświetl w CeloExplorer"
@@ -2017,7 +2020,8 @@
       "network": "Sieć {{networkName}}",
       "selectNetwork": "Sieć",
       "stablecoins": "Stablecoiny",
-      "gasTokens": "Tokeny gazowe"
+      "gasTokens": "Tokeny gazowe",
+      "tokens": "Token"
     }
   },
   "homeActions": {
@@ -2182,6 +2186,7 @@
   "viewOnOPSepoliaExplorer": "Wyświetl w OP Sepolia Explorer",
   "viewOnPolygonPoSScan": "Wyświetl w PolygonScan",
   "viewOnBaseScan": "Wyświetl w BaseScan",
+  "viewOnAxelarScan": "Wyświetl na AxelarScan",
   "sendEnterAmountScreen": {
     "title": "Wprowadź kwotę",
     "selectToken": "Wybierz token",
@@ -2239,10 +2244,14 @@
     "approvalTransactionTitle": "Zatwierdzenie",
     "estimatedNetworkFee": "Szacowana opłata sieciowa",
     "networkFee": "Opłata sieciowa",
+    "appFee": "Opłata za aplikację",
+    "estimatedCrossChainFee": "Szacowana opłata cross-chain",
+    "crossChainFee": "Opłata cross-chain",
     "finiteApprovalDescription": "Zatwierdzono {{approvedAmount}} {{tokenSymbol}} do wymiany",
     "infiniteApprovalDescription": "Zatwierdzono nieskończoną ilość {{tokenSymbol}} do wymiany",
     "revokeApprovalDescription": "Cofnięto {{tokenSymbol}} do wymiany",
-    "descriptionLabel": "Szczegóły"
+    "descriptionLabel": "Szczegóły",
+    "crossChainSwapTransactionLabel": "Łańcuch krzyżowy"
   },
   "multichainBeta": {
     "beta": "BETA",
@@ -2420,16 +2429,16 @@
         "title": "Wyślij za pomocą aktywnego linku",
         "bottomSheet": {
           "title": "Wyślij za pomocą aktywnego linku",
-          "body": "Zdobywaj punkty {{pointsValue}} za każdym razem, gdy wysyłasz środki za pomocą Live Link w {{appName}}. \n\nKliknij poniżej, aby zacząć wysyłać i zarabiać!",
+          "body": "Zdobywaj punkty {{pointsValue}} przy każdej wysyłce środków za pomocą Live Link w {{appName}}. \n\nKliknij poniżej, aby rozpocząć wysyłanie i zarabianie.",
           "cta": "Wyślij za pomocą aktywnego linku"
         }
       },
       "depositEarn": {
         "title": "Dokonaj wpłaty do puli zarobków na stronie {{appName}}.",
         "bottomSheet": {
-          "title": "Wpłata do puli zarobków",
-          "body": "Zdobywaj punkty {{pointsValue}} za każdym razem, gdy wpłacasz środki do puli zarobkowej na {{appName}}. \n\nStuknij poniżej, aby zacząć zarabiać i zdobywać punkty!",
-          "cta": "Idź zarabiać w basenach"
+          "title": "Dokonaj wpłaty do puli zarobków",
+          "body": "Zdobywaj punkty {{pointsValue}} przy każdej wpłacie środków do puli zarobków na {{appName}}. \n\nKliknij poniżej, aby rozpocząć zarabianie i zdobywanie punktów!",
+          "cta": "Przejdź do pul zarobków"
         }
       }
     },
@@ -2495,8 +2504,8 @@
     },
     "entrypoint": {
       "title": "Zarabiaj na swoich stablecoinach",
-      "subtitle": "Wpłacaj i zarabiaj na zwrotach",
-      "description": "Przeglądaj pule, aby zdeponować aktywa i zarabiać na swoich stablecoinach"
+      "subtitle": "Dokonuj wpłat i zarabiaj na zwrotach z inwestycji",
+      "description": "Przeglądaj pule, aby zdeponować aktywa i zarabiać na zwrotach z inwestycji w stablecoiny"
     },
     "enterAmount": {
       "earnUpToLabel": "Możesz zarobić do:",
@@ -2508,7 +2517,7 @@
       "info": "Ta pula jest zapewniana przez Aave",
       "infoBottomSheet": {
         "title": "Dlaczego ta pula?",
-        "description": "Ta pula Aave ma ponad 150 mln USD TVL i ponad 6000 współpracowników, co wskazuje na dużą płynność i wiarygodność. Wykorzystuje również USDC jako token i Arbitrum jako sieć, co zmniejsza zmienność i zapewnia użytkownikom niedrogie stawki za gaz.\n\nWszystko to razem sprawia, że jest to bezpieczna i atrakcyjna opcja z konkurencyjnym APY, zapewniająca korzystne możliwości inwestycyjne dla naszych użytkowników.\n\nMożesz zapoznać się z innymi pulami Aave <0>tutaj</0>.",
+        "description": "Ta pula Aave ma ponad 150 mln USD TVL i ponad 6000 uczestników, co wskazuje na dużą płynność i wiarygodność. Wykorzystuje również USDC jako token i Arbitrum jako sieć, co zmniejsza zmienność i zapewnia użytkownikom niskie opłaty za gaz.\n\nWszystko to sprawia, że jest to bezpieczna i atrakcyjna opcja z konkurencyjnym APY zapewniająca naszym użytkownikom korzystne możliwości inwestycyjne.\n\nMożesz zapoznać się z innymi pulami Aave <0>tutaj</0>.",
         "dismiss": "Odrzuć"
       },
       "notEnoughBalanceForGasWarning": {
@@ -2524,10 +2533,10 @@
       "exitPool": "Wyjdź z puli",
       "depositMore": "Wpłać więcej",
       "viewPools": "Pokaż pule",
-      "poolsSupplied": "Dostarczone baseny",
-      "totalSupplied": "Całkowita dostarczona ilość",
-      "myPools": "Moje baseny",
-      "explore": "Explore Open"
+      "poolsSupplied": "Dostępne pule",
+      "totalSupplied": "Dostępne ogółem",
+      "myPools": "Moje pule",
+      "explore": "Przeglądaj otwarte"
     },
     "depositBottomSheet": {
       "title": "Przegląd i wpłata",
@@ -2573,6 +2582,32 @@
       "earnWithdrawTitle": "Wycofano",
       "earnWithdrawSubtitle": "Wycofano {{tokenSymbol}} z puli {{providerName}}",
       "earnWithdrawDetails": "Wypłacona kwota"
+    },
+    "home": {
+      "title": "Zarabiaj",
+      "learnMore": "<0>Dowiedz się więcej</0> o pulach zysków.",
+      "learnMoreBottomSheet": {
+        "bottomSheetTitle": "Dowiedz się więcej o pulach zysków",
+        "apySubtitle": "Co to jest RRSO?",
+        "apyDescription": "Roczna rentowność procentowa (APY) to wskaźnik używany do obliczania rocznego zwrotu z inwestycji w kryptowaluty. Jest to kluczowy wskaźnik potencjalnego zwrotu i rentowności kryptowaluty.",
+        "tvlSubtitle": "Co to jest TVL?",
+        "tvlDescription": "TVL to skrót od Total Value Locked i jest to wskaźnik używany w branży kryptowalut do pomiaru wartości aktywów cyfrowych zablokowanych w sieci blockchain. TVL oblicza się poprzez zsumowanie wartości wszystkich aktywów cyfrowych zablokowanych w protokole DeFi lub inteligentnym kontrakcie. Aktywa te mogą obejmować kryptowaluty, stablecoiny i inne tokeny."
+      }
+    },
+    "poolCard": {
+      "onNetwork": "w {{networkName}}",
+      "rate": "Stawka (szac.)",
+      "reward": "Nagroda",
+      "tvl": "TVL",
+      "exitPool": "Wyjdź z puli",
+      "addToPool": "Dodaj do puli",
+      "apy": "{{apy}}% APY",
+      "poweredBy": "Obsługiwane przez {{providerName}}",
+      "deposited": "Dostarczone"
+    },
+    "poolFilters": {
+      "openPools": "Otwarte baseny",
+      "myPools": "Moje baseny"
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",

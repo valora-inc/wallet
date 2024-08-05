@@ -1,26 +1,31 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { REHYDRATE, RehydrateAction } from 'redux-persist'
 import { getRehydratePayload } from 'src/redux/persist-helper'
-import { Position, Shortcut, ShortcutStatus } from './types'
 import { NetworkId } from 'src/transactions/types'
+import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
+import { Address, Hex } from 'viem'
+import { Position, Shortcut, ShortcutStatus } from './types'
 
 type Status = 'idle' | 'loading' | 'success' | 'error'
 
-export type TriggeredShortcuts = Record<
+type TriggeredShortcuts = Record<
   string,
-  {
-    status: ShortcutStatus
-    transactions: RawShortcutTransaction[]
-    appName: string
-    appImage: string
-    appId: string
-    networkId: NetworkId
-    shortcutId: string
-  }
+  | {
+      status: ShortcutStatus
+      transactions: RawShortcutTransaction[]
+      appName: string
+      appImage: string
+      appId: string
+      networkId: NetworkId
+      shortcutId: string
+    }
+  | undefined
 >
 
 interface State {
   positions: Position[]
+  positionsFetchedAt?: number
+  earnPositionIds: string[]
   status: Status
   shortcuts: Shortcut[]
   shortcutsStatus: Status
@@ -30,6 +35,7 @@ interface State {
 
 const initialState: State = {
   positions: [],
+  earnPositionIds: [],
   status: 'idle',
   shortcuts: [],
   shortcutsStatus: 'idle',
@@ -38,10 +44,13 @@ const initialState: State = {
 }
 
 export interface RawShortcutTransaction {
-  to: string
-  from: string
-  data: string
-  network: string
+  networkId: string // Is NetworkId but we need to check it's a valid value
+  from: Address
+  to: Address
+  value?: string
+  data: Hex
+  gas?: string
+  estimatedGasUse?: string
 }
 
 interface TriggerShortcut {
@@ -52,6 +61,7 @@ interface TriggerShortcut {
     networkId: NetworkId
     address: string
     appId: string
+    positionId: string
     positionAddress: string
     shortcutId: string
   }
@@ -65,9 +75,14 @@ const slice = createSlice({
       ...state,
       status: 'loading',
     }),
-    fetchPositionsSuccess: (state, action: PayloadAction<Position[]>) => ({
+    fetchPositionsSuccess: (
+      state,
+      action: PayloadAction<{ positions: Position[]; earnPositionIds: string[]; fetchedAt: number }>
+    ) => ({
       ...state,
-      positions: action.payload,
+      positions: action.payload.positions,
+      earnPositionIds: action.payload.earnPositionIds,
+      positionsFetchedAt: action.payload.fetchedAt,
       status: 'success',
     }),
     fetchPositionsFailure: (state, action: PayloadAction<Error>) => ({
@@ -91,6 +106,7 @@ const slice = createSlice({
       ...state,
       previewApiUrl: action.payload,
       positions: [],
+      positionsFetchedAt: undefined,
       status: 'idle',
       shortcuts: [],
       shortcutsStatus: 'idle',
@@ -99,6 +115,7 @@ const slice = createSlice({
       ...state,
       previewApiUrl: null,
       positions: [],
+      positionsFetchedAt: undefined,
       status: 'idle',
       shortcuts: [],
       shortcutsStatus: 'idle',
@@ -121,23 +138,53 @@ const slice = createSlice({
         transactions: RawShortcutTransaction[]
       }>
     ) => {
-      state.triggeredShortcutsStatus[action.payload.id].status = 'pendingAccept'
-      state.triggeredShortcutsStatus[action.payload.id].transactions = action.payload.transactions
+      const triggeredShortcut = state.triggeredShortcutsStatus[action.payload.id]
+      if (!triggeredShortcut) {
+        return
+      }
+      triggeredShortcut.status = 'pendingAccept'
+      triggeredShortcut.transactions = action.payload.transactions
     },
     triggerShortcutFailure: (state, action: PayloadAction<string>) => {
-      state.triggeredShortcutsStatus[action.payload].status = 'error'
+      const triggeredShortcut = state.triggeredShortcutsStatus[action.payload]
+      if (!triggeredShortcut) {
+        return
+      }
+      triggeredShortcut.status = 'error'
     },
-    executeShortcut: (state, action: PayloadAction<string>) => {
-      state.triggeredShortcutsStatus[action.payload].status = 'accepting'
+    executeShortcut: (
+      state,
+      action: PayloadAction<{
+        id: string
+        preparedTransactions: SerializableTransactionRequest[]
+      }>
+    ) => {
+      const triggeredShortcut = state.triggeredShortcutsStatus[action.payload.id]
+      if (!triggeredShortcut) {
+        return
+      }
+      triggeredShortcut.status = 'accepting'
     },
     denyExecuteShortcut: (state, action: PayloadAction<string>) => {
-      state.triggeredShortcutsStatus[action.payload].status = 'idle'
+      const triggeredShortcut = state.triggeredShortcutsStatus[action.payload]
+      if (!triggeredShortcut) {
+        return
+      }
+      triggeredShortcut.status = 'idle'
     },
     executeShortcutSuccess: (state, action: PayloadAction<string>) => {
-      state.triggeredShortcutsStatus[action.payload].status = 'success'
+      const triggeredShortcut = state.triggeredShortcutsStatus[action.payload]
+      if (!triggeredShortcut) {
+        return
+      }
+      triggeredShortcut.status = 'success'
     },
     executeShortcutFailure: (state, action: PayloadAction<string>) => {
-      state.triggeredShortcutsStatus[action.payload].status = 'error'
+      const triggeredShortcut = state.triggeredShortcutsStatus[action.payload]
+      if (!triggeredShortcut) {
+        return
+      }
+      triggeredShortcut.status = 'error'
     },
   },
   extraReducers: (builder) => {

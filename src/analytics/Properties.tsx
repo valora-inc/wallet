@@ -49,6 +49,7 @@ import {
   HooksEnablePreviewOrigin,
   ScrollDirection,
   SendOrigin,
+  TransactionOrigin,
   WalletConnectPairingOrigin,
 } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -75,7 +76,7 @@ import { AdventureCardName } from 'src/onboarding/types'
 import { PointsActivityId } from 'src/points/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { AmountEnteredIn, QrCode } from 'src/send/types'
-import { Field } from 'src/swap/types'
+import { Field, SwapType } from 'src/swap/types'
 import { TokenActionName } from 'src/tokens/types'
 import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 
@@ -254,8 +255,12 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.wallet_security_primer_get_started]: undefined
   [KeylessBackupEvents.cab_setup_recovery_phrase]: undefined
   [KeylessBackupEvents.cab_sign_in_another_way]: CommonKeylessBackupProps
-  [KeylessBackupEvents.cab_sign_in_with_google]: CommonKeylessBackupProps
-  [KeylessBackupEvents.cab_sign_in_with_google_success]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_sign_in_start]: CommonKeylessBackupProps & {
+    provider: string
+  }
+  [KeylessBackupEvents.cab_sign_in_success]: CommonKeylessBackupProps & {
+    provider: string
+  }
   [KeylessBackupEvents.cab_sign_in_with_email_screen_back]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_sign_in_with_email_screen_cancel]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_sign_in_with_email_screen_skip]: CommonKeylessBackupProps
@@ -707,6 +712,10 @@ interface TransactionEventsProperties {
     error: string
     feeCurrencyAddress?: string
   } & Web3LibraryProps
+  [TransactionEvents.transaction_prepare_insufficient_gas]: {
+    networkId: NetworkId
+    origin: TransactionOrigin
+  }
 }
 
 interface CeloExchangeEventsProperties {
@@ -1174,6 +1183,7 @@ type SwapQuoteEvent = SwapEvent & {
   price: string
   appFeePercentageIncludedInPrice: string | null | undefined
   provider: string
+  swapType: SwapType
 }
 
 export interface SwapTimeMetrics {
@@ -1568,7 +1578,7 @@ interface PointsEventsProperties {
 }
 
 interface EarnCommonProperties {
-  providerId: 'aave-v3'
+  providerId: string
   networkId: NetworkId
   depositTokenId: string
 }
@@ -1641,6 +1651,12 @@ interface EarnEventsProperties {
   [EarnEvents.earn_info_learn_press]: undefined
   [EarnEvents.earn_info_earn_press]: undefined
   [EarnEvents.earn_active_pools_cta_press]: { action: 'myPools' | 'exploreOpenPools' }
+  [EarnEvents.earn_home_learn_more_press]: undefined
+  [EarnEvents.earn_pool_card_cta_press]: {
+    tokenAmount: string
+    poolId: string
+    action: 'deposit' | 'withdraw'
+  } & EarnCommonProperties
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

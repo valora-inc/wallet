@@ -15,7 +15,7 @@ import TokenApprovalFeedItem from 'src/transactions/feed/TokenApprovalFeedItem'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
 import {
   deduplicateTransactions,
-  getAllowedNetworkIds,
+  useAllowedNetworkIdsForTransfers,
   useFetchTransactions,
 } from 'src/transactions/feed/queryHelper'
 import {
@@ -23,7 +23,7 @@ import {
   pendingStandbyTransactionsSelector,
   transactionsSelector,
 } from 'src/transactions/reducer'
-import { TokenTransaction } from 'src/transactions/types'
+import { TokenTransaction, TransactionStatus } from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
 
 function TransactionFeed() {
@@ -33,19 +33,40 @@ function TransactionFeed() {
   const cachedTransactions = useSelector(transactionsSelector)
   const allPendingTransactions = useSelector(pendingStandbyTransactionsSelector)
   const allConfirmedStandbyTransactions = useSelector(confirmedStandbyTransactionsSelector)
-  const allowedNetworks = getAllowedNetworkIds()
+  const allowedNetworks = useAllowedNetworkIdsForTransfers()
 
   const confirmedFeedTransactions = useMemo(() => {
+    // Filter out received pending transactions that are also in the pending
+    // standby array because those will be displayed with the pending
+    // transactions
+    const completedOrNotPendingStandbyTransactions = transactions.filter(
+      (tx) =>
+        tx.status === TransactionStatus.Complete ||
+        !allPendingTransactions.find(
+          (pendingStandbyTx) =>
+            pendingStandbyTx.transactionHash === tx.transactionHash &&
+            pendingStandbyTx.networkId === tx.networkId
+        )
+    )
+
     const confirmedTokenTransactions: TokenTransaction[] =
-      transactions.length > 0 ? transactions : cachedTransactions
+      completedOrNotPendingStandbyTransactions.length > 0
+        ? completedOrNotPendingStandbyTransactions
+        : cachedTransactions
     const allConfirmedTransactions = deduplicateTransactions(
-      confirmedTokenTransactions,
-      allConfirmedStandbyTransactions
+      allConfirmedStandbyTransactions,
+      confirmedTokenTransactions
     )
     return allConfirmedTransactions.filter((tx) => {
       return allowedNetworks.includes(tx.networkId)
     })
-  }, [transactions, cachedTransactions, allowedNetworks, allConfirmedStandbyTransactions])
+  }, [
+    transactions,
+    cachedTransactions,
+    allowedNetworks,
+    allConfirmedStandbyTransactions,
+    allPendingTransactions,
+  ])
 
   const pendingTransactions = useMemo(() => {
     return allPendingTransactions.filter((tx) => {
@@ -72,7 +93,8 @@ function TransactionFeed() {
   function renderItem({ item: tx }: { item: TokenTransaction; index: number }) {
     switch (tx.__typename) {
       case 'TokenExchangeV3':
-        return <SwapFeedItem key={tx.transactionHash} exchange={tx} />
+      case 'CrossChainTokenExchange':
+        return <SwapFeedItem key={tx.transactionHash} transaction={tx} />
       case 'TokenTransferV3':
         return <TransferFeedItem key={tx.transactionHash} transfer={tx} />
       case 'NftTransferV3':

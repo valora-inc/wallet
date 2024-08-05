@@ -15,20 +15,20 @@ import Logger from 'src/utils/Logger'
 
 const AVATAR_SIZE = 40
 
-type Props = { networkId: NetworkId; status: TransactionStatus } & (
+type Props = { networkId: NetworkId; status: TransactionStatus; hideNetworkIcon?: boolean } & (
   | {
-      transactionType: 'TokenExchangeV3'
+      transactionType:
+        | 'TokenExchangeV3'
+        | 'CrossChainTokenExchange'
+        | 'TokenApproval'
+        | 'EarnDeposit'
+        | 'EarnWithdraw'
+        | 'EarnClaimReward'
     }
   | {
       transactionType: 'TokenTransferV3'
       recipient: Recipient
       isJumpstart: boolean
-    }
-  | {
-      transactionType: 'TokenApproval'
-    }
-  | {
-      transactionType: 'EarnDeposit' | 'EarnWithdraw' | 'EarnClaimReward'
     }
 )
 
@@ -45,7 +45,7 @@ function TransactionFeedItemBaseImage(props: Props) {
   if (status === TransactionStatus.Pending) {
     return <GreenLoadingSpinner height={AVATAR_SIZE} />
   }
-  if (transactionType === 'TokenExchangeV3') {
+  if (transactionType === 'TokenExchangeV3' || transactionType === 'CrossChainTokenExchange') {
     return <SwapIcon />
   }
   if (transactionType === 'TokenApproval') {
@@ -85,6 +85,10 @@ function TransactionFeedItemBaseImage(props: Props) {
 }
 
 function TransactionFeedItemImage(props: Props) {
+  if (props.hideNetworkIcon) {
+    return <TransactionFeedItemBaseImage {...props} />
+  }
+
   return (
     <IconWithNetworkBadge networkId={props.networkId}>
       <TransactionFeedItemBaseImage {...props} />

@@ -17,7 +17,6 @@ import {
   Actions,
   UpdateTransactionsAction,
   addHashToStandbyTransaction,
-  removeStandbyTransaction,
   transactionConfirmed,
   updateInviteTransactions,
   updateRecentTxRecipientsCache,
@@ -28,7 +27,6 @@ import {
   inviteTransactionsSelector,
   knownFeedTransactionsSelector,
   pendingStandbyTransactionsSelector,
-  standbyTransactionsSelector,
 } from 'src/transactions/reducer'
 import { sendTransactionPromises, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import {
@@ -63,21 +61,6 @@ const WATCHING_DELAY_BY_NETWORK: Record<Network, number> = {
   [Network.Base]: 2000,
 }
 const MIN_WATCHING_DELAY_MS = 2000
-
-// Remove standby txs from redux state when the real ones show up in the feed
-function* cleanupStandbyTransactions({ transactions, networkId }: UpdateTransactionsAction) {
-  const standbyTxs: StandbyTransaction[] = yield* select(standbyTransactionsSelector)
-  const newFeedTxHashes = new Set(transactions.map((tx) => tx?.transactionHash))
-  for (const standbyTx of standbyTxs) {
-    if (
-      standbyTx.transactionHash &&
-      standbyTx.networkId === networkId &&
-      newFeedTxHashes.has(standbyTx.transactionHash)
-    ) {
-      yield* put(removeStandbyTransaction(standbyTx.context.id))
-    }
-  }
-}
 
 function* getInviteTransactionDetails(txHash: string, blockNumber: string) {
   const kit: ContractKit = yield* call(getContractKit)
@@ -240,7 +223,6 @@ function* refreshRecentTxRecipients() {
 }
 
 function* watchNewFeedTransactions() {
-  yield* takeEvery(Actions.UPDATE_TRANSACTIONS, safely(cleanupStandbyTransactions))
   yield* takeEvery(Actions.UPDATE_TRANSACTIONS, safely(getInviteTransactionsDetails))
   yield* takeLatest(Actions.UPDATE_TRANSACTIONS, safely(refreshRecentTxRecipients))
 }
@@ -264,7 +246,13 @@ export function* getTransactionReceipt(
       hash: transactionHash as Hash,
     })
 
-    if (receipt) {
+    if (transaction.__typename === 'CrossChainTokenExchange' && receipt.status === 'success') {
+      // Do nothing for a cross chain swap that has a successful receipt because
+      // it is for the source network only, and we'll need to rely on
+      // blockchain-api to tell us when the whole cross chain swap has
+      // succeeded. However, we still want to mark the swap as failed if this
+      // source chain transaction has been reverted.
+    } else {
       yield* call(
         handleTransactionReceiptReceived,
         transaction.context.id,

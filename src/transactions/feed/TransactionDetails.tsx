@@ -17,32 +17,45 @@ import TransactionPrimaryAction from 'src/transactions/feed/TransactionPrimaryAc
 import TransactionStatusIndicator from 'src/transactions/feed/TransactionStatusIndicator'
 import { NetworkId, TokenTransaction, TransactionStatus } from 'src/transactions/types'
 import { getDatetimeDisplayString } from 'src/utils/time'
-import { blockExplorerUrls } from 'src/web3/networkConfig'
+import networkConfig, { blockExplorerUrls } from 'src/web3/networkConfig'
 
 type Props = {
   transaction: TokenTransaction
   title?: string
+  subtitle?: string
   children?: React.ReactNode
   retryHandler?: () => void
 }
 
-function TransactionDetails({ transaction, title, children, retryHandler }: Props) {
+function TransactionDetails({ transaction, title, subtitle, children, retryHandler }: Props) {
   const { t } = useTranslation()
 
   const dateTime = getDatetimeDisplayString(transaction.timestamp, i18n)
+  // If a cross chain swap transaction fails on the source network, the cross
+  // chain explorer will not know about it because the cross chain swap has not
+  // been initiated. Therefore for failed cross chain swaps, we should show the
+  // transaction in the default network explorer.
+  const showCrossChainSwapExplorer =
+    transaction.__typename === 'CrossChainTokenExchange' &&
+    transaction.status !== TransactionStatus.Failed
 
   const openBlockExplorerHandler =
-    transaction.networkId in NetworkId
-      ? () =>
+    transaction.networkId in NetworkId || showCrossChainSwapExplorer
+      ? () => {
+          const explorerUrl = showCrossChainSwapExplorer
+            ? networkConfig.crossChainExplorerUrl
+            : blockExplorerUrls[transaction.networkId].baseTxUrl
           navigate(Screens.WebViewScreen, {
-            uri: new URL(
-              transaction.transactionHash,
-              blockExplorerUrls[transaction.networkId].baseTxUrl
-            ).toString(),
+            uri: new URL(transaction.transactionHash, explorerUrl).toString(),
           })
+          ValoraAnalytics.track(TransactionDetailsEvents.transaction_details_tap_block_explorer, {
+            transactionType: transaction.type,
+            transactionStatus: transaction.status,
+          })
+        }
       : undefined
 
-  const primaryActionHanlder =
+  const primaryActionHandler =
     transaction.status === TransactionStatus.Failed ? retryHandler : openBlockExplorerHandler
 
   const networkIdToExplorerString: Record<NetworkId, string> = {
@@ -60,18 +73,23 @@ function TransactionDetails({ transaction, title, children, retryHandler }: Prop
     [NetworkId['base-sepolia']]: t('viewOnBaseScan'),
   }
 
+  const explorerName = showCrossChainSwapExplorer
+    ? t('viewOnAxelarScan')
+    : networkIdToExplorerString[transaction.networkId]
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <SafeAreaView edges={['bottom']}>
         <Text style={styles.title}>{title}</Text>
-        <Text style={styles.dateTime}>{dateTime}</Text>
+        {!!subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
+        <Text style={styles.subtitle}>{dateTime}</Text>
         <View style={styles.status}>
           <TransactionStatusIndicator status={transaction.status} />
-          {primaryActionHanlder && (
+          {primaryActionHandler && (
             <TransactionPrimaryAction
               status={transaction.status}
               type={transaction.type}
-              onPress={primaryActionHanlder}
+              onPress={primaryActionHandler}
               testID="transactionDetails/primaryAction"
             />
           )}
@@ -83,22 +101,11 @@ function TransactionDetails({ transaction, title, children, retryHandler }: Prop
             <Touchable
               style={styles.rowContainer}
               borderless={true}
-              onPress={() => {
-                ValoraAnalytics.track(
-                  TransactionDetailsEvents.transaction_details_tap_block_explorer,
-                  {
-                    transactionType: transaction.type,
-                    transactionStatus: transaction.status,
-                  }
-                )
-                openBlockExplorerHandler()
-              }}
+              onPress={openBlockExplorerHandler}
               testID="transactionDetails/blockExplorerLink"
             >
               <View style={styles.rowContainer}>
-                <Text style={styles.blockExplorerLink}>
-                  {networkIdToExplorerString[transaction.networkId]}
-                </Text>
+                <Text style={styles.blockExplorerLink}>{explorerName}</Text>
                 <ArrowRightThick size={16} />
               </View>
             </Touchable>
@@ -122,7 +129,7 @@ const styles = StyleSheet.create({
     ...typeScale.titleSmall,
     color: Colors.black,
   },
-  dateTime: {
+  subtitle: {
     ...typeScale.bodyXSmall,
     color: Colors.gray3,
     marginTop: 2,

@@ -1,6 +1,3 @@
-import { CeloTxReceipt } from '@celo/connect'
-import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer'
-import { ContractKit } from '@celo/contractkit'
 import isIP from 'is-ip'
 import path from 'path'
 import { Alert, Platform } from 'react-native'
@@ -20,7 +17,6 @@ import {
   triggeredShortcutsStatusSelector,
 } from 'src/positions/selectors'
 import {
-  TriggeredShortcuts,
   executeShortcut,
   executeShortcutFailure,
   executeShortcutSuccess,
@@ -39,69 +35,87 @@ import {
 import { Position, Shortcut } from 'src/positions/types'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
-import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
-import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
+import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { fetchTokenBalances } from 'src/tokens/slice'
-import { sendTransaction } from 'src/transactions/send'
-import { NetworkId, newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
-import { getContractKit } from 'src/web3/contracts'
-import { getConnectedUnlockedAccount } from 'src/web3/saga'
+import { sendPreparedTransactions } from 'src/viem/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
 import { call, put, select, spawn, takeEvery, takeLeading } from 'typed-redux-saga'
-import { DynamicConfigs } from 'src/statsig/constants'
 
 const TAG = 'positions/saga'
 
-const POSITIONS_FETCH_TIMEOUT = 45_000 // 45 seconds
+const HOOKS_FETCH_TIMEOUT = 45_000 // 45 seconds
 
 function getHooksApiFunctionUrl(
   hooksApiUrl: string,
-  functionName: 'getPositions' | 'v2/getShortcuts' | 'triggerShortcut'
+  functionName: 'getPositions' | 'getEarnPositions' | 'v2/getShortcuts' | 'triggerShortcut'
 ) {
   const url = new URL(hooksApiUrl)
   url.pathname = path.join(url.pathname, functionName)
-  return url.toString()
+  return url
 }
 
-async function fetchHooks(
-  hooksApiUrl: string,
-  functionName: 'getPositions' | 'v2/getShortcuts',
-  walletAddress: string,
-  networkIds: NetworkId[]
+async function fetchHooks<T>(
+  url: string,
+  options: RequestInit | null = null,
+  duration: number = HOOKS_FETCH_TIMEOUT
 ) {
-  const urlSearchParams = new URLSearchParams({
-    address: walletAddress,
-  })
-  networkIds.forEach((networkId) => urlSearchParams.append('networkIds', networkId))
-  const response = await fetchWithTimeout(
-    `${getHooksApiFunctionUrl(hooksApiUrl, functionName)}?` + urlSearchParams,
-    null,
-    POSITIONS_FETCH_TIMEOUT
-  )
+  const response = await fetchWithTimeout(url, options, duration)
   if (!response.ok) {
-    throw new Error(`Unable to fetch ${functionName}: ${response.status} ${response.statusText}`)
+    throw new Error(`Unable to fetch ${url}: ${response.status} ${response.statusText}`)
   }
   const json = await response.json()
-  return json.data
+  return json.data as T
 }
 
 async function fetchPositions(hooksApiUrl: string, walletAddress: string) {
-  const networkIds = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
-  ).showPositions
-  return (await fetchHooks(hooksApiUrl, 'getPositions', walletAddress, networkIds)) as Position[]
+  const networkIds = getMultichainFeatures().showPositions
+
+  const getPositionsUrl = getHooksApiFunctionUrl(hooksApiUrl, 'getPositions')
+  getPositionsUrl.searchParams.set('address', walletAddress)
+  networkIds.forEach((networkId) => getPositionsUrl.searchParams.append('networkIds', networkId))
+
+  const getEarnPositionsUrl = getHooksApiFunctionUrl(hooksApiUrl, 'getEarnPositions')
+  networkIds.forEach((networkId) =>
+    getEarnPositionsUrl.searchParams.append('networkIds', networkId)
+  )
+
+  const [walletPositions, earnPositions] = await Promise.all([
+    fetchHooks<Position[]>(getPositionsUrl.toString()),
+    fetchHooks<Position[]>(getEarnPositionsUrl.toString()),
+  ])
+
+  const positionIds = new Set()
+  const positions: Position[] = []
+
+  // Dedupe positions, so that earn positions already held by the user
+  // aren't shown twice
+  for (const position of [...walletPositions, ...earnPositions]) {
+    if (positionIds.has(position.positionId)) {
+      continue
+    }
+    positionIds.add(position.positionId)
+    positions.push(position)
+  }
+
+  return {
+    positions,
+    earnPositionIds: earnPositions.map((position) => position.positionId),
+  }
 }
 
 async function fetchShortcuts(hooksApiUrl: string, walletAddress: string) {
-  const networkIds = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
-  ).showShortcuts
-  return (await fetchHooks(hooksApiUrl, 'v2/getShortcuts', walletAddress, networkIds)) as Shortcut[]
+  const networkIds = getMultichainFeatures().showShortcuts
+
+  const url = getHooksApiFunctionUrl(hooksApiUrl, 'v2/getShortcuts')
+  url.searchParams.set('address', walletAddress)
+  networkIds.forEach((networkId) => url.searchParams.append('networkIds', networkId))
+
+  return await fetchHooks<Shortcut[]>(url.toString())
 }
 
 export function* fetchShortcutsSaga() {
@@ -148,9 +162,9 @@ export function* fetchPositionsSaga() {
     yield* put(fetchPositionsStart())
     SentryTransactionHub.startTransaction(SentryTransaction.fetch_positions)
     const hooksApiUrl = yield* select(hooksApiUrlSelector)
-    const positions = yield* call(fetchPositions, hooksApiUrl, address)
+    const { positions, earnPositionIds } = yield* call(fetchPositions, hooksApiUrl, address)
     SentryTransactionHub.finishTransaction(SentryTransaction.fetch_positions)
-    yield* put(fetchPositionsSuccess(positions))
+    yield* put(fetchPositionsSuccess({ positions, earnPositionIds, fetchedAt: Date.now() }))
   } catch (err) {
     const error = ensureError(err)
     yield* put(fetchPositionsFailure(error))
@@ -233,7 +247,7 @@ export function* triggerShortcutSaga({ payload }: ReturnType<typeof triggerShort
   try {
     const response = yield* call(
       fetchWithTimeout,
-      getHooksApiFunctionUrl(hooksApiUrl, 'triggerShortcut'),
+      getHooksApiFunctionUrl(hooksApiUrl, 'triggerShortcut').toString(),
       {
         method: 'POST',
         headers: {
@@ -253,53 +267,37 @@ export function* triggerShortcutSaga({ payload }: ReturnType<typeof triggerShort
   }
 }
 
-export function* executeShortcutSaga({ payload }: ReturnType<typeof executeShortcut>) {
+export function* executeShortcutSaga({
+  payload: { id, preparedTransactions },
+}: ReturnType<typeof executeShortcut>) {
   Logger.debug(`${TAG}/executeShortcutSaga`, 'Initiating execute shortcut')
 
-  const triggeredShortcuts: TriggeredShortcuts = yield* select(triggeredShortcutsStatusSelector)
-  const shortcut = triggeredShortcuts[payload]
+  const triggeredShortcuts = yield* select(triggeredShortcutsStatusSelector)
+  const shortcut = triggeredShortcuts[id]
+  if (!shortcut) {
+    // This should never happen
+    throw new Error(`Triggered shortcut with id ${id} not found`)
+  }
+
   const trackedShortcutProperties = {
     appName: shortcut.appName,
     appId: shortcut.appId,
     network: shortcut.networkId,
     shortcutId: shortcut.shortcutId,
-    rewardId: payload,
+    rewardId: id,
   }
 
   try {
-    const kit: ContractKit = yield* call(getContractKit)
-    const walletAddress: string = yield* call(getConnectedUnlockedAccount)
-    const normalizer = new TxParamsNormalizer(kit.connection)
+    yield* call(
+      sendPreparedTransactions,
+      preparedTransactions,
+      shortcut.networkId,
+      // We can't really create standby transactions for shortcuts
+      // since we don't have the necessary information
+      preparedTransactions.map(() => () => null)
+    )
 
-    // use JSON stringify / parse, otherwise the transaction fails with this
-    // error: 'Gas estimation failed: Could not decode transaction failure
-    // reason or Error: invalid argument 0: json: cannot unmarshal non-string
-    // into Go struct field TransactionArgs.chainId of type *hexutil.Big'
-    const shortcutTransactions = JSON.parse(JSON.stringify(shortcut?.transactions) ?? '[]')
-
-    Logger.debug(`${TAG}/executeShortcutSaga`, 'Starting to claim reward(s)', shortcutTransactions)
-
-    // TODO parallelize the send transactions
-    for (const transaction of shortcutTransactions) {
-      applyChainIdWorkaround(transaction, yield* call([kit.connection, 'chainId']))
-      const tx = yield* call([normalizer, 'populate'], transaction)
-      const txo = buildTxo(kit, tx)
-
-      const receipt: CeloTxReceipt = yield* call(
-        sendTransaction,
-        txo,
-        walletAddress,
-        newTransactionContext(TAG, 'Execute shortcut')
-      )
-
-      Logger.debug(
-        `${TAG}/executeShortcutSaga`,
-        'Claimed reward successful',
-        receipt.transactionHash
-      )
-    }
-
-    yield* put(executeShortcutSuccess(payload))
+    yield* put(executeShortcutSuccess(id))
     Toast.showWithGravity(
       i18n.t('dappShortcuts.claimRewardsScreen.claimSuccess'),
       Toast.SHORT,
@@ -311,7 +309,7 @@ export function* executeShortcutSaga({ payload }: ReturnType<typeof executeShort
       trackedShortcutProperties
     )
   } catch (error) {
-    yield* put(executeShortcutFailure(payload))
+    yield* put(executeShortcutFailure(id))
     // TODO customise error message when there are more shortcut types
     yield* put(showError(ErrorMessages.SHORTCUT_CLAIM_REWARD_FAILED))
     Logger.warn(`${TAG}/executeShortcutSaga`, 'Failed to claim reward', error)

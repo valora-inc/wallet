@@ -362,6 +362,9 @@
                     "const": "claimable",
                     "type": "string"
                 },
+                "dataProps": {
+                    "$ref": "#/definitions/EarnDataProps"
+                },
                 "decimals": {
                     "type": "number"
                 },
@@ -370,6 +373,9 @@
                 },
                 "networkId": {
                     "$ref": "#/definitions/NetworkId"
+                },
+                "positionId": {
+                    "type": "string"
                 },
                 "pricePerShare": {
                     "items": {
@@ -409,6 +415,7 @@
                 "decimals",
                 "displayProps",
                 "networkId",
+                "positionId",
                 "pricePerShare",
                 "priceUsd",
                 "supply",
@@ -1008,11 +1015,17 @@
                 "balanceUsd": {
                     "type": "string"
                 },
+                "dataProps": {
+                    "$ref": "#/definitions/EarnDataProps"
+                },
                 "displayProps": {
                     "$ref": "#/definitions/PositionDisplayProps"
                 },
                 "networkId": {
                     "$ref": "#/definitions/NetworkId"
+                },
+                "positionId": {
+                    "type": "string"
                 },
                 "tokens": {
                     "items": {
@@ -1033,6 +1046,7 @@
                 "balanceUsd",
                 "displayProps",
                 "networkId",
+                "positionId",
                 "tokens",
                 "type"
             ],
@@ -1286,6 +1300,26 @@
                 "timestamp",
                 "transactionHash",
                 "type"
+            ],
+            "type": "object"
+        },
+        "EarnDataProps": {
+            "additionalProperties": false,
+            "properties": {
+                "apy": {
+                    "type": "number"
+                },
+                "depositTokenId": {
+                    "type": "string"
+                },
+                "withdrawTokenId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "apy",
+                "depositTokenId",
+                "withdrawTokenId"
             ],
             "type": "object"
         },
@@ -2814,7 +2848,10 @@
             "additionalProperties": false,
             "properties": {
                 "__typename": {
-                    "const": "TokenExchangeV3",
+                    "enum": [
+                        "CrossChainTokenExchange",
+                        "TokenExchangeV3"
+                    ],
                     "type": "string"
                 },
                 "context": {
@@ -3406,6 +3443,7 @@
                 "Debug",
                 "EarnCollectScreen",
                 "EarnEnterAmount",
+                "EarnHome",
                 "EarnInfoScreen",
                 "EnableBiometry",
                 "ErrorScreen",
@@ -3688,7 +3726,10 @@
                     "additionalProperties": false,
                     "properties": {
                         "__typename": {
-                            "const": "TokenExchangeV3",
+                            "enum": [
+                                "CrossChainTokenExchange",
+                                "TokenExchangeV3"
+                            ],
                             "type": "string"
                         },
                         "block": {
@@ -4979,11 +5020,20 @@
         "State_22": {
             "additionalProperties": false,
             "properties": {
+                "earnPositionIds": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
                 "positions": {
                     "items": {
                         "$ref": "#/definitions/Position"
                     },
                     "type": "array"
+                },
+                "positionsFetchedAt": {
+                    "type": "number"
                 },
                 "previewApiUrl": {
                     "type": [
@@ -5008,6 +5058,7 @@
                 }
             },
             "required": [
+                "earnPositionIds",
                 "positions",
                 "previewApiUrl",
                 "shortcuts",
@@ -5020,17 +5071,17 @@
         "State_23": {
             "additionalProperties": false,
             "properties": {
+                "auth0IdToken": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
                 "backupStatus": {
                     "$ref": "#/definitions/KeylessBackupStatus"
                 },
                 "deleteBackupStatus": {
                     "$ref": "#/definitions/KeylessBackupDeleteStatus"
-                },
-                "googleIdToken": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
                 },
                 "showDeleteBackupError": {
                     "type": "boolean"
@@ -5049,9 +5100,9 @@
                 }
             },
             "required": [
+                "auth0IdToken",
                 "backupStatus",
                 "deleteBackupStatus",
-                "googleIdToken",
                 "showDeleteBackupError",
                 "torusKeyshare",
                 "valoraKeyshare"
@@ -5664,6 +5715,9 @@
                 "isFeeCurrency": {
                     "type": "boolean"
                 },
+                "isFromPosition": {
+                    "type": "boolean"
+                },
                 "isManuallyImported": {
                     "type": "boolean"
                 },
@@ -5948,7 +6002,10 @@
             "additionalProperties": false,
             "properties": {
                 "__typename": {
-                    "const": "TokenExchangeV3",
+                    "enum": [
+                        "CrossChainTokenExchange",
+                        "TokenExchangeV3"
+                    ],
                     "type": "string"
                 },
                 "block": {
@@ -6039,6 +6096,7 @@
         "TokenTransactionTypeV2": {
             "enum": [
                 "APPROVAL",
+                "CROSS_CHAIN_SWAP_TRANSACTION",
                 "EARN_CLAIM_REWARD",
                 "EARN_DEPOSIT",
                 "EARN_WITHDRAW",

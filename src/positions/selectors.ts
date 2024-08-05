@@ -10,6 +10,8 @@ import {
 import { RootState } from 'src/redux/reducers'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
+import { tokensByIdSelector } from 'src/tokens/selectors'
+import { NetworkId } from 'src/transactions/types'
 import { isPresent } from 'src/utils/typescript'
 import networkConfig from 'src/web3/networkConfig'
 import { getPositionBalanceUsd } from './getPositionBalanceUsd'
@@ -20,24 +22,57 @@ export const showClaimShortcutsSelector = () =>
 export const allowHooksPreviewSelector = () =>
   getFeatureGate(StatsigFeatureGates.ALLOW_HOOKS_PREVIEW)
 
-export const positionsSelector = (state: RootState) =>
+const positionsSelector = (state: RootState) =>
   showPositionsSelector() ? state.positions.positions : []
+const earnPositionIdsSelector = (state: RootState) => state.positions.earnPositionIds
 export const positionsStatusSelector = (state: RootState) =>
   showPositionsSelector() ? state.positions.status : 'idle'
 
-export const totalPositionsBalanceUsdSelector = createSelector([positionsSelector], (positions) => {
-  if (positions.length === 0) {
-    return null
-  }
+// When displaying user positions, we don't want positions which don't have a balance
+// For instance earn positions which aren't yet held by the user
+export const positionsWithBalanceSelector = createSelector([positionsSelector], (positions) =>
+  positions.filter((position) => {
+    if (position.type === 'app-token') {
+      return new BigNumber(position.balance).gt(0)
+    }
+    return position.tokens.some((token) => new BigNumber(token.balance).gt(0))
+  })
+)
 
-  let totalBalanceUsd = new BigNumber(0)
-  for (const position of positions) {
-    const balanceUsd = getPositionBalanceUsd(position)
-    totalBalanceUsd = totalBalanceUsd.plus(balanceUsd)
+export const earnPositionsSelector = createSelector(
+  [positionsSelector, earnPositionIdsSelector],
+  (positions, earnPositionIds) => {
+    const earnPositionIdsSet = new Set(earnPositionIds)
+    return positions.filter((position) => earnPositionIdsSet.has(position.address))
   }
+)
 
-  return totalBalanceUsd
-})
+export const totalPositionsBalanceUsdSelector = createSelector(
+  [
+    positionsWithBalanceSelector,
+    (state: RootState) => tokensByIdSelector(state, Object.values(NetworkId)),
+  ],
+  (positions, tokensById) => {
+    if (positions.length === 0) {
+      return null
+    }
+
+    let totalBalanceUsd = new BigNumber(0)
+    for (const position of positions) {
+      if ('tokenId' in position) {
+        const token = tokensById[position.tokenId]
+        // Skip tokens that are already counted as part of the regular token list
+        if (token && !token.isFromPosition) {
+          continue
+        }
+      }
+      const balanceUsd = getPositionBalanceUsd(position)
+      totalBalanceUsd = totalBalanceUsd.plus(balanceUsd)
+    }
+
+    return totalBalanceUsd
+  }
+)
 
 // Sort positions by USD balance (descending)
 function sortByBalanceUsd(position1: Position, position2: Position) {
@@ -46,9 +81,12 @@ function sortByBalanceUsd(position1: Position, position2: Position) {
   return position2BalanceUsd.comparedTo(position1BalanceUsd)
 }
 
-export const positionsByBalanceUsdSelector = createSelector([positionsSelector], (positions) => {
-  return [...positions].sort(sortByBalanceUsd)
-})
+export const positionsByBalanceUsdSelector = createSelector(
+  [positionsWithBalanceSelector],
+  (positions) => {
+    return [...positions].sort(sortByBalanceUsd)
+  }
+)
 
 export const shortcutsSelector = (state: RootState) => state.positions.shortcuts
 
@@ -88,7 +126,7 @@ export function getClaimableRewardId(
 }
 
 export const positionsWithClaimableRewardsSelector = createSelector(
-  [positionsSelector, claimableShortcutSelector, triggeredShortcutsStatusSelector],
+  [positionsWithBalanceSelector, claimableShortcutSelector, triggeredShortcutsStatusSelector],
   (positions, shortcuts, triggeredShortcuts) => {
     const claimablePositions: ClaimablePosition[] = []
     positions.forEach((position) => {

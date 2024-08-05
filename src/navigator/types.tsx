@@ -1,6 +1,7 @@
 import { Countries } from '@celo/phone-utils'
 import { KycSchema } from '@fiatconnect/fiatconnect-types'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
+import { EarnTabType } from 'src/earn/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
@@ -85,6 +86,7 @@ export type StackParamList = {
     depositTokenId: string
     poolTokenId: string
   }
+  [Screens.EarnHome]: { activeEarnTab?: EarnTabType } | undefined
   [Screens.ErrorScreen]: {
     errorMessage?: string
   }

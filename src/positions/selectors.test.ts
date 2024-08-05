@@ -1,11 +1,15 @@
 import BigNumber from 'bignumber.js'
 import { getPositionBalanceUsd } from 'src/positions/getPositionBalanceUsd'
 import {
+  earnPositionsSelector,
   positionsByBalanceUsdSelector,
+  positionsWithBalanceSelector,
   positionsWithClaimableRewardsSelector,
   totalPositionsBalanceUsdSelector,
 } from 'src/positions/selectors'
+import { AppTokenPosition } from 'src/positions/types'
 import { getFeatureGate } from 'src/statsig'
+import { NetworkId } from 'src/transactions/types'
 import { mockPositions, mockShortcuts } from 'test/values'
 
 jest.mock('src/statsig')
@@ -15,21 +19,132 @@ beforeEach(() => {
   jest.mocked(getFeatureGate).mockReturnValue(true)
 })
 
+describe('positionsWithBalanceSelector', () => {
+  it('returns the positions with a balance', () => {
+    const state: any = {
+      positions: {
+        positions: [
+          {
+            type: 'contract-position' as const,
+            networkId: NetworkId['celo-alfajores'],
+            address: '0xa',
+            positionId: 'celo-alfajores:0xa',
+            appId: 'a',
+            displayProps: {
+              title: 'Title A',
+            },
+            tokens: [
+              {
+                tokenId: 'celo-alfajores:0xb',
+                networkId: NetworkId['celo-alfajores'],
+                balance: '0',
+                priceUsd: '10',
+              },
+            ],
+            // will be ignored, what matters is the balance of the tokens
+            balanceUsd: '20',
+          },
+          {
+            type: 'app-token' as const,
+            networkId: NetworkId['celo-alfajores'],
+            address: '0xb',
+            positionId: 'celo-alfajores:0xb',
+            appId: 'b',
+            displayProps: {
+              title: 'Title B',
+            },
+            tokens: [],
+            // for an app token, the balance is the balance of the token
+            balance: '1.11',
+          },
+        ],
+      },
+    }
+    const positions = positionsWithBalanceSelector(state)
+    expect(positions.map((position) => position.positionId)).toStrictEqual(['celo-alfajores:0xb'])
+  })
+})
+
+describe('earnPositionsSelector', () => {
+  it('returns the earn positions', () => {
+    const state: any = {
+      positions: {
+        positions: [
+          {
+            type: 'contract-position' as const,
+            networkId: NetworkId['celo-alfajores'],
+            address: '0xa',
+            positionId: 'celo-alfajores:0xa',
+            appId: 'a',
+            displayProps: {
+              title: 'Title A',
+            },
+            tokens: [],
+          },
+          {
+            type: 'contract-position' as const,
+            networkId: NetworkId['celo-alfajores'],
+            address: '0xb',
+            positionId: 'celo-alfajores:0xb',
+            appId: 'b',
+            displayProps: {
+              title: 'Title B',
+            },
+            tokens: [],
+          },
+        ],
+        earnPositionIds: ['0xb'],
+      },
+    }
+    const positions = earnPositionsSelector(state)
+    expect(positions.map((position) => position.positionId)).toStrictEqual(['celo-alfajores:0xb'])
+  })
+})
+
 describe('totalPositionsBalanceUsdSelector', () => {
   it('returns the total balance of all positions', () => {
     const state: any = {
       positions: {
         positions: mockPositions,
       },
+      tokens: {
+        tokenBalances: {},
+      },
     }
     const total = totalPositionsBalanceUsdSelector(state)
     expect(total).toEqual(new BigNumber('7.9108727285271958646826057721455'))
+  })
+
+  it('returns the total balance ignoring tokens which are already counted as part of the regular token list', () => {
+    const appTokenPosition = mockPositions[0] as AppTokenPosition
+    const { tokens, ...appToken } = appTokenPosition
+    const state: any = {
+      positions: {
+        positions: mockPositions,
+      },
+      tokens: {
+        tokenBalances: {
+          [appToken.tokenId]: appToken, // the total will not include this token
+        },
+      },
+    }
+    const total = totalPositionsBalanceUsdSelector(state)
+    expect(total).toEqual(new BigNumber('5.4009987350492668528429330911456'))
+    const totalNoRegularTokens = totalPositionsBalanceUsdSelector({
+      ...state,
+      tokens: { tokenBalances: {} },
+    })
+    // This checks the difference is the balance of the app token
+    expect(totalNoRegularTokens).toEqual(total?.plus(getPositionBalanceUsd(appTokenPosition)))
   })
 
   it('returns null if there are no positions', () => {
     const state: any = {
       positions: {
         positions: [],
+      },
+      tokens: {
+        tokenBalances: {},
       },
     }
     const total = totalPositionsBalanceUsdSelector(state)
@@ -41,6 +156,9 @@ describe('totalPositionsBalanceUsdSelector', () => {
     const state: any = {
       positions: {
         positions: [],
+      },
+      tokens: {
+        tokenBalances: {},
       },
     }
     const total = totalPositionsBalanceUsdSelector(state)

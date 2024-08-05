@@ -1,5 +1,5 @@
 import { isEmpty } from 'lodash'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import Toast from 'react-native-simple-toast'
@@ -8,9 +8,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import useInterval from 'src/hooks/useInterval'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { DynamicConfigs } from 'src/statsig/constants'
-import { getDynamicConfigParams } from 'src/statsig/index'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { getMultichainFeatures } from 'src/statsig/index'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { updateTransactions } from 'src/transactions/actions'
 import { transactionHashesByNetworkIdSelector } from 'src/transactions/reducer'
@@ -51,23 +49,32 @@ const TAG = 'transactions/feed/queryHelper'
 // Query poll interval
 const POLL_INTERVAL = 10000 // 10 secs
 
+// returns a new array that is the combination of the two transaction arrays, with
+// duplicated transactions removed. In the case of duplicate transactions, the
+// one from the incomingTx array is kept.
 export const deduplicateTransactions = (
   existingTxs: TokenTransaction[],
   incomingTxs: TokenTransaction[]
 ) => {
-  const currentHashes = new Set(existingTxs.map((tx) => tx.transactionHash))
-  const transactionsWithoutDuplicatedHash = existingTxs.concat(
-    incomingTxs.filter((tx) => !isEmpty(tx) && !currentHashes.has(tx.transactionHash))
-  )
-  transactionsWithoutDuplicatedHash.sort((a, b) => {
+  const transactionsByTxHash: { [txHash: string]: TokenTransaction } = {}
+  const combinedTxs = [...existingTxs, ...incomingTxs]
+  combinedTxs.forEach((transaction) => {
+    transactionsByTxHash[transaction.transactionHash] = transaction
+  })
+
+  return Object.values(transactionsByTxHash).sort((a, b) => {
     return b.timestamp - a.timestamp
   })
-  return transactionsWithoutDuplicatedHash
 }
 
-export function getAllowedNetworkIds(): Array<NetworkId> {
-  return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES])
-    .showTransfers
+export function useAllowedNetworkIdsForTransfers() {
+  // return a string to help react memoization
+  const allowedNetworkIdsString = getMultichainFeatures().showTransfers.join(',')
+  // N.B: This fetch-time filtering does not suffice to prevent non-Celo TXs from appearing
+  // on the home feed, since they get cached in Redux -- this is just a network optimization.
+  return useMemo(() => {
+    return allowedNetworkIdsString.split(',') as NetworkId[]
+  }, [allowedNetworkIdsString])
 }
 
 export function useFetchTransactions(): QueryHookResult {
@@ -76,10 +83,7 @@ export function useFetchTransactions(): QueryHookResult {
   const address = useSelector(walletAddressSelector)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const transactionHashesByNetwork = useSelector(transactionHashesByNetworkIdSelector)
-
-  // N.B: This fetch-time filtering does not suffice to prevent non-Celo TXs from appearing
-  // on the home feed, since they get cached in Redux -- this is just a network optimization.
-  const allowedNetworkIds = getAllowedNetworkIds()
+  const allowedNetworkIds = useAllowedNetworkIdsForTransfers()
 
   // Track which networks are currently fetching transactions via polling to avoid duplicate requests
   const [activePollingRequests, setActivePollingRequestsState] = useState<ActiveRequests>(
@@ -444,6 +448,7 @@ export const TRANSACTIONS_QUERY = gql`
         ...EarnWithdrawItem
         ...EarnClaimRewardItem
         ...TokenApprovalItem
+        ...CrossChainTokenExchangeItem
       }
     }
   }
@@ -540,6 +545,48 @@ export const TRANSACTIONS_QUERY = gql`
       }
     }
     outAmount {
+      value
+      tokenAddress
+      tokenId
+      localAmount {
+        value
+        currencyCode
+        exchangeRate
+      }
+    }
+    fees {
+      type
+      amount {
+        value
+        tokenAddress
+        tokenId
+        localAmount {
+          value
+          currencyCode
+          exchangeRate
+        }
+      }
+    }
+  }
+
+  fragment CrossChainTokenExchangeItem on CrossChainTokenExchange {
+    __typename
+    type
+    transactionHash
+    status
+    timestamp
+    block
+    outAmount {
+      value
+      tokenAddress
+      tokenId
+      localAmount {
+        value
+        currencyCode
+        exchangeRate
+      }
+    }
+    inAmount {
       value
       tokenAddress
       tokenId

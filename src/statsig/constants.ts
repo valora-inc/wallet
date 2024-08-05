@@ -1,40 +1,11 @@
 import {
   StatsigDynamicConfigs,
   StatsigExperiments,
-  StatsigFeatureGates,
+  StatsigMultiNetworkDynamicConfig,
   StatsigParameter,
 } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
-
-export const FeatureGates = {
-  [StatsigFeatureGates.SHOW_POSITIONS]: false,
-  [StatsigFeatureGates.SHOW_CLAIM_SHORTCUTS]: false,
-  [StatsigFeatureGates.ALLOW_HOOKS_PREVIEW]: true,
-  [StatsigFeatureGates.APP_REVIEW]: false,
-  [StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_SETUP]: false,
-  [StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE]: false,
-  [StatsigFeatureGates.RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY]: false,
-  [StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW]: false,
-  [StatsigFeatureGates.SHOW_MULTICHAIN_BETA_SCREEN]: false,
-  [StatsigFeatureGates.SHOW_BETA_TAG]: false,
-  [StatsigFeatureGates.SAVE_CONTACTS]: false,
-  [StatsigFeatureGates.SHOW_GET_STARTED]: false,
-  [StatsigFeatureGates.CLEVERTAP_INBOX]: false,
-  [StatsigFeatureGates.SHOW_SWAP_TOKEN_FILTERS]: false,
-  [StatsigFeatureGates.SHUFFLE_SWAP_TOKENS_ORDER]: false,
-  [StatsigFeatureGates.SHOW_NFT_CELEBRATION]: false,
-  [StatsigFeatureGates.SHOW_NFT_REWARD]: false,
-  [StatsigFeatureGates.SHOW_JUMPSTART_SEND]: false,
-  [StatsigFeatureGates.SHOW_POINTS]: false,
-  [StatsigFeatureGates.SHOW_STABLECOIN_EARN]: false,
-  [StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES]: false,
-  [StatsigFeatureGates.SHOW_CASH_IN_TOKEN_FILTERS]: false,
-  [StatsigFeatureGates.SHOW_CAB_IN_ONBOARDING]: false,
-  [StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS]: false,
-  [StatsigFeatureGates.SHOW_ONBOARDING_PHONE_VERIFICATION]: true,
-  [StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS]: false,
-} satisfies { [key in StatsigFeatureGates]: boolean }
 
 export const ExperimentConfigs = {
   // NOTE: the keys of defaultValues MUST be parameter names
@@ -66,8 +37,8 @@ export const DynamicConfigs = {
       cico: 30,
     },
   },
-  [StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]: {
-    configName: StatsigDynamicConfigs.MULTI_CHAIN_FEATURES,
+  [StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES]: {
+    configName: StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES,
     defaultValues: {
       showCico: [networkConfig.defaultNetworkId],
       showBalances: [networkConfig.defaultNetworkId],
@@ -75,7 +46,7 @@ export const DynamicConfigs = {
       showSwap: [networkConfig.defaultNetworkId],
       showTransfers: [networkConfig.defaultNetworkId],
       showWalletConnect: [networkConfig.defaultNetworkId],
-      showApprovalTxsInHomefeed: [],
+      showApprovalTxsInHomefeed: [] as NetworkId[],
       showNfts: [networkConfig.defaultNetworkId],
       showPositions: [networkConfig.defaultNetworkId],
       showShortcuts: [networkConfig.defaultNetworkId],
@@ -137,7 +108,7 @@ export const DynamicConfigs = {
     },
   },
 } satisfies {
-  [key in StatsigDynamicConfigs]: {
+  [key in StatsigDynamicConfigs | StatsigMultiNetworkDynamicConfig]: {
     configName: key
     defaultValues: { [key: string]: StatsigParameter }
   }

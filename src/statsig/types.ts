@@ -1,13 +1,17 @@
 export enum StatsigDynamicConfigs {
   USERNAME_BLOCK_LIST = 'username_block_list',
   WALLET_NETWORK_TIMEOUT_SECONDS = 'wallet_network_timeout_seconds',
-  MULTI_CHAIN_FEATURES = 'multi_chain_features',
   DAPP_WEBVIEW_CONFIG = 'dapp_webview_config',
   SWAP_CONFIG = 'swap_config',
   CICO_TOKEN_INFO = 'cico_token_info',
   WALLET_JUMPSTART_CONFIG = 'wallet_jumpstart_config',
   NFT_CELEBRATION_CONFIG = 'nft_celebration_config',
   EARN_STABLECOIN_CONFIG = 'earn_stablecoin_config',
+}
+
+// Separating into different enum from StatsigDynamicConfigs to allow for more strict typing
+export enum StatsigMultiNetworkDynamicConfig {
+  MULTI_CHAIN_FEATURES = 'multi_chain_features',
 }
 
 export enum StatsigFeatureGates {
@@ -20,7 +24,6 @@ export enum StatsigFeatureGates {
   RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY = 'restrict_supercharge_for_claim_only',
   SHOW_IMPORT_TOKENS_FLOW = 'show_import_tokens_flow',
   SHOW_MULTICHAIN_BETA_SCREEN = 'show_multichain_beta_screen',
-  SHOW_BETA_TAG = 'show_beta_tag',
   SAVE_CONTACTS = 'save_contacts',
   SHOW_GET_STARTED = 'show_get_started',
   CLEVERTAP_INBOX = 'clevertap_inbox',
@@ -37,6 +40,7 @@ export enum StatsigFeatureGates {
   ALLOW_CROSS_CHAIN_SWAPS = 'allow_cross_chain_swaps',
   SHOW_ONBOARDING_PHONE_VERIFICATION = 'show_onboarding_phone_verification',
   SHOW_MULTIPLE_EARN_POOLS = 'show_multiple_earn_pools',
+  SHOW_APPLE_IN_CAB = 'show_apple_in_cab',
 }
 
 export enum StatsigExperiments {

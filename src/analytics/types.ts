@@ -31,3 +31,13 @@ export enum HooksEnablePreviewOrigin {
   Scan = 'scan',
   Deeplink = 'deeplink',
 }
+
+export type TransactionOrigin =
+  | 'send'
+  | 'swap'
+  | 'earn-deposit'
+  | 'earn-withdraw'
+  | 'jumpstart-send'
+  | 'jumpstart-claim'
+  | 'wallet-connect'
+  | 'shortcut'
