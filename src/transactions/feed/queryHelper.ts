@@ -49,18 +49,22 @@ const TAG = 'transactions/feed/queryHelper'
 // Query poll interval
 const POLL_INTERVAL = 10000 // 10 secs
 
+// returns a new array that is the combination of the two transaction arrays, with
+// duplicated transactions removed. In the case of duplicate transactions, the
+// one from the incomingTx array is kept.
 export const deduplicateTransactions = (
   existingTxs: TokenTransaction[],
   incomingTxs: TokenTransaction[]
 ) => {
-  const currentHashes = new Set(existingTxs.map((tx) => tx.transactionHash))
-  const transactionsWithoutDuplicatedHash = existingTxs.concat(
-    incomingTxs.filter((tx) => !isEmpty(tx) && !currentHashes.has(tx.transactionHash))
-  )
-  transactionsWithoutDuplicatedHash.sort((a, b) => {
+  const transactionsByTxHash: { [txHash: string]: TokenTransaction } = {}
+  const combinedTxs = [...existingTxs, ...incomingTxs]
+  combinedTxs.forEach((transaction) => {
+    transactionsByTxHash[transaction.transactionHash] = transaction
+  })
+
+  return Object.values(transactionsByTxHash).sort((a, b) => {
     return b.timestamp - a.timestamp
   })
-  return transactionsWithoutDuplicatedHash
 }
 
 export function useAllowedNetworkIdsForTransfers() {
