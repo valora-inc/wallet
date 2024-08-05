@@ -54,8 +54,8 @@ function TransactionFeed() {
         ? completedOrNotPendingStandbyTransactions
         : cachedTransactions
     const allConfirmedTransactions = deduplicateTransactions(
-      confirmedTokenTransactions,
-      allConfirmedStandbyTransactions
+      allConfirmedStandbyTransactions,
+      confirmedTokenTransactions
     )
     return allConfirmedTransactions.filter((tx) => {
       return allowedNetworks.includes(tx.networkId)

@@ -239,10 +239,10 @@ export const pendingStandbyTransactionsSelector = createSelector(
     return transactions
       .filter((transaction) => transaction.status === TransactionStatus.Pending)
       .map((transaction) => ({
-        ...transaction,
         transactionHash: transaction.transactionHash || '',
         block: '',
         fees: [],
+        ...transaction, // in case the transaction already has the above (e.g. cross chain swaps), use the real values
       }))
   }
 )
