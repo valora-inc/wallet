@@ -649,6 +649,29 @@ describe('TransactionDetailsScreen', () => {
     expect(getByTestId('SwapContent/swapTo')).toHaveTextContent('--')
   })
 
+  it(`renders the default network explorer link for failed ${TokenTransactionTypeV2.CrossChainSwapTransaction} transacton`, () => {
+    const { getByText, queryByText } = renderScreen({
+      transaction: crossChainSwapTransaction({
+        status: TransactionStatus.Failed,
+      }),
+      storeOverrides: {
+        tokens: {
+          tokenBalances: mockTokenBalances,
+        },
+      },
+    })
+
+    expect(queryByText('viewOnAxelarScan')).toBeFalsy()
+
+    fireEvent.press(getByText('viewOnCeloScan'))
+    expect(navigate).toHaveBeenCalledWith(
+      Screens.WebViewScreen,
+      expect.objectContaining({
+        uri: 'https://celoscan.io/tx/0x2ae09a1867b0d54b614bdfa43a08b0ffaaf0cd289c830418b31d50e627d67cd8',
+      })
+    )
+  })
+
   it.each([
     TokenTransactionTypeV2.InviteSent,
     TokenTransactionTypeV2.Received,
