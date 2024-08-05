@@ -12,9 +12,10 @@ import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 import { call, delay, fork, race, select, take } from 'typed-redux-saga'
+import { DEEPLINK_PREFIX } from 'src/config'
 
 const WC_PREFIX = 'wc:'
-const DEEPLINK_PREFIX = 'celo://wallet/wc?uri='
+const APP_DEEPLINK_PREFIX = `${DEEPLINK_PREFIX}://wallet/wc?uri=`
 const UNIVERSAL_LINK_PREFIX = 'https://valoraapp.com/wc?uri='
 const UNIVERSAL_LINK_PREFIX_WITHOUT_URI = 'https://valoraapp.com/wc'
 const CONNECTION_TIMEOUT = 45_000
@@ -30,8 +31,8 @@ const CONNECTION_TIMEOUT = 45_000
  */
 export function* handleWalletConnectDeepLink(deepLink: string) {
   let link = deepLink
-  if (link.startsWith(DEEPLINK_PREFIX)) {
-    link = deepLink.substring(DEEPLINK_PREFIX.length)
+  if (link.startsWith(APP_DEEPLINK_PREFIX)) {
+    link = deepLink.substring(APP_DEEPLINK_PREFIX.length)
   }
 
   if (link.startsWith(UNIVERSAL_LINK_PREFIX)) {
@@ -58,7 +59,7 @@ export function* handleWalletConnectDeepLink(deepLink: string) {
 }
 
 export function isWalletConnectDeepLink(deepLink: string) {
-  return [WC_PREFIX, DEEPLINK_PREFIX, UNIVERSAL_LINK_PREFIX_WITHOUT_URI].some((prefix) =>
+  return [WC_PREFIX, APP_DEEPLINK_PREFIX, UNIVERSAL_LINK_PREFIX_WITHOUT_URI].some((prefix) =>
     decodeURIComponent(deepLink).startsWith(prefix)
   )
 }

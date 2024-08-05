@@ -6,8 +6,12 @@ import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
+import { DEEPLINK_PREFIX } from 'src/config'
 
-const PERSISTED_DEEP_LINKS = ['https://valoraapp.com/share', 'celo://wallet/jumpstart']
+const PERSISTED_DEEP_LINKS = [
+  'https://valoraapp.com/share',
+  `${DEEPLINK_PREFIX}://wallet/jumpstart`,
+]
 
 interface State {
   loggedIn: boolean

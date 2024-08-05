@@ -12,6 +12,7 @@ import {
 import { PathReporter } from 'io-ts/lib/PathReporter'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { parse } from 'url'
+import { DEEPLINK_PREFIX } from 'src/config'
 
 export const UriDataType = ioType({
   address: AddressType,
@@ -42,5 +43,5 @@ export const stripUndefined = (obj: object) => JSON.parse(JSON.stringify(obj))
 
 export const urlFromUriData = (data: Partial<UriData>, method: UriMethod = UriMethod.pay) => {
   const params = new URLSearchParams(stripUndefined(data))
-  return encodeURI(`celo://wallet/${method.toString()}?${params.toString()}`)
+  return encodeURI(`${DEEPLINK_PREFIX}://wallet/${method.toString()}?${params.toString()}`)
 }

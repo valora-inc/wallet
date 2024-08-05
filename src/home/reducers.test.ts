@@ -16,6 +16,7 @@ import {
 } from 'src/home/reducers'
 import { NetworkId } from 'src/transactions/types'
 import { mockCleverTapInboxMessage, mockContractAddress } from 'test/values'
+import { DEEPLINK_PREFIX } from 'src/config'
 
 const createTestNotification = (body: string) => ({
   ctaUri: 'https://celo.org',
@@ -30,7 +31,7 @@ const createTestNotification = (body: string) => ({
 })
 
 const mockRewardProperties = {
-  deepLink: 'celo://test',
+  deepLink: `${DEEPLINK_PREFIX}://test`,
   rewardExpirationDate: '3000-12-01T00:00:00.000Z',
   rewardReminderDate: '3000-01-01T00:00:00.000Z',
 }
