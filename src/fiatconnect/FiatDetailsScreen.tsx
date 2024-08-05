@@ -404,7 +404,7 @@ const styles = StyleSheet.create({
   },
   error: {
     fontSize: 12,
-    color: '#FF0000', // color red
+    color: colors.errorDark,
   },
   submitButton: {
     padding: variables.contentPadding,

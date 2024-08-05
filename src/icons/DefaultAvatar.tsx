@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Svg, { Circle, Path } from 'react-native-svg'
+import Colors from 'src/styles/colors'
 
 interface Props {
   foregroundColor?: string
@@ -7,8 +8,8 @@ interface Props {
 }
 
 export default function DefaultAvatar({
-  foregroundColor = '#144B66',
-  backgroundColor = '#E6F4F7',
+  foregroundColor = Colors.infoDark,
+  backgroundColor = Colors.infoLight,
 }: Props) {
   return (
     <Svg width="40" height="40" viewBox="0 0 40 40" fill="none">
