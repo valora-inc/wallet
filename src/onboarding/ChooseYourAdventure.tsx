@@ -24,7 +24,7 @@ import { Screens } from 'src/navigator/Screens'
 import { AdventureCardName } from 'src/onboarding/types'
 import { useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Shadow, Spacing } from 'src/styles/styles'
 import { shuffle } from 'src/utils/random'
 import networkConfig from 'src/web3/networkConfig'
@@ -53,7 +53,7 @@ const AdventureCard = ({
     <Touchable style={styles.pressableCard} onPress={onPress}>
       <>
         <View style={styles.iconContainer}>{icon}</View>
-        <Text style={fontStyles.small500}>{text}</Text>
+        <Text style={styles.cardText}>{text}</Text>
       </>
     </Touchable>
   </Card>
@@ -200,5 +200,10 @@ const styles = StyleSheet.create({
   },
   skip: {
     color: colors.gray3,
+  },
+  cardText: {
+    ...typeScale.bodySmall,
+    flex: 1,
+    flexWrap: 'wrap',
   },
 })
