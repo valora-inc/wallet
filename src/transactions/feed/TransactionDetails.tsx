@@ -31,12 +31,18 @@ function TransactionDetails({ transaction, title, subtitle, children, retryHandl
   const { t } = useTranslation()
 
   const dateTime = getDatetimeDisplayString(transaction.timestamp, i18n)
-  const isCrossChainSwap = transaction.__typename === 'CrossChainTokenExchange'
+  // If a cross chain swap transaction fails on the source network, the cross
+  // chain explorer will not know about it because the cross chain swap has not
+  // been initiated. Therefore for failed cross chain swaps, we should show the
+  // transaction in the default network explorer.
+  const showCrossChainSwapExplorer =
+    transaction.__typename === 'CrossChainTokenExchange' &&
+    transaction.status !== TransactionStatus.Failed
 
   const openBlockExplorerHandler =
-    transaction.networkId in NetworkId || isCrossChainSwap
+    transaction.networkId in NetworkId || showCrossChainSwapExplorer
       ? () => {
-          const explorerUrl = isCrossChainSwap
+          const explorerUrl = showCrossChainSwapExplorer
             ? networkConfig.crossChainExplorerUrl
             : blockExplorerUrls[transaction.networkId].baseTxUrl
           navigate(Screens.WebViewScreen, {
@@ -67,7 +73,7 @@ function TransactionDetails({ transaction, title, subtitle, children, retryHandl
     [NetworkId['base-sepolia']]: t('viewOnBaseScan'),
   }
 
-  const explorerName = isCrossChainSwap
+  const explorerName = showCrossChainSwapExplorer
     ? t('viewOnAxelarScan')
     : networkIdToExplorerString[transaction.networkId]
 
