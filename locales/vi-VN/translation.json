@@ -2337,7 +2337,7 @@
     "allNetworks": "Tất cả mạng lưới"
   },
   "points": {
-    "title": "Điểm Valora",
+    "title": "Điểm {{appName}}",
     "activity": "Hoạt động",
     "history": {
       "cards": {
@@ -2445,6 +2445,11 @@
       "title": "Kiếm điểm dễ dàng",
       "description": "Khám phá cách kiếm tiền mới! Giờ đây, hoạt động của bạn trên {{appName}} có thể mang lại điểm. Hãy bắt đầu kiếm tiền ngay hôm nay và khám phá những lợi ích tuyệt vời.",
       "cta": "Bắt đầu hành trình tích điểm"
+    },
+    "disclaimer": {
+      "learnMoreCta": "<0>Learn more</0> about {{appName}} Points",
+      "body": "<0>What are Points?</0>\nPoints are {{appName}}'s loyalty program. They're awarded to users when you use our app.\n\n<0>What are they good for?</0>\nYou collect them. They can’t be spent or traded or transferred.\n\n<0>Why are they in my wallet?</0>\nBecause they’re tokens. On chain, digital bits of happiness you earn by using the app.",
+      "dismiss": "Đã hiểu"
     }
   },
   "earnFlow": {
