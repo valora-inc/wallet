@@ -1,9 +1,8 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
-import { useSharedValue } from 'react-native-reanimated'
+import { LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
+import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { DappFeaturedActions } from 'src/dappsExplorer/DappFeaturedActions'
 import DiscoverDappsCard from 'src/dappsExplorer/DiscoverDappsCard'
@@ -22,23 +21,32 @@ type Props = NativeStackScreenProps<StackParamList, Screens.TabDiscover>
 function TabDiscover({ navigation }: Props) {
   const { t } = useTranslation()
 
-  // Scroll Aware Header
   const scrollPosition = useSharedValue(0)
-  const [titleHeight] = useState(0)
+  const [titleHeight, setTitleHeight] = useState(0)
+
+  const handleMeasureTitleHeight = (event: LayoutChangeEvent) => {
+    setTitleHeight(event.nativeEvent.layout.height)
+  }
+
+  const handleScroll = useAnimatedScrollHandler((event) => {
+    scrollPosition.value = event.contentOffset.y
+  })
 
   useScrollAwareHeader({
     navigation,
     title: t('bottomTabsNavigator.discover.title'),
     scrollPosition,
-    startFadeInPosition: titleHeight - titleHeight * 0.33,
-    animationDistance: titleHeight * 0.33,
+    startFadeInPosition: titleHeight * 0.33,
+    animationDistance: titleHeight,
   })
 
   return (
-    <ScrollView testID={'DappsExplorerScrollView'}>
+    <Animated.ScrollView scrollEventThrottle={16} onScroll={handleScroll}>
       <SafeAreaView testID="DAppsExplorerScreen" style={styles.safeAreaContainer} edges={[]}>
         <View style={styles.contentContainer}>
-          <Text style={styles.title}>{t('bottomTabsNavigator.discover.title')}</Text>
+          <Text style={styles.title} onLayout={handleMeasureTitleHeight}>
+            {t('bottomTabsNavigator.discover.title')}
+          </Text>
           <DappFeaturedActions />
           <PointsDiscoverCard />
           <EarnCardDiscover
@@ -48,7 +56,7 @@ function TabDiscover({ navigation }: Props) {
           <DiscoverDappsCard />
         </View>
       </SafeAreaView>
-    </ScrollView>
+    </Animated.ScrollView>
   )
 }
 
