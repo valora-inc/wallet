@@ -2454,7 +2454,7 @@
     },
     "disclaimer": {
       "learnMoreCta": "<0>Узнай больше</0> о {{appName}} Points",
-      "body": "<0>What are Points?</0>\nPoints are {{appName}}'s loyalty program. They're awarded to users when you use our app.\n\n<0>What are they good for?</0>\nYou collect them. They can’t be spent or traded or transferred.\n\n<0>Why are they in my wallet?</0>\nBecause they’re tokens. On chain, digital bits of happiness you earn by using the app.",
+      "body": "<0>Что такое баллы?</0>\nОчки - это программа лояльности {{appName}}. Они начисляются пользователям, когда ты пользуешься нашим приложением.\n\n<0>Для чего они нужны?</0>\nТы их накапливаешь. Их нельзя потратить, обменять или передать.\n\n<0>Почему они находятся в моем кошельке?</0>\nПотому что это токены. На цепочке - цифровые биты счастья, которые ты зарабатываешь, пользуясь приложением.",
       "dismiss": "Понятно"
     }
   },
