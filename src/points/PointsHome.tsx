@@ -4,7 +4,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { PointsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BackButton from 'src/components/BackButton'
 import BeatingHeartLoader from 'src/components/BeatingHeartLoader'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
@@ -74,7 +74,7 @@ export default function PointsHome({ route, navigation }: Props) {
 
   const onCtaPressWrapper = (onPress: () => void, activityId: PointsActivityId) => {
     return () => {
-      ValoraAnalytics.track(PointsEvents.points_screen_card_cta_press, {
+      AppAnalytics.track(PointsEvents.points_screen_card_cta_press, {
         activityId,
       })
       onPress()
@@ -82,7 +82,7 @@ export default function PointsHome({ route, navigation }: Props) {
   }
 
   const onPressActivity = () => {
-    ValoraAnalytics.track(PointsEvents.points_screen_activity_press)
+    AppAnalytics.track(PointsEvents.points_screen_activity_press)
     historyBottomSheetRef.current?.snapToIndex(0)
   }
 
@@ -91,7 +91,7 @@ export default function PointsHome({ route, navigation }: Props) {
   }
 
   const onPressDisclaimer = () => {
-    ValoraAnalytics.track(PointsEvents.points_screen_disclaimer_press)
+    AppAnalytics.track(PointsEvents.points_screen_disclaimer_press)
     disclaimerBottomSheetRef.current?.snapToIndex(0)
   }
 

@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { EarnEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import EarnActivePool from 'src/earn/EarnActivePool'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -78,7 +78,7 @@ describe('EarnActivePool', () => {
     )
 
     fireEvent.press(getByText('earnFlow.activePools.viewPools'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_view_pools_press, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_view_pools_press, {
       poolTokenId: networkConfig.aaveArbUsdcTokenId,
       networkId: NetworkId['arbitrum-sepolia'],
       providerId: 'aave-v3',
@@ -103,7 +103,7 @@ describe('EarnActivePool', () => {
     )
 
     fireEvent.press(getByText('earnFlow.activePools.viewPools'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_view_pools_press, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_view_pools_press, {
       poolTokenId: networkConfig.aaveArbUsdcTokenId,
       networkId: NetworkId['arbitrum-sepolia'],
       providerId: 'aave-v3',
@@ -123,7 +123,7 @@ describe('EarnActivePool', () => {
     )
 
     fireEvent.press(getByText('earnFlow.activePools.exitPool'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_exit_pool_press, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_exit_pool_press, {
       depositTokenId: networkConfig.arbUsdcTokenId,
       networkId: NetworkId['arbitrum-sepolia'],
       tokenAmount: '10.75',
@@ -147,7 +147,7 @@ describe('EarnActivePool', () => {
     )
 
     fireEvent.press(getByText('earnFlow.activePools.depositMore'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_more_press, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_more_press, {
       depositTokenId: networkConfig.arbUsdcTokenId,
       providerId: 'aave-v3',
       networkId: NetworkId['arbitrum-sepolia'],

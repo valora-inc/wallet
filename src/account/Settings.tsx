@@ -27,7 +27,7 @@ import {
 } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { SettingsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import {
   hapticFeedbackSet,
   resetAppOpenedState,
@@ -121,7 +121,7 @@ export const Account = ({ navigation, route }: Props) => {
   const connectedApplications = sessions.length
 
   useEffect(() => {
-    if (ValoraAnalytics.getSessionId() !== sessionId) {
+    if (AppAnalytics.getSessionId() !== sessionId) {
       dispatch(setSessionId(sessionId))
     }
   }, [])
@@ -131,12 +131,12 @@ export const Account = ({ navigation, route }: Props) => {
   }
 
   const goToProfile = () => {
-    ValoraAnalytics.track(SettingsEvents.settings_profile_edit)
+    AppAnalytics.track(SettingsEvents.settings_profile_edit)
     navigate(Screens.Profile)
   }
 
   const goToConfirmNumber = () => {
-    ValoraAnalytics.track(SettingsEvents.settings_verify_number)
+    AppAnalytics.track(SettingsEvents.settings_verify_number)
     navigate(Screens.VerificationStartScreen, { hasOnboarded: true })
   }
 
@@ -153,7 +153,7 @@ export const Account = ({ navigation, route }: Props) => {
   }
 
   const goToLicenses = () => {
-    ValoraAnalytics.track(SettingsEvents.licenses_view)
+    AppAnalytics.track(SettingsEvents.licenses_view)
     navigate(Screens.Licenses)
   }
 
@@ -232,45 +232,45 @@ export const Account = ({ navigation, route }: Props) => {
   const handleUseBiometryToggle = async (turnBiometryOn: boolean) => {
     try {
       if (turnBiometryOn) {
-        ValoraAnalytics.track(SettingsEvents.settings_biometry_opt_in_enable)
+        AppAnalytics.track(SettingsEvents.settings_biometry_opt_in_enable)
         await setPincodeWithBiometry()
         dispatch(setPincodeSuccess(PincodeType.PhoneAuth))
-        ValoraAnalytics.track(SettingsEvents.settings_biometry_opt_in_complete)
+        AppAnalytics.track(SettingsEvents.settings_biometry_opt_in_complete)
       } else {
-        ValoraAnalytics.track(SettingsEvents.settings_biometry_opt_in_disable)
+        AppAnalytics.track(SettingsEvents.settings_biometry_opt_in_disable)
         await removeStoredPin()
         dispatch(setPincodeSuccess(PincodeType.CustomPin))
       }
     } catch (error) {
       Logger.error('SettingsItem@onPress', 'Toggle use biometry error', error)
-      ValoraAnalytics.track(SettingsEvents.settings_biometry_opt_in_error)
+      AppAnalytics.track(SettingsEvents.settings_biometry_opt_in_error)
     }
   }
 
   const handleRequirePinToggle = (value: boolean) => {
     dispatch(setRequirePinOnAppOpen(value))
-    ValoraAnalytics.track(SettingsEvents.pin_require_on_load, {
+    AppAnalytics.track(SettingsEvents.pin_require_on_load, {
       enabled: value,
     })
   }
 
   const handleHapticFeedbackToggle = (value: boolean) => {
     dispatch(hapticFeedbackSet(value))
-    ValoraAnalytics.track(SettingsEvents.settings_haptic_feedback, {
+    AppAnalytics.track(SettingsEvents.settings_haptic_feedback, {
       enabled: value,
     })
   }
 
   const handleToggleAnalytics = (value: boolean) => {
     dispatch(setAnalyticsEnabled(value))
-    ValoraAnalytics.track(SettingsEvents.settings_analytics, {
+    AppAnalytics.track(SettingsEvents.settings_analytics, {
       enabled: value,
     })
   }
 
   const onTermsPress = () => {
     navigateToURI(TOS_LINK)
-    ValoraAnalytics.track(SettingsEvents.tos_view)
+    AppAnalytics.track(SettingsEvents.tos_view)
   }
 
   const onPrivacyPolicyPress = () => {
@@ -282,12 +282,12 @@ export const Account = ({ navigation, route }: Props) => {
   }
 
   const onDeleteAccountPress = () => {
-    ValoraAnalytics.track(SettingsEvents.settings_delete_account)
+    AppAnalytics.track(SettingsEvents.settings_delete_account)
     deleteAccountBottomSheetRef.current?.snapToIndex(0)
   }
 
   const handleDeleteAccount = async () => {
-    ValoraAnalytics.track(SettingsEvents.settings_delete_account_confirm)
+    AppAnalytics.track(SettingsEvents.settings_delete_account_confirm)
 
     if (numberVerified) {
       try {
@@ -307,7 +307,7 @@ export const Account = ({ navigation, route }: Props) => {
       resetAccountBottomSheetRef.current?.close()
       const pinIsCorrect = await ensurePincode()
       if (pinIsCorrect) {
-        ValoraAnalytics.track(SettingsEvents.start_account_removal)
+        AppAnalytics.track(SettingsEvents.start_account_removal)
         navigate(Screens.BackupPhrase, { isAccountRemoval: true })
       }
     } catch (error) {
@@ -323,7 +323,7 @@ export const Account = ({ navigation, route }: Props) => {
     try {
       const pinIsCorrect = await ensurePincode()
       if (pinIsCorrect) {
-        ValoraAnalytics.track(SettingsEvents.settings_set_up_keyless_backup)
+        AppAnalytics.track(SettingsEvents.settings_set_up_keyless_backup)
         navigate(Screens.WalletSecurityPrimer)
       }
     } catch (error) {
@@ -332,7 +332,7 @@ export const Account = ({ navigation, route }: Props) => {
   }
 
   const onPressDeleteKeylessBackup = () => {
-    ValoraAnalytics.track(SettingsEvents.settings_delete_keyless_backup)
+    AppAnalytics.track(SettingsEvents.settings_delete_keyless_backup)
     dispatch(deleteKeylessBackupStarted())
   }
 
@@ -341,27 +341,27 @@ export const Account = ({ navigation, route }: Props) => {
   }
 
   const confirmAccountRemoval = () => {
-    ValoraAnalytics.track(SettingsEvents.completed_account_removal)
+    AppAnalytics.track(SettingsEvents.completed_account_removal)
     dispatch(clearStoredAccount(account ?? ''))
   }
 
   const handleShowConfirmRevoke = () => {
-    ValoraAnalytics.track(SettingsEvents.settings_revoke_phone_number)
+    AppAnalytics.track(SettingsEvents.settings_revoke_phone_number)
     revokeBottomSheetRef.current?.snapToIndex(0)
   }
 
   const goToChangePin = async () => {
     try {
-      ValoraAnalytics.track(SettingsEvents.change_pin_start)
+      AppAnalytics.track(SettingsEvents.change_pin_start)
       const pinIsCorrect = await ensurePincode()
       if (pinIsCorrect) {
-        ValoraAnalytics.track(SettingsEvents.change_pin_current_pin_entered)
+        AppAnalytics.track(SettingsEvents.change_pin_current_pin_entered)
         navigate(Screens.PincodeSet, {
           changePin: true,
         })
       }
     } catch (error) {
-      ValoraAnalytics.track(SettingsEvents.change_pin_current_pin_error)
+      AppAnalytics.track(SettingsEvents.change_pin_current_pin_error)
       Logger.error('NavigationService@onPress', 'PIN ensure error', error)
     }
   }
@@ -370,7 +370,7 @@ export const Account = ({ navigation, route }: Props) => {
     try {
       const pinIsCorrect = await ensurePincode()
       if (pinIsCorrect) {
-        ValoraAnalytics.track(SettingsEvents.settings_recovery_phrase)
+        AppAnalytics.track(SettingsEvents.settings_recovery_phrase)
         navigate(Screens.BackupIntroduction)
       }
     } catch (error) {

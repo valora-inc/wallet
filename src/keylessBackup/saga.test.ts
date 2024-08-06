@@ -3,7 +3,7 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { initializeAccountSaga } from 'src/account/saga'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { generateKeysFromMnemonic, getStoredMnemonic, storeMnemonic } from 'src/backup/utils'
 import { walletHasBalance } from 'src/import/saga'
 import {
@@ -112,7 +112,7 @@ describe('keylessBackup saga', () => {
         ])
         .put(keylessBackupFailed())
         .run()
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_get_torus_keyshare_failed')
+      expect(AppAnalytics.track).toHaveBeenCalledWith('cab_get_torus_keyshare_failed')
     })
   })
   describe('waitForTorusKeyshare', () => {
@@ -157,7 +157,7 @@ describe('keylessBackup saga', () => {
         })
       expect(mockTime).toBeGreaterThanOrEqual(WAIT_FOR_KEYSHARE_TIMEOUT_MS) // make sure the test is mocking time correctly
       expect(caughtErrorMessage).toBe('Timed out waiting for torus keyshare.')
-      expect(ValoraAnalytics.track).toBeCalledWith('cab_torus_keyshare_timeout')
+      expect(AppAnalytics.track).toBeCalledWith('cab_torus_keyshare_timeout')
     })
   })
 
@@ -227,11 +227,11 @@ describe('keylessBackup saga', () => {
           ])
           .put(keylessBackupCompleted())
           .run()
-        expect(ValoraAnalytics.track).toBeCalledWith('cab_setup_hashed_keyshares', {
+        expect(AppAnalytics.track).toBeCalledWith('cab_setup_hashed_keyshares', {
           hashedKeysharePhone: 'a0b7675b466da4059cda48c116c0ead195916e045c6d4e9eff7301242b12b9e0',
           hashedKeyshareEmail: 'a8ad600b8026607f35817dc15f93a25d9fa6617fae6cfd19b3c927eb633ec331',
         })
-        expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_success', {
+        expect(AppAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_success', {
           keylessBackupFlow: KeylessBackupFlow.Setup,
           origin: KeylessBackupOrigin.Settings,
         })
@@ -277,7 +277,7 @@ describe('keylessBackup saga', () => {
           ])
           .put(keylessBackupFailed())
           .run()
-        expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_failed', {
+        expect(AppAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_failed', {
           keylessBackupFlow: KeylessBackupFlow.Setup,
           origin: KeylessBackupOrigin.Settings,
         })
@@ -330,7 +330,7 @@ describe('keylessBackup saga', () => {
           'keylessBackup/saga',
           'Phone keyshare: a0b7675b466da4059cda48c116c0ead195916e045c6d4e9eff7301242b12b9e0, Email keyshare: a8ad600b8026607f35817dc15f93a25d9fa6617fae6cfd19b3c927eb633ec331'
         )
-        expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_success', {
+        expect(AppAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_success', {
           keylessBackupFlow: KeylessBackupFlow.Restore,
           origin: KeylessBackupOrigin.Settings,
         })
@@ -370,7 +370,7 @@ describe('keylessBackup saga', () => {
           .dispatch(keylessBackupBail())
           .not.call(initializeAccountSaga)
           .run()
-        expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_success', {
+        expect(AppAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_success', {
           keylessBackupFlow: KeylessBackupFlow.Restore,
           origin: KeylessBackupOrigin.Settings,
         })
@@ -402,7 +402,7 @@ describe('keylessBackup saga', () => {
           ])
           .put(keylessBackupFailed())
           .run()
-        expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_failed', {
+        expect(AppAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_failed', {
           keylessBackupFlow: KeylessBackupFlow.Restore,
           origin: KeylessBackupOrigin.Settings,
         })
@@ -430,7 +430,7 @@ describe('keylessBackup saga', () => {
           ])
           .put(keylessBackupNotFound())
           .run()
-        expect(ValoraAnalytics.track).toBeCalledWith('cab_restore_mnemonic_not_found')
+        expect(AppAnalytics.track).toBeCalledWith('cab_restore_mnemonic_not_found')
       })
     })
   })

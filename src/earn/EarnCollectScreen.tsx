@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
 import { EarnEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import TokenDisplay from 'src/components/TokenDisplay'
@@ -80,7 +80,7 @@ export default function EarnCollectScreen({ route }: Props) {
       })
     )
 
-    ValoraAnalytics.track(EarnEvents.earn_collect_earnings_press, {
+    AppAnalytics.track(EarnEvents.earn_collect_earnings_press, {
       depositTokenId,
       tokenAmount: poolToken.balance.toString(),
       networkId: depositToken.networkId,
@@ -169,7 +169,7 @@ export default function EarnCollectScreen({ route }: Props) {
               network: NETWORK_NAMES[depositToken.networkId],
             })}
             onPressCta={() => {
-              ValoraAnalytics.track(EarnEvents.earn_withdraw_add_gas_press, {
+              AppAnalytics.track(EarnEvents.earn_withdraw_add_gas_press, {
                 gasTokenId: feeCurrencies[0].tokenId,
               })
               navigate(Screens.FiatExchangeAmount, {

@@ -3,7 +3,7 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { AssetsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import { Position } from 'src/positions/types'
 import Colors from 'src/styles/colors'
@@ -27,7 +27,7 @@ export const PositionItem = ({
       : new BigNumber(position.balance).multipliedBy(position.priceUsd)
 
   const onPress = () => {
-    ValoraAnalytics.track(AssetsEvents.tap_asset, {
+    AppAnalytics.track(AssetsEvents.tap_asset, {
       assetType: 'position',
       network: position.networkId,
       appId: position.appId,

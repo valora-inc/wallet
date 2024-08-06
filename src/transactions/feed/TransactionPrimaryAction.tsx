@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import { TransactionDetailsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Touchable from 'src/components/Touchable'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import Colors from 'src/styles/colors'
@@ -45,7 +45,7 @@ function TransactionPrimaryAction({ status, type, onPress, testID }: Props) {
   }[status]
 
   const pressHandler = () => {
-    ValoraAnalytics.track(analyticsEvent, {
+    AppAnalytics.track(analyticsEvent, {
       transactionType: type,
       transactionStatus: status,
     })

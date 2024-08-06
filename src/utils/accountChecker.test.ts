@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/react-native'
 import * as Keychain from 'react-native-keychain'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { resetStateOnInvalidStoredAccount } from 'src/utils/accountChecker'
 import { clearStoredAccounts } from 'src/web3/KeychainLock'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -68,7 +68,7 @@ describe('resetStateOnInvalidStoredAccount', () => {
     expect(result === undefined).toEqual(true)
     expect(clearStoredAccounts).toHaveBeenCalledTimes(1)
     expect(Sentry.captureException).toHaveBeenCalledTimes(0)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith('redux_no_matching_keychain_account', {
+    expect(AppAnalytics.track).toHaveBeenCalledWith('redux_no_matching_keychain_account', {
       walletAddress: '0x0000000000000000000000000000000000007e57',
     })
   })

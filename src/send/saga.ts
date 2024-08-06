@@ -3,7 +3,7 @@ import { ContractKit } from '@celo/contractkit'
 import BigNumber from 'bignumber.js'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { CeloExchangeEvents, SendEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { FeeInfo } from 'src/fees/saga'
 import { encryptComment } from 'src/identity/commentEncryption'
@@ -208,7 +208,7 @@ export function* sendPaymentSaga({
       feeCurrencyId,
     })
 
-    ValoraAnalytics.track(SendEvents.send_tx_start)
+    AppAnalytics.track(SendEvents.send_tx_start)
     Logger.debug(
       `${TAG}/sendPaymentSaga`,
       'Executing send transaction',
@@ -236,7 +236,7 @@ export function* sendPaymentSaga({
 
     yield* put(fetchTokenBalances({ showLoading: true }))
 
-    ValoraAnalytics.track(SendEvents.send_tx_complete, {
+    AppAnalytics.track(SendEvents.send_tx_complete, {
       txId: context.id,
       recipientAddress,
       amount: amount.toString(),
@@ -248,7 +248,7 @@ export function* sendPaymentSaga({
     })
 
     if (tokenInfo?.symbol === 'CELO') {
-      ValoraAnalytics.track(CeloExchangeEvents.celo_withdraw_completed, {
+      AppAnalytics.track(CeloExchangeEvents.celo_withdraw_completed, {
         amount: amount.toString(),
       })
     }
@@ -272,7 +272,7 @@ export function* sendPaymentSaga({
       return
     }
     Logger.error(`${TAG}/sendPaymentSaga`, 'Send payment failed', error)
-    ValoraAnalytics.track(SendEvents.send_tx_error, { error: error.message })
+    AppAnalytics.track(SendEvents.send_tx_error, { error: error.message })
   } finally {
     SentryTransactionHub.finishTransaction(SentryTransaction.send_payment)
   }

@@ -5,7 +5,7 @@ import { select } from 'redux-saga/effects'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
 import { AuthenticationEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { storedPasswordRefreshed } from 'src/identity/actions'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import {
@@ -44,7 +44,7 @@ jest.mock('react-native-securerandom', () => ({
   ...(jest.requireActual('react-native-securerandom') as any),
   generateSecureRandom: jest.fn(() => new Uint8Array(16).fill(1)),
 }))
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 jest.mock('@celo/utils/lib/async', () => ({
   sleep: jest.fn().mockResolvedValue(true),
 }))
@@ -232,11 +232,11 @@ describe(getPincodeWithBiometry, () => {
     expect(retrievedPin).toEqual(mockPin)
     expect(getCachedPin(DEFAULT_CACHE_ACCOUNT)).toEqual(mockPin)
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(2)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       AuthenticationEvents.get_pincode_with_biometry_start
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       AuthenticationEvents.get_pincode_with_biometry_complete
     )
   })
@@ -248,11 +248,11 @@ describe(getPincodeWithBiometry, () => {
       'Failed to retrieve pin with biometry, recieved null value'
     )
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(2)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       AuthenticationEvents.get_pincode_with_biometry_start
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       AuthenticationEvents.get_pincode_with_biometry_error
     )
   })

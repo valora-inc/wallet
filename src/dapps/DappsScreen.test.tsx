@@ -2,7 +2,7 @@ import { fireEvent, render, within } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { dappSelected, favoriteDapp, fetchDappsList, unfavoriteDapp } from 'src/dapps/slice'
 import { DappCategory, DappSection } from 'src/dapps/types'
 import DappsScreen from 'src/dapps/DappsScreen'
@@ -11,7 +11,7 @@ import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import { mockDappListWithCategoryNames } from 'test/values'
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 jest.mock('src/statsig', () => ({
   getExperimentParams: jest.fn(() => ({
     dappsFilterEnabled: true,
@@ -202,8 +202,8 @@ describe('DappsScreen', () => {
       expect(getByText('dappsScreen.favoritedDappToast.message')).toBeTruthy()
       expect(getByText('dappsScreen.favoritedDappToast.labelCTA')).toBeTruthy()
 
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith('dapp_favorite', {
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith('dapp_favorite', {
         categories: ['2'],
         dappId: 'dapp2',
         dappName: 'Dapp 2',
@@ -238,8 +238,8 @@ describe('DappsScreen', () => {
 
       expect(queryByText('dappsScreen.favoritedDappToast.message')).toBeFalsy()
 
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith('dapp_unfavorite', {
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith('dapp_unfavorite', {
         categories: ['2'],
         dappId: 'dapp2',
         dappName: 'Dapp 2',
@@ -428,8 +428,8 @@ describe('DappsScreen', () => {
       // Tap on category 2 filter
       fireEvent.press(getByText(dappsCategories[1].name))
 
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter, {
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter, {
         filterId: '2',
         remove: false,
       })
@@ -459,12 +459,12 @@ describe('DappsScreen', () => {
       // Tap on category 2 filter again to remove it
       fireEvent.press(getByText(dappsCategories[1].name))
 
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
-      expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(1, DappExplorerEvents.dapp_filter, {
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(2)
+      expect(AppAnalytics.track).toHaveBeenNthCalledWith(1, DappExplorerEvents.dapp_filter, {
         filterId: '2',
         remove: false,
       })
-      expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(2, DappExplorerEvents.dapp_filter, {
+      expect(AppAnalytics.track).toHaveBeenNthCalledWith(2, DappExplorerEvents.dapp_filter, {
         filterId: '2',
         remove: true,
       })
@@ -495,12 +495,12 @@ describe('DappsScreen', () => {
       fireEvent.press(getByTestId('DappsScreen/AllSection/NoResults/RemoveFilter'))
 
       // Assert correct analytics are fired
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter, {
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(2)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter, {
         filterId: '2',
         remove: false,
       })
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter, {
+      expect(AppAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter, {
         filterId: '2',
         remove: true,
       })
@@ -532,8 +532,8 @@ describe('DappsScreen', () => {
       expect(queryByTestId('DappsScreen/FavoritesSection/DappCard')).toBeNull()
 
       // Assert correct analytics are fired
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter, {
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter, {
         filterId: '2',
         remove: false,
       })
@@ -664,7 +664,7 @@ describe('DappsScreen', () => {
 
       fireEvent.press(getByText('Dapp 3'))
 
-      expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(
+      expect(AppAnalytics.track).toHaveBeenLastCalledWith(
         DappExplorerEvents.dapp_open,
         defaultExpectedDappOpenProps
       )
@@ -685,7 +685,7 @@ describe('DappsScreen', () => {
 
       fireEvent.press(getByText('Dapp 3'))
 
-      expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(DappExplorerEvents.dapp_open, {
+      expect(AppAnalytics.track).toHaveBeenLastCalledWith(DappExplorerEvents.dapp_open, {
         ...defaultExpectedDappOpenProps,
         position: 2, // note the position explicitly does not take into account the number of favorites
       })
@@ -707,7 +707,7 @@ describe('DappsScreen', () => {
       expect(getAllByTestId('DappsScreen/AllSection/DappCard')).toHaveLength(1)
       fireEvent.press(getByText('Dapp 3'))
 
-      expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(DappExplorerEvents.dapp_open, {
+      expect(AppAnalytics.track).toHaveBeenLastCalledWith(DappExplorerEvents.dapp_open, {
         ...defaultExpectedDappOpenProps,
         activeFilter: '1',
         activeSearchTerm: 'cool',

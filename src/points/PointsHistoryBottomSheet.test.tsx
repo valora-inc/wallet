@@ -3,7 +3,7 @@ import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { PointsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import PointsHistoryBottomSheet from 'src/points/PointsHistoryBottomSheet'
 import { getHistoryStarted } from 'src/points/slice'
 import { GetHistoryResponse } from 'src/points/types'
@@ -156,7 +156,7 @@ describe(PointsHistoryBottomSheet, () => {
     const { dispatch, getByText } = renderScreen({ points: { getHistoryStatus: 'errorFirstPage' } })
     fireEvent.press(getByText('points.history.error.tryAgain'))
     await waitFor(() =>
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         PointsEvents.points_screen_activity_try_again_press,
         {
           getNextPage: false,
@@ -175,7 +175,7 @@ describe(PointsHistoryBottomSheet, () => {
     const { getByText } = renderScreen({ points: { getHistoryStatus: 'idle', pointsHistory: [] } })
     fireEvent.press(getByText('points.history.empty.gotIt'))
     await waitFor(() =>
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         PointsEvents.points_screen_activity_learn_more_press
       )
     )
@@ -194,7 +194,7 @@ describe(PointsHistoryBottomSheet, () => {
     })
     fireEvent.press(getByText('points.history.pageError.refresh'))
     await waitFor(() =>
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         PointsEvents.points_screen_activity_try_again_press,
         {
           getNextPage: true,

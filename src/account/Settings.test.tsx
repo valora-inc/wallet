@@ -10,7 +10,7 @@ import { PincodeType } from 'src/account/reducer'
 import Settings from 'src/account/Settings'
 import { showError } from 'src/alert/actions'
 import { SettingsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import {
   hapticFeedbackSet,
   resetAppOpenedState,
@@ -41,7 +41,7 @@ mockedKeychain.getGenericPassword.mockResolvedValue({
   storage: 'some string',
 })
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 jest.mock('src/utils/Logger')
 jest.mock('src/statsig')
 
@@ -230,10 +230,8 @@ describe('Account', () => {
     expect(store.getActions()).toEqual(
       expect.arrayContaining([setPincodeSuccess(PincodeType.PhoneAuth)])
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      SettingsEvents.settings_biometry_opt_in_enable
-    )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SettingsEvents.settings_biometry_opt_in_enable)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       SettingsEvents.settings_biometry_opt_in_complete
     )
 
@@ -245,9 +243,7 @@ describe('Account', () => {
     expect(store.getActions()).toEqual(
       expect.arrayContaining([setPincodeSuccess(PincodeType.CustomPin)])
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      SettingsEvents.settings_biometry_opt_in_disable
-    )
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SettingsEvents.settings_biometry_opt_in_disable)
   })
 
   it('navigates to recovery phrase if entered PIN is correct', async () => {
@@ -263,7 +259,7 @@ describe('Account', () => {
       fireEvent.press(tree.getByTestId('RecoveryPhrase'))
     })
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SettingsEvents.settings_recovery_phrase)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SettingsEvents.settings_recovery_phrase)
     expect(navigate).toHaveBeenCalledWith(Screens.BackupIntroduction)
   })
 
@@ -308,8 +304,8 @@ describe('Account', () => {
       fireEvent.press(getByTestId('KeylessBackup'))
     })
     expect(navigate).toHaveBeenCalledWith(Screens.WalletSecurityPrimer)
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(AppAnalytics.track).toHaveBeenLastCalledWith(
       SettingsEvents.settings_set_up_keyless_backup
     )
   })
@@ -326,8 +322,8 @@ describe('Account', () => {
     expect(getByText('delete')).toBeTruthy()
     fireEvent.press(getByTestId('KeylessBackup'))
     expect(navigate).not.toHaveBeenCalled()
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(AppAnalytics.track).toHaveBeenLastCalledWith(
       SettingsEvents.settings_delete_keyless_backup
     )
     expect(store.getActions()).toContainEqual(deleteKeylessBackupStarted())
@@ -348,7 +344,7 @@ describe('Account', () => {
     expect(getByText('pleaseWait')).toBeTruthy()
     fireEvent.press(getByTestId('KeylessBackup'))
     expect(navigate).not.toHaveBeenCalled()
-    expect(ValoraAnalytics.track).not.toHaveBeenCalled()
+    expect(AppAnalytics.track).not.toHaveBeenCalled()
   })
 
   it('shows error banner when keyless backup delete fails', async () => {

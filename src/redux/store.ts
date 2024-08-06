@@ -5,7 +5,7 @@ import FSStorage from 'redux-persist-fs-storage'
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 import createSagaMiddleware from 'redux-saga'
 import { PerformanceEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { createMigrate } from 'src/redux/createMigrate'
 import { migrations } from 'src/redux/migrations'
 import rootReducer, { RootState as ReducersRootState } from 'src/redux/reducers'
@@ -41,7 +41,7 @@ const persistConfig: PersistConfig<ReducersRootState> = {
     // sometimes serialized independently).
     if (data._persist && Date.now() > lastEventTime + timeBetweenStoreSizeEvents) {
       lastEventTime = Date.now()
-      ValoraAnalytics.track(PerformanceEvents.redux_store_size, {
+      AppAnalytics.track(PerformanceEvents.redux_store_size, {
         size: stringifiedData.length,
       })
     }

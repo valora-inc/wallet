@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { EarnEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import EarnActivePools from 'src/earn/EarnActivePools'
 import { EarnTabType } from 'src/earn/types'
 import { navigate } from 'src/navigator/NavigationService'
@@ -47,7 +47,7 @@ describe('EarnActivePools', () => {
     )
 
     fireEvent.press(getByText('earnFlow.activePools.explore'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_active_pools_cta_press, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_active_pools_cta_press, {
       action: 'exploreOpenPools',
     })
     expect(navigate).toHaveBeenCalledWith(Screens.EarnHome, {
@@ -63,7 +63,7 @@ describe('EarnActivePools', () => {
     )
 
     fireEvent.press(getByText('earnFlow.activePools.myPools'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_active_pools_cta_press, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_active_pools_cta_press, {
       action: 'myPools',
     })
     expect(navigate).toHaveBeenCalledWith(Screens.EarnHome, { activeEarnTab: EarnTabType.MyPools })

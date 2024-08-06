@@ -4,7 +4,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { KeylessBackupEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import KeylessBackupPhoneCodeInput from 'src/keylessBackup/KeylessBackupPhoneCodeInput'
 import { valoraKeyshareIssued } from 'src/keylessBackup/slice'
@@ -190,7 +190,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
       expect(getByTestId('KeylessBackupPhoneCodeInputHelp')).toBeTruthy()
       fireEvent.press(getByTestId('KeylessBackupPhoneCodeInputHelp'))
       expect(getByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet')).toBeTruthy()
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         KeylessBackupEvents.cab_phone_verification_help,
         { keylessBackupFlow, origin }
       )
@@ -208,7 +208,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
 
     fireEvent.press(getByTestId('KeylessBackupPhoneCodeInputHelp'))
     fireEvent.press(getByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/PrimaryCta'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       KeylessBackupEvents.cab_phone_verification_help_go_back,
       { keylessBackupFlow: KeylessBackupFlow.Restore, origin: KeylessBackupOrigin.Onboarding }
     )
@@ -219,7 +219,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
     fireEvent.press(getByTestId('KeylessBackupPhoneCodeInputHelp'))
     fireEvent.press(getByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/PrimaryCta'))
     expect(navigate).toHaveBeenCalledWith(Screens.AccountKeyEducation)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       KeylessBackupEvents.cab_phone_verification_help_use_phrase,
       { keylessBackupFlow: KeylessBackupFlow.Setup, origin: KeylessBackupOrigin.Onboarding }
     )
@@ -230,7 +230,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
     fireEvent.press(getByTestId('KeylessBackupPhoneCodeInputHelp'))
     fireEvent.press(getByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/SecondaryCta'))
     expect(navigateHome).toHaveBeenCalledWith()
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       KeylessBackupEvents.cab_phone_verification_help_skip,
       { keylessBackupFlow: KeylessBackupFlow.Setup, origin: KeylessBackupOrigin.Settings }
     )
@@ -241,7 +241,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
     fireEvent.press(getByTestId('KeylessBackupPhoneCodeInputHelp'))
     fireEvent.press(getByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/SecondaryCta'))
     expect(navigate).toHaveBeenCalledWith(Screens.ImportSelect)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       KeylessBackupEvents.cab_phone_verification_help_skip,
       { keylessBackupFlow: KeylessBackupFlow.Restore, origin: KeylessBackupOrigin.Onboarding }
     )
@@ -251,7 +251,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
 
     fireEvent.press(getByTestId('KeylessBackupPhoneCodeInputHelp'))
     fireEvent.press(getByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/SecondaryCta'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       KeylessBackupEvents.cab_phone_verification_help_go_back,
       { keylessBackupFlow: KeylessBackupFlow.Setup, origin: KeylessBackupOrigin.Onboarding }
     )

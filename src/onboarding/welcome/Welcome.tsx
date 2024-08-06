@@ -5,7 +5,7 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { acceptTerms, chooseCreateAccount, chooseRestoreAccount } from 'src/account/actions'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { TOS_LINK } from 'src/brandingConfig'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CheckBox from 'src/icons/CheckBox'
@@ -56,7 +56,7 @@ export default function Welcome() {
       if (showTermsCheckbox && !acceptedTerms) {
         // if terms have not already been accepted, fire the analytics event
         // and dispatch the action to accept the terms
-        ValoraAnalytics.track(OnboardingEvents.terms_and_conditions_accepted)
+        AppAnalytics.track(OnboardingEvents.terms_and_conditions_accepted)
         dispatch(acceptTerms())
       }
       startOnboarding()
@@ -64,7 +64,7 @@ export default function Welcome() {
   }
 
   const onPressCreateAccount = async () => {
-    ValoraAnalytics.track(OnboardingEvents.create_account_start)
+    AppAnalytics.track(OnboardingEvents.create_account_start)
     const now = Date.now()
     if (startOnboardingTime === undefined) {
       // this is the user's first time selecting 'create account' on this device
@@ -77,7 +77,7 @@ export default function Welcome() {
   }
 
   const onPressRestoreAccount = () => {
-    ValoraAnalytics.track(OnboardingEvents.restore_account_start)
+    AppAnalytics.track(OnboardingEvents.restore_account_start)
     dispatch(chooseRestoreAccount())
     navigateNext()
   }

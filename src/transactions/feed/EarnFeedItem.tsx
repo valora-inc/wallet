@@ -3,7 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { EarnEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { navigate } from 'src/navigator/NavigationService'
@@ -121,7 +121,7 @@ export default function EarnFeedItem({ transaction }: Props) {
     <Touchable
       testID={`EarnFeedItem/${transaction.transactionHash}`}
       onPress={() => {
-        ValoraAnalytics.track(EarnEvents.earn_feed_item_select, { origin: transaction.__typename })
+        AppAnalytics.track(EarnEvents.earn_feed_item_select, { origin: transaction.__typename })
         navigate(Screens.TransactionDetailsScreen, { transaction })
       }}
     >

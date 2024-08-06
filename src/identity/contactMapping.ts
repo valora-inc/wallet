@@ -9,7 +9,7 @@ import { setUserContactDetails } from 'src/account/actions'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { IdentityEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import {
@@ -84,7 +84,7 @@ export function* doImportContactsWrapper() {
   } catch (err) {
     const error = ensureError(err)
     Logger.error(TAG, 'Error importing user contacts', error)
-    ValoraAnalytics.track(IdentityEvents.contacts_import_error, { error: error.message })
+    AppAnalytics.track(IdentityEvents.contacts_import_error, { error: error.message })
     yield* put(showErrorOrFallback(error, ErrorMessages.IMPORT_CONTACTS_FAILED))
     yield* put(endImportContacts(false))
   }
@@ -94,11 +94,11 @@ function* doImportContacts() {
   const contactPermissionStatusGranted = yield* call(hasGrantedContactsPermission)
   if (!contactPermissionStatusGranted) {
     Logger.warn(TAG, 'Contact permissions denied. Skipping import.')
-    ValoraAnalytics.track(IdentityEvents.contacts_import_permission_denied)
+    AppAnalytics.track(IdentityEvents.contacts_import_permission_denied)
     return true
   }
 
-  ValoraAnalytics.track(IdentityEvents.contacts_import_start)
+  AppAnalytics.track(IdentityEvents.contacts_import_start)
 
   SentryTransactionHub.startTransaction(SentryTransaction.import_contacts)
   yield* put(updateImportContactsProgress(ImportContactsStatus.Importing))
@@ -108,7 +108,7 @@ function* doImportContacts() {
     Logger.warn(TAG, 'Empty contacts list. Skipping import.')
     return true
   }
-  ValoraAnalytics.track(IdentityEvents.contacts_import_complete, {
+  AppAnalytics.track(IdentityEvents.contacts_import_complete, {
     contactImportCount: contacts.length,
   })
 
@@ -125,7 +125,7 @@ function* doImportContacts() {
   Logger.debug(TAG, 'Updating recipients cache')
   yield* put(setPhoneRecipientCache(e164NumberToRecipients))
 
-  ValoraAnalytics.track(IdentityEvents.contacts_processing_complete)
+  AppAnalytics.track(IdentityEvents.contacts_processing_complete)
   SentryTransactionHub.finishTransaction(SentryTransaction.import_contacts)
 
   yield* spawn(saveContacts)
@@ -154,7 +154,7 @@ export function* fetchAddressesAndValidateSaga({
   e164Number,
   requesterAddress,
 }: FetchAddressesAndValidateAction) {
-  ValoraAnalytics.track(IdentityEvents.phone_number_lookup_start)
+  AppAnalytics.track(IdentityEvents.phone_number_lookup_start)
   try {
     Logger.debug(TAG + '@fetchAddressesAndValidate', `Fetching addresses for number`)
     const oldE164NumberToAddress: E164NumberToAddressType = yield* select(
@@ -206,13 +206,13 @@ export function* fetchAddressesAndValidateSaga({
       updateE164PhoneNumberAddresses(e164NumberToAddressUpdates, addressToE164NumberUpdates)
     )
     yield* put(endFetchingAddresses(e164Number, true))
-    ValoraAnalytics.track(IdentityEvents.phone_number_lookup_complete)
+    AppAnalytics.track(IdentityEvents.phone_number_lookup_complete)
   } catch (err) {
     const error = ensureError(err)
     Logger.debug(TAG + '@fetchAddressesAndValidate', `Error fetching addresses`, error)
     yield* put(showErrorOrFallback(error, ErrorMessages.ADDRESS_LOOKUP_FAILURE))
     yield* put(endFetchingAddresses(e164Number, false))
-    ValoraAnalytics.track(IdentityEvents.phone_number_lookup_error, {
+    AppAnalytics.track(IdentityEvents.phone_number_lookup_error, {
       error: error.message,
     })
   }
@@ -222,10 +222,10 @@ export function* fetchAddressVerificationSaga({ address }: FetchAddressVerificat
   try {
     const addressToVerificationStatus = yield* select(addressToVerificationStatusSelector)
     if (!(address in addressToVerificationStatus && addressToVerificationStatus[address])) {
-      ValoraAnalytics.track(IdentityEvents.address_lookup_start)
+      AppAnalytics.track(IdentityEvents.address_lookup_start)
       const addressVerified = yield* call(fetchAddressVerification, address)
       yield* put(addressVerificationStatusReceived(address, addressVerified))
-      ValoraAnalytics.track(IdentityEvents.address_lookup_complete)
+      AppAnalytics.track(IdentityEvents.address_lookup_complete)
     }
   } catch (err) {
     const error = ensureError(err)
@@ -234,7 +234,7 @@ export function* fetchAddressVerificationSaga({ address }: FetchAddressVerificat
       `Error fetching address verification`,
       error
     )
-    ValoraAnalytics.track(IdentityEvents.address_lookup_error, {
+    AppAnalytics.track(IdentityEvents.address_lookup_error, {
       error: error.message,
     })
     // Setting this address to "false" does not mean that the address

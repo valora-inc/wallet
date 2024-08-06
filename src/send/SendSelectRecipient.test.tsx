@@ -3,7 +3,7 @@ import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SendOrigin } from 'src/analytics/types'
 import { fetchAddressVerification, fetchAddressesAndValidate } from 'src/identity/actions'
 import { AddressValidationType } from 'src/identity/reducer'
@@ -109,7 +109,7 @@ describe('SendSelectRecipient', () => {
       </Provider>
     )
     fireEvent.press(getByTestId('SelectRecipient/QR'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_scan_qr)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_scan_qr)
     expect(navigate).toHaveBeenCalledWith(Screens.QRNavigator, {
       screen: Screens.QRScanner,
     })
@@ -193,12 +193,9 @@ describe('SendSelectRecipient', () => {
     await act(() => {
       fireEvent.press(getByTestId('SendOrInviteButton'))
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      SendEvents.send_select_recipient_send_press,
-      {
-        recipientType: RecipientType.PhoneNumber,
-      }
-    )
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_send_press, {
+      recipientType: RecipientType.PhoneNumber,
+    })
 
     expect(navigate).toHaveBeenCalledWith(Screens.SendEnterAmount, {
       isFromScan: false,
@@ -231,12 +228,9 @@ describe('SendSelectRecipient', () => {
     await act(() => {
       fireEvent.press(getByTestId('SendOrInviteButton'))
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      SendEvents.send_select_recipient_send_press,
-      {
-        recipientType: RecipientType.Address,
-      }
-    )
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_send_press, {
+      recipientType: RecipientType.Address,
+    })
     expect(navigate).toHaveBeenCalledWith(Screens.SendEnterAmount, {
       isFromScan: false,
       defaultTokenIdOverride: undefined,
@@ -552,12 +546,9 @@ describe('SendSelectRecipient', () => {
     await act(() => {
       fireEvent.press(getByTestId('SendOrInviteButton'))
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      SendEvents.send_select_recipient_send_press,
-      {
-        recipientType: RecipientType.PhoneNumber,
-      }
-    )
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_send_press, {
+      recipientType: RecipientType.PhoneNumber,
+    })
     expect(navigate).toHaveBeenCalledWith(Screens.SendEnterAmount, {
       isFromScan: false,
       defaultTokenIdOverride: undefined,
@@ -611,12 +602,9 @@ describe('SendSelectRecipient', () => {
     await act(() => {
       fireEvent.press(getByTestId('SendOrInviteButton'))
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      SendEvents.send_select_recipient_send_press,
-      {
-        recipientType: RecipientType.PhoneNumber,
-      }
-    )
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_send_press, {
+      recipientType: RecipientType.PhoneNumber,
+    })
     expect(navigate).toHaveBeenCalledWith(Screens.ValidateRecipientIntro, {
       defaultTokenIdOverride: undefined,
       forceTokenId: undefined,
@@ -667,12 +655,9 @@ describe('SendSelectRecipient', () => {
     await act(() => {
       fireEvent.press(getByTestId('SendOrInviteButton'))
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      SendEvents.send_select_recipient_send_press,
-      {
-        recipientType: RecipientType.PhoneNumber,
-      }
-    )
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_send_press, {
+      recipientType: RecipientType.PhoneNumber,
+    })
     expect(navigate).toHaveBeenCalledWith(Screens.SendEnterAmount, {
       isFromScan: false,
       defaultTokenIdOverride: undefined,
@@ -730,12 +715,9 @@ describe('SendSelectRecipient', () => {
       await act(() => {
         fireEvent.press(getByTestId('SendOrInviteButton'))
       })
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-        SendEvents.send_select_recipient_send_press,
-        {
-          recipientType: RecipientType.Address,
-        }
-      )
+      expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_send_press, {
+        recipientType: RecipientType.Address,
+      })
       expect(navigate).toHaveBeenCalledWith(Screens.SendEnterAmount, {
         isFromScan: false,
         defaultTokenIdOverride: undefined,
@@ -798,12 +780,9 @@ describe('SendSelectRecipient', () => {
       await act(() => {
         fireEvent.press(getByTestId('SendOrInviteButton'))
       })
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-        SendEvents.send_select_recipient_send_press,
-        {
-          recipientType: RecipientType.Address,
-        }
-      )
+      expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_send_press, {
+        recipientType: RecipientType.Address,
+      })
       expect(navigate).toHaveBeenCalledWith(Screens.SendEnterAmount, {
         isFromScan: false,
         defaultTokenIdOverride: undefined,

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Card from 'src/components/Card'
 import DevSkipButton from 'src/components/DevSkipButton'
 import TextButton from 'src/components/TextButton'
@@ -114,7 +114,7 @@ function ChooseYourAdventure() {
   const getAdventureCards = () => {
     return shuffledCardDetails.map(({ text, goToNextScreen, icon, name }, index) => {
       const onPress = () => {
-        ValoraAnalytics.track(OnboardingEvents.cya_button_press, {
+        AppAnalytics.track(OnboardingEvents.cya_button_press, {
           position: index + 1,
           cardName: name,
           cardOrder,
@@ -126,7 +126,7 @@ function ChooseYourAdventure() {
   }
 
   const onNavigateHome = () => {
-    ValoraAnalytics.track(OnboardingEvents.cya_later, {
+    AppAnalytics.track(OnboardingEvents.cya_later, {
       cardOrder,
     })
     navigateHome()

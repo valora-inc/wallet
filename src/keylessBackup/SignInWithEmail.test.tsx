@@ -2,7 +2,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { KeylessBackupEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import SignInWithEmail from 'src/keylessBackup/SignInWithEmail'
 import { auth0SignInCompleted } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
@@ -87,7 +87,7 @@ describe('SignInWithEmail', () => {
       const { getByTestId } = renderComponent()
       const continueButton = getByTestId(testId)
       fireEvent.press(continueButton)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_start', {
+      expect(AppAnalytics.track).toHaveBeenCalledWith('cab_sign_in_start', {
         keylessBackupFlow: KeylessBackupFlow.Setup,
         origin: KeylessBackupOrigin.Settings,
         provider,
@@ -108,12 +108,12 @@ describe('SignInWithEmail', () => {
         },
         auth0SignInCompleted({ idToken: 'mock-token' }),
       ])
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_success', {
+      expect(AppAnalytics.track).toHaveBeenCalledWith('cab_sign_in_success', {
         keylessBackupFlow: KeylessBackupFlow.Setup,
         origin: KeylessBackupOrigin.Settings,
         provider,
       })
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(2)
       expect(logWarnSpy).not.toHaveBeenCalled()
     })
     it(`pressing ${testId} button invokes authorize and logs warning if authorize fails`, async () => {
@@ -122,7 +122,7 @@ describe('SignInWithEmail', () => {
       const continueButton = getByTestId(testId)
       fireEvent.press(continueButton)
       expect(getByTestId('Button/Loading')).toBeTruthy()
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_start', {
+      expect(AppAnalytics.track).toHaveBeenCalledWith('cab_sign_in_start', {
         keylessBackupFlow: KeylessBackupFlow.Setup,
         origin: KeylessBackupOrigin.Settings,
         provider,
@@ -138,7 +138,7 @@ describe('SignInWithEmail', () => {
           type: 'keylessBackup/keylessBackupStarted',
         },
       ])
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
       expect(queryByTestId('Button/Loading')).toBeNull()
     })
 
@@ -148,7 +148,7 @@ describe('SignInWithEmail', () => {
       const continueButton = getByTestId(testId)
       fireEvent.press(continueButton)
       expect(getByTestId('Button/Loading')).toBeTruthy()
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_start', {
+      expect(AppAnalytics.track).toHaveBeenCalledWith('cab_sign_in_start', {
         keylessBackupFlow: KeylessBackupFlow.Setup,
         origin: KeylessBackupOrigin.Settings,
         provider,
@@ -164,7 +164,7 @@ describe('SignInWithEmail', () => {
           type: 'keylessBackup/keylessBackupStarted',
         },
       ])
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
       expect(queryByTestId('Button/Loading')).toBeNull()
     })
 
@@ -174,7 +174,7 @@ describe('SignInWithEmail', () => {
       const continueButton = getByTestId(testId)
       fireEvent.press(continueButton)
       expect(getByTestId('Button/Loading')).toBeTruthy()
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_start', {
+      expect(AppAnalytics.track).toHaveBeenCalledWith('cab_sign_in_start', {
         keylessBackupFlow: KeylessBackupFlow.Setup,
         origin: KeylessBackupOrigin.Settings,
         provider,
@@ -192,7 +192,7 @@ describe('SignInWithEmail', () => {
           type: 'keylessBackup/keylessBackupStarted',
         },
       ])
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
       expect(logWarnSpy).not.toHaveBeenCalled()
       expect(queryByTestId('Button/Loading')).toBeNull()
     })
@@ -228,9 +228,7 @@ describe('SignInWithEmail', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.AccountKeyEducation, {
       origin: 'cabOnboarding',
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      KeylessBackupEvents.cab_setup_recovery_phrase
-    )
+    expect(AppAnalytics.track).toHaveBeenCalledWith(KeylessBackupEvents.cab_setup_recovery_phrase)
   })
 
   it("pressing 'Sign in another way' then 'Skip (not recommended)' navigates to next onboarding screen", () => {
@@ -248,7 +246,7 @@ describe('SignInWithEmail', () => {
 
     fireEvent.press(getByText('signInWithEmail.bottomSheet.skip'))
     expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       KeylessBackupEvents.cab_sign_in_with_email_screen_skip,
       {
         keylessBackupFlow: KeylessBackupFlow.Setup,

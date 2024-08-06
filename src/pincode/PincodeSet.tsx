@@ -11,7 +11,7 @@ import { connect } from 'react-redux'
 import { initializeAccount, setPincodeSuccess } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
 import { OnboardingEvents, SettingsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { supportedBiometryTypeSelector } from 'src/app/selectors'
 import DevSkipButton from 'src/components/DevSkipButton'
 import i18n, { withTranslation } from 'src/i18n'
@@ -182,12 +182,12 @@ export class PincodeSet extends React.Component<Props, State> {
     if (this.isPin1Valid(this.state.pin1)) {
       this.setState({ isVerifying: true })
       if (this.isChangingPin()) {
-        ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_entered)
+        AppAnalytics.track(SettingsEvents.change_pin_new_pin_entered)
       }
     } else {
-      ValoraAnalytics.track(OnboardingEvents.pin_invalid, { error: 'Pin is invalid' })
+      AppAnalytics.track(OnboardingEvents.pin_invalid, { error: 'Pin is invalid' })
       if (this.isChangingPin()) {
-        ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_error)
+        AppAnalytics.track(SettingsEvents.change_pin_new_pin_error)
       }
 
       this.setState({
@@ -204,23 +204,23 @@ export class PincodeSet extends React.Component<Props, State> {
       if (this.isChangingPin()) {
         const updated = await updatePin(this.props.account, this.state.oldPin, pin2)
         if (updated) {
-          ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_confirmed)
+          AppAnalytics.track(SettingsEvents.change_pin_new_pin_confirmed)
           Logger.showMessage(this.props.t('pinChanged'))
         } else {
-          ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_error)
+          AppAnalytics.track(SettingsEvents.change_pin_new_pin_error)
           Logger.showMessage(this.props.t('pinChangeFailed'))
         }
       } else {
         this.props.setPincodeSuccess(PincodeType.CustomPin)
         setCachedPin(DEFAULT_CACHE_ACCOUNT, pin1)
-        ValoraAnalytics.track(OnboardingEvents.pin_set)
+        AppAnalytics.track(OnboardingEvents.pin_set)
       }
       this.navigateToNextScreen()
     } else {
       if (this.isChangingPin()) {
-        ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_error)
+        AppAnalytics.track(SettingsEvents.change_pin_new_pin_error)
       }
-      ValoraAnalytics.track(OnboardingEvents.pin_invalid, { error: 'Pins do not match' })
+      AppAnalytics.track(OnboardingEvents.pin_invalid, { error: 'Pins do not match' })
       this.setState({
         isVerifying: false,
         pin1: '',

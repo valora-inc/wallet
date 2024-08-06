@@ -5,7 +5,7 @@ import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useAuth0 } from 'react-native-auth0'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { KeylessBackupEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -48,13 +48,13 @@ function SignInWithEmailBottomSheet({
   const { t } = useTranslation()
   const onboardingProps = useSelector(onboardingPropsSelector)
   const onPressContinue = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_setup_recovery_phrase)
+    AppAnalytics.track(KeylessBackupEvents.cab_setup_recovery_phrase)
     bottomSheetRef.current?.close()
     navigate(Screens.AccountKeyEducation, { origin: 'cabOnboarding' })
   }
 
   const onPressSkip = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_email_screen_skip, {
+    AppAnalytics.track(KeylessBackupEvents.cab_sign_in_with_email_screen_skip, {
       keylessBackupFlow,
       origin,
     })
@@ -117,7 +117,7 @@ function SignInWithEmail({ route }: Props) {
   const bottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const onPressSignInAnotherWay = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_another_way, {
+    AppAnalytics.track(KeylessBackupEvents.cab_sign_in_another_way, {
       keylessBackupFlow,
       origin,
     })
@@ -131,7 +131,7 @@ function SignInWithEmail({ route }: Props) {
         keylessBackupFlow,
       })
     )
-    ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_start, {
+    AppAnalytics.track(KeylessBackupEvents.cab_sign_in_start, {
       keylessBackupFlow,
       origin,
       provider,
@@ -156,7 +156,7 @@ function SignInWithEmail({ route }: Props) {
       }
       navigate(Screens.KeylessBackupPhoneInput, { keylessBackupFlow, origin })
       dispatch(auth0SignInCompleted({ idToken: credentials.idToken }))
-      ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_success, {
+      AppAnalytics.track(KeylessBackupEvents.cab_sign_in_success, {
         keylessBackupFlow,
         origin,
         provider,

@@ -3,7 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BackButton from 'src/components/BackButton'
 import ListItem from 'src/components/ListItem'
 import SendBar from 'src/home/SendBar'
@@ -45,7 +45,7 @@ function ExternalExchanges({ route }: Props) {
   const goToExchange = (provider: ExternalExchangeProvider) => {
     const { name, link } = provider
     return () => {
-      ValoraAnalytics.track(FiatExchangeEvents.external_exchange_link, {
+      AppAnalytics.track(FiatExchangeEvents.external_exchange_link, {
         name,
         link,
         isCashIn: false,

@@ -1,5 +1,5 @@
 import { AppEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -24,7 +24,7 @@ export function* checkAccountExistenceSaga() {
   const walletAddress = yield* select(walletAddressSelector)
   if (!walletAddress && keychainAccounts.length > 0) {
     const account = keychainAccounts[0]
-    ValoraAnalytics.track(AppEvents.redux_keychain_mismatch, {
+    AppAnalytics.track(AppEvents.redux_keychain_mismatch, {
       account,
     })
     const language = yield* select(currentLanguageSelector)
@@ -62,7 +62,7 @@ export async function resetStateOnInvalidStoredAccount(state: RootState | undefi
       if (!passwordHash) {
         // No password hash present, we need to reset the redux state and remove existing accounts from the keychain
         // which we can't unlock without the password hash
-        ValoraAnalytics.track(AppEvents.redux_no_matching_keychain_account, {
+        AppAnalytics.track(AppEvents.redux_no_matching_keychain_account, {
           walletAddress,
           keychainError,
         })

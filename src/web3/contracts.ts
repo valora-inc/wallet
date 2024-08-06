@@ -9,7 +9,7 @@ import { sleep } from '@celo/utils/lib/async'
 import { UnlockableWallet } from '@celo/wallet-base'
 import { accountCreationTimeSelector } from 'src/account/selectors'
 import { ContractKitEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { DEFAULT_FORNO_URL } from 'src/config'
 import { navigateToError } from 'src/navigator/NavigationService'
@@ -44,17 +44,17 @@ const keychainLock = new KeychainLock()
 const initContractKitLock = new Lock()
 
 async function initWallet(importMnemonicAccount: ImportMnemonicAccount) {
-  ValoraAnalytics.track(ContractKitEvents.init_contractkit_get_wallet_start)
+  AppAnalytics.track(ContractKitEvents.init_contractkit_get_wallet_start)
   const newWallet = new KeychainWallet(importMnemonicAccount, keychainLock)
-  ValoraAnalytics.track(ContractKitEvents.init_contractkit_get_wallet_finish)
+  AppAnalytics.track(ContractKitEvents.init_contractkit_get_wallet_finish)
   await newWallet.init()
-  ValoraAnalytics.track(ContractKitEvents.init_contractkit_init_wallet_finish)
+  AppAnalytics.track(ContractKitEvents.init_contractkit_init_wallet_finish)
   return newWallet
 }
 
 export function* initContractKit() {
   try {
-    ValoraAnalytics.track(ContractKitEvents.init_contractkit_start)
+    AppAnalytics.track(ContractKitEvents.init_contractkit_start)
 
     if (contractKit || wallet) {
       throw new Error('Kit not properly destroyed')
@@ -93,7 +93,7 @@ export function* initContractKit() {
 
     contractKit = newKitFromWeb3(web3, wallet)
     Logger.info(`${TAG}@initContractKit`, 'Initialized kit')
-    ValoraAnalytics.track(ContractKitEvents.init_contractkit_finish)
+    AppAnalytics.track(ContractKitEvents.init_contractkit_finish)
     return
   } catch (error) {
     Logger.error(`${TAG}@initContractKit`, 'Unexpected error initializing kit', error)

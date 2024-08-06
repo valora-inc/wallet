@@ -15,7 +15,7 @@ import { choseToRestoreAccountSelector } from 'src/account/selectors'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { phoneNumberVerificationCompleted } from 'src/app/actions'
 import { inviterAddressSelector } from 'src/app/selectors'
@@ -58,7 +58,7 @@ function* clearStoredAccountSaga({ account, onlyReduxState }: ClearStoredAccount
     if (!onlyReduxState) {
       yield* call(removeAccountLocally, account)
       yield* call(clearStoredMnemonic)
-      yield* call(ValoraAnalytics.reset)
+      yield* call(AppAnalytics.reset)
       yield* call(clearStoredAccounts)
 
       // Ignore error if it was caused by Firebase.
@@ -82,7 +82,7 @@ function* clearStoredAccountSaga({ account, onlyReduxState }: ClearStoredAccount
 export function* initializeAccountSaga() {
   Logger.debug(TAG + '@initializeAccountSaga', 'Creating account')
   try {
-    ValoraAnalytics.track(OnboardingEvents.initialize_account_start)
+    AppAnalytics.track(OnboardingEvents.initialize_account_start)
     yield* call(getOrCreateAccount)
     yield* call(generateSignedMessage)
     yield* put(refreshAllBalances())
@@ -95,13 +95,13 @@ export function* initializeAccountSaga() {
     Logger.debug(TAG + '@initializeAccountSaga', 'Account creation success')
     yield* put(initializeAccountSuccess())
     const inviterAddress = yield* select(inviterAddressSelector)
-    ValoraAnalytics.track(OnboardingEvents.initialize_account_complete, {
+    AppAnalytics.track(OnboardingEvents.initialize_account_complete, {
       inviterAddress,
     })
   } catch (err) {
     const error = ensureError(err)
     Logger.error(TAG, 'Failed to initialize account', error)
-    ValoraAnalytics.track(OnboardingEvents.initialize_account_error, { error: error.message })
+    AppAnalytics.track(OnboardingEvents.initialize_account_error, { error: error.message })
     navigateClearingStack(Screens.AccounSetupFailureScreen)
   }
 }

@@ -7,7 +7,7 @@ import { ActivityIndicator, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { showError } from 'src/alert/actions'
 import { EscrowEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import ReviewFrame from 'src/components/ReviewFrame'
 import ReviewHeader from 'src/components/ReviewHeader'
@@ -46,7 +46,7 @@ export default function ReclaimPaymentConfirmationScreen({ navigation, route }: 
     const unsubscribe = navigation.addListener('beforeRemove', () => {
       if (isReclaiming) {
         dispatch(reclaimEscrowPaymentCancel())
-        ValoraAnalytics.track(EscrowEvents.escrow_reclaim_cancel)
+        AppAnalytics.track(EscrowEvents.escrow_reclaim_cancel)
       }
     })
 
@@ -63,7 +63,7 @@ export default function ReclaimPaymentConfirmationScreen({ navigation, route }: 
 
   const onConfirm = async () => {
     const escrowedPayment = getReclaimPaymentInput()
-    ValoraAnalytics.track(EscrowEvents.escrow_reclaim_confirm)
+    AppAnalytics.track(EscrowEvents.escrow_reclaim_confirm)
     const address = account
     if (!address) {
       throw new Error("Can't reclaim funds without a valid account")

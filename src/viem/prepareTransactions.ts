@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import erc20 from 'src/abis/IERC20'
 import stableToken from 'src/abis/StableToken'
 import { TransactionEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { TransactionOrigin } from 'src/analytics/types'
 import { STATIC_GAS_PADDING } from 'src/config'
 import {
@@ -359,7 +359,7 @@ export async function prepareTransactions({
 
   if (feeCurrencies.length > 0) {
     // there should always be at least one fee currency, the if is just a safeguard
-    ValoraAnalytics.track(TransactionEvents.transaction_prepare_insufficient_gas, {
+    AppAnalytics.track(TransactionEvents.transaction_prepare_insufficient_gas, {
       origin,
       networkId: feeCurrencies[0].networkId,
     })

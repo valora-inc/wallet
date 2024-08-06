@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { EarnEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Touchable from 'src/components/Touchable'
 import CircledIcon from 'src/icons/CircledIcon'
 import EarnCoins from 'src/icons/EarnCoins'
@@ -21,7 +21,7 @@ export default function EarnEntrypoint() {
         borderRadius={8}
         style={styles.touchable}
         onPress={() => {
-          ValoraAnalytics.track(EarnEvents.earn_entrypoint_press)
+          AppAnalytics.track(EarnEvents.earn_entrypoint_press)
           navigate(Screens.EarnInfoScreen)
         }}
         testID="EarnEntrypoint"

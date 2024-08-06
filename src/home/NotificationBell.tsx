@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
 import { HomeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { useNotifications } from 'src/home/NotificationCenter'
 import NotificationBellIcon from 'src/icons/NotificationBellIcon'
 import { navigate } from 'src/navigator/NavigationService'
@@ -22,7 +22,7 @@ export default function NotificationBell({ testID, size, style }: Props) {
   const notificationMark = hasNotifications ? colors.primary : undefined
 
   const onPress = () => {
-    ValoraAnalytics.track(HomeEvents.notification_bell_pressed, { hasNotifications })
+    AppAnalytics.track(HomeEvents.notification_bell_pressed, { hasNotifications })
     navigate(Screens.NotificationCenter)
   }
 

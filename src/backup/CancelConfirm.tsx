@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import CancelButton from 'src/components/CancelButton'
 import Dialog from 'src/components/Dialog'
 import { navigateHome } from 'src/navigator/NavigationService'
@@ -21,19 +21,19 @@ export default function CancelConfirm({ screen }: Props) {
 
   const onCancel = React.useCallback(() => {
     setOpenState(true)
-    ValoraAnalytics.track(OnboardingEvents.backup_cancel)
+    AppAnalytics.track(OnboardingEvents.backup_cancel)
   }, [screen])
 
   const onComplete = React.useCallback(() => {
     setOpenState(false)
-    ValoraAnalytics.track(OnboardingEvents.backup_delay_cancel)
+    AppAnalytics.track(OnboardingEvents.backup_delay_cancel)
   }, [screen, actionText])
 
   const onProcrastinate = React.useCallback(() => {
     setOpenState(false)
     // Specify fromModal to avoid app crash
     navigateHome(true)
-    ValoraAnalytics.track(OnboardingEvents.backup_delay_confirm)
+    AppAnalytics.track(OnboardingEvents.backup_delay_confirm)
   }, [screen, secondaryText])
 
   return (

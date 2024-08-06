@@ -10,7 +10,7 @@ import { findBestLanguageTag } from 'react-native-localize'
 import { eventChannel } from 'redux-saga'
 import { e164NumberSelector } from 'src/account/selectors'
 import { AppEvents, InviteEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import {
   Actions,
@@ -124,7 +124,7 @@ export function* appInit() {
 
   yield* all([
     call(initializeSentry),
-    call([ValoraAnalytics, 'init']),
+    call([AppAnalytics, 'init']),
     call(
       initI18n,
       language || bestLanguage || DEFAULT_APP_LANGUAGE,
@@ -205,7 +205,7 @@ export function* checkAndroidMobileServicesSaga() {
     huaweiIsAvailable !== (yield* select(huaweiMobileServicesAvailableSelector))
 
   if (updated) {
-    ValoraAnalytics.track(AppEvents.android_mobile_services_checked, {
+    AppAnalytics.track(AppEvents.android_mobile_services_checked, {
       googleIsAvailable,
       huaweiIsAvailable,
     })
@@ -322,7 +322,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
       'share',
       'hooks',
     ]
-    ValoraAnalytics.track(AppEvents.handle_deeplink, {
+    AppAnalytics.track(AppEvents.handle_deeplink, {
       pathStartsWith: pathParts[1].split('?')[0],
       fullPath: pathStartsWithAllowList.includes(pathStartsWith) ? rawParams.pathname : null,
       query: pathStartsWithAllowList.includes(pathStartsWith) ? rawParams.query : null,
@@ -348,7 +348,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
     } else if (pathParts.length === 3 && pathParts[1] === 'share') {
       const inviterAddress = pathParts[2]
       yield* put(inviteLinkConsumed(inviterAddress))
-      ValoraAnalytics.track(InviteEvents.opened_via_invite_url, {
+      AppAnalytics.track(InviteEvents.opened_via_invite_url, {
         inviterAddress,
       })
     } else if (pathParts.length === 4 && pathParts[1] === 'jumpstart') {
@@ -408,7 +408,7 @@ function* watchAppState() {
       yield* put(setAppState(newState))
     } catch (err) {
       const error = ensureError(err)
-      ValoraAnalytics.track(AppEvents.app_state_error, { error: error.message })
+      AppAnalytics.track(AppEvents.app_state_error, { error: error.message })
       Logger.error(`${TAG}@monitorAppState`, `App state Error`, error)
     } finally {
       if (yield* cancelled()) {
@@ -545,11 +545,11 @@ export function* requestInAppReview() {
       // Update the last interaction timestamp and send analytics
       yield* call(InAppReview.RequestInAppReview)
       yield* put(inAppReviewRequested(now))
-      ValoraAnalytics.track(AppEvents.in_app_review_impression)
+      AppAnalytics.track(AppEvents.in_app_review_impression)
     } catch (err) {
       const error = ensureError(err)
       Logger.error(TAG, `Error while calling InAppReview.RequestInAppReview`, error)
-      ValoraAnalytics.track(AppEvents.in_app_review_error, { error: error.message })
+      AppAnalytics.track(AppEvents.in_app_review_error, { error: error.message })
     }
   }
 }

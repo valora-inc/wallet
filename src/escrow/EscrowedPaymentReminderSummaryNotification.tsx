@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image } from 'react-native'
 import { HomeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EscrowedPayment } from 'src/escrow/actions'
 import EscrowedPaymentLineItem from 'src/escrow/EscrowedPaymentLineItem'
 import { listItemRenderer } from 'src/escrow/EscrowedPaymentListScreen'
@@ -20,7 +20,7 @@ function EscrowedPaymentReminderSummaryNotification({ payments }: Props) {
   const { t } = useTranslation()
 
   const onReview = () => {
-    ValoraAnalytics.track(HomeEvents.notification_select, {
+    AppAnalytics.track(HomeEvents.notification_select, {
       notificationType: NotificationType.escrow_tx_summary,
       notificationId: NotificationType.escrow_tx_summary,
       selectedAction: NotificationBannerCTATypes.review,

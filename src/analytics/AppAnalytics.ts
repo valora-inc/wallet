@@ -29,7 +29,7 @@ import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
 import { Statsig } from 'statsig-react-native'
 
-const TAG = 'ValoraAnalytics'
+const TAG = 'AppAnalytics'
 
 interface DeviceInfoType {
   AppName: string
@@ -91,7 +91,7 @@ async function getDeviceInfo(): Promise<DeviceInfoType> {
   }
 }
 
-class ValoraAnalytics {
+class AppAnalytics {
   sessionId: string = ''
   deviceInfo: DeviceInfoType | undefined
 
@@ -334,25 +334,20 @@ class ValoraAnalytics {
 
 let isInitialized = false
 type KeysOfType<T, TProp> = { [P in keyof T]: T[P] extends TProp ? P : never }[keyof T]
-type ValoraAnalyticsKeyFunction = KeysOfType<ValoraAnalytics, Function>
+type AppAnalyticsKeyFunction = KeysOfType<AppAnalytics, Function>
 // Type checked function keys to queue until `init` has finished
-const funcsToQueue = new Set<ValoraAnalyticsKeyFunction>([
-  'startSession',
-  'track',
-  'identify',
-  'page',
-])
+const funcsToQueue = new Set<AppAnalyticsKeyFunction>(['startSession', 'track', 'identify', 'page'])
 let queuedCalls: Function[] = []
 
-function isFuncToQueue(prop: string | number | symbol): prop is ValoraAnalyticsKeyFunction {
-  return funcsToQueue.has(prop as ValoraAnalyticsKeyFunction)
+function isFuncToQueue(prop: string | number | symbol): prop is AppAnalyticsKeyFunction {
+  return funcsToQueue.has(prop as AppAnalyticsKeyFunction)
 }
 
 /**
  * Use a proxy to queue specific calls until async `init` has finished
  * So all events are sent with the right props to our initialized analytics integrations
  */
-export default new Proxy(new ValoraAnalytics(), {
+export default new Proxy(new AppAnalytics(), {
   get: function (target, prop, receiver) {
     if (!isInitialized) {
       if (prop === 'init') {

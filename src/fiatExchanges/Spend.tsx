@@ -3,7 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BackButton from 'src/components/BackButton'
 import ListItem from 'src/components/ListItem'
 import { SPEND_MERCHANT_LINKS } from 'src/config'
@@ -39,7 +39,7 @@ function Spend(props: Props) {
   const goToMerchant = (merchant: SpendMerchant) => {
     const { name, link } = merchant
     return () => {
-      ValoraAnalytics.track(FiatExchangeEvents.spend_merchant_link, {
+      AppAnalytics.track(FiatExchangeEvents.spend_merchant_link, {
         name,
         link,
       })

@@ -9,7 +9,7 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated'
 import { AssetsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { AssetsTokenBalance } from 'src/components/TokenBalance'
 import { navigate } from 'src/navigator/NavigationService'
@@ -187,7 +187,7 @@ function TabWallet({ navigation, route }: Props) {
             size={BtnSizes.FULL}
             text={t('assets.claimRewards')}
             onPress={() => {
-              ValoraAnalytics.track(AssetsEvents.tap_claim_rewards)
+              AppAnalytics.track(AssetsEvents.tap_claim_rewards)
               navigate(Screens.DappShortcutsRewards)
             }}
           />

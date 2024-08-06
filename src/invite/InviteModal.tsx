@@ -3,7 +3,7 @@ import { Trans } from 'react-i18next'
 import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView, useSafeAreaFrame } from 'react-native-safe-area-context'
 import { InviteEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Touchable from 'src/components/Touchable'
 import ShareIcon from 'src/icons/Share'
@@ -44,7 +44,7 @@ const InviteModal = ({
 
   const onPressHelp = () => {
     if (helpLink) {
-      ValoraAnalytics.track(InviteEvents.invite_help_link)
+      AppAnalytics.track(InviteEvents.invite_help_link)
       navigate(Screens.WebViewScreen, { uri: helpLink })
     }
   }

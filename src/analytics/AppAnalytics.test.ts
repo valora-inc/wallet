@@ -1,7 +1,7 @@
 import { createClient } from '@segment/analytics-react-native'
 import { PincodeType } from 'src/account/reducer'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalyticsModule from 'src/analytics/ValoraAnalytics'
+import AppAnalyticsModule from 'src/analytics/AppAnalytics'
 import { store } from 'src/redux/store'
 import { getDefaultStatsigUser, getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
@@ -188,8 +188,8 @@ beforeAll(() => {
   jest.useFakeTimers({ now: 1482363367071 })
 })
 
-describe('ValoraAnalytics', () => {
-  let ValoraAnalytics: typeof ValoraAnalyticsModule
+describe('AppAnalytics', () => {
+  let AppAnalytics: typeof AppAnalyticsModule
   const mockSegmentClient = {
     identify: jest.fn().mockResolvedValue(undefined),
     track: jest.fn().mockResolvedValue(undefined),
@@ -206,9 +206,9 @@ describe('ValoraAnalytics', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.unmock('src/analytics/ValoraAnalytics')
+    jest.unmock('src/analytics/AppAnalytics')
     jest.isolateModules(() => {
-      ValoraAnalytics = require('src/analytics/ValoraAnalytics').default
+      AppAnalytics = require('src/analytics/AppAnalytics').default
     })
     mockStore.getState.mockImplementation(() => state)
     jest.mocked(getFeatureGate).mockReturnValue(true)
@@ -219,7 +219,7 @@ describe('ValoraAnalytics', () => {
 
   it('creates statsig client on initialization with default statsig user', async () => {
     jest.mocked(getDefaultStatsigUser).mockReturnValue({ userID: 'someUserId' })
-    await ValoraAnalytics.init()
+    await AppAnalytics.init()
     expect(Statsig.initialize).toHaveBeenCalledWith(
       'statsig-key',
       { userID: 'someUserId' },
@@ -228,26 +228,26 @@ describe('ValoraAnalytics', () => {
   })
 
   it('delays identify calls until async init has finished', async () => {
-    ValoraAnalytics.identify('0xUSER', { someUserProp: 'testValue' })
+    AppAnalytics.identify('0xUSER', { someUserProp: 'testValue' })
     expect(mockSegmentClient.identify).not.toHaveBeenCalled()
 
-    await ValoraAnalytics.init()
+    await AppAnalytics.init()
     // Now that init has finished identify should have been called
     expect(mockSegmentClient.identify).toHaveBeenCalledWith('0xUSER', { someUserProp: 'testValue' })
 
     // And now test that identify calls go trough directly
     mockSegmentClient.identify.mockClear()
-    ValoraAnalytics.identify('0xUSER2', { someUserProp: 'testValue2' })
+    AppAnalytics.identify('0xUSER2', { someUserProp: 'testValue2' })
     expect(mockSegmentClient.identify).toHaveBeenCalledWith('0xUSER2', {
       someUserProp: 'testValue2',
     })
   })
 
   it('delays track calls until async init has finished', async () => {
-    ValoraAnalytics.track(OnboardingEvents.pin_invalid, { error: 'some error' })
+    AppAnalytics.track(OnboardingEvents.pin_invalid, { error: 'some error' })
     expect(mockSegmentClient.track).not.toHaveBeenCalled()
 
-    await ValoraAnalytics.init()
+    await AppAnalytics.init()
     // Now that init has finished track should have been called
     expect(mockSegmentClient.track).toHaveBeenCalledTimes(1)
     expect(mockSegmentClient.track).toHaveBeenCalledWith(OnboardingEvents.pin_invalid, {
@@ -257,7 +257,7 @@ describe('ValoraAnalytics', () => {
 
     // And now test that track calls go trough directly
     mockSegmentClient.track.mockClear()
-    ValoraAnalytics.track(OnboardingEvents.pin_invalid, { error: 'some error' })
+    AppAnalytics.track(OnboardingEvents.pin_invalid, { error: 'some error' })
     expect(mockSegmentClient.track).toHaveBeenCalledTimes(1)
     expect(mockSegmentClient.track).toHaveBeenCalledWith(OnboardingEvents.pin_invalid, {
       ...defaultProperties,
@@ -266,10 +266,10 @@ describe('ValoraAnalytics', () => {
   })
 
   it('delays screen calls until async init has finished', async () => {
-    ValoraAnalytics.page('Some Page', { someProp: 'testValue' })
+    AppAnalytics.page('Some Page', { someProp: 'testValue' })
     expect(mockSegmentClient.screen).not.toHaveBeenCalled()
 
-    await ValoraAnalytics.init()
+    await AppAnalytics.init()
     // Now that init has finished identify should have been called
     expect(mockSegmentClient.screen).toHaveBeenCalledTimes(1)
     expect(mockSegmentClient.screen).toHaveBeenCalledWith('Some Page', {
@@ -280,7 +280,7 @@ describe('ValoraAnalytics', () => {
 
     // And now test that page calls go trough directly
     mockSegmentClient.screen.mockClear()
-    ValoraAnalytics.page('Some Page2', { someProp: 'testValue2' })
+    AppAnalytics.page('Some Page2', { someProp: 'testValue2' })
     expect(mockSegmentClient.screen).toHaveBeenCalledTimes(1)
     expect(mockSegmentClient.screen).toHaveBeenCalledWith('Some Page2', {
       ...defaultProperties,
@@ -291,8 +291,8 @@ describe('ValoraAnalytics', () => {
   })
 
   it('adds super properties to all tracked events', async () => {
-    await ValoraAnalytics.init()
-    ValoraAnalytics.track(OnboardingEvents.pin_invalid, { error: 'some error' })
+    await AppAnalytics.init()
+    AppAnalytics.track(OnboardingEvents.pin_invalid, { error: 'some error' })
     expect(mockSegmentClient.track).toHaveBeenCalledTimes(1)
     expect(mockSegmentClient.track).toHaveBeenCalledWith(OnboardingEvents.pin_invalid, {
       ...defaultProperties,
@@ -301,8 +301,8 @@ describe('ValoraAnalytics', () => {
   })
 
   it('adds super properties to all screen events', async () => {
-    await ValoraAnalytics.init()
-    ValoraAnalytics.page('ScreenA', { someProp: 'someValue' })
+    await AppAnalytics.init()
+    AppAnalytics.page('ScreenA', { someProp: 'someValue' })
     expect(mockSegmentClient.screen).toHaveBeenCalledTimes(1)
     expect(mockSegmentClient.screen).toHaveBeenCalledWith('ScreenA', {
       ...defaultProperties,
@@ -314,8 +314,8 @@ describe('ValoraAnalytics', () => {
   it('returns a different sessionId if the time is different', async () => {
     const timestamp = 1482363367070
     Date.now = jest.fn(() => timestamp)
-    await ValoraAnalytics.init()
-    ValoraAnalytics.page('ScreenA')
+    await AppAnalytics.init()
+    AppAnalytics.page('ScreenA')
     expect(mockSegmentClient.screen).toHaveBeenCalledTimes(1)
     expect(mockSegmentClient.screen).toHaveBeenCalledWith('ScreenA', {
       ...defaultProperties,

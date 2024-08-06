@@ -8,7 +8,7 @@ import DeviceInfo from 'react-native-device-info'
 import { e164NumberSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { PhoneVerificationEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { phoneNumberRevoked, phoneNumberVerificationCompleted } from 'src/app/actions'
 import { inviterAddressSelector } from 'src/app/selectors'
@@ -62,7 +62,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
   }
 
   const handleVerifySmsError = (error: Error) => {
-    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_code_verify_error)
+    AppAnalytics.track(PhoneVerificationEvents.phone_verification_code_verify_error)
     Logger.debug(
       `${TAG}/validateVerificationCode`,
       `Received error from verifySmsCode service for verificationId: ${verificationId}`,
@@ -77,7 +77,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
 
     setShouldResendSms(false)
     verificationCodeRequested.current = true
-    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_restore_success)
+    AppAnalytics.track(PhoneVerificationEvents.phone_verification_restore_success)
 
     setVerificationStatus(PhoneNumberVerificationStatus.SUCCESSFUL)
     dispatch(phoneNumberVerificationCompleted(phoneNumber, countryCallingCode))
@@ -143,7 +143,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
         setShouldResendSms(false)
         verificationCodeRequested.current = true
 
-        ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_code_request_success)
+        AppAnalytics.track(PhoneVerificationEvents.phone_verification_code_request_success)
         Logger.debug(
           `${TAG}/requestVerificationCode`,
           'Successfully initiated phone number verification with verificationId: ',
@@ -161,7 +161,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
         return
       }
 
-      ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_code_verify_start)
+      AppAnalytics.track(PhoneVerificationEvents.phone_verification_code_verify_start)
       Logger.debug(
         `${TAG}/validateVerificationCode`,
         'Initiating request to verifySmsCode with verificationId: ',
@@ -197,7 +197,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
           return
         }
 
-        ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_code_verify_success, {
+        AppAnalytics.track(PhoneVerificationEvents.phone_verification_code_verify_success, {
           phoneNumberHash: getPhoneHash(phoneNumber),
           inviterAddress,
         })
@@ -251,7 +251,7 @@ export function useRevokeCurrentPhoneNumber() {
         'Initiating request to revoke phone number verification',
         { address, e164Number }
       )
-      ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_revoke_start)
+      AppAnalytics.track(PhoneVerificationEvents.phone_verification_revoke_start)
 
       if (!address || !e164Number) {
         throw new Error('No phone number in the store')
@@ -279,11 +279,11 @@ export function useRevokeCurrentPhoneNumber() {
     },
     {
       onSuccess: (e164Number) => {
-        ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_revoke_success)
+        AppAnalytics.track(PhoneVerificationEvents.phone_verification_revoke_success)
         dispatch(phoneNumberRevoked(e164Number))
       },
       onError: (error: Error) => {
-        ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_revoke_error)
+        AppAnalytics.track(PhoneVerificationEvents.phone_verification_revoke_error)
         Logger.warn(`${TAG}/revokeVerification`, 'Error revoking verification', error)
       },
     }

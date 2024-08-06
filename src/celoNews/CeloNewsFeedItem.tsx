@@ -2,7 +2,7 @@ import { formatDistanceToNowStrict } from 'date-fns'
 import * as React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { CeloNewsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { CeloNewsArticle } from 'src/celoNews/types'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import Touchable from 'src/components/Touchable'
@@ -22,7 +22,7 @@ interface Props {
 export default function CeloNewsFeedItem({ article, testID }: Props) {
   function onPress() {
     const url = article.link
-    ValoraAnalytics.track(CeloNewsEvents.celo_news_article_tap, { url })
+    AppAnalytics.track(CeloNewsEvents.celo_news_article_tap, { url })
     navigate(Screens.WebViewScreen, { uri: url })
   }
 

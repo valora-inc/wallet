@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { TokenBottomSheetEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import TokenBottomSheet, {
   DEBOUNCE_WAIT_TIME,
   TokenBottomSheetProps,
@@ -21,7 +21,7 @@ import {
   mockTestTokenTokenId,
 } from 'test/values'
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 
 const tokens: TokenBalance[] = [
   {
@@ -163,7 +163,7 @@ describe.each([
       tokens.find((token) => token.tokenId === mockCusdTokenId),
       0
     )
-    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(TokenBottomSheetEvents.token_selected, {
+    expect(AppAnalytics.track).toHaveBeenLastCalledWith(TokenBottomSheetEvents.token_selected, {
       ...commonAnalyticsProps,
       tokenAddress: mockCusdAddress,
       tokenId: mockCusdTokenId,
@@ -175,7 +175,7 @@ describe.each([
       tokens.find((token) => token.tokenId === mockCeurTokenId),
       1
     )
-    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(TokenBottomSheetEvents.token_selected, {
+    expect(AppAnalytics.track).toHaveBeenLastCalledWith(TokenBottomSheetEvents.token_selected, {
       ...commonAnalyticsProps,
       tokenAddress: mockCeurAddress,
       tokenId: mockCeurTokenId,
@@ -187,7 +187,7 @@ describe.each([
       tokens.find((token) => token.tokenId === mockTestTokenTokenId),
       2
     )
-    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(TokenBottomSheetEvents.token_selected, {
+    expect(AppAnalytics.track).toHaveBeenLastCalledWith(TokenBottomSheetEvents.token_selected, {
       ...commonAnalyticsProps,
       tokenAddress: mockTestTokenAddress,
       tokenId: mockTestTokenTokenId,
@@ -210,8 +210,8 @@ describe.each([
     // Wait for the analytics debounce
     jest.advanceTimersByTime(DEBOUNCE_WAIT_TIME)
 
-    expect(ValoraAnalytics.track).toBeCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
+    expect(AppAnalytics.track).toBeCalledTimes(1)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
       origin: TokenPickerOrigin.Send,
       searchInput: 'Celo',
     })
@@ -224,8 +224,8 @@ describe.each([
     // Wait for the analytics debounce
     jest.advanceTimersByTime(DEBOUNCE_WAIT_TIME)
 
-    expect(ValoraAnalytics.track).toBeCalledTimes(2)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
+    expect(AppAnalytics.track).toBeCalledTimes(2)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
       origin: TokenPickerOrigin.Send,
       searchInput: 'Test',
     })
@@ -238,8 +238,8 @@ describe.each([
     // Wait for the analytics debounce
     jest.advanceTimersByTime(DEBOUNCE_WAIT_TIME)
 
-    expect(ValoraAnalytics.track).toBeCalledTimes(3)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
+    expect(AppAnalytics.track).toBeCalledTimes(3)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
       origin: TokenPickerOrigin.Send,
       searchInput: 'Usd',
     })
@@ -320,7 +320,7 @@ describe.each([
     expect(getAllByTestId('TokenBalanceItem')[0]).toHaveTextContent('Celo Dollar')
 
     fireEvent.press(getAllByTestId('TokenBalanceItem')[0])
-    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(TokenBottomSheetEvents.token_selected, {
+    expect(AppAnalytics.track).toHaveBeenLastCalledWith(TokenBottomSheetEvents.token_selected, {
       tokenAddress: mockCusdAddress,
       tokenId: mockCusdTokenId,
       tokenPositionInList: 0,
@@ -341,14 +341,14 @@ describe.each([
     // Wait for the analytics debounce
     jest.advanceTimersByTime(DEBOUNCE_WAIT_TIME)
 
-    expect(ValoraAnalytics.track).toBeCalledTimes(1)
+    expect(AppAnalytics.track).toBeCalledTimes(1)
     // We don't send events for intermediate search inputs
-    expect(ValoraAnalytics.track).not.toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
+    expect(AppAnalytics.track).not.toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
       origin: TokenPickerOrigin.Send,
       searchInput: 'TemporaryInput',
     })
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
       origin: TokenPickerOrigin.Send,
       searchInput: 'FinalInput',
     })
