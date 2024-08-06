@@ -90,6 +90,7 @@ import {
   mockShortcuts,
   mockShortcutsLegacy,
 } from 'test/values'
+import { DEEPLINK_PREFIX } from 'src/config'
 
 describe('Redux persist migrations', () => {
   it('works for v-1 to v0', () => {
@@ -772,7 +773,7 @@ describe('Redux persist migrations', () => {
           {
             name: 'Moola',
             description: 'Lend, borrow, or add to a pool to earn rewards',
-            dappUrl: 'celo://wallet/moolaScreen',
+            dappUrl: `${DEEPLINK_PREFIX}://wallet/moolaScreen`,
             categoryId: 'lend',
             iconUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/moola.png',
             isFeatured: false,

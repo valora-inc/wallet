@@ -11,6 +11,7 @@ import { NotificationReceiveState, NotificationTypes } from 'src/notifications/t
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { NetworkId, TransactionStatus } from 'src/transactions/types'
 import { mockRecipientInfo } from 'test/values'
+import { DEEPLINK_PREFIX } from 'src/config'
 
 describe(handleNotification, () => {
   beforeEach(() => {
@@ -79,7 +80,7 @@ describe(handleNotification, () => {
   })
 
   describe("with a notification with an 'open url' semantic and a deep link", () => {
-    const expectedUrl = `celo://wallet/openScreen?screen=${Screens.TabNavigator}`
+    const expectedUrl = `${DEEPLINK_PREFIX}://wallet/openScreen?screen=${Screens.TabNavigator}`
     const message: FirebaseMessagingTypes.RemoteMessage = {
       notification: { title: 'My title', body: 'My Body' },
       data: { ou: expectedUrl },

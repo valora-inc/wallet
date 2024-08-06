@@ -86,6 +86,7 @@ import {
 } from 'typed-redux-saga'
 import { Address, BaseError, GetTransactionCountParameters, hexToBigInt, isHex } from 'viem'
 import { getTransactionCount } from 'viem/actions'
+import { DEEPLINK_PREFIX } from 'src/config'
 
 let client: IWeb3Wallet | null = null
 
@@ -142,7 +143,7 @@ function* createWalletConnectChannel() {
         url: WEB_LINK,
         icons: [appendPath(WEB_LINK, 'favicon.ico')],
         redirect: {
-          native: 'celo://wallet/wc',
+          native: `${DEEPLINK_PREFIX}://wallet/wc`,
           universal: 'https://valoraapp.com/wc',
         },
       },

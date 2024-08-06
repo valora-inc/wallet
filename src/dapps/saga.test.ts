@@ -11,6 +11,7 @@ import { Screens } from 'src/navigator/Screens'
 import { getExperimentParams } from 'src/statsig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockAccount } from 'test/values'
+import { DEEPLINK_PREFIX } from 'src/config'
 
 jest.mock('src/statsig')
 
@@ -44,7 +45,7 @@ describe('Dapps saga', () => {
         dappSelected({
           dapp: {
             ...baseDapp,
-            dappUrl: 'celo://wallet/bidali',
+            dappUrl: `${DEEPLINK_PREFIX}://wallet/bidali`,
             openedFrom: DappSection.All,
           },
         })

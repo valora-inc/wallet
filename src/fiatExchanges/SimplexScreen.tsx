@@ -27,6 +27,7 @@ import { useTokenInfo } from 'src/tokens/hooks'
 import { resolveCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import { currentAccountSelector } from 'src/web3/selectors'
+import { DEEPLINK_PREFIX } from 'src/config'
 
 type RouteProps = NativeStackScreenProps<StackParamList, Screens.Simplex>
 type Props = RouteProps
@@ -58,7 +59,7 @@ function SimplexScreen({ route, navigation }: Props) {
   const onNavigationStateChange = ({ url }: any) => {
     if (url?.includes('/payments/new')) {
       setRedirected(true)
-    } else if (url?.startsWith('celo://wallet')) {
+    } else if (url?.startsWith(`${DEEPLINK_PREFIX}://wallet`)) {
       navigateToURI(url)
     }
   }

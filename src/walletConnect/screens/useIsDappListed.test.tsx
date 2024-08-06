@@ -3,6 +3,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
 import { createMockStore } from 'test/utils'
+import { DEEPLINK_PREFIX } from 'src/config'
 
 const renderHookWithProvider = (dappUrl: string) => {
   const store = createMockStore({
@@ -23,7 +24,7 @@ const renderHookWithProvider = (dappUrl: string) => {
           categories: ['2'],
           description: 'Lend and borrow tokens!',
           iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/moola.png',
-          dappUrl: 'celo://wallet/moolaScreen',
+          dappUrl: `${DEEPLINK_PREFIX}://wallet/moolaScreen`,
         },
       ],
     },

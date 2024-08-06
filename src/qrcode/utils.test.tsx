@@ -43,6 +43,7 @@ import {
   mockRecipient,
   mockRecipientInfo,
 } from 'test/values'
+import { DEEPLINK_PREFIX } from 'src/config'
 
 jest.mock('src/positions/saga')
 
@@ -75,7 +76,7 @@ describe('useQRContent', () => {
 
 describe('handleQRCodeDefault', () => {
   it('handles hooks enable preview links', async () => {
-    const link = 'celo://wallet/hooks/enablePreview?hooksApiUrl=https://192.168.0.42:18000'
+    const link = `${DEEPLINK_PREFIX}://wallet/hooks/enablePreview?hooksApiUrl=https://192.168.0.42:18000`
     const qrCode: QrCode = { type: QRCodeTypes.QR_CODE, data: link }
 
     await expectSaga(handleQRCodeDefault, handleQRCodeDetected(qrCode))

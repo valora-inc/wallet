@@ -41,6 +41,7 @@ import { initialiseWalletConnect, isWalletConnectEnabled } from 'src/walletConne
 import { handleLoadingWithTimeout } from 'src/walletConnect/walletConnect'
 import { call, fork, put, select } from 'typed-redux-saga'
 import { isAddress } from 'viem'
+import { DEEPLINK_PREFIX } from 'src/config'
 
 export enum QRCodeTypes {
   QR_CODE = 'QR_CODE',
@@ -130,7 +131,7 @@ function* extractQRAddressData(qrCode: QrCode) {
   // strip network prefix if present
   const qrAddress = qrCode.data.split(':').at(-1) || qrCode.data
   if (isAddress(qrAddress, { strict: false })) {
-    qrCode.data = `celo://wallet/pay?address=${qrAddress}`
+    qrCode.data = `${DEEPLINK_PREFIX}://wallet/pay?address=${qrAddress}`
   }
   let qrData: UriData | null
   try {
@@ -159,7 +160,7 @@ export function* handleQRCodeDefault({ qrCode }: HandleQRCodeDetectedAction) {
   }
   if (
     (yield* select(allowHooksPreviewSelector)) &&
-    qrCode.data.startsWith('celo://wallet/hooks/enablePreview')
+    qrCode.data.startsWith(`${DEEPLINK_PREFIX}://wallet/hooks/enablePreview`)
   ) {
     yield* call(handleEnableHooksPreviewDeepLink, qrCode.data, HooksEnablePreviewOrigin.Scan)
     return
