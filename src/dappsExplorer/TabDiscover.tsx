@@ -36,8 +36,8 @@ function TabDiscover({ navigation }: Props) {
     navigation,
     title: t('bottomTabsNavigator.discover.title'),
     scrollPosition,
-    startFadeInPosition: titleHeight * 0.33,
-    animationDistance: titleHeight,
+    startFadeInPosition: titleHeight * 0.67,
+    animationDistance: titleHeight * 0.33,
   })
 
   return (
