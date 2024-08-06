@@ -27,7 +27,7 @@ const TAG = 'viem/saga'
  * being sent on
  * @param {number} createBaseStandbyTransactions - functions that create the
  * standby transactions, each element corresponding to the prepared transaction
- * of the matching index
+ * of the matching index. It can return null if no standby transaction is needed.
  * @param {boolean} isGasSubsidized - an optional boolean that indicates whether
  * gas is subsidized for the transaction, which means an internal rpc node will be
  * used instead of the default alchemy rpc node
@@ -38,7 +38,7 @@ export function* sendPreparedTransactions(
   createBaseStandbyTransactions: ((
     transactionHash: string,
     feeCurrencyId?: string
-  ) => BaseStandbyTransaction)[],
+  ) => BaseStandbyTransaction | null)[],
   isGasSubsidized: boolean = false
 ) {
   if (serializablePreparedTransactions.length !== createBaseStandbyTransactions.length) {
@@ -88,7 +88,10 @@ export function* sendPreparedTransactions(
     const tokensById = yield* select((state) => tokensByIdSelector(state, [networkId]))
     const feeCurrencyId = getFeeCurrencyToken([preparedTransaction], networkId, tokensById)?.tokenId
 
-    yield* put(addStandbyTransaction(createBaseStandbyTransaction(hash, feeCurrencyId)))
+    const standByTx = createBaseStandbyTransaction(hash, feeCurrencyId)
+    if (standByTx) {
+      yield* put(addStandbyTransaction(standByTx))
+    }
     txHashes.push(hash)
   }
 

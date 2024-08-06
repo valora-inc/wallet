@@ -99,6 +99,7 @@ interface NetworkConfig {
   internalRpcUrl: Record<Network.Arbitrum, string>
   authHeaderIssuer: string
   web3AuthVerifier: string
+  crossChainExplorerUrl: string
 }
 
 const ALCHEMY_ETHEREUM_RPC_URL_STAGING = 'https://eth-sepolia.g.alchemy.com/v2/'
@@ -326,6 +327,8 @@ const SET_REGISTRATION_PROPERTIES_AUTH_ALFAJORES = {
   },
 }
 
+const CROSS_CHAIN_EXPLORER_URL = 'https://axelarscan.io/gmp/'
+
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
     networkId: '44787',
@@ -430,6 +433,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     },
     authHeaderIssuer: AUTH_HEADER_ISSUER,
     web3AuthVerifier: WEB3_AUTH_VERIFIER,
+    crossChainExplorerUrl: CROSS_CHAIN_EXPLORER_URL,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -533,6 +537,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     },
     authHeaderIssuer: AUTH_HEADER_ISSUER,
     web3AuthVerifier: WEB3_AUTH_VERIFIER,
+    crossChainExplorerUrl: CROSS_CHAIN_EXPLORER_URL,
   },
 }
 

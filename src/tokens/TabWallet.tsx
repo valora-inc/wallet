@@ -16,7 +16,10 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
-import { positionsSelector, positionsWithClaimableRewardsSelector } from 'src/positions/selectors'
+import {
+  positionsWithBalanceSelector,
+  positionsWithClaimableRewardsSelector,
+} from 'src/positions/selectors'
 import { useSelector } from 'src/redux/hooks'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -40,7 +43,7 @@ function TabWallet({ navigation, route }: Props) {
   const activeTab = route.params?.activeAssetTab ?? AssetTabType.Tokens
 
   // TODO: Update this to filter out unsupported networks once positions support non-Celo chains
-  const positions = useSelector(positionsSelector)
+  const positions = useSelector(positionsWithBalanceSelector)
   const showPositions = getFeatureGate(StatsigFeatureGates.SHOW_POSITIONS)
   const displayPositions = showPositions && positions.length > 0
 

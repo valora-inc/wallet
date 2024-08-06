@@ -79,7 +79,7 @@ import { useDispatch, useSelector } from 'src/redux/hooks'
 import { getFeatureGate } from 'src/statsig/index'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
@@ -185,7 +185,7 @@ export const Account = ({ navigation, route }: Props) => {
       return (
         <View style={styles.devSettings}>
           <View style={styles.devSettingsItem}>
-            <Text style={fontStyles.label}>Session ID</Text>
+            <Text style={typeScale.labelSemiBoldSmall}>Session ID</Text>
             <SessionId sessionId={sessionId || ''} />
           </View>
           <View style={styles.devSettingsItem}>
@@ -613,7 +613,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    ...fontStyles.h1,
+    ...typeScale.titleMedium,
     margin: 16,
   },
   containerList: {
@@ -642,7 +642,7 @@ const styles = StyleSheet.create({
     marginTop: Spacing.Regular16,
   },
   value: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     color: colors.gray4,
     marginRight: Spacing.Smallest8,
     marginLeft: 4,

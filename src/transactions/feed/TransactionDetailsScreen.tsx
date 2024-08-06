@@ -71,6 +71,7 @@ function useHeaderTitle(transaction: TokenTransaction) {
       return t('transactionHeaderNftReceived')
     case TokenTransactionTypeV2.NftSent:
       return t('transactionHeaderNftSent')
+    case TokenTransactionTypeV2.CrossChainSwapTransaction:
     case TokenTransactionTypeV2.SwapTransaction:
       return t('swapScreen.title')
     case TokenTransactionTypeV2.Approval:
@@ -86,10 +87,15 @@ function useHeaderTitle(transaction: TokenTransaction) {
 
 function TransactionDetailsScreen({ route }: Props) {
   const { transaction } = route.params
+  const { t } = useTranslation()
 
   const addressToDisplayName = useSelector(addressToDisplayNameSelector)
   const rewardsSenders = useSelector(rewardsSendersSelector)
   const title = useHeaderTitle(transaction)
+  const subtitle =
+    transaction.type === TokenTransactionTypeV2.CrossChainSwapTransaction
+      ? t('transactionFeed.crossChainSwapTransactionLabel')
+      : undefined
 
   let content
   let retryHandler
@@ -115,8 +121,9 @@ function TransactionDetailsScreen({ route }: Props) {
         content = <TransferReceivedContent transfer={receivedTransfer} />
       }
       break
+    case TokenTransactionTypeV2.CrossChainSwapTransaction:
     case TokenTransactionTypeV2.SwapTransaction:
-      content = <SwapContent exchange={transaction as TokenExchange} />
+      content = <SwapContent transaction={transaction as TokenExchange} />
       retryHandler = () => navigate(Screens.SwapScreenWithBack)
       break
     case TokenTransactionTypeV2.EarnClaimReward:
@@ -134,7 +141,12 @@ function TransactionDetailsScreen({ route }: Props) {
   }
 
   return (
-    <TransactionDetails transaction={transaction} retryHandler={retryHandler} title={title}>
+    <TransactionDetails
+      transaction={transaction}
+      retryHandler={retryHandler}
+      title={title}
+      subtitle={subtitle}
+    >
       {content}
     </TransactionDetails>
   )

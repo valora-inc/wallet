@@ -108,6 +108,7 @@
     "subtitle": "Yedek olarak ayarlamak için e-postanızla oturum açın. Cüzdanınızı kaybetmeniz durumunda tekrar oturum açmanız istenecektir.",
     "subtitleRestore": "Cüzdan yedeklemenizi ayarladığınız e-postayla oturum açın.",
     "google": "Google ile oturum aç",
+    "apple": "Apple ile oturum açın",
     "signInAnotherWay": "Başka bir şekilde oturum açın",
     "bottomSheet": {
       "title": "Bir cüzdan oluşturmak için kurtarma ifadenizi kaydedin",
@@ -1904,6 +1905,8 @@
     "swapFrom": "Takas kaynağı",
     "swapTo": "Takas hedefi",
     "rate": "Oran",
+    "network": "Ağ",
+    "networkValue": "{{fromNetwork}} → {{toNetwork}}",
     "estimatedFee": "Tah Ağ Ücreti",
     "networkFee": "Ağ Ücreti",
     "viewOnExplorer": "CeloExplorer'da görüntüle"
@@ -2179,6 +2182,7 @@
   "viewOnOPSepoliaExplorer": "OP Sepolia Explorer'da görüntüle",
   "viewOnPolygonPoSScan": "PolygonScan'de görüntüle",
   "viewOnBaseScan": "BaseScan'de görüntüle",
+  "viewOnAxelarScan": "AxelarScan'de görüntüle",
   "sendEnterAmountScreen": {
     "title": "Tutar Girin",
     "selectToken": "Bir Token seçin",
@@ -2236,10 +2240,14 @@
     "approvalTransactionTitle": "Onay",
     "estimatedNetworkFee": "Tahmini ağ ücreti",
     "networkFee": "Ağ ücreti",
+    "appFee": "Uygulama ücreti",
+    "estimatedCrossChainFee": "Tahmini çapraz zincir ücreti",
+    "crossChainFee": "Çapraz zincir ücreti",
     "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}} işlem için onaylandı",
     "infiniteApprovalDescription": "{{tokenSymbol}} işlem için süresiz onaylandı",
     "revokeApprovalDescription": "{{tokenSymbol}} işlem için iptal edildi",
-    "descriptionLabel": "Detaylar"
+    "descriptionLabel": "Detaylar",
+    "crossChainSwapTransactionLabel": "Çapraz zincir"
   },
   "multichainBeta": {
     "beta": "BETA",

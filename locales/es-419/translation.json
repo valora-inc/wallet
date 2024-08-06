@@ -108,6 +108,7 @@
     "subtitle": "Inicia sesión con tu correo electrónico para configurarlo como copia de seguridad. Se te pedirá que inicies sesión de nuevo si pierdes tu wallet.",
     "subtitleRestore": "Inicia sesión con el correo electrónico que usaste para configurar la copia de seguridad de tu wallet.",
     "google": "Iniciar sesión con Google",
+    "apple": "Iniciar sesión con Apple",
     "signInAnotherWay": "Inicia sesión de otra manera",
     "bottomSheet": {
       "title": "Guarda tu frase de recuperación para crear una wallet",
@@ -1904,6 +1905,8 @@
     "swapFrom": "Cambiar de",
     "swapTo": "Cambiar a",
     "rate": "Tasas",
+    "network": "Red",
+    "networkValue": "{{fromNetwork}} → {{toNetwork}}",
     "estimatedFee": "Tarifa de red estimada",
     "networkFee": "Tarifa de red",
     "viewOnExplorer": "Ver en CeloExplorer"
@@ -2179,6 +2182,7 @@
   "viewOnOPSepoliaExplorer": "Ver en OP Sepolia Explorer",
   "viewOnPolygonPoSScan": "Ver en PolygonScan",
   "viewOnBaseScan": "Ver en BaseScan",
+  "viewOnAxelarScan": "Ver en AxelarScan",
   "sendEnterAmountScreen": {
     "title": "Ingresa el monto",
     "selectToken": "Selecciona un token",
@@ -2236,10 +2240,14 @@
     "approvalTransactionTitle": "Aprobación",
     "estimatedNetworkFee": "Estimación de la tarifa de red",
     "networkFee": "Tarifa de red",
+    "appFee": "Tasa de aplicación",
+    "estimatedCrossChainFee": "Tasa estimada de la cadena cruzada",
+    "crossChainFee": "Tasa por cruce de cadenas",
     "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}} aprobados para operar",
     "infiniteApprovalDescription": "{{tokenSymbol}} infinitos aprobados para operar",
     "revokeApprovalDescription": "{{tokenSymbol}} revocado para operar",
-    "descriptionLabel": "Detalles"
+    "descriptionLabel": "Detalles",
+    "crossChainSwapTransactionLabel": "Cadena cruzada"
   },
   "multichainBeta": {
     "beta": "BETA",

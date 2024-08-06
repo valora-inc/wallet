@@ -1575,6 +1575,7 @@ interface PointsEventsProperties {
   }
   [PointsEvents.points_screen_activity_fetch_more]: undefined
   [PointsEvents.points_screen_activity_learn_more_press]: undefined
+  [PointsEvents.points_screen_disclaimer_press]: undefined
 }
 
 interface EarnCommonProperties {

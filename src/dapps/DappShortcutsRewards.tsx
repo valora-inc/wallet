@@ -98,6 +98,7 @@ function DappShortcutsRewards() {
             address,
             appId,
             networkId: position.networkId,
+            positionId: position.positionId,
             positionAddress: position.address,
             shortcutId: claimableShortcut.id,
           },

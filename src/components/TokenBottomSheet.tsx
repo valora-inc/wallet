@@ -274,7 +274,7 @@ function TokenBottomSheet({
       <FlatListComponent
         data={tokenList}
         keyExtractor={(item) => item.tokenId}
-        contentContainerStyle={[styles.tokenListContainer, { paddingBottom: insets.bottom }]}
+        contentContainerStyle={{ paddingBottom: insets.bottom }}
         scrollIndicatorInsets={{ top: headerHeight }}
         renderItem={({ item, index }) => {
           return (
@@ -393,7 +393,7 @@ const styles = StyleSheet.create({
     marginVertical: Spacing.Regular16,
   },
   tokenBalanceItemContainer: {
-    marginHorizontal: 0,
+    marginHorizontal: Spacing.Thick24,
   },
   filterChipsCarouselContainer: {
     paddingTop: Spacing.Thick24,
@@ -404,9 +404,6 @@ const styles = StyleSheet.create({
     padding: Spacing.Thick24,
     backgroundColor: colors.white,
     width: '100%',
-  },
-  tokenListContainer: {
-    paddingHorizontal: Spacing.Thick24,
   },
   title: {
     ...typeScale.titleSmall,
