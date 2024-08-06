@@ -1907,6 +1907,8 @@
     "swapFrom": "Swap from",
     "swapTo": "Swap to",
     "rate": "Rate",
+    "network": "Network",
+    "networkValue": "{{fromNetwork}} → {{toNetwork}}",
     "estimatedFee": "Est Network Fee",
     "networkFee": "Network Fee",
     "viewOnExplorer": "View on CeloExplorer"
@@ -2182,6 +2184,7 @@
   "viewOnOPSepoliaExplorer": "View on OP Sepolia Explorer",
   "viewOnPolygonPoSScan": "View on PolygonScan",
   "viewOnBaseScan": "View on BaseScan",
+  "viewOnAxelarScan": "View on AxelarScan",
   "sendEnterAmountScreen": {
     "title": "Enter Amount",
     "selectToken": "Select a Token",
@@ -2239,10 +2242,14 @@
     "approvalTransactionTitle": "Approval",
     "estimatedNetworkFee": "Estimated network fee",
     "networkFee": "Network fee",
+    "appFee": "App fee",
+    "estimatedCrossChainFee": "Estimated cross-chain fee",
+    "crossChainFee": "Cross-chain fee",
     "finiteApprovalDescription": "Approved {{approvedAmount}} {{tokenSymbol}} for trade",
     "infiniteApprovalDescription": "Approved infinite {{tokenSymbol}} for trade",
     "revokeApprovalDescription": "Revoked {{tokenSymbol}} for trade",
-    "descriptionLabel": "Details"
+    "descriptionLabel": "Details",
+    "crossChainSwapTransactionLabel": "Cross-chain"
   },
   "multichainBeta": {
     "beta": "BETA",
@@ -2334,7 +2341,7 @@
     "allNetworks": "All Networks"
   },
   "points": {
-    "title": "Valora Points",
+    "title": "{{appName}} Points",
     "activity": "Activity",
     "history": {
       "cards": {
@@ -2442,6 +2449,11 @@
       "title": "Earn points effortlessly",
       "description": "Jump into a new way to earn! Your {{appName}} actions now earn points. Start earning today and unlock awesome benefits.",
       "cta": "Start your points journey"
+    },
+    "disclaimer": {
+      "learnMoreCta": "<0>Learn more</0> about {{appName}} Points",
+      "body": "<0>What are Points?</0>\nPoints are {{appName}}'s loyalty program. They're awarded to users when you use our app.\n\n<0>What are they good for?</0>\nYou collect them. They can’t be spent or traded or transferred.\n\n<0>Why are they in my wallet?</0>\nBecause they’re tokens. On chain, digital bits of happiness you earn by using the app.",
+      "dismiss": "Got it"
     }
   },
   "earnFlow": {

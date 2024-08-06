@@ -108,6 +108,7 @@
     "subtitle": "Melde dich mit deiner E-Mail an, um sie als Backup einzurichten. Wenn du deine Wallet verlierst, wirst du aufgefordert, dich erneut anzumelden.",
     "subtitleRestore": "Melde dich mit der E-Mail an, mit der du deine Wallet-Sicherung eingerichtet hast.",
     "google": "Mit Google anmelden",
+    "apple": "Mit Apple anmelden",
     "signInAnotherWay": "Andere Anmeldungsmethode",
     "bottomSheet": {
       "title": "Speichere deine Wiederherstellungsphrase bei der Erstellung deiner Wallet",
@@ -1904,6 +1905,8 @@
     "swapFrom": "Tausch von",
     "swapTo": "Tausch zu",
     "rate": "Kurs",
+    "network": "Netzwerk",
+    "networkValue": "{{fromNetwork}} → {{toNetwork}}",
     "estimatedFee": "Geschätzte Netzwerkgebühr",
     "networkFee": "Netzwerkgebühr",
     "viewOnExplorer": "Auf CeloExplorer anzeigen"
@@ -2179,6 +2182,7 @@
   "viewOnOPSepoliaExplorer": "Auf OP Sepolia Explorer ansehen",
   "viewOnPolygonPoSScan": "Auf PolygonScan anzeigen",
   "viewOnBaseScan": "Auf BaseScan anzeigen",
+  "viewOnAxelarScan": "Ansicht auf AxelarScan",
   "sendEnterAmountScreen": {
     "title": "Betrag eingeben",
     "selectToken": "Token auswählen",
@@ -2236,10 +2240,14 @@
     "approvalTransactionTitle": "Genehmigt",
     "estimatedNetworkFee": "Geschätzte Netzwerkgebühr",
     "networkFee": "Netzwerkgebühr",
+    "appFee": "App-Gebühr",
+    "estimatedCrossChainFee": "Geschätzte kettenübergreifende Gebühr",
+    "crossChainFee": "Kettenübergreifende Gebühr",
     "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}} für Handel genehmigt",
     "infiniteApprovalDescription": "Unendliche {{tokenSymbol}} für Handel genehmigt",
     "revokeApprovalDescription": "{{tokenSymbol}} für Handel widerrufen",
-    "descriptionLabel": "Details"
+    "descriptionLabel": "Details",
+    "crossChainSwapTransactionLabel": "Kettenübergreifend"
   },
   "multichainBeta": {
     "beta": "BETA",

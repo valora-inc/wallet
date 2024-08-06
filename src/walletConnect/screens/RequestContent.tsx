@@ -26,6 +26,7 @@ interface BaseProps {
   testId: string
   children?: React.ReactNode
   buttonText?: string | null
+  buttonLoading?: boolean
 }
 
 interface ConfirmProps extends BaseProps {
@@ -91,10 +92,13 @@ function RequestContent(props: Props) {
     testId,
     children,
     buttonText,
+    buttonLoading,
   } = props
   const { t } = useTranslation()
   const [isPressed, setIsPressed] = useState(false)
   const isPressedRef = useRef(false)
+
+  const showButtonLoading = buttonLoading || isPressed
 
   const onPress = () => {
     setIsPressed(true)
@@ -175,8 +179,8 @@ function RequestContent(props: Props) {
           type={BtnTypes.PRIMARY}
           size={BtnSizes.FULL}
           text={buttonText ?? t('allow')}
-          showLoading={isPressed}
-          disabled={isPressed}
+          showLoading={showButtonLoading}
+          disabled={showButtonLoading}
           onPress={onPress}
           testID={`${testId}/Allow`}
         />
@@ -186,8 +190,8 @@ function RequestContent(props: Props) {
           type={BtnTypes.SECONDARY}
           size={BtnSizes.FULL}
           text={buttonText ?? t('dismiss')}
-          showLoading={isPressed}
-          disabled={isPressed}
+          showLoading={showButtonLoading}
+          disabled={showButtonLoading}
           onPress={onPress}
           testID={`${testId}/Dismiss`}
         />

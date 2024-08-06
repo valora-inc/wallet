@@ -108,6 +108,7 @@
     "subtitle": "Connectez-vous avec votre e-mail pour le configurer en tant que données de sauvegarde. Si vous perdez votre portefeuille, vous devrez vous reconnecter.",
     "subtitleRestore": "Connectez-vous avec l'e-mail que vous avez utilisé pour configurer la sauvegarde.",
     "google": "Se connecter avec Google",
+    "apple": "Connecte-toi avec Apple",
     "signInAnotherWay": "Se connecter d'une autre manière",
     "bottomSheet": {
       "title": "Enregistrez votre phrase de récupération pour créer un portefeuille",
@@ -1904,6 +1905,8 @@
     "swapFrom": "Échanger de",
     "swapTo": "Échanger pour",
     "rate": "Taux",
+    "network": "Réseau",
+    "networkValue": "{{fromNetwork}} → {{toNetwork}}",
     "estimatedFee": "Frais de réseau estimés",
     "networkFee": "Frais de réseau",
     "viewOnExplorer": "Voir sur CeloExplorer"
@@ -2179,6 +2182,7 @@
   "viewOnOPSepoliaExplorer": "Voir sur OP Sepolia Explorer",
   "viewOnPolygonPoSScan": "Voir sur PolygonScan",
   "viewOnBaseScan": "Voir sur BaseScan",
+  "viewOnAxelarScan": "Voir sur AxelarScan",
   "sendEnterAmountScreen": {
     "title": "Saisissez le montant",
     "selectToken": "Sélectionnez un jeton",
@@ -2236,10 +2240,14 @@
     "approvalTransactionTitle": "Approbation",
     "estimatedNetworkFee": "Estimation des frais de réseau",
     "networkFee": "Frais de réseau",
+    "appFee": "Frais d'application",
+    "estimatedCrossChainFee": "Estimation des frais de la chaîne croisée",
+    "crossChainFee": "Frais inter-chaînes",
     "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}} approuvé pour l'échange",
     "infiniteApprovalDescription": "{{tokenSymbol}} approuvé pour l'échange",
     "revokeApprovalDescription": "{{tokenSymbol}} retiré pour l'échange",
-    "descriptionLabel": "Détails"
+    "descriptionLabel": "Détails",
+    "crossChainSwapTransactionLabel": "Chaîne croisée"
   },
   "multichainBeta": {
     "beta": "BETA",

@@ -12,7 +12,7 @@ import { emptyHeader, headerWithBackButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 type ScreenProps = NativeStackScreenProps<StackParamList, Screens.Language | Screens.LanguageModal>
 type Props = ScreenProps
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    ...fontStyles.h2,
+    ...typeScale.titleMedium,
     margin: 16,
   },
 })

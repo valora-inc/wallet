@@ -108,6 +108,7 @@
     "subtitle": "Zaloguj się za pomocą adresu e-mail, aby wykorzystać go do utworzenia kopii zapasowej. W przypadku utraty portfela poprosimy Cię o ponowne zalogowanie się.",
     "subtitleRestore": "Zaloguj się za pomocą adresu e-mail, którego użyto do konfiguracji kopii zapasowej portfela.",
     "google": "Zaloguj się przez Google",
+    "apple": "Zaloguj się za pomocą Apple",
     "signInAnotherWay": "Zaloguj się w inny sposób",
     "bottomSheet": {
       "title": "Zapisz swoją frazę odzyskiwania, aby utworzyć portfel",
@@ -1908,6 +1909,8 @@
     "swapFrom": "Zamień z",
     "swapTo": "Zamień na",
     "rate": "Stawka",
+    "network": "Sieć",
+    "networkValue": "{{fromNetwork}} → {{toNetwork}}",
     "estimatedFee": "Szacunkowa opłata sieciowa",
     "networkFee": "Opłata sieciowa",
     "viewOnExplorer": "Wyświetl w CeloExplorer"
@@ -2183,6 +2186,7 @@
   "viewOnOPSepoliaExplorer": "Wyświetl w OP Sepolia Explorer",
   "viewOnPolygonPoSScan": "Wyświetl w PolygonScan",
   "viewOnBaseScan": "Wyświetl w BaseScan",
+  "viewOnAxelarScan": "Wyświetl na AxelarScan",
   "sendEnterAmountScreen": {
     "title": "Wprowadź kwotę",
     "selectToken": "Wybierz token",
@@ -2240,10 +2244,14 @@
     "approvalTransactionTitle": "Zatwierdzenie",
     "estimatedNetworkFee": "Szacowana opłata sieciowa",
     "networkFee": "Opłata sieciowa",
+    "appFee": "Opłata za aplikację",
+    "estimatedCrossChainFee": "Szacowana opłata cross-chain",
+    "crossChainFee": "Opłata cross-chain",
     "finiteApprovalDescription": "Zatwierdzono {{approvedAmount}} {{tokenSymbol}} do wymiany",
     "infiniteApprovalDescription": "Zatwierdzono nieskończoną ilość {{tokenSymbol}} do wymiany",
     "revokeApprovalDescription": "Cofnięto {{tokenSymbol}} do wymiany",
-    "descriptionLabel": "Szczegóły"
+    "descriptionLabel": "Szczegóły",
+    "crossChainSwapTransactionLabel": "Łańcuch krzyżowy"
   },
   "multichainBeta": {
     "beta": "BETA",

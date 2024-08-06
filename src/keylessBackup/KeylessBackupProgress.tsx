@@ -105,7 +105,7 @@ function Restore() {
             <View style={iconMarginTop}>
               <GreenLoadingSpinner />
             </View>
-            <Text style={styles.title}>{t('keylessBackupStatus.setup.inProgress.title')}</Text>
+            <Text style={styles.title}>{t('keylessBackupStatus.restore.inProgress.title')}</Text>
           </ScrollView>
         </SafeAreaView>
       )

@@ -95,6 +95,7 @@ interface NetworkConfig {
   arbAaveIncentivesV3ContractAddress: Address
   aaveArbUsdcTokenId: string
   valoraRpcUrl: Record<Network.Arbitrum, string>
+  crossChainExplorerUrl: string
 }
 
 const ALCHEMY_ETHEREUM_RPC_URL_STAGING = 'https://eth-sepolia.g.alchemy.com/v2/'
@@ -285,6 +286,8 @@ const SIMULATE_TRANSACTIONS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/simulateTransa
 const VALORA_ARBITRUM_RPC_URL_STAGING = `${CLOUD_FUNCTIONS_STAGING}/rpc/${NetworkId['arbitrum-sepolia']}`
 const VALORA_ARBITRUM_RPC_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/rpc/${NetworkId['arbitrum-one']}`
 
+const CROSS_CHAIN_EXPLORER_URL = 'https://axelarscan.io/gmp/'
+
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
     networkId: '44787',
@@ -386,6 +389,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     valoraRpcUrl: {
       [Network.Arbitrum]: VALORA_ARBITRUM_RPC_URL_STAGING,
     },
+    crossChainExplorerUrl: CROSS_CHAIN_EXPLORER_URL,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -486,6 +490,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     valoraRpcUrl: {
       [Network.Arbitrum]: VALORA_ARBITRUM_RPC_URL_MAINNET,
     },
+    crossChainExplorerUrl: CROSS_CHAIN_EXPLORER_URL,
   },
 }
 

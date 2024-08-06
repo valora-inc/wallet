@@ -108,6 +108,7 @@
     "subtitle": "Entre com seu e-mail para configurá-lo como um backup. Será solicitado que você entre novamente se perder sua carteira.",
     "subtitleRestore": "Entre com o e-mail que você usou para configurar seu backup de carteira.",
     "google": "Entrar com o Google",
+    "apple": "Faça login com a Apple",
     "signInAnotherWay": "Entrar de outra forma",
     "bottomSheet": {
       "title": "Salve sua frase de recuperação para criar uma carteira",
@@ -1904,6 +1905,8 @@
     "swapFrom": "Trocar de",
     "swapTo": "Trocar para",
     "rate": "Taxa",
+    "network": "Rede",
+    "networkValue": "{{fromNetwork}} → {{toNetwork}}",
     "estimatedFee": "Taxa de rede est.",
     "networkFee": "Taxa de rede",
     "viewOnExplorer": "Ver no CeloExplorer"
@@ -2179,6 +2182,7 @@
   "viewOnOPSepoliaExplorer": "Ver no OP Sepolia Explorer",
   "viewOnPolygonPoSScan": "Ver no PolygonScan",
   "viewOnBaseScan": "Ver no BaseScan",
+  "viewOnAxelarScan": "Exibir no AxelarScan",
   "sendEnterAmountScreen": {
     "title": "Insira o valor",
     "selectToken": "Selecione um token",
@@ -2236,10 +2240,14 @@
     "approvalTransactionTitle": "Aprovação",
     "estimatedNetworkFee": "Taxa de rede estimada",
     "networkFee": "Taxa de rede",
+    "appFee": "Taxa do aplicativo",
+    "estimatedCrossChainFee": "Taxa estimada entre cadeias",
+    "crossChainFee": "Taxa entre cadeias",
     "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}} aprovado(s) para negociação",
     "infiniteApprovalDescription": "{{tokenSymbol}} infinito aprovado para negociação",
     "revokeApprovalDescription": "{{tokenSymbol}} revogado para negociação",
-    "descriptionLabel": "Detalhes"
+    "descriptionLabel": "Detalhes",
+    "crossChainSwapTransactionLabel": "Cadeia cruzada"
   },
   "multichainBeta": {
     "beta": "BETA",

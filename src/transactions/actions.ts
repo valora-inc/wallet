@@ -17,7 +17,6 @@ import {
 
 export enum Actions {
   ADD_STANDBY_TRANSACTION = 'TRANSACTIONS/ADD_STANDBY_TRANSACTION',
-  REMOVE_STANDBY_TRANSACTION = 'TRANSACTIONS/REMOVE_STANDBY_TRANSACTION',
   ADD_HASH_TO_STANDBY_TRANSACTIONS = 'TRANSACTIONS/ADD_HASH_TO_STANDBY_TRANSACTIONS',
   TRANSACTION_CONFIRMED = 'TRANSACTIONS/TRANSACTION_CONFIRMED',
   REFRESH_RECENT_TX_RECIPIENTS = 'TRANSACTIONS/REFRESH_RECENT_TX_RECIPIENTS',
@@ -40,11 +39,6 @@ export type BaseStandbyTransaction =
 export interface AddStandbyTransactionAction {
   type: Actions.ADD_STANDBY_TRANSACTION
   transaction: BaseStandbyTransaction
-}
-
-export interface RemoveStandbyTransactionAction {
-  type: Actions.REMOVE_STANDBY_TRANSACTION
-  idx: string
 }
 
 export interface AddHashToStandbyTransactionAction {
@@ -86,7 +80,6 @@ export interface UpdateInviteTransactionsAction {
 
 export type ActionTypes =
   | AddStandbyTransactionAction
-  | RemoveStandbyTransactionAction
   | AddHashToStandbyTransactionAction
   | UpdatedRecentTxRecipientsCacheAction
   | UpdateTransactionsAction
@@ -98,11 +91,6 @@ export const addStandbyTransaction = (
 ): AddStandbyTransactionAction => ({
   type: Actions.ADD_STANDBY_TRANSACTION,
   transaction,
-})
-
-export const removeStandbyTransaction = (idx: string): RemoveStandbyTransactionAction => ({
-  type: Actions.REMOVE_STANDBY_TRANSACTION,
-  idx,
 })
 
 export const updateRecentTxRecipientsCache = (

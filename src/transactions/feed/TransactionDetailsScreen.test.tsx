@@ -26,7 +26,7 @@ import {
   TokenTransferMetadata,
   TransactionStatus,
 } from 'src/transactions/types'
-import { blockExplorerUrls } from 'src/web3/networkConfig'
+import networkConfig, { blockExplorerUrls } from 'src/web3/networkConfig'
 import {
   RecursivePartial,
   createMockStore,
@@ -47,6 +47,8 @@ import {
   mockEarnClaimRewardTransaction,
   mockEarnDepositTransaction,
   mockEarnWithdrawTransaction,
+  mockEthTokenId,
+  mockTokenBalances,
 } from 'test/values'
 
 jest.mock('src/analytics/AppAnalytics')
@@ -175,6 +177,60 @@ describe('TransactionDetailsScreen', () => {
     }
   }
 
+  function crossChainSwapTransaction({
+    status = TransactionStatus.Complete,
+    inAmountValue = '0.000029587140175469',
+  }: {
+    status?: TransactionStatus
+    inAmountValue?: string
+  }): TokenExchange {
+    return {
+      status,
+      outAmount: {
+        tokenId: mockCusdTokenId,
+        tokenAddress: mockCusdAddress,
+        value: '0.0994',
+      },
+      fees: [
+        {
+          amount: {
+            value: '0.003342598',
+            tokenAddress: mockCeloAddress,
+            tokenId: mockCeloTokenId,
+          },
+          type: 'SECURITY_FEE',
+        },
+        {
+          amount: {
+            value: '0.0006',
+            tokenAddress: mockCusdAddress,
+            tokenId: mockCusdTokenId,
+          },
+          type: 'APP_FEE',
+        },
+        {
+          amount: {
+            value: '0.382465204637023464',
+            tokenAddress: mockCeloAddress,
+            tokenId: mockCeloTokenId,
+          },
+          type: 'CROSS_CHAIN_FEE',
+        },
+      ],
+      inAmount: {
+        tokenId: mockEthTokenId,
+        tokenAddress: undefined,
+        value: inAmountValue,
+      },
+      transactionHash: '0x2ae09a1867b0d54b614bdfa43a08b0ffaaf0cd289c830418b31d50e627d67cd8',
+      block: '26934691',
+      networkId: NetworkId['celo-mainnet'],
+      type: TokenTransactionTypeV2.CrossChainSwapTransaction,
+      timestamp: 1722345417000,
+      __typename: 'CrossChainTokenExchange',
+    }
+  }
+
   function approvalTransaction({
     status = TransactionStatus.Complete,
   }: Partial<TokenApproval>): TokenApproval {
@@ -218,7 +274,7 @@ describe('TransactionDetailsScreen', () => {
         address: mockAddress,
         fees: [
           {
-            type: 'fee_type',
+            type: FeeType.SecurityFee,
             amount: {
               value: '0.01',
               tokenAddress: mockCeloAddress,
@@ -240,8 +296,8 @@ describe('TransactionDetailsScreen', () => {
     const numberComponent = getByTestId('TransferSent/number')
     expect(getElementText(numberComponent)).toEqual(mockDisplayNumber2)
 
-    expect(getByTestId('TransactionDetails/NetworkFee')).toHaveTextContent('0.01 CELO')
-    expect(getByTestId('TransactionDetails/NetworkFeeLocalCurrency')).toHaveTextContent('₱0.067')
+    expect(getByTestId('TransactionDetails/FeeRowItem')).toHaveTextContent('0.01 CELO')
+    expect(getByTestId('TransactionDetails/FeeRowItem')).toHaveTextContent('€0.04') // the localAmount in the fee data is used
 
     expect(getByText('amountSent')).toBeTruthy()
     expect(getByTestId('TransferSent/AmountSentValue')).toHaveTextContent('10.00 cUSD')
@@ -304,11 +360,8 @@ describe('TransactionDetailsScreen', () => {
     expect(getElementText(rate)).toEqual('1 cUSD ≈ 2.00 cEUR')
 
     // Includes the fee
-    const estimatedFee = getByTestId('TransactionDetails/NetworkFee')
-    expect(getElementText(estimatedFee)).toEqual('0.10 cUSD')
-
-    const estimatedFeeInLocalCurrency = getByTestId('TransactionDetails/NetworkFeeLocalCurrency')
-    expect(getElementText(estimatedFeeInLocalCurrency)).toEqual('₱0.13')
+    expect(getByTestId('TransactionDetails/FeeRowItem')).toHaveTextContent('0.10 cUSD')
+    expect(getByTestId('TransactionDetails/FeeRowItem')).toHaveTextContent('₱0.13')
   })
 
   it.each([
@@ -487,8 +540,8 @@ describe('TransactionDetailsScreen', () => {
     expect(
       getByText('transactionFeed.infiniteApprovalDescription, {"tokenSymbol":"USDC"}')
     ).toBeTruthy()
-    expect(getByTestId('TransactionDetails/NetworkFee')).toHaveTextContent('0.001 ETH')
-    expect(getByTestId('TransactionDetails/NetworkFeeLocalCurrency')).toHaveTextContent('₱2.81')
+    expect(getByTestId('TransactionDetails/FeeRowItem')).toHaveTextContent('0.001 ETH')
+    expect(getByTestId('TransactionDetails/FeeRowItem')).toHaveTextContent('₱2.81')
   })
 
   it(`renders retry action for failed ${TokenTransactionTypeV2.Sent} transacton`, () => {
@@ -510,6 +563,113 @@ describe('TransactionDetailsScreen', () => {
     })
 
     expect(getByText('transactionDetailsActions.retryFailedTransaction')).toBeTruthy()
+  })
+
+  it(`renders the correct details for a ${TokenTransactionTypeV2.CrossChainSwapTransaction} transacton`, () => {
+    const { getByText, getByTestId, getAllByTestId } = renderScreen({
+      transaction: crossChainSwapTransaction({ status: TransactionStatus.Complete }),
+      storeOverrides: {
+        tokens: {
+          tokenBalances: mockTokenBalances,
+        },
+      },
+    })
+
+    expect(getByText('swapScreen.title')).toBeTruthy()
+    expect(getByText('transactionFeed.crossChainSwapTransactionLabel')).toBeTruthy()
+    expect(getByText('transactionStatus.transactionIsCompleted')).toBeTruthy()
+
+    expect(getByText('swapTransactionDetailPage.swapFrom')).toBeTruthy()
+    expect(getByTestId('SwapContent/swapFrom')).toHaveTextContent('0.099 cUSD')
+    expect(getByText('swapTransactionDetailPage.swapTo')).toBeTruthy()
+    expect(getByTestId('SwapContent/swapTo')).toHaveTextContent('0.00003 ETH')
+    expect(getByText('swapTransactionDetailPage.network')).toBeTruthy()
+    expect(
+      getByText(
+        'swapTransactionDetailPage.networkValue, {"fromNetwork":"Celo Alfajores","toNetwork":"Ethereum Sepolia"}'
+      )
+    ).toBeTruthy()
+
+    expect(getByText('swapTransactionDetailPage.rate')).toBeTruthy()
+    expect(getByTestId('SwapContent/rate')).toHaveTextContent('1 cUSD ≈ 0.0003 ETH')
+
+    const [networkFee, appFee, crossChainFee] = getAllByTestId('TransactionDetails/FeeRowItem')
+    expect(networkFee).toHaveTextContent('transactionFeed.networkFee')
+    expect(networkFee).toHaveTextContent('0.0033 CELO')
+    expect(networkFee).toHaveTextContent('₱0.059')
+    expect(appFee).toHaveTextContent('transactionFeed.appFee')
+    expect(appFee).toHaveTextContent('0.0006 cUSD')
+    expect(appFee).toHaveTextContent('₱0.0008')
+    expect(crossChainFee).toHaveTextContent('transactionFeed.crossChainFee')
+    expect(crossChainFee).toHaveTextContent('0.38 CELO')
+    expect(crossChainFee).toHaveTextContent('₱6.74')
+
+    fireEvent.press(getByText('viewOnAxelarScan'))
+    expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
+      uri: `${networkConfig.crossChainExplorerUrl}0x2ae09a1867b0d54b614bdfa43a08b0ffaaf0cd289c830418b31d50e627d67cd8`,
+    })
+  })
+
+  it(`renders approximate numbers for a pending ${TokenTransactionTypeV2.CrossChainSwapTransaction} transacton`, () => {
+    const { getByText, getByTestId, getAllByTestId, queryByText } = renderScreen({
+      transaction: crossChainSwapTransaction({ status: TransactionStatus.Pending }),
+      storeOverrides: {
+        tokens: {
+          tokenBalances: mockTokenBalances,
+        },
+      },
+    })
+
+    expect(getByText('transactionStatus.transactionIsPending')).toBeTruthy()
+    expect(getByTestId('SwapContent/swapTo')).toHaveTextContent('~0.00003 ETH')
+    expect(queryByText('swapTransactionDetailPage.rate')).toBeFalsy()
+
+    const [networkFee, appFee, crossChainFee] = getAllByTestId('TransactionDetails/FeeRowItem')
+    expect(networkFee).toHaveTextContent('~0.0033 CELO')
+    expect(networkFee).toHaveTextContent('~₱0.059')
+    expect(appFee).toHaveTextContent('0.0006 cUSD') // app fee is always known
+    expect(appFee).toHaveTextContent('₱0.0008')
+    expect(crossChainFee).toHaveTextContent('~0.38 CELO')
+    expect(crossChainFee).toHaveTextContent('~₱6.74')
+  })
+
+  it(`renders a fallback swap to amount for a pending ${TokenTransactionTypeV2.CrossChainSwapTransaction} transacton`, () => {
+    const { getByTestId } = renderScreen({
+      transaction: crossChainSwapTransaction({
+        status: TransactionStatus.Pending,
+        inAmountValue: '', // can happen during account restore if there is an in flight cross-chain swap
+      }),
+      storeOverrides: {
+        tokens: {
+          tokenBalances: mockTokenBalances,
+        },
+      },
+    })
+
+    expect(getByTestId('SwapContent/swapTo')).toHaveTextContent('--')
+  })
+
+  it(`renders the default network explorer link for failed ${TokenTransactionTypeV2.CrossChainSwapTransaction} transacton`, () => {
+    const { getByText, queryByText } = renderScreen({
+      transaction: crossChainSwapTransaction({
+        status: TransactionStatus.Failed,
+      }),
+      storeOverrides: {
+        tokens: {
+          tokenBalances: mockTokenBalances,
+        },
+      },
+    })
+
+    expect(queryByText('viewOnAxelarScan')).toBeFalsy()
+
+    fireEvent.press(getByText('viewOnCeloScan'))
+    expect(navigate).toHaveBeenCalledWith(
+      Screens.WebViewScreen,
+      expect.objectContaining({
+        uri: 'https://celoscan.io/tx/0x2ae09a1867b0d54b614bdfa43a08b0ffaaf0cd289c830418b31d50e627d67cd8',
+      })
+    )
   })
 
   it.each([
