@@ -2339,7 +2339,7 @@
     "allNetworks": "Todas las redes"
   },
   "points": {
-    "title": "Puntos Valora",
+    "title": "Puntos de {{appName}}",
     "activity": "Actividad",
     "history": {
       "cards": {
@@ -2447,6 +2447,11 @@
       "title": "Gana puntos sin esfuerzo",
       "description": "¡Entra en una nueva forma de ganar! Tus acciones en {{appName}} ahora tienen puntos. Empieza a ganar hoy y desbloquea increíbles beneficios.",
       "cta": "¡No pares de ganar puntos!"
+    },
+    "disclaimer": {
+      "learnMoreCta": "<0>Más</0> información sobre {{appName}} Puntos",
+      "body": "<0>What are Points?</0>\nPoints are {{appName}}'s loyalty program. They're awarded to users when you use our app.\n\n<0>What are they good for?</0>\nYou collect them. They can’t be spent or traded or transferred.\n\n<0>Why are they in my wallet?</0>\nBecause they’re tokens. On chain, digital bits of happiness you earn by using the app.",
+      "dismiss": "Entendido"
     }
   },
   "earnFlow": {
