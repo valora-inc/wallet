@@ -2339,7 +2339,7 @@
     "allNetworks": "Tüm Ağlar"
   },
   "points": {
-    "title": "Valora Puanları",
+    "title": "{{appName}} Puanları",
     "activity": "İşlemler",
     "history": {
       "cards": {
@@ -2447,6 +2447,11 @@
       "title": "Zahmetsizce puan kazanın",
       "description": "Kazanmak için yeni bir yola girin! {{appName}} eylemleriniz artık puan kazandırıyor. Bugün kazanmaya başlayın ve harika avantajların kilidini açın.",
       "cta": "Puan yolculuğunuza başlayın"
+    },
+    "disclaimer": {
+      "learnMoreCta": "{{appName}} Points hakkında <0>daha fazla</0> bilgi <0>edinin</0>",
+      "body": "<0>What are Points?</0>\nPoints are {{appName}}'s loyalty program. They're awarded to users when you use our app.\n\n<0>What are they good for?</0>\nYou collect them. They can’t be spent or traded or transferred.\n\n<0>Why are they in my wallet?</0>\nBecause they’re tokens. On chain, digital bits of happiness you earn by using the app.",
+      "dismiss": "Anladım"
     }
   },
   "earnFlow": {
