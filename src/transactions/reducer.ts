@@ -285,14 +285,32 @@ export const transactionsSelector = createSelector(
 export const inviteTransactionsSelector = (state: RootState) =>
   state.transactions.inviteTransactions
 
-export const transactionHashesByNetworkIdSelector = createSelector(
+export const pendingTxHashesByNetworkIdSelector = createSelector(
   [transactionsByNetworkIdSelector],
   (transactions) => {
     const hashesByNetwork: {
       [networkId in NetworkId]?: Set<string>
     } = {}
     Object.entries(transactions).forEach(([networkId, txs]) => {
-      hashesByNetwork[networkId as NetworkId] = new Set(txs.map((tx) => tx.transactionHash))
+      hashesByNetwork[networkId as NetworkId] = new Set(
+        txs.filter((tx) => tx.status === TransactionStatus.Pending).map((tx) => tx.transactionHash)
+      )
+    })
+
+    return hashesByNetwork
+  }
+)
+
+export const completedTxHashesByNetworkIdSelector = createSelector(
+  [transactionsByNetworkIdSelector],
+  (transactions) => {
+    const hashesByNetwork: {
+      [networkId in NetworkId]?: Set<string>
+    } = {}
+    Object.entries(transactions).forEach(([networkId, txs]) => {
+      hashesByNetwork[networkId as NetworkId] = new Set(
+        txs.filter((tx) => tx.status === TransactionStatus.Complete).map((tx) => tx.transactionHash)
+      )
     })
 
     return hashesByNetwork
