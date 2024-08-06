@@ -91,7 +91,7 @@ export default function PointsHome({ route, navigation }: Props) {
   }
 
   const onPressDisclaimer = () => {
-    ValoraAnalytics.track(PointsEvents.points_screen_disclaimer_press)
+    AppAnalytics.track(PointsEvents.points_screen_disclaimer_press)
     disclaimerBottomSheetRef.current?.snapToIndex(0)
   }
 
