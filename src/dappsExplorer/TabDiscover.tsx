@@ -41,7 +41,11 @@ function TabDiscover({ navigation }: Props) {
   })
 
   return (
-    <Animated.ScrollView scrollEventThrottle={16} onScroll={handleScroll}>
+    <Animated.ScrollView
+      testID="DiscoverScrollView"
+      scrollEventThrottle={16}
+      onScroll={handleScroll}
+    >
       <SafeAreaView testID="DAppsExplorerScreen" style={styles.safeAreaContainer} edges={[]}>
         <View style={styles.contentContainer}>
           <Text style={styles.title} onLayout={handleMeasureTitleHeight}>
