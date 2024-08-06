@@ -143,6 +143,17 @@ describe(PointsHome, () => {
     expect(queryByText('points.error.title')).toBeFalsy()
   })
 
+  it('renders disclaimer cta and information', () => {
+    const { getByText } = renderPointsHome()
+
+    fireEvent.press(getByText('points.disclaimer.learnMoreCta'))
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      PointsEvents.points_screen_disclaimer_learn_more
+    )
+    expect(getByText('points.disclaimer.body')).toBeTruthy()
+  })
+
   it('renders only the balance if there are no supported activities', async () => {
     const { getByTestId, getByText, queryByText } = renderPointsHome({
       points: {

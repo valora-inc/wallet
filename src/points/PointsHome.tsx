@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { PointsEvents } from 'src/analytics/Events'
@@ -12,6 +12,7 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import NumberTicker from 'src/components/NumberTicker'
 import Toast from 'src/components/Toast'
+import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import AttentionIcon from 'src/icons/Attention'
 import LogoHeart from 'src/icons/LogoHeart'
@@ -48,6 +49,7 @@ export default function PointsHome({ route, navigation }: Props) {
 
   const historyBottomSheetRef = useRef<BottomSheetRefType>(null)
   const activityCardBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const disclaimerBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const [bottomSheetParams, setBottomSheetParams] = useState<BottomSheetParams | undefined>(
     undefined
@@ -86,6 +88,11 @@ export default function PointsHome({ route, navigation }: Props) {
 
   const onRetryLoadConfig = () => {
     dispatch(getPointsConfigRetry())
+  }
+
+  const onPressDisclaimer = () => {
+    ValoraAnalytics.track(PointsEvents.points_screen_disclaimer_press)
+    disclaimerBottomSheetRef.current?.snapToIndex(0)
   }
 
   return (
@@ -171,6 +178,14 @@ export default function PointsHome({ route, navigation }: Props) {
                 description={t('points.noActivities.body')}
               />
             )}
+
+            <Touchable onPress={onPressDisclaimer}>
+              <Text style={styles.disclaimerText}>
+                <Trans i18nKey="points.disclaimer.learnMoreCta">
+                  <Text style={styles.disclaimerLink} />
+                </Trans>
+              </Text>
+            </Touchable>
           </>
         )}
       </ScrollView>
@@ -209,6 +224,22 @@ export default function PointsHome({ route, navigation }: Props) {
             )}
           </>
         )}
+      </BottomSheet>
+      <BottomSheet forwardedRef={disclaimerBottomSheetRef} testId={`DisclaimerBottomSheet`}>
+        <Text style={typeScale.bodySmall}>
+          <Trans i18nKey="points.disclaimer.body">
+            <Text style={typeScale.labelSmall} />
+          </Trans>
+        </Text>
+        <Button
+          type={BtnTypes.SECONDARY}
+          size={BtnSizes.FULL}
+          onPress={() => {
+            disclaimerBottomSheetRef.current?.close()
+          }}
+          text={t('points.disclaimer.dismiss')}
+          style={styles.disclaimerCloseButton}
+        />
       </BottomSheet>
     </SafeAreaView>
   )
@@ -307,5 +338,18 @@ const styles = StyleSheet.create({
     height: undefined,
     paddingHorizontal: Spacing.Small12,
     paddingVertical: Spacing.Smallest8,
+  },
+  disclaimerText: {
+    ...typeScale.bodySmall,
+    color: Colors.gray4,
+    textAlign: 'center',
+    marginVertical: Spacing.Thick24,
+  },
+  disclaimerLink: {
+    ...typeScale.labelSmall,
+    textDecorationLine: 'underline',
+  },
+  disclaimerCloseButton: {
+    marginTop: Spacing.XLarge48,
   },
 })
