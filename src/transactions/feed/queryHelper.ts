@@ -12,7 +12,7 @@ import { getMultichainFeatures } from 'src/statsig/index'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { updateTransactions } from 'src/transactions/actions'
 import { transactionHashesByNetworkIdSelector } from 'src/transactions/reducer'
-import { NetworkId, TokenTransaction } from 'src/transactions/types'
+import { NetworkId, TokenTransaction, TransactionStatus } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { gql } from 'src/utils/gql'
 import config from 'src/web3/networkConfig'
@@ -190,17 +190,25 @@ export function useFetchTransactions(): QueryHookResult {
             )
             const knownTransactionHashes = transactionHashesByNetwork[networkId]
             let hasNewTransaction = false
+            let hasNewCompletedTransaction = false
 
             // Compare the new tx hashes with the ones we already have in redux
             for (const tx of nonEmptyTransactions) {
               if (!knownTransactionHashes || !knownTransactionHashes.has(tx.transactionHash)) {
                 hasNewTransaction = true
-                break // We only need one new tx justify a refresh
+                if (tx.status === TransactionStatus.Complete) {
+                  hasNewCompletedTransaction = true
+                }
               }
             }
             // If there are new transactions update transactions in redux and fetch balances
             if (hasNewTransaction) {
               dispatch(updateTransactions(networkId, nonEmptyTransactions))
+            }
+            if (hasNewCompletedTransaction) {
+              // only add haptic feedback on receiving new completed
+              // transactions, since pending transactions can be received for
+              // cross-chain swaps.
               vibrateSuccess()
             }
           }
