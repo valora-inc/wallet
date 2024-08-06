@@ -64,7 +64,7 @@ describe('home reducer', () => {
       notifications: {
         notification1: {
           ...notification1,
-          ctaUri: 'https://valoraapp.com',
+          ctaUri: 'https://example.com',
           minVersion: '1.8.0',
           priority: 50,
         },
@@ -76,7 +76,7 @@ describe('home reducer', () => {
       notifications: {
         notification1: {
           ...notification1,
-          ctaUri: 'https://valoraapp.com',
+          ctaUri: 'https://example.com',
           minVersion: '1.8.0',
           priority: 50,
         },

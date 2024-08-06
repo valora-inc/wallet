@@ -221,7 +221,7 @@ export const Account = ({ navigation, route }: Props) => {
           </View>
           <View style={styles.devSettingsItem}>
             <TouchableOpacity onPress={confirmAccountRemoval}>
-              <Text>Valora Quick Reset</Text>
+              <Text>App Quick Reset</Text>
             </TouchableOpacity>
           </View>
         </View>

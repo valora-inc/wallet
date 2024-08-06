@@ -14,7 +14,7 @@ import {
   mockE164NumberToAddress,
   mockNavigation,
   mockPhoneRecipientCache,
-  mockValoraRecipientCache,
+  mockAppRecipientCache,
 } from 'test/values'
 
 // Sleep for a number of ms
@@ -98,7 +98,7 @@ export function getMockStoreData(overrides: RecursivePartial<RootState> = {}): R
     recipients: {
       ...defaultSchema.recipients,
       phoneRecipientCache: mockPhoneRecipientCache,
-      valoraRecipientCache: mockValoraRecipientCache,
+      appRecipientCache: mockAppRecipientCache,
     },
   }
   const mockStoreData: any = {

@@ -262,7 +262,7 @@ function* fetchWalletAddresses(e164Number: string) {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          authorization: `Valora ${address}:${signedMessage}`,
+          authorization: `${networkConfig.authHeaderIssuer} ${address}:${signedMessage}`,
         },
       }
     )
@@ -298,7 +298,7 @@ function* fetchAddressVerification(address: string) {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          authorization: `Valora ${walletAddress}:${signedMessage}`,
+          authorization: `${networkConfig.authHeaderIssuer} ${walletAddress}:${signedMessage}`,
         },
       }
     )
@@ -461,7 +461,7 @@ export function* saveContacts() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `Valora ${walletAddress}:${signedMessage}`,
+        authorization: `${networkConfig.authHeaderIssuer} ${walletAddress}:${signedMessage}`,
       },
       body: JSON.stringify({
         phoneNumber: ownPhoneNumber,

@@ -89,7 +89,7 @@ describe('PoolCard', () => {
                 symbol: 'ETH',
                 decimals: 18,
                 imageUrl:
-                  'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+                  'https://raw.githubusercontent.com/address-metadata/main/assets/tokens/ETH.png',
                 balance: '10',
                 priceUsd: '1500',
                 isNative: true,
@@ -144,7 +144,7 @@ describe('PoolCard', () => {
                 symbol: 'ETH',
                 decimals: 18,
                 imageUrl:
-                  'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+                  'https://raw.githubusercontent.com/address-metadata/main/assets/tokens/ETH.png',
                 balance: '10',
                 priceUsd: '1500',
                 isNative: true,

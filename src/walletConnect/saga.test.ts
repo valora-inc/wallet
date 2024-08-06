@@ -84,10 +84,10 @@ function createSession(proposerMetadata: CoreTypes.Metadata): SessionTypes.Struc
     expiry: 1671006057,
     self: {
       metadata: {
-        icons: ['https://valoraapp.com/favicon.ico'],
+        icons: ['https://example.com/favicon.ico'],
         description: 'A mobile payments wallet that works worldwide',
-        name: 'Valora',
-        url: 'https://valoraapp.com/',
+        name: 'App Name',
+        url: 'https://example.com/',
       },
       publicKey: '61a2616b6d7394ed7dd430ea5921d1c32289b300ccd2d588af9e25c21f239612',
     },

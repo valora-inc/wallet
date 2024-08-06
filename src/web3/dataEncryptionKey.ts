@@ -97,7 +97,7 @@ export function* doFetchDataEncryptionKey(addressToLookUp: string) {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `Valora ${ownAddress}:${signedMessage}`,
+        authorization: `${networkConfig.authHeaderIssuer} ${ownAddress}:${signedMessage}`,
       },
     })
 

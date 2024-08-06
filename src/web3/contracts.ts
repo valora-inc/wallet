@@ -38,7 +38,7 @@ let wallet: KeychainWallet | undefined
 let contractKit: ContractKit | undefined
 
 const viemWallets = new Map<Chain, ViemWallet>()
-const valoraViemWallets = new Map<Chain, ViemWallet>()
+const appViemWallets = new Map<Chain, ViemWallet>()
 
 const keychainLock = new KeychainLock()
 const initContractKitLock = new Lock()
@@ -123,8 +123,8 @@ async function waitForContractKit(tries: number) {
 
 // This code assumes that the account for walletAddress already exists in the Keychain
 // which is a responsibility currently handled by KeychainWallet
-export function* getViemWallet(chain: Chain, useValoraTransport?: boolean) {
-  const walletsCache = useValoraTransport ? valoraViemWallets : viemWallets
+export function* getViemWallet(chain: Chain, useAppTransport?: boolean) {
+  const walletsCache = useAppTransport ? appViemWallets : viemWallets
   if (walletsCache.has(chain)) {
     return walletsCache.get(chain) as ViemWallet
   }
@@ -142,12 +142,7 @@ export function* getViemWallet(chain: Chain, useValoraTransport?: boolean) {
   if (!privateKey) {
     throw new Error(`Private key not found for account ${walletAddress}`)
   }
-  const wallet = getLockableViemWallet(
-    keychainLock,
-    chain,
-    privateKey as Address,
-    useValoraTransport
-  )
+  const wallet = getLockableViemWallet(keychainLock, chain, privateKey as Address, useAppTransport)
   Logger.debug(`${TAG}@getViemWallet`, `Initialized wallet with account: ${wallet.account}`)
   walletsCache.set(chain, wallet)
   return wallet

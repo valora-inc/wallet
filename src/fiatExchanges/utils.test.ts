@@ -9,6 +9,7 @@ import {
 import { CiCoCurrency } from '../utils/currencies'
 import NormalizedQuote from './quotes/NormalizedQuote'
 import { PaymentMethod, fetchExchanges, getProviderSelectionAnalyticsData } from './utils'
+import networkConfig from 'src/web3/networkConfig'
 
 class MockNormalizedQuote extends NormalizedQuote {
   getCryptoType = jest.fn()
@@ -153,7 +154,7 @@ describe('fiatExchanges utils', () => {
     it('fetchExchanges works as expected', async () => {
       const exchanges = await fetchExchanges('US', 'mock-token-id')
       expect(fetchWithTimeout).toHaveBeenCalledWith(
-        'https://api.alfajores.valora.xyz/getExchanges?country=US&tokenId=mock-token-id',
+        `${networkConfig.fetchExchangesUrl}?country=US&tokenId=mock-token-id`,
         undefined,
         30000
       )

@@ -6,7 +6,7 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import { Network, NetworkId } from 'src/transactions/types'
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
-import { publicClient, valoraPublicClient } from 'src/viem/index'
+import { publicClient, appPublicClient } from 'src/viem/index'
 import {
   TransactionRequest,
   getEstimatedGasFee,
@@ -51,7 +51,7 @@ jest.mock('src/viem/index', () => ({
     arbitrum: {} as unknown as jest.Mocked<(typeof publicClient)[Network.Arbitrum]>,
     ethereum: {} as unknown as jest.Mocked<(typeof publicClient)[Network.Ethereum]>,
   },
-  valoraPublicClient: {
+  appPublicClient: {
     celo: {} as unknown as jest.Mocked<(typeof publicClient)[Network.Celo]>,
     arbitrum: {} as unknown as jest.Mocked<(typeof publicClient)[Network.Arbitrum]>,
   },
@@ -924,7 +924,7 @@ describe('prepareTransactions module', () => {
       ])
     })
     it.each([
-      { client: 'valora public', expectedClient: valoraPublicClient },
+      { client: 'app public', expectedClient: appPublicClient },
       { client: 'public', expectedClient: publicClient },
     ])('uses the $client client for estimating gas', async ({ client, expectedClient }) => {
       mocked(estimateFeesPerGas).mockResolvedValue({
@@ -936,18 +936,18 @@ describe('prepareTransactions module', () => {
       await tryEstimateTransactions(
         [{ from: '0x123' }],
         { ...mockFeeCurrencies[0], networkId: NetworkId['arbitrum-sepolia'] },
-        client === 'valora public'
+        client === 'app public'
       )
       expect(estimateGas).toHaveBeenCalledWith(expectedClient[Network.Arbitrum], expect.anything())
     })
-    it('throws if no valora public client exists', async () => {
+    it('throws if no app public client exists', async () => {
       await expect(
         tryEstimateTransactions(
           [{ from: '0x123' }],
           { ...mockFeeCurrencies[0], networkId: NetworkId['ethereum-sepolia'] },
           true
         )
-      ).rejects.toThrowError('Valora transport not available for network ethereum')
+      ).rejects.toThrowError('App transport not available for network ethereum')
     })
   })
   describe('getMaxGasFee', () => {

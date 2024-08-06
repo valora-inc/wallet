@@ -142,9 +142,9 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [KeylessBackupEvents.cab_issue_sms_code_error]: ``,
   [KeylessBackupEvents.cab_enter_phone_code_back]: `When the back button is pressed on the phone verification code input screen`,
   [KeylessBackupEvents.cab_enter_phone_code_cancel]: `When the cancel button is pressed on the phone verification code input screen`,
-  [KeylessBackupEvents.cab_issue_valora_keyshare_start]: ``,
-  [KeylessBackupEvents.cab_issue_valora_keyshare_success]: ``,
-  [KeylessBackupEvents.cab_issue_valora_keyshare_error]: ``,
+  [KeylessBackupEvents.cab_issue_app_keyshare_start]: ``,
+  [KeylessBackupEvents.cab_issue_app_keyshare_success]: ``,
+  [KeylessBackupEvents.cab_issue_app_keyshare_error]: ``,
   [KeylessBackupEvents.cab_progress_completed_continue]: ``,
   [KeylessBackupEvents.cab_progress_failed_later]: ``,
   [KeylessBackupEvents.cab_progress_failed_manual]: ``,
@@ -482,7 +482,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [RewardsEvents.learn_more_pressed]: ``,
   [RewardsEvents.claimed_reward]: ``,
 
-  // Events related to Valora Points program
+  // Events related to Points program
   [PointsEvents.points_discover_press]: `when points card is pressed in the discover tab`,
   [PointsEvents.points_intro_dismiss]: `when points intro is dismissed`,
   [PointsEvents.points_intro_back]: `when back button is pressed from points intro screen`,

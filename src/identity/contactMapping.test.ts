@@ -127,7 +127,7 @@ describe('Fetch Addresses Saga', () => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            authorization: `Valora 0xxyz:some signed message`,
+            authorization: `${networkConfig.authHeaderIssuer} 0xxyz:some signed message`,
           },
         }
       )
@@ -200,7 +200,7 @@ describe('Fetch Address Verification Saga', () => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          authorization: `Valora 0xxyz:some signed message`,
+          authorization: `${networkConfig.authHeaderIssuer} 0xxyz:some signed message`,
         },
         signal: expect.any(AbortSignal),
       }
@@ -263,7 +263,7 @@ describe('saveContacts', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          authorization: `Valora 0xxyz:some signed message`,
+          authorization: `${networkConfig.authHeaderIssuer} 0xxyz:some signed message`,
         },
         body: JSON.stringify({
           phoneNumber: mockE164Number,
@@ -302,7 +302,7 @@ describe('saveContacts', () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `Valora 0xxyz:some signed message`,
+        authorization: `${networkConfig.authHeaderIssuer} 0xxyz:some signed message`,
       },
       body: JSON.stringify({
         phoneNumber: mockE164Number,
@@ -375,7 +375,7 @@ describe('saveContacts', () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `Valora 0xxyz:some signed message`,
+        authorization: `${networkConfig.authHeaderIssuer} 0xxyz:some signed message`,
       },
       body: JSON.stringify({
         phoneNumber: mockE164Number,

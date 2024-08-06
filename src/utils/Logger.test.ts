@@ -76,14 +76,14 @@ describe('utils/Logger', () => {
     // Override the stack so it's the same everywhere
     testError.stack = testError.stack?.replace(
       __filename,
-      '/Users/flarf/src/github.com/valora-inc/wallet/src/utils/Logger.test.ts'
+      '/Users/flarf/src/github.com/example/wallet/src/utils/Logger.test.ts'
     )
     Logger.error('Test/Error', 'Test message #1', testError)
     expect(console.error).toBeCalledTimes(1)
     expect((console.error as jest.Mock).mock.calls[0]).toMatchInlineSnapshot(`
       [
         "Test/Error :: Test message #1 :: This is a test error in Error: This is a test error
-          at Object.<anonymous> (/Users/flarf/src/github.com/valora-inc/wallet :: network connected true",
+          at Object.<anonymous> (/Users/flarf/src/github.com/example/wallet/sr :: network connected true",
       ]
     `)
   })

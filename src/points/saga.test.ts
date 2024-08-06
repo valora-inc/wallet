@@ -763,7 +763,7 @@ describe('fetchTrackPointsEventsEndpoint', () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `Valora ${mockAccount}:someSignedMessage`,
+        authorization: `${networkConfig.authHeaderIssuer} ${mockAccount}:someSignedMessage`,
       },
       body: JSON.stringify(mockEvent),
     })

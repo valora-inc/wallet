@@ -58,7 +58,7 @@ describe('TokenBalanceItem', () => {
   })
 
   it('displays correctly when token is bridged', () => {
-    mockTokenInfo.bridge = 'Valora Bridge V2'
+    mockTokenInfo.bridge = 'Bridge V2'
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore({})}>
         <TokenBalanceItem token={mockTokenInfo} />

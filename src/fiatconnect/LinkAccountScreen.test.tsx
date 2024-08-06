@@ -48,9 +48,9 @@ describe('LinkAccountScreen', () => {
 
   it.each`
     testId                      | uri
-    ${'providerNameText'}       | ${'https://fakewebsite.valorapp.com'}
-    ${'termsAndConditionsText'} | ${'https://fakewebsite.valorapp.com/terms'}
-    ${'privacyPolicyText'}      | ${'https://fakewebsite.valorapp.com/privacy'}
+    ${'providerNameText'}       | ${'https://fakewebsite.example.com'}
+    ${'termsAndConditionsText'} | ${'https://fakewebsite.example.com/terms'}
+    ${'privacyPolicyText'}      | ${'https://fakewebsite.example.com/privacy'}
   `('Navigate to $uri when tapping text with testId $testId', async ({ testId, uri }) => {
     const { getByTestId } = render(
       <Provider store={store}>

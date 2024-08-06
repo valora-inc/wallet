@@ -10,9 +10,9 @@ interface State {
   // Think of contacts as raw data and recipients as filtered data
   // No relation to recent recipients, which is in /send/reducer.ts
   phoneRecipientCache: NumberToRecipient
-  // valoraRecipientCache contains accounts that the user has sent/recieved transactions from,
+  // appRecipientCache contains accounts that the user has sent/recieved transactions from,
   // and includes CIP8 profile data if available
-  valoraRecipientCache: AddressToRecipient
+  appRecipientCache: AddressToRecipient
   rewardsSenders: string[]
   inviteRewardsSenders: string[]
   coinbasePaySenders: string[]
@@ -20,7 +20,7 @@ interface State {
 
 const initialState: State = {
   phoneRecipientCache: {},
-  valoraRecipientCache: {},
+  appRecipientCache: {},
   rewardsSenders: [],
   inviteRewardsSenders: [],
   coinbasePaySenders: [],
@@ -30,8 +30,8 @@ const rehydrate = createAction<any>(REHYDRATE)
 export const setPhoneRecipientCache = createAction<NumberToRecipient>(
   'RECIPIENTS/SET_PHONE_RECIPIENT_CACHE'
 )
-export const updateValoraRecipientCache = createAction<AddressToRecipient>(
-  'RECIPIENTS/SET_VALORA_RECIPIENT_CACHE'
+export const updateAppRecipientCache = createAction<AddressToRecipient>(
+  'RECIPIENTS/SET_APP_RECIPIENT_CACHE'
 )
 export const rewardsSendersFetched = createAction<string[]>('RECIPIENTS/REWARDS_SENDERS_FETCHED')
 export const inviteRewardsSendersFetched = createAction<string[]>(
@@ -56,9 +56,9 @@ export const recipientsReducer = createReducer(initialState, (builder) => {
       ...state,
       phoneRecipientCache: action.payload,
     }))
-    .addCase(updateValoraRecipientCache, (state, action) => ({
+    .addCase(updateAppRecipientCache, (state, action) => ({
       ...state,
-      valoraRecipientCache: { ...state.valoraRecipientCache, ...action.payload },
+      appRecipientCache: { ...state.appRecipientCache, ...action.payload },
     }))
     .addCase(rewardsSendersFetched, (state, action) => ({
       ...state,
@@ -76,8 +76,7 @@ export const recipientsReducer = createReducer(initialState, (builder) => {
 
 export const phoneRecipientCacheSelector = (state: RootState) =>
   state.recipients.phoneRecipientCache
-export const valoraRecipientCacheSelector = (state: RootState) =>
-  state.recipients.valoraRecipientCache
+export const appRecipientCacheSelector = (state: RootState) => state.recipients.appRecipientCache
 export const rewardsSendersSelector = (state: RootState) => state.recipients.rewardsSenders
 export const inviteRewardsSendersSelector = (state: RootState) =>
   state.recipients.inviteRewardsSenders
@@ -94,14 +93,14 @@ export const recipientInfoSelector = createSelector(
   [
     addressToE164NumberSelector,
     phoneRecipientCacheSelector,
-    valoraRecipientCacheSelector,
+    appRecipientCacheSelector,
     addressToDisplayNameSelector,
   ],
-  (addressToE164Number, phoneRecipientCache, valoraRecipientCache, addressToDisplayName) => {
+  (addressToE164Number, phoneRecipientCache, appRecipientCache, addressToDisplayName) => {
     return {
       addressToE164Number,
       phoneRecipientCache,
-      valoraRecipientCache,
+      appRecipientCache,
       addressToDisplayName,
     }
   }

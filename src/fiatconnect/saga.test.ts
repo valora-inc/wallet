@@ -1364,12 +1364,7 @@ describe('Fiatconnect saga', () => {
         .provide([
           [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
           [
-            call(
-              fetchFiatAccountsSaga,
-              'provider-two',
-              'fakewebsite.valoraapp.com',
-              'fake-api-key'
-            ),
+            call(fetchFiatAccountsSaga, 'provider-two', 'fakewebsite.example.com', 'fake-api-key'),
             [fiatAccount],
           ],
           [
@@ -1414,12 +1409,7 @@ describe('Fiatconnect saga', () => {
             },
           ],
           [
-            call(
-              fetchFiatAccountsSaga,
-              'provider-two',
-              'fakewebsite.valoraapp.com',
-              'fake-api-key'
-            ),
+            call(fetchFiatAccountsSaga, 'provider-two', 'fakewebsite.example.com', 'fake-api-key'),
             [],
           ],
         ])
@@ -1452,12 +1442,7 @@ describe('Fiatconnect saga', () => {
             },
           ],
           [
-            call(
-              fetchFiatAccountsSaga,
-              'provider-two',
-              'fakewebsite.valoraapp.com',
-              'fake-api-key'
-            ),
+            call(fetchFiatAccountsSaga, 'provider-two', 'fakewebsite.example.com', 'fake-api-key'),
             [fiatAccount],
           ],
         ])
@@ -1489,7 +1474,7 @@ describe('Fiatconnect saga', () => {
             },
           ],
           [
-            call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.valoraapp.com', undefined),
+            call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.example.com', undefined),
             [fiatAccountKyc],
           ],
           [
@@ -1534,7 +1519,7 @@ describe('Fiatconnect saga', () => {
             },
           ],
           [
-            call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.valoraapp.com', undefined),
+            call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.example.com', undefined),
             [fiatAccountKyc],
           ],
           [
@@ -1578,7 +1563,7 @@ describe('Fiatconnect saga', () => {
             },
           ],
           [
-            call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.valoraapp.com', undefined),
+            call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.example.com', undefined),
             [fiatAccountKyc],
           ],
           [
@@ -1621,7 +1606,7 @@ describe('Fiatconnect saga', () => {
             },
           ],
           [
-            call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.valoraapp.com', undefined),
+            call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.example.com', undefined),
             [fiatAccountKyc],
           ],
           [
@@ -1664,7 +1649,7 @@ describe('Fiatconnect saga', () => {
             },
           ],
           [
-            call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.valoraapp.com', undefined),
+            call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.example.com', undefined),
             [fiatAccountKyc],
           ],
           [
@@ -1702,12 +1687,12 @@ describe('Fiatconnect saga', () => {
           await expectSaga(
             fetchFiatAccountsSaga,
             'test-provider',
-            'www.hello.valoraapp.com',
+            'www.hello.example.com',
             undefined
           )
             .provide([
               [
-                call(getFiatConnectClient, 'test-provider', 'www.hello.valoraapp.com', undefined),
+                call(getFiatConnectClient, 'test-provider', 'www.hello.example.com', undefined),
                 mockFcClient,
               ],
             ])
@@ -1727,10 +1712,10 @@ describe('Fiatconnect saga', () => {
           ],
         })
       )
-      await expectSaga(fetchFiatAccountsSaga, 'test-provider', 'www.hello.valoraapp.com', undefined)
+      await expectSaga(fetchFiatAccountsSaga, 'test-provider', 'www.hello.example.com', undefined)
         .provide([
           [
-            call(getFiatConnectClient, 'test-provider', 'www.hello.valoraapp.com', undefined),
+            call(getFiatConnectClient, 'test-provider', 'www.hello.example.com', undefined),
             mockFcClient,
           ],
         ])
@@ -2287,12 +2272,7 @@ describe('Fiatconnect saga', () => {
       })
         .provide([
           [
-            call(
-              fetchFiatAccountsSaga,
-              'provider-two',
-              'fakewebsite.valoraapp.com',
-              'fake-api-key'
-            ),
+            call(fetchFiatAccountsSaga, 'provider-two', 'fakewebsite.example.com', 'fake-api-key'),
             mockFiatAccounts,
           ],
         ])
@@ -2307,12 +2287,7 @@ describe('Fiatconnect saga', () => {
       })
         .provide([
           [
-            call(
-              fetchFiatAccountsSaga,
-              'provider-two',
-              'fakewebsite.valoraapp.com',
-              'fake-api-key'
-            ),
+            call(fetchFiatAccountsSaga, 'provider-two', 'fakewebsite.example.com', 'fake-api-key'),
             mockFiatAccounts,
           ],
         ])
@@ -2327,12 +2302,7 @@ describe('Fiatconnect saga', () => {
       })
         .provide([
           [
-            call(
-              fetchFiatAccountsSaga,
-              'provider-two',
-              'fakewebsite.valoraapp.com',
-              'fake-api-key'
-            ),
+            call(fetchFiatAccountsSaga, 'provider-two', 'fakewebsite.example.com', 'fake-api-key'),
             mockFiatAccounts,
           ],
         ])
@@ -2349,12 +2319,7 @@ describe('Fiatconnect saga', () => {
       })
         .provide([
           [
-            call(
-              fetchFiatAccountsSaga,
-              'provider-two',
-              'fakewebsite.valoraapp.com',
-              'fake-api-key'
-            ),
+            call(fetchFiatAccountsSaga, 'provider-two', 'fakewebsite.example.com', 'fake-api-key'),
             mockFiatAccounts,
           ],
         ])
@@ -2369,12 +2334,7 @@ describe('Fiatconnect saga', () => {
       })
         .provide([
           [
-            call(
-              fetchFiatAccountsSaga,
-              'provider-two',
-              'fakewebsite.valoraapp.com',
-              'fake-api-key'
-            ),
+            call(fetchFiatAccountsSaga, 'provider-two', 'fakewebsite.example.com', 'fake-api-key'),
             mockFiatAccounts,
           ],
         ])

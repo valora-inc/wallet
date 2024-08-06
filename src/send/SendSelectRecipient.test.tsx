@@ -271,7 +271,7 @@ describe('SendSelectRecipient', () => {
 
     expect(getByTestId('InviteModalContainer')).toBeTruthy()
   })
-  it('does not show unknown address info text when searching for known valora address', async () => {
+  it('does not show unknown address info text when searching for known app address', async () => {
     jest
       .mocked(getRecipientVerificationStatus)
       .mockReturnValue(RecipientVerificationStatus.VERIFIED)

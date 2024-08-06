@@ -587,7 +587,7 @@ describe('runCentralPhoneVerificationMigration', () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization: 'Valora 0xabc:someSignedMessage',
+        authorization: `${networkConfig.authHeaderIssuer} 0xabc:someSignedMessage`,
       },
       body: '{"clientPlatform":"android","clientVersion":"0.0.1","publicDataEncryptionKey":"publicKeyForUser","phoneNumber":"+31619777888","pepper":"somePepper","phoneHash":"somePhoneHash","inviterAddress":"0x123"}',
     })
@@ -616,7 +616,7 @@ describe('runCentralPhoneVerificationMigration', () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization: 'Valora 0xabc:someSignedMessage',
+        authorization: `${networkConfig.authHeaderIssuer} 0xabc:someSignedMessage`,
       },
       body: '{"clientPlatform":"android","clientVersion":"0.0.1","publicDataEncryptionKey":"publicKeyForUser","phoneNumber":"+31619777888","pepper":"somePepper","phoneHash":"somePhoneHash","mtwAddress":"0x123"}',
     })
