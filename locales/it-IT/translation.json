@@ -2450,7 +2450,7 @@
     },
     "disclaimer": {
       "learnMoreCta": "<0>Per saperne di più</0> sui punti {{appName}}",
-      "body": "<0>What are Points?</0>\nPoints are {{appName}}'s loyalty program. They're awarded to users when you use our app.\n\n<0>What are they good for?</0>\nYou collect them. They can’t be spent or traded or transferred.\n\n<0>Why are they in my wallet?</0>\nBecause they’re tokens. On chain, digital bits of happiness you earn by using the app.",
+      "body": "<0>Cosa sono i punti?</0>\nI punti sono il programma fedeltà di {{appName}}. Vengono assegnati agli utenti quando utilizzano la nostra app.\n\n<0>A cosa servono?</0>\nLi accumuli. Non possono essere spesi, scambiati o trasferiti.\n\n<0>Perché sono nel mio portafoglio?</0>\nPerché sono token. Si tratta di catene digitali di felicità che si guadagnano utilizzando l'app.",
       "dismiss": "Ho capito"
     }
   },
