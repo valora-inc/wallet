@@ -2337,7 +2337,7 @@
     "allNetworks": "เครือข่ายทั้งหมด"
   },
   "points": {
-    "title": "คะแนน Valora",
+    "title": "คะแนน {{appName}}",
     "activity": "กิจกรรม",
     "history": {
       "cards": {
@@ -2445,6 +2445,11 @@
       "title": "รับคะแนนได้ง่ายๆ",
       "description": "มาสร้างรายได้ด้วยวิธีการใหม่ๆ กัน! ตอนนี้คุณจะได้รับคะแนนจากการดำเนินการต่างๆ บน {{appName}} เริ่มสร้างรายได้วันนี้และปลดล็อกสิทธิประโยชน์สุดปัง",
       "cta": "เริ่มสะสมคะแนนของคุณ"
+    },
+    "disclaimer": {
+      "learnMoreCta": "<0>Learn more</0> about {{appName}} Points",
+      "body": "<0>What are Points?</0>\nPoints are {{appName}}'s loyalty program. They're awarded to users when you use our app.\n\n<0>What are they good for?</0>\nYou collect them. They can’t be spent or traded or transferred.\n\n<0>Why are they in my wallet?</0>\nBecause they’re tokens. On chain, digital bits of happiness you earn by using the app.",
+      "dismiss": "เข้าใจแล้ว"
     }
   },
   "earnFlow": {
