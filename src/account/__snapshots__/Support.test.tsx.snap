@@ -21,9 +21,8 @@ exports[`Support renders correctly 1`] = `
       <Text
         style={
           {
-            "color": "#2E3338",
-            "fontFamily": "Jost-Book",
-            "fontSize": 26,
+            "fontFamily": "Inter-Bold",
+            "fontSize": 24,
             "lineHeight": 32,
             "margin": 16,
           }

@@ -6,7 +6,7 @@ import { SettingsItemTextValue } from 'src/components/SettingsItem'
 import { FAQ_LINK, FORUM_LINK } from 'src/config'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { navigateToURI } from 'src/utils/linking'
 
 const openExternalLink = (link: string) => () => navigateToURI(link)
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    ...fontStyles.h1,
+    ...typeScale.titleMedium,
     margin: 16,
   },
 })
