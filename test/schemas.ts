@@ -3426,7 +3426,7 @@ export const v223Schema = {
   ...v222Schema,
   _persist: {
     ...v222Schema._persist,
-    version: 222,
+    version: 223,
   },
   recipients: {
     ..._.omit(v222Schema.recipients, 'valoraRecipientCache'),
