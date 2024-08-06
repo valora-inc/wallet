@@ -148,9 +148,7 @@ describe(PointsHome, () => {
 
     fireEvent.press(getByText('points.disclaimer.learnMoreCta'))
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      PointsEvents.points_screen_disclaimer_learn_more
-    )
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_disclaimer_press)
     expect(getByText('points.disclaimer.body')).toBeTruthy()
   })
 
