@@ -1640,10 +1640,6 @@ describe('Redux persist migrations', () => {
       ..._.omit(oldSchema.recipients, 'valoraRecipientCache'),
       appRecipientCache: {},
     }
-    expectedSchema.keylessBackup = {
-      ..._.omit(oldSchema.keylessBackup, 'valoraKeyshare'),
-      appKeyshare: null,
-    }
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })
