@@ -1893,9 +1893,9 @@
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "More information",
       "feesInfo_sameChain": "The network fee is required by the network to process the transaction.",
-      "feesInfo_crossChain": "The network fee is required by the network to process the transaction. he cross-chain fee is charged by the cross-chain provider.",
+      "feesInfo_crossChain": "The network fee is required by the network to process the transaction. The cross-chain fee is charged by the cross-chain provider.",
       "feesInfo_sameChainWithAppFee": "The network fee is required by the network to process the transaction. The {{appName}} fee of {{appFeePercentage}}% is charged for your use of our product.",
-      "feesInfo_crossChainWithAppFee": "The network fee is required by the network to process the transaction. he cross-chain fee is charged by the cross-chain provider. The {{appName}} fee of {{appFeePercentage}}% is charged for your use of our product."
+      "feesInfo_crossChainWithAppFee": "The network fee is required by the network to process the transaction. The cross-chain fee is charged by the cross-chain provider. The {{appName}} fee of {{appFeePercentage}}% is charged for your use of our product."
     },
     "fundYourWalletBottomSheet": {
       "title": "Fund your wallet",
