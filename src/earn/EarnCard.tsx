@@ -23,7 +23,6 @@ export function EarnCardDiscover({ depositTokenId, poolTokenId }: Props) {
   const poolToken = useTokenInfo(poolTokenId)
 
   const earnPositions = useSelector(earnPositionsSelector)
-  console.log(JSON.stringify(earnPositions))
   const pools = earnPositions.map(convertPositionToPool)
 
   if (showMultiplePools) {
