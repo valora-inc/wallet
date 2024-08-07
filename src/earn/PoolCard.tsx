@@ -5,9 +5,11 @@ import { StyleSheet, Text, View } from 'react-native'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import Button, { BtnSizes, BtnTypes, TextSizes } from 'src/components/Button'
-import TokenDisplay from 'src/components/TokenDisplay'
+import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon from 'src/components/TokenIcon'
 import { Pool } from 'src/earn/types'
+import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
+import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
@@ -27,8 +29,9 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
       .map((tokenId) => allTokens[tokenId])
       .filter((token): token is TokenBalance => !!token)
   }, [pool.tokens, allTokens])
-  const poolTokenInfo = allTokens[poolTokenId]
   const depositTokenInfo = allTokens[depositTokenId]
+  const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
+  const poolBalance = useDollarsToLocalAmount(pool.balance.times(pool.priceUsd)) ?? null
   return (
     <View style={styles.card} testID={testID}>
       <View style={styles.titleRow}>
@@ -70,7 +73,7 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
           <Text style={styles.valueText}>{`$${new BigNumber(pool.tvl ?? 0).toFormat()}`}</Text>
         </View>
       </View>
-      {poolTokenInfo?.balance.gt(0) && !!depositTokenInfo ? (
+      {pool.balance.gt(0) && !!depositTokenInfo ? (
         <View style={styles.withBalanceContainer}>
           <View style={styles.keyValueContainer}>
             <View style={styles.keyValueRow}>
@@ -78,18 +81,15 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
               <Text>
                 {`(`}
                 <TokenDisplay
-                  amount={poolTokenInfo.balance}
+                  amount={pool.balance.times(new BigNumber(pool.pricePerShare[0]))}
                   tokenId={depositTokenId}
                   showLocalAmount={false}
                   style={styles.valueText}
                 ></TokenDisplay>
                 {`) `}
-                <TokenDisplay
-                  amount={poolTokenInfo.balance}
-                  tokenId={poolTokenId}
-                  showLocalAmount={true}
-                  style={styles.valueTextBold}
-                ></TokenDisplay>
+                <Text style={styles.valueTextBold}>
+                  {`${localCurrencySymbol}${poolBalance ? formatValueToDisplay(poolBalance) : '--'}`}
+                </Text>
               </Text>
             </View>
           </View>
@@ -100,7 +100,7 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
                   poolId: pool.poolId,
                   depositTokenId,
                   networkId: pool.networkId,
-                  tokenAmount: poolTokenInfo.balance.toString(),
+                  tokenAmount: pool.balance.toString(),
                   providerId: pool.providerId,
                   action: 'withdraw',
                 })
@@ -118,7 +118,7 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
                   poolId: pool.poolId,
                   depositTokenId,
                   networkId: pool.networkId,
-                  tokenAmount: poolTokenInfo.balance.toString(),
+                  tokenAmount: pool.balance.toString(),
                   providerId: pool.providerId,
                   action: 'deposit',
                 })
