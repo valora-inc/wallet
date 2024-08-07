@@ -131,7 +131,7 @@ describe('PoolCard', () => {
           },
         })}
       >
-        <PoolCard pool={AAVE_POOL} />
+        <PoolCard pool={{ ...AAVE_POOL, balance: new BigNumber(10) }} />
       </Provider>
     )
 
