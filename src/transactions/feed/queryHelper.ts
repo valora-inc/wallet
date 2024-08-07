@@ -353,7 +353,7 @@ export function handlePollResponse({
       )
       const knownCompletedTransactionHashes = completedTxHashesByNetwork[networkId]
       const knownPendingTransactionHashes = pendingTxHashesByNetwork[networkId]
-      const knownPendingStandbyTransactionHashes = pendingStandbyTxHashesByNetwork[networkId]
+      const pendingStandbyTransactionHashes = pendingStandbyTxHashesByNetwork[networkId]
       let shouldUpdateCachedTransactions = false
       let hasNewCompletedTransaction = false
 
@@ -371,7 +371,7 @@ export function handlePollResponse({
           if (
             // Track cross-chain swap transaction status change to `Complete`
             tx.__typename === 'CrossChainTokenExchange' &&
-            knownPendingStandbyTransactionHashes?.has(tx.transactionHash)
+            pendingStandbyTransactionHashes
           ) {
             trackCrossChainSwapSuccess(tx)
           }
