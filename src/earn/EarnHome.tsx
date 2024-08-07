@@ -24,7 +24,7 @@ import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomS
 import NetworkMultiSelectBottomSheet from 'src/components/multiSelect/NetworkMultiSelectBottomSheet'
 import EarnTabBar from 'src/earn/EarnTabBar'
 import PoolList from 'src/earn/PoolList'
-import { convertPositionToPool } from 'src/earn/pools'
+import { convertPositionToPool } from 'src/earn/poolHelper'
 import { EarnTabType } from 'src/earn/types'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
