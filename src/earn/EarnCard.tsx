@@ -5,7 +5,9 @@ import EarnActivePool from 'src/earn/EarnActivePool'
 import EarnActivePools from 'src/earn/EarnActivePools'
 import EarnCta from 'src/earn/EarnCta'
 import EarnEntrypoint from 'src/earn/EarnEntrypoint'
-import { getPools } from 'src/earn/pools'
+import { convertPositionToPool } from 'src/earn/pools'
+import { earnPositionsSelector } from 'src/positions/selectors'
+import { useSelector } from 'src/redux/hooks'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { Spacing } from 'src/styles/styles'
@@ -20,8 +22,10 @@ export function EarnCardDiscover({ depositTokenId, poolTokenId }: Props) {
   const showMultiplePools = getFeatureGate(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
   const poolToken = useTokenInfo(poolTokenId)
 
+  const earnPositions = useSelector(earnPositionsSelector)
+  const pools = earnPositions.map(convertPositionToPool)
+
   if (showMultiplePools) {
-    const pools = getPools()
     const poolsSupplied = pools.reduce((acc, pool) => (pool.balance.gt(0) ? acc + 1 : acc), 0)
     return poolsSupplied > 0 ? <EarnActivePools /> : <EarnEntrypoint />
   }

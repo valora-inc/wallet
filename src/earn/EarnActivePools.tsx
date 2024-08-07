@@ -6,11 +6,12 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import Button, { BtnSizes, BtnTypes, TextSizes } from 'src/components/Button'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
-import { getPools } from 'src/earn/pools'
+import { convertPositionToPool } from 'src/earn/pools'
 import { EarnTabType } from 'src/earn/types'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { earnPositionsSelector } from 'src/positions/selectors'
 import { useSelector } from 'src/redux/hooks'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -20,7 +21,8 @@ export default function EarnActivePools() {
   const { t } = useTranslation()
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
-  const pools = getPools()
+  const earnPositions = useSelector(earnPositionsSelector)
+  const pools = earnPositions.map(convertPositionToPool)
   const poolsSupplied = pools.reduce((acc, pool) => (pool.balance.gt(0) ? acc + 1 : acc), 0)
   const totalSuppliedValue = pools.reduce((acc, pool) => acc.plus(pool.balance), new BigNumber(0))
   const totalSupplied = `${localCurrencySymbol}${totalSuppliedValue.gt(0) ? formatValueToDisplay(totalSuppliedValue) : '--'}`

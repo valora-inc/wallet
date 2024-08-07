@@ -10,8 +10,8 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { EarnEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { EarnEvents } from 'src/analytics/Events'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import FilterChipsCarousel, {
   FilterChip,
@@ -24,11 +24,12 @@ import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomS
 import NetworkMultiSelectBottomSheet from 'src/components/multiSelect/NetworkMultiSelectBottomSheet'
 import EarnTabBar from 'src/earn/EarnTabBar'
 import PoolList from 'src/earn/PoolList'
-import { getPools } from 'src/earn/pools'
+import { convertPositionToPool } from 'src/earn/pools'
 import { EarnTabType } from 'src/earn/types'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
+import { earnPositionsSelector } from 'src/positions/selectors'
 import { useSelector } from 'src/redux/hooks'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -45,7 +46,8 @@ type Props = NativeStackScreenProps<StackParamList, Screens.EarnHome>
 function useFilterChips(): FilterChip<TokenBalance>[] {
   const { t } = useTranslation()
 
-  const pools = getPools()
+  const earnPositions = useSelector(earnPositionsSelector)
+  const pools = earnPositions.map(convertPositionToPool)
   const supportedNetworkIds = [...new Set(pools.map((pool) => pool.networkId))]
   const tokens = [...new Set(pools.flatMap((pool) => pool.tokens))]
   const networkChipConfig: NetworkFilterChip<TokenBalance> = {
@@ -73,7 +75,8 @@ function useFilterChips(): FilterChip<TokenBalance>[] {
 export default function EarnHome({ navigation, route }: Props) {
   const { t } = useTranslation()
   const filterChipsCarouselRef = useRef<ScrollView>(null)
-  const pools = getPools()
+  const earnPositions = useSelector(earnPositionsSelector)
+  const pools = earnPositions.map(convertPositionToPool)
 
   const activeTab = route.params?.activeEarnTab ?? EarnTabType.OpenPools
 

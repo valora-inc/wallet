@@ -1,11 +1,9 @@
 import BigNumber from 'bignumber.js'
-import { useSelector } from 'react-redux'
 import { Pool } from 'src/earn/types'
-import { earnPositionsSelector } from 'src/positions/selectors'
 import { Position } from 'src/positions/types'
 import { Address } from 'viem'
 
-function convertPositionToPool(position: Position): Pool {
+export function convertPositionToPool(position: Position): Pool {
   if (!position.dataProps) {
     throw new Error('Pool position is missing dataProps')
   }
@@ -28,9 +26,4 @@ function convertPositionToPool(position: Position): Pool {
     priceUsd: new BigNumber(position.priceUsd),
     pricePerShare: position.pricePerShare,
   }
-}
-
-export function getPools() {
-  const earnPositions = useSelector(earnPositionsSelector)
-  return earnPositions.map(convertPositionToPool)
 }

@@ -54,17 +54,16 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
           <Text style={styles.valueTextBold}>
             {t('earnFlow.poolCard.apy', {
               apy: new BigNumber(
-                pool.yieldRates.reduce(
-                  (accumulator, yieldRate) => accumulator + yieldRate.percentage,
-                  0
-                )
+                pool.yieldRates.reduce((acc, yieldRate) => acc + yieldRate.percentage, 0)
               ).toFixed(2),
             })}
           </Text>
         </View>
         <View style={styles.keyValueRow}>
           <Text style={styles.keyText}>{t('earnFlow.poolCard.reward')}</Text>
-          <Text style={styles.valueText}>{`${new BigNumber(0).toFixed(2)}%`}</Text>
+          <Text
+            style={styles.valueText}
+          >{`${pool.earnItems.reduce((acc, earnItem) => acc.plus(new BigNumber(earnItem.amount)), new BigNumber(0)).toFixed(2)}%`}</Text>
         </View>
         <View style={styles.keyValueRow}>
           <Text style={styles.keyText}>{t('earnFlow.poolCard.tvl')}</Text>
