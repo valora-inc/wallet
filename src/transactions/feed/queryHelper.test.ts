@@ -66,11 +66,6 @@ describe('handlePollResponse', () => {
     ],
   } as TokenTransaction
 
-  const mockCompletedCrossChainTransaction2 = {
-    ...mockCompletedCrossChainTransaction,
-    transactionHash: '0xdef',
-  } as TokenTransaction
-
   const mockQueryResponse = (mockTransactions: TokenTransaction[]): QueryResponse => ({
     data: {
       tokenTransactionsV3: {
@@ -197,10 +192,7 @@ describe('handlePollResponse', () => {
         [NetworkId['celo-mainnet']]: new Set([mockPendingCrossChainTransaction.transactionHash]),
       },
       dispatch: dispatchSpy,
-    })(
-      NetworkId['celo-mainnet'],
-      mockQueryResponse([mockCompletedCrossChainTransaction, mockCompletedCrossChainTransaction2])
-    )
+    })(NetworkId['celo-mainnet'], mockQueryResponse([mockCompletedCrossChainTransaction]))
 
     expect(AppAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_success, {
       swapType: 'cross-chain',
