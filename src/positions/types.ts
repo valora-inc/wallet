@@ -11,8 +11,25 @@ export interface PositionDisplayProps {
 
 type DataProps = EarnDataProps
 
+export interface YieldRate {
+  percentage: number
+  label: string
+  tokenId: string
+}
+
+export interface EarningItem {
+  amount: SerializedDecimalNumber
+  label: string
+  tokenId: string
+  subtractFromDeposit?: boolean
+}
+
 interface EarnDataProps {
-  apy: number
+  contractCreatedAt?: Date
+  manageUrl?: string
+  tvl?: number
+  yieldRates: YieldRate[]
+  earningItems: EarningItem[]
   depositTokenId: string
   withdrawTokenId: string
   // We'll add more fields here as needed

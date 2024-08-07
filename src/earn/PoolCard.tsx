@@ -2,8 +2,8 @@ import BigNumber from 'bignumber.js'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { EarnEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { EarnEvents } from 'src/analytics/Events'
 import Button, { BtnSizes, BtnTypes, TextSizes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon from 'src/components/TokenIcon'
@@ -53,19 +53,22 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
           <Text style={styles.keyText}>{t('earnFlow.poolCard.rate')}</Text>
           <Text style={styles.valueTextBold}>
             {t('earnFlow.poolCard.apy', {
-              apy: new BigNumber(pool.apy).multipliedBy(100).toFixed(2),
+              apy: new BigNumber(
+                pool.yieldRates.reduce(
+                  (accumulator, yieldRate) => accumulator + yieldRate.percentage,
+                  0
+                )
+              ).toFixed(2),
             })}
           </Text>
         </View>
         <View style={styles.keyValueRow}>
           <Text style={styles.keyText}>{t('earnFlow.poolCard.reward')}</Text>
-          <Text
-            style={styles.valueText}
-          >{`${new BigNumber(pool.reward).multipliedBy(100).toFixed(2)}%`}</Text>
+          <Text style={styles.valueText}>{`${new BigNumber(0).toFixed(2)}%`}</Text>
         </View>
         <View style={styles.keyValueRow}>
           <Text style={styles.keyText}>{t('earnFlow.poolCard.tvl')}</Text>
-          <Text style={styles.valueText}>{`$${new BigNumber(pool.tvl).toFormat()}`}</Text>
+          <Text style={styles.valueText}>{`$${new BigNumber(pool.tvl ?? 0).toFormat()}`}</Text>
         </View>
       </View>
       {poolTokenInfo?.balance.gt(0) && !!depositTokenInfo ? (

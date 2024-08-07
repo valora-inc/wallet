@@ -1,12 +1,13 @@
+import BigNumber from 'bignumber.js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { EarnEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { EarnEvents } from 'src/analytics/Events'
 import Button, { BtnSizes, BtnTypes, TextSizes } from 'src/components/Button'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
+import { getPools } from 'src/earn/pools'
 import { EarnTabType } from 'src/earn/types'
-import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -14,27 +15,15 @@ import { useSelector } from 'src/redux/hooks'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { useTokenInfo } from 'src/tokens/hooks'
-import Logger from 'src/utils/Logger'
-import networkConfig from 'src/web3/networkConfig'
-
-const TAG = 'earn/EarnActivePools'
 
 export default function EarnActivePools() {
   const { t } = useTranslation()
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
-  // TODO(ACT-1268): use info from getEarnPositions
-  const poolToken = useTokenInfo(networkConfig.aaveArbUsdcTokenId)
-  const poolTokenBalanceInUsd = poolToken?.priceUsd?.times(poolToken?.balance)
-  const poolTokenInLocalCurrency = useDollarsToLocalAmount(poolTokenBalanceInUsd ?? null)
-  if (!poolToken) {
-    // should never happen
-    Logger.error(TAG, `No pool token found ${networkConfig.aaveArbUsdcTokenId}`)
-    return null
-  }
-  const poolsSupplied = 1
-  const totalSupplied = `${localCurrencySymbol}${poolTokenInLocalCurrency ? formatValueToDisplay(poolTokenInLocalCurrency) : '--'}`
+  const pools = getPools()
+  const poolsSupplied = pools.reduce((acc, pool) => (pool.balance.gt(0) ? acc + 1 : acc), 0)
+  const totalSuppliedValue = pools.reduce((acc, pool) => acc.plus(pool.balance), new BigNumber(0))
+  const totalSupplied = `${localCurrencySymbol}${totalSuppliedValue.gt(0) ? formatValueToDisplay(totalSuppliedValue) : '--'}`
 
   return (
     <View style={styles.card} testID="EarnActivePools">

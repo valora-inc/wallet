@@ -1,23 +1,36 @@
+import BigNumber from 'bignumber.js'
+import { useSelector } from 'react-redux'
 import { Pool } from 'src/earn/types'
-import { NetworkId } from 'src/transactions/types'
+import { earnPositionsSelector } from 'src/positions/selectors'
+import { Position } from 'src/positions/types'
+import { Address } from 'viem'
 
-// TODO (ACT-1268): Replace with getEarnPositions
-const pools: Pool[] = [
-  {
-    poolId: 'aArbUSDCn',
-    providerId: 'aave-v3',
-    networkId: NetworkId['arbitrum-one'],
-    tokens: [`${NetworkId['arbitrum-one']}:0xaf88d065e77c8cc2239327c5edb3a432268e5831`],
-    depositTokenId: `${NetworkId['arbitrum-one']}:0xaf88d065e77c8cc2239327c5edb3a432268e5831`,
-    poolTokenId: `${NetworkId['arbitrum-one']}:0x724dc807b04555b71ed48a6896b6f41593b8c637`,
-    poolAddress: '0x794a61358D6845594F94dc1DB02A252b5b4814aD',
-    apy: 0.0555,
-    reward: 0,
-    tvl: 349_940_000,
-    provider: 'Aave',
-  },
-]
+function convertPositionToPool(position: Position): Pool {
+  if (!position.dataProps) {
+    throw new Error('Pool position is missing dataProps')
+  }
+  if (position.type !== 'app-token') {
+    throw new Error('Pool position is not an app-token')
+  }
+  return {
+    poolId: position.positionId,
+    providerId: position.appId,
+    networkId: position.networkId,
+    tokens: position.tokens.map((token) => token.tokenId),
+    depositTokenId: position.dataProps.depositTokenId,
+    poolTokenId: position.dataProps.withdrawTokenId,
+    poolAddress: position.address as Address,
+    yieldRates: position.dataProps.yieldRates,
+    earnItems: position.dataProps.earningItems,
+    tvl: position.dataProps.tvl,
+    provider: position.appName,
+    balance: new BigNumber(position.balance),
+    priceUsd: new BigNumber(position.priceUsd),
+    pricePerShare: position.pricePerShare,
+  }
+}
 
 export function getPools() {
-  return pools
+  const earnPositions = useSelector(earnPositionsSelector)
+  return earnPositions.map(convertPositionToPool)
 }
