@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { HomeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
 import BottomSheetBase from 'src/components/BottomSheetBase'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -62,7 +62,7 @@ export default function NftCelebration() {
     }
 
     if (index === -1) {
-      ValoraAnalytics.track(HomeEvents.nft_celebration_displayed, {
+      AppAnalytics.track(HomeEvents.nft_celebration_displayed, {
         networkId: matchingNft.networkId,
         contractAddress: matchingNft.contractAddress,
       })
@@ -91,7 +91,7 @@ export default function NftCelebration() {
       return // this should never happen
     }
 
-    ValoraAnalytics.track(HomeEvents.nft_celebration_animation_displayed, {
+    AppAnalytics.track(HomeEvents.nft_celebration_animation_displayed, {
       userInterrupted,
       durationInSeconds: Math.round((Date.now() - confettiStartTime.current) / 1000),
     })

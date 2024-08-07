@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { fetchPoolInfo } from 'src/earn/slice'
 import GetStarted from 'src/home/GetStarted'
 import { getFeatureGate } from 'src/statsig'
@@ -104,7 +104,7 @@ describe('GetStarted', () => {
       </Provider>
     )
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       FiatExchangeEvents.cico_add_get_started_impression
     )
   })
@@ -123,7 +123,7 @@ describe('GetStarted', () => {
     )
 
     fireEvent.press(getByTestId('GetStarted/Touchable'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       FiatExchangeEvents.cico_add_get_started_selected
     )
   })

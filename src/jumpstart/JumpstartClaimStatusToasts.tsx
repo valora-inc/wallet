@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { JumpstartEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { NotificationVariant } from 'src/components/InLineNotification'
 import Toast from 'src/components/Toast'
 import GreenLoadingSpinner from 'src/icons/GreenLoadingSpinner'
@@ -18,17 +18,17 @@ export default function JumpstartClaimStatusToasts() {
   const claimStatus = useSelector(jumpstartClaimStatusSelector)
 
   const handleLoadingDismiss = () => {
-    ValoraAnalytics.track(JumpstartEvents.jumpstart_claim_loading_dismissed)
+    AppAnalytics.track(JumpstartEvents.jumpstart_claim_loading_dismissed)
     dispatch(jumpstartClaimLoadingDismissed())
   }
 
   const handleErrorDismiss = () => {
-    ValoraAnalytics.track(JumpstartEvents.jumpstart_claim_error_dismissed)
+    AppAnalytics.track(JumpstartEvents.jumpstart_claim_error_dismissed)
     dispatch(jumpstartClaimErrorDismissed())
   }
 
   const handleContactSupport = () => {
-    ValoraAnalytics.track(JumpstartEvents.jumpstart_claim_error_contact_support)
+    AppAnalytics.track(JumpstartEvents.jumpstart_claim_error_contact_support)
     navigate(Screens.SupportContact)
     dispatch(jumpstartClaimErrorDismissed())
   }

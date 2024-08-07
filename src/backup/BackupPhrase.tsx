@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { hideAlert, showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BackupPhraseContainer, {
   BackupPhraseContainerMode,
   BackupPhraseType,
@@ -96,7 +96,7 @@ class BackupPhrase extends React.Component<Props, State> {
   }
 
   onPressContinue = () => {
-    ValoraAnalytics.track(OnboardingEvents.backup_continue)
+    AppAnalytics.track(OnboardingEvents.backup_continue)
     navigate(Screens.BackupQuiz, { isAccountRemoval: this.isAccountRemoval() })
   }
 
@@ -163,7 +163,7 @@ export const navOptionsForBackupPhrase = {
 function HeaderRight() {
   const { t } = useTranslation()
   const onMoreInfoPressed = () => {
-    ValoraAnalytics.track(OnboardingEvents.backup_more_info)
+    AppAnalytics.track(OnboardingEvents.backup_more_info)
     pushToStack(Screens.AccountKeyEducation)
   }
   return <TopBarTextButton onPress={onMoreInfoPressed} title={t('moreInfo')} />

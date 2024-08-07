@@ -5,7 +5,7 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { DappShortcutsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Button, { BtnSizes } from 'src/components/Button'
 import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import TokenDisplay from 'src/components/TokenDisplay'
@@ -36,7 +36,7 @@ function DappShortcutsRewards() {
   const [claimablePositions, setClaimablePositions] = useState(positionsWithClaimableRewards)
 
   useEffect(() => {
-    ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_rewards_screen_open, {
+    AppAnalytics.track(DappShortcutsEvents.dapp_shortcuts_rewards_screen_open, {
       numRewards: positionsWithClaimableRewards.length,
     })
   }, [])
@@ -78,7 +78,7 @@ function DappShortcutsRewards() {
       const { appName, displayProps, claimableShortcut, appId } = position
       const rewardId = getClaimableRewardId(position.address, claimableShortcut)
 
-      ValoraAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_claim_start, {
+      AppAnalytics.track(DappShortcutsEvents.dapp_shortcuts_reward_claim_start, {
         appName,
         shortcutId: claimableShortcut.id,
         rewardId,
@@ -98,6 +98,7 @@ function DappShortcutsRewards() {
             address,
             appId,
             networkId: position.networkId,
+            positionId: position.positionId,
             positionAddress: position.address,
             shortcutId: claimableShortcut.id,
           },

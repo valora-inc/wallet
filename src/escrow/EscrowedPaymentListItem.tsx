@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Share } from 'react-native'
 import { HomeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import ContactCircle from 'src/components/ContactCircle'
 import RequestMessagingCard from 'src/components/RequestMessagingCard'
 import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
@@ -28,7 +28,7 @@ function EscrowedPaymentListItem({ payment, index }: Props) {
   const tokenInfo = useTokenInfoByAddress(payment.tokenAddress)
 
   const onRemind = async () => {
-    ValoraAnalytics.track(HomeEvents.notification_select, {
+    AppAnalytics.track(HomeEvents.notification_select, {
       notificationType: NotificationType.escrow_tx_pending,
       notificationId: `${NotificationType.escrow_tx_pending}/${payment.paymentID}`,
       selectedAction: NotificationBannerCTATypes.remind,
@@ -48,7 +48,7 @@ function EscrowedPaymentListItem({ payment, index }: Props) {
 
   const onReclaimPayment = () => {
     const reclaimPaymentInput = payment
-    ValoraAnalytics.track(HomeEvents.notification_select, {
+    AppAnalytics.track(HomeEvents.notification_select, {
       notificationType: NotificationType.escrow_tx_pending,
       notificationId: `${NotificationType.escrow_tx_pending}/${payment.paymentID}`,
       selectedAction: NotificationBannerCTATypes.reclaim,

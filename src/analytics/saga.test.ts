@@ -1,7 +1,7 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import { dynamic } from 'redux-saga-test-plan/providers'
 import { select } from 'redux-saga/effects'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { updateUserTraits } from 'src/analytics/saga'
 import { getCurrentUserTraits } from 'src/analytics/selectors'
 import networkConfig from 'src/web3/networkConfig'
@@ -36,16 +36,16 @@ describe(updateUserTraits, () => {
       .dispatch({ type: 'TEST_ACTION_TYPE' })
       .silentRun()
 
-    expect(ValoraAnalytics.identify).toHaveBeenCalledTimes(3)
-    expect(ValoraAnalytics.identify).toHaveBeenNthCalledWith(1, '0xABC', {
+    expect(AppAnalytics.identify).toHaveBeenCalledTimes(3)
+    expect(AppAnalytics.identify).toHaveBeenNthCalledWith(1, '0xABC', {
       walletAddress: '0xABC',
       someUserProp: 'testValue',
     })
-    expect(ValoraAnalytics.identify).toHaveBeenNthCalledWith(2, '0xABC', {
+    expect(AppAnalytics.identify).toHaveBeenNthCalledWith(2, '0xABC', {
       walletAddress: '0xABC',
       someUserProp: 'changed',
     })
-    expect(ValoraAnalytics.identify).toHaveBeenNthCalledWith(3, null, {
+    expect(AppAnalytics.identify).toHaveBeenNthCalledWith(3, null, {
       walletAddress: null,
       someUserProp: 'changed2',
     })

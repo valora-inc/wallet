@@ -7,7 +7,7 @@ import { FlatListProps, StyleSheet, Text, TextStyle, View } from 'react-native'
 import { FlatList, ScrollView } from 'react-native-gesture-handler'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { TokenBottomSheetEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
 import BottomSheetBase from 'src/components/BottomSheetBase'
 import FilterChipsCarousel, {
@@ -167,7 +167,7 @@ function TokenBottomSheet({
     if (isNetworkChip(toggledChip)) {
       networkChipRef.current?.snapToIndex(0)
     } else {
-      ValoraAnalytics.track(TokenBottomSheetEvents.toggle_tokens_filter, {
+      AppAnalytics.track(TokenBottomSheetEvents.toggle_tokens_filter, {
         filterId: toggledChip.id,
         isRemoving: filters.find((chip) => chip.id === toggledChip.id)?.isSelected ?? false,
         isPreSelected: filterChips.find((chip) => chip.id === toggledChip.id)?.isSelected ?? false,
@@ -184,7 +184,7 @@ function TokenBottomSheet({
   }
 
   const onTokenPressed = (token: TokenBalance, index: number) => () => {
-    ValoraAnalytics.track(TokenBottomSheetEvents.token_selected, {
+    AppAnalytics.track(TokenBottomSheetEvents.token_selected, {
       origin,
       tokenAddress: token.address,
       tokenId: token.tokenId,
@@ -199,7 +199,7 @@ function TokenBottomSheet({
 
   const sendAnalytics = useCallback(
     debounce((searchInput: string) => {
-      ValoraAnalytics.track(TokenBottomSheetEvents.search_token, {
+      AppAnalytics.track(TokenBottomSheetEvents.search_token, {
         origin,
         searchInput,
       })
@@ -274,7 +274,7 @@ function TokenBottomSheet({
       <FlatListComponent
         data={tokenList}
         keyExtractor={(item) => item.tokenId}
-        contentContainerStyle={[styles.tokenListContainer, { paddingBottom: insets.bottom }]}
+        contentContainerStyle={{ paddingBottom: insets.bottom }}
         scrollIndicatorInsets={{ top: headerHeight }}
         renderItem={({ item, index }) => {
           return (
@@ -353,7 +353,7 @@ function TokenBottomSheet({
           selectedNetworkIds={networkChip.selectedNetworkIds}
           forwardedRef={networkChipRef}
           onSelect={(selectedNetworkIds: NetworkId[]) => {
-            ValoraAnalytics.track(TokenBottomSheetEvents.network_filter_updated, {
+            AppAnalytics.track(TokenBottomSheetEvents.network_filter_updated, {
               selectedNetworkIds,
               origin,
             })
@@ -393,7 +393,7 @@ const styles = StyleSheet.create({
     marginVertical: Spacing.Regular16,
   },
   tokenBalanceItemContainer: {
-    marginHorizontal: 0,
+    marginHorizontal: Spacing.Thick24,
   },
   filterChipsCarouselContainer: {
     paddingTop: Spacing.Thick24,
@@ -404,9 +404,6 @@ const styles = StyleSheet.create({
     padding: Spacing.Thick24,
     backgroundColor: colors.white,
     width: '100%',
-  },
-  tokenListContainer: {
-    paddingHorizontal: Spacing.Thick24,
   },
   title: {
     ...typeScale.titleSmall,

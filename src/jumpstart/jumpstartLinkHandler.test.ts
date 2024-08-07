@@ -49,7 +49,7 @@ describe('jumpstartLinkHandler', () => {
     expect(result).toEqual(['0xHASH'])
     expect(fetchWithTimeout).toHaveBeenCalledTimes(1)
     expect(fetchWithTimeout).toHaveBeenCalledWith(
-      `https://api.alfajores.valora.xyz/walletJumpstart?index=1&beneficiary=${mockAccount}&signature=0xweb3-signature&sendTo=${mockAccount2}&assetType=erc20&networkId=celo-alfajores`,
+      `${networkConfig.walletJumpstartUrl}?index=1&beneficiary=${mockAccount}&signature=0xweb3-signature&sendTo=${mockAccount2}&assetType=erc20&networkId=celo-alfajores`,
       expect.any(Object),
       expect.any(Number)
     )

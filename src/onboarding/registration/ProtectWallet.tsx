@@ -7,7 +7,7 @@ import { recoveryPhraseInOnboardingStarted } from 'src/account/actions'
 import { RecoveryPhraseInOnboardingStatus } from 'src/account/reducer'
 import { recoveryPhraseInOnboardingStatusSelector } from 'src/account/selectors'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import OnboardingCard from 'src/components/OnboardingCard'
 import GuideKeyIcon from 'src/icons/GuideKeyIcon'
 import { HeaderTitleWithSubtitle, nuxNavigationOptionsOnboarding } from 'src/navigator/Headers'
@@ -67,7 +67,7 @@ function ProtectWallet({ navigation }: Props) {
   })
 
   const onPressRecoveryPhrase = () => {
-    ValoraAnalytics.track(OnboardingEvents.protect_wallet_use_recovery)
+    AppAnalytics.track(OnboardingEvents.protect_wallet_use_recovery)
     navigateToRecoveryPhrase()
   }
 

@@ -4,7 +4,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { KycStatus } from 'src/account/reducer'
 import { CICOEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import KycLanding from 'src/fiatconnect/KycLanding'
 import { personaFinished, personaStarted, postKyc } from 'src/fiatconnect/slice'
@@ -15,7 +15,7 @@ import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockCusdTokenId, mockFiatConnectQuotes } from 'test/values'
 
 jest.mock('src/account/Persona')
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 
 describe('KycLanding', () => {
   const normalizedQuote = new FiatConnectQuote({
@@ -67,7 +67,7 @@ describe('KycLanding', () => {
       expect(getByTestId('PersonaButton')).not.toBeDisabled()
     })
     it('triggers analytics and dispatches persona started when persona button is pressed', () => {
-      ValoraAnalytics.track = jest.fn()
+      AppAnalytics.track = jest.fn()
       const { getByTestId } = render(
         <Provider store={store}>
           <KycLanding {...props} />
@@ -76,7 +76,7 @@ describe('KycLanding', () => {
       fireEvent.press(getByTestId('checkbox/unchecked'))
       fireEvent.press(getByTestId('PersonaButton'))
       jest.advanceTimersByTime(600)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(CICOEvents.persona_kyc_start)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(CICOEvents.persona_kyc_start)
       expect(store.dispatch).toHaveBeenCalledWith(personaStarted())
     })
     it('dispatches post kyc when persona succeeds', () => {

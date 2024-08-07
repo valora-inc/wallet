@@ -4,7 +4,7 @@ import React from 'react'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { Provider } from 'react-redux'
 import { EarnEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
 import { usePrepareSupplyTransactions } from 'src/earn/prepareTransactions'
 import { TokenBalance } from 'src/tokens/slice'
@@ -120,8 +120,8 @@ describe('EarnEnterAmount', () => {
       </Provider>
     )
     fireEvent.press(getByTestId('EarnEnterAmount/InfoIcon'))
-    await waitFor(() => expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_enter_amount_info_press)
+    await waitFor(() => expect(AppAnalytics.track).toHaveBeenCalledTimes(1))
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_enter_amount_info_press)
   })
 
   it('should prepare transactions with the expected inputs', async () => {
@@ -170,19 +170,16 @@ describe('EarnEnterAmount', () => {
     await waitFor(() => expect(getByText('earnFlow.enterAmount.continue')).not.toBeDisabled())
     fireEvent.press(getByText('earnFlow.enterAmount.continue'))
 
-    await waitFor(() => expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      EarnEvents.earn_enter_amount_continue_press,
-      {
-        amountEnteredIn: 'token',
-        amountInUsd: '8.00',
-        networkId: NetworkId['arbitrum-sepolia'],
-        tokenAmount: '8',
-        depositTokenId: networkConfig.arbUsdcTokenId,
-        userHasFunds: true,
-        providerId: 'aave-v3',
-      }
-    )
+    await waitFor(() => expect(AppAnalytics.track).toHaveBeenCalledTimes(1))
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_enter_amount_continue_press, {
+      amountEnteredIn: 'token',
+      amountInUsd: '8.00',
+      networkId: NetworkId['arbitrum-sepolia'],
+      tokenAmount: '8',
+      depositTokenId: networkConfig.arbUsdcTokenId,
+      userHasFunds: true,
+      providerId: 'aave-v3',
+    })
     await waitFor(() => expect(getByText('earnFlow.depositBottomSheet.title')).toBeVisible())
   })
   it('should handle navigating to the add crypto bottom sheet', async () => {
@@ -204,19 +201,16 @@ describe('EarnEnterAmount', () => {
     await waitFor(() => expect(getByText('earnFlow.enterAmount.continue')).not.toBeDisabled())
     fireEvent.press(getByText('earnFlow.enterAmount.continue'))
 
-    await waitFor(() => expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      EarnEvents.earn_enter_amount_continue_press,
-      {
-        amountEnteredIn: 'token',
-        amountInUsd: '12.00',
-        networkId: NetworkId['arbitrum-sepolia'],
-        tokenAmount: '12',
-        depositTokenId: networkConfig.arbUsdcTokenId,
-        userHasFunds: false,
-        providerId: 'aave-v3',
-      }
-    )
+    await waitFor(() => expect(AppAnalytics.track).toHaveBeenCalledTimes(1))
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_enter_amount_continue_press, {
+      amountEnteredIn: 'token',
+      amountInUsd: '12.00',
+      networkId: NetworkId['arbitrum-sepolia'],
+      tokenAmount: '12',
+      depositTokenId: networkConfig.arbUsdcTokenId,
+      userHasFunds: false,
+      providerId: 'aave-v3',
+    })
     await waitFor(() =>
       expect(getByText('earnFlow.addCryptoBottomSheet.description')).toBeVisible()
     )

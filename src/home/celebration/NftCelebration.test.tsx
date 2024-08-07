@@ -7,7 +7,7 @@ import { createMockStore } from 'test/utils'
 import { mockNftAllFields } from 'test/values'
 import NftCelebration from './NftCelebration'
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 jest.mock('src/statsig')
 
 const mockStoreWithoutNft = {

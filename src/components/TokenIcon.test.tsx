@@ -6,17 +6,19 @@ import { createMockStore } from 'test/utils'
 import { mockCeloTokenId, mockCusdTokenId, mockPoofTokenId, mockTokenBalances } from 'test/values'
 
 // Setting up the mock token balances with expected additional values
-const CELO_TOKEN = mockTokenBalances[mockCeloTokenId]
+const CELO_TOKEN = {
+  ...mockTokenBalances[mockCeloTokenId],
+  imageUrl: 'https://example.com/address-metadata/main/assets/tokens/CELO.png',
+}
 const CUSD_TOKEN = {
   ...mockTokenBalances[mockCusdTokenId],
-  networkIconUrl:
-    'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/CELO.png',
+  imageUrl: 'https://example.com/address-metadata/main/assets/tokens/CELO.png',
+  networkIconUrl: 'https://example.com/address-metadata/main/assets/tokens/CELO.png',
 }
 const NO_IMAGE_TOKEN = {
   ...mockTokenBalances[mockPoofTokenId],
   imageUrl: undefined,
-  networkIconUrl:
-    'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/CELO.png',
+  networkIconUrl: 'https://example.com/address-metadata/main/assets/tokens/CELO.png',
 }
 
 const store = createMockStore({

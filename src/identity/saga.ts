@@ -1,6 +1,6 @@
 import { showErrorInline } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
   Actions,
@@ -69,7 +69,7 @@ export function* validateRecipientAddressSaga({
       addressValidationType
     )
 
-    ValoraAnalytics.track(SendEvents.send_secure_complete, {
+    AppAnalytics.track(SendEvents.send_secure_complete, {
       confirmByScan: false,
       partialAddressValidation: addressValidationType === AddressValidationType.PARTIAL,
     })
@@ -77,7 +77,7 @@ export function* validateRecipientAddressSaga({
     yield* put(validateRecipientAddressSuccess(e164PhoneNumber, validatedAddress))
   } catch (err) {
     const error = ensureError(err)
-    ValoraAnalytics.track(SendEvents.send_secure_incorrect, {
+    AppAnalytics.track(SendEvents.send_secure_incorrect, {
       confirmByScan: false,
       partialAddressValidation: addressValidationType === AddressValidationType.PARTIAL,
       error: error.message,

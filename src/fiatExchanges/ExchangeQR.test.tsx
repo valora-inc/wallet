@@ -3,7 +3,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import ExchangeQR from 'src/fiatExchanges/ExchangeQR'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { CICOFlow } from 'src/fiatExchanges/utils'
@@ -62,7 +62,7 @@ describe('ExchangeQR', () => {
 
     expect(queryByTestId('copyButton')).toBeTruthy()
     await fireEvent.press(getByTestId('copyButton'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       FiatExchangeEvents.cico_exchange_qr_copy_address,
       {
         flow: CICOFlow.CashIn,
@@ -80,7 +80,7 @@ describe('ExchangeQR', () => {
 
     expect(queryByTestId('bottomSheetLink')).toBeTruthy()
     await fireEvent.press(getByTestId('bottomSheetLink'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       FiatExchangeEvents.cico_exchange_qr_bottom_sheet_open,
       {
         flow: CICOFlow.CashIn,
@@ -91,7 +91,7 @@ describe('ExchangeQR', () => {
     expect(queryByTestId('Coinbase Pro-Touchable')).toBeTruthy()
     await fireEvent.press(getByTestId('Coinbase Pro-Touchable'))
     expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, { uri: 'https://example.com/0' })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       FiatExchangeEvents.cico_exchange_qr_bottom_sheet_link_press,
       {
         flow: CICOFlow.CashIn,

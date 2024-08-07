@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { SendEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import CancelButton from 'src/components/CancelButton'
 import ContactCircle from 'src/components/ContactCircle'
 import TextButton from 'src/components/TextButton'
@@ -53,7 +53,7 @@ const ValidateRecipientIntro = ({ route }: Props) => {
       },
     })
 
-    ValoraAnalytics.track(SendEvents.send_secure_start, { confirmByScan: true })
+    AppAnalytics.track(SendEvents.send_secure_start, { confirmByScan: true })
   }
 
   const onPressConfirmAccount = () => {
@@ -65,7 +65,7 @@ const ValidateRecipientIntro = ({ route }: Props) => {
       defaultTokenIdOverride,
     })
 
-    ValoraAnalytics.track(SendEvents.send_secure_start, { confirmByScan: false })
+    AppAnalytics.track(SendEvents.send_secure_start, { confirmByScan: false })
   }
 
   const displayName = getDisplayName(recipient, t)

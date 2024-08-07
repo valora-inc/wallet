@@ -5,7 +5,7 @@ import BigNumber from 'bignumber.js'
 import erc20 from 'src/abis/IERC20'
 import * as stableToken from 'src/abis/StableToken.json'
 import { AppEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
@@ -249,12 +249,12 @@ export function* fetchTokenBalancesSaga() {
       })
     )
     SentryTransactionHub.finishTransaction(SentryTransaction.fetch_balances)
-    ValoraAnalytics.track(AppEvents.fetch_balance, {})
+    AppAnalytics.track(AppEvents.fetch_balance, {})
   } catch (err) {
     const error = ensureError(err)
     yield* put(fetchTokenBalancesFailure())
     Logger.error(TAG, 'error fetching user balances', error.message)
-    ValoraAnalytics.track(AppEvents.fetch_balance_error, {
+    AppAnalytics.track(AppEvents.fetch_balance_error, {
       error: error.message,
     })
   }
@@ -315,7 +315,7 @@ export function* watchAccountFundedOrLiquidated() {
           // tokens from that network are missing from tokenBalance but may not have been liquidated
           [...prevNetworkIds].every((value) => supportedNetworkIdsSet.has(value))
         ) {
-          ValoraAnalytics.track(AppEvents.account_liquidated)
+          AppAnalytics.track(AppEvents.account_liquidated)
         } else if (
           !isAccountFundedBefore &&
           isAccountFundedAfter &&
@@ -324,7 +324,7 @@ export function* watchAccountFundedOrLiquidated() {
           // tokens from that added network will now contribute to tokenBalance, even if there wasn't a funding event
           supportedNetworkIds.every((value) => prevNetworkIds.has(value))
         ) {
-          ValoraAnalytics.track(AppEvents.account_funded)
+          AppAnalytics.track(AppEvents.account_funded)
         }
       }
 

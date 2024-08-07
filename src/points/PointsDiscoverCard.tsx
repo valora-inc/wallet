@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { PointsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Touchable from 'src/components/Touchable'
 import { pointsCardBackground } from 'src/images/Images'
 import { navigate } from 'src/navigator/NavigationService'
@@ -26,7 +26,7 @@ export default function PointsDiscoverCard() {
   const pointsIntroHasBeenDismissed = useSelector(pointsIntroHasBeenDismissedSelector)
 
   const handlePress = () => {
-    ValoraAnalytics.track(PointsEvents.points_discover_press)
+    AppAnalytics.track(PointsEvents.points_discover_press)
     if (pointsIntroHasBeenDismissed) {
       navigate(Screens.PointsHome)
     } else {

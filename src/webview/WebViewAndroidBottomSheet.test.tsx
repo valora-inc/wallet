@@ -15,7 +15,7 @@ describe('WebViewAndroidBottomSheet', () => {
     const tree = render(
       <Provider store={createMockStore({})}>
         <WebViewAndroidBottomSheet
-          currentUrl="https://valoraapp.com"
+          currentUrl="https://example.com"
           isVisible={true}
           onClose={jest.fn()}
           toggleBottomSheet={jest.fn()}
@@ -29,7 +29,7 @@ describe('WebViewAndroidBottomSheet', () => {
     const tree = render(
       <Provider store={createMockStore({})}>
         <WebViewAndroidBottomSheet
-          currentUrl="https://valoraapp.com"
+          currentUrl="https://example.com"
           isVisible={false}
           onClose={jest.fn()}
           toggleBottomSheet={jest.fn()}
@@ -44,7 +44,7 @@ describe('WebViewAndroidBottomSheet', () => {
     const { getByTestId } = render(
       <Provider store={createMockStore({})}>
         <WebViewAndroidBottomSheet
-          currentUrl="https://valoraapp.com"
+          currentUrl="https://example.com"
           isVisible={true}
           onClose={jest.fn()}
           toggleBottomSheet={jest.fn()}
@@ -53,6 +53,6 @@ describe('WebViewAndroidBottomSheet', () => {
     )
 
     fireEvent.press(getByTestId('OpenInExternalBrowser'))
-    expect(navigateToURI).toHaveBeenCalledWith('https://valoraapp.com')
+    expect(navigateToURI).toHaveBeenCalledWith('https://example.com')
   })
 })

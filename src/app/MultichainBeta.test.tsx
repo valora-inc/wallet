@@ -2,7 +2,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { AppEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import MultichainBeta from 'src/app/MultichainBeta'
 import { MultichainBetaStatus, optMultichainBeta } from 'src/app/actions'
 import { navigateHome } from 'src/navigator/NavigationService'
@@ -44,8 +44,8 @@ describe('MultichainBeta', () => {
     )
 
     fireEvent.press(getByTestId('MultichainBeta/OptIn'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.multichain_beta_opt_in)
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.multichain_beta_opt_in)
     expect(store.getActions()).toEqual([optMultichainBeta(true)])
     expect(patchUpdateStatsigUser).toHaveBeenCalledWith({
       custom: { multichainBetaStatus: MultichainBetaStatus.OptedIn },
@@ -63,8 +63,8 @@ describe('MultichainBeta', () => {
     )
 
     fireEvent.press(getByTestId('MultichainBeta/OptOut'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.multichain_beta_opt_out)
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.multichain_beta_opt_out)
     expect(store.getActions()).toEqual([optMultichainBeta(false)])
     expect(patchUpdateStatsigUser).toHaveBeenCalledWith({
       custom: { multichainBetaStatus: MultichainBetaStatus.OptedOut },

@@ -16,7 +16,7 @@ import {
 import Persona from 'src/account/Persona'
 import { KycStatus } from 'src/account/reducer'
 import { CICOEvents, FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { PRIVACY_LINK } from 'src/brandingConfig'
 import BackButton from 'src/components/BackButton'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
@@ -179,7 +179,7 @@ function KycAgreement(props: {
           setTimeout(() => {
             dispatch(personaStarted())
           }, 500) // delay to avoid screen flash
-          ValoraAnalytics.track(CICOEvents.persona_kyc_start)
+          AppAnalytics.track(CICOEvents.persona_kyc_start)
         }}
         onSuccess={() => {
           dispatch(postKyc({ quote }))

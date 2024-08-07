@@ -10,7 +10,7 @@ import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { showError } from 'src/alert/actions'
 import { SwapEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import BackButton from 'src/components/BackButton'
@@ -322,7 +322,7 @@ export function SwapScreen({ route }: Props) {
   const confirmSwapFailed = swapStatus === 'error'
 
   useEffect(() => {
-    ValoraAnalytics.track(SwapEvents.swap_screen_open)
+    AppAnalytics.track(SwapEvents.swap_screen_open)
   }, [])
 
   useEffect(() => {
@@ -395,7 +395,7 @@ export function SwapScreen({ route }: Props) {
         // to confirm the swap in this case.
         break
       case 'possible':
-        ValoraAnalytics.track(SwapEvents.swap_review_submit, {
+        AppAnalytics.track(SwapEvents.swap_review_submit, {
           toToken: toToken.address,
           toTokenId: toToken.tokenId,
           toTokenNetworkId: toToken.networkId,
@@ -450,7 +450,7 @@ export function SwapScreen({ route }: Props) {
   }
 
   const handleSwitchTokens = () => {
-    ValoraAnalytics.track(SwapEvents.swap_switch_tokens, { fromTokenId, toTokenId })
+    AppAnalytics.track(SwapEvents.swap_switch_tokens, { fromTokenId, toTokenId })
     localDispatch(
       selectTokens({
         fromTokenId: toTokenId,
@@ -461,7 +461,7 @@ export function SwapScreen({ route }: Props) {
   }
 
   const handleShowTokenSelect = (fieldType: Field) => () => {
-    ValoraAnalytics.track(SwapEvents.swap_screen_select_token, { fieldType })
+    AppAnalytics.track(SwapEvents.swap_screen_select_token, { fieldType })
     localDispatch(startSelectToken({ fieldType }))
 
     // use requestAnimationFrame so that the bottom sheet open animation is done
@@ -512,7 +512,7 @@ export function SwapScreen({ route }: Props) {
       }
     }
 
-    ValoraAnalytics.track(SwapEvents.swap_screen_confirm_token, {
+    AppAnalytics.track(SwapEvents.swap_screen_confirm_token, {
       fieldType: selectingField,
       tokenSymbol: selectedToken.symbol,
       tokenId: selectedToken.tokenId,
@@ -584,7 +584,7 @@ export function SwapScreen({ route }: Props) {
       // Should never happen
       return
     }
-    ValoraAnalytics.track(SwapEvents.swap_screen_max_swap_amount, {
+    AppAnalytics.track(SwapEvents.swap_screen_max_swap_amount, {
       tokenSymbol: fromToken.symbol,
       tokenId: fromToken.tokenId,
       tokenNetworkId: fromToken.networkId,
@@ -592,12 +592,12 @@ export function SwapScreen({ route }: Props) {
   }
 
   const onPressLearnMore = () => {
-    ValoraAnalytics.track(SwapEvents.swap_learn_more)
+    AppAnalytics.track(SwapEvents.swap_learn_more)
     navigate(Screens.WebViewScreen, { uri: SWAP_LEARN_MORE })
   }
 
   const onPressLearnMoreFees = () => {
-    ValoraAnalytics.track(SwapEvents.swap_gas_fees_learn_more)
+    AppAnalytics.track(SwapEvents.swap_gas_fees_learn_more)
     navigate(Screens.WebViewScreen, { uri: TRANSACTION_FEES_LEARN_MORE })
   }
 
@@ -713,7 +713,7 @@ export function SwapScreen({ route }: Props) {
         return
       }
 
-      ValoraAnalytics.track(SwapEvents.swap_price_impact_warning_displayed, {
+      AppAnalytics.track(SwapEvents.swap_price_impact_warning_displayed, {
         toToken: toToken.address,
         toTokenId: toToken.tokenId,
         toTokenNetworkId: toToken.networkId,

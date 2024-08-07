@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import getNavigationOptions from 'src/fiatconnect/kyc/getNavigationOptions'
 import BankIcon from 'src/icons/BankIcon'
@@ -30,7 +30,7 @@ function KycPending({ route, navigation }: Props) {
   const { t } = useTranslation()
 
   const onPressClose = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_kyc_status_close, {
+    AppAnalytics.track(FiatExchangeEvents.cico_fc_kyc_status_close, {
       provider: route.params.quote.getProviderId(),
       flow: route.params.flow,
       fiatConnectKycStatus: FiatConnectKycStatus.KycPending,

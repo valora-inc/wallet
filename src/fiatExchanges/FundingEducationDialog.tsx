@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Dialog from 'src/components/Dialog'
 import { HELP_LINK } from 'src/config'
 import colors from 'src/styles/colors'
@@ -21,7 +21,7 @@ export default function FundingEducationDialog({ isVisible, onPressDismiss, isCa
 
   const onPressSupportLink = () => {
     navigateToURI(link)
-    ValoraAnalytics.track(
+    AppAnalytics.track(
       isCashIn
         ? FiatExchangeEvents.cico_add_funds_info_support
         : FiatExchangeEvents.cico_cash_out_info_support

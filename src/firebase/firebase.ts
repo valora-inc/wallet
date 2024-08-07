@@ -13,7 +13,7 @@ import { eventChannel } from 'redux-saga'
 import { handleUpdateAccountRegistration } from 'src/account/saga'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { AppEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { pushNotificationsPermissionChanged } from 'src/app/actions'
 import { RemoteConfigValues } from 'src/app/saga'
 import {
@@ -181,7 +181,7 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
         permissionGranted = permissionStatus === firebase.messaging.AuthorizationStatus.AUTHORIZED
       }
 
-      ValoraAnalytics.track(AppEvents.push_notifications_permission_changed, {
+      AppAnalytics.track(AppEvents.push_notifications_permission_changed, {
         enabled: permissionGranted,
       })
       yield* put(pushNotificationsPermissionChanged(permissionGranted, true))
@@ -198,7 +198,7 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
     const pushNotificationsEnabled = authStatus !== firebase.messaging.AuthorizationStatus.DENIED
 
     if (lastKnownEnabledState !== pushNotificationsEnabled) {
-      ValoraAnalytics.track(AppEvents.push_notifications_permission_changed, {
+      AppAnalytics.track(AppEvents.push_notifications_permission_changed, {
         enabled: pushNotificationsEnabled,
       })
       yield* put(pushNotificationsPermissionChanged(pushNotificationsEnabled, false))

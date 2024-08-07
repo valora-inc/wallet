@@ -13,7 +13,7 @@ import { generateSecureRandom } from 'react-native-securerandom'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
 import { AuthenticationEvents, OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { getStoredMnemonic, storeMnemonic } from 'src/backup/utils'
 import i18n from 'src/i18n'
@@ -255,9 +255,9 @@ export async function getPassword(
       return password
     }
 
-    ValoraAnalytics.track(AuthenticationEvents.get_pincode_start)
+    AppAnalytics.track(AuthenticationEvents.get_pincode_start)
     const pin = await getPincode(withVerification)
-    ValoraAnalytics.track(AuthenticationEvents.get_pincode_complete)
+    AppAnalytics.track(AuthenticationEvents.get_pincode_complete)
     password = await getPasswordForPin(pin)
 
     if (storeHash) {
@@ -285,7 +285,7 @@ export function* getPasswordSaga(account: string, withVerification?: boolean, st
 
   if (pincodeType === PincodeType.Unset) {
     Logger.debug(TAG + '@getPincode', 'Pin has never been set')
-    ValoraAnalytics.track(OnboardingEvents.pin_never_set)
+    AppAnalytics.track(OnboardingEvents.pin_never_set)
     throw Error('Pin has never been set')
   }
 
@@ -319,7 +319,7 @@ export async function setPincodeWithBiometry() {
 
 export async function getPincodeWithBiometry() {
   try {
-    ValoraAnalytics.track(AuthenticationEvents.get_pincode_with_biometry_start)
+    AppAnalytics.track(AuthenticationEvents.get_pincode_with_biometry_start)
     const retrievedPin = await retrieveStoredItem(STORAGE_KEYS.PIN, {
       // only displayed on Android - would be displayed on iOS too if we allow
       // device pincode fallback
@@ -328,7 +328,7 @@ export async function getPincodeWithBiometry() {
       },
     })
     if (retrievedPin) {
-      ValoraAnalytics.track(AuthenticationEvents.get_pincode_with_biometry_complete)
+      AppAnalytics.track(AuthenticationEvents.get_pincode_with_biometry_complete)
       setCachedPin(DEFAULT_CACHE_ACCOUNT, retrievedPin)
       // allow native biometry verification animation to run fully
       await sleep(BIOMETRY_VERIFICATION_DELAY)
@@ -336,7 +336,7 @@ export async function getPincodeWithBiometry() {
     }
     throw new Error('Failed to retrieve pin with biometry, recieved null value')
   } catch (error) {
-    ValoraAnalytics.track(AuthenticationEvents.get_pincode_with_biometry_error)
+    AppAnalytics.track(AuthenticationEvents.get_pincode_with_biometry_error)
     Logger.warn(TAG, 'Failed to retrieve pin with biometry', error)
     throw error
   }

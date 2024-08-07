@@ -2,7 +2,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { PointsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import PointsHome from 'src/points/PointsHome'
@@ -124,7 +124,7 @@ describe(PointsHome, () => {
 
     fireEvent.press(getByTestId('PointsActivityButton'))
     await waitFor(() =>
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_activity_press)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_activity_press)
     )
     expect(store.getActions()).toEqual([getHistoryStarted({ getNextPage: false })])
   })
@@ -141,6 +141,15 @@ describe(PointsHome, () => {
 
     expect(queryByText('points.loading.title')).toBeFalsy()
     expect(queryByText('points.error.title')).toBeFalsy()
+  })
+
+  it('renders disclaimer cta and information', () => {
+    const { getByText } = renderPointsHome()
+
+    fireEvent.press(getByText('points.disclaimer.learnMoreCta'))
+
+    expect(AppAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_disclaimer_press)
+    expect(getByText('points.disclaimer.body')).toBeTruthy()
   })
 
   it('renders only the balance if there are no supported activities', async () => {
@@ -165,7 +174,7 @@ describe(PointsHome, () => {
     const { getByText } = renderPointsHome()
     fireEvent.press(getByText('points.activityCards.swap.title'))
     await waitFor(() =>
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_press, {
+      expect(AppAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_press, {
         activityId: 'swap',
       })
     )
@@ -175,14 +184,14 @@ describe(PointsHome, () => {
     const { getByText } = renderPointsHome()
     fireEvent.press(getByText('points.activityCards.swap.title'))
     await waitFor(() =>
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_press, {
+      expect(AppAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_press, {
         activityId: 'swap',
       })
     )
 
     fireEvent.press(getByText('points.activityCards.swap.bottomSheet.cta'))
     await waitFor(() => expect(navigate).toHaveBeenCalledWith(Screens.SwapScreenWithBack))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_cta_press, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_cta_press, {
       activityId: 'swap',
     })
   })

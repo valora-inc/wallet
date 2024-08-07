@@ -81,8 +81,7 @@ describe('Dapps saga', () => {
         categories: ['finance-tools'],
         description: 'Staking CELO made easy',
         id: 'churritofi',
-        logoUrl:
-          'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/churritofi.png',
+        logoUrl: 'https://raw.githubusercontent.com/dapp-list/main/assets/churritofi.png',
         name: 'ChurritoFi',
         url: 'https://churrito.fi',
       }
@@ -90,7 +89,7 @@ describe('Dapps saga', () => {
         categories: ['spend'],
         description: 'Book flights around the world with cUSD and cEUR',
         id: 'flywallet',
-        logoUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/flywallet.png',
+        logoUrl: 'https://raw.githubusercontent.com/dapp-list/main/assets/flywallet.png',
         name: 'Flywallet',
         url: 'https://pro.flywallet.io',
       }
@@ -134,8 +133,7 @@ describe('Dapps saga', () => {
                 categories: ['finance-tools'],
                 description: 'Staking CELO made easy',
                 id: 'churritofi',
-                iconUrl:
-                  'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/churritofi.png',
+                iconUrl: 'https://raw.githubusercontent.com/dapp-list/main/assets/churritofi.png',
                 name: 'ChurritoFi',
                 dappUrl: 'https://churrito.fi',
               },
@@ -143,8 +141,7 @@ describe('Dapps saga', () => {
                 categories: ['spend'],
                 description: 'Book flights around the world with cUSD and cEUR',
                 id: 'flywallet',
-                iconUrl:
-                  'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/flywallet.png',
+                iconUrl: 'https://raw.githubusercontent.com/dapp-list/main/assets/flywallet.png',
                 name: 'Flywallet',
                 dappUrl: 'https://pro.flywallet.io',
               },

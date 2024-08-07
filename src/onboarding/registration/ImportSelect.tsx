@@ -6,7 +6,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { cancelCreateOrRestoreAccount } from 'src/account/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Card from 'src/components/Card'
 import Touchable from 'src/components/Touchable'
 import CloudCheck from 'src/icons/CloudCheck'
@@ -59,7 +59,7 @@ export default function ImportSelect({ navigation }: Props) {
 
   const handleNavigateBack = () => {
     dispatch(cancelCreateOrRestoreAccount())
-    ValoraAnalytics.track(OnboardingEvents.restore_account_cancel)
+    AppAnalytics.track(OnboardingEvents.restore_account_cancel)
     navigateClearingStack(Screens.Welcome)
   }
 

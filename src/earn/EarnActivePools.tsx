@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { EarnEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Button, { BtnSizes, BtnTypes, TextSizes } from 'src/components/Button'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import { EarnTabType } from 'src/earn/types'
@@ -54,7 +54,7 @@ export default function EarnActivePools() {
         <View style={styles.buttonContainer}>
           <Button
             onPress={() => {
-              ValoraAnalytics.track(EarnEvents.earn_active_pools_cta_press, {
+              AppAnalytics.track(EarnEvents.earn_active_pools_cta_press, {
                 action: 'exploreOpenPools',
               })
               navigate(Screens.EarnHome, { activeEarnTab: EarnTabType.OpenPools })
@@ -67,7 +67,7 @@ export default function EarnActivePools() {
           />
           <Button
             onPress={() => {
-              ValoraAnalytics.track(EarnEvents.earn_active_pools_cta_press, {
+              AppAnalytics.track(EarnEvents.earn_active_pools_cta_press, {
                 action: 'myPools',
               })
               navigate(Screens.EarnHome, { activeEarnTab: EarnTabType.MyPools })

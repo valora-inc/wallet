@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect } from 'react'
 import { CoinbasePayEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import WebViewScreen from 'src/webview/WebViewScreen'
@@ -13,7 +13,7 @@ type Props = RouteProps
 function CoinbasePayScreen({ route, navigation }: Props) {
   useEffect(() => {
     navigation.addListener('beforeRemove', () => {
-      ValoraAnalytics.track(CoinbasePayEvents.coinbase_pay_flow_exit)
+      AppAnalytics.track(CoinbasePayEvents.coinbase_pay_flow_exit)
     })
   }, [])
   return <WebViewScreen {...{ route, navigation }} />

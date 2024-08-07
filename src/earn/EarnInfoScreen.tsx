@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { EarnEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { EARN_STABLECOINS_LEARN_MORE } from 'src/config'
 import { EarnTabType } from 'src/earn/types'
@@ -99,7 +99,7 @@ export default function EarnInfoScreen() {
       <View style={[styles.buttonContainer, insetsStyle]}>
         <Button
           onPress={() => {
-            ValoraAnalytics.track(EarnEvents.earn_info_learn_press)
+            AppAnalytics.track(EarnEvents.earn_info_learn_press)
             navigate(Screens.WebViewScreen, { uri: EARN_STABLECOINS_LEARN_MORE })
           }}
           text={t('earnFlow.earnInfo.action.learn')}
@@ -108,7 +108,7 @@ export default function EarnInfoScreen() {
         />
         <Button
           onPress={() => {
-            ValoraAnalytics.track(EarnEvents.earn_info_earn_press)
+            AppAnalytics.track(EarnEvents.earn_info_earn_press)
             showMultiplePools
               ? navigate(Screens.EarnHome, { activeEarnTab: EarnTabType.OpenPools })
               : navigate(Screens.EarnEnterAmount, { tokenId: networkConfig.arbUsdcTokenId })

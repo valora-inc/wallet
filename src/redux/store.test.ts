@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 221,
+          "version": 223,
         },
         "account": {
           "acceptedTerms": false,
@@ -262,12 +262,12 @@ describe('store state', () => {
           "reclaimStatus": "idle",
         },
         "keylessBackup": {
+          "appKeyshare": null,
           "auth0IdToken": null,
           "backupStatus": "NotStarted",
           "deleteBackupStatus": "NotStarted",
           "showDeleteBackupError": false,
           "torusKeyshare": null,
-          "valoraKeyshare": null,
         },
         "localCurrency": {
           "error": false,
@@ -307,6 +307,7 @@ describe('store state', () => {
           },
         },
         "positions": {
+          "earnPositionIds": [],
           "positions": [],
           "previewApiUrl": null,
           "shortcuts": [],
@@ -316,11 +317,11 @@ describe('store state', () => {
         },
         "priceHistory": {},
         "recipients": {
+          "appRecipientCache": {},
           "coinbasePaySenders": [],
           "inviteRewardsSenders": [],
           "phoneRecipientCache": {},
           "rewardsSenders": [],
-          "valoraRecipientCache": {},
         },
         "send": {
           "encryptedComment": null,

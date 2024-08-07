@@ -9,14 +9,17 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated'
 import { AssetsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { AssetsTokenBalance } from 'src/components/TokenBalance'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
-import { positionsSelector, positionsWithClaimableRewardsSelector } from 'src/positions/selectors'
+import {
+  positionsWithBalanceSelector,
+  positionsWithClaimableRewardsSelector,
+} from 'src/positions/selectors'
 import { useSelector } from 'src/redux/hooks'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -40,7 +43,7 @@ function TabWallet({ navigation, route }: Props) {
   const activeTab = route.params?.activeAssetTab ?? AssetTabType.Tokens
 
   // TODO: Update this to filter out unsupported networks once positions support non-Celo chains
-  const positions = useSelector(positionsSelector)
+  const positions = useSelector(positionsWithBalanceSelector)
   const showPositions = getFeatureGate(StatsigFeatureGates.SHOW_POSITIONS)
   const displayPositions = showPositions && positions.length > 0
 
@@ -184,7 +187,7 @@ function TabWallet({ navigation, route }: Props) {
             size={BtnSizes.FULL}
             text={t('assets.claimRewards')}
             onPress={() => {
-              ValoraAnalytics.track(AssetsEvents.tap_claim_rewards)
+              AppAnalytics.track(AssetsEvents.tap_claim_rewards)
               navigate(Screens.DappShortcutsRewards)
             }}
           />

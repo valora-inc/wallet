@@ -4,7 +4,7 @@ import * as React from 'react'
 import { Share } from 'react-native'
 import { Provider } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import EscrowedPaymentListItem from 'src/escrow/EscrowedPaymentListItem'
 import { NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import { WEI_PER_TOKEN } from 'src/web3/consts'
@@ -14,7 +14,7 @@ import { mockCeurAddress, mockEscrowedPayment } from 'test/values'
 const store = createMockStore()
 Share.share = jest.fn()
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 
 describe('EscrowedPaymentReminderNotification', () => {
   beforeEach(() => {
@@ -79,8 +79,8 @@ describe('EscrowedPaymentReminderNotification', () => {
 
     fireEvent.press(getByText('remind'))
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(AppAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
       notificationType: NotificationType.escrow_tx_pending,
       notificationId: `${NotificationType.escrow_tx_pending}/0x0000000000000000000000000000000000007E57`,
       selectedAction: NotificationBannerCTATypes.remind,
@@ -97,8 +97,8 @@ describe('EscrowedPaymentReminderNotification', () => {
 
     fireEvent.press(getByText('reclaim'))
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(AppAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
       notificationType: NotificationType.escrow_tx_pending,
       notificationId: `${NotificationType.escrow_tx_pending}/0x0000000000000000000000000000000000007E57`,
       selectedAction: NotificationBannerCTATypes.reclaim,

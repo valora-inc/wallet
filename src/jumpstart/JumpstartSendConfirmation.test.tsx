@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { JumpstartEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import JumpstartSendConfirmation from 'src/jumpstart/JumpstartSendConfirmation'
 import { depositErrorDismissed, depositTransactionStarted } from 'src/jumpstart/slice'
 import { navigate } from 'src/navigator/NavigationService'
@@ -80,7 +80,7 @@ describe('JumpstartSendConfirmation', () => {
 
     fireEvent.press(getByText('jumpstartSendConfirmationScreen.confirmButton'))
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_send_confirm, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_send_confirm, {
       amountInUsd: '12.36',
       localCurrency: 'PHP',
       localCurrencyExchangeRate: '1.33',

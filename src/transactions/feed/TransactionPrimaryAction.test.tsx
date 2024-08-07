@@ -1,11 +1,11 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { TransactionDetailsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import TransactionPrimaryAction from './TransactionPrimaryAction'
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 
 describe('TransactionPrimaryAction', () => {
   it.each([
@@ -53,7 +53,7 @@ describe('TransactionPrimaryAction', () => {
         />
       )
       fireEvent.press(getByTestId('test-primary-action'))
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(expectedEvent, {
+      expect(AppAnalytics.track).toHaveBeenCalledWith(expectedEvent, {
         transactionType: TokenTransactionTypeV2.SwapTransaction,
         transactionStatus: status,
       })

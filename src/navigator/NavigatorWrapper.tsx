@@ -8,7 +8,7 @@ import { StyleSheet, View } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import ShakeForSupport from 'src/account/ShakeForSupport'
 import AlertBanner from 'src/alert/AlertBanner'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import UpgradeScreen from 'src/app/UpgradeScreen'
 import { activeScreenChanged } from 'src/app/actions'
 import { getAppLocked } from 'src/app/selectors'
@@ -139,7 +139,7 @@ export const NavigatorWrapper = () => {
     const currentRouteName = getActiveRouteName(state)
 
     if (previousRouteName !== currentRouteName) {
-      ValoraAnalytics.page(currentRouteName, {
+      AppAnalytics.page(currentRouteName, {
         previousScreen: previousRouteName,
         currentScreen: currentRouteName,
       })

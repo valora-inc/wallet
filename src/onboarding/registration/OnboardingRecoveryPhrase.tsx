@@ -6,7 +6,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { recoveryPhraseInOnboardingCompleted } from 'src/account/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BackupPhraseContainer, {
   BackupPhraseContainerMode,
   BackupPhraseType,
@@ -67,20 +67,20 @@ function OnboardingRecoveryPhrase({ navigation, route }: Props) {
   }, [navigation, step, totalSteps])
 
   const onPressHelp = () => {
-    ValoraAnalytics.track(OnboardingEvents.protect_wallet_help)
+    AppAnalytics.track(OnboardingEvents.protect_wallet_help)
     setShowBottomSheet(true)
   }
   const onPressDismissBottomSheet = () => {
-    ValoraAnalytics.track(OnboardingEvents.protect_wallet_help_dismiss)
+    AppAnalytics.track(OnboardingEvents.protect_wallet_help_dismiss)
     setShowBottomSheet(false)
   }
   const onPressCopy = () => {
-    ValoraAnalytics.track(OnboardingEvents.protect_wallet_copy_phrase)
+    AppAnalytics.track(OnboardingEvents.protect_wallet_copy_phrase)
     Clipboard.setString(accountKey ?? '')
     Logger.showMessage(t('recoveryPhrase.mnemonicCopied'))
   }
   const onPressContinue = () => {
-    ValoraAnalytics.track(OnboardingEvents.protect_wallet_complete)
+    AppAnalytics.track(OnboardingEvents.protect_wallet_complete)
     dispatch(recoveryPhraseInOnboardingCompleted())
     goToNextOnboardingScreen({ firstScreenInCurrentStep: Screens.ProtectWallet, onboardingProps })
   }

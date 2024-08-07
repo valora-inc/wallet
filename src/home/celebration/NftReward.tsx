@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { HomeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { openDeepLink } from 'src/app/actions'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
 import BottomSheetBase from 'src/components/BottomSheetBase'
@@ -78,7 +78,7 @@ export default function NftRewardBottomSheet() {
 
     if (index === -1) {
       if (!rewardAccepted) {
-        ValoraAnalytics.track(HomeEvents.nft_reward_dismiss, {
+        AppAnalytics.track(HomeEvents.nft_reward_dismiss, {
           networkId: nftCelebration.networkId,
           contractAddress: nftCelebration.contractAddress,
           remainingDays: differenceInDays(rewardExpirationDate, Date.now()),
@@ -94,7 +94,7 @@ export default function NftRewardBottomSheet() {
       return // This should never happen
     }
 
-    ValoraAnalytics.track(HomeEvents.nft_reward_accept, {
+    AppAnalytics.track(HomeEvents.nft_reward_accept, {
       networkId: nftCelebration.networkId,
       contractAddress: nftCelebration.contractAddress,
       remainingDays: differenceInDays(rewardExpirationDate, Date.now()),

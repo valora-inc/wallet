@@ -12,7 +12,7 @@ import { PERMISSIONS, RESULTS, check } from 'react-native-permissions'
 import Animated, { call, greaterThan, onChange } from 'react-native-reanimated'
 import { ScrollPager } from 'react-native-tab-view'
 import { QrScreenEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { QRTabParamList, StackParamList } from 'src/navigator/types'
@@ -40,7 +40,7 @@ type AnimatedScannerSceneProps = NativeStackScreenProps<QRTabParamList, Screens.
 
 export function QRCodePicker({ route, qrSvgRef, ...props }: QRCodeProps) {
   const onPressCopy = () => {
-    ValoraAnalytics.track(QrScreenEvents.qr_screen_copy_address)
+    AppAnalytics.track(QrScreenEvents.qr_screen_copy_address)
   }
   return <QRCode {...props} qrSvgRef={qrSvgRef} onPressCopy={onPressCopy} />
 }

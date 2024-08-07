@@ -12,7 +12,7 @@ import {
 } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { AssetsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { hideWalletBalancesSelector } from 'src/app/selectors'
 import Touchable from 'src/components/Touchable'
 import CircledIcon from 'src/icons/CircledIcon'
@@ -29,7 +29,7 @@ import {
 } from 'src/nfts/selectors'
 import { fetchNfts } from 'src/nfts/slice'
 import { NftOrigin, NftWithNetworkId } from 'src/nfts/types'
-import { positionsSelector } from 'src/positions/selectors'
+import { positionsWithBalanceSelector } from 'src/positions/selectors'
 import { Position } from 'src/positions/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { getFeatureGate } from 'src/statsig'
@@ -97,7 +97,7 @@ export default function AssetList({
 
   const hideWalletBalances = useSelector(hideWalletBalancesSelector)
 
-  const positions = useSelector(positionsSelector)
+  const positions = useSelector(positionsWithBalanceSelector)
   const positionSections = useMemo(() => {
     const positionsByDapp = new Map<string, Position[]>()
     positions.forEach((position) => {
@@ -228,7 +228,7 @@ export default function AssetList({
           token={item}
           onPress={() => {
             navigate(Screens.TokenDetails, { tokenId: item.tokenId })
-            ValoraAnalytics.track(AssetsEvents.tap_asset, {
+            AppAnalytics.track(AssetsEvents.tap_asset, {
               ...getTokenAnalyticsProps(item),
               title: item.symbol,
               description: item.name,
@@ -302,7 +302,7 @@ function ImportTokensItem() {
     <Touchable
       testID="AssetList/ImportTokens"
       onPress={() => {
-        ValoraAnalytics.track(AssetsEvents.import_token_screen_open)
+        AppAnalytics.track(AssetsEvents.import_token_screen_open)
         navigate(Screens.TokenImport)
       }}
     >

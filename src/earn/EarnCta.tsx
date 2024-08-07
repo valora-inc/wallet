@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { EarnEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import { PROVIDER_ID } from 'src/earn/constants'
@@ -45,7 +45,7 @@ export default function EarnCta({ depositTokenId }: { depositTokenId: string }) 
         borderRadius={8}
         style={styles.touchable}
         onPress={() => {
-          ValoraAnalytics.track(EarnEvents.earn_cta_press, {
+          AppAnalytics.track(EarnEvents.earn_cta_press, {
             depositTokenId,
             providerId: PROVIDER_ID,
             networkId: depositToken.networkId,

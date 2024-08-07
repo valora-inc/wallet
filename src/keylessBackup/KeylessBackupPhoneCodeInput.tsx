@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { KeylessBackupEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import TextButton from 'src/components/TextButton'
@@ -36,7 +36,7 @@ function HelpInfoBottomSheet({
   const { t } = useTranslation()
 
   const onGoBack = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help_go_back, {
+    AppAnalytics.track(KeylessBackupEvents.cab_phone_verification_help_go_back, {
       keylessBackupFlow,
       origin,
     })
@@ -44,7 +44,7 @@ function HelpInfoBottomSheet({
   }
 
   const onSkip = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help_skip, {
+    AppAnalytics.track(KeylessBackupEvents.cab_phone_verification_help_skip, {
       keylessBackupFlow,
       origin,
     })
@@ -52,7 +52,7 @@ function HelpInfoBottomSheet({
   }
 
   const onUseRecoveryPhrase = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help_use_phrase, {
+    AppAnalytics.track(KeylessBackupEvents.cab_phone_verification_help_use_phrase, {
       keylessBackupFlow,
       origin,
     })
@@ -125,7 +125,7 @@ function KeylessBackupPhoneCodeInput({
   const bottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const onPressHelp = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help, {
+    AppAnalytics.track(KeylessBackupEvents.cab_phone_verification_help, {
       keylessBackupFlow,
       origin,
     })

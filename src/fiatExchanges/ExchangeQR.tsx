@@ -2,7 +2,7 @@ import { RouteProp } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useLayoutEffect, useRef } from 'react'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BackButton from 'src/components/BackButton'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import i18n from 'src/i18n'
@@ -24,32 +24,32 @@ export default function ExchangeQR({ route, navigation }: Props) {
   const dispatch = useDispatch()
 
   const onPressShare = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_exchange_qr_share, {
+    AppAnalytics.track(FiatExchangeEvents.cico_exchange_qr_share, {
       flow,
     })
     dispatch(shareQRCode(qrSvgRef.current))
   }
 
   const onCloseBottomSheet = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_exchange_qr_bottom_sheet_close, {
+    AppAnalytics.track(FiatExchangeEvents.cico_exchange_qr_bottom_sheet_close, {
       flow,
     })
   }
 
   const onPressCopy = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_exchange_qr_copy_address, {
+    AppAnalytics.track(FiatExchangeEvents.cico_exchange_qr_copy_address, {
       flow,
     })
   }
 
   const onPressInfo = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_exchange_qr_bottom_sheet_open, {
+    AppAnalytics.track(FiatExchangeEvents.cico_exchange_qr_bottom_sheet_open, {
       flow,
     })
   }
 
   const onPressExchange = (exchange: ExternalExchangeProvider) => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_exchange_qr_bottom_sheet_link_press, {
+    AppAnalytics.track(FiatExchangeEvents.cico_exchange_qr_bottom_sheet_link_press, {
       flow,
       exchange: exchange.name,
     })

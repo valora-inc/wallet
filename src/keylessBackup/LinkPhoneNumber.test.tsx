@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import LinkPhoneNumber from 'src/keylessBackup/LinkPhoneNumber'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -11,7 +11,7 @@ import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockOnboardingProps } from 'test/values'
 
 jest.mock('src/navigator/NavigationService')
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 
 const mockOnboardingPropsSelector = jest.fn(() => mockOnboardingProps)
 jest.mock('src/onboarding/steps', () => ({
@@ -36,7 +36,7 @@ describe('LinkPhoneNumber', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen, {
       hasOnboarded: false,
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.link_phone_number)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.link_phone_number)
   })
 
   it('navigates to home on later', async () => {
@@ -55,6 +55,6 @@ describe('LinkPhoneNumber', () => {
     expect(store.getActions()).toEqual([
       { type: 'IDENTITY/SET_SEEN_VERIFICATION_NUX', status: true },
     ])
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.link_phone_number_later)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.link_phone_number_later)
   })
 })

@@ -4,7 +4,7 @@ import { Alert, Platform } from 'react-native'
 import Toast from 'react-native-simple-toast'
 import { showError } from 'src/alert/actions'
 import { BuilderHooksEvents, DappShortcutsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import i18n from 'src/i18n'
@@ -38,7 +38,6 @@ import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { fetchTokenBalances } from 'src/tokens/slice'
-import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
@@ -49,47 +48,74 @@ import { call, put, select, spawn, takeEvery, takeLeading } from 'typed-redux-sa
 
 const TAG = 'positions/saga'
 
-const POSITIONS_FETCH_TIMEOUT = 45_000 // 45 seconds
+const HOOKS_FETCH_TIMEOUT = 45_000 // 45 seconds
 
 function getHooksApiFunctionUrl(
   hooksApiUrl: string,
-  functionName: 'getPositions' | 'v2/getShortcuts' | 'triggerShortcut'
+  functionName: 'getPositions' | 'getEarnPositions' | 'v2/getShortcuts' | 'triggerShortcut'
 ) {
   const url = new URL(hooksApiUrl)
   url.pathname = path.join(url.pathname, functionName)
-  return url.toString()
+  return url
 }
 
-async function fetchHooks(
-  hooksApiUrl: string,
-  functionName: 'getPositions' | 'v2/getShortcuts',
-  walletAddress: string,
-  networkIds: NetworkId[]
+async function fetchHooks<T>(
+  url: string,
+  options: RequestInit | null = null,
+  duration: number = HOOKS_FETCH_TIMEOUT
 ) {
-  const urlSearchParams = new URLSearchParams({
-    address: walletAddress,
-  })
-  networkIds.forEach((networkId) => urlSearchParams.append('networkIds', networkId))
-  const response = await fetchWithTimeout(
-    `${getHooksApiFunctionUrl(hooksApiUrl, functionName)}?` + urlSearchParams,
-    null,
-    POSITIONS_FETCH_TIMEOUT
-  )
+  const response = await fetchWithTimeout(url, options, duration)
   if (!response.ok) {
-    throw new Error(`Unable to fetch ${functionName}: ${response.status} ${response.statusText}`)
+    throw new Error(`Unable to fetch ${url}: ${response.status} ${response.statusText}`)
   }
   const json = await response.json()
-  return json.data
+  return json.data as T
 }
 
 async function fetchPositions(hooksApiUrl: string, walletAddress: string) {
   const networkIds = getMultichainFeatures().showPositions
-  return (await fetchHooks(hooksApiUrl, 'getPositions', walletAddress, networkIds)) as Position[]
+
+  const getPositionsUrl = getHooksApiFunctionUrl(hooksApiUrl, 'getPositions')
+  getPositionsUrl.searchParams.set('address', walletAddress)
+  networkIds.forEach((networkId) => getPositionsUrl.searchParams.append('networkIds', networkId))
+
+  const getEarnPositionsUrl = getHooksApiFunctionUrl(hooksApiUrl, 'getEarnPositions')
+  networkIds.forEach((networkId) =>
+    getEarnPositionsUrl.searchParams.append('networkIds', networkId)
+  )
+
+  const [walletPositions, earnPositions] = await Promise.all([
+    fetchHooks<Position[]>(getPositionsUrl.toString()),
+    fetchHooks<Position[]>(getEarnPositionsUrl.toString()),
+  ])
+
+  const positionIds = new Set()
+  const positions: Position[] = []
+
+  // Dedupe positions, so that earn positions already held by the user
+  // aren't shown twice
+  for (const position of [...walletPositions, ...earnPositions]) {
+    if (positionIds.has(position.positionId)) {
+      continue
+    }
+    positionIds.add(position.positionId)
+    positions.push(position)
+  }
+
+  return {
+    positions,
+    earnPositionIds: earnPositions.map((position) => position.positionId),
+  }
 }
 
 async function fetchShortcuts(hooksApiUrl: string, walletAddress: string) {
   const networkIds = getMultichainFeatures().showShortcuts
-  return (await fetchHooks(hooksApiUrl, 'v2/getShortcuts', walletAddress, networkIds)) as Shortcut[]
+
+  const url = getHooksApiFunctionUrl(hooksApiUrl, 'v2/getShortcuts')
+  url.searchParams.set('address', walletAddress)
+  networkIds.forEach((networkId) => url.searchParams.append('networkIds', networkId))
+
+  return await fetchHooks<Shortcut[]>(url.toString())
 }
 
 export function* fetchShortcutsSaga() {
@@ -136,9 +162,9 @@ export function* fetchPositionsSaga() {
     yield* put(fetchPositionsStart())
     SentryTransactionHub.startTransaction(SentryTransaction.fetch_positions)
     const hooksApiUrl = yield* select(hooksApiUrlSelector)
-    const positions = yield* call(fetchPositions, hooksApiUrl, address)
+    const { positions, earnPositionIds } = yield* call(fetchPositions, hooksApiUrl, address)
     SentryTransactionHub.finishTransaction(SentryTransaction.fetch_positions)
-    yield* put(fetchPositionsSuccess({ positions, fetchedAt: Date.now() }))
+    yield* put(fetchPositionsSuccess({ positions, earnPositionIds, fetchedAt: Date.now() }))
   } catch (err) {
     const error = ensureError(err)
     yield* put(fetchPositionsFailure(error))
@@ -175,7 +201,7 @@ export function* handleEnableHooksPreviewDeepLink(
   deeplink: string,
   origin: HooksEnablePreviewOrigin
 ) {
-  ValoraAnalytics.track(BuilderHooksEvents.hooks_enable_preview_propose, { origin })
+  AppAnalytics.track(BuilderHooksEvents.hooks_enable_preview_propose, { origin })
   let hooksPreviewApiUrl: string | null = null
   try {
     hooksPreviewApiUrl = new URL(deeplink).searchParams.get('hooksApiUrl')
@@ -193,7 +219,7 @@ export function* handleEnableHooksPreviewDeepLink(
   } catch (err) {
     const error = ensureError(err)
     Logger.warn(TAG, 'Unable to parse hooks preview deeplink', error)
-    ValoraAnalytics.track(BuilderHooksEvents.hooks_enable_preview_error, {
+    AppAnalytics.track(BuilderHooksEvents.hooks_enable_preview_error, {
       error: error?.message || error?.toString(),
     })
   }
@@ -205,11 +231,11 @@ export function* handleEnableHooksPreviewDeepLink(
 
   const confirm = yield* call(confirmEnableHooksPreview)
   if (confirm) {
-    ValoraAnalytics.track(BuilderHooksEvents.hooks_enable_preview_confirm)
+    AppAnalytics.track(BuilderHooksEvents.hooks_enable_preview_confirm)
     Logger.info(TAG, `Enabling hooks preview mode with API URL: ${hooksPreviewApiUrl}`)
     yield* put(previewModeEnabled(hooksPreviewApiUrl))
   } else {
-    ValoraAnalytics.track(BuilderHooksEvents.hooks_enable_preview_cancel)
+    AppAnalytics.track(BuilderHooksEvents.hooks_enable_preview_cancel)
   }
 }
 
@@ -221,7 +247,7 @@ export function* triggerShortcutSaga({ payload }: ReturnType<typeof triggerShort
   try {
     const response = yield* call(
       fetchWithTimeout,
-      getHooksApiFunctionUrl(hooksApiUrl, 'triggerShortcut'),
+      getHooksApiFunctionUrl(hooksApiUrl, 'triggerShortcut').toString(),
       {
         method: 'POST',
         headers: {
@@ -278,7 +304,7 @@ export function* executeShortcutSaga({
       Toast.BOTTOM
     )
 
-    ValoraAnalytics.track(
+    AppAnalytics.track(
       DappShortcutsEvents.dapp_shortcuts_reward_claim_success,
       trackedShortcutProperties
     )
@@ -287,7 +313,7 @@ export function* executeShortcutSaga({
     // TODO customise error message when there are more shortcut types
     yield* put(showError(ErrorMessages.SHORTCUT_CLAIM_REWARD_FAILED))
     Logger.warn(`${TAG}/executeShortcutSaga`, 'Failed to claim reward', error)
-    ValoraAnalytics.track(
+    AppAnalytics.track(
       DappShortcutsEvents.dapp_shortcuts_reward_claim_error,
       trackedShortcutProperties
     )

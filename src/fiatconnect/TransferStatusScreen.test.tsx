@@ -4,7 +4,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { act } from 'react-test-renderer'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { SettlementEstimation, SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import { CICOFlow } from 'src/fiatExchanges/utils'
@@ -18,7 +18,7 @@ import networkConfig, { blockExplorerUrls } from 'src/web3/networkConfig'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockCusdTokenId, mockFiatConnectQuotes } from 'test/values'
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 
 const mockTxHash = '0xc7a9b0f4354e6279cb476d4c91d5bbc5db6ad29aa8611408de7aee6d2e7fe7c72'
 const mockAddress = '0x123'
@@ -94,8 +94,8 @@ describe('TransferStatusScreen', () => {
       expect(queryByTestId('Continue')).toBeTruthy()
       fireEvent.press(getByTestId('Continue'))
       expect(navigateHome).toHaveBeenCalledWith()
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_fc_transfer_success_complete,
         {
           provider: 'provider-two',
@@ -157,8 +157,8 @@ describe('TransferStatusScreen', () => {
           blockExplorerUrls[networkConfig.defaultNetworkId].baseTxUrl
         ).toString(),
       })
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_fc_transfer_success_view_tx,
         {
           provider: 'provider-two',
@@ -177,8 +177,8 @@ describe('TransferStatusScreen', () => {
       expect(queryByTestId('Continue')).toBeTruthy()
       fireEvent.press(getByTestId('Continue'))
       expect(navigateHome).toHaveBeenCalledWith()
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_fc_transfer_success_complete,
         {
           provider: 'provider-two',
@@ -204,8 +204,8 @@ describe('TransferStatusScreen', () => {
       expect(queryByTestId('Continue')).toBeTruthy()
       fireEvent.press(getByTestId('Continue'))
       expect(navigateHome).toHaveBeenCalledWith()
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_fc_transfer_processing_continue,
         {
           provider: 'provider-two',
@@ -232,8 +232,8 @@ describe('TransferStatusScreen', () => {
           blockExplorerUrls[networkConfig.defaultNetworkId].baseAddressUrl
         ).toString(),
       })
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_fc_transfer_processing_view_tx,
         {
           provider: 'provider-two',
@@ -252,8 +252,8 @@ describe('TransferStatusScreen', () => {
       expect(queryByTestId('Continue')).toBeTruthy()
       fireEvent.press(getByTestId('Continue'))
       expect(navigateHome).toHaveBeenCalledWith()
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_fc_transfer_processing_continue,
         {
           provider: 'provider-two',
@@ -294,8 +294,8 @@ describe('TransferStatusScreen', () => {
       expect(getByText(`fiatConnectStatusScreen.${header}.cancel`)).toBeTruthy()
       fireEvent.press(getByTestId('Cancel'))
       expect(navigateHome).toHaveBeenCalledWith()
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_fc_transfer_error_cancel,
         {
           provider: 'provider-two',
@@ -325,8 +325,8 @@ describe('TransferStatusScreen', () => {
         normalizedQuote: getQuote(CICOFlow.CashOut),
         shouldRefetchQuote: true,
       })
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_fc_transfer_error_retry,
         {
           provider: 'provider-two',
@@ -351,8 +351,8 @@ describe('TransferStatusScreen', () => {
         expect(navigate).toHaveBeenCalledWith(Screens.SupportContact, {
           prefilledText: `fiatConnectStatusScreen.${text}.contactSupportPrefill`,
         })
-        expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-        expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+        expect(AppAnalytics.track).toHaveBeenCalledWith(
           FiatExchangeEvents.cico_fc_transfer_error_contact_support,
           {
             provider: 'provider-two',

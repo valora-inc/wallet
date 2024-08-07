@@ -3,7 +3,7 @@ import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { KeylessBackupEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CancelButton from 'src/components/CancelButton'
@@ -21,7 +21,7 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 function onPressRecoveryPhrase() {
-  ValoraAnalytics.track(KeylessBackupEvents.cab_setup_recovery_phrase)
+  AppAnalytics.track(KeylessBackupEvents.cab_setup_recovery_phrase)
   navigate(Screens.BackupIntroduction)
 }
 
@@ -83,7 +83,7 @@ function KeylessBackupIntro({ route }: Props) {
       <Button
         testID="keylessBackupIntro/Continue"
         onPress={() => {
-          ValoraAnalytics.track(KeylessBackupEvents.cab_intro_continue, {
+          AppAnalytics.track(KeylessBackupEvents.cab_intro_continue, {
             keylessBackupFlow,
             origin: KeylessBackupOrigin.Settings,
           })

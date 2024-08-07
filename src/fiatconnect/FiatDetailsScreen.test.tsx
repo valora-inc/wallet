@@ -5,7 +5,7 @@ import _ from 'lodash'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
@@ -23,7 +23,7 @@ import {
 import FiatDetailsScreen from './FiatDetailsScreen'
 
 jest.mock('src/alert/actions')
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 
 jest.mock('src/utils/Logger', () => ({
   __esModule: true,
@@ -182,14 +182,11 @@ describe('FiatDetailsScreen', () => {
 
     fireEvent.press(getByText('cancel'))
     expect(navigateHome).toHaveBeenCalled()
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      FiatExchangeEvents.cico_fiat_details_cancel,
-      {
-        flow: mockScreenPropsWithAllowedValues.route.params.flow,
-        provider: quoteWithAllowedValues.getProviderId(),
-        fiatAccountSchema: quoteWithAllowedValues.getFiatAccountSchema(),
-      }
-    )
+    expect(AppAnalytics.track).toHaveBeenCalledWith(FiatExchangeEvents.cico_fiat_details_cancel, {
+      flow: mockScreenPropsWithAllowedValues.route.params.flow,
+      provider: quoteWithAllowedValues.getProviderId(),
+      fiatAccountSchema: quoteWithAllowedValues.getFiatAccountSchema(),
+    })
   })
   it('back button navigates back and fires analytics event', () => {
     let headerLeft: React.ReactNode
@@ -208,7 +205,7 @@ describe('FiatDetailsScreen', () => {
     expect(getByTestId('backButton')).toBeTruthy()
     fireEvent.press(getByTestId('backButton'))
     expect(navigateBack).toHaveBeenCalledWith()
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(FiatExchangeEvents.cico_fiat_details_back, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(FiatExchangeEvents.cico_fiat_details_back, {
       flow: mockScreenPropsWithAllowedValues.route.params.flow,
       provider: quoteWithAllowedValues.getProviderId(),
       fiatAccountSchema: quoteWithAllowedValues.getFiatAccountSchema(),

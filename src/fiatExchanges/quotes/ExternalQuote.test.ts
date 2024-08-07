@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import ExternalQuote from 'src/fiatExchanges/quotes/ExternalQuote'
 import { SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import { CICOFlow, PaymentMethod, RawProviderQuote, SimplexQuote } from 'src/fiatExchanges/utils'
@@ -14,7 +14,7 @@ import {
   mockProviders,
 } from 'test/values'
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 
 const mockUsdToLocalRate = '2'
 
@@ -197,7 +197,7 @@ describe('ExternalQuote', () => {
   })
 
   describe('.onPress', () => {
-    it('returns a function that calls ValoraAnalytics', () => {
+    it('returns a function that calls AppAnalytics', () => {
       const quote = new ExternalQuote({
         quote: mockProviders[0].quote as SimplexQuote,
         provider: mockProviders[0],
@@ -210,7 +210,7 @@ describe('ExternalQuote', () => {
         mockProviderSelectionAnalyticsData,
         null
       )()
-      expect(ValoraAnalytics.track).toHaveBeenCalled()
+      expect(AppAnalytics.track).toHaveBeenCalled()
     })
   })
 

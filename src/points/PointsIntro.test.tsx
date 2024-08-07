@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { PointsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { Screens } from 'src/navigator/Screens'
 import PointsIntro from 'src/points/PointsIntro'
 import { pointsIntroDismissed } from 'src/points/slice'
@@ -11,7 +11,7 @@ import { RootState } from 'src/redux/store'
 import MockedNavigator from 'test/MockedNavigator'
 import { RecursivePartial, createMockStore, getMockStackScreenProps } from 'test/utils'
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 
 const mockScreenProps = () => getMockStackScreenProps(Screens.PointsIntro)
 
@@ -53,7 +53,7 @@ describe(PointsIntro, () => {
     const { getByText } = renderPointsIntro()
 
     fireEvent.press(getByText('points.intro.cta'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_intro_dismiss)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_intro_dismiss)
   })
 
   it('tracks analytics event when navigated back', () => {
@@ -61,7 +61,7 @@ describe(PointsIntro, () => {
 
     fireEvent.press(getByTestId('BackChevron'))
     waitFor(() => {
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_intro_back)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_intro_back)
     })
   })
 })

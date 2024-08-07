@@ -2,7 +2,7 @@ import { act, fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { EarnEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import EarnCta from 'src/earn/EarnCta'
 import { fetchPoolInfo } from 'src/earn/slice'
 import { navigate } from 'src/navigator/NavigationService'
@@ -60,7 +60,7 @@ describe('EarnCta', () => {
     )
 
     await act(() => fireEvent.press(getByTestId('EarnCta')))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_cta_press, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_cta_press, {
       depositTokenId: mockArbUsdcTokenId,
       providerId: 'aave-v3',
       networkId: NetworkId['arbitrum-sepolia'],

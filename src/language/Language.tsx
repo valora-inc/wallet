@@ -5,14 +5,14 @@ import { useTranslation } from 'react-i18next'
 import { FlatList, ListRenderItemInfo, ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { SettingsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import SelectionOption from 'src/components/SelectionOption'
 import useChangeLanguage from 'src/i18n/useChangeLanguage'
 import { emptyHeader, headerWithBackButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 type ScreenProps = NativeStackScreenProps<StackParamList, Screens.Language | Screens.LanguageModal>
 type Props = ScreenProps
@@ -39,7 +39,7 @@ function LanguageScreen({ route }: Props) {
       navigate(nextScreen || Screens.Welcome)
     })
 
-    ValoraAnalytics.track(SettingsEvents.language_select, { language: code })
+    AppAnalytics.track(SettingsEvents.language_select, { language: code })
   }
 
   const renderItem = ({ item: language }: ListRenderItemInfo<Language>) => {
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    ...fontStyles.h2,
+    ...typeScale.titleMedium,
     margin: 16,
   },
 })

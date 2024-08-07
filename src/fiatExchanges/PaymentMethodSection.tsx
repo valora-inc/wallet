@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Image, LayoutAnimation, StyleSheet, Text, View } from 'react-native'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Dialog from 'src/components/Dialog'
 import Expandable from 'src/components/Expandable'
 import Touchable from 'src/components/Touchable'
@@ -63,7 +63,7 @@ export function PaymentMethodSection({
 
   useEffect(() => {
     if (sectionQuotes.length) {
-      ValoraAnalytics.track(FiatExchangeEvents.cico_providers_section_impression, {
+      AppAnalytics.track(FiatExchangeEvents.cico_providers_section_impression, {
         flow,
         paymentMethod,
         quoteCount: sectionQuotes.length,
@@ -74,12 +74,12 @@ export function PaymentMethodSection({
 
   const toggleExpanded = () => {
     if (expanded) {
-      ValoraAnalytics.track(FiatExchangeEvents.cico_providers_section_collapse, {
+      AppAnalytics.track(FiatExchangeEvents.cico_providers_section_collapse, {
         flow,
         paymentMethod,
       })
     } else {
-      ValoraAnalytics.track(FiatExchangeEvents.cico_providers_section_expand, {
+      AppAnalytics.track(FiatExchangeEvents.cico_providers_section_expand, {
         flow,
         paymentMethod,
       })
@@ -136,7 +136,7 @@ export function PaymentMethodSection({
           testID={`newLabel-${quote.getProviderName()}`}
           style={styles.newLabelContainer}
           onPress={() => {
-            ValoraAnalytics.track(FiatExchangeEvents.cico_providers_new_info_opened, {
+            AppAnalytics.track(FiatExchangeEvents.cico_providers_new_info_opened, {
               flow,
               provider: quote.getProviderId(),
               paymentMethod,

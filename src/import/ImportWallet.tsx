@@ -10,7 +10,7 @@ import { cancelCreateOrRestoreAccount } from 'src/account/actions'
 import { accountToRecoverSelector, recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import {
   countMnemonicWords,
   formatBackupPhraseOnEdit,
@@ -84,7 +84,7 @@ function ImportWallet({ navigation, route }: Props) {
       dispatch(cancelCreateOrRestoreAccount())
       navigateClearingStack(Screens.Welcome)
     }
-    ValoraAnalytics.track(OnboardingEvents.restore_account_cancel)
+    AppAnalytics.track(OnboardingEvents.restore_account_cancel)
   }
 
   useBackHandler(() => {
@@ -110,7 +110,7 @@ function ImportWallet({ navigation, route }: Props) {
   }, [navigation])
 
   useEffect(() => {
-    ValoraAnalytics.track(OnboardingEvents.wallet_import_start)
+    AppAnalytics.track(OnboardingEvents.wallet_import_start)
     navigation.addListener('focus', checkCleanBackupPhrase)
 
     if (isRecoveringFromStoreWipe) {
@@ -144,7 +144,7 @@ function ImportWallet({ navigation, route }: Props) {
     const currentWordCount = countMnemonicWords(backupPhrase)
     const updatedWordCount = countMnemonicWords(updatedPhrase)
     if (updatedWordCount !== currentWordCount) {
-      ValoraAnalytics.track(OnboardingEvents.wallet_import_phrase_updated, {
+      AppAnalytics.track(OnboardingEvents.wallet_import_phrase_updated, {
         wordCount: updatedWordCount,
         wordCountChange: updatedWordCount - currentWordCount,
       })
@@ -167,7 +167,7 @@ function ImportWallet({ navigation, route }: Props) {
 
     navigation.setParams({ showZeroBalanceModal: false })
 
-    ValoraAnalytics.track(OnboardingEvents.wallet_import_submit, {
+    AppAnalytics.track(OnboardingEvents.wallet_import_submit, {
       useEmptyWallet,
       recoveryPhraseWordCount: countMnemonicWords(formattedPhrase),
     })
@@ -182,7 +182,7 @@ function ImportWallet({ navigation, route }: Props) {
     // Return the user to the import screen without clearing out their key.
     // It's much easier for a user to delete a phrase from the screen than reinput it if the phrase
     // is only partially wrong, or the user accidentally hits the "Go back" button.
-    ValoraAnalytics.track(OnboardingEvents.wallet_import_cancel)
+    AppAnalytics.track(OnboardingEvents.wallet_import_cancel)
     navigation.setParams({ clean: false, showZeroBalanceModal: false })
   }
 

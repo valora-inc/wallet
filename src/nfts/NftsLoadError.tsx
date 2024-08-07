@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { NftEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Touchable from 'src/components/Touchable'
 import RedLoadingSpinnerToInfo from 'src/icons/RedLoadingSpinnerToInfo'
 import { navigate } from 'src/navigator/NavigationService'
@@ -27,7 +27,7 @@ export default function NftsLoadError({ testID }: Props) {
 
   useEffect(() => {
     // Whenever this screen is mounted we've failed to load the NFTs from blockchain-api
-    ValoraAnalytics.track(NftEvents.nft_error_screen_open)
+    AppAnalytics.track(NftEvents.nft_error_screen_open)
   }, [])
 
   return (

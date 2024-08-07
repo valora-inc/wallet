@@ -3,7 +3,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { AppState } from 'src/app/actions'
 import ListItem from 'src/components/ListItem'
 import { FiatExchangeTokenBalance } from 'src/components/TokenBalance'
@@ -33,14 +33,14 @@ export default function WithdrawSpend() {
 
   function goToCashOut() {
     navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashOut })
-    ValoraAnalytics.track(FiatExchangeEvents.cico_landing_select_flow, {
+    AppAnalytics.track(FiatExchangeEvents.cico_landing_select_flow, {
       flow: FiatExchangeFlow.CashOut,
     })
   }
 
   function goToSpend() {
     navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.Spend })
-    ValoraAnalytics.track(FiatExchangeEvents.cico_landing_select_flow, {
+    AppAnalytics.track(FiatExchangeEvents.cico_landing_select_flow, {
       flow: FiatExchangeFlow.Spend,
     })
   }
@@ -49,7 +49,7 @@ export default function WithdrawSpend() {
 
   const onOpenOtherFundingOptions = () => {
     navigateToURI(FUNDING_LINK)
-    ValoraAnalytics.track(FiatExchangeEvents.cico_landing_how_to_fund)
+    AppAnalytics.track(FiatExchangeEvents.cico_landing_how_to_fund)
     setTimestamp(Date.now())
   }
 

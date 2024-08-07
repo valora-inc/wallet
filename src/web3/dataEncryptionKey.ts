@@ -22,7 +22,7 @@ import { Platform } from 'react-native'
 import * as bip39 from 'react-native-bip39'
 import DeviceInfo from 'react-native-device-info'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import {
   FetchDataEncryptionKeyAction,
   updateAddressDekMap,
@@ -97,7 +97,7 @@ export function* doFetchDataEncryptionKey(addressToLookUp: string) {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `Valora ${ownAddress}:${signedMessage}`,
+        authorization: `${networkConfig.authHeaderIssuer} ${ownAddress}:${signedMessage}`,
       },
     })
 
@@ -198,7 +198,7 @@ export function* registerAccountDek() {
       return
     }
 
-    ValoraAnalytics.track(OnboardingEvents.account_dek_register_start)
+    AppAnalytics.track(OnboardingEvents.account_dek_register_start)
     Logger.debug(
       `${TAG}@registerAccountDek`,
       'Setting wallet address and public data encryption key'
@@ -227,19 +227,19 @@ export function* registerAccountDek() {
       walletAddress,
       publicDataKey
     )
-    ValoraAnalytics.track(OnboardingEvents.account_dek_register_account_checked)
+    AppAnalytics.track(OnboardingEvents.account_dek_register_account_checked)
 
     if (upToDate) {
       Logger.debug(`${TAG}@registerAccountDek`, 'Address and DEK up to date, skipping.')
       yield* put(registerDataEncryptionKey())
-      ValoraAnalytics.track(OnboardingEvents.account_dek_register_complete, {
+      AppAnalytics.track(OnboardingEvents.account_dek_register_complete, {
         newRegistration: false,
       })
       return
     }
 
     yield* call(getConnectedUnlockedAccount)
-    ValoraAnalytics.track(OnboardingEvents.account_dek_register_account_unlocked)
+    AppAnalytics.track(OnboardingEvents.account_dek_register_account_unlocked)
 
     yield* call(
       sendUserFundedSetAccountTx,
@@ -251,7 +251,7 @@ export function* registerAccountDek() {
     )
 
     yield* put(registerDataEncryptionKey())
-    ValoraAnalytics.track(OnboardingEvents.account_dek_register_complete, {
+    AppAnalytics.track(OnboardingEvents.account_dek_register_complete, {
       newRegistration: true,
     })
   } catch (error) {

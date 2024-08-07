@@ -4,7 +4,7 @@ import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet } from 'react-native'
 import { DappShortcutsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
@@ -104,7 +104,7 @@ function Content({ rewardId }: { rewardId: string }) {
   )
 
   useEffect(() => {
-    ValoraAnalytics.track(
+    AppAnalytics.track(
       DappShortcutsEvents.dapp_shortcuts_reward_tx_propose,
       trackedShortcutProperties
     )
@@ -125,7 +125,7 @@ function Content({ rewardId }: { rewardId: string }) {
         ),
       })
     )
-    ValoraAnalytics.track(
+    AppAnalytics.track(
       DappShortcutsEvents.dapp_shortcuts_reward_tx_accepted,
       trackedShortcutProperties
     )
@@ -135,7 +135,7 @@ function Content({ rewardId }: { rewardId: string }) {
     if (pendingAcceptShortcut) {
       dispatch(denyExecuteShortcut(rewardId))
 
-      ValoraAnalytics.track(
+      AppAnalytics.track(
         DappShortcutsEvents.dapp_shortcuts_reward_tx_rejected,
         trackedShortcutProperties
       )
@@ -144,7 +144,7 @@ function Content({ rewardId }: { rewardId: string }) {
 
   const handleTrackCopyTransactionDetails = () => {
     if (pendingAcceptShortcut) {
-      ValoraAnalytics.track(
+      AppAnalytics.track(
         DappShortcutsEvents.dapp_shortcuts_reward_tx_copy,
         trackedShortcutProperties
       )

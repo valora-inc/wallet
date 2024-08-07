@@ -3,7 +3,7 @@ import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { FlatList, ListRenderItemInfo, StyleSheet, Text, View } from 'react-native'
 import { CeloNewsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { celoNewsConfigSelector } from 'src/app/selectors'
 import CeloNewsFeedItem from 'src/celoNews/CeloNewsFeedItem'
 import { CeloNewsArticle, CeloNewsArticles } from 'src/celoNews/types'
@@ -65,7 +65,7 @@ export default function CeloNewsFeed() {
   const isLoading = asyncArticles.status === 'loading'
 
   useEffect(() => {
-    ValoraAnalytics.track(CeloNewsEvents.celo_news_screen_open)
+    AppAnalytics.track(CeloNewsEvents.celo_news_screen_open)
   }, [])
 
   function onPressReadMore() {
@@ -74,12 +74,12 @@ export default function CeloNewsFeed() {
       // This shouldn't happen since the button is only visible if the URL is set
       return
     }
-    ValoraAnalytics.track(CeloNewsEvents.celo_news_bottom_read_more_tap, { url })
+    AppAnalytics.track(CeloNewsEvents.celo_news_bottom_read_more_tap, { url })
     navigate(Screens.WebViewScreen, { uri: url })
   }
 
   function onPressRetry() {
-    ValoraAnalytics.track(CeloNewsEvents.celo_news_retry_tap)
+    AppAnalytics.track(CeloNewsEvents.celo_news_retry_tap)
     void asyncArticles.execute()
   }
 

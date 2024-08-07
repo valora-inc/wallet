@@ -5,14 +5,14 @@ import { Provider } from 'react-redux'
 import { recoveryPhraseInOnboardingStarted } from 'src/account/actions'
 import { RecoveryPhraseInOnboardingStatus } from 'src/account/reducer'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import ProtectWallet from 'src/onboarding/registration/ProtectWallet'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockOnboardingProps } from 'test/values'
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 jest.mock('src/pincode/authentication', () => ({
   getPassword: jest.fn(),
 }))
@@ -88,10 +88,8 @@ describe('ProtectWalletScreen', () => {
     })
     fireEvent.press(getByTestId('recoveryPhraseCard'))
     await waitFor(() => {
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-        OnboardingEvents.protect_wallet_use_recovery
-      )
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.protect_wallet_use_recovery)
       expect(navigate).toHaveBeenCalledWith(Screens.OnboardingRecoveryPhrase)
     })
   })

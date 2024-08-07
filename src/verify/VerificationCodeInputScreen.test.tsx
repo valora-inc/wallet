@@ -82,7 +82,7 @@ describe('VerificationCodeInputScreen', () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization: 'Valora 0xabc:someSignedMessage',
+        authorization: `${networkConfig.authHeaderIssuer} 0xabc:someSignedMessage`,
       },
       body: '{"phoneNumber":"+31619123456","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","publicDataEncryptionKey":"somePublicKey","inviterAddress":"0xabc"}',
     })
@@ -117,7 +117,7 @@ describe('VerificationCodeInputScreen', () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization: 'Valora 0xabc:someSignedMessage',
+        authorization: `${networkConfig.authHeaderIssuer} 0xabc:someSignedMessage`,
       },
       body: '{"phoneNumber":"+31619123456","verificationId":"someId","smsCode":"123456","clientPlatform":"android","clientVersion":"0.0.1"}',
     })
@@ -156,7 +156,7 @@ describe('VerificationCodeInputScreen', () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization: 'Valora 0xabc:someSignedMessage',
+        authorization: `${networkConfig.authHeaderIssuer} 0xabc:someSignedMessage`,
       },
       body: '{"phoneNumber":"+31619123456","verificationId":"someId","smsCode":"123456","clientPlatform":"android","clientVersion":"0.0.1"}',
     })
@@ -181,7 +181,7 @@ describe('VerificationCodeInputScreen', () => {
 
     await act(() => {
       // Simulate the SMS code being received
-      smsListener({ message: 'Your verification code for Valora is: 123456 5yaJvJcZt2P' })
+      smsListener({ message: 'Your verification code for App is: 123456 5yaJvJcZt2P' })
     })
 
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2))
@@ -189,7 +189,7 @@ describe('VerificationCodeInputScreen', () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization: 'Valora 0xabc:someSignedMessage',
+        authorization: `${networkConfig.authHeaderIssuer} 0xabc:someSignedMessage`,
       },
       body: '{"phoneNumber":"+31619123456","verificationId":"someId","smsCode":"123456","clientPlatform":"android","clientVersion":"0.0.1"}',
     })
@@ -214,7 +214,7 @@ describe('VerificationCodeInputScreen', () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization: 'Valora 0xabc:someSignedMessage',
+        authorization: `${networkConfig.authHeaderIssuer} 0xabc:someSignedMessage`,
       },
       body: '{"phoneNumber":"+31619123456","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","publicDataEncryptionKey":"somePublicKey","inviterAddress":"0xabc"}',
     })
@@ -242,7 +242,7 @@ describe('VerificationCodeInputScreen', () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization: 'Valora 0xabc:someSignedMessage',
+        authorization: `${networkConfig.authHeaderIssuer} 0xabc:someSignedMessage`,
       },
       body: '{"phoneNumber":"+31619123456","verificationId":"someId","smsCode":"123456","clientPlatform":"android","clientVersion":"0.0.1"}',
     })
@@ -278,7 +278,7 @@ describe('VerificationCodeInputScreen', () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization: 'Valora 0xabc:someSignedMessage',
+        authorization: `${networkConfig.authHeaderIssuer} 0xabc:someSignedMessage`,
       },
       body: `{"phoneNumber":"${e164Number}","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","publicDataEncryptionKey":"somePublicKey","inviterAddress":"0xabc"}`,
     })

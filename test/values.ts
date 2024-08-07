@@ -274,7 +274,7 @@ export const mockPhoneRecipientCache: NumberToRecipient = {
   [mockE164Number2Invite]: mockInvitableRecipient3,
 }
 
-export const mockValoraRecipientCache: AddressToRecipient = {
+export const mockAppRecipientCache: AddressToRecipient = {
   [mockAccount]: mockRecipient,
   [mockAccount2]: mockRecipient2,
   [mockAccountInvite]: mockRecipient2,
@@ -417,7 +417,7 @@ export const mockQRCodeRecipient: AddressRecipient = {
 
 export const mockRecipientInfo: RecipientInfo = {
   phoneRecipientCache: mockPhoneRecipientCache,
-  valoraRecipientCache: mockValoraRecipientCache,
+  appRecipientCache: mockAppRecipientCache,
   addressToE164Number: mockAddressToE164Number,
   addressToDisplayName: {},
 }
@@ -495,8 +495,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     tokenId: mockCeloTokenId,
     networkId: NetworkId['celo-alfajores'],
     symbol: 'CELO', // NOT cGLD, see https://github.com/valora-inc/address-metadata/blob/c84ef7056fa066ef86f9b4eb295ae248f363f67a/src/data/mainnet/tokens-info.json#L173
-    imageUrl:
-      'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/CELO.png',
+    imageUrl: 'https://example.com/address-metadata/main/assets/tokens/CELO.png',
     name: 'Celo native asset',
     decimals: 18,
     balance: '0',
@@ -514,8 +513,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     tokenId: mockCrealTokenId,
     networkId: NetworkId['celo-alfajores'],
     symbol: 'cREAL',
-    imageUrl:
-      'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/cREAL.png',
+    imageUrl: 'https://example.com/address-metadata/main/assets/tokens/cREAL.png',
     name: 'Celo Real',
     decimals: 18,
     balance: '0',
@@ -531,8 +529,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     tokenId: mockEthTokenId,
     networkId: NetworkId['ethereum-sepolia'],
     symbol: 'ETH',
-    imageUrl:
-      'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+    imageUrl: 'https://example.com/address-metadata/main/assets/tokens/ETH.png',
     name: 'Ether',
     decimals: 18,
     balance: '0',
@@ -563,8 +560,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     address: null,
     symbol: 'ETH',
     decimals: 18,
-    imageUrl:
-      'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+    imageUrl: 'https://example.com/address-metadata/main/assets/tokens/ETH.png',
     balance: '0',
     priceUsd: '1500',
     isNative: true,
@@ -577,8 +573,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     address: null,
     symbol: 'ETH',
     decimals: 18,
-    imageUrl:
-      'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+    imageUrl: 'https://example.com/address-metadata/main/assets/tokens/ETH.png',
     balance: '0',
     priceUsd: '1500',
     isNative: true,
@@ -591,8 +586,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     address: mockUSDCAddress,
     symbol: 'USDC',
     decimals: 6,
-    imageUrl:
-      'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+    imageUrl: 'https://example.com/address-metadata/main/assets/tokens/ETH.png',
     balance: '0',
     priceUsd: '1',
     priceFetchedAt: Date.now(),
@@ -604,8 +598,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     address: mockArbArbAddress,
     symbol: 'ARB',
     decimals: 18,
-    imageUrl:
-      'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ARB.png',
+    imageUrl: 'https://example.com/address-metadata/main/assets/tokens/ARB.png',
     balance: '0',
     priceUsd: '1.2',
     priceFetchedAt: Date.now(),
@@ -697,7 +690,7 @@ export const emptyFees = {
 export const mockSimplexQuote = {
   user_id: mockAccount,
   quote_id: 'be976b14-0828-4834-bd24-e4193a225980',
-  wallet_id: 'valorapp',
+  wallet_id: 'appname',
   digital_money: {
     currency: 'CUSD',
     amount: 25,
@@ -841,10 +834,10 @@ export const mockFiatConnectProviderInfo: FiatConnectProviderInfo[] = [
     id: 'provider-two',
     providerName: 'Provider Two',
     imageUrl: mockFiatConnectProviderImage,
-    baseUrl: 'fakewebsite.valoraapp.com',
-    websiteUrl: 'https://fakewebsite.valorapp.com',
-    termsAndConditionsUrl: 'https://fakewebsite.valorapp.com/terms',
-    privacyPolicyUrl: 'https://fakewebsite.valorapp.com/privacy',
+    baseUrl: 'fakewebsite.example.com',
+    websiteUrl: 'https://fakewebsite.example.com',
+    termsAndConditionsUrl: 'https://fakewebsite.example.com/terms',
+    privacyPolicyUrl: 'https://fakewebsite.example.com/privacy',
     iconUrl: mockFiatConnectProviderIcon,
     apiKey: 'fake-api-key',
     isNew: {
@@ -856,10 +849,10 @@ export const mockFiatConnectProviderInfo: FiatConnectProviderInfo[] = [
     id: 'provider-one',
     providerName: 'Provider One',
     imageUrl: mockFiatConnectProviderImage,
-    baseUrl: 'fakewebsite.valoraapp.com',
-    websiteUrl: 'https://fakewebsite.valorapp.com',
-    termsAndConditionsUrl: 'https://fakewebsite.valorapp.com/terms',
-    privacyPolicyUrl: 'https://fakewebsite.valorapp.com/privacy',
+    baseUrl: 'fakewebsite.example.com',
+    websiteUrl: 'https://fakewebsite.example.com',
+    termsAndConditionsUrl: 'https://fakewebsite.example.com/terms',
+    privacyPolicyUrl: 'https://fakewebsite.example.com/privacy',
     iconUrl: mockFiatConnectProviderIcon,
     isNew: {
       in: true,
@@ -870,10 +863,10 @@ export const mockFiatConnectProviderInfo: FiatConnectProviderInfo[] = [
     id: 'provider-three',
     providerName: 'Provider Three',
     imageUrl: mockFiatConnectProviderImage,
-    baseUrl: 'fakewebsite.valoraapp.com',
-    websiteUrl: 'https://fakewebsite.valorapp.com',
-    termsAndConditionsUrl: 'https://fakewebsite.valorapp.com/terms',
-    privacyPolicyUrl: 'https://fakewebsite.valorapp.com/privacy',
+    baseUrl: 'fakewebsite.example.com',
+    websiteUrl: 'https://fakewebsite.example.com',
+    termsAndConditionsUrl: 'https://fakewebsite.example.com/terms',
+    privacyPolicyUrl: 'https://fakewebsite.example.com/privacy',
     iconUrl: mockFiatConnectProviderIcon,
     isNew: {
       in: false,
@@ -933,10 +926,10 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
       id: 'provider-one',
       providerName: 'Provider One',
       imageUrl: mockFiatConnectProviderImage,
-      baseUrl: 'fakewebsite.valoraapp.com',
-      websiteUrl: 'https://fakewebsite.valorapp.com',
-      termsAndConditionsUrl: 'https://fakewebsite.valorapp.com/terms',
-      privacyPolicyUrl: 'https://fakewebsite.valorapp.com/privacy',
+      baseUrl: 'fakewebsite.example.com',
+      websiteUrl: 'https://fakewebsite.example.com',
+      termsAndConditionsUrl: 'https://fakewebsite.example.com/terms',
+      privacyPolicyUrl: 'https://fakewebsite.example.com/privacy',
       iconUrl: mockFiatConnectProviderIcon,
       isNew: {
         in: true,
@@ -1143,7 +1136,7 @@ export const mockDappList: Dapp[] = [
     id: 'dapp1',
     categories: ['1'],
     description: 'Swap tokens!',
-    iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp1.png',
+    iconUrl: 'https://example.com/app-list/main/assets/dapp1.png',
     dappUrl: 'https://app.dapp1.org/',
   },
   {
@@ -1151,7 +1144,7 @@ export const mockDappList: Dapp[] = [
     id: 'dapp2',
     categories: ['2'],
     description: 'Lend and borrow tokens!',
-    iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp2.png',
+    iconUrl: 'https://example.com/app-list/main/assets/dapp2.png',
     dappUrl: 'celo://wallet/dapp2Screen',
   },
 ]
@@ -1163,7 +1156,7 @@ export const mockDappListWithCategoryNames: DappWithCategoryNames[] = [
     categories: ['1'],
     categoryNames: ['Swap'],
     description: 'Swap tokens!',
-    iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp1.png',
+    iconUrl: 'https://example.com/app-list/main/assets/dapp1.png',
     dappUrl: 'https://app.dapp1.org/',
   },
   {
@@ -1172,7 +1165,7 @@ export const mockDappListWithCategoryNames: DappWithCategoryNames[] = [
     categories: ['2'],
     categoryNames: ['Lend, Borrow & Earn'],
     description: 'Lend and borrow tokens!',
-    iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp2.png',
+    iconUrl: 'https://example.com/app-list/main/assets/dapp2.png',
     dappUrl: 'celo://wallet/dapp2Screen',
   },
   {
@@ -1181,7 +1174,7 @@ export const mockDappListWithCategoryNames: DappWithCategoryNames[] = [
     categories: ['1'],
     categoryNames: ['Swap'],
     description: 'Do something cool!',
-    iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/dapp3.png',
+    iconUrl: 'https://example.com/main/assets/dapp3.png',
     dappUrl: 'https://app.dapp3.org/',
   },
 ]
@@ -1514,6 +1507,7 @@ export const mockPositions: Position[] = [
     networkId: NetworkId['celo-mainnet'],
     address: '0x19a75250c5a3ab22a8662e55a2b90ff9d3334b00',
     tokenId: `${NetworkId['celo-mainnet']}:0x19a75250c5a3ab22a8662e55a2b90ff9d3334b00`,
+    positionId: `${NetworkId['celo-mainnet']}:0x19a75250c5a3ab22a8662e55a2b90ff9d3334b00`,
     appId: 'ubeswap',
     symbol: 'ULP',
     decimals: 18,
@@ -1556,6 +1550,7 @@ export const mockPositions: Position[] = [
     networkId: NetworkId['celo-mainnet'],
     address: '0x31f9dee850b4284b81b52b25a3194f2fc8ff18cf',
     tokenId: `${NetworkId['celo-mainnet']}:0x31f9dee850b4284b81b52b25a3194f2fc8ff18cf`,
+    positionId: `${NetworkId['celo-mainnet']}:0x31f9dee850b4284b81b52b25a3194f2fc8ff18cf`,
     appId: 'ubeswap',
     symbol: 'ULP',
     decimals: 18,
@@ -1597,6 +1592,7 @@ export const mockPositions: Position[] = [
     type: 'contract-position',
     networkId: NetworkId['celo-mainnet'],
     address: '0xda7f463c27ec862cfbf2369f3f74c364d050d93f',
+    positionId: `${NetworkId['celo-mainnet']}:0xda7f463c27ec862cfbf2369f3f74c364d050d93f`,
     appId: 'ubeswap',
     appName: 'Ubeswap',
     displayProps: {
@@ -1610,6 +1606,7 @@ export const mockPositions: Position[] = [
         networkId: NetworkId['celo-mainnet'],
         address: '0x1e593f1fe7b61c53874b54ec0c59fd0d5eb8621e',
         tokenId: `${NetworkId['celo-mainnet']}:0x1e593f1fe7b61c53874b54ec0c59fd0d5eb8621e`,
+        positionId: `${NetworkId['celo-mainnet']}:0x1e593f1fe7b61c53874b54ec0c59fd0d5eb8621e`,
         appId: 'ubeswap',
         symbol: 'ULP',
         decimals: 18,
@@ -1959,10 +1956,10 @@ export const mockExpectedCleverTapInboxMessage = {
             {
               kv: {},
               url: {
-                ios: { replacements: 'https://valoraapp.com', text: 'https://valoraapp.com' },
-                android: { replacements: 'https://valoraapp.com', text: 'https://valoraapp.com' },
+                ios: { replacements: 'https://example.com', text: 'https://example.com' },
+                android: { replacements: 'https://example.com', text: 'https://example.com' },
               },
-              copyText: { replacements: 'https://valoraapp.com', text: 'https://valoraapp.com' },
+              copyText: { replacements: 'https://example.com', text: 'https://example.com' },
               text: 'CleverTap Message CTA',
               bg: '#ffffff',
               color: '#007bff',
@@ -1998,7 +1995,7 @@ export const mockCleverTapInboxMessage: CleverTapInboxMessage = {
     uri: 'https://d2trgtv8344lrj.cloudfront.net/dist/1634904064/i/fd152d1004504c0ab68a99ce9e3fe5e7.jpeg?v=1704392507',
   },
   ctaText: 'CleverTap Message CTA',
-  ctaUrl: 'https://valoraapp.com',
+  ctaUrl: 'https://example.com',
   priority: undefined,
   openInExternalBrowser: false,
 }

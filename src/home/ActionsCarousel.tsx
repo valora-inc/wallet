@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text } from 'react-native'
 import { HomeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Card from 'src/components/Card'
 import Touchable from 'src/components/Touchable'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
@@ -89,7 +89,7 @@ function ActionsCarousel() {
           >
             <Touchable
               onPress={() => {
-                ValoraAnalytics.track(HomeEvents.home_action_pressed, { action: name })
+                AppAnalytics.track(HomeEvents.home_action_pressed, { action: name })
                 onPress()
               }}
               style={styles.touchable}

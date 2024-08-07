@@ -1,7 +1,5 @@
-import { ZENDESK_API_KEY } from 'src/config'
+import { ZENDESK_API_KEY, ZENDESK_PROJECT_NAME } from 'src/config'
 import Logger from 'src/utils/Logger'
-
-const ZENDESK_PROJECT_NAME = 'valoraapp'
 
 export interface DeviceInfo {
   version: string
