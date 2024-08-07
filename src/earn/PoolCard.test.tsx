@@ -1,34 +1,39 @@
 import { fireEvent, render } from '@testing-library/react-native'
+import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { EarnEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { EarnEvents } from 'src/analytics/Events'
 import PoolCard from 'src/earn/PoolCard'
+import { Pool } from 'src/earn/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
 import { mockArbEthTokenId, mockArbUsdcTokenId, mockTokenBalances } from 'test/values'
 
+const AAVE_POOL: Pool = {
+  poolId: 'pool1',
+  providerId: 'aave-v3',
+  networkId: NetworkId['arbitrum-sepolia'],
+  tokens: [mockArbUsdcTokenId, mockArbEthTokenId],
+  depositTokenId: mockArbUsdcTokenId,
+  poolTokenId: mockArbEthTokenId,
+  provider: 'Test',
+  yieldRates: [{ percentage: 3.3, label: 'Earnings APY', tokenId: mockArbUsdcTokenId }],
+  earnItems: [],
+  tvl: 1360000,
+  poolAddress: '0xvault',
+  balance: new BigNumber(0),
+  priceUsd: new BigNumber(0),
+  pricePerShare: ['0.5', '0.5'],
+}
+
 describe('PoolCard', () => {
   it('renders correctly', () => {
     const { getByText } = render(
       <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
-        <PoolCard
-          pool={{
-            poolId: 'pool1',
-            providerId: 'aave-v3',
-            networkId: NetworkId['arbitrum-sepolia'],
-            tokens: [mockArbUsdcTokenId, mockArbEthTokenId],
-            depositTokenId: mockArbUsdcTokenId,
-            poolTokenId: mockArbEthTokenId,
-            provider: 'Test',
-            apy: 0.033,
-            reward: 0,
-            tvl: 1360000,
-            poolAddress: '0xvault',
-          }}
-        />
+        <PoolCard pool={AAVE_POOL} />
       </Provider>
     )
 
@@ -44,21 +49,7 @@ describe('PoolCard', () => {
   it('navigates to enter amount when no pool balance', () => {
     const { getByText } = render(
       <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
-        <PoolCard
-          pool={{
-            poolId: 'pool1',
-            providerId: 'aave-v3',
-            networkId: NetworkId['arbitrum-sepolia'],
-            tokens: [mockArbUsdcTokenId, mockArbEthTokenId],
-            depositTokenId: mockArbUsdcTokenId,
-            poolTokenId: mockArbEthTokenId,
-            provider: 'Test',
-            apy: 0.033,
-            reward: 0,
-            tvl: 1360000,
-            poolAddress: '0xvault',
-          }}
-        />
+        <PoolCard pool={AAVE_POOL} />
       </Provider>
     )
 
@@ -99,21 +90,7 @@ describe('PoolCard', () => {
           },
         })}
       >
-        <PoolCard
-          pool={{
-            poolId: 'pool1',
-            providerId: 'aave-v3',
-            networkId: NetworkId['arbitrum-sepolia'],
-            tokens: [mockArbUsdcTokenId, mockArbEthTokenId],
-            depositTokenId: mockArbUsdcTokenId,
-            poolTokenId: mockArbEthTokenId,
-            provider: 'Test',
-            apy: 0.033,
-            reward: 0,
-            tvl: 1360000,
-            poolAddress: '0xvault',
-          }}
-        />
+        <PoolCard pool={AAVE_POOL} />
       </Provider>
     )
 
@@ -154,21 +131,7 @@ describe('PoolCard', () => {
           },
         })}
       >
-        <PoolCard
-          pool={{
-            poolId: 'pool1',
-            providerId: 'aave-v3',
-            networkId: NetworkId['arbitrum-sepolia'],
-            tokens: [mockArbUsdcTokenId, mockArbEthTokenId],
-            depositTokenId: mockArbUsdcTokenId,
-            poolTokenId: mockArbEthTokenId,
-            provider: 'Test',
-            apy: 0.033,
-            reward: 0,
-            tvl: 1360000,
-            poolAddress: '0xvault',
-          }}
-        />
+        <PoolCard pool={AAVE_POOL} />
       </Provider>
     )
 

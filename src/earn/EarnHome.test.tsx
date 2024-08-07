@@ -2,107 +2,159 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import EarnHome from 'src/earn/EarnHome'
-import { getPools } from 'src/earn/pools'
-import { EarnTabType, Pool } from 'src/earn/types'
+import { EarnTabType } from 'src/earn/types'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
-import {
-  mockArbEthTokenId,
-  mockArbUsdcTokenId,
-  mockEthTokenId,
-  mockTokenBalances,
-} from 'test/values'
+import { mockArbUsdcTokenId, mockEthTokenId, mockTokenBalances, mockUSDCAddress } from 'test/values'
 
-const mockPools: Pool[] = [
-  {
-    poolId: 'aArbUSDCn',
-    providerId: 'aave-v3',
-    networkId: NetworkId['arbitrum-sepolia'],
-    tokens: [mockArbUsdcTokenId],
-    depositTokenId: mockArbUsdcTokenId,
-    poolTokenId: `${NetworkId['arbitrum-sepolia']}:0x724dc807b04555b71ed48a6896b6f41593b8c637`,
-    poolAddress: '0x794a61358D6845594F94dc1DB02A252b5b4814aD',
-    apy: 0.0555,
-    reward: 0,
-    tvl: 349_940_000,
-    provider: 'Aave',
-  },
-  {
-    poolId: 'aArbWETH',
-    providerId: 'aave-v3',
-    networkId: NetworkId['arbitrum-sepolia'],
-    tokens: [mockArbEthTokenId],
-    depositTokenId: mockArbEthTokenId,
-    poolTokenId: `${NetworkId['arbitrum-sepolia']}:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8`,
-    poolAddress: '0x794a61358D6845594F94dc1DB02A252b5b4814aD',
-    apy: 0.023,
-    reward: 0,
-    tvl: 411_630_000,
-    provider: 'Aave',
-  },
-]
+jest.mock('src/statsig')
 
-const mockPoolTokenUSDC = {
-  name: 'Aave Arbitrum USDC',
-  networkId: NetworkId['arbitrum-sepolia'],
-  tokenId: mockPools[0].poolTokenId,
-  address: '0x724dc807b04555b71ed48a6896b6f41593b8c637',
-  symbol: 'aArbUSDCn',
-  decimals: 18,
-  imageUrl: 'https://raw.githubusercontent.com/address-metadata/main/assets/tokens/ARB.png',
-  balance: '0',
-  priceUsd: '1.2',
-  priceFetchedAt: Date.now(),
+function getStore(mockPoolBalance: string = '0') {
+  return createMockStore({
+    tokens: {
+      tokenBalances: {
+        ...mockTokenBalances,
+        ['arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216']: {
+          name: 'Aave Arbitrum USDC',
+          networkId: NetworkId['arbitrum-sepolia'],
+          tokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+          address: '0x460b97bd498e1157530aeb3086301d5225b91216',
+          symbol: 'aArbUSDCn',
+          decimals: 18,
+          imageUrl: 'https://raw.githubusercontent.com/address-metadata/main/assets/tokens/ARB.png',
+          balance: mockPoolBalance,
+          priceUsd: '1.2',
+          priceFetchedAt: Date.now(),
+        },
+        ['ethereum-sepolia:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8']: {
+          name: 'Aave Ethereum ETH',
+          networkId: NetworkId['ethereum-sepolia'],
+          tokenId: 'ethereum-sepolia:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8',
+          address: '0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8',
+          symbol: 'aEthETH',
+          decimals: 18,
+          imageUrl: 'https://raw.githubusercontent.com/address-metadata/main/assets/tokens/ETH.png',
+          balance: '0',
+          priceUsd: '250',
+          priceFetchedAt: Date.now(),
+        },
+      },
+    },
+    positions: {
+      positions: [
+        {
+          type: 'app-token',
+          networkId: NetworkId['arbitrum-sepolia'],
+          address: '0x460b97bd498e1157530aeb3086301d5225b91216',
+          tokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+          positionId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+          appId: 'aave',
+          appName: 'Aave',
+          symbol: 'aArbSepUSDC',
+          decimals: 6,
+          displayProps: {
+            title: 'USDC',
+            description: 'Supplied (APY: 1.92%)',
+            imageUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/aave.png',
+          },
+          dataProps: {
+            yieldRates: [
+              {
+                percentage: 1.9194202601763743,
+                label: 'Earnings APY',
+                tokenId: mockArbUsdcTokenId,
+              },
+            ],
+            earningItems: [],
+            depositTokenId: mockArbUsdcTokenId,
+            withdrawTokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+          },
+          tokens: [
+            {
+              tokenId: mockArbUsdcTokenId,
+              networkId: NetworkId['arbitrum-sepolia'],
+              address: mockUSDCAddress,
+              symbol: 'USDC',
+              decimals: 6,
+              priceUsd: '1.2',
+              type: 'base-token',
+              balance: '0',
+            },
+          ],
+          pricePerShare: ['1'],
+          priceUsd: '1.2',
+          balance: mockPoolBalance,
+          supply: '190288.768509',
+          availableShortcutIds: ['deposit', 'withdraw'],
+        },
+        {
+          type: 'app-token',
+          networkId: NetworkId['ethereum-sepolia'],
+          address: '0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8',
+          tokenId: 'ethereum-sepolia:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8',
+          positionId: 'ethereum-sepolia:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8',
+          appId: 'aave',
+          appName: 'Aave',
+          symbol: 'aEthETH',
+          decimals: 6,
+          displayProps: {
+            title: 'ETH',
+            description: 'Supplied (APY: 10.42%)',
+            imageUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/aave.png',
+          },
+          dataProps: {
+            yieldRates: [
+              {
+                percentage: 10.421746584,
+                label: 'Earnings APY',
+                tokenId: mockEthTokenId,
+              },
+            ],
+            earningItems: [],
+            depositTokenId: mockEthTokenId,
+            withdrawTokenId: 'ethereum-sepolia:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8',
+          },
+          tokens: [
+            {
+              tokenId: mockEthTokenId,
+              networkId: NetworkId['ethereum-sepolia'],
+              symbol: 'ETH',
+              decimals: 6,
+              priceUsd: '0',
+              type: 'base-token',
+              balance: '0',
+            },
+          ],
+          pricePerShare: ['1'],
+          priceUsd: '1',
+          balance: '0',
+          supply: '190288.768509',
+          availableShortcutIds: ['deposit', 'withdraw'],
+        },
+      ],
+      earnPositionIds: [
+        'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+        'ethereum-sepolia:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8',
+      ],
+    },
+  })
 }
-
-const mockPoolTokenWETH = {
-  name: 'Aave Arbitrum WETH',
-  networkId: NetworkId['arbitrum-sepolia'],
-  tokenId: mockPools[1].poolTokenId,
-  address: '0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8',
-  symbol: 'aArbWETH',
-  decimals: 18,
-  imageUrl: 'https://raw.githubusercontent.com/address-metadata/main/assets/tokens/ETH.png',
-  balance: '0',
-  priceUsd: '250',
-  priceFetchedAt: Date.now(),
-}
-
-const mockPoolTokenEthWETH = {
-  name: 'Aave Ethereum WETH',
-  networkId: NetworkId['ethereum-sepolia'],
-  tokenId: `${NetworkId['ethereum-sepolia']}:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8`,
-  address: '0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8',
-  symbol: 'aEthWETH',
-  decimals: 18,
-  imageUrl: 'https://raw.githubusercontent.com/address-metadata/main/assets/tokens/ETH.png',
-  balance: '0',
-  priceUsd: '250',
-  priceFetchedAt: Date.now(),
-}
-
-jest.mock('src/earn/pools')
 
 describe('EarnHome', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation(
+        (featureGateName) => featureGateName === StatsigFeatureGates.SHOW_POSITIONS
+      )
   })
   it('renders open pools correctly', () => {
-    jest.mocked(getPools).mockReturnValue(mockPools)
-    const mockPoolToken = mockPoolTokenUSDC
     const { getByTestId, getAllByTestId } = render(
-      <Provider
-        store={createMockStore({
-          tokens: {
-            tokenBalances: {
-              ...mockTokenBalances,
-              [mockPools[0].poolTokenId]: mockPoolToken,
-              [mockPools[1].poolTokenId]: mockPoolTokenWETH,
-            },
-          },
-        })}
-      >
+      <Provider store={getStore()}>
         <MockedNavigator
           component={EarnHome}
           params={{
@@ -112,8 +164,12 @@ describe('EarnHome', () => {
       </Provider>
     )
 
-    expect(getByTestId(`PoolCard/${mockPools[0].poolId}`)).toBeTruthy()
-    expect(getByTestId(`PoolCard/${mockPools[1].poolId}`)).toBeTruthy()
+    expect(
+      getByTestId('PoolCard/arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216')
+    ).toBeTruthy()
+    expect(
+      getByTestId('PoolCard/ethereum-sepolia:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8')
+    ).toBeTruthy()
 
     const tabItems = getAllByTestId('Earn/TabBarItem')
     expect(tabItems).toHaveLength(2)
@@ -122,23 +178,8 @@ describe('EarnHome', () => {
   })
 
   it('correctly shows pool under my pools if has balance', () => {
-    jest.mocked(getPools).mockReturnValue(mockPools)
-    const mockPoolToken = {
-      ...mockPoolTokenUSDC,
-      balance: '10',
-    }
     const { getByTestId, queryByTestId, getByText } = render(
-      <Provider
-        store={createMockStore({
-          tokens: {
-            tokenBalances: {
-              ...mockTokenBalances,
-              [mockPools[0].poolTokenId]: mockPoolToken,
-              [mockPools[1].poolTokenId]: mockPoolTokenWETH,
-            },
-          },
-        })}
-      >
+      <Provider store={getStore('10')}>
         <MockedNavigator
           component={EarnHome}
           params={{
@@ -148,26 +189,18 @@ describe('EarnHome', () => {
       </Provider>
     )
 
-    expect(queryByTestId(`PoolCard/${mockPools[0].poolId}`)).toBeFalsy()
+    expect(
+      queryByTestId('PoolCard/arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216')
+    ).toBeFalsy()
     fireEvent.press(getByText('earnFlow.poolFilters.myPools'))
-    expect(getByTestId(`PoolCard/${mockPools[0].poolId}`)).toBeTruthy()
+    expect(
+      getByTestId('PoolCard/arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216')
+    ).toBeTruthy()
   })
 
   it('correctly shows correct networks, tokens under filters', () => {
-    jest.mocked(getPools).mockReturnValue(mockPools)
-    const mockPoolToken = mockPoolTokenUSDC
     const { getByTestId, getAllByTestId, getByText } = render(
-      <Provider
-        store={createMockStore({
-          tokens: {
-            tokenBalances: {
-              ...mockTokenBalances,
-              [mockPools[0].poolTokenId]: mockPoolToken,
-              [mockPools[1].poolTokenId]: mockPoolTokenWETH,
-            },
-          },
-        })}
-      >
+      <Provider store={getStore()}>
         <MockedNavigator
           component={EarnHome}
           params={{
@@ -185,19 +218,8 @@ describe('EarnHome', () => {
   })
 
   it('shows correct pool when filtering by token', () => {
-    jest.mocked(getPools).mockReturnValue(mockPools)
     const { getByTestId, getByText, queryByTestId } = render(
-      <Provider
-        store={createMockStore({
-          tokens: {
-            tokenBalances: {
-              ...mockTokenBalances,
-              [mockPools[0].poolTokenId]: mockPoolTokenUSDC,
-              [mockPools[1].poolTokenId]: mockPoolTokenWETH,
-            },
-          },
-        })}
-      >
+      <Provider store={getStore()}>
         <MockedNavigator
           component={EarnHome}
           params={{
@@ -207,46 +229,27 @@ describe('EarnHome', () => {
       </Provider>
     )
 
-    expect(getByTestId(`PoolCard/${mockPools[0].poolId}`)).toBeTruthy()
-    expect(getByTestId(`PoolCard/${mockPools[1].poolId}`)).toBeTruthy()
+    expect(
+      getByTestId('PoolCard/arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216')
+    ).toBeTruthy()
+    expect(
+      getByTestId('PoolCard/ethereum-sepolia:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8')
+    ).toBeTruthy()
 
     fireEvent.press(getByText('tokenBottomSheet.filters.tokens'))
     fireEvent.press(getByTestId('USDCSymbol'))
 
-    expect(getByTestId(`PoolCard/${mockPools[0].poolId}`)).toBeTruthy()
-    expect(queryByTestId(`PoolCard/${mockPools[1].poolId}`)).toBeFalsy()
+    expect(
+      getByTestId('PoolCard/arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216')
+    ).toBeTruthy()
+    expect(
+      queryByTestId('PoolCard/ethereum-sepolia:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8')
+    ).toBeFalsy()
   })
 
   it('shows correct pool when filtering by network', () => {
-    const mockPoolsForNetworkFilter: Pool[] = [
-      mockPools[0],
-      {
-        poolId: 'aEthWETH',
-        providerId: 'aave-v3',
-        networkId: NetworkId['ethereum-sepolia'],
-        tokens: [mockEthTokenId],
-        depositTokenId: mockEthTokenId,
-        poolTokenId: `${NetworkId['ethereum-sepolia']}:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8`,
-        poolAddress: '0x794a61358D6845594F94dc1DB02A252b5b4814aD',
-        apy: 0.023,
-        reward: 0,
-        tvl: 411_630_000,
-        provider: 'Aave',
-      },
-    ]
-    jest.mocked(getPools).mockReturnValue(mockPoolsForNetworkFilter)
     const { getByTestId, getByText, queryByTestId } = render(
-      <Provider
-        store={createMockStore({
-          tokens: {
-            tokenBalances: {
-              ...mockTokenBalances,
-              [mockPoolsForNetworkFilter[0].poolTokenId]: mockPoolTokenUSDC,
-              [mockPoolsForNetworkFilter[1].poolTokenId]: mockPoolTokenEthWETH,
-            },
-          },
-        })}
-      >
+      <Provider store={getStore()}>
         <MockedNavigator
           component={EarnHome}
           params={{
@@ -256,13 +259,21 @@ describe('EarnHome', () => {
       </Provider>
     )
 
-    expect(getByTestId(`PoolCard/${mockPoolsForNetworkFilter[0].poolId}`)).toBeTruthy()
-    expect(getByTestId(`PoolCard/${mockPoolsForNetworkFilter[1].poolId}`)).toBeTruthy()
+    expect(
+      getByTestId('PoolCard/arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216')
+    ).toBeTruthy()
+    expect(
+      getByTestId('PoolCard/ethereum-sepolia:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8')
+    ).toBeTruthy()
 
     fireEvent.press(getByText('tokenBottomSheet.filters.selectNetwork'))
     fireEvent.press(getByTestId('Arbitrum Sepolia-icon'))
 
-    expect(getByTestId(`PoolCard/${mockPoolsForNetworkFilter[0].poolId}`)).toBeTruthy()
-    expect(queryByTestId(`PoolCard/${mockPoolsForNetworkFilter[1].poolId}`)).toBeFalsy()
+    expect(
+      getByTestId('PoolCard/arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216')
+    ).toBeTruthy()
+    expect(
+      queryByTestId('PoolCard/ethereum-sepolia:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8')
+    ).toBeFalsy()
   })
 })

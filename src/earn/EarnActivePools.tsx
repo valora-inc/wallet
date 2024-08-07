@@ -8,6 +8,7 @@ import Button, { BtnSizes, BtnTypes, TextSizes } from 'src/components/Button'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import { convertPositionToPool } from 'src/earn/pools'
 import { EarnTabType } from 'src/earn/types'
+import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -24,8 +25,11 @@ export default function EarnActivePools() {
   const earnPositions = useSelector(earnPositionsSelector)
   const pools = earnPositions.map(convertPositionToPool)
   const poolsSupplied = pools.reduce((acc, pool) => (pool.balance.gt(0) ? acc + 1 : acc), 0)
-  const totalSuppliedValue = pools.reduce((acc, pool) => acc.plus(pool.balance), new BigNumber(0))
-  const totalSupplied = `${localCurrencySymbol}${totalSuppliedValue.gt(0) ? formatValueToDisplay(totalSuppliedValue) : '--'}`
+  const totalSuppliedValue = useDollarsToLocalAmount(
+    pools.reduce((acc, pool) => acc.plus(pool.balance.times(pool.priceUsd)), new BigNumber(0)) ??
+      null
+  )
+  const totalSupplied = `${localCurrencySymbol}${totalSuppliedValue ? formatValueToDisplay(totalSuppliedValue) : '--'}`
 
   return (
     <View style={styles.card} testID="EarnActivePools">
