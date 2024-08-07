@@ -9,7 +9,7 @@ import {
   request as requestPermission,
 } from 'react-native-permissions'
 import { JumpstartEvents, SendEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import Dialog from 'src/components/Dialog'
 import SelectRecipientButton from 'src/components/SelectRecipientButton'
@@ -57,7 +57,7 @@ export default function SelectRecipientButtons({ onContactsPermissionGranted }: 
     const currentPermission = await checkPermission(CONTACTS_PERMISSION)
     setContactsPermissionStatus(currentPermission)
 
-    ValoraAnalytics.track(SendEvents.send_select_recipient_contacts, {
+    AppAnalytics.track(SendEvents.send_select_recipient_contacts, {
       contactsPermissionStatus: currentPermission,
       phoneNumberVerified,
     })
@@ -76,7 +76,7 @@ export default function SelectRecipientButtons({ onContactsPermissionGranted }: 
         onContactsPermissionGranted()
         break
       case PERMISSION_RESULTS.DENIED: // permission is requestable
-        ValoraAnalytics.track(SendEvents.request_contacts_permission_started)
+        AppAnalytics.track(SendEvents.request_contacts_permission_started)
         const newPermission = await requestPermission(CONTACTS_PERMISSION, {
           // rationale for Android, shows up the 2nd time a permission is requested.
           title: t('accessContacts.disclosure.title'),
@@ -85,7 +85,7 @@ export default function SelectRecipientButtons({ onContactsPermissionGranted }: 
           buttonNegative: t('notNow') ?? undefined,
         })
         setContactsPermissionStatus(newPermission)
-        ValoraAnalytics.track(SendEvents.request_contacts_permission_completed, {
+        AppAnalytics.track(SendEvents.request_contacts_permission_completed, {
           permissionStatus: newPermission,
         })
         if (newPermission === PERMISSION_RESULTS.GRANTED) {
@@ -112,12 +112,12 @@ export default function SelectRecipientButtons({ onContactsPermissionGranted }: 
   }
 
   const onPressQR = () => {
-    ValoraAnalytics.track(SendEvents.send_select_recipient_scan_qr)
+    AppAnalytics.track(SendEvents.send_select_recipient_scan_qr)
     navigate(Screens.QRNavigator, { screen: Screens.QRScanner })
   }
 
   const onPressConnectPhoneNumber = () => {
-    ValoraAnalytics.track(SendEvents.send_phone_number_modal_connect)
+    AppAnalytics.track(SendEvents.send_phone_number_modal_connect)
     setShowConnectPhoneNumberModal(false)
     // navigating directly here causes a screen freeze since the modal is fully
     // not dismissed. A state is set, which is then checked on the modal hide
@@ -126,7 +126,7 @@ export default function SelectRecipientButtons({ onContactsPermissionGranted }: 
   }
 
   const onDismissConnectPhoneNumberModal = () => {
-    ValoraAnalytics.track(SendEvents.send_phone_number_modal_dismiss)
+    AppAnalytics.track(SendEvents.send_phone_number_modal_dismiss)
     setShowConnectPhoneNumberModal(false)
   }
 
@@ -140,18 +140,18 @@ export default function SelectRecipientButtons({ onContactsPermissionGranted }: 
   }
 
   const onPressSettings = () => {
-    ValoraAnalytics.track(SendEvents.send_contacts_modal_settings)
+    AppAnalytics.track(SendEvents.send_contacts_modal_settings)
     setShowEnableContactsModal(false)
     navigateToPhoneSettings()
   }
 
   const onDismissEnableContactsModal = () => {
-    ValoraAnalytics.track(SendEvents.send_contacts_modal_dismiss)
+    AppAnalytics.track(SendEvents.send_contacts_modal_dismiss)
     setShowEnableContactsModal(false)
   }
 
   const onPressJumpstart = () => {
-    ValoraAnalytics.track(JumpstartEvents.send_select_recipient_jumpstart)
+    AppAnalytics.track(JumpstartEvents.send_select_recipient_jumpstart)
     navigate(Screens.JumpstartEnterAmount)
   }
 

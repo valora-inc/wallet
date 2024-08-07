@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js'
 import erc20 from 'src/abis/IERC20'
 import { SwapEvents } from 'src/analytics/Events'
 import { SwapTimeMetrics, SwapTxsReceiptProperties } from 'src/analytics/Properties'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
 import { vibrateError } from 'src/styles/hapticFeedback'
@@ -285,7 +285,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       })
     )
 
-    ValoraAnalytics.track(SwapEvents.swap_execute_success, {
+    AppAnalytics.track(SwapEvents.swap_execute_success, {
       ...defaultSwapExecuteProps,
       ...getTimeMetrics(),
       ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),
@@ -308,7 +308,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     }
 
     Logger.error(TAG, 'Error while swapping', error)
-    ValoraAnalytics.track(SwapEvents.swap_execute_error, {
+    AppAnalytics.track(SwapEvents.swap_execute_error, {
       ...defaultSwapExecuteProps,
       ...getTimeMetrics(),
       ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),

@@ -76,7 +76,7 @@ describe('getViemWallet', () => {
     await expectSaga(getViemWallet, celo).returns('foo').run()
     expect(getLockableViemWallet).toHaveBeenCalledTimes(1)
 
-    // get a wallet with valora transport and ensure it is not from the cache
+    // get a wallet with app transport and ensure it is not from the cache
     await expectSaga(getViemWallet, celo, true)
       .provide([
         [select(walletAddressSelector), '0x123'],
@@ -92,7 +92,7 @@ describe('getViemWallet', () => {
 
     expect(getLockableViemWallet).toHaveBeenCalledTimes(2)
 
-    // Verifying that the valora transport wallet is cached
+    // Verifying that the app transport wallet is cached
     await expectSaga(getViemWallet, celo, true).returns('foo').run()
     expect(getLockableViemWallet).toHaveBeenCalledTimes(2)
   })

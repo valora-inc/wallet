@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { AssetsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Touchable from 'src/components/Touchable'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -33,7 +33,7 @@ export default function TabBar({
   }, [t, displayPositions])
 
   const handleSelectOption = (index: AssetTabType) => () => {
-    ValoraAnalytics.track(
+    AppAnalytics.track(
       [
         AssetsEvents.view_wallet_assets,
         AssetsEvents.view_collectibles,

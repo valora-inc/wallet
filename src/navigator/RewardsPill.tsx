@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { RewardsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { phoneNumberVerifiedSelector, rewardsEnabledSelector } from 'src/app/selectors'
 import Pill from 'src/components/Pill'
 import { isE2EEnv } from 'src/config'
@@ -28,7 +28,7 @@ function RewardsPill() {
 
   const onOpenRewards = () => {
     navigate(Screens.ConsumerIncentivesHomeScreen)
-    ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
+    AppAnalytics.track(RewardsEvents.rewards_screen_opened, {
       origin: RewardsScreenOrigin.RewardPill,
     })
   }

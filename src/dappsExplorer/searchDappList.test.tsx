@@ -7,7 +7,7 @@ const dappV2Ubeswap: DappWithCategoryNames = {
   description: 'Intercambia tokens, entra a un fondo o participa del yield farming',
   dappUrl: 'https://app.ubeswap.org/',
   categories: ['exchanges', 'earn'],
-  iconUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/ubeswap.png',
+  iconUrl: 'https://raw.githubusercontent.com/dapp-list/main/assets/ubeswap.png',
   id: 'ubeswap',
   categoryNames: ['Cambia', 'Gana'],
 }
@@ -17,7 +17,7 @@ const dappV2Revo: DappWithCategoryNames = {
   description: 'Yield farming sencillo con protocolo de intereses compuestos automáticos',
   dappUrl: 'https://revo.market',
   categories: ['earn'],
-  iconUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/revo.png',
+  iconUrl: 'https://raw.githubusercontent.com/dapp-list/main/assets/revo.png',
   id: 'revo',
   categoryNames: ['Gana'],
 }

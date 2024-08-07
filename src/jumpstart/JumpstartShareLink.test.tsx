@@ -4,7 +4,7 @@ import React from 'react'
 import { Share } from 'react-native'
 import { Provider } from 'react-redux'
 import { JumpstartEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import JumpstartShareLink from 'src/jumpstart/JumpstartShareLink'
 import { navigateHome } from 'src/navigator/NavigationService'
 import MockedNavigator from 'test/MockedNavigator'
@@ -55,7 +55,7 @@ describe('JumpstartShareLink', () => {
 
     fireEvent.press(getByTestId('JumpstartShareLink/LiveLink/Copy'))
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_copy_link, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_copy_link, {
       ...expectedTrackedProperties,
       origin: 'mainScreen',
     })
@@ -78,7 +78,7 @@ describe('JumpstartShareLink', () => {
           'jumpstartShareLinkScreen.shareMessage, {"link":"https://some.link","tokenAmount":"12.345","tokenSymbol":"cUSD"}',
       })
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_share_link, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_share_link, {
       ...expectedTrackedProperties,
       origin: 'mainScreen',
     })
@@ -97,13 +97,10 @@ describe('JumpstartShareLink', () => {
       )
     )
     await waitFor(() =>
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-        JumpstartEvents.jumpstart_share_link_result,
-        {
-          ...expectedTrackedProperties,
-          action: 'sharedAction',
-        }
-      )
+      expect(AppAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_share_link_result, {
+        ...expectedTrackedProperties,
+        action: 'sharedAction',
+      })
     )
 
     fireEvent.press(
@@ -112,13 +109,10 @@ describe('JumpstartShareLink', () => {
       )
     )
     await waitFor(() =>
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-        JumpstartEvents.jumpstart_share_link_result,
-        {
-          ...expectedTrackedProperties,
-          error: 'shareError',
-        }
-      )
+      expect(AppAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_share_link_result, {
+        ...expectedTrackedProperties,
+        error: 'shareError',
+      })
     )
   })
 
@@ -127,13 +121,13 @@ describe('JumpstartShareLink', () => {
     const { getByText, getByTestId } = renderJumpstartShareLink()
 
     fireEvent.press(getByText('jumpstartShareLinkScreen.ctaScanQRCode'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       JumpstartEvents.jumpstart_show_QR,
       expectedTrackedProperties
     )
 
     fireEvent.press(getByTestId('JumpstartShareLink/QRCodeBottomSheet/LiveLink/Copy'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_copy_link, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_copy_link, {
       ...expectedTrackedProperties,
       origin: 'qrScreen',
     })
@@ -150,7 +144,7 @@ describe('JumpstartShareLink', () => {
           'jumpstartShareLinkScreen.shareMessage, {"link":"https://some.link","tokenAmount":"12.345","tokenSymbol":"cUSD"}',
       })
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_share_link, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_share_link, {
       ...expectedTrackedProperties,
       origin: 'qrScreen',
     })
@@ -164,7 +158,7 @@ describe('JumpstartShareLink', () => {
     await waitFor(() =>
       expect(getByText('jumpstartShareLinkScreen.navigationWarning.title')).toBeTruthy()
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_share_close)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_share_close)
 
     // should not navigate away if the user taps on the primary action
     fireEvent.press(
@@ -176,16 +170,12 @@ describe('JumpstartShareLink', () => {
       expect(queryByText('jumpstartShareLinkScreen.navigationWarning.title')).toBeFalsy()
     )
     expect(navigateHome).not.toHaveBeenCalled()
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      JumpstartEvents.jumpstart_share_dismiss_close
-    )
+    expect(AppAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_share_dismiss_close)
 
     fireEvent.press(getByTestId('JumpstartShareLink/CloseButton'))
     // should navigate away if the user taps on the secondary action
     fireEvent.press(getByText('jumpstartShareLinkScreen.navigationWarning.ctaNavigate'))
     await waitFor(() => expect(navigateHome).toHaveBeenCalled())
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      JumpstartEvents.jumpstart_share_confirm_close
-    )
+    expect(AppAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_share_confirm_close)
   })
 })

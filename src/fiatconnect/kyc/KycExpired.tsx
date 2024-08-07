@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import getNavigationOptions from 'src/fiatconnect/kyc/getNavigationOptions'
 import { kycTryAgainLoadingSelector } from 'src/fiatconnect/selectors'
@@ -35,7 +35,7 @@ function KycExpired({ route, navigation }: Props) {
   const { t } = useTranslation()
 
   const onPressTryAgain = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_kyc_status_try_again, {
+    AppAnalytics.track(FiatExchangeEvents.cico_fc_kyc_status_try_again, {
       provider: quote.getProviderId(),
       flow,
       fiatConnectKycStatus: FiatConnectKycStatus.KycExpired,
@@ -43,7 +43,7 @@ function KycExpired({ route, navigation }: Props) {
     dispatch(kycTryAgain({ quote, flow }))
   }
   const onPressSwitch = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_kyc_status_switch_method, {
+    AppAnalytics.track(FiatExchangeEvents.cico_fc_kyc_status_switch_method, {
       provider: quote.getProviderId(),
       flow,
       fiatConnectKycStatus: FiatConnectKycStatus.KycExpired,

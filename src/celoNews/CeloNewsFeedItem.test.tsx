@@ -1,7 +1,7 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { CeloNewsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import CeloNewsFeedItem from 'src/celoNews/CeloNewsFeedItem'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -39,7 +39,7 @@ describe('CeloNewsFeedItem', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
       uri: TEST_ARTICLE.link,
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(CeloNewsEvents.celo_news_article_tap, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(CeloNewsEvents.celo_news_article_tap, {
       url: TEST_ARTICLE.link,
     })
   })

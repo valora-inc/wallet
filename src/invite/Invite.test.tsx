@@ -4,12 +4,12 @@ import React from 'react'
 import { Share } from 'react-native'
 import { Provider } from 'react-redux'
 import { InviteEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import * as InviteUtils from 'src/firebase/dynamicLinks'
 import { createMockStore } from 'test/utils'
 import Invite from './Invite'
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 const mockShare = jest.spyOn(Share, 'share')
 const mockCreateInviteLink = jest.spyOn(InviteUtils, 'createInviteLink')
 
@@ -75,8 +75,8 @@ describe('Invite', () => {
       message: 'inviteWithUrl.share, {"shareUrl":"https://vlra.app/abc123"}',
     })
 
-    await waitFor(() => expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(InviteEvents.invite_with_referral_url, {
+    await waitFor(() => expect(AppAnalytics.track).toHaveBeenCalledTimes(1))
+    expect(AppAnalytics.track).toHaveBeenCalledWith(InviteEvents.invite_with_referral_url, {
       action: 'sharedAction',
       activityType: 'clipboard',
     })

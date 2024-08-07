@@ -3,7 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import { RewardsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { rewardsEnabledSelector } from 'src/app/selectors'
 import HorizontalLine from 'src/components/HorizontalLine'
 import LegacyTokenTotalLineItem from 'src/components/LegacyTokenTotalLineItem'
@@ -36,7 +36,7 @@ function RewardReceivedContent({ transfer }: { transfer: TokenTransfer }) {
 
   const openLearnMore = () => {
     navigate(Screens.ConsumerIncentivesHomeScreen)
-    ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
+    AppAnalytics.track(RewardsEvents.rewards_screen_opened, {
       origin: RewardsScreenOrigin.PaymentDetail,
     })
   }

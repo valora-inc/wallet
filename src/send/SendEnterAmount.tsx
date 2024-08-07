@@ -2,7 +2,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useMemo } from 'react'
 import { SendEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -60,7 +60,7 @@ function SendEnterAmount({ route }: Props) {
         tokenAmount,
       },
     })
-    ValoraAnalytics.track(SendEvents.send_amount_continue, {
+    AppAnalytics.track(SendEvents.send_amount_continue, {
       origin,
       isScan: isFromScan,
       recipientType: recipient.recipientType,

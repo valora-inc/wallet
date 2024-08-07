@@ -2,7 +2,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { KeylessBackupEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import KeylessBackupProgress from 'src/keylessBackup/KeylessBackupProgress'
 import { keylessBackupAcceptZeroBalance, keylessBackupBail } from 'src/keylessBackup/slice'
 import {
@@ -20,7 +20,7 @@ import { mockOnboardingProps } from 'test/values'
 const mockOnboardingPropsSelector = jest.fn(() => mockOnboardingProps)
 
 jest.mock('src/navigator/NavigationService')
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 jest.mock('src/utils/Logger')
 jest.mock('src/onboarding/steps', () => ({
   goToNextOnboardingScreen: jest.fn(),
@@ -86,8 +86,8 @@ describe('KeylessBackupProgress', () => {
       fireEvent.press(getByTestId('KeylessBackupProgress/Continue'))
 
       expect(navigateHome).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         KeylessBackupEvents.cab_progress_completed_continue,
         { origin: KeylessBackupOrigin.Settings }
       )
@@ -109,8 +109,8 @@ describe('KeylessBackupProgress', () => {
         onboardingProps: mockOnboardingProps,
         firstScreenInCurrentStep: Screens.SignInWithEmail,
       })
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         KeylessBackupEvents.cab_progress_completed_continue,
         {
           origin: KeylessBackupOrigin.Onboarding,
@@ -130,10 +130,8 @@ describe('KeylessBackupProgress', () => {
 
       expect(navigate).toHaveBeenCalledTimes(1)
       expect(navigate).toHaveBeenCalledWith(Screens.Settings)
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-        KeylessBackupEvents.cab_progress_failed_later
-      )
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(KeylessBackupEvents.cab_progress_failed_later)
     })
     it('navigates to manual backup on failure', async () => {
       jest.mocked(ensurePincode).mockResolvedValueOnce(true)
@@ -148,8 +146,8 @@ describe('KeylessBackupProgress', () => {
       await waitFor(() => expect(navigate).toHaveBeenCalledTimes(1))
       expect(navigate).toHaveBeenCalledWith(Screens.BackupIntroduction)
 
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         KeylessBackupEvents.cab_progress_failed_manual,
         { origin: KeylessBackupOrigin.Settings }
       )
@@ -168,8 +166,8 @@ describe('KeylessBackupProgress', () => {
 
       expect(navigate).toBeCalledWith(Screens.AccountKeyEducation, { origin: 'cabOnboarding' })
 
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         KeylessBackupEvents.cab_progress_failed_manual,
         { origin: KeylessBackupOrigin.Onboarding }
       )
@@ -188,8 +186,8 @@ describe('KeylessBackupProgress', () => {
 
       expect(navigate).toBeCalledWith(Screens.ChooseYourAdventure)
 
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         KeylessBackupEvents.cab_progress_failed_skip_onboarding
       )
     })
@@ -221,14 +219,14 @@ describe('KeylessBackupProgress', () => {
       expect(getByTestId('ConfirmUseAccountDialog')).toBeTruthy()
 
       fireEvent.press(getByTestId('ConfirmUseAccountDialog/PrimaryAction'))
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         KeylessBackupEvents.cab_restore_zero_balance_accept
       )
       expect(store.getActions()).toEqual([keylessBackupAcceptZeroBalance()])
 
       store.clearActions()
       fireEvent.press(getByTestId('ConfirmUseAccountDialog/SecondaryAction'))
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         KeylessBackupEvents.cab_restore_zero_balance_bail
       )
       expect(store.getActions()).toEqual([keylessBackupBail()])
@@ -244,7 +242,7 @@ describe('KeylessBackupProgress', () => {
       expect(getByText(`45.22`, { exact: false })).toBeTruthy()
 
       fireEvent.press(getByTestId('KeylessBackupProgress/Continue'))
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         KeylessBackupEvents.cab_restore_completed_continue
       )
       expect(goToNextOnboardingScreen).toHaveBeenCalledWith({
@@ -276,8 +274,8 @@ describe('KeylessBackupProgress', () => {
       expect(navigate).toHaveBeenCalledTimes(1)
       expect(navigate).toHaveBeenCalledWith(Screens.ImportSelect)
       expect(store.getActions()).toEqual([keylessBackupBail()])
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         KeylessBackupEvents.cab_restore_failed_try_again,
         {
           keylessBackupStatus: KeylessBackupStatus.NotFound,
@@ -298,8 +296,8 @@ describe('KeylessBackupProgress', () => {
       expect(navigate).toHaveBeenCalledTimes(1)
       expect(navigate).toHaveBeenCalledWith(Screens.Welcome)
       expect(store.getActions()).toEqual([keylessBackupBail()])
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         KeylessBackupEvents.cab_restore_failed_create_new_wallet,
         {
           keylessBackupStatus: KeylessBackupStatus.NotFound,
@@ -320,8 +318,8 @@ describe('KeylessBackupProgress', () => {
       expect(navigate).toHaveBeenCalledTimes(1)
       expect(navigate).toHaveBeenCalledWith(Screens.ImportSelect)
       expect(store.getActions()).toEqual([keylessBackupBail()])
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         KeylessBackupEvents.cab_restore_failed_try_again,
         {
           keylessBackupStatus: KeylessBackupStatus.Failed,
@@ -342,8 +340,8 @@ describe('KeylessBackupProgress', () => {
       expect(navigate).toHaveBeenCalledTimes(1)
       expect(navigate).toHaveBeenCalledWith(Screens.Welcome)
       expect(store.getActions()).toEqual([keylessBackupBail()])
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         KeylessBackupEvents.cab_restore_failed_create_new_wallet,
         {
           keylessBackupStatus: KeylessBackupStatus.Failed,
@@ -362,10 +360,8 @@ describe('KeylessBackupProgress', () => {
 
       expect(navigate).toHaveBeenCalledTimes(1)
       expect(navigate).toHaveBeenCalledWith(Screens.SupportContact)
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-        KeylessBackupEvents.cab_restore_failed_help
-      )
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(KeylessBackupEvents.cab_restore_failed_help)
     })
   })
 })

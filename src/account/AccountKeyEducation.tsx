@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform } from 'react-native'
 import Education, { EducationTopic } from 'src/account/Education'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { BtnTypes } from 'src/components/Button'
 import { accountKey1, accountKey2, accountKey3, accountKey4 } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
@@ -16,7 +16,7 @@ type Props = NativeStackScreenProps<StackParamList, Screens.AccountKeyEducation>
 
 export default function AccountKeyEducation(props: Props) {
   function onComplete() {
-    ValoraAnalytics.track(OnboardingEvents.backup_education_complete)
+    AppAnalytics.track(OnboardingEvents.backup_education_complete)
     if (props.route.params?.origin === 'cabOnboarding') {
       navigate(Screens.OnboardingRecoveryPhrase, { origin: 'cabOnboarding' })
     } else if (props.route.params?.nextScreen) {
@@ -31,7 +31,7 @@ export default function AccountKeyEducation(props: Props) {
   const steps = useSteps()
 
   useEffect(() => {
-    ValoraAnalytics.track(OnboardingEvents.backup_education_start)
+    AppAnalytics.track(OnboardingEvents.backup_education_start)
   }, [])
 
   return (

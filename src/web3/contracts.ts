@@ -9,7 +9,7 @@ import { sleep } from '@celo/utils/lib/async'
 import { UnlockableWallet } from '@celo/wallet-base'
 import { accountCreationTimeSelector } from 'src/account/selectors'
 import { ContractKitEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { DEFAULT_FORNO_URL } from 'src/config'
 import { navigateToError } from 'src/navigator/NavigationService'
@@ -38,23 +38,23 @@ let wallet: KeychainWallet | undefined
 let contractKit: ContractKit | undefined
 
 const viemWallets = new Map<Chain, ViemWallet>()
-const valoraViemWallets = new Map<Chain, ViemWallet>()
+const appViemWallets = new Map<Chain, ViemWallet>()
 
 const keychainLock = new KeychainLock()
 const initContractKitLock = new Lock()
 
 async function initWallet(importMnemonicAccount: ImportMnemonicAccount) {
-  ValoraAnalytics.track(ContractKitEvents.init_contractkit_get_wallet_start)
+  AppAnalytics.track(ContractKitEvents.init_contractkit_get_wallet_start)
   const newWallet = new KeychainWallet(importMnemonicAccount, keychainLock)
-  ValoraAnalytics.track(ContractKitEvents.init_contractkit_get_wallet_finish)
+  AppAnalytics.track(ContractKitEvents.init_contractkit_get_wallet_finish)
   await newWallet.init()
-  ValoraAnalytics.track(ContractKitEvents.init_contractkit_init_wallet_finish)
+  AppAnalytics.track(ContractKitEvents.init_contractkit_init_wallet_finish)
   return newWallet
 }
 
 export function* initContractKit() {
   try {
-    ValoraAnalytics.track(ContractKitEvents.init_contractkit_start)
+    AppAnalytics.track(ContractKitEvents.init_contractkit_start)
 
     if (contractKit || wallet) {
       throw new Error('Kit not properly destroyed')
@@ -93,7 +93,7 @@ export function* initContractKit() {
 
     contractKit = newKitFromWeb3(web3, wallet)
     Logger.info(`${TAG}@initContractKit`, 'Initialized kit')
-    ValoraAnalytics.track(ContractKitEvents.init_contractkit_finish)
+    AppAnalytics.track(ContractKitEvents.init_contractkit_finish)
     return
   } catch (error) {
     Logger.error(`${TAG}@initContractKit`, 'Unexpected error initializing kit', error)
@@ -123,8 +123,8 @@ async function waitForContractKit(tries: number) {
 
 // This code assumes that the account for walletAddress already exists in the Keychain
 // which is a responsibility currently handled by KeychainWallet
-export function* getViemWallet(chain: Chain, useValoraTransport?: boolean) {
-  const walletsCache = useValoraTransport ? valoraViemWallets : viemWallets
+export function* getViemWallet(chain: Chain, useAppTransport?: boolean) {
+  const walletsCache = useAppTransport ? appViemWallets : viemWallets
   if (walletsCache.has(chain)) {
     return walletsCache.get(chain) as ViemWallet
   }
@@ -142,12 +142,7 @@ export function* getViemWallet(chain: Chain, useValoraTransport?: boolean) {
   if (!privateKey) {
     throw new Error(`Private key not found for account ${walletAddress}`)
   }
-  const wallet = getLockableViemWallet(
-    keychainLock,
-    chain,
-    privateKey as Address,
-    useValoraTransport
-  )
+  const wallet = getLockableViemWallet(keychainLock, chain, privateKey as Address, useAppTransport)
   Logger.debug(`${TAG}@getViemWallet`, `Initialized wallet with account: ${wallet.account}`)
   walletsCache.set(chain, wallet)
   return wallet

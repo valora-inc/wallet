@@ -4,7 +4,7 @@ import { useAsync } from 'react-async-hook'
 import * as bip39 from 'react-native-bip39'
 import { showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { getPassword } from 'src/pincode/authentication'
 import { useDispatch, useSelector } from 'src/redux/hooks'
@@ -61,7 +61,7 @@ export async function getStoredMnemonic(
 
 export function onGetMnemonicFail(viewError: (error: ErrorMessages) => void, context?: string) {
   viewError(ErrorMessages.FAILED_FETCH_MNEMONIC)
-  ValoraAnalytics.track(OnboardingEvents.backup_error, {
+  AppAnalytics.track(OnboardingEvents.backup_error, {
     error: 'Failed to retrieve Recovery Phrase',
     context,
   })

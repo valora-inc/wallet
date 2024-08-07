@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
 import { QrScreenEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import ScanIcon from 'src/icons/ScanIcon'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -15,7 +15,7 @@ interface Props {
 
 export default function QrScanButton({ testID, size, style }: Props) {
   const onPress = () => {
-    ValoraAnalytics.track(QrScreenEvents.qr_scanner_open)
+    AppAnalytics.track(QrScreenEvents.qr_scanner_open)
     navigate(Screens.QRNavigator, { screen: Screens.QRScanner })
   }
 

@@ -2,7 +2,7 @@ import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer
 import BigNumber from 'bignumber.js'
 import { showError, showMessage } from 'src/alert/actions'
 import { RewardsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { phoneNumberVerifiedSelector, rewardsEnabledSelector } from 'src/app/selectors'
 import { superchargeRewardContractAddressSelector } from 'src/consumerIncentives/selectors'
@@ -132,7 +132,7 @@ function* claimReward(reward: SuperchargePendingReward, index: number, baseNonce
   Logger.info(TAG, `Claimed reward at index ${index}:`, receipt)
   const amount = new BigNumber(details.amount).div(WEI_PER_TOKEN).toString()
   const tokenAddress = details.tokenAddress.toLowerCase()
-  ValoraAnalytics.track(RewardsEvents.claimed_reward, {
+  AppAnalytics.track(RewardsEvents.claimed_reward, {
     amount,
     token: tokens[tokenAddress]?.symbol ?? '',
     version: 2,

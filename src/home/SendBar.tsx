@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Button, { BtnSizes } from 'src/components/Button'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -25,7 +25,7 @@ export default function SendBar({ selectedTokenId }: Props) {
       defaultTokenIdOverride: tokenInfo?.tokenId,
       forceTokenId: !!tokenInfo?.tokenId,
     })
-    ValoraAnalytics.track(FiatExchangeEvents.cico_non_celo_exchange_send_bar_continue)
+    AppAnalytics.track(FiatExchangeEvents.cico_non_celo_exchange_send_bar_continue)
   }
 
   const { t } = useTranslation()

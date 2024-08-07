@@ -11,7 +11,7 @@ Only whitelisted properties (as declared [here](./Properties.tsx)) will be sent 
 
 ## Custom Event Tracking
 
-Make a call to ValoraAnalytics.track() with the event name and any associated properties that should be tracked as part of this event.
+Make a call to AppAnalytics.track() with the event name and any associated properties that should be tracked as part of this event.
 
 ## PILOT_ONLY flag
 

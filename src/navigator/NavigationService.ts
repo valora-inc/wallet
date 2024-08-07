@@ -11,7 +11,7 @@ import { Platform } from 'react-native'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
 import { AuthenticationEvents, NavigationEvents, OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import {
@@ -44,7 +44,7 @@ async function ensureNavigator() {
     retries++
   }
   if (!navigationRef.current || !navigatorIsReadyRef.current) {
-    ValoraAnalytics.track(NavigationEvents.navigator_not_ready)
+    AppAnalytics.track(NavigationEvents.navigator_not_ready)
     throw new Error('navigator is not initialized')
   }
 }
@@ -131,12 +131,12 @@ export const navigateClearingStack: SafeNavigate = (...args) => {
 }
 
 export async function ensurePincode(): Promise<boolean> {
-  ValoraAnalytics.track(AuthenticationEvents.get_pincode_start)
+  AppAnalytics.track(AuthenticationEvents.get_pincode_start)
   const pincodeType = pincodeTypeSelector(store.getState())
 
   if (pincodeType === PincodeType.Unset) {
     Logger.error(TAG + '@ensurePincode', 'Pin has never been set')
-    ValoraAnalytics.track(OnboardingEvents.pin_never_set)
+    AppAnalytics.track(OnboardingEvents.pin_never_set)
     return false
   }
 
@@ -148,7 +148,7 @@ export async function ensurePincode(): Promise<boolean> {
   if (pincodeType === PincodeType.PhoneAuth) {
     try {
       await getPincodeWithBiometry()
-      ValoraAnalytics.track(AuthenticationEvents.get_pincode_complete)
+      AppAnalytics.track(AuthenticationEvents.get_pincode_complete)
       return true
     } catch (err) {
       const error = ensureError(err)
@@ -162,7 +162,7 @@ export async function ensurePincode(): Promise<boolean> {
 
   try {
     await requestPincodeInput(true, false)
-    ValoraAnalytics.track(AuthenticationEvents.get_pincode_complete)
+    AppAnalytics.track(AuthenticationEvents.get_pincode_complete)
     return true
   } catch (error) {
     if (error === CANCELLED_PIN_INPUT) {
@@ -170,7 +170,7 @@ export async function ensurePincode(): Promise<boolean> {
     } else {
       Logger.error(`${TAG}@ensurePincode`, `PIN entering error`, error)
     }
-    ValoraAnalytics.track(AuthenticationEvents.get_pincode_error)
+    AppAnalytics.track(AuthenticationEvents.get_pincode_error)
     return false
   }
 }

@@ -4,7 +4,7 @@ import { generateOnRampURL } from '@coinbase/cbpay-js'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { CoinbasePayEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Touchable from 'src/components/Touchable'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { FetchProvidersOutput } from 'src/fiatExchanges/utils'
@@ -56,7 +56,7 @@ export function CoinbasePaymentSection({
   })
 
   const navigateCoinbasePayFlow = () => {
-    ValoraAnalytics.track(CoinbasePayEvents.coinbase_pay_flow_start, analyticsData)
+    AppAnalytics.track(CoinbasePayEvents.coinbase_pay_flow_start, analyticsData)
     navigate(Screens.CoinbasePayScreen, { uri: coinbasePayURL })
   }
 

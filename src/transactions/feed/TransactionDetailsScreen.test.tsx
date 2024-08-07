@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { TransactionDetailsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
@@ -51,7 +51,7 @@ import {
   mockTokenBalances,
 } from 'test/values'
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 jest.mock('src/statsig')
 
 const mockAddress = '0x8C3b8Af721384BB3479915C72CEe32053DeFca4E'
@@ -649,6 +649,29 @@ describe('TransactionDetailsScreen', () => {
     expect(getByTestId('SwapContent/swapTo')).toHaveTextContent('--')
   })
 
+  it(`renders the default network explorer link for failed ${TokenTransactionTypeV2.CrossChainSwapTransaction} transacton`, () => {
+    const { getByText, queryByText } = renderScreen({
+      transaction: crossChainSwapTransaction({
+        status: TransactionStatus.Failed,
+      }),
+      storeOverrides: {
+        tokens: {
+          tokenBalances: mockTokenBalances,
+        },
+      },
+    })
+
+    expect(queryByText('viewOnAxelarScan')).toBeFalsy()
+
+    fireEvent.press(getByText('viewOnCeloScan'))
+    expect(navigate).toHaveBeenCalledWith(
+      Screens.WebViewScreen,
+      expect.objectContaining({
+        uri: 'https://celoscan.io/tx/0x2ae09a1867b0d54b614bdfa43a08b0ffaaf0cd289c830418b31d50e627d67cd8',
+      })
+    )
+  })
+
   it.each([
     TokenTransactionTypeV2.InviteSent,
     TokenTransactionTypeV2.Received,
@@ -776,7 +799,7 @@ describe('TransactionDetailsScreen', () => {
     })
 
     fireEvent.press(getByTestId('transactionDetails/blockExplorerLink'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       TransactionDetailsEvents.transaction_details_tap_block_explorer,
       {
         transactionType: TokenTransactionTypeV2.SwapTransaction,

@@ -2,7 +2,7 @@ import { EscrowWrapper } from '@celo/contractkit/lib/wrappers/Escrow'
 import BigNumber from 'bignumber.js'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { EscrowEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
   Actions,
@@ -39,7 +39,7 @@ export function* reclaimFromEscrow({ paymentID }: EscrowReclaimPaymentAction) {
   Logger.debug(TAG + '@reclaimFromEscrow', 'Reclaiming escrowed payment')
 
   try {
-    ValoraAnalytics.track(EscrowEvents.escrow_reclaim_start)
+    AppAnalytics.track(EscrowEvents.escrow_reclaim_start)
     const account = yield* call(getConnectedUnlockedAccount)
 
     const reclaimTx = yield* call(createReclaimTransaction, paymentID)
@@ -62,11 +62,11 @@ export function* reclaimFromEscrow({ paymentID }: EscrowReclaimPaymentAction) {
     yield* put(reclaimEscrowPaymentSuccess())
 
     yield* call(navigateHome)
-    ValoraAnalytics.track(EscrowEvents.escrow_reclaim_complete)
+    AppAnalytics.track(EscrowEvents.escrow_reclaim_complete)
   } catch (err) {
     const error = ensureError(err)
     Logger.error(TAG + '@reclaimFromEscrow', 'Error reclaiming payment from escrow', error)
-    ValoraAnalytics.track(EscrowEvents.escrow_reclaim_error, { error: error.message })
+    AppAnalytics.track(EscrowEvents.escrow_reclaim_error, { error: error.message })
     yield* put(showErrorOrFallback(error, ErrorMessages.RECLAIMING_ESCROWED_PAYMENT_FAILED))
     yield* put(reclaimEscrowPaymentFailure())
   } finally {
@@ -90,7 +90,7 @@ function* doFetchSentPayments() {
   Logger.debug(TAG + '@doFetchSentPayments', 'Fetching valid sent escrowed payments')
 
   try {
-    ValoraAnalytics.track(EscrowEvents.escrow_fetch_start)
+    AppAnalytics.track(EscrowEvents.escrow_fetch_start)
     const contractKit = yield* call(getContractKit)
 
     const escrow: EscrowWrapper = yield* call([
@@ -139,10 +139,10 @@ function* doFetchSentPayments() {
     }
 
     yield* put(storeSentEscrowPayments(sentPayments))
-    ValoraAnalytics.track(EscrowEvents.escrow_fetch_complete)
+    AppAnalytics.track(EscrowEvents.escrow_fetch_complete)
   } catch (err) {
     const error = ensureError(err)
-    ValoraAnalytics.track(EscrowEvents.escrow_fetch_error, { error: error.message })
+    AppAnalytics.track(EscrowEvents.escrow_fetch_error, { error: error.message })
     Logger.error(TAG + '@doFetchSentPayments', 'Error fetching sent escrowed payments', error)
   }
 }

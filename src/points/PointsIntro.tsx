@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { PointsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import CustomHeader from 'src/components/header/CustomHeader'
@@ -27,14 +27,14 @@ export default function PointsHome({ route, navigation }: Props) {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('beforeRemove', () => {
-      ValoraAnalytics.track(PointsEvents.points_intro_back)
+      AppAnalytics.track(PointsEvents.points_intro_back)
     })
 
     return unsubscribe
   }, [navigation])
 
   const onIntroDismiss = () => {
-    ValoraAnalytics.track(PointsEvents.points_intro_dismiss)
+    AppAnalytics.track(PointsEvents.points_intro_dismiss)
     dispatch(pointsIntroDismissed())
     replace(Screens.PointsHome)
   }

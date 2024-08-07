@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { EarnEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EARN_STABLECOINS_LEARN_MORE } from 'src/config'
 import EarnInfoScreen from 'src/earn/EarnInfoScreen'
 import { navigate } from 'src/navigator/NavigationService'
@@ -77,7 +77,7 @@ describe('EarnInfoScreen', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
       uri: EARN_STABLECOINS_LEARN_MORE,
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_info_learn_press)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_info_learn_press)
   })
 
   it('should navigate and fire analytics correctly on Start Earning button press', () => {
@@ -91,6 +91,6 @@ describe('EarnInfoScreen', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, {
       tokenId: networkConfig.arbUsdcTokenId,
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_info_earn_press)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_info_earn_press)
   })
 })

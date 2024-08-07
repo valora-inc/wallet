@@ -28,7 +28,7 @@ import {
 } from 'test/values'
 import { encodeFunctionData } from 'viem'
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 jest.mock('src/statsig')
 jest.mock('src/jumpstart/fetchClaimStatus')
 jest.mock('src/viem/prepareTransactions')

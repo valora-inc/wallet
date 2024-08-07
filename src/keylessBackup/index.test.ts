@@ -1,5 +1,5 @@
 import { SiweClient } from '@fiatconnect/fiatconnect-sdk'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import {
   deleteEncryptedMnemonic,
   getEncryptedMnemonic,
@@ -38,7 +38,7 @@ describe(storeEncryptedMnemonic, () => {
         jwt: 'abc.def.ghi',
       })
     ).rejects.toThrow('Failed to post encrypted mnemonic with status 500, message bad news')
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_post_encrypted_mnemonic_failed', {
+    expect(AppAnalytics.track).toHaveBeenCalledWith('cab_post_encrypted_mnemonic_failed', {
       backupAlreadyExists: false,
     })
 
@@ -55,7 +55,7 @@ describe(storeEncryptedMnemonic, () => {
         jwt: 'abc.def.ghi',
       })
     ).rejects.toThrow('Failed to post encrypted mnemonic with status 409, message backup exists')
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_post_encrypted_mnemonic_failed', {
+    expect(AppAnalytics.track).toHaveBeenCalledWith('cab_post_encrypted_mnemonic_failed', {
       backupAlreadyExists: true,
     })
   })

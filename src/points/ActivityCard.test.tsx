@@ -1,11 +1,11 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { PointsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import SwapArrows from 'src/icons/SwapArrows'
 import ActivityCard, { Props } from './ActivityCard'
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 
 const mockProps: Props = {
   activityId: 'swap',
@@ -45,7 +45,7 @@ describe('ActivityCard', () => {
     const { getByText } = render(<ActivityCard {...mockProps} />)
 
     fireEvent.press(getByText('Swap'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_press, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_press, {
       activityId: 'swap',
     })
     expect(mockProps.onPress).toHaveBeenCalled()
@@ -56,7 +56,7 @@ describe('ActivityCard', () => {
     const { getByText } = render(<ActivityCard {...noPressProps} />)
 
     fireEvent.press(getByText('Swap'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_press, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_press, {
       activityId: 'swap',
     })
   })

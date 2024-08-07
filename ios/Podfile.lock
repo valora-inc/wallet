@@ -527,9 +527,9 @@ PODS:
   - react-native-compat (2.13.3):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - react-native-config (1.5.2):
-    - react-native-config/App (= 1.5.2)
-  - react-native-config/App (1.5.2):
+  - react-native-config (1.5.3):
+    - react-native-config/App (= 1.5.3)
+  - react-native-config/App (1.5.3):
     - React-Core
   - react-native-contacts (5.0.0):
     - React-Core
@@ -702,7 +702,7 @@ PODS:
     - RNFBApp
   - RNFS (2.20.0):
     - React-Core
-  - RNGestureHandler (2.17.1):
+  - RNGestureHandler (2.18.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - RNImageCropPicker (0.41.2):
@@ -723,7 +723,8 @@ PODS:
   - RNPersonaInquiry2 (2.2.23):
     - PersonaInquirySDK2 (= 2.3.9)
     - React-Core
-  - RNReactNativeHapticFeedback (2.2.0):
+  - RNReactNativeHapticFeedback (2.3.1):
+    - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - RNReanimated (2.17.0):
     - DoubleConversion
@@ -758,14 +759,14 @@ PODS:
     - React-RCTImage
   - RNSecureRandom (1.0.1):
     - React-Core
-  - RNSentry (5.24.1):
+  - RNSentry (5.27.0):
     - hermes-engine
     - React-Core
     - React-hermes
-    - Sentry/HybridSDK (= 8.29.1)
+    - Sentry/HybridSDK (= 8.32.0)
   - RNShare (10.2.1):
     - React-Core
-  - RNSVG (15.3.0):
+  - RNSVG (15.5.0):
     - React-Core
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
@@ -776,7 +777,7 @@ PODS:
   - segment-analytics-react-native (2.19.2):
     - React-Core
     - sovran-react-native
-  - Sentry/HybridSDK (8.29.1)
+  - Sentry/HybridSDK (8.32.0)
   - SimpleKeychain (1.0.1)
   - SocketRocket (0.7.0)
   - sovran-react-native (1.1.1):
@@ -1204,7 +1205,7 @@ SPEC CHECKSUMS:
   react-native-adjust: 83114d391a4a7a438e2c4d8e8137bc7810e7076f
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
   react-native-compat: d4cbc6baa534b34984808b9224e5a4b6293af236
-  react-native-config: d7d8a0c65f7fa523197879f6b777997abbfc987e
+  react-native-config: 8f7283449bbb048902f4e764affbbf24504454af
   react-native-contacts: fd1614c74777089ebb6b0a0e3847dd78130ef9f4
   react-native-cookies: 672b2431ca44da2e2942af086d0c83aae42b989a
   react-native-fast-crypto: db61bcb2d1224a180449b886f27426a67d7628c0
@@ -1249,23 +1250,23 @@ SPEC CHECKSUMS:
   RNFBMessaging: 15439cf96be05b47d95334052afc306eac89c2ce
   RNFBRemoteConfig: 37959d81004ff1232f26276d02655c992b1ce715
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
-  RNGestureHandler: bbb8e17b10afdafc5cc5746e8f60772236e7e2ca
+  RNGestureHandler: 325d972e9402b427e819c950eae2b07d4c529802
   RNImageCropPicker: 771e2ca319d2cf92e04ebf334ece892ee9a6728f
   RNKeychain: f1b48665a4646f61191eb048c4c05c58d9a7596f
   RNLocalize: e8694475db034bf601e17bd3dfa8986565e769eb
   RNPermissions: da2a4ded375aa8292d85ed93676e102c203d4717
   RNPersonaInquiry2: 3ab52078e891a5d2fa39bf7cc9119ca27f0337fd
-  RNReactNativeHapticFeedback: ec56a5f81c3941206fd85625fa669ffc7b4545f9
+  RNReactNativeHapticFeedback: 57b3c27b11c6b03a34973467fc8a41753ed61eaa
   RNReanimated: f186e85d9f28c9383d05ca39e11dd194f59093ec
   RNScreens: 03acbdcf84e1bf6832ba83dbe3601eae20c55de0
   RNSecureRandom: ff25041dd065a945810ca01a2bcd06f8d141b81d
-  RNSentry: e9aa15bb2f3e18c822c002eea13bbd3b222ab493
+  RNSentry: 23e21e49e5375ea9947461073ad0fd427e6e2875
   RNShare: 0fad69ae2d71de9d1f7b9a43acf876886a6cb99c
-  RNSVG: a48668fd382115bc89761ce291a81c4ca5f2fd2e
+  RNSVG: b986585e367f4a49d8aa43065066cc9c290b3d9b
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
   segment-analytics-react-native: 962494a9edbe3f6c5829e3b471484c85c304601c
-  Sentry: c446963245407030e17f1b926a83c6337dc99f4e
+  Sentry: 96ae1dcdf01a644bc3a3b1dc279cecaf48a833fb
   SimpleKeychain: 130211269f88f038d7dc5254cf0b1b9ce978c398
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   sovran-react-native: e6a9c963a8a6b9ebc3563394c39c30f33ab1453f

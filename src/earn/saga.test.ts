@@ -4,7 +4,7 @@ import { call } from 'redux-saga-test-plan/matchers'
 import { StaticProvider, dynamic, throwError } from 'redux-saga-test-plan/providers'
 import erc20 from 'src/abis/IERC20'
 import { EarnEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { fetchAavePoolInfo } from 'src/earn/poolInfo'
 import { depositSubmitSaga, fetchPoolInfoSaga, withdrawSubmitSaga } from 'src/earn/saga'
 import {
@@ -254,11 +254,11 @@ describe('depositSubmitSaga', () => {
     expect(mockStandbyHandler).toHaveBeenCalledTimes(2)
     expect(mockStandbyHandler).toHaveBeenNthCalledWith(1, expectedApproveStandbyTx)
     expect(mockStandbyHandler).toHaveBeenNthCalledWith(2, expectedDepositStandbyTx)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       EarnEvents.earn_deposit_submit_start,
       expectedAnalyticsProps
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_submit_success, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_submit_success, {
       ...expectedAnalyticsProps,
       ...expectedCumulativeGasAnalyticsProperties,
     })
@@ -292,11 +292,11 @@ describe('depositSubmitSaga', () => {
     expect(decodeFunctionData).not.toHaveBeenCalled()
     expect(mockStandbyHandler).toHaveBeenCalledTimes(1)
     expect(mockStandbyHandler).toHaveBeenCalledWith(expectedDepositStandbyTx)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       EarnEvents.earn_deposit_submit_start,
       expectedAnalyticsProps
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_submit_success, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_submit_success, {
       ...expectedAnalyticsProps,
       ...expectedDepositGasAnalyticsProperties,
       gasFee: 0.00185837,
@@ -330,11 +330,11 @@ describe('depositSubmitSaga', () => {
     expect(navigateHome).not.toHaveBeenCalled()
     expect(decodeFunctionData).not.toHaveBeenCalled()
     expect(mockStandbyHandler).not.toHaveBeenCalled()
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       EarnEvents.earn_deposit_submit_start,
       expectedAnalyticsProps
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       EarnEvents.earn_deposit_submit_cancel,
       expectedAnalyticsProps
     )
@@ -362,11 +362,11 @@ describe('depositSubmitSaga', () => {
     expect(navigateHome).not.toHaveBeenCalled()
     expect(decodeFunctionData).not.toHaveBeenCalled()
     expect(mockStandbyHandler).not.toHaveBeenCalled()
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       EarnEvents.earn_deposit_submit_start,
       expectedAnalyticsProps
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       EarnEvents.earn_deposit_submit_error,
       expect.objectContaining({
         ...expectedAnalyticsProps,
@@ -406,11 +406,11 @@ describe('depositSubmitSaga', () => {
     expect(mockStandbyHandler).toHaveBeenCalledTimes(2)
     expect(mockStandbyHandler).toHaveBeenNthCalledWith(1, expectedApproveStandbyTx)
     expect(mockStandbyHandler).toHaveBeenNthCalledWith(2, expectedDepositStandbyTx)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       EarnEvents.earn_deposit_submit_start,
       expectedAnalyticsProps
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_submit_error, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_submit_error, {
       ...expectedAnalyticsProps,
       error: 'Deposit transaction reverted: 0x2',
       ...expectedCumulativeGasAnalyticsProperties,
@@ -545,11 +545,11 @@ describe('withdrawSubmitSaga', () => {
     expect(mockStandbyHandler).toHaveBeenCalledTimes(2)
     expect(mockStandbyHandler).toHaveBeenNthCalledWith(1, expectedWithdrawStandbyTx)
     expect(mockStandbyHandler).toHaveBeenNthCalledWith(2, expectedClaimRewardTx)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       EarnEvents.earn_withdraw_submit_start,
       expectedAnalyticsPropsWithRewards
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       EarnEvents.earn_withdraw_submit_success,
       expectedAnalyticsPropsWithRewards
     )
@@ -581,11 +581,11 @@ describe('withdrawSubmitSaga', () => {
     expect(navigateHome).toHaveBeenCalled()
     expect(mockStandbyHandler).toHaveBeenCalledTimes(1)
     expect(mockStandbyHandler).toHaveBeenNthCalledWith(1, expectedWithdrawStandbyTx)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       EarnEvents.earn_withdraw_submit_start,
       expectedAnalyticsPropsNoRewards
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       EarnEvents.earn_withdraw_submit_success,
       expectedAnalyticsPropsNoRewards
     )
@@ -615,11 +615,11 @@ describe('withdrawSubmitSaga', () => {
       .run()
     expect(navigateHome).not.toHaveBeenCalled()
     expect(mockStandbyHandler).not.toHaveBeenCalled()
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       EarnEvents.earn_withdraw_submit_start,
       expectedAnalyticsPropsNoRewards
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       EarnEvents.earn_withdraw_submit_cancel,
       expectedAnalyticsPropsNoRewards
     )
@@ -648,11 +648,11 @@ describe('withdrawSubmitSaga', () => {
     expect(navigateHome).not.toHaveBeenCalled()
     expect(decodeFunctionData).not.toHaveBeenCalled()
     expect(mockStandbyHandler).not.toHaveBeenCalled()
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       EarnEvents.earn_withdraw_submit_start,
       expectedAnalyticsPropsWithRewards
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_withdraw_submit_error, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_withdraw_submit_error, {
       ...expectedAnalyticsPropsWithRewards,
       error: 'Transaction failed',
     })
@@ -691,11 +691,11 @@ describe('withdrawSubmitSaga', () => {
       expect(mockStandbyHandler).toHaveBeenCalledTimes(2)
       expect(mockStandbyHandler).toHaveBeenNthCalledWith(1, expectedWithdrawStandbyTx)
       expect(mockStandbyHandler).toHaveBeenNthCalledWith(2, expectedClaimRewardTx)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         EarnEvents.earn_withdraw_submit_start,
         expectedAnalyticsPropsWithRewards
       )
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_withdraw_submit_error, {
+      expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_withdraw_submit_error, {
         ...expectedAnalyticsPropsWithRewards,
         error: `Transaction ${num} reverted: ${hash}`,
       })

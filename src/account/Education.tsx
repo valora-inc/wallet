@@ -13,7 +13,7 @@ import {
 import { NativeSafeAreaViewProps, SafeAreaView } from 'react-native-safe-area-context'
 import { OnboardingEvents } from 'src/analytics/Events'
 import { ScrollDirection } from 'src/analytics/types'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Pagination from 'src/components/Pagination'
 import BackChevron from 'src/icons/BackChevron'
@@ -77,12 +77,12 @@ const Education = (props: Props) => {
 
     const direction = nextIndex > currentIndex ? ScrollDirection.next : ScrollDirection.previous
     if (topic === EducationTopic.backup) {
-      ValoraAnalytics.track(OnboardingEvents.backup_education_scroll, {
+      AppAnalytics.track(OnboardingEvents.backup_education_scroll, {
         currentStep: currentIndex,
         direction: direction,
       })
     } else if (topic === EducationTopic.celo) {
-      ValoraAnalytics.track(OnboardingEvents.celo_education_scroll, {
+      AppAnalytics.track(OnboardingEvents.celo_education_scroll, {
         currentStep: currentIndex,
         direction: direction,
       })
@@ -100,9 +100,9 @@ const Education = (props: Props) => {
     const { topic } = stepInfo[currentIndex]
     if (currentIndex === 0) {
       if (topic === EducationTopic.backup) {
-        ValoraAnalytics.track(OnboardingEvents.backup_education_cancel)
+        AppAnalytics.track(OnboardingEvents.backup_education_cancel)
       } else if (topic === EducationTopic.celo) {
-        ValoraAnalytics.track(OnboardingEvents.celo_education_cancel)
+        AppAnalytics.track(OnboardingEvents.celo_education_cancel)
       }
       navigateBack()
     } else {

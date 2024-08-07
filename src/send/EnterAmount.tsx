@@ -14,7 +14,7 @@ import { View } from 'react-native-animatable'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { SendEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BackButton from 'src/components/BackButton'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
@@ -166,7 +166,7 @@ function EnterAmount({
 
   const onTokenPickerSelect = () => {
     tokenBottomSheetRef.current?.snapToIndex(0)
-    ValoraAnalytics.track(SendEvents.token_dropdown_opened, {
+    AppAnalytics.track(SendEvents.token_dropdown_opened, {
       currentTokenId: token.tokenId,
       currentTokenAddress: token.address,
       currentNetworkId: token.networkId,
@@ -187,7 +187,7 @@ function EnterAmount({
     setEnteredIn('token')
     tokenAmountInputRef.current?.blur()
     localAmountInputRef.current?.blur()
-    ValoraAnalytics.track(SendEvents.max_pressed, {
+    AppAnalytics.track(SendEvents.max_pressed, {
       tokenId: token.tokenId,
       tokenAddress: token.address,
       networkId: token.networkId,

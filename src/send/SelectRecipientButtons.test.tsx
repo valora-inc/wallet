@@ -4,7 +4,7 @@ import { Platform } from 'react-native'
 import { RESULTS, check, request } from 'react-native-permissions'
 import { Provider } from 'react-redux'
 import { JumpstartEvents, SendEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import SelectRecipientButtons from 'src/send/SelectRecipientButtons'
@@ -52,9 +52,7 @@ describe('SelectRecipientButtons', () => {
     expect(await findByTestId('SelectRecipient/QR')).toBeTruthy()
     fireEvent.press(getByText('sendSelectRecipient.jumpstart.title'))
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      JumpstartEvents.send_select_recipient_jumpstart
-    )
+    expect(AppAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.send_select_recipient_jumpstart)
     expect(navigate).toHaveBeenCalledWith(Screens.JumpstartEnterAmount)
   })
 
@@ -83,7 +81,7 @@ describe('SelectRecipientButtons', () => {
   it('navigates to QR screen when QR button is pressed', async () => {
     const { findByTestId } = renderComponent()
     fireEvent.press(await findByTestId('SelectRecipient/QR'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_scan_qr)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_scan_qr)
     expect(navigate).toHaveBeenCalledWith(Screens.QRNavigator, {
       screen: Screens.QRScanner,
     })
@@ -94,7 +92,7 @@ describe('SelectRecipientButtons', () => {
     await act(async () => {
       fireEvent.press(await findByTestId('SelectRecipient/Contacts'))
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_contacts, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_contacts, {
       phoneNumberVerified: true,
       contactsPermissionStatus: RESULTS.GRANTED,
     })
@@ -108,7 +106,7 @@ describe('SelectRecipientButtons', () => {
     await act(async () => {
       fireEvent.press(await findByTestId('SelectRecipient/Contacts'))
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_contacts, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_contacts, {
       phoneNumberVerified: false,
       contactsPermissionStatus: RESULTS.DENIED,
     })
@@ -144,7 +142,7 @@ describe('SelectRecipientButtons', () => {
     await act(async () => {
       fireEvent.press(await findByTestId('SelectRecipient/Contacts'))
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_contacts, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_contacts, {
       phoneNumberVerified: true,
       contactsPermissionStatus: RESULTS.BLOCKED,
     })
@@ -174,16 +172,14 @@ describe('SelectRecipientButtons', () => {
     await act(async () => {
       fireEvent.press(await findByTestId('SelectRecipient/Contacts'))
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_contacts, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_contacts, {
       phoneNumberVerified: true,
       contactsPermissionStatus: RESULTS.DENIED,
     })
     expect(request).toHaveBeenCalled()
     expect(onPermissionsGranted).toHaveBeenCalled()
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      SendEvents.request_contacts_permission_started
-    )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.request_contacts_permission_started)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       SendEvents.request_contacts_permission_completed,
       { permissionStatus: RESULTS.GRANTED }
     )
@@ -195,16 +191,14 @@ describe('SelectRecipientButtons', () => {
     await act(async () => {
       fireEvent.press(await findByTestId('SelectRecipient/Contacts'))
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_contacts, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_contacts, {
       phoneNumberVerified: true,
       contactsPermissionStatus: RESULTS.DENIED,
     })
     expect(request).toHaveBeenCalled()
     expect(onPermissionsGranted).not.toHaveBeenCalled()
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      SendEvents.request_contacts_permission_started
-    )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.request_contacts_permission_started)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       SendEvents.request_contacts_permission_completed,
       { permissionStatus: RESULTS.DENIED }
     )
@@ -223,19 +217,16 @@ describe('SelectRecipientButtons', () => {
       await act(async () => {
         fireEvent.press(await findByTestId('SelectRecipient/Contacts'))
       })
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-        SendEvents.send_select_recipient_contacts,
-        {
-          phoneNumberVerified: true,
-          contactsPermissionStatus: RESULTS.DENIED,
-        }
-      )
+      expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_contacts, {
+        phoneNumberVerified: true,
+        contactsPermissionStatus: RESULTS.DENIED,
+      })
       expect(request).toHaveBeenCalled()
       expect(onPermissionsGranted).not.toHaveBeenCalled()
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         SendEvents.request_contacts_permission_started
       )
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         SendEvents.request_contacts_permission_completed,
         { permissionStatus: RESULTS.BLOCKED }
       )

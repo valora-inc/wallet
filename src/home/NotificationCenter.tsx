@@ -6,7 +6,7 @@ import { LayoutChangeEvent, StyleSheet, Text, View, ViewToken } from 'react-nati
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { HomeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { openUrl } from 'src/app/actions'
 import { CallToAction } from 'src/components/CallToActionsBar'
 import SimpleMessagingCard from 'src/components/SimpleMessagingCard'
@@ -50,7 +50,7 @@ function useCleverTapNotifications() {
         {
           text: ctaText,
           onPress: (params) => {
-            ValoraAnalytics.track(HomeEvents.notification_select, {
+            AppAnalytics.track(HomeEvents.notification_select, {
               notificationType: NotificationType.clevertap_notification,
               selectedAction: NotificationBannerCTATypes.accept,
               notificationId,
@@ -66,7 +66,7 @@ function useCleverTapNotifications() {
           text: t('dismiss'),
           isSecondary: true,
           onPress: (params) => {
-            ValoraAnalytics.track(HomeEvents.notification_select, {
+            AppAnalytics.track(HomeEvents.notification_select, {
               notificationType: NotificationType.clevertap_notification,
               selectedAction: NotificationBannerCTATypes.decline,
               notificationId,
@@ -166,7 +166,7 @@ export default function Notifications({ navigation }: NotificationsProps) {
   const seenNotifications = useRef(new Set())
 
   useEffect(() => {
-    ValoraAnalytics.track(HomeEvents.notification_center_opened, {
+    AppAnalytics.track(HomeEvents.notification_center_opened, {
       notificationsCount: notifications.length,
     })
   }, [])
@@ -199,7 +199,7 @@ export default function Notifications({ navigation }: NotificationsProps) {
         if (!seenNotifications.current.has(item.id)) {
           seenNotifications.current.add(item.id)
 
-          ValoraAnalytics.track(HomeEvents.notification_impression, {
+          AppAnalytics.track(HomeEvents.notification_impression, {
             notificationId: item.id,
             notificationType: item.type,
             notificationPositionInList: notificationsRef.current.findIndex(

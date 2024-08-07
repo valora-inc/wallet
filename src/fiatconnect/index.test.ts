@@ -66,13 +66,13 @@ describe('FiatConnect helpers', () => {
     it('Gives list of providers on success', async () => {
       const fakeProviderInfo: FiatConnectProviderInfo = {
         id: 'fake-provider',
-        baseUrl: 'https://fake-provider.valoraapp.com',
+        baseUrl: 'https://fake-provider.example.com',
         providerName: 'fake provider name',
-        imageUrl: 'https://fake-icon.valoraapp.com',
-        websiteUrl: 'https://fake-provider.valoraapp.com',
-        iconUrl: 'https://fake-icon.valoraapp.com',
-        privacyPolicyUrl: 'https://fake-provider.valoraapp.com/privacy',
-        termsAndConditionsUrl: 'https://fake-provider.valoraapp.com/terms',
+        imageUrl: 'https://fake-icon.example.com',
+        websiteUrl: 'https://fake-provider.example.com',
+        iconUrl: 'https://fake-icon.example.com',
+        privacyPolicyUrl: 'https://fake-provider.example.com/privacy',
+        termsAndConditionsUrl: 'https://fake-provider.example.com/terms',
         isNew: {
           in: true,
           out: false,
@@ -115,14 +115,14 @@ describe('FiatConnect helpers', () => {
       fiatConnectProviders: [
         {
           id: 'fake-provider',
-          baseUrl: 'https://fake-provider.valoraapp.com',
+          baseUrl: 'https://fake-provider.example.com',
           providerName: 'fake provider name',
-          imageUrl: 'https://fake-icon.valoraapp.com',
-          websiteUrl: 'https://fake-provider.valoraapp.com',
-          iconUrl: 'https://fake-icon.valoraapp.com',
+          imageUrl: 'https://fake-icon.example.com',
+          websiteUrl: 'https://fake-provider.example.com',
+          iconUrl: 'https://fake-icon.example.com',
           apiKey: 'fake-api-key',
-          privacyPolicyUrl: 'https://fake-provider.valoraapp.com/privacy',
-          termsAndConditionsUrl: 'https://fake-provider.valoraapp.com/terms',
+          privacyPolicyUrl: 'https://fake-provider.example.com/privacy',
+          termsAndConditionsUrl: 'https://fake-provider.example.com/terms',
           isNew: {
             in: true,
             out: false,

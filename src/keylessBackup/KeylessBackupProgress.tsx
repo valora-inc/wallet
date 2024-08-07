@@ -5,7 +5,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { BackHandler, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { KeylessBackupEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
 import TokenDisplay from 'src/components/TokenDisplay'
@@ -79,19 +79,19 @@ function Restore() {
   const dispatch = useDispatch()
 
   const onPressHelp = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_restore_failed_help)
+    AppAnalytics.track(KeylessBackupEvents.cab_restore_failed_help)
     navigate(Screens.SupportContact)
   }
 
   const onPressTryAgain = () => {
     dispatch(keylessBackupBail())
-    ValoraAnalytics.track(KeylessBackupEvents.cab_restore_failed_try_again, { keylessBackupStatus })
+    AppAnalytics.track(KeylessBackupEvents.cab_restore_failed_try_again, { keylessBackupStatus })
     navigate(Screens.ImportSelect)
   }
 
   const onPressCreateNewWallet = () => {
     dispatch(keylessBackupBail())
-    ValoraAnalytics.track(KeylessBackupEvents.cab_restore_failed_create_new_wallet, {
+    AppAnalytics.track(KeylessBackupEvents.cab_restore_failed_create_new_wallet, {
       keylessBackupStatus,
     })
     navigate(Screens.Welcome)
@@ -105,7 +105,7 @@ function Restore() {
             <View style={iconMarginTop}>
               <GreenLoadingSpinner />
             </View>
-            <Text style={styles.title}>{t('keylessBackupStatus.setup.inProgress.title')}</Text>
+            <Text style={styles.title}>{t('keylessBackupStatus.restore.inProgress.title')}</Text>
           </ScrollView>
         </SafeAreaView>
       )
@@ -130,12 +130,12 @@ function Restore() {
             isVisible={true}
             actionText={t('importExistingKey.emptyWalletDialog.action')}
             actionPress={() => {
-              ValoraAnalytics.track(KeylessBackupEvents.cab_restore_zero_balance_accept)
+              AppAnalytics.track(KeylessBackupEvents.cab_restore_zero_balance_accept)
               dispatch(keylessBackupAcceptZeroBalance())
             }}
             secondaryActionText={t('goBack')}
             secondaryActionPress={() => {
-              ValoraAnalytics.track(KeylessBackupEvents.cab_restore_zero_balance_bail)
+              AppAnalytics.track(KeylessBackupEvents.cab_restore_zero_balance_bail)
               dispatch(keylessBackupBail())
             }}
             testID="ConfirmUseAccountDialog"
@@ -173,7 +173,7 @@ function Restore() {
           <Button
             testID="KeylessBackupProgress/Continue"
             onPress={() => {
-              ValoraAnalytics.track(KeylessBackupEvents.cab_restore_completed_continue)
+              AppAnalytics.track(KeylessBackupEvents.cab_restore_completed_continue)
               goToNextOnboardingScreen({
                 onboardingProps,
                 firstScreenInCurrentStep: Screens.ImportSelect,
@@ -306,7 +306,7 @@ function Setup({ origin }: { origin: KeylessBackupOrigin }) {
   const isOnboarding = origin === KeylessBackupOrigin.Onboarding
 
   const onPressContinue = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_progress_completed_continue, { origin })
+    AppAnalytics.track(KeylessBackupEvents.cab_progress_completed_continue, { origin })
     isOnboarding
       ? goToNextOnboardingScreen({
           onboardingProps,
@@ -318,7 +318,7 @@ function Setup({ origin }: { origin: KeylessBackupOrigin }) {
   const iconMarginTop = { marginTop: variables.height / 4 }
 
   const onPressManual = async () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_progress_failed_manual, { origin })
+    AppAnalytics.track(KeylessBackupEvents.cab_progress_failed_manual, { origin })
     try {
       const pinIsCorrect = await ensurePincode()
       if (pinIsCorrect) {
@@ -330,17 +330,17 @@ function Setup({ origin }: { origin: KeylessBackupOrigin }) {
   }
 
   const onPressLater = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_progress_failed_later)
+    AppAnalytics.track(KeylessBackupEvents.cab_progress_failed_later)
     navigate(Screens.Settings)
   }
 
   const onPressManualOnboarding = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_progress_failed_manual, { origin })
+    AppAnalytics.track(KeylessBackupEvents.cab_progress_failed_manual, { origin })
     navigate(Screens.AccountKeyEducation, { origin: 'cabOnboarding' })
   }
 
   const onPressSkip = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_progress_failed_skip_onboarding)
+    AppAnalytics.track(KeylessBackupEvents.cab_progress_failed_skip_onboarding)
     navigate(Screens.ChooseYourAdventure)
   }
 

@@ -100,7 +100,7 @@ describe('VerificationCodeInputWrapper', () => {
 
     await act(() => {
       // Simulate the SMS code being received
-      smsListener({ message: 'Your verification code for Valora is: 456789 5yaJvJcZt2P' })
+      smsListener({ message: 'Your verification code for App is: 456789 5yaJvJcZt2P' })
     })
     expect(mockSetSmsCode).toHaveBeenCalledWith('456789')
   })

@@ -3,7 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Share } from 'react-native'
 import { InviteEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { INVITE_REWARDS_NFTS_LEARN_MORE, INVITE_REWARDS_STABLETOKEN_LEARN_MORE } from 'src/config'
 import { inviteModal, inviteWithRewards } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
@@ -47,7 +47,7 @@ export default function Invite() {
   const handleShare = async () => {
     if (shareUrl) {
       const result = await Share.share({ message })
-      ValoraAnalytics.track(InviteEvents.invite_with_referral_url, result)
+      AppAnalytics.track(InviteEvents.invite_with_referral_url, result)
     }
   }
 

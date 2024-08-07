@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { AuthenticationEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { headerWithBackButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
@@ -30,7 +30,7 @@ export const PincodeEnter = ({ route }: Props) => {
   const currentAccount = useSelector(currentAccountSelector)
 
   useEffect(() => {
-    ValoraAnalytics.track(AuthenticationEvents.get_pincode_with_input_start)
+    AppAnalytics.track(AuthenticationEvents.get_pincode_with_input_start)
     SentryTransactionHub.startTransaction(SentryTransaction.pincode_enter)
     return () => {
       const onCancel = route.params.onCancel
@@ -49,7 +49,7 @@ export const PincodeEnter = ({ route }: Props) => {
     setPinIsCorrect(true)
     const onSuccess = route.params.onSuccess
     if (onSuccess) {
-      ValoraAnalytics.track(AuthenticationEvents.get_pincode_with_input_complete)
+      AppAnalytics.track(AuthenticationEvents.get_pincode_with_input_complete)
       onSuccess(pin)
       SentryTransactionHub.finishTransaction(SentryTransaction.pincode_enter)
     }
@@ -58,7 +58,7 @@ export const PincodeEnter = ({ route }: Props) => {
   const onWrongPin = () => {
     setPin('')
     setErrorText(t(`${ErrorMessages.INCORRECT_PIN}`))
-    ValoraAnalytics.track(AuthenticationEvents.get_pincode_with_input_error)
+    AppAnalytics.track(AuthenticationEvents.get_pincode_with_input_error)
   }
 
   const onPressConfirm = async () => {

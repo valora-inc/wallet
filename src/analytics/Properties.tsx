@@ -273,9 +273,9 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.cab_issue_sms_code_error]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_enter_phone_code_back]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_enter_phone_code_cancel]: CommonKeylessBackupProps
-  [KeylessBackupEvents.cab_issue_valora_keyshare_start]: CommonKeylessBackupProps
-  [KeylessBackupEvents.cab_issue_valora_keyshare_success]: CommonKeylessBackupProps
-  [KeylessBackupEvents.cab_issue_valora_keyshare_error]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_issue_app_keyshare_start]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_issue_app_keyshare_success]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_issue_app_keyshare_error]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_progress_completed_continue]: { origin: KeylessBackupOrigin }
   [KeylessBackupEvents.cab_progress_failed_later]: undefined
   [KeylessBackupEvents.cab_progress_failed_manual]: { origin: KeylessBackupOrigin }
@@ -1575,6 +1575,7 @@ interface PointsEventsProperties {
   }
   [PointsEvents.points_screen_activity_fetch_more]: undefined
   [PointsEvents.points_screen_activity_learn_more_press]: undefined
+  [PointsEvents.points_screen_disclaimer_press]: undefined
 }
 
 interface EarnCommonProperties {

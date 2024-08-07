@@ -18,7 +18,7 @@ import { call, select } from 'redux-saga/effects'
 import { KycStatus as PersonaKycStatus } from 'src/account/reducer'
 import { showError, showMessage } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
   fiatConnectCashInEnabledSelector,
@@ -111,7 +111,7 @@ import {
 } from 'test/values'
 import { v4 as uuidv4 } from 'uuid'
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 jest.mock('src/fiatconnect')
 jest.mock('uuid')
 jest.mock('src/utils/Logger', () => ({
@@ -211,8 +211,8 @@ describe('Fiatconnect saga', () => {
         )
         .put(submitFiatAccountCompleted())
         .run()
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_fiat_details_success,
         {
           flow: normalizedQuote.flow,
@@ -251,16 +251,13 @@ describe('Fiatconnect saga', () => {
           )
         )
         .run()
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-        FiatExchangeEvents.cico_fiat_details_error,
-        {
-          flow: normalizedQuote.flow,
-          provider: normalizedQuote.getProviderId(),
-          fiatAccountSchema: normalizedQuote.getFiatAccountSchema(),
-          fiatConnectError: FiatConnectError.ResourceExists,
-          error: 'FiatConnect API Error',
-        }
-      )
+      expect(AppAnalytics.track).toHaveBeenCalledWith(FiatExchangeEvents.cico_fiat_details_error, {
+        flow: normalizedQuote.flow,
+        provider: normalizedQuote.getProviderId(),
+        fiatAccountSchema: normalizedQuote.getFiatAccountSchema(),
+        fiatConnectError: FiatConnectError.ResourceExists,
+        error: 'FiatConnect API Error',
+      })
       expect(navigate).not.toHaveBeenCalled()
     })
     it('does not navigate to review when experiencing a general error (no KYC)', async () => {
@@ -283,16 +280,13 @@ describe('Fiatconnect saga', () => {
           )
         )
         .run()
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-        FiatExchangeEvents.cico_fiat_details_error,
-        {
-          flow: normalizedQuote.flow,
-          provider: normalizedQuote.getProviderId(),
-          fiatAccountSchema: normalizedQuote.getFiatAccountSchema(),
-          fiatConnectError: undefined,
-          error: 'some error',
-        }
-      )
+      expect(AppAnalytics.track).toHaveBeenCalledWith(FiatExchangeEvents.cico_fiat_details_error, {
+        flow: normalizedQuote.flow,
+        provider: normalizedQuote.getProviderId(),
+        fiatAccountSchema: normalizedQuote.getFiatAccountSchema(),
+        fiatConnectError: undefined,
+        error: 'some error',
+      })
       expect(navigate).not.toHaveBeenCalled()
     })
     it('successfully submits account and navigates to review when KYC is required and approved', async () => {
@@ -342,8 +336,8 @@ describe('Fiatconnect saga', () => {
         .put(submitFiatAccountKycApproved())
         .put(submitFiatAccountCompleted())
         .run()
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_fiat_details_success,
         {
           flow: normalizedQuoteKyc.flow,
@@ -403,8 +397,8 @@ describe('Fiatconnect saga', () => {
         )
         .put(submitFiatAccountCompleted())
         .run()
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_fiat_details_success,
         {
           flow: normalizedQuoteKyc.flow,
@@ -464,8 +458,8 @@ describe('Fiatconnect saga', () => {
         )
         .put(submitFiatAccountCompleted())
         .run()
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_fiat_details_success,
         {
           flow: normalizedQuoteKyc.flow,
@@ -524,8 +518,8 @@ describe('Fiatconnect saga', () => {
         )
         .put(submitFiatAccountCompleted())
         .run()
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_fiat_details_success,
         {
           flow: normalizedQuoteKyc.flow,
@@ -575,8 +569,8 @@ describe('Fiatconnect saga', () => {
         )
         .put(submitFiatAccountCompleted())
         .run()
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_fiat_details_success,
         {
           flow: normalizedQuoteKyc.flow,
@@ -635,8 +629,8 @@ describe('Fiatconnect saga', () => {
         )
         .put(submitFiatAccountCompleted())
         .run()
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_fiat_details_success,
         {
           flow: normalizedQuoteKyc.flow,
@@ -1370,12 +1364,7 @@ describe('Fiatconnect saga', () => {
         .provide([
           [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
           [
-            call(
-              fetchFiatAccountsSaga,
-              'provider-two',
-              'fakewebsite.valoraapp.com',
-              'fake-api-key'
-            ),
+            call(fetchFiatAccountsSaga, 'provider-two', 'fakewebsite.example.com', 'fake-api-key'),
             [fiatAccount],
           ],
           [
@@ -1420,12 +1409,7 @@ describe('Fiatconnect saga', () => {
             },
           ],
           [
-            call(
-              fetchFiatAccountsSaga,
-              'provider-two',
-              'fakewebsite.valoraapp.com',
-              'fake-api-key'
-            ),
+            call(fetchFiatAccountsSaga, 'provider-two', 'fakewebsite.example.com', 'fake-api-key'),
             [],
           ],
         ])
@@ -1458,12 +1442,7 @@ describe('Fiatconnect saga', () => {
             },
           ],
           [
-            call(
-              fetchFiatAccountsSaga,
-              'provider-two',
-              'fakewebsite.valoraapp.com',
-              'fake-api-key'
-            ),
+            call(fetchFiatAccountsSaga, 'provider-two', 'fakewebsite.example.com', 'fake-api-key'),
             [fiatAccount],
           ],
         ])
@@ -1495,7 +1474,7 @@ describe('Fiatconnect saga', () => {
             },
           ],
           [
-            call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.valoraapp.com', undefined),
+            call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.example.com', undefined),
             [fiatAccountKyc],
           ],
           [
@@ -1540,7 +1519,7 @@ describe('Fiatconnect saga', () => {
             },
           ],
           [
-            call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.valoraapp.com', undefined),
+            call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.example.com', undefined),
             [fiatAccountKyc],
           ],
           [
@@ -1584,7 +1563,7 @@ describe('Fiatconnect saga', () => {
             },
           ],
           [
-            call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.valoraapp.com', undefined),
+            call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.example.com', undefined),
             [fiatAccountKyc],
           ],
           [
@@ -1627,7 +1606,7 @@ describe('Fiatconnect saga', () => {
             },
           ],
           [
-            call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.valoraapp.com', undefined),
+            call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.example.com', undefined),
             [fiatAccountKyc],
           ],
           [
@@ -1670,7 +1649,7 @@ describe('Fiatconnect saga', () => {
             },
           ],
           [
-            call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.valoraapp.com', undefined),
+            call(fetchFiatAccountsSaga, 'provider-three', 'fakewebsite.example.com', undefined),
             [fiatAccountKyc],
           ],
           [
@@ -1708,12 +1687,12 @@ describe('Fiatconnect saga', () => {
           await expectSaga(
             fetchFiatAccountsSaga,
             'test-provider',
-            'www.hello.valoraapp.com',
+            'www.hello.example.com',
             undefined
           )
             .provide([
               [
-                call(getFiatConnectClient, 'test-provider', 'www.hello.valoraapp.com', undefined),
+                call(getFiatConnectClient, 'test-provider', 'www.hello.example.com', undefined),
                 mockFcClient,
               ],
             ])
@@ -1733,10 +1712,10 @@ describe('Fiatconnect saga', () => {
           ],
         })
       )
-      await expectSaga(fetchFiatAccountsSaga, 'test-provider', 'www.hello.valoraapp.com', undefined)
+      await expectSaga(fetchFiatAccountsSaga, 'test-provider', 'www.hello.example.com', undefined)
         .provide([
           [
-            call(getFiatConnectClient, 'test-provider', 'www.hello.valoraapp.com', undefined),
+            call(getFiatConnectClient, 'test-provider', 'www.hello.example.com', undefined),
             mockFcClient,
           ],
         ])
@@ -1802,7 +1781,7 @@ describe('Fiatconnect saga', () => {
         data: { fiatAccountId: 'account1', quoteId },
         idempotencyKey: 'mock-uuidv4',
       })
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(0)
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(0)
     })
     it('throws when there is an error with the transfer', async () => {
       mockTransferOut.mockResolvedValueOnce(
@@ -1830,8 +1809,8 @@ describe('Fiatconnect saga', () => {
         data: { fiatAccountId: 'account1', quoteId },
         idempotencyKey: 'mock-uuidv4',
       })
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_fc_transfer_api_error,
         {
           provider: providerId,
@@ -1941,8 +1920,8 @@ describe('Fiatconnect saga', () => {
           new Error('error is safe to retry')
         )
       )
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_fc_transfer_tx_error,
         {
           provider: transferOutFcQuote.getProviderId(),
@@ -1987,8 +1966,8 @@ describe('Fiatconnect saga', () => {
           new Error(ErrorMessages.TRANSACTION_TIMEOUT)
         )
       )
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_fc_transfer_tx_error,
         {
           provider: transferOutFcQuote.getProviderId(),
@@ -2033,8 +2012,8 @@ describe('Fiatconnect saga', () => {
           new Error('unsafe error')
         )
       )
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_fc_transfer_tx_error,
         {
           provider: transferOutFcQuote.getProviderId(),
@@ -2071,8 +2050,8 @@ describe('Fiatconnect saga', () => {
             })
           )
           .run()
-        expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-        expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+        expect(AppAnalytics.track).toHaveBeenCalledWith(
           FiatExchangeEvents.cico_fc_transfer_success,
           {
             provider: transferInFcQuote.getProviderId(),
@@ -2130,8 +2109,8 @@ describe('Fiatconnect saga', () => {
             })
           )
           .run()
-        expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-        expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+        expect(AppAnalytics.track).toHaveBeenCalledWith(
           FiatExchangeEvents.cico_fc_transfer_success,
           {
             provider: transferOutFcQuote.getProviderId(),
@@ -2169,15 +2148,12 @@ describe('Fiatconnect saga', () => {
             })
           )
           .run()
-        expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-        expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-          FiatExchangeEvents.cico_fc_transfer_error,
-          {
-            provider: transferOutFcQuote.getProviderId(),
-            flow: CICOFlow.CashOut,
-            error: 'some error',
-          }
-        )
+        expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+        expect(AppAnalytics.track).toHaveBeenCalledWith(FiatExchangeEvents.cico_fc_transfer_error, {
+          provider: transferOutFcQuote.getProviderId(),
+          flow: CICOFlow.CashOut,
+          error: 'some error',
+        })
       })
       it('sets transaction as failed when an "safe" error occurs', async () => {
         const action = createFiatConnectTransfer({
@@ -2207,15 +2183,12 @@ describe('Fiatconnect saga', () => {
             })
           )
           .run()
-        expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-        expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-          FiatExchangeEvents.cico_fc_transfer_error,
-          {
-            provider: transferOutFcQuote.getProviderId(),
-            flow: CICOFlow.CashOut,
-            error: 'some error',
-          }
-        )
+        expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+        expect(AppAnalytics.track).toHaveBeenCalledWith(FiatExchangeEvents.cico_fc_transfer_error, {
+          provider: transferOutFcQuote.getProviderId(),
+          flow: CICOFlow.CashOut,
+          error: 'some error',
+        })
       })
     })
     describe('Errors', () => {
@@ -2247,15 +2220,12 @@ describe('Fiatconnect saga', () => {
           `Transfer for CashIn failed..`,
           new Error('ERROR')
         )
-        expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-        expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-          FiatExchangeEvents.cico_fc_transfer_error,
-          {
-            provider: transferInFcQuote.getProviderId(),
-            flow: CICOFlow.CashOut,
-            error: 'ERROR',
-          }
-        )
+        expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+        expect(AppAnalytics.track).toHaveBeenCalledWith(FiatExchangeEvents.cico_fc_transfer_error, {
+          provider: transferInFcQuote.getProviderId(),
+          flow: CICOFlow.CashOut,
+          error: 'ERROR',
+        })
       })
     })
   })
@@ -2302,12 +2272,7 @@ describe('Fiatconnect saga', () => {
       })
         .provide([
           [
-            call(
-              fetchFiatAccountsSaga,
-              'provider-two',
-              'fakewebsite.valoraapp.com',
-              'fake-api-key'
-            ),
+            call(fetchFiatAccountsSaga, 'provider-two', 'fakewebsite.example.com', 'fake-api-key'),
             mockFiatAccounts,
           ],
         ])
@@ -2322,12 +2287,7 @@ describe('Fiatconnect saga', () => {
       })
         .provide([
           [
-            call(
-              fetchFiatAccountsSaga,
-              'provider-two',
-              'fakewebsite.valoraapp.com',
-              'fake-api-key'
-            ),
+            call(fetchFiatAccountsSaga, 'provider-two', 'fakewebsite.example.com', 'fake-api-key'),
             mockFiatAccounts,
           ],
         ])
@@ -2342,12 +2302,7 @@ describe('Fiatconnect saga', () => {
       })
         .provide([
           [
-            call(
-              fetchFiatAccountsSaga,
-              'provider-two',
-              'fakewebsite.valoraapp.com',
-              'fake-api-key'
-            ),
+            call(fetchFiatAccountsSaga, 'provider-two', 'fakewebsite.example.com', 'fake-api-key'),
             mockFiatAccounts,
           ],
         ])
@@ -2364,12 +2319,7 @@ describe('Fiatconnect saga', () => {
       })
         .provide([
           [
-            call(
-              fetchFiatAccountsSaga,
-              'provider-two',
-              'fakewebsite.valoraapp.com',
-              'fake-api-key'
-            ),
+            call(fetchFiatAccountsSaga, 'provider-two', 'fakewebsite.example.com', 'fake-api-key'),
             mockFiatAccounts,
           ],
         ])
@@ -2384,12 +2334,7 @@ describe('Fiatconnect saga', () => {
       })
         .provide([
           [
-            call(
-              fetchFiatAccountsSaga,
-              'provider-two',
-              'fakewebsite.valoraapp.com',
-              'fake-api-key'
-            ),
+            call(fetchFiatAccountsSaga, 'provider-two', 'fakewebsite.example.com', 'fake-api-key'),
             mockFiatAccounts,
           ],
         ])

@@ -5,7 +5,7 @@ import { EffectProviders, StaticProvider, throwError } from 'redux-saga-test-pla
 import { call } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
 import { CeloExchangeEvents, SendEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { encryptComment } from 'src/identity/commentEncryption'
 import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
@@ -163,9 +163,9 @@ describe(sendPaymentSaga, () => {
         .run()
 
       expect(navigateFn).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_tx_start)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_tx_complete, {
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(2)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_tx_start)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_tx_complete, {
         txId: mockContext.id,
         recipientAddress: mockQRCodeRecipient.address,
         amount: '10',
@@ -205,9 +205,9 @@ describe(sendPaymentSaga, () => {
       .put(sendPaymentSuccess({ amount, tokenId: mockCeloTokenId }))
       .run()
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(3)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_tx_start)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_tx_complete, {
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(3)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_tx_start)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_tx_complete, {
       txId: mockContext.id,
       recipientAddress: mockQRCodeRecipient.address,
       amount: '10',
@@ -217,7 +217,7 @@ describe(sendPaymentSaga, () => {
       networkId: 'celo-alfajores',
       isTokenManuallyImported: false,
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(CeloExchangeEvents.celo_withdraw_completed, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(CeloExchangeEvents.celo_withdraw_completed, {
       amount: '10',
     })
   })
@@ -235,7 +235,7 @@ describe(sendPaymentSaga, () => {
       .run()
     // 1 call for start of send transaction plus 2 calls from showError, one
     // with the error handler and one with the assertion above
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(3)
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(3)
   })
 
   it('fails if sendRawTransaction throws', async () => {
@@ -251,8 +251,8 @@ describe(sendPaymentSaga, () => {
       .not.put.actionType(TransactionActions.ADD_STANDBY_TRANSACTION)
       .not.put.actionType(TransactionActions.TRANSACTION_CONFIRMED)
       .run()
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_tx_start)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_tx_error, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_tx_start)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_tx_error, {
       error: 'tx failed',
     })
   })

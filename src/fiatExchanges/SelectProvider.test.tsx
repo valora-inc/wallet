@@ -4,7 +4,7 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { MockStoreEnhanced } from 'redux-mock-store'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import SelectProviderScreen from 'src/fiatExchanges/SelectProvider'
 import { SelectProviderExchangesLink, SelectProviderExchangesText } from 'src/fiatExchanges/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -175,7 +175,7 @@ describe(SelectProviderScreen, () => {
       </Provider>
     )
     expect(getByTestId('QuotesLoading')).toBeTruthy()
-    expect(ValoraAnalytics.track).not.toHaveBeenCalled()
+    expect(AppAnalytics.track).not.toHaveBeenCalled()
   })
   it('publishes analytics event if quotes done loading', async () => {
     const mockAnalyticsData = {
@@ -205,7 +205,7 @@ describe(SelectProviderScreen, () => {
       </Provider>
     )
     await waitFor(() =>
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_providers_fetch_quotes_result,
         {
           ...mockAnalyticsData,

@@ -1,7 +1,7 @@
 import { AppEvents } from 'src/analytics/Events'
 import { AnalyticsPropertiesList } from 'src/analytics/Properties'
 
-class ValoraAnalytics {
+class AppAnalytics {
   startSession = jest.fn(
     (
       eventName: typeof AppEvents.app_launched,
@@ -29,4 +29,4 @@ class ValoraAnalytics {
   init = jest.fn(() => Promise.resolve())
 }
 
-export default new ValoraAnalytics()
+export default new AppAnalytics()

@@ -5,7 +5,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { setHasSeenVerificationNux } from 'src/identity/actions'
@@ -35,11 +35,11 @@ export default function LinkPhoneNumber({ navigation }: Props) {
   }, [navigation])
 
   const continueButtonOnPress = async () => {
-    ValoraAnalytics.track(OnboardingEvents.link_phone_number)
+    AppAnalytics.track(OnboardingEvents.link_phone_number)
     navigate(Screens.VerificationStartScreen, { hasOnboarded: false })
   }
   const laterButtonOnPress = async () => {
-    ValoraAnalytics.track(OnboardingEvents.link_phone_number_later)
+    AppAnalytics.track(OnboardingEvents.link_phone_number_later)
     dispatch(setHasSeenVerificationNux(true))
     goToNextOnboardingScreen({
       firstScreenInCurrentStep: Screens.VerificationStartScreen,

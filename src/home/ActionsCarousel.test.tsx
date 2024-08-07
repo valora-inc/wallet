@@ -3,7 +3,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { MockStoreEnhanced } from 'redux-mock-store'
 import { HomeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import ActionsCarousel from 'src/home/ActionsCarousel'
 import { HomeActionName } from 'src/home/types'
@@ -75,8 +75,8 @@ describe('ActionsCarousel', () => {
       expect(jest.mocked(navigate).mock.calls[0][0]).toEqual(screen)
       expect(jest.mocked(navigate).mock.calls[0][1]).toEqual(screenOptions)
 
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.home_action_pressed, {
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.home_action_pressed, {
         action: name,
       })
     }
@@ -97,8 +97,8 @@ describe('ActionsCarousel', () => {
       flow: FiatExchangeFlow.CashIn,
     })
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.home_action_pressed, {
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.home_action_pressed, {
       action: HomeActionName.Add,
     })
   })

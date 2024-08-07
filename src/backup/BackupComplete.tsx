@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { backupCompletedSelector } from 'src/backup/selectors'
 import Checkmark from 'src/icons/Checkmark'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
@@ -31,7 +31,7 @@ function BackupComplete({ route }: Props) {
       if (isAccountRemoval) {
         navigate(Screens.Settings, { promptConfirmRemovalModal: true })
       } else if (backupCompleted) {
-        ValoraAnalytics.track(OnboardingEvents.backup_complete)
+        AppAnalytics.track(OnboardingEvents.backup_complete)
         navigateHome()
       } else {
         throw new Error('Backup complete screen should not be reachable without completing backup')

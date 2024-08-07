@@ -7,7 +7,7 @@ import {
 import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import {
   DEFAULT_BANK_SETTLEMENT_ESTIMATION,
@@ -28,7 +28,7 @@ import {
   mockProviderSelectionAnalyticsData,
 } from 'test/values'
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 jest.mock('src/web3/contracts', () => ({
   getWalletAsync: jest.fn(() => ({
     getAccounts: jest.fn(() => ['fake-account']),
@@ -409,7 +409,7 @@ describe('FiatConnectQuote', () => {
   })
 
   describe('.onPress', () => {
-    it('returns a function that calls ValoraAnalytics with right properties for quote with lowest fee', () => {
+    it('returns a function that calls AppAnalytics with right properties for quote with lowest fee', () => {
       const quote = new FiatConnectQuote({
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
@@ -422,7 +422,7 @@ describe('FiatConnectQuote', () => {
         mockProviderSelectionAnalyticsData,
         new BigNumber('1')
       )()
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_providers_quote_selected,
         {
           flow: CICOFlow.CashIn,
@@ -436,7 +436,7 @@ describe('FiatConnectQuote', () => {
       )
     })
 
-    it('returns a function that calls ValoraAnalytics with right properties for quote with higher fee', () => {
+    it('returns a function that calls AppAnalytics with right properties for quote with higher fee', () => {
       const quote = new FiatConnectQuote({
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
@@ -449,7 +449,7 @@ describe('FiatConnectQuote', () => {
         mockProviderSelectionAnalyticsData,
         new BigNumber('2')
       )()
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_providers_quote_selected,
         {
           flow: CICOFlow.CashIn,
@@ -463,7 +463,7 @@ describe('FiatConnectQuote', () => {
       )
     })
 
-    it('returns a function that calls ValoraAnalytics with right properties for quote with no fee', () => {
+    it('returns a function that calls AppAnalytics with right properties for quote with no fee', () => {
       const quote = new FiatConnectQuote({
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
@@ -476,7 +476,7 @@ describe('FiatConnectQuote', () => {
         mockProviderSelectionAnalyticsData,
         undefined
       )()
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_providers_quote_selected,
         {
           flow: CICOFlow.CashIn,

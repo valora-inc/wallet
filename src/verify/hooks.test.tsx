@@ -50,7 +50,7 @@ describe('useRevokeCurrentPhoneNumber', () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization: 'Valora 0x0000000000000000000000000000000000007e57:someSignedMessage',
+        authorization: `${networkConfig.authHeaderIssuer} 0x0000000000000000000000000000000000007e57:someSignedMessage`,
       },
       body: '{"phoneNumber":"+14155556666","clientPlatform":"android","clientVersion":"0.0.1"}',
     })
@@ -76,7 +76,7 @@ describe('useRevokeCurrentPhoneNumber', () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization: 'Valora 0x0000000000000000000000000000000000007e57:someSignedMessage',
+        authorization: `${networkConfig.authHeaderIssuer} 0x0000000000000000000000000000000000007e57:someSignedMessage`,
       },
       body: '{"phoneNumber":"+14155556666","clientPlatform":"android","clientVersion":"0.0.1"}',
     })

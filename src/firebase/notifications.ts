@@ -2,7 +2,7 @@ import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import BigNumber from 'bignumber.js'
 import { showMessage } from 'src/alert/actions'
 import { AppEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { openUrl } from 'src/app/actions'
 import {
   RewardsScreenOrigin,
@@ -66,7 +66,7 @@ export function* handleNotification(
     return
   }
 
-  ValoraAnalytics.track(AppEvents.push_notification_opened, {
+  AppAnalytics.track(AppEvents.push_notification_opened, {
     id: message.data?.id,
     state: notificationState,
     type: message.data?.type,

@@ -5,7 +5,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
 import { SwapEvents } from 'src/analytics/Events'
 import { SwapShowInfoType } from 'src/analytics/Properties'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
@@ -171,7 +171,7 @@ export function SwapTransactionDetails({
       <View style={styles.row} testID="SwapTransactionDetails/ExchangeRate">
         <LabelWithInfo
           onPress={() => {
-            ValoraAnalytics.track(SwapEvents.swap_show_info, {
+            AppAnalytics.track(SwapEvents.swap_show_info, {
               type: SwapShowInfoType.EXCHANGE_RATE,
             })
             exchangeRateInfoBottomSheetRef.current?.snapToIndex(0)
@@ -189,7 +189,7 @@ export function SwapTransactionDetails({
       <View style={styles.row} testID="SwapTransactionDetails/Fees">
         <LabelWithInfo
           onPress={() => {
-            ValoraAnalytics.track(SwapEvents.swap_show_info, {
+            AppAnalytics.track(SwapEvents.swap_show_info, {
               type: SwapShowInfoType.FEES,
             })
             feeInfoBottomSheetRef.current?.snapToIndex(0)
@@ -206,7 +206,7 @@ export function SwapTransactionDetails({
         <View style={styles.row} testID="SwapTransactionDetails/EstimatedDuration">
           <LabelWithInfo
             onPress={() => {
-              ValoraAnalytics.track(SwapEvents.swap_show_info, {
+              AppAnalytics.track(SwapEvents.swap_show_info, {
                 type: SwapShowInfoType.ESTIMATED_DURATION,
               })
               estimatedDurationBottomSheetRef.current?.snapToIndex(0)
@@ -226,7 +226,7 @@ export function SwapTransactionDetails({
       <View style={styles.row} testID="SwapTransactionDetails/Slippage">
         <LabelWithInfo
           onPress={() => {
-            ValoraAnalytics.track(SwapEvents.swap_show_info, {
+            AppAnalytics.track(SwapEvents.swap_show_info, {
               type: SwapShowInfoType.SLIPPAGE,
             })
             slippageInfoBottomSheetRef.current?.snapToIndex(0)

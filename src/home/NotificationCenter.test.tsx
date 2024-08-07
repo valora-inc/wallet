@@ -4,7 +4,7 @@ import CleverTap from 'clevertap-react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { openUrl } from 'src/app/actions'
 import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import { ONE_CUSD_REWARD_RESPONSE } from 'src/consumerIncentives/testValues'
@@ -38,7 +38,7 @@ jest.mock('src/web3/networkConfig', () => {
     },
   }
 })
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 jest.mock('src/navigator/NavigationService', () => ({
   ensurePincode: jest.fn(async () => true),
   navigate: jest.fn(),
@@ -205,27 +205,27 @@ describe('NotificationCenter', () => {
 
     layoutNotificationList(screen)
 
-    await waitFor(() => expect(ValoraAnalytics.track).toHaveBeenCalledTimes(5))
+    await waitFor(() => expect(AppAnalytics.track).toHaveBeenCalledTimes(5))
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_center_opened, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_center_opened, {
       notificationsCount: 4,
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
       notificationId: NotificationType.backup_prompt,
       notificationType: NotificationType.backup_prompt,
       notificationPositionInList: 0,
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
       notificationId: NotificationType.start_supercharging,
       notificationType: NotificationType.start_supercharging,
       notificationPositionInList: 1,
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
       notificationId: NotificationType.verification_prompt,
       notificationType: NotificationType.verification_prompt,
       notificationPositionInList: 2,
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
       notificationId: NotificationType.celo_asset_education,
       notificationType: NotificationType.celo_asset_education,
       notificationPositionInList: 3,
@@ -268,7 +268,7 @@ describe('NotificationCenter', () => {
 
       fireEvent.press(getByText('backupKeyCTA'))
 
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
+      expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
         notificationType: NotificationType.backup_prompt,
         selectedAction: NotificationBannerCTATypes.accept,
         notificationId: NotificationType.backup_prompt,
@@ -313,7 +313,7 @@ describe('NotificationCenter', () => {
 
       fireEvent.press(getByText('learnMore'))
 
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
+      expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
         notificationType: NotificationType.celo_asset_education,
         selectedAction: NotificationBannerCTATypes.accept,
         notificationId: NotificationType.celo_asset_education,
@@ -338,7 +338,7 @@ describe('NotificationCenter', () => {
 
       fireEvent.press(getByText('dismiss'))
 
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
+      expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
         notificationType: NotificationType.celo_asset_education,
         selectedAction: NotificationBannerCTATypes.decline,
         notificationId: NotificationType.celo_asset_education,
@@ -454,7 +454,7 @@ describe('NotificationCenter', () => {
 
       fireEvent.press(getByText('notification.cta'))
 
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
+      expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
         notificationType: NotificationType.verification_prompt,
         selectedAction: NotificationBannerCTATypes.accept,
         notificationId: NotificationType.verification_prompt,
@@ -480,7 +480,7 @@ describe('NotificationCenter', () => {
 
       fireEvent.press(getByText('dismiss'))
 
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
+      expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
         notificationType: NotificationType.verification_prompt,
         selectedAction: NotificationBannerCTATypes.decline,
         notificationId: NotificationType.verification_prompt,
@@ -639,7 +639,7 @@ describe('NotificationCenter', () => {
 
       fireEvent.press(getByText('superchargeNotificationStart'))
 
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
+      expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
         notificationType: NotificationType.supercharge_available,
         selectedAction: NotificationBannerCTATypes.accept,
         notificationId: NotificationType.supercharge_available,
@@ -707,7 +707,7 @@ describe('NotificationCenter', () => {
 
       fireEvent.press(getByText('superchargingNotificationStart'))
 
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
+      expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
         notificationType: NotificationType.supercharging,
         selectedAction: NotificationBannerCTATypes.accept,
         notificationId: NotificationType.supercharging,
@@ -730,7 +730,7 @@ describe('NotificationCenter', () => {
 
       fireEvent.press(getByText('dismiss'))
 
-      expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
+      expect(AppAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
         notificationType: NotificationType.supercharging,
         selectedAction: NotificationBannerCTATypes.decline,
         notificationId: NotificationType.supercharging,
@@ -864,7 +864,7 @@ describe('NotificationCenter', () => {
 
       fireEvent.press(getByText('startSuperchargingNotificationStart'))
 
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
+      expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
         notificationType: NotificationType.start_supercharging,
         selectedAction: NotificationBannerCTATypes.accept,
         notificationId: NotificationType.start_supercharging,
@@ -895,7 +895,7 @@ describe('NotificationCenter', () => {
 
       fireEvent.press(getByText('dismiss'))
 
-      expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
+      expect(AppAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
         notificationType: NotificationType.start_supercharging,
         selectedAction: NotificationBannerCTATypes.decline,
         notificationId: NotificationType.start_supercharging,
@@ -945,13 +945,13 @@ describe('NotificationCenter', () => {
       store.clearActions()
 
       fireEvent.press(getByText('CleverTap Message CTA'))
-      expect(store.getActions()).toEqual([openUrl('https://valoraapp.com', false, true)])
+      expect(store.getActions()).toEqual([openUrl('https://example.com', false, true)])
 
       expect(CleverTap.pushInboxNotificationClickedEventForId).toBeCalledWith(
         mockExpectedCleverTapInboxMessage.id
       )
 
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
+      expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
         notificationType: NotificationType.clevertap_notification,
         selectedAction: NotificationBannerCTATypes.accept,
         notificationId: `${NotificationType.clevertap_notification}/${mockExpectedCleverTapInboxMessage.id}`,
@@ -976,7 +976,7 @@ describe('NotificationCenter', () => {
 
       expect(CleverTap.deleteInboxMessageForId).toBeCalledWith(mockExpectedCleverTapInboxMessage.id)
 
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
+      expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
         notificationType: NotificationType.clevertap_notification,
         selectedAction: NotificationBannerCTATypes.decline,
         notificationId: `${NotificationType.clevertap_notification}/${mockExpectedCleverTapInboxMessage.id}`,
@@ -1000,7 +1000,7 @@ describe('NotificationCenter', () => {
       layoutNotificationList(screen)
 
       await waitFor(() =>
-        expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
+        expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
           notificationType: NotificationType.clevertap_notification,
           notificationId: `${NotificationType.clevertap_notification}/${mockExpectedCleverTapInboxMessage.id}`,
           notificationPositionInList: 0,

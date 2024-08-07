@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import Video, { ResizeMode } from 'react-native-video'
 import { NftEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import { nftsLoadingSelector } from 'src/nfts/selectors'
 import { Nft, NftOrigin } from 'src/nfts/types'
@@ -95,7 +95,7 @@ export default function NftMedia({
 
   function sendLoadEvent(error?: string) {
     const { contractAddress, tokenId } = nft
-    ValoraAnalytics.track(NftEvents.nft_media_load, {
+    AppAnalytics.track(NftEvents.nft_media_load, {
       tokenId,
       contractAddress,
       url: imageUrl,
@@ -134,7 +134,7 @@ export default function NftMedia({
             source={{
               uri: videoUrl,
               headers: {
-                origin: networkConfig.nftsValoraAppUrl,
+                origin: networkConfig.nftsAppUrl,
               },
             }}
             key={`${nft.contractAddress}-${nft.tokenId}-${reloadAttempt}`}
@@ -171,7 +171,7 @@ export default function NftMedia({
           source={{
             uri: imageUrl,
             headers: {
-              origin: networkConfig.nftsValoraAppUrl,
+              origin: networkConfig.nftsAppUrl,
             },
           }}
           onLoad={({ nativeEvent: { width, height } }) => {

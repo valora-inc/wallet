@@ -34,7 +34,7 @@ describe('NftsInfoCarousel', () => {
       expect.objectContaining({
         uri: mockNftAllFields.media[1].gateway,
         headers: {
-          origin: networkConfig.nftsValoraAppUrl,
+          origin: networkConfig.nftsAppUrl,
         },
       })
     )
@@ -67,7 +67,7 @@ describe('NftsInfoCarousel', () => {
       expect.objectContaining({
         uri: mockNftAllFields.media[1].gateway,
         headers: {
-          origin: networkConfig.nftsValoraAppUrl,
+          origin: networkConfig.nftsAppUrl,
         },
       })
     )
@@ -81,7 +81,7 @@ describe('NftsInfoCarousel', () => {
       expect.objectContaining({
         uri: mockNftMinimumFields.media[0].gateway,
         headers: {
-          origin: networkConfig.nftsValoraAppUrl,
+          origin: networkConfig.nftsAppUrl,
         },
       })
     )
@@ -94,7 +94,7 @@ describe('NftsInfoCarousel', () => {
       expect.objectContaining({
         uri: mockNftAllFields.media[1].gateway,
         headers: {
-          origin: networkConfig.nftsValoraAppUrl,
+          origin: networkConfig.nftsAppUrl,
         },
       })
     )

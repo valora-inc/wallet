@@ -10,7 +10,7 @@ import { useLocalCurrencyCode } from 'src/localCurrency/hooks'
 import { headerWithBackButton } from 'src/navigator/Headers'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { useDispatch } from 'src/redux/hooks'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 const DEFAULT_CURRENCY_CODE = LocalCurrencyCode.USD
 
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    ...fontStyles.h2,
+    ...typeScale.titleMedium,
     margin: 16,
   },
 })

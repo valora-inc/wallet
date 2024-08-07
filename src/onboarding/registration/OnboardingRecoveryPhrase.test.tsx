@@ -5,7 +5,7 @@ import 'react-native'
 import { Provider } from 'react-redux'
 import { recoveryPhraseInOnboardingCompleted } from 'src/account/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { Screens } from 'src/navigator/Screens'
 import OnboardingRecoveryPhrase from 'src/onboarding/registration/OnboardingRecoveryPhrase'
 import { goToNextOnboardingScreen } from 'src/onboarding/steps'
@@ -15,7 +15,7 @@ import { mockOnboardingProps, mockTwelveWordMnemonic } from 'test/values'
 const mockUseAccountKey = jest.fn(() => mockTwelveWordMnemonic)
 const mockOnboardingPropsSelector = jest.fn(() => mockOnboardingProps)
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 jest.mock('src/backup/utils', () => ({
   useAccountKey: () => mockUseAccountKey(),
 }))
@@ -44,8 +44,8 @@ describe('OnboardingRecoveryPhraseScreen', () => {
       </Provider>
     )
     fireEvent.press(getByTestId('protectWalletBottomSheetContinue'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.protect_wallet_complete)
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.protect_wallet_complete)
     expect(store.dispatch).toHaveBeenCalledWith(recoveryPhraseInOnboardingCompleted())
     expect(goToNextOnboardingScreen).toBeCalledWith({
       firstScreenInCurrentStep: Screens.ProtectWallet,
@@ -65,8 +65,8 @@ describe('OnboardingRecoveryPhraseScreen', () => {
     })
     fireEvent.press(getByTestId('helpButton'))
     await waitFor(() => {
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.protect_wallet_help)
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.protect_wallet_help)
     })
   })
   it('copies to clipboard', async () => {
@@ -76,8 +76,8 @@ describe('OnboardingRecoveryPhraseScreen', () => {
       </Provider>
     )
     fireEvent.press(getByTestId('protectWalletCopy'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.protect_wallet_copy_phrase)
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.protect_wallet_copy_phrase)
     expect(Clipboard.setString).toHaveBeenCalledWith(mockTwelveWordMnemonic)
   })
 })

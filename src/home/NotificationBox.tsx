@@ -10,7 +10,7 @@ import {
 } from 'src/account/actions'
 import { celoEducationCompletedSelector, cloudBackupCompletedSelector } from 'src/account/selectors'
 import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ScrollDirection } from 'src/analytics/types'
 import { openUrl } from 'src/app/actions'
 import { phoneNumberVerifiedSelector, rewardsEnabledSelector } from 'src/app/selectors'
@@ -109,7 +109,7 @@ export function useSimpleActions() {
           {
             text: t('keylessBackupCTA'),
             onPress: (params) => {
-              ValoraAnalytics.track(HomeEvents.notification_select, {
+              AppAnalytics.track(HomeEvents.notification_select, {
                 notificationType: NotificationType.keyless_backup_prompt,
                 selectedAction: NotificationBannerCTATypes.accept,
                 notificationId: NotificationType.keyless_backup_prompt,
@@ -140,7 +140,7 @@ export function useSimpleActions() {
           {
             text: t('backupKeyCTA'),
             onPress: (params) => {
-              ValoraAnalytics.track(HomeEvents.notification_select, {
+              AppAnalytics.track(HomeEvents.notification_select, {
                 notificationType: NotificationType.backup_prompt,
                 selectedAction: NotificationBannerCTATypes.accept,
                 notificationId: NotificationType.backup_prompt,
@@ -174,14 +174,14 @@ export function useSimpleActions() {
           {
             text: t('superchargeNotificationStart'),
             onPress: (params) => {
-              ValoraAnalytics.track(HomeEvents.notification_select, {
+              AppAnalytics.track(HomeEvents.notification_select, {
                 notificationType: NotificationType.supercharge_available,
                 selectedAction: NotificationBannerCTATypes.accept,
                 notificationId: NotificationType.supercharge_available,
                 notificationPositionInList: params?.index,
               })
               navigate(Screens.ConsumerIncentivesHomeScreen)
-              ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
+              AppAnalytics.track(RewardsEvents.rewards_screen_opened, {
                 origin: RewardsScreenOrigin.RewardAvailableNotification,
               })
             },
@@ -200,14 +200,14 @@ export function useSimpleActions() {
             {
               text: t('superchargingNotificationStart'),
               onPress: (params) => {
-                ValoraAnalytics.track(HomeEvents.notification_select, {
+                AppAnalytics.track(HomeEvents.notification_select, {
                   notificationType: NotificationType.supercharging,
                   selectedAction: NotificationBannerCTATypes.accept,
                   notificationId: NotificationType.supercharging,
                   notificationPositionInList: params?.index,
                 })
                 navigate(Screens.ConsumerIncentivesHomeScreen)
-                ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
+                AppAnalytics.track(RewardsEvents.rewards_screen_opened, {
                   origin: RewardsScreenOrigin.SuperchargingNotification,
                 })
               },
@@ -216,7 +216,7 @@ export function useSimpleActions() {
               text: t('dismiss'),
               isSecondary: true,
               onPress: (params) => {
-                ValoraAnalytics.track(HomeEvents.notification_select, {
+                AppAnalytics.track(HomeEvents.notification_select, {
                   notificationType: NotificationType.supercharging,
                   selectedAction: NotificationBannerCTATypes.decline,
                   notificationId: NotificationType.supercharging,
@@ -240,14 +240,14 @@ export function useSimpleActions() {
             {
               text: t('startSuperchargingNotificationStart'),
               onPress: (params) => {
-                ValoraAnalytics.track(HomeEvents.notification_select, {
+                AppAnalytics.track(HomeEvents.notification_select, {
                   notificationType: NotificationType.start_supercharging,
                   selectedAction: NotificationBannerCTATypes.accept,
                   notificationId: NotificationType.start_supercharging,
                   notificationPositionInList: params?.index,
                 })
                 navigate(Screens.ConsumerIncentivesHomeScreen)
-                ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
+                AppAnalytics.track(RewardsEvents.rewards_screen_opened, {
                   origin: RewardsScreenOrigin.StartSuperchargingNotification,
                 })
               },
@@ -256,7 +256,7 @@ export function useSimpleActions() {
               text: t('dismiss'),
               isSecondary: true,
               onPress: (params) => {
-                ValoraAnalytics.track(HomeEvents.notification_select, {
+                AppAnalytics.track(HomeEvents.notification_select, {
                   notificationType: NotificationType.start_supercharging,
                   selectedAction: NotificationBannerCTATypes.decline,
                   notificationId: NotificationType.start_supercharging,
@@ -282,7 +282,7 @@ export function useSimpleActions() {
         {
           text: t('notification.cta'),
           onPress: (params) => {
-            ValoraAnalytics.track(HomeEvents.notification_select, {
+            AppAnalytics.track(HomeEvents.notification_select, {
               notificationType: NotificationType.verification_prompt,
               selectedAction: NotificationBannerCTATypes.accept,
               notificationId: NotificationType.verification_prompt,
@@ -295,7 +295,7 @@ export function useSimpleActions() {
           text: t('dismiss'),
           isSecondary: true,
           onPress: (params) => {
-            ValoraAnalytics.track(HomeEvents.notification_select, {
+            AppAnalytics.track(HomeEvents.notification_select, {
               notificationType: NotificationType.verification_prompt,
               selectedAction: NotificationBannerCTATypes.decline,
               notificationId: NotificationType.verification_prompt,
@@ -328,7 +328,7 @@ export function useSimpleActions() {
         {
           text: texts.cta,
           onPress: (params) => {
-            ValoraAnalytics.track(HomeEvents.notification_select, {
+            AppAnalytics.track(HomeEvents.notification_select, {
               notificationType: NotificationType.remote_notification,
               selectedAction: NotificationBannerCTATypes.remote_notification_cta,
               notificationId: id,
@@ -341,7 +341,7 @@ export function useSimpleActions() {
           text: texts.dismiss,
           isSecondary: true,
           onPress: (params) => {
-            ValoraAnalytics.track(HomeEvents.notification_select, {
+            AppAnalytics.track(HomeEvents.notification_select, {
               notificationType: NotificationType.remote_notification,
               selectedAction: NotificationBannerCTATypes.decline,
               notificationId: id,
@@ -365,7 +365,7 @@ export function useSimpleActions() {
         {
           text: t('learnMore'),
           onPress: (params) => {
-            ValoraAnalytics.track(HomeEvents.notification_select, {
+            AppAnalytics.track(HomeEvents.notification_select, {
               notificationType: NotificationType.celo_asset_education,
               selectedAction: NotificationBannerCTATypes.accept,
               notificationId: NotificationType.celo_asset_education,
@@ -378,7 +378,7 @@ export function useSimpleActions() {
           text: t('dismiss'),
           isSecondary: true,
           onPress: (params) => {
-            ValoraAnalytics.track(HomeEvents.notification_select, {
+            AppAnalytics.track(HomeEvents.notification_select, {
               notificationType: NotificationType.celo_asset_education,
               selectedAction: NotificationBannerCTATypes.decline,
               notificationId: NotificationType.celo_asset_education,
@@ -456,14 +456,14 @@ function NotificationBox({ showOnlyHomeScreenNotifications }: Props) {
     }
 
     const direction = nextIndex > currentIndex ? ScrollDirection.next : ScrollDirection.previous
-    ValoraAnalytics.track(HomeEvents.notification_scroll, { direction })
+    AppAnalytics.track(HomeEvents.notification_scroll, { direction })
 
     setCurrentIndex(Math.round(event.nativeEvent.contentOffset.x / variables.width))
   }
 
   useEffect(() => {
     if (notifications.length > 0 && lastViewedIndex.current < currentIndex) {
-      ValoraAnalytics.track(HomeEvents.notification_impression, {
+      AppAnalytics.track(HomeEvents.notification_impression, {
         notificationId: notifications[currentIndex].id,
         notificationType: notifications[currentIndex].type,
       })

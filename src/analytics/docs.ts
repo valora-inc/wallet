@@ -142,9 +142,9 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [KeylessBackupEvents.cab_issue_sms_code_error]: ``,
   [KeylessBackupEvents.cab_enter_phone_code_back]: `When the back button is pressed on the phone verification code input screen`,
   [KeylessBackupEvents.cab_enter_phone_code_cancel]: `When the cancel button is pressed on the phone verification code input screen`,
-  [KeylessBackupEvents.cab_issue_valora_keyshare_start]: ``,
-  [KeylessBackupEvents.cab_issue_valora_keyshare_success]: ``,
-  [KeylessBackupEvents.cab_issue_valora_keyshare_error]: ``,
+  [KeylessBackupEvents.cab_issue_app_keyshare_start]: ``,
+  [KeylessBackupEvents.cab_issue_app_keyshare_success]: ``,
+  [KeylessBackupEvents.cab_issue_app_keyshare_error]: ``,
   [KeylessBackupEvents.cab_progress_completed_continue]: ``,
   [KeylessBackupEvents.cab_progress_failed_later]: ``,
   [KeylessBackupEvents.cab_progress_failed_manual]: ``,
@@ -482,7 +482,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [RewardsEvents.learn_more_pressed]: ``,
   [RewardsEvents.claimed_reward]: ``,
 
-  // Events related to Valora Points program
+  // Events related to Points program
   [PointsEvents.points_discover_press]: `when points card is pressed in the discover tab`,
   [PointsEvents.points_intro_dismiss]: `when points intro is dismissed`,
   [PointsEvents.points_intro_back]: `when back button is pressed from points intro screen`,
@@ -493,6 +493,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [PointsEvents.points_screen_activity_try_again_press]: `when the Try Again button is pressed after an error while fetching Points activity`,
   [PointsEvents.points_screen_activity_fetch_more]: `when the user requests to fetch more Points history`,
   [PointsEvents.points_screen_activity_learn_more_press]: `when the Learn button is pressed when a user has no points history`,
+  [PointsEvents.points_screen_disclaimer_press]: `when the learn more button is pressed from Points activity screen`,
 
   // Events related to WalletConnect pairing (technical: opening up the communication channel via QR code or deeplink)
   [WalletConnectEvents.wc_pairing_start]: `when WC pairing is started (no UI at this point)`,

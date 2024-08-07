@@ -2337,7 +2337,7 @@
     "allNetworks": "所有网络"
   },
   "points": {
-    "title": "Valora 积分",
+    "title": "{{appName}} 积分",
     "activity": "活动",
     "history": {
       "cards": {
@@ -2445,6 +2445,11 @@
       "title": "轻松赚取积分",
       "description": "采用新的赚钱方式！您的 {{appName}} 行动现在可以赚取积分了。现在就开始赚取积分，享受超值优惠。",
       "cta": "开始您的积分之旅"
+    },
+    "disclaimer": {
+      "learnMoreCta": "<0>了解</0>有关 {{appName}} Points 的<0>更多</0>信息",
+      "body": "<0>什么是积分？</0>\n积分是 {{appName}}的忠诚度计划。当您使用我们的应用程序时，用户可获得积分。\n\n<0>积分有什么用？</0>\n您可以收集积分。积分不能消费、交易或转让。\n\n<0>它们为什么在我的钱包里？</0>\n因为它们是代币。在链上，您通过使用应用程序获得的数字幸福点数。",
+      "dismiss": "知道了"
     }
   },
   "earnFlow": {
@@ -2594,14 +2599,14 @@
       "reward": "奖励",
       "tvl": "TVL",
       "exitPool": "退出池",
-      "addToPool": "添加到游泳池",
+      "addToPool": "添加到池中",
       "apy": "{{apy}}% APY",
       "poweredBy": "由 {{providerName}} 提供支持",
       "deposited": "已提供"
     },
     "poolFilters": {
-      "openPools": "开放式泳池",
-      "myPools": "我的泳池"
+      "openPools": "打开池",
+      "myPools": "我的池"
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"

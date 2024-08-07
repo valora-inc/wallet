@@ -2339,7 +2339,7 @@
     "allNetworks": "Alle Netzwerke"
   },
   "points": {
-    "title": "Valora-Punkte",
+    "title": "{{appName}} Punkte",
     "activity": "Aktivität",
     "history": {
       "cards": {
@@ -2447,6 +2447,11 @@
       "title": "Verdiene mühelos Punkte",
       "description": "Entdecke neue Möglichkeiten! Für deine {{appName}} Aktionen gibt es jetzt Punkte. Fange noch heute an und schalte tolle Vorteile frei.",
       "cta": "Starte deine Punkte-Reise"
+    },
+    "disclaimer": {
+      "learnMoreCta": "<0>Erfahre mehr</0> über {{appName}} Punkte",
+      "body": "<0>Was sind Punkte?</0>\nPunkte sind das Treueprogramm von {{appName}}. Sie werden den Nutzern gutgeschrieben, wenn du unsere App benutzt.\n\n<0>Wofür sind sie gut?</0>\nDu sammelst sie. Sie können nicht ausgegeben, getauscht oder übertragen werden.\n\n<0>Warum sind sie in meinem Portemonnaie?</0>\nWeil sie Token sind. Digitale Glücksbits, die du durch die Nutzung der App verdienst.",
+      "dismiss": "Verstanden"
     }
   },
   "earnFlow": {

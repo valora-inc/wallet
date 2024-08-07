@@ -2343,7 +2343,7 @@
     "allNetworks": "Wszystkie sieci"
   },
   "points": {
-    "title": "Punkty Valora",
+    "title": "Punkty {{appName}}",
     "activity": "Operacje",
     "history": {
       "cards": {
@@ -2451,6 +2451,11 @@
       "title": "Zdobywaj punkty bez wysiłku",
       "description": "Poznaj nowy sposób zarabiania! Twoje działania w {{appName}} przynoszą teraz punkty. Zacznij zarabiać już dziś i odblokuj niesamowite korzyści.",
       "cta": "Rozpocznij swoją podróż po punkty"
+    },
+    "disclaimer": {
+      "learnMoreCta": "<0>Dowiedz się więcej</0> o {{appName}} Punkty",
+      "body": "<0>Czym są punkty?</0>\nPunkty to program lojalnościowy {{appName}}. Są one przyznawane użytkownikom, gdy korzystasz z naszej aplikacji.\n\n<0>Do czego służą?</0>\nZbierasz je. Nie można ich wydawać, wymieniać ani przenosić.\n\n<0>Dlaczego są w moim portfelu?</0>\nPonieważ są to tokeny. Na łańcuchu, cyfrowe bity szczęścia, które zarabiasz, korzystając z aplikacji.",
+      "dismiss": "Rozumiem"
     }
   },
   "earnFlow": {

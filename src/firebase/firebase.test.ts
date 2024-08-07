@@ -5,7 +5,7 @@ import { call, select } from 'redux-saga/effects'
 import { handleUpdateAccountRegistration } from 'src/account/saga'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { AppEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { pushNotificationsPermissionChanged } from 'src/app/actions'
 import {
   pushNotificationRequestedUnixTimeSelector,
@@ -16,7 +16,7 @@ import { initializeCloudMessaging, takeWithInMemoryCache } from 'src/firebase/fi
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { mockAccount } from 'test/values'
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 
 const hasPermissionMock = jest.fn(() => null)
 const requestPermissionMock = jest.fn(() => null)
@@ -76,7 +76,7 @@ describe(initializeCloudMessaging, () => {
       .put(pushNotificationsPermissionChanged(false, true))
       .run()
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       AppEvents.push_notifications_permission_changed,
       { enabled: false }
     )
@@ -101,7 +101,7 @@ describe(initializeCloudMessaging, () => {
       .put(pushNotificationsPermissionChanged(false, true))
       .run()
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       AppEvents.push_notifications_permission_changed,
       { enabled: false }
     )
@@ -125,7 +125,7 @@ describe(initializeCloudMessaging, () => {
       .call(handleUpdateAccountRegistration)
       .run()
 
-    expect(ValoraAnalytics.track).not.toHaveBeenCalled()
+    expect(AppAnalytics.track).not.toHaveBeenCalled()
   })
 
   it('should track when messaging permission is granted on iOS', async () => {
@@ -140,7 +140,7 @@ describe(initializeCloudMessaging, () => {
       .put(pushNotificationsPermissionChanged(true, true))
       .run()
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       AppEvents.push_notifications_permission_changed,
       { enabled: true }
     )
@@ -166,7 +166,7 @@ describe(initializeCloudMessaging, () => {
       .put(pushNotificationsPermissionChanged(true, true))
       .run()
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       AppEvents.push_notifications_permission_changed,
       { enabled: true }
     )
@@ -182,7 +182,7 @@ describe(initializeCloudMessaging, () => {
       .put(pushNotificationsPermissionChanged(false, false))
       .run()
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       AppEvents.push_notifications_permission_changed,
       { enabled: false }
     )

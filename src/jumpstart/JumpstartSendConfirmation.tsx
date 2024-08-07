@@ -7,7 +7,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { JumpstartEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import Toast from 'src/components/Toast'
@@ -69,7 +69,7 @@ function JumpstartSendConfirmation({ route }: Props) {
         })
       )
 
-      ValoraAnalytics.track(JumpstartEvents.jumpstart_send_confirm, {
+      AppAnalytics.track(JumpstartEvents.jumpstart_send_confirm, {
         localCurrency: localCurrencyCode,
         localCurrencyExchangeRate: usdToLocalRate,
         tokenSymbol: token.symbol,

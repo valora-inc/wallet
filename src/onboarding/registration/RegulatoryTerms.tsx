@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { acceptTerms } from 'src/account/actions'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import DevSkipButton from 'src/components/DevSkipButton'
 import { PRIVACY_LINK, TOS_LINK } from 'src/config'
@@ -53,7 +53,7 @@ export class RegulatoryTerms extends React.Component<Props> {
   }
 
   onPressAccept = () => {
-    ValoraAnalytics.track(OnboardingEvents.terms_and_conditions_accepted)
+    AppAnalytics.track(OnboardingEvents.terms_and_conditions_accepted)
 
     this.props.acceptTerms()
     this.startOnboarding()

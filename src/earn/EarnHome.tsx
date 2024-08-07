@@ -11,7 +11,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { EarnEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import FilterChipsCarousel, {
   FilterChip,
@@ -243,7 +243,7 @@ export default function EarnHome({ navigation, route }: Props) {
   }, [pools, allTokens, activeTab])
 
   const onPressLearnMore = () => {
-    ValoraAnalytics.track(EarnEvents.earn_home_learn_more_press)
+    AppAnalytics.track(EarnEvents.earn_home_learn_more_press)
     learnMoreBottomSheetRef.current?.snapToIndex(0)
   }
 

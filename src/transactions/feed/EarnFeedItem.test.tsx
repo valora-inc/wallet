@@ -2,7 +2,7 @@ import { fireEvent, render, within } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { EarnEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import EarnFeedItem from 'src/transactions/feed/EarnFeedItem'
@@ -114,7 +114,7 @@ describe.each([
       )
 
       fireEvent.press(getByTestId(`EarnFeedItem/${transaction.transactionHash}`))
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_feed_item_select, {
+      expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_feed_item_select, {
         origin: type,
       })
     })

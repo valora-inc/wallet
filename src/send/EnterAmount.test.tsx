@@ -4,7 +4,7 @@ import React from 'react'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { Provider } from 'react-redux'
 import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import EnterAmount, { SendProceed } from 'src/send/EnterAmount'
 import { StoredTokenBalance, TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
@@ -391,13 +391,13 @@ describe('EnterAmount', () => {
     expect(
       getByText('sendEnterAmountScreen.networkFee, {"networkName":"Ethereum Sepolia"}')
     ).toBeTruthy()
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.token_dropdown_opened, {
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(2)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.token_dropdown_opened, {
       currentNetworkId: NetworkId['celo-alfajores'],
       currentTokenAddress: mockPoofAddress,
       currentTokenId: mockPoofTokenId,
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.token_selected, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.token_selected, {
       networkId: NetworkId['ethereum-sepolia'],
       tokenAddress: null,
       tokenId: mockEthTokenId,
@@ -535,8 +535,8 @@ describe('EnterAmount', () => {
     fireEvent.press(getByTestId('SendEnterAmount/Max'))
     expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('5')
     expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe('₱0.67')
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.max_pressed, {
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.max_pressed, {
       networkId: NetworkId['celo-alfajores'],
       tokenAddress: mockPoofAddress,
       tokenId: mockPoofTokenId,
@@ -791,7 +791,7 @@ describe('EnterAmount', () => {
 
     expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('CELO')
     fireEvent.press(getByTestId('SendEnterAmount/TokenSelect'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(0) // Analytics event triggered if dropdown menu opens, shouldn't happen
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(0) // Analytics event triggered if dropdown menu opens, shouldn't happen
     expect(queryByTestId('downArrowIcon')).toBeFalsy()
   })
 

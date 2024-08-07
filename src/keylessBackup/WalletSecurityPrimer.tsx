@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { KeylessBackupEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import KeylessBackup from 'src/icons/KeylessBackup'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
@@ -29,7 +29,7 @@ function WalletSecurityPrimer({ route }: Props) {
       <Button
         testID="WalletSecurityPrimer/GetStarted"
         onPress={function () {
-          ValoraAnalytics.track(KeylessBackupEvents.wallet_security_primer_get_started)
+          AppAnalytics.track(KeylessBackupEvents.wallet_security_primer_get_started)
           navigate(Screens.KeylessBackupIntro, {
             keylessBackupFlow: KeylessBackupFlow.Setup,
           })

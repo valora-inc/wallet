@@ -7,7 +7,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { showError } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { coinbasePayEnabledSelector } from 'src/app/selectors'
 import { FUNDING_LINK } from 'src/brandingConfig'
@@ -218,7 +218,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
 
   useEffect(() => {
     if (!quotesLoading) {
-      ValoraAnalytics.track(FiatExchangeEvents.cico_providers_fetch_quotes_result, {
+      AppAnalytics.track(FiatExchangeEvents.cico_providers_fetch_quotes_result, {
         fiatType: localCurrency,
         defaultFiatType: defaultCurrency,
         ..._.omit(analyticsData, 'transferCryptoAmount'),
@@ -376,14 +376,14 @@ function LimitedPaymentMethods({ flow }: { flow: CICOFlow }) {
     setIsDialogVisible(false)
   }
   const openDialog = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_providers_unavailable_selected, {
+    AppAnalytics.track(FiatExchangeEvents.cico_providers_unavailable_selected, {
       flow,
     })
     setIsDialogVisible(true)
   }
 
   useEffect(() => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_providers_unavailable_impression, {
+    AppAnalytics.track(FiatExchangeEvents.cico_providers_unavailable_impression, {
       flow,
     })
   }, [])
@@ -443,7 +443,7 @@ function ExchangesSection({
   }
 
   const goToExchangesScreen = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_providers_exchanges_selected, {
+    AppAnalytics.track(FiatExchangeEvents.cico_providers_exchanges_selected, {
       flow,
       ...analyticsData,
     })
@@ -512,7 +512,7 @@ function LegacyMobileMoneySection({
 
   useEffect(() => {
     if (provider) {
-      ValoraAnalytics.track(FiatExchangeEvents.cico_providers_section_impression, {
+      AppAnalytics.track(FiatExchangeEvents.cico_providers_section_impression, {
         flow,
         paymentMethod: PaymentMethod.MobileMoney,
         quoteCount: 1,
@@ -522,7 +522,7 @@ function LegacyMobileMoneySection({
   }, [])
 
   const goToProviderSite = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_providers_quote_selected, {
+    AppAnalytics.track(FiatExchangeEvents.cico_providers_quote_selected, {
       flow,
       paymentMethod: PaymentMethod.MobileMoney,
       provider: provider.name,

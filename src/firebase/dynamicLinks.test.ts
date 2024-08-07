@@ -12,7 +12,7 @@ jest.mock('src/brandingConfig', () => ({
 describe('dynamic links', () => {
   it('should create the jumpstart link', async () => {
     const mockBaseLink =
-      'https://vlra.app/?ibi=co%2Eclabs%2Evalora%2Edev&isi=1520414263&apn=co%2Eclabs%2Evalora%2Edev&link='
+      'https://example.com/?ibi=co%2Eclabs%2Eappname%2Edev&isi=1520414263&apn=co%2Eclabs%2Eappname%2Edev&link='
     mockBuildLink.mockResolvedValue(`${mockBaseLink}https%3A%2F%2Fcelo%2Eorg`)
 
     const result = await createJumpstartLink('0xprivateKey', NetworkId['celo-alfajores'])

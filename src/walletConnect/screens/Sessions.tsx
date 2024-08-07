@@ -8,7 +8,7 @@ import Touchable from 'src/components/Touchable'
 import { headerWithBackButton } from 'src/navigator/Headers'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { closeSession as closeSessionAction } from 'src/walletConnect/actions'
@@ -101,11 +101,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: variables.contentPadding,
   },
   title: {
-    ...fontStyles.h2,
+    ...typeScale.titleMedium,
     paddingVertical: Spacing.Regular16,
   },
   subTitle: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     color: colors.black,
     paddingBottom: Spacing.Thick24,
   },

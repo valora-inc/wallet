@@ -5,7 +5,7 @@ import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { SafeAreaView, StyleSheet, Text } from 'react-native'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
@@ -66,7 +66,7 @@ export function LinkAccountSection(props: {
   const { bodyTitle, description } = getTranslationStrings(quote.getFiatAccountType())
 
   const onPressContinue = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_link_account_continue, {
+    AppAnalytics.track(FiatExchangeEvents.cico_fc_link_account_continue, {
       flow,
       provider: quote.getProviderId(),
       fiatAccountSchema: quote.getFiatAccountSchema(),
@@ -75,7 +75,7 @@ export function LinkAccountSection(props: {
   }
 
   const onPressProvider = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_link_account_provider_website, {
+    AppAnalytics.track(FiatExchangeEvents.cico_fc_link_account_provider_website, {
       flow,
       provider: quote.getProviderId(),
       fiatAccountSchema: quote.getFiatAccountSchema(),
@@ -85,7 +85,7 @@ export function LinkAccountSection(props: {
   }
 
   const onPressTermsAndConditions = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_link_account_provider_website, {
+    AppAnalytics.track(FiatExchangeEvents.cico_fc_link_account_provider_website, {
       flow,
       provider: quote.getProviderId(),
       fiatAccountSchema: quote.getFiatAccountSchema(),
@@ -95,7 +95,7 @@ export function LinkAccountSection(props: {
   }
 
   const onPressPrivacyPolicy = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_link_account_provider_website, {
+    AppAnalytics.track(FiatExchangeEvents.cico_fc_link_account_provider_website, {
       flow,
       provider: quote.getProviderId(),
       fiatAccountSchema: quote.getFiatAccountSchema(),

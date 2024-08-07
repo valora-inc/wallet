@@ -7,7 +7,7 @@ import { TextInput as RNTextInput, StyleSheet, Text, TouchableOpacity, View } fr
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { EarnEvents, SendEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -246,7 +246,7 @@ function EarnEnterAmount({ route }: Props) {
     setEnteredIn('token')
     tokenAmountInputRef.current?.blur()
     localAmountInputRef.current?.blur()
-    ValoraAnalytics.track(SendEvents.max_pressed, {
+    AppAnalytics.track(SendEvents.max_pressed, {
       tokenId: token.tokenId,
       tokenAddress: token.address,
       networkId: token.networkId,
@@ -254,7 +254,7 @@ function EarnEnterAmount({ route }: Props) {
   }
 
   const onPressContinue = ({ tokenAmount, token, amountEnteredIn }: ProceedArgs) => {
-    ValoraAnalytics.track(EarnEvents.earn_enter_amount_continue_press, {
+    AppAnalytics.track(EarnEvents.earn_enter_amount_continue_press, {
       userHasFunds: !!isAmountLessThanBalance,
       tokenAmount: tokenAmount.toString(),
       amountInUsd: tokenAmount.multipliedBy(token.priceUsd ?? 0).toFixed(2),
@@ -269,7 +269,7 @@ function EarnEnterAmount({ route }: Props) {
   }
 
   const onPressInfo = () => {
-    ValoraAnalytics.track(EarnEvents.earn_enter_amount_info_press)
+    AppAnalytics.track(EarnEvents.earn_enter_amount_info_press)
     infoBottomSheetRef.current?.snapToIndex(0)
   }
 
@@ -335,7 +335,7 @@ function EarnEnterAmount({ route }: Props) {
               network: NETWORK_NAMES[prepareTransactionsResult.feeCurrencies[0].networkId],
             })}
             onPressCta={() => {
-              ValoraAnalytics.track(EarnEvents.earn_deposit_add_gas_press, {
+              AppAnalytics.track(EarnEvents.earn_deposit_add_gas_press, {
                 gasTokenId: feeCurrencies[0].tokenId,
               })
               navigate(Screens.FiatExchangeAmount, {
@@ -442,7 +442,7 @@ function InfoBottomSheet({
     infoBottomSheetRef.current?.close()
   }
   const onPressMorePools = () => {
-    ValoraAnalytics.track(EarnEvents.earn_enter_amount_info_more_pools)
+    AppAnalytics.track(EarnEvents.earn_enter_amount_info_more_pools)
     moreAavePoolsUrl && navigate(Screens.WebViewScreen, { uri: moreAavePoolsUrl })
   }
 
