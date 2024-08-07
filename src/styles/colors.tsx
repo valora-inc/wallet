@@ -19,13 +19,15 @@ export enum Colors {
   warningLight = '#FFF9EA',
   errorDark = '#C93717',
   errorLight = '#FBF2F0',
-  accent1 = '#CAF27A',
-  accent2 = '#FFD62C',
 
   /** @deprecated */
   goldBrand = '#FBCC5C',
   /** @deprecated */
   onboardingBrownLight = '#A49B80',
+  /** @deprecated */
+  accent1 = '#CAF27A',
+  /** @deprecated */
+  accent2 = '#FFD62C',
 }
 
 export default Colors
