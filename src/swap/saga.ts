@@ -2,9 +2,9 @@ import { valueToBigNumber } from '@celo/contractkit/lib/wrappers/BaseWrapper'
 import { PayloadAction } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import erc20 from 'src/abis/IERC20'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SwapEvents } from 'src/analytics/Events'
 import { SwapTimeMetrics, SwapTxsReceiptProperties } from 'src/analytics/Properties'
-import AppAnalytics from 'src/analytics/AppAnalytics'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
 import { vibrateError } from 'src/styles/hapticFeedback'
@@ -285,11 +285,16 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       })
     )
 
-    AppAnalytics.track(SwapEvents.swap_execute_success, {
-      ...defaultSwapExecuteProps,
-      ...getTimeMetrics(),
-      ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),
-    })
+    if (swapType === 'same-chain') {
+      // Tracking success for same-chain swaps. Cross-chain swaps success is tracked in the query helper.
+      // For cross-chain swaps, we need to wait for the transaction to be included in the
+      // destination chain before we can consider the swap successful
+      AppAnalytics.track(SwapEvents.swap_execute_success, {
+        ...defaultSwapExecuteProps,
+        ...getTimeMetrics(),
+        ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),
+      })
+    }
   } catch (err) {
     if (err === CANCELLED_PIN_INPUT) {
       Logger.info(TAG, 'Swap cancelled by user')
