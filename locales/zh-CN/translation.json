@@ -2599,14 +2599,14 @@
       "reward": "奖励",
       "tvl": "TVL",
       "exitPool": "退出池",
-      "addToPool": "添加到游泳池",
+      "addToPool": "添加到池中",
       "apy": "{{apy}}% APY",
       "poweredBy": "由 {{providerName}} 提供支持",
       "deposited": "已提供"
     },
     "poolFilters": {
-      "openPools": "开放式泳池",
-      "myPools": "我的泳池"
+      "openPools": "打开池",
+      "myPools": "我的池"
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
