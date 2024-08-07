@@ -238,9 +238,8 @@ export default function EarnHome({ navigation, route }: Props) {
 
   const displayPools = useMemo(() => {
     return pools.filter((pool) => {
-      const poolTokenInfo = allTokens[pool.poolTokenId]
       const depositTokenInfo = allTokens[pool.depositTokenId]
-      const isMyPool = poolTokenInfo?.balance.gt(0) && !!depositTokenInfo
+      const isMyPool = pool.balance.gt(0) && !!depositTokenInfo
       return activeTab === EarnTabType.MyPools ? isMyPool : !isMyPool
     })
   }, [pools, allTokens, activeTab])

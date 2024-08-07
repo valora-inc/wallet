@@ -1306,20 +1306,40 @@
         "EarnDataProps": {
             "additionalProperties": false,
             "properties": {
-                "apy": {
-                    "type": "number"
+                "contractCreatedAt": {
+                    "format": "date-time",
+                    "type": "string"
                 },
                 "depositTokenId": {
                     "type": "string"
                 },
+                "earningItems": {
+                    "items": {
+                        "$ref": "#/definitions/EarningItem"
+                    },
+                    "type": "array"
+                },
+                "manageUrl": {
+                    "type": "string"
+                },
+                "tvl": {
+                    "type": "number"
+                },
                 "withdrawTokenId": {
                     "type": "string"
+                },
+                "yieldRates": {
+                    "items": {
+                        "$ref": "#/definitions/YieldRate"
+                    },
+                    "type": "array"
                 }
             },
             "required": [
-                "apy",
                 "depositTokenId",
-                "withdrawTokenId"
+                "earningItems",
+                "withdrawTokenId",
+                "yieldRates"
             ],
             "type": "object"
         },
@@ -1432,6 +1452,29 @@
                 "timestamp",
                 "transactionHash",
                 "type"
+            ],
+            "type": "object"
+        },
+        "EarningItem": {
+            "additionalProperties": false,
+            "properties": {
+                "amount": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "subtractFromDeposit": {
+                    "type": "boolean"
+                },
+                "tokenId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "amount",
+                "label",
+                "tokenId"
             ],
             "type": "object"
         },
@@ -6465,6 +6508,26 @@
                 "params",
                 "topic",
                 "verifyContext"
+            ],
+            "type": "object"
+        },
+        "YieldRate": {
+            "additionalProperties": false,
+            "properties": {
+                "label": {
+                    "type": "string"
+                },
+                "percentage": {
+                    "type": "number"
+                },
+                "tokenId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "label",
+                "percentage",
+                "tokenId"
             ],
             "type": "object"
         },
