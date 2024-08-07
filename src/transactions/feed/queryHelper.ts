@@ -371,7 +371,7 @@ export function handlePollResponse({
           if (
             // Track cross-chain swap transaction status change to `Complete`
             tx.__typename === 'CrossChainTokenExchange' &&
-            pendingStandbyTransactionHashes
+            pendingStandbyTransactionHashes?.has(tx.transactionHash)
           ) {
             trackCrossChainSwapSuccess(tx)
           }
