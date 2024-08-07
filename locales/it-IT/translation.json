@@ -2339,7 +2339,7 @@
     "allNetworks": "Tutte le reti"
   },
   "points": {
-    "title": "Punti Valora",
+    "title": "Punti {{appName}}",
     "activity": "Attività",
     "history": {
       "cards": {
@@ -2447,6 +2447,11 @@
       "title": "Guadagna punti senza fatica",
       "description": "Scopri un nuovo modo di guadagnare! Ora, le tue azioni su {{appName}} ti fanno guadagnare punti. Inizia a guadagnare oggi stesso e accedi a fantastici vantaggi.",
       "cta": "Inizia ad accumulare punti"
+    },
+    "disclaimer": {
+      "learnMoreCta": "<0>Per saperne di più</0> sui punti {{appName}}",
+      "body": "<0>Cosa sono i punti?</0>\nI punti sono il programma fedeltà di {{appName}}. Vengono assegnati agli utenti quando utilizzano la nostra app.\n\n<0>A cosa servono?</0>\nLi accumuli. Non possono essere spesi, scambiati o trasferiti.\n\n<0>Perché sono nel mio portafoglio?</0>\nPerché sono token. Si tratta di catene digitali di felicità che si guadagnano utilizzando l'app.",
+      "dismiss": "Ho capito"
     }
   },
   "earnFlow": {

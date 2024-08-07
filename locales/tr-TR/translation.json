@@ -2339,7 +2339,7 @@
     "allNetworks": "Tüm Ağlar"
   },
   "points": {
-    "title": "Valora Puanları",
+    "title": "{{appName}} Puanları",
     "activity": "İşlemler",
     "history": {
       "cards": {
@@ -2447,6 +2447,11 @@
       "title": "Zahmetsizce puan kazanın",
       "description": "Kazanmak için yeni bir yola girin! {{appName}} eylemleriniz artık puan kazandırıyor. Bugün kazanmaya başlayın ve harika avantajların kilidini açın.",
       "cta": "Puan yolculuğunuza başlayın"
+    },
+    "disclaimer": {
+      "learnMoreCta": "{{appName}} Points hakkında <0>daha fazla</0> bilgi <0>edinin</0>",
+      "body": "<0>Puan Nedir?</0>\nPuanlar {{appName}}'un sadakat programıdır. Uygulamamızı kullandığınızda kullanıcılara verilir.\n\n<0>Ne işe yararlar?</0>\nOnları toplarsınız. Harcanamaz, takas edilemez veya transfer edilemezler.\n\n<0>Neden cüzdanımdalar?</0>\nÇünkü onlar token. Zincir üzerinde, uygulamayı kullanarak kazandığınız dijital mutluluk parçaları.",
+      "dismiss": "Anladım"
     }
   },
   "earnFlow": {
