@@ -293,6 +293,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
         ...defaultSwapExecuteProps,
         ...getTimeMetrics(),
         ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),
+        swapType,
       })
     }
   } catch (err) {

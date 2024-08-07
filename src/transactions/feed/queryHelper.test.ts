@@ -1,4 +1,9 @@
+import BigNumber from 'bignumber.js'
+import AppAnalytics from 'src/analytics/AppAnalytics'
+import { SwapEvents } from 'src/analytics/Events'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
+import * as TokenSelectors from 'src/tokens/selectors'
+import { TokenBalance } from 'src/tokens/slice'
 import { updateTransactions } from 'src/transactions/actions'
 import { QueryResponse, handlePollResponse } from 'src/transactions/feed/queryHelper'
 import { NetworkId, TokenTransaction, TransactionStatus } from 'src/transactions/types'
@@ -16,6 +21,49 @@ describe('handlePollResponse', () => {
   const mockPendingTransaction = {
     transactionHash: '0xabc',
     status: TransactionStatus.Pending,
+  } as TokenTransaction
+
+  const mockPendingCrossChainTransaction = {
+    __typename: 'CrossChainTokenExchange',
+    transactionHash: '0xabc',
+    status: TransactionStatus.Pending,
+  } as TokenTransaction
+
+  const mockCompletedCrossChainTransaction = {
+    __typename: 'CrossChainTokenExchange',
+    transactionHash: '0xabc',
+    status: TransactionStatus.Complete,
+    inAmount: {
+      value: '0.1',
+      tokenId: 'op-mainnet:native',
+    },
+    outAmount: {
+      value: '0.2',
+      tokenId: 'base-mainnet:native',
+    },
+    fees: [
+      {
+        type: 'SECURITY_FEE',
+        amount: {
+          value: '0.3',
+          tokenId: 'base-mainnet:native',
+        },
+      },
+      {
+        type: 'APP_FEE',
+        amount: {
+          value: '0.4',
+          tokenId: 'base-mainnet:native',
+        },
+      },
+      {
+        type: 'CROSS_CHAIN_FEE',
+        amount: {
+          value: '0.5',
+          tokenId: 'base-mainnet:native',
+        },
+      },
+    ],
   } as TokenTransaction
 
   const mockQueryResponse = (mockTransactions: TokenTransaction[]): QueryResponse => ({
@@ -43,6 +91,7 @@ describe('handlePollResponse', () => {
       setFetchedResult: jest.fn(),
       completedTxHashesByNetwork: {},
       pendingTxHashesByNetwork: {},
+      pendingStandbyTxHashesByNetwork: {},
       dispatch: dispatchSpy,
     })(NetworkId['celo-mainnet'], mockQueryResponse(mockTransactions))
 
@@ -63,6 +112,7 @@ describe('handlePollResponse', () => {
       pendingTxHashesByNetwork: {
         [NetworkId['celo-mainnet']]: new Set([mockCompletedTransaction.transactionHash]),
       },
+      pendingStandbyTxHashesByNetwork: {},
       dispatch: dispatchSpy,
     })(NetworkId['celo-mainnet'], mockQueryResponse(mockTransactions))
 
@@ -83,6 +133,7 @@ describe('handlePollResponse', () => {
         [NetworkId['celo-mainnet']]: new Set([mockCompletedTransaction.transactionHash]),
       },
       pendingTxHashesByNetwork: {},
+      pendingStandbyTxHashesByNetwork: {},
       dispatch: dispatchSpy,
     })(NetworkId['celo-mainnet'], mockQueryResponse(mockTransactions))
 
@@ -97,6 +148,7 @@ describe('handlePollResponse', () => {
       setFetchedResult: jest.fn(),
       completedTxHashesByNetwork: {},
       pendingTxHashesByNetwork: {},
+      pendingStandbyTxHashesByNetwork: {},
       dispatch: dispatchSpy,
     })(NetworkId['celo-mainnet'], mockQueryResponse(mockTransactions))
 
@@ -117,10 +169,49 @@ describe('handlePollResponse', () => {
       pendingTxHashesByNetwork: {
         [NetworkId['celo-mainnet']]: new Set([mockPendingTransaction.transactionHash]),
       },
+      pendingStandbyTxHashesByNetwork: {},
       dispatch: dispatchSpy,
     })(NetworkId['celo-mainnet'], mockQueryResponse(mockTransactions))
 
     expect(dispatchSpy).not.toHaveBeenCalled()
     expect(vibrateSuccess).not.toHaveBeenCalled()
+  })
+
+  it('should send analytics event when cross-chain transaction status changed to `Complete`', () => {
+    jest.spyOn(TokenSelectors, 'tokensByIdSelector').mockReturnValue({
+      'op-mainnet:native': { priceUsd: BigNumber(100) } as TokenBalance,
+      'base-mainnet:native': { priceUsd: BigNumber(1000) } as TokenBalance,
+    })
+
+    handlePollResponse({
+      pageInfo: {},
+      setFetchedResult: jest.fn(),
+      completedTxHashesByNetwork: {},
+      pendingTxHashesByNetwork: {},
+      pendingStandbyTxHashesByNetwork: {
+        [NetworkId['celo-mainnet']]: new Set([mockPendingCrossChainTransaction.transactionHash]),
+      },
+      dispatch: dispatchSpy,
+    })(NetworkId['celo-mainnet'], mockQueryResponse([mockCompletedCrossChainTransaction]))
+
+    expect(AppAnalytics.track).toHaveBeenLastCalledWith(SwapEvents.swap_execute_success, {
+      swapType: 'cross-chain',
+      swapExecuteTxId: '0xabc',
+      toTokenId: 'op-mainnet:native',
+      toTokenAmount: '0.1',
+      toTokenAmountUsd: 10,
+      fromTokenId: 'base-mainnet:native',
+      fromTokenAmount: '0.2',
+      fromTokenAmountUsd: 200,
+      networkFeeTokenId: 'base-mainnet:native',
+      networkFeeAmount: '0.3',
+      networkFeeAmountUsd: 300,
+      appFeeTokenId: 'base-mainnet:native',
+      appFeeAmount: '0.4',
+      appFeeAmountUsd: 400,
+      crossChainFeeTokenId: 'base-mainnet:native',
+      crossChainFeeAmount: '0.5',
+      crossChainFeeAmountUsd: 500,
+    })
   })
 })

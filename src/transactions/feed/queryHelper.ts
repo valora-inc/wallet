@@ -1,22 +1,34 @@
+import BigNumber from 'bignumber.js'
 import { isEmpty } from 'lodash'
 import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import Toast from 'react-native-simple-toast'
 import { showError } from 'src/alert/actions'
+import AppAnalytics from 'src/analytics/AppAnalytics'
+import { SwapEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import useInterval from 'src/hooks/useInterval'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { AppDispatch } from 'src/redux/store'
+import { AppDispatch, store } from 'src/redux/store'
 import { getMultichainFeatures } from 'src/statsig/index'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
+import { tokensByIdSelector } from 'src/tokens/selectors'
+import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import { updateTransactions } from 'src/transactions/actions'
 import {
   completedTxHashesByNetworkIdSelector,
+  pendingStandbyTxHashesByNetworkIdSelector,
   pendingTxHashesByNetworkIdSelector,
 } from 'src/transactions/reducer'
-import { NetworkId, TokenTransaction, TransactionStatus } from 'src/transactions/types'
+import {
+  FeeType,
+  NetworkId,
+  TokenExchange,
+  TokenTransaction,
+  TransactionStatus,
+} from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { gql } from 'src/utils/gql'
 import config from 'src/web3/networkConfig'
@@ -88,6 +100,7 @@ export function useFetchTransactions(): QueryHookResult {
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const pendingTxHashesByNetwork = useSelector(pendingTxHashesByNetworkIdSelector)
   const completedTxHashesByNetwork = useSelector(completedTxHashesByNetworkIdSelector)
+  const pendingStandbyTxHashesByNetwork = useSelector(pendingStandbyTxHashesByNetworkIdSelector)
   const allowedNetworkIds = useAllowedNetworkIdsForTransfers()
 
   // Track which networks are currently fetching transactions via polling to avoid duplicate requests
@@ -172,6 +185,7 @@ export function useFetchTransactions(): QueryHookResult {
           setFetchedResult,
           completedTxHashesByNetwork,
           pendingTxHashesByNetwork,
+          pendingStandbyTxHashesByNetwork,
           dispatch,
         }),
         setActiveRequests: setActivePollingRequests,
@@ -296,6 +310,7 @@ export function handlePollResponse({
   setFetchedResult,
   completedTxHashesByNetwork,
   pendingTxHashesByNetwork,
+  pendingStandbyTxHashesByNetwork,
   dispatch,
 }: {
   pageInfo: { [key in NetworkId]?: PageInfo | null }
@@ -308,6 +323,7 @@ export function handlePollResponse({
   >
   completedTxHashesByNetwork: { [key in NetworkId]?: Set<string> }
   pendingTxHashesByNetwork: { [key in NetworkId]?: Set<string> }
+  pendingStandbyTxHashesByNetwork: { [key in NetworkId]?: Set<string> }
   dispatch: AppDispatch
 }) {
   return function (networkId: NetworkId, result: QueryResponse | null) {
@@ -337,6 +353,7 @@ export function handlePollResponse({
       )
       const knownCompletedTransactionHashes = completedTxHashesByNetwork[networkId]
       const knownPendingTransactionHashes = pendingTxHashesByNetwork[networkId]
+      const knownPendingStandbyTransactionHashes = pendingStandbyTxHashesByNetwork[networkId]
       let shouldUpdateCachedTransactions = false
       let hasNewCompletedTransaction = false
 
@@ -349,6 +366,14 @@ export function handlePollResponse({
           ) {
             shouldUpdateCachedTransactions = true
             hasNewCompletedTransaction = true
+          }
+
+          if (
+            // Track cross-chain swap transaction status change to `Complete`
+            tx.__typename === 'CrossChainTokenExchange' &&
+            knownPendingStandbyTransactionHashes?.has(tx.transactionHash)
+          ) {
+            trackCrossChainSwapSuccess(tx)
           }
         } else if (tx.status === TransactionStatus.Pending) {
           if (
@@ -414,6 +439,54 @@ async function queryTransactionsFeed({
   })
 
   await Promise.all(requests) // Wait for all requests to finish for use in useAsync hooks
+}
+
+function trackCrossChainSwapSuccess(tx: TokenExchange) {
+  const tokensById = tokensByIdSelector(store.getState(), getSupportedNetworkIdsForSwap())
+
+  const toTokenPrice = tokensById[tx.inAmount.tokenId]?.priceUsd
+  const fromTokenPrice = tokensById[tx.outAmount.tokenId]?.priceUsd
+
+  const networkFee = tx.fees.find((fee) => fee.type === FeeType.SecurityFee)
+  const networkFeeTokenPrice = networkFee && tokensById[networkFee?.amount.tokenId]?.priceUsd
+  const appFee = tx.fees.find((fee) => fee.type === FeeType.AppFee)
+  const appFeeTokenPrice = appFee && tokensById[appFee?.amount.tokenId]?.priceUsd
+  const crossChainFee = tx.fees.find((fee) => fee.type === FeeType.CrossChainFee)
+  const crossChainFeeTokenPrice =
+    crossChainFee && tokensById[crossChainFee?.amount.tokenId]?.priceUsd
+
+  AppAnalytics.track(SwapEvents.swap_execute_success, {
+    swapType: 'cross-chain',
+    swapExecuteTxId: tx.transactionHash,
+    toTokenId: tx.inAmount.tokenId,
+    toTokenAmount: tx.inAmount.value.toString(),
+    toTokenAmountUsd: toTokenPrice
+      ? BigNumber(tx.inAmount.value).times(toTokenPrice).toNumber()
+      : undefined,
+    fromTokenId: tx.outAmount.tokenId,
+    fromTokenAmount: tx.outAmount.value.toString(),
+    fromTokenAmountUsd: fromTokenPrice
+      ? BigNumber(tx.outAmount.value).times(fromTokenPrice).toNumber()
+      : undefined,
+    networkFeeTokenId: networkFee?.amount.tokenId,
+    networkFeeAmount: networkFee?.amount.value.toString(),
+    networkFeeAmountUsd:
+      networkFeeTokenPrice && networkFee.amount.value
+        ? BigNumber(networkFee.amount.value).times(networkFeeTokenPrice).toNumber()
+        : undefined,
+    appFeeTokenId: appFee?.amount.tokenId,
+    appFeeAmount: appFee?.amount.value.toString(),
+    appFeeAmountUsd:
+      appFeeTokenPrice && appFee.amount.value
+        ? BigNumber(appFee.amount.value).times(appFeeTokenPrice).toNumber()
+        : undefined,
+    crossChainFeeTokenId: crossChainFee?.amount.tokenId,
+    crossChainFeeAmount: crossChainFee?.amount.value.toString(),
+    crossChainFeeAmountUsd:
+      crossChainFeeTokenPrice && crossChainFee.amount.value
+        ? BigNumber(crossChainFee.amount.value).times(crossChainFeeTokenPrice).toNumber()
+        : undefined,
+  })
 }
 
 async function queryChainTransactionsFeed({

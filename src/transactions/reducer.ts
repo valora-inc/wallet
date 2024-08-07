@@ -316,3 +316,23 @@ export const completedTxHashesByNetworkIdSelector = createSelector(
     return hashesByNetwork
   }
 )
+
+export const pendingStandbyTxHashesByNetworkIdSelector = createSelector(
+  [standbyTransactionsSelector],
+  (transactions) => {
+    const hashesByNetwork: {
+      [networkId in NetworkId]?: Set<string>
+    } = {}
+    for (const tx of transactions) {
+      if (!hashesByNetwork[tx.networkId]) {
+        hashesByNetwork[tx.networkId] = new Set()
+      }
+
+      if (tx.transactionHash) {
+        hashesByNetwork[tx.networkId]!.add(tx.transactionHash)
+      }
+    }
+
+    return hashesByNetwork
+  }
+)
