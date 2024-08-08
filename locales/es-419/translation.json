@@ -1802,7 +1802,7 @@
     },
     "unsupportedTokensWarning": {
       "title": "Selección incompatible",
-      "body": "Los tokens seleccionados no se pueden intercambiar entre sí. Por favor, elige otro token que sea compatible con tu selección."
+      "body": "Las fichas seleccionadas no pueden intercambiarse entre sí. Por favor, elige otra ficha que sea compatible con tu selección."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Necesitas más {{feeTokenSymbol}} para cubrir las tarifas",
@@ -1890,10 +1890,10 @@
       "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "Más información",
-      "feesInfo_sameChain": "Se requiere una tarifa de red para procesar la transacción, lo que garantiza la seguridad y la fiabilidad de la red.",
-      "feesInfo_crossChain": "Se requiere una tarifa de red para procesar la transacción, lo que garantiza la seguridad y fiabilidad de la red. El proveedor cobra una tarifa en ambas cadenas para cambios entre blockchains, garantizando intercambios fluidos y seguros.",
-      "feesInfo_sameChainWithAppFee": "Se requiere una tarifa de red para procesar la transacción, lo que garantiza la seguridad y fiabilidad de la red. La tarifa de {{appName}} del {{appFeePercentage}}% mejora tu experiencia garantizando intercambios rápidos, fiables y seguros.",
-      "feesInfo_crossChainWithAppFee": "Se requiere una tarifa de red para procesar la transacción, lo que garantiza la seguridad y fiabilidad de la red. El proveedor cobra una tarifa en ambas cadenas para cambios entre blockchains, garantizando intercambios fluidos y seguros. La tarifa de {{appName}} del {{appFeePercentage}}% mejora tu experiencia garantizando intercambios rápidos, fiables y seguros."
+      "feesInfo_sameChain": "La comisión de red es exigida por la red para procesar la transacción.",
+      "feesInfo_crossChain": "La comisión de red es exigida por la red para procesar la transacción. La comisión de la cadena cruzada la cobra el proveedor de la cadena cruzada.",
+      "feesInfo_sameChainWithAppFee": "La tarifa de red es exigida por la red para procesar la transacción. La tarifa {{appName}} de {{appFeePercentage}}% se cobra por el uso de nuestro producto.",
+      "feesInfo_crossChainWithAppFee": "La comisión de red es exigida por la red para procesar la transacción. La comisión de la cadena cruzada la cobra el proveedor de la cadena cruzada. La tarifa {{appName}} de {{appFeePercentage}}% se cobra por el uso de nuestro producto."
     },
     "fundYourWalletBottomSheet": {
       "title": "Agregar fondos a tu billetera",
