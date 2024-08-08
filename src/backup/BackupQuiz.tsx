@@ -25,7 +25,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
   bottomHalf: { flex: 1, justifyContent: 'center' },
   bodyText: {
     marginTop: 20,
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     color: colors.black,
     textAlign: 'center',
   },

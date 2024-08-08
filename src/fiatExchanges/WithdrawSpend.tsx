@@ -14,10 +14,10 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
+import { navigateToURI } from 'src/utils/linking'
 
 export default function WithdrawSpend() {
   const [timestamp, setTimestamp] = useState<number | null>(null)
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   moreWays: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     color: colors.gray5,
     margin: variables.contentPadding,
   },

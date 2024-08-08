@@ -7,7 +7,7 @@ import Touchable from 'src/components/Touchable'
 import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { navigateToURI } from 'src/utils/linking'
@@ -83,7 +83,7 @@ export default function ReviewFees({
       >
         <Text style={typeScale.labelSemiBoldLarge}>{t('providerFeesDialog.title')}</Text>
         {'\n\n'}
-        <Text style={[fontStyles.regular]}>{t('providerFeesDialog.body1')}</Text>
+        <Text style={[typeScale.bodyMedium]}>{t('providerFeesDialog.body1')}</Text>
         <Text style={{ color: colors.primary }} onPress={openProviderFeeUrl}>
           {t('providerFeesDialog.body2', { providerName: provider })}
         </Text>
@@ -97,7 +97,7 @@ export default function ReviewFees({
       >
         <Text style={typeScale.labelSemiBoldLarge}>{t('providerFeeDiscountDialog.title')}</Text>
         {'\n\n'}
-        <Text style={[fontStyles.regular]}>{t('providerFeeDiscountDialog.body')}</Text>
+        <Text style={[typeScale.bodyMedium]}>{t('providerFeeDiscountDialog.body')}</Text>
       </Dialog>
       <View style={[styles.reviewLine]}>
         <Text style={[styles.reviewLineText]}>
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   reviewLine: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     paddingVertical: 4,
     display: 'flex',
     flexDirection: 'row',
@@ -176,10 +176,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   reviewLineText: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
   },
   feeWaivedText: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     color: colors.primary,
   },
   reviewLineTextAlt: {

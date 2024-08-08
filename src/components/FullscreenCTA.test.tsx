@@ -2,11 +2,11 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import FullscreenCTA from 'src/components/FullscreenCTA'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 const styles = StyleSheet.create({
   errorMessage: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     fontSize: 12,
     borderRadius: 25,
     backgroundColor: 'rgba(238, 238, 238, 0.75)',

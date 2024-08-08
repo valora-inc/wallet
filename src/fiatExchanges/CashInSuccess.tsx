@@ -10,7 +10,7 @@ import { noHeaderGestureDisabled } from 'src/navigator/Headers'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 type RouteProps = NativeStackScreenProps<StackParamList, Screens.CashInSuccess>
 type Props = RouteProps
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   contentText: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     textAlign: 'center',
   },
   buttonContainer: {
