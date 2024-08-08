@@ -37,10 +37,9 @@ exports[`CashinInSuccess renders correctly with a provider 1`] = `
     <Text
       style={
         {
-          "color": "#2E3338",
           "fontFamily": "Inter-Medium",
           "fontSize": 18,
-          "lineHeight": 24,
+          "lineHeight": 28,
           "paddingBottom": 16,
           "paddingTop": 8,
         }
@@ -209,10 +208,9 @@ exports[`CashinInSuccess renders correctly without a provider 1`] = `
     <Text
       style={
         {
-          "color": "#2E3338",
           "fontFamily": "Inter-Medium",
           "fontSize": 18,
-          "lineHeight": 24,
+          "lineHeight": 28,
           "paddingBottom": 16,
           "paddingTop": 8,
         }

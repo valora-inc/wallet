@@ -74,10 +74,9 @@ exports[`SmartTopAlert renders correctly 1`] = `
         style={
           [
             {
-              "color": "#2E3338",
               "fontFamily": "Inter-Medium",
               "fontSize": 14,
-              "lineHeight": 18,
+              "lineHeight": 20,
             },
             {
               "color": "white",

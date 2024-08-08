@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.Regular16,
   },
   helpText: {
-    ...fontStyles.xsmall,
+    ...typeScale.bodyXSmall,
     color: colors.gray5,
     textAlign: 'center',
   },
