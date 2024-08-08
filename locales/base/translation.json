@@ -1804,7 +1804,7 @@
     },
     "unsupportedTokensWarning": {
       "title": "Incompatible Selection",
-      "body": "The tokens selected cannot be swapped between. Please choose another token that is compatible with your selection."
+      "body": "The tokens selected cannot be swapped for each other. Please choose another token that is compatible with your selection."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "You need more {{feeTokenSymbol}} for gas",
@@ -1892,10 +1892,10 @@
       "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "More information",
-      "feesInfo_sameChain": "A network fee is required to process the transaction, ensuring security and reliability.",
-      "feesInfo_crossChain": "A network fee is required to process the transaction, ensuring security and reliability. A cross-chain fee is charged by the provider to enable smooth and secure exchanges between different blockchains.",
-      "feesInfo_sameChainWithAppFee": "A network fee is required to process the transaction, ensuring security and reliability. The {{appName}} fee of {{appFeePercentage}}% enhances your experience by ensuring fast, reliable, and secure swaps.",
-      "feesInfo_crossChainWithAppFee": "A network fee is required to process the transaction, ensuring security and reliability. A cross-chain fee is charged by the provider to enable smooth and secure exchanges between different blockchains. The {{appName}} fee of {{appFeePercentage}}% enhances your experience by ensuring fast, reliable, and secure swaps."
+      "feesInfo_sameChain": "The network fee is required by the network to process the transaction.",
+      "feesInfo_crossChain": "The network fee is required by the network to process the transaction. The cross-chain fee is charged by the cross-chain provider.",
+      "feesInfo_sameChainWithAppFee": "The network fee is required by the network to process the transaction. The {{appName}} fee of {{appFeePercentage}}% is charged for your use of our product.",
+      "feesInfo_crossChainWithAppFee": "The network fee is required by the network to process the transaction. The cross-chain fee is charged by the cross-chain provider. The {{appName}} fee of {{appFeePercentage}}% is charged for your use of our product."
     },
     "fundYourWalletBottomSheet": {
       "title": "Fund your wallet",
