@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Colors from 'src/styles/colors'
 import Svg, { Path } from 'svgs'
 
 interface Props {
@@ -9,7 +10,7 @@ interface Props {
 export default class SmoothX extends React.PureComponent<Props> {
   static defaultProps = {
     height: 47,
-    color: '#FFFFFF',
+    color: Colors.white,
   }
 
   render() {

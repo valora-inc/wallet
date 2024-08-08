@@ -81,7 +81,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                     "justifyContent": "center",
                   },
                   {
-                    "backgroundColor": "#FFF",
+                    "backgroundColor": "#FFFFFF",
                     "borderColor": "#E6E6E6",
                     "borderRadius": 3,
                     "borderWidth": 1,
@@ -395,7 +395,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                         "justifyContent": "center",
                       },
                       {
-                        "backgroundColor": "#FFF",
+                        "backgroundColor": "#FFFFFF",
                         "borderColor": "#E6E6E6",
                         "borderRadius": 3,
                         "borderWidth": 1,
@@ -455,7 +455,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                         "justifyContent": "center",
                       },
                       {
-                        "backgroundColor": "#FFF",
+                        "backgroundColor": "#FFFFFF",
                         "borderColor": "#E6E6E6",
                         "borderRadius": 3,
                         "borderWidth": 1,
@@ -515,7 +515,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                         "justifyContent": "center",
                       },
                       {
-                        "backgroundColor": "#FFF",
+                        "backgroundColor": "#FFFFFF",
                         "borderColor": "#E6E6E6",
                         "borderRadius": 3,
                         "borderWidth": 1,
@@ -575,7 +575,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                         "justifyContent": "center",
                       },
                       {
-                        "backgroundColor": "#FFF",
+                        "backgroundColor": "#FFFFFF",
                         "borderColor": "#E6E6E6",
                         "borderRadius": 3,
                         "borderWidth": 1,
