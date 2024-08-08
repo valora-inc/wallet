@@ -1,9 +1,9 @@
 import { PayloadAction } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import erc20 from 'src/abis/IERC20'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SwapEvents } from 'src/analytics/Events'
 import { SwapTimeMetrics, SwapTxsReceiptProperties } from 'src/analytics/Properties'
-import AppAnalytics from 'src/analytics/AppAnalytics'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
 import { vibrateError } from 'src/styles/hapticFeedback'
@@ -260,35 +260,41 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     navigateHome()
     submitted = true
 
-    // wait for the tx receipts, so that we can track them
-    for (let i = 0; i < txHashes.length; i++) {
-      const txReceipt = yield* call([publicClient[network], 'waitForTransactionReceipt'], {
-        hash: txHashes[i],
+    // Success is tracked only for same-chain swaps. Cross-chain swap success is tracked in the query helper
+    // because for the cross-chain swaps, we have to wait for the transaction to be included in the
+    // destination chain before we can consider the swap successful
+    if (swapType === 'same-chain') {
+      // wait for the tx receipts, so that we can track them
+      for (let i = 0; i < txHashes.length; i++) {
+        const txReceipt = yield* call([publicClient[network], 'waitForTransactionReceipt'], {
+          hash: txHashes[i],
+        })
+        Logger.debug(`Got transaction receipt ${i + 1} of ${trackedTxs.length}`, txReceipt)
+        trackedTxs[i].txReceipt = txReceipt
+      }
+
+      const swapTxReceipt = trackedTxs[trackedTxs.length - 1].txReceipt
+      if (swapTxReceipt?.status !== 'success') {
+        throw new Error(`Swap transaction reverted: ${swapTxReceipt?.transactionHash}`)
+      }
+
+      yield* put(
+        swapSuccess({
+          swapId,
+          fromTokenId,
+          toTokenId,
+          transactionHash: swapTxReceipt.transactionHash,
+          networkId,
+        })
+      )
+
+      AppAnalytics.track(SwapEvents.swap_execute_success, {
+        ...defaultSwapExecuteProps,
+        ...getTimeMetrics(),
+        ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),
+        swapType,
       })
-      Logger.debug(`Got transaction receipt ${i + 1} of ${trackedTxs.length}`, txReceipt)
-      trackedTxs[i].txReceipt = txReceipt
     }
-
-    const swapTxReceipt = trackedTxs[trackedTxs.length - 1].txReceipt
-    if (swapTxReceipt?.status !== 'success') {
-      throw new Error(`Swap transaction reverted: ${swapTxReceipt?.transactionHash}`)
-    }
-
-    yield* put(
-      swapSuccess({
-        swapId,
-        fromTokenId,
-        toTokenId,
-        transactionHash: swapTxReceipt.transactionHash,
-        networkId,
-      })
-    )
-
-    AppAnalytics.track(SwapEvents.swap_execute_success, {
-      ...defaultSwapExecuteProps,
-      ...getTimeMetrics(),
-      ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),
-    })
   } catch (err) {
     if (err === CANCELLED_PIN_INPUT) {
       Logger.info(TAG, 'Swap cancelled by user')
