@@ -3,7 +3,7 @@ import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native
 import CallToActionsBar, { CallToAction } from 'src/components/CallToActionsBar'
 import MessagingCard from 'src/components/MessagingCard'
 import colors from 'src/styles/colors'
-import fonts from 'src/styles/fonts'
+import fonts, { typeScale } from 'src/styles/fonts'
 
 interface Props {
   title: string
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     marginLeft: 16,
   },
   title: {
-    ...fonts.notificationHeadline,
+    ...typeScale.labelSemiBoldMedium,
     marginBottom: 4,
   },
   details: {
