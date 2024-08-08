@@ -4,14 +4,15 @@ import { Trans, useTranslation } from 'react-i18next'
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { showError } from 'src/alert/actions'
-import { RewardsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { RewardsEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
   numberVerifiedDecentrallySelector,
   phoneNumberVerifiedSelector,
   superchargeTokenConfigByTokenSelector,
 } from 'src/app/selectors'
+import Logo from 'src/brandedIcons/Logo'
 import { SUPERCHARGE_LEARN_MORE } from 'src/brandingConfig'
 import Button, { BtnSizes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
@@ -28,7 +29,6 @@ import { claimRewards, fetchAvailableRewards } from 'src/consumerIncentives/slic
 import { SuperchargePendingReward, SuperchargeTokenConfig } from 'src/consumerIncentives/types'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import InfoIcon from 'src/icons/InfoIcon'
-import Logo from 'src/icons/Logo'
 import Times from 'src/icons/Times'
 import { boostRewards, earn1, earn2 } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'

@@ -3,16 +3,16 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { connect } from 'react-redux'
-import { OnboardingEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { OnboardingEvents } from 'src/analytics/Events'
 import BackupPhraseContainer, {
   BackupPhraseContainerMode,
   BackupPhraseType,
 } from 'src/backup/BackupPhraseContainer'
 import { useAccountKey } from 'src/backup/utils'
+import Logo from 'src/brandedIcons/Logo'
 import Button from 'src/components/Button'
 import TextButton from 'src/components/TextButton'
-import Logo from 'src/icons/Logo'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
