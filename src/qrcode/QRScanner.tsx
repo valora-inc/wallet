@@ -10,7 +10,7 @@ import TextButton from 'src/components/TextButton'
 import NotAuthorizedView from 'src/qrcode/NotAuthorizedView'
 import { QrCode } from 'src/send/types'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 
 interface QRScannerProps {
   onQRCodeDetected: (qrCode: QrCode) => void
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
   },
   manualTitle: {
     marginBottom: 6,
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
   },
   actions: {
     flexDirection: 'row',

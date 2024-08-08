@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   title: {
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
     marginBottom: 8,
     color: colors.white,
   },

@@ -9,7 +9,6 @@ const Inter = {
 }
 
 const Jost = {
-  Book: 'Jost-Book',
   Medium: 'Jost-Medium',
 }
 
@@ -161,22 +160,10 @@ export const typeScale = StyleSheet.create({
  * Use typeScale instead
  */
 export const fontStyles = StyleSheet.create({
-  h2: {
-    fontSize: 22,
-    lineHeight: 28,
-    fontFamily: Jost.Medium,
-    color: colors.black,
-  },
   sectionHeader: {
     fontSize: 14,
     lineHeight: 16,
     fontFamily: Inter.Medium,
-    color: colors.black,
-  },
-  navigationHeader: {
-    fontSize: 16,
-    lineHeight: 20,
-    fontFamily: Jost.Medium,
     color: colors.black,
   },
   notificationHeadline: {
@@ -209,9 +196,6 @@ export const fontStyles = StyleSheet.create({
   regular500: { ...standards.regular, fontFamily: Inter.Medium },
   small500: { ...standards.small, fontFamily: Inter.Medium },
   xsmall500: { ...standards.xsmall, fontFamily: Inter.Medium },
-  center: {
-    textAlign: 'center',
-  },
   mediumNumber: {
     lineHeight: 27,
     fontSize: 24,
@@ -229,24 +213,7 @@ export const fontStyles = StyleSheet.create({
     fontFamily: Inter.Medium,
     color: colors.white,
   },
-  emptyState: {
-    ...standards.large,
-    color: colors.gray3,
-    textAlign: 'center',
-  },
 })
 
 // TODO: export typeScale as default when all components are updated
 export default fontStyles
-
-// map of deprecated font names to new font styles.
-export const oldFontsStyles = StyleSheet.create({
-  body: fontStyles.regular,
-  bodySmall: fontStyles.small,
-  bodySmallBold: fontStyles.small600,
-  bodyBold: fontStyles.regular600,
-  bodySmallSemiBold: fontStyles.small600,
-  sectionLabel: fontStyles.sectionHeader,
-  sectionLabelNew: fontStyles.sectionHeader,
-  headerTitle: fontStyles.regular600,
-})

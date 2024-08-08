@@ -3,8 +3,8 @@ import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { connect } from 'react-redux'
-import { SendEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { SendEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import AccountNumberCard from 'src/components/AccountNumberCard'
 import BackButton from 'src/components/BackButton'
@@ -26,11 +26,11 @@ import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { getDisplayName, Recipient } from 'src/recipients/recipient'
+import { Recipient, getDisplayName } from 'src/recipients/recipient'
 import { RootState } from 'src/redux/reducers'
 import { TransactionDataInput } from 'src/send/types'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 
 const FULL_ADDRESS_PLACEHOLDER = '0xf1b1d5a6e7728g309c4a025k122d71ad75a61976'
 const PARTIAL_ADDRESS_PLACEHOLDER = ['a', '0', 'F', '4']
@@ -317,7 +317,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   h2: {
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
     paddingVertical: 16,
   },
   button: {
@@ -343,7 +343,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   modalHeader: {
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
     textAlign: 'center',
     paddingBottom: 4,
   },

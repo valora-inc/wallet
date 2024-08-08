@@ -4,8 +4,8 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { FiatExchangeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { FiatExchangeEvents } from 'src/analytics/Events'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import getNavigationOptions from 'src/fiatconnect/kyc/getNavigationOptions'
 import { kycTryAgainLoadingSelector } from 'src/fiatconnect/selectors'
@@ -15,7 +15,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.KycDenied>
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
     marginHorizontal: 16,
   },
   description: {
