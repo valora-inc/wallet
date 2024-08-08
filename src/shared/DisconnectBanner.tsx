@@ -6,7 +6,7 @@ import { withTranslation } from 'src/i18n'
 import { RootState } from 'src/redux/reducers'
 import { isAppConnected } from 'src/redux/selectors'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 
 interface StateProps {
   appConnected: boolean
@@ -43,7 +43,8 @@ class DisconnectBanner extends React.PureComponent<Props> {
     if (!appConnected && DisconnectBanner.hasAppConnected) {
       return (
         <Text style={[styles.text, styles.textRed]}>
-          <Text style={fontStyles.regular600}>{t('poorConnection.0')}</Text> {t('poorConnection.1')}
+          <Text style={typeScale.labelSemiBoldMedium}>{t('poorConnection.0')}</Text>{' '}
+          {t('poorConnection.1')}
         </Text>
       )
     }
@@ -51,7 +52,7 @@ class DisconnectBanner extends React.PureComponent<Props> {
     // App is connecting for first time, show grey banner
     return (
       <Text
-        style={[styles.text, styles.textGrey, fontStyles.regular600]}
+        style={[styles.text, styles.textGrey, typeScale.labelSemiBoldMedium]}
         testID="connectingToCeloBanner"
       >
         {t('connectingToCelo')}

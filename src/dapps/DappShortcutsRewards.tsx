@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   dappName: {
-    ...fontStyles.small600,
+    ...typeScale.labelSemiBoldSmall,
   },
   headerContainer: {
     paddingTop: Spacing.Smallest8,

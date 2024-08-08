@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     left: 9,
     right: 9,
     bottom: 32,
-    ...fontStyles.small600,
+    ...typeScale.labelSemiBoldSmall,
     lineHeight: undefined,
     color: colors.white,
     textAlign: 'center',

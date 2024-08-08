@@ -7,7 +7,7 @@ import Touchable from 'src/components/Touchable'
 import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { navigateToURI } from 'src/utils/linking'
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     color: colors.gray4,
   },
   reviewLineTextTotal: {
-    ...fontStyles.regular600,
+    ...typeScale.labelSemiBoldMedium,
   },
   line: {
     marginVertical: 16,

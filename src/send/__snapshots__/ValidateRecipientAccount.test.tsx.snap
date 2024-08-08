@@ -59,10 +59,9 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
             <Text
               style={
                 {
-                  "color": "#2E3338",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 14,
-                  "lineHeight": 18,
+                  "lineHeight": 20,
                   "paddingVertical": 8,
                 }
               }
@@ -358,10 +357,9 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
             <Text
               style={
                 {
-                  "color": "#2E3338",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 14,
-                  "lineHeight": 18,
+                  "lineHeight": 20,
                   "paddingVertical": 8,
                 }
               }

@@ -12,7 +12,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import { useTokenInfo } from 'src/tokens/hooks'
 import Logger from 'src/utils/Logger'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     ...fontStyles.small,
   },
   fee: {
-    ...fontStyles.small600,
+    ...typeScale.labelSemiBoldSmall,
     marginTop: 4,
   },
 })

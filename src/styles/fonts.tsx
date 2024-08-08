@@ -163,9 +163,6 @@ export const fontStyles = StyleSheet.create({
   regular: standards.regular,
   small: standards.small,
   large600: { ...standards.large, fontFamily: Inter.SemiBold },
-  regular600: { ...standards.regular, fontFamily: Inter.SemiBold },
-  small600: { ...standards.small, fontFamily: Inter.SemiBold },
-  regular500: { ...standards.regular, fontFamily: Inter.Medium },
 })
 
 // TODO: export typeScale as default when all components are updated

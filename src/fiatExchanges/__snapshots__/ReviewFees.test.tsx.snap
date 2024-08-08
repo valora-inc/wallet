@@ -428,10 +428,9 @@ exports[`ReviewFees renders correctly 1`] = `
             "lineHeight": 22,
           },
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-SemiBold",
             "fontSize": 16,
-            "lineHeight": 22,
+            "lineHeight": 24,
           },
         ]
       }
@@ -448,10 +447,9 @@ exports[`ReviewFees renders correctly 1`] = `
             "lineHeight": 22,
           },
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-SemiBold",
             "fontSize": 16,
-            "lineHeight": 22,
+            "lineHeight": 24,
           },
         ]
       }
@@ -461,14 +459,13 @@ exports[`ReviewFees renders correctly 1`] = `
           [
             [
               {
-                "color": "#2E3338",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
-                "lineHeight": 22,
+                "lineHeight": 24,
               },
             ],
             {
-              "color": "#2E3338",
+              "color": undefined,
             },
           ]
         }
@@ -897,10 +894,9 @@ exports[`ReviewFees renders correctly 2`] = `
             "lineHeight": 22,
           },
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-SemiBold",
             "fontSize": 16,
-            "lineHeight": 22,
+            "lineHeight": 24,
           },
         ]
       }
@@ -917,10 +913,9 @@ exports[`ReviewFees renders correctly 2`] = `
             "lineHeight": 22,
           },
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-SemiBold",
             "fontSize": 16,
-            "lineHeight": 22,
+            "lineHeight": 24,
           },
         ]
       }
@@ -930,14 +925,13 @@ exports[`ReviewFees renders correctly 2`] = `
           [
             [
               {
-                "color": "#2E3338",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
-                "lineHeight": 22,
+                "lineHeight": 24,
               },
             ],
             {
-              "color": "#2E3338",
+              "color": undefined,
             },
           ]
         }

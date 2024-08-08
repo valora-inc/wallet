@@ -875,10 +875,9 @@ exports[`BackupQuiz renders correctly 1`] = `
           <Text
             style={
               {
-                "color": "#2E3338",
                 "fontFamily": "Inter-Medium",
                 "fontSize": 16,
-                "lineHeight": 22,
+                "lineHeight": 24,
                 "marginTop": 25,
                 "textAlign": "center",
               }

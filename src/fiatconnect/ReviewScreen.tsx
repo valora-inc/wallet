@@ -578,7 +578,7 @@ const styles = StyleSheet.create({
     marginVertical: 0,
   },
   sectionMainText: {
-    ...fontStyles.regular500,
+    ...typeScale.labelMedium,
   },
   sectionSubTextContainer: {
     marginVertical: 2,
