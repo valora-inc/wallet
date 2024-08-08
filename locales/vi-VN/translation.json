@@ -1800,7 +1800,7 @@
     },
     "unsupportedTokensWarning": {
       "title": "Lựa chọn không phù hợp",
-      "body": "Bạn không thể trao đổi các token đã chọn. Vui lòng chọn một token khác phù hợp với lựa chọn của bạn."
+      "body": "The tokens selected cannot be swapped for each other. Please choose another token that is compatible with your selection."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Bạn cần thêm {{feeTokenSymbol}} để trả phí gas",
@@ -1888,10 +1888,10 @@
       "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "Thông tin bổ sung",
-      "feesInfo_sameChain": "Bạn cần trả một khoản phí mạng để xử lý giao dịch nhằm đảm bảo tính bảo mật và độ tin cậy.",
-      "feesInfo_crossChain": "Bạn cần trả một khoản phí mạng để xử lý giao dịch nhằm đảm bảo tính bảo mật và độ tin cậy. Nhà cung cấp sẽ thu một khoản phí trao đổi chuỗi chéo để đảm bảo quá trình trao đổi giữa các chuỗi khối khác nhau diễn ra suôn sẻ và an toàn.",
-      "feesInfo_sameChainWithAppFee": "Bạn cần trả một khoản phí mạng để xử lý giao dịch nhằm đảm bảo tính bảo mật và độ tin cậy. Khoản phí {{appFeePercentage}}% của {{appName}} giúp nâng cao trải nghiệm của bạn bằng cách đảm bảo các giao dịch trao đổi diễn ra nhanh chóng, tin cậy và an toàn.",
-      "feesInfo_crossChainWithAppFee": "Bạn cần trả một khoản phí mạng để xử lý giao dịch nhằm đảm bảo tính bảo mật và độ tin cậy. Nhà cung cấp sẽ thu một khoản phí trao đổi chuỗi chéo để đảm bảo quá trình trao đổi giữa các chuỗi khối khác nhau diễn ra suôn sẻ và an toàn. Khoản phí {{appFeePercentage}}% của {{appName}} giúp nâng cao trải nghiệm của bạn bằng cách đảm bảo các giao dịch trao đổi diễn ra nhanh chóng, tin cậy và an toàn."
+      "feesInfo_sameChain": "The network fee is required by the network to process the transaction.",
+      "feesInfo_crossChain": "The network fee is required by the network to process the transaction. The cross-chain fee is charged by the cross-chain provider.",
+      "feesInfo_sameChainWithAppFee": "The network fee is required by the network to process the transaction. The {{appName}} fee of {{appFeePercentage}}% is charged for your use of our product.",
+      "feesInfo_crossChainWithAppFee": "The network fee is required by the network to process the transaction. The cross-chain fee is charged by the cross-chain provider. The {{appName}} fee of {{appFeePercentage}}% is charged for your use of our product."
     },
     "fundYourWalletBottomSheet": {
       "title": "Nạp tiền vào ví của bạn",
