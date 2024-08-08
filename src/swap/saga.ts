@@ -1,4 +1,3 @@
-import { valueToBigNumber } from '@celo/contractkit/lib/wrappers/BaseWrapper'
 import { PayloadAction } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import erc20 from 'src/abis/IERC20'
@@ -50,7 +49,7 @@ function calculateEstimatedUsdValue({
     return undefined
   }
 
-  return valueToBigNumber(tokenAmount).times(tokenInfo.priceUsd).toNumber()
+  return new BigNumber(tokenAmount).times(tokenInfo.priceUsd).toNumber()
 }
 
 function getSwapTxsReceiptAnalyticsProperties(
