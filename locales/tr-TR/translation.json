@@ -108,7 +108,7 @@
     "subtitle": "Yedek olarak ayarlamak için e-postanızla oturum açın. Cüzdanınızı kaybetmeniz durumunda tekrar oturum açmanız istenecektir.",
     "subtitleRestore": "Cüzdan yedeklemenizi ayarladığınız e-postayla oturum açın.",
     "google": "Google ile oturum aç",
-    "apple": "Apple ile oturum açın",
+    "apple": "Apple ile oturum aç",
     "signInAnotherWay": "Başka bir şekilde oturum açın",
     "bottomSheet": {
       "title": "Bir cüzdan oluşturmak için kurtarma ifadenizi kaydedin",
@@ -2241,13 +2241,13 @@
     "estimatedNetworkFee": "Tahmini ağ ücreti",
     "networkFee": "Ağ ücreti",
     "appFee": "Uygulama ücreti",
-    "estimatedCrossChainFee": "Tahmini çapraz zincir ücreti",
-    "crossChainFee": "Çapraz zincir ücreti",
+    "estimatedCrossChainFee": "Tahmini zincirler arası işlem ücreti",
+    "crossChainFee": "Zincirler arası işlem ücreti",
     "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}} işlem için onaylandı",
     "infiniteApprovalDescription": "{{tokenSymbol}} işlem için süresiz onaylandı",
     "revokeApprovalDescription": "{{tokenSymbol}} işlem için iptal edildi",
     "descriptionLabel": "Detaylar",
-    "crossChainSwapTransactionLabel": "Çapraz zincir"
+    "crossChainSwapTransactionLabel": "Zincirler arası"
   },
   "multichainBeta": {
     "beta": "BETA",
@@ -2449,8 +2449,8 @@
       "cta": "Puan yolculuğunuza başlayın"
     },
     "disclaimer": {
-      "learnMoreCta": "{{appName}} Points hakkında <0>daha fazla</0> bilgi <0>edinin</0>",
-      "body": "<0>Puan Nedir?</0>\nPuanlar {{appName}}'un sadakat programıdır. Uygulamamızı kullandığınızda kullanıcılara verilir.\n\n<0>Ne işe yararlar?</0>\nOnları toplarsınız. Harcanamaz, takas edilemez veya transfer edilemezler.\n\n<0>Neden cüzdanımdalar?</0>\nÇünkü onlar token. Zincir üzerinde, uygulamayı kullanarak kazandığınız dijital mutluluk parçaları.",
+      "learnMoreCta": "{{appName}} Puanları hakkında <0>daha fazla bilgi edinin</0>",
+      "body": "<0>Puanlar Nedir?</0>\nPuanlar {{appName}} uygulamasının sadakat programıdır. Uygulamamızı kullandığınızda kullanıcılara verilir.\n\n<0>Ne işe yararlar?</0>\nPuanları toplarsınız. Bunlar harcanamaz, takas edilemez veya transfer edilemez.\n\n<0>Neden cüzdanımdalar?</0>\nÇünkü onlar token. Zincir üzerinde, uygulamayı kullanarak kazandığınız dijital mutluluk parçaları.",
       "dismiss": "Anladım"
     }
   },
