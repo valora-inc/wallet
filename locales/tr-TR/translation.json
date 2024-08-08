@@ -1802,7 +1802,7 @@
     },
     "unsupportedTokensWarning": {
       "title": "Uyumsuz Seçim",
-      "body": "Seçilen tokenler arasında takas yapılamaz. Lütfen seçiminizle uyumlu başka bir token seçin."
+      "body": "Seçilen jetonlar birbirleriyle değiştirilemez. Lütfen seçiminizle uyumlu başka bir token seçin."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Gas için daha fazla {{feeTokenSymbol}} bakiyesine ihtiyacınız var",
@@ -1890,10 +1890,10 @@
       "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "Daha fazla bilgi",
-      "feesInfo_sameChain": "İşlemin gerçekleştirilmesi için güvenlik ve güvenilirliği sağlayan bir ağ ücreti gereklidir.",
-      "feesInfo_crossChain": "İşlemin gerçekleştirilmesi için güvenlik ve güvenilirliği sağlayan bir ağ ücreti gereklidir. Farklı blok zincirleri arasında sorunsuz ve güvenli alışverişi sağlamak için sağlayıcı tarafından bir zincirler arası işlem ücreti alınır.",
-      "feesInfo_sameChainWithAppFee": "İşlemin gerçekleştirilmesi için güvenlik ve güvenilirlik sağlayan bir ağ ücreti gereklidir. %{{appFeePercentage}} oranındaki {{appName}} ücreti, hızlı, güvenilir ve güvenli takaslar sağlayarak deneyiminizi iyileştirir.",
-      "feesInfo_crossChainWithAppFee": "İşlemin gerçekleştirilmesi için güvenlik ve güvenilirlik sağlayan bir ağ ücreti gereklidir. Farklı blok zincirleri arasında sorunsuz ve güvenli alışverişi sağlamak için sağlayıcı tarafından bir zincirler arası işlem ücreti alınır. %{{appFeePercentage}} oranındaki {{appName}} ücreti, hızlı, güvenilir ve güvenli takaslar sağlayarak deneyiminizi iyileştirir."
+      "feesInfo_sameChain": "Ağ ücreti, işlemin gerçekleştirilmesi için ağ tarafından talep edilir.",
+      "feesInfo_crossChain": "Ağ ücreti, işlemin gerçekleştirilmesi için ağ tarafından talep edilir. Çapraz zincir ücreti, çapraz zincir sağlayıcısı tarafından tahsil edilir.",
+      "feesInfo_sameChainWithAppFee": "Ağ ücreti, işlemin gerçekleştirilmesi için ağ tarafından talep edilir. Ürünümüzü kullanmanız için {{appName}} ücreti {{appFeePercentage}}% tahsil edilir.",
+      "feesInfo_crossChainWithAppFee": "Ağ ücreti, işlemin gerçekleştirilmesi için ağ tarafından talep edilir. Çapraz zincir ücreti, çapraz zincir sağlayıcısı tarafından tahsil edilir. {{appName}} ücreti {{appFeePercentage}}% ürünümüzü kullanmanız için ücretlendirilir."
     },
     "fundYourWalletBottomSheet": {
       "title": "Cüzdanınıza fon ekleyin",
