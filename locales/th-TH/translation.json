@@ -108,7 +108,7 @@
     "subtitle": "ลงชื่อเข้าใช้ด้วยอีเมลของคุณเพื่อตั้งค่าเป็นข้อมูลสำรอง คุณจะได้รับแจ้งให้ลงชื่อเข้าใช้อีกครั้งหากทำกระเป๋าเงินหาย",
     "subtitleRestore": "ลงชื่อเข้าใช้ด้วยอีเมลที่คุณใช้ในการตั้งค่าการสำรองข้อมูลกระเป๋าเงินของคุณ",
     "google": "ลงชื่อเข้าใช้ด้วย Google",
-    "apple": "Sign in with Apple",
+    "apple": "ลงชื่อเข้าใช้ด้วย Apple",
     "signInAnotherWay": "ลงชื่อเข้าใช้ด้วยวิธีอื่น",
     "bottomSheet": {
       "title": "บันทึกวลีกู้คืนรหัสของคุณเพื่อสร้างกระเป๋าเงิน",
@@ -2015,7 +2015,7 @@
       "selectNetwork": "เครือข่าย",
       "stablecoins": "Stablecoins",
       "gasTokens": "Gas Tokens",
-      "tokens": "Token"
+      "tokens": "โทเค็น"
     }
   },
   "homeActions": {
@@ -2180,7 +2180,7 @@
   "viewOnOPSepoliaExplorer": "ดูบน OP Sepolia Explorer",
   "viewOnPolygonPoSScan": "ดูบน PolygonScan",
   "viewOnBaseScan": "ดูบน BaseScan",
-  "viewOnAxelarScan": "View on AxelarScan",
+  "viewOnAxelarScan": "ดูบน AxelarScan",
   "sendEnterAmountScreen": {
     "title": "ป้อนจำนวนเงิน",
     "selectToken": "เลือกโทเค็น",
@@ -2238,9 +2238,9 @@
     "approvalTransactionTitle": "การอนุมัติ",
     "estimatedNetworkFee": "ค่าธรรมเนียมเครือข่ายโดยประมาณ",
     "networkFee": "ค่าธรรมเนียมเครือข่าย",
-    "appFee": "App fee",
-    "estimatedCrossChainFee": "Estimated cross-chain fee",
-    "crossChainFee": "Cross-chain fee",
+    "appFee": "ค่าธรรมเนียมแอป",
+    "estimatedCrossChainFee": "ค่าธรรมเนียม Cross-chain โดยประมาณ",
+    "crossChainFee": "ค่าธรรมเนียม Cross-chain",
     "finiteApprovalDescription": "อนุมัติ {{approvedAmount}} {{tokenSymbol}} สำหรับการเทรด",
     "infiniteApprovalDescription": "อนุมัติ {{tokenSymbol}} ไม่จำกัดสำหรับการเทรด",
     "revokeApprovalDescription": "ยกเลิก {{tokenSymbol}} สำหรับการเทรด",
@@ -2447,8 +2447,8 @@
       "cta": "เริ่มสะสมคะแนนของคุณ"
     },
     "disclaimer": {
-      "learnMoreCta": "<0>Learn more</0> about {{appName}} Points",
-      "body": "<0>What are Points?</0>\nPoints are {{appName}}'s loyalty program. They're awarded to users when you use our app.\n\n<0>What are they good for?</0>\nYou collect them. They can’t be spent or traded or transferred.\n\n<0>Why are they in my wallet?</0>\nBecause they’re tokens. On chain, digital bits of happiness you earn by using the app.",
+      "learnMoreCta": "<0>ดูข้อมูลเพิ่มเติม</0>เกี่ยวกับคะแนน {{appName}}",
+      "body": "<0>คะแนนคืออะไร</0>\nคะแนนคือโปรแกรมรอยัลตี้ของ {{appName}} โดยมอบให้แก่ผู้ใช้เมื่อเข้าใช้งานแอปของเรา \n\n<0>คะแนนใช้ทำอะไรได้บ้าง</0>\nคุณสามารถสะสมคะแนนได้ แต่ไม่สามารถนำไปใช้จ่าย เทรด หรือโอนได้\n\n<0>เหตุใดคะแนนจึงอยู่ในกระเป๋าเงิน</0>\nเพราะคะแนนเป็นโทเค็น ซึ่งเป็นของตอบแทนเล็กๆ น้อยๆ ในรูปแบบดิจิทัลที่คุณจะได้รับจากการใช้งานแอปของเรา",
       "dismiss": "เข้าใจแล้ว"
     }
   },
@@ -2584,29 +2584,29 @@
     },
     "home": {
       "title": "สร้างรายได้",
-      "learnMore": "<0>Learn more</0> about yield pools.",
+      "learnMore": "<0>ดูข้อมูลเพิ่มเติม</0>เกี่ยวกับพูลผลตอบแทน",
       "learnMoreBottomSheet": {
-        "bottomSheetTitle": "Learn more about yield pools",
-        "apySubtitle": "What is an APY?",
-        "apyDescription": "Annual percentage yield (APY) is a metric used to calculate the annualized return on crypto investments. It's a key indicator of a cryptocurrency's potential return and profitability.",
-        "tvlSubtitle": "What is TVL?",
-        "tvlDescription": "TVL stands for Total Value Locked, and it's a metric used in the crypto industry to measure the value of digital assets locked on a blockchain network. TVL is calculated by adding up the value of all digital assets locked in a DeFi protocol or smart contract. These assets can include cryptocurrencies, stablecoins, and other tokens."
+        "bottomSheetTitle": "ดูข้อมูลเพิ่มเติมเกี่ยวกับพูลผลตอบแทน",
+        "apySubtitle": "ผลตอบแทนเป็นเปอร์เซ็นต์ต่อปี (APY) คืออะไร",
+        "apyDescription": "ผลตอบแทนเป็นเปอร์เซ็นต์ต่อปี (APY) คือเมตริกที่ใช้ในการคำนวณผลตอบแทนในรอบปีในการลงทุนคริปโต ซึ่งเป็นตัวชี้วัดที่สำคัญของผลตอบแทนที่อาจได้รับและความสามารถในการทำกำไรได้ของคริปโตเคอร์เรนซี",
+        "tvlSubtitle": "TVL คืออะไร",
+        "tvlDescription": "TVL ย่อมาจาก Total Value Locked (มูลค่ารวมที่ถูกล็อกไว้) ซึ่งเป็นเมตริกที่ใช้ในวงการคริปโตเพื่อวัดมูลค่าของสินทรัพย์ดิจิทัลที่ถูกล็อกไว้บนเครือข่ายบล็อกเชน TVL จะคำนวณโดยการบวกเพิ่มมูลค่าของสินทรัพย์ดิจิทัลที่ถูกล็อกไว้ในโปรโตคอล DeFi หรือสัญญาอัจฉริยะ ซึ่งสินทรัพย์เหล่านี้อาจรวมถึงคริปโตเคอร์เรนซี, Stablecoin และโทเค็นอื่นๆ"
       }
     },
     "poolCard": {
       "onNetwork": "บน {{networkName}}",
       "rate": "อัตรา (โดยประมาณ)",
-      "reward": "Reward",
+      "reward": "ผลตอบแทน",
       "tvl": "TVL",
       "exitPool": "ออกจากพูล",
-      "addToPool": "Add to Pool",
+      "addToPool": "เพิ่มไปยังพูล",
       "apy": "{{apy}}% APY",
       "poweredBy": "ดำเนินการโดย {{providerName}}",
-      "deposited": "Supplied"
+      "deposited": "ที่เข้าร่วม"
     },
     "poolFilters": {
-      "openPools": "Open Pools",
-      "myPools": "My Pools"
+      "openPools": "พูลที่เปิดอยู่",
+      "myPools": "พูลของฉัน"
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
