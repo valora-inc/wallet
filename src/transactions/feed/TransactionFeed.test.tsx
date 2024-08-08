@@ -161,7 +161,6 @@ const MOCK_RESPONSE_FAILED_TRANSACTION: QueryResponse = {
 describe('TransactionFeed', () => {
   const mockFetch = fetch as FetchMock
   beforeEach(() => {
-    jest.useRealTimers()
     jest.clearAllMocks()
     jest.mocked(getMultichainFeatures).mockReturnValue({
       showCico: [NetworkId['celo-alfajores']],
@@ -218,6 +217,8 @@ describe('TransactionFeed', () => {
         standbyTransactions: [],
       },
     })
+
+    jest.advanceTimersByTime(10_000) // increment to the fist poll interval, so that new transactions are requested
     await waitFor(() => expect(tree.getByTestId('TransactionList').props.data.length).toBe(1))
 
     expect(tree.queryByTestId('NoActivity/loading')).toBeNull()
@@ -231,6 +232,8 @@ describe('TransactionFeed', () => {
     mockFetch.mockResponse(JSON.stringify(MOCK_RESPONSE_NO_NEXT_PAGE))
 
     const tree = renderScreen({})
+
+    jest.advanceTimersByTime(10_000) // increment to the fist poll interval, so that new transactions are requested
     await waitFor(() => expect(tree.getByTestId('TransactionList').props.data.length).toBe(1))
 
     expect(tree.queryByTestId('NoActivity/loading')).toBeNull()
@@ -261,6 +264,7 @@ describe('TransactionFeed', () => {
       },
     })
 
+    jest.advanceTimersByTime(10_000) // increment to the fist poll interval, so that new transactions are requested
     await waitFor(() => expect(tree.getAllByTestId('TransferFeedItem').length).toBe(2))
   })
 
@@ -269,6 +273,7 @@ describe('TransactionFeed', () => {
 
     const { getAllByTestId, getByTestId } = renderScreen({})
 
+    jest.advanceTimersByTime(10_000) // increment to the fist poll interval, so that new transactions are requested
     await waitFor(() => getByTestId('TransactionList'))
 
     const items = getAllByTestId('TransferFeedItem/title')
@@ -277,6 +282,8 @@ describe('TransactionFeed', () => {
 
   it('renders the loading indicator while it loads', async () => {
     const { getByTestId, queryByTestId } = renderScreen({})
+
+    jest.advanceTimersByTime(10_000) // increment to the fist poll interval, so that new transactions are requested
     expect(getByTestId('NoActivity/loading')).toBeDefined()
     expect(queryByTestId('NoActivity/error')).toBeNull()
     expect(queryByTestId('TransactionList')).toBeNull()
@@ -286,6 +293,8 @@ describe('TransactionFeed', () => {
     mockFetch.mockReject(new Error('Test error'))
 
     const { getByTestId, queryByTestId } = renderScreen({})
+
+    jest.advanceTimersByTime(10_000) // increment to the fist poll interval, so that new transactions are requested
     await waitFor(() => getByTestId('NoActivity/error'))
     expect(queryByTestId('NoActivity/loading')).toBeNull()
     expect(queryByTestId('TransactionList')).toBeNull()
@@ -302,6 +311,7 @@ describe('TransactionFeed', () => {
       },
     })
 
+    jest.advanceTimersByTime(10_000) // increment to the fist poll interval, so that new transactions are requested
     expect(queryByTestId('NoActivity/loading')).toBeNull()
     expect(queryByTestId('NoActivity/error')).toBeNull()
     expect(getByTestId('TransactionList')).not.toBeNull()
@@ -316,6 +326,7 @@ describe('TransactionFeed', () => {
       },
     })
 
+    jest.advanceTimersByTime(10_000) // increment to the fist poll interval, so that new transactions are requested
     await waitFor(() => tree.getByTestId('TransactionList'))
 
     expect(tree.queryByTestId('NoActivity/loading')).toBeNull()
@@ -334,6 +345,7 @@ describe('TransactionFeed', () => {
 
     const { getByTestId, getByText } = renderScreen({})
 
+    jest.advanceTimersByTime(10_000) // increment to the fist poll interval, so that new transactions are requested
     await waitFor(() => getByTestId('TransactionList'))
 
     expect(getByText('feedItemReceivedInfo, {"context":"noComment"}')).toBeTruthy()
@@ -344,6 +356,7 @@ describe('TransactionFeed', () => {
 
     const { getByTestId, getByText } = renderScreen({})
 
+    jest.advanceTimersByTime(10_000) // increment to the fist poll interval, so that new transactions are requested
     await waitFor(() => getByTestId('TransactionList'))
 
     expect(getByText('feedItemFailedTransaction')).toBeTruthy()
@@ -363,6 +376,7 @@ describe('TransactionFeed', () => {
 
     const tree = renderScreen({})
 
+    jest.advanceTimersByTime(10_000) // increment to the fist poll interval, so that new transactions are requested
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2))
     expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(2)
   })
@@ -381,6 +395,7 @@ describe('TransactionFeed', () => {
 
     const tree = renderScreen({})
 
+    jest.advanceTimersByTime(10_000) // increment to the fist poll interval, so that new transactions are requested
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2))
     expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(1)
   })
@@ -398,6 +413,8 @@ describe('TransactionFeed', () => {
     })
 
     const tree = renderScreen({})
+
+    jest.advanceTimersByTime(10_000) // increment to the fist poll interval, so that new transactions are requested
     await waitFor(() => tree.getByTestId('TransactionList'))
 
     expect(mockFetch).toHaveBeenCalledTimes(1)
@@ -427,6 +444,8 @@ describe('TransactionFeed', () => {
     })
 
     const tree = renderScreen({})
+
+    jest.advanceTimersByTime(10_000) // increment to the fist poll interval, so that new transactions are requested
     await waitFor(() => tree.getByTestId('TransactionList'))
 
     expect(mockFetch).toHaveBeenCalledTimes(1)
@@ -439,17 +458,15 @@ describe('TransactionFeed', () => {
 
   it('renders GetStarted if SHOW_GET_STARTED is enabled and transaction feed is empty', async () => {
     jest.mocked(getFeatureGate).mockReturnValue(true)
-    const { getByTestId } = renderScreen({
-      app: {
-        superchargeApy: 12,
-      },
-    })
+    const { getByTestId } = renderScreen({})
     expect(getByTestId('GetStarted')).toBeDefined()
   })
 
   it('renders NoActivity by default if transaction feed is empty', async () => {
     jest.mocked(getFeatureGate).mockReturnValue(false)
     const { getByTestId, getByText } = renderScreen({})
+
+    jest.advanceTimersByTime(10_000) // increment to the fist poll interval, so that new transactions are requested
     expect(getByTestId('NoActivity/loading')).toBeDefined()
     expect(getByText('noTransactionActivity')).toBeTruthy()
   })
