@@ -13,7 +13,7 @@ import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { navigateToURI } from 'src/utils/linking'
 
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     ...fontStyles.regular,
   },
   optionSubtitle: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
   },
 })

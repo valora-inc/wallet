@@ -155,7 +155,6 @@ export const typeScale = StyleSheet.create({
  */
 export const fontStyles = StyleSheet.create({
   regular: standards.regular,
-  small: standards.small,
 })
 
 // TODO: export typeScale as default when all components are updated

@@ -329,7 +329,7 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
   },
   askHelpText: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     paddingLeft: 8,
     textDecorationLine: 'underline',
   },
@@ -348,7 +348,7 @@ const styles = StyleSheet.create({
     paddingBottom: 4,
   },
   modalBody2: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     textAlign: 'center',
     color: colors.gray4,
     paddingVertical: 16,
@@ -364,7 +364,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   menuText: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
     paddingHorizontal: 8,
   },

@@ -71,6 +71,10 @@ exports[`Avatar renders correctly with address and name but no number 1`] = `
           "lineHeight": 20,
         },
         {
+          "fontFamily": "Inter-Regular",
+          "fontSize": 12,
+          "letterSpacing": 0.12,
+          "lineHeight": 16,
           "marginHorizontal": 20,
           "paddingTop": 6,
           "textAlign": "center",
@@ -84,19 +88,15 @@ exports[`Avatar renders correctly with address and name but no number 1`] = `
     ellipsizeMode="tail"
     numberOfLines={1}
     style={
-      [
-        {
-          "color": "#2E3338",
-          "fontFamily": "Inter-Regular",
-          "fontSize": 14,
-          "lineHeight": 18,
-        },
-        {
-          "marginHorizontal": 20,
-          "paddingTop": 6,
-          "textAlign": "center",
-        },
-      ]
+      {
+        "fontFamily": "Inter-Regular",
+        "fontSize": 12,
+        "letterSpacing": 0.12,
+        "lineHeight": 16,
+        "marginHorizontal": 20,
+        "paddingTop": 6,
+        "textAlign": "center",
+      }
     }
   >
     0x0000...7E57
@@ -174,6 +174,10 @@ exports[`Avatar renders correctly with address but no name nor number 1`] = `
           "lineHeight": 20,
         },
         {
+          "fontFamily": "Inter-Regular",
+          "fontSize": 12,
+          "letterSpacing": 0.12,
+          "lineHeight": 16,
           "marginHorizontal": 20,
           "paddingTop": 6,
           "textAlign": "center",
@@ -256,6 +260,10 @@ exports[`Avatar renders correctly with just number 1`] = `
           "lineHeight": 20,
         },
         {
+          "fontFamily": "Inter-Regular",
+          "fontSize": 12,
+          "letterSpacing": 0.12,
+          "lineHeight": 16,
           "marginHorizontal": 20,
           "paddingTop": 6,
           "textAlign": "center",
@@ -276,10 +284,9 @@ exports[`Avatar renders correctly with just number 1`] = `
       style={
         [
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
-            "lineHeight": 18,
+            "lineHeight": 20,
           },
           {
             "alignItems": "center",
@@ -378,6 +385,10 @@ exports[`Avatar renders correctly with number and name 1`] = `
           "lineHeight": 20,
         },
         {
+          "fontFamily": "Inter-Regular",
+          "fontSize": 12,
+          "letterSpacing": 0.12,
+          "lineHeight": 16,
           "marginHorizontal": 20,
           "paddingTop": 6,
           "textAlign": "center",
@@ -398,10 +409,9 @@ exports[`Avatar renders correctly with number and name 1`] = `
       style={
         [
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
-            "lineHeight": 18,
+            "lineHeight": 20,
           },
           {
             "alignItems": "center",

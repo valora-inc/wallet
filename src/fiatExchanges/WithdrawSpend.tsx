@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   },
   optionSubtitle: {
     marginTop: 2,
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
   },
   moreWaysContainer: {

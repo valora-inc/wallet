@@ -16,7 +16,7 @@ import { getDisplayName } from 'src/recipients/recipient'
 import { useDispatch } from 'src/redux/hooks'
 import { handleQRCodeDetectedSecureSend } from 'src/send/actions'
 import { QrCode } from 'src/send/types'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 const AVATAR_SIZE = 64
 
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   body: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     textAlign: 'center',
     paddingBottom: 16,
   },

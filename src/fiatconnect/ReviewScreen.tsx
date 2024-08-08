@@ -584,7 +584,7 @@ const styles = StyleSheet.create({
     marginVertical: 2,
   },
   sectionSubText: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
   },
   submitBtn: {
@@ -620,7 +620,7 @@ const styles = StyleSheet.create({
     marginTop: 13,
   },
   disclaimer: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     paddingHorizontal: variables.contentPadding,
     marginBottom: 20,
     textAlign: 'center',

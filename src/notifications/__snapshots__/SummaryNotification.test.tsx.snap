@@ -69,9 +69,6 @@ exports[`SummaryNotification renders correctly 1`] = `
           {
             "color": "#505050",
             "flex": 1,
-            "fontFamily": "Inter-Regular",
-            "fontSize": 14,
-            "lineHeight": 18,
           }
         }
         testID="undefined/Details"
