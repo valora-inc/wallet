@@ -1802,7 +1802,7 @@
     },
     "unsupportedTokensWarning": {
       "title": "Sélection incompatible",
-      "body": "Les jetons sélectionnés ne peuvent pas être échangés entre eux. Veuillez choisir un autre jeton compatible avec votre sélection."
+      "body": "Les jetons sélectionnés ne peuvent pas être échangés entre eux. Choisis un autre jeton compatible avec ta sélection."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Vous avez besoin de plus de {{feeTokenSymbol}} pour le gas",
@@ -1890,10 +1890,10 @@
       "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "Plus d'informations",
-      "feesInfo_sameChain": "Des frais de réseau s'appliquent pour traiter la transaction afin d'en garantir la sécurité et la fiabilité.",
-      "feesInfo_crossChain": "Des frais de réseau s'appliquent pour traiter la transaction afin d'en garantir la sécurité et la fiabilité. Des frais inter-chaînes sont facturés par le fournisseur pour permettre des échanges fluides et sécurisés entre différentes blockchains.",
-      "feesInfo_sameChainWithAppFee": "Des frais de réseau s'appliquent pour traiter la transaction afin d'en assurer la sécurité et la fiabilité. Les frais {{appName}} de {{appFeePercentage}}% améliorent votre expérience en assurant des échanges rapides, fiables et sécurisés.",
-      "feesInfo_crossChainWithAppFee": "Des frais de réseau s'appliquent pour traiter la transaction afin d'en garantir la sécurité et la fiabilité. Des frais inter-chaînes sont facturés par le fournisseur pour permettre des échanges fluides et sécurisés entre différentes blockchains. Les frais de {{appName}} de {{appFeePercentage}}% améliorent votre expérience en garantissant des échanges rapides, fiables et sécurisés."
+      "feesInfo_sameChain": "Les frais de réseau sont exigés par le réseau pour traiter la transaction.",
+      "feesInfo_crossChain": "Les frais de réseau sont exigés par le réseau pour traiter la transaction. Les frais de la chaîne croisée sont facturés par le fournisseur de la chaîne croisée.",
+      "feesInfo_sameChainWithAppFee": "Les frais de réseau sont exigés par le réseau pour traiter la transaction. Les frais de {{appName}} de {{appFeePercentage}}% sont facturés pour l'utilisation de notre produit.",
+      "feesInfo_crossChainWithAppFee": "Les frais de réseau sont exigés par le réseau pour traiter la transaction. Les frais de la chaîne croisée sont facturés par le fournisseur de la chaîne croisée. Les frais de {{appName}} de {{appFeePercentage}}% sont facturés pour l'utilisation de notre produit."
     },
     "fundYourWalletBottomSheet": {
       "title": "Approvisionner votre portefeuille",
