@@ -152,6 +152,10 @@ export function useFetchTransactions(): QueryHookResult {
   const [fetchingMoreTransactions, setFetchingMoreTransactions] = useState(false)
 
   useEffect(() => {
+    // kick off a request for new transactions, and then poll for new
+    // transactions periodically
+    void pollNewTransactions.execute()
+
     const id = setInterval(() => {
       void pollNewTransactions.execute()
     }, POLL_INTERVAL)
