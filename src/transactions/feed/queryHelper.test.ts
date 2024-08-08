@@ -177,41 +177,48 @@ describe('handlePollResponse', () => {
     expect(vibrateSuccess).not.toHaveBeenCalled()
   })
 
-  it('should send analytics event when cross-chain transaction status changed to `Complete`', () => {
-    jest.spyOn(TokenSelectors, 'tokensByIdSelector').mockReturnValue({
-      'op-mainnet:native': { priceUsd: BigNumber(100) } as TokenBalance,
-      'base-mainnet:native': { priceUsd: BigNumber(1000) } as TokenBalance,
-    })
+  it.each([
+    { caseName: 'pending', propName: 'pendingTxHashesByNetwork' },
+    { caseName: 'standby', propName: 'pendingStandbyTxHashesByNetwork' },
+  ])(
+    'should send analytics event when cross-chain $caseName transaction status changed to `Complete`',
+    ({ propName }) => {
+      jest.spyOn(TokenSelectors, 'tokensByIdSelector').mockReturnValue({
+        'op-mainnet:native': { priceUsd: new BigNumber(100) } as TokenBalance,
+        'base-mainnet:native': { priceUsd: new BigNumber(1000) } as TokenBalance,
+      })
 
-    handlePollResponse({
-      pageInfo: {},
-      setFetchedResult: jest.fn(),
-      completedTxHashesByNetwork: {},
-      pendingTxHashesByNetwork: {},
-      pendingStandbyTxHashesByNetwork: {
-        [NetworkId['celo-mainnet']]: new Set([mockPendingCrossChainTransaction.transactionHash]),
-      },
-      dispatch: dispatchSpy,
-    })(NetworkId['celo-mainnet'], mockQueryResponse([mockCompletedCrossChainTransaction]))
+      handlePollResponse({
+        pageInfo: {},
+        setFetchedResult: jest.fn(),
+        completedTxHashesByNetwork: {},
+        pendingTxHashesByNetwork: {},
+        pendingStandbyTxHashesByNetwork: {},
+        [propName]: {
+          [NetworkId['celo-mainnet']]: new Set([mockPendingCrossChainTransaction.transactionHash]),
+        },
+        dispatch: dispatchSpy,
+      })(NetworkId['celo-mainnet'], mockQueryResponse([mockCompletedCrossChainTransaction]))
 
-    expect(AppAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_success, {
-      swapType: 'cross-chain',
-      swapExecuteTxId: '0xabc',
-      toTokenId: 'op-mainnet:native',
-      toTokenAmount: '0.1',
-      toTokenAmountUsd: 10,
-      fromTokenId: 'base-mainnet:native',
-      fromTokenAmount: '0.2',
-      fromTokenAmountUsd: 200,
-      networkFeeTokenId: 'base-mainnet:native',
-      networkFeeAmount: '0.3',
-      networkFeeAmountUsd: 300,
-      appFeeTokenId: 'base-mainnet:native',
-      appFeeAmount: '0.4',
-      appFeeAmountUsd: 400,
-      crossChainFeeTokenId: 'base-mainnet:native',
-      crossChainFeeAmount: '0.5',
-      crossChainFeeAmountUsd: 500,
-    })
-  })
+      expect(AppAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_success, {
+        swapType: 'cross-chain',
+        swapExecuteTxId: '0xabc',
+        toTokenId: 'op-mainnet:native',
+        toTokenAmount: '0.1',
+        toTokenAmountUsd: 10,
+        fromTokenId: 'base-mainnet:native',
+        fromTokenAmount: '0.2',
+        fromTokenAmountUsd: 200,
+        networkFeeTokenId: 'base-mainnet:native',
+        networkFeeAmount: '0.3',
+        networkFeeAmountUsd: 300,
+        appFeeTokenId: 'base-mainnet:native',
+        appFeeAmount: '0.4',
+        appFeeAmountUsd: 400,
+        crossChainFeeTokenId: 'base-mainnet:native',
+        crossChainFeeAmount: '0.5',
+        crossChainFeeAmountUsd: 500,
+      })
+    }
+  )
 })
