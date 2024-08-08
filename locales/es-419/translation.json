@@ -2017,7 +2017,7 @@
       "selectNetwork": "Red",
       "stablecoins": "Stablecoins",
       "gasTokens": "Tokens de gas",
-      "tokens": "Ficha"
+      "tokens": "Token"
     }
   },
   "homeActions": {
@@ -2240,14 +2240,14 @@
     "approvalTransactionTitle": "Aprobación",
     "estimatedNetworkFee": "Estimación de la tarifa de red",
     "networkFee": "Tarifa de red",
-    "appFee": "Tasa de aplicación",
-    "estimatedCrossChainFee": "Tasa estimada de la cadena cruzada",
-    "crossChainFee": "Tasa por cruce de cadenas",
+    "appFee": "Tarifa de la app",
+    "estimatedCrossChainFee": "Tarifa estimada entre cadenas",
+    "crossChainFee": "Tarifa entre cadenas",
     "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}} aprobados para operar",
     "infiniteApprovalDescription": "{{tokenSymbol}} infinitos aprobados para operar",
     "revokeApprovalDescription": "{{tokenSymbol}} revocado para operar",
     "descriptionLabel": "Detalles",
-    "crossChainSwapTransactionLabel": "Cadena cruzada"
+    "crossChainSwapTransactionLabel": "Entre cadenas"
   },
   "multichainBeta": {
     "beta": "BETA",
@@ -2449,8 +2449,8 @@
       "cta": "¡No pares de ganar puntos!"
     },
     "disclaimer": {
-      "learnMoreCta": "<0>Más</0> información sobre {{appName}} Puntos",
-      "body": "<0>¿Qué son los Puntos?</0>\nLos Puntos son el programa de fidelización de {{appName}}. Se conceden a los usuarios cuando utilizas nuestra aplicación.\n\n<0>¿Para qué sirven?</0>\nLos acumulas. No se pueden gastar, intercambiar ni transferir.\n\n<0>¿Por qué están en mi monedero?</0>\nPorque son tokens. En cadena, bits digitales de felicidad que ganas utilizando la aplicación.",
+      "learnMoreCta": "<0>Más información</0> sobre puntos {{appName}}",
+      "body": "<0>¿Qué son los puntos?</0>\nLos puntos son el programa de fidelidad de {{appName}}. Se otorgan a los usuarios cuando usan nuestra aplicación.\n\n<0>¿Para qué son buenos?</0>\nLos recolectas. No se pueden usar, comerciar o transferir.\n\n<0>¿Por qué están en mi billetera?</0>\nPorque son tokens. En la cadena, son pedacitos digitales de felicidad que ganas al usar la aplicación.",
       "dismiss": "Entendido"
     }
   },
@@ -2586,13 +2586,13 @@
     },
     "home": {
       "title": "Gana",
-      "learnMore": "<0>Más</0> información sobre los fondos de rendimiento.",
+      "learnMore": "<0>Más información</0> sobre pools de rendimiento.",
       "learnMoreBottomSheet": {
-        "bottomSheetTitle": "Más información sobre las agrupaciones de rendimiento",
+        "bottomSheetTitle": "Más información sobre pools de rendimiento",
         "apySubtitle": "¿Qué es un APY?",
-        "apyDescription": "El rendimiento porcentual anual (APY) es una métrica utilizada para calcular el rendimiento anualizado de las criptoinversiones. Es un indicador clave del rendimiento y la rentabilidad potenciales de una criptomoneda.",
-        "tvlSubtitle": "¿Qué es la TVL?",
-        "tvlDescription": "TVL significa Valor Total Bloqueado, y es una métrica utilizada en la industria de las criptomonedas para medir el valor de los activos digitales bloqueados en una red blockchain. El TVL se calcula sumando el valor de todos los activos digitales bloqueados en un protocolo DeFi o contrato inteligente. Estos activos pueden incluir criptomonedas, stablecoins y otros tokens."
+        "apyDescription": "El rendimiento porcentual anual (APY) es una métrica utilizada para calcular el rendimiento anualizado de las inversiones en cripto. Es un indicador clave del rendimiento y la rentabilidad potenciales de una criptomoneda.",
+        "tvlSubtitle": "¿Qué es TVL?",
+        "tvlDescription": "TVL significa Valor Total Bloqueado, y es una métrica utilizada en la industria del cripto para medir el valor de los activos digitales bloqueados en una red blockchain. El TVL se calcula sumando el valor de todos los activos digitales bloqueados en un protocolo DeFi o contrato inteligente. Estos activos pueden incluir criptomonedas, stablecoins y otros tokens."
       }
     },
     "poolCard": {
@@ -2601,14 +2601,14 @@
       "reward": "Recompensa",
       "tvl": "TVL",
       "exitPool": "Retirar",
-      "addToPool": "Añadir a la piscina",
+      "addToPool": "Añadir a Pool",
       "apy": "{{apy}}% de APY",
       "poweredBy": "Con tecnología de {{providerName}}",
       "deposited": "Suministrado"
     },
     "poolFilters": {
-      "openPools": "Piscinas abiertas",
-      "myPools": "Mis piscinas"
+      "openPools": "Pools abiertos",
+      "myPools": "Mis Pools"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
