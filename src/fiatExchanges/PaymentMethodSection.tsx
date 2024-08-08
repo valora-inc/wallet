@@ -337,7 +337,7 @@ const styles = StyleSheet.create({
     width: 'auto',
   },
   newLabelText: {
-    ...fontStyles.label,
+    ...typeScale.labelSemiBoldSmall,
     color: colors.white,
     marginRight: 5,
   },
@@ -366,7 +366,7 @@ const styles = StyleSheet.create({
     ...typeScale.labelSemiBoldSmall,
   },
   expandedTag: {
-    ...fontStyles.label,
+    ...typeScale.labelSemiBoldSmall,
     color: colors.primary,
     fontSize: 12,
     marginTop: 2,

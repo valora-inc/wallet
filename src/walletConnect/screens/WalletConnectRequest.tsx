@@ -7,7 +7,7 @@ import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import ActionRequest from 'src/walletConnect/screens/ActionRequest'
 import ConnectionTimedOut from 'src/walletConnect/screens/ConnectionTimedOut'
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     minHeight: 370,
   },
   connecting: {
-    ...fontStyles.label,
+    ...typeScale.labelSemiBoldSmall,
     color: colors.gray4,
     marginTop: Spacing.Thick24,
   },

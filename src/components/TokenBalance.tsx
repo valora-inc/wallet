@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   exchangeTotalValue: {
-    ...fontStyles.label,
+    ...typeScale.labelSemiBoldSmall,
     color: Colors.gray4,
     paddingRight: 3,
   },
@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   tokenBalance: {
-    ...fontStyles.label,
+    ...typeScale.labelSemiBoldSmall,
     color: Colors.gray4,
   },
 })

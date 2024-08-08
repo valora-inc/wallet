@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleProp, StyleSheet, Text, ViewStyle } from 'react-native'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 interface Props {
   style?: StyleProp<ViewStyle>
@@ -14,7 +14,7 @@ export default function FormLabel({ style, children }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    ...fontStyles.label,
+    ...typeScale.labelSemiBoldSmall,
     color: colors.onboardingBrownLight,
   },
 })
