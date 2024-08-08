@@ -3,7 +3,7 @@ import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native
 import CallToActionsBar, { CallToAction } from 'src/components/CallToActionsBar'
 import MessagingCard from 'src/components/MessagingCard'
 import colors from 'src/styles/colors'
-import fonts, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 interface Props {
   title: string
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   details: {
     flex: 1,
-    ...fonts.small,
+    ...typeScale.bodySmall,
     color: colors.gray5,
   },
   iconContainer: {

@@ -76,6 +76,9 @@ exports[`EscrowedPaymentReminderSummaryNotification renders correctly 1`] = `
           {
             "color": "#505050",
             "flex": 1,
+            "fontFamily": "Inter-Regular",
+            "fontSize": 14,
+            "lineHeight": 20,
           }
         }
         testID="undefined/Details"
@@ -512,6 +515,9 @@ exports[`EscrowedPaymentReminderSummaryNotification when more than 2 requests re
           {
             "color": "#505050",
             "flex": 1,
+            "fontFamily": "Inter-Regular",
+            "fontSize": 14,
+            "lineHeight": 20,
           }
         }
         testID="undefined/Details"
