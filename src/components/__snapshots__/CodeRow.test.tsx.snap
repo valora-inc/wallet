@@ -21,7 +21,7 @@ exports[`CodeRow renders correctly for all CodeRowStatus states 1`] = `
         "color": "#505050",
         "fontFamily": "Inter-Regular",
         "fontSize": 15,
-        "lineHeight": 22,
+        "lineHeight": 24,
       }
     }
   >
@@ -101,7 +101,7 @@ exports[`CodeRow renders correctly for all CodeRowStatus states 3`] = `
         "color": "#505050",
         "fontFamily": "Inter-Regular",
         "fontSize": 15,
-        "lineHeight": 22,
+        "lineHeight": 24,
       }
     }
   >
@@ -144,7 +144,7 @@ exports[`CodeRow renders correctly for all CodeRowStatus states 4`] = `
         "color": "#505050",
         "fontFamily": "Inter-Regular",
         "fontSize": 15,
-        "lineHeight": 22,
+        "lineHeight": 24,
       }
     }
   >
@@ -174,7 +174,7 @@ exports[`CodeRow renders correctly for all CodeRowStatus states 5`] = `
         "color": "#505050",
         "fontFamily": "Inter-Regular",
         "fontSize": 15,
-        "lineHeight": 22,
+        "lineHeight": 24,
       }
     }
   >
