@@ -2182,7 +2182,7 @@
   "viewOnOPSepoliaExplorer": "Auf OP Sepolia Explorer ansehen",
   "viewOnPolygonPoSScan": "Auf PolygonScan anzeigen",
   "viewOnBaseScan": "Auf BaseScan anzeigen",
-  "viewOnAxelarScan": "Ansicht auf AxelarScan",
+  "viewOnAxelarScan": "Auf AxelarScan anzeigen",
   "sendEnterAmountScreen": {
     "title": "Betrag eingeben",
     "selectToken": "Token auswählen",
@@ -2241,13 +2241,13 @@
     "estimatedNetworkFee": "Geschätzte Netzwerkgebühr",
     "networkFee": "Netzwerkgebühr",
     "appFee": "App-Gebühr",
-    "estimatedCrossChainFee": "Geschätzte kettenübergreifende Gebühr",
-    "crossChainFee": "Kettenübergreifende Gebühr",
+    "estimatedCrossChainFee": "Geschätzte Cross-Chain-Gebühr",
+    "crossChainFee": "Cross-Chain-Gebühr",
     "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}} für Handel genehmigt",
     "infiniteApprovalDescription": "Unendliche {{tokenSymbol}} für Handel genehmigt",
     "revokeApprovalDescription": "{{tokenSymbol}} für Handel widerrufen",
     "descriptionLabel": "Details",
-    "crossChainSwapTransactionLabel": "Kettenübergreifend"
+    "crossChainSwapTransactionLabel": "Cross-Chain"
   },
   "multichainBeta": {
     "beta": "BETA",
@@ -2449,8 +2449,8 @@
       "cta": "Starte deine Punkte-Reise"
     },
     "disclaimer": {
-      "learnMoreCta": "<0>Erfahre mehr</0> über {{appName}} Punkte",
-      "body": "<0>Was sind Punkte?</0>\nPunkte sind das Treueprogramm von {{appName}}. Sie werden den Nutzern gutgeschrieben, wenn du unsere App benutzt.\n\n<0>Wofür sind sie gut?</0>\nDu sammelst sie. Sie können nicht ausgegeben, getauscht oder übertragen werden.\n\n<0>Warum sind sie in meinem Portemonnaie?</0>\nWeil sie Token sind. Digitale Glücksbits, die du durch die Nutzung der App verdienst.",
+      "learnMoreCta": "<0>Mehr Infos</0> zu {{appName}}-Punkten",
+      "body": "<0>Was sind Punkte?</0>\nPunkte sind das Treueprogramm von {{appName}}. Nutzer erhalten Punkte, wenn sie unsere App nutzen.\n\n<0>Wofür sind die Punkte?</0>\nDu sammelst sie. Sie können weder ausgegeben, noch gehandelt oder überwiesen werden.\n\n<0>Warum sind sie in meinem Wallet?</0>\nPunkte sind Tokens. Digitale On-Chain-Bits, die dir Freude bereiten und die du verdienst, indem du die App nutzt.",
       "dismiss": "Verstanden"
     }
   },
@@ -2586,25 +2586,25 @@
     },
     "home": {
       "title": "Verdienen",
-      "learnMore": "<0>Erfahre mehr</0> über Ertragspools.",
+      "learnMore": "<0>Mehr Infos</0> zu Rendite-Pools.",
       "learnMoreBottomSheet": {
-        "bottomSheetTitle": "Erfahre mehr über Ertragspools",
-        "apySubtitle": "Was ist ein APY?",
-        "apyDescription": "Die jährliche prozentuale Rendite (Annual Percentage, APY) ist eine Kennzahl, mit der die jährliche Rendite von Krypto-Investitionen berechnet wird. Sie ist ein wichtiger Indikator für die potenzielle Rendite und Rentabilität einer Kryptowährung.",
+        "bottomSheetTitle": "Mehr Infos zu Rendite-Pools",
+        "apySubtitle": "Was ist eine APY?",
+        "apyDescription": "Eine jährliche prozentuale Rendite (APY) ist eine Kennzahl, die zur Berechnung der jährlichen Rendite von Krypto-Investitionen verwendet wird. Sie ist ein wichtiger Indikator für die potenzielle Rendite und Rentabilität einer Kryptowährung.",
         "tvlSubtitle": "Was ist TVL?",
-        "tvlDescription": "TVL steht für Total Value Locked und ist eine Kennzahl, die in der Kryptoindustrie verwendet wird, um den Wert der in einem Blockchain-Netzwerk gesperrten digitalen Vermögenswerte zu messen. TVL wird berechnet, indem der Wert aller digitalen Vermögenswerte addiert wird, die in einem DeFi-Protokoll oder Smart Contract gesperrt sind. Zu diesen Vermögenswerten können Kryptowährungen, Stablecoins und andere Token gehören."
+        "tvlDescription": "TVL steht für Total Value Locked und ist eine Kennzahl, die in der Kryptobranche verwendet wird, um den Wert von Digitalvermögen zu messen, das in einem Blockchain-Netzwerk gesperrt ist. TVL wird berechnet, indem der Wert des gesamten Digitalvermögens addiert wird, das in einem DeFi-Protokoll oder Smart Contract gesperrt ist. Dieses Vermögen kann Kryptowährungen, Stablecoins und andere Tokens umfassen."
       }
     },
     "poolCard": {
       "onNetwork": "auf {{networkName}}",
       "rate": "Rate (geschätzt)",
-      "reward": "Belohnung",
+      "reward": "Reward",
       "tvl": "TVL",
       "exitPool": "Pool verlassen",
       "addToPool": "Zum Pool hinzufügen",
       "apy": "{{apy}} % jährliche prozentuale Rendite",
       "poweredBy": "Unterstützt von {{providerName}}",
-      "deposited": "Geliefert"
+      "deposited": "Bereitgestellt"
     },
     "poolFilters": {
       "openPools": "Offene Pools",
