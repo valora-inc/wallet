@@ -1,14 +1,13 @@
 import BigNumber from 'bignumber.js'
 import { isEmpty } from 'lodash'
 import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from 'react'
-import { useAsync } from 'react-async-hook'
+import { useAsync, useAsyncCallback } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import Toast from 'react-native-simple-toast'
 import { showError } from 'src/alert/actions'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SwapEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import useInterval from 'src/hooks/useInterval'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { AppDispatch, store } from 'src/redux/store'
@@ -21,6 +20,7 @@ import {
   completedTxHashesByNetworkIdSelector,
   pendingStandbyTxHashesByNetworkIdSelector,
   pendingTxHashesByNetworkIdSelector,
+  transactionsSelector,
 } from 'src/transactions/reducer'
 import {
   FeeType,
@@ -100,6 +100,7 @@ export function useFetchTransactions(): QueryHookResult {
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const pendingTxHashesByNetwork = useSelector(pendingTxHashesByNetworkIdSelector)
   const completedTxHashesByNetwork = useSelector(completedTxHashesByNetworkIdSelector)
+  const cachedTransactions = useSelector(transactionsSelector)
   const pendingStandbyTxHashesByNetwork = useSelector(pendingStandbyTxHashesByNetworkIdSelector)
   const allowedNetworkIds = useAllowedNetworkIdsForTransfers()
 
@@ -146,7 +147,7 @@ export function useFetchTransactions(): QueryHookResult {
     pageInfo: { [key in NetworkId]?: PageInfo | null }
     hasTransactionsOnCurrentPage: { [key in NetworkId]?: boolean }
   }>({
-    transactions: [],
+    transactions: cachedTransactions,
     pageInfo: allowedNetworkIds.reduce((acc, cur) => {
       return {
         ...acc,
@@ -163,16 +164,24 @@ export function useFetchTransactions(): QueryHookResult {
 
   const [fetchingMoreTransactions, setFetchingMoreTransactions] = useState(false)
 
-  // Update the counter variable every |POLL_INTERVAL| so that a query is made to the backend.
-  const [counter, setCounter] = useState(0)
-  useInterval(() => setCounter((n) => n + 1), POLL_INTERVAL)
+  useEffect(() => {
+    // kick off a request for new transactions, and then poll for new
+    // transactions periodically
+    void pollNewTransactions.execute()
+
+    const id = setInterval(() => {
+      void pollNewTransactions.execute()
+    }, POLL_INTERVAL)
+
+    return () => clearInterval(id)
+  }, [])
 
   const handleError = (error: Error) => {
     Logger.error(TAG, 'Error while fetching transactions', error)
   }
 
   // Query for new transaction every POLL_INTERVAL
-  const { loading, error } = useAsync(
+  const pollNewTransactions = useAsyncCallback(
     async () => {
       await queryTransactionsFeed({
         address,
@@ -192,7 +201,6 @@ export function useFetchTransactions(): QueryHookResult {
         activeRequests: activePollingRequests,
       })
     },
-    [counter],
     {
       onError: handleError,
     }
@@ -266,18 +274,18 @@ export function useFetchTransactions(): QueryHookResult {
     //    occurring for all chains simultaneously)
     const { transactions, pageInfo, hasTransactionsOnCurrentPage } = fetchedResult
     if (
-      !loading &&
+      !pollNewTransactions.loading &&
       anyNetworkHasMorePages(pageInfo) &&
       (transactions.length < MIN_NUM_TRANSACTIONS ||
         !anyNetworkHasTransactionsOnCurrentPage(hasTransactionsOnCurrentPage))
     ) {
       setFetchingMoreTransactions(true)
     }
-  }, [fetchedResult, loading])
+  }, [fetchedResult, pollNewTransactions.loading])
 
   return {
-    loading,
-    error,
+    loading: pollNewTransactions.loading,
+    error: pollNewTransactions.error,
     transactions: fetchedResult.transactions,
     fetchingMoreTransactions,
     fetchMoreTransactions: () => {
