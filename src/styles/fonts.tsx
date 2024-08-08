@@ -161,12 +161,6 @@ export const typeScale = StyleSheet.create({
  * Use typeScale instead
  */
 export const fontStyles = StyleSheet.create({
-  h1: {
-    fontSize: 26,
-    lineHeight: 32,
-    fontFamily: Jost.Book,
-    color: colors.black,
-  },
   h2: {
     fontSize: 22,
     lineHeight: 28,

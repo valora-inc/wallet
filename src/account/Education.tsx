@@ -21,7 +21,7 @@ import Times from 'src/icons/Times'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import progressDots from 'src/styles/progressDots'
 import variables from 'src/styles/variables'
 
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   headingTop: {
-    ...fontStyles.h1,
+    ...typeScale.titleMedium,
     marginTop: 26,
     alignSelf: 'flex-start',
   },

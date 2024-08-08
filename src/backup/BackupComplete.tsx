@@ -11,7 +11,7 @@ import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useSelector } from 'src/redux/hooks'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 /**
  * Component shown to the user upon completion of the Recovery Phrase setup flow. Informs the user that
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   h1: {
-    ...fontStyles.h1,
+    ...typeScale.titleMedium,
     marginTop: 20,
     paddingHorizontal: 40,
   },
