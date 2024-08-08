@@ -2240,14 +2240,14 @@
     "approvalTransactionTitle": "Approvazione",
     "estimatedNetworkFee": "Commissione di rete stimata",
     "networkFee": "Commissione di rete",
-    "appFee": "App a pagamento",
-    "estimatedCrossChainFee": "Costo stimato della catena incrociata",
-    "crossChainFee": "Tariffa trasversale alla catena",
+    "appFee": "Commissione app",
+    "estimatedCrossChainFee": "Commissione stimata cross-chain",
+    "crossChainFee": "Commissione cross-chain",
     "finiteApprovalDescription": "Somma di {{approvedAmount}} {{tokenSymbol}} approvata per la transazione",
     "infiniteApprovalDescription": "Somma di {{tokenSymbol}} infiniti approvata per la transazione",
     "revokeApprovalDescription": "Revoca di {{tokenSymbol}} per la transazione",
     "descriptionLabel": "Dettagli",
-    "crossChainSwapTransactionLabel": "Catena incrociata"
+    "crossChainSwapTransactionLabel": "Cross-chain"
   },
   "multichainBeta": {
     "beta": "BETA",
@@ -2449,8 +2449,8 @@
       "cta": "Inizia ad accumulare punti"
     },
     "disclaimer": {
-      "learnMoreCta": "<0>Per saperne di più</0> sui punti {{appName}}",
-      "body": "<0>Cosa sono i punti?</0>\nI punti sono il programma fedeltà di {{appName}}. Vengono assegnati agli utenti quando utilizzano la nostra app.\n\n<0>A cosa servono?</0>\nLi accumuli. Non possono essere spesi, scambiati o trasferiti.\n\n<0>Perché sono nel mio portafoglio?</0>\nPerché sono token. Si tratta di catene digitali di felicità che si guadagnano utilizzando l'app.",
+      "learnMoreCta": "<0>Scopri di più</0> sui punti di {{appName}}",
+      "body": "<0>Cosa sono i punti?</0>\nI punti sono il programma fedeltà di {{appName}}. Vengono assegnati agli utenti quando utilizzano la nostra app.\n\n<0>A cosa servono?</0>\nVengono accumulati. Non possono essere spesi, scambiati o trasferiti.\n\n<0>Perché sono nel mio portafoglio?</0>\nPerché sono token. Sono bit digitali di felicità on-chain che guadagni utilizzando l'app.",
       "dismiss": "Ho capito"
     }
   },
