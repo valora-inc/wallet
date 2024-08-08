@@ -226,6 +226,7 @@ exports[`EscrowedPaymentReminderSummaryNotification when more 1 requests renders
           numberOfLines={1}
           style={
             {
+              "fontFamily": "Inter-SemiBold",
               "fontSize": 24,
               "lineHeight": 28,
               "marginBottom": 2,
