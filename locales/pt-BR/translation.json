@@ -1802,7 +1802,7 @@
     },
     "unsupportedTokensWarning": {
       "title": "Seleção incompatível",
-      "body": "Os tokens selecionados não podem ser trocados entre si. Escolha outro token que seja compatível com sua seleção."
+      "body": "Os tokens selecionados não podem ser trocados uns pelos outros. Escolha outro token que seja compatível com sua seleção."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Você precisa de mais {{feeTokenSymbol}} para o Gas",
@@ -1890,10 +1890,10 @@
       "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "Mais informações",
-      "feesInfo_sameChain": "Uma taxa de rede é necessária para processar a transação, garantindo segurança e confiabilidade.",
-      "feesInfo_crossChain": "Uma taxa de rede é necessária para processar a transação, garantindo segurança e confiabilidade. O provedor cobra uma taxa de entre cadeias para viabilizar trocas seguras e eficientes entre diversas blockchains.",
-      "feesInfo_sameChainWithAppFee": "Uma taxa de rede é necessária para processar a transação, garantindo segurança e confiabilidade. A taxa da {{appName}} de {{appFeePercentage}}% aprimora sua experiência, garantindo trocas rápidas, confiáveis e seguras.",
-      "feesInfo_crossChainWithAppFee": "Uma taxa de rede é necessária para processar a transação, garantindo segurança e confiabilidade. O provedor cobra uma taxa de entre cadeias para viabilizar trocas seguras e eficientes entre diversas blockchains. A taxa da {{appName}} de {{appFeePercentage}}% aprimora sua experiência, garantindo trocas rápidas, confiáveis e seguras."
+      "feesInfo_sameChain": "A taxa de rede é exigida pela rede para processar a transação.",
+      "feesInfo_crossChain": "A taxa de rede é exigida pela rede para processar a transação. A taxa de cadeia cruzada é cobrada pelo provedor de cadeia cruzada.",
+      "feesInfo_sameChainWithAppFee": "A taxa de rede é exigida pela rede para processar a transação. A taxa {{appName}} de {{appFeePercentage}}% é cobrada pelo uso que você faz do nosso produto.",
+      "feesInfo_crossChainWithAppFee": "A taxa de rede é exigida pela rede para processar a transação. A taxa de cadeia cruzada é cobrada pelo provedor de cadeia cruzada. A taxa {{appName}} de {{appFeePercentage}}% é cobrada pelo uso que você faz do nosso produto."
     },
     "fundYourWalletBottomSheet": {
       "title": "Adicione fundos à sua carteira",
