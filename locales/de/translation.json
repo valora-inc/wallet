@@ -1802,7 +1802,7 @@
     },
     "unsupportedTokensWarning": {
       "title": "Inkompatible Auswahl",
-      "body": "Die ausgewählten Token können nicht untereinander getauscht werden. Bitte wähle einen anderen Token, der mit deiner Auswahl kompatibel ist."
+      "body": "Die ausgewählten Token können nicht gegeneinander ausgetauscht werden. Bitte wähle einen anderen Token, der mit deiner Auswahl kompatibel ist."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Du benötigst mehr {{feeTokenSymbol}} für Gas.",
@@ -1890,10 +1890,10 @@
       "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "Weitere Informationen",
-      "feesInfo_sameChain": "Für die Abwicklung der Transaktion fällt eine Netzwerkgebühr an, wodurch Sicherheit und Zuverlässigkeit gewährleistet wird.",
-      "feesInfo_crossChain": "Für die Abwicklung der Transaktion fällt eine Netzwerkgebühr an, wodurch Sicherheit und Zuverlässigkeit gewährleistet wird. Eine Chain-übergreifende Gebühr wird vom Anbieter erhoben, um einen reibungslosen und sicheren Austausch zwischen verschiedenen Blockchains zu ermöglichen.",
-      "feesInfo_sameChainWithAppFee": "Für die Abwicklung der Transaktion fällt eine Netzwerkgebühr an, wodurch Sicherheit und Zuverlässigkeit gewährleistet wird. Die {{appName}} Gebühr in Höhe von {{appFeePercentage}} sorgt für schnelle, zuverlässige und sichere Tauschvorgänge und verbessert so dein Erlebnis.",
-      "feesInfo_crossChainWithAppFee": "Für die Abwicklung der Transaktion fällt eine Netzwerkgebühr an, wodurch Sicherheit und Zuverlässigkeit gewährleistet wird. Eine Chain-übergreifende Gebühr wird vom Anbieter erhoben, um einen reibungslosen und sicheren Austausch zwischen den verschiedenen Blockchains zu gewährleisten. Die {{appName}} Gebühr in Höhe von {{appFeePercentage}} sorgt für schnelle, zuverlässige und sichere Tauschvorgänge und verbessert so dein Erlebnis."
+      "feesInfo_sameChain": "Die Netzwerkgebühr wird von dem Netzwerk verlangt, um die Transaktion zu verarbeiten.",
+      "feesInfo_crossChain": "Die Netzwerkgebühr wird von dem Netzwerk verlangt, um die Transaktion zu verarbeiten. Die Cross-Chain-Gebühr wird von dem Cross-Chain-Anbieter erhoben.",
+      "feesInfo_sameChainWithAppFee": "Die Netzwerkgebühr wird vom Netzwerk verlangt, um die Transaktion zu verarbeiten. Die {{appName}} Gebühr von {{appFeePercentage}}wird für deine Nutzung unseres Produkts erhoben.",
+      "feesInfo_crossChainWithAppFee": "Die Netzwerkgebühr wird von dem Netzwerk verlangt, um die Transaktion zu verarbeiten. Die Cross-Chain-Gebühr wird von dem Cross-Chain-Anbieter erhoben. Die {{appName}} Gebühr von {{appFeePercentage}}wird für deine Nutzung unseres Produkts erhoben."
     },
     "fundYourWalletBottomSheet": {
       "title": "Deine Wallet aufladen",
