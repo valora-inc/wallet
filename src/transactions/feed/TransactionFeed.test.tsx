@@ -217,7 +217,6 @@ describe('TransactionFeed', () => {
         standbyTransactions: [],
       },
     })
-
     await waitFor(() => expect(tree.getByTestId('TransactionList').props.data.length).toBe(1))
 
     expect(tree.queryByTestId('NoActivity/loading')).toBeNull()
@@ -231,7 +230,6 @@ describe('TransactionFeed', () => {
     mockFetch.mockResponse(JSON.stringify(MOCK_RESPONSE_NO_NEXT_PAGE))
 
     const tree = renderScreen({})
-
     await waitFor(() => expect(tree.getByTestId('TransactionList').props.data.length).toBe(1))
 
     expect(tree.queryByTestId('NoActivity/loading')).toBeNull()
@@ -278,7 +276,6 @@ describe('TransactionFeed', () => {
 
   it('renders the loading indicator while it loads', async () => {
     const { getByTestId, queryByTestId } = renderScreen({})
-
     expect(getByTestId('NoActivity/loading')).toBeDefined()
     expect(queryByTestId('NoActivity/error')).toBeNull()
     expect(queryByTestId('TransactionList')).toBeNull()
@@ -288,7 +285,6 @@ describe('TransactionFeed', () => {
     mockFetch.mockReject(new Error('Test error'))
 
     const { getByTestId, queryByTestId } = renderScreen({})
-
     await waitFor(() => getByTestId('NoActivity/error'))
     expect(queryByTestId('NoActivity/loading')).toBeNull()
     expect(queryByTestId('TransactionList')).toBeNull()
@@ -401,7 +397,6 @@ describe('TransactionFeed', () => {
     })
 
     const tree = renderScreen({})
-
     await waitFor(() => tree.getByTestId('TransactionList'))
 
     expect(mockFetch).toHaveBeenCalledTimes(1)
@@ -431,7 +426,6 @@ describe('TransactionFeed', () => {
     })
 
     const tree = renderScreen({})
-
     await waitFor(() => tree.getByTestId('TransactionList'))
 
     expect(mockFetch).toHaveBeenCalledTimes(1)
@@ -451,7 +445,6 @@ describe('TransactionFeed', () => {
   it('renders NoActivity by default if transaction feed is empty', async () => {
     jest.mocked(getFeatureGate).mockReturnValue(false)
     const { getByTestId, getByText } = renderScreen({})
-
     expect(getByTestId('NoActivity/loading')).toBeDefined()
     expect(getByText('noTransactionActivity')).toBeTruthy()
   })
