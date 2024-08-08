@@ -1806,7 +1806,7 @@
     },
     "unsupportedTokensWarning": {
       "title": "Niezgodny wybór",
-      "body": "Nie można wymieniać wybranych tokenów. Wybierz inny token, który jest zgodny z bieżącym wyborem."
+      "body": "Wybranych tokenów nie można zamieniać między sobą. Wybierz inny token, który jest zgodny z Twoim wyborem."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Potrzebujesz więcej {{feeTokenSymbol}} na gaz",
@@ -1894,10 +1894,10 @@
       "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "Więcej informacji",
-      "feesInfo_sameChain": "Do przetworzenia transakcji wymagana jest opłata sieciowa zapewniająca bezpieczeństwo i niezawodność.",
-      "feesInfo_crossChain": "Do przetworzenia transakcji wymagana jest opłata sieciowa zapewniająca bezpieczeństwo i niezawodność. Dostawca pobiera opłatę cross-chain, aby umożliwić płynną i bezpieczną wymianę między różnymi blockchainami.",
-      "feesInfo_sameChainWithAppFee": "Do przetworzenia transakcji wymagana jest opłata sieciowa zapewniająca bezpieczeństwo i niezawodność. Opłata {{appName}} w wysokości {{appFeePercentage}}% poprawia obsługę klienta, zapewniając szybką, niezawodną i bezpieczną wymianę.",
-      "feesInfo_crossChainWithAppFee": "Do przetworzenia transakcji wymagana jest opłata sieciowa zapewniająca bezpieczeństwo i niezawodność. Dostawca pobiera opłatę cross-chain, aby umożliwić płynną i bezpieczną wymianę między różnymi blockchainami. Opłata {{appName}} w wysokości {{appFeePercentage}}% poprawia obsługę klienta, zapewniając szybką, niezawodną i bezpieczną wymianę."
+      "feesInfo_sameChain": "Opłata sieciowa jest wymagana przez sieć do przetworzenia transakcji.",
+      "feesInfo_crossChain": "Opłata sieciowa jest wymagana przez sieć do przetworzenia transakcji. Opłata cross-chain jest pobierana przez dostawcę cross-chain.",
+      "feesInfo_sameChainWithAppFee": "Opłata sieciowa jest wymagana przez sieć do przetworzenia transakcji. Opłata {{appName}} w wysokości {{appFeePercentage}}% jest pobierana za korzystanie z naszego produktu.",
+      "feesInfo_crossChainWithAppFee": "Opłata sieciowa jest wymagana przez sieć do przetworzenia transakcji. Opłata cross-chain jest pobierana przez dostawcę cross-chain. Opłata {{appName}} w wysokości {{appFeePercentage}}% jest pobierana za korzystanie przez Ciebie z naszego produktu."
     },
     "fundYourWalletBottomSheet": {
       "title": "Zasil swój portfel",
