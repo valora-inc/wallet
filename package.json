@@ -104,7 +104,7 @@
     "@react-navigation/material-top-tabs": "^5.3.19",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.26",
-    "@reduxjs/toolkit": "^2.2.5",
+    "@reduxjs/toolkit": "^2.2.7",
     "@segment/analytics-react-native": "^2.19.2",
     "@segment/analytics-react-native-plugin-adjust": "^0.7.0",
     "@segment/analytics-react-native-plugin-clevertap": "^1.1.0",
