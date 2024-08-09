@@ -7,7 +7,7 @@ import Touchable from 'src/components/Touchable'
 import withTextInputPasteAware from 'src/components/WithTextInputPasteAware'
 import { withTranslation } from 'src/i18n'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import { vibrateInformative } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   writeDownKey: {
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
     marginBottom: 16,
   },
   indexText: {

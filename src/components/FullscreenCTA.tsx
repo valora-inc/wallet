@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Button, { BtnTypes } from 'src/components/Button'
 import Colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 
 export interface Props {
@@ -22,7 +22,7 @@ class FullscreenCTA extends React.PureComponent<Props> {
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <Text style={typeScale.titleMedium}>{title}</Text>
-          <Text style={fontStyles.h2}>{subtitle}</Text>
+          <Text style={typeScale.titleSmall}>{subtitle}</Text>
         </View>
         {this.props.children}
         <View style={styles.button}>

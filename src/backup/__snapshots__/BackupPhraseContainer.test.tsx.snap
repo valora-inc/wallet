@@ -21,9 +21,8 @@ exports[`BackupPhraseContainer renders correctly for input backup phrase 1`] = `
       <Text
         style={
           {
-            "color": "#2E3338",
-            "fontFamily": "Jost-Medium",
-            "fontSize": 22,
+            "fontFamily": "Inter-Bold",
+            "fontSize": 20,
             "lineHeight": 28,
             "marginBottom": 16,
           }
@@ -91,9 +90,8 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
       <Text
         style={
           {
-            "color": "#2E3338",
-            "fontFamily": "Jost-Medium",
-            "fontSize": 22,
+            "fontFamily": "Inter-Bold",
+            "fontSize": 20,
             "lineHeight": 28,
             "marginBottom": 16,
           }
@@ -670,9 +668,8 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 24-word phr
       <Text
         style={
           {
-            "color": "#2E3338",
-            "fontFamily": "Jost-Medium",
-            "fontSize": 22,
+            "fontFamily": "Inter-Bold",
+            "fontSize": 20,
             "lineHeight": 28,
             "marginBottom": 16,
           }

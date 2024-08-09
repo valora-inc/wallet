@@ -46,9 +46,8 @@ exports[`ErrorScreen with errorMessage renders correctly 1`] = `
     <Text
       style={
         {
-          "color": "#2E3338",
-          "fontFamily": "Jost-Medium",
-          "fontSize": 22,
+          "fontFamily": "Inter-Bold",
+          "fontSize": 20,
           "lineHeight": 28,
         }
       }
@@ -224,9 +223,8 @@ exports[`ErrorScreen without errorMessage renders correctly 1`] = `
     <Text
       style={
         {
-          "color": "#2E3338",
-          "fontFamily": "Jost-Medium",
-          "fontSize": 22,
+          "fontFamily": "Inter-Bold",
+          "fontSize": 20,
           "lineHeight": 28,
         }
       }

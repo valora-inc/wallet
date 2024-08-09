@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { recoveryPhraseInOnboardingCompleted } from 'src/account/actions'
-import { OnboardingEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { OnboardingEvents } from 'src/analytics/Events'
 import BackupPhraseContainer, {
   BackupPhraseContainerMode,
   BackupPhraseType,
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     color: colors.gray3,
   },
   bottomSheetTitle: {
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
   },
   bottomSheetBody: {
     ...fontStyles.regular,

@@ -11,9 +11,9 @@ import {
   ViewStyle,
 } from 'react-native'
 import { NativeSafeAreaViewProps, SafeAreaView } from 'react-native-safe-area-context'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { OnboardingEvents } from 'src/analytics/Events'
 import { ScrollDirection } from 'src/analytics/types'
-import AppAnalytics from 'src/analytics/AppAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Pagination from 'src/components/Pagination'
 import BackChevron from 'src/icons/BackChevron'
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     marginTop: 24,
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
     textAlign: 'center',
   },
   headingTop: {
