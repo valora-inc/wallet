@@ -8,7 +8,7 @@ import { currentLanguageSelector } from 'src/i18n/selectors'
 import InfoIcon from 'src/icons/InfoIcon'
 import { useSelector } from 'src/redux/hooks'
 import Colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { iconHitslop } from 'src/styles/variables'
 
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   text: {
-    ...fontStyles.xsmall,
+    ...typeScale.bodyXSmall,
     textAlignVertical: 'center',
     flexWrap: 'wrap',
   },
@@ -101,11 +101,11 @@ const styles = StyleSheet.create({
     marginTop: Spacing.Regular16,
   },
   filterText: {
-    ...fontStyles.small500,
+    ...typeScale.labelSmall,
     color: Colors.infoDark,
   },
   filterAppliedText: {
-    ...fontStyles.small500,
+    ...typeScale.labelSmall,
     color: Colors.gray5,
     paddingRight: 4,
   },
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   removeFilterText: {
-    ...fontStyles.small500,
+    ...typeScale.labelSmall,
     color: Colors.infoDark,
   },
 })

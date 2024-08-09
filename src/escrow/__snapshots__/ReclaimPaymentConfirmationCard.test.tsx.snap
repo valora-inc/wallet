@@ -74,10 +74,9 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
       style={
         [
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-Medium",
             "fontSize": 14,
-            "lineHeight": 18,
+            "lineHeight": 20,
           },
           {
             "marginHorizontal": 20,

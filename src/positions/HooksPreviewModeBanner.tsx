@@ -10,7 +10,7 @@ import { hooksPreviewApiUrlSelector, hooksPreviewStatusSelector } from 'src/posi
 import { previewModeDisabled } from 'src/positions/slice'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fonts from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 const AnimatedSafeAreaView = Animated.createAnimatedComponent(SafeAreaView)
 
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'orange',
   },
   text: {
-    ...fonts.xsmall500,
+    ...typeScale.labelXSmall,
     color: colors.white,
     textAlign: 'center',
     paddingHorizontal: 10,

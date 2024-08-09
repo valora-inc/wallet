@@ -309,7 +309,7 @@ const styles = StyleSheet.create({
     color: Colors.black,
   },
   exchangeBalance: {
-    ...fontStyles.large500,
+    ...typeScale.labelLarge,
   },
   oneBalance: {
     flexDirection: 'row',

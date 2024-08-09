@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
     color: colors.black,
   },
   attributeTitle: {
-    ...fontStyles.small500,
+    ...typeScale.labelSmall,
     color: colors.gray3,
   },
   attributesContainer: {
@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
     color: colors.gray3,
   },
   explorerLink: {
-    ...fontStyles.small500,
+    ...typeScale.labelSmall,
     color: colors.successDark,
     paddingRight: Spacing.Smallest8,
   },

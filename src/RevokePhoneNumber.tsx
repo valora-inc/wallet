@@ -14,7 +14,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
 import { Colors } from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     padding: Spacing.Regular16,
   },
   warningText: {
-    ...fontStyles.xsmall,
+    ...typeScale.bodyXSmall,
     flex: 1,
     flexWrap: 'wrap',
     marginLeft: Spacing.Small12,

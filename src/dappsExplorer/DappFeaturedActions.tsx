@@ -11,7 +11,7 @@ import { useSelector } from 'src/redux/hooks'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { Colors } from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   subtitle: {
-    ...fontStyles.xsmall,
+    ...typeScale.bodyXSmall,
     color: Colors.gray4,
   },
 })
