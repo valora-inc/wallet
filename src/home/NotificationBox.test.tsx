@@ -2,20 +2,12 @@ import { act, fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { openUrl } from 'src/app/actions'
-import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import NotificationBox from 'src/home/NotificationBox'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
-import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
-import {
-  mockCusdAddress,
-  mockCusdTokenId,
-  mockE164Number,
-  mockE164NumberPepper,
-  mockTokenBalances,
-} from 'test/values'
+import { mockE164Number, mockE164NumberPepper, mockTokenBalances } from 'test/values'
 
 const TWO_DAYS_MS = 2 * 24 * 60 * 1000
 const BACKUP_TIME = new Date().getTime() - TWO_DAYS_MS
@@ -80,32 +72,6 @@ const storeDataNotificationsDisabled = {
         dismissed: true,
       },
     },
-  },
-}
-
-const mockcUsdBalance = {
-  [mockCusdTokenId]: {
-    address: mockCusdAddress,
-    tokenId: mockCusdTokenId,
-    networkId: NetworkId['celo-alfajores'],
-    isFeeCurrency: true,
-    balance: '100',
-    symbol: 'cUSD',
-    priceUsd: '1',
-    priceFetchedAt: Date.now(),
-  },
-}
-
-const mockcUsdWithoutEnoughBalance = {
-  [mockCusdTokenId]: {
-    address: mockCusdAddress,
-    tokenId: mockCusdTokenId,
-    networkId: NetworkId['celo-alfajores'],
-    isFeeCurrency: true,
-    balance: '5',
-    symbol: 'cUSD',
-    priceUsd: '1',
-    priceFetchedAt: Date.now(),
   },
 }
 
@@ -228,13 +194,8 @@ describe('NotificationBox', () => {
     expect(queryByText('Notification 2')).toBeTruthy()
     expect(queryByText('Notification 3')).toBeTruthy()
 
-    expect(store.getActions()).toEqual([fetchAvailableRewards()])
-
     fireEvent.press(getByText('Press Remote'))
-    expect(store.getActions()).toEqual([
-      fetchAvailableRewards(),
-      openUrl(testNotification.ctaUri, false, true),
-    ])
+    expect(store.getActions()).toEqual([openUrl(testNotification.ctaUri, false, true)])
   })
 
   it('renders notifications that open URL internally or externally', () => {
@@ -274,16 +235,10 @@ describe('NotificationBox', () => {
     expect(queryByText('Notification 1')).toBeTruthy()
     expect(queryByText('Notification 2')).toBeTruthy()
 
-    expect(store.getActions()).toEqual([fetchAvailableRewards()])
-
     fireEvent.press(getByText('Press Internal'))
-    expect(store.getActions()).toEqual([
-      fetchAvailableRewards(),
-      openUrl(testNotification.ctaUri, false, true),
-    ])
+    expect(store.getActions()).toEqual([openUrl(testNotification.ctaUri, false, true)])
     fireEvent.press(getByText('Press External'))
     expect(store.getActions()).toEqual([
-      fetchAvailableRewards(),
       openUrl(testNotification.ctaUri, false, true),
       openUrl(testNotification.ctaUri, true, true),
     ])

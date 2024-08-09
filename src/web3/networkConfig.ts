@@ -1,3 +1,4 @@
+import { EIP712TypedData } from '@celo/utils/lib/sign-typed-data-utils'
 import _ from 'lodash'
 import { Environment as PersonaEnvironment } from 'react-native-persona'
 import { BIDALI_URL, DEFAULT_FORNO_URL, DEFAULT_TESTNET, RECAPTCHA_SITE_KEY } from 'src/config'
@@ -5,7 +6,6 @@ import { Network, NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { Address } from 'viem'
-import { EIP712TypedData } from '@celo/utils/lib/sign-typed-data-utils'
 import {
   Chain as ViemChain,
   arbitrum,
@@ -59,7 +59,6 @@ interface NetworkConfig {
   checkAddressVerifiedUrl: string
   revokePhoneNumberUrl: string
   migratePhoneVerificationUrl: string
-  fetchAvailableSuperchargeRewards: string
   resolveId: string
   getNftsByOwnerAddressUrl: string
   cabIssueSmsCodeUrl: string
@@ -232,9 +231,6 @@ const MIGRATE_PHONE_VERIFICATION_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/migrateAS
 const CHECK_ADDRESS_VERIFIED_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/checkAddressVerified`
 const CHECK_ADDRESS_VERIFIED_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/checkAddressVerified`
 
-const FETCH_AVAILABLE_SUPERCHARGE_REWARDS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getSuperchargeRewards`
-const FETCH_AVAILABLE_SUPERCHARGE_REWARDS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getSuperchargeRewards`
-
 const RESOLVE_ID_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/resolveId`
 const RESOLVE_ID_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/resolveId`
 
@@ -377,7 +373,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     checkAddressVerifiedUrl: CHECK_ADDRESS_VERIFIED_ALFAJORES,
     revokePhoneNumberUrl: REVOKE_PHONE_NUMBER_ALFAJORES,
     migratePhoneVerificationUrl: MIGRATE_PHONE_VERIFICATION_ALFAJORES,
-    fetchAvailableSuperchargeRewards: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_ALFAJORES,
     resolveId: RESOLVE_ID_ALFAJORES,
     getNftsByOwnerAddressUrl: GET_NFTS_BY_OWNER_ADDRESS_ALFAJORES,
     cabIssueSmsCodeUrl: CAB_ISSUE_SMS_CODE_ALFAJORES,
@@ -481,7 +476,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     checkAddressVerifiedUrl: CHECK_ADDRESS_VERIFIED_MAINNET,
     revokePhoneNumberUrl: REVOKE_PHONE_NUMBER_MAINNET,
     migratePhoneVerificationUrl: MIGRATE_PHONE_VERIFICATION_MAINNET,
-    fetchAvailableSuperchargeRewards: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_MAINNET,
     resolveId: RESOLVE_ID_MAINNET,
     getNftsByOwnerAddressUrl: GET_NFTS_BY_OWNER_ADDRESS_MAINNET,
     cabIssueSmsCodeUrl: CAB_ISSUE_SMS_CODE_MAINNET,

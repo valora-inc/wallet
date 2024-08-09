@@ -13,7 +13,6 @@ import Pagination from 'src/components/Pagination'
 import SimpleMessagingCard, {
   Props as SimpleMessagingCardProps,
 } from 'src/components/SimpleMessagingCard'
-import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import EscrowedPaymentReminderSummaryNotification from 'src/escrow/EscrowedPaymentReminderSummaryNotification'
 import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
 import { dismissNotification } from 'src/home/actions'
@@ -62,10 +61,6 @@ export function useSimpleActions() {
   const dispatch = useDispatch()
 
   const showKeylessBackup = getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_SETUP)
-
-  useEffect(() => {
-    dispatch(fetchAvailableRewards())
-  }, [])
 
   const actions: SimpleAction[] = []
   if (!backupCompleted && !cloudBackupCompleted) {

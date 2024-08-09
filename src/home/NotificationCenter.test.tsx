@@ -6,7 +6,6 @@ import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { HomeEvents } from 'src/analytics/Events'
 import { openUrl } from 'src/app/actions'
-import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import NotificationCenter from 'src/home/NotificationCenter'
 import { NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import { Screens } from 'src/navigator/Screens'
@@ -492,13 +491,8 @@ describe('NotificationCenter', () => {
       expect(queryByText('Notification 2')).toBeFalsy()
       expect(queryByText('Notification 3')).toBeTruthy()
 
-      expect(store.getActions()).toEqual([fetchAvailableRewards()])
-
       fireEvent.press(getByText('Press Remote'))
-      expect(store.getActions()).toEqual([
-        fetchAvailableRewards(),
-        openUrl(testNotification.ctaUri, false, true),
-      ])
+      expect(store.getActions()).toEqual([openUrl(testNotification.ctaUri, false, true)])
     })
 
     it('renders notifications that open URL internally or externally', () => {
@@ -538,16 +532,10 @@ describe('NotificationCenter', () => {
       expect(queryByText('Notification 1')).toBeTruthy()
       expect(queryByText('Notification 2')).toBeTruthy()
 
-      expect(store.getActions()).toEqual([fetchAvailableRewards()])
-
       fireEvent.press(getByText('Press Internal'))
-      expect(store.getActions()).toEqual([
-        fetchAvailableRewards(),
-        openUrl(testNotification.ctaUri, false, true),
-      ])
+      expect(store.getActions()).toEqual([openUrl(testNotification.ctaUri, false, true)])
       fireEvent.press(getByText('Press External'))
       expect(store.getActions()).toEqual([
-        fetchAvailableRewards(),
         openUrl(testNotification.ctaUri, false, true),
         openUrl(testNotification.ctaUri, true, true),
       ])

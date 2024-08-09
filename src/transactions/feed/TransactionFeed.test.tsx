@@ -439,11 +439,7 @@ describe('TransactionFeed', () => {
 
   it('renders GetStarted if SHOW_GET_STARTED is enabled and transaction feed is empty', async () => {
     jest.mocked(getFeatureGate).mockReturnValue(true)
-    const { getByTestId } = renderScreen({
-      app: {
-        superchargeApy: 12,
-      },
-    })
+    const { getByTestId } = renderScreen({})
     expect(getByTestId('GetStarted')).toBeDefined()
   })
 

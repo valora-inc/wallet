@@ -71,7 +71,6 @@ export type StackParamList = {
   [Screens.CoinbasePayScreen]: { uri: string }
   [Screens.CashInSuccess]: { provider?: string }
   [Screens.ChooseYourAdventure]: undefined
-  [Screens.ConsumerIncentivesHomeScreen]: undefined
   [Screens.DappShortcutsRewards]: undefined
   [Screens.DappShortcutTransactionRequest]: {
     rewardId: string

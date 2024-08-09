@@ -33,7 +33,6 @@ import {
   PhoneVerificationEvents,
   PointsEvents,
   QrScreenEvents,
-  RewardsEvents,
   SendEvents,
   SettingsEvents,
   SwapEvents,
@@ -54,10 +53,6 @@ import {
 } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
-import {
-  RewardsScreenCta,
-  RewardsScreenOrigin,
-} from 'src/consumerIncentives/analyticsEventsTracker'
 import { DappSection } from 'src/dapps/types'
 import { SerializableRewardsInfo } from 'src/earn/types'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
@@ -995,21 +990,6 @@ interface NavigationProperties {
   [NavigationEvents.navigator_not_ready]: undefined
 }
 
-interface RewardsProperties {
-  [RewardsEvents.rewards_screen_opened]: {
-    origin: RewardsScreenOrigin
-  }
-  [RewardsEvents.rewards_screen_cta_pressed]: {
-    buttonPressed: RewardsScreenCta
-  }
-  [RewardsEvents.learn_more_pressed]: undefined
-  [RewardsEvents.claimed_reward]: {
-    amount: string
-    token: string
-    version?: number
-  }
-}
-
 export interface WalletConnect1Properties {
   version: 1
   dappRequestOrigin: DappRequestOrigin
@@ -1679,7 +1659,6 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   ContractKitEventsProperties &
   PerformanceProperties &
   NavigationProperties &
-  RewardsProperties &
   WalletConnectProperties &
   CICOEventsProperties &
   DappExplorerEventsProperties &

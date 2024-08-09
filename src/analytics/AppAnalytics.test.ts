@@ -1,7 +1,7 @@
 import { createClient } from '@segment/analytics-react-native'
 import { PincodeType } from 'src/account/reducer'
-import { OnboardingEvents } from 'src/analytics/Events'
 import AppAnalyticsModule from 'src/analytics/AppAnalytics'
+import { OnboardingEvents } from 'src/analytics/Events'
 import { store } from 'src/redux/store'
 import { getDefaultStatsigUser, getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
@@ -166,8 +166,6 @@ const defaultSuperProperties = {
   sTotalCeloAlfajoresBalanceUsd: 36,
   sTotalPositionsBalanceUsd: 7.910872728527196,
   sWalletAddress: mockWalletAddress.toLowerCase(), // test for backwards compatibility (this field is lower-cased)
-  sSuperchargingAmountInUsd: 24,
-  sSuperchargingToken: 'cEUR',
   sHasTokenBalance: true,
   sHasCeloAlfajoresTokenBalance: true,
   sPointsBalance: '50',
