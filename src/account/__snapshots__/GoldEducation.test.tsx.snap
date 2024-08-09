@@ -161,9 +161,8 @@ exports[`renders correctly 1`] = `
               <Text
                 style={
                   {
-                    "color": "#2E3338",
-                    "fontFamily": "Jost-Medium",
-                    "fontSize": 22,
+                    "fontFamily": "Inter-Bold",
+                    "fontSize": 20,
                     "lineHeight": 28,
                     "marginTop": 24,
                     "textAlign": "center",
@@ -233,9 +232,8 @@ exports[`renders correctly 1`] = `
               <Text
                 style={
                   {
-                    "color": "#2E3338",
-                    "fontFamily": "Jost-Medium",
-                    "fontSize": 22,
+                    "fontFamily": "Inter-Bold",
+                    "fontSize": 20,
                     "lineHeight": 28,
                     "marginTop": 24,
                     "textAlign": "center",
@@ -305,9 +303,8 @@ exports[`renders correctly 1`] = `
               <Text
                 style={
                   {
-                    "color": "#2E3338",
-                    "fontFamily": "Jost-Medium",
-                    "fontSize": 22,
+                    "fontFamily": "Inter-Bold",
+                    "fontSize": 20,
                     "lineHeight": 28,
                     "marginTop": 24,
                     "textAlign": "center",
@@ -377,9 +374,8 @@ exports[`renders correctly 1`] = `
               <Text
                 style={
                   {
-                    "color": "#2E3338",
-                    "fontFamily": "Jost-Medium",
-                    "fontSize": 22,
+                    "fontFamily": "Inter-Bold",
+                    "fontSize": 20,
                     "lineHeight": 28,
                     "marginTop": 24,
                     "textAlign": "center",

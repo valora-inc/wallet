@@ -3,7 +3,7 @@ import { WithTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import { withTranslation } from 'src/i18n'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 interface OwnProps {
   loading: boolean
   error: Error | undefined
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     width: 108,
   },
   text: {
-    ...fontStyles.large,
+    ...typeScale.bodyLarge,
     color: colors.gray3,
   },
 })

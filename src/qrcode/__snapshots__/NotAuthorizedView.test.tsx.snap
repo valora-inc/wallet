@@ -15,8 +15,8 @@ exports[`NotAuthorizedView renders correctly 1`] = `
     style={
       {
         "color": "#FFFFFF",
-        "fontFamily": "Jost-Medium",
-        "fontSize": 22,
+        "fontFamily": "Inter-Bold",
+        "fontSize": 20,
         "lineHeight": 28,
         "marginBottom": 8,
       }

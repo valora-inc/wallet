@@ -25,7 +25,7 @@ import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { hooksPreviewApiUrlSelector } from 'src/positions/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 type Props = NativeStackScreenProps<StackParamList, Screens.SupportContact>
@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   title: {
-    ...fontStyles.h1,
+    ...typeScale.titleMedium,
     marginVertical: 16,
   },
 })

@@ -49,7 +49,7 @@ import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
@@ -577,7 +577,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   switchCurrency: {
-    ...fontStyles.large500,
+    ...typeScale.labelLarge,
     color: colors.primary,
     padding: Spacing.Smallest8,
   },
@@ -600,7 +600,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   linkToOtherScreen: {
-    ...fontStyles.small500,
+    ...typeScale.labelSmall,
     color: colors.gray4,
   },
   disclaimerContainer: {
@@ -618,7 +618,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   contactSupport: {
-    ...fontStyles.large500,
+    ...typeScale.labelLarge,
     color: colors.gray4,
     padding: Spacing.Smallest8,
   },
@@ -631,7 +631,7 @@ const styles = StyleSheet.create({
   },
   amountSpentInfoText: {
     textAlign: 'center',
-    ...fontStyles.xsmall600,
+    ...typeScale.labelSemiBoldXSmall,
   },
 })
 SelectProviderScreen.navigationOptions = ({

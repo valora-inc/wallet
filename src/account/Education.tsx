@@ -11,9 +11,9 @@ import {
   ViewStyle,
 } from 'react-native'
 import { NativeSafeAreaViewProps, SafeAreaView } from 'react-native-safe-area-context'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { OnboardingEvents } from 'src/analytics/Events'
 import { ScrollDirection } from 'src/analytics/types'
-import AppAnalytics from 'src/analytics/AppAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Pagination from 'src/components/Pagination'
 import BackChevron from 'src/icons/BackChevron'
@@ -21,7 +21,7 @@ import Times from 'src/icons/Times'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import progressDots from 'src/styles/progressDots'
 import variables from 'src/styles/variables'
 
@@ -190,11 +190,11 @@ const styles = StyleSheet.create({
   },
   heading: {
     marginTop: 24,
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
     textAlign: 'center',
   },
   headingTop: {
-    ...fontStyles.h1,
+    ...typeScale.titleMedium,
     marginTop: 26,
     alignSelf: 'flex-start',
   },

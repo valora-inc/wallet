@@ -3,11 +3,11 @@ import Clipboard from '@react-native-clipboard/clipboard'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
-import { FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
-import fontStyles, { fontFamily } from 'src/styles/fonts'
+import fontStyles from 'src/styles/fonts'
 import { vibrateInformative } from 'src/styles/hapticFeedback'
 import Logger from 'src/utils/Logger'
 
@@ -73,9 +73,8 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   link: {
-    ...fontStyles.label,
+    ...fontStyles.small,
     textDecorationLine: 'underline',
     color: colors.gray4,
-    fontFamily,
   },
 })

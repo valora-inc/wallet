@@ -333,7 +333,7 @@ const styles = StyleSheet.create({
     marginTop: Spacing.Large32,
   },
   disclaimer: {
-    ...fontStyles.xsmall,
+    ...typeScale.bodyXSmall,
     color: Colors.gray4,
     textAlign: 'center',
     marginTop: Spacing.Large32,

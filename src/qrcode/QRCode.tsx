@@ -85,16 +85,11 @@ export default function QRCodeDisplay(props: Props) {
       </View>
 
       {!!displayName && (
-        <Text
-          style={[styles.name, fontStyles.displayName]}
-          numberOfLines={1}
-          ellipsizeMode="tail"
-          testID="displayName"
-        >
+        <Text style={styles.name} numberOfLines={1} ellipsizeMode="tail" testID="displayName">
           {displayName}
         </Text>
       )}
-      <Text testID="address" style={[fontStyles.mediumNumber, fontStyles.regular, styles.address]}>
+      <Text testID="address" style={[typeScale.bodyMedium, styles.address]}>
         {address}
       </Text>
       <Button
@@ -173,6 +168,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   name: {
+    ...typeScale.labelSemiBoldMedium,
     marginHorizontal: variables.width / 4,
     marginBottom: 8,
   },

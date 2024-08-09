@@ -74,8 +74,8 @@ exports[`AccountNumber renders correctly when touch enabled 1`] = `
       {
         "color": "#666666",
         "fontFamily": "Inter-Regular",
-        "fontSize": 13,
-        "lineHeight": 16,
+        "fontSize": 14,
+        "lineHeight": 18,
         "textDecorationLine": "underline",
       }
     }

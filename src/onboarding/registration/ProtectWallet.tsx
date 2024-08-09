@@ -17,7 +17,7 @@ import { StackParamList } from 'src/navigator/types'
 import { getOnboardingStepValues, onboardingPropsSelector } from 'src/onboarding/steps'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -144,6 +144,6 @@ const styles = StyleSheet.create({
   protectWalletTitle: {
     textAlign: 'center',
     marginTop: 36,
-    ...fontStyles.h1,
+    ...typeScale.titleMedium,
   },
 })

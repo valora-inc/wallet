@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   header: {
     textAlign: 'center',
     marginTop: 50,
-    ...fontStyles.h1,
+    ...typeScale.titleMedium,
   },
   card: {
     marginTop: Spacing.Smallest8,

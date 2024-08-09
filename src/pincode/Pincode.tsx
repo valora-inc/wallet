@@ -9,7 +9,7 @@ import NumberKeypad from 'src/components/NumberKeypad'
 import { PIN_LENGTH } from 'src/pincode/authentication'
 import PincodeDisplay from 'src/pincode/PincodeDisplay'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 interface Props {
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   title: {
-    ...fontStyles.h1,
+    ...typeScale.titleMedium,
     textAlign: 'center',
     marginBottom: Spacing.Regular16,
   },

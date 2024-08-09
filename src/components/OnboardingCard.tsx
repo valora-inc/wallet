@@ -4,7 +4,7 @@ import Card from 'src/components/Card'
 import Touchable from 'src/components/Touchable'
 import ForwardChevron from 'src/icons/ForwardChevron'
 import { Colors } from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Shadow, Spacing } from 'src/styles/styles'
 
 interface Props {
@@ -47,13 +47,13 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   title: {
-    ...fontStyles.small500,
+    ...typeScale.labelSmall,
     lineHeight: 24,
     paddingBottom: 5,
     color: Colors.successDark,
   },
   subtitle: {
-    ...fontStyles.xsmall,
+    ...typeScale.bodyXSmall,
     color: Colors.gray5,
   },
 })

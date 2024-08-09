@@ -4,8 +4,8 @@ import { Trans, useTranslation } from 'react-i18next'
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { showError } from 'src/alert/actions'
-import { RewardsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { RewardsEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
   numberVerifiedDecentrallySelector,
@@ -39,7 +39,7 @@ import { useDispatch, useSelector } from 'src/redux/hooks'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { tokensByAddressSelector, tokensBySymbolSelector } from 'src/tokens/selectors'
 import { useCountryFeatures } from 'src/utils/countryFeatures'
@@ -350,7 +350,7 @@ const styles = StyleSheet.create({
     marginTop: 18,
   },
   title: {
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
     marginTop: 32,
     textAlign: 'center',
   },
