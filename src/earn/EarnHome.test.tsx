@@ -17,30 +17,6 @@ function getStore(mockPoolBalance: string = '0') {
     tokens: {
       tokenBalances: {
         ...mockTokenBalances,
-        ['arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216']: {
-          name: 'Aave Arbitrum USDC',
-          networkId: NetworkId['arbitrum-sepolia'],
-          tokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
-          address: '0x460b97bd498e1157530aeb3086301d5225b91216',
-          symbol: 'aArbUSDCn',
-          decimals: 18,
-          imageUrl: 'https://raw.githubusercontent.com/address-metadata/main/assets/tokens/ARB.png',
-          balance: mockPoolBalance,
-          priceUsd: '1.2',
-          priceFetchedAt: Date.now(),
-        },
-        ['ethereum-sepolia:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8']: {
-          name: 'Aave Ethereum ETH',
-          networkId: NetworkId['ethereum-sepolia'],
-          tokenId: 'ethereum-sepolia:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8',
-          address: '0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8',
-          symbol: 'aEthETH',
-          decimals: 18,
-          imageUrl: 'https://raw.githubusercontent.com/address-metadata/main/assets/tokens/ETH.png',
-          balance: '0',
-          priceUsd: '250',
-          priceFetchedAt: Date.now(),
-        },
       },
     },
     positions: {
