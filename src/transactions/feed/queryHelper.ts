@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'src/redux/hooks'
 import { AppDispatch, store } from 'src/redux/store'
 import { getMultichainFeatures } from 'src/statsig/index'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
+import { swapSuccess } from 'src/swap/slice'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import { updateTransactions } from 'src/transactions/actions'
@@ -33,6 +34,7 @@ import Logger from 'src/utils/Logger'
 import { gql } from 'src/utils/gql'
 import config from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { Hex } from 'viem'
 
 const MIN_NUM_TRANSACTIONS = 10
 
@@ -382,7 +384,7 @@ export function handlePollResponse({
             (pendingStandbyTransactionHashes?.has(tx.transactionHash) ||
               knownPendingTransactionHashes?.has(tx.transactionHash))
           ) {
-            trackCrossChainSwapSuccess(tx)
+            handleCrossChainSwapSuccess(tx)
           }
         } else if (tx.status === TransactionStatus.Pending) {
           if (
@@ -450,7 +452,17 @@ async function queryTransactionsFeed({
   await Promise.all(requests) // Wait for all requests to finish for use in useAsync hooks
 }
 
-function trackCrossChainSwapSuccess(tx: TokenExchange) {
+function handleCrossChainSwapSuccess(tx: TokenExchange) {
+  store.dispatch(
+    swapSuccess({
+      swapId: '',
+      fromTokenId: tx.outAmount.tokenId,
+      toTokenId: tx.inAmount.tokenId,
+      transactionHash: tx.transactionHash as Hex,
+      networkId: tx.networkId,
+    })
+  )
+
   const tokensById = tokensByIdSelector(store.getState(), getSupportedNetworkIdsForSwap())
 
   const toTokenPrice = tokensById[tx.inAmount.tokenId]?.priceUsd
