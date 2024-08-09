@@ -1893,7 +1893,7 @@
       "feesInfo_sameChain": "A taxa de rede é exigida pela rede para processar a transação.",
       "feesInfo_crossChain": "A taxa de rede é exigida pela rede para processar a transação. A taxa de cadeia cruzada é cobrada pelo provedor de cadeia cruzada.",
       "feesInfo_sameChainWithAppFee": "A taxa de rede é exigida pela rede para processar a transação. A taxa {{appName}} de {{appFeePercentage}}% é cobrada pelo uso que você faz do nosso produto.",
-      "feesInfo_crossChainWithAppFee": "A taxa de rede é exigida pela rede para processar a transação. A taxa de cadeia cruzada é cobrada pelo provedor de cadeia cruzada. A taxa {{appName}} de {{appFeePercentage}}% é cobrada pelo uso que você faz do nosso produto."
+      "feesInfo_crossChainWithAppFee": "A taxa de rede é exigida pela rede para processar a transação. A taxa de cadeia cruzada é cobrada pelo provedor de cadeia cruzada. A taxa de {{appFeePercentage}}% do {{appName}} é cobrada pelo uso que você faz do nosso produto."
     },
     "fundYourWalletBottomSheet": {
       "title": "Adicione fundos à sua carteira",
