@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   contactName: {
-    ...typeScale.bodyXSmall,
+    ...typeScale.bodySmall,
     paddingTop: 6,
     marginHorizontal: 20,
     textAlign: 'center',

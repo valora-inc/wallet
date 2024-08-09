@@ -80,9 +80,8 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
           },
           {
             "fontFamily": "Inter-Regular",
-            "fontSize": 12,
-            "letterSpacing": 0.12,
-            "lineHeight": 16,
+            "fontSize": 14,
+            "lineHeight": 20,
             "marginHorizontal": 20,
             "paddingTop": 6,
             "textAlign": "center",
