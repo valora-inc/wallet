@@ -4647,10 +4647,10 @@
     lodash.merge "^4.6.2"
     loglevel "^1.9.1"
 
-"@toruslabs/torus.js@^12.3.6":
-  version "12.3.6"
-  resolved "https://registry.yarnpkg.com/@toruslabs/torus.js/-/torus.js-12.3.6.tgz#69d73d12c5ab5be166dcdb0df4ed4b7f7d8e4d0f"
-  integrity sha512-cXPC+Cyw4W05eZW784pPd+QyJRmvK54wTYbBocU9gVaqZhGXNryVrqhBYZSOmAr3pUtOubjRZfeXCZLn7BA77Q==
+"@toruslabs/torus.js@^12.3.7":
+  version "12.3.7"
+  resolved "https://registry.yarnpkg.com/@toruslabs/torus.js/-/torus.js-12.3.7.tgz#65d74cd46e0160f142b74dee7e284503b0985ffc"
+  integrity sha512-PosRhG6stUKmRTUgaucUogXIPfNqeA4UWf/jQ8eU/cxjXjWC9UpPkR0/RbfoOIFfiTxcDgMTHSjt7e48Hwt/vA==
   dependencies:
     "@toruslabs/constants" "^13.4.0"
     "@toruslabs/eccrypto" "^4.0.0"
