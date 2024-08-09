@@ -115,7 +115,7 @@
     "@th3rdwave/react-navigation-bottom-sheet": "^0.2.7",
     "@toruslabs/constants": "^13.4.0",
     "@toruslabs/fetch-node-details": "^13.4.0",
-    "@toruslabs/torus.js": "^12.3.6",
+    "@toruslabs/torus.js": "^12.3.7",
     "@walletconnect/react-native-compat": "^2.13.3",
     "@walletconnect/utils": "^2.13.3",
     "@walletconnect/web3wallet": "^1.12.3",
