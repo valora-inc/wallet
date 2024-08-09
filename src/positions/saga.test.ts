@@ -80,7 +80,14 @@ const MOCK_EARN_POSITIONS_RESPONSE = {
         imageUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/aave.png',
       },
       dataProps: {
-        apy: 1.9194202601763743,
+        yieldRates: [
+          {
+            percentage: 1.9194202601763743,
+            label: 'Earnings APY',
+            tokenId: 'arbitrum-sepolia:0x75faf114eafb1bdbe2f0316df893fd58ce46aa4d',
+          },
+        ],
+        earningItems: [],
         depositTokenId: 'arbitrum-sepolia:0x75faf114eafb1bdbe2f0316df893fd58ce46aa4d',
         withdrawTokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
       },

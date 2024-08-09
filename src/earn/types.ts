@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js'
+import { EarningItem, SerializedDecimalNumber, YieldRate } from 'src/positions/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
@@ -40,10 +42,13 @@ export interface Pool {
   depositTokenId: string
   poolTokenId: string
   poolAddress: Address
-  apy: number
-  reward: number
-  tvl: number
+  yieldRates: YieldRate[]
+  earnItems: EarningItem[]
+  tvl?: number
   provider: string
+  balance: BigNumber
+  priceUsd: BigNumber
+  pricePerShare: SerializedDecimalNumber[]
 }
 
 export enum EarnTabType {

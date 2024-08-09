@@ -93,7 +93,7 @@ describe('earnPositionsSelector', () => {
             tokens: [],
           },
         ],
-        earnPositionIds: ['0xb'],
+        earnPositionIds: ['celo-alfajores:0xb'],
       },
     }
     const positions = earnPositionsSelector(state)

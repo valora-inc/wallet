@@ -5,6 +5,9 @@ import EarnActivePool from 'src/earn/EarnActivePool'
 import EarnActivePools from 'src/earn/EarnActivePools'
 import EarnCta from 'src/earn/EarnCta'
 import EarnEntrypoint from 'src/earn/EarnEntrypoint'
+import { convertPositionToPool } from 'src/earn/poolHelper'
+import { earnPositionsSelector } from 'src/positions/selectors'
+import { useSelector } from 'src/redux/hooks'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { Spacing } from 'src/styles/styles'
@@ -19,11 +22,12 @@ export function EarnCardDiscover({ depositTokenId, poolTokenId }: Props) {
   const showMultiplePools = getFeatureGate(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
   const poolToken = useTokenInfo(poolTokenId)
 
+  const earnPositions = useSelector(earnPositionsSelector)
+  const pools = earnPositions.map(convertPositionToPool)
+
   if (showMultiplePools) {
-    // For now directly using the poolTokenId, which is hardcoded to AAVE arb USDC.
-    // TODO(ACT-1268): use info from getEarnPositions to see if the user is part
-    // of any pools.
-    return poolToken && poolToken.balance.gt(0) ? <EarnActivePools /> : <EarnEntrypoint />
+    const poolsSupplied = pools.reduce((acc, pool) => (pool.balance.gt(0) ? acc + 1 : acc), 0)
+    return poolsSupplied > 0 ? <EarnActivePools /> : <EarnEntrypoint />
   }
 
   const showStablecoinEarn = getFeatureGate(StatsigFeatureGates.SHOW_STABLECOIN_EARN)

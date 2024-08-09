@@ -43,7 +43,7 @@ export const earnPositionsSelector = createSelector(
   [positionsSelector, earnPositionIdsSelector],
   (positions, earnPositionIds) => {
     const earnPositionIdsSet = new Set(earnPositionIds)
-    return positions.filter((position) => earnPositionIdsSet.has(position.address))
+    return positions.filter((position) => earnPositionIdsSet.has(position.positionId))
   }
 )
 
