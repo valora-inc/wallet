@@ -60,7 +60,6 @@ exports[`EscrowedPaymentReminderNotification renders correctly 1`] = `
         numberOfLines={1}
         style={
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-SemiBold",
             "fontSize": 24,
             "lineHeight": 28,

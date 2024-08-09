@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
     color: Colors.gray3,
   },
   rewardAmount: {
-    ...fontStyles.large600,
+    ...typeScale.labelSemiBoldLarge,
     lineHeight: 28,
     flexWrap: 'wrap',
   },
@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
     paddingBottom: Spacing.Thick24,
   },
   heading: {
-    ...fontStyles.large600,
+    ...typeScale.labelSemiBoldLarge,
     fontSize: 24,
     lineHeight: 32,
     marginBottom: Spacing.Tiny4,

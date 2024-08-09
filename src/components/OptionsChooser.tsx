@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { ActionSheetIOS, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Modal from 'src/components/Modal'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 interface Props {
@@ -71,7 +71,7 @@ function OptionsChooser({
     <Modal isVisible={isVisible} style={styles.container}>
       {fullOptions.map((option, index) => {
         const extraStyles = {
-          ...(index === cancelButtonIndex ? fontStyles.large600 : typeScale.bodyLarge),
+          ...(index === cancelButtonIndex ? typeScale.labelSemiBoldLarge : typeScale.bodyLarge),
           color: index === destructiveButtonIndex ? colors.error : buttonsColor,
         }
         return (

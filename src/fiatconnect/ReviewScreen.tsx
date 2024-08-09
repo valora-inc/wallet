@@ -570,7 +570,7 @@ const styles = StyleSheet.create({
     paddingVertical: 24,
   },
   sectionHeaderText: {
-    ...fontStyles.label,
+    ...typeScale.labelSemiBoldSmall,
     color: colors.gray3,
     marginBottom: 8,
   },
