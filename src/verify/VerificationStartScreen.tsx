@@ -38,7 +38,7 @@ import {
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { walletAddressSelector } from 'src/web3/selectors'
 
@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   header: {
-    ...fontStyles.h1,
+    ...typeScale.titleMedium,
     marginBottom: Spacing.Regular16,
     textAlign: 'center',
   },

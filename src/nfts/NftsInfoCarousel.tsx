@@ -15,7 +15,7 @@ import NftMedia from 'src/nfts/NftMedia'
 import NftsLoadError from 'src/nfts/NftsLoadError'
 import { Nft, NftOrigin } from 'src/nfts/types'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { NetworkId } from 'src/transactions/types'
@@ -340,6 +340,6 @@ const styles = StyleSheet.create({
     ...fontStyles.regular,
   },
   title: {
-    ...fontStyles.h1,
+    ...typeScale.titleMedium,
   },
 })

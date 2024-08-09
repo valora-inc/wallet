@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: MARGIN,
   },
   title: {
-    ...fontStyles.h1,
+    ...typeScale.titleMedium,
     marginTop: 30,
     marginBottom: 24,
   },
