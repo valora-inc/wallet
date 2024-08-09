@@ -38,10 +38,16 @@ export const pointsConfigStatusSelector = (state: RootState) => state.points.poi
 
 const pointsConfigSelector = (state: RootState) => state.points.pointsConfig
 
+const jumpstartFeatureGateSelector = () => getFeatureGate(StatsigFeatureGates.SHOW_JUMPSTART_SEND)
+
 export const pointsActivitiesSelector = createSelector(
-  [pointsConfigSelector, trackOnceActivitiesSelector, jumpstartSendTokensSelector],
-  (pointsConfig, trackOnceActivities, jumpstartTokens) => {
-    const jumpstartSendEnabled = getFeatureGate(StatsigFeatureGates.SHOW_JUMPSTART_SEND)
+  [
+    pointsConfigSelector,
+    trackOnceActivitiesSelector,
+    jumpstartSendTokensSelector,
+    jumpstartFeatureGateSelector,
+  ],
+  (pointsConfig, trackOnceActivities, jumpstartTokens, jumpstartSendEnabled) => {
     const showJumpstart = jumpstartSendEnabled && jumpstartTokens.length > 0
     const excludedActivities = new Set<PointsActivityId>()
     if (!showJumpstart) {
