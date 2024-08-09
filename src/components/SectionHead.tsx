@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
   style?: StyleProp<ViewStyle>
 }
 
-export default function SectionheadNew({ text, style }: Props) {
+export default function SectionHead({ text, style }: Props) {
   return (
     <View style={[styles.container, style]}>
       <Text style={styles.text}>{text}</Text>
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    ...fontStyles.sectionHeader,
+    ...typeScale.labelSmall,
     fontSize: 13,
     lineHeight: 16,
     color: colors.gray4,

@@ -8,12 +8,6 @@ const Inter = {
   Bold: 'Inter-Bold',
 }
 
-const Jost = {
-  Medium: 'Jost-Medium',
-}
-
-export const fontFamily = Inter.Regular
-
 const standards = {
   large: {
     fontSize: 18,
@@ -160,31 +154,12 @@ export const typeScale = StyleSheet.create({
  * Use typeScale instead
  */
 export const fontStyles = StyleSheet.create({
-  sectionHeader: {
-    fontSize: 14,
-    lineHeight: 16,
-    fontFamily: Inter.Medium,
-    color: colors.black,
-  },
-  notificationHeadline: {
-    fontSize: 18,
-    lineHeight: 22,
-    fontFamily: Jost.Medium,
-    color: colors.black,
-  },
-  displayName: {
-    fontSize: 18,
-    lineHeight: 24,
-    fontFamily: Jost.Medium,
-    color: colors.black,
-  },
   label: {
     fontSize: 13,
     lineHeight: 16,
     fontFamily: Inter.SemiBold,
     color: colors.black,
   },
-  large: standards.large,
   regular: standards.regular,
   small: standards.small,
   xsmall: standards.xsmall,
@@ -196,23 +171,6 @@ export const fontStyles = StyleSheet.create({
   regular500: { ...standards.regular, fontFamily: Inter.Medium },
   small500: { ...standards.small, fontFamily: Inter.Medium },
   xsmall500: { ...standards.xsmall, fontFamily: Inter.Medium },
-  mediumNumber: {
-    lineHeight: 27,
-    fontSize: 24,
-    fontFamily: Inter.Regular,
-    color: colors.black,
-  },
-  largeNumber: {
-    lineHeight: 40,
-    fontSize: 32,
-    fontFamily: Inter.SemiBold,
-    color: colors.black,
-  },
-  iconText: {
-    fontSize: 16,
-    fontFamily: Inter.Medium,
-    color: colors.white,
-  },
 })
 
 // TODO: export typeScale as default when all components are updated

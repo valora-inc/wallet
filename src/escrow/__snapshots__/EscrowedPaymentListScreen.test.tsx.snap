@@ -195,9 +195,9 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                       style={
                         [
                           {
-                            "color": "#FFFFFF",
                             "fontFamily": "Inter-Medium",
                             "fontSize": 16,
+                            "lineHeight": 24,
                           },
                           {
                             "color": "hsl(0, 67%, 24%)",
@@ -474,9 +474,9 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                       style={
                         [
                           {
-                            "color": "#FFFFFF",
                             "fontFamily": "Inter-Medium",
                             "fontSize": 16,
+                            "lineHeight": 24,
                           },
                           {
                             "color": "hsl(0, 67%, 24%)",
@@ -753,9 +753,9 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                       style={
                         [
                           {
-                            "color": "#FFFFFF",
                             "fontFamily": "Inter-Medium",
                             "fontSize": 16,
+                            "lineHeight": 24,
                           },
                           {
                             "color": "hsl(0, 67%, 24%)",

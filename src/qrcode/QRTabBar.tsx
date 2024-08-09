@@ -12,7 +12,7 @@ import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { useDispatch } from 'src/redux/hooks'
 import { SVG, shareQRCode } from 'src/send/actions'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 type Props = MaterialTopTabBarProps & {
   qrSvgRef: React.MutableRefObject<SVG>
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerTitle: {
-    ...fontStyles.notificationHeadline,
+    ...typeScale.labelSemiBoldMedium,
     maxWidth: Dimensions.get('window').width * 0.6,
   },
 })

@@ -320,7 +320,7 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
   },
   loadingDescription: {
-    ...fontStyles.large,
+    ...typeScale.bodyLarge,
     textAlign: 'center',
     marginTop: 12,
     paddingHorizontal: 48,

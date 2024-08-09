@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     paddingVertical: 48,
   },
   stepText: {
-    ...fontStyles.notificationHeadline,
+    ...typeScale.labelSemiBoldMedium,
     textAlign: 'center',
     marginBottom: 12,
   },
