@@ -549,7 +549,7 @@ const styles = StyleSheet.create({
   },
   inputBox: {
     marginTop: Spacing.Large32,
-    backgroundColor: '#FAFAFA',
+    backgroundColor: Colors.gray1,
     borderWidth: 1,
     borderRadius: 16,
     borderColor: Colors.gray2,

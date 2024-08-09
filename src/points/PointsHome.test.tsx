@@ -1,15 +1,18 @@
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { PointsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { PointsEvents } from 'src/analytics/Events'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import PointsHome from 'src/points/PointsHome'
 import { getHistoryStarted, getPointsConfigRetry } from 'src/points/slice'
 import { RootState } from 'src/redux/store'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { NetworkId } from 'src/transactions/types'
 import { RecursivePartial, createMockStore, getMockStackScreenProps } from 'test/utils'
 
+jest.mock('src/statsig')
 jest.mock('src/points/PointsHistoryBottomSheet')
 
 const mockScreenProps = () => getMockStackScreenProps(Screens.PointsHome)
@@ -36,6 +39,16 @@ const renderPointsHome = (storeOverrides?: RecursivePartial<RootState>) => {
         },
         pointsConfigStatus: 'success',
       },
+      tokens: {
+        tokenBalances: {
+          ['celo-alfajores:0xusd']: {
+            tokenId: 'celo-alfajores:0xabcd',
+            address: '0xabcd',
+            networkId: NetworkId['celo-alfajores'],
+            balance: '10',
+          },
+        },
+      },
     }
   )
   const tree = render(
@@ -53,6 +66,10 @@ const renderPointsHome = (storeOverrides?: RecursivePartial<RootState>) => {
 describe(PointsHome, () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest
+      .mocked(getDynamicConfigParams)
+      .mockReturnValue({ jumpstartContracts: { 'celo-alfajores': '0x1234' } })
   })
 
   it('renders a loading state while loading config', async () => {

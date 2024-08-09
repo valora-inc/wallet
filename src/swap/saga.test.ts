@@ -2,8 +2,8 @@ import { PayloadAction } from '@reduxjs/toolkit'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { EffectProviders, StaticProvider, dynamic } from 'redux-saga-test-plan/providers'
-import { SwapEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { SwapEvents } from 'src/analytics/Events'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { getMultichainFeatures } from 'src/statsig'
 import { swapSubmitSaga } from 'src/swap/saga'
@@ -854,6 +854,18 @@ describe(swapSubmitSaga, () => {
     expect(AppAnalytics.track).toHaveBeenLastCalledWith(
       SwapEvents.swap_execute_success,
       expect.objectContaining({ areSwapTokensShuffled: true })
+    )
+  })
+
+  it('should not sent success analytics event for cross-chain swap', async () => {
+    await expectSaga(swapSubmitSaga, mockCrossChainSwap)
+      .withState(store.getState())
+      .provide(createDefaultProviders(Network.Celo))
+      .run()
+
+    expect(AppAnalytics.track).not.toHaveBeenCalledWith(
+      SwapEvents.swap_execute_success,
+      expect.anything()
     )
   })
 })
