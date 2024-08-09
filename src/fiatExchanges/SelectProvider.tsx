@@ -593,7 +593,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   categoryHeader: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
   },
   categoryText: {
     ...typeScale.labelSemiBoldSmall,
@@ -607,7 +607,7 @@ const styles = StyleSheet.create({
     padding: Spacing.Regular16,
   },
   disclaimerText: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
   },
   underline: {

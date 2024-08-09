@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     ...fontStyles.regular,
   },
   phoneNumber: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
   },
   avatarContainer: {
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   addressHasChanged: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray5,
     marginBottom: 8,
   },

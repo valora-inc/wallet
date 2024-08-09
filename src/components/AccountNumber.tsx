@@ -7,7 +7,7 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { vibrateInformative } from 'src/styles/hapticFeedback'
 import Logger from 'src/utils/Logger'
 
@@ -68,12 +68,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   text: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
     marginBottom: 8,
   },
   link: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     textDecorationLine: 'underline',
     color: colors.gray4,
   },

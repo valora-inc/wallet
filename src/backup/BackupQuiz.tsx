@@ -375,13 +375,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gray2,
   },
   chosenWord: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     textAlign: 'center',
     lineHeight: undefined,
     color: colors.gray4,
   },
   chosenWordFilled: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     textAlign: 'center',
     lineHeight: undefined,
     color: colors.gray5,

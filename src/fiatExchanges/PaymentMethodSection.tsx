@@ -16,7 +16,7 @@ import InfoIcon from 'src/icons/InfoIcon'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { useTokenInfo } from 'src/tokens/hooks'
 
 const SETTLEMENT_TIME_STRINGS: Record<SettlementTime, string> = {
@@ -342,7 +342,7 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   category: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
   },
   fee: {
     ...typeScale.labelSemiBoldSmall,
@@ -353,12 +353,12 @@ const styles = StyleSheet.create({
     color: colors.gray3,
   },
   expandedInfo: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
     marginTop: 2,
   },
   topInfo: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
     marginTop: 4,
   },

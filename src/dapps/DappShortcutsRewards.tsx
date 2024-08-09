@@ -19,7 +19,7 @@ import { triggerShortcut } from 'src/positions/slice'
 import { ClaimablePosition } from 'src/positions/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import Colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   rewardFiatAmount: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
   },
   dappInfoContainer: {
     flexDirection: 'row',
@@ -260,7 +260,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.Tiny4,
   },
   subHeading: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: Colors.gray3,
   },
   claimButton: {

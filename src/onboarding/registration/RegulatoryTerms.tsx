@@ -21,7 +21,7 @@ import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { navigateToURI } from 'src/utils/linking'
 
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   disclaimer: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     marginBottom: 15,
   },
   link: {

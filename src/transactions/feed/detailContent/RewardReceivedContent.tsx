@@ -15,7 +15,7 @@ import { Screens } from 'src/navigator/Screens'
 import { RecipientType } from 'src/recipients/recipient'
 import { useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import TransferAvatars from 'src/transactions/TransferAvatars'
 import UserSection from 'src/transactions/UserSection'
 import { TokenTransfer } from 'src/transactions/types'
@@ -69,7 +69,7 @@ function RewardReceivedContent({ transfer }: { transfer: TokenTransfer }) {
 
 const styles = StyleSheet.create({
   learnMore: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
     textDecorationLine: 'underline',
   },

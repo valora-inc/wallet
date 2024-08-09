@@ -2,7 +2,7 @@ import Clipboard from '@react-native-clipboard/clipboard'
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
 
 interface Props {
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     width: 215,
   },
   text: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
   },
 })

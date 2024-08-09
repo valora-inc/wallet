@@ -8,7 +8,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { withTranslation } from 'src/i18n'
 import { RootState } from 'src/redux/reducers'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 const DISMISS_DEFAULT = 5
 
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     height: 64,
   },
   errorMessage: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.error,
   },
 })

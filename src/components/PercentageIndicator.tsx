@@ -4,7 +4,7 @@ import { StyleSheet, Text, TextStyle, View } from 'react-native'
 import DownIndicator from 'src/icons/DownIndicator'
 import UpIndicator from 'src/icons/UpIndicator'
 import Colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 type IconComponentType = React.ComponentType<{ color?: Colors; testID?: string }>
 
@@ -24,9 +24,9 @@ function PercentageIndicator({
   comparedValue,
   currentValue,
   testID = 'PercentageIndicator',
-  percentageTextStyle = fontStyles.small,
+  percentageTextStyle = typeScale.bodySmall,
   suffixText,
-  suffixTextStyle = fontStyles.small,
+  suffixTextStyle = typeScale.bodySmall,
   DownIcon = DownIndicator,
   UpIcon = UpIndicator,
   NoChangeIcon,

@@ -71,7 +71,7 @@ exports[`SummaryNotification renders correctly 1`] = `
             "flex": 1,
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
-            "lineHeight": 18,
+            "lineHeight": 20,
           }
         }
         testID="undefined/Details"

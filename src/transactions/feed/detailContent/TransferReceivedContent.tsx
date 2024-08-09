@@ -10,7 +10,7 @@ import { getRecipientFromAddress } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { useTokenInfo } from 'src/tokens/hooks'
 import CommentSection from 'src/transactions/CommentSection'
 import TransferAvatars from 'src/transactions/TransferAvatars'
@@ -64,7 +64,7 @@ function TransferReceivedContent({ transfer }: { transfer: TokenTransfer }) {
 
 const styles = StyleSheet.create({
   learnMore: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
     textDecorationLine: 'underline',
   },

@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   disclaimerText: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
   },
   container: {

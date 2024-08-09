@@ -115,8 +115,8 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                     {
                       "color": "#666666",
                       "fontFamily": "Inter-Regular",
-                      "fontSize": 13,
-                      "lineHeight": 16,
+                      "fontSize": 14,
+                      "lineHeight": 20,
                       "marginBottom": 4,
                     }
                   }
@@ -128,9 +128,9 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                   numberOfLines={1}
                   style={
                     {
-                      "fontFamily": "Inter-SemiBold",
+                      "fontFamily": "Inter-Bold",
                       "fontSize": 24,
-                      "lineHeight": 28,
+                      "lineHeight": 32,
                       "marginBottom": 2,
                     }
                   }
@@ -146,10 +146,9 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                 <Text
                   style={
                     {
-                      "color": "#2E3338",
                       "fontFamily": "Inter-Regular",
                       "fontSize": 14,
-                      "lineHeight": 18,
+                      "lineHeight": 20,
                     }
                   }
                   testID="EscrowedPaymentListItem/Details"
@@ -393,8 +392,8 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                     {
                       "color": "#666666",
                       "fontFamily": "Inter-Regular",
-                      "fontSize": 13,
-                      "lineHeight": 16,
+                      "fontSize": 14,
+                      "lineHeight": 20,
                       "marginBottom": 4,
                     }
                   }
@@ -406,9 +405,9 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                   numberOfLines={1}
                   style={
                     {
-                      "fontFamily": "Inter-SemiBold",
+                      "fontFamily": "Inter-Bold",
                       "fontSize": 24,
-                      "lineHeight": 28,
+                      "lineHeight": 32,
                       "marginBottom": 2,
                     }
                   }
@@ -424,10 +423,9 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                 <Text
                   style={
                     {
-                      "color": "#2E3338",
                       "fontFamily": "Inter-Regular",
                       "fontSize": 14,
-                      "lineHeight": 18,
+                      "lineHeight": 20,
                     }
                   }
                   testID="EscrowedPaymentListItem/Details"
@@ -671,8 +669,8 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                     {
                       "color": "#666666",
                       "fontFamily": "Inter-Regular",
-                      "fontSize": 13,
-                      "lineHeight": 16,
+                      "fontSize": 14,
+                      "lineHeight": 20,
                       "marginBottom": 4,
                     }
                   }
@@ -684,9 +682,9 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                   numberOfLines={1}
                   style={
                     {
-                      "fontFamily": "Inter-SemiBold",
+                      "fontFamily": "Inter-Bold",
                       "fontSize": 24,
-                      "lineHeight": 28,
+                      "lineHeight": 32,
                       "marginBottom": 2,
                     }
                   }
@@ -702,10 +700,9 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                 <Text
                   style={
                     {
-                      "color": "#2E3338",
                       "fontFamily": "Inter-Regular",
                       "fontSize": 14,
-                      "lineHeight": 18,
+                      "lineHeight": 20,
                     }
                   }
                   testID="EscrowedPaymentListItem/Details"
