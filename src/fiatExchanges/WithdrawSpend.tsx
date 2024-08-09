@@ -14,7 +14,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     paddingRight: variables.contentPadding,
   },
   optionTitle: {
-    ...fontStyles.regular500,
+    ...typeScale.labelMedium,
   },
   optionSubtitle: {
     marginTop: 2,

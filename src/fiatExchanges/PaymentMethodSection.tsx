@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
     ...fontStyles.small,
   },
   fee: {
-    ...fontStyles.small600,
+    ...typeScale.labelSemiBoldSmall,
     marginTop: 4,
   },
   providerDropdown: {
@@ -363,7 +363,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   expandedFee: {
-    ...fontStyles.small600,
+    ...typeScale.labelSemiBoldSmall,
   },
   expandedTag: {
     ...fontStyles.label,

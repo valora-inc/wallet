@@ -21,7 +21,7 @@ import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 type NotificationsProps = NativeStackScreenProps<StackParamList, Screens.NotificationCenter>
@@ -287,8 +287,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   emptyStateLabel: {
-    ...fontStyles.regular600,
-    lineHeight: 24,
+    ...typeScale.labelSemiBoldMedium,
     marginTop: Spacing.Regular16,
   },
 })

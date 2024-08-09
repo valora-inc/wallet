@@ -25,7 +25,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -350,7 +350,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   bodyTextBold: {
-    ...fontStyles.regular500,
+    ...typeScale.labelMedium,
     textAlign: 'center',
     marginTop: 25,
   },

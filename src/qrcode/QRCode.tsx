@@ -105,11 +105,7 @@ export default function QRCodeDisplay(props: Props) {
         <>
           <Text style={[styles.infoWrapper, fontStyles.regular, styles.exchangeText]}>
             <Trans i18nKey="fiatExchangeFlow.exchange.informationText">
-              <Text
-                testID="bottomSheetLink"
-                style={[fontStyles.regular600, styles.link]}
-                onPress={onPressInfo}
-              ></Text>
+              <Text testID="bottomSheetLink" style={styles.link} onPress={onPressInfo}></Text>
             </Trans>
           </Text>
           <ExchangesBottomSheet
@@ -160,6 +156,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   link: {
+    ...typeScale.labelSemiBoldMedium,
     textDecorationLine: 'underline',
     color: colors.primary,
     flexWrap: 'wrap',

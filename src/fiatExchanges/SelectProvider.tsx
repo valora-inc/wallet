@@ -596,7 +596,7 @@ const styles = StyleSheet.create({
     ...fontStyles.small,
   },
   categoryText: {
-    ...fontStyles.small600,
+    ...typeScale.labelSemiBoldSmall,
     marginTop: 4,
   },
   linkToOtherScreen: {
