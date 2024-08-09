@@ -1347,10 +1347,10 @@
   resolved "https://registry.yarnpkg.com/@chevrotain/utils/-/utils-11.0.3.tgz#e39999307b102cff3645ec4f5b3665f5297a2224"
   integrity sha512-YslZMgtJUyuMbZ+aKvfF3x1f5liK4mWNxghFRv7jqRR9C3R3fAOGTTKvxXDa2Y1s9zSbcpuO0cAxDYsc9SrXoQ==
 
-"@coinbase/cbpay-js@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@coinbase/cbpay-js/-/cbpay-js-2.2.0.tgz#7be6642d1d4b7ea1202336cf60d111f3125aad50"
-  integrity sha512-axTmgdxj57OmLFDjiHmMfZe/kdntBPHRFUektvTZoH8fX94gslw0+WSZgOdrLGkxaOv1TEnJRg+p6xq5MI0uAA==
+"@coinbase/cbpay-js@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@coinbase/cbpay-js/-/cbpay-js-2.2.1.tgz#131b15e74e4780736d802b0254daba04fa3a1713"
+  integrity sha512-u97f6RiS4XgO+GGMGc8OBMm+ZCJTtJrFym4z00jIj6uikU7af/YP+dFrlIfvBLy7Jt8xQzAoGU0Rzmz98DFWdg==
 
 "@crowdin/ota-client@^0.7.0":
   version "0.7.0"
@@ -8386,10 +8386,10 @@ electron@^11.1.0:
     "@types/node" "^12.0.12"
     extract-zip "^1.0.3"
 
-elliptic@6.5.4, elliptic@^6.4.0, elliptic@^6.5.2, elliptic@^6.5.3, elliptic@^6.5.4, elliptic@^6.5.5:
-  version "6.5.5"
-  resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.5.5.tgz#c715e09f78b6923977610d4c2346d6ce22e6dded"
-  integrity sha512-7EjbcmUm17NQFu4Pmgmq2olYMj8nwMnpcddByChSUjArp8F5DQWcIcpriwO4ZToLNAJig0yiyjswfyGNje/ixw==
+elliptic@6.5.4, elliptic@^6.4.0, elliptic@^6.5.2, elliptic@^6.5.3, elliptic@^6.5.4, elliptic@^6.5.5, elliptic@^6.5.6:
+  version "6.5.6"
+  resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.5.6.tgz#ee5f7c3a00b98a2144ac84d67d01f04d438fa53e"
+  integrity sha512-mpzdtpeCLuS3BmE3pO3Cpp5bbjlOPY2Q0PgoF+Od1XZrHLYI28Xe3ossCmYCQt11FQKEYd9+PF8jymTvtWJSHQ==
   dependencies:
     bn.js "^4.11.9"
     brorand "^1.1.0"

@@ -6,6 +6,7 @@ import FullscreenCTA from 'src/components/FullscreenCTA'
 import { withTranslation } from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { restartApp, RESTART_APP_I18N_KEY } from 'src/utils/AppRestart'
 
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
     ...fontStyles.regular,
     fontSize: 12,
     borderRadius: 25,
-    backgroundColor: 'rgba(238, 238, 238, 0.75)',
+    backgroundColor: Colors.gray1,
     padding: 15,
   },
 })

@@ -161,7 +161,6 @@ const MOCK_RESPONSE_FAILED_TRANSACTION: QueryResponse = {
 describe('TransactionFeed', () => {
   const mockFetch = fetch as FetchMock
   beforeEach(() => {
-    jest.useRealTimers()
     jest.clearAllMocks()
     jest.mocked(getMultichainFeatures).mockReturnValue({
       showCico: [NetworkId['celo-alfajores']],
@@ -439,11 +438,7 @@ describe('TransactionFeed', () => {
 
   it('renders GetStarted if SHOW_GET_STARTED is enabled and transaction feed is empty', async () => {
     jest.mocked(getFeatureGate).mockReturnValue(true)
-    const { getByTestId } = renderScreen({
-      app: {
-        superchargeApy: 12,
-      },
-    })
+    const { getByTestId } = renderScreen({})
     expect(getByTestId('GetStarted')).toBeDefined()
   })
 

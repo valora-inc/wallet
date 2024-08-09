@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 4,
     borderRadius: 4,
-    backgroundColor: '#D8D8D8',
+    backgroundColor: Colors.gray2,
   },
   title: {
     ...typeScale.titleSmall,
