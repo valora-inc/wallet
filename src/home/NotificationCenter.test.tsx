@@ -3,24 +3,19 @@ import BigNumber from 'bignumber.js'
 import CleverTap from 'clevertap-react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { HomeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { HomeEvents } from 'src/analytics/Events'
 import { openUrl } from 'src/app/actions'
 import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
-import { ONE_CUSD_REWARD_RESPONSE } from 'src/consumerIncentives/testValues'
 import NotificationCenter from 'src/home/NotificationCenter'
 import { NotificationBannerCTATypes, NotificationType } from 'src/home/types'
-import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import { Spacing } from 'src/styles/styles'
-import { NetworkId } from 'src/transactions/types'
 import { multiplyByWei } from 'src/utils/formatting'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
 import {
   mockCleverTapInboxMessage,
-  mockCusdAddress,
-  mockCusdTokenId,
   mockE164Number,
   mockE164NumberPepper,
   mockEscrowedPayment,
@@ -76,7 +71,6 @@ const storeDataNotificationsDisabled = {
     dismissedGetVerified: true,
     accountCreationTime: BACKUP_TIME,
     celoEducationCompleted: true,
-    dismissedStartSupercharging: true,
   },
   escrow: {
     sentEscrowedPayments: [],
@@ -92,52 +86,6 @@ const storeDataNotificationsDisabled = {
         dismissed: true,
       },
     },
-  },
-}
-
-const superchargeSetUp = {
-  ...storeDataNotificationsDisabled,
-  web3: {
-    account: 'account',
-  },
-  app: {
-    phoneNumberVerified: true,
-  },
-  supercharge: {
-    availableRewards: [ONE_CUSD_REWARD_RESPONSE],
-  },
-}
-
-const superchargeWithoutRewardsSetUp = {
-  ...superchargeSetUp,
-  supercharge: {
-    availableRewards: [],
-  },
-}
-
-const mockcUsdBalance = {
-  [mockCusdTokenId]: {
-    address: mockCusdAddress,
-    tokenId: mockCusdTokenId,
-    networkId: NetworkId['celo-alfajores'],
-    isFeeCurrency: true,
-    balance: '100',
-    symbol: 'cUSD',
-    priceUsd: '1',
-    priceFetchedAt: Date.now(),
-  },
-}
-
-const mockcUsdWithoutEnoughBalance = {
-  [mockCusdTokenId]: {
-    address: mockCusdAddress,
-    tokenId: mockCusdTokenId,
-    networkId: NetworkId['celo-alfajores'],
-    isFeeCurrency: true,
-    balance: '5',
-    symbol: 'cUSD',
-    priceUsd: '1',
-    priceFetchedAt: Date.now(),
   },
 }
 
@@ -205,10 +153,10 @@ describe('NotificationCenter', () => {
 
     layoutNotificationList(screen)
 
-    await waitFor(() => expect(AppAnalytics.track).toHaveBeenCalledTimes(5))
+    await waitFor(() => expect(AppAnalytics.track).toHaveBeenCalledTimes(4))
 
     expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_center_opened, {
-      notificationsCount: 4,
+      notificationsCount: 3,
     })
     expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
       notificationId: NotificationType.backup_prompt,
@@ -216,19 +164,14 @@ describe('NotificationCenter', () => {
       notificationPositionInList: 0,
     })
     expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
-      notificationId: NotificationType.start_supercharging,
-      notificationType: NotificationType.start_supercharging,
-      notificationPositionInList: 1,
-    })
-    expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
       notificationId: NotificationType.verification_prompt,
       notificationType: NotificationType.verification_prompt,
-      notificationPositionInList: 2,
+      notificationPositionInList: 1,
     })
     expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
       notificationId: NotificationType.celo_asset_education,
       notificationType: NotificationType.celo_asset_education,
-      notificationPositionInList: 3,
+      notificationPositionInList: 2,
     })
   })
 
@@ -608,299 +551,6 @@ describe('NotificationCenter', () => {
         openUrl(testNotification.ctaUri, false, true),
         openUrl(testNotification.ctaUri, true, true),
       ])
-    })
-  })
-
-  describe('claim supercharge rewards', () => {
-    it('renders claim rewards notification when there are supercharge rewards', () => {
-      const store = createMockStore(superchargeSetUp)
-      const { queryByTestId, getByText, getByTestId } = render(
-        <Provider store={store}>
-          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
-        </Provider>
-      )
-
-      expect(getByTestId('NotificationView/supercharge_available')).toBeTruthy()
-      expect(queryByTestId('NotificationView/supercharging')).toBeFalsy()
-      expect(queryByTestId('NotificationView/start_supercharging')).toBeFalsy()
-
-      fireEvent.press(getByText('superchargeNotificationStart'))
-
-      expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
-    })
-
-    it('emits correct analytics event when CTA button is pressed', () => {
-      const store = createMockStore(superchargeSetUp)
-      const { getByText } = render(
-        <Provider store={store}>
-          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
-        </Provider>
-      )
-
-      fireEvent.press(getByText('superchargeNotificationStart'))
-
-      expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationType.supercharge_available,
-        selectedAction: NotificationBannerCTATypes.accept,
-        notificationId: NotificationType.supercharge_available,
-        notificationPositionInList: 0,
-      })
-    })
-  })
-
-  describe('keep supercharging', () => {
-    it('renders keep supercharging notification when expected', () => {
-      const store = createMockStore({
-        ...superchargeWithoutRewardsSetUp,
-        tokens: {
-          tokenBalances: mockcUsdBalance,
-        },
-      })
-      const { queryByTestId, getByText, getByTestId } = render(
-        <Provider store={store}>
-          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
-        </Provider>
-      )
-
-      expect(queryByTestId('NotificationView/supercharge_available')).toBeFalsy()
-      expect(getByTestId('NotificationView/supercharging')).toBeTruthy()
-      expect(queryByTestId('NotificationView/start_supercharging')).toBeFalsy()
-
-      fireEvent.press(getByText('superchargingNotificationStart'))
-
-      expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
-    })
-
-    it('does not render keep supercharging because is dismissed', () => {
-      const store = createMockStore({
-        ...superchargeWithoutRewardsSetUp,
-        tokens: {
-          tokenBalances: mockcUsdBalance,
-        },
-        account: {
-          dismissedKeepSupercharging: true,
-        },
-      })
-      const { queryByTestId } = render(
-        <Provider store={store}>
-          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
-        </Provider>
-      )
-
-      expect(queryByTestId('NotificationView/supercharge_available')).toBeFalsy()
-      expect(queryByTestId('NotificationView/supercharging')).toBeFalsy()
-      expect(queryByTestId('NotificationView/start_supercharging')).toBeFalsy()
-    })
-
-    it('emits correct analytics event when CTA button is pressed', () => {
-      const store = createMockStore({
-        ...superchargeWithoutRewardsSetUp,
-        tokens: {
-          tokenBalances: mockcUsdBalance,
-        },
-      })
-      const { getByText } = render(
-        <Provider store={store}>
-          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
-        </Provider>
-      )
-
-      fireEvent.press(getByText('superchargingNotificationStart'))
-
-      expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationType.supercharging,
-        selectedAction: NotificationBannerCTATypes.accept,
-        notificationId: NotificationType.supercharging,
-        notificationPositionInList: 0,
-      })
-    })
-
-    it('emits correct analytics event when notification is dismissed', () => {
-      const store = createMockStore({
-        ...superchargeWithoutRewardsSetUp,
-        tokens: {
-          tokenBalances: mockcUsdBalance,
-        },
-      })
-      const { getByText } = render(
-        <Provider store={store}>
-          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
-        </Provider>
-      )
-
-      fireEvent.press(getByText('dismiss'))
-
-      expect(AppAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationType.supercharging,
-        selectedAction: NotificationBannerCTATypes.decline,
-        notificationId: NotificationType.supercharging,
-        notificationPositionInList: 0,
-      })
-    })
-  })
-
-  describe('start supercharging', () => {
-    it('renders start supercharging notification if number is not verified', () => {
-      const store = createMockStore({
-        ...superchargeWithoutRewardsSetUp,
-        account: {
-          ...superchargeWithoutRewardsSetUp.account,
-          dismissedStartSupercharging: false,
-        },
-        tokens: {
-          tokenBalances: mockcUsdBalance,
-        },
-        app: {
-          ...superchargeWithoutRewardsSetUp.app,
-          phoneNumberVerified: false,
-        },
-      })
-      const { queryByTestId, getByText, getByTestId } = render(
-        <Provider store={store}>
-          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
-        </Provider>
-      )
-
-      expect(queryByTestId('NotificationView/supercharge_available')).toBeFalsy()
-      expect(queryByTestId('NotificationView/supercharging')).toBeFalsy()
-      expect(getByTestId('NotificationView/start_supercharging')).toBeTruthy()
-
-      fireEvent.press(getByText('startSuperchargingNotificationStart'))
-
-      expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
-    })
-
-    it('renders start supercharging notification if user does not have enough balance', () => {
-      const store = createMockStore({
-        ...superchargeWithoutRewardsSetUp,
-        account: {
-          ...superchargeWithoutRewardsSetUp.account,
-          dismissedStartSupercharging: false,
-        },
-        tokens: {
-          tokenBalances: mockcUsdWithoutEnoughBalance,
-        },
-      })
-      const { queryByTestId, getByText, getByTestId } = render(
-        <Provider store={store}>
-          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
-        </Provider>
-      )
-
-      expect(queryByTestId('NotificationView/supercharge_available')).toBeFalsy()
-      expect(queryByTestId('NotificationView/supercharging')).toBeFalsy()
-      expect(getByTestId('NotificationView/start_supercharging')).toBeTruthy()
-
-      fireEvent.press(getByText('startSuperchargingNotificationStart'))
-
-      expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
-    })
-
-    it('does not render start supercharging because is dismissed', () => {
-      const store = createMockStore({
-        ...superchargeWithoutRewardsSetUp,
-        tokens: {
-          tokenBalances: mockcUsdWithoutEnoughBalance,
-        },
-        account: {
-          dismissedStartSupercharging: true,
-        },
-      })
-      const { queryByTestId } = render(
-        <Provider store={store}>
-          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
-        </Provider>
-      )
-
-      expect(queryByTestId('NotificationView/supercharge_available')).toBeFalsy()
-      expect(queryByTestId('NotificationView/supercharging')).toBeFalsy()
-      expect(queryByTestId('NotificationView/start_supercharging')).toBeFalsy()
-    })
-
-    it('does not render start supercharging because the user is in a restricted region', () => {
-      jest.mocked(getFeatureGate).mockReturnValueOnce(true)
-
-      const store = createMockStore({
-        ...superchargeWithoutRewardsSetUp,
-        account: {
-          ...superchargeWithoutRewardsSetUp.account,
-          dismissedStartSupercharging: false,
-        },
-        tokens: {
-          tokenBalances: mockcUsdWithoutEnoughBalance,
-        },
-      })
-      const { queryByTestId } = render(
-        <Provider store={store}>
-          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
-        </Provider>
-      )
-
-      expect(queryByTestId('NotificationView/supercharge_available')).toBeFalsy()
-      expect(queryByTestId('NotificationView/supercharging')).toBeFalsy()
-      expect(queryByTestId('NotificationView/start_supercharging')).toBeFalsy()
-    })
-
-    it('emits correct analytics event when CTA button is pressed', () => {
-      const store = createMockStore({
-        ...superchargeWithoutRewardsSetUp,
-        account: {
-          ...superchargeWithoutRewardsSetUp.account,
-          dismissedStartSupercharging: false,
-        },
-        tokens: {
-          tokenBalances: mockcUsdBalance,
-        },
-        app: {
-          ...superchargeWithoutRewardsSetUp.app,
-          phoneNumberVerified: false,
-        },
-      })
-      const { getByText } = render(
-        <Provider store={store}>
-          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
-        </Provider>
-      )
-
-      fireEvent.press(getByText('startSuperchargingNotificationStart'))
-
-      expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationType.start_supercharging,
-        selectedAction: NotificationBannerCTATypes.accept,
-        notificationId: NotificationType.start_supercharging,
-        notificationPositionInList: 0,
-      })
-    })
-
-    it('emits correct analytics event when notification is dismissed', () => {
-      const store = createMockStore({
-        ...superchargeWithoutRewardsSetUp,
-        account: {
-          ...superchargeWithoutRewardsSetUp.account,
-          dismissedStartSupercharging: false,
-        },
-        tokens: {
-          tokenBalances: mockcUsdBalance,
-        },
-        app: {
-          ...superchargeWithoutRewardsSetUp.app,
-          phoneNumberVerified: false,
-        },
-      })
-      const { getByText } = render(
-        <Provider store={store}>
-          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
-        </Provider>
-      )
-
-      fireEvent.press(getByText('dismiss'))
-
-      expect(AppAnalytics.track).toHaveBeenLastCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationType.start_supercharging,
-        selectedAction: NotificationBannerCTATypes.decline,
-        notificationId: NotificationType.start_supercharging,
-        notificationPositionInList: 0,
-      })
     })
   })
 

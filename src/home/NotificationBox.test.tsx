@@ -3,7 +3,6 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { openUrl } from 'src/app/actions'
 import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
-import { ONE_CUSD_REWARD_RESPONSE } from 'src/consumerIncentives/testValues'
 import NotificationBox from 'src/home/NotificationBox'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -81,25 +80,6 @@ const storeDataNotificationsDisabled = {
         dismissed: true,
       },
     },
-  },
-}
-
-const superchargeSetUp = {
-  web3: {
-    account: 'account',
-  },
-  app: {
-    phoneNumberVerified: true,
-  },
-  supercharge: {
-    availableRewards: [ONE_CUSD_REWARD_RESPONSE],
-  },
-}
-
-const superchargeWithoutRewardsSetUp = {
-  ...superchargeSetUp,
-  supercharge: {
-    availableRewards: [],
   },
 }
 
@@ -354,139 +334,6 @@ describe('NotificationBox', () => {
       fireEvent.press(getByTestId('BackupKeyNotification/CallToActions/backupKeyCTA/Button'))
     })
     expect(navigate).toHaveBeenCalledWith(Screens.BackupIntroduction)
-  })
-
-  it('renders claim rewards notification when there are supercharge rewards', () => {
-    const store = createMockStore(superchargeSetUp)
-    const { queryByTestId, getByTestId } = render(
-      <Provider store={store}>
-        <NotificationBox showOnlyHomeScreenNotifications={false} />
-      </Provider>
-    )
-
-    expect(queryByTestId('NotificationView/supercharge_available')).toBeTruthy()
-    expect(queryByTestId('NotificationView/supercharging')).toBeFalsy()
-    expect(queryByTestId('NotificationView/start_supercharging')).toBeFalsy()
-
-    fireEvent.press(
-      getByTestId('supercharge_available/CallToActions/superchargeNotificationStart/Button')
-    )
-    expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
-  })
-
-  it('renders keep supercharging notification when expected', () => {
-    const store = createMockStore({
-      ...superchargeWithoutRewardsSetUp,
-      tokens: {
-        tokenBalances: mockcUsdBalance,
-      },
-    })
-    const { queryByTestId, getByTestId } = render(
-      <Provider store={store}>
-        <NotificationBox showOnlyHomeScreenNotifications={false} />
-      </Provider>
-    )
-
-    expect(queryByTestId('NotificationView/supercharge_available')).toBeFalsy()
-    expect(queryByTestId('NotificationView/supercharging')).toBeTruthy()
-    expect(queryByTestId('NotificationView/start_supercharging')).toBeFalsy()
-
-    fireEvent.press(
-      getByTestId('supercharging/CallToActions/superchargingNotificationStart/Button')
-    )
-    expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
-  })
-
-  it('does not renders keep supercharging because is dismissed', () => {
-    const store = createMockStore({
-      ...superchargeWithoutRewardsSetUp,
-      tokens: {
-        tokenBalances: mockcUsdBalance,
-      },
-      account: {
-        dismissedKeepSupercharging: true,
-      },
-    })
-    const { queryByTestId } = render(
-      <Provider store={store}>
-        <NotificationBox showOnlyHomeScreenNotifications={false} />
-      </Provider>
-    )
-
-    expect(queryByTestId('NotificationView/supercharge_available')).toBeFalsy()
-    expect(queryByTestId('NotificationView/supercharging')).toBeFalsy()
-    expect(queryByTestId('NotificationView/start_supercharging')).toBeFalsy()
-  })
-
-  it('renders start supercharging notification if number is not verified', () => {
-    const store = createMockStore({
-      ...superchargeWithoutRewardsSetUp,
-      tokens: {
-        tokenBalances: mockcUsdBalance,
-      },
-      app: {
-        ...superchargeWithoutRewardsSetUp.app,
-        phoneNumberVerified: false,
-      },
-    })
-    const { queryByTestId, getByTestId } = render(
-      <Provider store={store}>
-        <NotificationBox showOnlyHomeScreenNotifications={false} />
-      </Provider>
-    )
-
-    expect(queryByTestId('NotificationView/supercharge_available')).toBeFalsy()
-    expect(queryByTestId('NotificationView/supercharging')).toBeFalsy()
-    expect(queryByTestId('NotificationView/start_supercharging')).toBeTruthy()
-
-    fireEvent.press(
-      getByTestId('start_supercharging/CallToActions/startSuperchargingNotificationStart/Button')
-    )
-    expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
-  })
-
-  it('renders start supercharging notification if user does not have enough balance', () => {
-    const store = createMockStore({
-      ...superchargeWithoutRewardsSetUp,
-      tokens: {
-        tokenBalances: mockcUsdWithoutEnoughBalance,
-      },
-    })
-    const { queryByTestId, getByTestId } = render(
-      <Provider store={store}>
-        <NotificationBox showOnlyHomeScreenNotifications={false} />
-      </Provider>
-    )
-
-    expect(queryByTestId('NotificationView/supercharge_available')).toBeFalsy()
-    expect(queryByTestId('NotificationView/supercharging')).toBeFalsy()
-    expect(queryByTestId('NotificationView/start_supercharging')).toBeTruthy()
-
-    fireEvent.press(
-      getByTestId('start_supercharging/CallToActions/startSuperchargingNotificationStart/Button')
-    )
-    expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
-  })
-
-  it('does not renders start supercharging because is dismissed', () => {
-    const store = createMockStore({
-      ...superchargeWithoutRewardsSetUp,
-      tokens: {
-        tokenBalances: mockcUsdWithoutEnoughBalance,
-      },
-      account: {
-        dismissedStartSupercharging: true,
-      },
-    })
-    const { queryByTestId } = render(
-      <Provider store={store}>
-        <NotificationBox showOnlyHomeScreenNotifications={false} />
-      </Provider>
-    )
-
-    expect(queryByTestId('NotificationView/supercharge_available')).toBeFalsy()
-    expect(queryByTestId('NotificationView/supercharging')).toBeFalsy()
-    expect(queryByTestId('NotificationView/start_supercharging')).toBeFalsy()
   })
 
   it('only renders notifications marked for the home screen when showOnlyHomeScreenNotifications is true', () => {
