@@ -19,7 +19,6 @@ exports[`TextInputWithButtons renders correctly 1`] = `
     style={
       [
         {
-          "color": "#2E3338",
           "flex": 1,
           "fontFamily": "Inter-Regular",
           "fontSize": 16,

@@ -44,7 +44,7 @@ exports[`SettingsItemInput renders correctly 1`] = `
               "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             }
           }
         >
@@ -153,7 +153,7 @@ exports[`SettingsItemSwitch renders correctly 1`] = `
               "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             }
           }
         >
@@ -217,7 +217,7 @@ exports[`SettingsItemTextValue renders correctly 1`] = `
               "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             }
           }
         >
@@ -238,7 +238,7 @@ exports[`SettingsItemTextValue renders correctly 1`] = `
               "color": "#666666",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
               "marginRight": 8,
             }
           }
@@ -313,7 +313,7 @@ exports[`SettingsItemTextValue renders correctly without value 1`] = `
               "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             }
           }
         >

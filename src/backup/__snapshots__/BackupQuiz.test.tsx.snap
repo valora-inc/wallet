@@ -865,7 +865,7 @@ exports[`BackupQuiz renders correctly 1`] = `
               "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
               "marginTop": 20,
               "textAlign": "center",
             }

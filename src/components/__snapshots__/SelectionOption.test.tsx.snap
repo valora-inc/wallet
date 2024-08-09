@@ -84,11 +84,10 @@ exports[`renders selected correctly 1`] = `
       numberOfLines={1}
       style={
         {
-          "color": "#2E3338",
           "flex": 1,
           "fontFamily": "Inter-Regular",
           "fontSize": 16,
-          "lineHeight": 22,
+          "lineHeight": 24,
           "marginRight": 16,
         }
       }
@@ -183,11 +182,10 @@ exports[`renders unselected correctly 1`] = `
       numberOfLines={1}
       style={
         {
-          "color": "#2E3338",
           "flex": 1,
           "fontFamily": "Inter-Regular",
           "fontSize": 16,
-          "lineHeight": 22,
+          "lineHeight": 24,
           "marginRight": 16,
         }
       }

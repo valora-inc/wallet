@@ -10,7 +10,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 type Props = Omit<RNTextInputProps, 'style'> & {
   style?: StyleProp<ViewStyle>
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     flex: 1,
     paddingVertical: 12,
     paddingHorizontal: 0,

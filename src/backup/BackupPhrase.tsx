@@ -25,7 +25,7 @@ import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     padding: variables.contentPadding,
   },
   body: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     marginTop: 16,
   },
   confirmationSwitchContainer: {
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
   },
   confirmationSwitchLabel: {
     flex: 1,
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     paddingLeft: 8,
   },
   cancelButton: {

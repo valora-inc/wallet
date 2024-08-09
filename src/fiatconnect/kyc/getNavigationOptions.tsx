@@ -11,7 +11,7 @@ import { emptyHeader } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 const getNavigationOptions = ({
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     padding: Spacing.Thick24,
   },
   supportBtn: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     color: colors.gray3,
     paddingHorizontal: Spacing.Thick24,
   },

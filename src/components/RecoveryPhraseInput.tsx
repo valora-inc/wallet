@@ -13,7 +13,7 @@ import Card from 'src/components/Card'
 import ClipboardAwarePasteButton from 'src/components/ClipboardAwarePasteButton'
 import TextInput, { LINE_HEIGHT } from 'src/components/TextInput'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Shadow, Spacing } from 'src/styles/styles'
 import { useClipboard } from 'src/utils/useClipboard'
 
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     ...typeScale.labelSemiBoldSmall,
   },
   codeValueLong: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     color: colors.onboardingBrownLight,
   },
   statusContainer: {

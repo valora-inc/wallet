@@ -202,10 +202,9 @@ exports[`WebViewAndroidBottomSheet renders correctly when visible 1`] = `
         <Text
           style={
             {
-              "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
               "padding": 16,
               "textAlign": "left",
             }
@@ -248,10 +247,9 @@ exports[`WebViewAndroidBottomSheet renders correctly when visible 1`] = `
         <Text
           style={
             {
-              "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
               "padding": 16,
               "textAlign": "left",
             }

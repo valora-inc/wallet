@@ -15,7 +15,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.KycDenied>
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
   description: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     textAlign: 'center',
     marginVertical: 12,
     marginHorizontal: 24,

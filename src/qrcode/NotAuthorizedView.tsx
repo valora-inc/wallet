@@ -4,7 +4,7 @@ import { Platform, StyleSheet, Text, View } from 'react-native'
 import * as AndroidOpenSettings from 'react-native-android-open-settings'
 import TextButton from 'src/components/TextButton'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { navigateToURI } from 'src/utils/linking'
 
 export default function NotAuthorizedView() {
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   description: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     color: colors.white,
     textAlign: 'center',
     marginBottom: 16,

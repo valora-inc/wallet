@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 
 const { contentPadding } = variables
@@ -25,7 +25,7 @@ export function NotificationList<T>(props: Props<T>) {
           <View style={styles.scrollArea}>{props.items.map(props.listItemRenderer)}</View>
         </ScrollView>
       ) : (
-        <Text style={[fontStyles.regular, styles.empty]}>{t('emptyList')}</Text>
+        <Text style={[typeScale.bodyMedium, styles.empty]}>{t('emptyList')}</Text>
       )}
     </SafeAreaView>
   )

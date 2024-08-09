@@ -8,7 +8,7 @@ import Touchable from 'src/components/Touchable'
 import { headerWithBackButton } from 'src/navigator/Headers'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { closeSession as closeSessionAction } from 'src/walletConnect/actions'
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     paddingLeft: 12,
   },
   appName: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     color: colors.black,
   },
   disconnectButton: {

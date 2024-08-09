@@ -36,7 +36,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { useLocalToTokenAmount, useTokenInfo } from 'src/tokens/hooks'
 import { tokensListWithAddressSelector } from 'src/tokens/selectors'
@@ -610,7 +610,7 @@ const styles = StyleSheet.create({
     ...typeScale.titleSmall,
   },
   description: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     textAlign: 'center',
     marginTop: 12,
     paddingHorizontal: 48,

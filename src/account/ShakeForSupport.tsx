@@ -13,7 +13,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
 
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   supportSubtitle: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     marginTop: 8,
     marginBottom: 16,
     textAlign: 'center',

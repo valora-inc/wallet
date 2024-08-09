@@ -4,7 +4,7 @@ import { AnalyticsEventType, AnalyticsPropertiesList } from 'src/analytics/Prope
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import Touchable from 'src/components/Touchable'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 
 interface CommonProps {
@@ -80,7 +80,7 @@ export function TopBarTextButton(props: TopBarTextButtonProps) {
 
 const styles = StyleSheet.create({
   text: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     color: colors.primary,
   },
 })

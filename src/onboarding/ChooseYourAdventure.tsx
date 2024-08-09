@@ -24,7 +24,7 @@ import { Screens } from 'src/navigator/Screens'
 import { AdventureCardName } from 'src/onboarding/types'
 import { useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Shadow, Spacing } from 'src/styles/styles'
 import { shuffle } from 'src/utils/random'
 import networkConfig from 'src/web3/networkConfig'
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 8,
     marginBottom: 8,
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
   },
   header: {
     textAlign: 'center',

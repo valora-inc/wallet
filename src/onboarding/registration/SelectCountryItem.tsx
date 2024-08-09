@@ -3,7 +3,7 @@ import * as React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Touchable from 'src/components/Touchable'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 interface Props {
   country: LocalizedCountry
@@ -47,12 +47,12 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   name: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     flex: 1,
     marginRight: 16,
   },
   code: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     marginRight: 16,
     color: colors.gray4,
   },

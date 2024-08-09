@@ -25,7 +25,7 @@ import { StackParamList } from 'src/navigator/types'
 import { useSelector } from 'src/redux/hooks'
 import appTheme from 'src/styles/appTheme'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import networkConfig, { blockExplorerUrls } from 'src/web3/networkConfig'
@@ -313,7 +313,7 @@ const styles = StyleSheet.create({
     ...typeScale.titleSmall,
   },
   description: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     textAlign: 'center',
     marginTop: 12,
     paddingHorizontal: 48,
@@ -336,7 +336,7 @@ const styles = StyleSheet.create({
     marginTop: 13,
   },
   cancelBtn: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     color: colors.gray3,
     paddingHorizontal: Spacing.Thick24,
   },

@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import BottomSheetLegacy from 'src/components/BottomSheetLegacy'
 import TextButton from 'src/components/TextButton'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 interface Props {
   isVisible: boolean
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   body: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     textAlign: 'center',
     marginTop: 12,
   },
