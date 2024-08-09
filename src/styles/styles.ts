@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import Colors from 'src/styles/colors'
 
 const BASE_UNIT = 8
 
@@ -45,21 +46,21 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 12,
     shadowOpacity: 1,
-    shadowColor: 'rgba(156, 164, 169, 0.4)',
+    shadowColor: Colors.softShadow,
   },
   softShadowLight: {
     elevation: 5,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 8,
     shadowOpacity: 1,
-    shadowColor: 'rgba(48, 46, 37, 0.15)',
+    shadowColor: Colors.lightShadow,
   },
   barShadow: {
     elevation: 1.5,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.5,
     shadowRadius: 1.5,
-    shadowColor: 'rgba(129, 134, 139, 0.5)',
+    shadowColor: Colors.barShadow,
   },
 })
 
