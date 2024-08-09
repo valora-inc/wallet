@@ -8,7 +8,7 @@ import Touchable from 'src/components/Touchable'
 import { Screens } from 'src/navigator/Screens'
 import { getDisplayName, Recipient, recipientHasNumber } from 'src/recipients/recipient'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 
 interface Props {
   type: 'sent' | 'received' | 'withdrawn'
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   sectionLabel: {
-    ...fontStyles.label,
+    ...typeScale.labelSemiBoldSmall,
     color: colors.gray3,
     marginBottom: 4,
   },
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   accountLabel: {
-    ...fontStyles.label,
+    ...typeScale.labelSemiBoldSmall,
     color: colors.gray5,
   },
 })

@@ -81,7 +81,7 @@ export default function ReviewFees({
         isActionHighlighted={false}
         onBackgroundPress={closeFeeExplanation}
       >
-        <Text style={[fontStyles.large600]}>{t('providerFeesDialog.title')}</Text>
+        <Text style={typeScale.labelSemiBoldLarge}>{t('providerFeesDialog.title')}</Text>
         {'\n\n'}
         <Text style={[fontStyles.regular]}>{t('providerFeesDialog.body1')}</Text>
         <Text style={{ color: colors.primary }} onPress={openProviderFeeUrl}>
@@ -95,7 +95,7 @@ export default function ReviewFees({
         isActionHighlighted={false}
         onBackgroundPress={closeFeeDiscountExplanation}
       >
-        <Text style={[fontStyles.large600]}>{t('providerFeeDiscountDialog.title')}</Text>
+        <Text style={typeScale.labelSemiBoldLarge}>{t('providerFeeDiscountDialog.title')}</Text>
         {'\n\n'}
         <Text style={[fontStyles.regular]}>{t('providerFeeDiscountDialog.body')}</Text>
       </Dialog>

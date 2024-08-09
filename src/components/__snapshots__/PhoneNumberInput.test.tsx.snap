@@ -15,8 +15,8 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
         {
           "color": "#A49B80",
           "fontFamily": "Inter-SemiBold",
-          "fontSize": 13,
-          "lineHeight": 16,
+          "fontSize": 14,
+          "lineHeight": 20,
         },
         {
           "marginBottom": 8,

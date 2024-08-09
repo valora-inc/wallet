@@ -333,7 +333,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.Large32,
   },
   subSectionTitle: {
-    ...fontStyles.large600,
+    ...typeScale.labelSemiBoldLarge,
     marginBottom: Spacing.Regular16,
   },
   text: {

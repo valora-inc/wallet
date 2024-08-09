@@ -154,15 +154,8 @@ export const typeScale = StyleSheet.create({
  * Use typeScale instead
  */
 export const fontStyles = StyleSheet.create({
-  label: {
-    fontSize: 13,
-    lineHeight: 16,
-    fontFamily: Inter.SemiBold,
-    color: colors.black,
-  },
   regular: standards.regular,
   small: standards.small,
-  large600: { ...standards.large, fontFamily: Inter.SemiBold },
 })
 
 // TODO: export typeScale as default when all components are updated
