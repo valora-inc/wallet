@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 22,
     left: 22,
-    backgroundColor: '#42D689',
+    backgroundColor: Colors.primary,
     padding: 4,
     borderRadius: 100,
     // To override the default shadow props on the logo

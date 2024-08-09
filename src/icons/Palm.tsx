@@ -1,6 +1,7 @@
 import React from 'react'
 import { ViewStyle } from 'react-native'
 import Svg, { Path } from 'react-native-svg'
+import Colors from 'src/styles/colors'
 
 interface Props {
   width?: number
@@ -9,7 +10,12 @@ interface Props {
   style?: ViewStyle
 }
 
-export default function Palm({ width = 570.88, height = 319.77, color = '#CAF27A', style }: Props) {
+export default function Palm({
+  width = 570.88,
+  height = 319.77,
+  color = Colors.accent1,
+  style,
+}: Props) {
   return (
     <Svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} fill="none" style={style}>
       <Path

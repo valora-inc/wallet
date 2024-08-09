@@ -18,7 +18,7 @@ const STATUS_COLORS = {
   idle: 'gray',
   loading: 'gray',
   success: colors.primary,
-  error: '#d01a26',
+  error: colors.errorDark,
 }
 
 export default function HooksPreviewModeBanner() {
