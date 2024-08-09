@@ -1,9 +1,9 @@
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Keyboard, StyleSheet, Text, View } from 'react-native'
+import Logo from 'src/brandedIcons/Logo'
 import ContactCircle from 'src/components/ContactCircle'
 import Touchable from 'src/components/Touchable'
-import Logo from 'src/icons/Logo'
 import QuestionIcon from 'src/icons/QuestionIcon'
 import {
   addressToVerificationStatusSelector,
