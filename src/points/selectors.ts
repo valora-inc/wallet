@@ -1,6 +1,9 @@
 import { createSelector } from 'reselect'
 import { ClaimHistoryCardItem, PointsActivity, PointsActivityId } from 'src/points/types'
 import { RootState } from 'src/redux/reducers'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
+import { jumpstartSendTokensSelector } from 'src/tokens/selectors'
 
 export const nextPageUrlSelector = (state: RootState) => {
   return state.points.nextPageUrl
@@ -36,13 +39,22 @@ export const pointsConfigStatusSelector = (state: RootState) => state.points.poi
 const pointsConfigSelector = (state: RootState) => state.points.pointsConfig
 
 export const pointsActivitiesSelector = createSelector(
-  [pointsConfigSelector, trackOnceActivitiesSelector],
-  (pointsConfig, trackOnceActivities) => {
-    return Object.entries(pointsConfig.activitiesById).map(([activityId, metadata]) => ({
-      ...metadata,
-      activityId,
-      completed: trackOnceActivities[activityId as PointsActivityId] ?? false,
-    })) as PointsActivity[]
+  [pointsConfigSelector, trackOnceActivitiesSelector, jumpstartSendTokensSelector],
+  (pointsConfig, trackOnceActivities, jumpstartTokens) => {
+    const jumpstartSendEnabled = getFeatureGate(StatsigFeatureGates.SHOW_JUMPSTART_SEND)
+    const showJumpstart = jumpstartSendEnabled && jumpstartTokens.length > 0
+    const excludedActivities = new Set<PointsActivityId>()
+    if (!showJumpstart) {
+      excludedActivities.add('create-live-link')
+    }
+
+    return (
+      Object.entries(pointsConfig.activitiesById).map(([activityId, metadata]) => ({
+        ...metadata,
+        activityId,
+        completed: trackOnceActivities[activityId as PointsActivityId] ?? false,
+      })) as PointsActivity[]
+    ).filter(({ activityId }) => !excludedActivities.has(activityId))
   }
 )
 
