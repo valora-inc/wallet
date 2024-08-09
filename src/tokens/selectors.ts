@@ -23,12 +23,7 @@ import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 import networkConfig from 'src/web3/networkConfig'
-import {
-  isFeeCurrency,
-  sortByUsdBalance,
-  sortFirstStableThenCeloThenOthersByUsdBalance,
-  usdBalance,
-} from './utils'
+import { isFeeCurrency, sortByUsdBalance, usdBalance } from './utils'
 
 type TokenBalanceWithPriceUsd = TokenBalance & {
   priceUsd: BigNumber
@@ -252,7 +247,7 @@ export const tokensBySymbolSelector = createSelector(
   }
 )
 
-export const tokensWithLastKnownUsdValueSelector = createSelector(tokensListSelector, (tokens) => {
+const tokensWithLastKnownUsdValueSelector = createSelector(tokensListSelector, (tokens) => {
   return tokens.filter((tokenInfo) =>
     tokenInfo.balance
       .multipliedBy(tokenInfo.lastKnownPriceUsd ?? 0)
@@ -268,14 +263,6 @@ export const tokensWithTokenBalanceAndAddressSelector = createSelector(
   (tokens) => {
     return tokens.filter((tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT))
   }
-)
-
-/**
- * @deprecated
- */
-export const tokensSortedToShowInSendSelector = createSelector(
-  tokensWithTokenBalanceAndAddressSelector,
-  (tokens) => tokens.sort(sortFirstStableThenCeloThenOthersByUsdBalance)
 )
 
 // Tokens sorted by usd balance (descending)
@@ -383,15 +370,6 @@ export const totalTokenBalanceSelector = createSelector(
     }
 
     return totalBalance
-  }
-)
-
-export const tokensInfoUnavailableSelector = createSelector(
-  (state: RootState, networkIds: NetworkId[]) => totalTokenBalanceSelector(state, networkIds),
-  (totalBalance) => {
-    // The total balance is null if there was an error fetching the tokens
-    // info and there are no cached values
-    return totalBalance === null
   }
 )
 

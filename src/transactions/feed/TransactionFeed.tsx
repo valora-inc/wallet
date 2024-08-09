@@ -21,7 +21,6 @@ import {
 import {
   confirmedStandbyTransactionsSelector,
   pendingStandbyTransactionsSelector,
-  transactionsSelector,
 } from 'src/transactions/reducer'
 import { TokenTransaction, TransactionStatus } from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
@@ -30,8 +29,7 @@ function TransactionFeed() {
   const { loading, error, transactions, fetchingMoreTransactions, fetchMoreTransactions } =
     useFetchTransactions()
 
-  const cachedTransactions = useSelector(transactionsSelector)
-  const allPendingTransactions = useSelector(pendingStandbyTransactionsSelector)
+  const allPendingStandbyTransactions = useSelector(pendingStandbyTransactionsSelector)
   const allConfirmedStandbyTransactions = useSelector(confirmedStandbyTransactionsSelector)
   const allowedNetworks = useAllowedNetworkIdsForTransfers()
 
@@ -42,37 +40,33 @@ function TransactionFeed() {
     const completedOrNotPendingStandbyTransactions = transactions.filter(
       (tx) =>
         tx.status === TransactionStatus.Complete ||
-        !allPendingTransactions.find(
+        !allPendingStandbyTransactions.find(
           (pendingStandbyTx) =>
             pendingStandbyTx.transactionHash === tx.transactionHash &&
             pendingStandbyTx.networkId === tx.networkId
         )
     )
 
-    const confirmedTokenTransactions: TokenTransaction[] =
-      completedOrNotPendingStandbyTransactions.length > 0
-        ? completedOrNotPendingStandbyTransactions
-        : cachedTransactions
     const allConfirmedTransactions = deduplicateTransactions(
       allConfirmedStandbyTransactions,
-      confirmedTokenTransactions
+      completedOrNotPendingStandbyTransactions
     )
+
     return allConfirmedTransactions.filter((tx) => {
       return allowedNetworks.includes(tx.networkId)
     })
   }, [
     transactions,
-    cachedTransactions,
     allowedNetworks,
     allConfirmedStandbyTransactions,
-    allPendingTransactions,
+    allPendingStandbyTransactions,
   ])
 
   const pendingTransactions = useMemo(() => {
-    return allPendingTransactions.filter((tx) => {
+    return allPendingStandbyTransactions.filter((tx) => {
       return allowedNetworks.includes(tx.networkId)
     })
-  }, [allPendingTransactions, allowedNetworks])
+  }, [allPendingStandbyTransactions, allowedNetworks])
 
   const sections = useMemo(() => {
     if (confirmedFeedTransactions.length === 0 && pendingTransactions.length === 0) {

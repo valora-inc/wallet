@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
     borderTopColor: colors.gray2,
     paddingVertical: 16,
     paddingHorizontal: 16,
-    backgroundColor: '#F1FDF1',
+    backgroundColor: colors.successLight,
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',

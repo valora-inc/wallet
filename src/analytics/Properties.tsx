@@ -1278,19 +1278,40 @@ interface SwapEventsProperties {
   }
   [SwapEvents.swap_gas_fees_learn_more]: undefined
   [SwapEvents.swap_review_submit]: SwapQuoteEvent & Web3LibraryProps & Partial<SwapTxsProperties>
-  [SwapEvents.swap_execute_success]: SwapQuoteEvent &
-    SwapTimeMetrics &
-    Web3LibraryProps &
-    Partial<SwapTxsProperties> &
-    SwapTxsReceiptProperties & {
-      fromTokenBalance: string
-      swapExecuteTxId: string
-      swapApproveTxId: string
-      estimatedSellTokenUsdValue?: number
-      estimatedBuyTokenUsdValue?: number
-      estimatedAppFeeUsdValue: number | undefined
-      areSwapTokensShuffled: boolean
-    }
+  [SwapEvents.swap_execute_success]:
+    | ({ swapType: 'same-chain' } & SwapQuoteEvent &
+        SwapTimeMetrics &
+        Web3LibraryProps &
+        Partial<SwapTxsProperties> &
+        SwapTxsReceiptProperties & {
+          fromTokenBalance: string
+          swapExecuteTxId: string
+          swapApproveTxId: string
+          estimatedSellTokenUsdValue?: number
+          estimatedBuyTokenUsdValue?: number
+          estimatedAppFeeUsdValue: number | undefined
+          areSwapTokensShuffled: boolean
+        })
+    | ({ swapType: 'cross-chain' } & {
+        swapExecuteTxId: string
+        toTokenId: string
+        toTokenAmount: string
+        toTokenAmountUsd?: number
+        toTokenBalance?: string
+        fromTokenId: string
+        fromTokenAmount: string
+        fromTokenAmountUsd?: number
+        fromTokenBalance?: string
+        networkFeeTokenId?: string
+        networkFeeAmount?: string
+        networkFeeAmountUsd?: number
+        appFeeTokenId?: string
+        appFeeAmount?: string
+        appFeeAmountUsd?: number
+        crossChainFeeTokenId?: string
+        crossChainFeeAmount?: string
+        crossChainFeeAmountUsd?: number
+      })
   [SwapEvents.swap_execute_error]: SwapQuoteEvent &
     SwapTimeMetrics &
     Web3LibraryProps &
