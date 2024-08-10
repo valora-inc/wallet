@@ -35,7 +35,7 @@ import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 
 export const TAG = 'FIATCONNECT/FiatDetailsScreen'
@@ -374,7 +374,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   inputLabel: {
-    ...fontStyles.regular500,
+    ...typeScale.labelMedium,
     paddingBottom: 4,
   },
   inputView: {

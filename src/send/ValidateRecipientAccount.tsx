@@ -313,7 +313,7 @@ const styles = StyleSheet.create({
     paddingRight: 8,
   },
   codeHeader: {
-    ...fontStyles.small600,
+    ...typeScale.labelSemiBoldSmall,
     paddingVertical: 8,
   },
   h2: {

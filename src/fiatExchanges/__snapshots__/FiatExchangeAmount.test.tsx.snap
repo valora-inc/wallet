@@ -70,10 +70,9 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
           <Text
             style={
               {
-                "color": "#2E3338",
                 "fontFamily": "Inter-Medium",
                 "fontSize": 16,
-                "lineHeight": 22,
+                "lineHeight": 24,
               }
             }
           >
@@ -293,10 +292,9 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
           <Text
             style={
               {
-                "color": "#2E3338",
                 "fontFamily": "Inter-Medium",
                 "fontSize": 16,
-                "lineHeight": 22,
+                "lineHeight": 24,
               }
             }
           >

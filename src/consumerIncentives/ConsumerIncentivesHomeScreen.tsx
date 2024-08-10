@@ -366,7 +366,7 @@ const styles = StyleSheet.create({
     marginTop: 24,
   },
   sectionText: {
-    ...fontStyles.regular600,
+    ...typeScale.labelSemiBoldMedium,
     flex: 1,
     flexGrow: 1,
     alignSelf: 'center',

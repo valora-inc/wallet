@@ -337,7 +337,7 @@ const styles = StyleSheet.create({
     width: 'auto',
   },
   newLabelText: {
-    ...fontStyles.label,
+    ...typeScale.labelSemiBoldSmall,
     color: colors.white,
     marginRight: 5,
   },
@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
     ...fontStyles.small,
   },
   fee: {
-    ...fontStyles.small600,
+    ...typeScale.labelSemiBoldSmall,
     marginTop: 4,
   },
   providerDropdown: {
@@ -363,10 +363,10 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   expandedFee: {
-    ...fontStyles.small600,
+    ...typeScale.labelSemiBoldSmall,
   },
   expandedTag: {
-    ...fontStyles.label,
+    ...typeScale.labelSemiBoldSmall,
     color: colors.primary,
     fontSize: 12,
     marginTop: 2,

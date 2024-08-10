@@ -7,7 +7,7 @@ import Touchable from 'src/components/Touchable'
 import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { navigateToURI } from 'src/utils/linking'
@@ -81,7 +81,7 @@ export default function ReviewFees({
         isActionHighlighted={false}
         onBackgroundPress={closeFeeExplanation}
       >
-        <Text style={[fontStyles.large600]}>{t('providerFeesDialog.title')}</Text>
+        <Text style={typeScale.labelSemiBoldLarge}>{t('providerFeesDialog.title')}</Text>
         {'\n\n'}
         <Text style={[fontStyles.regular]}>{t('providerFeesDialog.body1')}</Text>
         <Text style={{ color: colors.primary }} onPress={openProviderFeeUrl}>
@@ -95,7 +95,7 @@ export default function ReviewFees({
         isActionHighlighted={false}
         onBackgroundPress={closeFeeDiscountExplanation}
       >
-        <Text style={[fontStyles.large600]}>{t('providerFeeDiscountDialog.title')}</Text>
+        <Text style={typeScale.labelSemiBoldLarge}>{t('providerFeeDiscountDialog.title')}</Text>
         {'\n\n'}
         <Text style={[fontStyles.regular]}>{t('providerFeeDiscountDialog.body')}</Text>
       </Dialog>
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     color: colors.gray4,
   },
   reviewLineTextTotal: {
-    ...fontStyles.regular600,
+    ...typeScale.labelSemiBoldMedium,
   },
   line: {
     marginVertical: 16,

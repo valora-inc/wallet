@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Touchable from 'src/components/Touchable'
 import Colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { vibrateInformative } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
 
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.Smallest8,
   },
   text: {
-    ...fontStyles.small600,
+    ...typeScale.labelSemiBoldSmall,
   },
 })
 

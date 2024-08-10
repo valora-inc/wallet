@@ -9,7 +9,7 @@ import Touchable from 'src/components/Touchable'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 const IMAGE_SIZE = 44
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.Thick24,
   },
   author: {
-    ...fontStyles.label,
+    ...typeScale.labelSemiBoldSmall,
     color: colors.warningDark,
     marginBottom: Spacing.Small12,
   },

@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
     maxHeight: 50,
   },
   headerText: {
-    ...fontStyles.small600,
+    ...typeScale.labelSemiBoldSmall,
   },
   loadingSpinnerContainer: {
     marginVertical: 20,

@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   error: {
-    ...fontStyles.regular500,
+    ...typeScale.labelMedium,
     color: colors.error,
     textAlign: 'center',
     marginBottom: Spacing.Thick24,
