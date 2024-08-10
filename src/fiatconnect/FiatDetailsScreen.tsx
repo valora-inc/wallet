@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import PickerSelect from 'react-native-picker-select'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { FiatExchangeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { FiatExchangeEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import CancelButton from 'src/components/CancelButton'
@@ -404,7 +404,7 @@ const styles = StyleSheet.create({
   },
   error: {
     fontSize: 12,
-    color: '#FF0000', // color red
+    color: colors.errorDark,
   },
   submitButton: {
     padding: variables.contentPadding,
