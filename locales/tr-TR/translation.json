@@ -108,7 +108,7 @@
     "subtitle": "Yedek olarak ayarlamak için e-postanızla oturum açın. Cüzdanınızı kaybetmeniz durumunda tekrar oturum açmanız istenecektir.",
     "subtitleRestore": "Cüzdan yedeklemenizi ayarladığınız e-postayla oturum açın.",
     "google": "Google ile oturum aç",
-    "apple": "Apple ile oturum açın",
+    "apple": "Apple ile oturum aç",
     "signInAnotherWay": "Başka bir şekilde oturum açın",
     "bottomSheet": {
       "title": "Bir cüzdan oluşturmak için kurtarma ifadenizi kaydedin",
@@ -1802,7 +1802,7 @@
     },
     "unsupportedTokensWarning": {
       "title": "Uyumsuz Seçim",
-      "body": "Seçilen tokenler arasında takas yapılamaz. Lütfen seçiminizle uyumlu başka bir token seçin."
+      "body": "Seçilen jetonlar birbirleriyle değiştirilemez. Lütfen seçiminizle uyumlu başka bir token seçin."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Gas için daha fazla {{feeTokenSymbol}} bakiyesine ihtiyacınız var",
@@ -1890,10 +1890,10 @@
       "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "Daha fazla bilgi",
-      "feesInfo_sameChain": "İşlemin gerçekleştirilmesi için güvenlik ve güvenilirliği sağlayan bir ağ ücreti gereklidir.",
-      "feesInfo_crossChain": "İşlemin gerçekleştirilmesi için güvenlik ve güvenilirliği sağlayan bir ağ ücreti gereklidir. Farklı blok zincirleri arasında sorunsuz ve güvenli alışverişi sağlamak için sağlayıcı tarafından bir zincirler arası işlem ücreti alınır.",
-      "feesInfo_sameChainWithAppFee": "İşlemin gerçekleştirilmesi için güvenlik ve güvenilirlik sağlayan bir ağ ücreti gereklidir. %{{appFeePercentage}} oranındaki {{appName}} ücreti, hızlı, güvenilir ve güvenli takaslar sağlayarak deneyiminizi iyileştirir.",
-      "feesInfo_crossChainWithAppFee": "İşlemin gerçekleştirilmesi için güvenlik ve güvenilirlik sağlayan bir ağ ücreti gereklidir. Farklı blok zincirleri arasında sorunsuz ve güvenli alışverişi sağlamak için sağlayıcı tarafından bir zincirler arası işlem ücreti alınır. %{{appFeePercentage}} oranındaki {{appName}} ücreti, hızlı, güvenilir ve güvenli takaslar sağlayarak deneyiminizi iyileştirir."
+      "feesInfo_sameChain": "Ağ ücreti, işlemin gerçekleştirilmesi için ağ tarafından talep edilir.",
+      "feesInfo_crossChain": "Ağ ücreti, işlemin gerçekleştirilmesi için ağ tarafından talep edilir. Çapraz zincir ücreti, çapraz zincir sağlayıcısı tarafından tahsil edilir.",
+      "feesInfo_sameChainWithAppFee": "Ağ ücreti, işlemin gerçekleştirilmesi için ağ tarafından talep edilir. Ürünümüzü kullanmanız için {{appName}} ücreti {{appFeePercentage}}% tahsil edilir.",
+      "feesInfo_crossChainWithAppFee": "Ağ ücreti, işlemin gerçekleştirilmesi için ağ tarafından talep edilir. Çapraz zincir ücreti, çapraz zincir sağlayıcısı tarafından tahsil edilir. {{appName}} ücreti {{appFeePercentage}}% ürünümüzü kullanmanız için ücretlendirilir."
     },
     "fundYourWalletBottomSheet": {
       "title": "Cüzdanınıza fon ekleyin",
@@ -2241,13 +2241,13 @@
     "estimatedNetworkFee": "Tahmini ağ ücreti",
     "networkFee": "Ağ ücreti",
     "appFee": "Uygulama ücreti",
-    "estimatedCrossChainFee": "Tahmini çapraz zincir ücreti",
-    "crossChainFee": "Çapraz zincir ücreti",
+    "estimatedCrossChainFee": "Tahmini zincirler arası işlem ücreti",
+    "crossChainFee": "Zincirler arası işlem ücreti",
     "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}} işlem için onaylandı",
     "infiniteApprovalDescription": "{{tokenSymbol}} işlem için süresiz onaylandı",
     "revokeApprovalDescription": "{{tokenSymbol}} işlem için iptal edildi",
     "descriptionLabel": "Detaylar",
-    "crossChainSwapTransactionLabel": "Çapraz zincir"
+    "crossChainSwapTransactionLabel": "Zincirler arası"
   },
   "multichainBeta": {
     "beta": "BETA",
@@ -2449,8 +2449,8 @@
       "cta": "Puan yolculuğunuza başlayın"
     },
     "disclaimer": {
-      "learnMoreCta": "{{appName}} Points hakkında <0>daha fazla</0> bilgi <0>edinin</0>",
-      "body": "<0>Puan Nedir?</0>\nPuanlar {{appName}}'un sadakat programıdır. Uygulamamızı kullandığınızda kullanıcılara verilir.\n\n<0>Ne işe yararlar?</0>\nOnları toplarsınız. Harcanamaz, takas edilemez veya transfer edilemezler.\n\n<0>Neden cüzdanımdalar?</0>\nÇünkü onlar token. Zincir üzerinde, uygulamayı kullanarak kazandığınız dijital mutluluk parçaları.",
+      "learnMoreCta": "{{appName}} Puanları hakkında <0>daha fazla bilgi edinin</0>",
+      "body": "<0>Puanlar Nedir?</0>\nPuanlar {{appName}} uygulamasının sadakat programıdır. Uygulamamızı kullandığınızda kullanıcılara verilir.\n\n<0>Ne işe yararlar?</0>\nPuanları toplarsınız. Bunlar harcanamaz, takas edilemez veya transfer edilemez.\n\n<0>Neden cüzdanımdalar?</0>\nÇünkü onlar token. Zincir üzerinde, uygulamayı kullanarak kazandığınız dijital mutluluk parçaları.",
       "dismiss": "Anladım"
     }
   },
