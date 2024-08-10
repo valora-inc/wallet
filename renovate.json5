@@ -1,6 +1,11 @@
 {
   extends: ['github>valora-inc/renovate-config:default.json5', ':disableDigestUpdates'],
 
+  // Restrict semantic commit type to "chore"
+  // See: https://docs.renovatebot.com/presets-default/#semanticprefixfixdepschoreothers
+  //      https://github.com/renovatebot/renovate/discussions/14026
+  ignorePresets: [':semanticPrefixFixDepsChoreOthers'],
+
   // Limit number of concurrent renovate branches/PRs, to avoid spamming the repo
   prConcurrentLimit: 4,
 
