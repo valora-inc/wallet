@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   contactSupportText: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     textAlign: 'center',
     color: colors.gray3,
   },

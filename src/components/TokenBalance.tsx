@@ -36,7 +36,7 @@ import { Screens } from 'src/navigator/Screens'
 import { totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import Colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import {
@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   totalAssetsInfoText: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: Colors.white,
     textAlign: 'center',
   },

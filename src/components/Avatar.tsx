@@ -8,7 +8,7 @@ import { formatShortenedAddress } from 'src/components/ShortenedAddress'
 import { withTranslation } from 'src/i18n'
 import { Recipient, getDisplayName } from 'src/recipients/recipient'
 import { useSelector } from 'src/redux/hooks'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 const DEFAULT_ICON_SIZE = 40
 
@@ -46,7 +46,7 @@ export function Avatar(props: Props) {
         />
       )}
       {!e164NumberToShow && !!address && !!recipient.name && (
-        <Text style={[fontStyles.small, styles.contactName]} numberOfLines={1} ellipsizeMode="tail">
+        <Text style={styles.contactName} numberOfLines={1} ellipsizeMode="tail">
           {formatShortenedAddress(address)}
         </Text>
       )}
@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   contactName: {
+    ...typeScale.bodySmall,
     paddingTop: 6,
     marginHorizontal: 20,
     textAlign: 'center',

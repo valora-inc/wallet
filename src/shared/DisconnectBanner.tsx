@@ -6,7 +6,7 @@ import { withTranslation } from 'src/i18n'
 import { RootState } from 'src/redux/reducers'
 import { isAppConnected } from 'src/redux/selectors'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 interface StateProps {
   appConnected: boolean
@@ -63,7 +63,7 @@ class DisconnectBanner extends React.PureComponent<Props> {
 
 const styles = StyleSheet.create({
   text: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     textAlign: 'center',
     // Unset explicit lineHeight set by fonts.tsx otherwise the text is not centered vertically
     lineHeight: undefined,
