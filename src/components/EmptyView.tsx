@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 interface Props {
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     paddingTop: 75,
   },
   text: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     marginBottom: Spacing.Regular16,
   },
 })

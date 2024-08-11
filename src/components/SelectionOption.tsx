@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import Touchable from 'src/components/Touchable'
 import RadioButton from 'src/icons/RadioButton'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 interface Props {
   text: string
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     borderColor: colors.gray2,
   },
   text: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     flex: 1,
     marginRight: 16,
   },

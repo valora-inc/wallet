@@ -1,38 +1,10 @@
 import { StyleSheet } from 'react-native'
-import colors from 'src/styles/colors'
 
 const Inter = {
   Regular: 'Inter-Regular',
   Medium: 'Inter-Medium',
   SemiBold: 'Inter-SemiBold',
   Bold: 'Inter-Bold',
-}
-
-const standards = {
-  large: {
-    fontSize: 18,
-    lineHeight: 24,
-    fontFamily: Inter.Regular,
-    color: colors.black,
-  },
-  regular: {
-    fontSize: 16,
-    lineHeight: 22,
-    fontFamily: Inter.Regular,
-    color: colors.black,
-  },
-  small: {
-    fontSize: 14,
-    lineHeight: 18,
-    fontFamily: Inter.Regular,
-    color: colors.black,
-  },
-  xsmall: {
-    fontSize: 12,
-    lineHeight: 16,
-    fontFamily: Inter.Regular,
-    color: colors.black,
-  },
 }
 
 /**
@@ -148,14 +120,3 @@ export const typeScale = StyleSheet.create({
     letterSpacing: 0.2,
   },
 })
-
-/***
- * @deprecated
- * Use typeScale instead
- */
-export const fontStyles = StyleSheet.create({
-  regular: standards.regular,
-})
-
-// TODO: export typeScale as default when all components are updated
-export default fontStyles

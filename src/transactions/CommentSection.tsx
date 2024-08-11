@@ -5,7 +5,7 @@ import HorizontalLine from 'src/components/HorizontalLine'
 import { decryptComment } from 'src/identity/commentEncryption'
 import { useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { dataEncryptionKeySelector } from 'src/web3/selectors'
 
 interface Props {
@@ -44,6 +44,6 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   comment: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
   },
 })

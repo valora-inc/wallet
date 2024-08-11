@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 interface Props {
   title: string
@@ -14,7 +14,7 @@ class ReviewHeader extends React.PureComponent<Props> {
     return (
       <View style={styles.container}>
         <Text style={[typeScale.titleMedium, styles.heading]}>{title}</Text>
-        {!!subtitle && subtitle.length > 0 && <Text style={fontStyles.regular}>{subtitle}</Text>}
+        {!!subtitle && subtitle.length > 0 && <Text style={typeScale.bodyMedium}>{subtitle}</Text>}
       </View>
     )
   }

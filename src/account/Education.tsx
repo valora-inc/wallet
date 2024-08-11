@@ -21,7 +21,7 @@ import Times from 'src/icons/Times'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import progressDots from 'src/styles/progressDots'
 import variables from 'src/styles/variables'
 
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   bodyText: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     textAlign: 'center',
     paddingTop: 16,
     marginBottom: 24,

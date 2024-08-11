@@ -7,8 +7,8 @@ import { withTranslation } from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import Colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
-import { restartApp, RESTART_APP_I18N_KEY } from 'src/utils/AppRestart'
+import { typeScale } from 'src/styles/fonts'
+import { RESTART_APP_I18N_KEY, restartApp } from 'src/utils/AppRestart'
 
 interface OwnProps {
   errorMessage?: string
@@ -46,7 +46,7 @@ class ErrorScreen extends React.Component<Props> {
 
 const styles = StyleSheet.create({
   errorMessage: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     fontSize: 12,
     borderRadius: 25,
     backgroundColor: Colors.gray1,
