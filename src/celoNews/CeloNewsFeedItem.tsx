@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   date: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     fontSize: 13,
     lineHeight: 16,
     color: colors.gray5,

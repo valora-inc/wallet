@@ -380,7 +380,7 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   disclaimer: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray5,
     textAlign: 'center',
     marginBottom: 18,

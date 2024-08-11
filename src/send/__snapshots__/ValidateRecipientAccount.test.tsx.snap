@@ -251,10 +251,9 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
           onPress={[Function]}
           style={
             {
-              "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 14,
-              "lineHeight": 18,
+              "lineHeight": 20,
               "paddingLeft": 8,
               "textDecorationLine": "underline",
             }
@@ -750,10 +749,9 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
           onPress={[Function]}
           style={
             {
-              "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 14,
-              "lineHeight": 18,
+              "lineHeight": 20,
               "paddingLeft": 8,
               "textDecorationLine": "underline",
             }
