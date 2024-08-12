@@ -24,9 +24,9 @@ export function EarnCardDiscover({ depositTokenId, poolTokenId }: Props) {
 
   const earnPositions = useSelector(earnPositionsSelector)
   const pools = useMemo(() => earnPositions.map(convertPositionToPool), [earnPositions])
+  const poolsSupplied = useMemo(() => pools.filter((pool) => pool.balance.gt(0)).length, [pools])
 
   if (showMultiplePools) {
-    const poolsSupplied = useMemo(() => pools.filter((pool) => pool.balance.gt(0)).length, [pools])
     return poolsSupplied > 0 ? <EarnActivePools /> : <EarnEntrypoint />
   }
 

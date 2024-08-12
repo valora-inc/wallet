@@ -25,16 +25,15 @@ export default function EarnActivePools() {
   const earnPositions = useSelector(earnPositionsSelector)
   const pools = useMemo(() => earnPositions.map(convertPositionToPool), [earnPositions])
   const poolsSupplied = useMemo(() => pools.filter((pool) => pool.balance.gt(0)).length, [pools])
-  const totalSuppliedValue = useMemo(
+  const totalSuppliedValueUsd = useMemo(
     () =>
-      useDollarsToLocalAmount(
-        pools.reduce(
-          (acc, pool) => acc.plus(pool.balance.times(pool.priceUsd)),
-          new BigNumber(0)
-        ) ?? null
+      pools.reduce(
+        (acc, pool) => acc.plus(pool.balance.times(pool.priceUsd)),
+        new BigNumber(0) ?? null
       ),
     [pools]
   )
+  const totalSuppliedValue = useDollarsToLocalAmount(totalSuppliedValueUsd)
   const totalSupplied = useMemo(
     () =>
       `${localCurrencySymbol}${totalSuppliedValue ? formatValueToDisplay(totalSuppliedValue) : '--'}`,
