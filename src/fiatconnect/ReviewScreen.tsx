@@ -36,7 +36,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { useLocalToTokenAmount, useTokenInfo } from 'src/tokens/hooks'
 import { tokensListWithAddressSelector } from 'src/tokens/selectors'
@@ -570,7 +570,7 @@ const styles = StyleSheet.create({
     paddingVertical: 24,
   },
   sectionHeaderText: {
-    ...fontStyles.label,
+    ...typeScale.labelSemiBoldSmall,
     color: colors.gray3,
     marginBottom: 8,
   },
@@ -578,13 +578,13 @@ const styles = StyleSheet.create({
     marginVertical: 0,
   },
   sectionMainText: {
-    ...fontStyles.regular500,
+    ...typeScale.labelMedium,
   },
   sectionSubTextContainer: {
     marginVertical: 2,
   },
   sectionSubText: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
   },
   submitBtn: {
@@ -610,7 +610,7 @@ const styles = StyleSheet.create({
     ...typeScale.titleSmall,
   },
   description: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     textAlign: 'center',
     marginTop: 12,
     paddingHorizontal: 48,
@@ -620,7 +620,7 @@ const styles = StyleSheet.create({
     marginTop: 13,
   },
   disclaimer: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     paddingHorizontal: variables.contentPadding,
     marginBottom: 20,
     textAlign: 'center',

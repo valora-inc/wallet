@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import CallToActionsBar, { CallToAction } from 'src/components/CallToActionsBar'
 import MessagingCard from 'src/components/MessagingCard'
 import colors from 'src/styles/colors'
-import fonts from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 interface Props {
   title: string
@@ -54,21 +54,16 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   title: {
-    ...fonts.small,
-    fontSize: 13,
-    lineHeight: 16,
+    ...typeScale.bodySmall,
     color: colors.gray4,
     marginBottom: 4,
   },
   amount: {
-    // TODO: font should be bold
-    ...fonts.large600,
-    fontSize: 24,
-    lineHeight: 28,
+    ...typeScale.titleMedium,
     marginBottom: 2,
   },
   details: {
-    ...fonts.small,
+    ...typeScale.bodySmall,
   },
   iconContainer: {},
 })

@@ -79,6 +79,10 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
             "lineHeight": 20,
           },
           {
+            "fontFamily": "Inter-Regular",
+            "fontSize": 12,
+            "letterSpacing": 0.12,
+            "lineHeight": 16,
             "marginHorizontal": 20,
             "paddingTop": 6,
             "textAlign": "center",
@@ -97,19 +101,14 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
     >
       <Text
         style={
-          [
-            {
-              "color": "#2E3338",
-              "fontFamily": "Inter-Regular",
-              "fontSize": 14,
-              "lineHeight": 18,
-            },
-            {
-              "alignItems": "center",
-              "justifyContent": "center",
-              "marginRight": 4,
-            },
-          ]
+          {
+            "alignItems": "center",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 14,
+            "justifyContent": "center",
+            "lineHeight": 20,
+            "marginRight": 4,
+          }
         }
       >
         🇺🇸

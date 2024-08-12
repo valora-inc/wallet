@@ -7,7 +7,7 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import { Position } from 'src/positions/types'
 import Colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { Currency } from 'src/utils/currencies'
 import { PositionIcon } from 'src/tokens/PositionIcon'
@@ -104,13 +104,13 @@ const styles = StyleSheet.create({
     marginRight: Spacing.Small12,
   },
   tokenName: {
-    ...fontStyles.large600,
+    ...typeScale.labelSemiBoldLarge,
   },
   subtext: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: Colors.gray4,
   },
   tokenAmt: {
-    ...fontStyles.large600,
+    ...typeScale.labelSemiBoldLarge,
   },
 })

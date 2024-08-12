@@ -38,7 +38,7 @@ import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { Colors } from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 const AnimatedSectionList =
@@ -197,7 +197,7 @@ function DappsScreen({ navigation }: Props) {
       <>
         {!loading && !!error && (
           <View style={styles.centerContainer}>
-            <Text style={fontStyles.regular}>{t('dappsScreen.errorMessage')}</Text>
+            <Text style={typeScale.bodyMedium}>{t('dappsScreen.errorMessage')}</Text>
           </View>
         )}
         {!!categories.length && (
@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   sectionTitle: {
-    ...fontStyles.label,
+    ...typeScale.labelSemiBoldSmall,
     color: Colors.gray4,
     marginTop: Spacing.Large32,
   },

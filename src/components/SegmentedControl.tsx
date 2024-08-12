@@ -4,7 +4,7 @@ import { LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 import Touchable from 'src/components/Touchable'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 const HEIGHT = 24
 
@@ -156,8 +156,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    ...fontStyles.small600,
-    fontSize: 12,
+    ...typeScale.labelSemiBoldXSmall,
     color: colors.primary,
   },
 })

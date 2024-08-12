@@ -6,7 +6,7 @@ import withTextInputPasteAware from 'src/components/WithTextInputPasteAware'
 import { withTranslation } from 'src/i18n'
 import Checkmark from 'src/icons/Checkmark'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 const CodeInput = withTextInputPasteAware(TextInput)
 
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gray1,
   },
   codeValue: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     fontSize: 15,
     color: colors.gray5,
   },

@@ -30,7 +30,7 @@ import { Recipient, getDisplayName } from 'src/recipients/recipient'
 import { RootState } from 'src/redux/reducers'
 import { TransactionDataInput } from 'src/send/types'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 const FULL_ADDRESS_PLACEHOLDER = '0xf1b1d5a6e7728g309c4a025k122d71ad75a61976'
 const PARTIAL_ADDRESS_PLACEHOLDER = ['a', '0', 'F', '4']
@@ -313,7 +313,7 @@ const styles = StyleSheet.create({
     paddingRight: 8,
   },
   codeHeader: {
-    ...fontStyles.small600,
+    ...typeScale.labelSemiBoldSmall,
     paddingVertical: 8,
   },
   h2: {
@@ -329,16 +329,16 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
   },
   askHelpText: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     paddingLeft: 8,
     textDecorationLine: 'underline',
   },
   body: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     paddingBottom: 16,
   },
   modalBody: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     textAlign: 'center',
     paddingVertical: 8,
   },
@@ -348,7 +348,7 @@ const styles = StyleSheet.create({
     paddingBottom: 4,
   },
   modalBody2: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     textAlign: 'center',
     color: colors.gray4,
     paddingVertical: 16,
@@ -364,7 +364,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   menuText: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
     paddingHorizontal: 8,
   },

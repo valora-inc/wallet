@@ -8,7 +8,7 @@ import RedLoadingSpinnerToInfo from 'src/icons/RedLoadingSpinnerToInfo'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   contactSupportText: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     textAlign: 'center',
     color: colors.gray3,
   },
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     marginHorizontal: Spacing.Thick24,
   },
   subTitle: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     textAlign: 'center',
     color: colors.gray3,
   },

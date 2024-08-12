@@ -69,13 +69,12 @@ exports[`ReviewFees renders correctly 1`] = `
     style={
       [
         {
-          "color": "#2E3338",
           "display": "flex",
           "flexDirection": "row",
           "fontFamily": "Inter-Regular",
           "fontSize": 16,
           "justifyContent": "space-between",
-          "lineHeight": 22,
+          "lineHeight": 24,
           "paddingVertical": 4,
         },
       ]
@@ -85,10 +84,9 @@ exports[`ReviewFees renders correctly 1`] = `
       style={
         [
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
-            "lineHeight": 22,
+            "lineHeight": 24,
           },
         ]
       }
@@ -102,10 +100,9 @@ exports[`ReviewFees renders correctly 1`] = `
       style={
         [
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
-            "lineHeight": 22,
+            "lineHeight": 24,
           },
         ]
       }
@@ -129,13 +126,12 @@ exports[`ReviewFees renders correctly 1`] = `
     style={
       [
         {
-          "color": "#2E3338",
           "display": "flex",
           "flexDirection": "row",
           "fontFamily": "Inter-Regular",
           "fontSize": 16,
           "justifyContent": "space-between",
-          "lineHeight": 22,
+          "lineHeight": 24,
           "paddingVertical": 4,
         },
       ]
@@ -145,10 +141,9 @@ exports[`ReviewFees renders correctly 1`] = `
       style={
         [
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
-            "lineHeight": 22,
+            "lineHeight": 24,
           },
           {
             "color": "#666666",
@@ -162,10 +157,9 @@ exports[`ReviewFees renders correctly 1`] = `
       style={
         [
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
-            "lineHeight": 22,
+            "lineHeight": 24,
           },
           {
             "color": "#666666",
@@ -209,13 +203,12 @@ exports[`ReviewFees renders correctly 1`] = `
     style={
       [
         {
-          "color": "#2E3338",
           "display": "flex",
           "flexDirection": "row",
           "fontFamily": "Inter-Regular",
           "fontSize": 16,
           "justifyContent": "space-between",
-          "lineHeight": 22,
+          "lineHeight": 24,
           "paddingVertical": 4,
         },
       ]
@@ -225,10 +218,9 @@ exports[`ReviewFees renders correctly 1`] = `
       style={
         [
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
-            "lineHeight": 22,
+            "lineHeight": 24,
           },
         ]
       }
@@ -239,10 +231,9 @@ exports[`ReviewFees renders correctly 1`] = `
       style={
         [
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
-            "lineHeight": 22,
+            "lineHeight": 24,
           },
         ]
       }
@@ -267,13 +258,12 @@ exports[`ReviewFees renders correctly 1`] = `
     style={
       [
         {
-          "color": "#2E3338",
           "display": "flex",
           "flexDirection": "row",
           "fontFamily": "Inter-Regular",
           "fontSize": 16,
           "justifyContent": "space-between",
-          "lineHeight": 22,
+          "lineHeight": 24,
           "paddingVertical": 4,
         },
       ]
@@ -293,10 +283,9 @@ exports[`ReviewFees renders correctly 1`] = `
         style={
           [
             {
-              "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             },
           ]
         }
@@ -384,14 +373,13 @@ exports[`ReviewFees renders correctly 1`] = `
           [
             [
               {
-                "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
-                "lineHeight": 22,
+                "lineHeight": 24,
               },
             ],
             {
-              "color": "#2E3338",
+              "color": undefined,
             },
           ]
         }
@@ -406,13 +394,12 @@ exports[`ReviewFees renders correctly 1`] = `
     style={
       [
         {
-          "color": "#2E3338",
           "display": "flex",
           "flexDirection": "row",
           "fontFamily": "Inter-Regular",
           "fontSize": 16,
           "justifyContent": "space-between",
-          "lineHeight": 22,
+          "lineHeight": 24,
           "paddingVertical": 4,
         },
       ]
@@ -422,16 +409,14 @@ exports[`ReviewFees renders correctly 1`] = `
       style={
         [
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
-            "lineHeight": 22,
+            "lineHeight": 24,
           },
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-SemiBold",
             "fontSize": 16,
-            "lineHeight": 22,
+            "lineHeight": 24,
           },
         ]
       }
@@ -442,16 +427,14 @@ exports[`ReviewFees renders correctly 1`] = `
       style={
         [
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
-            "lineHeight": 22,
+            "lineHeight": 24,
           },
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-SemiBold",
             "fontSize": 16,
-            "lineHeight": 22,
+            "lineHeight": 24,
           },
         ]
       }
@@ -461,14 +444,13 @@ exports[`ReviewFees renders correctly 1`] = `
           [
             [
               {
-                "color": "#2E3338",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
-                "lineHeight": 22,
+                "lineHeight": 24,
               },
             ],
             {
-              "color": "#2E3338",
+              "color": undefined,
             },
           ]
         }
@@ -551,13 +533,12 @@ exports[`ReviewFees renders correctly 2`] = `
     style={
       [
         {
-          "color": "#2E3338",
           "display": "flex",
           "flexDirection": "row",
           "fontFamily": "Inter-Regular",
           "fontSize": 16,
           "justifyContent": "space-between",
-          "lineHeight": 22,
+          "lineHeight": 24,
           "paddingVertical": 4,
         },
       ]
@@ -567,10 +548,9 @@ exports[`ReviewFees renders correctly 2`] = `
       style={
         [
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
-            "lineHeight": 22,
+            "lineHeight": 24,
           },
         ]
       }
@@ -584,10 +564,9 @@ exports[`ReviewFees renders correctly 2`] = `
       style={
         [
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
-            "lineHeight": 22,
+            "lineHeight": 24,
           },
         ]
       }
@@ -611,13 +590,12 @@ exports[`ReviewFees renders correctly 2`] = `
     style={
       [
         {
-          "color": "#2E3338",
           "display": "flex",
           "flexDirection": "row",
           "fontFamily": "Inter-Regular",
           "fontSize": 16,
           "justifyContent": "space-between",
-          "lineHeight": 22,
+          "lineHeight": 24,
           "paddingVertical": 4,
         },
       ]
@@ -627,10 +605,9 @@ exports[`ReviewFees renders correctly 2`] = `
       style={
         [
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
-            "lineHeight": 22,
+            "lineHeight": 24,
           },
           {
             "color": "#666666",
@@ -644,10 +621,9 @@ exports[`ReviewFees renders correctly 2`] = `
       style={
         [
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
-            "lineHeight": 22,
+            "lineHeight": 24,
           },
           {
             "color": "#666666",
@@ -691,13 +667,12 @@ exports[`ReviewFees renders correctly 2`] = `
     style={
       [
         {
-          "color": "#2E3338",
           "display": "flex",
           "flexDirection": "row",
           "fontFamily": "Inter-Regular",
           "fontSize": 16,
           "justifyContent": "space-between",
-          "lineHeight": 22,
+          "lineHeight": 24,
           "paddingVertical": 4,
         },
       ]
@@ -707,10 +682,9 @@ exports[`ReviewFees renders correctly 2`] = `
       style={
         [
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
-            "lineHeight": 22,
+            "lineHeight": 24,
           },
         ]
       }
@@ -721,10 +695,9 @@ exports[`ReviewFees renders correctly 2`] = `
       style={
         [
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
-            "lineHeight": 22,
+            "lineHeight": 24,
           },
         ]
       }
@@ -749,13 +722,12 @@ exports[`ReviewFees renders correctly 2`] = `
     style={
       [
         {
-          "color": "#2E3338",
           "display": "flex",
           "flexDirection": "row",
           "fontFamily": "Inter-Regular",
           "fontSize": 16,
           "justifyContent": "space-between",
-          "lineHeight": 22,
+          "lineHeight": 24,
           "paddingVertical": 4,
         },
       ]
@@ -775,10 +747,9 @@ exports[`ReviewFees renders correctly 2`] = `
         style={
           [
             {
-              "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             },
           ]
         }
@@ -864,7 +835,7 @@ exports[`ReviewFees renders correctly 2`] = `
           "color": "#1AB775",
           "fontFamily": "Inter-Regular",
           "fontSize": 16,
-          "lineHeight": 22,
+          "lineHeight": 24,
         }
       }
     >
@@ -875,13 +846,12 @@ exports[`ReviewFees renders correctly 2`] = `
     style={
       [
         {
-          "color": "#2E3338",
           "display": "flex",
           "flexDirection": "row",
           "fontFamily": "Inter-Regular",
           "fontSize": 16,
           "justifyContent": "space-between",
-          "lineHeight": 22,
+          "lineHeight": 24,
           "paddingVertical": 4,
         },
       ]
@@ -891,16 +861,14 @@ exports[`ReviewFees renders correctly 2`] = `
       style={
         [
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
-            "lineHeight": 22,
+            "lineHeight": 24,
           },
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-SemiBold",
             "fontSize": 16,
-            "lineHeight": 22,
+            "lineHeight": 24,
           },
         ]
       }
@@ -911,16 +879,14 @@ exports[`ReviewFees renders correctly 2`] = `
       style={
         [
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
-            "lineHeight": 22,
+            "lineHeight": 24,
           },
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-SemiBold",
             "fontSize": 16,
-            "lineHeight": 22,
+            "lineHeight": 24,
           },
         ]
       }
@@ -930,14 +896,13 @@ exports[`ReviewFees renders correctly 2`] = `
           [
             [
               {
-                "color": "#2E3338",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
-                "lineHeight": 22,
+                "lineHeight": 24,
               },
             ],
             {
-              "color": "#2E3338",
+              "color": undefined,
             },
           ]
         }

@@ -4,7 +4,7 @@ import ListItem from 'src/components/ListItem'
 import TextInput from 'src/components/TextInput'
 import ForwardChevron from 'src/icons/ForwardChevron'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 interface WrapperProps {
   testID?: string
@@ -185,21 +185,21 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     color: colors.black,
   },
   value: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     color: colors.gray4,
     marginRight: 8,
   },
   valueActionable: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     color: colors.primary,
     marginRight: 8,
   },
   details: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
     paddingTop: 16,
     paddingRight: 16,

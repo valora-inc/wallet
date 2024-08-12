@@ -7,7 +7,7 @@ import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
 import { useLocalCurrencyToShow } from 'src/localCurrency/hooks'
 import { CurrencyInfo } from 'src/localCurrency/types'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { CURRENCIES, Currency } from 'src/utils/currencies'
 import {
   getCentAwareMoneyDisplay,
@@ -192,17 +192,17 @@ export default function CurrencyDisplay({
     return (
       <View style={[styles.bigContainer, style]} testID={testID}>
         {!hideSign && (
-          <Text numberOfLines={1} style={[fontStyles.regular, signStyle]}>
+          <Text numberOfLines={1} style={[typeScale.bodyMedium, signStyle]}>
             {sign}
           </Text>
         )}
         {includesLowerThanSymbol && (
-          <Text numberOfLines={1} style={[fontStyles.regular, symbolStyle]}>
+          <Text numberOfLines={1} style={[typeScale.bodyMedium, symbolStyle]}>
             {'<'}
           </Text>
         )}
         {!hideSymbol && (
-          <Text numberOfLines={1} style={[fontStyles.regular, symbolStyle]}>
+          <Text numberOfLines={1} style={[typeScale.bodyMedium, symbolStyle]}>
             {currencySymbol}
           </Text>
         )}
@@ -250,11 +250,11 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   bigCurrency: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     paddingHorizontal: 3,
   },
   bigCurrencyCode: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     marginLeft: 7,
     alignSelf: 'flex-end',
   },
