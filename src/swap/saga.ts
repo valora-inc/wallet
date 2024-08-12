@@ -260,34 +260,34 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     navigateHome()
     submitted = true
 
+    // wait for the tx receipts, so that we can track them
+    for (let i = 0; i < txHashes.length; i++) {
+      const txReceipt = yield* call([publicClient[network], 'waitForTransactionReceipt'], {
+        hash: txHashes[i],
+      })
+      Logger.debug(`Got transaction receipt ${i + 1} of ${trackedTxs.length}`, txReceipt)
+      trackedTxs[i].txReceipt = txReceipt
+    }
+
+    const swapTxReceipt = trackedTxs[trackedTxs.length - 1].txReceipt
+    if (swapTxReceipt?.status !== 'success') {
+      throw new Error(`Swap transaction reverted: ${swapTxReceipt?.transactionHash}`)
+    }
+
+    yield* put(
+      swapSuccess({
+        swapId,
+        fromTokenId,
+        toTokenId,
+        transactionHash: swapTxReceipt.transactionHash,
+        networkId,
+      })
+    )
+
     // Success is tracked only for same-chain swaps. Cross-chain swap success is tracked in the query helper
     // because for the cross-chain swaps, we have to wait for the transaction to be included in the
     // destination chain before we can consider the swap successful
     if (swapType === 'same-chain') {
-      // wait for the tx receipts, so that we can track them
-      for (let i = 0; i < txHashes.length; i++) {
-        const txReceipt = yield* call([publicClient[network], 'waitForTransactionReceipt'], {
-          hash: txHashes[i],
-        })
-        Logger.debug(`Got transaction receipt ${i + 1} of ${trackedTxs.length}`, txReceipt)
-        trackedTxs[i].txReceipt = txReceipt
-      }
-
-      const swapTxReceipt = trackedTxs[trackedTxs.length - 1].txReceipt
-      if (swapTxReceipt?.status !== 'success') {
-        throw new Error(`Swap transaction reverted: ${swapTxReceipt?.transactionHash}`)
-      }
-
-      yield* put(
-        swapSuccess({
-          swapId,
-          fromTokenId,
-          toTokenId,
-          transactionHash: swapTxReceipt.transactionHash,
-          networkId,
-        })
-      )
-
       AppAnalytics.track(SwapEvents.swap_execute_success, {
         ...defaultSwapExecuteProps,
         ...getTimeMetrics(),
