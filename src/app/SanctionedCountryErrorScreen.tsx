@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { emptyHeader } from 'src/navigator/Headers'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 export function SanctionedCountryErrorScreen() {
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     padding: Spacing.Regular16,
   },
   errorMessage: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
   },
 })
 

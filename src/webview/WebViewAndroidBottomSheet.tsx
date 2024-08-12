@@ -5,7 +5,7 @@ import Modal from 'react-native-modal'
 import { WebViewEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { Colors } from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { navigateToURI } from 'src/utils/linking'
 
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   bottomSheetText: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     textAlign: 'left',
     padding: variables.contentPadding,
   },

@@ -39,7 +39,7 @@ import { useDispatch, useSelector } from 'src/redux/hooks'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { tokensByAddressSelector, tokensBySymbolSelector } from 'src/tokens/selectors'
 import { useCountryFeatures } from 'src/utils/countryFeatures'
@@ -117,7 +117,7 @@ function SuperchargeInstructions() {
                 i18nKey={'superchargeReconnectNumber'}
                 tOptions={{ token: tokenConfigToSupercharge.tokenSymbol }}
               >
-                <Text style={fontStyles.regular} />
+                <Text style={typeScale.bodyMedium} />
               </Trans>
             ) : (
               t('superchargeConnectNumber')
@@ -355,7 +355,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   description: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     marginTop: 12,
     textAlign: 'center',
   },

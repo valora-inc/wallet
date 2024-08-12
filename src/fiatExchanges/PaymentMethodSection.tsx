@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Image, LayoutAnimation, StyleSheet, Text, View } from 'react-native'
-import { FiatExchangeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { FiatExchangeEvents } from 'src/analytics/Events'
 import Dialog from 'src/components/Dialog'
 import Expandable from 'src/components/Expandable'
 import Touchable from 'src/components/Touchable'
@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
     borderTopColor: colors.gray2,
     paddingVertical: 16,
     paddingHorizontal: 16,
-    backgroundColor: '#F1FDF1',
+    backgroundColor: colors.successLight,
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',

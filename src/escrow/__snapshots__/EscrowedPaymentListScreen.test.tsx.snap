@@ -20,10 +20,9 @@ exports[`EscrowedPaymentListScreen renders correctly with no payments 1`] = `
     style={
       [
         {
-          "color": "#2E3338",
           "fontFamily": "Inter-Regular",
           "fontSize": 16,
-          "lineHeight": 22,
+          "lineHeight": 24,
         },
         {
           "marginTop": 30,

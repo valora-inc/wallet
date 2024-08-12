@@ -36,7 +36,7 @@ import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { useLocalToTokenAmount, useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
 import { tokenSymbolToAnalyticsCurrency } from 'src/utils/currencies'
@@ -289,7 +289,7 @@ const styles = StyleSheet.create({
     ...typeScale.labelMedium,
   },
   currencyInput: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     marginLeft: 10,
     flex: 1,
     textAlign: 'right',

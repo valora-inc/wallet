@@ -12,7 +12,7 @@ import LinkArrow from 'src/icons/LinkArrow'
 import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { Currency } from 'src/utils/currencies'
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     paddingBottom: variables.contentPadding,
   },
   pleaseSelectExchange: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     paddingHorizontal: variables.contentPadding,
     paddingBottom: variables.contentPadding,
   },
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   },
   optionTitle: {
     flex: 3,
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
   },
 })
 

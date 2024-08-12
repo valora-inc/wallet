@@ -39,7 +39,7 @@ import { useMergedSearchRecipients, useSendRecipients } from 'src/send/hooks'
 import { inviteRewardsActiveSelector } from 'src/send/selectors'
 import useFetchRecipientVerificationStatus from 'src/send/useFetchRecipientVerificationStatus'
 import colors from 'src/styles/colors'
-import { fontStyles, typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 
@@ -460,7 +460,7 @@ const styles = StyleSheet.create({
     padding: Spacing.Thick24,
   },
   noResultsTitle: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     color: colors.gray3,
     textAlign: 'center',
   },
