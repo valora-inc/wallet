@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import ItemSeparator from 'src/components/ItemSeparator'
@@ -5,7 +6,6 @@ import EarnActivePool from 'src/earn/EarnActivePool'
 import EarnActivePools from 'src/earn/EarnActivePools'
 import EarnCta from 'src/earn/EarnCta'
 import EarnEntrypoint from 'src/earn/EarnEntrypoint'
-import { convertPositionToPool } from 'src/earn/poolHelper'
 import { earnPositionsSelector } from 'src/positions/selectors'
 import { useSelector } from 'src/redux/hooks'
 import { getFeatureGate } from 'src/statsig'
@@ -22,9 +22,11 @@ export function EarnCardDiscover({ depositTokenId, poolTokenId }: Props) {
   const showMultiplePools = getFeatureGate(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
   const poolToken = useTokenInfo(poolTokenId)
 
-  const earnPositions = useSelector(earnPositionsSelector)
-  const pools = useMemo(() => earnPositions.map(convertPositionToPool), [earnPositions])
-  const poolsSupplied = useMemo(() => pools.filter((pool) => pool.balance.gt(0)).length, [pools])
+  const pools = useSelector(earnPositionsSelector)
+  const poolsSupplied = useMemo(
+    () => pools.filter((pool) => new BigNumber(pool.balance).gt(0)).length,
+    [pools]
+  )
 
   if (showMultiplePools) {
     return poolsSupplied > 0 ? <EarnActivePools /> : <EarnEntrypoint />

@@ -35,6 +35,8 @@ interface EarnDataProps {
   // We'll add more fields here as needed
 }
 
+export type EarnPosition = AppTokenPosition & { dataProps: EarnDataProps }
+
 export type TokenCategory = 'claimable'
 
 export interface AbstractPosition {

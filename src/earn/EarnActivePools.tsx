@@ -6,7 +6,6 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import Button, { BtnSizes, BtnTypes, TextSizes } from 'src/components/Button'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
-import { convertPositionToPool } from 'src/earn/poolHelper'
 import { EarnTabType } from 'src/earn/types'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
@@ -22,13 +21,15 @@ export default function EarnActivePools() {
   const { t } = useTranslation()
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
-  const earnPositions = useSelector(earnPositionsSelector)
-  const pools = useMemo(() => earnPositions.map(convertPositionToPool), [earnPositions])
-  const poolsSupplied = useMemo(() => pools.filter((pool) => pool.balance.gt(0)).length, [pools])
+  const pools = useSelector(earnPositionsSelector)
+  const poolsSupplied = useMemo(
+    () => pools.filter((pool) => new BigNumber(pool.balance).gt(0)).length,
+    [pools]
+  )
   const totalSuppliedValueUsd = useMemo(
     () =>
       pools.reduce(
-        (acc, pool) => acc.plus(pool.balance.times(pool.priceUsd)),
+        (acc, pool) => acc.plus(new BigNumber(pool.balance).times(new BigNumber(pool.priceUsd))),
         new BigNumber(0) ?? null
       ),
     [pools]

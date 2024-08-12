@@ -7,11 +7,11 @@ import { EarnEvents } from 'src/analytics/Events'
 import Button, { BtnSizes, BtnTypes, TextSizes } from 'src/components/Button'
 import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon from 'src/components/TokenIcon'
-import { Pool } from 'src/earn/types'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { EarnPosition } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import { Colors } from 'src/styles/colors'
@@ -20,19 +20,30 @@ import { Spacing } from 'src/styles/styles'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 
-export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; testID?: string }) {
-  const { tokens, networkId, poolTokenId, depositTokenId } = pool
+export default function PoolCard({
+  pool,
+  testID = 'PoolCard',
+}: {
+  pool: EarnPosition
+  testID?: string
+}) {
+  const {
+    tokens,
+    networkId,
+    dataProps: { withdrawTokenId: poolTokenId, depositTokenId },
+  } = pool
   const { t } = useTranslation()
   const allTokens = useSelector((state) => tokensByIdSelector(state, [networkId]))
   const tokensInfo = useMemo(() => {
     return tokens
-      .map((tokenId) => allTokens[tokenId])
+      .map((token) => allTokens[token.tokenId])
       .filter((token): token is TokenBalance => !!token)
   }, [pool.tokens, allTokens])
   const depositTokenInfo = allTokens[depositTokenId]
 
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const poolBalance = useDollarsToLocalAmount(pool.balance.times(pool.priceUsd)) ?? null
+  const poolBalance =
+    useDollarsToLocalAmount(new BigNumber(pool.balance).times(new BigNumber(pool.priceUsd))) ?? null
   const poolBalanceString = useMemo(
     () => `${localCurrencySymbol}${poolBalance ? formatValueToDisplay(poolBalance) : '--'}`,
     [localCurrencySymbol, poolBalance]
@@ -40,12 +51,12 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
 
   const rewardPercentageString = useMemo(
     () =>
-      `${pool.earnItems.reduce((acc, earnItem) => acc.plus(new BigNumber(earnItem.amount)), new BigNumber(0)).toFixed(2)}%`,
-    [pool.earnItems]
+      `${pool.dataProps.earningItems.reduce((acc, earnItem) => acc.plus(new BigNumber(earnItem.amount)), new BigNumber(0)).toFixed(2)}%`,
+    [pool.dataProps.earningItems]
   )
 
   const totalYieldRate = new BigNumber(
-    pool.yieldRates.reduce((acc, yieldRate) => acc + yieldRate.percentage, 0)
+    pool.dataProps.yieldRates.reduce((acc, yieldRate) => acc + yieldRate.percentage, 0)
   ).toFixed(2)
 
   return (
@@ -82,10 +93,12 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
         </View>
         <View style={styles.keyValueRow}>
           <Text style={styles.keyText}>{t('earnFlow.poolCard.tvl')}</Text>
-          <Text style={styles.valueText}>{`$${new BigNumber(pool.tvl ?? 0).toFormat()}`}</Text>
+          <Text
+            style={styles.valueText}
+          >{`$${new BigNumber(pool.dataProps.tvl ?? 0).toFormat()}`}</Text>
         </View>
       </View>
-      {pool.balance.gt(0) && !!depositTokenInfo ? (
+      {new BigNumber(pool.balance).gt(0) && !!depositTokenInfo ? (
         <View style={styles.withBalanceContainer}>
           <View style={styles.keyValueContainer}>
             <View style={styles.keyValueRow}>
@@ -93,7 +106,7 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
               <Text>
                 {`(`}
                 <TokenDisplay
-                  amount={pool.balance.times(new BigNumber(pool.pricePerShare[0]))}
+                  amount={new BigNumber(pool.balance).times(new BigNumber(pool.pricePerShare[0]))}
                   tokenId={depositTokenId}
                   showLocalAmount={false}
                   style={styles.valueText}
@@ -107,11 +120,11 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
             <Button
               onPress={() => {
                 AppAnalytics.track(EarnEvents.earn_pool_card_cta_press, {
-                  poolId: pool.poolId,
+                  poolId: pool.positionId,
                   depositTokenId,
                   networkId: pool.networkId,
                   tokenAmount: pool.balance.toString(),
-                  providerId: pool.providerId,
+                  providerId: pool.appId,
                   action: 'withdraw',
                 })
                 navigate(Screens.EarnCollectScreen, { depositTokenId, poolTokenId })
@@ -125,11 +138,11 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
             <Button
               onPress={() => {
                 AppAnalytics.track(EarnEvents.earn_pool_card_cta_press, {
-                  poolId: pool.poolId,
+                  poolId: pool.positionId,
                   depositTokenId,
                   networkId: pool.networkId,
                   tokenAmount: pool.balance.toString(),
-                  providerId: pool.providerId,
+                  providerId: pool.appId,
                   action: 'deposit',
                 })
                 navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })
@@ -146,11 +159,11 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
         <Button
           onPress={() => {
             AppAnalytics.track(EarnEvents.earn_pool_card_cta_press, {
-              poolId: pool.poolId,
+              poolId: pool.positionId,
               depositTokenId,
               networkId: pool.networkId,
               tokenAmount: '0',
-              providerId: pool.providerId,
+              providerId: pool.appId,
               action: 'deposit',
             })
             navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })
@@ -162,7 +175,7 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
         />
       )}
       <Text style={styles.poweredByText}>
-        {t('earnFlow.poolCard.poweredBy', { providerName: pool.provider })}
+        {t('earnFlow.poolCard.poweredBy', { providerName: pool.appId })}
       </Text>
     </View>
   )
