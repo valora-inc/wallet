@@ -71,7 +71,7 @@ describe('earnPositionsSelector', () => {
       positions: {
         positions: [
           {
-            type: 'contract-position' as const,
+            type: 'app-token' as const,
             networkId: NetworkId['celo-alfajores'],
             address: '0xa',
             positionId: 'celo-alfajores:0xa',
@@ -80,9 +80,15 @@ describe('earnPositionsSelector', () => {
               title: 'Title A',
             },
             tokens: [],
+            dataProps: {
+              earningItems: [],
+              yieldRates: [],
+              depositTokenId: '0x1',
+              withdrawTokenId: '0x2',
+            },
           },
           {
-            type: 'contract-position' as const,
+            type: 'app-token' as const,
             networkId: NetworkId['celo-alfajores'],
             address: '0xb',
             positionId: 'celo-alfajores:0xb',
@@ -91,6 +97,12 @@ describe('earnPositionsSelector', () => {
               title: 'Title B',
             },
             tokens: [],
+            dataProps: {
+              earningItems: [],
+              yieldRates: [],
+              depositTokenId: '0x1',
+              withdrawTokenId: '0x2',
+            },
           },
         ],
         earnPositionIds: ['celo-alfajores:0xb'],

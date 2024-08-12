@@ -5956,10 +5956,10 @@
         "Token": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/BaseToken"
+                    "$ref": "#/definitions/AppTokenPosition"
                 },
                 {
-                    "$ref": "#/definitions/AppTokenPosition"
+                    "$ref": "#/definitions/BaseToken"
                 }
             ]
         },
