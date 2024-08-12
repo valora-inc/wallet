@@ -11,13 +11,13 @@ export interface PositionDisplayProps {
 
 type DataProps = EarnDataProps
 
-export interface YieldRate {
+interface YieldRate {
   percentage: number
   label: string
   tokenId: string
 }
 
-export interface EarningItem {
+interface EarningItem {
   amount: SerializedDecimalNumber
   label: string
   tokenId: string
