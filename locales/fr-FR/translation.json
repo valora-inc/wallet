@@ -1802,7 +1802,7 @@
     },
     "unsupportedTokensWarning": {
       "title": "Sélection incompatible",
-      "body": "Les jetons sélectionnés ne peuvent pas être échangés entre eux. Choisis un autre jeton compatible avec ta sélection."
+      "body": "Les jetons sélectionnés ne peuvent pas être échangés entre eux. Choisissez un autre jeton compatible avec votre sélection."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Vous avez besoin de plus de {{feeTokenSymbol}} pour le gas",
@@ -1891,9 +1891,9 @@
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "Plus d'informations",
       "feesInfo_sameChain": "Les frais de réseau sont exigés par le réseau pour traiter la transaction.",
-      "feesInfo_crossChain": "Les frais de réseau sont exigés par le réseau pour traiter la transaction. Les frais de la chaîne croisée sont facturés par le fournisseur de la chaîne croisée.",
+      "feesInfo_crossChain": "Les frais de réseau sont exigés par le réseau pour traiter la transaction. Les frais cross chain sont facturés par le fournisseur de la cross chain.",
       "feesInfo_sameChainWithAppFee": "Les frais de réseau sont exigés par le réseau pour traiter la transaction. Les frais de {{appName}} de {{appFeePercentage}}% sont facturés pour l'utilisation de notre produit.",
-      "feesInfo_crossChainWithAppFee": "Les frais de réseau sont exigés par le réseau pour traiter la transaction. Les frais de la chaîne croisée sont facturés par le fournisseur de la chaîne croisée. Les frais de {{appName}} de {{appFeePercentage}}% sont facturés pour l'utilisation de notre produit."
+      "feesInfo_crossChainWithAppFee": "Les frais de réseau sont exigés par le réseau pour traiter la transaction. Les frais de cross chain sont facturés par le fournisseur de la cross chain. Les frais de {{appName}} de {{appFeePercentage}}% sont facturés pour l'utilisation de notre produit."
     },
     "fundYourWalletBottomSheet": {
       "title": "Approvisionner votre portefeuille",
