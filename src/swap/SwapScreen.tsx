@@ -9,8 +9,8 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { showError } from 'src/alert/actions'
-import { SwapEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { SwapEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import BackButton from 'src/components/BackButton'
@@ -616,7 +616,8 @@ export function SwapScreen({ route }: Props) {
     // the condition should prevent the user from swapping.
     const checks = {
       showSwitchedToNetworkWarning: !!switchedToNetworkId,
-      showUnsupportedTokensWarning: fetchSwapQuoteError?.message.includes(NO_QUOTE_ERROR_MESSAGE),
+      showUnsupportedTokensWarning:
+        !quoteUpdatePending && fetchSwapQuoteError?.message.includes(NO_QUOTE_ERROR_MESSAGE),
       showInsufficientBalanceWarning: parsedSwapAmount[Field.FROM].gt(fromTokenBalance),
       showCrossChainFeeWarning: crossChainFee?.nativeTokenBalanceDeficit.lt(0),
       showDecreaseSpendForGasWarning:
