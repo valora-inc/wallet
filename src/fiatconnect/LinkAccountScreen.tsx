@@ -4,8 +4,8 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { SafeAreaView, StyleSheet, Text } from 'react-native'
-import { FiatExchangeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { FiatExchangeEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
@@ -15,7 +15,7 @@ import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectLinkAccount>
 
@@ -162,11 +162,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
     marginHorizontal: 16,
   },
   description: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     textAlign: 'center',
     marginVertical: 12,
     marginHorizontal: 24,

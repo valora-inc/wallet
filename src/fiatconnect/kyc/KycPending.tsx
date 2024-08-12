@@ -4,8 +4,8 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { FiatExchangeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { FiatExchangeEvents } from 'src/analytics/Events'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import getNavigationOptions from 'src/fiatconnect/kyc/getNavigationOptions'
 import BankIcon from 'src/icons/BankIcon'
@@ -15,7 +15,7 @@ import { navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.KycPending>
 
@@ -84,11 +84,11 @@ const styles = StyleSheet.create({
     paddingBottom: 32,
   },
   title: {
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
     marginHorizontal: 16,
   },
   description: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     textAlign: 'center',
     marginVertical: 12,
     marginHorizontal: 24,

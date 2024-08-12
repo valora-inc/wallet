@@ -53,10 +53,9 @@ exports[`SummaryNotification renders correctly 1`] = `
       <Text
         style={
           {
-            "color": "#2E3338",
-            "fontFamily": "Jost-Medium",
-            "fontSize": 18,
-            "lineHeight": 22,
+            "fontFamily": "Inter-SemiBold",
+            "fontSize": 16,
+            "lineHeight": 24,
             "marginBottom": 4,
           }
         }
@@ -72,7 +71,7 @@ exports[`SummaryNotification renders correctly 1`] = `
             "flex": 1,
             "fontFamily": "Inter-Regular",
             "fontSize": 14,
-            "lineHeight": 18,
+            "lineHeight": 20,
           }
         }
         testID="undefined/Details"

@@ -2,8 +2,8 @@ import * as React from 'react'
 import { Trans } from 'react-i18next'
 import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView, useSafeAreaFrame } from 'react-native-safe-area-context'
-import { InviteEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { InviteEvents } from 'src/analytics/Events'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Touchable from 'src/components/Touchable'
 import ShareIcon from 'src/icons/Share'
@@ -11,7 +11,7 @@ import Times from 'src/icons/Times'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 
@@ -61,10 +61,12 @@ const InviteModal = ({
       </Touchable>
       <View style={styles.contentContainer}>
         <Image style={styles.imageContainer} source={imageSource} resizeMode="contain" />
-        <Text style={[fontStyles.h2, styles.text]}>{title}</Text>
-        {description ? <Text style={[fontStyles.regular, styles.text]}>{description}</Text> : null}
+        <Text style={[typeScale.titleSmall, styles.text]}>{title}</Text>
+        {description ? (
+          <Text style={[typeScale.bodyMedium, styles.text]}>{description}</Text>
+        ) : null}
         {descriptionI18nKey ? (
-          <Text style={[fontStyles.regular, styles.text]} testID="InviteModalStyledDescription">
+          <Text style={[typeScale.bodyMedium, styles.text]} testID="InviteModalStyledDescription">
             <Trans
               i18nKey={descriptionI18nKey}
               tOptions={contactName ? { contactName } : undefined}
@@ -118,7 +120,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.Regular16,
   },
   helpText: {
-    ...fontStyles.xsmall,
+    ...typeScale.bodyXSmall,
     color: colors.gray5,
     textAlign: 'center',
   },
@@ -132,7 +134,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.Regular16,
   },
   textBold: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     fontFamily: 'Inter-SemiBold',
   },
 })

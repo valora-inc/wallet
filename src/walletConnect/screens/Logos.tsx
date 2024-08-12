@@ -3,7 +3,7 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import { SvgUri } from 'react-native-svg'
 import Logo from 'src/brandedIcons/Logo'
 import { Colors } from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
 
 const DAPP_IMAGE_SIZE = 40
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   placeholderLogoText: {
-    ...fontStyles.h1,
+    ...typeScale.titleMedium,
     lineHeight: undefined,
     color: Colors.gray4,
   },

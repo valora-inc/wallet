@@ -19,7 +19,7 @@ import { triggerShortcut } from 'src/positions/slice'
 import { ClaimablePosition } from 'src/positions/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import Colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
@@ -220,16 +220,16 @@ const styles = StyleSheet.create({
     marginRight: Spacing.Small12,
   },
   rewardLabel: {
-    ...fontStyles.xsmall,
+    ...typeScale.bodyXSmall,
     color: Colors.gray3,
   },
   rewardAmount: {
-    ...fontStyles.large600,
+    ...typeScale.labelSemiBoldLarge,
     lineHeight: 28,
     flexWrap: 'wrap',
   },
   rewardFiatAmount: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
   },
   dappInfoContainer: {
     flexDirection: 'row',
@@ -247,20 +247,20 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   dappName: {
-    ...fontStyles.small600,
+    ...typeScale.labelSemiBoldSmall,
   },
   headerContainer: {
     paddingTop: Spacing.Smallest8,
     paddingBottom: Spacing.Thick24,
   },
   heading: {
-    ...fontStyles.large600,
+    ...typeScale.labelSemiBoldLarge,
     fontSize: 24,
     lineHeight: 32,
     marginBottom: Spacing.Tiny4,
   },
   subHeading: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: Colors.gray3,
   },
   claimButton: {
@@ -275,7 +275,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start', // prevent from defaulting to full width of container
   },
   chipText: {
-    ...fontStyles.xsmall600,
+    ...typeScale.labelSemiBoldXSmall,
     fontSize: 10,
     lineHeight: 12,
   },

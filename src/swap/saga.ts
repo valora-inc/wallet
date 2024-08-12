@@ -1,9 +1,9 @@
 import { PayloadAction } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import erc20 from 'src/abis/IERC20'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SwapEvents } from 'src/analytics/Events'
 import { SwapTimeMetrics, SwapTxsReceiptProperties } from 'src/analytics/Properties'
-import AppAnalytics from 'src/analytics/AppAnalytics'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
 import { vibrateError } from 'src/styles/hapticFeedback'
@@ -284,11 +284,17 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       })
     )
 
-    AppAnalytics.track(SwapEvents.swap_execute_success, {
-      ...defaultSwapExecuteProps,
-      ...getTimeMetrics(),
-      ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),
-    })
+    // Success is tracked only for same-chain swaps. Cross-chain swap success is tracked in the query helper
+    // because for the cross-chain swaps, we have to wait for the transaction to be included in the
+    // destination chain before we can consider the swap successful
+    if (swapType === 'same-chain') {
+      AppAnalytics.track(SwapEvents.swap_execute_success, {
+        ...defaultSwapExecuteProps,
+        ...getTimeMetrics(),
+        ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),
+        swapType,
+      })
+    }
   } catch (err) {
     if (err === CANCELLED_PIN_INPUT) {
       Logger.info(TAG, 'Swap cancelled by user')

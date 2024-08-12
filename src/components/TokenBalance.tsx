@@ -13,8 +13,8 @@ import {
 import { getNumberFormatSettings } from 'react-native-localize'
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import { hideAlert, showToast } from 'src/alert/actions'
-import { AssetsEvents, FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { AssetsEvents, FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import { toggleHideBalances } from 'src/app/actions'
 import { hideWalletBalancesSelector } from 'src/app/selectors'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
@@ -36,7 +36,7 @@ import { Screens } from 'src/navigator/Screens'
 import { totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import Colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import {
@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   totalAssetsInfoText: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: Colors.white,
     textAlign: 'center',
   },
@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   exchangeTotalValue: {
-    ...fontStyles.label,
+    ...typeScale.labelSemiBoldSmall,
     color: Colors.gray4,
     paddingRight: 3,
   },
@@ -302,14 +302,14 @@ const styles = StyleSheet.create({
     paddingTop: 4,
   },
   balance: {
-    ...fontStyles.largeNumber,
+    ...typeScale.titleLarge,
   },
   totalBalance: {
     ...typeScale.titleLarge,
     color: Colors.black,
   },
   exchangeBalance: {
-    ...fontStyles.large500,
+    ...typeScale.labelLarge,
   },
   oneBalance: {
     flexDirection: 'row',
@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   tokenBalance: {
-    ...fontStyles.label,
+    ...typeScale.labelSemiBoldSmall,
     color: Colors.gray4,
   },
 })

@@ -1800,7 +1800,7 @@
     },
     "unsupportedTokensWarning": {
       "title": "选择不兼容",
-      "body": "所选代币无法进行交换。请选择与您的选择兼容的其他代币。"
+      "body": "所选令牌不能相互调换。请选择与您的选择相匹配的其他令牌。"
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "您需要更多 {{feeTokenSymbol}} 来支付手续费",
@@ -1888,10 +1888,10 @@
       "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "更多信息",
-      "feesInfo_sameChain": "处理交易需要支付网络费用，以确保安全可靠。",
-      "feesInfo_crossChain": "处理交易需要支付网络费用，以确保安全可靠。提供商收取跨链费用，以便在不同区块链之间进行顺畅、安全的交换。",
-      "feesInfo_sameChainWithAppFee": "处理交易需要支付网络费用，以确保安全可靠。{{appFeePercentage}}% 的 {{appName}} 费用将确保交换快速、可靠和安全，从而提升您的体验。",
-      "feesInfo_crossChainWithAppFee": "处理交易需要支付网络费用，以确保安全可靠。提供商会收取跨链费用，以便在不同区块链之间进行顺畅、安全的交换。{{appFeePercentage}}% 的 {{appName}} 费用将确保交换快速、可靠和安全，从而提升您的体验。"
+      "feesInfo_sameChain": "网络费是网络处理交易所需的费用。",
+      "feesInfo_crossChain": "网络费是网络处理交易所需的费用。跨链费用由跨链提供商收取。",
+      "feesInfo_sameChainWithAppFee": "网络费是网络处理交易所需的费用。 {{appName}} 费用为 {{appFeePercentage}}%，用于您使用我们的产品。",
+      "feesInfo_crossChainWithAppFee": "网络费是网络处理交易所需的费用。跨链费用由跨链提供商收取。 {{appName}} 费用为 {{appFeePercentage}}%，用于您使用我们的产品。"
     },
     "fundYourWalletBottomSheet": {
       "title": "为您的钱包提供资金。",
@@ -2239,7 +2239,7 @@
     "estimatedNetworkFee": "估算的网络费用",
     "networkFee": "网络费用",
     "appFee": "应用程序费用",
-    "estimatedCrossChainFee": "跨链费用估算",
+    "estimatedCrossChainFee": "预估跨链费用",
     "crossChainFee": "跨链费用",
     "finiteApprovalDescription": "已批准 {{approvedAmount}} {{tokenSymbol}} 用于交易。",
     "infiniteApprovalDescription": "已批准无限 {{tokenSymbol}} 用于交易",
@@ -2447,8 +2447,8 @@
       "cta": "开始您的积分之旅"
     },
     "disclaimer": {
-      "learnMoreCta": "<0>了解</0>有关 {{appName}} Points 的<0>更多</0>信息",
-      "body": "<0>什么是积分？</0>\n积分是 {{appName}}的忠诚度计划。当您使用我们的应用程序时，用户可获得积分。\n\n<0>积分有什么用？</0>\n您可以收集积分。积分不能消费、交易或转让。\n\n<0>它们为什么在我的钱包里？</0>\n因为它们是代币。在链上，您通过使用应用程序获得的数字幸福点数。",
+      "learnMoreCta": "<0>进一步了解</0> {{appName}} 积分",
+      "body": "<0>什么是积分？</0>\n积分是 {{appName}} 的忠诚度计划。如果您使用我们的应用程序，用户就能获得积分。\n\n<0>积分有哪些用途？</0>\n您可以收集积分。积分不可消费、交易或转让。\n\n<0>为什么积分会在我的钱包中？</0>\n因为积分是代币。在链上，使用应用程序可获得数字幸福点数。",
       "dismiss": "知道了"
     }
   },
@@ -2584,13 +2584,13 @@
     },
     "home": {
       "title": "赚钱",
-      "learnMore": "<0>了解</0>有关收益池的<0>更多</0>信息。",
+      "learnMore": "<0>进一步了解</0>收益池。",
       "learnMoreBottomSheet": {
         "bottomSheetTitle": "进一步了解收益池",
         "apySubtitle": "什么是 APY？",
-        "apyDescription": "年收益率（APY）是用于计算加密货币投资年化收益率的指标。它是衡量加密货币潜在回报和盈利能力的关键指标。",
+        "apyDescription": "年收益利率 (APY) 这一指标用于计算加密货币投资的年回报率。它是加密货币潜在回报和盈利能力的关键指标。",
         "tvlSubtitle": "什么是 TVL？",
-        "tvlDescription": "TVL 是锁定总价值（Total Value Locked）的缩写，是加密货币行业用来衡量锁定在区块链网络上的数字资产价值的指标。TVL 的计算方法是将锁定在 DeFi 协议或智能合约中的所有数字资产的价值相加。这些资产可以包括加密货币、稳定币和其他代币。"
+        "tvlDescription": "TVL 是锁定总价值 (Total Value Locked) 的缩写，是加密货币行业用来衡量区块链网络上锁定的数字资产价值的指标。TVL 的计算方法是将 DeFi 协议或智能合约中锁定的所有数字资产的价值相加。这些资产可包括加密货币、稳定币和其他代币。"
       }
     },
     "poolCard": {

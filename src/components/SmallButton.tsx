@@ -2,7 +2,7 @@ import * as React from 'react'
 import { StyleSheet, Text, TextStyle, ViewStyle } from 'react-native'
 import Touchable from 'src/components/Touchable'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 interface ButtonProps {
   onPress: () => void
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     borderColor: colors.primary,
   },
   text: {
-    ...fontStyles.regular500,
+    ...typeScale.labelMedium,
     fontSize: 13,
     lineHeight: 20,
     color: colors.gray5,

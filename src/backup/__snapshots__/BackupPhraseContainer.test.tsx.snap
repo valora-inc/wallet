@@ -21,9 +21,8 @@ exports[`BackupPhraseContainer renders correctly for input backup phrase 1`] = `
       <Text
         style={
           {
-            "color": "#2E3338",
-            "fontFamily": "Jost-Medium",
-            "fontSize": 22,
+            "fontFamily": "Inter-Bold",
+            "fontSize": 20,
             "lineHeight": 28,
             "marginBottom": 16,
           }
@@ -52,10 +51,9 @@ exports[`BackupPhraseContainer renders correctly for input backup phrase 1`] = `
       style={
         [
           {
-            "color": "#2E3338",
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
-            "lineHeight": 22,
+            "lineHeight": 24,
             "minHeight": 125,
             "padding": 14,
             "paddingTop": 16,
@@ -91,9 +89,8 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
       <Text
         style={
           {
-            "color": "#2E3338",
-            "fontFamily": "Jost-Medium",
-            "fontSize": 22,
+            "fontFamily": "Inter-Bold",
+            "fontSize": 20,
             "lineHeight": 28,
             "marginBottom": 16,
           }
@@ -150,7 +147,7 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
               "color": "#666666",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             }
           }
         >
@@ -161,10 +158,9 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
           numberOfLines={1}
           style={
             {
-              "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             }
           }
         >
@@ -193,7 +189,7 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
               "color": "#666666",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             }
           }
         >
@@ -204,10 +200,9 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
           numberOfLines={1}
           style={
             {
-              "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             }
           }
         >
@@ -236,7 +231,7 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
               "color": "#666666",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             }
           }
         >
@@ -247,10 +242,9 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
           numberOfLines={1}
           style={
             {
-              "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             }
           }
         >
@@ -279,7 +273,7 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
               "color": "#666666",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             }
           }
         >
@@ -290,10 +284,9 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
           numberOfLines={1}
           style={
             {
-              "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             }
           }
         >
@@ -322,7 +315,7 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
               "color": "#666666",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             }
           }
         >
@@ -333,10 +326,9 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
           numberOfLines={1}
           style={
             {
-              "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             }
           }
         >
@@ -365,7 +357,7 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
               "color": "#666666",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             }
           }
         >
@@ -376,10 +368,9 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
           numberOfLines={1}
           style={
             {
-              "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             }
           }
         >
@@ -408,7 +399,7 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
               "color": "#666666",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             }
           }
         >
@@ -419,10 +410,9 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
           numberOfLines={1}
           style={
             {
-              "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             }
           }
         >
@@ -451,7 +441,7 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
               "color": "#666666",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             }
           }
         >
@@ -462,10 +452,9 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
           numberOfLines={1}
           style={
             {
-              "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             }
           }
         >
@@ -494,7 +483,7 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
               "color": "#666666",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             }
           }
         >
@@ -505,10 +494,9 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
           numberOfLines={1}
           style={
             {
-              "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             }
           }
         >
@@ -537,7 +525,7 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
               "color": "#666666",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             }
           }
         >
@@ -548,10 +536,9 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
           numberOfLines={1}
           style={
             {
-              "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             }
           }
         >
@@ -580,7 +567,7 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
               "color": "#666666",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             }
           }
         >
@@ -591,10 +578,9 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
           numberOfLines={1}
           style={
             {
-              "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             }
           }
         >
@@ -623,7 +609,7 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
               "color": "#666666",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             }
           }
         >
@@ -634,10 +620,9 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
           numberOfLines={1}
           style={
             {
-              "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
-              "lineHeight": 22,
+              "lineHeight": 24,
             }
           }
         >
@@ -670,9 +655,8 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 24-word phr
       <Text
         style={
           {
-            "color": "#2E3338",
-            "fontFamily": "Jost-Medium",
-            "fontSize": 22,
+            "fontFamily": "Inter-Bold",
+            "fontSize": 20,
             "lineHeight": 28,
             "marginBottom": 16,
           }
@@ -701,7 +685,6 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 24-word phr
     <Text
       style={
         {
-          "color": "#2E3338",
           "fontFamily": "Inter-Regular",
           "fontSize": 22,
           "lineHeight": 32,

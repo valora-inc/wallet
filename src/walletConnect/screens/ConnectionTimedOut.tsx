@@ -4,7 +4,7 @@ import { StyleSheet, Text } from 'react-native'
 import Button, { BtnTypes } from 'src/components/Button'
 import { navigateBack } from 'src/navigator/NavigationService'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 function ConnectionTimedOut() {
   const { t } = useTranslation()
@@ -19,11 +19,11 @@ function ConnectionTimedOut() {
 
 const styles = StyleSheet.create({
   title: {
-    ...fontStyles.h1,
+    ...typeScale.titleMedium,
     textAlign: 'center',
   },
   subtitle: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     color: colors.gray4,
     textAlign: 'center',
     marginTop: 16,

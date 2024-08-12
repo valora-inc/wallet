@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import PickerSelect from 'react-native-picker-select'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { FiatExchangeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { FiatExchangeEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import CancelButton from 'src/components/CancelButton'
@@ -35,7 +35,7 @@ import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 
 export const TAG = 'FIATCONNECT/FiatDetailsScreen'
@@ -374,7 +374,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   inputLabel: {
-    ...fontStyles.regular500,
+    ...typeScale.labelMedium,
     paddingBottom: 4,
   },
   inputView: {
@@ -388,11 +388,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   formInput: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     color: colors.black,
   },
   formSelectInput: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     borderRadius: 4,
     borderWidth: 1.5,
     borderColor: colors.gray2,

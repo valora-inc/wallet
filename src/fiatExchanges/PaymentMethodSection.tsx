@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Image, LayoutAnimation, StyleSheet, Text, View } from 'react-native'
-import { FiatExchangeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { FiatExchangeEvents } from 'src/analytics/Events'
 import Dialog from 'src/components/Dialog'
 import Expandable from 'src/components/Expandable'
 import Touchable from 'src/components/Touchable'
@@ -16,7 +16,7 @@ import InfoIcon from 'src/icons/InfoIcon'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { useTokenInfo } from 'src/tokens/hooks'
 
 const SETTLEMENT_TIME_STRINGS: Record<SettlementTime, string> = {
@@ -337,36 +337,36 @@ const styles = StyleSheet.create({
     width: 'auto',
   },
   newLabelText: {
-    ...fontStyles.label,
+    ...typeScale.labelSemiBoldSmall,
     color: colors.white,
     marginRight: 5,
   },
   category: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
   },
   fee: {
-    ...fontStyles.small600,
+    ...typeScale.labelSemiBoldSmall,
     marginTop: 4,
   },
   providerDropdown: {
-    ...fontStyles.small500,
+    ...typeScale.labelSmall,
     color: colors.gray3,
   },
   expandedInfo: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
     marginTop: 2,
   },
   topInfo: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
     marginTop: 4,
   },
   expandedFee: {
-    ...fontStyles.small600,
+    ...typeScale.labelSemiBoldSmall,
   },
   expandedTag: {
-    ...fontStyles.label,
+    ...typeScale.labelSemiBoldSmall,
     color: colors.primary,
     fontSize: 12,
     marginTop: 2,

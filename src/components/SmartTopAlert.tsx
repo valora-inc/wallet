@@ -5,7 +5,7 @@ import { AlertTypes } from 'src/alert/actions'
 import SmallButton from 'src/components/SmallButton'
 import Error from 'src/icons/Error'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { vibrateError, vibrateInformative } from 'src/styles/hapticFeedback'
 interface Props {
   alert: {
@@ -121,8 +121,8 @@ function SmartTopAlert({ alert }: Props) {
           ]}
         >
           {isError && <Error style={styles.errorIcon} />}
-          <Text style={[fontStyles.small, isError && fontStyles.small500, styles.text]}>
-            {!!title && <Text style={[fontStyles.small500, styles.text]}> {title} </Text>}
+          <Text style={[typeScale.bodySmall, isError && typeScale.labelSmall, styles.text]}>
+            {!!title && <Text style={[typeScale.labelSmall, styles.text]}> {title} </Text>}
             {message}
           </Text>
           {!!buttonMessage && (

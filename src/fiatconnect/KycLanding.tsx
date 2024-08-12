@@ -15,8 +15,8 @@ import {
 } from 'react-native'
 import Persona from 'src/account/Persona'
 import { KycStatus } from 'src/account/reducer'
-import { CICOEvents, FiatExchangeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { CICOEvents, FiatExchangeEvents } from 'src/analytics/Events'
 import { PRIVACY_LINK } from 'src/brandingConfig'
 import BackButton from 'src/components/BackButton'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
@@ -32,7 +32,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import Colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { navigateToURI } from 'src/utils/linking'
 
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     paddingVertical: 48,
   },
   stepText: {
-    ...fontStyles.notificationHeadline,
+    ...typeScale.labelSemiBoldMedium,
     textAlign: 'center',
     marginBottom: 12,
   },
@@ -218,11 +218,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
     marginHorizontal: 16,
   },
   description: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     textAlign: 'center',
     marginVertical: 12,
     marginHorizontal: 24,

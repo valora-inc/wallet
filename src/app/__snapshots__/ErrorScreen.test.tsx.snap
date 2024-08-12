@@ -35,9 +35,8 @@ exports[`ErrorScreen with errorMessage renders correctly 1`] = `
     <Text
       style={
         {
-          "color": "#2E3338",
-          "fontFamily": "Jost-Book",
-          "fontSize": 26,
+          "fontFamily": "Inter-Bold",
+          "fontSize": 24,
           "lineHeight": 32,
         }
       }
@@ -47,9 +46,8 @@ exports[`ErrorScreen with errorMessage renders correctly 1`] = `
     <Text
       style={
         {
-          "color": "#2E3338",
-          "fontFamily": "Jost-Medium",
-          "fontSize": 22,
+          "fontFamily": "Inter-Bold",
+          "fontSize": 20,
           "lineHeight": 28,
         }
       }
@@ -65,10 +63,9 @@ exports[`ErrorScreen with errorMessage renders correctly 1`] = `
         {
           "backgroundColor": "#F8F9F9",
           "borderRadius": 25,
-          "color": "#2E3338",
           "fontFamily": "Inter-Regular",
           "fontSize": 12,
-          "lineHeight": 22,
+          "lineHeight": 24,
           "padding": 15,
         }
       }
@@ -214,9 +211,8 @@ exports[`ErrorScreen without errorMessage renders correctly 1`] = `
     <Text
       style={
         {
-          "color": "#2E3338",
-          "fontFamily": "Jost-Book",
-          "fontSize": 26,
+          "fontFamily": "Inter-Bold",
+          "fontSize": 24,
           "lineHeight": 32,
         }
       }
@@ -226,9 +222,8 @@ exports[`ErrorScreen without errorMessage renders correctly 1`] = `
     <Text
       style={
         {
-          "color": "#2E3338",
-          "fontFamily": "Jost-Medium",
-          "fontSize": 22,
+          "fontFamily": "Inter-Bold",
+          "fontSize": 20,
           "lineHeight": 28,
         }
       }
@@ -244,10 +239,9 @@ exports[`ErrorScreen without errorMessage renders correctly 1`] = `
         {
           "backgroundColor": "#F8F9F9",
           "borderRadius": 25,
-          "color": "#2E3338",
           "fontFamily": "Inter-Regular",
           "fontSize": 12,
-          "lineHeight": 22,
+          "lineHeight": 24,
           "padding": 15,
         }
       }

@@ -3,7 +3,7 @@ import { Image, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import DefaultAvatar from 'src/icons/DefaultAvatar'
 import { Recipient } from 'src/recipients/recipient'
 import Colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 interface Props {
   style?: ViewStyle
@@ -55,7 +55,7 @@ function ContactCircle({
       return (
         <Text
           allowFontScaling={false}
-          style={[fontStyles.iconText, { fontSize: iconSize / 2.0, color: fontColor }]}
+          style={[typeScale.labelMedium, { fontSize: iconSize / 2.0, color: fontColor }]}
         >
           {initial.toLocaleUpperCase()}
         </Text>

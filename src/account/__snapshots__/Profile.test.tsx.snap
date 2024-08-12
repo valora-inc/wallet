@@ -115,9 +115,9 @@ exports[`Profile renders correctly 1`] = `
                 style={
                   [
                     {
-                      "color": "#FFFFFF",
                       "fontFamily": "Inter-Medium",
                       "fontSize": 16,
+                      "lineHeight": 24,
                     },
                     {
                       "color": "hsl(0, 67%, 24%)",
@@ -382,7 +382,7 @@ exports[`Profile renders correctly 1`] = `
                 "color": "#1AB775",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
-                "lineHeight": 22,
+                "lineHeight": 24,
               }
             }
           >
