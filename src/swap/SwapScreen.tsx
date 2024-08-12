@@ -619,11 +619,13 @@ export function SwapScreen({ route }: Props) {
       showUnsupportedTokensWarning:
         !quoteUpdatePending && fetchSwapQuoteError?.message.includes(NO_QUOTE_ERROR_MESSAGE),
       showInsufficientBalanceWarning: parsedSwapAmount[Field.FROM].gt(fromTokenBalance),
-      showCrossChainFeeWarning: crossChainFee?.nativeTokenBalanceDeficit.lt(0),
+      showCrossChainFeeWarning:
+        !quoteUpdatePending && crossChainFee?.nativeTokenBalanceDeficit.lt(0),
       showDecreaseSpendForGasWarning:
+        !quoteUpdatePending &&
         quote?.preparedTransactions.type === 'need-decrease-spend-amount-for-gas',
       showNotEnoughBalanceForGasWarning:
-        quote?.preparedTransactions.type === 'not-enough-balance-for-gas',
+        !quoteUpdatePending && quote?.preparedTransactions.type === 'not-enough-balance-for-gas',
       showMaxSwapAmountWarning: shouldShowMaxSwapAmountWarning && !confirmSwapFailed,
       showNoUsdPriceWarning:
         !confirmSwapFailed && !quoteUpdatePending && toToken && !toToken.priceUsd,
@@ -633,7 +635,7 @@ export function SwapScreen({ route }: Props) {
         (quote?.estimatedPriceImpact
           ? new BigNumber(quote.estimatedPriceImpact).gte(priceImpactWarningThreshold)
           : false),
-      showMissingPriceImpactWarning: quote && !quote.estimatedPriceImpact,
+      showMissingPriceImpactWarning: !quoteUpdatePending && quote && !quote.estimatedPriceImpact,
     }
 
     // Only ever show a single warning, according to precedence as above.
