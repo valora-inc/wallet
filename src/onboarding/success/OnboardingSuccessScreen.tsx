@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import Logo from 'src/brandedIcons/Logo'
+import Logo from 'src/icons/Logo'
 import { background } from 'src/images/Images'
 import { nuxNavigationOptionsNoBackButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'

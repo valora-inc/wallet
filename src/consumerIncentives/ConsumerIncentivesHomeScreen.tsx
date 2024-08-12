@@ -12,7 +12,6 @@ import {
   phoneNumberVerifiedSelector,
   superchargeTokenConfigByTokenSelector,
 } from 'src/app/selectors'
-import Logo from 'src/brandedIcons/Logo'
 import { SUPERCHARGE_LEARN_MORE } from 'src/brandingConfig'
 import Button, { BtnSizes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
@@ -29,6 +28,7 @@ import { claimRewards, fetchAvailableRewards } from 'src/consumerIncentives/slic
 import { SuperchargePendingReward, SuperchargeTokenConfig } from 'src/consumerIncentives/types'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import InfoIcon from 'src/icons/InfoIcon'
+import Logo from 'src/icons/Logo'
 import Times from 'src/icons/Times'
 import { boostRewards, earn1, earn2 } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'

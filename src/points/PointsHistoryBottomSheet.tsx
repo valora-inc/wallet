@@ -5,13 +5,13 @@ import { ActivityIndicator, ListRenderItem, StyleSheet, Text, View } from 'react
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { PointsEvents } from 'src/analytics/Events'
-import LogoHeart from 'src/brandedIcons/LogoHeart'
 import BottomSheetBase from 'src/components/BottomSheetBase'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { NotificationVariant } from 'src/components/InLineNotification'
 import SectionHead from 'src/components/SectionHead'
 import Toast from 'src/components/Toast'
 import { default as Attention, default as AttentionIcon } from 'src/icons/Attention'
+import LogoHeart from 'src/icons/LogoHeart'
 import { HistoryCardMetadata, useGetHistoryDefinition } from 'src/points/cardDefinitions'
 import {
   nextPageUrlSelector,

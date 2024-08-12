@@ -1,7 +1,7 @@
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { SvgUri } from 'react-native-svg'
-import Logo from 'src/brandedIcons/Logo'
+import Logo from 'src/icons/Logo'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'

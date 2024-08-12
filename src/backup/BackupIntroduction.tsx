@@ -10,9 +10,9 @@ import BackupPhraseContainer, {
   BackupPhraseType,
 } from 'src/backup/BackupPhraseContainer'
 import { useAccountKey } from 'src/backup/utils'
-import Logo from 'src/brandedIcons/Logo'
 import Button from 'src/components/Button'
 import TextButton from 'src/components/TextButton'
+import Logo from 'src/icons/Logo'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
