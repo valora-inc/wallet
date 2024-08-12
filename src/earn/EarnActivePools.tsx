@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import AppAnalytics from 'src/analytics/AppAnalytics'
@@ -23,13 +23,23 @@ export default function EarnActivePools() {
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
   const earnPositions = useSelector(earnPositionsSelector)
-  const pools = earnPositions.map(convertPositionToPool)
-  const poolsSupplied = pools.reduce((acc, pool) => (pool.balance.gt(0) ? acc + 1 : acc), 0)
-  const totalSuppliedValue = useDollarsToLocalAmount(
-    pools.reduce((acc, pool) => acc.plus(pool.balance.times(pool.priceUsd)), new BigNumber(0)) ??
-      null
+  const pools = useMemo(() => earnPositions.map(convertPositionToPool), [earnPositions])
+  const poolsSupplied = useMemo(() => pools.filter((pool) => pool.balance.gt(0)).length, [pools])
+  const totalSuppliedValue = useMemo(
+    () =>
+      useDollarsToLocalAmount(
+        pools.reduce(
+          (acc, pool) => acc.plus(pool.balance.times(pool.priceUsd)),
+          new BigNumber(0)
+        ) ?? null
+      ),
+    [pools]
   )
-  const totalSupplied = `${localCurrencySymbol}${totalSuppliedValue ? formatValueToDisplay(totalSuppliedValue) : '--'}`
+  const totalSupplied = useMemo(
+    () =>
+      `${localCurrencySymbol}${totalSuppliedValue ? formatValueToDisplay(totalSuppliedValue) : '--'}`,
+    [localCurrencySymbol, totalSuppliedValue]
+  )
 
   return (
     <View style={styles.card} testID="EarnActivePools">

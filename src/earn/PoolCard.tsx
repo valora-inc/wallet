@@ -30,8 +30,24 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
       .filter((token): token is TokenBalance => !!token)
   }, [pool.tokens, allTokens])
   const depositTokenInfo = allTokens[depositTokenId]
+
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const poolBalance = useDollarsToLocalAmount(pool.balance.times(pool.priceUsd)) ?? null
+  const poolBalanceString = useMemo(
+    () => `${localCurrencySymbol}${poolBalance ? formatValueToDisplay(poolBalance) : '--'}`,
+    [localCurrencySymbol, poolBalance]
+  )
+
+  const rewardPercentageString = useMemo(
+    () =>
+      `${pool.earnItems.reduce((acc, earnItem) => acc.plus(new BigNumber(earnItem.amount)), new BigNumber(0)).toFixed(2)}%`,
+    [pool.earnItems]
+  )
+
+  const totalYieldRate = new BigNumber(
+    pool.yieldRates.reduce((acc, yieldRate) => acc + yieldRate.percentage, 0)
+  ).toFixed(2)
+
   return (
     <View style={styles.card} testID={testID}>
       <View style={styles.titleRow}>
@@ -56,17 +72,13 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
           <Text style={styles.keyText}>{t('earnFlow.poolCard.rate')}</Text>
           <Text style={styles.valueTextBold}>
             {t('earnFlow.poolCard.apy', {
-              apy: new BigNumber(
-                pool.yieldRates.reduce((acc, yieldRate) => acc + yieldRate.percentage, 0)
-              ).toFixed(2),
+              apy: totalYieldRate,
             })}
           </Text>
         </View>
         <View style={styles.keyValueRow}>
           <Text style={styles.keyText}>{t('earnFlow.poolCard.reward')}</Text>
-          <Text
-            style={styles.valueText}
-          >{`${pool.earnItems.reduce((acc, earnItem) => acc.plus(new BigNumber(earnItem.amount)), new BigNumber(0)).toFixed(2)}%`}</Text>
+          <Text style={styles.valueText}>{rewardPercentageString}</Text>
         </View>
         <View style={styles.keyValueRow}>
           <Text style={styles.keyText}>{t('earnFlow.poolCard.tvl')}</Text>
@@ -87,9 +99,7 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
                   style={styles.valueText}
                 ></TokenDisplay>
                 {`) `}
-                <Text style={styles.valueTextBold}>
-                  {`${localCurrencySymbol}${poolBalance ? formatValueToDisplay(poolBalance) : '--'}`}
-                </Text>
+                <Text style={styles.valueTextBold}>{poolBalanceString}</Text>
               </Text>
             </View>
           </View>

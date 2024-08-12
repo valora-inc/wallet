@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import ItemSeparator from 'src/components/ItemSeparator'
 import EarnActivePool from 'src/earn/EarnActivePool'
@@ -23,10 +23,10 @@ export function EarnCardDiscover({ depositTokenId, poolTokenId }: Props) {
   const poolToken = useTokenInfo(poolTokenId)
 
   const earnPositions = useSelector(earnPositionsSelector)
-  const pools = earnPositions.map(convertPositionToPool)
+  const pools = useMemo(() => earnPositions.map(convertPositionToPool), [earnPositions])
 
   if (showMultiplePools) {
-    const poolsSupplied = pools.reduce((acc, pool) => (pool.balance.gt(0) ? acc + 1 : acc), 0)
+    const poolsSupplied = useMemo(() => pools.filter((pool) => pool.balance.gt(0)).length, [pools])
     return poolsSupplied > 0 ? <EarnActivePools /> : <EarnEntrypoint />
   }
 
