@@ -227,26 +227,6 @@ export const tokensListWithAddressSelector = createSelector(tokensByAddressSelec
   return Object.values(tokens).map((token) => token!)
 })
 
-/**
- * @deprecated
- */
-export const tokensBySymbolSelector = createSelector(
-  tokensListWithAddressSelector,
-  (
-    tokens
-  ): {
-    [symbol: string]: TokenBalanceWithAddress
-  } => {
-    return tokens.reduce(
-      (acc, token) => ({
-        ...acc,
-        [token.symbol]: token,
-      }),
-      {}
-    )
-  }
-)
-
 const tokensWithLastKnownUsdValueSelector = createSelector(tokensListSelector, (tokens) => {
   return tokens.filter((tokenInfo) =>
     tokenInfo.balance
