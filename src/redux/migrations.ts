@@ -457,7 +457,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      superchargeApy: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeApy,
+      superchargeApy: 12,
       superchargeTokens: [],
       rewardsPercent: undefined,
       rewardsStartDate: undefined,
