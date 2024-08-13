@@ -58,7 +58,7 @@ export default class ValidatedTextInput extends React.Component<ValidatedTextInp
     // note: the countryCallingCode is a string like "+31"
     const userInput =
       this.props.validator === ValidatorKind.Phone
-        ? input.split(this.props.countryCallingCode)[1] ?? input
+        ? (input.split(this.props.countryCallingCode)[1] ?? input)
         : input
     const validated = validateInput(userInput, this.props)
 
