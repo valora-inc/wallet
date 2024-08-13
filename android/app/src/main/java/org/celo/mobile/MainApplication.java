@@ -15,7 +15,6 @@ import com.facebook.react.defaults.DefaultReactNativeHost;
 import com.facebook.react.modules.network.OkHttpClientProvider;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.swmansion.reanimated.ReanimatedJSIModulePackage;
 import io.sentry.react.RNSentryPackage;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,11 +52,6 @@ public class MainApplication
     @Override
     protected Boolean isHermesEnabled() {
       return BuildConfig.IS_HERMES_ENABLED;
-    }
-
-    @Override
-    protected JSIModulePackage getJSIModulePackage() {
-      return new ReanimatedJSIModulePackage();
     }
   };
 
