@@ -36,7 +36,7 @@
 				<string>celo</string>
 			</array>
 		</dict>
-    <dict>
+		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
@@ -80,17 +80,10 @@
 	<string>We use the advertising identifier to accurately attribute app installs from ad campaigns.</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Hind-Bold.ttf</string>
-		<string>Hind-Light.ttf</string>
-		<string>Hind-Medium.ttf</string>
-		<string>Hind-Regular.ttf</string>
-		<string>Hind-SemiBold.ttf</string>
 		<string>Inter-Medium.ttf</string>
 		<string>Inter-Regular.ttf</string>
 		<string>Inter-SemiBold.ttf</string>
 		<string>Inter-Bold.ttf</string>
-		<string>Jost-Book.ttf</string>
-		<string>Jost-Medium.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

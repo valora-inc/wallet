@@ -3403,10 +3403,10 @@
     "@sentry/utils" "7.117.0"
     localforage "^1.8.1"
 
-"@sentry/react-native@^5.27.0":
-  version "5.27.0"
-  resolved "https://registry.yarnpkg.com/@sentry/react-native/-/react-native-5.27.0.tgz#fdedfaba0098719bf10522ca50bfb4fbf85c9431"
-  integrity sha512-nCGn+lJNPVK6BZe9wUhEYpujBFBGXc4B5j7RZuoRvJSWGX5+0AD8urBe+GDUjNonlKnjPaDm6C+nlsm7BCas9g==
+"@sentry/react-native@^5.28.0":
+  version "5.28.0"
+  resolved "https://registry.yarnpkg.com/@sentry/react-native/-/react-native-5.28.0.tgz#724180c77f8d3b3c427022d6c85cbc25a8026291"
+  integrity sha512-YYgQYL4Ci1J3AZkFWB30xNPZs0L5sMT/dQMphqX+NCzOxe+4t5Nve1qEq/QLybH0zG96Zfh8m3CL6PU1ql1Ztw==
   dependencies:
     "@sentry/babel-plugin-component-annotate" "2.20.1"
     "@sentry/browser" "7.117.0"
@@ -11368,10 +11368,10 @@ jackspeak@^2.3.5:
   optionalDependencies:
     "@pkgjs/parseargs" "^0.11.0"
 
-java-parser@2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/java-parser/-/java-parser-2.3.0.tgz#13037364c04bf7386bef841f872cbc5e8b53830f"
-  integrity sha512-P6Ma4LU1w/e0Lr4SVM/0PtqCGoL2/i/KP9ZoiyLa824oBqhF0yGTgHDyZkLgp9GTzqR43wm5wabE56FF5X7cqg==
+java-parser@2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/java-parser/-/java-parser-2.3.2.tgz#9a930dfb397a9ada0bb1e8a18a9086eb65f2adf8"
+  integrity sha512-/O42UbEHy3VVJw8W0ruHkQjW75oWvQx4QisoUDRIGir6q3/IZ4JslDMPMYEqp7LU56PYJkH5uXdQiBaCXt/Opw==
   dependencies:
     chevrotain "11.0.3"
     chevrotain-allstar "0.3.1"
@@ -14754,19 +14754,19 @@ prepend-http@^2.0.0:
   resolved "https://registry.yarnpkg.com/prepend-http/-/prepend-http-2.0.0.tgz#e92434bfa5ea8c19f41cdfd401d741a3c819d897"
   integrity sha1-6SQ0v6XqjBn0HN/UAddBo8gZ2Jc=
 
-prettier-plugin-java@^2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/prettier-plugin-java/-/prettier-plugin-java-2.6.0.tgz#53c478f290b6dcd2db64468a159f9db222853141"
-  integrity sha512-mHZ3Ub3WAyYSUe1mMbiGH85xYV+NtzJgNsrfLNYDKvL7NfvoKBuJiEW4Xa2MFG668f9uRdj38WEuPKmRu+nv/g==
+prettier-plugin-java@^2.6.4:
+  version "2.6.4"
+  resolved "https://registry.yarnpkg.com/prettier-plugin-java/-/prettier-plugin-java-2.6.4.tgz#29716b084f0c90b0c08b33088dc59a934032793b"
+  integrity sha512-57iGIFM4xSCqzHc4G6RLeC0DJk+i6Vd1JDj5xcIe7GsWZjRSl8WWkpL0f4BB0gZ+jDZ8R1uJaxtnMgnRtzjLDQ==
   dependencies:
-    java-parser "2.3.0"
+    java-parser "2.3.2"
     lodash "4.17.21"
     prettier "3.2.5"
 
-prettier@*, prettier@3.2.5, prettier@3.3.2:
-  version "3.3.2"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.3.2.tgz#03ff86dc7c835f2d2559ee76876a3914cec4a90a"
-  integrity sha512-rAVeHYMcv8ATV5d508CFdn+8/pHPpXeIid1DdrPwXnaAdH7cqjVbpJaT5eq4yRAFU/lsbwYwSF/n5iNrdJHPQA==
+prettier@*, prettier@3.2.5, prettier@3.3.3:
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.3.3.tgz#30c54fe0be0d8d12e6ae61dbb10109ea00d53105"
+  integrity sha512-i2tDNA0O5IrMO757lfrdQZCc2jPNDVntV0m/+4whiDfWaTKfMNgR7Qz0NAeGz/nRqF4m5/6CLzbP4/liHt12Ew==
 
 pretty-format@^24.9.0:
   version "24.9.0"
