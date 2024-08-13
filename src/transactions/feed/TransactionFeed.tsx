@@ -73,7 +73,11 @@ function TransactionFeed() {
       return []
     }
 
-    return groupFeedItemsInSections(pendingTransactions, confirmedFeedTransactions)
+    const confirmedFeedTxHashes = new Set(confirmedFeedTransactions.map((tx) => tx.transactionHash))
+    return groupFeedItemsInSections(
+      pendingTransactions.filter((tx) => !confirmedFeedTxHashes.has(tx.transactionHash)),
+      confirmedFeedTransactions
+    )
   }, [pendingTransactions, confirmedFeedTransactions])
 
   if (!sections.length) {
