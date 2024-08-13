@@ -158,12 +158,11 @@ export function* sendAndMonitorTransaction<T>(
     // This won't show fees in the standby tx.
     // Getting the selected fee currency is hard since it happens inside of `sendTransactionPromises`.
     // This code will be deprecated when we remove the contract kit dependency, so I think it's fine to leave it as is.
-    yield* call(
-      handleTransactionReceiptReceived,
-      context.id,
-      txReceipt,
-      networkConfig.defaultNetworkId
-    )
+    yield* call(handleTransactionReceiptReceived, {
+      txId: context.id,
+      receipt: txReceipt,
+      networkId: networkConfig.defaultNetworkId,
+    })
 
     yield* put(fetchTokenBalances({ showLoading: true }))
     return { receipt: txReceipt }
@@ -238,32 +237,46 @@ export function* getTransactionReceipt(
   transaction: StandbyTransaction & { transactionHash: string },
   network: Network
 ) {
+  if (
+    transaction.__typename === 'CrossChainTokenExchange' &&
+    'isSourceNetworkTxConfirmed' in transaction &&
+    transaction.isSourceNetworkTxConfirmed
+  ) {
+    Logger.info(
+      `${TAG}@getTransactionReceipt`,
+      `Skipping already confirmed cross-chain swap on source network ${transaction.transactionHash}`
+    )
+    return
+  }
+
   const { feeCurrencyId, transactionHash, __typename } = transaction
   const networkId = networkConfig.networkToNetworkId[network]
+  const isCrossChainSwapTransaction = __typename === 'CrossChainTokenExchange'
+  const isSwapTransaction = __typename === 'TokenExchangeV3'
 
   try {
     const receipt = yield* call([publicClient[network], 'waitForTransactionReceipt'], {
       hash: transactionHash as Hash,
     })
 
-    if (transaction.__typename === 'CrossChainTokenExchange' && receipt.status === 'success') {
-      // Do nothing for a cross chain swap that has a successful receipt because
-      // it is for the source network only, and we'll need to rely on
-      // blockchain-api to tell us when the whole cross chain swap has
-      // succeeded. However, we still want to mark the swap as failed if this
-      // source chain transaction has been reverted.
-    } else {
-      yield* call(
-        handleTransactionReceiptReceived,
-        transaction.context.id,
-        receipt,
-        networkId,
-        feeCurrencyId
-      )
-    }
+    yield* call(handleTransactionReceiptReceived, {
+      txId: transaction.context.id,
+      receipt,
+      networkId,
+      feeCurrencyId,
+      // The tx receipt for a cross-chain swap is for the source network only,
+      // so we do not want to mark the whole cross-chain swap as completed if
+      // the status here is successful. We do however want to update the
+      // transaction details, including marking it as failed if the status is
+      // reverted.
+      overrideStatus:
+        isCrossChainSwapTransaction && receipt.status === 'success'
+          ? TransactionStatus.Pending
+          : undefined,
+    })
 
     if (receipt.status === 'success') {
-      if (__typename === 'TokenExchangeV3') {
+      if (isSwapTransaction || isCrossChainSwapTransaction) {
         yield* put(
           trackPointsEvent({
             activityId: 'swap',
@@ -327,12 +340,19 @@ export function* transactionSaga() {
   yield* spawn(watchPendingTransactions)
 }
 
-function* handleTransactionReceiptReceived(
-  txId: string,
-  receipt: TransactionReceipt | CeloTxReceipt,
-  networkId: NetworkId,
+function* handleTransactionReceiptReceived({
+  txId,
+  receipt,
+  networkId,
+  feeCurrencyId,
+  overrideStatus,
+}: {
+  txId: string
+  receipt: TransactionReceipt | CeloTxReceipt
+  networkId: NetworkId
   feeCurrencyId?: string
-) {
+  overrideStatus?: TransactionStatus
+}) {
   const tokensById = yield* select((state) => tokensByIdSelector(state, [networkId]))
 
   const feeTokenInfo = feeCurrencyId && tokensById[feeCurrencyId]
@@ -348,13 +368,14 @@ function* handleTransactionReceiptReceived(
     new BigNumber(receipt.effectiveGasPrice.toString())
   )
 
+  const transactionStatusFromReceipt =
+    receipt.status === 'reverted' || !receipt.status
+      ? TransactionStatus.Failed
+      : TransactionStatus.Complete
   const baseDetails = {
     transactionHash: receipt.transactionHash,
     block: receipt.blockNumber.toString(),
-    status:
-      receipt.status === 'reverted' || !receipt.status
-        ? TransactionStatus.Failed
-        : TransactionStatus.Complete,
+    status: overrideStatus ?? transactionStatusFromReceipt,
   }
 
   const blockDetails = yield* call([publicClient[networkIdToNetwork[networkId]], 'getBlock'], {
