@@ -1307,7 +1307,7 @@
             "additionalProperties": false,
             "properties": {
                 "contractCreatedAt": {
-                    "type": "number"
+                    "type": "string"
                 },
                 "depositTokenId": {
                     "type": "string"
