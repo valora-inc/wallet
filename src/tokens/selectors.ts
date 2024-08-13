@@ -96,7 +96,7 @@ export const tokensByIdSelector = createSelector(
     positionsFetchedAtSelector,
     (_state: RootState, args: TokensByIdArgs) => (Array.isArray(args) ? args : args.networkIds),
     (_state: RootState, args: TokensByIdArgs) =>
-      Array.isArray(args) ? false : args.includePositionTokens ?? false,
+      Array.isArray(args) ? false : (args.includePositionTokens ?? false),
   ],
   (storedBalances, positionTokens, positionsFetchedAt, networkIds, includePositionTokens) => {
     const allStoredBalances = { ...storedBalances }
