@@ -16,23 +16,6 @@ import {
   mockUSDCAddress,
 } from 'test/values'
 
-// const AAVE_POOL: EarnPosition = {
-//   poolId: 'pool1',
-//   providerId: 'aave-v3',
-//   networkId: NetworkId['arbitrum-sepolia'],
-//   tokens: [mockArbUsdcTokenId, mockArbEthTokenId],
-//   depositTokenId: mockArbUsdcTokenId,
-//   poolTokenId: mockArbEthTokenId,
-//   provider: 'Test',
-//   yieldRates: [{ percentage: 3.3, label: 'Earnings APY', tokenId: mockArbUsdcTokenId }],
-//   earnItems: [],
-//   tvl: 1360000,
-//   poolAddress: '0xvault',
-//   balance: new BigNumber(0),
-//   priceUsd: new BigNumber(0),
-//   pricePerShare: ['0.5', '0.5'],
-// }
-
 const AAVE_EARN_POSITION: EarnPosition = {
   type: 'app-token',
   networkId: NetworkId['arbitrum-sepolia'],

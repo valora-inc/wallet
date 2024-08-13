@@ -28,9 +28,14 @@ export default function PoolCard({
   testID?: string
 }) {
   const {
+    positionId,
+    appId,
     tokens,
     networkId,
-    dataProps: { withdrawTokenId: poolTokenId, depositTokenId },
+    priceUsd,
+    balance,
+    pricePerShare,
+    dataProps: { earningItems, yieldRates, tvl, withdrawTokenId: poolTokenId, depositTokenId },
   } = pool
   const { t } = useTranslation()
   const allTokens = useSelector((state) => tokensByIdSelector(state, [networkId]))
@@ -38,25 +43,28 @@ export default function PoolCard({
     return tokens
       .map((token) => allTokens[token.tokenId])
       .filter((token): token is TokenBalance => !!token)
-  }, [pool.tokens, allTokens])
+  }, [tokens, allTokens])
   const depositTokenInfo = allTokens[depositTokenId]
 
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const poolBalance =
-    useDollarsToLocalAmount(new BigNumber(pool.balance).times(new BigNumber(pool.priceUsd))) ?? null
+    useDollarsToLocalAmount(new BigNumber(balance).times(new BigNumber(priceUsd))) ?? null
   const poolBalanceString = useMemo(
     () => `${localCurrencySymbol}${poolBalance ? formatValueToDisplay(poolBalance) : '--'}`,
     [localCurrencySymbol, poolBalance]
   )
 
-  const rewardPercentageString = useMemo(
+  const rewardPercentage = useMemo(
     () =>
-      `${pool.dataProps.earningItems.reduce((acc, earnItem) => acc.plus(new BigNumber(earnItem.amount)), new BigNumber(0)).toFixed(2)}%`,
-    [pool.dataProps.earningItems]
+      earningItems
+        .reduce((acc, earnItem) => acc.plus(new BigNumber(earnItem.amount)), new BigNumber(0))
+        .toFixed(2),
+    [earningItems]
   )
+  const rewardPercentageString = `${rewardPercentage}%`
 
   const totalYieldRate = new BigNumber(
-    pool.dataProps.yieldRates.reduce((acc, yieldRate) => acc + yieldRate.percentage, 0)
+    yieldRates.reduce((acc, yieldRate) => acc + yieldRate.percentage, 0)
   ).toFixed(2)
 
   return (
@@ -93,12 +101,10 @@ export default function PoolCard({
         </View>
         <View style={styles.keyValueRow}>
           <Text style={styles.keyText}>{t('earnFlow.poolCard.tvl')}</Text>
-          <Text
-            style={styles.valueText}
-          >{`$${new BigNumber(pool.dataProps.tvl ?? 0).toFormat()}`}</Text>
+          <Text style={styles.valueText}>{`$${new BigNumber(tvl ?? 0).toFormat()}`}</Text>
         </View>
       </View>
-      {new BigNumber(pool.balance).gt(0) && !!depositTokenInfo ? (
+      {new BigNumber(balance).gt(0) && !!depositTokenInfo ? (
         <View style={styles.withBalanceContainer}>
           <View style={styles.keyValueContainer}>
             <View style={styles.keyValueRow}>
@@ -106,7 +112,7 @@ export default function PoolCard({
               <Text>
                 {`(`}
                 <TokenDisplay
-                  amount={new BigNumber(pool.balance).times(new BigNumber(pool.pricePerShare[0]))}
+                  amount={new BigNumber(balance).times(new BigNumber(pricePerShare[0]))}
                   tokenId={depositTokenId}
                   showLocalAmount={false}
                   style={styles.valueText}
@@ -120,11 +126,11 @@ export default function PoolCard({
             <Button
               onPress={() => {
                 AppAnalytics.track(EarnEvents.earn_pool_card_cta_press, {
-                  poolId: pool.positionId,
+                  poolId: positionId,
                   depositTokenId,
-                  networkId: pool.networkId,
-                  tokenAmount: pool.balance.toString(),
-                  providerId: pool.appId,
+                  networkId: networkId,
+                  tokenAmount: balance,
+                  providerId: appId,
                   action: 'withdraw',
                 })
                 navigate(Screens.EarnCollectScreen, { depositTokenId, poolTokenId })
@@ -138,11 +144,11 @@ export default function PoolCard({
             <Button
               onPress={() => {
                 AppAnalytics.track(EarnEvents.earn_pool_card_cta_press, {
-                  poolId: pool.positionId,
+                  poolId: positionId,
                   depositTokenId,
-                  networkId: pool.networkId,
-                  tokenAmount: pool.balance.toString(),
-                  providerId: pool.appId,
+                  networkId: networkId,
+                  tokenAmount: balance,
+                  providerId: appId,
                   action: 'deposit',
                 })
                 navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })
@@ -159,11 +165,11 @@ export default function PoolCard({
         <Button
           onPress={() => {
             AppAnalytics.track(EarnEvents.earn_pool_card_cta_press, {
-              poolId: pool.positionId,
+              poolId: positionId,
               depositTokenId,
-              networkId: pool.networkId,
+              networkId: networkId,
               tokenAmount: '0',
-              providerId: pool.appId,
+              providerId: appId,
               action: 'deposit',
             })
             navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })
@@ -175,7 +181,7 @@ export default function PoolCard({
         />
       )}
       <Text style={styles.poweredByText}>
-        {t('earnFlow.poolCard.poweredBy', { providerName: pool.appId })}
+        {t('earnFlow.poolCard.poweredBy', { providerName: appId })}
       </Text>
     </View>
   )
