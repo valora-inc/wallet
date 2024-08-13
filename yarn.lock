@@ -3241,29 +3241,31 @@
     "@segment/tsub" "^2"
     clone "^2.1.2"
 
-"@segment/analytics-react-native-plugin-firebase@^0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-firebase/-/analytics-react-native-plugin-firebase-0.4.1.tgz#b08816e8e875dde7bd4cb9e43ca72cf7d8034bb1"
-  integrity sha512-ywYQZ1LorvtV2uuaBl6qYF1gkM535EbxxRoJ4vmvew/kwLAyPdYynH1qyiwtQNEPnW5dt7jZcWT+ZhtWX8TGpw==
+"@segment/analytics-react-native-plugin-firebase@^0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-firebase/-/analytics-react-native-plugin-firebase-0.4.2.tgz#b50c4cc5bb361ddf675d52ef55cd455b6c1d9b3f"
+  integrity sha512-sgeQxCETCGYxGVoRGoDoFveN2rOTIE3vqOX2PPe33V4H5tOyYgWW7PqwMMtTVQYxWdOiFzLfSi6M1xsCU2/Otg==
 
-"@segment/analytics-react-native@^2.19.2":
-  version "2.19.2"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native/-/analytics-react-native-2.19.2.tgz#d6eb32b17496698a0e65602d537664b03c28ac63"
-  integrity sha512-9vsh8v/hplahzDO57BBBj96cZr54f6Oq4b4T17TU79UQi+kPtSm7Hfsh6wFIjkquvD5zWNrVhQwb3ClMQ4OtDw==
+"@segment/analytics-react-native@^2.19.3":
+  version "2.19.3"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native/-/analytics-react-native-2.19.3.tgz#33bb81183d45c5d148a1e1e02be035455ae66f43"
+  integrity sha512-jS4iSXy1B7nBZ/s3mxRWCZ0l641yxBpe7AAtDA0sGsjkPKo4wt2OerjKKyoPtcHV+XuCxMyFwL3YAVQXGR6/aw==
   dependencies:
     "@segment/tsub" "^2"
     deepmerge "^4.3.1"
     js-base64 "^3.7.5"
     uuid "^9.0.1"
 
-"@segment/sovran-react-native@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@segment/sovran-react-native/-/sovran-react-native-1.1.1.tgz#55869c5624a297d012a5cef237109c3731f89e0a"
-  integrity sha512-zaMOWz4kjbC+oBRAaw1B3cfserKMk8OBhUTB/oQ/8Thl+zTCQ36zj75dlNm2N00eWJ7p2FZAEEu2uSdLZ2lRKQ==
+"@segment/sovran-react-native@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@segment/sovran-react-native/-/sovran-react-native-1.1.2.tgz#0c911506bae15b92f6add4516ccb961f5de7f908"
+  integrity sha512-p/DF4Qi0GIvltJ7j7D70Od4xfxJZgHJidNyEd2ntxnxBj415lRBV3vOQUc0qYfvG5+y5FTm8IuUZH1XWRSDTlg==
   dependencies:
     ansi-regex "5.0.1"
     deepmerge "^4.2.2"
+    react-native-get-random-values "1.x"
     shell-quote "1.8.0"
+    uuid "^9.0.1"
 
 "@segment/tsub@^2":
   version "2.0.0"
@@ -15291,7 +15293,7 @@ react-native-gesture-handler@^2.18.1:
     invariant "^2.2.4"
     prop-types "^15.7.2"
 
-react-native-get-random-values@^1.11.0:
+react-native-get-random-values@1.x, react-native-get-random-values@^1.11.0:
   version "1.11.0"
   resolved "https://registry.yarnpkg.com/react-native-get-random-values/-/react-native-get-random-values-1.11.0.tgz#1ca70d1271f4b08af92958803b89dccbda78728d"
   integrity sha512-4BTbDbRmS7iPdhYLRcz3PGFIpFJBwNZg9g42iwa2P6FOv9vZj/xJc678RZXnLNZzd0qd7Q3CCF6Yd+CU2eoXKQ==
