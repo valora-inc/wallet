@@ -8,7 +8,7 @@ import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 interface Props {
   isEstimate?: boolean
@@ -138,11 +138,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   title: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     color: colors.black,
   },
   dropDownText: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     color: colors.gray4,
   },
 })

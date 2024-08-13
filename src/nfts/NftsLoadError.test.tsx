@@ -1,12 +1,12 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { NftEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import NftLoadError from 'src/nfts/NftsLoadError'
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 
 describe('NftsLoadErrorScreen', () => {
   beforeEach(() => {
@@ -31,7 +31,7 @@ describe('NftsLoadErrorScreen', () => {
 
   it('sends correct analytics event on screen load', () => {
     render(<NftLoadError />)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(NftEvents.nft_error_screen_open)
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(NftEvents.nft_error_screen_open)
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
   })
 })

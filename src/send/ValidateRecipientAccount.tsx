@@ -3,8 +3,8 @@ import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { connect } from 'react-redux'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SendEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import AccountNumberCard from 'src/components/AccountNumberCard'
 import BackButton from 'src/components/BackButton'
@@ -26,11 +26,11 @@ import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { getDisplayName, Recipient } from 'src/recipients/recipient'
+import { Recipient, getDisplayName } from 'src/recipients/recipient'
 import { RootState } from 'src/redux/reducers'
 import { TransactionDataInput } from 'src/send/types'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 const FULL_ADDRESS_PLACEHOLDER = '0xf1b1d5a6e7728g309c4a025k122d71ad75a61976'
 const PARTIAL_ADDRESS_PLACEHOLDER = ['a', '0', 'F', '4']
@@ -139,7 +139,7 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
         ? inputValue
         : singleDigitInputValueArr.join('')
 
-    ValoraAnalytics.track(SendEvents.send_secure_submit, {
+    AppAnalytics.track(SendEvents.send_secure_submit, {
       partialAddressValidation: addressValidationType === AddressValidationType.PARTIAL,
       address: inputToValidate,
     })
@@ -172,11 +172,11 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
     const { addressValidationType } = this.props
 
     if (this.state.isModalVisible) {
-      ValoraAnalytics.track(SendEvents.send_secure_info, {
+      AppAnalytics.track(SendEvents.send_secure_info, {
         partialAddressValidation: addressValidationType === AddressValidationType.PARTIAL,
       })
     } else {
-      ValoraAnalytics.track(SendEvents.send_secure_info_dismissed, {
+      AppAnalytics.track(SendEvents.send_secure_info_dismissed, {
         partialAddressValidation: addressValidationType === AddressValidationType.PARTIAL,
       })
     }
@@ -313,11 +313,11 @@ const styles = StyleSheet.create({
     paddingRight: 8,
   },
   codeHeader: {
-    ...fontStyles.small600,
+    ...typeScale.labelSemiBoldSmall,
     paddingVertical: 8,
   },
   h2: {
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
     paddingVertical: 16,
   },
   button: {
@@ -329,26 +329,26 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
   },
   askHelpText: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     paddingLeft: 8,
     textDecorationLine: 'underline',
   },
   body: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     paddingBottom: 16,
   },
   modalBody: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     textAlign: 'center',
     paddingVertical: 8,
   },
   modalHeader: {
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
     textAlign: 'center',
     paddingBottom: 4,
   },
   modalBody2: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     textAlign: 'center',
     color: colors.gray4,
     paddingVertical: 16,
@@ -364,7 +364,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   menuText: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
     paddingHorizontal: 8,
   },

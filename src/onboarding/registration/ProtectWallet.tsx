@@ -7,7 +7,7 @@ import { recoveryPhraseInOnboardingStarted } from 'src/account/actions'
 import { RecoveryPhraseInOnboardingStatus } from 'src/account/reducer'
 import { recoveryPhraseInOnboardingStatusSelector } from 'src/account/selectors'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import OnboardingCard from 'src/components/OnboardingCard'
 import GuideKeyIcon from 'src/icons/GuideKeyIcon'
 import { HeaderTitleWithSubtitle, nuxNavigationOptionsOnboarding } from 'src/navigator/Headers'
@@ -17,7 +17,7 @@ import { StackParamList } from 'src/navigator/types'
 import { getOnboardingStepValues, onboardingPropsSelector } from 'src/onboarding/steps'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -67,7 +67,7 @@ function ProtectWallet({ navigation }: Props) {
   })
 
   const onPressRecoveryPhrase = () => {
-    ValoraAnalytics.track(OnboardingEvents.protect_wallet_use_recovery)
+    AppAnalytics.track(OnboardingEvents.protect_wallet_use_recovery)
     navigateToRecoveryPhrase()
   }
 
@@ -139,11 +139,11 @@ const styles = StyleSheet.create({
   protectWalletBody: {
     textAlign: 'center',
     marginTop: 16,
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
   },
   protectWalletTitle: {
     textAlign: 'center',
     marginTop: 36,
-    ...fontStyles.h1,
+    ...typeScale.titleMedium,
   },
 })

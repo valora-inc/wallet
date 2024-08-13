@@ -3,7 +3,7 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Share } from 'react-native'
 import { InviteEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { INVITE_REWARDS_NFTS_LEARN_MORE, INVITE_REWARDS_STABLETOKEN_LEARN_MORE } from 'src/config'
 import { inviteModal } from 'src/images/Images'
 import InviteModal from 'src/invite/InviteModal'
@@ -27,14 +27,14 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
   const handleShareInvite = async () => {
     if (link) {
       await Share.share({ message })
-      ValoraAnalytics.track(InviteEvents.invite_with_share, {
+      AppAnalytics.track(InviteEvents.invite_with_share, {
         phoneNumberHash: recipient.e164PhoneNumber ? getPhoneHash(recipient.e164PhoneNumber) : null,
       })
     }
   }
 
   const handleClose = () => {
-    ValoraAnalytics.track(InviteEvents.invite_with_share_dismiss)
+    AppAnalytics.track(InviteEvents.invite_with_share_dismiss)
     onClose()
   }
 

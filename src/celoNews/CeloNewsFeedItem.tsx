@@ -2,14 +2,14 @@ import { formatDistanceToNowStrict } from 'date-fns'
 import * as React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { CeloNewsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { CeloNewsArticle } from 'src/celoNews/types'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import Touchable from 'src/components/Touchable'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 const IMAGE_SIZE = 44
@@ -22,7 +22,7 @@ interface Props {
 export default function CeloNewsFeedItem({ article, testID }: Props) {
   function onPress() {
     const url = article.link
-    ValoraAnalytics.track(CeloNewsEvents.celo_news_article_tap, { url })
+    AppAnalytics.track(CeloNewsEvents.celo_news_article_tap, { url })
     navigate(Screens.WebViewScreen, { uri: url })
   }
 
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.Thick24,
   },
   author: {
-    ...fontStyles.label,
+    ...typeScale.labelSemiBoldSmall,
     color: colors.warningDark,
     marginBottom: Spacing.Small12,
   },
@@ -90,11 +90,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   title: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     flex: 1,
   },
   date: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     fontSize: 13,
     lineHeight: 16,
     color: colors.gray5,

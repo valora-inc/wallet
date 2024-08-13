@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { recoveryPhraseInOnboardingCompleted } from 'src/account/actions'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackupPhraseContainer, {
   BackupPhraseContainerMode,
   BackupPhraseType,
@@ -27,7 +27,7 @@ import {
 } from 'src/onboarding/steps'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.OnboardingRecoveryPhrase>
@@ -67,20 +67,20 @@ function OnboardingRecoveryPhrase({ navigation, route }: Props) {
   }, [navigation, step, totalSteps])
 
   const onPressHelp = () => {
-    ValoraAnalytics.track(OnboardingEvents.protect_wallet_help)
+    AppAnalytics.track(OnboardingEvents.protect_wallet_help)
     setShowBottomSheet(true)
   }
   const onPressDismissBottomSheet = () => {
-    ValoraAnalytics.track(OnboardingEvents.protect_wallet_help_dismiss)
+    AppAnalytics.track(OnboardingEvents.protect_wallet_help_dismiss)
     setShowBottomSheet(false)
   }
   const onPressCopy = () => {
-    ValoraAnalytics.track(OnboardingEvents.protect_wallet_copy_phrase)
+    AppAnalytics.track(OnboardingEvents.protect_wallet_copy_phrase)
     Clipboard.setString(accountKey ?? '')
     Logger.showMessage(t('recoveryPhrase.mnemonicCopied'))
   }
   const onPressContinue = () => {
-    ValoraAnalytics.track(OnboardingEvents.protect_wallet_complete)
+    AppAnalytics.track(OnboardingEvents.protect_wallet_complete)
     dispatch(recoveryPhraseInOnboardingCompleted())
     goToNextOnboardingScreen({ firstScreenInCurrentStep: Screens.ProtectWallet, onboardingProps })
   }
@@ -170,10 +170,10 @@ const styles = StyleSheet.create({
     color: colors.gray3,
   },
   bottomSheetTitle: {
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
   },
   bottomSheetBody: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     marginTop: 12,
     paddingBottom: 10,
   },

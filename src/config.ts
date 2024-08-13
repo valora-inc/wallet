@@ -179,6 +179,10 @@ export const SIMPLEX_URI = 'https://valoraapp.com/simplex'
 export const SIMPLEX_FEES_URL =
   'https://support.simplex.com/hc/en-gb/articles/360014078420-What-fees-am-I-paying-'
 
+// N.B.: Make sure to update the following files to match this value:
+// * app.json
+// * android/**/AndroidManifest.xml
+// * ios/**/AppDelegate.mm
 export const DEEPLINK_PREFIX = 'celo'
 export const CASH_IN_SUCCESS_DEEPLINK = `${DEEPLINK_PREFIX}://wallet/cash-in-success`
 export const CASH_IN_FAILURE_DEEPLINK = `${DEEPLINK_PREFIX}://wallet/cash-in-failure`
@@ -192,6 +196,8 @@ export const OTA_TRANSLATIONS_FILEPATH = `file://${CachesDirectoryPath}/translat
 export const FETCH_TIMEOUT_DURATION = 15000 // 15 seconds
 
 export const DEFAULT_APP_LANGUAGE = 'en-US'
+
+export const ZENDESK_PROJECT_NAME = 'valoraapp'
 
 // Logging and monitoring
 export const DEFAULT_SENTRY_TRACES_SAMPLE_RATE = 0.2

@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { Dispatch } from '@reduxjs/toolkit'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SettlementEstimation } from 'src/fiatExchanges/quotes/constants'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
@@ -31,7 +31,7 @@ export default abstract class NormalizedQuote {
   ) {
     const feeCryptoAmountNumber = feeCryptoAmount?.toNumber()
     return () => {
-      ValoraAnalytics.track(FiatExchangeEvents.cico_providers_quote_selected, {
+      AppAnalytics.track(FiatExchangeEvents.cico_providers_quote_selected, {
         flow,
         paymentMethod: this.getPaymentMethod(),
         provider: this.getProviderId(),

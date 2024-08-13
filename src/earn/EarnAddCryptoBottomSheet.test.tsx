@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { EarnEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import EarnAddCryptoBottomSheet from 'src/earn/EarnAddCryptoBottomSheet'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -175,7 +175,7 @@ describe('EarnAddCryptoBottomSheet', () => {
       )
 
       fireEvent.press(getByText(actionTitle))
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_add_crypto_action_press, {
+      expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_add_crypto_action_press, {
         action: actionName,
         address: '0x123',
         balanceUsd: 5.8,

@@ -18,7 +18,7 @@ import Touchable from 'src/components/Touchable'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
 
@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
     color: Colors.error,
   },
   inputText: {
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
     fontSize: 26,
     lineHeight: undefined,
     paddingVertical: Spacing.Smallest8,

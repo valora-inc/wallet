@@ -4,7 +4,7 @@ import { Alert, Platform } from 'react-native'
 import Toast from 'react-native-simple-toast'
 import { showError } from 'src/alert/actions'
 import { BuilderHooksEvents, DappShortcutsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import i18n from 'src/i18n'
@@ -201,7 +201,7 @@ export function* handleEnableHooksPreviewDeepLink(
   deeplink: string,
   origin: HooksEnablePreviewOrigin
 ) {
-  ValoraAnalytics.track(BuilderHooksEvents.hooks_enable_preview_propose, { origin })
+  AppAnalytics.track(BuilderHooksEvents.hooks_enable_preview_propose, { origin })
   let hooksPreviewApiUrl: string | null = null
   try {
     hooksPreviewApiUrl = new URL(deeplink).searchParams.get('hooksApiUrl')
@@ -219,7 +219,7 @@ export function* handleEnableHooksPreviewDeepLink(
   } catch (err) {
     const error = ensureError(err)
     Logger.warn(TAG, 'Unable to parse hooks preview deeplink', error)
-    ValoraAnalytics.track(BuilderHooksEvents.hooks_enable_preview_error, {
+    AppAnalytics.track(BuilderHooksEvents.hooks_enable_preview_error, {
       error: error?.message || error?.toString(),
     })
   }
@@ -231,11 +231,11 @@ export function* handleEnableHooksPreviewDeepLink(
 
   const confirm = yield* call(confirmEnableHooksPreview)
   if (confirm) {
-    ValoraAnalytics.track(BuilderHooksEvents.hooks_enable_preview_confirm)
+    AppAnalytics.track(BuilderHooksEvents.hooks_enable_preview_confirm)
     Logger.info(TAG, `Enabling hooks preview mode with API URL: ${hooksPreviewApiUrl}`)
     yield* put(previewModeEnabled(hooksPreviewApiUrl))
   } else {
-    ValoraAnalytics.track(BuilderHooksEvents.hooks_enable_preview_cancel)
+    AppAnalytics.track(BuilderHooksEvents.hooks_enable_preview_cancel)
   }
 }
 
@@ -304,7 +304,7 @@ export function* executeShortcutSaga({
       Toast.BOTTOM
     )
 
-    ValoraAnalytics.track(
+    AppAnalytics.track(
       DappShortcutsEvents.dapp_shortcuts_reward_claim_success,
       trackedShortcutProperties
     )
@@ -313,7 +313,7 @@ export function* executeShortcutSaga({
     // TODO customise error message when there are more shortcut types
     yield* put(showError(ErrorMessages.SHORTCUT_CLAIM_REWARD_FAILED))
     Logger.warn(`${TAG}/executeShortcutSaga`, 'Failed to claim reward', error)
-    ValoraAnalytics.track(
+    AppAnalytics.track(
       DappShortcutsEvents.dapp_shortcuts_reward_claim_error,
       trackedShortcutProperties
     )

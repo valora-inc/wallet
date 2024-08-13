@@ -14,7 +14,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { DappExplorerEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import FilterChipsCarousel, { BooleanFilterChip } from 'src/components/FilterChipsCarousel'
 import SearchInput from 'src/components/SearchInput'
 import {
@@ -38,7 +38,7 @@ import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { Colors } from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 const AnimatedSectionList =
@@ -87,7 +87,7 @@ function DappsScreen({ navigation }: Props) {
   const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
 
   const removeFilter = (filter: BooleanFilterChip<DappWithCategoryNames>) => {
-    ValoraAnalytics.track(DappExplorerEvents.dapp_filter, {
+    AppAnalytics.track(DappExplorerEvents.dapp_filter, {
       filterId: filter.id,
       remove: true,
     })
@@ -96,7 +96,7 @@ function DappsScreen({ navigation }: Props) {
   }
 
   const handleToggleFilterChip = (filter: BooleanFilterChip<DappWithCategoryNames>) => {
-    ValoraAnalytics.track(DappExplorerEvents.dapp_filter, {
+    AppAnalytics.track(DappExplorerEvents.dapp_filter, {
       filterId: filter.id,
       remove: selectedFilter?.id === filter.id,
     })
@@ -113,7 +113,7 @@ function DappsScreen({ navigation }: Props) {
 
   useEffect(() => {
     dispatch(fetchDappsList())
-    ValoraAnalytics.track(DappExplorerEvents.dapp_screen_open)
+    AppAnalytics.track(DappExplorerEvents.dapp_screen_open)
   }, [])
 
   const onPressDapp = (dapp: ActiveDapp, index: number) => {
@@ -197,7 +197,7 @@ function DappsScreen({ navigation }: Props) {
       <>
         {!loading && !!error && (
           <View style={styles.centerContainer}>
-            <Text style={fontStyles.regular}>{t('dappsScreen.errorMessage')}</Text>
+            <Text style={typeScale.bodyMedium}>{t('dappsScreen.errorMessage')}</Text>
           </View>
         )}
         {!!categories.length && (
@@ -328,12 +328,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   sectionTitle: {
-    ...fontStyles.label,
+    ...typeScale.labelSemiBoldSmall,
     color: Colors.gray4,
     marginTop: Spacing.Large32,
   },
   disclaimer: {
-    ...fontStyles.xsmall,
+    ...typeScale.bodyXSmall,
     color: Colors.gray4,
     textAlign: 'center',
     marginTop: Spacing.Large32,

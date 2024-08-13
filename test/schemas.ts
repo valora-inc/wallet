@@ -3422,6 +3422,22 @@ export const v222Schema = {
   },
 }
 
+export const v223Schema = {
+  ...v222Schema,
+  _persist: {
+    ...v222Schema._persist,
+    version: 223,
+  },
+  recipients: {
+    ..._.omit(v222Schema.recipients, 'valoraRecipientCache'),
+    appRecipientCache: v222Schema.recipients.valoraRecipientCache,
+  },
+  keylessBackup: {
+    ..._.omit(v222Schema.keylessBackup, 'valoraKeyshare'),
+    appKeyshare: null,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v222Schema as Partial<RootState>
+  return v223Schema as Partial<RootState>
 }

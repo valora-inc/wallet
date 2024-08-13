@@ -2,7 +2,7 @@ import { PayloadAction } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import walletJumpstart from 'src/abis/IWalletJumpstart'
 import { JumpstartEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
 import {
   JumpstarReclaimAction,
@@ -64,12 +64,12 @@ export function* jumpstartClaim(privateKey: string, networkId: NetworkId, wallet
 
     yield* fork(dispatchPendingTransactions, networkId, transactionHashes)
 
-    ValoraAnalytics.track(JumpstartEvents.jumpstart_claim_succeeded)
+    AppAnalytics.track(JumpstartEvents.jumpstart_claim_succeeded)
 
     yield* put(jumpstartClaimSucceeded())
   } catch (error: any) {
     Logger.error(TAG, 'Error handling jumpstart link', error)
-    ValoraAnalytics.track(JumpstartEvents.jumpstart_claim_failed)
+    AppAnalytics.track(JumpstartEvents.jumpstart_claim_failed)
     yield* put(
       jumpstartClaimFailed({ isAlreadyClaimed: error?.message?.includes('Already claimed') })
     )
@@ -138,7 +138,7 @@ export function* dispatchPendingERC20Transactions(
         })
       )
 
-      ValoraAnalytics.track(JumpstartEvents.jumpstart_claimed_token, {
+      AppAnalytics.track(JumpstartEvents.jumpstart_claimed_token, {
         networkId,
         tokenAddress,
         value: Number(value),
@@ -199,7 +199,7 @@ export function* dispatchPendingERC721Transactions(
           })
         )
 
-        ValoraAnalytics.track(JumpstartEvents.jumpstart_claimed_nft, {
+        AppAnalytics.track(JumpstartEvents.jumpstart_claimed_nft, {
           networkId,
           contractAddress,
           tokenId: tokenId.toString(),
@@ -298,7 +298,7 @@ export function* sendJumpstartTransactions(
       'Executing send transaction',
       sendToken.tokenId
     )
-    ValoraAnalytics.track(JumpstartEvents.jumpstart_send_start, trackedProperties)
+    AppAnalytics.track(JumpstartEvents.jumpstart_send_start, trackedProperties)
 
     const txHashes = yield* call(
       sendPreparedTransactions,
@@ -328,7 +328,7 @@ export function* sendJumpstartTransactions(
       throw new Error(`Jumpstart transaction reverted: ${jumpstartTxReceipt.transactionHash}`)
     }
 
-    ValoraAnalytics.track(JumpstartEvents.jumpstart_send_succeeded, trackedProperties)
+    AppAnalytics.track(JumpstartEvents.jumpstart_send_succeeded, trackedProperties)
     yield* put(
       depositTransactionSucceeded({
         liveLinkType: 'erc20',
@@ -342,7 +342,7 @@ export function* sendJumpstartTransactions(
   } catch (err) {
     if (err === CANCELLED_PIN_INPUT) {
       Logger.info(TAG, 'Transaction cancelled by user')
-      ValoraAnalytics.track(JumpstartEvents.jumpstart_send_cancelled, trackedProperties)
+      AppAnalytics.track(JumpstartEvents.jumpstart_send_cancelled, trackedProperties)
       yield* put(depositTransactionCancelled())
       return
     }
@@ -354,7 +354,7 @@ export function* sendJumpstartTransactions(
       error
     )
 
-    ValoraAnalytics.track(JumpstartEvents.jumpstart_send_failed, trackedProperties)
+    AppAnalytics.track(JumpstartEvents.jumpstart_send_failed, trackedProperties)
     yield* put(depositTransactionFailed())
     vibrateError()
   }
@@ -402,14 +402,14 @@ export function* jumpstartReclaim(action: PayloadAction<JumpstarReclaimAction>) 
     }
 
     yield* put(jumpstartReclaimSucceeded())
-    ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_succeeded, {
+    AppAnalytics.track(JumpstartEvents.jumpstart_reclaim_succeeded, {
       networkId,
       depositTxHash,
       reclaimTxHash: txHash,
     })
   } catch (err) {
     Logger.warn(TAG, 'Error reclaiming jumpstart transaction', err)
-    ValoraAnalytics.track(JumpstartEvents.jumpstart_reclaim_failed, { networkId, depositTxHash })
+    AppAnalytics.track(JumpstartEvents.jumpstart_reclaim_failed, { networkId, depositTxHash })
     yield* put(jumpstartReclaimFailed())
   }
 }

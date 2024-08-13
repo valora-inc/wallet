@@ -2,7 +2,7 @@ import React, { RefObject } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { AssetsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Touchable from 'src/components/Touchable'
 import { Colors } from 'src/styles/colors'
@@ -37,7 +37,7 @@ export default function TokenDetailsMoreActions({
             key={action.name}
             borderRadius={20}
             onPress={() => {
-              ValoraAnalytics.track(AssetsEvents.tap_token_details_bottom_sheet_action, {
+              AppAnalytics.track(AssetsEvents.tap_token_details_bottom_sheet_action, {
                 action: action.name,
                 ...getTokenAnalyticsProps(token),
               })

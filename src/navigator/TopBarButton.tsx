@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { StyleProp, StyleSheet, Text, TextStyle, ViewStyle } from 'react-native'
 import { AnalyticsEventType, AnalyticsPropertiesList } from 'src/analytics/Properties'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Touchable from 'src/components/Touchable'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 
 interface CommonProps {
@@ -32,8 +32,8 @@ function Wrapper({
   const onPressLocal = React.useCallback(() => {
     if (eventName) {
       eventProperties
-        ? ValoraAnalytics.track(eventName, eventProperties)
-        : ValoraAnalytics.track(eventName)
+        ? AppAnalytics.track(eventName, eventProperties)
+        : AppAnalytics.track(eventName)
     }
     onPress()
   }, [onPress, eventName])
@@ -80,7 +80,7 @@ export function TopBarTextButton(props: TopBarTextButtonProps) {
 
 const styles = StyleSheet.create({
   text: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     color: colors.primary,
   },
 })

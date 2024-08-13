@@ -12,7 +12,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { UriData, uriDataFromUrl } from 'src/qrcode/schema'
 import { AddressRecipient, Recipient, RecipientType } from 'src/recipients/recipient'
-import { updateValoraRecipientCache } from 'src/recipients/reducer'
+import { updateAppRecipientCache } from 'src/recipients/reducer'
 import { TransactionDataInput } from 'src/send/types'
 import { tokensListSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
@@ -40,7 +40,7 @@ export function* handleSendPaymentData(
     recipientType: RecipientType.Address,
   }
   yield* put(
-    updateValoraRecipientCache({
+    updateAppRecipientCache({
       [data.address.toLowerCase()]: recipient,
     })
   )

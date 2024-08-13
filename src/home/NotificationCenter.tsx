@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, StyleSheet, Text, View, ViewToken } from 'react-native'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { HomeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { openUrl } from 'src/app/actions'
 import { CallToAction } from 'src/components/CallToActionsBar'
 import SimpleMessagingCard from 'src/components/SimpleMessagingCard'
@@ -21,7 +21,7 @@ import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 type NotificationsProps = NativeStackScreenProps<StackParamList, Screens.NotificationCenter>
@@ -50,7 +50,7 @@ function useCleverTapNotifications() {
         {
           text: ctaText,
           onPress: (params) => {
-            ValoraAnalytics.track(HomeEvents.notification_select, {
+            AppAnalytics.track(HomeEvents.notification_select, {
               notificationType: NotificationType.clevertap_notification,
               selectedAction: NotificationBannerCTATypes.accept,
               notificationId,
@@ -66,7 +66,7 @@ function useCleverTapNotifications() {
           text: t('dismiss'),
           isSecondary: true,
           onPress: (params) => {
-            ValoraAnalytics.track(HomeEvents.notification_select, {
+            AppAnalytics.track(HomeEvents.notification_select, {
               notificationType: NotificationType.clevertap_notification,
               selectedAction: NotificationBannerCTATypes.decline,
               notificationId,
@@ -166,7 +166,7 @@ export default function Notifications({ navigation }: NotificationsProps) {
   const seenNotifications = useRef(new Set())
 
   useEffect(() => {
-    ValoraAnalytics.track(HomeEvents.notification_center_opened, {
+    AppAnalytics.track(HomeEvents.notification_center_opened, {
       notificationsCount: notifications.length,
     })
   }, [])
@@ -199,7 +199,7 @@ export default function Notifications({ navigation }: NotificationsProps) {
         if (!seenNotifications.current.has(item.id)) {
           seenNotifications.current.add(item.id)
 
-          ValoraAnalytics.track(HomeEvents.notification_impression, {
+          AppAnalytics.track(HomeEvents.notification_impression, {
             notificationId: item.id,
             notificationType: item.type,
             notificationPositionInList: notificationsRef.current.findIndex(
@@ -269,9 +269,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    ...fontStyles.large600,
-    fontSize: 24,
-    lineHeight: 32,
+    ...typeScale.titleMedium,
     color: colors.black,
     margin: Spacing.Thick24,
     marginTop: Spacing.Smallest8,
@@ -287,8 +285,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   emptyStateLabel: {
-    ...fontStyles.regular600,
-    lineHeight: 24,
+    ...typeScale.labelSemiBoldMedium,
     marginTop: Spacing.Regular16,
   },
 })

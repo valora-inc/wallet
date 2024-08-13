@@ -1,6 +1,4 @@
-import { ContractKit } from '@celo/contractkit'
 import { parsePhoneNumber } from '@celo/phone-utils'
-import { EIP712TypedData } from '@celo/utils/lib/sign-typed-data-utils'
 import { UnlockableWallet } from '@celo/wallet-base'
 import firebase from '@react-native-firebase/app'
 import { Platform } from 'react-native'
@@ -15,7 +13,7 @@ import { choseToRestoreAccountSelector } from 'src/account/selectors'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { phoneNumberVerificationCompleted } from 'src/app/actions'
 import { inviterAddressSelector } from 'src/app/selectors'
@@ -43,7 +41,7 @@ import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { clearStoredAccounts } from 'src/web3/KeychainLock'
-import { getContractKit, getWallet } from 'src/web3/contracts'
+import { getWallet } from 'src/web3/contracts'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
 import networkConfig from 'src/web3/networkConfig'
 import { getOrCreateAccount, getWalletAddress, unlockAccount } from 'src/web3/saga'
@@ -58,7 +56,7 @@ function* clearStoredAccountSaga({ account, onlyReduxState }: ClearStoredAccount
     if (!onlyReduxState) {
       yield* call(removeAccountLocally, account)
       yield* call(clearStoredMnemonic)
-      yield* call(ValoraAnalytics.reset)
+      yield* call(AppAnalytics.reset)
       yield* call(clearStoredAccounts)
 
       // Ignore error if it was caused by Firebase.
@@ -82,7 +80,7 @@ function* clearStoredAccountSaga({ account, onlyReduxState }: ClearStoredAccount
 export function* initializeAccountSaga() {
   Logger.debug(TAG + '@initializeAccountSaga', 'Creating account')
   try {
-    ValoraAnalytics.track(OnboardingEvents.initialize_account_start)
+    AppAnalytics.track(OnboardingEvents.initialize_account_start)
     yield* call(getOrCreateAccount)
     yield* call(generateSignedMessage)
     yield* put(refreshAllBalances())
@@ -95,13 +93,13 @@ export function* initializeAccountSaga() {
     Logger.debug(TAG + '@initializeAccountSaga', 'Account creation success')
     yield* put(initializeAccountSuccess())
     const inviterAddress = yield* select(inviterAddressSelector)
-    ValoraAnalytics.track(OnboardingEvents.initialize_account_complete, {
+    AppAnalytics.track(OnboardingEvents.initialize_account_complete, {
       inviterAddress,
     })
   } catch (err) {
     const error = ensureError(err)
     Logger.error(TAG, 'Failed to initialize account', error)
-    ValoraAnalytics.track(OnboardingEvents.initialize_account_error, { error: error.message })
+    AppAnalytics.track(OnboardingEvents.initialize_account_error, { error: error.message })
     navigateClearingStack(Screens.AccounSetupFailureScreen)
   }
 }
@@ -120,7 +118,7 @@ function* handlePreviouslyVerifiedPhoneNumber() {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `Valora ${address}:${signedMessage}`,
+        authorization: `${networkConfig.authHeaderIssuer} ${address}:${signedMessage}`,
       },
     })
 
@@ -160,30 +158,13 @@ export function* generateSignedMessage() {
     if (!address) {
       throw new Error('No address found')
     }
-    yield* call(unlockAccount, address)
 
-    const kit: ContractKit = yield* call(getContractKit)
-    const chainId = yield* call([kit.connection, 'chainId'])
-    const payload: EIP712TypedData = {
-      types: {
-        EIP712Domain: [
-          { name: 'name', type: 'string' },
-          { name: 'version', type: 'string' },
-          { name: 'chainId', type: 'uint256' },
-        ],
-        Message: [{ name: 'content', type: 'string' }],
-      },
-      domain: {
-        name: 'Valora',
-        version: '1',
-        chainId,
-      },
-      message: {
-        content: 'valora auth message',
-      },
-      primaryType: 'Message',
-    }
-    const signedTypedMessage = yield* call([wallet, 'signTypedData'], address, payload)
+    yield* call(unlockAccount, address)
+    const signedTypedMessage = yield* call(
+      [wallet, 'signTypedData'],
+      address,
+      networkConfig.setRegistrationPropertiesAuth
+    )
 
     yield* call(storeSignedMessage, signedTypedMessage)
     yield* put(saveSignedMessage())

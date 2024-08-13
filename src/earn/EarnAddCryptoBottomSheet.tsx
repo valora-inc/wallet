@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { EarnEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Touchable from 'src/components/Touchable'
 import { CICOFlow, fetchExchanges } from 'src/fiatExchanges/utils'
@@ -128,7 +128,7 @@ export default function EarnAddCryptoBottomSheet({
             key={action.name}
             borderRadius={20}
             onPress={() => {
-              ValoraAnalytics.track(EarnEvents.earn_add_crypto_action_press, {
+              AppAnalytics.track(EarnEvents.earn_add_crypto_action_press, {
                 action: action.name,
                 ...getTokenAnalyticsProps(token),
               })

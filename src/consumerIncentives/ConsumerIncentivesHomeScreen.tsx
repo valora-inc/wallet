@@ -4,8 +4,8 @@ import { Trans, useTranslation } from 'react-i18next'
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { showError } from 'src/alert/actions'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { RewardsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
   numberVerifiedDecentrallySelector,
@@ -39,14 +39,14 @@ import { useDispatch, useSelector } from 'src/redux/hooks'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { tokensByAddressSelector, tokensBySymbolSelector } from 'src/tokens/selectors'
 import { useCountryFeatures } from 'src/utils/countryFeatures'
 import { WEI_PER_TOKEN } from 'src/web3/consts'
 
 const onLearnMore = () => {
-  ValoraAnalytics.track(RewardsEvents.learn_more_pressed)
+  AppAnalytics.track(RewardsEvents.learn_more_pressed)
   navigate(Screens.WebViewScreen, { uri: SUPERCHARGE_LEARN_MORE })
 }
 
@@ -117,7 +117,7 @@ function SuperchargeInstructions() {
                 i18nKey={'superchargeReconnectNumber'}
                 tOptions={{ token: tokenConfigToSupercharge.tokenSymbol }}
               >
-                <Text style={fontStyles.regular} />
+                <Text style={typeScale.bodyMedium} />
               </Trans>
             ) : (
               t('superchargeConnectNumber')
@@ -252,17 +252,17 @@ export default function ConsumerIncentivesHomeScreen() {
   const onPressCTA = async () => {
     if (canClaimRewards) {
       dispatch(claimRewards(superchargeRewards))
-      ValoraAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
+      AppAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
         buttonPressed: RewardsScreenCta.ClaimRewards,
       })
     } else if (userIsVerified) {
       navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
-      ValoraAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
+      AppAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
         buttonPressed: RewardsScreenCta.CashIn,
       })
     } else {
       navigate(Screens.VerificationStartScreen, { hasOnboarded: true })
-      ValoraAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
+      AppAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
         buttonPressed: RewardsScreenCta.VerifyPhone,
       })
     }
@@ -350,12 +350,12 @@ const styles = StyleSheet.create({
     marginTop: 18,
   },
   title: {
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
     marginTop: 32,
     textAlign: 'center',
   },
   description: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     marginTop: 12,
     textAlign: 'center',
   },
@@ -366,7 +366,7 @@ const styles = StyleSheet.create({
     marginTop: 24,
   },
   sectionText: {
-    ...fontStyles.regular600,
+    ...typeScale.labelSemiBoldMedium,
     flex: 1,
     flexGrow: 1,
     alignSelf: 'center',
@@ -380,7 +380,7 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   disclaimer: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray5,
     textAlign: 'center',
     marginBottom: 18,

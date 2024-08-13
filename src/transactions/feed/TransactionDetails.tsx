@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { TransactionDetailsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import RowDivider from 'src/components/RowDivider'
 import Touchable from 'src/components/Touchable'
 import i18n from 'src/i18n'
@@ -31,18 +31,24 @@ function TransactionDetails({ transaction, title, subtitle, children, retryHandl
   const { t } = useTranslation()
 
   const dateTime = getDatetimeDisplayString(transaction.timestamp, i18n)
-  const isCrossChainSwap = transaction.__typename === 'CrossChainTokenExchange'
+  // If a cross chain swap transaction fails on the source network, the cross
+  // chain explorer will not know about it because the cross chain swap has not
+  // been initiated. Therefore for failed cross chain swaps, we should show the
+  // transaction in the default network explorer.
+  const showCrossChainSwapExplorer =
+    transaction.__typename === 'CrossChainTokenExchange' &&
+    transaction.status !== TransactionStatus.Failed
 
   const openBlockExplorerHandler =
-    transaction.networkId in NetworkId || isCrossChainSwap
+    transaction.networkId in NetworkId || showCrossChainSwapExplorer
       ? () => {
-          const explorerUrl = isCrossChainSwap
+          const explorerUrl = showCrossChainSwapExplorer
             ? networkConfig.crossChainExplorerUrl
             : blockExplorerUrls[transaction.networkId].baseTxUrl
           navigate(Screens.WebViewScreen, {
             uri: new URL(transaction.transactionHash, explorerUrl).toString(),
           })
-          ValoraAnalytics.track(TransactionDetailsEvents.transaction_details_tap_block_explorer, {
+          AppAnalytics.track(TransactionDetailsEvents.transaction_details_tap_block_explorer, {
             transactionType: transaction.type,
             transactionStatus: transaction.status,
           })
@@ -67,7 +73,7 @@ function TransactionDetails({ transaction, title, subtitle, children, retryHandl
     [NetworkId['base-sepolia']]: t('viewOnBaseScan'),
   }
 
-  const explorerName = isCrossChainSwap
+  const explorerName = showCrossChainSwapExplorer
     ? t('viewOnAxelarScan')
     : networkIdToExplorerString[transaction.networkId]
 

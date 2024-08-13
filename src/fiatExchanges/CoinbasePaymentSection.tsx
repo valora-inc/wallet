@@ -4,7 +4,7 @@ import { generateOnRampURL } from '@coinbase/cbpay-js'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { CoinbasePayEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Touchable from 'src/components/Touchable'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { FetchProvidersOutput } from 'src/fiatExchanges/utils'
@@ -12,7 +12,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { useTokenInfo } from 'src/tokens/hooks'
 import Logger from 'src/utils/Logger'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
@@ -56,7 +56,7 @@ export function CoinbasePaymentSection({
   })
 
   const navigateCoinbasePayFlow = () => {
-    ValoraAnalytics.track(CoinbasePayEvents.coinbase_pay_flow_start, analyticsData)
+    AppAnalytics.track(CoinbasePayEvents.coinbase_pay_flow_start, analyticsData)
     navigate(Screens.CoinbasePayScreen, { uri: coinbasePayURL })
   }
 
@@ -104,10 +104,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   category: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
   },
   fee: {
-    ...fontStyles.small600,
+    ...typeScale.labelSemiBoldSmall,
     marginTop: 4,
   },
 })

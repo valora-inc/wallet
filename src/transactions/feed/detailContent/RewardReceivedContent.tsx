@@ -3,7 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import { RewardsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { rewardsEnabledSelector } from 'src/app/selectors'
 import HorizontalLine from 'src/components/HorizontalLine'
 import LegacyTokenTotalLineItem from 'src/components/LegacyTokenTotalLineItem'
@@ -15,7 +15,7 @@ import { Screens } from 'src/navigator/Screens'
 import { RecipientType } from 'src/recipients/recipient'
 import { useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import TransferAvatars from 'src/transactions/TransferAvatars'
 import UserSection from 'src/transactions/UserSection'
 import { TokenTransfer } from 'src/transactions/types'
@@ -36,7 +36,7 @@ function RewardReceivedContent({ transfer }: { transfer: TokenTransfer }) {
 
   const openLearnMore = () => {
     navigate(Screens.ConsumerIncentivesHomeScreen)
-    ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
+    AppAnalytics.track(RewardsEvents.rewards_screen_opened, {
       origin: RewardsScreenOrigin.PaymentDetail,
     })
   }
@@ -69,7 +69,7 @@ function RewardReceivedContent({ transfer }: { transfer: TokenTransfer }) {
 
 const styles = StyleSheet.create({
   learnMore: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
     textDecorationLine: 'underline',
   },

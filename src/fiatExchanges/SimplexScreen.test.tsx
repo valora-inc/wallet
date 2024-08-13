@@ -3,7 +3,7 @@ import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import SimplexScreen from 'src/fiatExchanges/SimplexScreen'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
@@ -44,7 +44,7 @@ const mockStore = createMockStore({
 const MOCK_SIMPLEX_QUOTE = {
   user_id: mockAccount,
   quote_id: uuidv4(),
-  wallet_id: 'valorapp',
+  wallet_id: 'appname',
   digital_money: {
     currency: 'CUSD',
     amount: 25,
@@ -102,14 +102,11 @@ describe('SimplexScreen', () => {
     await waitFor(() => tree.getByText(/continueToProvider/))
 
     fireEvent.press(tree.getByText(/continueToProvider/))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      FiatExchangeEvents.cico_simplex_open_webview,
-      {
-        amount: 25,
-        cryptoCurrency: CiCoCurrency.cUSD,
-        feeInFiat: 7,
-        fiatCurrency: 'USD',
-      }
-    )
+    expect(AppAnalytics.track).toHaveBeenCalledWith(FiatExchangeEvents.cico_simplex_open_webview, {
+      amount: 25,
+      cryptoCurrency: CiCoCurrency.cUSD,
+      feeInFiat: 7,
+      fiatCurrency: 'USD',
+    })
   })
 })

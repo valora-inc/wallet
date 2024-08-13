@@ -23,8 +23,8 @@ jest.mock('src/viem', () => {
       celo: 'celoTransport',
       ethereum: 'ethereumTransport',
     },
-    valoraViemTransports: {
-      celo: 'celoValoraTransport',
+    appViemTransports: {
+      celo: 'celoAppTransport',
     },
   }
 })
@@ -32,16 +32,16 @@ jest.mock('src/viem', () => {
 describe('getTransport', () => {
   it.each([
     [celoAlfajores, false, 'celoTransport'],
-    [celoAlfajores, true, 'celoValoraTransport'],
+    [celoAlfajores, true, 'celoAppTransport'],
     [ethereumSepolia, false, 'ethereumTransport'],
-  ])('returns correct transport for $s', (chain, useValora, expectedTransport) => {
-    expect(getTransport({ chain, useValora })).toEqual(expectedTransport)
+  ])('returns correct transport for $s', (chain, useApp, expectedTransport) => {
+    expect(getTransport({ chain, useApp })).toEqual(expectedTransport)
   })
   it('throws if chain not found', () => {
     expect(() => getTransport({ chain: ethereumGoerli })).toThrow()
   })
-  it('throws if valora transport not found', () => {
-    expect(() => getTransport({ chain: ethereumSepolia, useValora: true })).toThrow()
+  it('throws if app transport not found', () => {
+    expect(() => getTransport({ chain: ethereumSepolia, useApp: true })).toThrow()
   })
 })
 

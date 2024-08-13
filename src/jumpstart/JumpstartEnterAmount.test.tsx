@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { JumpstartEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { createJumpstartLink } from 'src/firebase/dynamicLinks'
 import JumpstartEnterAmount from 'src/jumpstart/JumpstartEnterAmount'
 import { depositTransactionFlowStarted } from 'src/jumpstart/slice'
@@ -184,7 +184,7 @@ describe('JumpstartEnterAmount', () => {
         beneficiaryAddress: mockPublicKey,
       })
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       JumpstartEvents.jumpstart_send_amount_continue,
       {
         amountInUsd: '0.29',

@@ -10,7 +10,7 @@ import { call, select } from 'redux-saga/effects'
 import { e164NumberSelector } from 'src/account/selectors'
 import { AppEvents, InviteEvents } from 'src/analytics/Events'
 import { HooksEnablePreviewOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import {
   appLock,
   inAppReviewRequested,
@@ -73,7 +73,7 @@ import { createMockStore } from 'test/utils'
 import { mockAccount, mockTokenBalances } from 'test/values'
 import { DEEPLINK_PREFIX } from 'src/config'
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 jest.mock('src/sentry/Sentry')
 jest.mock('src/sentry/SentryTransactionHub')
 jest.mock('src/statsig')
@@ -124,7 +124,7 @@ describe('handleDeepLink', () => {
         [select(walletAddressSelector), mockAccount],
       ])
       .run()
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
       pathStartsWith: 'pay',
       fullPath: '/pay',
       query:
@@ -140,7 +140,7 @@ describe('handleDeepLink', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeCurrencyBottomSheet, {
       flow: FiatExchangeFlow.CashIn,
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
       pathStartsWith: 'cashIn',
       fullPath: '/cashIn',
       query: null,
@@ -153,7 +153,7 @@ describe('handleDeepLink', () => {
       .provide([[select(walletAddressSelector), mockAccount]])
       .run()
     expect(navigate).toHaveBeenCalledWith(Screens.BidaliScreen, { currency: undefined })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
       pathStartsWith: 'bidali',
       fullPath: '/bidali',
       query: null,
@@ -166,7 +166,7 @@ describe('handleDeepLink', () => {
       .provide([[select(walletAddressSelector), mockAccount]])
       .run()
     expect(navigate).toHaveBeenCalledWith(Screens.CashInSuccess, { provider: 'simplex' })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
       pathStartsWith: 'cash-in-success',
       fullPath: '/cash-in-success/simplex',
       query: null,
@@ -179,7 +179,7 @@ describe('handleDeepLink', () => {
       .provide([[select(walletAddressSelector), mockAccount]])
       .run()
     expect(navigate).toHaveBeenCalledWith(Screens.CashInSuccess, { provider: 'simplex' })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
       pathStartsWith: 'cash-in-success',
       fullPath: '/cash-in-success/simplex',
       query: 'isApproved=true',
@@ -195,7 +195,7 @@ describe('handleDeepLink', () => {
       Screens.FiatExchangeCurrency,
       expect.objectContaining({ flow: FiatExchangeFlow.CashIn })
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
       pathStartsWith: 'openScreen',
       fullPath: '/openScreen',
       query: 'screen=FiatExchangeCurrency&flow=CashIn',
@@ -208,7 +208,7 @@ describe('handleDeepLink', () => {
       .provide([[select(walletAddressSelector), mockAccount]])
       .run()
     expect(navigate).not.toHaveBeenCalled()
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
       pathStartsWith: 'openScreen',
       fullPath: '/openScreen',
       query: 'screen=FiatExchangeCurrency&flow=CashIn',
@@ -222,13 +222,13 @@ describe('handleDeepLink', () => {
       .put(inviteLinkConsumed('abc123'))
       .run()
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(2)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
       pathStartsWith: 'share',
       fullPath: '/share/abc123',
       query: null,
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(InviteEvents.opened_via_invite_url, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(InviteEvents.opened_via_invite_url, {
       inviterAddress: 'abc123',
     })
   })
@@ -240,13 +240,13 @@ describe('handleDeepLink', () => {
       .put(inviteLinkConsumed('abc123'))
       .run()
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(2)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
       pathStartsWith: 'share',
       fullPath: '/share/abc123',
       query: null,
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(InviteEvents.opened_via_invite_url, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(InviteEvents.opened_via_invite_url, {
       inviterAddress: 'abc123',
     })
   })
@@ -275,7 +275,7 @@ describe('handleDeepLink', () => {
       '0xPrivateKey',
       '0xwallet'
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
       pathStartsWith: 'jumpstart',
       fullPath: null,
       query: null,
@@ -295,7 +295,7 @@ describe('handleDeepLink', () => {
       deepLink,
       HooksEnablePreviewOrigin.Deeplink
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
       pathStartsWith: 'hooks',
       fullPath: '/hooks/enablePreview',
       query: 'hooksApiUrl=https://192.168.0.42:18000',
@@ -588,7 +588,7 @@ describe('runCentralPhoneVerificationMigration', () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization: 'Valora 0xabc:someSignedMessage',
+        authorization: `${networkConfig.authHeaderIssuer} 0xabc:someSignedMessage`,
       },
       body: '{"clientPlatform":"android","clientVersion":"0.0.1","publicDataEncryptionKey":"publicKeyForUser","phoneNumber":"+31619777888","pepper":"somePepper","phoneHash":"somePhoneHash","inviterAddress":"0x123"}',
     })
@@ -617,7 +617,7 @@ describe('runCentralPhoneVerificationMigration', () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization: 'Valora 0xabc:someSignedMessage',
+        authorization: `${networkConfig.authHeaderIssuer} 0xabc:someSignedMessage`,
       },
       body: '{"clientPlatform":"android","clientVersion":"0.0.1","publicDataEncryptionKey":"publicKeyForUser","phoneNumber":"+31619777888","pepper":"somePepper","phoneHash":"somePhoneHash","mtwAddress":"0x123"}',
     })
@@ -707,11 +707,11 @@ describe('appInit', () => {
       .run()
 
     expect(initializeSentry).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.init).toHaveBeenCalledTimes(1)
+    expect(AppAnalytics.init).toHaveBeenCalledTimes(1)
     // Ensure the right context is used
     // Note: switch to mock.contexts[0] when we upgrade to jest >= 28
     // See https://jestjs.io/docs/mock-function-api/#mockfnmockcontexts
-    expect(jest.mocked(ValoraAnalytics.init).mock.instances[0]).toBe(ValoraAnalytics)
+    expect(jest.mocked(AppAnalytics.init).mock.instances[0]).toBe(AppAnalytics)
     expect(initI18n).toHaveBeenCalledWith('nl-NL', true, '1')
   })
 
@@ -726,7 +726,7 @@ describe('appInit', () => {
       .run()
 
     expect(initializeSentry).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.init).toHaveBeenCalledTimes(1)
+    expect(AppAnalytics.init).toHaveBeenCalledTimes(1)
     expect(initI18n).toHaveBeenCalledWith('de-DE', true, '1')
   })
 
@@ -739,7 +739,7 @@ describe('appInit', () => {
       .run()
 
     expect(initializeSentry).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.init).toHaveBeenCalledTimes(1)
+    expect(AppAnalytics.init).toHaveBeenCalledTimes(1)
     expect(initI18n).toHaveBeenCalledWith('en-US', true, '1')
   })
 })
@@ -782,8 +782,8 @@ describe(requestInAppReview, () => {
         .run()
 
       expect(mockRequestInAppReview).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.in_app_review_impression)
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.in_app_review_impression)
     }
   )
 
@@ -811,7 +811,7 @@ describe(requestInAppReview, () => {
         .run()
 
       expect(mockRequestInAppReview).not.toHaveBeenCalled()
-      expect(ValoraAnalytics.track).not.toHaveBeenCalled()
+      expect(AppAnalytics.track).not.toHaveBeenCalled()
     }
   )
 
@@ -830,8 +830,8 @@ describe(requestInAppReview, () => {
       .not.put(inAppReviewRequested(expect.anything()))
       .run()
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.in_app_review_error, {
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.in_app_review_error, {
       error: '🤖💥',
     })
     expect(Logger.error).toHaveBeenLastCalledWith(

@@ -7,7 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import erc20 from 'src/abis/IERC20'
 import { showMessage } from 'src/alert/actions'
 import { AssetsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import Dropdown from 'src/components/Dropdown'
@@ -88,7 +88,7 @@ export default function TokenImportScreen(_: Props) {
     const tokenId = getTokenId(networkId, tokenAddress.toLowerCase())
     if (supportedTokens[tokenId]) {
       setError(t('tokenImport.error.tokenAlreadySupported'))
-      ValoraAnalytics.track(AssetsEvents.import_token_error, {
+      AppAnalytics.track(AssetsEvents.import_token_error, {
         networkId,
         tokenId,
         tokenAddress,
@@ -152,7 +152,7 @@ export default function TokenImportScreen(_: Props) {
 
       const trackedError = hasTimeout(error) ? Errors.Timeout : Errors.NotERC20
       const tokenId = getTokenId(networkId, tokenAddress.toLowerCase())
-      ValoraAnalytics.track(AssetsEvents.import_token_error, {
+      AppAnalytics.track(AssetsEvents.import_token_error, {
         networkId,
         tokenId,
         tokenAddress,
@@ -173,7 +173,7 @@ export default function TokenImportScreen(_: Props) {
   }
 
   const handlePaste = async (address: string) => {
-    ValoraAnalytics.track(AssetsEvents.import_token_paste)
+    AppAnalytics.track(AssetsEvents.import_token_paste)
     const addressWith0xPrefix = ensure0xPrefixOrEmpty(address)
     setTokenAddress(addressWith0xPrefix)
     Keyboard.dismiss()
@@ -203,7 +203,7 @@ export default function TokenImportScreen(_: Props) {
     const networkIconUrl = networkIconByNetworkId[networkId]
 
     const tokenId = getTokenId(networkId, tokenAddress)
-    ValoraAnalytics.track(AssetsEvents.import_token_submit, {
+    AppAnalytics.track(AssetsEvents.import_token_submit, {
       tokenAddress,
       tokenSymbol: tokenDetails.symbol,
       networkId,

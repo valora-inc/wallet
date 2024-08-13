@@ -6,7 +6,7 @@ import withTextInputPasteAware from 'src/components/WithTextInputPasteAware'
 import { withTranslation } from 'src/i18n'
 import Checkmark from 'src/icons/Checkmark'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 const CodeInput = withTextInputPasteAware(TextInput)
 
@@ -99,7 +99,7 @@ function CodeRow({
 const styles = StyleSheet.create({
   codeInput: {
     flex: 0,
-    backgroundColor: '#FFF',
+    backgroundColor: colors.white,
     borderColor: colors.gray2,
     borderRadius: 3,
     borderWidth: 1,
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   codeProcessingContainer: {
-    backgroundColor: '#FFF',
+    backgroundColor: colors.white,
     position: 'relative',
     justifyContent: 'center',
     marginVertical: 5,
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     height: 50,
   },
   codeInputSpinner: {
-    backgroundColor: '#FFF',
+    backgroundColor: colors.white,
     position: 'absolute',
     top: 5,
     right: 3,
@@ -147,10 +147,10 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     borderWidth: 1,
     height: 50,
-    backgroundColor: '#F0F0F0',
+    backgroundColor: colors.gray1,
   },
   codeValue: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     fontSize: 15,
     color: colors.gray5,
   },

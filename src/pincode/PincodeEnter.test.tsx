@@ -2,14 +2,14 @@ import { act, fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { AuthenticationEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { Screens } from 'src/navigator/Screens'
 import { checkPin } from 'src/pincode/authentication'
 import PincodeEnter from 'src/pincode/PincodeEnter'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 
 const mockedCheckPin = jest.mocked(checkPin)
 const mockScreenProps = getMockStackScreenProps(Screens.PincodeEnter, {
@@ -54,11 +54,11 @@ describe('PincodeEnter', () => {
     })
 
     expect(mockScreenProps.route.params.onSuccess).toBeCalledWith(pin)
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(2)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       AuthenticationEvents.get_pincode_with_input_start
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       AuthenticationEvents.get_pincode_with_input_complete
     )
   })
@@ -74,11 +74,11 @@ describe('PincodeEnter', () => {
 
     expect(getByText(`${ErrorMessages.INCORRECT_PIN}`)).toBeDefined()
     expect(store.getActions()).toEqual([])
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(2)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       AuthenticationEvents.get_pincode_with_input_start
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       AuthenticationEvents.get_pincode_with_input_error
     )
   })

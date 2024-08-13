@@ -3,7 +3,7 @@ import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import {
   navigate,
@@ -86,7 +86,7 @@ describe('ChooseYourAdventure', () => {
     expect(navigateClearingStack).toHaveBeenLastCalledWith(Screens.TabNavigator, {
       initialScreen: Screens.TabDiscover,
     })
-    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
+    expect(AppAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
       position: 1,
       cardName: AdventureCardName.Dapp,
       cardOrder: expectedCardOrder,
@@ -104,7 +104,7 @@ describe('ChooseYourAdventure', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeCurrencyBottomSheet, {
       flow: FiatExchangeFlow.CashIn,
     })
-    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
+    expect(AppAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
       position: 2,
       cardName: AdventureCardName.Add,
       cardOrder: expectedCardOrder,
@@ -121,7 +121,7 @@ describe('ChooseYourAdventure', () => {
     expect(navigateHomeAndThenToScreen).toHaveBeenLastCalledWith(Screens.TokenDetails, {
       tokenId: mockCeloTokenId,
     })
-    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
+    expect(AppAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
       position: 3,
       cardName: AdventureCardName.Learn,
       cardOrder: expectedCardOrder,
@@ -136,7 +136,7 @@ describe('ChooseYourAdventure', () => {
     )
     fireEvent.press(getByTestId('AdventureCard/3/chooseYourAdventure.options.profile'))
     expect(navigateHomeAndThenToScreen).toHaveBeenLastCalledWith(Screens.Profile)
-    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
+    expect(AppAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
       position: 4,
       cardName: AdventureCardName.Profile,
       cardOrder: expectedCardOrder,
@@ -151,7 +151,7 @@ describe('ChooseYourAdventure', () => {
     )
     fireEvent.press(getByTestId('ChooseYourAdventure/Later'))
     expect(navigateHome).toHaveBeenLastCalledWith()
-    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_later, {
+    expect(AppAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_later, {
       cardOrder: expectedCardOrder,
     })
   })

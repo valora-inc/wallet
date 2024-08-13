@@ -5,7 +5,7 @@ import { Mode } from 'src/backup/BackupQuiz'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import LoadingSpinner from 'src/icons/LoadingSpinner'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 interface Props {
   onPressSubmit: () => void
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   incorrect: {
-    ...fontStyles.regular500,
+    ...typeScale.labelMedium,
     textAlign: 'center',
     color: colors.error,
   },

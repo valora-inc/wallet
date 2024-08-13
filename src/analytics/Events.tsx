@@ -111,9 +111,9 @@ export enum KeylessBackupEvents {
   cab_issue_sms_code_error = 'cab_issue_sms_code_error',
   cab_enter_phone_code_back = 'cab_enter_phone_code_back',
   cab_enter_phone_code_cancel = 'cab_enter_phone_code_cancel',
-  cab_issue_valora_keyshare_start = 'cab_issue_valora_keyshare_start',
-  cab_issue_valora_keyshare_success = 'cab_issue_valora_keyshare_success',
-  cab_issue_valora_keyshare_error = 'cab_issue_valora_keyshare_error',
+  cab_issue_app_keyshare_start = 'cab_issue_app_keyshare_start',
+  cab_issue_app_keyshare_success = 'cab_issue_app_keyshare_success',
+  cab_issue_app_keyshare_error = 'cab_issue_app_keyshare_error',
   cab_progress_completed_continue = 'cab_progress_completed_continue',
   cab_progress_failed_later = 'cab_progress_failed_later',
   cab_progress_failed_manual = 'cab_progress_failed_manual',
@@ -674,6 +674,7 @@ export enum PointsEvents {
   points_screen_activity_try_again_press = 'points_screen_activity_try_again_press',
   points_screen_activity_fetch_more = 'points_screen_activity_fetch_more',
   points_screen_activity_learn_more_press = 'points_screen_activity_learn_more_press',
+  points_screen_disclaimer_press = 'points_screen_disclaimer_press',
 }
 
 export enum EarnEvents {

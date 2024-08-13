@@ -1802,7 +1802,7 @@
     },
     "unsupportedTokensWarning": {
       "title": "Inkompatible Auswahl",
-      "body": "Die ausgewählten Token können nicht untereinander getauscht werden. Bitte wähle einen anderen Token, der mit deiner Auswahl kompatibel ist."
+      "body": "Die ausgewählten Tokens können nicht untereinander getauscht werden. Wähle einen anderen Token aus, der mit deiner Auswahl kompatibel ist."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Du benötigst mehr {{feeTokenSymbol}} für Gas.",
@@ -1890,10 +1890,10 @@
       "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "Weitere Informationen",
-      "feesInfo_sameChain": "Für die Abwicklung der Transaktion fällt eine Netzwerkgebühr an, wodurch Sicherheit und Zuverlässigkeit gewährleistet wird.",
-      "feesInfo_crossChain": "Für die Abwicklung der Transaktion fällt eine Netzwerkgebühr an, wodurch Sicherheit und Zuverlässigkeit gewährleistet wird. Eine Chain-übergreifende Gebühr wird vom Anbieter erhoben, um einen reibungslosen und sicheren Austausch zwischen verschiedenen Blockchains zu ermöglichen.",
-      "feesInfo_sameChainWithAppFee": "Für die Abwicklung der Transaktion fällt eine Netzwerkgebühr an, wodurch Sicherheit und Zuverlässigkeit gewährleistet wird. Die {{appName}} Gebühr in Höhe von {{appFeePercentage}} sorgt für schnelle, zuverlässige und sichere Tauschvorgänge und verbessert so dein Erlebnis.",
-      "feesInfo_crossChainWithAppFee": "Für die Abwicklung der Transaktion fällt eine Netzwerkgebühr an, wodurch Sicherheit und Zuverlässigkeit gewährleistet wird. Eine Chain-übergreifende Gebühr wird vom Anbieter erhoben, um einen reibungslosen und sicheren Austausch zwischen den verschiedenen Blockchains zu gewährleisten. Die {{appName}} Gebühr in Höhe von {{appFeePercentage}} sorgt für schnelle, zuverlässige und sichere Tauschvorgänge und verbessert so dein Erlebnis."
+      "feesInfo_sameChain": "Das Netzwerk verlangt eine Netzwerkgebühr, damit es die Transaktion verarbeiten kann.",
+      "feesInfo_crossChain": "Das Netzwerk verlangt eine Netzwerkgebühr, damit es die Transaktion verarbeiten kann. Die Cross-Chain-Gebühr wird vom Cross-Chain-Anbieter erhoben.",
+      "feesInfo_sameChainWithAppFee": "Das Netzwerk verlangt eine Netzwerkgebühr, damit es die Transaktion verarbeiten kann. Die {{appName}}-Gebühr von {{appFeePercentage}} % wird für deine Nutzung unseres Produkts erhoben.",
+      "feesInfo_crossChainWithAppFee": "Das Netzwerk verlangt eine Netzwerkgebühr, damit es die Transaktion verarbeiten kann. Die Cross-Chain-Gebühr wird vom Cross-Chain-Anbieter erhoben. Die {{appName}}-Gebühr von {{appFeePercentage}} % wird für deine Nutzung unseres Produkts erhoben."
     },
     "fundYourWalletBottomSheet": {
       "title": "Deine Wallet aufladen",
@@ -2182,7 +2182,7 @@
   "viewOnOPSepoliaExplorer": "Auf OP Sepolia Explorer ansehen",
   "viewOnPolygonPoSScan": "Auf PolygonScan anzeigen",
   "viewOnBaseScan": "Auf BaseScan anzeigen",
-  "viewOnAxelarScan": "Ansicht auf AxelarScan",
+  "viewOnAxelarScan": "Auf AxelarScan anzeigen",
   "sendEnterAmountScreen": {
     "title": "Betrag eingeben",
     "selectToken": "Token auswählen",
@@ -2241,13 +2241,13 @@
     "estimatedNetworkFee": "Geschätzte Netzwerkgebühr",
     "networkFee": "Netzwerkgebühr",
     "appFee": "App-Gebühr",
-    "estimatedCrossChainFee": "Geschätzte kettenübergreifende Gebühr",
-    "crossChainFee": "Kettenübergreifende Gebühr",
+    "estimatedCrossChainFee": "Geschätzte Cross-Chain-Gebühr",
+    "crossChainFee": "Cross-Chain-Gebühr",
     "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}} für Handel genehmigt",
     "infiniteApprovalDescription": "Unendliche {{tokenSymbol}} für Handel genehmigt",
     "revokeApprovalDescription": "{{tokenSymbol}} für Handel widerrufen",
     "descriptionLabel": "Details",
-    "crossChainSwapTransactionLabel": "Kettenübergreifend"
+    "crossChainSwapTransactionLabel": "Cross-Chain"
   },
   "multichainBeta": {
     "beta": "BETA",
@@ -2339,7 +2339,7 @@
     "allNetworks": "Alle Netzwerke"
   },
   "points": {
-    "title": "Valora-Punkte",
+    "title": "{{appName}} Punkte",
     "activity": "Aktivität",
     "history": {
       "cards": {
@@ -2447,6 +2447,11 @@
       "title": "Verdiene mühelos Punkte",
       "description": "Entdecke neue Möglichkeiten! Für deine {{appName}} Aktionen gibt es jetzt Punkte. Fange noch heute an und schalte tolle Vorteile frei.",
       "cta": "Starte deine Punkte-Reise"
+    },
+    "disclaimer": {
+      "learnMoreCta": "<0>Mehr Infos</0> zu {{appName}}-Punkten",
+      "body": "<0>Was sind Punkte?</0>\nPunkte sind das Treueprogramm von {{appName}}. Nutzer erhalten Punkte, wenn sie unsere App nutzen.\n\n<0>Wofür sind die Punkte?</0>\nDu sammelst sie. Sie können weder ausgegeben, noch gehandelt oder überwiesen werden.\n\n<0>Warum sind sie in meinem Wallet?</0>\nPunkte sind Tokens. Digitale On-Chain-Bits, die dir Freude bereiten und die du verdienst, indem du die App nutzt.",
+      "dismiss": "Verstanden"
     }
   },
   "earnFlow": {
@@ -2581,25 +2586,25 @@
     },
     "home": {
       "title": "Verdienen",
-      "learnMore": "<0>Erfahre mehr</0> über Ertragspools.",
+      "learnMore": "<0>Mehr Infos</0> zu Rendite-Pools.",
       "learnMoreBottomSheet": {
-        "bottomSheetTitle": "Erfahre mehr über Ertragspools",
-        "apySubtitle": "Was ist ein APY?",
-        "apyDescription": "Die jährliche prozentuale Rendite (Annual Percentage, APY) ist eine Kennzahl, mit der die jährliche Rendite von Krypto-Investitionen berechnet wird. Sie ist ein wichtiger Indikator für die potenzielle Rendite und Rentabilität einer Kryptowährung.",
+        "bottomSheetTitle": "Mehr Infos zu Rendite-Pools",
+        "apySubtitle": "Was ist eine APY?",
+        "apyDescription": "Eine jährliche prozentuale Rendite (APY) ist eine Kennzahl, die zur Berechnung der jährlichen Rendite von Krypto-Investitionen verwendet wird. Sie ist ein wichtiger Indikator für die potenzielle Rendite und Rentabilität einer Kryptowährung.",
         "tvlSubtitle": "Was ist TVL?",
-        "tvlDescription": "TVL steht für Total Value Locked und ist eine Kennzahl, die in der Kryptoindustrie verwendet wird, um den Wert der in einem Blockchain-Netzwerk gesperrten digitalen Vermögenswerte zu messen. TVL wird berechnet, indem der Wert aller digitalen Vermögenswerte addiert wird, die in einem DeFi-Protokoll oder Smart Contract gesperrt sind. Zu diesen Vermögenswerten können Kryptowährungen, Stablecoins und andere Token gehören."
+        "tvlDescription": "TVL steht für Total Value Locked und ist eine Kennzahl, die in der Kryptobranche verwendet wird, um den Wert von Digitalvermögen zu messen, das in einem Blockchain-Netzwerk gesperrt ist. TVL wird berechnet, indem der Wert des gesamten Digitalvermögens addiert wird, das in einem DeFi-Protokoll oder Smart Contract gesperrt ist. Dieses Vermögen kann Kryptowährungen, Stablecoins und andere Tokens umfassen."
       }
     },
     "poolCard": {
       "onNetwork": "auf {{networkName}}",
       "rate": "Rate (geschätzt)",
-      "reward": "Belohnung",
+      "reward": "Reward",
       "tvl": "TVL",
       "exitPool": "Pool verlassen",
       "addToPool": "Zum Pool hinzufügen",
       "apy": "{{apy}} % jährliche prozentuale Rendite",
       "poweredBy": "Unterstützt von {{providerName}}",
-      "deposited": "Geliefert"
+      "deposited": "Bereitgestellt"
     },
     "poolFilters": {
       "openPools": "Offene Pools",

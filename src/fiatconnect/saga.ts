@@ -14,7 +14,7 @@ import BigNumber from 'bignumber.js'
 import { KycStatus as PersonaKycStatus } from 'src/account/reducer'
 import { showError, showMessage } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
   fiatConnectCashInEnabledSelector,
@@ -172,7 +172,7 @@ export function* handleSubmitFiatAccount({
         i18n.t('fiatDetailsScreen.addFiatAccountSuccess', { provider: quote.getProviderName() })
       )
     )
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fiat_details_success, {
+    AppAnalytics.track(FiatExchangeEvents.cico_fiat_details_success, {
       flow,
       provider: quote.getProviderId(),
       fiatAccountSchema,
@@ -272,7 +272,7 @@ export function* handleSubmitFiatAccount({
         postFiatAccountResponse.error.fiatConnectError ?? postFiatAccountResponse.error.message
       }`
     )
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fiat_details_error, {
+    AppAnalytics.track(FiatExchangeEvents.cico_fiat_details_error, {
       flow,
       provider: quote.getProviderId(),
       fiatAccountSchema,
@@ -928,7 +928,7 @@ export function* _initiateTransferWithProvider({
     }
   )
   if (result.isErr) {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_api_error, {
+    AppAnalytics.track(FiatExchangeEvents.cico_fc_transfer_api_error, {
       flow,
       fiatConnectError: result.error.fiatConnectError,
       error: result.error.message,
@@ -987,7 +987,7 @@ export function* _initiateSendTxToProvider({
     return receipt.transactionHash
   }
   const err = ensureError(error)
-  ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_tx_error, {
+  AppAnalytics.track(FiatExchangeEvents.cico_fc_transfer_tx_error, {
     flow: CICOFlow.CashOut,
     error: err.message,
     transferAddress: transferAddress,
@@ -1037,7 +1037,7 @@ export function* handleCreateFiatConnectTransfer(
       transactionHash = cashOutTxHash
     }
 
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_success, {
+    AppAnalytics.track(FiatExchangeEvents.cico_fc_transfer_success, {
       txHash: transactionHash,
       transferAddress: transferAddress,
       provider: fiatConnectQuote.getProviderId(),
@@ -1053,7 +1053,7 @@ export function* handleCreateFiatConnectTransfer(
   } catch (err) {
     const error = ensureError(err)
     Logger.error(TAG, `Transfer for ${flow} failed..`, error)
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_error, {
+    AppAnalytics.track(FiatExchangeEvents.cico_fc_transfer_error, {
       flow: CICOFlow.CashOut,
       error: error.message,
       provider: fiatConnectQuote.getProviderId(),

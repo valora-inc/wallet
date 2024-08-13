@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { EarnEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import EarnCollectScreen from 'src/earn/EarnCollectScreen'
 import { fetchAaveRewards } from 'src/earn/poolInfo'
 import { prepareWithdrawAndClaimTransactions } from 'src/earn/prepareTransactions'
@@ -386,7 +386,7 @@ describe('EarnCollectScreen', () => {
       },
     ])
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_collect_earnings_press, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_collect_earnings_press, {
       depositTokenId: mockArbUsdcTokenId,
       tokenAmount: '10.75',
       networkId: NetworkId['arbitrum-sepolia'],
@@ -454,7 +454,7 @@ describe('EarnCollectScreen', () => {
       tokenId: mockArbEthTokenId,
       tokenSymbol: 'ETH',
     })
-    expect(ValoraAnalytics.track).toBeCalledWith(EarnEvents.earn_withdraw_add_gas_press, {
+    expect(AppAnalytics.track).toBeCalledWith(EarnEvents.earn_withdraw_add_gas_press, {
       gasTokenId: mockArbEthTokenId,
     })
   })

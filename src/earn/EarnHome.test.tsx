@@ -50,8 +50,7 @@ const mockPoolTokenUSDC = {
   address: '0x724dc807b04555b71ed48a6896b6f41593b8c637',
   symbol: 'aArbUSDCn',
   decimals: 18,
-  imageUrl:
-    'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ARB.png',
+  imageUrl: 'https://raw.githubusercontent.com/address-metadata/main/assets/tokens/ARB.png',
   balance: '0',
   priceUsd: '1.2',
   priceFetchedAt: Date.now(),
@@ -64,8 +63,7 @@ const mockPoolTokenWETH = {
   address: '0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8',
   symbol: 'aArbWETH',
   decimals: 18,
-  imageUrl:
-    'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+  imageUrl: 'https://raw.githubusercontent.com/address-metadata/main/assets/tokens/ETH.png',
   balance: '0',
   priceUsd: '250',
   priceFetchedAt: Date.now(),
@@ -78,8 +76,7 @@ const mockPoolTokenEthWETH = {
   address: '0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8',
   symbol: 'aEthWETH',
   decimals: 18,
-  imageUrl:
-    'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+  imageUrl: 'https://raw.githubusercontent.com/address-metadata/main/assets/tokens/ETH.png',
   balance: '0',
   priceUsd: '250',
   priceFetchedAt: Date.now(),

@@ -3,14 +3,14 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Button from 'src/components/Button'
 import { fiatExchange } from 'src/images/Images'
 import { noHeaderGestureDisabled } from 'src/navigator/Headers'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 type RouteProps = NativeStackScreenProps<StackParamList, Screens.CashInSuccess>
 type Props = RouteProps
@@ -29,7 +29,7 @@ function CashInSuccessScreen({ route }: Props) {
   const { provider } = route.params
 
   useEffect(() => {
-    ValoraAnalytics.track(FiatExchangeEvents.cash_in_success, {
+    AppAnalytics.track(FiatExchangeEvents.cash_in_success, {
       provider,
     })
   }, [])
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     padding: 32,
   },
   title: {
-    ...fontStyles.large500,
+    ...typeScale.labelLarge,
     paddingTop: 8,
     paddingBottom: 16,
   },
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   contentText: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     textAlign: 'center',
   },
   buttonContainer: {

@@ -15,7 +15,7 @@ import {
 } from 'src/account/selectors'
 import { getPhoneNumberDetails } from 'src/account/utils'
 import { PhoneVerificationEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InfoBottomSheet from 'src/components/InfoBottomSheet'
@@ -38,7 +38,7 @@ import {
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { walletAddressSelector } from 'src/web3/selectors'
 
@@ -78,7 +78,7 @@ function VerificationStartScreen({
     : undefined
 
   const onPressStart = () => {
-    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_start, {
+    AppAnalytics.track(PhoneVerificationEvents.phone_verification_start, {
       country: country?.displayNameNoDiacritics || '',
       countryCallingCode: country?.countryCallingCode || '',
     })
@@ -93,7 +93,7 @@ function VerificationStartScreen({
 
   const onPressSkip = () => {
     dispatch(setHasSeenVerificationNux(true))
-    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_skip_confirm)
+    AppAnalytics.track(PhoneVerificationEvents.phone_verification_skip_confirm)
     goToNextOnboardingScreen({
       firstScreenInCurrentStep: Screens.VerificationStartScreen,
       onboardingProps,
@@ -101,7 +101,7 @@ function VerificationStartScreen({
   }
 
   const onPressLearnMore = () => {
-    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_learn_more)
+    AppAnalytics.track(PhoneVerificationEvents.phone_verification_learn_more)
     setShowLearnMoreDialog(true)
   }
 
@@ -272,12 +272,12 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   header: {
-    ...fontStyles.h1,
+    ...typeScale.titleMedium,
     marginBottom: Spacing.Regular16,
     textAlign: 'center',
   },
   body: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     marginBottom: 32,
     textAlign: 'center',
   },

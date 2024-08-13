@@ -9,7 +9,7 @@ import { setBackupCompleted } from 'src/account/actions'
 import { showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import { BackQuizProgress } from 'src/analytics/types'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import CancelConfirm from 'src/backup/CancelConfirm'
 import { QuizzBottom } from 'src/backup/QuizzBottom'
 import { getStoredMnemonic, onGetMnemonicFail } from 'src/backup/utils'
@@ -25,7 +25,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -111,7 +111,7 @@ export class BackupQuiz extends React.Component<Props, State> {
 
   componentDidMount = async () => {
     await this.retrieveMnemonic()
-    ValoraAnalytics.track(OnboardingEvents.backup_quiz_start)
+    AppAnalytics.track(OnboardingEvents.backup_quiz_start)
   }
 
   retrieveMnemonic = async () => {
@@ -141,7 +141,7 @@ export class BackupQuiz extends React.Component<Props, State> {
       userChosenWords: newUserChosenWords,
     })
 
-    ValoraAnalytics.track(OnboardingEvents.backup_quiz_progress, {
+    AppAnalytics.track(OnboardingEvents.backup_quiz_progress, {
       action: BackQuizProgress.word_chosen,
     })
   }
@@ -163,7 +163,7 @@ export class BackupQuiz extends React.Component<Props, State> {
       userChosenWords: userChosenWordsUpdated,
     })
 
-    ValoraAnalytics.track(OnboardingEvents.backup_quiz_progress, {
+    AppAnalytics.track(OnboardingEvents.backup_quiz_progress, {
       action: BackQuizProgress.backspace,
     })
   }
@@ -187,11 +187,11 @@ export class BackupQuiz extends React.Component<Props, State> {
       this.props.setBackupCompleted()
       const isAccountRemoval = this.props.route.params?.isAccountRemoval ?? false
       navigate(Screens.BackupComplete, { isAccountRemoval })
-      ValoraAnalytics.track(OnboardingEvents.backup_quiz_complete)
+      AppAnalytics.track(OnboardingEvents.backup_quiz_complete)
     } else {
       Logger.debug(TAG, 'Backup quiz failed, reseting words')
       this.setState({ mode: Mode.Failed })
-      ValoraAnalytics.track(OnboardingEvents.backup_quiz_incorrect)
+      AppAnalytics.track(OnboardingEvents.backup_quiz_incorrect)
     }
   }
 
@@ -345,12 +345,12 @@ const styles = StyleSheet.create({
   bottomHalf: { flex: 1, justifyContent: 'center' },
   bodyText: {
     marginTop: 20,
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     color: colors.black,
     textAlign: 'center',
   },
   bodyTextBold: {
-    ...fontStyles.regular500,
+    ...typeScale.labelMedium,
     textAlign: 'center',
     marginTop: 25,
   },
@@ -375,13 +375,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gray2,
   },
   chosenWord: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     textAlign: 'center',
     lineHeight: undefined,
     color: colors.gray4,
   },
   chosenWordFilled: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     textAlign: 'center',
     lineHeight: undefined,
     color: colors.gray5,

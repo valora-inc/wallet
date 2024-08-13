@@ -1833,4 +1833,11 @@ export const migrations = {
       earnPositionIds: [],
     },
   }),
+  223: (state: any) => ({
+    ...state,
+    recipients: {
+      ..._.omit(state.recipients, 'valoraRecipientCache'),
+      appRecipientCache: state.recipients.valoraRecipientCache || {},
+    },
+  }),
 }

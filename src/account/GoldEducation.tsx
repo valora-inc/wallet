@@ -5,7 +5,7 @@ import Education, { EducationTopic } from 'src/account/Education'
 import { setGoldEducationCompleted } from 'src/account/actions'
 import { celoEducationCompletedSelector } from 'src/account/selectors'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { BtnTypes } from 'src/components/Button'
 import { celoEducation1, celoEducation2, celoEducation3, celoEducation4 } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
@@ -20,7 +20,7 @@ export default function GoldEducation() {
   const isCeloEducationComplete = useSelector(celoEducationCompletedSelector)
 
   const onFinish = () => {
-    ValoraAnalytics.track(OnboardingEvents.celo_education_complete)
+    AppAnalytics.track(OnboardingEvents.celo_education_complete)
 
     if (isCeloEducationComplete) {
       navigateBack()
@@ -33,7 +33,7 @@ export default function GoldEducation() {
   const stepInfo = useStep()
 
   useEffect(() => {
-    ValoraAnalytics.track(OnboardingEvents.celo_education_start)
+    AppAnalytics.track(OnboardingEvents.celo_education_start)
   }, [])
 
   return (

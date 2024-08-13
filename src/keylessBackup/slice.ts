@@ -8,7 +8,7 @@ import {
 
 interface State {
   auth0IdToken: string | null
-  valoraKeyshare: string | null
+  appKeyshare: string | null
   torusKeyshare: string | null
   backupStatus: KeylessBackupStatus
   deleteBackupStatus: KeylessBackupDeleteStatus
@@ -17,7 +17,7 @@ interface State {
 
 const initialState: State = {
   auth0IdToken: null,
-  valoraKeyshare: null,
+  appKeyshare: null,
   torusKeyshare: null,
   backupStatus: KeylessBackupStatus.NotStarted,
   deleteBackupStatus: KeylessBackupDeleteStatus.NotStarted,
@@ -31,7 +31,7 @@ export const slice = createSlice({
     auth0SignInCompleted: (state, action: PayloadAction<{ idToken: string }>) => {
       state.auth0IdToken = action.payload.idToken
     },
-    valoraKeyshareIssued: (
+    appKeyshareIssued: (
       state,
       action: PayloadAction<{
         keyshare: string
@@ -40,7 +40,7 @@ export const slice = createSlice({
         jwt: string
       }>
     ) => {
-      state.valoraKeyshare = action.payload.keyshare
+      state.appKeyshare = action.payload.keyshare
     },
     torusKeyshareIssued: (state, action: PayloadAction<{ keyshare: string }>) => {
       state.torusKeyshare = action.payload.keyshare
@@ -65,7 +65,7 @@ export const slice = createSlice({
     },
     keylessBackupBail: (state) => {
       state.auth0IdToken = initialState.auth0IdToken
-      state.valoraKeyshare = initialState.valoraKeyshare
+      state.appKeyshare = initialState.appKeyshare
       state.torusKeyshare = initialState.torusKeyshare
       state.backupStatus = initialState.backupStatus
     },
@@ -90,7 +90,7 @@ export const slice = createSlice({
 
 export const {
   auth0SignInCompleted,
-  valoraKeyshareIssued,
+  appKeyshareIssued,
   torusKeyshareIssued,
   keylessBackupStarted,
   keylessBackupFailed,

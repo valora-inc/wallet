@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import { poolInfoSelector } from 'src/earn/selectors'
@@ -77,12 +77,12 @@ export default function GetStarted() {
   const { t } = useTranslation()
 
   const goToAddFunds = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_add_get_started_selected)
+    AppAnalytics.track(FiatExchangeEvents.cico_add_get_started_selected)
     navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
   }
 
   useEffect(() => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_add_get_started_impression)
+    AppAnalytics.track(FiatExchangeEvents.cico_add_get_started_impression)
   }, [])
 
   return (

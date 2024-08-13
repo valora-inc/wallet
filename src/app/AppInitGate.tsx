@@ -4,7 +4,7 @@ import { useAsync } from 'react-async-hook'
 import { Dimensions } from 'react-native'
 import { findBestLanguageTag } from 'react-native-localize'
 import { AppEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { appMounted, appUnmounted } from 'src/app/actions'
 import { isE2EEnv } from 'src/config'
 import i18n from 'src/i18n'
@@ -50,7 +50,7 @@ const AppInitGate = ({ appStartedMillis, reactLoadTime, children }: Props) => {
       Logger.debug('TAG', `reactLoad: ${reactLoadDuration} appLoad: ${appLoadDuration}`)
 
       const { width, height } = Dimensions.get('window')
-      ValoraAnalytics.startSession(AppEvents.app_launched, {
+      AppAnalytics.startSession(AppEvents.app_launched, {
         deviceHeight: height,
         deviceWidth: width,
         reactLoadDuration,

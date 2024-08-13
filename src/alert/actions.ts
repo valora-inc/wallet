@@ -1,7 +1,7 @@
 import { TOptions } from 'i18next'
 import { ErrorDisplayType } from 'src/alert/reducer'
 import { AppEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { OpenUrlAction } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { ALERT_BANNER_DURATION } from 'src/config'
@@ -60,7 +60,7 @@ export const showError = (
   dismissAfter?: number | null | undefined,
   i18nOptions?: object
 ): ShowAlertAction => {
-  ValoraAnalytics.track(AppEvents.error_displayed, { error })
+  AppAnalytics.track(AppEvents.error_displayed, { error })
   return showAlert(
     AlertTypes.ERROR,
     i18n.t(error, { ...(i18nOptions || {}) }),
@@ -87,7 +87,7 @@ export function showErrorOrFallback(error: any, fallback: ErrorMessages) {
     return showError(error.message)
   }
 
-  ValoraAnalytics.track(AppEvents.error_fallback, {
+  AppAnalytics.track(AppEvents.error_fallback, {
     error: fallback,
   })
 

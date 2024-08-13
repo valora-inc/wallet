@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SendOrigin } from 'src/analytics/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -154,8 +154,8 @@ describe('SendEnterAmount', () => {
     await waitFor(() => expect(getByText('review')).not.toBeDisabled())
     fireEvent.press(getByText('review'))
 
-    await waitFor(() => expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_amount_continue, {
+    await waitFor(() => expect(AppAnalytics.track).toHaveBeenCalledTimes(1))
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_amount_continue, {
       amountInUsd: '106.01',
       isScan: false,
       localCurrency: 'PHP',

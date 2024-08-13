@@ -2,8 +2,8 @@ import { PayloadAction } from '@reduxjs/toolkit'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { EffectProviders, StaticProvider, dynamic } from 'redux-saga-test-plan/providers'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SwapEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { getMultichainFeatures } from 'src/statsig'
 import { swapSubmitSaga } from 'src/swap/saga'
@@ -443,8 +443,8 @@ describe(swapSubmitSaga, () => {
       expect(loggerErrorSpy).not.toHaveBeenCalled()
       expect(navigateHome).toHaveBeenCalledWith()
 
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_success, {
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_success, {
         toToken: toTokenAddress,
         toTokenId: toTokenId,
         toTokenNetworkId: networkId,
@@ -510,7 +510,7 @@ describe(swapSubmitSaga, () => {
         swapType: 'same-chain',
       })
 
-      const analyticsProps = (ValoraAnalytics.track as jest.Mock).mock.calls[0][1]
+      const analyticsProps = (AppAnalytics.track as jest.Mock).mock.calls[0][1]
       expect(analyticsProps.gas).toBeCloseTo(
         analyticsProps.approveTxGas + analyticsProps.swapTxGas,
         8
@@ -705,8 +705,8 @@ describe(swapSubmitSaga, () => {
     expect(loggerErrorSpy).not.toHaveBeenCalled()
     expect(navigateHome).toHaveBeenCalledWith()
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(AppAnalytics.track).toHaveBeenLastCalledWith(
       SwapEvents.swap_execute_success,
       expect.objectContaining({ fromTokenIsImported: false, toTokenIsImported: true })
     )
@@ -727,8 +727,8 @@ describe(swapSubmitSaga, () => {
       .put(swapError('test-swap-id'))
       .run()
     expect(navigate).not.toHaveBeenCalled()
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_error, {
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_error, {
       error: 'fake error',
       toToken: mockCeloAddress,
       toTokenId: mockCeloTokenId,
@@ -795,7 +795,7 @@ describe(swapSubmitSaga, () => {
       areSwapTokensShuffled: false,
       swapType: 'same-chain',
     })
-    const analyticsProps = (ValoraAnalytics.track as jest.Mock).mock.calls[0][1]
+    const analyticsProps = (AppAnalytics.track as jest.Mock).mock.calls[0][1]
     expect(analyticsProps.gas).toBeCloseTo(
       analyticsProps.approveTxGas + analyticsProps.swapTxGas,
       8
@@ -822,7 +822,7 @@ describe(swapSubmitSaga, () => {
       .not.put(swapError('test-swap-id'))
       .run()
     expect(navigate).not.toHaveBeenCalled()
-    expect(ValoraAnalytics.track).not.toHaveBeenCalled()
+    expect(AppAnalytics.track).not.toHaveBeenCalled()
   })
 
   it('should track swap result for a user in the swap tokens order holdout group', async () => {
@@ -838,7 +838,7 @@ describe(swapSubmitSaga, () => {
       .provide(createDefaultProviders(Network.Celo))
       .run()
 
-    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(
+    expect(AppAnalytics.track).toHaveBeenLastCalledWith(
       SwapEvents.swap_execute_error,
       expect.objectContaining({ areSwapTokensShuffled: true })
     )
@@ -851,9 +851,21 @@ describe(swapSubmitSaga, () => {
       .provide(createDefaultProviders(Network.Celo))
       .run()
 
-    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(
+    expect(AppAnalytics.track).toHaveBeenLastCalledWith(
       SwapEvents.swap_execute_success,
       expect.objectContaining({ areSwapTokensShuffled: true })
+    )
+  })
+
+  it('should not sent success analytics event for cross-chain swap', async () => {
+    await expectSaga(swapSubmitSaga, mockCrossChainSwap)
+      .withState(store.getState())
+      .provide(createDefaultProviders(Network.Celo))
+      .run()
+
+    expect(AppAnalytics.track).not.toHaveBeenCalledWith(
+      SwapEvents.swap_execute_success,
+      expect.anything()
     )
   })
 })

@@ -2,7 +2,7 @@ import { CeloTxObject } from '@celo/connect'
 import BigNumber from 'bignumber.js'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { FeeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { CELO_TRANSACTION_MIN_AMOUNT, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import { createReclaimTransaction } from 'src/escrow/saga'
@@ -106,7 +106,7 @@ export function* estimateFeeSaga({
           },
         })
       )
-      ValoraAnalytics.track(FeeEvents.estimate_fee_success, {
+      AppAnalytics.track(FeeEvents.estimate_fee_success, {
         feeType,
         tokenAddress,
         usdFee: usdFee.toString(),
@@ -115,7 +115,7 @@ export function* estimateFeeSaga({
   } catch (err) {
     const error = ensureError(err)
     Logger.error(`${TAG}/estimateFeeSaga`, 'Error estimating fee', error)
-    ValoraAnalytics.track(FeeEvents.estimate_fee_failed, {
+    AppAnalytics.track(FeeEvents.estimate_fee_failed, {
       error: error.message,
       feeType,
       tokenAddress,

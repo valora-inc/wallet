@@ -5,8 +5,8 @@ import { SafeAreaInsetsContext, SafeAreaView } from 'react-native-safe-area-cont
 import { connect } from 'react-redux'
 import { acceptTerms } from 'src/account/actions'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import DevSkipButton from 'src/components/DevSkipButton'
 import { PRIVACY_LINK, TOS_LINK } from 'src/config'
@@ -21,7 +21,7 @@ import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { navigateToURI } from 'src/utils/linking'
 
@@ -53,7 +53,7 @@ export class RegulatoryTerms extends React.Component<Props> {
   }
 
   onPressAccept = () => {
-    ValoraAnalytics.track(OnboardingEvents.terms_and_conditions_accepted)
+    AppAnalytics.track(OnboardingEvents.terms_and_conditions_accepted)
 
     this.props.acceptTerms()
     this.startOnboarding()
@@ -214,16 +214,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: MARGIN,
   },
   title: {
-    ...fontStyles.h1,
+    ...typeScale.titleMedium,
     marginTop: 30,
     marginBottom: 24,
   },
   header: {
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
     marginBottom: 10,
   },
   disclaimer: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     marginBottom: 15,
   },
   link: {

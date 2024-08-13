@@ -11,7 +11,7 @@ const dapp1V2 = {
   id: '1',
   categories: ['1'],
   description: 'Swap tokens!',
-  iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/ubeswap.png',
+  iconUrl: 'https://raw.githubusercontent.com/app-list/main/assets/ubeswap.png',
   dappUrl: 'https://app.ubeswap.org/',
 }
 
@@ -20,7 +20,7 @@ const dapp2V2 = {
   id: '2',
   categories: ['2'],
   description: 'Lend and borrow tokens!',
-  iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/moola.png',
+  iconUrl: 'https://raw.githubusercontent.com/app-list/main/assets/moola.png',
   dappUrl: `${DEEPLINK_PREFIX}://wallet/moolaScreen`,
 }
 

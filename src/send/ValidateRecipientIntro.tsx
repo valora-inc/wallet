@@ -3,8 +3,8 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SendEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import CancelButton from 'src/components/CancelButton'
 import ContactCircle from 'src/components/ContactCircle'
 import TextButton from 'src/components/TextButton'
@@ -16,7 +16,7 @@ import { getDisplayName } from 'src/recipients/recipient'
 import { useDispatch } from 'src/redux/hooks'
 import { handleQRCodeDetectedSecureSend } from 'src/send/actions'
 import { QrCode } from 'src/send/types'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 const AVATAR_SIZE = 64
 
@@ -53,7 +53,7 @@ const ValidateRecipientIntro = ({ route }: Props) => {
       },
     })
 
-    ValoraAnalytics.track(SendEvents.send_secure_start, { confirmByScan: true })
+    AppAnalytics.track(SendEvents.send_secure_start, { confirmByScan: true })
   }
 
   const onPressConfirmAccount = () => {
@@ -65,7 +65,7 @@ const ValidateRecipientIntro = ({ route }: Props) => {
       defaultTokenIdOverride,
     })
 
-    ValoraAnalytics.track(SendEvents.send_secure_start, { confirmByScan: false })
+    AppAnalytics.track(SendEvents.send_secure_start, { confirmByScan: false })
   }
 
   const displayName = getDisplayName(recipient, t)
@@ -122,12 +122,12 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
   },
   validationHeader: {
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
     paddingVertical: 16,
     textAlign: 'center',
   },
   body: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     textAlign: 'center',
     paddingBottom: 16,
   },

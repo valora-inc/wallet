@@ -1,6 +1,11 @@
 import { RootState } from 'src/redux/store'
+import { getMultichainFeatures } from 'src/statsig'
 import { Actions } from 'src/transactions/actions'
-import { _initialState, reducer } from 'src/transactions/reducer'
+import {
+  _initialState,
+  pendingStandbyTransactionsSelector,
+  reducer,
+} from 'src/transactions/reducer'
 import {
   NetworkId,
   StandbyTransaction,
@@ -9,6 +14,9 @@ import {
   TokenTransactionTypeV2,
   TransactionStatus,
 } from 'src/transactions/types'
+import { getMockStoreData } from 'test/utils'
+
+jest.mock('src/statsig')
 
 const standbyCrossChainSwap: StandbyTransaction = {
   __typename: 'CrossChainTokenExchange',
@@ -231,6 +239,110 @@ describe('transactions reducer', () => {
         },
         standbyTransactions: [],
       })
+    })
+  })
+})
+
+describe('selector', () => {
+  describe('pendingStandbyTransactionsSelector', () => {
+    it('should return pending transactions with default values if unavailable', () => {
+      jest
+        .mocked(getMultichainFeatures)
+        .mockReturnValue({ showApprovalTxsInHomefeed: [NetworkId['celo-mainnet']] })
+
+      const standbyCrossChainSwap = {
+        feeCurrencyId: 'celo-mainnet:native',
+        inAmount: {
+          tokenId: 'arbitrum-one:0xaf88d065e77c8cc2239327c5edb3a432268e5831',
+          tokenAddress: '0xaf88d065e77c8cc2239327c5edb3a432268e5831',
+          value: '0.099402',
+        },
+        context: {
+          id: '0ee0b4fe-c285-44da-a6de-c0f14f84ee7f',
+          tag: 'swap/saga',
+          description: 'Swap/Execute',
+        },
+        status: TransactionStatus.Pending,
+        outAmount: {
+          tokenId: 'celo-mainnet:0x765de816845861e75a25fca122bb6898b8b1282a',
+          tokenAddress: '0x765de816845861e75a25fca122bb6898b8b1282a',
+          value: '0.0994',
+        },
+        fees: [
+          {
+            amount: {
+              localAmount: {
+                currencyCode: 'EUR',
+                exchangeRate: '0.48180325869',
+                value: '0.00158460996455442135',
+              },
+              value: '0.003288915',
+              tokenAddress: '0x471ece3750da237f93b8e339c536989b8978a438',
+              tokenId: 'celo-mainnet:native',
+            },
+            type: 'SECURITY_FEE',
+          },
+          {
+            amount: {
+              localAmount: {
+                currencyCode: 'EUR',
+                exchangeRate: '0.91760127999',
+                value: '0.000550560767994',
+              },
+              value: '0.0006',
+              tokenAddress: '0x765de816845861e75a25fca122bb6898b8b1282a',
+              tokenId: 'celo-mainnet:0x765de816845861e75a25fca122bb6898b8b1282a',
+            },
+            type: 'APP_FEE',
+          },
+          {
+            amount: {
+              localAmount: {
+                currencyCode: 'EUR',
+                exchangeRate: '0.48180325869',
+                value: '0.17992880266886214666758336412',
+              },
+              value: '0.373448704265886348',
+              tokenAddress: '0x471ece3750da237f93b8e339c536989b8978a438',
+              tokenId: 'celo-mainnet:native',
+            },
+            type: 'CROSS_CHAIN_FEE',
+          },
+        ],
+        transactionHash: '0x60b169b86f7b54413f50e5dc77283ce2d4842119fa313658c23607eade1e41b9',
+        block: '26987429',
+        networkId: NetworkId['celo-mainnet'],
+        type: TokenTransactionTypeV2.CrossChainSwapTransaction,
+        timestamp: 1722609137000,
+        __typename: 'CrossChainTokenExchange' as const,
+      }
+      const standbyApproval = {
+        status: TransactionStatus.Pending,
+        __typename: 'TokenApproval' as const,
+        networkId: NetworkId['celo-mainnet'],
+        tokenId: 'celo-mainnet:0x765de816845861e75a25fca122bb6898b8b1282a',
+        approvedAmount: '0.1',
+        feeCurrencyId: 'celo-mainnet:native',
+        transactionHash: '0x3496315e3dd31f838abc34c5eb5d0131c990393d5d23217875be69fb07335399',
+        context: {
+          id: 'edc8d29b-aae2-4ecf-9920-4bd94976f42f',
+          tag: 'swap/saga',
+          description: 'Swap/Approve',
+        },
+        timestamp: 1722588482000,
+        type: TokenTransactionTypeV2.Approval,
+      }
+
+      const state: RootState = getMockStoreData({
+        transactions: {
+          ..._initialState,
+          standbyTransactions: [standbyCrossChainSwap, standbyApproval],
+        },
+      })
+      expect(pendingStandbyTransactionsSelector(state)).toEqual([
+        standbyCrossChainSwap, // all fields returned
+        { ...standbyApproval, block: '', fees: [] }, // default values for block and fees
+      ])
     })
   })
 })

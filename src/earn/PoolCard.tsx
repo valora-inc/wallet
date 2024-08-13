@@ -3,7 +3,7 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { EarnEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Button, { BtnSizes, BtnTypes, TextSizes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon from 'src/components/TokenIcon'
@@ -94,7 +94,7 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
           <View style={styles.buttonContainer}>
             <Button
               onPress={() => {
-                ValoraAnalytics.track(EarnEvents.earn_pool_card_cta_press, {
+                AppAnalytics.track(EarnEvents.earn_pool_card_cta_press, {
                   poolId: pool.poolId,
                   depositTokenId,
                   networkId: pool.networkId,
@@ -112,7 +112,7 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
             />
             <Button
               onPress={() => {
-                ValoraAnalytics.track(EarnEvents.earn_pool_card_cta_press, {
+                AppAnalytics.track(EarnEvents.earn_pool_card_cta_press, {
                   poolId: pool.poolId,
                   depositTokenId,
                   networkId: pool.networkId,
@@ -133,7 +133,7 @@ export default function PoolCard({ pool, testID = 'PoolCard' }: { pool: Pool; te
       ) : (
         <Button
           onPress={() => {
-            ValoraAnalytics.track(EarnEvents.earn_pool_card_cta_press, {
+            AppAnalytics.track(EarnEvents.earn_pool_card_cta_press, {
               poolId: pool.poolId,
               depositTokenId,
               networkId: pool.networkId,

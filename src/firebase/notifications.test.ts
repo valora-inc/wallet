@@ -96,7 +96,7 @@ describe(handleNotification, () => {
 
   describe('with a payment received notification', () => {
     const message: FirebaseMessagingTypes.RemoteMessage = {
-      fcmOptions: { link: 'https://valoraapp.com' },
+      fcmOptions: { link: 'https://example.com' },
       notification: { title: 'My title', body: 'My Body' },
       data: {
         type: NotificationTypes.PAYMENT_RECEIVED,

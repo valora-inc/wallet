@@ -4,8 +4,8 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import getNavigationOptions from 'src/fiatconnect/kyc/getNavigationOptions'
 import { kycTryAgainLoadingSelector } from 'src/fiatconnect/selectors'
@@ -15,7 +15,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.KycExpired>
@@ -35,7 +35,7 @@ function KycExpired({ route, navigation }: Props) {
   const { t } = useTranslation()
 
   const onPressTryAgain = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_kyc_status_try_again, {
+    AppAnalytics.track(FiatExchangeEvents.cico_fc_kyc_status_try_again, {
       provider: quote.getProviderId(),
       flow,
       fiatConnectKycStatus: FiatConnectKycStatus.KycExpired,
@@ -43,7 +43,7 @@ function KycExpired({ route, navigation }: Props) {
     dispatch(kycTryAgain({ quote, flow }))
   }
   const onPressSwitch = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_kyc_status_switch_method, {
+    AppAnalytics.track(FiatExchangeEvents.cico_fc_kyc_status_switch_method, {
       provider: quote.getProviderId(),
       flow,
       fiatConnectKycStatus: FiatConnectKycStatus.KycExpired,
@@ -100,11 +100,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
     marginHorizontal: 16,
   },
   description: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     textAlign: 'center',
     marginVertical: 12,
     marginHorizontal: 24,

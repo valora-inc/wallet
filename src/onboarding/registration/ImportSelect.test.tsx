@@ -8,7 +8,7 @@ import { Screens } from 'src/navigator/Screens'
 import ImportSelect from 'src/onboarding/registration/ImportSelect'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 const mockScreenProps = getMockStackScreenProps(Screens.ImportSelect)
 
 describe('ImportSelect', () => {

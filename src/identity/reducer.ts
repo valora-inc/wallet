@@ -33,7 +33,7 @@ export interface AddressInfoToDisplay {
 }
 
 // This mapping is just for storing provider info from firebase
-// other known recipient should be stored in the valoraRecipientCache
+// other known recipient should be stored in the appRecipientCache
 export interface AddressToDisplayNameType {
   [address: string]: AddressInfoToDisplay | undefined
 }

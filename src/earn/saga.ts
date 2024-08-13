@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import erc20 from 'src/abis/IERC20'
 import { EarnEvents } from 'src/analytics/Events'
 import { EarnDepositTxsReceiptProperties } from 'src/analytics/Properties'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { PROVIDER_ID } from 'src/earn/constants'
 import { fetchAavePoolInfo } from 'src/earn/poolInfo'
 import {
@@ -175,7 +175,7 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
     }
     createDepositStandbyTxHandlers.push(createDepositStandbyTx)
 
-    ValoraAnalytics.track(EarnEvents.earn_deposit_submit_start, commonAnalyticsProps)
+    AppAnalytics.track(EarnEvents.earn_deposit_submit_start, commonAnalyticsProps)
 
     const txHashes = yield* call(
       sendPreparedTransactions,
@@ -220,7 +220,7 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
       throw new Error(`Deposit transaction reverted: ${depositTxReceipt?.transactionHash}`)
     }
 
-    ValoraAnalytics.track(EarnEvents.earn_deposit_submit_success, {
+    AppAnalytics.track(EarnEvents.earn_deposit_submit_success, {
       ...commonAnalyticsProps,
       ...getDepositTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),
     })
@@ -236,14 +236,14 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
     if (err === CANCELLED_PIN_INPUT) {
       Logger.info(`${TAG}/depositSubmitSaga`, 'Transaction cancelled by user')
       yield* put(depositCancel())
-      ValoraAnalytics.track(EarnEvents.earn_deposit_submit_cancel, commonAnalyticsProps)
+      AppAnalytics.track(EarnEvents.earn_deposit_submit_cancel, commonAnalyticsProps)
       return
     }
 
     const error = ensureError(err)
     Logger.error(`${TAG}/depositSubmitSaga`, 'Error sending deposit transaction', error)
     yield* put(depositError())
-    ValoraAnalytics.track(EarnEvents.earn_deposit_submit_error, {
+    AppAnalytics.track(EarnEvents.earn_deposit_submit_error, {
       ...commonAnalyticsProps,
       error: error.message,
       ...getDepositTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),
@@ -341,7 +341,7 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
       createWithdrawStandbyTxHandlers.push(createClaimRewardStandbyTx)
     })
 
-    ValoraAnalytics.track(EarnEvents.earn_withdraw_submit_start, commonAnalyticsProps)
+    AppAnalytics.track(EarnEvents.earn_withdraw_submit_start, commonAnalyticsProps)
 
     const txHashes = yield* call(
       sendPreparedTransactions,
@@ -385,19 +385,19 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
 
     yield* put(withdrawSuccess())
     yield* put(fetchTokenBalances({ showLoading: false }))
-    ValoraAnalytics.track(EarnEvents.earn_withdraw_submit_success, commonAnalyticsProps)
+    AppAnalytics.track(EarnEvents.earn_withdraw_submit_success, commonAnalyticsProps)
   } catch (err) {
     if (err === CANCELLED_PIN_INPUT) {
       Logger.info(`${TAG}/withdrawSubmitSaga`, 'Transaction cancelled by user')
       yield* put(withdrawCancel())
-      ValoraAnalytics.track(EarnEvents.earn_withdraw_submit_cancel, commonAnalyticsProps)
+      AppAnalytics.track(EarnEvents.earn_withdraw_submit_cancel, commonAnalyticsProps)
       return
     }
 
     const error = ensureError(err)
     Logger.error(`${TAG}/withdrawSubmitSaga`, 'Error sending withdraw transaction', error)
     yield* put(withdrawError())
-    ValoraAnalytics.track(EarnEvents.earn_withdraw_submit_error, {
+    AppAnalytics.track(EarnEvents.earn_withdraw_submit_error, {
       ...commonAnalyticsProps,
       error: error.message,
     })

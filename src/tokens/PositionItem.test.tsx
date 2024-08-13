@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { AssetsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { AppTokenPosition } from 'src/positions/types'
 import { PositionItem } from 'src/tokens/PositionItem'
 import { createMockStore } from 'test/utils'
@@ -22,8 +22,8 @@ describe('PositionItem', () => {
 
     fireEvent.press(getByText('MOO / CELO'))
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AssetsEvents.tap_asset, {
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(AssetsEvents.tap_asset, {
       address: '0x19a75250c5a3ab22a8662e55a2b90ff9d3334b00',
       appId: 'ubeswap',
       assetType: 'position',

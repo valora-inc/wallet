@@ -18,9 +18,8 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
         <Text
           style={
             {
-              "color": "#2E3338",
-              "fontFamily": "Jost-Medium",
-              "fontSize": 22,
+              "fontFamily": "Inter-Bold",
+              "fontSize": 20,
               "lineHeight": 28,
               "paddingVertical": 16,
             }
@@ -34,10 +33,9 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
             <Text
               style={
                 {
-                  "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 16,
-                  "lineHeight": 22,
+                  "lineHeight": 24,
                   "paddingBottom": 16,
                 }
               }
@@ -47,10 +45,9 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
             <Text
               style={
                 {
-                  "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 16,
-                  "lineHeight": 22,
+                  "lineHeight": 24,
                   "paddingBottom": 16,
                 }
               }
@@ -60,10 +57,9 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
             <Text
               style={
                 {
-                  "color": "#2E3338",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 14,
-                  "lineHeight": 18,
+                  "lineHeight": 20,
                   "paddingVertical": 8,
                 }
               }
@@ -81,7 +77,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                     "justifyContent": "center",
                   },
                   {
-                    "backgroundColor": "#FFF",
+                    "backgroundColor": "#FFFFFF",
                     "borderColor": "#E6E6E6",
                     "borderRadius": 3,
                     "borderWidth": 1,
@@ -253,10 +249,9 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
           onPress={[Function]}
           style={
             {
-              "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 14,
-              "lineHeight": 18,
+              "lineHeight": 20,
               "paddingLeft": 8,
               "textDecorationLine": "underline",
             }
@@ -331,9 +326,8 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
         <Text
           style={
             {
-              "color": "#2E3338",
-              "fontFamily": "Jost-Medium",
-              "fontSize": 22,
+              "fontFamily": "Inter-Bold",
+              "fontSize": 20,
               "lineHeight": 28,
               "paddingVertical": 16,
             }
@@ -347,10 +341,9 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
             <Text
               style={
                 {
-                  "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 16,
-                  "lineHeight": 22,
+                  "lineHeight": 24,
                   "paddingBottom": 16,
                 }
               }
@@ -360,10 +353,9 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
             <Text
               style={
                 {
-                  "color": "#2E3338",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 14,
-                  "lineHeight": 18,
+                  "lineHeight": 20,
                   "paddingVertical": 8,
                 }
               }
@@ -395,7 +387,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                         "justifyContent": "center",
                       },
                       {
-                        "backgroundColor": "#FFF",
+                        "backgroundColor": "#FFFFFF",
                         "borderColor": "#E6E6E6",
                         "borderRadius": 3,
                         "borderWidth": 1,
@@ -455,7 +447,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                         "justifyContent": "center",
                       },
                       {
-                        "backgroundColor": "#FFF",
+                        "backgroundColor": "#FFFFFF",
                         "borderColor": "#E6E6E6",
                         "borderRadius": 3,
                         "borderWidth": 1,
@@ -515,7 +507,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                         "justifyContent": "center",
                       },
                       {
-                        "backgroundColor": "#FFF",
+                        "backgroundColor": "#FFFFFF",
                         "borderColor": "#E6E6E6",
                         "borderRadius": 3,
                         "borderWidth": 1,
@@ -575,7 +567,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                         "justifyContent": "center",
                       },
                       {
-                        "backgroundColor": "#FFF",
+                        "backgroundColor": "#FFFFFF",
                         "borderColor": "#E6E6E6",
                         "borderRadius": 3,
                         "borderWidth": 1,
@@ -754,10 +746,9 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
           onPress={[Function]}
           style={
             {
-              "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 14,
-              "lineHeight": 18,
+              "lineHeight": 20,
               "paddingLeft": 8,
               "textDecorationLine": "underline",
             }

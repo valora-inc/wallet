@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import BottomSheetLegacy from 'src/components/BottomSheetLegacy'
 import TextButton from 'src/components/TextButton'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 interface Props {
   isVisible: boolean
@@ -20,7 +20,7 @@ export default function InfoBottomSheet({ isVisible, onDismiss, title, body, tes
       testID={testID}
       isVisible={isVisible}
       onBackgroundPress={onDismiss}
-      backgroundColor={'#2E3338'}
+      backgroundColor={colors.black}
       opacity={0.25}
     >
       <View style={styles.root}>
@@ -42,12 +42,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   title: {
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
     textAlign: 'center',
     marginTop: 22,
   },
   body: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     textAlign: 'center',
     marginTop: 12,
   },

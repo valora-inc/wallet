@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { PhoneVerificationEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BackButton from 'src/components/BackButton'
 import InfoBottomSheet from 'src/components/InfoBottomSheet'
 import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
@@ -31,17 +31,17 @@ function VerificationCodeInputScreen({
   )
 
   const onResendSms = () => {
-    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_resend_message)
+    AppAnalytics.track(PhoneVerificationEvents.phone_verification_resend_message)
     resendSms()
   }
 
   const onPressHelp = () => {
-    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_input_help)
+    AppAnalytics.track(PhoneVerificationEvents.phone_verification_input_help)
     setShowHelpDialog(true)
   }
 
   const onPressHelpDismiss = () => {
-    ValoraAnalytics.track(PhoneVerificationEvents.phone_verification_input_help_continue)
+    AppAnalytics.track(PhoneVerificationEvents.phone_verification_input_help_continue)
     setShowHelpDialog(false)
   }
 

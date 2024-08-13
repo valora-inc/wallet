@@ -7,7 +7,7 @@ import Touchable from 'src/components/Touchable'
 import withTextInputPasteAware from 'src/components/WithTextInputPasteAware'
 import { withTranslation } from 'src/i18n'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { vibrateInformative } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
@@ -148,17 +148,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 2,
   },
   headerButton: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
   },
   writeDownKeyContainer: {
     flexDirection: 'column',
   },
   writeDownKey: {
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
     marginBottom: 16,
   },
   indexText: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     color: colors.gray4,
   },
   twelveWordTable: {
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
     marginVertical: 11,
   },
   wordText: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
   },
   phraseContainer: {
     flexWrap: 'wrap',
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   phraseText: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     fontSize: 22,
     lineHeight: 32,
   },
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   phraseInputText: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     minHeight: 125,
     padding: 14,
     paddingTop: 16,

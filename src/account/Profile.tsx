@@ -8,7 +8,7 @@ import { saveNameAndPicture } from 'src/account/actions'
 import { nameSelector, pictureSelector } from 'src/account/selectors'
 import { showError, showMessage } from 'src/alert/actions'
 import { SettingsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import Button from 'src/components/Button'
 import CancelButton from 'src/components/CancelButton'
@@ -25,7 +25,7 @@ import { StackParamList } from 'src/navigator/types'
 import PictureInput from 'src/onboarding/registration/PictureInput'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import { saveProfilePicture } from 'src/utils/image'
@@ -46,7 +46,7 @@ function Profile({ navigation, route }: Props) {
       dispatch(showError(ErrorMessages.MISSING_FULL_NAME))
       return
     }
-    ValoraAnalytics.track(SettingsEvents.profile_save)
+    AppAnalytics.track(SettingsEvents.profile_save)
     dispatch(saveNameAndPicture(newName, newPictureUri))
     dispatch(showMessage(t('namePictureSaved')))
     navigation.goBack()
@@ -62,12 +62,12 @@ function Profile({ navigation, route }: Props) {
   const onPictureChosen = async (pictureDataUrl: string | null) => {
     if (!pictureDataUrl) {
       setNewPictureUri(null)
-      ValoraAnalytics.track(SettingsEvents.profile_photo_removed)
+      AppAnalytics.track(SettingsEvents.profile_photo_removed)
     } else {
       try {
         const newPicturePath = await saveProfilePicture(pictureDataUrl)
         setNewPictureUri(newPicturePath)
-        ValoraAnalytics.track(SettingsEvents.profile_photo_chosen)
+        AppAnalytics.track(SettingsEvents.profile_photo_chosen)
       } catch (error) {
         dispatch(showError(ErrorMessages.PICTURE_LOAD_FAILED))
       }
@@ -79,7 +79,7 @@ function Profile({ navigation, route }: Props) {
   }
 
   const generateName = () => {
-    ValoraAnalytics.track(SettingsEvents.profile_generate_name)
+    AppAnalytics.track(SettingsEvents.profile_generate_name)
     updateName(generateRandomUsername())
   }
 
@@ -122,7 +122,7 @@ function Profile({ navigation, route }: Props) {
 
 Profile.navigationOptions = ({ navigation }: Props) => {
   const onCancel = () => {
-    ValoraAnalytics.track(SettingsEvents.profile_cancel)
+    AppAnalytics.track(SettingsEvents.profile_cancel)
     navigation.goBack()
   }
   return {
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     marginVertical: 24,
   },
   saveButton: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     color: colors.primary,
   },
   disclaimerContainer: {

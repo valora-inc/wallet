@@ -20,7 +20,7 @@ export async function updateAccountRegistration(
     method: 'POST',
     headers: {
       'content-Type': 'application/json',
-      authorization: `Valora ${address}:${signature}`,
+      authorization: `${networkConfig.authHeaderIssuer} ${address}:${signature}`,
     },
     body: JSON.stringify({ ...properties, address }),
   })

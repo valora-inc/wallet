@@ -1,7 +1,7 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { KeylessBackupEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import KeylessBackupIntro from 'src/keylessBackup/KeylessBackupIntro'
 import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 import { navigate } from 'src/navigator/NavigationService'
@@ -25,7 +25,7 @@ describe('KeylessBackupIntro', () => {
       )
       const continueButton = getByTestId('keylessBackupIntro/Continue')
       fireEvent.press(continueButton)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(KeylessBackupEvents.cab_intro_continue, {
+      expect(AppAnalytics.track).toHaveBeenCalledWith(KeylessBackupEvents.cab_intro_continue, {
         keylessBackupFlow: KeylessBackupFlow.Setup,
         origin: KeylessBackupOrigin.Settings,
       })
@@ -46,9 +46,7 @@ describe('KeylessBackupIntro', () => {
       )
       const recoveryPhraseLink = getByTestId('keylessBackupIntro/RecoveryPhrase')
       fireEvent.press(recoveryPhraseLink)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-        KeylessBackupEvents.cab_setup_recovery_phrase
-      )
+      expect(AppAnalytics.track).toHaveBeenCalledWith(KeylessBackupEvents.cab_setup_recovery_phrase)
       expect(navigate).toHaveBeenCalledWith(Screens.BackupIntroduction)
     })
   })
@@ -65,7 +63,7 @@ describe('KeylessBackupIntro', () => {
       )
       const continueButton = getByTestId('keylessBackupIntro/Continue')
       fireEvent.press(continueButton)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(KeylessBackupEvents.cab_intro_continue, {
+      expect(AppAnalytics.track).toHaveBeenCalledWith(KeylessBackupEvents.cab_intro_continue, {
         keylessBackupFlow: KeylessBackupFlow.Restore,
         origin: KeylessBackupOrigin.Settings,
       })

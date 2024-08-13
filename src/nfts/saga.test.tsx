@@ -16,6 +16,7 @@ import { walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import { mockNftAllFields, mockNftMinimumFields } from 'test/values'
 import { DEEPLINK_PREFIX } from 'src/config'
+import networkConfig from 'src/web3/networkConfig'
 
 jest.mock('src/statsig')
 
@@ -91,7 +92,7 @@ describe('Given Nfts saga', () => {
         .run()
 
       expect(mockFetch).toHaveBeenCalledWith(
-        'https://api.alfajores.valora.xyz/getNfts?address=0xabc&networkId=celo-alfajores',
+        `${networkConfig.getNftsByOwnerAddressUrl}?address=0xabc&networkId=celo-alfajores`,
         {
           headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
           method: 'GET',
@@ -99,7 +100,7 @@ describe('Given Nfts saga', () => {
         }
       )
       expect(mockFetch).toHaveBeenCalledWith(
-        'https://api.alfajores.valora.xyz/getNfts?address=0xabc&networkId=ethereum-sepolia',
+        `${networkConfig.getNftsByOwnerAddressUrl}?address=0xabc&networkId=ethereum-sepolia`,
         {
           headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
           method: 'GET',

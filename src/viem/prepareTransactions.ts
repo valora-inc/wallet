@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import erc20 from 'src/abis/IERC20'
 import stableToken from 'src/abis/StableToken'
 import { TransactionEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { TransactionOrigin } from 'src/analytics/types'
 import { STATIC_GAS_PADDING } from 'src/config'
 import {
@@ -14,7 +14,7 @@ import {
 import { getTokenId } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { publicClient, valoraPublicClient } from 'src/viem'
+import { publicClient, appPublicClient } from 'src/viem'
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
 import {
@@ -37,7 +37,7 @@ const TAG = 'viem/prepareTransactions'
 export type TransactionRequest = (TransactionRequestCIP64 | TransactionRequestEIP1559) & {
   // Custom fields needed for showing the user the estimated gas fee
   // underscored to denote that they are not part of the TransactionRequest fields from viem
-  // and only intended for internal use in Valora
+  // and only intended for internal use
   _estimatedGasUse?: bigint
   _baseFeePerGas?: bigint
 }
@@ -200,18 +200,18 @@ export async function tryEstimateTransaction({
 export async function tryEstimateTransactions(
   baseTransactions: TransactionRequest[],
   feeCurrency: TokenBalance,
-  useValoraTransport: boolean = false
+  useAppTransport: boolean = false
 ) {
   const transactions: TransactionRequest[] = []
 
   const network = networkIdToNetwork[feeCurrency.networkId]
 
-  if (useValoraTransport && !(network in valoraPublicClient)) {
-    throw new Error(`Valora transport not available for network ${network}`)
+  if (useAppTransport && !(network in appPublicClient)) {
+    throw new Error(`App transport not available for network ${network}`)
   }
 
-  const client = useValoraTransport
-    ? valoraPublicClient[network as keyof typeof valoraPublicClient]
+  const client = useAppTransport
+    ? appPublicClient[network as keyof typeof appPublicClient]
     : publicClient[network]
   const feeCurrencyAddress = getFeeCurrencyAddress(feeCurrency)
   const { maxFeePerGas, maxPriorityFeePerGas, baseFeePerGas } = await estimateFeesPerGas(
@@ -359,7 +359,7 @@ export async function prepareTransactions({
 
   if (feeCurrencies.length > 0) {
     // there should always be at least one fee currency, the if is just a safeguard
-    ValoraAnalytics.track(TransactionEvents.transaction_prepare_insufficient_gas, {
+    AppAnalytics.track(TransactionEvents.transaction_prepare_insufficient_gas, {
       origin,
       networkId: feeCurrencies[0].networkId,
     })

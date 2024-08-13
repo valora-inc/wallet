@@ -3,7 +3,7 @@ import * as RNFS from 'react-native-fs'
 import Share from 'react-native-share'
 import { showError, showMessage } from 'src/alert/actions'
 import { QrScreenEvents, SendEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import {
   HooksEnablePreviewOrigin,
   SendOrigin,
@@ -49,9 +49,9 @@ export enum QRCodeTypes {
 
 const TAG = 'QR/utils'
 
-const QRFileName = '/valora_address-qr.png'
+const QRFileName = '/wallet_address-qr.png'
 
-// ValoraDeepLink generates a QR code that deeplinks into the walletconnect send flow of the valora app
+// DeepLink generates a QR code that deeplinks into the walletconnect send flow of the app
 // Address generates a QR code that has the walletAddress as plaintext that is readable by wallets such as Coinbase and Metamask
 export function useQRContent(data: {
   address: string
@@ -114,7 +114,7 @@ export function* handleSecureSend(
   )
   if (!possibleReceivingAddressesFormatted.includes(userScannedAddress)) {
     const error = ErrorMessages.QR_FAILED_INVALID_RECIPIENT
-    ValoraAnalytics.track(SendEvents.send_secure_incorrect, {
+    AppAnalytics.track(SendEvents.send_secure_incorrect, {
       confirmByScan: true,
       error,
     })
@@ -122,7 +122,7 @@ export function* handleSecureSend(
     return false
   }
 
-  ValoraAnalytics.track(SendEvents.send_secure_complete, { confirmByScan: true })
+  AppAnalytics.track(SendEvents.send_secure_complete, { confirmByScan: true })
   yield* put(validateRecipientAddressSuccess(e164PhoneNumber, userScannedAddress))
   return true
 }
@@ -147,7 +147,7 @@ function* extractQRAddressData(qrCode: QrCode) {
 // Catch all handler for QR Codes
 // includes support for WalletConnect, hooks, and send flow (non-secure send)
 export function* handleQRCodeDefault({ qrCode }: HandleQRCodeDetectedAction) {
-  ValoraAnalytics.track(QrScreenEvents.qr_scanned, qrCode)
+  AppAnalytics.track(QrScreenEvents.qr_scanned, qrCode)
 
   const walletConnectEnabled: boolean = yield* call(isWalletConnectEnabled, qrCode.data)
 
@@ -184,7 +184,7 @@ export function* handleQRCodeSecureSend({
   defaultTokenIdOverride,
 }: HandleQRCodeDetectedSecureSendAction) {
   const e164NumberToAddress = yield* select(e164NumberToAddressSelector)
-  ValoraAnalytics.track(QrScreenEvents.qr_scanned, qrCode)
+  AppAnalytics.track(QrScreenEvents.qr_scanned, qrCode)
 
   const qrData = yield* call(extractQRAddressData, qrCode)
   if (!qrData) {

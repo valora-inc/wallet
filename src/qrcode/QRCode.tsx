@@ -14,7 +14,7 @@ import { SVG } from 'src/send/actions'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import { getMultichainFeatures } from 'src/statsig'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { vibrateInformative } from 'src/styles/hapticFeedback'
 import variables from 'src/styles/variables'
 import { NetworkId } from 'src/transactions/types'
@@ -85,16 +85,11 @@ export default function QRCodeDisplay(props: Props) {
       </View>
 
       {!!displayName && (
-        <Text
-          style={[styles.name, fontStyles.displayName]}
-          numberOfLines={1}
-          ellipsizeMode="tail"
-          testID="displayName"
-        >
+        <Text style={styles.name} numberOfLines={1} ellipsizeMode="tail" testID="displayName">
           {displayName}
         </Text>
       )}
-      <Text testID="address" style={[fontStyles.mediumNumber, fontStyles.regular, styles.address]}>
+      <Text testID="address" style={[typeScale.bodyMedium, styles.address]}>
         {address}
       </Text>
       <Button
@@ -108,13 +103,9 @@ export default function QRCodeDisplay(props: Props) {
 
       {exchanges ? (
         <>
-          <Text style={[styles.infoWrapper, fontStyles.regular, styles.exchangeText]}>
+          <Text style={[styles.infoWrapper, typeScale.bodyMedium, styles.exchangeText]}>
             <Trans i18nKey="fiatExchangeFlow.exchange.informationText">
-              <Text
-                testID="bottomSheetLink"
-                style={[fontStyles.regular600, styles.link]}
-                onPress={onPressInfo}
-              ></Text>
+              <Text testID="bottomSheetLink" style={styles.link} onPress={onPressInfo}></Text>
             </Trans>
           </Text>
           <ExchangesBottomSheet
@@ -165,6 +156,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   link: {
+    ...typeScale.labelSemiBoldMedium,
     textDecorationLine: 'underline',
     color: colors.primary,
     flexWrap: 'wrap',
@@ -173,6 +165,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   name: {
+    ...typeScale.labelSemiBoldMedium,
     marginHorizontal: variables.width / 4,
     marginBottom: 8,
   },

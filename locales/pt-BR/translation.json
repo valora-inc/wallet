@@ -108,7 +108,7 @@
     "subtitle": "Entre com seu e-mail para configurá-lo como um backup. Será solicitado que você entre novamente se perder sua carteira.",
     "subtitleRestore": "Entre com o e-mail que você usou para configurar seu backup de carteira.",
     "google": "Entrar com o Google",
-    "apple": "Faça login com a Apple",
+    "apple": "Entrar com a Apple",
     "signInAnotherWay": "Entrar de outra forma",
     "bottomSheet": {
       "title": "Salve sua frase de recuperação para criar uma carteira",
@@ -1802,7 +1802,7 @@
     },
     "unsupportedTokensWarning": {
       "title": "Seleção incompatível",
-      "body": "Os tokens selecionados não podem ser trocados entre si. Escolha outro token que seja compatível com sua seleção."
+      "body": "Os tokens selecionados não podem ser trocados uns pelos outros. Escolha outro token que seja compatível com a sua seleção."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Você precisa de mais {{feeTokenSymbol}} para o Gas",
@@ -1890,10 +1890,10 @@
       "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "Mais informações",
-      "feesInfo_sameChain": "Uma taxa de rede é necessária para processar a transação, garantindo segurança e confiabilidade.",
-      "feesInfo_crossChain": "Uma taxa de rede é necessária para processar a transação, garantindo segurança e confiabilidade. O provedor cobra uma taxa de entre cadeias para viabilizar trocas seguras e eficientes entre diversas blockchains.",
-      "feesInfo_sameChainWithAppFee": "Uma taxa de rede é necessária para processar a transação, garantindo segurança e confiabilidade. A taxa da {{appName}} de {{appFeePercentage}}% aprimora sua experiência, garantindo trocas rápidas, confiáveis e seguras.",
-      "feesInfo_crossChainWithAppFee": "Uma taxa de rede é necessária para processar a transação, garantindo segurança e confiabilidade. O provedor cobra uma taxa de entre cadeias para viabilizar trocas seguras e eficientes entre diversas blockchains. A taxa da {{appName}} de {{appFeePercentage}}% aprimora sua experiência, garantindo trocas rápidas, confiáveis e seguras."
+      "feesInfo_sameChain": "A taxa de rede é exigida pela rede para processar a transação.",
+      "feesInfo_crossChain": "A taxa de rede é exigida pela rede para processar a transação. A taxa de cadeia cruzada é cobrada pelo provedor de cadeia cruzada.",
+      "feesInfo_sameChainWithAppFee": "A taxa de rede é exigida pela rede para processar a transação. A taxa de {{appFeePercentage}}% do {{appName}} é cobrada pelo uso que você faz do nosso produto.",
+      "feesInfo_crossChainWithAppFee": "A taxa de rede é exigida pela rede para processar a transação. A taxa de cadeia cruzada é cobrada pelo provedor de cadeia cruzada. A taxa de {{appFeePercentage}}% do {{appName}} é cobrada pelo uso que você faz do nosso produto."
     },
     "fundYourWalletBottomSheet": {
       "title": "Adicione fundos à sua carteira",
@@ -2182,7 +2182,7 @@
   "viewOnOPSepoliaExplorer": "Ver no OP Sepolia Explorer",
   "viewOnPolygonPoSScan": "Ver no PolygonScan",
   "viewOnBaseScan": "Ver no BaseScan",
-  "viewOnAxelarScan": "Exibir no AxelarScan",
+  "viewOnAxelarScan": "Ver no AxelarScan",
   "sendEnterAmountScreen": {
     "title": "Insira o valor",
     "selectToken": "Selecione um token",
@@ -2241,8 +2241,8 @@
     "estimatedNetworkFee": "Taxa de rede estimada",
     "networkFee": "Taxa de rede",
     "appFee": "Taxa do aplicativo",
-    "estimatedCrossChainFee": "Taxa estimada entre cadeias",
-    "crossChainFee": "Taxa entre cadeias",
+    "estimatedCrossChainFee": "Taxa estimada de cadeia cruzada",
+    "crossChainFee": "Taxa de cadeia cruzada",
     "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}} aprovado(s) para negociação",
     "infiniteApprovalDescription": "{{tokenSymbol}} infinito aprovado para negociação",
     "revokeApprovalDescription": "{{tokenSymbol}} revogado para negociação",
@@ -2339,7 +2339,7 @@
     "allNetworks": "Todas as redes"
   },
   "points": {
-    "title": "Pontos Valora",
+    "title": "Pontos {{appName}}",
     "activity": "Atividades",
     "history": {
       "cards": {
@@ -2447,6 +2447,11 @@
       "title": "Ganhe pontos sem esforço",
       "description": "Descubra uma nova forma de ganhar! Agora você ganha pontos com suas ações na {{appName}}. Comece a ganhar pontos hoje mesmo e desbloqueie benefícios incríveis.",
       "cta": "Comece sua jornada de pontos"
+    },
+    "disclaimer": {
+      "learnMoreCta": "<0>Saiba mais</0> sobre os {{appName}} Pontos",
+      "body": "<0>O que são os Pontos?</0>\nOs Pontos são um programa de fidelidade do {{appName}}. Eles são concedidos quando você usa o nosso aplicativo.\n\n<0>Para que servem os pontos?</0>\nOs pontos são acumuláveis. Eles não podem ser gastos, trocados nem transferidos.\n\n<0>Por que eles estão na minha carteira?</0>\nPorque são tokens. Bits digitais de felicidade em cadeia que você ganha ao usar o aplicativo.",
+      "dismiss": "Entendi"
     }
   },
   "earnFlow": {

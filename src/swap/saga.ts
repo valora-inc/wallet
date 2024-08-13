@@ -1,10 +1,9 @@
-import { valueToBigNumber } from '@celo/contractkit/lib/wrappers/BaseWrapper'
 import { PayloadAction } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import erc20 from 'src/abis/IERC20'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SwapEvents } from 'src/analytics/Events'
 import { SwapTimeMetrics, SwapTxsReceiptProperties } from 'src/analytics/Properties'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
 import { vibrateError } from 'src/styles/hapticFeedback'
@@ -50,7 +49,7 @@ function calculateEstimatedUsdValue({
     return undefined
   }
 
-  return valueToBigNumber(tokenAmount).times(tokenInfo.priceUsd).toNumber()
+  return new BigNumber(tokenAmount).times(tokenInfo.priceUsd).toNumber()
 }
 
 function getSwapTxsReceiptAnalyticsProperties(
@@ -285,11 +284,17 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       })
     )
 
-    ValoraAnalytics.track(SwapEvents.swap_execute_success, {
-      ...defaultSwapExecuteProps,
-      ...getTimeMetrics(),
-      ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),
-    })
+    // Success is tracked only for same-chain swaps. Cross-chain swap success is tracked in the query helper
+    // because for the cross-chain swaps, we have to wait for the transaction to be included in the
+    // destination chain before we can consider the swap successful
+    if (swapType === 'same-chain') {
+      AppAnalytics.track(SwapEvents.swap_execute_success, {
+        ...defaultSwapExecuteProps,
+        ...getTimeMetrics(),
+        ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),
+        swapType,
+      })
+    }
   } catch (err) {
     if (err === CANCELLED_PIN_INPUT) {
       Logger.info(TAG, 'Swap cancelled by user')
@@ -308,7 +313,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     }
 
     Logger.error(TAG, 'Error while swapping', error)
-    ValoraAnalytics.track(SwapEvents.swap_execute_error, {
+    AppAnalytics.track(SwapEvents.swap_execute_error, {
       ...defaultSwapExecuteProps,
       ...getTimeMetrics(),
       ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),

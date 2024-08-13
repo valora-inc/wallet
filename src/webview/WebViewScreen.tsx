@@ -13,7 +13,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ShouldStartLoadRequest } from 'react-native-webview/lib/WebViewTypes'
 import { DappExplorerEvents, WebViewEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { openDeepLink } from 'src/app/actions'
 import Touchable from 'src/components/Touchable'
 import WebView, { WebViewRef } from 'src/components/WebView'
@@ -121,7 +121,7 @@ function WebViewScreen({ route, navigation }: Props) {
       // refreshed in the future
       if (activeDapp) {
         dispatch(dappSessionEnded())
-        ValoraAnalytics.track(DappExplorerEvents.dapp_close, {
+        AppAnalytics.track(DappExplorerEvents.dapp_close, {
           categories: activeDapp.categories,
           dappId: activeDapp.id,
           dappName: activeDapp.name,
@@ -164,7 +164,7 @@ function WebViewScreen({ route, navigation }: Props) {
 
   const openActionSheet = () => {
     Platform.OS === 'ios' ? openActionSheetiOS() : toggleBottomSheet()
-    ValoraAnalytics.track(WebViewEvents.webview_more_options, { currentUrl })
+    AppAnalytics.track(WebViewEvents.webview_more_options, { currentUrl })
   }
 
   // iOS Action sheet
@@ -178,7 +178,7 @@ function WebViewScreen({ route, navigation }: Props) {
         switch (buttonIndex) {
           case 0:
             navigateToURI(currentUrl)
-            ValoraAnalytics.track(WebViewEvents.webview_open_in_browser, { currentUrl })
+            AppAnalytics.track(WebViewEvents.webview_open_in_browser, { currentUrl })
             break
           default:
           case 1:

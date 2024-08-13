@@ -4,13 +4,13 @@ import { StyleSheet, Text } from 'react-native'
 import Animated, { SlideInUp, SlideOutUp } from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { BuilderHooksEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Touchable from 'src/components/Touchable'
 import { hooksPreviewApiUrlSelector, hooksPreviewStatusSelector } from 'src/positions/selectors'
 import { previewModeDisabled } from 'src/positions/slice'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fonts from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 const AnimatedSafeAreaView = Animated.createAnimatedComponent(SafeAreaView)
 
@@ -18,7 +18,7 @@ const STATUS_COLORS = {
   idle: 'gray',
   loading: 'gray',
   success: colors.primary,
-  error: '#d01a26',
+  error: colors.errorDark,
 }
 
 export default function HooksPreviewModeBanner() {
@@ -28,7 +28,7 @@ export default function HooksPreviewModeBanner() {
   const status = useSelector(hooksPreviewStatusSelector)
 
   function onPress() {
-    ValoraAnalytics.track(BuilderHooksEvents.hooks_disable_preview)
+    AppAnalytics.track(BuilderHooksEvents.hooks_disable_preview)
     dispatch(previewModeDisabled())
   }
 
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'orange',
   },
   text: {
-    ...fonts.xsmall500,
+    ...typeScale.labelXSmall,
     color: colors.white,
     textAlign: 'center',
     paddingHorizontal: 10,

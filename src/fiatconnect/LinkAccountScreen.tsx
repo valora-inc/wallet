@@ -4,8 +4,8 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { SafeAreaView, StyleSheet, Text } from 'react-native'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
@@ -15,7 +15,7 @@ import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectLinkAccount>
 
@@ -66,7 +66,7 @@ export function LinkAccountSection(props: {
   const { bodyTitle, description } = getTranslationStrings(quote.getFiatAccountType())
 
   const onPressContinue = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_link_account_continue, {
+    AppAnalytics.track(FiatExchangeEvents.cico_fc_link_account_continue, {
       flow,
       provider: quote.getProviderId(),
       fiatAccountSchema: quote.getFiatAccountSchema(),
@@ -75,7 +75,7 @@ export function LinkAccountSection(props: {
   }
 
   const onPressProvider = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_link_account_provider_website, {
+    AppAnalytics.track(FiatExchangeEvents.cico_fc_link_account_provider_website, {
       flow,
       provider: quote.getProviderId(),
       fiatAccountSchema: quote.getFiatAccountSchema(),
@@ -85,7 +85,7 @@ export function LinkAccountSection(props: {
   }
 
   const onPressTermsAndConditions = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_link_account_provider_website, {
+    AppAnalytics.track(FiatExchangeEvents.cico_fc_link_account_provider_website, {
       flow,
       provider: quote.getProviderId(),
       fiatAccountSchema: quote.getFiatAccountSchema(),
@@ -95,7 +95,7 @@ export function LinkAccountSection(props: {
   }
 
   const onPressPrivacyPolicy = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_link_account_provider_website, {
+    AppAnalytics.track(FiatExchangeEvents.cico_fc_link_account_provider_website, {
       flow,
       provider: quote.getProviderId(),
       fiatAccountSchema: quote.getFiatAccountSchema(),
@@ -162,11 +162,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
     marginHorizontal: 16,
   },
   description: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     textAlign: 'center',
     marginVertical: 12,
     marginHorizontal: 24,

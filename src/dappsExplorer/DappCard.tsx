@@ -1,7 +1,7 @@
 import React from 'react'
 import { Image, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import { DappExplorerEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Card from 'src/components/Card'
 import Touchable from 'src/components/Touchable'
 import { favoriteDappIdsSelector } from 'src/dapps/selectors'
@@ -53,10 +53,10 @@ function DappCard({
     }
 
     if (isFavorited) {
-      ValoraAnalytics.track(DappExplorerEvents.dapp_unfavorite, eventProperties)
+      AppAnalytics.track(DappExplorerEvents.dapp_unfavorite, eventProperties)
       dispatch(unfavoriteDapp({ dappId: dapp.id }))
     } else {
-      ValoraAnalytics.track(DappExplorerEvents.dapp_favorite, eventProperties)
+      AppAnalytics.track(DappExplorerEvents.dapp_favorite, eventProperties)
       dispatch(favoriteDapp({ dappId: dapp.id }))
       onFavoriteDapp?.(dapp)
     }

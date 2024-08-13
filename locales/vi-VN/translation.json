@@ -108,7 +108,7 @@
     "subtitle": "Đăng nhập bằng email của bạn để thiết lập thành email sao lưu. Bạn sẽ được nhắc đăng nhập lại nếu chẳng may bị mất ví.",
     "subtitleRestore": "Đăng nhập bằng email bạn đã sử dụng để thiết lập sao lưu ví.",
     "google": "Đăng nhập bằng Google",
-    "apple": "Sign in with Apple",
+    "apple": "Đăng nhập bằng Apple",
     "signInAnotherWay": "Đăng nhập bằng cách khác",
     "bottomSheet": {
       "title": "Lưu cụm từ khôi phục của bạn để tạo ví",
@@ -1888,10 +1888,10 @@
       "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "Thông tin bổ sung",
-      "feesInfo_sameChain": "Bạn cần trả một khoản phí mạng để xử lý giao dịch nhằm đảm bảo tính bảo mật và độ tin cậy.",
-      "feesInfo_crossChain": "Bạn cần trả một khoản phí mạng để xử lý giao dịch nhằm đảm bảo tính bảo mật và độ tin cậy. Nhà cung cấp sẽ thu một khoản phí trao đổi chuỗi chéo để đảm bảo quá trình trao đổi giữa các chuỗi khối khác nhau diễn ra suôn sẻ và an toàn.",
-      "feesInfo_sameChainWithAppFee": "Bạn cần trả một khoản phí mạng để xử lý giao dịch nhằm đảm bảo tính bảo mật và độ tin cậy. Khoản phí {{appFeePercentage}}% của {{appName}} giúp nâng cao trải nghiệm của bạn bằng cách đảm bảo các giao dịch trao đổi diễn ra nhanh chóng, tin cậy và an toàn.",
-      "feesInfo_crossChainWithAppFee": "Bạn cần trả một khoản phí mạng để xử lý giao dịch nhằm đảm bảo tính bảo mật và độ tin cậy. Nhà cung cấp sẽ thu một khoản phí trao đổi chuỗi chéo để đảm bảo quá trình trao đổi giữa các chuỗi khối khác nhau diễn ra suôn sẻ và an toàn. Khoản phí {{appFeePercentage}}% của {{appName}} giúp nâng cao trải nghiệm của bạn bằng cách đảm bảo các giao dịch trao đổi diễn ra nhanh chóng, tin cậy và an toàn."
+      "feesInfo_sameChain": "Phí mạng là khoản phí bắt buộc để mạng có thể xử lý giao dịch.",
+      "feesInfo_crossChain": "Phí mạng là khoản phí bắt buộc để mạng có thể xử lý giao dịch. Nhà cung cấp chuỗi chéo sẽ thu phí trao đổi chuỗi chéo.",
+      "feesInfo_sameChainWithAppFee": "Phí mạng là khoản phí bắt buộc để mạng có thể xử lý giao dịch. Chúng tôi sẽ thu phí {{appName}} là {{appFeePercentage}}% khi bạn sử dụng sản phẩm của chúng tôi.",
+      "feesInfo_crossChainWithAppFee": "Phí mạng là khoản phí bắt buộc để mạng có thể xử lý giao dịch. Nhà cung cấp chuỗi chéo sẽ thu phí trao đổi chuỗi chéo. Chúng tôi sẽ thu phí {{appName}} là {{appFeePercentage}}% khi bạn sử dụng sản phẩm của chúng tôi."
     },
     "fundYourWalletBottomSheet": {
       "title": "Nạp tiền vào ví của bạn",
@@ -2180,7 +2180,7 @@
   "viewOnOPSepoliaExplorer": "Xem trên OP Sepolia Explorer",
   "viewOnPolygonPoSScan": "Xem trên PolygonScan",
   "viewOnBaseScan": "Xem trên BaseScan",
-  "viewOnAxelarScan": "View on AxelarScan",
+  "viewOnAxelarScan": "Xem trên AxelarScan",
   "sendEnterAmountScreen": {
     "title": "Nhập số tiền",
     "selectToken": "Chọn token",
@@ -2238,14 +2238,14 @@
     "approvalTransactionTitle": "Phê duyệt",
     "estimatedNetworkFee": "Phí mạng ước tính",
     "networkFee": "Phí mạng",
-    "appFee": "App fee",
-    "estimatedCrossChainFee": "Estimated cross-chain fee",
-    "crossChainFee": "Cross-chain fee",
+    "appFee": "Phí ứng dụng",
+    "estimatedCrossChainFee": "Phí trao đổi chuỗi chéo ước tính",
+    "crossChainFee": "Phí trao đổi chuỗi chéo",
     "finiteApprovalDescription": "Đã phê duyệt {{approvedAmount}} {{tokenSymbol}} để giao dịch",
     "infiniteApprovalDescription": "Đã phê duyệt {{tokenSymbol}} không giới hạn cho giao dịch",
     "revokeApprovalDescription": "Đã thu hồi {{tokenSymbol}} để giao dịch",
     "descriptionLabel": "Chi tiết",
-    "crossChainSwapTransactionLabel": "Cross-chain"
+    "crossChainSwapTransactionLabel": "Chuỗi chéo"
   },
   "multichainBeta": {
     "beta": "BETA",
@@ -2337,7 +2337,7 @@
     "allNetworks": "Tất cả mạng lưới"
   },
   "points": {
-    "title": "Điểm Valora",
+    "title": "Điểm {{appName}}",
     "activity": "Hoạt động",
     "history": {
       "cards": {
@@ -2445,6 +2445,11 @@
       "title": "Kiếm điểm dễ dàng",
       "description": "Khám phá cách kiếm tiền mới! Giờ đây, hoạt động của bạn trên {{appName}} có thể mang lại điểm. Hãy bắt đầu kiếm tiền ngay hôm nay và khám phá những lợi ích tuyệt vời.",
       "cta": "Bắt đầu hành trình tích điểm"
+    },
+    "disclaimer": {
+      "learnMoreCta": "<0>Tìm hiểu thêm</0> về Điểm {{appName}}",
+      "body": "<0>Điểm là gì?</0>\nĐiểm là chương trình khách hàng thân thiết của {{appName}}. Bạn sẽ nhận được Điểm khi sử dụng ứng dụng của chúng tôi.\n\n<0>Điểm dùng để làm gì?</0>\nĐiểm sẽ được tích lũy. Bạn không thể sử dụng, giao dịch hay chuyển nhượng Điểm.\n\n<0>Tại sao lại có Điểm trong ví của tôi?</0>\nVì Điểm là các token. Trên chuỗi, đó những mảnh ghép hạnh phúc kỹ thuật số mà bạn kiếm được bằng cách sử dụng ứng dụng.",
+      "dismiss": "Đã hiểu"
     }
   },
   "earnFlow": {
@@ -2579,29 +2584,29 @@
     },
     "home": {
       "title": "Kiếm tiền",
-      "learnMore": "<0>Learn more</0> about yield pools.",
+      "learnMore": "<0>Tìm hiểu thêm</0> về các quỹ lợi nhuận.",
       "learnMoreBottomSheet": {
-        "bottomSheetTitle": "Learn more about yield pools",
-        "apySubtitle": "What is an APY?",
-        "apyDescription": "Annual percentage yield (APY) is a metric used to calculate the annualized return on crypto investments. It's a key indicator of a cryptocurrency's potential return and profitability.",
-        "tvlSubtitle": "What is TVL?",
-        "tvlDescription": "TVL stands for Total Value Locked, and it's a metric used in the crypto industry to measure the value of digital assets locked on a blockchain network. TVL is calculated by adding up the value of all digital assets locked in a DeFi protocol or smart contract. These assets can include cryptocurrencies, stablecoins, and other tokens."
+        "bottomSheetTitle": "Tìm hiểu thêm về các quỹ lợi nhuận",
+        "apySubtitle": "APY là gì?",
+        "apyDescription": "Tỉ suất lợi nhuận hằng năm (APY) là một chỉ số dùng để tính lợi nhuận hằng năm từ vốn đầu tư tiền điện tử. Đây là một chỉ báo quan trọng về khả năng sinh lời và tiềm năng lợi nhuận của một loại tiền điện tử.",
+        "tvlSubtitle": "TVL là gì?",
+        "tvlDescription": "TVL là từ viết tắt của Total Value Locked, nghĩa là Tổng giá trị bị khóa. Đây là một chỉ số được sử dụng trong ngành tiền điện tử để đo lường giá trị của các tài sản kỹ thuật số bị khóa trên một mạng chuỗi khối. TVL được tính bằng cách tính tổng giá trị của tất cả các tài sản kỹ thuật số bị khóa trong một giao thức DeFi hoặc hợp đồng thông minh. Những tài sản này có thể bao gồm tiền điện tử, stablecoin và các token khác."
       }
     },
     "poolCard": {
       "onNetwork": "trên {{networkName}}",
       "rate": "Tỷ giá (ước tính)",
-      "reward": "Reward",
+      "reward": "Tiền thưởng",
       "tvl": "TVL",
       "exitPool": "Thoát quỹ",
-      "addToPool": "Add to Pool",
+      "addToPool": "Thêm vào quỹ",
       "apy": "{{apy}}% APY",
       "poweredBy": "Do {{providerName}} cung cấp",
-      "deposited": "Supplied"
+      "deposited": "Đã cung cấp"
     },
     "poolFilters": {
-      "openPools": "Open Pools",
-      "myPools": "My Pools"
+      "openPools": "Các quỹ đang mở",
+      "myPools": "Các quỹ của tôi"
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"

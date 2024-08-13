@@ -9,7 +9,7 @@ import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { showError } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -36,7 +36,7 @@ import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { useLocalToTokenAmount, useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
 import { tokenSymbolToAnalyticsCurrency } from 'src/utils/currencies'
@@ -101,7 +101,7 @@ function FiatExchangeAmount({ route }: Props) {
   }
 
   function goToProvidersScreen() {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_amount_chosen, {
+    AppAnalytics.track(FiatExchangeEvents.cico_amount_chosen, {
       amount: inputCryptoAmount.toNumber(),
       currency: tokenSymbolToAnalyticsCurrency(tokenSymbol),
       flow,
@@ -147,7 +147,7 @@ function FiatExchangeAmount({ route }: Props) {
     if (flow === CICOFlow.CashIn) {
       if (inputLocalCurrencyAmount.isGreaterThan(localCurrencyMaxAmount)) {
         setShowingInvalidAmountDialog(true)
-        ValoraAnalytics.track(FiatExchangeEvents.cico_amount_chosen_invalid, {
+        AppAnalytics.track(FiatExchangeEvents.cico_amount_chosen_invalid, {
           amount: inputCryptoAmount.toNumber(),
           currency: tokenSymbolToAnalyticsCurrency(tokenSymbol),
           flow,
@@ -286,10 +286,10 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   exchangeBodyText: {
-    ...fontStyles.regular500,
+    ...typeScale.labelMedium,
   },
   currencyInput: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     marginLeft: 10,
     flex: 1,
     textAlign: 'right',

@@ -21,9 +21,8 @@ exports[`Support renders correctly 1`] = `
       <Text
         style={
           {
-            "color": "#2E3338",
-            "fontFamily": "Jost-Book",
-            "fontSize": 26,
+            "fontFamily": "Inter-Bold",
+            "fontSize": 24,
             "lineHeight": 32,
             "margin": 16,
           }
@@ -118,7 +117,7 @@ exports[`Support renders correctly 1`] = `
                         "color": "#2E3338",
                         "fontFamily": "Inter-Regular",
                         "fontSize": 16,
-                        "lineHeight": 22,
+                        "lineHeight": 24,
                       }
                     }
                   >
@@ -216,7 +215,7 @@ exports[`Support renders correctly 1`] = `
                         "color": "#2E3338",
                         "fontFamily": "Inter-Regular",
                         "fontSize": 16,
-                        "lineHeight": 22,
+                        "lineHeight": 24,
                       }
                     }
                   >
@@ -314,7 +313,7 @@ exports[`Support renders correctly 1`] = `
                         "color": "#2E3338",
                         "fontFamily": "Inter-Regular",
                         "fontSize": 16,
-                        "lineHeight": 22,
+                        "lineHeight": 24,
                       }
                     }
                   >

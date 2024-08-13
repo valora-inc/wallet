@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { PointsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import Touchable from 'src/components/Touchable'
 import CheckCircle from 'src/icons/CheckCircle'
 import ComingSoon from 'src/icons/ComingSoon'
@@ -28,7 +28,7 @@ export default function ActivityCard({
   onPress,
 }: Props) {
   const handleOnPress = () => {
-    ValoraAnalytics.track(PointsEvents.points_screen_card_press, { activityId })
+    AppAnalytics.track(PointsEvents.points_screen_card_press, { activityId })
     onPress?.()
   }
 

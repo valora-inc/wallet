@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { KeylessBackupEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import WalletSecurityPrimer from 'src/keylessBackup/WalletSecurityPrimer'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { navigate } from 'src/navigator/NavigationService'
@@ -19,8 +19,8 @@ describe('WalletSecurityPrimer', () => {
     )
     const continueButton = getByTestId('WalletSecurityPrimer/GetStarted')
     fireEvent.press(continueButton)
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       KeylessBackupEvents.wallet_security_primer_get_started
     )
     expect(navigate).toHaveBeenCalledTimes(1)

@@ -1,7 +1,7 @@
 import { parseUri } from '@walletconnect/utils'
 import { WalletConnectEvents } from 'src/analytics/Events'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { getDappRequestOrigin } from 'src/app/utils'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { ActiveDapp } from 'src/dapps/types'
@@ -78,7 +78,7 @@ export function* handleLoadingWithTimeout(origin: WalletConnectPairingOrigin) {
 
   if (timedOut) {
     const activeDapp: ActiveDapp | null = yield* select(activeDappSelector)
-    ValoraAnalytics.track(WalletConnectEvents.wc_pairing_error, {
+    AppAnalytics.track(WalletConnectEvents.wc_pairing_error, {
       dappRequestOrigin: getDappRequestOrigin(activeDapp),
       error: 'timed out while waiting for a session',
     })

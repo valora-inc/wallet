@@ -18,7 +18,7 @@ exports[`renders correctly 1`] = `
         "color": "#757575",
         "fontFamily": "Inter-Regular",
         "fontSize": 18,
-        "lineHeight": 24,
+        "lineHeight": 28,
       }
     }
   >
@@ -58,7 +58,7 @@ exports[`renders loading 1`] = `
         "color": "#757575",
         "fontFamily": "Inter-Regular",
         "fontSize": 18,
-        "lineHeight": 24,
+        "lineHeight": 28,
       }
     }
   >

@@ -13,8 +13,7 @@ const renderHookWithProvider = (dappUrl: string) => {
           categories: ['finance-tools'],
           dappUrl: 'https://celotracker.com?address=0x047154ac4d7e01b1dc9ddeea9e8996b57895a747',
           description: 'Manage your Celo Portfolio from DeFi to NFTs',
-          iconUrl:
-            'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/celotracker.png',
+          iconUrl: 'https://raw.githubusercontent.com/dapp-list/main/assets/celotracker.png',
           id: 'celotracker',
           name: 'Celo Tracker',
         },
@@ -23,7 +22,7 @@ const renderHookWithProvider = (dappUrl: string) => {
           id: '2',
           categories: ['2'],
           description: 'Lend and borrow tokens!',
-          iconUrl: 'https://raw.githubusercontent.com/valora-inc/app-list/main/assets/moola.png',
+          iconUrl: 'https://raw.githubusercontent.com/app-list/main/assets/moola.png',
           dappUrl: `${DEEPLINK_PREFIX}://wallet/moolaScreen`,
         },
       ],

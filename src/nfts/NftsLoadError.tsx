@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { NftEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
 import RedLoadingSpinnerToInfo from 'src/icons/RedLoadingSpinnerToInfo'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 
@@ -27,7 +27,7 @@ export default function NftsLoadError({ testID }: Props) {
 
   useEffect(() => {
     // Whenever this screen is mounted we've failed to load the NFTs from blockchain-api
-    ValoraAnalytics.track(NftEvents.nft_error_screen_open)
+    AppAnalytics.track(NftEvents.nft_error_screen_open)
   }, [])
 
   return (
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   contactSupportText: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     textAlign: 'center',
     color: colors.gray3,
   },
@@ -99,12 +99,12 @@ const styles = StyleSheet.create({
     marginHorizontal: Spacing.Thick24,
   },
   subTitle: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     textAlign: 'center',
     color: colors.gray3,
   },
   title: {
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
     marginBottom: Spacing.Smallest8,
     textAlign: 'center',
   },

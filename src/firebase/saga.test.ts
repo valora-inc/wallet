@@ -6,7 +6,7 @@ import { initializeFirebase } from 'src/firebase/saga'
 import { getAccount } from 'src/web3/saga'
 
 jest.mock('@react-native-firebase/app', () => ({
-  app: () => ({ options: { databaseURL: 'https://test-firebase.valoraapp.com' } }),
+  app: () => ({ options: { databaseURL: 'https://test-firebase.example.com' } }),
 }))
 jest.mock('src/firebase/firebase')
 jest.mock('@celo/utils/lib/async')

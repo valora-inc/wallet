@@ -277,11 +277,11 @@ describe('TransferFeedItem', () => {
     })
   })
 
-  it('renders correctly for transfers to Valora recipient', async () => {
+  it('renders correctly for transfers to App recipient', async () => {
     const { getByTestId } = renderScreen({
       storeOverrides: {
         recipients: {
-          valoraRecipientCache: {
+          appRecipientCache: {
             [MOCK_ADDRESS]: { address: MOCK_ADDRESS, name: mockName },
           },
         },

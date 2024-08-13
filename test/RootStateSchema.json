@@ -4462,6 +4462,9 @@
         "State_12": {
             "additionalProperties": false,
             "properties": {
+                "appRecipientCache": {
+                    "$ref": "#/definitions/AddressToRecipient"
+                },
                 "coinbasePaySenders": {
                     "items": {
                         "type": "string"
@@ -4482,17 +4485,14 @@
                         "type": "string"
                     },
                     "type": "array"
-                },
-                "valoraRecipientCache": {
-                    "$ref": "#/definitions/AddressToRecipient"
                 }
             },
             "required": [
+                "appRecipientCache",
                 "coinbasePaySenders",
                 "inviteRewardsSenders",
                 "phoneRecipientCache",
-                "rewardsSenders",
-                "valoraRecipientCache"
+                "rewardsSenders"
             ],
             "type": "object"
         },
@@ -5071,6 +5071,12 @@
         "State_23": {
             "additionalProperties": false,
             "properties": {
+                "appKeyshare": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
                 "auth0IdToken": {
                     "type": [
                         "null",
@@ -5091,21 +5097,15 @@
                         "null",
                         "string"
                     ]
-                },
-                "valoraKeyshare": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
                 }
             },
             "required": [
+                "appKeyshare",
                 "auth0IdToken",
                 "backupStatus",
                 "deleteBackupStatus",
                 "showDeleteBackupError",
-                "torusKeyshare",
-                "valoraKeyshare"
+                "torusKeyshare"
             ],
             "type": "object"
         },

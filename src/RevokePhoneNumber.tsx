@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
 import { SettingsEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { NotificationVariant } from 'src/components/InLineNotification'
@@ -14,7 +14,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
 import { Colors } from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
@@ -56,7 +56,7 @@ export const RevokePhoneNumber = ({ forwardedRef }: Props) => {
   }
 
   const handleRevokePhoneNumber = async () => {
-    ValoraAnalytics.track(SettingsEvents.settings_revoke_phone_number_confirm)
+    AppAnalytics.track(SettingsEvents.settings_revoke_phone_number_confirm)
     try {
       await revokeNumberAsync.execute()
     } catch (error) {
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     padding: Spacing.Regular16,
   },
   warningText: {
-    ...fontStyles.xsmall,
+    ...typeScale.bodyXSmall,
     flex: 1,
     flexWrap: 'wrap',
     marginLeft: Spacing.Small12,

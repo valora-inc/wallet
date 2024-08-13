@@ -5,7 +5,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { AssetsEvents } from 'src/analytics/Events'
 import { TokenProperties } from 'src/analytics/Properties'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import CeloNewsFeed from 'src/celoNews/CeloNewsFeed'
 import BackButton from 'src/components/BackButton'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
@@ -278,7 +278,7 @@ function Actions({
           key={action.name}
           text={action.title}
           onPress={() => {
-            ValoraAnalytics.track(AssetsEvents.tap_token_details_action, {
+            AppAnalytics.track(AssetsEvents.tap_token_details_action, {
               action: action.name,
               ...getTokenAnalyticsProps(token),
             })
@@ -307,7 +307,7 @@ function LearnMore({
   const { t } = useTranslation()
 
   const onPress = () => {
-    ValoraAnalytics.track(AssetsEvents.tap_token_details_learn_more, analyticsProps)
+    AppAnalytics.track(AssetsEvents.tap_token_details_learn_more, analyticsProps)
     navigate(Screens.WebViewScreen, { uri: infoUrl })
   }
 

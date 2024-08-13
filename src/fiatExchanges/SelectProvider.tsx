@@ -7,7 +7,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { showError } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { coinbasePayEnabledSelector } from 'src/app/selectors'
 import { FUNDING_LINK } from 'src/brandingConfig'
@@ -49,7 +49,7 @@ import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
@@ -218,7 +218,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
 
   useEffect(() => {
     if (!quotesLoading) {
-      ValoraAnalytics.track(FiatExchangeEvents.cico_providers_fetch_quotes_result, {
+      AppAnalytics.track(FiatExchangeEvents.cico_providers_fetch_quotes_result, {
         fiatType: localCurrency,
         defaultFiatType: defaultCurrency,
         ..._.omit(analyticsData, 'transferCryptoAmount'),
@@ -376,14 +376,14 @@ function LimitedPaymentMethods({ flow }: { flow: CICOFlow }) {
     setIsDialogVisible(false)
   }
   const openDialog = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_providers_unavailable_selected, {
+    AppAnalytics.track(FiatExchangeEvents.cico_providers_unavailable_selected, {
       flow,
     })
     setIsDialogVisible(true)
   }
 
   useEffect(() => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_providers_unavailable_impression, {
+    AppAnalytics.track(FiatExchangeEvents.cico_providers_unavailable_impression, {
       flow,
     })
   }, [])
@@ -443,7 +443,7 @@ function ExchangesSection({
   }
 
   const goToExchangesScreen = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_providers_exchanges_selected, {
+    AppAnalytics.track(FiatExchangeEvents.cico_providers_exchanges_selected, {
       flow,
       ...analyticsData,
     })
@@ -512,7 +512,7 @@ function LegacyMobileMoneySection({
 
   useEffect(() => {
     if (provider) {
-      ValoraAnalytics.track(FiatExchangeEvents.cico_providers_section_impression, {
+      AppAnalytics.track(FiatExchangeEvents.cico_providers_section_impression, {
         flow,
         paymentMethod: PaymentMethod.MobileMoney,
         quoteCount: 1,
@@ -522,7 +522,7 @@ function LegacyMobileMoneySection({
   }, [])
 
   const goToProviderSite = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_providers_quote_selected, {
+    AppAnalytics.track(FiatExchangeEvents.cico_providers_quote_selected, {
       flow,
       paymentMethod: PaymentMethod.MobileMoney,
       provider: provider.name,
@@ -572,12 +572,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   noPaymentMethods: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     padding: variables.contentPadding,
     textAlign: 'center',
   },
   switchCurrency: {
-    ...fontStyles.large500,
+    ...typeScale.labelLarge,
     color: colors.primary,
     padding: Spacing.Smallest8,
   },
@@ -593,32 +593,32 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   categoryHeader: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
   },
   categoryText: {
-    ...fontStyles.small600,
+    ...typeScale.labelSemiBoldSmall,
     marginTop: 4,
   },
   linkToOtherScreen: {
-    ...fontStyles.small500,
+    ...typeScale.labelSmall,
     color: colors.gray4,
   },
   disclaimerContainer: {
     padding: Spacing.Regular16,
   },
   disclaimerText: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
   },
   underline: {
     textDecorationLine: 'underline',
   },
   dialog: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     textAlign: 'center',
   },
   contactSupport: {
-    ...fontStyles.large500,
+    ...typeScale.labelLarge,
     color: colors.gray4,
     padding: Spacing.Smallest8,
   },
@@ -631,7 +631,7 @@ const styles = StyleSheet.create({
   },
   amountSpentInfoText: {
     textAlign: 'center',
-    ...fontStyles.xsmall600,
+    ...typeScale.labelSemiBoldXSmall,
   },
 })
 SelectProviderScreen.navigationOptions = ({

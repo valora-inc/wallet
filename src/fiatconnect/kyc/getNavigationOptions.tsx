@@ -2,7 +2,7 @@ import { KycStatus as FiatConnectKycStatus } from '@fiatconnect/fiatconnect-type
 import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import CancelButton from 'src/components/CancelButton'
 import TextButton from 'src/components/TextButton'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
@@ -11,7 +11,7 @@ import { emptyHeader } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 const getNavigationOptions = ({
@@ -22,7 +22,7 @@ const getNavigationOptions = ({
   quote: FiatConnectQuote
 }) => {
   const onPressSupport = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_kyc_status_contact_support, {
+    AppAnalytics.track(FiatExchangeEvents.cico_fc_kyc_status_contact_support, {
       provider: quote.getProviderId(),
       flow: quote.flow,
       fiatConnectKycStatus,
@@ -33,7 +33,7 @@ const getNavigationOptions = ({
   }
 
   const onPressCancel = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_kyc_status_back, {
+    AppAnalytics.track(FiatExchangeEvents.cico_fc_kyc_status_back, {
       provider: quote.getProviderId(),
       flow: quote.flow,
       fiatConnectKycStatus,
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     padding: Spacing.Thick24,
   },
   supportBtn: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     color: colors.gray3,
     paddingHorizontal: Spacing.Thick24,
   },

@@ -6,7 +6,7 @@ import { navigateBack } from 'src/navigator/NavigationService'
 import { createMockStore } from 'test/utils'
 import Education, { EducationTopic } from '../../src/account/Education'
 
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 
 const BUTTON_TEXT = 'Done'
 

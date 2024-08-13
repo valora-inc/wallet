@@ -8,7 +8,7 @@ import {
 } from 'redux-saga-test-plan/providers'
 import { fork } from 'redux-saga/effects'
 import { JumpstartEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
 import {
   dispatchPendingERC20Transactions,
@@ -56,7 +56,7 @@ import { Hash, TransactionReceipt, parseEventLogs } from 'viem'
 
 jest.mock('src/statsig')
 jest.mock('src/utils/Logger')
-jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/analytics/AppAnalytics')
 jest.mock('viem', () => ({
   ...jest.requireActual('viem'),
   parseEventLogs: jest.fn(),
@@ -127,7 +127,7 @@ describe('jumpstartClaim', () => {
       .put(jumpstartClaimSucceeded())
       .run()
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_claim_succeeded)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_claim_succeeded)
   })
 
   it('handles the jumpstartLinkHandler error', async () => {
@@ -143,7 +143,7 @@ describe('jumpstartClaim', () => {
       mockError
     )
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_claim_failed)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_claim_failed)
   })
 
   it('handles the already claimed error', async () => {
@@ -159,7 +159,7 @@ describe('jumpstartClaim', () => {
       'Error handling jumpstart link',
       alreadyClaimedError
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_claim_failed)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_claim_failed)
   })
 
   it('does not fail when dispatching pending transactions fails', async () => {
@@ -182,7 +182,7 @@ describe('jumpstartClaim', () => {
       .put(jumpstartClaimFailed({ isAlreadyClaimed: false }))
       .run()
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_claim_failed)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_claim_failed)
   })
 })
 
@@ -256,7 +256,7 @@ describe('dispatchPendingERC20Transactions', () => {
       )
       .run()
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_claimed_token, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_claimed_token, {
       networkId,
       tokenAddress: mockCusdAddress,
       value: 1,
@@ -323,7 +323,7 @@ describe('dispatchPendingERC721Transactions', () => {
       )
       .run()
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_claimed_nft, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_claimed_nft, {
       networkId,
       contractAddress: mockNftAllFields.contractAddress,
       tokenId: mockNftAllFields.tokenId,
@@ -438,11 +438,11 @@ describe('sendJumpstartTransactions', () => {
       'celo-alfajores',
       expect.any(Array)
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       JumpstartEvents.jumpstart_send_start,
       expectedTrackedProperties
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       JumpstartEvents.jumpstart_send_succeeded,
       expectedTrackedProperties
     )
@@ -469,15 +469,15 @@ describe('sendJumpstartTransactions', () => {
       'celo-alfajores',
       expect.any(Array)
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       JumpstartEvents.jumpstart_send_start,
       expectedTrackedProperties
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
       JumpstartEvents.jumpstart_send_failed,
       expectedTrackedProperties
     )
-    expect(ValoraAnalytics.track).not.toHaveBeenCalledWith(
+    expect(AppAnalytics.track).not.toHaveBeenCalledWith(
       JumpstartEvents.jumpstart_send_succeeded,
       expect.any(Object)
     )
@@ -521,14 +521,11 @@ describe('jumpstartReclaim', () => {
       networkId,
       expect.any(Array)
     )
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      JumpstartEvents.jumpstart_reclaim_succeeded,
-      {
-        networkId,
-        depositTxHash,
-        reclaimTxHash: '0x1',
-      }
-    )
+    expect(AppAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_reclaim_succeeded, {
+      networkId,
+      depositTxHash,
+      reclaimTxHash: '0x1',
+    })
   })
 
   it('should dispatch an error if the reclaim transaction is reverted', async () => {
@@ -556,7 +553,7 @@ describe('jumpstartReclaim', () => {
       .put(jumpstartReclaimFailed())
       .run()
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_reclaim_failed, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_reclaim_failed, {
       networkId,
       depositTxHash,
     })

@@ -1,6 +1,6 @@
 import { SiweClient } from '@fiatconnect/fiatconnect-sdk'
 import { KeylessBackupEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { getWalletAddressFromPrivateKey } from 'src/keylessBackup/encryption'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
@@ -35,7 +35,7 @@ export async function storeEncryptedMnemonic({
     }),
   })
   if (!response.ok) {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_post_encrypted_mnemonic_failed, {
+    AppAnalytics.track(KeylessBackupEvents.cab_post_encrypted_mnemonic_failed, {
       backupAlreadyExists: response.status === 409,
     })
     const message = (await response.json())?.message

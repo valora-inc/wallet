@@ -3,7 +3,7 @@ import React from 'react'
 import { Text } from 'react-native'
 import { Provider } from 'react-redux'
 import { NftEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import NftMedia from 'src/nfts/NftMedia'
 import { NftOrigin } from 'src/nfts/types'
 import { createMockStore } from 'test/utils'
@@ -33,7 +33,7 @@ describe('Given NftMedia', () => {
       expect(getByTestId('NftImage')).toBeTruthy()
       expect(getByTestId('NftImage/ImagePlaceholder')).toBeTruthy()
       expect(queryByText('Some error state')).toBeFalsy()
-      expect(ValoraAnalytics.track).not.toHaveBeenCalled()
+      expect(AppAnalytics.track).not.toHaveBeenCalled()
     })
 
     it('Then should display an error state if there is no nft metadata', () => {
@@ -52,8 +52,8 @@ describe('Given NftMedia', () => {
       expect(queryByTestId('NftImage')).toBeFalsy()
       expect(queryByTestId('NftImage/ImagePlaceholder')).toBeFalsy()
       expect(getByText('Some error state')).toBeTruthy()
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(NftEvents.nft_media_load, {
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(NftEvents.nft_media_load, {
         contractAddress: '0x000000000000000000000000000000000000CE10',
         error: 'No nft metadata',
         origin: 'nftsInfoCarouselMain',
@@ -81,7 +81,7 @@ describe('Given NftMedia', () => {
       expect(getByTestId('NftVideo')).toBeTruthy()
       expect(getByTestId('NftVideo/VideoPlaceholder')).toBeTruthy()
       expect(queryByText('Some error state')).toBeFalsy()
-      expect(ValoraAnalytics.track).not.toHaveBeenCalled()
+      expect(AppAnalytics.track).not.toHaveBeenCalled()
     })
 
     it('should display an error state if there is no nft metadata', () => {
@@ -100,8 +100,8 @@ describe('Given NftMedia', () => {
       expect(queryByTestId('NftVideo')).toBeFalsy()
       expect(queryByTestId('NftVideo/ImagePlaceholder')).toBeFalsy()
       expect(getByText('Some error state')).toBeTruthy()
-      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(NftEvents.nft_media_load, {
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(NftEvents.nft_media_load, {
         contractAddress: '0x000000000000000000000000000000000000CE10',
         error: 'No nft metadata',
         origin: 'nftsInfoCarouselMain',
