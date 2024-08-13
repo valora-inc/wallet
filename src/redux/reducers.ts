@@ -4,7 +4,6 @@ import { Actions, ClearStoredAccountAction } from 'src/account/actions'
 import { reducer as account } from 'src/account/reducer'
 import { reducer as alert } from 'src/alert/reducer'
 import { appReducer as app } from 'src/app/reducers'
-import superchargeReducer from 'src/consumerIncentives/slice'
 import dappsReducer from 'src/dapps/slice'
 import earnReducer from 'src/earn/slice'
 import { escrowReducer as escrow } from 'src/escrow/reducer'
@@ -50,7 +49,6 @@ const appReducer = combineReducers({
   fiatExchanges,
   walletConnect,
   tokens: tokenReducer,
-  supercharge: superchargeReducer,
   dapps: dappsReducer,
   fiatConnect: fiatConnectReducer,
   swap: swapReducer,
