@@ -1802,7 +1802,7 @@
     },
     "unsupportedTokensWarning": {
       "title": "Uyumsuz Seçim",
-      "body": "Seçilen jetonlar birbirleriyle değiştirilemez. Lütfen seçiminizle uyumlu başka bir token seçin."
+      "body": "Seçilen tokenler birbirleriyle takas yapılamaz. Lütfen seçiminizle uyumlu başka bir token seçin."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Gas için daha fazla {{feeTokenSymbol}} bakiyesine ihtiyacınız var",
@@ -1891,9 +1891,9 @@
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "Daha fazla bilgi",
       "feesInfo_sameChain": "Ağ ücreti, işlemin gerçekleştirilmesi için ağ tarafından talep edilir.",
-      "feesInfo_crossChain": "Ağ ücreti, işlemin gerçekleştirilmesi için ağ tarafından talep edilir. Çapraz zincir ücreti, çapraz zincir sağlayıcısı tarafından tahsil edilir.",
-      "feesInfo_sameChainWithAppFee": "Ağ ücreti, işlemin gerçekleştirilmesi için ağ tarafından talep edilir. Ürünümüzü kullanmanız için {{appName}} ücreti {{appFeePercentage}}% tahsil edilir.",
-      "feesInfo_crossChainWithAppFee": "Ağ ücreti, işlemin gerçekleştirilmesi için ağ tarafından talep edilir. Çapraz zincir ücreti, çapraz zincir sağlayıcısı tarafından tahsil edilir. {{appName}} ücreti {{appFeePercentage}}% ürünümüzü kullanmanız için ücretlendirilir."
+      "feesInfo_crossChain": "Ağ ücreti, işlemin gerçekleştirilmesi için ağ tarafından talep edilir. Zincirler arası işlem ücreti, zincirler arası işlem sağlayıcısı tarafından tahsil edilir.",
+      "feesInfo_sameChainWithAppFee": "Ağ ücreti, işlemin gerçekleştirilmesi için ağ tarafından talep edilir. Ürünümüzü kullanmanız için %{{appFeePercentage}} {{appName}} ücreti tahsil edilir.",
+      "feesInfo_crossChainWithAppFee": "Ağ ücreti, işlemin gerçekleştirilmesi için ağ tarafından talep edilir. Zincirler arası işlem ücreti, zincirler arası işlem sağlayıcısı tarafından tahsil edilir. Ürünümüzü kullanmanız için %{{appFeePercentage}} {{appName}} ücreti tahsil edilir."
     },
     "fundYourWalletBottomSheet": {
       "title": "Cüzdanınıza fon ekleyin",
