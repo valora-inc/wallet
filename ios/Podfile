@@ -20,9 +20,18 @@ $static_framework = [
   'Flipper-Fmt',
 ]
 
-require_relative "../node_modules/react-native/scripts/react_native_pods"
-require_relative "../node_modules/@react-native-community/cli-platform-ios/native_modules"
-require_relative "../node_modules/react-native-permissions/scripts/setup"
+# https://github.com/zoontek/react-native-permissions?tab=readme-ov-file#ios
+def node_require(script)
+  # Resolve script with node to allow for hoisting
+  require Pod::Executable.execute_command('node', ['-p',
+    "require.resolve(
+      '#{script}',
+      {paths: [process.argv[1]]},
+    )", __dir__]).strip
+end
+
+node_require('react-native/scripts/react_native_pods.rb')
+node_require('react-native-permissions/scripts/setup.rb')
 
 # Code to be added for react-native-video/Video
 # https://github.com/TheWidlarzGroup/react-native-video/issues/3737
@@ -56,8 +65,6 @@ target "celo" do
   use_react_native!(
     :path => config[:reactNativePath],
     # Hermes is now enabled by default. Disable by setting this flag to false.
-    # Upcoming versions of React Native may rely on get_default_flags(), but
-    # we make it explicit here to aid in the React Native upgrade process.
     :hermes_enabled => flags[:hermes_enabled],
     :fabric_enabled => flags[:fabric_enabled],
     # Note from Valora engineering:
@@ -72,9 +79,6 @@ target "celo" do
         # Flipper-Glog >= 0.3.7 uses a vendored dynamic library
         # See https://github.com/CocoaPods/Specs/blob/86d45638f249b0cb766c8e674a98b1b504b1ac0e/Specs/2/7/2/Flipper-Glog/0.3.7/Flipper-Glog.podspec.json#L21
         'Flipper-Glog' => '0.3.5',
-        # Use a specific version of Flipper which supports the Xcode 15.3
-        # toolchain: https://github.com/facebook/flipper/commit/b3dcdb87f930dbbc9dbacb53ad60996e0111e7d8
-        'Flipper' => '0.251.0',
       }
     ),
     # An absolute path to your application root.
@@ -104,10 +108,10 @@ pre_install do |installer|
 end
 
 post_install do |installer|
+  # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202
   react_native_post_install(
     installer,
-    # Set `mac_catalyst_enabled` to `true` in order to apply patches
-    # necessary for Mac Catalyst builds
+    "../node_modules/react-native",
     :mac_catalyst_enabled => false
   )
   __apply_Xcode_12_5_M1_post_install_workaround(installer)
