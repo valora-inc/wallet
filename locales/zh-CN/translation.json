@@ -1800,7 +1800,7 @@
     },
     "unsupportedTokensWarning": {
       "title": "选择不兼容",
-      "body": "所选令牌不能相互调换。请选择与您的选择相匹配的其他令牌。"
+      "body": "所选的令牌不能互相交换。请选择与所选令牌兼容的其他令牌。"
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "您需要更多 {{feeTokenSymbol}} 来支付手续费",
@@ -1888,10 +1888,10 @@
       "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "更多信息",
-      "feesInfo_sameChain": "网络费是网络处理交易所需的费用。",
-      "feesInfo_crossChain": "网络费是网络处理交易所需的费用。跨链费用由跨链提供商收取。",
-      "feesInfo_sameChainWithAppFee": "网络费是网络处理交易所需的费用。 {{appName}} 费用为 {{appFeePercentage}}%，用于您使用我们的产品。",
-      "feesInfo_crossChainWithAppFee": "网络费是网络处理交易所需的费用。跨链费用由跨链提供商收取。 {{appName}} 费用为 {{appFeePercentage}}%，用于您使用我们的产品。"
+      "feesInfo_sameChain": "使用网络处理交易需支付网络费用。",
+      "feesInfo_crossChain": "使用网络处理交易需支付网络费用。跨链费用由跨链服务提供商收取。",
+      "feesInfo_sameChainWithAppFee": "使用网络处理交易需支付网络费用。使用我们的产品时，将收取 {{appFeePercentage}}% 的 {{appName}} 费用。",
+      "feesInfo_crossChainWithAppFee": "使用网络处理交易需支付网络费用。跨链费用由跨链服务提供商收取。使用我们的产品时，将收取 {{appFeePercentage}}% 的 {{appName}} 费用。"
     },
     "fundYourWalletBottomSheet": {
       "title": "为您的钱包提供资金。",
