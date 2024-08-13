@@ -25,7 +25,7 @@ export const sessionIdSelector = (state: RootState) => {
   return state.app.sessionId
 }
 
-export const numberVerifiedDecentrallySelector = (state: RootState) => state.app.numberVerified
+const numberVerifiedDecentrallySelector = (state: RootState) => state.app.numberVerified
 
 // this can be called with undefined state in the tests
 export const walletConnectEnabledSelector = (state?: RootState) => ({
