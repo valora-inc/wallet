@@ -2,12 +2,11 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import { OnboardingEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { OnboardingEvents } from 'src/analytics/Events'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import {
   navigate,
-  navigateClearingStack,
   navigateHome,
   navigateHomeAndThenToScreen,
 } from 'src/navigator/NavigationService'
@@ -15,7 +14,7 @@ import { Screens } from 'src/navigator/Screens'
 import ChooseYourAdventure from 'src/onboarding/ChooseYourAdventure'
 import { AdventureCardName } from 'src/onboarding/types'
 import { createMockStore } from 'test/utils'
-import { mockAccount, mockAccount2, mockCeloTokenId } from 'test/values'
+import { mockAccount, mockAccount2 } from 'test/values'
 
 describe('ChooseYourAdventure', () => {
   const orderOptions = [
