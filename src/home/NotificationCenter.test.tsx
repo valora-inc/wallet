@@ -152,7 +152,7 @@ describe('NotificationCenter', () => {
 
     layoutNotificationList(screen)
 
-    await waitFor(() => expect(AppAnalytics.track).toHaveBeenCalledTimes(5))
+    await waitFor(() => expect(AppAnalytics.track).toHaveBeenCalledTimes(4))
 
     expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_center_opened, {
       notificationsCount: 3,
