@@ -78,9 +78,7 @@ export const deduplicateTransactions = (
     transactionsByTxHash[transaction.transactionHash] = transaction
   })
 
-  return Object.values(transactionsByTxHash).sort((a, b) => {
-    return b.timestamp - a.timestamp
-  })
+  return Object.values(transactionsByTxHash)
 }
 
 export function useAllowedNetworkIdsForTransfers() {

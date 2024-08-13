@@ -50,7 +50,15 @@ function TransactionFeed() {
     const allConfirmedTransactions = deduplicateTransactions(
       allConfirmedStandbyTransactions,
       completedOrNotPendingStandbyTransactions
-    )
+    ).sort((a, b) => {
+      const diff = b.timestamp - a.timestamp
+      if (diff === 0) {
+        // if the timestamps are the same, most likely one of the transactions
+        // is an approval. on the feed we want to show the approval first.
+        return a.__typename === 'TokenApproval' ? 1 : b.__typename === 'TokenApproval' ? -1 : 0
+      }
+      return diff
+    })
 
     return allConfirmedTransactions.filter((tx) => {
       return allowedNetworks.includes(tx.networkId)
