@@ -2,21 +2,20 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { OnboardingEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { OnboardingEvents } from 'src/analytics/Events'
 import Card from 'src/components/Card'
 import DevSkipButton from 'src/components/DevSkipButton'
 import TextButton from 'src/components/TextButton'
 import Touchable from 'src/components/Touchable'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
-import CeloIconNew from 'src/icons/CeloIconNew'
-import GraphSparkle from 'src/icons/GraphSparkle'
+import EarnCoins from 'src/icons/EarnCoins'
+import LogoHeartConfigurable from 'src/icons/LogoHeartConfigurable'
 import PlusIcon from 'src/icons/PlusIcon'
 import ProfilePlus from 'src/icons/ProfilePlus'
 import { nuxNavigationOptionsNoBackButton } from 'src/navigator/Headers'
 import {
   navigate,
-  navigateClearingStack,
   navigateHome,
   navigateHomeAndThenToScreen,
 } from 'src/navigator/NavigationService'
@@ -27,7 +26,6 @@ import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Shadow, Spacing } from 'src/styles/styles'
 import { shuffle } from 'src/utils/random'
-import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 const DEFAULT_SEED = '0x0'
@@ -80,9 +78,9 @@ function ChooseYourAdventure() {
     {
       text: t('chooseYourAdventure.options.dapp'),
       goToNextScreen: () => {
-        navigateClearingStack(Screens.TabNavigator, { initialScreen: Screens.TabDiscover })
+        navigateHomeAndThenToScreen(Screens.EarnInfoScreen)
       },
-      icon: <GraphSparkle />,
+      icon: <EarnCoins color={colors.black} />,
       name: AdventureCardName.Dapp,
     },
     {
@@ -96,9 +94,9 @@ function ChooseYourAdventure() {
     {
       text: t('chooseYourAdventure.options.learn'),
       goToNextScreen: () => {
-        navigateHomeAndThenToScreen(Screens.TokenDetails, { tokenId: networkConfig.celoTokenId })
+        navigateHomeAndThenToScreen(Screens.PointsIntro)
       },
-      icon: <CeloIconNew />,
+      icon: <LogoHeartConfigurable size={Spacing.Thick24} color={colors.black} />,
       name: AdventureCardName.Learn,
     },
   ]
@@ -174,7 +172,7 @@ const styles = StyleSheet.create({
     ...typeScale.titleMedium,
   },
   card: {
-    marginTop: Spacing.Smallest8,
+    marginTop: Spacing.Regular16,
     backgroundColor: colors.gray1,
     flex: 1,
     padding: 0,
@@ -190,7 +188,6 @@ const styles = StyleSheet.create({
     height: 32,
     borderRadius: 100,
     marginRight: Spacing.Regular16,
-    backgroundColor: colors.gray2,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -199,7 +196,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   skip: {
-    color: colors.gray3,
+    color: colors.black,
   },
   cardText: {
     ...typeScale.bodySmall,

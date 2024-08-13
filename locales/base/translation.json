@@ -1990,10 +1990,10 @@
     "subtitle": "What would you like to do first?",
     "later": "I'll explore later",
     "options": {
-      "add": "Add funds",
-      "dapp": "Find ways to use crypto",
-      "profile": "Build my profile",
-      "learn": "Learn about Celo"
+      "add": "Add funds to your wallet",
+      "dapp": "Explore earning opportunities",
+      "profile": "Build your profile",
+      "learn": "Learn about Valora Points"
     }
   },
   "reverifyUsingCPVHomecard": {
