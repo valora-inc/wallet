@@ -1840,4 +1840,9 @@ export const migrations = {
       appRecipientCache: state.recipients.valoraRecipientCache || {},
     },
   }),
+  224: (state: any) => ({
+    ...(_.omit(state, 'supercharge') as any),
+    app: _.omit(state.app, 'superchargeApy', 'superchargeTokenConfigByToken'),
+    account: _.omit(state.account, 'dismissedKeepSupercharging', 'dismissedStartSupercharging'),
+  }),
 }
