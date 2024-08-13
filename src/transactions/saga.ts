@@ -235,13 +235,16 @@ function* watchAddressToE164PhoneNumberUpdate() {
 
 export function* getTransactionReceipt(
   transaction: StandbyTransaction & { transactionHash: string },
-  network: Network,
-  updatedCrossChainSwaps: Set<string>
+  network: Network
 ) {
-  if (updatedCrossChainSwaps.has(transaction.transactionHash)) {
+  if (
+    transaction.__typename === 'CrossChainTokenExchange' &&
+    'isSourceNetworkTxConfirmed' in transaction &&
+    transaction.isSourceNetworkTxConfirmed
+  ) {
     Logger.info(
       `${TAG}@getTransactionReceipt`,
-      `Skipping already updated cross-chain swap ${transaction.transactionHash}`
+      `Skipping already confirmed cross-chain swap on source network ${transaction.transactionHash}`
     )
     return
   }
@@ -285,15 +288,6 @@ export function* getTransactionReceipt(
         )
       }
     }
-
-    if (isCrossChainSwapTransaction) {
-      // cross chain swaps remain in the pending status until we receive
-      // confirmation from blockchain-api that the transaction on the
-      // destination network has completed. update the `updatedCrossChainSwaps`
-      // Set to prevent execution of repeated redundant transaction watching
-      // logic to handle the source transaction receipt and points tracking.
-      updatedCrossChainSwaps.add(transaction.transactionHash)
-    }
   } catch (e) {
     Logger.warn(
       TAG,
@@ -303,25 +297,20 @@ export function* getTransactionReceipt(
   }
 }
 
-export function* internalWatchPendingTransactionsInNetwork(
-  network: Network,
-  updatedCrossChainSwaps: Set<string>
-) {
+export function* internalWatchPendingTransactionsInNetwork(network: Network) {
   const pendingStandbyTransactions = yield* select(pendingStandbyTransactionsSelector)
   const filteredPendingTxs = pendingStandbyTransactions.filter((tx) => {
     return tx.networkId === networkConfig.networkToNetworkId[network] && tx.transactionHash
   })
 
   for (const transaction of filteredPendingTxs) {
-    yield* fork(getTransactionReceipt, transaction, network, updatedCrossChainSwaps)
+    yield* fork(getTransactionReceipt, transaction, network)
   }
 }
 
 export function* watchPendingTransactionsInNetwork(network: Network) {
-  const updatedCrossChainSwaps = new Set<string>()
-
   while (true) {
-    yield* call(internalWatchPendingTransactionsInNetwork, network, updatedCrossChainSwaps)
+    yield* call(internalWatchPendingTransactionsInNetwork, network)
     const delayTimeMs = Math.max(WATCHING_DELAY_BY_NETWORK[network], MIN_WATCHING_DELAY_MS)
     yield* delay(delayTimeMs) // avoid polling too often and using up CPU
   }
