@@ -12,8 +12,8 @@ enum ScoreValues {
 // Tokens are strings broken into lists of words by language agnostic regex
 const getTokens = (text: string, preserveCasing = false) => {
   return preserveCasing
-    ? text.match(/[\p{L}]+/gu) ?? []
-    : text.toLowerCase().match(/[\p{L}]+/gu) ?? []
+    ? (text.match(/[\p{L}]+/gu) ?? [])
+    : (text.toLowerCase().match(/[\p{L}]+/gu) ?? [])
 }
 
 const getSimilarity = (a: string, b: string) => {

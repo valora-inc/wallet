@@ -20,7 +20,7 @@ export default function CommentSection({ comment, isSend }: Props) {
     () =>
       isSend === undefined
         ? comment
-        : decryptComment(comment ?? null, dek, isSend)?.comment ?? comment,
+        : (decryptComment(comment ?? null, dek, isSend)?.comment ?? comment),
     [comment]
   )
   if (!decryptedComment) {
