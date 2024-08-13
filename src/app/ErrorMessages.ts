@@ -56,8 +56,6 @@ export enum ErrorMessages {
   PERSONA_ACCOUNT_ENDPOINT_FAIL = 'personaAccountEndpointFail',
   GET_BANK_ACCOUNTS_FAIL = 'getBankAccountsFail',
   DELETE_BANK_ACCOUNT_FAIL = 'deleteBankAccountFail',
-  SUPERCHARGE_FETCH_REWARDS_FAILED = 'superchargeFetchRewardsFailed',
-  SUPERCHARGE_CLAIM_FAILED = 'superchargeClaimFailure',
   FETCH_SWAP_QUOTE_FAILED = 'swapScreen.fetchSwapQuoteFailed',
   SWAP_SUBMIT_FAILED = 'swapScreen.swapSubmitFailed',
   KYC_TRY_AGAIN_FAILED = 'fiatConnectKycStatusScreen.tryAgainFailed',
