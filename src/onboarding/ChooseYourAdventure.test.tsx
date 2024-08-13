@@ -83,9 +83,7 @@ describe('ChooseYourAdventure', () => {
     )
 
     fireEvent.press(getByTestId('AdventureCard/0/chooseYourAdventure.options.dapp'))
-    expect(navigateClearingStack).toHaveBeenLastCalledWith(Screens.TabNavigator, {
-      initialScreen: Screens.TabDiscover,
-    })
+    expect(navigateHomeAndThenToScreen).toHaveBeenLastCalledWith(Screens.EarnInfoScreen)
     expect(AppAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
       position: 1,
       cardName: AdventureCardName.Dapp,
@@ -118,9 +116,7 @@ describe('ChooseYourAdventure', () => {
       </Provider>
     )
     fireEvent.press(getByTestId('AdventureCard/2/chooseYourAdventure.options.learn'))
-    expect(navigateHomeAndThenToScreen).toHaveBeenLastCalledWith(Screens.TokenDetails, {
-      tokenId: mockCeloTokenId,
-    })
+    expect(navigateHomeAndThenToScreen).toHaveBeenLastCalledWith(Screens.PointsIntro)
     expect(AppAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
       position: 3,
       cardName: AdventureCardName.Learn,
