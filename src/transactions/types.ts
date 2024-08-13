@@ -63,7 +63,7 @@ type PendingTokenExchange =
   | (Omit<TokenExchange, '__typename'> & { __typename: 'TokenExchangeV3' })
   | (Omit<TokenExchange, '__typename'> & {
       __typename: 'CrossChainTokenExchange'
-      isSourceNetworkTxConfirmed: boolean
+      isSourceNetworkTxConfirmed?: boolean
     })
 
 // Context used for logging the transaction execution flow.
