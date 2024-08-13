@@ -2769,58 +2769,7 @@
             ],
             "type": "object"
         },
-        "PendingStandbyTransaction<TokenApproval>": {
-            "additionalProperties": false,
-            "properties": {
-                "__typename": {
-                    "const": "TokenApproval",
-                    "type": "string"
-                },
-                "approvedAmount": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "context": {
-                    "$ref": "#/definitions/TransactionContext"
-                },
-                "feeCurrencyId": {
-                    "type": "string"
-                },
-                "networkId": {
-                    "$ref": "#/definitions/NetworkId"
-                },
-                "status": {
-                    "const": "Pending",
-                    "type": "string"
-                },
-                "timestamp": {
-                    "type": "number"
-                },
-                "tokenId": {
-                    "type": "string"
-                },
-                "transactionHash": {
-                    "type": "string"
-                },
-                "type": {
-                    "$ref": "#/definitions/TokenTransactionTypeV2"
-                }
-            },
-            "required": [
-                "__typename",
-                "approvedAmount",
-                "context",
-                "networkId",
-                "status",
-                "timestamp",
-                "tokenId",
-                "type"
-            ],
-            "type": "object"
-        },
-        "PendingStandbyTransaction<TokenExchange>": {
+        "PendingStandbyTransaction<PendingTokenExchange>": {
             "additionalProperties": false,
             "properties": {
                 "__typename": {
@@ -2870,6 +2819,57 @@
                 "outAmount",
                 "status",
                 "timestamp",
+                "type"
+            ],
+            "type": "object"
+        },
+        "PendingStandbyTransaction<TokenApproval>": {
+            "additionalProperties": false,
+            "properties": {
+                "__typename": {
+                    "const": "TokenApproval",
+                    "type": "string"
+                },
+                "approvedAmount": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "context": {
+                    "$ref": "#/definitions/TransactionContext"
+                },
+                "feeCurrencyId": {
+                    "type": "string"
+                },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
+                "status": {
+                    "const": "Pending",
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "tokenId": {
+                    "type": "string"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                }
+            },
+            "required": [
+                "__typename",
+                "approvedAmount",
+                "context",
+                "networkId",
+                "status",
+                "timestamp",
+                "tokenId",
                 "type"
             ],
             "type": "object"
@@ -4158,7 +4158,7 @@
                     "type": "object"
                 },
                 {
-                    "$ref": "#/definitions/PendingStandbyTransaction<TokenExchange>"
+                    "$ref": "#/definitions/PendingStandbyTransaction<PendingTokenExchange>"
                 },
                 {
                     "$ref": "#/definitions/PendingStandbyTransaction<TokenTransfer>"

@@ -109,6 +109,9 @@ export const reducer = (
                 block,
                 timestamp: action.blockTimestampInMs,
                 fees: fees || [],
+                ...(standbyTransaction.__typename === 'CrossChainTokenExchange' && {
+                  isSourceNetworkTxConfirmed: true,
+                }),
               }
             }
             return standbyTransaction
