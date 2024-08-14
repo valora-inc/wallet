@@ -11,12 +11,31 @@ export interface PositionDisplayProps {
 
 type DataProps = EarnDataProps
 
+interface YieldRate {
+  percentage: number
+  label: string
+  tokenId: string
+}
+
+interface EarningItem {
+  amount: SerializedDecimalNumber
+  label: string
+  tokenId: string
+  subtractFromDeposit?: boolean
+}
+
 interface EarnDataProps {
-  apy: number
+  contractCreatedAt?: string // ISO string
+  manageUrl?: string
+  tvl?: number
+  yieldRates: YieldRate[]
+  earningItems: EarningItem[]
   depositTokenId: string
   withdrawTokenId: string
   // We'll add more fields here as needed
 }
+
+export type EarnPosition = AppTokenPosition & { dataProps: EarnDataProps }
 
 export type TokenCategory = 'claimable'
 
