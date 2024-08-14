@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { RewardsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { RewardsEvents } from 'src/analytics/Events'
 import { phoneNumberVerifiedSelector, rewardsEnabledSelector } from 'src/app/selectors'
 import Pill from 'src/components/Pill'
 import { isE2EEnv } from 'src/config'

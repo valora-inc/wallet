@@ -50,7 +50,7 @@ export type ConfirmedStandbyTransaction = (
 }
 
 export type StandbyTransaction =
-  | PendingStandbyTransaction<TokenExchange>
+  | PendingStandbyTransaction<PendingTokenExchange>
   | PendingStandbyTransaction<TokenTransfer>
   | PendingStandbyTransaction<TokenApproval>
   | PendingStandbyTransaction<NftTransfer>
@@ -58,6 +58,13 @@ export type StandbyTransaction =
   | PendingStandbyTransaction<EarnWithdraw>
   | PendingStandbyTransaction<EarnClaimReward>
   | ConfirmedStandbyTransaction
+
+type PendingTokenExchange =
+  | (Omit<TokenExchange, '__typename'> & { __typename: 'TokenExchangeV3' })
+  | (Omit<TokenExchange, '__typename'> & {
+      __typename: 'CrossChainTokenExchange'
+      isSourceNetworkTxConfirmed?: boolean
+    })
 
 // Context used for logging the transaction execution flow.
 export interface TransactionContext {
