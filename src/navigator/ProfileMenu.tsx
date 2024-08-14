@@ -16,7 +16,6 @@ import { Invite } from 'src/icons/navigator/Invite'
 import Settings from 'src/icons/navigator/Settings'
 import { headerWithCloseButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
-import RewardsPill from 'src/navigator/RewardsPill'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { NETWORK_NAMES } from 'src/shared/conts'
@@ -103,7 +102,6 @@ export default function ProfileMenu({ route }: Props) {
 
 ProfileMenu.navigationOptions = () => ({
   ...headerWithCloseButton,
-  headerRight: () => <RewardsPill />,
 })
 
 const styles = StyleSheet.create({

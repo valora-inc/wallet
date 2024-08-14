@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 223,
+          "version": 224,
         },
         "account": {
           "acceptedTerms": false,
@@ -117,8 +117,6 @@ describe('store state', () => {
           "devModeClickCount": 0,
           "dismissedGetVerified": false,
           "dismissedGoldEducation": false,
-          "dismissedKeepSupercharging": false,
-          "dismissedStartSupercharging": false,
           "e164PhoneNumber": "+14155556666",
           "hasMigratedToNewBip39": false,
           "name": "John Doe",
@@ -169,8 +167,6 @@ describe('store state', () => {
           "sessionId": "",
           "showNotificationSpotlight": true,
           "showSwapMenuInDrawerMenu": false,
-          "superchargeApy": 12,
-          "superchargeTokenConfigByToken": {},
           "supportedBiometryType": null,
           "walletConnectV2Enabled": true,
         },
@@ -331,14 +327,6 @@ describe('store state', () => {
           "lastUsedTokenId": undefined,
           "recentPayments": [],
           "recentRecipients": [],
-        },
-        "supercharge": {
-          "availableRewards": [],
-          "error": false,
-          "fetchAvailableRewardsError": false,
-          "fetchAvailableRewardsLoading": false,
-          "loading": false,
-          "superchargeRewardContractAddress": "",
         },
         "swap": {
           "currentSwap": null,

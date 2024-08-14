@@ -9,8 +9,8 @@ import * as Keychain from 'react-native-keychain'
 import { findBestLanguageTag } from 'react-native-localize'
 import { eventChannel } from 'redux-saga'
 import { e164NumberSelector } from 'src/account/selectors'
-import { AppEvents, InviteEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { AppEvents, InviteEvents } from 'src/analytics/Events'
 import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import {
   Actions,
@@ -40,8 +40,6 @@ import {
 } from 'src/app/selectors'
 import { CeloNewsConfig } from 'src/celoNews/types'
 import { DEFAULT_APP_LANGUAGE, FETCH_TIMEOUT_DURATION, isE2EEnv } from 'src/config'
-import { claimRewardsSuccess } from 'src/consumerIncentives/slice'
-import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import { appVersionDeprecationChannel, fetchRemoteConfigValues } from 'src/firebase/firebase'
@@ -220,8 +218,6 @@ export interface RemoteConfigValues {
   inviteRewardsVersion: string
   walletConnectV2Enabled: boolean
   logPhoneNumberTypeEnabled: boolean
-  superchargeApy: number
-  superchargeTokenConfigByToken: SuperchargeTokenConfigByToken
   pincodeUseExpandedBlocklist: boolean
   allowOtaTranslations: boolean
   sentryTracesSampleRate: number
@@ -237,7 +233,6 @@ export interface RemoteConfigValues {
   networkTimeoutSeconds: number
   celoNews: CeloNewsConfig
   priceImpactWarningThreshold: number
-  superchargeRewardContractAddress: string
 }
 
 export function* appRemoteFeatureFlagSaga() {
@@ -556,10 +551,7 @@ export function* requestInAppReview() {
 
 export function* watchAppReview() {
   // Triggers on successful payment, swap, or rewards claim
-  yield* takeLatest(
-    [SendActions.SEND_PAYMENT_SUCCESS, swapSuccess, claimRewardsSuccess],
-    safely(requestInAppReview)
-  )
+  yield* takeLatest([SendActions.SEND_PAYMENT_SUCCESS, swapSuccess], safely(requestInAppReview))
 }
 
 export function* appSaga() {

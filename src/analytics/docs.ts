@@ -28,7 +28,6 @@ import {
   PhoneVerificationEvents,
   PointsEvents,
   QrScreenEvents,
-  RewardsEvents,
   SendEvents,
   SettingsEvents,
   SwapEvents,
@@ -477,10 +476,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [ContractKitEvents.init_contractkit_finish]: ``,
   [PerformanceEvents.redux_store_size]: ``,
   [NavigationEvents.navigator_not_ready]: ``,
-  [RewardsEvents.rewards_screen_opened]: ``,
-  [RewardsEvents.rewards_screen_cta_pressed]: ``,
-  [RewardsEvents.learn_more_pressed]: ``,
-  [RewardsEvents.claimed_reward]: ``,
 
   // Events related to Points program
   [PointsEvents.points_discover_press]: `when points card is pressed in the discover tab`,

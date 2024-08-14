@@ -3438,6 +3438,16 @@ export const v223Schema = {
   },
 }
 
+export const v224Schema = {
+  ..._.omit(v223Schema, 'supercharge'),
+  _persist: {
+    ...v223Schema._persist,
+    version: 224,
+  },
+  app: _.omit(v223Schema.app, 'superchargeApy', 'superchargeTokenConfigByToken'),
+  account: _.omit(v223Schema.account, 'dismissedKeepSupercharging', 'dismissedStartSupercharging'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v223Schema as Partial<RootState>
+  return v224Schema as Partial<RootState>
 }

@@ -457,7 +457,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      superchargeApy: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeApy,
+      superchargeApy: 12,
       superchargeTokens: [],
       rewardsPercent: undefined,
       rewardsStartDate: undefined,
@@ -1839,5 +1839,10 @@ export const migrations = {
       ..._.omit(state.recipients, 'valoraRecipientCache'),
       appRecipientCache: state.recipients.valoraRecipientCache || {},
     },
+  }),
+  224: (state: any) => ({
+    ...(_.omit(state, 'supercharge') as any),
+    app: _.omit(state.app, 'superchargeApy', 'superchargeTokenConfigByToken'),
+    account: _.omit(state.account, 'dismissedKeepSupercharging', 'dismissedStartSupercharging'),
   }),
 }
