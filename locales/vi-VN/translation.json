@@ -1986,10 +1986,12 @@
     "subtitle": "Đầu tiên bạn muốn làm gì?",
     "later": "Tôi sẽ tìm hiểu sau",
     "options": {
-      "add": "Nạp tiền",
+      "add": "Nạp tiền vào ví của bạn",
       "dapp": "Tìm cách sử dụng tiền điện tử",
-      "profile": "Tạo hồ sơ",
-      "learn": "Tìm hiểu về Celo"
+      "earn": "Explore earning opportunities",
+      "profile": "Build your profile",
+      "learn": "Tìm hiểu về Celo",
+      "learnPoints": "Learn about {{appName}} Points"
     }
   },
   "reverifyUsingCPVHomecard": {
