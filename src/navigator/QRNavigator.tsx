@@ -22,6 +22,7 @@ import QRTabBar from 'src/qrcode/QRTabBar'
 import { useDispatch } from 'src/redux/hooks'
 import { SVG, handleQRCodeDetected } from 'src/send/actions'
 import { QrCode } from 'src/send/types'
+import { Colors } from 'src/styles/colors'
 import Logger from 'src/utils/Logger'
 import { ExtractProps } from 'src/utils/typescript'
 
@@ -184,9 +185,9 @@ QRNavigator.navigationOptions = {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'black',
+    backgroundColor: Colors.black,
   },
   sceneContainerStyle: {
-    backgroundColor: 'black',
+    backgroundColor: Colors.black,
   },
 })

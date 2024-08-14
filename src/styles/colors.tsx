@@ -24,14 +24,14 @@ export enum Colors {
   lightShadow = 'rgba(48, 46, 37, 0.15)',
   barShadow = 'rgba(129, 134, 139, 0.5)',
 
+  dappFavouriteStar = '#FCBA27',
+  nftTxFeedIconForeground = '#452C75',
+  nftTxFeedIconBackground = '#ECE6F7',
+
   /** @deprecated */
   goldBrand = '#FBCC5C',
   /** @deprecated */
   onboardingBrownLight = '#A49B80',
-  /** @deprecated */
-  accent1 = '#CAF27A',
-  /** @deprecated */
-  accent2 = '#FFD62C',
 }
 
 export default Colors

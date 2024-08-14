@@ -39,6 +39,7 @@ import {
 import { getCachedPin, setCachedPin } from 'src/pincode/PasswordCache'
 import Pincode from 'src/pincode/Pincode'
 import { RootState } from 'src/redux/reducers'
+import Colors from 'src/styles/colors'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -270,7 +271,7 @@ const styles = StyleSheet.create({
   },
   changePinContainer: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: Colors.white,
     justifyContent: 'space-between',
   },
 })
