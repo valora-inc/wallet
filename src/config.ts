@@ -178,8 +178,13 @@ export const SIMPLEX_URI = 'https://valoraapp.com/simplex'
 export const SIMPLEX_FEES_URL =
   'https://support.simplex.com/hc/en-gb/articles/360014078420-What-fees-am-I-paying-'
 
-export const CASH_IN_SUCCESS_DEEPLINK = 'celo://wallet/cash-in-success'
-export const CASH_IN_FAILURE_DEEPLINK = 'celo://wallet/cash-in-failure'
+// N.B.: Make sure to update the following files to match this value:
+// * app.json
+// * android/**/AndroidManifest.xml
+// * ios/**/AppDelegate.mm
+export const DEEPLINK_PREFIX = 'celo'
+export const CASH_IN_SUCCESS_DEEPLINK = `${DEEPLINK_PREFIX}://wallet/cash-in-success`
+export const CASH_IN_FAILURE_DEEPLINK = `${DEEPLINK_PREFIX}://wallet/cash-in-failure`
 
 export const APP_STORE_ID = Config.APP_STORE_ID
 export const DYNAMIC_DOWNLOAD_LINK = Config.DYNAMIC_DOWNLOAD_LINK

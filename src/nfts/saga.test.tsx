@@ -15,6 +15,7 @@ import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import { mockNftAllFields, mockNftMinimumFields } from 'test/values'
+import { DEEPLINK_PREFIX } from 'src/config'
 import networkConfig from 'src/web3/networkConfig'
 
 jest.mock('src/statsig')
@@ -37,7 +38,7 @@ const mockCelebratedNft = {
 
 const mockRemoteConfig = {
   celebratedNft: mockCelebratedNft,
-  deepLink: 'celo://test',
+  deepLink: `${DEEPLINK_PREFIX}://test`,
   rewardExpirationDate: '3000-12-01T00:00:00.000Z',
   rewardReminderDate: '3000-01-01T00:00:00.000Z',
 }
@@ -54,7 +55,7 @@ const mockNftCelebrationStore = (status: NftCelebrationStatus) => {
       nftCelebration: {
         networkId: mockNftAllFields.networkId,
         contractAddress: mockNftAllFields.contractAddress,
-        deepLink: 'celo://test',
+        deepLink: `${DEEPLINK_PREFIX}://test`,
         rewardExpirationDate: '3000-12-01T00:00:00.000Z',
         rewardReminderDate: '3000-01-01T00:00:00.000Z',
         status,
