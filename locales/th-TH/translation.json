@@ -1986,10 +1986,12 @@
     "subtitle": "คุณอยากทำอะไรเป็นอย่างแรก",
     "later": "ฉันจะกลับมาดูในภายหลัง",
     "options": {
-      "add": "ฝากเงิน",
+      "add": "เพิ่มเงินทุนในกระเป๋าเงิน",
       "dapp": "ค้นหาวิธีใช้คริปโต",
-      "profile": "สร้างโปรไฟล์",
-      "learn": "เรียนรู้เกี่ยวกับ Celo"
+      "earn": "Explore earning opportunities",
+      "profile": "Build your profile",
+      "learn": "เรียนรู้เกี่ยวกับ Celo",
+      "learnPoints": "Learn about {{appName}} Points"
     }
   },
   "reverifyUsingCPVHomecard": {
