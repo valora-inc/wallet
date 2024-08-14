@@ -14,20 +14,19 @@ export default ChooseYourAdventure = () => {
     await quickOnboarding({ stopOnCYA: true, cloudBackupEnabled: true })
   })
 
-  it('learn about celo navigates to celo token details page', async () => {
-    await element(by.text('Learn about Celo')).tap()
+  it('learn about valora points navigates to valora points journey page', async () => {
+    await element(by.text('Learn about Valora Points')).tap()
 
-    // Check that we are on the Celo token details page
-    await waitForElementId('TokenDetails/AssetValue')
-    await expect(element(by.text('Celo')).atIndex(0)).toBeVisible()
+    // Check that we are on the Valora Points journey page
+    await expect(element(by.text('Earn points effortlessly')).atIndex(0)).toBeVisible()
 
     // Back should go to the home screen
     await element(by.id('BackChevron')).tap()
     await waitForElementId('HomeAction-Send')
   })
 
-  it('build my profile navigates to profile page', async () => {
-    await element(by.text('Build my profile')).tap()
+  it('build your profile navigates to profile page', async () => {
+    await element(by.text('Build your profile')).tap()
 
     // Check that we are on the profile page
     await waitForElementId('ProfileEditName')
@@ -37,8 +36,8 @@ export default ChooseYourAdventure = () => {
     await waitForElementId('HomeAction-Send')
   })
 
-  it('add funds navigates to home and opens the token bottom sheet', async () => {
-    await element(by.text('Add funds')).tap()
+  it('add funds to your wallet navigates to home and opens the token bottom sheet', async () => {
+    await element(by.text('Add funds to your wallet')).tap()
 
     // Check that we are on the bottom sheet
     await waitForElementId('TokenBottomSheet')
@@ -48,10 +47,11 @@ export default ChooseYourAdventure = () => {
     await waitForElementId('HomeAction-Send')
   })
 
-  it('find ways to use crypto navigates to discover tab', async () => {
-    await element(by.text('Find ways to use crypto')).tap()
+  it('explore earning opportunities navigates to stablecoins info page', async () => {
+    await element(by.text('Explore earning opportunities')).tap()
 
-    // Check that we are on the discover tab
-    await waitForElementId('DAppsExplorerScreen')
+    await waitForElementId('EarnInfoScreen/Title')
+    // Check that we are on the Earn On Your Stablecoins page
+    await expect(element(by.text('Earn on your\nstablecoins')).atIndex(0)).toBeVisible()
   })
 }
