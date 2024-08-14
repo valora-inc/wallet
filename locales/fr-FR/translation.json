@@ -1988,10 +1988,12 @@
     "subtitle": "Que voulez-vous faire en premier ?",
     "later": "Je vais découvrir plus tard",
     "options": {
-      "add": "Ajouter des fonds",
+      "add": "Ajouter des fonds à votre portefeuille",
       "dapp": "Explorez les moyens d'utiliser mes crypto",
-      "profile": "Créer mon profil",
-      "learn": "En savoir plus sur Celo"
+      "earn": "Explore les possibilités de gagner de l'argent",
+      "profile": "Construis ton profil",
+      "learn": "En savoir plus sur Celo",
+      "learnPoints": "Renseigne-toi sur {{appName}} Points"
     }
   },
   "reverifyUsingCPVHomecard": {
