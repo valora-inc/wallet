@@ -128,7 +128,7 @@ export default function PoolCard({
                 AppAnalytics.track(EarnEvents.earn_pool_card_cta_press, {
                   poolId: positionId,
                   depositTokenId,
-                  networkId: networkId,
+                  networkId,
                   tokenAmount: balance,
                   providerId: appId,
                   action: 'withdraw',
@@ -146,7 +146,7 @@ export default function PoolCard({
                 AppAnalytics.track(EarnEvents.earn_pool_card_cta_press, {
                   poolId: positionId,
                   depositTokenId,
-                  networkId: networkId,
+                  networkId,
                   tokenAmount: balance,
                   providerId: appId,
                   action: 'deposit',
@@ -167,7 +167,7 @@ export default function PoolCard({
             AppAnalytics.track(EarnEvents.earn_pool_card_cta_press, {
               poolId: positionId,
               depositTokenId,
-              networkId: networkId,
+              networkId,
               tokenAmount: '0',
               providerId: appId,
               action: 'deposit',
