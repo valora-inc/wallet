@@ -14,7 +14,6 @@ import {
   appVersionSaga,
   checkAndroidMobileServicesSaga,
 } from 'src/app/saga'
-import { superchargeSaga } from 'src/consumerIncentives/saga'
 import { dappsSaga } from 'src/dapps/saga'
 import { earnSaga } from 'src/earn/saga'
 import { escrowSaga } from 'src/escrow/saga'
@@ -129,7 +128,6 @@ export function* rootSaga() {
     yield* spawn(checkAccountExistenceSaga)
     yield* spawn(fiatExchangesSaga)
     yield* spawn(walletConnectSaga)
-    yield* spawn(superchargeSaga)
     yield* spawn(checkAndroidMobileServicesSaga)
     yield* spawn(dappsSaga)
     yield* spawn(fiatConnectSaga)

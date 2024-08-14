@@ -42,16 +42,6 @@ const mockState = {
   web3: { mtwAddress: '0x123' },
   account: { defaultCountryCode: '+33', pincodeType: PincodeType.CustomPin },
   app: {
-    superchargeTokenConfigByToken: {
-      '0xcusd': {
-        minBalance: 10,
-        maxBalance: 1000,
-      },
-      '0xceur': {
-        minBalance: 10,
-        maxBalance: 1000,
-      },
-    },
     phoneNumberVerified: true,
   },
   tokens: {
@@ -359,8 +349,6 @@ const expectedTraitsForAllNetworks = {
   totalEthereumSepoliaBalanceUsd: 15150.03,
   totalPositionsBalanceUsd: 83.34234,
   walletAddress: '0x0000000000000000000000000000000000007e57',
-  superchargingToken: 'cEUR',
-  superchargingAmountInUsd: 25.9245,
   hasTokenBalance: true,
   hasCeloAlfajoresTokenBalance: true,
   hasEthereumSepoliaTokenBalance: true,

@@ -250,59 +250,35 @@
                                 "addressValidationNoMatch",
                                 "addressValidationPartialOwnAddress",
                                 "addressValidationPartialPoorlyFormatted",
-                                "backupQuizFailed",
                                 "calculateFeeFailed",
                                 "cashOutLimitExceeded",
                                 "contractKitInitFailed",
-                                "corruptedChainDeleted",
-                                "countryNotAvailable",
                                 "dappShortcuts.claimRewardFailure",
-                                "deleteBankAccountFail",
-                                "errorRefreshingRate",
-                                "exchangeFailed",
-                                "exchangeRateChange",
                                 "failedFetchMnemonic",
                                 "fetchFailed",
                                 "fiatConnectKycStatusScreen.tryAgainFailed",
                                 "firebaseDisabled",
                                 "firebaseFailed",
-                                "gasPriceUpdateFailed",
-                                "getBankAccountsFail",
                                 "hooksPreview.invalidApiUrl",
                                 "importBackupFailed",
                                 "importContactsFailed",
                                 "incorrectPin",
-                                "insufficientBalanceStable",
-                                "invalidAmount",
                                 "invalidBackupPhrase",
-                                "invalidPhone",
                                 "invalidWordsInBackupPhrase",
                                 "keychainAccountAlreadyExists",
                                 "keychainFetchAccounts",
-                                "keychainStorageError",
                                 "missingFullName",
-                                "notEnoughGoldError",
-                                "notEnoughStableError",
-                                "notReadyForCode",
-                                "paymentRequestFailed",
-                                "paymentRequestUpdateFailed",
                                 "personaAccountEndpointFail",
                                 "phoneVerificationInput.verificationFailure",
                                 "pictureLoadFailed",
                                 "pinInputCanceled",
                                 "providerFetchFailed",
-                                "providerRateFetchFailed",
                                 "qrFailedInvalidAddress",
                                 "qrFailedInvalidRecipient",
-                                "qrFailedNoPhoneNumber",
                                 "reclaimingEscrowedPaymentFailed",
                                 "sendPaymentFailed",
-                                "setPinFailed",
                                 "simplexPurchaseFetchFailed",
-                                "superchargeClaimFailure",
-                                "superchargeFetchRewardsFailed",
                                 "swapScreen.fetchSwapQuoteFailed",
-                                "swapScreen.swapSubmitFailed",
                                 "transactionFailed",
                                 "transactionTimeout"
                             ],
@@ -4330,12 +4306,6 @@
                 "showSwapMenuInDrawerMenu": {
                     "type": "boolean"
                 },
-                "superchargeApy": {
-                    "type": "number"
-                },
-                "superchargeTokenConfigByToken": {
-                    "$ref": "#/definitions/SuperchargeTokenConfigByToken"
-                },
                 "supportedBiometryType": {
                     "anyOf": [
                         {
@@ -4390,8 +4360,6 @@
                 "sessionId",
                 "showNotificationSpotlight",
                 "showSwapMenuInDrawerMenu",
-                "superchargeApy",
-                "superchargeTokenConfigByToken",
                 "supportedBiometryType",
                 "walletConnectV2Enabled"
             ],
@@ -4699,41 +4667,6 @@
         "State_18": {
             "additionalProperties": false,
             "properties": {
-                "availableRewards": {
-                    "items": {
-                        "$ref": "#/definitions/SuperchargePendingReward"
-                    },
-                    "type": "array"
-                },
-                "error": {
-                    "type": "boolean"
-                },
-                "fetchAvailableRewardsError": {
-                    "type": "boolean"
-                },
-                "fetchAvailableRewardsLoading": {
-                    "type": "boolean"
-                },
-                "loading": {
-                    "type": "boolean"
-                },
-                "superchargeRewardContractAddress": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "availableRewards",
-                "error",
-                "fetchAvailableRewardsError",
-                "fetchAvailableRewardsLoading",
-                "loading",
-                "superchargeRewardContractAddress"
-            ],
-            "type": "object"
-        },
-        "State_19": {
-            "additionalProperties": false,
-            "properties": {
                 "activeDapp": {
                     "anyOf": [
                         {
@@ -4811,27 +4744,7 @@
             ],
             "type": "object"
         },
-        "State_2": {
-            "additionalProperties": false,
-            "properties": {
-                "connected": {
-                    "type": "boolean"
-                },
-                "rehydrated": {
-                    "type": "boolean"
-                },
-                "userLocationData": {
-                    "$ref": "#/definitions/UserLocationData"
-                }
-            },
-            "required": [
-                "connected",
-                "rehydrated",
-                "userLocationData"
-            ],
-            "type": "object"
-        },
-        "State_20": {
+        "State_19": {
             "additionalProperties": false,
             "properties": {
                 "attemptReturnUserFlowLoading": {
@@ -4986,7 +4899,27 @@
             ],
             "type": "object"
         },
-        "State_21": {
+        "State_2": {
+            "additionalProperties": false,
+            "properties": {
+                "connected": {
+                    "type": "boolean"
+                },
+                "rehydrated": {
+                    "type": "boolean"
+                },
+                "userLocationData": {
+                    "$ref": "#/definitions/UserLocationData"
+                }
+            },
+            "required": [
+                "connected",
+                "rehydrated",
+                "userLocationData"
+            ],
+            "type": "object"
+        },
+        "State_20": {
             "additionalProperties": false,
             "properties": {
                 "currentSwap": {
@@ -5017,7 +4950,7 @@
             ],
             "type": "object"
         },
-        "State_22": {
+        "State_21": {
             "additionalProperties": false,
             "properties": {
                 "earnPositionIds": {
@@ -5068,7 +5001,7 @@
             ],
             "type": "object"
         },
-        "State_23": {
+        "State_22": {
             "additionalProperties": false,
             "properties": {
                 "appKeyshare": {
@@ -5109,7 +5042,7 @@
             ],
             "type": "object"
         },
-        "State_25": {
+        "State_24": {
             "additionalProperties": {
                 "additionalProperties": false,
                 "properties": {
@@ -5131,7 +5064,7 @@
             },
             "type": "object"
         },
-        "State_26": {
+        "State_25": {
             "additionalProperties": false,
             "properties": {
                 "claimStatus": {
@@ -5169,7 +5102,7 @@
             ],
             "type": "object"
         },
-        "State_27": {
+        "State_26": {
             "additionalProperties": false,
             "properties": {
                 "getHistoryStatus": {
@@ -5253,7 +5186,7 @@
             ],
             "type": "object"
         },
-        "State_28": {
+        "State_27": {
             "additionalProperties": false,
             "properties": {
                 "depositStatus": {
@@ -5576,12 +5509,6 @@
                 "dismissedGoldEducation": {
                     "type": "boolean"
                 },
-                "dismissedKeepSupercharging": {
-                    "type": "boolean"
-                },
-                "dismissedStartSupercharging": {
-                    "type": "boolean"
-                },
                 "e164PhoneNumber": {
                     "type": [
                         "null",
@@ -5634,8 +5561,6 @@
                 "devModeClickCount",
                 "dismissedGetVerified",
                 "dismissedGoldEducation",
-                "dismissedKeepSupercharging",
-                "dismissedStartSupercharging",
                 "e164PhoneNumber",
                 "hasMigratedToNewBip39",
                 "name",
@@ -5772,79 +5697,6 @@
         "StoredTokenBalances": {
             "additionalProperties": {
                 "$ref": "#/definitions/StoredTokenBalance"
-            },
-            "type": "object"
-        },
-        "SuperchargePendingReward": {
-            "additionalProperties": false,
-            "properties": {
-                "details": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "amount": {
-                            "type": "string"
-                        },
-                        "tokenAddress": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "amount",
-                        "tokenAddress"
-                    ],
-                    "type": "object"
-                },
-                "transaction": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "chainId": {
-                            "type": "number"
-                        },
-                        "data": {
-                            "type": "string"
-                        },
-                        "from": {
-                            "type": "string"
-                        },
-                        "gas": {
-                            "type": "number"
-                        },
-                        "to": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "chainId",
-                        "data",
-                        "from",
-                        "gas",
-                        "to"
-                    ],
-                    "type": "object"
-                }
-            },
-            "required": [
-                "details",
-                "transaction"
-            ],
-            "type": "object"
-        },
-        "SuperchargeTokenConfigByToken": {
-            "additionalProperties": {
-                "additionalProperties": false,
-                "properties": {
-                    "maxBalance": {
-                        "type": "number"
-                    },
-                    "minBalance": {
-                        "type": "number"
-                    }
-                },
-                "required": [
-                    "maxBalance",
-                    "minBalance"
-                ],
-                "type": "object"
             },
             "type": "object"
         },
@@ -7237,10 +7089,10 @@
             "$ref": "#/definitions/State"
         },
         "dapps": {
-            "$ref": "#/definitions/State_19"
+            "$ref": "#/definitions/State_18"
         },
         "earn": {
-            "$ref": "#/definitions/State_28"
+            "$ref": "#/definitions/State_27"
         },
         "escrow": {
             "$ref": "#/definitions/State_10"
@@ -7249,7 +7101,7 @@
             "$ref": "#/definitions/State_11"
         },
         "fiatConnect": {
-            "$ref": "#/definitions/State_20"
+            "$ref": "#/definitions/State_19"
         },
         "fiatExchanges": {
             "$ref": "#/definitions/State_15"
@@ -7267,10 +7119,10 @@
             "$ref": "#/definitions/State_14"
         },
         "jumpstart": {
-            "$ref": "#/definitions/State_26"
+            "$ref": "#/definitions/State_25"
         },
         "keylessBackup": {
-            "$ref": "#/definitions/State_23"
+            "$ref": "#/definitions/State_22"
         },
         "localCurrency": {
             "$ref": "#/definitions/State_13"
@@ -7305,13 +7157,13 @@
             "type": "object"
         },
         "points": {
-            "$ref": "#/definitions/State_27"
+            "$ref": "#/definitions/State_26"
         },
         "positions": {
-            "$ref": "#/definitions/State_22"
+            "$ref": "#/definitions/State_21"
         },
         "priceHistory": {
-            "$ref": "#/definitions/State_25"
+            "$ref": "#/definitions/State_24"
         },
         "recipients": {
             "$ref": "#/definitions/State_12"
@@ -7319,11 +7171,8 @@
         "send": {
             "$ref": "#/definitions/State_4"
         },
-        "supercharge": {
-            "$ref": "#/definitions/State_18"
-        },
         "swap": {
-            "$ref": "#/definitions/State_21"
+            "$ref": "#/definitions/State_20"
         },
         "tokens": {
             "$ref": "#/definitions/State_17"
@@ -7363,7 +7212,6 @@
         "priceHistory",
         "recipients",
         "send",
-        "supercharge",
         "swap",
         "tokens",
         "transactions",

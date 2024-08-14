@@ -28,8 +28,6 @@ interface State {
   profileUploaded?: boolean
   recoveringFromStoreWipe?: boolean
   accountToRecoverFromStoreWipe?: string
-  dismissedKeepSupercharging: boolean
-  dismissedStartSupercharging: boolean
   celoEducationCompleted: boolean
   recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus
   cloudBackupCompleted: boolean
@@ -97,8 +95,6 @@ const initialState: State = {
   profileUploaded: false,
   recoveringFromStoreWipe: false,
   accountToRecoverFromStoreWipe: undefined,
-  dismissedKeepSupercharging: false,
-  dismissedStartSupercharging: false,
   celoEducationCompleted: false,
   recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.NotStarted,
   cloudBackupCompleted: false,
@@ -258,16 +254,6 @@ export const reducer = (
         profileUploaded: true,
       }
     }
-    case Actions.DISMISS_KEEP_SUPERCHARGING:
-      return {
-        ...state,
-        dismissedKeepSupercharging: true,
-      }
-    case Actions.DISMISS_START_SUPERCHARGING:
-      return {
-        ...state,
-        dismissedStartSupercharging: true,
-      }
     case Actions.SET_CELO_EDUCATION_COMPLETED:
       return {
         ...state,
