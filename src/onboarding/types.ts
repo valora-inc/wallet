@@ -3,4 +3,5 @@ export enum AdventureCardName {
   Dapp = 'dapp',
   Profile = 'profile',
   Learn = 'learn',
+  Earn = 'earn',
 }

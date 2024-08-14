@@ -10,7 +10,7 @@ import TextButton from 'src/components/TextButton'
 import Touchable from 'src/components/Touchable'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import EarnCoins from 'src/icons/EarnCoins'
-import LogoHeartConfigurable from 'src/icons/LogoHeartConfigurable'
+import LogoHeart from 'src/icons/LogoHeart'
 import PlusIcon from 'src/icons/PlusIcon'
 import ProfilePlus from 'src/icons/ProfilePlus'
 import { nuxNavigationOptionsNoBackButton } from 'src/navigator/Headers'
@@ -76,12 +76,12 @@ function ChooseYourAdventure() {
       name: AdventureCardName.Add,
     },
     {
-      text: t('chooseYourAdventure.options.dapp'),
+      text: t('chooseYourAdventure.options.earn'),
       goToNextScreen: () => {
         navigateHomeAndThenToScreen(Screens.EarnInfoScreen)
       },
       icon: <EarnCoins color={colors.black} />,
-      name: AdventureCardName.Dapp,
+      name: AdventureCardName.Earn,
     },
     {
       text: t('chooseYourAdventure.options.profile'),
@@ -96,7 +96,7 @@ function ChooseYourAdventure() {
       goToNextScreen: () => {
         navigateHomeAndThenToScreen(Screens.PointsIntro)
       },
-      icon: <LogoHeartConfigurable size={Spacing.Thick24} color={colors.black} />,
+      icon: <LogoHeart size={Spacing.Thick24} color={colors.black} />,
       name: AdventureCardName.Learn,
     },
   ]

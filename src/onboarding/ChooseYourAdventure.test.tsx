@@ -21,7 +21,7 @@ describe('ChooseYourAdventure', () => {
     {
       address: mockAccount,
       testIDs: [
-        'AdventureCard/0/chooseYourAdventure.options.dapp',
+        'AdventureCard/0/chooseYourAdventure.options.earn',
         'AdventureCard/1/chooseYourAdventure.options.add',
         'AdventureCard/2/chooseYourAdventure.options.learn',
         'AdventureCard/3/chooseYourAdventure.options.profile',
@@ -32,14 +32,14 @@ describe('ChooseYourAdventure', () => {
       testIDs: [
         'AdventureCard/0/chooseYourAdventure.options.learn',
         'AdventureCard/1/chooseYourAdventure.options.profile',
-        'AdventureCard/2/chooseYourAdventure.options.dapp',
+        'AdventureCard/2/chooseYourAdventure.options.earn',
         'AdventureCard/3/chooseYourAdventure.options.add',
       ],
     },
   ]
 
   const expectedCardOrder = [
-    AdventureCardName.Dapp,
+    AdventureCardName.Earn,
     AdventureCardName.Add,
     AdventureCardName.Learn,
     AdventureCardName.Profile,
@@ -74,18 +74,18 @@ describe('ChooseYourAdventure', () => {
     }
   )
 
-  it('navigates to the correct screen for dapp', () => {
+  it('navigates to the correct screen for earn', () => {
     const { getByTestId } = render(
       <Provider store={store}>
         <ChooseYourAdventure />
       </Provider>
     )
 
-    fireEvent.press(getByTestId('AdventureCard/0/chooseYourAdventure.options.dapp'))
+    fireEvent.press(getByTestId('AdventureCard/0/chooseYourAdventure.options.earn'))
     expect(navigateHomeAndThenToScreen).toHaveBeenLastCalledWith(Screens.EarnInfoScreen)
     expect(AppAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
       position: 1,
-      cardName: AdventureCardName.Dapp,
+      cardName: AdventureCardName.Earn,
       cardOrder: expectedCardOrder,
     })
   })

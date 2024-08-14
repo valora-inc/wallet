@@ -1991,9 +1991,10 @@
     "later": "I'll explore later",
     "options": {
       "add": "Add funds to your wallet",
-      "dapp": "Explore earning opportunities",
+      "dapp": "Find ways to use crypto",
+      "earn": "Explore earning opportunities",
       "profile": "Build your profile",
-      "learn": "Learn about Valora Points"
+      "learn": "Learn about {{appName}} Points"
     }
   },
   "reverifyUsingCPVHomecard": {
