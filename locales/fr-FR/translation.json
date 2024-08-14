@@ -108,7 +108,7 @@
     "subtitle": "Connectez-vous avec votre e-mail pour le configurer en tant que données de sauvegarde. Si vous perdez votre portefeuille, vous devrez vous reconnecter.",
     "subtitleRestore": "Connectez-vous avec l'e-mail que vous avez utilisé pour configurer la sauvegarde.",
     "google": "Se connecter avec Google",
-    "apple": "Connecte-toi avec Apple",
+    "apple": "Se connecter avec Google",
     "signInAnotherWay": "Se connecter d'une autre manière",
     "bottomSheet": {
       "title": "Enregistrez votre phrase de récupération pour créer un portefeuille",
@@ -1802,7 +1802,7 @@
     },
     "unsupportedTokensWarning": {
       "title": "Sélection incompatible",
-      "body": "Les jetons sélectionnés ne peuvent pas être échangés entre eux. Veuillez choisir un autre jeton compatible avec votre sélection."
+      "body": "Les jetons sélectionnés ne peuvent pas être échangés entre eux. Choisissez un autre jeton compatible avec votre sélection."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Vous avez besoin de plus de {{feeTokenSymbol}} pour le gas",
@@ -1890,10 +1890,10 @@
       "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "Plus d'informations",
-      "feesInfo_sameChain": "Des frais de réseau s'appliquent pour traiter la transaction afin d'en garantir la sécurité et la fiabilité.",
-      "feesInfo_crossChain": "Des frais de réseau s'appliquent pour traiter la transaction afin d'en garantir la sécurité et la fiabilité. Des frais inter-chaînes sont facturés par le fournisseur pour permettre des échanges fluides et sécurisés entre différentes blockchains.",
-      "feesInfo_sameChainWithAppFee": "Des frais de réseau s'appliquent pour traiter la transaction afin d'en assurer la sécurité et la fiabilité. Les frais {{appName}} de {{appFeePercentage}}% améliorent votre expérience en assurant des échanges rapides, fiables et sécurisés.",
-      "feesInfo_crossChainWithAppFee": "Des frais de réseau s'appliquent pour traiter la transaction afin d'en garantir la sécurité et la fiabilité. Des frais inter-chaînes sont facturés par le fournisseur pour permettre des échanges fluides et sécurisés entre différentes blockchains. Les frais de {{appName}} de {{appFeePercentage}}% améliorent votre expérience en garantissant des échanges rapides, fiables et sécurisés."
+      "feesInfo_sameChain": "Les frais de réseau sont exigés par le réseau pour traiter la transaction.",
+      "feesInfo_crossChain": "Les frais de réseau sont exigés par le réseau pour traiter la transaction. Les frais cross chain sont facturés par le fournisseur de la cross chain.",
+      "feesInfo_sameChainWithAppFee": "Les frais de réseau sont exigés par le réseau pour traiter la transaction. Les frais de {{appName}} de {{appFeePercentage}}% sont facturés pour l'utilisation de notre produit.",
+      "feesInfo_crossChainWithAppFee": "Les frais de réseau sont exigés par le réseau pour traiter la transaction. Les frais de cross chain sont facturés par le fournisseur de la cross chain. Les frais de {{appName}} de {{appFeePercentage}}% sont facturés pour l'utilisation de notre produit."
     },
     "fundYourWalletBottomSheet": {
       "title": "Approvisionner votre portefeuille",
@@ -2240,14 +2240,14 @@
     "approvalTransactionTitle": "Approbation",
     "estimatedNetworkFee": "Estimation des frais de réseau",
     "networkFee": "Frais de réseau",
-    "appFee": "Frais d'application",
-    "estimatedCrossChainFee": "Estimation des frais de la chaîne croisée",
-    "crossChainFee": "Frais inter-chaînes",
+    "appFee": "Frais de l'application",
+    "estimatedCrossChainFee": "Estimation des frais inter-chaînes (cross chain)",
+    "crossChainFee": "Frais cross chain",
     "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}} approuvé pour l'échange",
     "infiniteApprovalDescription": "{{tokenSymbol}} approuvé pour l'échange",
     "revokeApprovalDescription": "{{tokenSymbol}} retiré pour l'échange",
     "descriptionLabel": "Détails",
-    "crossChainSwapTransactionLabel": "Chaîne croisée"
+    "crossChainSwapTransactionLabel": "Cross-chain"
   },
   "multichainBeta": {
     "beta": "BETA",
@@ -2449,8 +2449,8 @@
       "cta": "Lancez-vous dans une course aux points"
     },
     "disclaimer": {
-      "learnMoreCta": "<0>En savoir plus</0> sur {{appName}} Points",
-      "body": "<0>Qu'est-ce que les Points ?</0>\nLes points sont le programme de fidélité de {{appName}}. Ils sont attribués aux utilisateurs lorsque tu utilises notre application.\n\n<0>À quoi servent-ils ?</0>\nTu les accumules. Ils ne peuvent pas être dépensés, échangés ou transférés.\n\n<0>Pourquoi sont-ils dans mon portefeuille ?</0>\nParce que ce sont des jetons. Sur la chaîne, des bits numériques de bonheur que tu gagnes en utilisant l'appli.",
+      "learnMoreCta": "<0>En savoir plus</0> sur les points avec {{appName}}",
+      "body": "<0>Que sont les Points ?</0>\nLes Points font partie du programme de fidélité de {{appName}}. Ils sont attribués aux utilisateurs qui utilisent notre application.\n\n<0>À quoi servent-ils ?</0>\nAccumulez les Points. Ils ne peuvent pas être ni dépensés, ni échangés ni transférés.\n\n<0>Pourquoi sont-ils dans mon portefeuille ?</0>\nParce que ces Points sont des jetons. Sur la chaîne, ils sont des bits numériques de bonheur que vous gagnez en utilisant l'appli.",
       "dismiss": "J'ai compris"
     }
   },

@@ -33,7 +33,6 @@ import {
   PhoneVerificationEvents,
   PointsEvents,
   QrScreenEvents,
-  RewardsEvents,
   SendEvents,
   SettingsEvents,
   SwapEvents,
@@ -54,10 +53,6 @@ import {
 } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
-import {
-  RewardsScreenCta,
-  RewardsScreenOrigin,
-} from 'src/consumerIncentives/analyticsEventsTracker'
 import { DappSection } from 'src/dapps/types'
 import { SerializableRewardsInfo } from 'src/earn/types'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
@@ -995,21 +990,6 @@ interface NavigationProperties {
   [NavigationEvents.navigator_not_ready]: undefined
 }
 
-interface RewardsProperties {
-  [RewardsEvents.rewards_screen_opened]: {
-    origin: RewardsScreenOrigin
-  }
-  [RewardsEvents.rewards_screen_cta_pressed]: {
-    buttonPressed: RewardsScreenCta
-  }
-  [RewardsEvents.learn_more_pressed]: undefined
-  [RewardsEvents.claimed_reward]: {
-    amount: string
-    token: string
-    version?: number
-  }
-}
-
 export interface WalletConnect1Properties {
   version: 1
   dappRequestOrigin: DappRequestOrigin
@@ -1278,19 +1258,40 @@ interface SwapEventsProperties {
   }
   [SwapEvents.swap_gas_fees_learn_more]: undefined
   [SwapEvents.swap_review_submit]: SwapQuoteEvent & Web3LibraryProps & Partial<SwapTxsProperties>
-  [SwapEvents.swap_execute_success]: SwapQuoteEvent &
-    SwapTimeMetrics &
-    Web3LibraryProps &
-    Partial<SwapTxsProperties> &
-    SwapTxsReceiptProperties & {
-      fromTokenBalance: string
-      swapExecuteTxId: string
-      swapApproveTxId: string
-      estimatedSellTokenUsdValue?: number
-      estimatedBuyTokenUsdValue?: number
-      estimatedAppFeeUsdValue: number | undefined
-      areSwapTokensShuffled: boolean
-    }
+  [SwapEvents.swap_execute_success]:
+    | ({ swapType: 'same-chain' } & SwapQuoteEvent &
+        SwapTimeMetrics &
+        Web3LibraryProps &
+        Partial<SwapTxsProperties> &
+        SwapTxsReceiptProperties & {
+          fromTokenBalance: string
+          swapExecuteTxId: string
+          swapApproveTxId: string
+          estimatedSellTokenUsdValue?: number
+          estimatedBuyTokenUsdValue?: number
+          estimatedAppFeeUsdValue: number | undefined
+          areSwapTokensShuffled: boolean
+        })
+    | ({ swapType: 'cross-chain' } & {
+        swapExecuteTxId: string
+        toTokenId: string
+        toTokenAmount: string
+        toTokenAmountUsd?: number
+        toTokenBalance?: string
+        fromTokenId: string
+        fromTokenAmount: string
+        fromTokenAmountUsd?: number
+        fromTokenBalance?: string
+        networkFeeTokenId?: string
+        networkFeeAmount?: string
+        networkFeeAmountUsd?: number
+        appFeeTokenId?: string
+        appFeeAmount?: string
+        appFeeAmountUsd?: number
+        crossChainFeeTokenId?: string
+        crossChainFeeAmount?: string
+        crossChainFeeAmountUsd?: number
+      })
   [SwapEvents.swap_execute_error]: SwapQuoteEvent &
     SwapTimeMetrics &
     Web3LibraryProps &
@@ -1679,7 +1680,6 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   ContractKitEventsProperties &
   PerformanceProperties &
   NavigationProperties &
-  RewardsProperties &
   WalletConnectProperties &
   CICOEventsProperties &
   DappExplorerEventsProperties &

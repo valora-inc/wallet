@@ -15,7 +15,7 @@ import NftMedia from 'src/nfts/NftMedia'
 import NftsLoadError from 'src/nfts/NftsLoadError'
 import { Nft, NftOrigin } from 'src/nfts/types'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { NetworkId } from 'src/transactions/types'
@@ -253,11 +253,11 @@ NftsInfoCarousel.navigationOptions = () => ({
 
 const styles = StyleSheet.create({
   attributeText: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     color: colors.black,
   },
   attributeTitle: {
-    ...fontStyles.small500,
+    ...typeScale.labelSmall,
     color: colors.gray3,
   },
   attributesContainer: {
@@ -276,11 +276,11 @@ const styles = StyleSheet.create({
   },
   errorImageText: {
     marginTop: Spacing.Regular16,
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     color: colors.gray3,
   },
   explorerLink: {
-    ...fontStyles.small500,
+    ...typeScale.labelSmall,
     color: colors.successDark,
     paddingRight: Spacing.Smallest8,
   },
@@ -333,13 +333,13 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.Large32,
   },
   subSectionTitle: {
-    ...fontStyles.large600,
+    ...typeScale.labelSemiBoldLarge,
     marginBottom: Spacing.Regular16,
   },
   text: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
   },
   title: {
-    ...fontStyles.h1,
+    ...typeScale.titleMedium,
   },
 })

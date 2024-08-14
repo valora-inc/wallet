@@ -7,7 +7,7 @@ exports[`AccountNumber renders correctly when touch disabled 1`] = `
       "color": "#666666",
       "fontFamily": "Inter-Regular",
       "fontSize": 14,
-      "lineHeight": 18,
+      "lineHeight": 20,
       "marginBottom": 8,
     }
   }
@@ -61,7 +61,7 @@ exports[`AccountNumber renders correctly when touch enabled 1`] = `
         "color": "#666666",
         "fontFamily": "Inter-Regular",
         "fontSize": 14,
-        "lineHeight": 18,
+        "lineHeight": 20,
         "marginBottom": 8,
       }
     }
@@ -74,8 +74,8 @@ exports[`AccountNumber renders correctly when touch enabled 1`] = `
       {
         "color": "#666666",
         "fontFamily": "Inter-Regular",
-        "fontSize": 13,
-        "lineHeight": 16,
+        "fontSize": 14,
+        "lineHeight": 20,
         "textDecorationLine": "underline",
       }
     }

@@ -294,12 +294,11 @@ exports[`SendConfirmation renders correctly 1`] = `
               style={
                 {
                   "alignSelf": "stretch",
-                  "color": "#2E3338",
                   "flex": 1,
                   "fontFamily": "Inter-Regular",
                   "fontSize": 18,
                   "height": 100,
-                  "lineHeight": 24,
+                  "lineHeight": 28,
                   "textAlignVertical": "top",
                 }
               }

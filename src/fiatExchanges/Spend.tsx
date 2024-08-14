@@ -13,7 +13,7 @@ import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { navigateToURI } from 'src/utils/linking'
 
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     paddingVertical: variables.contentPadding,
   },
   pleaseSelectProvider: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     paddingHorizontal: variables.contentPadding,
     paddingBottom: variables.contentPadding,
   },
@@ -96,10 +96,10 @@ const styles = StyleSheet.create({
     paddingRight: variables.contentPadding,
   },
   optionTitle: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
   },
   optionSubtitle: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
   },
 })

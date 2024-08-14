@@ -1,21 +1,10 @@
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text } from 'react-native'
-import { RewardsEvents } from 'src/analytics/Events'
-import AppAnalytics from 'src/analytics/AppAnalytics'
-import { rewardsEnabledSelector } from 'src/app/selectors'
 import HorizontalLine from 'src/components/HorizontalLine'
 import LegacyTokenTotalLineItem from 'src/components/LegacyTokenTotalLineItem'
-import Touchable from 'src/components/Touchable'
 import { CELO_LOGO_URL } from 'src/config'
-import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
 import { RecipientType } from 'src/recipients/recipient'
-import { useSelector } from 'src/redux/hooks'
-import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
 import TransferAvatars from 'src/transactions/TransferAvatars'
 import UserSection from 'src/transactions/UserSection'
 import { TokenTransfer } from 'src/transactions/types'
@@ -25,20 +14,12 @@ function RewardReceivedContent({ transfer }: { transfer: TokenTransfer }) {
   const { amount, metadata, address } = transfer
 
   const { t } = useTranslation()
-  const rewardsEnabled = useSelector(rewardsEnabledSelector)
 
   const recipient = {
     address,
     name: metadata.title ?? t('feedItemRewardReceivedTitle'),
     thumbnailPath: metadata.image ?? CELO_LOGO_URL,
     recipientType: RecipientType.Address,
-  }
-
-  const openLearnMore = () => {
-    navigate(Screens.ConsumerIncentivesHomeScreen)
-    AppAnalytics.track(RewardsEvents.rewards_screen_opened, {
-      origin: RewardsScreenOrigin.PaymentDetail,
-    })
   }
 
   return (
@@ -50,11 +31,6 @@ function RewardReceivedContent({ transfer }: { transfer: TokenTransfer }) {
         avatar={<TransferAvatars type="received" recipient={recipient} />}
         testID="RewardReceived"
       />
-      {rewardsEnabled && (
-        <Touchable onPress={openLearnMore} testID={'celoRewards/learnMore'}>
-          <Text style={styles.learnMore}>{t('learnMore')}</Text>
-        </Touchable>
-      )}
       <HorizontalLine />
       <LegacyTokenTotalLineItem
         tokenAmount={new BigNumber(amount.value)}
@@ -66,13 +42,5 @@ function RewardReceivedContent({ transfer }: { transfer: TokenTransfer }) {
     </>
   )
 }
-
-const styles = StyleSheet.create({
-  learnMore: {
-    ...fontStyles.small,
-    color: colors.gray4,
-    textDecorationLine: 'underline',
-  },
-})
 
 export default RewardReceivedContent

@@ -3,12 +3,12 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import BottomSheetLegacy from 'src/components/BottomSheetLegacy'
 import Touchable from 'src/components/Touchable'
-import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
-import { Spacing } from 'src/styles/styles'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import colors from 'src/styles/colors'
+import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 
 interface Props {
   isVisible: boolean
@@ -61,7 +61,7 @@ ExchangesBottomSheet.navigationOptions = {}
 
 const styles = StyleSheet.create({
   title: {
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
     marginBottom: Spacing.Smallest8,
   },
   info: {

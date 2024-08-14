@@ -109,6 +109,9 @@ export const reducer = (
                 block,
                 timestamp: action.blockTimestampInMs,
                 fees: fees || [],
+                ...(standbyTransaction.__typename === 'CrossChainTokenExchange' && {
+                  isSourceNetworkTxConfirmed: true,
+                }),
               }
             }
             return standbyTransaction
@@ -312,6 +315,26 @@ export const completedTxHashesByNetworkIdSelector = createSelector(
         txs.filter((tx) => tx.status === TransactionStatus.Complete).map((tx) => tx.transactionHash)
       )
     })
+
+    return hashesByNetwork
+  }
+)
+
+export const pendingStandbyTxHashesByNetworkIdSelector = createSelector(
+  [standbyTransactionsSelector],
+  (transactions) => {
+    const hashesByNetwork: {
+      [networkId in NetworkId]?: Set<string>
+    } = {}
+    for (const tx of transactions) {
+      if (!hashesByNetwork[tx.networkId]) {
+        hashesByNetwork[tx.networkId] = new Set()
+      }
+
+      if (tx.transactionHash) {
+        hashesByNetwork[tx.networkId]!.add(tx.transactionHash)
+      }
+    }
 
     return hashesByNetwork
   }

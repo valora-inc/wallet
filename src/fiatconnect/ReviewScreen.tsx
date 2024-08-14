@@ -5,8 +5,8 @@ import BigNumber from 'bignumber.js'
 import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, BackHandler, SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import { FiatExchangeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { FiatExchangeEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CancelButton from 'src/components/CancelButton'
@@ -36,7 +36,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { useLocalToTokenAmount, useTokenInfo } from 'src/tokens/hooks'
 import { tokensListWithAddressSelector } from 'src/tokens/selectors'
@@ -570,7 +570,7 @@ const styles = StyleSheet.create({
     paddingVertical: 24,
   },
   sectionHeaderText: {
-    ...fontStyles.label,
+    ...typeScale.labelSemiBoldSmall,
     color: colors.gray3,
     marginBottom: 8,
   },
@@ -578,13 +578,13 @@ const styles = StyleSheet.create({
     marginVertical: 0,
   },
   sectionMainText: {
-    ...fontStyles.regular500,
+    ...typeScale.labelMedium,
   },
   sectionSubTextContainer: {
     marginVertical: 2,
   },
   sectionSubText: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
   },
   submitBtn: {
@@ -607,10 +607,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
   },
   description: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     textAlign: 'center',
     marginTop: 12,
     paddingHorizontal: 48,
@@ -620,7 +620,7 @@ const styles = StyleSheet.create({
     marginTop: 13,
   },
   disclaimer: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     paddingHorizontal: variables.contentPadding,
     marginBottom: 20,
     textAlign: 'center',

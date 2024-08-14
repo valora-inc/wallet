@@ -25,7 +25,7 @@ import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { hooksPreviewApiUrlSelector } from 'src/positions/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 type Props = NativeStackScreenProps<StackParamList, Screens.SupportContact>
@@ -177,7 +177,7 @@ function SupportContact({ route }: Props) {
             value={attachLogs}
             onValueChange={setAttachLogs}
           />
-          <Text style={fontStyles.regular}>{t('attachLogs')}</Text>
+          <Text style={typeScale.bodyMedium}>{t('attachLogs')}</Text>
         </View>
         {inProgress && (
           <View style={styles.loadingSpinnerContainer} testID="ImportWalletLoadingCircle">
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   disclaimerText: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
   },
   container: {
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   messageTextInput: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     paddingHorizontal: 12,
     paddingVertical: 4,
     marginTop: 8,
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     maxHeight: 150,
   },
   singleLineTextInput: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     paddingHorizontal: 12,
     marginTop: 8,
     alignItems: 'flex-start',
@@ -256,13 +256,13 @@ const styles = StyleSheet.create({
     maxHeight: 50,
   },
   headerText: {
-    ...fontStyles.small600,
+    ...typeScale.labelSemiBoldSmall,
   },
   loadingSpinnerContainer: {
     marginVertical: 20,
   },
   title: {
-    ...fontStyles.h1,
+    ...typeScale.titleMedium,
     marginVertical: 16,
   },
 })

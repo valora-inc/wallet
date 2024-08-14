@@ -485,13 +485,6 @@ export enum NavigationEvents {
   navigator_not_ready = 'navigator_not_ready',
 }
 
-export enum RewardsEvents {
-  rewards_screen_opened = 'rewards_screen_opened',
-  rewards_screen_cta_pressed = 'rewards_screen_cta_pressed',
-  learn_more_pressed = 'learn_more_pressed',
-  claimed_reward = 'claimed_reward',
-}
-
 export enum WalletConnectEvents {
   // Events related to WalletConnect pairing (technical: opening up the communication channel via QR code or deeplink)
   wc_pairing_start = 'wc_pairing_start',

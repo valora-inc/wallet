@@ -35,9 +35,8 @@ exports[`FullscreenCTA renders correctly 1`] = `
     <Text
       style={
         {
-          "color": "#2E3338",
-          "fontFamily": "Jost-Book",
-          "fontSize": 26,
+          "fontFamily": "Inter-Bold",
+          "fontSize": 24,
           "lineHeight": 32,
         }
       }
@@ -47,9 +46,8 @@ exports[`FullscreenCTA renders correctly 1`] = `
     <Text
       style={
         {
-          "color": "#2E3338",
-          "fontFamily": "Jost-Medium",
-          "fontSize": 22,
+          "fontFamily": "Inter-Bold",
+          "fontSize": 20,
           "lineHeight": 28,
         }
       }
@@ -65,10 +63,9 @@ exports[`FullscreenCTA renders correctly 1`] = `
         {
           "backgroundColor": "rgba(238, 238, 238, 0.75)",
           "borderRadius": 25,
-          "color": "#2E3338",
           "fontFamily": "Inter-Regular",
           "fontSize": 12,
-          "lineHeight": 22,
+          "lineHeight": 24,
           "padding": 15,
         }
       }

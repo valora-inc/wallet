@@ -6,8 +6,9 @@ import FullscreenCTA from 'src/components/FullscreenCTA'
 import { withTranslation } from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import fontStyles from 'src/styles/fonts'
-import { restartApp, RESTART_APP_I18N_KEY } from 'src/utils/AppRestart'
+import Colors from 'src/styles/colors'
+import { typeScale } from 'src/styles/fonts'
+import { RESTART_APP_I18N_KEY, restartApp } from 'src/utils/AppRestart'
 
 interface OwnProps {
   errorMessage?: string
@@ -45,10 +46,10 @@ class ErrorScreen extends React.Component<Props> {
 
 const styles = StyleSheet.create({
   errorMessage: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     fontSize: 12,
     borderRadius: 25,
-    backgroundColor: 'rgba(238, 238, 238, 0.75)',
+    backgroundColor: Colors.gray1,
     padding: 15,
   },
 })

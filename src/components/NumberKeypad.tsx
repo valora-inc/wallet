@@ -2,7 +2,7 @@ import * as React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Touchable from 'src/components/Touchable'
 import Backspace from 'src/icons/Backspace'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 interface Props {
   onDigitPress: (digit: number) => void
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   digit: {
-    ...fontStyles.regular500,
+    ...typeScale.labelMedium,
     width: 64,
     padding: 24,
     fontSize: 22,

@@ -21,7 +21,6 @@ import {
 import {
   confirmedStandbyTransactionsSelector,
   pendingStandbyTransactionsSelector,
-  transactionsSelector,
 } from 'src/transactions/reducer'
 import { TokenTransaction, TransactionStatus } from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
@@ -30,8 +29,7 @@ function TransactionFeed() {
   const { loading, error, transactions, fetchingMoreTransactions, fetchMoreTransactions } =
     useFetchTransactions()
 
-  const cachedTransactions = useSelector(transactionsSelector)
-  const allPendingTransactions = useSelector(pendingStandbyTransactionsSelector)
+  const allPendingStandbyTransactions = useSelector(pendingStandbyTransactionsSelector)
   const allConfirmedStandbyTransactions = useSelector(confirmedStandbyTransactionsSelector)
   const allowedNetworks = useAllowedNetworkIdsForTransfers()
 
@@ -42,44 +40,52 @@ function TransactionFeed() {
     const completedOrNotPendingStandbyTransactions = transactions.filter(
       (tx) =>
         tx.status === TransactionStatus.Complete ||
-        !allPendingTransactions.find(
+        !allPendingStandbyTransactions.find(
           (pendingStandbyTx) =>
             pendingStandbyTx.transactionHash === tx.transactionHash &&
             pendingStandbyTx.networkId === tx.networkId
         )
     )
 
-    const confirmedTokenTransactions: TokenTransaction[] =
-      completedOrNotPendingStandbyTransactions.length > 0
-        ? completedOrNotPendingStandbyTransactions
-        : cachedTransactions
     const allConfirmedTransactions = deduplicateTransactions(
       allConfirmedStandbyTransactions,
-      confirmedTokenTransactions
-    )
+      completedOrNotPendingStandbyTransactions
+    ).sort((a, b) => {
+      const diff = b.timestamp - a.timestamp
+      if (diff === 0) {
+        // if the timestamps are the same, most likely one of the transactions
+        // is an approval. on the feed we want to show the approval first.
+        return a.__typename === 'TokenApproval' ? 1 : b.__typename === 'TokenApproval' ? -1 : 0
+      }
+      return diff
+    })
+
     return allConfirmedTransactions.filter((tx) => {
       return allowedNetworks.includes(tx.networkId)
     })
   }, [
     transactions,
-    cachedTransactions,
     allowedNetworks,
     allConfirmedStandbyTransactions,
-    allPendingTransactions,
+    allPendingStandbyTransactions,
   ])
 
   const pendingTransactions = useMemo(() => {
-    return allPendingTransactions.filter((tx) => {
+    return allPendingStandbyTransactions.filter((tx) => {
       return allowedNetworks.includes(tx.networkId)
     })
-  }, [allPendingTransactions, allowedNetworks])
+  }, [allPendingStandbyTransactions, allowedNetworks])
 
   const sections = useMemo(() => {
     if (confirmedFeedTransactions.length === 0 && pendingTransactions.length === 0) {
       return []
     }
 
-    return groupFeedItemsInSections(pendingTransactions, confirmedFeedTransactions)
+    const confirmedFeedTxHashes = new Set(confirmedFeedTransactions.map((tx) => tx.transactionHash))
+    return groupFeedItemsInSections(
+      pendingTransactions.filter((tx) => !confirmedFeedTxHashes.has(tx.transactionHash)),
+      confirmedFeedTransactions
+    )
   }, [pendingTransactions, confirmedFeedTransactions])
 
   if (!sections.length) {

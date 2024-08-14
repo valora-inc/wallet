@@ -108,7 +108,7 @@
     "subtitle": "Zaloguj się za pomocą adresu e-mail, aby wykorzystać go do utworzenia kopii zapasowej. W przypadku utraty portfela poprosimy Cię o ponowne zalogowanie się.",
     "subtitleRestore": "Zaloguj się za pomocą adresu e-mail, którego użyto do konfiguracji kopii zapasowej portfela.",
     "google": "Zaloguj się przez Google",
-    "apple": "Zaloguj się za pomocą Apple",
+    "apple": "Zaloguj się za pomocą konta Apple",
     "signInAnotherWay": "Zaloguj się w inny sposób",
     "bottomSheet": {
       "title": "Zapisz swoją frazę odzyskiwania, aby utworzyć portfel",
@@ -1806,7 +1806,7 @@
     },
     "unsupportedTokensWarning": {
       "title": "Niezgodny wybór",
-      "body": "Nie można wymieniać wybranych tokenów. Wybierz inny token, który jest zgodny z bieżącym wyborem."
+      "body": "Nie można wymieniać wybranych tokenów między sobą. Wybierz inny token, który jest zgodny z bieżącym wyborem."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Potrzebujesz więcej {{feeTokenSymbol}} na gaz",
@@ -1894,10 +1894,10 @@
       "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "Więcej informacji",
-      "feesInfo_sameChain": "Do przetworzenia transakcji wymagana jest opłata sieciowa zapewniająca bezpieczeństwo i niezawodność.",
-      "feesInfo_crossChain": "Do przetworzenia transakcji wymagana jest opłata sieciowa zapewniająca bezpieczeństwo i niezawodność. Dostawca pobiera opłatę cross-chain, aby umożliwić płynną i bezpieczną wymianę między różnymi blockchainami.",
-      "feesInfo_sameChainWithAppFee": "Do przetworzenia transakcji wymagana jest opłata sieciowa zapewniająca bezpieczeństwo i niezawodność. Opłata {{appName}} w wysokości {{appFeePercentage}}% poprawia obsługę klienta, zapewniając szybką, niezawodną i bezpieczną wymianę.",
-      "feesInfo_crossChainWithAppFee": "Do przetworzenia transakcji wymagana jest opłata sieciowa zapewniająca bezpieczeństwo i niezawodność. Dostawca pobiera opłatę cross-chain, aby umożliwić płynną i bezpieczną wymianę między różnymi blockchainami. Opłata {{appName}} w wysokości {{appFeePercentage}}% poprawia obsługę klienta, zapewniając szybką, niezawodną i bezpieczną wymianę."
+      "feesInfo_sameChain": "Należy wnieść opłatę sieciową, aby sieć mogła przetworzyć transakcję.",
+      "feesInfo_crossChain": "Należy wnieść opłatę sieciową, aby sieć mogła przetworzyć transakcję. Opłata za wymianę między łańcuchami jest pobierana przez dostawcę świadczącego usługi wymiany między łańcuchami.",
+      "feesInfo_sameChainWithAppFee": "Należy wnieść opłatę sieciową, aby sieć mogła przetworzyć transakcję. Opłata {{appName}} w wysokości {{appFeePercentage}}% jest pobierana za korzystanie z naszego produktu.",
+      "feesInfo_crossChainWithAppFee": "Należy wnieść opłatę sieciową, aby sieć mogła przetworzyć transakcję. Opłata za wymianę między łańcuchami jest pobierana przez dostawcę świadczącego usługi wymiany między łańcuchami. Opłata {{appName}} w wysokości {{appFeePercentage}}% jest pobierana za korzystanie z naszego produktu."
     },
     "fundYourWalletBottomSheet": {
       "title": "Zasil swój portfel",
@@ -2186,7 +2186,7 @@
   "viewOnOPSepoliaExplorer": "Wyświetl w OP Sepolia Explorer",
   "viewOnPolygonPoSScan": "Wyświetl w PolygonScan",
   "viewOnBaseScan": "Wyświetl w BaseScan",
-  "viewOnAxelarScan": "Wyświetl na AxelarScan",
+  "viewOnAxelarScan": "Wyświetl w AxelarScan",
   "sendEnterAmountScreen": {
     "title": "Wprowadź kwotę",
     "selectToken": "Wybierz token",
@@ -2245,13 +2245,13 @@
     "estimatedNetworkFee": "Szacowana opłata sieciowa",
     "networkFee": "Opłata sieciowa",
     "appFee": "Opłata za aplikację",
-    "estimatedCrossChainFee": "Szacowana opłata cross-chain",
-    "crossChainFee": "Opłata cross-chain",
+    "estimatedCrossChainFee": "Szacowana opłata za wymianę między łańcuchami",
+    "crossChainFee": "Opłata za wymianę między łańcuchami",
     "finiteApprovalDescription": "Zatwierdzono {{approvedAmount}} {{tokenSymbol}} do wymiany",
     "infiniteApprovalDescription": "Zatwierdzono nieskończoną ilość {{tokenSymbol}} do wymiany",
     "revokeApprovalDescription": "Cofnięto {{tokenSymbol}} do wymiany",
     "descriptionLabel": "Szczegóły",
-    "crossChainSwapTransactionLabel": "Łańcuch krzyżowy"
+    "crossChainSwapTransactionLabel": "Wymiana między łańcuchami"
   },
   "multichainBeta": {
     "beta": "BETA",
@@ -2453,8 +2453,8 @@
       "cta": "Rozpocznij swoją podróż po punkty"
     },
     "disclaimer": {
-      "learnMoreCta": "<0>Dowiedz się więcej</0> o {{appName}} Punkty",
-      "body": "<0>Czym są punkty?</0>\nPunkty to program lojalnościowy {{appName}}. Są one przyznawane użytkownikom, gdy korzystasz z naszej aplikacji.\n\n<0>Do czego służą?</0>\nZbierasz je. Nie można ich wydawać, wymieniać ani przenosić.\n\n<0>Dlaczego są w moim portfelu?</0>\nPonieważ są to tokeny. Na łańcuchu, cyfrowe bity szczęścia, które zarabiasz, korzystając z aplikacji.",
+      "learnMoreCta": "<0>Dowiedz się więcej</0> o punktach {{appName}}",
+      "body": "<0>Czym są punkty?</0>\nPunkty są przyznawane w ramach programu lojalnościowego {{appName}}. Otrzymuje się je za korzystanie z naszej aplikacji.\n\n<0>Do czego można ich używać?</0>\nMożna je zbierać, a potem wydawać, wymieniać lub przekazywać innym użytkownikom.\n\n<0>Dlaczego są w moim portfelu?</0>\nSą dodawane do portfela, ponieważ są tokenami. Innymi słowy drobnymi bitami w łańcuchu, które zarabia się, korzystając z aplikacji.",
       "dismiss": "Rozumiem"
     }
   },
@@ -2590,13 +2590,13 @@
     },
     "home": {
       "title": "Zarabiaj",
-      "learnMore": "<0>Dowiedz się więcej</0> o pulach zysków.",
+      "learnMore": "<0>Dowiedz się więcej</0> o pulach zysku.",
       "learnMoreBottomSheet": {
-        "bottomSheetTitle": "Dowiedz się więcej o pulach zysków",
-        "apySubtitle": "Co to jest RRSO?",
-        "apyDescription": "Roczna rentowność procentowa (APY) to wskaźnik używany do obliczania rocznego zwrotu z inwestycji w kryptowaluty. Jest to kluczowy wskaźnik potencjalnego zwrotu i rentowności kryptowaluty.",
+        "bottomSheetTitle": "Dowiedz się więcej o pulach zysku",
+        "apySubtitle": "Co to jest APY?",
+        "apyDescription": "Roczny zysk procentowy (APY) jest wskaźnikiem używanym do obliczania rocznego zwrotu z inwestycji w kryptowaluty. To kluczowy wskaźnik potencjalnego zwrotu i rentowności kryptowaluty.",
         "tvlSubtitle": "Co to jest TVL?",
-        "tvlDescription": "TVL to skrót od Total Value Locked i jest to wskaźnik używany w branży kryptowalut do pomiaru wartości aktywów cyfrowych zablokowanych w sieci blockchain. TVL oblicza się poprzez zsumowanie wartości wszystkich aktywów cyfrowych zablokowanych w protokole DeFi lub inteligentnym kontrakcie. Aktywa te mogą obejmować kryptowaluty, stablecoiny i inne tokeny."
+        "tvlDescription": "TVL to skrót oznaczający łączną wartość zablokowanych aktywów i jest wskaźnikiem używanym w branży kryptowalut do pomiaru wartości cyfrowych aktywów zablokowanych w sieci łańcucha bloków. Oblicza się go przez zsumowanie wartości wszystkich cyfrowych aktywów zablokowanych w protokole DeFi lub inteligentnym kontrakcie. Środkami są między innymi kryptowaluty, tokeny płatnicze i inne tokeny."
       }
     },
     "poolCard": {
@@ -2611,8 +2611,8 @@
       "deposited": "Dostarczone"
     },
     "poolFilters": {
-      "openPools": "Otwarte baseny",
-      "myPools": "Moje baseny"
+      "openPools": "Otwarte pule",
+      "myPools": "Moje pule"
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",

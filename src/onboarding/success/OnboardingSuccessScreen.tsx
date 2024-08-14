@@ -8,7 +8,7 @@ import { Screens } from 'src/navigator/Screens'
 import { goToNextOnboardingScreen, onboardingPropsSelector } from 'src/onboarding/steps'
 import { useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 function OnboardingSuccessScreen() {
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     height: undefined,
   },
   text: {
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
     fontSize: 30,
     lineHeight: 36,
     color: colors.white,
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowRadius: 2,
     shadowOpacity: 1,
-    shadowColor: 'rgba(46, 51, 56, 0.15)',
+    shadowColor: colors.gray1,
   },
 })
 

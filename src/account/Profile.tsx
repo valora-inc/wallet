@@ -25,7 +25,7 @@ import { StackParamList } from 'src/navigator/types'
 import PictureInput from 'src/onboarding/registration/PictureInput'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import { saveProfilePicture } from 'src/utils/image'
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     marginVertical: 24,
   },
   saveButton: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     color: colors.primary,
   },
   disclaimerContainer: {

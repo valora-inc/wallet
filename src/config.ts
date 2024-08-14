@@ -102,7 +102,6 @@ export const FIREBASE_ENABLED = stringToBoolean(Config.FIREBASE_ENABLED || 'true
 export const SHOW_TESTNET_BANNER = stringToBoolean(Config.SHOW_TESTNET_BANNER || 'false')
 export const SHOW_GET_INVITE_LINK = stringToBoolean(Config.SHOW_GET_INVITE_LINK || 'false')
 export const SENTRY_ENABLED = stringToBoolean(Config.SENTRY_ENABLED || 'false')
-export const SUPERCHARGE_AVAILABLE_REWARDS_URL = Config.SUPERCHARGE_AVAILABLE_REWARDS_URL
 
 // SECRETS
 export const WEB3AUTH_CLIENT_ID = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'WEB3AUTH_CLIENT_ID')
@@ -209,7 +208,7 @@ const configLoggerLevels: { [key: string]: LoggerLevel } = {
 }
 
 export const LOGGER_LEVEL = Config.LOGGER_LEVEL
-  ? configLoggerLevels[Config.LOGGER_LEVEL] ?? LoggerLevel.Debug
+  ? (configLoggerLevels[Config.LOGGER_LEVEL] ?? LoggerLevel.Debug)
   : LoggerLevel.Debug
 
 export const PHONE_NUMBER_VERIFICATION_CODE_LENGTH = 6

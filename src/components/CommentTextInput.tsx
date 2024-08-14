@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, TextInput } from 'react-native'
 import { MAX_COMMENT_LENGTH } from 'src/config'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 interface Props {
   testID?: string
@@ -42,6 +42,6 @@ const styles = StyleSheet.create({
     height: 100,
     textAlignVertical: 'top',
     alignSelf: 'stretch',
-    ...fontStyles.large,
+    ...typeScale.bodyLarge,
   },
 })

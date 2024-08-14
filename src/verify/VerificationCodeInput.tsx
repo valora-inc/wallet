@@ -5,7 +5,7 @@ import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import { PHONE_NUMBER_VERIFICATION_CODE_LENGTH } from 'src/config'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import ResendButtonWithDelay from 'src/verify/ResendButtonWithDelay'
 import { PhoneNumberVerificationStatus, useAndroidSmsCodeRetriever } from 'src/verify/hooks'
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   body: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     marginBottom: Spacing.Thick24,
     textAlign: 'center',
   },

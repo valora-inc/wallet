@@ -1,11 +1,8 @@
-import { StableToken } from '@celo/contractkit'
-import { GoldTokenWrapper } from '@celo/contractkit/lib/wrappers/GoldTokenWrapper'
-import { StableTokenWrapper } from '@celo/contractkit/lib/wrappers/StableTokenWrapper'
 import BigNumber from 'bignumber.js'
 import erc20 from 'src/abis/IERC20'
 import * as stableToken from 'src/abis/StableToken.json'
-import { AppEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { AppEvents } from 'src/analytics/Events'
 import { DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
@@ -34,7 +31,6 @@ import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { gql } from 'src/utils/gql'
 import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
-import { WEI_PER_TOKEN } from 'src/web3/consts'
 import { getContractKitAsync } from 'src/web3/contracts'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -43,59 +39,6 @@ import { Address, getContract } from 'viem'
 
 const TAG = 'tokens/saga'
 
-// The number of wei that represent one unit in a contract
-const contractWeiPerUnit: Record<Currency, BigNumber> = {
-  [Currency.Celo]: WEI_PER_TOKEN,
-  [Currency.Dollar]: WEI_PER_TOKEN,
-  [Currency.Euro]: WEI_PER_TOKEN,
-}
-
-function* getWeiPerUnit(token: Currency) {
-  let weiPerUnit = contractWeiPerUnit[token]
-  if (!weiPerUnit) {
-    const contract: GoldTokenWrapper | StableTokenWrapper = yield* call(getTokenContract, token)
-    const decimals: number = yield* call(contract.decimals)
-    weiPerUnit = new BigNumber(10).pow(decimals)
-    contractWeiPerUnit[token] = weiPerUnit
-  }
-  return weiPerUnit
-}
-
-export function* convertFromContractDecimals(value: BigNumber, token: Currency) {
-  const weiPerUnit: BigNumber = yield* call(getWeiPerUnit, token)
-  return value.dividedBy(weiPerUnit)
-}
-
-export function* convertToContractDecimals(value: BigNumber, token: Currency) {
-  const weiPerUnit: BigNumber = yield* call(getWeiPerUnit, token)
-  return weiPerUnit.multipliedBy(value)
-}
-
-export async function getTokenContract(token: Currency) {
-  Logger.debug(TAG + '@getTokenContract', `Fetching contract for ${token}`)
-  const contractKit = await getContractKitAsync()
-  switch (token) {
-    case Currency.Celo:
-      return contractKit.contracts.getGoldToken()
-    case Currency.Dollar:
-      return contractKit.contracts.getStableToken(StableToken.cUSD)
-    case Currency.Euro:
-      return contractKit.contracts.getStableToken(StableToken.cEUR)
-    default:
-      throw new Error(`Could not fetch contract for unknown token ${token}`)
-  }
-}
-
-export async function getTokenContractFromAddress(tokenAddress: string) {
-  Logger.debug(TAG + '@getTokenContract', `Fetching contract for address ${tokenAddress}`)
-  const contractKit = await getContractKitAsync()
-  const contracts = await Promise.all([
-    contractKit.contracts.getGoldToken(),
-    contractKit.contracts.getStableToken(StableToken.cUSD),
-    contractKit.contracts.getStableToken(StableToken.cEUR),
-  ])
-  return contracts.find((contract) => contract.address.toLowerCase() === tokenAddress.toLowerCase())
-}
 export interface TokenTransfer {
   recipientAddress: string
   amount: string

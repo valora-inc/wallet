@@ -70,10 +70,9 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 <Text
                   style={
                     {
-                      "color": "#2E3338",
                       "fontFamily": "Inter-Regular",
                       "fontSize": 18,
-                      "lineHeight": 24,
+                      "lineHeight": 28,
                     }
                   }
                   testID="BackupKeyNotification/Text"
@@ -231,228 +230,6 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             "width": 718,
           }
         }
-        testID="NotificationView/start_supercharging"
-      >
-        <View
-          style={
-            [
-              {
-                "backgroundColor": "#FFFFFF",
-                "padding": 16,
-              },
-              {
-                "borderRadius": 8,
-              },
-              undefined,
-              [
-                {
-                  "borderColor": "#E6E6E6",
-                  "borderWidth": 1,
-                  "flex": 1,
-                  "minHeight": 144,
-                },
-                {},
-              ],
-            ]
-          }
-          testID="start_supercharging"
-        >
-          <View
-            style={
-              {
-                "flex": 1,
-                "flexDirection": "row",
-              }
-            }
-          >
-            <View
-              style={
-                {
-                  "flex": 1,
-                  "justifyContent": "space-between",
-                }
-              }
-            >
-              <View>
-                <Text
-                  style={
-                    {
-                      "color": "#2E3338",
-                      "fontFamily": "Inter-Regular",
-                      "fontSize": 18,
-                      "lineHeight": 24,
-                    }
-                  }
-                  testID="start_supercharging/Text"
-                >
-                  startSuperchargingNotificationBody
-                </Text>
-              </View>
-              <View
-                style={
-                  {
-                    "flexDirection": "row",
-                    "flexWrap": "wrap",
-                    "justifyContent": "flex-start",
-                  }
-                }
-                testID="start_supercharging/CallToActions"
-              >
-                <View
-                  accessibilityState={
-                    {
-                      "busy": undefined,
-                      "checked": undefined,
-                      "disabled": undefined,
-                      "expanded": undefined,
-                      "selected": undefined,
-                    }
-                  }
-                  accessibilityValue={
-                    {
-                      "max": undefined,
-                      "min": undefined,
-                      "now": undefined,
-                      "text": undefined,
-                    }
-                  }
-                  accessible={true}
-                  focusable={true}
-                  nativeBackgroundAndroid={
-                    {
-                      "attribute": "selectableItemBackgroundBorderless",
-                      "rippleRadius": undefined,
-                      "type": "ThemeAttrAndroid",
-                    }
-                  }
-                  onClick={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
-                  testID="start_supercharging/CallToActions/startSuperchargingNotificationStart/Button"
-                >
-                  <Text
-                    style={
-                      [
-                        {
-                          "color": "#1AB775",
-                          "fontFamily": "Inter-SemiBold",
-                          "fontSize": 16,
-                          "lineHeight": 24,
-                        },
-                        {
-                          "fontSize": 14,
-                          "lineHeight": 16,
-                          "marginRight": 24,
-                          "minHeight": 16,
-                          "minWidth": 48,
-                        },
-                      ]
-                    }
-                  >
-                    startSuperchargingNotificationStart
-                  </Text>
-                </View>
-                <View
-                  accessibilityState={
-                    {
-                      "busy": undefined,
-                      "checked": undefined,
-                      "disabled": undefined,
-                      "expanded": undefined,
-                      "selected": undefined,
-                    }
-                  }
-                  accessibilityValue={
-                    {
-                      "max": undefined,
-                      "min": undefined,
-                      "now": undefined,
-                      "text": undefined,
-                    }
-                  }
-                  accessible={true}
-                  focusable={true}
-                  nativeBackgroundAndroid={
-                    {
-                      "attribute": "selectableItemBackgroundBorderless",
-                      "rippleRadius": undefined,
-                      "type": "ThemeAttrAndroid",
-                    }
-                  }
-                  onClick={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
-                  testID="start_supercharging/CallToActions/dismiss/Button"
-                >
-                  <Text
-                    style={
-                      [
-                        {
-                          "color": "#1AB775",
-                          "fontFamily": "Inter-SemiBold",
-                          "fontSize": 16,
-                          "lineHeight": 24,
-                        },
-                        {
-                          "color": "#666666",
-                          "fontSize": 14,
-                          "lineHeight": 16,
-                          "marginRight": 24,
-                          "minHeight": 16,
-                          "minWidth": 48,
-                        },
-                      ]
-                    }
-                  >
-                    dismiss
-                  </Text>
-                </View>
-              </View>
-            </View>
-            <View
-              style={
-                {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                  "marginHorizontal": 12,
-                  "minWidth": 80,
-                }
-              }
-            >
-              <Image
-                resizeMode="contain"
-                source={
-                  {
-                    "testUri": "../../../src/images/boost-rewards.png",
-                  }
-                }
-                style={
-                  {
-                    "height": "100%",
-                    "width": "100%",
-                  }
-                }
-                testID="start_supercharging/Icon"
-              />
-            </View>
-          </View>
-        </View>
-      </View>
-      <View
-        style={
-          {
-            "margin": 16,
-            "width": 718,
-          }
-        }
         testID="NotificationView/verification_prompt"
       >
         <View
@@ -499,10 +276,9 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 <Text
                   style={
                     {
-                      "color": "#2E3338",
                       "fontFamily": "Inter-Regular",
                       "fontSize": 18,
-                      "lineHeight": 24,
+                      "lineHeight": 28,
                     }
                   }
                   testID="verification_prompt/Text"
@@ -721,10 +497,9 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 <Text
                   style={
                     {
-                      "color": "#2E3338",
                       "fontFamily": "Inter-Regular",
                       "fontSize": 18,
-                      "lineHeight": 24,
+                      "lineHeight": 28,
                     }
                   }
                   testID="testNotification/Text"
@@ -917,10 +692,9 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 <Text
                   style={
                     {
-                      "color": "#2E3338",
                       "fontFamily": "Inter-Regular",
                       "fontSize": 18,
-                      "lineHeight": 24,
+                      "lineHeight": 28,
                     }
                   }
                   testID="celo_asset_education/Text"
@@ -1106,18 +880,6 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
       style={
         {
           "backgroundColor": "#2E3338",
-          "borderRadius": 5,
-          "flex": 0,
-          "height": 5,
-          "marginHorizontal": 3,
-          "width": 5,
-        }
-      }
-    />
-    <View
-      style={
-        {
-          "backgroundColor": "#666666",
           "borderRadius": 5,
           "flex": 0,
           "height": 5,
