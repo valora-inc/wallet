@@ -12,8 +12,8 @@ import DeviceInfo from 'react-native-device-info'
 import { eventChannel } from 'redux-saga'
 import { handleUpdateAccountRegistration } from 'src/account/saga'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
-import { AppEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { AppEvents } from 'src/analytics/Events'
 import { pushNotificationsPermissionChanged } from 'src/app/actions'
 import { RemoteConfigValues } from 'src/app/saga'
 import {
@@ -305,7 +305,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
   // REMOTE_CONFIG_VALUES_DEFAULTS is in remoteConfigValuesDefaults.ts
   // RemoteConfigValues is in app/saga.ts
 
-  const superchargeConfigByTokenString = flags.superchargeTokenConfigByToken?.asString()
   const fiatAccountSchemaCountryOverrides = flags.fiatAccountSchemaCountryOverrides?.asString()
   const celoNewsString = flags.celoNews?.asString()
 
@@ -318,10 +317,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     dappListApiUrl: flags.dappListApiUrl?.asString() ?? null,
     inviteRewardsVersion: flags.inviteRewardsVersion.asString(),
     walletConnectV2Enabled: flags.walletConnectV2Enabled.asBoolean(),
-    superchargeApy: flags.superchargeApy.asNumber(),
-    superchargeTokenConfigByToken: superchargeConfigByTokenString
-      ? JSON.parse(superchargeConfigByTokenString)
-      : {},
     pincodeUseExpandedBlocklist: flags.pincodeUseExpandedBlocklist.asBoolean(),
     logPhoneNumberTypeEnabled: flags.logPhoneNumberTypeEnabled.asBoolean(),
     allowOtaTranslations: flags.allowOtaTranslations.asBoolean(),
@@ -341,7 +336,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     celoNews: celoNewsString ? JSON.parse(celoNewsString) : {},
     // Convert to percentage, so we're consistent with the price impact value returned by our swap API
     priceImpactWarningThreshold: flags.priceImpactWarningThreshold.asNumber() * 100,
-    superchargeRewardContractAddress: flags.superchargeRewardContractAddress.asString(),
   }
 }
 

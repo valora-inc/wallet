@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect'
 import { RootState } from 'src/redux/reducers'
-import { walletAddressSelector } from 'src/web3/selectors'
 
 export const getRequirePinOnAppOpen = (state: RootState) => {
   return state.app.requirePinOnAppOpen
@@ -26,21 +25,12 @@ export const sessionIdSelector = (state: RootState) => {
   return state.app.sessionId
 }
 
-export const numberVerifiedDecentrallySelector = (state: RootState) => state.app.numberVerified
+const numberVerifiedDecentrallySelector = (state: RootState) => state.app.numberVerified
 
 // this can be called with undefined state in the tests
 export const walletConnectEnabledSelector = (state?: RootState) => ({
   v2: state?.app.walletConnectV2Enabled ?? false,
 })
-
-export const superchargeTokenConfigByTokenSelector = (state: RootState) =>
-  state.app.superchargeTokenConfigByToken
-
-export const rewardsEnabledSelector = createSelector(
-  [walletAddressSelector, superchargeTokenConfigByTokenSelector],
-  (address, superchargeTokenConfigByToken) =>
-    !!address && Object.keys(superchargeTokenConfigByToken).length > 0
-)
 
 export const logPhoneNumberTypeEnabledSelector = (state: RootState) =>
   state.app.logPhoneNumberTypeEnabled

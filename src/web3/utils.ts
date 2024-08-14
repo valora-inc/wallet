@@ -1,10 +1,9 @@
-import { CeloTx, CeloTxObject, CeloTxReceipt, PromiEvent } from '@celo/connect'
-import { ContractKit } from '@celo/contractkit'
+import { CeloTx, CeloTxObject, CeloTxReceipt } from '@celo/connect'
 import BigNumber from 'bignumber.js'
 import { GAS_INFLATION_FACTOR } from 'src/config'
+import { Network, NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { getContractKitAsync, getWeb3Async } from 'src/web3/contracts'
-import { Network, NetworkId } from 'src/transactions/types'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
 
 const TAG = 'web3/utils'
@@ -40,60 +39,9 @@ export async function getLatestBlock() {
   return web3.eth.getBlock('latest')
 }
 
-export async function getLatestBlockNumber() {
-  Logger.debug(TAG, 'Getting latest block number')
-  const web3 = await getWeb3Async()
-  return web3.eth.getBlockNumber()
-}
-
 export async function getContract(abi: any, tokenAddress: string) {
   const kit = await getContractKitAsync()
   return new kit.web3.eth.Contract(abi, tokenAddress)
-}
-
-// This is meant to be called before normalizer.populate
-// There's a bug in TxParamsNormalizer that sets the chainId as a number if not present
-// but then if no gas is set, the estimateGas call will fail with espresso hardfork nodes
-// with the error: `Gas estimation failed: Could not decode transaction failure reason or Error: invalid argument 0: json: cannot unmarshal non-string into Go struct field TransactionArgs.chainId of type *hexutil.Big`
-// So here we make sure the chainId is set as a hex string so estimateGas works
-// TODO: consider removing this when TxParamsNormalizer is fixed
-export function applyChainIdWorkaround(tx: any, chainId: number) {
-  tx.chainId = `0x${new BigNumber(tx.chainId || chainId).toString(16)}`
-  return tx
-}
-
-export function buildTxo(kit: ContractKit, tx: CeloTx): CeloTxObject<never> {
-  return {
-    get arguments(): any[] {
-      return []
-    },
-    call(unusedTx?: CeloTx) {
-      throw new Error('Fake TXO not implemented')
-    },
-    // updatedTx contains the `feeCurrency`, `gas`, and `gasPrice` set by our `sendTransaction` helper
-    send(updatedTx?: CeloTx): PromiEvent<CeloTxReceipt> {
-      return kit.web3.eth.sendTransaction({
-        ...tx,
-        ...updatedTx,
-      })
-    },
-    // updatedTx contains the `feeCurrency`, and `gasPrice` set by our `sendTransaction` helper
-    estimateGas(updatedTx?: CeloTx): Promise<number> {
-      return kit.connection.estimateGas({
-        ...tx,
-        ...updatedTx,
-        gas: undefined,
-      })
-    },
-    encodeABI(): string {
-      return tx.data ?? ''
-    },
-    // @ts-ignore
-    _parent: {
-      // @ts-ignore
-      _address: tx.to,
-    },
-  }
 }
 
 export function getNetworkFromNetworkId(networkId?: NetworkId): Network | undefined {

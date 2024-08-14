@@ -70,7 +70,9 @@ export default function EarnInfoScreen() {
   return (
     <SafeAreaView style={[styles.safeAreaContainer, { paddingTop: headerHeight }]} edges={[]}>
       <ScrollView>
-        <Text style={styles.title}>{t('earnFlow.earnInfo.title')}</Text>
+        <Text style={styles.title} testID="EarnInfoScreen/Title">
+          {t('earnFlow.earnInfo.title')}
+        </Text>
         <View style={styles.detailsContainer}>
           <DetailsItem
             icon={<EarnCoins size={ICON_SIZE} color={Colors.black} />}
