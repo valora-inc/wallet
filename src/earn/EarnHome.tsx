@@ -1,4 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import BigNumber from 'bignumber.js'
 import { default as React, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
@@ -10,8 +11,8 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { EarnEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { EarnEvents } from 'src/analytics/Events'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import FilterChipsCarousel, {
   FilterChip,
@@ -24,11 +25,11 @@ import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomS
 import NetworkMultiSelectBottomSheet from 'src/components/multiSelect/NetworkMultiSelectBottomSheet'
 import EarnTabBar from 'src/earn/EarnTabBar'
 import PoolList from 'src/earn/PoolList'
-import { getPools } from 'src/earn/pools'
 import { EarnTabType } from 'src/earn/types'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
+import { earnPositionsSelector } from 'src/positions/selectors'
 import { useSelector } from 'src/redux/hooks'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -45,7 +46,7 @@ type Props = NativeStackScreenProps<StackParamList, Screens.EarnHome>
 function useFilterChips(): FilterChip<TokenBalance>[] {
   const { t } = useTranslation()
 
-  const pools = getPools()
+  const pools = useSelector(earnPositionsSelector)
   const supportedNetworkIds = [...new Set(pools.map((pool) => pool.networkId))]
   const tokens = [...new Set(pools.flatMap((pool) => pool.tokens))]
   const networkChipConfig: NetworkFilterChip<TokenBalance> = {
@@ -63,7 +64,7 @@ function useFilterChips(): FilterChip<TokenBalance>[] {
     id: 'token-select',
     name: t('tokenBottomSheet.filters.tokens'),
     filterFn: (token: TokenBalance, tokenId: string) => token.tokenId === tokenId,
-    selectedTokenId: tokens[0],
+    selectedTokenId: tokens[0].tokenId,
     isSelected: false,
   }
 
@@ -73,7 +74,7 @@ function useFilterChips(): FilterChip<TokenBalance>[] {
 export default function EarnHome({ navigation, route }: Props) {
   const { t } = useTranslation()
   const filterChipsCarouselRef = useRef<ScrollView>(null)
-  const pools = getPools()
+  const pools = useSelector(earnPositionsSelector)
 
   const activeTab = route.params?.activeEarnTab ?? EarnTabType.OpenPools
 
@@ -135,7 +136,7 @@ export default function EarnHome({ navigation, route }: Props) {
 
   const tokensInfo = useMemo(() => {
     return tokens
-      .map((tokenId) => allTokens[tokenId])
+      .map((token) => allTokens[token.tokenId])
       .filter((token): token is TokenBalance => !!token)
   }, [allTokens])
 
@@ -235,9 +236,8 @@ export default function EarnHome({ navigation, route }: Props) {
 
   const displayPools = useMemo(() => {
     return pools.filter((pool) => {
-      const poolTokenInfo = allTokens[pool.poolTokenId]
-      const depositTokenInfo = allTokens[pool.depositTokenId]
-      const isMyPool = poolTokenInfo?.balance.gt(0) && !!depositTokenInfo
+      const depositTokenInfo = allTokens[pool.dataProps.depositTokenId]
+      const isMyPool = new BigNumber(pool.balance).gt(0) && !!depositTokenInfo
       return activeTab === EarnTabType.MyPools ? isMyPool : !isMyPool
     })
   }, [pools, allTokens, activeTab])
@@ -278,7 +278,9 @@ export default function EarnHome({ navigation, route }: Props) {
           listHeaderHeight={listHeaderHeight}
           paddingBottom={insets.bottom}
           displayPools={displayPools.filter((pool) =>
-            pool.tokens.some((token) => tokenList.map((token) => token.tokenId).includes(token))
+            pool.tokens.some((token) =>
+              tokenList.map((token) => token.tokenId).includes(token.tokenId)
+            )
           )}
           onPressLearnMore={onPressLearnMore}
         />

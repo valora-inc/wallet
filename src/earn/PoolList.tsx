@@ -11,12 +11,12 @@ import {
 } from 'react-native'
 import Animated from 'react-native-reanimated'
 import PoolCard from 'src/earn/PoolCard'
-import { Pool } from 'src/earn/types'
+import { EarnPosition } from 'src/positions/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
-const AnimatedFlatList = Animated.createAnimatedComponent<FlatListProps<Pool>>(FlatList)
+const AnimatedFlatList = Animated.createAnimatedComponent<FlatListProps<EarnPosition>>(FlatList)
 
 export default function PoolList({
   handleScroll,
@@ -28,14 +28,14 @@ export default function PoolList({
   handleScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void
   listHeaderHeight: number
   paddingBottom: number
-  displayPools: Pool[]
+  displayPools: EarnPosition[]
   onPressLearnMore: () => void
 }) {
   return (
     <AnimatedFlatList
       data={displayPools}
-      renderItem={({ item }) => <PoolCard pool={item} testID={`PoolCard/${item.poolId}`} />}
-      keyExtractor={(item) => item.poolId}
+      renderItem={({ item }) => <PoolCard pool={item} testID={`PoolCard/${item.positionId}`} />}
+      keyExtractor={(item) => item.positionId}
       onScroll={handleScroll}
       // Workaround iOS setting an incorrect automatic inset at the top
       scrollIndicatorInsets={{ top: 0.01 }}
