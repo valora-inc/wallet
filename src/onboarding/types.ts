@@ -1,6 +1,6 @@
 export enum AdventureCardName {
   Add = 'add',
   Profile = 'profile',
-  Learn = 'learn',
+  LearnPoints = 'learnPoints',
   Earn = 'earn',
 }

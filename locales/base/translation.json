@@ -1994,7 +1994,8 @@
       "dapp": "Find ways to use crypto",
       "earn": "Explore earning opportunities",
       "profile": "Build your profile",
-      "learn": "Learn about {{appName}} Points"
+      "learn": "Learn about Celo",
+      "learnPoints": "Learn about {{appName}} Points"
     }
   },
   "reverifyUsingCPVHomecard": {

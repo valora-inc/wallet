@@ -92,12 +92,12 @@ function ChooseYourAdventure() {
       name: AdventureCardName.Profile,
     },
     {
-      text: t('chooseYourAdventure.options.learn'),
+      text: t('chooseYourAdventure.options.learnPoints'),
       goToNextScreen: () => {
         navigateHomeAndThenToScreen(Screens.PointsIntro)
       },
       icon: <LogoHeart size={Spacing.Thick24} color={colors.black} />,
-      name: AdventureCardName.Learn,
+      name: AdventureCardName.LearnPoints,
     },
   ]
 

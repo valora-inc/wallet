@@ -23,14 +23,14 @@ describe('ChooseYourAdventure', () => {
       testIDs: [
         'AdventureCard/0/chooseYourAdventure.options.earn',
         'AdventureCard/1/chooseYourAdventure.options.add',
-        'AdventureCard/2/chooseYourAdventure.options.learn',
+        'AdventureCard/2/chooseYourAdventure.options.learnPoints',
         'AdventureCard/3/chooseYourAdventure.options.profile',
       ],
     },
     {
       address: mockAccount2,
       testIDs: [
-        'AdventureCard/0/chooseYourAdventure.options.learn',
+        'AdventureCard/0/chooseYourAdventure.options.learnPoints',
         'AdventureCard/1/chooseYourAdventure.options.profile',
         'AdventureCard/2/chooseYourAdventure.options.earn',
         'AdventureCard/3/chooseYourAdventure.options.add',
@@ -41,7 +41,7 @@ describe('ChooseYourAdventure', () => {
   const expectedCardOrder = [
     AdventureCardName.Earn,
     AdventureCardName.Add,
-    AdventureCardName.Learn,
+    AdventureCardName.LearnPoints,
     AdventureCardName.Profile,
   ]
 
@@ -114,11 +114,11 @@ describe('ChooseYourAdventure', () => {
         <ChooseYourAdventure />
       </Provider>
     )
-    fireEvent.press(getByTestId('AdventureCard/2/chooseYourAdventure.options.learn'))
+    fireEvent.press(getByTestId('AdventureCard/2/chooseYourAdventure.options.learnPoints'))
     expect(navigateHomeAndThenToScreen).toHaveBeenLastCalledWith(Screens.PointsIntro)
     expect(AppAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
       position: 3,
-      cardName: AdventureCardName.Learn,
+      cardName: AdventureCardName.LearnPoints,
       cardOrder: expectedCardOrder,
     })
   })

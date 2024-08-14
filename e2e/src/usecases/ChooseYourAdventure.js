@@ -14,10 +14,10 @@ export default ChooseYourAdventure = () => {
     await quickOnboarding({ stopOnCYA: true, cloudBackupEnabled: true })
   })
 
-  it('learn about valora points navigates to valora points journey page', async () => {
+  it('learn about points navigates to points journey page', async () => {
     await element(by.text('Learn about Valora Points')).tap()
 
-    // Check that we are on the Valora Points journey page
+    // Check that we are on the Points journey page
     await expect(element(by.text('Earn points effortlessly')).atIndex(0)).toBeVisible()
 
     // Back should go to the home screen
