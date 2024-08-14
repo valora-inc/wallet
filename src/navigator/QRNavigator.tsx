@@ -9,10 +9,16 @@ import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { Dimensions, Platform, StatusBar, StyleSheet } from 'react-native'
 import { PERMISSIONS, RESULTS, check } from 'react-native-permissions'
-import Animated, { call, greaterThan, onChange } from 'react-native-reanimated'
-import { ScrollPager } from 'react-native-tab-view'
-import { QrScreenEvents } from 'src/analytics/Events'
+import Animated, {
+  Extrapolation,
+  SharedValue,
+  interpolate,
+  runOnJS,
+  useAnimatedReaction,
+  useSharedValue,
+} from 'react-native-reanimated'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { QrScreenEvents } from 'src/analytics/Events'
 import { noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { QRTabParamList, StackParamList } from 'src/navigator/types'
@@ -22,8 +28,8 @@ import QRTabBar from 'src/qrcode/QRTabBar'
 import { useDispatch } from 'src/redux/hooks'
 import { SVG, handleQRCodeDetected } from 'src/send/actions'
 import { QrCode } from 'src/send/types'
+import Colors from 'src/styles/colors'
 import Logger from 'src/utils/Logger'
-import { ExtractProps } from 'src/utils/typescript'
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -35,7 +41,7 @@ export type QRCodeProps = NativeStackScreenProps<QRTabParamList, Screens.QRCode>
 }
 
 type AnimatedScannerSceneProps = NativeStackScreenProps<QRTabParamList, Screens.QRScanner> & {
-  position: Animated.Value<number>
+  position: SharedValue<number>
 }
 
 export function QRCodePicker({ route, qrSvgRef, ...props }: QRCodeProps) {
@@ -67,37 +73,24 @@ function AnimatedScannerScene({ route, position }: AnimatedScannerSceneProps) {
     }
   }, [isFocused])
 
-  Animated.useCode(
-    () =>
-      onChange(
-        greaterThan(position, 0),
-        call([position], ([value]) => {
-          setIsPartiallyVisible(value > 0)
-        })
-      ),
+  useAnimatedReaction(
+    () => {
+      return position.value > 0
+    },
+    (isGreaterThanZero) => {
+      runOnJS(setIsPartiallyVisible)(isGreaterThanZero)
+    },
     [position]
   )
 
   const animatedStyle = useMemo(() => {
-    const opacity = Animated.interpolateNode(position, {
-      inputRange: [0, 1],
-      outputRange: [0, 1],
-      extrapolate: Animated.Extrapolate.CLAMP,
-    })
+    const opacity = interpolate(position.value, [0, 1], [0, 1], Extrapolation.CLAMP)
 
-    const translateX = Animated.interpolateNode(position, {
-      inputRange: [0, 1],
-      outputRange: [-width, 0],
-      extrapolate: Animated.Extrapolate.CLAMP,
-    })
+    const translateX = interpolate(position.value, [0, 1], [-width, 0], Extrapolation.CLAMP)
 
-    const scale = Animated.interpolateNode(position, {
-      inputRange: [0, 1],
-      outputRange: [0.7, 1],
-      extrapolate: Animated.Extrapolate.CLAMP,
-    })
+    const scale = interpolate(position.value, [0, 1], [0.7, 1], Extrapolation.CLAMP)
 
-    return { flex: 1, opacity, transform: [{ translateX, scale }] }
+    return { flex: 1, opacity, transform: [{ translateX }, { scale }] }
   }, [position])
 
   // This only enables the camera when necessary.
@@ -125,14 +118,10 @@ function AnimatedScannerScene({ route, position }: AnimatedScannerSceneProps) {
   )
 }
 
-// Use ScrollPager on iOS as it gives a better native feeling
-const pager: ExtractProps<typeof Tab.Navigator>['pager'] =
-  Platform.OS === 'ios' ? (props: any) => <ScrollPager {...props} /> : undefined
-
 type Props = NativeStackScreenProps<StackParamList, Screens.QRNavigator>
 
 export default function QRNavigator({ route }: Props) {
-  const position = useRef(new Animated.Value(0)).current
+  const position = useRef(useSharedValue(0)).current
   const qrSvgRef = useRef<SVG>()
   const { t } = useTranslation()
 
@@ -147,11 +136,9 @@ export default function QRNavigator({ route }: Props) {
 
   return (
     <Tab.Navigator
-      position={position}
       tabBar={tabBar}
       // Trick to position the tabs floating on top
       tabBarPosition="bottom"
-      pager={pager}
       style={styles.container}
       sceneContainerStyle={styles.sceneContainerStyle}
       initialLayout={initialLayout}
@@ -184,9 +171,9 @@ QRNavigator.navigationOptions = {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'black',
+    backgroundColor: Colors.black,
   },
   sceneContainerStyle: {
-    backgroundColor: 'black',
+    backgroundColor: Colors.black,
   },
 })
