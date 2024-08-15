@@ -28,7 +28,6 @@ import {
   PhoneVerificationEvents,
   PointsEvents,
   QrScreenEvents,
-  RewardsEvents,
   SendEvents,
   SettingsEvents,
   SwapEvents,
@@ -406,8 +405,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [FiatExchangeEvents.cico_add_get_started_selected]: `When the user taps 'add funds' on the get started card`,
 
   // Funding Education Dialog Screen
-  [FiatExchangeEvents.cico_add_funds_info_support]: ``,
-  [FiatExchangeEvents.cico_cash_out_info_support]: ``,
   [FiatExchangeEvents.external_exchange_link]: ``,
   [FiatExchangeEvents.cico_external_exchanges_back]: ``,
   [FiatExchangeEvents.cico_cash_out_copy_address]: ``,
@@ -477,10 +474,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [ContractKitEvents.init_contractkit_finish]: ``,
   [PerformanceEvents.redux_store_size]: ``,
   [NavigationEvents.navigator_not_ready]: ``,
-  [RewardsEvents.rewards_screen_opened]: ``,
-  [RewardsEvents.rewards_screen_cta_pressed]: ``,
-  [RewardsEvents.learn_more_pressed]: ``,
-  [RewardsEvents.claimed_reward]: ``,
 
   // Events related to Points program
   [PointsEvents.points_discover_press]: `when points card is pressed in the discover tab`,

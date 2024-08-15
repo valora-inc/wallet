@@ -1,8 +1,8 @@
 import { PayloadAction } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import walletJumpstart from 'src/abis/IWalletJumpstart'
-import { JumpstartEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { JumpstartEvents } from 'src/analytics/Events'
 import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
 import {
   JumpstarReclaimAction,
@@ -38,11 +38,11 @@ import { getPreparedTransactions } from 'src/viem/preparedTransactionSerializati
 import { sendPreparedTransactions } from 'src/viem/saga'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { all, call, fork, put, select, spawn, takeEvery } from 'typed-redux-saga'
-import { Address, Hash, TransactionReceipt, parseAbi, parseEventLogs } from 'viem'
+import { Address, Hash, Hex, TransactionReceipt, parseAbi, parseEventLogs } from 'viem'
 
 const TAG = 'WalletJumpstart/saga'
 
-export function* jumpstartClaim(privateKey: string, networkId: NetworkId, walletAddress: string) {
+export function* jumpstartClaim(privateKey: Hex, networkId: NetworkId, walletAddress: Address) {
   try {
     yield* put(jumpstartClaimStarted())
 
@@ -57,7 +57,7 @@ export function* jumpstartClaim(privateKey: string, networkId: NetworkId, wallet
     const transactionHashes = yield* call(
       jumpstartLinkHandler,
       networkId,
-      contractAddress,
+      contractAddress as Address,
       privateKey,
       walletAddress
     )

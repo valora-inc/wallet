@@ -1,8 +1,8 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { FiatExchangeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { FiatExchangeEvents } from 'src/analytics/Events'
 import { fetchPoolInfo } from 'src/earn/slice'
 import GetStarted from 'src/home/GetStarted'
 import { getFeatureGate } from 'src/statsig'
@@ -93,13 +93,7 @@ describe('GetStarted', () => {
 
   it('should trigger impression analytics event', () => {
     render(
-      <Provider
-        store={createMockStore({
-          app: {
-            superchargeApy: 12,
-          },
-        })}
-      >
+      <Provider store={createMockStore({})}>
         <GetStarted />
       </Provider>
     )
@@ -111,13 +105,7 @@ describe('GetStarted', () => {
 
   it('should trigger button tap analytics event', () => {
     const { getByTestId } = render(
-      <Provider
-        store={createMockStore({
-          app: {
-            superchargeApy: 12,
-          },
-        })}
-      >
+      <Provider store={createMockStore({})}>
         <GetStarted />
       </Provider>
     )

@@ -50,7 +50,7 @@
     - [Why do we use http(s) provider?](#why-do-we-use-https-provider)
     - [Helpful hints for development](#helpful-hints-for-development)
     - [Vulnerabilities found in dependencies](#vulnerabilities-found-in-dependencies)
-    - [Branding (for Valora employees only)](#branding-for-valora-employees-only)
+    - [Branding](#branding)
     - [Troubleshooting](#troubleshooting)
       - [Postinstall script](#postinstall-script)
       - [`Activity class {org.celo.mobile.staging/org.celo.mobile.MainActivity} does not exist.`](#activity-class-orgcelomobilestagingorgcelomobilemainactivity-does-not-exist)
@@ -614,11 +614,11 @@ If they do not have fixes and they do not apply to production, you may ignore th
 1. run: `yarn audit --json --groups dependencies --level high | grep auditAdvisory > yarn-audit-known-issues`
 2. commit `yarn-audit-known-issues` and open a PR
 
-### Branding (for Valora employees only)
+### Branding
 
-Images and icons in Valora are stored in the [branding repo](https://github.com/valora-inc/valora-app-branding). When running `yarn install`, the script `scripts/sync_branding.sh` is run to clone this repo into `branding/valora`, and these assets are then put into `src/images` and `src/icons`. If you do not have access to the branding repo, assets are pulled from `branding/celo`, and are displayed as pink squares instead. The jest tests and CircleCI pipeline also use these default assets.
+Images, icons, and links related to the brand are stored in the `branding` folder. When running `yarn install`, the script `scripts/sync_branding.sh` is run to clone these files into the appropriate places in the app.
 
-When adding new images to the [branding repo](https://github.com/valora-inc/valora-app-branding), we also include the 1.5x, 2x, 3x, and 4x versions. The app will automatically download the appropriate size. After making changes to the remote repo, find the commit hash and update it in `scripts/sync_branding.sh`. Make sure to also add the corresponding pink square version of the images to `branding/celo/src/images`. You can do this by copying one of the existing files and renaming it.
+When adding new images to the `branding` folder, we also include the 1.5x, 2x, 3x, and 4x versions. The app will automatically download the appropriate size.
 
 ### Troubleshooting
 

@@ -33,7 +33,6 @@ import {
   PhoneVerificationEvents,
   PointsEvents,
   QrScreenEvents,
-  RewardsEvents,
   SendEvents,
   SettingsEvents,
   SwapEvents,
@@ -54,10 +53,6 @@ import {
 } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
-import {
-  RewardsScreenCta,
-  RewardsScreenOrigin,
-} from 'src/consumerIncentives/analyticsEventsTracker'
 import { DappSection } from 'src/dapps/types'
 import { SerializableRewardsInfo } from 'src/earn/types'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
@@ -725,7 +720,6 @@ interface CeloExchangeEventsProperties {
 }
 
 interface FiatExchangeEventsProperties {
-  [FiatExchangeEvents.cico_cash_out_info_support]: undefined
   [FiatExchangeEvents.external_exchange_link]: {
     name: string
     link: string
@@ -746,7 +740,6 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_add_bottom_sheet_ramp_available]: undefined
   [FiatExchangeEvents.cico_add_get_started_impression]: undefined
   [FiatExchangeEvents.cico_add_get_started_selected]: undefined
-  [FiatExchangeEvents.cico_add_funds_info_support]: undefined
   [FiatExchangeEvents.cico_external_exchanges_back]: undefined
   [FiatExchangeEvents.cico_cash_out_copy_address]: undefined
   [FiatExchangeEvents.cico_spend_select_provider_back]: undefined
@@ -993,21 +986,6 @@ interface PerformanceProperties {
 
 interface NavigationProperties {
   [NavigationEvents.navigator_not_ready]: undefined
-}
-
-interface RewardsProperties {
-  [RewardsEvents.rewards_screen_opened]: {
-    origin: RewardsScreenOrigin
-  }
-  [RewardsEvents.rewards_screen_cta_pressed]: {
-    buttonPressed: RewardsScreenCta
-  }
-  [RewardsEvents.learn_more_pressed]: undefined
-  [RewardsEvents.claimed_reward]: {
-    amount: string
-    token: string
-    version?: number
-  }
 }
 
 export interface WalletConnect1Properties {
@@ -1700,7 +1678,6 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   ContractKitEventsProperties &
   PerformanceProperties &
   NavigationProperties &
-  RewardsProperties &
   WalletConnectProperties &
   CICOEventsProperties &
   DappExplorerEventsProperties &

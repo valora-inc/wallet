@@ -1992,10 +1992,12 @@
     "subtitle": "Co chcesz zrobić najpierw?",
     "later": "Odkryję później",
     "options": {
-      "add": "Dodaj środki",
+      "add": "Dodaj środki do swojego portfela",
       "dapp": "Znajdź sposoby korzystania z kryptowalut",
-      "profile": "Zbuduj mój profil",
-      "learn": "Dowiedz się więcej o Celo"
+      "earn": "Poznaj możliwości zarobkowe",
+      "profile": "Stwórz swój profil",
+      "learn": "Dowiedz się więcej o Celo",
+      "learnPoints": "Dowiedz się więcej o {{appName}} Punkty"
     }
   },
   "reverifyUsingCPVHomecard": {
