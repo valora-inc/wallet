@@ -105,7 +105,7 @@ function SendConfirmation(props: Props) {
         recipientAddress: recipient.address,
         walletAddress,
         feeCurrencies,
-        comment: allowComment && comment ? encryptedComment ?? undefined : undefined,
+        comment: allowComment && comment ? (encryptedComment ?? undefined) : undefined,
       })
     }, DEBOUNCE_TIME_MS)
     return () => clearTimeout(debouncedRefreshTransactions)

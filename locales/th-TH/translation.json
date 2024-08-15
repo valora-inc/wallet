@@ -1800,7 +1800,7 @@
     },
     "unsupportedTokensWarning": {
       "title": "การเลือกเข้ากันไม่ได้",
-      "body": "The tokens selected cannot be swapped for each other. Please choose another token that is compatible with your selection."
+      "body": "ไม่สามารถสว็อประหว่างโทเค็นที่เลือกได้ โปรดเลือกโทเค็นอื่นที่เข้ากันได้กับตัวเลือกของคุณ"
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "คุณต้องใช้อีก {{feeTokenSymbol}} สำหรับค่าก๊าซ",
@@ -1888,10 +1888,10 @@
       "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "ข้อมูลเพิ่มเติม",
-      "feesInfo_sameChain": "The network fee is required by the network to process the transaction.",
-      "feesInfo_crossChain": "The network fee is required by the network to process the transaction. The cross-chain fee is charged by the cross-chain provider.",
-      "feesInfo_sameChainWithAppFee": "The network fee is required by the network to process the transaction. The {{appName}} fee of {{appFeePercentage}}% is charged for your use of our product.",
-      "feesInfo_crossChainWithAppFee": "The network fee is required by the network to process the transaction. The cross-chain fee is charged by the cross-chain provider. The {{appName}} fee of {{appFeePercentage}}% is charged for your use of our product."
+      "feesInfo_sameChain": "เครือข่ายจะเรียกเก็บค่าธรรมเนียมเครือข่ายในการดำเนินธุรกรรม",
+      "feesInfo_crossChain": "เครือข่ายจะเรียกเก็บค่าธรรมเนียมเครือข่ายในการดำเนินธุรกรรม ส่วนค่าธรรมเนียมการสว็อปข้ามเชนจะมีผู้ให้บริการสว็อปข้ามเชนเป็นผู้เรียกเก็บ",
+      "feesInfo_sameChainWithAppFee": "เครือข่ายจะเรียกเก็บค่าธรรมเนียมเครือข่ายในการดำเนินธุรกรรม โดยจะมีการเรียกเก็บค่าธรรมเนียม {{appName}} {{appFeePercentage}}% สำหรับการที่คุณใช้ผลิตภัณฑ์ของเรา",
+      "feesInfo_crossChainWithAppFee": "เครือข่ายจะเรียกเก็บค่าธรรมเนียมเครือข่ายในการดำเนินธุรกรรม ส่วนค่าธรรมเนียมการสว็อปข้ามเชนจะมีผู้ให้บริการสว็อปข้ามเชนเป็นผู้เรียกเก็บ โดยจะมีการเรียกเก็บค่าธรรมเนียม {{appName}} {{appFeePercentage}}% สำหรับการที่คุณใช้ผลิตภัณฑ์ของเรา"
     },
     "fundYourWalletBottomSheet": {
       "title": "ฝากเงินเข้ากระเป๋าเงินของคุณ",
@@ -1986,10 +1986,12 @@
     "subtitle": "คุณอยากทำอะไรเป็นอย่างแรก",
     "later": "ฉันจะกลับมาดูในภายหลัง",
     "options": {
-      "add": "ฝากเงิน",
+      "add": "เพิ่มเงินทุนในกระเป๋าเงิน",
       "dapp": "ค้นหาวิธีใช้คริปโต",
-      "profile": "สร้างโปรไฟล์",
-      "learn": "เรียนรู้เกี่ยวกับ Celo"
+      "earn": "Explore earning opportunities",
+      "profile": "Build your profile",
+      "learn": "เรียนรู้เกี่ยวกับ Celo",
+      "learnPoints": "Learn about {{appName}} Points"
     }
   },
   "reverifyUsingCPVHomecard": {

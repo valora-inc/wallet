@@ -1802,7 +1802,7 @@
     },
     "unsupportedTokensWarning": {
       "title": "Seleção incompatível",
-      "body": "Os tokens selecionados não podem ser trocados uns pelos outros. Escolha outro token que seja compatível com sua seleção."
+      "body": "Os tokens selecionados não podem ser trocados uns pelos outros. Escolha outro token que seja compatível com a sua seleção."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Você precisa de mais {{feeTokenSymbol}} para o Gas",
@@ -1892,8 +1892,8 @@
       "feesMoreInfoLabel": "Mais informações",
       "feesInfo_sameChain": "A taxa de rede é exigida pela rede para processar a transação.",
       "feesInfo_crossChain": "A taxa de rede é exigida pela rede para processar a transação. A taxa de cadeia cruzada é cobrada pelo provedor de cadeia cruzada.",
-      "feesInfo_sameChainWithAppFee": "A taxa de rede é exigida pela rede para processar a transação. A taxa {{appName}} de {{appFeePercentage}}% é cobrada pelo uso que você faz do nosso produto.",
-      "feesInfo_crossChainWithAppFee": "A taxa de rede é exigida pela rede para processar a transação. A taxa de cadeia cruzada é cobrada pelo provedor de cadeia cruzada. A taxa {{appName}} de {{appFeePercentage}}% é cobrada pelo uso que você faz do nosso produto."
+      "feesInfo_sameChainWithAppFee": "A taxa de rede é exigida pela rede para processar a transação. A taxa de {{appFeePercentage}}% do {{appName}} é cobrada pelo uso que você faz do nosso produto.",
+      "feesInfo_crossChainWithAppFee": "A taxa de rede é exigida pela rede para processar a transação. A taxa de cadeia cruzada é cobrada pelo provedor de cadeia cruzada. A taxa de {{appFeePercentage}}% do {{appName}} é cobrada pelo uso que você faz do nosso produto."
     },
     "fundYourWalletBottomSheet": {
       "title": "Adicione fundos à sua carteira",
@@ -1988,10 +1988,12 @@
     "subtitle": "O que você gostaria de fazer primeiro?",
     "later": "Explorarei mais tarde",
     "options": {
-      "add": "Adicionar Fundos",
+      "add": "Adicione fundos à sua carteira",
       "dapp": "Encontrar formas de usar as cripto",
-      "profile": "Criar meu perfil",
-      "learn": "Aprender sobre Celo"
+      "earn": "Explore oportunidades de ganhos",
+      "profile": "Crie seu perfil",
+      "learn": "Aprender sobre Celo",
+      "learnPoints": "Saiba mais sobre {{appName}} Points"
     }
   },
   "reverifyUsingCPVHomecard": {

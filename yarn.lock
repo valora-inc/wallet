@@ -3241,29 +3241,31 @@
     "@segment/tsub" "^2"
     clone "^2.1.2"
 
-"@segment/analytics-react-native-plugin-firebase@^0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-firebase/-/analytics-react-native-plugin-firebase-0.4.1.tgz#b08816e8e875dde7bd4cb9e43ca72cf7d8034bb1"
-  integrity sha512-ywYQZ1LorvtV2uuaBl6qYF1gkM535EbxxRoJ4vmvew/kwLAyPdYynH1qyiwtQNEPnW5dt7jZcWT+ZhtWX8TGpw==
+"@segment/analytics-react-native-plugin-firebase@^0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-firebase/-/analytics-react-native-plugin-firebase-0.4.2.tgz#b50c4cc5bb361ddf675d52ef55cd455b6c1d9b3f"
+  integrity sha512-sgeQxCETCGYxGVoRGoDoFveN2rOTIE3vqOX2PPe33V4H5tOyYgWW7PqwMMtTVQYxWdOiFzLfSi6M1xsCU2/Otg==
 
-"@segment/analytics-react-native@^2.19.2":
-  version "2.19.2"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native/-/analytics-react-native-2.19.2.tgz#d6eb32b17496698a0e65602d537664b03c28ac63"
-  integrity sha512-9vsh8v/hplahzDO57BBBj96cZr54f6Oq4b4T17TU79UQi+kPtSm7Hfsh6wFIjkquvD5zWNrVhQwb3ClMQ4OtDw==
+"@segment/analytics-react-native@^2.19.3":
+  version "2.19.3"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native/-/analytics-react-native-2.19.3.tgz#33bb81183d45c5d148a1e1e02be035455ae66f43"
+  integrity sha512-jS4iSXy1B7nBZ/s3mxRWCZ0l641yxBpe7AAtDA0sGsjkPKo4wt2OerjKKyoPtcHV+XuCxMyFwL3YAVQXGR6/aw==
   dependencies:
     "@segment/tsub" "^2"
     deepmerge "^4.3.1"
     js-base64 "^3.7.5"
     uuid "^9.0.1"
 
-"@segment/sovran-react-native@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@segment/sovran-react-native/-/sovran-react-native-1.1.1.tgz#55869c5624a297d012a5cef237109c3731f89e0a"
-  integrity sha512-zaMOWz4kjbC+oBRAaw1B3cfserKMk8OBhUTB/oQ/8Thl+zTCQ36zj75dlNm2N00eWJ7p2FZAEEu2uSdLZ2lRKQ==
+"@segment/sovran-react-native@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@segment/sovran-react-native/-/sovran-react-native-1.1.2.tgz#0c911506bae15b92f6add4516ccb961f5de7f908"
+  integrity sha512-p/DF4Qi0GIvltJ7j7D70Od4xfxJZgHJidNyEd2ntxnxBj415lRBV3vOQUc0qYfvG5+y5FTm8IuUZH1XWRSDTlg==
   dependencies:
     ansi-regex "5.0.1"
     deepmerge "^4.2.2"
+    react-native-get-random-values "1.x"
     shell-quote "1.8.0"
+    uuid "^9.0.1"
 
 "@segment/tsub@^2":
   version "2.0.0"
@@ -3403,10 +3405,10 @@
     "@sentry/utils" "7.117.0"
     localforage "^1.8.1"
 
-"@sentry/react-native@^5.27.0":
-  version "5.27.0"
-  resolved "https://registry.yarnpkg.com/@sentry/react-native/-/react-native-5.27.0.tgz#fdedfaba0098719bf10522ca50bfb4fbf85c9431"
-  integrity sha512-nCGn+lJNPVK6BZe9wUhEYpujBFBGXc4B5j7RZuoRvJSWGX5+0AD8urBe+GDUjNonlKnjPaDm6C+nlsm7BCas9g==
+"@sentry/react-native@^5.28.0":
+  version "5.28.0"
+  resolved "https://registry.yarnpkg.com/@sentry/react-native/-/react-native-5.28.0.tgz#724180c77f8d3b3c427022d6c85cbc25a8026291"
+  integrity sha512-YYgQYL4Ci1J3AZkFWB30xNPZs0L5sMT/dQMphqX+NCzOxe+4t5Nve1qEq/QLybH0zG96Zfh8m3CL6PU1ql1Ztw==
   dependencies:
     "@sentry/babel-plugin-component-annotate" "2.20.1"
     "@sentry/browser" "7.117.0"
@@ -5440,10 +5442,10 @@
     "@walletconnect/safe-json" "^1.0.2"
     pino "7.11.0"
 
-"@walletconnect/react-native-compat@^2.13.3":
-  version "2.13.3"
-  resolved "https://registry.yarnpkg.com/@walletconnect/react-native-compat/-/react-native-compat-2.13.3.tgz#91c8a54cf4cde613fa07088a7b39a65b506f05bd"
-  integrity sha512-IUsTVVgJNsd60Yx8qe0rzc0S9ix3/D3mAbEZnoN6P7MtybPOpY5qK1gJOg2oK+KaZ41pyzlO01wW35gvc3vBAQ==
+"@walletconnect/react-native-compat@^2.14.0":
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/@walletconnect/react-native-compat/-/react-native-compat-2.14.0.tgz#71d2275a941c878a3e0287ab5416e3be7331c582"
+  integrity sha512-fk7qhUPMEXH7gmuZYkuczE+j9kE5TPOOLNZV6sWECzeo4xpWqy3Ews44pBnyTZzpZk1bMyOabEPuqOi6TZWWbQ==
   dependencies:
     events "3.3.0"
     fast-text-encoding "1.0.6"
@@ -11368,10 +11370,10 @@ jackspeak@^2.3.5:
   optionalDependencies:
     "@pkgjs/parseargs" "^0.11.0"
 
-java-parser@2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/java-parser/-/java-parser-2.3.0.tgz#13037364c04bf7386bef841f872cbc5e8b53830f"
-  integrity sha512-P6Ma4LU1w/e0Lr4SVM/0PtqCGoL2/i/KP9ZoiyLa824oBqhF0yGTgHDyZkLgp9GTzqR43wm5wabE56FF5X7cqg==
+java-parser@2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/java-parser/-/java-parser-2.3.2.tgz#9a930dfb397a9ada0bb1e8a18a9086eb65f2adf8"
+  integrity sha512-/O42UbEHy3VVJw8W0ruHkQjW75oWvQx4QisoUDRIGir6q3/IZ4JslDMPMYEqp7LU56PYJkH5uXdQiBaCXt/Opw==
   dependencies:
     chevrotain "11.0.3"
     chevrotain-allstar "0.3.1"
@@ -14754,19 +14756,19 @@ prepend-http@^2.0.0:
   resolved "https://registry.yarnpkg.com/prepend-http/-/prepend-http-2.0.0.tgz#e92434bfa5ea8c19f41cdfd401d741a3c819d897"
   integrity sha1-6SQ0v6XqjBn0HN/UAddBo8gZ2Jc=
 
-prettier-plugin-java@^2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/prettier-plugin-java/-/prettier-plugin-java-2.6.0.tgz#53c478f290b6dcd2db64468a159f9db222853141"
-  integrity sha512-mHZ3Ub3WAyYSUe1mMbiGH85xYV+NtzJgNsrfLNYDKvL7NfvoKBuJiEW4Xa2MFG668f9uRdj38WEuPKmRu+nv/g==
+prettier-plugin-java@^2.6.4:
+  version "2.6.4"
+  resolved "https://registry.yarnpkg.com/prettier-plugin-java/-/prettier-plugin-java-2.6.4.tgz#29716b084f0c90b0c08b33088dc59a934032793b"
+  integrity sha512-57iGIFM4xSCqzHc4G6RLeC0DJk+i6Vd1JDj5xcIe7GsWZjRSl8WWkpL0f4BB0gZ+jDZ8R1uJaxtnMgnRtzjLDQ==
   dependencies:
-    java-parser "2.3.0"
+    java-parser "2.3.2"
     lodash "4.17.21"
     prettier "3.2.5"
 
-prettier@*, prettier@3.2.5, prettier@3.3.2:
-  version "3.3.2"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.3.2.tgz#03ff86dc7c835f2d2559ee76876a3914cec4a90a"
-  integrity sha512-rAVeHYMcv8ATV5d508CFdn+8/pHPpXeIid1DdrPwXnaAdH7cqjVbpJaT5eq4yRAFU/lsbwYwSF/n5iNrdJHPQA==
+prettier@*, prettier@3.2.5, prettier@3.3.3:
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.3.3.tgz#30c54fe0be0d8d12e6ae61dbb10109ea00d53105"
+  integrity sha512-i2tDNA0O5IrMO757lfrdQZCc2jPNDVntV0m/+4whiDfWaTKfMNgR7Qz0NAeGz/nRqF4m5/6CLzbP4/liHt12Ew==
 
 pretty-format@^24.9.0:
   version "24.9.0"
@@ -14986,10 +14988,10 @@ qrcode@^1.5.1, qrcode@^1.5.4:
     pngjs "^5.0.0"
     yargs "^15.3.1"
 
-qs@6.11.0, qs@^6.12.1, qs@^6.9.4, qs@~6.5.2:
-  version "6.12.1"
-  resolved "https://registry.yarnpkg.com/qs/-/qs-6.12.1.tgz#39422111ca7cbdb70425541cba20c7d7b216599a"
-  integrity sha512-zWmv4RSuB9r2mYQw3zxQuHWeU+42aKi1wWig/j4ele4ygELZ7PEO6MM7rim9oAQH2A5MWfsAVf/jPvTPgCbvUQ==
+qs@6.11.0, qs@^6.13.0, qs@^6.9.4, qs@~6.5.2:
+  version "6.13.0"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.13.0.tgz#6ca3bd58439f7e245655798997787b0d88a51906"
+  integrity sha512-+38qI9SOr8tfZ4QmJNplMUxqjbe7LKvvZgWdExBOmd+egZTtjLB67Gu0HRX3u/XOq7UU2Nx6nsjvS16Z9uwfpg==
   dependencies:
     side-channel "^1.0.6"
 
@@ -15291,7 +15293,7 @@ react-native-gesture-handler@^2.18.1:
     invariant "^2.2.4"
     prop-types "^15.7.2"
 
-react-native-get-random-values@^1.11.0:
+react-native-get-random-values@1.x, react-native-get-random-values@^1.11.0:
   version "1.11.0"
   resolved "https://registry.yarnpkg.com/react-native-get-random-values/-/react-native-get-random-values-1.11.0.tgz#1ca70d1271f4b08af92958803b89dccbda78728d"
   integrity sha512-4BTbDbRmS7iPdhYLRcz3PGFIpFJBwNZg9g42iwa2P6FOv9vZj/xJc678RZXnLNZzd0qd7Q3CCF6Yd+CU2eoXKQ==
@@ -15303,7 +15305,7 @@ react-native-gradle-plugin@^0.71.19:
   resolved "https://registry.yarnpkg.com/react-native-gradle-plugin/-/react-native-gradle-plugin-0.71.19.tgz#3379e28341fcd189bc1f4691cefc84c1a4d7d232"
   integrity sha512-1dVk9NwhoyKHCSxcrM6vY6cxmojeATsBobDicX0ZKr7DgUF2cBQRTKsimQFvzH8XhOVXyH8p4HyDSZNIFI8OlQ==
 
-react-native-haptic-feedback@^2.3.0:
+react-native-haptic-feedback@^2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/react-native-haptic-feedback/-/react-native-haptic-feedback-2.3.1.tgz#2ef4ac7d4f63ac06bd64b659f509362f127b16e5"
   integrity sha512-dPfjV4iVHfhVyfG+nRd88ygjahbdup7KFZDM5L2aNIAzqbNtKxHZn5O1pHegwSj1t15VJliu0GyTX7XpBDeXUw==

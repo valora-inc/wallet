@@ -102,7 +102,6 @@ export const FIREBASE_ENABLED = stringToBoolean(Config.FIREBASE_ENABLED || 'true
 export const SHOW_TESTNET_BANNER = stringToBoolean(Config.SHOW_TESTNET_BANNER || 'false')
 export const SHOW_GET_INVITE_LINK = stringToBoolean(Config.SHOW_GET_INVITE_LINK || 'false')
 export const SENTRY_ENABLED = stringToBoolean(Config.SENTRY_ENABLED || 'false')
-export const SUPERCHARGE_AVAILABLE_REWARDS_URL = Config.SUPERCHARGE_AVAILABLE_REWARDS_URL
 
 // SECRETS
 export const WEB3AUTH_CLIENT_ID = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'WEB3AUTH_CLIENT_ID')
@@ -179,8 +178,13 @@ export const SIMPLEX_URI = 'https://valoraapp.com/simplex'
 export const SIMPLEX_FEES_URL =
   'https://support.simplex.com/hc/en-gb/articles/360014078420-What-fees-am-I-paying-'
 
-export const CASH_IN_SUCCESS_DEEPLINK = 'celo://wallet/cash-in-success'
-export const CASH_IN_FAILURE_DEEPLINK = 'celo://wallet/cash-in-failure'
+// N.B.: Make sure to update the following files to match this value:
+// * app.json
+// * android/**/AndroidManifest.xml
+// * ios/**/AppDelegate.mm
+export const DEEPLINK_PREFIX = 'celo'
+export const CASH_IN_SUCCESS_DEEPLINK = `${DEEPLINK_PREFIX}://wallet/cash-in-success`
+export const CASH_IN_FAILURE_DEEPLINK = `${DEEPLINK_PREFIX}://wallet/cash-in-failure`
 
 export const APP_STORE_ID = Config.APP_STORE_ID
 export const DYNAMIC_DOWNLOAD_LINK = Config.DYNAMIC_DOWNLOAD_LINK
@@ -209,7 +213,7 @@ const configLoggerLevels: { [key: string]: LoggerLevel } = {
 }
 
 export const LOGGER_LEVEL = Config.LOGGER_LEVEL
-  ? configLoggerLevels[Config.LOGGER_LEVEL] ?? LoggerLevel.Debug
+  ? (configLoggerLevels[Config.LOGGER_LEVEL] ?? LoggerLevel.Debug)
   : LoggerLevel.Debug
 
 export const PHONE_NUMBER_VERIFICATION_CODE_LENGTH = 6

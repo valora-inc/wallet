@@ -386,7 +386,7 @@ export async function getElementText(elementId) {
   try {
     const match = await element(by.id(elementId)).getAttributes()
     if (device.getPlatform() === 'ios') {
-      return match.label ? match.label : match.elements[0].label ?? null
+      return match.label ? match.label : (match.elements[0].label ?? null)
     } else {
       return match.text ?? null
     }

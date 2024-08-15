@@ -7,7 +7,6 @@ import { createSelector } from 'reselect'
 import { defaultCountryCodeSelector, pincodeTypeSelector } from 'src/account/selectors'
 import { phoneVerificationStatusSelector } from 'src/app/selectors'
 import { backupCompletedSelector } from 'src/backup/selectors'
-import { superchargeInfoSelector } from 'src/consumerIncentives/selectors'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
@@ -92,7 +91,6 @@ export const getCurrentUserTraits = createSelector(
     phoneVerificationStatusSelector,
     backupCompletedSelector,
     pincodeTypeSelector,
-    superchargeInfoSelector,
     pointsBalanceSelector,
     (_state: RootState, networkIds: NetworkId[]) => networkIds,
   ],
@@ -115,7 +113,6 @@ export const getCurrentUserTraits = createSelector(
     { numberVerifiedDecentralized, numberVerifiedCentralized },
     hasCompletedBackup,
     pincodeType,
-    superchargeInfo,
     pointsBalance,
     networkIds
   ) => {
@@ -198,8 +195,6 @@ export const getCurrentUserTraits = createSelector(
       appBuildNumber: DeviceInfo.getBuildNumber(),
       appBundleId: DeviceInfo.getBundleId(),
       pincodeType,
-      superchargingToken: superchargeInfo.superchargingTokenConfig?.tokenSymbol,
-      superchargingAmountInUsd: superchargeInfo.superchargeUsdBalance,
       ...hasTokenBalanceFields,
       pointsBalance,
     } satisfies Record<string, string | boolean | number | null | undefined>

@@ -96,7 +96,7 @@ export const tokensByIdSelector = createSelector(
     positionsFetchedAtSelector,
     (_state: RootState, args: TokensByIdArgs) => (Array.isArray(args) ? args : args.networkIds),
     (_state: RootState, args: TokensByIdArgs) =>
-      Array.isArray(args) ? false : args.includePositionTokens ?? false,
+      Array.isArray(args) ? false : (args.includePositionTokens ?? false),
   ],
   (storedBalances, positionTokens, positionsFetchedAt, networkIds, includePositionTokens) => {
     const allStoredBalances = { ...storedBalances }
@@ -226,26 +226,6 @@ export const tokensListSelector = createSelector(
 export const tokensListWithAddressSelector = createSelector(tokensByAddressSelector, (tokens) => {
   return Object.values(tokens).map((token) => token!)
 })
-
-/**
- * @deprecated
- */
-export const tokensBySymbolSelector = createSelector(
-  tokensListWithAddressSelector,
-  (
-    tokens
-  ): {
-    [symbol: string]: TokenBalanceWithAddress
-  } => {
-    return tokens.reduce(
-      (acc, token) => ({
-        ...acc,
-        [token.symbol]: token,
-      }),
-      {}
-    )
-  }
-)
 
 const tokensWithLastKnownUsdValueSelector = createSelector(tokensListSelector, (tokens) => {
   return tokens.filter((tokenInfo) =>

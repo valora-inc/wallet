@@ -1802,7 +1802,7 @@
     },
     "unsupportedTokensWarning": {
       "title": "Selezione non compatibile",
-      "body": "I gettoni selezionati non possono essere scambiati tra loro. Scegli un altro gettone compatibile con la tua selezione."
+      "body": "I token selezionati non possono essere scambiati tra loro. Scegli un altro token compatibile con la tua selezione."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Sono necessari più {{feeTokenSymbol}} per le commissioni sulle transazioni",
@@ -1890,10 +1890,10 @@
       "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "Ulteriori informazioni",
-      "feesInfo_sameChain": "La commissione di rete è richiesta dal network per elaborare la transazione.",
-      "feesInfo_crossChain": "La commissione di rete è richiesta dalla rete per elaborare la transazione. La commissione di cross-chain è richiesta dal fornitore di cross-chain.",
-      "feesInfo_sameChainWithAppFee": "La commissione di rete è richiesta dalla rete per elaborare la transazione. La commissione di {{appName}} di {{appFeePercentage}}% viene addebitata per l'utilizzo del nostro prodotto.",
-      "feesInfo_crossChainWithAppFee": "La commissione di rete è richiesta dalla rete per elaborare la transazione. La commissione di cross-chain viene addebitata dal fornitore di cross-chain. La tariffa di {{appName}} di {{appFeePercentage}}% è addebitata per l'utilizzo del nostro prodotto."
+      "feesInfo_sameChain": "La commissione di rete viene richiesta dalla rete per elaborare la transazione.",
+      "feesInfo_crossChain": "La commissione di rete viene richiesta dalla rete per elaborare la transazione. La commissione cross-chain viene addebitata dal provider della cross-chain.",
+      "feesInfo_sameChainWithAppFee": "La commissione di rete viene richiesta dalla rete per elaborare la transazione. La commissione di {{appName}} del {{appFeePercentage}}% viene addebitata per l'utilizzo del nostro prodotto.",
+      "feesInfo_crossChainWithAppFee": "La commissione di rete viene richiesta dalla rete per elaborare la transazione. La commissione cross-chain viene addebitata dal provider della cross-chain. La commissione di {{appName}} del {{appFeePercentage}}% viene addebitata per l'utilizzo del nostro prodotto."
     },
     "fundYourWalletBottomSheet": {
       "title": "Aggiungi fondi al tuo portafoglio",
@@ -1988,10 +1988,12 @@
     "subtitle": "Qual è la prima cosa che vorresti fare?",
     "later": "Esplorerò più tardi",
     "options": {
-      "add": "Aggiungere fondi",
+      "add": "Aggiungi fondi al tuo portafoglio",
       "dapp": "Scoprire modi per usare le criptovalute",
-      "profile": "Creare il mio profilo",
-      "learn": "Scoprire di più su Celo"
+      "earn": "Esplora le opportunità di guadagno",
+      "profile": "Crea il tuo profilo",
+      "learn": "Scoprire di più su Celo",
+      "learnPoints": "Scopri i punti {{appName}}"
     }
   },
   "reverifyUsingCPVHomecard": {

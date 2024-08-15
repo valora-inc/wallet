@@ -1800,7 +1800,7 @@
     },
     "unsupportedTokensWarning": {
       "title": "Lựa chọn không phù hợp",
-      "body": "The tokens selected cannot be swapped for each other. Please choose another token that is compatible with your selection."
+      "body": "Bạn không thể trao đổi các token đã chọn. Vui lòng chọn một token khác phù hợp với lựa chọn của bạn."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Bạn cần thêm {{feeTokenSymbol}} để trả phí gas",
@@ -1888,10 +1888,10 @@
       "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "Thông tin bổ sung",
-      "feesInfo_sameChain": "The network fee is required by the network to process the transaction.",
-      "feesInfo_crossChain": "The network fee is required by the network to process the transaction. The cross-chain fee is charged by the cross-chain provider.",
-      "feesInfo_sameChainWithAppFee": "The network fee is required by the network to process the transaction. The {{appName}} fee of {{appFeePercentage}}% is charged for your use of our product.",
-      "feesInfo_crossChainWithAppFee": "The network fee is required by the network to process the transaction. The cross-chain fee is charged by the cross-chain provider. The {{appName}} fee of {{appFeePercentage}}% is charged for your use of our product."
+      "feesInfo_sameChain": "Phí mạng là khoản phí bắt buộc để mạng có thể xử lý giao dịch.",
+      "feesInfo_crossChain": "Phí mạng là khoản phí bắt buộc để mạng có thể xử lý giao dịch. Nhà cung cấp chuỗi chéo sẽ thu phí trao đổi chuỗi chéo.",
+      "feesInfo_sameChainWithAppFee": "Phí mạng là khoản phí bắt buộc để mạng có thể xử lý giao dịch. Chúng tôi sẽ thu phí {{appName}} là {{appFeePercentage}}% khi bạn sử dụng sản phẩm của chúng tôi.",
+      "feesInfo_crossChainWithAppFee": "Phí mạng là khoản phí bắt buộc để mạng có thể xử lý giao dịch. Nhà cung cấp chuỗi chéo sẽ thu phí trao đổi chuỗi chéo. Chúng tôi sẽ thu phí {{appName}} là {{appFeePercentage}}% khi bạn sử dụng sản phẩm của chúng tôi."
     },
     "fundYourWalletBottomSheet": {
       "title": "Nạp tiền vào ví của bạn",
@@ -1986,10 +1986,12 @@
     "subtitle": "Đầu tiên bạn muốn làm gì?",
     "later": "Tôi sẽ tìm hiểu sau",
     "options": {
-      "add": "Nạp tiền",
+      "add": "Nạp tiền vào ví của bạn",
       "dapp": "Tìm cách sử dụng tiền điện tử",
-      "profile": "Tạo hồ sơ",
-      "learn": "Tìm hiểu về Celo"
+      "earn": "Explore earning opportunities",
+      "profile": "Build your profile",
+      "learn": "Tìm hiểu về Celo",
+      "learnPoints": "Learn about {{appName}} Points"
     }
   },
   "reverifyUsingCPVHomecard": {

@@ -1806,7 +1806,7 @@
     },
     "unsupportedTokensWarning": {
       "title": "Niezgodny wybór",
-      "body": "Wybranych tokenów nie można zamieniać między sobą. Wybierz inny token, który jest zgodny z Twoim wyborem."
+      "body": "Nie można wymieniać wybranych tokenów między sobą. Wybierz inny token, który jest zgodny z bieżącym wyborem."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Potrzebujesz więcej {{feeTokenSymbol}} na gaz",
@@ -1894,10 +1894,10 @@
       "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "Więcej informacji",
-      "feesInfo_sameChain": "Opłata sieciowa jest wymagana przez sieć do przetworzenia transakcji.",
-      "feesInfo_crossChain": "Opłata sieciowa jest wymagana przez sieć do przetworzenia transakcji. Opłata cross-chain jest pobierana przez dostawcę cross-chain.",
-      "feesInfo_sameChainWithAppFee": "Opłata sieciowa jest wymagana przez sieć do przetworzenia transakcji. Opłata {{appName}} w wysokości {{appFeePercentage}}% jest pobierana za korzystanie z naszego produktu.",
-      "feesInfo_crossChainWithAppFee": "Opłata sieciowa jest wymagana przez sieć do przetworzenia transakcji. Opłata cross-chain jest pobierana przez dostawcę cross-chain. Opłata {{appName}} w wysokości {{appFeePercentage}}% jest pobierana za korzystanie przez Ciebie z naszego produktu."
+      "feesInfo_sameChain": "Należy wnieść opłatę sieciową, aby sieć mogła przetworzyć transakcję.",
+      "feesInfo_crossChain": "Należy wnieść opłatę sieciową, aby sieć mogła przetworzyć transakcję. Opłata za wymianę między łańcuchami jest pobierana przez dostawcę świadczącego usługi wymiany między łańcuchami.",
+      "feesInfo_sameChainWithAppFee": "Należy wnieść opłatę sieciową, aby sieć mogła przetworzyć transakcję. Opłata {{appName}} w wysokości {{appFeePercentage}}% jest pobierana za korzystanie z naszego produktu.",
+      "feesInfo_crossChainWithAppFee": "Należy wnieść opłatę sieciową, aby sieć mogła przetworzyć transakcję. Opłata za wymianę między łańcuchami jest pobierana przez dostawcę świadczącego usługi wymiany między łańcuchami. Opłata {{appName}} w wysokości {{appFeePercentage}}% jest pobierana za korzystanie z naszego produktu."
     },
     "fundYourWalletBottomSheet": {
       "title": "Zasil swój portfel",
@@ -1992,10 +1992,12 @@
     "subtitle": "Co chcesz zrobić najpierw?",
     "later": "Odkryję później",
     "options": {
-      "add": "Dodaj środki",
+      "add": "Dodaj środki do swojego portfela",
       "dapp": "Znajdź sposoby korzystania z kryptowalut",
-      "profile": "Zbuduj mój profil",
-      "learn": "Dowiedz się więcej o Celo"
+      "earn": "Poznaj możliwości zarobkowe",
+      "profile": "Stwórz swój profil",
+      "learn": "Dowiedz się więcej o Celo",
+      "learnPoints": "Dowiedz się więcej o {{appName}} Punkty"
     }
   },
   "reverifyUsingCPVHomecard": {

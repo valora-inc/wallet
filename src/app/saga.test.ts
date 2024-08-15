@@ -71,6 +71,7 @@ import {
 } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockTokenBalances } from 'test/values'
+import { DEEPLINK_PREFIX } from 'src/config'
 
 jest.mock('src/analytics/AppAnalytics')
 jest.mock('src/sentry/Sentry')
@@ -115,7 +116,7 @@ describe('handleDeepLink', () => {
     }
 
     const params = new URLSearchParams(data)
-    const deepLink = `celo://wallet/pay?${params.toString()}`
+    const deepLink = `${DEEPLINK_PREFIX}://wallet/pay?${params.toString()}`
 
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
       .provide([
@@ -132,7 +133,7 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles cash in deep link', async () => {
-    const deepLink = 'celo://wallet/cashIn'
+    const deepLink = `${DEEPLINK_PREFIX}://wallet/cashIn`
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
       .provide([[select(walletAddressSelector), mockAccount]])
       .run()
@@ -147,7 +148,7 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles Bidali deep link', async () => {
-    const deepLink = 'celo://wallet/bidali'
+    const deepLink = `${DEEPLINK_PREFIX}://wallet/bidali`
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
       .provide([[select(walletAddressSelector), mockAccount]])
       .run()
@@ -160,7 +161,7 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles cash-in-success deep link', async () => {
-    const deepLink = 'celo://wallet/cash-in-success/simplex'
+    const deepLink = `${DEEPLINK_PREFIX}://wallet/cash-in-success/simplex`
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
       .provide([[select(walletAddressSelector), mockAccount]])
       .run()
@@ -173,7 +174,7 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles cash-in-success deep link with query params', async () => {
-    const deepLink = 'celo://wallet/cash-in-success/simplex?isApproved=true'
+    const deepLink = `${DEEPLINK_PREFIX}://wallet/cash-in-success/simplex?isApproved=true`
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
       .provide([[select(walletAddressSelector), mockAccount]])
       .run()
@@ -186,7 +187,7 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles openScreen deep link with safe origin', async () => {
-    const deepLink = `celo://wallet/openScreen?screen=${Screens.FiatExchangeCurrency}&flow=CashIn`
+    const deepLink = `${DEEPLINK_PREFIX}://wallet/openScreen?screen=${Screens.FiatExchangeCurrency}&flow=CashIn`
     await expectSaga(handleDeepLink, openDeepLink(deepLink, true))
       .provide([[select(walletAddressSelector), mockAccount]])
       .run()
@@ -202,7 +203,7 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles openScreen deep link without safe origin', async () => {
-    const deepLink = `celo://wallet/openScreen?screen=${Screens.FiatExchangeCurrency}&flow=CashIn`
+    const deepLink = `${DEEPLINK_PREFIX}://wallet/openScreen?screen=${Screens.FiatExchangeCurrency}&flow=CashIn`
     await expectSaga(handleDeepLink, openDeepLink(deepLink, false))
       .provide([[select(walletAddressSelector), mockAccount]])
       .run()
@@ -251,7 +252,7 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles jumpstart links', async () => {
-    const deepLink = 'celo://wallet/jumpstart/0xPrivateKey/celo-alfajores'
+    const deepLink = `${DEEPLINK_PREFIX}://wallet/jumpstart/0xPrivateKey/celo-alfajores`
     jest.mocked(getDynamicConfigParams).mockReturnValue({
       jumpstartContracts: {
         [NetworkId['celo-alfajores']]: { contractAddress: '0xTEST' },
@@ -282,7 +283,7 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles hooks enable preview links', async () => {
-    const deepLink = 'celo://wallet/hooks/enablePreview?hooksApiUrl=https://192.168.0.42:18000'
+    const deepLink = `${DEEPLINK_PREFIX}://wallet/hooks/enablePreview?hooksApiUrl=https://192.168.0.42:18000`
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
       .provide([
         [select(allowHooksPreviewSelector), true],
@@ -317,7 +318,7 @@ describe('WalletConnect deeplinks', () => {
     },
     {
       name: 'iOS deeplink',
-      link: `celo://wallet/wc?uri=${connectionString}`,
+      link: `${DEEPLINK_PREFIX}://wallet/wc?uri=${connectionString}`,
     },
     {
       name: 'iOS universal link',
@@ -395,7 +396,7 @@ describe('WalletConnect deeplinks', () => {
   const actionString = 'wc:1234'
   const actionLinks = [
     { name: 'Android', link: actionString },
-    { name: 'iOS deeplink', link: `celo://wallet/wc?uri=${actionString}` },
+    { name: 'iOS deeplink', link: `${DEEPLINK_PREFIX}://wallet/wc?uri=${actionString}` },
     { name: 'iOS universal link', link: `https://valoraapp.com/wc?uri=${actionString}` },
   ]
   for (const { name, link } of actionLinks) {
@@ -438,7 +439,7 @@ describe('handleOpenUrl', () => {
 
   const httpLink = 'http://example.com'
   const httpsLink = 'https://example.com'
-  const celoLink = 'celo://something'
+  const appLink = `${DEEPLINK_PREFIX}://something`
   const otherDeepLink = 'other://deeplink'
 
   describe('when openExternal is `false` or not specified', () => {
@@ -454,10 +455,10 @@ describe('handleOpenUrl', () => {
       expect(navigateToURI).not.toHaveBeenCalled()
     })
 
-    it('opens celo links directly', async () => {
-      await expectSaga(handleOpenUrl, openUrl(celoLink))
+    it('opens app deeplinks links directly', async () => {
+      await expectSaga(handleOpenUrl, openUrl(appLink))
         .provide([[select(walletAddressSelector), mockAccount]])
-        .call(handleDeepLink, openDeepLink(celoLink))
+        .call(handleDeepLink, openDeepLink(appLink))
         .run()
       expect(navigate).not.toHaveBeenCalled()
       expect(navigateToURI).not.toHaveBeenCalled()
@@ -490,10 +491,10 @@ describe('handleOpenUrl', () => {
     })
 
     // openExternal is more of a preference, that's why we still handle these directly
-    it('opens celo links directly', async () => {
-      await expectSaga(handleOpenUrl, openUrl(celoLink, true))
+    it('opens app deeplinks links directly', async () => {
+      await expectSaga(handleOpenUrl, openUrl(appLink, true))
         .provide([[select(walletAddressSelector), mockAccount]])
-        .call(handleDeepLink, openDeepLink(celoLink))
+        .call(handleDeepLink, openDeepLink(appLink))
         .run()
       expect(navigate).not.toHaveBeenCalled()
       expect(navigateToURI).not.toHaveBeenCalled()

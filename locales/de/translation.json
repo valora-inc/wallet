@@ -1802,7 +1802,7 @@
     },
     "unsupportedTokensWarning": {
       "title": "Inkompatible Auswahl",
-      "body": "Die ausgewählten Token können nicht gegeneinander ausgetauscht werden. Bitte wähle einen anderen Token, der mit deiner Auswahl kompatibel ist."
+      "body": "Die ausgewählten Tokens können nicht untereinander getauscht werden. Wähle einen anderen Token aus, der mit deiner Auswahl kompatibel ist."
     },
     "decreaseSwapAmountForGasWarning": {
       "title": "Du benötigst mehr {{feeTokenSymbol}} für Gas.",
@@ -1890,10 +1890,10 @@
       "feeAmount": "≈ {{localCurrencySymbol}}{{feeAmountInLocalCurrency}} ({{tokenAmount}} {{tokenSymbol}})",
       "feeAmount_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
       "feesMoreInfoLabel": "Weitere Informationen",
-      "feesInfo_sameChain": "Die Netzwerkgebühr wird von dem Netzwerk verlangt, um die Transaktion zu verarbeiten.",
-      "feesInfo_crossChain": "Die Netzwerkgebühr wird von dem Netzwerk verlangt, um die Transaktion zu verarbeiten. Die Cross-Chain-Gebühr wird von dem Cross-Chain-Anbieter erhoben.",
-      "feesInfo_sameChainWithAppFee": "Die Netzwerkgebühr wird vom Netzwerk verlangt, um die Transaktion zu verarbeiten. Die {{appName}} Gebühr von {{appFeePercentage}}wird für deine Nutzung unseres Produkts erhoben.",
-      "feesInfo_crossChainWithAppFee": "Die Netzwerkgebühr wird von dem Netzwerk verlangt, um die Transaktion zu verarbeiten. Die Cross-Chain-Gebühr wird von dem Cross-Chain-Anbieter erhoben. Die {{appName}} Gebühr von {{appFeePercentage}}wird für deine Nutzung unseres Produkts erhoben."
+      "feesInfo_sameChain": "Das Netzwerk verlangt eine Netzwerkgebühr, damit es die Transaktion verarbeiten kann.",
+      "feesInfo_crossChain": "Das Netzwerk verlangt eine Netzwerkgebühr, damit es die Transaktion verarbeiten kann. Die Cross-Chain-Gebühr wird vom Cross-Chain-Anbieter erhoben.",
+      "feesInfo_sameChainWithAppFee": "Das Netzwerk verlangt eine Netzwerkgebühr, damit es die Transaktion verarbeiten kann. Die {{appName}}-Gebühr von {{appFeePercentage}} % wird für deine Nutzung unseres Produkts erhoben.",
+      "feesInfo_crossChainWithAppFee": "Das Netzwerk verlangt eine Netzwerkgebühr, damit es die Transaktion verarbeiten kann. Die Cross-Chain-Gebühr wird vom Cross-Chain-Anbieter erhoben. Die {{appName}}-Gebühr von {{appFeePercentage}} % wird für deine Nutzung unseres Produkts erhoben."
     },
     "fundYourWalletBottomSheet": {
       "title": "Deine Wallet aufladen",
@@ -1988,10 +1988,12 @@
     "subtitle": "Was möchtest du zuerst tun?",
     "later": "Ich sehe mich später um",
     "options": {
-      "add": "Guthaben hinzufügen",
+      "add": "Füge Guthaben zu deinem Wallet hinzu",
       "dapp": "Wege finden, Krypto zu nutzen",
-      "profile": "Mein Profil erstellen",
-      "learn": "Mehr über Celo erfahren"
+      "earn": "Verdienstmöglichkeiten erkunden",
+      "profile": "Erstelle dein Profil",
+      "learn": "Mehr über Celo erfahren",
+      "learnPoints": "Erfahre mehr über {{appName}} Punkte"
     }
   },
   "reverifyUsingCPVHomecard": {

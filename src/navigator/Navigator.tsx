@@ -26,7 +26,6 @@ import BackupComplete from 'src/backup/BackupComplete'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
 import BackupPhrase, { navOptionsForBackupPhrase } from 'src/backup/BackupPhrase'
 import BackupQuiz, { navOptionsForQuiz } from 'src/backup/BackupQuiz'
-import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import DappShortcutTransactionRequest from 'src/dapps/DappShortcutTransactionRequest'
 import DappShortcutsRewards from 'src/dapps/DappShortcutsRewards'
 import DappsScreen from 'src/dapps/DappsScreen'
@@ -278,11 +277,6 @@ const sendScreens = (Navigator: typeof Stack) => (
 
 const consumerIncentivesScreens = (Navigator: typeof Stack) => (
   <>
-    <Navigator.Screen
-      name={Screens.ConsumerIncentivesHomeScreen}
-      component={ConsumerIncentivesHomeScreen}
-      options={ConsumerIncentivesHomeScreen.navOptions}
-    />
     <Navigator.Screen
       name={Screens.DappShortcutsRewards}
       component={DappShortcutsRewards}

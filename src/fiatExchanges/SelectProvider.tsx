@@ -49,7 +49,7 @@ import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
@@ -572,7 +572,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   noPaymentMethods: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     padding: variables.contentPadding,
     textAlign: 'center',
   },
@@ -614,7 +614,7 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
   dialog: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     textAlign: 'center',
   },
   contactSupport: {

@@ -1,8 +1,8 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { HomeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { HomeEvents } from 'src/analytics/Events'
 import NotificationBell from 'src/home/NotificationBell'
 import { createMockStore } from 'test/utils'
 
@@ -21,7 +21,6 @@ describe('NotificationBell', () => {
         backupCompleted: true,
         dismissedGetVerified: true,
         celoEducationCompleted: true,
-        dismissedStartSupercharging: true,
       },
     }
 

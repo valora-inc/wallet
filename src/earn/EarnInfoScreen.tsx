@@ -3,8 +3,8 @@ import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
-import { EarnEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { EarnEvents } from 'src/analytics/Events'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { EARN_STABLECOINS_LEARN_MORE } from 'src/config'
 import { EarnTabType } from 'src/earn/types'
@@ -70,7 +70,9 @@ export default function EarnInfoScreen() {
   return (
     <SafeAreaView style={[styles.safeAreaContainer, { paddingTop: headerHeight }]} edges={[]}>
       <ScrollView>
-        <Text style={styles.title}>{t('earnFlow.earnInfo.title')}</Text>
+        <Text style={styles.title} testID="EarnInfoScreen/Title">
+          {t('earnFlow.earnInfo.title')}
+        </Text>
         <View style={styles.detailsContainer}>
           <DetailsItem
             icon={<EarnCoins size={ICON_SIZE} color={Colors.black} />}

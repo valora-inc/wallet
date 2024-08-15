@@ -25,9 +25,6 @@ export enum Actions {
   ACCEPT_TERMS = 'ACCOUNT/ACCEPT_TERMS',
   CLEAR_STORED_ACCOUNT = 'ACCOUNT/CLEAR_STORED_ACCOUNT',
   PROFILE_UPLOADED = 'ACCOUNT/PROFILE_UPLOADED',
-  SET_REWARDS_ENABLED = 'ACCOUNT/SET_REWARDS_ENABLED',
-  DISMISS_KEEP_SUPERCHARGING = 'ACCOUNT/DISMISS_KEEP_SUPERCHARGING',
-  DISMISS_START_SUPERCHARGING = 'ACCOUNT/DISMISS_START_SUPERCHARGING',
   SAVE_SIGNED_MESSAGE = 'ACCOUNT/SAVE_SIGNED_MESSAGE',
   SET_CELO_EDUCATION_COMPLETED = 'ACCOUNT/SET_CELO_EDUCATION_COMPLETED',
   RECOVERY_PHRASE_IN_ONBOARDING_STARTED = 'ACCOUNT/RECOVERY_PHRASE_IN_ONBOARDING_STARTED',
@@ -138,14 +135,6 @@ interface ProfileUploadedAction {
   type: Actions.PROFILE_UPLOADED
 }
 
-interface DismissKeepSuperchargingAction {
-  type: Actions.DISMISS_KEEP_SUPERCHARGING
-}
-
-interface DismissStartSuperchargingAction {
-  type: Actions.DISMISS_START_SUPERCHARGING
-}
-
 interface SaveSignedMessage {
   type: Actions.SAVE_SIGNED_MESSAGE
 }
@@ -187,8 +176,6 @@ export type ActionTypes =
   | AcceptTermsAction
   | ClearStoredAccountAction
   | ProfileUploadedAction
-  | DismissKeepSuperchargingAction
-  | DismissStartSuperchargingAction
   | SaveSignedMessage
   | SetCeloEducationCompletedAction
   | RecoveryPhraseInOnboardingStarted
@@ -291,14 +278,6 @@ export const clearStoredAccount = (
   type: Actions.CLEAR_STORED_ACCOUNT,
   account,
   onlyReduxState,
-})
-
-export const dismissKeepSupercharging = (): DismissKeepSuperchargingAction => ({
-  type: Actions.DISMISS_KEEP_SUPERCHARGING,
-})
-
-export const dismissStartSupercharging = (): DismissStartSuperchargingAction => ({
-  type: Actions.DISMISS_START_SUPERCHARGING,
 })
 
 export const saveSignedMessage = (): SaveSignedMessage => ({

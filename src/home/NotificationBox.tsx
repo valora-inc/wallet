@@ -2,25 +2,17 @@ import * as React from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { NativeScrollEvent, ScrollView, StyleSheet, View } from 'react-native'
-import {
-  dismissGetVerified,
-  dismissGoldEducation,
-  dismissKeepSupercharging,
-  dismissStartSupercharging,
-} from 'src/account/actions'
+import { dismissGetVerified, dismissGoldEducation } from 'src/account/actions'
 import { celoEducationCompletedSelector, cloudBackupCompletedSelector } from 'src/account/selectors'
-import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { HomeEvents } from 'src/analytics/Events'
 import { ScrollDirection } from 'src/analytics/types'
 import { openUrl } from 'src/app/actions'
-import { phoneNumberVerifiedSelector, rewardsEnabledSelector } from 'src/app/selectors'
+import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import Pagination from 'src/components/Pagination'
 import SimpleMessagingCard, {
   Props as SimpleMessagingCardProps,
 } from 'src/components/SimpleMessagingCard'
-import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
-import { superchargeInfoSelector } from 'src/consumerIncentives/selectors'
-import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import EscrowedPaymentReminderSummaryNotification from 'src/escrow/EscrowedPaymentReminderSummaryNotification'
 import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
 import { dismissNotification } from 'src/home/actions'
@@ -29,7 +21,7 @@ import { getExtraNotifications } from 'src/home/selectors'
 import { Notification, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import GuideKeyIcon from 'src/icons/GuideKeyHomeCardIcon'
 import KeylessBackup from 'src/icons/KeylessBackup'
-import { boostRewards, getVerified, learnCelo } from 'src/images/Images'
+import { getVerified, learnCelo } from 'src/images/Images'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useDispatch, useSelector } from 'src/redux/hooks'
@@ -46,8 +38,6 @@ const VERIFICATION_PRIORITY = 100
 export const CLEVERTAP_PRIORITY = 500
 export const INVITES_PRIORITY = 400
 const CELO_EDUCATION_PRIORITY = 10
-const SUPERCHARGE_AVAILABLE_PRIORITY = 950
-const SUPERCHARGE_INFO_PRIORITY = 440
 
 interface SimpleAction extends SimpleMessagingCardProps {
   id: string
@@ -57,13 +47,9 @@ interface SimpleAction extends SimpleMessagingCardProps {
 }
 
 export function useSimpleActions() {
-  const {
-    backupCompleted,
-    dismissedGetVerified,
-    dismissedGoldEducation,
-    dismissedKeepSupercharging,
-    dismissedStartSupercharging,
-  } = useSelector((state) => state.account)
+  const { backupCompleted, dismissedGetVerified, dismissedGoldEducation } = useSelector(
+    (state) => state.account
+  )
 
   const phoneNumberVerified = useSelector(phoneNumberVerifiedSelector)
 
@@ -71,28 +57,12 @@ export function useSimpleActions() {
 
   const extraNotifications = useSelector(getExtraNotifications)
 
-  const { hasBalanceForSupercharge } = useSelector(superchargeInfoSelector)
-  const isSupercharging = phoneNumberVerified && hasBalanceForSupercharge
-
-  const rewardsEnabled = useSelector(rewardsEnabledSelector)
-
-  const { superchargeApy } = useSelector((state) => state.app)
-
   const { t } = useTranslation()
 
   const dispatch = useDispatch()
 
-  const restrictSuperchargeForClaimOnly = getFeatureGate(
-    StatsigFeatureGates.RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY
-  )
-
   const showKeylessBackup = getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_SETUP)
 
-  useEffect(() => {
-    dispatch(fetchAvailableRewards())
-  }, [])
-
-  const superchargeRewards = useSelector((state) => state.supercharge.availableRewards)
   const cloudBackupCompleted = useSelector(cloudBackupCompletedSelector)
 
   const actions: SimpleAction[] = []
@@ -159,115 +129,6 @@ export function useSimpleActions() {
           },
         ],
       })
-    }
-  }
-
-  if (rewardsEnabled) {
-    if (superchargeRewards.length > 0) {
-      actions.push({
-        id: NotificationType.supercharge_available,
-        type: NotificationType.supercharge_available,
-        text: t('superchargeNotificationBody'),
-        icon: boostRewards,
-        priority: SUPERCHARGE_AVAILABLE_PRIORITY,
-        callToActions: [
-          {
-            text: t('superchargeNotificationStart'),
-            onPress: (params) => {
-              AppAnalytics.track(HomeEvents.notification_select, {
-                notificationType: NotificationType.supercharge_available,
-                selectedAction: NotificationBannerCTATypes.accept,
-                notificationId: NotificationType.supercharge_available,
-                notificationPositionInList: params?.index,
-              })
-              navigate(Screens.ConsumerIncentivesHomeScreen)
-              AppAnalytics.track(RewardsEvents.rewards_screen_opened, {
-                origin: RewardsScreenOrigin.RewardAvailableNotification,
-              })
-            },
-          },
-        ],
-      })
-    } else {
-      if (isSupercharging && !dismissedKeepSupercharging) {
-        actions.push({
-          id: NotificationType.supercharging,
-          type: NotificationType.supercharging,
-          text: t('superchargingNotificationBodyV1_33', { apy: superchargeApy }),
-          icon: boostRewards,
-          priority: SUPERCHARGE_INFO_PRIORITY,
-          callToActions: [
-            {
-              text: t('superchargingNotificationStart'),
-              onPress: (params) => {
-                AppAnalytics.track(HomeEvents.notification_select, {
-                  notificationType: NotificationType.supercharging,
-                  selectedAction: NotificationBannerCTATypes.accept,
-                  notificationId: NotificationType.supercharging,
-                  notificationPositionInList: params?.index,
-                })
-                navigate(Screens.ConsumerIncentivesHomeScreen)
-                AppAnalytics.track(RewardsEvents.rewards_screen_opened, {
-                  origin: RewardsScreenOrigin.SuperchargingNotification,
-                })
-              },
-            },
-            {
-              text: t('dismiss'),
-              isSecondary: true,
-              onPress: (params) => {
-                AppAnalytics.track(HomeEvents.notification_select, {
-                  notificationType: NotificationType.supercharging,
-                  selectedAction: NotificationBannerCTATypes.decline,
-                  notificationId: NotificationType.supercharging,
-                  notificationPositionInList: params?.index,
-                })
-                dispatch(dismissKeepSupercharging())
-              },
-            },
-          ],
-        })
-      }
-
-      if (!isSupercharging && !restrictSuperchargeForClaimOnly && !dismissedStartSupercharging) {
-        actions.push({
-          id: NotificationType.start_supercharging,
-          type: NotificationType.start_supercharging,
-          text: t('startSuperchargingNotificationBody'),
-          icon: boostRewards,
-          priority: SUPERCHARGE_INFO_PRIORITY,
-          callToActions: [
-            {
-              text: t('startSuperchargingNotificationStart'),
-              onPress: (params) => {
-                AppAnalytics.track(HomeEvents.notification_select, {
-                  notificationType: NotificationType.start_supercharging,
-                  selectedAction: NotificationBannerCTATypes.accept,
-                  notificationId: NotificationType.start_supercharging,
-                  notificationPositionInList: params?.index,
-                })
-                navigate(Screens.ConsumerIncentivesHomeScreen)
-                AppAnalytics.track(RewardsEvents.rewards_screen_opened, {
-                  origin: RewardsScreenOrigin.StartSuperchargingNotification,
-                })
-              },
-            },
-            {
-              text: t('dismiss'),
-              isSecondary: true,
-              onPress: (params) => {
-                AppAnalytics.track(HomeEvents.notification_select, {
-                  notificationType: NotificationType.start_supercharging,
-                  selectedAction: NotificationBannerCTATypes.decline,
-                  notificationId: NotificationType.start_supercharging,
-                  notificationPositionInList: params?.index,
-                })
-                dispatch(dismissStartSupercharging())
-              },
-            },
-          ],
-        })
-      }
     }
   }
 

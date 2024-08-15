@@ -45,6 +45,7 @@ import { sendPreparedTransactions } from 'src/viem/saga'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockAccount, mockPositions, mockShortcuts } from 'test/values'
+import { DEEPLINK_PREFIX } from 'src/config'
 
 jest.mock('src/sentry/SentryTransactionHub')
 jest.mock('src/statsig')
@@ -80,7 +81,14 @@ const MOCK_EARN_POSITIONS_RESPONSE = {
         imageUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/aave.png',
       },
       dataProps: {
-        apy: 1.9194202601763743,
+        yieldRates: [
+          {
+            percentage: 1.9194202601763743,
+            label: 'Earnings APY',
+            tokenId: 'arbitrum-sepolia:0x75faf114eafb1bdbe2f0316df893fd58ce46aa4d',
+          },
+        ],
+        earningItems: [],
         depositTokenId: 'arbitrum-sepolia:0x75faf114eafb1bdbe2f0316df893fd58ce46aa4d',
         withdrawTokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
       },
@@ -297,7 +305,7 @@ describe(fetchShortcutsSaga, () => {
 })
 
 describe(handleEnableHooksPreviewDeepLink, () => {
-  const deepLink = 'celo://wallet/hooks/enablePreview?hooksApiUrl=http%3A%2F%2F192.168.0.42%3A18000'
+  const deepLink = `${DEEPLINK_PREFIX}://wallet/hooks/enablePreview?hooksApiUrl=http%3A%2F%2F192.168.0.42%3A18000`
 
   it('enables hooks preview if the deep link is valid and the user confirms', async () => {
     Platform.OS = 'android'
