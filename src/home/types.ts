@@ -7,8 +7,6 @@ export enum HomeActionName {
 }
 
 export enum NotificationType {
-  escrow_tx_summary = 'escrow_tx_summary',
-  escrow_tx_pending = 'escrow_tx_pending',
   celo_asset_education = 'celo_asset_education',
   verification_prompt = 'verification_prompt',
   backup_prompt = 'backup_prompt',

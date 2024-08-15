@@ -276,18 +276,6 @@ export enum InviteEvents {
   invite_help_link = 'invite_help_link',
 }
 
-export enum EscrowEvents {
-  escrow_fetch_start = 'escrow_fetch_start',
-  escrow_fetch_complete = 'escrow_fetch_complete',
-  escrow_fetch_error = 'escrow_fetch_error',
-
-  escrow_reclaim_confirm = 'escrow_reclaim_confirm',
-  escrow_reclaim_cancel = 'escrow_reclaim_cancel',
-  escrow_reclaim_start = 'escrow_reclaim_start',
-  escrow_reclaim_complete = 'escrow_reclaim_complete',
-  escrow_reclaim_error = 'escrow_reclaim_error',
-}
-
 export enum SendEvents {
   send_scan = 'send_scan',
   send_select_recipient = 'send_select_recipient',

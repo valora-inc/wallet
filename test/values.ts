@@ -15,7 +15,6 @@ import BigNumber from 'bignumber.js'
 import { range } from 'lodash'
 import { MinimalContact } from 'react-native-contacts'
 import { Dapp, DappWithCategoryNames } from 'src/dapps/types'
-import { EscrowedPayment } from 'src/escrow/actions'
 import { FeeType } from 'src/fees/reducer'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
@@ -336,17 +335,6 @@ export const mockContactWithPhone2: MinimalContact = {
 }
 
 export const mockContactList = [mockContactWithPhone2, mockContactWithPhone]
-
-export const mockEscrowedPayment: EscrowedPayment = {
-  senderAddress: mockAccount2,
-  recipientPhone: mockE164Number,
-  recipientIdentifier: mockE164NumberHashWithPepper,
-  paymentID: mockAccount,
-  tokenAddress: mockCusdAddress,
-  amount: new BigNumber(10).toString(),
-  timestamp: new BigNumber(10000),
-  expirySeconds: new BigNumber(50000),
-}
 
 export const mockUriData: UriData[] = [
   {
@@ -683,7 +671,6 @@ export const mockFeeInfo = {
 export const emptyFees = {
   [FeeType.SEND]: undefined,
   [FeeType.EXCHANGE]: undefined,
-  [FeeType.RECLAIM_ESCROW]: undefined,
   [FeeType.REGISTER_DEK]: undefined,
 }
 

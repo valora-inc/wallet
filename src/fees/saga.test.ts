@@ -6,7 +6,6 @@ import { throwError } from 'redux-saga-test-plan/providers'
 import { call } from 'redux-saga/effects'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { createReclaimTransaction } from 'src/escrow/saga'
 import { estimateFee, feeEstimated, FeeEstimateState, FeeType } from 'src/fees/reducer'
 import { calculateFee, estimateFeeSaga, SWAP_FEE_ESTIMATE_MULTIPLIER } from 'src/fees/saga'
 import { buildSendTx } from 'src/send/saga'
@@ -133,34 +132,6 @@ describe(estimateFeeSaga, () => {
       .run()
   })
 
-  it('estimates the escrow reclaim fee', async () => {
-    await expectSaga(
-      estimateFeeSaga,
-      estimateFee({
-        feeType: FeeType.RECLAIM_ESCROW,
-        tokenAddress: mockCusdAddress,
-        paymentID: 'paymentID',
-      })
-    )
-      .withState(store.getState())
-      .provide([
-        [call(createReclaimTransaction, 'paymentID'), mockTxo],
-        [matchers.call.fn(estimateGas), new BigNumber(GAS_AMOUNT)],
-        [
-          call(calculateFee, new BigNumber(GAS_AMOUNT), mockCusdAddress),
-          { fee: new BigNumber(1e16), feeCurrency: mockCusdAddress },
-        ],
-      ])
-      .put(
-        feeEstimated({
-          feeType: FeeType.RECLAIM_ESCROW,
-          tokenAddress: mockCusdAddress,
-          estimation: estimation(new BigNumber(0.01).toString()),
-        })
-      )
-      .run()
-  })
-
   it('estimates the dek register fee', async () => {
     const kit = await getContractKitAsync()
     const mockAccountsWrapper = { setAccount: jest.fn(() => ({ txo: mockTxo })) }
@@ -186,35 +157,6 @@ describe(estimateFeeSaga, () => {
           feeType: FeeType.REGISTER_DEK,
           tokenAddress: mockCusdAddress,
           estimation: estimation(new BigNumber(0.01).toString()),
-        })
-      )
-      .run()
-  })
-
-  it('marks as error if no paymentID is sent for escrow reclaim fee', async () => {
-    await expectSaga(
-      estimateFeeSaga,
-      estimateFee({ feeType: FeeType.RECLAIM_ESCROW, tokenAddress: mockCusdAddress })
-    )
-      .withState(store.getState())
-      .provide([
-        [call(createReclaimTransaction, 'paymentID'), mockTxo],
-        [matchers.call.fn(estimateGas), new BigNumber(GAS_AMOUNT)],
-        [
-          call(calculateFee, new BigNumber(GAS_AMOUNT), mockCusdAddress),
-          { fee: new BigNumber(1e16), feeCurrency: mockCusdAddress },
-        ],
-      ])
-      .put(
-        feeEstimated({
-          feeType: FeeType.RECLAIM_ESCROW,
-          tokenAddress: mockCusdAddress,
-          estimation: {
-            loading: false,
-            error: true,
-            usdFee: null,
-            lastUpdated: Date.now(),
-          },
         })
       )
       .run()

@@ -21,7 +21,6 @@ export enum Screens {
   EarnHome = 'EarnHome',
   EnableBiometry = 'EnableBiometry',
   ErrorScreen = 'ErrorScreen',
-  EscrowedPaymentListScreen = 'EscrowedPaymentListScreen',
   ExternalExchanges = 'ExternalExchanges',
   ExchangeQR = 'ExchangeQR',
   FiatExchangeAmount = 'FiatExchangeAmount',
