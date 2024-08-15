@@ -6,7 +6,6 @@ import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 
 jest.mock('src/qrcode/StyledQRGen', () => jest.fn().mockReturnValue(''))
-jest.mock('src/qrcode/QRGen', () => jest.fn().mockReturnValue(''))
 
 const mockStore = createMockStore({
   web3: {
