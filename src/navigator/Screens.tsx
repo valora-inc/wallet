@@ -67,7 +67,6 @@ export enum Screens {
   QRCode = 'QRCode',
   QRNavigator = 'QRNavigator',
   QRScanner = 'QRScanner',
-  ReclaimPaymentConfirmationScreen = 'ReclaimPaymentConfirmationScreen',
   RegulatoryTerms = 'RegulatoryTerms',
   SanctionedCountryErrorScreen = 'SanctionedCountryErrorScreen',
   SelectCountry = 'SelectCountry',

@@ -18,9 +18,6 @@ export enum NotificationType {
 export enum NotificationBannerCTATypes {
   accept = 'accept',
   decline = 'decline',
-  review = 'review',
-  reclaim = 'reclaim',
-  remind = 'remind',
   pay = 'pay',
   remote_notification_cta = 'remote_notification_cta',
 }
