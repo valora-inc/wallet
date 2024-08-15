@@ -27,7 +27,7 @@ interface EarningItem {
 interface EarnDataProps {
   contractCreatedAt?: string // ISO string
   manageUrl?: string
-  tvl?: number
+  tvl?: SerializedDecimalNumber
   yieldRates: YieldRate[]
   earningItems: EarningItem[]
   depositTokenId: string
