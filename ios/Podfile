@@ -33,6 +33,19 @@ end
 node_require('react-native/scripts/react_native_pods.rb')
 node_require('react-native-permissions/scripts/setup.rb')
 
+# https://github.com/facebook/flipper/issues/4471#issuecomment-2265941061
+def flipper_remove(generated_aggregate_target, config_name, config_file)
+  xcconfig_path = generated_aggregate_target.xcconfig_path(config_name)
+  if File.exist?(xcconfig_path)
+    puts "FLIPPER: Found xcconfig file: #{File.basename(xcconfig_path)}"
+    xcconfig_content = File.read(xcconfig_path)
+    modified_content = xcconfig_content.gsub('-l"react-native-flipper"', '')
+    File.open(xcconfig_path, 'w') { |file| file.write(modified_content) }
+  else
+    puts "FLIPPER: xcconfig file does not exist: #{File.basename(xcconfig_path)}"
+  end
+end
+
 # Code to be added for react-native-video/Video
 # https://github.com/TheWidlarzGroup/react-native-video/issues/3737
 MIN_IOS_OVERRIDE = '13.0'
@@ -160,6 +173,14 @@ post_install do |installer|
           #include? "#{rnconfig_xcconfig.relative_path_from(cocoapods_xcconfig.dirname)}"
         EOF
       end
+    end
+  end
+
+  # Remove Flipper from Release builds
+  installer.generated_aggregate_targets.each do |generated_aggregate_target|
+    generated_aggregate_target.xcconfigs.each do |config_name, config_file|
+        next unless config_name == 'Release'
+        flipper_remove(generated_aggregate_target, config_name, config_file)
     end
   end
 end
