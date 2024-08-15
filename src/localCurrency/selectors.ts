@@ -64,15 +64,5 @@ export const usdToLocalCurrencyRateSelector = (state: RootState) => {
   return usdToLocalRate
 }
 
-export function shouldFetchCurrentRate(state: RootState): boolean {
-  const { isLoading, lastSuccessfulUpdate } = state.localCurrency
-
-  if (isLoading) {
-    return false
-  }
-
-  return !lastSuccessfulUpdate || Date.now() - lastSuccessfulUpdate > MIN_UPDATE_INTERVAL
-}
-
 export const localCurrencyExchangeRateErrorSelector = (state: RootState) =>
   state.localCurrency.error
