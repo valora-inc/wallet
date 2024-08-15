@@ -11,8 +11,6 @@ import {
 } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
 
-const MIN_UPDATE_INTERVAL = 12 * 3600 * 1000 // 12 hours
-
 function getCountryCurrencies(e164PhoneNumber: string) {
   const regionCode = getRegionCode(e164PhoneNumber)
   const countries = CountryData.lookup.countries({ alpha2: regionCode })
