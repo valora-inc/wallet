@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 224,
+          "version": 225,
         },
         "account": {
           "acceptedTerms": false,
@@ -188,10 +188,6 @@ describe('store state', () => {
           "poolInfo": undefined,
           "poolInfoFetchStatus": "idle",
           "withdrawStatus": "idle",
-        },
-        "escrow": {
-          "isReclaiming": false,
-          "sentEscrowedPayments": [],
         },
         "fees": {
           "estimates": {},
@@ -339,9 +335,7 @@ describe('store state', () => {
           "tokenBalances": {},
         },
         "transactions": {
-          "inviteTransactions": {},
           "knownFeedTransactions": {},
-          "recentTxRecipientsCache": {},
           "standbyTransactions": [],
           "transactionsByNetworkId": {},
         },

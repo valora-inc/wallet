@@ -3448,6 +3448,15 @@ export const v224Schema = {
   account: _.omit(v223Schema.account, 'dismissedKeepSupercharging', 'dismissedStartSupercharging'),
 }
 
+export const v225Schema = {
+  ..._.omit(v224Schema, 'escrow'),
+  _persist: {
+    ...v224Schema._persist,
+    version: 225,
+  },
+  transactions: _.omit(v224Schema.transactions, 'recentTxRecipientsCache', 'inviteTransactions'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v224Schema as Partial<RootState>
+  return v225Schema as Partial<RootState>
 }

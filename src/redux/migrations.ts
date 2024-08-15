@@ -1845,4 +1845,8 @@ export const migrations = {
     app: _.omit(state.app, 'superchargeApy', 'superchargeTokenConfigByToken'),
     account: _.omit(state.account, 'dismissedKeepSupercharging', 'dismissedStartSupercharging'),
   }),
+  225: (state: any) => ({
+    ...(_.omit(state, 'escrow') as any),
+    transactions: _.omit(state.transactions, 'recentTxRecipientsCache', 'inviteTransactions'),
+  }),
 }
