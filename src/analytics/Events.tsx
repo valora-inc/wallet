@@ -399,10 +399,6 @@ export enum FiatExchangeEvents {
   cico_add_get_started_impression = 'cico_add_get_started_impression',
   cico_add_get_started_selected = 'cico_add_get_started_selected',
 
-  // Funding Education Dialog Screen
-  cico_add_funds_info_support = 'cico_add_funds_info_support',
-  cico_cash_out_info_support = 'cico_cash_out_info_support',
-
   // External Exchanges Screen
   external_exchange_link = 'external_exchange_link',
   cico_external_exchanges_back = 'cico_external_exchanges_back',

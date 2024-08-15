@@ -7,8 +7,6 @@ export enum Actions {
   UPDATE_NOTIFICATIONS = 'HOME/UPDATE_NOTIFICATIONS',
   DISMISS_NOTIFICATION = 'HOME/DISMISS_NOTIFICATION',
   REFRESH_BALANCES = 'HOME/REFRESH_BALANCES',
-  START_BALANCE_AUTOREFRESH = 'HOME/START_BALANCE_AUTOREFRESH',
-  STOP_BALANCE_AUTOREFRESH = 'HOME/STOP_BALANCE_AUTOREFRESH',
   VISIT_HOME = 'HOME/VISIT_HOME',
   CLEVERTAP_INBOX_MESSAGES_RECEIVED = 'HOME/CLEVERTAP_INBOX_MESSAGES_RECEIVED',
   CELEBRATED_NFT_FOUND = 'HOME/CELEBRATED_NFT_FOUND',
@@ -106,14 +104,6 @@ export const dismissNotification = (id: string): DismissNotificationAction => ({
 
 export const refreshAllBalances = (): RefreshBalancesBalancesAction => ({
   type: Actions.REFRESH_BALANCES,
-})
-
-export const startBalanceAutorefresh = () => ({
-  type: Actions.START_BALANCE_AUTOREFRESH,
-})
-
-export const stopBalanceAutorefresh = () => ({
-  type: Actions.STOP_BALANCE_AUTOREFRESH,
 })
 
 export const cleverTapInboxMessagesReceived = (
