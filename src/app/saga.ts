@@ -97,6 +97,7 @@ import {
   takeLatest,
 } from 'typed-redux-saga'
 import { parse } from 'url'
+import { Address, Hex } from 'viem'
 
 const TAG = 'app/saga'
 
@@ -347,9 +348,9 @@ export function* handleDeepLink(action: OpenDeepLink) {
         inviterAddress,
       })
     } else if (pathParts.length === 4 && pathParts[1] === 'jumpstart') {
-      const privateKey = pathParts[2]
+      const privateKey = pathParts[2] as Hex
       const networkId = pathParts[3] as NetworkId
-      yield* call(jumpstartClaim, privateKey, networkId, walletAddress)
+      yield* call(jumpstartClaim, privateKey, networkId, walletAddress as Address)
     } else if (
       (yield* select(allowHooksPreviewSelector)) &&
       rawParams.pathname === '/hooks/enablePreview'
