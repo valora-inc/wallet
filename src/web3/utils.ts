@@ -39,11 +39,6 @@ export async function getLatestBlock() {
   return web3.eth.getBlock('latest')
 }
 
-export async function getContract(abi: any, tokenAddress: string) {
-  const kit = await getContractKitAsync()
-  return new kit.web3.eth.Contract(abi, tokenAddress)
-}
-
 export function getNetworkFromNetworkId(networkId?: NetworkId): Network | undefined {
   return networkId ? networkIdToNetwork[networkId] : undefined
 }
