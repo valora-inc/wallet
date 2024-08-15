@@ -34,7 +34,6 @@ const TAG = 'NotificationBox'
 const BACKUP_PRIORITY = 1000
 const VERIFICATION_PRIORITY = 100
 export const CLEVERTAP_PRIORITY = 500
-export const INVITES_PRIORITY = 400
 const CELO_EDUCATION_PRIORITY = 10
 
 interface SimpleAction extends SimpleMessagingCardProps {

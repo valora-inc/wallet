@@ -24,12 +24,6 @@ interface State {
   transactionsByNetworkId: TransactionsByNetworkId
 }
 
-export interface KnownFeedTransactionsType {
-  // Value will be an address string for transfer transactions
-  // and true boolean for exchange transactions
-  [txHash: string]: string | boolean
-}
-
 const initialState = {
   standbyTransactions: [],
   transactionsByNetworkId: {},
