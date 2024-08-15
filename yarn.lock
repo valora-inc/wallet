@@ -5442,10 +5442,10 @@
     "@walletconnect/safe-json" "^1.0.2"
     pino "7.11.0"
 
-"@walletconnect/react-native-compat@^2.13.3":
-  version "2.13.3"
-  resolved "https://registry.yarnpkg.com/@walletconnect/react-native-compat/-/react-native-compat-2.13.3.tgz#91c8a54cf4cde613fa07088a7b39a65b506f05bd"
-  integrity sha512-IUsTVVgJNsd60Yx8qe0rzc0S9ix3/D3mAbEZnoN6P7MtybPOpY5qK1gJOg2oK+KaZ41pyzlO01wW35gvc3vBAQ==
+"@walletconnect/react-native-compat@^2.14.0":
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/@walletconnect/react-native-compat/-/react-native-compat-2.14.0.tgz#71d2275a941c878a3e0287ab5416e3be7331c582"
+  integrity sha512-fk7qhUPMEXH7gmuZYkuczE+j9kE5TPOOLNZV6sWECzeo4xpWqy3Ews44pBnyTZzpZk1bMyOabEPuqOi6TZWWbQ==
   dependencies:
     events "3.3.0"
     fast-text-encoding "1.0.6"
@@ -14988,10 +14988,10 @@ qrcode@^1.5.1, qrcode@^1.5.4:
     pngjs "^5.0.0"
     yargs "^15.3.1"
 
-qs@6.11.0, qs@^6.12.1, qs@^6.9.4, qs@~6.5.2:
-  version "6.12.1"
-  resolved "https://registry.yarnpkg.com/qs/-/qs-6.12.1.tgz#39422111ca7cbdb70425541cba20c7d7b216599a"
-  integrity sha512-zWmv4RSuB9r2mYQw3zxQuHWeU+42aKi1wWig/j4ele4ygELZ7PEO6MM7rim9oAQH2A5MWfsAVf/jPvTPgCbvUQ==
+qs@6.11.0, qs@^6.13.0, qs@^6.9.4, qs@~6.5.2:
+  version "6.13.0"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.13.0.tgz#6ca3bd58439f7e245655798997787b0d88a51906"
+  integrity sha512-+38qI9SOr8tfZ4QmJNplMUxqjbe7LKvvZgWdExBOmd+egZTtjLB67Gu0HRX3u/XOq7UU2Nx6nsjvS16Z9uwfpg==
   dependencies:
     side-channel "^1.0.6"
 

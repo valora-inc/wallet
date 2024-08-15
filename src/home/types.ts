@@ -7,19 +7,13 @@ export enum HomeActionName {
 }
 
 export enum NotificationType {
-  incoming_tx_request = 'incoming_tx_request',
-  outgoing_tx_request = 'outgoing_tx_request',
   escrow_tx_summary = 'escrow_tx_summary',
   escrow_tx_pending = 'escrow_tx_pending',
   celo_asset_education = 'celo_asset_education',
-  invite_prompt = 'invite_prompt',
   verification_prompt = 'verification_prompt',
   backup_prompt = 'backup_prompt',
   keyless_backup_prompt = 'keyless_backup_prompt',
-  supercharge_available = 'supercharge_available',
   remote_notification = 'remote_notification',
-  supercharging = 'supercharging',
-  start_supercharging = 'start_supercharging',
   clevertap_notification = 'clevertap_notification',
 }
 

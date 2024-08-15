@@ -2,12 +2,11 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import { OnboardingEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { OnboardingEvents } from 'src/analytics/Events'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import {
   navigate,
-  navigateClearingStack,
   navigateHome,
   navigateHomeAndThenToScreen,
 } from 'src/navigator/NavigationService'
@@ -15,34 +14,34 @@ import { Screens } from 'src/navigator/Screens'
 import ChooseYourAdventure from 'src/onboarding/ChooseYourAdventure'
 import { AdventureCardName } from 'src/onboarding/types'
 import { createMockStore } from 'test/utils'
-import { mockAccount, mockAccount2, mockCeloTokenId } from 'test/values'
+import { mockAccount, mockAccount2 } from 'test/values'
 
 describe('ChooseYourAdventure', () => {
   const orderOptions = [
     {
       address: mockAccount,
       testIDs: [
-        'AdventureCard/0/chooseYourAdventure.options.dapp',
+        'AdventureCard/0/chooseYourAdventure.options.earn',
         'AdventureCard/1/chooseYourAdventure.options.add',
-        'AdventureCard/2/chooseYourAdventure.options.learn',
+        'AdventureCard/2/chooseYourAdventure.options.learnPoints',
         'AdventureCard/3/chooseYourAdventure.options.profile',
       ],
     },
     {
       address: mockAccount2,
       testIDs: [
-        'AdventureCard/0/chooseYourAdventure.options.learn',
+        'AdventureCard/0/chooseYourAdventure.options.learnPoints',
         'AdventureCard/1/chooseYourAdventure.options.profile',
-        'AdventureCard/2/chooseYourAdventure.options.dapp',
+        'AdventureCard/2/chooseYourAdventure.options.earn',
         'AdventureCard/3/chooseYourAdventure.options.add',
       ],
     },
   ]
 
   const expectedCardOrder = [
-    AdventureCardName.Dapp,
+    AdventureCardName.Earn,
     AdventureCardName.Add,
-    AdventureCardName.Learn,
+    AdventureCardName.LearnPoints,
     AdventureCardName.Profile,
   ]
 
@@ -75,20 +74,18 @@ describe('ChooseYourAdventure', () => {
     }
   )
 
-  it('navigates to the correct screen for dapp', () => {
+  it('navigates to the correct screen for earn', () => {
     const { getByTestId } = render(
       <Provider store={store}>
         <ChooseYourAdventure />
       </Provider>
     )
 
-    fireEvent.press(getByTestId('AdventureCard/0/chooseYourAdventure.options.dapp'))
-    expect(navigateClearingStack).toHaveBeenLastCalledWith(Screens.TabNavigator, {
-      initialScreen: Screens.TabDiscover,
-    })
+    fireEvent.press(getByTestId('AdventureCard/0/chooseYourAdventure.options.earn'))
+    expect(navigateHomeAndThenToScreen).toHaveBeenLastCalledWith(Screens.EarnInfoScreen)
     expect(AppAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
       position: 1,
-      cardName: AdventureCardName.Dapp,
+      cardName: AdventureCardName.Earn,
       cardOrder: expectedCardOrder,
     })
   })
@@ -117,13 +114,11 @@ describe('ChooseYourAdventure', () => {
         <ChooseYourAdventure />
       </Provider>
     )
-    fireEvent.press(getByTestId('AdventureCard/2/chooseYourAdventure.options.learn'))
-    expect(navigateHomeAndThenToScreen).toHaveBeenLastCalledWith(Screens.TokenDetails, {
-      tokenId: mockCeloTokenId,
-    })
+    fireEvent.press(getByTestId('AdventureCard/2/chooseYourAdventure.options.learnPoints'))
+    expect(navigateHomeAndThenToScreen).toHaveBeenLastCalledWith(Screens.PointsIntro)
     expect(AppAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
       position: 3,
-      cardName: AdventureCardName.Learn,
+      cardName: AdventureCardName.LearnPoints,
       cardOrder: expectedCardOrder,
     })
   })

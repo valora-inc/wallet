@@ -2,12 +2,15 @@ import { Platform } from 'react-native'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Actions, ActionTypes, AppState, MultichainBetaStatus } from 'src/app/actions'
 import { CeloNewsConfig } from 'src/celoNews/types'
-import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
+import { DEEPLINK_PREFIX } from 'src/config'
 
-const PERSISTED_DEEP_LINKS = ['https://valoraapp.com/share', 'celo://wallet/jumpstart']
+const PERSISTED_DEEP_LINKS = [
+  'https://valoraapp.com/share',
+  `${DEEPLINK_PREFIX}://wallet/jumpstart`,
+]
 
 interface State {
   loggedIn: boolean
@@ -23,8 +26,6 @@ interface State {
   celoEducationUri: string | null
   activeScreen: Screens
   walletConnectV2Enabled: boolean
-  superchargeApy: number
-  superchargeTokenConfigByToken: SuperchargeTokenConfigByToken
   // In 1.13 we had a critical error which requires a migration to fix. See |verificationMigration.ts|
   // for the migration code. We can remove all the code associated with this after some time has passed.
   logPhoneNumberTypeEnabled: boolean
@@ -71,10 +72,6 @@ const initialState = {
   celoEducationUri: null,
   activeScreen: Screens.Main,
   walletConnectV2Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV2Enabled,
-  superchargeApy: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeApy,
-  superchargeTokenConfigByToken: JSON.parse(
-    REMOTE_CONFIG_VALUES_DEFAULTS.superchargeTokenConfigByToken
-  ),
   logPhoneNumberTypeEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.logPhoneNumberTypeEnabled,
   googleMobileServicesAvailable: undefined,
   huaweiMobileServicesAvailable: undefined,
@@ -196,8 +193,6 @@ export const appReducer = (
         ...state,
         celoEducationUri: action.configValues.celoEducationUri,
         walletConnectV2Enabled: action.configValues.walletConnectV2Enabled,
-        superchargeApy: action.configValues.superchargeApy,
-        superchargeTokenConfigByToken: action.configValues.superchargeTokenConfigByToken,
         logPhoneNumberTypeEnabled: action.configValues.logPhoneNumberTypeEnabled,
         pincodeUseExpandedBlocklist: action.configValues.pincodeUseExpandedBlocklist,
         sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,

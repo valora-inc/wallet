@@ -121,7 +121,6 @@ secrets.json
 
 # Branding
 # See scripts/sync_branding.sh
-branding/valora
 android/app/src/main/res/drawable*
 android/app/src/main/res/layout*
 android/app/src/main/res/mipmap*
@@ -133,10 +132,8 @@ src/brandingConfig.ts
 src/icons/LogoHeart.tsx
 src/icons/Logo.tsx
 src/icons/WelcomeLogo.tsx
-src/icons/Home.tsx
 src/images/*
 !src/images/Images.ts
-!src/images/link-arrow.png
 
 # Temporary files created by Metro to check the health of the file watcher
 .metro-health-check*
