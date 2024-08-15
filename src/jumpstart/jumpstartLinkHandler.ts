@@ -33,7 +33,7 @@ export async function jumpstartLinkHandler(
   return transactionHashes
 }
 
-export async function executeClaims(
+async function executeClaims(
   contractAddress: Address,
   userAddress: Address,
   assetType: 'erc20' | 'erc721',
@@ -106,7 +106,7 @@ export async function executeClaims(
   }
 }
 
-export interface RewardInfo {
+interface RewardInfo {
   index: string
   beneficiary: string
   signature: string
@@ -115,7 +115,7 @@ export interface RewardInfo {
   networkId: NetworkId
 }
 
-export async function claimReward(rewardInfo: RewardInfo) {
+async function claimReward(rewardInfo: RewardInfo) {
   const queryParams = new URLSearchParams({ ...rewardInfo }).toString()
   const requestUrl = `${networkConfig.walletJumpstartUrl}?${queryParams}`
   const response = await fetchWithTimeout(requestUrl, { method: 'POST' }, 60_000)

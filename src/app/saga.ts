@@ -360,7 +360,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
   }
 }
 
-export function* watchDeepLinks() {
+function* watchDeepLinks() {
   yield* takeLatest(Actions.OPEN_DEEP_LINK, safely(handleDeepLink))
 }
 
@@ -380,7 +380,7 @@ export function* handleOpenUrl(action: OpenUrlAction) {
   }
 }
 
-export function* watchOpenUrl() {
+function* watchOpenUrl() {
   yield* takeEvery(Actions.OPEN_URL, safely(handleOpenUrl))
 }
 
@@ -550,7 +550,7 @@ export function* requestInAppReview() {
   }
 }
 
-export function* watchAppReview() {
+function* watchAppReview() {
   // Triggers on successful payment, swap, or rewards claim
   yield* takeLatest([SendActions.SEND_PAYMENT_SUCCESS, swapSuccess], safely(requestInAppReview))
 }
