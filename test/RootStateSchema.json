@@ -1972,15 +1972,6 @@
             ],
             "type": "string"
         },
-        "KnownFeedTransactionsType": {
-            "additionalProperties": {
-                "type": [
-                    "string",
-                    "boolean"
-                ]
-            },
-            "type": "object"
-        },
         "KycSchema": {
             "enum": [
                 "PersonalDataAndDocuments",
@@ -5292,9 +5283,6 @@
         "State_6": {
             "additionalProperties": false,
             "properties": {
-                "knownFeedTransactions": {
-                    "$ref": "#/definitions/KnownFeedTransactionsType"
-                },
                 "standbyTransactions": {
                     "items": {
                         "$ref": "#/definitions/StandbyTransaction"
@@ -5306,7 +5294,6 @@
                 }
             },
             "required": [
-                "knownFeedTransactions",
                 "standbyTransactions",
                 "transactionsByNetworkId"
             ],
