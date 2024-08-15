@@ -1986,10 +1986,12 @@
     "subtitle": "您想先做什么？",
     "later": "我稍后再试",
     "options": {
-      "add": "添加资金",
+      "add": "添加资金到钱包中",
       "dapp": "查找使用加密货币的方式",
-      "profile": "创建我的个人资料",
-      "learn": "了解 Celo"
+      "earn": "探索赚钱机会",
+      "profile": "建立您的个人档案",
+      "learn": "了解 Celo",
+      "learnPoints": "了解 {{appName}} 积分"
     }
   },
   "reverifyUsingCPVHomecard": {

@@ -1988,10 +1988,12 @@
     "subtitle": "Önce ne yapmak istersiniz?",
     "later": "Daha sonra keşfedeceğim",
     "options": {
-      "add": "Bakiye ekleme",
+      "add": "Cüzdanınıza fon ekleyin",
       "dapp": "Kriptoyu kullanmanın yollarını bulma",
-      "profile": "Profilimi oluştur",
-      "learn": "Celo hakkında bilgi edinme"
+      "earn": "Kazanç fırsatlarını keşfedin",
+      "profile": "Profilimi oluşturma",
+      "learn": "Celo hakkında bilgi edinme",
+      "learnPoints": "{{appName}} Points hakkında bilgi edinin"
     }
   },
   "reverifyUsingCPVHomecard": {
