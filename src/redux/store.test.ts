@@ -335,7 +335,6 @@ describe('store state', () => {
           "tokenBalances": {},
         },
         "transactions": {
-          "knownFeedTransactions": {},
           "standbyTransactions": [],
           "transactionsByNetworkId": {},
         },

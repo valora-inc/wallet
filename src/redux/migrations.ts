@@ -1847,6 +1847,11 @@ export const migrations = {
   }),
   225: (state: any) => ({
     ...(_.omit(state, 'escrow') as any),
-    transactions: _.omit(state.transactions, 'recentTxRecipientsCache', 'inviteTransactions'),
+    transactions: _.omit(
+      state.transactions,
+      'recentTxRecipientsCache',
+      'inviteTransactions',
+      'knownFeedTransactions'
+    ),
   }),
 }

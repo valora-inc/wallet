@@ -21,11 +21,6 @@ interface State {
   // included in the tx feed. Necessary so it shows up in the
   // feed instantly.
   standbyTransactions: StandbyTransaction[]
-  // Tracks which set of transactions retrieved in the
-  // feed have already been processed by the
-  // tx feed query watcher. Necessary so we don't re-process
-  // txs more than once.
-  knownFeedTransactions: KnownFeedTransactionsType
   transactionsByNetworkId: TransactionsByNetworkId
 }
 
@@ -37,7 +32,6 @@ export interface KnownFeedTransactionsType {
 
 const initialState = {
   standbyTransactions: [],
-  knownFeedTransactions: {},
   transactionsByNetworkId: {},
 }
 // export for testing
@@ -118,13 +112,6 @@ export const reducer = (
         ),
       }
     case Actions.UPDATE_TRANSACTIONS:
-      const newKnownFeedTransactions = { ...state.knownFeedTransactions }
-      action.transactions.forEach((tx) => {
-        if ('address' in tx) {
-          newKnownFeedTransactions[tx.transactionHash] = tx.address
-        }
-      })
-
       const standbyTransactionHashes = new Set(
         state.standbyTransactions
           .map((tx) => tx.transactionHash)
@@ -191,7 +178,6 @@ export const reducer = (
           ...state.transactionsByNetworkId,
           [action.networkId]: receivedTransactions,
         },
-        knownFeedTransactions: newKnownFeedTransactions,
         standbyTransactions: updatedStandbyTransactions,
       }
     default:
@@ -236,9 +222,6 @@ export const confirmedStandbyTransactionsSelector = createSelector(
     )
   }
 )
-
-export const knownFeedTransactionsSelector = (state: RootState) =>
-  state.transactions.knownFeedTransactions
 
 export const transactionsByNetworkIdSelector = (state: RootState) =>
   state.transactions.transactionsByNetworkId

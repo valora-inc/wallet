@@ -3454,7 +3454,12 @@ export const v225Schema = {
     ...v224Schema._persist,
     version: 225,
   },
-  transactions: _.omit(v224Schema.transactions, 'recentTxRecipientsCache', 'inviteTransactions'),
+  transactions: _.omit(
+    v224Schema.transactions,
+    'recentTxRecipientsCache',
+    'inviteTransactions',
+    'knownFeedTransactions'
+  ),
 }
 
 export function getLatestSchema(): Partial<RootState> {
