@@ -1,14 +1,8 @@
-import { newKit } from '@celo/contractkit'
-import {
-  hashMessageWithPrefix,
-  verifyEIP712TypedDataSigner,
-  verifySignature,
-} from '@celo/utils/lib/signatureUtils'
 import { Core } from '@walletconnect/core'
 import Client from '@walletconnect/sign-client'
 import fetch from 'node-fetch'
 import { WALLET_CONNECT_PROJECT_ID_E2E } from 'react-native-dotenv'
-import { hexToNumber } from 'viem'
+import { hashMessage, hexToNumber, verifyMessage, verifyTypedData } from 'viem'
 import { parseTransaction } from 'viem/celo'
 import { formatUri, utf8ToHex } from '../utils/encoding'
 import { launchApp } from '../utils/retries'
@@ -17,9 +11,7 @@ import { enterPinUiIfNecessary, navigateToSettings, sleep } from '../utils/utils
 import jestExpect from 'expect'
 
 const dappName = 'WalletConnectV2 E2E'
-
-const kitUrl = process.env.FORNO_URL || 'https://alfajores-forno.celo-testnet.org'
-const kit = newKit(kitUrl)
+const transportUrl = process.env.FORNO_URL || 'https://alfajores-forno.celo-testnet.org'
 
 const walletAddress = (
   process.env.E2E_WALLET_ADDRESS || '0x6131a6d616a4be3737b38988847270a64bc10caa'
@@ -27,7 +19,7 @@ const walletAddress = (
 
 async function formatTestTransaction(address) {
   try {
-    const response = await fetch(kitUrl, {
+    const response = await fetch(transportUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -90,6 +82,11 @@ const verifySuccessfulTransaction = async (title = 'Confirm transaction', tx) =>
 export default WalletConnect = () => {
   let walletConnectClient, pairingUrl, core
   let intervalsToClear = []
+
+  const client = createPublicClient({
+    chain: celoAlfajores,
+    transport: http(transportUrl),
+  })
 
   beforeAll(async () => {
     // @walletconnect/heartbeat keeps a setInterval running, which causes jest to hang, unable to shut down cleanly
@@ -196,17 +193,7 @@ export default WalletConnect = () => {
       const txHash = await requestPromise
       console.log('Received tx hash', txHash)
 
-      // Wait for the transaction to be mined
-      // TODO: switch to viem waitForTransactionReceipt once we can upgrade to node 20+
-      let receipt
-      for (let i = 0; i < 30; i++) {
-        receipt = await kit.connection.getTransactionReceipt(txHash)
-        if (receipt) {
-          break
-        }
-        await sleep(1000)
-      }
-
+      const receipt = await client.waitForTransactionReceipt({ hash: txHash })
       console.log('Received receipt', receipt)
       jestExpect(receipt).toBeTruthy()
       const { status, from, to } = receipt
@@ -247,7 +234,7 @@ export default WalletConnect = () => {
   })
 
   it('Then is able to sign a message (eth_sign)', async () => {
-    const message = hashMessageWithPrefix(`My email is valora.test@mailinator.com - ${+new Date()}`)
+    const message = hashMessage(`My email is valora.test@mailinator.com - ${+new Date()}`)
     const params = [walletAddress, message]
     const [session] = walletConnectClient.session.map.values()
     const requestPromise = walletConnectClient.request({
@@ -264,7 +251,12 @@ export default WalletConnect = () => {
     const signature = await requestPromise
     console.log('Received signature', signature)
 
-    jestExpect(verifySignature(message, signature, walletAddress)).toStrictEqual(true)
+    const isValidSignature = await verifyMessage({
+      message,
+      signature,
+      address: walletAddress,
+    })
+    jestExpect(isValidSignature).toStrictEqual(true)
   })
 
   it('Then is able to sign a personal message (personal_sign)', async () => {
@@ -285,7 +277,12 @@ export default WalletConnect = () => {
     const signature = await requetPromise
     console.log('Received signature', signature)
 
-    jestExpect(verifySignature(message, signature, walletAddress)).toStrictEqual(true)
+    const isValidSignature = await verifyMessage({
+      message,
+      signature,
+      address: walletAddress,
+    })
+    jestExpect(isValidSignature).toStrictEqual(true)
   })
 
   it('Then is able to sign typed data (eth_signTypedData)', async () => {
@@ -356,7 +353,12 @@ export default WalletConnect = () => {
     const signature = await requestPromise
     console.log('Received signature', signature)
 
-    jestExpect(verifyEIP712TypedDataSigner(typedData, signature, walletAddress)).toStrictEqual(true)
+    const isValidSignature = await verifyTypedData({
+      ...typedData,
+      address: walletAddress,
+      signature,
+    })
+    jestExpect(isValidSignature).toStrictEqual(true)
   })
 
   it('Then should be able to disconnect a session', async () => {
