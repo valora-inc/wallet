@@ -1,4 +1,3 @@
-import { getAddressChunks } from '@celo/utils/lib/address'
 import Clipboard from '@react-native-clipboard/clipboard'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -10,6 +9,7 @@ import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { vibrateInformative } from 'src/styles/hapticFeedback'
 import Logger from 'src/utils/Logger'
+import { getAddressChunks } from 'src/utils/formatting'
 
 interface Props {
   address: string
@@ -39,8 +39,6 @@ export default function AccountNumber({ address, touchDisabled, location }: Prop
       AppAnalytics.track(HomeEvents.profile_address_copy)
     }
   }
-  // Turns '0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10'
-  // into 'ce10 ce10 ce10 ce10 ce10 ce10 ce10 ce10 ce10 ce10'
   const addressChunks = getAddressChunks(address)
   const addressString = '0x ' + addressChunks.join(' ')
 

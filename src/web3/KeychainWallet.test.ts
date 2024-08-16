@@ -3,7 +3,6 @@ import {
   normalizeAddressWith0x,
   privateKeyToAddress,
   privateKeyToPublicKey,
-  trimLeading0x,
 } from '@celo/utils/lib/address'
 import { Encrypt } from '@celo/utils/lib/ecies'
 import { verifySignature } from '@celo/utils/lib/signatureUtils'
@@ -11,6 +10,7 @@ import { recoverTransaction, verifyEIP712TypedDataSigner } from '@celo/wallet-ba
 import CryptoJS from 'crypto-js'
 import MockDate from 'mockdate'
 import * as Keychain from 'react-native-keychain'
+import { trimLeading0x } from 'src/utils/formatting'
 import { UNLOCK_DURATION } from 'src/web3/consts'
 import { KeychainLock } from 'src/web3/KeychainLock'
 import { KeychainWallet } from 'src/web3/KeychainWallet'

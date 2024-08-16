@@ -1,5 +1,4 @@
-import { getAddressChunks } from '@celo/utils/lib/address'
-import { EXAMPLE_NAME } from '../utils/consts'
+import { getAddressChunks } from '../../../src/utils/formatting'
 import { launchApp } from '../utils/retries'
 import {
   completeProtectWalletScreen,
