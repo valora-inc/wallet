@@ -47,35 +47,36 @@ export default function PoolCard({
   const poolBalanceInFiat =
     useDollarsToLocalAmount(new BigNumber(balance).times(new BigNumber(priceUsd))) ?? null
 
-  const rewardAmountInFiat = useMemo(
+  const rewardAmountInUsd = useMemo(
     () =>
       earningItems
         .reduce(
           (acc, earnItem) =>
             acc.plus(
-              useDollarsToLocalAmount(
-                new BigNumber(earnItem.amount).times(
-                  allTokens[earnItem.tokenId]?.priceUsd ?? new BigNumber(0)
-                )
-              ) ?? new BigNumber(0)
+              new BigNumber(earnItem.amount).times(
+                allTokens[earnItem.tokenId]?.priceUsd ?? new BigNumber(0)
+              )
             ),
           new BigNumber(0)
         )
         .toFixed(2),
     [earningItems]
   )
+  const rewardAmountInFiat =
+    useDollarsToLocalAmount(new BigNumber(rewardAmountInUsd)) ?? new BigNumber(0)
+
   const poolBalanceString = useMemo(
     () =>
       `${localCurrencySymbol}${poolBalanceInFiat ? formatValueToDisplay(poolBalanceInFiat.plus(rewardAmountInFiat)) : '--'}`,
     [localCurrencySymbol, poolBalanceInFiat, rewardAmountInFiat]
   )
 
+  const tvlInFiat = tvl
+    ? useDollarsToLocalAmount(new BigNumber(tvl).times(new BigNumber(priceUsd)))
+    : null
   const tvlString = useMemo(() => {
-    const tvlInFiat = tvl
-      ? useDollarsToLocalAmount(new BigNumber(tvl).times(new BigNumber(priceUsd)))
-      : null
     return `${localCurrencySymbol}${tvlInFiat ? formatValueToDisplay(tvlInFiat) : '--'}`
-  }, [localCurrencySymbol, tvl])
+  }, [localCurrencySymbol, tvlInFiat])
 
   const totalYieldRate = new BigNumber(
     yieldRates.reduce((acc, yieldRate) => acc + yieldRate.percentage, 0)
