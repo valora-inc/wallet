@@ -1,54 +1,30 @@
-import { CeloTransactionObject, CeloTxReceipt, EventLog } from '@celo/connect'
-import { ContractKit } from '@celo/contractkit'
-import { EscrowWrapper } from '@celo/contractkit/lib/wrappers/Escrow'
+import { CeloTransactionObject, CeloTxReceipt } from '@celo/connect'
 import BigNumber from 'bignumber.js'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { Actions as IdentityActions } from 'src/identity/actions'
-import { AddressToE164NumberType } from 'src/identity/reducer'
-import { addressToE164NumberSelector } from 'src/identity/selectors'
 import { trackPointsEvent } from 'src/points/slice'
-import { NumberToRecipient } from 'src/recipients/recipient'
-import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { BaseToken, fetchTokenBalances } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSend, getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
-import {
-  Actions,
-  UpdateTransactionsAction,
-  addHashToStandbyTransaction,
-  transactionConfirmed,
-  updateInviteTransactions,
-  updateRecentTxRecipientsCache,
-} from 'src/transactions/actions'
+import { addHashToStandbyTransaction, transactionConfirmed } from 'src/transactions/actions'
 import { TxPromises } from 'src/transactions/contract-utils'
-import {
-  KnownFeedTransactionsType,
-  inviteTransactionsSelector,
-  knownFeedTransactionsSelector,
-  pendingStandbyTransactionsSelector,
-} from 'src/transactions/reducer'
+import { pendingStandbyTransactionsSelector } from 'src/transactions/reducer'
 import { sendTransactionPromises, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import {
   Fee,
   Network,
   NetworkId,
   StandbyTransaction,
-  TokenTransactionTypeV2,
   TransactionContext,
   TransactionStatus,
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
-import { getContractKit } from 'src/web3/contracts'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
-import { call, delay, fork, put, select, spawn, takeEvery, takeLatest } from 'typed-redux-saga'
+import { call, delay, fork, put, select, spawn } from 'typed-redux-saga'
 import { Hash, TransactionReceipt } from 'viem'
 
 const TAG = 'transactions/saga'
-
-const RECENT_TX_RECIPIENT_CACHE_LIMIT = 10
 
 // These are in msecs and you want a value that's equal to the average
 // blocktime and no less than MINIMUM_WATCHING_DELAY_MS. (will be ignored if under MINIMUM_WATCHING_DELAY_MS)
@@ -61,64 +37,6 @@ const WATCHING_DELAY_BY_NETWORK: Record<Network, number> = {
   [Network.Base]: 2000,
 }
 const MIN_WATCHING_DELAY_MS = 2000
-
-function* getInviteTransactionDetails(txHash: string, blockNumber: string) {
-  const kit: ContractKit = yield* call(getContractKit)
-  const escrowWrapper: EscrowWrapper = yield* call([kit.contracts, kit.contracts.getEscrow])
-  const transferEvents: EventLog[] = yield* call(
-    [escrowWrapper, escrowWrapper.getPastEvents],
-    escrowWrapper.eventTypes.Transfer,
-    {
-      fromBlock: blockNumber,
-      toBlock: blockNumber,
-    }
-  )
-  const transactionDetails = transferEvents.find(
-    (transferEvent) => transferEvent.transactionHash === txHash
-  )
-
-  if (!transactionDetails) {
-    Logger.error(
-      `${TAG}@getInviteTransactionDetails`,
-      `No escrow past events found with transaction hash ${txHash} and block number ${blockNumber}`
-    )
-    return {}
-  }
-
-  return {
-    recipientIdentifier: transactionDetails.returnValues.identifier,
-    paymentId: transactionDetails.returnValues.paymentId,
-  }
-}
-
-export function* getInviteTransactionsDetails({ transactions }: UpdateTransactionsAction) {
-  const existingInviteTransactions = yield* select(inviteTransactionsSelector)
-  const newInviteTransactions = transactions.filter(
-    (transaction) =>
-      transaction.type === TokenTransactionTypeV2.InviteSent &&
-      !existingInviteTransactions[transaction.transactionHash]
-  )
-
-  if (newInviteTransactions.length <= 0) {
-    return
-  }
-
-  const inviteTransactions = { ...existingInviteTransactions }
-  for (const newInviteTransaction of newInviteTransactions) {
-    const { recipientIdentifier, paymentId } = yield* call(
-      getInviteTransactionDetails,
-      newInviteTransaction.transactionHash,
-      newInviteTransaction.block
-    )
-    if (recipientIdentifier && paymentId) {
-      inviteTransactions[newInviteTransaction.transactionHash] = {
-        paymentId,
-        recipientIdentifier,
-      }
-    }
-  }
-  yield* put(updateInviteTransactions(inviteTransactions))
-}
 
 export function* sendAndMonitorTransaction<T>(
   tx: CeloTransactionObject<T>,
@@ -171,66 +89,6 @@ export function* sendAndMonitorTransaction<T>(
     yield* put(showError(ErrorMessages.TRANSACTION_FAILED))
     return { error }
   }
-}
-
-function* refreshRecentTxRecipients() {
-  const addressToE164Number: AddressToE164NumberType = yield* select(addressToE164NumberSelector)
-  const recipientCache: NumberToRecipient = yield* select(phoneRecipientCacheSelector)
-  const knownFeedTransactions: KnownFeedTransactionsType = yield* select(
-    knownFeedTransactionsSelector
-  )
-
-  // No way to match addresses to recipients without caches
-  if (
-    !Object.keys(recipientCache).length ||
-    !Object.keys(addressToE164Number).length ||
-    !Object.keys(knownFeedTransactions).length
-  ) {
-    return
-  }
-
-  const knownFeedAddresses = Object.values(knownFeedTransactions)
-
-  let remainingCacheStorage = RECENT_TX_RECIPIENT_CACHE_LIMIT
-  const recentTxRecipientsCache: NumberToRecipient = {}
-  // Start from back of the array to get the most recent transactions
-  for (let i = knownFeedAddresses.length - 1; i >= 0; i -= 1) {
-    if (remainingCacheStorage <= 0) {
-      break
-    }
-
-    const address = knownFeedAddresses[i]
-    // Address is not a string if transaction was an Exchange
-    if (typeof address !== 'string') {
-      continue
-    }
-
-    const e164PhoneNumber = addressToE164Number[address]
-    if (e164PhoneNumber) {
-      const cachedRecipient = recipientCache[e164PhoneNumber]
-      // Skip if there is no recipient to cache or we've already cached them
-      if (!cachedRecipient || recentTxRecipientsCache[e164PhoneNumber]) {
-        continue
-      }
-
-      recentTxRecipientsCache[e164PhoneNumber] = cachedRecipient
-      remainingCacheStorage -= 1
-    }
-  }
-
-  yield* put(updateRecentTxRecipientsCache(recentTxRecipientsCache))
-}
-
-function* watchNewFeedTransactions() {
-  yield* takeEvery(Actions.UPDATE_TRANSACTIONS, safely(getInviteTransactionsDetails))
-  yield* takeLatest(Actions.UPDATE_TRANSACTIONS, safely(refreshRecentTxRecipients))
-}
-
-function* watchAddressToE164PhoneNumberUpdate() {
-  yield* takeLatest(
-    IdentityActions.UPDATE_E164_PHONE_NUMBER_ADDRESSES,
-    safely(refreshRecentTxRecipients)
-  )
 }
 
 export function* getTransactionReceipt(
@@ -335,8 +193,6 @@ export function* watchPendingTransactions() {
 }
 
 export function* transactionSaga() {
-  yield* spawn(watchNewFeedTransactions)
-  yield* spawn(watchAddressToE164PhoneNumberUpdate)
   yield* spawn(watchPendingTransactions)
 }
 
