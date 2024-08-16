@@ -16,7 +16,6 @@ import {
 } from 'src/app/saga'
 import { dappsSaga } from 'src/dapps/saga'
 import { earnSaga } from 'src/earn/saga'
-import { escrowSaga } from 'src/escrow/saga'
 import { feesSaga } from 'src/fees/saga'
 import { fiatExchangesSaga } from 'src/fiatExchanges/saga'
 import { fiatConnectSaga } from 'src/fiatconnect/saga'
@@ -56,7 +55,6 @@ const loggerBlocklist = [
   ImportActions.IMPORT_BACKUP_PHRASE,
   setPhoneRecipientCache.toString(),
   updateAppRecipientCache.toString(),
-  TransactionActions.UPDATE_RECENT_TX_RECIPIENT_CACHE,
   TransactionActions.UPDATE_TRANSACTIONS,
   Web3Actions.SET_DATA_ENCRYPTION_KEY,
 ]
@@ -123,7 +121,6 @@ export function* rootSaga() {
     yield* spawn(feesSaga)
     yield* spawn(sendSaga)
     yield* spawn(jumpstartSaga)
-    yield* spawn(escrowSaga)
     yield* spawn(importSaga)
     yield* spawn(checkAccountExistenceSaga)
     yield* spawn(fiatExchangesSaga)

@@ -1,5 +1,3 @@
-import { NumberToRecipient } from 'src/recipients/recipient'
-import { InviteTransactions } from 'src/transactions/reducer'
 import {
   EarnClaimReward,
   EarnDeposit,
@@ -20,9 +18,7 @@ export enum Actions {
   ADD_HASH_TO_STANDBY_TRANSACTIONS = 'TRANSACTIONS/ADD_HASH_TO_STANDBY_TRANSACTIONS',
   TRANSACTION_CONFIRMED = 'TRANSACTIONS/TRANSACTION_CONFIRMED',
   REFRESH_RECENT_TX_RECIPIENTS = 'TRANSACTIONS/REFRESH_RECENT_TX_RECIPIENTS',
-  UPDATE_RECENT_TX_RECIPIENT_CACHE = 'TRANSACTIONS/UPDATE_RECENT_TX_RECIPIENT_CACHE',
   UPDATE_TRANSACTIONS = 'TRANSACTIONS/UPDATE_TRANSACTIONS',
-  UPDATE_INVITE_TRANSACTIONS = 'TRANSACTIONS/UPDATE_INVITE_TRANSACTIONS',
 }
 
 type BaseStandbyTransactionType<T> = Omit<PendingStandbyTransaction<T>, 'timestamp' | 'status'>
@@ -62,42 +58,23 @@ export interface TransactionConfirmedAction {
   blockTimestampInMs: number
 }
 
-export interface UpdatedRecentTxRecipientsCacheAction {
-  type: Actions.UPDATE_RECENT_TX_RECIPIENT_CACHE
-  recentTxRecipientsCache: NumberToRecipient
-}
-
 export interface UpdateTransactionsAction {
   type: Actions.UPDATE_TRANSACTIONS
   transactions: TokenTransaction[]
   networkId: NetworkId
 }
 
-export interface UpdateInviteTransactionsAction {
-  type: Actions.UPDATE_INVITE_TRANSACTIONS
-  inviteTransactions: InviteTransactions
-}
-
 export type ActionTypes =
   | AddStandbyTransactionAction
   | AddHashToStandbyTransactionAction
-  | UpdatedRecentTxRecipientsCacheAction
   | UpdateTransactionsAction
   | TransactionConfirmedAction
-  | UpdateInviteTransactionsAction
 
 export const addStandbyTransaction = (
   transaction: BaseStandbyTransaction
 ): AddStandbyTransactionAction => ({
   type: Actions.ADD_STANDBY_TRANSACTION,
   transaction,
-})
-
-export const updateRecentTxRecipientsCache = (
-  recentTxRecipientsCache: NumberToRecipient
-): UpdatedRecentTxRecipientsCacheAction => ({
-  type: Actions.UPDATE_RECENT_TX_RECIPIENT_CACHE,
-  recentTxRecipientsCache,
 })
 
 export const transactionConfirmed = (
@@ -127,11 +104,4 @@ export const updateTransactions = (
   type: Actions.UPDATE_TRANSACTIONS,
   networkId,
   transactions,
-})
-
-export const updateInviteTransactions = (
-  inviteTransactions: InviteTransactions
-): UpdateInviteTransactionsAction => ({
-  type: Actions.UPDATE_INVITE_TRANSACTIONS,
-  inviteTransactions,
 })
