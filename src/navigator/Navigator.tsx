@@ -33,8 +33,6 @@ import EarnCollectScreen from 'src/earn/EarnCollectScreen'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
 import EarnHome from 'src/earn/EarnHome'
 import EarnInfoScreen from 'src/earn/EarnInfoScreen'
-import EscrowedPaymentListScreen from 'src/escrow/EscrowedPaymentListScreen'
-import ReclaimPaymentConfirmationScreen from 'src/escrow/ReclaimPaymentConfirmationScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import CashInSuccess from 'src/fiatExchanges/CashInSuccess'
 import CoinbasePayScreen from 'src/fiatExchanges/CoinbasePayScreen'
@@ -241,16 +239,6 @@ const sendScreens = (Navigator: typeof Stack) => (
       name={Screens.ValidateRecipientAccount}
       component={ValidateRecipientAccount}
       options={validateRecipientAccountScreenNavOptions}
-    />
-    <Navigator.Screen
-      name={Screens.EscrowedPaymentListScreen}
-      component={EscrowedPaymentListScreen}
-      options={headerWithBackButton}
-    />
-    <Navigator.Screen
-      name={Screens.ReclaimPaymentConfirmationScreen}
-      component={ReclaimPaymentConfirmationScreen}
-      options={headerWithBackButton}
     />
     <Navigator.Screen
       name={Screens.SendEnterAmount}
@@ -671,6 +659,7 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen
       name={Screens.RegulatoryTerms}
+      // @ts-expect-error class component instead of functional component
       component={RegulatoryTerms}
       options={RegulatoryTerms.navigationOptions as NativeStackNavigationOptions}
     />

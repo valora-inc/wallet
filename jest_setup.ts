@@ -42,13 +42,6 @@ jest.mock('react-native/Libraries/Components/ToastAndroid/ToastAndroid.android.j
   showWithGravityAndOffset: jest.fn(),
 }))
 
-// Mock Pixel Ratio to always return 1
-jest.mock('react-native/Libraries/Utilities/PixelRatio.js', () => ({
-  roundToNearestPixel: jest.fn(() => 1),
-  getPixelSizeForLayoutSize: jest.fn(() => 1),
-  getFontScale: jest.fn(() => 1),
-}))
-
 jest.mock('react-native-shake', () => ({
   addListener: jest.fn(),
   removeAllListeners: jest.fn(),

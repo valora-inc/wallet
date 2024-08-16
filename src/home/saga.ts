@@ -1,4 +1,3 @@
-import { fetchSentEscrowPayments } from 'src/escrow/actions'
 import { notificationsChannel } from 'src/firebase/firebase'
 import {
   Actions,
@@ -38,7 +37,6 @@ export function* refreshBalances() {
   yield* call(getConnectedAccount)
   yield* put(fetchTokenBalances({ showLoading: false }))
   yield* put(fetchCurrentRate())
-  yield* put(fetchSentEscrowPayments())
 }
 
 export function* watchRefreshBalances() {

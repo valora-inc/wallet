@@ -126,8 +126,6 @@ export enum TokenTransactionTypeV2 {
   Exchange = 'EXCHANGE',
   Received = 'RECEIVED',
   Sent = 'SENT',
-  InviteSent = 'INVITE_SENT',
-  InviteReceived = 'INVITE_RECEIVED',
   NftReceived = 'NFT_RECEIVED',
   NftSent = 'NFT_SENT',
   SwapTransaction = 'SWAP_TRANSACTION',

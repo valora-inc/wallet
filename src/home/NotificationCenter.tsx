@@ -10,9 +10,7 @@ import { HomeEvents } from 'src/analytics/Events'
 import { openUrl } from 'src/app/actions'
 import { CallToAction } from 'src/components/CallToActionsBar'
 import SimpleMessagingCard from 'src/components/SimpleMessagingCard'
-import EscrowedPaymentListItem from 'src/escrow/EscrowedPaymentListItem'
-import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
-import { CLEVERTAP_PRIORITY, INVITES_PRIORITY, useSimpleActions } from 'src/home/NotificationBox'
+import { CLEVERTAP_PRIORITY, useSimpleActions } from 'src/home/NotificationBox'
 import { cleverTapInboxMessagesSelector } from 'src/home/selectors'
 import { Notification, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import ThumbsUpIllustration from 'src/icons/ThumbsUpIllustration'
@@ -105,23 +103,6 @@ function useCleverTapNotifications() {
 
 export function useNotifications() {
   const notifications: Notification[] = []
-
-  // Pending outgoing invites in escrow
-  const reclaimableEscrowPayments = useSelector(getReclaimableEscrowPayments)
-  if (reclaimableEscrowPayments && reclaimableEscrowPayments.length) {
-    for (const payment of reclaimableEscrowPayments) {
-      const itemPriority = Number(`${INVITES_PRIORITY}.${payment.timestamp.toString()}`)
-
-      notifications.push({
-        renderElement: (params?: { index?: number }) => (
-          <EscrowedPaymentListItem payment={payment} index={params?.index} />
-        ),
-        priority: !Number.isNaN(itemPriority) ? itemPriority : INVITES_PRIORITY,
-        id: `${NotificationType.escrow_tx_summary}/${payment.paymentID}`,
-        type: NotificationType.escrow_tx_summary,
-      })
-    }
-  }
 
   const simpleActions = useSimpleActions()
   notifications.push(

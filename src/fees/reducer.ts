@@ -4,7 +4,6 @@ import { FeeInfo } from 'src/fees/saga'
 export enum FeeType {
   SEND = 'send',
   EXCHANGE = 'exchange',
-  RECLAIM_ESCROW = 'reclaim-escrow',
   REGISTER_DEK = 'register-dek',
   SWAP = 'swap',
 }
@@ -34,7 +33,6 @@ const initialState: State = {
 export interface EstimateFeeAction {
   feeType: FeeType
   tokenAddress: string
-  paymentID?: string // Must be set if feeType === RECLAIM_ESCROW
 }
 
 export const estimateFee = createAction<EstimateFeeAction>('FEES/ESTIMATE_FEE')
