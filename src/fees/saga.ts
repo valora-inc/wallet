@@ -1,11 +1,10 @@
 import { CeloTxObject } from '@celo/connect'
 import BigNumber from 'bignumber.js'
 import { showErrorOrFallback } from 'src/alert/actions'
-import { FeeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { FeeEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { CELO_TRANSACTION_MIN_AMOUNT, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
-import { createReclaimTransaction } from 'src/escrow/saga'
 import { FeeType, estimateFee, feeEstimated } from 'src/fees/reducer'
 import { buildSendTx } from 'src/send/saga'
 import {
@@ -43,7 +42,7 @@ const PLACEHOLDER_AMOUNT = new BigNumber(0.00000001)
 const PLACEHOLDER_DEK = '0x02c9cacca8c5c5ebb24dc6080a933f6d52a072136a069083438293d71da36049dc'
 
 export function* estimateFeeSaga({
-  payload: { tokenAddress, feeType, paymentID },
+  payload: { tokenAddress, feeType },
 }: ReturnType<typeof estimateFee>) {
   Logger.debug(`${TAG}/estimateFeeSaga`, `updating for ${feeType} ${tokenAddress} `)
 
@@ -81,9 +80,6 @@ export function* estimateFeeSaga({
         break
       case FeeType.EXCHANGE:
         // TODO
-        break
-      case FeeType.RECLAIM_ESCROW:
-        feeInfo = yield* call(estimateReclaimEscrowFee, paymentID)
         break
       case FeeType.REGISTER_DEK:
         feeInfo = yield* call(estimateRegisterDekFee)
@@ -171,15 +167,6 @@ export function* estimateSwapFee(tokenAddress: string) {
     tx.txo,
     tokenAddress === celoAddress ? SWAP_CELO_FEE_ESTIMATE_MULTIPLIER : SWAP_FEE_ESTIMATE_MULTIPLIER
   )
-  return feeInfo
-}
-
-function* estimateReclaimEscrowFee(paymentID?: string) {
-  if (!paymentID) {
-    throw new Error('paymentID must be set for estimating escrow reclaim fee')
-  }
-  const txo = yield* call(createReclaimTransaction, paymentID)
-  const feeInfo = yield* call(calculateFeeForTx, txo)
   return feeInfo
 }
 
