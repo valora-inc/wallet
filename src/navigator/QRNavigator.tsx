@@ -32,14 +32,14 @@ export type QRCodeProps = NativeStackScreenProps<QRTabParamList, Screens.QRCode>
   qrSvgRef: React.MutableRefObject<SVG>
 }
 
-type ScannerSceneProps = NativeStackScreenProps<QRTabParamList, Screens.QRScanner>
-
 export function QRCodePicker({ route, qrSvgRef, ...props }: QRCodeProps) {
   const onPressCopy = () => {
     AppAnalytics.track(QrScreenEvents.qr_screen_copy_address)
   }
   return <QRCode {...props} qrSvgRef={qrSvgRef} onPressCopy={onPressCopy} />
 }
+
+type ScannerSceneProps = NativeStackScreenProps<QRTabParamList, Screens.QRScanner>
 
 // Component doing our custom transition for the QR scanner
 function ScannerScene({ route }: ScannerSceneProps) {
