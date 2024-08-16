@@ -1,17 +1,14 @@
+import { Address, createPublicClient, http } from 'viem'
+import { celoAlfajores } from 'viem/chains'
+import erc20 from '../../src/abis/IERC20'
 import { REFILL_TOKENS } from './consts'
 
-export const Web3 = require('web3')
-export const ContractKit = require('@celo/contractkit')
-export const dotenv = require('dotenv')
-export const web3 = new Web3('https://alfajores-forno.celo-testnet.org')
-export const kit = ContractKit.newKitFromWeb3(web3)
-
 export async function checkBalance(
-  address: string,
+  address: Address,
   minBalance = 10,
   tokenSymbols: string[] = REFILL_TOKENS
 ) {
-  const balance = (await getBalance(address)) ?? {}
+  const balance = (await getCeloTokensBalance(address)) ?? {}
   for (const [tokenSymbol, tokenBalance] of Object.entries(balance)) {
     if (tokenSymbols.includes(tokenSymbol) && tokenBalance < minBalance) {
       throw new Error(
@@ -21,17 +18,36 @@ export async function checkBalance(
   }
 }
 
-export async function getBalance(address: string) {
+export async function getCeloTokensBalance(walletAddress: Address) {
   try {
-    const balanceObj: Record<string, number> = {}
-    // Get Balances
-    let balances = await kit.celoTokens.balancesOf(address)
-    // Convert and add to balance object
-    for (const value in balances) {
-      balanceObj[value] = balances[value] / 10 ** 18
-    }
-    // Return balance object
-    return balanceObj
+    const supportedTokenAddresses: Address[] = [
+      '0x874069fa1eb16d44d622f2e0ca25eea172369bc1',
+      '0x10c892a6ec43a53e45d0b916b4b7d383b1b78c0f',
+      '0xf194afdf50b03e69bd7d057c1aa9e10c9954e4c9',
+    ] // CUSD, CEUR, CELO
+
+    const celoClient = createPublicClient({
+      chain: celoAlfajores,
+      transport: http('https://alfajores-forno.celo-testnet.org'),
+    })
+
+    const results = await celoClient.multicall({
+      contracts: supportedTokenAddresses.map((tokenAddress) => ({
+        address: tokenAddress as Address,
+        abi: erc20.abi,
+        functionName: 'balanceOf',
+        args: [walletAddress],
+      })),
+      allowFailure: false,
+    })
+
+    return results.reduce(
+      (acc, result, index) => {
+        acc[supportedTokenAddresses[index]] = Number(BigInt(result) / BigInt(10 ** 18))
+        return acc
+      },
+      {} as Record<Address, number>
+    )
   } catch (err) {
     console.log(err)
   }
