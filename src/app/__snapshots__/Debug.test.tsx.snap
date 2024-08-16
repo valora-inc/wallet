@@ -73,16 +73,6 @@ exports[`Debug renders correctly 1`] = `
   >
     Statsig Stable ID: stableId
   </Text>
-  <Text
-    style={
-      {
-        "fontSize": 11,
-        "marginTop": 5,
-      }
-    }
-  >
-    Latest Block: 0
-  </Text>
   <View
     style={
       [
