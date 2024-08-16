@@ -142,7 +142,7 @@ EarnInfoScreen.navigationOptions = () => ({
 const styles = StyleSheet.create({
   safeAreaContainer: {
     flex: 1,
-    paddingHorizontal: Spacing.Thick24,
+    paddingHorizontal: Spacing.Regular16,
   },
   flex: {
     flex: 1,
@@ -175,5 +175,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     gap: Spacing.Smallest8,
+    marginHorizontal: Spacing.Smallest8,
   },
 })
