@@ -4,13 +4,11 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
-import Button, { BtnSizes, BtnTypes, TextSizes } from 'src/components/Button'
-import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
+import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon from 'src/components/TokenIcon'
+import Touchable from 'src/components/Touchable'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
 import { EarnPosition } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
@@ -34,8 +32,7 @@ export default function PoolCard({
     networkId,
     priceUsd,
     balance,
-    pricePerShare,
-    dataProps: { earningItems, yieldRates, tvl, withdrawTokenId: poolTokenId, depositTokenId },
+    dataProps: { earningItems, yieldRates, tvl, depositTokenId },
   } = pool
   const { t } = useTranslation()
   const allTokens = useSelector((state) => tokensByIdSelector(state, [networkId]))
@@ -47,28 +44,56 @@ export default function PoolCard({
   const depositTokenInfo = allTokens[depositTokenId]
 
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const poolBalance =
+  const poolBalanceInFiat =
     useDollarsToLocalAmount(new BigNumber(balance).times(new BigNumber(priceUsd))) ?? null
-  const poolBalanceString = useMemo(
-    () => `${localCurrencySymbol}${poolBalance ? formatValueToDisplay(poolBalance) : '--'}`,
-    [localCurrencySymbol, poolBalance]
-  )
 
-  const rewardPercentage = useMemo(
+  const rewardAmountInFiat = useMemo(
     () =>
       earningItems
-        .reduce((acc, earnItem) => acc.plus(new BigNumber(earnItem.amount)), new BigNumber(0))
+        .reduce(
+          (acc, earnItem) =>
+            acc.plus(
+              useDollarsToLocalAmount(
+                new BigNumber(earnItem.amount).times(
+                  allTokens[earnItem.tokenId]?.priceUsd ?? new BigNumber(0)
+                )
+              ) ?? new BigNumber(0)
+            ),
+          new BigNumber(0)
+        )
         .toFixed(2),
     [earningItems]
   )
-  const rewardPercentageString = `${rewardPercentage}%`
+  const poolBalanceString = useMemo(
+    () =>
+      `${localCurrencySymbol}${poolBalanceInFiat ? formatValueToDisplay(poolBalanceInFiat.plus(rewardAmountInFiat)) : '--'}`,
+    [localCurrencySymbol, poolBalanceInFiat, rewardAmountInFiat]
+  )
+
+  const tvlString = useMemo(() => {
+    const tvlInFiat = tvl
+      ? useDollarsToLocalAmount(new BigNumber(tvl).times(new BigNumber(priceUsd)))
+      : null
+    return `${localCurrencySymbol}${tvlInFiat ? formatValueToDisplay(tvlInFiat) : '--'}`
+  }, [localCurrencySymbol, tvl])
 
   const totalYieldRate = new BigNumber(
     yieldRates.reduce((acc, yieldRate) => acc + yieldRate.percentage, 0)
   ).toFixed(2)
 
+  const onPress = () => {
+    AppAnalytics.track(EarnEvents.earn_pool_card_press, {
+      poolId: positionId,
+      depositTokenId,
+      networkId,
+      tokenAmount: balance,
+      providerId: appId,
+    })
+    // TODO(ACT-1321): Navigate to pool details screen
+  }
+
   return (
-    <View style={styles.card} testID={testID}>
+    <Touchable style={styles.card} testID={testID} onPress={onPress}>
       <View style={styles.titleRow}>
         {tokensInfo.map((token, index) => (
           <TokenIcon
@@ -88,102 +113,34 @@ export default function PoolCard({
       </View>
       <View style={styles.keyValueContainer}>
         <View style={styles.keyValueRow}>
-          <Text style={styles.keyText}>{t('earnFlow.poolCard.rate')}</Text>
+          <Text style={styles.keyText}>{t('earnFlow.poolCard.yieldRate')}</Text>
           <Text style={styles.valueTextBold}>
-            {t('earnFlow.poolCard.apy', {
-              apy: totalYieldRate,
+            {t('earnFlow.poolCard.percentage', {
+              percentage: totalYieldRate,
             })}
           </Text>
         </View>
         <View style={styles.keyValueRow}>
-          <Text style={styles.keyText}>{t('earnFlow.poolCard.reward')}</Text>
-          <Text style={styles.valueText}>{rewardPercentageString}</Text>
-        </View>
-        <View style={styles.keyValueRow}>
           <Text style={styles.keyText}>{t('earnFlow.poolCard.tvl')}</Text>
-          <Text style={styles.valueText}>{`$${new BigNumber(tvl ?? 0).toFormat()}`}</Text>
+          <Text style={styles.valueText}>{tvlString}</Text>
         </View>
       </View>
-      {new BigNumber(balance).gt(0) && !!depositTokenInfo ? (
+      {new BigNumber(balance).gt(0) && !!depositTokenInfo && (
         <View style={styles.withBalanceContainer}>
           <View style={styles.keyValueContainer}>
             <View style={styles.keyValueRow}>
-              <Text style={styles.keyText}>{t('earnFlow.poolCard.deposited')}</Text>
+              <Text style={styles.keyText}>{t('earnFlow.poolCard.depositAndEarnings')}</Text>
               <Text>
-                {`(`}
-                <TokenDisplay
-                  amount={new BigNumber(balance).times(new BigNumber(pricePerShare[0]))}
-                  tokenId={depositTokenId}
-                  showLocalAmount={false}
-                  style={styles.valueText}
-                ></TokenDisplay>
-                {`) `}
                 <Text style={styles.valueTextBold}>{poolBalanceString}</Text>
               </Text>
             </View>
           </View>
-          <View style={styles.buttonContainer}>
-            <Button
-              onPress={() => {
-                AppAnalytics.track(EarnEvents.earn_pool_card_cta_press, {
-                  poolId: positionId,
-                  depositTokenId,
-                  networkId,
-                  tokenAmount: balance,
-                  providerId: appId,
-                  action: 'withdraw',
-                })
-                navigate(Screens.EarnCollectScreen, { depositTokenId, poolTokenId })
-              }}
-              text={t('earnFlow.poolCard.exitPool')}
-              type={BtnTypes.TERTIARY}
-              textSize={TextSizes.SMALL}
-              size={BtnSizes.FULL}
-              style={styles.button}
-            />
-            <Button
-              onPress={() => {
-                AppAnalytics.track(EarnEvents.earn_pool_card_cta_press, {
-                  poolId: positionId,
-                  depositTokenId,
-                  networkId,
-                  tokenAmount: balance,
-                  providerId: appId,
-                  action: 'deposit',
-                })
-                navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })
-              }}
-              text={t('earnFlow.poolCard.addToPool')}
-              type={BtnTypes.SECONDARY}
-              textSize={TextSizes.SMALL}
-              size={BtnSizes.FULL}
-              style={styles.button}
-            />
-          </View>
         </View>
-      ) : (
-        <Button
-          onPress={() => {
-            AppAnalytics.track(EarnEvents.earn_pool_card_cta_press, {
-              poolId: positionId,
-              depositTokenId,
-              networkId,
-              tokenAmount: '0',
-              providerId: appId,
-              action: 'deposit',
-            })
-            navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })
-          }}
-          text={t('earnFlow.poolCard.addToPool')}
-          type={BtnTypes.SECONDARY}
-          textSize={TextSizes.SMALL}
-          size={BtnSizes.FULL}
-        />
       )}
       <Text style={styles.poweredByText}>
         {t('earnFlow.poolCard.poweredBy', { providerName: appId })}
       </Text>
-    </View>
+    </Touchable>
   )
 }
 const styles = StyleSheet.create({
@@ -203,10 +160,10 @@ const styles = StyleSheet.create({
   },
   titleTokens: {
     color: Colors.black,
-    ...typeScale.labelXSmall,
+    ...typeScale.labelSemiBoldSmall,
   },
   titleNetwork: {
-    color: Colors.gray4,
+    color: Colors.black,
     ...typeScale.bodyXSmall,
   },
   keyValueContainer: {
@@ -217,7 +174,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   keyText: {
-    color: Colors.gray4,
+    color: Colors.gray3,
     ...typeScale.bodySmall,
   },
   valueText: {
@@ -226,11 +183,11 @@ const styles = StyleSheet.create({
   },
   valueTextBold: {
     color: Colors.black,
-    ...typeScale.labelSemiBoldLarge,
+    ...typeScale.labelSemiBoldSmall,
     lineHeight: 20,
   },
   poweredByText: {
-    color: Colors.gray4,
+    color: Colors.gray3,
     ...typeScale.bodyXSmall,
     alignSelf: 'center',
   },
@@ -238,14 +195,5 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: Colors.gray2,
     paddingTop: Spacing.Thick24,
-  },
-  buttonContainer: {
-    paddingTop: Spacing.Thick24,
-    flexDirection: 'row',
-    gap: Spacing.Smallest8,
-  },
-  button: {
-    flexGrow: 1,
-    flexBasis: 0,
   },
 })

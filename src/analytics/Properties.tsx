@@ -1640,6 +1640,10 @@ interface EarnEventsProperties {
     poolId: string
     action: 'deposit' | 'withdraw'
   } & EarnCommonProperties
+  [EarnEvents.earn_pool_card_press]: {
+    tokenAmount: string
+    poolId: string
+  } & EarnCommonProperties
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

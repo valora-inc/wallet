@@ -609,6 +609,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [EarnEvents.earn_active_pools_cta_press]: `When the user taps one of the CTAs in the active pools card in the discover tab. The action property denotes the CTA, either myPools or exploreOpenPools`,
   [EarnEvents.earn_home_learn_more_press]: `When the user taps 'Learn more' on the earn home screen`,
   [EarnEvents.earn_pool_card_cta_press]: `When the user taps a cta button on the pool card`,
+  [EarnEvents.earn_pool_card_press]: `When the user taps on a pool card`,
 
   // Legacy event docs
   //  The below events had docs, but are no longer produced by the latest app version.
