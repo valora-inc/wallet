@@ -128,6 +128,20 @@ describe('EarnHome', () => {
         (featureGateName) => featureGateName === StatsigFeatureGates.SHOW_POSITIONS
       )
   })
+  it('shows the zero state UI under my pools if the user has no pools with balance', () => {
+    const { getByText } = render(
+      <Provider store={getStore()}>
+        <MockedNavigator
+          component={EarnHome}
+          params={{
+            activeEarnTab: EarnTabType.MyPools,
+          }}
+        />
+      </Provider>
+    )
+
+    expect(getByText('earnFlow.home.noPoolsTitle')).toBeTruthy()
+  })
   it('renders open pools correctly', () => {
     const { getByTestId, getAllByTestId } = render(
       <Provider store={getStore()}>
