@@ -6,7 +6,7 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import { EARN_STABLECOINS_LEARN_MORE } from 'src/config'
+import { APP_NAME, EARN_STABLECOINS_LEARN_MORE } from 'src/config'
 import { EarnTabType } from 'src/earn/types'
 import ArrowDown from 'src/icons/ArrowDown'
 import Blob from 'src/icons/Blob'
@@ -80,8 +80,8 @@ export default function EarnInfoScreen() {
           />
           <DetailsItem
             icon={<Logo size={ICON_SIZE} color={Colors.black} />}
-            title={t('earnFlow.earnInfo.details.manage.title')}
-            subtitle={t('earnFlow.earnInfo.details.manage.subtitle')}
+            title={t('earnFlow.earnInfo.details.manage.titleV1_92', { appName: APP_NAME })}
+            subtitle={t('earnFlow.earnInfo.details.manage.subtitleV1_92', { appName: APP_NAME })}
           />
           <DetailsItem
             icon={<ArrowDown size={ICON_SIZE} color={Colors.black} />}

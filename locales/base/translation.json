@@ -2490,7 +2490,9 @@
         },
         "manage": {
           "title": "Manage Directly from Valora",
-          "subtitle": "We'll auto-connect your wallet so you can manage pools without leaving Valora."
+          "titleV1_92": "Manage Directly from {{appName}}",
+          "subtitle": "We'll auto-connect your wallet so you can manage pools without leaving Valora.",
+          "subtitleV1_92": "We'll auto-connect your wallet so you can manage pools without leaving {{appName}}."
         },
         "access": {
           "title": "Easily Access your Funds",
