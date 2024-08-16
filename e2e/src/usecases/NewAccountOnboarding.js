@@ -1,4 +1,4 @@
-import { getAddressChunks } from '../../../src/utils/formatting'
+import { getAddressChunks } from '../../../src/utils/address'
 import { launchApp } from '../utils/retries'
 import {
   completeProtectWalletScreen,

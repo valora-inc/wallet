@@ -1,4 +1,4 @@
-import { getAddressChunks } from '../../../src/utils/formatting'
+import { getAddressChunks } from '../../../src/utils/address'
 import {
   SAMPLE_BACKUP_KEY,
   SAMPLE_BACKUP_KEY_12_WORDS,

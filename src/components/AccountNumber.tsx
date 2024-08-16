@@ -9,7 +9,7 @@ import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { vibrateInformative } from 'src/styles/hapticFeedback'
 import Logger from 'src/utils/Logger'
-import { getAddressChunks } from 'src/utils/formatting'
+import { getAddressChunks } from 'src/utils/address'
 
 interface Props {
   address: string

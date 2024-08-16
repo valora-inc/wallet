@@ -206,7 +206,7 @@ export default WalletConnect = () => {
       jestExpect(receipt).toBeTruthy()
       const { status, from, to } = receipt
 
-      jestExpect(status).toStrictEqual(true)
+      jestExpect(status).toStrictEqual('success')
       jestExpect(from).toStrictEqual(walletAddress)
       jestExpect(to).toStrictEqual(walletAddress)
     },
@@ -260,7 +260,9 @@ export default WalletConnect = () => {
     console.log('Received signature', signature)
 
     const isValidSignature = await verifyMessage({
-      message,
+      message: {
+        raw: message,
+      },
       signature,
       address: walletAddress,
     })

@@ -7,7 +7,7 @@ import { WalletConnectEvents } from 'src/analytics/Events'
 import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { useSelector } from 'src/redux/hooks'
-import { trimLeading0x } from 'src/utils/formatting'
+import { trimLeading0x } from 'src/utils/address'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import {
   getDefaultRequestTrackedProperties,
