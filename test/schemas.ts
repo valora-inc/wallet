@@ -779,7 +779,6 @@ export const v23Schema = {
           error: false,
         },
         ['exchange']: undefined,
-        ['reclaim-escrow']: undefined,
         ['register-dek']: undefined,
       },
     },
