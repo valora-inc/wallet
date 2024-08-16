@@ -2,7 +2,15 @@ import { Core } from '@walletconnect/core'
 import Client from '@walletconnect/sign-client'
 import fetch from 'node-fetch'
 import { WALLET_CONNECT_PROJECT_ID_E2E } from 'react-native-dotenv'
-import { hashMessage, hexToNumber, verifyMessage, verifyTypedData } from 'viem'
+import {
+  hashMessage,
+  hexToNumber,
+  verifyMessage,
+  verifyTypedData,
+  createPublicClient,
+  http,
+} from 'viem'
+import { celoAlfajores } from 'viem/chains'
 import { parseTransaction } from 'viem/celo'
 import { formatUri, utf8ToHex } from '../utils/encoding'
 import { launchApp } from '../utils/retries'
