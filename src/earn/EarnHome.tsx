@@ -394,8 +394,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: 'blue',
-    borderWidth: 1,
     padding: Spacing.Thick24,
   },
   noPoolsTitle: {
