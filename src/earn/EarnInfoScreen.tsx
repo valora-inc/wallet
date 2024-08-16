@@ -58,7 +58,6 @@ function DetailsItem({
 
 export default function EarnInfoScreen() {
   const { t } = useTranslation()
-  const isGasSubsidized = getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
   const showMultiplePools = getFeatureGate(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
 
   const headerHeight = useHeaderHeight()
@@ -76,15 +75,8 @@ export default function EarnInfoScreen() {
         <View style={styles.detailsContainer}>
           <DetailsItem
             icon={<EarnCoins size={ICON_SIZE} color={Colors.black} />}
-            title={
-              isGasSubsidized
-                ? t('earnFlow.earnInfo.details.earn.titleGasSubsidy')
-                : t('earnFlow.earnInfo.details.earn.title')
-            }
+            title={t('earnFlow.earnInfo.details.earn.title')}
             subtitle={t('earnFlow.earnInfo.details.earn.subtitle')}
-            footnote={
-              isGasSubsidized ? t('earnFlow.earnInfo.details.earn.footnoteSubsidy') : undefined
-            }
           />
           <DetailsItem
             icon={<Logo size={ICON_SIZE} color={Colors.black} />}
@@ -150,7 +142,7 @@ EarnInfoScreen.navigationOptions = () => ({
 const styles = StyleSheet.create({
   safeAreaContainer: {
     flex: 1,
-    paddingHorizontal: Spacing.Regular16,
+    paddingHorizontal: Spacing.Thick24,
   },
   flex: {
     flex: 1,
@@ -183,6 +175,5 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     gap: Spacing.Smallest8,
-    marginHorizontal: Spacing.Smallest8,
   },
 })
