@@ -4,19 +4,11 @@ import {
 } from '@react-navigation/material-top-tabs'
 import { useIsFocused } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { Dimensions, Platform, StatusBar, StyleSheet } from 'react-native'
+import { Dimensions, Platform, StatusBar, StyleSheet, View } from 'react-native'
 import { PERMISSIONS, RESULTS, check } from 'react-native-permissions'
-import Animated, {
-  Extrapolation,
-  SharedValue,
-  interpolate,
-  runOnJS,
-  useAnimatedReaction,
-  useSharedValue,
-} from 'react-native-reanimated'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { QrScreenEvents } from 'src/analytics/Events'
 import { noHeader } from 'src/navigator/Headers'
@@ -40,9 +32,7 @@ export type QRCodeProps = NativeStackScreenProps<QRTabParamList, Screens.QRCode>
   qrSvgRef: React.MutableRefObject<SVG>
 }
 
-type AnimatedScannerSceneProps = NativeStackScreenProps<QRTabParamList, Screens.QRScanner> & {
-  position: SharedValue<number>
-}
+type ScannerSceneProps = NativeStackScreenProps<QRTabParamList, Screens.QRScanner>
 
 export function QRCodePicker({ route, qrSvgRef, ...props }: QRCodeProps) {
   const onPressCopy = () => {
@@ -52,14 +42,13 @@ export function QRCodePicker({ route, qrSvgRef, ...props }: QRCodeProps) {
 }
 
 // Component doing our custom transition for the QR scanner
-function AnimatedScannerScene({ route, position }: AnimatedScannerSceneProps) {
+function ScannerScene({ route }: ScannerSceneProps) {
   const lastScannedQR = useRef('')
   const dispatch = useDispatch()
   const defaultOnQRCodeDetected = (qrCode: QrCode) => dispatch(handleQRCodeDetected(qrCode))
   const { onQRCodeDetected: onQRCodeDetectedParam = defaultOnQRCodeDetected } = route.params || {}
   const isFocused = useIsFocused()
   const [wasFocused, setWasFocused] = useState(isFocused)
-  const [isPartiallyVisible, setIsPartiallyVisible] = useState(false)
   const cameraPermission = useAsync(check, [
     Platform.select({ ios: PERMISSIONS.IOS.CAMERA, default: PERMISSIONS.ANDROID.CAMERA }),
   ])
@@ -73,33 +62,13 @@ function AnimatedScannerScene({ route, position }: AnimatedScannerSceneProps) {
     }
   }, [isFocused])
 
-  useAnimatedReaction(
-    () => {
-      return position.value > 0
-    },
-    (isGreaterThanZero) => {
-      runOnJS(setIsPartiallyVisible)(isGreaterThanZero)
-    },
-    [position]
-  )
-
-  const animatedStyle = useMemo(() => {
-    const opacity = interpolate(position.value, [0, 1], [0, 1], Extrapolation.CLAMP)
-
-    const translateX = interpolate(position.value, [0, 1], [-width, 0], Extrapolation.CLAMP)
-
-    const scale = interpolate(position.value, [0, 1], [0.7, 1], Extrapolation.CLAMP)
-
-    return { flex: 1, opacity, transform: [{ translateX }, { scale }] }
-  }, [position])
-
   // This only enables the camera when necessary.
   // There a special treatment for when we haven't asked the user for camera permission yet.
   // In that case we want to wait for the screen to be fully focused before enabling the camera so the
   // prompt doesn't show up in the middle of the slide animation.
   // Indeed, enabling the camera directly triggers the permission prompt with the current version of
   // react-native-camera.
-  const enableCamera = isFocused || (isPartiallyVisible && (hasAskedCameraPermission || wasFocused))
+  const enableCamera = isFocused || hasAskedCameraPermission || wasFocused
 
   const onQRCodeDetectedWrapper = (qrCode: QrCode) => {
     if (lastScannedQR.current === qrCode.data) {
@@ -111,17 +80,16 @@ function AnimatedScannerScene({ route, position }: AnimatedScannerSceneProps) {
   }
 
   return (
-    <Animated.View style={animatedStyle}>
+    <View style={styles.viewContainer}>
       {isFocused && <StatusBar barStyle="light-content" />}
       {enableCamera && <QRScanner onQRCodeDetected={onQRCodeDetectedWrapper} />}
-    </Animated.View>
+    </View>
   )
 }
 
 type Props = NativeStackScreenProps<StackParamList, Screens.QRNavigator>
 
 export default function QRNavigator({ route }: Props) {
-  const position = useRef(useSharedValue(0)).current
   const qrSvgRef = useRef<SVG>()
   const { t } = useTranslation()
 
@@ -156,7 +124,7 @@ export default function QRNavigator({ route }: Props) {
         )}
       </Tab.Screen>
       <Tab.Screen name={Screens.QRScanner} options={{ title: t('scanCode') ?? undefined }}>
-        {(props) => <AnimatedScannerScene {...props} position={position} />}
+        {(props) => <ScannerScene {...props} />}
       </Tab.Screen>
     </Tab.Navigator>
   )
@@ -175,5 +143,10 @@ const styles = StyleSheet.create({
   },
   sceneContainerStyle: {
     backgroundColor: Colors.black,
+  },
+  viewContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 })
