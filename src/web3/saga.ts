@@ -17,33 +17,17 @@ import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
 import { Actions, setAccount, SetAccountAction } from 'src/web3/actions'
 import { UNLOCK_DURATION } from 'src/web3/consts'
-import { getWallet, getWeb3, initContractKit } from 'src/web3/contracts'
+import { getWallet, initContractKit } from 'src/web3/contracts'
 import { createAccountDek } from 'src/web3/dataEncryptionKey'
 import {
   currentAccountSelector,
   mtwAddressSelector,
   walletAddressSelector,
 } from 'src/web3/selectors'
-import { call, delay, put, select, spawn, take } from 'typed-redux-saga'
+import { call, put, select, spawn, take } from 'typed-redux-saga'
 import { RootState } from '../redux/reducers'
 
 const TAG = 'web3/saga'
-
-const NEW_BLOCK_TIMEOUT = 30000 // ms
-const NEW_BLOCK_DELAY = 5000 // ms
-
-export function* waitForNextBlock() {
-  const startTime = Date.now()
-  const web3 = yield* call(getWeb3)
-  const initialBlockNumber = yield* call(web3.eth.getBlockNumber)
-  while (Date.now() - startTime < NEW_BLOCK_TIMEOUT) {
-    const blockNumber = yield* call(web3.eth.getBlockNumber)
-    if (blockNumber > initialBlockNumber) {
-      return
-    }
-    yield* delay(NEW_BLOCK_DELAY)
-  }
-}
 
 export function* getOrCreateAccount() {
   const account = yield* select(currentAccountSelector)
