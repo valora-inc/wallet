@@ -42,9 +42,7 @@ export default function EarnActivePools() {
   )
 
   function handleTap() {
-    AppAnalytics.track(EarnEvents.earn_active_pools_cta_press, {
-      action: 'myPools',
-    })
+    AppAnalytics.track(EarnEvents.earn_active_pools_cta_press)
     navigate(Screens.EarnHome, { activeEarnTab: EarnTabType.MyPools })
   }
 

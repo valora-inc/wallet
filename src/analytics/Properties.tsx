@@ -1633,7 +1633,7 @@ interface EarnEventsProperties {
   [EarnEvents.earn_withdraw_add_gas_press]: { gasTokenId: string }
   [EarnEvents.earn_info_learn_press]: undefined
   [EarnEvents.earn_info_earn_press]: undefined
-  [EarnEvents.earn_active_pools_cta_press]: { action: 'myPools' | 'exploreOpenPools' }
+  [EarnEvents.earn_active_pools_cta_press]: undefined
   [EarnEvents.earn_home_learn_more_press]: undefined
   [EarnEvents.earn_pool_card_cta_press]: {
     tokenAmount: string

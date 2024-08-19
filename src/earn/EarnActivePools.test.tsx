@@ -96,9 +96,7 @@ describe('EarnActivePools', () => {
     )
 
     fireEvent.press(getByTestId('EarnActivePools'))
-    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_active_pools_cta_press, {
-      action: 'myPools',
-    })
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_active_pools_cta_press)
     expect(navigate).toHaveBeenCalledWith(Screens.EarnHome, { activeEarnTab: EarnTabType.MyPools })
   })
 })
