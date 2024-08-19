@@ -28,6 +28,7 @@ export default function PoolCard({
   const {
     positionId,
     appId,
+    appName,
     tokens,
     networkId,
     priceUsd,
@@ -95,7 +96,7 @@ export default function PoolCard({
 
   return (
     <Touchable style={styles.card} testID={testID} onPress={onPress}>
-      <View>
+      <View style={styles.cardView}>
         <View style={styles.titleRow}>
           {tokensInfo.map((token, index) => (
             <TokenIcon
@@ -140,7 +141,7 @@ export default function PoolCard({
           </View>
         )}
         <Text style={styles.poweredByText}>
-          {t('earnFlow.poolCard.poweredBy', { providerName: appId })}
+          {t('earnFlow.poolCard.poweredBy', { providerName: appName })}
         </Text>
       </View>
     </Touchable>
@@ -155,6 +156,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.Thick24,
     gap: Spacing.Thick24,
   },
+  cardView: { gap: Spacing.Regular16 },
   titleRow: {
     flexDirection: 'row',
   },
@@ -197,6 +199,6 @@ const styles = StyleSheet.create({
   withBalanceContainer: {
     borderTopWidth: 1,
     borderTopColor: Colors.gray2,
-    paddingTop: Spacing.Thick24,
+    paddingTop: Spacing.Regular16,
   },
 })
