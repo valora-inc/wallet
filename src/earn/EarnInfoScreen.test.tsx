@@ -37,7 +37,7 @@ describe('EarnInfoScreen', () => {
 
     // Second details item
     expect(
-      getByText('earnFlow.earnInfo.details.manage.titleV1_92, {"appName":"Valora"')
+      getByText('earnFlow.earnInfo.details.manage.titleV1_92, {"appName":"Valora"}')
     ).toBeTruthy()
     expect(
       getByText('earnFlow.earnInfo.details.manage.subtitleV1_92, {"appName":"Valora"}')
