@@ -1297,7 +1297,7 @@
                     "type": "string"
                 },
                 "tvl": {
-                    "type": "number"
+                    "type": "string"
                 },
                 "withdrawTokenId": {
                     "type": "string"
