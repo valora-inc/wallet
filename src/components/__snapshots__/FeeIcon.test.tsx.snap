@@ -54,9 +54,9 @@ exports[`ExchangeFeeIcon renders correctly 1`] = `
   >
     <svg
       fill="none"
-      height={12}
+      height={24}
       viewBox="0 0 16 16"
-      width={12}
+      width={24}
     >
       <circle
         cx="8"
@@ -156,9 +156,9 @@ exports[`SecurityFeeIcon renders correctly 1`] = `
   >
     <svg
       fill="none"
-      height={12}
+      height={24}
       viewBox="0 0 16 16"
-      width={12}
+      width={24}
     >
       <circle
         cx="8"

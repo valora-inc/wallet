@@ -1,3 +1,4 @@
+const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config')
 const path = require('path')
 const nodeLibs = require('node-libs-react-native')
 const exclusionList = require('metro-config/src/defaults/exclusionList')
@@ -10,7 +11,13 @@ const blist = []
 const defaultSourceExts = require('metro-config/src/defaults/defaults').sourceExts
 const defaultAssetExts = require('metro-config/src/defaults/defaults').assetExts
 
-module.exports = {
+/**
+ * Metro configuration
+ * https://facebook.github.io/metro/docs/configuration
+ *
+ * @type {import('metro-config').MetroConfig}
+ */
+const config = {
   transformer: {
     getTransformOptions: async () => ({
       transform: {
@@ -38,3 +45,5 @@ module.exports = {
   },
   watchFolders: [root],
 }
+
+module.exports = mergeConfig(getDefaultConfig(__dirname), config)
