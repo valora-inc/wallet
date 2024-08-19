@@ -77,7 +77,7 @@ const ConfettiCelebration = ({
         progress.value = ctx.initialProgress + event.translationY / slidingHeight
       }
     },
-    onEnd: (event: { translationY: number }) => {
+    onEnd: (event) => {
       const dismissThreshold = 0.33 * notificationHeight
       const translationY = Math.abs(event.translationY)
       if (onDismiss && translationY > dismissThreshold) {

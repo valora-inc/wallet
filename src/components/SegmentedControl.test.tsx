@@ -1,21 +1,14 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
-import Animated from 'react-native-reanimated'
 import SegmentedControl from 'src/components/SegmentedControl'
 
 jest.mock('react-native-reanimated', () => require('react-native-reanimated/mock'))
 
 describe(SegmentedControl, () => {
   it('renders correctly', () => {
-    const position = new Animated.Value(0)
     const onChange = jest.fn()
     const { getByLabelText } = render(
-      <SegmentedControl
-        values={['Tab1', 'Tab2']}
-        selectedIndex={1}
-        onChange={onChange}
-        position={position}
-      />
+      <SegmentedControl values={['Tab1', 'Tab2']} selectedIndex={1} onChange={onChange} />
     )
 
     const tab1 = getByLabelText('Tab1')
