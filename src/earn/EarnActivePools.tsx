@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
-import Button, { BtnSizes, BtnTypes, TextSizes } from 'src/components/Button'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
+import Touchable from 'src/components/Touchable'
 import { EarnTabType } from 'src/earn/types'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
@@ -41,51 +41,34 @@ export default function EarnActivePools() {
     [localCurrencySymbol, totalSuppliedValue]
   )
 
+  function handleTap() {
+    AppAnalytics.track(EarnEvents.earn_active_pools_cta_press, {
+      action: 'myPools',
+    })
+    navigate(Screens.EarnHome, { activeEarnTab: EarnTabType.MyPools })
+  }
+
   return (
-    <View style={styles.card} testID="EarnActivePools">
+    <Touchable
+      style={styles.card}
+      borderRadius={Spacing.Smallest8}
+      testID="EarnActivePools"
+      onPress={handleTap}
+    >
       <View style={styles.container}>
         <Text style={styles.title}>{t('earnFlow.activePools.title')}</Text>
-        <View>
+        <View style={styles.textContainer}>
+          <View style={styles.row} testID="EarnActivePools/TotalSupplied">
+            <Text style={styles.labelText}>{t('earnFlow.activePools.depositAndEarnings')}</Text>
+            <Text style={styles.valueText}>{totalSupplied}</Text>
+          </View>
           <View style={styles.row} testID="EarnActivePools/PoolsSupplied">
             <Text style={styles.labelText}>{t('earnFlow.activePools.poolsSupplied')}</Text>
             <Text style={styles.valueText}>{poolsSupplied}</Text>
           </View>
-          <View style={styles.separator} />
-          <View style={styles.row} testID="EarnActivePools/TotalSupplied">
-            <Text style={styles.labelText}>{t('earnFlow.activePools.totalSupplied')}</Text>
-            <Text style={styles.valueText}>{totalSupplied}</Text>
-          </View>
-        </View>
-        <View style={styles.buttonContainer}>
-          <Button
-            onPress={() => {
-              AppAnalytics.track(EarnEvents.earn_active_pools_cta_press, {
-                action: 'exploreOpenPools',
-              })
-              navigate(Screens.EarnHome, { activeEarnTab: EarnTabType.OpenPools })
-            }}
-            text={t('earnFlow.activePools.explore')}
-            type={BtnTypes.TERTIARY}
-            size={BtnSizes.FULL}
-            style={styles.button}
-            textSize={TextSizes.SMALL}
-          />
-          <Button
-            onPress={() => {
-              AppAnalytics.track(EarnEvents.earn_active_pools_cta_press, {
-                action: 'myPools',
-              })
-              navigate(Screens.EarnHome, { activeEarnTab: EarnTabType.MyPools })
-            }}
-            text={t('earnFlow.activePools.myPools')}
-            type={BtnTypes.SECONDARY}
-            size={BtnSizes.FULL}
-            style={styles.button}
-            textSize={TextSizes.SMALL}
-          />
         </View>
       </View>
-    </View>
+    </Touchable>
   )
 }
 
@@ -94,7 +77,7 @@ const styles = StyleSheet.create({
     padding: Spacing.Regular16,
     borderColor: Colors.gray2,
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: Spacing.Smallest8,
     marginBottom: Spacing.Thick24,
   },
   title: {
@@ -109,19 +92,6 @@ const styles = StyleSheet.create({
     ...typeScale.labelSemiBoldSmall,
     color: Colors.black,
   },
-  separator: {
-    height: 1,
-    backgroundColor: Colors.gray2,
-    marginVertical: Spacing.Smallest8,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    gap: Spacing.Smallest8,
-  },
-  button: {
-    flexGrow: 1,
-    flexBasis: 0,
-  },
   container: {
     flexDirection: 'column',
     gap: Spacing.Regular16,
@@ -129,5 +99,8 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  textContainer: {
+    gap: Spacing.Regular16,
   },
 })
