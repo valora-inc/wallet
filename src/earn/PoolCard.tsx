@@ -71,9 +71,9 @@ export default function PoolCard({
     [localCurrencySymbol, poolBalanceInFiat, rewardAmountInFiat]
   )
 
-  const tvlInFiat = tvl
-    ? useDollarsToLocalAmount(new BigNumber(tvl).times(new BigNumber(priceUsd)))
-    : null
+  const tvlInFiat = useDollarsToLocalAmount(
+    tvl ? new BigNumber(tvl).times(new BigNumber(priceUsd)) : null
+  )
   const tvlString = useMemo(() => {
     return `${localCurrencySymbol}${tvlInFiat ? formatValueToDisplay(tvlInFiat) : '--'}`
   }, [localCurrencySymbol, tvlInFiat])
@@ -95,52 +95,54 @@ export default function PoolCard({
 
   return (
     <Touchable style={styles.card} testID={testID} onPress={onPress}>
-      <View style={styles.titleRow}>
-        {tokensInfo.map((token, index) => (
-          <TokenIcon
-            key={index}
-            token={token}
-            viewStyle={index > 0 ? { marginLeft: -8, zIndex: -index } : {}}
-          />
-        ))}
-        <View style={styles.titleTextContainer}>
-          <Text style={styles.titleTokens}>
-            {tokensInfo.map((token) => token.symbol).join(' / ')}
-          </Text>
-          <Text style={styles.titleNetwork}>
-            {t('earnFlow.poolCard.onNetwork', { networkName: NETWORK_NAMES[networkId] })}
-          </Text>
-        </View>
-      </View>
-      <View style={styles.keyValueContainer}>
-        <View style={styles.keyValueRow}>
-          <Text style={styles.keyText}>{t('earnFlow.poolCard.yieldRate')}</Text>
-          <Text style={styles.valueTextBold}>
-            {t('earnFlow.poolCard.percentage', {
-              percentage: totalYieldRate,
-            })}
-          </Text>
-        </View>
-        <View style={styles.keyValueRow}>
-          <Text style={styles.keyText}>{t('earnFlow.poolCard.tvl')}</Text>
-          <Text style={styles.valueText}>{tvlString}</Text>
-        </View>
-      </View>
-      {new BigNumber(balance).gt(0) && !!depositTokenInfo && (
-        <View style={styles.withBalanceContainer}>
-          <View style={styles.keyValueContainer}>
-            <View style={styles.keyValueRow}>
-              <Text style={styles.keyText}>{t('earnFlow.poolCard.depositAndEarnings')}</Text>
-              <Text>
-                <Text style={styles.valueTextBold}>{poolBalanceString}</Text>
-              </Text>
-            </View>
+      <View>
+        <View style={styles.titleRow}>
+          {tokensInfo.map((token, index) => (
+            <TokenIcon
+              key={index}
+              token={token}
+              viewStyle={index > 0 ? { marginLeft: -8, zIndex: -index } : {}}
+            />
+          ))}
+          <View style={styles.titleTextContainer}>
+            <Text style={styles.titleTokens}>
+              {tokensInfo.map((token) => token.symbol).join(' / ')}
+            </Text>
+            <Text style={styles.titleNetwork}>
+              {t('earnFlow.poolCard.onNetwork', { networkName: NETWORK_NAMES[networkId] })}
+            </Text>
           </View>
         </View>
-      )}
-      <Text style={styles.poweredByText}>
-        {t('earnFlow.poolCard.poweredBy', { providerName: appId })}
-      </Text>
+        <View style={styles.keyValueContainer}>
+          <View style={styles.keyValueRow}>
+            <Text style={styles.keyText}>{t('earnFlow.poolCard.yieldRate')}</Text>
+            <Text style={styles.valueTextBold}>
+              {t('earnFlow.poolCard.percentage', {
+                percentage: totalYieldRate,
+              })}
+            </Text>
+          </View>
+          <View style={styles.keyValueRow}>
+            <Text style={styles.keyText}>{t('earnFlow.poolCard.tvl')}</Text>
+            <Text style={styles.valueText}>{tvlString}</Text>
+          </View>
+        </View>
+        {new BigNumber(balance).gt(0) && !!depositTokenInfo && (
+          <View style={styles.withBalanceContainer}>
+            <View style={styles.keyValueContainer}>
+              <View style={styles.keyValueRow}>
+                <Text style={styles.keyText}>{t('earnFlow.poolCard.depositAndEarnings')}</Text>
+                <Text>
+                  <Text style={styles.valueTextBold}>{poolBalanceString}</Text>
+                </Text>
+              </View>
+            </View>
+          </View>
+        )}
+        <Text style={styles.poweredByText}>
+          {t('earnFlow.poolCard.poweredBy', { providerName: appId })}
+        </Text>
+      </View>
     </Touchable>
   )
 }
