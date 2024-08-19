@@ -20,9 +20,31 @@ $static_framework = [
   'Flipper-Fmt',
 ]
 
-require_relative "../node_modules/react-native/scripts/react_native_pods"
-require_relative "../node_modules/@react-native-community/cli-platform-ios/native_modules"
-require_relative "../node_modules/react-native-permissions/scripts/setup"
+# https://github.com/zoontek/react-native-permissions?tab=readme-ov-file#ios
+def node_require(script)
+  # Resolve script with node to allow for hoisting
+  require Pod::Executable.execute_command('node', ['-p',
+    "require.resolve(
+      '#{script}',
+      {paths: [process.argv[1]]},
+    )", __dir__]).strip
+end
+
+node_require('react-native/scripts/react_native_pods.rb')
+node_require('react-native-permissions/scripts/setup.rb')
+
+# https://github.com/facebook/flipper/issues/4471#issuecomment-2265941061
+def flipper_remove(generated_aggregate_target, config_name, config_file)
+  xcconfig_path = generated_aggregate_target.xcconfig_path(config_name)
+  if File.exist?(xcconfig_path)
+    puts "FLIPPER: Found xcconfig file: #{File.basename(xcconfig_path)}"
+    xcconfig_content = File.read(xcconfig_path)
+    modified_content = xcconfig_content.gsub('-l"react-native-flipper"', '')
+    File.open(xcconfig_path, 'w') { |file| file.write(modified_content) }
+  else
+    puts "FLIPPER: xcconfig file does not exist: #{File.basename(xcconfig_path)}"
+  end
+end
 
 # Code to be added for react-native-video/Video
 # https://github.com/TheWidlarzGroup/react-native-video/issues/3737
@@ -56,8 +78,6 @@ target "celo" do
   use_react_native!(
     :path => config[:reactNativePath],
     # Hermes is now enabled by default. Disable by setting this flag to false.
-    # Upcoming versions of React Native may rely on get_default_flags(), but
-    # we make it explicit here to aid in the React Native upgrade process.
     :hermes_enabled => flags[:hermes_enabled],
     :fabric_enabled => flags[:fabric_enabled],
     # Note from Valora engineering:
@@ -72,9 +92,6 @@ target "celo" do
         # Flipper-Glog >= 0.3.7 uses a vendored dynamic library
         # See https://github.com/CocoaPods/Specs/blob/86d45638f249b0cb766c8e674a98b1b504b1ac0e/Specs/2/7/2/Flipper-Glog/0.3.7/Flipper-Glog.podspec.json#L21
         'Flipper-Glog' => '0.3.5',
-        # Use a specific version of Flipper which supports the Xcode 15.3
-        # toolchain: https://github.com/facebook/flipper/commit/b3dcdb87f930dbbc9dbacb53ad60996e0111e7d8
-        'Flipper' => '0.251.0',
       }
     ),
     # An absolute path to your application root.
@@ -104,10 +121,10 @@ pre_install do |installer|
 end
 
 post_install do |installer|
+  # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202
   react_native_post_install(
     installer,
-    # Set `mac_catalyst_enabled` to `true` in order to apply patches
-    # necessary for Mac Catalyst builds
+    "../node_modules/react-native",
     :mac_catalyst_enabled => false
   )
   __apply_Xcode_12_5_M1_post_install_workaround(installer)
@@ -156,6 +173,14 @@ post_install do |installer|
           #include? "#{rnconfig_xcconfig.relative_path_from(cocoapods_xcconfig.dirname)}"
         EOF
       end
+    end
+  end
+
+  # Remove Flipper from Release builds
+  installer.generated_aggregate_targets.each do |generated_aggregate_target|
+    generated_aggregate_target.xcconfigs.each do |config_name, config_file|
+        next unless config_name == 'Release'
+        flipper_remove(generated_aggregate_target, config_name, config_file)
     end
   end
 end

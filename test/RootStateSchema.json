@@ -275,7 +275,6 @@
                                 "providerFetchFailed",
                                 "qrFailedInvalidAddress",
                                 "qrFailedInvalidRecipient",
-                                "reclaimingEscrowedPaymentFailed",
                                 "sendPaymentFailed",
                                 "simplexPurchaseFetchFailed",
                                 "swapScreen.fetchSwapQuoteFailed",
@@ -1534,49 +1533,6 @@
             ],
             "type": "number"
         },
-        "EscrowedPayment": {
-            "additionalProperties": false,
-            "properties": {
-                "amount": {
-                    "type": "string"
-                },
-                "expirySeconds": {
-                    "$ref": "#/definitions/BigNumber"
-                },
-                "message": {
-                    "type": "string"
-                },
-                "paymentID": {
-                    "type": "string"
-                },
-                "recipientIdentifier": {
-                    "type": "string"
-                },
-                "recipientPhone": {
-                    "type": "string"
-                },
-                "senderAddress": {
-                    "type": "string"
-                },
-                "timestamp": {
-                    "$ref": "#/definitions/BigNumber"
-                },
-                "tokenAddress": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "amount",
-                "expirySeconds",
-                "paymentID",
-                "recipientIdentifier",
-                "recipientPhone",
-                "senderAddress",
-                "timestamp",
-                "tokenAddress"
-            ],
-            "type": "object"
-        },
         "Fee": {
             "additionalProperties": false,
             "properties": {
@@ -1625,7 +1581,7 @@
         },
         "FeeEstimates": {
             "additionalProperties": {
-                "$ref": "#/definitions/{send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;swap:FeeEstimateState|undefined;}"
+                "$ref": "#/definitions/{send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;swap:FeeEstimateState|undefined;}"
             },
             "type": "object"
         },
@@ -1996,25 +1952,6 @@
             ],
             "type": "number"
         },
-        "InviteTransactions": {
-            "additionalProperties": {
-                "additionalProperties": false,
-                "properties": {
-                    "paymentId": {
-                        "type": "string"
-                    },
-                    "recipientIdentifier": {
-                        "type": "string"
-                    }
-                },
-                "required": [
-                    "paymentId",
-                    "recipientIdentifier"
-                ],
-                "type": "object"
-            },
-            "type": "object"
-        },
         "KeylessBackupDeleteStatus": {
             "enum": [
                 "Completed",
@@ -2034,15 +1971,6 @@
                 "RestoreZeroBalance"
             ],
             "type": "string"
-        },
-        "KnownFeedTransactionsType": {
-            "additionalProperties": {
-                "type": [
-                    "string",
-                    "boolean"
-                ]
-            },
-            "type": "object"
         },
         "KycSchema": {
             "enum": [
@@ -3465,7 +3393,6 @@
                 "EarnInfoScreen",
                 "EnableBiometry",
                 "ErrorScreen",
-                "EscrowedPaymentListScreen",
                 "ExchangeQR",
                 "ExternalExchanges",
                 "FiatConnectLinkAccount",
@@ -3513,7 +3440,6 @@
                 "QRCode",
                 "QRNavigator",
                 "QRScanner",
-                "ReclaimPaymentConfirmationScreen",
                 "RegulatoryTerms",
                 "SanctionedCountryErrorScreen",
                 "SelectCountry",
@@ -4441,25 +4367,6 @@
         "State_10": {
             "additionalProperties": false,
             "properties": {
-                "isReclaiming": {
-                    "type": "boolean"
-                },
-                "sentEscrowedPayments": {
-                    "items": {
-                        "$ref": "#/definitions/EscrowedPayment"
-                    },
-                    "type": "array"
-                }
-            },
-            "required": [
-                "isReclaiming",
-                "sentEscrowedPayments"
-            ],
-            "type": "object"
-        },
-        "State_11": {
-            "additionalProperties": false,
-            "properties": {
                 "estimates": {
                     "$ref": "#/definitions/FeeEstimates"
                 }
@@ -4469,7 +4376,7 @@
             ],
             "type": "object"
         },
-        "State_12": {
+        "State_11": {
             "additionalProperties": false,
             "properties": {
                 "appRecipientCache": {
@@ -4506,7 +4413,7 @@
             ],
             "type": "object"
         },
-        "State_13": {
+        "State_12": {
             "additionalProperties": false,
             "properties": {
                 "error": {
@@ -4629,7 +4536,7 @@
             ],
             "type": "object"
         },
-        "State_14": {
+        "State_13": {
             "additionalProperties": false,
             "properties": {
                 "isImportingWallet": {
@@ -4641,7 +4548,7 @@
             ],
             "type": "object"
         },
-        "State_15": {
+        "State_14": {
             "additionalProperties": false,
             "properties": {
                 "providerLogos": {
@@ -4657,7 +4564,7 @@
             ],
             "type": "object"
         },
-        "State_16": {
+        "State_15": {
             "additionalProperties": false,
             "properties": {
                 "pendingActions": {
@@ -4686,7 +4593,7 @@
             ],
             "type": "object"
         },
-        "State_17": {
+        "State_16": {
             "additionalProperties": false,
             "properties": {
                 "error": {
@@ -4706,7 +4613,7 @@
             ],
             "type": "object"
         },
-        "State_18": {
+        "State_17": {
             "additionalProperties": false,
             "properties": {
                 "activeDapp": {
@@ -4786,7 +4693,7 @@
             ],
             "type": "object"
         },
-        "State_19": {
+        "State_18": {
             "additionalProperties": false,
             "properties": {
                 "attemptReturnUserFlowLoading": {
@@ -4941,27 +4848,7 @@
             ],
             "type": "object"
         },
-        "State_2": {
-            "additionalProperties": false,
-            "properties": {
-                "connected": {
-                    "type": "boolean"
-                },
-                "rehydrated": {
-                    "type": "boolean"
-                },
-                "userLocationData": {
-                    "$ref": "#/definitions/UserLocationData"
-                }
-            },
-            "required": [
-                "connected",
-                "rehydrated",
-                "userLocationData"
-            ],
-            "type": "object"
-        },
-        "State_20": {
+        "State_19": {
             "additionalProperties": false,
             "properties": {
                 "currentSwap": {
@@ -4992,7 +4879,27 @@
             ],
             "type": "object"
         },
-        "State_21": {
+        "State_2": {
+            "additionalProperties": false,
+            "properties": {
+                "connected": {
+                    "type": "boolean"
+                },
+                "rehydrated": {
+                    "type": "boolean"
+                },
+                "userLocationData": {
+                    "$ref": "#/definitions/UserLocationData"
+                }
+            },
+            "required": [
+                "connected",
+                "rehydrated",
+                "userLocationData"
+            ],
+            "type": "object"
+        },
+        "State_20": {
             "additionalProperties": false,
             "properties": {
                 "earnPositionIds": {
@@ -5043,7 +4950,7 @@
             ],
             "type": "object"
         },
-        "State_22": {
+        "State_21": {
             "additionalProperties": false,
             "properties": {
                 "appKeyshare": {
@@ -5084,7 +4991,7 @@
             ],
             "type": "object"
         },
-        "State_24": {
+        "State_23": {
             "additionalProperties": {
                 "additionalProperties": false,
                 "properties": {
@@ -5106,7 +5013,7 @@
             },
             "type": "object"
         },
-        "State_25": {
+        "State_24": {
             "additionalProperties": false,
             "properties": {
                 "claimStatus": {
@@ -5144,7 +5051,7 @@
             ],
             "type": "object"
         },
-        "State_26": {
+        "State_25": {
             "additionalProperties": false,
             "properties": {
                 "getHistoryStatus": {
@@ -5228,7 +5135,7 @@
             ],
             "type": "object"
         },
-        "State_27": {
+        "State_26": {
             "additionalProperties": false,
             "properties": {
                 "depositStatus": {
@@ -5375,15 +5282,6 @@
         "State_6": {
             "additionalProperties": false,
             "properties": {
-                "inviteTransactions": {
-                    "$ref": "#/definitions/InviteTransactions"
-                },
-                "knownFeedTransactions": {
-                    "$ref": "#/definitions/KnownFeedTransactionsType"
-                },
-                "recentTxRecipientsCache": {
-                    "$ref": "#/definitions/NumberToRecipient"
-                },
                 "standbyTransactions": {
                     "items": {
                         "$ref": "#/definitions/StandbyTransaction"
@@ -5395,9 +5293,6 @@
                 }
             },
             "required": [
-                "inviteTransactions",
-                "knownFeedTransactions",
-                "recentTxRecipientsCache",
                 "standbyTransactions",
                 "transactionsByNetworkId"
             ],
@@ -5995,8 +5890,6 @@
                 "EARN_DEPOSIT",
                 "EARN_WITHDRAW",
                 "EXCHANGE",
-                "INVITE_RECEIVED",
-                "INVITE_SENT",
                 "NFT_RECEIVED",
                 "NFT_SENT",
                 "RECEIVED",
@@ -7031,13 +6924,10 @@
             },
             "type": "object"
         },
-        "{send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;swap:FeeEstimateState|undefined;}": {
+        "{send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;swap:FeeEstimateState|undefined;}": {
             "additionalProperties": false,
             "properties": {
                 "exchange": {
-                    "$ref": "#/definitions/FeeEstimateState"
-                },
-                "reclaim-escrow": {
                     "$ref": "#/definitions/FeeEstimateState"
                 },
                 "register-dek": {
@@ -7151,22 +7041,19 @@
             "$ref": "#/definitions/State"
         },
         "dapps": {
-            "$ref": "#/definitions/State_18"
+            "$ref": "#/definitions/State_17"
         },
         "earn": {
-            "$ref": "#/definitions/State_27"
-        },
-        "escrow": {
-            "$ref": "#/definitions/State_10"
+            "$ref": "#/definitions/State_26"
         },
         "fees": {
-            "$ref": "#/definitions/State_11"
+            "$ref": "#/definitions/State_10"
         },
         "fiatConnect": {
-            "$ref": "#/definitions/State_19"
+            "$ref": "#/definitions/State_18"
         },
         "fiatExchanges": {
-            "$ref": "#/definitions/State_15"
+            "$ref": "#/definitions/State_14"
         },
         "home": {
             "$ref": "#/definitions/State_5"
@@ -7178,16 +7065,16 @@
             "$ref": "#/definitions/State_8"
         },
         "imports": {
-            "$ref": "#/definitions/State_14"
+            "$ref": "#/definitions/State_13"
         },
         "jumpstart": {
-            "$ref": "#/definitions/State_25"
+            "$ref": "#/definitions/State_24"
         },
         "keylessBackup": {
-            "$ref": "#/definitions/State_22"
+            "$ref": "#/definitions/State_21"
         },
         "localCurrency": {
-            "$ref": "#/definitions/State_13"
+            "$ref": "#/definitions/State_12"
         },
         "networkInfo": {
             "$ref": "#/definitions/State_2"
@@ -7219,31 +7106,31 @@
             "type": "object"
         },
         "points": {
-            "$ref": "#/definitions/State_26"
+            "$ref": "#/definitions/State_25"
         },
         "positions": {
-            "$ref": "#/definitions/State_21"
+            "$ref": "#/definitions/State_20"
         },
         "priceHistory": {
-            "$ref": "#/definitions/State_24"
+            "$ref": "#/definitions/State_23"
         },
         "recipients": {
-            "$ref": "#/definitions/State_12"
+            "$ref": "#/definitions/State_11"
         },
         "send": {
             "$ref": "#/definitions/State_4"
         },
         "swap": {
-            "$ref": "#/definitions/State_20"
+            "$ref": "#/definitions/State_19"
         },
         "tokens": {
-            "$ref": "#/definitions/State_17"
+            "$ref": "#/definitions/State_16"
         },
         "transactions": {
             "$ref": "#/definitions/State_6"
         },
         "walletConnect": {
-            "$ref": "#/definitions/State_16"
+            "$ref": "#/definitions/State_15"
         },
         "web3": {
             "$ref": "#/definitions/State_7"
@@ -7256,7 +7143,6 @@
         "app",
         "dapps",
         "earn",
-        "escrow",
         "fees",
         "fiatConnect",
         "fiatExchanges",
