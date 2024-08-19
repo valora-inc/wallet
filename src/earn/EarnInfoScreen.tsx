@@ -6,7 +6,7 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import { EARN_STABLECOINS_LEARN_MORE } from 'src/config'
+import { APP_NAME, EARN_STABLECOINS_LEARN_MORE } from 'src/config'
 import { EarnTabType } from 'src/earn/types'
 import ArrowDown from 'src/icons/ArrowDown'
 import Blob from 'src/icons/Blob'
@@ -58,7 +58,6 @@ function DetailsItem({
 
 export default function EarnInfoScreen() {
   const { t } = useTranslation()
-  const isGasSubsidized = getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
   const showMultiplePools = getFeatureGate(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
 
   const headerHeight = useHeaderHeight()
@@ -76,20 +75,13 @@ export default function EarnInfoScreen() {
         <View style={styles.detailsContainer}>
           <DetailsItem
             icon={<EarnCoins size={ICON_SIZE} color={Colors.black} />}
-            title={
-              isGasSubsidized
-                ? t('earnFlow.earnInfo.details.earn.titleGasSubsidy')
-                : t('earnFlow.earnInfo.details.earn.title')
-            }
+            title={t('earnFlow.earnInfo.details.earn.title')}
             subtitle={t('earnFlow.earnInfo.details.earn.subtitle')}
-            footnote={
-              isGasSubsidized ? t('earnFlow.earnInfo.details.earn.footnoteSubsidy') : undefined
-            }
           />
           <DetailsItem
             icon={<Logo size={ICON_SIZE} color={Colors.black} />}
-            title={t('earnFlow.earnInfo.details.manage.title')}
-            subtitle={t('earnFlow.earnInfo.details.manage.subtitle')}
+            title={t('earnFlow.earnInfo.details.manage.titleV1_92', { appName: APP_NAME })}
+            subtitle={t('earnFlow.earnInfo.details.manage.subtitleV1_92', { appName: APP_NAME })}
           />
           <DetailsItem
             icon={<ArrowDown size={ICON_SIZE} color={Colors.black} />}
