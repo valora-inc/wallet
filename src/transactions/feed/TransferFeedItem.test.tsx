@@ -242,26 +242,6 @@ describe('TransferFeedItem', () => {
     })
   })
 
-  it('renders correctly for transfers to recent contact', async () => {
-    const { getByTestId } = renderScreen({
-      storeOverrides: {
-        identity: { addressToE164Number: { [MOCK_ADDRESS]: MOCK_E164_NUMBER } },
-        transactions: {
-          recentTxRecipientsCache: {
-            [MOCK_E164_NUMBER]: MOCK_CONTACT,
-          },
-        },
-      },
-    })
-    expectDisplay({
-      getByTestId,
-      expectedTitleSections: ['feedItemSentTitle', mockName],
-      expectedSubtitleSections: ['feedItemSentInfo', 'noComment'],
-      expectedAmount: '+₱13.30',
-      expectedTokenAmount: '10.00 cUSD',
-    })
-  })
-
   it('renders correctly for transfers to phone number', async () => {
     const { getByTestId } = renderScreen({
       storeOverrides: {
@@ -407,47 +387,6 @@ describe('TransferFeedItem', () => {
       getByTestId,
       expectedTitleSections: ['feedItemInviteRewardReceivedTitle'],
       expectedSubtitleSections: ['feedItemInviteRewardReceivedInfo'],
-      expectedAmount: '+₱13.30',
-      expectedTokenAmount: '10.00 cUSD',
-    })
-  })
-
-  it('renders correctly for sent invites', async () => {
-    const contactPhoneNumber = '+14155553695'
-    const { getByTestId } = renderScreen({
-      type: TokenTransactionTypeV2.InviteSent,
-      storeOverrides: {
-        transactions: {
-          inviteTransactions: {
-            [MOCK_TX_HASH]: {
-              recipientIdentifier:
-                '0xd2c326a68d07b060be189bbe05a9abee8f10573a23cd448122d2efd122b4e05a',
-              paymentId: '0x72a8898b40bD3CAf7e63664b61dBBa2E98fC123D',
-            },
-          },
-        },
-        recipients: {
-          phoneRecipientCache: {
-            [contactPhoneNumber]: {
-              e164PhoneNumber: contactPhoneNumber,
-              name: 'Kate Bell',
-            },
-          },
-        },
-        identity: {
-          e164NumberToSalt: {
-            [contactPhoneNumber]: 'hmq1hMZ08BYOg',
-          },
-        },
-      },
-    })
-
-    expectDisplay({
-      getByTestId,
-      expectedTitleSections: [
-        'feedItemEscrowSentTitle, {"context":null,"nameOrNumber":"Kate Bell"}',
-      ],
-      expectedSubtitleSections: ['feedItemEscrowSentInfo, {"context":"noComment"}'],
       expectedAmount: '+₱13.30',
       expectedTokenAmount: '10.00 cUSD',
     })

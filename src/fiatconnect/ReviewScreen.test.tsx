@@ -100,7 +100,6 @@ function getStore({ feeEstimate = defaultFeeEstimate }: { feeEstimate?: FeeEstim
         [mockCusdAddress]: {
           send: feeEstimate,
           exchange: undefined,
-          'reclaim-escrow': undefined,
           'register-dek': undefined,
           swap: undefined,
         },
@@ -113,7 +112,6 @@ function getStore({ feeEstimate = defaultFeeEstimate }: { feeEstimate?: FeeEstim
             feeInfo: mockFeeInfo,
           },
           exchange: undefined,
-          'reclaim-escrow': undefined,
           'register-dek': undefined,
           swap: undefined,
         },

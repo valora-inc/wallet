@@ -1,8 +1,9 @@
-import React from 'react'
+import BigNumber from 'bignumber.js'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { EarnEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { EarnEvents } from 'src/analytics/Events'
 import Button, { BtnSizes, BtnTypes, TextSizes } from 'src/components/Button'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import { EarnTabType } from 'src/earn/types'
@@ -10,31 +11,35 @@ import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { earnPositionsSelector } from 'src/positions/selectors'
 import { useSelector } from 'src/redux/hooks'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { useTokenInfo } from 'src/tokens/hooks'
-import Logger from 'src/utils/Logger'
-import networkConfig from 'src/web3/networkConfig'
-
-const TAG = 'earn/EarnActivePools'
 
 export default function EarnActivePools() {
   const { t } = useTranslation()
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
-  // TODO(ACT-1268): use info from getEarnPositions
-  const poolToken = useTokenInfo(networkConfig.aaveArbUsdcTokenId)
-  const poolTokenBalanceInUsd = poolToken?.priceUsd?.times(poolToken?.balance)
-  const poolTokenInLocalCurrency = useDollarsToLocalAmount(poolTokenBalanceInUsd ?? null)
-  if (!poolToken) {
-    // should never happen
-    Logger.error(TAG, `No pool token found ${networkConfig.aaveArbUsdcTokenId}`)
-    return null
-  }
-  const poolsSupplied = 1
-  const totalSupplied = `${localCurrencySymbol}${poolTokenInLocalCurrency ? formatValueToDisplay(poolTokenInLocalCurrency) : '--'}`
+  const pools = useSelector(earnPositionsSelector)
+  const poolsSupplied = useMemo(
+    () => pools.filter((pool) => new BigNumber(pool.balance).gt(0)).length,
+    [pools]
+  )
+  const totalSuppliedValueUsd = useMemo(
+    () =>
+      pools.reduce(
+        (acc, pool) => acc.plus(new BigNumber(pool.balance).times(new BigNumber(pool.priceUsd))),
+        new BigNumber(0) ?? null
+      ),
+    [pools]
+  )
+  const totalSuppliedValue = useDollarsToLocalAmount(totalSuppliedValueUsd)
+  const totalSupplied = useMemo(
+    () =>
+      `${localCurrencySymbol}${totalSuppliedValue ? formatValueToDisplay(totalSuppliedValue) : '--'}`,
+    [localCurrencySymbol, totalSuppliedValue]
+  )
 
   return (
     <View style={styles.card} testID="EarnActivePools">

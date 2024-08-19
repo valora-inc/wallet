@@ -7,14 +7,17 @@ import Svg, {
   Path,
   RadialGradient,
   Stop,
+  SvgProps,
 } from 'react-native-svg'
 
 interface Props {
   size?: number
   testID?: string
+  // Setting this to SvgProps['color'] for now as the Colors enum is not a part of the branding folder yet.
+  color?: SvgProps['color']
 }
 
-export default function LogoHeart({ size = 32, testID }: Props) {
+export default function LogoHeart({ size = 32, testID, color }: Props) {
   return (
     <Svg viewBox="0 0 889 889" width={size} height={size} testID={testID}>
       <Defs>
@@ -28,9 +31,9 @@ export default function LogoHeart({ size = 32, testID }: Props) {
           gradientTransform="rotate(68.4 472665.336 -5040857.337) scale(1612.4 -2818.5)"
           gradientUnits="userSpaceOnUse"
         >
-          <Stop offset={0} stopColor="#00e09d" />
-          <Stop offset={0.2} stopColor="#00e09d" stopOpacity={0.9} />
-          <Stop offset={1} stopColor="#3beb9f" stopOpacity={0} />
+          <Stop offset={0} stopColor={color ?? '#00e09d'} />
+          <Stop offset={0.2} stopColor={color ?? '#00e09d'} stopOpacity={0.9} />
+          <Stop offset={1} stopColor={color ?? '#3beb9f'} stopOpacity={0} />
         </RadialGradient>
         <RadialGradient
           id="f"
@@ -42,8 +45,8 @@ export default function LogoHeart({ size = 32, testID }: Props) {
           gradientTransform="rotate(47.2 190107.028 -7577516.78) scale(1819.1 -2355.8)"
           gradientUnits="userSpaceOnUse"
         >
-          <Stop offset={0} stopColor="#19cf7a" />
-          <Stop offset={1} stopColor="#82d148" stopOpacity={0} />
+          <Stop offset={0} stopColor={color ?? '#19cf7a'} />
+          <Stop offset={1} stopColor={color ?? '#82d148'} stopOpacity={0} />
         </RadialGradient>
         <RadialGradient
           id="g"
@@ -55,9 +58,9 @@ export default function LogoHeart({ size = 32, testID }: Props) {
           gradientTransform="rotate(-101.1 2998729.964 928626.99) scale(1446.8 -1874.4)"
           gradientUnits="userSpaceOnUse"
         >
-          <Stop offset={0} stopColor="#f79a0f" />
-          <Stop offset={0.3} stopColor="#f4a227" stopOpacity={0.9} />
-          <Stop offset={1} stopColor="#e6c832" stopOpacity={0} />
+          <Stop offset={0} stopColor={color ?? '#f79a0f'} />
+          <Stop offset={0.3} stopColor={color ?? '#f4a227'} stopOpacity={0.9} />
+          <Stop offset={1} stopColor={color ?? '#e6c832'} stopOpacity={0} />
         </RadialGradient>
         <RadialGradient
           id="i"
@@ -69,9 +72,9 @@ export default function LogoHeart({ size = 32, testID }: Props) {
           gradientTransform="rotate(52.8 71120.128 -2845995.122) scale(744.2 -1099.2)"
           gradientUnits="userSpaceOnUse"
         >
-          <Stop offset={0} stopColor="#73d444" />
-          <Stop offset={0.3} stopColor="#73d444" stopOpacity={0.5} />
-          <Stop offset={1} stopColor="#73d444" stopOpacity={0} />
+          <Stop offset={0} stopColor={color ?? '#73d444'} />
+          <Stop offset={0.3} stopColor={color ?? '#73d444'} stopOpacity={0.5} />
+          <Stop offset={1} stopColor={color ?? '#73d444'} stopOpacity={0} />
         </RadialGradient>
         <RadialGradient
           id="j"
@@ -83,10 +86,10 @@ export default function LogoHeart({ size = 32, testID }: Props) {
           gradientTransform="rotate(93.3 1609215.68 -2649085.184) scale(1405.7 -1234.2)"
           gradientUnits="userSpaceOnUse"
         >
-          <Stop offset={0} stopColor="#00cf5c" />
-          <Stop offset={0.3} stopColor="#00cf5c" stopOpacity={0.8} />
-          <Stop offset={0.6} stopColor="#00d05b" stopOpacity={0.2} />
-          <Stop offset={1} stopColor="#00d05b" stopOpacity={0} />
+          <Stop offset={0} stopColor={color ?? '#00cf5c'} />
+          <Stop offset={0.3} stopColor={color ?? '#00cf5c'} stopOpacity={0.8} />
+          <Stop offset={0.6} stopColor={color ?? '#00d05b'} stopOpacity={0.2} />
+          <Stop offset={1} stopColor={color ?? '#00d05b'} stopOpacity={0} />
         </RadialGradient>
         <RadialGradient
           id="k"
@@ -98,9 +101,9 @@ export default function LogoHeart({ size = 32, testID }: Props) {
           gradientTransform="matrix(1523.058 1821.55694 3063.82747 -2561.7574 -7698928.8 -3135152.8)"
           gradientUnits="userSpaceOnUse"
         >
-          <Stop offset={0} stopColor="#fff" stopOpacity={0.7} />
-          <Stop offset={0.8} stopColor="#fff" stopOpacity={0} />
-          <Stop offset={1} stopColor="#fff" stopOpacity={0} />
+          <Stop offset={0} stopColor={color ?? '#fff'} stopOpacity={0.7} />
+          <Stop offset={0.8} stopColor={color ?? '#fff'} stopOpacity={0} />
+          <Stop offset={1} stopColor={color ?? '#fff'} stopOpacity={0} />
         </RadialGradient>
         <LinearGradient
           id="b"
@@ -111,8 +114,8 @@ export default function LogoHeart({ size = 32, testID }: Props) {
           gradientTransform="matrix(1 0 0 -1 -1065 312.6)"
           gradientUnits="userSpaceOnUse"
         >
-          <Stop offset={0} stopColor="#35d07f" stopOpacity={0} />
-          <Stop offset={1} stopColor="#00d063" />
+          <Stop offset={0} stopColor={color ?? '#35d07f'} stopOpacity={0} />
+          <Stop offset={1} stopColor={color ?? '#00d063'} />
         </LinearGradient>
         <LinearGradient
           id="c"
@@ -123,9 +126,9 @@ export default function LogoHeart({ size = 32, testID }: Props) {
           gradientTransform="matrix(1 0 0 -1 -1065 312.6)"
           gradientUnits="userSpaceOnUse"
         >
-          <Stop offset={0} stopColor="#f8cd0c" />
-          <Stop offset={0.3} stopColor="#f2ce27" />
-          <Stop offset={1} stopColor="#86d23c" stopOpacity={0} />
+          <Stop offset={0} stopColor={color ?? '#f8cd0c'} />
+          <Stop offset={0.3} stopColor={color ?? '#f2ce27'} />
+          <Stop offset={1} stopColor={color ?? '#86d23c'} stopOpacity={0} />
         </LinearGradient>
         <LinearGradient
           id="d"
@@ -136,8 +139,8 @@ export default function LogoHeart({ size = 32, testID }: Props) {
           gradientTransform="matrix(1 0 0 -1 -1065 312.6)"
           gradientUnits="userSpaceOnUse"
         >
-          <Stop offset={0} stopColor="#fdeb3f" />
-          <Stop offset={1} stopColor="#fbc74b" stopOpacity={0} />
+          <Stop offset={0} stopColor={color ?? '#fdeb3f'} />
+          <Stop offset={1} stopColor={color ?? '#fbc74b'} stopOpacity={0} />
         </LinearGradient>
         <LinearGradient
           id="h"
@@ -148,8 +151,8 @@ export default function LogoHeart({ size = 32, testID }: Props) {
           gradientTransform="matrix(1 0 0 -1 -1065 312.6)"
           gradientUnits="userSpaceOnUse"
         >
-          <Stop offset={0} stopColor="#39e2a4" />
-          <Stop offset={1} stopColor="#67e290" stopOpacity={0} />
+          <Stop offset={0} stopColor={color ?? '#39e2a4'} />
+          <Stop offset={1} stopColor={color ?? '#67e290'} stopOpacity={0} />
         </LinearGradient>
         <ClipPath id="a">
           <Path

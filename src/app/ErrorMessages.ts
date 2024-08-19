@@ -12,7 +12,6 @@ export enum ErrorMessages {
   ADDRESS_LOOKUP_FAILURE = 'addressLookupFailure',
   ACCOUNT_UNLOCK_FAILED = 'accountUnlockFailed',
   SEND_PAYMENT_FAILED = 'sendPaymentFailed',
-  RECLAIMING_ESCROWED_PAYMENT_FAILED = 'reclaimingEscrowedPaymentFailed',
   ACCOUNT_SETUP_FAILED = 'accountSetupFailed',
   FIREBASE_DISABLED = 'firebaseDisabled',
   FIREBASE_FAILED = 'firebaseFailed',

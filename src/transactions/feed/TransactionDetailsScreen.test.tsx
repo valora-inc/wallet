@@ -1,8 +1,8 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { TransactionDetailsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { TransactionDetailsEvents } from 'src/analytics/Events'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
@@ -364,21 +364,19 @@ describe('TransactionDetailsScreen', () => {
     expect(getByTestId('TransactionDetails/FeeRowItem')).toHaveTextContent('₱0.13')
   })
 
-  it.each([
-    TokenTransactionTypeV2.Sent,
-    TokenTransactionTypeV2.InviteSent,
-    TokenTransactionTypeV2.Received,
-    TokenTransactionTypeV2.InviteReceived,
-  ])('renders details action for complete %s transaction', (type) => {
-    const { getByText } = renderScreen({
-      transaction: tokenTransfer({
-        type,
-        status: TransactionStatus.Complete,
-      }),
-    })
+  it.each([TokenTransactionTypeV2.Sent, TokenTransactionTypeV2.Received])(
+    'renders details action for complete %s transaction',
+    (type) => {
+      const { getByText } = renderScreen({
+        transaction: tokenTransfer({
+          type,
+          status: TransactionStatus.Complete,
+        }),
+      })
 
-    expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
-  })
+      expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
+    }
+  )
 
   it(`renders details action for complete ${TokenTransactionTypeV2.SwapTransaction} transacton`, () => {
     const { getByText } = renderScreen({
@@ -390,21 +388,19 @@ describe('TransactionDetailsScreen', () => {
     expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
   })
 
-  it.each([
-    TokenTransactionTypeV2.Sent,
-    TokenTransactionTypeV2.InviteSent,
-    TokenTransactionTypeV2.Received,
-    TokenTransactionTypeV2.InviteReceived,
-  ])('renders check status action for pending %s transaction', (type) => {
-    const { getByText } = renderScreen({
-      transaction: tokenTransfer({
-        type,
-        status: TransactionStatus.Pending,
-      }),
-    })
+  it.each([TokenTransactionTypeV2.Sent, TokenTransactionTypeV2.Received])(
+    'renders check status action for pending %s transaction',
+    (type) => {
+      const { getByText } = renderScreen({
+        transaction: tokenTransfer({
+          type,
+          status: TransactionStatus.Pending,
+        }),
+      })
 
-    expect(getByText('transactionDetailsActions.checkPendingTransactionStatus')).toBeTruthy()
-  })
+      expect(getByText('transactionDetailsActions.checkPendingTransactionStatus')).toBeTruthy()
+    }
+  )
 
   it(`renders check status action for pending ${TokenTransactionTypeV2.SwapTransaction} transacton`, () => {
     const { getByText } = renderScreen({
@@ -672,14 +668,10 @@ describe('TransactionDetailsScreen', () => {
     )
   })
 
-  it.each([
-    TokenTransactionTypeV2.InviteSent,
-    TokenTransactionTypeV2.Received,
-    TokenTransactionTypeV2.InviteReceived,
-  ])('does not render retry action for %s transaction', (type) => {
+  it('does not render retry action for TokenTransactionTypeV2.Received transaction', () => {
     const { queryByTestId } = renderScreen({
       transaction: tokenTransfer({
-        type,
+        type: TokenTransactionTypeV2.Received,
         status: TransactionStatus.Failed,
       }),
     })

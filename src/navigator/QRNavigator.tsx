@@ -4,15 +4,13 @@ import {
 } from '@react-navigation/material-top-tabs'
 import { useIsFocused } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { Dimensions, Platform, StatusBar, StyleSheet } from 'react-native'
+import { Dimensions, Platform, StatusBar, StyleSheet, View } from 'react-native'
 import { PERMISSIONS, RESULTS, check } from 'react-native-permissions'
-import Animated, { call, greaterThan, onChange } from 'react-native-reanimated'
-import { ScrollPager } from 'react-native-tab-view'
-import { QrScreenEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { QrScreenEvents } from 'src/analytics/Events'
 import { noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { QRTabParamList, StackParamList } from 'src/navigator/types'
@@ -24,7 +22,6 @@ import { SVG, handleQRCodeDetected } from 'src/send/actions'
 import { QrCode } from 'src/send/types'
 import { Colors } from 'src/styles/colors'
 import Logger from 'src/utils/Logger'
-import { ExtractProps } from 'src/utils/typescript'
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -35,10 +32,6 @@ export type QRCodeProps = NativeStackScreenProps<QRTabParamList, Screens.QRCode>
   qrSvgRef: React.MutableRefObject<SVG>
 }
 
-type AnimatedScannerSceneProps = NativeStackScreenProps<QRTabParamList, Screens.QRScanner> & {
-  position: Animated.Value<number>
-}
-
 export function QRCodePicker({ route, qrSvgRef, ...props }: QRCodeProps) {
   const onPressCopy = () => {
     AppAnalytics.track(QrScreenEvents.qr_screen_copy_address)
@@ -46,15 +39,16 @@ export function QRCodePicker({ route, qrSvgRef, ...props }: QRCodeProps) {
   return <QRCode {...props} qrSvgRef={qrSvgRef} onPressCopy={onPressCopy} />
 }
 
+type ScannerSceneProps = NativeStackScreenProps<QRTabParamList, Screens.QRScanner>
+
 // Component doing our custom transition for the QR scanner
-function AnimatedScannerScene({ route, position }: AnimatedScannerSceneProps) {
+function ScannerScene({ route }: ScannerSceneProps) {
   const lastScannedQR = useRef('')
   const dispatch = useDispatch()
   const defaultOnQRCodeDetected = (qrCode: QrCode) => dispatch(handleQRCodeDetected(qrCode))
   const { onQRCodeDetected: onQRCodeDetectedParam = defaultOnQRCodeDetected } = route.params || {}
   const isFocused = useIsFocused()
   const [wasFocused, setWasFocused] = useState(isFocused)
-  const [isPartiallyVisible, setIsPartiallyVisible] = useState(false)
   const cameraPermission = useAsync(check, [
     Platform.select({ ios: PERMISSIONS.IOS.CAMERA, default: PERMISSIONS.ANDROID.CAMERA }),
   ])
@@ -68,46 +62,13 @@ function AnimatedScannerScene({ route, position }: AnimatedScannerSceneProps) {
     }
   }, [isFocused])
 
-  Animated.useCode(
-    () =>
-      onChange(
-        greaterThan(position, 0),
-        call([position], ([value]) => {
-          setIsPartiallyVisible(value > 0)
-        })
-      ),
-    [position]
-  )
-
-  const animatedStyle = useMemo(() => {
-    const opacity = Animated.interpolateNode(position, {
-      inputRange: [0, 1],
-      outputRange: [0, 1],
-      extrapolate: Animated.Extrapolate.CLAMP,
-    })
-
-    const translateX = Animated.interpolateNode(position, {
-      inputRange: [0, 1],
-      outputRange: [-width, 0],
-      extrapolate: Animated.Extrapolate.CLAMP,
-    })
-
-    const scale = Animated.interpolateNode(position, {
-      inputRange: [0, 1],
-      outputRange: [0.7, 1],
-      extrapolate: Animated.Extrapolate.CLAMP,
-    })
-
-    return { flex: 1, opacity, transform: [{ translateX, scale }] }
-  }, [position])
-
   // This only enables the camera when necessary.
   // There a special treatment for when we haven't asked the user for camera permission yet.
   // In that case we want to wait for the screen to be fully focused before enabling the camera so the
   // prompt doesn't show up in the middle of the slide animation.
   // Indeed, enabling the camera directly triggers the permission prompt with the current version of
   // react-native-camera.
-  const enableCamera = isFocused || (isPartiallyVisible && (hasAskedCameraPermission || wasFocused))
+  const enableCamera = isFocused || hasAskedCameraPermission || wasFocused
 
   const onQRCodeDetectedWrapper = (qrCode: QrCode) => {
     if (lastScannedQR.current === qrCode.data) {
@@ -119,21 +80,16 @@ function AnimatedScannerScene({ route, position }: AnimatedScannerSceneProps) {
   }
 
   return (
-    <Animated.View style={animatedStyle}>
+    <View style={styles.viewContainer}>
       {isFocused && <StatusBar barStyle="light-content" />}
       {enableCamera && <QRScanner onQRCodeDetected={onQRCodeDetectedWrapper} />}
-    </Animated.View>
+    </View>
   )
 }
-
-// Use ScrollPager on iOS as it gives a better native feeling
-const pager: ExtractProps<typeof Tab.Navigator>['pager'] =
-  Platform.OS === 'ios' ? (props: any) => <ScrollPager {...props} /> : undefined
 
 type Props = NativeStackScreenProps<StackParamList, Screens.QRNavigator>
 
 export default function QRNavigator({ route }: Props) {
-  const position = useRef(new Animated.Value(0)).current
   const qrSvgRef = useRef<SVG>()
   const { t } = useTranslation()
 
@@ -148,11 +104,9 @@ export default function QRNavigator({ route }: Props) {
 
   return (
     <Tab.Navigator
-      position={position}
       tabBar={tabBar}
       // Trick to position the tabs floating on top
       tabBarPosition="bottom"
-      pager={pager}
       style={styles.container}
       sceneContainerStyle={styles.sceneContainerStyle}
       initialLayout={initialLayout}
@@ -170,7 +124,7 @@ export default function QRNavigator({ route }: Props) {
         )}
       </Tab.Screen>
       <Tab.Screen name={Screens.QRScanner} options={{ title: t('scanCode') ?? undefined }}>
-        {(props) => <AnimatedScannerScene {...props} position={position} />}
+        {(props) => <ScannerScene {...props} />}
       </Tab.Screen>
     </Tab.Navigator>
   )
@@ -189,5 +143,10 @@ const styles = StyleSheet.create({
   },
   sceneContainerStyle: {
     backgroundColor: Colors.black,
+  },
+  viewContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 })

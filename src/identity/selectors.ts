@@ -1,6 +1,3 @@
-import getPhoneHash from '@celo/phone-utils/lib/getPhoneHash'
-import { createSelector } from 'reselect'
-import { IdentifierToE164NumberType } from 'src/identity/reducer'
 import { RootState } from 'src/redux/reducers'
 
 export const e164NumberToAddressSelector = (state: RootState) => state.identity.e164NumberToAddress
@@ -18,21 +15,6 @@ export const importContactsProgressSelector = (state: RootState) =>
   state.identity.importContactsProgress
 export const addressToDisplayNameSelector = (state: RootState) =>
   state.identity.addressToDisplayName
-
-export const identifierToE164NumberSelector = createSelector(
-  e164NumberToSaltSelector,
-  (e164NumberToSalt) => {
-    const identifierToE164Numbers: IdentifierToE164NumberType = {}
-    for (const e164Number of Object.keys(e164NumberToSalt)) {
-      const pepper = e164NumberToSalt[e164Number]
-      if (pepper) {
-        const phoneHash = getPhoneHash(e164Number, pepper)
-        identifierToE164Numbers[phoneHash] = e164Number
-      }
-    }
-    return identifierToE164Numbers
-  }
-)
 
 export const lastSavedContactsHashSelector = (state: RootState) =>
   state.identity.lastSavedContactsHash

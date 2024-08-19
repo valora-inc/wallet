@@ -4,6 +4,7 @@ import {
   AppTokenPosition,
   ClaimablePosition,
   ClaimableShortcut,
+  EarnPosition,
   Position,
   Token,
 } from 'src/positions/types'
@@ -43,7 +44,12 @@ export const earnPositionsSelector = createSelector(
   [positionsSelector, earnPositionIdsSelector],
   (positions, earnPositionIds) => {
     const earnPositionIdsSet = new Set(earnPositionIds)
-    return positions.filter((position) => earnPositionIdsSet.has(position.address))
+    return positions.filter(
+      (position): position is EarnPosition =>
+        earnPositionIdsSet.has(position.positionId) &&
+        position.type === 'app-token' &&
+        !!position.dataProps
+    )
   }
 )
 

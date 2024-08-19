@@ -97,6 +97,7 @@ import {
   takeLatest,
 } from 'typed-redux-saga'
 import { parse } from 'url'
+import { Address, Hex } from 'viem'
 
 const TAG = 'app/saga'
 
@@ -347,9 +348,9 @@ export function* handleDeepLink(action: OpenDeepLink) {
         inviterAddress,
       })
     } else if (pathParts.length === 4 && pathParts[1] === 'jumpstart') {
-      const privateKey = pathParts[2]
+      const privateKey = pathParts[2] as Hex
       const networkId = pathParts[3] as NetworkId
-      yield* call(jumpstartClaim, privateKey, networkId, walletAddress)
+      yield* call(jumpstartClaim, privateKey, networkId, walletAddress as Address)
     } else if (
       (yield* select(allowHooksPreviewSelector)) &&
       rawParams.pathname === '/hooks/enablePreview'
@@ -359,7 +360,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
   }
 }
 
-export function* watchDeepLinks() {
+function* watchDeepLinks() {
   yield* takeLatest(Actions.OPEN_DEEP_LINK, safely(handleDeepLink))
 }
 
@@ -379,7 +380,7 @@ export function* handleOpenUrl(action: OpenUrlAction) {
   }
 }
 
-export function* watchOpenUrl() {
+function* watchOpenUrl() {
   yield* takeEvery(Actions.OPEN_URL, safely(handleOpenUrl))
 }
 
@@ -549,7 +550,7 @@ export function* requestInAppReview() {
   }
 }
 
-export function* watchAppReview() {
+function* watchAppReview() {
   // Triggers on successful payment, swap, or rewards claim
   yield* takeLatest([SendActions.SEND_PAYMENT_SUCCESS, swapSuccess], safely(requestInAppReview))
 }

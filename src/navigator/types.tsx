@@ -2,7 +2,6 @@ import { Countries } from '@celo/phone-utils'
 import { KycSchema } from '@fiatconnect/fiatconnect-types'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EarnTabType } from 'src/earn/types'
-import { EscrowedPayment } from 'src/escrow/actions'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow, FiatExchangeFlow, SimplexQuote } from 'src/fiatExchanges/utils'
@@ -90,7 +89,6 @@ export type StackParamList = {
   [Screens.ErrorScreen]: {
     errorMessage?: string
   }
-  [Screens.EscrowedPaymentListScreen]: undefined
   [Screens.ExternalExchanges]: {
     tokenId: string
     exchanges: ExternalExchangeProvider[]
@@ -219,10 +217,6 @@ export type StackParamList = {
   [Screens.Profile]: undefined
   [Screens.ProfileMenu]: undefined
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
-  [Screens.ReclaimPaymentConfirmationScreen]: {
-    reclaimPaymentInput: EscrowedPayment
-    onCancel?: () => void
-  }
   [Screens.RegulatoryTerms]: undefined
   [Screens.SanctionedCountryErrorScreen]: undefined
   [Screens.SelectCountry]: {

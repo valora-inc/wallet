@@ -3,9 +3,9 @@ import Svg, { Path } from 'react-native-svg'
 import Colors from 'src/styles/colors'
 
 const PlusIcon = () => (
-  <Svg width={12} height={12} fill="none">
+  <Svg width={24} height={24} fill="none" viewBox="0 0 24 24">
     <Path
-      d="M6.667.667a.667.667 0 0 0-1.334 0v4.666H.667a.667.667 0 0 0 0 1.334h4.666v4.666a.667.667 0 1 0 1.334 0V6.667h4.666a.667.667 0 1 0 0-1.334H6.667V.667Z"
+      d="M19 12.998H13V18.998H11V12.998H5V10.998H11V4.99805H13V10.998H19V12.998Z"
       fill={Colors.black}
     />
   </Svg>
