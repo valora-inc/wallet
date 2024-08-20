@@ -136,7 +136,7 @@ const commonScreens = (Navigator: typeof Stack) => {
         component={UpgradeScreen}
         options={UpgradeScreen.navigationOptions}
       />
-      <Navigator.Screen name={Screens.Debug} component={Debug} options={Debug.navigationOptions} />
+      <Navigator.Screen name={Screens.Debug} component={Debug} options={noHeader} />
       <Navigator.Screen
         name={Screens.WebViewScreen}
         component={WebViewScreen}
