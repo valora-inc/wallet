@@ -24,10 +24,6 @@ export enum Colors {
   lightShadow = 'rgba(48, 46, 37, 0.15)',
   barShadow = 'rgba(129, 134, 139, 0.5)',
 
-  dappFavouriteStar = '#FCBA27',
-  nftTxFeedIconForeground = '#452C75',
-  nftTxFeedIconBackground = '#ECE6F7',
-
   /** @deprecated */
   goldBrand = '#FBCC5C',
   /** @deprecated */

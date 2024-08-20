@@ -7,7 +7,7 @@ const StarOutline = () => (
     <G clipPath="url(#a)">
       <Path
         d="m12.265 17.675 6.344 3.828-1.684-7.216 5.605-4.855-7.38-.626L12.264 2 9.381 8.806 2 9.432l5.605 4.855-1.684 7.216 6.344-3.828Z"
-        fill={Colors.dappFavouriteStar}
+        fill="#FCBA27"
       />
     </G>
     <Defs>
