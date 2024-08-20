@@ -51,15 +51,13 @@ export async function decryptPrivateKey(encryptedPrivateKey: string, password: s
   }
 }
 
-export async function storePrivateKey(
-  privateKey: string,
-  account: KeychainAccount,
-  password: string
-) {
+async function storePrivateKey(privateKey: string, account: KeychainAccount, password: string) {
   const encryptedPrivateKey = await encryptPrivateKey(privateKey, password)
   return storeItem({ key: accountStorageKey(account), value: encryptedPrivateKey })
 }
 
+// Note: ideally this wouldn't be exported, so we don't accidentally expose the private key
+// but it's needed for now to support the existing KeychainWallet and the viem wallet
 export async function getStoredPrivateKey(
   account: KeychainAccount,
   password: string

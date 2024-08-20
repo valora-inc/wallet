@@ -134,27 +134,32 @@ describe('KeychainLock', () => {
     it('returns false if the account has not been added', () => {
       expect(lock.isUnlocked(mockAddress)).toBe(false)
     })
-    it('returns false if the account has been added but not unlocked', () => {
-      lock.addExistingAccount({ address: mockAddress, createdAt: date })
-      expect(lock.isUnlocked(mockAddress)).toBe(false)
-    })
-    it('returns false if the account has been added and unlocked but the duration has passed', async () => {
-      lock.addExistingAccount({ address: mockAddress, createdAt: date })
+    it('returns false if the account has been added but not unlocked', async () => {
       mockedKeychain.setItems({
         [`account--${date.toISOString()}--${normalizeAddress(mockAddress)}`]: {
           password: 'password',
         },
       })
+      await lock.loadExistingAccounts()
+      expect(lock.isUnlocked(mockAddress)).toBe(false)
+    })
+    it('returns false if the account has been added and unlocked but the duration has passed', async () => {
+      mockedKeychain.setItems({
+        [`account--${date.toISOString()}--${normalizeAddress(mockAddress)}`]: {
+          password: 'password',
+        },
+      })
+      await lock.loadExistingAccounts()
       await lock.unlock(mockAddress, 'password', -1) // spoofing duration passed by using a negative duration
       expect(lock.isUnlocked(mockAddress)).toBe(false)
     })
     it('returns true if the account has been added and unlocked and the duration has not passed', async () => {
-      lock.addExistingAccount({ address: mockAddress, createdAt: date })
       mockedKeychain.setItems({
         [`account--${date.toISOString()}--${normalizeAddress(mockAddress)}`]: {
           password: 'password',
         },
       })
+      await lock.loadExistingAccounts()
       await lock.unlock(mockAddress, 'password', 100)
       expect(lock.isUnlocked(mockAddress)).toBe(true)
       // check for different casing
@@ -168,16 +173,23 @@ describe('KeychainLock', () => {
       expect(await lock.unlock(mockAddress, 'password', 100)).toBe(false)
     })
     it('throws if the account has been added but private key is not in the keychain', async () => {
-      lock.addExistingAccount({ address: mockAddress, createdAt: date })
-      await expect(lock.unlock(mockAddress, 'password', 100)).rejects.toThrow()
-    })
-    it('returns true if account is unlocked with all uppercase address', async () => {
-      lock.addExistingAccount({ address: mockAddress, createdAt: date })
       mockedKeychain.setItems({
         [`account--${date.toISOString()}--${normalizeAddress(mockAddress)}`]: {
           password: 'password',
         },
       })
+      await lock.loadExistingAccounts()
+      // now remove from keychain
+      mockedKeychain.clearAllItems()
+      await expect(lock.unlock(mockAddress, 'password', 100)).rejects.toThrow()
+    })
+    it('returns true if account is unlocked with all uppercase address', async () => {
+      mockedKeychain.setItems({
+        [`account--${date.toISOString()}--${normalizeAddress(mockAddress)}`]: {
+          password: 'password',
+        },
+      })
+      await lock.loadExistingAccounts()
       expect(await lock.unlock(mockAddressInUpperCase, 'password', 100)).toBe(true)
     })
   })
@@ -188,17 +200,24 @@ describe('KeychainLock', () => {
     })
 
     it('throws if the account has been added but private key is not in the keychain', async () => {
-      lock.addExistingAccount({ address: mockAddress, createdAt: date })
-      await expect(lock.updatePassphrase(mockAddress, 'password', 'new-password')).rejects.toThrow()
-    })
-
-    it('returns true if the account and key is present and address is passed in different case', async () => {
-      lock.addExistingAccount({ address: mockAddress, createdAt: date })
       mockedKeychain.setItems({
         [`account--${date.toISOString()}--${normalizeAddress(mockAddress)}`]: {
           password: 'password',
         },
       })
+      await lock.loadExistingAccounts()
+      // now remove from keychain
+      mockedKeychain.clearAllItems()
+      await expect(lock.updatePassphrase(mockAddress, 'password', 'new-password')).rejects.toThrow()
+    })
+
+    it('returns true if the account and key is present and address is passed in different case', async () => {
+      mockedKeychain.setItems({
+        [`account--${date.toISOString()}--${normalizeAddress(mockAddress)}`]: {
+          password: 'password',
+        },
+      })
+      await lock.loadExistingAccounts()
       expect(await lock.updatePassphrase(mockAddressInUpperCase, 'password', 'new-password')).toBe(
         true
       )
