@@ -1,9 +1,4 @@
-import {
-  isValidAddress,
-  normalizeAddress,
-  normalizeAddressWith0x,
-  privateKeyToAddress,
-} from '@celo/utils/lib/address'
+import { isValidAddress, normalizeAddress, normalizeAddressWith0x } from '@celo/utils/lib/address'
 import CryptoJS from 'crypto-js'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { generateKeysFromMnemonic, getStoredMnemonic } from 'src/backup/utils'
@@ -14,6 +9,7 @@ import {
   storeItem,
 } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
+import { Address, privateKeyToAddress } from 'viem/accounts'
 
 const TAG = 'web3/KeychainLock'
 
@@ -164,7 +160,7 @@ async function importAndStorePrivateKeyFromMnemonic(account: KeychainAccount, pa
   }
 
   // Prefix 0x here or else the signed transaction produces dramatically different signer!!!
-  const normalizedPrivateKey = normalizeAddressWith0x(privateKey)
+  const normalizedPrivateKey = normalizeAddressWith0x(privateKey) as Address
   const accountFromPrivateKey = normalizeAddressWith0x(privateKeyToAddress(normalizedPrivateKey))
   if (accountFromPrivateKey !== account.address) {
     throw new Error(
@@ -195,7 +191,32 @@ export class KeychainLock {
     }
   > = new Map()
 
-  addAccount(account: KeychainAccount) {
+  async loadExistingAccounts(
+    importMnemonicAccount?: ImportMnemonicAccount
+  ): Promise<KeychainAccount[]> {
+    const accounts = await listStoredAccounts(importMnemonicAccount)
+
+    for (const account of accounts) {
+      this.addExistingAccount(account)
+    }
+    return accounts
+  }
+
+  async addAccount(privateKey: string, passphrase: string): Promise<KeychainAccount> {
+    Logger.info(`${TAG}@addAccount`, `Adding a new account`)
+    // Prefix 0x here or else the signed transaction produces dramatically different signer!!!
+    const normalizedPrivateKey = normalizeAddressWith0x(privateKey) as Address
+    const address = normalizeAddressWith0x(privateKeyToAddress(normalizedPrivateKey))
+    if (this.locks.has(address)) {
+      throw new Error(ErrorMessages.KEYCHAIN_ACCOUNT_ALREADY_EXISTS)
+    }
+    const account = { address, createdAt: new Date() }
+    this.addExistingAccount(account)
+    await storePrivateKey(privateKey, account, passphrase)
+    return account
+  }
+
+  addExistingAccount(account: KeychainAccount) {
     this.locks.set(normalizeAddressWith0x(account.address), { account })
   }
 

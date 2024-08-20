@@ -103,7 +103,7 @@ describe('getLockableWallet', () => {
   ])('can call $method.name if unlocked', async ({ method, methodCall }) => {
     // Adding account to the lock and keychain
     const date = new Date()
-    lock.addAccount({ address: wallet.account?.address as string, createdAt: date })
+    lock.addExistingAccount({ address: wallet.account?.address as string, createdAt: date })
     mockedKeychain.setItems({
       [`account--${date.toISOString()}--${normalizeAddress(wallet.account?.address as string)}`]: {
         password: 'password',

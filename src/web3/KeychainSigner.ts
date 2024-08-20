@@ -3,12 +3,7 @@ import { EIP712TypedData } from '@celo/utils/lib/sign-typed-data-utils'
 import { LocalSigner } from '@celo/wallet-local'
 import BigNumber from 'bignumber.js'
 import Logger from 'src/utils/Logger'
-import {
-  KeychainAccount,
-  KeychainLock,
-  getStoredPrivateKey,
-  storePrivateKey,
-} from 'src/web3/KeychainLock'
+import { KeychainAccount, KeychainLock, getStoredPrivateKey } from 'src/web3/KeychainLock'
 
 const TAG = 'web3/KeychainSigner'
 
@@ -21,11 +16,6 @@ export class KeychainSigner implements Signer {
     protected account: KeychainAccount,
     protected lock: KeychainLock
   ) {}
-
-  async init(privateKey: string, passphrase: string) {
-    await storePrivateKey(privateKey, this.account, passphrase)
-    await this.lock.addAccount(this.account)
-  }
 
   async signTransaction(
     addToV: number,

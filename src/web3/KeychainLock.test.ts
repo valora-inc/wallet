@@ -1,7 +1,10 @@
 import { normalizeAddress } from '@celo/utils/lib/address'
+import MockDate from 'mockdate'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import { KeychainLock, clearStoredAccounts } from 'src/web3/KeychainLock'
 import * as mockedKeychain from 'test/mockedKeychain'
 import { mockAccount2 } from 'test/values'
+import { privateKeyToAddress } from 'viem/accounts'
 
 describe(clearStoredAccounts, () => {
   it('only clears the stored accounts', async () => {
@@ -27,6 +30,7 @@ describe('KeychainLock', () => {
   let lock: KeychainLock
   let date: Date
   beforeEach(() => {
+    jest.clearAllMocks()
     lock = new KeychainLock()
     date = new Date()
     mockedKeychain.clearAllItems()
@@ -36,16 +40,56 @@ describe('KeychainLock', () => {
   const mockAddressInUpperCase = `0x${mockAccount2.substring(2).toUpperCase()}`
   const mockAddressInLowerCase = mockAccount2.toLowerCase()
 
+  const privateKey1 = '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef'
+  const address1 = privateKeyToAddress(privateKey1).toLowerCase()
+  const mockDate = new Date('2016-12-21T23:36:07.071Z')
+
+  describe('addAccount', () => {
+    it('adds a new account', async () => {
+      MockDate.set(mockDate)
+      const account = await lock.addAccount(privateKey1, 'password')
+
+      expect(account).toEqual({
+        address: address1,
+        createdAt: mockDate,
+      })
+      expect(mockedKeychain.getAllKeys()).toEqual([
+        `account--2016-12-21T23:36:07.071Z--${address1.substring(2)}`,
+      ])
+    })
+    it('succeeds with a private key without 0x', async () => {
+      const account = await lock.addAccount(privateKey1.substring(2), 'password')
+      expect(account).toEqual({
+        address: address1,
+        createdAt: mockDate,
+      })
+      expect(mockedKeychain.getAllKeys()).toEqual([
+        `account--2016-12-21T23:36:07.071Z--${address1.substring(2)}`,
+      ])
+    })
+    it('fails with an invalid private key', async () => {
+      await expect(
+        lock.addAccount('this is not a valid private key', 'password')
+      ).rejects.toThrowError('private key must be 32 bytes, hex or bigint, not string')
+    })
+    it('fails if the account already exists', async () => {
+      await lock.addAccount(privateKey1, 'password')
+      await expect(lock.addAccount(privateKey1, 'password')).rejects.toThrowError(
+        ErrorMessages.KEYCHAIN_ACCOUNT_ALREADY_EXISTS
+      )
+    })
+  })
+
   describe('isUnlocked', () => {
     it('returns false if the account has not been added', () => {
       expect(lock.isUnlocked(mockAddress)).toBe(false)
     })
     it('returns false if the account has been added but not unlocked', () => {
-      lock.addAccount({ address: mockAddress, createdAt: date })
+      lock.addExistingAccount({ address: mockAddress, createdAt: date })
       expect(lock.isUnlocked(mockAddress)).toBe(false)
     })
     it('returns false if the account has been added and unlocked but the duration has passed', async () => {
-      lock.addAccount({ address: mockAddress, createdAt: date })
+      lock.addExistingAccount({ address: mockAddress, createdAt: date })
       mockedKeychain.setItems({
         [`account--${date.toISOString()}--${normalizeAddress(mockAddress)}`]: {
           password: 'password',
@@ -55,7 +99,7 @@ describe('KeychainLock', () => {
       expect(lock.isUnlocked(mockAddress)).toBe(false)
     })
     it('returns true if the account has been added and unlocked and the duration has not passed', async () => {
-      lock.addAccount({ address: mockAddress, createdAt: date })
+      lock.addExistingAccount({ address: mockAddress, createdAt: date })
       mockedKeychain.setItems({
         [`account--${date.toISOString()}--${normalizeAddress(mockAddress)}`]: {
           password: 'password',
@@ -74,11 +118,11 @@ describe('KeychainLock', () => {
       expect(await lock.unlock(mockAddress, 'password', 100)).toBe(false)
     })
     it('throws if the account has been added but private key is not in the keychain', async () => {
-      lock.addAccount({ address: mockAddress, createdAt: date })
+      lock.addExistingAccount({ address: mockAddress, createdAt: date })
       await expect(lock.unlock(mockAddress, 'password', 100)).rejects.toThrow()
     })
     it('returns true if account is unlocked with all uppercase address', async () => {
-      lock.addAccount({ address: mockAddress, createdAt: date })
+      lock.addExistingAccount({ address: mockAddress, createdAt: date })
       mockedKeychain.setItems({
         [`account--${date.toISOString()}--${normalizeAddress(mockAddress)}`]: {
           password: 'password',
@@ -94,12 +138,12 @@ describe('KeychainLock', () => {
     })
 
     it('throws if the account has been added but private key is not in the keychain', async () => {
-      lock.addAccount({ address: mockAddress, createdAt: date })
+      lock.addExistingAccount({ address: mockAddress, createdAt: date })
       await expect(lock.updatePassphrase(mockAddress, 'password', 'new-password')).rejects.toThrow()
     })
 
     it('returns true if the account and key is present and address is passed in different case', async () => {
-      lock.addAccount({ address: mockAddress, createdAt: date })
+      lock.addExistingAccount({ address: mockAddress, createdAt: date })
       mockedKeychain.setItems({
         [`account--${date.toISOString()}--${normalizeAddress(mockAddress)}`]: {
           password: 'password',
