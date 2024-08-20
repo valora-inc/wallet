@@ -2486,7 +2486,7 @@
         },
         "manage": {
           "title": "直接在 Valora 管理",
-          "titleV1_92": "直接从 {{appName}}进行管理",
+          "titleV1_92": "直接在 {{appName}} 管理",
           "subtitle": "我们将自动连接您的钱包，因此您无需离开 Valora 即可管理泳池。",
           "subtitleV1_92": "我们将自动连接您的钱包，因此您无需离开 {{appName}}即可管理游泳池。"
         },
