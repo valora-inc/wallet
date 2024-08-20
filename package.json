@@ -171,7 +171,7 @@
     "react-native-persona": "^2.2.23",
     "react-native-picker-select": "^9.1.3",
     "react-native-platform-touchable": "^1.1.1",
-    "react-native-qrcode-svg": "^6.3.1",
+    "react-native-qrcode-svg": "^6.3.2",
     "react-native-randombytes": "^3.6.1",
     "react-native-reanimated": "^3.15.0",
     "react-native-restart": "^0.0.27",

@@ -15408,13 +15408,14 @@ react-native-platform-touchable@^1.1.1:
   resolved "https://registry.yarnpkg.com/react-native-platform-touchable/-/react-native-platform-touchable-1.1.1.tgz#fde4acc65eea585d28b164d0c3716a42129a68e4"
   integrity sha1-/eSsxl7qWF0osWTQw3FqQhKaaOQ=
 
-react-native-qrcode-svg@^6.3.1:
-  version "6.3.1"
-  resolved "https://registry.yarnpkg.com/react-native-qrcode-svg/-/react-native-qrcode-svg-6.3.1.tgz#373cac6956fce93aac4325d62615b7c1891e2633"
-  integrity sha512-A6NoYnxzG7CXAzwPXfqCkwJpTIlmhpV+woflNBBXrxUdX4NeB83iKMs5F1kdx5IOIwsrQUbCrpnJWarCqg1X2Q==
+react-native-qrcode-svg@^6.3.2:
+  version "6.3.2"
+  resolved "https://registry.yarnpkg.com/react-native-qrcode-svg/-/react-native-qrcode-svg-6.3.2.tgz#84b2bb37201589cff1ab58e7f7c884c5133fe47f"
+  integrity sha512-IJ0UoKd33ATm08K569SOAQx0tP/MTmSjwhIPfEfgbCUGQuU6JTfgDT7sm1TVgAwPbTuA10wwJJYgWXnnFBQ4FQ==
   dependencies:
     prop-types "^15.8.0"
     qrcode "^1.5.1"
+    text-encoding "^0.7.0"
 
 react-native-randombytes@^3.5.1, react-native-randombytes@^3.6.1:
   version "3.6.1"
@@ -17432,6 +17433,11 @@ testrpc@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/testrpc/-/testrpc-0.0.1.tgz#83e2195b1f5873aec7be1af8cbe6dcf39edb7aed"
   integrity sha512-afH1hO+SQ/VPlmaLUFj2636QMeDvPCeQMc/9RBMW0IfjNe9gFD9Ra3ShqYkB7py0do1ZcCna/9acHyzTJ+GcNA==
+
+text-encoding@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/text-encoding/-/text-encoding-0.7.0.tgz#f895e836e45990624086601798ea98e8f36ee643"
+  integrity sha512-oJQ3f1hrOnbRLOcwKz0Liq2IcrvDeZRHXhd9RgLrsT+DjWY/nty1Hi7v3dtkaEYbPYe0mUoOfzRrMwfXXwgPUA==
 
 text-table@^0.2.0:
   version "0.2.0"
