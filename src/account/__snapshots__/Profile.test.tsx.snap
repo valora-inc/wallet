@@ -223,11 +223,7 @@ exports[`Profile renders correctly 1`] = `
                 "gap": 8,
                 "justifyContent": "center",
               },
-              {
-                "fontFamily": "Inter-Regular",
-                "fontSize": 16,
-                "lineHeight": 24,
-              },
+              undefined,
             ]
           }
         >
