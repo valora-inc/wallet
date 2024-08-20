@@ -2482,17 +2482,19 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "Maximiere Verdienste ohne Gasgebühren*",
-          "title": "Maximiere Verdienste",
-          "subtitle": "Verdiene an deinen Stablecoins und erhalte Rewards, wenn du einen Pool belieferst.",
+          "title": "Pools erkunden und vergleichen",
+          "subtitle": "Vergleiche Verdienstmöglichkeiten und Risiken. Tausche, kaufe oder transferiere Token, um dem besten Pool für dich beizutreten.",
           "footnoteSubsidy": "*Gasgebühren werden vorübergehend von Valora übernommen"
         },
         "manage": {
           "title": "Direkt von Valora aus verwalten",
-          "subtitle": "Wir kümmern uns um die Einrichtung, damit du deine Position direkt von Valora aus verwalten kannst."
+          "titleV1_92": "Verwalte direkt von {{appName}}aus",
+          "subtitle": "Wir verbinden deine Geldbörse automatisch, damit du Pools verwalten kannst, ohne Valora zu verlassen.",
+          "subtitleV1_92": "Wir verbinden deine Geldbörse automatisch, damit du Pools verwalten kannst, ohne {{appName}}zu verlassen."
         },
         "access": {
           "title": "Einfacher Zugriff auf dein Guthaben",
-          "subtitle": "Erhalte dein Guthaben mühelos mit einem einzigen Tippen. Genieße den gleichen sofortigen Zugang wie direkt über deine Lieblingsprotokolle."
+          "subtitle": "Sammle Geld mit einem Fingertipp, genau wie bei deinen Lieblingsprotokollen."
         }
       },
       "action": {
