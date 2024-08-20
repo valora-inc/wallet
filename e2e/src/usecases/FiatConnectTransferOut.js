@@ -1,4 +1,4 @@
-import { generateKeys, generateMnemonic } from '@celo/cryptographic-utils'
+import { english, generateMnemonic, mnemonicToAccount } from 'viem/accounts'
 import { KycStatus } from '@fiatconnect/fiatconnect-types'
 import fetch from 'node-fetch'
 import { MOCK_PROVIDER_API_KEY, MOCK_PROVIDER_BASE_URL } from 'react-native-dotenv'
@@ -10,7 +10,6 @@ import {
   sleep,
   waitForElementId,
 } from '../utils/utils'
-import { launchApp } from '../utils/retries'
 
 /**
  * From the home screen, navigate to the FiatExchange screen (add/withdraw)
@@ -99,8 +98,8 @@ async function setWalletKycStatus(kycStatus, walletAddress) {
  * @returns the address of the now-funded wallet
  */
 async function onboardAndBeginTransferOut(token, fundingAmount, cashOutAmount) {
-  const mnemonic = await generateMnemonic()
-  const { address: walletAddress } = await generateKeys(mnemonic)
+  const mnemonic = generateMnemonic(english)
+  const { address: walletAddress } = mnemonicToAccount(mnemonic)
   await quickOnboarding({ mnemonic }) // ends on home screen
   await fundWallet(SAMPLE_PRIVATE_KEY, walletAddress, token, fundingAmount)
   // For now the balance only updates when the home screen is visible
