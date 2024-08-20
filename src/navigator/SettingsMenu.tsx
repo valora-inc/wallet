@@ -15,12 +15,9 @@ import { headerWithCloseButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { NETWORK_NAMES } from 'src/shared/conts'
 import colors, { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
-import { currentAccountSelector } from 'src/web3/selectors'
 import { parsePhoneNumber } from '@celo/phone-utils'
 import ForwardChevron from 'src/icons/ForwardChevron'
 import Wallet from 'src/icons/navigator/Wallet'
@@ -93,10 +90,7 @@ function ProfileMenuOption() {
 
 export default function SettingsMenu({ route }: Props) {
   const { t } = useTranslation()
-  const account = useSelector(currentAccountSelector)
   const appVersion = deviceInfoModule.getVersion()
-  const networks = getSupportedNetworkIdsForTokenBalances()
-  const networkNames = networks.map((network) => NETWORK_NAMES[network])
 
   const { v2 } = useSelector(walletConnectEnabledSelector)
   const { sessions } = useSelector(selectSessions)

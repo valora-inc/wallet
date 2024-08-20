@@ -5,8 +5,6 @@ import { Provider } from 'react-redux'
 import { navigate } from 'src/navigator/NavigationService'
 import SettingsMenu from 'src/navigator/SettingsMenu'
 import { Screens } from 'src/navigator/Screens'
-import { getMultichainFeatures } from 'src/statsig'
-import { NetworkId } from 'src/transactions/types'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 
