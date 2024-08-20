@@ -2480,17 +2480,19 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "实现收入最大化，且无需手续费*",
-          "title": "实现收入最大化",
-          "subtitle": "通过稳定币赚取收入，并在提供资金池后获取奖励。",
+          "title": "探索和比较泳池",
+          "subtitle": "比较盈利潜力和风险。交换、购买或转让代币，加入最适合您的代币池。",
           "footnoteSubsidy": "*手续费目前暂时由 Valora 承担"
         },
         "manage": {
           "title": "直接在 Valora 管理",
-          "subtitle": "我们会处理好设置问题，以便您能直接在 Valora 管理持仓。"
+          "titleV1_92": "直接从 {{appName}}进行管理",
+          "subtitle": "我们将自动连接您的钱包，因此您无需离开 Valora 即可管理泳池。",
+          "subtitleV1_92": "我们将自动连接您的钱包，因此您无需离开 {{appName}}即可管理游泳池。"
         },
         "access": {
           "title": "轻松获取资金",
-          "subtitle": "只需轻轻一按，即可轻松收取资金。直接通过最喜欢的协议收取，享受即时获取的便利。"
+          "subtitle": "只需轻轻一点，就能收集资金，就像您最喜欢的协议一样。"
         }
       },
       "action": {

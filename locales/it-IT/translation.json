@@ -2482,17 +2482,19 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "Massimizza i guadagni senza Gas fee*",
-          "title": "Massimizza i guadagni",
-          "subtitle": "Guadagna sulle tue stablecoin e ottieni premi quando alimenti un pool.",
+          "title": "Esplora e confronta le piscine",
+          "subtitle": "Confronta il potenziale di guadagno e i rischi. Scambia, acquista o trasferisci i token per unirti al pool migliore per te.",
           "footnoteSubsidy": "*Le gas fee sono temporaneamente coperte da Valora"
         },
         "manage": {
           "title": "Gestisci direttamente da Valora",
-          "subtitle": "Ci occupiamo noi della configurazione in modo che tu possa gestire la tua posizione direttamente da Valora."
+          "titleV1_92": "Gestisci direttamente da {{appName}}",
+          "subtitle": "Collegheremo automaticamente il tuo portafoglio in modo che tu possa gestire le piscine senza lasciare Valora.",
+          "subtitleV1_92": "Ti collegheremo automaticamente al tuo portafoglio in modo che tu possa gestire le piscine senza lasciare {{appName}}."
         },
         "access": {
           "title": "Accedi facilmente ai tuoi fondi",
-          "subtitle": "Riscuoti facilmente i tuoi fondi con un solo tocco. Usufruisci dello stesso accesso istantaneo che otterresti direttamente attraverso i tuoi protocolli preferiti."
+          "subtitle": "Raccogli i fondi con un tocco, proprio come i tuoi protocolli preferiti."
         }
       },
       "action": {

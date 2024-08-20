@@ -2482,17 +2482,19 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "Gas Ücretleri Olmadan Kazancınızı En Üst Düzeye Çıkarın*",
-          "title": "Kazançları En Üst Düzeye Çıkarın",
-          "subtitle": "Sabit coinlerinizden kazanın ve bir havuz sağladığınızda ödüller kazanın.",
+          "title": "Havuzları Keşfedin ve Karşılaştırın",
+          "subtitle": "Kazanç potansiyelini ve riskleri karşılaştırın. Size en uygun havuza katılmak için tokenları takas edin, satın alın veya transfer edin.",
           "footnoteSubsidy": "*Gas ücretleri geçici olarak Valora tarafından karşılanmaktadır"
         },
         "manage": {
           "title": "Doğrudan Valora'dan Yönetin",
-          "subtitle": "Pozisyonunuzu doğrudan Valora'dan yönetebilmeniz için kurulumla biz ilgileneceğiz."
+          "titleV1_92": "Doğrudan {{appName}}adresinden yönetin",
+          "subtitle": "Valora'dan ayrılmadan havuzları yönetebilmeniz için cüzdanınızı otomatik olarak bağlayacağız.",
+          "subtitleV1_92": "Cüzdanınızı otomatik olarak bağlayacağız, böylece {{appName}}adresinden ayrılmadan havuzları yönetebilirsiniz."
         },
         "access": {
           "title": "Fonlarınıza Kolayca Erişin",
-          "subtitle": "Tek bir dokunuşla fonlarınızı zahmetsizce toplayın. Doğrudan favori protokolleriniz aracılığıyla yaptığınızla aynı şekilde anında erişimin keyfini çıkarın."
+          "subtitle": "Tıpkı favori protokolleriniz gibi bir dokunuşla para toplayın."
         }
       },
       "action": {

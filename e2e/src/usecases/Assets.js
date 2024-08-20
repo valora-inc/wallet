@@ -1,4 +1,4 @@
-import { generateMnemonic } from '@celo/cryptographic-utils'
+import { english, generateMnemonic } from 'viem/accounts'
 import { DEFAULT_RECIPIENT_ADDRESS, SAMPLE_BACKUP_KEY } from '../utils/consts'
 import { launchApp } from '../utils/retries'
 import {
@@ -83,7 +83,7 @@ export default Assets = () => {
       })
       let mnemonic = SAMPLE_BACKUP_KEY
       if (balance === 'zero') {
-        mnemonic = await generateMnemonic()
+        mnemonic = generateMnemonic(english)
       }
       await quickOnboarding({ mnemonic })
     })
