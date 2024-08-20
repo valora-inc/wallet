@@ -1539,6 +1539,10 @@ interface JumpstartEventsProperties {
     claimed: boolean
   }
   [JumpstartEvents.jumpstart_claim_status_fetch_error]: JumpstartReclaimProperties
+  [JumpstartEvents.jumpstart_add_assets_show_actions]: undefined
+  [JumpstartEvents.jumpstart_add_assets_action_press]: {
+    action: AddAssetsActionType
+  }
 }
 
 interface PointsEventsProperties {

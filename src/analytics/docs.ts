@@ -344,6 +344,10 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
     'When fetching whether a jumpstart link has been claimed fails',
   [JumpstartEvents.jumpstart_reclaim_dismiss_error]:
     'When user dismisses the error toast for when the reclaim transaction failed',
+  [JumpstartEvents.jumpstart_add_assets_show_actions]:
+    'When user taps the CTA to show ways to add assets',
+  [JumpstartEvents.jumpstart_add_assets_action_press]:
+    'When user selects an add assets action from the available options',
   // Events for the QR screen redesign
   [QrScreenEvents.qr_screen_copy_address]: ``,
   [QrScreenEvents.qr_scanner_open]: `When unique "QR scanner" button is pressed`,

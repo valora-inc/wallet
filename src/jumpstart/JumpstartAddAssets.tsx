@@ -3,6 +3,8 @@ import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
+import AppAnalytics from 'src/analytics/AppAnalytics'
+import { JumpstartEvents } from 'src/analytics/Events'
 import AddAssetsBottomSheet, { AddAssetsAction } from 'src/components/AddAssetsBottomSheet'
 import BackButton from 'src/components/BackButton'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
@@ -40,7 +42,7 @@ export default function JumpstartAddAssets() {
   }, [])
 
   const handleShowAddFunds = () => {
-    // TODO analytics
+    AppAnalytics.track(JumpstartEvents.jumpstart_add_assets_show_actions)
     addAssetsBottomSheetRef.current?.snapToIndex(0)
   }
 
@@ -49,7 +51,9 @@ export default function JumpstartAddAssets() {
       name: TokenActionName.Add,
       details: t('jumpstartIntro.addFundsCelo.actionDescriptions.add'),
       onPress: () => {
-        // TODO analytics
+        AppAnalytics.track(JumpstartEvents.jumpstart_add_assets_action_press, {
+          action: TokenActionName.Add,
+        })
         navigate(Screens.FiatExchangeCurrencyBottomSheet, {
           flow: FiatExchangeFlow.CashIn,
           networkId: networkConfig.defaultNetworkId,
@@ -60,7 +64,9 @@ export default function JumpstartAddAssets() {
       name: TokenActionName.Transfer,
       details: t('jumpstartIntro.addFundsCelo.actionDescriptions.transfer'),
       onPress: () => {
-        // TODO analytics
+        AppAnalytics.track(JumpstartEvents.jumpstart_add_assets_action_press, {
+          action: TokenActionName.Transfer,
+        })
         navigate(Screens.ExchangeQR, {
           flow: CICOFlow.CashIn,
           exchanges: asyncExchanges.result ?? [],
@@ -73,7 +79,9 @@ export default function JumpstartAddAssets() {
             name: TokenActionName.Swap as const,
             details: t('jumpstartIntro.addFundsCelo.actionDescriptions.swap'),
             onPress: () => {
-              // TODO analytics
+              AppAnalytics.track(JumpstartEvents.jumpstart_add_assets_action_press, {
+                action: TokenActionName.Swap,
+              })
               navigate(Screens.SwapScreenWithBack, {
                 toTokenNetworkId: networkConfig.defaultNetworkId,
               })
