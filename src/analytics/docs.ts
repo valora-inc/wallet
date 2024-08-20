@@ -606,7 +606,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [EarnEvents.earn_withdraw_add_gas_press]: `When the user doesn't have enough for gas and clicks on the button to add gas token`,
   [EarnEvents.earn_info_learn_press]: `When the user taps 'Learn More' on the earn info page`,
   [EarnEvents.earn_info_earn_press]: `When the user taps 'Start Earning' on the earn info page `,
-  [EarnEvents.earn_active_pools_cta_press]: `When the user taps one of the CTAs in the active pools card in the discover tab.`,
+  [EarnEvents.earn_active_pools_card_press]: `When the user taps on the active pool card in discover tab.`,
   [EarnEvents.earn_home_learn_more_press]: `When the user taps 'Learn more' on the earn home screen`,
   [EarnEvents.earn_pool_card_cta_press]: `When the user taps a cta button on the pool card`,
 

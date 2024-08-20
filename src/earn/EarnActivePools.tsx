@@ -41,8 +41,8 @@ export default function EarnActivePools() {
     [localCurrencySymbol, totalSuppliedValue]
   )
 
-  function handleTap() {
-    AppAnalytics.track(EarnEvents.earn_active_pools_cta_press)
+  function handlePress() {
+    AppAnalytics.track(EarnEvents.earn_active_pools_card_press)
     navigate(Screens.EarnHome, { activeEarnTab: EarnTabType.MyPools })
   }
 
@@ -51,7 +51,7 @@ export default function EarnActivePools() {
       style={styles.card}
       borderRadius={Spacing.Smallest8}
       testID="EarnActivePools"
-      onPress={handleTap}
+      onPress={handlePress}
     >
       <View style={styles.container}>
         <Text style={styles.title}>{t('earnFlow.activePools.title')}</Text>
