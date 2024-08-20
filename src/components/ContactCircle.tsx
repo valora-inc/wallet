@@ -1,9 +1,8 @@
 import * as React from 'react'
-import { Image, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import { Image, StyleSheet, View, ViewStyle } from 'react-native'
 import DefaultAvatar from 'src/icons/DefaultAvatar'
 import { Recipient } from 'src/recipients/recipient'
 import Colors from 'src/styles/colors'
-import { typeScale } from 'src/styles/fonts'
 
 interface Props {
   style?: ViewStyle
@@ -13,7 +12,6 @@ interface Props {
   foregroundColor?: Colors
   borderColor?: Colors
   DefaultIcon?: React.ComponentType<{ foregroundColor: string; backgroundColor: string }>
-  overrideInitial?: boolean
 }
 
 const DEFAULT_ICON_SIZE = 40
@@ -22,7 +20,6 @@ const getAddressBackgroundColor = (address: string) =>
   `hsl(${parseInt(address.substring(0, 5), 16) % 360}, 53%, 93%)`
 const getAddressForegroundColor = (address: string) =>
   `hsl(${parseInt(address.substring(0, 5), 16) % 360}, 67%, 24%)`
-const getNameInitial = (name: string) => name.charAt(0).toLocaleUpperCase()
 
 function ContactCircle({
   size: iconSize = DEFAULT_ICON_SIZE,
@@ -31,7 +28,6 @@ function ContactCircle({
   backgroundColor,
   foregroundColor,
   borderColor,
-  overrideInitial,
   DefaultIcon = DefaultAvatar,
 }: Props) {
   const address = recipient.address
@@ -52,17 +48,6 @@ function ContactCircle({
     }
 
     const fontColor = foregroundColor ?? getAddressForegroundColor(address || '0x0')
-    if (recipient.name && !overrideInitial) {
-      const initial = getNameInitial(recipient.name)
-      return (
-        <Text
-          allowFontScaling={false}
-          style={[typeScale.labelMedium, { fontSize: iconSize / 2.0, color: fontColor }]}
-        >
-          {initial.toLocaleUpperCase()}
-        </Text>
-      )
-    }
 
     return <DefaultIcon foregroundColor={fontColor} backgroundColor={iconBackgroundColor} />
   }
