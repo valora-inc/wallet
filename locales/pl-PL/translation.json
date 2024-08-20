@@ -2486,17 +2486,19 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "Maksymalizuj zarobki bez opłat za gaz*",
-          "title": "Maksymalizuj zarobki",
-          "subtitle": "Zarabiaj na stablecoinach i otrzymuj nagrody za zasilenie puli.",
+          "title": "Przeglądaj i porównuj baseny",
+          "subtitle": "Porównaj potencjał zarobkowy i ryzyko. Wymieniaj, kupuj lub transferuj tokeny, aby dołączyć do najlepszej dla siebie puli.",
           "footnoteSubsidy": "* Opłaty za gaz są tymczasowo pokrywane przez Valorę"
         },
         "manage": {
           "title": "Zarządzaj bezpośrednio z Valory",
-          "subtitle": "Zajmiemy się konfiguracją, abyś mógł/mogła zarządzać swoją pozycją bezpośrednio z Valory."
+          "titleV1_92": "Zarządzaj bezpośrednio z {{appName}}",
+          "subtitle": "Automatycznie połączymy Twój portfel, abyś mógł zarządzać pulami bez opuszczania Valory.",
+          "subtitleV1_92": "Automatycznie połączymy Twój portfel, abyś mógł zarządzać pulami bez opuszczania strony {{appName}}."
         },
         "access": {
           "title": "Łatwy dostęp do Twoich środków",
-          "subtitle": "Zbieraj środki bez problemów za pomocą jednego dotknięcia. Ciesz się takim samym natychmiastowym dostępem, jak bezpośrednio przez ulubione protokoły."
+          "subtitle": "Zbieraj fundusze jednym dotknięciem, tak jak w przypadku ulubionych protokołów."
         }
       },
       "action": {

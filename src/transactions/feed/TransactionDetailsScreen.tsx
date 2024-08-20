@@ -63,10 +63,6 @@ function useHeaderTitle(transaction: TokenTransaction) {
           ? t('transactionHeaderCeloDeposit')
           : t('transactionHeaderReceived')
       }
-    case TokenTransactionTypeV2.InviteSent:
-      return t('transactionHeaderEscrowSent')
-    case TokenTransactionTypeV2.InviteReceived:
-      return t('transactionHeaderEscrowReceived')
     case TokenTransactionTypeV2.NftReceived:
       return t('transactionHeaderNftReceived')
     case TokenTransactionTypeV2.NftSent:
@@ -106,11 +102,7 @@ function TransactionDetailsScreen({ route }: Props) {
       retryHandler = () => navigate(Screens.SendSelectRecipient)
       content = <TransferSentContent transfer={sentTransfer} />
       break
-    case TokenTransactionTypeV2.InviteSent:
-      content = <TransferSentContent transfer={transaction as TokenTransfer} />
-      break
     case TokenTransactionTypeV2.Received:
-    case TokenTransactionTypeV2.InviteReceived:
       const receivedTransfer = transaction as TokenTransfer
       const isRewardSender =
         rewardsSenders.includes(receivedTransfer.address) ||

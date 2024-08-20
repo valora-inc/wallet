@@ -17,10 +17,6 @@ export interface E164NumberToSaltType {
   [e164PhoneNumber: string]: string | null // null means unverified
 }
 
-export interface IdentifierToE164NumberType {
-  [identifier: string]: string | null // null means no number
-}
-
 export interface AddressToDataEncryptionKeyType {
   [address: string]: string | null // null means no DEK registered
 }

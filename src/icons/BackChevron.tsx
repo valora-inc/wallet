@@ -6,7 +6,7 @@ import Colors from 'src/styles/colors'
 
 export interface Props {
   height: number
-  color: ColorValue | Animated.Node<ColorValue | undefined>
+  color: ColorValue
 }
 const AnimatedPath = Animated.createAnimatedComponent(Path)
 

@@ -18,7 +18,6 @@ import {
   DappExplorerEvents,
   DappShortcutsEvents,
   EarnEvents,
-  EscrowEvents,
   FeeEvents,
   FiatExchangeEvents,
   HomeEvents,
@@ -511,22 +510,6 @@ interface InviteEventsProperties {
     inviterAddress: string
   }
   [InviteEvents.invite_help_link]: undefined
-}
-
-interface EscrowEventsProperties {
-  [EscrowEvents.escrow_fetch_start]: undefined
-  [EscrowEvents.escrow_fetch_complete]: undefined
-  [EscrowEvents.escrow_fetch_error]: {
-    error: string
-  }
-
-  [EscrowEvents.escrow_reclaim_confirm]: undefined
-  [EscrowEvents.escrow_reclaim_cancel]: undefined
-  [EscrowEvents.escrow_reclaim_start]: undefined
-  [EscrowEvents.escrow_reclaim_complete]: undefined
-  [EscrowEvents.escrow_reclaim_error]: {
-    error: string
-  }
 }
 
 interface SendEventsProperties {
@@ -1670,7 +1653,6 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   InviteEventsProperties &
   SendEventsProperties &
   JumpstartEventsProperties &
-  EscrowEventsProperties &
   FeeEventsProperties &
   TransactionEventsProperties &
   CeloExchangeEventsProperties &

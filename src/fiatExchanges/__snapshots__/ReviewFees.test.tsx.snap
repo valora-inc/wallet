@@ -348,9 +348,9 @@ exports[`ReviewFees renders correctly 1`] = `
       >
         <svg
           fill="none"
-          height={14}
+          height={28}
           viewBox="0 0 16 16"
-          width={14}
+          width={28}
         >
           <circle
             cx="8"
@@ -810,9 +810,9 @@ exports[`ReviewFees renders correctly 2`] = `
       >
         <svg
           fill="none"
-          height={14}
+          height={28}
           viewBox="0 0 16 16"
-          width={14}
+          width={28}
         >
           <circle
             cx="8"

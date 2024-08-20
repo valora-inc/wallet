@@ -2482,17 +2482,19 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "Maximiza tus ganancias sin tarifas*",
-          "title": "Maximiza tus ganancias",
-          "subtitle": "Gana con tus stablecoins y obtén recompensas por participar en una pool.",
+          "title": "Explorar y comparar piscinas",
+          "subtitle": "Compara el potencial de ganancias y los riesgos. Intercambia, compra o transfiere fichas para unirte a la mejor agrupación para ti.",
           "footnoteSubsidy": "*Por ahora, Valora cubrirá las tarifas de transacción."
         },
         "manage": {
           "title": "Gestiona tus ganancias directamente en Valora",
-          "subtitle": "Nos encargamos de todo para darte más facilidad."
+          "titleV1_92": "Gestiona directamente desde {{appName}}",
+          "subtitle": "Conectaremos automáticamente tu monedero para que puedas gestionar las piscinas sin salir de Valora.",
+          "subtitleV1_92": "Conectaremos automáticamente tu monedero para que puedas gestionar las piscinas sin salir de {{appName}}."
         },
         "access": {
           "title": "Accede fácilmente a tus fondos",
-          "subtitle": "Recibe tus fondos con un solo toque. Disfruta del mismo acceso instantáneo que tendrías directamente a través de tus protocolos favoritos."
+          "subtitle": "Recoge fondos con un toque, igual que tus protocolos favoritos."
         }
       },
       "action": {

@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect'
-import { NumberToRecipient } from 'src/recipients/recipient'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
 import { getSupportedNetworkIdsForApprovalTxsInHomefeed } from 'src/tokens/utils'
@@ -13,13 +12,6 @@ import {
   TransactionStatus,
 } from 'src/transactions/types'
 
-export interface InviteTransactions {
-  [txHash: string]: {
-    paymentId: string
-    recipientIdentifier: string
-  }
-}
-
 type TransactionsByNetworkId = {
   [networkId in NetworkId]?: TokenTransaction[]
 }
@@ -29,30 +21,12 @@ interface State {
   // included in the tx feed. Necessary so it shows up in the
   // feed instantly.
   standbyTransactions: StandbyTransaction[]
-  // Tracks which set of transactions retrieved in the
-  // feed have already been processed by the
-  // tx feed query watcher. Necessary so we don't re-process
-  // txs more than once.
-  knownFeedTransactions: KnownFeedTransactionsType
-  recentTxRecipientsCache: NumberToRecipient
   transactionsByNetworkId: TransactionsByNetworkId
-  // invite transactions are from the escrow contract, the following property maps
-  // transaction hash to recipient known to user
-  inviteTransactions: InviteTransactions
-}
-
-export interface KnownFeedTransactionsType {
-  // Value will be an address string for transfer transactions
-  // and true boolean for exchange transactions
-  [txHash: string]: string | boolean
 }
 
 const initialState = {
   standbyTransactions: [],
-  knownFeedTransactions: {},
-  recentTxRecipientsCache: {},
   transactionsByNetworkId: {},
-  inviteTransactions: {},
 }
 // export for testing
 export const _initialState = initialState
@@ -131,19 +105,7 @@ export const reducer = (
           }
         ),
       }
-    case Actions.UPDATE_RECENT_TX_RECIPIENT_CACHE:
-      return {
-        ...state,
-        recentTxRecipientsCache: action.recentTxRecipientsCache,
-      }
     case Actions.UPDATE_TRANSACTIONS:
-      const newKnownFeedTransactions = { ...state.knownFeedTransactions }
-      action.transactions.forEach((tx) => {
-        if ('address' in tx) {
-          newKnownFeedTransactions[tx.transactionHash] = tx.address
-        }
-      })
-
       const standbyTransactionHashes = new Set(
         state.standbyTransactions
           .map((tx) => tx.transactionHash)
@@ -210,13 +172,7 @@ export const reducer = (
           ...state.transactionsByNetworkId,
           [action.networkId]: receivedTransactions,
         },
-        knownFeedTransactions: newKnownFeedTransactions,
         standbyTransactions: updatedStandbyTransactions,
-      }
-    case Actions.UPDATE_INVITE_TRANSACTIONS:
-      return {
-        ...state,
-        inviteTransactions: action.inviteTransactions,
       }
     default:
       return state
@@ -261,12 +217,6 @@ export const confirmedStandbyTransactionsSelector = createSelector(
   }
 )
 
-export const knownFeedTransactionsSelector = (state: RootState) =>
-  state.transactions.knownFeedTransactions
-
-export const recentTxRecipientsCacheSelector = (state: RootState) =>
-  state.transactions.recentTxRecipientsCache
-
 export const transactionsByNetworkIdSelector = (state: RootState) =>
   state.transactions.transactionsByNetworkId
 
@@ -284,9 +234,6 @@ export const transactionsSelector = createSelector(
       })
   }
 )
-
-export const inviteTransactionsSelector = (state: RootState) =>
-  state.transactions.inviteTransactions
 
 export const pendingTxHashesByNetworkIdSelector = createSelector(
   [transactionsByNetworkIdSelector],

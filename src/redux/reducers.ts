@@ -6,7 +6,6 @@ import { reducer as alert } from 'src/alert/reducer'
 import { appReducer as app } from 'src/app/reducers'
 import dappsReducer from 'src/dapps/slice'
 import earnReducer from 'src/earn/slice'
-import { escrowReducer as escrow } from 'src/escrow/reducer'
 import { reducer as fees } from 'src/fees/reducer'
 import { reducer as fiatExchanges } from 'src/fiatExchanges/reducer'
 import fiatConnectReducer from 'src/fiatconnect/slice'
@@ -41,7 +40,6 @@ const appReducer = combineReducers({
   web3,
   identity,
   account,
-  escrow,
   fees,
   recipients,
   localCurrency,

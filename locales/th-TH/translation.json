@@ -2480,17 +2480,19 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "สร้างรายได้สูงสุดโดยไม่เสียค่าก๊าซ*",
-          "title": "สร้างรายได้สูงสุด",
-          "subtitle": "สร้างรายได้ผ่าน Stablecoin และรับรางวัลเมื่อคุณเข้าร่วมพูล",
+          "title": "Explore and Compare Pools",
+          "subtitle": "Compare earning potential and risks. Swap, buy, or transfer tokens to join the best pool for you.",
           "footnoteSubsidy": "*Valora เป็นผู้รับผิดชอบค่าก๊าซชั่วคราว"
         },
         "manage": {
           "title": "จัดการโดยตรงจาก Valora",
-          "subtitle": "เราจะดูแลการตั้งค่าให้คุณสามารถจัดการสถานะของคุณได้โดยตรงจาก Valora"
+          "titleV1_92": "Manage Directly from {{appName}}",
+          "subtitle": "We'll auto-connect your wallet so you can manage pools without leaving Valora.",
+          "subtitleV1_92": "We'll auto-connect your wallet so you can manage pools without leaving {{appName}}."
         },
         "access": {
           "title": "เข้าถึงเงินทุนของคุณได้ง่ายๆ",
-          "subtitle": "เก็บเงินทุนของคุณได้ง่ายๆ เพียงแตะครั้งเดียว รับการเข้าถึงทันทีอย่างที่ทำได้โดยตรงผ่านโปรโตคอลโปรดของคุณ"
+          "subtitle": "Collect funds with a tap, just like your favorite protocols."
         }
       },
       "action": {
