@@ -7,7 +7,7 @@ interface Props {
   color?: string
 }
 
-export function Preferences({ color = colors.black, size = 24 }: Props) {
+function Preferences({ color = colors.black, size = 24 }: Props) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
       <Path
