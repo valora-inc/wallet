@@ -216,7 +216,7 @@ export class KeychainLock {
     return account
   }
 
-  addExistingAccount(account: KeychainAccount) {
+  private addExistingAccount(account: KeychainAccount) {
     this.locks.set(normalizeAddressWith0x(account.address), { account })
   }
 

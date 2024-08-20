@@ -1,10 +1,62 @@
 import { normalizeAddress } from '@celo/utils/lib/address'
 import MockDate from 'mockdate'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { KeychainLock, clearStoredAccounts } from 'src/web3/KeychainLock'
+import { KeychainLock, clearStoredAccounts, listStoredAccounts } from 'src/web3/KeychainLock'
 import * as mockedKeychain from 'test/mockedKeychain'
 import { mockAccount2 } from 'test/values'
 import { privateKeyToAddress } from 'viem/accounts'
+
+const PRIVATE_KEY1 = '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef'
+const KEYCHAIN_ENCRYPTED_PRIVATE_KEY1 =
+  'U2FsdGVkX1+4Da/3VE98t6m9FNs+Q0fqJlckHnL2+XctJPyvhZY+b0TSAB9oGiAMNDow1bjA3NYyzA3aKhFhHwAySzPOArFI/RpPlArT2/IGZ/IxKtKzKnd1pa4+q4fx'
+const ACCOUNT_ADDRESS1 = privateKeyToAddress(PRIVATE_KEY1).toLowerCase()
+const PRIVATE_KEY2 = '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890fdeccc'
+const KEYCHAIN_ENCRYPTED_PRIVATE_KEY2 =
+  'U2FsdGVkX18191f7q1dS0CCvSGNjJ9PkcBGKaf+u1LVpuoBw2xSJe17hLW8QRXyKCtwvMknW2uTeWUeMRSfg/O1UdsEwdhMPxzqtOUTwT9evQri80JMGBImihFXKDdgN'
+const ACCOUNT_ADDRESS2 = privateKeyToAddress(PRIVATE_KEY2).toLowerCase()
+
+const MOCK_DATE = new Date('2016-12-21T23:36:07.071Z')
+
+beforeEach(() => {
+  jest.clearAllMocks()
+  mockedKeychain.clearAllItems()
+})
+
+afterEach(() => {
+  MockDate.reset()
+})
+
+describe(listStoredAccounts, () => {
+  it('lists all addresses sorted by creation date', async () => {
+    // Setup mocked keychain content, intentionally ordering items in descending creation date
+    // created using:
+    // await lock.addAccount(PRIVATE_KEY1, 'password')
+    // await lock.addAccount(PRIVATE_KEY2, 'password2')
+    mockedKeychain.setItems({
+      'account--2022-05-25T11:14:50.292Z--588e4b68193001e4d10928660ab4165b813717c0': {
+        password: KEYCHAIN_ENCRYPTED_PRIVATE_KEY2,
+      },
+      // This will be ignored
+      'unrelated item': {
+        password: 'unrelated password',
+      },
+      'account--2021-01-10T11:14:50.298Z--1be31a94361a391bbafb2a4ccd704f57dc04d4bb': {
+        password: KEYCHAIN_ENCRYPTED_PRIVATE_KEY1,
+      },
+    })
+
+    expect(await listStoredAccounts()).toEqual([
+      {
+        address: ACCOUNT_ADDRESS1,
+        createdAt: new Date('2021-01-10T11:14:50.298Z'),
+      },
+      {
+        address: ACCOUNT_ADDRESS2,
+        createdAt: new Date('2022-05-25T11:14:50.292Z'),
+      },
+    ])
+  })
+})
 
 describe(clearStoredAccounts, () => {
   it('only clears the stored accounts', async () => {
@@ -29,42 +81,40 @@ describe(clearStoredAccounts, () => {
 describe('KeychainLock', () => {
   let lock: KeychainLock
   let date: Date
+
   beforeEach(() => {
-    jest.clearAllMocks()
     lock = new KeychainLock()
     date = new Date()
-    mockedKeychain.clearAllItems()
   })
 
   const mockAddress = mockAccount2
   const mockAddressInUpperCase = `0x${mockAccount2.substring(2).toUpperCase()}`
   const mockAddressInLowerCase = mockAccount2.toLowerCase()
 
-  const privateKey1 = '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef'
-  const address1 = privateKeyToAddress(privateKey1).toLowerCase()
-  const mockDate = new Date('2016-12-21T23:36:07.071Z')
-
   describe('addAccount', () => {
+    beforeEach(() => {
+      MockDate.set(MOCK_DATE)
+    })
+
     it('adds a new account', async () => {
-      MockDate.set(mockDate)
-      const account = await lock.addAccount(privateKey1, 'password')
+      const account = await lock.addAccount(PRIVATE_KEY1, 'password')
 
       expect(account).toEqual({
-        address: address1,
-        createdAt: mockDate,
+        address: ACCOUNT_ADDRESS1,
+        createdAt: MOCK_DATE,
       })
       expect(mockedKeychain.getAllKeys()).toEqual([
-        `account--2016-12-21T23:36:07.071Z--${address1.substring(2)}`,
+        `account--2016-12-21T23:36:07.071Z--${ACCOUNT_ADDRESS1.substring(2)}`,
       ])
     })
     it('succeeds with a private key without 0x', async () => {
-      const account = await lock.addAccount(privateKey1.substring(2), 'password')
+      const account = await lock.addAccount(PRIVATE_KEY1.substring(2), 'password')
       expect(account).toEqual({
-        address: address1,
-        createdAt: mockDate,
+        address: ACCOUNT_ADDRESS1,
+        createdAt: MOCK_DATE,
       })
       expect(mockedKeychain.getAllKeys()).toEqual([
-        `account--2016-12-21T23:36:07.071Z--${address1.substring(2)}`,
+        `account--2016-12-21T23:36:07.071Z--${ACCOUNT_ADDRESS1.substring(2)}`,
       ])
     })
     it('fails with an invalid private key', async () => {
@@ -73,8 +123,8 @@ describe('KeychainLock', () => {
       ).rejects.toThrowError('private key must be 32 bytes, hex or bigint, not string')
     })
     it('fails if the account already exists', async () => {
-      await lock.addAccount(privateKey1, 'password')
-      await expect(lock.addAccount(privateKey1, 'password')).rejects.toThrowError(
+      await lock.addAccount(PRIVATE_KEY1, 'password')
+      await expect(lock.addAccount(PRIVATE_KEY1, 'password')).rejects.toThrowError(
         ErrorMessages.KEYCHAIN_ACCOUNT_ALREADY_EXISTS
       )
     })
