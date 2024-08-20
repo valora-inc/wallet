@@ -251,6 +251,7 @@ export function SwapScreen({ route }: Props) {
 
   const initialFromTokenId = route.params?.fromTokenId
   const initialToTokenId = route.params?.toTokenId
+  const initialToTokenNetworkId = route.params?.toTokenNetworkId
   const [state, localDispatch] = useReducer(
     swapStateReducer,
     getInitialState(initialFromTokenId, initialToTokenId)
@@ -267,7 +268,7 @@ export function SwapScreen({ route }: Props) {
   } = state
 
   const filterChipsFrom = useFilterChips(Field.FROM)
-  const filterChipsTo = useFilterChips(Field.TO)
+  const filterChipsTo = useFilterChips(Field.TO, initialToTokenNetworkId)
 
   const { fromToken, toToken } = useMemo(() => {
     const fromToken = swappableFromTokens.find((token) => token.tokenId === fromTokenId)

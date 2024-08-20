@@ -54,7 +54,10 @@ describe('JumpstartAddAssets', () => {
     )
 
     fireEvent.press(await findByText('earnFlow.addCryptoBottomSheet.actions.add'))
-    expect(navigate).toHaveBeenLastCalledWith('FiatExchangeCurrencyBottomSheet', { flow: 'CashIn' })
+    expect(navigate).toHaveBeenLastCalledWith('FiatExchangeCurrencyBottomSheet', {
+      flow: 'CashIn',
+      networkId: 'celo-alfajores',
+    })
 
     fireEvent.press(getByText('earnFlow.addCryptoBottomSheet.actions.transfer'))
     expect(navigate).toHaveBeenLastCalledWith('ExchangeQR', {
@@ -63,6 +66,8 @@ describe('JumpstartAddAssets', () => {
     })
 
     fireEvent.press(getByText('earnFlow.addCryptoBottomSheet.actions.swap'))
-    expect(navigate).toHaveBeenLastCalledWith('SwapScreenWithBack')
+    expect(navigate).toHaveBeenLastCalledWith('SwapScreenWithBack', {
+      toTokenNetworkId: 'celo-alfajores',
+    })
   })
 })

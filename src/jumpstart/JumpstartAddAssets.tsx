@@ -20,6 +20,7 @@ import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenActionName } from 'src/tokens/types'
+import networkConfig from 'src/web3/networkConfig'
 
 export default function JumpstartAddAssets() {
   const addAssetsBottomSheetRef = useRef<BottomSheetRefType>(null)
@@ -49,7 +50,10 @@ export default function JumpstartAddAssets() {
       details: t('jumpstartIntro.addFundsCelo.actionDescriptions.add'),
       onPress: () => {
         // TODO analytics
-        navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
+        navigate(Screens.FiatExchangeCurrencyBottomSheet, {
+          flow: FiatExchangeFlow.CashIn,
+          networkId: networkConfig.defaultNetworkId,
+        })
       },
     },
     {
@@ -70,7 +74,9 @@ export default function JumpstartAddAssets() {
             details: t('jumpstartIntro.addFundsCelo.actionDescriptions.swap'),
             onPress: () => {
               // TODO analytics
-              navigate(Screens.SwapScreenWithBack)
+              navigate(Screens.SwapScreenWithBack, {
+                toTokenNetworkId: networkConfig.defaultNetworkId,
+              })
             },
           },
         ]
