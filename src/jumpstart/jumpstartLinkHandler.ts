@@ -1,37 +1,23 @@
-import { Contract } from '@celo/connect'
-import { ContractKit, newKitFromWeb3 } from '@celo/contractkit'
 import walletJumpstart from 'src/abis/IWalletJumpstart'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
-import { getWeb3Async } from 'src/web3/contracts'
-import networkConfig from 'src/web3/networkConfig'
-import { getContract } from 'src/web3/utils'
-import { Hash } from 'viem'
+import { publicClient } from 'src/viem'
+import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
+import { Address, Hash, Hex, encodePacked, keccak256 } from 'viem'
+import { privateKeyToAccount } from 'viem/accounts'
 
 const TAG = 'WalletJumpstart'
 
 export async function jumpstartLinkHandler(
   networkId: NetworkId,
-  contractAddress: string,
-  privateKey: string,
-  userAddress: string
+  contractAddress: Address,
+  privateKey: Hex,
+  userAddress: Address
 ): Promise<Hash[]> {
-  if (networkId !== networkConfig.defaultNetworkId) {
-    // TODO: make it multichain (RET-1019)
-    throw new Error(`Unsupported network id: ${networkId}`)
-  }
-
-  const kit = newKitFromWeb3(await getWeb3Async())
-  kit.connection.addAccount(privateKey)
-  const accounts: string[] = kit.connection.getLocalAccounts()
-  const publicKey = accounts[0]
-
-  const jumpstart: Contract = await getContract(walletJumpstart.abi, contractAddress)
-
   const results = await Promise.all([
-    executeClaims(kit, jumpstart, publicKey, userAddress, 'erc20', privateKey, networkId),
-    executeClaims(kit, jumpstart, publicKey, userAddress, 'erc721', privateKey, networkId),
+    executeClaims(contractAddress, userAddress, 'erc20', privateKey, networkId),
+    executeClaims(contractAddress, userAddress, 'erc721', privateKey, networkId),
   ])
 
   const transactionHashes = results.flatMap((result) => result.transactionHashes)
@@ -47,41 +33,44 @@ export async function jumpstartLinkHandler(
   return transactionHashes
 }
 
-export async function executeClaims(
-  kit: ContractKit,
-  jumpstart: Contract,
-  beneficiary: string,
-  userAddress: string,
+async function executeClaims(
+  contractAddress: Address,
+  userAddress: Address,
   assetType: 'erc20' | 'erc721',
-  privateKey: string,
+  privateKey: Hex,
   networkId: NetworkId
 ): Promise<{ transactionHashes: Hash[]; hasClaimedAssets: boolean }> {
+  const client = publicClient[networkIdToNetwork[networkId]]
+  const account = privateKeyToAccount(privateKey)
+  const beneficiary = account.address
+
   let index = 0
   const transactionHashes: Hash[] = []
   let hasClaimedAssets = false
   while (true) {
     try {
-      const info =
-        assetType === 'erc20'
-          ? await jumpstart.methods.erc20Claims(beneficiary, index).call()
-          : await jumpstart.methods.erc721Claims(beneficiary, index).call()
+      const [_token, _depositor, _amount, claimed] = await client.readContract({
+        address: contractAddress,
+        abi: walletJumpstart.abi,
+        functionName: assetType === 'erc20' ? 'erc20Claims' : 'erc721Claims',
+        args: [beneficiary, BigInt(index)],
+      })
 
-      if (info.claimed) {
+      if (claimed) {
         hasClaimedAssets = true
         continue
       }
 
-      const messageHash = kit.web3.utils.soliditySha3(
-        { type: 'address', value: beneficiary },
-        { type: 'address', value: userAddress },
-        { type: 'uint256', value: index.toString() }
-      )
-
-      if (!messageHash) {
-        throw new Error('messageHash is null')
-      }
-
-      const { signature } = await kit.web3.eth.accounts.sign(messageHash, privateKey)
+      const signature = await account.signMessage({
+        message: {
+          raw: keccak256(
+            encodePacked(
+              ['address', 'address', 'uint256'],
+              [beneficiary, userAddress, BigInt(index)]
+            )
+          ),
+        },
+      })
 
       const response = await claimReward({
         index: index.toString(),
@@ -98,12 +87,13 @@ export async function executeClaims(
         transactionHashes.push(transactionHash)
       }
     } catch (error: any) {
-      if (error.message === 'execution reverted') {
-        // This happens when using an index that doesn't exist.
-        // For example, index 0 if there are no rewards or index 1 if there's only one.
+      if (error.message.includes('Execution reverted for an unknown reason')) {
+        // we cycle through indexes to claim all claimable assets. the
+        // readContract call will throw an error when we reach the end of the
+        // list and the index does not have a matching claimable asset.
         Logger.debug(
-          TAG,
-          'Expected "execution reverted" error while claiming jumpstart rewards',
+          `${TAG}@executeClaims`,
+          `Expected "execution reverted" error while claiming jumpstart rewards at index ${index}`,
           error
         )
       } else {
@@ -116,7 +106,7 @@ export async function executeClaims(
   }
 }
 
-export interface RewardInfo {
+interface RewardInfo {
   index: string
   beneficiary: string
   signature: string
@@ -125,7 +115,7 @@ export interface RewardInfo {
   networkId: NetworkId
 }
 
-export async function claimReward(rewardInfo: RewardInfo) {
+async function claimReward(rewardInfo: RewardInfo) {
   const queryParams = new URLSearchParams({ ...rewardInfo }).toString()
   const requestUrl = `${networkConfig.walletJumpstartUrl}?${queryParams}`
   const response = await fetchWithTimeout(requestUrl, { method: 'POST' }, 60_000)

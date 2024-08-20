@@ -13,8 +13,6 @@ import Pagination from 'src/components/Pagination'
 import SimpleMessagingCard, {
   Props as SimpleMessagingCardProps,
 } from 'src/components/SimpleMessagingCard'
-import EscrowedPaymentReminderSummaryNotification from 'src/escrow/EscrowedPaymentReminderSummaryNotification'
-import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
 import { dismissNotification } from 'src/home/actions'
 import { DEFAULT_PRIORITY } from 'src/home/reducers'
 import { getExtraNotifications } from 'src/home/selectors'
@@ -36,7 +34,6 @@ const TAG = 'NotificationBox'
 const BACKUP_PRIORITY = 1000
 const VERIFICATION_PRIORITY = 100
 export const CLEVERTAP_PRIORITY = 500
-export const INVITES_PRIORITY = 400
 const CELO_EDUCATION_PRIORITY = 10
 
 interface SimpleAction extends SimpleMessagingCardProps {
@@ -261,19 +258,6 @@ export function useNotifications({
   showOnlyHomeScreenNotifications: boolean
 }) {
   const notifications: Notification[] = []
-
-  // Pending outgoing invites in escrow
-  const reclaimableEscrowPayments = useSelector(getReclaimableEscrowPayments)
-  if (reclaimableEscrowPayments && reclaimableEscrowPayments.length) {
-    notifications.push({
-      renderElement: () => (
-        <EscrowedPaymentReminderSummaryNotification key={1} payments={reclaimableEscrowPayments} />
-      ),
-      priority: INVITES_PRIORITY,
-      id: NotificationType.escrow_tx_summary,
-      type: NotificationType.escrow_tx_summary,
-    })
-  }
 
   const simpleActions = useSimpleActions()
   notifications.push(

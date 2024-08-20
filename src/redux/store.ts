@@ -4,8 +4,8 @@ import { getStoredState, PersistConfig, persistReducer, persistStore } from 'red
 import FSStorage from 'redux-persist-fs-storage'
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 import createSagaMiddleware from 'redux-saga'
-import { PerformanceEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { PerformanceEvents } from 'src/analytics/Events'
 import { createMigrate } from 'src/redux/createMigrate'
 import { migrations } from 'src/redux/migrations'
 import rootReducer, { RootState as ReducersRootState } from 'src/redux/reducers'
@@ -21,7 +21,7 @@ const persistConfig: PersistConfig<ReducersRootState> = {
   key: 'root',
   // default is -1, increment as we make migrations
   // See https://github.com/valora-inc/wallet/tree/main/WALLET.md#redux-state-migration
-  version: 224,
+  version: 225,
   keyPrefix: `reduxStore-`, // the redux-persist default is `persist:` which doesn't work with some file systems.
   storage: FSStorage(),
   blacklist: ['networkInfo', 'alert', 'imports', 'keylessBackup', 'jumpstart'],
@@ -130,7 +130,6 @@ export const setupStore = (initialState?: ReducersRootState, config = persistCon
           'identity',
           'account',
           'invite',
-          'escrow',
           'fees',
           'recipients',
           'localCurrency',

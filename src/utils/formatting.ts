@@ -1,7 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { CURRENCIES, Currency } from 'src/utils/currencies'
-import { WEI_PER_TOKEN } from 'src/web3/consts'
 
 // Returns a localized string that represents the number with the right decimal points.
 export const getMoneyDisplayValue = (
@@ -77,16 +76,6 @@ export const getNetworkFeeDisplayValue = (
   } else {
     return roundUp(value, 3).toFormat()
   }
-}
-
-export const divideByWei = (value: BigNumber.Value, decimals?: number) => {
-  const bn = new BigNumber(value).div(WEI_PER_TOKEN)
-  return decimals ? bn.decimalPlaces(decimals) : bn
-}
-
-export const multiplyByWei = (value: BigNumber.Value, decimals?: number) => {
-  const bn = new BigNumber(value).times(WEI_PER_TOKEN)
-  return decimals ? bn.decimalPlaces(decimals) : bn
 }
 
 export function roundDown(

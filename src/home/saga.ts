@@ -1,36 +1,21 @@
-import { fetchSentEscrowPayments } from 'src/escrow/actions'
 import { notificationsChannel } from 'src/firebase/firebase'
 import {
   Actions,
   cleverTapInboxMessagesReceived,
-  refreshAllBalances,
   setLoading,
   updateNotifications,
 } from 'src/home/actions'
 import { CleverTapInboxMessage, cleverTapInboxMessagesChannel } from 'src/home/cleverTapInbox'
 import { IdToNotification } from 'src/home/reducers'
 import { fetchCurrentRate } from 'src/localCurrency/actions'
-import { shouldFetchCurrentRate } from 'src/localCurrency/selectors'
 import { executeShortcutSuccess } from 'src/positions/slice'
 import { withTimeout } from 'src/redux/sagas-helpers'
-import { shouldUpdateBalance } from 'src/redux/selectors'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import { Actions as TransactionActions } from 'src/transactions/actions'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import { getConnectedAccount } from 'src/web3/saga'
-import {
-  call,
-  cancel,
-  cancelled,
-  delay,
-  fork,
-  put,
-  select,
-  spawn,
-  take,
-  takeLeading,
-} from 'typed-redux-saga'
+import { call, cancelled, put, spawn, take, takeLeading } from 'typed-redux-saga'
 
 const REFRESH_TIMEOUT = 15000
 const TAG = 'home/saga'
@@ -52,28 +37,6 @@ export function* refreshBalances() {
   yield* call(getConnectedAccount)
   yield* put(fetchTokenBalances({ showLoading: false }))
   yield* put(fetchCurrentRate())
-  yield* put(fetchSentEscrowPayments())
-}
-
-export function* autoRefreshSaga() {
-  while (true) {
-    if (yield* select(shouldUpdateBalance)) {
-      yield* put(refreshAllBalances())
-    }
-    if (yield* select(shouldFetchCurrentRate)) {
-      yield* put(fetchCurrentRate())
-    }
-    yield* delay(10 * 1000) // sleep 10 seconds
-  }
-}
-
-export function* autoRefreshWatcher() {
-  while (yield* take(Actions.START_BALANCE_AUTOREFRESH)) {
-    // starts the task in the background
-    const autoRefresh = yield* fork(autoRefreshSaga)
-    yield* take(Actions.STOP_BALANCE_AUTOREFRESH)
-    yield* cancel(autoRefresh)
-  }
 }
 
 export function* watchRefreshBalances() {
@@ -130,7 +93,6 @@ function* fetchCleverTapInboxMessages() {
 
 export function* homeSaga() {
   yield* spawn(watchRefreshBalances)
-  yield* spawn(autoRefreshWatcher)
   yield* spawn(fetchNotifications)
   yield* spawn(fetchCleverTapInboxMessages)
 }

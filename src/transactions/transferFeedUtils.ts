@@ -11,11 +11,7 @@ import {
 } from 'src/fiatconnect/selectors'
 import { txHashToFeedInfoSelector } from 'src/fiatExchanges/reducer'
 import { decryptComment } from 'src/identity/commentEncryption'
-import {
-  addressToDisplayNameSelector,
-  addressToE164NumberSelector,
-  identifierToE164NumberSelector,
-} from 'src/identity/selectors'
+import { addressToDisplayNameSelector } from 'src/identity/selectors'
 import {
   getDisplayName,
   getRecipientFromAddress,
@@ -26,16 +22,11 @@ import {
 import {
   coinbasePaySendersSelector,
   inviteRewardsSendersSelector,
-  phoneRecipientCacheSelector,
   recipientInfoSelector,
   rewardsSendersSelector,
 } from 'src/recipients/reducer'
 import { useSelector } from 'src/redux/hooks'
 import { useTokenInfoByAddress } from 'src/tokens/hooks'
-import {
-  inviteTransactionsSelector,
-  recentTxRecipientsCacheSelector,
-} from 'src/transactions/reducer'
 import {
   LocalAmount,
   TokenTransactionTypeV2,
@@ -58,36 +49,9 @@ export function getDecryptedTransferFeedComment(
 
 // Note: This hook is tested from src/transactions/feed/TransferFeedItem.test.ts
 export function useTransactionRecipient(transfer: TokenTransfer): Recipient {
-  const phoneRecipientCache = useSelector(phoneRecipientCacheSelector)
-  const recentTxRecipientsCache = useSelector(recentTxRecipientsCacheSelector)
   const recipientInfo: RecipientInfo = useSelector(recipientInfoSelector)
   const txHashToFeedInfo = useSelector(txHashToFeedInfoSelector)
-  const addressToE164Number = useSelector(addressToE164NumberSelector)
-  const invitationTransactions = useSelector(inviteTransactionsSelector)
-  const identifierToE164Number = useSelector(identifierToE164NumberSelector)
   const fcTransferDisplayInfo = useFiatConnectTransferDisplayInfo(transfer)
-
-  const phoneNumber =
-    transfer.type === TokenTransactionTypeV2.InviteSent &&
-    !!invitationTransactions[transfer.transactionHash]
-      ? identifierToE164Number[invitationTransactions[transfer.transactionHash].recipientIdentifier]
-      : addressToE164Number[transfer.address]
-
-  let recipient: Recipient
-
-  if (phoneNumber) {
-    recipient = phoneRecipientCache[phoneNumber] ?? recentTxRecipientsCache[phoneNumber]
-    if (recipient) {
-      return { ...recipient, address: transfer.address }
-    } else {
-      recipient = {
-        e164PhoneNumber: phoneNumber,
-        address: transfer.address,
-        recipientType: RecipientType.PhoneNumber,
-      }
-      return recipient
-    }
-  }
 
   if (fcTransferDisplayInfo) {
     return {
@@ -97,7 +61,7 @@ export function useTransactionRecipient(transfer: TokenTransfer): Recipient {
     }
   }
 
-  recipient = getRecipientFromAddress(
+  const recipient = getRecipientFromAddress(
     transfer.address,
     recipientInfo,
     transfer.metadata.title,
@@ -185,25 +149,6 @@ export function useTransferFeedDetails(transfer: TokenTransfer, isJumpstart: boo
         title = t('feedItemReceivedTitle', { displayName })
         subtitle = t('feedItemReceivedInfo', { context: !comment ? 'noComment' : null, comment })
       }
-      break
-    }
-    case TokenTransactionTypeV2.InviteSent: {
-      title = t('feedItemEscrowSentTitle', {
-        context: !nameOrNumber ? 'noReceiverDetails' : null,
-        nameOrNumber,
-      })
-      subtitle = t('feedItemEscrowSentInfo', { context: !comment ? 'noComment' : null, comment })
-      break
-    }
-    case TokenTransactionTypeV2.InviteReceived: {
-      title = t('feedItemEscrowReceivedTitle', {
-        context: !nameOrNumber ? 'noSenderDetails' : null,
-        nameOrNumber,
-      })
-      subtitle = t('feedItemEscrowReceivedInfo', {
-        context: !comment ? 'noComment' : null,
-        comment,
-      })
       break
     }
     default: {

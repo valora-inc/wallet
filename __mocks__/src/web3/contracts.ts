@@ -3,7 +3,6 @@ import { privateKeyToAddress } from '@celo/utils/lib/address'
 import Web3 from 'web3'
 
 export const initContractKit = jest.fn()
-export const destroyContractKit = jest.fn()
 
 const contractKit = newKitFromWeb3(new Web3())
 
@@ -31,16 +30,6 @@ export function* getWallet() {
 
 export async function getWalletAsync() {
   return mockWallet
-}
-
-const web3 = new Web3()
-
-export function* getWeb3() {
-  return web3
-}
-
-export async function getWeb3Async() {
-  return web3
 }
 
 const mockViemWallet = {

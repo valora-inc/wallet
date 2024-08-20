@@ -276,18 +276,6 @@ export enum InviteEvents {
   invite_help_link = 'invite_help_link',
 }
 
-export enum EscrowEvents {
-  escrow_fetch_start = 'escrow_fetch_start',
-  escrow_fetch_complete = 'escrow_fetch_complete',
-  escrow_fetch_error = 'escrow_fetch_error',
-
-  escrow_reclaim_confirm = 'escrow_reclaim_confirm',
-  escrow_reclaim_cancel = 'escrow_reclaim_cancel',
-  escrow_reclaim_start = 'escrow_reclaim_start',
-  escrow_reclaim_complete = 'escrow_reclaim_complete',
-  escrow_reclaim_error = 'escrow_reclaim_error',
-}
-
 export enum SendEvents {
   send_scan = 'send_scan',
   send_select_recipient = 'send_select_recipient',
@@ -398,10 +386,6 @@ export enum FiatExchangeEvents {
   // Add fund flow via new user get started card
   cico_add_get_started_impression = 'cico_add_get_started_impression',
   cico_add_get_started_selected = 'cico_add_get_started_selected',
-
-  // Funding Education Dialog Screen
-  cico_add_funds_info_support = 'cico_add_funds_info_support',
-  cico_cash_out_info_support = 'cico_cash_out_info_support',
 
   // External Exchanges Screen
   external_exchange_link = 'external_exchange_link',

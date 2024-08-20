@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import { GAS_INFLATION_FACTOR } from 'src/config'
 import { Network, NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { getContractKitAsync, getWeb3Async } from 'src/web3/contracts'
+import { getContractKitAsync } from 'src/web3/contracts'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
 
 const TAG = 'web3/utils'
@@ -30,18 +30,6 @@ export async function getTransactionReceipt(txHash: string): Promise<CeloTxRecei
   Logger.debug(TAG, `Getting transaction receipt for ${txHash}`)
   const contractkit = await getContractKitAsync()
   return contractkit.connection.getTransactionReceipt(txHash)
-}
-
-// Note: This returns Promise<Block>
-export async function getLatestBlock() {
-  Logger.debug(TAG, 'Getting latest block')
-  const web3 = await getWeb3Async()
-  return web3.eth.getBlock('latest')
-}
-
-export async function getContract(abi: any, tokenAddress: string) {
-  const kit = await getContractKitAsync()
-  return new kit.web3.eth.Contract(abi, tokenAddress)
 }
 
 export function getNetworkFromNetworkId(networkId?: NetworkId): Network | undefined {

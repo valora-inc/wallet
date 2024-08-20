@@ -1,5 +1,4 @@
 import { fireEvent, render, waitFor, within } from '@testing-library/react-native'
-import BigNumber from 'bignumber.js'
 import CleverTap from 'clevertap-react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
@@ -11,13 +10,11 @@ import { NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import { Spacing } from 'src/styles/styles'
-import { multiplyByWei } from 'src/utils/formatting'
-import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
   mockCleverTapInboxMessage,
   mockE164Number,
   mockE164NumberPepper,
-  mockEscrowedPayment,
   mockExpectedCleverTapInboxMessage,
 } from 'test/values'
 
@@ -70,9 +67,6 @@ const storeDataNotificationsDisabled = {
     dismissedGetVerified: true,
     accountCreationTime: BACKUP_TIME,
     celoEducationCompleted: true,
-  },
-  escrow: {
-    sentEscrowedPayments: [],
   },
   paymentRequest: {
     incomingPaymentRequests: [],
@@ -286,76 +280,6 @@ describe('NotificationCenter', () => {
         notificationId: NotificationType.celo_asset_education,
         notificationPositionInList: 0,
       })
-    })
-  })
-
-  describe('escrowed payments', () => {
-    it('renders sent escrowed payment when it exists', () => {
-      const store = createMockStore({
-        ...storeDataNotificationsDisabled,
-        account: {
-          ...storeDataNotificationsDisabled.account,
-        },
-        escrow: {
-          sentEscrowedPayments: [
-            {
-              ...mockEscrowedPayment,
-              amount: multiplyByWei(new BigNumber(10)).toString(),
-              message: 'Welcome!',
-            },
-          ],
-        },
-      })
-      const { getByTestId } = render(
-        <Provider store={store}>
-          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
-        </Provider>
-      )
-
-      expect(getElementText(getByTestId('EscrowedPaymentListItem/Title'))).toBe(
-        'escrowPaymentNotificationTitle, {"mobile":"John Doe"}'
-      )
-      expect(getElementText(getByTestId('EscrowedPaymentListItem/Amount'))).toBe('₱13.30')
-      expect(getElementText(getByTestId('EscrowedPaymentListItem/Details'))).toBe('Welcome!')
-    })
-
-    it('renders sent escrowed payments in reverse chronological order', () => {
-      const store = createMockStore({
-        ...storeDataNotificationsDisabled,
-        account: {
-          ...storeDataNotificationsDisabled.account,
-        },
-        escrow: {
-          sentEscrowedPayments: [
-            {
-              ...mockEscrowedPayment,
-              timestamp: new BigNumber(1000),
-              amount: multiplyByWei(new BigNumber(10)).toString(),
-              message: 'Welcome!',
-            },
-            {
-              ...mockEscrowedPayment,
-              timestamp: new BigNumber(2000),
-              amount: multiplyByWei(new BigNumber(20)).toString(),
-            },
-            {
-              ...mockEscrowedPayment,
-              timestamp: new BigNumber(3000),
-              amount: multiplyByWei(new BigNumber(30)).toString(),
-            },
-          ],
-        },
-      })
-      const { getAllByTestId } = render(
-        <Provider store={store}>
-          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
-        </Provider>
-      )
-
-      const items = getAllByTestId('EscrowedPaymentListItem/Amount')
-      expect(getElementText(items[0])).toBe('₱39.90')
-      expect(getElementText(items[1])).toBe('₱26.60')
-      expect(getElementText(items[2])).toBe('₱13.30')
     })
   })
 
