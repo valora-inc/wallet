@@ -18,19 +18,6 @@ exports[`Support renders correctly 1`] = `
 >
   <RCTScrollView>
     <View>
-      <Text
-        style={
-          {
-            "fontFamily": "Inter-Bold",
-            "fontSize": 24,
-            "lineHeight": 32,
-            "margin": 16,
-          }
-        }
-        testID="SettingsTitle"
-      >
-        help
-      </Text>
       <View
         style={
           {
@@ -86,7 +73,7 @@ exports[`Support renders correctly 1`] = `
                 {
                   "borderBottomColor": "#E6E6E6",
                   "borderBottomWidth": 1,
-                  "marginLeft": 16,
+                  "marginHorizontal": 16,
                   "paddingVertical": 16,
                 }
               }
@@ -97,7 +84,6 @@ exports[`Support renders correctly 1`] = `
                     "alignItems": "center",
                     "flexDirection": "row",
                     "justifyContent": "space-between",
-                    "paddingRight": 16,
                   }
                 }
               >
@@ -131,7 +117,19 @@ exports[`Support renders correctly 1`] = `
                       "flexDirection": "row",
                     }
                   }
-                />
+                >
+                  <svg
+                    fill="none"
+                    height={16}
+                    viewBox="0 0 12 12"
+                    width={16}
+                  >
+                    <path
+                      d="M10.148 10.148H1.852V1.852H6V.667H1.852C1.194.667.667 1.2.667 1.852v8.296c0 .652.527 1.185 1.185 1.185h8.296c.652 0 1.185-.533 1.185-1.185V6h-1.185v4.148ZM7.185.667v1.185h2.127L3.487 7.677l.836.836 5.825-5.826v2.128h1.185V.667H7.185Z"
+                      fill="#2E3338"
+                    />
+                  </svg>
+                </View>
               </View>
             </View>
           </View>
@@ -184,7 +182,7 @@ exports[`Support renders correctly 1`] = `
                 {
                   "borderBottomColor": "#E6E6E6",
                   "borderBottomWidth": 1,
-                  "marginLeft": 16,
+                  "marginHorizontal": 16,
                   "paddingVertical": 16,
                 }
               }
@@ -195,7 +193,6 @@ exports[`Support renders correctly 1`] = `
                     "alignItems": "center",
                     "flexDirection": "row",
                     "justifyContent": "space-between",
-                    "paddingRight": 16,
                   }
                 }
               >
@@ -229,7 +226,19 @@ exports[`Support renders correctly 1`] = `
                       "flexDirection": "row",
                     }
                   }
-                />
+                >
+                  <svg
+                    fill="none"
+                    height={16}
+                    viewBox="0 0 12 12"
+                    width={16}
+                  >
+                    <path
+                      d="M10.148 10.148H1.852V1.852H6V.667H1.852C1.194.667.667 1.2.667 1.852v8.296c0 .652.527 1.185 1.185 1.185h8.296c.652 0 1.185-.533 1.185-1.185V6h-1.185v4.148ZM7.185.667v1.185h2.127L3.487 7.677l.836.836 5.825-5.826v2.128h1.185V.667H7.185Z"
+                      fill="#2E3338"
+                    />
+                  </svg>
+                </View>
               </View>
             </View>
           </View>
@@ -281,8 +290,8 @@ exports[`Support renders correctly 1`] = `
               style={
                 {
                   "borderBottomColor": "#E6E6E6",
-                  "borderBottomWidth": 1,
-                  "marginLeft": 16,
+                  "borderBottomWidth": 0,
+                  "marginHorizontal": 16,
                   "paddingVertical": 16,
                 }
               }
@@ -293,7 +302,6 @@ exports[`Support renders correctly 1`] = `
                     "alignItems": "center",
                     "flexDirection": "row",
                     "justifyContent": "space-between",
-                    "paddingRight": 16,
                   }
                 }
               >
@@ -327,7 +335,25 @@ exports[`Support renders correctly 1`] = `
                       "flexDirection": "row",
                     }
                   }
-                />
+                >
+                  <svg
+                    fill="none"
+                    height={12}
+                    style={{}}
+                    testID="ForwardChevron"
+                    viewBox="0 0 8 16"
+                    width={6}
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      clipRule="evenodd"
+                      d="M.293.293a1 1 0 0 1 1.414 0l6 6a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414L5.586 7 .293 1.707a1 1 0 0 1 0-1.414Z"
+                      fill="#757575"
+                      fillRule="evenodd"
+                      style={{}}
+                    />
+                  </svg>
+                </View>
               </View>
             </View>
           </View>

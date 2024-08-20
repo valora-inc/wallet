@@ -48,7 +48,7 @@ exports[`ListItem renders correctly 1`] = `
         {
           "borderBottomColor": "#E6E6E6",
           "borderBottomWidth": 1,
-          "marginLeft": 16,
+          "marginHorizontal": 16,
           "paddingVertical": 16,
         }
       }

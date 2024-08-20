@@ -135,7 +135,6 @@ type SettingsItemInputProps = {
 export function SettingsItemInput({
   testID,
   title,
-  icon,
   onValueChange,
   value,
   placeholder,
@@ -151,7 +150,6 @@ export function SettingsItemInput({
   return (
     <Wrapper>
       <View style={styles.container}>
-        {icon}
         <Title value={title} />
         <TextInput
           testID={testID}
