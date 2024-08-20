@@ -1635,11 +1635,6 @@ interface EarnEventsProperties {
   [EarnEvents.earn_info_earn_press]: undefined
   [EarnEvents.earn_active_pools_cta_press]: { action: 'myPools' | 'exploreOpenPools' }
   [EarnEvents.earn_home_learn_more_press]: undefined
-  [EarnEvents.earn_pool_card_cta_press]: {
-    tokenAmount: string
-    poolId: string
-    action: 'deposit' | 'withdraw'
-  } & EarnCommonProperties
   [EarnEvents.earn_pool_card_press]: {
     tokenAmount: string
     poolId: string
