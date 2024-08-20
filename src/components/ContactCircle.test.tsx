@@ -47,21 +47,4 @@ describe('ContactCircle', () => {
       expect(UNSAFE_getByType(Image).props.source).toEqual({ uri: './test.jpg' })
     })
   })
-  describe('when has a name but no picture', () => {
-    it('renders initial', () => {
-      const { getByText } = render(
-        <Provider store={mockStore}>
-          <ContactCircle
-            size={30}
-            recipient={{
-              name: mockName,
-              address: mockAddress,
-              recipientType: RecipientType.Address,
-            }}
-          />
-        </Provider>
-      )
-      expect(getByText(mockName[0])).toBeTruthy()
-    })
-  })
 })

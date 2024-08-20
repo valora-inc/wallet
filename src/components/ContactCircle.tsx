@@ -12,7 +12,6 @@ interface Props {
   foregroundColor?: Colors
   borderColor?: Colors
   DefaultIcon?: React.ComponentType<{ foregroundColor: string; backgroundColor: string }>
-  overrideInitial?: boolean
 }
 
 const DEFAULT_ICON_SIZE = 40
