@@ -13,6 +13,7 @@ interface Props {
   foregroundColor?: Colors
   borderColor?: Colors
   DefaultIcon?: React.ComponentType<{ foregroundColor: string; backgroundColor: string }>
+  overrideInitial?: boolean
 }
 
 const DEFAULT_ICON_SIZE = 40
@@ -30,6 +31,7 @@ function ContactCircle({
   backgroundColor,
   foregroundColor,
   borderColor,
+  overrideInitial,
   DefaultIcon = DefaultAvatar,
 }: Props) {
   const address = recipient.address
@@ -50,7 +52,7 @@ function ContactCircle({
     }
 
     const fontColor = foregroundColor ?? getAddressForegroundColor(address || '0x0')
-    if (recipient.name) {
+    if (recipient.name && !overrideInitial) {
       const initial = getNameInitial(recipient.name)
       return (
         <Text

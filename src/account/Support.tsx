@@ -21,24 +21,25 @@ const Support = () => {
   return (
     <SafeAreaView style={styles.container} edges={['bottom', 'left', 'right']}>
       <ScrollView>
-        <Text style={styles.title} testID={'SettingsTitle'}>
-          {t('help')}
-        </Text>
         <View style={styles.containerList}>
           <SettingsItemTextValue
             testID="FAQLink"
             title={t('faq')}
             onPress={openExternalLink(FAQ_LINK)}
+            isExternalLink
           />
           <SettingsItemTextValue
             testID="ForumLink"
             title={t('forum')}
             onPress={openExternalLink(FORUM_LINK)}
+            isExternalLink
           />
           <SettingsItemTextValue
             testID="SupportContactLink"
             title={t('contact')}
             onPress={onPressContact}
+            borderless
+            showChevron
           />
         </View>
       </ScrollView>
@@ -52,10 +53,6 @@ const styles = StyleSheet.create({
   },
   containerList: {
     flex: 1,
-  },
-  title: {
-    ...typeScale.titleMedium,
-    margin: 16,
   },
 })
 

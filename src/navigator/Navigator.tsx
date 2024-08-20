@@ -78,7 +78,7 @@ import {
   noHeader,
   nuxNavigationOptions,
 } from 'src/navigator/Headers'
-import ProfileMenu from 'src/navigator/ProfileMenu'
+import SettingsMenu from 'src/navigator/SettingsMenu'
 import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
 import TabNavigator from 'src/navigator/TabNavigator'
@@ -509,9 +509,9 @@ const generalScreens = (Navigator: typeof Stack) => (
       options={MultichainBeta.navigationOptions}
     />
     <Navigator.Screen
-      name={Screens.ProfileMenu}
-      component={ProfileMenu}
-      options={ProfileMenu.navigationOptions as NativeStackNavigationOptions}
+      name={Screens.SettingsMenu}
+      component={SettingsMenu}
+      options={SettingsMenu.navigationOptions as NativeStackNavigationOptions}
     />
     <Navigator.Screen name={Screens.Settings} component={SettingsScreen} options={noHeader} />
     <Navigator.Screen name={Screens.Invite} component={Invite} options={noHeader} />

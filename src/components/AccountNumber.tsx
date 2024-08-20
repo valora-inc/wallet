@@ -35,7 +35,7 @@ export default function AccountNumber({ address, touchDisabled, location }: Prop
       AppAnalytics.track(FiatExchangeEvents.cico_cash_out_copy_address)
     }
 
-    if (location === Screens.ProfileMenu) {
+    if (location === Screens.SettingsMenu) {
       AppAnalytics.track(HomeEvents.profile_address_copy)
     }
   }

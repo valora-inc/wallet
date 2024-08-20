@@ -62,7 +62,7 @@ export enum Screens {
   PointsHome = 'PointsHome',
   PointsIntro = 'PointsIntro',
   Profile = 'Profile',
-  ProfileMenu = 'ProfileMenu',
+  SettingsMenu = 'SettingsMenu',
   ProtectWallet = 'ProtectWallet',
   QRCode = 'QRCode',
   QRNavigator = 'QRNavigator',

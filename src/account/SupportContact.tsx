@@ -171,13 +171,13 @@ function SupportContact({ route }: Props) {
         />
 
         <View style={styles.attachLogs}>
+          <Text style={typeScale.labelSemiBoldMedium}>{t('attachLogs')}</Text>
           <Switch
             testID="SwitchLogs"
             style={styles.logsSwitch}
             value={attachLogs}
             onValueChange={setAttachLogs}
           />
-          <Text style={typeScale.bodyMedium}>{t('attachLogs')}</Text>
         </View>
         {inProgress && (
           <View style={styles.loadingSpinnerContainer} testID="ImportWalletLoadingCircle">
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   disclaimerText: {
-    ...typeScale.bodySmall,
+    ...typeScale.bodyMedium,
     color: colors.gray4,
   },
   container: {
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     flexGrow: 1,
-    padding: 16,
+    paddingHorizontal: 16,
   },
   attachLogs: {
     flexShrink: 0,
@@ -236,8 +236,8 @@ const styles = StyleSheet.create({
     marginTop: 8,
     alignItems: 'flex-start',
     borderColor: colors.gray2,
-    borderRadius: 4,
-    borderWidth: 1.5,
+    borderRadius: 8,
+    borderWidth: 1,
     marginBottom: 16,
     color: colors.black,
     height: 80,
@@ -249,8 +249,8 @@ const styles = StyleSheet.create({
     marginTop: 8,
     alignItems: 'flex-start',
     borderColor: colors.gray2,
-    borderRadius: 4,
-    borderWidth: 1.5,
+    borderRadius: 8,
+    borderWidth: 1,
     marginBottom: 16,
     color: colors.black,
     maxHeight: 50,
