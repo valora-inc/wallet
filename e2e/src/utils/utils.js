@@ -1,9 +1,8 @@
-import { createPublicClient, createWalletClient, encodeFunctionData, getContract, http } from 'viem'
+import { createWalletClient, encodeFunctionData, erc20Abi, http, publicActions } from 'viem'
 import { celoAlfajores } from 'viem/chains'
 import { privateKeyToAccount } from 'viem/accounts'
 import jestExpect from 'expect'
-import { ALFAJORES_FORNO_URL, DEFAULT_PIN, SAMPLE_BACKUP_KEY } from '../utils/consts'
-import erc20 from '../../../src/abis/IERC20'
+import { DEFAULT_PIN, SAMPLE_BACKUP_KEY } from '../utils/consts'
 
 const childProcess = require('child_process')
 const fs = require('fs')
@@ -444,26 +443,21 @@ export async function fundWallet(senderPrivateKey, recipientAddress, stableToken
 
   const account = privateKeyToAccount(senderPrivateKey)
   const senderAddress = account.address
-  const walletClient = createWalletClient({
+  const client = createWalletClient({
     account,
     chain: celoAlfajores,
-    transport: http(ALFAJORES_FORNO_URL),
-  })
+    transport: http(),
+  }).extend(publicActions)
 
   const fundingAmount = BigInt(amountEther * 10 ** 18)
-  const hash = await walletClient.sendTransaction({
+  const hash = await client.sendTransaction({
     to: tokenAddress,
     from: senderAddress,
     data: encodeFunctionData({
-      abi: erc20.abi,
+      abi: erc20Abi,
       functionName: 'transfer',
       args: [recipientAddress, fundingAmount],
     }),
-  })
-
-  const client = createPublicClient({
-    chain: celoAlfajores,
-    transport: http(ALFAJORES_FORNO_URL),
   })
   const receipt = await client.waitForTransactionReceipt({ hash })
 

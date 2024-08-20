@@ -1,6 +1,5 @@
 import { Core } from '@walletconnect/core'
 import Client from '@walletconnect/sign-client'
-import fetch from 'node-fetch'
 import { WALLET_CONNECT_PROJECT_ID_E2E } from 'react-native-dotenv'
 import {
   hashMessage,
@@ -19,33 +18,23 @@ import { enterPinUiIfNecessary, navigateToSettings, sleep } from '../utils/utils
 import jestExpect from 'expect'
 
 const dappName = 'WalletConnectV2 E2E'
-const transportUrl = process.env.FORNO_URL || 'https://alfajores-forno.celo-testnet.org'
-
 const walletAddress = (
   process.env.E2E_WALLET_ADDRESS || '0x6131a6d616a4be3737b38988847270a64bc10caa'
 ).toLowerCase()
 
+const client = createPublicClient({
+  chain: celoAlfajores,
+  transport: http(),
+})
+
 async function formatTestTransaction(address) {
   try {
-    const response = await fetch(transportUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        jsonrpc: '2.0',
-        method: 'eth_getTransactionCount',
-        params: [address, 'latest'],
-        id: 1,
-      }),
-    })
-    const data = await response.json()
-
+    const nonce = await client.getTransactionCount({ address })
     return {
       from: address,
       to: address,
       data: '0x',
-      nonce: parseInt(data.result, 16),
+      nonce,
       gas: '0x5208',
       maxFeePerGas: '0x1DCD65000',
       maxPriorityFeePerGas: '0x77359400',
@@ -90,11 +79,6 @@ const verifySuccessfulTransaction = async (title = 'Confirm transaction', tx) =>
 export default WalletConnect = () => {
   let walletConnectClient, pairingUrl, core
   let intervalsToClear = []
-
-  const client = createPublicClient({
-    chain: celoAlfajores,
-    transport: http(transportUrl),
-  })
 
   beforeAll(async () => {
     // @walletconnect/heartbeat keeps a setInterval running, which causes jest to hang, unable to shut down cleanly

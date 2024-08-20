@@ -1,6 +1,5 @@
-import { Address, createPublicClient, http } from 'viem'
+import { Address, createPublicClient, erc20Abi, http } from 'viem'
 import { celoAlfajores } from 'viem/chains'
-import erc20 from '../../src/abis/IERC20'
 import { REFILL_TOKENS } from './consts'
 
 export async function checkBalance(
@@ -29,26 +28,24 @@ export async function getCeloTokensBalance(walletAddress: Address) {
 
     const celoClient = createPublicClient({
       chain: celoAlfajores,
-      transport: http('https://alfajores-forno.celo-testnet.org'),
+      transport: http(),
     })
 
     const results = await celoClient.multicall({
       contracts: supportedTokenAddresses.map((tokenAddress) => ({
         address: tokenAddress as Address,
-        abi: erc20.abi,
+        abi: erc20Abi,
         functionName: 'balanceOf',
         args: [walletAddress],
       })),
       allowFailure: false,
     })
 
-    return results.reduce(
-      (acc, result, index) => {
-        acc[supportedTokenAddresses[index]] = Number(BigInt(result) / BigInt(10 ** 18))
-        return acc
-      },
-      {} as Record<Address, number>
-    )
+    const balances: Record<Address, number> = {}
+    results.forEach((result, index) => {
+      balances[supportedTokenAddresses[index]] = Number(BigInt(result) / BigInt(10 ** 18))
+    })
+    return balances
   } catch (err) {
     console.log(err)
   }
