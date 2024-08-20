@@ -73,7 +73,7 @@ export function InLineNotification({
         {!hideIcon && (
           <View style={styles.iconContainer}>
             {customIcon ?? (
-              <Icon color={variantColor.primary} size={20} testId="InLineNotification/Icon" />
+              <Icon color={variantColor.primary} size={16} testId="InLineNotification/Icon" />
             )}
           </View>
         )}
@@ -110,7 +110,6 @@ const styles = StyleSheet.create({
     gap: Spacing.Smallest8,
   },
   iconContainer: {
-    paddingTop: Spacing.Tiny4,
     paddingRight: Spacing.Smallest8,
   },
   titleText: {

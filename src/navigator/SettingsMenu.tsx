@@ -78,7 +78,11 @@ function ProfileMenuOption() {
   }
 
   return (
-    <Touchable style={styles.profileTouchable} testID="SettingsMenu/Profile">
+    <Touchable
+      style={styles.profileTouchable}
+      onPress={() => navigate(Screens.ProfileMenu)}
+      testID="SettingsMenu/Profile"
+    >
       <View style={styles.profileContainer}>
         <ContactCircleSelf size={48} />
         {renderContent()}
@@ -96,6 +100,13 @@ export default function SettingsMenu({ route }: Props) {
   const { sessions } = useSelector(selectSessions)
   const walletConnectEnabled = v2
   const connectedDapps = sessions?.length
+
+  // The tests require onPress to exist in order to pass, but
+  // empty arrow functions cause eslint to complain.
+  // TODO: Remove this once all options are implemented.
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  const dummyNavigate = () => {}
+
   return (
     <SafeAreaView>
       <ScrollView>
@@ -126,6 +137,7 @@ export default function SettingsMenu({ route }: Props) {
           icon={<Preferences size={24} />}
           title={t('preferences')}
           testID="SettingsMenu/Preferences"
+          onPress={dummyNavigate}
           showChevron
           borderless
         />
@@ -133,6 +145,7 @@ export default function SettingsMenu({ route }: Props) {
           icon={<Lock width={24} height={24} color={colors.black} />}
           title={t('securityPrivacy')}
           testID="SettingsMenu/Security"
+          onPress={dummyNavigate}
           showChevron
           borderless
         />
@@ -142,6 +155,7 @@ export default function SettingsMenu({ route }: Props) {
             title={t('connectedApplications')}
             testID="SettingsMenu/ConnectedDapps"
             value={connectedDapps.toString()}
+            onPress={dummyNavigate}
             showChevron
             borderless
           />
@@ -158,6 +172,7 @@ export default function SettingsMenu({ route }: Props) {
         <SettingsItemTextValue
           title={t('legal')}
           testID="SettingsMenu/Legal"
+          onPress={dummyNavigate}
           showChevron
           borderless
         />

@@ -10,14 +10,11 @@ import { showError, showMessage } from 'src/alert/actions'
 import { SettingsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import Button from 'src/components/Button'
-import CancelButton from 'src/components/CancelButton'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import TextInput from 'src/components/TextInput'
-import Touchable from 'src/components/Touchable'
-import i18n from 'src/i18n'
 import { generateRandomUsername } from 'src/nameGenerator'
 import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
@@ -29,6 +26,8 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import { saveProfilePicture } from 'src/utils/image'
+import BackButton from 'src/components/BackButton'
+import TextButton from 'src/components/TextButton'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.Profile>
 
@@ -89,46 +88,55 @@ function Profile({ navigation, route }: Props) {
         <View style={styles.accountProfile}>
           <PictureInput picture={newPictureUri} onPhotoChosen={onPictureChosen} />
         </View>
+        <Text style={styles.nameLabel}>{t('profileName')}</Text>
         <View style={styles.inputContainer}>
           <TextInput
             placeholder={t('profileScreen.namePlaceholder', { exampleName }) ?? undefined}
+            placeholderTextColor={colors.gray3}
             testID="ProfileEditName"
             onChangeText={updateName}
             value={newName ?? t('unknown')}
           />
         </View>
         <View style={styles.ctaContainer}>
-          <Button
+          <TextButton
             style={styles.generateButton}
-            text={t('profileScreen.generateName')}
             onPress={generateName}
             testID="GenerateNameButton"
-          />
-          <Touchable testID="SaveButton" onPress={onSave}>
-            <Text style={styles.saveButton}>{t('save')}</Text>
-          </Touchable>
+          >
+            {t('profileScreen.generateName')}
+          </TextButton>
         </View>
+      </KeyboardAwareScrollView>
+      <View style={styles.bottomSection}>
         <View style={styles.disclaimerContainer}>
           <InLineNotification
             variant={NotificationVariant.Info}
             description={t('profileScreen.profilePictureDisclaimer')}
           />
         </View>
-      </KeyboardAwareScrollView>
+        <Button
+          onPress={onSave}
+          text={t('save')}
+          testID="SaveButton"
+          style={styles.saveButton}
+          size={BtnSizes.FULL}
+          type={BtnTypes.PRIMARY}
+        />
+      </View>
       <KeyboardSpacer />
     </SafeAreaView>
   )
 }
 
 Profile.navigationOptions = ({ navigation }: Props) => {
-  const onCancel = () => {
+  const onBack = () => {
     AppAnalytics.track(SettingsEvents.profile_cancel)
     navigation.goBack()
   }
   return {
     ...emptyHeader,
-    headerTitle: i18n.t('editProfile'),
-    headerLeft: () => <CancelButton onCancel={onCancel} />,
+    headerLeft: () => <BackButton onPress={onBack} />,
   }
 }
 
@@ -147,21 +155,38 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   inputContainer: {
-    borderBottomWidth: 1,
-    borderBottomColor: colors.gray2,
-    marginHorizontal: 24,
+    height: Spacing.XLarge48,
+    paddingHorizontal: Spacing.Small12,
+    borderWidth: 1,
+    borderRadius: Spacing.Smallest8,
+    borderColor: colors.gray2,
+    marginHorizontal: Spacing.Thick24,
   },
   ctaContainer: {
     alignItems: 'center',
   },
   generateButton: {
-    marginVertical: 24,
+    ...typeScale.labelSemiBoldSmall,
+    color: colors.black,
+    marginTop: Spacing.Thick24,
   },
   saveButton: {
     ...typeScale.bodyMedium,
-    color: colors.primary,
+    paddingHorizontal: Spacing.Thick24,
+    paddingBottom: Spacing.Thick24,
   },
   disclaimerContainer: {
     margin: Spacing.Thick24,
+  },
+  nameLabel: {
+    ...typeScale.labelSemiBoldSmall,
+    paddingLeft: Spacing.Thick24,
+    paddingBottom: Spacing.Smallest8,
+  },
+  bottomSection: {
+    flexGrow: 1,
+    justifyContent: 'flex-end',
+    flex: 1,
+    flexDirection: 'column',
   },
 })

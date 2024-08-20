@@ -112,7 +112,6 @@ function VerificationStartScreen({
   useLayoutEffect(() => {
     const title = () => (
       <HeaderTitleWithSubtitle
-        title={t('phoneVerificationScreen.screenTitle')}
         subTitle={showSteps && t('registrationSteps', { step, totalSteps })}
       />
     )
@@ -228,6 +227,7 @@ function VerificationStartScreen({
           internationalPhoneNumber={phoneNumberInfo.internationalPhoneNumber}
           onPressCountry={onPressCountry}
           onChange={onChangePhoneNumberInput}
+          countryFlagStyle={styles.countryFlag}
         />
         <Button
           text={t('phoneVerificationScreen.startButtonLabel')}
@@ -293,6 +293,11 @@ const styles = StyleSheet.create({
   },
   learnMore: {
     color: colors.gray3,
+  },
+  countryFlag: {
+    backgroundColor: colors.gray1,
+    borderWidth: 1,
+    borderColor: colors.gray2,
   },
 })
 

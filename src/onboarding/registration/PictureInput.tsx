@@ -6,7 +6,7 @@ import { currentUserRecipientSelector } from 'src/account/selectors'
 import ContactCircle from 'src/components/ContactCircle'
 import OptionsChooser from 'src/components/OptionsChooser'
 import Touchable from 'src/components/Touchable'
-import Edit from 'src/icons/Edit'
+import Camera from 'src/icons/Camera'
 import { Recipient } from 'src/recipients/recipient'
 import { useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
@@ -14,7 +14,7 @@ import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { getDataURL } from 'src/utils/image'
 
-const PICTURE_SIZE = 64
+const PICTURE_SIZE = 48
 
 interface Props {
   picture: string | null
@@ -90,14 +90,21 @@ function PictureInput({ picture, onPhotoChosen }: Props) {
         testID={'PictureInput'}
       >
         <>
-          <ContactCircle size={PICTURE_SIZE} recipient={recipient} />
+          <ContactCircle
+            size={PICTURE_SIZE}
+            recipient={recipient}
+            backgroundColor={colors.gray1}
+            borderColor={colors.gray2}
+            foregroundColor={colors.black}
+          />
           <View style={styles.editIconContainer}>
-            <Edit />
+            <Camera size={12} color={colors.white} />
           </View>
         </>
       </Touchable>
       <OptionsChooser
         isVisible={showOptions}
+        buttonsColor={colors.black}
         options={[
           t('chooseFromLibrary'),
           t('takePhoto'),
@@ -122,13 +129,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   editIconContainer: {
-    width: 40,
-    height: 40,
+    width: 24,
+    height: 24,
     position: 'absolute',
-    left: 37,
-    bottom: -13,
+    left: 30,
+    bottom: -5,
     borderRadius: 20,
-    backgroundColor: colors.gray1,
+    backgroundColor: colors.black,
     justifyContent: 'center',
     alignItems: 'center',
   },

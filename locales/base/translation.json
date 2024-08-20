@@ -42,7 +42,7 @@
   },
   "revokePhoneNumber": {
     "title": "Unlink Phone Number",
-    "bottomSheetTitle": "Unlink phone number",
+    "bottomSheetTitle": "Unlink Phone Number",
     "description": "Unlinking will remove the phone number linked to your wallet. You can add a new phone number later.",
     "confirmButton": "Unlink now",
     "revokeSuccess": "Your phone number has been unlinked",
@@ -174,7 +174,8 @@
   "termsOfServiceLink": "Terms of Service",
   "privacyPolicy": "Privacy Policy",
   "editProfile": "Edit Profile",
-  "confirmNumber": "Connect phone number",
+  "profileName": "Profile Name",
+  "confirmNumber": "Connect Phone Number",
   "cancel": "Cancel",
   "changeProfilePhoto": "Change Profile Photo",
   "name": "Name",
@@ -2008,7 +2009,7 @@
   "profileScreen": {
     "generateName": "Generate a name",
     "namePlaceholder": "Select a name, like \"{{exampleName}}\"",
-    "profilePictureDisclaimer": "Customize {{appName}} with your profile picture. Your image remains private, it is never shared or uploaded."
+    "profilePictureDisclaimer": "Your image remains private, it is never shared or uploaded."
   },
   "tokenBottomSheet": {
     "searchAssets": "Search Assets",

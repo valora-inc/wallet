@@ -23,7 +23,6 @@ export default function ContactCircleSelf({ style, size }: Props) {
       backgroundColor={colors.gray1}
       borderColor={colors.gray2}
       foregroundColor={colors.black}
-      overrideInitial
     />
   )
 }

@@ -72,10 +72,10 @@ exports[`Profile renders correctly 1`] = `
               {
                 "alignItems": "center",
                 "alignSelf": "center",
-                "borderRadius": 32,
-                "height": 64,
+                "borderRadius": 24,
+                "height": 48,
                 "justifyContent": "center",
-                "width": 64,
+                "width": 48,
               },
             ]
           }
@@ -101,64 +101,61 @@ exports[`Profile renders correctly 1`] = `
                     "justifyContent": "center",
                   },
                   {
-                    "backgroundColor": "hsl(0, 53%, 93%)",
-                    "borderRadius": 32,
-                    "height": 64,
-                    "width": 64,
+                    "backgroundColor": "#F8F9F9",
+                    "borderRadius": 24,
+                    "height": 48,
+                    "width": 48,
                   },
-                  undefined,
+                  {
+                    "borderColor": "#E6E6E6",
+                    "borderWidth": 1,
+                  },
                 ]
               }
             >
-              <Text
-                allowFontScaling={false}
-                style={
-                  [
-                    {
-                      "fontFamily": "Inter-Medium",
-                      "fontSize": 16,
-                      "lineHeight": 24,
-                    },
-                    {
-                      "color": "hsl(0, 67%, 24%)",
-                      "fontSize": 32,
-                    },
-                  ]
-                }
+              <svg
+                fill="none"
+                height="40"
+                viewBox="0 0 40 40"
+                width="40"
               >
-                J
-              </Text>
+                <circle
+                  cx="20"
+                  cy="20"
+                  fill="#F8F9F9"
+                  r="20"
+                />
+                <path
+                  d="M20 12a4 4 0 1 1 0 8 4 4 0 0 1 0-8Zm0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 7c2.67 0 8 1.33 8 4v3H12v-3c0-2.67 5.33-4 8-4Zm0 1.9c-2.97 0-6.1 1.46-6.1 2.1v1.1h12.2V25c0-.64-3.13-2.1-6.1-2.1Z"
+                  fill="#2E3338"
+                />
+              </svg>
             </View>
           </View>
           <View
             style={
               {
                 "alignItems": "center",
-                "backgroundColor": "#F8F9F9",
+                "backgroundColor": "#2E3338",
                 "borderRadius": 20,
-                "bottom": -13,
-                "height": 40,
+                "bottom": -5,
+                "height": 24,
                 "justifyContent": "center",
-                "left": 37,
+                "left": 30,
                 "position": "absolute",
-                "width": 40,
+                "width": 24,
               }
             }
           >
             <svg
               fill="none"
-              height={13}
-              style={{}}
-              viewBox="0 0 13 13"
-              width={13}
-              xmlns="http://www.w3.org/2000/svg"
+              height={12}
+              viewBox="0 0 24 24"
+              width={12}
             >
               <path
-                clip-rule="evenodd"
-                d="M10.8667 4.94998L8.03333 2.14998L8.96667 1.21665C9.22222 0.961091 9.53622 0.833313 9.90867 0.833313C10.2807 0.833313 10.5944 0.961091 10.85 1.21665L11.7833 2.14998C12.0389 2.40554 12.1722 2.71398 12.1833 3.07531C12.1944 3.4362 12.0722 3.74442 11.8167 3.99998L10.8667 4.94998ZM9.9 5.93331L2.83333 13H0V10.1666L7.06667 3.09998L9.9 5.93331Z"
-                fill="#137211"
-                fill-rule="evenodd"
-                style={{}}
+                d="M20 4h-3.17L15 2H9L7.17 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 14H4V6h4.05l1.83-2h4.24l1.83 2H20v12ZM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0 8a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"
+                fill="#FFFFFF"
               />
             </svg>
           </View>
@@ -191,12 +188,28 @@ exports[`Profile renders correctly 1`] = `
           visible={false}
         />
       </View>
+      <Text
+        style={
+          {
+            "fontFamily": "Inter-SemiBold",
+            "fontSize": 14,
+            "lineHeight": 20,
+            "paddingBottom": 8,
+            "paddingLeft": 24,
+          }
+        }
+      >
+        profileName
+      </Text>
       <View
         style={
           {
-            "borderBottomColor": "#E6E6E6",
-            "borderBottomWidth": 1,
+            "borderColor": "#E6E6E6",
+            "borderRadius": 8,
+            "borderWidth": 1,
+            "height": 48,
             "marginHorizontal": 24,
+            "paddingHorizontal": 12,
           }
         }
       >
@@ -210,7 +223,11 @@ exports[`Profile renders correctly 1`] = `
                 "gap": 8,
                 "justifyContent": "center",
               },
-              undefined,
+              {
+                "fontFamily": "Inter-Regular",
+                "fontSize": 16,
+                "lineHeight": 24,
+              },
             ]
           }
         >
@@ -219,6 +236,7 @@ exports[`Profile renders correctly 1`] = `
             onChangeText={[Function]}
             onFocus={[Function]}
             placeholder="profileScreen.namePlaceholder, {}"
+            placeholderTextColor="#757575"
             style={
               [
                 {
@@ -247,99 +265,179 @@ exports[`Profile renders correctly 1`] = `
         }
       >
         <View
-          style={
-            [
-              {
-                "flexDirection": "row",
-              },
-              {
-                "marginVertical": 24,
-              },
-            ]
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
           }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          focusable={true}
+          nativeBackgroundAndroid={
+            {
+              "attribute": "selectableItemBackgroundBorderless",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
+            }
+          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          testID="GenerateNameButton"
         >
-          <View
+          <Text
             style={
               [
                 {
-                  "overflow": "hidden",
+                  "color": "#1AB775",
+                  "fontFamily": "Inter-SemiBold",
+                  "fontSize": 16,
+                  "lineHeight": 24,
                 },
                 {
-                  "borderRadius": 100,
+                  "color": "#2E3338",
+                  "fontFamily": "Inter-SemiBold",
+                  "fontSize": 14,
+                  "lineHeight": 20,
+                  "marginTop": 24,
                 },
               ]
             }
           >
-            <View
-              accessibilityState={
-                {
-                  "busy": undefined,
-                  "checked": undefined,
-                  "disabled": undefined,
-                  "expanded": undefined,
-                  "selected": undefined,
-                }
+            profileScreen.generateName
+          </Text>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+  <View
+    style={
+      {
+        "flex": 1,
+        "flexDirection": "column",
+        "flexGrow": 1,
+        "justifyContent": "flex-end",
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "margin": 24,
+        }
+      }
+    >
+      <View
+        style={
+          [
+            {
+              "borderRadius": 16,
+              "padding": 16,
+            },
+            {
+              "backgroundColor": "#F8F9F9",
+            },
+            undefined,
+            undefined,
+          ]
+        }
+      >
+        <View
+          style={
+            {
+              "flexDirection": "row",
+            }
+          }
+        >
+          <View
+            style={
+              {
+                "paddingRight": 8,
               }
-              accessibilityValue={
-                {
-                  "max": undefined,
-                  "min": undefined,
-                  "now": undefined,
-                  "text": undefined,
-                }
+            }
+          >
+            <svg
+              fill="none"
+              height={16}
+              testID="InLineNotification/Icon"
+              viewBox="0 0 16 16"
+              width={16}
+            >
+              <path
+                d="M7.2 10.4h1.6V12H7.2v-1.6Zm0-6.4h1.6v4.8H7.2V4Zm.792-4C3.576 0 0 3.584 0 8s3.576 8 7.992 8C12.416 16 16 12.416 16 8s-3.584-8-8.008-8ZM8 14.4A6.398 6.398 0 0 1 1.6 8c0-3.536 2.864-6.4 6.4-6.4 3.536 0 6.4 2.864 6.4 6.4 0 3.536-2.864 6.4-6.4 6.4Z"
+                fill="#2E3338"
+              />
+            </svg>
+          </View>
+          <View
+            style={
+              {
+                "flex": 1,
               }
-              accessible={true}
-              focusable={true}
-              nativeBackgroundAndroid={
-                {
-                  "attribute": "selectableItemBackground",
-                  "rippleRadius": undefined,
-                  "type": "ThemeAttrAndroid",
-                }
-              }
-              onClick={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
+            }
+          >
+            <Text
               style={
                 [
                   {
-                    "alignItems": "center",
-                    "backgroundColor": "#2E3338",
-                    "flexDirection": "row",
-                    "height": 48,
-                    "justifyContent": "center",
-                    "minWidth": 120,
-                    "opacity": 1,
-                    "paddingHorizontal": 24,
-                    "paddingVertical": 5,
+                    "color": "#2E3338",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 12,
+                    "letterSpacing": 0.12,
+                    "lineHeight": 16,
                   },
-                  undefined,
                 ]
               }
-              testID="GenerateNameButton"
             >
-              <Text
-                maxFontSizeMultiplier={1}
-                style={
-                  {
-                    "color": "#FFFFFF",
-                    "fontFamily": "Inter-SemiBold",
-                    "fontSize": 16,
-                    "lineHeight": 24,
-                    "marginLeft": 0,
-                    "marginRight": 0,
-                  }
-                }
-              >
-                profileScreen.generateName
-              </Text>
-            </View>
+              profileScreen.profilePictureDisclaimer
+            </Text>
           </View>
         </View>
+      </View>
+    </View>
+    <View
+      style={
+        [
+          {
+            "flexDirection": "column",
+          },
+          {
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 24,
+            "paddingBottom": 24,
+            "paddingHorizontal": 24,
+          },
+        ]
+      }
+    >
+      <View
+        style={
+          [
+            {
+              "overflow": "hidden",
+            },
+            {
+              "borderRadius": 100,
+            },
+          ]
+        }
+      >
         <View
           accessibilityState={
             {
@@ -374,15 +472,34 @@ exports[`Profile renders correctly 1`] = `
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
+          style={
+            [
+              {
+                "alignItems": "center",
+                "backgroundColor": "#2E3338",
+                "flexDirection": "row",
+                "flexGrow": 1,
+                "height": 48,
+                "justifyContent": "center",
+                "opacity": 1,
+                "paddingHorizontal": 24,
+                "paddingVertical": 5,
+              },
+              undefined,
+            ]
+          }
           testID="SaveButton"
         >
           <Text
+            maxFontSizeMultiplier={1}
             style={
               {
-                "color": "#1AB775",
-                "fontFamily": "Inter-Regular",
+                "color": "#FFFFFF",
+                "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
                 "lineHeight": 24,
+                "marginLeft": 0,
+                "marginRight": 0,
               }
             }
           >
@@ -390,84 +507,8 @@ exports[`Profile renders correctly 1`] = `
           </Text>
         </View>
       </View>
-      <View
-        style={
-          {
-            "margin": 24,
-          }
-        }
-      >
-        <View
-          style={
-            [
-              {
-                "borderRadius": 16,
-                "padding": 16,
-              },
-              {
-                "backgroundColor": "#F8F9F9",
-              },
-              undefined,
-              undefined,
-            ]
-          }
-        >
-          <View
-            style={
-              {
-                "flexDirection": "row",
-              }
-            }
-          >
-            <View
-              style={
-                {
-                  "paddingRight": 8,
-                  "paddingTop": 4,
-                }
-              }
-            >
-              <svg
-                fill="none"
-                height={20}
-                testID="InLineNotification/Icon"
-                viewBox="0 0 16 16"
-                width={20}
-              >
-                <path
-                  d="M7.2 10.4h1.6V12H7.2v-1.6Zm0-6.4h1.6v4.8H7.2V4Zm.792-4C3.576 0 0 3.584 0 8s3.576 8 7.992 8C12.416 16 16 12.416 16 8s-3.584-8-8.008-8ZM8 14.4A6.398 6.398 0 0 1 1.6 8c0-3.536 2.864-6.4 6.4-6.4 3.536 0 6.4 2.864 6.4 6.4 0 3.536-2.864 6.4-6.4 6.4Z"
-                  fill="#2E3338"
-                />
-              </svg>
-            </View>
-            <View
-              style={
-                {
-                  "flex": 1,
-                }
-              }
-            >
-              <Text
-                style={
-                  [
-                    {
-                      "color": "#2E3338",
-                      "fontFamily": "Inter-Regular",
-                      "fontSize": 12,
-                      "letterSpacing": 0.12,
-                      "lineHeight": 16,
-                    },
-                  ]
-                }
-              >
-                profileScreen.profilePictureDisclaimer
-              </Text>
-            </View>
-          </View>
-        </View>
-      </View>
     </View>
-  </RCTScrollView>
+  </View>
   <View
     collapsable={false}
     style={
