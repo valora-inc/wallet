@@ -13,7 +13,7 @@ describe('EarnTabBar', () => {
 
   it('renders all tab bar items', () => {
     const { getAllByTestId } = render(
-      <EarnTabBar activeTab={EarnTabType.OpenPools} onChange={onChange} />
+      <EarnTabBar activeTab={EarnTabType.AllPools} onChange={onChange} />
     )
 
     const tabItems = getAllByTestId('Earn/TabBarItem')
@@ -24,11 +24,11 @@ describe('EarnTabBar', () => {
     expect(tabItems[1].children[0]).toHaveStyle({ color: Colors.gray4 })
   })
 
-  it.each([{ tab: EarnTabType.OpenPools }, { tab: EarnTabType.MyPools }])(
+  it.each([{ tab: EarnTabType.AllPools }, { tab: EarnTabType.MyPools }])(
     'selecting tab $tab invokes on change',
     ({ tab }) => {
       const { getAllByTestId } = render(
-        <EarnTabBar activeTab={EarnTabType.OpenPools} onChange={onChange} />
+        <EarnTabBar activeTab={EarnTabType.AllPools} onChange={onChange} />
       )
 
       fireEvent.press(getAllByTestId('Earn/TabBarItem')[tab])
