@@ -2509,8 +2509,8 @@
     },
     "entrypoint": {
       "title": "Verdiene an deinen Stablecoins",
-      "subtitle": "Zahle heute und verdiene Rendite",
-      "description": "Entdecke Pools, um Vermögen zu hinterlegen und Renditen auf deine Stablecoins zu erzielen"
+      "subtitle": "Einzahlen und verdienen",
+      "description": "Verdiene an deinen Stablecoins, wenn du sie über einen Liquiditätspool ausleihst."
     },
     "enterAmount": {
       "earnUpToLabel": "Verdienst von bis zu:",
@@ -2540,6 +2540,7 @@
       "viewPools": "Pools anzeigen",
       "poolsSupplied": "Bereitgestellte Pools",
       "totalSupplied": "Insgesamt bereitgestellt",
+      "depositAndEarnings": "Einzahlung & Verdienst",
       "myPools": "Meine Pools",
       "explore": "Offen erforschen"
     },
