@@ -2203,6 +2203,20 @@
       "description": "Il n'a pas été possible de préparer une transaction pour ce jeton."
     }
   },
+  "jumpstartIntro": {
+    "title": "Partage la crypto comme un texte",
+    "addFundsCelo": {
+      "title": "Obtenir des actifs sur Celo",
+      "info": "Les liens vivants sont un moyen d'envoyer de la crypto sur le réseau Celo à un ami à l'aide d'un lien.\nPour commencer, tu auras besoin de quelques actifs CELO dans ton portefeuille.",
+      "description": "Une fois que tu auras ajouté des actifs sur Celo, tu devras revenir pour créer un lien en direct.",
+      "cta": "Obtenir des actifs sur Celo",
+      "actionDescriptions": {
+        "add": "Achète des actifs sur Celo en utilisant l'un de nos fournisseurs de confiance.",
+        "swap": "Swap dans un actif sur Celo à partir d'un autre actif",
+        "transfer": "Utilise n'importe quel portefeuille ou échange compatible avec Celo pour déposer des actifs sur Celo."
+      }
+    }
+  },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
       "title": "Vous pouvez envoyer jusqu'à {{amountInLocalCurrency,currency}} dans un lien",
@@ -2617,7 +2631,7 @@
     }
   },
   "addFundsActions": {
-    "buy": "Acheter",
+    "add": "Acheter",
     "transfer": "Transférer",
     "swap": "Échange"
   },
