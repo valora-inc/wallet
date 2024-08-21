@@ -38,7 +38,7 @@ describe('InviteModal', () => {
     )
 
     fireEvent.press(getByText('some button label'))
-    fireEvent.press(getByTestId('InviteModalCloseButton'))
+    fireEvent.press(getByTestId('InviteModalContainer/Back'))
 
     expect(onShareInviteSpy).toHaveBeenCalledTimes(1)
     expect(onCloseSpy).toHaveBeenCalledTimes(1)

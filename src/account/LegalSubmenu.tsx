@@ -1,0 +1,59 @@
+import * as React from 'react'
+import { useTranslation } from 'react-i18next'
+import { ScrollView, StyleSheet, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { SettingsItemTextValue } from 'src/components/SettingsItem'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { navigateToURI } from 'src/utils/linking'
+import AppAnalytics from 'src/analytics/AppAnalytics'
+import { SettingsEvents } from 'src/analytics/Events'
+import { PRIVACY_LINK, TOS_LINK } from 'src/config'
+
+const openExternalLink = (link: string) => () => navigateToURI(link)
+
+const onPressContact = () => {
+  navigate(Screens.SupportContact)
+}
+
+const LegalSubmenu = () => {
+  const { t } = useTranslation()
+
+  const goToLicenses = () => {
+    AppAnalytics.track(SettingsEvents.licenses_view)
+    navigate(Screens.Licenses)
+  }
+
+  const onTermsPress = () => {
+    AppAnalytics.track(SettingsEvents.tos_view)
+    navigateToURI(TOS_LINK)
+  }
+
+  return (
+    <SafeAreaView edges={['bottom', 'left', 'right']}>
+      <ScrollView>
+        <SettingsItemTextValue
+          testID="LegalSubmenu/Licenses"
+          title={t('licenses')}
+          onPress={goToLicenses}
+          showChevron
+        />
+        <SettingsItemTextValue
+          testID="LegalSubmenu/Terms"
+          title={t('termsOfServiceLink')}
+          onPress={onTermsPress}
+          isExternalLink
+        />
+        <SettingsItemTextValue
+          testID="LegalSubmenu/Privacy"
+          title={t('privacyPolicy')}
+          onPress={() => navigateToURI(PRIVACY_LINK)}
+          borderless
+          isExternalLink
+        />
+      </ScrollView>
+    </SafeAreaView>
+  )
+}
+
+export default LegalSubmenu
