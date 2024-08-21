@@ -30,9 +30,9 @@ describe('JumpstartAddAssets', () => {
     expect(getByText('jumpstartIntro.addFundsCelo.info')).toBeTruthy()
     expect(getByText('jumpstartIntro.addFundsCelo.cta')).toBeTruthy()
 
-    expect(getByText('earnFlow.addCryptoBottomSheet.actions.transfer')).toBeTruthy()
-    expect(queryByText('earnFlow.addCryptoBottomSheet.actions.swap')).toBeFalsy()
-    expect(getByText('earnFlow.addCryptoBottomSheet.actions.add')).toBeTruthy()
+    expect(getByText('addFundsActionstransfer')).toBeTruthy()
+    expect(queryByText('addFundsActionsswap')).toBeFalsy()
+    expect(getByText('addFundsActionsadd')).toBeTruthy()
   })
 
   it('should trigger the expected callbacks on press actions', async () => {
@@ -48,15 +48,15 @@ describe('JumpstartAddAssets', () => {
       </Provider>
     )
 
-    fireEvent.press(getByText('earnFlow.addCryptoBottomSheet.actions.add'))
+    fireEvent.press(getByText('addFundsActionsadd'))
     expect(navigate).toHaveBeenLastCalledWith('FiatExchangeCurrencyBottomSheet', { flow: 'CashIn' })
 
-    fireEvent.press(getByText('earnFlow.addCryptoBottomSheet.actions.transfer'))
+    fireEvent.press(getByText('addFundsActionstransfer'))
     expect(navigate).toHaveBeenLastCalledWith('ExchangeQR', {
       flow: 'CashIn',
     })
 
-    fireEvent.press(getByText('earnFlow.addCryptoBottomSheet.actions.swap'))
+    fireEvent.press(getByText('addFundsActionsswap'))
     expect(navigate).toHaveBeenLastCalledWith('SwapScreenWithBack')
   })
 })
