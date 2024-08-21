@@ -88,33 +88,15 @@ describe('EarnActivePools', () => {
     expect(getByTestId('EarnActivePools/TotalSupplied')).toContainElement(getByText('₱13.29'))
   })
 
-  it('explore pools navigates to correct tab on earn home page', () => {
-    const { getByText } = render(
+  it('navigates to correct tab on touchable press', () => {
+    const { getByTestId } = render(
       <Provider store={store}>
         <EarnActivePools />
       </Provider>
     )
 
-    fireEvent.press(getByText('earnFlow.activePools.explore'))
-    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_active_pools_cta_press, {
-      action: 'exploreOpenPools',
-    })
-    expect(navigate).toHaveBeenCalledWith(Screens.EarnHome, {
-      activeEarnTab: EarnTabType.OpenPools,
-    })
-  })
-
-  it('my pools navigates to correct tab on earn home page', () => {
-    const { getByText } = render(
-      <Provider store={store}>
-        <EarnActivePools />
-      </Provider>
-    )
-
-    fireEvent.press(getByText('earnFlow.activePools.myPools'))
-    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_active_pools_cta_press, {
-      action: 'myPools',
-    })
+    fireEvent.press(getByTestId('EarnActivePools'))
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_active_pools_card_press)
     expect(navigate).toHaveBeenCalledWith(Screens.EarnHome, { activeEarnTab: EarnTabType.MyPools })
   })
 })
