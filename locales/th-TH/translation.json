@@ -2201,6 +2201,20 @@
       "description": "ไม่สามารถเตรียมธุรกรรมสำหรับโทเค็นนี้ได้"
     }
   },
+  "jumpstartIntro": {
+    "title": "Share crypto like a text",
+    "addFundsCelo": {
+      "title": "Get Assets on Celo",
+      "info": "Live Links are a way to send crypto on the Celo network to a friend with a link.\nTo get started, you’ll need some CELO assets in your wallet.",
+      "description": "Once you’ve added assets on Celo you’ll have to come back to create a Live Link.",
+      "cta": "Get Assets on Celo",
+      "actionDescriptions": {
+        "add": "Buy assets on Celo using one of our trusted providers",
+        "swap": "Swap into an asset on Celo from another asset",
+        "transfer": "Use any Celo compatible wallet or exchange to deposit assets on Celo"
+      }
+    }
+  },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
       "title": "คุณสามารถส่งได้สูงสุด {{amountInLocalCurrency,currency}} ในหนึ่งลิงก์",
@@ -2480,17 +2494,19 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "สร้างรายได้สูงสุดโดยไม่เสียค่าก๊าซ*",
-          "title": "สร้างรายได้สูงสุด",
-          "subtitle": "สร้างรายได้ผ่าน Stablecoin และรับรางวัลเมื่อคุณเข้าร่วมพูล",
+          "title": "Explore and Compare Pools",
+          "subtitle": "Compare earning potential and risks. Swap, buy, or transfer tokens to join the best pool for you.",
           "footnoteSubsidy": "*Valora เป็นผู้รับผิดชอบค่าก๊าซชั่วคราว"
         },
         "manage": {
           "title": "จัดการโดยตรงจาก Valora",
-          "subtitle": "เราจะดูแลการตั้งค่าให้คุณสามารถจัดการสถานะของคุณได้โดยตรงจาก Valora"
+          "titleV1_92": "Manage Directly from {{appName}}",
+          "subtitle": "We'll auto-connect your wallet so you can manage pools without leaving Valora.",
+          "subtitleV1_92": "We'll auto-connect your wallet so you can manage pools without leaving {{appName}}."
         },
         "access": {
           "title": "เข้าถึงเงินทุนของคุณได้ง่ายๆ",
-          "subtitle": "เก็บเงินทุนของคุณได้ง่ายๆ เพียงแตะครั้งเดียว รับการเข้าถึงทันทีอย่างที่ทำได้โดยตรงผ่านโปรโตคอลโปรดของคุณ"
+          "subtitle": "Collect funds with a tap, just like your favorite protocols."
         }
       },
       "action": {
@@ -2505,8 +2521,8 @@
     },
     "entrypoint": {
       "title": "สร้างรายได้ผ่าน Stablecoin",
-      "subtitle": "ฝากเงินแล้วรับผลตอบแทน",
-      "description": "สำรวจพูลเพื่อฝากสินทรัพย์และรับผลตอบแทนจาก Stablecoin ของคุณ"
+      "subtitle": "Deposit and earn",
+      "description": "Earn on your stablecoins when you lend through a liquidity pool"
     },
     "enterAmount": {
       "earnUpToLabel": "คุณสามารถสร้างรายได้สูงถึง:",
@@ -2536,6 +2552,7 @@
       "viewPools": "ดูพูล",
       "poolsSupplied": "พูลที่เข้าร่วม",
       "totalSupplied": "จำนวนทั้งหมดที่เข้าร่วม",
+      "depositAndEarnings": "Deposit & Earnings",
       "myPools": "พูลของฉัน",
       "explore": "สำรวจที่เปิดอยู่"
     },
@@ -2610,6 +2627,11 @@
       "openPools": "พูลที่เปิดอยู่",
       "myPools": "พูลของฉัน"
     }
+  },
+  "addFundsActions": {
+    "add": "ซื้อ",
+    "transfer": "โอน",
+    "swap": "สว็อป"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }

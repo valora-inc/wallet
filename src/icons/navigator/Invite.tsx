@@ -35,7 +35,7 @@ export function Invite({ color }: Props) {
       </G>
       <Defs>
         <ClipPath id="prefix__clip0">
-          <Path d="M0 0h32v32H0V0z" fill="#fff" />
+          <Path d="M0 0h32v32H0V0z" fill={Colors.white} />
         </ClipPath>
       </Defs>
     </Svg>

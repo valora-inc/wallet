@@ -13,7 +13,7 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 const OPTION_HEIGHT = 60
-const MAX_OPTIONS_IN_VIEW = 5
+const MAX_OPTIONS_IN_VIEW = 10.5
 
 export interface MultiSelectBottomSheetProps<T extends string> {
   forwardedRef: React.RefObject<GorhomBottomSheet>

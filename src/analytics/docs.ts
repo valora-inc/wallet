@@ -610,7 +610,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [EarnEvents.earn_withdraw_add_gas_press]: `When the user doesn't have enough for gas and clicks on the button to add gas token`,
   [EarnEvents.earn_info_learn_press]: `When the user taps 'Learn More' on the earn info page`,
   [EarnEvents.earn_info_earn_press]: `When the user taps 'Start Earning' on the earn info page `,
-  [EarnEvents.earn_active_pools_cta_press]: `When the user taps one of the CTAs in the active pools card in the discover tab. The action property denotes the CTA, either myPools or exploreOpenPools`,
+  [EarnEvents.earn_active_pools_card_press]: `When the user taps on the active pool card in discover tab.`,
   [EarnEvents.earn_home_learn_more_press]: `When the user taps 'Learn more' on the earn home screen`,
   [EarnEvents.earn_pool_card_cta_press]: `When the user taps a cta button on the pool card`,
 
@@ -654,4 +654,5 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   // [DappKitEvents.dappkit_request_accept_error]: `when the dapp request fails`,
   // [KeylessBackupEvents.cab_sign_in_with_google]: ``, renamed to cab_sign_in_start when we started supporting Apple sign in
   // [KeylessBackupEvents.cab_sign_in_with_google_success]: ``, renamed to cab_sign_in_success when we started supporting Apple sign in
+  // [EarnEvents.earn_active_pools_cta_press]: `cta buttons on the card were removed and replaced with a single card press event`,
 }

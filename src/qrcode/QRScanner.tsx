@@ -29,7 +29,7 @@ const SeeThroughOverlay = () => {
     <Svg height={height} width={width} viewBox={`0 0 ${width} ${height}`}>
       <Defs>
         <Mask id="mask" x="0" y="0" height="100%" width="100%">
-          <Rect height="100%" width="100%" fill="#fff" />
+          <Rect height="100%" width="100%" fill={colors.white} />
           <Rect
             x={margin}
             y={(height - centerBoxSize) / 2}
@@ -37,11 +37,11 @@ const SeeThroughOverlay = () => {
             ry={centerBoxBorderRadius}
             width={centerBoxSize}
             height={centerBoxSize}
-            fill="#000"
+            fill={colors.black}
           />
         </Mask>
       </Defs>
-      <Rect height="100%" width="100%" fill="rgba(0,0,0,0.5)" mask="url(#mask)" />
+      <Rect height="100%" width="100%" fill={`${colors.black}80`} mask="url(#mask)" />
     </Svg>
   )
 }

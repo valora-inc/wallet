@@ -113,7 +113,7 @@ export default function QRCodeDisplay(props: Props) {
           },
         ]}
       >
-        {exchanges ? (
+        {exchanges && exchanges.length > 0 ? (
           <>
             <Text style={styles.exchangeText}>
               <Trans i18nKey="fiatExchangeFlow.exchange.informationText">

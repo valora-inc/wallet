@@ -28,10 +28,6 @@ export enum Colors {
   goldBrand = '#FBCC5C',
   /** @deprecated */
   onboardingBrownLight = '#A49B80',
-  /** @deprecated */
-  accent1 = '#CAF27A',
-  /** @deprecated */
-  accent2 = '#FFD62C',
 }
 
 export default Colors

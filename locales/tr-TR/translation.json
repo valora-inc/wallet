@@ -2203,6 +2203,20 @@
       "description": "Bu token için bir işlem hazırlanamadı."
     }
   },
+  "jumpstartIntro": {
+    "title": "Kriptoyu bir metin gibi paylaşın",
+    "addFundsCelo": {
+      "title": "Celo'daki Varlıkları Alın",
+      "info": "Canlı Bağlantılar, Celo ağındaki kriptoyu bir bağlantı ile bir arkadaşınıza göndermenin bir yoludur.\nBaşlamak için cüzdanınızda biraz CELO varlığına ihtiyacınız olacak.",
+      "description": "Celo'ya varlık ekledikten sonra Canlı Bağlantı oluşturmak için geri gelmeniz gerekecektir.",
+      "cta": "Celo'daki Varlıkları Alın",
+      "actionDescriptions": {
+        "add": "Güvenilir sağlayıcılarımızdan birini kullanarak Celo'da varlık satın alın",
+        "swap": "Celo'daki bir varlığı başka bir varlıkla takas etme",
+        "transfer": "Celo'ya varlık yatırmak için Celo uyumlu herhangi bir cüzdan veya borsa kullanın"
+      }
+    }
+  },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
       "title": "Bir bağlantıda en fazla {{amountInLocalCurrency,currency}} gönderebilirsiniz",
@@ -2482,17 +2496,19 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "Gas Ücretleri Olmadan Kazancınızı En Üst Düzeye Çıkarın*",
-          "title": "Kazançları En Üst Düzeye Çıkarın",
-          "subtitle": "Sabit coinlerinizden kazanın ve bir havuz sağladığınızda ödüller kazanın.",
+          "title": "Havuzları Keşfedin ve Karşılaştırın",
+          "subtitle": "Kazanç potansiyelini ve riskleri karşılaştırın. Size en uygun havuza katılmak için tokenları takas edin, satın alın veya transfer edin.",
           "footnoteSubsidy": "*Gas ücretleri geçici olarak Valora tarafından karşılanmaktadır"
         },
         "manage": {
           "title": "Doğrudan Valora'dan Yönetin",
-          "subtitle": "Pozisyonunuzu doğrudan Valora'dan yönetebilmeniz için kurulumla biz ilgileneceğiz."
+          "titleV1_92": "Doğrudan {{appName}}adresinden yönetin",
+          "subtitle": "Valora'dan ayrılmadan havuzları yönetebilmeniz için cüzdanınızı otomatik olarak bağlayacağız.",
+          "subtitleV1_92": "Cüzdanınızı otomatik olarak bağlayacağız, böylece {{appName}}adresinden ayrılmadan havuzları yönetebilirsiniz."
         },
         "access": {
           "title": "Fonlarınıza Kolayca Erişin",
-          "subtitle": "Tek bir dokunuşla fonlarınızı zahmetsizce toplayın. Doğrudan favori protokolleriniz aracılığıyla yaptığınızla aynı şekilde anında erişimin keyfini çıkarın."
+          "subtitle": "Tıpkı favori protokolleriniz gibi bir dokunuşla para toplayın."
         }
       },
       "action": {
@@ -2507,8 +2523,8 @@
     },
     "entrypoint": {
       "title": "Sabit coinlerinizden kazanın",
-      "subtitle": "Para yatırın ve getiri kazanın",
-      "description": "Varlık yatırmak ve sabit coinlerinizden getiri elde etmek için havuzları keşfedin"
+      "subtitle": "Para yatırın ve kazanın",
+      "description": "Bir likidite havuzu aracılığıyla borç verdiğinizde stablecoinlerinizden kazanın"
     },
     "enterAmount": {
       "earnUpToLabel": "Şu kadar kazanabilirsiniz:",
@@ -2538,6 +2554,7 @@
       "viewPools": "Havuzları Görüntüle",
       "poolsSupplied": "Para yatırılan havuzlar",
       "totalSupplied": "Yatırılan toplam",
+      "depositAndEarnings": "Mevduat ve Kazançlar",
       "myPools": "Havuzlarım",
       "explore": "Açık Havuzları Keşfet"
     },
@@ -2612,6 +2629,11 @@
       "openPools": "Açık Havuzlar",
       "myPools": "Havuzlarım"
     }
+  },
+  "addFundsActions": {
+    "add": "Satın Al",
+    "transfer": "Transfer Et",
+    "swap": "Swap"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
