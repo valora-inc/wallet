@@ -2203,6 +2203,20 @@
       "description": "Não foi possível preparar uma transação para esse token."
     }
   },
+  "jumpstartIntro": {
+    "title": "Compartilhe criptografia como um texto",
+    "addFundsCelo": {
+      "title": "Obter ativos na Celo",
+      "info": "Os Live Links são uma forma de você enviar criptografia na rede Celo para um amigo por meio de um link.\nPara começar, você precisará de alguns ativos da CELO em sua carteira.",
+      "description": "Depois de adicionar ativos no Celo, você terá que voltar para criar um Live Link.",
+      "cta": "Obter ativos na Celo",
+      "actionDescriptions": {
+        "add": "Compre ativos na Celo usando um de nossos provedores confiáveis",
+        "swap": "Troca de um ativo na Celo por outro ativo",
+        "transfer": "Use qualquer carteira ou bolsa compatível com a Celo para depositar ativos na Celo"
+      }
+    }
+  },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
       "title": "Você pode enviar até {{amountInLocalCurrency,currency}} em um link",
@@ -2617,7 +2631,7 @@
     }
   },
   "addFundsActions": {
-    "buy": "Comprar",
+    "add": "Comprar",
     "transfer": "Transferir",
     "swap": "Trocar"
   },
