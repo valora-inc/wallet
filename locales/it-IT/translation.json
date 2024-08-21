@@ -2203,6 +2203,20 @@
       "description": "Non è stato possibile preparare una transazione per questo token."
     }
   },
+  "jumpstartIntro": {
+    "title": "Condividi le criptovalute come un testo",
+    "addFundsCelo": {
+      "title": "Ottieni risorse su Celo",
+      "info": "I link live sono un modo per inviare criptovalute sulla rete Celo a un amico con un link.\nPer iniziare, devi avere delle attività CELO nel tuo portafoglio.",
+      "description": "Una volta aggiunti gli asset su Celo, dovrai tornare per creare un Live Link.",
+      "cta": "Ottieni risorse su Celo",
+      "actionDescriptions": {
+        "add": "Acquista beni su Celo utilizzando uno dei nostri fornitori di fiducia",
+        "swap": "Scambia un'attività su Celo con un'altra attività",
+        "transfer": "Utilizza un qualsiasi portafoglio o exchange compatibile con Celo per depositare attività su Celo"
+      }
+    }
+  },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
       "title": "Puoi inviare fino a {{amountInLocalCurrency,currency}} in un link",
@@ -2617,7 +2631,7 @@
     }
   },
   "addFundsActions": {
-    "buy": "Acquista",
+    "add": "Acquista",
     "transfer": "Trasferisci",
     "swap": "Scambio"
   },
