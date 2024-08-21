@@ -2509,8 +2509,8 @@
     },
     "entrypoint": {
       "title": "Gagnez de l'argent sur vos stablecoins",
-      "subtitle": "Déposez des fonds et profitez d'un retour sur investissement",
-      "description": "Découvrez les pools où déposer des actifs et profiter d'un bon rendement sur vos stablecoins"
+      "subtitle": "Dépose et gagne",
+      "description": "Gagne sur tes stablecoins lorsque tu prêtes par l'intermédiaire d'un pool de liquidités."
     },
     "enterAmount": {
       "earnUpToLabel": "Vous pourriez gagner jusqu'à :",
@@ -2540,6 +2540,7 @@
       "viewPools": "Voir les pools",
       "poolsSupplied": "Pools proposés",
       "totalSupplied": "Total fourni",
+      "depositAndEarnings": "Dépôt et gains",
       "myPools": "Mes pools",
       "explore": "Découvrir Open"
     },
