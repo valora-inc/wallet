@@ -2509,8 +2509,8 @@
     },
     "entrypoint": {
       "title": "Ganhe com suas stablecoins",
-      "subtitle": "Deposite e obtenha retornos",
-      "description": "Explore pools para depositar ativos e obter retornos sobre suas stablecoins"
+      "subtitle": "Deposite e ganhe",
+      "description": "Ganhe em suas stablecoins quando você emprestar por meio de um pool de liquidez"
     },
     "enterAmount": {
       "earnUpToLabel": "Você pode ganhar até:",
@@ -2540,6 +2540,7 @@
       "viewPools": "Ver pools",
       "poolsSupplied": "Pools fornecidos",
       "totalSupplied": "Total fornecido",
+      "depositAndEarnings": "Depósitos e ganhos",
       "myPools": "Meus pools",
       "explore": "Explorar abertos"
     },
