@@ -2617,5 +2617,10 @@
       "openPools": "Open Pools",
       "myPools": "My Pools"
     }
+  },
+  "addFundsActions": {
+    "buy": "Buy",
+    "transfer": "Transfer",
+    "swap": "Swap"
   }
 }

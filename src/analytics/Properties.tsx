@@ -51,6 +51,7 @@ import {
   WalletConnectPairingOrigin,
 } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { AddAssetsActionType } from 'src/components/AddAssetsBottomSheet'
 import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import { DappSection } from 'src/dapps/types'
 import { SerializableRewardsInfo } from 'src/earn/types'
@@ -1590,7 +1591,7 @@ interface EarnEventsProperties {
   [EarnEvents.earn_cta_press]: EarnCommonProperties
   [EarnEvents.earn_entrypoint_press]: undefined
   [EarnEvents.earn_add_crypto_action_press]: {
-    action: TokenActionName
+    action: AddAssetsActionType
   } & TokenProperties
   [EarnEvents.earn_deposit_provider_info_press]: EarnDepositProperties
   [EarnEvents.earn_deposit_terms_and_conditions_press]: EarnDepositProperties
