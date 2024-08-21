@@ -221,7 +221,6 @@ function VerificationStartScreen({
         </Text>
         <Text style={styles.body}>{t('phoneVerificationScreen.description')}</Text>
         <PhoneNumberInput
-          label={t('phoneNumber')}
           style={styles.phoneNumber}
           country={country}
           internationalPhoneNumber={phoneNumberInfo.internationalPhoneNumber}

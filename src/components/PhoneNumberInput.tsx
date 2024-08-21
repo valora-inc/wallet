@@ -30,7 +30,7 @@ async function requestPhoneNumber() {
 }
 
 interface Props {
-  label: string
+  label?: string
   countryFlagStyle?: StyleProp<ViewStyle>
   style?: StyleProp<ViewStyle>
   country: LocalizedCountry | undefined
@@ -139,7 +139,6 @@ const styles = StyleSheet.create({
   container: {},
   phoneNumberContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
     alignItems: 'center',
   },
   countryCodeContainer: {
