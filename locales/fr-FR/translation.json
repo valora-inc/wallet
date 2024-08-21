@@ -1988,11 +1988,11 @@
     "subtitle": "Que voulez-vous faire en premier ?",
     "later": "Je vais découvrir plus tard",
     "options": {
-      "add": "Ajouter des fonds à votre portefeuille",
+      "add": "Ajoutez des fonds à votre portefeuille",
       "dapp": "Explorez les moyens d'utiliser mes crypto",
       "earn": "Explorez les opportunités de gains",
       "profile": "Créez votre profil",
-      "learn": "En savoir plus sur Celo",
+      "learn": "Apprenez-en plus sur Celo",
       "learnPoints": "Apprenez-en plus sur les points {{appName}}"
     }
   },
@@ -2489,12 +2489,12 @@
         "manage": {
           "title": "Gérez vos transat directement sur Valora",
           "titleV1_92": "Gérez vos transat directement sur {{appName}}",
-          "subtitle": "Nous connecterons automatiquement ton portefeuille pour que tu puisses gérer les piscines sans quitter Valora.",
-          "subtitleV1_92": "Nous connecterons automatiquement ton portefeuille pour que tu puisses gérer les piscines sans quitter {{appName}}."
+          "subtitle": "Nous connecterons votre portefeuille afin que vous puissiez gérer les pools sans quitter Valora.",
+          "subtitleV1_92": "Nous connecterons votre portefeuille afin que vous puissiez gérer les pools sans quitter {{appName}}."
         },
         "access": {
           "title": "Accédez facilement à vos fonds",
-          "subtitle": "Collecte des fonds d'une simple tape, tout comme tes protocoles préférés."
+          "subtitle": "Collectez des fonds en un clic, tout comme vos protocoles favoris."
         }
       },
       "action": {
@@ -2509,8 +2509,8 @@
     },
     "entrypoint": {
       "title": "Gagnez de l'argent sur vos stablecoins",
-      "subtitle": "Dépose et gagne",
-      "description": "Gagne sur tes stablecoins lorsque tu prêtes par l'intermédiaire d'un pool de liquidités."
+      "subtitle": "Déposez et gagnez",
+      "description": "Gagnez sur vos stablecoins via un pool de liquidité."
     },
     "enterAmount": {
       "earnUpToLabel": "Vous pourriez gagner jusqu'à :",
