@@ -9,16 +9,20 @@ import colors from 'src/styles/colors'
 interface Props {
   style?: ViewStyle
   size?: number
+  thumbnailPath?: string
 }
 
 // A contact circle for the wallet user themselves
-export default function ContactCircleSelf({ style, size }: Props) {
+export default function ContactCircleSelf({ style, size, thumbnailPath }: Props) {
   const recipient: Recipient = useSelector(currentUserRecipientSelector)
 
   return (
     <ContactCircle
       style={style}
-      recipient={recipient}
+      recipient={{
+        ...recipient,
+        thumbnailPath: thumbnailPath ?? recipient.thumbnailPath,
+      }}
       size={size}
       backgroundColor={colors.gray1}
       borderColor={colors.gray2}
