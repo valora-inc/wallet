@@ -2203,6 +2203,20 @@
       "description": "Bu token için bir işlem hazırlanamadı."
     }
   },
+  "jumpstartIntro": {
+    "title": "Kriptoyu bir metin gibi paylaşın",
+    "addFundsCelo": {
+      "title": "Celo'daki Varlıkları Alın",
+      "info": "Canlı Bağlantılar, Celo ağındaki kriptoyu bir bağlantı ile bir arkadaşınıza göndermenin bir yoludur.\nBaşlamak için cüzdanınızda biraz CELO varlığına ihtiyacınız olacak.",
+      "description": "Celo'ya varlık ekledikten sonra Canlı Bağlantı oluşturmak için geri gelmeniz gerekecektir.",
+      "cta": "Celo'daki Varlıkları Alın",
+      "actionDescriptions": {
+        "add": "Güvenilir sağlayıcılarımızdan birini kullanarak Celo'da varlık satın alın",
+        "swap": "Celo'daki bir varlığı başka bir varlıkla takas etme",
+        "transfer": "Celo'ya varlık yatırmak için Celo uyumlu herhangi bir cüzdan veya borsa kullanın"
+      }
+    }
+  },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
       "title": "Bir bağlantıda en fazla {{amountInLocalCurrency,currency}} gönderebilirsiniz",
@@ -2617,7 +2631,7 @@
     }
   },
   "addFundsActions": {
-    "buy": "Satın Al",
+    "add": "Satın Al",
     "transfer": "Transfer Et",
     "swap": "Swap"
   },
