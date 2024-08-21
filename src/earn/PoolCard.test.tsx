@@ -38,7 +38,7 @@ const AAVE_EARN_POSITION: EarnPosition = {
       },
     ],
     earningItems: [],
-    tvl: 1360000,
+    tvl: '1360000',
     depositTokenId: mockArbUsdcTokenId,
     withdrawTokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
   },

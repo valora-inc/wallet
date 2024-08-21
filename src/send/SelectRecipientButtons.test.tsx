@@ -3,8 +3,8 @@ import * as React from 'react'
 import { Platform } from 'react-native'
 import { RESULTS, check, request } from 'react-native-permissions'
 import { Provider } from 'react-redux'
-import { JumpstartEvents, SendEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { JumpstartEvents, SendEvents } from 'src/analytics/Events'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import SelectRecipientButtons from 'src/send/SelectRecipientButtons'
@@ -39,14 +39,6 @@ describe('SelectRecipientButtons', () => {
     jest
       .mocked(getFeatureGate)
       .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_JUMPSTART_SEND)
-    jest.mocked(getDynamicConfigParams).mockReturnValue({
-      showBalances: ['celo-alfajores'],
-      jumpstartContracts: {
-        'celo-alfajores': {
-          contractAddress: '0x123',
-        },
-      },
-    })
     const { getByText, findByTestId } = renderComponent()
 
     expect(await findByTestId('SelectRecipient/QR')).toBeTruthy()

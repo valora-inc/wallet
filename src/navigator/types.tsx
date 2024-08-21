@@ -95,7 +95,7 @@ export type StackParamList = {
   }
   [Screens.ExchangeQR]: {
     flow: CICOFlow
-    exchanges: ExternalExchangeProvider[]
+    exchanges?: ExternalExchangeProvider[]
   }
   [Screens.FiatExchangeAmount]: {
     tokenId: string
@@ -107,6 +107,7 @@ export type StackParamList = {
   }
   [Screens.FiatExchangeCurrencyBottomSheet]: {
     flow: FiatExchangeFlow
+    networkId?: NetworkId
   }
   [Screens.FiatConnectLinkAccount]: {
     quote: FiatConnectQuote
@@ -272,6 +273,7 @@ export type StackParamList = {
     | {
         fromTokenId?: string
         toTokenId?: string
+        toTokenNetworkId?: NetworkId
       }
     | undefined
   [Screens.TabDiscover]: {} | undefined

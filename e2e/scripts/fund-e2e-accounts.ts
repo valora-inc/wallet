@@ -2,13 +2,14 @@ import { Mento } from '@mento-protocol/mento-sdk'
 import dotenv from 'dotenv'
 // Would be nice to use viem, but mento is using ethers
 import { Contract, providers, utils, Wallet } from 'ethers'
+import { Address } from 'viem'
 import {
   E2E_TEST_FAUCET,
   E2E_TEST_WALLET,
   E2E_TEST_WALLET_SECURE_SEND,
   REFILL_TOKENS,
 } from './consts'
-import { checkBalance, getBalance } from './utils'
+import { checkBalance, getCeloTokensBalance } from './utils'
 
 const provider = new providers.JsonRpcProvider('https://alfajores-forno.celo-testnet.org')
 
@@ -44,14 +45,14 @@ const TOKENS_BY_SYMBOL: Record<string, Token> = {
 }
 
 ;(async () => {
-  const walletsToBeFunded = [E2E_TEST_WALLET, E2E_TEST_WALLET_SECURE_SEND]
-  const walletBalances = await Promise.all(walletsToBeFunded.map(getBalance))
+  const walletsToBeFunded: Address[] = [E2E_TEST_WALLET, E2E_TEST_WALLET_SECURE_SEND]
+  const walletBalances = await Promise.all(walletsToBeFunded.map(getCeloTokensBalance))
   for (let i = 0; i < walletsToBeFunded.length; i++) {
     console.log(`Initial balance for ${walletsToBeFunded[i]}:`)
     console.table(walletBalances[i])
   }
 
-  const faucetTokenBalances = (await getBalance(E2E_TEST_FAUCET)) ?? {}
+  const faucetTokenBalances = (await getCeloTokensBalance(E2E_TEST_FAUCET)) ?? {}
   console.log('Initial faucet balance:')
   console.table(faucetTokenBalances)
 
@@ -232,11 +233,11 @@ const TOKENS_BY_SYMBOL: Record<string, Token> = {
 
   // Log Balances
   console.log('E2E Test Account:', E2E_TEST_WALLET)
-  console.table(await getBalance(E2E_TEST_WALLET))
+  console.table(await getCeloTokensBalance(E2E_TEST_WALLET))
   console.log('E2E Test Account Secure Send:', E2E_TEST_WALLET_SECURE_SEND)
-  console.table(await getBalance(E2E_TEST_WALLET_SECURE_SEND))
+  console.table(await getCeloTokensBalance(E2E_TEST_WALLET_SECURE_SEND))
   console.log('Valora Test Faucet:', E2E_TEST_FAUCET)
-  console.table(await getBalance(E2E_TEST_FAUCET))
+  console.table(await getCeloTokensBalance(E2E_TEST_FAUCET))
 
   await checkBalance(E2E_TEST_WALLET)
   await checkBalance(E2E_TEST_WALLET_SECURE_SEND)

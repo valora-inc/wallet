@@ -1988,12 +1988,12 @@
     "subtitle": "¿Qué te gustaría hacer primero?",
     "later": "Exploraré más tarde",
     "options": {
-      "add": "Agrega fondos a tu wallet",
-      "dapp": "Hacer más con mis cripto",
-      "earn": "Explora las oportunidades de ganar dinero",
+      "add": "Agregar fondos a tu wallet",
+      "dapp": "Aprender más sobre cripto",
+      "earn": "Explorar oportunidades de rendimiento",
       "profile": "Crear mi perfil",
       "learn": "Aprender sobre Celo",
-      "learnPoints": "Infórmate sobre {{appName}} Puntos"
+      "learnPoints": "Aprender sobre los puntos {{appName}}"
     }
   },
   "reverifyUsingCPVHomecard": {
@@ -2201,6 +2201,20 @@
     "prepareTransactionError": {
       "title": "Algo salió mal!",
       "description": "No fue posible preparar una transacción para este token."
+    }
+  },
+  "jumpstartIntro": {
+    "title": "Comparte cripto como si fuera un texto",
+    "addFundsCelo": {
+      "title": "Conseguir Activos en Celo",
+      "info": "Los Enlaces Vivos son una forma de enviar criptomonedas en la red Celo a un amigo con un enlace.\nPara empezar, necesitarás algunos activos CELO en tu cartera.",
+      "description": "Una vez que hayas añadido activos en Celo, tendrás que volver para crear un Enlace Directo.",
+      "cta": "Conseguir Activos en Celo",
+      "actionDescriptions": {
+        "add": "Compra activos en Celo utilizando uno de nuestros proveedores de confianza",
+        "swap": "Cambiar a un activo en Celo desde otro activo",
+        "transfer": "Utiliza cualquier monedero o bolsa compatible con Celo para depositar activos en Celo"
+      }
     }
   },
   "jumpstartEnterAmountScreen": {
@@ -2441,7 +2455,7 @@
       }
     },
     "discoverCard": {
-      "title": "Puntos de {{appName}}",
+      "title": "Puntos {{appName}}",
       "description": "Gana puntos fácilmente con {{appName}}. ¡Solo tienes que usar la app!",
       "balance": "{{pointsBalance}} puntos"
     },
@@ -2482,17 +2496,19 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "Maximiza tus ganancias sin tarifas*",
-          "title": "Maximiza tus ganancias",
-          "subtitle": "Gana con tus stablecoins y obtén recompensas por participar en una pool.",
+          "title": "Explorar y comparar pools",
+          "subtitle": "Compara el potencial de ganancias y los riesgos. Intercambia, compra o transfiere tokens para unirte a la mejor pool.",
           "footnoteSubsidy": "*Por ahora, Valora cubrirá las tarifas de transacción."
         },
         "manage": {
           "title": "Gestiona tus ganancias directamente en Valora",
-          "subtitle": "Nos encargamos de todo para darte más facilidad."
+          "titleV1_92": "Gestiona directamente desde {{appName}}",
+          "subtitle": "Conectaremos tu wallet para que puedas gestionar las pools sin salir de Valora.",
+          "subtitleV1_92": "Conectaremos tu wallet para que puedas gestionar las pools sin salir de {{appName}}."
         },
         "access": {
           "title": "Accede fácilmente a tus fondos",
-          "subtitle": "Recibe tus fondos con un solo toque. Disfruta del mismo acceso instantáneo que tendrías directamente a través de tus protocolos favoritos."
+          "subtitle": "Recupera los fondos en un toque, igual que en tus protocolos favoritos."
         }
       },
       "action": {
@@ -2507,8 +2523,8 @@
     },
     "entrypoint": {
       "title": "Gana con tus stablecoins",
-      "subtitle": "Deposita y obtén rendimientos",
-      "description": "Explora las pools para depositar activos y obtener rendimientos sobre tus stablecoins"
+      "subtitle": "Deposita y gana",
+      "description": "Gana sobre tus stablecoins en pools de liquidez."
     },
     "enterAmount": {
       "earnUpToLabel": "Podrías ganar hasta:",
@@ -2538,6 +2554,7 @@
       "viewPools": "Ver Pools",
       "poolsSupplied": "Pools activas",
       "totalSupplied": "Total depositado",
+      "depositAndEarnings": "Depósitos y ganancias",
       "myPools": "Mis pools",
       "explore": "Explorar opciones"
     },
@@ -2612,6 +2629,11 @@
       "openPools": "Pools activos",
       "myPools": "Mis pools"
     }
+  },
+  "addFundsActions": {
+    "add": "Comprar",
+    "transfer": "Transferir",
+    "swap": "Cambio"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

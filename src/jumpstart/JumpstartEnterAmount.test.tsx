@@ -2,8 +2,8 @@ import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { JumpstartEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { JumpstartEvents } from 'src/analytics/Events'
 import { createJumpstartLink } from 'src/firebase/dynamicLinks'
 import JumpstartEnterAmount from 'src/jumpstart/JumpstartEnterAmount'
 import { depositTransactionFlowStarted } from 'src/jumpstart/slice'
@@ -233,5 +233,21 @@ describe('JumpstartEnterAmount', () => {
     await waitFor(() => expect(executeSpy).toHaveBeenCalledTimes(2))
     // review button should remain disabled
     expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
+  })
+
+  it('should render the add assets flow if the user has no jumpstart tokens', () => {
+    const { getByText } = render(
+      <Provider
+        store={createMockStore({
+          tokens: {
+            tokenBalances: {},
+          },
+        })}
+      >
+        <JumpstartEnterAmount />
+      </Provider>
+    )
+
+    expect(getByText('jumpstartIntro.title')).toBeTruthy()
   })
 })

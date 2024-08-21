@@ -12,7 +12,10 @@ import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 
-export default function useFilterChip(selectingField: Field | null): FilterChip<TokenBalance>[] {
+export default function useFilterChip(
+  selectingField: Field | null,
+  preselectedNetworkId?: NetworkId
+): FilterChip<TokenBalance>[] {
   const { t } = useTranslation()
   const showSwapTokenFilters = getFeatureGate(StatsigFeatureGates.SHOW_SWAP_TOKEN_FILTERS)
   const recentlySwappedTokens = useSelector(lastSwappedSelector)
@@ -51,9 +54,9 @@ export default function useFilterChip(selectingField: Field | null): FilterChip<
       filterFn: (token: TokenBalance, selected?: NetworkId[]) => {
         return !!selected && selected.includes(token.networkId)
       },
-      isSelected: false,
+      isSelected: !!preselectedNetworkId,
       allNetworkIds: supportedNetworkIds,
-      selectedNetworkIds: supportedNetworkIds,
+      selectedNetworkIds: preselectedNetworkId ? [preselectedNetworkId] : supportedNetworkIds,
     },
   ]
 }
