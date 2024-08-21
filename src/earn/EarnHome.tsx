@@ -76,7 +76,7 @@ export default function EarnHome({ navigation, route }: Props) {
   const filterChipsCarouselRef = useRef<ScrollView>(null)
   const pools = useSelector(earnPositionsSelector)
 
-  const activeTab = route.params?.activeEarnTab ?? EarnTabType.OpenPools
+  const activeTab = route.params?.activeEarnTab ?? EarnTabType.AllPools
 
   const insets = useSafeAreaInsets()
 

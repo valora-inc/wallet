@@ -129,13 +129,13 @@ describe('EarnHome', () => {
       )
   })
 
-  it('renders open pools correctly', () => {
+  it('renders all pools correctly', () => {
     const { getByTestId, queryAllByTestId } = render(
       <Provider store={getStore()}>
         <MockedNavigator
           component={EarnHome}
           params={{
-            activeEarnTab: EarnTabType.OpenPools,
+            activeEarnTab: EarnTabType.AllPools,
           }}
         />
       </Provider>
@@ -160,7 +160,7 @@ describe('EarnHome', () => {
         <MockedNavigator
           component={EarnHome}
           params={{
-            activeEarnTab: EarnTabType.OpenPools,
+            activeEarnTab: EarnTabType.AllPools,
           }}
         />
       </Provider>
@@ -186,7 +186,7 @@ describe('EarnHome', () => {
         <MockedNavigator
           component={EarnHome}
           params={{
-            activeEarnTab: EarnTabType.OpenPools,
+            activeEarnTab: EarnTabType.AllPools,
           }}
         />
       </Provider>
@@ -205,7 +205,7 @@ describe('EarnHome', () => {
         <MockedNavigator
           component={EarnHome}
           params={{
-            activeEarnTab: EarnTabType.OpenPools,
+            activeEarnTab: EarnTabType.AllPools,
           }}
         />
       </Provider>
@@ -235,7 +235,7 @@ describe('EarnHome', () => {
         <MockedNavigator
           component={EarnHome}
           params={{
-            activeEarnTab: EarnTabType.OpenPools,
+            activeEarnTab: EarnTabType.AllPools,
           }}
         />
       </Provider>
