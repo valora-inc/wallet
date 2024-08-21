@@ -171,13 +171,16 @@ describe('EarnHome', () => {
       queryByTestId('PoolCard/arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216')
     ).toBeTruthy()
     expect(
-      getByTestId('PoolCard/arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216')
+      getByTestId('PoolCard/ethereum-sepolia:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8')
     ).toBeTruthy()
     fireEvent.press(getByText('earnFlow.poolFilters.myPools'))
     // My Pools
     expect(
       getByTestId('PoolCard/arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216')
     ).toBeTruthy()
+    expect(
+      queryByTestId('PoolCard/ethereum-sepolia:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8')
+    ).toBeFalsy()
   })
 
   it('correctly shows correct networks, tokens under filters', () => {
