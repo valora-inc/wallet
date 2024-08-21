@@ -2614,5 +2614,10 @@
       "myPools": "我的池"
     }
   },
+  "addFundsActions": {
+    "buy": "买入",
+    "transfer": "转账",
+    "swap": "交换"
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
