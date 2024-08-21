@@ -1988,12 +1988,12 @@
     "subtitle": "¿Qué te gustaría hacer primero?",
     "later": "Exploraré más tarde",
     "options": {
-      "add": "Agrega fondos a tu wallet",
-      "dapp": "Hacer más con mis cripto",
-      "earn": "Explora las oportunidades de ganar dinero",
+      "add": "Agregar fondos a tu wallet",
+      "dapp": "Aprender más sobre cripto",
+      "earn": "Explorar oportunidades de rendimiento",
       "profile": "Crear mi perfil",
       "learn": "Aprender sobre Celo",
-      "learnPoints": "Infórmate sobre {{appName}} Puntos"
+      "learnPoints": "Aprender sobre los puntos {{appName}}"
     }
   },
   "reverifyUsingCPVHomecard": {
@@ -2441,7 +2441,7 @@
       }
     },
     "discoverCard": {
-      "title": "Puntos de {{appName}}",
+      "title": "Puntos {{appName}}",
       "description": "Gana puntos fácilmente con {{appName}}. ¡Solo tienes que usar la app!",
       "balance": "{{pointsBalance}} puntos"
     },
@@ -2482,19 +2482,19 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "Maximiza tus ganancias sin tarifas*",
-          "title": "Explorar y comparar piscinas",
-          "subtitle": "Compara el potencial de ganancias y los riesgos. Intercambia, compra o transfiere fichas para unirte a la mejor agrupación para ti.",
+          "title": "Explorar y comparar pools",
+          "subtitle": "Compara el potencial de ganancias y los riesgos. Intercambia, compra o transfiere tokens para unirte a la mejor pool.",
           "footnoteSubsidy": "*Por ahora, Valora cubrirá las tarifas de transacción."
         },
         "manage": {
           "title": "Gestiona tus ganancias directamente en Valora",
           "titleV1_92": "Gestiona directamente desde {{appName}}",
-          "subtitle": "Conectaremos automáticamente tu monedero para que puedas gestionar las piscinas sin salir de Valora.",
-          "subtitleV1_92": "Conectaremos automáticamente tu monedero para que puedas gestionar las piscinas sin salir de {{appName}}."
+          "subtitle": "Conectaremos tu wallet para que puedas gestionar las pools sin salir de Valora.",
+          "subtitleV1_92": "Conectaremos tu wallet para que puedas gestionar las pools sin salir de {{appName}}."
         },
         "access": {
           "title": "Accede fácilmente a tus fondos",
-          "subtitle": "Recoge fondos con un toque, igual que tus protocolos favoritos."
+          "subtitle": "Recupera los fondos en un toque, igual que en tus protocolos favoritos."
         }
       },
       "action": {
@@ -2510,7 +2510,7 @@
     "entrypoint": {
       "title": "Gana con tus stablecoins",
       "subtitle": "Deposita y gana",
-      "description": "Gana sobre tus stablecoins cuando prestes a través de un fondo de liquidez"
+      "description": "Gana sobre tus stablecoins en pools de liquidez."
     },
     "enterAmount": {
       "earnUpToLabel": "Podrías ganar hasta:",
@@ -2540,7 +2540,7 @@
       "viewPools": "Ver Pools",
       "poolsSupplied": "Pools activas",
       "totalSupplied": "Total depositado",
-      "depositAndEarnings": "Depósito y ganancias",
+      "depositAndEarnings": "Depósitos y ganancias",
       "myPools": "Mis pools",
       "explore": "Explorar opciones"
     },
