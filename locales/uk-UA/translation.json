@@ -2621,13 +2621,16 @@
     "poolCard": {
       "onNetwork": "у мережі {{networkName}}",
       "rate": "Ставка (орієнт.)",
+      "yieldRate": "Ставка дохідності (ест.)",
       "reward": "Винагорода",
       "tvl": "TVL",
       "exitPool": "Вийти з пулу",
       "addToPool": "Додати до пулу",
       "apy": "{{apy}}% APY",
+      "percentage": "{{percentage}}%",
       "poweredBy": "За підтримки {{providerName}}",
-      "deposited": "Надано"
+      "deposited": "Надано",
+      "depositAndEarnings": "Депозит та заробіток"
     },
     "poolFilters": {
       "openPools": "Відкриті пули",
