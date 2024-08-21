@@ -119,7 +119,7 @@ e2e/test-results/*
 secrets.json
 !__mocks__/secrets.json
 
+ios/.xcode.env
+
 # Temporary files created by Metro to check the health of the file watcher
 .metro-health-check*
-
-ios/.xcode.env
