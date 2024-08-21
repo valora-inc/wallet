@@ -238,7 +238,7 @@ export default function EarnHome({ navigation, route }: Props) {
     return pools.filter((pool) => {
       const depositTokenInfo = allTokens[pool.dataProps.depositTokenId]
       const isMyPool = new BigNumber(pool.balance).gt(0) && !!depositTokenInfo
-      return activeTab === EarnTabType.MyPools ? isMyPool : !isMyPool
+      return activeTab === EarnTabType.MyPools ? isMyPool : pools
     })
   }, [pools, allTokens, activeTab])
 

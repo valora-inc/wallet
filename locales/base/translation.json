@@ -2614,7 +2614,8 @@
     },
     "poolFilters": {
       "openPools": "Open Pools",
-      "myPools": "My Pools"
+      "myPools": "My Pools",
+      "allPools": "All Pools"
     }
   }
 }
