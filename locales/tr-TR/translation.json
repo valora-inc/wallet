@@ -2616,6 +2616,11 @@
       "myPools": "Havuzlarım"
     }
   },
+  "addFundsActions": {
+    "buy": "Satın Al",
+    "transfer": "Transfer Et",
+    "swap": "Swap"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
