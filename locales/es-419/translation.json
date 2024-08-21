@@ -2203,6 +2203,20 @@
       "description": "No fue posible preparar una transacción para este token."
     }
   },
+  "jumpstartIntro": {
+    "title": "Comparte cripto como si fuera un texto",
+    "addFundsCelo": {
+      "title": "Conseguir Activos en Celo",
+      "info": "Los Enlaces Vivos son una forma de enviar criptomonedas en la red Celo a un amigo con un enlace.\nPara empezar, necesitarás algunos activos CELO en tu cartera.",
+      "description": "Una vez que hayas añadido activos en Celo, tendrás que volver para crear un Enlace Directo.",
+      "cta": "Conseguir Activos en Celo",
+      "actionDescriptions": {
+        "add": "Compra activos en Celo utilizando uno de nuestros proveedores de confianza",
+        "swap": "Cambiar a un activo en Celo desde otro activo",
+        "transfer": "Utiliza cualquier monedero o bolsa compatible con Celo para depositar activos en Celo"
+      }
+    }
+  },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
       "title": "Puedes enviar hasta {{amountInLocalCurrency,currency}} en un enlace",
@@ -2617,7 +2631,7 @@
     }
   },
   "addFundsActions": {
-    "buy": "Comprar",
+    "add": "Comprar",
     "transfer": "Transferir",
     "swap": "Cambio"
   },
