@@ -2509,8 +2509,8 @@
     },
     "entrypoint": {
       "title": "Sabit coinlerinizden kazanın",
-      "subtitle": "Para yatırın ve getiri kazanın",
-      "description": "Varlık yatırmak ve sabit coinlerinizden getiri elde etmek için havuzları keşfedin"
+      "subtitle": "Para yatırın ve kazanın",
+      "description": "Bir likidite havuzu aracılığıyla borç verdiğinizde stablecoinlerinizden kazanın"
     },
     "enterAmount": {
       "earnUpToLabel": "Şu kadar kazanabilirsiniz:",
@@ -2540,6 +2540,7 @@
       "viewPools": "Havuzları Görüntüle",
       "poolsSupplied": "Para yatırılan havuzlar",
       "totalSupplied": "Yatırılan toplam",
+      "depositAndEarnings": "Mevduat ve Kazançlar",
       "myPools": "Havuzlarım",
       "explore": "Açık Havuzları Keşfet"
     },
