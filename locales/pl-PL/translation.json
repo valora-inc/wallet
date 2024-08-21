@@ -2513,8 +2513,8 @@
     },
     "entrypoint": {
       "title": "Zarabiaj na swoich stablecoinach",
-      "subtitle": "Dokonuj wpłat i zarabiaj na zwrotach z inwestycji",
-      "description": "Przeglądaj pule, aby zdeponować aktywa i zarabiać na zwrotach z inwestycji w stablecoiny"
+      "subtitle": "Wpłacaj i zarabiaj",
+      "description": "Zarabiaj na swoich stablecoinach, udzielając pożyczek za pośrednictwem puli płynności"
     },
     "enterAmount": {
       "earnUpToLabel": "Możesz zarobić do:",
@@ -2544,6 +2544,7 @@
       "viewPools": "Pokaż pule",
       "poolsSupplied": "Dostępne pule",
       "totalSupplied": "Dostępne ogółem",
+      "depositAndEarnings": "Depozyt i zarobki",
       "myPools": "Moje pule",
       "explore": "Przeglądaj otwarte"
     },
