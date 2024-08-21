@@ -95,7 +95,7 @@ export type StackParamList = {
   }
   [Screens.ExchangeQR]: {
     flow: CICOFlow
-    exchanges: ExternalExchangeProvider[]
+    exchanges?: ExternalExchangeProvider[]
   }
   [Screens.FiatExchangeAmount]: {
     tokenId: string
