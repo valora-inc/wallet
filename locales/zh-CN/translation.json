@@ -2507,8 +2507,8 @@
     },
     "entrypoint": {
       "title": "通过稳定币赚取收入",
-      "subtitle": "存款并赚取收益",
-      "description": "探索存放资产的收益池，赚取稳定币收益"
+      "subtitle": "存款和收入",
+      "description": "通过流动性池出借稳定币，赚取稳定币收益"
     },
     "enterAmount": {
       "earnUpToLabel": "您最多可以赚取：",
@@ -2538,6 +2538,7 @@
       "viewPools": "查看各类池",
       "poolsSupplied": "供应池数",
       "totalSupplied": "总供应量",
+      "depositAndEarnings": "存款和收入",
       "myPools": "我的池",
       "explore": "探索打开"
     },
