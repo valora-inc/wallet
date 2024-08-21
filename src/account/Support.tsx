@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { SettingsItemTextValue } from 'src/components/SettingsItem'
 import { FAQ_LINK, FORUM_LINK } from 'src/config'

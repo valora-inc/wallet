@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { SettingsItemTextValue } from 'src/components/SettingsItem'
 import { navigate } from 'src/navigator/NavigationService'
@@ -9,12 +9,6 @@ import { navigateToURI } from 'src/utils/linking'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SettingsEvents } from 'src/analytics/Events'
 import { PRIVACY_LINK, TOS_LINK } from 'src/config'
-
-const openExternalLink = (link: string) => () => navigateToURI(link)
-
-const onPressContact = () => {
-  navigate(Screens.SupportContact)
-}
 
 const LegalSubmenu = () => {
   const { t } = useTranslation()

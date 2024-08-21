@@ -98,11 +98,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  imageContainer: {
-    marginBottom: Spacing.Regular16,
-    width: 120,
-    height: 120,
-  },
   title: {
     ...typeScale.titleMedium,
     textAlign: 'center',
