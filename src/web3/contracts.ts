@@ -101,12 +101,6 @@ export function* initContractKit() {
   }
 }
 
-export function destroyContractKit() {
-  Logger.debug(`${TAG}@closeContractKit`)
-  contractKit = undefined
-  wallet = undefined
-}
-
 async function waitForContractKit(tries: number) {
   while (!contractKit) {
     Logger.warn(`${TAG}@waitForContractKitAsync`, 'Contract Kit not yet initalised')
@@ -204,16 +198,4 @@ export async function getWalletAsync() {
   }
 
   return wallet
-}
-
-// Convinience util for getting the kit's web3 instance
-export function* getWeb3() {
-  const kit = yield* call(getContractKit)
-  return kit.connection.web3
-}
-
-// Used for cases where the kit's web3 must be accessed outside a saga
-export async function getWeb3Async(): Promise<Web3> {
-  const kit = await getContractKitAsync()
-  return kit.connection.web3
 }

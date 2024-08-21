@@ -1297,7 +1297,7 @@
                     "type": "string"
                 },
                 "tvl": {
-                    "type": "number"
+                    "type": "string"
                 },
                 "withdrawTokenId": {
                     "type": "string"
@@ -4569,13 +4569,78 @@
             "properties": {
                 "pendingActions": {
                     "items": {
-                        "$ref": "#/definitions/Web3WalletTypes.SessionRequest"
+                        "additionalProperties": false,
+                        "properties": {
+                            "id": {
+                                "type": "number"
+                            },
+                            "params": {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "chainId": {
+                                        "type": "string"
+                                    },
+                                    "request": {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "expiryTimestamp": {
+                                                "type": "number"
+                                            },
+                                            "method": {
+                                                "type": "string"
+                                            },
+                                            "params": {}
+                                        },
+                                        "required": [
+                                            "method",
+                                            "params"
+                                        ],
+                                        "type": "object"
+                                    }
+                                },
+                                "required": [
+                                    "chainId",
+                                    "request"
+                                ],
+                                "type": "object"
+                            },
+                            "topic": {
+                                "type": "string"
+                            },
+                            "verifyContext": {
+                                "$ref": "#/definitions/Verify.Context"
+                            }
+                        },
+                        "required": [
+                            "id",
+                            "params",
+                            "topic",
+                            "verifyContext"
+                        ],
+                        "type": "object"
                     },
                     "type": "array"
                 },
                 "pendingSessions": {
                     "items": {
-                        "$ref": "#/definitions/Web3WalletTypes.SessionProposal"
+                        "additionalProperties": false,
+                        "properties": {
+                            "id": {
+                                "type": "number"
+                            },
+                            "params": {
+                                "$ref": "#/definitions/ProposalTypes.Struct"
+                            },
+                            "verifyContext": {
+                                "$ref": "#/definitions/Verify.Context"
+                            }
+                        },
+                        "required": [
+                            "id",
+                            "params",
+                            "verifyContext"
+                        ],
+                        "type": "object"
                     },
                     "type": "array"
                 },
@@ -6185,74 +6250,6 @@
             "additionalProperties": {
                 "type": "string"
             },
-            "type": "object"
-        },
-        "Web3WalletTypes.SessionProposal": {
-            "additionalProperties": false,
-            "properties": {
-                "id": {
-                    "type": "number"
-                },
-                "params": {
-                    "$ref": "#/definitions/ProposalTypes.Struct"
-                },
-                "verifyContext": {
-                    "$ref": "#/definitions/Verify.Context"
-                }
-            },
-            "required": [
-                "id",
-                "params",
-                "verifyContext"
-            ],
-            "type": "object"
-        },
-        "Web3WalletTypes.SessionRequest": {
-            "additionalProperties": false,
-            "properties": {
-                "id": {
-                    "type": "number"
-                },
-                "params": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "chainId": {
-                            "type": "string"
-                        },
-                        "request": {
-                            "additionalProperties": false,
-                            "properties": {
-                                "method": {
-                                    "type": "string"
-                                },
-                                "params": {}
-                            },
-                            "required": [
-                                "method",
-                                "params"
-                            ],
-                            "type": "object"
-                        }
-                    },
-                    "required": [
-                        "chainId",
-                        "request"
-                    ],
-                    "type": "object"
-                },
-                "topic": {
-                    "type": "string"
-                },
-                "verifyContext": {
-                    "$ref": "#/definitions/Verify.Context"
-                }
-            },
-            "required": [
-                "id",
-                "params",
-                "topic",
-                "verifyContext"
-            ],
             "type": "object"
         },
         "YieldRate": {

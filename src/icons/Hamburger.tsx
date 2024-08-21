@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Line, Svg } from 'react-native-svg'
+import Colors from 'src/styles/colors'
 
 const Hamburger = () => {
   return (
@@ -9,7 +10,7 @@ const Hamburger = () => {
         y1="9.75"
         x2="24.75"
         y2="9.75"
-        stroke="#2E3338"
+        stroke={Colors.black}
         strokeWidth="2.5"
         strokeLinecap="round"
       />
@@ -18,7 +19,7 @@ const Hamburger = () => {
         y1="15.75"
         x2="24.75"
         y2="15.75"
-        stroke="#2E3338"
+        stroke={Colors.black}
         strokeWidth="2.5"
         strokeLinecap="round"
       />
@@ -27,7 +28,7 @@ const Hamburger = () => {
         y1="21.75"
         x2="24.75"
         y2="21.75"
-        stroke="#2E3338"
+        stroke={Colors.black}
         strokeWidth="2.5"
         strokeLinecap="round"
       />

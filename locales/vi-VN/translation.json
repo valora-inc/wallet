@@ -2480,17 +2480,19 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "Tối đa hóa thu nhập mà không mất phí ga*",
-          "title": "Tối đa hóa thu nhập",
-          "subtitle": "Kiếm tiền từ stablecoin của bạn và nhận tiền thưởng khi bạn cung cấp quỹ.",
+          "title": "Explore and Compare Pools",
+          "subtitle": "Compare earning potential and risks. Swap, buy, or transfer tokens to join the best pool for you.",
           "footnoteSubsidy": "*Phí ga được Valora tạm thời chi trả"
         },
         "manage": {
           "title": "Quản lý trực tiếp từ Valora",
-          "subtitle": "Chúng tôi sẽ đảm nhiệm việc thiết lập để bạn có thể quản lý lệnh giao dịch trực tiếp từ Valora."
+          "titleV1_92": "Manage Directly from {{appName}}",
+          "subtitle": "We'll auto-connect your wallet so you can manage pools without leaving Valora.",
+          "subtitleV1_92": "We'll auto-connect your wallet so you can manage pools without leaving {{appName}}."
         },
         "access": {
           "title": "Tiếp cận tiền dễ dàng",
-          "subtitle": "Nhận tiền của bạn dễ dàng chỉ bằng một cú nhấn. Được quyền truy cập tức thời giống như bạn truy cập trực tiếp thông qua các giao thức yêu thích."
+          "subtitle": "Collect funds with a tap, just like your favorite protocols."
         }
       },
       "action": {

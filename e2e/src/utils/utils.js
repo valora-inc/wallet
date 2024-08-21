@@ -1,6 +1,9 @@
-import { newKit } from '@celo/contractkit'
+import { createWalletClient, encodeFunctionData, erc20Abi, http, publicActions } from 'viem'
+import { celoAlfajores } from 'viem/chains'
+import { privateKeyToAccount } from 'viem/accounts'
 import jestExpect from 'expect'
-import { ALFAJORES_FORNO_URL, DEFAULT_PIN, SAMPLE_BACKUP_KEY } from '../utils/consts'
+import { DEFAULT_PIN, SAMPLE_BACKUP_KEY } from '../utils/consts'
+
 const childProcess = require('child_process')
 const fs = require('fs')
 const PNG = require('pngjs').PNG
@@ -424,19 +427,40 @@ export async function completeProtectWalletScreen() {
  *
  * @param senderPrivateKey: private key for wallet with funds
  * @param recipientAddress: wallet to receive funds
- * @param stableToken: ContractKit-recognized stable token
+ * @param stableToken: recognised token symbol (e.g. 'cUSD')
  * @param amountEther: amount in "ethers" (as opposed to wei)
  */
 export async function fundWallet(senderPrivateKey, recipientAddress, stableToken, amountEther) {
-  const kit = newKit(ALFAJORES_FORNO_URL)
-  const { address: senderAddress } = kit.web3.eth.accounts.privateKeyToAccount(senderPrivateKey)
+  const stableTokenSymbolToAddress = {
+    cUSD: '0x874069fa1eb16d44d622f2e0ca25eea172369bc1',
+  }
+  const tokenAddress = stableTokenSymbolToAddress[stableToken]
+  if (!tokenAddress) {
+    throw new Error(`Unsupported token symbol passed to fundWallet: ${stableToken}`)
+  }
+
   console.log(`Sending ${amountEther} ${stableToken} from ${senderAddress} to ${recipientAddress}`)
-  kit.connection.addAccount(senderPrivateKey)
-  const tokenContract = await kit.contracts.getStableToken(stableToken)
-  const amountWei = kit.web3.utils.toWei(amountEther, 'ether')
-  const receipt = await tokenContract
-    .transfer(recipientAddress, amountWei.toString())
-    .sendAndWaitForReceipt({ from: senderAddress })
+
+  const account = privateKeyToAccount(senderPrivateKey)
+  const senderAddress = account.address
+  const client = createWalletClient({
+    account,
+    chain: celoAlfajores,
+    transport: http(),
+  }).extend(publicActions)
+
+  const fundingAmount = BigInt(amountEther * 10 ** 18)
+  const hash = await client.sendTransaction({
+    to: tokenAddress,
+    from: senderAddress,
+    data: encodeFunctionData({
+      abi: erc20Abi,
+      functionName: 'transfer',
+      args: [recipientAddress, fundingAmount],
+    }),
+  })
+  const receipt = await client.waitForTransactionReceipt({ hash })
+
   console.log('Funding TX receipt', receipt)
 }
 
