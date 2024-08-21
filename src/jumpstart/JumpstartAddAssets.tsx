@@ -1,5 +1,4 @@
 import React, { useRef } from 'react'
-import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -8,13 +7,12 @@ import BackButton from 'src/components/BackButton'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CustomHeader from 'src/components/header/CustomHeader'
-import { CICOFlow, FiatExchangeFlow, fetchExchanges } from 'src/fiatExchanges/utils'
+import { CICOFlow, FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import Palm from 'src/icons/Palm'
 import WaveCurve from 'src/icons/WaveCurve'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
-import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { useSelector } from 'src/redux/hooks'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -27,16 +25,7 @@ export default function JumpstartAddAssets() {
   const { t } = useTranslation()
   const insets = useSafeAreaInsets()
 
-  const userLocation = useSelector(userLocationDataSelector)
   const isSwapEnabled = useSelector(isAppSwapsEnabledSelector)
-
-  const asyncExchanges = useAsync(async () => {
-    try {
-      return await fetchExchanges(userLocation.countryCodeAlpha2)
-    } catch (error) {
-      return []
-    }
-  }, [])
 
   const handleShowAddFunds = () => {
     // TODO analytics
@@ -59,7 +48,6 @@ export default function JumpstartAddAssets() {
         // TODO analytics
         navigate(Screens.ExchangeQR, {
           flow: CICOFlow.CashIn,
-          exchanges: asyncExchanges.result ?? [],
         })
       },
     },
