@@ -11,6 +11,8 @@ import { Spacing } from 'src/styles/styles'
 // @ts-expect-error property "context" does not exist in the NodeRequire type,
 // but it is available in the metro runtime
 const icons = require.context('../icons', true, /\.tsx$/)
+// @ts-expect-error
+const images = require.context('../images', true, /\.tsx$/)
 
 const ICON_SIZE = 32
 const IMAGE_SIZE = 96
@@ -30,7 +32,7 @@ export function DebugImages() {
               const Icon = icons(iconFileName).default
 
               return (
-                <View style={styles.itemContainer}>
+                <View style={styles.itemContainer} key={iconFileName}>
                   {/* Not all icons have the same props, we do our best here to set consistent size and color */}
                   <Icon
                     height={ICON_SIZE}
@@ -46,8 +48,24 @@ export function DebugImages() {
 
           <Text style={styles.title}>IMAGES</Text>
           <View style={styles.container}>
+            {images.keys().map((imageFileName: string) => {
+              const ImageComponent = images(imageFileName).default
+
+              return (
+                <View style={styles.itemContainer} key={imageFileName}>
+                  {/* Not all icons have the same props, we do our best here to set consistent size and color */}
+                  <ImageComponent
+                    height={ICON_SIZE}
+                    width={ICON_SIZE}
+                    size={ICON_SIZE}
+                    color={Colors.black}
+                  />
+                  <Text>{imageFileName.split('.tsx')[0].slice(2)}</Text>
+                </View>
+              )
+            })}
             {Object.keys(Images).map((key) => (
-              <View style={styles.itemContainer}>
+              <View style={styles.itemContainer} key={key}>
                 <Image
                   key={key}
                   // @ts-ignore
