@@ -80,7 +80,7 @@ function ProfileMenuOption() {
   return (
     <Touchable
       style={styles.profileTouchable}
-      onPress={() => navigate(Screens.ProfileMenu)}
+      onPress={() => navigate(Screens.ProfileSubmenu)}
       testID="SettingsMenu/Profile"
     >
       <View style={styles.profileContainer}>
