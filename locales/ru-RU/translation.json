@@ -2621,13 +2621,16 @@
     "poolCard": {
       "onNetwork": "в {{networkName}}",
       "rate": "Ставка (прибл.)",
+      "yieldRate": "Показатель урожайности (эст.)",
       "reward": "Вознаграждение",
       "tvl": "Общая заблокированная стоимость",
       "exitPool": "Выход из пула",
       "addToPool": "Добавить в пул",
       "apy": "Годовая ставка {{apy}}%",
+      "percentage": "{{percentage}}%",
       "poweredBy": "При поддержке {{providerName}}",
-      "deposited": "Прилагается"
+      "deposited": "Прилагается",
+      "depositAndEarnings": "Депозит и заработок"
     },
     "poolFilters": {
       "openPools": "Открытые пулы",

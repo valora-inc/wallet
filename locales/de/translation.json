@@ -2617,13 +2617,16 @@
     "poolCard": {
       "onNetwork": "auf {{networkName}}",
       "rate": "Rate (geschätzt)",
+      "yieldRate": "Ausbeutesatz (geschätzt)",
       "reward": "Reward",
       "tvl": "TVL",
       "exitPool": "Pool verlassen",
       "addToPool": "Zum Pool hinzufügen",
       "apy": "{{apy}} % jährliche prozentuale Rendite",
+      "percentage": "{{percentage}}%",
       "poweredBy": "Unterstützt von {{providerName}}",
-      "deposited": "Bereitgestellt"
+      "deposited": "Bereitgestellt",
+      "depositAndEarnings": "Einzahlung & Verdienst"
     },
     "poolFilters": {
       "openPools": "Offene Pools",
