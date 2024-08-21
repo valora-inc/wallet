@@ -2203,6 +2203,20 @@
       "description": "It was not possible to prepare a transaction for this token."
     }
   },
+  "jumpstartIntro": {
+    "title": "Share crypto like a text",
+    "addFundsCelo": {
+      "title": "Get Assets on Celo",
+      "info": "Live Links are a way to send crypto on the Celo network to a friend with a link.\nTo get started, you’ll need some CELO assets in your wallet.",
+      "description": "Once you’ve added assets on Celo you’ll have to come back to create a Live Link.",
+      "cta": "Get Assets on Celo",
+      "actionDescriptions": {
+        "add": "Buy assets on Celo using one of our trusted providers",
+        "swap": "Swap into an asset on Celo from another asset",
+        "transfer": "Use any Celo compatible wallet or exchange to deposit assets on Celo"
+      }
+    }
+  },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
       "title": "You can send up to {{amountInLocalCurrency,currency}} in a link",
@@ -2617,7 +2631,7 @@
     }
   },
   "addFundsActions": {
-    "buy": "Buy",
+    "add": "Buy",
     "transfer": "Transfer",
     "swap": "Swap"
   },
