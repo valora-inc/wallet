@@ -3,7 +3,7 @@ import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import { navigate } from 'src/navigator/NavigationService'
-import SettingsMenu from 'src/navigator/ProfileMenu'
+import ProfileMenu from 'src/navigator/ProfileMenu'
 import { Screens } from 'src/navigator/Screens'
 import { getMultichainFeatures } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
@@ -26,7 +26,7 @@ describe('ProfileMenu', () => {
     const store = createMockStore()
     const { queryByTestId } = render(
       <Provider store={store}>
-        <MockedNavigator component={SettingsMenu}></MockedNavigator>
+        <MockedNavigator component={ProfileMenu}></MockedNavigator>
       </Provider>
     )
     expect(queryByTestId('ProfileMenu/Username')).toBeTruthy()
@@ -45,7 +45,7 @@ describe('ProfileMenu', () => {
     })
     const { queryByTestId } = render(
       <Provider store={store}>
-        <MockedNavigator component={SettingsMenu}></MockedNavigator>
+        <MockedNavigator component={ProfileMenu}></MockedNavigator>
       </Provider>
     )
     expect(queryByTestId('ProfileMenu/Username')).toBeFalsy()
@@ -63,7 +63,7 @@ describe('ProfileMenu', () => {
       })
       const { getByText } = render(
         <Provider store={store}>
-          <MockedNavigator component={SettingsMenu}></MockedNavigator>
+          <MockedNavigator component={ProfileMenu}></MockedNavigator>
         </Provider>
       )
       expect(getByText('+1 302-306-1234')).toBeTruthy()
@@ -80,7 +80,7 @@ describe('ProfileMenu', () => {
       })
       const { queryByText } = render(
         <Provider store={store}>
-          <MockedNavigator component={SettingsMenu}></MockedNavigator>
+          <MockedNavigator component={ProfileMenu}></MockedNavigator>
         </Provider>
       )
       expect(queryByText('+1 302-306-1234')).toBeFalsy()
@@ -117,7 +117,7 @@ describe('ProfileMenu', () => {
       const store = createMockStore({})
       const { getByText } = render(
         <Provider store={store}>
-          <MockedNavigator component={SettingsMenu}></MockedNavigator>
+          <MockedNavigator component={ProfileMenu}></MockedNavigator>
         </Provider>
       )
 
@@ -128,7 +128,7 @@ describe('ProfileMenu', () => {
     const store = createMockStore()
     const { getByTestId } = render(
       <Provider store={store}>
-        <MockedNavigator component={SettingsMenu}></MockedNavigator>
+        <MockedNavigator component={ProfileMenu}></MockedNavigator>
       </Provider>
     )
     fireEvent.press(getByTestId('ProfileMenu/Invite'))
