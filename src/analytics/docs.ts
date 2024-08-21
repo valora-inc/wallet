@@ -650,4 +650,5 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   // [DappKitEvents.dappkit_request_accept_error]: `when the dapp request fails`,
   // [KeylessBackupEvents.cab_sign_in_with_google]: ``, renamed to cab_sign_in_start when we started supporting Apple sign in
   // [KeylessBackupEvents.cab_sign_in_with_google_success]: ``, renamed to cab_sign_in_success when we started supporting Apple sign in
+  // [EarnEvents.earn_active_pools_cta_press]: `cta buttons on the card were removed and replaced with a single card press event`,
 }
