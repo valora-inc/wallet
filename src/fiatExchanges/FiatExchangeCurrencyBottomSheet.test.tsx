@@ -280,4 +280,28 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
       expect(getAllByTestId('TokenBalanceItem')[index]).toHaveTextContent(token)
     })
   })
+
+  it('allows a network to be pre-selected', () => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((feature) => feature === StatsigFeatureGates.SHOW_CASH_IN_TOKEN_FILTERS)
+    const { getAllByTestId } = render(
+      <Provider store={mockStore}>
+        <MockedNavigator
+          component={FiatExchangeCurrencyBottomSheet}
+          params={{ flow: FiatExchangeFlow.CashIn, networkId: 'celo-alfajores' }}
+        />
+      </Provider>
+    )
+
+    expect(getAllByTestId('TokenBalanceItem')).toHaveLength(4)
+    ;['CELO', 'cUSD', 'cEUR', 'cREAL'].forEach((token, index) => {
+      expect(getAllByTestId('TokenBalanceItem')[index]).toHaveTextContent(token)
+    })
+
+    // unselect filter, to prove that the pre-selection yielded different results
+    const networkMultiSelect = getAllByTestId('MultiSelectBottomSheet')[0]
+    fireEvent.press(within(networkMultiSelect).getByTestId('multiSelect.allNetworks-icon'))
+    expect(getAllByTestId('TokenBalanceItem')).toHaveLength(6)
+  })
 })
