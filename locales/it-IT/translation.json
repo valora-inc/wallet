@@ -1984,16 +1984,16 @@
     "retryButtonText": "Riprova"
   },
   "chooseYourAdventure": {
-    "header": "Benvenuto/a in Valora",
+    "header": "Ti diamo il benvenuto in Valora",
     "subtitle": "Qual è la prima cosa che vorresti fare?",
     "later": "Esplorerò più tardi",
     "options": {
       "add": "Aggiungi fondi al tuo portafoglio",
-      "dapp": "Scoprire modi per usare le criptovalute",
+      "dapp": "Trova i modi per usare le tue cripto",
       "earn": "Esplora le opportunità di guadagno",
       "profile": "Crea il tuo profilo",
-      "learn": "Scoprire di più su Celo",
-      "learnPoints": "Scopri i punti {{appName}}"
+      "learn": "Scopri di più su Celo",
+      "learnPoints": "Scopri di più sui punti {{appName}}"
     }
   },
   "reverifyUsingCPVHomecard": {
@@ -2482,19 +2482,19 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "Massimizza i guadagni senza Gas fee*",
-          "title": "Esplora e confronta le piscine",
+          "title": "Esplora e confronta le pool",
           "subtitle": "Confronta il potenziale di guadagno e i rischi. Scambia, acquista o trasferisci i token per unirti al pool migliore per te.",
           "footnoteSubsidy": "*Le gas fee sono temporaneamente coperte da Valora"
         },
         "manage": {
           "title": "Gestisci direttamente da Valora",
           "titleV1_92": "Gestisci direttamente da {{appName}}",
-          "subtitle": "Collegheremo automaticamente il tuo portafoglio in modo che tu possa gestire le piscine senza lasciare Valora.",
-          "subtitleV1_92": "Ti collegheremo automaticamente al tuo portafoglio in modo che tu possa gestire le piscine senza lasciare {{appName}}."
+          "subtitle": "Collegheremo il tuo portafoglio in modo da poter gestire i pool senza lasciare Valora.",
+          "subtitleV1_92": "Collegheremo il tuo portafoglio in modo da poter gestire i pool senza lasciare {{appName}}."
         },
         "access": {
           "title": "Accedi facilmente ai tuoi fondi",
-          "subtitle": "Raccogli i fondi con un tocco, proprio come i tuoi protocolli preferiti."
+          "subtitle": "Raccogli i fondi con un tocco, come i tuoi protocolli preferiti."
         }
       },
       "action": {
@@ -2510,7 +2510,7 @@
     "entrypoint": {
       "title": "Guadagna sui tuoi stablecoin",
       "subtitle": "Deposita e guadagna",
-      "description": "Guadagna sulle tue stablecoin quando presti attraverso un pool di liquidità"
+      "description": "Guadagna sulle tue stablecoin attraverso un pool di liquidità."
     },
     "enterAmount": {
       "earnUpToLabel": "Puoi guadagnare fino a:",
@@ -2540,7 +2540,7 @@
       "viewPools": "Visualizza i pool",
       "poolsSupplied": "Pool forniti",
       "totalSupplied": "Totale fornito",
-      "depositAndEarnings": "Deposito e guadagno",
+      "depositAndEarnings": "Deposito e guadagni",
       "myPools": "I miei pool",
       "explore": "Esplora aperti"
     },
