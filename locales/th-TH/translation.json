@@ -2201,6 +2201,20 @@
       "description": "ไม่สามารถเตรียมธุรกรรมสำหรับโทเค็นนี้ได้"
     }
   },
+  "jumpstartIntro": {
+    "title": "Share crypto like a text",
+    "addFundsCelo": {
+      "title": "Get Assets on Celo",
+      "info": "Live Links are a way to send crypto on the Celo network to a friend with a link.\nTo get started, you’ll need some CELO assets in your wallet.",
+      "description": "Once you’ve added assets on Celo you’ll have to come back to create a Live Link.",
+      "cta": "Get Assets on Celo",
+      "actionDescriptions": {
+        "add": "Buy assets on Celo using one of our trusted providers",
+        "swap": "Swap into an asset on Celo from another asset",
+        "transfer": "Use any Celo compatible wallet or exchange to deposit assets on Celo"
+      }
+    }
+  },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
       "title": "คุณสามารถส่งได้สูงสุด {{amountInLocalCurrency,currency}} ในหนึ่งลิงก์",
@@ -2507,8 +2521,8 @@
     },
     "entrypoint": {
       "title": "สร้างรายได้ผ่าน Stablecoin",
-      "subtitle": "ฝากเงินแล้วรับผลตอบแทน",
-      "description": "สำรวจพูลเพื่อฝากสินทรัพย์และรับผลตอบแทนจาก Stablecoin ของคุณ"
+      "subtitle": "Deposit and earn",
+      "description": "Earn on your stablecoins when you lend through a liquidity pool"
     },
     "enterAmount": {
       "earnUpToLabel": "คุณสามารถสร้างรายได้สูงถึง:",
@@ -2538,6 +2552,7 @@
       "viewPools": "ดูพูล",
       "poolsSupplied": "พูลที่เข้าร่วม",
       "totalSupplied": "จำนวนทั้งหมดที่เข้าร่วม",
+      "depositAndEarnings": "Deposit & Earnings",
       "myPools": "พูลของฉัน",
       "explore": "สำรวจที่เปิดอยู่"
     },
@@ -2600,18 +2615,26 @@
     "poolCard": {
       "onNetwork": "บน {{networkName}}",
       "rate": "อัตรา (โดยประมาณ)",
+      "yieldRate": "Yield Rate (est.)",
       "reward": "ผลตอบแทน",
       "tvl": "TVL",
       "exitPool": "ออกจากพูล",
       "addToPool": "เพิ่มไปยังพูล",
       "apy": "{{apy}}% APY",
+      "percentage": "{{percentage}}%",
       "poweredBy": "ดำเนินการโดย {{providerName}}",
-      "deposited": "ที่เข้าร่วม"
+      "deposited": "ที่เข้าร่วม",
+      "depositAndEarnings": "Deposit & Earnings"
     },
     "poolFilters": {
       "openPools": "พูลที่เปิดอยู่",
       "myPools": "พูลของฉัน"
     }
+  },
+  "addFundsActions": {
+    "add": "ซื้อ",
+    "transfer": "โอน",
+    "swap": "สว็อป"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }

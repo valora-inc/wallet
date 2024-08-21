@@ -2,6 +2,7 @@ import { NativeStackNavigationOptions } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { Trans } from 'react-i18next'
 import { Dimensions, PixelRatio, StyleSheet, Text, View } from 'react-native'
+import AccountCircleButton from 'src/components/AccountCircleButton'
 import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
 import CloseButton from 'src/components/CloseButton'
@@ -18,7 +19,6 @@ import { Spacing } from 'src/styles/styles'
 import { useTokenInfoByCurrency } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
-import AccountCircleButton from 'src/components/AccountCircleButton'
 
 export const noHeader: NativeStackNavigationOptions = {
   headerShown: false,
@@ -233,10 +233,7 @@ export const tabHeader: NativeStackNavigationOptions = {
     )
   },
   headerLeft: () => (
-    <View
-      testID="WalletHome/Settings"
-      style={[styles.topElementsContainer, { marginLeft: Spacing.Tiny4 }]}
-    >
+    <View style={[styles.topElementsContainer, { marginLeft: Spacing.Tiny4 }]}>
       <AccountCircleButton testID="WalletHome/AccountCircle" />
     </View>
   ),

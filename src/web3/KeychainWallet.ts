@@ -1,15 +1,14 @@
-import { normalizeAddressWith0x, privateKeyToAddress } from '@celo/utils/lib/address'
 import { UnlockableWallet } from '@celo/wallet-base'
 import { RemoteWallet } from '@celo/wallet-remote'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import Logger from 'src/utils/Logger'
-import { ImportMnemonicAccount, KeychainLock, listStoredAccounts } from 'src/web3/KeychainLock'
+import { ImportMnemonicAccount, KeychainLock } from 'src/web3/KeychainLock'
 import { KeychainSigner } from 'src/web3/KeychainSigner'
 
 const TAG = 'web3/KeychainWallet'
 
 /**
  * A wallet which uses the OS keychain to store private keys
+ * Note: when we finally remove ContractKit, we can replace it with KeychainLock
  */
 export class KeychainWallet extends RemoteWallet<KeychainSigner> implements UnlockableWallet {
   /**
@@ -25,31 +24,23 @@ export class KeychainWallet extends RemoteWallet<KeychainSigner> implements Unlo
 
   /**
    * This function does the very critical job of loading in accounts from the Keychain, for instance when the user restarts their app.
-   * TODO: decouple this logic from contractKit and move it into a wallet agnostic place like KeychainLock
    */
   async loadAccountSigners(): Promise<Map<string, KeychainSigner>> {
-    const accounts = await listStoredAccounts(this.importMnemonicAccount)
+    const accounts = await this.lock.loadExistingAccounts(this.importMnemonicAccount)
     const addressToSigner = new Map<string, KeychainSigner>()
 
     accounts.forEach((account) => {
       addressToSigner.set(account.address, new KeychainSigner(account, this.lock))
-      this.lock.addAccount(account)
     })
     return addressToSigner
   }
 
   async addAccount(privateKey: string, passphrase: string): Promise<string> {
     Logger.info(`${TAG}@addAccount`, `Adding a new account`)
-    // Prefix 0x here or else the signed transaction produces dramatically different signer!!!
-    const normalizedPrivateKey = normalizeAddressWith0x(privateKey)
-    const address = normalizeAddressWith0x(privateKeyToAddress(normalizedPrivateKey))
-    if (this.hasAccount(address)) {
-      throw new Error(ErrorMessages.KEYCHAIN_ACCOUNT_ALREADY_EXISTS)
-    }
-    const signer = new KeychainSigner({ address, createdAt: new Date() }, this.lock)
-    await signer.init(normalizedPrivateKey, passphrase)
-    this.addSigner(address, signer)
-    return address
+    const account = await this.lock.addAccount(privateKey, passphrase)
+    const signer = new KeychainSigner(account, this.lock)
+    this.addSigner(account.address, signer)
+    return account.address
   }
   /**
    * Updates the passphrase of an account

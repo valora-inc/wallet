@@ -2,6 +2,7 @@ import Clipboard from '@react-native-clipboard/clipboard'
 import React, { useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { nameSelector } from 'src/account/selectors'
 import Button from 'src/components/Button'
 import ExchangesBottomSheet from 'src/components/ExchangesBottomSheet'
@@ -16,6 +17,7 @@ import { getMultichainFeatures } from 'src/statsig'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { vibrateInformative } from 'src/styles/hapticFeedback'
+import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
@@ -35,6 +37,8 @@ export default function QRCodeDisplay(props: Props) {
   const { exchanges, qrSvgRef } = props
   const address = useSelector(walletAddressSelector)
   const displayName = useSelector(nameSelector)
+
+  const insets = useSafeAreaInsets()
 
   const [bottomSheetVisible, setBottomSheetVisible] = useState(false)
 
@@ -89,7 +93,7 @@ export default function QRCodeDisplay(props: Props) {
           {displayName}
         </Text>
       )}
-      <Text testID="address" style={[typeScale.bodyMedium, styles.address]}>
+      <Text testID="address" style={styles.address}>
         {address}
       </Text>
       <Button
@@ -101,46 +105,47 @@ export default function QRCodeDisplay(props: Props) {
         testID="copyButton"
       />
 
-      {exchanges ? (
-        <>
-          <Text style={[styles.infoWrapper, typeScale.bodyMedium, styles.exchangeText]}>
-            <Trans i18nKey="fiatExchangeFlow.exchange.informationText">
-              <Text testID="bottomSheetLink" style={styles.link} onPress={onPressInfo}></Text>
-            </Trans>
-          </Text>
-          <ExchangesBottomSheet
-            isVisible={!!bottomSheetVisible}
-            onClose={onCloseBottomSheet}
-            onExchangeSelected={onPressExchange}
-            exchanges={exchanges}
-          />
-        </>
-      ) : (
-        <View style={styles.notificationWrapper}>
+      <View
+        style={[
+          styles.bottomContent,
+          {
+            marginBottom: Math.max(Spacing.Thick24, insets.bottom),
+          },
+        ]}
+      >
+        {exchanges && exchanges.length > 0 ? (
+          <>
+            <Text style={styles.exchangeText}>
+              <Trans i18nKey="fiatExchangeFlow.exchange.informationText">
+                <Text testID="bottomSheetLink" style={styles.link} onPress={onPressInfo}></Text>
+              </Trans>
+            </Text>
+            <ExchangesBottomSheet
+              isVisible={!!bottomSheetVisible}
+              onClose={onCloseBottomSheet}
+              onExchangeSelected={onPressExchange}
+              exchanges={exchanges}
+            />
+          </>
+        ) : (
           <InLineNotification
             variant={NotificationVariant.Info}
             description={description()}
             style={styles.link}
             testID="supportedNetworksNotification"
           />
-        </View>
-      )}
+        )}
+      </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  infoWrapper: {
+  bottomContent: {
     position: 'absolute',
-    bottom: 20,
-    justifyContent: 'flex-end',
-  },
-  notificationWrapper: {
-    position: 'absolute',
-    bottom: 20,
-    justifyContent: 'flex-end',
+    bottom: 0,
+    paddingHorizontal: Spacing.Regular16,
     width: '100%',
-    paddingHorizontal: 16,
   },
   bold: {
     ...typeScale.labelSemiBoldXSmall,
@@ -151,7 +156,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.white,
   },
@@ -162,22 +166,24 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   qrContainer: {
-    marginBottom: 20,
+    marginTop: '35%',
+    marginBottom: Spacing.Thick24,
   },
   name: {
     ...typeScale.labelSemiBoldMedium,
-    marginHorizontal: variables.width / 4,
+    marginHorizontal: variables.width / 5,
     marginBottom: 8,
   },
   address: {
+    ...typeScale.bodyMedium,
     color: colors.gray5,
-    marginHorizontal: variables.width / 4,
+    marginHorizontal: variables.width / 5,
     marginBottom: 8,
     textAlign: 'center',
   },
   exchangeText: {
+    ...typeScale.bodyMedium,
     color: colors.gray5,
-    marginHorizontal: 20,
     textAlign: 'center',
   },
 })

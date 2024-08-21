@@ -79,6 +79,7 @@ import {
   noHeader,
   nuxNavigationOptions,
 } from 'src/navigator/Headers'
+import ProfileMenu from 'src/navigator/ProfileMenu'
 import SettingsMenu from 'src/navigator/SettingsMenu'
 import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
@@ -509,6 +510,11 @@ const generalScreens = (Navigator: typeof Stack) => (
       name={Screens.MultichainBeta}
       component={MultichainBeta}
       options={MultichainBeta.navigationOptions}
+    />
+    <Navigator.Screen
+      name={Screens.ProfileMenu}
+      component={ProfileMenu}
+      options={ProfileMenu.navigationOptions as NativeStackNavigationOptions}
     />
     <Navigator.Screen
       name={Screens.SettingsMenu}

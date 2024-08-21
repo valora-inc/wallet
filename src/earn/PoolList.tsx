@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
   sectionListContentContainer: {
     paddingHorizontal: Spacing.Regular16,
     paddingVertical: Spacing.Smallest8,
+    gap: Spacing.Regular16,
     flexGrow: 1,
   },
   sectionList: {

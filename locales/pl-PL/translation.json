@@ -2207,6 +2207,20 @@
       "description": "Nie było możliwe przygotowanie transakcji dla tego tokena."
     }
   },
+  "jumpstartIntro": {
+    "title": "Udostępniaj kryptowaluty jak tekst",
+    "addFundsCelo": {
+      "title": "Zdobądź aktywa na Celo",
+      "info": "Live Links to sposób na wysyłanie kryptowalut w sieci Celo do znajomego za pomocą linku.\nAby rozpocząć, będziesz potrzebować zasobów CELO w swoim portfelu.",
+      "description": "Po dodaniu zasobów w Celo będziesz musiał wrócić, aby utworzyć łącze na żywo.",
+      "cta": "Zdobądź aktywa na Celo",
+      "actionDescriptions": {
+        "add": "Kupuj aktywa na Celo, korzystając z usług jednego z naszych zaufanych dostawców",
+        "swap": "Zamiana na aktywo w Celo z innego aktywa",
+        "transfer": "Użyj dowolnego portfela lub giełdy kompatybilnej z Celo, aby zdeponować aktywa w Celo."
+      }
+    }
+  },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
       "title": "Możesz wysłać do {{amountInLocalCurrency,currency}} w linku",
@@ -2513,8 +2527,8 @@
     },
     "entrypoint": {
       "title": "Zarabiaj na swoich stablecoinach",
-      "subtitle": "Dokonuj wpłat i zarabiaj na zwrotach z inwestycji",
-      "description": "Przeglądaj pule, aby zdeponować aktywa i zarabiać na zwrotach z inwestycji w stablecoiny"
+      "subtitle": "Wpłacaj i zarabiaj",
+      "description": "Zarabiaj na swoich stablecoinach, udzielając pożyczek za pośrednictwem puli płynności"
     },
     "enterAmount": {
       "earnUpToLabel": "Możesz zarobić do:",
@@ -2544,6 +2558,7 @@
       "viewPools": "Pokaż pule",
       "poolsSupplied": "Dostępne pule",
       "totalSupplied": "Dostępne ogółem",
+      "depositAndEarnings": "Depozyt i zarobki",
       "myPools": "Moje pule",
       "explore": "Przeglądaj otwarte"
     },
@@ -2606,18 +2621,26 @@
     "poolCard": {
       "onNetwork": "w {{networkName}}",
       "rate": "Stawka (szac.)",
+      "yieldRate": "Stopa zwrotu (szacunkowo)",
       "reward": "Nagroda",
       "tvl": "TVL",
       "exitPool": "Wyjdź z puli",
       "addToPool": "Dodaj do puli",
       "apy": "{{apy}}% APY",
+      "percentage": "{{percentage}}%",
       "poweredBy": "Obsługiwane przez {{providerName}}",
-      "deposited": "Dostarczone"
+      "deposited": "Dostarczone",
+      "depositAndEarnings": "Depozyt i zarobki"
     },
     "poolFilters": {
       "openPools": "Otwarte pule",
       "myPools": "Moje pule"
     }
+  },
+  "addFundsActions": {
+    "add": "Kup",
+    "transfer": "Transfer",
+    "swap": "Zamieniaj"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
