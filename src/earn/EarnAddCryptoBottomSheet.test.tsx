@@ -2,8 +2,8 @@ import { fireEvent, render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { EarnEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { EarnEvents } from 'src/analytics/Events'
 import EarnAddCryptoBottomSheet from 'src/earn/EarnAddCryptoBottomSheet'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -84,9 +84,9 @@ describe('EarnAddCryptoBottomSheet', () => {
       </Provider>
     )
 
-    expect(getByText('earnFlow.addCryptoBottomSheet.actions.transfer')).toBeTruthy()
-    expect(getByText('earnFlow.addCryptoBottomSheet.actions.swap')).toBeTruthy()
-    expect(getByText('earnFlow.addCryptoBottomSheet.actions.add')).toBeTruthy()
+    expect(getByText('addFundsActions.transfer')).toBeTruthy()
+    expect(getByText('addFundsActions.swap')).toBeTruthy()
+    expect(getByText('addFundsActions.add')).toBeTruthy()
   })
 
   it('Does not render swap action when no tokens available to swap', () => {
@@ -113,9 +113,9 @@ describe('EarnAddCryptoBottomSheet', () => {
       </Provider>
     )
 
-    expect(getByText('earnFlow.addCryptoBottomSheet.actions.transfer')).toBeTruthy()
-    expect(queryByText('earnFlow.addCryptoBottomSheet.actions.swap')).toBeFalsy()
-    expect(getByText('earnFlow.addCryptoBottomSheet.actions.add')).toBeTruthy()
+    expect(getByText('addFundsActions.transfer')).toBeTruthy()
+    expect(queryByText('addFundsActions.swap')).toBeFalsy()
+    expect(getByText('addFundsActions.add')).toBeTruthy()
   })
 
   it('Does not render swap or add when network is not in dynamic config', () => {
@@ -133,15 +133,15 @@ describe('EarnAddCryptoBottomSheet', () => {
       </Provider>
     )
 
-    expect(getByText('earnFlow.addCryptoBottomSheet.actions.transfer')).toBeTruthy()
-    expect(queryByText('earnFlow.addCryptoBottomSheet.actions.swap')).toBeFalsy()
-    expect(queryByText('earnFlow.addCryptoBottomSheet.actions.add')).toBeFalsy()
+    expect(getByText('addFundsActions.transfer')).toBeTruthy()
+    expect(queryByText('addFundsActions.swap')).toBeFalsy()
+    expect(queryByText('addFundsActions.add')).toBeFalsy()
   })
 
   it.each([
     {
       actionName: TokenActionName.Add,
-      actionTitle: 'earnFlow.addCryptoBottomSheet.actions.add',
+      actionTitle: 'addFundsActions.add',
       navigateScreen: Screens.SelectProvider,
       navigateProps: {
         amount: { crypto: 100, fiat: 154 },
@@ -151,13 +151,13 @@ describe('EarnAddCryptoBottomSheet', () => {
     },
     {
       actionName: TokenActionName.Transfer,
-      actionTitle: 'earnFlow.addCryptoBottomSheet.actions.transfer',
+      actionTitle: 'addFundsActions.transfer',
       navigateScreen: Screens.ExchangeQR,
       navigateProps: { exchanges: [], flow: 'CashIn' },
     },
     {
       actionName: TokenActionName.Swap,
-      actionTitle: 'earnFlow.addCryptoBottomSheet.actions.swap',
+      actionTitle: 'addFundsActions.swap',
       navigateScreen: Screens.SwapScreenWithBack,
       navigateProps: { toTokenId: 'arbitrum-sepolia:0x123' },
     },
