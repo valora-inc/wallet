@@ -18,41 +18,30 @@ const Support = () => {
   const { t } = useTranslation()
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom', 'left', 'right']}>
+    <SafeAreaView edges={['bottom', 'left', 'right']}>
       <ScrollView>
-        <View style={styles.containerList}>
-          <SettingsItemTextValue
-            testID="FAQLink"
-            title={t('faq')}
-            onPress={openExternalLink(FAQ_LINK)}
-            isExternalLink
-          />
-          <SettingsItemTextValue
-            testID="ForumLink"
-            title={t('forum')}
-            onPress={openExternalLink(FORUM_LINK)}
-            isExternalLink
-          />
-          <SettingsItemTextValue
-            testID="SupportContactLink"
-            title={t('contact')}
-            onPress={onPressContact}
-            borderless
-            showChevron
-          />
-        </View>
+        <SettingsItemTextValue
+          testID="FAQLink"
+          title={t('faq')}
+          onPress={openExternalLink(FAQ_LINK)}
+          isExternalLink
+        />
+        <SettingsItemTextValue
+          testID="ForumLink"
+          title={t('forum')}
+          onPress={openExternalLink(FORUM_LINK)}
+          isExternalLink
+        />
+        <SettingsItemTextValue
+          testID="SupportContactLink"
+          title={t('contact')}
+          onPress={onPressContact}
+          borderless
+          showChevron
+        />
       </ScrollView>
     </SafeAreaView>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  containerList: {
-    flex: 1,
-  },
-})
 
 export default Support
