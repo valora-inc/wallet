@@ -70,12 +70,15 @@ exports[`PictureInputScreen renders correctly 1`] = `
               "justifyContent": "center",
             },
             {
-              "backgroundColor": "hsl(0, 53%, 93%)",
+              "backgroundColor": "#F8F9F9",
               "borderRadius": 32,
               "height": 64,
               "width": 64,
             },
-            undefined,
+            {
+              "borderColor": "#E6E6E6",
+              "borderWidth": 1,
+            },
           ]
         }
       >
