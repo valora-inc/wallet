@@ -95,7 +95,7 @@ export default function PoolCard({
   }
 
   return (
-    <Touchable style={styles.card} testID={testID} onPress={onPress}>
+    <Touchable borderRadius={12} style={styles.card} testID={testID} onPress={onPress}>
       <View style={styles.cardView}>
         <View style={styles.titleRow}>
           {tokensInfo.map((token, index) => (
@@ -130,14 +130,10 @@ export default function PoolCard({
         </View>
         {new BigNumber(balance).gt(0) && !!depositTokenInfo && (
           <View style={styles.withBalanceContainer}>
-            <View style={styles.keyValueContainer}>
-              <View style={styles.keyValueRow}>
-                <Text style={styles.keyText}>{t('earnFlow.poolCard.depositAndEarnings')}</Text>
-                <Text>
-                  <Text style={styles.valueTextBold}>{poolBalanceString}</Text>
-                </Text>
-              </View>
-            </View>
+            <Text style={styles.keyText}>{t('earnFlow.poolCard.depositAndEarnings')}</Text>
+            <Text>
+              <Text style={styles.valueTextBold}>{poolBalanceString}</Text>
+            </Text>
           </View>
         )}
         <Text style={styles.poweredByText}>
@@ -153,8 +149,6 @@ const styles = StyleSheet.create({
     borderColor: Colors.gray2,
     borderRadius: 12,
     borderWidth: 1,
-    marginBottom: Spacing.Thick24,
-    gap: Spacing.Thick24,
   },
   cardView: { gap: Spacing.Regular16 },
   titleRow: {
@@ -189,7 +183,6 @@ const styles = StyleSheet.create({
   valueTextBold: {
     color: Colors.black,
     ...typeScale.labelSemiBoldSmall,
-    lineHeight: 20,
   },
   poweredByText: {
     color: Colors.gray3,
@@ -200,5 +193,8 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: Colors.gray2,
     paddingTop: Spacing.Regular16,
+    gap: Spacing.Smallest8,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 })
