@@ -1990,10 +1990,10 @@
     "options": {
       "add": "Ajouter des fonds à votre portefeuille",
       "dapp": "Explorez les moyens d'utiliser mes crypto",
-      "earn": "Explore les possibilités de gagner de l'argent",
-      "profile": "Construis ton profil",
+      "earn": "Explorez les opportunités de gains",
+      "profile": "Créez votre profil",
       "learn": "En savoir plus sur Celo",
-      "learnPoints": "Renseigne-toi sur {{appName}} Points"
+      "learnPoints": "Apprenez-en plus sur les points {{appName}}"
     }
   },
   "reverifyUsingCPVHomecard": {
@@ -2482,13 +2482,13 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "Maximiser vos gains sans frais de gaz*",
-          "title": "Explorer et comparer les piscines",
-          "subtitle": "Compare les possibilités de gains et les risques. Échange, achète ou transfère des jetons pour rejoindre le pool qui te convient le mieux.",
+          "title": "Explorez et comparez les pools",
+          "subtitle": "Comparez les gains potentiels et les risques. Échangez, achetez ou transférez des jetons pour rejoindre le meilleur pool pour vous.",
           "footnoteSubsidy": "*Les frais de gaz sont temporairement couverts par Valora"
         },
         "manage": {
           "title": "Gérez vos transat directement sur Valora",
-          "titleV1_92": "Gérer directement à partir de {{appName}}",
+          "titleV1_92": "Gérez vos transat directement sur {{appName}}",
           "subtitle": "Nous connecterons automatiquement ton portefeuille pour que tu puisses gérer les piscines sans quitter Valora.",
           "subtitleV1_92": "Nous connecterons automatiquement ton portefeuille pour que tu puisses gérer les piscines sans quitter {{appName}}."
         },
