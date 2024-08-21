@@ -2201,6 +2201,20 @@
       "description": "无法为该令牌准备交易。"
     }
   },
+  "jumpstartIntro": {
+    "title": "像发短信一样分享加密货币",
+    "addFundsCelo": {
+      "title": "获取关于 Celo 的资产",
+      "info": "实时链接是一种通过链接向朋友发送 Celo 网络上的加密货币的方式。\n要开始使用，您的钱包中需要一些 CELO 资产。",
+      "description": "在 Celo 上添加资产后，您必须回来创建实时链接。",
+      "cta": "获取关于 Celo 的资产",
+      "actionDescriptions": {
+        "add": "使用我们值得信赖的供应商之一在 Celo 上购买资产",
+        "swap": "从 Celo 上的一项资产换入另一项资产",
+        "transfer": "使用任何兼容 Celo 的钱包或交易所在 Celo 上存入资产"
+      }
+    }
+  },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
       "title": "您最多可在一个链接中发送 {{amountInLocalCurrency,currency}}",
@@ -2486,7 +2500,7 @@
         },
         "manage": {
           "title": "直接在 Valora 管理",
-          "titleV1_92": "直接从 {{appName}}进行管理",
+          "titleV1_92": "直接在 {{appName}} 管理",
           "subtitle": "我们将自动连接您的钱包，因此您无需离开 Valora 即可管理泳池。",
           "subtitleV1_92": "我们将自动连接您的钱包，因此您无需离开 {{appName}}即可管理游泳池。"
         },
@@ -2507,8 +2521,8 @@
     },
     "entrypoint": {
       "title": "通过稳定币赚取收入",
-      "subtitle": "存款并赚取收益",
-      "description": "探索存放资产的收益池，赚取稳定币收益"
+      "subtitle": "存款和收入",
+      "description": "通过流动性池出借稳定币，赚取稳定币收益"
     },
     "enterAmount": {
       "earnUpToLabel": "您最多可以赚取：",
@@ -2538,6 +2552,7 @@
       "viewPools": "查看各类池",
       "poolsSupplied": "供应池数",
       "totalSupplied": "总供应量",
+      "depositAndEarnings": "存款和收入",
       "myPools": "我的池",
       "explore": "探索打开"
     },
@@ -2612,6 +2627,11 @@
       "openPools": "打开池",
       "myPools": "我的池"
     }
+  },
+  "addFundsActions": {
+    "add": "买入",
+    "transfer": "转账",
+    "swap": "交换"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
