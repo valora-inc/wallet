@@ -2509,8 +2509,8 @@
     },
     "entrypoint": {
       "title": "Earn on your stablecoins",
-      "subtitle": "Deposit and earn returns",
-      "description": "Explore pools to deposit assets and earn returns on your stablecoins"
+      "subtitle": "Deposit and earn",
+      "description": "Earn on your stablecoins when you lend through a liquidity pool"
     },
     "enterAmount": {
       "earnUpToLabel": "You could earn up to:",
@@ -2540,6 +2540,7 @@
       "viewPools": "View Pools",
       "poolsSupplied": "Pools supplied",
       "totalSupplied": "Total supplied",
+      "depositAndEarnings": "Deposit & Earnings",
       "myPools": "My Pools",
       "explore": "Explore Open"
     },
