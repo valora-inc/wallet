@@ -1993,7 +1993,7 @@
       "earn": "Verdienstmöglichkeiten erkunden",
       "profile": "Erstelle dein Profil",
       "learn": "Mehr über Celo erfahren",
-      "learnPoints": "Erfahre mehr über {{appName}} Punkte"
+      "learnPoints": "Learn about {{appName}} Points"
     }
   },
   "reverifyUsingCPVHomecard": {
@@ -2488,7 +2488,7 @@
         },
         "manage": {
           "title": "Direkt von Valora aus verwalten",
-          "titleV1_92": "Verwalte direkt von {{appName}}aus",
+          "titleV1_92": "Direkt von {{appName}} aus verwalten",
           "subtitle": "Wir verbinden deine Geldbörse automatisch, damit du Pools verwalten kannst, ohne Valora zu verlassen.",
           "subtitleV1_92": "Wir verbinden deine Geldbörse automatisch, damit du Pools verwalten kannst, ohne {{appName}}zu verlassen."
         },
