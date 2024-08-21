@@ -638,6 +638,8 @@ export enum JumpstartEvents {
   jumpstart_reclaim_contact_support = 'jumpstart_reclaim_contact_support',
   jumpstart_claim_status_fetch_success = 'jumpstart_claim_status_fetch_success',
   jumpstart_claim_status_fetch_error = 'jumpstart_claim_status_fetch_error',
+  jumpstart_add_assets_show_actions = 'jumpstart_add_assets_show_actions',
+  jumpstart_add_assets_action_press = 'jumpstart_add_assets_action_press',
 }
 
 export enum PointsEvents {
@@ -682,7 +684,7 @@ export enum EarnEvents {
   earn_withdraw_add_gas_press = 'earn_withdraw_add_gas_press',
   earn_info_learn_press = 'earn_info_learn_press',
   earn_info_earn_press = 'earn_info_earn_press',
-  earn_active_pools_cta_press = 'earn_active_pools_cta_press',
+  earn_active_pools_card_press = 'earn_active_pools_card_press',
   earn_home_learn_more_press = 'earn_home_learn_more_press',
-  earn_pool_card_cta_press = 'earn_pool_card_cta_press',
+  earn_pool_card_press = 'earn_pool_card_press',
 }

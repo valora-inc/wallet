@@ -1,4 +1,4 @@
-import { getAddressChunks } from '@celo/utils/lib/address'
+import { getAddressChunks } from '../../../src/utils/address'
 import {
   SAMPLE_BACKUP_KEY,
   SAMPLE_BACKUP_KEY_12_WORDS,

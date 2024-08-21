@@ -1,9 +1,4 @@
-import {
-  isValidAddress,
-  normalizeAddress,
-  normalizeAddressWith0x,
-  privateKeyToAddress,
-} from '@celo/utils/lib/address'
+import { isValidAddress, normalizeAddress, normalizeAddressWith0x } from '@celo/utils/lib/address'
 import CryptoJS from 'crypto-js'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { generateKeysFromMnemonic, getStoredMnemonic } from 'src/backup/utils'
@@ -14,6 +9,7 @@ import {
   storeItem,
 } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
+import { Address, privateKeyToAddress } from 'viem/accounts'
 
 const TAG = 'web3/KeychainLock'
 
@@ -55,15 +51,13 @@ export async function decryptPrivateKey(encryptedPrivateKey: string, password: s
   }
 }
 
-export async function storePrivateKey(
-  privateKey: string,
-  account: KeychainAccount,
-  password: string
-) {
+async function storePrivateKey(privateKey: string, account: KeychainAccount, password: string) {
   const encryptedPrivateKey = await encryptPrivateKey(privateKey, password)
   return storeItem({ key: accountStorageKey(account), value: encryptedPrivateKey })
 }
 
+// Note: ideally this wouldn't be exported, so we don't accidentally expose the private key
+// but it's needed for now to support the existing KeychainWallet and the viem wallet
 export async function getStoredPrivateKey(
   account: KeychainAccount,
   password: string
@@ -164,7 +158,7 @@ async function importAndStorePrivateKeyFromMnemonic(account: KeychainAccount, pa
   }
 
   // Prefix 0x here or else the signed transaction produces dramatically different signer!!!
-  const normalizedPrivateKey = normalizeAddressWith0x(privateKey)
+  const normalizedPrivateKey = normalizeAddressWith0x(privateKey) as Address
   const accountFromPrivateKey = normalizeAddressWith0x(privateKeyToAddress(normalizedPrivateKey))
   if (accountFromPrivateKey !== account.address) {
     throw new Error(
@@ -195,7 +189,32 @@ export class KeychainLock {
     }
   > = new Map()
 
-  addAccount(account: KeychainAccount) {
+  async loadExistingAccounts(
+    importMnemonicAccount?: ImportMnemonicAccount
+  ): Promise<KeychainAccount[]> {
+    const accounts = await listStoredAccounts(importMnemonicAccount)
+
+    for (const account of accounts) {
+      this.addExistingAccount(account)
+    }
+    return accounts
+  }
+
+  async addAccount(privateKey: string, passphrase: string): Promise<KeychainAccount> {
+    Logger.info(`${TAG}@addAccount`, `Adding a new account`)
+    // Prefix 0x here or else the signed transaction produces dramatically different signer!!!
+    const normalizedPrivateKey = normalizeAddressWith0x(privateKey) as Address
+    const address = normalizeAddressWith0x(privateKeyToAddress(normalizedPrivateKey))
+    if (this.locks.has(address)) {
+      throw new Error(ErrorMessages.KEYCHAIN_ACCOUNT_ALREADY_EXISTS)
+    }
+    const account = { address, createdAt: new Date() }
+    this.addExistingAccount(account)
+    await storePrivateKey(privateKey, account, passphrase)
+    return account
+  }
+
+  private addExistingAccount(account: KeychainAccount) {
     this.locks.set(normalizeAddressWith0x(account.address), { account })
   }
 

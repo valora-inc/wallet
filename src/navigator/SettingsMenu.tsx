@@ -10,7 +10,7 @@ import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
 import Touchable from 'src/components/Touchable'
 import Help from 'src/icons/navigator/Help'
-import { Invite } from 'src/icons/navigator/Invite'
+import Envelope from 'src/icons/Envelope'
 import { headerWithCloseButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -121,7 +121,7 @@ export default function SettingsMenu({ route }: Props) {
           borderless
         />
         <SettingsItemTextValue
-          icon={<Invite size={24} color={colors.black} />}
+          icon={<Envelope color={colors.black} />}
           title={t('invite')}
           onPress={() => navigate(Screens.Invite)}
           testID="SettingsMenu/Invite"

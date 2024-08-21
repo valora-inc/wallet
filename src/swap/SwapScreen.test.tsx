@@ -5,8 +5,8 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { ReactTestInstance } from 'react-test-renderer'
 import { showError } from 'src/alert/actions'
-import { SwapEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { SwapEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import { navigate } from 'src/navigator/NavigationService'
@@ -134,6 +134,7 @@ const renderScreen = ({
   isPoofSwappable = true,
   poofBalance = '100',
   lastSwapped = [],
+  toTokenNetworkId = undefined,
 }: {
   celoBalance?: string
   cUSDBalance?: string
@@ -141,6 +142,7 @@ const renderScreen = ({
   isPoofSwappable?: boolean
   poofBalance?: string
   lastSwapped?: string[]
+  toTokenNetworkId?: NetworkId
 }) => {
   const store = createMockStore({
     tokens: {
@@ -168,7 +170,7 @@ const renderScreen = ({
 
   const tree = render(
     <Provider store={store}>
-      <MockedNavigator component={SwapScreen} params={{ fromTokenId }} />
+      <MockedNavigator component={SwapScreen} params={{ fromTokenId, toTokenNetworkId }} />
     </Provider>
   )
   const [swapFromContainer, swapToContainer] = tree.getAllByTestId('SwapAmountInput')
@@ -1653,6 +1655,9 @@ describe('SwapScreen', () => {
     const expectedAllFromTokens = Object.values(mockStoreTokenBalances).filter(
       (token) => token.isSwappable !== false || token.balance !== '0' // include unswappable tokens with balance because it is the "from" token
     )
+    const expectedAllToTokens = Object.values(mockStoreTokenBalances).filter(
+      (token) => token.isSwappable !== false
+    )
 
     it('should show "my tokens" for the "from" token selection by default', () => {
       const mockedZeroBalanceTokens = [mockCeurTokenId, mockCusdTokenId, mockPoofTokenId]
@@ -1800,6 +1805,24 @@ describe('SwapScreen', () => {
         expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()
       })
       expectedEthTokens.forEach((token) => {
+        expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()
+      })
+    })
+
+    it('should show pre-selected network filter from route params', async () => {
+      const expectedCeloTokens = expectedAllToTokens.filter(
+        (token) => token.networkId === NetworkId['celo-alfajores']
+      )
+      const { tokenBottomSheets } = renderScreen({
+        toTokenNetworkId: NetworkId['celo-alfajores'],
+      })
+      const tokenBottomSheet = tokenBottomSheets[1] // "to" token selection
+
+      const filteredTokens = within(tokenBottomSheet).getAllByTestId('TokenBalanceItem')
+
+      // only the celo network tokens are displayed
+      expect(filteredTokens.length).toBe(expectedCeloTokens.length)
+      expectedCeloTokens.forEach((token) => {
         expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()
       })
     })

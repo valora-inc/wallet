@@ -62,7 +62,7 @@ exports[`SmartTopAlert renders correctly 1`] = `
           },
           false,
           {
-            "color": "white",
+            "color": "#FFFFFF",
             "lineHeight": undefined,
             "textAlign": "center",
           },
@@ -78,7 +78,7 @@ exports[`SmartTopAlert renders correctly 1`] = `
               "lineHeight": 20,
             },
             {
-              "color": "white",
+              "color": "#FFFFFF",
               "lineHeight": undefined,
               "textAlign": "center",
             },

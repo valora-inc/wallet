@@ -21,7 +21,10 @@ import { CICOFlow, FiatExchangeFlow } from './utils'
 
 type Props = BottomSheetScreenProps<StackParamList, Screens.FiatExchangeCurrencyBottomSheet>
 
-function useFilterChips(flow: FiatExchangeFlow): FilterChip<TokenBalance>[] {
+function useFilterChips(
+  flow: FiatExchangeFlow,
+  preselectedNetworkId?: NetworkId
+): FilterChip<TokenBalance>[] {
   const { t } = useTranslation()
   const feeCurrencies = useSelector(allFeeCurrenciesSelector)
   const feeTokenIds = useMemo(
@@ -65,9 +68,9 @@ function useFilterChips(flow: FiatExchangeFlow): FilterChip<TokenBalance>[] {
       filterFn: (token: TokenBalance, selected?: NetworkId[]) => {
         return !!selected && selected.includes(token.networkId)
       },
-      isSelected: false,
+      isSelected: !!preselectedNetworkId,
       allNetworkIds: supportedNetworkIds,
-      selectedNetworkIds: supportedNetworkIds,
+      selectedNetworkIds: preselectedNetworkId ? [preselectedNetworkId] : supportedNetworkIds,
     },
   ]
 }
@@ -75,7 +78,7 @@ function useFilterChips(flow: FiatExchangeFlow): FilterChip<TokenBalance>[] {
 function FiatExchangeCurrencyBottomSheet({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const { flow } = route.params
+  const { flow, networkId } = route.params
   const cashInTokens = useCashInTokens()
   const cashOutTokens = useCashOutTokens(true)
   const spendTokens = useSpendTokens()
@@ -87,7 +90,7 @@ function FiatExchangeCurrencyBottomSheet({ route }: Props) {
         : spendTokens
 
   const tokenList = useMemo(() => [...unsortedTokenList].sort(sortCicoTokens), [unsortedTokenList])
-  const filterChips = useFilterChips(flow)
+  const filterChips = useFilterChips(flow, networkId)
 
   // Fetch FiatConnect providers silently in the background early in the CICO funnel
   useEffect(() => {

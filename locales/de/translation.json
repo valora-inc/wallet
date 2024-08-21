@@ -1993,7 +1993,7 @@
       "earn": "Verdienstmöglichkeiten erkunden",
       "profile": "Erstelle dein Profil",
       "learn": "Mehr über Celo erfahren",
-      "learnPoints": "Erfahre mehr über {{appName}} Punkte"
+      "learnPoints": "Learn about {{appName}} Points"
     }
   },
   "reverifyUsingCPVHomecard": {
@@ -2201,6 +2201,20 @@
     "prepareTransactionError": {
       "title": "Etwas ist schief gelaufen!",
       "description": "Es war nicht möglich, eine Transaktion für dieses Token vorzubereiten."
+    }
+  },
+  "jumpstartIntro": {
+    "title": "Krypto wie einen Text teilen",
+    "addFundsCelo": {
+      "title": "Vermögenswerte auf Celo erhalten",
+      "info": "Live-Links sind eine Möglichkeit, Kryptowährungen im Celo-Netzwerk mit einem Link an einen Freund zu senden.\nUm loszulegen, brauchst du einige CELO-Guthaben in deiner Brieftasche.",
+      "description": "Sobald du Assets auf Celo hinzugefügt hast, musst du zurückkommen, um einen Live Link zu erstellen.",
+      "cta": "Vermögenswerte auf Celo erhalten",
+      "actionDescriptions": {
+        "add": "Kaufe Vermögenswerte auf Celo mit einem unserer vertrauenswürdigen Anbieter",
+        "swap": "Swap in eine Anlage auf Celo von einer anderen Anlage",
+        "transfer": "Verwende eine beliebige Celo-kompatible Geldbörse oder Börse, um Vermögenswerte auf Celo einzuzahlen"
+      }
     }
   },
   "jumpstartEnterAmountScreen": {
@@ -2488,7 +2502,7 @@
         },
         "manage": {
           "title": "Direkt von Valora aus verwalten",
-          "titleV1_92": "Verwalte direkt von {{appName}}aus",
+          "titleV1_92": "Direkt von {{appName}} aus verwalten",
           "subtitle": "Wir verbinden deine Geldbörse automatisch, damit du Pools verwalten kannst, ohne Valora zu verlassen.",
           "subtitleV1_92": "Wir verbinden deine Geldbörse automatisch, damit du Pools verwalten kannst, ohne {{appName}}zu verlassen."
         },
@@ -2509,8 +2523,8 @@
     },
     "entrypoint": {
       "title": "Verdiene an deinen Stablecoins",
-      "subtitle": "Zahle heute und verdiene Rendite",
-      "description": "Entdecke Pools, um Vermögen zu hinterlegen und Renditen auf deine Stablecoins zu erzielen"
+      "subtitle": "Einzahlen und verdienen",
+      "description": "Verdiene an deinen Stablecoins, wenn du sie über einen Liquiditätspool ausleihst."
     },
     "enterAmount": {
       "earnUpToLabel": "Verdienst von bis zu:",
@@ -2540,6 +2554,7 @@
       "viewPools": "Pools anzeigen",
       "poolsSupplied": "Bereitgestellte Pools",
       "totalSupplied": "Insgesamt bereitgestellt",
+      "depositAndEarnings": "Einzahlung & Verdienst",
       "myPools": "Meine Pools",
       "explore": "Offen erforschen"
     },
@@ -2602,18 +2617,26 @@
     "poolCard": {
       "onNetwork": "auf {{networkName}}",
       "rate": "Rate (geschätzt)",
+      "yieldRate": "Ausbeutesatz (geschätzt)",
       "reward": "Reward",
       "tvl": "TVL",
       "exitPool": "Pool verlassen",
       "addToPool": "Zum Pool hinzufügen",
       "apy": "{{apy}} % jährliche prozentuale Rendite",
+      "percentage": "{{percentage}}%",
       "poweredBy": "Unterstützt von {{providerName}}",
-      "deposited": "Bereitgestellt"
+      "deposited": "Bereitgestellt",
+      "depositAndEarnings": "Einzahlung & Verdienst"
     },
     "poolFilters": {
       "openPools": "Offene Pools",
       "myPools": "Meine Pools"
     }
+  },
+  "addFundsActions": {
+    "add": "Kaufen",
+    "transfer": "Überweisung",
+    "swap": "Tauschen"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
