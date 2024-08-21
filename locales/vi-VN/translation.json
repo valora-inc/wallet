@@ -2507,8 +2507,8 @@
     },
     "entrypoint": {
       "title": "Nhận stablecoin",
-      "subtitle": "Nạp tiền và nhận tiền lãi",
-      "description": "Khám phá các quỹ để gửi tài sản và nhận tiền lãi từ stablecoin của bạn"
+      "subtitle": "Deposit and earn",
+      "description": "Earn on your stablecoins when you lend through a liquidity pool"
     },
     "enterAmount": {
       "earnUpToLabel": "Bạn có thể kiếm được đến:",
@@ -2538,6 +2538,7 @@
       "viewPools": "Xem quỹ",
       "poolsSupplied": "Các quỹ được cung cấp",
       "totalSupplied": "Tổng quỹ được cung cấp",
+      "depositAndEarnings": "Deposit & Earnings",
       "myPools": "Các quỹ của tôi",
       "explore": "Khám phá các quỹ đang mở"
     },
