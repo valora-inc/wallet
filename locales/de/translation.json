@@ -2203,6 +2203,20 @@
       "description": "Es war nicht möglich, eine Transaktion für dieses Token vorzubereiten."
     }
   },
+  "jumpstartIntro": {
+    "title": "Krypto wie einen Text teilen",
+    "addFundsCelo": {
+      "title": "Vermögenswerte auf Celo erhalten",
+      "info": "Live-Links sind eine Möglichkeit, Kryptowährungen im Celo-Netzwerk mit einem Link an einen Freund zu senden.\nUm loszulegen, brauchst du einige CELO-Guthaben in deiner Brieftasche.",
+      "description": "Sobald du Assets auf Celo hinzugefügt hast, musst du zurückkommen, um einen Live Link zu erstellen.",
+      "cta": "Vermögenswerte auf Celo erhalten",
+      "actionDescriptions": {
+        "add": "Kaufe Vermögenswerte auf Celo mit einem unserer vertrauenswürdigen Anbieter",
+        "swap": "Swap in eine Anlage auf Celo von einer anderen Anlage",
+        "transfer": "Verwende eine beliebige Celo-kompatible Geldbörse oder Börse, um Vermögenswerte auf Celo einzuzahlen"
+      }
+    }
+  },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
       "title": "Du kannst bis zu {{amountInLocalCurrency,currency}} in einem Link senden",
@@ -2617,7 +2631,7 @@
     }
   },
   "addFundsActions": {
-    "buy": "Kaufen",
+    "add": "Kaufen",
     "transfer": "Überweisung",
     "swap": "Tauschen"
   },
