@@ -40,15 +40,15 @@ export default function AddAssetsBottomSheet({
   const actionExtraProps = {
     [TokenActionName.Add]: {
       iconComponent: QuickActionsAdd,
-      title: t('earnFlow.addCryptoBottomSheet.actions.add'),
+      title: t('addFundsActions.add'),
     },
     [TokenActionName.Transfer]: {
       iconComponent: QuickActionsSend,
-      title: t('earnFlow.addCryptoBottomSheet.actions.transfer'),
+      title: t('addFundsActions.transfer'),
     },
     [TokenActionName.Swap]: {
       iconComponent: QuickActionsSwap,
-      title: t('earnFlow.addCryptoBottomSheet.actions.swap'),
+      title: t('addFundsActions.swap'),
     },
   }
 
