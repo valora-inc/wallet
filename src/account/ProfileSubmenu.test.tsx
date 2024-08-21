@@ -1,7 +1,7 @@
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import ProfileMenu from 'src/account/ProfileMenu'
+import ProfileSubmenu from 'src/account/ProfileSubmenu'
 import { Screens } from 'src/navigator/Screens'
 import MockedNavigator from 'test/MockedNavigator'
 import { FetchMock } from 'jest-fetch-mock/types'
@@ -29,7 +29,7 @@ jest.mock('src/statsig', () => ({
   })),
 }))
 
-describe('ProfileMenu', () => {
+describe('ProfileSubmenu', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -38,11 +38,11 @@ describe('ProfileMenu', () => {
     const store = createMockStore()
     const { queryByTestId } = render(
       <Provider store={store}>
-        <MockedNavigator component={ProfileMenu}></MockedNavigator>
+        <MockedNavigator component={ProfileSubmenu}></MockedNavigator>
       </Provider>
     )
-    expect(queryByTestId('ProfileMenu/EditProfile')).toBeTruthy()
-    expect(queryByTestId('ProfileMenu/Verify')).toBeTruthy()
+    expect(queryByTestId('ProfileSubmenu/EditProfile')).toBeTruthy()
+    expect(queryByTestId('ProfileSubmenu/Verify')).toBeTruthy()
   })
   it('can revoke the phone number successfully', async () => {
     mockFetch.mockResponseOnce(JSON.stringify({ message: 'OK' }), {
@@ -57,7 +57,7 @@ describe('ProfileMenu', () => {
 
     const tree = render(
       <Provider store={store}>
-        <ProfileMenu {...getMockStackScreenProps(Screens.ProfileMenu)} />
+        <ProfileSubmenu {...getMockStackScreenProps(Screens.ProfileSubmenu)} />
       </Provider>
     )
 
@@ -94,7 +94,7 @@ describe('ProfileMenu', () => {
 
     const tree = render(
       <Provider store={store}>
-        <ProfileMenu {...getMockStackScreenProps(Screens.ProfileMenu)} />
+        <ProfileSubmenu {...getMockStackScreenProps(Screens.ProfileSubmenu)} />
       </Provider>
     )
 

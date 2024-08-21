@@ -19,9 +19,9 @@ import CustomHeader from 'src/components/header/CustomHeader'
 import variables from 'src/styles/variables'
 import BackButton from 'src/components/BackButton'
 
-type Props = NativeStackScreenProps<StackParamList, Screens.ProfileMenu>
+type Props = NativeStackScreenProps<StackParamList, Screens.ProfileSubmenu>
 
-export default function ProfileMenu(props: Props) {
+export default function ProfileSubmenu(props: Props) {
   const { t } = useTranslation()
   const numberVerified = useSelector(phoneNumberVerifiedSelector)
   const revokeBottomSheetRef = useRef<BottomSheetRefType>(null)
@@ -47,7 +47,7 @@ export default function ProfileMenu(props: Props) {
       <ScrollView>
         <View>
           <SettingsItemTextValue
-            testID="ProfileMenu/EditProfile"
+            testID="ProfileSubmenu/EditProfile"
             icon={<User />}
             title={t('editProfile')}
             onPress={goToProfile}
@@ -55,7 +55,7 @@ export default function ProfileMenu(props: Props) {
           />
           {!numberVerified ? (
             <SettingsItemTextValue
-              testID="ProfileMenu/Verify"
+              testID="ProfileSubmenu/Verify"
               icon={<Phone />}
               title={t('confirmNumber')}
               onPress={goToConfirmNumber}
@@ -64,7 +64,7 @@ export default function ProfileMenu(props: Props) {
             />
           ) : (
             <SettingsExpandedItem
-              testID="ProfileMenu/Revoke"
+              testID="ProfileSubmenu/Revoke"
               icon={<Phone />}
               title={t('revokePhoneNumber.title')}
               details={t('revokePhoneNumber.description')}
