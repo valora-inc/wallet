@@ -22,12 +22,6 @@ mockedKeychain.getGenericPassword.mockResolvedValue({
   service: 'some service',
   storage: 'some string',
 })
-jest.mock('src/statsig', () => ({
-  getFeatureGate: jest.fn().mockReturnValue(false),
-  getMultichainFeatures: jest.fn(() => ({
-    showBalances: ['celo-alfajores'],
-  })),
-}))
 
 describe('ProfileSubmenu', () => {
   beforeEach(() => {
