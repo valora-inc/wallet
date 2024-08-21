@@ -235,11 +235,11 @@ export default function EarnHome({ navigation, route }: Props) {
   }
 
   const displayPools = useMemo(() => {
-    return pools.filter((pool) => {
-      const depositTokenInfo = allTokens[pool.dataProps.depositTokenId]
-      const isMyPool = new BigNumber(pool.balance).gt(0) && !!depositTokenInfo
-      return activeTab === EarnTabType.MyPools ? isMyPool : pools
-    })
+    return activeTab === EarnTabType.AllPools
+      ? pools
+      : pools.filter(
+          (pool) => new BigNumber(pool.balance).gt(0) && !!allTokens[pool.dataProps.depositTokenId]
+        )
   }, [pools, allTokens, activeTab])
 
   const onPressLearnMore = () => {
