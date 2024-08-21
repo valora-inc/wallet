@@ -2507,8 +2507,8 @@
     },
     "entrypoint": {
       "title": "สร้างรายได้ผ่าน Stablecoin",
-      "subtitle": "ฝากเงินแล้วรับผลตอบแทน",
-      "description": "สำรวจพูลเพื่อฝากสินทรัพย์และรับผลตอบแทนจาก Stablecoin ของคุณ"
+      "subtitle": "Deposit and earn",
+      "description": "Earn on your stablecoins when you lend through a liquidity pool"
     },
     "enterAmount": {
       "earnUpToLabel": "คุณสามารถสร้างรายได้สูงถึง:",
@@ -2538,6 +2538,7 @@
       "viewPools": "ดูพูล",
       "poolsSupplied": "พูลที่เข้าร่วม",
       "totalSupplied": "จำนวนทั้งหมดที่เข้าร่วม",
+      "depositAndEarnings": "Deposit & Earnings",
       "myPools": "พูลของฉัน",
       "explore": "สำรวจที่เปิดอยู่"
     },
