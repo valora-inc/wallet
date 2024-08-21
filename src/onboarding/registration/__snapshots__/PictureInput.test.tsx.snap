@@ -41,10 +41,10 @@ exports[`PictureInputScreen renders correctly 1`] = `
         {
           "alignItems": "center",
           "alignSelf": "center",
-          "borderRadius": 32,
-          "height": 64,
+          "borderRadius": 24,
+          "height": 48,
           "justifyContent": "center",
-          "width": 64,
+          "width": 48,
         },
       ]
     }
@@ -71,9 +71,9 @@ exports[`PictureInputScreen renders correctly 1`] = `
             },
             {
               "backgroundColor": "#F8F9F9",
-              "borderRadius": 32,
-              "height": 64,
-              "width": 64,
+              "borderRadius": 24,
+              "height": 48,
+              "width": 48,
             },
             {
               "borderColor": "#E6E6E6",
@@ -96,9 +96,9 @@ exports[`PictureInputScreen renders correctly 1`] = `
                 "margin": "auto",
               },
               {
-                "borderRadius": 32,
-                "height": 64,
-                "width": 64,
+                "borderRadius": 24,
+                "height": 48,
+                "width": 48,
               },
             ]
           }
@@ -109,31 +109,26 @@ exports[`PictureInputScreen renders correctly 1`] = `
       style={
         {
           "alignItems": "center",
-          "backgroundColor": "#F8F9F9",
+          "backgroundColor": "#2E3338",
           "borderRadius": 20,
-          "bottom": -13,
-          "height": 40,
+          "bottom": -5,
+          "height": 24,
           "justifyContent": "center",
-          "left": 37,
+          "left": 30,
           "position": "absolute",
-          "width": 40,
+          "width": 24,
         }
       }
     >
       <svg
         fill="none"
-        height={13}
-        style={{}}
-        viewBox="0 0 13 13"
-        width={13}
-        xmlns="http://www.w3.org/2000/svg"
+        height={12}
+        viewBox="0 0 24 24"
+        width={12}
       >
         <path
-          clip-rule="evenodd"
-          d="M10.8667 4.94998L8.03333 2.14998L8.96667 1.21665C9.22222 0.961091 9.53622 0.833313 9.90867 0.833313C10.2807 0.833313 10.5944 0.961091 10.85 1.21665L11.7833 2.14998C12.0389 2.40554 12.1722 2.71398 12.1833 3.07531C12.1944 3.4362 12.0722 3.74442 11.8167 3.99998L10.8667 4.94998ZM9.9 5.93331L2.83333 13H0V10.1666L7.06667 3.09998L9.9 5.93331Z"
-          fill="#137211"
-          fill-rule="evenodd"
-          style={{}}
+          d="M20 4h-3.17L15 2H9L7.17 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 14H4V6h4.05l1.83-2h4.24l1.83 2H20v12ZM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0 8a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"
+          fill="#FFFFFF"
         />
       </svg>
     </View>

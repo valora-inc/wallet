@@ -102,7 +102,7 @@ describe('SettingsMenu', () => {
 
     expect(navigate).toHaveBeenCalledTimes(4)
 
-    expect(navigate).toHaveBeenNthCalledWith(1, Screens.ProfileMenu)
+    expect(navigate).toHaveBeenNthCalledWith(1, Screens.ProfileSubmenu)
     expect(navigate).toHaveBeenNthCalledWith(2, Screens.QRNavigator, {
       screen: Screens.QRCode,
       params: { showSecureSendStyling: true },
