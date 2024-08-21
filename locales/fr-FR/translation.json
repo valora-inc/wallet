@@ -2482,17 +2482,19 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "Maximiser vos gains sans frais de gaz*",
-          "title": "Maximiser les gains",
-          "subtitle": "Gagnez sur vos stablecoins et obtenez des récompenses quand vous approvisionnez un pool.",
+          "title": "Explorer et comparer les piscines",
+          "subtitle": "Compare les possibilités de gains et les risques. Échange, achète ou transfère des jetons pour rejoindre le pool qui te convient le mieux.",
           "footnoteSubsidy": "*Les frais de gaz sont temporairement couverts par Valora"
         },
         "manage": {
           "title": "Gérez vos transat directement sur Valora",
-          "subtitle": "Nous nous chargerons de la configuration de votre compte pour vous permettre de le gérer directement sur Valora."
+          "titleV1_92": "Gérer directement à partir de {{appName}}",
+          "subtitle": "Nous connecterons automatiquement ton portefeuille pour que tu puisses gérer les piscines sans quitter Valora.",
+          "subtitleV1_92": "Nous connecterons automatiquement ton portefeuille pour que tu puisses gérer les piscines sans quitter {{appName}}."
         },
         "access": {
           "title": "Accédez facilement à vos fonds",
-          "subtitle": "Collectez vos fonds en un seul clic. Profitez du même accès instantané que sur vos protocoles préférés."
+          "subtitle": "Collecte des fonds d'une simple tape, tout comme tes protocoles préférés."
         }
       },
       "action": {

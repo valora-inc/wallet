@@ -2484,17 +2484,19 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "Maximize Earnings without Gas Fees*",
-          "title": "Maximize Earnings",
-          "subtitle": "Earn on your stablecoins and get rewards when you supply a pool.",
+          "title": "Explore and Compare Pools",
+          "subtitle": "Compare earning potential and risks. Swap, buy, or transfer tokens to join the best pool for you.",
           "footnoteSubsidy": "*Gas fees are temporarily covered by Valora"
         },
         "manage": {
           "title": "Manage Directly from Valora",
-          "subtitle": "We’ll take care of the setup so you can manage your position directly from Valora."
+          "titleV1_92": "Manage Directly from {{appName}}",
+          "subtitle": "We'll auto-connect your wallet so you can manage pools without leaving Valora.",
+          "subtitleV1_92": "We'll auto-connect your wallet so you can manage pools without leaving {{appName}}."
         },
         "access": {
           "title": "Easily Access your Funds",
-          "subtitle": "Collect your funds effortlessly with a single tap. Enjoy the same instant access as you would directly through your favorite protocols."
+          "subtitle": "Collect funds with a tap, just like your favorite protocols."
         }
       },
       "action": {
@@ -2509,8 +2511,8 @@
     },
     "entrypoint": {
       "title": "Earn on your stablecoins",
-      "subtitle": "Deposit and earn returns",
-      "description": "Explore pools to deposit assets and earn returns on your stablecoins"
+      "subtitle": "Deposit and earn",
+      "description": "Earn on your stablecoins when you lend through a liquidity pool"
     },
     "enterAmount": {
       "earnUpToLabel": "You could earn up to:",
@@ -2540,6 +2542,7 @@
       "viewPools": "View Pools",
       "poolsSupplied": "Pools supplied",
       "totalSupplied": "Total supplied",
+      "depositAndEarnings": "Deposit & Earnings",
       "myPools": "My Pools",
       "explore": "Explore Open"
     },
@@ -2614,5 +2617,10 @@
       "openPools": "Open Pools",
       "myPools": "My Pools"
     }
+  },
+  "addFundsActions": {
+    "buy": "Buy",
+    "transfer": "Transfer",
+    "swap": "Swap"
   }
 }

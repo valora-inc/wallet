@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import Animated, { SlideInUp, SlideOutUp } from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { BuilderHooksEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { BuilderHooksEvents } from 'src/analytics/Events'
 import Touchable from 'src/components/Touchable'
 import { hooksPreviewApiUrlSelector, hooksPreviewStatusSelector } from 'src/positions/selectors'
 import { previewModeDisabled } from 'src/positions/slice'
@@ -15,8 +15,8 @@ import { typeScale } from 'src/styles/fonts'
 const AnimatedSafeAreaView = Animated.createAnimatedComponent(SafeAreaView)
 
 const STATUS_COLORS = {
-  idle: 'gray',
-  loading: 'gray',
+  idle: colors.gray2,
+  loading: colors.gray2,
   success: colors.primary,
   error: colors.errorDark,
 }
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     top: -10,
     left: 0,
     right: 0,
-    backgroundColor: 'orange',
+    backgroundColor: colors.warningDark,
   },
   text: {
     ...typeScale.labelXSmall,
