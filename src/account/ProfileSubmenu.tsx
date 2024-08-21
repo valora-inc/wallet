@@ -42,7 +42,7 @@ export default function ProfileSubmenu(props: Props) {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView>
       <CustomHeader left={<BackButton />} style={styles.header} />
       <ScrollView>
         <View>
@@ -80,9 +80,6 @@ export default function ProfileSubmenu(props: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   header: {
     paddingHorizontal: variables.contentPadding,
   },
