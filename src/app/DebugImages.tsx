@@ -17,6 +17,16 @@ const images = require.context('../images', true, /\.tsx$/)
 const ICON_SIZE = 32
 const IMAGE_SIZE = 96
 
+const IconItem = ({ Component, fileName }: { Component: React.ElementType; fileName: string }) => {
+  return (
+    <View style={styles.itemContainer}>
+      {/* Not all icons have the same props, we do our best here to set consistent size and color */}
+      <Component height={ICON_SIZE} width={ICON_SIZE} size={ICON_SIZE} color={Colors.black} />
+      <Text>{fileName.split('.tsx')[0].slice(2)}</Text>
+    </View>
+  )
+}
+
 export function DebugImages() {
   return (
     <LinearGradient
@@ -31,18 +41,7 @@ export function DebugImages() {
             {icons.keys().map((iconFileName: string) => {
               const Icon = icons(iconFileName).default
 
-              return (
-                <View style={styles.itemContainer} key={iconFileName}>
-                  {/* Not all icons have the same props, we do our best here to set consistent size and color */}
-                  <Icon
-                    height={ICON_SIZE}
-                    width={ICON_SIZE}
-                    size={ICON_SIZE}
-                    color={Colors.black}
-                  />
-                  <Text>{iconFileName.split('.tsx')[0].slice(2)}</Text>
-                </View>
-              )
+              return <IconItem key={iconFileName} Component={Icon} fileName={iconFileName} />
             })}
           </View>
 
@@ -52,22 +51,12 @@ export function DebugImages() {
               const ImageComponent = images(imageFileName).default
 
               return (
-                <View style={styles.itemContainer} key={imageFileName}>
-                  {/* Not all icons have the same props, we do our best here to set consistent size and color */}
-                  <ImageComponent
-                    height={ICON_SIZE}
-                    width={ICON_SIZE}
-                    size={ICON_SIZE}
-                    color={Colors.black}
-                  />
-                  <Text>{imageFileName.split('.tsx')[0].slice(2)}</Text>
-                </View>
+                <IconItem key={imageFileName} Component={ImageComponent} fileName={imageFileName} />
               )
             })}
             {Object.keys(Images).map((key) => (
               <View style={styles.itemContainer} key={key}>
                 <Image
-                  key={key}
                   // @ts-ignore
                   source={Images[key]}
                   style={styles.image}
