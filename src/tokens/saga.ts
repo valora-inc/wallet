@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import erc20 from 'src/abis/IERC20'
-import * as stableToken from 'src/abis/StableToken.json'
+import stableToken from 'src/abis/StableToken'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { AppEvents } from 'src/analytics/Events'
 import { DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED } from 'src/config'

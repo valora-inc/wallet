@@ -1,5 +1,5 @@
 import { normalizeAddress } from '@celo/utils/lib/address'
-import erc20 from 'src/abis/IERC20.json'
+import erc20 from 'src/abis/IERC20'
 import { Network } from 'src/transactions/types'
 import { viemTransports } from 'src/viem'
 import getLockableViemWallet, { ViemWallet, getTransport } from 'src/viem/getLockableWallet'
