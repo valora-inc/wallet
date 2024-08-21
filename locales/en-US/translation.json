@@ -2616,6 +2616,11 @@
       "myPools": "My Pools"
     }
   },
+  "addFundsActions": {
+    "buy": "Buy",
+    "transfer": "Transfer",
+    "swap": "Swap"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
