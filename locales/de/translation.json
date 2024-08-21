@@ -2616,6 +2616,11 @@
       "myPools": "Meine Pools"
     }
   },
+  "addFundsActions": {
+    "buy": "Kaufen",
+    "transfer": "Überweisung",
+    "swap": "Tauschen"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
