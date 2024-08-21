@@ -14,12 +14,7 @@ export default class GuideKeyIcon extends React.PureComponent<Props> {
 
   render() {
     return (
-      <Svg
-        width={this.props.width}
-        height={this.props.height}
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
+      <Svg width={this.props.width} height={this.props.height} viewBox="0 0 154 115" fill="none">
         <Path
           d="M85.88 60.094H71.31m-9.713 8.846v-8.846h9.713m0 0v8.846"
           stroke="#2E3338"
