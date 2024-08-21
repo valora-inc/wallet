@@ -2633,7 +2633,7 @@
     }
   },
   "addFundsActions": {
-    "buy": "Buy",
+    "add": "Buy",
     "transfer": "Transfer",
     "swap": "Swap"
   }
