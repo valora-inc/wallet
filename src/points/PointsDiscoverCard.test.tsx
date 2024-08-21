@@ -1,11 +1,12 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { PointsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { PointsEvents } from 'src/analytics/Events'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import PointsDiscoverCard from 'src/points/PointsDiscoverCard'
+import { pointsDataRefreshStarted } from 'src/points/slice'
 import { RootState } from 'src/redux/store'
 import { getFeatureGate } from 'src/statsig/index'
 import { RecursivePartial, createMockStore } from 'test/utils'
@@ -46,9 +47,7 @@ describe('PointsDiscoverCard', () => {
       getByText('points.discoverCard.balance, {"pointsBalance":"BALANCE_AMOUNT"}')
     ).toBeTruthy()
 
-    expect(store.getActions()).toEqual([
-      { type: 'points/getHistoryStarted', payload: { getNextPage: false } },
-    ])
+    expect(store.getActions()).toEqual([pointsDataRefreshStarted()])
   })
 
   it('does not render when feature gate is disabled', () => {
