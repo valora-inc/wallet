@@ -30,7 +30,7 @@ const IconItem = ({ Component, fileName }: { Component: React.ElementType; fileN
 export function DebugImages() {
   return (
     <LinearGradient
-      colors={[Colors.white, Colors.gray4]}
+      colors={[Colors.white, Colors.gray3]}
       start={{ x: 0, y: 0 }}
       end={{ x: 0, y: 1 }}
     >
@@ -39,19 +39,25 @@ export function DebugImages() {
           <Text style={styles.title}>ICONS</Text>
           <View style={styles.container}>
             {icons.keys().map((iconFileName: string) => {
-              const Icon = icons(iconFileName).default
-
-              return <IconItem key={iconFileName} Component={Icon} fileName={iconFileName} />
+              return (
+                <IconItem
+                  key={iconFileName}
+                  Component={icons(iconFileName).default}
+                  fileName={iconFileName}
+                />
+              )
             })}
           </View>
 
           <Text style={styles.title}>IMAGES</Text>
           <View style={styles.container}>
             {images.keys().map((imageFileName: string) => {
-              const ImageComponent = images(imageFileName).default
-
               return (
-                <IconItem key={imageFileName} Component={ImageComponent} fileName={imageFileName} />
+                <IconItem
+                  key={imageFileName}
+                  Component={images(imageFileName).default}
+                  fileName={imageFileName}
+                />
               )
             })}
             {Object.keys(Images).map((key) => (
