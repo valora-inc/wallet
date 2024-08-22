@@ -2611,7 +2611,9 @@
         "apyDescription": "年收益利率 (APY) 这一指标用于计算加密货币投资的年回报率。它是加密货币潜在回报和盈利能力的关键指标。",
         "tvlSubtitle": "什么是 TVL？",
         "tvlDescription": "TVL 是锁定总价值 (Total Value Locked) 的缩写，是加密货币行业用来衡量区块链网络上锁定的数字资产价值的指标。TVL 的计算方法是将 DeFi 协议或智能合约中锁定的所有数字资产的价值相加。这些资产可包括加密货币、稳定币和其他代币。"
-      }
+      },
+      "noPoolsTitle": "您还没有加入任何游泳池",
+      "noPoolsDescription": "发现可用的矿池，选择一个符合您目标的矿池，充分利用您的稳定币。"
     },
     "poolCard": {
       "onNetwork": "在 {{networkName}}",
