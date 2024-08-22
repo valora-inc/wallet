@@ -2611,7 +2611,9 @@
         "apyDescription": "ผลตอบแทนเป็นเปอร์เซ็นต์ต่อปี (APY) คือเมตริกที่ใช้ในการคำนวณผลตอบแทนในรอบปีในการลงทุนคริปโต ซึ่งเป็นตัวชี้วัดที่สำคัญของผลตอบแทนที่อาจได้รับและความสามารถในการทำกำไรได้ของคริปโตเคอร์เรนซี",
         "tvlSubtitle": "TVL คืออะไร",
         "tvlDescription": "TVL ย่อมาจาก Total Value Locked (มูลค่ารวมที่ถูกล็อกไว้) ซึ่งเป็นเมตริกที่ใช้ในวงการคริปโตเพื่อวัดมูลค่าของสินทรัพย์ดิจิทัลที่ถูกล็อกไว้บนเครือข่ายบล็อกเชน TVL จะคำนวณโดยการบวกเพิ่มมูลค่าของสินทรัพย์ดิจิทัลที่ถูกล็อกไว้ในโปรโตคอล DeFi หรือสัญญาอัจฉริยะ ซึ่งสินทรัพย์เหล่านี้อาจรวมถึงคริปโตเคอร์เรนซี, Stablecoin และโทเค็นอื่นๆ"
-      }
+      },
+      "noPoolsTitle": "You haven’t joined any pools yet",
+      "noPoolsDescription": "Discover available pools, pick one that matches your goals, and make the most of your stablecoins."
     },
     "poolCard": {
       "onNetwork": "บน {{networkName}}",
