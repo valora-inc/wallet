@@ -2613,7 +2613,9 @@
         "apyDescription": "Eine jährliche prozentuale Rendite (APY) ist eine Kennzahl, die zur Berechnung der jährlichen Rendite von Krypto-Investitionen verwendet wird. Sie ist ein wichtiger Indikator für die potenzielle Rendite und Rentabilität einer Kryptowährung.",
         "tvlSubtitle": "Was ist TVL?",
         "tvlDescription": "TVL steht für Total Value Locked und ist eine Kennzahl, die in der Kryptobranche verwendet wird, um den Wert von Digitalvermögen zu messen, das in einem Blockchain-Netzwerk gesperrt ist. TVL wird berechnet, indem der Wert des gesamten Digitalvermögens addiert wird, das in einem DeFi-Protokoll oder Smart Contract gesperrt ist. Dieses Vermögen kann Kryptowährungen, Stablecoins und andere Tokens umfassen."
-      }
+      },
+      "noPoolsTitle": "Du bist noch keinem Pool beigetreten",
+      "noPoolsDescription": "Entdecke die verfügbaren Pools, wähle einen, der zu deinen Zielen passt, und mache das Beste aus deinen Stablecoins."
     },
     "poolCard": {
       "onNetwork": "auf {{networkName}}",
