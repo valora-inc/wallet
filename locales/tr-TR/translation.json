@@ -2613,7 +2613,9 @@
         "apyDescription": "Yıllık getiri oranı (APY), kripto yatırımlarının yıllık getirisini hesaplamak için kullanılan bir metriktir. Bir kripto paranın potansiyel getirisi ve kârlılığının önemli bir göstergesidir.",
         "tvlSubtitle": "TVL nedir?",
         "tvlDescription": "TVL, Total Value Locked (Kilitli Toplam Değer) anlamına gelir ve kripto sektöründe bir blok zincir ağında kilitli olan dijital varlıkların değerini ölçmek için kullanılan bir metriktir. TVL, bir DeFi protokolünde ya da akıllı kontratta kilitli olan tüm dijital varlıkların değerinin toplanmasıyla hesaplanır. Bu varlıklar arasında kripto paralar, sabit coinler ve diğer tokenlar yer alabilir."
-      }
+      },
+      "noPoolsTitle": "Henüz hiçbir havuza katılmadınız",
+      "noPoolsDescription": "Mevcut havuzları keşfedin, hedeflerinize uygun bir havuz seçin ve sabit coin'lerinizden en iyi şekilde yararlanın."
     },
     "poolCard": {
       "onNetwork": "{{networkName}} üzerinde",
