@@ -2617,7 +2617,9 @@
         "apyDescription": "Roczny zysk procentowy (APY) jest wskaźnikiem używanym do obliczania rocznego zwrotu z inwestycji w kryptowaluty. To kluczowy wskaźnik potencjalnego zwrotu i rentowności kryptowaluty.",
         "tvlSubtitle": "Co to jest TVL?",
         "tvlDescription": "TVL to skrót oznaczający łączną wartość zablokowanych aktywów i jest wskaźnikiem używanym w branży kryptowalut do pomiaru wartości cyfrowych aktywów zablokowanych w sieci łańcucha bloków. Oblicza się go przez zsumowanie wartości wszystkich cyfrowych aktywów zablokowanych w protokole DeFi lub inteligentnym kontrakcie. Środkami są między innymi kryptowaluty, tokeny płatnicze i inne tokeny."
-      }
+      },
+      "noPoolsTitle": "Nie dołączyłeś jeszcze do żadnej puli",
+      "noPoolsDescription": "Odkryj dostępne pule, wybierz taką, która odpowiada Twoim celom i w pełni wykorzystaj swoje stablecoiny."
     },
     "poolCard": {
       "onNetwork": "w {{networkName}}",
