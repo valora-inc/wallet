@@ -2,7 +2,7 @@ import { Network } from 'src/transactions/types'
 import { viemTransports } from 'src/viem'
 import getLockableViemWallet, { ViemWallet, getTransport } from 'src/viem/getLockableWallet'
 import { KeychainLock } from 'src/web3/KeychainLock'
-import { mockContractAddress, mockTypedData } from 'test/values'
+import { mockAccount2, mockContractAddress, mockTypedData } from 'test/values'
 import { Address, custom, erc20Abi, getAddress, toHex } from 'viem'
 import { privateKeyToAddress } from 'viem/accounts'
 import {
@@ -94,9 +94,9 @@ describe('getLockableWallet', () => {
           throw new Error(`Test method not implemented: ${method}`)
       }
     })
-    const testTransport = custom({ request: mockRequest })
-    viemTransports[Network.Celo] = testTransport
-    viemTransports[Network.Ethereum] = testTransport
+    const mockTransport = custom({ request: mockRequest })
+    viemTransports[Network.Celo] = mockTransport
+    viemTransports[Network.Ethereum] = mockTransport
     lock = new KeychainLock()
     await lock.addAccount(PRIVATE_KEY1, 'password')
     wallet = getLockableViemWallet(lock, celoAlfajores, ACCOUNT_ADDRESS1)
@@ -124,5 +124,11 @@ describe('getLockableWallet', () => {
     const unlocked = await wallet.unlockAccount('password', 100)
     expect(unlocked).toBe(true)
     await expect(methodCall(methodsParams[method.name])).resolves.toBeDefined()
+  })
+
+  it("throws if account doesn't exist in the keychain", () => {
+    expect(() => getLockableViemWallet(lock, celoAlfajores, mockAccount2)).toThrow(
+      `Account ${mockAccount2} not found in KeychainLock`
+    )
   })
 })
