@@ -1,10 +1,12 @@
 import { fireEvent, render, within } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { EarnEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { EarnEvents } from 'src/analytics/Events'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import EarnFeedItem from 'src/transactions/feed/EarnFeedItem'
 import { NetworkId } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
@@ -16,6 +18,11 @@ import {
   mockEarnDepositTransaction,
   mockEarnWithdrawTransaction,
 } from 'test/values'
+
+jest.mock('src/statsig')
+jest
+  .mocked(getFeatureGate)
+  .mockImplementation((featureGateName) => featureGateName === StatsigFeatureGates.SHOW_POSITIONS)
 
 const store = createMockStore({
   tokens: {
@@ -43,6 +50,56 @@ const store = createMockStore({
         priceFetchedAt: Date.now(),
       },
     },
+  },
+  positions: {
+    positions: [
+      {
+        type: 'app-token',
+        networkId: NetworkId['arbitrum-sepolia'],
+        address: '0x460b97bd498e1157530aeb3086301d5225b91216',
+        tokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+        positionId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+        appId: 'aave',
+        appName: 'Aave',
+        symbol: 'aArbSepUSDC',
+        decimals: 6,
+        displayProps: {
+          title: 'USDC',
+          description: 'Supplied (APY: 1.92%)',
+          imageUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/aave.png',
+        },
+        dataProps: {
+          yieldRates: [
+            {
+              percentage: 1.9194202601763743,
+              label: 'Earnings APY',
+              tokenId: 'arbitrum-sepolia:0x75faf114eafb1bdbe2f0316df893fd58ce46aa4d',
+            },
+          ],
+          earningItems: [],
+          depositTokenId: 'arbitrum-sepolia:0x75faf114eafb1bdbe2f0316df893fd58ce46aa4d',
+          withdrawTokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+        },
+        tokens: [
+          {
+            tokenId: 'arbitrum-sepolia:0x75faf114eafb1bdbe2f0316df893fd58ce46aa4d',
+            networkId: NetworkId['arbitrum-sepolia'],
+            address: '0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d',
+            symbol: 'USDC',
+            decimals: 6,
+            priceUsd: '0',
+            type: 'base-token',
+            balance: '0',
+          },
+        ],
+        pricePerShare: ['1'],
+        priceUsd: '0.999',
+        balance: '10',
+        supply: '190288.768509',
+        availableShortcutIds: ['deposit', 'withdraw'],
+      },
+    ],
+    earnPositionIds: ['arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216'],
   },
 })
 
