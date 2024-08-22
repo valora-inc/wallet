@@ -48,7 +48,7 @@ function Description({ transaction }: DescriptionProps) {
       <Text style={styles.title} testID={'EarnFeedItem/title'} numberOfLines={1}>
         {title}
       </Text>
-      {providerName && (
+      {!!providerName && (
         <Text style={styles.subtitle} testID={'EarnFeedItem/subtitle'} numberOfLines={1}>
           {subtitle}
         </Text>

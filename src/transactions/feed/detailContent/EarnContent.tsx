@@ -25,7 +25,7 @@ export function EarnClaimContent({ transaction }: EarnClaimRewardProps) {
   return (
     <>
       <Text style={styles.detailsTitle}>{t('earnFlow.transactionDetails.descriptionLabel')}</Text>
-      {providerName && (
+      {!!providerName && (
         <Text style={styles.detailsSubtitle}>
           {t('earnFlow.transactionDetails.earnClaimSubtitle', { providerName, tokenSymbol })}
         </Text>
@@ -74,7 +74,7 @@ export function EarnDepositContent({ transaction }: EarnDepositProps) {
   return (
     <>
       <Text style={styles.detailsTitle}>{t('earnFlow.transactionDetails.descriptionLabel')}</Text>
-      {providerName && (
+      {!!providerName && (
         <Text style={styles.detailsSubtitle}>
           {t('earnFlow.transactionDetails.earnDepositSubtitle', { providerName, tokenSymbol })}
         </Text>
@@ -123,7 +123,7 @@ export function EarnWithdrawContent({ transaction }: EarnWithdrawProps) {
   return (
     <>
       <Text style={styles.detailsTitle}>{t('earnFlow.transactionDetails.descriptionLabel')}</Text>
-      {providerName && (
+      {!!providerName && (
         <Text style={styles.detailsSubtitle}>
           {t('earnFlow.transactionDetails.earnWithdrawSubtitle', { providerName, tokenSymbol })}
         </Text>
