@@ -374,7 +374,7 @@ export function* watchHomeScreenVisit() {
   yield* spawn(sendPendingPointsEvents)
 }
 
-export function* updatePointsData() {
+function* updatePointsData() {
   yield* spawn(fetchPointsConfig)
   yield* spawn(getPointsBalance, getHistoryStarted({ getNextPage: false }))
   yield* spawn(getHistory, getHistoryStarted({ getNextPage: false }))
