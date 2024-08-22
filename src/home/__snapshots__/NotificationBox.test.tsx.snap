@@ -164,8 +164,8 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 fill="none"
                 height={86}
                 style={{}}
+                viewBox="0 0 92 86"
                 width={92}
-                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
                   d="M55.21 45.03H43.809m-7.602 6.923v-6.922h7.602m0 0v6.922"
