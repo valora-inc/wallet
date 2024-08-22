@@ -2615,13 +2615,16 @@
     "poolCard": {
       "onNetwork": "บน {{networkName}}",
       "rate": "อัตรา (โดยประมาณ)",
+      "yieldRate": "Yield Rate (est.)",
       "reward": "ผลตอบแทน",
       "tvl": "TVL",
       "exitPool": "ออกจากพูล",
       "addToPool": "เพิ่มไปยังพูล",
       "apy": "{{apy}}% APY",
+      "percentage": "{{percentage}}%",
       "poweredBy": "ดำเนินการโดย {{providerName}}",
-      "deposited": "ที่เข้าร่วม"
+      "deposited": "ที่เข้าร่วม",
+      "depositAndEarnings": "Deposit & Earnings"
     },
     "poolFilters": {
       "openPools": "พูลที่เปิดอยู่",

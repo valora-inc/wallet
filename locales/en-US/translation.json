@@ -2617,13 +2617,16 @@
     "poolCard": {
       "onNetwork": "on {{networkName}}",
       "rate": "Rate (est.)",
+      "yieldRate": "Yield Rate (est.)",
       "reward": "Reward",
       "tvl": "TVL",
       "exitPool": "Exit Pool",
       "addToPool": "Add to Pool",
       "apy": "{{apy}}% APY",
+      "percentage": "{{percentage}}%",
       "poweredBy": "Powered by {{providerName}}",
-      "deposited": "Supplied"
+      "deposited": "Supplied",
+      "depositAndEarnings": "Deposit & Earnings"
     },
     "poolFilters": {
       "openPools": "Open Pools",

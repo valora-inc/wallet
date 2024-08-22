@@ -572,7 +572,7 @@ PODS:
     - React-Core
   - react-native-camera/RN (4.2.1):
     - React-Core
-  - react-native-compat (2.15.0):
+  - react-native-compat (2.15.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - react-native-config (1.5.3):
@@ -825,11 +825,11 @@ PODS:
     - React-RCTImage
   - RNSecureRandom (1.0.1):
     - React-Core
-  - RNSentry (5.28.0):
+  - RNSentry (5.30.0):
     - hermes-engine
     - React-Core
     - React-hermes
-    - Sentry/HybridSDK (= 8.33.0)
+    - Sentry/HybridSDK (= 8.34.0)
   - RNShare (10.2.1):
     - React-Core
   - RNSVG (15.5.0):
@@ -843,7 +843,7 @@ PODS:
   - segment-analytics-react-native (2.19.4):
     - React-Core
     - sovran-react-native
-  - Sentry/HybridSDK (8.33.0)
+  - Sentry/HybridSDK (8.34.0)
   - SimpleKeychain (1.0.1)
   - SocketRocket (0.6.1)
   - sovran-react-native (1.1.2):
@@ -1290,7 +1290,7 @@ SPEC CHECKSUMS:
   React-logger: ed7c9e01e58529065e7da6bf8318baf15024283e
   react-native-adjust: 83114d391a4a7a438e2c4d8e8137bc7810e7076f
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
-  react-native-compat: 18671507f4257439ce15ec144f55cd5b8ac8d788
+  react-native-compat: a1bf3d1a4008cbaafc1e04c6751e8c3efcd005da
   react-native-config: 8f7283449bbb048902f4e764affbbf24504454af
   react-native-contacts: fd1614c74777089ebb6b0a0e3847dd78130ef9f4
   react-native-cookies: 672b2431ca44da2e2942af086d0c83aae42b989a
@@ -1352,13 +1352,13 @@ SPEC CHECKSUMS:
   RNReanimated: ac8334b8dabe2a236412b66e613f66648a72eb4d
   RNScreens: f15b076168e4b2bdf3d327015758f36e6654247f
   RNSecureRandom: ff25041dd065a945810ca01a2bcd06f8d141b81d
-  RNSentry: a3c29b5992ee3cac1980db7e57c050a17f1ff97b
+  RNSentry: 038afe562a53fa0ec791e1cd9fb66239c77a2818
   RNShare: 0fad69ae2d71de9d1f7b9a43acf876886a6cb99c
   RNSVG: b986585e367f4a49d8aa43065066cc9c290b3d9b
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
   segment-analytics-react-native: 49ce29a68e86b38c084f1ce07b0c128273d169f9
-  Sentry: 8560050221424aef0bebc8e31eedf00af80f90a6
+  Sentry: 1183df2306eea74ff0564c4bb1c2577ccd15d054
   SimpleKeychain: 130211269f88f038d7dc5254cf0b1b9ce978c398
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   sovran-react-native: 5f02bd2d111ffe226d00c7b0435290eae6f10934

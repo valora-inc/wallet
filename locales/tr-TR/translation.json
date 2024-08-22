@@ -2617,13 +2617,16 @@
     "poolCard": {
       "onNetwork": "{{networkName}} üzerinde",
       "rate": "Oran (tahmini)",
+      "yieldRate": "Verim Oranı (tahmini)",
       "reward": "Ödül",
       "tvl": "TVL",
       "exitPool": "Havuzdan Çık",
       "addToPool": "Havuza Ekle",
       "apy": "%{{apy}} Yıllık Getiri Oranı (APY)",
+      "percentage": "{{percentage}}%",
       "poweredBy": "{{providerName}} tarafından desteklenmektedir",
-      "deposited": "Yatırılan"
+      "deposited": "Yatırılan",
+      "depositAndEarnings": "Mevduat ve Kazançlar"
     },
     "poolFilters": {
       "openPools": "Açık Havuzlar",

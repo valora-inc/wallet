@@ -2617,13 +2617,16 @@
     "poolCard": {
       "onNetwork": "sur {{networkName}}",
       "rate": "Taux (est.)",
+      "yieldRate": "Taux de rendement (est.)",
       "reward": "Récompense",
       "tvl": "TVL",
       "exitPool": "Quitter le pool",
       "addToPool": "Ajouter au pool",
       "apy": "{{apy}}% APY",
+      "percentage": "{{percentage}}%",
       "poweredBy": "Propulsé par {{providerName}}",
-      "deposited": "Fourni"
+      "deposited": "Fourni",
+      "depositAndEarnings": "Dépôt et gains"
     },
     "poolFilters": {
       "openPools": "Pools ouverts",
