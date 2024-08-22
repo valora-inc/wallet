@@ -10,9 +10,9 @@ import TextButton from 'src/components/TextButton'
 import Touchable from 'src/components/Touchable'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import EarnCoins from 'src/icons/EarnCoins'
-import LogoHeart from 'src/icons/LogoHeart'
 import PlusIcon from 'src/icons/PlusIcon'
 import ProfilePlus from 'src/icons/ProfilePlus'
+import LogoHeart from 'src/images/LogoHeart'
 import { nuxNavigationOptionsNoBackButton } from 'src/navigator/Headers'
 import {
   navigate,
