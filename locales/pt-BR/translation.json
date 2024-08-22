@@ -2613,7 +2613,9 @@
         "apyDescription": "O rendimento percentual anual (APY) é uma métrica usada para calcular o retorno anualizado dos investimentos em cripto. É um indicador importante do potencial de retorno.",
         "tvlSubtitle": "O que é TVL?",
         "tvlDescription": "O valor total bloqueado (TVL) é uma métrica usada para medir o valor dos ativos digitais bloqueados em uma rede blockchain. O TVL é calculado pela soma do valor de todos os ativos digitais bloqueados em um protocolo DeFi ou contrato inteligente. Esses ativos podem incluir criptomoedas, stablecoins e outros tokens."
-      }
+      },
+      "noPoolsTitle": "Você ainda não entrou em nenhum pool",
+      "noPoolsDescription": "Descubra os pools disponíveis, escolha um que corresponda às suas metas e aproveite ao máximo suas stablecoins."
     },
     "poolCard": {
       "onNetwork": "na {{networkName}}",
