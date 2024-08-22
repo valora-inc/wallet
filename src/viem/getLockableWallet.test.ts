@@ -1,12 +1,10 @@
-import { normalizeAddress } from '@celo/utils/lib/address'
-import erc20 from 'src/abis/IERC20'
 import { Network } from 'src/transactions/types'
 import { viemTransports } from 'src/viem'
 import getLockableViemWallet, { ViemWallet, getTransport } from 'src/viem/getLockableWallet'
 import { KeychainLock } from 'src/web3/KeychainLock'
-import * as mockedKeychain from 'test/mockedKeychain'
-import { mockAccount2, mockContractAddress, mockPrivateDEK, mockTypedData } from 'test/values'
-import { http } from 'viem'
+import { mockContractAddress, mockTypedData } from 'test/values'
+import { Address, custom, erc20Abi, getAddress, toHex } from 'viem'
+import { privateKeyToAddress } from 'viem/accounts'
 import {
   sendTransaction,
   signMessage,
@@ -16,7 +14,9 @@ import {
 } from 'viem/actions'
 import { celoAlfajores, goerli as ethereumGoerli, sepolia as ethereumSepolia } from 'viem/chains'
 
-jest.mock('viem/actions')
+// Use real encryption
+jest.unmock('crypto-js')
+
 jest.mock('src/viem', () => {
   return {
     viemTransports: {
@@ -28,6 +28,9 @@ jest.mock('src/viem', () => {
     },
   }
 })
+
+const PRIVATE_KEY1 = '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef'
+const ACCOUNT_ADDRESS1 = privateKeyToAddress(PRIVATE_KEY1).toLowerCase() as Address
 
 describe('getTransport', () => {
   it.each([
@@ -47,27 +50,23 @@ describe('getTransport', () => {
 
 const methodsParams: Record<string, any> = {
   sendTransaction: {
-    account: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e',
     to: '0x0000000000000000000000000000000000000000',
     value: BigInt(1),
   },
   signTransaction: {
-    account: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e',
     to: '0x0000000000000000000000000000000000000000',
     value: BigInt(1),
+    maxFeePerGas: BigInt(1),
   },
-  signTypedData: mockTypedData,
+  signTypedData: { ...mockTypedData, account: undefined },
   signMessage: {
-    account: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e',
     message: 'hello world',
   },
   writeContract: {
-    address: mockContractAddress,
-    abi: erc20.abi,
-    functionName: 'mint',
-    account: mockAccount2,
-    chain: celoAlfajores,
-    args: [],
+    address: getAddress(mockContractAddress),
+    abi: erc20Abi,
+    functionName: 'transfer',
+    args: ['0x0000000000000000000000000000000000000000', BigInt(1)],
   },
 }
 
@@ -75,11 +74,32 @@ describe('getLockableWallet', () => {
   let wallet: ViemWallet
   let lock: KeychainLock
 
-  beforeEach(() => {
-    viemTransports[Network.Celo] = http()
-    viemTransports[Network.Ethereum] = http()
+  beforeEach(async () => {
+    jest.clearAllMocks()
+    const mockRequest = jest.fn(async ({ method }) => {
+      switch (method) {
+        case 'eth_chainId':
+          return toHex(BigInt(44787))
+        case 'eth_getTransactionCount':
+          return toHex(BigInt(1))
+        case 'eth_getBlockByNumber':
+          return {} // Far from the real response, but enough for testing
+        case 'eth_gasPrice':
+          return toHex(BigInt(5))
+        case 'eth_estimateGas':
+          return toHex(BigInt(10))
+        case 'eth_sendRawTransaction':
+          return '0x123456789'
+        default:
+          throw new Error(`Test method not implemented: ${method}`)
+      }
+    })
+    const testTransport = custom({ request: mockRequest })
+    viemTransports[Network.Celo] = testTransport
+    viemTransports[Network.Ethereum] = testTransport
     lock = new KeychainLock()
-    wallet = getLockableViemWallet(lock, celoAlfajores, `0x${mockPrivateDEK}`)
+    await lock.addAccount(PRIVATE_KEY1, 'password')
+    wallet = getLockableViemWallet(lock, celoAlfajores, ACCOUNT_ADDRESS1)
   })
 
   it.each([
@@ -88,8 +108,8 @@ describe('getLockableWallet', () => {
     ['signTypedData', (args: any) => wallet.signTypedData(args)],
     ['signMessage', (args: any) => wallet.signMessage(args)],
     ['writeContract', (args: any) => wallet.writeContract(args)],
-  ])('cannot call %s if not unlocked', (methodName, methodCall) => {
-    expect(() => methodCall(methodsParams[methodName])).toThrowError(
+  ])('cannot call %s if not unlocked', async (methodName, methodCall) => {
+    await expect(methodCall(methodsParams[methodName])).rejects.toThrowError(
       'authentication needed: password or unlock'
     )
   })
@@ -101,20 +121,8 @@ describe('getLockableWallet', () => {
     { method: signMessage, methodCall: (args: any) => wallet.signMessage(args) },
     { method: writeContract, methodCall: (args: any) => wallet.writeContract(args) },
   ])('can call $method.name if unlocked', async ({ method, methodCall }) => {
-    // Adding account to the lock and keychain
-    const date = new Date()
-    mockedKeychain.setItems({
-      [`account--${date.toISOString()}--${normalizeAddress(wallet.account?.address as string)}`]: {
-        password: 'password',
-      },
-    })
-    await lock.loadExistingAccounts()
-
     const unlocked = await wallet.unlockAccount('password', 100)
     expect(unlocked).toBe(true)
-    expect(() => methodCall(methodsParams[method.name])).not.toThrowError(
-      'authentication needed: password or unlock'
-    )
-    expect(method).toHaveBeenCalledWith(expect.anything(), methodsParams[method.name])
+    await expect(methodCall(methodsParams[method.name])).resolves.toBeDefined()
   })
 })
