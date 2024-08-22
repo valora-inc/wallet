@@ -137,7 +137,7 @@ export default function SettingsMenu({ route }: Props) {
           icon={<Preferences size={24} />}
           title={t('preferences')}
           testID="SettingsMenu/Preferences"
-          onPress={dummyNavigate}
+          onPress={() => navigate(Screens.PreferencesSubmenu)}
           showChevron
           borderless
         />
