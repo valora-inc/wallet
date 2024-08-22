@@ -1,10 +1,6 @@
 import { ViemKeychainAccount, keychainAccountToAccount } from 'src/viem/keychainAccountToAccount'
-import { mockTypedData } from 'test/values'
+import { mockAddress, mockPrivateKey, mockTypedData } from 'test/values'
 import { Hex } from 'viem'
-import { Address, privateKeyToAddress } from 'viem/accounts'
-
-const PRIVATE_KEY1 = '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef'
-const ACCOUNT_ADDRESS1 = privateKeyToAddress(PRIVATE_KEY1).toLowerCase() as Address
 
 describe(keychainAccountToAccount, () => {
   let viemAccount: ViemKeychainAccount
@@ -13,7 +9,7 @@ describe(keychainAccountToAccount, () => {
   beforeEach(() => {
     jest.clearAllMocks()
     viemAccount = keychainAccountToAccount({
-      address: ACCOUNT_ADDRESS1,
+      address: mockAddress,
       isUnlocked,
     })
   })
@@ -39,7 +35,7 @@ describe(keychainAccountToAccount, () => {
 
     describe('when unlocked', () => {
       beforeEach(() => {
-        viemAccount.unlock(PRIVATE_KEY1)
+        viemAccount.unlock(mockPrivateKey)
         isUnlocked.mockReturnValue(true)
       })
 
@@ -51,8 +47,8 @@ describe(keychainAccountToAccount, () => {
 
   describe('unlock', () => {
     it('throws if private key address does not match the account address', () => {
-      expect(() => viemAccount.unlock(PRIVATE_KEY1.replace('a', 'b') as Hex)).toThrow(
-        `Private key address (0x6eb87607F5C48CF769d43e92cF394655E9D6EFDA) does not match the expected account address (${ACCOUNT_ADDRESS1})`
+      expect(() => viemAccount.unlock(mockPrivateKey.replace('a', 'b') as Hex)).toThrow(
+        `Private key address (0x6eb87607F5C48CF769d43e92cF394655E9D6EFDA) does not match the expected account address (${mockAddress})`
       )
     })
   })

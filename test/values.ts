@@ -61,6 +61,7 @@ import {
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import networkConfig from 'src/web3/networkConfig'
+import { Address, privateKeyToAccount } from 'viem/accounts'
 
 export const nullAddress = '0x0'
 
@@ -78,6 +79,19 @@ export const mockMnemonicShard1 =
   'prosper winner find donate tape history measure umbrella agent patrol want rhythm celo'
 export const mockMnemonicShard2 =
   'celo old unable wash wrong need fluid hammer coach reveal plastic trust lake'
+
+export const mockPrivateKey = '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef'
+const mockViemAccount = privateKeyToAccount(mockPrivateKey)
+// This is encryptPrivateKey(mockPrivateKey, 'password'), but hardcoding for predictability in tests
+export const mockKeychainEncryptedPrivateKey =
+  'U2FsdGVkX1+4Da/3VE98t6m9FNs+Q0fqJlckHnL2+XctJPyvhZY+b0TSAB9oGiAMNDow1bjA3NYyzA3aKhFhHwAySzPOArFI/RpPlArT2/IGZ/IxKtKzKnd1pa4+q4fx'
+export const mockAddress = mockViemAccount.address.toLowerCase() as Address
+export const mockPrivateKey2 = '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890fdeccc'
+const mockViemAccount2 = privateKeyToAccount(mockPrivateKey2)
+// This is encryptPrivateKey(mockPrivateKey2, 'password'), but hardcoding for predictability in tests
+export const mockKeychainEncryptedPrivateKey2 =
+  'U2FsdGVkX18191f7q1dS0CCvSGNjJ9PkcBGKaf+u1LVpuoBw2xSJe17hLW8QRXyKCtwvMknW2uTeWUeMRSfg/O1UdsEwdhMPxzqtOUTwT9evQri80JMGBImihFXKDdgN'
+export const mockAddress2 = mockViemAccount2.address.toLowerCase() as Address
 
 export const mockPrivateDEK = '41e8e8593108eeedcbded883b8af34d2f028710355c57f4c10a056b72486aa04'
 export const mockPublicDEK = '02c9cacca8c5c5ebb24dc6080a933f6d52a072136a069083438293d71da36049dc'
