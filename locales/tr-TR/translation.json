@@ -2466,7 +2466,8 @@
     },
     "disclaimer": {
       "learnMoreCta": "{{appName}} Puanları hakkında <0>daha fazla bilgi edinin</0>",
-      "body": "<0>Puanlar Nedir?</0>\nPuanlar {{appName}} uygulamasının sadakat programıdır. Uygulamamızı kullandığınızda kullanıcılara verilir.\n\n<0>Ne işe yararlar?</0>\nPuanları toplarsınız. Bunlar harcanamaz, takas edilemez veya transfer edilemez.\n\n<0>Neden cüzdanımdalar?</0>\nÇünkü onlar token. Zincir üzerinde, uygulamayı kullanarak kazandığınız dijital mutluluk parçaları.",
+      "title": "{{appName}} Points Hakkında Daha Fazla Bilgi",
+      "body": "Puanlar {{appName}}'un sadakat programıdır. Uygulamayı kullandığınız için ödüllendirilirsiniz. Puanlar harcanamaz, takas edilemez veya transfer edilemez.",
       "dismiss": "Anladım"
     }
   },
