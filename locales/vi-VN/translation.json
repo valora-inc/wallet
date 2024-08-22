@@ -2464,7 +2464,8 @@
     },
     "disclaimer": {
       "learnMoreCta": "<0>Tìm hiểu thêm</0> về Điểm {{appName}}",
-      "body": "<0>Điểm là gì?</0>\nĐiểm là chương trình khách hàng thân thiết của {{appName}}. Bạn sẽ nhận được Điểm khi sử dụng ứng dụng của chúng tôi.\n\n<0>Điểm dùng để làm gì?</0>\nĐiểm sẽ được tích lũy. Bạn không thể sử dụng, giao dịch hay chuyển nhượng Điểm.\n\n<0>Tại sao lại có Điểm trong ví của tôi?</0>\nVì Điểm là các token. Trên chuỗi, đó những mảnh ghép hạnh phúc kỹ thuật số mà bạn kiếm được bằng cách sử dụng ứng dụng.",
+      "title": "More About {{appName}} Points",
+      "body": "Points are {{appName}}'s loyalty program. They're awarded for using the app. Points can't be spent, traded, or transferred.",
       "dismiss": "Đã hiểu"
     }
   },
