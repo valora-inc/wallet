@@ -27,7 +27,7 @@ import {
   pointsConfigStatusSelector,
   pointsHistoryStatusSelector,
 } from 'src/points/selectors'
-import { getHistoryStarted, getPointsConfigRetry } from 'src/points/slice'
+import { getPointsConfigRetry, pointsDataRefreshStarted } from 'src/points/slice'
 import { BottomSheetParams, PointsActivityId } from 'src/points/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { Colors } from 'src/styles/colors'
@@ -65,7 +65,7 @@ export default function PointsHome({ route, navigation }: Props) {
   }, [])
 
   const onRefreshHistoryAndBalance = () => {
-    dispatch(getHistoryStarted({ getNextPage: false }))
+    dispatch(pointsDataRefreshStarted())
   }
 
   const onCardPress = (bottomSheetDetails: BottomSheetParams) => {
