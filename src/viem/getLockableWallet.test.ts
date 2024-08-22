@@ -56,7 +56,7 @@ const methodsParams: Record<string, any> = {
   signTransaction: {
     to: '0x0000000000000000000000000000000000000000',
     value: BigInt(1),
-    maxFeePerGas: BigInt(1),
+    maxFeePerGas: BigInt(2),
   },
   signTypedData: { ...mockTypedData, account: undefined },
   signMessage: {
