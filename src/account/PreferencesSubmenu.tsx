@@ -18,7 +18,7 @@ import { hapticFeedbackSet } from 'src/app/actions'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.PreferencesSubmenu>
 
-export const PreferencesSubmenu = ({ route }: Props) => {
+const PreferencesSubmenu = ({ route }: Props) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
