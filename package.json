@@ -116,7 +116,7 @@
     "@toruslabs/constants": "^13.4.0",
     "@toruslabs/fetch-node-details": "^13.4.0",
     "@toruslabs/torus.js": "^12.3.7",
-    "@walletconnect/react-native-compat": "^2.15.0",
+    "@walletconnect/react-native-compat": "^2.15.1",
     "@walletconnect/utils": "^2.15.0",
     "@walletconnect/web3wallet": "^1.14.0",
     "Base64": "^1.3.0",
