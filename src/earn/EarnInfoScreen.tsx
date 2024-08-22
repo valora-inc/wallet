@@ -7,6 +7,7 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { APP_NAME, EARN_STABLECOINS_LEARN_MORE } from 'src/config'
+import { useEarnPosition } from 'src/earn/hooks'
 import { EarnTabType } from 'src/earn/types'
 import ArrowDown from 'src/icons/ArrowDown'
 import Blob from 'src/icons/Blob'
@@ -22,7 +23,6 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import networkConfig from 'src/web3/networkConfig'
 
 const ICON_SIZE = 24
 const ICON_BACKGROUND_CIRCLE_SIZE = 36
@@ -59,6 +59,7 @@ function DetailsItem({
 export default function EarnInfoScreen() {
   const { t } = useTranslation()
   const showMultiplePools = getFeatureGate(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
+  const aavePool = useEarnPosition()
 
   const headerHeight = useHeaderHeight()
   const { bottom } = useSafeAreaInsets()
@@ -105,7 +106,7 @@ export default function EarnInfoScreen() {
             AppAnalytics.track(EarnEvents.earn_info_earn_press)
             showMultiplePools
               ? navigate(Screens.EarnHome, { activeEarnTab: EarnTabType.OpenPools })
-              : navigate(Screens.EarnEnterAmount, { tokenId: networkConfig.arbUsdcTokenId })
+              : aavePool && navigate(Screens.EarnEnterAmount, { pool: aavePool })
           }}
           text={t('earnFlow.earnInfo.action.earn')}
           type={BtnTypes.PRIMARY}

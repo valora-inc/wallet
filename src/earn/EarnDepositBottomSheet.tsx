@@ -12,13 +12,13 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { EarnApyAndAmount } from 'src/earn/EarnApyAndAmount'
-import { PROVIDER_ID } from 'src/earn/constants'
 import { depositStatusSelector } from 'src/earn/selectors'
 import { depositStart } from 'src/earn/slice'
 import InfoIcon from 'src/icons/InfoIcon'
 import Logo from 'src/icons/Logo'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { EarnPosition } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
@@ -27,8 +27,6 @@ import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
-import { TokenBalance } from 'src/tokens/slice'
-import { NetworkId } from 'src/transactions/types'
 import {
   PreparedTransactionsPossible,
   getFeeCurrencyAndAmounts,
@@ -41,14 +39,12 @@ export default function EarnDepositBottomSheet({
   forwardedRef,
   preparedTransaction,
   amount,
-  token,
-  networkId,
+  pool,
 }: {
   forwardedRef: RefObject<BottomSheetRefType>
   preparedTransaction: PreparedTransactionsPossible
   amount: BigNumber
-  token: TokenBalance
-  networkId: NetworkId
+  pool: EarnPosition
 }) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -56,10 +52,10 @@ export default function EarnDepositBottomSheet({
   const transactionSubmitted = depositStatus === 'loading'
 
   const commonAnalyticsProperties = {
-    providerId: PROVIDER_ID,
-    depositTokenId: token.tokenId,
+    providerId: pool.appId,
+    depositTokenId: pool.dataProps.depositTokenId,
     tokenAmount: amount.toString(),
-    networkId,
+    networkId: pool.networkId,
   }
 
   const { estimatedFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(preparedTransaction)
@@ -94,7 +90,7 @@ export default function EarnDepositBottomSheet({
     dispatch(
       depositStart({
         amount: amount.toString(),
-        tokenId: token.tokenId,
+        tokenId: pool.dataProps.depositTokenId,
         preparedTransactions: getSerializablePreparedTransactions(preparedTransaction.transactions),
       })
     )
@@ -115,7 +111,7 @@ export default function EarnDepositBottomSheet({
         <View style={styles.infoContainer}>
           <EarnApyAndAmount
             tokenAmount={amount}
-            token={token}
+            pool={pool}
             testIDPrefix={'EarnDepositBottomSheet'}
           />
         </View>
@@ -123,7 +119,7 @@ export default function EarnDepositBottomSheet({
           <TokenDisplay
             testID="EarnDeposit/Amount"
             amount={amount}
-            tokenId={token.tokenId}
+            tokenId={pool.dataProps.depositTokenId}
             style={styles.value}
             showLocalAmount={false}
           />

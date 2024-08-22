@@ -7,8 +7,11 @@ import { EarnEvents } from 'src/analytics/Events'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
+import { getTotalYieldRate } from 'src/earn/poolInfo'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { EarnPosition } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
@@ -33,7 +36,7 @@ export default function PoolCard({
     networkId,
     priceUsd,
     balance,
-    dataProps: { earningItems, yieldRates, tvl, depositTokenId },
+    dataProps: { earningItems, tvl, depositTokenId },
   } = pool
   const { t } = useTranslation()
   const allTokens = useSelector((state) => tokensByIdSelector(state, [networkId]))
@@ -79,9 +82,7 @@ export default function PoolCard({
     return `${localCurrencySymbol}${tvlInFiat ? formatValueToDisplay(tvlInFiat) : '--'}`
   }, [localCurrencySymbol, tvlInFiat])
 
-  const totalYieldRate = new BigNumber(
-    yieldRates.reduce((acc, yieldRate) => acc + yieldRate.percentage, 0)
-  ).toFixed(2)
+  const totalYieldRate = getTotalYieldRate(pool).toFixed(2)
 
   const onPress = () => {
     AppAnalytics.track(EarnEvents.earn_pool_card_press, {
@@ -92,6 +93,7 @@ export default function PoolCard({
       providerId: appId,
     })
     // TODO(ACT-1321): Navigate to pool details screen
+    navigate(Screens.EarnEnterAmount, { pool })
   }
 
   return (
