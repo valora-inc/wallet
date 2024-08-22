@@ -225,12 +225,13 @@ export default function PointsHome({ route, navigation }: Props) {
           </>
         )}
       </BottomSheet>
-      <BottomSheet forwardedRef={disclaimerBottomSheetRef} testId={`DisclaimerBottomSheet`}>
-        <Text style={typeScale.bodySmall}>
-          <Trans i18nKey="points.disclaimer.body">
-            <Text style={typeScale.labelSmall} />
-          </Trans>
-        </Text>
+      <BottomSheet
+        title={t('points.disclaimer.title')}
+        titleStyle={typeScale.labelSemiBoldMedium}
+        forwardedRef={disclaimerBottomSheetRef}
+        testId={`DisclaimerBottomSheet`}
+      >
+        <Text style={typeScale.bodySmall}>{t('points.disclaimer.body')}</Text>
         <Button
           type={BtnTypes.SECONDARY}
           size={BtnSizes.FULL}
