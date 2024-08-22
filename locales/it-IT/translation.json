@@ -1984,16 +1984,16 @@
     "retryButtonText": "Riprova"
   },
   "chooseYourAdventure": {
-    "header": "Benvenuto/a in Valora",
+    "header": "Ti diamo il benvenuto in Valora",
     "subtitle": "Qual è la prima cosa che vorresti fare?",
     "later": "Esplorerò più tardi",
     "options": {
       "add": "Aggiungi fondi al tuo portafoglio",
-      "dapp": "Scoprire modi per usare le criptovalute",
+      "dapp": "Trova i modi per usare le tue cripto",
       "earn": "Esplora le opportunità di guadagno",
       "profile": "Crea il tuo profilo",
-      "learn": "Scoprire di più su Celo",
-      "learnPoints": "Scopri i punti {{appName}}"
+      "learn": "Scopri di più su Celo",
+      "learnPoints": "Scopri di più sui punti {{appName}}"
     }
   },
   "reverifyUsingCPVHomecard": {
@@ -2201,6 +2201,20 @@
     "prepareTransactionError": {
       "title": "Si è verificato un errore!",
       "description": "Non è stato possibile preparare una transazione per questo token."
+    }
+  },
+  "jumpstartIntro": {
+    "title": "Condividi le criptovalute come un testo",
+    "addFundsCelo": {
+      "title": "Ottieni risorse su Celo",
+      "info": "I link live sono un modo per inviare criptovalute sulla rete Celo a un amico con un link.\nPer iniziare, devi avere delle attività CELO nel tuo portafoglio.",
+      "description": "Una volta aggiunti gli asset su Celo, dovrai tornare per creare un Live Link.",
+      "cta": "Ottieni risorse su Celo",
+      "actionDescriptions": {
+        "add": "Acquista beni su Celo utilizzando uno dei nostri fornitori di fiducia",
+        "swap": "Scambia un'attività su Celo con un'altra attività",
+        "transfer": "Utilizza un qualsiasi portafoglio o exchange compatibile con Celo per depositare attività su Celo"
+      }
     }
   },
   "jumpstartEnterAmountScreen": {
@@ -2482,17 +2496,19 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "Massimizza i guadagni senza Gas fee*",
-          "title": "Massimizza i guadagni",
-          "subtitle": "Guadagna sulle tue stablecoin e ottieni premi quando alimenti un pool.",
+          "title": "Esplora e confronta le pool",
+          "subtitle": "Confronta il potenziale di guadagno e i rischi. Scambia, acquista o trasferisci i token per unirti al pool migliore per te.",
           "footnoteSubsidy": "*Le gas fee sono temporaneamente coperte da Valora"
         },
         "manage": {
           "title": "Gestisci direttamente da Valora",
-          "subtitle": "Ci occupiamo noi della configurazione in modo che tu possa gestire la tua posizione direttamente da Valora."
+          "titleV1_92": "Gestisci direttamente da {{appName}}",
+          "subtitle": "Collegheremo il tuo portafoglio in modo da poter gestire i pool senza lasciare Valora.",
+          "subtitleV1_92": "Collegheremo il tuo portafoglio in modo da poter gestire i pool senza lasciare {{appName}}."
         },
         "access": {
           "title": "Accedi facilmente ai tuoi fondi",
-          "subtitle": "Riscuoti facilmente i tuoi fondi con un solo tocco. Usufruisci dello stesso accesso istantaneo che otterresti direttamente attraverso i tuoi protocolli preferiti."
+          "subtitle": "Raccogli i fondi con un tocco, come i tuoi protocolli preferiti."
         }
       },
       "action": {
@@ -2507,8 +2523,8 @@
     },
     "entrypoint": {
       "title": "Guadagna sui tuoi stablecoin",
-      "subtitle": "Deposita e guadagna rendimenti",
-      "description": "Esplora i pool per depositare asset e guadagnare rendimenti sulle tue stablecoin"
+      "subtitle": "Deposita e guadagna",
+      "description": "Guadagna sulle tue stablecoin attraverso un pool di liquidità."
     },
     "enterAmount": {
       "earnUpToLabel": "Puoi guadagnare fino a:",
@@ -2538,6 +2554,7 @@
       "viewPools": "Visualizza i pool",
       "poolsSupplied": "Pool forniti",
       "totalSupplied": "Totale fornito",
+      "depositAndEarnings": "Deposito e guadagni",
       "myPools": "I miei pool",
       "explore": "Esplora aperti"
     },
@@ -2600,18 +2617,26 @@
     "poolCard": {
       "onNetwork": "su {{networkName}}",
       "rate": "Tasso (stima)",
+      "yieldRate": "Tasso di rendimento (est.)",
       "reward": "Bonus",
       "tvl": "TVL",
       "exitPool": "Abbandona il pool",
       "addToPool": "Deposita in pool",
       "apy": "{{apy}}% APY",
+      "percentage": "{{percentage}}%",
       "poweredBy": "Powered by {{providerName}}",
-      "deposited": "Forniti"
+      "deposited": "Forniti",
+      "depositAndEarnings": "Deposito e guadagni"
     },
     "poolFilters": {
       "openPools": "Pool aperti",
       "myPools": "I miei pool"
     }
+  },
+  "addFundsActions": {
+    "add": "Acquista",
+    "transfer": "Trasferisci",
+    "swap": "Scambio"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"

@@ -4,8 +4,6 @@ import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import PoolCard from 'src/earn/PoolCard'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
 import { EarnPosition } from 'src/positions/types'
 import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
@@ -40,7 +38,7 @@ const AAVE_EARN_POSITION: EarnPosition = {
       },
     ],
     earningItems: [],
-    tvl: 1360000,
+    tvl: '1360000',
     depositTokenId: mockArbUsdcTokenId,
     withdrawTokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
   },
@@ -85,69 +83,26 @@ describe('PoolCard', () => {
     expect(
       getByText('earnFlow.poolCard.onNetwork, {"networkName":"Arbitrum Sepolia"}')
     ).toBeTruthy()
-    expect(getByText('earnFlow.poolCard.apy, {"apy":"3.30"}')).toBeTruthy()
-    expect(getByText('0.00%')).toBeTruthy()
-    expect(getByText('$1,360,000')).toBeTruthy()
+    expect(getByText('earnFlow.poolCard.percentage, {"percentage":"3.30"}')).toBeTruthy()
+    expect(getByText('₱2,170,560.00')).toBeTruthy()
   })
 
-  it('navigates to enter amount when no pool balance', () => {
-    const { getByText } = render(
-      <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
-        <PoolCard pool={AAVE_EARN_POSITION} />
-      </Provider>
-    )
-
-    expect(getByText('earnFlow.poolCard.addToPool')).toBeTruthy()
-    fireEvent.press(getByText('earnFlow.poolCard.addToPool'))
-    expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, { tokenId: mockArbUsdcTokenId })
-    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_card_cta_press, {
-      poolId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
-      networkId: NetworkId['arbitrum-sepolia'],
-      depositTokenId: mockArbUsdcTokenId,
-      tokenAmount: '0',
-      providerId: 'aave',
-      action: 'deposit',
-    })
-  })
-  it('navigates to enter amount when have pool balance', () => {
-    const { getByText } = render(
+  it('correct behavior when tapping pool card', () => {
+    const { getByTestId } = render(
       <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
         <PoolCard pool={{ ...AAVE_EARN_POSITION, balance: '10' }} />
       </Provider>
     )
 
-    expect(getByText('earnFlow.poolCard.addToPool')).toBeTruthy()
-    fireEvent.press(getByText('earnFlow.poolCard.addToPool'))
-    expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, { tokenId: mockArbUsdcTokenId })
-    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_card_cta_press, {
+    expect(getByTestId('PoolCard')).toBeTruthy()
+    fireEvent.press(getByTestId('PoolCard'))
+    // TODO(ACT-1321): Assert that it correctly navigates to PoolDetails screen
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_card_press, {
       poolId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
       networkId: NetworkId['arbitrum-sepolia'],
       depositTokenId: mockArbUsdcTokenId,
       tokenAmount: '10',
       providerId: 'aave',
-      action: 'deposit',
-    })
-  })
-  it('navigates to collect screen', () => {
-    const { getByText } = render(
-      <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
-        <PoolCard pool={{ ...AAVE_EARN_POSITION, balance: '10' }} />
-      </Provider>
-    )
-
-    expect(getByText('earnFlow.poolCard.exitPool')).toBeTruthy()
-    fireEvent.press(getByText('earnFlow.poolCard.exitPool'))
-    expect(navigate).toHaveBeenCalledWith(Screens.EarnCollectScreen, {
-      depositTokenId: mockArbUsdcTokenId,
-      poolTokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
-    })
-    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_card_cta_press, {
-      poolId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
-      networkId: NetworkId['arbitrum-sepolia'],
-      depositTokenId: mockArbUsdcTokenId,
-      tokenAmount: '10',
-      providerId: 'aave',
-      action: 'withdraw',
     })
   })
 })

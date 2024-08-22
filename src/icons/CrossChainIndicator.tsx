@@ -1,10 +1,10 @@
 import * as React from 'react'
-import colors, { Colors } from 'src/styles/colors'
-import Svg, { G, Circle, Path, Defs, ClipPath } from 'react-native-svg'
+import Svg, { Circle, ClipPath, Defs, G, Path } from 'react-native-svg'
+import { Colors } from 'src/styles/colors'
 
 interface Props {
   size?: number
-  color?: colors
+  color?: Colors
 }
 
 function CrossChainIndicator({ size = 16, color = Colors.gray3 }: Props) {
@@ -22,7 +22,7 @@ function CrossChainIndicator({ size = 16, color = Colors.gray3 }: Props) {
       </G>
       <Defs>
         <ClipPath id="a">
-          <Path fill="#fff" d="M1 4h14v9H1z" />
+          <Path fill={Colors.white} d="M1 4h14v9H1z" />
         </ClipPath>
       </Defs>
     </Svg>

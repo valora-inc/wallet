@@ -1,5 +1,5 @@
 import { normalizeAddress } from '@celo/utils/lib/address'
-import erc20 from 'src/abis/IERC20.json'
+import erc20 from 'src/abis/IERC20'
 import { Network } from 'src/transactions/types'
 import { viemTransports } from 'src/viem'
 import getLockableViemWallet, { ViemWallet, getTransport } from 'src/viem/getLockableWallet'
@@ -103,12 +103,12 @@ describe('getLockableWallet', () => {
   ])('can call $method.name if unlocked', async ({ method, methodCall }) => {
     // Adding account to the lock and keychain
     const date = new Date()
-    lock.addAccount({ address: wallet.account?.address as string, createdAt: date })
     mockedKeychain.setItems({
       [`account--${date.toISOString()}--${normalizeAddress(wallet.account?.address as string)}`]: {
         password: 'password',
       },
     })
+    await lock.loadExistingAccounts()
 
     const unlocked = await wallet.unlockAccount('password', 100)
     expect(unlocked).toBe(true)

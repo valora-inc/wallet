@@ -8,8 +8,8 @@ import {
   check as checkPermission,
   request as requestPermission,
 } from 'react-native-permissions'
-import { JumpstartEvents, SendEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { JumpstartEvents, SendEvents } from 'src/analytics/Events'
 import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import Dialog from 'src/components/Dialog'
 import SelectRecipientButton from 'src/components/SelectRecipientButton'
@@ -22,7 +22,6 @@ import { useSelector } from 'src/redux/hooks'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
-import { jumpstartSendTokensSelector } from 'src/tokens/selectors'
 import Logger from 'src/utils/Logger'
 import { CONTACTS_PERMISSION } from 'src/utils/contacts'
 import { navigateToPhoneSettings } from 'src/utils/linking'
@@ -35,7 +34,6 @@ export default function SelectRecipientButtons({ onContactsPermissionGranted }: 
   const { t } = useTranslation()
   const phoneNumberVerified = useSelector(phoneNumberVerifiedSelector)
   const jumpstartSendEnabled = getFeatureGate(StatsigFeatureGates.SHOW_JUMPSTART_SEND)
-  const jumpstartTokens = useSelector(jumpstartSendTokensSelector)
 
   const [contactsPermissionStatus, setContactsPermissionStatus] = useState<
     PermissionStatus | undefined
@@ -155,11 +153,9 @@ export default function SelectRecipientButtons({ onContactsPermissionGranted }: 
     navigate(Screens.JumpstartEnterAmount)
   }
 
-  const showJumpstart = jumpstartSendEnabled && jumpstartTokens.length > 0
-
   return (
     <>
-      {showJumpstart && (
+      {jumpstartSendEnabled && (
         <SelectRecipientButton
           testID={'SelectRecipient/Jumpstart'}
           title={t('sendSelectRecipient.jumpstart.title')}

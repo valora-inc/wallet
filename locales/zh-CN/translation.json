@@ -2201,6 +2201,20 @@
       "description": "无法为该令牌准备交易。"
     }
   },
+  "jumpstartIntro": {
+    "title": "像发短信一样分享加密货币",
+    "addFundsCelo": {
+      "title": "获取关于 Celo 的资产",
+      "info": "实时链接是一种通过链接向朋友发送 Celo 网络上的加密货币的方式。\n要开始使用，您的钱包中需要一些 CELO 资产。",
+      "description": "在 Celo 上添加资产后，您必须回来创建实时链接。",
+      "cta": "获取关于 Celo 的资产",
+      "actionDescriptions": {
+        "add": "使用我们值得信赖的供应商之一在 Celo 上购买资产",
+        "swap": "从 Celo 上的一项资产换入另一项资产",
+        "transfer": "使用任何兼容 Celo 的钱包或交易所在 Celo 上存入资产"
+      }
+    }
+  },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
       "title": "您最多可在一个链接中发送 {{amountInLocalCurrency,currency}}",
@@ -2480,17 +2494,19 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "实现收入最大化，且无需手续费*",
-          "title": "实现收入最大化",
-          "subtitle": "通过稳定币赚取收入，并在提供资金池后获取奖励。",
+          "title": "探索和比较泳池",
+          "subtitle": "比较盈利潜力和风险。交换、购买或转让代币，加入最适合您的代币池。",
           "footnoteSubsidy": "*手续费目前暂时由 Valora 承担"
         },
         "manage": {
           "title": "直接在 Valora 管理",
-          "subtitle": "我们会处理好设置问题，以便您能直接在 Valora 管理持仓。"
+          "titleV1_92": "直接在 {{appName}} 管理",
+          "subtitle": "我们将自动连接您的钱包，因此您无需离开 Valora 即可管理泳池。",
+          "subtitleV1_92": "我们将自动连接您的钱包，因此您无需离开 {{appName}}即可管理游泳池。"
         },
         "access": {
           "title": "轻松获取资金",
-          "subtitle": "只需轻轻一按，即可轻松收取资金。直接通过最喜欢的协议收取，享受即时获取的便利。"
+          "subtitle": "只需轻轻一点，就能收集资金，就像您最喜欢的协议一样。"
         }
       },
       "action": {
@@ -2505,8 +2521,8 @@
     },
     "entrypoint": {
       "title": "通过稳定币赚取收入",
-      "subtitle": "存款并赚取收益",
-      "description": "探索存放资产的收益池，赚取稳定币收益"
+      "subtitle": "存款和收入",
+      "description": "通过流动性池出借稳定币，赚取稳定币收益"
     },
     "enterAmount": {
       "earnUpToLabel": "您最多可以赚取：",
@@ -2536,6 +2552,7 @@
       "viewPools": "查看各类池",
       "poolsSupplied": "供应池数",
       "totalSupplied": "总供应量",
+      "depositAndEarnings": "存款和收入",
       "myPools": "我的池",
       "explore": "探索打开"
     },
@@ -2598,18 +2615,26 @@
     "poolCard": {
       "onNetwork": "在 {{networkName}}",
       "rate": "费率（估算）",
+      "yieldRate": "收益率（估计值）",
       "reward": "奖励",
       "tvl": "TVL",
       "exitPool": "退出池",
       "addToPool": "添加到池中",
       "apy": "{{apy}}% APY",
+      "percentage": "{{percentage}}%",
       "poweredBy": "由 {{providerName}} 提供支持",
-      "deposited": "已提供"
+      "deposited": "已提供",
+      "depositAndEarnings": "存款和收入"
     },
     "poolFilters": {
       "openPools": "打开池",
       "myPools": "我的池"
     }
+  },
+  "addFundsActions": {
+    "add": "买入",
+    "transfer": "转账",
+    "swap": "交换"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }

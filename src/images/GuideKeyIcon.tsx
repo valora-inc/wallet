@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Svg, { Path, Ellipse } from 'svgs'
+import Svg, { Ellipse, Path } from 'svgs'
 
 interface Props {
   height?: number

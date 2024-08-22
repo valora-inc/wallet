@@ -2201,6 +2201,20 @@
       "description": "Không thể chuẩn bị giao dịch cho token này."
     }
   },
+  "jumpstartIntro": {
+    "title": "Share crypto like a text",
+    "addFundsCelo": {
+      "title": "Get Assets on Celo",
+      "info": "Live Links are a way to send crypto on the Celo network to a friend with a link.\nTo get started, you’ll need some CELO assets in your wallet.",
+      "description": "Once you’ve added assets on Celo you’ll have to come back to create a Live Link.",
+      "cta": "Get Assets on Celo",
+      "actionDescriptions": {
+        "add": "Buy assets on Celo using one of our trusted providers",
+        "swap": "Swap into an asset on Celo from another asset",
+        "transfer": "Use any Celo compatible wallet or exchange to deposit assets on Celo"
+      }
+    }
+  },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
       "title": "Bạn có thể gửi tối đa {{amountInLocalCurrency,currency}} trong một đường liên kết",
@@ -2480,17 +2494,19 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "Tối đa hóa thu nhập mà không mất phí ga*",
-          "title": "Tối đa hóa thu nhập",
-          "subtitle": "Kiếm tiền từ stablecoin của bạn và nhận tiền thưởng khi bạn cung cấp quỹ.",
+          "title": "Explore and Compare Pools",
+          "subtitle": "Compare earning potential and risks. Swap, buy, or transfer tokens to join the best pool for you.",
           "footnoteSubsidy": "*Phí ga được Valora tạm thời chi trả"
         },
         "manage": {
           "title": "Quản lý trực tiếp từ Valora",
-          "subtitle": "Chúng tôi sẽ đảm nhiệm việc thiết lập để bạn có thể quản lý lệnh giao dịch trực tiếp từ Valora."
+          "titleV1_92": "Manage Directly from {{appName}}",
+          "subtitle": "We'll auto-connect your wallet so you can manage pools without leaving Valora.",
+          "subtitleV1_92": "We'll auto-connect your wallet so you can manage pools without leaving {{appName}}."
         },
         "access": {
           "title": "Tiếp cận tiền dễ dàng",
-          "subtitle": "Nhận tiền của bạn dễ dàng chỉ bằng một cú nhấn. Được quyền truy cập tức thời giống như bạn truy cập trực tiếp thông qua các giao thức yêu thích."
+          "subtitle": "Collect funds with a tap, just like your favorite protocols."
         }
       },
       "action": {
@@ -2505,8 +2521,8 @@
     },
     "entrypoint": {
       "title": "Nhận stablecoin",
-      "subtitle": "Nạp tiền và nhận tiền lãi",
-      "description": "Khám phá các quỹ để gửi tài sản và nhận tiền lãi từ stablecoin của bạn"
+      "subtitle": "Deposit and earn",
+      "description": "Earn on your stablecoins when you lend through a liquidity pool"
     },
     "enterAmount": {
       "earnUpToLabel": "Bạn có thể kiếm được đến:",
@@ -2536,6 +2552,7 @@
       "viewPools": "Xem quỹ",
       "poolsSupplied": "Các quỹ được cung cấp",
       "totalSupplied": "Tổng quỹ được cung cấp",
+      "depositAndEarnings": "Deposit & Earnings",
       "myPools": "Các quỹ của tôi",
       "explore": "Khám phá các quỹ đang mở"
     },
@@ -2598,18 +2615,26 @@
     "poolCard": {
       "onNetwork": "trên {{networkName}}",
       "rate": "Tỷ giá (ước tính)",
+      "yieldRate": "Yield Rate (est.)",
       "reward": "Tiền thưởng",
       "tvl": "TVL",
       "exitPool": "Thoát quỹ",
       "addToPool": "Thêm vào quỹ",
       "apy": "{{apy}}% APY",
+      "percentage": "{{percentage}}%",
       "poweredBy": "Do {{providerName}} cung cấp",
-      "deposited": "Đã cung cấp"
+      "deposited": "Đã cung cấp",
+      "depositAndEarnings": "Deposit & Earnings"
     },
     "poolFilters": {
       "openPools": "Các quỹ đang mở",
       "myPools": "Các quỹ của tôi"
     }
+  },
+  "addFundsActions": {
+    "add": "Mua",
+    "transfer": "Chuyển tiền",
+    "swap": "Trao đổi"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }
