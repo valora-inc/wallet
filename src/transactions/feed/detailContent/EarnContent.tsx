@@ -3,9 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import RowDivider from 'src/components/RowDivider'
 import TokenDisplay from 'src/components/TokenDisplay'
-import { getDynamicConfigParams } from 'src/statsig'
-import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { earnPositionsSelector } from 'src/positions/selectors'
+import { useSelector } from 'src/redux/hooks'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { useTokenInfo } from 'src/tokens/hooks'
@@ -18,18 +17,19 @@ interface EarnClaimRewardProps {
 
 export function EarnClaimContent({ transaction }: EarnClaimRewardProps) {
   const { t } = useTranslation()
-  const { providerName } = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG]
-  )
+  const pools = useSelector(earnPositionsSelector)
+  const providerName = pools.find((pool) => pool.appId === transaction.providerId)?.appName
   const tokenInfo = useTokenInfo(transaction.amount.tokenId)
   const tokenSymbol = tokenInfo?.symbol ?? ''
 
   return (
     <>
       <Text style={styles.detailsTitle}>{t('earnFlow.transactionDetails.descriptionLabel')}</Text>
-      <Text style={styles.detailsSubtitle}>
-        {t('earnFlow.transactionDetails.earnClaimSubtitle', { providerName, tokenSymbol })}
-      </Text>
+      {providerName && (
+        <Text style={styles.detailsSubtitle}>
+          {t('earnFlow.transactionDetails.earnClaimSubtitle', { providerName, tokenSymbol })}
+        </Text>
+      )}
       <RowDivider />
       <View>
         <View style={styles.row}>
@@ -66,18 +66,19 @@ interface EarnDepositProps {
 
 export function EarnDepositContent({ transaction }: EarnDepositProps) {
   const { t } = useTranslation()
-  const { providerName } = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG]
-  )
+  const pools = useSelector(earnPositionsSelector)
+  const providerName = pools.find((pool) => pool.appId === transaction.providerId)?.appName
   const tokenInfo = useTokenInfo(transaction.outAmount.tokenId)
   const tokenSymbol = tokenInfo?.symbol ?? ''
 
   return (
     <>
       <Text style={styles.detailsTitle}>{t('earnFlow.transactionDetails.descriptionLabel')}</Text>
-      <Text style={styles.detailsSubtitle}>
-        {t('earnFlow.transactionDetails.earnDepositSubtitle', { providerName, tokenSymbol })}
-      </Text>
+      {providerName && (
+        <Text style={styles.detailsSubtitle}>
+          {t('earnFlow.transactionDetails.earnDepositSubtitle', { providerName, tokenSymbol })}
+        </Text>
+      )}
       <RowDivider />
       <View>
         <View style={styles.row}>
@@ -114,18 +115,19 @@ interface EarnWithdrawProps {
 
 export function EarnWithdrawContent({ transaction }: EarnWithdrawProps) {
   const { t } = useTranslation()
-  const { providerName } = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG]
-  )
+  const pools = useSelector(earnPositionsSelector)
+  const providerName = pools.find((pool) => pool.appId === transaction.providerId)?.appName
   const tokenInfo = useTokenInfo(transaction.inAmount.tokenId)
   const tokenSymbol = tokenInfo?.symbol ?? ''
 
   return (
     <>
       <Text style={styles.detailsTitle}>{t('earnFlow.transactionDetails.descriptionLabel')}</Text>
-      <Text style={styles.detailsSubtitle}>
-        {t('earnFlow.transactionDetails.earnWithdrawSubtitle', { providerName, tokenSymbol })}
-      </Text>
+      {providerName && (
+        <Text style={styles.detailsSubtitle}>
+          {t('earnFlow.transactionDetails.earnWithdrawSubtitle', { providerName, tokenSymbol })}
+        </Text>
+      )}
       <RowDivider />
       <View>
         <View style={styles.row}>
