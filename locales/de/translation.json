@@ -2466,7 +2466,8 @@
     },
     "disclaimer": {
       "learnMoreCta": "<0>Mehr Infos</0> zu {{appName}}-Punkten",
-      "body": "<0>Was sind Punkte?</0>\nPunkte sind das Treueprogramm von {{appName}}. Nutzer erhalten Punkte, wenn sie unsere App nutzen.\n\n<0>Wofür sind die Punkte?</0>\nDu sammelst sie. Sie können weder ausgegeben, noch gehandelt oder überwiesen werden.\n\n<0>Warum sind sie in meinem Wallet?</0>\nPunkte sind Tokens. Digitale On-Chain-Bits, die dir Freude bereiten und die du verdienst, indem du die App nutzt.",
+      "title": "Mehr über {{appName}} Punkte",
+      "body": "Punkte sind das Treueprogramm von {{appName}}. Sie werden für die Nutzung der App vergeben. Punkte können nicht ausgegeben, getauscht oder übertragen werden.",
       "dismiss": "Verstanden"
     }
   },
