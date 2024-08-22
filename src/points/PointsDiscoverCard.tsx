@@ -2,14 +2,14 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { useDispatch } from 'react-redux'
-import { PointsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { PointsEvents } from 'src/analytics/Events'
 import Touchable from 'src/components/Touchable'
 import { pointsCardBackground } from 'src/images/Images'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { pointsBalanceSelector, pointsIntroHasBeenDismissedSelector } from 'src/points/selectors'
-import { getHistoryStarted } from 'src/points/slice'
+import { pointsDataRefreshStarted } from 'src/points/slice'
 import { useSelector } from 'src/redux/hooks'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -35,7 +35,7 @@ export default function PointsDiscoverCard() {
   }
 
   useEffect(() => {
-    dispatch(getHistoryStarted({ getNextPage: false }))
+    dispatch(pointsDataRefreshStarted())
   }, [])
 
   if (!showPoints) {

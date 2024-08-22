@@ -2615,13 +2615,16 @@
     "poolCard": {
       "onNetwork": "trên {{networkName}}",
       "rate": "Tỷ giá (ước tính)",
+      "yieldRate": "Yield Rate (est.)",
       "reward": "Tiền thưởng",
       "tvl": "TVL",
       "exitPool": "Thoát quỹ",
       "addToPool": "Thêm vào quỹ",
       "apy": "{{apy}}% APY",
+      "percentage": "{{percentage}}%",
       "poweredBy": "Do {{providerName}} cung cấp",
-      "deposited": "Đã cung cấp"
+      "deposited": "Đã cung cấp",
+      "depositAndEarnings": "Deposit & Earnings"
     },
     "poolFilters": {
       "openPools": "Các quỹ đang mở",

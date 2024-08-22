@@ -2615,13 +2615,16 @@
     "poolCard": {
       "onNetwork": "在 {{networkName}}",
       "rate": "费率（估算）",
+      "yieldRate": "收益率（估计值）",
       "reward": "奖励",
       "tvl": "TVL",
       "exitPool": "退出池",
       "addToPool": "添加到池中",
       "apy": "{{apy}}% APY",
+      "percentage": "{{percentage}}%",
       "poweredBy": "由 {{providerName}} 提供支持",
-      "deposited": "已提供"
+      "deposited": "已提供",
+      "depositAndEarnings": "存款和收入"
     },
     "poolFilters": {
       "openPools": "打开池",

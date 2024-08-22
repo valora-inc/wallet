@@ -2621,13 +2621,16 @@
     "poolCard": {
       "onNetwork": "w {{networkName}}",
       "rate": "Stawka (szac.)",
+      "yieldRate": "Stopa zwrotu (szacunkowo)",
       "reward": "Nagroda",
       "tvl": "TVL",
       "exitPool": "Wyjdź z puli",
       "addToPool": "Dodaj do puli",
       "apy": "{{apy}}% APY",
+      "percentage": "{{percentage}}%",
       "poweredBy": "Obsługiwane przez {{providerName}}",
-      "deposited": "Dostarczone"
+      "deposited": "Dostarczone",
+      "depositAndEarnings": "Depozyt i zarobki"
     },
     "poolFilters": {
       "openPools": "Otwarte pule",
