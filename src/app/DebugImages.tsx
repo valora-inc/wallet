@@ -27,7 +27,7 @@ const IconItem = ({ Component, fileName }: { Component: React.ElementType; fileN
   )
 }
 
-export function DebugImages() {
+function DebugImages() {
   return (
     <LinearGradient
       colors={[Colors.white, Colors.gray3]}
