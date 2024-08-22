@@ -2611,7 +2611,9 @@
         "apyDescription": "Tỉ suất lợi nhuận hằng năm (APY) là một chỉ số dùng để tính lợi nhuận hằng năm từ vốn đầu tư tiền điện tử. Đây là một chỉ báo quan trọng về khả năng sinh lời và tiềm năng lợi nhuận của một loại tiền điện tử.",
         "tvlSubtitle": "TVL là gì?",
         "tvlDescription": "TVL là từ viết tắt của Total Value Locked, nghĩa là Tổng giá trị bị khóa. Đây là một chỉ số được sử dụng trong ngành tiền điện tử để đo lường giá trị của các tài sản kỹ thuật số bị khóa trên một mạng chuỗi khối. TVL được tính bằng cách tính tổng giá trị của tất cả các tài sản kỹ thuật số bị khóa trong một giao thức DeFi hoặc hợp đồng thông minh. Những tài sản này có thể bao gồm tiền điện tử, stablecoin và các token khác."
-      }
+      },
+      "noPoolsTitle": "You haven’t joined any pools yet",
+      "noPoolsDescription": "Discover available pools, pick one that matches your goals, and make the most of your stablecoins."
     },
     "poolCard": {
       "onNetwork": "trên {{networkName}}",
