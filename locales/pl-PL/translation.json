@@ -2470,7 +2470,8 @@
     },
     "disclaimer": {
       "learnMoreCta": "<0>Dowiedz się więcej</0> o punktach {{appName}}",
-      "body": "<0>Czym są punkty?</0>\nPunkty są przyznawane w ramach programu lojalnościowego {{appName}}. Otrzymuje się je za korzystanie z naszej aplikacji.\n\n<0>Do czego można ich używać?</0>\nMożna je zbierać, a potem wydawać, wymieniać lub przekazywać innym użytkownikom.\n\n<0>Dlaczego są w moim portfelu?</0>\nSą dodawane do portfela, ponieważ są tokenami. Innymi słowy drobnymi bitami w łańcuchu, które zarabia się, korzystając z aplikacji.",
+      "title": "Więcej informacji o {{appName}} Punkty",
+      "body": "Punkty to program lojalnościowy {{appName}}. Są one przyznawane za korzystanie z aplikacji. Punktów nie można wydawać, wymieniać ani przenosić.",
       "dismiss": "Rozumiem"
     }
   },
