@@ -5,16 +5,16 @@
  */
 import { Lock } from '@celo/base/lib/lock'
 import { ContractKit, newKitFromWeb3 } from '@celo/contractkit'
-import { sleep } from '@celo/utils/lib/async'
 import { UnlockableWallet } from '@celo/wallet-base'
 import { accountCreationTimeSelector } from 'src/account/selectors'
-import { ContractKitEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { ContractKitEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { DEFAULT_FORNO_URL } from 'src/config'
 import { navigateToError } from 'src/navigator/NavigationService'
 import { getPasswordSaga } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
+import { sleep } from 'src/utils/sleep'
 import getLockableViemWallet, { ViemWallet } from 'src/viem/getLockableWallet'
 import {
   ImportMnemonicAccount,

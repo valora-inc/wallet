@@ -3,6 +3,7 @@ import { celoAlfajores } from 'viem/chains'
 import { privateKeyToAccount } from 'viem/accounts'
 import jestExpect from 'expect'
 import { DEFAULT_PIN, SAMPLE_BACKUP_KEY } from '../utils/consts'
+import { sleep } from '../../../src/utils/sleep'
 
 const childProcess = require('child_process')
 const fs = require('fs')
@@ -22,10 +23,6 @@ function exec(command, options = { cwd: process.cwd() }) {
       resolve({ stdout, stderr })
     })
   })
-}
-
-export function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
 export class TimeoutError extends Error {
