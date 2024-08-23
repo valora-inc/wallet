@@ -2632,8 +2632,8 @@
       "depositAndEarnings": "Einzahlungen und Verdienste"
     },
     "poolFilters": {
-      "openPools": "Offene Pools",
-      "myPools": "Meine Pools"
+      "myPools": "Meine Pools",
+      "allPools": "Alle Pools"
     }
   },
   "addFundsActions": {
