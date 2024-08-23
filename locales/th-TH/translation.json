@@ -2630,8 +2630,8 @@
       "depositAndEarnings": "ฝากเงินและสร้างรายได้"
     },
     "poolFilters": {
-      "openPools": "พูลที่เปิดอยู่",
-      "myPools": "พูลของฉัน"
+      "myPools": "พูลของฉัน",
+      "allPools": "All Pools"
     }
   },
   "addFundsActions": {
