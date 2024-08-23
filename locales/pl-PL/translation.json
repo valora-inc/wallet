@@ -1997,7 +1997,7 @@
       "earn": "Poznaj możliwości zarobkowe",
       "profile": "Stwórz swój profil",
       "learn": "Dowiedz się więcej o Celo",
-      "learnPoints": "Dowiedz się więcej o {{appName}} Punkty"
+      "learnPoints": "Dowiedz się więcej o punktach {{appName}}"
     }
   },
   "reverifyUsingCPVHomecard": {
@@ -2208,16 +2208,16 @@
     }
   },
   "jumpstartIntro": {
-    "title": "Udostępniaj kryptowaluty jak tekst",
+    "title": "Udostępniaj kryptowaluty jak wiadomości tekstowe",
     "addFundsCelo": {
-      "title": "Zdobądź aktywa na Celo",
-      "info": "Live Links to sposób na wysyłanie kryptowalut w sieci Celo do znajomego za pomocą linku.\nAby rozpocząć, będziesz potrzebować zasobów CELO w swoim portfelu.",
-      "description": "Po dodaniu zasobów w Celo będziesz musiał wrócić, aby utworzyć łącze na żywo.",
-      "cta": "Zdobądź aktywa na Celo",
+      "title": "Pobierz aktywa do Celo",
+      "info": "Łącza dynamiczne to doskonały sposób na wysyłanie znajomym kryptowalut w sieci Celo.\nAby móc korzystać z tej funkcji, musisz mieć aktywa CELO w swoim portfelu.",
+      "description": "Po dodaniu aktywów do Celo musisz się cofnąć, aby utworzyć łącze dynamiczne.",
+      "cta": "Pobierz aktywa do Celo",
       "actionDescriptions": {
-        "add": "Kupuj aktywa na Celo, korzystając z usług jednego z naszych zaufanych dostawców",
-        "swap": "Zamiana na aktywo w Celo z innego aktywa",
-        "transfer": "Użyj dowolnego portfela lub giełdy kompatybilnej z Celo, aby zdeponować aktywa w Celo."
+        "add": "Kupuj aktywa w sieci Celo, korzystając z usług jednego z naszych zaufanych dostawców",
+        "swap": "Zamień inne aktywa na aktywa w sieci Celo",
+        "transfer": "Użyj dowolnego portfela lub giełdy zgodnych z Celo, aby wpłacać aktywa do Celo"
       }
     }
   },
@@ -2470,8 +2470,8 @@
     },
     "disclaimer": {
       "learnMoreCta": "<0>Dowiedz się więcej</0> o punktach {{appName}}",
-      "title": "Więcej informacji o {{appName}} Punkty",
-      "body": "Punkty to program lojalnościowy {{appName}}. Są one przyznawane za korzystanie z aplikacji. Punktów nie można wydawać, wymieniać ani przenosić.",
+      "title": "Więcej informacji o punktach {{appName}}",
+      "body": "Punkty są przyznawane w programie lojalnościowym {{appName}}. Otrzymuje się je za korzystanie z aplikacji. Punktów nie można wydawać, zamieniać ani przekazywać.",
       "dismiss": "Rozumiem"
     }
   },
@@ -2501,19 +2501,19 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "Maksymalizuj zarobki bez opłat za gaz*",
-          "title": "Przeglądaj i porównuj baseny",
-          "subtitle": "Porównaj potencjał zarobkowy i ryzyko. Wymieniaj, kupuj lub transferuj tokeny, aby dołączyć do najlepszej dla siebie puli.",
+          "title": "Przejrzyj i porównaj pule",
+          "subtitle": "Porównaj potencjał zarobkowy i ryzyko. Wymieniaj, kupuj lub przesyłaj tokeny, aby dołączyć do najlepszej puli.",
           "footnoteSubsidy": "* Opłaty za gaz są tymczasowo pokrywane przez Valorę"
         },
         "manage": {
           "title": "Zarządzaj bezpośrednio z Valory",
           "titleV1_92": "Zarządzaj bezpośrednio z {{appName}}",
-          "subtitle": "Automatycznie połączymy Twój portfel, abyś mógł zarządzać pulami bez opuszczania Valory.",
-          "subtitleV1_92": "Automatycznie połączymy Twój portfel, abyś mógł zarządzać pulami bez opuszczania strony {{appName}}."
+          "subtitle": "Automatycznie połączymy Twój portfel, aby można było zarządzać pulami bez zamykania aplikacji Valora.",
+          "subtitleV1_92": "Automatycznie połączymy Twój portfel, aby można było zarządzać pulami bez zamykania aplikacji {{appName}}."
         },
         "access": {
           "title": "Łatwy dostęp do Twoich środków",
-          "subtitle": "Zbieraj fundusze jednym dotknięciem, tak jak w przypadku ulubionych protokołów."
+          "subtitle": "Zbieraj środki jednym dotknięciem, tak jak w przypadku innych ulubionych protokołów."
         }
       },
       "action": {
@@ -2529,7 +2529,7 @@
     "entrypoint": {
       "title": "Zarabiaj na swoich stablecoinach",
       "subtitle": "Wpłacaj i zarabiaj",
-      "description": "Zarabiaj na swoich stablecoinach, udzielając pożyczek za pośrednictwem puli płynności"
+      "description": "Zarabiaj na swoich tokenach płatniczych, pożyczając za pośrednictwem puli płynności"
     },
     "enterAmount": {
       "earnUpToLabel": "Możesz zarobić do:",
@@ -2559,7 +2559,7 @@
       "viewPools": "Pokaż pule",
       "poolsSupplied": "Dostępne pule",
       "totalSupplied": "Dostępne ogółem",
-      "depositAndEarnings": "Depozyt i zarobki",
+      "depositAndEarnings": "Wpłaty i zarobki",
       "myPools": "Moje pule",
       "explore": "Przeglądaj otwarte"
     },
@@ -2624,7 +2624,7 @@
     "poolCard": {
       "onNetwork": "w {{networkName}}",
       "rate": "Stawka (szac.)",
-      "yieldRate": "Stopa zwrotu (szacunkowo)",
+      "yieldRate": "Stopa zwrotu (szac.)",
       "reward": "Nagroda",
       "tvl": "TVL",
       "exitPool": "Wyjdź z puli",
@@ -2633,7 +2633,7 @@
       "percentage": "{{percentage}}%",
       "poweredBy": "Obsługiwane przez {{providerName}}",
       "deposited": "Dostarczone",
-      "depositAndEarnings": "Depozyt i zarobki"
+      "depositAndEarnings": "Wpłaty i zarobki"
     },
     "poolFilters": {
       "openPools": "Otwarte pule",
