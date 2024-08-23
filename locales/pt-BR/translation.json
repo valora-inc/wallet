@@ -2204,16 +2204,16 @@
     }
   },
   "jumpstartIntro": {
-    "title": "Compartilhe criptografia como um texto",
+    "title": "Compartilhe cripto tão fácil quanto enviar mensagens",
     "addFundsCelo": {
-      "title": "Obter ativos na Celo",
-      "info": "Os Live Links são uma forma de você enviar criptografia na rede Celo para um amigo por meio de um link.\nPara começar, você precisará de alguns ativos da CELO em sua carteira.",
-      "description": "Depois de adicionar ativos no Celo, você terá que voltar para criar um Live Link.",
-      "cta": "Obter ativos na Celo",
+      "title": "Obtenha ativos na Celo",
+      "info": "Os links ativos são uma forma de você enviar cripto na rede Celo para um amigo por meio de um link.\nPara começar, você precisará de alguns ativos CELO em sua carteira.",
+      "description": "Depois de adicionar ativos na Celo, você terá que voltar para criar um link ativo.",
+      "cta": "Obtenha ativos na Celo",
       "actionDescriptions": {
-        "add": "Compre ativos na Celo usando um de nossos provedores confiáveis",
-        "swap": "Troca de um ativo na Celo por outro ativo",
-        "transfer": "Use qualquer carteira ou bolsa compatível com a Celo para depositar ativos na Celo"
+        "add": "Compre ativos na Celo usando um de nossos fornecedores confiáveis",
+        "swap": "Troque um ativo por outro na Celo",
+        "transfer": "Use qualquer carteira ou exchange compatível com a Celo para depositar ativos na Celo"
       }
     }
   },
@@ -2466,8 +2466,8 @@
     },
     "disclaimer": {
       "learnMoreCta": "<0>Saiba mais</0> sobre os {{appName}} Pontos",
-      "title": "Mais sobre {{appName}} Points",
-      "body": "Os pontos são o programa de fidelidade do {{appName}}. Eles são concedidos pelo uso do aplicativo. Os pontos não podem ser gastos, trocados ou transferidos.",
+      "title": "Mais sobre os pontos {{appName}}",
+      "body": "Os pontos são o programa de fidelidade da {{appName}}. Eles são concedidos pelo uso do aplicativo. Os pontos não podem ser gastos, trocados ou transferidos.",
       "dismiss": "Entendi"
     }
   },
