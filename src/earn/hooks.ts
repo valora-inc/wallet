@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { useAsync } from 'react-async-hook'
 import { fetchAaveRewards } from 'src/earn/poolInfo'
 import { prepareWithdrawAndClaimTransactions } from 'src/earn/prepareTransactions'
@@ -96,9 +97,11 @@ export function useAaveRewardsInfoAndPrepareTransactions({
 // while we're in the interim period of building the multiple pool flow
 export function useEarnPosition(positionId: string = networkConfig.aaveArbUsdcTokenId) {
   const pools = useSelector(earnPositionsSelector)
-  const pool = pools.find((pool) => pool.positionId === positionId)
-  if (!pool) {
-    Logger.warn(TAG, 'pool not found', positionId)
-  }
-  return pool
+  return useMemo(() => {
+    const pool = pools.find((pool) => pool.positionId === positionId)
+    if (!pool) {
+      Logger.warn(TAG, 'pool not found', positionId)
+    }
+    return pool
+  }, [pools, positionId])
 }
