@@ -36,7 +36,7 @@ function TitleSection({
   networkName: string
 }) {
   return (
-    <View style={{ gap: Spacing.Smallest8 }}>
+    <View style={styles.titleContainer}>
       <TokenIcons tokensInfo={tokensInfo} />
       <Text style={styles.title}>{title}</Text>
       <View style={styles.subtitleContainer}>
@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
     ...typeScale.labelSmall,
     color: Colors.black,
   },
-  titleConainer: {
+  titleContainer: {
     gap: Spacing.Smallest8,
   },
   subtitleContainer: {
