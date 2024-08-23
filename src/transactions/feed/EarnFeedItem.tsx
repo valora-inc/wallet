@@ -6,10 +6,9 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
+import { useEarnPosition } from 'src/earn/hooks'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { earnPositionsSelector } from 'src/positions/selectors'
-import { useSelector } from 'src/redux/hooks'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -23,8 +22,7 @@ interface DescriptionProps {
 
 function Description({ transaction }: DescriptionProps) {
   const { t } = useTranslation()
-  const pools = useSelector(earnPositionsSelector)
-  const providerName = pools.find((pool) => pool.appId === transaction.providerId)?.appName
+  const providerName = useEarnPosition(transaction.providerId)
   let title
   let subtitle
 

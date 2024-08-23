@@ -1,6 +1,7 @@
 import { useAsync } from 'react-async-hook'
 import { fetchAaveRewards } from 'src/earn/poolInfo'
 import { prepareWithdrawAndClaimTransactions } from 'src/earn/prepareTransactions'
+import { earnPositionsSelector } from 'src/positions/selectors'
 import { useSelector } from 'src/redux/hooks'
 import { useTokenInfo, useTokensList } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
@@ -89,4 +90,13 @@ export function useAaveRewardsInfoAndPrepareTransactions({
     }
   )
   return { asyncRewardsInfo, asyncPreparedTransactions }
+}
+
+export function useEarnPosition(providerId: string) {
+  const pools = useSelector(earnPositionsSelector)
+  const providerName = pools.find((pool) => pool.appId === providerId)?.appName
+  if (!providerName) {
+    Logger.warn(TAG, 'providerName not found', providerId)
+  }
+  return providerName
 }
