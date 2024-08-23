@@ -1,5 +1,5 @@
 import { launchApp } from '../utils/retries'
-import { quickOnboarding, sleep, waitForElementId } from '../utils/utils'
+import { quickOnboarding, waitForElementId } from '../utils/utils'
 
 export default ChooseYourAdventure = () => {
   beforeEach(async () => {

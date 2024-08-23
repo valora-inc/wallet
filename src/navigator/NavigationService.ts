@@ -1,5 +1,4 @@
 // (https://github.com/react-navigation/react-navigation/issues/1439)
-import { sleep } from '@celo/utils/lib/async'
 import {
   CommonActions,
   createNavigationContainerRef,
@@ -23,6 +22,7 @@ import { store } from 'src/redux/store'
 import { isUserCancelledError } from 'src/storage/keychain'
 import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
+import { sleep } from 'src/utils/sleep'
 
 const TAG = 'NavigationService'
 
