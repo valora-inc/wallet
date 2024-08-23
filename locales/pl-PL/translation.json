@@ -2636,8 +2636,8 @@
       "depositAndEarnings": "Wpłaty i zarobki"
     },
     "poolFilters": {
-      "openPools": "Otwarte pule",
-      "myPools": "Moje pule"
+      "myPools": "Moje pule",
+      "allPools": "Wszystkie baseny"
     }
   },
   "addFundsActions": {
