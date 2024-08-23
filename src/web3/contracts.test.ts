@@ -13,45 +13,9 @@ describe('getViemWallet', () => {
   it('throws if address not found', async () => {
     return expect(
       expectSaga(getViemWallet, celo)
-        .provide([
-          [select(walletAddressSelector), null],
-          [call(listStoredAccounts), []],
-          [call(getPasswordSaga, 'hi', false, true), 'password'],
-          [
-            call(getStoredPrivateKey, { address: '0x123', createdAt: new Date() }, 'password'),
-            'privateKey',
-          ],
-        ])
+        .provide([[select(walletAddressSelector), null]])
         .run()
     ).rejects.toThrowError('Wallet address not found')
-  })
-  it('throws if the address is not found on the Keychain', () => {
-    const date = new Date()
-    return expect(
-      expectSaga(getViemWallet, celo)
-        .provide([
-          [select(walletAddressSelector), '0x123'],
-          [call(listStoredAccounts), [{ address: '0x456', createdAt: date }]],
-        ])
-        .run()
-    ).rejects.toThrowError(`Account 0x123 not found in Keychain`)
-  })
-  it('throws if the private key is not found for the given password', () => {
-    const date = new Date()
-
-    return expect(
-      expectSaga(getViemWallet, celo)
-        .provide([
-          [select(walletAddressSelector), '0x123'],
-          [call(listStoredAccounts), [{ address: '0x123', createdAt: date }]],
-          [call(getPasswordSaga, '0x123', true, false), 'password'],
-          [
-            call(getStoredPrivateKey, { address: '0x123', createdAt: new Date() }, 'password'),
-            null,
-          ],
-        ])
-        .run()
-    ).rejects.toThrowError(`Private key not found for account 0x123`)
   })
   it('returns a lockable wallet', async () => {
     const date = new Date()

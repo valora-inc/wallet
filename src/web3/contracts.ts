@@ -8,20 +8,14 @@ import { ContractKit, newKitFromWeb3 } from '@celo/contractkit'
 import { sleep } from '@celo/utils/lib/async'
 import { UnlockableWallet } from '@celo/wallet-base'
 import { accountCreationTimeSelector } from 'src/account/selectors'
-import { ContractKitEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { ContractKitEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { DEFAULT_FORNO_URL } from 'src/config'
 import { navigateToError } from 'src/navigator/NavigationService'
-import { getPasswordSaga } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
 import getLockableViemWallet, { ViemWallet } from 'src/viem/getLockableWallet'
-import {
-  ImportMnemonicAccount,
-  KeychainLock,
-  getStoredPrivateKey,
-  listStoredAccounts,
-} from 'src/web3/KeychainLock'
+import { ImportMnemonicAccount, KeychainLock } from 'src/web3/KeychainLock'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
 import { importDekIfNecessary } from 'src/web3/dataEncryptionKey'
 import { getHttpProvider } from 'src/web3/providers'
@@ -126,17 +120,12 @@ export function* getViemWallet(chain: Chain, useAppTransport?: boolean) {
   if (!walletAddress) {
     throw new Error('Wallet address not found')
   }
-  const accounts = yield* call(listStoredAccounts)
-  const account = accounts.find((a) => a.address === walletAddress)
-  if (!account) {
-    throw new Error(`Account ${walletAddress} not found in Keychain`)
-  }
-  const password = yield* call(getPasswordSaga, walletAddress, true, false)
-  const privateKey = yield* call(getStoredPrivateKey, account, password)
-  if (!privateKey) {
-    throw new Error(`Private key not found for account ${walletAddress}`)
-  }
-  const wallet = getLockableViemWallet(keychainLock, chain, privateKey as Address, useAppTransport)
+  const wallet = getLockableViemWallet(
+    keychainLock,
+    chain,
+    walletAddress as Address,
+    useAppTransport
+  )
   Logger.debug(`${TAG}@getViemWallet`, `Initialized wallet with account: ${wallet.account}`)
   walletsCache.set(chain, wallet)
   return wallet
