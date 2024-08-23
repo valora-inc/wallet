@@ -107,7 +107,7 @@ describe('EarnInfoScreen', () => {
 
     fireEvent.press(getByText('earnFlow.earnInfo.action.earn'))
     expect(navigate).toHaveBeenCalledWith(Screens.EarnHome, {
-      activeEarnTab: EarnTabType.OpenPools,
+      activeEarnTab: EarnTabType.AllPools,
     })
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_info_earn_press)
   })
