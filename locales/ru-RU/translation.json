@@ -2636,8 +2636,8 @@
       "depositAndEarnings": "Пополнение и заработки"
     },
     "poolFilters": {
-      "openPools": "Открытые пулы",
-      "myPools": "Мои пулы"
+      "myPools": "Мои пулы",
+      "allPools": "Все бассейны"
     }
   },
   "addFundsActions": {
