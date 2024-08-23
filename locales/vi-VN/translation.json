@@ -2630,8 +2630,8 @@
       "depositAndEarnings": "Nạp tiền & Thu nhập"
     },
     "poolFilters": {
-      "openPools": "Các quỹ đang mở",
-      "myPools": "Các quỹ của tôi"
+      "myPools": "Các quỹ của tôi",
+      "allPools": "All Pools"
     }
   },
   "addFundsActions": {
