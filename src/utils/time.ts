@@ -1,3 +1,4 @@
+import { Duration } from 'date-fns'
 import { differenceInYears } from 'date-fns/differenceInYears'
 import { format } from 'date-fns/format'
 import { formatDistanceToNow as dateFnsFormatDistanceToNow } from 'date-fns/formatDistanceToNow'
@@ -69,4 +70,42 @@ function quickFormat(timestamp: number, i18next: i18nType, formatRule: string) {
 
 function locale(i18next: i18nType) {
   return locales[i18next?.language]?.dateFns ?? locales['en-US']?.dateFns
+}
+
+export function formattedAge(interval: Duration) {
+  const years = interval.years ?? 0
+  const months = interval.months ?? 0
+  const days = interval.days ?? 0
+
+  if (years === 0 && months === 0) {
+    if (days === 0) {
+      return i18n.t('time.lessThanADay')
+    } else if (days === 1) {
+      return i18n.t('time.oneDay')
+    } else {
+      return i18n.t('time.days', { days })
+    }
+  } else if (years === 0) {
+    if (months === 1) {
+      return i18n.t('time.oneMonth')
+    } else {
+      return i18n.t('time.months', { months })
+    }
+  } else if (years === 1) {
+    if (months === 0) {
+      return i18n.t('time.oneYear')
+    } else if (months === 1) {
+      return i18n.t('time.oneYearAndOneMonth')
+    } else {
+      return i18n.t('time.oneYearAndMonths', { months })
+    }
+  } else {
+    if (months === 0) {
+      return i18n.t('time.years', { years })
+    } else if (months === 1) {
+      return i18n.t('time.yearsAndOneMonth', { years })
+    } else {
+      return i18n.t('time.yearsAndMonths', { years, months })
+    }
+  }
 }

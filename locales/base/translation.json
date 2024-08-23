@@ -2639,5 +2639,18 @@
     "add": "Buy",
     "transfer": "Transfer",
     "swap": "Swap"
+  },
+  "time": {
+    "lessThanADay": "Less than a day",
+    "oneDay": "1 day",
+    "days": "{{days}} days",
+    "oneMonth": "1 month",
+    "months": "{{months}} months",
+    "oneYear": "1 year",
+    "oneYearAndOneMonth": "1 year, 1 month",
+    "oneYearAndMonths": "1 year, {{months}} months",
+    "years": "{{years}} years",
+    "yearsAndOneMonth": "{{years}} years, 1 month",
+    "yearsAndMonths": "{{years}} years, {{months}} months"
   }
 }
