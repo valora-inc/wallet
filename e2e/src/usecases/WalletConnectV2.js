@@ -13,7 +13,8 @@ import { celoAlfajores } from 'viem/chains'
 import { parseTransaction } from 'viem/celo'
 import { formatUri, utf8ToHex } from '../utils/encoding'
 import { launchApp } from '../utils/retries'
-import { enterPinUiIfNecessary, navigateToSettings, sleep } from '../utils/utils'
+import { enterPinUiIfNecessary, navigateToSettings } from '../utils/utils'
+import { sleep } from '../../../src/utils/sleep'
 
 import jestExpect from 'expect'
 

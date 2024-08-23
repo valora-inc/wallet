@@ -11,10 +11,10 @@ import {
   enterPinUi,
   navigateToSettings,
   scrollIntoView,
-  sleep,
   waitForElementId,
   waitForElementByIdAndTap,
 } from '../utils/utils'
+import { sleep } from '../../../src/utils/sleep'
 
 import jestExpect from 'expect'
 const examplePhoneNumber = VERIFICATION_PHONE_NUMBER || EXAMPLE_PHONE_NUMBER

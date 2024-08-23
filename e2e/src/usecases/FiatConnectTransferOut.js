@@ -7,9 +7,9 @@ import {
   enterPinUiIfNecessary,
   fundWallet,
   quickOnboarding,
-  sleep,
   waitForElementId,
 } from '../utils/utils'
+import { sleep } from '../../../src/utils/sleep'
 
 /**
  * From the home screen, navigate to the FiatExchange screen (add/withdraw)

@@ -1,6 +1,8 @@
 import { differenceInDays } from 'date-fns'
 import { isEqual } from 'lodash'
+import { depositSuccess } from 'src/earn/slice'
 import { Actions as HomeActions } from 'src/home/actions'
+import { depositTransactionSucceeded } from 'src/jumpstart/slice'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import {
   nextPageUrlSelector,
@@ -19,6 +21,7 @@ import {
   getPointsConfigRetry,
   getPointsConfigStarted,
   getPointsConfigSucceeded,
+  pointsDataRefreshStarted,
   pointsEventProcessed,
   sendPointsEventStarted,
   trackPointsEvent,
@@ -32,6 +35,7 @@ import {
 } from 'src/points/types'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
+import { swapSuccess } from 'src/swap/slice'
 import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
@@ -39,9 +43,6 @@ import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, put, select, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
 import { v4 as uuidv4 } from 'uuid'
-import { depositTransactionSucceeded } from 'src/jumpstart/slice'
-import { swapSuccess } from 'src/swap/slice'
-import { depositSuccess } from 'src/earn/slice'
 
 const TAG = 'Points/saga'
 
@@ -170,7 +171,10 @@ export function* getPointsConfig() {
   }
 
   yield* put(getPointsConfigStarted())
+  yield* fetchPointsConfig()
+}
 
+function* fetchPointsConfig() {
   try {
     const response = yield* call(fetchWithTimeout, networkConfig.getPointsConfigUrl, {
       method: 'GET',
@@ -370,6 +374,16 @@ export function* watchHomeScreenVisit() {
   yield* spawn(sendPendingPointsEvents)
 }
 
+function* updatePointsData() {
+  yield* spawn(fetchPointsConfig)
+  yield* spawn(getPointsBalance, getHistoryStarted({ getNextPage: false }))
+  yield* spawn(getHistory, getHistoryStarted({ getNextPage: false }))
+}
+
+export function* watchPointsDataRefreshStarted() {
+  yield* takeLeading(pointsDataRefreshStarted.type, safely(updatePointsData))
+}
+
 export function* pointsSaga() {
   yield* spawn(watchGetHistory)
   yield* spawn(watchGetConfig)
@@ -378,4 +392,5 @@ export function* pointsSaga() {
   yield* spawn(watchLiveLinkCreated)
   yield* spawn(watchSwapSuccess)
   yield* spawn(watchDepositSuccess)
+  yield* spawn(watchPointsDataRefreshStarted)
 }

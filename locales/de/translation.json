@@ -2466,7 +2466,8 @@
     },
     "disclaimer": {
       "learnMoreCta": "<0>Mehr Infos</0> zu {{appName}}-Punkten",
-      "body": "<0>Was sind Punkte?</0>\nPunkte sind das Treueprogramm von {{appName}}. Nutzer erhalten Punkte, wenn sie unsere App nutzen.\n\n<0>Wofür sind die Punkte?</0>\nDu sammelst sie. Sie können weder ausgegeben, noch gehandelt oder überwiesen werden.\n\n<0>Warum sind sie in meinem Wallet?</0>\nPunkte sind Tokens. Digitale On-Chain-Bits, die dir Freude bereiten und die du verdienst, indem du die App nutzt.",
+      "title": "Mehr über {{appName}} Punkte",
+      "body": "Punkte sind das Treueprogramm von {{appName}}. Sie werden für die Nutzung der App vergeben. Punkte können nicht ausgegeben, getauscht oder übertragen werden.",
       "dismiss": "Verstanden"
     }
   },
@@ -2612,7 +2613,9 @@
         "apyDescription": "Eine jährliche prozentuale Rendite (APY) ist eine Kennzahl, die zur Berechnung der jährlichen Rendite von Krypto-Investitionen verwendet wird. Sie ist ein wichtiger Indikator für die potenzielle Rendite und Rentabilität einer Kryptowährung.",
         "tvlSubtitle": "Was ist TVL?",
         "tvlDescription": "TVL steht für Total Value Locked und ist eine Kennzahl, die in der Kryptobranche verwendet wird, um den Wert von Digitalvermögen zu messen, das in einem Blockchain-Netzwerk gesperrt ist. TVL wird berechnet, indem der Wert des gesamten Digitalvermögens addiert wird, das in einem DeFi-Protokoll oder Smart Contract gesperrt ist. Dieses Vermögen kann Kryptowährungen, Stablecoins und andere Tokens umfassen."
-      }
+      },
+      "noPoolsTitle": "Du bist noch keinem Pool beigetreten",
+      "noPoolsDescription": "Entdecke die verfügbaren Pools, wähle einen, der zu deinen Zielen passt, und mache das Beste aus deinen Stablecoins."
     },
     "poolCard": {
       "onNetwork": "auf {{networkName}}",
