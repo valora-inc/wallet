@@ -1990,10 +1990,10 @@
     "options": {
       "add": "Füge Guthaben zu deinem Wallet hinzu",
       "dapp": "Wege finden, Krypto zu nutzen",
-      "earn": "Verdienstmöglichkeiten erkunden",
+      "earn": "Entdecke Verdienstmöglichkeiten",
       "profile": "Erstelle dein Profil",
       "learn": "Mehr über Celo erfahren",
-      "learnPoints": "Learn about {{appName}} Points"
+      "learnPoints": "Erfahre mehr zu {{appName}}-Punkten"
     }
   },
   "reverifyUsingCPVHomecard": {
@@ -2204,16 +2204,16 @@
     }
   },
   "jumpstartIntro": {
-    "title": "Krypto wie einen Text teilen",
+    "title": "Teile Krypto wie eine Textnachricht",
     "addFundsCelo": {
-      "title": "Vermögenswerte auf Celo erhalten",
-      "info": "Live-Links sind eine Möglichkeit, Kryptowährungen im Celo-Netzwerk mit einem Link an einen Freund zu senden.\nUm loszulegen, brauchst du einige CELO-Guthaben in deiner Brieftasche.",
-      "description": "Sobald du Assets auf Celo hinzugefügt hast, musst du zurückkommen, um einen Live Link zu erstellen.",
-      "cta": "Vermögenswerte auf Celo erhalten",
+      "title": "Erhalte Vermögen in Celo",
+      "info": "Mit Live-Links kannst du Krypto über das Celo-Netzwerk mit einem Link an einen Freund senden.\nUm loszulegen, benötigst du CELO-Vermögen in deinem Wallet.",
+      "description": "Sobald du Vermögen in Celo hinzugefügt hast, musst du zurückkehren, um einen Live-Link zu erstellen.",
+      "cta": "Erhalte Vermögen in Celo",
       "actionDescriptions": {
-        "add": "Kaufe Vermögenswerte auf Celo mit einem unserer vertrauenswürdigen Anbieter",
-        "swap": "Swap in eine Anlage auf Celo von einer anderen Anlage",
-        "transfer": "Verwende eine beliebige Celo-kompatible Geldbörse oder Börse, um Vermögenswerte auf Celo einzuzahlen"
+        "add": "Kaufe Vermögen auf Celo mit einem unserer vertrauenswürdigen Anbieter",
+        "swap": "Wechsle von einem anderen Vermögen zu einem Vermögen in Celo",
+        "transfer": "Nutze ein beliebiges Celo-kompatibles Wallet oder eine beliebige Celo-kompatible Börse, um Vermögen in Celo einzuzahlen"
       }
     }
   },
@@ -2466,8 +2466,8 @@
     },
     "disclaimer": {
       "learnMoreCta": "<0>Mehr Infos</0> zu {{appName}}-Punkten",
-      "title": "Mehr über {{appName}} Punkte",
-      "body": "Punkte sind das Treueprogramm von {{appName}}. Sie werden für die Nutzung der App vergeben. Punkte können nicht ausgegeben, getauscht oder übertragen werden.",
+      "title": "Mehr zu {{appName}}-Punkten",
+      "body": "Punkte sind das Treueprogramm von {{appName}}. Diese erhältst du für die Nutzung der App. Punkte können weder ausgegeben, noch gehandelt oder überwiesen werden.",
       "dismiss": "Verstanden"
     }
   },
@@ -2497,19 +2497,19 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "Maximiere Verdienste ohne Gasgebühren*",
-          "title": "Pools erkunden und vergleichen",
-          "subtitle": "Vergleiche Verdienstmöglichkeiten und Risiken. Tausche, kaufe oder transferiere Token, um dem besten Pool für dich beizutreten.",
+          "title": "Entdecke und vergleiche Pools",
+          "subtitle": "Vergleiche Verdienstmöglichkeiten und Risiken. Tausche, kaufe oder übertrage Token, um dem für dich besten Pool beizutreten.",
           "footnoteSubsidy": "*Gasgebühren werden vorübergehend von Valora übernommen"
         },
         "manage": {
           "title": "Direkt von Valora aus verwalten",
           "titleV1_92": "Direkt von {{appName}} aus verwalten",
-          "subtitle": "Wir verbinden deine Geldbörse automatisch, damit du Pools verwalten kannst, ohne Valora zu verlassen.",
-          "subtitleV1_92": "Wir verbinden deine Geldbörse automatisch, damit du Pools verwalten kannst, ohne {{appName}}zu verlassen."
+          "subtitle": "Wir verbinden dein Wallet automatisch, damit du Pools verwalten kannst, ohne Valora zu verlassen.",
+          "subtitleV1_92": "Wir verbinden dein Wallet automatisch, damit du Pools verwalten kannst, ohne {{appName}} zu verlassen."
         },
         "access": {
           "title": "Einfacher Zugriff auf dein Guthaben",
-          "subtitle": "Sammle Geld mit einem Fingertipp, genau wie bei deinen Lieblingsprotokollen."
+          "subtitle": "Erhalte Guthaben mit nur einem Tippen, genau wie bei deinen Lieblingsprotokollen."
         }
       },
       "action": {
@@ -2525,7 +2525,7 @@
     "entrypoint": {
       "title": "Verdiene an deinen Stablecoins",
       "subtitle": "Einzahlen und verdienen",
-      "description": "Verdiene an deinen Stablecoins, wenn du sie über einen Liquiditätspool ausleihst."
+      "description": "Verdiene an deinen Stablecoins, wenn du über einen Liquiditätspool verleihst"
     },
     "enterAmount": {
       "earnUpToLabel": "Verdienst von bis zu:",
@@ -2555,7 +2555,7 @@
       "viewPools": "Pools anzeigen",
       "poolsSupplied": "Bereitgestellte Pools",
       "totalSupplied": "Insgesamt bereitgestellt",
-      "depositAndEarnings": "Einzahlung & Verdienst",
+      "depositAndEarnings": "Einzahlungen und Verdienste",
       "myPools": "Meine Pools",
       "explore": "Offen erforschen"
     },
@@ -2620,16 +2620,16 @@
     "poolCard": {
       "onNetwork": "auf {{networkName}}",
       "rate": "Rate (geschätzt)",
-      "yieldRate": "Ausbeutesatz (geschätzt)",
+      "yieldRate": "Rendite (geschätzt)",
       "reward": "Reward",
       "tvl": "TVL",
       "exitPool": "Pool verlassen",
       "addToPool": "Zum Pool hinzufügen",
       "apy": "{{apy}} % jährliche prozentuale Rendite",
-      "percentage": "{{percentage}}%",
+      "percentage": "{{percentage}} %",
       "poweredBy": "Unterstützt von {{providerName}}",
       "deposited": "Bereitgestellt",
-      "depositAndEarnings": "Einzahlung & Verdienst"
+      "depositAndEarnings": "Einzahlungen und Verdienste"
     },
     "poolFilters": {
       "openPools": "Offene Pools",
