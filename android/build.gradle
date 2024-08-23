@@ -44,6 +44,15 @@ allprojects {
             url 'https://sdk.withpersona.com/android/releases'
         }
     }
+
+    // Needed to avoid the following error
+    // `Inconsistent JVM-target compatibility detected for tasks 'compileDebugJavaWithJavac' (11) and 'compileDebugKotlin' (17).`
+    // For devs running Java > 11
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile.class) {
+        kotlinOptions {
+            jvmTarget = "11"
+        }
+    }
 }
 
 subprojects {

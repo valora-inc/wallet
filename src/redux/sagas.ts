@@ -1,5 +1,5 @@
-import { sleep } from '@celo/utils/lib/async'
 import { UnknownAction } from '@reduxjs/toolkit'
+import { sleep } from 'src/utils/sleep'
 // Import the actions included in the logger blocklist below.
 import { REHYDRATE } from 'redux-persist'
 import { Actions as AccountActions } from 'src/account/actions'
