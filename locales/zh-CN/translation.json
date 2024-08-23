@@ -2630,8 +2630,8 @@
       "depositAndEarnings": "存款和收益"
     },
     "poolFilters": {
-      "openPools": "打开池",
-      "myPools": "我的池"
+      "myPools": "我的池",
+      "allPools": "所有泳池"
     }
   },
   "addFundsActions": {
