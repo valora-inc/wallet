@@ -6,7 +6,7 @@ import { PointsEvents } from 'src/analytics/Events'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import PointsHome from 'src/points/PointsHome'
-import { getHistoryStarted, getPointsConfigRetry } from 'src/points/slice'
+import { getPointsConfigRetry, pointsDataRefreshStarted } from 'src/points/slice'
 import { RootState } from 'src/redux/store'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
@@ -100,7 +100,7 @@ describe(PointsHome, () => {
   })
 
   it('refreshes the balance and history on mount and on pull to refresh', async () => {
-    const refreshPointsAndHistoryAction = getHistoryStarted({ getNextPage: false })
+    const refreshPointsAndHistoryAction = pointsDataRefreshStarted()
     const { store, getByTestId } = renderPointsHome()
 
     await waitFor(() => expect(store.getActions()).toEqual([refreshPointsAndHistoryAction]))
@@ -131,9 +131,7 @@ describe(PointsHome, () => {
     store.clearActions()
     fireEvent.press(getByText('points.fetchBalanceError.retryCta'))
 
-    await waitFor(() =>
-      expect(store.getActions()).toEqual([getHistoryStarted({ getNextPage: false })])
-    )
+    await waitFor(() => expect(store.getActions()).toEqual([pointsDataRefreshStarted()]))
   })
 
   it('opens activity bottom sheet', async () => {
@@ -143,7 +141,7 @@ describe(PointsHome, () => {
     await waitFor(() =>
       expect(AppAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_activity_press)
     )
-    expect(store.getActions()).toEqual([getHistoryStarted({ getNextPage: false })])
+    expect(store.getActions()).toEqual([pointsDataRefreshStarted()])
   })
 
   it('renders multiple sections', async () => {

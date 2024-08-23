@@ -7,7 +7,7 @@ import Animated, {
   withSequence,
   withTiming,
 } from 'react-native-reanimated'
-import LogoHeart from 'src/icons/LogoHeart'
+import LogoHeart from 'src/images/LogoHeart'
 
 const BeatingHeartLoader = ({ size }: { size: number }) => {
   const scale = useSharedValue(1)
