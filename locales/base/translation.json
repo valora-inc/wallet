@@ -2633,6 +2633,16 @@
     "poolFilters": {
       "openPools": "Open Pools",
       "myPools": "My Pools"
+    },
+    "poolInfoScreen": {
+      "chainName": "Chain: <0>{{networkName}}</0>",
+      "protocolName": "Protocol: <0>{{providerName}}</0>",
+      "yieldRate": "Yield Rate",
+      "ratePercent": "{{rate}}%",
+      "rewards": "Rewards",
+      "noRewards": "No rewards",
+      "tvl": "TVL",
+      "ageOfPool": "Age of Pool"
     }
   },
   "addFundsActions": {
