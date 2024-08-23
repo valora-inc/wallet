@@ -2466,7 +2466,8 @@
     },
     "disclaimer": {
       "learnMoreCta": "<0>En savoir plus</0> sur les points avec {{appName}}",
-      "body": "<0>Que sont les Points ?</0>\nLes Points font partie du programme de fidélité de {{appName}}. Ils sont attribués aux utilisateurs qui utilisent notre application.\n\n<0>À quoi servent-ils ?</0>\nAccumulez les Points. Ils ne peuvent pas être ni dépensés, ni échangés ni transférés.\n\n<0>Pourquoi sont-ils dans mon portefeuille ?</0>\nParce que ces Points sont des jetons. Sur la chaîne, ils sont des bits numériques de bonheur que vous gagnez en utilisant l'appli.",
+      "title": "En savoir plus sur {{appName}} Points",
+      "body": "Les points sont le programme de fidélité de {{appName}}. Ils sont attribués pour l'utilisation de l'application. Les points ne peuvent pas être dépensés, échangés ou transférés.",
       "dismiss": "J'ai compris"
     }
   },
@@ -2612,7 +2613,9 @@
         "apyDescription": "Le rendement annuel en pourcentage (APY) est une métrique utilisée pour calculer le rendement annualisé des investissements crypto. C'est un indicateur clé du rendement potentiel d'une crypto-monnaie.",
         "tvlSubtitle": "Qu'est-ce que la TVL ?",
         "tvlDescription": "La valeur totale verrouillée (TVL) est une métrique utilisée pour mesurer la valeur des actifs numériques verrouillés sur un réseau blockchain. La TVL est calculée en additionnant la valeur de tous les actifs numériques verrouillés dans un protocole DeFi ou un contrat intelligent. Ces actifs peuvent inclure des crypto-monnaies, des stablecoins et d'autres jetons."
-      }
+      },
+      "noPoolsTitle": "Tu n'as pas encore rejoint de pools",
+      "noPoolsDescription": "Découvre les pools disponibles, choisis-en un qui correspond à tes objectifs et tire le meilleur parti de tes stablecoins."
     },
     "poolCard": {
       "onNetwork": "sur {{networkName}}",
