@@ -378,16 +378,16 @@ const styles = StyleSheet.create({
   },
   learnMoreTitle: {
     ...typeScale.titleSmall,
-    colors: Colors.black,
+    color: Colors.black,
   },
   learnMoreSubTitle: {
     ...typeScale.labelSemiBoldSmall,
-    colors: Colors.black,
+    color: Colors.black,
     marginBottom: Spacing.Tiny4,
   },
   learnMoreDescription: {
     ...typeScale.bodySmall,
-    colors: Colors.black,
+    color: Colors.black,
     marginBottom: Spacing.Thick24,
   },
   noPoolsContainer: {
