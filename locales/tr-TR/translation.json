@@ -1993,7 +1993,7 @@
       "earn": "Kazanç fırsatlarını keşfedin",
       "profile": "Profilimi oluşturma",
       "learn": "Celo hakkında bilgi edinme",
-      "learnPoints": "{{appName}} Points hakkında bilgi edinin"
+      "learnPoints": "{{appName}} Puanları hakkında daha fazla bilgi edinin"
     }
   },
   "reverifyUsingCPVHomecard": {
@@ -2204,16 +2204,16 @@
     }
   },
   "jumpstartIntro": {
-    "title": "Kriptoyu bir metin gibi paylaşın",
+    "title": "Bir metin gibi kripto paylaşın",
     "addFundsCelo": {
-      "title": "Celo'daki Varlıkları Alın",
-      "info": "Canlı Bağlantılar, Celo ağındaki kriptoyu bir bağlantı ile bir arkadaşınıza göndermenin bir yoludur.\nBaşlamak için cüzdanınızda biraz CELO varlığına ihtiyacınız olacak.",
-      "description": "Celo'ya varlık ekledikten sonra Canlı Bağlantı oluşturmak için geri gelmeniz gerekecektir.",
-      "cta": "Celo'daki Varlıkları Alın",
+      "title": "Celo'da Varlık Alın",
+      "info": "Canlı Bağlantılar, Celo ağındaki kriptoyu bir bağlantı ile bir arkadaşınıza göndermenin bir yoludur.\nBaşlamak için cüzdanınızda biraz CELO varlığına ihtiyacınız vardır.",
+      "description": "Celo'ya varlık ekledikten sonra Canlı Bağlantı oluşturmak için geri gelmeniz gerekir.",
+      "cta": "Celo'da Varlık Alın",
       "actionDescriptions": {
         "add": "Güvenilir sağlayıcılarımızdan birini kullanarak Celo'da varlık satın alın",
-        "swap": "Celo'daki bir varlığı başka bir varlıkla takas etme",
-        "transfer": "Celo'ya varlık yatırmak için Celo uyumlu herhangi bir cüzdan veya borsa kullanın"
+        "swap": "Celo'daki bir varlığı başka bir varlıkla takas edin",
+        "transfer": "Celo'ya varlık yatırmak için Celo uyumlu cüzdan veya borsa kullanın"
       }
     }
   },
@@ -2466,8 +2466,8 @@
     },
     "disclaimer": {
       "learnMoreCta": "{{appName}} Puanları hakkında <0>daha fazla bilgi edinin</0>",
-      "title": "{{appName}} Points Hakkında Daha Fazla Bilgi",
-      "body": "Puanlar {{appName}}'un sadakat programıdır. Uygulamayı kullandığınız için ödüllendirilirsiniz. Puanlar harcanamaz, takas edilemez veya transfer edilemez.",
+      "title": "{{appName}} Puanları hakkında daha fazla bilgi",
+      "body": "Puanlar {{appName}} uygulamasının sadakat programıdır. Uygulamayı kullandığınız için ödüllendirilirsiniz. Puanlar harcanamaz, takas edilemez veya transfer edilemez.",
       "dismiss": "Anladım"
     }
   },
@@ -2503,13 +2503,13 @@
         },
         "manage": {
           "title": "Doğrudan Valora'dan Yönetin",
-          "titleV1_92": "Doğrudan {{appName}}adresinden yönetin",
+          "titleV1_92": "Doğrudan {{appName}} uygulamasından yönetin",
           "subtitle": "Valora'dan ayrılmadan havuzları yönetebilmeniz için cüzdanınızı otomatik olarak bağlayacağız.",
-          "subtitleV1_92": "Cüzdanınızı otomatik olarak bağlayacağız, böylece {{appName}}adresinden ayrılmadan havuzları yönetebilirsiniz."
+          "subtitleV1_92": "{{appName}} uygulamasından ayrılmadan havuzları yönetebilmeniz için cüzdanınızı otomatik olarak bağlayacağız."
         },
         "access": {
           "title": "Fonlarınıza Kolayca Erişin",
-          "subtitle": "Tıpkı favori protokolleriniz gibi bir dokunuşla para toplayın."
+          "subtitle": "Tıpkı favori protokolleriniz gibi bir dokunuşla fonları toplayın."
         }
       },
       "action": {
@@ -2524,8 +2524,8 @@
     },
     "entrypoint": {
       "title": "Sabit coinlerinizden kazanın",
-      "subtitle": "Para yatırın ve kazanın",
-      "description": "Bir likidite havuzu aracılığıyla borç verdiğinizde stablecoinlerinizden kazanın"
+      "subtitle": "Yatırın ve kazanın",
+      "description": "Bir likidite havuzu aracılığıyla ödünç vererek sabit coinlerinizden kazanın"
     },
     "enterAmount": {
       "earnUpToLabel": "Şu kadar kazanabilirsiniz:",
@@ -2555,7 +2555,7 @@
       "viewPools": "Havuzları Görüntüle",
       "poolsSupplied": "Para yatırılan havuzlar",
       "totalSupplied": "Yatırılan toplam",
-      "depositAndEarnings": "Mevduat ve Kazançlar",
+      "depositAndEarnings": "Yatırım ve Kazançlar",
       "myPools": "Havuzlarım",
       "explore": "Açık Havuzları Keşfet"
     },
@@ -2626,10 +2626,10 @@
       "exitPool": "Havuzdan Çık",
       "addToPool": "Havuza Ekle",
       "apy": "%{{apy}} Yıllık Getiri Oranı (APY)",
-      "percentage": "{{percentage}}%",
+      "percentage": "%{{percentage}}",
       "poweredBy": "{{providerName}} tarafından desteklenmektedir",
       "deposited": "Yatırılan",
-      "depositAndEarnings": "Mevduat ve Kazançlar"
+      "depositAndEarnings": "Yatırım ve Kazançlar"
     },
     "poolFilters": {
       "openPools": "Açık Havuzlar",
