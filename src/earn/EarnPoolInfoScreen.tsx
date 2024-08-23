@@ -282,7 +282,6 @@ const styles = StyleSheet.create({
     borderColor: Colors.gray2,
     borderWidth: 1,
     borderRadius: 12,
-    marginBottom: Spacing.Thick24,
     gap: 16,
   },
   cardLineContainer: {
