@@ -2632,8 +2632,8 @@
       "depositAndEarnings": "Depósitos y ganancias"
     },
     "poolFilters": {
-      "openPools": "Pools activos",
-      "myPools": "Mis pools"
+      "myPools": "Mis pools",
+      "allPools": "Todas las piscinas"
     }
   },
   "addFundsActions": {
