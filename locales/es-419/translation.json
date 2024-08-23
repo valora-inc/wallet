@@ -2466,7 +2466,8 @@
     },
     "disclaimer": {
       "learnMoreCta": "<0>Más información</0> sobre los puntos {{appName}}",
-      "body": "<0>¿Qué son los puntos?</0>\nLos puntos son el programa de fidelidad de {{appName}}. Se otorgan a los usuarios cuando usan la app.\n\n<0>¿Para qué sirven?</0>\nPara coleccionar. No se pueden gastar, cambiar ni transferir.\n\n<0>¿Por qué los veo en mi wallet?</0>\nPorque son tokens en la blockchain, bocaditos de felicidad digitales que ganas cuanto más usas la app.",
+      "title": "Más información sobre {{appName}} Puntos",
+      "body": "Los puntos son el programa de fidelidad de {{appName}}. Se conceden por utilizar la aplicación. Los puntos no se pueden gastar, intercambiar ni transferir.",
       "dismiss": "Entendido"
     }
   },
@@ -2612,7 +2613,9 @@
         "apyDescription": "El rendimiento porcentual anual (APY) es una métrica utilizada para calcular el rendimiento anualizado de las inversiones cripto. Es un indicador clave del rendimiento y la rentabilidad potenciales de una criptomoneda.",
         "tvlSubtitle": "¿Qué es el TVL?",
         "tvlDescription": "El valor total bloqueado (TVL) es una métrica utilizada en la industria cripto para medir el valor de los activos digitales bloqueados en una red. El TVL se calcula sumando el valor de todos los activos digitales bloqueados en un protocolo DeFi o contrato inteligente. Estos activos pueden incluir criptomonedas, stablecoins y otros tokens."
-      }
+      },
+      "noPoolsTitle": "Aún no te has unido a ninguna quiniela",
+      "noPoolsDescription": "Descubre los pools disponibles, elige uno que se ajuste a tus objetivos y saca el máximo partido a tus stablecoins."
     },
     "poolCard": {
       "onNetwork": "en {{networkName}}",

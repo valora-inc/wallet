@@ -76,7 +76,7 @@ export default function EarnHome({ navigation, route }: Props) {
   const filterChipsCarouselRef = useRef<ScrollView>(null)
   const pools = useSelector(earnPositionsSelector)
 
-  const activeTab = route.params?.activeEarnTab ?? EarnTabType.OpenPools
+  const activeTab = route.params?.activeEarnTab ?? EarnTabType.AllPools
 
   const insets = useSafeAreaInsets()
 
@@ -235,11 +235,11 @@ export default function EarnHome({ navigation, route }: Props) {
   }
 
   const displayPools = useMemo(() => {
-    return pools.filter((pool) => {
-      const depositTokenInfo = allTokens[pool.dataProps.depositTokenId]
-      const isMyPool = new BigNumber(pool.balance).gt(0) && !!depositTokenInfo
-      return activeTab === EarnTabType.MyPools ? isMyPool : !isMyPool
-    })
+    return activeTab === EarnTabType.AllPools
+      ? pools
+      : pools.filter(
+          (pool) => new BigNumber(pool.balance).gt(0) && !!allTokens[pool.dataProps.depositTokenId]
+        )
   }, [pools, allTokens, activeTab])
 
   const onPressLearnMore = () => {
@@ -378,16 +378,16 @@ const styles = StyleSheet.create({
   },
   learnMoreTitle: {
     ...typeScale.titleSmall,
-    colors: Colors.black,
+    color: Colors.black,
   },
   learnMoreSubTitle: {
     ...typeScale.labelSemiBoldSmall,
-    colors: Colors.black,
+    color: Colors.black,
     marginBottom: Spacing.Tiny4,
   },
   learnMoreDescription: {
     ...typeScale.bodySmall,
-    colors: Colors.black,
+    color: Colors.black,
     marginBottom: Spacing.Thick24,
   },
   noPoolsContainer: {

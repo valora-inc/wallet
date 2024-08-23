@@ -2464,7 +2464,8 @@
     },
     "disclaimer": {
       "learnMoreCta": "<0>ดูข้อมูลเพิ่มเติม</0>เกี่ยวกับคะแนน {{appName}}",
-      "body": "<0>คะแนนคืออะไร</0>\nคะแนนคือโปรแกรมรอยัลตี้ของ {{appName}} โดยมอบให้แก่ผู้ใช้เมื่อเข้าใช้งานแอปของเรา \n\n<0>คะแนนใช้ทำอะไรได้บ้าง</0>\nคุณสามารถสะสมคะแนนได้ แต่ไม่สามารถนำไปใช้จ่าย เทรด หรือโอนได้\n\n<0>เหตุใดคะแนนจึงอยู่ในกระเป๋าเงิน</0>\nเพราะคะแนนเป็นโทเค็น ซึ่งเป็นของตอบแทนเล็กๆ น้อยๆ ในรูปแบบดิจิทัลที่คุณจะได้รับจากการใช้งานแอปของเรา",
+      "title": "More About {{appName}} Points",
+      "body": "Points are {{appName}}'s loyalty program. They're awarded for using the app. Points can't be spent, traded, or transferred.",
       "dismiss": "เข้าใจแล้ว"
     }
   },
@@ -2610,7 +2611,9 @@
         "apyDescription": "ผลตอบแทนเป็นเปอร์เซ็นต์ต่อปี (APY) คือเมตริกที่ใช้ในการคำนวณผลตอบแทนในรอบปีในการลงทุนคริปโต ซึ่งเป็นตัวชี้วัดที่สำคัญของผลตอบแทนที่อาจได้รับและความสามารถในการทำกำไรได้ของคริปโตเคอร์เรนซี",
         "tvlSubtitle": "TVL คืออะไร",
         "tvlDescription": "TVL ย่อมาจาก Total Value Locked (มูลค่ารวมที่ถูกล็อกไว้) ซึ่งเป็นเมตริกที่ใช้ในวงการคริปโตเพื่อวัดมูลค่าของสินทรัพย์ดิจิทัลที่ถูกล็อกไว้บนเครือข่ายบล็อกเชน TVL จะคำนวณโดยการบวกเพิ่มมูลค่าของสินทรัพย์ดิจิทัลที่ถูกล็อกไว้ในโปรโตคอล DeFi หรือสัญญาอัจฉริยะ ซึ่งสินทรัพย์เหล่านี้อาจรวมถึงคริปโตเคอร์เรนซี, Stablecoin และโทเค็นอื่นๆ"
-      }
+      },
+      "noPoolsTitle": "You haven’t joined any pools yet",
+      "noPoolsDescription": "Discover available pools, pick one that matches your goals, and make the most of your stablecoins."
     },
     "poolCard": {
       "onNetwork": "บน {{networkName}}",
