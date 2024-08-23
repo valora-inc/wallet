@@ -2632,8 +2632,8 @@
       "depositAndEarnings": "Yatırım ve Kazançlar"
     },
     "poolFilters": {
-      "openPools": "Açık Havuzlar",
-      "myPools": "Havuzlarım"
+      "myPools": "Havuzlarım",
+      "allPools": "Tüm Havuzlar"
     }
   },
   "addFundsActions": {
