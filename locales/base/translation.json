@@ -2645,7 +2645,10 @@
       "rewards": "Rewards",
       "noRewards": "No rewards",
       "tvl": "TVL",
-      "ageOfPool": "Age of Pool"
+      "ageOfPool": "Age of Pool",
+      "learnMoreOnProvider": "View Pool on {{providerName}}",
+      "deposit": "Deposit",
+      "withdraw": "Withdraw"
     }
   },
   "addFundsActions": {

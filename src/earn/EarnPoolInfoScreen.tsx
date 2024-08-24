@@ -4,11 +4,13 @@ import { Duration, intervalToDuration } from 'date-fns'
 import React, { useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import InfoIcon from 'src/icons/InfoIcon'
+import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { Screens } from 'src/navigator/Screens'
@@ -21,6 +23,7 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
+import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { formattedAge } from 'src/utils/time'
 
@@ -198,10 +201,74 @@ function AgeCard({ ageOfPool, infoIconPress }: { ageOfPool: Date; infoIconPress:
   )
 }
 
+function LearnMoreTouchable({
+  manageUrl,
+  providerName,
+}: {
+  manageUrl: string
+  providerName: string
+}) {
+  const { t } = useTranslation()
+  return (
+    <View style={styles.learnMoreContainer}>
+      <Touchable borderRadius={8} onPress={() => navigateToURI(manageUrl)}>
+        <View style={styles.learnMoreView}>
+          <OpenLinkIcon color={Colors.black} size={24} />
+          <Text style={styles.learnMoreText}>
+            {t('earnFlow.poolInfoScreen.learnMoreOnProvider', { providerName })}
+          </Text>
+        </View>
+      </Touchable>
+    </View>
+  )
+}
+
+function ActionButtons({ earnPosition }: { earnPosition: EarnPosition }) {
+  const { bottom } = useSafeAreaInsets()
+  const insetsStyle = {
+    paddingBottom: Math.max(bottom, Spacing.Regular16),
+  }
+  const { t } = useTranslation()
+  const { availableShortcutIds } = earnPosition
+  const deposit = availableShortcutIds.includes('withdraw')
+  const withdraw = availableShortcutIds.includes('withdraw')
+
+  return (
+    <View style={[styles.buttonContainer, insetsStyle]}>
+      {withdraw && (
+        <Button
+          text={t('earnFlow.poolInfoScreen.withdraw')}
+          onPress={() => {
+            // TODO (ACT-1343): EarnCollectScreen should take earnPositon instead of depositTokenId and poolTokenId
+            // navigate(Screens.EarnCollectScreen, { earnPosition })
+            Logger.debug('Withdraw Button Pressed!')
+          }}
+          size={BtnSizes.FULL}
+          type={BtnTypes.SECONDARY}
+          style={styles.flex}
+        />
+      )}
+      {deposit && (
+        <Button
+          text={t('earnFlow.poolInfoScreen.deposit')}
+          onPress={() => {
+            // TODO hook up after ACT-1342 is merged
+            // navigate(Screens.EarnEnterAmount, { pool: earnPosition })
+            Logger.debug('Deposit Button Pressed!')
+          }}
+          size={BtnSizes.FULL}
+          style={styles.flex}
+        />
+      )}
+    </View>
+  )
+}
+
 type Props = NativeStackScreenProps<StackParamList, Screens.EarnPoolInfoScreen>
 
 export default function EarnPoolInfoScreen({ route }: Props) {
-  const { networkId, tokens, displayProps, appName, dataProps } = route.params.pool
+  const { pool } = route.params
+  const { networkId, tokens, displayProps, appName, dataProps } = pool
   const allTokens = useSelector((state) => tokensByIdSelector(state, [networkId]))
   const tokensInfo = useMemo(() => {
     return tokens
@@ -210,8 +277,8 @@ export default function EarnPoolInfoScreen({ route }: Props) {
   }, [tokens, allTokens])
 
   return (
-    <SafeAreaView style={styles.container} edges={[]}>
-      <ScrollView contentContainerStyle={styles.contentContainer}>
+    <SafeAreaView style={styles.flex} edges={[]}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
         <TitleSection
           title={displayProps.title}
           tokensInfo={tokensInfo}
@@ -219,34 +286,41 @@ export default function EarnPoolInfoScreen({ route }: Props) {
           networkName={NETWORK_NAMES[networkId]}
         />
         <View style={{ height: Spacing.Thick24 }} />
-        <View style={styles.cardsContainer}>
+        <View style={styles.contentContainer}>
           <YieldCard
+            // TODO(ACT-1323): Create info bottom sheet
             infoIconPress={() => Logger.debug('YieldCard Info Icon Pressed!')}
             tokensInfo={tokensInfo}
-            earnPosition={route.params.pool}
+            earnPosition={pool}
           />
           <TvlCard
-            earnPosition={route.params.pool}
+            // TODO(ACT-1323): Create info bottom sheet
+            earnPosition={pool}
             infoIconPress={() => Logger.debug(' TvlCard Info Icon Pressed!')}
           />
           {dataProps.contractCreatedAt ? (
             <AgeCard
+              // TODO(ACT-1323): Create info bottom sheet
               ageOfPool={new Date(dataProps.contractCreatedAt)}
               infoIconPress={() => Logger.debug('AgeCard Info Icon Pressed!')}
             />
           ) : null}
+          {dataProps.manageUrl && appName ? (
+            <LearnMoreTouchable manageUrl={dataProps.manageUrl} providerName={appName} />
+          ) : null}
         </View>
       </ScrollView>
+      <ActionButtons earnPosition={pool} />
     </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
-  contentContainer: {
-    padding: Spacing.Thick24,
-  },
-  container: {
+  flex: {
     flex: 1,
+  },
+  scrollContainer: {
+    padding: Spacing.Thick24,
   },
   title: {
     ...typeScale.titleMedium,
@@ -274,7 +348,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
   },
-  cardsContainer: {
+  contentContainer: {
     gap: Spacing.Regular16,
   },
   card: {
@@ -304,5 +378,30 @@ const styles = StyleSheet.create({
   cardLabelText: {
     ...typeScale.bodySmall,
     color: Colors.gray3,
+  },
+  learnMoreContainer: {
+    flexShrink: 1,
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  learnMoreView: {
+    flex: 1,
+    gap: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: Spacing.Smallest8,
+  },
+  learnMoreText: {
+    ...typeScale.labelMedium,
+    color: Colors.black,
+  },
+  buttonContainer: {
+    flexShrink: 1,
+    flexDirection: 'row',
+    padding: Spacing.Regular16,
+    gap: Spacing.Smallest8,
   },
 })
