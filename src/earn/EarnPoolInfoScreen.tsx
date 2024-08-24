@@ -395,7 +395,7 @@ const styles = StyleSheet.create({
     padding: Spacing.Smallest8,
   },
   learnMoreText: {
-    ...typeScale.labelMedium,
+    ...typeScale.bodyMedium,
     color: Colors.black,
   },
   buttonContainer: {
