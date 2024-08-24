@@ -2535,6 +2535,7 @@
       "rate": "{{rate}}% APY",
       "continue": "Continuer",
       "info": "Ce pool est alimenté par Aave",
+      "infoV1_93": "Propulsé par {{providerName}}",
       "infoBottomSheet": {
         "title": "Pourquoi ce pool ?",
         "description": "Ce pool Aave a plus de 150 M$ de TVL et plus de 6 000 contributeurs, ce qui indique une forte liquidité et une grande fiabilité. Il utilise également l'USDC comme jeton et Arbitrum comme réseau, ce qui réduit la volatilité et garantit que les utilisateurs pourront profiter de taux de gaz peu coûteux.\n\nTout cela en fait une option sûre et attrayante avec un APY compétitif, assurant une opportunité d'investissement bénéfique pour nos utilisateurs.\n\nDécouvrez d'autres pools Aave <0>ici</0>.",
