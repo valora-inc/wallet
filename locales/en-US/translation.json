@@ -2535,6 +2535,7 @@
       "rate": "{{rate}}% APY",
       "continue": "Continue",
       "info": "This pool is powered by Aave",
+      "infoV1_93": "Powered by {{providerName}}",
       "infoBottomSheet": {
         "title": "Why this pool?",
         "description": "This Aave pool has over $150M TVL and more than 6,000 contributors, indicating strong liquidity and trustworthiness. It also uses USDC as its token and Arbitrum as its network, which reduces volatility and ensures users will receive inexpensive gas rates.\n\nAll together this makes it a safe and attractive option with competitive APY, ensuring a beneficial investment opportunity for our users.\n\nYou can explore other Aave pools <0>here</0>.",
