@@ -35,7 +35,7 @@ import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/r
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { StackParamList } from 'src/navigator/types'
 import { Nft, NftWithMetadata } from 'src/nfts/types'
-import { Position, Shortcut } from 'src/positions/types'
+import { EarnPosition, Position, Shortcut } from 'src/positions/types'
 import { PriceHistoryStatus } from 'src/priceHistory/slice'
 import { UriData } from 'src/qrcode/schema'
 import {
@@ -1646,6 +1646,100 @@ export const mockPositions: Position[] = [
     ],
     balanceUsd: '1.3207590254762067',
     availableShortcutIds: ['claim-reward'],
+  },
+]
+
+export const mockEarnPositions: EarnPosition[] = [
+  {
+    type: 'app-token',
+    networkId: NetworkId['arbitrum-sepolia'],
+    address: '0x460b97bd498e1157530aeb3086301d5225b91216',
+    tokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+    positionId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+    appId: 'aave',
+    appName: 'Aave',
+    symbol: 'aArbSepUSDC',
+    decimals: 6,
+    displayProps: {
+      title: 'USDC',
+      description: 'Supplied (APY: 1.92%)',
+      imageUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/aave.png',
+    },
+    dataProps: {
+      yieldRates: [
+        {
+          percentage: 1.9194202601763743,
+          label: 'Earnings APY',
+          tokenId: mockArbUsdcTokenId,
+        },
+      ],
+      earningItems: [],
+      depositTokenId: mockArbUsdcTokenId,
+      withdrawTokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+      tvl: '1360000',
+    },
+    tokens: [
+      {
+        tokenId: mockArbUsdcTokenId,
+        networkId: NetworkId['arbitrum-sepolia'],
+        address: mockUSDCAddress,
+        symbol: 'USDC',
+        decimals: 6,
+        priceUsd: '1.2',
+        type: 'base-token',
+        balance: '0',
+      },
+    ],
+    pricePerShare: ['1'],
+    priceUsd: '1.2',
+    balance: '0',
+    supply: '190288.768509',
+    availableShortcutIds: ['deposit', 'withdraw'],
+  },
+  {
+    type: 'app-token',
+    networkId: NetworkId['ethereum-sepolia'],
+    address: '0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8',
+    tokenId: 'ethereum-sepolia:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8',
+    positionId: 'ethereum-sepolia:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8',
+    appId: 'aave',
+    appName: 'Aave',
+    symbol: 'aEthETH',
+    decimals: 6,
+    displayProps: {
+      title: 'ETH',
+      description: 'Supplied (APY: 10.42%)',
+      imageUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/aave.png',
+    },
+    dataProps: {
+      yieldRates: [
+        {
+          percentage: 10.421746584,
+          label: 'Earnings APY',
+          tokenId: mockEthTokenId,
+        },
+      ],
+      earningItems: [],
+      depositTokenId: mockEthTokenId,
+      withdrawTokenId: 'ethereum-sepolia:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8',
+    },
+    tokens: [
+      {
+        tokenId: mockEthTokenId,
+        networkId: NetworkId['ethereum-sepolia'],
+        symbol: 'ETH',
+        decimals: 6,
+        priceUsd: '0',
+        type: 'base-token',
+        balance: '0',
+        address: '0x0',
+      },
+    ],
+    pricePerShare: ['1'],
+    priceUsd: '1',
+    balance: '0',
+    supply: '190288.768509',
+    availableShortcutIds: ['deposit', 'withdraw'],
   },
 ]
 

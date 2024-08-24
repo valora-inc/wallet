@@ -3,20 +3,30 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { Provider } from 'react-redux'
-import { EarnEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { EarnEvents } from 'src/analytics/Events'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
 import { usePrepareSupplyTransactions } from 'src/earn/prepareTransactions'
+import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigFeatureGates, StatsigMultiNetworkDynamicConfig } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
-import { mockAccount, mockArbEthTokenId, mockTokenBalances } from 'test/values'
+import {
+  mockAccount,
+  mockArbEthTokenId,
+  mockArbUsdcTokenId,
+  mockEarnPositions,
+  mockTokenBalances,
+} from 'test/values'
 
 jest.mock('src/earn/prepareTransactions')
 jest.mock('react-native-localize')
+jest.mock('src/statsig')
 
 const mockPreparedTransaction: PreparedTransactionsPossible = {
   type: 'possible' as const,
@@ -64,8 +74,8 @@ const priceFetchedAt = Date.now()
 const store = createMockStore({
   tokens: {
     tokenBalances: {
-      [networkConfig.arbUsdcTokenId]: {
-        tokenId: networkConfig.arbUsdcTokenId,
+      [mockArbUsdcTokenId]: {
+        tokenId: mockArbUsdcTokenId,
         symbol: 'USDC',
         priceUsd: '1',
         priceFetchedAt: priceFetchedAt,
@@ -91,7 +101,7 @@ jest.mocked(usePrepareSupplyTransactions).mockReturnValue({
 })
 
 const params = {
-  tokenId: networkConfig.arbUsdcTokenId,
+  pool: mockEarnPositions[0],
 }
 
 describe('EarnEnterAmount', () => {
@@ -101,6 +111,15 @@ describe('EarnEnterAmount', () => {
       .mocked(getNumberFormatSettings)
       .mockReturnValue({ decimalSeparator: '.', groupingSeparator: ',' })
     store.clearActions()
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
+    jest.mocked(getDynamicConfigParams).mockImplementation(({ defaultValues }) => defaultValues)
+    jest
+      .mocked(getMultichainFeatures)
+      .mockReturnValue(
+        DynamicConfigs[StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES].defaultValues
+      )
   })
 
   it('should render APY and EarnUpTo', async () => {
@@ -109,11 +128,14 @@ describe('EarnEnterAmount', () => {
         <MockedNavigator component={EarnEnterAmount} params={params} />
       </Provider>
     )
-    // Loading states
-    expect(getByTestId('EarnEnterAmount/EarnApyAndAmount/Apy/Loading')).toBeTruthy()
+    expect(getByTestId('EarnEnterAmount/EarnApyAndAmount/Apy')).toBeTruthy()
+    expect(getByTestId('EarnEnterAmount/EarnApyAndAmount/Apy')).toHaveTextContent(
+      'earnFlow.enterAmount.rate, {"rate":"1.92"}'
+    )
   })
 
-  it('should be able to tap info icon', async () => {
+  it('should be able to tap info icon (for single pool)', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     const { getByTestId } = render(
       <Provider store={store}>
         <MockedNavigator component={EarnEnterAmount} params={params} />
@@ -122,6 +144,15 @@ describe('EarnEnterAmount', () => {
     fireEvent.press(getByTestId('EarnEnterAmount/InfoIcon'))
     await waitFor(() => expect(AppAnalytics.track).toHaveBeenCalledTimes(1))
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_enter_amount_info_press)
+  })
+
+  it('hides info icon for multiple pools', async () => {
+    const { queryByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={EarnEnterAmount} params={params} />
+      </Provider>
+    )
+    expect(queryByTestId('EarnEnterAmount/InfoIcon')).toBeNull()
   })
 
   it('should prepare transactions with the expected inputs', async () => {
@@ -137,7 +168,7 @@ describe('EarnEnterAmount', () => {
     expect(refreshPreparedTransactionsSpy).toHaveBeenCalledWith({
       amount: '0.25',
       token: {
-        tokenId: networkConfig.arbUsdcTokenId,
+        tokenId: mockArbUsdcTokenId,
         symbol: 'USDC',
         priceUsd: new BigNumber(1),
         lastKnownPriceUsd: new BigNumber(1),
@@ -176,7 +207,7 @@ describe('EarnEnterAmount', () => {
       amountInUsd: '8.00',
       networkId: NetworkId['arbitrum-sepolia'],
       tokenAmount: '8',
-      depositTokenId: networkConfig.arbUsdcTokenId,
+      depositTokenId: mockArbUsdcTokenId,
       userHasFunds: true,
       providerId: 'aave-v3',
     })
@@ -207,7 +238,7 @@ describe('EarnEnterAmount', () => {
       amountInUsd: '12.00',
       networkId: NetworkId['arbitrum-sepolia'],
       tokenAmount: '12',
-      depositTokenId: networkConfig.arbUsdcTokenId,
+      depositTokenId: mockArbUsdcTokenId,
       userHasFunds: false,
       providerId: 'aave-v3',
     })
@@ -263,8 +294,8 @@ describe('EarnEnterAmount', () => {
     const mockStore = createMockStore({
       tokens: {
         tokenBalances: {
-          [networkConfig.arbUsdcTokenId]: {
-            tokenId: networkConfig.arbUsdcTokenId,
+          [mockArbUsdcTokenId]: {
+            tokenId: mockArbUsdcTokenId,
             symbol: 'USDC',
             priceUsd: '1',
             priceFetchedAt: priceFetchedAt,
