@@ -2634,7 +2634,7 @@
       "depositAndEarnings": "Deposit & Earnings"
     },
     "poolFilters": {
-      "openPools": "Open Pools",
+      "allPools": "All Pools",
       "myPools": "My Pools"
     },
     "poolInfoScreen": {

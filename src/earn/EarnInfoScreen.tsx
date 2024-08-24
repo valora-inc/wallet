@@ -104,7 +104,7 @@ export default function EarnInfoScreen() {
           onPress={() => {
             AppAnalytics.track(EarnEvents.earn_info_earn_press)
             showMultiplePools
-              ? navigate(Screens.EarnHome, { activeEarnTab: EarnTabType.OpenPools })
+              ? navigate(Screens.EarnHome, { activeEarnTab: EarnTabType.AllPools })
               : navigate(Screens.EarnEnterAmount, { tokenId: networkConfig.arbUsdcTokenId })
           }}
           text={t('earnFlow.earnInfo.action.earn')}

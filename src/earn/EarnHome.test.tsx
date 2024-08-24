@@ -142,13 +142,13 @@ describe('EarnHome', () => {
 
     expect(getByText('earnFlow.home.noPoolsTitle')).toBeTruthy()
   })
-  it('renders open pools correctly', () => {
-    const { getByTestId, getAllByTestId } = render(
+  it('renders all pools correctly', () => {
+    const { getByTestId, queryAllByTestId } = render(
       <Provider store={getStore()}>
         <MockedNavigator
           component={EarnHome}
           params={{
-            activeEarnTab: EarnTabType.OpenPools,
+            activeEarnTab: EarnTabType.AllPools,
           }}
         />
       </Provider>
@@ -161,10 +161,10 @@ describe('EarnHome', () => {
       getByTestId('PoolCard/ethereum-sepolia:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8')
     ).toBeTruthy()
 
-    const tabItems = getAllByTestId('Earn/TabBarItem')
+    const tabItems = queryAllByTestId('Earn/TabBarItem')
     expect(tabItems).toHaveLength(2)
-    expect(tabItems[0]).toHaveTextContent('openPools')
-    expect(tabItems[1]).toHaveTextContent('myPools')
+    expect(tabItems[0]).toHaveTextContent('earnFlow.poolFilters.allPools')
+    expect(tabItems[1]).toHaveTextContent('earnFlow.poolFilters.myPools')
   })
 
   it('correctly shows pool under my pools if has balance', () => {
@@ -173,19 +173,27 @@ describe('EarnHome', () => {
         <MockedNavigator
           component={EarnHome}
           params={{
-            activeEarnTab: EarnTabType.OpenPools,
+            activeEarnTab: EarnTabType.AllPools,
           }}
         />
       </Provider>
     )
 
+    // All Pools
     expect(
       queryByTestId('PoolCard/arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216')
-    ).toBeFalsy()
+    ).toBeTruthy()
+    expect(
+      getByTestId('PoolCard/ethereum-sepolia:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8')
+    ).toBeTruthy()
     fireEvent.press(getByText('earnFlow.poolFilters.myPools'))
+    // My Pools
     expect(
       getByTestId('PoolCard/arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216')
     ).toBeTruthy()
+    expect(
+      queryByTestId('PoolCard/ethereum-sepolia:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8')
+    ).toBeFalsy()
   })
 
   it('correctly shows correct networks, tokens under filters', () => {
@@ -194,7 +202,7 @@ describe('EarnHome', () => {
         <MockedNavigator
           component={EarnHome}
           params={{
-            activeEarnTab: EarnTabType.OpenPools,
+            activeEarnTab: EarnTabType.AllPools,
           }}
         />
       </Provider>
@@ -213,7 +221,7 @@ describe('EarnHome', () => {
         <MockedNavigator
           component={EarnHome}
           params={{
-            activeEarnTab: EarnTabType.OpenPools,
+            activeEarnTab: EarnTabType.AllPools,
           }}
         />
       </Provider>
@@ -243,7 +251,7 @@ describe('EarnHome', () => {
         <MockedNavigator
           component={EarnHome}
           params={{
-            activeEarnTab: EarnTabType.OpenPools,
+            activeEarnTab: EarnTabType.AllPools,
           }}
         />
       </Provider>
