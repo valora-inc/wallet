@@ -4,6 +4,7 @@ import {
   formatFeedDate,
   formatFeedSectionTitle,
   formatFeedTime,
+  formattedAge,
   timeDeltaInDays,
 } from 'src/utils/time'
 
@@ -55,6 +56,18 @@ describe('utils/time', () => {
   describe('formatDistanceToNow', () => {
     it('returns correct distance to now', () => {
       expect(formatDistanceToNow(wedMarch132019at1050, i18n)).toEqual('about 2 years')
+    })
+  })
+
+  describe('formattedAge', () => {
+    it.each([
+      [{ years: 0, months: 0, days: 0 }, 'time_lessThanADay'],
+      [{ years: 0, months: 0, days: 3 }, 'time, {"context":"day","count":3}'],
+      [{ years: 0, months: 2, days: 0 }, 'time, {"context":"month","count":2}'],
+      [{ years: 1, months: 0, days: 0 }, 'time, {"context":"year","count":1}'],
+      [{ years: 1, months: 1, days: 1 }, 'time, {"context":"yearMonth","count":1,"count2":1}'],
+    ])('returns correct age with %p', (interval, expected) => {
+      expect(formattedAge(interval)).toEqual(i18n.t(expected))
     })
   })
 })
