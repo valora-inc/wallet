@@ -366,6 +366,7 @@ const styles = StyleSheet.create({
   },
   headerTitleText: {
     ...typeScale.labelSemiBoldLarge,
+    color: Colors.black,
   },
   flex: {
     flex: 1,
@@ -375,6 +376,7 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.titleMedium,
+    color: Colors.black,
   },
   subtitleLabel: {
     ...typeScale.bodySmall,
@@ -407,7 +409,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.gray2,
     borderWidth: 1,
     borderRadius: 12,
-    gap: 16,
+    gap: Spacing.Regular16,
   },
   cardLineContainer: {
     flex: 1,
@@ -418,7 +420,7 @@ const styles = StyleSheet.create({
   cardLineLabel: {
     flex: 1,
     flexDirection: 'row',
-    gap: 4,
+    gap: Spacing.Tiny4,
     alignItems: 'center',
     paddingRight: 20, // Prevents Icon from being cut off on long labels
   },
@@ -439,7 +441,7 @@ const styles = StyleSheet.create({
   },
   learnMoreView: {
     flex: 1,
-    gap: 4,
+    gap: Spacing.Tiny4,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
