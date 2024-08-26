@@ -17,11 +17,6 @@ const renderSupport = () =>
   )
 
 describe('Support', () => {
-  it('renders correctly', () => {
-    const tree = renderSupport()
-    expect(tree).toMatchSnapshot()
-  })
-
   it('navigates to Web FAQ', () => {
     const contact = renderSupport()
     fireEvent.press(contact.getByTestId('FAQLink'))

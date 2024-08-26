@@ -45,7 +45,8 @@ jest.mock('react-native-securerandom', () => ({
   generateSecureRandom: jest.fn(() => new Uint8Array(16).fill(1)),
 }))
 jest.mock('src/analytics/AppAnalytics')
-jest.mock('@celo/utils/lib/async', () => ({
+jest.mock('src/utils/sleep', () => ({
+  ...jest.requireActual('src/utils/sleep'),
   sleep: jest.fn().mockResolvedValue(true),
 }))
 

@@ -35,7 +35,7 @@ import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/r
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { StackParamList } from 'src/navigator/types'
 import { Nft, NftWithMetadata } from 'src/nfts/types'
-import { Position, Shortcut } from 'src/positions/types'
+import { EarnPosition, Position, Shortcut } from 'src/positions/types'
 import { PriceHistoryStatus } from 'src/priceHistory/slice'
 import { UriData } from 'src/qrcode/schema'
 import {
@@ -61,6 +61,7 @@ import {
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import networkConfig from 'src/web3/networkConfig'
+import { Address, privateKeyToAccount } from 'viem/accounts'
 
 export const nullAddress = '0x0'
 
@@ -78,6 +79,19 @@ export const mockMnemonicShard1 =
   'prosper winner find donate tape history measure umbrella agent patrol want rhythm celo'
 export const mockMnemonicShard2 =
   'celo old unable wash wrong need fluid hammer coach reveal plastic trust lake'
+
+export const mockPrivateKey = '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef'
+const mockViemAccount = privateKeyToAccount(mockPrivateKey)
+// This is encryptPrivateKey(mockPrivateKey, 'password'), but hardcoding for predictability in tests
+export const mockKeychainEncryptedPrivateKey =
+  'U2FsdGVkX1+4Da/3VE98t6m9FNs+Q0fqJlckHnL2+XctJPyvhZY+b0TSAB9oGiAMNDow1bjA3NYyzA3aKhFhHwAySzPOArFI/RpPlArT2/IGZ/IxKtKzKnd1pa4+q4fx'
+export const mockAddress = mockViemAccount.address.toLowerCase() as Address
+export const mockPrivateKey2 = '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890fdeccc'
+const mockViemAccount2 = privateKeyToAccount(mockPrivateKey2)
+// This is encryptPrivateKey(mockPrivateKey2, 'password'), but hardcoding for predictability in tests
+export const mockKeychainEncryptedPrivateKey2 =
+  'U2FsdGVkX18191f7q1dS0CCvSGNjJ9PkcBGKaf+u1LVpuoBw2xSJe17hLW8QRXyKCtwvMknW2uTeWUeMRSfg/O1UdsEwdhMPxzqtOUTwT9evQri80JMGBImihFXKDdgN'
+export const mockAddress2 = mockViemAccount2.address.toLowerCase() as Address
 
 export const mockPrivateDEK = '41e8e8593108eeedcbded883b8af34d2f028710355c57f4c10a056b72486aa04'
 export const mockPublicDEK = '02c9cacca8c5c5ebb24dc6080a933f6d52a072136a069083438293d71da36049dc'
@@ -1649,6 +1663,100 @@ export const mockPositions: Position[] = [
   },
 ]
 
+export const mockEarnPositions: EarnPosition[] = [
+  {
+    type: 'app-token',
+    networkId: NetworkId['arbitrum-sepolia'],
+    address: '0x460b97bd498e1157530aeb3086301d5225b91216',
+    tokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+    positionId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+    appId: 'aave',
+    appName: 'Aave',
+    symbol: 'aArbSepUSDC',
+    decimals: 6,
+    displayProps: {
+      title: 'USDC',
+      description: 'Supplied (APY: 1.92%)',
+      imageUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/aave.png',
+    },
+    dataProps: {
+      yieldRates: [
+        {
+          percentage: 1.9194202601763743,
+          label: 'Earnings APY',
+          tokenId: mockArbUsdcTokenId,
+        },
+      ],
+      earningItems: [],
+      depositTokenId: mockArbUsdcTokenId,
+      withdrawTokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+      tvl: '1360000',
+    },
+    tokens: [
+      {
+        tokenId: mockArbUsdcTokenId,
+        networkId: NetworkId['arbitrum-sepolia'],
+        address: mockUSDCAddress,
+        symbol: 'USDC',
+        decimals: 6,
+        priceUsd: '1.2',
+        type: 'base-token',
+        balance: '0',
+      },
+    ],
+    pricePerShare: ['1'],
+    priceUsd: '1.2',
+    balance: '0',
+    supply: '190288.768509',
+    availableShortcutIds: ['deposit', 'withdraw'],
+  },
+  {
+    type: 'app-token',
+    networkId: NetworkId['ethereum-sepolia'],
+    address: '0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8',
+    tokenId: 'ethereum-sepolia:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8',
+    positionId: 'ethereum-sepolia:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8',
+    appId: 'aave',
+    appName: 'Aave',
+    symbol: 'aEthETH',
+    decimals: 6,
+    displayProps: {
+      title: 'ETH',
+      description: 'Supplied (APY: 10.42%)',
+      imageUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/aave.png',
+    },
+    dataProps: {
+      yieldRates: [
+        {
+          percentage: 10.421746584,
+          label: 'Earnings APY',
+          tokenId: mockEthTokenId,
+        },
+      ],
+      earningItems: [],
+      depositTokenId: mockEthTokenId,
+      withdrawTokenId: 'ethereum-sepolia:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8',
+    },
+    tokens: [
+      {
+        tokenId: mockEthTokenId,
+        networkId: NetworkId['ethereum-sepolia'],
+        symbol: 'ETH',
+        decimals: 6,
+        priceUsd: '0',
+        type: 'base-token',
+        balance: '0',
+        address: '0x0',
+      },
+    ],
+    pricePerShare: ['1'],
+    priceUsd: '1',
+    balance: '0',
+    supply: '190288.768509',
+    availableShortcutIds: ['deposit', 'withdraw'],
+  },
+]
+
 export const mockShortcutsLegacy = [
   {
     category: 'claim',
@@ -1796,7 +1904,7 @@ export const mockTypedData = {
     },
     contents: 'Hello, Bob!',
   },
-}
+} as const
 
 export const mockApprovalTransaction: TokenApproval = {
   tokenId: 'ethereum-sepolia:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',

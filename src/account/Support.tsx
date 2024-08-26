@@ -1,12 +1,15 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView } from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { SettingsItemTextValue } from 'src/components/SettingsItem'
 import { FAQ_LINK, FORUM_LINK } from 'src/config'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { navigateToURI } from 'src/utils/linking'
+import CustomHeader from 'src/components/header/CustomHeader'
+import variables from 'src/styles/variables'
+import BackButton from 'src/components/BackButton'
 
 const openExternalLink = (link: string) => () => navigateToURI(link)
 
@@ -18,7 +21,8 @@ const Support = () => {
   const { t } = useTranslation()
 
   return (
-    <SafeAreaView edges={['bottom', 'left', 'right']}>
+    <SafeAreaView>
+      <CustomHeader left={<BackButton />} title={t('help')} style={styles.paddingHorizontal} />
       <ScrollView>
         <SettingsItemTextValue
           testID="FAQLink"
@@ -43,5 +47,11 @@ const Support = () => {
     </SafeAreaView>
   )
 }
+
+const styles = StyleSheet.create({
+  paddingHorizontal: {
+    paddingHorizontal: variables.contentPadding,
+  },
+})
 
 export default Support

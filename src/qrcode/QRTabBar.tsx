@@ -92,7 +92,7 @@ export default function QRTabBar({
             numberOfLines={1}
             allowFontScaling={false}
           >
-            {state.index === 0 ? '' : t('scanCode')}
+            {state.index === 0 ? t('walletAddress') : t('scanCode')}
           </Text>
         </View>
       )}

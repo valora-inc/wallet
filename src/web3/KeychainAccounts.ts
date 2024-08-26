@@ -9,9 +9,11 @@ import {
   storeItem,
 } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
+import { ViemKeychainAccount, keychainAccountToAccount } from 'src/viem/keychainAccountToAccount'
+import { Hex } from 'viem'
 import { Address, privateKeyToAddress } from 'viem/accounts'
 
-const TAG = 'web3/KeychainLock'
+const TAG = 'web3/KeychainAccounts'
 
 export const ACCOUNT_STORAGE_KEY_PREFIX = 'account--'
 
@@ -177,8 +179,8 @@ export async function clearStoredAccounts() {
   await Promise.all(accounts.map((account) => removeStoredItem(accountStorageKey(account))))
 }
 
-export class KeychainLock {
-  protected locks: Map<
+export class KeychainAccounts {
+  protected loadedAccounts: Map<
     string,
     {
       // Timestamp in milliseconds when the keychain was last unlocked
@@ -186,6 +188,7 @@ export class KeychainLock {
       // Number of seconds that the keychain was last unlocked for
       unlockDuration?: number
       account: KeychainAccount
+      viemAccount: ViemKeychainAccount
     }
   > = new Map()
 
@@ -205,7 +208,7 @@ export class KeychainLock {
     // Prefix 0x here or else the signed transaction produces dramatically different signer!!!
     const normalizedPrivateKey = normalizeAddressWith0x(privateKey) as Address
     const address = normalizeAddressWith0x(privateKeyToAddress(normalizedPrivateKey))
-    if (this.locks.has(address)) {
+    if (this.loadedAccounts.has(address)) {
       throw new Error(ErrorMessages.KEYCHAIN_ACCOUNT_ALREADY_EXISTS)
     }
     const account = { address, createdAt: new Date() }
@@ -215,7 +218,11 @@ export class KeychainLock {
   }
 
   private addExistingAccount(account: KeychainAccount) {
-    this.locks.set(normalizeAddressWith0x(account.address), { account })
+    const viemAccount = keychainAccountToAccount({
+      address: account.address as Address,
+      isUnlocked: () => this.isUnlocked(account.address),
+    })
+    this.loadedAccounts.set(normalizeAddressWith0x(account.address), { account, viemAccount })
   }
 
   /**
@@ -225,28 +232,30 @@ export class KeychainLock {
   async unlock(address: string, passphrase: string, duration: number) {
     const normalizedAddress = normalizeAddressWith0x(address)
     Logger.debug(`${TAG}@unlock`, `Unlocking keychain for ${address} for ${duration} seconds`)
-    if (!this.locks.has(normalizedAddress)) {
+    if (!this.loadedAccounts.has(normalizedAddress)) {
       return false
     }
-    const account = this.locks.get(normalizedAddress)!.account
+    const { account, viemAccount } = this.loadedAccounts.get(normalizedAddress)!
     const privateKey = await getStoredPrivateKey(account, passphrase)
     if (!privateKey) {
       return false
     }
-    this.locks.set(normalizedAddress, {
+    this.loadedAccounts.set(normalizedAddress, {
       account,
+      viemAccount,
       unlockTime: Date.now(),
       unlockDuration: duration,
     })
+    viemAccount.unlock(privateKey as Hex)
     return true
   }
 
   isUnlocked(address: string): boolean {
     const normalizedAddress = normalizeAddressWith0x(address)
-    if (!this.locks.has(normalizedAddress)) {
+    if (!this.loadedAccounts.has(normalizedAddress)) {
       return false
     }
-    const { unlockTime, unlockDuration } = this.locks.get(normalizedAddress)!
+    const { unlockTime, unlockDuration } = this.loadedAccounts.get(normalizedAddress)!
     if (unlockDuration === undefined || unlockTime === undefined) {
       return false
     }
@@ -267,15 +276,20 @@ export class KeychainLock {
    */
   async updatePassphrase(address: string, oldPassphrase: string, newPassphrase: string) {
     const normalizedAddress = normalizeAddressWith0x(address)
-    if (!this.locks.has(normalizedAddress)) {
+    if (!this.loadedAccounts.has(normalizedAddress)) {
       return false
     }
-    const account = this.locks.get(normalizedAddress)!.account
+    const account = this.loadedAccounts.get(normalizedAddress)!.account
     const privateKey = await getStoredPrivateKey(account, oldPassphrase)
     if (!privateKey) {
       return false
     }
     await storePrivateKey(privateKey, account, newPassphrase)
     return true
+  }
+
+  getViemAccount(address: string): ViemKeychainAccount | undefined {
+    const normalizedAddress = normalizeAddressWith0x(address)
+    return this.loadedAccounts.get(normalizedAddress)?.viemAccount
   }
 }

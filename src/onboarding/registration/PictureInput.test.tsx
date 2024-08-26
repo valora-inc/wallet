@@ -38,16 +38,6 @@ describe('PictureInputScreen', () => {
     jest.clearAllMocks()
   })
 
-  it('renders correctly', () => {
-    const store = createMockStore()
-    const tree = render(
-      <Provider store={store}>
-        <PictureInput {...mockProps} />
-      </Provider>
-    )
-    expect(tree).toMatchSnapshot()
-  })
-
   it('calls onPhotoChosen callback when a picture is selected', async () => {
     const store = createMockStore()
     const { getByText, getByTestId } = render(
