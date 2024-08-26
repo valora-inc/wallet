@@ -345,7 +345,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
           {dataProps.contractCreatedAt ? (
             <AgeCard
               // TODO(ACT-1323): Create info bottom sheet
-              ageOfPool={new Date(Date.now())}
+              ageOfPool={new Date(dataProps.contractCreatedAt)}
               infoIconPress={() => Logger.debug('AgeCard Info Icon Pressed!')}
             />
           ) : null}
