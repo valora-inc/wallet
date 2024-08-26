@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import RowDivider from 'src/components/RowDivider'
 import TokenDisplay from 'src/components/TokenDisplay'
-import { getTransactionProviderName } from 'src/earn/hooks'
+import { useEarnPositionProviderName } from 'src/earn/hooks'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { useTokenInfo } from 'src/tokens/hooks'
@@ -16,7 +16,7 @@ interface EarnClaimRewardProps {
 
 export function EarnClaimContent({ transaction }: EarnClaimRewardProps) {
   const { t } = useTranslation()
-  const providerName = getTransactionProviderName(transaction.providerId)
+  const providerName = useEarnPositionProviderName(transaction.providerId)
   const tokenInfo = useTokenInfo(transaction.amount.tokenId)
   const tokenSymbol = tokenInfo?.symbol ?? ''
 
@@ -64,7 +64,7 @@ interface EarnDepositProps {
 
 export function EarnDepositContent({ transaction }: EarnDepositProps) {
   const { t } = useTranslation()
-  const providerName = getTransactionProviderName(transaction.providerId)
+  const providerName = useEarnPositionProviderName(transaction.providerId)
   const tokenInfo = useTokenInfo(transaction.outAmount.tokenId)
   const tokenSymbol = tokenInfo?.symbol ?? ''
 
@@ -112,7 +112,7 @@ interface EarnWithdrawProps {
 
 export function EarnWithdrawContent({ transaction }: EarnWithdrawProps) {
   const { t } = useTranslation()
-  const providerName = getTransactionProviderName(transaction.providerId)
+  const providerName = useEarnPositionProviderName(transaction.providerId)
   const tokenInfo = useTokenInfo(transaction.inAmount.tokenId)
   const tokenSymbol = tokenInfo?.symbol ?? ''
 
