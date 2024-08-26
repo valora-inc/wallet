@@ -91,6 +91,7 @@ describe('SendConfirmation', () => {
       refreshPreparedTransactions: jest.fn(),
       clearPreparedTransactions: jest.fn(),
       prepareTransactionError: undefined,
+      prepareTransactionsLoading: false,
     }
     jest.mocked(usePrepareSendTransactions).mockReturnValue(mockUsePrepareSendTransactionsOutput)
   })

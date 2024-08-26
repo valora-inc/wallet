@@ -462,7 +462,6 @@ describe('ReviewScreen', () => {
           flow: CICOFlow.CashOut,
           fiatConnectQuote: mockProps.route.params.normalizedQuote,
           fiatAccountId: '123',
-          feeInfo: mockFeeInfo,
         })
       )
       expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectTransferStatus, {

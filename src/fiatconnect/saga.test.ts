@@ -1,24 +1,20 @@
 import { Result } from '@badrap/result'
 import { ResponseError } from '@fiatconnect/fiatconnect-sdk'
 import {
-  CryptoType,
   FiatAccountSchema,
   FiatAccountType,
   FiatConnectError,
   KycStatus as FiatConnectKycStatus,
   KycSchema,
-  TransferStatus,
 } from '@fiatconnect/fiatconnect-types'
-import BigNumber from 'bignumber.js'
-import _ from 'lodash'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matches from 'redux-saga-test-plan/matchers'
 import { dynamic, throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { KycStatus as PersonaKycStatus } from 'src/account/reducer'
 import { showError, showMessage } from 'src/alert/actions'
-import { FiatExchangeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { FiatExchangeEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
   fiatConnectCashInEnabledSelector,
@@ -39,8 +35,6 @@ import {
   _getFiatAccount,
   _getQuotes,
   _getSpecificQuote,
-  _initiateSendTxToProvider,
-  _initiateTransferWithProvider,
   _selectQuoteAndFiatAccount,
   _selectQuoteMatchingFiatAccount,
   fetchFiatAccountsSaga,
@@ -84,32 +78,16 @@ import {
   submitFiatAccountCompleted,
   submitFiatAccountKycApproved,
 } from 'src/fiatconnect/slice'
-import { FiatConnectTxError } from 'src/fiatconnect/types'
 import i18n from 'src/i18n'
 import { deleteKyc, getKycStatus, postKyc } from 'src/in-house-liquidity'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
-import { buildAndSendPayment } from 'src/send/saga'
-import { tokensListWithAddressSelector } from 'src/tokens/selectors'
-import { isTxPossiblyPending } from 'src/transactions/send'
-import { TransactionContext, newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { walletAddressSelector } from 'src/web3/selectors'
-import {
-  mockCeloAddress,
-  mockCeurAddress,
-  mockCrealAddress,
-  mockCusdAddress,
-  mockCusdTokenId,
-  mockFeeInfo,
-  mockFiatConnectProviderInfo,
-  mockFiatConnectQuotes,
-  mockTokenBalances,
-} from 'test/values'
-import { v4 as uuidv4 } from 'uuid'
+import { mockCusdTokenId, mockFiatConnectProviderInfo, mockFiatConnectQuotes } from 'test/values'
 
 jest.mock('src/analytics/AppAnalytics')
 jest.mock('src/fiatconnect')
@@ -1732,299 +1710,6 @@ describe('Fiatconnect saga', () => {
     })
   })
 
-  describe('_initiateTransferWithProvider', () => {
-    const transferOutFcQuote = new FiatConnectQuote({
-      flow: CICOFlow.CashOut,
-      quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
-      fiatAccountType: FiatAccountType.BankAccount,
-      tokenId: mockCusdTokenId,
-    })
-
-    const quoteId = transferOutFcQuote.getQuoteId()
-    const providerId = transferOutFcQuote.getProviderId()
-    const providerBaseUrl = transferOutFcQuote.getProviderBaseUrl()
-    const providerApiKey = transferOutFcQuote.getProviderApiKey()
-
-    const mockTransferOut = jest.fn()
-    const mockFcClient = {
-      transferOut: mockTransferOut,
-    }
-    jest.mocked(uuidv4).mockReturnValue('mock-uuidv4')
-    it('calls the fiatconnect transfer function and returns the transfer results', async () => {
-      mockTransferOut.mockResolvedValueOnce(
-        Result.ok({
-          transferId: 'transfer1',
-          transferStatus: TransferStatus.TransferReadyForUserToSendCryptoFunds,
-          transferAddress: '0xabc',
-        })
-      )
-      await expectSaga(
-        _initiateTransferWithProvider,
-        createFiatConnectTransfer({
-          flow: CICOFlow.CashOut,
-          fiatConnectQuote: transferOutFcQuote,
-          fiatAccountId: 'account1',
-          feeInfo: mockFeeInfo,
-        })
-      )
-        .provide([
-          [call(getFiatConnectClient, providerId, providerBaseUrl, providerApiKey), mockFcClient],
-        ])
-        .returns({
-          transferId: 'transfer1',
-          transferStatus: TransferStatus.TransferReadyForUserToSendCryptoFunds,
-          transferAddress: '0xabc',
-        })
-        .run()
-
-      expect(mockTransferOut).toHaveBeenCalledWith({
-        data: { fiatAccountId: 'account1', quoteId },
-        idempotencyKey: 'mock-uuidv4',
-      })
-      expect(AppAnalytics.track).toHaveBeenCalledTimes(0)
-    })
-    it('throws when there is an error with the transfer', async () => {
-      mockTransferOut.mockResolvedValueOnce(
-        Result.err(
-          new ResponseError('FiatConnect API Error', { error: FiatConnectError.Unauthorized })
-        )
-      )
-      await expect(() =>
-        expectSaga(
-          _initiateTransferWithProvider,
-          createFiatConnectTransfer({
-            flow: CICOFlow.CashOut,
-            fiatConnectQuote: transferOutFcQuote,
-            fiatAccountId: 'account1',
-            feeInfo: mockFeeInfo,
-          })
-        )
-          .provide([
-            [call(getFiatConnectClient, providerId, providerBaseUrl, providerApiKey), mockFcClient],
-          ])
-          .run()
-      ).rejects.toThrow()
-
-      expect(mockTransferOut).toHaveBeenCalledWith({
-        data: { fiatAccountId: 'account1', quoteId },
-        idempotencyKey: 'mock-uuidv4',
-      })
-      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(AppAnalytics.track).toHaveBeenCalledWith(
-        FiatExchangeEvents.cico_fc_transfer_api_error,
-        {
-          provider: providerId,
-          flow: CICOFlow.CashOut,
-          fiatConnectError: FiatConnectError.Unauthorized,
-          error: 'FiatConnect API Error',
-        }
-      )
-    })
-  })
-
-  describe('_initiateSendTxToProvider', () => {
-    const transferOutFcQuote = new FiatConnectQuote({
-      flow: CICOFlow.CashOut,
-      quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
-      fiatAccountType: FiatAccountType.BankAccount,
-      tokenId: mockCusdTokenId,
-    })
-    const TEST_FEE_INFO_CUSD = {
-      ...mockFeeInfo,
-      feeCurrency: mockCusdAddress,
-    }
-
-    const cryptoTypeToAddress: Record<CryptoType, string> = {
-      // if this fails to build due to a missing key, add fixture data for the new key! Do NOT just update the type,
-      //  coverage for every CryptoType is important.
-      [CryptoType.CELO]: mockCeloAddress,
-      [CryptoType.cUSD]: mockCusdAddress,
-      [CryptoType.cEUR]: mockCeurAddress,
-      [CryptoType.cREAL]: mockCrealAddress,
-    }
-
-    it.each(Object.keys(CryptoType) as CryptoType[])(
-      'able to send tx and get tx hash for CryptoType %s',
-      async (cryptoType) => {
-        const quote = {
-          ...(_.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess),
-          tokenId: mockCusdTokenId,
-        }
-        quote.quote.cryptoType = cryptoType
-        const fiatConnectQuote = new FiatConnectQuote({
-          flow: CICOFlow.CashOut,
-          quote,
-          fiatAccountType: FiatAccountType.BankAccount,
-          tokenId: mockCusdTokenId,
-        })
-        const tokenAddress = cryptoTypeToAddress[cryptoType]
-        await expectSaga(_initiateSendTxToProvider, {
-          transferAddress: '0xabc',
-          fiatConnectQuote: fiatConnectQuote,
-          feeInfo: TEST_FEE_INFO_CUSD,
-        })
-          .provide([
-            [select(tokensListWithAddressSelector), Object.values(mockTokenBalances)],
-            [
-              call(
-                buildAndSendPayment,
-                newTransactionContext(
-                  'FiatConnectSaga',
-                  'Send crypto to provider for transfer out'
-                ) as TransactionContext,
-                '0xabc',
-                new BigNumber(fiatConnectQuote.getCryptoAmount()),
-                tokenAddress,
-                '',
-                TEST_FEE_INFO_CUSD
-              ),
-              { receipt: { transactionHash: '0x12345' } },
-            ],
-          ])
-          .returns('0x12345')
-          .run()
-      }
-    )
-    it('throws when there is an error (safe to retry) with the transaction', async () => {
-      jest.mocked(isTxPossiblyPending).mockReturnValue(false)
-      await expect(() =>
-        expectSaga(_initiateSendTxToProvider, {
-          transferAddress: '0xabc',
-          fiatConnectQuote: transferOutFcQuote,
-          feeInfo: TEST_FEE_INFO_CUSD,
-        })
-          .provide([
-            [select(tokensListWithAddressSelector), Object.values(mockTokenBalances)],
-            [
-              call(
-                buildAndSendPayment,
-                newTransactionContext(
-                  'FiatConnectSaga',
-                  'Send crypto to provider for transfer out'
-                ) as TransactionContext,
-                '0xabc',
-                new BigNumber(transferOutFcQuote.getCryptoAmount()),
-                mockCusdAddress,
-                '',
-                TEST_FEE_INFO_CUSD
-              ),
-              { error: new Error('error is safe to retry') },
-            ],
-          ])
-          .returns('0x12345')
-          .run()
-      ).rejects.toThrow(
-        new FiatConnectTxError(
-          'Error while attempting to send funds for FiatConnect transfer out',
-          false,
-          new Error('error is safe to retry')
-        )
-      )
-      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(AppAnalytics.track).toHaveBeenCalledWith(
-        FiatExchangeEvents.cico_fc_transfer_tx_error,
-        {
-          provider: transferOutFcQuote.getProviderId(),
-          flow: CICOFlow.CashOut,
-          transferAddress: '0xabc',
-          error: 'error is safe to retry',
-        }
-      )
-    })
-    it('throws when there is a timeout error (not safe to retry) with the transaction', async () => {
-      jest.mocked(isTxPossiblyPending).mockReturnValue(false)
-      await expect(() =>
-        expectSaga(_initiateSendTxToProvider, {
-          transferAddress: '0xabc',
-          fiatConnectQuote: transferOutFcQuote,
-          feeInfo: TEST_FEE_INFO_CUSD,
-        })
-          .provide([
-            [select(tokensListWithAddressSelector), Object.values(mockTokenBalances)],
-            [
-              call(
-                buildAndSendPayment,
-                newTransactionContext(
-                  'FiatConnectSaga',
-                  'Send crypto to provider for transfer out'
-                ) as TransactionContext,
-                '0xabc',
-                new BigNumber(transferOutFcQuote.getCryptoAmount()),
-                mockCusdAddress,
-                '',
-                TEST_FEE_INFO_CUSD
-              ),
-              { error: new Error(ErrorMessages.TRANSACTION_TIMEOUT) },
-            ],
-          ])
-          .returns('0x12345')
-          .run()
-      ).rejects.toThrow(
-        new FiatConnectTxError(
-          'Error while attempting to send funds for FiatConnect transfer out',
-          true,
-          new Error(ErrorMessages.TRANSACTION_TIMEOUT)
-        )
-      )
-      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(AppAnalytics.track).toHaveBeenCalledWith(
-        FiatExchangeEvents.cico_fc_transfer_tx_error,
-        {
-          provider: transferOutFcQuote.getProviderId(),
-          flow: CICOFlow.CashOut,
-          transferAddress: '0xabc',
-          error: ErrorMessages.TRANSACTION_TIMEOUT,
-        }
-      )
-    })
-    it('throws when there is a miscellanious error (not safe to retry) with the transaction', async () => {
-      jest.mocked(isTxPossiblyPending).mockReturnValue(true)
-      await expect(() =>
-        expectSaga(_initiateSendTxToProvider, {
-          transferAddress: '0xabc',
-          fiatConnectQuote: transferOutFcQuote,
-          feeInfo: TEST_FEE_INFO_CUSD,
-        })
-          .provide([
-            [select(tokensListWithAddressSelector), Object.values(mockTokenBalances)],
-            [
-              call(
-                buildAndSendPayment,
-                newTransactionContext(
-                  'FiatConnectSaga',
-                  'Send crypto to provider for transfer out'
-                ) as TransactionContext,
-                '0xabc',
-                new BigNumber(transferOutFcQuote.getCryptoAmount()),
-                mockCusdAddress,
-                '',
-                TEST_FEE_INFO_CUSD
-              ),
-              { error: new Error('unsafe error') },
-            ],
-          ])
-          .returns('0x12345')
-          .run()
-      ).rejects.toThrow(
-        new FiatConnectTxError(
-          'Error while attempting to send funds for FiatConnect transfer out',
-          true,
-          new Error('unsafe error')
-        )
-      )
-      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(AppAnalytics.track).toHaveBeenCalledWith(
-        FiatExchangeEvents.cico_fc_transfer_tx_error,
-        {
-          provider: transferOutFcQuote.getProviderId(),
-          flow: CICOFlow.CashOut,
-          transferAddress: '0xabc',
-          error: 'unsafe error',
-        }
-      )
-    })
-  })
-
   describe('handleCreateFiatConnectTransfer', () => {
     describe('TransferIn', () => {
       const transferInFcQuote = new FiatConnectQuote({
@@ -2041,7 +1726,6 @@ describe('Fiatconnect saga', () => {
           fiatAccountId: 'account1',
         })
         await expectSaga(handleCreateFiatConnectTransfer, action)
-          .provide([[call(_initiateTransferWithProvider, action), { transferAddress }]])
           .put(
             createFiatConnectTransferCompleted({
               flow: CICOFlow.CashIn,
@@ -2078,20 +1762,9 @@ describe('Fiatconnect saga', () => {
           flow: CICOFlow.CashOut,
           fiatConnectQuote: transferOutFcQuote,
           fiatAccountId,
-          feeInfo: mockFeeInfo,
         })
         await expectSaga(handleCreateFiatConnectTransfer, action)
-          .provide([
-            [call(_initiateTransferWithProvider, action), { transferAddress, transferId }],
-            [
-              call(_initiateSendTxToProvider, {
-                transferAddress,
-                fiatConnectQuote: transferOutFcQuote,
-                feeInfo: mockFeeInfo,
-              }),
-              transactionHash,
-            ],
-          ])
+          .provide([])
           .put(
             cacheFiatConnectTransfer({
               txHash: transactionHash,
@@ -2125,21 +1798,19 @@ describe('Fiatconnect saga', () => {
           flow: CICOFlow.CashOut,
           fiatConnectQuote: transferOutFcQuote,
           fiatAccountId: 'account1',
-          feeInfo: mockFeeInfo,
         })
         await expectSaga(handleCreateFiatConnectTransfer, action)
           .provide([
-            [call(_initiateTransferWithProvider, action), { transferAddress }],
-            [
-              call(_initiateSendTxToProvider, {
-                transferAddress,
-                fiatConnectQuote: transferOutFcQuote,
-                feeInfo: mockFeeInfo,
-              }),
-              throwError(
-                new FiatConnectTxError('some error', true, new Error('some internal error'))
-              ),
-            ],
+            // [
+            //   call(_initiateSendTxToProvider, {
+            //     transferAddress,
+            //     fiatConnectQuote: transferOutFcQuote,
+            //     feeInfo: mockFeeInfo,
+            //   }),
+            //   throwError(
+            //     new FiatConnectTxError('some error', true, new Error('some internal error'))
+            //   ),
+            // ],
           ])
           .put(
             createFiatConnectTransferTxProcessing({
@@ -2160,21 +1831,19 @@ describe('Fiatconnect saga', () => {
           flow: CICOFlow.CashOut,
           fiatConnectQuote: transferOutFcQuote,
           fiatAccountId: 'account1',
-          feeInfo: mockFeeInfo,
         })
         await expectSaga(handleCreateFiatConnectTransfer, action)
           .provide([
-            [call(_initiateTransferWithProvider, action), { transferAddress }],
-            [
-              call(_initiateSendTxToProvider, {
-                transferAddress,
-                fiatConnectQuote: transferOutFcQuote,
-                feeInfo: mockFeeInfo,
-              }),
-              throwError(
-                new FiatConnectTxError('some error', false, new Error('some internal error'))
-              ),
-            ],
+            // [
+            //   call(_initiateSendTxToProvider, {
+            //     transferAddress,
+            //     fiatConnectQuote: transferOutFcQuote,
+            //     feeInfo: mockFeeInfo,
+            //   }),
+            //   throwError(
+            //     new FiatConnectTxError('some error', false, new Error('some internal error'))
+            //   ),
+            // ],
           ])
           .put(
             createFiatConnectTransferFailed({
@@ -2203,10 +1872,8 @@ describe('Fiatconnect saga', () => {
           flow: CICOFlow.CashIn,
           fiatConnectQuote: transferInFcQuote,
           fiatAccountId: 'account1',
-          feeInfo: mockFeeInfo,
         })
         await expectSaga(handleCreateFiatConnectTransfer, action)
-          .provide([[call(_initiateTransferWithProvider, action), throwError(new Error('ERROR'))]])
           .put(
             createFiatConnectTransferFailed({
               flow: CICOFlow.CashIn,
