@@ -1990,10 +1990,10 @@
     "options": {
       "add": "Füge Guthaben zu deinem Wallet hinzu",
       "dapp": "Wege finden, Krypto zu nutzen",
-      "earn": "Verdienstmöglichkeiten erkunden",
+      "earn": "Entdecke Verdienstmöglichkeiten",
       "profile": "Erstelle dein Profil",
       "learn": "Mehr über Celo erfahren",
-      "learnPoints": "Learn about {{appName}} Points"
+      "learnPoints": "Erfahre mehr zu {{appName}}-Punkten"
     }
   },
   "reverifyUsingCPVHomecard": {
@@ -2204,16 +2204,16 @@
     }
   },
   "jumpstartIntro": {
-    "title": "Krypto wie einen Text teilen",
+    "title": "Teile Krypto wie eine Textnachricht",
     "addFundsCelo": {
-      "title": "Vermögenswerte auf Celo erhalten",
-      "info": "Live-Links sind eine Möglichkeit, Kryptowährungen im Celo-Netzwerk mit einem Link an einen Freund zu senden.\nUm loszulegen, brauchst du einige CELO-Guthaben in deiner Brieftasche.",
-      "description": "Sobald du Assets auf Celo hinzugefügt hast, musst du zurückkommen, um einen Live Link zu erstellen.",
-      "cta": "Vermögenswerte auf Celo erhalten",
+      "title": "Erhalte Vermögen in Celo",
+      "info": "Mit Live-Links kannst du Krypto über das Celo-Netzwerk mit einem Link an einen Freund senden.\nUm loszulegen, benötigst du CELO-Vermögen in deinem Wallet.",
+      "description": "Sobald du Vermögen in Celo hinzugefügt hast, musst du zurückkehren, um einen Live-Link zu erstellen.",
+      "cta": "Erhalte Vermögen in Celo",
       "actionDescriptions": {
-        "add": "Kaufe Vermögenswerte auf Celo mit einem unserer vertrauenswürdigen Anbieter",
-        "swap": "Swap in eine Anlage auf Celo von einer anderen Anlage",
-        "transfer": "Verwende eine beliebige Celo-kompatible Geldbörse oder Börse, um Vermögenswerte auf Celo einzuzahlen"
+        "add": "Kaufe Vermögen auf Celo mit einem unserer vertrauenswürdigen Anbieter",
+        "swap": "Wechsle von einem anderen Vermögen zu einem Vermögen in Celo",
+        "transfer": "Nutze ein beliebiges Celo-kompatibles Wallet oder eine beliebige Celo-kompatible Börse, um Vermögen in Celo einzuzahlen"
       }
     }
   },
@@ -2466,7 +2466,8 @@
     },
     "disclaimer": {
       "learnMoreCta": "<0>Mehr Infos</0> zu {{appName}}-Punkten",
-      "body": "<0>Was sind Punkte?</0>\nPunkte sind das Treueprogramm von {{appName}}. Nutzer erhalten Punkte, wenn sie unsere App nutzen.\n\n<0>Wofür sind die Punkte?</0>\nDu sammelst sie. Sie können weder ausgegeben, noch gehandelt oder überwiesen werden.\n\n<0>Warum sind sie in meinem Wallet?</0>\nPunkte sind Tokens. Digitale On-Chain-Bits, die dir Freude bereiten und die du verdienst, indem du die App nutzt.",
+      "title": "Mehr zu {{appName}}-Punkten",
+      "body": "Punkte sind das Treueprogramm von {{appName}}. Diese erhältst du für die Nutzung der App. Punkte können weder ausgegeben, noch gehandelt oder überwiesen werden.",
       "dismiss": "Verstanden"
     }
   },
@@ -2496,19 +2497,19 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "Maximiere Verdienste ohne Gasgebühren*",
-          "title": "Pools erkunden und vergleichen",
-          "subtitle": "Vergleiche Verdienstmöglichkeiten und Risiken. Tausche, kaufe oder transferiere Token, um dem besten Pool für dich beizutreten.",
+          "title": "Entdecke und vergleiche Pools",
+          "subtitle": "Vergleiche Verdienstmöglichkeiten und Risiken. Tausche, kaufe oder übertrage Token, um dem für dich besten Pool beizutreten.",
           "footnoteSubsidy": "*Gasgebühren werden vorübergehend von Valora übernommen"
         },
         "manage": {
           "title": "Direkt von Valora aus verwalten",
           "titleV1_92": "Direkt von {{appName}} aus verwalten",
-          "subtitle": "Wir verbinden deine Geldbörse automatisch, damit du Pools verwalten kannst, ohne Valora zu verlassen.",
-          "subtitleV1_92": "Wir verbinden deine Geldbörse automatisch, damit du Pools verwalten kannst, ohne {{appName}}zu verlassen."
+          "subtitle": "Wir verbinden dein Wallet automatisch, damit du Pools verwalten kannst, ohne Valora zu verlassen.",
+          "subtitleV1_92": "Wir verbinden dein Wallet automatisch, damit du Pools verwalten kannst, ohne {{appName}} zu verlassen."
         },
         "access": {
           "title": "Einfacher Zugriff auf dein Guthaben",
-          "subtitle": "Sammle Geld mit einem Fingertipp, genau wie bei deinen Lieblingsprotokollen."
+          "subtitle": "Erhalte Guthaben mit nur einem Tippen, genau wie bei deinen Lieblingsprotokollen."
         }
       },
       "action": {
@@ -2524,7 +2525,7 @@
     "entrypoint": {
       "title": "Verdiene an deinen Stablecoins",
       "subtitle": "Einzahlen und verdienen",
-      "description": "Verdiene an deinen Stablecoins, wenn du sie über einen Liquiditätspool ausleihst."
+      "description": "Verdiene an deinen Stablecoins, wenn du über einen Liquiditätspool verleihst"
     },
     "enterAmount": {
       "earnUpToLabel": "Verdienst von bis zu:",
@@ -2534,6 +2535,7 @@
       "rate": "{{rate}} % jährliche prozentuale Rendite",
       "continue": "Weiter",
       "info": "Dieser Pool wird von Aave unterstützt",
+      "infoV1_93": "Unterstützt von {{providerName}}",
       "infoBottomSheet": {
         "title": "Warum dieser Pool?",
         "description": "Dieser Aave-Pool hat über 150 Mio. USD TVL und mehr als 6000 Teilnehmer, was für eine hohe Liquidität und Vertrauenswürdigkeit spricht. Außerdem verwendet er USDC als Token und Arbitrum als Netzwerk, was die Volatilität reduziert und sicherstellt, dass die Nutzer günstige Gasraten erhalten.\n\nAlles zusammen macht ihn zu einer sicheren und attraktiven Option mit wettbewerbsfähigen APY, die eine vorteilhafte Investitionsmöglichkeit für unsere Nutzer darstellt.\n\nAndere Aave-Pools kannst du <0>hier</0> entdecken.",
@@ -2554,7 +2556,7 @@
       "viewPools": "Pools anzeigen",
       "poolsSupplied": "Bereitgestellte Pools",
       "totalSupplied": "Insgesamt bereitgestellt",
-      "depositAndEarnings": "Einzahlung & Verdienst",
+      "depositAndEarnings": "Einzahlungen und Verdienste",
       "myPools": "Meine Pools",
       "explore": "Offen erforschen"
     },
@@ -2612,22 +2614,27 @@
         "apyDescription": "Eine jährliche prozentuale Rendite (APY) ist eine Kennzahl, die zur Berechnung der jährlichen Rendite von Krypto-Investitionen verwendet wird. Sie ist ein wichtiger Indikator für die potenzielle Rendite und Rentabilität einer Kryptowährung.",
         "tvlSubtitle": "Was ist TVL?",
         "tvlDescription": "TVL steht für Total Value Locked und ist eine Kennzahl, die in der Kryptobranche verwendet wird, um den Wert von Digitalvermögen zu messen, das in einem Blockchain-Netzwerk gesperrt ist. TVL wird berechnet, indem der Wert des gesamten Digitalvermögens addiert wird, das in einem DeFi-Protokoll oder Smart Contract gesperrt ist. Dieses Vermögen kann Kryptowährungen, Stablecoins und andere Tokens umfassen."
-      }
+      },
+      "noPoolsTitle": "Du bist noch keinem Pool beigetreten",
+      "noPoolsDescription": "Entdecke die verfügbaren Pools, wähle einen, der zu deinen Zielen passt, und mache das Beste aus deinen Stablecoins."
     },
     "poolCard": {
       "onNetwork": "auf {{networkName}}",
       "rate": "Rate (geschätzt)",
+      "yieldRate": "Rendite (geschätzt)",
       "reward": "Reward",
       "tvl": "TVL",
       "exitPool": "Pool verlassen",
       "addToPool": "Zum Pool hinzufügen",
       "apy": "{{apy}} % jährliche prozentuale Rendite",
+      "percentage": "{{percentage}} %",
       "poweredBy": "Unterstützt von {{providerName}}",
-      "deposited": "Bereitgestellt"
+      "deposited": "Bereitgestellt",
+      "depositAndEarnings": "Einzahlungen und Verdienste"
     },
     "poolFilters": {
-      "openPools": "Offene Pools",
-      "myPools": "Meine Pools"
+      "myPools": "Meine Pools",
+      "allPools": "Alle Pools"
     }
   },
   "addFundsActions": {

@@ -2206,14 +2206,14 @@
   "jumpstartIntro": {
     "title": "Condividi le criptovalute come un testo",
     "addFundsCelo": {
-      "title": "Ottieni risorse su Celo",
-      "info": "I link live sono un modo per inviare criptovalute sulla rete Celo a un amico con un link.\nPer iniziare, devi avere delle attività CELO nel tuo portafoglio.",
-      "description": "Una volta aggiunti gli asset su Celo, dovrai tornare per creare un Live Link.",
-      "cta": "Ottieni risorse su Celo",
+      "title": "Ottieni asset su Celo",
+      "info": "I link diretti sono un modo per inviare criptovalute a un amico con un link utilizzando la rete Celo.\nPer iniziare, è necessario che tu abbia asset CELO nel tuo portafoglio.",
+      "description": "Una volta aggiunti asset su Celo, dovrai tornare indietro per creare un link diretto.",
+      "cta": "Ottieni asset su Celo",
       "actionDescriptions": {
-        "add": "Acquista beni su Celo utilizzando uno dei nostri fornitori di fiducia",
-        "swap": "Scambia un'attività su Celo con un'altra attività",
-        "transfer": "Utilizza un qualsiasi portafoglio o exchange compatibile con Celo per depositare attività su Celo"
+        "add": "Acquista asset su Celo utilizzando uno dei nostri fornitori di fiducia",
+        "swap": "Scambia un altro asset con un asset su Celo",
+        "transfer": "Utilizza qualsiasi wallet o exchange compatibile con Celo per depositare asset su Celo"
       }
     }
   },
@@ -2466,7 +2466,8 @@
     },
     "disclaimer": {
       "learnMoreCta": "<0>Scopri di più</0> sui punti di {{appName}}",
-      "body": "<0>Cosa sono i punti?</0>\nI punti sono il programma fedeltà di {{appName}}. Vengono assegnati agli utenti quando utilizzano la nostra app.\n\n<0>A cosa servono?</0>\nVengono accumulati. Non possono essere spesi, scambiati o trasferiti.\n\n<0>Perché sono nel mio portafoglio?</0>\nPerché sono token. Sono bit digitali di felicità on-chain che guadagni utilizzando l'app.",
+      "title": "Scopri di più sui punti di {{appName}}",
+      "body": "I punti sono il programma fedeltà di {{appName}}. Vengono assegnati per l'utilizzo dell'app. I punti non possono essere spesi, scambiati o trasferiti.",
       "dismiss": "Ho capito"
     }
   },
@@ -2534,6 +2535,7 @@
       "rate": "{{rate}}% APY",
       "continue": "Continua",
       "info": "Questo pool è supportato da Aave",
+      "infoV1_93": "Powered by {{providerName}}",
       "infoBottomSheet": {
         "title": "Qual è lo scopo di questo pool?",
         "description": "Questo pool di Aave ha oltre 150 milioni di dollari di TVL e più di 6.000 contributori, il che indica una forte liquidità e affidabilità. Inoltre, utilizza USDC come token e Arbitrum come rete, il che riduce la volatilità e garantisce agli utenti tariffe convenienti.\n\nTutto ciò la rende un'opzione sicura e attraente con un APY competitivo, garantendo un'opportunità di investimento vantaggiosa per i nostri utenti.\n\nPuoi esplorare gli altri pool di Aave <0>qui</0>.",
@@ -2612,22 +2614,27 @@
         "apyDescription": "Il rendimento annuo percentuale (APY) è una metrica utilizzata per calcolare il rendimento annualizzato degli investimenti in cripto. È un indicatore chiave del potenziale rendimento di una criptovaluta.",
         "tvlSubtitle": "Cos'è il TVL?",
         "tvlDescription": "Il valore totale bloccato (TVL) è una metrica utilizzata per misurare il valore dei beni digitali bloccati su una rete blockchain. Il TVL viene calcolato sommando il valore di tutti gli asset digitali bloccati in un protocollo DeFi o in uno smart contract. Questi beni possono includere criptovalute, stablecoin e altri token."
-      }
+      },
+      "noPoolsTitle": "Non ti sei ancora iscritto a nessuna piscina",
+      "noPoolsDescription": "Scopri i pool disponibili, scegline uno che corrisponda ai tuoi obiettivi e sfrutta al meglio i tuoi stablecoin."
     },
     "poolCard": {
       "onNetwork": "su {{networkName}}",
       "rate": "Tasso (stima)",
+      "yieldRate": "Tasso di rendimento (est.)",
       "reward": "Bonus",
       "tvl": "TVL",
       "exitPool": "Abbandona il pool",
       "addToPool": "Deposita in pool",
       "apy": "{{apy}}% APY",
+      "percentage": "{{percentage}}%",
       "poweredBy": "Powered by {{providerName}}",
-      "deposited": "Forniti"
+      "deposited": "Forniti",
+      "depositAndEarnings": "Deposito e guadagni"
     },
     "poolFilters": {
-      "openPools": "Pool aperti",
-      "myPools": "I miei pool"
+      "myPools": "I miei pool",
+      "allPools": "Tutte le piscine"
     }
   },
   "addFundsActions": {

@@ -344,6 +344,10 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
     'When fetching whether a jumpstart link has been claimed fails',
   [JumpstartEvents.jumpstart_reclaim_dismiss_error]:
     'When user dismisses the error toast for when the reclaim transaction failed',
+  [JumpstartEvents.jumpstart_add_assets_show_actions]:
+    'When user taps the CTA to show ways to add assets',
+  [JumpstartEvents.jumpstart_add_assets_action_press]:
+    'When user selects an add assets action from the available options',
   // Events for the QR screen redesign
   [QrScreenEvents.qr_screen_copy_address]: ``,
   [QrScreenEvents.qr_scanner_open]: `When unique "QR scanner" button is pressed`,
@@ -608,7 +612,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [EarnEvents.earn_info_earn_press]: `When the user taps 'Start Earning' on the earn info page `,
   [EarnEvents.earn_active_pools_card_press]: `When the user taps on the active pool card in discover tab.`,
   [EarnEvents.earn_home_learn_more_press]: `When the user taps 'Learn more' on the earn home screen`,
-  [EarnEvents.earn_pool_card_cta_press]: `When the user taps a cta button on the pool card`,
+  [EarnEvents.earn_pool_card_press]: `When the user taps on a pool card`,
 
   // Legacy event docs
   //  The below events had docs, but are no longer produced by the latest app version.
@@ -650,5 +654,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   // [DappKitEvents.dappkit_request_accept_error]: `when the dapp request fails`,
   // [KeylessBackupEvents.cab_sign_in_with_google]: ``, renamed to cab_sign_in_start when we started supporting Apple sign in
   // [KeylessBackupEvents.cab_sign_in_with_google_success]: ``, renamed to cab_sign_in_success when we started supporting Apple sign in
+  // [EarnEvents.earn_pool_card_cta_press]: `When the user taps a cta button on the pool card`,
   // [EarnEvents.earn_active_pools_cta_press]: `cta buttons on the card were removed and replaced with a single card press event`,
 }

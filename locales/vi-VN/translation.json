@@ -1988,10 +1988,10 @@
     "options": {
       "add": "Nạp tiền vào ví của bạn",
       "dapp": "Tìm cách sử dụng tiền điện tử",
-      "earn": "Explore earning opportunities",
-      "profile": "Build your profile",
+      "earn": "Khám phá cơ hội kiếm tiền",
+      "profile": "Xây dựng hồ sơ của bạn",
       "learn": "Tìm hiểu về Celo",
-      "learnPoints": "Learn about {{appName}} Points"
+      "learnPoints": "Tìm hiểu về Điểm {{appName}}"
     }
   },
   "reverifyUsingCPVHomecard": {
@@ -2202,16 +2202,16 @@
     }
   },
   "jumpstartIntro": {
-    "title": "Share crypto like a text",
+    "title": "Chia sẻ tiền điện tử như gửi tin nhắn",
     "addFundsCelo": {
-      "title": "Get Assets on Celo",
-      "info": "Live Links are a way to send crypto on the Celo network to a friend with a link.\nTo get started, you’ll need some CELO assets in your wallet.",
-      "description": "Once you’ve added assets on Celo you’ll have to come back to create a Live Link.",
-      "cta": "Get Assets on Celo",
+      "title": "Nhận tài sản trên Celo",
+      "info": "Liên kết trực tiếp là cách để gửi tiền điện tử trên Celo Network cho bạn bè qua một đường liên kết.\nĐể bắt đầu, bạn cần có vài tài sản CELO trong ví của mình.",
+      "description": "Sau khi đã thêm tài sản trên Celo, bạn sẽ phải quay lại để tạo Liên kết trực tiếp.",
+      "cta": "Nhận tài sản trên Celo",
       "actionDescriptions": {
-        "add": "Buy assets on Celo using one of our trusted providers",
-        "swap": "Swap into an asset on Celo from another asset",
-        "transfer": "Use any Celo compatible wallet or exchange to deposit assets on Celo"
+        "add": "Mua tài sản trên Celo qua một trong những nhà cung cấp uy tín của chúng tôi",
+        "swap": "Trao đổi một tài sản sang một tài sản khác trên Celo",
+        "transfer": "Sử dụng bất kỳ ví hoặc sàn giao dịch nào tương thích với Celo để nạp tài sản trên Celo"
       }
     }
   },
@@ -2464,7 +2464,8 @@
     },
     "disclaimer": {
       "learnMoreCta": "<0>Tìm hiểu thêm</0> về Điểm {{appName}}",
-      "body": "<0>Điểm là gì?</0>\nĐiểm là chương trình khách hàng thân thiết của {{appName}}. Bạn sẽ nhận được Điểm khi sử dụng ứng dụng của chúng tôi.\n\n<0>Điểm dùng để làm gì?</0>\nĐiểm sẽ được tích lũy. Bạn không thể sử dụng, giao dịch hay chuyển nhượng Điểm.\n\n<0>Tại sao lại có Điểm trong ví của tôi?</0>\nVì Điểm là các token. Trên chuỗi, đó những mảnh ghép hạnh phúc kỹ thuật số mà bạn kiếm được bằng cách sử dụng ứng dụng.",
+      "title": "Thông tin thêm về Điểm {{appName}}",
+      "body": "Điểm là chương trình khách hàng thân thiết của {{appName}}. Bạn sẽ được thưởng điểm khi sử dụng ứng dụng. Điểm sẽ không được chi tiêu, trao đổi hoặc chuyển nhượng.",
       "dismiss": "Đã hiểu"
     }
   },
@@ -2494,19 +2495,19 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "Tối đa hóa thu nhập mà không mất phí ga*",
-          "title": "Explore and Compare Pools",
-          "subtitle": "Compare earning potential and risks. Swap, buy, or transfer tokens to join the best pool for you.",
+          "title": "Khám phá và so sánh các quỹ",
+          "subtitle": "So sánh tiềm năng kiếm tiền và rủi ro. Trao đổi, mua hoặc chuyển khoản token để tham gia quỹ tốt nhất dành cho bạn.",
           "footnoteSubsidy": "*Phí ga được Valora tạm thời chi trả"
         },
         "manage": {
           "title": "Quản lý trực tiếp từ Valora",
-          "titleV1_92": "Manage Directly from {{appName}}",
-          "subtitle": "We'll auto-connect your wallet so you can manage pools without leaving Valora.",
-          "subtitleV1_92": "We'll auto-connect your wallet so you can manage pools without leaving {{appName}}."
+          "titleV1_92": "Quản lý trực tiếp từ {{appName}}",
+          "subtitle": "Chúng tôi sẽ tự động kết nối ví của bạn để giúp bạn quản lý quỹ mà không cần thoát khỏi Valora.",
+          "subtitleV1_92": "Chúng tôi sẽ tự động kết nối ví của bạn để giúp bạn quản lý quỹ mà không cần thoát khỏi {{appName}}."
         },
         "access": {
           "title": "Tiếp cận tiền dễ dàng",
-          "subtitle": "Collect funds with a tap, just like your favorite protocols."
+          "subtitle": "Nhận tiền chỉ bằng một cú nhấn, giống như các quy trình yêu thích của bạn vậy."
         }
       },
       "action": {
@@ -2521,8 +2522,8 @@
     },
     "entrypoint": {
       "title": "Nhận stablecoin",
-      "subtitle": "Deposit and earn",
-      "description": "Earn on your stablecoins when you lend through a liquidity pool"
+      "subtitle": "Nạp tiền và kiếm tiền",
+      "description": "Kiếm tiền từ stablecoin bằng cách cho vay thông qua một bể thanh khoản"
     },
     "enterAmount": {
       "earnUpToLabel": "Bạn có thể kiếm được đến:",
@@ -2532,6 +2533,7 @@
       "rate": "{{rate}}% APY",
       "continue": "Tiếp tục",
       "info": "Quỹ này do Aave cung cấp",
+      "infoV1_93": "Do {{providerName}} cung cấp",
       "infoBottomSheet": {
         "title": "Tại sao bạn nên chọn quỹ này?",
         "description": "Quỹ Aave này có hơn $150 triệu TVL và hơn 6.000 người đóng góp, cho thấy quỹ này có tính thanh khoản và độ uy tín cao. Quỹ cũng sử dụng USDC làm token và Arbitrum làm mạng lưới, giúp giảm biến động và đảm bảo người dùng nhận được mức phí ga rẻ.\n\nTất cả những yếu tố này tạo nên một lựa chọn an toàn và hấp dẫn với APY cạnh tranh, đảm bảo cơ hội đầu tư có lợi cho người dùng.\n\nBạn có thể khám phá các quỹ Aave khác <0>tại đây</0>.",
@@ -2552,7 +2554,7 @@
       "viewPools": "Xem quỹ",
       "poolsSupplied": "Các quỹ được cung cấp",
       "totalSupplied": "Tổng quỹ được cung cấp",
-      "depositAndEarnings": "Deposit & Earnings",
+      "depositAndEarnings": "Nạp tiền & Thu nhập",
       "myPools": "Các quỹ của tôi",
       "explore": "Khám phá các quỹ đang mở"
     },
@@ -2610,22 +2612,27 @@
         "apyDescription": "Tỉ suất lợi nhuận hằng năm (APY) là một chỉ số dùng để tính lợi nhuận hằng năm từ vốn đầu tư tiền điện tử. Đây là một chỉ báo quan trọng về khả năng sinh lời và tiềm năng lợi nhuận của một loại tiền điện tử.",
         "tvlSubtitle": "TVL là gì?",
         "tvlDescription": "TVL là từ viết tắt của Total Value Locked, nghĩa là Tổng giá trị bị khóa. Đây là một chỉ số được sử dụng trong ngành tiền điện tử để đo lường giá trị của các tài sản kỹ thuật số bị khóa trên một mạng chuỗi khối. TVL được tính bằng cách tính tổng giá trị của tất cả các tài sản kỹ thuật số bị khóa trong một giao thức DeFi hoặc hợp đồng thông minh. Những tài sản này có thể bao gồm tiền điện tử, stablecoin và các token khác."
-      }
+      },
+      "noPoolsTitle": "You haven’t joined any pools yet",
+      "noPoolsDescription": "Discover available pools, pick one that matches your goals, and make the most of your stablecoins."
     },
     "poolCard": {
       "onNetwork": "trên {{networkName}}",
       "rate": "Tỷ giá (ước tính)",
+      "yieldRate": "Mức sinh lợi (ước tính)",
       "reward": "Tiền thưởng",
       "tvl": "TVL",
       "exitPool": "Thoát quỹ",
       "addToPool": "Thêm vào quỹ",
       "apy": "{{apy}}% APY",
+      "percentage": "{{percentage}}%",
       "poweredBy": "Do {{providerName}} cung cấp",
-      "deposited": "Đã cung cấp"
+      "deposited": "Đã cung cấp",
+      "depositAndEarnings": "Nạp tiền & Thu nhập"
     },
     "poolFilters": {
-      "openPools": "Các quỹ đang mở",
-      "myPools": "Các quỹ của tôi"
+      "myPools": "Các quỹ của tôi",
+      "allPools": "All Pools"
     }
   },
   "addFundsActions": {

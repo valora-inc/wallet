@@ -1988,10 +1988,10 @@
     "options": {
       "add": "เพิ่มเงินทุนในกระเป๋าเงิน",
       "dapp": "ค้นหาวิธีใช้คริปโต",
-      "earn": "Explore earning opportunities",
-      "profile": "Build your profile",
+      "earn": "หาโอกาสในการสร้างรายได้",
+      "profile": "สร้างโปรไฟล์ของคุณ",
       "learn": "เรียนรู้เกี่ยวกับ Celo",
-      "learnPoints": "Learn about {{appName}} Points"
+      "learnPoints": "เรียนรู้เกี่ยวกับคะแนน {{appName}}"
     }
   },
   "reverifyUsingCPVHomecard": {
@@ -2202,16 +2202,16 @@
     }
   },
   "jumpstartIntro": {
-    "title": "Share crypto like a text",
+    "title": "แชร์คริปโตได้ง่ายเหมือนแชร์ข้อความ",
     "addFundsCelo": {
-      "title": "Get Assets on Celo",
-      "info": "Live Links are a way to send crypto on the Celo network to a friend with a link.\nTo get started, you’ll need some CELO assets in your wallet.",
-      "description": "Once you’ve added assets on Celo you’ll have to come back to create a Live Link.",
-      "cta": "Get Assets on Celo",
+      "title": "รับสินทรัพย์บน Celo",
+      "info": "ลิงก์สด (Live Link) เป็นช่องทางในการส่งคริปโตบนเครือข่าย Celo ให้กับเพื่อนด้วยลิงก์ \nก่อนอื่นคุณจะต้องมีสินทรัพย์ CELO ในกระเป๋าเงิน",
+      "description": "เมื่อเพิ่มสินทรัพย์บน Celo แล้ว คุณจะต้องกลับมาเพื่อสร้างลิงก์สด",
+      "cta": "รับสินทรัพย์บน Celo",
       "actionDescriptions": {
-        "add": "Buy assets on Celo using one of our trusted providers",
-        "swap": "Swap into an asset on Celo from another asset",
-        "transfer": "Use any Celo compatible wallet or exchange to deposit assets on Celo"
+        "add": "ซื้อสินทรัพย์บน Celo ผ่านหนึ่งในผู้ให้บริการที่น่าเชื่อถือของเรา",
+        "swap": "สว็อปสินทรัพย์บน Celo จากสินทรัพย์อื่น",
+        "transfer": "ใช้กระเป๋าเงินหรือกระดานแลกเปลี่ยนที่ใช้งานร่วมกันได้กับ Celo เพื่อฝากสินทรัพย์บน Celo"
       }
     }
   },
@@ -2464,7 +2464,8 @@
     },
     "disclaimer": {
       "learnMoreCta": "<0>ดูข้อมูลเพิ่มเติม</0>เกี่ยวกับคะแนน {{appName}}",
-      "body": "<0>คะแนนคืออะไร</0>\nคะแนนคือโปรแกรมรอยัลตี้ของ {{appName}} โดยมอบให้แก่ผู้ใช้เมื่อเข้าใช้งานแอปของเรา \n\n<0>คะแนนใช้ทำอะไรได้บ้าง</0>\nคุณสามารถสะสมคะแนนได้ แต่ไม่สามารถนำไปใช้จ่าย เทรด หรือโอนได้\n\n<0>เหตุใดคะแนนจึงอยู่ในกระเป๋าเงิน</0>\nเพราะคะแนนเป็นโทเค็น ซึ่งเป็นของตอบแทนเล็กๆ น้อยๆ ในรูปแบบดิจิทัลที่คุณจะได้รับจากการใช้งานแอปของเรา",
+      "title": "ข้อมูลเพิ่มเติมเกี่ยวกับคะแนน {{appName}}",
+      "body": "คะแนน คือโปรแกรมรอยัลตี้ของ {{appName}} โดยมอบให้สำหรับการใช้แอป ไม่สามารถนำคะแนนมาใช้จ่าย เทรด หรือโอนได้",
       "dismiss": "เข้าใจแล้ว"
     }
   },
@@ -2494,19 +2495,19 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "สร้างรายได้สูงสุดโดยไม่เสียค่าก๊าซ*",
-          "title": "Explore and Compare Pools",
-          "subtitle": "Compare earning potential and risks. Swap, buy, or transfer tokens to join the best pool for you.",
+          "title": "ศึกษาและเปรียบเทียบพูลต่างๆ",
+          "subtitle": "เปรียบเทียบศักยภาพในการสร้างรายได้และความเสี่ยงต่างๆ สว็อป ซื้อ หรือโอนโทเค็นเพื่อเข้าร่วมพูลที่ดีที่สุดสำหรับคุณ",
           "footnoteSubsidy": "*Valora เป็นผู้รับผิดชอบค่าก๊าซชั่วคราว"
         },
         "manage": {
           "title": "จัดการโดยตรงจาก Valora",
-          "titleV1_92": "Manage Directly from {{appName}}",
-          "subtitle": "We'll auto-connect your wallet so you can manage pools without leaving Valora.",
-          "subtitleV1_92": "We'll auto-connect your wallet so you can manage pools without leaving {{appName}}."
+          "titleV1_92": "จัดการโดยตรงจาก {{appName}}",
+          "subtitle": "เราจะเชื่อมต่อกับกระเป๋าเงินของคุณโดยอัตโนมัติ เพื่อให้คุณสามารถจัดการพูลได้โดยไม่ต้องออกจาก Valora",
+          "subtitleV1_92": "เราจะเชื่อมต่อกับกระเป๋าเงินของคุณโดยอัตโนมัติ เพื่อให้คุณสามารถจัดการพูลได้โดยไม่ต้องออกจาก {{appName}}"
         },
         "access": {
           "title": "เข้าถึงเงินทุนของคุณได้ง่ายๆ",
-          "subtitle": "Collect funds with a tap, just like your favorite protocols."
+          "subtitle": "เก็บเงินโดยแตะครั้งเดียวเหมือนกับโปรโตคอลโปรดของคุณ"
         }
       },
       "action": {
@@ -2521,8 +2522,8 @@
     },
     "entrypoint": {
       "title": "สร้างรายได้ผ่าน Stablecoin",
-      "subtitle": "Deposit and earn",
-      "description": "Earn on your stablecoins when you lend through a liquidity pool"
+      "subtitle": "ฝากเงินและสร้างรายได้",
+      "description": "สร้างรายได้จาก Stablecoin เมื่อให้ยืมผ่าน Liquidity Pool"
     },
     "enterAmount": {
       "earnUpToLabel": "คุณสามารถสร้างรายได้สูงถึง:",
@@ -2532,6 +2533,7 @@
       "rate": "{{rate}}% APY",
       "continue": "ดำเนินการต่อ",
       "info": "พูลนี้ดำเนินการโดย Aave",
+      "infoV1_93": "ดำเนินการโดย {{providerName}}",
       "infoBottomSheet": {
         "title": "ทำไมต้องเป็นพูลนี้",
         "description": "พูล Aave นี้มี TVL มูลค่ากว่า $150 ล้านและผู้เข้าร่วมมากกว่า 6,000 ราย ซึ่งแสดงให้เห็นถึงสภาพคล่องที่สูงและความน่าเชื่อถือ นอกจากนี้ยังใช้ USDC เป็นโทเค็นและใช้เครือข่าย Abritrum ที่ช่วยลดความผันผวนและรับประกันได้ว่าผู้ใช้จะได้รับค่าก๊าซในอัตราที่ไม่แพง\n\nทั้งหมดนี้ทำให้พูลนี้เป็นตัวเลือกที่ปลอดภัยและน่าสนใจด้วย APY ที่สูง ช่วยให้ผู้ใช้ของเรามีโอกาสในการลงทุนเพื่อการเติบโต\n\nคุณสามารถสำรวจพูลอื่นของ Aave ได้<0>ที่นี่</0>",
@@ -2552,7 +2554,7 @@
       "viewPools": "ดูพูล",
       "poolsSupplied": "พูลที่เข้าร่วม",
       "totalSupplied": "จำนวนทั้งหมดที่เข้าร่วม",
-      "depositAndEarnings": "Deposit & Earnings",
+      "depositAndEarnings": "ฝากเงินและสร้างรายได้",
       "myPools": "พูลของฉัน",
       "explore": "สำรวจที่เปิดอยู่"
     },
@@ -2610,22 +2612,27 @@
         "apyDescription": "ผลตอบแทนเป็นเปอร์เซ็นต์ต่อปี (APY) คือเมตริกที่ใช้ในการคำนวณผลตอบแทนในรอบปีในการลงทุนคริปโต ซึ่งเป็นตัวชี้วัดที่สำคัญของผลตอบแทนที่อาจได้รับและความสามารถในการทำกำไรได้ของคริปโตเคอร์เรนซี",
         "tvlSubtitle": "TVL คืออะไร",
         "tvlDescription": "TVL ย่อมาจาก Total Value Locked (มูลค่ารวมที่ถูกล็อกไว้) ซึ่งเป็นเมตริกที่ใช้ในวงการคริปโตเพื่อวัดมูลค่าของสินทรัพย์ดิจิทัลที่ถูกล็อกไว้บนเครือข่ายบล็อกเชน TVL จะคำนวณโดยการบวกเพิ่มมูลค่าของสินทรัพย์ดิจิทัลที่ถูกล็อกไว้ในโปรโตคอล DeFi หรือสัญญาอัจฉริยะ ซึ่งสินทรัพย์เหล่านี้อาจรวมถึงคริปโตเคอร์เรนซี, Stablecoin และโทเค็นอื่นๆ"
-      }
+      },
+      "noPoolsTitle": "You haven’t joined any pools yet",
+      "noPoolsDescription": "Discover available pools, pick one that matches your goals, and make the most of your stablecoins."
     },
     "poolCard": {
       "onNetwork": "บน {{networkName}}",
       "rate": "อัตรา (โดยประมาณ)",
+      "yieldRate": "อัตราผลตอบแทน (โดยประมาณ)",
       "reward": "ผลตอบแทน",
       "tvl": "TVL",
       "exitPool": "ออกจากพูล",
       "addToPool": "เพิ่มไปยังพูล",
       "apy": "{{apy}}% APY",
+      "percentage": "{{percentage}}%",
       "poweredBy": "ดำเนินการโดย {{providerName}}",
-      "deposited": "ที่เข้าร่วม"
+      "deposited": "ที่เข้าร่วม",
+      "depositAndEarnings": "ฝากเงินและสร้างรายได้"
     },
     "poolFilters": {
-      "openPools": "พูลที่เปิดอยู่",
-      "myPools": "พูลของฉัน"
+      "myPools": "พูลของฉัน",
+      "allPools": "All Pools"
     }
   },
   "addFundsActions": {

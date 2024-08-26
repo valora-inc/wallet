@@ -9,6 +9,8 @@ import {
   storeItem,
 } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
+import { ViemKeychainAccount, keychainAccountToAccount } from 'src/viem/keychainAccountToAccount'
+import { Hex } from 'viem'
 import { Address, privateKeyToAddress } from 'viem/accounts'
 
 const TAG = 'web3/KeychainLock'
@@ -186,6 +188,7 @@ export class KeychainLock {
       // Number of seconds that the keychain was last unlocked for
       unlockDuration?: number
       account: KeychainAccount
+      viemAccount: ViemKeychainAccount
     }
   > = new Map()
 
@@ -215,7 +218,11 @@ export class KeychainLock {
   }
 
   private addExistingAccount(account: KeychainAccount) {
-    this.locks.set(normalizeAddressWith0x(account.address), { account })
+    const viemAccount = keychainAccountToAccount({
+      address: account.address as Address,
+      isUnlocked: () => this.isUnlocked(account.address),
+    })
+    this.locks.set(normalizeAddressWith0x(account.address), { account, viemAccount })
   }
 
   /**
@@ -228,16 +235,18 @@ export class KeychainLock {
     if (!this.locks.has(normalizedAddress)) {
       return false
     }
-    const account = this.locks.get(normalizedAddress)!.account
+    const { account, viemAccount } = this.locks.get(normalizedAddress)!
     const privateKey = await getStoredPrivateKey(account, passphrase)
     if (!privateKey) {
       return false
     }
     this.locks.set(normalizedAddress, {
       account,
+      viemAccount,
       unlockTime: Date.now(),
       unlockDuration: duration,
     })
+    viemAccount.unlock(privateKey as Hex)
     return true
   }
 
@@ -277,5 +286,10 @@ export class KeychainLock {
     }
     await storePrivateKey(privateKey, account, newPassphrase)
     return true
+  }
+
+  getViemAccount(address: string): ViemKeychainAccount | undefined {
+    const normalizedAddress = normalizeAddressWith0x(address)
+    return this.locks.get(normalizedAddress)?.viemAccount
   }
 }

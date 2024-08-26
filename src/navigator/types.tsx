@@ -10,6 +10,7 @@ import { FiatAccount } from 'src/fiatconnect/slice'
 import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 import { Screens } from 'src/navigator/Screens'
 import { Nft } from 'src/nfts/types'
+import { EarnPosition } from 'src/positions/types'
 import { Recipient } from 'src/recipients/recipient'
 import { QrCode, TransactionDataInput } from 'src/send/types'
 import { AssetTabType } from 'src/tokens/types'
@@ -79,9 +80,7 @@ export type StackParamList = {
   [Screens.Debug]: undefined
   [Screens.DebugImages]: undefined
   [Screens.EarnInfoScreen]: undefined
-  [Screens.EarnEnterAmount]: {
-    tokenId: string
-  }
+  [Screens.EarnEnterAmount]: { pool: EarnPosition }
   [Screens.EarnCollectScreen]: {
     depositTokenId: string
     poolTokenId: string
