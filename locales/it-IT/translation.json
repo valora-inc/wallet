@@ -2640,7 +2640,7 @@
   "addFundsActions": {
     "add": "Acquista",
     "transfer": "Trasferisci",
-    "swap": "Scambio"
+    "swap": "Scambia"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
