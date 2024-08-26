@@ -7,7 +7,7 @@ export interface ViemKeychainAccount extends LocalAccount<'keychain'> {
 
 /**
  * Use our keychain accounts as viem accounts.
- * It is meant to be used with KeychainLock
+ * It is meant to be used with KeychainAccounts.
  */
 export function keychainAccountToAccount({
   address,
@@ -44,7 +44,7 @@ export function keychainAccountToAccount({
   return {
     ...account,
     source: 'keychain',
-    // This is meant to be called by KeychainLock
+    // This is meant to be called by KeychainAccounts
     unlock: (privateKey: Hex) => {
       const privateKeyAccount = privateKeyToAccount(privateKey)
       if (!isAddressEqual(privateKeyAccount.address, address)) {

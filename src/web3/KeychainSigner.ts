@@ -3,7 +3,7 @@ import { EIP712TypedData } from '@celo/utils/lib/sign-typed-data-utils'
 import { LocalSigner } from '@celo/wallet-local'
 import BigNumber from 'bignumber.js'
 import Logger from 'src/utils/Logger'
-import { KeychainAccount, KeychainLock, getStoredPrivateKey } from 'src/web3/KeychainLock'
+import { KeychainAccount, KeychainAccounts, getStoredPrivateKey } from 'src/web3/KeychainAccounts'
 
 const TAG = 'web3/KeychainSigner'
 
@@ -14,7 +14,7 @@ export class KeychainSigner implements Signer {
   protected unlockedLocalSigner: LocalSigner | null = null
   constructor(
     protected account: KeychainAccount,
-    protected lock: KeychainLock
+    protected accounts: KeychainAccounts
   ) {}
 
   async signTransaction(
@@ -48,7 +48,7 @@ export class KeychainSigner implements Signer {
   }
 
   async unlock(passphrase: string, duration: number): Promise<boolean> {
-    const unlocked = await this.lock.unlock(this.account.address, passphrase, duration)
+    const unlocked = await this.accounts.unlock(this.account.address, passphrase, duration)
     if (!unlocked) {
       return false
     }
@@ -69,7 +69,7 @@ export class KeychainSigner implements Signer {
   }
 
   protected get localSigner(): LocalSigner {
-    if (!this.lock.isUnlocked(this.account.address)) {
+    if (!this.accounts.isUnlocked(this.account.address)) {
       this.unlockedLocalSigner = null
     }
     if (!this.unlockedLocalSigner) {

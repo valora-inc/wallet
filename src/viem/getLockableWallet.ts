@@ -1,7 +1,7 @@
 import { Network } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { appViemTransports, viemTransports } from 'src/viem'
-import { KeychainLock } from 'src/web3/KeychainLock'
+import { KeychainAccounts } from 'src/web3/KeychainAccounts'
 import networkConfig from 'src/web3/networkConfig'
 import {
   Account,
@@ -49,15 +49,15 @@ type Actions<
 }
 
 export default function getLockableViemWallet(
-  lock: KeychainLock,
+  accounts: KeychainAccounts,
   chain: Chain,
   address: Address,
   useAppTransport: boolean = false
 ): ViemWallet {
   Logger.debug(TAG, `Getting viem wallet for ${address} on ${chain.name}`)
-  const account = lock.getViemAccount(address)
+  const account = accounts.getViemAccount(address)
   if (!account) {
-    throw new Error(`Account ${address} not found in KeychainLock`)
+    throw new Error(`Account ${address} not found in KeychainAccounts`)
   }
 
   return createWalletClient({
@@ -67,7 +67,7 @@ export default function getLockableViemWallet(
   }).extend((client) => {
     return {
       unlockAccount: (passphrase: string, duration: number) =>
-        lock.unlock(account.address, passphrase, duration),
+        accounts.unlock(account.address, passphrase, duration),
     }
   })
 }

@@ -15,7 +15,7 @@ import { navigateToError } from 'src/navigator/NavigationService'
 import Logger from 'src/utils/Logger'
 import { sleep } from 'src/utils/sleep'
 import getLockableViemWallet, { ViemWallet } from 'src/viem/getLockableWallet'
-import { ImportMnemonicAccount, KeychainLock } from 'src/web3/KeychainLock'
+import { ImportMnemonicAccount, KeychainAccounts } from 'src/web3/KeychainAccounts'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
 import { importDekIfNecessary } from 'src/web3/dataEncryptionKey'
 import { getHttpProvider } from 'src/web3/providers'
@@ -34,12 +34,12 @@ let contractKit: ContractKit | undefined
 const viemWallets = new Map<Chain, ViemWallet>()
 const appViemWallets = new Map<Chain, ViemWallet>()
 
-const keychainLock = new KeychainLock()
+const keychainAccounts = new KeychainAccounts()
 const initContractKitLock = new Lock()
 
 async function initWallet(importMnemonicAccount: ImportMnemonicAccount) {
   AppAnalytics.track(ContractKitEvents.init_contractkit_get_wallet_start)
-  const newWallet = new KeychainWallet(importMnemonicAccount, keychainLock)
+  const newWallet = new KeychainWallet(importMnemonicAccount, keychainAccounts)
   AppAnalytics.track(ContractKitEvents.init_contractkit_get_wallet_finish)
   await newWallet.init()
   AppAnalytics.track(ContractKitEvents.init_contractkit_init_wallet_finish)
@@ -121,7 +121,7 @@ export function* getViemWallet(chain: Chain, useAppTransport?: boolean) {
     throw new Error('Wallet address not found')
   }
   const wallet = getLockableViemWallet(
-    keychainLock,
+    keychainAccounts,
     chain,
     walletAddress as Address,
     useAppTransport
