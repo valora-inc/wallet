@@ -6,7 +6,7 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
-import { useEarnPosition } from 'src/earn/hooks'
+import { getTransactionProviderName } from 'src/earn/hooks'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Colors } from 'src/styles/colors'
@@ -22,7 +22,7 @@ interface DescriptionProps {
 
 function Description({ transaction }: DescriptionProps) {
   const { t } = useTranslation()
-  const providerName = useEarnPosition(transaction.providerId)
+  const providerName = getTransactionProviderName(transaction.providerId)
   let title
   let subtitle
 

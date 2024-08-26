@@ -92,7 +92,7 @@ export function useAaveRewardsInfoAndPrepareTransactions({
   return { asyncRewardsInfo, asyncPreparedTransactions }
 }
 
-export function useEarnPosition(providerId: string) {
+export function getTransactionProviderName(providerId: string) {
   const pools = useSelector(earnPositionsSelector)
   const providerName = pools.find((pool) => pool.appId === providerId)?.appName
   if (!providerName) {
