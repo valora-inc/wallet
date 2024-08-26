@@ -25,7 +25,7 @@ const config = {
         inlineRequires: true,
       },
     }),
-    unstable_allowRequireContext: true,
+    unstable_allowRequireContext: true, // used to enable rendering of all app assets dynamically in debug assets screen
   },
   resolver: {
     assetExts: [...defaultAssetExts, 'txt'],
