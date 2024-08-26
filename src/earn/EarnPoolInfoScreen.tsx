@@ -236,7 +236,7 @@ function LearnMoreTouchable({
 }) {
   const { t } = useTranslation()
   return (
-    <View testID="LearnMoreTouchable" style={styles.learnMoreContainer}>
+    <View style={styles.learnMoreContainer}>
       <Touchable borderRadius={8} onPress={() => navigateToURI(manageUrl)}>
         <View style={styles.learnMoreView}>
           <OpenLinkIcon color={Colors.black} size={24} />
