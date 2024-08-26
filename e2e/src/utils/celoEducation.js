@@ -1,4 +1,5 @@
-import { isElementVisible, sleep } from './utils'
+import { isElementVisible } from './utils'
+import { sleep } from '../../../src/utils/sleep'
 
 export const celoEducation = async () => {
   // Not ideal, but needed to help with flakiness.

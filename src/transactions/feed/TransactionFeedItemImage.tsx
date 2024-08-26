@@ -7,7 +7,7 @@ import CircledIcon from 'src/icons/CircledIcon'
 import EarnCoins from 'src/icons/EarnCoins'
 import GreenLoadingSpinner from 'src/icons/GreenLoadingSpinner'
 import MagicWand from 'src/icons/MagicWand'
-import SwapIcon from 'src/icons/SwapIcon'
+import SwapArrows from 'src/icons/SwapArrows'
 import { Recipient } from 'src/recipients/recipient'
 import Colors from 'src/styles/colors'
 import { NetworkId, TransactionStatus } from 'src/transactions/types'
@@ -46,7 +46,11 @@ function TransactionFeedItemBaseImage(props: Props) {
     return <GreenLoadingSpinner height={AVATAR_SIZE} />
   }
   if (transactionType === 'TokenExchangeV3' || transactionType === 'CrossChainTokenExchange') {
-    return <SwapIcon />
+    return (
+      <CircledIcon backgroundColor={Colors.successLight} radius={AVATAR_SIZE}>
+        <SwapArrows color={Colors.successDark} />
+      </CircledIcon>
+    )
   }
   if (transactionType === 'TokenApproval') {
     return (

@@ -15,7 +15,7 @@ import { getDefaultLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { NetworkId } from 'src/transactions/types'
-import { createMockStore, getMockStackScreenProps, sleep } from 'test/utils'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
   mockCeloAddress,
   mockCeloTokenId,
@@ -440,8 +440,8 @@ describe('ReviewScreen', () => {
       )
 
       expect(queryByTestId('expiredQuoteDialog')?.props.visible).toEqual(false)
-      await sleep(expireMs)
-      await fireEvent.press(getByTestId('submitButton'))
+      await new Promise((resolve) => setTimeout(resolve, expireMs))
+      fireEvent.press(getByTestId('submitButton'))
 
       expect(store.dispatch).not.toHaveBeenCalled()
       expect(queryByTestId('expiredQuoteDialog')?.props.visible).toEqual(true)

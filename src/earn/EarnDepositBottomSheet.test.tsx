@@ -2,19 +2,23 @@ import { fireEvent, render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { EarnEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { EarnEvents } from 'src/analytics/Events'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
-import { PROVIDER_ID } from 'src/earn/constants'
-import { depositStart, fetchPoolInfo } from 'src/earn/slice'
+import { depositStart } from 'src/earn/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
-import { createMockStore, mockStoreBalancesToTokenBalances } from 'test/utils'
-import { mockArbEthTokenId, mockTokenBalances } from 'test/values'
+import { createMockStore } from 'test/utils'
+import {
+  mockArbEthTokenId,
+  mockArbUsdcTokenId,
+  mockEarnPositions,
+  mockTokenBalances,
+} from 'test/values'
 
 jest.mock('src/statsig')
 
@@ -49,14 +53,12 @@ const mockPreparedTransaction: PreparedTransactionsPossible = {
   },
 }
 
-const mockToken = mockStoreBalancesToTokenBalances([mockTokenBalances[mockArbEthTokenId]])[0]
-
 describe('EarnDepositBottomSheet', () => {
   const expectedAnalyticsProperties = {
-    depositTokenId: mockArbEthTokenId,
+    depositTokenId: mockArbUsdcTokenId,
     tokenAmount: '100',
     networkId: NetworkId['arbitrum-sepolia'],
-    providerId: PROVIDER_ID,
+    providerId: mockEarnPositions[0].appId,
   }
 
   beforeEach(() => {
@@ -81,27 +83,25 @@ describe('EarnDepositBottomSheet', () => {
       <Provider
         store={createMockStore({
           tokens: { tokenBalances: mockTokenBalances },
-          earn: { poolInfoFetchStatus: 'loading' },
         })}
       >
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
           amount={new BigNumber(100)}
           preparedTransaction={mockPreparedTransaction}
-          token={mockToken}
-          networkId={NetworkId['arbitrum-sepolia']}
+          pool={mockEarnPositions[0]}
         />
       </Provider>
     )
     expect(getByText('earnFlow.depositBottomSheet.title')).toBeTruthy()
     expect(getByText('earnFlow.depositBottomSheet.description')).toBeTruthy()
 
-    expect(getByTestId('EarnDepositBottomSheet/EarnApyAndAmount/Apy/Loading')).toBeTruthy()
+    expect(getByTestId('EarnDepositBottomSheet/EarnApyAndAmount/Apy')).toBeTruthy()
 
     expect(queryByTestId('EarnDeposit/GasSubsidized')).toBeFalsy()
 
     expect(getByText('earnFlow.depositBottomSheet.amount')).toBeTruthy()
-    expect(getByTestId('EarnDeposit/Amount')).toHaveTextContent('100.00 ETH')
+    expect(getByTestId('EarnDeposit/Amount')).toHaveTextContent('100.00 USDC')
 
     expect(getByText('earnFlow.depositBottomSheet.fee')).toBeTruthy()
     expect(getByTestId('EarnDeposit/Fee')).toHaveTextContent('0.06 ETH')
@@ -127,8 +127,7 @@ describe('EarnDepositBottomSheet', () => {
           forwardedRef={{ current: null }}
           amount={new BigNumber(100)}
           preparedTransaction={mockPreparedTransaction}
-          token={mockToken}
-          networkId={NetworkId['arbitrum-sepolia']}
+          pool={mockEarnPositions[0]}
         />
       </Provider>
     )
@@ -140,13 +139,10 @@ describe('EarnDepositBottomSheet', () => {
     )
     expect(store.getActions()).toEqual([
       {
-        type: fetchPoolInfo.type,
-      },
-      {
         type: depositStart.type,
         payload: {
           amount: '100',
-          tokenId: mockArbEthTokenId,
+          tokenId: mockArbUsdcTokenId,
           preparedTransactions: getSerializablePreparedTransactions(
             mockPreparedTransaction.transactions
           ),
@@ -162,8 +158,7 @@ describe('EarnDepositBottomSheet', () => {
           forwardedRef={{ current: null }}
           amount={new BigNumber(100)}
           preparedTransaction={mockPreparedTransaction}
-          token={mockToken}
-          networkId={NetworkId['arbitrum-sepolia']}
+          pool={mockEarnPositions[0]}
         />
       </Provider>
     )
@@ -182,8 +177,7 @@ describe('EarnDepositBottomSheet', () => {
           forwardedRef={{ current: null }}
           amount={new BigNumber(100)}
           preparedTransaction={mockPreparedTransaction}
-          token={mockToken}
-          networkId={NetworkId['arbitrum-sepolia']}
+          pool={mockEarnPositions[0]}
         />
       </Provider>
     )
@@ -203,8 +197,7 @@ describe('EarnDepositBottomSheet', () => {
           forwardedRef={{ current: null }}
           amount={new BigNumber(100)}
           preparedTransaction={mockPreparedTransaction}
-          token={mockToken}
-          networkId={NetworkId['arbitrum-sepolia']}
+          pool={mockEarnPositions[0]}
         />
       </Provider>
     )
@@ -228,8 +221,7 @@ describe('EarnDepositBottomSheet', () => {
           forwardedRef={{ current: null }}
           amount={new BigNumber(100)}
           preparedTransaction={mockPreparedTransaction}
-          token={mockToken}
-          networkId={NetworkId['arbitrum-sepolia']}
+          pool={mockEarnPositions[0]}
         />
       </Provider>
     )
@@ -252,8 +244,7 @@ describe('EarnDepositBottomSheet', () => {
           forwardedRef={{ current: null }}
           amount={new BigNumber(100)}
           preparedTransaction={mockPreparedTransaction}
-          token={mockToken}
-          networkId={NetworkId['arbitrum-sepolia']}
+          pool={mockEarnPositions[0]}
         />
       </Provider>
     )

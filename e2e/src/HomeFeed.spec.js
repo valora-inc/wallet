@@ -1,5 +1,5 @@
-import { launchApp } from './utils/retries'
-import { quickOnboarding, sleep, waitForElementId } from './utils/utils'
+import { quickOnboarding, waitForElementId } from './utils/utils'
+import { sleep } from '../../src/utils/sleep'
 import jestExpect from 'expect'
 
 beforeAll(async () => {
