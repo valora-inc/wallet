@@ -11,7 +11,7 @@ import { NotificationVariant } from 'src/components/InLineNotification'
 import SectionHead from 'src/components/SectionHead'
 import Toast from 'src/components/Toast'
 import { default as Attention, default as AttentionIcon } from 'src/icons/Attention'
-import LogoHeart from 'src/icons/LogoHeart'
+import LogoHeart from 'src/images/LogoHeart'
 import { HistoryCardMetadata, useGetHistoryDefinition } from 'src/points/cardDefinitions'
 import {
   nextPageUrlSelector,

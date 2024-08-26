@@ -23,9 +23,9 @@ import Touchable from 'src/components/Touchable'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import { refreshAllBalances } from 'src/home/actions'
 import EyeIcon from 'src/icons/EyeIcon'
+import ForwardChevron from 'src/icons/ForwardChevron'
 import HiddenEyeIcon from 'src/icons/HiddenEyeIcon'
 import InfoIcon from 'src/icons/InfoIcon'
-import ProgressArrow from 'src/icons/ProgressArrow'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import {
   getLocalCurrencySymbol,
@@ -249,7 +249,7 @@ export function FiatExchangeTokenBalance() {
           {tokenBalances.length > 1 ? (
             <TouchableOpacity style={styles.row} onPress={onViewBalances} testID="ViewBalances">
               <Text style={styles.exchangeTotalValue}>{t('totalValue')}</Text>
-              <ProgressArrow style={styles.exchangeArrow} height={9.62} color={Colors.gray4} />
+              <ForwardChevron height={9.62} color={Colors.gray4} />
             </TouchableOpacity>
           ) : (
             <Text style={styles.exchangeTotalValue}>{t('totalValue')}</Text>
@@ -297,9 +297,7 @@ const styles = StyleSheet.create({
     ...typeScale.labelSemiBoldSmall,
     color: Colors.gray4,
     paddingRight: 3,
-  },
-  exchangeArrow: {
-    paddingTop: 4,
+    paddingBottom: 4,
   },
   balance: {
     ...typeScale.titleLarge,

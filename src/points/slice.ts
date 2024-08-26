@@ -159,4 +159,6 @@ export const {
 // attach points event data to.
 export const trackPointsEvent = createAction<PointsEvent>('points/trackPointsEvent')
 
+export const pointsDataRefreshStarted = createAction('points/pointsDataRefreshStarted')
+
 export default slice.reducer

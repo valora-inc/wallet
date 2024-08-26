@@ -616,9 +616,9 @@ If they do not have fixes and they do not apply to production, you may ignore th
 
 ### Branding
 
-Images, icons, and links related to the brand are stored in the `branding` folder. When running `yarn install`, the script `scripts/sync_branding.sh` is run to clone these files into the appropriate places in the app.
+Images related to the brand are stored in the `src/images` folder. When adding new images, we also include the 1.5x, 2x, 3x, and 4x versions. The app will automatically download the appropriate size.
 
-When adding new images to the `branding` folder, we also include the 1.5x, 2x, 3x, and 4x versions. The app will automatically download the appropriate size.
+Links related to the brand are stored in the `src/brandingConfig.ts` file.
 
 ### Troubleshooting
 

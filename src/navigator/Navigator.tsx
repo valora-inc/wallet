@@ -20,6 +20,7 @@ import Support from 'src/account/Support'
 import SupportContact from 'src/account/SupportContact'
 import AppLoading from 'src/app/AppLoading'
 import Debug from 'src/app/Debug'
+import DebugImages from 'src/app/DebugImages'
 import ErrorScreen from 'src/app/ErrorScreen'
 import MultichainBeta from 'src/app/MultichainBeta'
 import SanctionedCountryErrorScreen from 'src/app/SanctionedCountryErrorScreen'
@@ -140,6 +141,11 @@ const commonScreens = (Navigator: typeof Stack) => {
         options={UpgradeScreen.navigationOptions}
       />
       <Navigator.Screen name={Screens.Debug} component={Debug} options={noHeader} />
+      <Navigator.Screen
+        name={Screens.DebugImages}
+        component={DebugImages}
+        options={headerWithBackButton}
+      />
       <Navigator.Screen
         name={Screens.WebViewScreen}
         component={WebViewScreen}
@@ -529,7 +535,7 @@ const generalScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen name={Screens.Settings} component={SettingsScreen} options={noHeader} />
     <Navigator.Screen name={Screens.Invite} component={Invite} options={noHeader} />
-    <Navigator.Screen name={Screens.Support} component={Support} options={headerWithBackButton} />
+    <Navigator.Screen name={Screens.Support} component={Support} options={noHeader} />
   </>
 )
 
@@ -607,7 +613,7 @@ const mapStateToProps = (state: RootState) => {
 
 type InitialRouteName = ExtractProps<typeof Stack.Navigator>['initialRouteName']
 
-export function MainStackScreen() {
+function MainStackScreen() {
   const [initialRouteName, setInitialRoute] = React.useState<InitialRouteName>(undefined)
 
   React.useEffect(() => {

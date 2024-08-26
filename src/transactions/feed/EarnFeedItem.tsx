@@ -2,15 +2,13 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { EarnEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { EarnEvents } from 'src/analytics/Events'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
+import { useEarnPositionProviderName } from 'src/earn/hooks'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getDynamicConfigParams } from 'src/statsig'
-import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -24,9 +22,7 @@ interface DescriptionProps {
 
 function Description({ transaction }: DescriptionProps) {
   const { t } = useTranslation()
-  const { providerName } = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG]
-  )
+  const providerName = useEarnPositionProviderName(transaction.providerId)
   let title
   let subtitle
 
@@ -50,9 +46,11 @@ function Description({ transaction }: DescriptionProps) {
       <Text style={styles.title} testID={'EarnFeedItem/title'} numberOfLines={1}>
         {title}
       </Text>
-      <Text style={styles.subtitle} testID={'EarnFeedItem/subtitle'} numberOfLines={1}>
-        {subtitle}
-      </Text>
+      {!!providerName && (
+        <Text style={styles.subtitle} testID={'EarnFeedItem/subtitle'} numberOfLines={1}>
+          {subtitle}
+        </Text>
+      )}
     </View>
   )
 }

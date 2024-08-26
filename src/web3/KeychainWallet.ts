@@ -1,14 +1,14 @@
 import { UnlockableWallet } from '@celo/wallet-base'
 import { RemoteWallet } from '@celo/wallet-remote'
 import Logger from 'src/utils/Logger'
-import { ImportMnemonicAccount, KeychainLock } from 'src/web3/KeychainLock'
+import { ImportMnemonicAccount, KeychainAccounts } from 'src/web3/KeychainAccounts'
 import { KeychainSigner } from 'src/web3/KeychainSigner'
 
 const TAG = 'web3/KeychainWallet'
 
 /**
  * A wallet which uses the OS keychain to store private keys
- * Note: when we finally remove ContractKit, we can replace it with KeychainLock
+ * Note: when we finally remove ContractKit, we can replace it with KeychainAccounts
  */
 export class KeychainWallet extends RemoteWallet<KeychainSigner> implements UnlockableWallet {
   /**
@@ -17,7 +17,7 @@ export class KeychainWallet extends RemoteWallet<KeychainSigner> implements Unlo
    */
   constructor(
     protected importMnemonicAccount: ImportMnemonicAccount,
-    protected lock: KeychainLock
+    protected accounts: KeychainAccounts
   ) {
     super()
   }
@@ -26,19 +26,19 @@ export class KeychainWallet extends RemoteWallet<KeychainSigner> implements Unlo
    * This function does the very critical job of loading in accounts from the Keychain, for instance when the user restarts their app.
    */
   async loadAccountSigners(): Promise<Map<string, KeychainSigner>> {
-    const accounts = await this.lock.loadExistingAccounts(this.importMnemonicAccount)
+    const accounts = await this.accounts.loadExistingAccounts(this.importMnemonicAccount)
     const addressToSigner = new Map<string, KeychainSigner>()
 
     accounts.forEach((account) => {
-      addressToSigner.set(account.address, new KeychainSigner(account, this.lock))
+      addressToSigner.set(account.address, new KeychainSigner(account, this.accounts))
     })
     return addressToSigner
   }
 
   async addAccount(privateKey: string, passphrase: string): Promise<string> {
     Logger.info(`${TAG}@addAccount`, `Adding a new account`)
-    const account = await this.lock.addAccount(privateKey, passphrase)
-    const signer = new KeychainSigner(account, this.lock)
+    const account = await this.accounts.addAccount(privateKey, passphrase)
+    const signer = new KeychainSigner(account, this.accounts)
     this.addSigner(account.address, signer)
     return account.address
   }
@@ -51,7 +51,7 @@ export class KeychainWallet extends RemoteWallet<KeychainSigner> implements Unlo
    */
   async updateAccount(account: string, oldPassphrase: string, newPassphrase: string) {
     Logger.info(`${TAG}@updateAccount`, `Updating ${account}`)
-    return this.lock.updatePassphrase(account, oldPassphrase, newPassphrase)
+    return this.accounts.updatePassphrase(account, oldPassphrase, newPassphrase)
   }
 
   /**
@@ -67,6 +67,6 @@ export class KeychainWallet extends RemoteWallet<KeychainSigner> implements Unlo
   }
 
   isAccountUnlocked(address: string) {
-    return this.lock.isUnlocked(address)
+    return this.accounts.isUnlocked(address)
   }
 }

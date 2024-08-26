@@ -1,41 +1,38 @@
 import BigNumber from 'bignumber.js'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
-import { poolInfoFetchStatusSelector, poolInfoSelector } from 'src/earn/selectors'
-import { fetchPoolInfo } from 'src/earn/slice'
-import { useDispatch, useSelector } from 'src/redux/hooks'
+import { getTotalYieldRate } from 'src/earn/poolInfo'
+import { EarnPosition } from 'src/positions/types'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { TokenBalance } from 'src/tokens/slice'
+import { useTokenInfo } from 'src/tokens/hooks'
 
 export function EarnApyAndAmount({
   tokenAmount,
-  token,
+  pool,
   testIDPrefix = 'Earn',
 }: {
   tokenAmount: BigNumber | null
-  token: TokenBalance
+  pool: EarnPosition
   testIDPrefix?: string
 }) {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
-  const poolInfo = useSelector(poolInfoSelector)
-  const poolInfoFetchStatus = useSelector(poolInfoFetchStatusSelector)
 
-  useEffect(() => {
-    dispatch(fetchPoolInfo())
-  }, [])
+  const apy = getTotalYieldRate(pool)
+  const token = useTokenInfo(pool.dataProps.depositTokenId)
 
-  const apy = poolInfo?.apy
+  if (!token) {
+    // should never happen
+    throw new Error(`Token not found ${pool.dataProps.depositTokenId}`)
+  }
 
-  const apyString = apy ? (apy * 100).toFixed(2) : '--'
+  const apyString = apy.toFixed(2)
   const earnUpTo =
-    apy && tokenAmount?.gt(0) ? tokenAmount.multipliedBy(new BigNumber(apy)) : new BigNumber(0)
+    apy && tokenAmount?.gt(0) ? tokenAmount.multipliedBy(apy).dividedBy(100) : new BigNumber(0)
 
   return (
     <>
@@ -57,21 +54,11 @@ export function EarnApyAndAmount({
         <View style={styles.apy}>
           <TokenIcon token={token} size={IconSize.XSMALL} />
 
-          {poolInfoFetchStatus === 'loading' ? (
-            <SkeletonPlaceholder
-              backgroundColor={Colors.gray2}
-              highlightColor={Colors.white}
-              testID={`${testIDPrefix}/EarnApyAndAmount/Apy/Loading`}
-            >
-              <View style={styles.loadingSkeleton} />
-            </SkeletonPlaceholder>
-          ) : (
-            <Text style={styles.valuesText} testID={`${testIDPrefix}/EarnApyAndAmount/Apy`}>
-              {t('earnFlow.enterAmount.rate', {
-                rate: apyString,
-              })}
-            </Text>
-          )}
+          <Text style={styles.valuesText} testID={`${testIDPrefix}/EarnApyAndAmount/Apy`}>
+            {t('earnFlow.enterAmount.rate', {
+              rate: apyString,
+            })}
+          </Text>
         </View>
       </View>
     </>
@@ -98,11 +85,5 @@ const styles = StyleSheet.create({
   valuesText: {
     ...typeScale.labelSemiBoldSmall,
     marginVertical: Spacing.Tiny4,
-  },
-  loadingSkeleton: {
-    ...typeScale.labelSemiBoldSmall,
-    marginVertical: Spacing.Smallest8,
-    width: 100,
-    borderRadius: 100,
   },
 })

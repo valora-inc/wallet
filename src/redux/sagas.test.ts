@@ -1,6 +1,5 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import { withTimeout } from 'src/redux/sagas-helpers'
-import { sleep } from 'test/utils'
 
 describe('withTimeout Saga', () => {
   test('returns the fn results if no timeout', () =>
@@ -9,7 +8,9 @@ describe('withTimeout Saga', () => {
       .run())
 
   test('returns undefined when times out', async () => {
-    const pro = expectSaga(withTimeout(10, () => sleep(100)))
+    const pro = expectSaga(
+      withTimeout(10, () => new Promise((resolve) => setTimeout(resolve, 100)))
+    )
       .returns(undefined)
       .run()
     jest.runOnlyPendingTimers()
