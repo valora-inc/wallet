@@ -278,7 +278,6 @@
                                 "sendPaymentFailed",
                                 "simplexPurchaseFetchFailed",
                                 "swapScreen.fetchSwapQuoteFailed",
-                                "transactionFailed",
                                 "transactionTimeout"
                             ],
                             "type": "string"
