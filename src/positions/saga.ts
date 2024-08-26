@@ -3,11 +3,12 @@ import path from 'path'
 import { Alert, Platform } from 'react-native'
 import Toast from 'react-native-simple-toast'
 import { showError } from 'src/alert/actions'
-import { BuilderHooksEvents, DappShortcutsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { BuilderHooksEvents, DappShortcutsEvents } from 'src/analytics/Events'
 import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import i18n from 'src/i18n'
+import { currentLanguageSelector } from 'src/i18n/selectors'
 import { isBottomSheetVisible, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import {
@@ -33,6 +34,7 @@ import {
   triggerShortcutSuccess,
 } from 'src/positions/slice'
 import { Position, Shortcut } from 'src/positions/types'
+import { useSelector } from 'src/redux/hooks'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
@@ -84,9 +86,12 @@ async function fetchPositions(hooksApiUrl: string, walletAddress: string) {
     getEarnPositionsUrl.searchParams.append('networkIds', networkId)
   )
 
+  const language = useSelector(currentLanguageSelector)
+  const options: RequestInit = { headers: { 'Accept-Language': language ?? 'en-US' } }
+
   const [walletPositions, earnPositions] = await Promise.all([
-    fetchHooks<Position[]>(getPositionsUrl.toString()),
-    fetchHooks<Position[]>(getEarnPositionsUrl.toString()),
+    fetchHooks<Position[]>(getPositionsUrl.toString(), options),
+    fetchHooks<Position[]>(getEarnPositionsUrl.toString(), options),
   ])
 
   const positionIds = new Set()
