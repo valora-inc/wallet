@@ -73,7 +73,15 @@ async function fetchHooks<T>(
   return json.data as T
 }
 
-async function fetchPositions(hooksApiUrl: string, walletAddress: string, language: string) {
+async function fetchPositions({
+  hooksApiUrl,
+  walletAddress,
+  language,
+}: {
+  hooksApiUrl: string
+  walletAddress: string
+  language: string
+}) {
   const networkIds = getMultichainFeatures().showPositions
 
   const getPositionsUrl = getHooksApiFunctionUrl(hooksApiUrl, 'getPositions')
@@ -166,12 +174,11 @@ export function* fetchPositionsSaga() {
     SentryTransactionHub.startTransaction(SentryTransaction.fetch_positions)
     const hooksApiUrl = yield* select(hooksApiUrlSelector)
     const language = (yield* select(currentLanguageSelector)) || 'en-US'
-    const { positions, earnPositionIds } = yield* call(
-      fetchPositions,
+    const { positions, earnPositionIds } = yield* call(fetchPositions, {
       hooksApiUrl,
-      address,
-      language
-    )
+      walletAddress: address,
+      language,
+    })
     SentryTransactionHub.finishTransaction(SentryTransaction.fetch_positions)
     yield* put(fetchPositionsSuccess({ positions, earnPositionIds, fetchedAt: Date.now() }))
   } catch (err) {
