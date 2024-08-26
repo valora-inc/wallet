@@ -100,6 +100,7 @@ export function getTransactionProviderName(providerId: string) {
     Logger.warn(TAG, 'providerName not found', providerId)
   }
   return providerName
+}
 
 // Helper hook to get position given a positionId. Defaults to the aave position
 // while we're in the interim period of building the multiple pool flow
