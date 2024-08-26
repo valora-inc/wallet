@@ -18,6 +18,7 @@ import Support from 'src/account/Support'
 import SupportContact from 'src/account/SupportContact'
 import AppLoading from 'src/app/AppLoading'
 import Debug from 'src/app/Debug'
+import DebugImages from 'src/app/DebugImages'
 import ErrorScreen from 'src/app/ErrorScreen'
 import MultichainBeta from 'src/app/MultichainBeta'
 import SanctionedCountryErrorScreen from 'src/app/SanctionedCountryErrorScreen'
@@ -138,6 +139,11 @@ const commonScreens = (Navigator: typeof Stack) => {
         options={UpgradeScreen.navigationOptions}
       />
       <Navigator.Screen name={Screens.Debug} component={Debug} options={noHeader} />
+      <Navigator.Screen
+        name={Screens.DebugImages}
+        component={DebugImages}
+        options={headerWithBackButton}
+      />
       <Navigator.Screen
         name={Screens.WebViewScreen}
         component={WebViewScreen}

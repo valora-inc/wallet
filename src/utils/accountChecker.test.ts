@@ -2,11 +2,11 @@ import * as Sentry from '@sentry/react-native'
 import * as Keychain from 'react-native-keychain'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { resetStateOnInvalidStoredAccount } from 'src/utils/accountChecker'
-import { clearStoredAccounts } from 'src/web3/KeychainLock'
+import { clearStoredAccounts } from 'src/web3/KeychainAccounts'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { getMockStoreData } from 'test/utils'
 
-jest.mock('src/web3/KeychainLock')
+jest.mock('src/web3/KeychainAccounts')
 
 const mockedKeychain = jest.mocked(Keychain)
 

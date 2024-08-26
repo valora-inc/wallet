@@ -1989,9 +1989,9 @@
       "add": "添加资金到钱包中",
       "dapp": "查找使用加密货币的方式",
       "earn": "探索赚钱机会",
-      "profile": "建立您的个人档案",
+      "profile": "创建您的个人资料",
       "learn": "了解 Celo",
-      "learnPoints": "了解 {{appName}} 积分"
+      "learnPoints": "进一步了解 {{appName}} 积分"
     }
   },
   "reverifyUsingCPVHomecard": {
@@ -2204,14 +2204,14 @@
   "jumpstartIntro": {
     "title": "像发短信一样分享加密货币",
     "addFundsCelo": {
-      "title": "获取关于 Celo 的资产",
-      "info": "实时链接是一种通过链接向朋友发送 Celo 网络上的加密货币的方式。\n要开始使用，您的钱包中需要一些 CELO 资产。",
+      "title": "在 Celo 上获取资产",
+      "info": "实时链接是一种通过链接向好友发送 Celo 网络上加密货币的方式。\n要开始使用，您的钱包中需要有一些 CELO 资产。",
       "description": "在 Celo 上添加资产后，您必须回来创建实时链接。",
-      "cta": "获取关于 Celo 的资产",
+      "cta": "在 Celo 上获取资产",
       "actionDescriptions": {
-        "add": "使用我们值得信赖的供应商之一在 Celo 上购买资产",
-        "swap": "从 Celo 上的一项资产换入另一项资产",
-        "transfer": "使用任何兼容 Celo 的钱包或交易所在 Celo 上存入资产"
+        "add": "通过我们值得信赖的供应商之一，在 Celo 上购买资产",
+        "swap": "在 Celo 上将一种资产兑换成另一种资产",
+        "transfer": "使用任何与 Celo 兼容的钱包或交易所，在 Celo 上存入资产"
       }
     }
   },
@@ -2464,8 +2464,8 @@
     },
     "disclaimer": {
       "learnMoreCta": "<0>进一步了解</0> {{appName}} 积分",
-      "title": "关于 {{appName}} Points 的更多信息",
-      "body": "积分是 {{appName}}的忠诚度计划。使用应用程序即可获得积分。积分不可消费、交易或转让。",
+      "title": "关于 {{appName}} 积分的更多信息",
+      "body": "积分是 {{appName}} 的忠诚度计划。使用应用程序即可获得积分。积分不可消费、交易或转让。",
       "dismiss": "知道了"
     }
   },
@@ -2496,18 +2496,18 @@
         "earn": {
           "titleGasSubsidy": "实现收入最大化，且无需手续费*",
           "title": "探索和比较泳池",
-          "subtitle": "比较盈利潜力和风险。交换、购买或转让代币，加入最适合您的代币池。",
+          "subtitle": "比较收益潜力和风险。兑换、购买或转移代币，以加入最适合您的池。",
           "footnoteSubsidy": "*手续费目前暂时由 Valora 承担"
         },
         "manage": {
           "title": "直接在 Valora 管理",
           "titleV1_92": "直接在 {{appName}} 管理",
-          "subtitle": "我们将自动连接您的钱包，因此您无需离开 Valora 即可管理泳池。",
-          "subtitleV1_92": "我们将自动连接您的钱包，因此您无需离开 {{appName}}即可管理游泳池。"
+          "subtitle": "我们将自动连接您的钱包，因此您无需离开 Valora 即可管理池。",
+          "subtitleV1_92": "我们将自动连接您的钱包，因此您无需离开 {{appName}} 即可管理池。"
         },
         "access": {
           "title": "轻松获取资金",
-          "subtitle": "只需轻轻一点，就能收集资金，就像您最喜欢的协议一样。"
+          "subtitle": "只需轻轻一按，即可收取资金，就像您最喜欢的协议一样便捷。"
         }
       },
       "action": {
@@ -2522,7 +2522,7 @@
     },
     "entrypoint": {
       "title": "通过稳定币赚取收入",
-      "subtitle": "存款和收入",
+      "subtitle": "存入并赚取收益",
       "description": "通过流动性池出借稳定币，赚取稳定币收益"
     },
     "enterAmount": {
@@ -2533,6 +2533,7 @@
       "rate": "{{rate}}% APY",
       "continue": "继续",
       "info": "此池由 Aave 提供支持",
+      "infoV1_93": "由 {{providerName}} 提供支持",
       "infoBottomSheet": {
         "title": "为什么使用此池？",
         "description": "这个 Aave 池拥有超过 1.5 亿美元的 TVL 和 6000 多名贡献者，这表明此池具有很强的流动性和可信度。此池还使用 USDC 作为代币，并以 Arbitrum 作为网络，从而降低了波动性，确保用户获得低廉的手续费。\n\n结合所有方面来看，此池是一个安全、有吸引力且年利率具有竞争力的选择，确保为我们的用户提供有利的投资机会。\n\n您可以在<0>此处</0>探索其他 Aave 池。",
@@ -2553,7 +2554,7 @@
       "viewPools": "查看各类池",
       "poolsSupplied": "供应池数",
       "totalSupplied": "总供应量",
-      "depositAndEarnings": "存款和收入",
+      "depositAndEarnings": "存款和收益",
       "myPools": "我的池",
       "explore": "探索打开"
     },
@@ -2627,11 +2628,11 @@
       "percentage": "{{percentage}}%",
       "poweredBy": "由 {{providerName}} 提供支持",
       "deposited": "已提供",
-      "depositAndEarnings": "存款和收入"
+      "depositAndEarnings": "存款和收益"
     },
     "poolFilters": {
-      "openPools": "打开池",
-      "myPools": "我的池"
+      "myPools": "我的池",
+      "allPools": "所有泳池"
     }
   },
   "addFundsActions": {

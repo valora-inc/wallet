@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js'
 import aaveIncentivesV3Abi from 'src/abis/AaveIncentivesV3'
 import AavePool from 'src/abis/AavePoolV3'
 import { RewardsInfo } from 'src/earn/types'
+import { EarnPosition } from 'src/positions/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { Network, NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
@@ -94,4 +95,10 @@ export async function fetchAaveRewards({
     Logger.error(TAG, 'Failed to fetch Aave rewards info', err)
     throw err
   }
+}
+
+export function getTotalYieldRate(pool: EarnPosition) {
+  return new BigNumber(
+    pool.dataProps.yieldRates.reduce((acc, yieldRate) => acc + yieldRate.percentage, 0)
+  )
 }

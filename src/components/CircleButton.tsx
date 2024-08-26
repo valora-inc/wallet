@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
-import SmoothX from 'src/icons/SmoothX'
+import Times from 'src/icons/Times'
 import colors from 'src/styles/colors'
 import { iconHitslop } from 'src/styles/variables'
 
@@ -42,7 +42,7 @@ export default class CircleButton extends React.PureComponent<ButtonProps> {
           style={buttonStyle}
           hitSlop={iconHitslop}
         >
-          <SmoothX height={Math.floor(size! * 0.4)} color={xColor} />
+          <Times height={Math.floor(size! * 0.4)} color={xColor} />
         </TouchableOpacity>
       </View>
     )

@@ -2206,14 +2206,14 @@
   "jumpstartIntro": {
     "title": "Comparte cripto como si fuera un texto",
     "addFundsCelo": {
-      "title": "Conseguir Activos en Celo",
-      "info": "Los Enlaces Vivos son una forma de enviar criptomonedas en la red Celo a un amigo con un enlace.\nPara empezar, necesitarás algunos activos CELO en tu cartera.",
-      "description": "Una vez que hayas añadido activos en Celo, tendrás que volver para crear un Enlace Directo.",
-      "cta": "Conseguir Activos en Celo",
+      "title": "Obtén activos en Celo",
+      "info": "Los Enlaces activos son una forma de enviar cripto a un amigo en la red Celo con un enlace.\nPara empezar, necesitarás algunos activos CELO en tu billetera.",
+      "description": "Una vez que hayas agregado activos en Celo, tendrás que volver para crear un Enlace activo.",
+      "cta": "Obtén activos en Celo",
       "actionDescriptions": {
         "add": "Compra activos en Celo utilizando uno de nuestros proveedores de confianza",
-        "swap": "Cambiar a un activo en Celo desde otro activo",
-        "transfer": "Utiliza cualquier monedero o bolsa compatible con Celo para depositar activos en Celo"
+        "swap": "Intercambia a un activo en Celo desde otro activo",
+        "transfer": "Utiliza cualquier billetera o exchange compatible con Celo para depositar activos en Celo"
       }
     }
   },
@@ -2466,8 +2466,8 @@
     },
     "disclaimer": {
       "learnMoreCta": "<0>Más información</0> sobre los puntos {{appName}}",
-      "title": "Más información sobre {{appName}} Puntos",
-      "body": "Los puntos son el programa de fidelidad de {{appName}}. Se conceden por utilizar la aplicación. Los puntos no se pueden gastar, intercambiar ni transferir.",
+      "title": "Más información sobre los Puntos {{appName}}",
+      "body": "Los puntos son el programa de fidelidad de {{appName}}. Se conceden por utilizar la app. Los puntos no se pueden usar, intercambiar ni transferir.",
       "dismiss": "Entendido"
     }
   },
@@ -2535,6 +2535,7 @@
       "rate": "APY ~{{rate}}%",
       "continue": "Continuar",
       "info": "Esta pool es administrada por Aave",
+      "infoV1_93": "Con tecnología de {{providerName}}",
       "infoBottomSheet": {
         "title": "¿Por qué esta pool?",
         "description": "Esta pool de Aave tiene más de $150M de TVL y más de 6.000 contribuyentes, lo que indica una gran liquidez y fiabilidad. También utiliza USDC como token y Abitrum como red, lo que reduce la volatilidad y garantiza que los usuarios recibirán tasas baratas.\n\nTodo ello la convierte en una opción segura y atractiva con un APY competitivo, que garantiza una oportunidad de inversión beneficiosa para nuestros usuarios.\n\nPuedes explorar otros pools de Aave <0>aquí</0>.",
@@ -2632,8 +2633,8 @@
       "depositAndEarnings": "Depósitos y ganancias"
     },
     "poolFilters": {
-      "openPools": "Pools activos",
-      "myPools": "Mis pools"
+      "myPools": "Mis pools",
+      "allPools": "Todas las piscinas"
     }
   },
   "addFundsActions": {

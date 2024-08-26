@@ -1,8 +1,8 @@
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { StyleSheet, Text, TextStyle, View } from 'react-native'
-import DownIndicator from 'src/icons/DownIndicator'
-import UpIndicator from 'src/icons/UpIndicator'
+import DataDown from 'src/icons/DataDown'
+import DataUp from 'src/icons/DataUp'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 
@@ -27,8 +27,8 @@ function PercentageIndicator({
   percentageTextStyle = typeScale.bodySmall,
   suffixText,
   suffixTextStyle = typeScale.bodySmall,
-  DownIcon = DownIndicator,
-  UpIcon = UpIndicator,
+  DownIcon = DataDown,
+  UpIcon = DataUp,
   NoChangeIcon,
 }: Props) {
   const percentage = new BigNumber(currentValue)
