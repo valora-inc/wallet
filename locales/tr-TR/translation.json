@@ -1993,7 +1993,7 @@
       "earn": "Kazanç fırsatlarını keşfedin",
       "profile": "Profilimi oluşturma",
       "learn": "Celo hakkında bilgi edinme",
-      "learnPoints": "{{appName}} Points hakkında bilgi edinin"
+      "learnPoints": "{{appName}} Puanları hakkında daha fazla bilgi edinin"
     }
   },
   "reverifyUsingCPVHomecard": {
@@ -2204,16 +2204,16 @@
     }
   },
   "jumpstartIntro": {
-    "title": "Kriptoyu bir metin gibi paylaşın",
+    "title": "Bir metin gibi kripto paylaşın",
     "addFundsCelo": {
-      "title": "Celo'daki Varlıkları Alın",
-      "info": "Canlı Bağlantılar, Celo ağındaki kriptoyu bir bağlantı ile bir arkadaşınıza göndermenin bir yoludur.\nBaşlamak için cüzdanınızda biraz CELO varlığına ihtiyacınız olacak.",
-      "description": "Celo'ya varlık ekledikten sonra Canlı Bağlantı oluşturmak için geri gelmeniz gerekecektir.",
-      "cta": "Celo'daki Varlıkları Alın",
+      "title": "Celo'da Varlık Alın",
+      "info": "Canlı Bağlantılar, Celo ağındaki kriptoyu bir bağlantı ile bir arkadaşınıza göndermenin bir yoludur.\nBaşlamak için cüzdanınızda biraz CELO varlığına ihtiyacınız vardır.",
+      "description": "Celo'ya varlık ekledikten sonra Canlı Bağlantı oluşturmak için geri gelmeniz gerekir.",
+      "cta": "Celo'da Varlık Alın",
       "actionDescriptions": {
         "add": "Güvenilir sağlayıcılarımızdan birini kullanarak Celo'da varlık satın alın",
-        "swap": "Celo'daki bir varlığı başka bir varlıkla takas etme",
-        "transfer": "Celo'ya varlık yatırmak için Celo uyumlu herhangi bir cüzdan veya borsa kullanın"
+        "swap": "Celo'daki bir varlığı başka bir varlıkla takas edin",
+        "transfer": "Celo'ya varlık yatırmak için Celo uyumlu cüzdan veya borsa kullanın"
       }
     }
   },
@@ -2466,7 +2466,8 @@
     },
     "disclaimer": {
       "learnMoreCta": "{{appName}} Puanları hakkında <0>daha fazla bilgi edinin</0>",
-      "body": "<0>Puanlar Nedir?</0>\nPuanlar {{appName}} uygulamasının sadakat programıdır. Uygulamamızı kullandığınızda kullanıcılara verilir.\n\n<0>Ne işe yararlar?</0>\nPuanları toplarsınız. Bunlar harcanamaz, takas edilemez veya transfer edilemez.\n\n<0>Neden cüzdanımdalar?</0>\nÇünkü onlar token. Zincir üzerinde, uygulamayı kullanarak kazandığınız dijital mutluluk parçaları.",
+      "title": "{{appName}} Puanları hakkında daha fazla bilgi",
+      "body": "Puanlar {{appName}} uygulamasının sadakat programıdır. Uygulamayı kullandığınız için ödüllendirilirsiniz. Puanlar harcanamaz, takas edilemez veya transfer edilemez.",
       "dismiss": "Anladım"
     }
   },
@@ -2502,13 +2503,13 @@
         },
         "manage": {
           "title": "Doğrudan Valora'dan Yönetin",
-          "titleV1_92": "Doğrudan {{appName}}adresinden yönetin",
+          "titleV1_92": "Doğrudan {{appName}} uygulamasından yönetin",
           "subtitle": "Valora'dan ayrılmadan havuzları yönetebilmeniz için cüzdanınızı otomatik olarak bağlayacağız.",
-          "subtitleV1_92": "Cüzdanınızı otomatik olarak bağlayacağız, böylece {{appName}}adresinden ayrılmadan havuzları yönetebilirsiniz."
+          "subtitleV1_92": "{{appName}} uygulamasından ayrılmadan havuzları yönetebilmeniz için cüzdanınızı otomatik olarak bağlayacağız."
         },
         "access": {
           "title": "Fonlarınıza Kolayca Erişin",
-          "subtitle": "Tıpkı favori protokolleriniz gibi bir dokunuşla para toplayın."
+          "subtitle": "Tıpkı favori protokolleriniz gibi bir dokunuşla fonları toplayın."
         }
       },
       "action": {
@@ -2523,8 +2524,8 @@
     },
     "entrypoint": {
       "title": "Sabit coinlerinizden kazanın",
-      "subtitle": "Para yatırın ve kazanın",
-      "description": "Bir likidite havuzu aracılığıyla borç verdiğinizde stablecoinlerinizden kazanın"
+      "subtitle": "Yatırın ve kazanın",
+      "description": "Bir likidite havuzu aracılığıyla ödünç vererek sabit coinlerinizden kazanın"
     },
     "enterAmount": {
       "earnUpToLabel": "Şu kadar kazanabilirsiniz:",
@@ -2534,6 +2535,7 @@
       "rate": "%{{rate}} Yıllık Getiri Oranı (APY)",
       "continue": "İleri",
       "info": "Bu havuz Aave tarafından desteklenmektedir",
+      "infoV1_93": "{{providerName}} tarafından desteklenmektedir",
       "infoBottomSheet": {
         "title": "Neden bu havuz?",
         "description": "Bu Aave havuzu 150 milyon ABD dolarının üzerinde TVL'ye ve 6000'den fazla katılımcıya sahiptir, bu da güçlü likidite ve güvenilirliği gösterir. Ayrıca token olarak USDC ve ağ olarak Arbitrum kullanır, bu da oynaklığı azaltır ve kullanıcıların ucuz gas oranları almasını sağlar.\n\nTüm bunlar bir araya geldiğinde, rekabetçi Yıllık Getiri Oranı ile güvenli ve cazip bir seçenek haline gelir ve kullanıcılarımız için faydalı bir yatırım fırsatı sağlar.\n\nDiğer Aave havuzlarını <0>buradan</0> keşfedebilirsiniz.",
@@ -2554,7 +2556,7 @@
       "viewPools": "Havuzları Görüntüle",
       "poolsSupplied": "Para yatırılan havuzlar",
       "totalSupplied": "Yatırılan toplam",
-      "depositAndEarnings": "Mevduat ve Kazançlar",
+      "depositAndEarnings": "Yatırım ve Kazançlar",
       "myPools": "Havuzlarım",
       "explore": "Açık Havuzları Keşfet"
     },
@@ -2612,7 +2614,9 @@
         "apyDescription": "Yıllık getiri oranı (APY), kripto yatırımlarının yıllık getirisini hesaplamak için kullanılan bir metriktir. Bir kripto paranın potansiyel getirisi ve kârlılığının önemli bir göstergesidir.",
         "tvlSubtitle": "TVL nedir?",
         "tvlDescription": "TVL, Total Value Locked (Kilitli Toplam Değer) anlamına gelir ve kripto sektöründe bir blok zincir ağında kilitli olan dijital varlıkların değerini ölçmek için kullanılan bir metriktir. TVL, bir DeFi protokolünde ya da akıllı kontratta kilitli olan tüm dijital varlıkların değerinin toplanmasıyla hesaplanır. Bu varlıklar arasında kripto paralar, sabit coinler ve diğer tokenlar yer alabilir."
-      }
+      },
+      "noPoolsTitle": "Henüz hiçbir havuza katılmadınız",
+      "noPoolsDescription": "Mevcut havuzları keşfedin, hedeflerinize uygun bir havuz seçin ve sabit coin'lerinizden en iyi şekilde yararlanın."
     },
     "poolCard": {
       "onNetwork": "{{networkName}} üzerinde",
@@ -2623,14 +2627,14 @@
       "exitPool": "Havuzdan Çık",
       "addToPool": "Havuza Ekle",
       "apy": "%{{apy}} Yıllık Getiri Oranı (APY)",
-      "percentage": "{{percentage}}%",
+      "percentage": "%{{percentage}}",
       "poweredBy": "{{providerName}} tarafından desteklenmektedir",
       "deposited": "Yatırılan",
-      "depositAndEarnings": "Mevduat ve Kazançlar"
+      "depositAndEarnings": "Yatırım ve Kazançlar"
     },
     "poolFilters": {
-      "openPools": "Açık Havuzlar",
-      "myPools": "Havuzlarım"
+      "myPools": "Havuzlarım",
+      "allPools": "Tüm Havuzlar"
     }
   },
   "addFundsActions": {

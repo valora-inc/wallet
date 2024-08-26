@@ -12,7 +12,7 @@ import BackupPhraseContainer, {
 import { useAccountKey } from 'src/backup/utils'
 import Button from 'src/components/Button'
 import TextButton from 'src/components/TextButton'
-import Logo from 'src/icons/Logo'
+import Logo from 'src/images/Logo'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'

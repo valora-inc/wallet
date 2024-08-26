@@ -2,16 +2,14 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import * as RNFS from 'react-native-fs'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { saveNameAndPicture } from 'src/account/actions'
-import { nameSelector, pictureSelector } from 'src/account/selectors'
+import { saveName } from 'src/account/actions'
+import { nameSelector } from 'src/account/selectors'
 import { showError, showMessage } from 'src/alert/actions'
 import { SettingsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import TextInput from 'src/components/TextInput'
@@ -19,23 +17,19 @@ import { generateRandomUsername } from 'src/nameGenerator'
 import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import PictureInput from 'src/onboarding/registration/PictureInput'
+import ContactCircleSelf from 'src/components/ContactCircleSelf'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import Logger from 'src/utils/Logger'
-import { saveProfilePicture } from 'src/utils/image'
 import BackButton from 'src/components/BackButton'
 import TextButton from 'src/components/TextButton'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.Profile>
 
-function Profile({ navigation, route }: Props) {
+function Profile({ navigation }: Props) {
   const { t } = useTranslation()
   const [newName, setNewName] = useState(useSelector(nameSelector) ?? '')
-  const picturePath = useSelector(pictureSelector)
-  const [newPictureUri, setNewPictureUri] = useState(picturePath || null)
   const exampleName = useMemo(() => generateRandomUsername(), [])
 
   const dispatch = useDispatch()
@@ -46,31 +40,9 @@ function Profile({ navigation, route }: Props) {
       return
     }
     AppAnalytics.track(SettingsEvents.profile_save)
-    dispatch(saveNameAndPicture(newName, newPictureUri))
-    dispatch(showMessage(t('namePictureSaved')))
+    dispatch(saveName(newName))
+    dispatch(showMessage(t('nameSaved')))
     navigation.goBack()
-
-    // Delete old profile pictures if necessary.
-    if (picturePath && picturePath !== newPictureUri) {
-      RNFS.unlink(picturePath).catch((e) => {
-        Logger.error('Profile', 'Error deleting old profile picture:', e)
-      })
-    }
-  }
-
-  const onPictureChosen = async (pictureDataUrl: string | null) => {
-    if (!pictureDataUrl) {
-      setNewPictureUri(null)
-      AppAnalytics.track(SettingsEvents.profile_photo_removed)
-    } else {
-      try {
-        const newPicturePath = await saveProfilePicture(pictureDataUrl)
-        setNewPictureUri(newPicturePath)
-        AppAnalytics.track(SettingsEvents.profile_photo_chosen)
-      } catch (error) {
-        dispatch(showError(ErrorMessages.PICTURE_LOAD_FAILED))
-      }
-    }
   }
 
   const updateName = (updatedName: string) => {
@@ -86,7 +58,7 @@ function Profile({ navigation, route }: Props) {
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <KeyboardAwareScrollView testID="ProfileScrollView">
         <View style={styles.accountProfile}>
-          <PictureInput picture={newPictureUri} onPhotoChosen={onPictureChosen} />
+          <ContactCircleSelf size={48} />
         </View>
         <Text style={styles.nameLabel}>{t('profileName')}</Text>
         <View style={styles.inputContainer}>
@@ -109,12 +81,6 @@ function Profile({ navigation, route }: Props) {
         </View>
       </KeyboardAwareScrollView>
       <View style={styles.bottomSection}>
-        <View style={styles.disclaimerContainer}>
-          <InLineNotification
-            variant={NotificationVariant.Info}
-            description={t('profileScreen.profilePictureDisclaimer')}
-          />
-        </View>
         <Button
           onPress={onSave}
           text={t('save')}
@@ -174,9 +140,6 @@ const styles = StyleSheet.create({
     ...typeScale.bodyMedium,
     paddingHorizontal: Spacing.Thick24,
     paddingBottom: Spacing.Thick24,
-  },
-  disclaimerContainer: {
-    margin: Spacing.Thick24,
   },
   nameLabel: {
     ...typeScale.labelSemiBoldSmall,

@@ -43,7 +43,7 @@ export default function ProfileSubmenu(props: Props) {
 
   return (
     <SafeAreaView>
-      <CustomHeader left={<BackButton />} style={styles.header} />
+      <CustomHeader left={<BackButton />} title={t('profile')} style={styles.header} />
       <ScrollView>
         <View>
           <SettingsItemTextValue

@@ -33,7 +33,7 @@ export interface WithdrawInfo {
 }
 
 export enum EarnTabType {
-  OpenPools = 0,
+  AllPools = 0,
   MyPools = 1,
 }
 

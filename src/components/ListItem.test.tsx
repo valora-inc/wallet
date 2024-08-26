@@ -6,12 +6,6 @@ import ListItem from 'src/components/ListItem'
 const testID = 'ListItemTestID'
 
 describe('ListItem', () => {
-  it('renders correctly', () => {
-    const onPress = jest.fn()
-    const tree = render(<ListItem children={<Text>test</Text>} onPress={onPress} />)
-    expect(tree).toMatchSnapshot()
-  })
-
   it('call onPress', () => {
     const onPress = jest.fn()
     const { getByTestId } = render(

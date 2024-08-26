@@ -22,9 +22,9 @@ import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomS
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { SWAP_LEARN_MORE } from 'src/config'
+import ArrowDown from 'src/icons/ArrowDown'
 import CircledIcon from 'src/icons/CircledIcon'
 import CrossChainIndicator from 'src/icons/CrossChainIndicator'
-import DownIndicator from 'src/icons/DownIndicator'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -790,7 +790,7 @@ export function SwapScreen({ route }: Props) {
               testID="SwapScreen/SwitchTokens"
             >
               <CircledIcon radius={Spacing.Large32} backgroundColor={colors.black}>
-                <DownIndicator color={colors.white} size={15} />
+                <ArrowDown color={colors.white} />
               </CircledIcon>
             </Touchable>
           </View>
