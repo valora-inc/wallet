@@ -1,6 +1,8 @@
 import { dismissBanners } from '../utils/banners'
 import { reloadReactNative, launchApp } from '../utils/retries'
-import { navigateToSettings, scrollIntoView, sleep, waitForElementByIdAndTap } from '../utils/utils'
+import { navigateToSettings, scrollIntoView, waitForElementByIdAndTap } from '../utils/utils'
+import { sleep } from '../../../src/utils/sleep'
+
 const faker = require('@faker-js/faker')
 
 export default Settings = () => {

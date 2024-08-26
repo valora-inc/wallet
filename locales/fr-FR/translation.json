@@ -2204,16 +2204,16 @@
     }
   },
   "jumpstartIntro": {
-    "title": "Partage la crypto comme un texte",
+    "title": "Envoyez des crypto aussi facilement qu'un SMS",
     "addFundsCelo": {
       "title": "Obtenir des actifs sur Celo",
-      "info": "Les liens vivants sont un moyen d'envoyer de la crypto sur le réseau Celo à un ami à l'aide d'un lien.\nPour commencer, tu auras besoin de quelques actifs CELO dans ton portefeuille.",
-      "description": "Une fois que tu auras ajouté des actifs sur Celo, tu devras revenir pour créer un lien en direct.",
+      "info": "Les Live Links permettent d'envoyer des crypto sur le réseau Celo à un ami à l'aide d'un lien.\nPour commencer, vous avez besoin d'avoir des actifs CELO dans votre portefeuille.",
+      "description": "Une fois que vous aurez ajouté des actifs sur Celo, vous pourrez créer un Live Link.",
       "cta": "Obtenir des actifs sur Celo",
       "actionDescriptions": {
-        "add": "Achète des actifs sur Celo en utilisant l'un de nos fournisseurs de confiance.",
-        "swap": "Swap dans un actif sur Celo à partir d'un autre actif",
-        "transfer": "Utilise n'importe quel portefeuille ou échange compatible avec Celo pour déposer des actifs sur Celo."
+        "add": "Achetez des actifs sur Celo en utilisant un de nos fournisseurs de confiance",
+        "swap": "Échangez d'un actif sur Celo vers un autre",
+        "transfer": "Utilisez n'importe quel portefeuille compatible ou échangez pour déposer des actifs sur Celo"
       }
     }
   },
@@ -2466,7 +2466,8 @@
     },
     "disclaimer": {
       "learnMoreCta": "<0>En savoir plus</0> sur les points avec {{appName}}",
-      "body": "<0>Que sont les Points ?</0>\nLes Points font partie du programme de fidélité de {{appName}}. Ils sont attribués aux utilisateurs qui utilisent notre application.\n\n<0>À quoi servent-ils ?</0>\nAccumulez les Points. Ils ne peuvent pas être ni dépensés, ni échangés ni transférés.\n\n<0>Pourquoi sont-ils dans mon portefeuille ?</0>\nParce que ces Points sont des jetons. Sur la chaîne, ils sont des bits numériques de bonheur que vous gagnez en utilisant l'appli.",
+      "title": "En savoir plus sur les points {{appName}}",
+      "body": "Les points sont le programme de fidélité de {{appName}}. Ils sont attribués pour votre utilisation de l'application. Les points ne peuvent pas être dépensés, échangés ou transférés.",
       "dismiss": "J'ai compris"
     }
   },
@@ -2534,6 +2535,7 @@
       "rate": "{{rate}}% APY",
       "continue": "Continuer",
       "info": "Ce pool est alimenté par Aave",
+      "infoV1_93": "Propulsé par {{providerName}}",
       "infoBottomSheet": {
         "title": "Pourquoi ce pool ?",
         "description": "Ce pool Aave a plus de 150 M$ de TVL et plus de 6 000 contributeurs, ce qui indique une forte liquidité et une grande fiabilité. Il utilise également l'USDC comme jeton et Arbitrum comme réseau, ce qui réduit la volatilité et garantit que les utilisateurs pourront profiter de taux de gaz peu coûteux.\n\nTout cela en fait une option sûre et attrayante avec un APY compétitif, assurant une opportunité d'investissement bénéfique pour nos utilisateurs.\n\nDécouvrez d'autres pools Aave <0>ici</0>.",
@@ -2612,22 +2614,27 @@
         "apyDescription": "Le rendement annuel en pourcentage (APY) est une métrique utilisée pour calculer le rendement annualisé des investissements crypto. C'est un indicateur clé du rendement potentiel d'une crypto-monnaie.",
         "tvlSubtitle": "Qu'est-ce que la TVL ?",
         "tvlDescription": "La valeur totale verrouillée (TVL) est une métrique utilisée pour mesurer la valeur des actifs numériques verrouillés sur un réseau blockchain. La TVL est calculée en additionnant la valeur de tous les actifs numériques verrouillés dans un protocole DeFi ou un contrat intelligent. Ces actifs peuvent inclure des crypto-monnaies, des stablecoins et d'autres jetons."
-      }
+      },
+      "noPoolsTitle": "Tu n'as pas encore rejoint de pools",
+      "noPoolsDescription": "Découvre les pools disponibles, choisis-en un qui correspond à tes objectifs et tire le meilleur parti de tes stablecoins."
     },
     "poolCard": {
       "onNetwork": "sur {{networkName}}",
       "rate": "Taux (est.)",
+      "yieldRate": "Taux de rendement (est.)",
       "reward": "Récompense",
       "tvl": "TVL",
       "exitPool": "Quitter le pool",
       "addToPool": "Ajouter au pool",
       "apy": "{{apy}}% APY",
+      "percentage": "{{percentage}} %",
       "poweredBy": "Propulsé par {{providerName}}",
-      "deposited": "Fourni"
+      "deposited": "Fourni",
+      "depositAndEarnings": "Dépôt et gains"
     },
     "poolFilters": {
-      "openPools": "Pools ouverts",
-      "myPools": "Mes pools"
+      "myPools": "Mes pools",
+      "allPools": "Tous les bassins"
     }
   },
   "addFundsActions": {

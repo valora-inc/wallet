@@ -1539,6 +1539,10 @@ interface JumpstartEventsProperties {
     claimed: boolean
   }
   [JumpstartEvents.jumpstart_claim_status_fetch_error]: JumpstartReclaimProperties
+  [JumpstartEvents.jumpstart_add_assets_show_actions]: undefined
+  [JumpstartEvents.jumpstart_add_assets_action_press]: {
+    action: AddAssetsActionType
+  }
 }
 
 interface PointsEventsProperties {
@@ -1636,10 +1640,9 @@ interface EarnEventsProperties {
   [EarnEvents.earn_info_earn_press]: undefined
   [EarnEvents.earn_active_pools_card_press]: undefined
   [EarnEvents.earn_home_learn_more_press]: undefined
-  [EarnEvents.earn_pool_card_cta_press]: {
+  [EarnEvents.earn_pool_card_press]: {
     tokenAmount: string
     poolId: string
-    action: 'deposit' | 'withdraw'
   } & EarnCommonProperties
 }
 

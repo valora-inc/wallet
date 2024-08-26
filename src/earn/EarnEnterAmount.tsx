@@ -4,10 +4,11 @@ import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { TextInput as RNTextInput, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import FastImage from 'react-native-fast-image'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { EarnEvents, SendEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { EarnEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -29,13 +30,14 @@ import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { EarnPosition } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
 import { AmountInput, ProceedArgs } from 'src/send/EnterAmount'
 import { AmountEnteredIn } from 'src/send/types'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getDynamicConfigParams } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -62,16 +64,17 @@ type ProceedComponentProps = Omit<ProceedArgs, 'tokenAmount'> & {
   disabled: boolean
   tokenAmount: BigNumber | null
   loading: boolean
+  pool: EarnPosition
 }
 
 function EarnEnterAmount({ route }: Props) {
   const { t } = useTranslation()
 
-  const { tokenId } = route.params
-  const token = useTokenInfo(tokenId)
+  const { pool } = route.params
+  const token = useTokenInfo(pool.dataProps.depositTokenId)
 
   if (!token) {
-    throw new Error(`Token info not found for token ID ${tokenId}`)
+    throw new Error(`Token info not found for token ID ${pool.dataProps.depositTokenId}`)
   }
 
   const infoBottomSheetRef = useRef<BottomSheetRefType>(null)
@@ -366,6 +369,7 @@ function EarnEnterAmount({ route }: Props) {
           onPressInfo={onPressInfo}
           disabled={disabled}
           loading={isPreparingTransactions}
+          pool={pool}
         />
         <KeyboardSpacer />
       </KeyboardAwareScrollView>
@@ -380,8 +384,7 @@ function EarnEnterAmount({ route }: Props) {
           forwardedRef={reviewBottomSheetRef}
           preparedTransaction={prepareTransactionsResult}
           amount={tokenAmount}
-          token={token}
-          networkId={token.networkId}
+          pool={pool}
         />
       )}
     </SafeAreaView>
@@ -397,12 +400,14 @@ function EarnProceed({
   onPressProceed,
   onPressInfo,
   loading,
+  pool,
 }: ProceedComponentProps) {
   const { t } = useTranslation()
+  const showMultiplePools = getFeatureGate(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
 
   return (
     <View style={styles.infoContainer}>
-      <EarnApyAndAmount tokenAmount={tokenAmount} token={token} testIDPrefix={'EarnEnterAmount'} />
+      <EarnApyAndAmount tokenAmount={tokenAmount} pool={pool} testIDPrefix={'EarnEnterAmount'} />
       <Button
         onPress={() =>
           tokenAmount && onPressProceed({ tokenAmount, localAmount, token, amountEnteredIn })
@@ -415,14 +420,22 @@ function EarnProceed({
         testID="EarnEnterAmount/Continue"
       />
       <View style={styles.row}>
-        <Text style={styles.infoText}>{t('earnFlow.enterAmount.info')}</Text>
-        <TouchableOpacity
-          onPress={onPressInfo}
-          hitSlop={variables.iconHitslop}
-          testID="EarnEnterAmount/InfoIcon"
-        >
-          <InfoIcon color={Colors.black} />
-        </TouchableOpacity>
+        <FastImage source={{ uri: pool.displayProps.imageUrl }} style={{ width: 16, height: 16 }} />
+        <Text style={styles.infoText}>
+          {t('earnFlow.enterAmount.infoV1_93', { providerName: pool.appName })}
+        </Text>
+        {
+          // only show info icon if we are not showing multiple pools, it's specific to the Aave pool
+          !showMultiplePools && (
+            <TouchableOpacity
+              onPress={onPressInfo}
+              hitSlop={variables.iconHitslop}
+              testID="EarnEnterAmount/InfoIcon"
+            >
+              <InfoIcon color={Colors.black} />
+            </TouchableOpacity>
+          )
+        }
       </View>
     </View>
   )
@@ -492,7 +505,7 @@ const styles = StyleSheet.create({
   },
   infoText: {
     ...typeScale.bodyXSmall,
-    color: Colors.gray4,
+    color: Colors.gray3,
   },
   infoBottomSheetTitle: {
     ...typeScale.titleSmall,

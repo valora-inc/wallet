@@ -4,7 +4,7 @@ import {
   VERIFICATION_PHONE_NUMBER,
 } from 'react-native-dotenv'
 import twilio from 'twilio'
-import { sleep } from './utils'
+import { sleep } from '../../../src/utils/sleep'
 
 const MAX_TRIES = 180
 
