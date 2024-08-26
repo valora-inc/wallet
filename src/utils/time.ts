@@ -72,24 +72,24 @@ function locale(i18next: i18nType) {
   return locales[i18next?.language]?.dateFns ?? locales['en-US']?.dateFns
 }
 
-export function formattedAge(interval: Duration) {
+export function formattedDuration(interval: Duration) {
   const years = interval.years ?? 0
   const months = interval.months ?? 0
   const days = interval.days ?? 0
 
   if (years === 0 && months === 0) {
     if (days === 0) {
-      return i18n.t('time_lessThanADay')
+      return i18n.t('duration', { context: 'lessThanADay' })
     } else {
-      return i18n.t('time', { context: 'day', count: days })
+      return i18n.t('duration', { context: 'day', count: days })
     }
   } else if (years === 0) {
-    return i18n.t('time', { context: 'month', count: months })
+    return i18n.t('duration', { context: 'month', count: months })
   } else {
     if (months === 0) {
-      return i18n.t('time', { context: 'year', count: years })
+      return i18n.t('duration', { context: 'year', count: years })
     } else {
-      return i18n.t('time', { context: 'yearMonth', count: years, count2: months })
+      return i18n.t('duration', { context: 'yearMonth', count: years, count2: months })
     }
   }
 }

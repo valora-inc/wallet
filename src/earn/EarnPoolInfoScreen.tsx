@@ -27,7 +27,7 @@ import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
-import { formattedAge } from 'src/utils/time'
+import { formattedDuration } from 'src/utils/time'
 
 function HeaderTitleSection({
   earnPosition,
@@ -221,7 +221,7 @@ function AgeCard({ ageOfPool, infoIconPress }: { ageOfPool: Date; infoIconPress:
             <InfoIcon size={16} color={Colors.gray3} />
           </Touchable>
         </View>
-        <Text style={styles.cardTitleText}>{formattedAge(dateInterval)}</Text>
+        <Text style={styles.cardTitleText}>{formattedDuration(dateInterval)}</Text>
       </View>
     </Card>
   )
@@ -347,7 +347,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
           {dataProps.contractCreatedAt ? (
             <AgeCard
               // TODO(ACT-1323): Create info bottom sheet
-              ageOfPool={new Date(dataProps.contractCreatedAt)}
+              ageOfPool={new Date(Date.now())}
               infoIconPress={() => Logger.debug('AgeCard Info Icon Pressed!')}
             />
           ) : null}

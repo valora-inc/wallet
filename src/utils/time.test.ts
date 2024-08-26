@@ -4,7 +4,7 @@ import {
   formatFeedDate,
   formatFeedSectionTitle,
   formatFeedTime,
-  formattedAge,
+  formattedDuration,
   timeDeltaInDays,
 } from 'src/utils/time'
 
@@ -67,7 +67,7 @@ describe('utils/time', () => {
       [{ years: 1, months: 0, days: 0 }, 'time, {"context":"year","count":1}'],
       [{ years: 1, months: 1, days: 1 }, 'time, {"context":"yearMonth","count":1,"count2":1}'],
     ])('returns correct age with %p', (interval, expected) => {
-      expect(formattedAge(interval)).toEqual(i18n.t(expected))
+      expect(formattedDuration(interval)).toEqual(i18n.t(expected))
     })
   })
 })
