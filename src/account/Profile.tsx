@@ -102,7 +102,7 @@ Profile.navigationOptions = ({ navigation }: Props) => {
   }
   return {
     ...emptyHeader,
-    headerLeft: () => <BackButton onPress={onBack} />,
+    headerLeft: () => <BackButton onPress={onBack} testID="BackButton" />,
   }
 }
 
