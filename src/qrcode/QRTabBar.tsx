@@ -13,6 +13,7 @@ import { useDispatch } from 'src/redux/hooks'
 import { shareQRCode, SVG } from 'src/send/actions'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 
 type Props = MaterialTopTabBarProps & {
   qrSvgRef: React.MutableRefObject<SVG>
@@ -91,7 +92,7 @@ export default function QRTabBar({
             numberOfLines={1}
             allowFontScaling={false}
           >
-            {state.index === 0 ? t('myCode') : t('scanCode')}
+            {state.index === 0 ? t('walletAddress') : t('scanCode')}
           </Text>
         </View>
       )}
@@ -99,7 +100,7 @@ export default function QRTabBar({
         style={[styles.rightContainer, { opacity: shareOpacity }]}
         pointerEvents={state.index > 0 ? 'none' : undefined}
       >
-        <TopBarIconButton icon={<Share />} onPress={onPressShare} />
+        <TopBarIconButton icon={<Share color={colors.black} />} onPress={onPressShare} />
       </Animated.View>
     </SafeAreaView>
   )
@@ -114,6 +115,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 8,
+    paddingTop: Spacing.Regular16,
   },
   leftContainer: {
     width: 50,

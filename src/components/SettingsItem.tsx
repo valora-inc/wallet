@@ -5,16 +5,19 @@ import TextInput from 'src/components/TextInput'
 import ForwardChevron from 'src/icons/ForwardChevron'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
+import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 
 interface WrapperProps {
   testID?: string
   onPress?: () => void
   children: React.ReactNode
+  borderless?: boolean
 }
 
-function Wrapper({ testID, onPress, children }: WrapperProps) {
+function Wrapper({ testID, onPress, borderless, children }: WrapperProps) {
   return (
-    <ListItem testID={testID} onPress={onPress}>
+    <ListItem testID={testID} onPress={onPress} borderless={borderless}>
       {children}
     </ListItem>
   )
@@ -26,12 +29,14 @@ function Title({ value }: { value: string }) {
 
 type BaseProps = {
   title: string
+  icon?: React.ReactNode
 } & Omit<WrapperProps, 'children'>
 
 type SettingsItemTextValueProps = {
   value?: string | null
   showChevron?: boolean
   isValueActionable?: boolean
+  isExternalLink?: boolean
 } & BaseProps
 
 export function SettingsItemTextValue({
@@ -41,10 +46,14 @@ export function SettingsItemTextValue({
   showChevron,
   onPress,
   isValueActionable,
+  icon,
+  borderless,
+  isExternalLink,
 }: SettingsItemTextValueProps) {
   return (
-    <Wrapper testID={testID} onPress={onPress}>
+    <Wrapper borderless={borderless} testID={testID} onPress={onPress}>
       <View style={styles.container}>
+        {!!icon && <View style={styles.iconContainer}>{icon}</View>}
         <Title value={title} />
         <View style={styles.right}>
           {!!value && (
@@ -56,8 +65,9 @@ export function SettingsItemTextValue({
             </Text>
           )}
           {(!!value || showChevron) && (
-            <ForwardChevron color={isValueActionable ? colors.primary : undefined} />
+            <ForwardChevron height={12} color={isValueActionable ? colors.primary : colors.gray3} />
           )}
+          {isExternalLink && <OpenLinkIcon size={16} color={colors.black} />}
         </View>
       </View>
     </Wrapper>
@@ -178,7 +188,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingRight: 16,
   },
   left: {
     justifyContent: 'center',
@@ -217,5 +226,8 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     paddingVertical: 0,
     color: colors.gray4,
+  },
+  iconContainer: {
+    paddingRight: Spacing.Smallest8,
   },
 })

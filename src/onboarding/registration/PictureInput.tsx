@@ -2,13 +2,10 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 import ImagePicker from 'react-native-image-crop-picker'
-import { currentUserRecipientSelector } from 'src/account/selectors'
-import ContactCircle from 'src/components/ContactCircle'
+import ContactCircleSelf from 'src/components/ContactCircleSelf'
 import OptionsChooser from 'src/components/OptionsChooser'
 import Touchable from 'src/components/Touchable'
 import Edit from 'src/icons/Edit'
-import { Recipient } from 'src/recipients/recipient'
-import { useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
@@ -76,10 +73,7 @@ function PictureInput({ picture, onPhotoChosen }: Props) {
     )
   }
 
-  const recipient: Recipient = {
-    ...useSelector(currentUserRecipientSelector),
-    thumbnailPath: picture || undefined,
-  }
+  const thumbnailPath = picture || undefined
 
   const showRemoveOption = !!picture
   return (
@@ -90,7 +84,7 @@ function PictureInput({ picture, onPhotoChosen }: Props) {
         testID={'PictureInput'}
       >
         <>
-          <ContactCircle size={PICTURE_SIZE} recipient={recipient} />
+          <ContactCircleSelf size={PICTURE_SIZE} thumbnailPath={thumbnailPath} />
           <View style={styles.editIconContainer}>
             <Edit />
           </View>
