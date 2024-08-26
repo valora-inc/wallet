@@ -302,8 +302,6 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
       .filter((token): token is TokenBalance => !!token)
   }, [tokens, allTokens])
 
-  // console.log('Tom - earnPosition.dataProps.yieldRates: ', pool.dataProps.yieldRates)
-
   // Scroll Aware Header
   const scrollPosition = useSharedValue(0)
   const [titleHeight, setTitleHeight] = useState(0)
