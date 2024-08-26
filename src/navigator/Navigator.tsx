@@ -332,11 +332,7 @@ const settingsScreens = (Navigator: typeof Stack) => (
       component={Profile}
     />
     <Navigator.Screen options={noHeader} name={Screens.ProfileSubmenu} component={ProfileSubmenu} />
-    <Navigator.Screen
-      options={headerWithBackButton}
-      name={Screens.LegalSubmenu}
-      component={LegalSubmenu}
-    />
+    <Navigator.Screen options={noHeader} name={Screens.LegalSubmenu} component={LegalSubmenu} />
     <Navigator.Screen
       options={headerWithBackButton}
       name={Screens.PreferencesSubmenu}
