@@ -1691,6 +1691,8 @@ export const mockEarnPositions: EarnPosition[] = [
       depositTokenId: mockArbUsdcTokenId,
       withdrawTokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
       tvl: '1360000',
+      contractCreatedAt: '2024-03-08T02:23:53.000Z',
+      manageUrl: 'https://app.aave.com/?marketName=proto_arbitrum_v3',
     },
     tokens: [
       {
@@ -1736,6 +1738,8 @@ export const mockEarnPositions: EarnPosition[] = [
       earningItems: [],
       depositTokenId: mockEthTokenId,
       withdrawTokenId: 'ethereum-sepolia:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8',
+      contractCreatedAt: '2023-07-04T08:25:48.000Z',
+      manageUrl: 'https://app.aave.com/?marketName=proto_mainnet_v3',
     },
     tokens: [
       {
