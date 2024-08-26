@@ -193,7 +193,7 @@ export default NewAccountPhoneVerification = () => {
 
     // Assert that 'Connect phone number' is present in settings
     await navigateToSettings()
-    await waitFor(element(by.text('Connect phone number')))
+    await waitFor(element(by.text('Connect Phone Number')))
       .toBeVisible()
       .withTimeout(10 * 1000)
   })
