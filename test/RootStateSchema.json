@@ -270,7 +270,6 @@
                                 "missingFullName",
                                 "personaAccountEndpointFail",
                                 "phoneVerificationInput.verificationFailure",
-                                "pictureLoadFailed",
                                 "pinInputCanceled",
                                 "providerFetchFailed",
                                 "qrFailedInvalidAddress",
