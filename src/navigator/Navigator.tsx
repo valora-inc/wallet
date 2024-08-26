@@ -527,7 +527,7 @@ const generalScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen name={Screens.Settings} component={SettingsScreen} options={noHeader} />
     <Navigator.Screen name={Screens.Invite} component={Invite} options={noHeader} />
-    <Navigator.Screen name={Screens.Support} component={Support} options={headerWithBackButton} />
+    <Navigator.Screen name={Screens.Support} component={Support} options={noHeader} />
   </>
 )
 

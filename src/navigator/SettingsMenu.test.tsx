@@ -22,20 +22,20 @@ describe('SettingsMenu', () => {
 
   it('shows the expected menu items', () => {
     const store = createMockStore()
-    const { queryByTestId } = render(
+    const { getByTestId } = render(
       <Provider store={store}>
         <MockedNavigator component={SettingsMenu}></MockedNavigator>
       </Provider>
     )
-    expect(queryByTestId('SettingsMenu/Profile/Username')).toBeTruthy()
-    expect(queryByTestId('SettingsMenu/Address')).toBeTruthy()
-    expect(queryByTestId('SettingsMenu/Invite')).toBeTruthy()
-    expect(queryByTestId('SettingsMenu/Preferences')).toBeTruthy()
-    expect(queryByTestId('SettingsMenu/Security')).toBeTruthy()
-    expect(queryByTestId('SettingsMenu/ConnectedDapps')).toBeTruthy()
-    expect(queryByTestId('SettingsMenu/Help')).toBeTruthy()
-    expect(queryByTestId('SettingsMenu/Legal')).toBeTruthy()
-    expect(queryByTestId('SettingsMenu/Version')).toBeTruthy()
+    expect(getByTestId('SettingsMenu/Profile/Username')).toBeTruthy()
+    expect(getByTestId('SettingsMenu/Address')).toBeTruthy()
+    expect(getByTestId('SettingsMenu/Invite')).toBeTruthy()
+    expect(getByTestId('SettingsMenu/Preferences')).toBeTruthy()
+    expect(getByTestId('SettingsMenu/Security')).toBeTruthy()
+    expect(getByTestId('SettingsMenu/ConnectedDapps')).toBeTruthy()
+    expect(getByTestId('SettingsMenu/Help')).toBeTruthy()
+    expect(getByTestId('SettingsMenu/Legal')).toBeTruthy()
+    expect(getByTestId('SettingsMenu/Version')).toBeTruthy()
   })
   it('does not show username if not set', () => {
     const store = createMockStore({
