@@ -79,33 +79,17 @@ export function formattedAge(interval: Duration) {
 
   if (years === 0 && months === 0) {
     if (days === 0) {
-      return i18n.t('time.lessThanADay')
-    } else if (days === 1) {
-      return i18n.t('time.oneDay')
+      return i18n.t('time_lessThanADay')
     } else {
-      return i18n.t('time.days', { days })
+      return i18n.t('time', { context: 'day', count: days })
     }
   } else if (years === 0) {
-    if (months === 1) {
-      return i18n.t('time.oneMonth')
-    } else {
-      return i18n.t('time.months', { months })
-    }
-  } else if (years === 1) {
-    if (months === 0) {
-      return i18n.t('time.oneYear')
-    } else if (months === 1) {
-      return i18n.t('time.oneYearAndOneMonth')
-    } else {
-      return i18n.t('time.oneYearAndMonths', { months })
-    }
+    return i18n.t('time', { context: 'month', count: months })
   } else {
     if (months === 0) {
-      return i18n.t('time.years', { years })
-    } else if (months === 1) {
-      return i18n.t('time.yearsAndOneMonth', { years })
+      return i18n.t('time', { context: 'year', count: years })
     } else {
-      return i18n.t('time.yearsAndMonths', { years, months })
+      return i18n.t('time', { context: 'yearMonth', count: years, count2: months })
     }
   }
 }
