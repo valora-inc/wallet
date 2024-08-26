@@ -607,7 +607,7 @@ const mapStateToProps = (state: RootState) => {
 
 type InitialRouteName = ExtractProps<typeof Stack.Navigator>['initialRouteName']
 
-export function MainStackScreen() {
+function MainStackScreen() {
   const [initialRouteName, setInitialRoute] = React.useState<InitialRouteName>(undefined)
 
   React.useEffect(() => {

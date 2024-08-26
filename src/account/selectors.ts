@@ -26,9 +26,7 @@ export const defaultCountryCodeSelector = createSelector(
     return defaultCountryCode || inferCountryCode()
   }
 )
-export const userContactDetailsSelector = (state: RootState) => state.account.contactDetails
 export const pincodeTypeSelector = (state: RootState) => state.account.pincodeType
-export const isProfileUploadedSelector = (state: RootState) => state.account.profileUploaded
 
 export const currentUserRecipientSelector = createSelector(
   [currentAccountSelector, nameSelector],
@@ -44,8 +42,6 @@ export const recoveringFromStoreWipeSelector = (state: RootState) =>
   state.account.recoveringFromStoreWipe ?? false
 export const accountToRecoverSelector = (state: RootState) =>
   state.account.accountToRecoverFromStoreWipe
-
-export const backupCompletedSelector = (state: RootState) => state.account.backupCompleted
 
 export const choseToRestoreAccountSelector = (state: RootState) =>
   state.account.choseToRestoreAccount

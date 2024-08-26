@@ -38,7 +38,7 @@ export enum PincodeType {
   PhoneAuth = 'PhoneAuth',
 }
 
-export interface UserContactDetails {
+interface UserContactDetails {
   contactId: string | null
   thumbnailPath: string | null
 }
