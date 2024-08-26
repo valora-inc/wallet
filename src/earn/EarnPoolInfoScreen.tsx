@@ -61,7 +61,7 @@ function TitleSection({
   onLayout?: (event: LayoutChangeEvent) => void
 }) {
   return (
-    <View onLayout={onLayout} style={styles.titleContainer}>
+    <View testID="TitleSection" onLayout={onLayout} style={styles.titleContainer}>
       <TokenIcons tokensInfo={tokensInfo} />
       <Text style={styles.title}>{title}</Text>
       <View style={styles.subtitleContainer}>
@@ -104,8 +104,12 @@ function TokenIcons({
   )
 }
 
-function Card({ children }: { children: React.ReactNode }) {
-  return <View style={styles.card}>{children}</View>
+function Card({ children, testID }: { children: React.ReactNode; testID: string }) {
+  return (
+    <View testID={testID} style={styles.card}>
+      {children}
+    </View>
+  )
 }
 
 function YieldCard({
@@ -123,7 +127,7 @@ function YieldCard({
     .reduce((acc, rate) => acc + rate, 0)
 
   return (
-    <Card>
+    <Card testID="YieldCard">
       <View style={styles.cardLineContainer}>
         <View style={styles.cardLineLabel}>
           <Text numberOfLines={1} style={styles.cardTitleText}>
@@ -183,7 +187,7 @@ function TvlCard({
   }, [localCurrencySymbol, tvlInFiat])
 
   return (
-    <Card>
+    <Card testID="TvlCard">
       <View style={styles.cardLineContainer}>
         <View style={styles.cardLineLabel}>
           <Text numberOfLines={1} style={styles.cardTitleText}>
@@ -207,7 +211,7 @@ function AgeCard({ ageOfPool, infoIconPress }: { ageOfPool: Date; infoIconPress:
   })
 
   return (
-    <Card>
+    <Card testID="AgeCard">
       <View style={styles.cardLineContainer}>
         <View style={styles.cardLineLabel}>
           <Text numberOfLines={1} style={styles.cardTitleText}>
@@ -232,7 +236,7 @@ function LearnMoreTouchable({
 }) {
   const { t } = useTranslation()
   return (
-    <View style={styles.learnMoreContainer}>
+    <View testID="LearnMoreTouchable" style={styles.learnMoreContainer}>
       <Touchable borderRadius={8} onPress={() => navigateToURI(manageUrl)}>
         <View style={styles.learnMoreView}>
           <OpenLinkIcon color={Colors.black} size={24} />
@@ -297,6 +301,8 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
       .map((token) => allTokens[token.tokenId])
       .filter((token): token is TokenBalance => !!token)
   }, [tokens, allTokens])
+
+  // console.log('Tom - earnPosition.dataProps.yieldRates: ', pool.dataProps.yieldRates)
 
   // Scroll Aware Header
   const scrollPosition = useSharedValue(0)
