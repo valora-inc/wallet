@@ -16,7 +16,7 @@ interface Props {
 export default function AccountCircleButton({ testID, size, style }: Props) {
   const onPress = () => {
     AppAnalytics.track(HomeEvents.account_circle_tapped)
-    navigate(Screens.SettingsMenu)
+    navigate(Screens.ProfileMenu)
   }
 
   return (
