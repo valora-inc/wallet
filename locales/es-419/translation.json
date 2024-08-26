@@ -2204,16 +2204,16 @@
     }
   },
   "jumpstartIntro": {
-    "title": "Comparte cripto como si fuera un texto",
+    "title": "Envía cripto como un mensaje de texto",
     "addFundsCelo": {
-      "title": "Obtén activos en Celo",
-      "info": "Los Enlaces activos son una forma de enviar cripto a un amigo en la red Celo con un enlace.\nPara empezar, necesitarás algunos activos CELO en tu billetera.",
-      "description": "Una vez que hayas agregado activos en Celo, tendrás que volver para crear un Enlace activo.",
+      "title": "Obtén activos Celo",
+      "info": "Los enlaces activos son una forma de enviar cripto en la red Celo con un enlace.\nPara empezar, necesitarás tener activos CELO en tu wallet.",
+      "description": "Una vez que hayas agregado activos Celo, vuelve a esta pantalla para crear un enlace.",
       "cta": "Obtén activos en Celo",
       "actionDescriptions": {
-        "add": "Compra activos en Celo utilizando uno de nuestros proveedores de confianza",
-        "swap": "Intercambia a un activo en Celo desde otro activo",
-        "transfer": "Utiliza cualquier billetera o exchange compatible con Celo para depositar activos en Celo"
+        "add": "Compra activos Celo a uno de nuestros proveedores de confianza",
+        "swap": "Cambia activos en otras redes por uno en Celo",
+        "transfer": "Utiliza una wallet o exchange compatible para depositar activos Celo"
       }
     }
   },
@@ -2466,8 +2466,8 @@
     },
     "disclaimer": {
       "learnMoreCta": "<0>Más información</0> sobre los puntos {{appName}}",
-      "title": "Más información sobre los Puntos {{appName}}",
-      "body": "Los puntos son el programa de fidelidad de {{appName}}. Se conceden por utilizar la app. Los puntos no se pueden usar, intercambiar ni transferir.",
+      "title": "Más información sobre los puntos {{appName}}",
+      "body": "Los puntos son el programa de fidelidad de {{appName}}, se ganan solo por utilizar la app. Los puntos son exclusivos y no se pueden transferir ni vender.",
       "dismiss": "Entendido"
     }
   },
@@ -2640,7 +2640,7 @@
   "addFundsActions": {
     "add": "Comprar",
     "transfer": "Transferir",
-    "swap": "Cambio"
+    "swap": "Cambiar"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
