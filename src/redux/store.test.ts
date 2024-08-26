@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 225,
+          "version": 226,
         },
         "account": {
           "acceptedTerms": false,
@@ -121,7 +121,6 @@ describe('store state', () => {
           "hasMigratedToNewBip39": false,
           "name": "John Doe",
           "photosNUXClicked": false,
-          "pictureUri": null,
           "pincodeType": "Unset",
           "profileUploaded": false,
           "recoveringFromStoreWipe": false,

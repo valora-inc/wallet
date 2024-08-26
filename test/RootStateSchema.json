@@ -5532,12 +5532,6 @@
                 "photosNUXClicked": {
                     "type": "boolean"
                 },
-                "pictureUri": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
                 "pincodeType": {
                     "$ref": "#/definitions/PincodeType"
                 },
@@ -5570,7 +5564,6 @@
                 "hasMigratedToNewBip39",
                 "name",
                 "photosNUXClicked",
-                "pictureUri",
                 "pincodeType",
                 "recoveryPhraseInOnboardingStatus"
             ],
