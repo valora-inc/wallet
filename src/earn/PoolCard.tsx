@@ -93,7 +93,6 @@ export default function PoolCard({
       providerId: appId,
     })
     navigate(Screens.EarnPoolInfoScreen, { pool })
-    // TODO(ACT-1321): Navigate to pool details screen
   }
 
   return (
