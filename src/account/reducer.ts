@@ -150,6 +150,11 @@ export const reducer = (
         ...state,
         name: action.name,
       }
+    case Actions.SAVE_NAME:
+      return {
+        ...state,
+        name: action.name,
+      }
     case AppActions.PHONE_NUMBER_VERIFICATION_COMPLETED:
     case Actions.SET_PHONE_NUMBER:
       if (!isE164NumberStrict(action.e164PhoneNumber)) {
