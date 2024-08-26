@@ -74,5 +74,6 @@ export function usePrepareSendTransactions() {
     refreshPreparedTransactions: prepareTransactions.execute,
     clearPreparedTransactions: prepareTransactions.reset,
     prepareTransactionError: prepareTransactions.error,
+    prepareTransactionsLoading: prepareTransactions.loading,
   }
 }

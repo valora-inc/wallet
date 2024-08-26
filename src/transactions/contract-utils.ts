@@ -31,10 +31,6 @@ export interface TxPromises {
   confirmation: Promise<boolean>
 }
 
-export function awaitConfirmation(txPromises: TxPromises) {
-  return txPromises.confirmation
-}
-
 export type SendTransaction<T> = (tx: CeloTxObject<T>, account: string, txId?: string) => Promise<T>
 
 export enum SendTransactionLogEventType {

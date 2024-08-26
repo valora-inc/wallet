@@ -3,6 +3,7 @@ import { RouteProp } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
+import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, BackHandler, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import AppAnalytics from 'src/analytics/AppAnalytics'
@@ -14,8 +15,6 @@ import { FormatType } from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
 import LineItemRow from 'src/components/LineItemRow'
 import Touchable from 'src/components/Touchable'
-import { FeeEstimateState, FeeType, estimateFee } from 'src/fees/reducer'
-import { feeEstimatesSelector } from 'src/fees/selectors'
 import { CryptoAmount, FiatAmount } from 'src/fiatExchanges/amount'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
@@ -35,15 +34,51 @@ import { navigate, navigateBack, navigateHome } from 'src/navigator/NavigationSe
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
+import { prepareSendTransactionsCallback } from 'src/send/usePrepareSendTransactions'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { useLocalToTokenAmount, useTokenInfo } from 'src/tokens/hooks'
-import { tokensListWithAddressSelector } from 'src/tokens/selectors'
+import { useTokenInfo } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
-import networkConfig from 'src/web3/networkConfig'
+import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
+import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectReview>
+
+const usePrepareFiatConnectOutTransactions = ({
+  transferAddress,
+  transferAmount,
+  token,
+  tokenId,
+}: {
+  transferAddress?: string
+  transferAmount: string
+  token?: TokenBalance
+  tokenId: string
+}) => {
+  const walletAddress = useSelector(walletAddressSelector)
+
+  return useAsync(async () => {
+    if (!walletAddress) {
+      throw new Error('Missing wallet address')
+    }
+    if (!token) {
+      throw new Error(`Missing token info for token id ${tokenId}`)
+    }
+    if (!transferAddress) {
+      throw new Error('Missing transfer address')
+    }
+
+    return prepareSendTransactionsCallback({
+      amount: new BigNumber(transferAmount),
+      token,
+      recipientAddress: transferAddress,
+      walletAddress,
+      feeCurrencies: [token], // according to the FC spec, the fee currency is paid in the same token as the cash out token
+    })
+  }, [])
+}
 
 export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const { t } = useTranslation()
@@ -61,24 +96,20 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
     [normalizedQuote, defaultLocaleCurrencyCode]
   )
 
-  const feeType = FeeType.SEND
-  const tokenList: TokenBalance[] = useSelector(tokensListWithAddressSelector)
-  const cryptoType = normalizedQuote.getCryptoType()
-  const tokenAddress = tokenList.find((token) => token.symbol === cryptoType)?.address
-  const feeEstimates = useSelector(feeEstimatesSelector)
-  const feeEstimate = tokenAddress ? feeEstimates[tokenAddress]?.[feeType] : undefined
-  const usdTokenInfo = useTokenInfo(networkConfig.cusdTokenId)!
-  const networkFee =
-    useLocalToTokenAmount(
-      feeEstimate?.usdFee ? new BigNumber(feeEstimate?.usdFee) : new BigNumber(0),
-      usdTokenInfo.tokenId
-    ) ?? new BigNumber(0)
+  const tokenId = normalizedQuote.getTokenId()
+  const token = useTokenInfo(tokenId)
 
-  useEffect(() => {
-    if (!feeEstimate && tokenAddress) {
-      dispatch(estimateFee({ feeType, tokenAddress }))
-    }
-  }, [feeEstimate, tokenAddress])
+  const transferResult = useAsync(async () => {
+    return normalizedQuote.getTransferResult(flow, fiatAccount.fiatAccountId)
+  }, [flow, normalizedQuote, fiatAccount.fiatAccountId])
+
+  const prepareTransactionsResult = usePrepareFiatConnectOutTransactions({
+    transferAddress: transferResult.result?.transferAddress,
+    transferAmount: normalizedQuote.getCryptoAmount(),
+    tokenId: normalizedQuote.getTokenId(),
+    token,
+  })
+  const networkFee = getFeeCurrencyAndAmounts(prepareTransactionsResult.result)
 
   useEffect(() => {
     if (shouldRefetchQuote) {
@@ -238,12 +269,17 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
         {t('fiatConnectReviewScreen.quoteExpiredDialog.body')}
       </Dialog>
       <View>
-        <ReceiveAmount flow={flow} normalizedQuote={normalizedQuote} networkFee={networkFee} />
-        <TransactionDetails
-          feeEstimate={feeEstimate}
+        <ReceiveAmount
           flow={flow}
           normalizedQuote={normalizedQuote}
-          networkFee={networkFee}
+          networkFee={networkFee.maxFeeAmount}
+        />
+        <TransactionDetails
+          flow={flow}
+          normalizedQuote={normalizedQuote}
+          networkFee={networkFee.maxFeeAmount}
+          isLoading={prepareTransactionsResult.loading}
+          hasError={!!prepareTransactionsResult.error}
         />
         <PaymentMethod flow={flow} normalizedQuote={normalizedQuote} fiatAccount={fiatAccount} />
       </View>
@@ -254,7 +290,9 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
           style={styles.submitBtn}
           type={BtnTypes.PRIMARY}
           size={BtnSizes.FULL}
-          disabled={!feeEstimate?.feeInfo && flow === CICOFlow.CashOut} // Cash out requires fee info
+          disabled={
+            flow === CICOFlow.CashOut && prepareTransactionsResult.result?.type !== 'possible'
+          } // Cash out requires sending a prepared transaction
           text={
             flow === CICOFlow.CashIn
               ? t('fiatConnectReviewScreen.cashIn.button')
@@ -274,7 +312,15 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
                   flow,
                   fiatConnectQuote: normalizedQuote,
                   fiatAccountId: fiatAccount.fiatAccountId,
-                  feeInfo: feeEstimate?.feeInfo,
+                  serializablePreparedTransaction:
+                    prepareTransactionsResult.result?.type === 'possible'
+                      ? getSerializablePreparedTransaction(
+                          prepareTransactionsResult.result.transactions[0] // there should be only one transaction
+                        )
+                      : undefined,
+                  networkId: token?.networkId,
+                  transferAddress: transferResult.result?.transferAddress,
+                  transferId: transferResult.result?.transferId,
                 })
               )
 
@@ -298,7 +344,7 @@ function ReceiveAmount({
 }: {
   flow: CICOFlow
   normalizedQuote: FiatConnectQuote
-  networkFee: BigNumber
+  networkFee?: BigNumber
 }) {
   const { t } = useTranslation()
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
@@ -326,13 +372,13 @@ function getDisplayAmounts({
   flow,
   normalizedQuote,
   usdToLocalRate,
-  networkFee,
+  networkFee = new BigNumber(0),
   tokenInfo,
 }: {
   flow: CICOFlow
   normalizedQuote: FiatConnectQuote
   usdToLocalRate: string | null
-  networkFee: BigNumber
+  networkFee?: BigNumber
   tokenInfo: TokenBalance | undefined
 }) {
   const fiatType = normalizedQuote.getFiatType()
@@ -415,12 +461,16 @@ function TransactionDetails({
   flow,
   normalizedQuote,
   networkFee,
-  feeEstimate,
+  isLoading,
+  hasError,
+  // feeEstimate,
 }: {
   flow: CICOFlow
   normalizedQuote: FiatConnectQuote
-  networkFee: BigNumber
-  feeEstimate: FeeEstimateState | undefined
+  networkFee?: BigNumber
+  isLoading: boolean
+  hasError: boolean
+  // feeEstimate: FeeEstimateState | undefined
 }) {
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   const tokenInfo = useTokenInfo(normalizedQuote.getTokenId())
@@ -452,8 +502,8 @@ function TransactionDetails({
       tokenDisplay = t('total')
   }
   // Network fee is only relevant for Cash Out
-  const feeHasError = flow === CICOFlow.CashOut && feeEstimate?.error
-  const feeIsLoading = flow === CICOFlow.CashOut && feeEstimate?.loading
+  const feeHasError = flow === CICOFlow.CashOut && hasError
+  const feeIsLoading = flow === CICOFlow.CashOut && isLoading
   return (
     <View style={styles.sectionContainer}>
       <Text style={styles.sectionHeaderText}>

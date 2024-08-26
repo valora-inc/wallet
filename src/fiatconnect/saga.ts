@@ -8,19 +8,17 @@ import {
   GetFiatAccountsResponse,
   PostFiatAccountRequestBody,
   PostFiatAccountResponse,
-  TransferResponse,
 } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import { KycStatus as PersonaKycStatus } from 'src/account/reducer'
 import { showError, showMessage } from 'src/alert/actions'
-import { FiatExchangeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { FiatExchangeEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
   fiatConnectCashInEnabledSelector,
   fiatConnectCashOutEnabledSelector,
 } from 'src/app/selectors'
-import { FeeInfo } from 'src/fees/saga'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import { CICOFlow } from 'src/fiatExchanges/utils'
@@ -72,17 +70,19 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { UserLocationData } from 'src/networkInfo/saga'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
-import { buildAndSendPayment } from 'src/send/saga'
-import { tokensListWithAddressSelector } from 'src/tokens/selectors'
-import { TokenBalanceWithAddress } from 'src/tokens/slice'
+import { tokensByIdSelector } from 'src/tokens/selectors'
+import { BaseStandbyTransaction } from 'src/transactions/actions'
 import { isTxPossiblyPending } from 'src/transactions/send'
-import { newTransactionContext } from 'src/transactions/types'
+import { NetworkId, TokenTransactionTypeV2, newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
+import { publicClient } from 'src/viem'
+import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
+import { sendPreparedTransactions } from 'src/viem/saga'
+import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, delay, put, race, select, spawn, take, takeLeading } from 'typed-redux-saga'
-import { v4 as uuidv4 } from 'uuid'
 
 const TAG = 'FiatConnectSaga'
 
@@ -904,133 +904,127 @@ export function* handleFetchFiatConnectProviders() {
 }
 
 /**
- * Initiates a fiatconnect transfer using the fiatconnect SDK to call a transfer/out or transfer/in endpoint
- * for a provider.
- **/
-export function* _initiateTransferWithProvider({
-  payload: params,
-}: ReturnType<typeof createFiatConnectTransfer>) {
-  const { flow, fiatConnectQuote, fiatAccountId } = params
-  const quoteId = fiatConnectQuote.getQuoteId()
-  const transferFnName = flow === CICOFlow.CashIn ? 'transferIn' : 'transferOut'
-  Logger.info(TAG, `Starting ${transferFnName} ..`)
-  const fiatConnectClient = yield* call(
-    getFiatConnectClient,
-    fiatConnectQuote.getProviderId(),
-    fiatConnectQuote.getProviderBaseUrl(),
-    fiatConnectQuote.getProviderApiKey()
-  )
-  const result: Result<TransferResponse, ResponseError> = yield* call(
-    [fiatConnectClient, transferFnName],
-    {
-      idempotencyKey: uuidv4(),
-      data: { quoteId, fiatAccountId },
-    }
-  )
-  if (result.isErr) {
-    AppAnalytics.track(FiatExchangeEvents.cico_fc_transfer_api_error, {
-      flow,
-      fiatConnectError: result.error.fiatConnectError,
-      error: result.error.message,
-      provider: fiatConnectQuote.getProviderId(),
-    })
-    throw result.error
-  }
-  const transferResult = result.unwrap()
-
-  Logger.info(TAG, `${transferFnName} succeeded`, transferResult)
-  return transferResult
-}
-
-/**
  * Initiates a transaction on-chain to send funds to a specific address. This is intended to be used for
  * cashing out after a transfer has been initiated with a provider
  **/
 export function* _initiateSendTxToProvider({
+  networkId,
   transferAddress,
   fiatConnectQuote,
-  feeInfo,
+  serializablePreparedTransaction,
 }: {
+  networkId: NetworkId
   transferAddress: string
   fiatConnectQuote: FiatConnectQuote
-  feeInfo: FeeInfo
+  serializablePreparedTransaction: SerializableTransactionRequest
 }) {
   Logger.info(TAG, 'Starting transfer out transaction..')
 
-  const tokenList: TokenBalanceWithAddress[] = yield* select(tokensListWithAddressSelector)
-  const cryptoType = fiatConnectQuote.getCryptoType()
-  const tokenInfo = tokenList.find((token) => token.symbol === cryptoType)
+  const tokenList = yield* select(tokensByIdSelector, [networkId])
+  const tokenId = fiatConnectQuote.getTokenId()
+  const tokenInfo = tokenList[tokenId]
   if (!tokenInfo) {
-    // case where none of the tokens in tokenList, which should be from firebase and in sync with this https://github.com/valora-inc/address-metadata/blob/main/src/data/mainnet/tokens-info.json
-    //  match with FiatConnect quote cryptoType, which should be from here https://github.com/fiatconnect/specification/blob/main/fiatconnect-api.md#922-cryptotypeenum
     throw new Error(
-      `No matching symbol found for cryptoType ${cryptoType}. Cannot send crypto to provider.`
+      `No matching token info found for tokenId ${tokenId}. Cannot send crypto to provider.`
     )
   }
 
   const context = newTransactionContext(TAG, 'Send crypto to provider for transfer out')
-
-  const { error, receipt } = yield* call(
-    buildAndSendPayment,
+  const createStandbyTransaction = (
+    transactionHash: string,
+    feeCurrencyId?: string
+  ): BaseStandbyTransaction => ({
+    __typename: 'TokenTransferV3',
+    type: TokenTransactionTypeV2.Sent,
     context,
-    transferAddress,
-    new BigNumber(fiatConnectQuote.getCryptoAmount()),
-    tokenInfo.address,
-    '',
-    feeInfo
-  )
-  if (receipt) {
-    Logger.info(
-      TAG,
-      `Completed transfer out transaction.. transactionHash: ${receipt.transactionHash}`
-    )
-    return receipt.transactionHash
-  }
-  const err = ensureError(error)
-  AppAnalytics.track(FiatExchangeEvents.cico_fc_transfer_tx_error, {
-    flow: CICOFlow.CashOut,
-    error: err.message,
-    transferAddress: transferAddress,
-    provider: fiatConnectQuote.getProviderId(),
+    networkId: tokenInfo.networkId,
+    amount: {
+      value: new BigNumber(fiatConnectQuote.getCryptoAmount()).negated().toString(),
+      tokenAddress: tokenInfo.address ?? undefined,
+      tokenId: tokenInfo.tokenId,
+    },
+    address: transferAddress,
+    metadata: {},
+    transactionHash,
+    feeCurrencyId,
   })
-  // If we've timed out, or the error is deemed unsafe to retry,
-  // it's possible that the transaction is already processing. Note that
-  // this check is not perfect; there may be false positives/negatives.
-  throw new FiatConnectTxError(
-    'Error while attempting to send funds for FiatConnect transfer out',
-    isTxPossiblyPending(err),
-    err
-  )
+
+  try {
+    const [hash] = yield* call(
+      sendPreparedTransactions,
+      [serializablePreparedTransaction],
+      tokenInfo.networkId,
+      [createStandbyTransaction]
+    )
+
+    const receipt = yield* call(
+      [publicClient[networkIdToNetwork[tokenInfo.networkId]], 'waitForTransactionReceipt'],
+      { hash }
+    )
+    Logger.debug(`${TAG}/sendPaymentSaga`, 'Got send transaction receipt', receipt)
+    if (receipt.status === 'reverted') {
+      throw new Error(`Send transaction reverted: ${hash}`)
+    }
+
+    return hash
+  } catch (error) {
+    const err = ensureError(error)
+    AppAnalytics.track(FiatExchangeEvents.cico_fc_transfer_tx_error, {
+      flow: CICOFlow.CashOut,
+      error: err.message,
+      transferAddress: transferAddress,
+      provider: fiatConnectQuote.getProviderId(),
+    })
+    // If we've timed out, or the error is deemed unsafe to retry,
+    // it's possible that the transaction is already processing. Note that
+    // this check is not perfect; there may be false positives/negatives.
+    throw new FiatConnectTxError(
+      'Error while attempting to send funds for FiatConnect transfer out',
+      isTxPossiblyPending(err),
+      err
+    )
+  }
 }
 
 export function* handleCreateFiatConnectTransfer(
   action: ReturnType<typeof createFiatConnectTransfer>
 ) {
-  const { flow, fiatConnectQuote, feeInfo } = action.payload
+  const {
+    flow,
+    fiatConnectQuote,
+    serializablePreparedTransaction,
+    fiatAccountId,
+    networkId,
+    transferAddress,
+    transferId,
+  } = action.payload
+
   const quoteId = fiatConnectQuote.getQuoteId()
   let transactionHash: string | null = null
   try {
-    const { transferAddress, transferId }: TransferResponse = yield* call(
-      _initiateTransferWithProvider,
-      action
-    )
-
     if (flow === CICOFlow.CashOut) {
-      if (!feeInfo) {
-        // Should never happen since we disable the submit button if flow is cash out and there is no fee info
-        throw new Error('Fee info is required for cash out')
+      if (!serializablePreparedTransaction) {
+        throw new Error('Missing serializablePreparedTransaction for cash out')
       }
-      const cashOutTxHash: string = yield* call(_initiateSendTxToProvider, {
+      if (!networkId) {
+        throw new Error('Missing networkId for cash out')
+      }
+      if (!transferAddress || !transferId) {
+        throw new Error('Missing transferAddress or transferId for cash out')
+      }
+
+      const cashOutTxHash = yield* call(_initiateSendTxToProvider, {
+        networkId,
         transferAddress,
         fiatConnectQuote,
-        feeInfo,
+        serializablePreparedTransaction,
       })
       yield* put(
         cacheFiatConnectTransfer({
           txHash: cashOutTxHash.toLowerCase(),
           transferId,
           providerId: fiatConnectQuote.getProviderId(),
-          fiatAccountId: action.payload.fiatAccountId,
+          fiatAccountId,
           quote: fiatConnectQuote.quote.quote,
         })
       )
