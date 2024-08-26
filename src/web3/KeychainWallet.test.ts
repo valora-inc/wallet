@@ -1,9 +1,5 @@
 import { CeloTx, EncodedTransaction } from '@celo/connect'
-import {
-  normalizeAddressWith0x,
-  privateKeyToAddress,
-  privateKeyToPublicKey,
-} from '@celo/utils/lib/address'
+import { normalizeAddressWith0x, privateKeyToPublicKey } from '@celo/utils/lib/address'
 import { Encrypt } from '@celo/utils/lib/ecies'
 import { verifySignature } from '@celo/utils/lib/signatureUtils'
 import { recoverTransaction, verifyEIP712TypedDataSigner } from '@celo/wallet-base'
@@ -15,6 +11,14 @@ import { UNLOCK_DURATION } from 'src/web3/consts'
 import { KeychainLock } from 'src/web3/KeychainLock'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
 import * as mockedKeychain from 'test/mockedKeychain'
+import {
+  mockAddress,
+  mockAddress2,
+  mockKeychainEncryptedPrivateKey,
+  mockKeychainEncryptedPrivateKey2,
+  mockPrivateKey,
+  mockPrivateKey2,
+} from 'test/values'
 
 // Use real encryption
 jest.unmock('crypto-js')
@@ -63,18 +67,8 @@ const TYPED_DATA = {
   },
 }
 
-const PRIVATE_KEY1 = '1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef'
-const PUBLIC_KEY1 = privateKeyToPublicKey(PRIVATE_KEY1)
-const KEYCHAIN_ENCRYPTED_PRIVATE_KEY1 =
-  'U2FsdGVkX1+4Da/3VE98t6m9FNs+Q0fqJlckHnL2+XctJPyvhZY+b0TSAB9oGiAMNDow1bjA3NYyzA3aKhFhHwAySzPOArFI/RpPlArT2/IGZ/IxKtKzKnd1pa4+q4fx'
-const ACCOUNT_ADDRESS1 = normalizeAddressWith0x(privateKeyToAddress(PRIVATE_KEY1))
-const PRIVATE_KEY2 = '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890fdeccc'
-const KEYCHAIN_ENCRYPTED_PRIVATE_KEY2 =
-  'U2FsdGVkX18191f7q1dS0CCvSGNjJ9PkcBGKaf+u1LVpuoBw2xSJe17hLW8QRXyKCtwvMknW2uTeWUeMRSfg/O1UdsEwdhMPxzqtOUTwT9evQri80JMGBImihFXKDdgN'
-const ACCOUNT_ADDRESS2 = normalizeAddressWith0x(privateKeyToAddress(PRIVATE_KEY2))
-
-const FEE_ADDRESS = ACCOUNT_ADDRESS1
-const CURRENCY_ADDRESS = ACCOUNT_ADDRESS2
+const FEE_ADDRESS = mockAddress
+const CURRENCY_ADDRESS = mockAddress2
 
 const UNKNOWN_ADDRESS = '0x1234567890123456789012345678901234567890'
 
@@ -114,18 +108,18 @@ describe('KeychainWallet', () => {
   })
 
   it('succeeds if you add a private key without 0x', async () => {
-    await wallet.addAccount(PRIVATE_KEY1, 'password')
-    expect(wallet.hasAccount(ACCOUNT_ADDRESS1)).toBeTruthy()
+    await wallet.addAccount(mockPrivateKey, 'password')
+    expect(wallet.hasAccount(mockAddress)).toBeTruthy()
   })
 
   it('succeeds if you add a private key with 0x', async () => {
-    await wallet.addAccount(PRIVATE_KEY2, 'password2')
-    expect(wallet.hasAccount(ACCOUNT_ADDRESS2)).toBeTruthy()
+    await wallet.addAccount(mockPrivateKey2, 'password2')
+    expect(wallet.hasAccount(mockAddress2)).toBeTruthy()
   })
 
   it('persists added accounts in the keychain', async () => {
     MockDate.set(MOCK_DATE)
-    await wallet.addAccount(PRIVATE_KEY1, 'password')
+    await wallet.addAccount(mockPrivateKey, 'password')
 
     expect(mockedKeychain.getAllKeys()).toEqual([
       'account--2016-12-21T23:36:07.071Z--1be31a94361a391bbafb2a4ccd704f57dc04d4bb',
@@ -133,8 +127,8 @@ describe('KeychainWallet', () => {
   })
 
   describe('with persisted accounts', () => {
-    const knownAddress = ACCOUNT_ADDRESS1
-    const otherAddress = ACCOUNT_ADDRESS2
+    const knownAddress = mockAddress
+    const otherAddress = mockAddress2
 
     beforeEach(async () => {
       // Setup mocked keychain content, intentionally ordering items in descending creation date
@@ -143,14 +137,14 @@ describe('KeychainWallet', () => {
       // await wallet.addAccount(PRIVATE_KEY2, 'password2')
       mockedKeychain.setItems({
         'account--2022-05-25T11:14:50.292Z--588e4b68193001e4d10928660ab4165b813717c0': {
-          password: KEYCHAIN_ENCRYPTED_PRIVATE_KEY2,
+          password: mockKeychainEncryptedPrivateKey2,
         },
         // This will be ignored
         'unrelated item': {
           password: 'unrelated password',
         },
         'account--2021-01-10T11:14:50.298Z--1be31a94361a391bbafb2a4ccd704f57dc04d4bb': {
-          password: KEYCHAIN_ENCRYPTED_PRIVATE_KEY1,
+          password: mockKeychainEncryptedPrivateKey,
         },
       })
       lock = new KeychainLock()
@@ -159,7 +153,7 @@ describe('KeychainWallet', () => {
     })
 
     it('lists all addresses sorted by creation date', () => {
-      expect(wallet.getAccounts()).toMatchObject([ACCOUNT_ADDRESS1, ACCOUNT_ADDRESS2])
+      expect(wallet.getAccounts()).toMatchObject([mockAddress, mockAddress2])
     })
 
     it('fails to unlock using incorrect passwords', async () => {
@@ -251,9 +245,9 @@ describe('KeychainWallet', () => {
       })
 
       it('fails calling computeSharedSecret', async () => {
-        await expect(
-          wallet.computeSharedSecret(knownAddress, ACCOUNT_ADDRESS2)
-        ).rejects.toThrowError('authentication needed: password or unlock')
+        await expect(wallet.computeSharedSecret(knownAddress, mockAddress2)).rejects.toThrowError(
+          'authentication needed: password or unlock'
+        )
       })
     })
 
@@ -354,7 +348,7 @@ describe('KeychainWallet', () => {
 
           describe('when calling signPersonalMessage', () => {
             it('succeeds', async () => {
-              const hexStr: string = ACCOUNT_ADDRESS1
+              const hexStr: string = mockAddress
               const signedMessage = await wallet.signPersonalMessage(knownAddress, hexStr)
               expect(signedMessage).not.toBeUndefined()
               const valid = verifySignature(hexStr, signedMessage, knownAddress)
@@ -384,12 +378,13 @@ describe('KeychainWallet', () => {
 
         describe('using a known address', () => {
           it('properly decrypts the ciphertext', async () => {
+            const publicKey = privateKeyToPublicKey(mockPrivateKey)
             const plaintext = 'test_plaintext'
             const ciphertext = Encrypt(
-              Buffer.from(trimLeading0x(PUBLIC_KEY1), 'hex'),
+              Buffer.from(trimLeading0x(publicKey), 'hex'),
               Buffer.from(plaintext)
             )
-            const decryptedPlaintext = await wallet.decrypt(ACCOUNT_ADDRESS1, ciphertext)
+            const decryptedPlaintext = await wallet.decrypt(mockAddress, ciphertext)
             expect(decryptedPlaintext.toString()).toEqual(plaintext)
           })
         })
@@ -399,14 +394,14 @@ describe('KeychainWallet', () => {
 
   // This ensures private keys which were stored without the 0x prefix are still supported
   describe('with a persisted account with a non normalized private key', () => {
-    const knownAddress = ACCOUNT_ADDRESS1
-    const otherAddress = ACCOUNT_ADDRESS2
+    const knownAddress = mockAddress
+    const otherAddress = mockAddress2
 
     beforeEach(async () => {
       // Setup mocked keychain content with a private key without the 0x prefix
       mockedKeychain.setItems({
         'account--2021-01-10T11:14:50.298Z--1be31a94361a391bbafb2a4ccd704f57dc04d4bb': {
-          password: await CryptoJS.AES.encrypt(PRIVATE_KEY1, 'password').toString(),
+          password: await CryptoJS.AES.encrypt(mockPrivateKey, 'password').toString(),
         },
       })
 
@@ -461,7 +456,7 @@ describe('KeychainWallet', () => {
             // await storeMnemonic(ENGLISH_MNEMONIC, GETH_ACCOUNT_ADDRESS, 'password')
             mockedKeychain.setItems({
               'account--2022-05-25T11:14:50.292Z--588e4b68193001e4d10928660ab4165b813717c0': {
-                password: KEYCHAIN_ENCRYPTED_PRIVATE_KEY2,
+                password: mockKeychainEncryptedPrivateKey2,
               },
               // This will be ignored
               'unrelated item': {
@@ -478,7 +473,7 @@ describe('KeychainWallet', () => {
           })
 
           it('lists the existing geth account first', () => {
-            expect(wallet.getAccounts()).toEqual([GETH_ACCOUNT_ADDRESS, ACCOUNT_ADDRESS2])
+            expect(wallet.getAccounts()).toEqual([GETH_ACCOUNT_ADDRESS, mockAddress2])
           })
 
           it('imports the geth account private key from the mnemonic into the keychain on the first unlock', async () => {
@@ -508,7 +503,7 @@ describe('KeychainWallet', () => {
           it('signs transactions successfully', async () => {
             const celoTransaction: CeloTx = {
               from: GETH_ACCOUNT_ADDRESS,
-              to: ACCOUNT_ADDRESS2,
+              to: mockAddress2,
               chainId: CHAIN_ID,
               value: ONE_CELO_IN_WEI,
               nonce: 0,
@@ -542,7 +537,7 @@ describe('KeychainWallet', () => {
             // await storeMnemonic(ENGLISH_MNEMONIC, GETH_ACCOUNT_ADDRESS, 'password')
             mockedKeychain.setItems({
               'account--2022-05-25T11:14:50.292Z--588e4b68193001e4d10928660ab4165b813717c0': {
-                password: KEYCHAIN_ENCRYPTED_PRIVATE_KEY2,
+                password: mockKeychainEncryptedPrivateKey2,
               },
               // This will be ignored
               'unrelated item': {
@@ -566,7 +561,7 @@ describe('KeychainWallet', () => {
           })
 
           it('lists the existing geth account first', () => {
-            expect(wallet.getAccounts()).toEqual([GETH_ACCOUNT_ADDRESS, ACCOUNT_ADDRESS2])
+            expect(wallet.getAccounts()).toEqual([GETH_ACCOUNT_ADDRESS, mockAddress2])
           })
 
           it('imports the geth account private key from the mnemonic into the keychain on the first unlock', async () => {
@@ -595,7 +590,7 @@ describe('KeychainWallet', () => {
           // await storeMnemonic(ANOTHER_MNEMONIC, GETH_ACCOUNT_ADDRESS, 'password')
           mockedKeychain.setItems({
             'account--2022-05-25T11:14:50.292Z--588e4b68193001e4d10928660ab4165b813717c0': {
-              password: KEYCHAIN_ENCRYPTED_PRIVATE_KEY2,
+              password: mockKeychainEncryptedPrivateKey2,
             },
             // This will be ignored
             'unrelated item': {
@@ -612,7 +607,7 @@ describe('KeychainWallet', () => {
         })
 
         it('lists the existing geth account first', () => {
-          expect(wallet.getAccounts()).toEqual([GETH_ACCOUNT_ADDRESS, ACCOUNT_ADDRESS2])
+          expect(wallet.getAccounts()).toEqual([GETH_ACCOUNT_ADDRESS, mockAddress2])
         })
 
         it('fails to import the geth account private key from the mnemonic when unlocking', async () => {
@@ -639,7 +634,7 @@ describe('KeychainWallet', () => {
           // await wallet.addAccount(PRIVATE_KEY2, 'password2')
           mockedKeychain.setItems({
             'account--2022-05-25T11:14:50.292Z--588e4b68193001e4d10928660ab4165b813717c0': {
-              password: KEYCHAIN_ENCRYPTED_PRIVATE_KEY2,
+              password: mockKeychainEncryptedPrivateKey2,
             },
             // This will be ignored
             'unrelated item': {
@@ -652,7 +647,7 @@ describe('KeychainWallet', () => {
         })
 
         it('lists the existing geth account first', () => {
-          expect(wallet.getAccounts()).toEqual([GETH_ACCOUNT_ADDRESS, ACCOUNT_ADDRESS2])
+          expect(wallet.getAccounts()).toEqual([GETH_ACCOUNT_ADDRESS, mockAddress2])
         })
 
         it('fails to import the geth account private key from the mnemonic when unlocking', async () => {
@@ -679,7 +674,7 @@ describe('KeychainWallet', () => {
         // await wallet.addAccount(GETH_ACCOUNT_ADDRESS, 'password')
         mockedKeychain.setItems({
           'account--2022-05-25T11:14:50.292Z--588e4b68193001e4d10928660ab4165b813717c0': {
-            password: KEYCHAIN_ENCRYPTED_PRIVATE_KEY2,
+            password: mockKeychainEncryptedPrivateKey2,
           },
           // This will be ignored
           'unrelated item': {
@@ -700,7 +695,7 @@ describe('KeychainWallet', () => {
       })
 
       it('lists the existing geth account first', () => {
-        expect(wallet.getAccounts()).toEqual([GETH_ACCOUNT_ADDRESS, ACCOUNT_ADDRESS2])
+        expect(wallet.getAccounts()).toEqual([GETH_ACCOUNT_ADDRESS, mockAddress2])
       })
 
       it('directly reads the private key from the keychain when unlocking', async () => {

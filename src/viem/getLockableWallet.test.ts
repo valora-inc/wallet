@@ -2,9 +2,14 @@ import { Network } from 'src/transactions/types'
 import { viemTransports } from 'src/viem'
 import getLockableViemWallet, { ViemWallet, getTransport } from 'src/viem/getLockableWallet'
 import { KeychainLock } from 'src/web3/KeychainLock'
-import { mockAccount2, mockContractAddress, mockTypedData } from 'test/values'
-import { Address, custom, erc20Abi, getAddress, toHex } from 'viem'
-import { privateKeyToAddress } from 'viem/accounts'
+import {
+  mockAccount2,
+  mockAddress,
+  mockContractAddress,
+  mockPrivateKey,
+  mockTypedData,
+} from 'test/values'
+import { custom, erc20Abi, getAddress, toHex } from 'viem'
 import {
   sendTransaction,
   signMessage,
@@ -28,9 +33,6 @@ jest.mock('src/viem', () => {
     },
   }
 })
-
-const PRIVATE_KEY1 = '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef'
-const ACCOUNT_ADDRESS1 = privateKeyToAddress(PRIVATE_KEY1).toLowerCase() as Address
 
 describe('getTransport', () => {
   it.each([
@@ -98,8 +100,8 @@ describe('getLockableWallet', () => {
     viemTransports[Network.Celo] = mockTransport
     viemTransports[Network.Ethereum] = mockTransport
     lock = new KeychainLock()
-    await lock.addAccount(PRIVATE_KEY1, 'password')
-    wallet = getLockableViemWallet(lock, celoAlfajores, ACCOUNT_ADDRESS1)
+    await lock.addAccount(mockPrivateKey, 'password')
+    wallet = getLockableViemWallet(lock, celoAlfajores, mockAddress)
   })
 
   it.each([
