@@ -26,8 +26,8 @@ import {
   pincodeTypeSelector,
 } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
-import { SettingsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { SettingsEvents } from 'src/analytics/Events'
 import {
   hapticFeedbackSet,
   resetAppOpenedState,
@@ -222,6 +222,11 @@ export const Account = ({ navigation, route }: Props) => {
           <View style={styles.devSettingsItem}>
             <TouchableOpacity onPress={confirmAccountRemoval}>
               <Text>App Quick Reset</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.devSettingsItem}>
+            <TouchableOpacity onPress={() => navigate(Screens.DebugImages)}>
+              <Text>See app assets</Text>
             </TouchableOpacity>
           </View>
         </View>
