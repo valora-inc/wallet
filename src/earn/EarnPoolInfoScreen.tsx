@@ -107,7 +107,7 @@ function YieldCard({
           <Text numberOfLines={1} style={styles.cardTitleText}>
             {t('earnFlow.poolInfoScreen.yieldRate')}
           </Text>
-          <Touchable onPress={infoIconPress}>
+          <Touchable onPress={infoIconPress} borderRadius={24}>
             <InfoIcon size={16} color={Colors.gray3} />
           </Touchable>
         </View>
@@ -167,7 +167,7 @@ function TvlCard({
           <Text numberOfLines={1} style={styles.cardTitleText}>
             {t('earnFlow.poolInfoScreen.tvl')}
           </Text>
-          <Touchable onPress={infoIconPress}>
+          <Touchable onPress={infoIconPress} borderRadius={24}>
             <InfoIcon size={16} color={Colors.gray3} />
           </Touchable>
         </View>
@@ -191,7 +191,7 @@ function AgeCard({ ageOfPool, infoIconPress }: { ageOfPool: Date; infoIconPress:
           <Text numberOfLines={1} style={styles.cardTitleText}>
             {t('earnFlow.poolInfoScreen.ageOfPool')}
           </Text>
-          <Touchable onPress={infoIconPress}>
+          <Touchable onPress={infoIconPress} borderRadius={24}>
             <InfoIcon size={16} color={Colors.gray3} />
           </Touchable>
         </View>
