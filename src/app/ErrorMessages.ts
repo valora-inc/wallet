@@ -30,7 +30,6 @@ export enum ErrorMessages {
   KEYCHAIN_FETCH_ACCOUNTS = 'keychainFetchAccounts',
   KEYCHAIN_ACCOUNT_ALREADY_EXISTS = 'keychainAccountAlreadyExists',
   FETCH_FAILED = 'fetchFailed',
-  PICTURE_LOAD_FAILED = 'pictureLoadFailed',
   SIMPLEX_PURCHASE_FETCH_FAILED = 'simplexPurchaseFetchFailed',
   PROVIDER_FETCH_FAILED = 'providerFetchFailed',
   CASH_OUT_LIMIT_EXCEEDED = 'cashOutLimitExceeded',
