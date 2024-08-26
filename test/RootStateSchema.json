@@ -3452,6 +3452,7 @@
                 "SendEnterAmount",
                 "SendSelectRecipient",
                 "Settings",
+                "SettingsMenu",
                 "SignInWithEmail",
                 "Simplex",
                 "Spend",

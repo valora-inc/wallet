@@ -77,7 +77,7 @@ const InviteModal = ({
         ) : null}
         <Button
           testID="InviteModalShareButton"
-          icon={<ShareIcon color={colors.white} height={24} />}
+          icon={<ShareIcon color={colors.white} size={24} />}
           iconPositionLeft={false}
           size={BtnSizes.SMALL}
           text={buttonLabel}

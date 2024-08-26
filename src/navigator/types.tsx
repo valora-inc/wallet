@@ -218,6 +218,7 @@ export type StackParamList = {
     | undefined
   [Screens.Profile]: undefined
   [Screens.ProfileMenu]: undefined
+  [Screens.SettingsMenu]: undefined
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
   [Screens.RegulatoryTerms]: undefined
   [Screens.SanctionedCountryErrorScreen]: undefined

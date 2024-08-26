@@ -119,14 +119,14 @@ const styles = StyleSheet.create({
   },
   topBorder: {
     marginVertical: Spacing.Thick24,
-    marginLeft: Spacing.Regular16,
+    marginHorizontal: Spacing.Regular16,
     height: 1,
     backgroundColor: colors.gray2,
     alignSelf: 'stretch',
   },
   bottomBorder: {
     marginTop: Spacing.Thick24,
-    marginLeft: Spacing.Regular16,
+    marginHorizontal: Spacing.Regular16,
     height: 1,
     backgroundColor: colors.gray2,
     alignSelf: 'stretch',
