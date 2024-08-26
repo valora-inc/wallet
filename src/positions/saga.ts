@@ -34,7 +34,6 @@ import {
   triggerShortcutSuccess,
 } from 'src/positions/slice'
 import { Position, Shortcut } from 'src/positions/types'
-import { useSelector } from 'src/redux/hooks'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
@@ -74,7 +73,7 @@ async function fetchHooks<T>(
   return json.data as T
 }
 
-async function fetchPositions(hooksApiUrl: string, walletAddress: string) {
+async function fetchPositions(hooksApiUrl: string, walletAddress: string, language: string) {
   const networkIds = getMultichainFeatures().showPositions
 
   const getPositionsUrl = getHooksApiFunctionUrl(hooksApiUrl, 'getPositions')
@@ -86,8 +85,7 @@ async function fetchPositions(hooksApiUrl: string, walletAddress: string) {
     getEarnPositionsUrl.searchParams.append('networkIds', networkId)
   )
 
-  const language = useSelector(currentLanguageSelector)
-  const options: RequestInit = { headers: { 'Accept-Language': language ?? 'en-US' } }
+  const options: RequestInit = { headers: { 'Accept-Language': language } }
 
   const [walletPositions, earnPositions] = await Promise.all([
     fetchHooks<Position[]>(getPositionsUrl.toString(), options),
@@ -167,7 +165,13 @@ export function* fetchPositionsSaga() {
     yield* put(fetchPositionsStart())
     SentryTransactionHub.startTransaction(SentryTransaction.fetch_positions)
     const hooksApiUrl = yield* select(hooksApiUrlSelector)
-    const { positions, earnPositionIds } = yield* call(fetchPositions, hooksApiUrl, address)
+    const language = (yield* select(currentLanguageSelector)) || 'en-US'
+    const { positions, earnPositionIds } = yield* call(
+      fetchPositions,
+      hooksApiUrl,
+      address,
+      language
+    )
     SentryTransactionHub.finishTransaction(SentryTransaction.fetch_positions)
     yield* put(fetchPositionsSuccess({ positions, earnPositionIds, fetchedAt: Date.now() }))
   } catch (err) {
