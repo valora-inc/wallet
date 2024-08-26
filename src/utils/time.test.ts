@@ -59,13 +59,13 @@ describe('utils/time', () => {
     })
   })
 
-  describe('formattedAge', () => {
+  describe('formattedDuration', () => {
     it.each([
-      [{ years: 0, months: 0, days: 0 }, 'time_lessThanADay'],
-      [{ years: 0, months: 0, days: 3 }, 'time, {"context":"day","count":3}'],
-      [{ years: 0, months: 2, days: 0 }, 'time, {"context":"month","count":2}'],
-      [{ years: 1, months: 0, days: 0 }, 'time, {"context":"year","count":1}'],
-      [{ years: 1, months: 1, days: 1 }, 'time, {"context":"yearMonth","count":1,"count2":1}'],
+      [{ years: 0, months: 0, days: 0 }, 'duration, {"context":"lessThanADay"}'],
+      [{ years: 0, months: 0, days: 3 }, 'duration, {"context":"day","count":3}'],
+      [{ years: 0, months: 2, days: 0 }, 'duration, {"context":"month","count":2}'],
+      [{ years: 1, months: 0, days: 0 }, 'duration, {"context":"year","count":1}'],
+      [{ years: 1, months: 1, days: 1 }, 'duration, {"context":"yearMonth","count":1,"count2":1}'],
     ])('returns correct age with %p', (interval, expected) => {
       expect(formattedDuration(interval)).toEqual(i18n.t(expected))
     })
