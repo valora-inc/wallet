@@ -1,9 +1,10 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import { Duration, intervalToDuration } from 'date-fns'
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
+import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
@@ -14,6 +15,7 @@ import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { Screens } from 'src/navigator/Screens'
+import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
 import { EarnPosition } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
@@ -27,19 +29,39 @@ import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { formattedAge } from 'src/utils/time'
 
+function HeaderTitleSection({
+  earnPosition,
+  tokensInfo,
+}: {
+  earnPosition: EarnPosition
+  tokensInfo: TokenBalance[]
+}) {
+  return (
+    <View style={styles.headerTitle}>
+      {/* View wrapper is needed to prevent token icons from overlapping title text */}
+      <View>
+        <TokenIcons tokensInfo={tokensInfo} size={IconSize.SMALL} />
+      </View>
+      <Text style={styles.headerTitleText}>{earnPosition.displayProps.title}</Text>
+    </View>
+  )
+}
+
 function TitleSection({
   title,
   tokensInfo,
   providerName,
   networkName,
+  onLayout,
 }: {
   title: string
   tokensInfo: TokenBalance[]
   providerName: string
   networkName: string
+  onLayout?: (event: LayoutChangeEvent) => void
 }) {
   return (
-    <View style={styles.titleContainer}>
+    <View onLayout={onLayout} style={styles.titleContainer}>
       <TokenIcons tokensInfo={tokensInfo} />
       <Text style={styles.title}>{title}</Text>
       <View style={styles.subtitleContainer}>
@@ -266,7 +288,7 @@ function ActionButtons({ earnPosition }: { earnPosition: EarnPosition }) {
 
 type Props = NativeStackScreenProps<StackParamList, Screens.EarnPoolInfoScreen>
 
-export default function EarnPoolInfoScreen({ route }: Props) {
+export default function EarnPoolInfoScreen({ route, navigation }: Props) {
   const { pool } = route.params
   const { networkId, tokens, displayProps, appName, dataProps } = pool
   const allTokens = useSelector((state) => tokensByIdSelector(state, [networkId]))
@@ -276,14 +298,32 @@ export default function EarnPoolInfoScreen({ route }: Props) {
       .filter((token): token is TokenBalance => !!token)
   }, [tokens, allTokens])
 
+  // Scroll Aware Header
+  const scrollPosition = useSharedValue(0)
+  const [titleHeight, setTitleHeight] = useState(0)
+  const handleMeasureTitleHeight = (event: LayoutChangeEvent) => {
+    setTitleHeight(event.nativeEvent.layout.height)
+  }
+  const handleScroll = useAnimatedScrollHandler((event) => {
+    scrollPosition.value = event.contentOffset.y
+  })
+  useScrollAwareHeader({
+    navigation,
+    title: <HeaderTitleSection earnPosition={pool} tokensInfo={tokensInfo} />,
+    scrollPosition,
+    startFadeInPosition: titleHeight - titleHeight * 0.33,
+    animationDistance: titleHeight * 0.33,
+  })
+
   return (
     <SafeAreaView style={styles.flex} edges={[]}>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <Animated.ScrollView contentContainerStyle={styles.scrollContainer} onScroll={handleScroll}>
         <TitleSection
           title={displayProps.title}
           tokensInfo={tokensInfo}
           providerName={appName}
           networkName={NETWORK_NAMES[networkId]}
+          onLayout={handleMeasureTitleHeight}
         />
         <View style={{ height: Spacing.Thick24 }} />
         <View style={styles.contentContainer}>
@@ -309,13 +349,20 @@ export default function EarnPoolInfoScreen({ route }: Props) {
             <LearnMoreTouchable manageUrl={dataProps.manageUrl} providerName={appName} />
           ) : null}
         </View>
-      </ScrollView>
+      </Animated.ScrollView>
       <ActionButtons earnPosition={pool} />
     </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
+  headerTitle: {
+    flexDirection: 'row',
+    gap: Spacing.Smallest8,
+  },
+  headerTitleText: {
+    ...typeScale.labelSemiBoldLarge,
+  },
   flex: {
     flex: 1,
   },
