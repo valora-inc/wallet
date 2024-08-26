@@ -32,7 +32,7 @@ export default ChooseYourAdventure = () => {
     await waitForElementId('ProfileEditName')
 
     // Back should go to the home screen
-    await element(by.id('CancelButton')).tap()
+    await element(by.id('BackButton')).tap()
     await waitForElementId('HomeAction-Send')
   })
 
