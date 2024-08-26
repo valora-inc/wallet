@@ -14,7 +14,7 @@ import { getSettlementTimeString } from 'src/fiatExchanges/quotes/utils'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { fiatConnectTransferSelector } from 'src/fiatconnect/selectors'
 import { FiatAccount, SendingTransferStatus } from 'src/fiatconnect/slice'
-import CheckmarkCircle from 'src/icons/CheckmarkCircle'
+import Checkmark from 'src/icons/Checkmark'
 import CircledIcon from 'src/icons/CircledIcon'
 import ClockIcon from 'src/icons/ClockIcon'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
@@ -24,7 +24,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useSelector } from 'src/redux/hooks'
 import appTheme from 'src/styles/appTheme'
-import colors from 'src/styles/colors'
+import colors, { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
@@ -146,7 +146,11 @@ function SuccessOrProcessingSection({
   }
 
   if (status === SendingTransferStatus.Completed) {
-    icon = <CheckmarkCircle />
+    icon = (
+      <CircledIcon>
+        <Checkmark color={Colors.white} height={22} width={22} />
+      </CircledIcon>
+    )
     title = t('fiatConnectStatusScreen.success.title')
     description = getTransferSettlementTimeString(normalizedQuote.getTimeEstimation())
     continueEvent = FiatExchangeEvents.cico_fc_transfer_success_complete
