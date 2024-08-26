@@ -1,6 +1,6 @@
 import { getPassword } from 'src/pincode/authentication'
 import { retrieveStoredItem, storeItem } from 'src/storage/keychain'
-import { decryptPrivateKey, encryptPrivateKey } from 'src/web3/KeychainLock'
+import { decryptPrivateKey, encryptPrivateKey } from 'src/web3/KeychainAccounts'
 import { Hex } from 'viem'
 
 const SECP256K1_PRIVATE_KEY_STORAGE_KEY = 'secp256k1PrivateKey'

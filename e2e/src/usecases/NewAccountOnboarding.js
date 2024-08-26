@@ -5,11 +5,11 @@ import {
   enterPinUi,
   quickOnboarding,
   scrollIntoView,
-  sleep,
   waitForElementId,
   waitForElementByIdAndTap,
   navigateToSettings,
 } from '../utils/utils'
+import { sleep } from '../../../src/utils/sleep'
 
 import jestExpect from 'expect'
 
