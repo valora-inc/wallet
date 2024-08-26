@@ -25,7 +25,7 @@ interface TxPromiseReject {
   confirmation: PromiseRejection
 }
 
-export interface TxPromises {
+interface TxPromises {
   receipt: Promise<CeloTxReceipt>
   transactionHash: Promise<string>
   confirmation: Promise<boolean>
