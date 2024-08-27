@@ -12,7 +12,7 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CustomHeader from 'src/components/header/CustomHeader'
 import AppleIcon from 'src/icons/Apple'
 import GoogleIcon from 'src/icons/Google'
-import { email } from 'src/images/Images'
+import { email2 } from 'src/images/Images'
 import KeylessBackupCancelButton from 'src/keylessBackup/KeylessBackupCancelButton'
 import { auth0SignInCompleted, keylessBackupStarted } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
@@ -204,7 +204,7 @@ function SignInWithEmail({ route }: Props) {
       />
       <ScrollView style={styles.scrollContainer}>
         <View style={styles.imageContainer}>
-          <Image testID="Email" source={email} />
+          <Image testID="Email" source={email2} />
         </View>
         <Text style={styles.title}>{t('signInWithEmail.title')}</Text>
         <Text style={styles.subtitle}>
@@ -222,8 +222,8 @@ function SignInWithEmail({ route }: Props) {
           onPress={() => onPressSignIn('google-oauth2')}
           text={t('signInWithEmail.google')}
           size={BtnSizes.FULL}
-          type={BtnTypes.PRIMARY}
-          icon={<GoogleIcon color={Colors.white} />}
+          type={BtnTypes.SECONDARY}
+          icon={<GoogleIcon color={Colors.black} />}
           iconMargin={10}
           showLoading={loading === 'google-oauth2'}
           disabled={!!loading}
@@ -234,8 +234,8 @@ function SignInWithEmail({ route }: Props) {
             onPress={() => onPressSignIn('apple')}
             text={t('signInWithEmail.apple')}
             size={BtnSizes.FULL}
-            type={BtnTypes.PRIMARY}
-            icon={<AppleIcon color={Colors.white} />}
+            type={BtnTypes.SECONDARY}
+            icon={<AppleIcon color={Colors.black} />}
             iconMargin={10}
             showLoading={loading === 'apple'}
             disabled={!!loading}

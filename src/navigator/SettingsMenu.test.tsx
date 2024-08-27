@@ -102,8 +102,9 @@ describe('SettingsMenu', () => {
     fireEvent.press(getByTestId('SettingsMenu/Legal'))
     fireEvent.press(getByTestId('SettingsMenu/ConnectedDapps'))
     fireEvent.press(getByTestId('SettingsMenu/Preferences'))
+    fireEvent.press(getByTestId('SettingsMenu/Security'))
 
-    expect(navigate).toHaveBeenCalledTimes(7)
+    expect(navigate).toHaveBeenCalledTimes(8)
 
     expect(navigate).toHaveBeenNthCalledWith(1, Screens.ProfileSubmenu)
     expect(navigate).toHaveBeenNthCalledWith(2, Screens.QRNavigator, {
@@ -115,5 +116,6 @@ describe('SettingsMenu', () => {
     expect(navigate).toHaveBeenNthCalledWith(5, Screens.LegalSubmenu)
     expect(navigate).toHaveBeenNthCalledWith(6, Screens.WalletConnectSessions)
     expect(navigate).toHaveBeenNthCalledWith(7, Screens.PreferencesSubmenu)
+    expect(navigate).toHaveBeenNthCalledWith(7, Screens.SecuritySubmenu)
   })
 })
