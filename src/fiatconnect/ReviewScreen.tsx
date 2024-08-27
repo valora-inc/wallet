@@ -77,7 +77,7 @@ const usePrepareFiatConnectOutTransactions = ({
       walletAddress,
       feeCurrencies: [token], // according to the FC spec, the fee currency is paid in the same token as the cash out token
     })
-  }, [])
+  }, [transferAddress, token, tokenId, transferAmount])
 }
 
 export default function FiatConnectReviewScreen({ route, navigation }: Props) {
@@ -185,6 +185,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
       flow,
       provider: normalizedQuote.getProviderId(),
     })
+
     dispatch(
       refetchQuote({
         flow,
@@ -463,14 +464,12 @@ function TransactionDetails({
   networkFee,
   isLoading,
   hasError,
-  // feeEstimate,
 }: {
   flow: CICOFlow
   normalizedQuote: FiatConnectQuote
   networkFee?: BigNumber
   isLoading: boolean
   hasError: boolean
-  // feeEstimate: FeeEstimateState | undefined
 }) {
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   const tokenInfo = useTokenInfo(normalizedQuote.getTokenId())
