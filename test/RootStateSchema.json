@@ -1296,6 +1296,9 @@
                 "manageUrl": {
                     "type": "string"
                 },
+                "termsUrl": {
+                    "type": "string"
+                },
                 "tvl": {
                     "type": "string"
                 },
