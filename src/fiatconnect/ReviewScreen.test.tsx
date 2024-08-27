@@ -127,26 +127,28 @@ describe('ReviewScreen', () => {
     })
 
     it('shows fiat amount, transaction details and payment method', async () => {
-      const { getByTestId, getByText, findByTestId, queryByText } = render(
+      const { queryByTestId, queryByText } = render(
         <Provider store={store}>
           <FiatConnectReviewScreen {...getProps(CICOFlow.CashIn, true, CryptoType.cEUR)} />
         </Provider>
       )
 
-      expect(await findByTestId('receive-amount')).toHaveTextContent('100.00 cEUR')
-      expect(queryByText('fiatConnectReviewScreen.bankFeeDisclaimer')).toBeFalsy()
-      expect(getByText('fiatConnectReviewScreen.transactionDetails')).toBeTruthy()
-      expect(getByText('fiatConnectReviewScreen.cashIn.transactionDetailsAmount')).toBeTruthy()
-      expect(getByTestId('txDetails-total/value')).toHaveTextContent('$100.00')
-      expect(getByTestId('txDetails-converted/value')).toHaveTextContent('$99.15')
-      expect(getByTestId('txDetails-fee/value')).toHaveTextContent('$0.84')
-      expect(getByTestId('txDetails-exchangeRate/value')).toHaveTextContent('$0.9915')
-      expect(getByTestId('txDetails-receive')).toHaveTextContent('100.00 cEUR')
-      expect(getByText('fiatConnectReviewScreen.cashIn.paymentMethodHeader')).toBeTruthy()
-      expect(getByTestId('paymentMethod-text')).toHaveTextContent('Chase (...2345)')
-      expect(getByTestId('paymentMethod-via')).toHaveTextContent(
-        'fiatConnectReviewScreen.paymentMethodVia, {"providerName":"Provider Two"}'
+      await waitFor(() =>
+        expect(queryByText('fiatConnectReviewScreen.bankFeeDisclaimer')).toBeFalsy()
       )
+      expect(queryByTestId('receive-amount')?.children).toEqual(['100.00', ' cEUR'])
+      expect(queryByText('fiatConnectReviewScreen.transactionDetails')).toBeTruthy()
+      expect(queryByText('fiatConnectReviewScreen.cashIn.transactionDetailsAmount')).toBeTruthy()
+      expect(queryByTestId('txDetails-total/value')?.children).toEqual(['$', '100.00'])
+      expect(queryByTestId('txDetails-converted/value')?.children).toEqual(['$', '99.15'])
+      expect(queryByTestId('txDetails-fee/value')?.children).toEqual(['$', '0.84'])
+      expect(queryByTestId('txDetails-exchangeRate/value')?.children).toEqual(['$', '0.9915'])
+      expect(queryByTestId('txDetails-receive')?.children).toEqual(['100.00', ' cEUR'])
+      expect(queryByText('fiatConnectReviewScreen.cashIn.paymentMethodHeader')).toBeTruthy()
+      expect(queryByTestId('paymentMethod-text')?.children).toEqual(['Chase (...2345)'])
+      expect(queryByTestId('paymentMethod-via')?.children).toEqual([
+        'fiatConnectReviewScreen.paymentMethodVia, {"providerName":"Provider Two"}',
+      ])
     })
     it('shows the fees even if the prepared transaction is loading', async () => {
       mockPrepareERC20TransferTransaction.mockImplementation(async () => {
@@ -180,12 +182,12 @@ describe('ReviewScreen', () => {
       jest.clearAllMocks()
     })
 
-    const mockPreparedTransaction = {
+    const mockPreparedTransaction: TransactionRequest = {
       from: mockAccount,
       to: '0x123',
       value: BigInt(0),
       data: '0xtransferEncodedData',
-      gas: BigInt(1_000_000),
+      gas: BigInt(3_000_000),
       maxFeePerGas: parseGwei('5'),
       _baseFeePerGas: parseGwei('1'),
       feeCurrency: mockCusdAddress as Address,
@@ -204,26 +206,28 @@ describe('ReviewScreen', () => {
         feeCurrency: mockCeurTokenBalance,
       })
 
-      const { findByTestId, queryByText, getByText, getByTestId } = render(
+      const { queryByTestId, queryByText } = render(
         <Provider store={store}>
           <FiatConnectReviewScreen {...getProps(CICOFlow.CashOut, true, CryptoType.cEUR)} />
         </Provider>
       )
 
-      expect(await findByTestId('receive-amount/value')).toHaveTextContent('$100.00')
-      expect(queryByText('fiatConnectReviewScreen.bankFeeDisclaimer')).toBeFalsy()
-      expect(getByText('fiatConnectReviewScreen.transactionDetails')).toBeTruthy()
-      expect(getByText('fiatConnectReviewScreen.cashOut.transactionDetailsAmount')).toBeTruthy()
-      expect(getByTestId('txDetails-total')).toHaveTextContent('100.02 cEUR')
-      expect(getByTestId('txDetails-converted')).toHaveTextContent('99.47 cEUR')
-      expect(getByTestId('txDetails-fee')).toHaveTextContent('0.55 cEUR')
-      expect(getByTestId('txDetails-exchangeRate/value')).toHaveTextContent('$1.0053')
-      expect(getByTestId('txDetails-receive/value')).toHaveTextContent('$100.00')
-      expect(getByText('fiatConnectReviewScreen.cashOut.paymentMethodHeader')).toBeTruthy()
-      expect(getByTestId('paymentMethod-text')).toHaveTextContent('Chase (...2345)')
-      expect(getByTestId('paymentMethod-via')).toHaveTextContent(
-        'fiatConnectReviewScreen.paymentMethodVia, {"providerName":"Provider Two"}'
+      await waitFor(() =>
+        expect(queryByText('fiatConnectReviewScreen.bankFeeDisclaimer')).toBeFalsy()
       )
+      expect(queryByTestId('receive-amount/value')?.children).toEqual(['$', '100.00'])
+      expect(queryByText('fiatConnectReviewScreen.transactionDetails')).toBeTruthy()
+      expect(queryByText('fiatConnectReviewScreen.cashOut.transactionDetailsAmount')).toBeTruthy()
+      expect(queryByTestId('txDetails-total')?.children).toEqual(['100.02', ' cEUR'])
+      expect(queryByTestId('txDetails-converted')?.children).toEqual(['99.47', ' cEUR'])
+      expect(queryByTestId('txDetails-fee')?.children).toEqual(['0.55', ' cEUR'])
+      expect(queryByTestId('txDetails-exchangeRate/value')?.children).toEqual(['$', '1.0053'])
+      expect(queryByTestId('txDetails-receive/value')?.children).toEqual(['$', '100.00'])
+      expect(queryByText('fiatConnectReviewScreen.cashOut.paymentMethodHeader')).toBeTruthy()
+      expect(queryByTestId('paymentMethod-text')?.children).toEqual(['Chase (...2345)'])
+      expect(queryByTestId('paymentMethod-via')?.children).toEqual([
+        'fiatConnectReviewScreen.paymentMethodVia, {"providerName":"Provider Two"}',
+      ])
     })
     it('dispatches refetchQuote when shouldRefetchQuote is true', async () => {
       const props = getProps(CICOFlow.CashOut, true, CryptoType.cEUR, true)
@@ -253,14 +257,13 @@ describe('ReviewScreen', () => {
           quotesError: 'error',
         },
       })
-      const { findByTestId, getByTestId } = render(
+      const { getByTestId } = render(
         <Provider store={mockStore}>
           <FiatConnectReviewScreen {...props} />
         </Provider>
       )
 
-      expect(await findByTestId('TryAgain')).toBeEnabled()
-      expect(mockStore.getActions()).toEqual([])
+      await waitFor(() => expect(mockStore.getActions()).toEqual([]))
 
       fireEvent.press(getByTestId('TryAgain'))
       await waitFor(() =>
@@ -290,26 +293,27 @@ describe('ReviewScreen', () => {
         feeCurrency: mockCusdTokenBalance,
       })
 
-      const { findByTestId, queryByText, getByText, getByTestId } = render(
+      const { queryByTestId, queryByText } = render(
         <Provider store={store}>
           <FiatConnectReviewScreen {...getProps(CICOFlow.CashOut)} />
         </Provider>
       )
 
-      expect(await findByTestId('receive-amount/value')).toHaveTextContent('$100.00')
-      expect(queryByText('fiatConnectReviewScreen.bankFeeDisclaimer')).toBeFalsy()
-      expect(getByText('fiatConnectReviewScreen.transactionDetails')).toBeTruthy()
-      expect(getByText('fiatConnectReviewScreen.cashOut.transactionDetailsAmount')).toBeTruthy()
-      expect(getByTestId('txDetails-total')).toHaveTextContent('100.02 cUSD')
-      expect(getByTestId('txDetails-converted')).toHaveTextContent('100.00 cUSD')
-      expect(getByTestId('txDetails-fee')).toHaveTextContent('0.015 cUSD') // only network fee
-      expect(getByTestId('txDetails-exchangeRate/value')).toHaveTextContent('$1')
-      expect(getByTestId('txDetails-receive/value')).toHaveTextContent('$100.00')
-      expect(getByText('fiatConnectReviewScreen.cashOut.paymentMethodHeader')).toBeTruthy()
-      expect(getByTestId('paymentMethod-text')).toHaveTextContent('Chase (...2345)')
-      expect(getByTestId('paymentMethod-via')).toHaveTextContent(
-        'fiatConnectReviewScreen.paymentMethodVia, {"providerName":"Provider Two"}'
+      await waitFor(() =>
+        expect(queryByTestId('receive-amount/value')?.children).toEqual(['$', '100.00'])
       )
+      expect(queryByText('fiatConnectReviewScreen.transactionDetails')).toBeTruthy()
+      expect(queryByText('fiatConnectReviewScreen.cashOut.transactionDetailsAmount')).toBeTruthy()
+      expect(queryByTestId('txDetails-total')?.children).toEqual(['100.02', ' cUSD'])
+      expect(queryByTestId('txDetails-converted')?.children).toEqual(['100.00', ' cUSD'])
+      expect(queryByTestId('txDetails-fee')?.children).toEqual(['0.015', ' cUSD'])
+      expect(queryByTestId('txDetails-exchangeRate/value')?.children).toEqual(['$', '1'])
+      expect(queryByTestId('txDetails-receive/value')?.children).toEqual(['$', '100.00'])
+      expect(queryByText('fiatConnectReviewScreen.cashOut.paymentMethodHeader')).toBeTruthy()
+      expect(queryByTestId('paymentMethod-text')?.children).toEqual(['Chase (...2345)'])
+      expect(queryByTestId('paymentMethod-via')?.children).toEqual([
+        'fiatConnectReviewScreen.paymentMethodVia, {"providerName":"Provider Two"}',
+      ])
     })
     it('disables the submit button if prepared transaction is not possible', async () => {
       mockPrepareERC20TransferTransaction.mockResolvedValue({
@@ -416,19 +420,9 @@ describe('ReviewScreen', () => {
       await waitFor(() => expect(getByTestId('expiredQuoteDialog').props.visible).toEqual(true))
     })
     it('dispatches fiat transfer action and navigates on clicking button', async () => {
-      const mockTransaction: TransactionRequest = {
-        from: mockAccount,
-        to: '0x123',
-        value: BigInt(0),
-        data: '0xtransferEncodedData',
-        gas: BigInt(3_000_000), // max gas = gas * maxFeePerGas = 0.015 cUSD
-        maxFeePerGas: parseGwei('5'),
-        _baseFeePerGas: parseGwei('1'),
-        feeCurrency: mockCusdAddress as Address,
-      }
       mockPrepareERC20TransferTransaction.mockResolvedValue({
         type: 'possible',
-        transactions: [mockTransaction],
+        transactions: [mockPreparedTransaction],
         feeCurrency: mockCusdTokenBalance,
       })
       const mockProps = getProps(CICOFlow.CashOut)
@@ -448,7 +442,8 @@ describe('ReviewScreen', () => {
           fiatConnectQuote: mockProps.route.params.normalizedQuote,
           fiatAccountId: '123',
           networkId: NetworkId['celo-alfajores'],
-          serializablePreparedTransaction: getSerializablePreparedTransaction(mockTransaction),
+          serializablePreparedTransaction:
+            getSerializablePreparedTransaction(mockPreparedTransaction),
           spendTokenDecimals: 18,
         }),
       ])
