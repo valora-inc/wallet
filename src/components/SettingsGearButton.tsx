@@ -13,7 +13,7 @@ interface Props {
   testID?: string
 }
 
-export default function AccountCircleButton({ testID, size, style }: Props) {
+export default function SettingsGearButton({ testID, size, style }: Props) {
   const onPress = () => {
     AppAnalytics.track(HomeEvents.account_circle_tapped)
     navigate(Screens.SettingsMenu)
