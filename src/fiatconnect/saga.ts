@@ -8,6 +8,7 @@ import {
   GetFiatAccountsResponse,
   PostFiatAccountRequestBody,
   PostFiatAccountResponse,
+  TransferResponse,
 } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import { KycStatus as PersonaKycStatus } from 'src/account/reducer'
@@ -70,6 +71,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { UserLocationData } from 'src/networkInfo/saga'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
+import { tokenAmountInSmallestUnit } from 'src/tokens/saga'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { BaseStandbyTransaction } from 'src/transactions/actions'
 import { isTxPossiblyPending } from 'src/transactions/send'
@@ -83,6 +85,8 @@ import { sendPreparedTransactions } from 'src/viem/saga'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, delay, put, race, select, spawn, take, takeLeading } from 'typed-redux-saga'
+import { v4 as uuidv4 } from 'uuid'
+import { Address, encodeFunctionData, erc20Abi } from 'viem'
 
 const TAG = 'FiatConnectSaga'
 
@@ -904,6 +908,45 @@ export function* handleFetchFiatConnectProviders() {
 }
 
 /**
+ * Initiates a fiatconnect transfer using the fiatconnect SDK to call a transfer/out or transfer/in endpoint
+ * for a provider.
+ **/
+export function* _initiateTransferWithProvider({
+  payload: params,
+}: ReturnType<typeof createFiatConnectTransfer>) {
+  const { flow, fiatConnectQuote, fiatAccountId } = params
+  const quoteId = fiatConnectQuote.getQuoteId()
+  const transferFnName = flow === CICOFlow.CashIn ? 'transferIn' : 'transferOut'
+  Logger.info(TAG, `Starting ${transferFnName} ..`)
+  const fiatConnectClient = yield* call(
+    getFiatConnectClient,
+    fiatConnectQuote.getProviderId(),
+    fiatConnectQuote.getProviderBaseUrl(),
+    fiatConnectQuote.getProviderApiKey()
+  )
+  const result: Result<TransferResponse, ResponseError> = yield* call(
+    [fiatConnectClient, transferFnName],
+    {
+      idempotencyKey: uuidv4(),
+      data: { quoteId, fiatAccountId },
+    }
+  )
+  if (result.isErr) {
+    AppAnalytics.track(FiatExchangeEvents.cico_fc_transfer_api_error, {
+      flow,
+      fiatConnectError: result.error.fiatConnectError,
+      error: result.error.message,
+      provider: fiatConnectQuote.getProviderId(),
+    })
+    throw result.error
+  }
+  const transferResult = result.unwrap()
+
+  Logger.info(TAG, `${transferFnName} succeeded`, transferResult)
+  return transferResult
+}
+
+/**
  * Initiates a transaction on-chain to send funds to a specific address. This is intended to be used for
  * cashing out after a transfer has been initiated with a provider
  **/
@@ -995,24 +1038,43 @@ export function* handleCreateFiatConnectTransfer(
     serializablePreparedTransaction,
     fiatAccountId,
     networkId,
-    transferAddress,
-    transferId,
+    spendTokenDecimals,
   } = action.payload
 
   const quoteId = fiatConnectQuote.getQuoteId()
   let transactionHash: string | null = null
   try {
+    const { transferAddress, transferId }: TransferResponse = yield* call(
+      _initiateTransferWithProvider,
+      action
+    )
+
     if (flow === CICOFlow.CashOut) {
       if (!serializablePreparedTransaction) {
         throw new Error('Missing serializablePreparedTransaction for cash out')
       }
-      if (!networkId) {
-        throw new Error('Missing networkId for cash out')
+      if (!networkId || !spendTokenDecimals) {
+        throw new Error('Missing networkId or spendTokenDecimals for cash out')
       }
       if (!transferAddress || !transferId) {
         throw new Error('Missing transferAddress or transferId for cash out')
       }
 
+      // update the prepared transaction to use the transferAddress as the
+      // recipient. up to this point in the flow, this value was not known.
+      serializablePreparedTransaction.data = encodeFunctionData({
+        abi: erc20Abi,
+        functionName: 'transfer',
+        args: [
+          transferAddress as Address,
+          BigInt(
+            tokenAmountInSmallestUnit(
+              new BigNumber(fiatConnectQuote.getCryptoAmount()),
+              spendTokenDecimals
+            )
+          ),
+        ],
+      })
       const cashOutTxHash = yield* call(_initiateSendTxToProvider, {
         networkId,
         transferAddress,

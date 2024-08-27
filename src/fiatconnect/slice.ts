@@ -150,8 +150,7 @@ export interface CreateFiatConnectTransferAction {
   fiatAccountId: string
   serializablePreparedTransaction?: SerializableTransactionRequest
   networkId?: NetworkId
-  transferAddress?: string
-  transferId?: string
+  spendTokenDecimals?: number
 }
 
 export interface CreateFiatConnectTransferFailedAction {

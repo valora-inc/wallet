@@ -34,25 +34,26 @@ import { navigate, navigateBack, navigateHome } from 'src/navigator/NavigationSe
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { prepareSendTransactionsCallback } from 'src/send/usePrepareSendTransactions'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
-import { TokenBalance } from 'src/tokens/slice'
-import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
+import { tokenAmountInSmallestUnit } from 'src/tokens/saga'
+import { TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
+import {
+  getFeeCurrencyAndAmounts,
+  prepareERC20TransferTransaction,
+} from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectReview>
 
-const usePrepareFiatConnectOutTransactions = ({
-  transferAddress,
+const usePrepareBaseFiatConnectOutTransactions = ({
   transferAmount,
   token,
   tokenId,
 }: {
-  transferAddress?: string
   transferAmount: string
   token?: TokenBalance
   tokenId: string
@@ -66,18 +67,27 @@ const usePrepareFiatConnectOutTransactions = ({
     if (!token) {
       throw new Error(`Missing token info for token id ${tokenId}`)
     }
-    if (!transferAddress) {
-      throw new Error('Missing transfer address')
+    if (!token.address) {
+      throw new Error(
+        `Fiatconnect only supports ERC-20 tokens. Token ${tokenId} is missing address`
+      )
     }
 
-    return prepareSendTransactionsCallback({
-      amount: new BigNumber(transferAmount),
-      token,
-      recipientAddress: transferAddress,
-      walletAddress,
+    // note that the receipient address on the prepared transaction is the
+    // user's own address. this will be replaced by the fiatconnect provider
+    // transfer address in the sagas if the user proceeds with the transaction.
+    // the provider address is not known until making a POST request to the
+    // provider endpoint, which we should only do if the user intends to proceed
+    // with the transaction because it locks the quoteId and prevents it from
+    // being used again.
+    return prepareERC20TransferTransaction({
+      fromWalletAddress: walletAddress,
+      toWalletAddress: walletAddress,
+      amount: BigInt(tokenAmountInSmallestUnit(new BigNumber(transferAmount), token.decimals)),
       feeCurrencies: [token], // according to the FC spec, the fee currency is paid in the same token as the cash out token
+      sendToken: token as TokenBalanceWithAddress,
     })
-  }, [transferAddress, token, tokenId, transferAmount])
+  }, [token, tokenId, transferAmount])
 }
 
 export default function FiatConnectReviewScreen({ route, navigation }: Props) {
@@ -99,12 +109,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const tokenId = normalizedQuote.getTokenId()
   const token = useTokenInfo(tokenId)
 
-  const transferResult = useAsync(async () => {
-    return normalizedQuote.getTransferResult(flow, fiatAccount.fiatAccountId)
-  }, [flow, normalizedQuote, fiatAccount.fiatAccountId])
-
-  const prepareTransactionsResult = usePrepareFiatConnectOutTransactions({
-    transferAddress: transferResult.result?.transferAddress,
+  const prepareTransactionsResult = usePrepareBaseFiatConnectOutTransactions({
     transferAmount: normalizedQuote.getCryptoAmount(),
     tokenId: normalizedQuote.getTokenId(),
     token,
@@ -320,8 +325,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
                         )
                       : undefined,
                   networkId: token?.networkId,
-                  transferAddress: transferResult.result?.transferAddress,
-                  transferId: transferResult.result?.transferId,
+                  spendTokenDecimals: token?.decimals,
                 })
               )
 

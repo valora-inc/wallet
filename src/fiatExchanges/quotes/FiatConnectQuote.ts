@@ -1,4 +1,3 @@
-import { TransferRequestParams } from '@fiatconnect/fiatconnect-sdk'
 import {
   FiatAccountSchema,
   FiatAccountType,
@@ -6,12 +5,9 @@ import {
   KycSchema,
   QuoteResponseFiatAccountSchema,
   QuoteResponseKycSchema,
-  TransferOutResponse,
 } from '@fiatconnect/fiatconnect-types'
 import { Dispatch } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
-import AppAnalytics from 'src/analytics/AppAnalytics'
-import { FiatExchangeEvents } from 'src/analytics/Events'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import {
   DEFAULT_ALLOWED_VALUES,
@@ -22,13 +18,11 @@ import {
 } from 'src/fiatExchanges/quotes/constants'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { FiatConnectProviderInfo, FiatConnectQuoteSuccess } from 'src/fiatconnect'
-import { getFiatConnectClient } from 'src/fiatconnect/clients'
 import { selectFiatConnectQuote } from 'src/fiatconnect/slice'
 import i18n from 'src/i18n'
 import { TokenBalance } from 'src/tokens/slice'
 import { convertLocalToTokenAmount, convertTokenToLocalAmount } from 'src/tokens/utils'
 import { CiCoCurrency, resolveCICOCurrency } from 'src/utils/currencies'
-import { v4 as uuidv4 } from 'uuid'
 
 const kycStrings = {
   [KycSchema.PersonalDataAndDocuments]: i18n.t('selectProviderScreen.idRequired'),
@@ -345,31 +339,5 @@ export default class FiatConnectQuote extends NormalizedQuote {
 
   getTokenId(): string {
     return this.tokenId
-  }
-
-  async getTransferResult(flow: CICOFlow, fiatAccountId: string): Promise<TransferOutResponse> {
-    const { id, baseUrl, apiKey } = this.quote.provider
-    const { quoteId } = this.quote.quote
-    const fiatConnectClient = await getFiatConnectClient(id, baseUrl, apiKey)
-
-    const transferFn = (args: TransferRequestParams) =>
-      flow === CICOFlow.CashIn
-        ? fiatConnectClient.transferIn(args)
-        : fiatConnectClient.transferOut(args)
-    const result = await transferFn({
-      idempotencyKey: uuidv4(),
-      data: { quoteId, fiatAccountId },
-    })
-
-    if (result.isErr) {
-      AppAnalytics.track(FiatExchangeEvents.cico_fc_transfer_api_error, {
-        flow: CICOFlow.CashOut,
-        fiatConnectError: result.error.fiatConnectError,
-        error: result.error.message,
-        provider: id,
-      })
-      throw result.error
-    }
-    return result.unwrap()
   }
 }

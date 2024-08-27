@@ -6,6 +6,7 @@ import {
   FiatConnectError,
   KycStatus as FiatConnectKycStatus,
   KycSchema,
+  TransferStatus,
 } from '@fiatconnect/fiatconnect-types'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matches from 'redux-saga-test-plan/matchers'
@@ -35,6 +36,7 @@ import {
   _getFiatAccount,
   _getQuotes,
   _getSpecificQuote,
+  _initiateTransferWithProvider,
   _selectQuoteAndFiatAccount,
   _selectQuoteMatchingFiatAccount,
   fetchFiatAccountsSaga,
@@ -88,6 +90,7 @@ import Logger from 'src/utils/Logger'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockCusdTokenId, mockFiatConnectProviderInfo, mockFiatConnectQuotes } from 'test/values'
+import { v4 as uuidv4 } from 'uuid'
 
 jest.mock('src/analytics/AppAnalytics')
 jest.mock('src/fiatconnect')
@@ -1650,6 +1653,94 @@ describe('Fiatconnect saga', () => {
         quote: normalizedQuoteKyc,
         retryable: true,
       })
+    })
+  })
+
+  describe('_initiateTransferWithProvider', () => {
+    const transferOutFcQuote = new FiatConnectQuote({
+      flow: CICOFlow.CashOut,
+      quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+      fiatAccountType: FiatAccountType.BankAccount,
+      tokenId: mockCusdTokenId,
+    })
+
+    const quoteId = transferOutFcQuote.getQuoteId()
+    const providerId = transferOutFcQuote.getProviderId()
+    const providerBaseUrl = transferOutFcQuote.getProviderBaseUrl()
+    const providerApiKey = transferOutFcQuote.getProviderApiKey()
+
+    const mockTransferOut = jest.fn()
+    const mockFcClient = {
+      transferOut: mockTransferOut,
+    }
+    jest.mocked(uuidv4).mockReturnValue('mock-uuidv4')
+    it('calls the fiatconnect transfer function and returns the transfer results', async () => {
+      mockTransferOut.mockResolvedValueOnce(
+        Result.ok({
+          transferId: 'transfer1',
+          transferStatus: TransferStatus.TransferReadyForUserToSendCryptoFunds,
+          transferAddress: '0xabc',
+        })
+      )
+      await expectSaga(
+        _initiateTransferWithProvider,
+        createFiatConnectTransfer({
+          flow: CICOFlow.CashOut,
+          fiatConnectQuote: transferOutFcQuote,
+          fiatAccountId: 'account1',
+        })
+      )
+        .provide([
+          [call(getFiatConnectClient, providerId, providerBaseUrl, providerApiKey), mockFcClient],
+        ])
+        .returns({
+          transferId: 'transfer1',
+          transferStatus: TransferStatus.TransferReadyForUserToSendCryptoFunds,
+          transferAddress: '0xabc',
+        })
+        .run()
+
+      expect(mockTransferOut).toHaveBeenCalledWith({
+        data: { fiatAccountId: 'account1', quoteId },
+        idempotencyKey: 'mock-uuidv4',
+      })
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(0)
+    })
+    it('throws when there is an error with the transfer', async () => {
+      mockTransferOut.mockResolvedValueOnce(
+        Result.err(
+          new ResponseError('FiatConnect API Error', { error: FiatConnectError.Unauthorized })
+        )
+      )
+      await expect(() =>
+        expectSaga(
+          _initiateTransferWithProvider,
+          createFiatConnectTransfer({
+            flow: CICOFlow.CashOut,
+            fiatConnectQuote: transferOutFcQuote,
+            fiatAccountId: 'account1',
+          })
+        )
+          .provide([
+            [call(getFiatConnectClient, providerId, providerBaseUrl, providerApiKey), mockFcClient],
+          ])
+          .run()
+      ).rejects.toThrow()
+
+      expect(mockTransferOut).toHaveBeenCalledWith({
+        data: { fiatAccountId: 'account1', quoteId },
+        idempotencyKey: 'mock-uuidv4',
+      })
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
+        FiatExchangeEvents.cico_fc_transfer_api_error,
+        {
+          provider: providerId,
+          flow: CICOFlow.CashOut,
+          fiatConnectError: FiatConnectError.Unauthorized,
+          error: 'FiatConnect API Error',
+        }
+      )
     })
   })
 
