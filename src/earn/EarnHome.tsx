@@ -14,7 +14,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
-import Button, { BtnTypes } from 'src/components/Button'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import FilterChipsCarousel, {
   FilterChip,
   NetworkFilterChip,
@@ -89,6 +89,9 @@ export default function EarnHome({ navigation, route }: Props) {
   const activeTab = route.params?.activeEarnTab ?? EarnTabType.AllPools
 
   const insets = useSafeAreaInsets()
+  const insetsStyle = {
+    paddingBottom: Math.max(insets.bottom, Spacing.Regular16),
+  }
 
   const supportedNetworkIds = [...new Set(pools.map((pool) => pool.networkId))]
   const allTokens = useSelector((state) => tokensByIdSelector(state, supportedNetworkIds))
@@ -299,16 +302,16 @@ export default function EarnHome({ navigation, route }: Props) {
           </View>
         </Animated.View>
         {errorLoadingPools && (
-          <View style={styles.noPoolsContainer}>
-            <AttentionIcon size={64} color={Colors.black} />
-            <Text style={styles.noPoolsTitle}>{t('earnFlow.home.errorTitle')}</Text>
-            <Text style={styles.noPoolsDescription}>{t('earnFlow.home.errorDescription')}</Text>
+          <View style={styles.textContainer}>
+            <AttentionIcon size={48} color={Colors.black} />
+            <Text style={styles.errorTitle}>{t('earnFlow.home.errorTitle')}</Text>
+            <Text style={styles.description}>{t('earnFlow.home.errorDescription')}</Text>
           </View>
         )}
         {zeroPoolsinMyPoolsTab && (
-          <View style={styles.noPoolsContainer}>
+          <View style={styles.textContainer}>
             <Text style={styles.noPoolsTitle}>{t('earnFlow.home.noPoolsTitle')}</Text>
-            <Text style={styles.noPoolsDescription}>{t('earnFlow.home.noPoolsDescription')}</Text>
+            <Text style={styles.description}>{t('earnFlow.home.noPoolsDescription')}</Text>
           </View>
         )}
         {!errorLoadingPools && !zeroPoolsinMyPoolsTab && (
@@ -325,11 +328,14 @@ export default function EarnHome({ navigation, route }: Props) {
           />
         )}
         {errorLoadingPools && (
-          <Button
-            onPress={onPressTryAgain}
-            text={t('earnFlow.home.tryAgain')}
-            type={BtnTypes.SECONDARY}
-          />
+          <View style={[styles.buttonContainer, insetsStyle]}>
+            <Button
+              onPress={onPressTryAgain}
+              text={t('earnFlow.home.errorButton')}
+              type={BtnTypes.SECONDARY}
+              size={BtnSizes.FULL}
+            />
+          </View>
         )}
       </Animated.View>
       <LearnMoreBottomSheet learnMoreBottomSheetRef={learnMoreBottomSheetRef} />
@@ -429,7 +435,7 @@ const styles = StyleSheet.create({
     color: Colors.black,
     marginBottom: Spacing.Thick24,
   },
-  noPoolsContainer: {
+  textContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -439,9 +445,17 @@ const styles = StyleSheet.create({
     ...typeScale.labelSemiBoldLarge,
     textAlign: 'center',
   },
-  noPoolsDescription: {
+  errorTitle: {
+    ...typeScale.labelSemiBoldLarge,
+    textAlign: 'center',
+    marginTop: Spacing.Regular16,
+  },
+  description: {
     ...typeScale.bodySmall,
     textAlign: 'center',
     marginTop: Spacing.Regular16,
+  },
+  buttonContainer: {
+    marginHorizontal: Spacing.Thick24,
   },
 })

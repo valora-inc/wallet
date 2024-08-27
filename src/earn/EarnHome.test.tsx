@@ -1,6 +1,8 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
+import AppAnalytics from 'src/analytics/AppAnalytics'
+import { EarnEvents } from 'src/analytics/Events'
 import EarnHome from 'src/earn/EarnHome'
 import { Status } from 'src/earn/slice'
 import { EarnTabType } from 'src/earn/types'
@@ -80,6 +82,9 @@ describe('EarnHome', () => {
     )
 
     expect(getByText('earnFlow.home.errorTitle')).toBeTruthy()
+    expect(getByText('earnFlow.home.errorButton')).toBeTruthy()
+    fireEvent.press(getByText('earnFlow.home.errorButton'))
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_home_error_try_again)
   })
   it('shows the error state if fetched positions are stale', () => {
     const { getByText } = render(
@@ -94,6 +99,9 @@ describe('EarnHome', () => {
     )
 
     expect(getByText('earnFlow.home.errorTitle')).toBeTruthy()
+    expect(getByText('earnFlow.home.errorButton')).toBeTruthy()
+    fireEvent.press(getByText('earnFlow.home.errorButton'))
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_home_error_try_again)
   })
   it('renders all pools correctly', () => {
     const { getByTestId, queryAllByTestId } = render(
