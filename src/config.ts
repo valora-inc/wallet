@@ -220,7 +220,7 @@ export const LOGGER_LEVEL = Config.LOGGER_LEVEL
 export const PHONE_NUMBER_VERIFICATION_CODE_LENGTH = 6
 
 export const ENABLED_QUICK_ACTIONS = (
-  Config.ENABLED_QUICK_ACTIONS ||
+  Config.ENABLED_QUICK_ACTIONS ??
   // Default to all actions
   Object.values(HomeActionName).join(',')
 )
