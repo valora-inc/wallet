@@ -652,7 +652,7 @@ describe(checkPin, () => {
 })
 
 describe(_getPasswordHash, () => {
-  // See some these are producing the same hash
+  // See some of these are producing the same hash, though the password is different
   // Because the current implementation treats the input as hex string (without the '0x' prefix)
   // But we'll change this to treat the input as a raw string/buffer in the future
   it.each([
