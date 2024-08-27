@@ -24,6 +24,7 @@ import FilterChipsCarousel, {
 } from 'src/components/FilterChipsCarousel'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import NetworkMultiSelectBottomSheet from 'src/components/multiSelect/NetworkMultiSelectBottomSheet'
+import { TIME_UNTIL_TOKEN_INFO_BECOMES_STALE } from 'src/config'
 import EarnTabBar from 'src/earn/EarnTabBar'
 import PoolList from 'src/earn/PoolList'
 import { EarnTabType } from 'src/earn/types'
@@ -31,8 +32,13 @@ import AttentionIcon from 'src/icons/Attention'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
-import { earnPositionsSelector } from 'src/positions/selectors'
-import { useSelector } from 'src/redux/hooks'
+import { refreshPositions } from 'src/positions/actions'
+import {
+  earnPositionsSelector,
+  positionsFetchedAtSelector,
+  positionsStatusSelector,
+} from 'src/positions/selectors'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
@@ -75,6 +81,8 @@ function useFilterChips(): FilterChip<TokenBalance>[] {
 
 export default function EarnHome({ navigation, route }: Props) {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
+
   const filterChipsCarouselRef = useRef<ScrollView>(null)
   const pools = useSelector(earnPositionsSelector)
 
@@ -251,11 +259,17 @@ export default function EarnHome({ navigation, route }: Props) {
 
   const onPressTryAgain = () => {
     AppAnalytics.track(EarnEvents.earn_home_error_try_again)
-    // TODO: implement
+    dispatch(refreshPositions())
   }
 
   const zeroPoolsinMyPoolsTab = displayPools.length === 0 && activeTab === EarnTabType.MyPools
-  const errorLoadingPools = true // TODO: update to use loading state
+
+  const positionsStatus = useSelector(positionsStatusSelector)
+  const positionsFetchedAt = useSelector(positionsFetchedAtSelector)
+  const errorLoadingPools =
+    positionsStatus === 'error' &&
+    (!pools ||
+      (positionsFetchedAt && Date.now() - positionsFetchedAt > TIME_UNTIL_TOKEN_INFO_BECOMES_STALE))
   return (
     <>
       <Animated.View testID="EarnScreen" style={styles.container}>
