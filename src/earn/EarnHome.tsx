@@ -71,8 +71,8 @@ function useFilterChips(): FilterChip<TokenBalance>[] {
   const tokensChipConfig: TokenSelectFilterChip<TokenBalance> = {
     id: 'token-select',
     name: t('tokenBottomSheet.filters.tokens'),
-    filterFn: (token: TokenBalance, tokenId: string) => token.tokenId === tokenId,
-    selectedTokenId: tokens[0].tokenId,
+    filterFn: (token: TokenBalance, tokenId?: string) => !!tokenId && token.tokenId === tokenId,
+    selectedTokenId: tokens[0] ? tokens[0].tokenId : undefined,
     isSelected: false,
   }
 
@@ -262,15 +262,16 @@ export default function EarnHome({ navigation, route }: Props) {
     dispatch(refreshPositions())
   }
 
-  const zeroPoolsinMyPoolsTab = displayPools.length === 0 && activeTab === EarnTabType.MyPools
-
   const positionsStatus = useSelector(positionsStatusSelector)
   const positionsFetchedAt = useSelector(positionsFetchedAtSelector)
   const errorLoadingPools =
     positionsStatus === 'error' &&
-    (!pools ||
+    (pools.length === 0 ||
       (!!positionsFetchedAt &&
         Date.now() - positionsFetchedAt > TIME_UNTIL_TOKEN_INFO_BECOMES_STALE))
+
+  const zeroPoolsinMyPoolsTab =
+    !errorLoadingPools && displayPools.length === 0 && activeTab === EarnTabType.MyPools
   return (
     <>
       <Animated.View testID="EarnScreen" style={styles.container}>
