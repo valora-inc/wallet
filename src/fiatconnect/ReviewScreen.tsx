@@ -297,7 +297,9 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
           type={BtnTypes.PRIMARY}
           size={BtnSizes.FULL}
           disabled={
-            flow === CICOFlow.CashOut && prepareTransactionsResult.result?.type !== 'possible'
+            flow === CICOFlow.CashOut &&
+            (!prepareTransactionsResult.result ||
+              prepareTransactionsResult.result.type !== 'possible')
           } // Cash out requires sending a prepared transaction
           text={
             flow === CICOFlow.CashIn
@@ -325,7 +327,6 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
                         )
                       : undefined,
                   networkId: token?.networkId,
-                  spendTokenDecimals: token?.decimals,
                 })
               )
 

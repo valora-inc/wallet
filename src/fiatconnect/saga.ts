@@ -73,9 +73,10 @@ import { UserLocationData } from 'src/networkInfo/saga'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { tokenAmountInSmallestUnit } from 'src/tokens/saga'
 import { tokensByIdSelector } from 'src/tokens/selectors'
+import { TokenBalance } from 'src/tokens/slice'
 import { BaseStandbyTransaction } from 'src/transactions/actions'
 import { isTxPossiblyPending } from 'src/transactions/send'
-import { NetworkId, TokenTransactionTypeV2, newTransactionContext } from 'src/transactions/types'
+import { TokenTransactionTypeV2, newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
@@ -951,26 +952,17 @@ export function* _initiateTransferWithProvider({
  * cashing out after a transfer has been initiated with a provider
  **/
 export function* _initiateSendTxToProvider({
-  networkId,
+  tokenInfo,
   transferAddress,
   fiatConnectQuote,
   serializablePreparedTransaction,
 }: {
-  networkId: NetworkId
+  tokenInfo: TokenBalance
   transferAddress: string
   fiatConnectQuote: FiatConnectQuote
   serializablePreparedTransaction: SerializableTransactionRequest
 }) {
   Logger.info(TAG, 'Starting transfer out transaction..')
-
-  const tokenList = yield* select(tokensByIdSelector, [networkId])
-  const tokenId = fiatConnectQuote.getTokenId()
-  const tokenInfo = tokenList[tokenId]
-  if (!tokenInfo) {
-    throw new Error(
-      `No matching token info found for tokenId ${tokenId}. Cannot send crypto to provider.`
-    )
-  }
 
   const context = newTransactionContext(TAG, 'Send crypto to provider for transfer out')
   const createStandbyTransaction = (
@@ -1032,14 +1024,8 @@ export function* _initiateSendTxToProvider({
 export function* handleCreateFiatConnectTransfer(
   action: ReturnType<typeof createFiatConnectTransfer>
 ) {
-  const {
-    flow,
-    fiatConnectQuote,
-    serializablePreparedTransaction,
-    fiatAccountId,
-    networkId,
-    spendTokenDecimals,
-  } = action.payload
+  const { flow, fiatConnectQuote, serializablePreparedTransaction, fiatAccountId, networkId } =
+    action.payload
 
   const quoteId = fiatConnectQuote.getQuoteId()
   let transactionHash: string | null = null
@@ -1053,11 +1039,17 @@ export function* handleCreateFiatConnectTransfer(
       if (!serializablePreparedTransaction) {
         throw new Error('Missing serializablePreparedTransaction for cash out')
       }
-      if (!networkId || !spendTokenDecimals) {
+      if (!networkId) {
         throw new Error('Missing networkId or spendTokenDecimals for cash out')
       }
-      if (!transferAddress || !transferId) {
-        throw new Error('Missing transferAddress or transferId for cash out')
+
+      const tokenList = yield* select(tokensByIdSelector, [networkId])
+      const tokenId = fiatConnectQuote.getTokenId()
+      const tokenInfo = tokenList[tokenId]
+      if (!tokenInfo) {
+        throw new Error(
+          `No matching token info found for tokenId ${tokenId}. Cannot send crypto to provider.`
+        )
       }
 
       // update the prepared transaction to use the transferAddress as the
@@ -1070,13 +1062,13 @@ export function* handleCreateFiatConnectTransfer(
           BigInt(
             tokenAmountInSmallestUnit(
               new BigNumber(fiatConnectQuote.getCryptoAmount()),
-              spendTokenDecimals
+              tokenInfo.decimals
             )
           ),
         ],
       })
       const cashOutTxHash = yield* call(_initiateSendTxToProvider, {
-        networkId,
+        tokenInfo,
         transferAddress,
         fiatConnectQuote,
         serializablePreparedTransaction,
