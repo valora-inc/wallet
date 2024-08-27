@@ -269,7 +269,8 @@ export default function EarnHome({ navigation, route }: Props) {
   const errorLoadingPools =
     positionsStatus === 'error' &&
     (!pools ||
-      (positionsFetchedAt && Date.now() - positionsFetchedAt > TIME_UNTIL_TOKEN_INFO_BECOMES_STALE))
+      (!!positionsFetchedAt &&
+        Date.now() - positionsFetchedAt > TIME_UNTIL_TOKEN_INFO_BECOMES_STALE))
   return (
     <>
       <Animated.View testID="EarnScreen" style={styles.container}>

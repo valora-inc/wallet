@@ -2,7 +2,7 @@ export enum Actions {
   REFRESH_POSITIONS = 'POSITIONS/REFRESH_POSITIONS',
 }
 
-export interface RefreshPositionsAction {
+interface RefreshPositionsAction {
   type: Actions.REFRESH_POSITIONS
 }
 
