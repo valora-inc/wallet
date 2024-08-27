@@ -39,17 +39,17 @@ describe('EarnPoolInfoScreen', () => {
     ).toBeTruthy()
 
     expect(
-      within(getByTestId('YieldCard')).queryAllByText(
-        'earnFlow.poolInfoScreen.ratePercent, {"rate":"0.27"}'
+      within(getByTestId('YieldCard')).getAllByText(
+        'earnFlow.poolInfoScreen.ratePercent, {"rate":"1.92"}'
       )
     ).toBeTruthy()
 
-    expect(
-      within(getByTestId('TvlCard')).queryAllByText('earnFlow.poolInfoScreen.tvl')
-    ).toBeTruthy()
-    expect(within(getByTestId('TvlCard')).queryAllByText('$328,925.86')).toBeTruthy()
+    expect(within(getByTestId('TvlCard')).getByText('earnFlow.poolInfoScreen.tvl')).toBeTruthy()
+    expect(within(getByTestId('TvlCard')).getByText('₱2,170,560.00')).toBeTruthy()
 
-    expect(within(getByTestId('AgeCard')).queryAllByText('3 months')).toBeTruthy()
+    expect(
+      within(getByTestId('AgeCard')).getByText('duration, {"context":"month","count":5}')
+    ).toBeTruthy()
 
     expect(getByText('earnFlow.poolInfoScreen.withdraw')).toBeTruthy()
     expect(getByText('earnFlow.poolInfoScreen.deposit')).toBeTruthy()
