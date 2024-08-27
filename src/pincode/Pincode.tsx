@@ -91,11 +91,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   subtitle: {
-    ...typeScale.bodyMedium,
+    ...typeScale.titleMedium,
     textAlign: 'center',
   },
   title: {
     ...typeScale.titleMedium,
+    lineHeight: 32,
     textAlign: 'center',
     marginBottom: Spacing.Regular16,
   },

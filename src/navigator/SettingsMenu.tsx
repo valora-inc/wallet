@@ -101,12 +101,6 @@ export default function SettingsMenu({ route }: Props) {
   const walletConnectEnabled = v2
   const connectedDapps = sessions?.length
 
-  // The tests require onPress to exist in order to pass, but
-  // empty arrow functions cause eslint to complain.
-  // TODO: Remove this once all options are implemented.
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  const dummyNavigate = () => {}
-
   return (
     <SafeAreaView>
       <ScrollView>
@@ -145,7 +139,7 @@ export default function SettingsMenu({ route }: Props) {
           icon={<Lock width={24} height={24} color={colors.black} />}
           title={t('securityPrivacy')}
           testID="SettingsMenu/Security"
-          onPress={dummyNavigate}
+          onPress={() => navigate(Screens.SecuritySubmenu)}
           showChevron
           borderless
         />

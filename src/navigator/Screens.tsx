@@ -66,6 +66,7 @@ export enum Screens {
   ProfileSubmenu = 'ProfileSubmenu',
   LegalSubmenu = 'LegalSubmenu',
   PreferencesSubmenu = 'PreferencesSubmenu',
+  SecuritySubmenu = 'SecuritySubmenu',
   SettingsMenu = 'SettingsMenu',
   ProtectWallet = 'ProtectWallet',
   QRCode = 'QRCode',
