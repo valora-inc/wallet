@@ -1,5 +1,5 @@
 import { CryptoType, FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
-import { fireEvent, render, waitFor } from '@testing-library/react-native'
+import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
 import _ from 'lodash'
 import * as React from 'react'
 import { Provider } from 'react-redux'
@@ -12,14 +12,12 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getDefaultLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { prepareSendTransactionsCallback } from 'src/send/usePrepareSendTransactions'
 import { NetworkId } from 'src/transactions/types'
 import { TransactionRequest } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
   mockAccount,
-  mockCeloAddress,
   mockCeloTokenId,
   mockCeurAddress,
   mockCeurTokenBalance,
@@ -28,6 +26,7 @@ import {
   mockCusdTokenBalance,
   mockCusdTokenId,
   mockFiatConnectQuotes,
+  mockTokenBalances,
 } from 'test/values'
 import { Address, parseGwei } from 'viem'
 
@@ -51,26 +50,10 @@ jest.mock('src/localCurrency/selectors', () => {
   }
 })
 
-jest.mock('src/send/usePrepareSendTransactions')
-jest.mock('src/fiatconnect/clients', () => ({
-  getFiatConnectClient: jest.fn(() => ({
-    transferIn: jest.fn(() => ({
-      unwrap: jest.fn().mockResolvedValue({
-        transferAddress: '0x123',
-        transferId: '123',
-        transferStatus: 'success',
-      }),
-      isErr: false,
-    })),
-    transferOut: jest.fn(() => ({
-      unwrap: jest.fn().mockResolvedValue({
-        transferAddress: '0x123',
-        transferId: '123',
-        transferStatus: 'success',
-      }),
-      isErr: false,
-    })),
-  })),
+const mockPrepareERC20TransferTransaction = jest.fn()
+jest.mock('src/viem/prepareTransactions', () => ({
+  ...jest.requireActual('src/viem/prepareTransactions'),
+  prepareERC20TransferTransaction: async () => mockPrepareERC20TransferTransaction(),
 }))
 
 function getProps(
@@ -115,34 +98,19 @@ const store = createMockStore({
   tokens: {
     tokenBalances: {
       [mockCusdTokenId]: {
-        address: mockCusdAddress,
-        tokenId: mockCusdTokenId,
-        networkId: NetworkId['celo-alfajores'],
-        symbol: 'cUSD',
+        ...mockTokenBalances[mockCusdTokenId],
         balance: '200',
         priceUsd: '1',
-        isFeeCurrency: true,
-        priceFetchedAt: Date.now(),
       },
       [mockCeurTokenId]: {
-        address: mockCeurAddress,
-        tokenId: mockCeurTokenId,
-        networkId: NetworkId['celo-alfajores'],
-        symbol: 'cEUR',
+        ...mockTokenBalances[mockCeurTokenId],
         balance: '100',
         priceUsd: '1.2',
-        isFeeCurrency: true,
-        priceFetchedAt: Date.now(),
       },
       [mockCeloTokenId]: {
-        address: mockCeloAddress,
-        tokenId: mockCeloTokenId,
-        networkId: NetworkId['celo-alfajores'],
-        symbol: 'CELO',
+        ...mockTokenBalances[mockCeloTokenId],
         balance: '200',
         priceUsd: '5',
-        isFeeCurrency: true,
-        priceFetchedAt: Date.now(),
       },
     },
   },
@@ -181,7 +149,7 @@ describe('ReviewScreen', () => {
       )
     })
     it('shows the fees even if the prepared transaction is loading', async () => {
-      jest.mocked(prepareSendTransactionsCallback).mockImplementation(async () => {
+      mockPrepareERC20TransferTransaction.mockImplementation(async () => {
         return new Promise(() => {
           // do nothing so that the loading state persists
         })
@@ -195,7 +163,7 @@ describe('ReviewScreen', () => {
       expect(await findByTestId('txDetails-fee/value')).toHaveTextContent('$0.70')
     })
     it('shows the fees even if the prepared transaction has an error', async () => {
-      jest.mocked(prepareSendTransactionsCallback).mockRejectedValue(new Error('some error'))
+      mockPrepareERC20TransferTransaction.mockRejectedValue(new Error('some error'))
       const props = getProps(CICOFlow.CashIn, true, CryptoType.cUSD)
       const { findByTestId } = render(
         <Provider store={store}>
@@ -212,18 +180,24 @@ describe('ReviewScreen', () => {
       jest.clearAllMocks()
     })
 
+    const mockPreparedTransaction = {
+      from: mockAccount,
+      to: '0x123',
+      value: BigInt(0),
+      data: '0xtransferEncodedData',
+      gas: BigInt(1_000_000),
+      maxFeePerGas: parseGwei('5'),
+      _baseFeePerGas: parseGwei('1'),
+      feeCurrency: mockCusdAddress as Address,
+    }
+
     it('shows fiat amount, transaction details and payment method, with provider and network fees', async () => {
-      jest.mocked(prepareSendTransactionsCallback).mockResolvedValue({
+      mockPrepareERC20TransferTransaction.mockResolvedValue({
         type: 'possible',
         transactions: [
           {
-            from: mockAccount,
-            to: '0x123',
-            value: BigInt(0),
-            data: '0xtransferEncodedData',
+            ...mockPreparedTransaction,
             gas: BigInt(4_000_000), // max gas = gas * maxFeePerGas = 0.02 cEUR
-            maxFeePerGas: parseGwei('5'),
-            _baseFeePerGas: parseGwei('1'),
             feeCurrency: mockCeurAddress as Address,
           },
         ],
@@ -305,18 +279,12 @@ describe('ReviewScreen', () => {
     })
 
     it('shows fiat amount, transaction details and payment method without provider fee', async () => {
-      jest.mocked(prepareSendTransactionsCallback).mockResolvedValue({
+      mockPrepareERC20TransferTransaction.mockResolvedValue({
         type: 'possible',
         transactions: [
           {
-            from: mockAccount,
-            to: '0x123',
-            value: BigInt(0),
-            data: '0xtransferEncodedData',
+            ...mockPreparedTransaction,
             gas: BigInt(3_000_000), // max gas = gas * maxFeePerGas = 0.015 cUSD
-            maxFeePerGas: parseGwei('5'),
-            _baseFeePerGas: parseGwei('1'),
-            feeCurrency: mockCusdAddress as Address,
           },
         ],
         feeCurrency: mockCusdTokenBalance,
@@ -344,7 +312,7 @@ describe('ReviewScreen', () => {
       )
     })
     it('disables the submit button if prepared transaction is not possible', async () => {
-      jest.mocked(prepareSendTransactionsCallback).mockResolvedValue({
+      mockPrepareERC20TransferTransaction.mockResolvedValue({
         type: 'not-enough-balance-for-gas',
         feeCurrencies: [mockCusdTokenBalance],
       })
@@ -358,7 +326,7 @@ describe('ReviewScreen', () => {
       expect(await findByTestId('submitButton')).toBeDisabled()
     })
     it('shows a loading spinner for fees if there is a provider fee and the prepared transaction is loading', async () => {
-      jest.mocked(prepareSendTransactionsCallback).mockImplementation(async () => {
+      mockPrepareERC20TransferTransaction.mockImplementation(async () => {
         return new Promise(() => {
           // do nothing so that the loading state persists
         })
@@ -373,7 +341,7 @@ describe('ReviewScreen', () => {
       await waitFor(() => expect(getByTestId('LineItemLoading')).toBeTruthy())
     })
     it('shows a --- for fees if there is a provider fee and there was an error preparing transactions', async () => {
-      jest.mocked(prepareSendTransactionsCallback).mockRejectedValue(new Error('some error'))
+      mockPrepareERC20TransferTransaction.mockRejectedValue(new Error('some error'))
       const props = getProps(CICOFlow.CashOut, true, CryptoType.cUSD, false)
       const { getByTestId } = render(
         <Provider store={store}>
@@ -418,24 +386,17 @@ describe('ReviewScreen', () => {
         ])
       )
     })
-    it.only('shows expired dialog when submitting expired quote', async () => {
-      jest.mocked(prepareSendTransactionsCallback).mockResolvedValue({
+    it('shows expired dialog when submitting expired quote', async () => {
+      mockPrepareERC20TransferTransaction.mockResolvedValue({
         type: 'possible',
         transactions: [
           {
-            from: mockAccount,
-            to: '0x123',
-            value: BigInt(0),
-            data: '0xtransferEncodedData',
+            ...mockPreparedTransaction,
             gas: BigInt(3_000_000), // max gas = gas * maxFeePerGas = 0.015 cUSD
-            maxFeePerGas: parseGwei('5'),
-            _baseFeePerGas: parseGwei('1'),
-            feeCurrency: mockCusdAddress as Address,
           },
         ],
         feeCurrency: mockCusdTokenBalance,
       })
-      jest.useRealTimers()
       const expireMs = 100
       const mockProps = getProps(CICOFlow.CashOut, false, CryptoType.cUSD, false, expireMs)
       const { getByTestId, findByTestId } = render(
@@ -444,12 +405,15 @@ describe('ReviewScreen', () => {
         </Provider>
       )
 
-      expect((await findByTestId('expiredQuoteDialog'))?.props.visible).toEqual(false)
-      await new Promise((resolve) => setTimeout(resolve, expireMs))
+      expect((await findByTestId('expiredQuoteDialog')).props.visible).toEqual(false)
+      await act(() => {
+        jest.advanceTimersByTime(expireMs + 1)
+      })
+
       fireEvent.press(getByTestId('submitButton'))
 
       expect(store.getActions()).toEqual([])
-      expect((await findByTestId('expiredQuoteDialog'))?.props.visible).toEqual(true)
+      await waitFor(() => expect(getByTestId('expiredQuoteDialog').props.visible).toEqual(true))
     })
     it('dispatches fiat transfer action and navigates on clicking button', async () => {
       const mockTransaction: TransactionRequest = {
@@ -462,7 +426,7 @@ describe('ReviewScreen', () => {
         _baseFeePerGas: parseGwei('1'),
         feeCurrency: mockCusdAddress as Address,
       }
-      jest.mocked(prepareSendTransactionsCallback).mockResolvedValue({
+      mockPrepareERC20TransferTransaction.mockResolvedValue({
         type: 'possible',
         transactions: [mockTransaction],
         feeCurrency: mockCusdTokenBalance,
@@ -485,8 +449,7 @@ describe('ReviewScreen', () => {
           fiatAccountId: '123',
           networkId: NetworkId['celo-alfajores'],
           serializablePreparedTransaction: getSerializablePreparedTransaction(mockTransaction),
-          transferAddress: '0x123',
-          transferId: '123',
+          spendTokenDecimals: 18,
         }),
       ])
       expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectTransferStatus, {
@@ -495,7 +458,7 @@ describe('ReviewScreen', () => {
         fiatAccount: mockProps.route.params.fiatAccount,
       })
     })
-    it.only('navigates back to select providers screen when the provider is pressed', async () => {
+    it('navigates back to select providers screen when the provider is pressed', async () => {
       const mockProps = getProps(CICOFlow.CashOut)
 
       const { findByTestId } = render(
