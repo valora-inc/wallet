@@ -1,6 +1,8 @@
 import { fireEvent, render, within } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
+import AppAnalytics from 'src/analytics/AppAnalytics'
+import { EarnEvents } from 'src/analytics/Events'
 import EarnPoolInfoScreen from 'src/earn/EarnPoolInfoScreen'
 import { Screens } from 'src/navigator/Screens'
 import { navigateToURI } from 'src/utils/linking'
@@ -73,5 +75,8 @@ describe('EarnPoolInfoScreen', () => {
       getByText('earnFlow.poolInfoScreen.learnMoreOnProvider, {"providerName":"Aave"}')
     )
     expect(navigateToURI).toHaveBeenCalledWith('https://app.aave.com/?marketName=proto_arbitrum_v3')
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_info_view_pool, {
+      url: 'https://app.aave.com/?marketName=proto_arbitrum_v3',
+    })
   })
 })

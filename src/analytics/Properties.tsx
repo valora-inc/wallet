@@ -1644,6 +1644,9 @@ interface EarnEventsProperties {
     tokenAmount: string
     poolId: string
   } & EarnCommonProperties
+  [EarnEvents.earn_pool_info_view_pool]: {
+    url: string
+  }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

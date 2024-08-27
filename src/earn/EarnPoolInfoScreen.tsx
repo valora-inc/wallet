@@ -6,6 +6,8 @@ import { Trans, useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
+import AppAnalytics from 'src/analytics/AppAnalytics'
+import { EarnEvents } from 'src/analytics/Events'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
@@ -227,17 +229,19 @@ function AgeCard({ ageOfPool, infoIconPress }: { ageOfPool: Date; infoIconPress:
   )
 }
 
-function LearnMoreTouchable({
-  manageUrl,
-  providerName,
-}: {
-  manageUrl: string
-  providerName: string
-}) {
+function LearnMoreTouchable({ url, providerName }: { url: string; providerName: string }) {
   const { t } = useTranslation()
   return (
     <View style={styles.learnMoreContainer}>
-      <Touchable borderRadius={8} onPress={() => navigateToURI(manageUrl)}>
+      <Touchable
+        borderRadius={8}
+        onPress={() => {
+          AppAnalytics.track(EarnEvents.earn_pool_info_view_pool, {
+            url,
+          })
+          navigateToURI(url)
+        }}
+      >
         <View style={styles.learnMoreView}>
           <OpenLinkIcon color={Colors.black} size={24} />
           <Text style={styles.learnMoreText}>
@@ -350,7 +354,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
             />
           ) : null}
           {dataProps.manageUrl && appName ? (
-            <LearnMoreTouchable manageUrl={dataProps.manageUrl} providerName={appName} />
+            <LearnMoreTouchable url={dataProps.manageUrl} providerName={appName} />
           ) : null}
         </View>
       </Animated.ScrollView>
