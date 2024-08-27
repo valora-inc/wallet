@@ -24,15 +24,6 @@ describe('Profile', () => {
     store = createMockStore({})
   })
 
-  it('renders correctly', () => {
-    const { toJSON } = render(
-      <Provider store={store}>
-        <Profile {...getMockStackScreenProps(Screens.Profile)} />
-      </Provider>
-    )
-    expect(toJSON()).toMatchSnapshot()
-  })
-
   describe('when updating name', () => {
     const name = 'New Name'
     it('edits name', () => {

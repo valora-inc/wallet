@@ -11,7 +11,7 @@ import AccountNumber from 'src/components/AccountNumber'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
 import PhoneNumberWithFlag from 'src/components/PhoneNumberWithFlag'
 import Touchable from 'src/components/Touchable'
-import Help from 'src/icons/navigator/Help'
+import Help from 'src/icons/Help'
 import { Invite } from 'src/icons/navigator/Invite'
 import Settings from 'src/icons/navigator/Settings'
 import { headerWithCloseButton } from 'src/navigator/Headers'
@@ -119,14 +119,14 @@ const styles = StyleSheet.create({
   },
   topBorder: {
     marginVertical: Spacing.Thick24,
-    marginLeft: Spacing.Regular16,
+    marginHorizontal: Spacing.Regular16,
     height: 1,
     backgroundColor: colors.gray2,
     alignSelf: 'stretch',
   },
   bottomBorder: {
     marginTop: Spacing.Thick24,
-    marginLeft: Spacing.Regular16,
+    marginHorizontal: Spacing.Regular16,
     height: 1,
     backgroundColor: colors.gray2,
     alignSelf: 'stretch',

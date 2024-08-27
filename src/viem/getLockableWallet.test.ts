@@ -1,10 +1,15 @@
 import { Network } from 'src/transactions/types'
 import { viemTransports } from 'src/viem'
 import getLockableViemWallet, { ViemWallet, getTransport } from 'src/viem/getLockableWallet'
-import { KeychainLock } from 'src/web3/KeychainLock'
-import { mockAccount2, mockContractAddress, mockTypedData } from 'test/values'
-import { Address, custom, erc20Abi, getAddress, toHex } from 'viem'
-import { privateKeyToAddress } from 'viem/accounts'
+import { KeychainAccounts } from 'src/web3/KeychainAccounts'
+import {
+  mockAccount2,
+  mockAddress,
+  mockContractAddress,
+  mockPrivateKey,
+  mockTypedData,
+} from 'test/values'
+import { custom, erc20Abi, getAddress, toHex } from 'viem'
 import {
   sendTransaction,
   signMessage,
@@ -28,9 +33,6 @@ jest.mock('src/viem', () => {
     },
   }
 })
-
-const PRIVATE_KEY1 = '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef'
-const ACCOUNT_ADDRESS1 = privateKeyToAddress(PRIVATE_KEY1).toLowerCase() as Address
 
 describe('getTransport', () => {
   it.each([
@@ -72,7 +74,7 @@ const methodsParams: Record<string, any> = {
 
 describe('getLockableWallet', () => {
   let wallet: ViemWallet
-  let lock: KeychainLock
+  let accounts: KeychainAccounts
 
   beforeEach(async () => {
     jest.clearAllMocks()
@@ -97,9 +99,9 @@ describe('getLockableWallet', () => {
     const mockTransport = custom({ request: mockRequest })
     viemTransports[Network.Celo] = mockTransport
     viemTransports[Network.Ethereum] = mockTransport
-    lock = new KeychainLock()
-    await lock.addAccount(PRIVATE_KEY1, 'password')
-    wallet = getLockableViemWallet(lock, celoAlfajores, ACCOUNT_ADDRESS1)
+    accounts = new KeychainAccounts()
+    await accounts.addAccount(mockPrivateKey, 'password')
+    wallet = getLockableViemWallet(accounts, celoAlfajores, mockAddress)
   })
 
   it.each([
@@ -127,8 +129,8 @@ describe('getLockableWallet', () => {
   })
 
   it("throws if account doesn't exist in the keychain", () => {
-    expect(() => getLockableViemWallet(lock, celoAlfajores, mockAccount2)).toThrow(
-      `Account ${mockAccount2} not found in KeychainLock`
+    expect(() => getLockableViemWallet(accounts, celoAlfajores, mockAccount2)).toThrow(
+      `Account ${mockAccount2} not found in KeychainAccounts`
     )
   })
 })

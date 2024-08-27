@@ -18,6 +18,7 @@ import Support from 'src/account/Support'
 import SupportContact from 'src/account/SupportContact'
 import AppLoading from 'src/app/AppLoading'
 import Debug from 'src/app/Debug'
+import DebugImages from 'src/app/DebugImages'
 import ErrorScreen from 'src/app/ErrorScreen'
 import MultichainBeta from 'src/app/MultichainBeta'
 import SanctionedCountryErrorScreen from 'src/app/SanctionedCountryErrorScreen'
@@ -79,6 +80,7 @@ import {
   nuxNavigationOptions,
 } from 'src/navigator/Headers'
 import ProfileMenu from 'src/navigator/ProfileMenu'
+import SettingsMenu from 'src/navigator/SettingsMenu'
 import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
 import TabNavigator from 'src/navigator/TabNavigator'
@@ -137,6 +139,11 @@ const commonScreens = (Navigator: typeof Stack) => {
         options={UpgradeScreen.navigationOptions}
       />
       <Navigator.Screen name={Screens.Debug} component={Debug} options={noHeader} />
+      <Navigator.Screen
+        name={Screens.DebugImages}
+        component={DebugImages}
+        options={headerWithBackButton}
+      />
       <Navigator.Screen
         name={Screens.WebViewScreen}
         component={WebViewScreen}
@@ -513,9 +520,14 @@ const generalScreens = (Navigator: typeof Stack) => (
       component={ProfileMenu}
       options={ProfileMenu.navigationOptions as NativeStackNavigationOptions}
     />
+    <Navigator.Screen
+      name={Screens.SettingsMenu}
+      component={SettingsMenu}
+      options={SettingsMenu.navigationOptions as NativeStackNavigationOptions}
+    />
     <Navigator.Screen name={Screens.Settings} component={SettingsScreen} options={noHeader} />
     <Navigator.Screen name={Screens.Invite} component={Invite} options={noHeader} />
-    <Navigator.Screen name={Screens.Support} component={Support} options={headerWithBackButton} />
+    <Navigator.Screen name={Screens.Support} component={Support} options={noHeader} />
   </>
 )
 

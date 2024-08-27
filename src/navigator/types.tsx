@@ -78,6 +78,7 @@ export type StackParamList = {
   }
   [Screens.DappsScreen]: undefined
   [Screens.Debug]: undefined
+  [Screens.DebugImages]: undefined
   [Screens.EarnInfoScreen]: undefined
   [Screens.EarnEnterAmount]: { pool: EarnPosition }
   [Screens.EarnCollectScreen]: {
@@ -216,6 +217,7 @@ export type StackParamList = {
     | undefined
   [Screens.Profile]: undefined
   [Screens.ProfileMenu]: undefined
+  [Screens.SettingsMenu]: undefined
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
   [Screens.RegulatoryTerms]: undefined
   [Screens.SanctionedCountryErrorScreen]: undefined

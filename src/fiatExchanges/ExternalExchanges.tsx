@@ -62,7 +62,7 @@ function ExternalExchanges({ route }: Props) {
         })}
       </Text>
 
-      <ScrollView style={styles.exchangesContainer}>
+      <ScrollView>
         {providers?.map((provider, index) => {
           return (
             <ListItem testID="provider" key={provider.name} onPress={goToExchange(provider)}>
@@ -94,9 +94,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flex: 4,
-  },
-  exchangesContainer: {
-    paddingRight: variables.contentPadding,
   },
   optionTitle: {
     flex: 3,

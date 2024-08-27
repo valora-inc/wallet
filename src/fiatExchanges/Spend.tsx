@@ -56,7 +56,7 @@ function Spend(props: Props) {
     <ScrollView style={styles.container}>
       <SafeAreaView>
         <Text style={styles.pleaseSelectProvider}>{t('useBalanceWithMerchants')}</Text>
-        <View style={styles.providersContainer}>
+        <View>
           {merchants
             .filter((merchant) => !!merchant.link)
             .map((merchant) => {
@@ -91,9 +91,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-  },
-  providersContainer: {
-    paddingRight: variables.contentPadding,
   },
   optionTitle: {
     ...typeScale.bodyMedium,

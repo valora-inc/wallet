@@ -3,18 +3,16 @@ import colors from 'src/styles/colors'
 import Svg, { Path } from 'svgs'
 
 export interface Props {
-  height?: number
+  size?: number
   color?: string
-  strokeWidth?: number
 }
 
-function Share({ color = colors.primary, height = 32, strokeWidth = 2.5 }: Props) {
+function Share({ color = colors.primary, size = 32 }: Props) {
   return (
-    <Svg width={height} height={height} viewBox="0 0 32 32" fill="none">
+    <Svg width={size} height={size} viewBox="0 0 32 32" fill="none">
       <Path
-        d="M16 18V4M12 7l4-4 4 4M12.571 12H11a3 3 0 00-3 3v9a3 3 0 003 3h10a3 3 0 003-3v-9a3 3 0 00-3-3h-1.571"
-        stroke={color}
-        strokeWidth={strokeWidth}
+        d="m16 5-1.42 1.42-1.59-1.59V16h-1.98V4.83L9.42 6.42 8 5l4-4 4 4Zm4 5v11c0 1.1-.9 2-2 2H6a2 2 0 0 1-2-2V10c0-1.11.89-2 2-2h3v2H6v11h12V10h-3V8h3a2 2 0 0 1 2 2Z"
+        fill={color}
       />
     </Svg>
   )

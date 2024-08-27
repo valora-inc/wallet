@@ -55,7 +55,10 @@ function ContactCircle({
       return (
         <Text
           allowFontScaling={false}
-          style={[typeScale.labelMedium, { fontSize: iconSize / 2.0, color: fontColor }]}
+          style={[
+            typeScale.labelMedium,
+            { fontSize: iconSize / 2.0, color: fontColor, lineHeight: iconSize / 1.5 },
+          ]}
         >
           {initial.toLocaleUpperCase()}
         </Text>

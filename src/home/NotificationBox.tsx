@@ -18,7 +18,7 @@ import { DEFAULT_PRIORITY } from 'src/home/reducers'
 import { getExtraNotifications } from 'src/home/selectors'
 import { Notification, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import KeylessBackup from 'src/icons/KeylessBackup'
-import GuideKeyIcon from 'src/images/GuideKeyHomeCardIcon'
+import GuideKeyIcon from 'src/images/GuideKeyIcon'
 import { getVerified, learnCelo } from 'src/images/Images'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -100,7 +100,7 @@ export function useSimpleActions() {
         id: NotificationType.backup_prompt,
         type: NotificationType.backup_prompt,
         text: t('backupKeyNotification2'),
-        icon: <GuideKeyIcon />,
+        icon: <GuideKeyIcon height={86} width={92} />,
         priority: BACKUP_PRIORITY,
         testID: 'BackupKeyNotification',
         callToActions: [
