@@ -79,7 +79,6 @@ jest.mocked(usePrepareSendTransactions).mockReturnValue({
   refreshPreparedTransactions: refreshPreparedTransactionsSpy,
   clearPreparedTransactions: jest.fn(),
   prepareTransactionError: undefined,
-  prepareTransactionsLoading: false,
 })
 
 const params = {
@@ -143,7 +142,6 @@ describe('SendEnterAmount', () => {
       refreshPreparedTransactions: jest.fn(),
       clearPreparedTransactions: jest.fn(),
       prepareTransactionError: undefined,
-      prepareTransactionsLoading: false,
     })
     const { getByTestId, getByText } = render(
       <Provider store={store}>
