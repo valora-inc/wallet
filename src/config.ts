@@ -7,6 +7,7 @@ import { SpendMerchant } from 'src/fiatExchanges/Spend'
 import { LoggerLevel } from 'src/utils/LoggerLevels'
 // eslint-disable-next-line import/no-relative-packages
 import { TORUS_SAPPHIRE_NETWORK } from '@toruslabs/constants'
+import { HomeActionName } from 'src/home/types'
 import * as secretsFile from '../secrets.json'
 import { ONE_HOUR_IN_MILLIS } from './utils/time'
 export * from 'src/brandingConfig'
@@ -217,3 +218,13 @@ export const LOGGER_LEVEL = Config.LOGGER_LEVEL
   : LoggerLevel.Debug
 
 export const PHONE_NUMBER_VERIFICATION_CODE_LENGTH = 6
+
+export const ENABLED_QUICK_ACTIONS = (
+  Config.ENABLED_QUICK_ACTIONS ||
+  // Default to all actions
+  Object.values(HomeActionName).join(',')
+)
+  .split(',')
+  .filter(
+    (value) => !!value && Object.values(HomeActionName).includes(value as HomeActionName)
+  ) as HomeActionName[]
