@@ -3,7 +3,6 @@ import { AdjustPlugin } from '@segment/analytics-react-native-plugin-adjust'
 import { ClevertapPlugin } from '@segment/analytics-react-native-plugin-clevertap'
 import { DestinationFiltersPlugin } from '@segment/analytics-react-native-plugin-destination-filters'
 import { FirebasePlugin } from '@segment/analytics-react-native-plugin-firebase'
-import { sha256FromString } from 'ethereumjs-util'
 import _ from 'lodash'
 import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
@@ -28,6 +27,7 @@ import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
 import { Statsig } from 'statsig-react-native'
+import { sha256 } from 'viem'
 
 const TAG = 'AppAnalytics'
 
@@ -125,9 +125,7 @@ class AppAnalytics {
         const deviceInfo = await getDeviceInfo()
         this.deviceInfo = deviceInfo
         uniqueID = deviceInfo.UniqueID
-        this.sessionId = sha256FromString('0x' + uniqueID.split('-').join('') + String(Date.now()))
-          .toString('hex')
-          .slice(2)
+        this.sessionId = sha256(Buffer.from(uniqueID + String(Date.now()))).slice(2)
       } catch (error) {
         Logger.error(TAG, 'getDeviceInfo error', error)
       }

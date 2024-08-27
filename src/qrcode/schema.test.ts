@@ -1,6 +1,6 @@
-import { zeroAddress } from 'ethereumjs-util'
-import { UriData, uriDataFromJson, uriDataFromUrl, urlFromUriData } from 'src/qrcode/schema'
 import { DEEPLINK_PREFIX } from 'src/config'
+import { UriData, uriDataFromJson, uriDataFromUrl, urlFromUriData } from 'src/qrcode/schema'
+import { zeroAddress } from 'viem'
 
 const validAddressData = { address: zeroAddress() }
 const validUserData = {
