@@ -369,7 +369,7 @@ const styles = StyleSheet.create({
     gap: Spacing.Smallest8,
   },
   headerTitleText: {
-    ...typeScale.labelSemiBoldLarge,
+    ...typeScale.labelSemiBoldMedium,
     color: Colors.black,
   },
   flex: {
@@ -383,11 +383,11 @@ const styles = StyleSheet.create({
     color: Colors.black,
   },
   subtitleLabel: {
-    ...typeScale.bodySmall,
+    ...typeScale.bodyMedium,
     color: Colors.gray3,
   },
   subtitleInfo: {
-    ...typeScale.labelSmall,
+    ...typeScale.labelMedium,
     color: Colors.black,
   },
   titleContainer: {
@@ -429,11 +429,11 @@ const styles = StyleSheet.create({
     paddingRight: 20, // Prevents Icon from being cut off on long labels
   },
   cardTitleText: {
-    ...typeScale.labelSemiBoldLarge,
+    ...typeScale.labelSemiBoldMedium,
     color: Colors.black,
   },
   cardLabelText: {
-    ...typeScale.bodySmall,
+    ...typeScale.bodyMedium,
     color: Colors.gray3,
   },
   learnMoreContainer: {
