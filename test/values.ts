@@ -1691,6 +1691,7 @@ export const mockEarnPositions: EarnPosition[] = [
       depositTokenId: mockArbUsdcTokenId,
       withdrawTokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
       tvl: '1360000',
+      termsUrl: 'termsUrl',
     },
     tokens: [
       {

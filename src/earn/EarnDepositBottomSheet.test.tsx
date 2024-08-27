@@ -94,7 +94,9 @@ describe('EarnDepositBottomSheet', () => {
       </Provider>
     )
     expect(getByText('earnFlow.depositBottomSheet.title')).toBeTruthy()
-    expect(getByText('earnFlow.depositBottomSheet.description')).toBeTruthy()
+    expect(
+      getByText('earnFlow.depositBottomSheet.descriptionV1_93, {"providerName":"Aave"}')
+    ).toBeTruthy()
 
     expect(getByTestId('EarnDepositBottomSheet/EarnApyAndAmount/Apy')).toBeTruthy()
 
@@ -113,7 +115,9 @@ describe('EarnDepositBottomSheet', () => {
     expect(getByText('earnFlow.depositBottomSheet.network')).toBeTruthy()
     expect(getByText('Arbitrum Sepolia')).toBeTruthy()
 
-    expect(getByText('earnFlow.depositBottomSheet.footer')).toBeTruthy()
+    expect(
+      getByText('earnFlow.depositBottomSheet.footerV1_93, {"providerName":"Aave"}')
+    ).toBeTruthy()
 
     expect(getByTestId('EarnDeposit/PrimaryCta')).toBeTruthy()
     expect(getByTestId('EarnDeposit/SecondaryCta')).toBeTruthy()
