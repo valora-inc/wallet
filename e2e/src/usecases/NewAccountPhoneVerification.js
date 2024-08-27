@@ -9,7 +9,7 @@ import { checkBalance, receiveSms } from '../utils/twilio'
 import {
   completeProtectWalletScreen,
   enterPinUi,
-  navigateToSettings,
+  navigateToProfile,
   scrollIntoView,
   waitForElementId,
   waitForElementByIdAndTap,
@@ -192,7 +192,7 @@ export default NewAccountPhoneVerification = () => {
     await waitForElementId('HomeAction-Send')
 
     // Assert that 'Connect phone number' is present in settings
-    await navigateToSettings()
+    await navigateToProfile()
     await waitFor(element(by.text('Connect Phone Number')))
       .toBeVisible()
       .withTimeout(10 * 1000)

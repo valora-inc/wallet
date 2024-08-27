@@ -7,7 +7,7 @@ import {
   scrollIntoView,
   waitForElementId,
   waitForElementByIdAndTap,
-  navigateToSettings,
+  navigateToSecurity,
 } from '../utils/utils'
 import { sleep } from '../../../src/utils/sleep'
 
@@ -136,7 +136,7 @@ export default NewAccountOnboarding = () => {
     await element(by.id('WalletHome/NotificationBell')).tap()
     await expect(element(by.text('Back up now'))).not.toExist()
     await element(by.id('BackChevron')).tap()
-    await navigateToSettings()
+    await navigateToSecurity()
     await waitForElementId('RecoveryPhrase')
     await element(by.id('RecoveryPhrase')).tap()
     await enterPinUi()
