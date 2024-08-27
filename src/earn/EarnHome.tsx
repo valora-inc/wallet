@@ -76,7 +76,7 @@ export default function EarnHome({ navigation, route }: Props) {
   const filterChipsCarouselRef = useRef<ScrollView>(null)
   const pools = useSelector(earnPositionsSelector)
 
-  const activeTab = route.params?.activeEarnTab ?? EarnTabType.OpenPools
+  const activeTab = route.params?.activeEarnTab ?? EarnTabType.AllPools
 
   const insets = useSafeAreaInsets()
 
@@ -235,11 +235,11 @@ export default function EarnHome({ navigation, route }: Props) {
   }
 
   const displayPools = useMemo(() => {
-    return pools.filter((pool) => {
-      const depositTokenInfo = allTokens[pool.dataProps.depositTokenId]
-      const isMyPool = new BigNumber(pool.balance).gt(0) && !!depositTokenInfo
-      return activeTab === EarnTabType.MyPools ? isMyPool : !isMyPool
-    })
+    return activeTab === EarnTabType.AllPools
+      ? pools
+      : pools.filter(
+          (pool) => new BigNumber(pool.balance).gt(0) && !!allTokens[pool.dataProps.depositTokenId]
+        )
   }, [pools, allTokens, activeTab])
 
   const onPressLearnMore = () => {
@@ -247,6 +247,7 @@ export default function EarnHome({ navigation, route }: Props) {
     learnMoreBottomSheetRef.current?.snapToIndex(0)
   }
 
+  const zeroPoolsinMyPoolsTab = displayPools.length === 0 && activeTab === EarnTabType.MyPools
   return (
     <>
       <Animated.View testID="EarnScreen" style={styles.container}>
@@ -273,17 +274,24 @@ export default function EarnHome({ navigation, route }: Props) {
             <EarnTabBar activeTab={activeTab} onChange={handleChangeActiveView} />
           </View>
         </Animated.View>
-        <PoolList
-          handleScroll={handleScroll}
-          listHeaderHeight={listHeaderHeight}
-          paddingBottom={insets.bottom}
-          displayPools={displayPools.filter((pool) =>
-            pool.tokens.some((token) =>
-              tokenList.map((token) => token.tokenId).includes(token.tokenId)
-            )
-          )}
-          onPressLearnMore={onPressLearnMore}
-        />
+        {zeroPoolsinMyPoolsTab ? (
+          <View style={styles.noPoolsContainer}>
+            <Text style={styles.noPoolsTitle}>{t('earnFlow.home.noPoolsTitle')}</Text>
+            <Text style={styles.noPoolsDescription}>{t('earnFlow.home.noPoolsDescription')}</Text>
+          </View>
+        ) : (
+          <PoolList
+            handleScroll={handleScroll}
+            listHeaderHeight={listHeaderHeight}
+            paddingBottom={insets.bottom}
+            displayPools={displayPools.filter((pool) =>
+              pool.tokens.some((token) =>
+                tokenList.map((token) => token.tokenId).includes(token.tokenId)
+              )
+            )}
+            onPressLearnMore={onPressLearnMore}
+          />
+        )}
       </Animated.View>
       <LearnMoreBottomSheet learnMoreBottomSheetRef={learnMoreBottomSheetRef} />
       {networkChip && (
@@ -370,16 +378,31 @@ const styles = StyleSheet.create({
   },
   learnMoreTitle: {
     ...typeScale.titleSmall,
-    colors: Colors.black,
+    color: Colors.black,
   },
   learnMoreSubTitle: {
     ...typeScale.labelSemiBoldSmall,
-    colors: Colors.black,
+    color: Colors.black,
     marginBottom: Spacing.Tiny4,
   },
   learnMoreDescription: {
     ...typeScale.bodySmall,
-    colors: Colors.black,
+    color: Colors.black,
     marginBottom: Spacing.Thick24,
+  },
+  noPoolsContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: Spacing.Thick24,
+  },
+  noPoolsTitle: {
+    ...typeScale.labelSemiBoldLarge,
+    textAlign: 'center',
+  },
+  noPoolsDescription: {
+    ...typeScale.bodySmall,
+    textAlign: 'center',
+    marginTop: Spacing.Regular16,
   },
 })

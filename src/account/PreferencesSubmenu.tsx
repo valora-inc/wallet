@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView } from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { SettingsItemTextValue, SettingsItemSwitch } from 'src/components/SettingsItem'
 import { navigate } from 'src/navigator/NavigationService'
@@ -15,10 +15,13 @@ import { useDispatch, useSelector } from 'src/redux/hooks'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { hapticFeedbackEnabledSelector } from 'src/app/selectors'
 import { hapticFeedbackSet } from 'src/app/actions'
+import CustomHeader from 'src/components/header/CustomHeader'
+import variables from 'src/styles/variables'
+import BackButton from 'src/components/BackButton'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.PreferencesSubmenu>
 
-export const PreferencesSubmenu = ({ route }: Props) => {
+const PreferencesSubmenu = ({ route }: Props) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
@@ -42,8 +45,9 @@ export const PreferencesSubmenu = ({ route }: Props) => {
   }
 
   return (
-    <SafeAreaView edges={['bottom', 'left', 'right']}>
-      <ScrollView>
+    <ScrollView>
+      <SafeAreaView>
+        <CustomHeader left={<BackButton />} title={t('preferences')} style={styles.header} />
         <SettingsItemTextValue
           testID="PreferencesSubmenu/Language"
           title={t('languageSettings')}
@@ -56,6 +60,7 @@ export const PreferencesSubmenu = ({ route }: Props) => {
           testID="PreferencesSubmenu/ChangeCurrency"
           value={preferredCurrencyCode}
           onPress={goToLocalCurrencySetting}
+          showChevron
         />
         <SettingsItemSwitch
           title={t('hapticFeedback')}
@@ -63,9 +68,15 @@ export const PreferencesSubmenu = ({ route }: Props) => {
           value={hapticFeedbackEnabled}
           onValueChange={handleHapticFeedbackToggle}
         />
-      </ScrollView>
-    </SafeAreaView>
+      </SafeAreaView>
+    </ScrollView>
   )
 }
+
+const styles = StyleSheet.create({
+  header: {
+    paddingHorizontal: variables.contentPadding,
+  },
+})
 
 export default PreferencesSubmenu

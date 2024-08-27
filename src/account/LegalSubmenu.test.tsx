@@ -5,7 +5,7 @@ import LegalSubmenu from 'src/account/LegalSubmenu'
 import { Screens } from 'src/navigator/Screens'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
-import { fireEvent, render, waitFor } from '@testing-library/react-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SettingsEvents } from 'src/analytics/Events'
 import { navigateToURI } from 'src/utils/linking'
@@ -21,48 +21,48 @@ describe('LegalSubmenu', () => {
 
   it('shows the expected menu items', () => {
     const store = createMockStore()
-    const { queryByTestId } = render(
+    const { getByText } = render(
       <Provider store={store}>
         <MockedNavigator component={LegalSubmenu}></MockedNavigator>
       </Provider>
     )
-    expect(queryByTestId('LegalSubmenu/Licenses')).toBeTruthy()
-    expect(queryByTestId('LegalSubmenu/Terms')).toBeTruthy()
-    expect(queryByTestId('LegalSubmenu/Privacy')).toBeTruthy()
+    expect(getByText('licenses')).toBeTruthy()
+    expect(getByText('termsOfServiceLink')).toBeTruthy()
+    expect(getByText('privacyPolicy')).toBeTruthy()
   })
 
-  it('navigates to licenses', async () => {
+  it('navigates to licenses', () => {
     const store = createMockStore()
-    const tree = render(
+    const { getByText } = render(
       <Provider store={store}>
         <MockedNavigator component={LegalSubmenu}></MockedNavigator>
       </Provider>
     )
-    fireEvent.press(tree.getByText('licenses'))
-    await waitFor(() => expect(navigate).toHaveBeenCalledWith(Screens.Licenses))
+    fireEvent.press(getByText('licenses'))
+    expect(navigate).toHaveBeenCalledWith(Screens.Licenses)
     expect(AppAnalytics.track).toHaveBeenCalledWith(SettingsEvents.licenses_view)
   })
 
-  it('navigates to terms', async () => {
+  it('navigates to terms', () => {
     const store = createMockStore()
-    const tree = render(
+    const { getByText } = render(
       <Provider store={store}>
         <MockedNavigator component={LegalSubmenu}></MockedNavigator>
       </Provider>
     )
-    fireEvent.press(tree.getByText('termsOfServiceLink'))
-    await waitFor(() => expect(navigateToURI).toHaveBeenCalledWith(TOS_LINK))
+    fireEvent.press(getByText('termsOfServiceLink'))
+    expect(navigateToURI).toHaveBeenCalledWith(TOS_LINK)
     expect(AppAnalytics.track).toHaveBeenCalledWith(SettingsEvents.tos_view)
   })
 
-  it('navigates to privacy policy', async () => {
+  it('navigates to privacy policy', () => {
     const store = createMockStore()
-    const tree = render(
+    const { getByText } = render(
       <Provider store={store}>
         <MockedNavigator component={LegalSubmenu}></MockedNavigator>
       </Provider>
     )
-    fireEvent.press(tree.getByText('privacyPolicy'))
-    await waitFor(() => expect(navigateToURI).toHaveBeenCalledWith(PRIVACY_LINK))
+    fireEvent.press(getByText('privacyPolicy'))
+    expect(navigateToURI).toHaveBeenCalledWith(PRIVACY_LINK)
   })
 })

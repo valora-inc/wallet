@@ -5,21 +5,32 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import { EARN_STABLECOINS_LEARN_MORE } from 'src/config'
 import EarnInfoScreen from 'src/earn/EarnInfoScreen'
+import { EarnTabType } from 'src/earn/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import networkConfig from 'src/web3/networkConfig'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
+import { mockEarnPositions } from 'test/values'
 
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(),
 }))
 
-const store = createMockStore({})
+const store = createMockStore({
+  positions: {
+    positions: mockEarnPositions,
+    earnPositionIds: mockEarnPositions.map((p) => p.positionId),
+  },
+})
 
 describe('EarnInfoScreen', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_POSITIONS)
   })
 
   it('should render correctly', async () => {
@@ -75,7 +86,28 @@ describe('EarnInfoScreen', () => {
 
     fireEvent.press(getByText('earnFlow.earnInfo.action.earn'))
     expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, {
-      tokenId: networkConfig.arbUsdcTokenId,
+      pool: mockEarnPositions[0],
+    })
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_info_earn_press)
+  })
+
+  it('should navigate and fire analytics correctly on Start Earning button press for multiple pools', () => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation(
+        (gate) =>
+          gate === StatsigFeatureGates.SHOW_POSITIONS ||
+          gate === StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS
+      )
+    const { getByText } = render(
+      <Provider store={store}>
+        <MockedNavigator component={EarnInfoScreen} />
+      </Provider>
+    )
+
+    fireEvent.press(getByText('earnFlow.earnInfo.action.earn'))
+    expect(navigate).toHaveBeenCalledWith(Screens.EarnHome, {
+      activeEarnTab: EarnTabType.AllPools,
     })
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_info_earn_press)
   })

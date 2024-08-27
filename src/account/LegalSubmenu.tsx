@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView } from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { SettingsItemTextValue } from 'src/components/SettingsItem'
 import { navigate } from 'src/navigator/NavigationService'
@@ -9,6 +9,9 @@ import { navigateToURI } from 'src/utils/linking'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SettingsEvents } from 'src/analytics/Events'
 import { PRIVACY_LINK, TOS_LINK } from 'src/config'
+import CustomHeader from 'src/components/header/CustomHeader'
+import variables from 'src/styles/variables'
+import BackButton from 'src/components/BackButton'
 
 const LegalSubmenu = () => {
   const { t } = useTranslation()
@@ -24,8 +27,9 @@ const LegalSubmenu = () => {
   }
 
   return (
-    <SafeAreaView edges={['bottom', 'left', 'right']}>
-      <ScrollView>
+    <ScrollView>
+      <SafeAreaView>
+        <CustomHeader left={<BackButton />} title={t('legal')} style={styles.header} />
         <SettingsItemTextValue
           testID="LegalSubmenu/Licenses"
           title={t('licenses')}
@@ -45,9 +49,15 @@ const LegalSubmenu = () => {
           borderless
           isExternalLink
         />
-      </ScrollView>
-    </SafeAreaView>
+      </SafeAreaView>
+    </ScrollView>
   )
 }
+
+const styles = StyleSheet.create({
+  header: {
+    paddingHorizontal: variables.contentPadding,
+  },
+})
 
 export default LegalSubmenu

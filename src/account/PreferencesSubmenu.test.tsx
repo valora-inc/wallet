@@ -16,24 +16,24 @@ describe('PreferencesSubmenu', () => {
 
   it('shows the expected menu items', () => {
     const store = createMockStore()
-    const { queryByTestId } = render(
+    const { getByText } = render(
       <Provider store={store}>
         <MockedNavigator component={PreferencesSubmenu}></MockedNavigator>
       </Provider>
     )
-    expect(queryByTestId('PreferencesSubmenu/Language')).toBeTruthy()
-    expect(queryByTestId('PreferencesSubmenu/ChangeCurrency')).toBeTruthy()
-    expect(queryByTestId('PreferencesSubmenu/HapticToggle')).toBeTruthy()
+    expect(getByText('languageSettings')).toBeTruthy()
+    expect(getByText('localCurrencySetting')).toBeTruthy()
+    expect(getByText('hapticFeedback')).toBeTruthy()
   })
 
   it('navigates to language select', async () => {
     const store = createMockStore()
-    const tree = render(
+    const { getByText } = render(
       <Provider store={store}>
         <MockedNavigator component={PreferencesSubmenu}></MockedNavigator>
       </Provider>
     )
-    fireEvent.press(tree.getByText('languageSettings'))
+    fireEvent.press(getByText('languageSettings'))
     await waitFor(() =>
       expect(navigate).toHaveBeenCalledWith(Screens.Language, { nextScreen: 'MockedScreen' })
     )
@@ -41,12 +41,12 @@ describe('PreferencesSubmenu', () => {
 
   it('navigates to currency select', async () => {
     const store = createMockStore()
-    const tree = render(
+    const { getByText } = render(
       <Provider store={store}>
         <MockedNavigator component={PreferencesSubmenu}></MockedNavigator>
       </Provider>
     )
-    fireEvent.press(tree.getByText('localCurrencySetting'))
+    fireEvent.press(getByText('localCurrencySetting'))
     await waitFor(() => expect(navigate).toHaveBeenCalledWith(Screens.SelectLocalCurrency))
   })
 
