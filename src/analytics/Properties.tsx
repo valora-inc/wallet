@@ -1644,6 +1644,7 @@ interface EarnEventsProperties {
     tokenAmount: string
     poolId: string
   } & EarnCommonProperties
+  [EarnEvents.earn_home_error_try_again]: undefined
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

@@ -14,6 +14,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import Button, { BtnTypes } from 'src/components/Button'
 import FilterChipsCarousel, {
   FilterChip,
   NetworkFilterChip,
@@ -26,6 +27,7 @@ import NetworkMultiSelectBottomSheet from 'src/components/multiSelect/NetworkMul
 import EarnTabBar from 'src/earn/EarnTabBar'
 import PoolList from 'src/earn/PoolList'
 import { EarnTabType } from 'src/earn/types'
+import AttentionIcon from 'src/icons/Attention'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
@@ -247,7 +249,13 @@ export default function EarnHome({ navigation, route }: Props) {
     learnMoreBottomSheetRef.current?.snapToIndex(0)
   }
 
+  const onPressTryAgain = () => {
+    AppAnalytics.track(EarnEvents.earn_home_error_try_again)
+    // TODO: implement
+  }
+
   const zeroPoolsinMyPoolsTab = displayPools.length === 0 && activeTab === EarnTabType.MyPools
+  const errorLoadingPools = true // TODO: update to use loading state
   return (
     <>
       <Animated.View testID="EarnScreen" style={styles.container}>
@@ -274,12 +282,20 @@ export default function EarnHome({ navigation, route }: Props) {
             <EarnTabBar activeTab={activeTab} onChange={handleChangeActiveView} />
           </View>
         </Animated.View>
-        {zeroPoolsinMyPoolsTab ? (
+        {errorLoadingPools && (
+          <View style={styles.noPoolsContainer}>
+            <AttentionIcon size={64} color={Colors.black} />
+            <Text style={styles.noPoolsTitle}>{t('earnFlow.home.errorTitle')}</Text>
+            <Text style={styles.noPoolsDescription}>{t('earnFlow.home.errorDescription')}</Text>
+          </View>
+        )}
+        {zeroPoolsinMyPoolsTab && (
           <View style={styles.noPoolsContainer}>
             <Text style={styles.noPoolsTitle}>{t('earnFlow.home.noPoolsTitle')}</Text>
             <Text style={styles.noPoolsDescription}>{t('earnFlow.home.noPoolsDescription')}</Text>
           </View>
-        ) : (
+        )}
+        {!errorLoadingPools && !zeroPoolsinMyPoolsTab && (
           <PoolList
             handleScroll={handleScroll}
             listHeaderHeight={listHeaderHeight}
@@ -290,6 +306,13 @@ export default function EarnHome({ navigation, route }: Props) {
               )
             )}
             onPressLearnMore={onPressLearnMore}
+          />
+        )}
+        {errorLoadingPools && (
+          <Button
+            onPress={onPressTryAgain}
+            text={t('earnFlow.home.tryAgain')}
+            type={BtnTypes.SECONDARY}
           />
         )}
       </Animated.View>

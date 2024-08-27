@@ -613,6 +613,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [EarnEvents.earn_active_pools_card_press]: `When the user taps on the active pool card in discover tab.`,
   [EarnEvents.earn_home_learn_more_press]: `When the user taps 'Learn more' on the earn home screen`,
   [EarnEvents.earn_pool_card_press]: `When the user taps on a pool card`,
+  [EarnEvents.earn_home_error_try_again]: `When the user taps try again on the earn home screen after an error loading pools`,
 
   // Legacy event docs
   //  The below events had docs, but are no longer produced by the latest app version.
