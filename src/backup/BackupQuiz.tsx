@@ -78,7 +78,10 @@ export const navOptionsForQuiz = ({ route }: OwnProps) => {
     ...emptyHeader,
     headerLeft: () => {
       return isAccountRemoval ? (
-        <CancelButton onCancel={() => navigate(Screens.Settings)} style={styles.cancelButton} />
+        <CancelButton
+          onCancel={() => navigate(Screens.SecuritySubmenu)}
+          style={styles.cancelButton}
+        />
       ) : (
         <CancelConfirm screen={TAG} />
       )
