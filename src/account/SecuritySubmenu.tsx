@@ -78,7 +78,7 @@ import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SecuritySubmenu>
 
-export const SecuritySubmenu = ({ route, navigation }: Props) => {
+const SecuritySubmenu = ({ route, navigation }: Props) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
