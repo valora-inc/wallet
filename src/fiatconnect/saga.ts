@@ -80,10 +80,8 @@ import { TokenTransactionTypeV2, newTransactionContext } from 'src/transactions/
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
-import { publicClient } from 'src/viem'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { sendPreparedTransactions } from 'src/viem/saga'
-import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, delay, put, race, select, spawn, take, takeLeading } from 'typed-redux-saga'
 import { v4 as uuidv4 } from 'uuid'
@@ -992,15 +990,6 @@ export function* _initiateSendTxToProvider({
       [createStandbyTransaction]
     )
 
-    const receipt = yield* call(
-      [publicClient[networkIdToNetwork[tokenInfo.networkId]], 'waitForTransactionReceipt'],
-      { hash }
-    )
-    Logger.debug(`${TAG}/sendPaymentSaga`, 'Got send transaction receipt', receipt)
-    if (receipt.status === 'reverted') {
-      throw new Error(`Send transaction reverted: ${hash}`)
-    }
-
     return hash
   } catch (error) {
     const err = ensureError(error)
@@ -1040,7 +1029,7 @@ export function* handleCreateFiatConnectTransfer(
         throw new Error('Missing serializablePreparedTransaction for cash out')
       }
       if (!networkId) {
-        throw new Error('Missing networkId or spendTokenDecimals for cash out')
+        throw new Error('Missing networkId for cash out')
       }
 
       const tokenList = yield* select(tokensByIdSelector, [networkId])

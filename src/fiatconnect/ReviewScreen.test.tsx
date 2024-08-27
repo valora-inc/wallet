@@ -444,7 +444,6 @@ describe('ReviewScreen', () => {
           networkId: NetworkId['celo-alfajores'],
           serializablePreparedTransaction:
             getSerializablePreparedTransaction(mockPreparedTransaction),
-          spendTokenDecimals: 18,
         }),
       ])
       expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectTransferStatus, {
