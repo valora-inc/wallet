@@ -116,6 +116,6 @@ describe('SettingsMenu', () => {
     expect(navigate).toHaveBeenNthCalledWith(5, Screens.LegalSubmenu)
     expect(navigate).toHaveBeenNthCalledWith(6, Screens.WalletConnectSessions)
     expect(navigate).toHaveBeenNthCalledWith(7, Screens.PreferencesSubmenu)
-    expect(navigate).toHaveBeenNthCalledWith(7, Screens.SecuritySubmenu)
+    expect(navigate).toHaveBeenNthCalledWith(8, Screens.SecuritySubmenu)
   })
 })
