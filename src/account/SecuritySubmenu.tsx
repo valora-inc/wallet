@@ -16,6 +16,7 @@ import {
   SettingsItemSwitch,
   SettingsExpandedItem,
 } from 'src/components/SettingsItem'
+import Dialog from 'src/components/Dialog'
 import { Screens } from 'src/navigator/Screens'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SettingsEvents } from 'src/analytics/Events'
@@ -77,9 +78,11 @@ import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SecuritySubmenu>
 
-export const SecuritySubmenu = ({ route }: Props) => {
+export const SecuritySubmenu = ({ route, navigation }: Props) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+
+  const promptConfirmRemovalModal = route.params?.promptConfirmRemovalModal
 
   const account = useSelector(walletAddressSelector)
 
@@ -260,6 +263,10 @@ export const SecuritySubmenu = ({ route }: Props) => {
     dispatch(clearStoredAccount(account ?? ''))
   }
 
+  const hideConfirmRemovalModal = () => {
+    navigation.setParams({ promptConfirmRemovalModal: false })
+  }
+
   const getDevSettingsComp = () => {
     if (!devModeActive) {
       return null
@@ -430,6 +437,17 @@ export const SecuritySubmenu = ({ route }: Props) => {
           testID="DeleteAccount"
         />
         {getDevSettingsComp()}
+        <Dialog
+          isVisible={!!promptConfirmRemovalModal}
+          title={t('promptConfirmRemovalModal.header')}
+          actionText={t('promptConfirmRemovalModal.resetNow')}
+          actionPress={confirmAccountRemoval}
+          secondaryActionText={t('cancel')}
+          secondaryActionPress={hideConfirmRemovalModal}
+          testID="ConfirmAccountRemovalModal"
+        >
+          {t('promptConfirmRemovalModal.body')}
+        </Dialog>
       </ScrollView>
       <Toast
         withBackdrop

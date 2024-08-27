@@ -219,7 +219,7 @@ export type StackParamList = {
   [Screens.ProfileSubmenu]: undefined
   [Screens.LegalSubmenu]: undefined
   [Screens.PreferencesSubmenu]: undefined
-  [Screens.SecuritySubmenu]: undefined
+  [Screens.SecuritySubmenu]: { promptConfirmRemovalModal?: boolean } | undefined
   [Screens.SettingsMenu]: undefined
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
   [Screens.RegulatoryTerms]: undefined
