@@ -621,6 +621,20 @@ export const mockCusdTokenBalance: TokenBalance = {
   balance: new BigNumber(0),
 }
 
+export const mockCeurTokenBalance: TokenBalance = {
+  ...mockTokenBalances[mockCeurTokenId],
+  priceUsd: new BigNumber(1.101),
+  lastKnownPriceUsd: new BigNumber(1.101),
+  balance: new BigNumber(100),
+}
+
+export const mockCrealTokenBalance: TokenBalance = {
+  ...mockTokenBalances[mockCrealTokenId],
+  priceUsd: new BigNumber(0.17),
+  lastKnownPriceUsd: new BigNumber(0.17),
+  balance: new BigNumber(100),
+}
+
 export const mockEthTokenBalance: NativeTokenBalance = {
   ...mockTokenBalances[mockEthTokenId],
   priceUsd: new BigNumber(1500),

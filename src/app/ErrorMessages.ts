@@ -1,5 +1,4 @@
 export enum ErrorMessages {
-  TRANSACTION_FAILED = 'transactionFailed',
   TRANSACTION_TIMEOUT = 'transactionTimeout',
   INCORRECT_PIN = 'incorrectPin',
   PIN_INPUT_CANCELED = 'pinInputCanceled',

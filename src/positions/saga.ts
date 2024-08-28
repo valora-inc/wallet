@@ -173,11 +173,12 @@ export function* fetchPositionsSaga() {
     yield* put(fetchPositionsStart())
     SentryTransactionHub.startTransaction(SentryTransaction.fetch_positions)
     const hooksApiUrl = yield* select(hooksApiUrlSelector)
-    const language = (yield* select(currentLanguageSelector)) || 'en-US'
+    const language = (yield* select(currentLanguageSelector)) || 'en'
+    const shortLanguage = language.split('-')[0]
     const { positions, earnPositionIds } = yield* call(fetchPositions, {
       hooksApiUrl,
       walletAddress: address,
-      language,
+      language: shortLanguage,
     })
     SentryTransactionHub.finishTransaction(SentryTransaction.fetch_positions)
     yield* put(fetchPositionsSuccess({ positions, earnPositionIds, fetchedAt: Date.now() }))
