@@ -2569,11 +2569,13 @@
     "depositBottomSheet": {
       "title": "Vérifier et déposer",
       "description": "Avant de faire un dépôt dans un pool Aave, consultez les détails de la transaction ci-dessous",
+      "descriptionV1_93": "Avant d'effectuer un dépôt sur un pool {{providerName}} , tu dois examiner les détails de la transaction ci-dessous.",
       "amount": "Montant déposé",
       "fee": "Frais de gaz estimés",
       "provider": "Fournisseur de revenus",
       "network": "Réseau",
       "footer": "En déposant des crypto-monnaies dans un pool Aave, vous acceptez les risques associés à l'utilisation d'Aave. <0>Conditions Générales</0>",
+      "footerV1_93": "En déposant des crypto dans un pool {{providerName}} , tu acceptes les risques associés à l'utilisation de {{providerName}}. <0>Conditions générales d'utilisation</0>",
       "primaryCta": "Valider",
       "secondaryCta": "Annuler"
     },
