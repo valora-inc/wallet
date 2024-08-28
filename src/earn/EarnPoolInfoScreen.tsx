@@ -280,7 +280,7 @@ function ActionButtons({ earnPosition }: { earnPosition: EarnPosition }) {
         <Button
           text={t('earnFlow.poolInfoScreen.withdraw')}
           onPress={() => {
-            // TODO (ACT-1343): EarnCollectScreen should take earnPositon instead of depositTokenId and poolTokenId
+            // TODO (ACT-1343): EarnCollectScreen should take earnPosition instead of depositTokenId and poolTokenId and remove Logger.debug
             // navigate(Screens.EarnCollectScreen, { earnPosition })
             Logger.debug('Withdraw Button Pressed!')
           }}
@@ -293,7 +293,7 @@ function ActionButtons({ earnPosition }: { earnPosition: EarnPosition }) {
         <Button
           text={t('earnFlow.poolInfoScreen.deposit')}
           onPress={() => {
-            // TODO hook up after ACT-1342 is merged
+            // TODO hook up after ACT-1342 is merged and remove Logger.debug
             // navigate(Screens.EarnEnterAmount, { pool: earnPosition })
             Logger.debug('Deposit Button Pressed!')
           }}
@@ -347,19 +347,19 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         <View style={{ height: Spacing.Thick24 }} />
         <View style={styles.contentContainer}>
           <YieldCard
-            // TODO(ACT-1323): Create info bottom sheet
+            // TODO(ACT-1323): Create info bottom sheet & remove Logger.debug
             infoIconPress={() => Logger.debug('YieldCard Info Icon Pressed!')}
             tokensInfo={tokensInfo}
             earnPosition={pool}
           />
           <TvlCard
-            // TODO(ACT-1323): Create info bottom sheet
+            // TODO(ACT-1323): Create info bottom sheet & remove Logger.debug
             earnPosition={pool}
             infoIconPress={() => Logger.debug(' TvlCard Info Icon Pressed!')}
           />
           {dataProps.contractCreatedAt ? (
             <AgeCard
-              // TODO(ACT-1323): Create info bottom sheet
+              // TODO(ACT-1323): Create info bottom sheet & remove Logger.debug
               ageOfPool={new Date(dataProps.contractCreatedAt)}
               infoIconPress={() => Logger.debug('AgeCard Info Icon Pressed!')}
             />
