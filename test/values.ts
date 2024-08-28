@@ -1698,6 +1698,7 @@ export const mockEarnPositions: EarnPosition[] = [
       tvl: '1360000',
       contractCreatedAt: '2024-03-08T02:23:53.000Z',
       manageUrl: 'https://app.aave.com/?marketName=proto_arbitrum_v3',
+      termsUrl: 'termsUrl',
     },
     tokens: [
       {
