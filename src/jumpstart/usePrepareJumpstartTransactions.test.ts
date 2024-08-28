@@ -1,7 +1,6 @@
 import { renderHook } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import { act } from 'react-test-renderer'
-import erc20 from 'src/abis/IERC20'
 import jumpstart from 'src/abis/IWalletJumpstart'
 import { usePrepareJumpstartTransactions } from 'src/jumpstart/usePrepareJumpstartTransactions'
 import { getDynamicConfigParams } from 'src/statsig'
@@ -12,7 +11,7 @@ import {
   prepareTransactions,
 } from 'src/viem/prepareTransactions'
 import { mockCeloTokenBalance } from 'test/values'
-import { Address, encodeFunctionData } from 'viem'
+import { Address, encodeFunctionData, erc20Abi } from 'viem'
 
 jest.mock('src/viem/prepareTransactions')
 jest.mock('src/statsig')
@@ -91,12 +90,12 @@ describe('usePrepareJumpstartTransactions', () => {
     expect(publicClient.celo.readContract).toHaveBeenCalledTimes(1)
     expect(publicClient.celo.readContract).toHaveBeenCalledWith({
       address: mockCeloTokenBalance.address,
-      abi: erc20.abi,
+      abi: erc20Abi,
       functionName: 'allowance',
       args: [walletAddress, jumpstartContractAddress],
     })
     expect(encodeFunctionData).toHaveBeenNthCalledWith(1, {
-      abi: erc20.abi,
+      abi: erc20Abi,
       functionName: 'approve',
       args: [jumpstartContractAddress, BigInt(sendTokenAmountInSmallestUnit)],
     })

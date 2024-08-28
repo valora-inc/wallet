@@ -93,18 +93,6 @@ export const reducer = (
         ),
       }
     }
-    case Actions.ADD_HASH_TO_STANDBY_TRANSACTIONS:
-      return {
-        ...state,
-        standbyTransactions: state.standbyTransactions.map(
-          (standbyTransaction): StandbyTransaction => {
-            if (standbyTransaction.context.id === action.idx) {
-              return { ...standbyTransaction, transactionHash: action.hash }
-            }
-            return standbyTransaction
-          }
-        ),
-      }
     case Actions.UPDATE_TRANSACTIONS:
       const standbyTransactionHashes = new Set(
         state.standbyTransactions

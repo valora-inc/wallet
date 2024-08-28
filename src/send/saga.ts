@@ -1,11 +1,7 @@
-import { Contract, toTransactionObject } from '@celo/connect'
-import { ContractKit } from '@celo/contractkit'
-import BigNumber from 'bignumber.js'
 import { showErrorOrFallback } from 'src/alert/actions'
-import { CeloExchangeEvents, SendEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { CeloExchangeEvents, SendEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { FeeInfo } from 'src/fees/saga'
 import { encryptComment } from 'src/identity/commentEncryption'
 import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
 import { handleQRCodeDefault, handleQRCodeSecureSend, shareSVGImage } from 'src/qrcode/utils'
@@ -20,32 +16,17 @@ import {
 } from 'src/send/actions'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
-import {
-  getERC20TokenContract,
-  getStableTokenContract,
-  getTokenInfo,
-  getTokenInfoByAddress,
-  tokenAmountInSmallestUnit,
-} from 'src/tokens/saga'
-import { TokenBalance, fetchTokenBalances } from 'src/tokens/slice'
-import { getTokenId } from 'src/tokens/utils'
-import { BaseStandbyTransaction, addStandbyTransaction } from 'src/transactions/actions'
-import { sendAndMonitorTransaction } from 'src/transactions/saga'
-import {
-  TokenTransactionTypeV2,
-  TransactionContext,
-  newTransactionContext,
-} from 'src/transactions/types'
+import { getTokenInfo } from 'src/tokens/saga'
+import { fetchTokenBalances } from 'src/tokens/slice'
+import { BaseStandbyTransaction } from 'src/transactions/actions'
+import { TokenTransactionTypeV2, newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
 import { sendPreparedTransactions } from 'src/viem/saga'
-import { getContractKit } from 'src/web3/contracts'
-import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
-import { getConnectedUnlockedAccount } from 'src/web3/saga'
+import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { call, put, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
-import * as utf8 from 'utf8'
 
 export const TAG = 'send/saga'
 
@@ -60,107 +41,6 @@ function* watchQrCodeShare() {
       Logger.error(TAG, 'Error sharing qr code', error)
     }
   }
-}
-
-export function* buildSendTx(
-  tokenAddress: string,
-  amount: BigNumber,
-  recipientAddress: string,
-  comment: string
-) {
-  const contract: Contract = yield* call(getERC20TokenContract, tokenAddress)
-  const coreContract: Contract = yield* call(getStableTokenContract, tokenAddress)
-
-  const tokenInfo: TokenBalance | undefined = yield* call(getTokenInfoByAddress, tokenAddress)
-  if (!tokenInfo) {
-    throw new Error(`Could not find token with address ${tokenAddress}`)
-  }
-  const convertedAmount = tokenAmountInSmallestUnit(amount, tokenInfo.decimals)
-
-  const kit: ContractKit = yield* call(getContractKit)
-  return toTransactionObject(
-    kit.connection,
-    tokenInfo?.canTransferWithComment && tokenInfo.symbol !== 'CELO'
-      ? coreContract.methods.transferWithComment(
-          recipientAddress,
-          convertedAmount,
-          utf8.encode(comment)
-        )
-      : contract.methods.transfer(recipientAddress, convertedAmount)
-  )
-}
-
-/**
- * Sends a payment to an address with an encrypted comment
- *
- * @param context the transaction context
- * @param recipientAddress the address to send the payment to
- * @param amount the crypto amount to send
- * @param tokenAddress the crypto token address
- * @param comment the comment on the transaction
- * @param feeInfo an object containing the fee information
- */
-export function* buildAndSendPayment(
-  context: TransactionContext,
-  recipientAddress: string,
-  amount: BigNumber,
-  tokenAddress: string,
-  comment: string,
-  feeInfo: FeeInfo
-) {
-  const userAddress: string = yield* call(getConnectedUnlockedAccount)
-
-  const encryptedComment = yield* call(encryptComment, comment, recipientAddress, userAddress, true)
-
-  Logger.debug(
-    TAG,
-    'Transferring token',
-    context.description ?? 'No description',
-    context.id,
-    tokenAddress,
-    amount,
-    feeInfo
-  )
-
-  const networkId = networkConfig.defaultNetworkId
-
-  yield* put(
-    addStandbyTransaction({
-      __typename: 'TokenTransferV3',
-      type: TokenTransactionTypeV2.Sent,
-      context,
-      networkId,
-      amount: {
-        value: amount.negated().toString(),
-        tokenAddress,
-        tokenId: getTokenId(networkConfig.defaultNetworkId, tokenAddress),
-      },
-      address: recipientAddress,
-      metadata: {
-        comment,
-      },
-    })
-  )
-
-  const tx = yield* call(
-    buildSendTx,
-    tokenAddress,
-    amount,
-    recipientAddress,
-    encryptedComment || ''
-  )
-
-  const { receipt, error } = yield* call(
-    sendAndMonitorTransaction,
-    tx,
-    userAddress,
-    context,
-    feeInfo.feeCurrency,
-    feeInfo.gas ? Number(feeInfo.gas) : undefined,
-    feeInfo.gasPrice
-  )
-
-  return { receipt, error }
 }
 
 export function* sendPaymentSaga({

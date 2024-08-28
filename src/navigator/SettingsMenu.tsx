@@ -193,6 +193,7 @@ const styles = StyleSheet.create({
   profileContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   profileTouchable: {
     paddingTop: Spacing.Regular16,

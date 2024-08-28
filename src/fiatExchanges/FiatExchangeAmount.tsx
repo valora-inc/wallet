@@ -8,8 +8,8 @@ import { Platform, StyleSheet, Text, TextInput, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { showError } from 'src/alert/actions'
-import { FiatExchangeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { FiatExchangeEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -17,8 +17,6 @@ import Dialog from 'src/components/Dialog'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import { ALERT_BANNER_DURATION, DOLLAR_ADD_FUNDS_MAX_AMOUNT } from 'src/config'
-import { useMaxSendAmount } from 'src/fees/hooks'
-import { FeeType } from 'src/fees/reducer'
 import { convertToFiatConnectFiatCurrency } from 'src/fiatconnect'
 import {
   attemptReturnUserFlowLoadingSelector,
@@ -61,6 +59,7 @@ function FiatExchangeAmount({ route }: Props) {
   const [inputAmount, setInputAmount] = useState('')
   const parsedInputAmount = parseInputAmount(inputAmount, decimalSeparator)
 
+  const tokenInfo = useTokenInfo(tokenId)
   const inputConvertedToCrypto =
     useLocalToTokenAmount(parsedInputAmount, tokenId) || new BigNumber(0)
   const inputConvertedToLocalCurrency =
@@ -77,8 +76,7 @@ function FiatExchangeAmount({ route }: Props) {
   const inputCryptoAmount = inputIsCrypto ? parsedInputAmount : inputConvertedToCrypto
   const inputLocalCurrencyAmount = inputIsCrypto ? inputConvertedToLocalCurrency : parsedInputAmount
 
-  const maxWithdrawAmount = useMaxSendAmount(tokenId, FeeType.SEND)
-
+  const maxWithdrawAmount = new BigNumber(tokenInfo?.balance ?? 0)
   const inputSymbol = inputIsCrypto ? '' : localCurrencySymbol
 
   const cUSDToken = useTokenInfo(networkConfig.cusdTokenId)!
@@ -93,7 +91,7 @@ function FiatExchangeAmount({ route }: Props) {
   const dispatch = useDispatch()
 
   function isNextButtonValid() {
-    return parsedInputAmount.isGreaterThan(0)
+    return !!tokenInfo && parsedInputAmount.isGreaterThan(0)
   }
 
   function onChangeExchangeAmount(amount: string) {
@@ -154,7 +152,7 @@ function FiatExchangeAmount({ route }: Props) {
         })
         return
       }
-    } else if (maxWithdrawAmount.isLessThan(inputCryptoAmount)) {
+    } else if (inputCryptoAmount.isGreaterThan(maxWithdrawAmount)) {
       dispatch(
         showError(ErrorMessages.CASH_OUT_LIMIT_EXCEEDED, ALERT_BANNER_DURATION, {
           balance: maxWithdrawAmount.toFixed(2),

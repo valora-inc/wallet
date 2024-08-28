@@ -2,9 +2,8 @@ import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { call } from 'redux-saga-test-plan/matchers'
 import { StaticProvider, dynamic, throwError } from 'redux-saga-test-plan/providers'
-import erc20 from 'src/abis/IERC20'
-import { EarnEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { EarnEvents } from 'src/analytics/Events'
 import { fetchAavePoolInfo } from 'src/earn/poolInfo'
 import { depositSubmitSaga, fetchPoolInfoSaga, withdrawSubmitSaga } from 'src/earn/saga'
 import {
@@ -37,7 +36,7 @@ import {
   mockTokenBalances,
   mockUSDCAddress,
 } from 'test/values'
-import { Address, decodeFunctionData } from 'viem'
+import { Address, decodeFunctionData, erc20Abi } from 'viem'
 
 jest.mock('viem', () => ({
   ...jest.requireActual('viem'),
@@ -248,7 +247,7 @@ describe('depositSubmitSaga', () => {
       .run()
     expect(navigateHome).toHaveBeenCalled()
     expect(decodeFunctionData).toHaveBeenCalledWith({
-      abi: erc20.abi,
+      abi: erc20Abi,
       data: serializableApproveTx.data,
     })
     expect(mockStandbyHandler).toHaveBeenCalledTimes(2)
@@ -400,7 +399,7 @@ describe('depositSubmitSaga', () => {
       .run()
     expect(navigateHome).toHaveBeenCalled()
     expect(decodeFunctionData).toHaveBeenCalledWith({
-      abi: erc20.abi,
+      abi: erc20Abi,
       data: serializableApproveTx.data,
     })
     expect(mockStandbyHandler).toHaveBeenCalledTimes(2)
