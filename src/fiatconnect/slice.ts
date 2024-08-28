@@ -9,7 +9,6 @@ import {
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { isEqual } from 'lodash'
 import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
-import { FeeInfo } from 'src/fees/saga'
 import {
   FiatConnectProviderInfo,
   FiatConnectQuoteError,
@@ -19,7 +18,9 @@ import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
+import { NetworkId } from 'src/transactions/types'
 import { CiCoCurrency } from 'src/utils/currencies'
+import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 
 export enum SendingTransferStatus {
   Sending = 'Sending',
@@ -147,7 +148,8 @@ export interface CreateFiatConnectTransferAction {
   flow: CICOFlow
   fiatConnectQuote: FiatConnectQuote
   fiatAccountId: string
-  feeInfo?: FeeInfo
+  serializablePreparedTransaction?: SerializableTransactionRequest
+  networkId?: NetworkId
 }
 
 export interface CreateFiatConnectTransferFailedAction {

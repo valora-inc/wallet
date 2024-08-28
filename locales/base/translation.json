@@ -2641,13 +2641,35 @@
       "depositAndEarnings": "Deposit & Earnings"
     },
     "poolFilters": {
-      "myPools": "My Pools",
-      "allPools": "All Pools"
+      "allPools": "All Pools",
+      "myPools": "My Pools"
+    },
+    "poolInfoScreen": {
+      "chainName": "Chain: <0>{{networkName}}</0>",
+      "protocolName": "Protocol: <0>{{providerName}}</0>",
+      "yieldRate": "Yield Rate",
+      "ratePercent": "{{rate}}%",
+      "rewards": "Rewards",
+      "noRewards": "No rewards",
+      "tvl": "TVL",
+      "ageOfPool": "Age of Pool",
+      "learnMoreOnProvider": "View Pool on {{providerName}}",
+      "deposit": "Deposit",
+      "withdraw": "Withdraw"
     }
   },
   "addFundsActions": {
     "add": "Buy",
     "transfer": "Transfer",
     "swap": "Swap"
-  }
+  },
+  "duration_lessThanADay": "Less than a day",
+  "duration_day_one": "1 day",
+  "duration_day_other": "{{count}} days",
+  "duration_month_one": "1 month",
+  "duration_month_other": "{{count}} months",
+  "duration_year_one": "1 year",
+  "duration_year_other": "{{count}} years",
+  "duration_yearMonth_one": "1 year, 1 month",
+  "duration_yearMonth_other": "{{count}} years, {{count2}} months"
 }

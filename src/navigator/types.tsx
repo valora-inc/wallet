@@ -86,6 +86,7 @@ export type StackParamList = {
     poolTokenId: string
   }
   [Screens.EarnHome]: { activeEarnTab?: EarnTabType } | undefined
+  [Screens.EarnPoolInfoScreen]: { pool: EarnPosition }
   [Screens.ErrorScreen]: {
     errorMessage?: string
   }
