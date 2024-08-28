@@ -1645,7 +1645,8 @@ interface EarnEventsProperties {
     poolId: string
   } & EarnCommonProperties
   [EarnEvents.earn_pool_info_view_pool]: {
-    url: string
+    appId: string
+    positionId: string
   }
 }
 
