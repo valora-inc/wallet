@@ -59,6 +59,7 @@ import LoadingSpinner from 'src/icons/LoadingSpinner'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import {
   analyticsEnabledSelector,
   getRequirePinOnAppOpen,
@@ -109,6 +110,9 @@ const SecuritySubmenu = ({ route, navigation }: Props) => {
   const devModeActive = useSelector(devModeSelector)
 
   const sessionId = useSelector(sessionIdSelector)
+
+  const insets = useSafeAreaInsets()
+  const insetsStyle = { marginBottom: insets.bottom }
 
   useEffect(() => {
     if (AppAnalytics.getSessionId() !== sessionId) {
@@ -313,6 +317,11 @@ const SecuritySubmenu = ({ route, navigation }: Props) => {
               <Text>App Quick Reset</Text>
             </TouchableOpacity>
           </View>
+          <View style={styles.devSettingsItem}>
+            <TouchableOpacity onPress={() => navigate(Screens.DebugImages)}>
+              <Text>See app assets</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       )
     }
@@ -376,7 +385,7 @@ const SecuritySubmenu = ({ route, navigation }: Props) => {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView edges={['top']} style={styles.container}>
       <CustomHeader
         left={<BackButton />}
         title={
@@ -388,7 +397,7 @@ const SecuritySubmenu = ({ route, navigation }: Props) => {
         }
         style={styles.header}
       />
-      <ScrollView>
+      <ScrollView style={insetsStyle}>
         <SettingsItemTextValue
           title={t('accountKey')}
           onPress={goToRecoveryPhrase}
@@ -505,9 +514,12 @@ const styles = StyleSheet.create({
   header: {
     paddingHorizontal: variables.contentPadding,
   },
+  container: {
+    flex: 1,
+  },
   title: {
     ...typeScale.labelSemiBoldMedium,
-    margin: 16,
+    margin: Spacing.Regular16,
   },
   bottomSheetButton: {
     marginTop: Spacing.Regular16,
@@ -516,16 +528,16 @@ const styles = StyleSheet.create({
     ...typeScale.bodyMedium,
     color: colors.gray4,
     marginRight: Spacing.Smallest8,
-    marginLeft: 4,
+    marginLeft: Spacing.Tiny4,
   },
   devSettings: {
     alignItems: 'flex-start',
-    padding: 15,
-    marginHorizontal: 10,
+    padding: Spacing.Regular16,
+    marginHorizontal: Spacing.Smallest8,
   },
   devSettingsItem: {
     alignSelf: 'stretch',
-    margin: 4,
+    margin: Spacing.Tiny4,
   },
 })
 
