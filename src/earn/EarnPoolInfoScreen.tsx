@@ -129,7 +129,7 @@ function EarningItemLineItem({ earnItem }: { earnItem: EarningItem }) {
   const { t } = useTranslation()
   const tokenInfo = useTokenInfo(earnItem.tokenId)
   const amountInUsd = tokenInfo?.priceUsd?.multipliedBy(earnItem.amount)
-  const amountInLocalCurrency = new BigNumber(amountInUsd ?? 0)
+  const amountInLocalCurrency = useDollarsToLocalAmount(amountInUsd!)!
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
   return (
@@ -137,8 +137,8 @@ function EarningItemLineItem({ earnItem }: { earnItem: EarningItem }) {
       <View style={styles.cardLineLabel}>
         <Text style={styles.depositAndEarningsCardLabelText}>{earnItem.label}</Text>
       </View>
-      <View style={{ flexDirection: 'row' }}>
-        <Text>
+      <View>
+        <Text style={styles.depositAndEarningsCardLabelText}>
           {t('earnFlow.poolInfoScreen.lineItemAmountDisplay', {
             localCurrencySymbol,
             localCurrencyAmount: formatValueToDisplay(amountInLocalCurrency),
@@ -157,14 +157,22 @@ function DepositAndEarningsCard({ earnPosition }: { earnPosition: EarnPosition }
   const { earningItems, depositTokenId } = earnPosition.dataProps
   const tokenInfo = useTokenInfo(depositTokenId)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const totalBalance = tokenInfo?.priceUsd?.multipliedBy(balance) ?? new BigNumber(0)
+  const depositBalance = tokenInfo?.priceUsd?.multipliedBy(balance)
+  const localDepositBalance = useDollarsToLocalAmount(depositBalance!)
+  const totalBalance = depositBalance!.plus(
+    earningItems.reduce((acc, item) => {
+      // TODO(tomm): fix this to avoid calling hooks inside a loop
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const tokenInfo = useTokenInfo(item.tokenId)
+      const amountInUsd = tokenInfo?.priceUsd?.multipliedBy(item.amount)
+      return acc.plus(amountInUsd ?? 0)
+    }, new BigNumber(0))
+  )
+  const localTotalBalance = useDollarsToLocalAmount(totalBalance)!
 
   return (
-    <Card
-      testID="DepositAndEarningsCard"
-      cardStyle={{ backgroundColor: Colors.gray1, padding: 0, gap: 0 }}
-    >
-      <View style={{ padding: Spacing.Regular16, alignItems: 'center', gap: 4 }}>
+    <Card testID="DepositAndEarningsCard" cardStyle={styles.depositAndEarningCard}>
+      <View style={styles.depositAndEarningCardTitleContainer}>
         <View style={styles.cardLineLabel}>
           <Text numberOfLines={1} style={styles.cardTitleText}>
             {t('earnFlow.poolInfoScreen.totalDepositAndEarnings')}
@@ -174,31 +182,30 @@ function DepositAndEarningsCard({ earnPosition }: { earnPosition: EarnPosition }
           </Touchable>
         </View>
         <View>
-          <Text style={{ ...typeScale.titleMedium, color: Colors.black }}>
+          <Text style={styles.depositAndEarningCardTitleText}>
             {t('earnFlow.poolInfoScreen.titleLocalAmountDisplay', {
               localCurrencySymbol,
-              localCurrencyAmount: formatValueToDisplay(totalBalance),
+              localCurrencyAmount: formatValueToDisplay(localTotalBalance),
             })}
           </Text>
         </View>
       </View>
 
-      <View
-        style={{
-          backgroundColor: Colors.white,
-          padding: Spacing.Regular16,
-          borderBottomLeftRadius: 16,
-          borderBottomRightRadius: 16,
-          gap: Spacing.Smallest8,
-        }}
-      >
+      <View style={styles.depositAndEarningCardSubtitleContainer}>
         <View style={styles.cardLineContainer}>
           <View style={styles.cardLineLabel}>
             <Text style={styles.depositAndEarningsCardLabelText}>
               {t('earnFlow.poolInfoScreen.deposit')}
             </Text>
           </View>
-          <Text style={styles.cardTitleText}>TODO</Text>
+          <Text style={styles.depositAndEarningsCardLabelText}>
+            {t('earnFlow.poolInfoScreen.lineItemAmountDisplay', {
+              localCurrencySymbol,
+              localCurrencyAmount: formatValueToDisplay(localDepositBalance),
+              cryptoAmount: formatValueToDisplay(new BigNumber(balance)),
+              cryptoSymbol: tokenInfo?.symbol,
+            })}
+          </Text>
         </View>
         {earningItems.map((item, index) => (
           <EarningItemLineItem key={index} earnItem={item} />
@@ -239,7 +246,7 @@ function YieldCard({
             : '--'}
         </Text>
       </View>
-      <View style={{ gap: 8 }}>
+      <View style={{ gap: Spacing.Smallest8 }}>
         {earnPosition.dataProps.yieldRates.map((rate, index) => {
           // TODO: investigate how to do when there are multiple tokens in a yield rate
           const tokenInfo = tokensInfo.filter((token) => token.tokenId === rate.tokenId)
@@ -549,6 +556,27 @@ const styles = StyleSheet.create({
   cardLabelText: {
     ...typeScale.bodyMedium,
     color: Colors.gray3,
+  },
+  depositAndEarningCard: {
+    backgroundColor: Colors.gray1,
+    padding: 0,
+    gap: 0,
+  },
+  depositAndEarningCardTitleContainer: {
+    padding: Spacing.Regular16,
+    alignItems: 'center',
+    gap: Spacing.Tiny4,
+  },
+  depositAndEarningCardTitleText: {
+    ...typeScale.titleMedium,
+    color: Colors.black,
+  },
+  depositAndEarningCardSubtitleContainer: {
+    backgroundColor: Colors.white,
+    padding: Spacing.Regular16,
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
+    gap: Spacing.Smallest8,
   },
   depositAndEarningsCardLabelText: {
     ...typeScale.bodyMedium,
