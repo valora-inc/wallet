@@ -1,21 +1,16 @@
-import { CeloTransactionObject, CeloTxReceipt } from '@celo/connect'
+import { CeloTxReceipt } from '@celo/connect'
 import BigNumber from 'bignumber.js'
-import { showError } from 'src/alert/actions'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import { trackPointsEvent } from 'src/points/slice'
 import { tokensByIdSelector } from 'src/tokens/selectors'
-import { BaseToken, fetchTokenBalances } from 'src/tokens/slice'
+import { BaseToken } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSend, getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
-import { addHashToStandbyTransaction, transactionConfirmed } from 'src/transactions/actions'
-import { TxPromises } from 'src/transactions/contract-utils'
+import { transactionConfirmed } from 'src/transactions/actions'
 import { pendingStandbyTransactionsSelector } from 'src/transactions/reducer'
-import { sendTransactionPromises, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import {
   Fee,
   Network,
   NetworkId,
   StandbyTransaction,
-  TransactionContext,
   TransactionStatus,
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
@@ -37,59 +32,6 @@ const WATCHING_DELAY_BY_NETWORK: Record<Network, number> = {
   [Network.Base]: 2000,
 }
 const MIN_WATCHING_DELAY_MS = 2000
-
-export function* sendAndMonitorTransaction<T>(
-  tx: CeloTransactionObject<T>,
-  account: string,
-  context: TransactionContext,
-  feeCurrency?: string | undefined,
-  gas?: number,
-  gasPrice?: BigNumber,
-  nonce?: number
-) {
-  try {
-    Logger.debug(TAG + '@sendAndMonitorTransaction', `Sending transaction with id: ${context.id}`)
-
-    const sendTxMethod = function* () {
-      const { transactionHash, receipt }: TxPromises = yield* call(
-        sendTransactionPromises,
-        tx.txo,
-        account,
-        context,
-        feeCurrency,
-        gas,
-        gasPrice,
-        nonce
-      )
-      const hash: string = yield transactionHash
-      yield* put(addHashToStandbyTransaction(context.id, hash))
-      return (yield receipt) as CeloTxReceipt
-    }
-    // there is a bug with 'race' in typed-redux-saga, so we need to hard cast the result
-    // https://github.com/agiledigital/typed-redux-saga/issues/43#issuecomment-1259706876
-    const txReceipt: CeloTxReceipt = (yield* call(
-      wrapSendTransactionWithRetry,
-      sendTxMethod,
-      context
-    )) as unknown as CeloTxReceipt
-
-    // This won't show fees in the standby tx.
-    // Getting the selected fee currency is hard since it happens inside of `sendTransactionPromises`.
-    // This code will be deprecated when we remove the contract kit dependency, so I think it's fine to leave it as is.
-    yield* call(handleTransactionReceiptReceived, {
-      txId: context.id,
-      receipt: txReceipt,
-      networkId: networkConfig.defaultNetworkId,
-    })
-
-    yield* put(fetchTokenBalances({ showLoading: true }))
-    return { receipt: txReceipt }
-  } catch (error) {
-    Logger.error(TAG + '@sendAndMonitorTransaction', `Error sending tx ${context.id}`, error)
-    yield* put(showError(ErrorMessages.TRANSACTION_FAILED))
-    return { error }
-  }
-}
 
 export function* getTransactionReceipt(
   transaction: StandbyTransaction & { transactionHash: string },

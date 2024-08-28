@@ -1,13 +1,13 @@
 import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
-import colors from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 
 interface Props {
-  color?: string
+  color?: Colors
   size?: number
 }
 
-export default function User({ color = colors.black, size = 24 }: Props) {
+export default function User({ color = Colors.black, size = 24 }: Props) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
       <Path

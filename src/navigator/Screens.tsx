@@ -20,6 +20,7 @@ export enum Screens {
   EarnEnterAmount = 'EarnEnterAmount',
   EarnCollectScreen = 'EarnCollectScreen',
   EarnHome = 'EarnHome',
+  EarnPoolInfoScreen = 'EarnPoolInfoScreen',
   EnableBiometry = 'EnableBiometry',
   ErrorScreen = 'ErrorScreen',
   ExternalExchanges = 'ExternalExchanges',

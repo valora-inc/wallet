@@ -21,15 +21,9 @@ import {
   mockCusdAddress,
   mockCusdTokenId,
   mockEthTokenId,
-  mockMaxSendAmount,
 } from 'test/values'
 import { CICOFlow } from './utils'
 
-const mockUseMaxSendAmount = jest.fn(() => mockMaxSendAmount)
-
-jest.mock('src/fees/hooks', () => ({
-  useMaxSendAmount: () => mockUseMaxSendAmount(),
-}))
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(),
 }))
@@ -60,7 +54,7 @@ const mockTokens = {
       tokenId: mockCusdTokenId,
       networkId: NetworkId['celo-alfajores'],
       symbol: 'cUSD',
-      balance: '200',
+      balance: '1000',
       priceUsd: '1',
       isFeeCurrency: true,
       priceFetchedAt: Date.now(),
@@ -292,26 +286,7 @@ describe('FiatExchangeAmount cashOut', () => {
     expect(storeWithUSD.getActions()).toEqual(
       expect.arrayContaining([
         showError(ErrorMessages.CASH_OUT_LIMIT_EXCEEDED, undefined, {
-          balance: '1000.00',
-          currency: 'cUSD',
-        }),
-      ])
-    )
-  })
-
-  it('shows an error banner if the user balance minus estimated transaction fee is less than the requested cash-out amount', () => {
-    const tree = render(
-      <Provider store={storeWithUSD}>
-        <FiatExchangeAmount {...mockScreenProps} />
-      </Provider>
-    )
-
-    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '999.99999')
-    fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
-    expect(storeWithUSD.getActions()).toEqual(
-      expect.arrayContaining([
-        showError(ErrorMessages.CASH_OUT_LIMIT_EXCEEDED, undefined, {
-          balance: '1000.00',
+          balance: '1000.00', // matches the balance of the cUSD token in storeWithUSD
           currency: 'cUSD',
         }),
       ])
@@ -338,6 +313,7 @@ describe('FiatExchangeAmount cashOut', () => {
   })
   it('calls dispatch attemptReturnUserFlow when there is a previously linked fiatconnect account', () => {
     const store = createMockStore({
+      tokens: mockTokens,
       localCurrency: {
         fetchedCurrencyCode: LocalCurrencyCode.USD,
         preferredCurrencyCode: LocalCurrencyCode.USD,
@@ -389,6 +365,7 @@ describe('FiatExchangeAmount cashOut', () => {
   })
   it('calls dispatch attemptReturnUserFlow when there is a previously linked fiatconnect account that used a different flow', () => {
     const store = createMockStore({
+      tokens: mockTokens,
       localCurrency: {
         fetchedCurrencyCode: LocalCurrencyCode.USD,
         preferredCurrencyCode: LocalCurrencyCode.USD,

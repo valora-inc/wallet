@@ -12,9 +12,14 @@ import { PRIVACY_LINK, TOS_LINK } from 'src/config'
 import CustomHeader from 'src/components/header/CustomHeader'
 import variables from 'src/styles/variables'
 import BackButton from 'src/components/BackButton'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { Spacing } from 'src/styles/styles'
 
 const LegalSubmenu = () => {
   const { t } = useTranslation()
+
+  const insets = useSafeAreaInsets()
+  const insetsStyle = { paddingBottom: Math.max(insets.bottom, Spacing.Regular16) }
 
   const goToLicenses = () => {
     AppAnalytics.track(SettingsEvents.licenses_view)
@@ -27,9 +32,9 @@ const LegalSubmenu = () => {
   }
 
   return (
-    <ScrollView>
-      <SafeAreaView>
-        <CustomHeader left={<BackButton />} title={t('legal')} style={styles.header} />
+    <SafeAreaView edges={['top']}>
+      <CustomHeader left={<BackButton />} title={t('legal')} style={styles.header} />
+      <ScrollView style={insetsStyle}>
         <SettingsItemTextValue
           testID="LegalSubmenu/Licenses"
           title={t('licenses')}
@@ -49,8 +54,8 @@ const LegalSubmenu = () => {
           borderless
           isExternalLink
         />
-      </SafeAreaView>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   )
 }
 

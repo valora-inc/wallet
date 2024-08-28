@@ -18,6 +18,8 @@ import { hapticFeedbackSet } from 'src/app/actions'
 import CustomHeader from 'src/components/header/CustomHeader'
 import variables from 'src/styles/variables'
 import BackButton from 'src/components/BackButton'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { Spacing } from 'src/styles/styles'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.PreferencesSubmenu>
 
@@ -28,6 +30,9 @@ const PreferencesSubmenu = ({ route }: Props) => {
   const currentLanguage = useSelector(currentLanguageSelector)
   const preferredCurrencyCode = useSelector(getLocalCurrencyCode)
   const hapticFeedbackEnabled = useSelector(hapticFeedbackEnabledSelector)
+
+  const insets = useSafeAreaInsets()
+  const insetsStyle = { paddingBottom: Math.max(insets.bottom, Spacing.Regular16) }
 
   const goToLanguageSetting = () => {
     navigate(Screens.Language, { nextScreen: route.name })
@@ -45,9 +50,9 @@ const PreferencesSubmenu = ({ route }: Props) => {
   }
 
   return (
-    <ScrollView>
-      <SafeAreaView>
-        <CustomHeader left={<BackButton />} title={t('preferences')} style={styles.header} />
+    <SafeAreaView edges={['top']}>
+      <CustomHeader left={<BackButton />} title={t('preferences')} style={styles.header} />
+      <ScrollView style={insetsStyle}>
         <SettingsItemTextValue
           testID="PreferencesSubmenu/Language"
           title={t('languageSettings')}
@@ -68,8 +73,8 @@ const PreferencesSubmenu = ({ route }: Props) => {
           value={hapticFeedbackEnabled}
           onValueChange={handleHapticFeedbackToggle}
         />
-      </SafeAreaView>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   )
 }
 
