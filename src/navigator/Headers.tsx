@@ -234,7 +234,7 @@ export const tabHeader: NativeStackNavigationOptions = {
   },
   headerLeft: () => (
     <View style={[styles.topElementsContainer, { marginLeft: Spacing.Tiny4 }]}>
-      <SettingsGearButton testID="WalletHome/AccountCircle" />
+      <SettingsGearButton testID="WalletHome/SettingsGearButton" />
     </View>
   ),
 }
