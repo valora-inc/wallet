@@ -5,6 +5,7 @@ import {
   type PhoneNumber,
 } from 'google-libphonenumber'
 import { getRegionCodeFromCountryCode } from 'src/utils/getRegionFromCountryCode'
+import Logger from 'src/utils/Logger'
 
 const phoneUtil = PhoneNumberUtil.getInstance()
 
@@ -58,7 +59,7 @@ export function parsePhoneNumber(
         }
       : null
   } catch (error) {
-    console.debug(`phoneNumbers/parsePhoneNumber/Failed to parse phone number, error: ${error}`)
+    Logger.debug(`phoneNumbers/parsePhoneNumber/Failed to parse phone number, error: ${error}`)
     return null
   }
 }

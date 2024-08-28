@@ -1,4 +1,5 @@
 import { PhoneNumberUtil } from 'google-libphonenumber'
+import Logger from 'src/utils/Logger'
 
 const phoneUtil = PhoneNumberUtil.getInstance()
 
@@ -9,7 +10,7 @@ export function getRegionCode(e164PhoneNumber: string) {
   try {
     return phoneUtil.getRegionCodeForNumber(phoneUtil.parse(e164PhoneNumber))
   } catch (error) {
-    console.debug(`getRegionCodeForNumber, number: ${e164PhoneNumber}, error: ${error}`)
+    Logger.debug(`getRegionCodeForNumber, number: ${e164PhoneNumber}, error: ${error}`)
     return null
   }
 }

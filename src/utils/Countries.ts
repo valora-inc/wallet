@@ -43,7 +43,7 @@ export class Countries {
     // fallback to 'en-us'
     this.language = language ? language.toLocaleLowerCase() : 'en-us'
     this.countryMap = new Map()
-    this.localizedCountries = Array()
+    this.localizedCountries = []
     this.assignCountries()
   }
 
