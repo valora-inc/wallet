@@ -2640,15 +2640,15 @@
       "myPools": "Mis pools"
     },
     "poolInfoScreen": {
-      "chainName": "Cadena: <0>{{networkName}}</0>",
+      "chainName": "Red: <0>{{networkName}}</0>",
       "protocolName": "Protocolo: <0>{{providerName}}</0>",
       "yieldRate": "Tasa de rendimiento",
       "ratePercent": "{{rate}}%",
       "rewards": "Recompensas",
       "noRewards": "Sin recompensas",
       "tvl": "TVL",
-      "ageOfPool": "Edad de la piscina",
-      "learnMoreOnProvider": "Ver Piscina en {{providerName}}",
+      "ageOfPool": "Antigüedad de pool:",
+      "learnMoreOnProvider": "Ver pool en {{providerName}}",
       "deposit": "Depósito",
       "withdraw": "Retirar"
     }
@@ -2658,7 +2658,7 @@
     "transfer": "Transferir",
     "swap": "Cambiar"
   },
-  "duration_lessThanADay": "Menos de un día",
+  "duration_lessThanADay": "menos de un día",
   "duration_day_one": "1 día",
   "duration_day_other": "{{count}} días",
   "duration_month_one": "1 mes",
