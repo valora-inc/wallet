@@ -67,7 +67,7 @@ export default function EarnCollectScreen({ route }: Props) {
 
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, depositToken.networkId))
 
-  // TODO(ACT-1343): Support multi-pool using hooks
+  // TODO(ACT-1343): refactor this function using hooks & make this function reusable acroos pools
   const { asyncPreparedTransactions } = useAaveRewardsInfoAndPrepareTransactions({
     poolTokenId: pool.tokenId,
     depositTokenId,
@@ -87,7 +87,7 @@ export default function EarnCollectScreen({ route }: Props) {
 
     dispatch(
       withdrawStart({
-        amount: position.tokens[0].balance,
+        amount: depositToken.balance,
         tokenId: depositTokenId,
         preparedTransactions: getSerializablePreparedTransactions(
           asyncPreparedTransactions.result.transactions
@@ -98,7 +98,7 @@ export default function EarnCollectScreen({ route }: Props) {
 
     AppAnalytics.track(EarnEvents.earn_collect_earnings_press, {
       depositTokenId,
-      tokenAmount: position.tokens[0].balance,
+      tokenAmount: depositToken.balance,
       networkId: depositToken.networkId,
       providerId: PROVIDER_ID,
       rewards: serializedRewards,
@@ -136,7 +136,7 @@ export default function EarnCollectScreen({ route }: Props) {
           <CollectItem
             title={t('earnFlow.collect.total')}
             tokenInfo={depositToken}
-            rewardAmount={position.tokens[0].balance}
+            rewardAmount={depositToken.balance}
           />
           {rewardsTokens.map((token, index) => (
             <CollectItem

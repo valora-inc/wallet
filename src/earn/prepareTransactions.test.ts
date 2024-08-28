@@ -14,7 +14,7 @@ import { publicClient } from 'src/viem'
 import { prepareTransactions } from 'src/viem/prepareTransactions'
 import networkConfig from 'src/web3/networkConfig'
 import { mockRewardsPositions, mockUSDCAddress } from 'test/values'
-import { Address, encodeFunctionData, maxUint256 } from 'viem'
+import { Address, encodeFunctionData, erc20Abi, maxUint256 } from 'viem'
 
 const mockFeeCurrency: TokenBalance = {
   address: null,
