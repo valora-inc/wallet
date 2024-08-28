@@ -6,7 +6,6 @@ import {
 } from 'src/account/reducer'
 import { AppState, MultichainBetaStatus } from 'src/app/actions'
 import { Dapp } from 'src/dapps/types'
-import { FeeEstimates } from 'src/fees/reducer'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { KeylessBackupDeleteStatus, KeylessBackupStatus } from 'src/keylessBackup/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -1918,15 +1917,12 @@ export const v101Schema = {
   app: _.omit(v100Schema.app, 'inviteMethod', 'inviteModalVisible'),
   fees: {
     ...v100Schema.fees,
-    estimates: Object.entries(v100Schema.fees.estimates as FeeEstimates).reduce(
-      (acc, [address, estimate]) => {
-        return {
-          ...acc,
-          [address]: _.omit(estimate, 'invite'),
-        }
-      },
-      {}
-    ),
+    estimates: Object.entries(v100Schema.fees.estimates).reduce((acc, [address, estimate]) => {
+      return {
+        ...acc,
+        [address]: _.omit(estimate as any, 'invite'),
+      }
+    }, {}),
   },
 }
 
@@ -3461,6 +3457,14 @@ export const v225Schema = {
   ),
 }
 
+export const v226Schema = {
+  ..._.omit(v225Schema, 'fees'),
+  _persist: {
+    ...v225Schema._persist,
+    version: 226,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v225Schema as Partial<RootState>
+  return v226Schema as Partial<RootState>
 }
