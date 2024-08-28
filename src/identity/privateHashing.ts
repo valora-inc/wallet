@@ -1,8 +1,8 @@
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
-import { PhoneNumberUtils } from '@celo/phone-utils'
 import { e164NumberSelector } from 'src/account/selectors'
 import { E164NumberToSaltType } from 'src/identity/reducer'
 import { e164NumberToSaltSelector } from 'src/identity/selectors'
+import getPhoneHash from 'src/utils/getPhoneCash'
 import { select } from 'typed-redux-saga'
 
 // Get the wallet user's own phone hash details if they're cached
@@ -23,7 +23,7 @@ export function* getUserSelfPhoneHashDetails() {
   const details: PhoneNumberHashDetails = {
     e164Number,
     pepper: salt,
-    phoneHash: PhoneNumberUtils.getPhoneHash(e164Number, salt),
+    phoneHash: getPhoneHash(e164Number, salt),
   }
 
   return details

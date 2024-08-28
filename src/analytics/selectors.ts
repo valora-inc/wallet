@@ -1,4 +1,3 @@
-import { getRegionCodeFromCountryCode } from '@celo/phone-utils'
 import BigNumber from 'bignumber.js'
 import { camelCase } from 'lodash'
 import DeviceInfo from 'react-native-device-info'
@@ -21,6 +20,7 @@ import { RootState } from 'src/redux/reducers'
 import { tokensListSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
 import { sortByUsdBalance } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
+import { getRegionCodeFromCountryCode } from 'src/utils/getRegionFromCountryCode'
 import { mtwAddressSelector, rawWalletAddressSelector } from 'src/web3/selectors'
 
 function toPascalCase(str: string) {

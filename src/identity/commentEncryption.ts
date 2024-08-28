@@ -9,7 +9,6 @@ import {
   encryptComment as encryptCommentRaw,
 } from '@celo/cryptographic-utils'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
-import getPhoneHash from '@celo/phone-utils/lib/getPhoneHash'
 import { eqAddress, hexToBuffer } from '@celo/utils/lib/address'
 import { memoize, values } from 'lodash'
 import { MAX_COMMENT_LENGTH } from 'src/config'
@@ -29,6 +28,7 @@ import {
 import { e164NumberToAddressSelector, e164NumberToSaltSelector } from 'src/identity/selectors'
 import { UpdateTransactionsAction } from 'src/transactions/actions'
 import { Network, TokenTransaction, TokenTransactionTypeV2 } from 'src/transactions/types'
+import getPhoneHash from 'src/utils/getPhoneCash'
 import Logger from 'src/utils/Logger'
 import { getContractKit } from 'src/web3/contracts'
 import { doFetchDataEncryptionKey } from 'src/web3/dataEncryptionKey'

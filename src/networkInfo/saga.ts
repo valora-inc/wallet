@@ -1,4 +1,3 @@
-import { getRegionCodeFromCountryCode } from '@celo/phone-utils'
 import NetInfo, { NetInfoState } from '@react-native-community/netinfo'
 import { getIpAddress } from 'react-native-device-info'
 import { eventChannel } from 'redux-saga'
@@ -7,6 +6,7 @@ import { isE2EEnv } from 'src/config'
 import { setNetworkConnectivity, updateUserLocationData } from 'src/networkInfo/actions'
 import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
+import { getRegionCodeFromCountryCode } from 'src/utils/getRegionFromCountryCode'
 import networkConfig from 'src/web3/networkConfig'
 import { call, cancelled, put, select, spawn, take } from 'typed-redux-saga'
 

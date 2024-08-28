@@ -1,4 +1,3 @@
-import { getDisplayNumberInternational } from '@celo/phone-utils'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LayoutAnimation, StyleSheet, Text, View } from 'react-native'
@@ -9,6 +8,7 @@ import { Screens } from 'src/navigator/Screens'
 import { getDisplayName, Recipient, recipientHasNumber } from 'src/recipients/recipient'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
+import { getDisplayNumberInternational } from 'src/utils/getDisplayNumberInternational'
 
 interface Props {
   type: 'sent' | 'received' | 'withdrawn'
