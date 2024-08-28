@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 225,
+          "version": 226,
         },
         "account": {
           "acceptedTerms": false,
@@ -188,9 +188,6 @@ describe('store state', () => {
           "poolInfo": undefined,
           "poolInfoFetchStatus": "idle",
           "withdrawStatus": "idle",
-        },
-        "fees": {
-          "estimates": {},
         },
         "fiatConnect": {
           "attemptReturnUserFlowLoading": false,
