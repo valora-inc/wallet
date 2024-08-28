@@ -2622,8 +2622,8 @@
         "tvlSubtitle": "Что такое общая заблокированная стоимость?",
         "tvlDescription": "Общая заблокированная стоимость (TVL) — это показатель, используемый в криптоиндустрии для измерения стоимости цифровых активов, заблокированных в блокчейн-сети. Она рассчитывается путем сложения стоимости всех цифровых активов, заблокированных в протоколе DeFi или смарт-контракте. Эти активы могут включать в себя криптовалюты, стейблкоины и другие токены."
       },
-      "noPoolsTitle": "Ты еще не вступил ни в один пул",
-      "noPoolsDescription": "Узнай о доступных пулах, выбери тот, который соответствует твоим целям, и используй свои стейблкоины по максимуму."
+      "noPoolsTitle": "Вы еще не присоединились ни к одному пулу",
+      "noPoolsDescription": "Узнайте о доступных пулах, выберите нужный, чтобы получить максимальную отдачу от своих стейблкоинов."
     },
     "poolCard": {
       "onNetwork": "в {{networkName}}",
@@ -2640,8 +2640,21 @@
       "depositAndEarnings": "Пополнение и заработки"
     },
     "poolFilters": {
-      "myPools": "Мои пулы",
-      "allPools": "Все бассейны"
+      "allPools": "Все пулы",
+      "myPools": "Мои пулы"
+    },
+    "poolInfoScreen": {
+      "chainName": "Цепь: <0>{{networkName}}</0>",
+      "protocolName": "Протокол: <0>{{providerName}}</0>",
+      "yieldRate": "Ставка урожайности",
+      "ratePercent": "{{rate}}%",
+      "rewards": "Вознаграждения",
+      "noRewards": "Никаких наград",
+      "tvl": "Общая заблокированная стоимость",
+      "ageOfPool": "Возраст бассейна",
+      "learnMoreOnProvider": "Посмотреть бассейн на {{providerName}}",
+      "deposit": "Депозит",
+      "withdraw": "Вывести"
     }
   },
   "addFundsActions": {
@@ -2649,6 +2662,15 @@
     "transfer": "Перевод",
     "swap": "Обмен"
   },
+  "duration_lessThanADay": "Меньше суток",
+  "duration_day_one": "1 день",
+  "duration_day_other": "{{count}} дней",
+  "duration_month_one": "1 месяц",
+  "duration_month_other": "{{count}} Месяцы",
+  "duration_year_one": "1 год",
+  "duration_year_other": "{{count}} лет",
+  "duration_yearMonth_one": "1 год, 1 месяц",
+  "duration_yearMonth_other": "{{count}} лет, {{count2}} месяцев",
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
