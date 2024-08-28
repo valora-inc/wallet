@@ -32,7 +32,7 @@ const LegalSubmenu = () => {
   }
 
   return (
-    <SafeAreaView edges={['top']}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <CustomHeader left={<BackButton />} title={t('legal')} style={styles.header} />
       <ScrollView style={insetsStyle}>
         <SettingsItemTextValue
@@ -62,6 +62,9 @@ const LegalSubmenu = () => {
 const styles = StyleSheet.create({
   header: {
     paddingHorizontal: variables.contentPadding,
+  },
+  container: {
+    flex: 1,
   },
 })
 
