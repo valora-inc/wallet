@@ -2640,15 +2640,15 @@
       "myPools": "I miei pool"
     },
     "poolInfoScreen": {
-      "chainName": "Catena: <0>{{networkName}}</0>",
+      "chainName": "Rete: <0>{{networkName}}</0>",
       "protocolName": "Protocollo: <0>{{providerName}}</0>",
       "yieldRate": "Tasso di rendimento",
       "ratePercent": "{{rate}}%",
       "rewards": "Ricompense",
-      "noRewards": "Nessuna ricompensa",
+      "noRewards": "Senza ricompense",
       "tvl": "TVL",
-      "ageOfPool": "Età della piscina",
-      "learnMoreOnProvider": "Visualizza la piscina su {{providerName}}",
+      "ageOfPool": "Pool creato:",
+      "learnMoreOnProvider": "Visualizza pool su {{providerName}}",
       "deposit": "Deposito",
       "withdraw": "Preleva"
     }
