@@ -1,7 +1,6 @@
 import BigNumber from 'bignumber.js'
 import aaveIncentivesV3Abi from 'src/abis/AaveIncentivesV3'
 import aavePool from 'src/abis/AavePoolV3'
-import erc20 from 'src/abis/IERC20'
 import {
   prepareSupplyTransactions,
   prepareWithdrawAndClaimTransactions,
@@ -123,12 +122,12 @@ describe('prepareTransactions', () => {
       })
       expect(publicClient[Network.Arbitrum].readContract).toHaveBeenCalledWith({
         address: mockTokenAddress,
-        abi: erc20.abi,
+        abi: erc20Abi,
         functionName: 'allowance',
         args: ['0x1234', '0x5678'],
       })
       expect(encodeFunctionData).toHaveBeenNthCalledWith(1, {
-        abi: erc20.abi,
+        abi: erc20Abi,
         functionName: 'approve',
         args: ['0x5678', BigInt(5e6)],
       })
@@ -189,7 +188,7 @@ describe('prepareTransactions', () => {
       })
       expect(publicClient[Network.Arbitrum].readContract).toHaveBeenCalledWith({
         address: mockTokenAddress,
-        abi: erc20.abi,
+        abi: erc20Abi,
         functionName: 'allowance',
         args: ['0x1234', '0x5678'],
       })

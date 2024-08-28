@@ -94,15 +94,20 @@ describe('SettingsMenu', () => {
         <MockedNavigator component={SettingsMenu}></MockedNavigator>
       </Provider>
     )
+
+    fireEvent.press(getByTestId('SettingsMenu/Profile'))
     fireEvent.press(getByTestId('SettingsMenu/Address'))
     fireEvent.press(getByTestId('SettingsMenu/Invite'))
     fireEvent.press(getByTestId('SettingsMenu/Help'))
-    expect(navigate).toHaveBeenCalledTimes(3)
-    expect(navigate).toHaveBeenNthCalledWith(1, Screens.QRNavigator, {
+
+    expect(navigate).toHaveBeenCalledTimes(4)
+
+    expect(navigate).toHaveBeenNthCalledWith(1, Screens.ProfileSubmenu)
+    expect(navigate).toHaveBeenNthCalledWith(2, Screens.QRNavigator, {
       screen: Screens.QRCode,
       params: { showSecureSendStyling: true },
     })
-    expect(navigate).toHaveBeenNthCalledWith(2, Screens.Invite)
-    expect(navigate).toHaveBeenNthCalledWith(3, Screens.Support)
+    expect(navigate).toHaveBeenNthCalledWith(3, Screens.Invite)
+    expect(navigate).toHaveBeenNthCalledWith(4, Screens.Support)
   })
 })

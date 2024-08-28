@@ -1,12 +1,11 @@
 import BigNumber from 'bignumber.js'
-import erc20 from 'src/abis/IERC20'
 import stableToken from 'src/abis/StableToken'
-import { TransactionEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { TransactionEvents } from 'src/analytics/Events'
 import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import { Network, NetworkId } from 'src/transactions/types'
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
-import { publicClient, appPublicClient } from 'src/viem/index'
+import { appPublicClient, publicClient } from 'src/viem/index'
 import {
   TransactionRequest,
   getEstimatedGasFee,
@@ -32,6 +31,7 @@ import {
   InsufficientFundsError,
   InvalidInputRpcError,
   encodeFunctionData,
+  erc20Abi,
 } from 'viem'
 import { estimateGas } from 'viem/actions'
 import mocked = jest.mocked
@@ -1125,7 +1125,7 @@ describe('prepareTransactions module', () => {
       origin: 'send',
     })
     expect(encodeFunctionData).toHaveBeenCalledWith({
-      abi: erc20.abi,
+      abi: erc20Abi,
       functionName: 'transfer',
       args: ['0x456', BigInt(100)],
     })

@@ -83,6 +83,7 @@ export type StackParamList = {
   [Screens.EarnEnterAmount]: { pool: EarnPosition }
   [Screens.EarnCollectScreen]: { pool: EarnPosition }
   [Screens.EarnHome]: { activeEarnTab?: EarnTabType } | undefined
+  [Screens.EarnPoolInfoScreen]: { pool: EarnPosition }
   [Screens.ErrorScreen]: {
     errorMessage?: string
   }
@@ -214,6 +215,7 @@ export type StackParamList = {
     | undefined
   [Screens.Profile]: undefined
   [Screens.ProfileMenu]: undefined
+  [Screens.ProfileSubmenu]: undefined
   [Screens.SettingsMenu]: undefined
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
   [Screens.RegulatoryTerms]: undefined

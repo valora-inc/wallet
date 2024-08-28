@@ -26,7 +26,6 @@ import {
   mockUSDCTokenId,
 } from 'test/values'
 
-jest.mock('src/fees/hooks')
 jest.mock('react-native-localize')
 
 const mockPrepareTransactionsResultPossible: PreparedTransactionsPossible = {
