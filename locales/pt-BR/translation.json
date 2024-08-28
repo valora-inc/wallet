@@ -2569,11 +2569,13 @@
     "depositBottomSheet": {
       "title": "Revisar e depositar",
       "description": "Antes de depositar em um pool da Aave, revise os detalhes da transação abaixo",
+      "descriptionV1_93": "Antes de depositar em um pool {{providerName}} , leia os detalhes da transação abaixo",
       "amount": "Quantia depositada",
       "fee": "Taxas est. de gas",
       "provider": "Provedor de ganhos",
       "network": "Rede",
       "footer": "Ao depositar cripto em um pool da Aave, você aceita os riscos associados ao uso da Aave. <0>Termos e condições</0>",
+      "footerV1_93": "Ao depositar criptomoedas em um pool do {{providerName}} , você aceita os riscos associados ao uso do {{providerName}}. <0>Termos e condições</0>",
       "primaryCta": "Concluir",
       "secondaryCta": "Cancelar"
     },
