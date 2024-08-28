@@ -2640,15 +2640,15 @@
       "myPools": "Mes pools"
     },
     "poolInfoScreen": {
-      "chainName": "Chaîne : <0>{{networkName}}</0>",
+      "chainName": "Réseau : <0>{{networkName}}</0>",
       "protocolName": "Protocole : <0>{{providerName}}</0>",
       "yieldRate": "Taux de rendement",
       "ratePercent": "{{rate}}%",
       "rewards": "Récompenses",
-      "noRewards": "Aucune récompense",
+      "noRewards": "Pas de récompense",
       "tvl": "TVL",
-      "ageOfPool": "Âge de la piscine",
-      "learnMoreOnProvider": "Voir la piscine sur {{providerName}}",
+      "ageOfPool": "Pool crée",
+      "learnMoreOnProvider": "Voir pool sur {{providerName}}",
       "deposit": "Dépôt",
       "withdraw": "Retirer"
     }
@@ -2664,7 +2664,7 @@
   "duration_month_one": "1 mois",
   "duration_month_other": "{{count}} mois",
   "duration_year_one": "1 an",
-  "duration_year_other": "{{count}} années",
+  "duration_year_other": "{{count}} ans",
   "duration_yearMonth_one": "1 an, 1 mois",
   "duration_yearMonth_other": "{{count}} ans, {{count2}} mois",
   "celoDollarAmount": "<0></0> Celo Dollar",
