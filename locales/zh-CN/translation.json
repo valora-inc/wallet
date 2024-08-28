@@ -2567,11 +2567,13 @@
     "depositBottomSheet": {
       "title": "审查和存款",
       "description": "在向 Aave 池存款之前，请查看以下交易详情",
+      "descriptionV1_93": "在向 {{providerName}} 奖池存款之前，请查看以下交易详情",
       "amount": "已转入金额",
       "fee": "估计手续费",
       "provider": "收入提供者",
       "network": "网络",
       "footer": "向 Aave 池存入加密货币，即表示您接受与使用 Aave 相关的风险。<0>条款和条件</0>",
+      "footerV1_93": "将加密货币存入 {{providerName}} 池，即表示您接受与使用 {{providerName}}相关的风险。<0>条款和条件</0>",
       "primaryCta": "完成",
       "secondaryCta": "取消"
     },
