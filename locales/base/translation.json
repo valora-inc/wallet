@@ -2568,13 +2568,13 @@
     "depositBottomSheet": {
       "title": "Review & Deposit",
       "description": "Before depositing to an Aave pool, please review the transaction details below",
-      "descriptionV1_93": "Before depositing to a {{providerName}} pool, please review the transaction details below",
+      "descriptionV1_93": "Before depositing to an {{providerName}} pool, please review the transaction details below",
       "amount": "Amount Deposited",
       "fee": "Est. Gas Fees",
       "provider": "Earnings provider",
       "network": "Network",
       "footer": "By depositing crypto into an Aave pool, you accept the risks associated with using Aave. <0>Terms & Conditions</0>",
-      "footerV1_93": "By depositing crypto into a {{providerName}} pool, you accept the risks associated with using {{providerName}}. <0>Terms & Conditions</0>",
+      "footerV1_93": "By depositing crypto into an {{providerName}} pool, you accept the risks associated with using {{providerName}}. <0>Terms & Conditions</0>",
       "primaryCta": "Complete",
       "secondaryCta": "Cancel"
     },
