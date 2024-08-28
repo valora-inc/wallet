@@ -1104,8 +1104,6 @@ export const mockFiatConnectQuotesWithUnknownFees: FiatConnectQuoteSuccess[] = [
   },
 ]
 
-export const mockMaxSendAmount = new BigNumber(999.99995)
-
 export const mockExchanges: ExternalExchangeProvider[] = [
   {
     name: 'Bittrex',

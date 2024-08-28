@@ -21,11 +21,8 @@ import {
   mockCusdAddress,
   mockCusdTokenId,
   mockEthTokenId,
-  mockMaxSendAmount,
 } from 'test/values'
 import { CICOFlow } from './utils'
-
-const mockUseMaxSendAmount = jest.fn(() => mockMaxSendAmount)
 
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(),
