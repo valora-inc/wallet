@@ -14,7 +14,7 @@ import { Network, NetworkId } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
 import { prepareTransactions } from 'src/viem/prepareTransactions'
 import networkConfig from 'src/web3/networkConfig'
-import { mockArbArbAddress, mockArbArbTokenBalance } from 'test/values'
+import { mockRewardsPositions, mockUSDCAddress } from 'test/values'
 import { Address, encodeFunctionData, maxUint256 } from 'viem'
 
 const mockFeeCurrency: TokenBalance = {
@@ -217,22 +217,13 @@ describe('prepareTransactions', () => {
         }
         throw new Error(`Unexpected feature gate: ${featureGate}`)
       })
-      const rewards = [
-        {
-          amount: '0.002',
-          tokenInfo: mockArbArbTokenBalance,
-        },
-        {
-          amount: '0.003',
-          tokenInfo: mockToken,
-        },
-      ]
+      const rewardsTokens = mockRewardsPositions[0].tokens
       const result = await prepareWithdrawAndClaimTransactions({
         amount: '5',
         token: mockToken,
         walletAddress: '0x1234',
         feeCurrencies: [mockFeeCurrency],
-        rewards,
+        rewardsTokens,
         poolTokenAddress: '0x5678',
       })
 
@@ -247,18 +238,13 @@ describe('prepareTransactions', () => {
           to: networkConfig.arbAaveIncentivesV3ContractAddress,
           data: '0xencodedData',
         },
-        {
-          from: '0x1234',
-          to: networkConfig.arbAaveIncentivesV3ContractAddress,
-          data: '0xencodedData',
-        },
       ]
       expect(result).toEqual({
         type: 'possible',
         feeCurrency: mockFeeCurrency,
         transactions: expectedTransactions,
       })
-      expect(encodeFunctionData).toHaveBeenCalledTimes(3)
+      expect(encodeFunctionData).toHaveBeenCalledTimes(2)
       expect(encodeFunctionData).toHaveBeenCalledWith({
         abi: aavePool,
         functionName: 'withdraw',
@@ -267,12 +253,7 @@ describe('prepareTransactions', () => {
       expect(encodeFunctionData).toHaveBeenCalledWith({
         abi: aaveIncentivesV3Abi,
         functionName: 'claimRewardsToSelf',
-        args: [['0x5678'], BigInt(2e15), mockArbArbAddress],
-      })
-      expect(encodeFunctionData).toHaveBeenCalledWith({
-        abi: aaveIncentivesV3Abi,
-        functionName: 'claimRewardsToSelf',
-        args: [['0x5678'], BigInt(3000), mockTokenAddress],
+        args: [['0x5678'], BigInt(10750000), mockUSDCAddress],
       })
       expect(prepareTransactions).toHaveBeenCalledWith({
         baseTransactions: expectedTransactions,
@@ -288,7 +269,7 @@ describe('prepareTransactions', () => {
         token: mockToken,
         walletAddress: '0x1234',
         feeCurrencies: [mockFeeCurrency],
-        rewards: [],
+        rewardsTokens: [],
         poolTokenAddress: '0x5678',
       })
 

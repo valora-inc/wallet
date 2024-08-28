@@ -81,10 +81,7 @@ export type StackParamList = {
   [Screens.DebugImages]: undefined
   [Screens.EarnInfoScreen]: undefined
   [Screens.EarnEnterAmount]: { pool: EarnPosition }
-  [Screens.EarnCollectScreen]: {
-    depositTokenId: string
-    poolTokenId: string
-  }
+  [Screens.EarnCollectScreen]: { pool: EarnPosition }
   [Screens.EarnHome]: { activeEarnTab?: EarnTabType } | undefined
   [Screens.ErrorScreen]: {
     errorMessage?: string

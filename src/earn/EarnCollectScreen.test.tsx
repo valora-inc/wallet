@@ -2,12 +2,11 @@ import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { EarnEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { EarnEvents } from 'src/analytics/Events'
 import EarnCollectScreen from 'src/earn/EarnCollectScreen'
-import { fetchAaveRewards } from 'src/earn/poolInfo'
 import { prepareWithdrawAndClaimTransactions } from 'src/earn/prepareTransactions'
-import { fetchPoolInfo, withdrawStart } from 'src/earn/slice'
+import { withdrawStart } from 'src/earn/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
@@ -21,10 +20,12 @@ import { createMockStore, mockStoreBalancesToTokenBalances } from 'test/utils'
 import {
   mockAaveArbUsdcAddress,
   mockAccount,
-  mockArbArbTokenBalance,
   mockArbArbTokenId,
   mockArbEthTokenId,
   mockArbUsdcTokenId,
+  mockEarnPositions,
+  mockPositions,
+  mockRewardsPositions,
   mockTokenBalances,
 } from 'test/values'
 
@@ -45,12 +46,14 @@ const mockStoreTokens = {
 
 const store = createMockStore({
   tokens: mockStoreTokens,
-  earn: { poolInfo: { apy: 0.03 }, poolInfoFetchStatus: 'success' },
+  positions: {
+    positions: [...mockPositions, ...mockRewardsPositions],
+  },
 })
 
-jest.mock('src/earn/poolInfo')
 jest.mock('src/statsig')
 jest.mock('src/earn/prepareTransactions')
+jest.mock('src/earn/poolInfo')
 
 const mockPreparedTransaction: PreparedTransactionsPossible = {
   type: 'possible' as const,
@@ -82,14 +85,17 @@ const mockPreparedTransaction: PreparedTransactionsPossible = {
   },
 }
 
-const mockRewards = [{ amount: '0.01', tokenInfo: mockArbArbTokenBalance }]
-
 describe('EarnCollectScreen', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.mocked(fetchAaveRewards).mockResolvedValue(mockRewards)
+
     jest.mocked(prepareWithdrawAndClaimTransactions).mockResolvedValue(mockPreparedTransaction)
-    jest.mocked(getFeatureGate).mockReturnValue(false)
+    jest.mocked(getFeatureGate).mockImplementation((gateName: StatsigFeatureGates) => {
+      if (gateName === StatsigFeatureGates.SHOW_POSITIONS) {
+        return true
+      }
+      return false
+    })
     store.clearActions()
   })
 
@@ -99,8 +105,7 @@ describe('EarnCollectScreen', () => {
         <MockedNavigator
           component={EarnCollectScreen}
           params={{
-            depositTokenId: mockArbUsdcTokenId,
-            poolTokenId: networkConfig.aaveArbUsdcTokenId,
+            pool: mockEarnPositions[0],
           }}
         />
       </Provider>
@@ -112,20 +117,16 @@ describe('EarnCollectScreen', () => {
       '10.75 USDC'
     )
     expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/FiatAmount`)).toHaveTextContent('₱14.30')
-    expect(getByTestId('EarnCollect/RewardsLoading')).toBeTruthy()
     expect(queryByTestId('EarnCollect/ApyLoading')).toBeFalsy()
     expect(getByTestId('EarnCollect/GasLoading')).toBeTruthy()
     expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
 
-    await waitFor(() => {
-      expect(queryByTestId('EarnCollect/RewardsLoading')).toBeFalsy()
-    })
     expect(getByText('earnFlow.collect.plus')).toBeTruthy()
     expect(getByTestId(`EarnCollect/${mockArbArbTokenId}/CryptoAmount`)).toHaveTextContent(
       '0.01 ARB'
     )
     expect(getByTestId(`EarnCollect/${mockArbArbTokenId}/FiatAmount`)).toHaveTextContent('₱0.016')
-    expect(getByText('earnFlow.collect.apy, {"apy":"3.00"}')).toBeTruthy()
+    expect(getByText('earnFlow.collect.apy, {"apy":"1.92"}')).toBeTruthy()
 
     await waitFor(() => {
       expect(queryByTestId('EarnCollect/GasLoading')).toBeFalsy()
@@ -138,22 +139,31 @@ describe('EarnCollectScreen', () => {
       amount: '10.75',
       feeCurrencies: mockStoreBalancesToTokenBalances([mockTokenBalances[mockArbEthTokenId]]),
       poolTokenAddress: mockAaveArbUsdcAddress,
-      rewards: mockRewards,
+      rewardsTokens: mockRewardsPositions[1].tokens,
       token: mockStoreBalancesToTokenBalances([mockTokenBalances[mockArbUsdcTokenId]])[0],
       walletAddress: mockAccount.toLowerCase(),
     })
-    expect(store.getActions()).toEqual([fetchPoolInfo()])
+    expect(store.getActions()).toEqual([])
   })
 
   it('skips rewards section when no rewards', async () => {
-    jest.mocked(fetchAaveRewards).mockResolvedValue([])
     const { getByText, getByTestId, queryByTestId, queryByText } = render(
-      <Provider store={store}>
+      <Provider
+        store={createMockStore({
+          tokens: mockStoreTokens,
+          positions: {
+            positions: [...mockPositions, ...mockRewardsPositions].filter(
+              (position) =>
+                position.positionId !==
+                'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216:supply-incentives'
+            ),
+          },
+        })}
+      >
         <MockedNavigator
           component={EarnCollectScreen}
           params={{
-            depositTokenId: mockArbUsdcTokenId,
-            poolTokenId: networkConfig.aaveArbUsdcTokenId,
+            pool: mockEarnPositions[0],
           }}
         />
       </Provider>
@@ -165,53 +175,17 @@ describe('EarnCollectScreen', () => {
       '10.75 USDC'
     )
     expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/FiatAmount`)).toHaveTextContent('₱14.30')
-    expect(getByTestId('EarnCollect/RewardsLoading')).toBeTruthy()
     expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
 
-    await waitFor(() => {
-      expect(queryByTestId('EarnCollect/RewardsLoading')).toBeFalsy()
-    })
     expect(queryByText('earnFlow.collect.plus')).toBeFalsy()
     expect(queryByTestId(`EarnCollect/${mockArbArbTokenId}/CryptoAmount`)).toBeFalsy()
     expect(queryByTestId(`EarnCollect/${mockArbArbTokenId}/FiatAmount`)).toBeFalsy()
-    expect(getByTestId('EarnCollectScreen/CTA')).toBeEnabled()
-
     await waitFor(() => {
-      expect(queryByTestId('EarnCollect/GasLoading')).toBeFalsy()
-    })
-    expect(getByTestId('EarnCollectScreen/CTA')).toBeEnabled()
-  })
-
-  it('shows error and keeps cta disabled if rewards loading fails', async () => {
-    jest.mocked(fetchAaveRewards).mockRejectedValue(new Error('Failed to fetch rewards'))
-    const { getByText, getByTestId, queryByText, queryByTestId } = render(
-      <Provider store={store}>
-        <MockedNavigator
-          component={EarnCollectScreen}
-          params={{
-            depositTokenId: mockArbUsdcTokenId,
-            poolTokenId: networkConfig.aaveArbUsdcTokenId,
-          }}
-        />
-      </Provider>
-    )
-
-    expect(getByText('earnFlow.collect.title')).toBeTruthy()
-    expect(getByText('earnFlow.collect.total')).toBeTruthy()
-    expect(getByTestId('EarnCollect/RewardsLoading')).toBeTruthy()
-    expect(getByTestId('EarnCollect/GasLoading')).toBeTruthy()
-    expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
-
-    await waitFor(() => {
-      expect(queryByTestId('EarnCollect/RewardsLoading')).toBeFalsy()
+      expect(queryByTestId('EarnCollectScreen/CTA')).toBeEnabled()
     })
     await waitFor(() => {
       expect(queryByTestId('EarnCollect/GasLoading')).toBeFalsy()
     })
-    expect(getByText('earnFlow.collect.errorTitle')).toBeTruthy()
-    expect(queryByText('earnFlow.collect.plus')).toBeFalsy()
-    expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
-    expect(prepareWithdrawAndClaimTransactions).not.toHaveBeenCalled()
   })
 
   it('shows error and keeps cta disabled if prepare tx fails', async () => {
@@ -223,8 +197,7 @@ describe('EarnCollectScreen', () => {
         <MockedNavigator
           component={EarnCollectScreen}
           params={{
-            depositTokenId: mockArbUsdcTokenId,
-            poolTokenId: networkConfig.aaveArbUsdcTokenId,
+            pool: mockEarnPositions[0],
           }}
         />
       </Provider>
@@ -232,91 +205,15 @@ describe('EarnCollectScreen', () => {
 
     expect(getByText('earnFlow.collect.title')).toBeTruthy()
     expect(getByText('earnFlow.collect.total')).toBeTruthy()
-    expect(getByTestId('EarnCollect/RewardsLoading')).toBeTruthy()
     expect(getByTestId('EarnCollect/GasLoading')).toBeTruthy()
     expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
 
-    await waitFor(() => {
-      expect(queryByTestId('EarnCollect/RewardsLoading')).toBeFalsy()
-    })
     await waitFor(() => {
       expect(queryByTestId('EarnCollect/GasLoading')).toBeFalsy()
     })
     expect(getByText('earnFlow.collect.errorTitle')).toBeTruthy()
     expect(getByTestId('EarnCollect/GasError')).toBeTruthy()
     expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
-  })
-
-  it('skips error and enables cta if only apy loading fails', async () => {
-    const store = createMockStore({
-      tokens: mockStoreTokens,
-      earn: { poolInfoFetchStatus: 'error' },
-    })
-    const { getByText, getByTestId, queryByTestId, queryByText } = render(
-      <Provider store={store}>
-        <MockedNavigator
-          component={EarnCollectScreen}
-          params={{
-            depositTokenId: mockArbUsdcTokenId,
-            poolTokenId: networkConfig.aaveArbUsdcTokenId,
-          }}
-        />
-      </Provider>
-    )
-
-    expect(getByText('earnFlow.collect.title')).toBeTruthy()
-    expect(getByText('earnFlow.collect.total')).toBeTruthy()
-    expect(getByTestId('EarnCollect/RewardsLoading')).toBeTruthy()
-    expect(queryByTestId('EarnCollect/ApyLoading')).toBeFalsy()
-    expect(getByTestId('EarnCollect/GasLoading')).toBeTruthy()
-    expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
-
-    await waitFor(() => {
-      expect(queryByTestId('EarnCollect/RewardsLoading')).toBeFalsy()
-    })
-    await waitFor(() => {
-      expect(queryByTestId('EarnCollect/GasLoading')).toBeFalsy()
-    })
-    expect(getByText('earnFlow.collect.apy, {"apy":"--"}')).toBeTruthy()
-    expect(getByText('earnFlow.collect.plus')).toBeTruthy()
-    expect(getByTestId('EarnCollectScreen/CTA')).toBeEnabled()
-    expect(queryByText('earnFlow.collect.errorTitle')).toBeFalsy()
-  })
-
-  it('enables cta when everything other than APY finishes loading', async () => {
-    const store = createMockStore({
-      tokens: mockStoreTokens,
-      earn: { poolInfoFetchStatus: 'loading' },
-    })
-    const { getByText, getByTestId, queryByTestId, queryByText } = render(
-      <Provider store={store}>
-        <MockedNavigator
-          component={EarnCollectScreen}
-          params={{
-            depositTokenId: mockArbUsdcTokenId,
-            poolTokenId: networkConfig.aaveArbUsdcTokenId,
-          }}
-        />
-      </Provider>
-    )
-
-    expect(getByText('earnFlow.collect.title')).toBeTruthy()
-    expect(getByText('earnFlow.collect.total')).toBeTruthy()
-    expect(getByTestId('EarnCollect/RewardsLoading')).toBeTruthy()
-    expect(getByTestId('EarnCollect/ApyLoading')).toBeTruthy()
-    expect(getByTestId('EarnCollect/GasLoading')).toBeTruthy()
-    expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
-
-    await waitFor(() => {
-      expect(queryByTestId('EarnCollect/RewardsLoading')).toBeFalsy()
-    })
-    await waitFor(() => {
-      expect(queryByTestId('EarnCollect/GasLoading')).toBeFalsy()
-    })
-    expect(getByTestId('EarnCollect/ApyLoading')).toBeTruthy()
-    expect(getByText('earnFlow.collect.plus')).toBeTruthy()
-    expect(getByTestId('EarnCollectScreen/CTA')).toBeEnabled()
-    expect(queryByText('earnFlow.collect.errorTitle')).toBeFalsy()
   })
 
   it('disables cta if not enough balance for gas', async () => {
@@ -329,8 +226,7 @@ describe('EarnCollectScreen', () => {
         <MockedNavigator
           component={EarnCollectScreen}
           params={{
-            depositTokenId: mockArbUsdcTokenId,
-            poolTokenId: networkConfig.aaveArbUsdcTokenId,
+            pool: mockEarnPositions[0],
           }}
         />
       </Provider>
@@ -338,13 +234,9 @@ describe('EarnCollectScreen', () => {
 
     expect(getByText('earnFlow.collect.title')).toBeTruthy()
     expect(getByText('earnFlow.collect.total')).toBeTruthy()
-    expect(getByTestId('EarnCollect/RewardsLoading')).toBeTruthy()
     expect(getByTestId('EarnCollect/GasLoading')).toBeTruthy()
     expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
 
-    await waitFor(() => {
-      expect(queryByTestId('EarnCollect/RewardsLoading')).toBeFalsy()
-    })
     await waitFor(() => {
       expect(queryByTestId('EarnCollect/GasLoading')).toBeFalsy()
     })
@@ -358,8 +250,7 @@ describe('EarnCollectScreen', () => {
         <MockedNavigator
           component={EarnCollectScreen}
           params={{
-            depositTokenId: mockArbUsdcTokenId,
-            poolTokenId: networkConfig.aaveArbUsdcTokenId,
+            pool: mockEarnPositions[0],
           }}
         />
       </Provider>
@@ -372,7 +263,6 @@ describe('EarnCollectScreen', () => {
     fireEvent.press(getByTestId('EarnCollectScreen/CTA'))
 
     expect(store.getActions()).toEqual([
-      fetchPoolInfo(),
       {
         type: withdrawStart.type,
         payload: {
@@ -396,22 +286,24 @@ describe('EarnCollectScreen', () => {
   })
 
   it('disables cta and shows loading spinner when withdraw is submitted', async () => {
-    const store = createMockStore({ tokens: mockStoreTokens, earn: { withdrawStatus: 'loading' } })
+    const store = createMockStore({
+      earn: { withdrawStatus: 'loading' },
+      tokens: mockStoreTokens,
+      positions: {
+        positions: [...mockPositions, ...mockRewardsPositions],
+      },
+    })
     const { getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <MockedNavigator
           component={EarnCollectScreen}
           params={{
-            depositTokenId: mockArbUsdcTokenId,
-            poolTokenId: networkConfig.aaveArbUsdcTokenId,
+            pool: mockEarnPositions[0],
           }}
         />
       </Provider>
     )
 
-    await waitFor(() => {
-      expect(queryByTestId('EarnCollect/RewardsLoading')).toBeFalsy()
-    })
     await waitFor(() => {
       expect(queryByTestId('EarnCollect/GasLoading')).toBeFalsy()
     })
@@ -431,8 +323,7 @@ describe('EarnCollectScreen', () => {
         <MockedNavigator
           component={EarnCollectScreen}
           params={{
-            depositTokenId: mockArbUsdcTokenId,
-            poolTokenId: networkConfig.aaveArbUsdcTokenId,
+            pool: mockEarnPositions[0],
           }}
         />
       </Provider>
@@ -471,8 +362,7 @@ describe('EarnCollectScreen', () => {
         <MockedNavigator
           component={EarnCollectScreen}
           params={{
-            depositTokenId: mockArbUsdcTokenId,
-            poolTokenId: networkConfig.aaveArbUsdcTokenId,
+            pool: mockEarnPositions[0],
           }}
         />
       </Provider>

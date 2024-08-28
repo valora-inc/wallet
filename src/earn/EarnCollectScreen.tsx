@@ -1,27 +1,28 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
-import { EarnEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { EarnEvents } from 'src/analytics/Events'
 import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import { PROVIDER_ID } from 'src/earn/constants'
 import { useAaveRewardsInfoAndPrepareTransactions } from 'src/earn/hooks'
-import {
-  poolInfoFetchStatusSelector,
-  poolInfoSelector,
-  withdrawStatusSelector,
-} from 'src/earn/selectors'
-import { fetchPoolInfo, withdrawStart } from 'src/earn/slice'
+import { withdrawStatusSelector } from 'src/earn/selectors'
+import { withdrawStart } from 'src/earn/slice'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import {
+  positionsWithBalanceSelector,
+  positionsWithClaimableRewardsSelector,
+} from 'src/positions/selectors'
+import { EarnPosition, Token } from 'src/positions/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import { getFeatureGate } from 'src/statsig'
@@ -29,7 +30,6 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { useTokenInfo } from 'src/tokens/hooks'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
@@ -40,38 +40,54 @@ type Props = NativeStackScreenProps<StackParamList, Screens.EarnCollectScreen>
 export default function EarnCollectScreen({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const { depositTokenId, poolTokenId } = route.params
-  const depositToken = useTokenInfo(depositTokenId)
-  const poolToken = useTokenInfo(poolTokenId)
+  const { pool } = route.params
+  const { depositTokenId } = pool.dataProps
+  const depositToken = pool.tokens.find((token) => token.tokenId === depositTokenId)
   const withdrawStatus = useSelector(withdrawStatusSelector)
+  const positionsWithClaimableRewards = useSelector(positionsWithClaimableRewardsSelector)
+  const position = useSelector(positionsWithBalanceSelector).find(
+    (position) => position.positionId === pool.positionId
+  )
 
-  if (!depositToken || !poolToken) {
+  const rewardsTokens = positionsWithClaimableRewards
+    .filter(
+      (position) =>
+        position.address === pool.address &&
+        position.networkId === pool.networkId &&
+        position.appId === pool.appId
+    )
+    .flatMap((position) => position.claimableShortcut.claimableTokens)
+
+  if (!depositToken || !position) {
     // should never happen
-    throw new Error('Deposit / pool token not found')
+    throw new Error('Deposit token or position not found')
   }
 
   const isGasSubsidized = getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
 
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, depositToken.networkId))
-  const { asyncRewardsInfo, asyncPreparedTransactions } = useAaveRewardsInfoAndPrepareTransactions({
-    poolTokenId,
+
+  // TODO(ACT-1343): Support multi-pool using hooks
+  const { asyncPreparedTransactions } = useAaveRewardsInfoAndPrepareTransactions({
+    poolTokenId: pool.tokenId,
     depositTokenId,
     feeCurrencies,
+    rewardsTokens,
   })
   const onPress = () => {
-    if (!asyncRewardsInfo.result || asyncPreparedTransactions.result?.type !== 'possible') {
+    if (asyncPreparedTransactions.result?.type !== 'possible') {
       // should never happen because button is disabled if withdraw is not possible
       throw new Error('Cannot be called without possible prepared transactions')
     }
 
-    const serializedRewards = asyncRewardsInfo.result.map((info) => ({
-      amount: info.amount.toString(),
-      tokenId: info.tokenInfo.tokenId,
+    const serializedRewards = rewardsTokens.map((token) => ({
+      amount: token.balance,
+      tokenId: token.tokenId,
     }))
 
     dispatch(
       withdrawStart({
-        amount: poolToken.balance.toString(),
+        amount: position.tokens[0].balance,
         tokenId: depositTokenId,
         preparedTransactions: getSerializablePreparedTransactions(
           asyncPreparedTransactions.result.transactions
@@ -82,7 +98,7 @@ export default function EarnCollectScreen({ route }: Props) {
 
     AppAnalytics.track(EarnEvents.earn_collect_earnings_press, {
       depositTokenId,
-      tokenAmount: poolToken.balance.toString(),
+      tokenAmount: position.tokens[0].balance,
       networkId: depositToken.networkId,
       providerId: PROVIDER_ID,
       rewards: serializedRewards,
@@ -90,16 +106,15 @@ export default function EarnCollectScreen({ route }: Props) {
   }
 
   // skipping apy fetch error because that isn't blocking collecting rewards
-  const error = asyncRewardsInfo.error || asyncPreparedTransactions.error
+  const error = asyncPreparedTransactions.error
   const ctaDisabled =
-    asyncRewardsInfo.loading ||
-    asyncRewardsInfo.error ||
     asyncPreparedTransactions.loading ||
     asyncPreparedTransactions.error ||
     asyncPreparedTransactions.result?.type !== 'possible' ||
     withdrawStatus === 'loading'
 
   const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(asyncPreparedTransactions.result)
+
   let feeSection = <GasFeeLoading />
   if (maxFeeAmount && feeCurrency) {
     feeSection = (
@@ -121,23 +136,18 @@ export default function EarnCollectScreen({ route }: Props) {
           <CollectItem
             title={t('earnFlow.collect.total')}
             tokenInfo={depositToken}
-            rewardAmount={poolToken.balance}
+            rewardAmount={position.tokens[0].balance}
           />
-          {asyncRewardsInfo.loading && (
-            <SkeletonPlaceholder backgroundColor={Colors.gray2} testID="EarnCollect/RewardsLoading">
-              <View style={styles.rewardsLoading} />
-            </SkeletonPlaceholder>
-          )}
-          {asyncRewardsInfo.result?.map((info, index) => (
+          {rewardsTokens.map((token, index) => (
             <CollectItem
               title={t('earnFlow.collect.plus')}
               key={index}
-              tokenInfo={info.tokenInfo}
-              rewardAmount={info.amount}
+              tokenInfo={token}
+              rewardAmount={token.balance}
             />
           ))}
           <View style={styles.separator} />
-          <Rate depositToken={depositToken} />
+          <Rate pool={pool} />
           <View>
             <Text style={styles.rateText}>{t('earnFlow.collect.fee')}</Text>
             {feeSection}
@@ -201,7 +211,7 @@ function CollectItem({
   rewardAmount,
   title,
 }: {
-  tokenInfo: TokenBalance
+  tokenInfo: Token
   rewardAmount: BigNumber.Value
   title: string
 }) {
@@ -233,16 +243,11 @@ function CollectItem({
   )
 }
 
-function Rate({ depositToken }: { depositToken: TokenBalance }) {
+function Rate({ pool }: { pool: EarnPosition }) {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
-
-  const poolInfo = useSelector(poolInfoSelector)
-  const poolInfoFetchStatus = useSelector(poolInfoFetchStatusSelector)
-
-  useEffect(() => {
-    dispatch(fetchPoolInfo())
-  }, [])
+  const { depositTokenId } = pool.dataProps
+  const depositToken = pool.tokens.find((token) => token.tokenId === depositTokenId)!
+  const apy = pool.dataProps.yieldRates.find((rate) => rate.tokenId === depositTokenId)
 
   return (
     <View>
@@ -250,18 +255,10 @@ function Rate({ depositToken }: { depositToken: TokenBalance }) {
       <View style={styles.row}>
         <TokenIcon token={depositToken} size={IconSize.SMALL} />
 
-        {poolInfoFetchStatus === 'loading' ? (
-          <SkeletonPlaceholder
-            backgroundColor={Colors.gray2}
-            highlightColor={Colors.white}
-            testID="EarnCollect/ApyLoading"
-          >
-            <View style={styles.apyLoading} />
-          </SkeletonPlaceholder>
-        ) : poolInfo?.apy ? (
+        {apy ? (
           <Text style={styles.apyText}>
             {t('earnFlow.collect.apy', {
-              apy: (poolInfo.apy * 100).toFixed(2),
+              apy: apy.percentage.toFixed(2),
             })}
           </Text>
         ) : (
@@ -362,11 +359,6 @@ const styles = StyleSheet.create({
     color: Colors.black,
     marginBottom: Spacing.Smallest8,
   },
-  rewardsLoading: {
-    height: 72,
-    borderRadius: 16,
-    marginBottom: Spacing.Regular16,
-  },
   separator: {
     marginBottom: Spacing.Regular16,
     borderBottomWidth: 1,
@@ -382,11 +374,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   apyText: {
-    ...typeScale.labelSemiBoldSmall,
-  },
-  apyLoading: {
-    width: 64,
-    borderRadius: 100,
     ...typeScale.labelSemiBoldSmall,
   },
   gasFeeFiat: {
