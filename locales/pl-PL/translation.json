@@ -2573,11 +2573,13 @@
     "depositBottomSheet": {
       "title": "Przegląd i wpłata",
       "description": "Przed dokonaniem wpłaty do puli Aave zapoznaj się z poniższymi szczegółami transakcji",
+      "descriptionV1_93": "Przed dokonaniem wpłaty do puli {{providerName}} zapoznaj się z poniższymi szczegółami transakcji",
       "amount": "Kwota wpłacona",
       "fee": "Szac. opłaty za gaz",
       "provider": "Dostawca zarobków",
       "network": "Sieć",
       "footer": "Wpłacając kryptowaluty do puli Aave, akceptujesz ryzyko związane z korzystaniem z Aave. <0>Warunki</0>",
+      "footerV1_93": "Wpłacając kryptowaluty do puli {{providerName}} , akceptujesz ryzyko związane z korzystaniem z {{providerName}}. <0>Regulamin</0>",
       "primaryCta": "Zakończ",
       "secondaryCta": "Anuluj"
     },
