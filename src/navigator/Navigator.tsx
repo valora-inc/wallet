@@ -34,6 +34,7 @@ import EarnCollectScreen from 'src/earn/EarnCollectScreen'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
 import EarnHome from 'src/earn/EarnHome'
 import EarnInfoScreen from 'src/earn/EarnInfoScreen'
+import EarnPoolInfoScreen from 'src/earn/EarnPoolInfoScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import CashInSuccess from 'src/fiatExchanges/CashInSuccess'
 import CoinbasePayScreen from 'src/fiatExchanges/CoinbasePayScreen'
@@ -548,6 +549,11 @@ const earnScreens = (Navigator: typeof Stack) => (
       name={Screens.EarnInfoScreen}
       component={EarnInfoScreen}
       options={EarnInfoScreen.navigationOptions}
+    />
+    <Navigator.Screen
+      name={Screens.EarnPoolInfoScreen}
+      component={EarnPoolInfoScreen}
+      options={headerWithBackButton}
     />
   </>
 )
