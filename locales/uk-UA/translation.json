@@ -2640,8 +2640,21 @@
       "depositAndEarnings": "Депозит і прибуток"
     },
     "poolFilters": {
-      "myPools": "Мої пули",
-      "allPools": "Всі пули"
+      "allPools": "Всі пули",
+      "myPools": "Мої пули"
+    },
+    "poolInfoScreen": {
+      "chainName": "Ланцюг: <0>{{networkName}}</0>",
+      "protocolName": "Протокол: <0>{{providerName}}</0>",
+      "yieldRate": "Ставка дохідності",
+      "ratePercent": "{{rate}}%",
+      "rewards": "Винагорода",
+      "noRewards": "Ніяких нагород",
+      "tvl": "TVL",
+      "ageOfPool": "Вік басейну",
+      "learnMoreOnProvider": "Переглянути басейн на {{providerName}}",
+      "deposit": "Депозит",
+      "withdraw": "Зняти"
     }
   },
   "addFundsActions": {
@@ -2649,6 +2662,15 @@
     "transfer": "Переказати",
     "swap": "Обміняти"
   },
+  "duration_lessThanADay": "Менше доби",
+  "duration_day_one": "1 день",
+  "duration_day_other": "{{count}} днів",
+  "duration_month_one": "1 місяць",
+  "duration_month_other": "{{count}} місяці",
+  "duration_year_one": "1 рік",
+  "duration_year_other": "{{count}} років",
+  "duration_yearMonth_one": "1 рік, 1 місяць",
+  "duration_yearMonth_other": "{{count}} років, {{count2}} місяців",
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
