@@ -1,13 +1,14 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import { Duration, intervalToDuration } from 'date-fns'
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
+import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
@@ -16,6 +17,7 @@ import InfoIcon from 'src/icons/InfoIcon'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
@@ -317,6 +319,10 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
       .filter((token): token is TokenBalance => !!token)
   }, [tokens, allTokens])
 
+  const tvlInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const ageInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const yieldRateInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
+
   // Scroll Aware Header
   const scrollPosition = useSharedValue(0)
   const [titleHeight, setTitleHeight] = useState(0)
@@ -347,21 +353,18 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         <View style={{ height: Spacing.Thick24 }} />
         <View style={styles.contentContainer}>
           <YieldCard
-            // TODO(ACT-1323): Create info bottom sheet & remove Logger.debug
-            infoIconPress={() => Logger.debug('YieldCard Info Icon Pressed!')}
+            infoIconPress={() => yieldRateInfoBottomSheetRef.current?.snapToIndex(0)}
             tokensInfo={tokensInfo}
             earnPosition={pool}
           />
           <TvlCard
-            // TODO(ACT-1323): Create info bottom sheet & remove Logger.debug
             earnPosition={pool}
-            infoIconPress={() => Logger.debug(' TvlCard Info Icon Pressed!')}
+            infoIconPress={() => tvlInfoBottomSheetRef.current?.snapToIndex(0)}
           />
           {dataProps.contractCreatedAt ? (
             <AgeCard
-              // TODO(ACT-1323): Create info bottom sheet & remove Logger.debug
               ageOfPool={new Date(dataProps.contractCreatedAt)}
-              infoIconPress={() => Logger.debug('AgeCard Info Icon Pressed!')}
+              infoIconPress={() => ageInfoBottomSheetRef.current?.snapToIndex(0)}
             />
           ) : null}
           {dataProps.manageUrl && appName ? (
@@ -375,7 +378,80 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         </View>
       </Animated.ScrollView>
       <ActionButtons earnPosition={pool} />
+      <InfoBottomSheet
+        infoBottomSheetRef={tvlInfoBottomSheetRef}
+        titleKey="earnFlow.poolInfoScreen.infoBottomSheet.tvlTitle"
+        descriptionKey="earnFlow.poolInfoScreen.infoBottomSheet.tvlDescription"
+        providerName={appName}
+        testId="TvlInfoBottomSheet"
+      />
+      <InfoBottomSheet
+        infoBottomSheetRef={ageInfoBottomSheetRef}
+        titleKey="earnFlow.poolInfoScreen.infoBottomSheet.ageTitle"
+        descriptionKey="earnFlow.poolInfoScreen.infoBottomSheet.ageDescription"
+        providerName={appName}
+        testId="TvlInfoBottomSheet"
+      />
+      <InfoBottomSheet
+        infoBottomSheetRef={yieldRateInfoBottomSheetRef}
+        titleKey="earnFlow.poolInfoScreen.infoBottomSheet.yieldRateTitle"
+        descriptionKey="earnFlow.poolInfoScreen.infoBottomSheet.yieldRateDescription"
+        descriptionUrl={dataProps.manageUrl}
+        providerName={appName}
+        testId="TvlInfoBottomSheet"
+      />
     </SafeAreaView>
+  )
+}
+
+function InfoBottomSheet({
+  infoBottomSheetRef,
+  titleKey,
+  descriptionKey,
+  descriptionUrl,
+  providerName,
+  testId,
+}: {
+  infoBottomSheetRef: React.RefObject<BottomSheetRefType>
+  titleKey: string
+  descriptionKey: string
+  descriptionUrl?: string
+  providerName: string
+  testId: string
+}) {
+  const { t } = useTranslation()
+
+  const onPressDismiss = () => {
+    infoBottomSheetRef.current?.close()
+  }
+
+  const onPressUrl = () => {
+    descriptionUrl && navigate(Screens.WebViewScreen, { uri: descriptionUrl })
+  }
+
+  return (
+    <BottomSheet
+      forwardedRef={infoBottomSheetRef}
+      title={t(titleKey)}
+      testId={testId}
+      titleStyle={styles.infoBottomSheetTitle}
+    >
+      {descriptionUrl ? (
+        <Text style={styles.infoBottomSheetText}>
+          <Trans i18nKey={descriptionKey} tOptions={{ providerName }}>
+            <Text onPress={onPressUrl} style={styles.linkText} />
+          </Trans>
+        </Text>
+      ) : (
+        <Text style={styles.infoBottomSheetText}>{t(descriptionKey, { providerName })}</Text>
+      )}
+      <Button
+        onPress={onPressDismiss}
+        text={t('earnFlow.poolInfoScreen.infoBottomSheet.gotIt')}
+        size={BtnSizes.FULL}
+        type={BtnTypes.SECONDARY}
+      />
+    </BottomSheet>
   )
 }
 
@@ -476,5 +552,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: Spacing.Regular16,
     gap: Spacing.Smallest8,
+  },
+  infoBottomSheetTitle: {
+    ...typeScale.titleSmall,
+    color: Colors.black,
+  },
+  infoBottomSheetText: {
+    ...typeScale.bodySmall,
+    marginBottom: Spacing.Thick24,
+    color: Colors.black,
+  },
+  linkText: {
+    textDecorationLine: 'underline',
   },
 })
