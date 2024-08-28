@@ -229,7 +229,17 @@ function AgeCard({ ageOfPool, infoIconPress }: { ageOfPool: Date; infoIconPress:
   )
 }
 
-function LearnMoreTouchable({ url, providerName }: { url: string; providerName: string }) {
+function LearnMoreTouchable({
+  url,
+  providerName,
+  appId,
+  positionId,
+}: {
+  url: string
+  providerName: string
+  appId: string
+  positionId: string
+}) {
   const { t } = useTranslation()
   return (
     <View style={styles.learnMoreContainer}>
@@ -237,7 +247,8 @@ function LearnMoreTouchable({ url, providerName }: { url: string; providerName: 
         borderRadius={8}
         onPress={() => {
           AppAnalytics.track(EarnEvents.earn_pool_info_view_pool, {
-            url,
+            appId,
+            positionId,
           })
           navigateToURI(url)
         }}
@@ -298,7 +309,7 @@ type Props = NativeStackScreenProps<StackParamList, Screens.EarnPoolInfoScreen>
 
 export default function EarnPoolInfoScreen({ route, navigation }: Props) {
   const { pool } = route.params
-  const { networkId, tokens, displayProps, appName, dataProps } = pool
+  const { networkId, tokens, displayProps, appName, dataProps, appId, positionId } = pool
   const allTokens = useSelector((state) => tokensByIdSelector(state, [networkId]))
   const tokensInfo = useMemo(() => {
     return tokens
@@ -354,7 +365,12 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
             />
           ) : null}
           {dataProps.manageUrl && appName ? (
-            <LearnMoreTouchable url={dataProps.manageUrl} providerName={appName} />
+            <LearnMoreTouchable
+              url={dataProps.manageUrl}
+              providerName={appName}
+              appId={appId}
+              positionId={positionId}
+            />
           ) : null}
         </View>
       </Animated.ScrollView>

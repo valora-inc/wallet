@@ -76,7 +76,8 @@ describe('EarnPoolInfoScreen', () => {
     )
     expect(navigateToURI).toHaveBeenCalledWith('https://app.aave.com/?marketName=proto_arbitrum_v3')
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_info_view_pool, {
-      url: 'https://app.aave.com/?marketName=proto_arbitrum_v3',
+      appId: 'aave',
+      positionId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
     })
   })
 })
