@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-import erc20 from 'src/abis/IERC20'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { AppEvents } from 'src/analytics/Events'
 import { DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED } from 'src/config'
@@ -30,7 +29,7 @@ import { publicClient } from 'src/viem'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, put, select, spawn, take, takeEvery } from 'typed-redux-saga'
-import { Address, getContract } from 'viem'
+import { Address, erc20Abi, getContract } from 'viem'
 
 const TAG = 'tokens/saga'
 
@@ -260,7 +259,7 @@ export async function fetchImportedTokenBalances(
         fetchedBalance = knownTokenBalances[importedToken.tokenId].balance
       } else {
         const contract = getContract({
-          abi: erc20.abi,
+          abi: erc20Abi,
           address: importedToken!.address as Address,
           client: {
             public: publicClient[networkIdToNetwork[importedToken.networkId]],

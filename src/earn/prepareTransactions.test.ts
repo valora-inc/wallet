@@ -1,7 +1,6 @@
 import BigNumber from 'bignumber.js'
 import aaveIncentivesV3Abi from 'src/abis/AaveIncentivesV3'
 import aavePool from 'src/abis/AavePoolV3'
-import erc20 from 'src/abis/IERC20'
 import {
   prepareSupplyTransactions,
   prepareWithdrawAndClaimTransactions,
@@ -15,7 +14,7 @@ import { publicClient } from 'src/viem'
 import { prepareTransactions } from 'src/viem/prepareTransactions'
 import networkConfig from 'src/web3/networkConfig'
 import { mockArbArbAddress, mockArbArbTokenBalance } from 'test/values'
-import { Address, encodeFunctionData, maxUint256 } from 'viem'
+import { Address, encodeFunctionData, erc20Abi, maxUint256 } from 'viem'
 
 const mockFeeCurrency: TokenBalance = {
   address: null,
@@ -123,12 +122,12 @@ describe('prepareTransactions', () => {
       })
       expect(publicClient[Network.Arbitrum].readContract).toHaveBeenCalledWith({
         address: mockTokenAddress,
-        abi: erc20.abi,
+        abi: erc20Abi,
         functionName: 'allowance',
         args: ['0x1234', '0x5678'],
       })
       expect(encodeFunctionData).toHaveBeenNthCalledWith(1, {
-        abi: erc20.abi,
+        abi: erc20Abi,
         functionName: 'approve',
         args: ['0x5678', BigInt(5e6)],
       })
@@ -189,7 +188,7 @@ describe('prepareTransactions', () => {
       })
       expect(publicClient[Network.Arbitrum].readContract).toHaveBeenCalledWith({
         address: mockTokenAddress,
-        abi: erc20.abi,
+        abi: erc20Abi,
         functionName: 'allowance',
         args: ['0x1234', '0x5678'],
       })
