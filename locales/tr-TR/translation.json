@@ -2636,8 +2636,21 @@
       "depositAndEarnings": "Yatırım ve Kazançlar"
     },
     "poolFilters": {
-      "myPools": "Havuzlarım",
-      "allPools": "Tüm Havuzlar"
+      "allPools": "Tüm Havuzlar",
+      "myPools": "Havuzlarım"
+    },
+    "poolInfoScreen": {
+      "chainName": "Zincir: <0>{{networkName}}</0>",
+      "protocolName": "Protokol: <0>{{providerName}}</0>",
+      "yieldRate": "Verim Oranı",
+      "ratePercent": "{{rate}}%",
+      "rewards": "Ödüller",
+      "noRewards": "Ödül yok",
+      "tvl": "TVL",
+      "ageOfPool": "Havuz Yaşı",
+      "learnMoreOnProvider": "{{providerName}}adresindeki havuzu görüntüle",
+      "deposit": "Patra Yatırma",
+      "withdraw": "Çek"
     }
   },
   "addFundsActions": {
@@ -2645,6 +2658,15 @@
     "transfer": "Transfer Et",
     "swap": "Swap"
   },
+  "duration_lessThanADay": "Bir günden az",
+  "duration_day_one": "1 gün",
+  "duration_day_other": "{{count}} günler",
+  "duration_month_one": "1 ay",
+  "duration_month_other": "{{count}} aylar",
+  "duration_year_one": "1 yıl",
+  "duration_year_other": "{{count}} yıllar",
+  "duration_yearMonth_one": "1 yıl, 1 ay",
+  "duration_yearMonth_other": "{{count}} yıl, {{count2}} ay",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
