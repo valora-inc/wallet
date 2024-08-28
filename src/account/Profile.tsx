@@ -150,6 +150,5 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'flex-end',
     flex: 1,
-    flexDirection: 'column',
   },
 })
