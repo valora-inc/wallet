@@ -15,7 +15,6 @@ import BigNumber from 'bignumber.js'
 import { range } from 'lodash'
 import { MinimalContact } from 'react-native-contacts'
 import { Dapp, DappWithCategoryNames } from 'src/dapps/types'
-import { FeeType } from 'src/fees/reducer'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import {
@@ -694,12 +693,6 @@ export const mockFeeInfo = {
   gas: new BigNumber(20000),
   gasPrice: mockGasPrice,
   feeCurrency: undefined,
-}
-
-export const emptyFees = {
-  [FeeType.SEND]: undefined,
-  [FeeType.EXCHANGE]: undefined,
-  [FeeType.REGISTER_DEK]: undefined,
 }
 
 export const mockSimplexQuote = {
