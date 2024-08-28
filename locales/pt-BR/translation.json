@@ -18,7 +18,7 @@
   "appPreferences": "Preferências do app",
   "preferences": "Preferências",
   "security": "Segurança",
-  "securityPrivacy": "Segurança e privacidade",
+  "securityPrivacy": "Segurança e Privacidade",
   "changePin": "Alterar PIN",
   "pinChanged": "PIN alterado",
   "pinChangeFailed": "Falha ao alterar o PIN",
@@ -2636,8 +2636,21 @@
       "depositAndEarnings": "Depósitos e ganhos"
     },
     "poolFilters": {
-      "myPools": "Minhos pools",
-      "allPools": "Todos os pools"
+      "allPools": "Todos os pools",
+      "myPools": "Minhos pools"
+    },
+    "poolInfoScreen": {
+      "chainName": "Rede: <0>{{networkName}}</0>",
+      "protocolName": "Protocolo: <0>{{providerName}}</0>",
+      "yieldRate": "Taxa de rendimento",
+      "ratePercent": "{{rate}}%",
+      "rewards": "Prêmios",
+      "noRewards": "Sem recompensas",
+      "tvl": "TVL",
+      "ageOfPool": "Idade da piscina",
+      "learnMoreOnProvider": "Veja a piscina em {{providerName}}",
+      "deposit": "Depósito",
+      "withdraw": "Sacar"
     }
   },
   "addFundsActions": {
@@ -2645,6 +2658,15 @@
     "transfer": "Transferir",
     "swap": "Trocar"
   },
+  "duration_lessThanADay": "Menos de um dia",
+  "duration_day_one": "1 dia",
+  "duration_day_other": "{{count}} dias",
+  "duration_month_one": "1 mês",
+  "duration_month_other": "{{count}} meses",
+  "duration_year_one": "1 ano",
+  "duration_year_other": "{{count}} anos",
+  "duration_yearMonth_one": "1 ano, 1 mês",
+  "duration_yearMonth_other": "{{count}} anos, {{count2}} meses",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
