@@ -15,7 +15,7 @@ import Touchable from 'src/components/Touchable'
 import InfoIcon from 'src/icons/InfoIcon'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
-import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
+import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
@@ -27,7 +27,7 @@ import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import { useTokenInfo } from 'src/tokens/hooks'
+import { useTokenInfo, useTokensInfo } from 'src/tokens/hooks'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { navigateToURI } from 'src/utils/linking'
@@ -129,7 +129,10 @@ function EarningItemLineItem({ earnItem }: { earnItem: EarningItem }) {
   const { t } = useTranslation()
   const tokenInfo = useTokenInfo(earnItem.tokenId)
   const amountInUsd = tokenInfo?.priceUsd?.multipliedBy(earnItem.amount)
-  const amountInLocalCurrency = useDollarsToLocalAmount(amountInUsd!)!
+  const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
+  const amountInLocalCurrency = new BigNumber(localCurrencyExchangeRate ?? 0).multipliedBy(
+    amountInUsd ?? 0
+  )
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
   return (
@@ -157,18 +160,25 @@ function DepositAndEarningsCard({ earnPosition }: { earnPosition: EarnPosition }
   const { earningItems, depositTokenId } = earnPosition.dataProps
   const tokenInfo = useTokenInfo(depositTokenId)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const depositBalance = tokenInfo?.priceUsd?.multipliedBy(balance)
-  const localDepositBalance = useDollarsToLocalAmount(depositBalance!)
-  const totalBalance = depositBalance!.plus(
+  const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
+
+  // Total balance in local currency
+  const depositBalanceInUsd = tokenInfo?.priceUsd?.multipliedBy(balance)
+  const depositBalanceInLocalCurrency = new BigNumber(localCurrencyExchangeRate ?? 0).multipliedBy(
+    depositBalanceInUsd ?? 0
+  )
+  const earningItemsTokenIds = earningItems.map((item) => item.tokenId)
+  const earningItemsTokenInfo = useTokensInfo(earningItemsTokenIds)
+  const totalBalanceInLocalCurrency = depositBalanceInLocalCurrency.plus(
     earningItems.reduce((acc, item) => {
-      // TODO(tomm): fix this to avoid calling hooks inside a loop
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const tokenInfo = useTokenInfo(item.tokenId)
+      const tokenInfo = earningItemsTokenInfo.find((token) => token?.tokenId === item.tokenId)
       const amountInUsd = tokenInfo?.priceUsd?.multipliedBy(item.amount)
-      return acc.plus(amountInUsd ?? 0)
+      const amountInLocalCurrency = new BigNumber(localCurrencyExchangeRate ?? 0).multipliedBy(
+        amountInUsd ?? 0
+      )
+      return acc.plus(amountInLocalCurrency ?? 0)
     }, new BigNumber(0))
   )
-  const localTotalBalance = useDollarsToLocalAmount(totalBalance)!
 
   return (
     <Card testID="DepositAndEarningsCard" cardStyle={styles.depositAndEarningCard}>
@@ -185,7 +195,7 @@ function DepositAndEarningsCard({ earnPosition }: { earnPosition: EarnPosition }
           <Text style={styles.depositAndEarningCardTitleText}>
             {t('earnFlow.poolInfoScreen.titleLocalAmountDisplay', {
               localCurrencySymbol,
-              localCurrencyAmount: formatValueToDisplay(localTotalBalance),
+              localCurrencyAmount: formatValueToDisplay(totalBalanceInLocalCurrency),
             })}
           </Text>
         </View>
@@ -201,8 +211,8 @@ function DepositAndEarningsCard({ earnPosition }: { earnPosition: EarnPosition }
           <Text style={styles.depositAndEarningsCardLabelText}>
             {t('earnFlow.poolInfoScreen.lineItemAmountDisplay', {
               localCurrencySymbol,
-              localCurrencyAmount: formatValueToDisplay(localDepositBalance),
-              cryptoAmount: formatValueToDisplay(new BigNumber(balance)),
+              localCurrencyAmount: formatValueToDisplay(depositBalanceInLocalCurrency),
+              cryptoAmount: formatValueToDisplay(totalBalanceInLocalCurrency),
               cryptoSymbol: tokenInfo?.symbol,
             })}
           </Text>
