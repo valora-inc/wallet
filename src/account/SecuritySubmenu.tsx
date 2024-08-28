@@ -1,14 +1,6 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  View,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-} from 'react-native'
-import * as Sentry from '@sentry/react-native'
+import { ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import {
   SettingsItemTextValue,
@@ -29,14 +21,7 @@ import { showError } from 'src/alert/actions'
 import { NotificationVariant } from 'src/components/InLineNotification'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import {
-  resetAppOpenedState,
-  setAnalyticsEnabled,
-  setNumberVerified,
-  setRequirePinOnAppOpen,
-  setSessionId,
-} from 'src/app/actions'
-import SessionId from 'src/components/SessionId'
+import { setAnalyticsEnabled, setRequirePinOnAppOpen } from 'src/app/actions'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import CustomHeader from 'src/components/header/CustomHeader'
 import variables from 'src/styles/variables'
@@ -50,11 +35,7 @@ import {
 } from 'src/keylessBackup/selectors'
 import { deleteKeylessBackupStarted, hideDeleteKeylessBackupError } from 'src/keylessBackup/slice'
 import { KeylessBackupDeleteStatus } from 'src/keylessBackup/types'
-import {
-  cloudBackupCompletedSelector,
-  devModeSelector,
-  pincodeTypeSelector,
-} from 'src/account/selectors'
+import { cloudBackupCompletedSelector, pincodeTypeSelector } from 'src/account/selectors'
 import LoadingSpinner from 'src/icons/LoadingSpinner'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -64,16 +45,10 @@ import {
   analyticsEnabledSelector,
   getRequirePinOnAppOpen,
   phoneNumberVerifiedSelector,
-  sessionIdSelector,
   supportedBiometryTypeSelector,
 } from 'src/app/selectors'
 import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
-import {
-  clearStoredAccount,
-  devModeTriggerClicked,
-  setPincodeSuccess,
-  toggleBackupState,
-} from 'src/account/actions'
+import { clearStoredAccount, setPincodeSuccess } from 'src/account/actions'
 import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
 import { walletAddressSelector } from 'src/web3/selectors'
 
@@ -107,18 +82,8 @@ const SecuritySubmenu = ({ route, navigation }: Props) => {
 
   const numberVerified = useSelector(phoneNumberVerifiedSelector)
 
-  const devModeActive = useSelector(devModeSelector)
-
-  const sessionId = useSelector(sessionIdSelector)
-
   const insets = useSafeAreaInsets()
   const insetsStyle = { marginBottom: insets.bottom }
-
-  useEffect(() => {
-    if (AppAnalytics.getSessionId() !== sessionId) {
-      dispatch(setSessionId(sessionId))
-    }
-  }, [])
 
   const onPressContinueWithAccountRemoval = async () => {
     try {
@@ -237,31 +202,6 @@ const SecuritySubmenu = ({ route, navigation }: Props) => {
     }
   }
 
-  const onDevSettingsTriggerPress = () => {
-    dispatch(devModeTriggerClicked())
-  }
-
-  const showDebugScreen = () => {
-    navigate(Screens.Debug)
-  }
-
-  const toggleNumberVerified = () => {
-    dispatch(setNumberVerified(numberVerified))
-  }
-
-  const handleResetAppOpenedState = () => {
-    Logger.showMessage('App onboarding state reset.')
-    dispatch(resetAppOpenedState())
-  }
-
-  const handleToggleBackupState = () => {
-    dispatch(toggleBackupState())
-  }
-
-  const wipeReduxStore = () => {
-    dispatch(clearStoredAccount(account ?? '', true))
-  }
-
   const confirmAccountRemoval = () => {
     AppAnalytics.track(SettingsEvents.completed_account_removal)
     dispatch(clearStoredAccount(account ?? ''))
@@ -269,62 +209,6 @@ const SecuritySubmenu = ({ route, navigation }: Props) => {
 
   const hideConfirmRemovalModal = () => {
     navigation.setParams({ promptConfirmRemovalModal: false })
-  }
-
-  const getDevSettingsComp = () => {
-    if (!devModeActive) {
-      return null
-    } else {
-      return (
-        <View style={styles.devSettings}>
-          <View style={styles.devSettingsItem}>
-            <Text style={typeScale.labelSemiBoldSmall}>Session ID</Text>
-            <SessionId sessionId={sessionId || ''} />
-          </View>
-          <View style={styles.devSettingsItem}>
-            <TouchableOpacity onPress={toggleNumberVerified}>
-              <Text>Toggle verification done</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.devSettingsItem}>
-            <TouchableOpacity onPress={handleResetAppOpenedState}>
-              <Text>Reset app opened state</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.devSettingsItem}>
-            <TouchableOpacity onPress={handleToggleBackupState}>
-              <Text>Toggle backup state</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.devSettingsItem}>
-            <TouchableOpacity onPress={showDebugScreen}>
-              <Text>Show Debug Screen</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.devSettingsItem}>
-            <TouchableOpacity onPress={Sentry.nativeCrash}>
-              <Text>Trigger a crash</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.devSettingsItem}>
-            <TouchableOpacity onPress={wipeReduxStore}>
-              <Text>Wipe Redux Store</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.devSettingsItem}>
-            <TouchableOpacity onPress={confirmAccountRemoval}>
-              <Text>App Quick Reset</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.devSettingsItem}>
-            <TouchableOpacity onPress={() => navigate(Screens.DebugImages)}>
-              <Text>See app assets</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      )
-    }
   }
 
   const getKeylessBackupItem = () => {
@@ -389,11 +273,9 @@ const SecuritySubmenu = ({ route, navigation }: Props) => {
       <CustomHeader
         left={<BackButton />}
         title={
-          <TouchableWithoutFeedback onPress={onDevSettingsTriggerPress}>
-            <Text style={styles.title} testID="SecurityTitle">
-              {t('securityPrivacy')}
-            </Text>
-          </TouchableWithoutFeedback>
+          <Text style={styles.title} testID="SecurityTitle">
+            {t('securityPrivacy')}
+          </Text>
         }
         style={styles.header}
       />
@@ -445,7 +327,6 @@ const SecuritySubmenu = ({ route, navigation }: Props) => {
           onPress={onDeleteAccountPress}
           testID="DeleteAccount"
         />
-        {getDevSettingsComp()}
         <Dialog
           isVisible={!!promptConfirmRemovalModal}
           title={t('promptConfirmRemovalModal.header')}
@@ -529,15 +410,6 @@ const styles = StyleSheet.create({
     color: colors.gray4,
     marginRight: Spacing.Smallest8,
     marginLeft: Spacing.Tiny4,
-  },
-  devSettings: {
-    alignItems: 'flex-start',
-    padding: Spacing.Regular16,
-    marginHorizontal: Spacing.Smallest8,
-  },
-  devSettingsItem: {
-    alignSelf: 'stretch',
-    margin: Spacing.Tiny4,
   },
 })
 

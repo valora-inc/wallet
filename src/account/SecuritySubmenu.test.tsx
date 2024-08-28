@@ -1,5 +1,4 @@
 import * as React from 'react'
-import * as Sentry from '@sentry/react-native'
 import 'react-native'
 import { Provider } from 'react-redux'
 import SecuritySubmenu from 'src/account/SecuritySubmenu'
@@ -10,11 +9,11 @@ import { fireEvent, render, waitFor, act } from '@testing-library/react-native'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as Keychain from 'react-native-keychain'
-import { resetAppOpenedState, setAnalyticsEnabled, setNumberVerified } from 'src/app/actions'
+import { setAnalyticsEnabled } from 'src/app/actions'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { clearStoredAccount, setPincodeSuccess, toggleBackupState } from 'src/account/actions'
-import { mockE164Number, mockE164NumberPepper, mockTokenBalances } from 'test/values'
+import { setPincodeSuccess } from 'src/account/actions'
+import { mockE164Number } from 'test/values'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { PincodeType } from 'src/account/reducer'
 import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
@@ -302,46 +301,5 @@ describe('SecuritySubmenu', () => {
       showError('revokePhoneNumber.revokeError' as ErrorMessages),
     ])
     expect(navigate).not.toHaveBeenCalled()
-  })
-
-  it('renders the dev mode menu', () => {
-    const mockAddress = '0x0000000000000000000000000000000000007e57'
-    const store = createMockStore({
-      identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
-      tokens: mockTokenBalances,
-      account: {
-        devModeActive: true,
-        e164PhoneNumber: mockE164Number,
-      },
-      web3: {
-        account: mockAddress,
-      },
-    })
-    const { getByText } = render(
-      <Provider store={store}>
-        <MockedNavigator component={SecuritySubmenu}></MockedNavigator>
-      </Provider>
-    )
-
-    store.clearActions()
-    fireEvent.press(getByText('Toggle verification done'))
-    fireEvent.press(getByText('Reset app opened state'))
-    fireEvent.press(getByText('Toggle backup state'))
-    fireEvent.press(getByText('Wipe Redux Store'))
-    fireEvent.press(getByText('App Quick Reset'))
-
-    expect(store.getActions()).toEqual([
-      setNumberVerified(false),
-      resetAppOpenedState(),
-      toggleBackupState(),
-      clearStoredAccount(mockAddress, true),
-      clearStoredAccount(mockAddress),
-    ])
-
-    fireEvent.press(getByText('Show Debug Screen'))
-    expect(navigate).toHaveBeenCalledWith(Screens.Debug)
-
-    fireEvent.press(getByText('Trigger a crash'))
-    expect(Sentry.nativeCrash).toHaveBeenCalled()
   })
 })
