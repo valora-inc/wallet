@@ -2567,11 +2567,13 @@
     "depositBottomSheet": {
       "title": "ตรวจสอบและฝากเงิน",
       "description": "ก่อนฝากสินทรัพย์เข้าพูล Aave โปรดตรวจสอบรายละเอียดธุรกรรมที่ด้านล่าง",
+      "descriptionV1_93": "Before depositing to an {{providerName}} pool, please review the transaction details below",
       "amount": "จำนวนเงินที่ฝาก",
       "fee": "ค่าก๊าซโดยประมาณ",
       "provider": "ผู้ให้บริการสร้างรายได้",
       "network": "เครือข่าย",
       "footer": "เมื่อฝากคริปโตในพูล Aave คุณยอมรับความเสี่ยงที่มาพร้อมการใช้ Aave <0>ข้อกำหนดและเงื่อนไข</0>",
+      "footerV1_93": "By depositing crypto into an {{providerName}} pool, you accept the risks associated with using {{providerName}}. <0>Terms & Conditions</0>",
       "primaryCta": "เสร็จสมบูรณ์",
       "secondaryCta": "ยกเลิก"
     },
