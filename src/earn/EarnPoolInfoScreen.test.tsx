@@ -14,7 +14,7 @@ const defaultStore = createMockStore({})
 
 describe('EarnPoolInfoScreen', () => {
   it('renders correctly', () => {
-    const { getByTestId, getByText } = render(
+    const { getByTestId } = render(
       <Provider store={defaultStore}>
         <MockedNavigator
           component={() => {
