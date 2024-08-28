@@ -96,7 +96,6 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.titleMedium,
-    lineHeight: 32,
     textAlign: 'center',
     marginBottom: Spacing.Regular16,
   },

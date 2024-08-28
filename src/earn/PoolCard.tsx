@@ -10,6 +10,8 @@ import Touchable from 'src/components/Touchable'
 import { getTotalYieldRate } from 'src/earn/poolInfo'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { EarnPosition } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
@@ -90,7 +92,7 @@ export default function PoolCard({
       tokenAmount: balance,
       providerId: appId,
     })
-    // TODO(ACT-1321): Navigate to pool details screen
+    navigate(Screens.EarnPoolInfoScreen, { pool })
   }
 
   return (

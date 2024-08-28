@@ -8,7 +8,6 @@ import NavigatorWrapper from 'src/navigator/NavigatorWrapper'
 import { createMockStore } from 'test/utils'
 
 jest.mock('src/statsig')
-jest.mock('src/backup/selectors')
 jest.mock('src/navigator/NavigationService', () => ({
   ...(jest.requireActual('src/navigator/NavigationService') as any),
   navigatorIsReadyRef: { current: false },

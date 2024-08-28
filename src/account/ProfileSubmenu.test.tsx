@@ -30,13 +30,13 @@ describe('ProfileSubmenu', () => {
 
   it('shows the expected menu items', () => {
     const store = createMockStore()
-    const { queryByTestId } = render(
+    const { getByTestId } = render(
       <Provider store={store}>
         <MockedNavigator component={ProfileSubmenu}></MockedNavigator>
       </Provider>
     )
-    expect(queryByTestId('ProfileSubmenu/EditProfile')).toBeTruthy()
-    expect(queryByTestId('ProfileSubmenu/Verify')).toBeTruthy()
+    expect(getByTestId('ProfileSubmenu/EditProfile')).toBeTruthy()
+    expect(getByTestId('ProfileSubmenu/Verify')).toBeTruthy()
   })
   it('can revoke the phone number successfully', async () => {
     mockFetch.mockResponseOnce(JSON.stringify({ message: 'OK' }), {
