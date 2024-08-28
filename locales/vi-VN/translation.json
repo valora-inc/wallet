@@ -2567,11 +2567,13 @@
     "depositBottomSheet": {
       "title": "Xem lại & Nạp tiền",
       "description": "Trước khi nạp tiền vào quỹ Aave, vui lòng xem lại chi tiết giao dịch bên dưới",
+      "descriptionV1_93": "Before depositing to an {{providerName}} pool, please review the transaction details below",
       "amount": "Số tiền đã nạp",
       "fee": "Phí ga ước tính",
       "provider": "Nhà cung cấp thu nhập",
       "network": "Mạng lưới",
       "footer": "Khi nạp tiền điện tử vào quỹ Aave, bạn chấp nhận các rủi ro liên quan đến việc sử dụng Aave. <0>Điều khoản & Điều kiện</0>",
+      "footerV1_93": "By depositing crypto into an {{providerName}} pool, you accept the risks associated with using {{providerName}}. <0>Terms & Conditions</0>",
       "primaryCta": "Hoàn thành",
       "secondaryCta": "Hủy"
     },
