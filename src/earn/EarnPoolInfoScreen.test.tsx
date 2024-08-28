@@ -51,8 +51,12 @@ describe('EarnPoolInfoScreen', () => {
       within(getByTestId('AgeCard')).getByText('duration, {"context":"month","count":5}')
     ).toBeTruthy()
 
-    expect(getByText('earnFlow.poolInfoScreen.withdraw')).toBeTruthy()
-    expect(getByText('earnFlow.poolInfoScreen.deposit')).toBeTruthy()
+    expect(
+      within(getByTestId('ActionButtons')).getByText('earnFlow.poolInfoScreen.withdraw')
+    ).toBeTruthy()
+    expect(
+      within(getByTestId('ActionButtons')).getByText('earnFlow.poolInfoScreen.deposit')
+    ).toBeTruthy()
   })
 
   it('calls navigateToURI when Learn More Touchable is tapped', () => {

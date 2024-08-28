@@ -17,7 +17,7 @@ interface YieldRate {
   tokenId: string
 }
 
-interface EarningItem {
+export interface EarningItem {
   amount: SerializedDecimalNumber
   label: string
   tokenId: string

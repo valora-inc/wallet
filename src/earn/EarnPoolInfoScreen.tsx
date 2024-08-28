@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import { Duration, intervalToDuration } from 'date-fns'
 import React, { useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
+import { LayoutChangeEvent, Platform, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
@@ -19,12 +19,15 @@ import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
+import type { EarningItem } from 'src/positions/types'
 import { EarnPosition } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
+import { useTokenInfo } from 'src/tokens/hooks'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { navigateToURI } from 'src/utils/linking'
@@ -106,11 +109,102 @@ function TokenIcons({
   )
 }
 
-function Card({ children, testID }: { children: React.ReactNode; testID: string }) {
+function Card({
+  children,
+  testID,
+  cardStyle,
+}: {
+  children: React.ReactNode
+  testID: string
+  cardStyle?: ViewStyle
+}) {
   return (
-    <View testID={testID} style={styles.card}>
+    <View testID={testID} style={[styles.card, cardStyle]}>
       {children}
     </View>
+  )
+}
+
+function EarningItemLineItem({ earnItem }: { earnItem: EarningItem }) {
+  const { t } = useTranslation()
+  const tokenInfo = useTokenInfo(earnItem.tokenId)
+  const amountInUsd = tokenInfo?.priceUsd?.multipliedBy(earnItem.amount)
+  const amountInLocalCurrency = new BigNumber(amountInUsd ?? 0)
+  const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
+
+  return (
+    <View style={styles.cardLineContainer}>
+      <View style={styles.cardLineLabel}>
+        <Text style={styles.depositAndEarningsCardLabelText}>{earnItem.label}</Text>
+      </View>
+      <View style={{ flexDirection: 'row' }}>
+        <Text>
+          {t('earnFlow.poolInfoScreen.lineItemAmountDisplay', {
+            localCurrencySymbol,
+            localCurrencyAmount: formatValueToDisplay(amountInLocalCurrency),
+            cryptoAmount: formatValueToDisplay(new BigNumber(earnItem.amount)),
+            cryptoSymbol: tokenInfo?.symbol,
+          })}
+        </Text>
+      </View>
+    </View>
+  )
+}
+
+function DepositAndEarningsCard({ earnPosition }: { earnPosition: EarnPosition }) {
+  const { t } = useTranslation()
+  const { balance } = earnPosition
+  const { earningItems, depositTokenId } = earnPosition.dataProps
+  const tokenInfo = useTokenInfo(depositTokenId)
+  const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
+  const totalBalance = tokenInfo?.priceUsd?.multipliedBy(balance) ?? new BigNumber(0)
+
+  return (
+    <Card
+      testID="DepositAndEarningsCard"
+      cardStyle={{ backgroundColor: Colors.gray1, padding: 0, gap: 0 }}
+    >
+      <View style={{ padding: Spacing.Regular16, alignItems: 'center', gap: 4 }}>
+        <View style={styles.cardLineLabel}>
+          <Text numberOfLines={1} style={styles.cardTitleText}>
+            {t('earnFlow.poolInfoScreen.totalDepositAndEarnings')}
+          </Text>
+          <Touchable onPress={() => Logger.info('Title Icon Pressed!')} borderRadius={24}>
+            <InfoIcon size={16} color={Colors.gray3} />
+          </Touchable>
+        </View>
+        <View>
+          <Text style={{ ...typeScale.titleMedium, color: Colors.black }}>
+            {t('earnFlow.poolInfoScreen.titleLocalAmountDisplay', {
+              localCurrencySymbol,
+              localCurrencyAmount: formatValueToDisplay(totalBalance),
+            })}
+          </Text>
+        </View>
+      </View>
+
+      <View
+        style={{
+          backgroundColor: Colors.white,
+          padding: Spacing.Regular16,
+          borderBottomLeftRadius: 16,
+          borderBottomRightRadius: 16,
+          gap: Spacing.Smallest8,
+        }}
+      >
+        <View style={styles.cardLineContainer}>
+          <View style={styles.cardLineLabel}>
+            <Text style={styles.depositAndEarningsCardLabelText}>
+              {t('earnFlow.poolInfoScreen.deposit')}
+            </Text>
+          </View>
+          <Text style={styles.cardTitleText}>TODO</Text>
+        </View>
+        {earningItems.map((item, index) => (
+          <EarningItemLineItem key={index} earnItem={item} />
+        ))}
+      </View>
+    </Card>
   )
 }
 
@@ -264,7 +358,7 @@ function ActionButtons({ earnPosition }: { earnPosition: EarnPosition }) {
   const withdraw = availableShortcutIds.includes('withdraw')
 
   return (
-    <View style={[styles.buttonContainer, insetsStyle]}>
+    <View testID="ActionButtons" style={[styles.buttonContainer, insetsStyle]}>
       {withdraw && (
         <Button
           text={t('earnFlow.poolInfoScreen.withdraw')}
@@ -335,6 +429,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         />
         <View style={{ height: Spacing.Thick24 }} />
         <View style={styles.contentContainer}>
+          <DepositAndEarningsCard earnPosition={pool} />
           <YieldCard
             // TODO(ACT-1323): Create info bottom sheet
             infoIconPress={() => Logger.debug('YieldCard Info Icon Pressed!')}
@@ -377,6 +472,9 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     padding: Spacing.Thick24,
+    ...(Platform.OS === 'android' && {
+      minHeight: variables.height,
+    }),
   },
   title: {
     ...typeScale.titleMedium,
@@ -435,6 +533,10 @@ const styles = StyleSheet.create({
   cardLabelText: {
     ...typeScale.bodyMedium,
     color: Colors.gray3,
+  },
+  depositAndEarningsCardLabelText: {
+    ...typeScale.bodyMedium,
+    color: Colors.black,
   },
   learnMoreContainer: {
     flexShrink: 1,

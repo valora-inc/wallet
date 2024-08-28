@@ -2652,7 +2652,11 @@
       "ageOfPool": "Age of Pool",
       "learnMoreOnProvider": "View Pool on {{providerName}}",
       "deposit": "Deposit",
-      "withdraw": "Withdraw"
+      "withdraw": "Withdraw",
+      "totalDepositAndEarnings": "Total Deposit & Earnings",
+      "earnings": "Earnings",
+      "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
+      "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})"
     }
   },
   "addFundsActions": {
