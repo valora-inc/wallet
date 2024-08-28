@@ -2569,11 +2569,13 @@
     "depositBottomSheet": {
       "title": "İncele ve Para Yatır",
       "description": "Bir Aave havuzuna para yatırmadan önce lütfen aşağıdaki işlem ayrıntılarını inceleyin",
+      "descriptionV1_93": "Bir {{providerName}} havuzuna para yatırmadan önce lütfen aşağıdaki işlem ayrıntılarını inceleyin",
       "amount": "Yatırılan Toplam",
       "fee": "Tah. Gas Ücretleri",
       "provider": "Kazanç sağlayıcı",
       "network": "Ağ",
       "footer": "Bir Aave havuzuna kripto yatırarak, Aave kullanımıyla ilişkili riskleri kabul etmiş olursunuz. <0>Şartlar ve Koşullar</0>",
+      "footerV1_93": "Bir {{providerName}} havuzuna kripto yatırarak, {{providerName}}kullanımıyla ilişkili riskleri kabul etmiş olursunuz. <0>Şartlar ve Koşullar</0>",
       "primaryCta": "Tamamlandı",
       "secondaryCta": "İptal"
     },
