@@ -2569,11 +2569,13 @@
     "depositBottomSheet": {
       "title": "Überprüfen und einzahlen",
       "description": "Bevor du eine Einzahlung in einen Aave-Pool vornimmst, solltest du die folgenden Transaktionsdetails überprüfen",
+      "descriptionV1_93": "Bevor du in einen {{providerName}} Pool einzahlst, solltest du die folgenden Transaktionsdetails überprüfen",
       "amount": "Eingezahlter Betrag",
       "fee": "Geschätzte Gasgebühren",
       "provider": "Verdienstanbieter",
       "network": "Netzwerk",
       "footer": "Wenn du Kryptowährungen in einen Aave-Pool einzahlst, akzeptierst du die mit der Nutzung von Aave verbundenen Risiken. <0>Allgemeine Nutzungsbedingungen</0>",
+      "footerV1_93": "Indem du Krypto in einen {{providerName}} Pool einzahlst, akzeptierst du die Risiken, die mit der Nutzung von {{providerName}}verbunden sind. <0>Bedingungen & Konditionen</0>",
       "primaryCta": "Abschließen",
       "secondaryCta": "Abbrechen"
     },
