@@ -173,6 +173,7 @@ function DepositAndEarningsCard({ earnPosition }: { earnPosition: EarnPosition }
   const earningItemsTokenInfo = useTokensInfo(earningItemsTokenIds)
   const totalBalanceInLocalCurrency = depositBalanceInLocalCurrency.plus(
     earningItems.reduce((acc, item) => {
+      if (!item.subtractFromDeposit) return acc
       const tokenInfo = earningItemsTokenInfo.find((token) => token?.tokenId === item.tokenId)
       const amountInUsd = tokenInfo?.priceUsd?.multipliedBy(item.amount)
       const amountInLocalCurrency = new BigNumber(localCurrencyExchangeRate ?? 0).multipliedBy(
