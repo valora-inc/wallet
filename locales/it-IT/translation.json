@@ -2569,11 +2569,13 @@
     "depositBottomSheet": {
       "title": "Rivedi e deposita",
       "description": "Prima di effettuare depositi in un pool Aave, consulta i dettagli della transazione in basso",
+      "descriptionV1_93": "Prima di depositare in un pool di {{providerName}} , consulta i dettagli della transazione qui di seguito.",
       "amount": "Somma depositata",
       "fee": "Commissioni sulle transazioni stimate",
       "provider": "Fornitore di guadagni",
       "network": "Rete",
       "footer": "Depositando criptovalute in un pool Aave, accetti i rischi associati all'utilizzo di Aave. <0>Termini e condizioni</0>",
+      "footerV1_93": "Depositando criptovalute in un pool di {{providerName}} , accetti i rischi associati all'utilizzo di {{providerName}}. <0>Termini e condizioni</0>",
       "primaryCta": "Completa",
       "secondaryCta": "Annulla"
     },
