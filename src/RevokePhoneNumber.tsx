@@ -9,11 +9,9 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { NotificationVariant } from 'src/components/InLineNotification'
 import PhoneNumberWithFlag from 'src/components/PhoneNumberWithFlag'
 import Toast from 'src/components/Toast'
-import AttentionIcon from 'src/icons/Attention'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
-import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
@@ -74,15 +72,14 @@ export const RevokePhoneNumber = ({ forwardedRef }: Props) => {
         testId="RevokePhoneNumberBottomSheet"
       >
         {!!e164PhoneNumber && (
-          <PhoneNumberWithFlag
-            e164PhoneNumber={e164PhoneNumber}
-            defaultCountryCode={defaultCountryCode ?? undefined}
-          />
+          <View style={styles.phoneNumber}>
+            <PhoneNumberWithFlag
+              e164PhoneNumber={e164PhoneNumber}
+              defaultCountryCode={defaultCountryCode ?? undefined}
+            />
+          </View>
         )}
-        <View style={styles.container}>
-          <AttentionIcon />
-          <Text style={styles.warningText}>{t('revokePhoneNumber.description')}</Text>
-        </View>
+        <Text style={styles.warningText}>{t('revokePhoneNumber.description')}</Text>
         <Button
           text={t('revokePhoneNumber.confirmButton')}
           onPress={handleRevokePhoneNumber}
@@ -105,19 +102,15 @@ export const RevokePhoneNumber = ({ forwardedRef }: Props) => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    backgroundColor: Colors.warningLight,
-    borderRadius: 4,
-    marginTop: Spacing.Regular16,
-    marginBottom: Spacing.Thick24,
-    padding: Spacing.Regular16,
-  },
   warningText: {
-    ...typeScale.bodyXSmall,
+    ...typeScale.bodySmall,
+    paddingTop: Spacing.Smallest8,
+    paddingBottom: Spacing.XLarge48,
     flex: 1,
     flexWrap: 'wrap',
-    marginLeft: Spacing.Small12,
+  },
+  phoneNumber: {
+    paddingTop: Spacing.Smallest8,
   },
 })
 

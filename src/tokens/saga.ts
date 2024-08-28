@@ -1,10 +1,7 @@
 import BigNumber from 'bignumber.js'
-import erc20 from 'src/abis/IERC20'
-import stableToken from 'src/abis/StableToken'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { AppEvents } from 'src/analytics/Events'
 import { DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED } from 'src/config'
-import { FeeInfo } from 'src/fees/saga'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import {
@@ -12,7 +9,6 @@ import {
   lastKnownTokenBalancesSelector,
   networksIconSelector,
   tokensByIdSelector,
-  tokensListWithAddressSelector,
 } from 'src/tokens/selectors'
 import {
   StoredTokenBalance,
@@ -23,44 +19,19 @@ import {
   setTokenBalances,
 } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
-import { NetworkId, TransactionContext } from 'src/transactions/types'
+import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { Currency } from 'src/utils/currencies'
 import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { gql } from 'src/utils/gql'
 import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
-import { getContractKitAsync } from 'src/web3/contracts'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, put, select, spawn, take, takeEvery } from 'typed-redux-saga'
-import { Address, getContract } from 'viem'
+import { Address, erc20Abi, getContract } from 'viem'
 
 const TAG = 'tokens/saga'
-
-export interface TokenTransfer {
-  recipientAddress: string
-  amount: string
-  currency: Currency
-  comment: string
-  feeInfo?: FeeInfo
-  context: TransactionContext
-}
-
-export type TokenTransferAction = { type: string } & TokenTransfer
-
-export async function getERC20TokenContract(tokenAddress: string) {
-  const kit = await getContractKitAsync()
-  //@ts-ignore
-  return new kit.web3.eth.Contract(erc20.abi, tokenAddress)
-}
-
-export async function getStableTokenContract(tokenAddress: string) {
-  const kit = await getContractKitAsync()
-  //@ts-ignore
-  return new kit.web3.eth.Contract(stableToken.abi, tokenAddress)
-}
 
 export interface FetchedTokenBalance {
   tokenId: string
@@ -208,15 +179,6 @@ export function tokenAmountInSmallestUnit(amount: BigNumber, decimals: number): 
   return amount.multipliedBy(decimalFactor).toFixed(0)
 }
 
-/**
- * @deprecated use getTokenInfo instead
- */
-export function* getTokenInfoByAddress(tokenAddress: string) {
-  const tokens: TokenBalance[] = yield* select(tokensListWithAddressSelector)
-  const tokenInfo = tokens.find((token) => token.address === tokenAddress)
-  return tokenInfo
-}
-
 export function* getTokenInfo(tokenId: string) {
   const networkIds = Object.values(networkConfig.networkToNetworkId)
   const tokens = yield* select((state) =>
@@ -297,7 +259,7 @@ export async function fetchImportedTokenBalances(
         fetchedBalance = knownTokenBalances[importedToken.tokenId].balance
       } else {
         const contract = getContract({
-          abi: erc20.abi,
+          abi: erc20Abi,
           address: importedToken!.address as Address,
           client: {
             public: publicClient[networkIdToNetwork[importedToken.networkId]],

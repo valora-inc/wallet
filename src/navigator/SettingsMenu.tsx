@@ -78,7 +78,11 @@ function ProfileMenuOption() {
   }
 
   return (
-    <Touchable style={styles.profileTouchable} testID="SettingsMenu/Profile">
+    <Touchable
+      style={styles.profileTouchable}
+      onPress={() => navigate(Screens.ProfileSubmenu)}
+      testID="SettingsMenu/Profile"
+    >
       <View style={styles.profileContainer}>
         <ContactCircleSelf size={48} />
         {renderContent()}
@@ -189,6 +193,7 @@ const styles = StyleSheet.create({
   profileContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   profileTouchable: {
     paddingTop: Spacing.Regular16,

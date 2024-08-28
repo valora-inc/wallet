@@ -15,7 +15,6 @@ import BigNumber from 'bignumber.js'
 import { range } from 'lodash'
 import { MinimalContact } from 'react-native-contacts'
 import { Dapp, DappWithCategoryNames } from 'src/dapps/types'
-import { FeeType } from 'src/fees/reducer'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import {
@@ -696,12 +695,6 @@ export const mockFeeInfo = {
   feeCurrency: undefined,
 }
 
-export const emptyFees = {
-  [FeeType.SEND]: undefined,
-  [FeeType.EXCHANGE]: undefined,
-  [FeeType.REGISTER_DEK]: undefined,
-}
-
 export const mockSimplexQuote = {
   user_id: mockAccount,
   quote_id: 'be976b14-0828-4834-bd24-e4193a225980',
@@ -1110,8 +1103,6 @@ export const mockFiatConnectQuotesWithUnknownFees: FiatConnectQuoteSuccess[] = [
     },
   },
 ]
-
-export const mockMaxSendAmount = new BigNumber(999.99995)
 
 export const mockExchanges: ExternalExchangeProvider[] = [
   {
@@ -1707,6 +1698,7 @@ export const mockEarnPositions: EarnPosition[] = [
       tvl: '1360000',
       contractCreatedAt: '2024-03-08T02:23:53.000Z',
       manageUrl: 'https://app.aave.com/?marketName=proto_arbitrum_v3',
+      termsUrl: 'termsUrl',
     },
     tokens: [
       {

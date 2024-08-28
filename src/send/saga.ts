@@ -1,6 +1,3 @@
-import { Contract, toTransactionObject } from '@celo/connect'
-import { ContractKit } from '@celo/contractkit'
-import BigNumber from 'bignumber.js'
 import { showErrorOrFallback } from 'src/alert/actions'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { CeloExchangeEvents, SendEvents } from 'src/analytics/Events'
@@ -19,14 +16,8 @@ import {
 } from 'src/send/actions'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
-import {
-  getERC20TokenContract,
-  getStableTokenContract,
-  getTokenInfo,
-  getTokenInfoByAddress,
-  tokenAmountInSmallestUnit,
-} from 'src/tokens/saga'
-import { TokenBalance, fetchTokenBalances } from 'src/tokens/slice'
+import { getTokenInfo } from 'src/tokens/saga'
+import { fetchTokenBalances } from 'src/tokens/slice'
 import { BaseStandbyTransaction } from 'src/transactions/actions'
 import { TokenTransactionTypeV2, newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
@@ -34,10 +25,8 @@ import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
 import { sendPreparedTransactions } from 'src/viem/saga'
-import { getContractKit } from 'src/web3/contracts'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { call, put, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
-import * as utf8 from 'utf8'
 
 export const TAG = 'send/saga'
 
@@ -52,34 +41,6 @@ function* watchQrCodeShare() {
       Logger.error(TAG, 'Error sharing qr code', error)
     }
   }
-}
-
-export function* buildSendTx(
-  tokenAddress: string,
-  amount: BigNumber,
-  recipientAddress: string,
-  comment: string
-) {
-  const contract: Contract = yield* call(getERC20TokenContract, tokenAddress)
-  const coreContract: Contract = yield* call(getStableTokenContract, tokenAddress)
-
-  const tokenInfo: TokenBalance | undefined = yield* call(getTokenInfoByAddress, tokenAddress)
-  if (!tokenInfo) {
-    throw new Error(`Could not find token with address ${tokenAddress}`)
-  }
-  const convertedAmount = tokenAmountInSmallestUnit(amount, tokenInfo.decimals)
-
-  const kit: ContractKit = yield* call(getContractKit)
-  return toTransactionObject(
-    kit.connection,
-    tokenInfo?.canTransferWithComment && tokenInfo.symbol !== 'CELO'
-      ? coreContract.methods.transferWithComment(
-          recipientAddress,
-          convertedAmount,
-          utf8.encode(comment)
-        )
-      : contract.methods.transfer(recipientAddress, convertedAmount)
-  )
 }
 
 export function* sendPaymentSaga({

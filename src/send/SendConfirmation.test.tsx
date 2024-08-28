@@ -14,7 +14,6 @@ import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import { RecursivePartial, createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
-  emptyFees,
   mockAccount,
   mockAccount2,
   mockAccount3,
@@ -248,7 +247,7 @@ describe('SendConfirmation', () => {
   })
 
   it('dispatches an action with prepared transaction when the confirm button is pressed', async () => {
-    const { store, getByTestId } = renderScreen({ fees: { estimates: emptyFees } }, mockScreenProps)
+    const { store, getByTestId } = renderScreen({}, mockScreenProps)
 
     expect(store.getActions().length).toEqual(0)
 
