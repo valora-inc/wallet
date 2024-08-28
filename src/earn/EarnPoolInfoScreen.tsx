@@ -138,10 +138,12 @@ function EarningItemLineItem({ earnItem }: { earnItem: EarningItem }) {
   return (
     <View style={styles.cardLineContainer}>
       <View style={styles.cardLineLabel}>
-        <Text style={styles.depositAndEarningsCardLabelText}>{earnItem.label}</Text>
+        <Text numberOfLines={1} style={styles.depositAndEarningsCardLabelText}>
+          {earnItem.label}
+        </Text>
       </View>
-      <View>
-        <Text style={styles.depositAndEarningsCardLabelText}>
+      <View style={styles.flexShrink}>
+        <Text style={styles.depositAndEarningsCardValueText}>
           {t('earnFlow.poolInfoScreen.lineItemAmountDisplay', {
             localCurrencySymbol,
             localCurrencyAmount: formatValueToDisplay(amountInLocalCurrency),
@@ -204,18 +206,20 @@ function DepositAndEarningsCard({ earnPosition }: { earnPosition: EarnPosition }
       <View style={styles.depositAndEarningCardSubtitleContainer}>
         <View style={styles.cardLineContainer}>
           <View style={styles.cardLineLabel}>
-            <Text style={styles.depositAndEarningsCardLabelText}>
+            <Text numberOfLines={1} style={styles.depositAndEarningsCardLabelText}>
               {t('earnFlow.poolInfoScreen.deposit')}
             </Text>
           </View>
-          <Text style={styles.depositAndEarningsCardLabelText}>
-            {t('earnFlow.poolInfoScreen.lineItemAmountDisplay', {
-              localCurrencySymbol,
-              localCurrencyAmount: formatValueToDisplay(depositBalanceInLocalCurrency),
-              cryptoAmount: formatValueToDisplay(totalBalanceInLocalCurrency),
-              cryptoSymbol: tokenInfo?.symbol,
-            })}
-          </Text>
+          <View style={styles.flexShrink}>
+            <Text style={styles.depositAndEarningsCardValueText}>
+              {t('earnFlow.poolInfoScreen.lineItemAmountDisplay', {
+                localCurrencySymbol,
+                localCurrencyAmount: formatValueToDisplay(depositBalanceInLocalCurrency),
+                cryptoAmount: formatValueToDisplay(totalBalanceInLocalCurrency),
+                cryptoSymbol: tokenInfo?.symbol,
+              })}
+            </Text>
+          </View>
         </View>
         {earningItems.map((item, index) => (
           <EarningItemLineItem key={index} earnItem={item} />
@@ -263,7 +267,9 @@ function YieldCard({
           return (
             <View style={styles.cardLineContainer} key={index}>
               <View style={styles.cardLineLabel}>
-                <Text style={styles.cardLabelText}>{rate.label}</Text>
+                <Text numberOfLines={1} style={styles.cardLabelText}>
+                  {rate.label}
+                </Text>
                 <TokenIcons
                   tokensInfo={tokenInfo}
                   size={IconSize.XXSMALL}
@@ -503,6 +509,9 @@ const styles = StyleSheet.create({
   flex: {
     flex: 1,
   },
+  flexShrink: {
+    flexShrink: 1,
+  },
   scrollContainer: {
     padding: Spacing.Thick24,
     ...(Platform.OS === 'android' && {
@@ -558,6 +567,7 @@ const styles = StyleSheet.create({
     gap: Spacing.Tiny4,
     alignItems: 'center',
     paddingRight: 20, // Prevents Icon from being cut off on long labels
+    minWidth: '35%',
   },
   cardTitleText: {
     ...typeScale.labelSemiBoldMedium,
@@ -591,6 +601,14 @@ const styles = StyleSheet.create({
   depositAndEarningsCardLabelText: {
     ...typeScale.bodyMedium,
     color: Colors.black,
+    flexWrap: 'wrap',
+    textAlign: 'left',
+  },
+  depositAndEarningsCardValueText: {
+    ...typeScale.bodyMedium,
+    color: Colors.black,
+    flexWrap: 'wrap',
+    textAlign: 'right',
   },
   learnMoreContainer: {
     flexShrink: 1,
