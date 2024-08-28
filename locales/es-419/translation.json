@@ -2618,8 +2618,8 @@
         "tvlSubtitle": "¿Qué es el TVL?",
         "tvlDescription": "El valor total bloqueado (TVL) es una métrica utilizada en la industria cripto para medir el valor de los activos digitales bloqueados en una red. El TVL se calcula sumando el valor de todos los activos digitales bloqueados en un protocolo DeFi o contrato inteligente. Estos activos pueden incluir criptomonedas, stablecoins y otros tokens."
       },
-      "noPoolsTitle": "Aún no te has unido a ninguna quiniela",
-      "noPoolsDescription": "Descubre los pools disponibles, elige uno que se ajuste a tus objetivos y saca el máximo partido a tus stablecoins."
+      "noPoolsTitle": "Aún no te has unido a ningún pool",
+      "noPoolsDescription": "Descubre los pools disponibles, elige uno que se ajuste a tus objetivos y saca el máximo de tus stablecoins."
     },
     "poolCard": {
       "onNetwork": "en {{networkName}}",
@@ -2636,8 +2636,21 @@
       "depositAndEarnings": "Depósitos y ganancias"
     },
     "poolFilters": {
-      "myPools": "Mis pools",
-      "allPools": "Todas las piscinas"
+      "allPools": "Todos los Pools",
+      "myPools": "Mis pools"
+    },
+    "poolInfoScreen": {
+      "chainName": "Cadena: <0>{{networkName}}</0>",
+      "protocolName": "Protocolo: <0>{{providerName}}</0>",
+      "yieldRate": "Tasa de rendimiento",
+      "ratePercent": "{{rate}}%",
+      "rewards": "Recompensas",
+      "noRewards": "Sin recompensas",
+      "tvl": "TVL",
+      "ageOfPool": "Edad de la piscina",
+      "learnMoreOnProvider": "Ver Piscina en {{providerName}}",
+      "deposit": "Depósito",
+      "withdraw": "Retirar"
     }
   },
   "addFundsActions": {
@@ -2645,6 +2658,15 @@
     "transfer": "Transferir",
     "swap": "Cambiar"
   },
+  "duration_lessThanADay": "Menos de un día",
+  "duration_day_one": "1 día",
+  "duration_day_other": "{{count}} días",
+  "duration_month_one": "1 mes",
+  "duration_month_other": "{{count}} meses",
+  "duration_year_one": "1 año",
+  "duration_year_other": "{{count}} años",
+  "duration_yearMonth_one": "1 año, 1 mes",
+  "duration_yearMonth_other": "{{count}} años, {{count2}} meses",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
