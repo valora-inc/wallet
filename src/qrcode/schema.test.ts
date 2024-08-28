@@ -1,8 +1,8 @@
-import { zeroAddress } from 'ethereumjs-util'
-import { UriData, uriDataFromJson, uriDataFromUrl, urlFromUriData } from 'src/qrcode/schema'
 import { DEEPLINK_PREFIX } from 'src/config'
+import { UriData, uriDataFromJson, uriDataFromUrl, urlFromUriData } from 'src/qrcode/schema'
+import { zeroAddress } from 'viem'
 
-const validAddressData = { address: zeroAddress() }
+const validAddressData = { address: zeroAddress }
 const validUserData = {
   ...validAddressData,
   displayName: 'alice',
@@ -72,7 +72,7 @@ describe('qrcode/schema', () => {
     })
 
     it('should parse with error on invalid address', () => {
-      expect(() => uriDataFromJson({ address: zeroAddress().slice(0, -1) })).toThrowError(
+      expect(() => uriDataFromJson({ address: zeroAddress.slice(0, -1) })).toThrowError(
         'is not a valid address'
       )
     })

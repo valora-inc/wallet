@@ -4,10 +4,9 @@ import { useAsyncCallback } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import erc20 from 'src/abis/IERC20'
 import { showMessage } from 'src/alert/actions'
-import { AssetsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { AssetsEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import Dropdown from 'src/components/Dropdown'
@@ -36,7 +35,15 @@ import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { Address, BaseError, TimeoutError, formatUnits, getContract, isAddress } from 'viem'
+import {
+  Address,
+  BaseError,
+  TimeoutError,
+  erc20Abi,
+  formatUnits,
+  getContract,
+  isAddress,
+} from 'viem'
 
 const TAG = 'tokens/TokenImport'
 
@@ -107,7 +114,7 @@ export default function TokenImportScreen(_: Props) {
     networkId: NetworkId
   ): Promise<TokenDetails> => {
     const contract = getContract({
-      abi: erc20.abi,
+      abi: erc20Abi,
       address: tokenAddress,
       client: {
         public: publicClient[networkIdToNetwork[networkId]],

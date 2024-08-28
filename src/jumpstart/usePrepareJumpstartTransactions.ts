@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js'
 import { useAsyncCallback } from 'react-async-hook'
-import erc20 from 'src/abis/IERC20'
 import jumpstart from 'src/abis/IWalletJumpstart'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
@@ -11,7 +10,7 @@ import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
 import { TransactionRequest, prepareTransactions } from 'src/viem/prepareTransactions'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
-import { Address, encodeFunctionData } from 'viem'
+import { Address, encodeFunctionData, erc20Abi } from 'viem'
 
 const TAG = 'src/send/usePrepareJumpstartTransactions'
 
@@ -31,7 +30,7 @@ async function createBaseJumpstartTransactions(
     networkIdToNetwork[networkId]
   ].readContract({
     address: spendTokenAddress as Address,
-    abi: erc20.abi,
+    abi: erc20Abi,
     functionName: 'allowance',
     args: [walletAddress as Address, jumpstartContractAddress as Address],
   })
@@ -41,7 +40,7 @@ async function createBaseJumpstartTransactions(
       from: walletAddress as Address,
       to: spendTokenAddress as Address,
       data: encodeFunctionData({
-        abi: erc20.abi,
+        abi: erc20Abi,
         functionName: 'approve',
         args: [jumpstartContractAddress as Address, spendAmount],
       }),

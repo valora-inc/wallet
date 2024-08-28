@@ -2,7 +2,6 @@ import BigNumber from 'bignumber.js'
 import { useAsyncCallback } from 'react-async-hook'
 import aaveIncentivesV3Abi from 'src/abis/AaveIncentivesV3'
 import aavePool from 'src/abis/AavePoolV3'
-import erc20 from 'src/abis/IERC20'
 import { simulateTransactions } from 'src/earn/simulateTransactions'
 import { RewardsInfo } from 'src/earn/types'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
@@ -14,7 +13,7 @@ import { ensureError } from 'src/utils/ensureError'
 import { publicClient } from 'src/viem'
 import { TransactionRequest, prepareTransactions } from 'src/viem/prepareTransactions'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
-import { Address, encodeFunctionData, isAddress, maxUint256, parseUnits } from 'viem'
+import { Address, encodeFunctionData, erc20Abi, isAddress, maxUint256, parseUnits } from 'viem'
 
 const TAG = 'earn/prepareTransactions'
 
@@ -45,14 +44,14 @@ export async function prepareSupplyTransactions({
     networkIdToNetwork[token.networkId]
   ].readContract({
     address: token.address,
-    abi: erc20.abi,
+    abi: erc20Abi,
     functionName: 'allowance',
     args: [walletAddress, poolContractAddress],
   })
 
   if (approvedAllowanceForSpender < amountToSupply) {
     const data = encodeFunctionData({
-      abi: erc20.abi,
+      abi: erc20Abi,
       functionName: 'approve',
       args: [poolContractAddress, amountToSupply],
     })

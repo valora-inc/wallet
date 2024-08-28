@@ -5,7 +5,7 @@ import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { StackParamList } from 'src/navigator/types'
 
 interface Props {
-  title: string
+  title: string | React.ReactNode
   subtitle?: string | null
   scrollPosition: Animated.SharedValue<number>
   navigation: NativeStackNavigationProp<StackParamList, keyof StackParamList>

@@ -1,9 +1,8 @@
 import { PayloadAction } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
-import erc20 from 'src/abis/IERC20'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import { EarnDepositTxsReceiptProperties } from 'src/analytics/Properties'
-import AppAnalytics from 'src/analytics/AppAnalytics'
 import { PROVIDER_ID } from 'src/earn/constants'
 import { fetchAavePoolInfo } from 'src/earn/poolInfo'
 import {
@@ -47,7 +46,7 @@ import { getPreparedTransactions } from 'src/viem/preparedTransactionSerializati
 import { sendPreparedTransactions } from 'src/viem/saga'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { all, call, put, select, takeLeading } from 'typed-redux-saga'
-import { decodeFunctionData, isAddress } from 'viem'
+import { decodeFunctionData, erc20Abi, isAddress } from 'viem'
 
 const TAG = 'earn/saga'
 
@@ -121,7 +120,7 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
 
     if (preparedTransactions.length > 1 && preparedTransactions[0].data) {
       const { functionName, args } = decodeFunctionData({
-        abi: erc20.abi,
+        abi: erc20Abi,
         data: preparedTransactions[0].data,
       })
       if (functionName === 'approve' && preparedTransactions[0].to === tokenInfo.address && args) {

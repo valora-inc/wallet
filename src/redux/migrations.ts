@@ -1854,4 +1854,11 @@ export const migrations = {
       'knownFeedTransactions'
     ),
   }),
+  226: (state: any) => ({
+    ...(_.omit(state, 'fees') as any),
+  }),
+  227: (state: any) => ({
+    ...state,
+    account: _.omit(state.account, 'pictureUri'),
+  }),
 }

@@ -4,7 +4,7 @@ import FormLabel from 'src/components/FormLabel'
 
 interface Props {
   style?: StyleProp<ViewStyle>
-  label: string
+  label?: string
   children?: React.ReactNode
 }
 
