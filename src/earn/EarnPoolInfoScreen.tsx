@@ -420,7 +420,7 @@ type Props = NativeStackScreenProps<StackParamList, Screens.EarnPoolInfoScreen>
 
 export default function EarnPoolInfoScreen({ route, navigation }: Props) {
   const { pool } = route.params
-  const { networkId, tokens, displayProps, appName, dataProps, appId, positionId } = pool
+  const { networkId, tokens, displayProps, appName, dataProps, appId, positionId, balance } = pool
   const allTokens = useSelector((state) => tokensByIdSelector(state, [networkId]))
   const tokensInfo = useMemo(() => {
     return tokens
@@ -457,7 +457,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         />
         <View style={{ height: Spacing.Thick24 }} />
         <View style={styles.contentContainer}>
-          <DepositAndEarningsCard earnPosition={pool} />
+          {new BigNumber(balance).gt(0) && <DepositAndEarningsCard earnPosition={pool} />}
           <YieldCard
             // TODO(ACT-1323): Create info bottom sheet & remove Logger.debug
             infoIconPress={() => Logger.debug('YieldCard Info Icon Pressed!')}
