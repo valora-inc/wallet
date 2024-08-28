@@ -42,12 +42,12 @@ export default function EarnCollectScreen({ route }: Props) {
   const dispatch = useDispatch()
   const { pool } = route.params
   const { depositTokenId } = pool.dataProps
-  const depositToken = pool.tokens.find((token) => token.tokenId === depositTokenId)
   const withdrawStatus = useSelector(withdrawStatusSelector)
   const positionsWithClaimableRewards = useSelector(positionsWithClaimableRewardsSelector)
   const position = useSelector(positionsWithBalanceSelector).find(
     (position) => position.positionId === pool.positionId
   )
+  const depositToken = position?.tokens.find((token) => token.tokenId === depositTokenId)
 
   const rewardsTokens = positionsWithClaimableRewards
     .filter(
