@@ -4,7 +4,6 @@ import stableToken from 'src/abis/StableToken'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { AppEvents } from 'src/analytics/Events'
 import { DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED } from 'src/config'
-import { FeeInfo } from 'src/fees/saga'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import {
@@ -23,9 +22,8 @@ import {
   setTokenBalances,
 } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
-import { NetworkId, TransactionContext } from 'src/transactions/types'
+import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { Currency } from 'src/utils/currencies'
 import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { gql } from 'src/utils/gql'
@@ -38,17 +36,6 @@ import { call, put, select, spawn, take, takeEvery } from 'typed-redux-saga'
 import { Address, getContract } from 'viem'
 
 const TAG = 'tokens/saga'
-
-export interface TokenTransfer {
-  recipientAddress: string
-  amount: string
-  currency: Currency
-  comment: string
-  feeInfo?: FeeInfo
-  context: TransactionContext
-}
-
-export type TokenTransferAction = { type: string } & TokenTransfer
 
 export async function getERC20TokenContract(tokenAddress: string) {
   const kit = await getContractKitAsync()
