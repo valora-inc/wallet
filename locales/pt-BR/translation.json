@@ -2647,8 +2647,8 @@
       "rewards": "Prêmios",
       "noRewards": "Sem recompensas",
       "tvl": "TVL",
-      "ageOfPool": "Idade da piscina",
-      "learnMoreOnProvider": "Veja a piscina em {{providerName}}",
+      "ageOfPool": "Piscina criada:",
+      "learnMoreOnProvider": "Ver pool no {{providerName}}",
       "deposit": "Depósito",
       "withdraw": "Sacar"
     }
