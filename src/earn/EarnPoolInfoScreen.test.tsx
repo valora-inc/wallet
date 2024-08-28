@@ -6,16 +6,23 @@ import { EarnEvents } from 'src/analytics/Events'
 import EarnPoolInfoScreen from 'src/earn/EarnPoolInfoScreen'
 import { Screens } from 'src/navigator/Screens'
 import { navigateToURI } from 'src/utils/linking'
+import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockEarnPositions } from 'test/values'
+import { mockArbUsdcTokenId, mockEarnPositions, mockTokenBalances } from 'test/values'
 
-const defaultStore = createMockStore({})
+const mockPoolTokenId = networkConfig.aaveArbUsdcTokenId
+
+const store = createMockStore({
+  tokens: {
+    tokenBalances: { [mockPoolTokenId]: mockTokenBalances[mockArbUsdcTokenId] },
+  },
+})
 
 describe('EarnPoolInfoScreen', () => {
-  it('renders correctly', () => {
-    const { getByTestId } = render(
-      <Provider store={defaultStore}>
+  it('renders correctly when not deposited in pool', () => {
+    const { getByTestId, queryByTestId } = render(
+      <Provider store={store}>
         <MockedNavigator
           component={() => {
             return (
@@ -29,6 +36,8 @@ describe('EarnPoolInfoScreen', () => {
         />
       </Provider>
     )
+
+    expect(queryByTestId('DepositAndEarningsCard')).toBeFalsy()
 
     expect(
       within(getByTestId('TitleSection')).getByText('earnFlow.poolInfoScreen.chainName')
@@ -59,9 +68,50 @@ describe('EarnPoolInfoScreen', () => {
     ).toBeTruthy()
   })
 
-  it('calls navigateToURI when Learn More Touchable is tapped', () => {
+  it('renders deposit and earnings card when in pool when deposited in pool', () => {
+    const mockPool = {
+      ...mockEarnPositions[0],
+      balance: '100',
+    }
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator
+          component={() => {
+            return (
+              <EarnPoolInfoScreen
+                {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, {
+                  pool: mockPool,
+                })}
+              />
+            )
+          }}
+        />
+      </Provider>
+    )
+
+    expect(
+      within(getByTestId('DepositAndEarningsCard')).getByText(
+        'earnFlow.poolInfoScreen.totalDepositAndEarnings'
+      )
+    ).toBeTruthy()
+
+    expect(
+      within(getByTestId('DepositAndEarningsCard')).getByText(
+        'earnFlow.poolInfoScreen.titleLocalAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"133.00"}'
+      )
+    ).toBeTruthy()
+
+    expect(
+      within(getByTestId('DepositAndEarningsCard')).getByText(
+        'earnFlow.poolInfoScreen.lineItemAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"133.00","cryptoAmount":"133.00","cryptoSymbol":"USDC"}'
+      )
+    ).toBeTruthy()
+  })
+
+  it('calls navigateToURI when View Pool on Provider Touchable is tapped', () => {
     const { getByText } = render(
-      <Provider store={defaultStore}>
+      <Provider store={store}>
         <MockedNavigator
           component={() => {
             return (
