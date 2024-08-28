@@ -2011,7 +2011,7 @@
   "profileScreen": {
     "generateName": "Generate a name",
     "namePlaceholder": "Select a name, like \"{{exampleName}}\"",
-    "profilePictureDisclaimer": "Your image remains private, it is never shared or uploaded."
+    "profilePictureDisclaimer": "Customize {{appName}} with your profile picture. Your image remains private, it is never shared or uploaded."
   },
   "tokenBottomSheet": {
     "searchAssets": "Search Assets",
