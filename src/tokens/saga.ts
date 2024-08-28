@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-import erc20 from 'src/abis/IERC20'
 import stableToken from 'src/abis/StableToken'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { AppEvents } from 'src/analytics/Events'
@@ -35,7 +34,7 @@ import { getContractKitAsync } from 'src/web3/contracts'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, put, select, spawn, take, takeEvery } from 'typed-redux-saga'
-import { Address, getContract } from 'viem'
+import { Address, erc20Abi, getContract } from 'viem'
 
 const TAG = 'tokens/saga'
 
@@ -53,7 +52,7 @@ export type TokenTransferAction = { type: string } & TokenTransfer
 export async function getERC20TokenContract(tokenAddress: string) {
   const kit = await getContractKitAsync()
   //@ts-ignore
-  return new kit.web3.eth.Contract(erc20.abi, tokenAddress)
+  return new kit.web3.eth.Contract(erc20Abi, tokenAddress)
 }
 
 export async function getStableTokenContract(tokenAddress: string) {
@@ -297,7 +296,7 @@ export async function fetchImportedTokenBalances(
         fetchedBalance = knownTokenBalances[importedToken.tokenId].balance
       } else {
         const contract = getContract({
-          abi: erc20.abi,
+          abi: erc20Abi,
           address: importedToken!.address as Address,
           client: {
             public: publicClient[networkIdToNetwork[importedToken.networkId]],
