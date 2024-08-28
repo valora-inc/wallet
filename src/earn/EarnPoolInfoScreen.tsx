@@ -137,7 +137,7 @@ function YieldCard({
           <Text numberOfLines={1} style={styles.cardTitleText}>
             {t('earnFlow.poolInfoScreen.yieldRate')}
           </Text>
-          <Touchable onPress={infoIconPress} borderRadius={24}>
+          <Touchable onPress={infoIconPress} borderRadius={24} testID="YieldRateInfoIcon">
             <InfoIcon size={16} color={Colors.gray3} />
           </Touchable>
         </View>
@@ -197,7 +197,7 @@ function TvlCard({
           <Text numberOfLines={1} style={styles.cardTitleText}>
             {t('earnFlow.poolInfoScreen.tvl')}
           </Text>
-          <Touchable onPress={infoIconPress} borderRadius={24}>
+          <Touchable onPress={infoIconPress} borderRadius={24} testID="TvlInfoIcon">
             <InfoIcon size={16} color={Colors.gray3} />
           </Touchable>
         </View>
@@ -221,7 +221,7 @@ function AgeCard({ ageOfPool, infoIconPress }: { ageOfPool: Date; infoIconPress:
           <Text numberOfLines={1} style={styles.cardTitleText}>
             {t('earnFlow.poolInfoScreen.ageOfPool')}
           </Text>
-          <Touchable onPress={infoIconPress} borderRadius={24}>
+          <Touchable onPress={infoIconPress} borderRadius={24} testID="AgeInfoIcon">
             <InfoIcon size={16} color={Colors.gray3} />
           </Touchable>
         </View>
@@ -353,18 +353,36 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         <View style={{ height: Spacing.Thick24 }} />
         <View style={styles.contentContainer}>
           <YieldCard
-            infoIconPress={() => yieldRateInfoBottomSheetRef.current?.snapToIndex(0)}
+            infoIconPress={() => {
+              AppAnalytics.track(EarnEvents.earn_pool_info_yield_rate_info, {
+                appId,
+                positionId,
+              })
+              yieldRateInfoBottomSheetRef.current?.snapToIndex(0)
+            }}
             tokensInfo={tokensInfo}
             earnPosition={pool}
           />
           <TvlCard
             earnPosition={pool}
-            infoIconPress={() => tvlInfoBottomSheetRef.current?.snapToIndex(0)}
+            infoIconPress={() => {
+              AppAnalytics.track(EarnEvents.earn_pool_info_tvl_info, {
+                appId,
+                positionId,
+              })
+              tvlInfoBottomSheetRef.current?.snapToIndex(0)
+            }}
           />
           {dataProps.contractCreatedAt ? (
             <AgeCard
               ageOfPool={new Date(dataProps.contractCreatedAt)}
-              infoIconPress={() => ageInfoBottomSheetRef.current?.snapToIndex(0)}
+              infoIconPress={() => {
+                AppAnalytics.track(EarnEvents.earn_pool_info_age_info, {
+                  appId,
+                  positionId,
+                })
+                ageInfoBottomSheetRef.current?.snapToIndex(0)
+              }}
             />
           ) : null}
           {dataProps.manageUrl && appName ? (
@@ -390,7 +408,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         titleKey="earnFlow.poolInfoScreen.infoBottomSheet.ageTitle"
         descriptionKey="earnFlow.poolInfoScreen.infoBottomSheet.ageDescription"
         providerName={appName}
-        testId="TvlInfoBottomSheet"
+        testId="AgeInfoBottomSheet"
       />
       <InfoBottomSheet
         infoBottomSheetRef={yieldRateInfoBottomSheetRef}
@@ -398,7 +416,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         descriptionKey="earnFlow.poolInfoScreen.infoBottomSheet.yieldRateDescription"
         descriptionUrl={dataProps.manageUrl}
         providerName={appName}
-        testId="TvlInfoBottomSheet"
+        testId="YieldRateInfoBottomSheet"
       />
     </SafeAreaView>
   )
