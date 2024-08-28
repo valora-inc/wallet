@@ -136,7 +136,7 @@ function EarningItemLineItem({ earnItem }: { earnItem: EarningItem }) {
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
   return (
-    <View style={styles.cardLineContainer}>
+    <View testID="EarningItemLineItem" style={styles.cardLineContainer}>
       <View style={styles.cardLineLabel}>
         <Text numberOfLines={1} style={styles.depositAndEarningsCardLabelText}>
           {earnItem.label}

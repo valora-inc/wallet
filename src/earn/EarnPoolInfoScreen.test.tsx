@@ -72,9 +72,16 @@ describe('EarnPoolInfoScreen', () => {
     const mockPool = {
       ...mockEarnPositions[0],
       balance: '100',
+      dataProps: {
+        ...mockEarnPositions[0].dataProps,
+        earningItems: [
+          { amount: '15', label: 'Earnings', tokenId: mockArbUsdcTokenId },
+          { amount: '1', label: 'Reward', tokenId: mockArbUsdcTokenId },
+        ],
+      },
     }
 
-    const { getByTestId } = render(
+    const { getByTestId, getAllByTestId } = render(
       <Provider store={store}>
         <MockedNavigator
           component={() => {
@@ -105,6 +112,18 @@ describe('EarnPoolInfoScreen', () => {
     expect(
       within(getByTestId('DepositAndEarningsCard')).getByText(
         'earnFlow.poolInfoScreen.lineItemAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"133.00","cryptoAmount":"133.00","cryptoSymbol":"USDC"}'
+      )
+    ).toBeTruthy()
+
+    expect(getAllByTestId('EarningItemLineItem')).toHaveLength(2)
+    expect(
+      within(getAllByTestId('EarningItemLineItem')[0]).getByText(
+        'earnFlow.poolInfoScreen.lineItemAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"19.95","cryptoAmount":"15.00","cryptoSymbol":"USDC"}'
+      )
+    ).toBeTruthy()
+    expect(
+      within(getAllByTestId('EarningItemLineItem')[1]).getByText(
+        'earnFlow.poolInfoScreen.lineItemAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"1.33","cryptoAmount":"1.00","cryptoSymbol":"USDC"}'
       )
     ).toBeTruthy()
   })
