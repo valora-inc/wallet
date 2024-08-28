@@ -269,7 +269,6 @@
                                 "missingFullName",
                                 "personaAccountEndpointFail",
                                 "phoneVerificationInput.verificationFailure",
-                                "pictureLoadFailed",
                                 "pinInputCanceled",
                                 "providerFetchFailed",
                                 "qrFailedInvalidAddress",
@@ -3331,6 +3330,7 @@
                 "PointsIntro",
                 "Profile",
                 "ProfileMenu",
+                "ProfileSubmenu",
                 "ProtectWallet",
                 "QRCode",
                 "QRNavigator",
@@ -5413,12 +5413,6 @@
                 "photosNUXClicked": {
                     "type": "boolean"
                 },
-                "pictureUri": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
                 "pincodeType": {
                     "$ref": "#/definitions/PincodeType"
                 },
@@ -5451,7 +5445,6 @@
                 "hasMigratedToNewBip39",
                 "name",
                 "photosNUXClicked",
-                "pictureUri",
                 "pincodeType",
                 "recoveryPhraseInOnboardingStatus"
             ],

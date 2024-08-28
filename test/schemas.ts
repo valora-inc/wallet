@@ -3465,6 +3465,15 @@ export const v226Schema = {
   },
 }
 
+export const v227Schema = {
+  ...v226Schema,
+  _persist: {
+    ...v226Schema._persist,
+    version: 227,
+  },
+  account: _.omit(v225Schema.account, 'pictureUri'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v226Schema as Partial<RootState>
+  return v227Schema as Partial<RootState>
 }

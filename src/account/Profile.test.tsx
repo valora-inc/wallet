@@ -3,7 +3,7 @@ import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import { MockStoreEnhanced } from 'redux-mock-store'
-import { saveNameAndPicture } from 'src/account/actions'
+import { saveName } from 'src/account/actions'
 import Profile from 'src/account/Profile'
 import { showError, showMessage } from 'src/alert/actions'
 import { SettingsEvents } from 'src/analytics/Events'
@@ -38,10 +38,7 @@ describe('Profile', () => {
       expect(store.getActions().length).toEqual(0)
 
       fireEvent.press(getByTestId('SaveButton'))
-      expect(store.getActions()).toEqual([
-        saveNameAndPicture(name, null),
-        showMessage('namePictureSaved'),
-      ])
+      expect(store.getActions()).toEqual([saveName(name), showMessage('nameSaved')])
       expect(AppAnalytics.track).toHaveBeenCalledWith(SettingsEvents.profile_save)
     })
 
@@ -56,10 +53,7 @@ describe('Profile', () => {
       expect(store.getActions().length).toEqual(0)
 
       fireEvent.press(getByTestId('SaveButton'))
-      expect(store.getActions()).toEqual([
-        saveNameAndPicture('Random username', null),
-        showMessage('namePictureSaved'),
-      ])
+      expect(store.getActions()).toEqual([saveName('Random username'), showMessage('nameSaved')])
       expect(AppAnalytics.track).toHaveBeenCalledWith(SettingsEvents.profile_generate_name)
       expect(AppAnalytics.track).toHaveBeenCalledWith(SettingsEvents.profile_save)
     })
