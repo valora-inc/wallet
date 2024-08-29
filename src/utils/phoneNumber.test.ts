@@ -115,7 +115,7 @@ describe('Phone number formatting and utilities', () => {
 
     it('Format MX phone with country code', () => {
       expect(getDisplayPhoneNumber(TEST_PHONE_NUMBERS.VALID_MX_3, COUNTRY_CODES.MX)).toBe(
-        TEST_PHONE_NUMBERS.DISPLAY_MX
+        TEST_PHONE_NUMBERS.DISPLAY_MX_3
       )
     })
 
