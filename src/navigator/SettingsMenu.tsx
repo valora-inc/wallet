@@ -78,7 +78,11 @@ function ProfileMenuOption() {
   }
 
   return (
-    <Touchable style={styles.profileTouchable} testID="SettingsMenu/Profile">
+    <Touchable
+      style={styles.profileTouchable}
+      onPress={() => navigate(Screens.ProfileSubmenu)}
+      testID="SettingsMenu/Profile"
+    >
       <View style={styles.profileContainer}>
         <ContactCircleSelf size={48} />
         {renderContent()}
@@ -133,7 +137,7 @@ export default function SettingsMenu({ route }: Props) {
           icon={<Preferences size={24} />}
           title={t('preferences')}
           testID="SettingsMenu/Preferences"
-          onPress={dummyNavigate}
+          onPress={() => navigate(Screens.PreferencesSubmenu)}
           showChevron
           borderless
         />
@@ -151,7 +155,7 @@ export default function SettingsMenu({ route }: Props) {
             title={t('connectedApplications')}
             testID="SettingsMenu/ConnectedDapps"
             value={connectedDapps.toString()}
-            onPress={dummyNavigate}
+            onPress={() => navigate(Screens.WalletConnectSessions)}
             showChevron
             borderless
           />
@@ -168,7 +172,7 @@ export default function SettingsMenu({ route }: Props) {
         <SettingsItemTextValue
           title={t('legal')}
           testID="SettingsMenu/Legal"
-          onPress={dummyNavigate}
+          onPress={() => navigate(Screens.LegalSubmenu)}
           showChevron
           borderless
         />
@@ -189,6 +193,7 @@ const styles = StyleSheet.create({
   profileContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   profileTouchable: {
     paddingTop: Spacing.Regular16,
