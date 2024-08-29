@@ -81,7 +81,12 @@ describe('EarnPoolInfoScreen', () => {
         ...mockEarnPositions[0].dataProps,
         earningItems: [
           { amount: '15', label: 'Earnings', tokenId: mockArbUsdcTokenId },
-          { amount: '1', label: 'Reward', tokenId: mockArbUsdcTokenId },
+          {
+            amount: '1',
+            label: 'Reward',
+            tokenId: mockArbUsdcTokenId,
+            includedInPoolBalance: false,
+          },
         ],
       },
     }
@@ -110,13 +115,13 @@ describe('EarnPoolInfoScreen', () => {
 
     expect(
       within(getByTestId('DepositAndEarningsCard')).getByText(
-        'earnFlow.poolInfoScreen.titleLocalAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"133.00"}'
+        ' earnFlow.poolInfoScreen.titleLocalAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"154.28"}'
       )
     ).toBeTruthy()
 
     expect(
       within(getByTestId('DepositAndEarningsCard')).getByText(
-        'earnFlow.poolInfoScreen.lineItemAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"133.00","cryptoAmount":"133.00","cryptoSymbol":"USDC"}'
+        'earnFlow.poolInfoScreen.lineItemAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"133.00","cryptoAmount":"100.00","cryptoSymbol":"USDC"}'
       )
     ).toBeTruthy()
 

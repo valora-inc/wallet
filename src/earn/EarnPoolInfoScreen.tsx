@@ -160,27 +160,50 @@ function EarningItemLineItem({ earnItem }: { earnItem: EarningItem }) {
 function DepositAndEarningsCard({ earnPosition }: { earnPosition: EarnPosition }) {
   const { t } = useTranslation()
   const { balance } = earnPosition
-  const { earningItems, depositTokenId } = earnPosition.dataProps
+  const { earningItems, depositTokenId, cantSeparateCompoundedInterest } = earnPosition.dataProps
   const tokenInfo = useTokenInfo(depositTokenId)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
 
-  // Total balance in local currency
+  // Deposit items used to calculate the total balance and total deposited
   const depositBalanceInUsd = tokenInfo?.priceUsd?.multipliedBy(balance)
   const depositBalanceInLocalCurrency = new BigNumber(localCurrencyExchangeRate ?? 0).multipliedBy(
     depositBalanceInUsd ?? 0
   )
+
+  // Earning items used to calculate the total balance and total deposited
   const earningItemsTokenIds = earningItems.map((item) => item.tokenId)
   const earningItemsTokenInfo = useTokensInfo(earningItemsTokenIds)
+
   const totalBalanceInLocalCurrency = depositBalanceInLocalCurrency.plus(
     earningItems.reduce((acc, item) => {
-      if (!item.subtractFromDeposit) return acc
+      if (item.includedInPoolBalance) return acc
       const tokenInfo = earningItemsTokenInfo.find((token) => token?.tokenId === item.tokenId)
       const amountInUsd = tokenInfo?.priceUsd?.multipliedBy(item.amount)
       const amountInLocalCurrency = new BigNumber(localCurrencyExchangeRate ?? 0).multipliedBy(
         amountInUsd ?? 0
       )
       return acc.plus(amountInLocalCurrency ?? 0)
+    }, new BigNumber(0))
+  )
+
+  const totalDepositBalanceInLocalCurrency = depositBalanceInLocalCurrency.minus(
+    earningItems.reduce((acc, item) => {
+      if (!item.includedInPoolBalance) return acc
+      const tokenInfo = earningItemsTokenInfo.find((token) => token?.tokenId === item.tokenId)
+      const amountInUsd = tokenInfo?.priceUsd?.multipliedBy(item.amount)
+      const amountInLocalCurrency = new BigNumber(localCurrencyExchangeRate ?? 0).multipliedBy(
+        amountInUsd ?? 0
+      )
+      return acc.plus(amountInLocalCurrency ?? 0)
+    }, new BigNumber(0))
+  )
+
+  const totalDepositBalanceInCrypto = new BigNumber(balance).minus(
+    earningItems.reduce((acc, item) => {
+      // Don't include earning items that are not part of the pool balance or are not the deposit token
+      if (!item.includedInPoolBalance || item.tokenId !== depositTokenId) return acc
+      return acc.plus(item.amount)
     }, new BigNumber(0))
   )
 
@@ -216,8 +239,8 @@ function DepositAndEarningsCard({ earnPosition }: { earnPosition: EarnPosition }
             <Text style={styles.depositAndEarningsCardValueText}>
               {t('earnFlow.poolInfoScreen.lineItemAmountDisplay', {
                 localCurrencySymbol,
-                localCurrencyAmount: formatValueToDisplay(depositBalanceInLocalCurrency),
-                cryptoAmount: formatValueToDisplay(totalBalanceInLocalCurrency),
+                localCurrencyAmount: formatValueToDisplay(totalDepositBalanceInLocalCurrency),
+                cryptoAmount: formatValueToDisplay(totalDepositBalanceInCrypto),
                 cryptoSymbol: tokenInfo?.symbol,
               })}
             </Text>
