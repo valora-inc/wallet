@@ -1714,7 +1714,7 @@ export const mockRewardsPositions: Position[] = [
         decimals: 6,
         priceUsd: '1.2',
         type: 'base-token',
-        balance: '0',
+        balance: '10.75',
       },
     ],
     pricePerShare: ['1'],

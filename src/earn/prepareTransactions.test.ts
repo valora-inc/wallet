@@ -14,7 +14,7 @@ import { Network, NetworkId } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
 import { prepareTransactions } from 'src/viem/prepareTransactions'
 import networkConfig from 'src/web3/networkConfig'
-import { mockRewardsPositions, mockUSDCAddress } from 'test/values'
+import { mockRewardsPositions } from 'test/values'
 import { Address, encodeFunctionData, erc20Abi, maxUint256 } from 'viem'
 
 const mockFeeCurrency: TokenBalance = {
@@ -202,7 +202,7 @@ describe('prepareTransactions', () => {
 
   describe('prepareWithdrawAndClaimTransactions', () => {
     it('prepares withdraw and claim transactions with gas subsidy on', async () => {
-      const rewardsTokens = mockRewardsPositions[0].tokens
+      const rewardsTokens = mockRewardsPositions[1].tokens
       jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(true)
 
       const result = await prepareWithdrawAndClaimTransactions({
@@ -240,7 +240,7 @@ describe('prepareTransactions', () => {
       expect(encodeFunctionData).toHaveBeenCalledWith({
         abi: aaveIncentivesV3Abi,
         functionName: 'claimRewardsToSelf',
-        args: [['0x5678'], BigInt(10750000), mockUSDCAddress],
+        args: [['0x5678'], BigInt(10000000000000000), '0x912ce59144191c1204e64559fe8253a0e49e6548'],
       })
       expect(prepareTransactions).toHaveBeenCalledWith({
         baseTransactions: expectedTransactions,
