@@ -3,8 +3,8 @@ import React, { useEffect } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet } from 'react-native'
-import { DappShortcutsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { DappShortcutsEvents } from 'src/analytics/Events'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
@@ -12,6 +12,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { triggeredShortcutsStatusSelector } from 'src/positions/selectors'
 import { RawShortcutTransaction, denyExecuteShortcut, executeShortcut } from 'src/positions/slice'
+import { rawShortcutTransactionsToTransactionRequests } from 'src/positions/transactions'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { Colors } from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
@@ -47,14 +48,7 @@ function usePrepareShortcutTransactions(
       return prepareTransactions({
         feeCurrencies,
         decreasedAmountGasFeeMultiplier: 1,
-        baseTransactions: rawTransactions.map((rawTx) => ({
-          from: rawTx.from,
-          to: rawTx.to,
-          value: rawTx.value ? BigInt(rawTx.value) : undefined,
-          data: rawTx.data,
-          gas: rawTx.gas ? BigInt(rawTx.gas) : undefined,
-          _estimatedGasUse: rawTx.estimatedGasUse ? BigInt(rawTx.estimatedGasUse) : undefined,
-        })),
+        baseTransactions: rawShortcutTransactionsToTransactionRequests(rawTransactions),
         origin: 'shortcut' as const,
       })
     },

@@ -6,6 +6,7 @@ import { RewardsInfo } from 'src/earn/types'
 import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { triggerShortcutRequest } from 'src/positions/saga'
 import { RawShortcutTransaction } from 'src/positions/slice'
+import { rawShortcutTransactionsToTransactionRequests } from 'src/positions/transactions'
 import { EarnPosition } from 'src/positions/types'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
@@ -22,45 +23,35 @@ export async function prepareSupplyTransactions({
   walletAddress,
   feeCurrencies,
   pool,
+  hooksApiUrl,
 }: {
   amount: string
   token: TokenBalance
   walletAddress: Address
   feeCurrencies: TokenBalance[]
   pool: EarnPosition
+  hooksApiUrl: string
 }) {
-  if (!token.address || !isAddress(token.address)) {
-    // should never happen
-    throw new Error(`Cannot use a token without address. Token id: ${token.tokenId}`)
-  }
-
   const { transactions }: { transactions: RawShortcutTransaction[] } = await triggerShortcutRequest(
-    networkConfig.hooksApiUrl,
+    hooksApiUrl,
     {
       address: walletAddress,
       appId: pool.appId,
       networkId: pool.networkId,
       shortcutId: 'deposit',
-      // todo(satish): change to the correct format
-      token: {
-        amount,
-        decimals: token.decimals,
-        address: token.address,
-      },
-      positionAddress: pool.address,
+      tokens: [
+        {
+          tokenId: token.tokenId,
+          amount,
+        },
+      ],
+      ...pool.shortcutTriggerArgs?.deposit,
     }
   )
 
   return prepareTransactions({
     feeCurrencies,
-    baseTransactions: transactions.map((rawTx) => ({
-      from: rawTx.from,
-      to: rawTx.to,
-      value: rawTx.value ? BigInt(rawTx.value) : undefined,
-      data: rawTx.data,
-      gas: rawTx.gas ? BigInt(rawTx.gas) : undefined,
-      _estimatedGasUse: rawTx.estimatedGasUse ? BigInt(rawTx.estimatedGasUse) : undefined,
-    })),
+    baseTransactions: rawShortcutTransactionsToTransactionRequests(transactions),
     spendToken: token,
     spendTokenAmount: new BigNumber(amount).shiftedBy(token.decimals),
     isGasSubsidized: isGasSubsidizedForNetwork(token.networkId),

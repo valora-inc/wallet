@@ -32,6 +32,7 @@ import { createMockStore } from 'test/utils'
 import {
   mockArbArbTokenId,
   mockArbUsdcTokenId,
+  mockEarnPositions,
   mockTokenBalances,
   mockUSDCAddress,
 } from 'test/values'
@@ -133,7 +134,7 @@ describe('depositSubmitSaga', () => {
     depositTokenId: mockArbUsdcTokenId,
     tokenAmount: '100',
     networkId: NetworkId['arbitrum-sepolia'],
-    providerId: 'aave-v3',
+    providerId: mockEarnPositions[0].appId,
   }
 
   const expectedApproveStandbyTx = {
@@ -170,7 +171,7 @@ describe('depositSubmitSaga', () => {
     transactionHash: '0x2',
     type: TokenTransactionTypeV2.EarnDeposit,
     feeCurrencyId: undefined,
-    providerId: 'aave-v3',
+    providerId: mockEarnPositions[0].appId,
   }
 
   const expectedApproveGasAnalyticsProperties = {
@@ -224,7 +225,7 @@ describe('depositSubmitSaga', () => {
       type: depositStart.type,
       payload: {
         amount: '100',
-        tokenId: mockArbUsdcTokenId,
+        pool: mockEarnPositions[0],
         preparedTransactions: [serializableApproveTx, serializableDepositTx],
       },
     })
@@ -267,7 +268,7 @@ describe('depositSubmitSaga', () => {
       type: depositStart.type,
       payload: {
         amount: '100',
-        tokenId: mockArbUsdcTokenId,
+        pool: mockEarnPositions[0],
         preparedTransactions: [serializableDepositTx],
       },
     })
@@ -308,7 +309,7 @@ describe('depositSubmitSaga', () => {
       type: depositStart.type,
       payload: {
         amount: '100',
-        tokenId: mockArbUsdcTokenId,
+        pool: mockEarnPositions[0],
         preparedTransactions: [serializableDepositTx],
       },
     })
@@ -341,7 +342,7 @@ describe('depositSubmitSaga', () => {
       type: depositStart.type,
       payload: {
         amount: '100',
-        tokenId: mockArbUsdcTokenId,
+        pool: mockEarnPositions[0],
         preparedTransactions: [serializableDepositTx],
       },
     })
@@ -376,7 +377,7 @@ describe('depositSubmitSaga', () => {
       type: depositStart.type,
       payload: {
         amount: '100',
-        tokenId: mockArbUsdcTokenId,
+        pool: mockEarnPositions[0],
         preparedTransactions: [serializableApproveTx, serializableDepositTx],
       },
     })

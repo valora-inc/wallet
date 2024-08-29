@@ -177,7 +177,8 @@ describe('EarnEnterAmount', () => {
         balance: new BigNumber(10),
       },
       walletAddress: mockAccount.toLowerCase(),
-      poolContractAddress: networkConfig.arbAavePoolV3ContractAddress,
+      pool: mockEarnPositions[0],
+      hooksApiUrl: networkConfig.hooksApiUrl,
       feeCurrencies: mockFeeCurrencies,
     })
   })

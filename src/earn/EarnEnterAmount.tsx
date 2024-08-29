@@ -30,6 +30,7 @@ import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { hooksApiUrlSelector } from 'src/positions/selectors'
 import { EarnPosition } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
 import { AmountInput, ProceedArgs } from 'src/send/EnterAmount'
@@ -87,6 +88,7 @@ function EarnEnterAmount({ route }: Props) {
   const [enteredIn, setEnteredIn] = useState<AmountEnteredIn>('token')
   // this should never be null, just adding a default to make TS happy
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
+  const hooksApiUrl = useSelector(hooksApiUrlSelector)
 
   const {
     prepareTransactionsResult,
@@ -114,6 +116,7 @@ function EarnEnterAmount({ route }: Props) {
       walletAddress,
       feeCurrencies,
       pool,
+      hooksApiUrl,
     })
   }
 
