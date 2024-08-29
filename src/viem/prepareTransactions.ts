@@ -268,7 +268,7 @@ export async function tryEstimateTransactions(
  *
  * @param feeCurrencies
  * @param spendToken
- * @param spendTokenAmount
+ * @param spendTokenAmount BigNumber in smallest unit
  * @param decreasedAmountGasFeeMultiplier
  * @param baseTransactions
  * @param throwOnSpendTokenAmountExceedsBalance

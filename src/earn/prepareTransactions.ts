@@ -98,7 +98,7 @@ export async function prepareSupplyTransactions({
     feeCurrencies,
     baseTransactions,
     spendToken: token,
-    spendTokenAmount: new BigNumber(amount),
+    spendTokenAmount: new BigNumber(amount).shiftedBy(token.decimals),
     isGasSubsidized,
     origin: 'earn-deposit',
   })
