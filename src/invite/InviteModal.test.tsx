@@ -10,7 +10,6 @@ describe('InviteModal', () => {
         description="some description"
         buttonLabel="some button label"
         disabled
-        imageSource={{ uri: 'someImageUri' }}
         onClose={jest.fn()}
         onShareInvite={jest.fn()}
       />
@@ -31,14 +30,13 @@ describe('InviteModal', () => {
         description="some description"
         buttonLabel="some button label"
         disabled={false}
-        imageSource={{ uri: 'someImageUri' }}
         onClose={onCloseSpy}
         onShareInvite={onShareInviteSpy}
       />
     )
 
     fireEvent.press(getByText('some button label'))
-    fireEvent.press(getByTestId('InviteModalCloseButton'))
+    fireEvent.press(getByTestId('InviteModalContainer/Back'))
 
     expect(onShareInviteSpy).toHaveBeenCalledTimes(1)
     expect(onCloseSpy).toHaveBeenCalledTimes(1)

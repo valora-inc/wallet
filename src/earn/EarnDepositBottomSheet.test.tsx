@@ -6,9 +6,10 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import { depositStart } from 'src/earn/slice'
+import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { navigate } from 'src/navigator/NavigationService'
-import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
-import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
+import { getDynamicConfigParams } from 'src/statsig'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
@@ -21,6 +22,7 @@ import {
 } from 'test/values'
 
 jest.mock('src/statsig')
+jest.mock('src/earn/utils')
 
 const mockPreparedTransaction: PreparedTransactionsPossible = {
   type: 'possible' as const,
@@ -75,7 +77,7 @@ describe('EarnDepositBottomSheet', () => {
           return defaultValues
       }
     })
-    jest.mocked(getFeatureGate).mockReturnValue(false)
+    jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(false)
   })
 
   it('renders all elements', () => {
@@ -94,7 +96,9 @@ describe('EarnDepositBottomSheet', () => {
       </Provider>
     )
     expect(getByText('earnFlow.depositBottomSheet.title')).toBeTruthy()
-    expect(getByText('earnFlow.depositBottomSheet.description')).toBeTruthy()
+    expect(
+      getByText('earnFlow.depositBottomSheet.descriptionV1_93, {"providerName":"Aave"}')
+    ).toBeTruthy()
 
     expect(getByTestId('EarnDepositBottomSheet/EarnApyAndAmount/Apy')).toBeTruthy()
 
@@ -113,7 +117,9 @@ describe('EarnDepositBottomSheet', () => {
     expect(getByText('earnFlow.depositBottomSheet.network')).toBeTruthy()
     expect(getByText('Arbitrum Sepolia')).toBeTruthy()
 
-    expect(getByText('earnFlow.depositBottomSheet.footer')).toBeTruthy()
+    expect(
+      getByText('earnFlow.depositBottomSheet.footerV1_93, {"providerName":"Aave"}')
+    ).toBeTruthy()
 
     expect(getByTestId('EarnDeposit/PrimaryCta')).toBeTruthy()
     expect(getByTestId('EarnDeposit/SecondaryCta')).toBeTruthy()
@@ -232,12 +238,7 @@ describe('EarnDepositBottomSheet', () => {
   })
 
   it('shows gas subsidized copy if feature gate is set', () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation(
-        (featureGateName) =>
-          featureGateName === StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES
-      )
+    jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(true)
     const { getByTestId } = render(
       <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
         <EarnDepositBottomSheet

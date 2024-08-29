@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js'
 import { useAsyncCallback } from 'react-async-hook'
-import erc20 from 'src/abis/IERC20'
 import { useSelector } from 'src/redux/hooks'
 import {
   FetchQuoteResponse,
@@ -21,7 +20,7 @@ import {
 } from 'src/viem/prepareTransactions'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { Address, Hex, encodeFunctionData, zeroAddress } from 'viem'
+import { Address, Hex, encodeFunctionData, erc20Abi, zeroAddress } from 'viem'
 
 // Apply a multiplier for the decreased swap amount to account for the
 // varying gas fees of different swap providers (or even the same swap)
@@ -92,14 +91,14 @@ async function createBaseSwapTransactions(
       networkIdToNetwork[fromToken.networkId]
     ].readContract({
       address: fromToken.address as Address,
-      abi: erc20.abi,
+      abi: erc20Abi,
       functionName: 'allowance',
       args: [walletAddress as Address, allowanceTarget as Address],
     })
 
     if (approvedAllowanceForSpender < amountToApprove) {
       const data = encodeFunctionData({
-        abi: erc20.abi,
+        abi: erc20Abi,
         functionName: 'approve',
         args: [allowanceTarget as Address, amountToApprove],
       })

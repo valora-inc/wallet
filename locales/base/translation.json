@@ -42,7 +42,7 @@
   },
   "revokePhoneNumber": {
     "title": "Unlink Phone Number",
-    "bottomSheetTitle": "Unlink phone number",
+    "bottomSheetTitle": "Unlink Phone Number",
     "description": "Unlinking will remove the phone number linked to your wallet. You can add a new phone number later.",
     "confirmButton": "Unlink now",
     "revokeSuccess": "Your phone number has been unlinked",
@@ -174,7 +174,9 @@
   "termsOfServiceLink": "Terms of Service",
   "privacyPolicy": "Privacy Policy",
   "editProfile": "Edit Profile",
-  "confirmNumber": "Connect phone number",
+  "profileName": "Profile Name",
+  "profile": "Profile",
+  "confirmNumber": "Connect Phone Number",
   "cancel": "Cancel",
   "changeProfilePhoto": "Change Profile Photo",
   "name": "Name",
@@ -198,6 +200,7 @@
   "supportLegalCheckbox": "By submitting, I agree to share the above information and any attached application log data with {{appName}} Support.",
   "contactSuccess": "Your issue has been successfully reported! Expect an email response soon!",
   "namePictureSaved": "Your name and picture were saved successfully.",
+  "nameSaved": "Your name was saved successfully.",
   "addPhoto": "Add Photo",
   "chooseFromLibrary": "Choose from Library",
   "takePhoto": "Take Photo",
@@ -696,7 +699,7 @@
     "body": "Once they connect their number and add funds to {{appName}}, you’ll both receive 0.50 cUSD."
   },
   "inviteWithUrl": {
-    "title": "Invite a friend",
+    "title": "Invite a Friend",
     "body": "Connect and share value with your friends and family on {{appName}}.",
     "button": "Share Invite",
     "error": "There was an issue creating a sharable link",
@@ -2568,11 +2571,13 @@
     "depositBottomSheet": {
       "title": "Review & Deposit",
       "description": "Before depositing to an Aave pool, please review the transaction details below",
+      "descriptionV1_93": "Before depositing to an {{providerName}} pool, please review the transaction details below",
       "amount": "Amount Deposited",
       "fee": "Est. Gas Fees",
       "provider": "Earnings provider",
       "network": "Network",
       "footer": "By depositing crypto into an Aave pool, you accept the risks associated with using Aave. <0>Terms & Conditions</0>",
+      "footerV1_93": "By depositing crypto into an {{providerName}} pool, you accept the risks associated with using {{providerName}}. <0>Terms & Conditions</0>",
       "primaryCta": "Complete",
       "secondaryCta": "Cancel"
     },

@@ -94,15 +94,26 @@ describe('SettingsMenu', () => {
         <MockedNavigator component={SettingsMenu}></MockedNavigator>
       </Provider>
     )
+
+    fireEvent.press(getByTestId('SettingsMenu/Profile'))
     fireEvent.press(getByTestId('SettingsMenu/Address'))
     fireEvent.press(getByTestId('SettingsMenu/Invite'))
     fireEvent.press(getByTestId('SettingsMenu/Help'))
-    expect(navigate).toHaveBeenCalledTimes(3)
-    expect(navigate).toHaveBeenNthCalledWith(1, Screens.QRNavigator, {
+    fireEvent.press(getByTestId('SettingsMenu/Legal'))
+    fireEvent.press(getByTestId('SettingsMenu/ConnectedDapps'))
+    fireEvent.press(getByTestId('SettingsMenu/Preferences'))
+
+    expect(navigate).toHaveBeenCalledTimes(7)
+
+    expect(navigate).toHaveBeenNthCalledWith(1, Screens.ProfileSubmenu)
+    expect(navigate).toHaveBeenNthCalledWith(2, Screens.QRNavigator, {
       screen: Screens.QRCode,
       params: { showSecureSendStyling: true },
     })
-    expect(navigate).toHaveBeenNthCalledWith(2, Screens.Invite)
-    expect(navigate).toHaveBeenNthCalledWith(3, Screens.Support)
+    expect(navigate).toHaveBeenNthCalledWith(3, Screens.Invite)
+    expect(navigate).toHaveBeenNthCalledWith(4, Screens.Support)
+    expect(navigate).toHaveBeenNthCalledWith(5, Screens.LegalSubmenu)
+    expect(navigate).toHaveBeenNthCalledWith(6, Screens.WalletConnectSessions)
+    expect(navigate).toHaveBeenNthCalledWith(7, Screens.PreferencesSubmenu)
   })
 })
