@@ -699,7 +699,7 @@
     "body": "Una vez que conecten su número y agreguen fondos a {{appName}}, ambos recibirán 0,50 cUSD."
   },
   "inviteWithUrl": {
-    "title": "Invita a tus amigos",
+    "title": "Invita a un amigo",
     "body": "Conéctate y comparte valor con tus amigos y familiares en {{appName}}.",
     "button": "Enviar invitación",
     "error": "Hubo un error al crear el enlace compartible",
