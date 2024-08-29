@@ -83,20 +83,23 @@ describe('EarnPoolInfoScreen', () => {
   it.each([
     {
       testId: 'TvlInfoBottomSheet',
-      event: EarnEvents.earn_pool_info_tvl_info,
+      event: EarnEvents.earn_pool_info_tap_info_icon,
       infoIconTestId: 'TvlInfoIcon',
+      type: 'tvl',
     },
     {
       testId: 'AgeInfoBottomSheet',
-      event: EarnEvents.earn_pool_info_age_info,
+      event: EarnEvents.earn_pool_info_tap_info_icon,
       infoIconTestId: 'AgeInfoIcon',
+      type: 'age',
     },
     {
       testId: 'YieldRateInfoBottomSheet',
-      event: EarnEvents.earn_pool_info_yield_rate_info,
+      event: EarnEvents.earn_pool_info_tap_info_icon,
       infoIconTestId: 'YieldRateInfoIcon',
+      type: 'yieldRate',
     },
-  ])('opens $testId and track analytics event', ({ testId, event, infoIconTestId }) => {
+  ])('opens $testId and track analytics event', ({ testId, event, infoIconTestId, type }) => {
     const { getByTestId } = render(
       <Provider store={defaultStore}>
         <MockedNavigator
@@ -115,8 +118,9 @@ describe('EarnPoolInfoScreen', () => {
     fireEvent.press(getByTestId(infoIconTestId))
     expect(getByTestId(testId)).toBeVisible()
     expect(AppAnalytics.track).toHaveBeenCalledWith(event, {
-      appId: 'aave',
-      positionId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+      providerId: 'aave',
+      poolId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+      type,
     })
   })
 })

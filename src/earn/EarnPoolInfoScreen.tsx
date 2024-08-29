@@ -354,9 +354,10 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         <View style={styles.contentContainer}>
           <YieldCard
             infoIconPress={() => {
-              AppAnalytics.track(EarnEvents.earn_pool_info_yield_rate_info, {
-                appId,
-                positionId,
+              AppAnalytics.track(EarnEvents.earn_pool_info_tap_info_icon, {
+                providerId: appId,
+                poolId: positionId,
+                type: 'yieldRate',
               })
               yieldRateInfoBottomSheetRef.current?.snapToIndex(0)
             }}
@@ -366,9 +367,10 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
           <TvlCard
             earnPosition={pool}
             infoIconPress={() => {
-              AppAnalytics.track(EarnEvents.earn_pool_info_tvl_info, {
-                appId,
-                positionId,
+              AppAnalytics.track(EarnEvents.earn_pool_info_tap_info_icon, {
+                providerId: appId,
+                poolId: positionId,
+                type: 'tvl',
               })
               tvlInfoBottomSheetRef.current?.snapToIndex(0)
             }}
@@ -377,9 +379,10 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
             <AgeCard
               ageOfPool={new Date(dataProps.contractCreatedAt)}
               infoIconPress={() => {
-                AppAnalytics.track(EarnEvents.earn_pool_info_age_info, {
-                  appId,
-                  positionId,
+                AppAnalytics.track(EarnEvents.earn_pool_info_tap_info_icon, {
+                  providerId: appId,
+                  poolId: positionId,
+                  type: 'age',
                 })
                 ageInfoBottomSheetRef.current?.snapToIndex(0)
               }}

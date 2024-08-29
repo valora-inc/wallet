@@ -1648,17 +1648,10 @@ interface EarnEventsProperties {
     appId: string
     positionId: string
   }
-  [EarnEvents.earn_pool_info_tvl_info]: {
-    appId: string
-    positionId: string
-  }
-  [EarnEvents.earn_pool_info_age_info]: {
-    appId: string
-    positionId: string
-  }
-  [EarnEvents.earn_pool_info_yield_rate_info]: {
-    appId: string
-    positionId: string
+  [EarnEvents.earn_pool_info_tap_info_icon]: {
+    providerId: string
+    poolId: string
+    type: 'tvl' | 'age' | 'yieldRate'
   }
 }
 
