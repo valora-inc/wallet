@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
@@ -11,7 +11,7 @@ import InLineNotification, { NotificationVariant } from 'src/components/InLineNo
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import { PROVIDER_ID } from 'src/earn/constants'
-import { useAaveRewardsInfoAndPrepareTransactions } from 'src/earn/hooks'
+import { usePrepareAaveCollectTransactions } from 'src/earn/hooks'
 import { withdrawStatusSelector } from 'src/earn/selectors'
 import { withdrawStart } from 'src/earn/slice'
 import { isGasSubsidizedForNetwork } from 'src/earn/utils'
@@ -19,17 +19,15 @@ import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import {
-  positionsWithBalanceSelector,
-  positionsWithClaimableRewardsSelector,
-} from 'src/positions/selectors'
+import { positionsWithClaimableRewardsSelector } from 'src/positions/selectors'
 import { EarnPosition, Token } from 'src/positions/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { feeCurrenciesSelector } from 'src/tokens/selectors'
+import { useTokenInfo } from 'src/tokens/hooks'
+import { feeCurrenciesSelector, tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
@@ -43,23 +41,27 @@ export default function EarnCollectScreen({ route }: Props) {
   const { depositTokenId } = pool.dataProps
   const withdrawStatus = useSelector(withdrawStatusSelector)
   const positionsWithClaimableRewards = useSelector(positionsWithClaimableRewardsSelector)
-  const position = useSelector(positionsWithBalanceSelector).find(
-    (position) => position.positionId === pool.positionId
+
+  const depositToken = useTokenInfo(depositTokenId)
+  const withdrawToken = useTokenInfo(pool.tokenId)
+  const allTokens = useSelector((state) => tokensByIdSelector(state, [pool.networkId]))
+
+  const rewardsTokens = useMemo(
+    () =>
+      positionsWithClaimableRewards
+        .filter(
+          (position) =>
+            position.address === pool.address &&
+            position.networkId === pool.networkId &&
+            position.appId === pool.appId
+        )
+        .flatMap((position) => position.claimableShortcut.claimableTokens),
+    [positionsWithClaimableRewards, pool, allTokens]
   )
-  const depositToken = position?.tokens.find((token) => token.tokenId === depositTokenId)
 
-  const rewardsTokens = positionsWithClaimableRewards
-    .filter(
-      (position) =>
-        position.address === pool.address &&
-        position.networkId === pool.networkId &&
-        position.appId === pool.appId
-    )
-    .flatMap((position) => position.claimableShortcut.claimableTokens)
-
-  if (!depositToken || !position) {
+  if (!depositToken || !withdrawToken) {
     // should never happen
-    throw new Error('Deposit token or position not found')
+    throw new Error('Deposit token or withdraw token not found')
   }
 
   const isGasSubsidized = isGasSubsidizedForNetwork(depositToken.networkId)
@@ -67,8 +69,8 @@ export default function EarnCollectScreen({ route }: Props) {
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, depositToken.networkId))
 
   // TODO(ACT-1343): refactor this function using hooks & make this function reusable acroos pools
-  const { asyncPreparedTransactions } = useAaveRewardsInfoAndPrepareTransactions({
-    poolTokenId: pool.tokenId,
+  const { asyncPreparedTransactions } = usePrepareAaveCollectTransactions({
+    poolTokenId: withdrawToken.tokenId,
     depositTokenId,
     feeCurrencies,
     rewardsTokens,
@@ -80,13 +82,13 @@ export default function EarnCollectScreen({ route }: Props) {
     }
 
     const serializedRewards = rewardsTokens.map((token) => ({
-      amount: token.balance,
+      amount: token.balance.toString(),
       tokenId: token.tokenId,
     }))
 
     dispatch(
       withdrawStart({
-        amount: depositToken.balance,
+        amount: withdrawToken.balance.toString(),
         tokenId: depositTokenId,
         preparedTransactions: getSerializablePreparedTransactions(
           asyncPreparedTransactions.result.transactions
@@ -97,14 +99,13 @@ export default function EarnCollectScreen({ route }: Props) {
 
     AppAnalytics.track(EarnEvents.earn_collect_earnings_press, {
       depositTokenId,
-      tokenAmount: depositToken.balance,
-      networkId: depositToken.networkId,
+      tokenAmount: withdrawToken.balance.toString(),
+      networkId: withdrawToken.networkId,
       providerId: PROVIDER_ID,
       rewards: serializedRewards,
     })
   }
 
-  // skipping apy fetch error because that isn't blocking collecting rewards
   const error = asyncPreparedTransactions.error
   const ctaDisabled =
     asyncPreparedTransactions.loading ||
@@ -135,7 +136,7 @@ export default function EarnCollectScreen({ route }: Props) {
           <CollectItem
             title={t('earnFlow.collect.total')}
             tokenInfo={depositToken}
-            rewardAmount={depositToken.balance}
+            rewardAmount={withdrawToken.balance}
           />
           {rewardsTokens.map((token, index) => (
             <CollectItem
@@ -210,7 +211,7 @@ function CollectItem({
   rewardAmount,
   title,
 }: {
-  tokenInfo: Token
+  tokenInfo: TokenBalance | Token
   rewardAmount: BigNumber.Value
   title: string
 }) {

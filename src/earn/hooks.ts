@@ -13,7 +13,7 @@ import { isAddress } from 'viem'
 
 const TAG = 'earn/hooks'
 
-export function useAaveRewardsInfoAndPrepareTransactions({
+export function usePrepareAaveCollectTransactions({
   poolTokenId,
   depositTokenId,
   feeCurrencies,
