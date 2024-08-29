@@ -37,7 +37,7 @@ const config: KnipConfig = {
     'husky',
     'react-native-randombytes', // not sure we need this; only referenced in iOS Podfile.lock,
   ],
-  ignore: ['src/utils/identifier.ts'],
+  ignore: ['src/utils/inputValidation.ts'],
 }
 
 export default config

@@ -9,7 +9,7 @@
 // a non-trivial dependency cycle (currently, if A->B means "A depends on B",
 // identity -> phone-number-privacy-common -> contractkit -> protocol).
 
-export const PEPPER_SEPARATOR = '__'
+const PEPPER_SEPARATOR = '__'
 
 // Docstring is duplicated in @celo/identity; make sure to update in both places.
 /**
@@ -34,15 +34,7 @@ export const PEPPER_SEPARATOR = '__'
  * Please think carefully before using the NULL prefix.
  */
 export enum IdentifierPrefix {
-  NULL = '',
   PHONE_NUMBER = 'tel',
-  EMAIL = 'mailto',
-  TWITTER = 'twit',
-  FACEBOOK = 'facebook',
-  INSTAGRAM = 'instagram',
-  DISCORD = 'discord',
-  TELEGRAM = 'telegram',
-  SIGNAL = 'signal',
 }
 
 // Docstring is duplicated in @celo/identity; make sure to update in both places.
