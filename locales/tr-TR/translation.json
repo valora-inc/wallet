@@ -16,7 +16,9 @@
   },
   "legal": "Yasal",
   "appPreferences": "Uygulama Tercihleri",
+  "preferences": "Tercihler",
   "security": "Güvenlik",
+  "securityPrivacy": "Güvenlik ve Gizlilik",
   "changePin": "PIN Değiştir",
   "pinChanged": "PIN değiştirildi",
   "pinChangeFailed": "PIN değiştirme işlemi başarısız",
@@ -40,7 +42,7 @@
   },
   "revokePhoneNumber": {
     "title": "Telefon Numarasının Bağlantısını Kaldır",
-    "bottomSheetTitle": "Telefon numarasının bağlantısını kaldır",
+    "bottomSheetTitle": "Telefon Numarasının Bağlantısını Kaldır",
     "description": "Bağlantıyı kaldırmak, cüzdanınıza bağlı telefon numarasını kaldıracaktır. Daha sonra yeni bir telefon numarası ekleyebilirsiniz.",
     "confirmButton": "Şimdi bağlantıyı kaldır",
     "revokeSuccess": "Telefon numaranızın bağlantısı kaldırıldı",
@@ -172,7 +174,9 @@
   "termsOfServiceLink": "Kullanım Şartları",
   "privacyPolicy": "Gizlilik Politikası",
   "editProfile": "Profili Düzenle",
-  "confirmNumber": "Telefon numarası bağla",
+  "profileName": "Profil Adı",
+  "profile": "Profil",
+  "confirmNumber": "Telefon Numarasını Bağla",
   "cancel": "İptal",
   "changeProfilePhoto": "Profil Fotoğrafını Değiştir",
   "name": "İsim",
@@ -183,6 +187,7 @@
   "continue": "İleri",
   "yourName": "Adınız",
   "version": "Versiyon {{appVersion}}",
+  "appVersion": "Versiyon",
   "addressCopied": "Adres panoya kopyalandı",
   "support": "Destek",
   "contact": "İletişim",
@@ -195,6 +200,7 @@
   "supportLegalCheckbox": "Yukarıdaki bilgileri ve ekli tüm uygulama geçmişi verilerini {{appName}} Desteği ile paylaşmayı kabul ediyorum.",
   "contactSuccess": "Sorununuz başarıyla bildirildi! Çok yakında size e-posta ile geri dönüş sağlayacağız!",
   "namePictureSaved": "Adınız ve resminiz başarıyla kaydedildi.",
+  "nameSaved": "Adınız başarıyla kaydedildi.",
   "addPhoto": "Fotoğraf Ekle",
   "chooseFromLibrary": "Kitaplıktan Seç",
   "takePhoto": "Fotoğraf Çek",
@@ -2563,11 +2569,13 @@
     "depositBottomSheet": {
       "title": "İncele ve Para Yatır",
       "description": "Bir Aave havuzuna para yatırmadan önce lütfen aşağıdaki işlem ayrıntılarını inceleyin",
+      "descriptionV1_93": "Bir {{providerName}} havuzuna para yatırmadan önce lütfen aşağıdaki işlem ayrıntılarını inceleyin",
       "amount": "Yatırılan Toplam",
       "fee": "Tah. Gas Ücretleri",
       "provider": "Kazanç sağlayıcı",
       "network": "Ağ",
       "footer": "Bir Aave havuzuna kripto yatırarak, Aave kullanımıyla ilişkili riskleri kabul etmiş olursunuz. <0>Şartlar ve Koşullar</0>",
+      "footerV1_93": "Bir {{providerName}} havuzuna kripto yatırarak, {{providerName}}kullanımıyla ilişkili riskleri kabul etmiş olursunuz. <0>Şartlar ve Koşullar</0>",
       "primaryCta": "Tamamlandı",
       "secondaryCta": "İptal"
     },
@@ -2633,8 +2641,21 @@
       "depositAndEarnings": "Yatırım ve Kazançlar"
     },
     "poolFilters": {
-      "myPools": "Havuzlarım",
-      "allPools": "Tüm Havuzlar"
+      "allPools": "Tüm Havuzlar",
+      "myPools": "Havuzlarım"
+    },
+    "poolInfoScreen": {
+      "chainName": "Zincir: <0>{{networkName}}</0>",
+      "protocolName": "Protokol: <0>{{providerName}}</0>",
+      "yieldRate": "Verim Oranı",
+      "ratePercent": "{{rate}}%",
+      "rewards": "Ödüller",
+      "noRewards": "Ödül yok",
+      "tvl": "TVL",
+      "ageOfPool": "Havuz Yaşı",
+      "learnMoreOnProvider": "{{providerName}}adresindeki havuzu görüntüle",
+      "deposit": "Patra Yatırma",
+      "withdraw": "Çek"
     }
   },
   "addFundsActions": {
@@ -2642,6 +2663,15 @@
     "transfer": "Transfer Et",
     "swap": "Swap"
   },
+  "duration_lessThanADay": "Bir günden az",
+  "duration_day_one": "1 gün",
+  "duration_day_other": "{{count}} günler",
+  "duration_month_one": "1 ay",
+  "duration_month_other": "{{count}} aylar",
+  "duration_year_one": "1 yıl",
+  "duration_year_other": "{{count}} yıllar",
+  "duration_yearMonth_one": "1 yıl, 1 ay",
+  "duration_yearMonth_other": "{{count}} yıl, {{count2}} ay",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

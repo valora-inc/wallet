@@ -1,7 +1,6 @@
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
-import erc20 from 'src/abis/IERC20'
 import { Screens } from 'src/navigator/Screens'
 import { importToken } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
@@ -15,6 +14,7 @@ import {
   GetContractReturnType,
   PublicClient,
   TimeoutError,
+  erc20Abi,
   getContract,
 } from 'viem'
 import TokenImportScreen from './TokenImport'
@@ -48,7 +48,7 @@ describe('TokenImport', () => {
         name: jest.fn().mockResolvedValue('ABC Coin'),
         balanceOf: jest.fn().mockResolvedValue(BigInt('500000000000000000')),
       },
-    } as unknown as GetContractReturnType<typeof erc20.abi, PublicClient>)
+    } as unknown as GetContractReturnType<typeof erc20Abi, PublicClient>)
   })
 
   describe('when only Celo network is enabled', () => {
@@ -217,7 +217,7 @@ describe('TokenImport', () => {
               const contractFunctionExecutionError = new ContractFunctionExecutionError(
                 callExecution,
                 {
-                  abi: erc20.abi,
+                  abi: erc20Abi,
                   args: [],
                   contractAddress: '0x7d91E51C8F218f7140188A155f5C75388630B6a8',
                   functionName: 'symbol',

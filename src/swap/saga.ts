@@ -1,6 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
-import erc20 from 'src/abis/IERC20'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SwapEvents } from 'src/analytics/Events'
 import { SwapTimeMetrics, SwapTxsReceiptProperties } from 'src/analytics/Properties'
@@ -34,7 +33,7 @@ import { getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getNetworkFromNetworkId } from 'src/web3/utils'
 import { call, put, select, takeEvery } from 'typed-redux-saga'
-import { decodeFunctionData } from 'viem'
+import { decodeFunctionData, erc20Abi } from 'viem'
 
 const TAG = 'swap/saga'
 
@@ -193,7 +192,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     // add a standby transaction for it
     if (preparedTransactions.length > 1 && preparedTransactions[0].data) {
       const { functionName, args } = yield* call(decodeFunctionData, {
-        abi: erc20.abi,
+        abi: erc20Abi,
         data: preparedTransactions[0].data,
       })
       if (functionName === 'approve' && preparedTransactions[0].to === fromToken.address && args) {

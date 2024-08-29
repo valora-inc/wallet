@@ -16,7 +16,9 @@
   },
   "legal": "Informacje prawne",
   "appPreferences": "Preferencje aplikacji",
+  "preferences": "Preferencje",
   "security": "Bezpieczeństwo",
+  "securityPrivacy": "Bezpieczeństwo i prywatność",
   "changePin": "Zmień kod PIN",
   "pinChanged": "Kod PIN został zmieniony",
   "pinChangeFailed": "Zmiana kodu PIN nie powiodła się",
@@ -172,6 +174,8 @@
   "termsOfServiceLink": "Warunki użytkowania",
   "privacyPolicy": "Polityka prywatności",
   "editProfile": "Edytuj profil",
+  "profileName": "Nazwa profilu",
+  "profile": "Profil",
   "confirmNumber": "Podłącz numer telefonu",
   "cancel": "Anuluj",
   "changeProfilePhoto": "Zmień zdjęcie profilowe",
@@ -183,6 +187,7 @@
   "continue": "Kontynuuj",
   "yourName": "Twoja nazwa",
   "version": "Wersja {{appVersion}}",
+  "appVersion": "Wersja",
   "addressCopied": "Adres skopiowany do schowka",
   "support": "Wsparcie",
   "contact": "Kontakt",
@@ -195,6 +200,7 @@
   "supportLegalCheckbox": "Przesyłając zgłoszenie, wyrażam zgodę na udostępnienie powyższych informacji oraz wszelkich załączonych danych z dziennika aplikacji Działowi wsparcia aplikacji {{appName}}.",
   "contactSuccess": "Twój problem został pomyślnie zgłoszony. Wkrótce otrzymasz wiadomość e-mail z odpowiedzią!",
   "namePictureSaved": "Twoja nazwa oraz zdjęcie zostały pomyślnie zapisane.",
+  "nameSaved": "Twoje imię i nazwisko zostało pomyślnie zapisane.",
   "addPhoto": "Dodaj zdjęcie",
   "chooseFromLibrary": "Wybierz z Biblioteki",
   "takePhoto": "Zrób zdjęcie",
@@ -2567,11 +2573,13 @@
     "depositBottomSheet": {
       "title": "Przegląd i wpłata",
       "description": "Przed dokonaniem wpłaty do puli Aave zapoznaj się z poniższymi szczegółami transakcji",
+      "descriptionV1_93": "Przed dokonaniem wpłaty do puli {{providerName}} zapoznaj się z poniższymi szczegółami transakcji",
       "amount": "Kwota wpłacona",
       "fee": "Szac. opłaty za gaz",
       "provider": "Dostawca zarobków",
       "network": "Sieć",
       "footer": "Wpłacając kryptowaluty do puli Aave, akceptujesz ryzyko związane z korzystaniem z Aave. <0>Warunki</0>",
+      "footerV1_93": "Wpłacając kryptowaluty do puli {{providerName}} , akceptujesz ryzyko związane z korzystaniem z {{providerName}}. <0>Regulamin</0>",
       "primaryCta": "Zakończ",
       "secondaryCta": "Anuluj"
     },
@@ -2619,8 +2627,8 @@
         "tvlSubtitle": "Co to jest TVL?",
         "tvlDescription": "TVL to skrót oznaczający łączną wartość zablokowanych aktywów i jest wskaźnikiem używanym w branży kryptowalut do pomiaru wartości cyfrowych aktywów zablokowanych w sieci łańcucha bloków. Oblicza się go przez zsumowanie wartości wszystkich cyfrowych aktywów zablokowanych w protokole DeFi lub inteligentnym kontrakcie. Środkami są między innymi kryptowaluty, tokeny płatnicze i inne tokeny."
       },
-      "noPoolsTitle": "Nie dołączyłeś jeszcze do żadnej puli",
-      "noPoolsDescription": "Odkryj dostępne pule, wybierz taką, która odpowiada Twoim celom i w pełni wykorzystaj swoje stablecoiny."
+      "noPoolsTitle": "Nie dołączono jeszcze do żadnej puli",
+      "noPoolsDescription": "Odkryj dostępne pule, wybierz taką, która odpowiada Twoim celom, i w pełni wykorzystaj swoje tokeny płatnicze."
     },
     "poolCard": {
       "onNetwork": "w {{networkName}}",
@@ -2637,8 +2645,21 @@
       "depositAndEarnings": "Wpłaty i zarobki"
     },
     "poolFilters": {
-      "myPools": "Moje pule",
-      "allPools": "Wszystkie baseny"
+      "allPools": "Wszystkie pule",
+      "myPools": "Moje pule"
+    },
+    "poolInfoScreen": {
+      "chainName": "Łańcuch: <0>{{networkName}}</0>",
+      "protocolName": "Protokół: <0>{{providerName}}</0>",
+      "yieldRate": "Stopa zwrotu",
+      "ratePercent": "{{rate}}%",
+      "rewards": "Nagrody",
+      "noRewards": "Brak nagród",
+      "tvl": "TVL",
+      "ageOfPool": "Wiek puli",
+      "learnMoreOnProvider": "Wyświetl pulę w {{providerName}}",
+      "deposit": "Wpłatę",
+      "withdraw": "Wycofaj"
     }
   },
   "addFundsActions": {
@@ -2646,6 +2667,15 @@
     "transfer": "Transfer",
     "swap": "Zamieniaj"
   },
+  "duration_lessThanADay": "Mniej niż jeden dzień",
+  "duration_day_one": "1 dzień",
+  "duration_day_other": "Liczba dni: {{count}}",
+  "duration_month_one": "1 miesiąc",
+  "duration_month_other": "Liczba miesięcy: {{count}}",
+  "duration_year_one": "1 rok",
+  "duration_year_other": "Liczba lat: {{count}}",
+  "duration_yearMonth_one": "1 rok, 1 miesiąc",
+  "duration_yearMonth_other": "Liczba lat: {{count}}, liczba miesięcy: {{count2}}",
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
   "celoDollarAmount_2": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolarów",

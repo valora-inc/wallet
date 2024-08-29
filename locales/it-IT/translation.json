@@ -16,7 +16,9 @@
   },
   "legal": "Informazioni legali",
   "appPreferences": "Preferenze app",
+  "preferences": "Preferenze",
   "security": "Sicurezza",
+  "securityPrivacy": "Sicurezza e privacy",
   "changePin": "Modifica il PIN",
   "pinChanged": "Il PIN è stato modificato",
   "pinChangeFailed": "Impossibile modificare il PIN",
@@ -172,6 +174,8 @@
   "termsOfServiceLink": "Condizioni d'uso",
   "privacyPolicy": "Informativa sulla privacy",
   "editProfile": "Profilo",
+  "profileName": "Nome del profilo",
+  "profile": "Profilo",
   "confirmNumber": "Collega numero telefonico",
   "cancel": "Annulla",
   "changeProfilePhoto": "Cambia foto del profilo",
@@ -183,6 +187,7 @@
   "continue": "Continua",
   "yourName": "Il tuo nome",
   "version": "Versione di {{appVersion}}",
+  "appVersion": "Versione",
   "addressCopied": "L’indirizzo è stato copiato negli Appunti",
   "support": "Supporto",
   "contact": "Contatti",
@@ -195,6 +200,7 @@
   "supportLegalCheckbox": "Premendo Invia, accetto di condividere con il Supporto {{appName}} le informazioni di cui sopra ed eventuali dati di log dell’app allegati.",
   "contactSuccess": "Il tuo problema è stato segnalato. Fra poco riceverai una risposta per e-mail.",
   "namePictureSaved": "Il tuo nome e la tua foto sono stati salvati.",
+  "nameSaved": "Il tuo nome è stato salvato con successo.",
   "addPhoto": "Aggiungi foto",
   "chooseFromLibrary": "Scegli dalla raccolta",
   "takePhoto": "Scatta foto",
@@ -2563,11 +2569,13 @@
     "depositBottomSheet": {
       "title": "Rivedi e deposita",
       "description": "Prima di effettuare depositi in un pool Aave, consulta i dettagli della transazione in basso",
+      "descriptionV1_93": "Prima di depositare in un pool di {{providerName}} , consulta i dettagli della transazione qui di seguito.",
       "amount": "Somma depositata",
       "fee": "Commissioni sulle transazioni stimate",
       "provider": "Fornitore di guadagni",
       "network": "Rete",
       "footer": "Depositando criptovalute in un pool Aave, accetti i rischi associati all'utilizzo di Aave. <0>Termini e condizioni</0>",
+      "footerV1_93": "Depositando criptovalute in un pool di {{providerName}} , accetti i rischi associati all'utilizzo di {{providerName}}. <0>Termini e condizioni</0>",
       "primaryCta": "Completa",
       "secondaryCta": "Annulla"
     },
@@ -2615,8 +2623,8 @@
         "tvlSubtitle": "Cos'è il TVL?",
         "tvlDescription": "Il valore totale bloccato (TVL) è una metrica utilizzata per misurare il valore dei beni digitali bloccati su una rete blockchain. Il TVL viene calcolato sommando il valore di tutti gli asset digitali bloccati in un protocollo DeFi o in uno smart contract. Questi beni possono includere criptovalute, stablecoin e altri token."
       },
-      "noPoolsTitle": "Non ti sei ancora iscritto a nessuna piscina",
-      "noPoolsDescription": "Scopri i pool disponibili, scegline uno che corrisponda ai tuoi obiettivi e sfrutta al meglio i tuoi stablecoin."
+      "noPoolsTitle": "Non ti sei ancora iscritto a nessun pool",
+      "noPoolsDescription": "Scopri i pool disponibili, scegline uno che corrisponda ai tuoi obiettivi e sfrutta al meglio le tue stablecoin."
     },
     "poolCard": {
       "onNetwork": "su {{networkName}}",
@@ -2633,15 +2641,37 @@
       "depositAndEarnings": "Deposito e guadagni"
     },
     "poolFilters": {
-      "myPools": "I miei pool",
-      "allPools": "Tutte le piscine"
+      "allPools": "Tutti i pool",
+      "myPools": "I miei pool"
+    },
+    "poolInfoScreen": {
+      "chainName": "Rete: <0>{{networkName}}</0>",
+      "protocolName": "Protocollo: <0>{{providerName}}</0>",
+      "yieldRate": "Tasso di rendimento",
+      "ratePercent": "{{rate}}%",
+      "rewards": "Ricompense",
+      "noRewards": "Senza ricompense",
+      "tvl": "TVL",
+      "ageOfPool": "Pool creato:",
+      "learnMoreOnProvider": "Visualizza pool su {{providerName}}",
+      "deposit": "Deposito",
+      "withdraw": "Preleva"
     }
   },
   "addFundsActions": {
     "add": "Acquista",
     "transfer": "Trasferisci",
-    "swap": "Scambio"
+    "swap": "Scambia"
   },
+  "duration_lessThanADay": "Meno di un giorno",
+  "duration_day_one": "1 giorno",
+  "duration_day_other": "{{count}} giorni",
+  "duration_month_one": "1 mese",
+  "duration_month_other": "{{count}} mesi",
+  "duration_year_one": "1 anno",
+  "duration_year_other": "{{count}} anni",
+  "duration_yearMonth_one": "1 anno, 1 mese",
+  "duration_yearMonth_other": "{{count}} anni, {{count2}} mesi",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }

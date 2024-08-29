@@ -688,4 +688,5 @@ export enum EarnEvents {
   earn_home_learn_more_press = 'earn_home_learn_more_press',
   earn_pool_card_press = 'earn_pool_card_press',
   earn_home_error_try_again = 'earn_home_error_try_again',
+  earn_pool_info_view_pool = 'earn_pool_info_view_pool',
 }

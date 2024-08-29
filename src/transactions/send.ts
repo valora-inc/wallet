@@ -1,7 +1,7 @@
 import { CeloTxObject, CeloTxReceipt } from '@celo/connect'
 import { BigNumber } from 'bignumber.js'
-import { TransactionEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { TransactionEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { STATIC_GAS_PADDING } from 'src/config'
 import { fetchFeeCurrencySaga } from 'src/fees/saga'
@@ -183,7 +183,7 @@ export function* chooseTxFeeDetails(
 // Only use this method if you need more granular control of the different events
 // WARNING: this method doesn't have retry and timeout logic built in, turns out that's tricky
 // to get right with this promise set interface. Prefer sendTransaction below
-export function* sendTransactionPromises(
+function* sendTransactionPromises(
   tx: CeloTxObject<any>,
   account: string,
   context: TransactionContext,
@@ -266,7 +266,7 @@ export type SendTransactionMethod<
   T extends CeloTxReceipt | WaitForTransactionReceiptReturnType = CeloTxReceipt,
 > = (nonce?: number) => Generator<any, T, any>
 
-export function* wrapSendTransactionWithRetry<
+function* wrapSendTransactionWithRetry<
   T extends CeloTxReceipt | TransactionReceipt = CeloTxReceipt,
 >(sendTxMethod: SendTransactionMethod<T>, context: TransactionContext) {
   for (let i = 1; i <= TX_NUM_TRIES; i++) {

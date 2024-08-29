@@ -16,7 +16,9 @@
   },
   "legal": "Rechtshinweisen",
   "appPreferences": "App-Einstellungen",
+  "preferences": "Präferenzen",
   "security": "Sicherheit",
+  "securityPrivacy": "Sicherheit & Datenschutz",
   "changePin": "PIN ändern",
   "pinChanged": "PIN geändert",
   "pinChangeFailed": "PIN-Änderung fehlgeschlagen",
@@ -172,6 +174,8 @@
   "termsOfServiceLink": "Nutzungsbedingungen",
   "privacyPolicy": "Datenschutzrichtlinie",
   "editProfile": "Profil bearbeiten",
+  "profileName": "Profilname",
+  "profile": "Profil",
   "confirmNumber": "Telefonnummer verbinden",
   "cancel": "Abbrechen",
   "changeProfilePhoto": "Profilbild ändern",
@@ -183,6 +187,7 @@
   "continue": "Weiter",
   "yourName": "Dein Name",
   "version": "Version {{appVersion}}",
+  "appVersion": "Version",
   "addressCopied": "Adresse in die Zwischenablage kopiert",
   "support": "Support",
   "contact": "Kontakt",
@@ -195,6 +200,7 @@
   "supportLegalCheckbox": "Durch das Versenden stimme ich zu, die obigen Informationen und alle angehängten Anmeldeprotokolldaten mit {{appName}} Support zu teilen.",
   "contactSuccess": "Dein Problem wurde erfolgreich gemeldet! Wir werden in Kürze per E-Mail antworten.",
   "namePictureSaved": "Dein Name und Bild wurden erfolgreich gespeichert.",
+  "nameSaved": "Dein Name wurde erfolgreich gespeichert.",
   "addPhoto": "Foto hinzufügen",
   "chooseFromLibrary": "Aus Bibliothek wählen",
   "takePhoto": "Foto machen",
@@ -693,7 +699,7 @@
     "body": "Sobald sie ihre Nummer verknüpfen und Guthaben zu {{appName}} hinzufügen, erhaltet ihr beide 0,50 cUSD."
   },
   "inviteWithUrl": {
-    "title": "Lade deine Freunde ein",
+    "title": "Einen Freund einladen",
     "body": "Verbinde und teile Wert mit deinen Freunden und Familie auf {{appName}}.",
     "button": "Einladung senden",
     "error": "Es gab ein Problem beim Erstellen eines teilbaren Links",
@@ -2563,11 +2569,13 @@
     "depositBottomSheet": {
       "title": "Überprüfen und einzahlen",
       "description": "Bevor du eine Einzahlung in einen Aave-Pool vornimmst, solltest du die folgenden Transaktionsdetails überprüfen",
+      "descriptionV1_93": "Bevor du in einen {{providerName}} Pool einzahlst, solltest du die folgenden Transaktionsdetails überprüfen",
       "amount": "Eingezahlter Betrag",
       "fee": "Geschätzte Gasgebühren",
       "provider": "Verdienstanbieter",
       "network": "Netzwerk",
       "footer": "Wenn du Kryptowährungen in einen Aave-Pool einzahlst, akzeptierst du die mit der Nutzung von Aave verbundenen Risiken. <0>Allgemeine Nutzungsbedingungen</0>",
+      "footerV1_93": "Indem du Krypto in einen {{providerName}} Pool einzahlst, akzeptierst du die Risiken, die mit der Nutzung von {{providerName}}verbunden sind. <0>Bedingungen & Konditionen</0>",
       "primaryCta": "Abschließen",
       "secondaryCta": "Abbrechen"
     },
@@ -2615,8 +2623,8 @@
         "tvlSubtitle": "Was ist TVL?",
         "tvlDescription": "TVL steht für Total Value Locked und ist eine Kennzahl, die in der Kryptobranche verwendet wird, um den Wert von Digitalvermögen zu messen, das in einem Blockchain-Netzwerk gesperrt ist. TVL wird berechnet, indem der Wert des gesamten Digitalvermögens addiert wird, das in einem DeFi-Protokoll oder Smart Contract gesperrt ist. Dieses Vermögen kann Kryptowährungen, Stablecoins und andere Tokens umfassen."
       },
-      "noPoolsTitle": "Du bist noch keinem Pool beigetreten",
-      "noPoolsDescription": "Entdecke die verfügbaren Pools, wähle einen, der zu deinen Zielen passt, und mache das Beste aus deinen Stablecoins."
+      "noPoolsTitle": "Du bist noch keinen Pools beigetreten",
+      "noPoolsDescription": "Entdecke verfügbare Pools, wähle einen aus, der zu deinen Zielen passt, und hole das Beste aus deinen Stablecoins heraus."
     },
     "poolCard": {
       "onNetwork": "auf {{networkName}}",
@@ -2633,8 +2641,21 @@
       "depositAndEarnings": "Einzahlungen und Verdienste"
     },
     "poolFilters": {
-      "myPools": "Meine Pools",
-      "allPools": "Alle Pools"
+      "allPools": "Alle Pools",
+      "myPools": "Meine Pools"
+    },
+    "poolInfoScreen": {
+      "chainName": "Kette: <0>{{networkName}}</0>",
+      "protocolName": "Protokoll: <0>{{providerName}}</0>",
+      "yieldRate": "Ausbeutesatz",
+      "ratePercent": "{{rate}}%",
+      "rewards": "Rewards",
+      "noRewards": "Keine Belohnungen",
+      "tvl": "TVL",
+      "ageOfPool": "Alter des Pools",
+      "learnMoreOnProvider": "Siehe Pool auf {{providerName}}",
+      "deposit": "Einzahlung",
+      "withdraw": "Abheben"
     }
   },
   "addFundsActions": {
@@ -2642,6 +2663,15 @@
     "transfer": "Überweisung",
     "swap": "Tauschen"
   },
+  "duration_lessThanADay": "Weniger als ein Tag",
+  "duration_day_one": "1 Tag",
+  "duration_day_other": "{{count}} Tage",
+  "duration_month_one": "1 Monat",
+  "duration_month_other": "{{count}} Monate",
+  "duration_year_one": "1 Jahr",
+  "duration_year_other": "{{count}} Jahre",
+  "duration_yearMonth_one": "1 Jahr, 1 Monat",
+  "duration_yearMonth_other": "{{count}} Jahre, {{count2}} Monate",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

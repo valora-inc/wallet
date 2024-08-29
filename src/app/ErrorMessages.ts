@@ -1,5 +1,4 @@
 export enum ErrorMessages {
-  TRANSACTION_FAILED = 'transactionFailed',
   TRANSACTION_TIMEOUT = 'transactionTimeout',
   INCORRECT_PIN = 'incorrectPin',
   PIN_INPUT_CANCELED = 'pinInputCanceled',
@@ -19,7 +18,6 @@ export enum ErrorMessages {
   QR_FAILED_INVALID_ADDRESS = 'qrFailedInvalidAddress',
   QR_FAILED_INVALID_RECIPIENT = 'qrFailedInvalidRecipient',
   CONTRACT_KIT_INIT_FAILED = 'contractKitInitFailed',
-  CALCULATE_FEE_FAILED = 'calculateFeeFailed',
   ADDRESS_VALIDATION_ERROR = 'addressValidationError',
   ADDRESS_VALIDATION_NO_MATCH = 'addressValidationNoMatch',
   ADDRESS_VALIDATION_FULL_POORLY_FORMATTED = 'addressValidationFullPoorlyFormatted',
@@ -30,7 +28,6 @@ export enum ErrorMessages {
   KEYCHAIN_FETCH_ACCOUNTS = 'keychainFetchAccounts',
   KEYCHAIN_ACCOUNT_ALREADY_EXISTS = 'keychainAccountAlreadyExists',
   FETCH_FAILED = 'fetchFailed',
-  PICTURE_LOAD_FAILED = 'pictureLoadFailed',
   SIMPLEX_PURCHASE_FETCH_FAILED = 'simplexPurchaseFetchFailed',
   PROVIDER_FETCH_FAILED = 'providerFetchFailed',
   CASH_OUT_LIMIT_EXCEEDED = 'cashOutLimitExceeded',

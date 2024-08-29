@@ -179,26 +179,3 @@ export function useAmountAsUsd(amount: BigNumber, tokenId: string | undefined) {
   }
   return amount.multipliedBy(tokenInfo.priceUsd)
 }
-
-export function useUsdToTokenAmount(amount: BigNumber, tokenAddress?: string) {
-  const tokenInfo = useTokenInfoByAddress(tokenAddress)
-  if (!tokenInfo?.priceUsd) {
-    return null
-  }
-  return amount.div(tokenInfo.priceUsd)
-}
-
-export function useConvertBetweenTokens(
-  amount: BigNumber | undefined,
-  tokenAddress: string = '',
-  newTokenAddress: string
-) {
-  const tokenBalances = useSelector(tokensByAddressSelector)
-
-  const tokenPriceUsd = tokenBalances[tokenAddress ?? '']?.priceUsd
-  const newTokenPriceUsd = tokenBalances[newTokenAddress]?.priceUsd
-  if (!amount || !tokenPriceUsd || !newTokenPriceUsd) {
-    return null
-  }
-  return amount.multipliedBy(tokenPriceUsd).dividedBy(newTokenPriceUsd)
-}

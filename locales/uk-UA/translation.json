@@ -16,7 +16,9 @@
   },
   "legal": "Правова інформація",
   "appPreferences": "Параметри застосунку",
+  "preferences": "Уподобання",
   "security": "Безпека",
+  "securityPrivacy": "Безпека та конфіденційність",
   "changePin": "Змінити PIN-код",
   "pinChanged": "PIN-код змінено",
   "pinChangeFailed": "Не вдалося змінити PIN-код",
@@ -172,7 +174,9 @@
   "termsOfServiceLink": "Умови надання послуг",
   "privacyPolicy": "Політика конфіденційності",
   "editProfile": "Редагувати профіль",
-  "confirmNumber": "Під’єднати телефонний номер",
+  "profileName": "Ім’я профілю",
+  "profile": "Профіль",
+  "confirmNumber": "Під’єднати номер телефону",
   "cancel": "Скасувати",
   "changeProfilePhoto": "Змінити фотографію профілю",
   "name": "Ім’я",
@@ -183,6 +187,7 @@
   "continue": "Продовжити",
   "yourName": "Ваше ім’я",
   "version": "Версія {{appVersion}}",
+  "appVersion": "Версія",
   "addressCopied": "Адресу скопійовано в буфер обміну",
   "support": "Підтримка",
   "contact": "Контакт",
@@ -195,6 +200,7 @@
   "supportLegalCheckbox": "Надсилаючи, я погоджуюся поділитися наведеною вище інформацією та будь-якими прикріпленими даними журналів застосунку з підтримкою {{appName}}.",
   "contactSuccess": "Про ваше питання було успішно повідомлено! Очікуйте відповідь електронною поштою найближчим часом!",
   "namePictureSaved": "Ваше ім’я та зображення успішно збережено.",
+  "nameSaved": "Ваше ім'я успішно збережено.",
   "addPhoto": "Додати фото",
   "chooseFromLibrary": "Вибрати з бібліотеки",
   "takePhoto": "Зробити фото",
@@ -2567,11 +2573,13 @@
     "depositBottomSheet": {
       "title": "Огляд і поповнення",
       "description": "Перш ніж внести кошти до пулу Aave, ознайомтеся з деталями транзакції нижче",
+      "descriptionV1_93": "Перед тим, як поповнити пул {{providerName}} , будь ласка, ознайомтеся з деталями транзакції нижче",
       "amount": "Суму внесено",
       "fee": "Орієнт. комісії за газ",
       "provider": "Надавач заробітку",
       "network": "Мережа",
       "footer": "Коли ви вносите крипту в пул Aave, то приймаєте ризики, пов’язані з використанням Aave. <0>Умови надання послуг</0>",
+      "footerV1_93": "Вносячи криптовалюту в пул {{providerName}} , ви приймаєте ризики, пов'язані з використанням {{providerName}}. <0>Загальні положення та умови</0>",
       "primaryCta": "Завершити",
       "secondaryCta": "Скасувати"
     },
@@ -2620,7 +2628,7 @@
         "tvlDescription": "TVL розшифровується як Total Value Locked (Загальна заблокована вартість) і є показником, який використовується в криптоіндустрії для вимірювання вартості цифрових активів, заблокованих у блокчейн-мережі. TVL розраховується шляхом додавання вартості всіх цифрових активів, заблокованих у протоколі DeFi або смарт-контракті. Ці активи можуть включати криптовалюти, стейблкоїни та інші токени."
       },
       "noPoolsTitle": "Ви ще не приєдналися до жодного пулу",
-      "noPoolsDescription": "Відкрийте для себе доступні пули, виберіть той, який відповідає вашим цілям, і заробляйте стейблкоіни з максимальною вигодою."
+      "noPoolsDescription": "Ознайомтеся з доступними пулами та оберіть пул, який відповідає вашим цілям для ефективного використання своїх стейблкоїнів."
     },
     "poolCard": {
       "onNetwork": "у мережі {{networkName}}",
@@ -2637,8 +2645,21 @@
       "depositAndEarnings": "Депозит і прибуток"
     },
     "poolFilters": {
-      "myPools": "Мої пули",
-      "allPools": "Всі басейни"
+      "allPools": "Всі пули",
+      "myPools": "Мої пули"
+    },
+    "poolInfoScreen": {
+      "chainName": "Ланцюг: <0>{{networkName}}</0>",
+      "protocolName": "Протокол: <0>{{providerName}}</0>",
+      "yieldRate": "Ставка дохідності",
+      "ratePercent": "{{rate}}%",
+      "rewards": "Винагорода",
+      "noRewards": "Ніяких нагород",
+      "tvl": "TVL",
+      "ageOfPool": "Вік басейну",
+      "learnMoreOnProvider": "Переглянути басейн на {{providerName}}",
+      "deposit": "Депозит",
+      "withdraw": "Зняти"
     }
   },
   "addFundsActions": {
@@ -2646,6 +2667,15 @@
     "transfer": "Переказати",
     "swap": "Обміняти"
   },
+  "duration_lessThanADay": "Менше доби",
+  "duration_day_one": "1 день",
+  "duration_day_other": "{{count}} днів",
+  "duration_month_one": "1 місяць",
+  "duration_month_other": "{{count}} місяці",
+  "duration_year_one": "1 рік",
+  "duration_year_other": "{{count}} років",
+  "duration_yearMonth_one": "1 рік, 1 місяць",
+  "duration_yearMonth_other": "{{count}} років, {{count2}} місяців",
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",

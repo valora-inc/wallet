@@ -150,7 +150,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode appVersionCode
-        versionName "1.92.0"
+        versionName "1.93.0"
         multiDexEnabled true
         testBuildType System.getProperty('testBuildType', 'debug')
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
