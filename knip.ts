@@ -37,6 +37,9 @@ const config: KnipConfig = {
     'husky',
     'react-native-randombytes', // not sure we need this; only referenced in iOS Podfile.lock
   ],
+  ignore: [
+    'src/utils/account.ts', // Temp ignore until we copy the latest version of @celo/cryptographic-utils
+  ],
 }
 
 export default config

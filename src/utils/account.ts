@@ -136,7 +136,7 @@ export function normalizeMnemonic(mnemonic: string, language?: MnemonicLanguages
 }
 
 // https://stackoverflow.com/questions/990904/remove-accents-diacritics-in-a-string-in-javascript
-export function normalizeAccents(str: string) {
+function normalizeAccents(str: string) {
   return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
 }
 

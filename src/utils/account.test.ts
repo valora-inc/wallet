@@ -212,7 +212,7 @@ describe('AccountUtils', () => {
       expect(normalizeMnemonic(mnemonic)).toEqual(expected)
     })
 
-    it('should normalize extra and non-standard whitespace', () => {
+    it('should normalize extra and non-standard whitespace (another case)', () => {
       const mnemonic =
         ' \tfemale   cousin　rapid exotic\nribbon level\u3000equip   legal fun river hotel duty trip youth rebel'
       const expected =
@@ -355,9 +355,7 @@ describe('AccountUtils', () => {
             // console.log(`Phrase '${mnemonic}' corrected in ${attempts} attempt(s)`)
             break
           }
-          if (attempts >= 25) {
-            throw new Error(`Phrase '${mnemonic}' was not corrected within 100 attempts`)
-          }
+          expect(attempts).toBeLessThan(25)
         }
       }
     })
