@@ -5,7 +5,6 @@ import { Share } from 'react-native'
 import { InviteEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { INVITE_REWARDS_NFTS_LEARN_MORE, INVITE_REWARDS_STABLETOKEN_LEARN_MORE } from 'src/config'
-import { inviteModal, inviteWithRewards } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { useSelector } from 'src/redux/hooks'
@@ -23,7 +22,6 @@ export default function Invite() {
   let title = t('inviteWithUrl.title')
   let descriptionI18nKey = 'inviteWithUrl.body'
   let message = t('inviteWithUrl.share', { shareUrl })
-  let image = inviteModal
   let helpLink = ''
 
   if (inviteRewardsActive) {
@@ -33,7 +31,6 @@ export default function Invite() {
         descriptionI18nKey = 'inviteWithUrl.rewardsActive.body'
         message = t('inviteWithRewards', { link: shareUrl })
         helpLink = INVITE_REWARDS_NFTS_LEARN_MORE
-        image = inviteWithRewards
         break
       case InviteRewardsType.CUSD:
         title = t('inviteWithUrl.rewardsActiveCUSD.title')
@@ -56,7 +53,6 @@ export default function Invite() {
       title={title}
       descriptionI18nKey={descriptionI18nKey}
       buttonLabel={t('inviteWithUrl.button')}
-      imageSource={image}
       helpLink={helpLink}
       disabled={isNil(shareUrl)}
       onClose={navigateBack}

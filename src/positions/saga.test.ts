@@ -141,7 +141,7 @@ describe(fetchPositionsSaga, () => {
       .provide([
         [select(walletAddressSelector), mockAccount],
         [select(hooksApiUrlSelector), networkConfig.hooksApiUrl],
-        [select(currentLanguageSelector), 'en-US'],
+        [select(currentLanguageSelector), 'en'],
       ])
       .put(fetchPositionsStart())
       .put(
@@ -165,7 +165,7 @@ describe(fetchPositionsSaga, () => {
       .provide([
         [select(walletAddressSelector), mockAccount],
         [select(hooksApiUrlSelector), networkConfig.hooksApiUrl],
-        [select(currentLanguageSelector), 'en-US'],
+        [select(currentLanguageSelector), 'en'],
       ])
       .put(fetchPositionsStart())
       .put(

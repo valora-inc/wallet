@@ -1,8 +1,7 @@
 import BigNumber from 'bignumber.js'
-import erc20 from 'src/abis/IERC20'
 import stableToken from 'src/abis/StableToken'
-import { TransactionEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { TransactionEvents } from 'src/analytics/Events'
 import { TransactionOrigin } from 'src/analytics/types'
 import { STATIC_GAS_PADDING } from 'src/config'
 import {
@@ -14,7 +13,7 @@ import {
 import { getTokenId } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { publicClient, appPublicClient } from 'src/viem'
+import { appPublicClient, publicClient } from 'src/viem'
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
 import {
@@ -27,6 +26,7 @@ import {
   TransactionRequestBase,
   TransactionRequestEIP1559,
   encodeFunctionData,
+  erc20Abi,
 } from 'viem'
 import { estimateGas } from 'viem/actions'
 import { TransactionRequestCIP64 } from 'viem/chains'
@@ -268,7 +268,7 @@ export async function tryEstimateTransactions(
  *
  * @param feeCurrencies
  * @param spendToken
- * @param spendTokenAmount
+ * @param spendTokenAmount BigNumber in smallest unit
  * @param decreasedAmountGasFeeMultiplier
  * @param baseTransactions
  * @param throwOnSpendTokenAmountExceedsBalance
@@ -426,7 +426,7 @@ export async function prepareERC20TransferTransaction(
     from: fromWalletAddress as Address,
     to: sendToken.address as Address,
     data: encodeFunctionData({
-      abi: erc20.abi,
+      abi: erc20Abi,
       functionName: 'transfer',
       args: [toWalletAddress as Address, amount],
     }),

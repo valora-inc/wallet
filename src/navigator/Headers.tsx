@@ -192,7 +192,7 @@ export function HeaderTitleWithSubtitle({
   subTitle,
   testID,
 }: {
-  title: string | React.ReactNode
+  title?: string | React.ReactNode
   subTitle?: string | React.ReactNode
   testID?: string
 }) {

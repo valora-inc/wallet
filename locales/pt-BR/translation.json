@@ -18,7 +18,7 @@
   "appPreferences": "Preferências do app",
   "preferences": "Preferências",
   "security": "Segurança",
-  "securityPrivacy": "Segurança e privacidade",
+  "securityPrivacy": "Segurança e Privacidade",
   "changePin": "Alterar PIN",
   "pinChanged": "PIN alterado",
   "pinChangeFailed": "Falha ao alterar o PIN",
@@ -174,7 +174,9 @@
   "termsOfServiceLink": "Termos de serviço",
   "privacyPolicy": "Política de Privacidade",
   "editProfile": "Editar perfil",
-  "confirmNumber": "Conectar o número de celular",
+  "profileName": "Nome do perfil",
+  "profile": "Perfil",
+  "confirmNumber": "Conectar número de celular",
   "cancel": "Cancelar",
   "changeProfilePhoto": "Mudar a foto do perfil",
   "name": "Nome",
@@ -198,6 +200,7 @@
   "supportLegalCheckbox": "Ao enviar, concordo em compartilhar as informações acima e todos os dados de registro do aplicativo anexados com o serviço de suporte da {{appName}}.",
   "contactSuccess": "Seu problema foi relatado com sucesso! Aguarde uma resposta por e-mail em breve!",
   "namePictureSaved": "Seu nome e foto foram salvos com sucesso.",
+  "nameSaved": "Seu nome foi salvo com sucesso.",
   "addPhoto": "Carregar foto",
   "chooseFromLibrary": "Escolha na galeria",
   "takePhoto": "Tirar Foto",
@@ -2566,11 +2569,13 @@
     "depositBottomSheet": {
       "title": "Revisar e depositar",
       "description": "Antes de depositar em um pool da Aave, revise os detalhes da transação abaixo",
+      "descriptionV1_93": "Antes de depositar em um pool {{providerName}} , leia os detalhes da transação abaixo",
       "amount": "Quantia depositada",
       "fee": "Taxas est. de gas",
       "provider": "Provedor de ganhos",
       "network": "Rede",
       "footer": "Ao depositar cripto em um pool da Aave, você aceita os riscos associados ao uso da Aave. <0>Termos e condições</0>",
+      "footerV1_93": "Ao depositar criptomoedas em um pool do {{providerName}} , você aceita os riscos associados ao uso do {{providerName}}. <0>Termos e condições</0>",
       "primaryCta": "Concluir",
       "secondaryCta": "Cancelar"
     },
@@ -2636,8 +2641,21 @@
       "depositAndEarnings": "Depósitos e ganhos"
     },
     "poolFilters": {
-      "myPools": "Minhos pools",
-      "allPools": "Todas as piscinas"
+      "allPools": "Todos os pools",
+      "myPools": "Minhos pools"
+    },
+    "poolInfoScreen": {
+      "chainName": "Rede: <0>{{networkName}}</0>",
+      "protocolName": "Protocolo: <0>{{providerName}}</0>",
+      "yieldRate": "Taxa de rendimento",
+      "ratePercent": "{{rate}}%",
+      "rewards": "Prêmios",
+      "noRewards": "Sem recompensas",
+      "tvl": "TVL",
+      "ageOfPool": "Piscina criada:",
+      "learnMoreOnProvider": "Ver pool no {{providerName}}",
+      "deposit": "Depósito",
+      "withdraw": "Sacar"
     }
   },
   "addFundsActions": {
@@ -2645,6 +2663,15 @@
     "transfer": "Transferir",
     "swap": "Trocar"
   },
+  "duration_lessThanADay": "Menos de um dia",
+  "duration_day_one": "1 dia",
+  "duration_day_other": "{{count}} dias",
+  "duration_month_one": "1 mês",
+  "duration_month_other": "{{count}} meses",
+  "duration_year_one": "1 ano",
+  "duration_year_other": "{{count}} anos",
+  "duration_yearMonth_one": "1 ano, 1 mês",
+  "duration_yearMonth_other": "{{count}} anos, {{count2}} meses",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

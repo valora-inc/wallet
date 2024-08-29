@@ -111,10 +111,13 @@ export function SettingsExpandedItem({
   title,
   details,
   onPress,
+  borderless,
+  icon,
 }: SettingsExpandedItemProps) {
   return (
-    <Wrapper testID={testID} onPress={onPress}>
+    <Wrapper testID={testID} onPress={onPress} borderless={borderless}>
       <View style={styles.container}>
+        {!!icon && <View style={styles.iconContainer}>{icon}</View>}
         <Title value={title} />
       </View>
       {!!details && (

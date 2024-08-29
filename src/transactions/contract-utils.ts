@@ -25,14 +25,10 @@ interface TxPromiseReject {
   confirmation: PromiseRejection
 }
 
-export interface TxPromises {
+interface TxPromises {
   receipt: Promise<CeloTxReceipt>
   transactionHash: Promise<string>
   confirmation: Promise<boolean>
-}
-
-export function awaitConfirmation(txPromises: TxPromises) {
-  return txPromises.confirmation
 }
 
 export type SendTransaction<T> = (tx: CeloTxObject<T>, account: string, txId?: string) => Promise<T>
