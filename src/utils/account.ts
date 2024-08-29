@@ -204,13 +204,6 @@ function isLatinBasedLanguage(language: MnemonicLanguages): boolean {
   }
 }
 
-/**
- * @deprecated now an alias for normalizeMnemonic.
- */
-export function formatNonAccentedCharacters(mnemonic: string) {
-  return normalizeMnemonic(mnemonic)
-}
-
 // Unify the bip39.wordlists (otherwise depends on the instance of the bip39)
 export function getWordList(language: MnemonicLanguages = MnemonicLanguages.english): string[] {
   return wordlists[language]
@@ -230,7 +223,7 @@ export function getAllLanguages(): MnemonicLanguages[] {
   ]
 }
 
-export function mnemonicLengthFromStrength(strength: MnemonicStrength): number {
+function mnemonicLengthFromStrength(strength: MnemonicStrength): number {
   switch (strength) {
     case MnemonicStrength.s128_12words:
       return 12
@@ -261,7 +254,7 @@ function joinMnemonic(words: string[], language: MnemonicLanguages | undefined):
  * malformed. It may occasionally occur that a typo results in word from another language (e.g. bag
  * -> bagr) but this should occur at most once or twice per phrase.
  */
-export function detectMnemonicLanguage(
+function detectMnemonicLanguage(
   words: string[],
   candidates?: MnemonicLanguages[]
 ): MnemonicLanguages | undefined {
@@ -445,7 +438,7 @@ export async function generateKeys(
 
 // keyByteLength truncates the seed. *Avoid its use*
 // It was added only because a backwards compatibility bug
-export async function generateSeed(
+async function generateSeed(
   mnemonic: string,
   password?: string,
   bip39ToUse = bip39Wrapper,
@@ -460,7 +453,7 @@ export async function generateSeed(
   return seed
 }
 
-export function generateKeysFromSeed(
+function generateKeysFromSeed(
   seed: Buffer,
   changeIndex: number = 0,
   addressIndex: number = 0,
@@ -482,16 +475,4 @@ export function generateKeysFromSeed(
     publicKey,
     address: privateKeyToAddress(privateKey),
   }
-}
-
-export const AccountUtils = {
-  detectMnemonicLanguage,
-  generateMnemonic,
-  normalizeMnemonic,
-  validateMnemonic,
-  invalidMnemonicWords,
-  suggestMnemonicCorrections,
-  generateKeys,
-  generateSeed,
-  generateKeysFromSeed,
 }
