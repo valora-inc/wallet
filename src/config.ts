@@ -9,6 +9,7 @@ import { TORUS_SAPPHIRE_NETWORK } from '@toruslabs/constants'
 import * as secretsFile from '../secrets.json'
 import { ONE_HOUR_IN_MILLIS } from './utils/time'
 export * from 'src/brandingConfig'
+import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
 
 // extract secrets from secrets.json
 const keyOrUndefined = (file: any, secretsKey: any, attribute: any) => {
@@ -193,3 +194,21 @@ export const LOGGER_LEVEL = Config.LOGGER_LEVEL
   : LoggerLevel.Debug
 
 export const PHONE_NUMBER_VERIFICATION_CODE_LENGTH = 6
+
+const ONBOARDING_FEATURES_ALL_DISABLED = Object.fromEntries(
+  Object.values(ToggleableOnboardingFeatures).map((value) => [value, false])
+)
+
+export const ONBOARDING_FEATURES_ENABLED = (
+  Config.ONBOARDING_FEATURES_ENABLED ?? Object.values(ToggleableOnboardingFeatures).join(',')
+)
+  .split(',')
+  .filter(
+    (value) =>
+      !!value &&
+      Object.values(ToggleableOnboardingFeatures).includes(value as ToggleableOnboardingFeatures)
+  )
+  .reduce((acc, value) => {
+    acc[value] = true
+    return acc
+  }, ONBOARDING_FEATURES_ALL_DISABLED)

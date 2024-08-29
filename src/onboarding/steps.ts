@@ -15,6 +15,8 @@ import { updateStatsigAndNavigate } from 'src/onboarding/actions'
 import { store } from 'src/redux/store'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
+import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
+import { ONBOARDING_FEATURES_ENABLED } from 'src/config'
 
 export const END_OF_ONBOARDING_SCREENS = [Screens.TabHome, Screens.ChooseYourAdventure]
 
@@ -40,6 +42,7 @@ export interface OnboardingProps {
   numberAlreadyVerifiedCentrally: boolean
   showCloudAccountBackupRestore: boolean
   showCloudAccountBackupSetup: boolean
+  skipProtectWallet: boolean
 }
 
 /**
@@ -79,22 +82,37 @@ export const onboardingPropsSelector = createSelector(
     supportedBiometryType,
     numberAlreadyVerifiedCentrally
   ) => {
-    const showCloudAccountBackupRestore = getFeatureGate(
-      StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE
-    )
+    // TODO(MS): These parameters are set up to defer to the Statsig values for now to ensure
+    // no change in behavior, since the default local config enables all onboarding features.
+    // We ought to remove all uses of Statsig here once we fork to MS.
+    const showCloudAccountBackupRestore =
+      getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE) &&
+      ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackupRestore]
 
-    const skipVerification = !getFeatureGate(StatsigFeatureGates.SHOW_ONBOARDING_PHONE_VERIFICATION)
+    const skipVerification =
+      !getFeatureGate(StatsigFeatureGates.SHOW_ONBOARDING_PHONE_VERIFICATION) ||
+      !ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.PhoneVerification]
 
-    const showCloudAccountBackupSetup = getFeatureGate(StatsigFeatureGates.SHOW_CAB_IN_ONBOARDING)
+    const showCloudAccountBackupSetup =
+      getFeatureGate(StatsigFeatureGates.SHOW_CAB_IN_ONBOARDING) &&
+      ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackupSetup]
+
+    const skipProtectWallet =
+      !ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.ProtectWallet]
 
     return {
       recoveringFromStoreWipe,
       choseToRestoreAccount,
-      supportedBiometryType,
+      supportedBiometryType: ONBOARDING_FEATURES_ENABLED[
+        ToggleableOnboardingFeatures.CloudBackupSetup
+      ]
+        ? supportedBiometryType
+        : null,
       skipVerification,
       numberAlreadyVerifiedCentrally,
       showCloudAccountBackupRestore,
       showCloudAccountBackupSetup,
+      skipProtectWallet,
     }
   }
 )
@@ -201,6 +219,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
     skipVerification,
     numberAlreadyVerifiedCentrally,
     showCloudAccountBackupSetup,
+    skipProtectWallet,
   } = props
 
   const navigateImportOrImportSelect = () => {
@@ -228,7 +247,14 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
             })
           } else {
             dispatch(initializeAccount())
-            navigate(Screens.ProtectWallet)
+            if (skipProtectWallet) {
+              if (skipVerification) {
+                dispatch(setHasSeenVerificationNux(true))
+              }
+              finishOnboarding(Screens.ChooseYourAdventure)
+            } else {
+              navigate(Screens.ProtectWallet)
+            }
           }
         },
       }
@@ -245,7 +271,14 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
             })
           } else {
             dispatch(initializeAccount())
-            navigate(Screens.ProtectWallet)
+            if (skipProtectWallet) {
+              if (skipVerification) {
+                dispatch(setHasSeenVerificationNux(true))
+              }
+              finishOnboarding(Screens.ChooseYourAdventure)
+            } else {
+              navigate(Screens.ProtectWallet)
+            }
           }
         },
       }

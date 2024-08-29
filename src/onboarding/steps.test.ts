@@ -156,6 +156,19 @@ describe('onboarding steps', () => {
         expect(mockStore.dispatch).toHaveBeenCalledWith(initializeAccount())
         expect(navigate).toHaveBeenCalledWith(Screens.ProtectWallet)
       })
+      it('should navigate to the CYA screen', () => {
+        goToNextOnboardingScreen({
+          firstScreenInCurrentStep: Screens.EnableBiometry,
+          onboardingProps: {
+            ...onboardingProps,
+            skipProtectWallet: true,
+          },
+        })
+        expect(mockStore.dispatch).toHaveBeenCalledWith(initializeAccount())
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateStatsigAndNavigate(Screens.ChooseYourAdventure)
+        )
+      })
     })
 
     describe('Screens.PincodeSet', () => {
@@ -189,6 +202,19 @@ describe('onboarding steps', () => {
         })
         expect(mockStore.dispatch).toHaveBeenCalledWith(initializeAccount())
         expect(navigate).toHaveBeenCalledWith(Screens.ProtectWallet)
+      })
+      it('should navigate to the CYA screen', () => {
+        goToNextOnboardingScreen({
+          firstScreenInCurrentStep: Screens.PincodeSet,
+          onboardingProps: {
+            ...onboardingProps,
+            skipProtectWallet: true,
+          },
+        })
+        expect(mockStore.dispatch).toHaveBeenCalledWith(initializeAccount())
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateStatsigAndNavigate(Screens.ChooseYourAdventure)
+        )
       })
     })
     describe('Screens.ImportWallet', () => {
