@@ -1,4 +1,3 @@
-import { Countries } from '@celo/phone-utils'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -7,8 +6,8 @@ import * as RNLocalize from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
 import { getPhoneNumberDetails } from 'src/account/utils'
-import { KeylessBackupEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { KeylessBackupEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
@@ -28,6 +27,7 @@ import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
+import { Countries } from 'src/utils/Countries'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.KeylessBackupPhoneInput>
 

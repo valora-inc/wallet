@@ -1,17 +1,16 @@
-import getPhoneHash from '@celo/phone-utils/lib/getPhoneHash'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Share } from 'react-native'
-import { InviteEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { InviteEvents } from 'src/analytics/Events'
 import { INVITE_REWARDS_NFTS_LEARN_MORE, INVITE_REWARDS_STABLETOKEN_LEARN_MORE } from 'src/config'
-import { inviteModal } from 'src/images/Images'
 import InviteModal from 'src/invite/InviteModal'
 import { useShareUrl } from 'src/invite/hooks'
 import { Recipient, getDisplayName } from 'src/recipients/recipient'
 import { useSelector } from 'src/redux/hooks'
 import { inviteRewardsActiveSelector, inviteRewardsTypeSelector } from 'src/send/selectors'
 import { InviteRewardsType } from 'src/send/types'
+import getPhoneHash from 'src/utils/getPhoneHash'
 
 interface Props {
   recipient: Recipient
@@ -68,7 +67,6 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
       descriptionI18nKey={descriptionI18nKey}
       contactName={getDisplayName(recipient, t)}
       buttonLabel={t('inviteModal.sendInviteButtonLabel')}
-      imageSource={inviteModal}
       disabled={!link}
       helpLink={helpLink}
       onClose={handleClose}

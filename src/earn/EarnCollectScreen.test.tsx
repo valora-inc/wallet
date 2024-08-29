@@ -7,6 +7,7 @@ import { EarnEvents } from 'src/analytics/Events'
 import EarnCollectScreen from 'src/earn/EarnCollectScreen'
 import { prepareWithdrawAndClaimTransactions } from 'src/earn/prepareTransactions'
 import { withdrawStart } from 'src/earn/slice'
+import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
@@ -52,6 +53,7 @@ const store = createMockStore({
 })
 
 jest.mock('src/statsig')
+jest.mock('src/earn/utils')
 jest.mock('src/earn/prepareTransactions')
 jest.mock('src/earn/poolInfo')
 
@@ -96,6 +98,7 @@ describe('EarnCollectScreen', () => {
       }
       return false
     })
+    jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(false)
     store.clearActions()
   })
 
@@ -351,12 +354,8 @@ describe('EarnCollectScreen', () => {
   })
 
   it('shows gas subsidized copy when feature gate is true', async () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation(
-        (featureGateName) =>
-          featureGateName === StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES
-      )
+    jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(true)
+
     const { getByTestId } = render(
       <Provider store={store}>
         <MockedNavigator

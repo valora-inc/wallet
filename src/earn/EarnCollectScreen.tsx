@@ -14,6 +14,7 @@ import { PROVIDER_ID } from 'src/earn/constants'
 import { useAaveRewardsInfoAndPrepareTransactions } from 'src/earn/hooks'
 import { withdrawStatusSelector } from 'src/earn/selectors'
 import { withdrawStart } from 'src/earn/slice'
+import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -25,8 +26,6 @@ import {
 import { EarnPosition, Token } from 'src/positions/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -63,7 +62,7 @@ export default function EarnCollectScreen({ route }: Props) {
     throw new Error('Deposit token or position not found')
   }
 
-  const isGasSubsidized = getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
+  const isGasSubsidized = isGasSubsidizedForNetwork(depositToken.networkId)
 
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, depositToken.networkId))
 

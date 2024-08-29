@@ -7,7 +7,9 @@ import {
 } from 'src/config'
 import { Network } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
-import { Transport, createPublicClient, http } from 'viem'
+import { PublicClient, Transport, createPublicClient, http } from 'viem'
+
+export const INTERNAL_RPC_SUPPORTED_NETWORKS = [Network.Arbitrum] as const
 
 export const viemTransports: Record<Network, Transport> = {
   [Network.Celo]: http(),
@@ -50,7 +52,7 @@ export const viemTransports: Record<Network, Transport> = {
 
 export const appViemTransports = {
   [Network.Arbitrum]: http(networkConfig.internalRpcUrl.arbitrum),
-} satisfies Partial<Record<Network, Transport>>
+} satisfies Record<(typeof INTERNAL_RPC_SUPPORTED_NETWORKS)[number], Transport>
 
 export const publicClient = {
   [Network.Celo]: createPublicClient({
@@ -84,4 +86,4 @@ export const appPublicClient = {
     chain: networkConfig.viemChain.arbitrum,
     transport: appViemTransports[Network.Arbitrum],
   }),
-}
+} satisfies Record<(typeof INTERNAL_RPC_SUPPORTED_NETWORKS)[number], PublicClient>

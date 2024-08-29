@@ -18,10 +18,9 @@ import {
   withdrawStart,
   withdrawSuccess,
 } from 'src/earn/slice'
+import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import { getTokenInfo } from 'src/tokens/saga'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import { Network, NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
@@ -59,7 +58,7 @@ jest.mock('src/transactions/types', () => {
   }
 })
 
-jest.mock('src/statsig')
+jest.mock('src/earn/utils')
 
 const mockTxReceipt1 = {
   status: 'success',
@@ -216,13 +215,11 @@ describe('depositSubmitSaga', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.mocked(getFeatureGate).mockReturnValue(false)
+    jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(false)
   })
 
   it('sends approve and deposit transactions, navigates home and dispatches the success action (gas subsidy on)', async () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation((gate) => gate === StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
+    jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(true)
     await expectSaga(depositSubmitSaga, {
       type: depositStart.type,
       payload: {
@@ -518,7 +515,7 @@ describe('withdrawSubmitSaga', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.mocked(getFeatureGate).mockReturnValue(false)
+    jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(false)
   })
 
   it('sends withdraw and claim transactions, navigates home and dispatches the success action (gas subsidy off)', async () => {
@@ -557,9 +554,7 @@ describe('withdrawSubmitSaga', () => {
   })
 
   it('sends only withdraw if there are no rewards (gas subsidy on)', async () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation((gate) => gate === StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
+    jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(true)
     await expectSaga(withdrawSubmitSaga, {
       type: withdrawStart.type,
       payload: {

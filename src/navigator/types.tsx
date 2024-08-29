@@ -1,4 +1,3 @@
-import { Countries } from '@celo/phone-utils'
 import { KycSchema } from '@fiatconnect/fiatconnect-types'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EarnTabType } from 'src/earn/types'
@@ -15,6 +14,7 @@ import { Recipient } from 'src/recipients/recipient'
 import { QrCode, TransactionDataInput } from 'src/send/types'
 import { AssetTabType } from 'src/tokens/types'
 import { NetworkId, TokenTransaction, TokenTransfer } from 'src/transactions/types'
+import { Countries } from 'src/utils/Countries'
 import { Currency } from 'src/utils/currencies'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { ActionRequestProps } from 'src/walletConnect/screens/ActionRequest'
@@ -216,6 +216,8 @@ export type StackParamList = {
   [Screens.Profile]: undefined
   [Screens.ProfileMenu]: undefined
   [Screens.ProfileSubmenu]: undefined
+  [Screens.LegalSubmenu]: undefined
+  [Screens.PreferencesSubmenu]: undefined
   [Screens.SettingsMenu]: undefined
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
   [Screens.RegulatoryTerms]: undefined
