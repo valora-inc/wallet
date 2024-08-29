@@ -2,14 +2,18 @@ import { fireEvent, render, within } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { MockStoreEnhanced } from 'redux-mock-store'
-import { HomeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { HomeEvents } from 'src/analytics/Events'
+import * as config from 'src/config'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import ActionsCarousel from 'src/home/ActionsCarousel'
 import { HomeActionName } from 'src/home/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore } from 'test/utils'
+
+const mockConfig = jest.mocked(config)
+const originalEnabledQuickActions = config.ENABLED_QUICK_ACTIONS
 
 function getStore(shouldShowSwapAction: boolean) {
   return createMockStore({
@@ -23,6 +27,7 @@ describe('ActionsCarousel', () => {
   let store: MockStoreEnhanced<{}>
   beforeEach(() => {
     store = getStore(true)
+    mockConfig.ENABLED_QUICK_ACTIONS = originalEnabledQuickActions
   })
 
   afterEach(() => {
@@ -101,5 +106,30 @@ describe('ActionsCarousel', () => {
     expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.home_action_pressed, {
       action: HomeActionName.Add,
     })
+  })
+
+  it('renders only the actions enabled from the config', () => {
+    mockConfig.ENABLED_QUICK_ACTIONS = [HomeActionName.Send]
+
+    const { getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <ActionsCarousel />
+      </Provider>
+    )
+
+    expect(within(getByTestId(`HomeAction/Title-Send`)).getByText(`homeActions.send`)).toBeTruthy()
+    expect(queryByTestId(`HomeAction/Title-Receive`)).toBeFalsy()
+  })
+
+  it('renders null if no actions are enabled', () => {
+    mockConfig.ENABLED_QUICK_ACTIONS = []
+
+    const { toJSON } = render(
+      <Provider store={store}>
+        <ActionsCarousel />
+      </Provider>
+    )
+
+    expect(toJSON()).toBeNull()
   })
 })

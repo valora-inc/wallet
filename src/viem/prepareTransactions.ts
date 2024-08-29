@@ -23,7 +23,6 @@ import {
   ExecutionRevertedError,
   InsufficientFundsError,
   InvalidInputRpcError,
-  TransactionRequestBase,
   TransactionRequestEIP1559,
   encodeFunctionData,
   erc20Abi,
@@ -166,7 +165,7 @@ export async function tryEstimateTransaction({
   // TODO maybe cache this? and add static padding when using non-native fee currency
   try {
     tx.gas = await estimateGas(client, {
-      ...(tx as TransactionRequestBase),
+      ...(tx as any), // TODO: fix type, probably related to the generic client type
       account: tx.from,
     })
     tx._baseFeePerGas = baseFeePerGas

@@ -1,5 +1,4 @@
 import { normalizeAddressWith0x } from '@celo/base'
-import { E164Number } from '@celo/phone-utils'
 import {
   AddressToDisplayNameType,
   AddressToE164NumberType,
@@ -10,6 +9,7 @@ import {
 } from 'src/identity/reducer'
 import { ImportContactsStatus } from 'src/identity/types'
 import { Recipient } from 'src/recipients/recipient'
+import { type E164Number } from 'src/utils/E164Number'
 
 export enum Actions {
   SET_SEEN_VERIFICATION_NUX = 'IDENTITY/SET_SEEN_VERIFICATION_NUX',

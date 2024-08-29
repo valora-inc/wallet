@@ -1,10 +1,10 @@
-import { isE164NumberStrict } from '@celo/phone-utils'
 import { Actions, ActionTypes } from 'src/account/actions'
 import { Actions as AppActions, ActionTypes as AppActionTypes } from 'src/app/actions'
 import { DEV_SETTINGS_ACTIVE_INITIALLY } from 'src/config'
 import { deleteKeylessBackupCompleted, keylessBackupCompleted } from 'src/keylessBackup/slice'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import Logger from 'src/utils/Logger'
+import { isE164NumberStrict } from 'src/utils/phoneNumbers'
 import { Actions as Web3Actions, ActionTypes as Web3ActionTypes } from 'src/web3/actions'
 
 interface State {

@@ -11,6 +11,7 @@ import i18n from 'src/i18n'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { isBottomSheetVisible, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { Actions } from 'src/positions/actions'
 import {
   hooksApiUrlSelector,
   hooksPreviewApiUrlSelector,
@@ -349,7 +350,12 @@ export function* watchFetchBalances() {
   // Refresh positions/shortcuts when fetching token balances
   // or when preview mode is enabled/disabled
   yield* takeLeading(
-    [fetchTokenBalances.type, previewModeEnabled.type, previewModeDisabled.type],
+    [
+      Actions.REFRESH_POSITIONS,
+      fetchTokenBalances.type,
+      previewModeEnabled.type,
+      previewModeDisabled.type,
+    ],
     safely(fetchPositionsSaga)
   )
   yield* takeLeading(
