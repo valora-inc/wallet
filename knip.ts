@@ -35,8 +35,9 @@ const config: KnipConfig = {
     '@types/isomorphic-fetch',
     '@types/jest',
     'husky',
-    'react-native-randombytes', // not sure we need this; only referenced in iOS Podfile.lock
+    'react-native-randombytes', // not sure we need this; only referenced in iOS Podfile.lock,
   ],
+  ignore: ['src/utils/identifier.ts'],
 }
 
 export default config

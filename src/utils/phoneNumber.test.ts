@@ -37,6 +37,7 @@ const TEST_PHONE_NUMBERS = {
   FORMATTED_CI: '+2252122003801',
   DISPLAY_AR: '9 11 2643-1111',
   DISPLAY_MX: '33 1234 5678',
+  DISPLAY_MX_3: '+52 1 33 1234-5678',
   DISPLAY_LR: '88 155 1952',
   DISPLAY_CI: '21 22 0 03801',
   INVALID_EMPTY: '',
@@ -112,7 +113,7 @@ describe('Phone number formatting and utilities', () => {
 
     it('Format MX phone with country code', () => {
       expect(getDisplayPhoneNumber(TEST_PHONE_NUMBERS.VALID_MX_3, COUNTRY_CODES.MX)).toBe(
-        TEST_PHONE_NUMBERS.DISPLAY_MX
+        TEST_PHONE_NUMBERS.DISPLAY_MX_3
       )
     })
 

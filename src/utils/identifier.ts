@@ -1,3 +1,8 @@
+/**
+ * Reference file:
+ * https://github.com/celo-org/developer-tooling/blob/8572a0f978d1aa01a36775ef4be48c3eafdbb204/packages/sdk/base/src/identifier.ts
+ */
+
 // These functions were moved from the identity SDK because the protocol package
 // and @celo/phone-utils both need these core identifier generation functions as well.
 // The protocol package cannot depend on the identity SDK as is since this creates

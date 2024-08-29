@@ -1,3 +1,8 @@
+/**
+ * Reference file:
+ * https://github.com/celo-org/developer-tooling/blob/master/packages/sdk/phone-utils/src/getCountryEmoji.ts
+ */
+
 import CountryData from 'country-data'
 import { getCountryCode } from 'src/utils/getCountryCode'
 import { getRegionCode } from 'src/utils/getRegionCode'

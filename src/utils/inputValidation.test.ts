@@ -1,5 +1,9 @@
-import { BaseProps, ValidatorKind } from '@celo/base/lib/inputValidation'
-import { validateInput } from 'src/utils/inputValidation'
+/**
+ * Reference file:
+ * https://github.com/celo-org/developer-tooling/blob/master/packages/sdk/phone-utils/src/inputValidation.test.ts
+ */
+
+import { validateInput, ValidatorKind, type BaseProps } from 'src/utils/inputValidation'
 
 describe('inputValidation', () => {
   const validateFunction = (

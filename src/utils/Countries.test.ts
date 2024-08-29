@@ -1,3 +1,8 @@
+/**
+ * Reference file:
+ * https://github.com/celo-org/developer-tooling/blob/master/packages/sdk/phone-utils/src/countries.test.ts
+ */
+
 import { Countries } from 'src/utils/Countries'
 
 const countries = new Countries('en-us')

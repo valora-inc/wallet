@@ -1,3 +1,8 @@
+/**
+ * Reference function:
+ * https://github.com/celo-org/developer-tooling/blob/master/packages/sdk/phone-utils/src/phoneNumbers.ts#L211
+ */
+
 import { PhoneNumberFormat, PhoneNumberUtil } from 'google-libphonenumber'
 import { getRegionCodeFromCountryCode } from 'src/utils/getRegionFromCountryCode'
 

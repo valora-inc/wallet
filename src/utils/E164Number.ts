@@ -1,10 +1,20 @@
+/**
+ * Reference file:
+ * https://github.com/celo-org/developer-tooling/blob/master/packages/sdk/phone-utils/src/io.ts
+ */
+
 import { either } from 'fp-ts/lib/Either'
 import { PhoneNumberFormat, PhoneNumberUtil } from 'google-libphonenumber'
 import * as t from 'io-ts'
 
 const phoneUtil = PhoneNumberUtil.getInstance()
 
-// Actually runs through the parsing instead of using a regex
+/**
+ * Reference function:
+ * https://github.com/celo-org/developer-tooling/blob/master/packages/sdk/phone-utils/src/phoneNumbers.ts#L84
+ *
+ * Actually runs through the parsing instead of using a regex
+ */
 export function isE164NumberStrict(phoneNumber: string) {
   try {
     const parsedPhoneNumber = phoneUtil.parse(phoneNumber)

@@ -1,3 +1,8 @@
+/**
+ * Reference function:
+ * https://github.com/celo-org/developer-tooling/blob/master/packages/sdk/phone-utils/src/phoneNumbers.ts#L12
+ */
+
 import { PhoneNumberUtil } from 'google-libphonenumber'
 import Logger from 'src/utils/Logger'
 

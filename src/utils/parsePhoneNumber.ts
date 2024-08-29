@@ -1,3 +1,8 @@
+/**
+ * Reference file:
+ * https://github.com/celo-org/developer-tooling/blob/master/packages/sdk/phone-utils/src/phoneNumbers.ts
+ */
+
 import {
   PhoneNumberFormat,
   PhoneNumberType,

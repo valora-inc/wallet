@@ -1,3 +1,8 @@
+/**
+ * Reference file:
+ * https://github.com/celo-org/developer-tooling/blob/master/packages/sdk/phone-utils/src/countries.ts
+ */
+
 // more countries @ https://github.com/umpirsky/country-list
 import countryData from 'country-data'
 import esData from 'src/country.json'
