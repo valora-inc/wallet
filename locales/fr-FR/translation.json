@@ -699,7 +699,7 @@
     "body": "Une fois que votre contact aura relié son numéro et ajouté des fonds à {{appName}}, vous recevrez tous les deux 0,50 cUSD."
   },
   "inviteWithUrl": {
-    "title": "Invitez des amis",
+    "title": "Inviter un ami",
     "body": "Connectez et partagez des valeurs avec vos amis et votre famille sur {{appName}}.",
     "button": "Envoyer l'invitation",
     "error": "Une erreur s'est produite lors de la création d'un lien partageable.",
