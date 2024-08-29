@@ -97,7 +97,7 @@ export async function prepareSupplyTransactions({
     feeCurrencies,
     baseTransactions,
     spendToken: token,
-    spendTokenAmount: new BigNumber(amount),
+    spendTokenAmount: new BigNumber(amount).shiftedBy(token.decimals),
     isGasSubsidized: isGasSubsidizedForNetwork(token.networkId),
     origin: 'earn-deposit',
   })

@@ -137,7 +137,7 @@ describe('prepareTransactions', () => {
         baseTransactions: expectedTransactions,
         feeCurrencies: [mockFeeCurrency],
         spendToken: mockToken,
-        spendTokenAmount: new BigNumber(5),
+        spendTokenAmount: new BigNumber(5000000),
         isGasSubsidized: false,
         origin: 'earn-deposit',
       })
@@ -193,7 +193,7 @@ describe('prepareTransactions', () => {
         baseTransactions: expectedTransactions,
         feeCurrencies: [mockFeeCurrency],
         spendToken: mockToken,
-        spendTokenAmount: new BigNumber(5),
+        spendTokenAmount: new BigNumber(5000000),
         isGasSubsidized: true,
         origin: 'earn-deposit',
       })

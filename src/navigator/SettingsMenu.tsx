@@ -137,7 +137,7 @@ export default function SettingsMenu({ route }: Props) {
           icon={<Preferences size={24} />}
           title={t('preferences')}
           testID="SettingsMenu/Preferences"
-          onPress={dummyNavigate}
+          onPress={() => navigate(Screens.PreferencesSubmenu)}
           showChevron
           borderless
         />
@@ -155,7 +155,7 @@ export default function SettingsMenu({ route }: Props) {
             title={t('connectedApplications')}
             testID="SettingsMenu/ConnectedDapps"
             value={connectedDapps.toString()}
-            onPress={dummyNavigate}
+            onPress={() => navigate(Screens.WalletConnectSessions)}
             showChevron
             borderless
           />
@@ -172,7 +172,7 @@ export default function SettingsMenu({ route }: Props) {
         <SettingsItemTextValue
           title={t('legal')}
           testID="SettingsMenu/Legal"
-          onPress={dummyNavigate}
+          onPress={() => navigate(Screens.LegalSubmenu)}
           showChevron
           borderless
         />
