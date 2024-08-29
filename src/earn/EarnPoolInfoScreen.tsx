@@ -201,9 +201,15 @@ function DepositAndEarningsCard({ earnPosition }: { earnPosition: EarnPosition }
 
   const totalDepositBalanceInCrypto = new BigNumber(balance).minus(
     earningItems.reduce((acc, item) => {
-      // Don't include earning items that are not part of the pool balance or are not the deposit token
-      if (!item.includedInPoolBalance || item.tokenId !== depositTokenId) return acc
-      return acc.plus(item.amount)
+      if (!item.includedInPoolBalance) return acc
+      const itemToken = earningItemsTokenInfo.find((token) => token?.tokenId === item.tokenId)
+      return acc.plus(
+        item.tokenId === depositTokenId
+          ? item.amount
+          : new BigNumber(item.amount)
+              .multipliedBy(itemToken?.priceUsd ?? 0)
+              .dividedBy(tokenInfo?.priceUsd ?? 1)
+      )
     }, new BigNumber(0))
   )
 
