@@ -14,6 +14,7 @@ import Licenses from 'src/account/Licenses'
 import Profile from 'src/account/Profile'
 import ProfileSubmenu from 'src/account/ProfileSubmenu'
 import LegalSubmenu from 'src/account/LegalSubmenu'
+import PreferencesSubmenu from 'src/account/PreferencesSubmenu'
 import SettingsScreen from 'src/account/Settings'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import Support from 'src/account/Support'
@@ -333,6 +334,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen options={noHeader} name={Screens.ProfileSubmenu} component={ProfileSubmenu} />
     <Navigator.Screen options={noHeader} name={Screens.LegalSubmenu} component={LegalSubmenu} />
+    <Navigator.Screen
+      options={noHeader}
+      name={Screens.PreferencesSubmenu}
+      component={PreferencesSubmenu}
+    />
     <Navigator.Screen
       name={Screens.Language}
       component={Language}
