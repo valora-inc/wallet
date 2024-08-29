@@ -4,24 +4,10 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
-import { AuthenticationEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { AuthenticationEvents } from 'src/analytics/Events'
 import { storedPasswordRefreshed } from 'src/identity/actions'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
-import {
-  CANCELLED_PIN_INPUT,
-  checkPin,
-  DEFAULT_CACHE_ACCOUNT,
-  getPasswordSaga,
-  getPincode,
-  getPincodeWithBiometry,
-  passwordHashStorageKey,
-  PinBlocklist,
-  removeStoredPin,
-  retrieveOrGeneratePepper,
-  setPincodeWithBiometry,
-  updatePin,
-} from 'src/pincode/authentication'
 import {
   clearPasswordCaches,
   getCachedPepper,
@@ -30,9 +16,24 @@ import {
   setCachedPepper,
   setCachedPin,
 } from 'src/pincode/PasswordCache'
+import {
+  CANCELLED_PIN_INPUT,
+  DEFAULT_CACHE_ACCOUNT,
+  PinBlocklist,
+  _getPasswordHash,
+  checkPin,
+  getPasswordSaga,
+  getPincode,
+  getPincodeWithBiometry,
+  passwordHashStorageKey,
+  removeStoredPin,
+  retrieveOrGeneratePepper,
+  setPincodeWithBiometry,
+  updatePin,
+} from 'src/pincode/authentication'
 import { store } from 'src/redux/store'
-import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
+import { ensureError } from 'src/utils/ensureError'
 import { getWalletAsync } from 'src/web3/contracts'
 import { getMockStoreData } from 'test/utils'
 import { mockAccount } from 'test/values'
@@ -647,5 +648,22 @@ describe(checkPin, () => {
     expect(mockUnlockAccount).toHaveBeenCalledWith(mockAccount, incorrectPassword, 600)
     expect(mockedKeychain.setGenericPassword).not.toHaveBeenCalled()
     expect(mockStore.dispatch).not.toHaveBeenCalled()
+  })
+})
+
+describe(_getPasswordHash, () => {
+  // See some of these are producing the same hash, though the password is different
+  // Because the current implementation treats the input as hex string (without the '0x' prefix)
+  // But we'll change this to treat the input as a raw string/buffer in the future
+  it.each([
+    ['123456', 'bf7cbe09d71a1bcc373ab9a764917f730a6ed951ffa1a7399b7abd8f8fd73cb4'],
+    ['0x123456', 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'],
+    ['0x1234567', 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'],
+    ['abx', '087d80f7f182dd44f184aa86ca34488853ebcc04f0c60d5294919a466b463831'],
+    ['abxy', '087d80f7f182dd44f184aa86ca34488853ebcc04f0c60d5294919a466b463831'],
+    ['ABXY', '087d80f7f182dd44f184aa86ca34488853ebcc04f0c60d5294919a466b463831'],
+    ['0xabxy', 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'],
+  ])(`returns the expected password hash for %s`, (password, expectedHash) => {
+    expect(_getPasswordHash(password)).toBe(expectedHash)
   })
 })

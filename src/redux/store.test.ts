@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 225,
+          "version": 227,
         },
         "account": {
           "acceptedTerms": false,
@@ -121,7 +121,6 @@ describe('store state', () => {
           "hasMigratedToNewBip39": false,
           "name": "John Doe",
           "photosNUXClicked": false,
-          "pictureUri": null,
           "pincodeType": "Unset",
           "profileUploaded": false,
           "recoveringFromStoreWipe": false,
@@ -188,9 +187,6 @@ describe('store state', () => {
           "poolInfo": undefined,
           "poolInfoFetchStatus": "idle",
           "withdrawStatus": "idle",
-        },
-        "fees": {
-          "estimates": {},
         },
         "fiatConnect": {
           "attemptReturnUserFlowLoading": false,

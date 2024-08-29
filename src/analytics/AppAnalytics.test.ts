@@ -44,7 +44,7 @@ jest.mock('src/web3/networkConfig', () => {
 })
 
 const mockDeviceId = 'abc-def-123' // mocked in __mocks__/react-native-device-info.ts (but importing from that file causes weird errors)
-const expectedSessionId = '205ac8350460ad427e35658006b409bbb0ee86c22c57648fe69f359c2da648'
+const expectedSessionId = '453e535d43b22002185f316d5b41561010d9224580bfb608da132e74b128227a'
 const mockWalletAddress = '0x12AE66CDc592e10B60f9097a7b0D3C59fce29876' // deliberately using checksummed version here
 
 const mockCreateSegmentClient = jest.mocked(createClient)
@@ -318,7 +318,7 @@ describe('AppAnalytics', () => {
     expect(mockSegmentClient.screen).toHaveBeenCalledWith('ScreenA', {
       ...defaultProperties,
       sCurrentScreenId: 'ScreenA',
-      sessionId: '97250a67361e6d463a59b4baed530010befe1d234ef0446b6197fbe08d5471',
+      sessionId: 'bdc761e455b9102eb141594eed7539166564fac4f8a249d19aa232b90e1bc457',
       timestamp,
     })
   })

@@ -29,7 +29,7 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
   <View
     style={
       {
-        "alignItems": "stretch",
+        "alignItems": "center",
         "flexDirection": "row",
       }
     }
@@ -74,6 +74,7 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
             "alignItems": "stretch",
             "backgroundColor": "#FFFFFF",
             "borderRadius": 8,
+            "height": 48,
             "paddingHorizontal": 12,
             "width": 80,
           },
@@ -148,7 +149,7 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
       style={
         {
           "flex": 1,
-          "marginLeft": 7,
+          "marginLeft": 16,
         }
       }
     >

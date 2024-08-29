@@ -1,5 +1,4 @@
 import * as DEK from '@celo/cryptographic-utils/lib/dataEncryptionKey'
-import getPhoneHash from '@celo/phone-utils/lib/getPhoneHash'
 import { FetchMock } from 'jest-fetch-mock/types'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import * as RNLocalize from 'react-native-localize'
@@ -8,9 +7,9 @@ import * as matchers from 'redux-saga-test-plan/matchers'
 import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { e164NumberSelector } from 'src/account/selectors'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { AppEvents, InviteEvents } from 'src/analytics/Events'
 import { HooksEnablePreviewOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
-import AppAnalytics from 'src/analytics/AppAnalytics'
 import {
   appLock,
   inAppReviewRequested,
@@ -37,6 +36,7 @@ import {
   sentryNetworkErrorsSelector,
   shouldRunVerificationMigrationSelector,
 } from 'src/app/selectors'
+import { DEEPLINK_PREFIX } from 'src/config'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { initI18n } from 'src/i18n'
@@ -56,6 +56,7 @@ import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
 import { getDynamicConfigParams, getFeatureGate, patchUpdateStatsigUser } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
+import getPhoneHash from 'src/utils/getPhoneHash'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -71,7 +72,6 @@ import {
 } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockTokenBalances } from 'test/values'
-import { DEEPLINK_PREFIX } from 'src/config'
 
 jest.mock('src/analytics/AppAnalytics')
 jest.mock('src/sentry/Sentry')

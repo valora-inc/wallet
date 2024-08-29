@@ -1,4 +1,3 @@
-import { Countries } from '@celo/phone-utils'
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
@@ -6,6 +5,7 @@ import { Provider } from 'react-redux'
 import i18n from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
 import SelectCountry from 'src/onboarding/registration/SelectCountry'
+import { Countries } from 'src/utils/Countries'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 const onSelectCountry = jest.fn()

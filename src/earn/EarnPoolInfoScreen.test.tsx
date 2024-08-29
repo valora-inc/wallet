@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import EarnPoolInfoScreen from 'src/earn/EarnPoolInfoScreen'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { navigateToURI } from 'src/utils/linking'
 import MockedNavigator from 'test/MockedNavigator'
@@ -13,6 +14,10 @@ import { mockEarnPositions } from 'test/values'
 const defaultStore = createMockStore({})
 
 describe('EarnPoolInfoScreen', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('renders correctly', () => {
     const { getByTestId, getByText } = render(
       <Provider store={defaultStore}>
@@ -80,6 +85,7 @@ describe('EarnPoolInfoScreen', () => {
       positionId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
     })
   })
+
   it.each([
     {
       testId: 'TvlInfoBottomSheet',
@@ -121,6 +127,28 @@ describe('EarnPoolInfoScreen', () => {
       providerId: 'aave',
       poolId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
       type,
+    })
+  })
+
+  it('navigate to EarnEnterAmount when Deposit button is tapped', () => {
+    const { getByText } = render(
+      <Provider store={defaultStore}>
+        <MockedNavigator
+          component={() => {
+            return (
+              <EarnPoolInfoScreen
+                {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, {
+                  pool: mockEarnPositions[0],
+                })}
+              />
+            )
+          }}
+        />
+      </Provider>
+    )
+    fireEvent.press(getByText('earnFlow.poolInfoScreen.deposit'))
+    expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, {
+      pool: mockEarnPositions[0],
     })
   })
 })
