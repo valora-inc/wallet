@@ -28,6 +28,7 @@ const positionsSelector = (state: RootState) =>
 const earnPositionIdsSelector = (state: RootState) => state.positions.earnPositionIds
 export const positionsStatusSelector = (state: RootState) =>
   showPositionsSelector() ? state.positions.status : 'idle'
+export const positionsFetchedAtSelector = (state: RootState) => state.positions.positionsFetchedAt
 
 // When displaying user positions, we don't want positions which don't have a balance
 // For instance earn positions which aren't yet held by the user
