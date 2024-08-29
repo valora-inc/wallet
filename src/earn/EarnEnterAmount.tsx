@@ -46,7 +46,6 @@ import { useLocalToTokenAmount, useTokenInfo, useTokenToLocalAmount } from 'src/
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
-import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { isAddress } from 'viem'
 
@@ -114,7 +113,7 @@ function EarnEnterAmount({ route }: Props) {
       token,
       walletAddress,
       feeCurrencies,
-      poolContractAddress: networkConfig.arbAavePoolV3ContractAddress,
+      pool,
     })
   }
 

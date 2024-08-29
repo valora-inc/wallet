@@ -2,19 +2,17 @@ import BigNumber from 'bignumber.js'
 import { useAsyncCallback } from 'react-async-hook'
 import aaveIncentivesV3Abi from 'src/abis/AaveIncentivesV3'
 import aavePool from 'src/abis/AavePoolV3'
-import { simulateTransactions } from 'src/earn/simulateTransactions'
 import { RewardsInfo } from 'src/earn/types'
 import { isGasSubsidizedForNetwork } from 'src/earn/utils'
-import { getDynamicConfigParams } from 'src/statsig'
-import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { triggerShortcutRequest } from 'src/positions/saga'
+import { RawShortcutTransaction } from 'src/positions/slice'
+import { EarnPosition } from 'src/positions/types'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
-import { publicClient } from 'src/viem'
 import { TransactionRequest, prepareTransactions } from 'src/viem/prepareTransactions'
-import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
-import { Address, encodeFunctionData, erc20Abi, isAddress, maxUint256, parseUnits } from 'viem'
+import networkConfig from 'src/web3/networkConfig'
+import { Address, encodeFunctionData, isAddress, maxUint256, parseUnits } from 'viem'
 
 const TAG = 'earn/prepareTransactions'
 
@@ -23,79 +21,46 @@ export async function prepareSupplyTransactions({
   token,
   walletAddress,
   feeCurrencies,
-  poolContractAddress,
+  pool,
 }: {
   amount: string
   token: TokenBalance
   walletAddress: Address
   feeCurrencies: TokenBalance[]
-  poolContractAddress: Address
+  pool: EarnPosition
 }) {
-  const baseTransactions: TransactionRequest[] = []
-
-  // amount in smallest unit
-  const amountToSupply = parseUnits(amount, token.decimals)
-
   if (!token.address || !isAddress(token.address)) {
     // should never happen
     throw new Error(`Cannot use a token without address. Token id: ${token.tokenId}`)
   }
 
-  const approvedAllowanceForSpender = await publicClient[
-    networkIdToNetwork[token.networkId]
-  ].readContract({
-    address: token.address,
-    abi: erc20Abi,
-    functionName: 'allowance',
-    args: [walletAddress, poolContractAddress],
-  })
-
-  if (approvedAllowanceForSpender < amountToSupply) {
-    const data = encodeFunctionData({
-      abi: erc20Abi,
-      functionName: 'approve',
-      args: [poolContractAddress, amountToSupply],
-    })
-
-    const approveTx: TransactionRequest = {
-      from: walletAddress,
-      to: token.address,
-      data,
+  const { transactions }: { transactions: RawShortcutTransaction[] } = await triggerShortcutRequest(
+    networkConfig.hooksApiUrl,
+    {
+      address: walletAddress,
+      appId: pool.appId,
+      networkId: pool.networkId,
+      shortcutId: 'deposit',
+      // todo(satish): change to the correct format
+      token: {
+        amount,
+        decimals: token.decimals,
+        address: token.address,
+      },
+      positionAddress: pool.address,
     }
-    baseTransactions.push(approveTx)
-  }
-
-  const supplyTx: TransactionRequest = {
-    from: walletAddress,
-    to: poolContractAddress,
-    data: encodeFunctionData({
-      abi: aavePool,
-      functionName: 'supply',
-      args: [token.address, amountToSupply, walletAddress, 0],
-    }),
-  }
-
-  baseTransactions.push(supplyTx)
-
-  const simulatedTransactions = await simulateTransactions({
-    baseTransactions,
-    networkId: token.networkId,
-  })
-
-  const supplySimulatedTx = simulatedTransactions[simulatedTransactions.length - 1]
-
-  const { depositGasPadding } = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG]
   )
-
-  baseTransactions[baseTransactions.length - 1].gas = BigInt(
-    supplySimulatedTx.gasNeeded + depositGasPadding
-  )
-  baseTransactions[baseTransactions.length - 1]._estimatedGasUse = BigInt(supplySimulatedTx.gasUsed)
 
   return prepareTransactions({
     feeCurrencies,
-    baseTransactions,
+    baseTransactions: transactions.map((rawTx) => ({
+      from: rawTx.from,
+      to: rawTx.to,
+      value: rawTx.value ? BigInt(rawTx.value) : undefined,
+      data: rawTx.data,
+      gas: rawTx.gas ? BigInt(rawTx.gas) : undefined,
+      _estimatedGasUse: rawTx.estimatedGasUse ? BigInt(rawTx.estimatedGasUse) : undefined,
+    })),
     spendToken: token,
     spendTokenAmount: new BigNumber(amount).shiftedBy(token.decimals),
     isGasSubsidized: isGasSubsidizedForNetwork(token.networkId),
