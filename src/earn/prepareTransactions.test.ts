@@ -6,8 +6,9 @@ import {
   prepareWithdrawAndClaimTransactions,
 } from 'src/earn/prepareTransactions'
 import { simulateTransactions } from 'src/earn/simulateTransactions'
-import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
-import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
+import { isGasSubsidizedForNetwork } from 'src/earn/utils'
+import { getDynamicConfigParams } from 'src/statsig'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { Network, NetworkId } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
@@ -50,6 +51,7 @@ jest.mock('viem', () => ({
   encodeFunctionData: jest.fn(),
 }))
 jest.mock('src/earn/simulateTransactions')
+jest.mock('src/earn/utils')
 
 describe('prepareTransactions', () => {
   beforeEach(() => {
@@ -67,12 +69,7 @@ describe('prepareTransactions', () => {
       }
       return defaultValues
     })
-    jest.mocked(getFeatureGate).mockImplementation((featureGate) => {
-      if (featureGate === StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES) {
-        return false
-      }
-      throw new Error(`Unexpected feature gate: ${featureGate}`)
-    })
+    jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(false)
     jest.mocked(simulateTransactions).mockResolvedValue([
       {
         status: 'success',
@@ -157,12 +154,7 @@ describe('prepareTransactions', () => {
           gasPrice: '1',
         },
       ])
-      jest.mocked(getFeatureGate).mockImplementation((featureGate) => {
-        if (featureGate === StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES) {
-          return true
-        }
-        throw new Error(`Unexpected feature gate: ${featureGate}`)
-      })
+      jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(true)
 
       const result = await prepareSupplyTransactions({
         amount: '5',
@@ -210,12 +202,7 @@ describe('prepareTransactions', () => {
 
   describe('prepareWithdrawAndClaimTransactions', () => {
     it('prepares withdraw and claim transactions with gas subsidy on', async () => {
-      jest.mocked(getFeatureGate).mockImplementation((featureGate) => {
-        if (featureGate === StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES) {
-          return true
-        }
-        throw new Error(`Unexpected feature gate: ${featureGate}`)
-      })
+      jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(true)
       const rewards = [
         {
           amount: '0.002',

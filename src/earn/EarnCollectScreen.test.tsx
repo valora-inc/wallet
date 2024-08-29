@@ -2,16 +2,15 @@ import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { EarnEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { EarnEvents } from 'src/analytics/Events'
 import EarnCollectScreen from 'src/earn/EarnCollectScreen'
 import { fetchAaveRewards } from 'src/earn/poolInfo'
 import { prepareWithdrawAndClaimTransactions } from 'src/earn/prepareTransactions'
 import { fetchPoolInfo, withdrawStart } from 'src/earn/slice'
+import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
@@ -49,7 +48,7 @@ const store = createMockStore({
 })
 
 jest.mock('src/earn/poolInfo')
-jest.mock('src/statsig')
+jest.mock('src/earn/utils')
 jest.mock('src/earn/prepareTransactions')
 
 const mockPreparedTransaction: PreparedTransactionsPossible = {
@@ -89,7 +88,7 @@ describe('EarnCollectScreen', () => {
     jest.clearAllMocks()
     jest.mocked(fetchAaveRewards).mockResolvedValue(mockRewards)
     jest.mocked(prepareWithdrawAndClaimTransactions).mockResolvedValue(mockPreparedTransaction)
-    jest.mocked(getFeatureGate).mockReturnValue(false)
+    jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(false)
     store.clearActions()
   })
 
@@ -460,12 +459,8 @@ describe('EarnCollectScreen', () => {
   })
 
   it('shows gas subsidized copy when feature gate is true', async () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation(
-        (featureGateName) =>
-          featureGateName === StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES
-      )
+    jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(true)
+
     const { getByTestId } = render(
       <Provider store={store}>
         <MockedNavigator
