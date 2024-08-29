@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import EarnPoolInfoScreen from 'src/earn/EarnPoolInfoScreen'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { navigateToURI } from 'src/utils/linking'
 import networkConfig from 'src/web3/networkConfig'
@@ -20,6 +21,10 @@ const store = createMockStore({
 })
 
 describe('EarnPoolInfoScreen', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('renders correctly when not deposited in pool', () => {
     const { getByTestId, queryByTestId } = render(
       <Provider store={store}>
@@ -151,6 +156,28 @@ describe('EarnPoolInfoScreen', () => {
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_info_view_pool, {
       appId: 'aave',
       positionId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+    })
+  })
+
+  it('navigate to EarnEnterAmount when Deposit button is tapped', () => {
+    const { getByText } = render(
+      <Provider store={store}>
+        <MockedNavigator
+          component={() => {
+            return (
+              <EarnPoolInfoScreen
+                {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, {
+                  pool: mockEarnPositions[0],
+                })}
+              />
+            )
+          }}
+        />
+      </Provider>
+    )
+    fireEvent.press(getByText('earnFlow.poolInfoScreen.deposit'))
+    expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, {
+      pool: mockEarnPositions[0],
     })
   })
 })

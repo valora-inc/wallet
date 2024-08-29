@@ -1,10 +1,11 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text } from 'react-native'
-import { HomeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { HomeEvents } from 'src/analytics/Events'
 import Card from 'src/components/Card'
 import Touchable from 'src/components/Touchable'
+import { ENABLED_QUICK_ACTIONS } from 'src/config'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { HomeActionName } from 'src/home/types'
 import QuickActionsAdd from 'src/icons/quick-actions/Add'
@@ -20,22 +21,25 @@ import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
+type Actions = Record<
+  HomeActionName,
+  { title: string; icon: React.ReactNode; onPress: () => void; hidden?: boolean }
+>
+
 function ActionsCarousel() {
   const { t } = useTranslation()
 
   const shouldShowSwapAction = useSelector(isAppSwapsEnabledSelector)
 
-  const actions = [
-    {
-      name: HomeActionName.Send,
+  const actions: Actions = {
+    [HomeActionName.Send]: {
       title: t('homeActions.send'),
       icon: <QuickActionsSend color={Colors.successDark} />,
       onPress: () => {
         navigate(Screens.SendSelectRecipient)
       },
     },
-    {
-      name: HomeActionName.Receive,
+    [HomeActionName.Receive]: {
       title: t('homeActions.receive'),
       icon: <QuickActionsReceive color={Colors.successDark} />,
       onPress: () => {
@@ -44,16 +48,14 @@ function ActionsCarousel() {
         })
       },
     },
-    {
-      name: HomeActionName.Add,
+    [HomeActionName.Add]: {
       title: t('homeActions.add'),
       icon: <QuickActionsAdd color={Colors.successDark} />,
       onPress: () => {
         navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
       },
     },
-    {
-      name: HomeActionName.Swap,
+    [HomeActionName.Swap]: {
       title: t('homeActions.swap'),
       icon: <QuickActionsSwap color={Colors.successDark} />,
       onPress: () => {
@@ -61,15 +63,18 @@ function ActionsCarousel() {
       },
       hidden: !shouldShowSwapAction,
     },
-    {
-      name: HomeActionName.Withdraw,
+    [HomeActionName.Withdraw]: {
       title: t('homeActions.withdraw'),
       icon: <QuickActionsWithdraw color={Colors.successDark} />,
       onPress: () => {
         navigate(Screens.WithdrawSpend)
       },
     },
-  ]
+  }
+
+  if (!ENABLED_QUICK_ACTIONS.length) {
+    return null
+  }
 
   return (
     <ScrollView
@@ -78,7 +83,7 @@ function ActionsCarousel() {
       contentContainerStyle={styles.carouselContainer}
       testID={'HomeActionsCarousel'}
     >
-      {actions
+      {ENABLED_QUICK_ACTIONS.map((name) => ({ ...actions[name], name }))
         .filter(({ hidden }) => !hidden)
         .map(({ name, title, icon, onPress }) => (
           <Card

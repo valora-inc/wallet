@@ -4,8 +4,8 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
-import { EarnEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { EarnEvents } from 'src/analytics/Events'
 import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import TokenDisplay from 'src/components/TokenDisplay'
@@ -18,14 +18,13 @@ import {
   withdrawStatusSelector,
 } from 'src/earn/selectors'
 import { fetchPoolInfo, withdrawStart } from 'src/earn/slice'
+import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -50,7 +49,7 @@ export default function EarnCollectScreen({ route }: Props) {
     throw new Error('Deposit / pool token not found')
   }
 
-  const isGasSubsidized = getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
+  const isGasSubsidized = isGasSubsidizedForNetwork(depositToken.networkId)
 
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, depositToken.networkId))
   const { asyncRewardsInfo, asyncPreparedTransactions } = useAaveRewardsInfoAndPrepareTransactions({

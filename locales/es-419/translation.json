@@ -174,7 +174,9 @@
   "termsOfServiceLink": "Condiciones de uso",
   "privacyPolicy": "Política de privacidad",
   "editProfile": "Editar perfil",
-  "confirmNumber": "Conectar número de teléfono",
+  "profileName": "Nombre de perfil",
+  "profile": "Perfil",
+  "confirmNumber": "Conecta tu número",
   "cancel": "Cancelar",
   "changeProfilePhoto": "Cambia tu foto de perfil",
   "name": "Nombre",
@@ -198,6 +200,7 @@
   "supportLegalCheckbox": "Al enviar, acepto compartir la información anterior y cualquier otro dato de registro de la aplicación adjunto con el soporte técnico de {{appName}}.",
   "contactSuccess": "Tu problema ha sido informado con éxito. Espera una respuesta por correo electrónico pronto.",
   "namePictureSaved": "Tu nombre y foto fueron guardados con éxito.",
+  "nameSaved": "Tu nombre se ha guardado correctamente.",
   "addPhoto": "Agregar foto",
   "chooseFromLibrary": "Elegir de la galería de fotos",
   "takePhoto": "Tomar foto",
@@ -696,7 +699,7 @@
     "body": "Una vez que conecten su número y agreguen fondos a {{appName}}, ambos recibirán 0,50 cUSD."
   },
   "inviteWithUrl": {
-    "title": "Invita a tus amigos",
+    "title": "Invita a un amigo",
     "body": "Conéctate y comparte valor con tus amigos y familiares en {{appName}}.",
     "button": "Enviar invitación",
     "error": "Hubo un error al crear el enlace compartible",
@@ -2566,11 +2569,13 @@
     "depositBottomSheet": {
       "title": "Revisar y depositar",
       "description": "Antes de depositar en una pool de Aave, revisa los detalles de la transacción a continuación",
+      "descriptionV1_93": "Antes de depositar en un fondo {{providerName}} , revisa los detalles de la transacción que figuran a continuación",
       "amount": "Monto depositado",
       "fee": "Tarifas estimadas",
       "provider": "Proveedor de ganancias",
       "network": "Red",
       "footer": "Al depositar cripto en una pool de Aave, aceptas los riesgos asociados a su uso. <0>Términos y condiciones</0>",
+      "footerV1_93": "Al depositar criptomonedas en un fondo de {{providerName}} , aceptas los riesgos asociados al uso de {{providerName}}. <0>Condiciones de uso</0>",
       "primaryCta": "Finalizar",
       "secondaryCta": "Cancelar"
     },
@@ -2618,8 +2623,8 @@
         "tvlSubtitle": "¿Qué es el TVL?",
         "tvlDescription": "El valor total bloqueado (TVL) es una métrica utilizada en la industria cripto para medir el valor de los activos digitales bloqueados en una red. El TVL se calcula sumando el valor de todos los activos digitales bloqueados en un protocolo DeFi o contrato inteligente. Estos activos pueden incluir criptomonedas, stablecoins y otros tokens."
       },
-      "noPoolsTitle": "Aún no te has unido a ninguna quiniela",
-      "noPoolsDescription": "Descubre los pools disponibles, elige uno que se ajuste a tus objetivos y saca el máximo partido a tus stablecoins."
+      "noPoolsTitle": "Aún no te has unido a ningún pool",
+      "noPoolsDescription": "Descubre los pools disponibles, elige uno que se ajuste a tus objetivos y saca el máximo de tus stablecoins."
     },
     "poolCard": {
       "onNetwork": "en {{networkName}}",
@@ -2636,8 +2641,21 @@
       "depositAndEarnings": "Depósitos y ganancias"
     },
     "poolFilters": {
-      "myPools": "Mis pools",
-      "allPools": "Todas las piscinas"
+      "allPools": "Todos los Pools",
+      "myPools": "Mis pools"
+    },
+    "poolInfoScreen": {
+      "chainName": "Red: <0>{{networkName}}</0>",
+      "protocolName": "Protocolo: <0>{{providerName}}</0>",
+      "yieldRate": "Tasa de rendimiento",
+      "ratePercent": "{{rate}}%",
+      "rewards": "Recompensas",
+      "noRewards": "Sin recompensas",
+      "tvl": "TVL",
+      "ageOfPool": "Antigüedad de pool:",
+      "learnMoreOnProvider": "Ver pool en {{providerName}}",
+      "deposit": "Depósito",
+      "withdraw": "Retirar"
     }
   },
   "addFundsActions": {
@@ -2645,6 +2663,15 @@
     "transfer": "Transferir",
     "swap": "Cambiar"
   },
+  "duration_lessThanADay": "menos de un día",
+  "duration_day_one": "1 día",
+  "duration_day_other": "{{count}} días",
+  "duration_month_one": "1 mes",
+  "duration_month_other": "{{count}} meses",
+  "duration_year_one": "1 año",
+  "duration_year_other": "{{count}} años",
+  "duration_yearMonth_one": "1 año, 1 mes",
+  "duration_yearMonth_other": "{{count}} años, {{count2}} meses",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

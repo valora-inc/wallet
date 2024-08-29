@@ -699,7 +699,7 @@
     "body": "Once they connect their number and add funds to {{appName}}, you’ll both receive 0.50 cUSD."
   },
   "inviteWithUrl": {
-    "title": "Invite a friend",
+    "title": "Invite a Friend",
     "body": "Connect and share value with your friends and family on {{appName}}.",
     "button": "Share Invite",
     "error": "There was an issue creating a sharable link",

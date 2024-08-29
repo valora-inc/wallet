@@ -16,6 +16,7 @@ import InfoIcon from 'src/icons/InfoIcon'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
@@ -411,9 +412,8 @@ function ActionButtons({ earnPosition }: { earnPosition: EarnPosition }) {
         <Button
           text={t('earnFlow.poolInfoScreen.deposit')}
           onPress={() => {
-            // TODO hook up after ACT-1342 is merged and remove Logger.debug
-            // navigate(Screens.EarnEnterAmount, { pool: earnPosition })
-            Logger.debug('Deposit Button Pressed!')
+            // TODO(ACT-1351): add analytics event
+            navigate(Screens.EarnEnterAmount, { pool: earnPosition })
           }}
           size={BtnSizes.FULL}
           style={styles.flex}
