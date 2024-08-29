@@ -96,7 +96,7 @@ export const onboardingPropsSelector = createSelector(
       recoveringFromStoreWipe,
       choseToRestoreAccount,
       supportedBiometryType: ONBOARDING_FEATURES_ENABLED[
-        ToggleableOnboardingFeatures.CloudBackupSetup
+        ToggleableOnboardingFeatures.EnableBiometry
       ]
         ? supportedBiometryType
         : null,
