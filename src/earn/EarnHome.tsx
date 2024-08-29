@@ -270,8 +270,7 @@ export default function EarnHome({ navigation, route }: Props) {
   const errorLoadingPools =
     positionsStatus === 'error' &&
     (pools.length === 0 ||
-      (!!positionsFetchedAt &&
-        Date.now() - positionsFetchedAt > TIME_UNTIL_TOKEN_INFO_BECOMES_STALE))
+      Date.now() - (positionsFetchedAt ?? 0) > TIME_UNTIL_TOKEN_INFO_BECOMES_STALE)
 
   const zeroPoolsinMyPoolsTab =
     !errorLoadingPools && displayPools.length === 0 && activeTab === EarnTabType.MyPools
