@@ -231,9 +231,15 @@ function DepositAndEarningsCard({ earnPosition }: { earnPosition: EarnPosition }
       <View style={styles.depositAndEarningCardSubtitleContainer}>
         <View style={styles.cardLineContainer}>
           <View style={styles.cardLineLabel}>
-            <Text numberOfLines={1} style={styles.depositAndEarningsCardLabelText}>
-              {t('earnFlow.poolInfoScreen.deposit')}
-            </Text>
+            {cantSeparateCompoundedInterest ? (
+              <Text style={styles.depositAndEarningsCardLabelText}>
+                {t('earnFlow.poolInfoScreen.depositAndEarnings')}
+              </Text>
+            ) : (
+              <Text style={styles.depositAndEarningsCardLabelText}>
+                {t('earnFlow.poolInfoScreen.deposit')}
+              </Text>
+            )}
           </View>
           <View style={styles.flexShrink}>
             <Text style={styles.depositAndEarningsCardValueText}>
