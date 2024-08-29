@@ -16,7 +16,7 @@ import {
 import { phoneRecipientCacheSelector, recipientInfoSelector } from 'src/recipients/reducer'
 import { resolveId } from 'src/recipients/resolve-id'
 import { useSelector } from 'src/redux/hooks'
-import { parsePhoneNumber } from 'src/utils/parsePhoneNumber'
+import { parsePhoneNumber } from 'src/utils/phoneNumbers'
 
 const TYPING_DEBOUNCE_MILLSECONDS = 300
 const SEARCH_THROTTLE_TIME = 100

@@ -10,7 +10,7 @@ import ValidatedTextInput from 'src/components/ValidatedTextInput'
 import colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
 import { type LocalizedCountry } from 'src/utils/Countries'
-import { parsePhoneNumber } from 'src/utils/parsePhoneNumber'
+import { parsePhoneNumber } from 'src/utils/phoneNumbers'
 
 const TAG = 'PhoneNumberInput'
 

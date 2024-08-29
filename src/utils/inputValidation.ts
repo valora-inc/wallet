@@ -4,7 +4,7 @@
  * https://github.com/celo-org/developer-tooling/blob/master/packages/sdk/phone-utils/src/inputValidation.ts
  */
 
-import { getDisplayPhoneNumber } from 'src/utils/getDisplayPhoneNumber'
+import { getDisplayPhoneNumber } from 'src/utils/phoneNumbers'
 
 export enum ValidatorKind {
   Custom = 'custom',

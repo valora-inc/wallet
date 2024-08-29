@@ -9,7 +9,6 @@ import {
   PhoneNumberUtil,
   type PhoneNumber,
 } from 'google-libphonenumber'
-import { getRegionCodeFromCountryCode } from 'src/utils/getRegionFromCountryCode'
 import Logger from 'src/utils/Logger'
 
 const phoneUtil = PhoneNumberUtil.getInstance()
@@ -23,6 +22,75 @@ interface ParsedPhoneNumber {
 }
 
 const MIN_PHONE_LENGTH = 4
+
+export function getCountryCode(e164PhoneNumber: string) {
+  if (!e164PhoneNumber) {
+    return null
+  }
+  try {
+    return phoneUtil.parse(e164PhoneNumber).getCountryCode()
+  } catch (error) {
+    Logger.debug(`getCountryCode, number: ${e164PhoneNumber}, error: ${error}`)
+    return null
+  }
+}
+
+export function getRegionCode(e164PhoneNumber: string) {
+  if (!e164PhoneNumber) {
+    return null
+  }
+  try {
+    return phoneUtil.getRegionCodeForNumber(phoneUtil.parse(e164PhoneNumber))
+  } catch (error) {
+    Logger.debug(`getRegionCodeForNumber, number: ${e164PhoneNumber}, error: ${error}`)
+    return null
+  }
+}
+
+export function getRegionCodeFromCountryCode(countryCode: string) {
+  if (!countryCode) {
+    return null
+  }
+  try {
+    return phoneUtil.getRegionCodeForCountryCode(parseInt(countryCode, 10))
+  } catch (error) {
+    Logger.debug(`getRegionCodeFromCountryCode, countrycode: ${countryCode}, error: ${error}`)
+    return null
+  }
+}
+
+export function getDisplayPhoneNumber(phoneNumber: string, defaultCountryCode: string) {
+  const phoneDetails = parsePhoneNumber(phoneNumber, defaultCountryCode)
+  if (phoneDetails) {
+    return phoneDetails.displayNumber
+  } else {
+    // Fallback to input instead of showing nothing for invalid numbers
+    return phoneNumber
+  }
+}
+
+export function getDisplayNumberInternational(e164PhoneNumber: string) {
+  const countryCode = getCountryCode(e164PhoneNumber)
+  const phoneDetails = parsePhoneNumber(e164PhoneNumber, (countryCode || '').toString())
+  if (phoneDetails) {
+    return phoneDetails.displayNumberInternational
+  } else {
+    // Fallback to input instead of showing nothing for invalid numbers
+    return e164PhoneNumber
+  }
+}
+
+export function isE164NumberStrict(phoneNumber: string) {
+  try {
+    const parsedPhoneNumber = phoneUtil.parse(phoneNumber)
+    if (!phoneUtil.isValidNumber(parsedPhoneNumber)) {
+      return false
+    }
+    return phoneUtil.format(parsedPhoneNumber, PhoneNumberFormat.E164) === phoneNumber
+  } catch {
+    return false
+  }
+}
 
 export function parsePhoneNumber(
   phoneNumberRaw: string,
@@ -137,4 +205,32 @@ function handleSpecialCasesForDisplay(parsedNumber: PhoneNumber, countryCode?: n
     default:
       return phoneUtil.format(parsedNumber, PhoneNumberFormat.NATIONAL)
   }
+}
+
+export function getExampleNumber(
+  regionCode: string,
+  useOnlyZeroes = true,
+  isInternational = false
+) {
+  const examplePhone = phoneUtil.getExampleNumber(
+    getRegionCodeFromCountryCode(regionCode) as string
+  )
+
+  if (!examplePhone) {
+    return
+  }
+
+  const formatedExample = phoneUtil.format(
+    examplePhone,
+    isInternational ? PhoneNumberFormat.INTERNATIONAL : PhoneNumberFormat.NATIONAL
+  )
+
+  if (useOnlyZeroes) {
+    if (isInternational) {
+      return formatedExample.replace(/(^\+[0-9]{1,3} |[0-9])/g, (value, _, i) => (i ? '0' : value))
+    }
+    return formatedExample.replace(/[0-9]/g, '0')
+  }
+
+  return formatedExample
 }

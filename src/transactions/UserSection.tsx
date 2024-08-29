@@ -8,7 +8,7 @@ import { Screens } from 'src/navigator/Screens'
 import { getDisplayName, Recipient, recipientHasNumber } from 'src/recipients/recipient'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
-import { getDisplayNumberInternational } from 'src/utils/getDisplayNumberInternational'
+import { getDisplayNumberInternational } from 'src/utils/phoneNumbers'
 
 interface Props {
   type: 'sent' | 'received' | 'withdrawn'

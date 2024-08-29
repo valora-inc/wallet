@@ -3,9 +3,12 @@ import { camelCase } from 'lodash'
 import DeviceInfo from 'react-native-device-info'
 import * as RNLocalize from 'react-native-localize'
 import { createSelector } from 'reselect'
-import { defaultCountryCodeSelector, pincodeTypeSelector } from 'src/account/selectors'
+import {
+  backupCompletedSelector,
+  defaultCountryCodeSelector,
+  pincodeTypeSelector,
+} from 'src/account/selectors'
 import { phoneVerificationStatusSelector } from 'src/app/selectors'
-import { backupCompletedSelector } from 'src/account/selectors'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
@@ -20,7 +23,7 @@ import { RootState } from 'src/redux/reducers'
 import { tokensListSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
 import { sortByUsdBalance } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
-import { getRegionCodeFromCountryCode } from 'src/utils/getRegionFromCountryCode'
+import { getRegionCodeFromCountryCode } from 'src/utils/phoneNumbers'
 import { mtwAddressSelector, rawWalletAddressSelector } from 'src/web3/selectors'
 
 function toPascalCase(str: string) {

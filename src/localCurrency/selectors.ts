@@ -9,7 +9,7 @@ import {
   LocalCurrencySymbol,
 } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
-import { getRegionCode } from 'src/utils/getRegionCode'
+import { getRegionCode } from 'src/utils/phoneNumbers'
 
 function getCountryCurrencies(e164PhoneNumber: string) {
   const regionCode = getRegionCode(e164PhoneNumber)

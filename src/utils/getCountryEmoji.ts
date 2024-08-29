@@ -4,8 +4,7 @@
  */
 
 import CountryData from 'country-data'
-import { getCountryCode } from 'src/utils/getCountryCode'
-import { getRegionCode } from 'src/utils/getRegionCode'
+import { getCountryCode, getRegionCode } from 'src/utils/phoneNumbers'
 
 export function getCountryEmoji(
   e164PhoneNumber: string,

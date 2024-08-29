@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { getCountryEmoji } from 'src/utils/getCountryEmoji'
-import { parsePhoneNumber } from 'src/utils/parsePhoneNumber'
+import { parsePhoneNumber } from 'src/utils/phoneNumbers'
 
 interface Props {
   e164PhoneNumber: string

@@ -10,7 +10,7 @@ import {
 } from 'src/identity/reducer'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import Logger from 'src/utils/Logger'
-import { parsePhoneNumber } from 'src/utils/parsePhoneNumber'
+import { parsePhoneNumber } from 'src/utils/phoneNumbers'
 
 const TAG = 'recipients/recipient'
 

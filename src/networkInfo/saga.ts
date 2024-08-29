@@ -6,7 +6,7 @@ import { isE2EEnv } from 'src/config'
 import { setNetworkConnectivity, updateUserLocationData } from 'src/networkInfo/actions'
 import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
-import { getRegionCodeFromCountryCode } from 'src/utils/getRegionFromCountryCode'
+import { getRegionCodeFromCountryCode } from 'src/utils/phoneNumbers'
 import networkConfig from 'src/web3/networkConfig'
 import { call, cancelled, put, select, spawn, take } from 'typed-redux-saga'
 

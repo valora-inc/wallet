@@ -25,7 +25,7 @@ import colors, { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import { parsePhoneNumber } from 'src/utils/parsePhoneNumber'
+import { parsePhoneNumber } from 'src/utils/phoneNumbers'
 import { selectSessions } from 'src/walletConnect/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SettingsMenu>

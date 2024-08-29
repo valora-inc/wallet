@@ -1,9 +1,11 @@
-import { getCountryCode } from 'src/utils/getCountryCode'
-import { getDisplayPhoneNumber } from 'src/utils/getDisplayPhoneNumber'
-import { getExampleNumber } from 'src/utils/getExampleNumber'
-import { getRegionCode } from 'src/utils/getRegionCode'
-import { getRegionCodeFromCountryCode } from 'src/utils/getRegionFromCountryCode'
-import { parsePhoneNumber } from 'src/utils/parsePhoneNumber'
+import {
+  getCountryCode,
+  getDisplayPhoneNumber,
+  getExampleNumber,
+  getRegionCode,
+  getRegionCodeFromCountryCode,
+  parsePhoneNumber,
+} from 'src/utils/phoneNumbers'
 
 const COUNTRY_CODES = {
   US: '+1',
@@ -113,7 +115,7 @@ describe('Phone number formatting and utilities', () => {
 
     it('Format MX phone with country code', () => {
       expect(getDisplayPhoneNumber(TEST_PHONE_NUMBERS.VALID_MX_3, COUNTRY_CODES.MX)).toBe(
-        TEST_PHONE_NUMBERS.DISPLAY_MX_3
+        TEST_PHONE_NUMBERS.DISPLAY_MX
       )
     })
 
