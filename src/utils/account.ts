@@ -36,12 +36,12 @@ export enum MnemonicLanguages {
   portuguese,
 }
 
-export type RandomNumberGenerator = (
+type RandomNumberGenerator = (
   size: number,
   callback: (err: Error | null, buf: Buffer) => void
 ) => void
 
-export interface Bip39 {
+interface Bip39 {
   mnemonicToSeed: (mnemonic: string, password?: string) => Promise<Uint8Array>
   generateMnemonic: (
     strength?: number,
