@@ -42,7 +42,6 @@ export type RandomNumberGenerator = (
 ) => void
 
 export interface Bip39 {
-  mnemonicToSeedSync: (mnemonic: string, password?: string) => Uint8Array
   mnemonicToSeed: (mnemonic: string, password?: string) => Promise<Uint8Array>
   generateMnemonic: (
     strength?: number,
@@ -91,7 +90,6 @@ function _validateMnemonic(
 }
 
 const bip39Wrapper: Bip39 = {
-  mnemonicToSeedSync: bip39.mnemonicToSeedSync,
   mnemonicToSeed: bip39.mnemonicToSeed,
   generateMnemonic: defaultGenerateMnemonic,
   validateMnemonic: _validateMnemonic,
