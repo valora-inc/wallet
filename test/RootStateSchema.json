@@ -1248,6 +1248,9 @@
                 "manageUrl": {
                     "type": "string"
                 },
+                "termsUrl": {
+                    "type": "string"
+                },
                 "tvl": {
                     "type": "string"
                 },
@@ -3315,6 +3318,7 @@
                 "KycPending",
                 "Language",
                 "LanguageModal",
+                "LegalSubmenu",
                 "Licenses",
                 "LinkPhoneNumber",
                 "Main",
@@ -3328,6 +3332,7 @@
                 "PincodeSet",
                 "PointsHome",
                 "PointsIntro",
+                "PreferencesSubmenu",
                 "Profile",
                 "ProfileMenu",
                 "ProfileSubmenu",

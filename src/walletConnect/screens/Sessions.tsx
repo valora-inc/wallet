@@ -27,15 +27,17 @@ const Dapp = ({
   const { t } = useTranslation()
 
   return (
-    <Touchable onPress={onPress}>
-      <View style={styles.row}>
-        <Image source={{ uri: icon }} style={styles.icon} />
-        <View style={styles.rowContent}>
-          <Text style={styles.appName}>{metadata?.name}</Text>
-          <Text style={styles.disconnectButton}>{t('tapToDisconnect')}</Text>
+    <View style={styles.touchableContainer}>
+      <Touchable borderRadius={12} onPress={onPress} style={styles.rowContainer}>
+        <View style={styles.row}>
+          <Image source={{ uri: icon }} style={styles.icon} />
+          <View style={styles.rowContent}>
+            <Text style={styles.appName}>{metadata?.name}</Text>
+            <Text style={styles.disconnectButton}>{t('tapToDisconnect')}</Text>
+          </View>
         </View>
-      </View>
-    </Touchable>
+      </Touchable>
+    </View>
   )
 }
 
@@ -102,12 +104,12 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.titleMedium,
-    paddingVertical: Spacing.Regular16,
+    paddingBottom: Spacing.Smallest8,
   },
   subTitle: {
     ...typeScale.bodyMedium,
     color: colors.black,
-    paddingBottom: Spacing.Thick24,
+    paddingBottom: Spacing.Small12,
   },
 
   // connected apps
@@ -115,14 +117,22 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    padding: Spacing.Regular16,
+  },
+  touchableContainer: {
     paddingVertical: Spacing.Small12,
   },
-  icon: { height: 40, width: 40 },
+  rowContainer: {
+    borderColor: colors.gray2,
+    borderWidth: 1,
+    borderRadius: Spacing.Small12,
+  },
+  icon: { height: 32, width: 32 },
   rowContent: {
     paddingLeft: 12,
   },
   appName: {
-    ...typeScale.bodyMedium,
+    ...typeScale.labelSemiBoldSmall,
     color: colors.black,
   },
   disconnectButton: {

@@ -174,6 +174,8 @@
   "termsOfServiceLink": "服务条款",
   "privacyPolicy": "隐私政策",
   "editProfile": "编辑个人资料",
+  "profileName": "个人资料名称",
+  "profile": "简介",
   "confirmNumber": "关联手机号码",
   "cancel": "取消",
   "changeProfilePhoto": "更改个人资料照片",
@@ -198,6 +200,7 @@
   "supportLegalCheckbox": "提交即表示您同意将上述信息及所添加的应用程序日志数据分享给 {{appName}} 支持团队。",
   "contactSuccess": "您的问题已成功报告！敬请期待我们的电子邮件回复！",
   "namePictureSaved": "您的姓名和图片已成功保存。",
+  "nameSaved": "您的姓名已成功保存。",
   "addPhoto": "添加照片",
   "chooseFromLibrary": "从图库中选择",
   "takePhoto": "拍摄照片",
@@ -2564,11 +2567,13 @@
     "depositBottomSheet": {
       "title": "审查和存款",
       "description": "在向 Aave 池存款之前，请查看以下交易详情",
+      "descriptionV1_93": "在向 {{providerName}} 奖池存款之前，请查看以下交易详情",
       "amount": "已转入金额",
       "fee": "估计手续费",
       "provider": "收入提供者",
       "network": "网络",
       "footer": "向 Aave 池存入加密货币，即表示您接受与使用 Aave 相关的风险。<0>条款和条件</0>",
+      "footerV1_93": "将加密货币存入 {{providerName}} 池，即表示您接受与使用 {{providerName}}相关的风险。<0>条款和条件</0>",
       "primaryCta": "完成",
       "secondaryCta": "取消"
     },
@@ -2616,8 +2621,8 @@
         "tvlSubtitle": "什么是 TVL？",
         "tvlDescription": "TVL 是锁定总价值 (Total Value Locked) 的缩写，是加密货币行业用来衡量区块链网络上锁定的数字资产价值的指标。TVL 的计算方法是将 DeFi 协议或智能合约中锁定的所有数字资产的价值相加。这些资产可包括加密货币、稳定币和其他代币。"
       },
-      "noPoolsTitle": "您还没有加入任何游泳池",
-      "noPoolsDescription": "发现可用的矿池，选择一个符合您目标的矿池，充分利用您的稳定币。"
+      "noPoolsTitle": "您还没有加入任何池",
+      "noPoolsDescription": "探索可用的池，选择一个符合您目标的池，充分利用您的稳定币。"
     },
     "poolCard": {
       "onNetwork": "在 {{networkName}}",
@@ -2634,8 +2639,21 @@
       "depositAndEarnings": "存款和收益"
     },
     "poolFilters": {
-      "myPools": "我的池",
-      "allPools": "所有泳池"
+      "allPools": "所有池",
+      "myPools": "我的池"
+    },
+    "poolInfoScreen": {
+      "chainName": "链条 <0>{{networkName}}</0>",
+      "protocolName": "协议： <0>{{providerName}}</0>",
+      "yieldRate": "收益率",
+      "ratePercent": "{{rate}}%",
+      "rewards": "奖励",
+      "noRewards": "无奖励",
+      "tvl": "TVL",
+      "ageOfPool": "泳池年龄",
+      "learnMoreOnProvider": "在 {{providerName}}上查看游泳池",
+      "deposit": "存款",
+      "withdraw": "提取"
     }
   },
   "addFundsActions": {
@@ -2643,5 +2661,14 @@
     "transfer": "转账",
     "swap": "交换"
   },
+  "duration_lessThanADay": "不到一天",
+  "duration_day_one": "1 天",
+  "duration_day_other": "{{count}} 天数",
+  "duration_month_one": "1 个月",
+  "duration_month_other": "{{count}} 个月",
+  "duration_year_one": "1 年",
+  "duration_year_other": "{{count}} 岁月",
+  "duration_yearMonth_one": "1 年 1 个月",
+  "duration_yearMonth_other": "{{count}} 年， {{count2}} 个月",
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
