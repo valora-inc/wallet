@@ -1,10 +1,21 @@
-// Initially copied from https://github.com/celo-org/celo-monorepo/blob/sdks-3.2.0/packages/sdk/cryptographic-utils/src/account.ts
+// Initially copied from https://github.com/celo-org/developer-tooling/blob/467d4e16444535d341bd2296d41c386f1dab187f/packages/sdk/cryptographic-utils/src/account.ts
 import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { levenshteinDistance } from '@celo/utils/lib/levenshtein'
-import * as bip32 from 'bip32'
-import * as bip39 from 'bip39'
-import { keccak256 } from 'ethereumjs-util'
-import randomBytes from 'randombytes'
+import * as bip39 from '@scure/bip39'
+import { randomBytes } from 'crypto'
+import { bytesToHex } from 'viem'
+import {
+  HDKey,
+  english,
+  french,
+  italian,
+  japanese,
+  korean,
+  portuguese,
+  simplifiedChinese,
+  spanish,
+  traditionalChinese,
+} from 'viem/accounts'
 
 export const CELO_DERIVATION_PATH_BASE = "m/44'/52752'/0'"
 
@@ -31,8 +42,8 @@ export type RandomNumberGenerator = (
 ) => void
 
 export interface Bip39 {
-  mnemonicToSeedSync: (mnemonic: string, password?: string) => Buffer
-  mnemonicToSeed: (mnemonic: string, password?: string) => Promise<Buffer>
+  mnemonicToSeedSync: (mnemonic: string, password?: string) => Uint8Array
+  mnemonicToSeed: (mnemonic: string, password?: string) => Promise<Uint8Array>
   generateMnemonic: (
     strength?: number,
     rng?: RandomNumberGenerator,
@@ -41,10 +52,22 @@ export interface Bip39 {
   validateMnemonic: (mnemonic: string, wordlist?: string[]) => boolean
 }
 
+const wordlists: Record<MnemonicLanguages, string[]> = {
+  [MnemonicLanguages.english]: english,
+  [MnemonicLanguages.french]: french,
+  [MnemonicLanguages.italian]: italian,
+  [MnemonicLanguages.japanese]: japanese,
+  [MnemonicLanguages.korean]: korean,
+  [MnemonicLanguages.portuguese]: portuguese,
+  [MnemonicLanguages.chinese_simplified]: simplifiedChinese,
+  [MnemonicLanguages.spanish]: spanish,
+  [MnemonicLanguages.chinese_traditional]: traditionalChinese,
+} as const
+
 function defaultGenerateMnemonic(
   strength?: number,
   rng?: RandomNumberGenerator,
-  wordlist?: string[]
+  wordlist: string[] = wordlists[MnemonicLanguages.english]
 ): Promise<string> {
   return new Promise((resolve, reject) => {
     strength = strength || 128
@@ -54,30 +77,37 @@ function defaultGenerateMnemonic(
       if (error) {
         reject(error)
       } else {
-        resolve(bip39.entropyToMnemonic(randomBytesBuffer.toString('hex'), wordlist))
+        resolve(bip39.entropyToMnemonic(randomBytesBuffer, wordlist))
       }
     })
   })
+}
+
+function _validateMnemonic(
+  mnemonic: string,
+  wordlist: string[] = wordlists[MnemonicLanguages.english]
+) {
+  return bip39.validateMnemonic(mnemonic, wordlist)
 }
 
 const bip39Wrapper: Bip39 = {
   mnemonicToSeedSync: bip39.mnemonicToSeedSync,
   mnemonicToSeed: bip39.mnemonicToSeed,
   generateMnemonic: defaultGenerateMnemonic,
-  validateMnemonic: bip39.validateMnemonic,
+  validateMnemonic: _validateMnemonic,
 }
 
 export async function generateMnemonic(
   strength: MnemonicStrength = MnemonicStrength.s256_24words,
   language?: MnemonicLanguages,
-  bip39ToUse: Bip39 = bip39Wrapper
+  bip39ToUse = bip39Wrapper
 ): Promise<string> {
   return bip39ToUse.generateMnemonic(strength, undefined, getWordList(language))
 }
 
 export function validateMnemonic(
   mnemonic: string,
-  bip39ToUse: Bip39 = bip39Wrapper,
+  bip39ToUse = bip39Wrapper,
   language?: MnemonicLanguages
 ) {
   if (language !== undefined) {
@@ -182,28 +212,8 @@ export function formatNonAccentedCharacters(mnemonic: string) {
 }
 
 // Unify the bip39.wordlists (otherwise depends on the instance of the bip39)
-function getWordList(language?: MnemonicLanguages): string[] {
-  // Use exhaustive switch to ensure that every language is accounted for.
-  switch (language ?? MnemonicLanguages.english) {
-    case MnemonicLanguages.chinese_simplified:
-      return bip39.wordlists.chinese_simplified
-    case MnemonicLanguages.chinese_traditional:
-      return bip39.wordlists.chinese_traditional
-    case MnemonicLanguages.english:
-      return bip39.wordlists.english
-    case MnemonicLanguages.french:
-      return bip39.wordlists.french
-    case MnemonicLanguages.italian:
-      return bip39.wordlists.italian
-    case MnemonicLanguages.japanese:
-      return bip39.wordlists.japanese
-    case MnemonicLanguages.korean:
-      return bip39.wordlists.korean
-    case MnemonicLanguages.spanish:
-      return bip39.wordlists.spanish
-    case MnemonicLanguages.portuguese:
-      return bip39.wordlists.portuguese
-  }
+export function getWordList(language: MnemonicLanguages = MnemonicLanguages.english): string[] {
+  return wordlists[language]
 }
 
 export function getAllLanguages(): MnemonicLanguages[] {
@@ -256,7 +266,7 @@ export function detectMnemonicLanguage(
   candidates?: MnemonicLanguages[]
 ): MnemonicLanguages | undefined {
   // Assign a match score to each language by how many words of the phrase are in each language.
-  const scores: Array<[MnemonicLanguages, number]> = (candidates ?? getAllLanguages()).map(
+  const scores: [MnemonicLanguages, number][] = (candidates ?? getAllLanguages()).map(
     (candidate) => {
       const wordSet = new Set(getWordList(candidate))
       const score = words.reduce((count, word) => (wordSet.has(word) ? count + 1 : count), 0)
@@ -426,21 +436,10 @@ export async function generateKeys(
   password?: string,
   changeIndex: number = 0,
   addressIndex: number = 0,
-  bip39ToUse: Bip39 = bip39Wrapper,
+  bip39ToUse = bip39Wrapper,
   derivationPath: string = CELO_DERIVATION_PATH_BASE
 ): Promise<{ privateKey: string; publicKey: string; address: string }> {
   const seed: Buffer = await generateSeed(mnemonic, password, bip39ToUse)
-  return generateKeysFromSeed(seed, changeIndex, addressIndex, derivationPath)
-}
-
-export function generateDeterministicInviteCode(
-  recipientPhoneHash: string,
-  recipientPepper: string,
-  addressIndex: number = 0,
-  changeIndex: number = 0,
-  derivationPath: string = CELO_DERIVATION_PATH_BASE
-): { privateKey: string; publicKey: string } {
-  const seed = keccak256(recipientPhoneHash + recipientPepper) as Buffer
   return generateKeysFromSeed(seed, changeIndex, addressIndex, derivationPath)
 }
 
@@ -449,10 +448,10 @@ export function generateDeterministicInviteCode(
 export async function generateSeed(
   mnemonic: string,
   password?: string,
-  bip39ToUse: Bip39 = bip39Wrapper,
+  bip39ToUse = bip39Wrapper,
   keyByteLength: number = 64
 ): Promise<Buffer> {
-  let seed: Buffer = await bip39ToUse.mnemonicToSeed(mnemonic, password)
+  let seed = Buffer.from(await bip39ToUse.mnemonicToSeed(mnemonic, password))
   if (keyByteLength > 0 && seed.byteLength > keyByteLength) {
     const bufAux = Buffer.allocUnsafe(keyByteLength)
     seed.copy(bufAux, 0, 0, keyByteLength)
@@ -467,18 +466,21 @@ export function generateKeysFromSeed(
   addressIndex: number = 0,
   derivationPath: string = CELO_DERIVATION_PATH_BASE
 ): { privateKey: string; publicKey: string; address: string } {
-  const node = bip32.fromSeed(seed)
-  const newNode = node.derivePath(
+  const node = HDKey.fromMasterSeed(seed)
+  const newNode = node.derive(
     `${derivationPath ? `${derivationPath}/` : ''}${changeIndex}/${addressIndex}`
   )
   if (!newNode.privateKey) {
     // As we are generating the node from a seed, the node will always have a private key and this would never happened
     throw new Error('utils-accounts@generateKeys: invalid node to derivate')
   }
+  const privateKey = bytesToHex(newNode.privateKey).slice(2)
+  const publicKey = bytesToHex(newNode.publicKey!).slice(2)
+
   return {
-    privateKey: newNode.privateKey.toString('hex'),
-    publicKey: newNode.publicKey.toString('hex'),
-    address: privateKeyToAddress(newNode.privateKey.toString('hex')),
+    privateKey,
+    publicKey,
+    address: privateKeyToAddress(privateKey),
   }
 }
 
