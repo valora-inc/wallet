@@ -14,6 +14,10 @@ import { store } from 'src/redux/store'
 import { mockOnboardingProps } from 'test/values'
 
 jest.mock('src/redux/store', () => ({ store: { dispatch: jest.fn() } }))
+jest.mock('src/config', () => ({
+  ...jest.requireActual('src/config'),
+  ONBOARDING_FEATURES_ENABLED: { CloudBackupSetup: false },
+}))
 
 const mockStore = jest.mocked(store)
 
