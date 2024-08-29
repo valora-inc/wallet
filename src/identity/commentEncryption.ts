@@ -28,7 +28,7 @@ import {
 import { e164NumberToAddressSelector, e164NumberToSaltSelector } from 'src/identity/selectors'
 import { UpdateTransactionsAction } from 'src/transactions/actions'
 import { Network, TokenTransaction, TokenTransactionTypeV2 } from 'src/transactions/types'
-import getPhoneHash from 'src/utils/getPhoneCash'
+import getPhoneHash from 'src/utils/getPhoneHash'
 import Logger from 'src/utils/Logger'
 import { getContractKit } from 'src/web3/contracts'
 import { doFetchDataEncryptionKey } from 'src/web3/dataEncryptionKey'

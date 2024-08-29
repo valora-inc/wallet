@@ -205,7 +205,8 @@
     "victory-native": "^36.9.2",
     "viem": "^2.9.28",
     "vm-browserify": "^1.1.2",
-    "web3": "1.10.4"
+    "web3": "1.10.4",
+    "web3-utils": "^4.3.1"
   },
   "devDependencies": {
     "@actions/github": "^5.1.1",

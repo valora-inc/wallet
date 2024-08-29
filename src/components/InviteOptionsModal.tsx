@@ -11,7 +11,7 @@ import { Recipient, getDisplayName } from 'src/recipients/recipient'
 import { useSelector } from 'src/redux/hooks'
 import { inviteRewardsActiveSelector, inviteRewardsTypeSelector } from 'src/send/selectors'
 import { InviteRewardsType } from 'src/send/types'
-import getPhoneHash from 'src/utils/getPhoneCash'
+import getPhoneHash from 'src/utils/getPhoneHash'
 
 interface Props {
   recipient: Recipient

@@ -1,4 +1,4 @@
-import { getIdentifierHash, getPrefixedIdentifier, IdentifierPrefix } from 'src/utils/indetifier'
+import { getIdentifierHash, getPrefixedIdentifier, IdentifierPrefix } from 'src/utils/identifier'
 import { soliditySha3 } from 'web3-utils'
 
 const sha3 = (v: string): string | null => soliditySha3({ type: 'string', value: v })

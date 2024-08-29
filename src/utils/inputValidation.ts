@@ -31,7 +31,7 @@ function validateDecimal(input: string, decimalSeparator: string = '.'): string 
   }
 }
 
-export function validatePhone(input: string, countryCallingCode?: string): string {
+function validatePhone(input: string, countryCallingCode?: string): string {
   input = input.replace(/[^0-9()\- ]/g, '')
 
   if (!countryCallingCode) {

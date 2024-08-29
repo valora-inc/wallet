@@ -21,7 +21,7 @@ import {
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import Logger from 'src/utils/Logger'
-import getPhoneHash from 'src/utils/getPhoneCash'
+import getPhoneHash from 'src/utils/getPhoneHash'
 import networkConfig from 'src/web3/networkConfig'
 import { dataEncryptionKeySelector, walletAddressSelector } from 'src/web3/selectors'
 
