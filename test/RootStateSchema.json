@@ -1233,6 +1233,9 @@
         "EarnDataProps": {
             "additionalProperties": false,
             "properties": {
+                "cantSeparateCompoundedInterest": {
+                    "type": "boolean"
+                },
                 "contractCreatedAt": {
                     "type": "string"
                 },
@@ -1390,11 +1393,11 @@
                 "amount": {
                     "type": "string"
                 },
+                "includedInPoolBalance": {
+                    "type": "boolean"
+                },
                 "label": {
                     "type": "string"
-                },
-                "subtractFromDeposit": {
-                    "type": "boolean"
                 },
                 "tokenId": {
                     "type": "string"
