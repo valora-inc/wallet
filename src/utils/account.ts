@@ -1,27 +1,45 @@
-// Copied from https://github.com/celo-org/celo-monorepo/blob/sdks-3.2.0/packages/sdk/cryptographic-utils/src/account.ts
-import {
-  Bip39,
-  CELO_DERIVATION_PATH_BASE,
-  MnemonicLanguages,
-  MnemonicStrength,
-  RandomNumberGenerator,
-} from '@celo/base/lib/account'
-import { normalizeAccents } from '@celo/base/lib/string'
+// Initially copied from https://github.com/celo-org/celo-monorepo/blob/sdks-3.2.0/packages/sdk/cryptographic-utils/src/account.ts
 import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { levenshteinDistance } from '@celo/utils/lib/levenshtein'
 import * as bip32 from 'bip32'
 import * as bip39 from 'bip39'
 import { keccak256 } from 'ethereumjs-util'
 import randomBytes from 'randombytes'
-// Exports moved to @celo/base, forwarding them
-// here for backwards compatibility
-export {
-  Bip39,
-  CELO_DERIVATION_PATH_BASE,
-  MnemonicLanguages,
-  MnemonicStrength,
-  RandomNumberGenerator,
-} from '@celo/base/lib/account'
+
+export const CELO_DERIVATION_PATH_BASE = "m/44'/52752'/0'"
+
+export enum MnemonicStrength {
+  s128_12words = 128,
+  s256_24words = 256,
+}
+
+export enum MnemonicLanguages {
+  chinese_simplified,
+  chinese_traditional,
+  english,
+  french,
+  italian,
+  japanese,
+  korean,
+  spanish,
+  portuguese,
+}
+
+export type RandomNumberGenerator = (
+  size: number,
+  callback: (err: Error | null, buf: Buffer) => void
+) => void
+
+export interface Bip39 {
+  mnemonicToSeedSync: (mnemonic: string, password?: string) => Buffer
+  mnemonicToSeed: (mnemonic: string, password?: string) => Promise<Buffer>
+  generateMnemonic: (
+    strength?: number,
+    rng?: RandomNumberGenerator,
+    wordlist?: string[]
+  ) => Promise<string>
+  validateMnemonic: (mnemonic: string, wordlist?: string[]) => boolean
+}
 
 function defaultGenerateMnemonic(
   strength?: number,
@@ -115,6 +133,11 @@ export function normalizeMnemonic(mnemonic: string, language?: MnemonicLanguages
   }
 
   return joinMnemonic(formatNonAccentedWords(lowered, detectedLanguage), detectedLanguage)
+}
+
+// https://stackoverflow.com/questions/990904/remove-accents-diacritics-in-a-string-in-javascript
+export function normalizeAccents(str: string) {
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
 }
 
 /**

@@ -1,12 +1,12 @@
-// Copied from https://github.com/celo-org/celo-monorepo/blob/sdks-3.2.0/packages/sdk/cryptographic-utils/src/account.test.ts
-import { MnemonicLanguages } from '@celo/base/lib/account'
+// Initially copied from https://github.com/celo-org/celo-monorepo/blob/sdks-3.2.0/packages/sdk/cryptographic-utils/src/account.test.ts
 import * as bip39 from 'bip39'
 import {
+  MnemonicLanguages,
+  MnemonicStrength,
   generateKeys,
   generateMnemonic,
   getAllLanguages,
   invalidMnemonicWords,
-  MnemonicStrength,
   normalizeMnemonic,
   suggestMnemonicCorrections,
   validateMnemonic,

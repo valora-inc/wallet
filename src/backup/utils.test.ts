@@ -1,6 +1,6 @@
-import { normalizeMnemonic, validateMnemonic } from '@celo/cryptographic-utils'
 import * as bip39 from 'react-native-bip39'
 import { formatBackupPhraseOnEdit } from 'src/backup/utils'
+import { normalizeMnemonic, validateMnemonic } from 'src/utils/account'
 
 describe('Mnemonic validation and formatting', () => {
   const SPANISH_MNEMONIC =

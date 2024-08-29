@@ -1,4 +1,3 @@
-import { generateMnemonic, MnemonicLanguages, MnemonicStrength } from '@celo/cryptographic-utils'
 import { isValidChecksumAddress } from '@celo/utils/lib/address'
 import * as bip39 from 'react-native-bip39'
 import { expectSaga } from 'redux-saga-test-plan'
@@ -9,6 +8,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { storeMnemonic } from 'src/backup/utils'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { getPasswordSaga, retrieveSignedMessage } from 'src/pincode/authentication'
+import { generateMnemonic, MnemonicLanguages, MnemonicStrength } from 'src/utils/account'
 import { setAccount, setDataEncryptionKey } from 'src/web3/actions'
 import {
   getConnectedAccount,

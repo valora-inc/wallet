@@ -1,4 +1,3 @@
-import { normalizeMnemonic } from '@celo/cryptographic-utils'
 import { useHeaderHeight } from '@react-navigation/elements'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
@@ -9,8 +8,8 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { cancelCreateOrRestoreAccount } from 'src/account/actions'
 import { accountToRecoverSelector, recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert } from 'src/alert/actions'
-import { OnboardingEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { OnboardingEvents } from 'src/analytics/Events'
 import {
   countMnemonicWords,
   formatBackupPhraseOnEdit,
@@ -37,6 +36,7 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
+import { normalizeMnemonic } from 'src/utils/account'
 import { Currency } from 'src/utils/currencies'
 import useBackHandler from 'src/utils/useBackHandler'
 

@@ -1,4 +1,3 @@
-import { generateMnemonic, MnemonicLanguages, MnemonicStrength } from '@celo/cryptographic-utils'
 import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { UnlockableWallet } from '@celo/wallet-base'
 import { RpcWalletErrors } from '@celo/wallet-rpc/lib/rpc-wallet'
@@ -13,6 +12,7 @@ import {
   retrieveSignedMessage,
 } from 'src/pincode/authentication'
 import { clearPasswordCaches } from 'src/pincode/PasswordCache'
+import { generateMnemonic, MnemonicLanguages, MnemonicStrength } from 'src/utils/account'
 import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
 import { Actions, setAccount, SetAccountAction } from 'src/web3/actions'
