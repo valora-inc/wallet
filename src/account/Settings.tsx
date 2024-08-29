@@ -76,8 +76,6 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { getFeatureGate } from 'src/statsig/index'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -87,6 +85,8 @@ import { navigateToURI } from 'src/utils/linking'
 import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
 import { selectSessions } from 'src/walletConnect/selectors'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { ONBOARDING_FEATURES_ENABLED } from 'src/config'
+import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.Settings>
 
@@ -383,7 +383,8 @@ export const Account = ({ navigation, route }: Props) => {
     }
   }
 
-  const showKeylessBackup = getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_SETUP)
+  const showKeylessBackup =
+    ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackupSetup]
 
   const getKeylessBackupItem = () => {
     if (!showKeylessBackup) {

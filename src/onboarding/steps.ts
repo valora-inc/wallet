@@ -13,8 +13,6 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { updateStatsigAndNavigate } from 'src/onboarding/actions'
 import { store } from 'src/redux/store'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
 import { ONBOARDING_FEATURES_ENABLED } from 'src/config'
 
@@ -54,7 +52,7 @@ export function firstOnboardingScreen({
   recoveringFromStoreWipe: boolean
 }): Screens.ImportSelect | Screens.ImportWallet | Screens.PincodeSet {
   if (recoveringFromStoreWipe) {
-    return getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE)
+    return ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackupSetup]
       ? Screens.ImportSelect
       : Screens.ImportWallet
   } else {
@@ -82,19 +80,13 @@ export const onboardingPropsSelector = createSelector(
     supportedBiometryType,
     numberAlreadyVerifiedCentrally
   ) => {
-    // TODO(MS): These parameters are set up to defer to the Statsig values for now to ensure
-    // no change in behavior, since the default local config enables all onboarding features.
-    // We ought to remove all uses of Statsig here once we fork to MS.
     const showCloudAccountBackupRestore =
-      getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE) &&
       ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackupRestore]
 
     const skipVerification =
-      !getFeatureGate(StatsigFeatureGates.SHOW_ONBOARDING_PHONE_VERIFICATION) ||
       !ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.PhoneVerification]
 
     const showCloudAccountBackupSetup =
-      getFeatureGate(StatsigFeatureGates.SHOW_CAB_IN_ONBOARDING) &&
       ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackupSetup]
 
     const skipProtectWallet =

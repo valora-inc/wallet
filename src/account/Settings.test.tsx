@@ -24,12 +24,13 @@ import { KeylessBackupDeleteStatus } from 'src/keylessBackup/types'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
-import { getFeatureGate } from 'src/statsig/index'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockE164Number, mockE164NumberPepper, mockTokenBalances } from 'test/values'
+import { ONBOARDING_FEATURES_ENABLED } from 'src/config'
+import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
 
 const mockedEnsurePincode = jest.mocked(ensurePincode)
 const mockFetch = fetch as FetchMock
@@ -43,11 +44,19 @@ mockedKeychain.getGenericPassword.mockResolvedValue({
 
 jest.mock('src/analytics/AppAnalytics')
 jest.mock('src/utils/Logger')
-jest.mock('src/statsig')
+
+jest.mock('src/config', () => ({
+  ...jest.requireActual('src/config'),
+  ONBOARDING_FEATURES_ENABLED: { CloudBackupSetup: false },
+}))
 
 describe('Account', () => {
   beforeEach(() => {
-    jest.mocked(getFeatureGate).mockReturnValue(false)
+    jest.replaceProperty(
+      ONBOARDING_FEATURES_ENABLED,
+      ToggleableOnboardingFeatures.CloudBackupSetup,
+      false
+    )
     jest.clearAllMocks()
   })
 
@@ -289,7 +298,11 @@ describe('Account', () => {
   })
 
   it('shows keyless backup setup when flag is enabled and not already backed up', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest.replaceProperty(
+      ONBOARDING_FEATURES_ENABLED,
+      ToggleableOnboardingFeatures.CloudBackupSetup,
+      true
+    )
     mockedEnsurePincode.mockImplementation(() => Promise.resolve(true))
     const store = createMockStore({ account: { cloudBackupCompleted: false } })
     const { getByTestId, getByText } = render(
@@ -311,7 +324,11 @@ describe('Account', () => {
   })
 
   it('shows keyless backup delete when flag is enabled and already backed up', () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest.replaceProperty(
+      ONBOARDING_FEATURES_ENABLED,
+      ToggleableOnboardingFeatures.CloudBackupSetup,
+      true
+    )
     const store = createMockStore({ account: { cloudBackupCompleted: true } })
     const { getByTestId, getByText } = render(
       <Provider store={store}>
@@ -330,7 +347,11 @@ describe('Account', () => {
   })
 
   it('shows keyless backup in progress when flag is enabled and backup is in progress', () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest.replaceProperty(
+      ONBOARDING_FEATURES_ENABLED,
+      ToggleableOnboardingFeatures.CloudBackupSetup,
+      true
+    )
     const store = createMockStore({
       account: { cloudBackupCompleted: true },
       keylessBackup: { deleteBackupStatus: KeylessBackupDeleteStatus.InProgress },
@@ -348,7 +369,11 @@ describe('Account', () => {
   })
 
   it('shows error banner when keyless backup delete fails', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest.replaceProperty(
+      ONBOARDING_FEATURES_ENABLED,
+      ToggleableOnboardingFeatures.CloudBackupSetup,
+      true
+    )
     const store = createMockStore({
       account: { cloudBackupCompleted: true },
       keylessBackup: { showDeleteBackupError: true },
