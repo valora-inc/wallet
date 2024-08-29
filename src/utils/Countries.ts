@@ -5,8 +5,8 @@
 
 // more countries @ https://github.com/umpirsky/country-list
 import countryData from 'country-data'
-import esData from 'src/utils/country.json'
 import { getExampleNumber } from 'src/utils/getExampleNumber'
+import esData from './country.json'
 
 interface CountryNames {
   [name: string]: string
