@@ -358,6 +358,9 @@
                 "priceUsd": {
                     "type": "string"
                 },
+                "shortcutTriggerArgs": {
+                    "$ref": "#/definitions/Record<string,any>"
+                },
                 "supply": {
                     "type": "string"
                 },
@@ -953,6 +956,9 @@
                 },
                 "positionId": {
                     "type": "string"
+                },
+                "shortcutTriggerArgs": {
+                    "$ref": "#/definitions/Record<string,any>"
                 },
                 "tokens": {
                     "items": {
@@ -3537,7 +3543,11 @@
                     "type": "string"
                 },
                 "category": {
-                    "const": "claim",
+                    "enum": [
+                        "claim",
+                        "deposit",
+                        "withdraw"
+                    ],
                     "type": "string"
                 },
                 "description": {
