@@ -1,5 +1,4 @@
 import { EarnPosition } from 'src/positions/types'
-import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { Hash } from 'viem'
@@ -14,11 +13,6 @@ export interface DepositSuccess {
   tokenId: string
   transactionHash: Hash
   networkId: NetworkId
-}
-
-export interface RewardsInfo {
-  amount: string
-  tokenInfo: TokenBalance
 }
 
 export interface SerializableRewardsInfo {

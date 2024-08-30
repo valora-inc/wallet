@@ -2,12 +2,11 @@ import BigNumber from 'bignumber.js'
 import { useAsyncCallback } from 'react-async-hook'
 import aaveIncentivesV3Abi from 'src/abis/AaveIncentivesV3'
 import aavePool from 'src/abis/AavePoolV3'
-import { RewardsInfo } from 'src/earn/types'
 import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { triggerShortcutRequest } from 'src/positions/saga'
 import { RawShortcutTransaction } from 'src/positions/slice'
 import { rawShortcutTransactionsToTransactionRequests } from 'src/positions/transactions'
-import { EarnPosition } from 'src/positions/types'
+import { EarnPosition, Token } from 'src/positions/types'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
@@ -84,7 +83,7 @@ export async function prepareWithdrawAndClaimTransactions({
   token,
   walletAddress,
   feeCurrencies,
-  rewards,
+  rewardsTokens,
   poolTokenAddress,
 }: {
   amount: string
@@ -92,7 +91,7 @@ export async function prepareWithdrawAndClaimTransactions({
   poolTokenAddress: Address
   walletAddress: Address
   feeCurrencies: TokenBalance[]
-  rewards: RewardsInfo[]
+  rewardsTokens: Token[]
 }) {
   const baseTransactions: TransactionRequest[] = []
 
@@ -113,10 +112,10 @@ export async function prepareWithdrawAndClaimTransactions({
     }),
   })
 
-  rewards.forEach(({ amount, tokenInfo }) => {
-    const amountToClaim = parseUnits(amount, tokenInfo.decimals)
+  rewardsTokens.forEach(({ balance, decimals, address }) => {
+    const amountToClaim = parseUnits(balance, decimals)
 
-    if (!tokenInfo.address || !isAddress(tokenInfo.address)) {
+    if (!isAddress(address)) {
       // should never happen
       throw new Error(`Cannot use a token without address. Token id: ${token.tokenId}`)
     }
@@ -127,7 +126,7 @@ export async function prepareWithdrawAndClaimTransactions({
       data: encodeFunctionData({
         abi: aaveIncentivesV3Abi,
         functionName: 'claimRewardsToSelf',
-        args: [[poolTokenAddress], amountToClaim, tokenInfo.address],
+        args: [[poolTokenAddress], amountToClaim, address],
       }),
     })
   })
