@@ -65,6 +65,8 @@ export interface AbstractToken {
   priceUsd: SerializedDecimalNumber // Example: "1.5"
   balance: SerializedDecimalNumber // Example: "200", would be negative for debt
   category?: TokenCategory
+  imageUrl?: string
+  networkIconUrl?: string
 }
 
 export interface BaseToken extends AbstractToken {

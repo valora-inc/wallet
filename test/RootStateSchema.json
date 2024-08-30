@@ -343,6 +343,12 @@
                 "displayProps": {
                     "$ref": "#/definitions/PositionDisplayProps"
                 },
+                "imageUrl": {
+                    "type": "string"
+                },
+                "networkIconUrl": {
+                    "type": "string"
+                },
                 "networkId": {
                     "$ref": "#/definitions/NetworkId"
                 },
@@ -526,6 +532,12 @@
                 },
                 "decimals": {
                     "type": "number"
+                },
+                "imageUrl": {
+                    "type": "string"
+                },
+                "networkIconUrl": {
+                    "type": "string"
                 },
                 "networkId": {
                     "$ref": "#/definitions/NetworkId"

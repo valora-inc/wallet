@@ -14,7 +14,7 @@ import { Network, NetworkId } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
 import { prepareTransactions } from 'src/viem/prepareTransactions'
 import networkConfig from 'src/web3/networkConfig'
-import { mockArbArbAddress, mockArbArbTokenBalance } from 'test/values'
+import { mockRewardsPositions } from 'test/values'
 import { Address, encodeFunctionData, erc20Abi, maxUint256 } from 'viem'
 
 const mockFeeCurrency: TokenBalance = {
@@ -202,23 +202,15 @@ describe('prepareTransactions', () => {
 
   describe('prepareWithdrawAndClaimTransactions', () => {
     it('prepares withdraw and claim transactions with gas subsidy on', async () => {
+      const rewardsTokens = mockRewardsPositions[1].tokens
       jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(true)
-      const rewards = [
-        {
-          amount: '0.002',
-          tokenInfo: mockArbArbTokenBalance,
-        },
-        {
-          amount: '0.003',
-          tokenInfo: mockToken,
-        },
-      ]
+
       const result = await prepareWithdrawAndClaimTransactions({
         amount: '5',
         token: mockToken,
         walletAddress: '0x1234',
         feeCurrencies: [mockFeeCurrency],
-        rewards,
+        rewardsTokens,
         poolTokenAddress: '0x5678',
       })
 
@@ -233,18 +225,13 @@ describe('prepareTransactions', () => {
           to: networkConfig.arbAaveIncentivesV3ContractAddress,
           data: '0xencodedData',
         },
-        {
-          from: '0x1234',
-          to: networkConfig.arbAaveIncentivesV3ContractAddress,
-          data: '0xencodedData',
-        },
       ]
       expect(result).toEqual({
         type: 'possible',
         feeCurrency: mockFeeCurrency,
         transactions: expectedTransactions,
       })
-      expect(encodeFunctionData).toHaveBeenCalledTimes(3)
+      expect(encodeFunctionData).toHaveBeenCalledTimes(2)
       expect(encodeFunctionData).toHaveBeenCalledWith({
         abi: aavePool,
         functionName: 'withdraw',
@@ -253,12 +240,7 @@ describe('prepareTransactions', () => {
       expect(encodeFunctionData).toHaveBeenCalledWith({
         abi: aaveIncentivesV3Abi,
         functionName: 'claimRewardsToSelf',
-        args: [['0x5678'], BigInt(2e15), mockArbArbAddress],
-      })
-      expect(encodeFunctionData).toHaveBeenCalledWith({
-        abi: aaveIncentivesV3Abi,
-        functionName: 'claimRewardsToSelf',
-        args: [['0x5678'], BigInt(3000), mockTokenAddress],
+        args: [['0x5678'], BigInt(10000000000000000), '0x912ce59144191c1204e64559fe8253a0e49e6548'],
       })
       expect(prepareTransactions).toHaveBeenCalledWith({
         baseTransactions: expectedTransactions,
@@ -274,7 +256,7 @@ describe('prepareTransactions', () => {
         token: mockToken,
         walletAddress: '0x1234',
         feeCurrencies: [mockFeeCurrency],
-        rewards: [],
+        rewardsTokens: [],
         poolTokenAddress: '0x5678',
       })
 

@@ -136,8 +136,7 @@ describe('EarnActivePool', () => {
       providerId: 'aave-v3',
     })
     expect(navigate).toBeCalledWith(Screens.EarnCollectScreen, {
-      depositTokenId: networkConfig.arbUsdcTokenId,
-      poolTokenId: networkConfig.aaveArbUsdcTokenId,
+      pool: mockEarnPositions[0],
     })
   })
 

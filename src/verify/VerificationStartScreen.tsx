@@ -1,4 +1,3 @@
-import { Countries } from '@celo/phone-utils'
 import { useHeaderHeight } from '@react-navigation/elements'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
@@ -14,8 +13,8 @@ import {
   e164NumberSelector,
 } from 'src/account/selectors'
 import { getPhoneNumberDetails } from 'src/account/utils'
-import { PhoneVerificationEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { PhoneVerificationEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InfoBottomSheet from 'src/components/InfoBottomSheet'
@@ -40,6 +39,7 @@ import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import { Countries } from 'src/utils/Countries'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 function VerificationStartScreen({
