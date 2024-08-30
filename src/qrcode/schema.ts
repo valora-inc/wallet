@@ -1,4 +1,3 @@
-import { E164PhoneNumberType } from '@celo/phone-utils'
 import { AddressType } from '@celo/utils/lib/io'
 import { isLeft } from 'fp-ts/lib/Either'
 import {
@@ -10,9 +9,10 @@ import {
   union as ioUnion,
 } from 'io-ts'
 import { PathReporter } from 'io-ts/lib/PathReporter'
-import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { parse } from 'url'
 import { DEEPLINK_PREFIX } from 'src/config'
+import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { E164PhoneNumberType } from 'src/utils/E164Number'
+import { parse } from 'url'
 
 export const UriDataType = ioType({
   address: AddressType,

@@ -3,10 +3,11 @@ import { useAsyncCallback } from 'react-async-hook'
 import aaveIncentivesV3Abi from 'src/abis/AaveIncentivesV3'
 import aavePool from 'src/abis/AavePoolV3'
 import { simulateTransactions } from 'src/earn/simulateTransactions'
-import { RewardsInfo } from 'src/earn/types'
-import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { isGasSubsidizedForNetwork } from 'src/earn/utils'
+import { Token } from 'src/positions/types'
+import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
@@ -92,14 +93,12 @@ export async function prepareSupplyTransactions({
   )
   baseTransactions[baseTransactions.length - 1]._estimatedGasUse = BigInt(supplySimulatedTx.gasUsed)
 
-  const isGasSubsidized = getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
-
   return prepareTransactions({
     feeCurrencies,
     baseTransactions,
     spendToken: token,
-    spendTokenAmount: new BigNumber(amount),
-    isGasSubsidized,
+    spendTokenAmount: new BigNumber(amount).shiftedBy(token.decimals),
+    isGasSubsidized: isGasSubsidizedForNetwork(token.networkId),
     origin: 'earn-deposit',
   })
 }
@@ -129,7 +128,7 @@ export async function prepareWithdrawAndClaimTransactions({
   token,
   walletAddress,
   feeCurrencies,
-  rewards,
+  rewardsTokens,
   poolTokenAddress,
 }: {
   amount: string
@@ -137,7 +136,7 @@ export async function prepareWithdrawAndClaimTransactions({
   poolTokenAddress: Address
   walletAddress: Address
   feeCurrencies: TokenBalance[]
-  rewards: RewardsInfo[]
+  rewardsTokens: Token[]
 }) {
   const baseTransactions: TransactionRequest[] = []
 
@@ -158,10 +157,10 @@ export async function prepareWithdrawAndClaimTransactions({
     }),
   })
 
-  rewards.forEach(({ amount, tokenInfo }) => {
-    const amountToClaim = parseUnits(amount, tokenInfo.decimals)
+  rewardsTokens.forEach(({ balance, decimals, address }) => {
+    const amountToClaim = parseUnits(balance, decimals)
 
-    if (!tokenInfo.address || !isAddress(tokenInfo.address)) {
+    if (!isAddress(address)) {
       // should never happen
       throw new Error(`Cannot use a token without address. Token id: ${token.tokenId}`)
     }
@@ -172,17 +171,15 @@ export async function prepareWithdrawAndClaimTransactions({
       data: encodeFunctionData({
         abi: aaveIncentivesV3Abi,
         functionName: 'claimRewardsToSelf',
-        args: [[poolTokenAddress], amountToClaim, tokenInfo.address],
+        args: [[poolTokenAddress], amountToClaim, address],
       }),
     })
   })
 
-  const isGasSubsidized = getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
-
   return prepareTransactions({
     feeCurrencies,
     baseTransactions,
-    isGasSubsidized,
+    isGasSubsidized: isGasSubsidizedForNetwork(token.networkId),
     origin: 'earn-withdraw',
   })
 }

@@ -1,4 +1,3 @@
-import { Countries } from '@celo/phone-utils'
 import { KycSchema } from '@fiatconnect/fiatconnect-types'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EarnTabType } from 'src/earn/types'
@@ -15,6 +14,7 @@ import { Recipient } from 'src/recipients/recipient'
 import { QrCode, TransactionDataInput } from 'src/send/types'
 import { AssetTabType } from 'src/tokens/types'
 import { NetworkId, TokenTransaction, TokenTransfer } from 'src/transactions/types'
+import { Countries } from 'src/utils/Countries'
 import { Currency } from 'src/utils/currencies'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { ActionRequestProps } from 'src/walletConnect/screens/ActionRequest'
@@ -81,10 +81,7 @@ export type StackParamList = {
   [Screens.DebugImages]: undefined
   [Screens.EarnInfoScreen]: undefined
   [Screens.EarnEnterAmount]: { pool: EarnPosition }
-  [Screens.EarnCollectScreen]: {
-    depositTokenId: string
-    poolTokenId: string
-  }
+  [Screens.EarnCollectScreen]: { pool: EarnPosition }
   [Screens.EarnHome]: { activeEarnTab?: EarnTabType } | undefined
   [Screens.EarnPoolInfoScreen]: { pool: EarnPosition }
   [Screens.ErrorScreen]: {

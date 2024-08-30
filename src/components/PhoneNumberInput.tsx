@@ -1,4 +1,3 @@
-import { LocalizedCountry, parsePhoneNumber } from '@celo/phone-utils'
 import { ValidatorKind } from '@celo/utils/lib/inputValidation'
 import React, { useEffect, useRef } from 'react'
 import { Platform, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
@@ -10,6 +9,8 @@ import Touchable from 'src/components/Touchable'
 import ValidatedTextInput from 'src/components/ValidatedTextInput'
 import colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
+import { type LocalizedCountry } from 'src/utils/Countries'
+import { parsePhoneNumber } from 'src/utils/phoneNumbers'
 
 const TAG = 'PhoneNumberInput'
 
