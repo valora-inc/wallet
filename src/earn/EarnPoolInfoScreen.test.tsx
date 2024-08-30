@@ -184,7 +184,7 @@ describe('EarnPoolInfoScreen', () => {
     },
   ])('opens $testId and track analytics event', ({ testId, event, infoIconTestId, type }) => {
     const { getByTestId } = render(
-      <Provider store={defaultStore}>
+      <Provider store={store}>
         <MockedNavigator
           component={() => {
             return (
