@@ -133,7 +133,7 @@ export function useTokenInfo(tokenId?: string): TokenBalance | undefined {
   return tokenId ? tokens[tokenId] : undefined
 }
 
-export function useTokensInfo([...tokenIds]: string[]): (TokenBalance | undefined)[] {
+export function useTokensInfo(tokenIds: string[]): (TokenBalance | undefined)[] {
   const networkIds = Object.values(networkConfig.networkToNetworkId)
   const tokens = useSelector((state) =>
     tokensByIdSelector(state, { networkIds, includePositionTokens: true })
