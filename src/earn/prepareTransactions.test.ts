@@ -130,6 +130,10 @@ describe('prepareTransactions', () => {
   })
 
   describe('prepareWithdrawAndClaimTransactions', () => {
+    beforeEach(() => {
+      jest.mocked(encodeFunctionData).mockReturnValue('0xencodedData')
+    })
+
     it('prepares withdraw and claim transactions with gas subsidy on', async () => {
       jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(true)
       const rewards = [
