@@ -2624,7 +2624,10 @@
         "tvlDescription": "TVL steht für Total Value Locked und ist eine Kennzahl, die in der Kryptobranche verwendet wird, um den Wert von Digitalvermögen zu messen, das in einem Blockchain-Netzwerk gesperrt ist. TVL wird berechnet, indem der Wert des gesamten Digitalvermögens addiert wird, das in einem DeFi-Protokoll oder Smart Contract gesperrt ist. Dieses Vermögen kann Kryptowährungen, Stablecoins und andere Tokens umfassen."
       },
       "noPoolsTitle": "Du bist noch keinen Pools beigetreten",
-      "noPoolsDescription": "Entdecke verfügbare Pools, wähle einen aus, der zu deinen Zielen passt, und hole das Beste aus deinen Stablecoins heraus."
+      "noPoolsDescription": "Entdecke verfügbare Pools, wähle einen aus, der zu deinen Zielen passt, und hole das Beste aus deinen Stablecoins heraus.",
+      "errorTitle": "Pools können nicht geladen werden",
+      "errorDescription": "Ups, beim Laden der Pool-Informationen ist etwas schief gelaufen. Bitte versuche es noch einmal.",
+      "errorButton": "Erneut versuchen"
     },
     "poolCard": {
       "onNetwork": "auf {{networkName}}",
