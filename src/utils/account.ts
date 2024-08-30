@@ -62,7 +62,9 @@ function salt(passphrase: string) {
 }
 
 // Note: here we don't use bip39.mnemonicToSeed because it's currently implemented in JS
-// and it's slow (3+ seconds on a iPhone 13 Pro)
+// and it's slow:
+// - 3+ seconds on a iPhone 13 Pro
+// - 10+ seconds on a Pixel 4a
 async function _mnemonicToSeed(mnemonic: string, passphrase = '') {
   var mnemonicBuffer = Buffer.from(mnemonic, 'utf8')
   var saltBuffer = Buffer.from(salt(passphrase), 'utf8')
