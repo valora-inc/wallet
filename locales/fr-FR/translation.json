@@ -2624,7 +2624,10 @@
         "tvlDescription": "La valeur totale verrouillée (TVL) est une métrique utilisée pour mesurer la valeur des actifs numériques verrouillés sur un réseau blockchain. La TVL est calculée en additionnant la valeur de tous les actifs numériques verrouillés dans un protocole DeFi ou un contrat intelligent. Ces actifs peuvent inclure des crypto-monnaies, des stablecoins et d'autres jetons."
       },
       "noPoolsTitle": "Vous n'avez encore rejoint aucun pool",
-      "noPoolsDescription": "Découvrez les pools disponibles, choisissez celui qui correspond à vos objectifs et profitez au maximum de vos stablecoins."
+      "noPoolsDescription": "Découvrez les pools disponibles, choisissez celui qui correspond à vos objectifs et profitez au maximum de vos stablecoins.",
+      "errorTitle": "Impossible de charger les pools",
+      "errorDescription": "Oups, quelque chose s'est mal passé en essayant de charger les informations sur le pool. Essaie à nouveau.",
+      "errorButton": "Veuillez réessayer"
     },
     "poolCard": {
       "onNetwork": "sur {{networkName}}",
