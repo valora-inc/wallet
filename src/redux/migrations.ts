@@ -1861,4 +1861,23 @@ export const migrations = {
     ...state,
     account: _.omit(state.account, 'pictureUri'),
   }),
+  228: (state: any) => {
+    const transactionsByNetworkId: any = {}
+    for (const networkId of Object.keys(state.transactions.transactionsByNetworkId)) {
+      const transactions = []
+      for (const tx of state.transactions.transactionsByNetworkId[networkId]) {
+        tx.providerId && tx.providerId === 'aave-v3'
+          ? transactions.push({ tx, providerId: 'aave' })
+          : transactions.push(tx)
+      }
+      transactionsByNetworkId[networkId] = transactions
+    }
+    return {
+      ...state,
+      transactions: {
+        ...state.transactions,
+        transactionsByNetworkId,
+      },
+    }
+  },
 }
