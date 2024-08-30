@@ -318,6 +318,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
       .filter((token): token is TokenBalance => !!token)
   }, [tokens, allTokens])
 
+  const depositInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const tvlInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const ageInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const yieldRateInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
@@ -398,6 +399,13 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         </View>
       </Animated.ScrollView>
       <ActionButtons earnPosition={pool} />
+      <InfoBottomSheet
+        infoBottomSheetRef={depositInfoBottomSheetRef}
+        titleKey="earnFlow.poolInfoScreen.infoBottomSheet.depositTitle"
+        descriptionKey="earnFlow.poolInfoScreen.infoBottomSheet.depositDescription"
+        providerName={appName}
+        testId="DepositInfoBottomSheet"
+      />
       <InfoBottomSheet
         infoBottomSheetRef={tvlInfoBottomSheetRef}
         titleKey="earnFlow.poolInfoScreen.infoBottomSheet.tvlTitle"

@@ -2663,6 +2663,9 @@
       "withdraw": "Withdraw",
       "infoBottomSheet": {
         "gotIt": "Got it",
+        "depositTitle": "Deposit & Earnings",
+        "depositDescription": "This is your breakdown of your deposited amount, the interest you’e earned on that amount, and any additional rewards you’ve received from participating in the pool.",
+        "depositNoBreakdownDescription": "This number combines your supplied tokens with any interest and rewards you’ve earned.\n\nSome protocols, like {{providerName}}, do not provide a breakdown of your earnings - this is normal. Instead they add your earnings directly to your deposited amount, which continues to earn interest based on the growing amount. ",
         "tvlTitle": "Total Value Locked (TVL)",
         "tvlDescription": "TVL refers to the total amount of assets deposited in a liquidity pool and can be used to help indicate the trust and utility of a pool. Typically a higher TVL correlates to reduced risk, however no pool is completely risk free.",
         "ageTitle": "Age of Pool",
