@@ -66,8 +66,8 @@ function salt(passphrase: string) {
 // - 3+ seconds on a iPhone 13 Pro
 // - 10+ seconds on a Pixel 4a
 async function _mnemonicToSeed(mnemonic: string, passphrase = '') {
-  var mnemonicBuffer = Buffer.from(mnemonic, 'utf8')
-  var saltBuffer = Buffer.from(salt(passphrase), 'utf8')
+  const mnemonicBuffer = Buffer.from(mnemonic, 'utf8')
+  const saltBuffer = Buffer.from(salt(passphrase), 'utf8')
   return new Promise<Uint8Array>((resolve, reject) =>
     crypto.pbkdf2(mnemonicBuffer, saltBuffer, 2048, 64, 'SHA-512', (err, derivedKey) => {
       if (err) {
