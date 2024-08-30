@@ -166,7 +166,7 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
           type: TokenTransactionTypeV2.EarnDeposit,
           inAmount: {
             value: amount,
-            tokenId: networkConfig.aaveArbUsdcTokenId,
+            tokenId: pool.dataProps.withdrawTokenId,
           },
           outAmount: {
             value: amount,
