@@ -1,20 +1,20 @@
 diff --git a/node_modules/react-native/Libraries/AppDelegate/RCTAppDelegate.h b/node_modules/react-native/Libraries/AppDelegate/RCTAppDelegate.h
-index a5bd94c..a595044 100644
+index cf6cd3a..0e36e95 100644
 --- a/node_modules/react-native/Libraries/AppDelegate/RCTAppDelegate.h
 +++ b/node_modules/react-native/Libraries/AppDelegate/RCTAppDelegate.h
-@@ -7,6 +7,7 @@
+@@ -5,6 +5,7 @@
+  * LICENSE file in the root directory of this source tree.
+  */
  
- #import <React/RCTBridge.h>
- #import <React/RCTBridgeDelegate.h>
 +#import <UserNotifications/UserNotifications.h>
  #import <UIKit/UIKit.h>
  
- @class RCTSurfacePresenterBridgeAdapter;
-@@ -49,7 +50,7 @@
+ @class RCTBridge;
+@@ -50,7 +51,7 @@
                                                           (const facebook::react::ObjCTurboModule::InitParams &)params
   *   - (id<RCTTurboModule>)getModuleInstanceFromClass:(Class)moduleClass
   */
--@interface RCTAppDelegate : UIResponder <UIApplicationDelegate, RCTBridgeDelegate>
+-@interface RCTAppDelegate : UIResponder <UIApplicationDelegate, UISceneDelegate, RCTBridgeDelegate>
 +@interface RCTAppDelegate : UIResponder <UIApplicationDelegate, RCTBridgeDelegate, UNUserNotificationCenterDelegate>
  
  /// The window object, used to render the UViewControllers

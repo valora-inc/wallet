@@ -35,7 +35,7 @@ module.exports = {
     'react-native-reanimated/plugin',
     // NOTE: Reanimated plugin has to be listed last.
   ],
-  presets: ['module:metro-react-native-babel-preset'],
+  presets: ['module:@react-native/babel-preset'],
   overrides: [
     {
       // required for any dependency (just fiatconnect-sdk as of 2/8/2024)

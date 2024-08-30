@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 
 import com.android.build.OutputFile
@@ -137,7 +138,8 @@ def loadProjectSecrets(String chainName) {
 def secrets = loadProjectSecrets(project.env.get("DEFAULT_TESTNET"))
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdk rootProject.ext.compileSdkVersion
     namespace "org.celo.mobile"
 
     compileOptions {
@@ -280,6 +282,7 @@ dependencies {
 
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
+    implementation("com.facebook.react:flipper-integration")
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
@@ -317,12 +320,8 @@ dependencies {
     // https://github.com/invertase/react-native-firebase/blob/v11.5.0/packages/auth/android/build.gradle#L88
     // which requires minCompileSdk 33
     implementation 'androidx.browser:browser:1.4.0'
-
-    debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
-    debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
-        exclude group:'com.squareup.okhttp3', module:'okhttp'
-    }
-    debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}")
+    
+    implementation("com.facebook.react:flipper-integration")
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")

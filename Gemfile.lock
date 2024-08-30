@@ -3,12 +3,11 @@ GEM
   specs:
     CFPropertyList (3.0.6)
       rexml
-    activesupport (6.1.7.3)
+    activesupport (7.0.8.4)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
-      zeitwerk (~> 2.3)
     addressable (2.8.5)
       public_suffix (>= 2.0.2, < 6.0)
     algoliasearch (1.27.5)
@@ -204,14 +203,14 @@ GEM
     http-cookie (1.0.5)
       domain_name (~> 0.5)
     httpclient (2.8.3)
-    i18n (1.14.1)
+    i18n (1.14.5)
       concurrent-ruby (~> 1.0)
     jmespath (1.6.2)
     json (2.6.3)
     jwt (2.7.1)
     mini_magick (4.12.0)
     mini_mime (1.1.5)
-    minitest (5.18.0)
+    minitest (5.25.1)
     molinillo (0.8.0)
     multi_json (1.15.0)
     multipart-post (2.3.0)
@@ -273,7 +272,6 @@ GEM
       rouge (~> 2.0.7)
     xcpretty-travis-formatter (1.0.1)
       xcpretty (~> 0.2, >= 0.0.7)
-    zeitwerk (2.6.8)
 
 PLATFORMS
   ruby
@@ -282,6 +280,7 @@ PLATFORMS
   universal-darwin-21
 
 DEPENDENCIES
+  activesupport (>= 6.1.7.5, < 7.1.0)
   cocoapods (>= 1.15.2, < 1.16)
   fastlane
   fastlane-plugin-emerge
