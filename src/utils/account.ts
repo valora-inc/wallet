@@ -351,7 +351,7 @@ export function* suggestMnemonicCorrections(
   // Iterate over the generator of corrections, and return those that have a valid checksum.
   for (const suggestion of suggestUnvalidatedCorrections(words, lang)) {
     const phrase = joinMnemonic(suggestion, lang)
-    if (validateMnemonic(phrase, undefined, lang)) {
+    if (validateMnemonic(phrase, lang)) {
       yield phrase
     }
   }
