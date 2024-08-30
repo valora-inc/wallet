@@ -2656,7 +2656,16 @@
       "ageOfPool": "Age of Pool",
       "learnMoreOnProvider": "View Pool on {{providerName}}",
       "deposit": "ฝากเงิน",
-      "withdraw": "ถอน"
+      "withdraw": "ถอน",
+      "infoBottomSheet": {
+        "gotIt": "เข้าใจแล้ว",
+        "tvlTitle": "Total Value Locked (TVL)",
+        "tvlDescription": "TVL refers to the total amount of assets deposited in a liquidity pool and can be used to help indicate the trust and utility of a pool. Typically a higher TVL correlates to reduced risk, however no pool is completely risk free.",
+        "ageTitle": "Age of Pool",
+        "ageDescription": "Older liquidity pools can indicate a solid track record and a history of building community trust. Because of this, some may consider these pools to be safer.\n\nThere is no perfect way to determine risk, so use this info as part of your overall research to make the decision that is best for you.",
+        "yieldRateTitle": "Yield Rate",
+        "yieldRateDescription": "While most pools offer earnings in the form of a liquidity pool token, some give additional token(s) as a reward or added incentive.\n\nSince Valora aggregates pools across multiple protocols, we have combined all the earning and reward rates into a single, overall yield rate to help easily evaluate your earning potential. This number is an estimate since the earning and reward values fluctuate constantly.\n\nFor further information about earning breakdowns you can visit <0>{{providerName}}</0>."
+      }
     }
   },
   "addFundsActions": {
