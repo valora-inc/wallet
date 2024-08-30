@@ -83,6 +83,7 @@ import {
   vNeg1Schema,
 } from 'test/schemas'
 import {
+  mockEarnDepositTransaction,
   mockInvitableRecipient,
   mockInvitableRecipient2,
   mockPositionsLegacy,
@@ -1641,6 +1642,27 @@ describe('Redux persist migrations', () => {
       ..._.omit(oldSchema.recipients, 'valoraRecipientCache'),
       appRecipientCache: {},
     }
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from 227 to 228', () => {
+    const oldSchema = {
+      ...v222Schema,
+      transactions: {
+        ...v222Schema.transactions,
+        transactionsByNetworkId: {
+          ...v222Schema.transactions.transactionsByNetworkId,
+          [NetworkId['arbitrum-sepolia']]: [
+            { ...mockEarnDepositTransaction, providerId: 'aave-v3' },
+          ],
+        },
+      },
+    }
+    const migratedSchema = migrations[228](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.transactions.transactionsByNetworkId[
+      NetworkId['arbitrum-sepolia']
+    ][0].providerId = 'aave'
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })
