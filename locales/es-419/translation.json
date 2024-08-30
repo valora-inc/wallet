@@ -2658,7 +2658,16 @@
       "ageOfPool": "Antigüedad de pool:",
       "learnMoreOnProvider": "Ver pool en {{providerName}}",
       "deposit": "Depósito",
-      "withdraw": "Retirar"
+      "withdraw": "Retirar",
+      "infoBottomSheet": {
+        "gotIt": "Entendido",
+        "tvlTitle": "Valor total bloqueado (TVL)",
+        "tvlDescription": "La TVL se refiere a la cantidad total de activos depositados en un fondo de liquidez y puede utilizarse para ayudar a indicar la confianza y utilidad de un fondo. Normalmente, una TVL más alta se correlaciona con un riesgo reducido, aunque ningún fondo está completamente libre de riesgo.",
+        "ageTitle": "Antigüedad de pool:",
+        "ageDescription": "Los fondos de liquidez más antiguos pueden indicar una trayectoria sólida y un historial de creación de confianza en la comunidad. Por ello, algunos pueden considerar que estos pools son más seguros.\n\nNo hay una forma perfecta de determinar el riesgo, así que utiliza esta información como parte de tu investigación general para tomar la decisión que más te convenga.",
+        "yieldRateTitle": "Tasa de rendimiento",
+        "yieldRateDescription": "Aunque la mayoría de los pools ofrecen ganancias en forma de token de pool de liquidez, algunos dan token(s) adicionales como recompensa o incentivo añadido.\n\nDado que Valora agrega pools a través de múltiples protocolos, hemos combinado todas las tasas de ganancia y recompensa en una única tasa de rendimiento global para ayudarte a evaluar fácilmente tu potencial de ganancia. Esta cifra es una estimación, ya que los valores de ganancia y recompensa fluctúan constantemente.\n\nPara más información sobre los desgloses de ganancias puedes visitar <0>{{providerName}}</0>."
+      }
     }
   },
   "addFundsActions": {
