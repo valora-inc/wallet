@@ -175,44 +175,55 @@ function DepositAndEarningsCard({ earnPosition }: { earnPosition: EarnPosition }
   const earningItemsTokenIds = earningItems.map((item) => item.tokenId)
   const earningItemsTokenInfo = useTokensInfo(earningItemsTokenIds)
 
-  const totalBalanceInLocalCurrency = depositBalanceInLocalCurrency.plus(
-    earningItems
-      .filter((item) => !item.includedInPoolBalance)
-      .reduce((acc, item) => {
-        const tokenInfo = earningItemsTokenInfo.find((token) => token?.tokenId === item.tokenId)
-        const amountInUsd = tokenInfo?.priceUsd?.multipliedBy(item.amount)
-        const amountInLocalCurrency = new BigNumber(localCurrencyExchangeRate ?? 0).multipliedBy(
-          amountInUsd ?? 0
-        )
-        return acc.plus(amountInLocalCurrency ?? 0)
-      }, new BigNumber(0))
-  )
+  const totalBalanceInLocalCurrency = useMemo(() => {
+    return depositBalanceInLocalCurrency.plus(
+      earningItems
+        .filter((item) => !item.includedInPoolBalance)
+        .reduce((acc, item) => {
+          const tokenInfo = earningItemsTokenInfo.find((token) => token?.tokenId === item.tokenId)
+          const amountInUsd = tokenInfo?.priceUsd?.multipliedBy(item.amount)
+          const amountInLocalCurrency = new BigNumber(localCurrencyExchangeRate ?? 0).multipliedBy(
+            amountInUsd ?? 0
+          )
+          return acc.plus(amountInLocalCurrency ?? 0)
+        }, new BigNumber(0))
+    )
+  }, [
+    depositBalanceInLocalCurrency,
+    earningItems,
+    earningItemsTokenInfo,
+    localCurrencyExchangeRate,
+  ])
 
-  const totalDepositBalanceInLocalCurrency = depositBalanceInLocalCurrency.minus(
-    earningItems
-      .filter((item) => item.includedInPoolBalance)
-      .reduce((acc, item) => {
-        const tokenInfo = earningItemsTokenInfo.find((token) => token?.tokenId === item.tokenId)
-        return acc.plus(
-          new BigNumber(item.amount)
-            .multipliedBy(tokenInfo?.priceUsd ?? 0)
-            .dividedBy(tokenInfo?.priceUsd ?? 1)
-        )
-      }, new BigNumber(0))
-  )
+  const totalDepositBalanceInLocalCurrency = useMemo(() => {
+    return depositBalanceInLocalCurrency.minus(
+      earningItems
+        .filter((item) => item.includedInPoolBalance)
+        .reduce((acc, item) => {
+          const tokenInfo = earningItemsTokenInfo.find((token) => token?.tokenId === item.tokenId)
+          return acc.plus(
+            new BigNumber(item.amount)
+              .multipliedBy(tokenInfo?.priceUsd ?? 0)
+              .dividedBy(tokenInfo?.priceUsd ?? 1)
+          )
+        }, new BigNumber(0))
+    )
+  }, [depositBalanceInLocalCurrency, earningItems, earningItemsTokenInfo])
 
-  const totalDepositBalanceInCrypto = new BigNumber(balance).minus(
-    earningItems
-      .filter((item) => item.includedInPoolBalance)
-      .reduce((acc, item) => {
-        const tokenInfo = earningItemsTokenInfo.find((token) => token?.tokenId === item.tokenId)
-        return acc.plus(
-          new BigNumber(item.amount)
-            .multipliedBy(tokenInfo?.priceUsd ?? 0)
-            .dividedBy(tokenInfo?.priceUsd ?? 1)
-        )
-      }, new BigNumber(0))
-  )
+  const totalDepositBalanceInCrypto = useMemo(() => {
+    return new BigNumber(balance).minus(
+      earningItems
+        .filter((item) => item.includedInPoolBalance)
+        .reduce((acc, item) => {
+          const tokenInfo = earningItemsTokenInfo.find((token) => token?.tokenId === item.tokenId)
+          return acc.plus(
+            new BigNumber(item.amount)
+              .multipliedBy(tokenInfo?.priceUsd ?? 0)
+              .dividedBy(tokenInfo?.priceUsd ?? 1)
+          )
+        }, new BigNumber(0))
+    )
+  }, [balance, earningItems, earningItemsTokenInfo])
 
   return (
     <Card testID="DepositAndEarningsCard" cardStyle={styles.depositAndEarningCard}>
