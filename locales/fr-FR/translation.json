@@ -2658,7 +2658,16 @@
       "ageOfPool": "Pool crée",
       "learnMoreOnProvider": "Voir pool sur {{providerName}}",
       "deposit": "Dépôt",
-      "withdraw": "Retirer"
+      "withdraw": "Retirer",
+      "infoBottomSheet": {
+        "gotIt": "J'ai compris",
+        "tvlTitle": "Valeur totale bloquée (TVL)",
+        "tvlDescription": "Le TVL fait référence au montant total des actifs déposés dans un pool de liquidités et peut être utilisé pour indiquer la confiance et l'utilité d'un pool. En règle générale, une TVL plus élevée est corrélée à un risque réduit, mais aucun pool n'est totalement exempt de risques.",
+        "ageTitle": "Pool crée",
+        "ageDescription": "Les pools de liquidités plus anciens peuvent indiquer un bilan solide et une histoire de construction de la confiance de la communauté. Pour cette raison, certains peuvent considérer que ces pools sont plus sûrs.\n\nIl n'existe pas de méthode parfaite pour déterminer le risque, alors utilise ces informations dans le cadre de tes recherches générales pour prendre la décision qui te convient le mieux.",
+        "yieldRateTitle": "Taux de rendement",
+        "yieldRateDescription": "Alors que la plupart des pools offrent des gains sous la forme d'un jeton de pool de liquidité, certains donnent un ou des jetons supplémentaires en guise de récompense ou d'incitation supplémentaire.\n\nÉtant donné que Valora regroupe des pools sur plusieurs protocoles, nous avons combiné tous les taux de gain et de récompense en un seul taux de rendement global afin d'évaluer facilement ton potentiel de gain. Ce chiffre est une estimation car les valeurs des gains et des récompenses fluctuent constamment.\n\nPour plus d'informations sur la répartition des gains, tu peux consulter le site suivant <0>{{providerName}}</0>."
+      }
     }
   },
   "addFundsActions": {
