@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import { FinclusiveKycStatus } from 'src/account/reducer'
+import { DEEPLINK_PREFIX } from 'src/config'
 import { exchangeInitialState, migrations } from 'src/redux/migrations'
 import {
   Network,
@@ -51,8 +52,8 @@ import {
   v203Schema,
   v214Schema,
   v216Schema,
-  v222Schema,
   v21Schema,
+  v222Schema,
   v28Schema,
   v2Schema,
   v35Schema,
@@ -91,7 +92,6 @@ import {
   mockShortcuts,
   mockShortcutsLegacy,
 } from 'test/values'
-import { DEEPLINK_PREFIX } from 'src/config'
 
 describe('Redux persist migrations', () => {
   it('works for v-1 to v0', () => {
@@ -1595,7 +1595,7 @@ describe('Redux persist migrations', () => {
     }
     const expectedSchema = _.cloneDeep(oldSchema)
     expectedSchema.positions.positions = mockPositionsLegacy2
-    expectedSchema.positions.shortcuts = mockShortcuts
+    expectedSchema.positions.shortcuts = [mockShortcuts[0]]
     const migratedSchema = migrations[204](oldSchema)
 
     expect(migratedSchema).toStrictEqual(expectedSchema)
