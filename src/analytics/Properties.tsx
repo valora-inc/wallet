@@ -1649,6 +1649,11 @@ interface EarnEventsProperties {
     appId: string
     positionId: string
   }
+  [EarnEvents.earn_pool_info_tap_info_icon]: {
+    providerId: string
+    poolId: string
+    type: 'tvl' | 'age' | 'yieldRate'
+  }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &
