@@ -148,7 +148,7 @@ exports[`renders correctly 1`] = `
                 resizeMode="contain"
                 source={
                   {
-                    "testUri": "../../../src/images/celo-education-1.png",
+                    "testUri": "../../../src/images/assets/celo-education-1.png",
                   }
                 }
                 style={
@@ -218,7 +218,7 @@ exports[`renders correctly 1`] = `
                 resizeMode="contain"
                 source={
                   {
-                    "testUri": "../../../src/images/celo-education-2.png",
+                    "testUri": "../../../src/images/assets/celo-education-2.png",
                   }
                 }
                 style={
@@ -288,7 +288,7 @@ exports[`renders correctly 1`] = `
                 resizeMode="contain"
                 source={
                   {
-                    "testUri": "../../../src/images/celo-education-3.png",
+                    "testUri": "../../../src/images/assets/celo-education-3.png",
                   }
                 }
                 style={
@@ -358,7 +358,7 @@ exports[`renders correctly 1`] = `
                 resizeMode="contain"
                 source={
                   {
-                    "testUri": "../../../src/images/celo-education-4.png",
+                    "testUri": "../../../src/images/assets/celo-education-4.png",
                   }
                 }
                 style={

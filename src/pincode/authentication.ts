@@ -6,14 +6,12 @@
  */
 
 import { isValidAddress, normalizeAddress } from '@celo/utils/lib/address'
-import { sleep } from '@celo/utils/lib/async'
-import { sha256 } from 'ethereumjs-util'
 import * as Keychain from 'react-native-keychain'
 import { generateSecureRandom } from 'react-native-securerandom'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
-import { AuthenticationEvents, OnboardingEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { AuthenticationEvents, OnboardingEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { getStoredMnemonic, storeMnemonic } from 'src/backup/utils'
 import i18n from 'src/i18n'
@@ -41,9 +39,11 @@ import {
 } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
+import { sleep } from 'src/utils/sleep'
 import { UNLOCK_DURATION } from 'src/web3/consts'
 import { getWalletAsync } from 'src/web3/contracts'
 import { call, select } from 'typed-redux-saga'
+import { sha256 } from 'viem'
 
 const PIN_BLOCKLIST = require('src/pincode/pin-blocklist-hibpv7-top-25k-with-keyboard-translations.json')
 
@@ -164,9 +164,14 @@ async function getPasswordHashForPin(pin: string) {
   return getPasswordHash(password)
 }
 
-function getPasswordHash(password: string) {
-  return sha256(Buffer.from(password, 'hex')).toString('hex')
+// TODO: this existing implementation implies password is in hex (no '0x' prefix)
+// but we should lift that restriction as it's too easy to misuse
+function getPasswordHash(password: string): string {
+  return sha256(Buffer.from(password, 'hex')).slice(2)
 }
+
+// for testing
+export const _getPasswordHash = getPasswordHash
 
 export function passwordHashStorageKey(account: string) {
   if (!isValidAddress(account)) {

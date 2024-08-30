@@ -1,4 +1,3 @@
-import { Countries } from '@celo/phone-utils'
 import { KycSchema } from '@fiatconnect/fiatconnect-types'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EarnTabType } from 'src/earn/types'
@@ -10,10 +9,12 @@ import { FiatAccount } from 'src/fiatconnect/slice'
 import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 import { Screens } from 'src/navigator/Screens'
 import { Nft } from 'src/nfts/types'
+import { EarnPosition } from 'src/positions/types'
 import { Recipient } from 'src/recipients/recipient'
 import { QrCode, TransactionDataInput } from 'src/send/types'
 import { AssetTabType } from 'src/tokens/types'
 import { NetworkId, TokenTransaction, TokenTransfer } from 'src/transactions/types'
+import { Countries } from 'src/utils/Countries'
 import { Currency } from 'src/utils/currencies'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { ActionRequestProps } from 'src/walletConnect/screens/ActionRequest'
@@ -77,15 +78,12 @@ export type StackParamList = {
   }
   [Screens.DappsScreen]: undefined
   [Screens.Debug]: undefined
+  [Screens.DebugImages]: undefined
   [Screens.EarnInfoScreen]: undefined
-  [Screens.EarnEnterAmount]: {
-    tokenId: string
-  }
-  [Screens.EarnCollectScreen]: {
-    depositTokenId: string
-    poolTokenId: string
-  }
+  [Screens.EarnEnterAmount]: { pool: EarnPosition }
+  [Screens.EarnCollectScreen]: { pool: EarnPosition }
   [Screens.EarnHome]: { activeEarnTab?: EarnTabType } | undefined
+  [Screens.EarnPoolInfoScreen]: { pool: EarnPosition }
   [Screens.ErrorScreen]: {
     errorMessage?: string
   }
@@ -217,6 +215,10 @@ export type StackParamList = {
     | undefined
   [Screens.Profile]: undefined
   [Screens.ProfileMenu]: undefined
+  [Screens.ProfileSubmenu]: undefined
+  [Screens.LegalSubmenu]: undefined
+  [Screens.PreferencesSubmenu]: undefined
+  [Screens.SettingsMenu]: undefined
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
   [Screens.RegulatoryTerms]: undefined
   [Screens.SanctionedCountryErrorScreen]: undefined

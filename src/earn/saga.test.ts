@@ -2,9 +2,8 @@ import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { call } from 'redux-saga-test-plan/matchers'
 import { StaticProvider, dynamic, throwError } from 'redux-saga-test-plan/providers'
-import erc20 from 'src/abis/IERC20'
-import { EarnEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { EarnEvents } from 'src/analytics/Events'
 import { fetchAavePoolInfo } from 'src/earn/poolInfo'
 import { depositSubmitSaga, fetchPoolInfoSaga, withdrawSubmitSaga } from 'src/earn/saga'
 import {
@@ -19,10 +18,9 @@ import {
   withdrawStart,
   withdrawSuccess,
 } from 'src/earn/slice'
+import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import { getTokenInfo } from 'src/tokens/saga'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import { Network, NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
@@ -37,7 +35,7 @@ import {
   mockTokenBalances,
   mockUSDCAddress,
 } from 'test/values'
-import { Address, decodeFunctionData } from 'viem'
+import { Address, decodeFunctionData, erc20Abi } from 'viem'
 
 jest.mock('viem', () => ({
   ...jest.requireActual('viem'),
@@ -60,7 +58,7 @@ jest.mock('src/transactions/types', () => {
   }
 })
 
-jest.mock('src/statsig')
+jest.mock('src/earn/utils')
 
 const mockTxReceipt1 = {
   status: 'success',
@@ -217,13 +215,11 @@ describe('depositSubmitSaga', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.mocked(getFeatureGate).mockReturnValue(false)
+    jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(false)
   })
 
   it('sends approve and deposit transactions, navigates home and dispatches the success action (gas subsidy on)', async () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation((gate) => gate === StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
+    jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(true)
     await expectSaga(depositSubmitSaga, {
       type: depositStart.type,
       payload: {
@@ -248,7 +244,7 @@ describe('depositSubmitSaga', () => {
       .run()
     expect(navigateHome).toHaveBeenCalled()
     expect(decodeFunctionData).toHaveBeenCalledWith({
-      abi: erc20.abi,
+      abi: erc20Abi,
       data: serializableApproveTx.data,
     })
     expect(mockStandbyHandler).toHaveBeenCalledTimes(2)
@@ -400,7 +396,7 @@ describe('depositSubmitSaga', () => {
       .run()
     expect(navigateHome).toHaveBeenCalled()
     expect(decodeFunctionData).toHaveBeenCalledWith({
-      abi: erc20.abi,
+      abi: erc20Abi,
       data: serializableApproveTx.data,
     })
     expect(mockStandbyHandler).toHaveBeenCalledTimes(2)
@@ -519,7 +515,7 @@ describe('withdrawSubmitSaga', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.mocked(getFeatureGate).mockReturnValue(false)
+    jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(false)
   })
 
   it('sends withdraw and claim transactions, navigates home and dispatches the success action (gas subsidy off)', async () => {
@@ -558,9 +554,7 @@ describe('withdrawSubmitSaga', () => {
   })
 
   it('sends only withdraw if there are no rewards (gas subsidy on)', async () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation((gate) => gate === StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
+    jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(true)
     await expectSaga(withdrawSubmitSaga, {
       type: withdrawStart.type,
       payload: {

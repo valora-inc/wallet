@@ -16,7 +16,9 @@
   },
   "legal": "Legal",
   "appPreferences": "Preferencias de la app",
+  "preferences": "Preferencias",
   "security": "Seguridad",
+  "securityPrivacy": "Seguridad y privacidad",
   "changePin": "Cambiar PIN",
   "pinChanged": "Se cambió el PIN",
   "pinChangeFailed": "Error al cambiar el PIN",
@@ -172,7 +174,9 @@
   "termsOfServiceLink": "Condiciones de uso",
   "privacyPolicy": "Política de privacidad",
   "editProfile": "Editar perfil",
-  "confirmNumber": "Conectar número de teléfono",
+  "profileName": "Nombre de perfil",
+  "profile": "Perfil",
+  "confirmNumber": "Conecta tu número",
   "cancel": "Cancelar",
   "changeProfilePhoto": "Cambia tu foto de perfil",
   "name": "Nombre",
@@ -183,6 +187,7 @@
   "continue": "Continuar",
   "yourName": "Tu nombre",
   "version": "Versión {{appVersion}}",
+  "appVersion": "Versión",
   "addressCopied": "Dirección copiada al portapapeles",
   "support": "Soporte",
   "contact": "Contacto",
@@ -195,6 +200,7 @@
   "supportLegalCheckbox": "Al enviar, acepto compartir la información anterior y cualquier otro dato de registro de la aplicación adjunto con el soporte técnico de {{appName}}.",
   "contactSuccess": "Tu problema ha sido informado con éxito. Espera una respuesta por correo electrónico pronto.",
   "namePictureSaved": "Tu nombre y foto fueron guardados con éxito.",
+  "nameSaved": "Tu nombre se ha guardado correctamente.",
   "addPhoto": "Agregar foto",
   "chooseFromLibrary": "Elegir de la galería de fotos",
   "takePhoto": "Tomar foto",
@@ -693,7 +699,7 @@
     "body": "Una vez que conecten su número y agreguen fondos a {{appName}}, ambos recibirán 0,50 cUSD."
   },
   "inviteWithUrl": {
-    "title": "Invita a tus amigos",
+    "title": "Invita a un amigo",
     "body": "Conéctate y comparte valor con tus amigos y familiares en {{appName}}.",
     "button": "Enviar invitación",
     "error": "Hubo un error al crear el enlace compartible",
@@ -2204,16 +2210,16 @@
     }
   },
   "jumpstartIntro": {
-    "title": "Comparte cripto como si fuera un texto",
+    "title": "Envía cripto como un mensaje de texto",
     "addFundsCelo": {
-      "title": "Conseguir Activos en Celo",
-      "info": "Los Enlaces Vivos son una forma de enviar criptomonedas en la red Celo a un amigo con un enlace.\nPara empezar, necesitarás algunos activos CELO en tu cartera.",
-      "description": "Una vez que hayas añadido activos en Celo, tendrás que volver para crear un Enlace Directo.",
-      "cta": "Conseguir Activos en Celo",
+      "title": "Obtén activos Celo",
+      "info": "Los enlaces activos son una forma de enviar cripto en la red Celo con un enlace.\nPara empezar, necesitarás tener activos CELO en tu wallet.",
+      "description": "Una vez que hayas agregado activos Celo, vuelve a esta pantalla para crear un enlace.",
+      "cta": "Obtén activos en Celo",
       "actionDescriptions": {
-        "add": "Compra activos en Celo utilizando uno de nuestros proveedores de confianza",
-        "swap": "Cambiar a un activo en Celo desde otro activo",
-        "transfer": "Utiliza cualquier monedero o bolsa compatible con Celo para depositar activos en Celo"
+        "add": "Compra activos Celo a uno de nuestros proveedores de confianza",
+        "swap": "Cambia activos en otras redes por uno en Celo",
+        "transfer": "Utiliza una wallet o exchange compatible para depositar activos Celo"
       }
     }
   },
@@ -2466,7 +2472,8 @@
     },
     "disclaimer": {
       "learnMoreCta": "<0>Más información</0> sobre los puntos {{appName}}",
-      "body": "<0>¿Qué son los puntos?</0>\nLos puntos son el programa de fidelidad de {{appName}}. Se otorgan a los usuarios cuando usan la app.\n\n<0>¿Para qué sirven?</0>\nPara coleccionar. No se pueden gastar, cambiar ni transferir.\n\n<0>¿Por qué los veo en mi wallet?</0>\nPorque son tokens en la blockchain, bocaditos de felicidad digitales que ganas cuanto más usas la app.",
+      "title": "Más información sobre los puntos {{appName}}",
+      "body": "Los puntos son el programa de fidelidad de {{appName}}, se ganan solo por utilizar la app. Los puntos son exclusivos y no se pueden transferir ni vender.",
       "dismiss": "Entendido"
     }
   },
@@ -2534,6 +2541,7 @@
       "rate": "APY ~{{rate}}%",
       "continue": "Continuar",
       "info": "Esta pool es administrada por Aave",
+      "infoV1_93": "Con tecnología de {{providerName}}",
       "infoBottomSheet": {
         "title": "¿Por qué esta pool?",
         "description": "Esta pool de Aave tiene más de $150M de TVL y más de 6.000 contribuyentes, lo que indica una gran liquidez y fiabilidad. También utiliza USDC como token y Abitrum como red, lo que reduce la volatilidad y garantiza que los usuarios recibirán tasas baratas.\n\nTodo ello la convierte en una opción segura y atractiva con un APY competitivo, que garantiza una oportunidad de inversión beneficiosa para nuestros usuarios.\n\nPuedes explorar otros pools de Aave <0>aquí</0>.",
@@ -2561,11 +2569,13 @@
     "depositBottomSheet": {
       "title": "Revisar y depositar",
       "description": "Antes de depositar en una pool de Aave, revisa los detalles de la transacción a continuación",
+      "descriptionV1_93": "Antes de depositar en un fondo {{providerName}} , revisa los detalles de la transacción que figuran a continuación",
       "amount": "Monto depositado",
       "fee": "Tarifas estimadas",
       "provider": "Proveedor de ganancias",
       "network": "Red",
       "footer": "Al depositar cripto en una pool de Aave, aceptas los riesgos asociados a su uso. <0>Términos y condiciones</0>",
+      "footerV1_93": "Al depositar criptomonedas en un fondo de {{providerName}} , aceptas los riesgos asociados al uso de {{providerName}}. <0>Condiciones de uso</0>",
       "primaryCta": "Finalizar",
       "secondaryCta": "Cancelar"
     },
@@ -2612,7 +2622,9 @@
         "apyDescription": "El rendimiento porcentual anual (APY) es una métrica utilizada para calcular el rendimiento anualizado de las inversiones cripto. Es un indicador clave del rendimiento y la rentabilidad potenciales de una criptomoneda.",
         "tvlSubtitle": "¿Qué es el TVL?",
         "tvlDescription": "El valor total bloqueado (TVL) es una métrica utilizada en la industria cripto para medir el valor de los activos digitales bloqueados en una red. El TVL se calcula sumando el valor de todos los activos digitales bloqueados en un protocolo DeFi o contrato inteligente. Estos activos pueden incluir criptomonedas, stablecoins y otros tokens."
-      }
+      },
+      "noPoolsTitle": "Aún no te has unido a ningún pool",
+      "noPoolsDescription": "Descubre los pools disponibles, elige uno que se ajuste a tus objetivos y saca el máximo de tus stablecoins."
     },
     "poolCard": {
       "onNetwork": "en {{networkName}}",
@@ -2629,15 +2641,37 @@
       "depositAndEarnings": "Depósitos y ganancias"
     },
     "poolFilters": {
-      "openPools": "Pools activos",
+      "allPools": "Todos los Pools",
       "myPools": "Mis pools"
+    },
+    "poolInfoScreen": {
+      "chainName": "Red: <0>{{networkName}}</0>",
+      "protocolName": "Protocolo: <0>{{providerName}}</0>",
+      "yieldRate": "Tasa de rendimiento",
+      "ratePercent": "{{rate}}%",
+      "rewards": "Recompensas",
+      "noRewards": "Sin recompensas",
+      "tvl": "TVL",
+      "ageOfPool": "Antigüedad de pool:",
+      "learnMoreOnProvider": "Ver pool en {{providerName}}",
+      "deposit": "Depósito",
+      "withdraw": "Retirar"
     }
   },
   "addFundsActions": {
     "add": "Comprar",
     "transfer": "Transferir",
-    "swap": "Cambio"
+    "swap": "Cambiar"
   },
+  "duration_lessThanADay": "menos de un día",
+  "duration_day_one": "1 día",
+  "duration_day_other": "{{count}} días",
+  "duration_month_one": "1 mes",
+  "duration_month_other": "{{count}} meses",
+  "duration_year_one": "1 año",
+  "duration_year_other": "{{count}} años",
+  "duration_yearMonth_one": "1 año, 1 mes",
+  "duration_yearMonth_other": "{{count}} años, {{count2}} meses",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

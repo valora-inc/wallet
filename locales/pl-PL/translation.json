@@ -16,7 +16,9 @@
   },
   "legal": "Informacje prawne",
   "appPreferences": "Preferencje aplikacji",
+  "preferences": "Preferencje",
   "security": "Bezpieczeństwo",
+  "securityPrivacy": "Bezpieczeństwo i prywatność",
   "changePin": "Zmień kod PIN",
   "pinChanged": "Kod PIN został zmieniony",
   "pinChangeFailed": "Zmiana kodu PIN nie powiodła się",
@@ -172,6 +174,8 @@
   "termsOfServiceLink": "Warunki użytkowania",
   "privacyPolicy": "Polityka prywatności",
   "editProfile": "Edytuj profil",
+  "profileName": "Nazwa profilu",
+  "profile": "Profil",
   "confirmNumber": "Podłącz numer telefonu",
   "cancel": "Anuluj",
   "changeProfilePhoto": "Zmień zdjęcie profilowe",
@@ -183,6 +187,7 @@
   "continue": "Kontynuuj",
   "yourName": "Twoja nazwa",
   "version": "Wersja {{appVersion}}",
+  "appVersion": "Wersja",
   "addressCopied": "Adres skopiowany do schowka",
   "support": "Wsparcie",
   "contact": "Kontakt",
@@ -195,6 +200,7 @@
   "supportLegalCheckbox": "Przesyłając zgłoszenie, wyrażam zgodę na udostępnienie powyższych informacji oraz wszelkich załączonych danych z dziennika aplikacji Działowi wsparcia aplikacji {{appName}}.",
   "contactSuccess": "Twój problem został pomyślnie zgłoszony. Wkrótce otrzymasz wiadomość e-mail z odpowiedzią!",
   "namePictureSaved": "Twoja nazwa oraz zdjęcie zostały pomyślnie zapisane.",
+  "nameSaved": "Twoje imię i nazwisko zostało pomyślnie zapisane.",
   "addPhoto": "Dodaj zdjęcie",
   "chooseFromLibrary": "Wybierz z Biblioteki",
   "takePhoto": "Zrób zdjęcie",
@@ -1997,7 +2003,7 @@
       "earn": "Poznaj możliwości zarobkowe",
       "profile": "Stwórz swój profil",
       "learn": "Dowiedz się więcej o Celo",
-      "learnPoints": "Dowiedz się więcej o {{appName}} Punkty"
+      "learnPoints": "Dowiedz się więcej o punktach {{appName}}"
     }
   },
   "reverifyUsingCPVHomecard": {
@@ -2208,16 +2214,16 @@
     }
   },
   "jumpstartIntro": {
-    "title": "Udostępniaj kryptowaluty jak tekst",
+    "title": "Udostępniaj kryptowaluty jak wiadomości tekstowe",
     "addFundsCelo": {
-      "title": "Zdobądź aktywa na Celo",
-      "info": "Live Links to sposób na wysyłanie kryptowalut w sieci Celo do znajomego za pomocą linku.\nAby rozpocząć, będziesz potrzebować zasobów CELO w swoim portfelu.",
-      "description": "Po dodaniu zasobów w Celo będziesz musiał wrócić, aby utworzyć łącze na żywo.",
-      "cta": "Zdobądź aktywa na Celo",
+      "title": "Pobierz aktywa do Celo",
+      "info": "Łącza dynamiczne to doskonały sposób na wysyłanie znajomym kryptowalut w sieci Celo.\nAby móc korzystać z tej funkcji, musisz mieć aktywa CELO w swoim portfelu.",
+      "description": "Po dodaniu aktywów do Celo musisz się cofnąć, aby utworzyć łącze dynamiczne.",
+      "cta": "Pobierz aktywa do Celo",
       "actionDescriptions": {
-        "add": "Kupuj aktywa na Celo, korzystając z usług jednego z naszych zaufanych dostawców",
-        "swap": "Zamiana na aktywo w Celo z innego aktywa",
-        "transfer": "Użyj dowolnego portfela lub giełdy kompatybilnej z Celo, aby zdeponować aktywa w Celo."
+        "add": "Kupuj aktywa w sieci Celo, korzystając z usług jednego z naszych zaufanych dostawców",
+        "swap": "Zamień inne aktywa na aktywa w sieci Celo",
+        "transfer": "Użyj dowolnego portfela lub giełdy zgodnych z Celo, aby wpłacać aktywa do Celo"
       }
     }
   },
@@ -2470,7 +2476,8 @@
     },
     "disclaimer": {
       "learnMoreCta": "<0>Dowiedz się więcej</0> o punktach {{appName}}",
-      "body": "<0>Czym są punkty?</0>\nPunkty są przyznawane w ramach programu lojalnościowego {{appName}}. Otrzymuje się je za korzystanie z naszej aplikacji.\n\n<0>Do czego można ich używać?</0>\nMożna je zbierać, a potem wydawać, wymieniać lub przekazywać innym użytkownikom.\n\n<0>Dlaczego są w moim portfelu?</0>\nSą dodawane do portfela, ponieważ są tokenami. Innymi słowy drobnymi bitami w łańcuchu, które zarabia się, korzystając z aplikacji.",
+      "title": "Więcej informacji o punktach {{appName}}",
+      "body": "Punkty są przyznawane w programie lojalnościowym {{appName}}. Otrzymuje się je za korzystanie z aplikacji. Punktów nie można wydawać, zamieniać ani przekazywać.",
       "dismiss": "Rozumiem"
     }
   },
@@ -2500,19 +2507,19 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "Maksymalizuj zarobki bez opłat za gaz*",
-          "title": "Przeglądaj i porównuj baseny",
-          "subtitle": "Porównaj potencjał zarobkowy i ryzyko. Wymieniaj, kupuj lub transferuj tokeny, aby dołączyć do najlepszej dla siebie puli.",
+          "title": "Przejrzyj i porównaj pule",
+          "subtitle": "Porównaj potencjał zarobkowy i ryzyko. Wymieniaj, kupuj lub przesyłaj tokeny, aby dołączyć do najlepszej puli.",
           "footnoteSubsidy": "* Opłaty za gaz są tymczasowo pokrywane przez Valorę"
         },
         "manage": {
           "title": "Zarządzaj bezpośrednio z Valory",
           "titleV1_92": "Zarządzaj bezpośrednio z {{appName}}",
-          "subtitle": "Automatycznie połączymy Twój portfel, abyś mógł zarządzać pulami bez opuszczania Valory.",
-          "subtitleV1_92": "Automatycznie połączymy Twój portfel, abyś mógł zarządzać pulami bez opuszczania strony {{appName}}."
+          "subtitle": "Automatycznie połączymy Twój portfel, aby można było zarządzać pulami bez zamykania aplikacji Valora.",
+          "subtitleV1_92": "Automatycznie połączymy Twój portfel, aby można było zarządzać pulami bez zamykania aplikacji {{appName}}."
         },
         "access": {
           "title": "Łatwy dostęp do Twoich środków",
-          "subtitle": "Zbieraj fundusze jednym dotknięciem, tak jak w przypadku ulubionych protokołów."
+          "subtitle": "Zbieraj środki jednym dotknięciem, tak jak w przypadku innych ulubionych protokołów."
         }
       },
       "action": {
@@ -2528,7 +2535,7 @@
     "entrypoint": {
       "title": "Zarabiaj na swoich stablecoinach",
       "subtitle": "Wpłacaj i zarabiaj",
-      "description": "Zarabiaj na swoich stablecoinach, udzielając pożyczek za pośrednictwem puli płynności"
+      "description": "Zarabiaj na swoich tokenach płatniczych, pożyczając za pośrednictwem puli płynności"
     },
     "enterAmount": {
       "earnUpToLabel": "Możesz zarobić do:",
@@ -2538,6 +2545,7 @@
       "rate": "{{rate}}% APY",
       "continue": "Kontynuuj",
       "info": "Ta pula jest zapewniana przez Aave",
+      "infoV1_93": "Obsługiwane przez {{providerName}}",
       "infoBottomSheet": {
         "title": "Dlaczego ta pula?",
         "description": "Ta pula Aave ma ponad 150 mln USD TVL i ponad 6000 uczestników, co wskazuje na dużą płynność i wiarygodność. Wykorzystuje również USDC jako token i Arbitrum jako sieć, co zmniejsza zmienność i zapewnia użytkownikom niskie opłaty za gaz.\n\nWszystko to sprawia, że jest to bezpieczna i atrakcyjna opcja z konkurencyjnym APY zapewniająca naszym użytkownikom korzystne możliwości inwestycyjne.\n\nMożesz zapoznać się z innymi pulami Aave <0>tutaj</0>.",
@@ -2558,18 +2566,20 @@
       "viewPools": "Pokaż pule",
       "poolsSupplied": "Dostępne pule",
       "totalSupplied": "Dostępne ogółem",
-      "depositAndEarnings": "Depozyt i zarobki",
+      "depositAndEarnings": "Wpłaty i zarobki",
       "myPools": "Moje pule",
       "explore": "Przeglądaj otwarte"
     },
     "depositBottomSheet": {
       "title": "Przegląd i wpłata",
       "description": "Przed dokonaniem wpłaty do puli Aave zapoznaj się z poniższymi szczegółami transakcji",
+      "descriptionV1_93": "Przed dokonaniem wpłaty do puli {{providerName}} zapoznaj się z poniższymi szczegółami transakcji",
       "amount": "Kwota wpłacona",
       "fee": "Szac. opłaty za gaz",
       "provider": "Dostawca zarobków",
       "network": "Sieć",
       "footer": "Wpłacając kryptowaluty do puli Aave, akceptujesz ryzyko związane z korzystaniem z Aave. <0>Warunki</0>",
+      "footerV1_93": "Wpłacając kryptowaluty do puli {{providerName}} , akceptujesz ryzyko związane z korzystaniem z {{providerName}}. <0>Regulamin</0>",
       "primaryCta": "Zakończ",
       "secondaryCta": "Anuluj"
     },
@@ -2616,12 +2626,14 @@
         "apyDescription": "Roczny zysk procentowy (APY) jest wskaźnikiem używanym do obliczania rocznego zwrotu z inwestycji w kryptowaluty. To kluczowy wskaźnik potencjalnego zwrotu i rentowności kryptowaluty.",
         "tvlSubtitle": "Co to jest TVL?",
         "tvlDescription": "TVL to skrót oznaczający łączną wartość zablokowanych aktywów i jest wskaźnikiem używanym w branży kryptowalut do pomiaru wartości cyfrowych aktywów zablokowanych w sieci łańcucha bloków. Oblicza się go przez zsumowanie wartości wszystkich cyfrowych aktywów zablokowanych w protokole DeFi lub inteligentnym kontrakcie. Środkami są między innymi kryptowaluty, tokeny płatnicze i inne tokeny."
-      }
+      },
+      "noPoolsTitle": "Nie dołączono jeszcze do żadnej puli",
+      "noPoolsDescription": "Odkryj dostępne pule, wybierz taką, która odpowiada Twoim celom, i w pełni wykorzystaj swoje tokeny płatnicze."
     },
     "poolCard": {
       "onNetwork": "w {{networkName}}",
       "rate": "Stawka (szac.)",
-      "yieldRate": "Stopa zwrotu (szacunkowo)",
+      "yieldRate": "Stopa zwrotu (szac.)",
       "reward": "Nagroda",
       "tvl": "TVL",
       "exitPool": "Wyjdź z puli",
@@ -2630,11 +2642,24 @@
       "percentage": "{{percentage}}%",
       "poweredBy": "Obsługiwane przez {{providerName}}",
       "deposited": "Dostarczone",
-      "depositAndEarnings": "Depozyt i zarobki"
+      "depositAndEarnings": "Wpłaty i zarobki"
     },
     "poolFilters": {
-      "openPools": "Otwarte pule",
+      "allPools": "Wszystkie pule",
       "myPools": "Moje pule"
+    },
+    "poolInfoScreen": {
+      "chainName": "Łańcuch: <0>{{networkName}}</0>",
+      "protocolName": "Protokół: <0>{{providerName}}</0>",
+      "yieldRate": "Stopa zwrotu",
+      "ratePercent": "{{rate}}%",
+      "rewards": "Nagrody",
+      "noRewards": "Brak nagród",
+      "tvl": "TVL",
+      "ageOfPool": "Wiek puli",
+      "learnMoreOnProvider": "Wyświetl pulę w {{providerName}}",
+      "deposit": "Wpłatę",
+      "withdraw": "Wycofaj"
     }
   },
   "addFundsActions": {
@@ -2642,6 +2667,15 @@
     "transfer": "Transfer",
     "swap": "Zamieniaj"
   },
+  "duration_lessThanADay": "Mniej niż jeden dzień",
+  "duration_day_one": "1 dzień",
+  "duration_day_other": "Liczba dni: {{count}}",
+  "duration_month_one": "1 miesiąc",
+  "duration_month_other": "Liczba miesięcy: {{count}}",
+  "duration_year_one": "1 rok",
+  "duration_year_other": "Liczba lat: {{count}}",
+  "duration_yearMonth_one": "1 rok, 1 miesiąc",
+  "duration_yearMonth_other": "Liczba lat: {{count}}, liczba miesięcy: {{count2}}",
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
   "celoDollarAmount_2": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolarów",

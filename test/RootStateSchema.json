@@ -250,7 +250,6 @@
                                 "addressValidationNoMatch",
                                 "addressValidationPartialOwnAddress",
                                 "addressValidationPartialPoorlyFormatted",
-                                "calculateFeeFailed",
                                 "cashOutLimitExceeded",
                                 "contractKitInitFailed",
                                 "dappShortcuts.claimRewardFailure",
@@ -270,7 +269,6 @@
                                 "missingFullName",
                                 "personaAccountEndpointFail",
                                 "phoneVerificationInput.verificationFailure",
-                                "pictureLoadFailed",
                                 "pinInputCanceled",
                                 "providerFetchFailed",
                                 "qrFailedInvalidAddress",
@@ -278,7 +276,6 @@
                                 "sendPaymentFailed",
                                 "simplexPurchaseFetchFailed",
                                 "swapScreen.fetchSwapQuoteFailed",
-                                "transactionFailed",
                                 "transactionTimeout"
                             ],
                             "type": "string"
@@ -345,6 +342,12 @@
                 },
                 "displayProps": {
                     "$ref": "#/definitions/PositionDisplayProps"
+                },
+                "imageUrl": {
+                    "type": "string"
+                },
+                "networkIconUrl": {
+                    "type": "string"
                 },
                 "networkId": {
                     "$ref": "#/definitions/NetworkId"
@@ -530,6 +533,12 @@
                 "decimals": {
                     "type": "number"
                 },
+                "imageUrl": {
+                    "type": "string"
+                },
+                "networkIconUrl": {
+                    "type": "string"
+                },
                 "networkId": {
                     "$ref": "#/definitions/NetworkId"
                 },
@@ -556,51 +565,6 @@
                 "symbol",
                 "tokenId",
                 "type"
-            ],
-            "type": "object"
-        },
-        "BigNumber": {
-            "additionalProperties": false,
-            "properties": {
-                "_isBigNumber": {
-                    "const": true,
-                    "description": "Used internally to identify a BigNumber instance.",
-                    "type": "boolean"
-                },
-                "c": {
-                    "anyOf": [
-                        {
-                            "items": {
-                                "type": "number"
-                            },
-                            "type": "array"
-                        },
-                        {
-                            "type": "null"
-                        }
-                    ],
-                    "description": "The coefficient of the value of this BigNumber, an array of base 1e14 integer numbers, or null."
-                },
-                "e": {
-                    "description": "The exponent of the value of this BigNumber, an integer number, -1000000000 to 1000000000, or null.",
-                    "type": [
-                        "null",
-                        "number"
-                    ]
-                },
-                "s": {
-                    "description": "The sign of the value of this BigNumber, -1, 1, or null.",
-                    "type": [
-                        "null",
-                        "number"
-                    ]
-                }
-            },
-            "required": [
-                "_isBigNumber",
-                "c",
-                "e",
-                "s"
             ],
             "type": "object"
         },
@@ -1296,6 +1260,9 @@
                 "manageUrl": {
                     "type": "string"
                 },
+                "termsUrl": {
+                    "type": "string"
+                },
                 "tvl": {
                     "type": "string"
                 },
@@ -1546,66 +1513,6 @@
             "required": [
                 "amount",
                 "type"
-            ],
-            "type": "object"
-        },
-        "FeeEstimateState": {
-            "additionalProperties": false,
-            "properties": {
-                "error": {
-                    "type": "boolean"
-                },
-                "feeInfo": {
-                    "$ref": "#/definitions/FeeInfo"
-                },
-                "lastUpdated": {
-                    "type": "number"
-                },
-                "loading": {
-                    "type": "boolean"
-                },
-                "usdFee": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                }
-            },
-            "required": [
-                "error",
-                "lastUpdated",
-                "loading",
-                "usdFee"
-            ],
-            "type": "object"
-        },
-        "FeeEstimates": {
-            "additionalProperties": {
-                "$ref": "#/definitions/{send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;swap:FeeEstimateState|undefined;}"
-            },
-            "type": "object"
-        },
-        "FeeInfo": {
-            "additionalProperties": false,
-            "properties": {
-                "fee": {
-                    "$ref": "#/definitions/BigNumber"
-                },
-                "feeCurrency": {
-                    "type": "string"
-                },
-                "gas": {
-                    "$ref": "#/definitions/BigNumber"
-                },
-                "gasPrice": {
-                    "$ref": "#/definitions/BigNumber"
-                }
-            },
-            "required": [
-                "fee",
-                "feeCurrency",
-                "gas",
-                "gasPrice"
             ],
             "type": "object"
         },
@@ -3387,10 +3294,12 @@
                 "DappShortcutsRewards",
                 "DappsScreen",
                 "Debug",
+                "DebugImages",
                 "EarnCollectScreen",
                 "EarnEnterAmount",
                 "EarnHome",
                 "EarnInfoScreen",
+                "EarnPoolInfoScreen",
                 "EnableBiometry",
                 "ErrorScreen",
                 "ExchangeQR",
@@ -3421,6 +3330,7 @@
                 "KycPending",
                 "Language",
                 "LanguageModal",
+                "LegalSubmenu",
                 "Licenses",
                 "LinkPhoneNumber",
                 "Main",
@@ -3434,8 +3344,10 @@
                 "PincodeSet",
                 "PointsHome",
                 "PointsIntro",
+                "PreferencesSubmenu",
                 "Profile",
                 "ProfileMenu",
+                "ProfileSubmenu",
                 "ProtectWallet",
                 "QRCode",
                 "QRNavigator",
@@ -3450,6 +3362,7 @@
                 "SendEnterAmount",
                 "SendSelectRecipient",
                 "Settings",
+                "SettingsMenu",
                 "SignInWithEmail",
                 "Simplex",
                 "Spend",
@@ -4367,18 +4280,6 @@
         "State_10": {
             "additionalProperties": false,
             "properties": {
-                "estimates": {
-                    "$ref": "#/definitions/FeeEstimates"
-                }
-            },
-            "required": [
-                "estimates"
-            ],
-            "type": "object"
-        },
-        "State_11": {
-            "additionalProperties": false,
-            "properties": {
                 "appRecipientCache": {
                     "$ref": "#/definitions/AddressToRecipient"
                 },
@@ -4413,7 +4314,7 @@
             ],
             "type": "object"
         },
-        "State_12": {
+        "State_11": {
             "additionalProperties": false,
             "properties": {
                 "error": {
@@ -4536,7 +4437,7 @@
             ],
             "type": "object"
         },
-        "State_13": {
+        "State_12": {
             "additionalProperties": false,
             "properties": {
                 "isImportingWallet": {
@@ -4548,7 +4449,7 @@
             ],
             "type": "object"
         },
-        "State_14": {
+        "State_13": {
             "additionalProperties": false,
             "properties": {
                 "providerLogos": {
@@ -4564,7 +4465,7 @@
             ],
             "type": "object"
         },
-        "State_15": {
+        "State_14": {
             "additionalProperties": false,
             "properties": {
                 "pendingActions": {
@@ -4658,7 +4559,7 @@
             ],
             "type": "object"
         },
-        "State_16": {
+        "State_15": {
             "additionalProperties": false,
             "properties": {
                 "error": {
@@ -4678,7 +4579,7 @@
             ],
             "type": "object"
         },
-        "State_17": {
+        "State_16": {
             "additionalProperties": false,
             "properties": {
                 "activeDapp": {
@@ -4758,7 +4659,7 @@
             ],
             "type": "object"
         },
-        "State_18": {
+        "State_17": {
             "additionalProperties": false,
             "properties": {
                 "attemptReturnUserFlowLoading": {
@@ -4913,7 +4814,7 @@
             ],
             "type": "object"
         },
-        "State_19": {
+        "State_18": {
             "additionalProperties": false,
             "properties": {
                 "currentSwap": {
@@ -4944,27 +4845,7 @@
             ],
             "type": "object"
         },
-        "State_2": {
-            "additionalProperties": false,
-            "properties": {
-                "connected": {
-                    "type": "boolean"
-                },
-                "rehydrated": {
-                    "type": "boolean"
-                },
-                "userLocationData": {
-                    "$ref": "#/definitions/UserLocationData"
-                }
-            },
-            "required": [
-                "connected",
-                "rehydrated",
-                "userLocationData"
-            ],
-            "type": "object"
-        },
-        "State_20": {
+        "State_19": {
             "additionalProperties": false,
             "properties": {
                 "earnPositionIds": {
@@ -5015,7 +4896,27 @@
             ],
             "type": "object"
         },
-        "State_21": {
+        "State_2": {
+            "additionalProperties": false,
+            "properties": {
+                "connected": {
+                    "type": "boolean"
+                },
+                "rehydrated": {
+                    "type": "boolean"
+                },
+                "userLocationData": {
+                    "$ref": "#/definitions/UserLocationData"
+                }
+            },
+            "required": [
+                "connected",
+                "rehydrated",
+                "userLocationData"
+            ],
+            "type": "object"
+        },
+        "State_20": {
             "additionalProperties": false,
             "properties": {
                 "appKeyshare": {
@@ -5056,7 +4957,7 @@
             ],
             "type": "object"
         },
-        "State_23": {
+        "State_22": {
             "additionalProperties": {
                 "additionalProperties": false,
                 "properties": {
@@ -5078,7 +4979,7 @@
             },
             "type": "object"
         },
-        "State_24": {
+        "State_23": {
             "additionalProperties": false,
             "properties": {
                 "claimStatus": {
@@ -5116,7 +5017,7 @@
             ],
             "type": "object"
         },
-        "State_25": {
+        "State_24": {
             "additionalProperties": false,
             "properties": {
                 "getHistoryStatus": {
@@ -5200,7 +5101,7 @@
             ],
             "type": "object"
         },
-        "State_26": {
+        "State_25": {
             "additionalProperties": false,
             "properties": {
                 "depositStatus": {
@@ -5529,12 +5430,6 @@
                 "photosNUXClicked": {
                     "type": "boolean"
                 },
-                "pictureUri": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
                 "pincodeType": {
                     "$ref": "#/definitions/PincodeType"
                 },
@@ -5567,7 +5462,6 @@
                 "hasMigratedToNewBip39",
                 "name",
                 "photosNUXClicked",
-                "pictureUri",
                 "pincodeType",
                 "recoveryPhraseInOnboardingStatus"
             ],
@@ -6921,24 +6815,6 @@
             },
             "type": "object"
         },
-        "{send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;swap:FeeEstimateState|undefined;}": {
-            "additionalProperties": false,
-            "properties": {
-                "exchange": {
-                    "$ref": "#/definitions/FeeEstimateState"
-                },
-                "register-dek": {
-                    "$ref": "#/definitions/FeeEstimateState"
-                },
-                "send": {
-                    "$ref": "#/definitions/FeeEstimateState"
-                },
-                "swap": {
-                    "$ref": "#/definitions/FeeEstimateState"
-                }
-            },
-            "type": "object"
-        },
         "{swap?:boolean|undefined;\"create-wallet\"?:boolean|undefined;\"create-live-link\"?:boolean|undefined;\"deposit-earn\"?:boolean|undefined;}": {
             "additionalProperties": false,
             "properties": {
@@ -7038,19 +6914,16 @@
             "$ref": "#/definitions/State"
         },
         "dapps": {
-            "$ref": "#/definitions/State_17"
+            "$ref": "#/definitions/State_16"
         },
         "earn": {
-            "$ref": "#/definitions/State_26"
-        },
-        "fees": {
-            "$ref": "#/definitions/State_10"
+            "$ref": "#/definitions/State_25"
         },
         "fiatConnect": {
-            "$ref": "#/definitions/State_18"
+            "$ref": "#/definitions/State_17"
         },
         "fiatExchanges": {
-            "$ref": "#/definitions/State_14"
+            "$ref": "#/definitions/State_13"
         },
         "home": {
             "$ref": "#/definitions/State_5"
@@ -7062,16 +6935,16 @@
             "$ref": "#/definitions/State_8"
         },
         "imports": {
-            "$ref": "#/definitions/State_13"
+            "$ref": "#/definitions/State_12"
         },
         "jumpstart": {
-            "$ref": "#/definitions/State_24"
+            "$ref": "#/definitions/State_23"
         },
         "keylessBackup": {
-            "$ref": "#/definitions/State_21"
+            "$ref": "#/definitions/State_20"
         },
         "localCurrency": {
-            "$ref": "#/definitions/State_12"
+            "$ref": "#/definitions/State_11"
         },
         "networkInfo": {
             "$ref": "#/definitions/State_2"
@@ -7103,31 +6976,31 @@
             "type": "object"
         },
         "points": {
-            "$ref": "#/definitions/State_25"
+            "$ref": "#/definitions/State_24"
         },
         "positions": {
-            "$ref": "#/definitions/State_20"
+            "$ref": "#/definitions/State_19"
         },
         "priceHistory": {
-            "$ref": "#/definitions/State_23"
+            "$ref": "#/definitions/State_22"
         },
         "recipients": {
-            "$ref": "#/definitions/State_11"
+            "$ref": "#/definitions/State_10"
         },
         "send": {
             "$ref": "#/definitions/State_4"
         },
         "swap": {
-            "$ref": "#/definitions/State_19"
+            "$ref": "#/definitions/State_18"
         },
         "tokens": {
-            "$ref": "#/definitions/State_16"
+            "$ref": "#/definitions/State_15"
         },
         "transactions": {
             "$ref": "#/definitions/State_6"
         },
         "walletConnect": {
-            "$ref": "#/definitions/State_15"
+            "$ref": "#/definitions/State_14"
         },
         "web3": {
             "$ref": "#/definitions/State_7"
@@ -7140,7 +7013,6 @@
         "app",
         "dapps",
         "earn",
-        "fees",
         "fiatConnect",
         "fiatExchanges",
         "home",

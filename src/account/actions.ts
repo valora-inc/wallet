@@ -7,8 +7,7 @@ export enum Actions {
   CANCEL_CREATE_OR_RESTORE_ACCOUNT = 'ACCOUNT/CANCEL_CREATE_OR_RESTORE_ACCOUNT',
   SET_NAME = 'ACCOUNT/SET_NAME',
   SET_PHONE_NUMBER = 'ACCOUNT/SET_PHONE_NUMBER',
-  SET_PICTURE = 'ACCOUNT/SET_PICTURE',
-  SAVE_NAME_AND_PICTURE = 'ACCOUNT/SAVE_NAME_AND_PICTURE',
+  SAVE_NAME = 'ACCOUNT/SAVE_NAME',
   DEV_MODE_TRIGGER_CLICKED = 'ACCOUNT/NAME_CLICKED',
   PHOTOSNUX_CLICKED = 'ACCOUNT/PHOTOSNUX_CLICKED',
   SET_PINCODE_SUCCESS = 'ACCOUNT/SET_PINCODE_SUCCESS',
@@ -59,15 +58,9 @@ interface SetPhoneNumberAction {
   countryCode: string
 }
 
-interface SetPictureAction {
-  type: Actions.SET_PICTURE
-  pictureUri: string | null
-}
-
-interface SaveNameAndPictureAction {
-  type: Actions.SAVE_NAME_AND_PICTURE
+interface SaveNameAction {
+  type: Actions.SAVE_NAME
   name: string
-  pictureUri: string | null
 }
 interface DevModeTriggerClickedAction {
   type: Actions.DEV_MODE_TRIGGER_CLICKED
@@ -159,8 +152,7 @@ export type ActionTypes =
   | CancelCreateOrRestoreAccountAction
   | SetNameAction
   | SetPhoneNumberAction
-  | SetPictureAction
-  | SaveNameAndPictureAction
+  | SaveNameAction
   | DevModeTriggerClickedAction
   | PhotosNUXClickedAction
   | SetPincodeSuccessAction
@@ -213,17 +205,12 @@ export function acceptTerms(): AcceptTermsAction {
   }
 }
 
-export function saveNameAndPicture(
-  name: string,
-  pictureUri: string | null
-): SaveNameAndPictureAction {
+export function saveName(name: string): SaveNameAction {
   return {
-    type: Actions.SAVE_NAME_AND_PICTURE,
+    type: Actions.SAVE_NAME,
     name,
-    pictureUri,
   }
 }
-
 export const devModeTriggerClicked = (): DevModeTriggerClickedAction => ({
   type: Actions.DEV_MODE_TRIGGER_CLICKED,
 })

@@ -1,5 +1,5 @@
-import { sleep } from '@celo/utils/lib/async'
 import { UnknownAction } from '@reduxjs/toolkit'
+import { sleep } from 'src/utils/sleep'
 // Import the actions included in the logger blocklist below.
 import { REHYDRATE } from 'redux-persist'
 import { Actions as AccountActions } from 'src/account/actions'
@@ -16,7 +16,6 @@ import {
 } from 'src/app/saga'
 import { dappsSaga } from 'src/dapps/saga'
 import { earnSaga } from 'src/earn/saga'
-import { feesSaga } from 'src/fees/saga'
 import { fiatExchangesSaga } from 'src/fiatExchanges/saga'
 import { fiatConnectSaga } from 'src/fiatconnect/saga'
 import { firebaseSaga } from 'src/firebase/saga'
@@ -118,7 +117,6 @@ export function* rootSaga() {
     yield* spawn(homeSaga)
     yield* spawn(identitySaga)
     yield* spawn(recipientsSaga)
-    yield* spawn(feesSaga)
     yield* spawn(sendSaga)
     yield* spawn(jumpstartSaga)
     yield* spawn(importSaga)

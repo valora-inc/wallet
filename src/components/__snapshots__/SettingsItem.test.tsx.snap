@@ -13,7 +13,7 @@ exports[`SettingsItemInput renders correctly 1`] = `
       {
         "borderBottomColor": "#E6E6E6",
         "borderBottomWidth": 1,
-        "marginLeft": 16,
+        "marginHorizontal": 16,
         "paddingVertical": 16,
       }
     }
@@ -24,7 +24,6 @@ exports[`SettingsItemInput renders correctly 1`] = `
           "alignItems": "center",
           "flexDirection": "row",
           "justifyContent": "space-between",
-          "paddingRight": 16,
         }
       }
     >
@@ -122,7 +121,7 @@ exports[`SettingsItemSwitch renders correctly 1`] = `
       {
         "borderBottomColor": "#E6E6E6",
         "borderBottomWidth": 1,
-        "marginLeft": 16,
+        "marginHorizontal": 16,
         "paddingVertical": 16,
       }
     }
@@ -133,7 +132,6 @@ exports[`SettingsItemSwitch renders correctly 1`] = `
           "alignItems": "center",
           "flexDirection": "row",
           "justifyContent": "space-between",
-          "paddingRight": 16,
         }
       }
     >
@@ -186,7 +184,7 @@ exports[`SettingsItemTextValue renders correctly 1`] = `
       {
         "borderBottomColor": "#E6E6E6",
         "borderBottomWidth": 1,
-        "marginLeft": 16,
+        "marginHorizontal": 16,
         "paddingVertical": 16,
       }
     }
@@ -197,7 +195,6 @@ exports[`SettingsItemTextValue renders correctly 1`] = `
           "alignItems": "center",
           "flexDirection": "row",
           "justifyContent": "space-between",
-          "paddingRight": 16,
         }
       }
     >
@@ -248,17 +245,17 @@ exports[`SettingsItemTextValue renders correctly 1`] = `
         </Text>
         <svg
           fill="none"
-          height={16}
+          height={12}
           style={{}}
           testID="ForwardChevron"
           viewBox="0 0 8 16"
-          width={8}
+          width={6}
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
             clipRule="evenodd"
             d="M.293.293a1 1 0 0 1 1.414 0l6 6a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414L5.586 7 .293 1.707a1 1 0 0 1 0-1.414Z"
-            fill="#2E3338"
+            fill="#757575"
             fillRule="evenodd"
             style={{}}
           />
@@ -282,7 +279,7 @@ exports[`SettingsItemTextValue renders correctly without value 1`] = `
       {
         "borderBottomColor": "#E6E6E6",
         "borderBottomWidth": 1,
-        "marginLeft": 16,
+        "marginHorizontal": 16,
         "paddingVertical": 16,
       }
     }
@@ -293,7 +290,6 @@ exports[`SettingsItemTextValue renders correctly without value 1`] = `
           "alignItems": "center",
           "flexDirection": "row",
           "justifyContent": "space-between",
-          "paddingRight": 16,
         }
       }
     >

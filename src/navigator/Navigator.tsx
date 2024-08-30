@@ -12,12 +12,16 @@ import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
 import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
 import Profile from 'src/account/Profile'
+import ProfileSubmenu from 'src/account/ProfileSubmenu'
+import LegalSubmenu from 'src/account/LegalSubmenu'
+import PreferencesSubmenu from 'src/account/PreferencesSubmenu'
 import SettingsScreen from 'src/account/Settings'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import Support from 'src/account/Support'
 import SupportContact from 'src/account/SupportContact'
 import AppLoading from 'src/app/AppLoading'
 import Debug from 'src/app/Debug'
+import DebugImages from 'src/app/DebugImages'
 import ErrorScreen from 'src/app/ErrorScreen'
 import MultichainBeta from 'src/app/MultichainBeta'
 import SanctionedCountryErrorScreen from 'src/app/SanctionedCountryErrorScreen'
@@ -33,6 +37,7 @@ import EarnCollectScreen from 'src/earn/EarnCollectScreen'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
 import EarnHome from 'src/earn/EarnHome'
 import EarnInfoScreen from 'src/earn/EarnInfoScreen'
+import EarnPoolInfoScreen from 'src/earn/EarnPoolInfoScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import CashInSuccess from 'src/fiatExchanges/CashInSuccess'
 import CoinbasePayScreen from 'src/fiatExchanges/CoinbasePayScreen'
@@ -79,6 +84,7 @@ import {
   nuxNavigationOptions,
 } from 'src/navigator/Headers'
 import ProfileMenu from 'src/navigator/ProfileMenu'
+import SettingsMenu from 'src/navigator/SettingsMenu'
 import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
 import TabNavigator from 'src/navigator/TabNavigator'
@@ -137,6 +143,11 @@ const commonScreens = (Navigator: typeof Stack) => {
         options={UpgradeScreen.navigationOptions}
       />
       <Navigator.Screen name={Screens.Debug} component={Debug} options={noHeader} />
+      <Navigator.Screen
+        name={Screens.DebugImages}
+        component={DebugImages}
+        options={headerWithBackButton}
+      />
       <Navigator.Screen
         name={Screens.WebViewScreen}
         component={WebViewScreen}
@@ -320,6 +331,13 @@ const settingsScreens = (Navigator: typeof Stack) => (
       options={Profile.navigationOptions}
       name={Screens.Profile}
       component={Profile}
+    />
+    <Navigator.Screen options={noHeader} name={Screens.ProfileSubmenu} component={ProfileSubmenu} />
+    <Navigator.Screen options={noHeader} name={Screens.LegalSubmenu} component={LegalSubmenu} />
+    <Navigator.Screen
+      options={noHeader}
+      name={Screens.PreferencesSubmenu}
+      component={PreferencesSubmenu}
     />
     <Navigator.Screen
       name={Screens.Language}
@@ -513,9 +531,14 @@ const generalScreens = (Navigator: typeof Stack) => (
       component={ProfileMenu}
       options={ProfileMenu.navigationOptions as NativeStackNavigationOptions}
     />
+    <Navigator.Screen
+      name={Screens.SettingsMenu}
+      component={SettingsMenu}
+      options={SettingsMenu.navigationOptions as NativeStackNavigationOptions}
+    />
     <Navigator.Screen name={Screens.Settings} component={SettingsScreen} options={noHeader} />
     <Navigator.Screen name={Screens.Invite} component={Invite} options={noHeader} />
-    <Navigator.Screen name={Screens.Support} component={Support} options={headerWithBackButton} />
+    <Navigator.Screen name={Screens.Support} component={Support} options={noHeader} />
   </>
 )
 
@@ -536,6 +559,11 @@ const earnScreens = (Navigator: typeof Stack) => (
       name={Screens.EarnInfoScreen}
       component={EarnInfoScreen}
       options={EarnInfoScreen.navigationOptions}
+    />
+    <Navigator.Screen
+      name={Screens.EarnPoolInfoScreen}
+      component={EarnPoolInfoScreen}
+      options={headerWithBackButton}
     />
   </>
 )
@@ -593,7 +621,7 @@ const mapStateToProps = (state: RootState) => {
 
 type InitialRouteName = ExtractProps<typeof Stack.Navigator>['initialRouteName']
 
-export function MainStackScreen() {
+function MainStackScreen() {
   const [initialRouteName, setInitialRoute] = React.useState<InitialRouteName>(undefined)
 
   React.useEffect(() => {

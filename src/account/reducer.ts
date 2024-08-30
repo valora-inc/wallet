@@ -1,16 +1,15 @@
-import { isE164NumberStrict } from '@celo/phone-utils'
 import { Actions, ActionTypes } from 'src/account/actions'
 import { Actions as AppActions, ActionTypes as AppActionTypes } from 'src/app/actions'
 import { DEV_SETTINGS_ACTIVE_INITIALLY } from 'src/config'
 import { deleteKeylessBackupCompleted, keylessBackupCompleted } from 'src/keylessBackup/slice'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import Logger from 'src/utils/Logger'
+import { isE164NumberStrict } from 'src/utils/phoneNumbers'
 import { Actions as Web3Actions, ActionTypes as Web3ActionTypes } from 'src/web3/actions'
 
 interface State {
   name: string | null
   e164PhoneNumber: string | null
-  pictureUri: string | null
   defaultCountryCode: string | null
   contactDetails: UserContactDetails
   devModeActive: boolean
@@ -39,7 +38,7 @@ export enum PincodeType {
   PhoneAuth = 'PhoneAuth',
 }
 
-export interface UserContactDetails {
+interface UserContactDetails {
   contactId: string | null
   thumbnailPath: string | null
 }
@@ -74,7 +73,6 @@ export enum RecoveryPhraseInOnboardingStatus {
 const initialState: State = {
   name: null,
   e164PhoneNumber: null,
-  pictureUri: null,
   defaultCountryCode: null,
   contactDetails: {
     contactId: null,
@@ -152,16 +150,10 @@ export const reducer = (
         ...state,
         name: action.name,
       }
-    case Actions.SET_PICTURE:
-      return {
-        ...state,
-        pictureUri: action.pictureUri,
-      }
-    case Actions.SAVE_NAME_AND_PICTURE:
+    case Actions.SAVE_NAME:
       return {
         ...state,
         name: action.name,
-        pictureUri: action.pictureUri,
       }
     case AppActions.PHONE_NUMBER_VERIFICATION_COMPLETED:
     case Actions.SET_PHONE_NUMBER:

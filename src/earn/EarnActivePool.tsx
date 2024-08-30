@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { EarnEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { EarnEvents } from 'src/analytics/Events'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import TokenDisplay from 'src/components/TokenDisplay'
 import { PROVIDER_ID } from 'src/earn/constants'
+import { useEarnPosition } from 'src/earn/hooks'
 import { poolInfoFetchStatusSelector, poolInfoSelector } from 'src/earn/selectors'
 import { fetchPoolInfo } from 'src/earn/slice'
 import { navigate } from 'src/navigator/NavigationService'
@@ -50,6 +51,7 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
   const poolToken = useTokenInfo(poolTokenId)
   const poolInfo = useSelector(poolInfoSelector)
   const poolInfoFetchStatus = useSelector(poolInfoFetchStatusSelector)
+  const earnPosition = useEarnPosition(poolTokenId)
 
   useEffect(() => {
     dispatch(fetchPoolInfo())
@@ -111,7 +113,7 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
                   tokenAmount: poolToken.balance.toString(),
                   providerId: PROVIDER_ID,
                 })
-                navigate(Screens.EarnCollectScreen, { depositTokenId, poolTokenId })
+                earnPosition && navigate(Screens.EarnCollectScreen, { pool: earnPosition })
               }}
               text={t('earnFlow.activePools.exitPool')}
               type={BtnTypes.SECONDARY}
@@ -125,7 +127,7 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
                   providerId: PROVIDER_ID,
                   networkId: poolToken.networkId,
                 })
-                navigate(Screens.EarnEnterAmount, { tokenId: depositTokenId })
+                earnPosition && navigate(Screens.EarnEnterAmount, { pool: earnPosition })
               }}
               text={t('earnFlow.activePools.depositMore')}
               type={BtnTypes.PRIMARY}

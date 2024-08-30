@@ -24,8 +24,8 @@ export interface NetworkFilterChip<T> extends BaseFilterChip {
 }
 
 export interface TokenSelectFilterChip<T> extends BaseFilterChip {
-  filterFn: (t: T, tokenId: string) => boolean
-  selectedTokenId: string
+  filterFn: (t: T, tokenId?: string) => boolean
+  selectedTokenId?: string
 }
 
 export function isNetworkChip<T>(chip: FilterChip<T>): chip is NetworkFilterChip<T> {

@@ -1,19 +1,18 @@
 import * as React from 'react'
 import { Trans } from 'react-i18next'
-import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView, useSafeAreaFrame } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { InviteEvents } from 'src/analytics/Events'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import Touchable from 'src/components/Touchable'
 import ShareIcon from 'src/icons/Share'
-import Times from 'src/icons/Times'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import variables from 'src/styles/variables'
+import CustomHeader from 'src/components/header/CustomHeader'
+import BackButton from 'src/components/BackButton'
 
 interface Props {
   title: string
@@ -22,7 +21,6 @@ interface Props {
   contactName?: string
   buttonLabel: string
   disabled: boolean
-  imageSource: ImageSourcePropType
   helpLink?: string
   onClose(): void
   onShareInvite(): void
@@ -35,7 +33,6 @@ const InviteModal = ({
   contactName,
   buttonLabel,
   disabled,
-  imageSource,
   helpLink,
   onClose,
   onShareInvite,
@@ -51,22 +48,12 @@ const InviteModal = ({
 
   return (
     <SafeAreaView testID="InviteModalContainer" style={[styles.container, { height, width }]}>
-      <Touchable
-        onPress={onClose}
-        borderless={true}
-        hitSlop={variables.iconHitslop}
-        testID="InviteModalCloseButton"
-      >
-        <Times />
-      </Touchable>
+      <CustomHeader left={<BackButton testID="InviteModalContainer/Back" onPress={onClose} />} />
       <View style={styles.contentContainer}>
-        <Image style={styles.imageContainer} source={imageSource} resizeMode="contain" />
-        <Text style={[typeScale.titleSmall, styles.text]}>{title}</Text>
-        {description ? (
-          <Text style={[typeScale.bodyMedium, styles.text]}>{description}</Text>
-        ) : null}
+        <Text style={styles.title}>{title}</Text>
+        {description ? <Text style={styles.subtitle}>{description}</Text> : null}
         {descriptionI18nKey ? (
-          <Text style={[typeScale.bodyMedium, styles.text]} testID="InviteModalStyledDescription">
+          <Text style={styles.subtitle} testID="InviteModalStyledDescription">
             <Trans
               i18nKey={descriptionI18nKey}
               tOptions={contactName ? { contactName } : undefined}
@@ -76,10 +63,11 @@ const InviteModal = ({
           </Text>
         ) : null}
         <Button
+          style={{ width: '100%' }}
           testID="InviteModalShareButton"
-          icon={<ShareIcon color={colors.white} height={24} />}
+          icon={<ShareIcon color={colors.white} size={24} />}
           iconPositionLeft={false}
-          size={BtnSizes.SMALL}
+          size={BtnSizes.FULL}
           text={buttonLabel}
           type={BtnTypes.PRIMARY}
           disabled={disabled}
@@ -101,20 +89,25 @@ const InviteModal = ({
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
     position: 'absolute',
     backgroundColor: colors.white,
-    padding: Spacing.Thick24,
+    paddingHorizontal: Spacing.Thick24,
   },
   contentContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  imageContainer: {
+  title: {
+    ...typeScale.titleMedium,
+    textAlign: 'center',
     marginBottom: Spacing.Regular16,
-    width: 120,
-    height: 120,
+  },
+  subtitle: {
+    ...typeScale.bodyMedium,
+    textAlign: 'center',
+    marginBottom: Spacing.Large32,
+    color: colors.gray4,
   },
   helpContainer: {
     marginBottom: Spacing.Regular16,
@@ -128,10 +121,6 @@ const styles = StyleSheet.create({
     color: colors.infoDark,
     flexWrap: 'wrap',
     textDecorationLine: 'underline',
-  },
-  text: {
-    textAlign: 'center',
-    marginBottom: Spacing.Regular16,
   },
   textBold: {
     ...typeScale.bodyMedium,

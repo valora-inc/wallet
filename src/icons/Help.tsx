@@ -2,7 +2,7 @@ import * as React from 'react'
 import Svg, { Circle, Path } from 'react-native-svg'
 import Colors from 'src/styles/colors'
 
-export function Help({ size = 32, color = Colors.gray3 }) {
+export default function Help({ size = 32, color = Colors.gray3 }) {
   return (
     <Svg testID="Help" width={size} height={size} viewBox="0 0 32 32" fill="none">
       <Circle cx={16} cy={16} r={11} stroke={color} strokeWidth={2} />

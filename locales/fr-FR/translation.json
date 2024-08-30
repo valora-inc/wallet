@@ -16,7 +16,9 @@
   },
   "legal": "Mentions légales",
   "appPreferences": "Préférences de l'application",
+  "preferences": "Préférences",
   "security": "Sécurité",
+  "securityPrivacy": "Sécurité et confidentialité",
   "changePin": "Modifier le code PIN",
   "pinChanged": "Code PIN changé",
   "pinChangeFailed": "Le changement du code PIN a échoué",
@@ -172,7 +174,9 @@
   "termsOfServiceLink": "Conditions d'utilisation",
   "privacyPolicy": "Politique de confidentialité",
   "editProfile": "Modifier le profil",
-  "confirmNumber": "Connecter le numéro de téléphone",
+  "profileName": "Nom du profil",
+  "profile": "Profil",
+  "confirmNumber": "Connecter un numéro de téléphone",
   "cancel": "Annuler",
   "changeProfilePhoto": "Modifier la photo de profil",
   "name": "Nom",
@@ -183,6 +187,7 @@
   "continue": "Continuer",
   "yourName": "Votre nom",
   "version": "Version {{appVersion}}",
+  "appVersion": "Version",
   "addressCopied": "Adresse copiée dans le presse-papiers",
   "support": "Assistance",
   "contact": "Contact",
@@ -195,6 +200,7 @@
   "supportLegalCheckbox": "En validant, j'accepte de partager les informations ci-dessus et toutes les données du journal de l'application jointes avec l'Assistance {{appName}}.",
   "contactSuccess": "Votre problème a bien été signalé ! Une réponse vous sera rapidement envoyée par e-mail !",
   "namePictureSaved": "Votre nom et votre photo ont bien été enregistrés.",
+  "nameSaved": "Ton nom a été enregistré avec succès.",
   "addPhoto": "Ajouter une photo",
   "chooseFromLibrary": "Choisir dans la bibliothèque",
   "takePhoto": "Prendre une photo",
@@ -693,7 +699,7 @@
     "body": "Une fois que votre contact aura relié son numéro et ajouté des fonds à {{appName}}, vous recevrez tous les deux 0,50 cUSD."
   },
   "inviteWithUrl": {
-    "title": "Invitez des amis",
+    "title": "Inviter un ami",
     "body": "Connectez et partagez des valeurs avec vos amis et votre famille sur {{appName}}.",
     "button": "Envoyer l'invitation",
     "error": "Une erreur s'est produite lors de la création d'un lien partageable.",
@@ -2204,16 +2210,16 @@
     }
   },
   "jumpstartIntro": {
-    "title": "Partage la crypto comme un texte",
+    "title": "Envoyez des crypto aussi facilement qu'un SMS",
     "addFundsCelo": {
       "title": "Obtenir des actifs sur Celo",
-      "info": "Les liens vivants sont un moyen d'envoyer de la crypto sur le réseau Celo à un ami à l'aide d'un lien.\nPour commencer, tu auras besoin de quelques actifs CELO dans ton portefeuille.",
-      "description": "Une fois que tu auras ajouté des actifs sur Celo, tu devras revenir pour créer un lien en direct.",
+      "info": "Les Live Links permettent d'envoyer des crypto sur le réseau Celo à un ami à l'aide d'un lien.\nPour commencer, vous avez besoin d'avoir des actifs CELO dans votre portefeuille.",
+      "description": "Une fois que vous aurez ajouté des actifs sur Celo, vous pourrez créer un Live Link.",
       "cta": "Obtenir des actifs sur Celo",
       "actionDescriptions": {
-        "add": "Achète des actifs sur Celo en utilisant l'un de nos fournisseurs de confiance.",
-        "swap": "Swap dans un actif sur Celo à partir d'un autre actif",
-        "transfer": "Utilise n'importe quel portefeuille ou échange compatible avec Celo pour déposer des actifs sur Celo."
+        "add": "Achetez des actifs sur Celo en utilisant un de nos fournisseurs de confiance",
+        "swap": "Échangez d'un actif sur Celo vers un autre",
+        "transfer": "Utilisez n'importe quel portefeuille compatible ou échangez pour déposer des actifs sur Celo"
       }
     }
   },
@@ -2466,7 +2472,8 @@
     },
     "disclaimer": {
       "learnMoreCta": "<0>En savoir plus</0> sur les points avec {{appName}}",
-      "body": "<0>Que sont les Points ?</0>\nLes Points font partie du programme de fidélité de {{appName}}. Ils sont attribués aux utilisateurs qui utilisent notre application.\n\n<0>À quoi servent-ils ?</0>\nAccumulez les Points. Ils ne peuvent pas être ni dépensés, ni échangés ni transférés.\n\n<0>Pourquoi sont-ils dans mon portefeuille ?</0>\nParce que ces Points sont des jetons. Sur la chaîne, ils sont des bits numériques de bonheur que vous gagnez en utilisant l'appli.",
+      "title": "En savoir plus sur les points {{appName}}",
+      "body": "Les points sont le programme de fidélité de {{appName}}. Ils sont attribués pour votre utilisation de l'application. Les points ne peuvent pas être dépensés, échangés ou transférés.",
       "dismiss": "J'ai compris"
     }
   },
@@ -2534,6 +2541,7 @@
       "rate": "{{rate}}% APY",
       "continue": "Continuer",
       "info": "Ce pool est alimenté par Aave",
+      "infoV1_93": "Propulsé par {{providerName}}",
       "infoBottomSheet": {
         "title": "Pourquoi ce pool ?",
         "description": "Ce pool Aave a plus de 150 M$ de TVL et plus de 6 000 contributeurs, ce qui indique une forte liquidité et une grande fiabilité. Il utilise également l'USDC comme jeton et Arbitrum comme réseau, ce qui réduit la volatilité et garantit que les utilisateurs pourront profiter de taux de gaz peu coûteux.\n\nTout cela en fait une option sûre et attrayante avec un APY compétitif, assurant une opportunité d'investissement bénéfique pour nos utilisateurs.\n\nDécouvrez d'autres pools Aave <0>ici</0>.",
@@ -2561,11 +2569,13 @@
     "depositBottomSheet": {
       "title": "Vérifier et déposer",
       "description": "Avant de faire un dépôt dans un pool Aave, consultez les détails de la transaction ci-dessous",
+      "descriptionV1_93": "Avant d'effectuer un dépôt sur un pool {{providerName}} , tu dois examiner les détails de la transaction ci-dessous.",
       "amount": "Montant déposé",
       "fee": "Frais de gaz estimés",
       "provider": "Fournisseur de revenus",
       "network": "Réseau",
       "footer": "En déposant des crypto-monnaies dans un pool Aave, vous acceptez les risques associés à l'utilisation d'Aave. <0>Conditions Générales</0>",
+      "footerV1_93": "En déposant des crypto dans un pool {{providerName}} , tu acceptes les risques associés à l'utilisation de {{providerName}}. <0>Conditions générales d'utilisation</0>",
       "primaryCta": "Valider",
       "secondaryCta": "Annuler"
     },
@@ -2612,7 +2622,9 @@
         "apyDescription": "Le rendement annuel en pourcentage (APY) est une métrique utilisée pour calculer le rendement annualisé des investissements crypto. C'est un indicateur clé du rendement potentiel d'une crypto-monnaie.",
         "tvlSubtitle": "Qu'est-ce que la TVL ?",
         "tvlDescription": "La valeur totale verrouillée (TVL) est une métrique utilisée pour mesurer la valeur des actifs numériques verrouillés sur un réseau blockchain. La TVL est calculée en additionnant la valeur de tous les actifs numériques verrouillés dans un protocole DeFi ou un contrat intelligent. Ces actifs peuvent inclure des crypto-monnaies, des stablecoins et d'autres jetons."
-      }
+      },
+      "noPoolsTitle": "Vous n'avez encore rejoint aucun pool",
+      "noPoolsDescription": "Découvrez les pools disponibles, choisissez celui qui correspond à vos objectifs et profitez au maximum de vos stablecoins."
     },
     "poolCard": {
       "onNetwork": "sur {{networkName}}",
@@ -2623,21 +2635,43 @@
       "exitPool": "Quitter le pool",
       "addToPool": "Ajouter au pool",
       "apy": "{{apy}}% APY",
-      "percentage": "{{percentage}}%",
+      "percentage": "{{percentage}} %",
       "poweredBy": "Propulsé par {{providerName}}",
       "deposited": "Fourni",
       "depositAndEarnings": "Dépôt et gains"
     },
     "poolFilters": {
-      "openPools": "Pools ouverts",
+      "allPools": "Tous les pools",
       "myPools": "Mes pools"
+    },
+    "poolInfoScreen": {
+      "chainName": "Réseau : <0>{{networkName}}</0>",
+      "protocolName": "Protocole : <0>{{providerName}}</0>",
+      "yieldRate": "Taux de rendement",
+      "ratePercent": "{{rate}}%",
+      "rewards": "Récompenses",
+      "noRewards": "Pas de récompense",
+      "tvl": "TVL",
+      "ageOfPool": "Pool crée",
+      "learnMoreOnProvider": "Voir pool sur {{providerName}}",
+      "deposit": "Dépôt",
+      "withdraw": "Retirer"
     }
   },
   "addFundsActions": {
     "add": "Acheter",
     "transfer": "Transférer",
-    "swap": "Échange"
+    "swap": "Échanger"
   },
+  "duration_lessThanADay": "Moins d'un jour",
+  "duration_day_one": "1 jour",
+  "duration_day_other": "{{count}} jours",
+  "duration_month_one": "1 mois",
+  "duration_month_other": "{{count}} mois",
+  "duration_year_one": "1 an",
+  "duration_year_other": "{{count}} ans",
+  "duration_yearMonth_one": "1 an, 1 mois",
+  "duration_yearMonth_other": "{{count}} ans, {{count2}} mois",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

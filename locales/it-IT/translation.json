@@ -16,7 +16,9 @@
   },
   "legal": "Informazioni legali",
   "appPreferences": "Preferenze app",
+  "preferences": "Preferenze",
   "security": "Sicurezza",
+  "securityPrivacy": "Sicurezza e privacy",
   "changePin": "Modifica il PIN",
   "pinChanged": "Il PIN è stato modificato",
   "pinChangeFailed": "Impossibile modificare il PIN",
@@ -172,6 +174,8 @@
   "termsOfServiceLink": "Condizioni d'uso",
   "privacyPolicy": "Informativa sulla privacy",
   "editProfile": "Profilo",
+  "profileName": "Nome del profilo",
+  "profile": "Profilo",
   "confirmNumber": "Collega numero telefonico",
   "cancel": "Annulla",
   "changeProfilePhoto": "Cambia foto del profilo",
@@ -183,6 +187,7 @@
   "continue": "Continua",
   "yourName": "Il tuo nome",
   "version": "Versione di {{appVersion}}",
+  "appVersion": "Versione",
   "addressCopied": "L’indirizzo è stato copiato negli Appunti",
   "support": "Supporto",
   "contact": "Contatti",
@@ -195,6 +200,7 @@
   "supportLegalCheckbox": "Premendo Invia, accetto di condividere con il Supporto {{appName}} le informazioni di cui sopra ed eventuali dati di log dell’app allegati.",
   "contactSuccess": "Il tuo problema è stato segnalato. Fra poco riceverai una risposta per e-mail.",
   "namePictureSaved": "Il tuo nome e la tua foto sono stati salvati.",
+  "nameSaved": "Il tuo nome è stato salvato con successo.",
   "addPhoto": "Aggiungi foto",
   "chooseFromLibrary": "Scegli dalla raccolta",
   "takePhoto": "Scatta foto",
@@ -2206,14 +2212,14 @@
   "jumpstartIntro": {
     "title": "Condividi le criptovalute come un testo",
     "addFundsCelo": {
-      "title": "Ottieni risorse su Celo",
-      "info": "I link live sono un modo per inviare criptovalute sulla rete Celo a un amico con un link.\nPer iniziare, devi avere delle attività CELO nel tuo portafoglio.",
-      "description": "Una volta aggiunti gli asset su Celo, dovrai tornare per creare un Live Link.",
-      "cta": "Ottieni risorse su Celo",
+      "title": "Ottieni asset su Celo",
+      "info": "I link diretti sono un modo per inviare criptovalute a un amico con un link utilizzando la rete Celo.\nPer iniziare, è necessario che tu abbia asset CELO nel tuo portafoglio.",
+      "description": "Una volta aggiunti asset su Celo, dovrai tornare indietro per creare un link diretto.",
+      "cta": "Ottieni asset su Celo",
       "actionDescriptions": {
-        "add": "Acquista beni su Celo utilizzando uno dei nostri fornitori di fiducia",
-        "swap": "Scambia un'attività su Celo con un'altra attività",
-        "transfer": "Utilizza un qualsiasi portafoglio o exchange compatibile con Celo per depositare attività su Celo"
+        "add": "Acquista asset su Celo utilizzando uno dei nostri fornitori di fiducia",
+        "swap": "Scambia un altro asset con un asset su Celo",
+        "transfer": "Utilizza qualsiasi wallet o exchange compatibile con Celo per depositare asset su Celo"
       }
     }
   },
@@ -2466,7 +2472,8 @@
     },
     "disclaimer": {
       "learnMoreCta": "<0>Scopri di più</0> sui punti di {{appName}}",
-      "body": "<0>Cosa sono i punti?</0>\nI punti sono il programma fedeltà di {{appName}}. Vengono assegnati agli utenti quando utilizzano la nostra app.\n\n<0>A cosa servono?</0>\nVengono accumulati. Non possono essere spesi, scambiati o trasferiti.\n\n<0>Perché sono nel mio portafoglio?</0>\nPerché sono token. Sono bit digitali di felicità on-chain che guadagni utilizzando l'app.",
+      "title": "Scopri di più sui punti di {{appName}}",
+      "body": "I punti sono il programma fedeltà di {{appName}}. Vengono assegnati per l'utilizzo dell'app. I punti non possono essere spesi, scambiati o trasferiti.",
       "dismiss": "Ho capito"
     }
   },
@@ -2534,6 +2541,7 @@
       "rate": "{{rate}}% APY",
       "continue": "Continua",
       "info": "Questo pool è supportato da Aave",
+      "infoV1_93": "Powered by {{providerName}}",
       "infoBottomSheet": {
         "title": "Qual è lo scopo di questo pool?",
         "description": "Questo pool di Aave ha oltre 150 milioni di dollari di TVL e più di 6.000 contributori, il che indica una forte liquidità e affidabilità. Inoltre, utilizza USDC come token e Arbitrum come rete, il che riduce la volatilità e garantisce agli utenti tariffe convenienti.\n\nTutto ciò la rende un'opzione sicura e attraente con un APY competitivo, garantendo un'opportunità di investimento vantaggiosa per i nostri utenti.\n\nPuoi esplorare gli altri pool di Aave <0>qui</0>.",
@@ -2561,11 +2569,13 @@
     "depositBottomSheet": {
       "title": "Rivedi e deposita",
       "description": "Prima di effettuare depositi in un pool Aave, consulta i dettagli della transazione in basso",
+      "descriptionV1_93": "Prima di depositare in un pool di {{providerName}} , consulta i dettagli della transazione qui di seguito.",
       "amount": "Somma depositata",
       "fee": "Commissioni sulle transazioni stimate",
       "provider": "Fornitore di guadagni",
       "network": "Rete",
       "footer": "Depositando criptovalute in un pool Aave, accetti i rischi associati all'utilizzo di Aave. <0>Termini e condizioni</0>",
+      "footerV1_93": "Depositando criptovalute in un pool di {{providerName}} , accetti i rischi associati all'utilizzo di {{providerName}}. <0>Termini e condizioni</0>",
       "primaryCta": "Completa",
       "secondaryCta": "Annulla"
     },
@@ -2612,7 +2622,9 @@
         "apyDescription": "Il rendimento annuo percentuale (APY) è una metrica utilizzata per calcolare il rendimento annualizzato degli investimenti in cripto. È un indicatore chiave del potenziale rendimento di una criptovaluta.",
         "tvlSubtitle": "Cos'è il TVL?",
         "tvlDescription": "Il valore totale bloccato (TVL) è una metrica utilizzata per misurare il valore dei beni digitali bloccati su una rete blockchain. Il TVL viene calcolato sommando il valore di tutti gli asset digitali bloccati in un protocollo DeFi o in uno smart contract. Questi beni possono includere criptovalute, stablecoin e altri token."
-      }
+      },
+      "noPoolsTitle": "Non ti sei ancora iscritto a nessun pool",
+      "noPoolsDescription": "Scopri i pool disponibili, scegline uno che corrisponda ai tuoi obiettivi e sfrutta al meglio le tue stablecoin."
     },
     "poolCard": {
       "onNetwork": "su {{networkName}}",
@@ -2629,15 +2641,37 @@
       "depositAndEarnings": "Deposito e guadagni"
     },
     "poolFilters": {
-      "openPools": "Pool aperti",
+      "allPools": "Tutti i pool",
       "myPools": "I miei pool"
+    },
+    "poolInfoScreen": {
+      "chainName": "Rete: <0>{{networkName}}</0>",
+      "protocolName": "Protocollo: <0>{{providerName}}</0>",
+      "yieldRate": "Tasso di rendimento",
+      "ratePercent": "{{rate}}%",
+      "rewards": "Ricompense",
+      "noRewards": "Senza ricompense",
+      "tvl": "TVL",
+      "ageOfPool": "Pool creato:",
+      "learnMoreOnProvider": "Visualizza pool su {{providerName}}",
+      "deposit": "Deposito",
+      "withdraw": "Preleva"
     }
   },
   "addFundsActions": {
     "add": "Acquista",
     "transfer": "Trasferisci",
-    "swap": "Scambio"
+    "swap": "Scambia"
   },
+  "duration_lessThanADay": "Meno di un giorno",
+  "duration_day_one": "1 giorno",
+  "duration_day_other": "{{count}} giorni",
+  "duration_month_one": "1 mese",
+  "duration_month_other": "{{count}} mesi",
+  "duration_year_one": "1 anno",
+  "duration_year_other": "{{count}} anni",
+  "duration_yearMonth_one": "1 anno, 1 mese",
+  "duration_yearMonth_other": "{{count}} anni, {{count2}} mesi",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }

@@ -1,9 +1,8 @@
 import { PayloadAction } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
-import erc20 from 'src/abis/IERC20'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import { EarnDepositTxsReceiptProperties } from 'src/analytics/Properties'
-import AppAnalytics from 'src/analytics/AppAnalytics'
 import { PROVIDER_ID } from 'src/earn/constants'
 import { fetchAavePoolInfo } from 'src/earn/poolInfo'
 import {
@@ -20,10 +19,9 @@ import {
   withdrawSuccess,
 } from 'src/earn/slice'
 import { DepositInfo, WithdrawInfo } from 'src/earn/types'
+import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import { vibrateError } from 'src/styles/hapticFeedback'
 import { getTokenInfo } from 'src/tokens/saga'
 import { tokensByIdSelector } from 'src/tokens/selectors'
@@ -47,7 +45,7 @@ import { getPreparedTransactions } from 'src/viem/preparedTransactionSerializati
 import { sendPreparedTransactions } from 'src/viem/saga'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { all, call, put, select, takeLeading } from 'typed-redux-saga'
-import { decodeFunctionData, isAddress } from 'viem'
+import { decodeFunctionData, erc20Abi, isAddress } from 'viem'
 
 const TAG = 'earn/saga'
 
@@ -121,7 +119,7 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
 
     if (preparedTransactions.length > 1 && preparedTransactions[0].data) {
       const { functionName, args } = decodeFunctionData({
-        abi: erc20.abi,
+        abi: erc20Abi,
         data: preparedTransactions[0].data,
       })
       if (functionName === 'approve' && preparedTransactions[0].to === tokenInfo.address && args) {
@@ -182,7 +180,7 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
       serializablePreparedTransactions,
       networkId,
       createDepositStandbyTxHandlers,
-      getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
+      isGasSubsidizedForNetwork(networkId)
     )
     txHashes.forEach((txHash, i) => {
       trackedTxs[i].txHash = txHash
@@ -348,7 +346,7 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
       serializablePreparedTransactions,
       networkId,
       createWithdrawStandbyTxHandlers,
-      getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
+      isGasSubsidizedForNetwork(networkId)
     )
 
     Logger.debug(

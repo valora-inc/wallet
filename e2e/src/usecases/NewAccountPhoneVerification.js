@@ -11,10 +11,10 @@ import {
   enterPinUi,
   navigateToSettings,
   scrollIntoView,
-  sleep,
   waitForElementId,
   waitForElementByIdAndTap,
 } from '../utils/utils'
+import { sleep } from '../../../src/utils/sleep'
 
 import jestExpect from 'expect'
 const examplePhoneNumber = VERIFICATION_PHONE_NUMBER || EXAMPLE_PHONE_NUMBER
@@ -110,7 +110,7 @@ export default NewAccountPhoneVerification = () => {
         .toBeVisible()
         .withTimeout(30000)
       await element(by.id('Settings')).tap()
-      await expect(element(by.text('Connect phone number'))).not.toBeVisible()
+      await expect(element(by.text('Connect Phone Number'))).not.toBeVisible()
     })
 
     // Note: (Tom) Skip this test until we have a nightly suite vs pull request suite as it takes a long time
@@ -172,7 +172,7 @@ export default NewAccountPhoneVerification = () => {
         .toBeVisible()
         .withTimeout(30 * 1000)
       await element(by.id('Settings')).tap()
-      await expect(element(by.text('Connect phone number'))).not.toBeVisible()
+      await expect(element(by.text('Connect Phone Number'))).not.toBeVisible()
     })
   }
 
@@ -193,7 +193,7 @@ export default NewAccountPhoneVerification = () => {
 
     // Assert that 'Connect phone number' is present in settings
     await navigateToSettings()
-    await waitFor(element(by.text('Connect phone number')))
+    await waitFor(element(by.text('Connect Phone Number')))
       .toBeVisible()
       .withTimeout(10 * 1000)
   })

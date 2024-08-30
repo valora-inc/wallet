@@ -1,8 +1,8 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { EarnEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { EarnEvents } from 'src/analytics/Events'
 import EarnActivePool from 'src/earn/EarnActivePool'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -11,7 +11,7 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
-import { mockAaveArbUsdcAddress } from 'test/values'
+import { mockAaveArbUsdcAddress, mockEarnPositions } from 'test/values'
 
 const store = createMockStore({
   tokens: {
@@ -27,6 +27,10 @@ const store = createMockStore({
       },
     },
   },
+  positions: {
+    positions: mockEarnPositions,
+    earnPositionIds: mockEarnPositions.map((position) => position.positionId),
+  },
 })
 
 jest.mock('src/statsig')
@@ -34,7 +38,9 @@ jest.mock('src/statsig')
 describe('EarnActivePool', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.mocked(getFeatureGate).mockReturnValue(false)
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_POSITIONS)
   })
 
   it('should render correctly with ExitAndDeposit cta', () => {
@@ -130,8 +136,7 @@ describe('EarnActivePool', () => {
       providerId: 'aave-v3',
     })
     expect(navigate).toBeCalledWith(Screens.EarnCollectScreen, {
-      depositTokenId: networkConfig.arbUsdcTokenId,
-      poolTokenId: networkConfig.aaveArbUsdcTokenId,
+      pool: mockEarnPositions[0],
     })
   })
 
@@ -153,7 +158,7 @@ describe('EarnActivePool', () => {
       networkId: NetworkId['arbitrum-sepolia'],
     })
     expect(navigate).toBeCalledWith(Screens.EarnEnterAmount, {
-      tokenId: networkConfig.arbUsdcTokenId,
+      pool: mockEarnPositions[0],
     })
   })
 })

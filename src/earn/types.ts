@@ -1,4 +1,3 @@
-import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { Hash } from 'viem'
@@ -15,11 +14,6 @@ export interface DepositSuccess {
   networkId: NetworkId
 }
 
-export interface RewardsInfo {
-  amount: string
-  tokenInfo: TokenBalance
-}
-
 export interface SerializableRewardsInfo {
   amount: string
   tokenId: string
@@ -33,7 +27,7 @@ export interface WithdrawInfo {
 }
 
 export enum EarnTabType {
-  OpenPools = 0,
+  AllPools = 0,
   MyPools = 1,
 }
 

@@ -111,7 +111,6 @@ const styles = StyleSheet.create({
   optionsListContainer: {
     flex: 1,
     justifyContent: 'flex-start',
-    paddingRight: variables.contentPadding,
   },
   optionTitle: {
     ...typeScale.labelMedium,

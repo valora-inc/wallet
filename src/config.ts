@@ -1,12 +1,12 @@
 import { stringToBoolean } from '@celo/utils/lib/parsing'
 import { Network } from '@fiatconnect/fiatconnect-types'
-import BigNumber from 'bignumber.js'
 import Config from 'react-native-config'
 import { CachesDirectoryPath } from 'react-native-fs'
 import { SpendMerchant } from 'src/fiatExchanges/Spend'
 import { LoggerLevel } from 'src/utils/LoggerLevels'
 // eslint-disable-next-line import/no-relative-packages
 import { TORUS_SAPPHIRE_NETWORK } from '@toruslabs/constants'
+import { HomeActionName } from 'src/home/types'
 import * as secretsFile from '../secrets.json'
 import { ONE_HOUR_IN_MILLIS } from './utils/time'
 export * from 'src/brandingConfig'
@@ -41,17 +41,11 @@ export const DEV_SETTINGS_ACTIVE_INITIALLY = stringToBoolean(
 // VALUES
 export const GAS_INFLATION_FACTOR = 1.5 // Used when estimating gas for txs
 export const GAS_PRICE_INFLATION_FACTOR = 5 // Used when getting gas price, must match what Geth does
-export const BALANCE_OUT_OF_SYNC_THRESHOLD = 1 * 60 // 1 minute
 export const ALERT_BANNER_DURATION = 5000
 export const MAX_COMMENT_LENGTH = 70
 export const MAX_ENCRYPTED_COMMENT_LENGTH_APPROX = 640 // used to estimate fees. should be updated if MAX_COMMENT_LENGTH is changed. chosen empirically by encrypting a comment of max length
-export const INPUT_DEBOUNCE_TIME = 1000 // milliseconds
-// The minimum allowed value to add funds
-export const DOLLAR_ADD_FUNDS_MIN_AMOUNT = 20
 // The maximum allowed value to add funds
 export const DOLLAR_ADD_FUNDS_MAX_AMOUNT = 5000
-// The minimum allowed value to cash out
-export const DOLLAR_CASH_OUT_MIN_AMOUNT = 0.01
 // The minimum allowed value for a transaction such as a transfer
 export const STABLE_TRANSACTION_MIN_AMOUNT = 0.01
 export const CELO_TRANSACTION_MIN_AMOUNT = 0.001
@@ -60,17 +54,9 @@ export const TOKEN_MIN_AMOUNT = 0.00000001
 export const DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED = 0.01
 // The number of seconds before the sender can reclaim the payment.
 export const DEFAULT_TESTNET = configOrThrow('DEFAULT_TESTNET')
-export const SMS_RETRIEVER_APP_SIGNATURE = Config.SMS_RETRIEVER_APP_SIGNATURE
-// ODIS minimum dollar balance for pepper quota retrieval
-// TODO change this to new ODIS minimum dollar balance once deployed
-export const ODIS_MINIMUM_DOLLAR_BALANCE = 0.1
 // Additional gas added when setting the fee currency
 // See details where used.
 export const STATIC_GAS_PADDING = 50_000
-
-// We can safely assume that any balance query returning a number
-// higher than this is incorrect (currently set to 10M)
-export const WALLET_BALANCE_UPPER_BOUND = new BigNumber('1e10')
 
 export const TIME_UNTIL_TOKEN_INFO_BECOMES_STALE = 12 * ONE_HOUR_IN_MILLIS
 
@@ -78,7 +64,6 @@ export const DEFAULT_FORNO_URL =
   DEFAULT_TESTNET === 'mainnet'
     ? 'https://forno.celo.org/'
     : 'https://alfajores-forno.celo-testnet.org/'
-export const BLOCKSCOUT_BASE_URL = Config.BLOCKSCOUT_BASE_URL
 
 export const APP_BUNDLE_ID = configOrThrow('APP_BUNDLE_ID')
 
@@ -100,7 +85,6 @@ export const TORUS_NETWORK =
 // FEATURE FLAGS
 export const FIREBASE_ENABLED = stringToBoolean(Config.FIREBASE_ENABLED || 'true')
 export const SHOW_TESTNET_BANNER = stringToBoolean(Config.SHOW_TESTNET_BANNER || 'false')
-export const SHOW_GET_INVITE_LINK = stringToBoolean(Config.SHOW_GET_INVITE_LINK || 'false')
 export const SENTRY_ENABLED = stringToBoolean(Config.SENTRY_ENABLED || 'false')
 
 // SECRETS
@@ -140,7 +124,6 @@ export const STATSIG_API_KEY =
 export const SEGMENT_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SEGMENT_API_KEY')
 export const SENTRY_CLIENT_URL = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SENTRY_CLIENT_URL')
 export const RECAPTCHA_SITE_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'RECAPTCHA_SITE_KEY')
-export const SAFETYNET_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SAFETYNET_KEY')
 export const BIDALI_URL = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'BIDALI_URL')
 export const WALLET_CONNECT_PROJECT_ID =
   keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'WALLET_CONNECT_PROJECT_ID') ??
@@ -167,14 +150,11 @@ export const SPEND_MERCHANT_LINKS: SpendMerchant[] = [
 
 export const DEFAULT_PERSONA_TEMPLATE_ID = 'itmpl_5FYHGGFhdAYvfd7FvSpNADcC'
 
-export const VALORA_LOGO_URL =
-  'https://storage.googleapis.com/celo-mobile-mainnet.appspot.com/images/valora-icon.png'
 export const CELO_LOGO_URL =
   'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fcelo.jpeg?alt=media'
 export const SUPERCHARGE_LOGO_URL =
   'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsupercharge_logo.png?alt=media'
 
-export const SIMPLEX_URI = 'https://valoraapp.com/simplex'
 export const SIMPLEX_FEES_URL =
   'https://support.simplex.com/hc/en-gb/articles/360014078420-What-fees-am-I-paying-'
 
@@ -183,11 +163,8 @@ export const SIMPLEX_FEES_URL =
 // * android/**/AndroidManifest.xml
 // * ios/**/AppDelegate.mm
 export const DEEPLINK_PREFIX = 'celo'
-export const CASH_IN_SUCCESS_DEEPLINK = `${DEEPLINK_PREFIX}://wallet/cash-in-success`
-export const CASH_IN_FAILURE_DEEPLINK = `${DEEPLINK_PREFIX}://wallet/cash-in-failure`
 
 export const APP_STORE_ID = Config.APP_STORE_ID
-export const DYNAMIC_DOWNLOAD_LINK = Config.DYNAMIC_DOWNLOAD_LINK
 export const DYNAMIC_LINK_DOMAIN_URI_PREFIX = 'https://vlra.app'
 export const CROWDIN_DISTRIBUTION_HASH = 'e-f9f6869461793b9d1a353b2v7c'
 export const OTA_TRANSLATIONS_FILEPATH = `file://${CachesDirectoryPath}/translations`
@@ -217,3 +194,13 @@ export const LOGGER_LEVEL = Config.LOGGER_LEVEL
   : LoggerLevel.Debug
 
 export const PHONE_NUMBER_VERIFICATION_CODE_LENGTH = 6
+
+export const ENABLED_QUICK_ACTIONS = (
+  Config.ENABLED_QUICK_ACTIONS ??
+  // Default to all actions
+  Object.values(HomeActionName).join(',')
+)
+  .split(',')
+  .filter(
+    (value) => !!value && Object.values(HomeActionName).includes(value as HomeActionName)
+  ) as HomeActionName[]

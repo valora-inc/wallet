@@ -12,23 +12,19 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { EarnApyAndAmount } from 'src/earn/EarnApyAndAmount'
-import { PROVIDER_ID } from 'src/earn/constants'
 import { depositStatusSelector } from 'src/earn/selectors'
 import { depositStart } from 'src/earn/slice'
+import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import InfoIcon from 'src/icons/InfoIcon'
-import Logo from 'src/icons/Logo'
+import Logo from 'src/images/Logo'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { EarnPosition } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
-import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
-import { TokenBalance } from 'src/tokens/slice'
-import { NetworkId } from 'src/transactions/types'
 import {
   PreparedTransactionsPossible,
   getFeeCurrencyAndAmounts,
@@ -41,14 +37,12 @@ export default function EarnDepositBottomSheet({
   forwardedRef,
   preparedTransaction,
   amount,
-  token,
-  networkId,
+  pool,
 }: {
   forwardedRef: RefObject<BottomSheetRefType>
   preparedTransaction: PreparedTransactionsPossible
   amount: BigNumber
-  token: TokenBalance
-  networkId: NetworkId
+  pool: EarnPosition
 }) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -56,10 +50,10 @@ export default function EarnDepositBottomSheet({
   const transactionSubmitted = depositStatus === 'loading'
 
   const commonAnalyticsProperties = {
-    providerId: PROVIDER_ID,
-    depositTokenId: token.tokenId,
+    providerId: pool.appId,
+    depositTokenId: pool.dataProps.depositTokenId,
     tokenAmount: amount.toString(),
-    networkId,
+    networkId: pool.networkId,
   }
 
   const { estimatedFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(preparedTransaction)
@@ -69,16 +63,12 @@ export default function EarnDepositBottomSheet({
     return null
   }
 
-  const isGasSubsidized = getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
-
-  const { providerName, providerLogoUrl, providerTermsAndConditionsUrl } = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG]
-  )
+  const isGasSubsidized = isGasSubsidizedForNetwork(pool.networkId)
+  const { termsUrl } = pool.dataProps
 
   const onPressProviderIcon = () => {
     AppAnalytics.track(EarnEvents.earn_deposit_provider_info_press, commonAnalyticsProperties)
-    providerTermsAndConditionsUrl &&
-      navigate(Screens.WebViewScreen, { uri: providerTermsAndConditionsUrl })
+    termsUrl && navigate(Screens.WebViewScreen, { uri: termsUrl })
   }
 
   const onPressTermsAndConditions = () => {
@@ -86,15 +76,14 @@ export default function EarnDepositBottomSheet({
       EarnEvents.earn_deposit_terms_and_conditions_press,
       commonAnalyticsProperties
     )
-    providerTermsAndConditionsUrl &&
-      navigate(Screens.WebViewScreen, { uri: providerTermsAndConditionsUrl })
+    termsUrl && navigate(Screens.WebViewScreen, { uri: termsUrl })
   }
 
   const onPressComplete = () => {
     dispatch(
       depositStart({
         amount: amount.toString(),
-        tokenId: token.tokenId,
+        tokenId: pool.dataProps.depositTokenId,
         preparedTransactions: getSerializablePreparedTransactions(preparedTransaction.transactions),
       })
     )
@@ -109,13 +98,15 @@ export default function EarnDepositBottomSheet({
   return (
     <BottomSheet forwardedRef={forwardedRef} testId="EarnDepositBottomSheet">
       <View style={styles.container}>
-        <Logos providerUrl={providerLogoUrl} />
+        <Logos providerUrl={pool.displayProps.imageUrl} />
         <Text style={styles.title}>{t('earnFlow.depositBottomSheet.title')}</Text>
-        <Text style={styles.description}>{t('earnFlow.depositBottomSheet.description')}</Text>
+        <Text style={styles.description}>
+          {t('earnFlow.depositBottomSheet.descriptionV1_93', { providerName: pool.appName })}
+        </Text>
         <View style={styles.infoContainer}>
           <EarnApyAndAmount
             tokenAmount={amount}
-            token={token}
+            pool={pool}
             testIDPrefix={'EarnDepositBottomSheet'}
           />
         </View>
@@ -123,7 +114,7 @@ export default function EarnDepositBottomSheet({
           <TokenDisplay
             testID="EarnDeposit/Amount"
             amount={amount}
-            tokenId={token.tokenId}
+            tokenId={pool.dataProps.depositTokenId}
             style={styles.value}
             showLocalAmount={false}
           />
@@ -144,14 +135,16 @@ export default function EarnDepositBottomSheet({
         </LabelledItem>
         <LabelledItem label={t('earnFlow.depositBottomSheet.provider')}>
           <View style={styles.providerNameContainer}>
-            <Text style={styles.value}>{providerName}</Text>
-            <Touchable
-              testID="EarnDeposit/ProviderInfo"
-              borderRadius={24}
-              onPress={onPressProviderIcon}
-            >
-              <InfoIcon size={12} />
-            </Touchable>
+            <Text style={styles.value}>{pool.appName}</Text>
+            {!!termsUrl && (
+              <Touchable
+                testID="EarnDeposit/ProviderInfo"
+                borderRadius={24}
+                onPress={onPressProviderIcon}
+              >
+                <InfoIcon size={12} />
+              </Touchable>
+            )}
           </View>
         </LabelledItem>
         <LabelledItem label={t('earnFlow.depositBottomSheet.network')}>
@@ -159,15 +152,20 @@ export default function EarnDepositBottomSheet({
             {NETWORK_NAMES[preparedTransaction.feeCurrency.networkId]}
           </Text>
         </LabelledItem>
-        <Text style={styles.footer}>
-          <Trans i18nKey="earnFlow.depositBottomSheet.footer">
-            <Text
-              testID="EarnDeposit/TermsAndConditions"
-              style={styles.termsLink}
-              onPress={onPressTermsAndConditions}
-            />
-          </Trans>
-        </Text>
+        {!!termsUrl && (
+          <Text style={styles.footer}>
+            <Trans
+              i18nKey="earnFlow.depositBottomSheet.footerV1_93"
+              tOptions={{ providerName: pool.appName }}
+            >
+              <Text
+                testID="EarnDeposit/TermsAndConditions"
+                style={styles.termsLink}
+                onPress={onPressTermsAndConditions}
+              />
+            </Trans>
+          </Text>
+        )}
         <View style={styles.ctaContainer}>
           <Button
             testID="EarnDeposit/SecondaryCta"

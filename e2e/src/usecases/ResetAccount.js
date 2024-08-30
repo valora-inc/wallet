@@ -15,16 +15,8 @@ export default ResetAccount = () => {
     //   return
     // }
 
-    // Go to Settings
     await navigateToSettings()
 
-    // Scroll to bottom and start the reset process.
-    // await waitForElementId('SettingsScrollView')
-    // The sleep is here to avoid flakiness on the scroll. Without it the scroll to bottom intermittently fails
-    // with a ~"Can't find view" error even though the SettingsScrollView is visible.
-    // This probably doesn't reduce flakiness 100%, but in practice it reduces it significantly.
-    // await sleep(2000)
-    // await element(by.id('SettingsScrollView')).scrollTo('bottom')
     try {
       await waitFor(element(by.text('ResetAccount')))
         .toBeVisible()

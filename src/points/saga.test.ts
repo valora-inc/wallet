@@ -4,8 +4,8 @@ import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
-import { Address, Hash } from 'viem'
 import { call, select, spawn } from 'redux-saga/effects'
+import { depositSuccess } from 'src/earn/slice'
 import { Actions as HomeActions } from 'src/home/actions'
 import { depositTransactionSucceeded } from 'src/jumpstart/slice'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
@@ -39,6 +39,7 @@ import pointsReducer, {
 import { ClaimHistory, GetHistoryResponse, PointsEvent } from 'src/points/types'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
+import { swapSuccess } from 'src/swap/slice'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import * as fetchWithTimeout from 'src/utils/fetchWithTimeout'
@@ -47,8 +48,7 @@ import { walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import { mockAccount } from 'test/values'
 import { v4 as uuidv4 } from 'uuid'
-import { swapSuccess } from 'src/swap/slice'
-import { depositSuccess } from 'src/earn/slice'
+import { Address, Hash } from 'viem'
 
 jest.mock('src/statsig')
 jest.mocked(getFeatureGate).mockImplementation((featureGate) => {
@@ -785,6 +785,7 @@ describe('pointsSaga', () => {
         [spawn(pointsSaga.watchLiveLinkCreated), null],
         [spawn(pointsSaga.watchSwapSuccess), null],
         [spawn(pointsSaga.watchDepositSuccess), null],
+        [spawn(pointsSaga.watchPointsDataRefreshStarted), null],
       ])
       .run()
 
@@ -796,6 +797,7 @@ describe('pointsSaga', () => {
       spawn(pointsSaga.watchLiveLinkCreated),
       spawn(pointsSaga.watchSwapSuccess),
       spawn(pointsSaga.watchDepositSuccess),
+      spawn(pointsSaga.watchPointsDataRefreshStarted),
     ])
   })
 })

@@ -1,14 +1,11 @@
 import BigNumber from 'bignumber.js'
-import aaveIncentivesV3Abi from 'src/abis/AaveIncentivesV3'
 import AavePool from 'src/abis/AavePoolV3'
-import { RewardsInfo } from 'src/earn/types'
-import { TokenBalance } from 'src/tokens/slice'
-import { Network, NetworkId } from 'src/transactions/types'
+import { EarnPosition } from 'src/positions/types'
+import { Network } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { publicClient } from 'src/viem'
-import { networkIdToNetwork } from 'src/web3/networkConfig'
-import { Address, formatUnits } from 'viem'
+import { Address } from 'viem'
 
 const TAG = 'earn/poolInfo'
 
@@ -48,50 +45,8 @@ export async function fetchAavePoolInfo({
   }
 }
 
-export async function fetchAaveRewards({
-  walletAddress,
-  assetAddress,
-  contractAddress,
-  networkId,
-  allTokens,
-}: {
-  walletAddress: Address
-  assetAddress: Address
-  contractAddress: Address
-  networkId: NetworkId
-  allTokens: TokenBalance[]
-}) {
-  try {
-    const network = networkIdToNetwork[networkId]
-    Logger.debug(TAG, 'Fetching Aave reward info', {
-      assetAddress,
-      contractAddress,
-      network,
-    })
-    const [rewardAddresses, rewardAmounts] = await publicClient[network].readContract({
-      abi: aaveIncentivesV3Abi,
-      address: contractAddress,
-      functionName: 'getAllUserRewards',
-      args: [[assetAddress], walletAddress],
-    })
-    const rewards: RewardsInfo[] = []
-    rewardAddresses.forEach((rewardAddress, index) => {
-      const tokenInfo = allTokens.find(
-        (token) => token.address === rewardAddress.toLowerCase() && token.networkId === networkId
-      )
-      if (!tokenInfo) {
-        Logger.warn(TAG, `Token info not found for rewards address ${rewardAddress}`)
-      } else {
-        rewards.push({
-          amount: formatUnits(rewardAmounts[index], tokenInfo.decimals),
-          tokenInfo,
-        })
-      }
-    })
-    return rewards
-  } catch (error) {
-    const err = ensureError(error)
-    Logger.error(TAG, 'Failed to fetch Aave rewards info', err)
-    throw err
-  }
+export function getTotalYieldRate(pool: EarnPosition) {
+  return new BigNumber(
+    pool.dataProps.yieldRates.reduce((acc, yieldRate) => acc + yieldRate.percentage, 0)
+  )
 }

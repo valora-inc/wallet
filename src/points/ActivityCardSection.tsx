@@ -1,7 +1,10 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
+import { useEarnPosition } from 'src/earn/hooks'
 import Celebration from 'src/icons/Celebration'
+import EarnCoins from 'src/icons/EarnCoins'
+import MagicWand from 'src/icons/MagicWand'
 import SwapArrows from 'src/icons/SwapArrows'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -11,9 +14,6 @@ import { BottomSheetParams, PointsActivity } from 'src/points/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import MagicWand from 'src/icons/MagicWand'
-import EarnCoins from 'src/icons/EarnCoins'
-import networkConfig from 'src/web3/networkConfig'
 
 interface Props {
   pointsActivities: PointsActivity[]
@@ -22,6 +22,7 @@ interface Props {
 
 export default function ActivityCardSection({ pointsActivities, onCardPress }: Props) {
   const { t } = useTranslation()
+  const aavePosition = useEarnPosition()
 
   function mapActivityToCardProps(activity: PointsActivity): ActivityCardProps {
     switch (activity.activityId) {
@@ -86,9 +87,10 @@ export default function ActivityCardSection({ pointsActivities, onCardPress }: P
               cta: {
                 text: t('points.activityCards.depositEarn.bottomSheet.cta'),
                 onPress: () => {
-                  navigate(Screens.EarnEnterAmount, {
-                    tokenId: networkConfig.arbUsdcTokenId,
-                  })
+                  aavePosition &&
+                    navigate(Screens.EarnEnterAmount, {
+                      pool: aavePosition,
+                    })
                 },
               },
             }),

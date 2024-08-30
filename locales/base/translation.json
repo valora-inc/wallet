@@ -16,7 +16,9 @@
   },
   "legal": "Legal",
   "appPreferences": "App Preferences",
+  "preferences": "Preferences",
   "security": "Security",
+  "securityPrivacy": "Security & Privacy",
   "changePin": "Change PIN",
   "pinChanged": "PIN changed",
   "pinChangeFailed": "Changing the PIN failed",
@@ -40,7 +42,7 @@
   },
   "revokePhoneNumber": {
     "title": "Unlink Phone Number",
-    "bottomSheetTitle": "Unlink phone number",
+    "bottomSheetTitle": "Unlink Phone Number",
     "description": "Unlinking will remove the phone number linked to your wallet. You can add a new phone number later.",
     "confirmButton": "Unlink now",
     "revokeSuccess": "Your phone number has been unlinked",
@@ -172,7 +174,9 @@
   "termsOfServiceLink": "Terms of Service",
   "privacyPolicy": "Privacy Policy",
   "editProfile": "Edit Profile",
-  "confirmNumber": "Connect phone number",
+  "profileName": "Profile Name",
+  "profile": "Profile",
+  "confirmNumber": "Connect Phone Number",
   "cancel": "Cancel",
   "changeProfilePhoto": "Change Profile Photo",
   "name": "Name",
@@ -183,6 +187,7 @@
   "continue": "Continue",
   "yourName": "Your Name",
   "version": "Version {{appVersion}}",
+  "appVersion": "Version",
   "addressCopied": "Address copied to clipboard",
   "support": "Support",
   "contact": "Contact",
@@ -195,6 +200,7 @@
   "supportLegalCheckbox": "By submitting, I agree to share the above information and any attached application log data with {{appName}} Support.",
   "contactSuccess": "Your issue has been successfully reported! Expect an email response soon!",
   "namePictureSaved": "Your name and picture were saved successfully.",
+  "nameSaved": "Your name was saved successfully.",
   "addPhoto": "Add Photo",
   "chooseFromLibrary": "Choose from Library",
   "takePhoto": "Take Photo",
@@ -693,7 +699,7 @@
     "body": "Once they connect their number and add funds to {{appName}}, you’ll both receive 0.50 cUSD."
   },
   "inviteWithUrl": {
-    "title": "Invite a friend",
+    "title": "Invite a Friend",
     "body": "Connect and share value with your friends and family on {{appName}}.",
     "button": "Share Invite",
     "error": "There was an issue creating a sharable link",
@@ -2468,7 +2474,8 @@
     },
     "disclaimer": {
       "learnMoreCta": "<0>Learn more</0> about {{appName}} Points",
-      "body": "<0>What are Points?</0>\nPoints are {{appName}}'s loyalty program. They're awarded to users when you use our app.\n\n<0>What are they good for?</0>\nYou collect them. They can’t be spent or traded or transferred.\n\n<0>Why are they in my wallet?</0>\nBecause they’re tokens. On chain, digital bits of happiness you earn by using the app.",
+      "title": "More About {{appName}} Points",
+      "body": "Points are {{appName}}'s loyalty program. They're awarded for using the app. Points can't be spent, traded, or transferred.",
       "dismiss": "Got it"
     }
   },
@@ -2536,6 +2543,7 @@
       "rate": "{{rate}}% APY",
       "continue": "Continue",
       "info": "This pool is powered by Aave",
+      "infoV1_93": "Powered by {{providerName}}",
       "infoBottomSheet": {
         "title": "Why this pool?",
         "description": "This Aave pool has over $150M TVL and more than 6,000 contributors, indicating strong liquidity and trustworthiness. It also uses USDC as its token and Arbitrum as its network, which reduces volatility and ensures users will receive inexpensive gas rates.\n\nAll together this makes it a safe and attractive option with competitive APY, ensuring a beneficial investment opportunity for our users.\n\nYou can explore other Aave pools <0>here</0>.",
@@ -2563,11 +2571,13 @@
     "depositBottomSheet": {
       "title": "Review & Deposit",
       "description": "Before depositing to an Aave pool, please review the transaction details below",
+      "descriptionV1_93": "Before depositing to an {{providerName}} pool, please review the transaction details below",
       "amount": "Amount Deposited",
       "fee": "Est. Gas Fees",
       "provider": "Earnings provider",
       "network": "Network",
       "footer": "By depositing crypto into an Aave pool, you accept the risks associated with using Aave. <0>Terms & Conditions</0>",
+      "footerV1_93": "By depositing crypto into an {{providerName}} pool, you accept the risks associated with using {{providerName}}. <0>Terms & Conditions</0>",
       "primaryCta": "Complete",
       "secondaryCta": "Cancel"
     },
@@ -2614,7 +2624,12 @@
         "apyDescription": "Annual percentage yield (APY) is a metric used to calculate the annualized return on crypto investments. It's a key indicator of a cryptocurrency's potential return and profitability.",
         "tvlSubtitle": "What is TVL?",
         "tvlDescription": "TVL stands for Total Value Locked, and it's a metric used in the crypto industry to measure the value of digital assets locked on a blockchain network. TVL is calculated by adding up the value of all digital assets locked in a DeFi protocol or smart contract. These assets can include cryptocurrencies, stablecoins, and other tokens."
-      }
+      },
+      "noPoolsTitle": "You haven’t joined any pools yet",
+      "noPoolsDescription": "Discover available pools, pick one that matches your goals, and make the most of your stablecoins.",
+      "errorTitle": "Unable to load pools",
+      "errorDescription": "Oops, something went wrong when trying to load the pool information. Please try again.",
+      "errorButton": "Try again"
     },
     "poolCard": {
       "onNetwork": "on {{networkName}}",
@@ -2631,13 +2646,35 @@
       "depositAndEarnings": "Deposit & Earnings"
     },
     "poolFilters": {
-      "openPools": "Open Pools",
+      "allPools": "All Pools",
       "myPools": "My Pools"
+    },
+    "poolInfoScreen": {
+      "chainName": "Chain: <0>{{networkName}}</0>",
+      "protocolName": "Protocol: <0>{{providerName}}</0>",
+      "yieldRate": "Yield Rate",
+      "ratePercent": "{{rate}}%",
+      "rewards": "Rewards",
+      "noRewards": "No rewards",
+      "tvl": "TVL",
+      "ageOfPool": "Age of Pool",
+      "learnMoreOnProvider": "View Pool on {{providerName}}",
+      "deposit": "Deposit",
+      "withdraw": "Withdraw"
     }
   },
   "addFundsActions": {
     "add": "Buy",
     "transfer": "Transfer",
     "swap": "Swap"
-  }
+  },
+  "duration_lessThanADay": "Less than a day",
+  "duration_day_one": "1 day",
+  "duration_day_other": "{{count}} days",
+  "duration_month_one": "1 month",
+  "duration_month_other": "{{count}} months",
+  "duration_year_one": "1 year",
+  "duration_year_other": "{{count}} years",
+  "duration_yearMonth_one": "1 year, 1 month",
+  "duration_yearMonth_other": "{{count}} years, {{count2}} months"
 }

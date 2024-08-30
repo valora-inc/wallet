@@ -7,6 +7,8 @@ import { select } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
 import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { DEEPLINK_PREFIX } from 'src/config'
+import { currentLanguageSelector } from 'src/i18n/selectors'
 import { isBottomSheetVisible, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import {
@@ -45,7 +47,6 @@ import { sendPreparedTransactions } from 'src/viem/saga'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockAccount, mockPositions, mockShortcuts } from 'test/values'
-import { DEEPLINK_PREFIX } from 'src/config'
 
 jest.mock('src/sentry/SentryTransactionHub')
 jest.mock('src/statsig')
@@ -140,6 +141,7 @@ describe(fetchPositionsSaga, () => {
       .provide([
         [select(walletAddressSelector), mockAccount],
         [select(hooksApiUrlSelector), networkConfig.hooksApiUrl],
+        [select(currentLanguageSelector), 'en'],
       ])
       .put(fetchPositionsStart())
       .put(
@@ -163,6 +165,7 @@ describe(fetchPositionsSaga, () => {
       .provide([
         [select(walletAddressSelector), mockAccount],
         [select(hooksApiUrlSelector), networkConfig.hooksApiUrl],
+        [select(currentLanguageSelector), 'en'],
       ])
       .put(fetchPositionsStart())
       .put(
