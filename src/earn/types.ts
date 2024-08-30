@@ -1,11 +1,12 @@
+import { EarnPosition } from 'src/positions/types'
 import { NetworkId } from 'src/transactions/types'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { Hash } from 'viem'
 
 export interface DepositInfo {
   amount: string
-  tokenId: string
   preparedTransactions: SerializableTransactionRequest[]
+  pool: EarnPosition
 }
 
 export interface DepositSuccess {
