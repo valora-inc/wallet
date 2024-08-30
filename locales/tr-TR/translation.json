@@ -2624,7 +2624,10 @@
         "tvlDescription": "TVL, Total Value Locked (Kilitli Toplam Değer) anlamına gelir ve kripto sektöründe bir blok zincir ağında kilitli olan dijital varlıkların değerini ölçmek için kullanılan bir metriktir. TVL, bir DeFi protokolünde ya da akıllı kontratta kilitli olan tüm dijital varlıkların değerinin toplanmasıyla hesaplanır. Bu varlıklar arasında kripto paralar, sabit coinler ve diğer tokenlar yer alabilir."
       },
       "noPoolsTitle": "Henüz hiçbir havuza katılmadınız",
-      "noPoolsDescription": "Mevcut havuzları keşfedin, hedeflerinize uygun bir havuz seçin ve sabit coin'lerinizden en iyi şekilde yararlanın."
+      "noPoolsDescription": "Mevcut havuzları keşfedin, hedeflerinize uygun bir havuz seçin ve sabit coin'lerinizden en iyi şekilde yararlanın.",
+      "errorTitle": "Havuzlar yüklenemiyor",
+      "errorDescription": "Oops, havuz bilgilerini yüklemeye çalışırken bir şeyler ters gitti. Lütfen tekrar deneyin.",
+      "errorButton": "Tekrar deneyin"
     },
     "poolCard": {
       "onNetwork": "{{networkName}} üzerinde",

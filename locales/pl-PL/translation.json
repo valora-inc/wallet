@@ -2628,7 +2628,10 @@
         "tvlDescription": "TVL to skrót oznaczający łączną wartość zablokowanych aktywów i jest wskaźnikiem używanym w branży kryptowalut do pomiaru wartości cyfrowych aktywów zablokowanych w sieci łańcucha bloków. Oblicza się go przez zsumowanie wartości wszystkich cyfrowych aktywów zablokowanych w protokole DeFi lub inteligentnym kontrakcie. Środkami są między innymi kryptowaluty, tokeny płatnicze i inne tokeny."
       },
       "noPoolsTitle": "Nie dołączono jeszcze do żadnej puli",
-      "noPoolsDescription": "Odkryj dostępne pule, wybierz taką, która odpowiada Twoim celom, i w pełni wykorzystaj swoje tokeny płatnicze."
+      "noPoolsDescription": "Odkryj dostępne pule, wybierz taką, która odpowiada Twoim celom, i w pełni wykorzystaj swoje tokeny płatnicze.",
+      "errorTitle": "Nie można załadować pul",
+      "errorDescription": "Ups, coś poszło nie tak podczas próby załadowania informacji o puli. Spróbuj ponownie.",
+      "errorButton": "Spróbuj ponownie"
     },
     "poolCard": {
       "onNetwork": "w {{networkName}}",

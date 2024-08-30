@@ -2622,7 +2622,10 @@
         "tvlDescription": "TVL 是锁定总价值 (Total Value Locked) 的缩写，是加密货币行业用来衡量区块链网络上锁定的数字资产价值的指标。TVL 的计算方法是将 DeFi 协议或智能合约中锁定的所有数字资产的价值相加。这些资产可包括加密货币、稳定币和其他代币。"
       },
       "noPoolsTitle": "您还没有加入任何池",
-      "noPoolsDescription": "探索可用的池，选择一个符合您目标的池，充分利用您的稳定币。"
+      "noPoolsDescription": "探索可用的池，选择一个符合您目标的池，充分利用您的稳定币。",
+      "errorTitle": "无法加载池",
+      "errorDescription": "哎呀，在加载池信息时出了点问题。请重试。",
+      "errorButton": "再试一次"
     },
     "poolCard": {
       "onNetwork": "在 {{networkName}}",

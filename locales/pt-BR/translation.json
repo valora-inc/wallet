@@ -2624,7 +2624,10 @@
         "tvlDescription": "O valor total bloqueado (TVL) é uma métrica usada para medir o valor dos ativos digitais bloqueados em uma rede blockchain. O TVL é calculado pela soma do valor de todos os ativos digitais bloqueados em um protocolo DeFi ou contrato inteligente. Esses ativos podem incluir criptomoedas, stablecoins e outros tokens."
       },
       "noPoolsTitle": "Você ainda não entrou em nenhum pool",
-      "noPoolsDescription": "Descubra os pools disponíveis, escolha um que corresponda às suas metas e aproveite ao máximo suas stablecoins."
+      "noPoolsDescription": "Descubra os pools disponíveis, escolha um que corresponda às suas metas e aproveite ao máximo suas stablecoins.",
+      "errorTitle": "Não é possível carregar pools",
+      "errorDescription": "Oops, algo deu errado ao tentar carregar as informações do pool. Por favor, tente novamente.",
+      "errorButton": "Tentar novamente"
     },
     "poolCard": {
       "onNetwork": "na {{networkName}}",
