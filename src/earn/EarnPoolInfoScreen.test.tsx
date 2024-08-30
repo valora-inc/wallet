@@ -7,12 +7,11 @@ import EarnPoolInfoScreen from 'src/earn/EarnPoolInfoScreen'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { navigateToURI } from 'src/utils/linking'
-import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockArbUsdcTokenId, mockEarnPositions, mockTokenBalances } from 'test/values'
 
-const mockPoolTokenId = networkConfig.aaveArbUsdcTokenId
+const mockPoolTokenId = mockEarnPositions[0].dataProps.depositTokenId
 
 const store = createMockStore({
   tokens: {
