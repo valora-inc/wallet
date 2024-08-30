@@ -176,41 +176,42 @@ function DepositAndEarningsCard({ earnPosition }: { earnPosition: EarnPosition }
   const earningItemsTokenInfo = useTokensInfo(earningItemsTokenIds)
 
   const totalBalanceInLocalCurrency = depositBalanceInLocalCurrency.plus(
-    earningItems.reduce((acc, item) => {
-      if (item.includedInPoolBalance) return acc
-      const tokenInfo = earningItemsTokenInfo.find((token) => token?.tokenId === item.tokenId)
-      const amountInUsd = tokenInfo?.priceUsd?.multipliedBy(item.amount)
-      const amountInLocalCurrency = new BigNumber(localCurrencyExchangeRate ?? 0).multipliedBy(
-        amountInUsd ?? 0
-      )
-      return acc.plus(amountInLocalCurrency ?? 0)
-    }, new BigNumber(0))
+    earningItems
+      .filter((item) => !item.includedInPoolBalance)
+      .reduce((acc, item) => {
+        const tokenInfo = earningItemsTokenInfo.find((token) => token?.tokenId === item.tokenId)
+        const amountInUsd = tokenInfo?.priceUsd?.multipliedBy(item.amount)
+        const amountInLocalCurrency = new BigNumber(localCurrencyExchangeRate ?? 0).multipliedBy(
+          amountInUsd ?? 0
+        )
+        return acc.plus(amountInLocalCurrency ?? 0)
+      }, new BigNumber(0))
   )
 
   const totalDepositBalanceInLocalCurrency = depositBalanceInLocalCurrency.minus(
-    earningItems.reduce((acc, item) => {
-      if (!item.includedInPoolBalance) return acc
-      const tokenInfo = earningItemsTokenInfo.find((token) => token?.tokenId === item.tokenId)
-      const amountInUsd = tokenInfo?.priceUsd?.multipliedBy(item.amount)
-      const amountInLocalCurrency = new BigNumber(localCurrencyExchangeRate ?? 0).multipliedBy(
-        amountInUsd ?? 0
-      )
-      return acc.plus(amountInLocalCurrency ?? 0)
-    }, new BigNumber(0))
+    earningItems
+      .filter((item) => item.includedInPoolBalance)
+      .reduce((acc, item) => {
+        const tokenInfo = earningItemsTokenInfo.find((token) => token?.tokenId === item.tokenId)
+        return acc.plus(
+          new BigNumber(item.amount)
+            .multipliedBy(tokenInfo?.priceUsd ?? 0)
+            .dividedBy(tokenInfo?.priceUsd ?? 1)
+        )
+      }, new BigNumber(0))
   )
 
   const totalDepositBalanceInCrypto = new BigNumber(balance).minus(
-    earningItems.reduce((acc, item) => {
-      if (!item.includedInPoolBalance) return acc
-      const itemToken = earningItemsTokenInfo.find((token) => token?.tokenId === item.tokenId)
-      return acc.plus(
-        item.tokenId === depositTokenId
-          ? item.amount
-          : new BigNumber(item.amount)
-              .multipliedBy(itemToken?.priceUsd ?? 0)
-              .dividedBy(tokenInfo?.priceUsd ?? 1)
-      )
-    }, new BigNumber(0))
+    earningItems
+      .filter((item) => item.includedInPoolBalance)
+      .reduce((acc, item) => {
+        const tokenInfo = earningItemsTokenInfo.find((token) => token?.tokenId === item.tokenId)
+        return acc.plus(
+          new BigNumber(item.amount)
+            .multipliedBy(tokenInfo?.priceUsd ?? 0)
+            .dividedBy(tokenInfo?.priceUsd ?? 1)
+        )
+      }, new BigNumber(0))
   )
 
   return (
