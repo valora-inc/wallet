@@ -92,12 +92,11 @@ describe('EarnCollectScreen', () => {
     jest.clearAllMocks()
 
     jest.mocked(prepareWithdrawAndClaimTransactions).mockResolvedValue(mockPreparedTransaction)
-    jest.mocked(getFeatureGate).mockImplementation((gateName: StatsigFeatureGates) => {
-      if (gateName === StatsigFeatureGates.SHOW_POSITIONS) {
-        return true
-      }
-      return false
-    })
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation(
+        (gateName: StatsigFeatureGates) => gateName === StatsigFeatureGates.SHOW_POSITIONS
+      )
     jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(false)
     store.clearActions()
   })

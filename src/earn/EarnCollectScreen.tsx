@@ -38,12 +38,12 @@ export default function EarnCollectScreen({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const { pool } = route.params
-  const { depositTokenId } = pool.dataProps
+  const { depositTokenId, withdrawTokenId } = pool.dataProps
   const withdrawStatus = useSelector(withdrawStatusSelector)
   const positionsWithClaimableRewards = useSelector(positionsWithClaimableRewardsSelector)
 
   const depositToken = useTokenInfo(depositTokenId)
-  const withdrawToken = useTokenInfo(pool.tokenId)
+  const withdrawToken = useTokenInfo(withdrawTokenId)
   const allTokens = useSelector((state) => tokensByIdSelector(state, [pool.networkId]))
 
   const rewardsTokens = useMemo(
@@ -246,7 +246,7 @@ function CollectItem({
 function Rate({ pool }: { pool: EarnPosition }) {
   const { t } = useTranslation()
   const { depositTokenId } = pool.dataProps
-  const depositToken = pool.tokens.find((token) => token.tokenId === depositTokenId)!
+  const depositToken = useTokenInfo(depositTokenId)!
   const apy = pool.dataProps.yieldRates.find((rate) => rate.tokenId === depositTokenId)
 
   return (
