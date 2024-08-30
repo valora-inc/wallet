@@ -1668,6 +1668,95 @@ export const mockPositions: Position[] = [
   },
 ]
 
+export const mockRewardsPositions: Position[] = [
+  {
+    type: 'app-token',
+    networkId: NetworkId['arbitrum-sepolia'],
+    address: '0x460b97bd498e1157530aeb3086301d5225b91216',
+    tokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+    positionId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+    appId: 'aave',
+    appName: 'Aave',
+    symbol: 'aArbUSDCn',
+    decimals: 6,
+    displayProps: {
+      title: 'USDC',
+      description: 'Supplied (APY: 4.45%)',
+      imageUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/aave.png',
+    },
+    dataProps: {
+      manageUrl: 'https://app.aave.com/?marketName=proto_arbitrum_v3',
+      contractCreatedAt: '2023-06-28T10:09:48.000Z',
+      tvl: '199457378.015289',
+      yieldRates: [
+        {
+          percentage: 4.445551082862642,
+          label: 'Earnings APY',
+          tokenId: mockArbUsdcTokenId,
+        },
+      ],
+      earningItems: [
+        {
+          amount: '0.047640282134479525',
+          label: 'Rewards',
+          tokenId: 'arbitrum-sepolia:0x912ce59144191c1204e64559fe8253a0e49e6548',
+        },
+      ],
+      depositTokenId: mockArbUsdcTokenId,
+      withdrawTokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+    },
+    tokens: [
+      {
+        tokenId: mockArbUsdcTokenId,
+        networkId: NetworkId['arbitrum-sepolia'],
+        address: mockUSDCAddress,
+        symbol: 'USDC',
+        decimals: 6,
+        priceUsd: '1.2',
+        type: 'base-token',
+        balance: '10.75',
+      },
+    ],
+    pricePerShare: ['1'],
+    priceUsd: '0.997821',
+    balance: '10.75',
+    supply: '199457378.565488',
+    availableShortcutIds: ['deposit', 'withdraw'],
+  },
+  {
+    type: 'contract-position',
+    address: '0x460b97bd498e1157530aeb3086301d5225b91216',
+    networkId: NetworkId['arbitrum-sepolia'],
+    positionId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216:supply-incentives',
+    appId: 'aave',
+    appName: 'Aave',
+    displayProps: {
+      title: 'USDC supply incentives',
+      description: 'Rewards for supplying',
+      imageUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/aave.png',
+    },
+    tokens: [
+      {
+        address: '0x912ce59144191c1204e64559fe8253a0e49e6548',
+        symbol: 'ARB',
+        decimals: 18,
+        imageUrl:
+          'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ARB.png',
+        networkId: NetworkId['arbitrum-sepolia'],
+        tokenId: 'arbitrum-sepolia:0x912ce59144191c1204e64559fe8253a0e49e6548',
+        networkIconUrl:
+          'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ARB.png',
+        priceUsd: '0.5443',
+        balance: '0.01',
+        type: 'base-token',
+        category: 'claimable',
+      },
+    ],
+    balanceUsd: '0.02593060556579720546',
+    availableShortcutIds: ['claim-rewards'],
+  },
+]
+
 export const mockEarnPositions: EarnPosition[] = [
   {
     type: 'app-token',
@@ -1717,6 +1806,14 @@ export const mockEarnPositions: EarnPosition[] = [
     balance: '0',
     supply: '190288.768509',
     availableShortcutIds: ['deposit', 'withdraw'],
+    shortcutTriggerArgs: {
+      deposit: {
+        tokenDecimals: 6,
+      },
+      withdraw: {
+        tokenDecimals: 6,
+      },
+    },
   },
   {
     type: 'app-token',
@@ -1786,6 +1883,14 @@ export const mockShortcuts: Shortcut[] = [
     description: 'Claim rewards for staked liquidity',
     id: 'claim-reward',
     appId: 'ubeswap',
+  },
+  {
+    id: 'claim-rewards',
+    name: 'Claim',
+    description: 'Claim rewards',
+    networkIds: [NetworkId['arbitrum-sepolia']],
+    category: 'claim',
+    appId: 'aave',
   },
 ]
 

@@ -343,6 +343,12 @@
                 "displayProps": {
                     "$ref": "#/definitions/PositionDisplayProps"
                 },
+                "imageUrl": {
+                    "type": "string"
+                },
+                "networkIconUrl": {
+                    "type": "string"
+                },
                 "networkId": {
                     "$ref": "#/definitions/NetworkId"
                 },
@@ -357,6 +363,9 @@
                 },
                 "priceUsd": {
                     "type": "string"
+                },
+                "shortcutTriggerArgs": {
+                    "$ref": "#/definitions/Record<string,any>"
                 },
                 "supply": {
                     "type": "string"
@@ -526,6 +535,12 @@
                 },
                 "decimals": {
                     "type": "number"
+                },
+                "imageUrl": {
+                    "type": "string"
+                },
+                "networkIconUrl": {
+                    "type": "string"
                 },
                 "networkId": {
                     "$ref": "#/definitions/NetworkId"
@@ -953,6 +968,9 @@
                 },
                 "positionId": {
                     "type": "string"
+                },
+                "shortcutTriggerArgs": {
+                    "$ref": "#/definitions/Record<string,any>"
                 },
                 "tokens": {
                     "items": {
@@ -3540,7 +3558,11 @@
                     "type": "string"
                 },
                 "category": {
-                    "const": "claim",
+                    "enum": [
+                        "claim",
+                        "deposit",
+                        "withdraw"
+                    ],
                     "type": "string"
                 },
                 "description": {
