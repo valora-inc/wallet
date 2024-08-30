@@ -6,6 +6,7 @@ import { EarnEvents } from 'src/analytics/Events'
 import EarnPoolInfoScreen from 'src/earn/EarnPoolInfoScreen'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { EarnPosition } from 'src/positions/types'
 import { navigateToURI } from 'src/utils/linking'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
@@ -19,51 +20,43 @@ const store = createMockStore({
   },
 })
 
+const renderEarnPoolInfoScreen = (pool: EarnPosition) =>
+  render(
+    <Provider store={store}>
+      <MockedNavigator
+        component={() => (
+          <EarnPoolInfoScreen {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, { pool })} />
+        )}
+      />
+    </Provider>
+  )
+
 describe('EarnPoolInfoScreen', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
   it('renders correctly when not deposited in pool', () => {
-    const { getByTestId, queryByTestId } = render(
-      <Provider store={store}>
-        <MockedNavigator
-          component={() => {
-            return (
-              <EarnPoolInfoScreen
-                {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, {
-                  pool: mockEarnPositions[0],
-                })}
-              />
-            )
-          }}
-        />
-      </Provider>
-    )
+    const { getByTestId, queryByTestId } = renderEarnPoolInfoScreen(mockEarnPositions[0])
 
     expect(queryByTestId('DepositAndEarningsCard')).toBeFalsy()
 
     expect(
       within(getByTestId('TitleSection')).getByText('earnFlow.poolInfoScreen.chainName')
     ).toBeTruthy()
-
     expect(
       within(getByTestId('TitleSection')).getByText('earnFlow.poolInfoScreen.protocolName')
     ).toBeTruthy()
-
     expect(
       within(getByTestId('YieldCard')).getAllByText(
         'earnFlow.poolInfoScreen.ratePercent, {"rate":"1.92"}'
       )
     ).toBeTruthy()
-
     expect(within(getByTestId('TvlCard')).getByText('earnFlow.poolInfoScreen.tvl')).toBeTruthy()
     expect(within(getByTestId('TvlCard')).getByText('₱2,170,560.00')).toBeTruthy()
-
     expect(
       within(getByTestId('AgeCard')).getByText('duration, {"context":"month","count":5}')
     ).toBeTruthy()
-
     expect(
       within(getByTestId('ActionButtons')).getByText('earnFlow.poolInfoScreen.withdraw')
     ).toBeTruthy()
@@ -72,7 +65,7 @@ describe('EarnPoolInfoScreen', () => {
     ).toBeTruthy()
   })
 
-  it('renders deposit and earnings card when in pool when deposited in pool', () => {
+  it('renders deposit and earnings card when user has deposited in pool', () => {
     const mockPool = {
       ...mockEarnPositions[0],
       balance: '100',
@@ -90,40 +83,23 @@ describe('EarnPoolInfoScreen', () => {
       },
     }
 
-    const { getByTestId, getAllByTestId } = render(
-      <Provider store={store}>
-        <MockedNavigator
-          component={() => {
-            return (
-              <EarnPoolInfoScreen
-                {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, {
-                  pool: mockPool,
-                })}
-              />
-            )
-          }}
-        />
-      </Provider>
-    )
+    const { getByTestId, getAllByTestId } = renderEarnPoolInfoScreen(mockPool)
 
     expect(
       within(getByTestId('DepositAndEarningsCard')).getByText(
         'earnFlow.poolInfoScreen.totalDepositAndEarnings'
       )
     ).toBeTruthy()
-
     expect(
       within(getByTestId('DepositAndEarningsCard')).getByText(
         ' earnFlow.poolInfoScreen.titleLocalAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"154.28"}'
       )
     ).toBeTruthy()
-
     expect(
       within(getByTestId('DepositAndEarningsCard')).getByText(
         'earnFlow.poolInfoScreen.lineItemAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"133.00","cryptoAmount":"100.00","cryptoSymbol":"USDC"}'
       )
     ).toBeTruthy()
-
     expect(getAllByTestId('EarningItemLineItem')).toHaveLength(2)
     expect(
       within(getAllByTestId('EarningItemLineItem')[0]).getByText(
@@ -137,25 +113,85 @@ describe('EarnPoolInfoScreen', () => {
     ).toBeTruthy()
   })
 
-  it('calls navigateToURI when View Pool on Provider Touchable is tapped', () => {
-    const { getByText } = render(
-      <Provider store={store}>
-        <MockedNavigator
-          component={() => {
-            return (
-              <EarnPoolInfoScreen
-                {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, {
-                  pool: mockEarnPositions[0],
-                })}
-              />
-            )
-          }}
-        />
-      </Provider>
-    )
+  it('renders correctly when compounded interest cannot be separated', () => {
+    const mockPool = {
+      ...mockEarnPositions[0],
+      balance: '100',
+      dataProps: {
+        ...mockEarnPositions[0].dataProps,
+        cantSeparateCompoundedInterest: true,
+      },
+    }
+
+    const { getByTestId } = renderEarnPoolInfoScreen(mockPool)
+
+    expect(
+      within(getByTestId('DepositAndEarningsCard')).getByText(
+        'earnFlow.poolInfoScreen.depositAndEarnings'
+      )
+    ).toBeTruthy()
+    expect(
+      within(getByTestId('DepositAndEarningsCard')).getByText(
+        ' earnFlow.poolInfoScreen.titleLocalAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"133.00"}'
+      )
+    ).toBeTruthy()
+    expect(
+      within(getByTestId('DepositAndEarningsCard')).getByText(
+        'earnFlow.poolInfoScreen.lineItemAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"133.00","cryptoAmount":"100.00","cryptoSymbol":"USDC"}'
+      )
+    ).toBeTruthy()
+  })
+
+  it('renders correctly when includedInPoolBalance is true for an earning item', () => {
+    const mockPool = {
+      ...mockEarnPositions[0],
+      balance: '100',
+      dataProps: {
+        ...mockEarnPositions[0].dataProps,
+        earningItems: [
+          { amount: '15', label: 'Earnings', tokenId: mockArbUsdcTokenId },
+          {
+            amount: '1',
+            label: 'Reward',
+            tokenId: mockArbUsdcTokenId,
+            includedInPoolBalance: true,
+          },
+        ],
+      },
+    }
+
+    const { getByTestId, getAllByTestId } = renderEarnPoolInfoScreen(mockPool)
+
+    expect(
+      within(getByTestId('DepositAndEarningsCard')).getByText(
+        'earnFlow.poolInfoScreen.totalDepositAndEarnings'
+      )
+    ).toBeTruthy()
+    expect(
+      within(getByTestId('DepositAndEarningsCard')).getByText(
+        'earnFlow.poolInfoScreen.titleLocalAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"152.95"}'
+      )
+    ).toBeTruthy()
+    expect(
+      within(getByTestId('DepositAndEarningsCard')).getByText(
+        'earnFlow.poolInfoScreen.lineItemAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"132.00","cryptoAmount":"99.00","cryptoSymbol":"USDC"}'
+      )
+    ).toBeTruthy()
+    expect(getAllByTestId('EarningItemLineItem')).toHaveLength(2)
+    expect(
+      within(getAllByTestId('EarningItemLineItem')[0]).getByText(
+        'earnFlow.poolInfoScreen.lineItemAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"19.95","cryptoAmount":"15.00","cryptoSymbol":"USDC"}'
+      )
+    ).toBeTruthy()
+  })
+
+  it('navigates to external URI when "View Pool on Provider" is tapped', () => {
+    const { getByText } = renderEarnPoolInfoScreen(mockEarnPositions[0])
+
     fireEvent.press(
       getByText('earnFlow.poolInfoScreen.learnMoreOnProvider, {"providerName":"Aave"}')
     )
+
     expect(navigateToURI).toHaveBeenCalledWith('https://app.aave.com/?marketName=proto_arbitrum_v3')
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_info_view_pool, {
       appId: 'aave',
