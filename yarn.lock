@@ -5505,10 +5505,10 @@
     "@walletconnect/safe-json" "^1.0.2"
     pino "7.11.0"
 
-"@walletconnect/react-native-compat@^2.15.1":
-  version "2.15.1"
-  resolved "https://registry.yarnpkg.com/@walletconnect/react-native-compat/-/react-native-compat-2.15.1.tgz#5d5df9b52cd197eae31cc2a22af481cdfe4fefff"
-  integrity sha512-49CUBihJHWWYm+gHLnr9ihJHRo52F1NJliz3fdq4dyUsDtxnuSghHU1vE3G+EKd8Z/ckhCVEUNHn1NlOYsGBGw==
+"@walletconnect/react-native-compat@^2.15.2":
+  version "2.15.2"
+  resolved "https://registry.yarnpkg.com/@walletconnect/react-native-compat/-/react-native-compat-2.15.2.tgz#4461cdc3a2691186e1314863515c0e3e68590fbf"
+  integrity sha512-4DBvJqNjEUD25peYScTq2IEr7hDhQSasWfIB/2ovliU2xrUz29KTPmFugkcm/nbW+w5Z3LDfY32L6ceUhf2B9A==
   dependencies:
     events "3.3.0"
     fast-text-encoding "1.0.6"
@@ -10170,12 +10170,7 @@ globby@^14.0.0:
     slash "^5.1.0"
     unicorn-magic "^0.1.0"
 
-google-libphonenumber@^3.2.15, google-libphonenumber@^3.2.27:
-  version "3.2.32"
-  resolved "https://registry.yarnpkg.com/google-libphonenumber/-/google-libphonenumber-3.2.32.tgz#63c48a9c247b64a3bc2eec21bdf3fcfbf2e148c0"
-  integrity sha512-mcNgakausov/B/eTgVeX8qc8IwWjRrupk9UzZZ/QDEvdh5fAjE7Aa211bkZpZj42zKkeS6MTT8avHUwjcLxuGQ==
-
-google-libphonenumber@^3.2.38:
+google-libphonenumber@^3.2.15, google-libphonenumber@^3.2.27, google-libphonenumber@^3.2.38:
   version "3.2.38"
   resolved "https://registry.yarnpkg.com/google-libphonenumber/-/google-libphonenumber-3.2.38.tgz#5adb0c8ff807d84d4d46b9536d0116d00d85f137"
   integrity sha512-t/K0dsVmA0gMMVLJgcMeB9g1Ar4ANVWfkY+AJGSdfyJ2Ay7Bu8ceLYpUlC6FZSilZgaF1qbkM9tZydGBEBHqAg==
