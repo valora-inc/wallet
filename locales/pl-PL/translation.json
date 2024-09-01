@@ -2662,7 +2662,11 @@
       "ageOfPool": "Wiek puli",
       "learnMoreOnProvider": "Wyświetl pulę w {{providerName}}",
       "deposit": "Wpłatę",
+      "depositAndEarnings": "Wpłaty i zarobki",
       "withdraw": "Wycofaj",
+      "totalDepositAndEarnings": "Depozyty i zyski ogółem",
+      "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
+      "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "Rozumiem",
         "tvlTitle": "Całkowita wartość zablokowana (TVL)",
