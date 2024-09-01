@@ -2656,7 +2656,11 @@
       "ageOfPool": "Age of Pool",
       "learnMoreOnProvider": "View Pool on {{providerName}}",
       "deposit": "ฝากเงิน",
+      "depositAndEarnings": "ฝากเงินและสร้างรายได้",
       "withdraw": "ถอน",
+      "totalDepositAndEarnings": "Total Deposit & Earnings",
+      "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
+      "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "เข้าใจแล้ว",
         "tvlTitle": "Total Value Locked (TVL)",
