@@ -2656,7 +2656,11 @@
       "ageOfPool": "Age of Pool",
       "learnMoreOnProvider": "View Pool on {{providerName}}",
       "deposit": "Nạp tiền",
+      "depositAndEarnings": "Nạp tiền & Thu nhập",
       "withdraw": "Rút tiền",
+      "totalDepositAndEarnings": "Total Deposit & Earnings",
+      "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
+      "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "Đã hiểu",
         "tvlTitle": "Total Value Locked (TVL)",
