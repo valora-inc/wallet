@@ -2656,7 +2656,11 @@
       "ageOfPool": "泳池年龄",
       "learnMoreOnProvider": "在 {{providerName}}上查看游泳池",
       "deposit": "存款",
+      "depositAndEarnings": "存款和收益",
       "withdraw": "提取",
+      "totalDepositAndEarnings": "存款和收益总额",
+      "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
+      "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "知道了",
         "tvlTitle": "锁定总价值 (TVL)",
