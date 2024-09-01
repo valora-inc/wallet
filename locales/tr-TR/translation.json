@@ -2658,7 +2658,11 @@
       "ageOfPool": "Havuz Yaşı",
       "learnMoreOnProvider": "{{providerName}}adresindeki havuzu görüntüle",
       "deposit": "Patra Yatırma",
+      "depositAndEarnings": "Yatırım ve Kazançlar",
       "withdraw": "Çek",
+      "totalDepositAndEarnings": "Toplam Mevduat ve Kazançlar",
+      "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
+      "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "Anladım",
         "tvlTitle": "Kilitlenen Toplam Değer (TVL)",
