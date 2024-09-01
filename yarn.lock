@@ -1960,10 +1960,10 @@
   resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-5.5.3.tgz#18e3af6b8eae7984072bbeb0c0858474d7c4cefe"
   integrity sha512-R11tGE6yIFwqpaIqcfkcg7AICXzFg14+5h5v0TfF/9+RMDL6jhzCy/pxHVOfbALGdtVYdt6JdR21tuxEgl34dw==
 
-"@fiatconnect/fiatconnect-sdk@^0.5.56":
-  version "0.5.56"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.5.56.tgz#df08c066e53aae9c17dbbf6e05146ce79796bd0e"
-  integrity sha512-RTap/wnyyQzPagrJwA7zvluOYEiPbpqfSrveZI/ZIBnC7d0+L5Xyaljs9YTgXujYq+63i94gqKXMBgjYZYHmrw==
+"@fiatconnect/fiatconnect-sdk@^0.5.57":
+  version "0.5.57"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.5.57.tgz#883ab767f5f7dfba79741cdc4406386f6fc8e454"
+  integrity sha512-GkXKl8KYWh14wjl8lLrf6axyIc2s79A2gSCarqEpVd+7wpnw9M9aqPxuuyfEeOBsjXQKkngKdDzGBPKwIqFkAg==
   dependencies:
     "@badrap/result" "^0.2.13"
     "@fiatconnect/fiatconnect-types" "^13.3.8"
@@ -1972,7 +1972,7 @@
     fetch-cookie "^3.0.1"
     siwe "^2.3.2"
     tough-cookie "^4.0.0"
-    tslib "^2.6.3"
+    tslib "^2.7.0"
     zod "^3.23.8"
 
 "@fiatconnect/fiatconnect-types@^13.3.8":
@@ -17719,10 +17719,10 @@ tslib@2.4.0:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.4.0.tgz#7cecaa7f073ce680a05847aa77be941098f36dc3"
   integrity sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==
 
-tslib@^2.0.1, tslib@^2.5.3, tslib@^2.6.3:
-  version "2.6.3"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.6.3.tgz#0438f810ad7a9edcde7a241c3d80db693c8cbfe0"
-  integrity sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==
+tslib@^2.0.1, tslib@^2.5.3, tslib@^2.6.3, tslib@^2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.7.0.tgz#d9b40c5c40ab59e8738f297df3087bf1a2690c01"
+  integrity sha512-gLXCKdN1/j47AiHiOkJN69hJmcbGTHI0ImLmbYLHykhgeN0jVGola9yVjFgzCUklsZQMW55o+dW7IXv3RCXDzA==
 
 tsutils@^3.21.0:
   version "3.21.0"
