@@ -2662,7 +2662,11 @@
       "ageOfPool": "Вік басейну",
       "learnMoreOnProvider": "Переглянути басейн на {{providerName}}",
       "deposit": "Депозит",
+      "depositAndEarnings": "Депозит і прибуток",
       "withdraw": "Зняти",
+      "totalDepositAndEarnings": "Загальний депозит та дохід",
+      "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
+      "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "Зрозуміло",
         "tvlTitle": "Загальне заблоковане значення (TVL)",
