@@ -2658,7 +2658,11 @@
       "ageOfPool": "Antigüedad de pool:",
       "learnMoreOnProvider": "Ver pool en {{providerName}}",
       "deposit": "Depósito",
+      "depositAndEarnings": "Depósitos y ganancias",
       "withdraw": "Retirar",
+      "totalDepositAndEarnings": "Depósito y ganancias totales",
+      "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
+      "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "Entendido",
         "tvlTitle": "Valor total bloqueado (TVL)",
