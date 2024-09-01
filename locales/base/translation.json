@@ -2660,7 +2660,11 @@
       "ageOfPool": "Age of Pool",
       "learnMoreOnProvider": "View Pool on {{providerName}}",
       "deposit": "Deposit",
+      "depositAndEarnings": "Deposit & Earnings",
       "withdraw": "Withdraw",
+      "totalDepositAndEarnings": "Total Deposit & Earnings",
+      "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
+      "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "Got it",
         "tvlTitle": "Total Value Locked (TVL)",
