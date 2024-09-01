@@ -2662,7 +2662,11 @@
       "ageOfPool": "Возраст бассейна",
       "learnMoreOnProvider": "Посмотреть бассейн на {{providerName}}",
       "deposit": "Депозит",
+      "depositAndEarnings": "Пополнение и заработки",
       "withdraw": "Вывести",
+      "totalDepositAndEarnings": "Общий депозит и заработок",
+      "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
+      "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "Понятно",
         "tvlTitle": "Total Value Locked (TVL)",
