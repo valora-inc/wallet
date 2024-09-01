@@ -2658,7 +2658,11 @@
       "ageOfPool": "Piscina criada:",
       "learnMoreOnProvider": "Ver pool no {{providerName}}",
       "deposit": "Depósito",
+      "depositAndEarnings": "Depósitos e ganhos",
       "withdraw": "Sacar",
+      "totalDepositAndEarnings": "Total de depósitos e ganhos",
+      "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
+      "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "Entendi",
         "tvlTitle": "Valor total bloqueado (TVL)",
