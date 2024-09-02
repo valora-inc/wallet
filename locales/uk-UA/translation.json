@@ -4,9 +4,9 @@
   "languageSettings": "Мова",
   "localCurrencySetting": "Валюта",
   "licenses": "Ліцензії",
-  "removeAccountTitle": "Перезапустити Valora",
+  "removeAccountTitle": "Скинути {{appName}}",
   "removeAccountDetails": "Перезапуск видалить ваш рахунок із цього пристрою. Ваші кошти залишаться на рахунку, але будуть доступні лише з вашою фразою для відновлення",
-  "deleteAccountTitle": "Видалити рахунок",
+  "deleteAccountTitle": "Видалити {{appName}}",
   "deleteAccountDetails": "Якщо видалити рахунок, він стане недоступним у {{appName}}. Ваші кошти залишаться на рахунку, але доступ до них буде лише за фразою відновлення",
   "deleteAccountWarning": {
     "title": "Ви впевнені?",
@@ -862,7 +862,7 @@
   "registrationSteps": "Крок {{step}} із {{totalSteps}}",
   "selectCountryCode": "Виберіть код країни",
   "pincodeSet": {
-    "createNew": "Створити новий PIN-код",
+    "createNew": "Створіть новий PIN-код",
     "verify": "Введіть PIN-код ще раз для підтвердження",
     "changePIN": "Змінити PIN-код",
     "pinsDontMatch": "PIN-коди не збігаються",
