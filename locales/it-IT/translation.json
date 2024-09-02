@@ -4,9 +4,9 @@
   "languageSettings": "Lingua",
   "localCurrencySetting": "Valuta",
   "licenses": "Licenze",
-  "removeAccountTitle": "Ripristina Valora",
+  "removeAccountTitle": "Azzeramento di {{appName}}",
   "removeAccountDetails": "Il ripristino rimuoverà il tuo conto da questo dispositivo. I tuoi fondi rimarranno nel conto, ma saranno accessibili solo con la tua Frase di recupero.",
-  "deleteAccountTitle": "Elimina conto",
+  "deleteAccountTitle": "Elimina {{appName}}",
   "deleteAccountDetails": "L'eliminazione del tuo conto lo rimuoverà da {{appName}}. I tuoi fondi rimarranno nel conto, ma saranno accessibili solo con la tua Frase di recupero.",
   "deleteAccountWarning": {
     "title": "Sei sicuro?",
@@ -2658,7 +2658,11 @@
       "ageOfPool": "Pool creato:",
       "learnMoreOnProvider": "Visualizza pool su {{providerName}}",
       "deposit": "Deposito",
+      "depositAndEarnings": "Deposito e guadagni",
       "withdraw": "Preleva",
+      "totalDepositAndEarnings": "Totale depositi e guadagni",
+      "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
+      "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "Ho capito",
         "tvlTitle": "Valore totale bloccato (TVL)",

@@ -4,9 +4,9 @@
   "languageSettings": "Language",
   "localCurrencySetting": "Currency",
   "licenses": "Licenses",
-  "removeAccountTitle": "Reset Valora",
+  "removeAccountTitle": "Reset {{appName}}",
   "removeAccountDetails": "Resetting will remove your account from this device. Your funds will remain in the account, but will only be accessible with your Recovery Phrase",
-  "deleteAccountTitle": "Delete Account",
+  "deleteAccountTitle": "Delete {{appName}}",
   "deleteAccountDetails": "Deleting your account will remove it from {{appName}}. Your funds will remain in the account, but will only be accessible with your Recovery Phrase",
   "deleteAccountWarning": {
     "title": "Are you sure?",
@@ -862,7 +862,7 @@
   "registrationSteps": "Step {{step}} of {{totalSteps}}",
   "selectCountryCode": "Select Country Code",
   "pincodeSet": {
-    "createNew": "Create a new PIN",
+    "createNew": "Create a New PIN",
     "verify": "Enter your PIN again to confirm",
     "changePIN": "Change PIN",
     "pinsDontMatch": "The PINs didn't match",
@@ -2658,7 +2658,11 @@
       "ageOfPool": "Age of Pool",
       "learnMoreOnProvider": "View Pool on {{providerName}}",
       "deposit": "Deposit",
+      "depositAndEarnings": "Deposit & Earnings",
       "withdraw": "Withdraw",
+      "totalDepositAndEarnings": "Total Deposit & Earnings",
+      "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
+      "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "Got it",
         "tvlTitle": "Total Value Locked (TVL)",

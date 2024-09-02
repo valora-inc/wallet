@@ -4,9 +4,9 @@
   "languageSettings": "Langue",
   "localCurrencySetting": "Devise",
   "licenses": "Licences",
-  "removeAccountTitle": "Réinitialiser Valora",
+  "removeAccountTitle": "Réinitialise {{appName}}",
   "removeAccountDetails": "La réinitialisation supprimera votre compte de cet appareil. Vos fonds resteront sur votre compte, mais ne seront accessibles qu'avec votre Phrase de récupération",
-  "deleteAccountTitle": "Supprimer le compte",
+  "deleteAccountTitle": "Supprimer {{appName}}",
   "deleteAccountDetails": "La suppression de votre compte le supprimera de {{appName}}. Vos fonds resteront dans le compte, mais ne seront accessibles qu'avec votre phrase de récupération.",
   "deleteAccountWarning": {
     "title": "Êtes-vous sûr ?",
@@ -862,7 +862,7 @@
   "registrationSteps": "Étape {{step}} de {{totalSteps}}",
   "selectCountryCode": "Sélectionnez l'indicatif du pays",
   "pincodeSet": {
-    "createNew": "Créez un nouveau code PIN",
+    "createNew": "Créer un nouveau code PIN",
     "verify": "Saisissez à nouveau votre code PIN pour confirmer",
     "changePIN": "Modifer le code PIN",
     "pinsDontMatch": "Les codes PIN ne correspondent pas",
@@ -2658,7 +2658,11 @@
       "ageOfPool": "Pool crée",
       "learnMoreOnProvider": "Voir pool sur {{providerName}}",
       "deposit": "Dépôt",
+      "depositAndEarnings": "Dépôt et gains",
       "withdraw": "Retirer",
+      "totalDepositAndEarnings": "Total des dépôts et des gains",
+      "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
+      "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "J'ai compris",
         "tvlTitle": "Valeur totale bloquée (TVL)",

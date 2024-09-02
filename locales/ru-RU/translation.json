@@ -4,9 +4,9 @@
   "languageSettings": "Язык",
   "localCurrencySetting": "Валюта",
   "licenses": "Лицензии",
-  "removeAccountTitle": "Сбросить приложение Valora",
+  "removeAccountTitle": "Перезагрузка {{appName}}",
   "removeAccountDetails": "При выполнении сброса ваш аккаунт будет удален с этого устройства. Ваши средства останутся в аккаунте, но будут доступны только с помощью вашей фразы восстановления",
-  "deleteAccountTitle": "Удалить аккаунт",
+  "deleteAccountTitle": "Удалить {{appName}}",
   "deleteAccountDetails": "Удаление вашего аккаунта приведет к тому, что он исчезнет из {{appName}}. Ваши средства останутся в аккаунте, но будут доступны только с помощью вашей фразы восстановления",
   "deleteAccountWarning": {
     "title": "Вы уверены?",
@@ -862,7 +862,7 @@
   "registrationSteps": "Шаг {{step}} из {{totalSteps}}",
   "selectCountryCode": "Выберите код страны",
   "pincodeSet": {
-    "createNew": "Создать новый PIN-код",
+    "createNew": "Создайте новый PIN-код",
     "verify": "Повторно введите PIN-код для подтверждения",
     "changePIN": "Изменить PIN-код",
     "pinsDontMatch": "PIN-код не совпадает",
@@ -2662,7 +2662,11 @@
       "ageOfPool": "Возраст бассейна",
       "learnMoreOnProvider": "Посмотреть бассейн на {{providerName}}",
       "deposit": "Депозит",
+      "depositAndEarnings": "Пополнение и заработки",
       "withdraw": "Вывести",
+      "totalDepositAndEarnings": "Общий депозит и заработок",
+      "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
+      "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "Понятно",
         "tvlTitle": "Total Value Locked (TVL)",

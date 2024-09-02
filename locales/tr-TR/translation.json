@@ -4,9 +4,9 @@
   "languageSettings": "Dil",
   "localCurrencySetting": "Para Birimi",
   "licenses": "Lisanslar",
-  "removeAccountTitle": "Valora'yı Sıfırla",
+  "removeAccountTitle": "Sıfırla {{appName}}",
   "removeAccountDetails": "Sıfırlama, hesabınızı bu cihazdan kaldıracaktır. Fonlarınız hesapta kalacak, ancak yalnızca Kurtarma Kelimeleri ile erişilebilir olacaktır",
-  "deleteAccountTitle": "Hesabı Sil",
+  "deleteAccountTitle": "Sil {{appName}}",
   "deleteAccountDetails": "Silme, hesabınızı {{appName}} uygulamasından kaldıracaktır. Fonlarınız hesapta kalacak, ancak yalnızca Kurtarma İfadesi ile erişilebilir olacaktır",
   "deleteAccountWarning": {
     "title": "Emin misiniz?",
@@ -862,7 +862,7 @@
   "registrationSteps": "Toplam {{totalSteps}} adımdan {{step}}.",
   "selectCountryCode": "Ülke Kodu Seçin",
   "pincodeSet": {
-    "createNew": "Yeni PIN oluştur",
+    "createNew": "Yeni PIN Oluşturma",
     "verify": "Doğrulamak için PIN'i tekrar girin",
     "changePIN": "PIN Değiştir",
     "pinsDontMatch": "PIN'ler eşleşmedi",
@@ -2658,7 +2658,11 @@
       "ageOfPool": "Havuz Yaşı",
       "learnMoreOnProvider": "{{providerName}}adresindeki havuzu görüntüle",
       "deposit": "Patra Yatırma",
+      "depositAndEarnings": "Yatırım ve Kazançlar",
       "withdraw": "Çek",
+      "totalDepositAndEarnings": "Toplam Mevduat ve Kazançlar",
+      "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
+      "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "Anladım",
         "tvlTitle": "Kilitlenen Toplam Değer (TVL)",

@@ -4,9 +4,9 @@
   "languageSettings": "Idioma",
   "localCurrencySetting": "Moeda",
   "licenses": "Licenças",
-  "removeAccountTitle": "Redefinir a Valora",
+  "removeAccountTitle": "Redefinir {{appName}}",
   "removeAccountDetails": "A redefinição removerá sua conta deste dispositivo. Seus fundos permanecerão na conta, mas só estarão acessíveis com a Frase de Recuperação.",
-  "deleteAccountTitle": "Excluir conta",
+  "deleteAccountTitle": "Excluir {{appName}}",
   "deleteAccountDetails": "A exclusão da sua conta a removerá da {{appName}}. Seus fundos permanecerão na conta, mas você só poderá acessá-los com sua frase de recuperação",
   "deleteAccountWarning": {
     "title": "Tem certeza?",
@@ -2658,7 +2658,11 @@
       "ageOfPool": "Piscina criada:",
       "learnMoreOnProvider": "Ver pool no {{providerName}}",
       "deposit": "Depósito",
+      "depositAndEarnings": "Depósitos e ganhos",
       "withdraw": "Sacar",
+      "totalDepositAndEarnings": "Total de depósitos e ganhos",
+      "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
+      "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "Entendi",
         "tvlTitle": "Valor total bloqueado (TVL)",
