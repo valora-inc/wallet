@@ -87,7 +87,7 @@ export const onboardingPropsSelector = createSelector(
       !ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.PhoneVerification]
 
     const showCloudAccountBackupSetup =
-      ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackupSetup]
+      ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackupInOnboarding]
 
     const skipProtectWallet =
       !ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.ProtectWallet]

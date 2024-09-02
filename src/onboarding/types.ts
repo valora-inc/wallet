@@ -8,6 +8,7 @@ export enum AdventureCardName {
 export enum ToggleableOnboardingFeatures {
   CloudBackupSetup = 'CloudBackupSetup',
   CloudBackupRestore = 'CloudBackupRestore',
+  CloudBackupInOnboarding = 'CloudBackupInOnboarding',
   PhoneVerification = 'PhoneVerification',
   EnableBiometry = 'EnableBiometry',
   ProtectWallet = 'ProtectWallet',

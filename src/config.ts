@@ -207,7 +207,7 @@ const ONBOARDING_FEATURES_ALL_DISABLED = Object.fromEntries(
 )
 
 export const ONBOARDING_FEATURES_ENABLED = (
-  LaunchArguments.value<ExpectedLaunchArgs>().onboardingOverrides ??
+  LaunchArguments.value<ExpectedLaunchArgs>()?.onboardingOverrides ??
   Config.ONBOARDING_FEATURES_ENABLED ??
   Object.values(ToggleableOnboardingFeatures).join(',')
 )
