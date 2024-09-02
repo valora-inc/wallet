@@ -77,11 +77,10 @@ export default RestoreAccountOnboarding = () => {
       await expect(element(by.id('HomeAction-Send'))).toBeVisible()
 
       // verify that the correct account was restored
-      await waitForElementByIdAndTap('WalletHome/AccountCircle')
-      await scrollIntoView('Account Address', 'SettingsScrollView')
+      await waitForElementByIdAndTap('WalletHome/SettingsGearButton')
+      await waitForElementByIdAndTap('SettingsMenu/Address')
 
-      const addressString = '0x ' + getAddressChunks(walletAddress).join(' ')
-      await expect(element(by.text(addressString))).toBeVisible()
+      await expect(element(by.text(walletAddress))).toBeVisible()
     }
   )
 }

@@ -466,16 +466,16 @@ export const createCommentText = () => {
 }
 
 export async function navigateToSecurity() {
-  await waitForElementByIdAndTap('WalletHome/AccountCircle')
+  await waitForElementByIdAndTap('WalletHome/SettingsGearButton')
   await waitForElementByIdAndTap('SettingsMenu/Security')
 }
 
 export async function navigateToProfile() {
-  await waitForElementByIdAndTap('WalletHome/AccountCircle')
+  await waitForElementByIdAndTap('WalletHome/SettingsGearButton')
   await waitForElementByIdAndTap('SettingsMenu/Profile')
 }
 
 export async function navigateToPreferences() {
-  await waitForElementByIdAndTap('WalletHome/AccountCircle')
+  await waitForElementByIdAndTap('WalletHome/SettingsGearButton')
   await waitForElementByIdAndTap('SettingsMenu/Preferences')
 }
