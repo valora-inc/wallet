@@ -1,5 +1,5 @@
 # Reusable fastlane Android workflow
-name: Fastlane Android
+name: Release - Fastlane Android
 
 on:
   workflow_call:

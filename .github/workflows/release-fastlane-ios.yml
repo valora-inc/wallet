@@ -1,5 +1,5 @@
 # Reusable fastlane iOS workflow
-name: Fastlane iOS
+name: Release - Fastlane iOS
 
 on:
   workflow_call:
