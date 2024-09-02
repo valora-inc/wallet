@@ -42,9 +42,8 @@ export default NewAccountOnboarding = () => {
     await launchApp({
       delete: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
-      launchArgs: {
-        statsigGateOverrides: `show_cloud_account_backup_setup=true,show_cloud_account_backup_restore=true,show_onboarding_phone_verification=true`,
-      },
+      onboardingOverrides:
+        'EnableBiometry,ProtectWallet,PhoneVerification,CloudBackupSetup,CloudBackupRestore',
     })
     await sleep(5000)
   })
@@ -159,7 +158,8 @@ export default NewAccountOnboarding = () => {
     await launchApp({
       newInstance: true,
       launchArgs: {
-        statsigGateOverrides: `show_cloud_account_backup_setup=true,show_cloud_account_backup_restore=true,show_onboarding_phone_verification=true`,
+        onboardingOverrides:
+          'EnableBiometry,ProtectWallet,PhoneVerification,CloudBackupSetup,CloudBackupRestore',
       },
     })
     await quickOnboarding({ mnemonic: testRecoveryPhrase, cloudBackupEnabled: true })
