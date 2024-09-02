@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import { Duration, intervalToDuration } from 'date-fns'
 import React, { useMemo, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
+import { LayoutChangeEvent, Platform, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
@@ -16,17 +16,20 @@ import Touchable from 'src/components/Touchable'
 import InfoIcon from 'src/icons/InfoIcon'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
-import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
+import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
+import type { EarningItem } from 'src/positions/types'
 import { EarnPosition } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
+import { useTokenInfo, useTokensInfo } from 'src/tokens/hooks'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { navigateToURI } from 'src/utils/linking'
@@ -108,11 +111,171 @@ function TokenIcons({
   )
 }
 
-function Card({ children, testID }: { children: React.ReactNode; testID: string }) {
+function Card({
+  children,
+  testID,
+  cardStyle,
+}: {
+  children: React.ReactNode
+  testID: string
+  cardStyle?: ViewStyle
+}) {
   return (
-    <View testID={testID} style={styles.card}>
+    <View testID={testID} style={[styles.card, cardStyle]}>
       {children}
     </View>
+  )
+}
+
+function EarningItemLineItem({ earnItem }: { earnItem: EarningItem }) {
+  const { t } = useTranslation()
+  const tokenInfo = useTokenInfo(earnItem.tokenId)
+  const amountInUsd = tokenInfo?.priceUsd?.multipliedBy(earnItem.amount)
+  const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
+  const amountInLocalCurrency = new BigNumber(localCurrencyExchangeRate ?? 0).multipliedBy(
+    amountInUsd ?? 0
+  )
+  const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
+
+  return (
+    <View testID="EarningItemLineItem" style={styles.cardLineContainer}>
+      <View style={styles.cardLineLabel}>
+        <Text numberOfLines={1} style={styles.depositAndEarningsCardLabelText}>
+          {earnItem.label}
+        </Text>
+      </View>
+      <View style={styles.flexShrink}>
+        <Text style={styles.depositAndEarningsCardValueText}>
+          {t('earnFlow.poolInfoScreen.lineItemAmountDisplay', {
+            localCurrencySymbol,
+            localCurrencyAmount: formatValueToDisplay(amountInLocalCurrency),
+            cryptoAmount: formatValueToDisplay(new BigNumber(earnItem.amount)),
+            cryptoSymbol: tokenInfo?.symbol,
+          })}
+        </Text>
+      </View>
+    </View>
+  )
+}
+
+function DepositAndEarningsCard({ earnPosition }: { earnPosition: EarnPosition }) {
+  const { t } = useTranslation()
+  const { balance } = earnPosition
+  const { earningItems, depositTokenId, cantSeparateCompoundedInterest } = earnPosition.dataProps
+  const tokenInfo = useTokenInfo(depositTokenId)
+  const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
+  const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
+
+  // Deposit items used to calculate the total balance and total deposited
+  const depositBalanceInUsd = tokenInfo?.priceUsd?.multipliedBy(balance)
+  const depositBalanceInLocalCurrency = new BigNumber(localCurrencyExchangeRate ?? 0).multipliedBy(
+    depositBalanceInUsd ?? 0
+  )
+
+  // Earning items used to calculate the total balance and total deposited
+  const earningItemsTokenIds = earningItems.map((item) => item.tokenId)
+  const earningItemsTokenInfo = useTokensInfo(earningItemsTokenIds)
+
+  const totalBalanceInLocalCurrency = useMemo(() => {
+    return depositBalanceInLocalCurrency.plus(
+      earningItems
+        .filter((item) => !item.includedInPoolBalance)
+        .reduce((acc, item) => {
+          const tokenInfo = earningItemsTokenInfo.find((token) => token?.tokenId === item.tokenId)
+          const amountInUsd = tokenInfo?.priceUsd?.multipliedBy(item.amount)
+          const amountInLocalCurrency = new BigNumber(localCurrencyExchangeRate ?? 0).multipliedBy(
+            amountInUsd ?? 0
+          )
+          return acc.plus(amountInLocalCurrency ?? 0)
+        }, new BigNumber(0))
+    )
+  }, [
+    depositBalanceInLocalCurrency,
+    earningItems,
+    earningItemsTokenInfo,
+    localCurrencyExchangeRate,
+  ])
+
+  const totalDepositBalanceInLocalCurrency = useMemo(() => {
+    return depositBalanceInLocalCurrency.minus(
+      earningItems
+        .filter((item) => item.includedInPoolBalance)
+        .reduce((acc, item) => {
+          const tokenInfo = earningItemsTokenInfo.find((token) => token?.tokenId === item.tokenId)
+          return acc.plus(
+            new BigNumber(item.amount)
+              .multipliedBy(tokenInfo?.priceUsd ?? 0)
+              .dividedBy(tokenInfo?.priceUsd ?? 1)
+          )
+        }, new BigNumber(0))
+    )
+  }, [depositBalanceInLocalCurrency, earningItems, earningItemsTokenInfo])
+
+  const totalDepositBalanceInCrypto = useMemo(() => {
+    return new BigNumber(balance).minus(
+      earningItems
+        .filter((item) => item.includedInPoolBalance)
+        .reduce((acc, item) => {
+          const tokenInfo = earningItemsTokenInfo.find((token) => token?.tokenId === item.tokenId)
+          return acc.plus(
+            new BigNumber(item.amount)
+              .multipliedBy(tokenInfo?.priceUsd ?? 0)
+              .dividedBy(tokenInfo?.priceUsd ?? 1)
+          )
+        }, new BigNumber(0))
+    )
+  }, [balance, earningItems, earningItemsTokenInfo])
+
+  return (
+    <Card testID="DepositAndEarningsCard" cardStyle={styles.depositAndEarningCard}>
+      <View style={styles.depositAndEarningCardTitleContainer}>
+        <View style={styles.cardLineLabel}>
+          <Text numberOfLines={1} style={styles.cardTitleText}>
+            {t('earnFlow.poolInfoScreen.totalDepositAndEarnings')}
+          </Text>
+          <Touchable onPress={() => Logger.info('Title Icon Pressed!')} borderRadius={24}>
+            <InfoIcon size={16} color={Colors.gray3} />
+          </Touchable>
+        </View>
+        <View>
+          <Text style={styles.depositAndEarningCardTitleText}>
+            {t('earnFlow.poolInfoScreen.titleLocalAmountDisplay', {
+              localCurrencySymbol,
+              localCurrencyAmount: formatValueToDisplay(totalBalanceInLocalCurrency),
+            })}
+          </Text>
+        </View>
+      </View>
+
+      <View style={styles.depositAndEarningCardSubtitleContainer}>
+        <View style={styles.cardLineContainer}>
+          <View style={styles.cardLineLabel}>
+            {cantSeparateCompoundedInterest ? (
+              <Text style={styles.depositAndEarningsCardLabelText}>
+                {t('earnFlow.poolInfoScreen.depositAndEarnings')}
+              </Text>
+            ) : (
+              <Text style={styles.depositAndEarningsCardLabelText}>
+                {t('earnFlow.poolInfoScreen.deposit')}
+              </Text>
+            )}
+          </View>
+          <View style={styles.flexShrink}>
+            <Text style={styles.depositAndEarningsCardValueText}>
+              {t('earnFlow.poolInfoScreen.lineItemAmountDisplay', {
+                localCurrencySymbol,
+                localCurrencyAmount: formatValueToDisplay(totalDepositBalanceInLocalCurrency),
+                cryptoAmount: formatValueToDisplay(totalDepositBalanceInCrypto),
+                cryptoSymbol: tokenInfo?.symbol,
+              })}
+            </Text>
+          </View>
+        </View>
+        {earningItems.map((item, index) => (
+          <EarningItemLineItem key={index} earnItem={item} />
+        ))}
+      </View>
+    </Card>
   )
 }
 
@@ -147,14 +310,16 @@ function YieldCard({
             : '--'}
         </Text>
       </View>
-      <View style={{ gap: 8 }}>
+      <View style={{ gap: Spacing.Smallest8 }}>
         {earnPosition.dataProps.yieldRates.map((rate, index) => {
           // TODO: investigate how to do when there are multiple tokens in a yield rate
           const tokenInfo = tokensInfo.filter((token) => token.tokenId === rate.tokenId)
           return (
             <View style={styles.cardLineContainer} key={index}>
               <View style={styles.cardLineLabel}>
-                <Text style={styles.cardLabelText}>{rate.label}</Text>
+                <Text numberOfLines={1} style={styles.cardLabelText}>
+                  {rate.label}
+                </Text>
                 <TokenIcons
                   tokensInfo={tokenInfo}
                   size={IconSize.XXSMALL}
@@ -277,7 +442,7 @@ function ActionButtons({ earnPosition }: { earnPosition: EarnPosition }) {
   const withdraw = availableShortcutIds.includes('withdraw')
 
   return (
-    <View style={[styles.buttonContainer, insetsStyle]}>
+    <View testID="ActionButtons" style={[styles.buttonContainer, insetsStyle]}>
       {withdraw && (
         <Button
           text={t('earnFlow.poolInfoScreen.withdraw')}
@@ -310,7 +475,7 @@ type Props = NativeStackScreenProps<StackParamList, Screens.EarnPoolInfoScreen>
 
 export default function EarnPoolInfoScreen({ route, navigation }: Props) {
   const { pool } = route.params
-  const { networkId, tokens, displayProps, appName, dataProps, appId, positionId } = pool
+  const { networkId, tokens, displayProps, appName, dataProps, appId, positionId, balance } = pool
   const allTokens = useSelector((state) => tokensByIdSelector(state, [networkId]))
   const tokensInfo = useMemo(() => {
     return tokens
@@ -351,6 +516,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         />
         <View style={{ height: Spacing.Thick24 }} />
         <View style={styles.contentContainer}>
+          {new BigNumber(balance).gt(0) && <DepositAndEarningsCard earnPosition={pool} />}
           <YieldCard
             infoIconPress={() => {
               AppAnalytics.track(EarnEvents.earn_pool_info_tap_info_icon, {
@@ -487,8 +653,14 @@ const styles = StyleSheet.create({
   flex: {
     flex: 1,
   },
+  flexShrink: {
+    flexShrink: 1,
+  },
   scrollContainer: {
     padding: Spacing.Thick24,
+    ...(Platform.OS === 'android' && {
+      minHeight: variables.height,
+    }),
   },
   title: {
     ...typeScale.titleMedium,
@@ -539,6 +711,7 @@ const styles = StyleSheet.create({
     gap: Spacing.Tiny4,
     alignItems: 'center',
     paddingRight: 20, // Prevents Icon from being cut off on long labels
+    minWidth: '35%',
   },
   cardTitleText: {
     ...typeScale.labelSemiBoldMedium,
@@ -547,6 +720,39 @@ const styles = StyleSheet.create({
   cardLabelText: {
     ...typeScale.bodyMedium,
     color: Colors.gray3,
+  },
+  depositAndEarningCard: {
+    backgroundColor: Colors.gray1,
+    padding: 0,
+    gap: 0,
+  },
+  depositAndEarningCardTitleContainer: {
+    padding: Spacing.Regular16,
+    alignItems: 'center',
+    gap: Spacing.Tiny4,
+  },
+  depositAndEarningCardTitleText: {
+    ...typeScale.titleMedium,
+    color: Colors.black,
+  },
+  depositAndEarningCardSubtitleContainer: {
+    backgroundColor: Colors.white,
+    padding: Spacing.Regular16,
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
+    gap: Spacing.Smallest8,
+  },
+  depositAndEarningsCardLabelText: {
+    ...typeScale.bodyMedium,
+    color: Colors.black,
+    flexWrap: 'wrap',
+    textAlign: 'left',
+  },
+  depositAndEarningsCardValueText: {
+    ...typeScale.bodyMedium,
+    color: Colors.black,
+    flexWrap: 'wrap',
+    textAlign: 'right',
   },
   learnMoreContainer: {
     flexShrink: 1,
