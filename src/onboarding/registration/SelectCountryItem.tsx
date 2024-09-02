@@ -1,9 +1,9 @@
-import { LocalizedCountry } from '@celo/phone-utils'
 import * as React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Touchable from 'src/components/Touchable'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
+import { LocalizedCountry } from 'src/utils/Countries'
 
 interface Props {
   country: LocalizedCountry

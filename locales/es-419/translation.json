@@ -4,9 +4,9 @@
   "languageSettings": "Idioma",
   "localCurrencySetting": "Moneda",
   "licenses": "Licencias",
-  "removeAccountTitle": "Restablecer Valora",
+  "removeAccountTitle": "Restablece {{appName}}",
   "removeAccountDetails": "Si seleccionas esta opción, se borrará tu cuenta de este dispositivo. No se perderán los fondos, pero solo podrás acceder a ellos con tu Frase de recuperación.",
-  "deleteAccountTitle": "Borrar cuenta",
+  "deleteAccountTitle": "Borra {{appName}}",
   "deleteAccountDetails": "Borrar tu cuenta la eliminará de {{appName}}. Tus fondos permanecerán en la cuenta, pero sólo serán accesibles con tu Frase de recuperación",
   "deleteAccountWarning": {
     "title": "Estas seguro",
@@ -2624,7 +2624,10 @@
         "tvlDescription": "El valor total bloqueado (TVL) es una métrica utilizada en la industria cripto para medir el valor de los activos digitales bloqueados en una red. El TVL se calcula sumando el valor de todos los activos digitales bloqueados en un protocolo DeFi o contrato inteligente. Estos activos pueden incluir criptomonedas, stablecoins y otros tokens."
       },
       "noPoolsTitle": "Aún no te has unido a ningún pool",
-      "noPoolsDescription": "Descubre los pools disponibles, elige uno que se ajuste a tus objetivos y saca el máximo de tus stablecoins."
+      "noPoolsDescription": "Descubre los pools disponibles, elige uno que se ajuste a tus objetivos y saca el máximo de tus stablecoins.",
+      "errorTitle": "No se pueden cargar grupos",
+      "errorDescription": "Ups, algo ha ido mal al intentar cargar la información de la piscina. Vuelve a intentarlo.",
+      "errorButton": "Inténtalo de nuevo"
     },
     "poolCard": {
       "onNetwork": "en {{networkName}}",
@@ -2655,7 +2658,20 @@
       "ageOfPool": "Antigüedad de pool:",
       "learnMoreOnProvider": "Ver pool en {{providerName}}",
       "deposit": "Depósito",
-      "withdraw": "Retirar"
+      "depositAndEarnings": "Depósitos y ganancias",
+      "withdraw": "Retirar",
+      "totalDepositAndEarnings": "Depósito y ganancias totales",
+      "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
+      "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
+      "infoBottomSheet": {
+        "gotIt": "Entendido",
+        "tvlTitle": "Valor total bloqueado (TVL)",
+        "tvlDescription": "La TVL se refiere a la cantidad total de activos depositados en un fondo de liquidez y puede utilizarse para ayudar a indicar la confianza y utilidad de un fondo. Normalmente, una TVL más alta se correlaciona con un riesgo reducido, aunque ningún fondo está completamente libre de riesgo.",
+        "ageTitle": "Antigüedad de pool:",
+        "ageDescription": "Los fondos de liquidez más antiguos pueden indicar una trayectoria sólida y un historial de creación de confianza en la comunidad. Por ello, algunos pueden considerar que estos pools son más seguros.\n\nNo hay una forma perfecta de determinar el riesgo, así que utiliza esta información como parte de tu investigación general para tomar la decisión que más te convenga.",
+        "yieldRateTitle": "Tasa de rendimiento",
+        "yieldRateDescription": "Aunque la mayoría de los pools ofrecen ganancias en forma de token de pool de liquidez, algunos dan token(s) adicionales como recompensa o incentivo añadido.\n\nDado que Valora agrega pools a través de múltiples protocolos, hemos combinado todas las tasas de ganancia y recompensa en una única tasa de rendimiento global para ayudarte a evaluar fácilmente tu potencial de ganancia. Esta cifra es una estimación, ya que los valores de ganancia y recompensa fluctúan constantemente.\n\nPara más información sobre los desgloses de ganancias puedes visitar <0>{{providerName}}</0>."
+      }
     }
   },
   "addFundsActions": {

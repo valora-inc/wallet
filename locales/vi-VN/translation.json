@@ -4,9 +4,9 @@
   "languageSettings": "Ngôn ngữ",
   "localCurrencySetting": "Đơn vị tiền tệ",
   "licenses": "Giấy phép",
-  "removeAccountTitle": "Thiết lập lại Valora",
+  "removeAccountTitle": "Reset {{appName}}",
   "removeAccountDetails": "Thao tác thiết lập lại sẽ xóa tài khoản của bạn khỏi thiết bị này. Tiền của bạn sẽ giữ nguyên trong tài khoản, nhưng bạn chỉ truy cập được bằng Cụm từ khôi phục",
-  "deleteAccountTitle": "Xóa tài khoản",
+  "deleteAccountTitle": "Delete {{appName}}",
   "deleteAccountDetails": "Khi bạn xóa tài khoản thì tài khoản của bạn sẽ bị gỡ bỏ khỏi {{appName}}. Tiền của bạn sẽ vẫn giữ nguyên trong tài khoản, nhưng bạn chỉ truy cập được bằng Cụm từ khôi phục",
   "deleteAccountWarning": {
     "title": "Bạn có chắc chắn không?",
@@ -862,7 +862,7 @@
   "registrationSteps": "Bước {{step}}/{{totalSteps}}",
   "selectCountryCode": "Chọn mã quốc gia",
   "pincodeSet": {
-    "createNew": "Tạo mã PIN mới",
+    "createNew": "Create a New PIN",
     "verify": "Nhập lại mã PIN để xác nhận",
     "changePIN": "Thay đổi mã PIN",
     "pinsDontMatch": "Mã PIN không khớp",
@@ -2622,7 +2622,10 @@
         "tvlDescription": "TVL là từ viết tắt của Total Value Locked, nghĩa là Tổng giá trị bị khóa. Đây là một chỉ số được sử dụng trong ngành tiền điện tử để đo lường giá trị của các tài sản kỹ thuật số bị khóa trên một mạng chuỗi khối. TVL được tính bằng cách tính tổng giá trị của tất cả các tài sản kỹ thuật số bị khóa trong một giao thức DeFi hoặc hợp đồng thông minh. Những tài sản này có thể bao gồm tiền điện tử, stablecoin và các token khác."
       },
       "noPoolsTitle": "Bạn chưa tham gia bất kỳ quỹ nào",
-      "noPoolsDescription": "Khám phá các quỹ hiện có, chọn quỹ phù hợp với mục tiêu của bạn và tận dụng tối đa stablecoin."
+      "noPoolsDescription": "Khám phá các quỹ hiện có, chọn quỹ phù hợp với mục tiêu của bạn và tận dụng tối đa stablecoin.",
+      "errorTitle": "Unable to load pools",
+      "errorDescription": "Oops, something went wrong when trying to load the pool information. Please try again.",
+      "errorButton": "Thử lại"
     },
     "poolCard": {
       "onNetwork": "trên {{networkName}}",
@@ -2653,7 +2656,20 @@
       "ageOfPool": "Age of Pool",
       "learnMoreOnProvider": "View Pool on {{providerName}}",
       "deposit": "Nạp tiền",
-      "withdraw": "Rút tiền"
+      "depositAndEarnings": "Nạp tiền & Thu nhập",
+      "withdraw": "Rút tiền",
+      "totalDepositAndEarnings": "Total Deposit & Earnings",
+      "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
+      "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
+      "infoBottomSheet": {
+        "gotIt": "Đã hiểu",
+        "tvlTitle": "Total Value Locked (TVL)",
+        "tvlDescription": "TVL refers to the total amount of assets deposited in a liquidity pool and can be used to help indicate the trust and utility of a pool. Typically a higher TVL correlates to reduced risk, however no pool is completely risk free.",
+        "ageTitle": "Age of Pool",
+        "ageDescription": "Older liquidity pools can indicate a solid track record and a history of building community trust. Because of this, some may consider these pools to be safer.\n\nThere is no perfect way to determine risk, so use this info as part of your overall research to make the decision that is best for you.",
+        "yieldRateTitle": "Yield Rate",
+        "yieldRateDescription": "While most pools offer earnings in the form of a liquidity pool token, some give additional token(s) as a reward or added incentive.\n\nSince Valora aggregates pools across multiple protocols, we have combined all the earning and reward rates into a single, overall yield rate to help easily evaluate your earning potential. This number is an estimate since the earning and reward values fluctuate constantly.\n\nFor further information about earning breakdowns you can visit <0>{{providerName}}</0>."
+      }
     }
   },
   "addFundsActions": {

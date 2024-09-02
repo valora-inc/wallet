@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   },
   indexText: {
     ...typeScale.bodyMedium,
-    color: colors.gray4,
+    color: colors.gray5,
   },
   twelveWordTable: {
     flexDirection: 'row',
@@ -173,14 +173,17 @@ const styles = StyleSheet.create({
     marginVertical: 11,
   },
   wordText: {
-    ...typeScale.bodyMedium,
+    ...typeScale.labelSemiBoldSmall,
+    color: colors.black,
   },
   phraseContainer: {
     flexWrap: 'wrap',
     flexDirection: 'row',
     marginTop: 8,
-    backgroundColor: colors.ivory,
+    backgroundColor: colors.gray1,
     borderRadius: 8,
+    borderWidth: 1,
+    borderColor: colors.gray2,
     alignContent: 'center',
     justifyContent: 'center',
     padding: 8,

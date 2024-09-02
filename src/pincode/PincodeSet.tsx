@@ -95,7 +95,7 @@ export class PincodeSet extends React.Component<Props, State> {
       ...(changePin ? nuxNavigationOptions : nuxNavigationOptionsOnboarding),
       headerTitle: () => (
         <HeaderTitleWithSubtitle
-          title={changePin ? i18n.t('pincodeSet.changePIN') : i18n.t('pincodeSet.pin')}
+          title={changePin ? '' : i18n.t('pincodeSet.pin')}
           subTitle={
             changePin || route.params?.choseToRestoreAccount
               ? undefined

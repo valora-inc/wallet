@@ -1,9 +1,9 @@
-import { Countries } from '@celo/phone-utils'
 import * as RNLocalize from 'react-native-localize'
 import { createSelector } from 'reselect'
 import i18n from 'src/i18n'
 import { RecipientType } from 'src/recipients/recipient'
 import { RootState } from 'src/redux/reducers'
+import { Countries } from 'src/utils/Countries'
 import { getCountryFeatures } from 'src/utils/countryFeatures'
 import { currentAccountSelector } from 'src/web3/selectors'
 

@@ -43,6 +43,7 @@ const config: KnipConfig = {
   ignore: [
     'src/utils/account.ts', // Temp ignore until we copy the latest version of @celo/cryptographic-utils
   ],
+  ignore: ['src/utils/inputValidation.ts', 'src/utils/country.json'],
 }
 
 export default config
