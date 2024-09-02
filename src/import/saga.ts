@@ -1,9 +1,3 @@
-import {
-  invalidMnemonicWords,
-  normalizeMnemonic,
-  suggestMnemonicCorrections,
-  validateMnemonic,
-} from '@celo/cryptographic-utils'
 import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { Task } from '@redux-saga/types'
 import * as bip39 from 'react-native-bip39'
@@ -11,8 +5,8 @@ import { setBackupCompleted } from 'src/account/actions'
 import { initializeAccountSaga } from 'src/account/saga'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
-import { AppEvents, OnboardingEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { AppEvents, OnboardingEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { countMnemonicWords, generateKeysFromMnemonic, storeMnemonic } from 'src/backup/utils'
 import { refreshAllBalances } from 'src/home/actions'
@@ -26,8 +20,14 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { goToNextOnboardingScreen, onboardingPropsSelector } from 'src/onboarding/steps'
 import { FetchedTokenBalance, fetchTokenBalancesForAddress } from 'src/tokens/saga'
-import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
+import {
+  invalidMnemonicWords,
+  normalizeMnemonic,
+  suggestMnemonicCorrections,
+  validateMnemonic,
+} from 'src/utils/account'
+import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { assignAccountFromPrivateKey } from 'src/web3/saga'
 import {
