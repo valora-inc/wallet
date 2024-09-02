@@ -1,21 +1,20 @@
 import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { UnlockableWallet } from '@celo/wallet-base'
 import { RpcWalletErrors } from '@celo/wallet-rpc/lib/rpc-wallet'
-import * as bip39 from 'react-native-bip39'
 import { setAccountCreationTime } from 'src/account/actions'
 import { generateSignedMessage } from 'src/account/saga'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { generateKeysFromMnemonic, storeMnemonic } from 'src/backup/utils'
+import { clearPasswordCaches } from 'src/pincode/PasswordCache'
 import {
   CANCELLED_PIN_INPUT,
   getPasswordSaga,
   retrieveSignedMessage,
 } from 'src/pincode/authentication'
-import { clearPasswordCaches } from 'src/pincode/PasswordCache'
-import { generateMnemonic, MnemonicLanguages, MnemonicStrength } from 'src/utils/account'
-import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
-import { Actions, setAccount, SetAccountAction } from 'src/web3/actions'
+import { MnemonicLanguages, MnemonicStrength, generateMnemonic } from 'src/utils/account'
+import { ensureError } from 'src/utils/ensureError'
+import { Actions, SetAccountAction, setAccount } from 'src/web3/actions'
 import { UNLOCK_DURATION } from 'src/web3/consts'
 import { getWallet, initContractKit } from 'src/web3/contracts'
 import { createAccountDek } from 'src/web3/dataEncryptionKey'
@@ -45,7 +44,7 @@ export function* getOrCreateAccount() {
 
     const mnemonicBitLength = MnemonicStrength.s128_12words
     const mnemonicLanguage = MnemonicLanguages.english
-    let mnemonic: string = yield* call(generateMnemonic, mnemonicBitLength, mnemonicLanguage, bip39)
+    let mnemonic: string = yield* call(generateMnemonic, mnemonicBitLength, mnemonicLanguage)
 
     // Ensure no duplicates in mnemonic
     const checkDuplicate = (someString: string) => {
@@ -54,7 +53,7 @@ export function* getOrCreateAccount() {
     let duplicateInMnemonic = checkDuplicate(mnemonic)
     while (duplicateInMnemonic) {
       Logger.debug(TAG + '@getOrCreateAccount', 'Regenerating mnemonic to avoid duplicates')
-      mnemonic = yield* call(generateMnemonic, mnemonicBitLength, mnemonicLanguage, bip39)
+      mnemonic = yield* call(generateMnemonic, mnemonicBitLength, mnemonicLanguage)
       duplicateInMnemonic = checkDuplicate(mnemonic)
     }
 

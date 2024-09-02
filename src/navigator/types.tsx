@@ -214,7 +214,6 @@ export type StackParamList = {
       }
     | undefined
   [Screens.Profile]: undefined
-  [Screens.ProfileMenu]: undefined
   [Screens.ProfileSubmenu]: undefined
   [Screens.LegalSubmenu]: undefined
   [Screens.PreferencesSubmenu]: undefined
@@ -259,7 +258,6 @@ export type StackParamList = {
     sendAmount: string
     tokenId: string
   }
-  [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
   [Screens.SignInWithEmail]: {
     keylessBackupFlow: KeylessBackupFlow
     origin: KeylessBackupOrigin

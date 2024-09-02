@@ -1,6 +1,5 @@
 import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { Task } from '@redux-saga/types'
-import * as bip39 from 'react-native-bip39'
 import { setBackupCompleted } from 'src/account/actions'
 import { initializeAccountSaga } from 'src/account/saga'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
@@ -52,7 +51,7 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
   Logger.debug(TAG + '@importBackupPhraseSaga', 'Importing backup phrase')
   try {
     const normalizedPhrase = normalizeMnemonic(phrase)
-    const phraseIsValid = validateMnemonic(normalizedPhrase, bip39)
+    const phraseIsValid = validateMnemonic(normalizedPhrase)
     const invalidWords = phraseIsValid ? [] : invalidMnemonicWords(normalizedPhrase)
 
     if (!phraseIsValid) {

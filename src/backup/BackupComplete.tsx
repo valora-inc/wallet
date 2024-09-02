@@ -29,7 +29,7 @@ function BackupComplete({ route }: Props) {
   useEffect(() => {
     const timer = setTimeout(() => {
       if (isAccountRemoval) {
-        navigate(Screens.Settings, { promptConfirmRemovalModal: true })
+        navigate(Screens.SecuritySubmenu, { promptConfirmRemovalModal: true })
       } else if (backupCompleted) {
         AppAnalytics.track(OnboardingEvents.backup_complete)
         navigateHome()

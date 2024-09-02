@@ -7,7 +7,7 @@ import {
   scrollIntoView,
   waitForElementId,
   waitForElementByIdAndTap,
-  navigateToSettings,
+  navigateToSecurity,
 } from '../utils/utils'
 import { sleep } from '../../../src/utils/sleep'
 
@@ -73,9 +73,8 @@ export default NewAccountOnboarding = () => {
     // Arrived to Home screen
     await arriveAtHomeScreen()
 
-    // Able to open the profile / menu
-    await waitForElementByIdAndTap('WalletHome/AccountCircle')
-    await waitForElementId('ProfileMenu/Settings')
+    // Able to open settings
+    await waitForElementByIdAndTap('WalletHome/SettingsGearButton')
     await element(by.id('Times')).tap()
   })
 
@@ -121,13 +120,15 @@ export default NewAccountOnboarding = () => {
   })
 
   it('Account Address shown in profile / menu', async () => {
-    await waitForElementByIdAndTap('WalletHome/AccountCircle')
-    await scrollIntoView('Account Address', 'SettingsScrollView')
-    const accountAddressElement = await element(by.id('AccountNumber')).getAttributes()
+    await waitForElementByIdAndTap('WalletHome/SettingsGearButton')
+    await waitForElementByIdAndTap('SettingsMenu/Address')
+
+    const accountAddressElement = await element(by.id('address')).getAttributes()
     const accountAddressText = accountAddressElement.text.replace(/\s/g, '')
     testAccountAddress = accountAddressText
     jestExpect(testAccountAddress).toMatch(/0x[0-9a-fA-F]{40}/)
-    await element(by.id('Times')).tap()
+    await element(by.id('BackChevron')).tap()
+    await waitForElementByIdAndTap('Times')
   })
 
   // After quiz completion recovery phrase should only be shown in settings and
@@ -136,7 +137,7 @@ export default NewAccountOnboarding = () => {
     await element(by.id('WalletHome/NotificationBell')).tap()
     await expect(element(by.text('Back up now'))).not.toExist()
     await element(by.id('BackChevron')).tap()
-    await navigateToSettings()
+    await navigateToSecurity()
     await waitForElementId('RecoveryPhrase')
     await element(by.id('RecoveryPhrase')).tap()
     await enterPinUi()
@@ -162,9 +163,9 @@ export default NewAccountOnboarding = () => {
       },
     })
     await quickOnboarding({ mnemonic: testRecoveryPhrase, cloudBackupEnabled: true })
-    await waitForElementByIdAndTap('WalletHome/AccountCircle')
-    await scrollIntoView('Account Address', 'SettingsScrollView')
-    const addressString = '0x ' + getAddressChunks(testAccountAddress).join(' ')
-    await expect(element(by.text(addressString))).toBeVisible()
+    await waitForElementByIdAndTap('WalletHome/SettingsGearButton')
+    await waitForElementByIdAndTap('SettingsMenu/Address')
+
+    await expect(element(by.text(testAccountAddress))).toBeVisible()
   })
 }

@@ -1,7 +1,10 @@
 // Initially copied from https://github.com/celo-org/developer-tooling/blob/467d4e16444535d341bd2296d41c386f1dab187f/packages/sdk/cryptographic-utils/src/account.ts
 import { levenshteinDistance } from '@celo/utils/lib/levenshtein'
 import * as bip39 from '@scure/bip39'
-import { randomBytes } from 'crypto'
+// Provides fast and secure cryptographic functions from OpenSSL
+// Note: we could also just import "crypto", since react-native-quick-crypto polyfills it
+// But at least it's explicit here and we have more guarantees the expected implementation is being used
+import crypto from 'react-native-quick-crypto'
 import { bytesToHex } from 'viem'
 import {
   HDKey,
@@ -36,18 +39,9 @@ export enum MnemonicLanguages {
   portuguese,
 }
 
-type RandomNumberGenerator = (
-  size: number,
-  callback: (err: Error | null, buf: Buffer) => void
-) => void
-
 interface Bip39 {
   mnemonicToSeed: (mnemonic: string, password?: string) => Promise<Uint8Array>
-  generateMnemonic: (
-    strength?: number,
-    rng?: RandomNumberGenerator,
-    wordlist?: string[]
-  ) => Promise<string>
+  generateMnemonic: (strength?: number, wordlist?: string[]) => Promise<string>
   validateMnemonic: (mnemonic: string, wordlist?: string[]) => boolean
 }
 
@@ -63,20 +57,53 @@ const wordlists: Record<MnemonicLanguages, string[]> = {
   [MnemonicLanguages.chinese_traditional]: traditionalChinese,
 } as const
 
-function defaultGenerateMnemonic(
+function salt(passphrase: string) {
+  return `mnemonic${passphrase}`.normalize('NFKD')
+}
+
+// Note: here we don't use bip39.mnemonicToSeed because it's currently implemented in JS
+// and it's slow:
+// - 3+ seconds on a iPhone 13 Pro
+// - 10+ seconds on a Pixel 4a
+async function _mnemonicToSeed(mnemonic: string, passphrase = '') {
+  const mnemonicBuffer = Buffer.from(mnemonic, 'utf8')
+  const saltBuffer = Buffer.from(salt(passphrase), 'utf8')
+  return new Promise<Uint8Array>((resolve, reject) =>
+    crypto.pbkdf2(mnemonicBuffer, saltBuffer, 2048, 64, 'SHA-512', (err, derivedKey) => {
+      if (err) {
+        reject(err)
+      } else {
+        if (!derivedKey) {
+          // This should never happen
+          reject(new Error('No derived key'))
+        } else {
+          resolve(derivedKey)
+        }
+      }
+    })
+  )
+}
+
+// Note: we could use bip39.generateMnemonic
+// because it uses crypto.randomBytes too
+// but at least we have the guarantee that the expected implementation is being used
+function _generateMnemonic(
   strength?: number,
-  rng?: RandomNumberGenerator,
   wordlist: string[] = wordlists[MnemonicLanguages.english]
 ): Promise<string> {
   return new Promise((resolve, reject) => {
     strength = strength || 128
-    rng = rng || randomBytes
 
-    rng(strength / 8, (error, randomBytesBuffer) => {
+    crypto.randomBytes(strength / 8, (error, randomBytesBuffer) => {
       if (error) {
         reject(error)
       } else {
-        resolve(bip39.entropyToMnemonic(randomBytesBuffer, wordlist))
+        if (!randomBytesBuffer) {
+          // This should never happen
+          reject(new Error('No random bytes generated'))
+        } else {
+          resolve(bip39.entropyToMnemonic(randomBytesBuffer, wordlist))
+        }
       }
     })
   })
@@ -90,31 +117,26 @@ function _validateMnemonic(
 }
 
 const bip39Wrapper: Bip39 = {
-  mnemonicToSeed: bip39.mnemonicToSeed,
-  generateMnemonic: defaultGenerateMnemonic,
+  mnemonicToSeed: _mnemonicToSeed,
+  generateMnemonic: _generateMnemonic,
   validateMnemonic: _validateMnemonic,
 }
 
 export async function generateMnemonic(
   strength: MnemonicStrength = MnemonicStrength.s256_24words,
-  language?: MnemonicLanguages,
-  bip39ToUse = bip39Wrapper
+  language?: MnemonicLanguages
 ): Promise<string> {
-  return bip39ToUse.generateMnemonic(strength, undefined, getWordList(language))
+  return bip39Wrapper.generateMnemonic(strength, getWordList(language))
 }
 
-export function validateMnemonic(
-  mnemonic: string,
-  bip39ToUse = bip39Wrapper,
-  language?: MnemonicLanguages
-) {
+export function validateMnemonic(mnemonic: string, language?: MnemonicLanguages) {
   if (language !== undefined) {
-    return bip39ToUse.validateMnemonic(mnemonic, getWordList(language))
+    return bip39Wrapper.validateMnemonic(mnemonic, getWordList(language))
   }
 
   const languages = getAllLanguages()
   for (const guessedLanguage of languages) {
-    if (bip39ToUse.validateMnemonic(mnemonic, getWordList(guessedLanguage))) {
+    if (bip39Wrapper.validateMnemonic(mnemonic, getWordList(guessedLanguage))) {
       return true
     }
   }
@@ -329,7 +351,7 @@ export function* suggestMnemonicCorrections(
   // Iterate over the generator of corrections, and return those that have a valid checksum.
   for (const suggestion of suggestUnvalidatedCorrections(words, lang)) {
     const phrase = joinMnemonic(suggestion, lang)
-    if (validateMnemonic(phrase, undefined, lang)) {
+    if (validateMnemonic(phrase, lang)) {
       yield phrase
     }
   }
@@ -427,10 +449,9 @@ export async function generateKeys(
   password?: string,
   changeIndex: number = 0,
   addressIndex: number = 0,
-  bip39ToUse = bip39Wrapper,
   derivationPath: string = CELO_DERIVATION_PATH_BASE
 ): Promise<{ privateKey: string; publicKey: string; address: string }> {
-  const seed: Buffer = await generateSeed(mnemonic, password, bip39ToUse)
+  const seed: Buffer = await generateSeed(mnemonic, password)
   return generateKeysFromSeed(seed, changeIndex, addressIndex, derivationPath)
 }
 
@@ -439,10 +460,9 @@ export async function generateKeys(
 async function generateSeed(
   mnemonic: string,
   password?: string,
-  bip39ToUse = bip39Wrapper,
   keyByteLength: number = 64
 ): Promise<Buffer> {
-  let seed = Buffer.from(await bip39ToUse.mnemonicToSeed(mnemonic, password))
+  let seed = Buffer.from(await bip39Wrapper.mnemonicToSeed(mnemonic, password ?? ''))
   if (keyByteLength > 0 && seed.byteLength > keyByteLength) {
     const bufAux = Buffer.allocUnsafe(keyByteLength)
     seed.copy(bufAux, 0, 0, keyByteLength)
