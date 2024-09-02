@@ -3363,6 +3363,7 @@
                 "QRScanner",
                 "RegulatoryTerms",
                 "SanctionedCountryErrorScreen",
+                "SecuritySubmenu",
                 "SelectCountry",
                 "SelectLocalCurrency",
                 "SelectProvider",

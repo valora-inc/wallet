@@ -222,8 +222,8 @@ function SignInWithEmail({ route }: Props) {
           onPress={() => onPressSignIn('google-oauth2')}
           text={t('signInWithEmail.google')}
           size={BtnSizes.FULL}
-          type={BtnTypes.PRIMARY}
-          icon={<GoogleIcon color={Colors.white} />}
+          type={BtnTypes.SECONDARY}
+          icon={<GoogleIcon color={Colors.black} />}
           iconMargin={10}
           showLoading={loading === 'google-oauth2'}
           disabled={!!loading}
@@ -234,8 +234,8 @@ function SignInWithEmail({ route }: Props) {
             onPress={() => onPressSignIn('apple')}
             text={t('signInWithEmail.apple')}
             size={BtnSizes.FULL}
-            type={BtnTypes.PRIMARY}
-            icon={<AppleIcon color={Colors.white} />}
+            type={BtnTypes.SECONDARY}
+            icon={<AppleIcon color={Colors.black} />}
             iconMargin={10}
             showLoading={loading === 'apple'}
             disabled={!!loading}
