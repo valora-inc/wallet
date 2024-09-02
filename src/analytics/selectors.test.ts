@@ -39,7 +39,6 @@ const mockEthTokens = {
 }
 
 const mockState = {
-  web3: { mtwAddress: '0x123' },
   account: { defaultCountryCode: '+33', pincodeType: PincodeType.CustomPin },
   app: {
     phoneNumberVerified: true,
@@ -387,13 +386,5 @@ describe('getCurrentUserTraits', () => {
       totalEthereumSepoliaBalanceUsd: 0,
       hasEthereumSepoliaTokenBalance: false,
     })
-  })
-  it('uses wallet address as fallback for accountAddress if MTW is null', () => {
-    const state = getMockStoreData({
-      web3: { mtwAddress: null },
-    })
-    expect(getCurrentUserTraits(state, [NetworkId['celo-alfajores']]).accountAddress).toEqual(
-      '0x0000000000000000000000000000000000007E57' // intentionally using non-lower-cased version here (important for backwards compatibility)
-    )
   })
 })

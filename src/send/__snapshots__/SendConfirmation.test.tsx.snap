@@ -292,31 +292,6 @@ exports[`SendConfirmation renders correctly 1`] = `
               ₱
               1.33
             </Text>
-            <TextInput
-              autoFocus={false}
-              blurOnSubmit={true}
-              maxLength={70}
-              multiline={true}
-              numberOfLines={5}
-              onBlur={[Function]}
-              onChangeText={[Function]}
-              placeholder="addDescription"
-              placeholderTextColor="#1AB775"
-              returnKeyType="done"
-              style={
-                {
-                  "alignSelf": "stretch",
-                  "flex": 1,
-                  "fontFamily": "Inter-Regular",
-                  "fontSize": 18,
-                  "height": 100,
-                  "lineHeight": 28,
-                  "textAlignVertical": "top",
-                }
-              }
-              testID="commentInput/send"
-              value=""
-            />
           </View>
           <Modal
             animationType="none"

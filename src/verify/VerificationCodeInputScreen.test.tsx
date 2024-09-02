@@ -1,4 +1,3 @@
-import * as DEK from '@celo/cryptographic-utils/lib/dataEncryptionKey'
 import { sleep } from '@celo/utils/lib/async'
 import { act, fireEvent, render, waitFor, within } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
@@ -26,16 +25,12 @@ mockedKeychain.getGenericPassword.mockResolvedValue({
   storage: 'some string',
 })
 
-const mockedDEK = jest.mocked(DEK)
-mockedDEK.compressedPubKey = jest.fn().mockReturnValue('somePublicKey')
-
 const mockedSmsRetriever = jest.mocked(SmsRetriever)
 
 const e164Number = '+31619123456'
 const store = createMockStore({
   web3: {
     account: '0xabc',
-    dataEncryptionKey: 'someDEK',
   },
   app: {
     inviterAddress: '0xabc',

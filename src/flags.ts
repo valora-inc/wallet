@@ -1,11 +1,3 @@
-// Feature flags
-export const features = {
-  USE_COMMENT_ENCRYPTION: true,
-  PHONE_NUM_METADATA_IN_TRANSFERS: true,
-  PNP_USE_DEK_FOR_AUTH: true,
-  SHOW_INVITE_MENU_ITEM: false,
-}
-
 // Country specific features, unlisted countries are set to `false` by default
 // Using 2 letters alpha code. See https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
 export const countryFeatures = {

@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-import stableToken from 'src/abis/StableToken'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { TransactionEvents } from 'src/analytics/Events'
 import { TokenBalanceWithAddress } from 'src/tokens/slice'
@@ -11,18 +10,16 @@ import {
   getEstimatedGasFee,
   getFeeCurrency,
   getFeeCurrencyAddress,
-  getFeeCurrencyAndAmounts,
   getFeeCurrencyToken,
   getFeeDecimals,
   getMaxGasFee,
   prepareERC20TransferTransaction,
   prepareSendNativeAssetTransaction,
   prepareTransactions,
-  prepareTransferWithCommentTransaction,
   tryEstimateTransaction,
   tryEstimateTransactions,
 } from 'src/viem/prepareTransactions'
-import { mockCeloTokenBalance, mockEthTokenBalance } from 'test/values'
+import { mockEthTokenBalance } from 'test/values'
 import {
   Address,
   BaseError,
@@ -1150,112 +1147,6 @@ describe('prepareTransactions module', () => {
       decreasedAmountGasFeeMultiplier: 1,
       baseTransactions: [{ from: '0x123', to: '0x456', value: BigInt(100) }],
       origin: 'send',
-    })
-  })
-
-  it('prepareTransferWithCommentTransaction', async () => {
-    const mockPrepareTransactions = jest.fn()
-    mocked(encodeFunctionData).mockReturnValue('0xabc')
-    await prepareTransferWithCommentTransaction(
-      {
-        fromWalletAddress: '0x123',
-        toWalletAddress: '0x456',
-        sendToken: mockSpendToken,
-        amount: BigInt(100),
-        feeCurrencies: mockFeeCurrencies,
-        comment: 'test comment',
-      },
-      mockPrepareTransactions
-    )
-    expect(mockPrepareTransactions).toHaveBeenCalledWith({
-      feeCurrencies: mockFeeCurrencies,
-      spendToken: mockSpendToken,
-      spendTokenAmount: new BigNumber(100),
-      decreasedAmountGasFeeMultiplier: 1,
-      baseTransactions: [
-        {
-          from: '0x123',
-          to: mockSpendToken.address,
-          data: '0xabc',
-        },
-      ],
-      origin: 'send',
-    })
-    expect(encodeFunctionData).toHaveBeenCalledWith({
-      abi: stableToken.abi,
-      functionName: 'transferWithComment',
-      args: ['0x456', BigInt(100), 'test comment'],
-    })
-  })
-
-  describe('getFeeCurrencyAndAmounts', () => {
-    it('returns undefined fee currency and fee amounts if prepare transactions result is undefined', () => {
-      expect(getFeeCurrencyAndAmounts(undefined)).toStrictEqual({
-        feeCurrency: undefined,
-        maxFeeAmount: undefined,
-        estimatedFeeAmount: undefined,
-      })
-    })
-    it("returns undefined fee currency and fee amounts if prepare transactions result is 'not-enough-balance-for-gas'", () => {
-      expect(
-        getFeeCurrencyAndAmounts({
-          type: 'not-enough-balance-for-gas',
-          feeCurrencies: [mockCeloTokenBalance],
-        })
-      ).toStrictEqual({
-        feeCurrency: undefined,
-        maxFeeAmount: undefined,
-        estimatedFeeAmount: undefined,
-      })
-    })
-    it("returns fee currency and amounts if prepare transactions result is 'possible'", () => {
-      expect(
-        getFeeCurrencyAndAmounts({
-          type: 'possible',
-          transactions: [
-            {
-              from: '0xfrom',
-              to: '0xto',
-              data: '0xdata',
-
-              gas: BigInt(500),
-              maxFeePerGas: BigInt(4),
-              maxPriorityFeePerGas: BigInt(1),
-              _baseFeePerGas: BigInt(1),
-            },
-            {
-              from: '0xfrom',
-              to: '0xto',
-              data: '0xdata',
-
-              gas: BigInt(100),
-              maxFeePerGas: BigInt(4),
-              maxPriorityFeePerGas: BigInt(1),
-              _baseFeePerGas: BigInt(1),
-            },
-          ],
-          feeCurrency: mockFeeCurrencies[0],
-        })
-      ).toStrictEqual({
-        feeCurrency: mockFeeCurrencies[0],
-        maxFeeAmount: new BigNumber(24),
-        estimatedFeeAmount: new BigNumber(12),
-      })
-    })
-    it("returns fee currency and amount if prepare transactions result is 'need-decrease-spend-amount-for-gas'", () => {
-      expect(
-        getFeeCurrencyAndAmounts({
-          type: 'need-decrease-spend-amount-for-gas',
-          feeCurrency: mockCeloTokenBalance,
-          maxGasFeeInDecimal: new BigNumber(0.1),
-          estimatedGasFeeInDecimal: new BigNumber(0.05),
-          decreasedSpendAmount: new BigNumber(4),
-        })
-      ).toStrictEqual({
-        feeCurrency: mockCeloTokenBalance,
-        maxFeeAmount: new BigNumber(0.1),
-        estimatedFeeAmount: new BigNumber(0.05),
-      })
     })
   })
 

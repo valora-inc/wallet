@@ -7,7 +7,7 @@ import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import { createMockStore } from 'test/utils'
-import { mockE164Number, mockE164NumberPepper, mockTokenBalances } from 'test/values'
+import { mockE164Number, mockTokenBalances } from 'test/values'
 
 const TWO_DAYS_MS = 2 * 24 * 60 * 1000
 const BACKUP_TIME = new Date().getTime() - TWO_DAYS_MS
@@ -87,7 +87,6 @@ describe('NotificationBox', () => {
         ...storeDataNotificationsEnabled.account,
         e164PhoneNumber: mockE164Number,
       },
-      identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
       tokens: {
         tokenBalances: mockTokenBalances,
       },
@@ -126,7 +125,6 @@ describe('NotificationBox', () => {
         dismissedGetVerified: false,
         e164PhoneNumber: mockE164Number,
       },
-      identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
     })
     const { getByText } = render(
       <Provider store={store}>
