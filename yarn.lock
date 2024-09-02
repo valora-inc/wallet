@@ -1112,18 +1112,10 @@
   resolved "https://registry.yarnpkg.com/@celo/base/-/base-1.5.2.tgz#168ab5e4e30b374079d8d139fafc52ca6bfd4100"
   integrity sha512-KGf6Dl9E6D01vAfkgkjL2sG+zqAjspAogILIpWstljWdG5ifyA75jihrnDEHaMCoQS0KxHvTdP1XYS/GS6BEyQ==
 
-"@celo/base@3.2.0", "@celo/base@^3.1.0":
+"@celo/base@3.2.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@celo/base/-/base-3.2.0.tgz#19dcff6a822abb1f6b57af8f9db35a4c673aee62"
   integrity sha512-9wfZYiYv7dzt17a29fxU6sV7JssyXfpSQ9kPSpfOlsewPICXwfOMQ+25Jn6xZu20Vx9rmKebmLHiQyiuYEDOcQ==
-
-"@celo/bls12377js@0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@celo/bls12377js/-/bls12377js-0.1.1.tgz#ba3574f41697cdba96c10ae96bb1aac057285798"
-  integrity sha512-hQjTIegg1+ZX5lPyeBYUEHYW7ktG0xkWxf4tcj//bK+tzyeQd6mMrne7C4+tBZgn+I35HtxYIo+YOLYJxXBg7A==
-  dependencies:
-    "@stablelib/blake2xs" "0.10.4"
-    big-integer "^1.6.44"
 
 "@celo/connect@3.2.0", "@celo/connect@^3.2.0":
   version "3.2.0"
@@ -1138,7 +1130,7 @@
     debug "^4.1.1"
     utf8 "3.0.0"
 
-"@celo/contractkit@3.2.0", "@celo/contractkit@^3.1.0", "@celo/contractkit@^3.2.0":
+"@celo/contractkit@^3.2.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@celo/contractkit/-/contractkit-3.2.0.tgz#c0886e3a01534a199618fce65c6861cecb0c5ed1"
   integrity sha512-kt4ViBRMg7ezCPi2SdcrYdDorA1Meg/qk97/u4izEIthl9GM4QSRfhhHYsbXYm0NV/MZ2BkS0cCsQ/SHcILSaA==
@@ -1157,79 +1149,7 @@
     semver "^7.3.5"
     web3 "1.3.6"
 
-"@celo/cryptographic-utils@^3.2.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@celo/cryptographic-utils/-/cryptographic-utils-3.2.0.tgz#b1afa8c0980c28572676cc38218dd6117f1bba23"
-  integrity sha512-vot4foshCtiqFolauzJyr9MoZh2qQ1Qmd7K5ktGm/q/WHqDgBppGR1M/7mW4x7CQrG/xMlpGZln9S/EJY2yEXA==
-  dependencies:
-    "@celo/base" "3.2.0"
-    "@celo/bls12377js" "0.1.1"
-    "@celo/utils" "3.2.0"
-    "@types/bn.js" "^5.1.0"
-    "@types/elliptic" "^6.4.9"
-    "@types/ethereumjs-util" "^5.2.0"
-    "@types/node" "^10.12.18"
-    "@types/randombytes" "^2.0.0"
-    bigi "^1.1.0"
-    bip32 "^2.0.6"
-    bip39 "https://github.com/bitcoinjs/bip39#d8ea080a18b40f301d4e2219a2991cd2417e83c2"
-    buffer-reverse "^1.0.1"
-    elliptic "^6.5.4"
-    ethereumjs-util "^5.2.0"
-
-"@celo/identity@^3.2.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@celo/identity/-/identity-3.2.0.tgz#cfc0acdc9a4cdc6ee1422a51b19e025fa5d03e4b"
-  integrity sha512-DOUpVSr2TNeneGa6SbzcqAwbfcxnZEz72l6a8UL3RNEP1zEMiAmU6LimhA0Bs/e8TVit7EWBrQNU00QNzbz1XA==
-  dependencies:
-    "@celo/base" "3.2.0"
-    "@celo/contractkit" "3.2.0"
-    "@celo/phone-number-privacy-common" "^2.0.2"
-    "@celo/utils" "3.2.0"
-    "@types/debug" "^4.1.5"
-    bignumber.js "^9.0.0"
-    blind-threshold-bls "https://github.com/celo-org/blind-threshold-bls-wasm#e1e2f8a"
-    cross-fetch "3.0.4"
-    debug "^4.1.1"
-    elliptic "^6.5.4"
-    fp-ts "2.1.1"
-    io-ts "2.0.1"
-
-"@celo/phone-number-privacy-common@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@celo/phone-number-privacy-common/-/phone-number-privacy-common-2.0.2.tgz#56528e80b66b8493676436fb60f0e390977fd0bf"
-  integrity sha512-bQ3ufYADU+LDnZyQPl+/zVQMTPREgwmYXFremKkm4nlTm+83Ti9G7obXeMkFtDrG//vvgC8ryMHq0ZkYh5XkFA==
-  dependencies:
-    "@celo/base" "^3.1.0"
-    "@celo/contractkit" "^3.1.0"
-    "@celo/phone-utils" "^3.1.0"
-    "@celo/utils" "^3.1.0"
-    bignumber.js "^9.0.0"
-    bunyan "1.8.12"
-    bunyan-debug-stream "2.0.0"
-    bunyan-gke-stackdriver "0.1.2"
-    dotenv "^8.2.0"
-    elliptic "^6.5.4"
-    io-ts "2.0.1"
-    is-base64 "^1.1.0"
-
-"@celo/phone-utils@^3.1.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@celo/phone-utils/-/phone-utils-3.2.0.tgz#e8e2716225eb1732f9e0eeae18812666445627e0"
-  integrity sha512-TbEKN7emsQY3nac7Lv5XkPA7HWXjrhuRpbtVDsJ8uB3Pbu9zAYCs0J8QlikEUJLPGoRA3oCZLri54GhWFG84BQ==
-  dependencies:
-    "@celo/base" "3.2.0"
-    "@celo/utils" "3.2.0"
-    "@types/country-data" "^0.0.0"
-    "@types/ethereumjs-util" "^5.2.0"
-    "@types/google-libphonenumber" "^7.4.23"
-    "@types/node" "^10.12.18"
-    country-data "^0.0.31"
-    fp-ts "2.1.1"
-    google-libphonenumber "^3.2.27"
-    io-ts "2.0.1"
-
-"@celo/utils@3.2.0", "@celo/utils@^3.1.0", "@celo/utils@^3.2.0":
+"@celo/utils@3.2.0", "@celo/utils@^3.2.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@celo/utils/-/utils-3.2.0.tgz#1dc39f619d24c3974d306cad23db7cdf3f9d487e"
   integrity sha512-Om1mTzwsdV6FVPvraafcJeRnzz7Xv/lyGmyZaoEZ9fErRadu9ZrOsuDQniYe+lD78DQ0NATxJL04WjhEKVkn+A==
@@ -4931,7 +4851,7 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
-"@types/google-libphonenumber@^7.4.17", "@types/google-libphonenumber@^7.4.23":
+"@types/google-libphonenumber@^7.4.17":
   version "7.4.23"
   resolved "https://registry.yarnpkg.com/@types/google-libphonenumber/-/google-libphonenumber-7.4.23.tgz#c44c9125d45f042943694d605fd8d8d796cafc3b"
   integrity sha512-C3ydakLTQa8HxtYf9ge4q6uT9krDX8smSIxmmW3oACFi5g5vv6T068PRExF7UyWbWpuYiDG8Nm24q2X5XhcZWw==
@@ -6415,19 +6335,6 @@ bip32@2.0.5:
     typeforce "^1.11.5"
     wif "^2.0.6"
 
-bip32@^2.0.6:
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/bip32/-/bip32-2.0.6.tgz#6a81d9f98c4cd57d05150c60d8f9e75121635134"
-  integrity sha512-HpV5OMLLGTjSVblmrtYRfFFKuQB+GArM0+XP8HGWfJ5vxYBqo+DesvJwOdC2WJ3bCkZShGf0QIfoIpeomVzVdA==
-  dependencies:
-    "@types/node" "10.12.18"
-    bs58check "^2.1.1"
-    create-hash "^1.2.0"
-    create-hmac "^1.1.7"
-    tiny-secp256k1 "^1.1.3"
-    typeforce "^1.11.5"
-    wif "^2.0.6"
-
 "bip39@https://github.com/bitcoinjs/bip39#d8ea080a18b40f301d4e2219a2991cd2417e83c2":
   version "3.0.3"
   resolved "https://github.com/bitcoinjs/bip39#d8ea080a18b40f301d4e2219a2991cd2417e83c2"
@@ -6458,10 +6365,6 @@ blakejs@^1.1.0:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/blakejs/-/blakejs-1.2.1.tgz#5057e4206eadb4a97f7c0b6e197a505042fc3814"
   integrity sha512-QXUSXI3QVc/gJME0dBpXrag1kbzOqCjCX8/b54ntNyW6sjtoqxqRk3LTmXzaJoh71zMsDCjM+47jS7XiwN/+fQ==
-
-"blind-threshold-bls@https://github.com/celo-org/blind-threshold-bls-wasm#e1e2f8a":
-  version "0.1.0"
-  resolved "https://github.com/celo-org/blind-threshold-bls-wasm#e1e2f8a1ab5154c2f0b1c55cb0d61fbb1d907208"
 
 "bls12377js@https://github.com/celo-org/bls12377js#cb38a4cfb643c778619d79b20ca3e5283a2122a6":
   version "0.1.0"
@@ -6779,14 +6682,6 @@ bunyamin@^1.5.2:
     stream-json "^1.7.5"
     trace-event-lib "^1.3.1"
 
-bunyan-debug-stream@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/bunyan-debug-stream/-/bunyan-debug-stream-2.0.0.tgz#b9593e38753f594e3f9db3eb2fdebdc2af147a9f"
-  integrity sha512-Ovl43CJ7nUwalLzdXc6E1nGIy6ift9Z/QpYXUtsjpDAg35ZFKXifKNZyfpMGuN3N7ijLLqbnxPsMMHsXDdXa9A==
-  dependencies:
-    colors "^1.0.3"
-    exception-formatter "^1.0.4"
-
 bunyan-debug-stream@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/bunyan-debug-stream/-/bunyan-debug-stream-3.1.0.tgz#78309c67ad85cfb8f011155334152c49209dcda8"
@@ -6794,12 +6689,7 @@ bunyan-debug-stream@^3.1.0:
   dependencies:
     chalk "^4.1.2"
 
-bunyan-gke-stackdriver@0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/bunyan-gke-stackdriver/-/bunyan-gke-stackdriver-0.1.2.tgz#a47e3724bbb324b1ec0b7dc4350c4d7073aae66d"
-  integrity sha512-eY5OLgAXvOvOq2YpxI0HlV5HjAcLm36Ln3PxxsztO+2GrFSgU3oXoic2LCif/heBKoyOZdMyXKWF5dvswSOS6w==
-
-bunyan@1.8.12, bunyan@^1.8.12:
+bunyan@^1.8.12:
   version "1.8.12"
   resolved "https://registry.yarnpkg.com/bunyan/-/bunyan-1.8.12.tgz#f150f0f6748abdd72aeae84f04403be2ef113797"
   integrity sha1-8VDw9nSKvdcq6uhPBEA74u8RN5c=
@@ -7373,7 +7263,7 @@ colorette@^2.0.20:
   resolved "https://registry.yarnpkg.com/colorette/-/colorette-2.0.20.tgz#9eb793e6833067f7235902fcd3b09917a000a95a"
   integrity sha512-IfEDxwoWIjkeXL1eXcDiow4UbKjhLdq6/EuSVR9GMN7KVH3r9gQ83e73hsz1Nd1T3ijd5xv1wcWRYO+D6kCI2w==
 
-colors@1.0.3, colors@^1.0.3:
+colors@1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/colors/-/colors-1.0.3.tgz#0433f44d809680fdeb60ed260f1b0c262e82a40b"
   integrity sha1-BDP0TYCWgP3rYO0mDxsMJi6CpAs=
@@ -7669,14 +7559,6 @@ create-require@^1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/create-require/-/create-require-1.1.1.tgz#c1d7e8f1e5f6cfc9ff65f9cd352d37348756c333"
   integrity sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==
-
-cross-fetch@3.0.4:
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.0.4.tgz#7bef7020207e684a7638ef5f2f698e24d9eb283c"
-  integrity sha512-MSHgpjQqgbT/94D4CyADeNoYh52zMkCX4pcJvPP5WqPsLFMKjr2TCMg381ox5qI0ii2dPwaLx/00477knXqXVw==
-  dependencies:
-    node-fetch "2.6.0"
-    whatwg-fetch "3.0.0"
 
 cross-fetch@^3.0.4, cross-fetch@^3.0.6:
   version "3.1.8"
@@ -8346,11 +8228,6 @@ dotenv@^16.3.1:
   version "16.3.1"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.3.1.tgz#369034de7d7e5b120972693352a3bf112172cc3e"
   integrity sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==
-
-dotenv@^8.2.0:
-  version "8.6.0"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.6.0.tgz#061af664d19f7f4d8fc6e4ff9b584ce237adcb8b"
-  integrity sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==
 
 dottie@^2.0.0:
   version "2.0.6"
@@ -9257,13 +9134,6 @@ evp_bytestokey@^1.0.0, evp_bytestokey@^1.0.3:
   dependencies:
     md5.js "^1.3.4"
     safe-buffer "^5.1.1"
-
-exception-formatter@^1.0.4:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/exception-formatter/-/exception-formatter-1.0.7.tgz#3291616b86fceabefa97aee6a4708032c6e3b96d"
-  integrity sha512-zV45vEsjytJrwfGq6X9qd1Ll56cW4NC2mhCO6lqwMk4ZpA1fZ6C3UiaQM/X7if+7wZFmCgss3ahp9B/uVFuLRw==
-  dependencies:
-    colors "^1.0.3"
 
 execa@8.0.1, execa@^8.0.1:
   version "8.0.1"
@@ -10178,7 +10048,7 @@ globby@^14.0.0:
     slash "^5.1.0"
     unicorn-magic "^0.1.0"
 
-google-libphonenumber@^3.2.15, google-libphonenumber@^3.2.27, google-libphonenumber@^3.2.38:
+google-libphonenumber@^3.2.15, google-libphonenumber@^3.2.38:
   version "3.2.38"
   resolved "https://registry.yarnpkg.com/google-libphonenumber/-/google-libphonenumber-3.2.38.tgz#5adb0c8ff807d84d4d46b9536d0116d00d85f137"
   integrity sha512-t/K0dsVmA0gMMVLJgcMeB9g1Ar4ANVWfkY+AJGSdfyJ2Ay7Bu8ceLYpUlC6FZSilZgaF1qbkM9tZydGBEBHqAg==
@@ -10855,11 +10725,6 @@ is-async-function@^2.0.0:
   integrity sha512-Y1JXKrfykRJGdlDwdKlLpLyMIiWqWvuSd17TvZk68PLAOGOoF4Xyav1z0Xhoi+gCYjZVeC5SI+hYFOfvXmGRCA==
   dependencies:
     has-tostringtag "^1.0.0"
-
-is-base64@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/is-base64/-/is-base64-1.1.0.tgz#8ce1d719895030a457c59a7dcaf39b66d99d56b4"
-  integrity sha512-Nlhg7Z2dVC4/PTvIFkgVVNvPHSO2eR/Yd0XzhGiXCXEvWnptXlXa/clQ8aePPiMuxEGcWfzWbGw2Fe3d+Y3v1g==
 
 is-bigint@^1.0.1:
   version "1.0.4"
@@ -13710,7 +13575,7 @@ node-fetch-native@^1.4.0, node-fetch-native@^1.6.1, node-fetch-native@^1.6.2:
   resolved "https://registry.yarnpkg.com/node-fetch-native/-/node-fetch-native-1.6.2.tgz#f439000d972eb0c8a741b65dcda412322955e1c6"
   integrity sha512-69mtXOFZ6hSkYiXAVB5SqaRvrbITC/NPyqv7yuu/qw0nmgPyYbIMYYNIDhNtwPrzk0ptrimrLz/hhjvm4w5Z+w==
 
-node-fetch@2.6.0, node-fetch@3.0.0-beta.9, node-fetch@^2.2.0, node-fetch@^2.6.0, node-fetch@^2.6.1, node-fetch@^2.6.12, node-fetch@^2.6.7, node-fetch@^2.7.0:
+node-fetch@3.0.0-beta.9, node-fetch@^2.2.0, node-fetch@^2.6.0, node-fetch@^2.6.1, node-fetch@^2.6.12, node-fetch@^2.6.7, node-fetch@^2.7.0:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.7.0.tgz#d0f0fa6e3e2dc1d27efcd8ad99d550bda94d187d"
   integrity sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==
@@ -17083,7 +16948,7 @@ string-length@^4.0.1:
     char-regex "^1.0.2"
     strip-ansi "^6.0.0"
 
-"string-width-cjs@npm:string-width@^4.2.0":
+"string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -17117,15 +16982,6 @@ string-width@^3.0.0, string-width@^3.1.0:
     emoji-regex "^7.0.1"
     is-fullwidth-code-point "^2.0.0"
     strip-ansi "^5.1.0"
-
-string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
-  version "4.2.3"
-  resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
-  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
-  dependencies:
-    emoji-regex "^8.0.0"
-    is-fullwidth-code-point "^3.0.0"
-    strip-ansi "^6.0.1"
 
 string-width@^5.0.1, string-width@^5.1.2:
   version "5.1.2"
@@ -19210,7 +19066,7 @@ websocket@^1.0.32:
     utf-8-validate "^5.0.2"
     yaeti "^0.0.6"
 
-whatwg-fetch@3.0.0, whatwg-fetch@^3.0.0:
+whatwg-fetch@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.0.0.tgz#fc804e458cc460009b1a2b966bc8817d2578aefb"
   integrity sha512-9GSJUgz1D4MfyKU7KRqwOjXCXTqWdFNvEr7eUBYchQiVc744mqK/MzXPNR2WsPkmkOa4ywfg8C2n8h+13Bey1Q==
@@ -19356,7 +19212,7 @@ wordwrap@0.0.2:
   resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-0.0.2.tgz#b79669bb42ecb409f83d583cad52ca17eaa1643f"
   integrity sha1-t5Zpu0LstAn4PVg8rVLKF+qhZD8=
 
-"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0":
+"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
@@ -19386,15 +19242,6 @@ wrap-ansi@^6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-6.2.0.tgz#e9393ba07102e6c91a3b221478f0257cd2856e53"
   integrity sha512-r6lPcBGxZXlIcymEu7InxDMhdW0KDxpLgoFLcguasxCaJ/SOIZwINatK9KY/tf+ZrlywOKU0UDj3ATXUBfxJXA==
-  dependencies:
-    ansi-styles "^4.0.0"
-    string-width "^4.1.0"
-    strip-ansi "^6.0.0"
-
-wrap-ansi@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
-  integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
   dependencies:
     ansi-styles "^4.0.0"
     string-width "^4.1.0"

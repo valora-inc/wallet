@@ -73,8 +73,6 @@
     "@badrap/result": "~0.2.13",
     "@celo/connect": "^3.2.0",
     "@celo/contractkit": "^3.2.0",
-    "@celo/cryptographic-utils": "^3.2.0",
-    "@celo/identity": "^3.2.0",
     "@celo/utils": "^3.2.0",
     "@celo/wallet-rpc": "^3.2.0",
     "@coinbase/cbpay-js": "^2.2.1",
