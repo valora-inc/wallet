@@ -4,9 +4,9 @@
   "languageSettings": "Idioma",
   "localCurrencySetting": "Moneda",
   "licenses": "Licencias",
-  "removeAccountTitle": "Restablecer Valora",
+  "removeAccountTitle": "Restablece {{appName}}",
   "removeAccountDetails": "Si seleccionas esta opción, se borrará tu cuenta de este dispositivo. No se perderán los fondos, pero solo podrás acceder a ellos con tu Frase de recuperación.",
-  "deleteAccountTitle": "Borrar cuenta",
+  "deleteAccountTitle": "Borra {{appName}}",
   "deleteAccountDetails": "Borrar tu cuenta la eliminará de {{appName}}. Tus fondos permanecerán en la cuenta, pero sólo serán accesibles con tu Frase de recuperación",
   "deleteAccountWarning": {
     "title": "Estas seguro",
