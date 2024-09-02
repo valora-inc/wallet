@@ -1,6 +1,5 @@
 import CryptoJS from 'crypto-js'
 import { useAsync } from 'react-async-hook'
-import * as bip39 from 'react-native-bip39'
 import { showError } from 'src/alert/actions'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { OnboardingEvents } from 'src/analytics/Events'
@@ -20,7 +19,7 @@ const MNEMONIC_STORAGE_KEY = 'mnemonic'
 export async function generateKeysFromMnemonic(mnemonic: string) {
   const wordCount = countMnemonicWords(mnemonic)
   const derivationPath = wordCount === 24 ? CELO_DERIVATION_PATH_BASE : ETHEREUM_DERIVATION_PATH
-  return generateKeys(mnemonic, undefined, undefined, undefined, bip39, derivationPath)
+  return generateKeys(mnemonic, undefined, undefined, undefined, derivationPath)
 }
 
 export async function storeMnemonic(mnemonic: string, account: string | null, password?: string) {

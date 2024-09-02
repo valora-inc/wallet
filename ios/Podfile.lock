@@ -599,6 +599,11 @@ PODS:
   - react-native-pager-view (6.3.4):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
+  - react-native-quick-crypto (0.7.3):
+    - OpenSSL-Universal
+    - RCT-Folly (= 2021.07.22.00)
+    - React
+    - React-Core
   - react-native-randombytes (3.6.1):
     - React-Core
   - react-native-restart (0.0.27):
@@ -910,6 +915,7 @@ DEPENDENCIES:
   - react-native-launch-arguments (from `../node_modules/react-native-launch-arguments`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
+  - react-native-quick-crypto (from `../node_modules/react-native-quick-crypto`)
   - react-native-randombytes (from `../node_modules/react-native-randombytes`)
   - react-native-restart (from `../node_modules/react-native-restart`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -1096,6 +1102,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-pager-view:
     :path: "../node_modules/react-native-pager-view"
+  react-native-quick-crypto:
+    :path: "../node_modules/react-native-quick-crypto"
   react-native-randombytes:
     :path: "../node_modules/react-native-randombytes"
   react-native-restart:
@@ -1288,6 +1296,7 @@ SPEC CHECKSUMS:
   react-native-launch-arguments: 5f41e0abf88a15e3c5309b8875d6fd5ac43df49d
   react-native-netinfo: 076df4f9b07f6670acf4ce9a75aac8d34c2e2ccc
   react-native-pager-view: e79d6c876ab1896e17ff61af6aff22a914b8e435
+  react-native-quick-crypto: 303523bf21ad1aed8757dde262da12668b4c75d0
   react-native-randombytes: 421f1c7d48c0af8dbcd471b0324393ebf8fe7846
   react-native-restart: 7595693413fe3ca15893702f2c8306c62a708162
   react-native-safe-area-context: ab8f4a3d8180913bd78ae75dd599c94cce3d5e9a
