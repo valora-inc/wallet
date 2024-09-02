@@ -11,7 +11,7 @@ import {
 import { PathReporter } from 'io-ts/lib/PathReporter'
 import { DEEPLINK_PREFIX } from 'src/config'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { E164PhoneNumberType } from 'src/utils/E164Number'
+import { E164PhoneNumberType } from 'src/utils/io'
 import { parse } from 'url'
 
 export const UriDataType = ioType({

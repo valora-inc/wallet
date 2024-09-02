@@ -1,3 +1,9 @@
+/**
+ * Reference files:
+ * https://github.com/celo-org/developer-tooling/blob/master/packages/sdk/base/src/address.ts
+ * https://github.com/celo-org/developer-tooling/blob/master/packages/sdk/utils/src/address.ts
+ */
+
 import { privateToAddress, privateToPublic, toChecksumAddress } from '@ethereumjs/util'
 import { Address } from 'viem'
 

@@ -1,3 +1,7 @@
+/**
+ * Reference file:
+ * https://github.com/celo-org/developer-tooling/blob/master/packages/sdk/utils/src/address.test.ts
+ */
 import { getAddressChunks, isValidAddress } from 'src/utils/address'
 
 describe(getAddressChunks, () => {

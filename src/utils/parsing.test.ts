@@ -1,3 +1,8 @@
+/**
+ * Reference file:
+ * https://github.com/celo-org/developer-tooling/blob/master/packages/sdk/utils/src/parsing.test.ts
+ */
+
 import BigNumber from 'bignumber.js'
 import { parseInputAmount, stringToBoolean } from 'src/utils/parsing'
 
