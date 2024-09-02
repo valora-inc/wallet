@@ -19,10 +19,9 @@ import {
   withdrawSuccess,
 } from 'src/earn/slice'
 import { DepositInfo, WithdrawInfo } from 'src/earn/types'
+import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import { vibrateError } from 'src/styles/hapticFeedback'
 import { getTokenInfo } from 'src/tokens/saga'
 import { tokensByIdSelector } from 'src/tokens/selectors'
@@ -76,7 +75,8 @@ function getDepositTxsReceiptAnalyticsProperties(
 }
 
 export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
-  const { tokenId, preparedTransactions: serializablePreparedTransactions, amount } = action.payload
+  const { pool, preparedTransactions: serializablePreparedTransactions, amount } = action.payload
+  const tokenId = pool.dataProps.depositTokenId
 
   const preparedTransactions = getPreparedTransactions(serializablePreparedTransactions)
 
@@ -97,7 +97,7 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
     depositTokenId: tokenId,
     networkId,
     tokenAmount: amount,
-    providerId: PROVIDER_ID,
+    providerId: pool.appId,
   }
 
   let submitted = false
@@ -118,61 +118,70 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
 
     const createDepositStandbyTxHandlers = []
 
-    if (preparedTransactions.length > 1 && preparedTransactions[0].data) {
-      const { functionName, args } = decodeFunctionData({
-        abi: erc20Abi,
-        data: preparedTransactions[0].data,
-      })
-      if (functionName === 'approve' && preparedTransactions[0].to === tokenInfo.address && args) {
-        Logger.debug(`${TAG}/depositSubmitSaga`, 'First transaction is an approval transaction')
-        const approvedAmountInSmallestUnit = args[1] as bigint
-        const approvedAmount = new BigNumber(approvedAmountInSmallestUnit.toString())
-          .shiftedBy(-tokenInfo.decimals)
-          .toString()
+    if (preparedTransactions.length <= 2) {
+      // if there are 1 or 2 transactions, its an approve (optional) and deposit
+      if (preparedTransactions.length > 1 && preparedTransactions[0].data) {
+        const { functionName, args } = decodeFunctionData({
+          abi: erc20Abi,
+          data: preparedTransactions[0].data,
+        })
+        if (
+          functionName === 'approve' &&
+          preparedTransactions[0].to === tokenInfo.address &&
+          args
+        ) {
+          Logger.debug(`${TAG}/depositSubmitSaga`, 'First transaction is an approval transaction')
+          const approvedAmountInSmallestUnit = args[1] as bigint
+          const approvedAmount = new BigNumber(approvedAmountInSmallestUnit.toString())
+            .shiftedBy(-tokenInfo.decimals)
+            .toString()
 
-        const createApprovalStandbyTx = (
-          transactionHash: string,
-          feeCurrencyId?: string
-        ): BaseStandbyTransaction => {
-          return {
-            context: newTransactionContext(TAG, 'Earn/Approve'),
-            __typename: 'TokenApproval',
-            networkId,
-            type: TokenTransactionTypeV2.Approval,
-            transactionHash,
-            tokenId,
-            approvedAmount,
-            feeCurrencyId,
+          const createApprovalStandbyTx = (
+            transactionHash: string,
+            feeCurrencyId?: string
+          ): BaseStandbyTransaction => {
+            return {
+              context: newTransactionContext(TAG, 'Earn/Approve'),
+              __typename: 'TokenApproval',
+              networkId,
+              type: TokenTransactionTypeV2.Approval,
+              transactionHash,
+              tokenId,
+              approvedAmount,
+              feeCurrencyId,
+            }
           }
+          createDepositStandbyTxHandlers.push(createApprovalStandbyTx)
         }
-        createDepositStandbyTxHandlers.push(createApprovalStandbyTx)
       }
-    }
 
-    // this is a placeholder for now, should be updated to a "deposit" transaction type
-    const createDepositStandbyTx = (
-      transactionHash: string,
-      feeCurrencyId?: string
-    ): BaseStandbyTransaction => {
-      return {
-        context: newTransactionContext(TAG, 'Earn/Deposit'),
-        __typename: 'EarnDeposit',
-        networkId,
-        type: TokenTransactionTypeV2.EarnDeposit,
-        inAmount: {
-          value: amount,
-          tokenId: networkConfig.aaveArbUsdcTokenId,
-        },
-        outAmount: {
-          value: amount,
-          tokenId,
-        },
-        providerId: 'aave-v3',
-        transactionHash,
-        feeCurrencyId,
+      const createDepositStandbyTx = (
+        transactionHash: string,
+        feeCurrencyId?: string
+      ): BaseStandbyTransaction => {
+        return {
+          context: newTransactionContext(TAG, 'Earn/Deposit'),
+          __typename: 'EarnDeposit',
+          networkId,
+          type: TokenTransactionTypeV2.EarnDeposit,
+          inAmount: {
+            value: amount,
+            tokenId: pool.dataProps.withdrawTokenId,
+          },
+          outAmount: {
+            value: amount,
+            tokenId,
+          },
+          providerId: pool.appId,
+          transactionHash,
+          feeCurrencyId,
+        }
       }
+      createDepositStandbyTxHandlers.push(createDepositStandbyTx)
+    } else {
+      Logger.info(TAG, 'More than 2 deposit transactions, using empty standby handlers')
+      createDepositStandbyTxHandlers.push(...preparedTransactions.map(() => () => null))
     }
-    createDepositStandbyTxHandlers.push(createDepositStandbyTx)
 
     AppAnalytics.track(EarnEvents.earn_deposit_submit_start, commonAnalyticsProps)
 
@@ -181,7 +190,7 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
       serializablePreparedTransactions,
       networkId,
       createDepositStandbyTxHandlers,
-      getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
+      isGasSubsidizedForNetwork(networkId)
     )
     txHashes.forEach((txHash, i) => {
       trackedTxs[i].txHash = txHash
@@ -347,7 +356,7 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
       serializablePreparedTransactions,
       networkId,
       createWithdrawStandbyTxHandlers,
-      getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
+      isGasSubsidizedForNetwork(networkId)
     )
 
     Logger.debug(

@@ -174,7 +174,9 @@
   "termsOfServiceLink": "Conditions d'utilisation",
   "privacyPolicy": "Politique de confidentialité",
   "editProfile": "Modifier le profil",
-  "confirmNumber": "Connecter le numéro de téléphone",
+  "profileName": "Nom du profil",
+  "profile": "Profil",
+  "confirmNumber": "Connecter un numéro de téléphone",
   "cancel": "Annuler",
   "changeProfilePhoto": "Modifier la photo de profil",
   "name": "Nom",
@@ -198,6 +200,7 @@
   "supportLegalCheckbox": "En validant, j'accepte de partager les informations ci-dessus et toutes les données du journal de l'application jointes avec l'Assistance {{appName}}.",
   "contactSuccess": "Votre problème a bien été signalé ! Une réponse vous sera rapidement envoyée par e-mail !",
   "namePictureSaved": "Votre nom et votre photo ont bien été enregistrés.",
+  "nameSaved": "Ton nom a été enregistré avec succès.",
   "addPhoto": "Ajouter une photo",
   "chooseFromLibrary": "Choisir dans la bibliothèque",
   "takePhoto": "Prendre une photo",
@@ -696,7 +699,7 @@
     "body": "Une fois que votre contact aura relié son numéro et ajouté des fonds à {{appName}}, vous recevrez tous les deux 0,50 cUSD."
   },
   "inviteWithUrl": {
-    "title": "Invitez des amis",
+    "title": "Inviter un ami",
     "body": "Connectez et partagez des valeurs avec vos amis et votre famille sur {{appName}}.",
     "button": "Envoyer l'invitation",
     "error": "Une erreur s'est produite lors de la création d'un lien partageable.",
@@ -2566,11 +2569,13 @@
     "depositBottomSheet": {
       "title": "Vérifier et déposer",
       "description": "Avant de faire un dépôt dans un pool Aave, consultez les détails de la transaction ci-dessous",
+      "descriptionV1_93": "Avant d'effectuer un dépôt sur un pool {{providerName}} , tu dois examiner les détails de la transaction ci-dessous.",
       "amount": "Montant déposé",
       "fee": "Frais de gaz estimés",
       "provider": "Fournisseur de revenus",
       "network": "Réseau",
       "footer": "En déposant des crypto-monnaies dans un pool Aave, vous acceptez les risques associés à l'utilisation d'Aave. <0>Conditions Générales</0>",
+      "footerV1_93": "En déposant des crypto dans un pool {{providerName}} , tu acceptes les risques associés à l'utilisation de {{providerName}}. <0>Conditions générales d'utilisation</0>",
       "primaryCta": "Valider",
       "secondaryCta": "Annuler"
     },
@@ -2618,8 +2623,11 @@
         "tvlSubtitle": "Qu'est-ce que la TVL ?",
         "tvlDescription": "La valeur totale verrouillée (TVL) est une métrique utilisée pour mesurer la valeur des actifs numériques verrouillés sur un réseau blockchain. La TVL est calculée en additionnant la valeur de tous les actifs numériques verrouillés dans un protocole DeFi ou un contrat intelligent. Ces actifs peuvent inclure des crypto-monnaies, des stablecoins et d'autres jetons."
       },
-      "noPoolsTitle": "Tu n'as pas encore rejoint de pools",
-      "noPoolsDescription": "Découvre les pools disponibles, choisis-en un qui correspond à tes objectifs et tire le meilleur parti de tes stablecoins."
+      "noPoolsTitle": "Vous n'avez encore rejoint aucun pool",
+      "noPoolsDescription": "Découvrez les pools disponibles, choisissez celui qui correspond à vos objectifs et profitez au maximum de vos stablecoins.",
+      "errorTitle": "Impossible de charger les pools",
+      "errorDescription": "Oups, quelque chose s'est mal passé en essayant de charger les informations sur le pool. Essaie à nouveau.",
+      "errorButton": "Veuillez réessayer"
     },
     "poolCard": {
       "onNetwork": "sur {{networkName}}",
@@ -2636,8 +2644,30 @@
       "depositAndEarnings": "Dépôt et gains"
     },
     "poolFilters": {
-      "myPools": "Mes pools",
-      "allPools": "Tous les bassins"
+      "allPools": "Tous les pools",
+      "myPools": "Mes pools"
+    },
+    "poolInfoScreen": {
+      "chainName": "Réseau : <0>{{networkName}}</0>",
+      "protocolName": "Protocole : <0>{{providerName}}</0>",
+      "yieldRate": "Taux de rendement",
+      "ratePercent": "{{rate}}%",
+      "rewards": "Récompenses",
+      "noRewards": "Pas de récompense",
+      "tvl": "TVL",
+      "ageOfPool": "Pool crée",
+      "learnMoreOnProvider": "Voir pool sur {{providerName}}",
+      "deposit": "Dépôt",
+      "withdraw": "Retirer",
+      "infoBottomSheet": {
+        "gotIt": "J'ai compris",
+        "tvlTitle": "Valeur totale bloquée (TVL)",
+        "tvlDescription": "Le TVL fait référence au montant total des actifs déposés dans un pool de liquidités et peut être utilisé pour indiquer la confiance et l'utilité d'un pool. En règle générale, une TVL plus élevée est corrélée à un risque réduit, mais aucun pool n'est totalement exempt de risques.",
+        "ageTitle": "Pool crée",
+        "ageDescription": "Les pools de liquidités plus anciens peuvent indiquer un bilan solide et une histoire de construction de la confiance de la communauté. Pour cette raison, certains peuvent considérer que ces pools sont plus sûrs.\n\nIl n'existe pas de méthode parfaite pour déterminer le risque, alors utilise ces informations dans le cadre de tes recherches générales pour prendre la décision qui te convient le mieux.",
+        "yieldRateTitle": "Taux de rendement",
+        "yieldRateDescription": "Alors que la plupart des pools offrent des gains sous la forme d'un jeton de pool de liquidité, certains donnent un ou des jetons supplémentaires en guise de récompense ou d'incitation supplémentaire.\n\nÉtant donné que Valora regroupe des pools sur plusieurs protocoles, nous avons combiné tous les taux de gain et de récompense en un seul taux de rendement global afin d'évaluer facilement ton potentiel de gain. Ce chiffre est une estimation car les valeurs des gains et des récompenses fluctuent constamment.\n\nPour plus d'informations sur la répartition des gains, tu peux consulter le site suivant <0>{{providerName}}</0>."
+      }
     }
   },
   "addFundsActions": {
@@ -2645,6 +2675,15 @@
     "transfer": "Transférer",
     "swap": "Échanger"
   },
+  "duration_lessThanADay": "Moins d'un jour",
+  "duration_day_one": "1 jour",
+  "duration_day_other": "{{count}} jours",
+  "duration_month_one": "1 mois",
+  "duration_month_other": "{{count}} mois",
+  "duration_year_one": "1 an",
+  "duration_year_other": "{{count}} ans",
+  "duration_yearMonth_one": "1 an, 1 mois",
+  "duration_yearMonth_other": "{{count}} ans, {{count2}} mois",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

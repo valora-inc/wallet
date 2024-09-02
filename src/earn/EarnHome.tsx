@@ -14,6 +14,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import FilterChipsCarousel, {
   FilterChip,
   NetworkFilterChip,
@@ -23,14 +24,21 @@ import FilterChipsCarousel, {
 } from 'src/components/FilterChipsCarousel'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import NetworkMultiSelectBottomSheet from 'src/components/multiSelect/NetworkMultiSelectBottomSheet'
+import { TIME_UNTIL_TOKEN_INFO_BECOMES_STALE } from 'src/config'
 import EarnTabBar from 'src/earn/EarnTabBar'
 import PoolList from 'src/earn/PoolList'
 import { EarnTabType } from 'src/earn/types'
+import AttentionIcon from 'src/icons/Attention'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
-import { earnPositionsSelector } from 'src/positions/selectors'
-import { useSelector } from 'src/redux/hooks'
+import { refreshPositions } from 'src/positions/actions'
+import {
+  earnPositionsSelector,
+  positionsFetchedAtSelector,
+  positionsStatusSelector,
+} from 'src/positions/selectors'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
@@ -63,8 +71,8 @@ function useFilterChips(): FilterChip<TokenBalance>[] {
   const tokensChipConfig: TokenSelectFilterChip<TokenBalance> = {
     id: 'token-select',
     name: t('tokenBottomSheet.filters.tokens'),
-    filterFn: (token: TokenBalance, tokenId: string) => token.tokenId === tokenId,
-    selectedTokenId: tokens[0].tokenId,
+    filterFn: (token: TokenBalance, tokenId?: string) => !!tokenId && token.tokenId === tokenId,
+    selectedTokenId: tokens[0] ? tokens[0].tokenId : undefined,
     isSelected: false,
   }
 
@@ -73,12 +81,17 @@ function useFilterChips(): FilterChip<TokenBalance>[] {
 
 export default function EarnHome({ navigation, route }: Props) {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
+
   const filterChipsCarouselRef = useRef<ScrollView>(null)
   const pools = useSelector(earnPositionsSelector)
 
   const activeTab = route.params?.activeEarnTab ?? EarnTabType.AllPools
 
   const insets = useSafeAreaInsets()
+  const insetsStyle = {
+    paddingBottom: Math.max(insets.bottom, Spacing.Regular16),
+  }
 
   const supportedNetworkIds = [...new Set(pools.map((pool) => pool.networkId))]
   const allTokens = useSelector((state) => tokensByIdSelector(state, supportedNetworkIds))
@@ -247,7 +260,20 @@ export default function EarnHome({ navigation, route }: Props) {
     learnMoreBottomSheetRef.current?.snapToIndex(0)
   }
 
-  const zeroPoolsinMyPoolsTab = displayPools.length === 0 && activeTab === EarnTabType.MyPools
+  const onPressTryAgain = () => {
+    AppAnalytics.track(EarnEvents.earn_home_error_try_again)
+    dispatch(refreshPositions())
+  }
+
+  const positionsStatus = useSelector(positionsStatusSelector)
+  const positionsFetchedAt = useSelector(positionsFetchedAtSelector)
+  const errorLoadingPools =
+    positionsStatus === 'error' &&
+    (pools.length === 0 ||
+      Date.now() - (positionsFetchedAt ?? 0) > TIME_UNTIL_TOKEN_INFO_BECOMES_STALE)
+
+  const zeroPoolsinMyPoolsTab =
+    !errorLoadingPools && displayPools.length === 0 && activeTab === EarnTabType.MyPools
   return (
     <>
       <Animated.View testID="EarnScreen" style={styles.container}>
@@ -274,12 +300,20 @@ export default function EarnHome({ navigation, route }: Props) {
             <EarnTabBar activeTab={activeTab} onChange={handleChangeActiveView} />
           </View>
         </Animated.View>
-        {zeroPoolsinMyPoolsTab ? (
-          <View style={styles.noPoolsContainer}>
-            <Text style={styles.noPoolsTitle}>{t('earnFlow.home.noPoolsTitle')}</Text>
-            <Text style={styles.noPoolsDescription}>{t('earnFlow.home.noPoolsDescription')}</Text>
+        {errorLoadingPools && (
+          <View style={styles.textContainer}>
+            <AttentionIcon size={48} color={Colors.black} />
+            <Text style={styles.errorTitle}>{t('earnFlow.home.errorTitle')}</Text>
+            <Text style={styles.description}>{t('earnFlow.home.errorDescription')}</Text>
           </View>
-        ) : (
+        )}
+        {zeroPoolsinMyPoolsTab && (
+          <View style={styles.textContainer}>
+            <Text style={styles.noPoolsTitle}>{t('earnFlow.home.noPoolsTitle')}</Text>
+            <Text style={styles.description}>{t('earnFlow.home.noPoolsDescription')}</Text>
+          </View>
+        )}
+        {!errorLoadingPools && !zeroPoolsinMyPoolsTab && (
           <PoolList
             handleScroll={handleScroll}
             listHeaderHeight={listHeaderHeight}
@@ -291,6 +325,16 @@ export default function EarnHome({ navigation, route }: Props) {
             )}
             onPressLearnMore={onPressLearnMore}
           />
+        )}
+        {errorLoadingPools && (
+          <View style={[styles.buttonContainer, insetsStyle]}>
+            <Button
+              onPress={onPressTryAgain}
+              text={t('earnFlow.home.errorButton')}
+              type={BtnTypes.SECONDARY}
+              size={BtnSizes.FULL}
+            />
+          </View>
         )}
       </Animated.View>
       <LearnMoreBottomSheet learnMoreBottomSheetRef={learnMoreBottomSheetRef} />
@@ -390,7 +434,7 @@ const styles = StyleSheet.create({
     color: Colors.black,
     marginBottom: Spacing.Thick24,
   },
-  noPoolsContainer: {
+  textContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -400,9 +444,17 @@ const styles = StyleSheet.create({
     ...typeScale.labelSemiBoldLarge,
     textAlign: 'center',
   },
-  noPoolsDescription: {
+  errorTitle: {
+    ...typeScale.labelSemiBoldLarge,
+    textAlign: 'center',
+    marginTop: Spacing.Regular16,
+  },
+  description: {
     ...typeScale.bodySmall,
     textAlign: 'center',
     marginTop: Spacing.Regular16,
+  },
+  buttonContainer: {
+    marginHorizontal: Spacing.Thick24,
   },
 })

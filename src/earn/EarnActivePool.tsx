@@ -113,7 +113,7 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
                   tokenAmount: poolToken.balance.toString(),
                   providerId: PROVIDER_ID,
                 })
-                navigate(Screens.EarnCollectScreen, { depositTokenId, poolTokenId })
+                earnPosition && navigate(Screens.EarnCollectScreen, { pool: earnPosition })
               }}
               text={t('earnFlow.activePools.exitPool')}
               type={BtnTypes.SECONDARY}

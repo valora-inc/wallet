@@ -1644,9 +1644,15 @@ interface EarnEventsProperties {
     tokenAmount: string
     poolId: string
   } & EarnCommonProperties
+  [EarnEvents.earn_home_error_try_again]: undefined
   [EarnEvents.earn_pool_info_view_pool]: {
     appId: string
     positionId: string
+  }
+  [EarnEvents.earn_pool_info_tap_info_icon]: {
+    providerId: string
+    poolId: string
+    type: 'tvl' | 'age' | 'yieldRate'
   }
 }
 

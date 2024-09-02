@@ -174,6 +174,8 @@
   "termsOfServiceLink": "Điều khoản dịch vụ",
   "privacyPolicy": "Chính sách quyền riêng tư",
   "editProfile": "Chỉnh sửa hồ sơ",
+  "profileName": "Tên hồ sơ",
+  "profile": "Profile",
   "confirmNumber": "Kết nối số điện thoại",
   "cancel": "Hủy",
   "changeProfilePhoto": "Thay đổi ảnh hồ sơ",
@@ -198,6 +200,7 @@
   "supportLegalCheckbox": "Khi gửi, tôi đồng ý chia sẻ với Đội ngũ hỗ trợ của {{appName}} những thông tin trên và mọi dữ liệu nhật ký ứng dụng đi kèm.",
   "contactSuccess": "Bạn đã báo cáo thành công sự cố! Chúng tôi sẽ sớm phản hồi qua email!",
   "namePictureSaved": "Bạn đã lưu thành công tên và ảnh của mình.",
+  "nameSaved": "Your name was saved successfully.",
   "addPhoto": "Thêm ảnh",
   "chooseFromLibrary": "Chọn từ thư viện",
   "takePhoto": "Chụp ảnh",
@@ -2564,11 +2567,13 @@
     "depositBottomSheet": {
       "title": "Xem lại & Nạp tiền",
       "description": "Trước khi nạp tiền vào quỹ Aave, vui lòng xem lại chi tiết giao dịch bên dưới",
+      "descriptionV1_93": "Before depositing to an {{providerName}} pool, please review the transaction details below",
       "amount": "Số tiền đã nạp",
       "fee": "Phí ga ước tính",
       "provider": "Nhà cung cấp thu nhập",
       "network": "Mạng lưới",
       "footer": "Khi nạp tiền điện tử vào quỹ Aave, bạn chấp nhận các rủi ro liên quan đến việc sử dụng Aave. <0>Điều khoản & Điều kiện</0>",
+      "footerV1_93": "By depositing crypto into an {{providerName}} pool, you accept the risks associated with using {{providerName}}. <0>Terms & Conditions</0>",
       "primaryCta": "Hoàn thành",
       "secondaryCta": "Hủy"
     },
@@ -2616,8 +2621,11 @@
         "tvlSubtitle": "TVL là gì?",
         "tvlDescription": "TVL là từ viết tắt của Total Value Locked, nghĩa là Tổng giá trị bị khóa. Đây là một chỉ số được sử dụng trong ngành tiền điện tử để đo lường giá trị của các tài sản kỹ thuật số bị khóa trên một mạng chuỗi khối. TVL được tính bằng cách tính tổng giá trị của tất cả các tài sản kỹ thuật số bị khóa trong một giao thức DeFi hoặc hợp đồng thông minh. Những tài sản này có thể bao gồm tiền điện tử, stablecoin và các token khác."
       },
-      "noPoolsTitle": "You haven’t joined any pools yet",
-      "noPoolsDescription": "Discover available pools, pick one that matches your goals, and make the most of your stablecoins."
+      "noPoolsTitle": "Bạn chưa tham gia bất kỳ quỹ nào",
+      "noPoolsDescription": "Khám phá các quỹ hiện có, chọn quỹ phù hợp với mục tiêu của bạn và tận dụng tối đa stablecoin.",
+      "errorTitle": "Unable to load pools",
+      "errorDescription": "Oops, something went wrong when trying to load the pool information. Please try again.",
+      "errorButton": "Thử lại"
     },
     "poolCard": {
       "onNetwork": "trên {{networkName}}",
@@ -2634,8 +2642,30 @@
       "depositAndEarnings": "Nạp tiền & Thu nhập"
     },
     "poolFilters": {
-      "myPools": "Các quỹ của tôi",
-      "allPools": "All Pools"
+      "allPools": "Tất cả các quỹ",
+      "myPools": "Các quỹ của tôi"
+    },
+    "poolInfoScreen": {
+      "chainName": "Chain: <0>{{networkName}}</0>",
+      "protocolName": "Protocol: <0>{{providerName}}</0>",
+      "yieldRate": "Yield Rate",
+      "ratePercent": "{{rate}}%",
+      "rewards": "Tiền thưởng",
+      "noRewards": "No rewards",
+      "tvl": "TVL",
+      "ageOfPool": "Age of Pool",
+      "learnMoreOnProvider": "View Pool on {{providerName}}",
+      "deposit": "Nạp tiền",
+      "withdraw": "Rút tiền",
+      "infoBottomSheet": {
+        "gotIt": "Đã hiểu",
+        "tvlTitle": "Total Value Locked (TVL)",
+        "tvlDescription": "TVL refers to the total amount of assets deposited in a liquidity pool and can be used to help indicate the trust and utility of a pool. Typically a higher TVL correlates to reduced risk, however no pool is completely risk free.",
+        "ageTitle": "Age of Pool",
+        "ageDescription": "Older liquidity pools can indicate a solid track record and a history of building community trust. Because of this, some may consider these pools to be safer.\n\nThere is no perfect way to determine risk, so use this info as part of your overall research to make the decision that is best for you.",
+        "yieldRateTitle": "Yield Rate",
+        "yieldRateDescription": "While most pools offer earnings in the form of a liquidity pool token, some give additional token(s) as a reward or added incentive.\n\nSince Valora aggregates pools across multiple protocols, we have combined all the earning and reward rates into a single, overall yield rate to help easily evaluate your earning potential. This number is an estimate since the earning and reward values fluctuate constantly.\n\nFor further information about earning breakdowns you can visit <0>{{providerName}}</0>."
+      }
     }
   },
   "addFundsActions": {
@@ -2643,5 +2673,14 @@
     "transfer": "Chuyển tiền",
     "swap": "Trao đổi"
   },
+  "duration_lessThanADay": "Less than a day",
+  "duration_day_one": "1 day",
+  "duration_day_other": "{{count}} days",
+  "duration_month_one": "1 month",
+  "duration_month_other": "{{count}} months",
+  "duration_year_one": "1 year",
+  "duration_year_other": "{{count}} years",
+  "duration_yearMonth_one": "1 year, 1 month",
+  "duration_yearMonth_other": "{{count}} years, {{count2}} months",
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }

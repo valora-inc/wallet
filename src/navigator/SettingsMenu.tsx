@@ -18,13 +18,17 @@ import {
   e164NumberSelector,
   nameSelector,
 } from 'src/account/selectors'
-import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
+import {
+  phoneNumberVerifiedSelector,
+  walletConnectEnabledSelector,
+  sessionIdSelector,
+} from 'src/app/selectors'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
 import Touchable from 'src/components/Touchable'
-import Help from 'src/icons/navigator/Help'
 import Envelope from 'src/icons/Envelope'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import Help from 'src/icons/navigator/Help'
 import { headerWithCloseButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -32,15 +36,11 @@ import { StackParamList } from 'src/navigator/types'
 import colors, { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { parsePhoneNumber } from '@celo/phone-utils'
 import ForwardChevron from 'src/icons/ForwardChevron'
 import Wallet from 'src/icons/navigator/Wallet'
 import Preferences from 'src/icons/Preferences'
 import Lock from 'src/icons/Lock'
 import Stack from 'src/icons/Stack'
-import { selectSessions } from 'src/walletConnect/selectors'
-import { walletConnectEnabledSelector, sessionIdSelector } from 'src/app/selectors'
-import variables from 'src/styles/variables'
 import { SettingsItemTextValue } from 'src/components/SettingsItem'
 import SessionId from 'src/components/SessionId'
 import Logger from 'src/utils/Logger'
@@ -48,6 +48,9 @@ import { resetAppOpenedState, setNumberVerified, setSessionId } from 'src/app/ac
 import { clearStoredAccount, devModeTriggerClicked, toggleBackupState } from 'src/account/actions'
 import { SettingsEvents } from 'src/analytics/Events'
 import { walletAddressSelector } from 'src/web3/selectors'
+import variables from 'src/styles/variables'
+import { parsePhoneNumber } from 'src/utils/phoneNumbers'
+import { selectSessions } from 'src/walletConnect/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SettingsMenu>
 

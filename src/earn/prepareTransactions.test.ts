@@ -5,16 +5,14 @@ import {
   prepareSupplyTransactions,
   prepareWithdrawAndClaimTransactions,
 } from 'src/earn/prepareTransactions'
-import { simulateTransactions } from 'src/earn/simulateTransactions'
-import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
-import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
+import { isGasSubsidizedForNetwork } from 'src/earn/utils'
+import { triggerShortcutRequest } from 'src/positions/saga'
 import { TokenBalance } from 'src/tokens/slice'
-import { Network, NetworkId } from 'src/transactions/types'
-import { publicClient } from 'src/viem'
+import { NetworkId } from 'src/transactions/types'
 import { prepareTransactions } from 'src/viem/prepareTransactions'
 import networkConfig from 'src/web3/networkConfig'
-import { mockArbArbAddress, mockArbArbTokenBalance } from 'test/values'
-import { Address, encodeFunctionData, erc20Abi, maxUint256 } from 'viem'
+import { mockEarnPositions, mockRewardsPositions } from 'test/values'
+import { Address, encodeFunctionData, maxUint256 } from 'viem'
 
 const mockFeeCurrency: TokenBalance = {
   address: null,
@@ -50,6 +48,8 @@ jest.mock('viem', () => ({
   encodeFunctionData: jest.fn(),
 }))
 jest.mock('src/earn/simulateTransactions')
+jest.mock('src/earn/utils')
+jest.mock('src/positions/saga')
 
 describe('prepareTransactions', () => {
   beforeEach(() => {
@@ -59,52 +59,41 @@ describe('prepareTransactions', () => {
       type: 'possible',
       feeCurrency: mockFeeCurrency,
     }))
-    jest.spyOn(publicClient[Network.Arbitrum], 'readContract').mockResolvedValue(BigInt(0))
-    jest.mocked(encodeFunctionData).mockReturnValue('0xencodedData')
-    jest.mocked(getDynamicConfigParams).mockImplementation(({ configName, defaultValues }) => {
-      if (configName === StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG) {
-        return { ...defaultValues, depositGasPadding: 100 }
-      }
-      return defaultValues
-    })
-    jest.mocked(getFeatureGate).mockImplementation((featureGate) => {
-      if (featureGate === StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES) {
-        return false
-      }
-      throw new Error(`Unexpected feature gate: ${featureGate}`)
-    })
-    jest.mocked(simulateTransactions).mockResolvedValue([
-      {
-        status: 'success',
-        blockNumber: '1',
-        gasNeeded: 3000,
-        gasUsed: 2800,
-        gasPrice: '1',
-      },
-      {
-        status: 'success',
-        blockNumber: '1',
-        gasNeeded: 50000,
-        gasUsed: 49800,
-        gasPrice: '1',
-      },
-    ])
+    jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(false)
   })
 
   describe('prepareSupplyTransactions', () => {
-    it('prepares transactions with approve and supply if not already approved with gas subsidy off', async () => {
+    it('prepares transactions using deposit shortcut', async () => {
+      jest.mocked(triggerShortcutRequest).mockResolvedValue({
+        transactions: [
+          {
+            from: '0x1234',
+            to: '0x5678',
+            data: '0xencodedData',
+          },
+          {
+            from: '0x1234',
+            to: '0x5678',
+            data: '0xencodedData',
+            gas: '50100',
+            estimatedGasUse: '49800',
+          },
+        ],
+      })
+
       const result = await prepareSupplyTransactions({
         amount: '5',
         token: mockToken,
         walletAddress: '0x1234',
         feeCurrencies: [mockFeeCurrency],
-        poolContractAddress: '0x5678',
+        pool: mockEarnPositions[0],
+        hooksApiUrl: 'https://hooks.api',
       })
 
       const expectedTransactions = [
         {
           from: '0x1234',
-          to: mockTokenAddress,
+          to: '0x5678',
           data: '0xencodedData',
         },
         {
@@ -120,118 +109,41 @@ describe('prepareTransactions', () => {
         feeCurrency: mockFeeCurrency,
         transactions: expectedTransactions,
       })
-      expect(publicClient[Network.Arbitrum].readContract).toHaveBeenCalledWith({
-        address: mockTokenAddress,
-        abi: erc20Abi,
-        functionName: 'allowance',
-        args: ['0x1234', '0x5678'],
-      })
-      expect(encodeFunctionData).toHaveBeenNthCalledWith(1, {
-        abi: erc20Abi,
-        functionName: 'approve',
-        args: ['0x5678', BigInt(5e6)],
-      })
-      expect(encodeFunctionData).toHaveBeenNthCalledWith(2, {
-        abi: aavePool,
-        functionName: 'supply',
-        args: [mockTokenAddress, BigInt(5e6), '0x1234', 0],
-      })
       expect(prepareTransactions).toHaveBeenCalledWith({
         baseTransactions: expectedTransactions,
         feeCurrencies: [mockFeeCurrency],
         spendToken: mockToken,
-        spendTokenAmount: new BigNumber(5),
+        spendTokenAmount: new BigNumber(5000000),
         isGasSubsidized: false,
         origin: 'earn-deposit',
       })
-    })
-
-    it('prepares transactions with supply if already approved with gas subsidy on', async () => {
-      jest.spyOn(publicClient[Network.Arbitrum], 'readContract').mockResolvedValue(BigInt(5e6))
-      jest.mocked(simulateTransactions).mockResolvedValueOnce([
-        {
-          status: 'success',
-          blockNumber: '1',
-          gasNeeded: 50000,
-          gasUsed: 49800,
-          gasPrice: '1',
-        },
-      ])
-      jest.mocked(getFeatureGate).mockImplementation((featureGate) => {
-        if (featureGate === StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES) {
-          return true
-        }
-        throw new Error(`Unexpected feature gate: ${featureGate}`)
-      })
-
-      const result = await prepareSupplyTransactions({
-        amount: '5',
-        token: mockToken,
-        walletAddress: '0x1234',
-        feeCurrencies: [mockFeeCurrency],
-        poolContractAddress: '0x5678',
-      })
-
-      const expectedTransactions = [
-        {
-          from: '0x1234',
-          to: '0x5678',
-          data: '0xencodedData',
-          gas: BigInt(50100),
-          _estimatedGasUse: BigInt(49800),
-        },
-      ]
-      expect(result).toEqual({
-        type: 'possible',
-        feeCurrency: mockFeeCurrency,
-        transactions: expectedTransactions,
-      })
-      expect(publicClient[Network.Arbitrum].readContract).toHaveBeenCalledWith({
-        address: mockTokenAddress,
-        abi: erc20Abi,
-        functionName: 'allowance',
-        args: ['0x1234', '0x5678'],
-      })
-      expect(encodeFunctionData).toHaveBeenNthCalledWith(1, {
-        abi: aavePool,
-        functionName: 'supply',
-        args: [mockTokenAddress, BigInt(5e6), '0x1234', 0],
-      })
-      expect(prepareTransactions).toHaveBeenCalledWith({
-        baseTransactions: expectedTransactions,
-        feeCurrencies: [mockFeeCurrency],
-        spendToken: mockToken,
-        spendTokenAmount: new BigNumber(5),
-        isGasSubsidized: true,
-        origin: 'earn-deposit',
+      expect(isGasSubsidizedForNetwork).toHaveBeenCalledWith(mockToken.networkId)
+      expect(triggerShortcutRequest).toHaveBeenCalledWith('https://hooks.api', {
+        address: '0x1234',
+        appId: mockEarnPositions[0].appId,
+        networkId: mockEarnPositions[0].networkId,
+        shortcutId: 'deposit',
+        tokens: [{ tokenId: mockToken.tokenId, amount: '5' }],
+        tokenDecimals: 6,
       })
     })
   })
 
   describe('prepareWithdrawAndClaimTransactions', () => {
+    beforeEach(() => {
+      jest.mocked(encodeFunctionData).mockReturnValue('0xencodedData')
+    })
+
     it('prepares withdraw and claim transactions with gas subsidy on', async () => {
-      jest.mocked(getFeatureGate).mockImplementation((featureGate) => {
-        if (featureGate === StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES) {
-          return true
-        }
-        throw new Error(`Unexpected feature gate: ${featureGate}`)
-      })
-      const rewards = [
-        {
-          amount: '0.002',
-          tokenInfo: mockArbArbTokenBalance,
-        },
-        {
-          amount: '0.003',
-          tokenInfo: mockToken,
-        },
-      ]
+      const rewardsTokens = mockRewardsPositions[1].tokens
+      jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(true)
+
       const result = await prepareWithdrawAndClaimTransactions({
         amount: '5',
         token: mockToken,
         walletAddress: '0x1234',
         feeCurrencies: [mockFeeCurrency],
-        rewards,
+        rewardsTokens,
         poolTokenAddress: '0x5678',
       })
 
@@ -246,18 +158,13 @@ describe('prepareTransactions', () => {
           to: networkConfig.arbAaveIncentivesV3ContractAddress,
           data: '0xencodedData',
         },
-        {
-          from: '0x1234',
-          to: networkConfig.arbAaveIncentivesV3ContractAddress,
-          data: '0xencodedData',
-        },
       ]
       expect(result).toEqual({
         type: 'possible',
         feeCurrency: mockFeeCurrency,
         transactions: expectedTransactions,
       })
-      expect(encodeFunctionData).toHaveBeenCalledTimes(3)
+      expect(encodeFunctionData).toHaveBeenCalledTimes(2)
       expect(encodeFunctionData).toHaveBeenCalledWith({
         abi: aavePool,
         functionName: 'withdraw',
@@ -266,12 +173,7 @@ describe('prepareTransactions', () => {
       expect(encodeFunctionData).toHaveBeenCalledWith({
         abi: aaveIncentivesV3Abi,
         functionName: 'claimRewardsToSelf',
-        args: [['0x5678'], BigInt(2e15), mockArbArbAddress],
-      })
-      expect(encodeFunctionData).toHaveBeenCalledWith({
-        abi: aaveIncentivesV3Abi,
-        functionName: 'claimRewardsToSelf',
-        args: [['0x5678'], BigInt(3000), mockTokenAddress],
+        args: [['0x5678'], BigInt(10000000000000000), '0x912ce59144191c1204e64559fe8253a0e49e6548'],
       })
       expect(prepareTransactions).toHaveBeenCalledWith({
         baseTransactions: expectedTransactions,
@@ -287,7 +189,7 @@ describe('prepareTransactions', () => {
         token: mockToken,
         walletAddress: '0x1234',
         feeCurrencies: [mockFeeCurrency],
-        rewards: [],
+        rewardsTokens: [],
         poolTokenAddress: '0x5678',
       })
 
