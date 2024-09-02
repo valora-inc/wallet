@@ -3,6 +3,9 @@
 # to TestFlight and Google Play.
 name: Release - Production
 
+on:
+  workflow_dispatch:
+
 jobs:
   ios:
     uses: ./.github/workflows/fastlane-ios.yml
