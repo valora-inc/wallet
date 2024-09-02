@@ -4,9 +4,9 @@
   "languageSettings": "Langue",
   "localCurrencySetting": "Devise",
   "licenses": "Licences",
-  "removeAccountTitle": "Réinitialiser Valora",
+  "removeAccountTitle": "Réinitialise {{appName}}",
   "removeAccountDetails": "La réinitialisation supprimera votre compte de cet appareil. Vos fonds resteront sur votre compte, mais ne seront accessibles qu'avec votre Phrase de récupération",
-  "deleteAccountTitle": "Supprimer le compte",
+  "deleteAccountTitle": "Supprimer {{appName}}",
   "deleteAccountDetails": "La suppression de votre compte le supprimera de {{appName}}. Vos fonds resteront dans le compte, mais ne seront accessibles qu'avec votre phrase de récupération.",
   "deleteAccountWarning": {
     "title": "Êtes-vous sûr ?",
@@ -862,7 +862,7 @@
   "registrationSteps": "Étape {{step}} de {{totalSteps}}",
   "selectCountryCode": "Sélectionnez l'indicatif du pays",
   "pincodeSet": {
-    "createNew": "Créez un nouveau code PIN",
+    "createNew": "Créer un nouveau code PIN",
     "verify": "Saisissez à nouveau votre code PIN pour confirmer",
     "changePIN": "Modifer le code PIN",
     "pinsDontMatch": "Les codes PIN ne correspondent pas",
@@ -2624,7 +2624,10 @@
         "tvlDescription": "La valeur totale verrouillée (TVL) est une métrique utilisée pour mesurer la valeur des actifs numériques verrouillés sur un réseau blockchain. La TVL est calculée en additionnant la valeur de tous les actifs numériques verrouillés dans un protocole DeFi ou un contrat intelligent. Ces actifs peuvent inclure des crypto-monnaies, des stablecoins et d'autres jetons."
       },
       "noPoolsTitle": "Vous n'avez encore rejoint aucun pool",
-      "noPoolsDescription": "Découvrez les pools disponibles, choisissez celui qui correspond à vos objectifs et profitez au maximum de vos stablecoins."
+      "noPoolsDescription": "Découvrez les pools disponibles, choisissez celui qui correspond à vos objectifs et profitez au maximum de vos stablecoins.",
+      "errorTitle": "Impossible de charger les pools",
+      "errorDescription": "Oups, quelque chose s'est mal passé en essayant de charger les informations sur le pool. Essaie à nouveau.",
+      "errorButton": "Veuillez réessayer"
     },
     "poolCard": {
       "onNetwork": "sur {{networkName}}",
@@ -2655,7 +2658,20 @@
       "ageOfPool": "Pool crée",
       "learnMoreOnProvider": "Voir pool sur {{providerName}}",
       "deposit": "Dépôt",
-      "withdraw": "Retirer"
+      "depositAndEarnings": "Dépôt et gains",
+      "withdraw": "Retirer",
+      "totalDepositAndEarnings": "Total des dépôts et des gains",
+      "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
+      "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
+      "infoBottomSheet": {
+        "gotIt": "J'ai compris",
+        "tvlTitle": "Valeur totale bloquée (TVL)",
+        "tvlDescription": "Le TVL fait référence au montant total des actifs déposés dans un pool de liquidités et peut être utilisé pour indiquer la confiance et l'utilité d'un pool. En règle générale, une TVL plus élevée est corrélée à un risque réduit, mais aucun pool n'est totalement exempt de risques.",
+        "ageTitle": "Pool crée",
+        "ageDescription": "Les pools de liquidités plus anciens peuvent indiquer un bilan solide et une histoire de construction de la confiance de la communauté. Pour cette raison, certains peuvent considérer que ces pools sont plus sûrs.\n\nIl n'existe pas de méthode parfaite pour déterminer le risque, alors utilise ces informations dans le cadre de tes recherches générales pour prendre la décision qui te convient le mieux.",
+        "yieldRateTitle": "Taux de rendement",
+        "yieldRateDescription": "Alors que la plupart des pools offrent des gains sous la forme d'un jeton de pool de liquidité, certains donnent un ou des jetons supplémentaires en guise de récompense ou d'incitation supplémentaire.\n\nÉtant donné que Valora regroupe des pools sur plusieurs protocoles, nous avons combiné tous les taux de gain et de récompense en un seul taux de rendement global afin d'évaluer facilement ton potentiel de gain. Ce chiffre est une estimation car les valeurs des gains et des récompenses fluctuent constamment.\n\nPour plus d'informations sur la répartition des gains, tu peux consulter le site suivant <0>{{providerName}}</0>."
+      }
     }
   },
   "addFundsActions": {

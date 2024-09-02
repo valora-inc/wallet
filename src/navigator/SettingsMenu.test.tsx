@@ -7,6 +7,10 @@ import SettingsMenu from 'src/navigator/SettingsMenu'
 import { Screens } from 'src/navigator/Screens'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
+import { mockE164Number, mockE164NumberPepper } from 'test/values'
+import * as Sentry from '@sentry/react-native'
+import { resetAppOpenedState, setNumberVerified } from 'src/app/actions'
+import { clearStoredAccount, toggleBackupState } from 'src/account/actions'
 
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn().mockReturnValue(false),
@@ -102,8 +106,9 @@ describe('SettingsMenu', () => {
     fireEvent.press(getByTestId('SettingsMenu/Legal'))
     fireEvent.press(getByTestId('SettingsMenu/ConnectedDapps'))
     fireEvent.press(getByTestId('SettingsMenu/Preferences'))
+    fireEvent.press(getByTestId('SettingsMenu/Security'))
 
-    expect(navigate).toHaveBeenCalledTimes(7)
+    expect(navigate).toHaveBeenCalledTimes(8)
 
     expect(navigate).toHaveBeenNthCalledWith(1, Screens.ProfileSubmenu)
     expect(navigate).toHaveBeenNthCalledWith(2, Screens.QRNavigator, {
@@ -115,5 +120,49 @@ describe('SettingsMenu', () => {
     expect(navigate).toHaveBeenNthCalledWith(5, Screens.LegalSubmenu)
     expect(navigate).toHaveBeenNthCalledWith(6, Screens.WalletConnectSessions)
     expect(navigate).toHaveBeenNthCalledWith(7, Screens.PreferencesSubmenu)
+    expect(navigate).toHaveBeenNthCalledWith(8, Screens.SecuritySubmenu)
+  })
+
+  it('renders the dev mode menu', () => {
+    const mockAddress = '0x0000000000000000000000000000000000007e57'
+    const store = createMockStore({
+      identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
+      account: {
+        devModeActive: true,
+        e164PhoneNumber: mockE164Number,
+      },
+      web3: {
+        account: mockAddress,
+      },
+    })
+    const { getByText } = render(
+      <Provider store={store}>
+        <MockedNavigator component={SettingsMenu}></MockedNavigator>
+      </Provider>
+    )
+
+    store.clearActions()
+    fireEvent.press(getByText('Toggle verification done'))
+    fireEvent.press(getByText('Reset app opened state'))
+    fireEvent.press(getByText('Toggle backup state'))
+    fireEvent.press(getByText('Wipe Redux Store'))
+    fireEvent.press(getByText('App Quick Reset'))
+
+    expect(store.getActions()).toEqual([
+      setNumberVerified(false),
+      resetAppOpenedState(),
+      toggleBackupState(),
+      clearStoredAccount(mockAddress, true),
+      clearStoredAccount(mockAddress),
+    ])
+
+    fireEvent.press(getByText('Show Debug Screen'))
+    expect(navigate).toHaveBeenCalledWith(Screens.Debug)
+
+    fireEvent.press(getByText('Trigger a crash'))
+    expect(Sentry.nativeCrash).toHaveBeenCalled()
+
+    fireEvent.press(getByText('See app assets'))
+    expect(navigate).toHaveBeenCalledWith(Screens.DebugImages)
   })
 })

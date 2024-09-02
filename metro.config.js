@@ -34,6 +34,9 @@ const config = {
     ),
     extraNodeModules: {
       ...nodeLibs,
+      // This is the crypto module we want to use moving forward (unless something better comes up).
+      // It is implemented natively using OpenSSL.
+      crypto: require.resolve('react-native-quick-crypto'),
       fs: require.resolve('react-native-fs'),
       'isomorphic-fetch': require.resolve('cross-fetch'),
       // We don't need the `net` module for now.

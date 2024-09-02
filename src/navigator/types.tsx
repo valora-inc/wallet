@@ -81,10 +81,7 @@ export type StackParamList = {
   [Screens.DebugImages]: undefined
   [Screens.EarnInfoScreen]: undefined
   [Screens.EarnEnterAmount]: { pool: EarnPosition }
-  [Screens.EarnCollectScreen]: {
-    depositTokenId: string
-    poolTokenId: string
-  }
+  [Screens.EarnCollectScreen]: { pool: EarnPosition }
   [Screens.EarnHome]: { activeEarnTab?: EarnTabType } | undefined
   [Screens.EarnPoolInfoScreen]: { pool: EarnPosition }
   [Screens.ErrorScreen]: {
@@ -217,10 +214,10 @@ export type StackParamList = {
       }
     | undefined
   [Screens.Profile]: undefined
-  [Screens.ProfileMenu]: undefined
   [Screens.ProfileSubmenu]: undefined
   [Screens.LegalSubmenu]: undefined
   [Screens.PreferencesSubmenu]: undefined
+  [Screens.SecuritySubmenu]: { promptConfirmRemovalModal?: boolean } | undefined
   [Screens.SettingsMenu]: undefined
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
   [Screens.RegulatoryTerms]: undefined
@@ -261,7 +258,6 @@ export type StackParamList = {
     sendAmount: string
     tokenId: string
   }
-  [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
   [Screens.SignInWithEmail]: {
     keylessBackupFlow: KeylessBackupFlow
     origin: KeylessBackupOrigin

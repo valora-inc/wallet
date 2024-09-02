@@ -4,9 +4,9 @@
   "languageSettings": "Dil",
   "localCurrencySetting": "Para Birimi",
   "licenses": "Lisanslar",
-  "removeAccountTitle": "Valora'yı Sıfırla",
+  "removeAccountTitle": "Sıfırla {{appName}}",
   "removeAccountDetails": "Sıfırlama, hesabınızı bu cihazdan kaldıracaktır. Fonlarınız hesapta kalacak, ancak yalnızca Kurtarma Kelimeleri ile erişilebilir olacaktır",
-  "deleteAccountTitle": "Hesabı Sil",
+  "deleteAccountTitle": "Sil {{appName}}",
   "deleteAccountDetails": "Silme, hesabınızı {{appName}} uygulamasından kaldıracaktır. Fonlarınız hesapta kalacak, ancak yalnızca Kurtarma İfadesi ile erişilebilir olacaktır",
   "deleteAccountWarning": {
     "title": "Emin misiniz?",
@@ -862,7 +862,7 @@
   "registrationSteps": "Toplam {{totalSteps}} adımdan {{step}}.",
   "selectCountryCode": "Ülke Kodu Seçin",
   "pincodeSet": {
-    "createNew": "Yeni PIN oluştur",
+    "createNew": "Yeni PIN Oluşturma",
     "verify": "Doğrulamak için PIN'i tekrar girin",
     "changePIN": "PIN Değiştir",
     "pinsDontMatch": "PIN'ler eşleşmedi",
@@ -2624,7 +2624,10 @@
         "tvlDescription": "TVL, Total Value Locked (Kilitli Toplam Değer) anlamına gelir ve kripto sektöründe bir blok zincir ağında kilitli olan dijital varlıkların değerini ölçmek için kullanılan bir metriktir. TVL, bir DeFi protokolünde ya da akıllı kontratta kilitli olan tüm dijital varlıkların değerinin toplanmasıyla hesaplanır. Bu varlıklar arasında kripto paralar, sabit coinler ve diğer tokenlar yer alabilir."
       },
       "noPoolsTitle": "Henüz hiçbir havuza katılmadınız",
-      "noPoolsDescription": "Mevcut havuzları keşfedin, hedeflerinize uygun bir havuz seçin ve sabit coin'lerinizden en iyi şekilde yararlanın."
+      "noPoolsDescription": "Mevcut havuzları keşfedin, hedeflerinize uygun bir havuz seçin ve sabit coin'lerinizden en iyi şekilde yararlanın.",
+      "errorTitle": "Havuzlar yüklenemiyor",
+      "errorDescription": "Oops, havuz bilgilerini yüklemeye çalışırken bir şeyler ters gitti. Lütfen tekrar deneyin.",
+      "errorButton": "Tekrar deneyin"
     },
     "poolCard": {
       "onNetwork": "{{networkName}} üzerinde",
@@ -2655,7 +2658,20 @@
       "ageOfPool": "Havuz Yaşı",
       "learnMoreOnProvider": "{{providerName}}adresindeki havuzu görüntüle",
       "deposit": "Patra Yatırma",
-      "withdraw": "Çek"
+      "depositAndEarnings": "Yatırım ve Kazançlar",
+      "withdraw": "Çek",
+      "totalDepositAndEarnings": "Toplam Mevduat ve Kazançlar",
+      "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
+      "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
+      "infoBottomSheet": {
+        "gotIt": "Anladım",
+        "tvlTitle": "Kilitlenen Toplam Değer (TVL)",
+        "tvlDescription": "TVL, bir likidite havuzuna yatırılan toplam varlık miktarını ifade eder ve bir havuzun güvenini ve faydasını göstermeye yardımcı olmak için kullanılabilir. Tipik olarak daha yüksek bir TVL daha düşük riskle ilişkilidir, ancak hiçbir havuz tamamen risksiz değildir.",
+        "ageTitle": "Havuz Yaşı",
+        "ageDescription": "Daha eski likidite havuzları sağlam bir geçmişe ve toplumda güven inşa etme geçmişine işaret edebilir. Bu nedenle, bazıları bu havuzların daha güvenli olduğunu düşünebilir.\n\nRiski belirlemenin mükemmel bir yolu yoktur, bu nedenle bu bilgileri sizin için en iyi kararı vermek üzere genel araştırmanızın bir parçası olarak kullanın.",
+        "yieldRateTitle": "Verim Oranı",
+        "yieldRateDescription": "Çoğu havuz kazançları likidite havuzu jetonu şeklinde sunarken, bazıları ödül veya ek teşvik olarak ek jeton(lar) verir.\n\nValora havuzları birden fazla protokolde topladığından, kazanç potansiyelinizi kolayca değerlendirmenize yardımcı olmak için tüm kazanç ve ödül oranlarını tek bir genel getiri oranında birleştirdik. Kazanç ve ödül değerleri sürekli dalgalandığı için bu sayı tahmini bir değerdir.\n\nKazanç dökümleri hakkında daha fazla bilgi için şu adresi ziyaret edebilirsiniz <0>{{providerName}}</0>."
+      }
     }
   },
   "addFundsActions": {

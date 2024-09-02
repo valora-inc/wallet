@@ -1,6 +1,4 @@
-import { generateMnemonic, MnemonicLanguages, MnemonicStrength } from '@celo/cryptographic-utils'
 import { isValidChecksumAddress } from '@celo/utils/lib/address'
-import * as bip39 from 'react-native-bip39'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { call, select } from 'redux-saga/effects'
@@ -9,14 +7,15 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { storeMnemonic } from 'src/backup/utils'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { getPasswordSaga, retrieveSignedMessage } from 'src/pincode/authentication'
+import { MnemonicLanguages, MnemonicStrength, generateMnemonic } from 'src/utils/account'
 import { setAccount, setDataEncryptionKey } from 'src/web3/actions'
 import {
+  UnlockResult,
   getConnectedAccount,
   getConnectedUnlockedAccount,
   getOrCreateAccount,
   getWalletAddress,
   unlockAccount,
-  UnlockResult,
 } from 'src/web3/saga'
 import { currentAccountSelector, walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
@@ -101,8 +100,7 @@ describe(getOrCreateAccount, () => {
         .call(
           generateMnemonic,
           MnemonicStrength.s128_12words,
-          MnemonicLanguages[expectedMnemonicLang] as unknown as MnemonicLanguages,
-          bip39
+          MnemonicLanguages[expectedMnemonicLang] as unknown as MnemonicLanguages
         )
         .run()
 

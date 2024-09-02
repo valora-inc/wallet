@@ -343,6 +343,12 @@
                 "displayProps": {
                     "$ref": "#/definitions/PositionDisplayProps"
                 },
+                "imageUrl": {
+                    "type": "string"
+                },
+                "networkIconUrl": {
+                    "type": "string"
+                },
                 "networkId": {
                     "$ref": "#/definitions/NetworkId"
                 },
@@ -357,6 +363,9 @@
                 },
                 "priceUsd": {
                     "type": "string"
+                },
+                "shortcutTriggerArgs": {
+                    "$ref": "#/definitions/Record<string,any>"
                 },
                 "supply": {
                     "type": "string"
@@ -526,6 +535,12 @@
                 },
                 "decimals": {
                     "type": "number"
+                },
+                "imageUrl": {
+                    "type": "string"
+                },
+                "networkIconUrl": {
+                    "type": "string"
                 },
                 "networkId": {
                     "$ref": "#/definitions/NetworkId"
@@ -954,6 +969,9 @@
                 "positionId": {
                     "type": "string"
                 },
+                "shortcutTriggerArgs": {
+                    "$ref": "#/definitions/Record<string,any>"
+                },
                 "tokens": {
                     "items": {
                         "$ref": "#/definitions/Token"
@@ -1233,6 +1251,9 @@
         "EarnDataProps": {
             "additionalProperties": false,
             "properties": {
+                "cantSeparateCompoundedInterest": {
+                    "type": "boolean"
+                },
                 "contractCreatedAt": {
                     "type": "string"
                 },
@@ -1390,11 +1411,11 @@
                 "amount": {
                     "type": "string"
                 },
+                "includedInPoolBalance": {
+                    "type": "boolean"
+                },
                 "label": {
                     "type": "string"
-                },
-                "subtractFromDeposit": {
-                    "type": "boolean"
                 },
                 "tokenId": {
                     "type": "string"
@@ -3334,7 +3355,6 @@
                 "PointsIntro",
                 "PreferencesSubmenu",
                 "Profile",
-                "ProfileMenu",
                 "ProfileSubmenu",
                 "ProtectWallet",
                 "QRCode",
@@ -3342,6 +3362,7 @@
                 "QRScanner",
                 "RegulatoryTerms",
                 "SanctionedCountryErrorScreen",
+                "SecuritySubmenu",
                 "SelectCountry",
                 "SelectLocalCurrency",
                 "SelectProvider",
@@ -3349,7 +3370,6 @@
                 "SendConfirmationModal",
                 "SendEnterAmount",
                 "SendSelectRecipient",
-                "Settings",
                 "SettingsMenu",
                 "SignInWithEmail",
                 "Simplex",
@@ -3537,7 +3557,11 @@
                     "type": "string"
                 },
                 "category": {
-                    "const": "claim",
+                    "enum": [
+                        "claim",
+                        "deposit",
+                        "withdraw"
+                    ],
                     "type": "string"
                 },
                 "description": {
