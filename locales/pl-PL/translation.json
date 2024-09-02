@@ -4,9 +4,9 @@
   "languageSettings": "Język",
   "localCurrencySetting": "Waluta",
   "licenses": "Licencje",
-  "removeAccountTitle": "Resetuj aplikację Valora",
+  "removeAccountTitle": "Zresetuj {{appName}}",
   "removeAccountDetails": "Zresetowanie spowoduje usunięcie Twojego konta z tego urządzenia. Twoje środki pozostaną na koncie, ale będą dostępne tylko przy użyciu frazy odzyskiwania",
-  "deleteAccountTitle": "Usuń konto",
+  "deleteAccountTitle": "Usuń {{appName}}",
   "deleteAccountDetails": "Usunięcie konta spowoduje usunięcie go z {{appName}}. Twoje środki pozostaną na koncie, ale będą dostępne tylko przy użyciu frazy odzyskiwania",
   "deleteAccountWarning": {
     "title": "Czy na pewno?",
