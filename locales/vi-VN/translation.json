@@ -4,9 +4,9 @@
   "languageSettings": "Ngôn ngữ",
   "localCurrencySetting": "Đơn vị tiền tệ",
   "licenses": "Giấy phép",
-  "removeAccountTitle": "Thiết lập lại Valora",
+  "removeAccountTitle": "Reset {{appName}}",
   "removeAccountDetails": "Thao tác thiết lập lại sẽ xóa tài khoản của bạn khỏi thiết bị này. Tiền của bạn sẽ giữ nguyên trong tài khoản, nhưng bạn chỉ truy cập được bằng Cụm từ khôi phục",
-  "deleteAccountTitle": "Xóa tài khoản",
+  "deleteAccountTitle": "Delete {{appName}}",
   "deleteAccountDetails": "Khi bạn xóa tài khoản thì tài khoản của bạn sẽ bị gỡ bỏ khỏi {{appName}}. Tiền của bạn sẽ vẫn giữ nguyên trong tài khoản, nhưng bạn chỉ truy cập được bằng Cụm từ khôi phục",
   "deleteAccountWarning": {
     "title": "Bạn có chắc chắn không?",
@@ -862,7 +862,7 @@
   "registrationSteps": "Bước {{step}}/{{totalSteps}}",
   "selectCountryCode": "Chọn mã quốc gia",
   "pincodeSet": {
-    "createNew": "Tạo mã PIN mới",
+    "createNew": "Create a New PIN",
     "verify": "Nhập lại mã PIN để xác nhận",
     "changePIN": "Thay đổi mã PIN",
     "pinsDontMatch": "Mã PIN không khớp",
