@@ -4,9 +4,9 @@
   "languageSettings": "语言",
   "localCurrencySetting": "货币",
   "licenses": "许可",
-  "removeAccountTitle": "重置 Valora",
+  "removeAccountTitle": "重置 {{appName}}",
   "removeAccountDetails": "如果重置，则您的账户将从此设备上删除。您的资金仍保留在账户中，但将只能借助恢复短语才能访问",
-  "deleteAccountTitle": "删除账户",
+  "deleteAccountTitle": "删除 {{appName}}",
   "deleteAccountDetails": "删除账户会将账户从 {{appName}} 中移除。您的资金将保留在账户中，但只能通过恢复短语访问",
   "deleteAccountWarning": {
     "title": "您确定吗？",
@@ -862,7 +862,7 @@
   "registrationSteps": "第 {{step}} 步，共 {{totalSteps}} 步",
   "selectCountryCode": "选择国家/地区代码",
   "pincodeSet": {
-    "createNew": "创建新的 PIN 码",
+    "createNew": "创建新 PIN 码",
     "verify": "再次输入您的 PIN 码以确认",
     "changePIN": "更改 PIN 码",
     "pinsDontMatch": "PIN 码不匹配",
