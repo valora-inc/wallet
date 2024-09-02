@@ -40,6 +40,6 @@ export default ChangePIN = () => {
     // Check old PIN doesn't work anymore
     await expect(element(by.text('Incorrect PIN'))).toBeVisible()
     await enterPinUi(ALTERNATIVE_PIN)
-    await expect(element(by.text('Create a new PIN'))).toBeVisible()
+    await expect(element(by.text('Create a New PIN'))).toBeVisible()
   })
 }
