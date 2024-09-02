@@ -79,7 +79,7 @@ describe('VerificationCodeInputScreen', () => {
         'Content-Type': 'application/json',
         authorization: `${networkConfig.authHeaderIssuer} 0xabc:someSignedMessage`,
       },
-      body: '{"phoneNumber":"+31619123456","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","publicDataEncryptionKey":"somePublicKey","inviterAddress":"0xabc"}',
+      body: '{"phoneNumber":"+31619123456","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","inviterAddress":"0xabc"}',
     })
   })
 
@@ -211,7 +211,7 @@ describe('VerificationCodeInputScreen', () => {
         'Content-Type': 'application/json',
         authorization: `${networkConfig.authHeaderIssuer} 0xabc:someSignedMessage`,
       },
-      body: '{"phoneNumber":"+31619123456","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","publicDataEncryptionKey":"somePublicKey","inviterAddress":"0xabc"}',
+      body: '{"phoneNumber":"+31619123456","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","inviterAddress":"0xabc"}',
     })
 
     await act(() => {
@@ -275,7 +275,7 @@ describe('VerificationCodeInputScreen', () => {
         'Content-Type': 'application/json',
         authorization: `${networkConfig.authHeaderIssuer} 0xabc:someSignedMessage`,
       },
-      body: `{"phoneNumber":"${e164Number}","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","publicDataEncryptionKey":"somePublicKey","inviterAddress":"0xabc"}`,
+      body: `{"phoneNumber":"${e164Number}","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","inviterAddress":"0xabc"}`,
     })
     expect(getByTestId('PhoneVerificationResendSmsBtn')).toBeDisabled()
   })

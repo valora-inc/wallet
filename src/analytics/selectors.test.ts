@@ -315,7 +315,7 @@ const mockState = {
 }
 
 const expectedTraitsForAllNetworks = {
-  accountAddress: '0x123',
+  accountAddress: '0x0000000000000000000000000000000000007E57',
   appBuildNumber: '1',
   appBundleId: 'org.celo.mobile.debug',
   appVersion: '0.0.1',
