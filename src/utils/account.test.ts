@@ -1,11 +1,12 @@
-// Initially copied from https://github.com/celo-org/celo-monorepo/blob/sdks-3.2.0/packages/sdk/cryptographic-utils/src/account.test.ts
-import * as bip39 from 'bip39'
+// Initially copied from https://github.com/celo-org/developer-tooling/blob/467d4e16444535d341bd2296d41c386f1dab187f/packages/sdk/cryptographic-utils/src/account.test.ts
+import * as bip39 from '@scure/bip39'
 import {
   MnemonicLanguages,
   MnemonicStrength,
   generateKeys,
   generateMnemonic,
   getAllLanguages,
+  getWordList,
   invalidMnemonicWords,
   normalizeMnemonic,
   suggestMnemonicCorrections,
@@ -33,7 +34,7 @@ describe('AccountUtils', () => {
         // This validates against all languages
         expect(validateMnemonic(mnemonic)).toBeTruthy()
         // This validates using a specific wordlist
-        expect(bip39.validateMnemonic(mnemonic, bip39.wordlists[languageName])).toBeTruthy()
+        expect(bip39.validateMnemonic(mnemonic, getWordList(language))).toBeTruthy()
       })
     }
   })
@@ -70,7 +71,7 @@ describe('AccountUtils', () => {
         // This validates against all languages
         expect(validateMnemonic(mnemonic)).toBeTruthy()
         // This validates using a specific wordlist
-        expect(bip39.validateMnemonic(mnemonic, bip39.wordlists[languageName])).toBeTruthy()
+        expect(bip39.validateMnemonic(mnemonic, getWordList(language))).toBeTruthy()
       })
     }
   })
