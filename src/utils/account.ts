@@ -1,5 +1,4 @@
 // Initially copied from https://github.com/celo-org/developer-tooling/blob/467d4e16444535d341bd2296d41c386f1dab187f/packages/sdk/cryptographic-utils/src/account.ts
-import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { levenshteinDistance } from '@celo/utils/lib/levenshtein'
 import * as bip39 from '@scure/bip39'
 import { randomBytes } from 'crypto'
@@ -12,6 +11,7 @@ import {
   japanese,
   korean,
   portuguese,
+  privateKeyToAddress,
   simplifiedChinese,
   spanish,
   traditionalChinese,
@@ -465,12 +465,13 @@ function generateKeysFromSeed(
     // As we are generating the node from a seed, the node will always have a private key and this would never happened
     throw new Error('utils-accounts@generateKeys: invalid node to derivate')
   }
-  const privateKey = bytesToHex(newNode.privateKey).slice(2)
+  const privateKeyHex = bytesToHex(newNode.privateKey)
+  const privateKey = privateKeyHex.slice(2)
   const publicKey = bytesToHex(newNode.publicKey!).slice(2)
 
   return {
     privateKey,
     publicKey,
-    address: privateKeyToAddress(privateKey),
+    address: privateKeyToAddress(privateKeyHex),
   }
 }
