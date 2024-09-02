@@ -1,4 +1,3 @@
-import { LocalizedCountry } from '@celo/phone-utils'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -12,6 +11,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import SelectCountryItem from 'src/onboarding/registration/SelectCountryItem'
 import colors from 'src/styles/colors'
+import { LocalizedCountry } from 'src/utils/Countries'
 import { getCountryFeatures } from 'src/utils/countryFeatures'
 
 const keyExtractor = (item: LocalizedCountry) => item.alpha2

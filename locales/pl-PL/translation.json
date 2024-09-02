@@ -2628,7 +2628,10 @@
         "tvlDescription": "TVL to skrót oznaczający łączną wartość zablokowanych aktywów i jest wskaźnikiem używanym w branży kryptowalut do pomiaru wartości cyfrowych aktywów zablokowanych w sieci łańcucha bloków. Oblicza się go przez zsumowanie wartości wszystkich cyfrowych aktywów zablokowanych w protokole DeFi lub inteligentnym kontrakcie. Środkami są między innymi kryptowaluty, tokeny płatnicze i inne tokeny."
       },
       "noPoolsTitle": "Nie dołączono jeszcze do żadnej puli",
-      "noPoolsDescription": "Odkryj dostępne pule, wybierz taką, która odpowiada Twoim celom, i w pełni wykorzystaj swoje tokeny płatnicze."
+      "noPoolsDescription": "Odkryj dostępne pule, wybierz taką, która odpowiada Twoim celom, i w pełni wykorzystaj swoje tokeny płatnicze.",
+      "errorTitle": "Nie można załadować pul",
+      "errorDescription": "Ups, coś poszło nie tak podczas próby załadowania informacji o puli. Spróbuj ponownie.",
+      "errorButton": "Spróbuj ponownie"
     },
     "poolCard": {
       "onNetwork": "w {{networkName}}",
@@ -2659,7 +2662,16 @@
       "ageOfPool": "Wiek puli",
       "learnMoreOnProvider": "Wyświetl pulę w {{providerName}}",
       "deposit": "Wpłatę",
-      "withdraw": "Wycofaj"
+      "withdraw": "Wycofaj",
+      "infoBottomSheet": {
+        "gotIt": "Rozumiem",
+        "tvlTitle": "Całkowita wartość zablokowana (TVL)",
+        "tvlDescription": "TVL odnosi się do całkowitej kwoty aktywów zdeponowanych w puli płynności i może być wykorzystany do wskazania zaufania i użyteczności puli. Zazwyczaj wyższy TVL koreluje ze zmniejszonym ryzykiem, jednak żadna pula nie jest całkowicie wolna od ryzyka.",
+        "ageTitle": "Wiek puli",
+        "ageDescription": "Starsze pule płynności mogą wskazywać na solidne osiągnięcia i historię budowania zaufania społeczności. Z tego powodu niektórzy mogą uważać te pule za bezpieczniejsze.\n\nNie ma idealnego sposobu na określenie ryzyka, więc wykorzystaj te informacje jako część ogólnych badań, aby podjąć najlepszą dla siebie decyzję.",
+        "yieldRateTitle": "Stopa zwrotu",
+        "yieldRateDescription": "Podczas gdy większość pul oferuje zarobki w postaci tokenów puli płynności, niektóre dają dodatkowe tokeny jako nagrodę lub dodatkową zachętę.\n\nPonieważ Valora agreguje pule w wielu protokołach, połączyliśmy wszystkie stawki zarobków i nagród w jedną, ogólną stopę zwrotu, aby ułatwić ocenę Twojego potencjału zarobkowego. Liczba ta jest szacunkowa, ponieważ wartości zarobków i nagród stale się zmieniają.\n\nAby uzyskać więcej informacji na temat podziału zarobków, odwiedź stronę <0>{{providerName}}</0>."
+      }
     }
   },
   "addFundsActions": {

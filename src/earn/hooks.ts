@@ -1,10 +1,10 @@
 import { useMemo } from 'react'
 import { useAsync } from 'react-async-hook'
-import { fetchAaveRewards } from 'src/earn/poolInfo'
 import { prepareWithdrawAndClaimTransactions } from 'src/earn/prepareTransactions'
 import { earnPositionsSelector } from 'src/positions/selectors'
+import { Token } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
-import { useTokenInfo, useTokensList } from 'src/tokens/hooks'
+import { useTokenInfo } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
@@ -13,56 +13,23 @@ import { isAddress } from 'viem'
 
 const TAG = 'earn/hooks'
 
-export function useAaveRewardsInfoAndPrepareTransactions({
+export function usePrepareAaveCollectTransactions({
   poolTokenId,
   depositTokenId,
   feeCurrencies,
+  rewardsTokens,
 }: {
   poolTokenId: string
   depositTokenId: string
   feeCurrencies: TokenBalance[]
+  rewardsTokens: Token[]
 }) {
   const poolTokenInfo = useTokenInfo(poolTokenId)
   const depositTokenInfo = useTokenInfo(depositTokenId)
   const walletAddress = useSelector(walletAddressSelector)
-  const allTokens = useTokensList()
-
-  const asyncRewardsInfo = useAsync(
-    async () => {
-      if (!poolTokenInfo) {
-        throw new Error(`Token with id ${poolTokenId} not found`)
-      }
-
-      if (!poolTokenInfo.address || !isAddress(poolTokenInfo.address)) {
-        throw new Error(`Token with id ${poolTokenId} does not contain a valid address`)
-      }
-
-      if (!walletAddress || !isAddress(walletAddress)) {
-        throw new Error(`Invalid wallet address: ${walletAddress}`)
-      }
-
-      return fetchAaveRewards({
-        walletAddress,
-        assetAddress: poolTokenInfo.address,
-        contractAddress: networkConfig.arbAaveIncentivesV3ContractAddress,
-        networkId: poolTokenInfo.networkId,
-        allTokens,
-      })
-    },
-    [],
-    {
-      onError: (error) => {
-        Logger.warn(`${TAG}/useAaveRewardsInfoAndPrepareTransactions`, error)
-      },
-    }
-  )
 
   const asyncPreparedTransactions = useAsync(
     async () => {
-      if (!asyncRewardsInfo.result) {
-        return
-      }
-
       if (
         !walletAddress ||
         !isAddress(walletAddress) ||
@@ -79,18 +46,18 @@ export function useAaveRewardsInfoAndPrepareTransactions({
         token: depositTokenInfo,
         walletAddress,
         feeCurrencies,
-        rewards: asyncRewardsInfo.result,
+        rewardsTokens,
         poolTokenAddress: poolTokenInfo.address,
       })
     },
-    [asyncRewardsInfo.result],
+    [],
     {
       onError: (error) => {
         Logger.warn(`${TAG}/useAaveRewardsInfoAndPrepareTransactions`, error)
       },
     }
   )
-  return { asyncRewardsInfo, asyncPreparedTransactions }
+  return { asyncPreparedTransactions }
 }
 
 export function useEarnPositionProviderName(providerId: string) {

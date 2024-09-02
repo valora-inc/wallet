@@ -14,6 +14,7 @@ import Touchable from 'src/components/Touchable'
 import { EarnApyAndAmount } from 'src/earn/EarnApyAndAmount'
 import { depositStatusSelector } from 'src/earn/selectors'
 import { depositStart } from 'src/earn/slice'
+import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import InfoIcon from 'src/icons/InfoIcon'
 import Logo from 'src/images/Logo'
 import { navigate } from 'src/navigator/NavigationService'
@@ -21,8 +22,6 @@ import { Screens } from 'src/navigator/Screens'
 import { EarnPosition } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
@@ -64,7 +63,7 @@ export default function EarnDepositBottomSheet({
     return null
   }
 
-  const isGasSubsidized = getFeatureGate(StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES)
+  const isGasSubsidized = isGasSubsidizedForNetwork(pool.networkId)
   const { termsUrl } = pool.dataProps
 
   const onPressProviderIcon = () => {
@@ -84,7 +83,7 @@ export default function EarnDepositBottomSheet({
     dispatch(
       depositStart({
         amount: amount.toString(),
-        tokenId: pool.dataProps.depositTokenId,
+        pool,
         preparedTransactions: getSerializablePreparedTransactions(preparedTransaction.transactions),
       })
     )
