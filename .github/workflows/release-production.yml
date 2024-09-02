@@ -3,18 +3,11 @@
 # to TestFlight and Google Play.
 name: Release - Production
 
-on:
-  workflow_dispatch:
-    inputs:
-      release_branch_name:
-        description: 'Release Branch'
-        required: true
-
 jobs:
   ios:
     uses: ./.github/workflows/fastlane-ios.yml
     with:
-      branch: ${{ github.event.inputs.release_branch_name }}
+      branch: ${{ github.ref_name }}
       lanes: '["alfajores", "mainnet"]'
     secrets:
       gcp-service-account-key: ${{ secrets.GCP_MAINNET_RELEASE_AUTOMATION_SERVICE_ACCOUNT_KEY }}
@@ -22,7 +15,7 @@ jobs:
   android:
     uses: ./.github/workflows/fastlane-android.yml
     with:
-      branch: ${{ github.event.inputs.release_branch_name }}
+      branch: ${{ github.ref_name }}
       lanes: '["alfajores", "mainnet"]'
     secrets:
       gcp-service-account-key: ${{ secrets.GCP_MAINNET_RELEASE_AUTOMATION_SERVICE_ACCOUNT_KEY }}
