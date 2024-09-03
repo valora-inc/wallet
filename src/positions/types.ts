@@ -17,17 +17,18 @@ interface YieldRate {
   tokenId: string
 }
 
-interface EarningItem {
+export interface EarningItem {
   amount: SerializedDecimalNumber
   label: string
   tokenId: string
-  subtractFromDeposit?: boolean
+  includedInPoolBalance?: boolean
 }
 
 interface EarnDataProps {
   contractCreatedAt?: string // ISO string
   manageUrl?: string
   termsUrl?: string
+  cantSeparateCompoundedInterest?: boolean
   tvl?: SerializedDecimalNumber
   yieldRates: YieldRate[]
   earningItems: EarningItem[]

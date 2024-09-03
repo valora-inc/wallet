@@ -1,6 +1,11 @@
 import { dismissBanners } from '../utils/banners'
 import { reloadReactNative, launchApp } from '../utils/retries'
-import { navigateToSettings, scrollIntoView, waitForElementByIdAndTap } from '../utils/utils'
+import {
+  navigateToProfile,
+  scrollIntoView,
+  waitForElementByIdAndTap,
+  navigateToPreferences,
+} from '../utils/utils'
 import { sleep } from '../../../src/utils/sleep'
 
 const faker = require('@faker-js/faker')
@@ -8,13 +13,13 @@ const faker = require('@faker-js/faker')
 export default Settings = () => {
   beforeEach(async () => {
     await reloadReactNative()
-    await navigateToSettings()
     await sleep(3000)
   })
 
   it('Edit Profile Name', async () => {
     let randomName = faker.lorem.words()
-    await element(by.id('EditProfile')).tap()
+    await navigateToProfile()
+    await element(by.id('ProfileSubmenu/EditProfile')).tap()
     await element(by.id('ProfileEditName')).tap()
     await element(by.id('ProfileEditName')).clearText()
     await element(by.id('ProfileEditName')).replaceText(`${randomName}`)
@@ -30,25 +35,27 @@ export default Settings = () => {
   })
 
   it('Change Language', async () => {
-    await element(by.id('ChangeLanguage')).tap()
+    await navigateToPreferences()
+    await element(by.id('PreferencesSubmenu/Language')).tap()
     await element(by.id('ChooseLanguage/es-419')).tap()
-    await waitFor(element(by.id('SettingsTitle')))
-      .toHaveText('Configuración')
+    await waitFor(element(by.id('CustomHeaderTitle')))
+      .toHaveText('Preferencias')
       .withTimeout(1000 * 15)
-    await element(by.id('ChangeLanguage')).tap()
+    await element(by.id('PreferencesSubmenu/Language')).tap()
     await element(by.id('ChooseLanguage/en-US')).tap()
-    await waitFor(element(by.id('SettingsTitle')))
-      .toHaveText('Settings')
+    await waitFor(element(by.id('CustomHeaderTitle')))
+      .toHaveText('Preferences')
       .withTimeout(1000 * 15)
   })
 
   it('Change Currency', async () => {
-    await element(by.id('ChangeCurrency')).tap()
+    await navigateToPreferences()
+    await element(by.id('PreferencesSubmenu/ChangeCurrency')).tap()
     await element(by.id('SelectLocalCurrency/AUD')).tap()
     await waitFor(element(by.text('AUD')))
       .toBeVisible()
       .withTimeout(1000 * 15)
-    await element(by.id('ChangeCurrency')).tap()
+    await element(by.id('PreferencesSubmenu/ChangeCurrency')).tap()
     await scrollIntoView('USD', 'SelectLocalCurrencyScrollView')
     await element(by.id('SelectLocalCurrency/USD')).tap()
     await waitFor(element(by.text('USD')))

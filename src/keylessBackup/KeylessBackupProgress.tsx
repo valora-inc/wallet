@@ -331,7 +331,7 @@ function Setup({ origin }: { origin: KeylessBackupOrigin }) {
 
   const onPressLater = () => {
     AppAnalytics.track(KeylessBackupEvents.cab_progress_failed_later)
-    navigate(Screens.Settings)
+    navigate(Screens.SecuritySubmenu)
   }
 
   const onPressManualOnboarding = () => {

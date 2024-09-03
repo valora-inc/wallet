@@ -465,7 +465,17 @@ export const createCommentText = () => {
   return `${new Date().getTime()}-${parseInt(Math.random() * 100_000)}`
 }
 
-export async function navigateToSettings() {
-  await waitForElementByIdAndTap('WalletHome/AccountCircle')
-  await waitForElementByIdAndTap('ProfileMenu/Settings')
+export async function navigateToSecurity() {
+  await waitForElementByIdAndTap('WalletHome/SettingsGearButton')
+  await waitForElementByIdAndTap('SettingsMenu/Security')
+}
+
+export async function navigateToProfile() {
+  await waitForElementByIdAndTap('WalletHome/SettingsGearButton')
+  await waitForElementByIdAndTap('SettingsMenu/Profile')
+}
+
+export async function navigateToPreferences() {
+  await waitForElementByIdAndTap('WalletHome/SettingsGearButton')
+  await waitForElementByIdAndTap('SettingsMenu/Preferences')
 }

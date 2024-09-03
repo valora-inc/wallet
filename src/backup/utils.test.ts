@@ -1,6 +1,5 @@
-import { normalizeMnemonic, validateMnemonic } from '@celo/cryptographic-utils'
-import * as bip39 from 'react-native-bip39'
 import { formatBackupPhraseOnEdit } from 'src/backup/utils'
+import { normalizeMnemonic, validateMnemonic } from 'src/utils/account'
 
 describe('Mnemonic validation and formatting', () => {
   const SPANISH_MNEMONIC =
@@ -52,41 +51,41 @@ inner surprise invest`
 
   it('validates spanish successfully', () => {
     const mnemonic = normalizeMnemonic(SPANISH_MNEMONIC)
-    expect(validateMnemonic(mnemonic, bip39)).toBeTruthy()
+    expect(validateMnemonic(mnemonic)).toBeTruthy()
   })
 
   it('validates spanish successfully without mnemonic accents', () => {
     const mnemonic = normalizeMnemonic(SPANISH_MNEMONIC_NO_ACCENTS)
-    expect(validateMnemonic(mnemonic, bip39)).toBeTruthy()
+    expect(validateMnemonic(mnemonic)).toBeTruthy()
   })
 
   it('validates portuguese successfully', () => {
     const mnemonic = normalizeMnemonic(PORTUGUESE_MNEMONIC)
-    expect(validateMnemonic(mnemonic, bip39)).toBeTruthy()
+    expect(validateMnemonic(mnemonic)).toBeTruthy()
   })
 
   it('validates english successfully', () => {
     const mnemonic = normalizeMnemonic(ENGLISH_MNEMONIC)
-    expect(validateMnemonic(mnemonic, bip39)).toBeTruthy()
+    expect(validateMnemonic(mnemonic)).toBeTruthy()
   })
 
   it('validates english multiline successfully', () => {
     const mnemonic = normalizeMnemonic(MULTILINE_ENGLISH_MNEMONIC)
-    expect(validateMnemonic(mnemonic, bip39)).toBeTruthy()
+    expect(validateMnemonic(mnemonic)).toBeTruthy()
   })
 
   it('does not validate bad english', () => {
     const mnemonic = normalizeMnemonic(BAD_ENGLISH_MNEMONIC)
-    expect(validateMnemonic(mnemonic, bip39)).toBeFalsy()
+    expect(validateMnemonic(mnemonic)).toBeFalsy()
   })
 
   it('does not validate bad spanish', () => {
     const mnemonic = normalizeMnemonic(BAD_SPANISH_MNEMONIC)
-    expect(validateMnemonic(mnemonic, bip39)).toBeFalsy()
+    expect(validateMnemonic(mnemonic)).toBeFalsy()
   })
 
   it('does not validate bad portuguese', () => {
     const mnemonic = normalizeMnemonic(BAD_PORTUGUESE_MNEMONIC)
-    expect(validateMnemonic(mnemonic, bip39)).toBeFalsy()
+    expect(validateMnemonic(mnemonic)).toBeFalsy()
   })
 })

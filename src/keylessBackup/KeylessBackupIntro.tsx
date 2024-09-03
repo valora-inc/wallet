@@ -118,9 +118,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.Thick24,
   },
   title: {
-    ...typeScale.labelSemiBoldLarge,
+    ...typeScale.titleMedium,
     textAlign: 'center',
     color: Colors.black,
+    paddingTop: Spacing.Thick24,
   },
   description: {
     textAlign: 'center',
@@ -168,8 +169,9 @@ const styles = StyleSheet.create({
     color: Colors.black,
   },
   recoveryPhrase: {
-    ...typeScale.labelSmall,
+    ...typeScale.labelSemiBoldMedium,
     textAlign: 'center',
+    color: Colors.black,
     margin: Spacing.Thick24,
   },
   button: {

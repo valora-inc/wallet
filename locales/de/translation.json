@@ -4,9 +4,9 @@
   "languageSettings": "Sprache",
   "localCurrencySetting": "Währung",
   "licenses": "Lizenzen",
-  "removeAccountTitle": "Valora zurücksetzen",
+  "removeAccountTitle": "Zurücksetzen {{appName}}",
   "removeAccountDetails": "Das Zurücksetzen wird dein Konto von diesem Gerät entfernen. Dein Guthaben bleibt im Konto, wird aber nur mit deiner Wiederherstellungsphrase erreichbar sein",
-  "deleteAccountTitle": "Konto löschen",
+  "deleteAccountTitle": "{{appName}}löschen",
   "deleteAccountDetails": "Wenn du dein Konto löschst, wird es von {{appName}} entfernt. Dein Guthaben bleibt auf dem Konto, ist aber nur noch mit deiner Wiederherstellungsphrase zugänglich",
   "deleteAccountWarning": {
     "title": "Bist Du sicher?",
@@ -862,7 +862,7 @@
   "registrationSteps": "Schritt {{step}} von {{totalSteps}}",
   "selectCountryCode": "Ländercode auswählen",
   "pincodeSet": {
-    "createNew": "Neue PIN erstellen",
+    "createNew": "Eine neue PIN erstellen",
     "verify": "Zur Bestätigung erneut PIN eingeben",
     "changePIN": "PIN ändern",
     "pinsDontMatch": "Die PINs stimmen nicht überein",
@@ -2658,7 +2658,20 @@
       "ageOfPool": "Alter des Pools",
       "learnMoreOnProvider": "Siehe Pool auf {{providerName}}",
       "deposit": "Einzahlung",
-      "withdraw": "Abheben"
+      "depositAndEarnings": "Einzahlungen und Verdienste",
+      "withdraw": "Abheben",
+      "totalDepositAndEarnings": "Einlagen & Erträge insgesamt",
+      "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
+      "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
+      "infoBottomSheet": {
+        "gotIt": "Verstanden",
+        "tvlTitle": "Total Value Locked (TVL)",
+        "tvlDescription": "Die TVL bezieht sich auf den Gesamtbetrag der in einem Liquiditätspool hinterlegten Vermögenswerte und kann als Indikator für das Vertrauen und den Nutzen eines Pools verwendet werden. In der Regel bedeutet eine höhere TVL ein geringeres Risiko, allerdings ist kein Pool völlig risikofrei.",
+        "ageTitle": "Alter des Pools",
+        "ageDescription": "Ältere Liquiditätspools können auf eine solide Erfolgsbilanz und eine Geschichte des Vertrauens der Gemeinschaft hinweisen. Aus diesem Grund halten manche diese Pools für sicherer.\n\nEs gibt keine perfekte Methode, um das Risiko zu bestimmen, also nutze diese Informationen als Teil deiner allgemeinen Recherche, um die für dich beste Entscheidung zu treffen.",
+        "yieldRateTitle": "Ausbeutesatz",
+        "yieldRateDescription": "Die meisten Pools bieten Gewinne in Form eines Liquiditätspool-Tokens, aber einige geben zusätzliche Token als Belohnung oder zusätzlichen Anreiz.\n\nDa Valora Pools über mehrere Protokolle hinweg zusammenfasst, haben wir alle Verdienst- und Belohnungssätze zu einem einzigen Gesamtertragswert zusammengefasst, damit du dein Verdienstpotenzial leichter einschätzen kannst. Bei dieser Zahl handelt es sich um eine Schätzung, da die Verdienst- und Prämienwerte ständig schwanken.\n\nWeitere Informationen über die Verdienstaufteilung findest du unter <0>{{providerName}}</0>."
+      }
     }
   },
   "addFundsActions": {

@@ -42,6 +42,10 @@ jest.mock('clevertap-react-native', () => ({
   pushInboxNotificationViewedEventForId: jest.fn(),
   pushInboxNotificationClickedEventForId: jest.fn(),
 }))
+jest.mock('src/config', () => ({
+  ...jest.requireActual('src/config'),
+  ONBOARDING_FEATURES_ENABLED: { CloudBackupSetup: false },
+}))
 
 const DEVICE_HEIGHT = 850
 
