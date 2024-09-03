@@ -1,7 +1,6 @@
 name: Release - Nightly
 
 on:
-  pull_request:
   workflow_dispatch:
   # At 03:00 (UTC) daily
   # https://crontab.guru/#0_3_*_*_*
