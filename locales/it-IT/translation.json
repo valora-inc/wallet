@@ -4,9 +4,9 @@
   "languageSettings": "Lingua",
   "localCurrencySetting": "Valuta",
   "licenses": "Licenze",
-  "removeAccountTitle": "Ripristina Valora",
+  "removeAccountTitle": "Azzeramento di {{appName}}",
   "removeAccountDetails": "Il ripristino rimuoverà il tuo conto da questo dispositivo. I tuoi fondi rimarranno nel conto, ma saranno accessibili solo con la tua Frase di recupero.",
-  "deleteAccountTitle": "Elimina conto",
+  "deleteAccountTitle": "Elimina {{appName}}",
   "deleteAccountDetails": "L'eliminazione del tuo conto lo rimuoverà da {{appName}}. I tuoi fondi rimarranno nel conto, ma saranno accessibili solo con la tua Frase di recupero.",
   "deleteAccountWarning": {
     "title": "Sei sicuro?",
@@ -2658,7 +2658,20 @@
       "ageOfPool": "Pool creato:",
       "learnMoreOnProvider": "Visualizza pool su {{providerName}}",
       "deposit": "Deposito",
-      "withdraw": "Preleva"
+      "depositAndEarnings": "Deposito e guadagni",
+      "withdraw": "Preleva",
+      "totalDepositAndEarnings": "Totale depositi e guadagni",
+      "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
+      "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
+      "infoBottomSheet": {
+        "gotIt": "Ho capito",
+        "tvlTitle": "Valore totale bloccato (TVL)",
+        "tvlDescription": "Il TVL si riferisce all'ammontare totale degli asset depositati in un pool di liquidità e può essere utilizzato per indicare la fiducia e l'utilità di un pool. In genere un TVL più alto è correlato a un rischio ridotto, ma nessun pool è completamente privo di rischi.",
+        "ageTitle": "Pool creato:",
+        "ageDescription": "I pool di liquidità più vecchi possono indicare un solido curriculum e una storia di fiducia nella comunità. Per questo motivo, alcuni potrebbero considerare questi pool più sicuri.\n\nNon esiste un modo perfetto per determinare il rischio, quindi usa queste informazioni come parte della tua ricerca generale per prendere la decisione migliore per te.",
+        "yieldRateTitle": "Tasso di rendimento",
+        "yieldRateDescription": "Mentre la maggior parte dei pool offre guadagni sotto forma di token del pool di liquidità, alcuni offrono token aggiuntivi come ricompensa o ulteriore incentivo.\n\nPoiché Valora aggrega pool di più protocolli, abbiamo combinato tutti i tassi di guadagno e di ricompensa in un unico tasso di rendimento complessivo per aiutarti a valutare facilmente il tuo potenziale di guadagno. Questo numero è una stima poiché i valori di guadagno e ricompensa fluttuano costantemente.\n\nPer ulteriori informazioni sulla ripartizione dei guadagni, puoi visitare il sito <0>{{providerName}}</0>."
+      }
     }
   },
   "addFundsActions": {

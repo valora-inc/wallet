@@ -3,6 +3,8 @@ import { MultichainBetaStatus } from 'src/app/actions'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
+import { ONBOARDING_FEATURES_ENABLED } from 'src/config'
+import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
 
 export function getInitialRoute({
   choseToRestoreAccount,
@@ -31,7 +33,7 @@ export function getInitialRoute({
     return Screens.Welcome
   } else if (!account) {
     return choseToRestoreAccount
-      ? getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE)
+      ? ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackupSetup]
         ? Screens.ImportSelect
         : Screens.ImportWallet
       : Screens.Welcome

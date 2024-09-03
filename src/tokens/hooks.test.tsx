@@ -13,6 +13,7 @@ import {
   useSwappableTokens,
   useTokenInfo,
   useTokenPricesAreStale,
+  useTokensInfo,
   useTokenToLocalAmount,
 } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
@@ -148,6 +149,12 @@ const storeWithMultipleNetworkTokens = (walletAddress?: string) =>
               tokenId: 'celo-alfajores:0xb',
               balance: '1',
               priceUsd: '30',
+            },
+            {
+              networkId: NetworkId['celo-alfajores'],
+              tokenId: 'celo-alfajores:0xc',
+              balance: '2',
+              priceUsd: '20',
             },
           ],
         },
@@ -435,5 +442,48 @@ describe('useTokenInfo', () => {
     })
 
     expect(result.current).toBeUndefined()
+  })
+})
+
+describe('useTokensInfo', () => {
+  it('returns the token when it exists', () => {
+    const { result } = renderHook(() => useTokensInfo([mockCeloTokenId, mockUSDCTokenId]), {
+      wrapper: (component) => (
+        <Provider store={storeWithMultipleNetworkTokens()}>
+          {component?.children ? component.children : component}
+        </Provider>
+      ),
+    })
+
+    expect(result.current[0]?.tokenId).toEqual(mockCeloTokenId)
+    expect(result.current[1]?.tokenId).toEqual(mockUSDCTokenId)
+  })
+
+  it('returns position tokens when they exist', () => {
+    const { result } = renderHook(
+      () => useTokensInfo(['celo-alfajores:0xb', 'celo-alfajores:0xc']),
+      {
+        wrapper: (component) => (
+          <Provider store={storeWithMultipleNetworkTokens()}>
+            {component?.children ? component.children : component}
+          </Provider>
+        ),
+      }
+    )
+
+    expect(result.current[0]?.tokenId).toEqual('celo-alfajores:0xb')
+    expect(result.current[1]?.tokenId).toEqual('celo-alfajores:0xc')
+  })
+
+  it('returns empty array if the tokenId is not found', () => {
+    const { result } = renderHook(() => useTokensInfo(['iDoNotExist']), {
+      wrapper: (component) => (
+        <Provider store={storeWithMultipleNetworkTokens()}>
+          {component?.children ? component.children : component}
+        </Provider>
+      ),
+    })
+
+    expect(result.current).toEqual([])
   })
 })

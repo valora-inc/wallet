@@ -263,6 +263,9 @@ android {
         exclude 'META-INF/-no-jdk.kotlin_module'
         exclude 'META-INF/androidx.exifinterface_exifinterface.version'
         pickFirst '**/libc++_shared.so'
+        // Prevents clashes with other libraries that use OpenSSL
+        // See https://github.com/margelo/react-native-quick-crypto/blob/de94007239bbb6dd9655f8a9bb13c14254a082eb/docs/troubleshooting.md#android-build-errors
+        pickFirst '**/libcrypto.so'
     }
 }
 

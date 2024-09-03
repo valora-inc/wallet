@@ -1134,6 +1134,7 @@ export const mockOnboardingProps = {
   showRecoveryPhrase: false,
   showCloudAccountBackupRestore: false,
   showCloudAccountBackupSetup: false,
+  skipProtectWallet: false,
 }
 
 export const mockDappList: Dapp[] = [

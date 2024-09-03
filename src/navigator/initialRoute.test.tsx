@@ -5,6 +5,10 @@ import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 
 jest.mock('src/statsig/index')
+jest.mock('src/config', () => ({
+  ...jest.requireActual('src/config'),
+  ONBOARDING_FEATURES_ENABLED: { CloudBackupSetup: false },
+}))
 
 describe('initialRoute', () => {
   const defaultArgs: Parameters<typeof getInitialRoute>[0] = {
