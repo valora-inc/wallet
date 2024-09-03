@@ -27,14 +27,13 @@ import CustomHeader from 'src/components/header/CustomHeader'
 import variables from 'src/styles/variables'
 import BackButton from 'src/components/BackButton'
 import Logger from 'src/utils/Logger'
-import { getFeatureGate } from 'src/statsig/index'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import {
   deleteKeylessBackupStatusSelector,
   showDeleteKeylessBackupErrorSelector,
 } from 'src/keylessBackup/selectors'
 import { deleteKeylessBackupStarted, hideDeleteKeylessBackupError } from 'src/keylessBackup/slice'
 import { KeylessBackupDeleteStatus } from 'src/keylessBackup/types'
+import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
 import { cloudBackupCompletedSelector, pincodeTypeSelector } from 'src/account/selectors'
 import LoadingSpinner from 'src/icons/LoadingSpinner'
 import colors from 'src/styles/colors'
@@ -47,10 +46,11 @@ import {
   phoneNumberVerifiedSelector,
   supportedBiometryTypeSelector,
 } from 'src/app/selectors'
-import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
-import { clearStoredAccount, setPincodeSuccess } from 'src/account/actions'
+import { setPincodeSuccess, clearStoredAccount } from 'src/account/actions'
 import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { ONBOARDING_FEATURES_ENABLED } from 'src/config'
+import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SecuritySubmenu>
 
@@ -62,7 +62,9 @@ const SecuritySubmenu = ({ route, navigation }: Props) => {
 
   const account = useSelector(walletAddressSelector)
 
-  const showKeylessBackup = getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_SETUP)
+  const showKeylessBackup =
+    ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackupSetup]
+
   const deleteKeylessBackupStatus = useSelector(deleteKeylessBackupStatusSelector)
   const cloudBackupCompleted = useSelector(cloudBackupCompletedSelector)
 

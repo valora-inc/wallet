@@ -19,9 +19,6 @@ export default RestoreAccountOnboarding = () => {
     await device.installApp()
     await launchApp({
       permissions: { notifications: 'YES', contacts: 'YES' },
-      launchArgs: {
-        statsigGateOverrides: `show_onboarding_phone_verification=true`,
-      },
     })
   })
 
