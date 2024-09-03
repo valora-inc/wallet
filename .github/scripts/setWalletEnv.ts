@@ -1,7 +1,8 @@
 // Add some wallet variables to the GITHUB_ENV from a given env name. For example:
 // yarn ts-node .github/scripts/setWalletEnv.ts "alfajores"
 
-import { appendFileSync, existsSync, readFileSync } from 'fs'
+import * as dotenv from 'dotenv'
+import { appendFileSync, existsSync } from 'fs'
 import { resolve } from 'path'
 import { config, exec } from 'shelljs'
 
@@ -23,6 +24,9 @@ if (!existsSync(envFilePath)) {
   process.exit(1)
 }
 
+dotenv.config({ path: envFilePath })
+
+// Append the necessary variables to GITHUB_ENV
 const GITHUB_ENV = process.env.GITHUB_ENV
 if (!GITHUB_ENV) {
   console.error('Error: GITHUB_ENV is not set')
@@ -40,24 +44,6 @@ appendFileSync(GITHUB_ENV, `WALLET_COMMIT_UNIX_TIME=${commitUnixTime}\n`)
 // Append wallet version to GITHUB_ENV
 const walletVersion = require(resolve('package.json')).version
 appendFileSync(GITHUB_ENV, `WALLET_VERSION=${walletVersion}\n`)
-
-readFileSync(envFilePath, { encoding: 'utf-8' })
-  .toString()
-  .trim()
-  .split('\n')
-  .map((line) => line.trim())
-  .filter((line) => !line.startsWith('#'))
-  .forEach((variable) => {
-    const [key, value] = variable.split('=')
-    if (key && value) {
-      const cleanKey = key.trim()
-      const cleanValue = value
-        .trim()
-        .replace(/^['"]|['"]$/g, '') // Remove surrounding quotes
-        .trim()
-      process.env[cleanKey] = cleanValue
-    }
-  })
 
 const APP_BUNDLE_ID = process.env.APP_BUNDLE_ID
 if (!APP_BUNDLE_ID) {
