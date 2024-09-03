@@ -13,7 +13,7 @@ import { celoAlfajores } from 'viem/chains'
 import { parseTransaction } from 'viem/celo'
 import { formatUri, utf8ToHex } from '../utils/encoding'
 import { launchApp } from '../utils/retries'
-import { enterPinUiIfNecessary, navigateToSettings } from '../utils/utils'
+import { enterPinUiIfNecessary, waitForElementByIdAndTap } from '../utils/utils'
 import { sleep } from '../../../src/utils/sleep'
 
 import jestExpect from 'expect'
@@ -357,11 +357,11 @@ export default WalletConnect = () => {
   })
 
   it('Then should be able to disconnect a session', async () => {
-    await navigateToSettings()
-    await element(by.id('ConnectedApplications')).tap()
+    await waitForElementByIdAndTap('WalletHome/SettingsGearButton')
+    await element(by.id('SettingsMenu/ConnectedDapps')).tap()
     await element(by.text('Tap to Disconnect')).tap()
     await element(by.text('Disconnect')).tap()
     await element(by.id('BackChevron')).tap()
-    await expect(element(by.id('ConnectedApplications/value'))).toHaveText('0')
+    await expect(element(by.id('SettingsMenu/ConnectedDapps/value'))).toHaveText('0')
   })
 }

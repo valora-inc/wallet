@@ -14,6 +14,10 @@ import { store } from 'src/redux/store'
 import { mockOnboardingProps } from 'test/values'
 
 jest.mock('src/redux/store', () => ({ store: { dispatch: jest.fn() } }))
+jest.mock('src/config', () => ({
+  ...jest.requireActual('src/config'),
+  ONBOARDING_FEATURES_ENABLED: { CloudBackupSetup: false },
+}))
 
 const mockStore = jest.mocked(store)
 
@@ -156,6 +160,19 @@ describe('onboarding steps', () => {
         expect(mockStore.dispatch).toHaveBeenCalledWith(initializeAccount())
         expect(navigate).toHaveBeenCalledWith(Screens.ProtectWallet)
       })
+      it('should navigate to the CYA screen', () => {
+        goToNextOnboardingScreen({
+          firstScreenInCurrentStep: Screens.EnableBiometry,
+          onboardingProps: {
+            ...onboardingProps,
+            skipProtectWallet: true,
+          },
+        })
+        expect(mockStore.dispatch).toHaveBeenCalledWith(initializeAccount())
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateStatsigAndNavigate(Screens.ChooseYourAdventure)
+        )
+      })
     })
 
     describe('Screens.PincodeSet', () => {
@@ -189,6 +206,19 @@ describe('onboarding steps', () => {
         })
         expect(mockStore.dispatch).toHaveBeenCalledWith(initializeAccount())
         expect(navigate).toHaveBeenCalledWith(Screens.ProtectWallet)
+      })
+      it('should navigate to the CYA screen', () => {
+        goToNextOnboardingScreen({
+          firstScreenInCurrentStep: Screens.PincodeSet,
+          onboardingProps: {
+            ...onboardingProps,
+            skipProtectWallet: true,
+          },
+        })
+        expect(mockStore.dispatch).toHaveBeenCalledWith(initializeAccount())
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateStatsigAndNavigate(Screens.ChooseYourAdventure)
+        )
       })
     })
     describe('Screens.ImportWallet', () => {

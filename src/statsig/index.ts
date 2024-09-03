@@ -16,6 +16,7 @@ import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { EvaluationReason } from 'statsig-js'
 import { DynamicConfig, Statsig, StatsigUser } from 'statsig-react-native'
+import { ExpectedLaunchArgs } from 'src/config'
 
 const TAG = 'Statsig'
 
@@ -161,10 +162,6 @@ export async function patchUpdateStatsigUser(statsigUser?: StatsigUser) {
   } catch (error) {
     Logger.error(TAG, 'Failed to update Statsig user', error)
   }
-}
-
-interface ExpectedLaunchArgs {
-  statsigGateOverrides?: string // format: gate_1=true,gate_2=false
 }
 
 export function setupOverridesFromLaunchArgs() {

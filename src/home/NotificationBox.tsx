@@ -23,11 +23,11 @@ import { getVerified, learnCelo } from 'src/images/Images'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
 import { getContentForCurrentLang } from 'src/utils/contentTranslations'
+import { ONBOARDING_FEATURES_ENABLED } from 'src/config'
+import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
 
 const TAG = 'NotificationBox'
 // Priority of static notifications
@@ -58,7 +58,8 @@ export function useSimpleActions() {
 
   const dispatch = useDispatch()
 
-  const showKeylessBackup = getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_SETUP)
+  const showKeylessBackup =
+    ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackupSetup]
 
   const cloudBackupCompleted = useSelector(cloudBackupCompletedSelector)
 

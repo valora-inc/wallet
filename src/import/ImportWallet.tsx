@@ -1,4 +1,3 @@
-import { normalizeMnemonic } from '@celo/cryptographic-utils'
 import { useHeaderHeight } from '@react-navigation/elements'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
@@ -9,8 +8,8 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { cancelCreateOrRestoreAccount } from 'src/account/actions'
 import { accountToRecoverSelector, recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert } from 'src/alert/actions'
-import { OnboardingEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { OnboardingEvents } from 'src/analytics/Events'
 import {
   countMnemonicWords,
   formatBackupPhraseOnEdit,
@@ -31,14 +30,15 @@ import { StackParamList } from 'src/navigator/types'
 import TopBarTextButtonOnboarding from 'src/onboarding/TopBarTextButtonOnboarding'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { isAppConnected } from 'src/redux/selectors'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
+import { normalizeMnemonic } from 'src/utils/account'
 import { Currency } from 'src/utils/currencies'
 import useBackHandler from 'src/utils/useBackHandler'
+import { ONBOARDING_FEATURES_ENABLED } from 'src/config'
+import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.ImportWallet>
 
@@ -59,9 +59,8 @@ function ImportWallet({ navigation, route }: Props) {
   const appConnected = useSelector(isAppConnected)
   const isRecoveringFromStoreWipe = useSelector(recoveringFromStoreWipeSelector)
   const accountToRecoverFromStoreWipe = useSelector(accountToRecoverSelector)
-  const cloudAccountBackupEnabled = getFeatureGate(
-    StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE
-  )
+  const cloudAccountBackupEnabled =
+    ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackupRestore]
 
   const dispatch = useDispatch()
   const { t } = useTranslation()

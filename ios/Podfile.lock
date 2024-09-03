@@ -599,6 +599,11 @@ PODS:
   - react-native-pager-view (6.3.4):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
+  - react-native-quick-crypto (0.7.3):
+    - OpenSSL-Universal
+    - RCT-Folly (= 2021.07.22.00)
+    - React
+    - React-Core
   - react-native-randombytes (3.6.1):
     - React-Core
   - react-native-restart (0.0.27):
@@ -781,7 +786,7 @@ PODS:
     - RNFBApp
   - RNFS (2.20.0):
     - React-Core
-  - RNGestureHandler (2.18.1):
+  - RNGestureHandler (2.19.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - RNKeychain (8.1.3):
@@ -796,17 +801,17 @@ PODS:
   - RNReactNativeHapticFeedback (2.3.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - RNReanimated (3.15.0):
+  - RNReanimated (3.15.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - ReactCommon/turbomodule/core
-    - RNReanimated/reanimated (= 3.15.0)
-    - RNReanimated/worklets (= 3.15.0)
-  - RNReanimated/reanimated (3.15.0):
+    - RNReanimated/reanimated (= 3.15.1)
+    - RNReanimated/worklets (= 3.15.1)
+  - RNReanimated/reanimated (3.15.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - ReactCommon/turbomodule/core
-  - RNReanimated/worklets (3.15.0):
+  - RNReanimated/worklets (3.15.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - ReactCommon/turbomodule/core
@@ -816,11 +821,12 @@ PODS:
     - React-RCTImage
   - RNSecureRandom (1.0.1):
     - React-Core
-  - RNSentry (5.30.0):
+  - RNSentry (5.31.1):
     - hermes-engine
+    - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - React-hermes
-    - Sentry/HybridSDK (= 8.34.0)
+    - Sentry/HybridSDK (= 8.36.0)
   - RNShare (10.2.1):
     - React-Core
   - RNSVG (15.5.0):
@@ -834,7 +840,7 @@ PODS:
   - segment-analytics-react-native (2.19.4):
     - React-Core
     - sovran-react-native
-  - Sentry/HybridSDK (8.34.0)
+  - Sentry/HybridSDK (8.36.0)
   - SimpleKeychain (1.0.1)
   - SocketRocket (0.6.1)
   - sovran-react-native (1.1.2):
@@ -909,6 +915,7 @@ DEPENDENCIES:
   - react-native-launch-arguments (from `../node_modules/react-native-launch-arguments`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
+  - react-native-quick-crypto (from `../node_modules/react-native-quick-crypto`)
   - react-native-randombytes (from `../node_modules/react-native-randombytes`)
   - react-native-restart (from `../node_modules/react-native-restart`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -1095,6 +1102,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-pager-view:
     :path: "../node_modules/react-native-pager-view"
+  react-native-quick-crypto:
+    :path: "../node_modules/react-native-quick-crypto"
   react-native-randombytes:
     :path: "../node_modules/react-native-randombytes"
   react-native-restart:
@@ -1287,6 +1296,7 @@ SPEC CHECKSUMS:
   react-native-launch-arguments: 5f41e0abf88a15e3c5309b8875d6fd5ac43df49d
   react-native-netinfo: 076df4f9b07f6670acf4ce9a75aac8d34c2e2ccc
   react-native-pager-view: e79d6c876ab1896e17ff61af6aff22a914b8e435
+  react-native-quick-crypto: 303523bf21ad1aed8757dde262da12668b4c75d0
   react-native-randombytes: 421f1c7d48c0af8dbcd471b0324393ebf8fe7846
   react-native-restart: 7595693413fe3ca15893702f2c8306c62a708162
   react-native-safe-area-context: ab8f4a3d8180913bd78ae75dd599c94cce3d5e9a
@@ -1328,22 +1338,22 @@ SPEC CHECKSUMS:
   RNFBMessaging: 15439cf96be05b47d95334052afc306eac89c2ce
   RNFBRemoteConfig: 37959d81004ff1232f26276d02655c992b1ce715
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
-  RNGestureHandler: e757730933e17b016ce69e0f8a682c534ff4404c
+  RNGestureHandler: 68239315fb1da697e8941ab827b2b3aa7a355a73
   RNKeychain: f1b48665a4646f61191eb048c4c05c58d9a7596f
   RNLocalize: e8694475db034bf601e17bd3dfa8986565e769eb
   RNPermissions: da2a4ded375aa8292d85ed93676e102c203d4717
   RNPersonaInquiry2: 3ab52078e891a5d2fa39bf7cc9119ca27f0337fd
   RNReactNativeHapticFeedback: 713abf3266aeacade463e29df9801e8ec3451f73
-  RNReanimated: ac8334b8dabe2a236412b66e613f66648a72eb4d
+  RNReanimated: 739d696f5bd3bea1d675a86caec05064ab4d898f
   RNScreens: f15b076168e4b2bdf3d327015758f36e6654247f
   RNSecureRandom: ff25041dd065a945810ca01a2bcd06f8d141b81d
-  RNSentry: 038afe562a53fa0ec791e1cd9fb66239c77a2818
+  RNSentry: 86e407e1350297d78ad70541ba9d6262ed5864fa
   RNShare: 0fad69ae2d71de9d1f7b9a43acf876886a6cb99c
   RNSVG: b986585e367f4a49d8aa43065066cc9c290b3d9b
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
   segment-analytics-react-native: 49ce29a68e86b38c084f1ce07b0c128273d169f9
-  Sentry: 1183df2306eea74ff0564c4bb1c2577ccd15d054
+  Sentry: f8374b5415bc38dfb5645941b3ae31230fbeae57
   SimpleKeychain: 130211269f88f038d7dc5254cf0b1b9ce978c398
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   sovran-react-native: 5f02bd2d111ffe226d00c7b0435290eae6f10934

@@ -10,6 +10,13 @@ import { stringToBoolean } from 'src/utils/parsing'
 import * as secretsFile from '../secrets.json'
 import { ONE_HOUR_IN_MILLIS } from './utils/time'
 export * from 'src/brandingConfig'
+import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
+import { LaunchArguments } from 'react-native-launch-arguments'
+
+export interface ExpectedLaunchArgs {
+  statsigGateOverrides?: string // format: gate_1=true,gate_2=false
+  onboardingOverrides?: string // same format as ONBOARDING_FEATURES_ENABLED env var
+}
 
 // extract secrets from secrets.json
 const keyOrUndefined = (file: any, secretsKey: any, attribute: any) => {
@@ -194,6 +201,26 @@ export const LOGGER_LEVEL = Config.LOGGER_LEVEL
   : LoggerLevel.Debug
 
 export const PHONE_NUMBER_VERIFICATION_CODE_LENGTH = 6
+
+const ONBOARDING_FEATURES_ALL_DISABLED = Object.fromEntries(
+  Object.values(ToggleableOnboardingFeatures).map((value) => [value, false])
+)
+
+export const ONBOARDING_FEATURES_ENABLED = (
+  LaunchArguments.value<ExpectedLaunchArgs>()?.onboardingOverrides ??
+  Config.ONBOARDING_FEATURES_ENABLED ??
+  Object.values(ToggleableOnboardingFeatures).join(',')
+)
+  .split(',')
+  .filter(
+    (value) =>
+      !!value &&
+      Object.values(ToggleableOnboardingFeatures).includes(value as ToggleableOnboardingFeatures)
+  )
+  .reduce((acc, value) => {
+    acc[value] = true
+    return acc
+  }, ONBOARDING_FEATURES_ALL_DISABLED)
 
 export const ENABLED_QUICK_ACTIONS = (
   Config.ENABLED_QUICK_ACTIONS ??
