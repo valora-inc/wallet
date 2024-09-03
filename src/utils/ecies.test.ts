@@ -1,6 +1,6 @@
 import { bytesToUtf8, u8, utf8ToBytes } from '@noble/ciphers/utils'
-import { randomBytes } from '@noble/ciphers/webcrypto/utils'
 import { secp256k1 } from '@noble/curves/secp256k1'
+import { randomBytes } from '@noble/hashes/utils'
 import { ECIES } from 'src/utils/ecies'
 
 describe('ECIES', () => {
@@ -10,13 +10,13 @@ describe('ECIES', () => {
       const pubKey = secp256k1.getPublicKey(privKey, false).slice(1)
       const message = Buffer.from('foo')
 
-      expect(() => ECIES.Encrypt(pubKey, new Uint8Array(message))).not.toThrow()
+      expect(() => ECIES.Encrypt(pubKey, message)).not.toThrow()
     })
     it('should throw an error if priv key is given', () => {
       const privKey = randomBytes(32)
       const message = Buffer.from('foo')
 
-      expect(() => ECIES.Encrypt(privKey, new Uint8Array(message))).toThrow()
+      expect(() => ECIES.Encrypt(privKey, message)).toThrow()
     })
 
     it('should not regress', () => {
@@ -24,9 +24,7 @@ describe('ECIES', () => {
       // with message='foo'
       // and privkey='f353837781491b9ded31b6cb669c867e4c91f0ccfdaa85db4b1f0a814bc060c5'
       const snapshotPrivKey = u8(
-        new Uint8Array(
-          Buffer.from('f353837781491b9ded31b6cb669c867e4c91f0ccfdaa85db4b1f0a814bc060c5', 'hex')
-        )
+        Buffer.from('f353837781491b9ded31b6cb669c867e4c91f0ccfdaa85db4b1f0a814bc060c5', 'hex')
       )
       const snapshotEncrypted = Buffer.from(
         '0487d78806c22bc7a5dd5ab38b02fb7ef48220648b6dd815b7ea3466c0270ebfe17aafece9af8f1c827ae9c47bac4215cd344afd94132581f4d789f8715a429d5c5c2dc365496750655bcd1c29445b118967cf790bb46b6a708ff1b3e82982173d98546ae6f228260913572127dc38a015386cb8',
@@ -42,7 +40,7 @@ describe('ECIES', () => {
       const privKey = randomBytes(32)
       const pubKey = secp256k1.getPublicKey(privKey, false).slice(1)
       const encrypted = ECIES.Encrypt(pubKey, utf8ToBytes(plaintext))
-      const decrypted = ECIES.Decrypt(new Uint8Array(Buffer.from(privKey)), encrypted)
+      const decrypted = ECIES.Decrypt(Buffer.from(privKey), encrypted)
 
       expect(bytesToUtf8(decrypted)).toEqual(plaintext)
     })
@@ -52,7 +50,7 @@ describe('ECIES', () => {
       const privKey = randomBytes(32)
       const pubKey = secp256k1.getPublicKey(privKey, false).slice(1)
       const fakePrivKey = randomBytes(32)
-      const encrypted = ECIES.Encrypt(pubKey, new Uint8Array(plaintext))
+      const encrypted = ECIES.Encrypt(pubKey, plaintext)
 
       expect(() => ECIES.Decrypt(fakePrivKey, encrypted)).toThrow()
     })
@@ -75,7 +73,7 @@ describe('AES128CTR', () => {
       const plaintext = Buffer.from('spam')
       const encKey = randomBytes(16)
       const macKey = randomBytes(16)
-      const encrypted = ECIES.AES128EncryptAndHMAC(encKey, macKey, new Uint8Array(plaintext))
+      const encrypted = ECIES.AES128EncryptAndHMAC(encKey, macKey, plaintext)
       expect(encrypted.length).toBeGreaterThanOrEqual(plaintext.length)
     })
   })
@@ -85,7 +83,7 @@ describe('AES128CTR', () => {
       const plaintext = Buffer.from('spam')
       const encKey = randomBytes(16)
       const macKey = randomBytes(16)
-      const encrypted = ECIES.AES128EncryptAndHMAC(encKey, macKey, new Uint8Array(plaintext))
+      const encrypted = ECIES.AES128EncryptAndHMAC(encKey, macKey, plaintext)
       const decrypted = ECIES.AES128DecryptAndHMAC(encKey, macKey, encrypted)
       expect(bytesToUtf8(decrypted)).toEqual(plaintext.toString())
     })
@@ -95,7 +93,7 @@ describe('AES128CTR', () => {
       const encKey = randomBytes(16)
       const macKey = randomBytes(16)
       const fakeKey = randomBytes(16)
-      const encrypted = ECIES.AES128EncryptAndHMAC(encKey, macKey, new Uint8Array(plaintext))
+      const encrypted = ECIES.AES128EncryptAndHMAC(encKey, macKey, plaintext)
       // console.info(encrypted.toString('hex').length)
       const decrypted = ECIES.AES128DecryptAndHMAC(fakeKey, macKey, encrypted)
       expect(plaintext.equals(decrypted)).toBe(false)
@@ -118,7 +116,7 @@ describe('AES128CTR', () => {
         const encKey = randomBytes(16)
         const macKey = randomBytes(16)
         const fakeKey = randomBytes(16)
-        const encrypted = ECIES.AES128EncryptAndHMAC(encKey, macKey, new Uint8Array(plaintext))
+        const encrypted = ECIES.AES128EncryptAndHMAC(encKey, macKey, plaintext)
         ECIES.AES128DecryptAndHMAC(encKey, fakeKey, encrypted)
         expect(true).toBe(false)
       } catch (e) {

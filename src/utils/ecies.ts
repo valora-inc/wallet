@@ -52,9 +52,9 @@ export const ConcatKDF = (px: Buffer, kdLen: number) => {
   let k = Buffer.from('00', 'hex')
   for (let i = 0; i <= reps; i++) {
     const hash = sha256.create()
-    hash.update(new Uint8Array(counter))
-    hash.update(new Uint8Array(px))
-    k = Buffer.concat([new Uint8Array(k), hash.digest()])
+    hash.update(counter)
+    hash.update(px)
+    k = Buffer.concat([k, hash.digest()])
     counter = IncCounter(counter)
   }
   return k.slice(1, kdLen + 1)
@@ -74,7 +74,7 @@ export function AES128Encrypt(
 ): Uint8Array {
   const aes = ctr(encryptionKey, iv)
   const message = aes.encrypt(plaintext)
-  return u8(new Uint8Array(Buffer.concat([iv, message])))
+  return u8(Buffer.concat([iv, message]))
 }
 
 /**
@@ -93,7 +93,7 @@ export function AES128EncryptAndHMAC(
   const iv = randomBytes(IV_LENGTH)
   const dataToMac = AES128Encrypt(encryptionKey, iv, plaintext)
   const mac = hmac(sha256, macKey, dataToMac)
-  return u8(new Uint8Array(Buffer.concat([dataToMac, mac])))
+  return u8(Buffer.concat([dataToMac, mac]))
 }
 
 /**
@@ -127,9 +127,9 @@ export function AES128DecryptAndHMAC(
   const iv = ciphertext.slice(0, IV_LENGTH)
   const message = ciphertext.slice(IV_LENGTH, ciphertext.length - sha256.outputLen)
   const mac = ciphertext.slice(ciphertext.length - sha256.outputLen, ciphertext.length)
-  const dataToMac = new Uint8Array(Buffer.concat([iv, message]))
+  const dataToMac = Buffer.concat([iv, message])
   const computedMac = hmac(sha256, macKey, dataToMac)
-  if (!Buffer.from(mac).equals(new Uint8Array(Buffer.from(computedMac)))) {
+  if (!Buffer.from(mac).equals(Buffer.from(computedMac))) {
     throw new Error('MAC mismatch')
   }
   return AES128Decrypt(encryptionKey, iv, message)
@@ -150,12 +150,8 @@ export function Encrypt(pubKeyTo: PubKey, plaintext: Uint8Array) {
     pubKeyTo = secp256k1.ProjectivePoint.fromHex(pubKeyTo).toRawBytes()
   }
 
-  const pubKeyToEncoded = new Uint8Array(
-    Buffer.concat([
-      new Uint8Array(Buffer.from([0x04])),
-      new Uint8Array(pubKeyTo as unknown as Buffer),
-    ])
-  )
+  const pubKeyToEncoded = Buffer.concat([Buffer.from([0x04]), pubKeyTo as unknown as Buffer])
+
   const px = secp256k1.getSharedSecret(ephemPrivKey, pubKeyToEncoded).slice(1)
 
   // NOTE:
@@ -165,17 +161,10 @@ export function Encrypt(pubKeyTo: PubKey, plaintext: Uint8Array) {
   // const hash = hkdf(sha256, px, undefined, undefined, 32)
   const hash = ConcatKDF(Buffer.from(px), 32)
   const encryptionKey = hash.subarray(0, 16)
-  const macKey = sha256
-    .create()
-    .update(new Uint8Array(hash.subarray(16)))
-    .digest()
-  const message = AES128EncryptAndHMAC(
-    new Uint8Array(Buffer.from(encryptionKey)),
-    macKey,
-    plaintext
-  )
+  const macKey = sha256.create().update(hash.subarray(16)).digest()
+  const message = AES128EncryptAndHMAC(Buffer.from(encryptionKey), macKey, plaintext)
   const serializedCiphertext = Buffer.concat([
-    new Uint8Array(ephemPubKeyEncoded), // {UNCOMPRESSED_KEY_LENGTH} bytes
+    ephemPubKeyEncoded, // {UNCOMPRESSED_KEY_LENGTH} bytes
     message, // iv + ciphertext + mac (min 48 bytes)
   ])
 
@@ -190,8 +179,8 @@ export function Encrypt(pubKeyTo: PubKey, plaintext: Uint8Array) {
  */
 export function Decrypt(privKey: PrivKey, encrypted: Buffer) {
   // Read iv, ephemPubKey, mac, ciphertext from encrypted message
-  const ephemPubKeyEncoded = u8(new Uint8Array(encrypted)).slice(0, UNCOMPRESSED_KEY_LENGTH)
-  const symmetricEncrypted = u8(new Uint8Array(encrypted)).slice(UNCOMPRESSED_KEY_LENGTH)
+  const ephemPubKeyEncoded = u8(encrypted).slice(0, UNCOMPRESSED_KEY_LENGTH)
+  const symmetricEncrypted = u8(encrypted).slice(UNCOMPRESSED_KEY_LENGTH)
 
   const px = secp256k1.getSharedSecret(privKey, ephemPubKeyEncoded).slice(1)
   // NOTE:
@@ -203,16 +192,9 @@ export function Decrypt(privKey: PrivKey, encrypted: Buffer) {
   // km, ke
   const encryptionKey = hash.subarray(0, 16)
 
-  const macKey = sha256
-    .create()
-    .update(new Uint8Array(hash.subarray(16)))
-    .digest()
+  const macKey = sha256.create().update(hash.subarray(16)).digest()
 
-  return AES128DecryptAndHMAC(
-    new Uint8Array(Buffer.from(encryptionKey)),
-    macKey,
-    symmetricEncrypted
-  )
+  return AES128DecryptAndHMAC(Buffer.from(encryptionKey), macKey, symmetricEncrypted)
 }
 
 export const ECIES = {

@@ -385,8 +385,8 @@ describe('KeychainWallet', () => {
             const publicKey = privateKeyToPublicKey(mockPrivateKey)
             const plaintext = 'test_plaintext'
             const ciphertext = Encrypt(
-              new Uint8Array(Buffer.from(trimLeading0x(publicKey), 'hex')),
-              new Uint8Array(Buffer.from(plaintext))
+              Buffer.from(trimLeading0x(publicKey), 'hex'),
+              Buffer.from(plaintext)
             )
             const decryptedPlaintext = await wallet.decrypt(mockAddress, ciphertext)
             expect(decryptedPlaintext.toString()).toEqual(plaintext)
