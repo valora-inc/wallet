@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
@@ -11,7 +11,7 @@ import InLineNotification, { NotificationVariant } from 'src/components/InLineNo
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import { PROVIDER_ID } from 'src/earn/constants'
-import { usePrepareAaveCollectTransactions } from 'src/earn/hooks'
+import { usePrepareWithdrawAndClaimTransactions } from 'src/earn/prepareTransactions'
 import { withdrawStatusSelector } from 'src/earn/selectors'
 import { withdrawStart } from 'src/earn/slice'
 import { isGasSubsidizedForNetwork } from 'src/earn/utils'
@@ -19,18 +19,24 @@ import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { positionsWithClaimableRewardsSelector } from 'src/positions/selectors'
+import { hooksApiUrlSelector, positionsWithClaimableRewardsSelector } from 'src/positions/selectors'
 import { EarnPosition, Token } from 'src/positions/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
+import { TAG } from 'src/send/saga'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokenInfo } from 'src/tokens/hooks'
-import { feeCurrenciesSelector, tokensByIdSelector } from 'src/tokens/selectors'
+import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
+import Logger from 'src/utils/Logger'
 import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
+import { walletAddressSelector } from 'src/web3/selectors'
+import { isAddress } from 'viem'
+
+const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME = 250
 
 type Props = NativeStackScreenProps<StackParamList, Screens.EarnCollectScreen>
 
@@ -38,25 +44,23 @@ export default function EarnCollectScreen({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const { pool } = route.params
-  const { depositTokenId, withdrawTokenId } = pool.dataProps
+  const { depositTokenId, withdrawTokenId, associatedRewards } = pool.dataProps
   const withdrawStatus = useSelector(withdrawStatusSelector)
-  const positionsWithClaimableRewards = useSelector(positionsWithClaimableRewardsSelector)
+  const positionsWithClaimableRewards = useSelector(positionsWithClaimableRewardsSelector).filter(
+    (position) => associatedRewards?.includes(position.positionId)
+  )
 
+  const hooksApiUrl = useSelector(hooksApiUrlSelector)
+  const walletAddress = useSelector(walletAddressSelector)
   const depositToken = useTokenInfo(depositTokenId)
   const withdrawToken = useTokenInfo(withdrawTokenId)
-  const allTokens = useSelector((state) => tokensByIdSelector(state, [pool.networkId]))
 
   const rewardsTokens = useMemo(
     () =>
-      positionsWithClaimableRewards
-        .filter(
-          (position) =>
-            position.address === pool.address &&
-            position.networkId === pool.networkId &&
-            position.appId === pool.appId
-        )
-        .flatMap((position) => position.claimableShortcut.claimableTokens),
-    [positionsWithClaimableRewards, pool, allTokens]
+      positionsWithClaimableRewards.flatMap(
+        (position) => position.claimableShortcut.claimableTokens
+      ),
+    [positionsWithClaimableRewards]
   )
 
   if (!depositToken || !withdrawToken) {
@@ -68,32 +72,50 @@ export default function EarnCollectScreen({ route }: Props) {
 
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, depositToken.networkId))
 
-  // TODO(ACT-1343): refactor this function using hooks & make this function reusable acroos pools
-  const { asyncPreparedTransactions } = usePrepareAaveCollectTransactions({
-    poolTokenId: withdrawToken.tokenId,
-    depositTokenId,
-    feeCurrencies,
-    rewardsTokens,
-  })
+  const {
+    prepareTransactionsResult,
+    isPreparingTransactions,
+    prepareTransactionError,
+    refreshPreparedTransactions,
+    clearPreparedTransactions,
+  } = usePrepareWithdrawAndClaimTransactions()
+
+  const handleRefreshPreparedTransactions = (feeCurrencies: TokenBalance[]) => {
+    if (!walletAddress || !isAddress(walletAddress)) {
+      Logger.error(TAG, 'Wallet address not set. Cannot refresh prepared transactions.')
+      return
+    }
+
+    return refreshPreparedTransactions({
+      walletAddress,
+      feeCurrencies,
+      pool,
+      hooksApiUrl,
+      positionsWithClaimableRewards,
+    })
+  }
+
+  useEffect(() => {
+    clearPreparedTransactions()
+    const debouncedRefreshTransactions = setTimeout(() => {
+      return handleRefreshPreparedTransactions(feeCurrencies)
+    }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
+    return () => clearTimeout(debouncedRefreshTransactions)
+  }, [feeCurrencies, pool, rewardsTokens])
+
   const onPress = () => {
-    if (asyncPreparedTransactions.result?.type !== 'possible') {
+    if (prepareTransactionsResult?.type !== 'possible') {
       // should never happen because button is disabled if withdraw is not possible
       throw new Error('Cannot be called without possible prepared transactions')
     }
 
-    const serializedRewards = rewardsTokens.map((token) => ({
-      amount: token.balance.toString(),
-      tokenId: token.tokenId,
-    }))
-
     dispatch(
       withdrawStart({
-        amount: withdrawToken.balance.toString(),
-        tokenId: depositTokenId,
         preparedTransactions: getSerializablePreparedTransactions(
-          asyncPreparedTransactions.result.transactions
+          prepareTransactionsResult.transactions
         ),
-        rewards: serializedRewards,
+        rewardsTokens,
+        pool,
       })
     )
 
@@ -102,18 +124,21 @@ export default function EarnCollectScreen({ route }: Props) {
       tokenAmount: withdrawToken.balance.toString(),
       networkId: withdrawToken.networkId,
       providerId: PROVIDER_ID,
-      rewards: serializedRewards,
+      rewards: rewardsTokens.map((token) => ({
+        amount: token.balance.toString(),
+        tokenId: token.tokenId,
+      })),
     })
   }
 
-  const error = asyncPreparedTransactions.error
+  const error = prepareTransactionError
   const ctaDisabled =
-    asyncPreparedTransactions.loading ||
-    asyncPreparedTransactions.error ||
-    asyncPreparedTransactions.result?.type !== 'possible' ||
+    isPreparingTransactions ||
+    error ||
+    prepareTransactionsResult?.type !== 'possible' ||
     withdrawStatus === 'loading'
 
-  const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(asyncPreparedTransactions.result)
+  const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
   let feeSection = <GasFeeLoading />
   if (maxFeeAmount && feeCurrency) {
@@ -124,7 +149,7 @@ export default function EarnCollectScreen({ route }: Props) {
         isGasSubsidized={isGasSubsidized}
       />
     )
-  } else if (!asyncPreparedTransactions.loading) {
+  } else if (!isPreparingTransactions) {
     feeSection = <GasFeeError />
   }
 
@@ -166,7 +191,7 @@ export default function EarnCollectScreen({ route }: Props) {
             style={styles.error}
           />
         )}
-        {asyncPreparedTransactions.result?.type === 'not-enough-balance-for-gas' && (
+        {prepareTransactionsResult?.type === 'not-enough-balance-for-gas' && (
           <InLineNotification
             variant={NotificationVariant.Warning}
             title={t('earnFlow.collect.noGasTitle', { symbol: feeCurrencies[0].symbol })}

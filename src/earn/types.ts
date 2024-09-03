@@ -1,4 +1,4 @@
-import { EarnPosition } from 'src/positions/types'
+import { EarnPosition, Token } from 'src/positions/types'
 import { NetworkId } from 'src/transactions/types'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { Hash } from 'viem'
@@ -21,10 +21,9 @@ export interface SerializableRewardsInfo {
 }
 
 export interface WithdrawInfo {
-  amount: string
-  tokenId: string
+  pool: EarnPosition
   preparedTransactions: SerializableTransactionRequest[]
-  rewards: SerializableRewardsInfo[]
+  rewardsTokens: Token[]
 }
 
 export enum EarnTabType {
