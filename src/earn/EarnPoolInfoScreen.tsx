@@ -158,7 +158,13 @@ function EarningItemLineItem({ earnItem }: { earnItem: EarningItem }) {
   )
 }
 
-function DepositAndEarningsCard({ earnPosition }: { earnPosition: EarnPosition }) {
+function DepositAndEarningsCard({
+  earnPosition,
+  infoIconPress,
+}: {
+  earnPosition: EarnPosition
+  infoIconPress: () => void
+}) {
   const { t } = useTranslation()
   const { balance } = earnPosition
   const { earningItems, depositTokenId, cantSeparateCompoundedInterest } = earnPosition.dataProps
@@ -233,7 +239,7 @@ function DepositAndEarningsCard({ earnPosition }: { earnPosition: EarnPosition }
           <Text numberOfLines={1} style={styles.cardTitleText}>
             {t('earnFlow.poolInfoScreen.totalDepositAndEarnings')}
           </Text>
-          <Touchable onPress={() => Logger.info('Title Icon Pressed!')} borderRadius={24}>
+          <Touchable onPress={infoIconPress} borderRadius={24} testID={'DepositInfoIcon'}>
             <InfoIcon size={16} color={Colors.gray3} />
           </Touchable>
         </View>
@@ -517,7 +523,19 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         />
         <View style={{ height: Spacing.Thick24 }} />
         <View style={styles.contentContainer}>
-          {new BigNumber(balance).gt(0) && <DepositAndEarningsCard earnPosition={pool} />}
+          {new BigNumber(balance).gt(0) && (
+            <DepositAndEarningsCard
+              earnPosition={pool}
+              infoIconPress={() => {
+                AppAnalytics.track(EarnEvents.earn_pool_info_tap_info_icon, {
+                  providerId: appId,
+                  poolId: positionId,
+                  type: 'deposit',
+                })
+                depositInfoBottomSheetRef.current?.snapToIndex(0)
+              }}
+            />
+          )}
           <YieldCard
             infoIconPress={() => {
               AppAnalytics.track(EarnEvents.earn_pool_info_tap_info_icon, {
@@ -567,8 +585,12 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
       <ActionButtons earnPosition={pool} />
       <InfoBottomSheet
         infoBottomSheetRef={depositInfoBottomSheetRef}
-        titleKey="earnFlow.poolInfoScreen.infoBottomSheet.depositTitle"
-        descriptionKey="earnFlow.poolInfoScreen.infoBottomSheet.depositDescription"
+        titleKey="earnFlow.poolInfoScreen.depositAndEarnings"
+        descriptionKey={
+          dataProps.cantSeparateCompoundedInterest
+            ? 'earnFlow.poolInfoScreen.infoBottomSheet.depositNoBreakdownDescription'
+            : 'earnFlow.poolInfoScreen.infoBottomSheet.depositDescription'
+        }
         providerName={appName}
         testId="DepositInfoBottomSheet"
       />
