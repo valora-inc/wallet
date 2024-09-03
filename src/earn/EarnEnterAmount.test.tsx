@@ -291,36 +291,6 @@ describe('EarnEnterAmount', () => {
     expect(getByTestId('EarnEnterAmount/Continue')).toBeDisabled()
   })
 
-  it('should track analytics and navigate correctly when tapping cta to add gas', async () => {
-    jest.mocked(usePrepareSupplyTransactions).mockReturnValue({
-      prepareTransactionsResult: mockePreparedTransactionNotEnough,
-      refreshPreparedTransactions: jest.fn(),
-      clearPreparedTransactions: jest.fn(),
-      prepareTransactionError: undefined,
-      isPreparingTransactions: false,
-    })
-    const { getByTestId, getByText } = render(
-      <Provider store={store}>
-        <MockedNavigator component={EarnEnterAmount} params={params} />
-      </Provider>
-    )
-
-    await waitFor(() => expect(getByTestId('EarnEnterAmount/NotEnoughForGasWarning')).toBeTruthy())
-    fireEvent.press(
-      getByText(
-        'earnFlow.enterAmount.notEnoughBalanceForGasWarning.noGasCta, {"feeTokenSymbol":"ETH","network":"Arbitrum Sepolia"}'
-      )
-    )
-    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_add_gas_press, {
-      gasTokenId: mockArbEthTokenId,
-    })
-    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
-      tokenId: mockArbEthTokenId,
-      flow: CICOFlow.CashIn,
-      tokenSymbol: 'ETH',
-    })
-  })
-
   describe.each([
     { decimal: '.', group: ',' },
     { decimal: ',', group: '.' },
@@ -370,6 +340,36 @@ describe('EarnEnterAmount', () => {
       expect(getByTestId('EarnEnterAmount/LocalAmountInput').props.value).toBe(
         replaceSeparators('₱133,000.56')
       )
+    })
+  })
+
+  it('should track analytics and navigate correctly when tapping cta to add gas', async () => {
+    jest.mocked(usePrepareSupplyTransactions).mockReturnValue({
+      prepareTransactionsResult: mockePreparedTransactionNotEnough,
+      refreshPreparedTransactions: jest.fn(),
+      clearPreparedTransactions: jest.fn(),
+      prepareTransactionError: undefined,
+      isPreparingTransactions: false,
+    })
+    const { getByTestId, getByText } = render(
+      <Provider store={store}>
+        <MockedNavigator component={EarnEnterAmount} params={params} />
+      </Provider>
+    )
+
+    await waitFor(() => expect(getByTestId('EarnEnterAmount/NotEnoughForGasWarning')).toBeTruthy())
+    fireEvent.press(
+      getByText(
+        'earnFlow.enterAmount.notEnoughBalanceForGasWarning.noGasCta, {"feeTokenSymbol":"ETH","network":"Arbitrum Sepolia"}'
+      )
+    )
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_add_gas_press, {
+      gasTokenId: mockArbEthTokenId,
+    })
+    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
+      tokenId: mockArbEthTokenId,
+      flow: CICOFlow.CashIn,
+      tokenSymbol: 'ETH',
     })
   })
 })
