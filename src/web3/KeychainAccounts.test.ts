@@ -1,6 +1,6 @@
-import { normalizeAddress } from '@celo/utils/lib/address'
 import MockDate from 'mockdate'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { normalizeAddress } from 'src/utils/address'
 import {
   KeychainAccounts,
   clearStoredAccounts,

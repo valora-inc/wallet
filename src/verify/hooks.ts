@@ -1,5 +1,4 @@
 import { compressedPubKey } from '@celo/cryptographic-utils/lib/dataEncryptionKey'
-import { hexToBuffer } from '@celo/utils/lib/address'
 import { useEffect, useRef, useState } from 'react'
 import { useAsync, useAsyncCallback } from 'react-async-hook'
 import { Platform } from 'react-native'
@@ -21,6 +20,7 @@ import {
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import Logger from 'src/utils/Logger'
+import { hexToBuffer } from 'src/utils/address'
 import getPhoneHash from 'src/utils/getPhoneHash'
 import networkConfig from 'src/web3/networkConfig'
 import { dataEncryptionKeySelector, walletAddressSelector } from 'src/web3/selectors'

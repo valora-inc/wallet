@@ -1,5 +1,4 @@
 import { generateMnemonic, MnemonicLanguages, MnemonicStrength } from '@celo/cryptographic-utils'
-import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { UnlockableWallet } from '@celo/wallet-base'
 import { RpcWalletErrors } from '@celo/wallet-rpc/lib/rpc-wallet'
 import * as bip39 from 'react-native-bip39'
@@ -25,6 +24,8 @@ import {
   walletAddressSelector,
 } from 'src/web3/selectors'
 import { call, put, select, spawn, take } from 'typed-redux-saga'
+import { type Hex } from 'viem'
+import { privateKeyToAddress } from 'viem/accounts'
 import { RootState } from '../redux/reducers'
 
 const TAG = 'web3/saga'
@@ -86,7 +87,7 @@ export function* getOrCreateAccount() {
 
 export function* assignAccountFromPrivateKey(privateKey: string, mnemonic: string) {
   try {
-    const account = privateKeyToAddress(privateKey)
+    const account = privateKeyToAddress(privateKey as Hex)
     const wallet: UnlockableWallet = yield* call(getWallet)
     const password: string = yield* call(getPasswordSaga, account, false, true)
 

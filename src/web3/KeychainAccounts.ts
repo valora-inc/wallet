@@ -1,4 +1,3 @@
-import { isValidAddress, normalizeAddress, normalizeAddressWith0x } from '@celo/utils/lib/address'
 import CryptoJS from 'crypto-js'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { generateKeysFromMnemonic, getStoredMnemonic } from 'src/backup/utils'
@@ -8,10 +7,11 @@ import {
   retrieveStoredItem,
   storeItem,
 } from 'src/storage/keychain'
+import { isValidAddress, normalizeAddress, normalizeAddressWith0x } from 'src/utils/address'
 import Logger from 'src/utils/Logger'
 import { ViemKeychainAccount, keychainAccountToAccount } from 'src/viem/keychainAccountToAccount'
-import { Hex } from 'viem'
-import { Address, privateKeyToAddress } from 'viem/accounts'
+import { type Hex } from 'viem'
+import { type Address, privateKeyToAddress } from 'viem/accounts'
 
 const TAG = 'web3/KeychainAccounts'
 

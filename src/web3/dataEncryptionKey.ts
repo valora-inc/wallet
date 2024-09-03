@@ -9,20 +9,13 @@ import { ContractKit } from '@celo/contractkit/lib/kit'
 import { AccountsWrapper } from '@celo/contractkit/lib/wrappers/Accounts'
 import { MetaTransactionWalletWrapper } from '@celo/contractkit/lib/wrappers/MetaTransactionWallet'
 import { compressedPubKey, deriveDek } from '@celo/cryptographic-utils'
-import {
-  ensureLeading0x,
-  eqAddress,
-  hexToBuffer,
-  normalizeAddressWith0x,
-  privateKeyToAddress,
-} from '@celo/utils/lib/address'
 import { UnlockableWallet } from '@celo/wallet-base'
 import BigNumber from 'bignumber.js'
 import { Platform } from 'react-native'
 import * as bip39 from 'react-native-bip39'
 import DeviceInfo from 'react-native-device-info'
-import { OnboardingEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { OnboardingEvents } from 'src/analytics/Events'
 import {
   FetchDataEncryptionKeyAction,
   updateAddressDekMap,
@@ -35,6 +28,7 @@ import { CurrencyTokens, tokensByCurrencySelector } from 'src/tokens/selectors'
 import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import { ensureLeading0x, eqAddress, hexToBuffer, normalizeAddressWith0x } from 'src/utils/address'
 import { Currency } from 'src/utils/currencies'
 import { registerDataEncryptionKey, setDataEncryptionKey } from 'src/web3/actions'
 import { getContractKit } from 'src/web3/contracts'
@@ -47,6 +41,7 @@ import {
   walletAddressSelector,
 } from 'src/web3/selectors'
 import { call, put, select } from 'typed-redux-saga'
+import { privateKeyToAddress } from 'viem/accounts'
 
 const TAG = 'web3/dataEncryptionKey'
 

@@ -7,7 +7,7 @@ import { AppRegistry } from 'react-native'
 import Logger from 'src/utils/Logger'
 // This needs to happen early so any errors (including in the store) get caught
 import Config from 'react-native-config'
-import { stringToBoolean } from '@celo/utils/lib/parsing'
+import { stringToBoolean } from 'src/utils/parsing'
 import App from 'src/app/App'
 import * as Sentry from '@sentry/react-native'
 import 'react-native-gesture-handler'

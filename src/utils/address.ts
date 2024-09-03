@@ -4,7 +4,7 @@
  * https://github.com/celo-org/developer-tooling/blob/master/packages/sdk/utils/src/address.ts
  */
 
-import { privateToAddress, privateToPublic, toChecksumAddress } from '@ethereumjs/util'
+import { privateToPublic, toChecksumAddress } from '@ethereumjs/util'
 import { Address } from 'viem'
 
 /**
@@ -25,11 +25,6 @@ export const ensureLeading0x = (input: string): Address =>
   input.startsWith('0x') ? (input as Address) : (`0x${input}` as const)
 
 export const hexToBuffer = (input: string) => Buffer.from(trimLeading0x(input), 'hex')
-
-export const privateKeyToAddress = (privateKey: string) =>
-  toChecksumAddress(
-    ensureLeading0x(privateToAddress(hexToBuffer(privateKey)).toString('hex'))
-  ) as Address
 
 export const privateKeyToPublicKey = (privateKey: string) =>
   toChecksumAddress(ensureLeading0x(privateToPublic(hexToBuffer(privateKey)).toString('hex')))

@@ -5,7 +5,6 @@
  * The password is a combination of the two. It is used for unlocking the account in the keychain
  */
 
-import { isValidAddress, normalizeAddress } from '@celo/utils/lib/address'
 import * as Keychain from 'react-native-keychain'
 import { generateSecureRandom } from 'react-native-securerandom'
 import { PincodeType } from 'src/account/reducer'
@@ -38,6 +37,7 @@ import {
   storeItem,
 } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
+import { isValidAddress, normalizeAddress } from 'src/utils/address'
 import { ensureError } from 'src/utils/ensureError'
 import { sleep } from 'src/utils/sleep'
 import { UNLOCK_DURATION } from 'src/web3/consts'

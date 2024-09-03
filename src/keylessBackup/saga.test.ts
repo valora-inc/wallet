@@ -1,4 +1,3 @@
-import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { expectSaga } from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
@@ -20,13 +19,14 @@ import { getSECP256k1PrivateKey, storeSECP256k1PrivateKey } from 'src/keylessBac
 import {
   DELAY_INTERVAL_MS,
   WAIT_FOR_KEYSHARE_TIMEOUT_MS,
+  handleAppKeyshareIssued,
   handleAuth0SignInCompleted,
   handleDeleteKeylessBackup,
-  handleAppKeyshareIssued,
   waitForTorusKeyshare,
 } from 'src/keylessBackup/saga'
 import { torusKeyshareSelector } from 'src/keylessBackup/selectors'
 import {
+  appKeyshareIssued,
   auth0SignInCompleted,
   deleteKeylessBackupCompleted,
   deleteKeylessBackupFailed,
@@ -35,19 +35,18 @@ import {
   keylessBackupFailed,
   keylessBackupNotFound,
   torusKeyshareIssued,
-  appKeyshareIssued,
 } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 import { getTorusPrivateKey } from 'src/keylessBackup/web3auth'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
+import networkConfig from 'src/web3/networkConfig'
 import { assignAccountFromPrivateKey } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockAccount, mockPrivateDEK } from 'test/values'
-import { Hex } from 'viem'
-import { generatePrivateKey } from 'viem/accounts'
-import networkConfig from 'src/web3/networkConfig'
+import { type Hex } from 'viem'
+import { generatePrivateKey, privateKeyToAddress } from 'viem/accounts'
 
 jest.mock('src/keylessBackup/index')
 
@@ -306,7 +305,7 @@ describe('keylessBackup saga', () => {
               mockMnemonic,
             ],
             [call(generateKeysFromMnemonic, mockMnemonic), { privateKey: mockPrivateKey }],
-            [call(walletHasBalance, privateKeyToAddress(mockPrivateKey)), true],
+            [call(walletHasBalance, privateKeyToAddress(mockPrivateKey as Hex)), true],
             [call(assignAccountFromPrivateKey, mockPrivateKey, mockMnemonic), mockWalletAddress],
             [
               call(storeSECP256k1PrivateKey, mockEncryptionPrivateKeyHex, mockWalletAddress),
@@ -356,7 +355,7 @@ describe('keylessBackup saga', () => {
               mockMnemonic,
             ],
             [call(generateKeysFromMnemonic, mockMnemonic), { privateKey: mockPrivateKey }],
-            [call(walletHasBalance, privateKeyToAddress(mockPrivateKey)), false],
+            [call(walletHasBalance, privateKeyToAddress(mockPrivateKey as Hex)), false],
           ])
           .dispatch(keylessBackupBail())
           .not.call(initializeAccountSaga)

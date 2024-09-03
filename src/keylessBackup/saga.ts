@@ -1,7 +1,6 @@
-import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { initializeAccountSaga } from 'src/account/saga'
-import { KeylessBackupEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { KeylessBackupEvents } from 'src/analytics/Events'
 import { generateKeysFromMnemonic, getStoredMnemonic, storeMnemonic } from 'src/backup/utils'
 import { walletHasBalance } from 'src/import/saga'
 import {
@@ -18,6 +17,7 @@ import {
 import { getSECP256k1PrivateKey, storeSECP256k1PrivateKey } from 'src/keylessBackup/keychain'
 import { torusKeyshareSelector } from 'src/keylessBackup/selectors'
 import {
+  appKeyshareIssued,
   auth0SignInCompleted,
   deleteKeylessBackupCompleted,
   deleteKeylessBackupFailed,
@@ -29,7 +29,6 @@ import {
   keylessBackupNotFound,
   keylessBackupShowZeroBalance,
   torusKeyshareIssued,
-  appKeyshareIssued,
 } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { getTorusPrivateKey } from 'src/keylessBackup/web3auth'
@@ -37,11 +36,12 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
 import { calculateSha256Hash } from 'src/utils/random'
+import networkConfig from 'src/web3/networkConfig'
 import { assignAccountFromPrivateKey } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, delay, put, race, select, spawn, take, takeLeading } from 'typed-redux-saga'
-import { Hex } from 'viem'
-import networkConfig from 'src/web3/networkConfig'
+import { type Hex } from 'viem'
+import { privateKeyToAddress } from 'viem/accounts'
 
 const TAG = 'keylessBackup/saga'
 
@@ -166,7 +166,7 @@ function* handleKeylessBackupRestore({
   if (!privateKey) {
     throw new Error('Failed to convert mnemonic to hex')
   }
-  const backupAccount = privateKeyToAddress(privateKey)
+  const backupAccount = privateKeyToAddress(privateKey as Hex)
   if (!(yield* call(walletHasBalance, backupAccount))) {
     // show zero balance modal
     yield* put(keylessBackupShowZeroBalance())

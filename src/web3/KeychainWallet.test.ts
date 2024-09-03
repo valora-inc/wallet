@@ -1,11 +1,10 @@
 import { CeloTx, EncodedTransaction } from '@celo/connect'
-import { normalizeAddressWith0x, privateKeyToPublicKey } from '@celo/utils/lib/address'
-import { Encrypt } from '@celo/utils/lib/ecies'
 import { recoverTransaction, verifyEIP712TypedDataSigner } from '@celo/wallet-base'
 import CryptoJS from 'crypto-js'
 import MockDate from 'mockdate'
 import * as Keychain from 'react-native-keychain'
-import { trimLeading0x } from 'src/utils/address'
+import { normalizeAddressWith0x, privateKeyToPublicKey, trimLeading0x } from 'src/utils/address'
+import { Encrypt } from 'src/utils/ecies'
 import { UNLOCK_DURATION } from 'src/web3/consts'
 import { KeychainAccounts } from 'src/web3/KeychainAccounts'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
@@ -386,8 +385,8 @@ describe('KeychainWallet', () => {
             const publicKey = privateKeyToPublicKey(mockPrivateKey)
             const plaintext = 'test_plaintext'
             const ciphertext = Encrypt(
-              Buffer.from(trimLeading0x(publicKey), 'hex'),
-              Buffer.from(plaintext)
+              new Uint8Array(Buffer.from(trimLeading0x(publicKey), 'hex')),
+              new Uint8Array(Buffer.from(plaintext))
             )
             const decryptedPlaintext = await wallet.decrypt(mockAddress, ciphertext)
             expect(decryptedPlaintext.toString()).toEqual(plaintext)

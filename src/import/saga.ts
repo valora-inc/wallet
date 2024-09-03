@@ -4,15 +4,14 @@ import {
   suggestMnemonicCorrections,
   validateMnemonic,
 } from '@celo/cryptographic-utils'
-import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { Task } from '@redux-saga/types'
 import * as bip39 from 'react-native-bip39'
 import { setBackupCompleted } from 'src/account/actions'
 import { initializeAccountSaga } from 'src/account/saga'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
-import { AppEvents, OnboardingEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { AppEvents, OnboardingEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { countMnemonicWords, generateKeysFromMnemonic, storeMnemonic } from 'src/backup/utils'
 import { refreshAllBalances } from 'src/home/actions'
@@ -42,6 +41,8 @@ import {
   spawn,
   takeLeading,
 } from 'typed-redux-saga'
+import { type Hex } from 'viem'
+import { privateKeyToAddress } from 'viem/accounts'
 
 const TAG = 'import/saga'
 
@@ -128,7 +129,7 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     // Check that the provided mnemonic derives an account with at least some balance. If the wallet
     // is empty, and useEmptyWallet is not true, display a warning to the user before they continue.
     if (!useEmptyWallet && !checkedBalance) {
-      const backupAccount = privateKeyToAddress(privateKey)
+      const backupAccount = privateKeyToAddress(privateKey as Hex)
       if (!(yield* call(walletHasBalance, backupAccount))) {
         yield* put(importBackupPhraseSuccess())
         AppAnalytics.track(OnboardingEvents.wallet_import_zero_balance, {
@@ -200,7 +201,7 @@ function* attemptBackupPhraseCorrection(mnemonic: string) {
     tasks.push({
       index: counter,
       suggestion,
-      task: yield* fork(walletHasBalance, privateKeyToAddress(privateKey)),
+      task: yield* fork(walletHasBalance, privateKeyToAddress(privateKey as Hex)),
       done: false,
     })
     if (tasks.length >= MAX_BALANCE_CHECK_TASKS) {
