@@ -59,6 +59,8 @@ jobs:
         with:
           node-version-file: 'package.json'
           check-latest: true
+      - uses: google-github-actions/setup-gcloud@v2
+      - uses: ./.github/actions/yarn-install
       - run: yarn ts-node .github/scripts/setWalletEnv.ts ${{ matrix.lane }}
       # Even though we use cloud signing, for now we still need a development certificate
       # See https://developer.apple.com/forums/thread/695759
@@ -93,8 +95,6 @@ jobs:
         # base64 -i /path/to/AppleDevelopmentAuthKeyUser.p12 | pbcopy
         run: |
           security find-certificate -c "Apple Development: Created via API (${{ steps.google-secrets.outputs.APPLE_CONNECT_KEY_ID }})" -p | openssl x509 -noout -checkend 0
-      - uses: google-github-actions/setup-gcloud@v2
-      - uses: ./.github/actions/yarn-install
       - name: Pre build checks
         run: yarn ts-node .github/scripts/preBuildChecks.ts
       - uses: ruby/setup-ruby@v1

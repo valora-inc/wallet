@@ -57,9 +57,9 @@ jobs:
         with:
           node-version-file: 'package.json'
           check-latest: true
-      - run: yarn ts-node .github/scripts/setWalletEnv.ts ${{ matrix.lane }}
       - uses: google-github-actions/setup-gcloud@v2
       - uses: ./.github/actions/yarn-install
+      - run: yarn ts-node .github/scripts/setWalletEnv.ts ${{ matrix.lane }}
       - name: Pre build checks
         run: yarn ts-node .github/scripts/preBuildChecks.ts
       - uses: ruby/setup-ruby@v1
