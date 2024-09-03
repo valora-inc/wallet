@@ -32,7 +32,7 @@ jobs:
     if: ${{ needs.check-date.outputs.should-run != 'false' }}
     # Note: This makes use of a reusable workflow
     # Tip: Use `gh workflow run "Nightly" --ref your_branch` to trigger the workflow manually
-    uses: ./.github/workflows/fastlane-ios.yml
+    uses: ./.github/workflows/release-fastlane-ios.yml
     with:
       branch: main
       lanes: '["alfajoresnightly", "mainnetnightly"]'
@@ -42,7 +42,7 @@ jobs:
   android:
     needs: check-date
     if: ${{ needs.check-date.outputs.should-run != 'false' }}
-    uses: ./.github/workflows/fastlane-android.yml
+    uses: ./.github/workflows/release-fastlane-android.yml
     with:
       branch: main
       lanes: '["alfajoresnightly", "mainnetnightly"]'
