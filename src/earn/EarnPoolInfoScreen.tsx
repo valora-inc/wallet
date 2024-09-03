@@ -160,10 +160,10 @@ function EarningItemLineItem({ earnItem }: { earnItem: EarningItem }) {
 
 function DepositAndEarningsCard({
   earnPosition,
-  infoIconPress,
+  onInfoIconPress,
 }: {
   earnPosition: EarnPosition
-  infoIconPress: () => void
+  onInfoIconPress: () => void
 }) {
   const { t } = useTranslation()
   const { balance } = earnPosition
@@ -239,7 +239,7 @@ function DepositAndEarningsCard({
           <Text numberOfLines={1} style={styles.cardTitleText}>
             {t('earnFlow.poolInfoScreen.totalDepositAndEarnings')}
           </Text>
-          <Touchable onPress={infoIconPress} borderRadius={24} testID={'DepositInfoIcon'}>
+          <Touchable onPress={onInfoIconPress} borderRadius={24} testID={'DepositInfoIcon'}>
             <InfoIcon size={16} color={Colors.gray3} />
           </Touchable>
         </View>
@@ -286,11 +286,11 @@ function DepositAndEarningsCard({
 }
 
 function YieldCard({
-  infoIconPress,
+  onInfoIconPress,
   tokensInfo,
   earnPosition,
 }: {
-  infoIconPress: () => void
+  onInfoIconPress: () => void
   tokensInfo: TokenBalance[]
   earnPosition: EarnPosition
 }) {
@@ -306,7 +306,7 @@ function YieldCard({
           <Text numberOfLines={1} style={styles.cardTitleText}>
             {t('earnFlow.poolInfoScreen.yieldRate')}
           </Text>
-          <Touchable onPress={infoIconPress} borderRadius={24} testID="YieldRateInfoIcon">
+          <Touchable onPress={onInfoIconPress} borderRadius={24} testID="YieldRateInfoIcon">
             <InfoIcon size={16} color={Colors.gray3} />
           </Touchable>
         </View>
@@ -345,10 +345,10 @@ function YieldCard({
 
 function TvlCard({
   earnPosition,
-  infoIconPress,
+  onInfoIconPress,
 }: {
   earnPosition: EarnPosition
-  infoIconPress: () => void
+  onInfoIconPress: () => void
 }) {
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const { t } = useTranslation()
@@ -368,7 +368,7 @@ function TvlCard({
           <Text numberOfLines={1} style={styles.cardTitleText}>
             {t('earnFlow.poolInfoScreen.tvl')}
           </Text>
-          <Touchable onPress={infoIconPress} borderRadius={24} testID="TvlInfoIcon">
+          <Touchable onPress={onInfoIconPress} borderRadius={24} testID="TvlInfoIcon">
             <InfoIcon size={16} color={Colors.gray3} />
           </Touchable>
         </View>
@@ -378,7 +378,7 @@ function TvlCard({
   )
 }
 
-function AgeCard({ ageOfPool, infoIconPress }: { ageOfPool: Date; infoIconPress: () => void }) {
+function AgeCard({ ageOfPool, onInfoIconPress }: { ageOfPool: Date; onInfoIconPress: () => void }) {
   const { t } = useTranslation()
   const dateInterval: Duration = intervalToDuration({
     start: ageOfPool,
@@ -392,7 +392,7 @@ function AgeCard({ ageOfPool, infoIconPress }: { ageOfPool: Date; infoIconPress:
           <Text numberOfLines={1} style={styles.cardTitleText}>
             {t('earnFlow.poolInfoScreen.ageOfPool')}
           </Text>
-          <Touchable onPress={infoIconPress} borderRadius={24} testID="AgeInfoIcon">
+          <Touchable onPress={onInfoIconPress} borderRadius={24} testID="AgeInfoIcon">
             <InfoIcon size={16} color={Colors.gray3} />
           </Touchable>
         </View>
@@ -526,7 +526,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
           {new BigNumber(balance).gt(0) && (
             <DepositAndEarningsCard
               earnPosition={pool}
-              infoIconPress={() => {
+              onInfoIconPress={() => {
                 AppAnalytics.track(EarnEvents.earn_pool_info_tap_info_icon, {
                   providerId: appId,
                   poolId: positionId,
@@ -537,7 +537,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
             />
           )}
           <YieldCard
-            infoIconPress={() => {
+            onInfoIconPress={() => {
               AppAnalytics.track(EarnEvents.earn_pool_info_tap_info_icon, {
                 providerId: appId,
                 poolId: positionId,
@@ -550,7 +550,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
           />
           <TvlCard
             earnPosition={pool}
-            infoIconPress={() => {
+            onInfoIconPress={() => {
               AppAnalytics.track(EarnEvents.earn_pool_info_tap_info_icon, {
                 providerId: appId,
                 poolId: positionId,
@@ -562,7 +562,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
           {dataProps.contractCreatedAt ? (
             <AgeCard
               ageOfPool={new Date(dataProps.contractCreatedAt)}
-              infoIconPress={() => {
+              onInfoIconPress={() => {
                 AppAnalytics.track(EarnEvents.earn_pool_info_tap_info_icon, {
                   providerId: appId,
                   poolId: positionId,
