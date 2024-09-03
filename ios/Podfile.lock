@@ -801,17 +801,17 @@ PODS:
   - RNReactNativeHapticFeedback (2.3.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - RNReanimated (3.15.0):
+  - RNReanimated (3.15.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - ReactCommon/turbomodule/core
-    - RNReanimated/reanimated (= 3.15.0)
-    - RNReanimated/worklets (= 3.15.0)
-  - RNReanimated/reanimated (3.15.0):
+    - RNReanimated/reanimated (= 3.15.1)
+    - RNReanimated/worklets (= 3.15.1)
+  - RNReanimated/reanimated (3.15.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - ReactCommon/turbomodule/core
-  - RNReanimated/worklets (3.15.0):
+  - RNReanimated/worklets (3.15.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - ReactCommon/turbomodule/core
@@ -1344,7 +1344,7 @@ SPEC CHECKSUMS:
   RNPermissions: da2a4ded375aa8292d85ed93676e102c203d4717
   RNPersonaInquiry2: 3ab52078e891a5d2fa39bf7cc9119ca27f0337fd
   RNReactNativeHapticFeedback: 713abf3266aeacade463e29df9801e8ec3451f73
-  RNReanimated: ac8334b8dabe2a236412b66e613f66648a72eb4d
+  RNReanimated: 739d696f5bd3bea1d675a86caec05064ab4d898f
   RNScreens: f15b076168e4b2bdf3d327015758f36e6654247f
   RNSecureRandom: ff25041dd065a945810ca01a2bcd06f8d141b81d
   RNSentry: 86e407e1350297d78ad70541ba9d6262ed5864fa
