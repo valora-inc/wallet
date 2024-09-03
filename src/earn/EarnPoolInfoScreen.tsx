@@ -414,8 +414,8 @@ function LearnMoreTouchable({
         borderRadius={8}
         onPress={() => {
           AppAnalytics.track(EarnEvents.earn_pool_info_view_pool, {
-            appId,
-            positionId,
+            providerId: appId,
+            poolId: positionId,
           })
           navigateToURI(url)
         }}
@@ -447,6 +447,11 @@ function ActionButtons({ earnPosition }: { earnPosition: EarnPosition }) {
         <Button
           text={t('earnFlow.poolInfoScreen.withdraw')}
           onPress={() => {
+            AppAnalytics.track(EarnEvents.earn_pool_info_tap_withdraw, {
+              poolId: earnPosition.positionId,
+              providerId: earnPosition.appId,
+              poolAmount: earnPosition.balance,
+            })
             // TODO (ACT-1343): EarnCollectScreen should take earnPosition instead of depositTokenId and poolTokenId and remove Logger.debug
             // navigate(Screens.EarnCollectScreen, { earnPosition })
             Logger.debug('Withdraw Button Pressed!')
@@ -460,7 +465,10 @@ function ActionButtons({ earnPosition }: { earnPosition: EarnPosition }) {
         <Button
           text={t('earnFlow.poolInfoScreen.deposit')}
           onPress={() => {
-            // TODO(ACT-1351): add analytics event
+            AppAnalytics.track(EarnEvents.earn_pool_info_tap_deposit, {
+              poolId: earnPosition.positionId,
+              providerId: earnPosition.appId,
+            })
             navigate(Screens.EarnEnterAmount, { pool: earnPosition })
           }}
           size={BtnSizes.FULL}

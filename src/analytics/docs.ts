@@ -616,6 +616,8 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [EarnEvents.earn_home_error_try_again]: `When the user taps try again on the earn home screen after an error loading pools`,
   [EarnEvents.earn_pool_info_view_pool]: `When the user taps 'View Pool' on the earn pool info screen`,
   [EarnEvents.earn_pool_info_tap_info_icon]: `When the user taps an info icon on the earn pool info screen`,
+  [EarnEvents.earn_pool_info_tap_withdraw]: `When the user taps the withdraw button on the pool info screen`,
+  [EarnEvents.earn_pool_info_tap_deposit]: `When the user taps the deposit button on the pool info screen`,
 
   // Legacy event docs
   //  The below events had docs, but are no longer produced by the latest app version.

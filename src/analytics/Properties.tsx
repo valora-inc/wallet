@@ -1641,18 +1641,27 @@ interface EarnEventsProperties {
   [EarnEvents.earn_active_pools_card_press]: undefined
   [EarnEvents.earn_home_learn_more_press]: undefined
   [EarnEvents.earn_pool_card_press]: {
-    tokenAmount: string
+    poolAmount: string
     poolId: string
   } & EarnCommonProperties
   [EarnEvents.earn_home_error_try_again]: undefined
   [EarnEvents.earn_pool_info_view_pool]: {
-    appId: string
-    positionId: string
+    providerId: string
+    poolId: string
   }
   [EarnEvents.earn_pool_info_tap_info_icon]: {
     providerId: string
     poolId: string
     type: 'tvl' | 'age' | 'yieldRate'
+  }
+  [EarnEvents.earn_pool_info_tap_withdraw]: {
+    providerId: string
+    poolId: string
+    poolAmount: string
+  }
+  [EarnEvents.earn_pool_info_tap_deposit]: {
+    providerId: string
+    poolId: string
   }
 }
 
