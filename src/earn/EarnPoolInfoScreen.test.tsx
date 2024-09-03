@@ -221,21 +221,24 @@ describe('EarnPoolInfoScreen', () => {
       type: 'yieldRate',
     },
   ])('opens $testId and track analytics event', ({ testId, infoIconTestId, type }) => {
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <MockedNavigator
-          component={() => {
-            return (
-              <EarnPoolInfoScreen
-                {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, {
-                  pool: mockEarnPositions[0],
-                })}
-              />
-            )
-          }}
-        />
-      </Provider>
-    )
+    const mockPool = {
+      ...mockEarnPositions[0],
+      balance: '100',
+      dataProps: {
+        ...mockEarnPositions[0].dataProps,
+        earningItems: [
+          { amount: '15', label: 'Earnings', tokenId: mockArbUsdcTokenId },
+          {
+            amount: '1',
+            label: 'Reward',
+            tokenId: mockArbUsdcTokenId,
+            includedInPoolBalance: false,
+          },
+        ],
+      },
+    }
+
+    const { getByTestId } = renderEarnPoolInfoScreen(mockPool)
     fireEvent.press(getByTestId(infoIconTestId))
     expect(getByTestId(testId)).toBeVisible()
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_info_tap_info_icon, {
