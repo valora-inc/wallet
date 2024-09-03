@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
@@ -11,7 +11,7 @@ import InLineNotification, { NotificationVariant } from 'src/components/InLineNo
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import { PROVIDER_ID } from 'src/earn/constants'
-import { usePrepareWithdrawAndClaimTransactions } from 'src/earn/prepareTransactions'
+import { usePrepareWithdrawAndClaimTransactions } from 'src/earn/hooks'
 import { withdrawStatusSelector } from 'src/earn/selectors'
 import { withdrawStart } from 'src/earn/slice'
 import { isGasSubsidizedForNetwork } from 'src/earn/utils'
@@ -22,7 +22,6 @@ import { StackParamList } from 'src/navigator/types'
 import { hooksApiUrlSelector, positionsWithClaimableRewardsSelector } from 'src/positions/selectors'
 import { EarnPosition, Token } from 'src/positions/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { TAG } from 'src/send/saga'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -30,13 +29,10 @@ import { Spacing } from 'src/styles/styles'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import Logger from 'src/utils/Logger'
 import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { isAddress } from 'viem'
-
-const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME = 250
 
 type Props = NativeStackScreenProps<StackParamList, Screens.EarnCollectScreen>
 
@@ -44,10 +40,10 @@ export default function EarnCollectScreen({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const { pool } = route.params
-  const { depositTokenId, withdrawTokenId, associatedRewards } = pool.dataProps
+  const { depositTokenId, withdrawTokenId, rewardsPositionIds } = pool.dataProps
   const withdrawStatus = useSelector(withdrawStatusSelector)
   const positionsWithClaimableRewards = useSelector(positionsWithClaimableRewardsSelector).filter(
-    (position) => associatedRewards?.includes(position.positionId)
+    (position) => rewardsPositionIds?.includes(position.positionId)
   )
 
   const hooksApiUrl = useSelector(hooksApiUrlSelector)
@@ -67,41 +63,26 @@ export default function EarnCollectScreen({ route }: Props) {
     // should never happen
     throw new Error('Deposit token or withdraw token not found')
   }
+  if (!walletAddress || !isAddress(walletAddress)) {
+    // should never happen
+    throw new Error('Wallet address is not valid')
+  }
 
   const isGasSubsidized = isGasSubsidizedForNetwork(depositToken.networkId)
 
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, depositToken.networkId))
 
   const {
-    prepareTransactionsResult,
-    isPreparingTransactions,
-    prepareTransactionError,
-    refreshPreparedTransactions,
-    clearPreparedTransactions,
-  } = usePrepareWithdrawAndClaimTransactions()
-
-  const handleRefreshPreparedTransactions = (feeCurrencies: TokenBalance[]) => {
-    if (!walletAddress || !isAddress(walletAddress)) {
-      Logger.error(TAG, 'Wallet address not set. Cannot refresh prepared transactions.')
-      return
-    }
-
-    return refreshPreparedTransactions({
-      walletAddress,
-      feeCurrencies,
-      pool,
-      hooksApiUrl,
-      positionsWithClaimableRewards,
-    })
-  }
-
-  useEffect(() => {
-    clearPreparedTransactions()
-    const debouncedRefreshTransactions = setTimeout(() => {
-      return handleRefreshPreparedTransactions(feeCurrencies)
-    }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
-    return () => clearTimeout(debouncedRefreshTransactions)
-  }, [feeCurrencies, pool, rewardsTokens])
+    result: prepareTransactionsResult,
+    loading: isPreparingTransactions,
+    error: prepareTransactionError,
+  } = usePrepareWithdrawAndClaimTransactions({
+    pool,
+    walletAddress,
+    feeCurrencies,
+    hooksApiUrl,
+    positionsWithClaimableRewards,
+  })
 
   const onPress = () => {
     if (prepareTransactionsResult?.type !== 'possible') {

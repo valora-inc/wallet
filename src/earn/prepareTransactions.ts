@@ -1,10 +1,12 @@
 import BigNumber from 'bignumber.js'
+import _ from 'lodash'
 import { useAsyncCallback } from 'react-async-hook'
+import { PrepareWithdrawAndClaimParams } from 'src/earn/types'
 import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { triggerShortcutRequest } from 'src/positions/saga'
 import { RawShortcutTransaction } from 'src/positions/slice'
 import { rawShortcutTransactionsToTransactionRequests } from 'src/positions/transactions'
-import { ClaimablePosition, EarnPosition } from 'src/positions/types'
+import { EarnPosition } from 'src/positions/types'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
@@ -75,36 +77,13 @@ export function usePrepareSupplyTransactions() {
   }
 }
 
-export function usePrepareWithdrawAndClaimTransactions() {
-  const prepareTransactions = useAsyncCallback(prepareWithdrawAndClaimTransactions, {
-    onError: (err) => {
-      const error = ensureError(err)
-      Logger.error(TAG, 'usePrepareWithdrawAndClaimTransactions', error)
-    },
-  })
-
-  return {
-    prepareTransactionsResult: prepareTransactions.result,
-    refreshPreparedTransactions: prepareTransactions.execute,
-    clearPreparedTransactions: prepareTransactions.reset,
-    prepareTransactionError: prepareTransactions.error,
-    isPreparingTransactions: prepareTransactions.loading,
-  }
-}
-
 export async function prepareWithdrawAndClaimTransactions({
   pool,
   walletAddress,
   feeCurrencies,
   hooksApiUrl,
   positionsWithClaimableRewards,
-}: {
-  pool: EarnPosition
-  walletAddress: Address
-  feeCurrencies: TokenBalance[]
-  hooksApiUrl: string
-  positionsWithClaimableRewards: ClaimablePosition[]
-}) {
+}: PrepareWithdrawAndClaimParams) {
   const { transactions: withdrawTransactions }: { transactions: RawShortcutTransaction[] } =
     await triggerShortcutRequest(hooksApiUrl, {
       address: walletAddress,
@@ -120,29 +99,24 @@ export async function prepareWithdrawAndClaimTransactions({
       ...pool.shortcutTriggerArgs?.withdraw,
     })
   const claimTransactions = await Promise.all(
-    positionsWithClaimableRewards.map(
-      async (
-        position
-      ): Promise<{
-        transactions: RawShortcutTransaction[]
-      }> => {
-        const { transactions } = await triggerShortcutRequest(hooksApiUrl, {
+    positionsWithClaimableRewards.map(async (position): Promise<RawShortcutTransaction[]> => {
+      const { transactions }: { transactions: RawShortcutTransaction[] } =
+        await triggerShortcutRequest(hooksApiUrl, {
           address: walletAddress,
           appId: pool.appId,
           networkId: pool.networkId,
           shortcutId: 'claim-rewards',
           ...position.shortcutTriggerArgs?.['claim-rewards'],
         })
-        return transactions
-      }
-    )
+      return transactions
+    })
   )
 
   return prepareTransactions({
     feeCurrencies,
     baseTransactions: rawShortcutTransactionsToTransactionRequests([
       ...withdrawTransactions,
-      ...claimTransactions.flatMap((c) => c.transactions),
+      ..._.flatten(claimTransactions),
     ]),
     isGasSubsidized: isGasSubsidizedForNetwork(pool.networkId),
     origin: 'earn-withdraw',

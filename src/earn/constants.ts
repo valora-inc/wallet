@@ -1,1 +1,1 @@
-export const PROVIDER_ID = 'aave-v3' as const
+export const PROVIDER_ID = 'aave' as const

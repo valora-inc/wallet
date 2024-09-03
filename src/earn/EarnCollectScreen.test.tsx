@@ -138,12 +138,15 @@ describe('EarnCollectScreen', () => {
     expect(queryByTestId('EarnCollect/GasSubsidized')).toBeFalsy()
     expect(getByTestId('EarnCollectScreen/CTA')).toBeEnabled()
     expect(prepareWithdrawAndClaimTransactions).toHaveBeenCalledWith({
-      amount: '10.75',
       feeCurrencies: mockStoreBalancesToTokenBalances([mockTokenBalances[mockArbEthTokenId]]),
-      poolTokenAddress: mockAaveArbUsdcAddress,
-      rewardsTokens: mockRewardsPositions[1].tokens,
-      token: mockStoreBalancesToTokenBalances([mockTokenBalances[mockArbUsdcTokenId]])[0],
+      pool: mockEarnPositions[0],
+      positionsWithClaimableRewards: [
+        expect.objectContaining({
+          positionId: mockRewardsPositions[1].positionId,
+        }),
+      ],
       walletAddress: mockAccount.toLowerCase(),
+      hooksApiUrl: 'https://api.alfajores.valora.xyz/hooks-api',
     })
     expect(store.getActions()).toEqual([])
   })
@@ -268,12 +271,11 @@ describe('EarnCollectScreen', () => {
       {
         type: withdrawStart.type,
         payload: {
-          amount: '10.75',
-          tokenId: mockArbUsdcTokenId,
+          pool: mockEarnPositions[0],
           preparedTransactions: getSerializablePreparedTransactions(
             mockPreparedTransaction.transactions
           ),
-          rewards: [{ amount: '0.01', tokenId: mockArbArbTokenId }],
+          rewardsTokens: mockRewardsPositions[1].tokens,
         },
       },
     ])
@@ -282,7 +284,7 @@ describe('EarnCollectScreen', () => {
       depositTokenId: mockArbUsdcTokenId,
       tokenAmount: '10.75',
       networkId: NetworkId['arbitrum-sepolia'],
-      providerId: 'aave-v3',
+      providerId: 'aave',
       rewards: [{ amount: '0.01', tokenId: mockArbArbTokenId }],
     })
   })

@@ -1,18 +1,16 @@
 import BigNumber from 'bignumber.js'
-import aaveIncentivesV3Abi from 'src/abis/AaveIncentivesV3'
-import aavePool from 'src/abis/AavePoolV3'
 import {
   prepareSupplyTransactions,
   prepareWithdrawAndClaimTransactions,
 } from 'src/earn/prepareTransactions'
 import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { triggerShortcutRequest } from 'src/positions/saga'
+import { ClaimablePosition } from 'src/positions/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { prepareTransactions } from 'src/viem/prepareTransactions'
-import networkConfig from 'src/web3/networkConfig'
 import { mockEarnPositions, mockRewardsPositions } from 'test/values'
-import { Address, encodeFunctionData, maxUint256 } from 'viem'
+import { Address, encodeFunctionData } from 'viem'
 
 const mockFeeCurrency: TokenBalance = {
   address: null,
@@ -132,31 +130,55 @@ describe('prepareTransactions', () => {
   describe('prepareWithdrawAndClaimTransactions', () => {
     beforeEach(() => {
       jest.mocked(encodeFunctionData).mockReturnValue('0xencodedData')
+      jest.mocked(triggerShortcutRequest).mockResolvedValueOnce({
+        transactions: [
+          {
+            from: '0x123',
+            to: '0x567',
+            data: '0xencodedData',
+            gas: '50200',
+            estimatedGasUse: '49900',
+          },
+        ],
+      })
+      jest.mocked(triggerShortcutRequest).mockResolvedValueOnce({
+        transactions: [
+          {
+            from: '0x1234',
+            to: '0x5678',
+            data: '0xencodedData',
+            gas: '50100',
+            estimatedGasUse: '49800',
+          },
+        ],
+      })
     })
 
     it('prepares withdraw and claim transactions with gas subsidy on', async () => {
-      const rewardsTokens = mockRewardsPositions[1].tokens
       jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(true)
 
       const result = await prepareWithdrawAndClaimTransactions({
-        amount: '5',
-        token: mockToken,
         walletAddress: '0x1234',
         feeCurrencies: [mockFeeCurrency],
-        rewardsTokens,
-        poolTokenAddress: '0x5678',
+        pool: mockEarnPositions[0],
+        hooksApiUrl: 'https://hooks.api',
+        positionsWithClaimableRewards: [mockRewardsPositions[1] as unknown as ClaimablePosition],
       })
 
       const expectedTransactions = [
         {
-          from: '0x1234',
-          to: networkConfig.arbAavePoolV3ContractAddress,
+          from: '0x123',
+          to: '0x567',
           data: '0xencodedData',
+          gas: BigInt(50200),
+          _estimatedGasUse: BigInt(49900),
         },
         {
           from: '0x1234',
-          to: networkConfig.arbAaveIncentivesV3ContractAddress,
+          to: '0x5678',
           data: '0xencodedData',
+          gas: BigInt(50100),
+          _estimatedGasUse: BigInt(49800),
         },
       ]
       expect(result).toEqual({
@@ -164,40 +186,52 @@ describe('prepareTransactions', () => {
         feeCurrency: mockFeeCurrency,
         transactions: expectedTransactions,
       })
-      expect(encodeFunctionData).toHaveBeenCalledTimes(2)
-      expect(encodeFunctionData).toHaveBeenCalledWith({
-        abi: aavePool,
-        functionName: 'withdraw',
-        args: [mockTokenAddress, maxUint256, '0x1234'],
-      })
-      expect(encodeFunctionData).toHaveBeenCalledWith({
-        abi: aaveIncentivesV3Abi,
-        functionName: 'claimRewardsToSelf',
-        args: [['0x5678'], BigInt(10000000000000000), '0x912ce59144191c1204e64559fe8253a0e49e6548'],
-      })
+      expect(isGasSubsidizedForNetwork).toHaveBeenCalledWith(mockEarnPositions[0].networkId)
+
       expect(prepareTransactions).toHaveBeenCalledWith({
         baseTransactions: expectedTransactions,
         feeCurrencies: [mockFeeCurrency],
         isGasSubsidized: true,
         origin: 'earn-withdraw',
       })
+      expect(triggerShortcutRequest).toHaveBeenNthCalledWith(1, 'https://hooks.api', {
+        address: '0x1234',
+        appId: 'aave',
+        networkId: NetworkId['arbitrum-sepolia'],
+        shortcutId: 'withdraw',
+        tokenDecimals: 6,
+        tokens: [
+          {
+            tokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+            amount: '0',
+          },
+        ],
+      })
+      expect(triggerShortcutRequest).toHaveBeenNthCalledWith(2, 'https://hooks.api', {
+        address: '0x1234',
+        appId: 'aave',
+        networkId: NetworkId['arbitrum-sepolia'],
+        shortcutId: 'claim-rewards',
+        positionAddress: '0x460b97bd498e1157530aeb3086301d5225b91216',
+      })
     })
 
     it('prepares only withdraw transaction if no rewards with gas subsidy off', async () => {
       const result = await prepareWithdrawAndClaimTransactions({
-        amount: '5',
-        token: mockToken,
         walletAddress: '0x1234',
         feeCurrencies: [mockFeeCurrency],
-        rewardsTokens: [],
-        poolTokenAddress: '0x5678',
+        pool: mockEarnPositions[0],
+        hooksApiUrl: 'https://hooks.api',
+        positionsWithClaimableRewards: [],
       })
 
       const expectedTransactions = [
         {
-          from: '0x1234',
-          to: networkConfig.arbAavePoolV3ContractAddress,
+          from: '0x123',
+          to: '0x567',
           data: '0xencodedData',
+          gas: BigInt(50200),
+          _estimatedGasUse: BigInt(49900),
         },
       ]
       expect(result).toEqual({
@@ -205,17 +239,27 @@ describe('prepareTransactions', () => {
         feeCurrency: mockFeeCurrency,
         transactions: expectedTransactions,
       })
-      expect(encodeFunctionData).toHaveBeenCalledTimes(1)
-      expect(encodeFunctionData).toHaveBeenCalledWith({
-        abi: aavePool,
-        functionName: 'withdraw',
-        args: [mockTokenAddress, maxUint256, '0x1234'],
-      })
+      expect(isGasSubsidizedForNetwork).toHaveBeenCalledWith(mockEarnPositions[0].networkId)
+
       expect(prepareTransactions).toHaveBeenCalledWith({
         baseTransactions: expectedTransactions,
         feeCurrencies: [mockFeeCurrency],
         isGasSubsidized: false,
         origin: 'earn-withdraw',
+      })
+      expect(triggerShortcutRequest).toHaveBeenCalledTimes(1)
+      expect(triggerShortcutRequest).toHaveBeenNthCalledWith(1, 'https://hooks.api', {
+        address: '0x1234',
+        appId: 'aave',
+        networkId: NetworkId['arbitrum-sepolia'],
+        shortcutId: 'withdraw',
+        tokenDecimals: 6,
+        tokens: [
+          {
+            tokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+            amount: '0',
+          },
+        ],
       })
     })
   })

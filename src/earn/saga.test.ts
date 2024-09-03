@@ -21,6 +21,7 @@ import {
 import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
+import { EarnPosition } from 'src/positions/types'
 import { getTokenInfo } from 'src/tokens/saga'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import { Network, NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
@@ -30,9 +31,11 @@ import { sendPreparedTransactions } from 'src/viem/saga'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
 import {
+  mockAaveArbUsdcTokenId,
   mockArbArbTokenId,
   mockArbUsdcTokenId,
   mockEarnPositions,
+  mockRewardsPositions,
   mockTokenBalances,
   mockUSDCAddress,
 } from 'test/values'
@@ -416,18 +419,21 @@ describe('depositSubmitSaga', () => {
 })
 
 describe('withdrawSubmitSaga', () => {
-  const mockRewards = [{ tokenId: mockArbArbTokenId, amount: '1' }]
+  const mockRewards = [
+    { tokenId: 'arbitrum-sepolia:0x912ce59144191c1204e64559fe8253a0e49e6548', amount: '0.01' },
+  ]
+  const mockPool = mockRewardsPositions[0] as EarnPosition
   const serializableWithdrawTx: SerializableTransactionRequest = {
     from: '0xa',
     to: '0xb',
-    value: '100',
+    value: '1075',
     data: '0x02',
     gas: '20000',
   }
   const serializableClaimRewardTx: SerializableTransactionRequest = {
     from: '0xa',
     to: '0xc',
-    value: '100',
+    value: '1075',
     data: '0x01',
     gas: '50000',
   }
@@ -462,9 +468,9 @@ describe('withdrawSubmitSaga', () => {
 
   const expectedAnalyticsPropsWithRewards = {
     depositTokenId: mockArbUsdcTokenId,
-    tokenAmount: '100',
+    tokenAmount: '10.75',
     networkId: NetworkId['arbitrum-sepolia'],
-    providerId: 'aave-v3',
+    providerId: 'aave',
     rewards: mockRewards,
   }
 
@@ -482,17 +488,17 @@ describe('withdrawSubmitSaga', () => {
     },
     networkId: NetworkId['arbitrum-sepolia'],
     inAmount: {
-      value: '100',
-      tokenId: mockArbUsdcTokenId,
+      value: '10.75',
+      tokenId: mockAaveArbUsdcTokenId,
     },
     outAmount: {
-      value: '100',
-      tokenId: networkConfig.aaveArbUsdcTokenId,
+      value: '10.75',
+      tokenId: mockArbUsdcTokenId,
     },
     transactionHash: '0x1',
     type: TokenTransactionTypeV2.EarnWithdraw,
     feeCurrencyId: undefined,
-    providerId: 'aave-v3',
+    providerId: 'aave',
   }
 
   // TODO: replace with EarnClaimReward type
@@ -505,13 +511,13 @@ describe('withdrawSubmitSaga', () => {
     },
     networkId: NetworkId['arbitrum-sepolia'],
     amount: {
-      value: '1',
+      value: '0.01',
       tokenId: mockArbArbTokenId,
     },
     transactionHash: '0x2',
     type: TokenTransactionTypeV2.EarnClaimReward,
     feeCurrencyId: undefined,
-    providerId: 'aave-v3',
+    providerId: 'aave',
   }
 
   beforeEach(() => {
@@ -523,10 +529,9 @@ describe('withdrawSubmitSaga', () => {
     await expectSaga(withdrawSubmitSaga, {
       type: withdrawStart.type,
       payload: {
-        amount: '100',
-        tokenId: mockArbUsdcTokenId,
+        pool: mockPool,
         preparedTransactions: [serializableWithdrawTx, serializableClaimRewardTx],
-        rewards: mockRewards,
+        rewardsTokens: mockRewardsPositions[1].tokens,
       },
     })
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
@@ -559,10 +564,9 @@ describe('withdrawSubmitSaga', () => {
     await expectSaga(withdrawSubmitSaga, {
       type: withdrawStart.type,
       payload: {
-        amount: '100',
-        tokenId: mockArbUsdcTokenId,
+        pool: mockPool,
         preparedTransactions: [serializableWithdrawTx],
-        rewards: [],
+        rewardsTokens: [],
       },
     })
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
@@ -592,10 +596,9 @@ describe('withdrawSubmitSaga', () => {
     await expectSaga(withdrawSubmitSaga, {
       type: withdrawStart.type,
       payload: {
-        amount: '100',
-        tokenId: mockArbUsdcTokenId,
-        preparedTransactions: [serializableWithdrawTx],
-        rewards: [],
+        pool: mockPool,
+        preparedTransactions: [serializableWithdrawTx, serializableClaimRewardTx],
+        rewardsTokens: [],
       },
     })
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
@@ -624,10 +627,9 @@ describe('withdrawSubmitSaga', () => {
     await expectSaga(withdrawSubmitSaga, {
       type: withdrawStart.type,
       payload: {
-        amount: '100',
-        tokenId: mockArbUsdcTokenId,
+        pool: mockPool,
         preparedTransactions: [serializableWithdrawTx, serializableClaimRewardTx],
-        rewards: mockRewards,
+        rewardsTokens: mockRewardsPositions[1].tokens,
       },
     })
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
@@ -662,10 +664,9 @@ describe('withdrawSubmitSaga', () => {
       await expectSaga(withdrawSubmitSaga, {
         type: withdrawStart.type,
         payload: {
-          amount: '100',
-          tokenId: mockArbUsdcTokenId,
+          pool: mockPool,
           preparedTransactions: [serializableWithdrawTx, serializableClaimRewardTx],
-          rewards: mockRewards,
+          rewardsTokens: mockRewardsPositions[1].tokens,
         },
       })
         .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
