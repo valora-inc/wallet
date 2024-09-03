@@ -1866,7 +1866,9 @@ export const migrations = {
     for (const networkId of Object.keys(state.transactions.transactionsByNetworkId)) {
       const transactions = []
       for (const tx of state.transactions.transactionsByNetworkId[networkId]) {
-        tx.providerId && tx.providerId === 'aave-v3'
+        ;(networkId === NetworkId['arbitrum-one'] || networkId === NetworkId['arbitrum-sepolia']) &&
+        tx.providerId &&
+        tx.providerId === 'aave-v3'
           ? transactions.push({ ...tx, providerId: 'aave' })
           : transactions.push(tx)
       }
