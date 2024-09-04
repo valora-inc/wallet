@@ -94,6 +94,7 @@ export async function prepareWithdrawAndClaimTransactions({
         {
           tokenId: pool.dataProps.withdrawTokenId,
           amount: pool.balance,
+          useMax: true,
         },
       ],
       ...pool.shortcutTriggerArgs?.withdraw,
