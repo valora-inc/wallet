@@ -22,7 +22,7 @@ export function trimLeading0x(address: string) {
 
 export const normalizeAddressWith0x = (a: string) => ensureLeading0x(a).toLowerCase() as Address
 
-export const ensureLeading0x = (input: string): Address =>
+const ensureLeading0x = (input: string): Address =>
   input.startsWith('0x') ? (input as Address) : (`0x${input}` as const)
 
 const hexToBuffer = (input: string) => Buffer.from(trimLeading0x(input), 'hex')

@@ -3,7 +3,7 @@ import { getSiweSigningFunction } from 'src/fiatconnect/clients'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
-import { getWalletAsync } from 'src/web3/contracts'
+import { getKeychainAccounts } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 
 const SIWE_STATEMENT = 'Sign in with Ethereum'
@@ -14,8 +14,8 @@ let ihlClient: SiweApiClient
 
 export const getClient = async (): Promise<SiweApiClient> => {
   if (!ihlClient) {
-    const wallet = await getWalletAsync()
-    const [account] = wallet.getAccounts()
+    const accounts = await getKeychainAccounts()
+    const [account] = accounts.getAccounts()
     ihlClient = new SiweClient(
       {
         accountAddress: account,
@@ -30,7 +30,7 @@ export const getClient = async (): Promise<SiweApiClient> => {
             DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT_SECONDS]
           ).cico * 1000,
       },
-      getSiweSigningFunction(wallet)
+      getSiweSigningFunction(accounts)
     )
   }
   return ihlClient
