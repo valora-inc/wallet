@@ -19,7 +19,6 @@ export const UriDataType = ioType({
   e164PhoneNumber: ioUnion([ioUndefined, E164PhoneNumberType]),
   currencyCode: ioUnion([ioUndefined, ioKeyof(LocalCurrencyCode)]),
   amount: ioUnion([ioUndefined, ioString]),
-  comment: ioUnion([ioUndefined, ioString]),
   token: ioUnion([ioUndefined, ioString]),
 })
 export type UriData = ioTypeOf<typeof UriDataType>

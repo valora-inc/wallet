@@ -12,7 +12,6 @@ import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokenInfo } from 'src/tokens/hooks'
-import CommentSection from 'src/transactions/CommentSection'
 import TransferAvatars from 'src/transactions/TransferAvatars'
 import UserSection from 'src/transactions/UserSection'
 import FeeRowItem from 'src/transactions/feed/detailContent/FeeRowItem'
@@ -41,7 +40,6 @@ function TransferSentContent({ transfer }: { transfer: TokenTransfer }) {
         avatar={<TransferAvatars type="sent" recipient={recipient} />}
         testID="TransferSent"
       />
-      <CommentSection comment={metadata.comment} isSend={true} />
       <HorizontalLine />
       <FeeRowItem
         fees={transfer.fees}

@@ -18,7 +18,6 @@ const validBeamAndGoPaymentData = {
   displayName: 'Super 8',
   currencyCode: 'PHP',
   amount: '500',
-  comment: '92a53156-c0f2-11ea-b3de-0242ac13000',
 }
 
 describe('qrcode/schema', () => {
@@ -27,7 +26,6 @@ describe('qrcode/schema', () => {
       expect(uriDataFromJson(validAddressData)).toStrictEqual({
         address: '0x0000000000000000000000000000000000000000',
         amount: undefined,
-        comment: undefined,
         currencyCode: undefined,
         displayName: undefined,
         e164PhoneNumber: undefined,
@@ -39,7 +37,6 @@ describe('qrcode/schema', () => {
       expect(uriDataFromJson(validUserData)).toStrictEqual({
         address: '0x0000000000000000000000000000000000000000',
         amount: undefined,
-        comment: undefined,
         currencyCode: undefined,
         displayName: 'alice',
         e164PhoneNumber: '+14155552671',
@@ -51,7 +48,6 @@ describe('qrcode/schema', () => {
       expect(uriDataFromJson(validLocalPaymentData)).toStrictEqual({
         address: '0x0000000000000000000000000000000000000000',
         amount: '521.46',
-        comment: undefined,
         currencyCode: 'PHP',
         displayName: undefined,
         e164PhoneNumber: undefined,
@@ -63,7 +59,6 @@ describe('qrcode/schema', () => {
       expect(uriDataFromJson(validBeamAndGoPaymentData)).toStrictEqual({
         address: '0xf7f551752A78Ce650385B58364225e5ec18D96cB',
         amount: '500',
-        comment: '92a53156-c0f2-11ea-b3de-0242ac13000',
         currencyCode: 'PHP',
         displayName: 'Super 8',
         e164PhoneNumber: undefined,
@@ -108,7 +103,6 @@ describe('qrcode/schema', () => {
       expect(uriDataFromUrl(url1)).toStrictEqual({
         address: '0x8902dBbE62F149841F2b05a63dFE615bD8F69340',
         amount: undefined,
-        comment: undefined,
         currencyCode: undefined,
         displayName: undefined,
         e164PhoneNumber: undefined,
@@ -117,7 +111,6 @@ describe('qrcode/schema', () => {
       expect(uriDataFromUrl(url2)).toStrictEqual({
         address: '0x8902dBbE62F149841F2b05a63dFE615bD8F69340',
         amount: undefined,
-        comment: undefined,
         currencyCode: undefined,
         displayName: 'Steven Cowrie',
         e164PhoneNumber: '+254720670799',

@@ -1,4 +1,3 @@
-import * as DEK from '@celo/cryptographic-utils/lib/dataEncryptionKey'
 import { act, fireEvent, render, waitFor, within } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import MockDate from 'mockdate'
@@ -26,16 +25,12 @@ mockedKeychain.getGenericPassword.mockResolvedValue({
   storage: 'some string',
 })
 
-const mockedDEK = jest.mocked(DEK)
-mockedDEK.compressedPubKey = jest.fn().mockReturnValue('somePublicKey')
-
 const mockedSmsRetriever = jest.mocked(SmsRetriever)
 
 const e164Number = '+31619123456'
 const store = createMockStore({
   web3: {
     account: '0xabc',
-    dataEncryptionKey: 'someDEK',
   },
   app: {
     inviterAddress: '0xabc',
@@ -84,7 +79,7 @@ describe('VerificationCodeInputScreen', () => {
         'Content-Type': 'application/json',
         authorization: `${networkConfig.authHeaderIssuer} 0xabc:someSignedMessage`,
       },
-      body: '{"phoneNumber":"+31619123456","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","publicDataEncryptionKey":"somePublicKey","inviterAddress":"0xabc"}',
+      body: '{"phoneNumber":"+31619123456","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","inviterAddress":"0xabc"}',
     })
   })
 
@@ -216,7 +211,7 @@ describe('VerificationCodeInputScreen', () => {
         'Content-Type': 'application/json',
         authorization: `${networkConfig.authHeaderIssuer} 0xabc:someSignedMessage`,
       },
-      body: '{"phoneNumber":"+31619123456","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","publicDataEncryptionKey":"somePublicKey","inviterAddress":"0xabc"}',
+      body: '{"phoneNumber":"+31619123456","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","inviterAddress":"0xabc"}',
     })
 
     await act(() => {
@@ -280,7 +275,7 @@ describe('VerificationCodeInputScreen', () => {
         'Content-Type': 'application/json',
         authorization: `${networkConfig.authHeaderIssuer} 0xabc:someSignedMessage`,
       },
-      body: `{"phoneNumber":"${e164Number}","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","publicDataEncryptionKey":"somePublicKey","inviterAddress":"0xabc"}`,
+      body: `{"phoneNumber":"${e164Number}","clientPlatform":"android","clientVersion":"0.0.1","clientBundleId":"org.celo.mobile.debug","inviterAddress":"0xabc"}`,
     })
     expect(getByTestId('PhoneVerificationResendSmsBtn')).toBeDisabled()
   })

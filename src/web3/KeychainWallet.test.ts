@@ -1,13 +1,13 @@
 import { CeloTx, EncodedTransaction } from '@celo/connect'
 import { recoverTransaction, verifyEIP712TypedDataSigner } from '@celo/wallet-base'
-import CryptoJS from 'crypto-js'
 import MockDate from 'mockdate'
 import * as Keychain from 'react-native-keychain'
 import { normalizeAddressWith0x, privateKeyToPublicKey, trimLeading0x } from 'src/utils/address'
+import { aesEncrypt } from 'src/utils/aes'
 import { Encrypt } from 'src/utils/ecies'
-import { UNLOCK_DURATION } from 'src/web3/consts'
 import { KeychainAccounts } from 'src/web3/KeychainAccounts'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
+import { UNLOCK_DURATION } from 'src/web3/consts'
 import * as mockedKeychain from 'test/mockedKeychain'
 import {
   mockAddress,
@@ -18,9 +18,6 @@ import {
   mockPrivateKey2,
 } from 'test/values'
 import { Address, verifyMessage } from 'viem'
-
-// Use real encryption
-jest.unmock('crypto-js')
 
 const CHAIN_ID = 44378
 
@@ -405,7 +402,7 @@ describe('KeychainWallet', () => {
       // Setup mocked keychain content with a private key without the 0x prefix
       mockedKeychain.setItems({
         'account--2021-01-10T11:14:50.298Z--1be31a94361a391bbafb2a4ccd704f57dc04d4bb': {
-          password: await CryptoJS.AES.encrypt(mockPrivateKey, 'password').toString(),
+          password: await aesEncrypt(mockPrivateKey, 'password').toString(),
         },
       })
 

@@ -56,9 +56,7 @@ const MOCK_STANDBY_TRANSACTION: StandbyTransaction = {
     tokenAddress: mockCusdAddress,
     tokenId: mockCusdTokenId,
   },
-  metadata: {
-    comment: '',
-  },
+  metadata: {},
   timestamp: 1542300000,
   address: '0xd68360cce1f1ff696d898f58f03e0f1252f2ea33',
 }

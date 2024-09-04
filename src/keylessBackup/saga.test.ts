@@ -44,7 +44,7 @@ import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 import { assignAccountFromPrivateKey } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { mockAccount, mockPrivateDEK } from 'test/values'
+import { mockAccount, mockPrivateKey } from 'test/values'
 import { type Hex } from 'viem'
 import { generatePrivateKey, privateKeyToAddress } from 'viem/accounts'
 
@@ -180,7 +180,6 @@ describe('keylessBackup saga', () => {
     const mockWalletAddress = '0xdef'
     const mockMnemonic = 'fake mnemonic'
     const mockEncryptedMnemonic = 'mock-encrypted-mnemonic'
-    const mockPrivateKey = mockPrivateDEK
     describe('setup', () => {
       it('stores encrypted mnemonic and puts success event if no errors', async () => {
         await expectSaga(handleAppKeyshareIssued, {
