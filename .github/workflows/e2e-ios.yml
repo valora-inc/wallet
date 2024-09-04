@@ -37,7 +37,11 @@ jobs:
         run: yarn build:ts
       - name: Install Ruby dependencies
         run: |
-          gem update --system 3.2.3 --user-install
+          brew install rbenv ruby-build
+          rbenv init
+          rbenv install 2.7
+          rbenv global 2.7
+          gem update --system 3.2.3
           bundle config set --local path 'vendor/bundle'
           bundle install
       - name: Fail if someone forgot to commit "Gemfile.lock"
