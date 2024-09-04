@@ -550,6 +550,8 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
                   providerId: appId,
                   poolId: positionId,
                   type: 'deposit',
+                  networkId,
+                  depositTokenId: dataProps.depositTokenId,
                 })
                 depositInfoBottomSheetRef.current?.snapToIndex(0)
               }}
