@@ -1,4 +1,4 @@
-import { privateKeyToAddress } from '@celo/utils/lib/address'
+import { privateKeyToAddress } from '../../../src/utils/address'
 
 export const initContractKit = jest.fn()
 
