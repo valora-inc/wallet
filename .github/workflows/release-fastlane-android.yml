@@ -115,7 +115,7 @@ jobs:
           fields: |
             [
               { "title": "Version", "value": "${env.APP_VERSION} (${env.APP_VERSION_CODE})", "short": true },
-              { "title": "Commit", "value": "<https://github.com/${{github.repository}}/commit/${env.APP_COMMIT_HASH}|${(env.APP_COMMIT_HASH || "").slice(0, 7)}> (<https://github.com/${{github.repository}}/tree/${env.BRANCH}|${env.BRANCH}>)", "short": true }
+              { "title": "Commit", "value": "<${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/commit/${env.APP_COMMIT_HASH}|${(env.APP_COMMIT_HASH || "").slice(0, 7)}> (<${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/tree/${env.BRANCH}|${env.BRANCH}>)", "short": true }
             ]
         env:
           SLACK_WEBHOOK_URL: ${{ steps.google-secrets.outputs.SLACK_WEBHOOK_URL }}
