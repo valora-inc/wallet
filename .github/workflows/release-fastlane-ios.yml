@@ -61,7 +61,7 @@ jobs:
           check-latest: true
       - uses: google-github-actions/setup-gcloud@v2
       - uses: ./.github/actions/yarn-install
-      - run: yarn ts-node .github/scripts/setWalletEnv.ts ${{ matrix.lane }}
+      - run: yarn ts-node .github/scripts/setAppEnv.ts ${{ matrix.lane }}
       # Even though we use cloud signing, for now we still need a development certificate
       # See https://developer.apple.com/forums/thread/695759
       # The certificate was generated locally via the admin key and then uploaded to the secret manager
