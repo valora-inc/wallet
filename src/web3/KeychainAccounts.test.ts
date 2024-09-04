@@ -15,9 +15,6 @@ import {
   mockPrivateKey,
 } from 'test/values'
 
-// Use real encryption
-jest.unmock('crypto-js')
-
 const MOCK_DATE = new Date('2016-12-21T23:36:07.071Z')
 
 beforeEach(() => {

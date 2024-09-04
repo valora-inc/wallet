@@ -1,0 +1,96 @@
+name: Release - Nightly
+
+on:
+  workflow_dispatch:
+  # At 03:00 (UTC) daily
+  # https://crontab.guru/#0_3_*_*_*
+  # This is a good time for nightly builds, across CET, PST and IST (QA team in India)
+  schedule:
+    - cron: '0 3 * * *'
+
+jobs:
+  check-date:
+    runs-on: ubuntu-latest
+    name: Check latest commit
+    outputs:
+      should-run: ${{ steps.should-run.outputs.should-run }}
+      latest-commit-hash: ${{ steps.latest-commit-hash.outputs.latest-commit-hash }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - id: latest-commit-hash
+        name: Print latest commit
+        run: echo $(git rev-parse HEAD) && echo "::set-output name=latest-commit-hash::$(git rev-parse HEAD)"
+      - id: should-run
+        continue-on-error: true
+        name: Check latest commit is less than a day
+        if: ${{ github.event_name == 'schedule' }}
+        run: test -z $(git rev-list --after="24 hours" $(git rev-parse HEAD)) && echo "::set-output name=should-run::false"
+
+  ios:
+    needs: check-date
+    if: ${{ needs.check-date.outputs.should-run != 'false' }}
+    # Note: This makes use of a reusable workflow
+    # Tip: Use `gh workflow run "Nightly" --ref your_branch` to trigger the workflow manually
+    uses: ./.github/workflows/fastlane-ios.yml
+    with:
+      branch: main
+      lanes: '["alfajoresnightly", "mainnetnightly"]'
+    secrets:
+      gcp-service-account-key: ${{ secrets.GCP_MAINNET_RELEASE_AUTOMATION_SERVICE_ACCOUNT_KEY }}
+
+  android:
+    needs: check-date
+    if: ${{ needs.check-date.outputs.should-run != 'false' }}
+    uses: ./.github/workflows/fastlane-android.yml
+    with:
+      branch: main
+      lanes: '["alfajoresnightly", "mainnetnightly"]'
+    secrets:
+      gcp-service-account-key: ${{ secrets.GCP_MAINNET_RELEASE_AUTOMATION_SERVICE_ACCOUNT_KEY }}
+
+  generate-release-notes:
+    runs-on: ubuntu-latest
+    needs: [check-date, ios, android]
+    if: ${{ needs.check-date.outputs.should-run != 'false' }}
+    name: Generate release notes
+    steps:
+      - uses: actions/checkout@v4
+      - uses: google-github-actions/auth@v2
+        with:
+          project_id: celo-mobile-mainnet
+          credentials_json: ${{ secrets.GCP_MAINNET_RELEASE_AUTOMATION_SERVICE_ACCOUNT_KEY }}
+      - name: Google Secrets
+        id: google-secrets
+        uses: google-github-actions/get-secretmanager-secrets@v2
+        with:
+          secrets: |-
+            SLACK_WEBHOOK_URL:projects/1027349420744/secrets/SLACK_WEBHOOK_URL
+            BOT_SSH_KEY:projects/1027349420744/secrets/BOT_SSH_PRIVATE_KEY
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ steps.google-secrets.outputs.BOT_SSH_KEY }}
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          # Fetch all history for all tags and branches
+          fetch-depth: 0
+      - name: Tag release and get release notes
+        run: yarn ts-node .github/scripts/generateReleaseNotes.ts
+        env:
+          CURRENT_RELEASE_SHA: ${{ needs.check-date.outputs.latest-commit-hash }}
+      - name: Build notification
+        uses: edge/simple-slack-notify@v1.1.2
+        with:
+          status: success
+          success_text: '🚀 There are new features available for testing on the nightly builds! 🥳'
+          # the RELEASE_NOTES are generated in the previous step
+          fields: |
+            [
+              {
+                "title": "New items",
+                "value": ${JSON.stringify(env.RELEASE_NOTES)}
+              }
+            ]
+        env:
+          SLACK_WEBHOOK_URL: ${{ steps.google-secrets.outputs.SLACK_WEBHOOK_URL }}

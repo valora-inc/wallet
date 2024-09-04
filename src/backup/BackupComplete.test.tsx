@@ -39,7 +39,9 @@ describe('BackupComplete', () => {
       </Provider>
     )
     jest.advanceTimersByTime(2000)
-    expect(navigate).toHaveBeenCalledWith(Screens.Settings, { promptConfirmRemovalModal: true })
+    expect(navigate).toHaveBeenCalledWith(Screens.SecuritySubmenu, {
+      promptConfirmRemovalModal: true,
+    })
   })
 
   it('navigates home and fires analytics event when not on account removal', () => {

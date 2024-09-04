@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   subtitle: {
-    ...typeScale.bodyMedium,
+    ...typeScale.titleMedium,
     textAlign: 'center',
   },
   title: {

@@ -20,3 +20,4 @@ export const notificationInvite = require('src/images/assets/notification-invite
 export const pointsCardBackground = require('src/images/assets/points-card-background.png')
 export const pointsIllustration = require('src/images/assets/points-illustration.png')
 export const welcomeBackground = require('src/images/assets/intro-background.png')
+export const walletSafe = require('src/images/assets/wallet-safe.png')
