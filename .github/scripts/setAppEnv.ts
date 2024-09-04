@@ -1,5 +1,5 @@
-// Add some wallet variables to the GITHUB_ENV from a given env name. For example:
-// yarn ts-node .github/scripts/setWalletEnv.ts "alfajores"
+// Add some app variables to the GITHUB_ENV from a given env name. For example:
+// yarn ts-node .github/scripts/setAppEnv.ts "alfajores"
 
 import * as dotenv from 'dotenv'
 import { appendFileSync, existsSync } from 'fs'
