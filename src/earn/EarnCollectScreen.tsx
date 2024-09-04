@@ -10,7 +10,6 @@ import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
-import { PROVIDER_ID } from 'src/earn/constants'
 import { usePrepareAaveCollectTransactions } from 'src/earn/hooks'
 import { withdrawStatusSelector } from 'src/earn/selectors'
 import { withdrawStart } from 'src/earn/slice'
@@ -101,8 +100,9 @@ export default function EarnCollectScreen({ route }: Props) {
       depositTokenId,
       tokenAmount: withdrawToken.balance.toString(),
       networkId: withdrawToken.networkId,
-      providerId: PROVIDER_ID,
+      providerId: pool.appId,
       rewards: serializedRewards,
+      poolId: pool.positionId,
     })
   }
 

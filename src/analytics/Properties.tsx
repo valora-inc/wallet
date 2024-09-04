@@ -1567,6 +1567,7 @@ interface PointsEventsProperties {
 
 interface EarnCommonProperties {
   providerId: string
+  poolId: string
   networkId: NetworkId
   depositTokenId: string
 }
@@ -1592,7 +1593,11 @@ export type EarnDepositTxsReceiptProperties = Partial<ApproveTxReceiptProperties
   }>
 
 interface EarnEventsProperties {
-  [EarnEvents.earn_cta_press]: EarnCommonProperties
+  [EarnEvents.earn_cta_press]: {
+    providerId: string
+    networkId: NetworkId
+    depositTokenId: string
+  }
   [EarnEvents.earn_entrypoint_press]: undefined
   [EarnEvents.earn_add_crypto_action_press]: {
     action: AddAssetsActionType
@@ -1642,27 +1647,16 @@ interface EarnEventsProperties {
   [EarnEvents.earn_home_learn_more_press]: undefined
   [EarnEvents.earn_pool_card_press]: {
     poolAmount: string
-    poolId: string
   } & EarnCommonProperties
   [EarnEvents.earn_home_error_try_again]: undefined
-  [EarnEvents.earn_pool_info_view_pool]: {
-    providerId: string
-    poolId: string
-  }
+  [EarnEvents.earn_pool_info_view_pool]: EarnCommonProperties
   [EarnEvents.earn_pool_info_tap_info_icon]: {
-    providerId: string
-    poolId: string
     type: 'tvl' | 'age' | 'yieldRate'
-  }
+  } & EarnCommonProperties
   [EarnEvents.earn_pool_info_tap_withdraw]: {
-    providerId: string
-    poolId: string
     poolAmount: string
-  }
-  [EarnEvents.earn_pool_info_tap_deposit]: {
-    providerId: string
-    poolId: string
-  }
+  } & EarnCommonProperties
+  [EarnEvents.earn_pool_info_tap_deposit]: EarnCommonProperties
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

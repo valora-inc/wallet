@@ -196,6 +196,8 @@ describe('EarnPoolInfoScreen', () => {
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_info_view_pool, {
       providerId: 'aave',
       poolId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+      networkId: 'arbitrum-sepolia',
+      depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
     })
   })
 
@@ -240,6 +242,8 @@ describe('EarnPoolInfoScreen', () => {
       providerId: 'aave',
       poolId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
       type,
+      networkId: 'arbitrum-sepolia',
+      depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
     })
   })
 
@@ -263,6 +267,8 @@ describe('EarnPoolInfoScreen', () => {
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_info_tap_deposit, {
       providerId: 'aave',
       poolId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+      networkId: 'arbitrum-sepolia',
+      depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
     })
     expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, {
       pool: mockEarnPositions[0],
@@ -290,6 +296,8 @@ describe('EarnPoolInfoScreen', () => {
       providerId: 'aave',
       poolId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
       poolAmount: '100',
+      networkId: 'arbitrum-sepolia',
+      depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
     })
     // TODO (ACT-1343): check that navigate is called with correct params
   })

@@ -98,6 +98,7 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
     networkId,
     tokenAmount: amount,
     providerId: pool.appId,
+    poolId: pool.positionId,
   }
 
   let submitted = false
@@ -291,6 +292,7 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
     tokenAmount: amount,
     providerId: PROVIDER_ID,
     rewards,
+    poolId: '', // TODO (ACT-1351): update once Jacob's changes merged
   }
 
   try {

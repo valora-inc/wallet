@@ -229,7 +229,8 @@ describe('EarnEnterAmount', () => {
       tokenAmount: '8',
       depositTokenId: mockArbUsdcTokenId,
       userHasFunds: true,
-      providerId: 'aave-v3',
+      providerId: mockEarnPositions[0].appId,
+      poolId: mockEarnPositions[0].positionId,
     })
     await waitFor(() => expect(getByText('earnFlow.depositBottomSheet.title')).toBeVisible())
   })
@@ -260,7 +261,8 @@ describe('EarnEnterAmount', () => {
       tokenAmount: '12',
       depositTokenId: mockArbUsdcTokenId,
       userHasFunds: false,
-      providerId: 'aave-v3',
+      providerId: mockEarnPositions[0].appId,
+      poolId: mockEarnPositions[0].positionId,
     })
     await waitFor(() =>
       expect(getByText('earnFlow.addCryptoBottomSheet.description')).toBeVisible()

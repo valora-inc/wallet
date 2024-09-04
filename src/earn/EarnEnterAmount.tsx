@@ -21,7 +21,6 @@ import CustomHeader from 'src/components/header/CustomHeader'
 import EarnAddCryptoBottomSheet from 'src/earn/EarnAddCryptoBottomSheet'
 import { EarnApyAndAmount } from 'src/earn/EarnApyAndAmount'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
-import { PROVIDER_ID } from 'src/earn/constants'
 import { usePrepareSupplyTransactions } from 'src/earn/prepareTransactions'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import InfoIcon from 'src/icons/InfoIcon'
@@ -266,7 +265,8 @@ function EarnEnterAmount({ route }: Props) {
       amountEnteredIn,
       depositTokenId: token.tokenId,
       networkId: token.networkId,
-      providerId: PROVIDER_ID,
+      providerId: pool.appId,
+      poolId: pool.positionId,
     })
     isAmountLessThanBalance
       ? reviewBottomSheetRef.current?.snapToIndex(0)

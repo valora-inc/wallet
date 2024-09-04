@@ -32,6 +32,7 @@ import variables from 'src/styles/variables'
 import { useTokenInfo, useTokensInfo } from 'src/tokens/hooks'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
+import { NetworkId } from 'src/transactions/types'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { formattedDuration } from 'src/utils/time'
@@ -401,11 +402,15 @@ function LearnMoreTouchable({
   providerName,
   appId,
   positionId,
+  networkId,
+  depositTokenId,
 }: {
   url: string
   providerName: string
   appId: string
   positionId: string
+  networkId: NetworkId
+  depositTokenId: string
 }) {
   const { t } = useTranslation()
   return (
@@ -416,6 +421,8 @@ function LearnMoreTouchable({
           AppAnalytics.track(EarnEvents.earn_pool_info_view_pool, {
             providerId: appId,
             poolId: positionId,
+            networkId,
+            depositTokenId,
           })
           navigateToURI(url)
         }}
@@ -451,6 +458,8 @@ function ActionButtons({ earnPosition }: { earnPosition: EarnPosition }) {
               poolId: earnPosition.positionId,
               providerId: earnPosition.appId,
               poolAmount: earnPosition.balance,
+              networkId: earnPosition.networkId,
+              depositTokenId: earnPosition.dataProps.depositTokenId,
             })
             // TODO (ACT-1343): EarnCollectScreen should take earnPosition instead of depositTokenId and poolTokenId and remove Logger.debug
             // navigate(Screens.EarnCollectScreen, { earnPosition })
@@ -468,6 +477,8 @@ function ActionButtons({ earnPosition }: { earnPosition: EarnPosition }) {
             AppAnalytics.track(EarnEvents.earn_pool_info_tap_deposit, {
               poolId: earnPosition.positionId,
               providerId: earnPosition.appId,
+              networkId: earnPosition.networkId,
+              depositTokenId: earnPosition.dataProps.depositTokenId,
             })
             navigate(Screens.EarnEnterAmount, { pool: earnPosition })
           }}
@@ -531,6 +542,8 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
                 providerId: appId,
                 poolId: positionId,
                 type: 'yieldRate',
+                networkId,
+                depositTokenId: dataProps.depositTokenId,
               })
               yieldRateInfoBottomSheetRef.current?.snapToIndex(0)
             }}
@@ -544,6 +557,8 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
                 providerId: appId,
                 poolId: positionId,
                 type: 'tvl',
+                networkId,
+                depositTokenId: dataProps.depositTokenId,
               })
               tvlInfoBottomSheetRef.current?.snapToIndex(0)
             }}
@@ -556,6 +571,8 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
                   providerId: appId,
                   poolId: positionId,
                   type: 'age',
+                  networkId,
+                  depositTokenId: dataProps.depositTokenId,
                 })
                 ageInfoBottomSheetRef.current?.snapToIndex(0)
               }}
@@ -567,6 +584,8 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
               providerName={appName}
               appId={appId}
               positionId={positionId}
+              networkId={networkId}
+              depositTokenId={dataProps.depositTokenId}
             />
           ) : null}
         </View>

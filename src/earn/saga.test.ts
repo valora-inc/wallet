@@ -135,6 +135,7 @@ describe('depositSubmitSaga', () => {
     tokenAmount: '100',
     networkId: NetworkId['arbitrum-sepolia'],
     providerId: mockEarnPositions[0].appId,
+    poolId: mockEarnPositions[0].positionId,
   }
 
   const expectedApproveStandbyTx = {
@@ -466,6 +467,7 @@ describe('withdrawSubmitSaga', () => {
     networkId: NetworkId['arbitrum-sepolia'],
     providerId: 'aave-v3',
     rewards: mockRewards,
+    poolId: '', // TODO (ACT-1351): Update after Jacob's PR merged
   }
 
   const expectedAnalyticsPropsNoRewards = {
