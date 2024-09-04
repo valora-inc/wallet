@@ -2665,6 +2665,8 @@
       "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "Entendi",
+        "depositDescription": "Esse é o detalhamento do valor depositado, os juros que você ganhou sobre esse valor e quaisquer recompensas adicionais que você tenha recebido por participar do pool.",
+        "depositNoBreakdownDescription": "Esse número combina os tokens fornecidos com os juros e as recompensas que você ganhou.\n\nAlguns protocolos, como o {{providerName}}, não fornecem um detalhamento de seus ganhos - isso é normal. Em vez disso, eles adicionam seus ganhos diretamente ao valor depositado, que continua a render juros com base no valor crescente. ",
         "tvlTitle": "Valor total bloqueado (TVL)",
         "tvlDescription": "O TVL refere-se ao montante total de ativos depositados em um pool de liquidez e pode ser usado para ajudar a indicar a confiança e a utilidade de um pool. Normalmente, um TVL mais alto está relacionado a um risco reduzido, mas nenhum pool é totalmente isento de riscos.",
         "ageTitle": "Piscina criada:",
