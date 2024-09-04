@@ -470,7 +470,7 @@ describe('withdrawSubmitSaga', () => {
     depositTokenId: mockArbUsdcTokenId,
     tokenAmount: '10.75',
     networkId: NetworkId['arbitrum-sepolia'],
-    providerId: 'aave',
+    providerId: 'aave-v3',
     rewards: mockRewards,
   }
 
@@ -489,11 +489,11 @@ describe('withdrawSubmitSaga', () => {
     networkId: NetworkId['arbitrum-sepolia'],
     inAmount: {
       value: '10.75',
-      tokenId: mockAaveArbUsdcTokenId,
+      tokenId: mockArbUsdcTokenId,
     },
     outAmount: {
       value: '10.75',
-      tokenId: mockArbUsdcTokenId,
+      tokenId: mockAaveArbUsdcTokenId,
     },
     transactionHash: '0x1',
     type: TokenTransactionTypeV2.EarnWithdraw,

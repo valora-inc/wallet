@@ -62,7 +62,7 @@ describe('EarnCta', () => {
     await act(() => fireEvent.press(getByTestId('EarnCta')))
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_cta_press, {
       depositTokenId: mockArbUsdcTokenId,
-      providerId: 'aave',
+      providerId: 'aave-v3',
       networkId: NetworkId['arbitrum-sepolia'],
     })
     expect(navigate).toHaveBeenCalledWith(Screens.EarnInfoScreen)

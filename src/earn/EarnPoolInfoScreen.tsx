@@ -447,9 +447,8 @@ function ActionButtons({ earnPosition }: { earnPosition: EarnPosition }) {
         <Button
           text={t('earnFlow.poolInfoScreen.withdraw')}
           onPress={() => {
-            // TODO (ACT-1343): EarnCollectScreen should take earnPosition instead of depositTokenId and poolTokenId and remove Logger.debug
-            // navigate(Screens.EarnCollectScreen, { earnPosition })
-            Logger.debug('Withdraw Button Pressed!')
+            // TODO(ACT-1351): add analytics event
+            navigate(Screens.EarnCollectScreen, { pool: earnPosition })
           }}
           size={BtnSizes.FULL}
           type={BtnTypes.SECONDARY}

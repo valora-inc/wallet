@@ -111,7 +111,11 @@ export async function prepareWithdrawAndClaimTransactions({
       return transactions
     })
   )
-
+  Logger.debug(TAG, 'prepareWithdrawAndClaimTransactions', {
+    withdrawTransactions,
+    claimTransactions,
+    pool,
+  })
   return prepareTransactions({
     feeCurrencies,
     baseTransactions: rawShortcutTransactionsToTransactionRequests([

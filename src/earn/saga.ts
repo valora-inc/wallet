@@ -316,11 +316,11 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
         type: TokenTransactionTypeV2.EarnWithdraw,
         inAmount: {
           value: pool.balance,
-          tokenId: pool.dataProps.withdrawTokenId,
+          tokenId,
         },
         outAmount: {
           value: pool.balance,
-          tokenId,
+          tokenId: pool.dataProps.withdrawTokenId,
         },
         transactionHash,
         feeCurrencyId,

@@ -1611,7 +1611,7 @@ interface EarnEventsProperties {
   [EarnEvents.earn_view_pools_press]: {
     poolTokenId: string
     networkId: string
-    providerId: 'aave'
+    providerId: 'aave-v3'
   }
   [EarnEvents.earn_enter_amount_info_press]: undefined
   [EarnEvents.earn_enter_amount_continue_press]: {
