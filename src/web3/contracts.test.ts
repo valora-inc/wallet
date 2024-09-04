@@ -29,7 +29,6 @@ beforeEach(() => {
 describe('getKeychainAccounts', () => {
   it('should initialize keychain accounts', async () => {
     const keychainAccounts = await getKeychainAccounts()
-    console.log('keychainAccounts', keychainAccounts)
     expect(keychainAccounts).toBeDefined()
     expect(loadExistingAccountsSpy).toHaveBeenCalledTimes(1)
   })
