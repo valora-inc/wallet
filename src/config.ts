@@ -1,4 +1,3 @@
-import { stringToBoolean } from '@celo/utils/lib/parsing'
 import { Network } from '@fiatconnect/fiatconnect-types'
 import Config from 'react-native-config'
 import { CachesDirectoryPath } from 'react-native-fs'
@@ -7,6 +6,7 @@ import { LoggerLevel } from 'src/utils/LoggerLevels'
 // eslint-disable-next-line import/no-relative-packages
 import { TORUS_SAPPHIRE_NETWORK } from '@toruslabs/constants'
 import { HomeActionName } from 'src/home/types'
+import { stringToBoolean } from 'src/utils/parsing'
 import * as secretsFile from '../secrets.json'
 import { ONE_HOUR_IN_MILLIS } from './utils/time'
 export * from 'src/brandingConfig'

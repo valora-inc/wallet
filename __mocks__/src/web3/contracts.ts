@@ -3,7 +3,7 @@ import { privateKeyToAddress } from '@celo/utils/lib/address'
 export const initContractKit = jest.fn()
 
 const mockWallet = {
-  addAccount: jest.fn(async (privateKey: string, passphrase: string) =>
+  addAccount: jest.fn(async (privateKey: Hex, passphrase: string) =>
     privateKeyToAddress(privateKey)
   ),
   updateAccount: jest.fn().mockResolvedValue(true),
