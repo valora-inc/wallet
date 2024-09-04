@@ -1,6 +1,6 @@
 /**
  * Reference file:
- * https://github.com/celo-org/developer-tooling/blob/master/packages/sdk/utils/src/sign-typed-data-utils.ts
+ * https://github.com/celo-org/developer-tooling/blob/38b26316d615e836e21bbfe2f44853f7e8220e03/packages/sdk/utils/src/sign-typed-data-utils.ts
  */
 import type BigNumber from 'bignumber.js'
 

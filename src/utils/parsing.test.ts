@@ -1,6 +1,6 @@
 /**
  * Reference file:
- * https://github.com/celo-org/developer-tooling/blob/master/packages/sdk/utils/src/parsing.test.ts
+ * https://github.com/celo-org/developer-tooling/blob/6148646a29e5e719df9a1b32d1580ea7e6e61be8/packages/sdk/utils/src/parsing.test.ts
  */
 
 import BigNumber from 'bignumber.js'
