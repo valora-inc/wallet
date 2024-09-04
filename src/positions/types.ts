@@ -17,17 +17,18 @@ interface YieldRate {
   tokenId: string
 }
 
-interface EarningItem {
+export interface EarningItem {
   amount: SerializedDecimalNumber
   label: string
   tokenId: string
-  subtractFromDeposit?: boolean
+  includedInPoolBalance?: boolean
 }
 
 interface EarnDataProps {
   contractCreatedAt?: string // ISO string
   manageUrl?: string
   termsUrl?: string
+  cantSeparateCompoundedInterest?: boolean
   tvl?: SerializedDecimalNumber
   yieldRates: YieldRate[]
   earningItems: EarningItem[]
@@ -52,6 +53,7 @@ export interface AbstractPosition {
   displayProps: PositionDisplayProps
   dataProps?: DataProps
   availableShortcutIds: string[]
+  shortcutTriggerArgs?: Record<string, any>
 }
 
 // There's an opportunity to combine with the types in src/tokens/slice.ts
@@ -95,7 +97,7 @@ export interface Shortcut {
   name: string
   description: string
   networkIds: NetworkId[]
-  category?: 'claim'
+  category?: 'claim' | 'deposit' | 'withdraw'
 }
 
 export type ShortcutStatus =

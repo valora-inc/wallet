@@ -197,11 +197,6 @@ export enum OnboardingEvents {
   initialize_account_complete = 'initialize_account_complete',
   initialize_account_error = 'initialize_account_error',
 
-  account_dek_register_start = 'account_dek_register_start',
-  account_dek_register_account_unlocked = 'account_dek_register_account_unlocked',
-  account_dek_register_account_checked = 'account_dek_register_account_checked',
-  account_dek_register_complete = 'account_dek_register_complete',
-
   protect_wallet_use_recovery = 'protect_wallet_use_recovery',
   protect_wallet_help = 'protect_wallet_help',
   protect_wallet_help_dismiss = 'protect_wallet_help_dismiss',
@@ -689,4 +684,5 @@ export enum EarnEvents {
   earn_pool_card_press = 'earn_pool_card_press',
   earn_home_error_try_again = 'earn_home_error_try_again',
   earn_pool_info_view_pool = 'earn_pool_info_view_pool',
+  earn_pool_info_tap_info_icon = 'earn_pool_info_tap_info_icon',
 }

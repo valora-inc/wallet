@@ -5,9 +5,8 @@
  * The password is a combination of the two. It is used for unlocking the account in the keychain
  */
 
-import { isValidAddress, normalizeAddress } from '@celo/utils/lib/address'
+import crypto from 'crypto'
 import * as Keychain from 'react-native-keychain'
-import { generateSecureRandom } from 'react-native-securerandom'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
 import AppAnalytics from 'src/analytics/AppAnalytics'
@@ -38,6 +37,7 @@ import {
   storeItem,
 } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
+import { isValidAddress, normalizeAddress } from 'src/utils/address'
 import { ensureError } from 'src/utils/ensureError'
 import { sleep } from 'src/utils/sleep'
 import { UNLOCK_DURATION } from 'src/web3/consts'
@@ -61,7 +61,6 @@ export const PIN_LENGTH = 6
 // Pepper and pin not currently generalized to be per account
 // Using this value in the caches
 export const DEFAULT_CACHE_ACCOUNT = 'default'
-export const DEK = 'DEK'
 export const CANCELLED_PIN_INPUT = 'CANCELLED_PIN_INPUT'
 export const BIOMETRY_VERIFICATION_DELAY = 800
 
@@ -143,8 +142,8 @@ export async function retrieveOrGeneratePepper(account = DEFAULT_CACHE_ACCOUNT) 
     let storedPepper = await retrieveStoredItem(STORAGE_KEYS.PEPPER)
     if (!storedPepper) {
       Logger.debug(TAG, 'No stored pepper, generating new pepper and storing it to the keychain')
-      const randomBytes = await generateSecureRandom(PEPPER_LENGTH)
-      const pepper = Buffer.from(randomBytes).toString('hex')
+      const randomBytes = crypto.randomBytes(PEPPER_LENGTH)
+      const pepper = randomBytes.toString('hex')
       await storeItem({ key: STORAGE_KEYS.PEPPER, value: pepper })
       storedPepper = pepper
     }

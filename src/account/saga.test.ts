@@ -1,4 +1,3 @@
-import * as DEK from '@celo/cryptographic-utils/lib/dataEncryptionKey'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as Keychain from 'react-native-keychain'
 import { expectSaga } from 'redux-saga-test-plan'
@@ -29,9 +28,6 @@ import { initializeAccountSuccess, saveSignedMessage } from './actions'
 
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
 const mockedKeychain = jest.mocked(Keychain)
-
-const mockedDEK = jest.mocked(DEK)
-mockedDEK.compressedPubKey = jest.fn().mockReturnValue('publicKeyForUser')
 
 const mockFetch = fetch as FetchMock
 jest.unmock('src/pincode/authentication')

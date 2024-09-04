@@ -141,15 +141,6 @@
                 }
             ]
         },
-        "AddressToDataEncryptionKeyType": {
-            "additionalProperties": {
-                "type": [
-                    "null",
-                    "string"
-                ]
-            },
-            "type": "object"
-        },
         "AddressToDisplayNameType": {
             "additionalProperties": {
                 "$ref": "#/definitions/AddressInfoToDisplay"
@@ -363,6 +354,9 @@
                 },
                 "priceUsd": {
                     "type": "string"
+                },
+                "shortcutTriggerArgs": {
+                    "$ref": "#/definitions/Record<string,any>"
                 },
                 "supply": {
                     "type": "string"
@@ -966,6 +960,9 @@
                 "positionId": {
                     "type": "string"
                 },
+                "shortcutTriggerArgs": {
+                    "$ref": "#/definitions/Record<string,any>"
+                },
                 "tokens": {
                     "items": {
                         "$ref": "#/definitions/Token"
@@ -1181,15 +1178,6 @@
             },
             "type": "object"
         },
-        "E164NumberToSaltType": {
-            "additionalProperties": {
-                "type": [
-                    "null",
-                    "string"
-                ]
-            },
-            "type": "object"
-        },
         "EarnClaimReward": {
             "additionalProperties": false,
             "properties": {
@@ -1245,6 +1233,9 @@
         "EarnDataProps": {
             "additionalProperties": false,
             "properties": {
+                "cantSeparateCompoundedInterest": {
+                    "type": "boolean"
+                },
                 "contractCreatedAt": {
                     "type": "string"
                 },
@@ -1402,11 +1393,11 @@
                 "amount": {
                     "type": "string"
                 },
+                "includedInPoolBalance": {
+                    "type": "boolean"
+                },
                 "label": {
                     "type": "string"
-                },
-                "subtractFromDeposit": {
-                    "type": "boolean"
                 },
                 "tokenId": {
                     "type": "string"
@@ -3346,7 +3337,6 @@
                 "PointsIntro",
                 "PreferencesSubmenu",
                 "Profile",
-                "ProfileMenu",
                 "ProfileSubmenu",
                 "ProtectWallet",
                 "QRCode",
@@ -3354,6 +3344,7 @@
                 "QRScanner",
                 "RegulatoryTerms",
                 "SanctionedCountryErrorScreen",
+                "SecuritySubmenu",
                 "SelectCountry",
                 "SelectLocalCurrency",
                 "SelectProvider",
@@ -3361,7 +3352,6 @@
                 "SendConfirmationModal",
                 "SendEnterAmount",
                 "SendSelectRecipient",
-                "Settings",
                 "SettingsMenu",
                 "SignInWithEmail",
                 "Simplex",
@@ -3549,7 +3539,11 @@
                     "type": "string"
                 },
                 "category": {
-                    "const": "claim",
+                    "enum": [
+                        "claim",
+                        "deposit",
+                        "withdraw"
+                    ],
                     "type": "string"
                 },
                 "description": {
@@ -3579,6 +3573,27 @@
         },
         "StandbyTransaction": {
             "anyOf": [
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<TokenTransfer>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<TokenApproval>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<NftTransfer>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<EarnDeposit>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<EarnWithdraw>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<EarnClaimReward>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<PendingTokenExchange>"
+                },
                 {
                     "additionalProperties": false,
                     "properties": {
@@ -4037,27 +4052,6 @@
                         "type"
                     ],
                     "type": "object"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<PendingTokenExchange>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<TokenTransfer>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<TokenApproval>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<NftTransfer>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<EarnDeposit>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<EarnWithdraw>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<EarnClaimReward>"
                 }
             ]
         },
@@ -5272,44 +5266,16 @@
                         "null",
                         "string"
                     ]
-                },
-                "accountInWeb3Keystore": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "dataEncryptionKey": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "isDekRegistered": {
-                    "type": "boolean"
-                },
-                "mtwAddress": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
                 }
             },
             "required": [
-                "account",
-                "accountInWeb3Keystore",
-                "dataEncryptionKey",
-                "isDekRegistered",
-                "mtwAddress"
+                "account"
             ],
             "type": "object"
         },
         "State_8": {
             "additionalProperties": false,
             "properties": {
-                "addressToDataEncryptionKey": {
-                    "$ref": "#/definitions/AddressToDataEncryptionKeyType"
-                },
                 "addressToDisplayName": {
                     "$ref": "#/definitions/AddressToDisplayNameType"
                 },
@@ -5324,9 +5290,6 @@
                 },
                 "e164NumberToAddress": {
                     "$ref": "#/definitions/E164NumberToAddressType"
-                },
-                "e164NumberToSalt": {
-                    "$ref": "#/definitions/E164NumberToSaltType"
                 },
                 "hasSeenVerificationNux": {
                     "type": "boolean"
@@ -5345,25 +5308,19 @@
                 },
                 "shouldRefreshStoredPasswordHash": {
                     "type": "boolean"
-                },
-                "walletToAccountAddress": {
-                    "$ref": "#/definitions/WalletToAccountAddressType"
                 }
             },
             "required": [
-                "addressToDataEncryptionKey",
                 "addressToDisplayName",
                 "addressToE164Number",
                 "addressToVerificationStatus",
                 "askedContactsPermission",
                 "e164NumberToAddress",
-                "e164NumberToSalt",
                 "hasSeenVerificationNux",
                 "importContactsProgress",
                 "lastSavedContactsHash",
                 "secureSendPhoneNumberMapping",
-                "shouldRefreshStoredPasswordHash",
-                "walletToAccountAddress"
+                "shouldRefreshStoredPasswordHash"
             ],
             "type": "object"
         },
@@ -5819,10 +5776,10 @@
         "TokenTransaction": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/TokenExchange"
+                    "$ref": "#/definitions/TokenTransfer"
                 },
                 {
-                    "$ref": "#/definitions/TokenTransfer"
+                    "$ref": "#/definitions/TokenExchange"
                 },
                 {
                     "$ref": "#/definitions/TokenApproval"
@@ -5916,9 +5873,6 @@
         "TokenTransferMetadata": {
             "additionalProperties": false,
             "properties": {
-                "comment": {
-                    "type": "string"
-                },
                 "image": {
                     "type": "string"
                 },
@@ -6138,12 +6092,6 @@
             "required": [
                 "verified"
             ],
-            "type": "object"
-        },
-        "WalletToAccountAddressType": {
-            "additionalProperties": {
-                "type": "string"
-            },
             "type": "object"
         },
         "YieldRate": {

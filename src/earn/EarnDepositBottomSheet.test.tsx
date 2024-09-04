@@ -148,7 +148,7 @@ describe('EarnDepositBottomSheet', () => {
         type: depositStart.type,
         payload: {
           amount: '100',
-          tokenId: mockArbUsdcTokenId,
+          pool: mockEarnPositions[0],
           preparedTransactions: getSerializablePreparedTransactions(
             mockPreparedTransaction.transactions
           ),

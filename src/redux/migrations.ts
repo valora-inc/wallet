@@ -1861,7 +1861,23 @@ export const migrations = {
     ...state,
     account: _.omit(state.account, 'pictureUri'),
   }),
-  228: (state: any) => {
+  228: (state: any) => ({
+    ...state,
+    identity: _.omit(
+      state.identity,
+      'walletToAccountAddress',
+      'e164NumberToSalt',
+      'addressToDataEncryptionKey'
+    ),
+    web3: _.omit(
+      state.web3,
+      'accountInWeb3Keystore',
+      'dataEncryptionKey',
+      'isDekRegistered',
+      'mtwAddress'
+    ),
+  }),
+  229: (state: any) => {
     const transactionsByNetworkId: any = {}
     for (const networkId of Object.keys(state.transactions.transactionsByNetworkId)) {
       const transactions = []

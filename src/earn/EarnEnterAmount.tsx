@@ -1,4 +1,3 @@
-import { parseInputAmount } from '@celo/utils/lib/parsing'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
@@ -30,6 +29,7 @@ import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { hooksApiUrlSelector } from 'src/positions/selectors'
 import { EarnPosition } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
 import { AmountInput, ProceedArgs } from 'src/send/EnterAmount'
@@ -46,7 +46,7 @@ import { useLocalToTokenAmount, useTokenInfo, useTokenToLocalAmount } from 'src/
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
-import networkConfig from 'src/web3/networkConfig'
+import { parseInputAmount } from 'src/utils/parsing'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { isAddress } from 'viem'
 
@@ -88,6 +88,7 @@ function EarnEnterAmount({ route }: Props) {
   const [enteredIn, setEnteredIn] = useState<AmountEnteredIn>('token')
   // this should never be null, just adding a default to make TS happy
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
+  const hooksApiUrl = useSelector(hooksApiUrlSelector)
 
   const {
     prepareTransactionsResult,
@@ -114,7 +115,8 @@ function EarnEnterAmount({ route }: Props) {
       token,
       walletAddress,
       feeCurrencies,
-      poolContractAddress: networkConfig.arbAavePoolV3ContractAddress,
+      pool,
+      hooksApiUrl,
     })
   }
 

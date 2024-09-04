@@ -42,7 +42,6 @@ import { parsePhoneNumber } from 'src/utils/phoneNumbers'
 import { safely } from 'src/utils/safely'
 import { clearStoredAccounts } from 'src/web3/KeychainAccounts'
 import { getWallet } from 'src/web3/contracts'
-import { registerAccountDek } from 'src/web3/dataEncryptionKey'
 import networkConfig from 'src/web3/networkConfig'
 import { getOrCreateAccount, getWalletAddress, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -254,6 +253,5 @@ export function* accountSaga() {
   yield* spawn(watchUpdateStatsigAndNavigate)
   yield* spawn(watchClearStoredAccount)
   yield* spawn(watchInitializeAccount)
-  yield* spawn(registerAccountDek)
   yield* spawn(watchSignedMessage)
 }

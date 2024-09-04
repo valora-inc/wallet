@@ -1,15 +1,13 @@
 import { CeloTx, EncodedTransaction } from '@celo/connect'
-import { normalizeAddressWith0x, privateKeyToPublicKey } from '@celo/utils/lib/address'
-import { Encrypt } from '@celo/utils/lib/ecies'
-import { verifySignature } from '@celo/utils/lib/signatureUtils'
 import { recoverTransaction, verifyEIP712TypedDataSigner } from '@celo/wallet-base'
-import CryptoJS from 'crypto-js'
 import MockDate from 'mockdate'
 import * as Keychain from 'react-native-keychain'
-import { trimLeading0x } from 'src/utils/address'
-import { UNLOCK_DURATION } from 'src/web3/consts'
+import { normalizeAddressWith0x, privateKeyToPublicKey, trimLeading0x } from 'src/utils/address'
+import { aesEncrypt } from 'src/utils/aes'
+import { Encrypt } from 'src/utils/ecies'
 import { KeychainAccounts } from 'src/web3/KeychainAccounts'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
+import { UNLOCK_DURATION } from 'src/web3/consts'
 import * as mockedKeychain from 'test/mockedKeychain'
 import {
   mockAddress,
@@ -19,9 +17,7 @@ import {
   mockPrivateKey,
   mockPrivateKey2,
 } from 'test/values'
-
-// Use real encryption
-jest.unmock('crypto-js')
+import { Address, verifyMessage } from 'viem'
 
 const CHAIN_ID = 44378
 
@@ -351,7 +347,11 @@ describe('KeychainWallet', () => {
               const hexStr: string = mockAddress
               const signedMessage = await wallet.signPersonalMessage(knownAddress, hexStr)
               expect(signedMessage).not.toBeUndefined()
-              const valid = verifySignature(hexStr, signedMessage, knownAddress)
+              const valid = verifyMessage({
+                address: knownAddress,
+                message: hexStr,
+                signature: signedMessage as Address,
+              })
               expect(valid).toBeTruthy()
             })
           })
@@ -401,7 +401,7 @@ describe('KeychainWallet', () => {
       // Setup mocked keychain content with a private key without the 0x prefix
       mockedKeychain.setItems({
         'account--2021-01-10T11:14:50.298Z--1be31a94361a391bbafb2a4ccd704f57dc04d4bb': {
-          password: await CryptoJS.AES.encrypt(mockPrivateKey, 'password').toString(),
+          password: await aesEncrypt(mockPrivateKey, 'password').toString(),
         },
       })
 

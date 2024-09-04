@@ -3480,8 +3480,29 @@ export const v228Schema = {
     ...v227Schema._persist,
     version: 228,
   },
+  identity: _.omit(
+    v227Schema.identity,
+    'walletToAccountAddress',
+    'e164NumberToSalt',
+    'addressToDataEncryptionKey'
+  ),
+  web3: _.omit(
+    v227Schema.web3,
+    'accountInWeb3Keystore',
+    'dataEncryptionKey',
+    'isDekRegistered',
+    'mtwAddress'
+  ),
+}
+
+export const v229Schema = {
+  ...v228Schema,
+  _persist: {
+    ...v228Schema._persist,
+    version: 229,
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v228Schema as Partial<RootState>
+  return v229Schema as Partial<RootState>
 }

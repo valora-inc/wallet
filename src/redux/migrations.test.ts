@@ -54,6 +54,7 @@ import {
   v216Schema,
   v21Schema,
   v222Schema,
+  v227Schema,
   v28Schema,
   v2Schema,
   v35Schema,
@@ -1646,19 +1647,38 @@ describe('Redux persist migrations', () => {
   })
 
   it('works from 227 to 228', () => {
+    const oldSchema = v227Schema
+    const migratedSchema = migrations[228](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    ;(expectedSchema.identity = _.omit(
+      oldSchema.identity,
+      'walletToAccountAddress',
+      'e164NumberToSalt',
+      'addressToDataEncryptionKey'
+    )),
+      (expectedSchema.web3 = _.omit(
+        oldSchema.web3,
+        'accountInWeb3Keystore',
+        'dataEncryptionKey',
+        'isDekRegistered',
+        'mtwAddress'
+      ))
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+  it('works from 228 to 229', () => {
     const oldSchema = {
-      ...v222Schema,
+      ...v228Schema,
       transactions: {
-        ...v222Schema.transactions,
+        ...v228Schema.transactions,
         transactionsByNetworkId: {
-          ...v222Schema.transactions.transactionsByNetworkId,
+          ...v228Schema.transactions.transactionsByNetworkId,
           [NetworkId['arbitrum-sepolia']]: [
             { ...mockEarnDepositTransaction, providerId: 'aave-v3' },
           ],
         },
       },
     }
-    const migratedSchema = migrations[228](oldSchema)
+    const migratedSchema = migrations[229](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.transactions.transactionsByNetworkId[
       NetworkId['arbitrum-sepolia']

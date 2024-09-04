@@ -1,0 +1,123 @@
+# Reusable fastlane Android workflow
+name: Release - Fastlane Android
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        required: true
+        type: string
+      # Stringified JSON array with all Android lanes to run
+      lanes:
+        required: true
+        type: string
+    secrets:
+      # For Secret Manager + KMS decryption
+      gcp-service-account-key:
+        required: true
+
+jobs:
+  fastlane-android:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        lane: ${{ fromJson(inputs.lanes) }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          project_id: celo-mobile-mainnet
+          credentials_json: ${{ secrets.gcp-service-account-key }}
+      - name: Google Secrets
+        id: google-secrets
+        uses: google-github-actions/get-secretmanager-secrets@v2
+        with:
+          secrets: |-
+            ANDROID_RELEASE_KEYSTORE:projects/1027349420744/secrets/ANDROID_RELEASE_KEYSTORE
+            CELO_RELEASE_KEY_PASSWORD:projects/1027349420744/secrets/CELO_RELEASE_KEY_PASSWORD
+            CELO_RELEASE_STORE_PASSWORD:projects/1027349420744/secrets/CELO_RELEASE_STORE_PASSWORD
+            SLACK_WEBHOOK_URL:projects/1027349420744/secrets/SLACK_WEBHOOK_URL
+            BOT_SSH_KEY:projects/1027349420744/secrets/BOT_SSH_PRIVATE_KEY
+            GOOGLE_PLAY_SERVICE_ACCOUNT_KEY_JSON:projects/1027349420744/secrets/GOOGLE_PLAY_SERVICE_ACCOUNT_KEY_JSON
+            EMERGE_API_TOKEN:projects/1027349420744/secrets/EMERGE_API_TOKEN
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ steps.google-secrets.outputs.BOT_SSH_KEY }}
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'adopt-openj9'
+          java-version: '11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: 'package.json'
+          check-latest: true
+      - uses: google-github-actions/setup-gcloud@v2
+      - uses: ./.github/actions/yarn-install
+      - run: yarn ts-node .github/scripts/setAppEnv.ts ${{ matrix.lane }}
+      - name: Pre build checks
+        run: yarn ts-node .github/scripts/preBuildChecks.ts
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7 # Not needed with a .ruby-version file
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      - name: Set build number
+        run: |
+          APP_VERSION_CODE=$APP_COMMIT_UNIX_TIME
+
+          # This is the last uploaded version code visible on the Play Store (before we disabled split ABI builds)
+          reference_play_store_timestamp=1679471422
+          # This is the original commit timestamp that was used for it
+          # Note that it's about 2 months (5 * 1048576 seconds) before the timestamp shown on the Play Store
+          # See https://github.com/valora-inc/wallet/blob/fed262b2d20f4b32a9e18e6f521b7c008db6b724/packages/mobile/android/app/build.gradle#L249-L254
+          reference_commit_unix_time=$((reference_play_store_timestamp - 5 * 1048576))
+
+          # Since we disabled split ABI builds, we can go back to using the commit timestamp as the version code
+          # and avoid confusion in all places where we show it (Slack message, Sentry, Play Store etc.)
+          # However, we need to make sure that the version code is greater than the last one uploaded to the Play Store
+          # So we gradually increase the version code, until we catch up with the last Play Store version code
+          # Then we use the commit timestamp as the version code
+          # And we can delete this logic here (leaving it won't hurt though)
+          if [[ $APP_COMMIT_UNIX_TIME -lt $reference_play_store_timestamp ]]; then
+            # We're not yet caught up, add the difference in hours (max is about 1440 hours ~ 2 months (24 * 60))
+            APP_VERSION_CODE=$((reference_play_store_timestamp + (APP_COMMIT_UNIX_TIME - reference_commit_unix_time) / (60 * 60)))
+          fi
+
+          # Keep this version code so we can use it in the Slack message
+          echo "APP_VERSION_CODE=$APP_VERSION_CODE" >> $GITHUB_ENV
+
+          # Note: beware of differences between gnu sed and osx sed
+          sed -i "s/^VERSION_CODE=.*/VERSION_CODE=$APP_VERSION_CODE/" android/gradle.properties
+      # TODO: use ram disk
+      - name: Write secrets
+        run: |
+          echo '${{ steps.google-secrets.outputs.ANDROID_RELEASE_KEYSTORE }}' | base64 -d > android/app/celo-release-key.keystore
+          echo '${{ steps.google-secrets.outputs.GOOGLE_PLAY_SERVICE_ACCOUNT_KEY_JSON }}' > fastlane/google-play-service-account.json
+      - env:
+          CELO_RELEASE_STORE_PASSWORD: ${{ steps.google-secrets.outputs.CELO_RELEASE_STORE_PASSWORD }}
+          CELO_RELEASE_KEY_PASSWORD: ${{ steps.google-secrets.outputs.CELO_RELEASE_KEY_PASSWORD }}
+          EMERGE_API_TOKEN: ${{ steps.google-secrets.outputs.EMERGE_API_TOKEN }}
+          SUPPLY_UPLOAD_MAX_RETRIES: 5
+        run: bundle exec fastlane android ${{ matrix.lane }}
+      - name: Build notification
+        if: always()
+        uses: edge/simple-slack-notify@v1.1.2
+        with:
+          status: ${{ job.status }}
+          # Note: ${xxx} in this action are evaluated by JavaScript
+          success_text: '✅ [${env.GITHUB_WORKFLOW} <${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}|#${env.GITHUB_RUN_NUMBER}>] ${env.LANE} (Android) build has been uploaded to Google Play internal test track.'
+          failure_text: '⚠️ [${env.GITHUB_WORKFLOW} <${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}|#${env.GITHUB_RUN_NUMBER}>] ${env.LANE} (Android) build failed. Please investigate.'
+          cancelled_text: '⏏️ [${env.GITHUB_WORKFLOW} <${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}|#${env.GITHUB_RUN_NUMBER}>] ${env.LANE} (Android) build was cancelled.'
+          fields: |
+            [
+              { "title": "Version", "value": "${env.APP_VERSION} (${env.APP_VERSION_CODE})", "short": true },
+              { "title": "Commit", "value": "<${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/commit/${env.APP_COMMIT_HASH}|${(env.APP_COMMIT_HASH || "").slice(0, 7)}> (<${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/tree/${env.BRANCH}|${env.BRANCH}>)", "short": true }
+            ]
+        env:
+          SLACK_WEBHOOK_URL: ${{ steps.google-secrets.outputs.SLACK_WEBHOOK_URL }}
+          BRANCH: ${{ inputs.branch }}
+          LANE: ${{ matrix.lane }}

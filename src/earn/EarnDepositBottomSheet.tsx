@@ -83,7 +83,7 @@ export default function EarnDepositBottomSheet({
     dispatch(
       depositStart({
         amount: amount.toString(),
-        tokenId: pool.dataProps.depositTokenId,
+        pool,
         preparedTransactions: getSerializablePreparedTransactions(preparedTransaction.transactions),
       })
     )

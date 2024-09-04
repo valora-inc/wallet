@@ -155,7 +155,6 @@ export interface TokenTransferMetadata {
   title?: string
   subtitle?: string
   image?: string
-  comment?: string
 }
 
 export interface NftTransfer {

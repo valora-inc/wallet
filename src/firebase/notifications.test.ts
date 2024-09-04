@@ -106,7 +106,6 @@ describe(handleNotification, () => {
         timestamp: '1',
         blockNumber: '42',
         txHash: '0xTXHASH',
-        comment: 'Tea',
         name: 'Alice',
         imageUrl: 'https://example.com/image.png',
       },
@@ -140,7 +139,6 @@ describe(handleNotification, () => {
           metadata: {
             title: 'Alice',
             image: 'https://example.com/image.png',
-            comment: 'Tea',
           },
           fees: [],
           status: TransactionStatus.Complete,

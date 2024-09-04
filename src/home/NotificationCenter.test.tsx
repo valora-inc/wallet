@@ -14,7 +14,6 @@ import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
   mockCleverTapInboxMessage,
   mockE164Number,
-  mockE164NumberPepper,
   mockExpectedCleverTapInboxMessage,
 } from 'test/values'
 
@@ -41,6 +40,10 @@ jest.mock('clevertap-react-native', () => ({
   markReadInboxMessageForId: jest.fn(),
   pushInboxNotificationViewedEventForId: jest.fn(),
   pushInboxNotificationClickedEventForId: jest.fn(),
+}))
+jest.mock('src/config', () => ({
+  ...jest.requireActual('src/config'),
+  ONBOARDING_FEATURES_ENABLED: { CloudBackupSetup: false },
 }))
 
 const DEVICE_HEIGHT = 850
@@ -292,7 +295,6 @@ describe('NotificationCenter', () => {
           dismissedGetVerified: false,
           e164PhoneNumber: mockE164Number,
         },
-        identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
       })
       const { getByText } = render(
         <Provider store={store}>
@@ -310,7 +312,6 @@ describe('NotificationCenter', () => {
           dismissedGetVerified: false,
           e164PhoneNumber: mockE164Number,
         },
-        identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
       })
       const { getByText } = render(
         <Provider store={store}>
@@ -336,7 +337,6 @@ describe('NotificationCenter', () => {
           dismissedGetVerified: false,
           e164PhoneNumber: mockE164Number,
         },
-        identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
       })
       const { getByText } = render(
         <Provider store={store}>

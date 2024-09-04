@@ -76,7 +76,7 @@ const signTypedDataV4Request = {
 }
 
 const state = createMockStore({
-  web3: { account: '0xWALLET', mtwAddress: undefined },
+  web3: { account: '0xWALLET' },
   tokens: {
     tokenBalances: {
       [mockCusdTokenId]: {

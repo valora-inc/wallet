@@ -1,6 +1,6 @@
-import { normalizeAddress } from '@celo/utils/lib/address'
 import MockDate from 'mockdate'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { normalizeAddress } from 'src/utils/address'
 import {
   KeychainAccounts,
   clearStoredAccounts,
@@ -14,9 +14,6 @@ import {
   mockKeychainEncryptedPrivateKey2,
   mockPrivateKey,
 } from 'test/values'
-
-// Use real encryption
-jest.unmock('crypto-js')
 
 const MOCK_DATE = new Date('2016-12-21T23:36:07.071Z')
 

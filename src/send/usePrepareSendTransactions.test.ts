@@ -5,12 +5,10 @@ import {
   prepareSendTransactionsCallback,
   usePrepareSendTransactions,
 } from 'src/send/usePrepareSendTransactions'
-import { tokenSupportsComments } from 'src/tokens/utils'
 import {
   PreparedTransactionsResult,
   prepareERC20TransferTransaction,
   prepareSendNativeAssetTransaction,
-  prepareTransferWithCommentTransaction,
 } from 'src/viem/prepareTransactions'
 import { mockCeloTokenBalance, mockEthTokenBalance } from 'test/values'
 import mocked = jest.mocked
@@ -69,8 +67,7 @@ describe('usePrepareSendTransactions', () => {
         })
       ).toBeUndefined()
     })
-    it('uses prepareERC20TransferTransaction if token is erc20 and does not support comments', async () => {
-      mocked(tokenSupportsComments).mockReturnValue(false)
+    it('uses prepareERC20TransferTransaction if token is erc20', async () => {
       const mockPrepareTransactionsResult: PreparedTransactionsResult = {
         type: 'not-enough-balance-for-gas',
         feeCurrencies: [mockCeloTokenBalance],
@@ -93,34 +90,7 @@ describe('usePrepareSendTransactions', () => {
         feeCurrencies: [mockCeloTokenBalance],
       })
     })
-    it('uses prepareTransferWithCommentTransaction if token supports comments', async () => {
-      mocked(tokenSupportsComments).mockReturnValue(true)
-      const mockPrepareTransactionsResult: PreparedTransactionsResult = {
-        type: 'not-enough-balance-for-gas',
-        feeCurrencies: [mockCeloTokenBalance],
-      }
-      mocked(prepareTransferWithCommentTransaction).mockResolvedValue(mockPrepareTransactionsResult)
-      expect(
-        await prepareSendTransactionsCallback({
-          amount: new BigNumber(20),
-          token: mockCeloTokenBalance,
-          recipientAddress: '0xabc',
-          walletAddress: '0x123',
-          feeCurrencies: [mockCeloTokenBalance],
-          comment: 'mock comment',
-        })
-      ).toStrictEqual(mockPrepareTransactionsResult)
-      expect(prepareTransferWithCommentTransaction).toHaveBeenCalledWith({
-        fromWalletAddress: '0x123',
-        toWalletAddress: '0xabc',
-        sendToken: mockCeloTokenBalance,
-        amount: BigInt('2'.concat('0'.repeat(19))),
-        feeCurrencies: [mockCeloTokenBalance],
-        comment: 'mock comment',
-      })
-    })
     it('uses prepareSendNativeAssetTransaction if token is native and does not have address', async () => {
-      mocked(tokenSupportsComments).mockReturnValue(false)
       const mockPrepareTransactionsResult: PreparedTransactionsResult = {
         type: 'not-enough-balance-for-gas',
         feeCurrencies: [mockEthTokenBalance],
@@ -148,7 +118,6 @@ describe('usePrepareSendTransactions', () => {
     // integration tests (testing both usePrepareSendTransactions and _prepareSendTransactionsCallback at once)
     it('gives initial values and lets you refresh them at will', async () => {
       mocked(prepareERC20TransferTransaction).mockResolvedValue(mockPossibleResult)
-      mocked(tokenSupportsComments).mockReturnValue(false)
       const { result } = renderHook(usePrepareSendTransactions)
       expect(result.current.prepareTransactionsResult).toBeUndefined()
       await act(async () => {

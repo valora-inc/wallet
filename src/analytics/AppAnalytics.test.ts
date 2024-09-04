@@ -116,7 +116,6 @@ const state = getMockStoreData({
   },
   web3: {
     account: mockWalletAddress,
-    mtwAddress: null,
   },
   account: {
     pincodeType: PincodeType.CustomPin,

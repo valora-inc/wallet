@@ -15,7 +15,7 @@ import Profile from 'src/account/Profile'
 import ProfileSubmenu from 'src/account/ProfileSubmenu'
 import LegalSubmenu from 'src/account/LegalSubmenu'
 import PreferencesSubmenu from 'src/account/PreferencesSubmenu'
-import SettingsScreen from 'src/account/Settings'
+import SecuritySubmenu from 'src/account/SecuritySubmenu'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import Support from 'src/account/Support'
 import SupportContact from 'src/account/SupportContact'
@@ -83,7 +83,6 @@ import {
   noHeader,
   nuxNavigationOptions,
 } from 'src/navigator/Headers'
-import ProfileMenu from 'src/navigator/ProfileMenu'
 import SettingsMenu from 'src/navigator/SettingsMenu'
 import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
@@ -340,6 +339,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       component={PreferencesSubmenu}
     />
     <Navigator.Screen
+      name={Screens.SecuritySubmenu}
+      component={SecuritySubmenu}
+      options={noHeader}
+    />
+    <Navigator.Screen
       name={Screens.Language}
       component={Language}
       options={Language.navigationOptions()}
@@ -527,16 +531,10 @@ const generalScreens = (Navigator: typeof Stack) => (
       options={MultichainBeta.navigationOptions}
     />
     <Navigator.Screen
-      name={Screens.ProfileMenu}
-      component={ProfileMenu}
-      options={ProfileMenu.navigationOptions as NativeStackNavigationOptions}
-    />
-    <Navigator.Screen
       name={Screens.SettingsMenu}
       component={SettingsMenu}
       options={SettingsMenu.navigationOptions as NativeStackNavigationOptions}
     />
-    <Navigator.Screen name={Screens.Settings} component={SettingsScreen} options={noHeader} />
     <Navigator.Screen name={Screens.Invite} component={Invite} options={noHeader} />
     <Navigator.Screen name={Screens.Support} component={Support} options={noHeader} />
   </>
