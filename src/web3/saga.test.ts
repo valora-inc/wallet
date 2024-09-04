@@ -1,4 +1,3 @@
-import { isValidChecksumAddress } from '@ethereumjs/util'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { call, select } from 'redux-saga/effects'
@@ -20,6 +19,7 @@ import {
 import { currentAccountSelector, walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockAccount3 } from 'test/values'
+import { isAddress } from 'viem'
 
 jest.unmock('src/pincode/authentication')
 
@@ -103,7 +103,7 @@ describe(getOrCreateAccount, () => {
         )
         .run()
 
-      expect(isValidChecksumAddress(returnValue)).toBe(true)
+      expect(isAddress(returnValue)).toBe(true)
     }
   )
 })
