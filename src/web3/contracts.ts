@@ -120,33 +120,6 @@ export function* getViemWallet(chain: Chain, useAppTransport?: boolean) {
   return wallet
 }
 
-export function* getContractKit() {
-  if (!contractKit) {
-    yield* call([initContractKitLock, 'acquire'])
-    try {
-      if (contractKit) {
-        return contractKit
-      }
-      yield* call(initContractKit)
-    } finally {
-      initContractKitLock.release()
-    }
-  }
-
-  return contractKit as ContractKit
-}
-
-// Used for cases where CK must be access outside of a saga
-export async function getContractKitAsync(): Promise<ContractKit> {
-  await waitForContractKit(WAIT_FOR_CONTRACT_KIT_RETRIES)
-  if (!contractKit) {
-    Logger.warn(`${TAG}@getContractKitAsync`, 'contractKit is undefined')
-    throw new Error('contractKit is undefined')
-  }
-
-  return contractKit
-}
-
 export function* getWallet() {
   if (!wallet) {
     yield* call([initContractKitLock, initContractKitLock.acquire])
