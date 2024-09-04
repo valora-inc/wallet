@@ -347,7 +347,6 @@ describe('KeychainWallet', () => {
               const hexStr: string = mockAddress
               const signedMessage = await wallet.signPersonalMessage(knownAddress, hexStr)
               expect(signedMessage).not.toBeUndefined()
-              // const valid = verifyMessage(hexStr, signedMessage, knownAddress)
               const valid = verifyMessage({
                 address: knownAddress,
                 message: hexStr,
