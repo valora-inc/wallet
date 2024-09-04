@@ -1,5 +1,5 @@
-// Add some wallet variables to the GITHUB_ENV from a given env name. For example:
-// yarn ts-node .github/scripts/setWalletEnv.ts "alfajores"
+// Add some app variables to the GITHUB_ENV from a given env name. For example:
+// yarn ts-node .github/scripts/setAppEnv.ts "alfajores"
 
 import * as dotenv from 'dotenv'
 import { appendFileSync, existsSync } from 'fs'
@@ -35,15 +35,15 @@ if (!GITHUB_ENV) {
 
 // Append commit hash to GITHUB_ENV
 const commitHash = exec('git rev-parse HEAD', { silent: true }).toString().trim()
-appendFileSync(GITHUB_ENV, `WALLET_COMMIT_HASH=${commitHash}\n`)
+appendFileSync(GITHUB_ENV, `APP_COMMIT_HASH=${commitHash}\n`)
 
 // Append commit unix time to GITHUB_ENV
 const commitUnixTime = exec('git show -s --format=%ct', { silent: true }).toString().trim()
-appendFileSync(GITHUB_ENV, `WALLET_COMMIT_UNIX_TIME=${commitUnixTime}\n`)
+appendFileSync(GITHUB_ENV, `APP_COMMIT_UNIX_TIME=${commitUnixTime}\n`)
 
-// Append wallet version to GITHUB_ENV
-const walletVersion = require(resolve('package.json')).version
-appendFileSync(GITHUB_ENV, `WALLET_VERSION=${walletVersion}\n`)
+// Append app version to GITHUB_ENV
+const version = require(resolve('package.json')).version
+appendFileSync(GITHUB_ENV, `APP_VERSION=${version}\n`)
 
 const APP_BUNDLE_ID = process.env.APP_BUNDLE_ID
 if (!APP_BUNDLE_ID) {
