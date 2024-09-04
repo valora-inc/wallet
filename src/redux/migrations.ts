@@ -1861,4 +1861,20 @@ export const migrations = {
     ...state,
     account: _.omit(state.account, 'pictureUri'),
   }),
+  228: (state: any) => ({
+    ...state,
+    identity: _.omit(
+      state.identity,
+      'walletToAccountAddress',
+      'e164NumberToSalt',
+      'addressToDataEncryptionKey'
+    ),
+    web3: _.omit(
+      state.web3,
+      'accountInWeb3Keystore',
+      'dataEncryptionKey',
+      'isDekRegistered',
+      'mtwAddress'
+    ),
+  }),
 }

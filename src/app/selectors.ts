@@ -70,12 +70,6 @@ export const phoneVerificationStatusSelector = createSelector(
   }
 )
 
-export const shouldRunVerificationMigrationSelector = createSelector(
-  [phoneNumberVerifiedSelector, numberVerifiedDecentrallySelector],
-  (numberVerifiedCentrally, numberVerifiedDecentrally) =>
-    !numberVerifiedCentrally && numberVerifiedDecentrally
-)
-
 export const inviterAddressSelector = (state: RootState) => state.app.inviterAddress
 
 export const networkTimeoutSecondsSelector = (state: RootState) => state.app.networkTimeoutSeconds

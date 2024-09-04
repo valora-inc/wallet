@@ -642,8 +642,6 @@ Applying patches...
 @react-native-community/netinfo@5.8.0 ✔
 bn.js@4.11.9 ✔
 clevertap-react-native@0.5.2 ✔
-react-native-fast-crypto@2.0.0 ✔
-react-native-securerandom@1.0.0 ✔
 react-native-sms@1.11.0 ✔
 react-native-splash-screen@3.3.0 ✔
 react-native-svg@12.1.1 ✔

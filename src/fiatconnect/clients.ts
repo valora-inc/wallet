@@ -1,4 +1,3 @@
-import { ensureLeading0x } from '@celo/utils/lib/address'
 import { UnlockableWallet } from '@celo/wallet-base'
 import { FiatConnectApiClient, FiatConnectClient } from '@fiatconnect/fiatconnect-sdk'
 import { FIATCONNECT_NETWORK } from 'src/config'
@@ -6,6 +5,7 @@ import { getPassword } from 'src/pincode/authentication'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { ensureLeading0x } from 'src/utils/address'
 import { UNLOCK_DURATION } from 'src/web3/consts'
 import { getWalletAsync } from 'src/web3/contracts'
 

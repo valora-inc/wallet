@@ -1,4 +1,3 @@
-import { isValidAddress } from '@celo/utils/lib/address'
 import { NameResolution, ResolutionKind } from '@valora/resolve-kit'
 import { debounce, throttle } from 'lodash'
 import { useCallback, useEffect, useMemo, useState } from 'react'
@@ -16,6 +15,7 @@ import {
 import { phoneRecipientCacheSelector, recipientInfoSelector } from 'src/recipients/reducer'
 import { resolveId } from 'src/recipients/resolve-id'
 import { useSelector } from 'src/redux/hooks'
+import { isValidAddress } from 'src/utils/address'
 import { parsePhoneNumber } from 'src/utils/phoneNumbers'
 
 const TYPING_DEBOUNCE_MILLSECONDS = 300

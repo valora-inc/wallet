@@ -1,6 +1,6 @@
 /**
  * Reference file:
- * https://github.com/celo-org/developer-tooling/blob/master/packages/sdk/phone-utils/src/countries.ts
+ * https://github.com/celo-org/developer-tooling/blob/754b286d43bdc3f5b204897d495b2a9f4a117a8a/packages/sdk/phone-utils/src/countries.ts
  */
 
 // more countries @ https://github.com/umpirsky/country-list

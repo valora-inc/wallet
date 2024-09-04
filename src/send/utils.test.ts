@@ -43,7 +43,6 @@ describe('send/utils', () => {
       e164PhoneNumber: undefined,
       amount: undefined,
       token: undefined,
-      comment: undefined,
     }
 
     it('should navigate to SendEnterAmount screen when no amount nor token is sent', async () => {
@@ -306,7 +305,6 @@ describe('send/utils', () => {
         displayName: 'Super 8',
         currencyCode: 'PHP' as LocalCurrencyCode,
         amount: '500',
-        comment: '92a53156-c0f2-11ea-b3de-0242ac13000',
       }
 
       const deeplink = urlFromUriData(data)

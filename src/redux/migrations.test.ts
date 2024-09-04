@@ -54,6 +54,7 @@ import {
   v216Schema,
   v21Schema,
   v222Schema,
+  v227Schema,
   v28Schema,
   v2Schema,
   v35Schema,
@@ -1641,6 +1642,26 @@ describe('Redux persist migrations', () => {
       ..._.omit(oldSchema.recipients, 'valoraRecipientCache'),
       appRecipientCache: {},
     }
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from 227 to 228', () => {
+    const oldSchema = v227Schema
+    const migratedSchema = migrations[228](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    ;(expectedSchema.identity = _.omit(
+      oldSchema.identity,
+      'walletToAccountAddress',
+      'e164NumberToSalt',
+      'addressToDataEncryptionKey'
+    )),
+      (expectedSchema.web3 = _.omit(
+        oldSchema.web3,
+        'accountInWeb3Keystore',
+        'dataEncryptionKey',
+        'isDekRegistered',
+        'mtwAddress'
+      ))
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })
