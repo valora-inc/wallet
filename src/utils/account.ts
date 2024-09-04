@@ -1,6 +1,6 @@
 // Initially copied from https://github.com/celo-org/developer-tooling/blob/467d4e16444535d341bd2296d41c386f1dab187f/packages/sdk/cryptographic-utils/src/account.ts
-import { levenshteinDistance } from '@celo/utils/lib/levenshtein'
 import * as bip39 from '@scure/bip39'
+import { get as levenshteinDistance } from 'fast-levenshtein'
 // Provides fast and secure cryptographic functions from OpenSSL
 // Note: we could also just import "crypto", since react-native-quick-crypto polyfills it
 // But at least it's explicit here and we have more guarantees the expected implementation is being used
