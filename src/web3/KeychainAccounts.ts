@@ -224,6 +224,13 @@ export class KeychainAccounts {
     this.loadedAccounts.set(normalizeAddressWith0x(account.address), { account, viemAccount })
   }
 
+  // This mimics the behavior of the removed KeychainWallet
+  // Makes it easier for existing code to transition to this new class
+  // TODO: we should remove this and stop relying on the order of accounts
+  getAccounts(): string[] {
+    return Array.from(this.loadedAccounts.keys())
+  }
+
   /**
    * Unlocks an account for a given duration
    * A duration of 0 means the account is unlocked indefinitely
