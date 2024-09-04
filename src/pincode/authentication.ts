@@ -6,8 +6,8 @@
  */
 
 import { isValidAddress, normalizeAddress } from '@celo/utils/lib/address'
+import crypto from 'crypto'
 import * as Keychain from 'react-native-keychain'
-import { generateSecureRandom } from 'react-native-securerandom'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
 import AppAnalytics from 'src/analytics/AppAnalytics'
@@ -142,8 +142,8 @@ export async function retrieveOrGeneratePepper(account = DEFAULT_CACHE_ACCOUNT) 
     let storedPepper = await retrieveStoredItem(STORAGE_KEYS.PEPPER)
     if (!storedPepper) {
       Logger.debug(TAG, 'No stored pepper, generating new pepper and storing it to the keychain')
-      const randomBytes = await generateSecureRandom(PEPPER_LENGTH)
-      const pepper = Buffer.from(randomBytes).toString('hex')
+      const randomBytes = crypto.randomBytes(PEPPER_LENGTH)
+      const pepper = randomBytes.toString('hex')
       await storeItem({ key: STORAGE_KEYS.PEPPER, value: pepper })
       storedPepper = pepper
     }
