@@ -4,9 +4,9 @@
   "languageSettings": "Sprache",
   "localCurrencySetting": "Währung",
   "licenses": "Lizenzen",
-  "removeAccountTitle": "Zurücksetzen {{appName}}",
+  "removeAccountTitle": "{{appName}} zurücksetzen",
   "removeAccountDetails": "Das Zurücksetzen wird dein Konto von diesem Gerät entfernen. Dein Guthaben bleibt im Konto, wird aber nur mit deiner Wiederherstellungsphrase erreichbar sein",
-  "deleteAccountTitle": "{{appName}}löschen",
+  "deleteAccountTitle": "{{appName}} löschen",
   "deleteAccountDetails": "Wenn du dein Konto löschst, wird es von {{appName}} entfernt. Dein Guthaben bleibt auf dem Konto, ist aber nur noch mit deiner Wiederherstellungsphrase zugänglich",
   "deleteAccountWarning": {
     "title": "Bist Du sicher?",
@@ -18,7 +18,7 @@
   "appPreferences": "App-Einstellungen",
   "preferences": "Präferenzen",
   "security": "Sicherheit",
-  "securityPrivacy": "Sicherheit & Datenschutz",
+  "securityPrivacy": "Sicherheit und Datenschutz",
   "changePin": "PIN ändern",
   "pinChanged": "PIN geändert",
   "pinChangeFailed": "PIN-Änderung fehlgeschlagen",
@@ -2569,13 +2569,13 @@
     "depositBottomSheet": {
       "title": "Überprüfen und einzahlen",
       "description": "Bevor du eine Einzahlung in einen Aave-Pool vornimmst, solltest du die folgenden Transaktionsdetails überprüfen",
-      "descriptionV1_93": "Bevor du in einen {{providerName}} Pool einzahlst, solltest du die folgenden Transaktionsdetails überprüfen",
+      "descriptionV1_93": "Bevor du in einen {{providerName}}-Pool einzahlst, solltest du die folgenden Transaktionsdetails überprüfen.",
       "amount": "Eingezahlter Betrag",
       "fee": "Geschätzte Gasgebühren",
       "provider": "Verdienstanbieter",
       "network": "Netzwerk",
       "footer": "Wenn du Kryptowährungen in einen Aave-Pool einzahlst, akzeptierst du die mit der Nutzung von Aave verbundenen Risiken. <0>Allgemeine Nutzungsbedingungen</0>",
-      "footerV1_93": "Indem du Krypto in einen {{providerName}} Pool einzahlst, akzeptierst du die Risiken, die mit der Nutzung von {{providerName}}verbunden sind. <0>Bedingungen & Konditionen</0>",
+      "footerV1_93": "Indem du Krypto in einen {{providerName}}-Pool einzahlst, akzeptierst du die Risiken, die mit der Nutzung von {{providerName}} verbunden sind. <0>Allgemeine Nutzungsbedingungen</0>",
       "primaryCta": "Abschließen",
       "secondaryCta": "Abbrechen"
     },
@@ -2626,7 +2626,7 @@
       "noPoolsTitle": "Du bist noch keinen Pools beigetreten",
       "noPoolsDescription": "Entdecke verfügbare Pools, wähle einen aus, der zu deinen Zielen passt, und hole das Beste aus deinen Stablecoins heraus.",
       "errorTitle": "Pools können nicht geladen werden",
-      "errorDescription": "Ups, beim Laden der Pool-Informationen ist etwas schief gelaufen. Bitte versuche es noch einmal.",
+      "errorDescription": "Ups, beim Laden der Pool-Informationen ist etwas schiefgelaufen. Bitte versuche es erneut.",
       "errorButton": "Erneut versuchen"
     },
     "poolCard": {
@@ -2650,17 +2650,17 @@
     "poolInfoScreen": {
       "chainName": "Kette: <0>{{networkName}}</0>",
       "protocolName": "Protokoll: <0>{{providerName}}</0>",
-      "yieldRate": "Ausbeutesatz",
-      "ratePercent": "{{rate}}%",
+      "yieldRate": "Rendite",
+      "ratePercent": "{{rate}} %",
       "rewards": "Rewards",
-      "noRewards": "Keine Belohnungen",
+      "noRewards": "Keine Rewards",
       "tvl": "TVL",
       "ageOfPool": "Alter des Pools",
-      "learnMoreOnProvider": "Siehe Pool auf {{providerName}}",
+      "learnMoreOnProvider": "Pool ansehen auf {{providerName}}",
       "deposit": "Einzahlung",
       "depositAndEarnings": "Einzahlungen und Verdienste",
       "withdraw": "Abheben",
-      "totalDepositAndEarnings": "Einlagen & Erträge insgesamt",
+      "totalDepositAndEarnings": "Gesamteinlage und -Verdienst",
       "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
       "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
@@ -2668,11 +2668,11 @@
         "depositDescription": "Dies ist die Aufschlüsselung deines eingezahlten Betrags, der Zinsen, die du auf diesen Betrag erhalten hast, und aller zusätzlichen Prämien, die du durch die Teilnahme am Pool erhalten hast.",
         "depositNoBreakdownDescription": "Diese Zahl setzt sich zusammen aus den von dir bereitgestellten Token und den Zinsen und Belohnungen, die du verdient hast.\n\nBei einigen Protokollen, wie z.B. {{providerName}}, wird dein Verdienst nicht aufgeschlüsselt - das ist normal. Stattdessen wird der Verdienst direkt mit dem eingezahlten Betrag verrechnet, der wiederum mit dem wachsenden Betrag verzinst wird. ",
         "tvlTitle": "Total Value Locked (TVL)",
-        "tvlDescription": "Die TVL bezieht sich auf den Gesamtbetrag der in einem Liquiditätspool hinterlegten Vermögenswerte und kann als Indikator für das Vertrauen und den Nutzen eines Pools verwendet werden. In der Regel bedeutet eine höhere TVL ein geringeres Risiko, allerdings ist kein Pool völlig risikofrei.",
+        "tvlDescription": "TVL bezieht sich auf den Gesamtbetrag der in einem Liquiditätspool hinterlegten Vermögenswerte und kann als Indikator für das Vertrauen und den Nutzen eines Pools verwendet werden. In der Regel bedeutet eine höhere TVL ein geringeres Risiko, allerdings ist kein Pool völlig risikofrei.",
         "ageTitle": "Alter des Pools",
-        "ageDescription": "Ältere Liquiditätspools können auf eine solide Erfolgsbilanz und eine Geschichte des Vertrauens der Gemeinschaft hinweisen. Aus diesem Grund halten manche diese Pools für sicherer.\n\nEs gibt keine perfekte Methode, um das Risiko zu bestimmen, also nutze diese Informationen als Teil deiner allgemeinen Recherche, um die für dich beste Entscheidung zu treffen.",
-        "yieldRateTitle": "Ausbeutesatz",
-        "yieldRateDescription": "Die meisten Pools bieten Gewinne in Form eines Liquiditätspool-Tokens, aber einige geben zusätzliche Token als Belohnung oder zusätzlichen Anreiz.\n\nDa Valora Pools über mehrere Protokolle hinweg zusammenfasst, haben wir alle Verdienst- und Belohnungssätze zu einem einzigen Gesamtertragswert zusammengefasst, damit du dein Verdienstpotenzial leichter einschätzen kannst. Bei dieser Zahl handelt es sich um eine Schätzung, da die Verdienst- und Prämienwerte ständig schwanken.\n\nWeitere Informationen über die Verdienstaufteilung findest du unter <0>{{providerName}}</0>."
+        "ageDescription": "Ältere Liquiditätspools können auf eine solide Erfolgsbilanz und eine Geschichte des Vertrauens der Community hinweisen. Aus diesem Grund halten manche diese Pools für sicherer.\n\nEs gibt keine perfekte Methode, um das Risiko zu bestimmen, also nutze diese Informationen als Teil deiner allgemeinen Recherche, um die für dich beste Entscheidung zu treffen.",
+        "yieldRateTitle": "Rendite",
+        "yieldRateDescription": "Die meisten Pools bieten Verdienst in Form eines Liquiditätspool-Tokens, aber einige geben zusätzliche Token als Reward oder zusätzlichen Anreiz.\n\nDa Valora Pools über mehrere Protokolle hinweg zusammenfasst, haben wir alle Verdienst- und Reward-Sätze zu einer einzigen Gesamtrendite zusammengefasst, damit du dein Verdienstpotenzial leichter einschätzen kannst. Bei dieser Zahl handelt es sich um eine Schätzung, da die Verdienst- und Reward-Werte ständig schwanken.\n\nWeitere Informationen über die Verdienstaufteilung findest du unter <0>{{providerName}}</0>."
       }
     }
   },
