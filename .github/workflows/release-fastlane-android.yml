@@ -63,7 +63,7 @@ jobs:
         run: ls -al /home/runner/work/wallet/wallet/
       - uses: google-github-actions/setup-gcloud@v2
       - uses: ./.github/actions/yarn-install
-      - run: yarn ts-node .github/scripts/setWalletEnv.ts ${{ matrix.lane }}
+      - run: yarn ts-node .github/scripts/setAppEnv.ts ${{ matrix.lane }}
       - name: Pre build checks
         run: yarn ts-node .github/scripts/preBuildChecks.ts
       - uses: ruby/setup-ruby@v1
