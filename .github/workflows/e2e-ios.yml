@@ -37,7 +37,7 @@ jobs:
         run: yarn build:ts
       - name: Install Ruby dependencies
         run: |
-          gem update --system 3.2.3
+          gem update --system 3.2.3 --user-install
           bundle config set --local path 'vendor/bundle'
           bundle install
       - name: Fail if someone forgot to commit "Gemfile.lock"
