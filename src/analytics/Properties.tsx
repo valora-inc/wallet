@@ -1630,7 +1630,7 @@ interface EarnEventsProperties {
   [EarnEvents.earn_pool_info_tap_info_icon]: {
     providerId: string
     poolId: string
-    type: 'tvl' | 'age' | 'yieldRate'
+    type: 'tvl' | 'age' | 'yieldRate' | 'deposit'
   }
 }
 
