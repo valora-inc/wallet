@@ -3,7 +3,6 @@ import BigNumber from 'bignumber.js'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import { EarnDepositTxsReceiptProperties } from 'src/analytics/Properties'
-import { PROVIDER_ID } from 'src/earn/constants'
 import { fetchAavePoolInfo } from 'src/earn/poolInfo'
 import {
   depositCancel,
@@ -289,7 +288,7 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
     depositTokenId: tokenId,
     networkId,
     tokenAmount: pool.balance,
-    providerId: PROVIDER_ID,
+    providerId: pool.appId,
     rewards: rewardsTokens.map(({ tokenId, balance }) => ({
       tokenId,
       amount: balance,

@@ -284,7 +284,7 @@ describe('EarnCollectScreen', () => {
       depositTokenId: mockArbUsdcTokenId,
       tokenAmount: '10.75',
       networkId: NetworkId['arbitrum-sepolia'],
-      providerId: 'aave-v3',
+      providerId: 'aave',
       rewards: [{ amount: '0.01', tokenId: mockArbArbTokenId }],
     })
   })
