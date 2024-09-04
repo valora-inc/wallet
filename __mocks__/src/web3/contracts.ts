@@ -12,11 +12,10 @@ const mockKeychainAccounts = {
   updatePassphrase: jest.fn(),
   isUnlocked: jest.fn(),
   getViemAccount: jest.fn().mockReturnValue(mockViemAccount),
+  unlock: jest.fn(),
 }
 
-export async function getKeychainAccounts() {
-  return mockKeychainAccounts
-}
+export const getKeychainAccounts = jest.fn().mockResolvedValue(mockKeychainAccounts)
 
 const mockViemWallet = {
   account: mockViemAccount,

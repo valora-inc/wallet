@@ -22,13 +22,13 @@ const TAG = 'web3/KeychainAccounts'
 
 export const ACCOUNT_STORAGE_KEY_PREFIX = 'account--'
 
-export interface KeychainAccount {
+interface KeychainAccount {
   address: string
   createdAt: Date
   importFromMnemonic?: boolean
 }
 
-export interface ImportMnemonicAccount {
+interface ImportMnemonicAccount {
   address: string | null
   createdAt: Date
 }
