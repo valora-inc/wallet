@@ -2665,6 +2665,8 @@
       "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "J'ai compris",
+        "depositDescription": "Il s'agit de la répartition du montant que tu as déposé, des intérêts que tu as gagnés sur ce montant et de toutes les récompenses supplémentaires que tu as reçues en participant à la cagnotte.",
+        "depositNoBreakdownDescription": "Ce nombre combine les jetons que tu as fournis avec les intérêts et les récompenses que tu as gagnés.\n\nCertains protocoles, comme {{providerName}}, ne fournissent pas de ventilation de tes gains - c'est normal. Au lieu de cela, ils ajoutent tes gains directement à ton montant déposé, qui continue à produire des intérêts en fonction du montant croissant. ",
         "tvlTitle": "Valeur totale bloquée (TVL)",
         "tvlDescription": "Le TVL fait référence au montant total des actifs déposés dans un pool de liquidités et peut être utilisé pour indiquer la confiance et l'utilité d'un pool. En règle générale, une TVL plus élevée est corrélée à un risque réduit, mais aucun pool n'est totalement exempt de risques.",
         "ageTitle": "Pool crée",
