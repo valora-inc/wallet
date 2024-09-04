@@ -7,11 +7,16 @@ import {
   storeItem,
 } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
-import { isValidAddress, normalizeAddress, normalizeAddressWith0x } from 'src/utils/address'
+import {
+  isValidAddress,
+  normalizeAddress,
+  normalizeAddressWith0x,
+  privateKeyToAddress,
+} from 'src/utils/address'
 import { aesDecrypt, aesEncrypt } from 'src/utils/aes'
 import { ViemKeychainAccount, keychainAccountToAccount } from 'src/viem/keychainAccountToAccount'
 import { type Hex } from 'viem'
-import { privateKeyToAddress, type Address } from 'viem/accounts'
+import { type Address } from 'viem/accounts'
 
 const TAG = 'web3/KeychainAccounts'
 

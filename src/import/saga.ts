@@ -25,6 +25,7 @@ import {
   suggestMnemonicCorrections,
   validateMnemonic,
 } from 'src/utils/account'
+import { privateKeyToAddress } from 'src/utils/address'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { assignAccountFromPrivateKey } from 'src/web3/saga'
@@ -40,8 +41,6 @@ import {
   spawn,
   takeLeading,
 } from 'typed-redux-saga'
-import { type Hex } from 'viem'
-import { privateKeyToAddress } from 'viem/accounts'
 
 const TAG = 'import/saga'
 
@@ -128,7 +127,7 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     // Check that the provided mnemonic derives an account with at least some balance. If the wallet
     // is empty, and useEmptyWallet is not true, display a warning to the user before they continue.
     if (!useEmptyWallet && !checkedBalance) {
-      const backupAccount = privateKeyToAddress(privateKey as Hex)
+      const backupAccount = privateKeyToAddress(privateKey)
       if (!(yield* call(walletHasBalance, backupAccount))) {
         yield* put(importBackupPhraseSuccess())
         AppAnalytics.track(OnboardingEvents.wallet_import_zero_balance, {
@@ -200,7 +199,7 @@ function* attemptBackupPhraseCorrection(mnemonic: string) {
     tasks.push({
       index: counter,
       suggestion,
-      task: yield* fork(walletHasBalance, privateKeyToAddress(privateKey as Hex)),
+      task: yield* fork(walletHasBalance, privateKeyToAddress(privateKey)),
       done: false,
     })
     if (tasks.length >= MAX_BALANCE_CHECK_TASKS) {

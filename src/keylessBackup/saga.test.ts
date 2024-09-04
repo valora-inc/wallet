@@ -41,12 +41,13 @@ import { getTorusPrivateKey } from 'src/keylessBackup/web3auth'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
+import { privateKeyToAddress } from 'src/utils/address'
 import networkConfig from 'src/web3/networkConfig'
 import { assignAccountFromPrivateKey } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockAccount, mockPrivateKey } from 'test/values'
 import { type Hex } from 'viem'
-import { generatePrivateKey, privateKeyToAddress } from 'viem/accounts'
+import { generatePrivateKey } from 'viem/accounts'
 
 jest.mock('src/keylessBackup/index')
 
@@ -304,7 +305,7 @@ describe('keylessBackup saga', () => {
               mockMnemonic,
             ],
             [call(generateKeysFromMnemonic, mockMnemonic), { privateKey: mockPrivateKey }],
-            [call(walletHasBalance, privateKeyToAddress(mockPrivateKey as Hex)), true],
+            [call(walletHasBalance, privateKeyToAddress(mockPrivateKey)), true],
             [call(assignAccountFromPrivateKey, mockPrivateKey, mockMnemonic), mockWalletAddress],
             [
               call(storeSECP256k1PrivateKey, mockEncryptionPrivateKeyHex, mockWalletAddress),
@@ -354,7 +355,7 @@ describe('keylessBackup saga', () => {
               mockMnemonic,
             ],
             [call(generateKeysFromMnemonic, mockMnemonic), { privateKey: mockPrivateKey }],
-            [call(walletHasBalance, privateKeyToAddress(mockPrivateKey as Hex)), false],
+            [call(walletHasBalance, privateKeyToAddress(mockPrivateKey)), false],
           ])
           .dispatch(keylessBackupBail())
           .not.call(initializeAccountSaga)

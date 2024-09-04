@@ -5,6 +5,7 @@ import * as bip39 from '@scure/bip39'
 // Note: we could also just import "crypto", since react-native-quick-crypto polyfills it
 // But at least it's explicit here and we have more guarantees the expected implementation is being used
 import crypto from 'react-native-quick-crypto'
+import { privateKeyToAddress } from 'src/utils/address'
 import { bytesToHex } from 'viem'
 import {
   HDKey,
@@ -14,7 +15,6 @@ import {
   japanese,
   korean,
   portuguese,
-  privateKeyToAddress,
   simplifiedChinese,
   spanish,
   traditionalChinese,

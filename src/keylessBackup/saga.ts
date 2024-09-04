@@ -35,13 +35,13 @@ import { getTorusPrivateKey } from 'src/keylessBackup/web3auth'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
+import { privateKeyToAddress } from 'src/utils/address'
 import { calculateSha256Hash } from 'src/utils/random'
 import networkConfig from 'src/web3/networkConfig'
 import { assignAccountFromPrivateKey } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, delay, put, race, select, spawn, take, takeLeading } from 'typed-redux-saga'
 import { type Hex } from 'viem'
-import { privateKeyToAddress } from 'viem/accounts'
 
 const TAG = 'keylessBackup/saga'
 
@@ -166,7 +166,7 @@ function* handleKeylessBackupRestore({
   if (!privateKey) {
     throw new Error('Failed to convert mnemonic to hex')
   }
-  const backupAccount = privateKeyToAddress(privateKey as Hex)
+  const backupAccount = privateKeyToAddress(privateKey)
   if (!(yield* call(walletHasBalance, backupAccount))) {
     // show zero balance modal
     yield* put(keylessBackupShowZeroBalance())

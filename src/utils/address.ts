@@ -6,6 +6,7 @@
 
 import { privateToPublic, toChecksumAddress } from '@ethereumjs/util'
 import { Address } from 'viem'
+import { privateKeyToAddress as privateKeyToAddressViem } from 'viem/accounts'
 
 /**
  * Turns '0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10'
@@ -28,6 +29,9 @@ export const hexToBuffer = (input: string) => Buffer.from(trimLeading0x(input), 
 
 export const privateKeyToPublicKey = (privateKey: string) =>
   toChecksumAddress(ensureLeading0x(privateToPublic(hexToBuffer(privateKey)).toString('hex')))
+
+export const privateKeyToAddress = (privateKey: string) =>
+  privateKeyToAddressViem(ensureLeading0x(privateKey))
 
 export const eqAddress = (a: string, b: string) => normalizeAddress(a) === normalizeAddress(b)
 

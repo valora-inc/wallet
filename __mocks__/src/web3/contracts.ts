@@ -1,7 +1,7 @@
 import { newKitFromWeb3 } from '@celo/contractkit'
 import { type Hex } from 'viem'
-import { privateKeyToAddress } from 'viem/accounts'
 import Web3 from 'web3'
+import { privateKeyToAddress } from '../../../src/utils/address'
 
 export const initContractKit = jest.fn()
 

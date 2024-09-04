@@ -12,14 +12,13 @@ import {
 } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
 import { MnemonicLanguages, MnemonicStrength, generateMnemonic } from 'src/utils/account'
+import { privateKeyToAddress } from 'src/utils/address'
 import { ensureError } from 'src/utils/ensureError'
 import { Actions, SetAccountAction, setAccount } from 'src/web3/actions'
 import { UNLOCK_DURATION } from 'src/web3/consts'
 import { getWallet, initContractKit } from 'src/web3/contracts'
 import { currentAccountSelector, walletAddressSelector } from 'src/web3/selectors'
 import { call, put, select, spawn, take } from 'typed-redux-saga'
-import { type Hex } from 'viem'
-import { privateKeyToAddress } from 'viem/accounts'
 import { RootState } from '../redux/reducers'
 
 const TAG = 'web3/saga'
@@ -81,7 +80,7 @@ export function* getOrCreateAccount() {
 
 export function* assignAccountFromPrivateKey(privateKey: string, mnemonic: string) {
   try {
-    const account = privateKeyToAddress(privateKey as Hex)
+    const account = privateKeyToAddress(privateKey)
     const wallet: UnlockableWallet = yield* call(getWallet)
     const password: string = yield* call(getPasswordSaga, account, false, true)
 
