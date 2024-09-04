@@ -24,8 +24,12 @@ jobs:
       matrix:
         lane: ${{ fromJson(inputs.lanes) }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: google-github-actions/auth@v2
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
         with:
           project_id: celo-mobile-mainnet
           credentials_json: ${{ secrets.gcp-service-account-key }}
@@ -44,15 +48,10 @@ jobs:
       - uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ steps.google-secrets.outputs.BOT_SSH_KEY }}
-      - run: rm -rf .git/
       - uses: actions/setup-java@v4
         with:
           distribution: 'adopt-openj9'
           java-version: '11'
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.branch }}
       - uses: actions/setup-node@v4
         with:
           node-version-file: 'package.json'
