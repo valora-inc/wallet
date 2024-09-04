@@ -25,7 +25,6 @@ const config: KnipConfig = {
     'lokijs', // walletconnect e2e tests requires
     'prettier-plugin-java',
     'react-devtools', // application profiling
-    'react-native-fast-crypto', // react-native-bip39 requires
     'react-native-version',
     'react-native-kill-packager',
     'remote-redux-devtools', // for easy debugging with Flipper
