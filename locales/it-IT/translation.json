@@ -4,7 +4,7 @@
   "languageSettings": "Lingua",
   "localCurrencySetting": "Valuta",
   "licenses": "Licenze",
-  "removeAccountTitle": "Azzeramento di {{appName}}",
+  "removeAccountTitle": "Ripristina {{appName}}",
   "removeAccountDetails": "Il ripristino rimuoverà il tuo conto da questo dispositivo. I tuoi fondi rimarranno nel conto, ma saranno accessibili solo con la tua Frase di recupero.",
   "deleteAccountTitle": "Elimina {{appName}}",
   "deleteAccountDetails": "L'eliminazione del tuo conto lo rimuoverà da {{appName}}. I tuoi fondi rimarranno nel conto, ma saranno accessibili solo con la tua Frase di recupero.",
@@ -200,7 +200,7 @@
   "supportLegalCheckbox": "Premendo Invia, accetto di condividere con il Supporto {{appName}} le informazioni di cui sopra ed eventuali dati di log dell’app allegati.",
   "contactSuccess": "Il tuo problema è stato segnalato. Fra poco riceverai una risposta per e-mail.",
   "namePictureSaved": "Il tuo nome e la tua foto sono stati salvati.",
-  "nameSaved": "Il tuo nome è stato salvato con successo.",
+  "nameSaved": "Il tuo nome è stato salvato correttamente.",
   "addPhoto": "Aggiungi foto",
   "chooseFromLibrary": "Scegli dalla raccolta",
   "takePhoto": "Scatta foto",
@@ -2569,13 +2569,13 @@
     "depositBottomSheet": {
       "title": "Rivedi e deposita",
       "description": "Prima di effettuare depositi in un pool Aave, consulta i dettagli della transazione in basso",
-      "descriptionV1_93": "Prima di depositare in un pool di {{providerName}} , consulta i dettagli della transazione qui di seguito.",
+      "descriptionV1_93": "Prima di effettuare depositi in un pool {{providerName}}, consulta i dettagli della transazione in basso",
       "amount": "Somma depositata",
       "fee": "Commissioni sulle transazioni stimate",
       "provider": "Fornitore di guadagni",
       "network": "Rete",
       "footer": "Depositando criptovalute in un pool Aave, accetti i rischi associati all'utilizzo di Aave. <0>Termini e condizioni</0>",
-      "footerV1_93": "Depositando criptovalute in un pool di {{providerName}} , accetti i rischi associati all'utilizzo di {{providerName}}. <0>Termini e condizioni</0>",
+      "footerV1_93": "Depositando criptovalute in un pool {{providerName}}, accetti i rischi associati all'utilizzo di {{providerName}}. <0>Termini e condizioni</0>",
       "primaryCta": "Completa",
       "secondaryCta": "Annulla"
     },
@@ -2626,7 +2626,7 @@
       "noPoolsTitle": "Non ti sei ancora iscritto a nessun pool",
       "noPoolsDescription": "Scopri i pool disponibili, scegline uno che corrisponda ai tuoi obiettivi e sfrutta al meglio le tue stablecoin.",
       "errorTitle": "Impossibile caricare i pool",
-      "errorDescription": "Ops, qualcosa è andato storto durante il tentativo di caricare le informazioni sulla piscina. Riprova.",
+      "errorDescription": "Ops. Qualcosa è andato storto durante il caricamento delle informazioni relative ai pool. Riprova.",
       "errorButton": "Riprova"
     },
     "poolCard": {
@@ -2660,7 +2660,7 @@
       "deposit": "Deposito",
       "depositAndEarnings": "Deposito e guadagni",
       "withdraw": "Preleva",
-      "totalDepositAndEarnings": "Totale depositi e guadagni",
+      "totalDepositAndEarnings": "Depositi e guadagni totali",
       "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
       "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
@@ -2668,11 +2668,11 @@
         "depositDescription": "Questa è la ripartizione dell'importo depositato, degli interessi maturati su tale importo e degli eventuali premi aggiuntivi ricevuti grazie alla partecipazione al pool.",
         "depositNoBreakdownDescription": "Questo numero combina i gettoni che ti sono stati forniti con gli interessi e le ricompense che hai guadagnato.\n\nAlcuni protocolli, come {{providerName}}, non forniscono una ripartizione dei tuoi guadagni - questo è normale. Invece aggiungono i tuoi guadagni direttamente all'importo depositato, che continua a guadagnare interessi in base all'importo crescente. ",
         "tvlTitle": "Valore totale bloccato (TVL)",
-        "tvlDescription": "Il TVL si riferisce all'ammontare totale degli asset depositati in un pool di liquidità e può essere utilizzato per indicare la fiducia e l'utilità di un pool. In genere un TVL più alto è correlato a un rischio ridotto, ma nessun pool è completamente privo di rischi.",
+        "tvlDescription": "TVL si riferisce all’importo totale degli asset depositati in un pool di liquidità e può essere utilizzato per indicare il grado di fiducia nel pool e la sua utilità. Generalmente un TVL più alto è correlato a un rischio ridotto, ma nessun pool è completamente privo di rischi.",
         "ageTitle": "Pool creato:",
-        "ageDescription": "I pool di liquidità più vecchi possono indicare un solido curriculum e una storia di fiducia nella comunità. Per questo motivo, alcuni potrebbero considerare questi pool più sicuri.\n\nNon esiste un modo perfetto per determinare il rischio, quindi usa queste informazioni come parte della tua ricerca generale per prendere la decisione migliore per te.",
+        "ageDescription": "L'anzianità di un pool di liquidità può essere indicativa di risultati consolidati nel tempo e di una certa esperienza nel costruire la fiducia della comunità. Per questo alcuni considerano più sicuri i pool meno recenti.\n\nNon esiste un modo perfetto per determinare il rischio; pertanto, usa queste informazioni nel contesto della tua indagine generale per prendere la decisione migliore per te.",
         "yieldRateTitle": "Tasso di rendimento",
-        "yieldRateDescription": "Mentre la maggior parte dei pool offre guadagni sotto forma di token del pool di liquidità, alcuni offrono token aggiuntivi come ricompensa o ulteriore incentivo.\n\nPoiché Valora aggrega pool di più protocolli, abbiamo combinato tutti i tassi di guadagno e di ricompensa in un unico tasso di rendimento complessivo per aiutarti a valutare facilmente il tuo potenziale di guadagno. Questo numero è una stima poiché i valori di guadagno e ricompensa fluttuano costantemente.\n\nPer ulteriori informazioni sulla ripartizione dei guadagni, puoi visitare il sito <0>{{providerName}}</0>."
+        "yieldRateDescription": "Sebbene la maggior parte dei pool converta i guadagni in token di liquidità, alcuni offrono token aggiuntivi come ricompensa o ulteriore incentivo.\n\nPoiché Valora aggrega pool che utilizzano più protocolli, tutti i tassi di guadagno e ricompensa sono stati riuniti in un unico tasso di rendimento complessivo, in modo che risulti più facile valutare il potenziale di guadagno. Tale numero è una stima poiché i valori di guadagno e ricompensa fluttuano costantemente.\n\nPer ulteriori informazioni sulla ripartizione del guadagno, visita <0>{{providerName}}</0>."
       }
     }
   },
