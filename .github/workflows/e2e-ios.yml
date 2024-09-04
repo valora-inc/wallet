@@ -35,10 +35,11 @@ jobs:
       # The `yarn build` step done in the test workflow also includes it but does it with the default celo branding.
       - name: TS check
         run: yarn build:ts
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.7
-          bundler-cache: true
+      - name: Install Ruby dependencies
+        run: |
+          gem update --system 3.2.3
+          bundle config set --local path 'vendor/bundle'
+          bundle install
       - name: Fail if someone forgot to commit "Gemfile.lock"
         run: git diff --exit-code
       - name: Install CocoaPods dependencies
