@@ -48,7 +48,6 @@ jobs:
       - uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ steps.google-secrets.outputs.BOT_SSH_KEY }}
-      - run: rm -rf .git/
       - uses: actions/setup-java@v4
         with:
           distribution: 'adopt-openj9'
