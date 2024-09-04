@@ -1,4 +1,3 @@
-import { appendPath } from '@celo/utils/lib/string'
 import { formatJsonRpcError, formatJsonRpcResult, JsonRpcResult } from '@json-rpc-tools/utils'
 import { Core } from '@walletconnect/core'
 import '@walletconnect/react-native-compat'
@@ -7,14 +6,14 @@ import { buildApprovedNamespaces, getSdkError, parseUri } from '@walletconnect/u
 import { IWeb3Wallet, Web3Wallet, Web3WalletTypes } from '@walletconnect/web3wallet'
 import { EventChannel, eventChannel } from 'redux-saga'
 import { showMessage } from 'src/alert/actions'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { WalletConnectEvents } from 'src/analytics/Events'
 import { WalletConnect2Properties } from 'src/analytics/Properties'
 import { DappRequestOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
-import AppAnalytics from 'src/analytics/AppAnalytics'
 import { walletConnectEnabledSelector } from 'src/app/selectors'
 import { getDappRequestOrigin } from 'src/app/utils'
 import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
-import { WALLET_CONNECT_PROJECT_ID } from 'src/config'
+import { DEEPLINK_PREFIX, WALLET_CONNECT_PROJECT_ID } from 'src/config'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { ActiveDapp } from 'src/dapps/types'
 import i18n from 'src/i18n'
@@ -26,6 +25,7 @@ import { Network } from 'src/transactions/types'
 import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
+import { appendPath } from 'src/utils/string'
 import { publicClient } from 'src/viem'
 import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import {
@@ -86,7 +86,6 @@ import {
 } from 'typed-redux-saga'
 import { Address, BaseError, GetTransactionCountParameters, hexToBigInt, isHex } from 'viem'
 import { getTransactionCount } from 'viem/actions'
-import { DEEPLINK_PREFIX } from 'src/config'
 
 let client: IWeb3Wallet | null = null
 

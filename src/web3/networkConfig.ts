@@ -1,10 +1,10 @@
-import { EIP712TypedData } from '@celo/utils/lib/sign-typed-data-utils'
 import _ from 'lodash'
 import { Environment as PersonaEnvironment } from 'react-native-persona'
 import { BIDALI_URL, DEFAULT_FORNO_URL, DEFAULT_TESTNET, RECAPTCHA_SITE_KEY } from 'src/config'
 import { Network, NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { EIP712TypedData } from 'src/utils/sign-typed-data-utils'
 import { Address } from 'viem'
 import {
   Chain as ViemChain,

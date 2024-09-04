@@ -1,15 +1,13 @@
 import { CeloTx, EncodedTransaction } from '@celo/connect'
-import { normalizeAddressWith0x, privateKeyToPublicKey } from '@celo/utils/lib/address'
-import { Encrypt } from '@celo/utils/lib/ecies'
-import { verifySignature } from '@celo/utils/lib/signatureUtils'
 import { recoverTransaction, verifyEIP712TypedDataSigner } from '@celo/wallet-base'
 import MockDate from 'mockdate'
 import * as Keychain from 'react-native-keychain'
-import { trimLeading0x } from 'src/utils/address'
+import { normalizeAddressWith0x, privateKeyToPublicKey, trimLeading0x } from 'src/utils/address'
 import { aesEncrypt } from 'src/utils/aes'
-import { UNLOCK_DURATION } from 'src/web3/consts'
+import { Encrypt } from 'src/utils/ecies'
 import { KeychainAccounts } from 'src/web3/KeychainAccounts'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
+import { UNLOCK_DURATION } from 'src/web3/consts'
 import * as mockedKeychain from 'test/mockedKeychain'
 import {
   mockAddress,
@@ -19,6 +17,7 @@ import {
   mockPrivateKey,
   mockPrivateKey2,
 } from 'test/values'
+import { Address, verifyMessage } from 'viem'
 
 const CHAIN_ID = 44378
 
@@ -348,7 +347,12 @@ describe('KeychainWallet', () => {
               const hexStr: string = mockAddress
               const signedMessage = await wallet.signPersonalMessage(knownAddress, hexStr)
               expect(signedMessage).not.toBeUndefined()
-              const valid = verifySignature(hexStr, signedMessage, knownAddress)
+              // const valid = verifyMessage(hexStr, signedMessage, knownAddress)
+              const valid = verifyMessage({
+                address: knownAddress,
+                message: hexStr,
+                signature: signedMessage as Address,
+              })
               expect(valid).toBeTruthy()
             })
           })

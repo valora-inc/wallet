@@ -1,4 +1,3 @@
-import { parseInputAmount } from '@celo/utils/lib/parsing'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
@@ -47,6 +46,7 @@ import { useLocalToTokenAmount, useTokenInfo, useTokenToLocalAmount } from 'src/
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
+import { parseInputAmount } from 'src/utils/parsing'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { isAddress } from 'viem'
 

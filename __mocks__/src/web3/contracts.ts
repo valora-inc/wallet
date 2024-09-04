@@ -1,6 +1,7 @@
 import { newKitFromWeb3 } from '@celo/contractkit'
-import { privateKeyToAddress } from '@celo/utils/lib/address'
+import { type Hex } from 'viem'
 import Web3 from 'web3'
+import { privateKeyToAddress } from '../../../src/utils/address'
 
 export const initContractKit = jest.fn()
 
@@ -15,7 +16,7 @@ export async function getContractKitAsync() {
 }
 
 const mockWallet = {
-  addAccount: jest.fn(async (privateKey: string, passphrase: string) =>
+  addAccount: jest.fn(async (privateKey: Hex, passphrase: string) =>
     privateKeyToAddress(privateKey)
   ),
   updateAccount: jest.fn().mockResolvedValue(true),
