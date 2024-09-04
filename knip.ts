@@ -35,6 +35,7 @@ const config: KnipConfig = {
     '@types/jest',
     'husky',
     'react-native-randombytes', // not sure we need this; only referenced in iOS Podfile.lock
+    '@celo/contractkit', // Temporary until we remove the dependency
   ],
   ignore: ['src/utils/inputValidation.ts', 'src/utils/country.json'],
 }
