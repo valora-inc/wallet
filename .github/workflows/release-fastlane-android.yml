@@ -120,7 +120,7 @@ jobs:
           fields: |
             [
               { "title": "Version", "value": "${env.WALLET_VERSION} (${env.WALLET_VERSION_CODE})", "short": true },
-              { "title": "Commit", "value": "<https://github.com/valora-inc/wallet/commit/${env.WALLET_COMMIT_HASH}|${(env.WALLET_COMMIT_HASH || "").slice(0, 7)}> (<https://github.com/valora-inc/wallet/tree/${env.BRANCH}|${env.BRANCH}>)", "short": true }
+              { "title": "Commit", "value": "<https://github.com/${{github.repository}}/commit/${env.WALLET_COMMIT_HASH}|${(env.WALLET_COMMIT_HASH || "").slice(0, 7)}> (<https://github.com/${{github.repository}}/tree/${env.BRANCH}|${env.BRANCH}>)", "short": true }
             ]
         env:
           SLACK_WEBHOOK_URL: ${{ steps.google-secrets.outputs.SLACK_WEBHOOK_URL }}
