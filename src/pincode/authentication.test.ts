@@ -42,10 +42,6 @@ import { mockAccount, mockMnemonic } from 'test/values'
 jest.mock('src/web3/contracts')
 jest.unmock('src/pincode/authentication')
 jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))
-jest.mock('react-native-securerandom', () => ({
-  ...(jest.requireActual('react-native-securerandom') as any),
-  generateSecureRandom: jest.fn(() => new Uint8Array(16).fill(1)),
-}))
 jest.mock('src/analytics/AppAnalytics')
 jest.mock('src/utils/sleep', () => ({
   ...jest.requireActual('src/utils/sleep'),
