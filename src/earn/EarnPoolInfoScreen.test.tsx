@@ -203,42 +203,47 @@ describe('EarnPoolInfoScreen', () => {
 
   it.each([
     {
+      testId: 'DepositInfoBottomSheet',
+      infoIconTestId: 'DepositInfoIcon',
+      type: 'deposit',
+    },
+    {
       testId: 'TvlInfoBottomSheet',
-      event: EarnEvents.earn_pool_info_tap_info_icon,
       infoIconTestId: 'TvlInfoIcon',
       type: 'tvl',
     },
     {
       testId: 'AgeInfoBottomSheet',
-      event: EarnEvents.earn_pool_info_tap_info_icon,
       infoIconTestId: 'AgeInfoIcon',
       type: 'age',
     },
     {
       testId: 'YieldRateInfoBottomSheet',
-      event: EarnEvents.earn_pool_info_tap_info_icon,
       infoIconTestId: 'YieldRateInfoIcon',
       type: 'yieldRate',
     },
-  ])('opens $testId and track analytics event', ({ testId, event, infoIconTestId, type }) => {
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <MockedNavigator
-          component={() => {
-            return (
-              <EarnPoolInfoScreen
-                {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, {
-                  pool: mockEarnPositions[0],
-                })}
-              />
-            )
-          }}
-        />
-      </Provider>
-    )
+  ])('opens $testId and track analytics event', ({ testId, infoIconTestId, type }) => {
+    const mockPool = {
+      ...mockEarnPositions[0],
+      balance: '100',
+      dataProps: {
+        ...mockEarnPositions[0].dataProps,
+        earningItems: [
+          { amount: '15', label: 'Earnings', tokenId: mockArbUsdcTokenId },
+          {
+            amount: '1',
+            label: 'Reward',
+            tokenId: mockArbUsdcTokenId,
+            includedInPoolBalance: false,
+          },
+        ],
+      },
+    }
+
+    const { getByTestId } = renderEarnPoolInfoScreen(mockPool)
     fireEvent.press(getByTestId(infoIconTestId))
     expect(getByTestId(testId)).toBeVisible()
-    expect(AppAnalytics.track).toHaveBeenCalledWith(event, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_info_tap_info_icon, {
       providerId: 'aave',
       poolId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
       type,

@@ -197,11 +197,6 @@ export enum OnboardingEvents {
   initialize_account_complete = 'initialize_account_complete',
   initialize_account_error = 'initialize_account_error',
 
-  account_dek_register_start = 'account_dek_register_start',
-  account_dek_register_account_unlocked = 'account_dek_register_account_unlocked',
-  account_dek_register_account_checked = 'account_dek_register_account_checked',
-  account_dek_register_complete = 'account_dek_register_complete',
-
   protect_wallet_use_recovery = 'protect_wallet_use_recovery',
   protect_wallet_help = 'protect_wallet_help',
   protect_wallet_help_dismiss = 'protect_wallet_help_dismiss',

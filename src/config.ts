@@ -1,4 +1,3 @@
-import { stringToBoolean } from '@celo/utils/lib/parsing'
 import { Network } from '@fiatconnect/fiatconnect-types'
 import Config from 'react-native-config'
 import { CachesDirectoryPath } from 'react-native-fs'
@@ -7,6 +6,7 @@ import { LoggerLevel } from 'src/utils/LoggerLevels'
 // eslint-disable-next-line import/no-relative-packages
 import { TORUS_SAPPHIRE_NETWORK } from '@toruslabs/constants'
 import { HomeActionName } from 'src/home/types'
+import { stringToBoolean } from 'src/utils/parsing'
 import * as secretsFile from '../secrets.json'
 import { ONE_HOUR_IN_MILLIS } from './utils/time'
 export * from 'src/brandingConfig'
@@ -49,8 +49,6 @@ export const DEV_SETTINGS_ACTIVE_INITIALLY = stringToBoolean(
 export const GAS_INFLATION_FACTOR = 1.5 // Used when estimating gas for txs
 export const GAS_PRICE_INFLATION_FACTOR = 5 // Used when getting gas price, must match what Geth does
 export const ALERT_BANNER_DURATION = 5000
-export const MAX_COMMENT_LENGTH = 70
-export const MAX_ENCRYPTED_COMMENT_LENGTH_APPROX = 640 // used to estimate fees. should be updated if MAX_COMMENT_LENGTH is changed. chosen empirically by encrypting a comment of max length
 // The maximum allowed value to add funds
 export const DOLLAR_ADD_FUNDS_MAX_AMOUNT = 5000
 // The minimum allowed value for a transaction such as a transfer

@@ -7,8 +7,6 @@ import {
 } from '../utils/consts'
 import { launchApp } from '../utils/retries'
 import {
-  addComment,
-  confirmTransaction,
   enterPinUiIfNecessary,
   isElementVisible,
   quickOnboarding,
@@ -22,9 +20,7 @@ export default Send = () => {
   })
 
   describe('When multi-token send flow to address', () => {
-    let commentText
     beforeAll(async () => {
-      commentText = `${new Date().getTime()}-${parseInt(Math.random() * 100000)}`
       await launchApp({ newInstance: true })
     })
 
@@ -74,12 +70,6 @@ export default Send = () => {
       await expect(element(by.text('0xe5f5...8846'))).toBeVisible()
     })
 
-    it('Then should be able to add a comment', async () => {
-      await addComment('Starting Comment ❤️')
-      let comment = await element(by.id('commentInput/send')).getAttributes()
-      jestExpect(comment.text).toEqual('Starting Comment ❤️')
-    })
-
     it('Then should be able to edit amount', async () => {
       await element(by.id('BackChevron')).tap()
       await isElementVisible('SendEnterAmount/ReviewButton')
@@ -90,11 +80,6 @@ export default Send = () => {
       await waitForElementByIdAndTap('SendEnterAmount/ReviewButton', 30_000)
       let amount = await element(by.id('SendAmount')).getAttributes()
       jestExpect(amount.text).toEqual('0.01 cEUR')
-      let emptyComment = await element(by.id('commentInput/send')).getAttributes()
-      jestExpect(emptyComment.text).toEqual('')
-      await addComment(commentText)
-      let comment = await element(by.id('commentInput/send')).getAttributes()
-      jestExpect(comment.text).toEqual(commentText)
     })
 
     it('Then should be able to send', async () => {
@@ -102,14 +87,11 @@ export default Send = () => {
       await enterPinUiIfNecessary()
       await expect(element(by.text('Transaction failed, please retry'))).not.toBeVisible()
       await waitForElementId('HomeAction-Send', 30_000)
-      await confirmTransaction(commentText)
     })
   })
 
   describe('When multi-token send flow to recent recipient', () => {
-    let commentText
     beforeAll(async () => {
-      commentText = `${new Date().getTime()}`
       await launchApp({ newInstance: true })
     })
 
@@ -143,25 +125,16 @@ export default Send = () => {
       await expect(element(by.text('0xe5f5...8846'))).toBeVisible()
     })
 
-    it('Then should be able to add a comment', async () => {
-      await addComment(commentText)
-      let comment = await element(by.id('commentInput/send')).getAttributes()
-      jestExpect(comment.text).toEqual(commentText)
-    })
-
     it('Then should be able to send', async () => {
       await element(by.id('ConfirmButton')).tap()
       await enterPinUiIfNecessary()
       await expect(element(by.text('Transaction failed, please retry'))).not.toBeVisible()
       await waitForElementId('HomeAction-Send', 30_000)
-      await confirmTransaction(commentText)
     })
   })
 
   describe('When multi-token send flow to phone number with one address', () => {
-    let commentText
     beforeAll(async () => {
-      commentText = `${new Date().getTime()}`
       await device.uninstallApp()
       await device.installApp()
       await launchApp({ newInstance: true })
@@ -210,18 +183,11 @@ export default Send = () => {
       await expect(element(by.text(SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER_DISPLAY))).toBeVisible()
     })
 
-    it('Then should be able to add a comment', async () => {
-      await addComment(commentText)
-      let comment = await element(by.id('commentInput/send')).getAttributes()
-      jestExpect(comment.text).toEqual(commentText)
-    })
-
     it('Then should be able to send', async () => {
       await element(by.id('ConfirmButton')).tap()
       await enterPinUiIfNecessary()
       await expect(element(by.text('Transaction failed, please retry'))).not.toBeVisible()
       await waitForElementId('HomeAction-Send', 30_000)
-      await confirmTransaction(commentText)
     })
   })
 }

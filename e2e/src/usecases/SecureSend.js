@@ -7,7 +7,6 @@ import {
 } from '../utils/consts'
 import { launchApp } from '../utils/retries'
 import {
-  addComment,
   enterPinUiIfNecessary,
   fundWallet,
   inputNumberKeypad,
@@ -15,8 +14,6 @@ import {
   quickOnboarding,
   waitForElementId,
   waitForElementByIdAndTap,
-  confirmTransaction,
-  createCommentText,
 } from '../utils/utils'
 
 const AMOUNT_TO_SEND = '0.01'
@@ -73,18 +70,12 @@ export default SecureSend = () => {
       await element(by.id('SendEnterAmount/TokenAmountInput')).tapReturnKey()
       await element(by.id('SendEnterAmount/ReviewButton')).tap()
 
-      // Write a comment.
-      const commentText = createCommentText()
-      await addComment(commentText)
-
       // Confirm and input PIN if necessary.
       await element(by.id('ConfirmButton')).tap()
       await enterPinUiIfNecessary()
 
       // Return to home screen.
       await waitForElementId('HomeAction-Send', 30_000)
-
-      await confirmTransaction(commentText)
     })
   })
 }

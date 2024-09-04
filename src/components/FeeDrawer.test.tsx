@@ -23,8 +23,6 @@ describe('FeeDrawer', () => {
     isExchange = false,
     securityFee = new BigNumber(0.005),
     exchangeFee = undefined,
-    showDekfee = false,
-    dekFee = new BigNumber(0.002),
     feeLoading = false,
     feeHasError = false,
     totalFee = new BigNumber(0.007),
@@ -36,8 +34,6 @@ describe('FeeDrawer', () => {
     isExchange?: boolean
     securityFee?: BigNumber
     exchangeFee?: BigNumber
-    dekFee?: BigNumber
-    showDekfee?: boolean
     feeLoading?: boolean
     feeHasError?: boolean
     totalFee?: BigNumber
@@ -82,8 +78,6 @@ describe('FeeDrawer', () => {
           isExchange={isExchange}
           securityFee={securityFee}
           exchangeFee={exchangeFee}
-          showDekfee={showDekfee}
-          dekFee={dekFee}
           feeLoading={feeLoading}
           feeHasError={feeHasError}
           totalFee={totalFee}
@@ -105,16 +99,6 @@ describe('FeeDrawer', () => {
         '0.005 CELO'
       )
     })
-    it('shows total fee, security fee and dek fee', () => {
-      const { getByTestId } = renderComponent({ showDekfee: true })
-      expect(getElementText(getByTestId('feeDrawer/SendConfirmation/totalFee'))).toEqual(
-        '0.007 CELO'
-      )
-      expect(getElementText(getByTestId('feeDrawer/SendConfirmation/securityFee'))).toEqual(
-        '0.005 CELO'
-      )
-      expect(getElementText(getByTestId('feeDrawer/SendConfirmation/dekFee'))).toEqual('0.002 CELO')
-    })
     it('shows total fee, security fee, exchange fee', () => {
       const { getByTestId } = renderComponent({
         isExchange: true,
@@ -130,10 +114,9 @@ describe('FeeDrawer', () => {
         '0.001 CELO'
       )
     })
-    it('shows total fee, security fee, dek fee and exchange fee in local cUSD', () => {
+    it('shows total fee, security fee, and exchange fee in local cUSD', () => {
       const { getByTestId } = renderComponent({
         tokenId: mockCusdTokenId,
-        showDekfee: true,
         isExchange: true,
         exchangeFee: new BigNumber(0.001),
       })
@@ -143,15 +126,13 @@ describe('FeeDrawer', () => {
       expect(getElementText(getByTestId('feeDrawer/SendConfirmation/securityFee'))).toEqual(
         '0.005 cUSD'
       )
-      expect(getElementText(getByTestId('feeDrawer/SendConfirmation/dekFee'))).toEqual('0.002 cUSD')
       expect(getElementText(getByTestId('feeDrawer/SendConfirmation/exchangeFee'))).toEqual(
         '0.001 cUSD'
       )
     })
-    it('shows total fee, security fee, dek fee and exchange fee in local amount', () => {
+    it('shows total fee, security fee, and exchange fee in local amount', () => {
       const { getByTestId } = renderComponent({
         showLocalAmount: true,
-        showDekfee: true,
         isExchange: true,
         exchangeFee: new BigNumber(0.001),
       })
@@ -161,7 +142,6 @@ describe('FeeDrawer', () => {
       expect(getElementText(getByTestId('feeDrawer/SendConfirmation/securityFee'))).toEqual(
         'R$0.00025'
       )
-      expect(getElementText(getByTestId('feeDrawer/SendConfirmation/dekFee'))).toEqual('R$0.0001')
       expect(getElementText(getByTestId('feeDrawer/SendConfirmation/exchangeFee'))).toEqual(
         'R$0.00005'
       )
