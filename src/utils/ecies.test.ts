@@ -1,3 +1,8 @@
+/**
+ * Reference file:
+ * https://github.com/celo-org/developer-tooling/blob/38b26316d615e836e21bbfe2f44853f7e8220e03/packages/sdk/utils/src/ecies.test.ts
+ */
+
 import { bytesToUtf8, u8, utf8ToBytes } from '@noble/ciphers/utils'
 import { secp256k1 } from '@noble/curves/secp256k1'
 import { randomBytes } from '@noble/hashes/utils'

@@ -1,7 +1,7 @@
 /**
  * Reference files:
- * https://github.com/celo-org/developer-tooling/blob/master/packages/sdk/base/src/address.ts
- * https://github.com/celo-org/developer-tooling/blob/master/packages/sdk/utils/src/address.ts
+ * https://github.com/celo-org/developer-tooling/blob/6e3372f5ada20bb59d88e275170be4dae1e99f01/packages/sdk/base/src/address.ts
+ * https://github.com/celo-org/developer-tooling/blob/5cfd16214ca7ef7a7ff428c7d397933b3e1eeb51/packages/sdk/utils/src/address.ts
  */
 
 import { privateToPublic, toChecksumAddress } from '@ethereumjs/util'

@@ -1,6 +1,6 @@
 /**
- * THIS FILE IS AN EXACT REPLICA OF A REFERENCE FILE:
- * https://github.com/celo-org/developer-tooling/blob/master/packages/sdk/utils/src/ecies.ts
+ * Reference file:
+ * https://github.com/celo-org/developer-tooling/blob/38b26316d615e836e21bbfe2f44853f7e8220e03/packages/sdk/utils/src/ecies.ts
  */
 
 /**
