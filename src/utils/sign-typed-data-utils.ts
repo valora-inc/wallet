@@ -4,16 +4,16 @@
  */
 import type BigNumber from 'bignumber.js'
 
-export interface EIP712Parameter {
+interface EIP712Parameter {
   name: string
   type: string
 }
 
-export interface EIP712Types {
+interface EIP712Types {
   [key: string]: EIP712Parameter[]
 }
 
-export type EIP712ObjectValue =
+type EIP712ObjectValue =
   | string
   | number
   | BigNumber
@@ -22,7 +22,7 @@ export type EIP712ObjectValue =
   | EIP712Object
   | EIP712ObjectValue[]
 
-export interface EIP712Object {
+interface EIP712Object {
   [key: string]: EIP712ObjectValue
 }
 

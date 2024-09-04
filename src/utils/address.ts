@@ -25,15 +25,13 @@ export const normalizeAddressWith0x = (a: string) => ensureLeading0x(a).toLowerC
 export const ensureLeading0x = (input: string): Address =>
   input.startsWith('0x') ? (input as Address) : (`0x${input}` as const)
 
-export const hexToBuffer = (input: string) => Buffer.from(trimLeading0x(input), 'hex')
+const hexToBuffer = (input: string) => Buffer.from(trimLeading0x(input), 'hex')
 
 export const privateKeyToPublicKey = (privateKey: string) =>
   toChecksumAddress(ensureLeading0x(privateToPublic(hexToBuffer(privateKey)).toString('hex')))
 
 export const privateKeyToAddress = (privateKey: string) =>
   privateKeyToAddressViem(ensureLeading0x(privateKey))
-
-export const eqAddress = (a: string, b: string) => normalizeAddress(a) === normalizeAddress(b)
 
 export const normalizeAddress = (a: string) => trimLeading0x(a).toLowerCase()
 

@@ -1,4 +1,9 @@
 /**
+ * THIS FILE IS AN EXACT REPLICA OF A REFERENCE FILE:
+ * https://github.com/celo-org/developer-tooling/blob/master/packages/sdk/utils/src/ecies.ts
+ */
+
+/**
  * ECIES encrypt/decrypt with Ethereum keys
  * A Typescript implementation of geth/crypto/ecies/ecies.go
  * Modified from https://github.com/LimelabsTech/eth-ecies/blob/master/index.js
@@ -15,7 +20,7 @@ import { hmac } from '@noble/hashes/hmac'
 import { sha256 } from '@noble/hashes/sha256'
 import { randomBytes } from '@noble/hashes/utils'
 
-export const IV_LENGTH = 16
+const IV_LENGTH = 16
 
 /**
  * Increments big endian uint32
@@ -45,7 +50,7 @@ const IncCounter = (ctr: Buffer) => {
  * @param {number} kdLen Length of output in bytes
  * @returns {Buffer} Output keying material of length kdLen bytes.
  */
-export const ConcatKDF = (px: Buffer, kdLen: number) => {
+const ConcatKDF = (px: Buffer, kdLen: number) => {
   const blockSize = 32
   const reps = ((kdLen + 7) * 8) / (blockSize * 8)
   let counter = Buffer.from('00000001', 'hex')
@@ -67,7 +72,7 @@ export const ConcatKDF = (px: Buffer, kdLen: number) => {
  * @param {Uint8Array} plaintext
  * @returns {Uint8Array} ciphertext
  */
-export function AES128Encrypt(
+function AES128Encrypt(
   encryptionKey: Uint8Array,
   iv: Uint8Array,
   plaintext: Uint8Array
@@ -85,7 +90,7 @@ export function AES128Encrypt(
  * @param {Uint8Array} plaintext
  * @returns {Uint8Array} ciphertext
  */
-export function AES128EncryptAndHMAC(
+function AES128EncryptAndHMAC(
   encryptionKey: Uint8Array,
   macKey: Uint8Array,
   plaintext: Uint8Array
@@ -103,7 +108,7 @@ export function AES128EncryptAndHMAC(
  * @param {Uint8Array} ciphertext
  * @returns {Uint8Array} plaintext
  */
-export function AES128Decrypt(
+function AES128Decrypt(
   encryptionKey: Uint8Array,
   iv: Uint8Array,
   ciphertext: Uint8Array
@@ -119,7 +124,7 @@ export function AES128Decrypt(
  * @param {Uint8Array} ciphertext
  * @returns {Uint8Array} plaintext
  */
-export function AES128DecryptAndHMAC(
+function AES128DecryptAndHMAC(
   encryptionKey: Uint8Array,
   macKey: Uint8Array,
   ciphertext: Uint8Array
@@ -177,7 +182,7 @@ export function Encrypt(pubKeyTo: PubKey, plaintext: Uint8Array) {
  * @param {Buffer} encrypted Encrypted message, serialized, 113+ bytes
  * @returns {Buffer} plaintext
  */
-export function Decrypt(privKey: PrivKey, encrypted: Buffer) {
+function Decrypt(privKey: PrivKey, encrypted: Buffer) {
   // Read iv, ephemPubKey, mac, ciphertext from encrypted message
   const ephemPubKeyEncoded = u8(encrypted).slice(0, UNCOMPRESSED_KEY_LENGTH)
   const symmetricEncrypted = u8(encrypted).slice(UNCOMPRESSED_KEY_LENGTH)
