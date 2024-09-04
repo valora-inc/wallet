@@ -1,5 +1,4 @@
 import { isValidAddress, normalizeAddress, normalizeAddressWith0x } from '@celo/utils/lib/address'
-import CryptoJS from 'crypto-js'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { generateKeysFromMnemonic, getStoredMnemonic } from 'src/backup/utils'
 import {
@@ -9,6 +8,7 @@ import {
   storeItem,
 } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
+import { aesDecrypt, aesEncrypt } from 'src/utils/aes'
 import { ViemKeychainAccount, keychainAccountToAccount } from 'src/viem/keychainAccountToAccount'
 import { Hex } from 'viem'
 import { Address, privateKeyToAddress } from 'viem/accounts'
@@ -39,13 +39,12 @@ function accountStorageKey(account: KeychainAccount) {
 }
 
 export async function encryptPrivateKey(privateKey: string, password: string) {
-  return CryptoJS.AES.encrypt(privateKey, password).toString()
+  return aesEncrypt(privateKey, password)
 }
 
 export async function decryptPrivateKey(encryptedPrivateKey: string, password: string) {
   try {
-    const bytes = CryptoJS.AES.decrypt(encryptedPrivateKey, password)
-    return bytes.toString(CryptoJS.enc.Utf8)
+    return aesDecrypt(encryptedPrivateKey, password)
   } catch (e) {
     // decrypt can sometimes throw if the inputs are incorrect (encryptedPrivateKey or password)
     Logger.warn(TAG, 'Failed to decrypt private key', e)

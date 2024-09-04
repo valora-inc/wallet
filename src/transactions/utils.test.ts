@@ -7,11 +7,7 @@ import {
 import { groupFeedItemsInSections } from 'src/transactions/utils'
 import { mockCusdAddress, mockCusdTokenId } from 'test/values'
 
-const mockFeedItem = (
-  timestamp: number,
-  comment: string,
-  status = TransactionStatus.Complete
-): TokenTransaction => {
+const mockFeedItem = (timestamp: number, status = TransactionStatus.Complete): TokenTransaction => {
   return {
     __typename: 'TokenTransferV3',
     networkId: NetworkId['celo-alfajores'],
@@ -28,9 +24,7 @@ const mockFeedItem = (
     timestamp,
     address: '0xanything',
     status,
-    metadata: {
-      comment,
-    },
+    metadata: {},
   }
 }
 
@@ -53,20 +47,20 @@ describe('groupFeedItemsInSections', () => {
   it('groups into sections correctly', () => {
     const standbyTransactions = [
       // most recent tx, should be first in the list
-      mockFeedItem(daysAgo(1), 'standby1', TransactionStatus.Pending),
+      mockFeedItem(daysAgo(1), TransactionStatus.Pending),
       // there are more recent completed transactions than this, but it should appear second
-      mockFeedItem(daysAgo(6), 'standby2', TransactionStatus.Pending),
+      mockFeedItem(daysAgo(6), TransactionStatus.Pending),
     ]
     const feedItems = [
-      mockFeedItem(daysAgo(3), 'recent1'),
-      mockFeedItem(daysAgo(5), 'recent2'),
-      mockFeedItem(daysAgo(15), 'september'),
-      mockFeedItem(daysAgo(20), 'august'),
-      mockFeedItem(daysAgo(30), 'august'),
-      mockFeedItem(daysAgo(30), 'august'),
-      mockFeedItem(daysAgo(50), 'july'),
-      mockFeedItem(daysAgo(275), 'december 2018'),
-      mockFeedItem(daysAgo(400), 'august 2018'),
+      mockFeedItem(daysAgo(3)),
+      mockFeedItem(daysAgo(5)),
+      mockFeedItem(daysAgo(15)),
+      mockFeedItem(daysAgo(20)),
+      mockFeedItem(daysAgo(30)),
+      mockFeedItem(daysAgo(30)),
+      mockFeedItem(daysAgo(50)),
+      mockFeedItem(daysAgo(275)),
+      mockFeedItem(daysAgo(400)),
     ]
     const sections = groupFeedItemsInSections(standbyTransactions, feedItems)
     expect(sections.length).toEqual(6)
@@ -74,19 +68,15 @@ describe('groupFeedItemsInSections', () => {
     expect(sections[0].title).toEqual('feedSectionHeaderRecent')
     expect(sections[0].data).toEqual([
       expect.objectContaining({
-        metadata: { comment: 'standby1' },
         status: TransactionStatus.Pending,
       }),
       expect.objectContaining({
-        metadata: { comment: 'standby2' },
         status: TransactionStatus.Pending,
       }),
       expect.objectContaining({
-        metadata: { comment: 'recent1' },
         status: TransactionStatus.Complete,
       }),
       expect.objectContaining({
-        metadata: { comment: 'recent2' },
         status: TransactionStatus.Complete,
       }),
     ])

@@ -40,7 +40,6 @@ function handlePaymentReceived(transferNotification: TransferNotificationData) {
       metadata: {
         title: transferNotification.name,
         image: transferNotification.imageUrl,
-        comment: transferNotification.comment,
       },
       fees: [],
       status: TransactionStatus.Complete,

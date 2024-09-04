@@ -53,7 +53,6 @@ interface NetworkConfig {
   walletJumpstartUrl: string
   verifyPhoneNumberUrl: string
   verifySmsCodeUrl: string
-  getPublicDEKUrl: string
   lookupPhoneNumberUrl: string
   lookupAddressUrl: string
   checkAddressVerifiedUrl: string
@@ -213,9 +212,6 @@ const VERIFY_PHONE_NUMBER_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/verifyPhoneNumbe
 const VERIFY_SMS_CODE_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/verifySmsCode`
 const VERIFY_SMS_CODE_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/verifySmsCode`
 
-const GET_PUBLIC_DEK_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getPublicDataEncryptionKey`
-const GET_PUBLIC_DEK_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getPublicDataEncryptionKey`
-
 const LOOKUP_PHONE_NUMBER_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/lookupPhoneNumber`
 const LOOKUP_PHONE_NUMBER_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/lookupPhoneNumber`
 
@@ -367,7 +363,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     walletJumpstartUrl: JUMPSTART_CLAIM_URL_ALFAJORES,
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_ALFAJORES,
     verifySmsCodeUrl: VERIFY_SMS_CODE_ALFAJORES,
-    getPublicDEKUrl: GET_PUBLIC_DEK_ALFAJORES,
     lookupPhoneNumberUrl: LOOKUP_PHONE_NUMBER_ALFAJORES,
     lookupAddressUrl: LOOKUP_ADDRESS_ALFAJORES,
     checkAddressVerifiedUrl: CHECK_ADDRESS_VERIFIED_ALFAJORES,
@@ -470,7 +465,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     walletJumpstartUrl: JUMPSTART_CLAIM_URL_MAINNET,
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_MAINNET,
     verifySmsCodeUrl: VERIFY_SMS_CODE_MAINNET,
-    getPublicDEKUrl: GET_PUBLIC_DEK_MAINNET,
     lookupPhoneNumberUrl: LOOKUP_PHONE_NUMBER_MAINNET,
     lookupAddressUrl: LOOKUP_ADDRESS_MAINNET,
     checkAddressVerifiedUrl: CHECK_ADDRESS_VERIFIED_MAINNET,

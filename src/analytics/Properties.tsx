@@ -399,26 +399,6 @@ interface OnboardingEventsProperties {
   [OnboardingEvents.initialize_account_error]: {
     error: string
   }
-
-  [OnboardingEvents.account_dek_register_start]:
-    | {
-        feeless?: boolean
-      }
-    | undefined
-  [OnboardingEvents.account_dek_register_account_unlocked]:
-    | {
-        feeless?: boolean
-      }
-    | undefined
-  [OnboardingEvents.account_dek_register_account_checked]:
-    | {
-        feeless?: boolean
-      }
-    | undefined
-  [OnboardingEvents.account_dek_register_complete]: {
-    newRegistration: boolean
-    feeless?: boolean
-  }
   [OnboardingEvents.protect_wallet_use_recovery]:
     | {
         position?: number
@@ -546,7 +526,6 @@ interface SendEventsProperties {
         localCurrency: LocalCurrencyCode
         dollarAmount: string | null
         localCurrencyAmount: string | null
-        commentLength: number
       }
     | {
         origin: SendOrigin
@@ -560,7 +539,6 @@ interface SendEventsProperties {
         tokenAddress: string | null
         networkId: NetworkId | null
         tokenId: string
-        commentLength: number
         isTokenManuallyImported: boolean
       }
 
