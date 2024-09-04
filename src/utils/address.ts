@@ -5,7 +5,7 @@
  */
 
 import { privateToPublic, toChecksumAddress } from '@ethereumjs/util'
-import { Address } from 'viem'
+import { Address, isAddress } from 'viem'
 import { privateKeyToAddress as privateKeyToAddressViem } from 'viem/accounts'
 
 /**
@@ -35,20 +35,6 @@ export const privateKeyToAddress = (privateKey: string) =>
 
 export const normalizeAddress = (a: string) => trimLeading0x(a).toLowerCase()
 
-export const isValidAddress = (input: string): input is Address => {
-  if ('string' !== typeof input) {
-    return false
-  }
-  if (!/^(0x)?[0-9a-f]{40}$/i.test(input)) {
-    return false
-  }
-  if (/^(0x|0X)?[0-9A-F]{40}$/.test(input.toUpperCase())) {
-    return true
-  }
-
-  if (toChecksumAddress(input) === input) {
-    return true
-  }
-
-  return false
+export const isValidAddress = (input: string | null | undefined): input is Address => {
+  return input ? isAddress(input.toLowerCase()) : false
 }
