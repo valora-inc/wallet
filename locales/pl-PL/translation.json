@@ -2669,6 +2669,8 @@
       "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "Rozumiem",
+        "depositDescription": "Jest to zestawienie zdeponowanej kwoty, odsetek uzyskanych od tej kwoty oraz wszelkich dodatkowych nagród, które otrzymałeś za udział w puli.",
+        "depositNoBreakdownDescription": "Liczba ta łączy dostarczone tokeny z wszelkimi odsetkami i nagrodami, które zarobiłeś.\n\nNiektóre protokoły, takie jak {{providerName}}, nie zapewniają podziału twoich zarobków - to normalne. Zamiast tego dodają twoje zarobki bezpośrednio do zdeponowanej kwoty, która nadal zarabia odsetki w oparciu o rosnącą kwotę. ",
         "tvlTitle": "Całkowita wartość zablokowana (TVL)",
         "tvlDescription": "Wskaźnik TVL odnosi się do łącznej wartości aktywów wpłaconych do puli płynności. Można go używać do wskazywania zaufania i przydatności puli. Zwykle im wyższy wskaźnik TVL, tym niższe ryzyko, ale żadna pula nie jest całkowicie pozbawiona ryzyka.",
         "ageTitle": "Wiek puli",
