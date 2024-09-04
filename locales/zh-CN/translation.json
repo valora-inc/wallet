@@ -2663,6 +2663,8 @@
       "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "知道了",
+        "depositDescription": "这是您存入的金额、您从该金额中获得的利息以及您从参与奖池中获得的任何额外奖励的明细。",
+        "depositNoBreakdownDescription": "这个数字是您提供的代币与您赚取的利息和奖励的总和。\n\n有些协议（如 {{providerName}}）不提供收益明细，这是正常的。相反，他们会将您的收益直接加到您的存款金额中，并根据不断增长的金额继续赚取利息。 ",
         "tvlTitle": "锁定总价值 (TVL)",
         "tvlDescription": "TVL 指存入流动性资金池的资产总额，可用来帮助说明资金池的信任度和效用。通常情况下，TVL 越高，风险越低，但没有一个资金池是完全没有风险的。",
         "ageTitle": "泳池年龄",
