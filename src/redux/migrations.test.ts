@@ -55,6 +55,7 @@ import {
   v21Schema,
   v222Schema,
   v227Schema,
+  v228Schema,
   v28Schema,
   v2Schema,
   v35Schema,
