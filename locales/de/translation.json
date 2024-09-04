@@ -2665,6 +2665,8 @@
       "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "Verstanden",
+        "depositDescription": "Dies ist die Aufschlüsselung deines eingezahlten Betrags, der Zinsen, die du auf diesen Betrag erhalten hast, und aller zusätzlichen Prämien, die du durch die Teilnahme am Pool erhalten hast.",
+        "depositNoBreakdownDescription": "Diese Zahl setzt sich zusammen aus den von dir bereitgestellten Token und den Zinsen und Belohnungen, die du verdient hast.\n\nBei einigen Protokollen, wie z.B. {{providerName}}, wird dein Verdienst nicht aufgeschlüsselt - das ist normal. Stattdessen wird der Verdienst direkt mit dem eingezahlten Betrag verrechnet, der wiederum mit dem wachsenden Betrag verzinst wird. ",
         "tvlTitle": "Total Value Locked (TVL)",
         "tvlDescription": "Die TVL bezieht sich auf den Gesamtbetrag der in einem Liquiditätspool hinterlegten Vermögenswerte und kann als Indikator für das Vertrauen und den Nutzen eines Pools verwendet werden. In der Regel bedeutet eine höhere TVL ein geringeres Risiko, allerdings ist kein Pool völlig risikofrei.",
         "ageTitle": "Alter des Pools",
