@@ -1,5 +1,4 @@
 import { privateKeyToAddress } from '@celo/utils/lib/address'
-import { RpcWalletErrors } from '@celo/wallet-rpc/lib/rpc-wallet'
 import { setAccountCreationTime } from 'src/account/actions'
 import { generateSignedMessage } from 'src/account/saga'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -87,10 +86,7 @@ export function* assignAccountFromPrivateKey(privateKey: string, mnemonic: strin
       yield* call([keychainAccounts, keychainAccounts.addAccount], privateKey, password)
     } catch (err) {
       const e = ensureError(err)
-      if (
-        e.message === RpcWalletErrors.AccountAlreadyExists ||
-        e.message === ErrorMessages.KEYCHAIN_ACCOUNT_ALREADY_EXISTS
-      ) {
+      if (e.message === ErrorMessages.KEYCHAIN_ACCOUNT_ALREADY_EXISTS) {
         Logger.warn(TAG + '@assignAccountFromPrivateKey', 'Attempted to import same account')
       } else {
         Logger.error(TAG + '@assignAccountFromPrivateKey', 'Error importing raw key')
