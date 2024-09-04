@@ -2665,6 +2665,8 @@
       "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "Entendido",
+        "depositDescription": "Este es el desglose de la cantidad depositada, los intereses que has ganado por esa cantidad y cualquier recompensa adicional que hayas recibido por participar en el fondo común.",
+        "depositNoBreakdownDescription": "Este número combina tus fichas suministradas con cualquier interés y recompensa que hayas ganado.\n\nAlgunos protocolos, como {{providerName}}, no proporcionan un desglose de tus ganancias - esto es normal. En su lugar, añaden tus ganancias directamente a la cantidad depositada, que sigue ganando intereses en función de la cantidad creciente. ",
         "tvlTitle": "Valor total bloqueado (TVL)",
         "tvlDescription": "La TVL se refiere a la cantidad total de activos depositados en un fondo de liquidez y puede utilizarse para ayudar a indicar la confianza y utilidad de un fondo. Normalmente, una TVL más alta se correlaciona con un riesgo reducido, aunque ningún fondo está completamente libre de riesgo.",
         "ageTitle": "Antigüedad de pool:",
