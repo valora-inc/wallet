@@ -1,8 +1,8 @@
 import { RLPEncodedTx, Signer } from '@celo/connect'
-import { EIP712TypedData } from '@celo/utils/lib/sign-typed-data-utils'
 import { LocalSigner } from '@celo/wallet-local'
 import BigNumber from 'bignumber.js'
 import Logger from 'src/utils/Logger'
+import { EIP712TypedData } from 'src/utils/sign-typed-data-utils'
 import { KeychainAccount, KeychainAccounts, getStoredPrivateKey } from 'src/web3/KeychainAccounts'
 
 const TAG = 'web3/KeychainSigner'
