@@ -1269,6 +1269,12 @@
                 "manageUrl": {
                     "type": "string"
                 },
+                "rewardsPositionIds": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
                 "termsUrl": {
                     "type": "string"
                 },
