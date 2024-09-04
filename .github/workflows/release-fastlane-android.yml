@@ -72,7 +72,7 @@ jobs:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
       - name: Set build number
         run: |
-          WALLET_VERSION_CODE=$WALLET_COMMIT_UNIX_TIME
+          APP_VERSION_CODE=$APP_COMMIT_UNIX_TIME
 
           # This is the last uploaded version code visible on the Play Store (before we disabled split ABI builds)
           reference_play_store_timestamp=1679471422
@@ -87,16 +87,16 @@ jobs:
           # So we gradually increase the version code, until we catch up with the last Play Store version code
           # Then we use the commit timestamp as the version code
           # And we can delete this logic here (leaving it won't hurt though)
-          if [[ $WALLET_COMMIT_UNIX_TIME -lt $reference_play_store_timestamp ]]; then
+          if [[ $APP_COMMIT_UNIX_TIME -lt $reference_play_store_timestamp ]]; then
             # We're not yet caught up, add the difference in hours (max is about 1440 hours ~ 2 months (24 * 60))
-            WALLET_VERSION_CODE=$((reference_play_store_timestamp + (WALLET_COMMIT_UNIX_TIME - reference_commit_unix_time) / (60 * 60)))
+            APP_VERSION_CODE=$((reference_play_store_timestamp + (APP_COMMIT_UNIX_TIME - reference_commit_unix_time) / (60 * 60)))
           fi
 
           # Keep this version code so we can use it in the Slack message
-          echo "WALLET_VERSION_CODE=$WALLET_VERSION_CODE" >> $GITHUB_ENV
+          echo "APP_VERSION_CODE=$APP_VERSION_CODE" >> $GITHUB_ENV
 
           # Note: beware of differences between gnu sed and osx sed
-          sed -i "s/^VERSION_CODE=.*/VERSION_CODE=$WALLET_VERSION_CODE/" android/gradle.properties
+          sed -i "s/^VERSION_CODE=.*/VERSION_CODE=$APP_VERSION_CODE/" android/gradle.properties
       # TODO: use ram disk
       - name: Write secrets
         run: |
@@ -119,8 +119,8 @@ jobs:
           cancelled_text: '⏏️ [${env.GITHUB_WORKFLOW} <${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}|#${env.GITHUB_RUN_NUMBER}>] ${env.LANE} (Android) build was cancelled.'
           fields: |
             [
-              { "title": "Version", "value": "${env.WALLET_VERSION} (${env.WALLET_VERSION_CODE})", "short": true },
-              { "title": "Commit", "value": "<https://github.com/${{github.repository}}/commit/${env.WALLET_COMMIT_HASH}|${(env.WALLET_COMMIT_HASH || "").slice(0, 7)}> (<https://github.com/${{github.repository}}/tree/${env.BRANCH}|${env.BRANCH}>)", "short": true }
+              { "title": "Version", "value": "${env.APP_VERSION} (${env.APP_VERSION_CODE})", "short": true },
+              { "title": "Commit", "value": "<https://github.com/${{github.repository}}/commit/${env.APP_COMMIT_HASH}|${(env.APP_COMMIT_HASH || "").slice(0, 7)}> (<https://github.com/${{github.repository}}/tree/${env.BRANCH}|${env.BRANCH}>)", "short": true }
             ]
         env:
           SLACK_WEBHOOK_URL: ${{ steps.google-secrets.outputs.SLACK_WEBHOOK_URL }}
