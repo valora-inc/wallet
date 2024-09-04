@@ -4,7 +4,7 @@
   "languageSettings": "Język",
   "localCurrencySetting": "Waluta",
   "licenses": "Licencje",
-  "removeAccountTitle": "Zresetuj {{appName}}",
+  "removeAccountTitle": "Resetuj {{appName}}",
   "removeAccountDetails": "Zresetowanie spowoduje usunięcie Twojego konta z tego urządzenia. Twoje środki pozostaną na koncie, ale będą dostępne tylko przy użyciu frazy odzyskiwania",
   "deleteAccountTitle": "Usuń {{appName}}",
   "deleteAccountDetails": "Usunięcie konta spowoduje usunięcie go z {{appName}}. Twoje środki pozostaną na koncie, ale będą dostępne tylko przy użyciu frazy odzyskiwania",
@@ -200,7 +200,7 @@
   "supportLegalCheckbox": "Przesyłając zgłoszenie, wyrażam zgodę na udostępnienie powyższych informacji oraz wszelkich załączonych danych z dziennika aplikacji Działowi wsparcia aplikacji {{appName}}.",
   "contactSuccess": "Twój problem został pomyślnie zgłoszony. Wkrótce otrzymasz wiadomość e-mail z odpowiedzią!",
   "namePictureSaved": "Twoja nazwa oraz zdjęcie zostały pomyślnie zapisane.",
-  "nameSaved": "Twoje imię i nazwisko zostało pomyślnie zapisane.",
+  "nameSaved": "Imię i nazwisko zostały pomyślnie zapisane.",
   "addPhoto": "Dodaj zdjęcie",
   "chooseFromLibrary": "Wybierz z Biblioteki",
   "takePhoto": "Zrób zdjęcie",
@@ -2579,7 +2579,7 @@
       "provider": "Dostawca zarobków",
       "network": "Sieć",
       "footer": "Wpłacając kryptowaluty do puli Aave, akceptujesz ryzyko związane z korzystaniem z Aave. <0>Warunki</0>",
-      "footerV1_93": "Wpłacając kryptowaluty do puli {{providerName}} , akceptujesz ryzyko związane z korzystaniem z {{providerName}}. <0>Regulamin</0>",
+      "footerV1_93": "Wpłacając kryptowaluty do puli {{providerName}}, akceptujesz ryzyko związane z korzystaniem z {{providerName}}. <0>Warunki</0>",
       "primaryCta": "Zakończ",
       "secondaryCta": "Anuluj"
     },
@@ -2629,8 +2629,8 @@
       },
       "noPoolsTitle": "Nie dołączono jeszcze do żadnej puli",
       "noPoolsDescription": "Odkryj dostępne pule, wybierz taką, która odpowiada Twoim celom, i w pełni wykorzystaj swoje tokeny płatnicze.",
-      "errorTitle": "Nie można załadować pul",
-      "errorDescription": "Ups, coś poszło nie tak podczas próby załadowania informacji o puli. Spróbuj ponownie.",
+      "errorTitle": "Nie można wczytać pul",
+      "errorDescription": "Wystąpił błąd podczas próby wczytania informacji o puli. Spróbuj ponownie.",
       "errorButton": "Spróbuj ponownie"
     },
     "poolCard": {
@@ -2664,17 +2664,17 @@
       "deposit": "Wpłatę",
       "depositAndEarnings": "Wpłaty i zarobki",
       "withdraw": "Wycofaj",
-      "totalDepositAndEarnings": "Depozyty i zyski ogółem",
+      "totalDepositAndEarnings": "Suma wpłat i zarobków",
       "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
       "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "Rozumiem",
         "tvlTitle": "Całkowita wartość zablokowana (TVL)",
-        "tvlDescription": "TVL odnosi się do całkowitej kwoty aktywów zdeponowanych w puli płynności i może być wykorzystany do wskazania zaufania i użyteczności puli. Zazwyczaj wyższy TVL koreluje ze zmniejszonym ryzykiem, jednak żadna pula nie jest całkowicie wolna od ryzyka.",
+        "tvlDescription": "Wskaźnik TVL odnosi się do łącznej wartości aktywów wpłaconych do puli płynności. Można go używać do wskazywania zaufania i przydatności puli. Zwykle im wyższy wskaźnik TVL, tym niższe ryzyko, ale żadna pula nie jest całkowicie pozbawiona ryzyka.",
         "ageTitle": "Wiek puli",
-        "ageDescription": "Starsze pule płynności mogą wskazywać na solidne osiągnięcia i historię budowania zaufania społeczności. Z tego powodu niektórzy mogą uważać te pule za bezpieczniejsze.\n\nNie ma idealnego sposobu na określenie ryzyka, więc wykorzystaj te informacje jako część ogólnych badań, aby podjąć najlepszą dla siebie decyzję.",
+        "ageDescription": "Starsze pule płynności mogą mieć dobre referencje i cieszyć się zaufaniem społeczności. Ze względu na to niektóre osoby mogą uznawać te pule za bezpieczniejsze.\n\nNie ma idealnego sposobu na określanie ryzyka, dlatego wykorzystaj te informacje w swoich ogólnych badaniach, aby podjąć najlepszą dla siebie decyzję.",
         "yieldRateTitle": "Stopa zwrotu",
-        "yieldRateDescription": "Podczas gdy większość pul oferuje zarobki w postaci tokenów puli płynności, niektóre dają dodatkowe tokeny jako nagrodę lub dodatkową zachętę.\n\nPonieważ Valora agreguje pule w wielu protokołach, połączyliśmy wszystkie stawki zarobków i nagród w jedną, ogólną stopę zwrotu, aby ułatwić ocenę Twojego potencjału zarobkowego. Liczba ta jest szacunkowa, ponieważ wartości zarobków i nagród stale się zmieniają.\n\nAby uzyskać więcej informacji na temat podziału zarobków, odwiedź stronę <0>{{providerName}}</0>."
+        "yieldRateDescription": "Większość pul oferuje zarobki w postaci tokenów pul płynności. Niektóre z nich oferują dodatkowe tokeny jako nagrody lub dodatkowe zachęty.\n\nAplikacja Valora agreguje pule z wielu protokołów, dlatego połączyliśmy wszystkie stawki zarobków i nagród w pojedynczą, ogólną stawkę zysku, która ułatwia ocenę potencjału zarobków. Wartość ta jest tylko szacunkiem, gdyż wartości zarobków i nagród nie są stałe.\n\nWięcej informacji o podziale zysków możesz uzyskać, odwiedzając stronę <0>{{providerName}}</0>."
       }
     }
   },
