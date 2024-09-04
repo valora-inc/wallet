@@ -33,8 +33,6 @@ jobs:
         with:
           project_id: celo-mobile-mainnet
           credentials_json: ${{ secrets.gcp-service-account-key }}
-      - name: Verify credentials file
-        run: ls -al /home/runner/work/wallet/wallet/
       - name: Google Secrets
         id: google-secrets
         uses: google-github-actions/get-secretmanager-secrets@v2
@@ -59,8 +57,6 @@ jobs:
         with:
           node-version-file: 'package.json'
           check-latest: true
-      - name: List files
-        run: ls -al /home/runner/work/wallet/wallet/
       - uses: google-github-actions/setup-gcloud@v2
       - uses: ./.github/actions/yarn-install
       - run: yarn ts-node .github/scripts/setAppEnv.ts ${{ matrix.lane }}
