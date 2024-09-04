@@ -53,7 +53,6 @@ export const ALERT_BANNER_DURATION = 5000
 export const DOLLAR_ADD_FUNDS_MAX_AMOUNT = 5000
 // The minimum allowed value for a transaction such as a transfer
 export const STABLE_TRANSACTION_MIN_AMOUNT = 0.01
-export const CELO_TRANSACTION_MIN_AMOUNT = 0.001
 export const TOKEN_MIN_AMOUNT = 0.00000001
 // The minimum amount for a wallet to be considered as "funded"
 export const DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED = 0.01
