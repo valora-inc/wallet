@@ -1895,6 +1895,9 @@ export const migrations = {
       transactions: {
         ...state.transactions,
         transactionsByNetworkId,
+        standbyTransactions: state.transactions.standbyTransactions.map((tx: any) => {
+          return tx.providerId && tx.providerId === 'aave-v3' ? { ...tx, providerId: 'aave' } : tx
+        }),
       },
     }
   },
