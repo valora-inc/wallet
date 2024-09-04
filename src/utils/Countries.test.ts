@@ -1,6 +1,6 @@
 /**
  * Reference file:
- * https://github.com/celo-org/developer-tooling/blob/master/packages/sdk/phone-utils/src/countries.test.ts
+ * https://github.com/celo-org/developer-tooling/blob/d82d74e76374e2e060700ab1ffc989a814ee1b98/packages/sdk/phone-utils/src/countries.test.ts
  */
 
 import { Countries } from 'src/utils/Countries'

@@ -1,6 +1,6 @@
 /**
  * Reference file:
- * https://github.com/celo-org/developer-tooling/blob/master/packages/sdk/phone-utils/src/inputValidation.test.ts
+ * https://github.com/celo-org/developer-tooling/blob/f1677581b90675e37a4846ce53b29d8615a056e6/packages/sdk/phone-utils/src/inputValidation.test.ts
  */
 
 import { validateInput, ValidatorKind, type BaseProps } from 'src/utils/inputValidation'

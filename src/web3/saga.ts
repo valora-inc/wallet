@@ -1,4 +1,3 @@
-import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { setAccountCreationTime } from 'src/account/actions'
 import { generateSignedMessage } from 'src/account/saga'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -11,6 +10,7 @@ import {
 } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
 import { MnemonicLanguages, MnemonicStrength, generateMnemonic } from 'src/utils/account'
+import { privateKeyToAddress } from 'src/utils/address'
 import { ensureError } from 'src/utils/ensureError'
 import { Actions, SetAccountAction, setAccount } from 'src/web3/actions'
 import { UNLOCK_DURATION } from 'src/web3/consts'

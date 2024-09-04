@@ -1,3 +1,8 @@
+/**
+ * Reference file:
+ * https://github.com/celo-org/developer-tooling/blob/97d5ccf43a9f0f0c41abeb6d825117a88e9ed9bb/packages/sdk/phone-utils/src/phoneNumbers.test.ts
+ */
+
 import {
   getCountryCode,
   getDisplayPhoneNumber,
