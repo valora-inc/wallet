@@ -2665,6 +2665,8 @@
       "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "Ho capito",
+        "depositDescription": "Questa è la ripartizione dell'importo depositato, degli interessi maturati su tale importo e degli eventuali premi aggiuntivi ricevuti grazie alla partecipazione al pool.",
+        "depositNoBreakdownDescription": "Questo numero combina i gettoni che ti sono stati forniti con gli interessi e le ricompense che hai guadagnato.\n\nAlcuni protocolli, come {{providerName}}, non forniscono una ripartizione dei tuoi guadagni - questo è normale. Invece aggiungono i tuoi guadagni direttamente all'importo depositato, che continua a guadagnare interessi in base all'importo crescente. ",
         "tvlTitle": "Valore totale bloccato (TVL)",
         "tvlDescription": "Il TVL si riferisce all'ammontare totale degli asset depositati in un pool di liquidità e può essere utilizzato per indicare la fiducia e l'utilità di un pool. In genere un TVL più alto è correlato a un rischio ridotto, ma nessun pool è completamente privo di rischi.",
         "ageTitle": "Pool creato:",
