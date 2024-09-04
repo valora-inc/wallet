@@ -2665,6 +2665,8 @@
       "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "Anladım",
+        "depositDescription": "Bu, yatırdığınız tutarın, bu tutar üzerinden kazandığınız faizin ve havuza katılarak aldığınız ek ödüllerin dökümüdür.",
+        "depositNoBreakdownDescription": "Bu sayı, size verilen jetonları kazandığınız faiz ve ödüllerle birleştirir.\n\nBazı protokoller, örneğin {{providerName}}, kazançlarınızın bir dökümünü sunmaz - bu normaldir. Bunun yerine, kazancınızı doğrudan yatırdığınız tutara eklerler ve bu da artan tutara bağlı olarak faiz kazanmaya devam eder. ",
         "tvlTitle": "Kilitlenen Toplam Değer (TVL)",
         "tvlDescription": "TVL, bir likidite havuzuna yatırılan toplam varlık miktarını ifade eder ve bir havuzun güvenini ve faydasını göstermeye yardımcı olmak için kullanılabilir. Tipik olarak daha yüksek bir TVL daha düşük riskle ilişkilidir, ancak hiçbir havuz tamamen risksiz değildir.",
         "ageTitle": "Havuz Yaşı",
