@@ -8,7 +8,7 @@ import { storeMnemonic } from 'src/backup/utils'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { getPasswordSaga, retrieveSignedMessage } from 'src/pincode/authentication'
 import { MnemonicLanguages, MnemonicStrength, generateMnemonic } from 'src/utils/account'
-import { setAccount, setDataEncryptionKey } from 'src/web3/actions'
+import { setAccount } from 'src/web3/actions'
 import {
   UnlockResult,
   getConnectedAccount,
@@ -19,7 +19,7 @@ import {
 } from 'src/web3/saga'
 import { currentAccountSelector, walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
-import { mockAccount, mockAccount2, mockAccount3 } from 'test/values'
+import { mockAccount, mockAccount3 } from 'test/values'
 
 jest.unmock('src/pincode/authentication')
 
@@ -33,7 +33,7 @@ jest.mock('src/navigator/NavigationService', () => ({
 }))
 
 const state = createMockStore({
-  web3: { account: mockAccount, mtwAddress: mockAccount2 },
+  web3: { account: mockAccount },
 }).getState()
 
 describe(getOrCreateAccount, () => {
@@ -68,7 +68,6 @@ describe(getOrCreateAccount, () => {
           [call(getPasswordSaga, expectedAddress, false, true), 'somePassword'],
         ])
         .put(setAccount(expectedAddress))
-        .put(setDataEncryptionKey(expectedPrivateDek))
         .returns(expectedAddress)
         .run()
     }

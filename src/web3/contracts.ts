@@ -17,7 +17,6 @@ import { sleep } from 'src/utils/sleep'
 import getLockableViemWallet, { ViemWallet } from 'src/viem/getLockableWallet'
 import { ImportMnemonicAccount, KeychainAccounts } from 'src/web3/KeychainAccounts'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
-import { importDekIfNecessary } from 'src/web3/dataEncryptionKey'
 import { getHttpProvider } from 'src/web3/providers'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, select } from 'typed-redux-saga'
@@ -67,16 +66,6 @@ export function* initContractKit() {
     Logger.info(`${TAG}@initContractKit`, 'Initializing wallet', importMnemonicAccount)
 
     wallet = yield* call(initWallet, importMnemonicAccount)
-
-    try {
-      // This is to migrate the existing DEK that used to be stored in the geth keystore
-      // Note that the DEK is also currently in the redux store, but it should change at some point
-      if (walletAddress) {
-        yield* call(importDekIfNecessary, wallet)
-      }
-    } catch (error) {
-      Logger.error(`${TAG}@initContractKit`, `Failed to import data encryption key`, error)
-    }
 
     const web3 = new Web3(getHttpProvider(DEFAULT_FORNO_URL))
 

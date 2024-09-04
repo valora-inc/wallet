@@ -72,7 +72,6 @@ function* bidaliPaymentRequest({
     amountIsInLocalCurrency: false,
     tokenAddress,
     tokenAmount: new BigNumber(amount),
-    comment: `${description} (${chargeId})`,
   }
 
   navigate(Screens.SendConfirmationModal, {

@@ -12,7 +12,6 @@ import { useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { useTokenInfo } from 'src/tokens/hooks'
-import CommentSection from 'src/transactions/CommentSection'
 import TransferAvatars from 'src/transactions/TransferAvatars'
 import UserSection from 'src/transactions/UserSection'
 import { TokenTransfer } from 'src/transactions/types'
@@ -44,7 +43,6 @@ function TransferReceivedContent({ transfer }: { transfer: TokenTransfer }) {
         avatar={<TransferAvatars type="received" recipient={recipient} />}
         testID="TransferReceived"
       />
-      <CommentSection comment={metadata.comment} isSend={false} />
       {isCeloTx && !!celoEducationUri && (
         <TouchableOpacity onPress={openLearnMore} testID={'celoTxReceived/learnMore'}>
           <Text style={styles.learnMore}>{t('learnMore')}</Text>
