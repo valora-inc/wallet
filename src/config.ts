@@ -226,3 +226,5 @@ export const ENABLED_QUICK_ACTIONS = (
   .filter(
     (value) => !!value && Object.values(HomeActionName).includes(value as HomeActionName)
   ) as HomeActionName[]
+
+export const FETCH_FIATCONNECT_QUOTES = true
