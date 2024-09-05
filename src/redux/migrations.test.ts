@@ -1677,6 +1677,14 @@ describe('Redux persist migrations', () => {
             { ...mockEarnDepositTransaction, providerId: 'aave-v3' },
           ],
         },
+        standbyTransactions: [
+          {
+            ...mockEarnDepositTransaction,
+            providerId: 'aave-v3',
+            status: TransactionStatus.Pending,
+          },
+          ...v228Schema.transactions.standbyTransactions,
+        ],
       },
     }
     const migratedSchema = migrations[229](oldSchema)
@@ -1684,6 +1692,7 @@ describe('Redux persist migrations', () => {
     expectedSchema.transactions.transactionsByNetworkId[
       NetworkId['arbitrum-sepolia']
     ][0].providerId = 'aave'
+    expectedSchema.transactions.standbyTransactions[0].providerId = 'aave'
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })
