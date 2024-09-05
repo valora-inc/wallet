@@ -217,6 +217,7 @@
     "@types/country-data": "^0.0.5",
     "@types/fast-levenshtein": "^0.0.2",
     "@types/fs-extra": "^9.0.13",
+    "@types/google-libphonenumber": "^7.4.30",
     "@types/hoist-non-react-statics": "^3.3.5",
     "@types/isomorphic-fetch": "^0.0.35",
     "@types/jest": "^29.5.3",
