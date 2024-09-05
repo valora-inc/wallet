@@ -85,8 +85,7 @@ jobs:
           set -euo pipefail
           echo "hello again"
           echo "$NIGHTLY_TAG_NAME"
-          ls -la
-          git
+          echo $(git tag)
           git show-ref -s tags/$NIGHTLY_TAG_NAME
           previous_release_sha="$(git show-ref -s tags/$NIGHTLY_TAG_NAME)"
           echo "Store commits between previous release "$previous_release_sha" and current release "$CURRENT_RELEASE_SHA""
