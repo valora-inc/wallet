@@ -56,7 +56,7 @@ jobs:
     if: ${{ needs.check-date.outputs.should-run != 'false' }}
     name: Generate release notes
     env:
-      NIGHTLY_TAG_NAME: 'valora-nightly'
+      NIGHTLY_TAG_NAME: valora-nightly
       CURRENT_RELEASE_SHA: ${{ needs.check-date.outputs.latest-commit-hash }}
     steps:
       - name: Checkout code
@@ -85,6 +85,8 @@ jobs:
           set -euo pipefail
           echo "hello again"
           echo "$NIGHTLY_TAG_NAME"
+          ls -la
+          git
           git show-ref -s tags/$NIGHTLY_TAG_NAME
           previous_release_sha="$(git show-ref -s tags/$NIGHTLY_TAG_NAME)"
           echo "Store commits between previous release "$previous_release_sha" and current release "$CURRENT_RELEASE_SHA""
