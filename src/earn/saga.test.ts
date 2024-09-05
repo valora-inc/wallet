@@ -473,7 +473,7 @@ describe('withdrawSubmitSaga', () => {
     networkId: NetworkId['arbitrum-sepolia'],
     providerId: 'aave',
     rewards: mockRewards,
-    poolId: '', // TODO (ACT-1351): Update after Jacob's PR merged
+    poolId: mockRewardsPositions[0].positionId,
   }
 
   const expectedAnalyticsPropsNoRewards = {
