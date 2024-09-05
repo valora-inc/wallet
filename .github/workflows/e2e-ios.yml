@@ -36,7 +36,7 @@ jobs:
       - name: TS check
         run: yarn build:ts
       - name: Install Ruby dependencies
-        run: bundle install --deployment --path vendor/bundle
+        run: bundle install --path vendor/bundle
       - name: Fail if someone forgot to commit "Gemfile.lock"
         run: git diff --exit-code
       - name: Install CocoaPods dependencies
