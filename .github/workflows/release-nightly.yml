@@ -77,7 +77,7 @@ jobs:
           ssh-private-key: ${{ steps.google-secrets.outputs.BOT_SSH_KEY }}
       - uses: ./.github/actions/yarn-install
       - name: Tag release and get release notes
-        run: ts-node .github/scripts/generateReleaseNotes.ts
+        run: yarn ts-node .github/scripts/generateReleaseNotes.ts
         env:
           CURRENT_RELEASE_SHA: ${{ needs.check-date.outputs.latest-commit-hash }}
       - name: Build notification
