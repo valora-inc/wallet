@@ -51,8 +51,7 @@ jobs:
 
   generate-release-notes:
     runs-on: ubuntu-latest
-    needs: check-date
-    #needs: [check-date, ios, android]
+    needs: [check-date, ios, android]
     if: ${{ needs.check-date.outputs.should-run != 'false' }}
     name: Generate release notes
     env:
