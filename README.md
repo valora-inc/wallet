@@ -31,6 +31,10 @@ The repository follows the default React Native Android and iOS app structure.
 
 Code owners can be found in [.github/CODEOWNERS](.github/CODEOWNERS).
 
+## Releases
+
+This repository is configured to build and upload the nightly releases automatically. The production release process has to be started manually by running a dedicated workflow. See [RELEASES.md](./RELEASES.md) to learn more.
+
 ## Contributing
 
 We welcome contributions in the form of Issues and PRs. Please read [CONTRIBUTING.md](CONTRIBUTING.md) first!
