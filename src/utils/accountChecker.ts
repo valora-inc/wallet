@@ -9,18 +9,16 @@ import { retrieveStoredItem } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { clearStoredAccounts } from 'src/web3/KeychainAccounts'
-import { getWallet } from 'src/web3/contracts'
+import { getKeychainAccounts } from 'src/web3/contracts'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, select } from 'typed-redux-saga'
 
 const TAG = 'utils/accountChecker'
 
 export function* checkAccountExistenceSaga() {
-  const wallet = yield* call(getWallet)
-  if (!wallet) {
-    return
-  }
-  const keychainAccounts: string[] = yield wallet.getAccounts()
+  const accounts = yield* call(getKeychainAccounts)
+
+  const keychainAccounts = accounts.getAccounts()
   const walletAddress = yield* select(walletAddressSelector)
   if (!walletAddress && keychainAccounts.length > 0) {
     const account = keychainAccounts[0]

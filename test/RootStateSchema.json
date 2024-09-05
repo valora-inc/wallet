@@ -242,7 +242,6 @@
                                 "addressValidationPartialOwnAddress",
                                 "addressValidationPartialPoorlyFormatted",
                                 "cashOutLimitExceeded",
-                                "contractKitInitFailed",
                                 "dappShortcuts.claimRewardFailure",
                                 "failedFetchMnemonic",
                                 "fetchFailed",

@@ -1,13 +1,12 @@
-import { UnlockableWallet } from '@celo/wallet-base'
 import { FiatConnectApiClient, FiatConnectClient } from '@fiatconnect/fiatconnect-sdk'
 import { FIATCONNECT_NETWORK } from 'src/config'
 import { getPassword } from 'src/pincode/authentication'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
-import { ensureLeading0x } from 'src/utils/address'
+import { KeychainAccounts } from 'src/web3/KeychainAccounts'
 import { UNLOCK_DURATION } from 'src/web3/consts'
-import { getWalletAsync } from 'src/web3/contracts'
+import { getKeychainAccounts } from 'src/web3/contracts'
 
 const fiatConnectClients: Record<
   string,
@@ -20,15 +19,19 @@ const fiatConnectClients: Record<
  * @param wallet
  */
 export function getSiweSigningFunction(
-  wallet: UnlockableWallet
+  keychainAccounts: KeychainAccounts
 ): (message: string) => Promise<string> {
   return async function (message: string): Promise<string> {
-    const [account] = wallet.getAccounts()
-    if (!wallet.isAccountUnlocked(account)) {
-      await wallet.unlockAccount(account, await getPassword(account), UNLOCK_DURATION)
+    const [account] = keychainAccounts.getAccounts()
+    if (!keychainAccounts.isUnlocked(account)) {
+      await keychainAccounts.unlock(account, await getPassword(account), UNLOCK_DURATION)
     }
-    const encodedMessage = ensureLeading0x(Buffer.from(message, 'utf8').toString('hex'))
-    return await wallet.signPersonalMessage(account, encodedMessage)
+    const viemAccount = keychainAccounts.getViemAccount(account)
+    if (!viemAccount) {
+      // This should never happen
+      throw new Error('Viem account not found')
+    }
+    return await viemAccount.signMessage({ message })
   }
 }
 
@@ -42,8 +45,8 @@ export async function getFiatConnectClient(
     fiatConnectClients[providerId].url !== providerBaseUrl ||
     fiatConnectClients[providerId].apiKey !== providerApiKey
   ) {
-    const wallet = (await getWalletAsync()) as UnlockableWallet
-    const [account] = wallet.getAccounts()
+    const accounts = await getKeychainAccounts()
+    const [account] = accounts.getAccounts()
     fiatConnectClients[providerId] = {
       url: providerBaseUrl,
       apiKey: providerApiKey,
@@ -58,7 +61,7 @@ export async function getFiatConnectClient(
               DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT_SECONDS]
             ).cico * 1000,
         },
-        getSiweSigningFunction(wallet)
+        getSiweSigningFunction(accounts)
       ),
     }
   }
