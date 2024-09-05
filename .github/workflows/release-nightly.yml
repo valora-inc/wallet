@@ -81,7 +81,9 @@ jobs:
           ssh-private-key: ${{ steps.google-secrets.outputs.BOT_SSH_KEY }}
       - name: Generate release notes
         run: |
+          echo "hello"
           set -euo pipefail
+          echo "hello again"
           previous_release_sha="$(git show-ref -s tags/$NIGHTLY_TAG_NAME)"
           echo "Store commits between previous release "$previous_release_sha" and current release "$CURRENT_RELEASE_SHA""
           echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
