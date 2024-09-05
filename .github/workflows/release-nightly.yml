@@ -56,7 +56,7 @@ jobs:
     if: ${{ needs.check-date.outputs.should-run != 'false' }}
     name: Generate release notes
     env:
-      NIGHTLY_TAG_NAME: valora-nightly
+      NIGHTLY_TAG_NAME: nightly
       CURRENT_RELEASE_SHA: ${{ needs.check-date.outputs.latest-commit-hash }}
     steps:
       - name: Checkout code
@@ -64,7 +64,6 @@ jobs:
         with:
           # Fetch all history for all tags and branches
           fetch-depth: 0
-          ref: main
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
@@ -82,12 +81,6 @@ jobs:
           ssh-private-key: ${{ steps.google-secrets.outputs.BOT_SSH_KEY }}
       - name: Generate release notes
         run: |
-          echo "hello"
-          set -euo pipefail
-          echo "hello again"
-          echo "$NIGHTLY_TAG_NAME"
-          echo $(git tag)
-          git show-ref -s tags/$NIGHTLY_TAG_NAME
           previous_release_sha="$(git show-ref -s tags/$NIGHTLY_TAG_NAME)"
           echo "Store commits between previous release "$previous_release_sha" and current release "$CURRENT_RELEASE_SHA""
           echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
