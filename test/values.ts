@@ -1,5 +1,4 @@
 /* Shared mock values to facilitate testing */
-import { UnlockableWallet } from '@celo/wallet-base'
 import {
   CryptoType,
   FeeFrequency,
@@ -146,6 +145,7 @@ export const mockArbEthTokenId = `arbitrum-sepolia:native`
 export const mockOPTokenId = `op-sepolia:native`
 export const mockArbUsdcTokenId = `arbitrum-sepolia:${mockUSDCAddress}`
 export const mockArbArbTokenId = `arbitrum-sepolia:${mockArbArbAddress}`
+export const mockAaveArbUsdcTokenId = `arbitrum-sepolia:${mockAaveArbUsdcAddress}`
 
 export const mockQrCodeData2 = {
   address: mockAccount2Invite,
@@ -403,20 +403,6 @@ export const mockRecipientInfo: RecipientInfo = {
   appRecipientCache: mockAppRecipientCache,
   addressToE164Number: mockAddressToE164Number,
   addressToDisplayName: {},
-}
-
-export const mockWallet: UnlockableWallet = {
-  unlockAccount: jest.fn(),
-  isAccountUnlocked: jest.fn(),
-  addAccount: jest.fn(),
-  getAccounts: jest.fn(),
-  removeAccount: jest.fn(),
-  hasAccount: jest.fn(),
-  signTransaction: jest.fn(),
-  signTypedData: jest.fn(),
-  signPersonalMessage: jest.fn(),
-  decrypt: jest.fn(),
-  computeSharedSecret: jest.fn(),
 }
 
 export const mockTokenBalances: Record<string, StoredTokenBalance> = {
@@ -1685,6 +1671,9 @@ export const mockRewardsPositions: Position[] = [
           tokenId: 'arbitrum-sepolia:0x912ce59144191c1204e64559fe8253a0e49e6548',
         },
       ],
+      rewardsPositionIds: [
+        'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216:supply-incentives',
+      ],
       depositTokenId: mockArbUsdcTokenId,
       withdrawTokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
     },
@@ -1735,6 +1724,11 @@ export const mockRewardsPositions: Position[] = [
         category: 'claimable',
       },
     ],
+    shortcutTriggerArgs: {
+      'claim-rewards': {
+        positionAddress: '0x460b97bd498e1157530aeb3086301d5225b91216',
+      },
+    },
     balanceUsd: '0.02593060556579720546',
     availableShortcutIds: ['claim-rewards'],
   },
@@ -1771,6 +1765,9 @@ export const mockEarnPositions: EarnPosition[] = [
       contractCreatedAt: '2024-03-08T02:23:53.000Z',
       manageUrl: 'https://app.aave.com/?marketName=proto_arbitrum_v3',
       termsUrl: 'termsUrl',
+      rewardsPositionIds: [
+        'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216:supply-incentives',
+      ],
     },
     tokens: [
       {

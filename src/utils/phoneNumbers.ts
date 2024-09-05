@@ -234,3 +234,7 @@ export function getExampleNumber(
 
   return formatedExample
 }
+
+export function anonymizedPhone(phoneNumber: string) {
+  return phoneNumber.slice(0, -4) + 'XXXX'
+}

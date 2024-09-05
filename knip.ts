@@ -11,7 +11,6 @@ const config: KnipConfig = {
   ],
   project: ['src/**/*.ts!', 'src/**/*.tsx!', 'src/**/*.js!'],
   ignoreDependencies: [
-    'Base64',
     '@actions/github',
     '@babel/runtime', // enforce specific version for react-native
     '@babel/plugin-transform-private-methods', // used in babel.config.js to build. not imported, so knip doesn't understand it is used
@@ -31,10 +30,8 @@ const config: KnipConfig = {
     'typescript-json-schema', // helps manage redux state migrations
     '@segment/sovran-react-native', // required for react-native-segment
     'react-native-adjust', // required for @segment/analytics-react-native-plugin-adjust
-    '@types/isomorphic-fetch',
     '@types/jest',
     'husky',
-    'react-native-randombytes', // not sure we need this; only referenced in iOS Podfile.lock
   ],
   ignore: ['src/utils/inputValidation.ts', 'src/utils/country.json'],
 }

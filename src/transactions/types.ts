@@ -67,7 +67,7 @@ type PendingTokenExchange =
     })
 
 // Context used for logging the transaction execution flow.
-export interface TransactionContext {
+interface TransactionContext {
   // Unique identifier used for tracking a transaction within logging.
   // Note that this is not the transaction hash, which is unknown when creating a new transaction.
   id: string

@@ -54,6 +54,7 @@ export default function EarnDepositBottomSheet({
     depositTokenId: pool.dataProps.depositTokenId,
     tokenAmount: amount.toString(),
     networkId: pool.networkId,
+    poolId: pool.positionId,
   }
 
   const { estimatedFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(preparedTransaction)

@@ -38,8 +38,6 @@ import {
 } from 'test/values'
 import { getTransactionCount } from 'viem/actions'
 
-jest.mock('@celo/connect')
-
 const mockNewTransactionContext = jest.fn()
 
 jest.mock('src/transactions/types', () => {

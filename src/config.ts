@@ -46,14 +46,11 @@ export const DEV_SETTINGS_ACTIVE_INITIALLY = stringToBoolean(
 )
 
 // VALUES
-export const GAS_INFLATION_FACTOR = 1.5 // Used when estimating gas for txs
-export const GAS_PRICE_INFLATION_FACTOR = 5 // Used when getting gas price, must match what Geth does
 export const ALERT_BANNER_DURATION = 5000
 // The maximum allowed value to add funds
 export const DOLLAR_ADD_FUNDS_MAX_AMOUNT = 5000
 // The minimum allowed value for a transaction such as a transfer
 export const STABLE_TRANSACTION_MIN_AMOUNT = 0.01
-export const CELO_TRANSACTION_MIN_AMOUNT = 0.001
 export const TOKEN_MIN_AMOUNT = 0.00000001
 // The minimum amount for a wallet to be considered as "funded"
 export const DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED = 0.01
@@ -229,3 +226,5 @@ export const ENABLED_QUICK_ACTIONS = (
   .filter(
     (value) => !!value && Object.values(HomeActionName).includes(value as HomeActionName)
   ) as HomeActionName[]
+
+export const FETCH_FIATCONNECT_QUOTES = true

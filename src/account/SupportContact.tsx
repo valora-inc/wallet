@@ -1,4 +1,3 @@
-import { anonymizedPhone } from '@celo/base/lib/phoneNumbers'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -27,6 +26,7 @@ import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
+import { anonymizedPhone } from 'src/utils/phoneNumbers'
 import { currentAccountSelector } from 'src/web3/selectors'
 type Props = NativeStackScreenProps<StackParamList, Screens.SupportContact>
 
