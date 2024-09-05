@@ -54,9 +54,6 @@ jobs:
     needs: [check-date, ios, android]
     if: ${{ needs.check-date.outputs.should-run != 'false' }}
     name: Generate release notes
-    env:
-      NIGHTLY_TAG_NAME: nightly
-      CURRENT_RELEASE_SHA: ${{ needs.check-date.outputs.latest-commit-hash }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -78,24 +75,11 @@ jobs:
       - uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ steps.google-secrets.outputs.BOT_SSH_KEY }}
-      - name: Generate release notes
-        run: |
-          previous_release_sha="$(git show-ref -s tags/$NIGHTLY_TAG_NAME)"
-          echo "Store commits between previous release "$previous_release_sha" and current release "$CURRENT_RELEASE_SHA""
-          echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
-          echo "$(git rev-list "$previous_release_sha".."$CURRENT_RELEASE_SHA" --oneline)" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
-      - name: Delete previous nightly release tag
-        run: |
-          set -euo pipefail
-          git tag -d $NIGHTLY_TAG_NAME
-          # --no-verify to bypass pre-push script in wallet that is preventing tag deletion
-          git push origin --delete tags/$NIGHTLY_TAG_NAME --no-verify
-      - name: Tag new nightly release
-        run: |
-          set -euo pipefail
-          git tag $NIGHTLY_TAG_NAME "$CURRENT_RELEASE_SHA"
-          git push origin --tags
+      - uses: ./.github/actions/yarn-install
+      - name: Tag release and get release notes
+        run: yarn ts-node .github/scripts/generateReleaseNotes.ts
+        env:
+          CURRENT_RELEASE_SHA: ${{ needs.check-date.outputs.latest-commit-hash }}
       - name: Build notification
         uses: edge/simple-slack-notify@v1.1.2
         with:
