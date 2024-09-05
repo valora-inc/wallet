@@ -147,7 +147,7 @@ const UNCOMPRESSED_KEY_LENGTH = 65
  * @param {Uint8Array} plaintext Plaintext to be encrypted.
  * @returns {Buffer} Encrypted message, serialized, 113+ bytes
  */
-export function Encrypt(pubKeyTo: PubKey, plaintext: Uint8Array) {
+function Encrypt(pubKeyTo: PubKey, plaintext: Uint8Array) {
   const ephemPrivKey = secp256k1.utils.randomPrivateKey()
   const ephemPubKey = Buffer.from(secp256k1.getPublicKey(ephemPrivKey, false))
   const ephemPubKeyEncoded = Buffer.from(ephemPubKey)

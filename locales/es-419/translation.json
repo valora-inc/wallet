@@ -4,9 +4,9 @@
   "languageSettings": "Idioma",
   "localCurrencySetting": "Moneda",
   "licenses": "Licencias",
-  "removeAccountTitle": "Restablece {{appName}}",
+  "removeAccountTitle": "Restablecer {{appName}}",
   "removeAccountDetails": "Si seleccionas esta opción, se borrará tu cuenta de este dispositivo. No se perderán los fondos, pero solo podrás acceder a ellos con tu Frase de recuperación.",
-  "deleteAccountTitle": "Borra {{appName}}",
+  "deleteAccountTitle": "Borrar {{appName}}",
   "deleteAccountDetails": "Borrar tu cuenta la eliminará de {{appName}}. Tus fondos permanecerán en la cuenta, pero sólo serán accesibles con tu Frase de recuperación",
   "deleteAccountWarning": {
     "title": "Estas seguro",
@@ -2569,13 +2569,13 @@
     "depositBottomSheet": {
       "title": "Revisar y depositar",
       "description": "Antes de depositar en una pool de Aave, revisa los detalles de la transacción a continuación",
-      "descriptionV1_93": "Antes de depositar en un fondo {{providerName}} , revisa los detalles de la transacción que figuran a continuación",
+      "descriptionV1_93": "Antes de depositar en un pool {{providerName}}, revisa los detalles de la transacción a continuación",
       "amount": "Monto depositado",
       "fee": "Tarifas estimadas",
       "provider": "Proveedor de ganancias",
       "network": "Red",
       "footer": "Al depositar cripto en una pool de Aave, aceptas los riesgos asociados a su uso. <0>Términos y condiciones</0>",
-      "footerV1_93": "Al depositar criptomonedas en un fondo de {{providerName}} , aceptas los riesgos asociados al uso de {{providerName}}. <0>Condiciones de uso</0>",
+      "footerV1_93": "Al depositar cripto en un pool de {{providerName}}, aceptas los riesgos asociados al uso de {{providerName}}. <0>Términos y condiciones</0>",
       "primaryCta": "Finalizar",
       "secondaryCta": "Cancelar"
     },
@@ -2625,8 +2625,8 @@
       },
       "noPoolsTitle": "Aún no te has unido a ningún pool",
       "noPoolsDescription": "Descubre los pools disponibles, elige uno que se ajuste a tus objetivos y saca el máximo de tus stablecoins.",
-      "errorTitle": "No se pueden cargar grupos",
-      "errorDescription": "Ups, algo ha ido mal al intentar cargar la información de la piscina. Vuelve a intentarlo.",
+      "errorTitle": "No se pueden cargar pools",
+      "errorDescription": "Ups, algo salió mal al intentar cargar la información del pool. Vuelve a intentarlo.",
       "errorButton": "Inténtalo de nuevo"
     },
     "poolCard": {
@@ -2665,12 +2665,14 @@
       "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "Entendido",
+        "depositDescription": "Este es el desglose de la cantidad depositada, los intereses que has ganado por esa cantidad y cualquier recompensa adicional que hayas recibido por participar en el fondo común.",
+        "depositNoBreakdownDescription": "Este número combina tus fichas suministradas con cualquier interés y recompensa que hayas ganado.\n\nAlgunos protocolos, como {{providerName}}, no proporcionan un desglose de tus ganancias - esto es normal. En su lugar, añaden tus ganancias directamente a la cantidad depositada, que sigue ganando intereses en función de la cantidad creciente. ",
         "tvlTitle": "Valor total bloqueado (TVL)",
-        "tvlDescription": "La TVL se refiere a la cantidad total de activos depositados en un fondo de liquidez y puede utilizarse para ayudar a indicar la confianza y utilidad de un fondo. Normalmente, una TVL más alta se correlaciona con un riesgo reducido, aunque ningún fondo está completamente libre de riesgo.",
+        "tvlDescription": "TVL se refiere a al monto total de activos depositados en un pool de liquidez y se puede utilizar para ayudar a indicar la confianza y utilidad de un pool. Normalmente. un TVL mayor se correlaciona con el riesgo reducido, sin embargo ningún pool está completamente libre de riesgos.",
         "ageTitle": "Antigüedad de pool:",
-        "ageDescription": "Los fondos de liquidez más antiguos pueden indicar una trayectoria sólida y un historial de creación de confianza en la comunidad. Por ello, algunos pueden considerar que estos pools son más seguros.\n\nNo hay una forma perfecta de determinar el riesgo, así que utiliza esta información como parte de tu investigación general para tomar la decisión que más te convenga.",
+        "ageDescription": "Los pools de liquidez más antiguos pueden indicar una trayectoria sólida y un historial de creación de confianza en la comunidad. Por ello, algunos pueden considerar que estos pools son más seguros.\n\nNo hay una forma perfecta de determinar el riesgo, así que usa esta información como parte de tu investigación general para tomar la decisión que más te convenga.",
         "yieldRateTitle": "Tasa de rendimiento",
-        "yieldRateDescription": "Aunque la mayoría de los pools ofrecen ganancias en forma de token de pool de liquidez, algunos dan token(s) adicionales como recompensa o incentivo añadido.\n\nDado que Valora agrega pools a través de múltiples protocolos, hemos combinado todas las tasas de ganancia y recompensa en una única tasa de rendimiento global para ayudarte a evaluar fácilmente tu potencial de ganancia. Esta cifra es una estimación, ya que los valores de ganancia y recompensa fluctúan constantemente.\n\nPara más información sobre los desgloses de ganancias puedes visitar <0>{{providerName}}</0>."
+        "yieldRateDescription": "Aunque la mayoría de los pools ofrecen ganancias en forma de token de pool de liquidez, algunos dan token(s) adicionales como recompensa o incentivo añadido.\n\nDado que Valora agrega pools a través de múltiples protocolos, hemos combinado todas las tasas de ganancia y recompensa en una única tasa de rendimiento global para ayudarte a evaluar fácilmente tu potencial de ganancia. Esta cifra es estimada, ya que los valores de ganancia y recompensa fluctúan constantemente.\n\nPara más información sobre los desgloses de ganancias puedes visitar <0>{{providerName}}</0>."
       }
     }
   },

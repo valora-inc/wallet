@@ -35,7 +35,7 @@ import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
 import { aesDecrypt, aesEncrypt } from 'src/utils/aes'
 import { ensureError } from 'src/utils/ensureError'
-import { getWalletAsync } from 'src/web3/contracts'
+import { getKeychainAccounts } from 'src/web3/contracts'
 import { getMockStoreData } from 'test/utils'
 import { mockAccount, mockMnemonic } from 'test/values'
 
@@ -402,8 +402,8 @@ describe(updatePin, () => {
       }
       return Promise.resolve(false)
     })
-    jest.mocked(getWalletAsync).mockResolvedValue({
-      updateAccount: jest.fn().mockResolvedValue(true),
+    jest.mocked(getKeychainAccounts).mockResolvedValue({
+      updatePassphrase: jest.fn().mockResolvedValue(true),
     } as any)
   })
 
@@ -596,8 +596,8 @@ describe(checkPin, () => {
     setCachedPepper(DEFAULT_CACHE_ACCOUNT, mockPepper.password)
     setCachedPasswordHash(mockAccount, expectedPasswordHash)
 
-    jest.mocked(getWalletAsync).mockResolvedValue({
-      unlockAccount: mockUnlockAccount,
+    jest.mocked(getKeychainAccounts).mockResolvedValue({
+      unlock: mockUnlockAccount,
     } as any)
   })
 

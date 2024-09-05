@@ -1,5 +1,4 @@
 /* Shared mock values to facilitate testing */
-import { UnlockableWallet } from '@celo/wallet-base'
 import {
   CryptoType,
   FeeFrequency,
@@ -403,20 +402,6 @@ export const mockRecipientInfo: RecipientInfo = {
   appRecipientCache: mockAppRecipientCache,
   addressToE164Number: mockAddressToE164Number,
   addressToDisplayName: {},
-}
-
-export const mockWallet: UnlockableWallet = {
-  unlockAccount: jest.fn(),
-  isAccountUnlocked: jest.fn(),
-  addAccount: jest.fn(),
-  getAccounts: jest.fn(),
-  removeAccount: jest.fn(),
-  hasAccount: jest.fn(),
-  signTransaction: jest.fn(),
-  signTypedData: jest.fn(),
-  signPersonalMessage: jest.fn(),
-  decrypt: jest.fn(),
-  computeSharedSecret: jest.fn(),
 }
 
 export const mockTokenBalances: Record<string, StoredTokenBalance> = {
