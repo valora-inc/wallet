@@ -15,12 +15,16 @@ import {
   getOrCreateAccount,
   getWalletAddress,
   unlockAccount,
+  assignAccountFromPrivateKey,
 } from 'src/web3/saga'
 import { currentAccountSelector, walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
-import { mockAccount, mockAccount3 } from 'test/values'
+import { mockAccount, mockAccount3, mockPrivateKey, mockMnemonic } from 'test/values'
 import { isAddress } from 'viem'
+import Logger from 'src/utils/Logger'
+import { getKeychainAccounts } from 'src/web3/contracts'
 
+jest.mock('src/utils/Logger')
 jest.unmock('src/pincode/authentication')
 
 jest.mock('src/account/actions', () => ({
@@ -170,5 +174,27 @@ describe('getConnectedUnlockedAccount', () => {
         .not.call(generateSignedMessage)
         .run()
     ).rejects.toThrowError(ErrorMessages.INCORRECT_PIN)
+  })
+})
+
+describe('assignAccountFromPrivateKey', () => {
+  it('warns when importing same account', async () => {
+    jest.mocked(getKeychainAccounts).mockResolvedValueOnce({
+      addAccount: jest
+        .fn()
+        .mockRejectedValue(new Error(ErrorMessages.KEYCHAIN_ACCOUNT_ALREADY_EXISTS)),
+      unlock: jest.fn(),
+    } as any)
+    await expectSaga(assignAccountFromPrivateKey, mockPrivateKey, mockMnemonic)
+      .withState(state)
+      .provide([
+        [select(currentAccountSelector), null],
+        [matchers.call.fn(getPasswordSaga), 'somePassword'],
+      ])
+      .run()
+    expect(Logger.warn).toHaveBeenCalledWith(
+      'web3/saga@assignAccountFromPrivateKey',
+      'Attempted to import same account'
+    )
   })
 })

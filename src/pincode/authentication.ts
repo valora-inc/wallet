@@ -41,7 +41,7 @@ import { isValidAddress, normalizeAddress } from 'src/utils/address'
 import { ensureError } from 'src/utils/ensureError'
 import { sleep } from 'src/utils/sleep'
 import { UNLOCK_DURATION } from 'src/web3/consts'
-import { getWalletAsync } from 'src/web3/contracts'
+import { getKeychainAccounts } from 'src/web3/contracts'
 import { call, select } from 'typed-redux-saga'
 import { sha256 } from 'viem'
 
@@ -425,10 +425,10 @@ export async function checkPin(pin: string, account: string) {
 
 export async function updatePin(account: string, oldPin: string, newPin: string) {
   try {
-    const wallet = await getWalletAsync()
+    const accounts = await getKeychainAccounts()
     const oldPassword = await getPasswordForPin(oldPin)
     const newPassword = await getPasswordForPin(newPin)
-    const updated = await wallet.updateAccount(account, oldPassword, newPassword)
+    const updated = await accounts.updatePassphrase(account, oldPassword, newPassword)
     if (updated) {
       clearPasswordCaches()
       setCachedPin(DEFAULT_CACHE_ACCOUNT, newPin)
@@ -458,8 +458,8 @@ export async function ensureCorrectPassword(
   currentAccount: string
 ): Promise<boolean> {
   try {
-    const wallet = await getWalletAsync()
-    const result = await wallet.unlockAccount(currentAccount, password, UNLOCK_DURATION)
+    const accounts = await getKeychainAccounts()
+    const result = await accounts.unlock(currentAccount, password, UNLOCK_DURATION)
     return result
   } catch (error) {
     Logger.error(TAG, 'Error attempting to unlock wallet', error, true)
