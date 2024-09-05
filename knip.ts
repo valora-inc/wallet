@@ -30,7 +30,6 @@ const config: KnipConfig = {
     'typescript-json-schema', // helps manage redux state migrations
     '@segment/sovran-react-native', // required for react-native-segment
     'react-native-adjust', // required for @segment/analytics-react-native-plugin-adjust
-    '@types/isomorphic-fetch',
     '@types/jest',
     'husky',
   ],

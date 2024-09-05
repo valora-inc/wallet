@@ -36,7 +36,6 @@ const config = {
       // It is implemented natively using OpenSSL.
       crypto: require.resolve('react-native-quick-crypto'),
       fs: require.resolve('react-native-fs'),
-      'isomorphic-fetch': require.resolve('cross-fetch'),
     },
     sourceExts: isE2E ? ['e2e.ts', 'e2e.js'].concat(defaultSourceExts) : defaultSourceExts,
   },
