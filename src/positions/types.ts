@@ -34,6 +34,7 @@ interface EarnDataProps {
   earningItems: EarningItem[]
   depositTokenId: string
   withdrawTokenId: string
+  rewardsPositionIds?: string[]
   // We'll add more fields here as needed
 }
 

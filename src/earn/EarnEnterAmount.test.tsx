@@ -7,12 +7,18 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
 import { usePrepareSupplyTransactions } from 'src/earn/prepareTransactions'
+import { CICOFlow } from 'src/fiatExchanges/utils'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigFeatureGates, StatsigMultiNetworkDynamicConfig } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
-import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
+import {
+  PreparedTransactionsNotEnoughBalanceForGas,
+  PreparedTransactionsPossible,
+} from 'src/viem/prepareTransactions'
 import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
@@ -57,6 +63,19 @@ const mockPreparedTransaction: PreparedTransactionsPossible = {
     priceUsd: new BigNumber(1),
     lastKnownPriceUsd: new BigNumber(1),
   },
+}
+
+const mockePreparedTransactionNotEnough: PreparedTransactionsNotEnoughBalanceForGas = {
+  type: 'not-enough-balance-for-gas' as const,
+  feeCurrencies: [
+    {
+      ...mockTokenBalances[mockArbEthTokenId],
+      isNative: true,
+      balance: new BigNumber(0),
+      priceUsd: new BigNumber(1500),
+      lastKnownPriceUsd: new BigNumber(1500),
+    },
+  ],
 }
 
 const mockFeeCurrencies: TokenBalance[] = [
@@ -210,7 +229,8 @@ describe('EarnEnterAmount', () => {
       tokenAmount: '8',
       depositTokenId: mockArbUsdcTokenId,
       userHasFunds: true,
-      providerId: 'aave-v3',
+      providerId: mockEarnPositions[0].appId,
+      poolId: mockEarnPositions[0].positionId,
     })
     await waitFor(() => expect(getByText('earnFlow.depositBottomSheet.title')).toBeVisible())
   })
@@ -241,7 +261,8 @@ describe('EarnEnterAmount', () => {
       tokenAmount: '12',
       depositTokenId: mockArbUsdcTokenId,
       userHasFunds: false,
-      providerId: 'aave-v3',
+      providerId: mockEarnPositions[0].appId,
+      poolId: mockEarnPositions[0].positionId,
     })
     await waitFor(() =>
       expect(getByText('earnFlow.addCryptoBottomSheet.description')).toBeVisible()
@@ -321,6 +342,36 @@ describe('EarnEnterAmount', () => {
       expect(getByTestId('EarnEnterAmount/LocalAmountInput').props.value).toBe(
         replaceSeparators('₱133,000.56')
       )
+    })
+  })
+
+  it('should track analytics and navigate correctly when tapping cta to add gas', async () => {
+    jest.mocked(usePrepareSupplyTransactions).mockReturnValue({
+      prepareTransactionsResult: mockePreparedTransactionNotEnough,
+      refreshPreparedTransactions: jest.fn(),
+      clearPreparedTransactions: jest.fn(),
+      prepareTransactionError: undefined,
+      isPreparingTransactions: false,
+    })
+    const { getByTestId, getByText } = render(
+      <Provider store={store}>
+        <MockedNavigator component={EarnEnterAmount} params={params} />
+      </Provider>
+    )
+
+    await waitFor(() => expect(getByTestId('EarnEnterAmount/NotEnoughForGasWarning')).toBeTruthy())
+    fireEvent.press(
+      getByText(
+        'earnFlow.enterAmount.notEnoughBalanceForGasWarning.noGasCta, {"feeTokenSymbol":"ETH","network":"Arbitrum Sepolia"}'
+      )
+    )
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_add_gas_press, {
+      gasTokenId: mockArbEthTokenId,
+    })
+    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
+      tokenId: mockArbEthTokenId,
+      flow: CICOFlow.CashIn,
+      tokenSymbol: 'ETH',
     })
   })
 })
