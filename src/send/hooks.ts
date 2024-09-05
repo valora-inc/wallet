@@ -1,4 +1,3 @@
-import { NameResolution, ResolutionKind } from '@valora/resolve-kit'
 import { debounce, throttle } from 'lodash'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
@@ -17,6 +16,20 @@ import { resolveId } from 'src/recipients/resolve-id'
 import { useSelector } from 'src/redux/hooks'
 import { isValidAddress } from 'src/utils/address'
 import { parsePhoneNumber } from 'src/utils/phoneNumbers'
+
+// Ref: https://github.com/valora-inc/resolve-kit/blob/f84005ea0b522fb6ae40e10ab53d07cf8ef823ef/src/types.ts#L3
+export enum ResolutionKind {
+  Address = 'address',
+  Nom = 'nom',
+}
+
+// Ref: https://github.com/valora-inc/resolve-kit/blob/f84005ea0b522fb6ae40e10ab53d07cf8ef823ef/src/types.ts#L8
+export interface NameResolution {
+  kind: ResolutionKind
+  address: string
+  name?: string
+  thumbnailPath?: string
+}
 
 const TYPING_DEBOUNCE_MILLSECONDS = 300
 const SEARCH_THROTTLE_TIME = 100
