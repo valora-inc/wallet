@@ -101,6 +101,7 @@ export default function EarnCollectScreen({ route }: Props) {
       tokenAmount: withdrawToken.balance.toString(),
       networkId: withdrawToken.networkId,
       providerId: pool.appId,
+      poolId: pool.positionId,
       rewards: rewardsTokens.map((token) => ({
         amount: token.balance.toString(),
         tokenId: token.tokenId,

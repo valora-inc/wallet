@@ -138,6 +138,7 @@ describe('depositSubmitSaga', () => {
     tokenAmount: '100',
     networkId: NetworkId['arbitrum-sepolia'],
     providerId: mockEarnPositions[0].appId,
+    poolId: mockEarnPositions[0].positionId,
   }
 
   const expectedApproveStandbyTx = {
@@ -472,6 +473,7 @@ describe('withdrawSubmitSaga', () => {
     networkId: NetworkId['arbitrum-sepolia'],
     providerId: 'aave',
     rewards: mockRewards,
+    poolId: mockRewardsPositions[0].positionId,
   }
 
   const expectedAnalyticsPropsNoRewards = {

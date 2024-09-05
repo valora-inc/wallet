@@ -97,6 +97,7 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
     networkId,
     tokenAmount: amount,
     providerId: pool.appId,
+    poolId: pool.positionId,
   }
 
   let submitted = false
@@ -287,6 +288,7 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
   const commonAnalyticsProps = {
     depositTokenId: tokenId,
     networkId,
+    poolId: pool.positionId,
     tokenAmount: pool.balance,
     providerId: pool.appId,
     rewards: rewardsTokens.map(({ tokenId, balance }) => ({
