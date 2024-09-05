@@ -10,6 +10,7 @@ on:
 
 jobs:
   check-date:
+    runs-on: ubuntu-latest
     name: Check latest commit
     outputs:
       should-run: ${{ steps.should-run.outputs.should-run }}
