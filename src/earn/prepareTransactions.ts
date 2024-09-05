@@ -82,30 +82,31 @@ export async function prepareWithdrawAndClaimTransactions({
   walletAddress,
   feeCurrencies,
   hooksApiUrl,
-  positionsWithClaimableRewards,
+  rewardsPositions,
 }: PrepareWithdrawAndClaimParams) {
+  const { dataProps, balance, appId, networkId, shortcutTriggerArgs } = pool
   const { transactions: withdrawTransactions }: { transactions: RawShortcutTransaction[] } =
     await triggerShortcutRequest(hooksApiUrl, {
       address: walletAddress,
-      appId: pool.appId,
-      networkId: pool.networkId,
+      appId,
+      networkId,
       shortcutId: 'withdraw',
       tokens: [
         {
-          tokenId: pool.dataProps.withdrawTokenId,
-          amount: pool.balance,
+          tokenId: dataProps.withdrawTokenId,
+          amount: balance,
           useMax: true,
         },
       ],
-      ...pool.shortcutTriggerArgs?.withdraw,
+      ...shortcutTriggerArgs?.withdraw,
     })
   const claimTransactions = await Promise.all(
-    positionsWithClaimableRewards.map(async (position): Promise<RawShortcutTransaction[]> => {
+    rewardsPositions.map(async (position): Promise<RawShortcutTransaction[]> => {
       const { transactions }: { transactions: RawShortcutTransaction[] } =
         await triggerShortcutRequest(hooksApiUrl, {
           address: walletAddress,
-          appId: pool.appId,
-          networkId: pool.networkId,
+          appId,
+          networkId,
           shortcutId: 'claim-rewards',
           ...position.shortcutTriggerArgs?.['claim-rewards'],
         })

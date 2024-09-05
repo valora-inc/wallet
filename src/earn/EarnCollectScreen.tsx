@@ -18,7 +18,7 @@ import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { hooksApiUrlSelector, positionsWithClaimableRewardsSelector } from 'src/positions/selectors'
+import { hooksApiUrlSelector, positionsWithBalanceSelector } from 'src/positions/selectors'
 import { EarnPosition, Token } from 'src/positions/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
@@ -41,8 +41,8 @@ export default function EarnCollectScreen({ route }: Props) {
   const { pool } = route.params
   const { depositTokenId, withdrawTokenId, rewardsPositionIds } = pool.dataProps
   const withdrawStatus = useSelector(withdrawStatusSelector)
-  const positionsWithClaimableRewards = useSelector(positionsWithClaimableRewardsSelector).filter(
-    (position) => rewardsPositionIds?.includes(position.positionId)
+  const rewardsPositions = useSelector(positionsWithBalanceSelector).filter((position) =>
+    rewardsPositionIds?.includes(position.positionId)
   )
 
   const hooksApiUrl = useSelector(hooksApiUrlSelector)
@@ -51,11 +51,8 @@ export default function EarnCollectScreen({ route }: Props) {
   const withdrawToken = useTokenInfo(withdrawTokenId)
 
   const rewardsTokens = useMemo(
-    () =>
-      positionsWithClaimableRewards.flatMap(
-        (position) => position.claimableShortcut.claimableTokens
-      ),
-    [positionsWithClaimableRewards]
+    () => rewardsPositions.flatMap((position) => position.tokens),
+    [rewardsPositions]
   )
 
   if (!depositToken || !withdrawToken) {
@@ -80,7 +77,7 @@ export default function EarnCollectScreen({ route }: Props) {
     walletAddress,
     feeCurrencies,
     hooksApiUrl,
-    positionsWithClaimableRewards,
+    rewardsPositions,
   })
 
   const onPress = () => {

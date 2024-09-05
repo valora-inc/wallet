@@ -5,7 +5,6 @@ import {
 } from 'src/earn/prepareTransactions'
 import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { triggerShortcutRequest } from 'src/positions/saga'
-import { ClaimablePosition } from 'src/positions/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { prepareTransactions } from 'src/viem/prepareTransactions'
@@ -130,28 +129,30 @@ describe('prepareTransactions', () => {
   describe('prepareWithdrawAndClaimTransactions', () => {
     beforeEach(() => {
       jest.mocked(encodeFunctionData).mockReturnValue('0xencodedData')
-      jest.mocked(triggerShortcutRequest).mockResolvedValueOnce({
-        transactions: [
-          {
-            from: '0x123',
-            to: '0x567',
-            data: '0xencodedData',
-            gas: '50200',
-            estimatedGasUse: '49900',
-          },
-        ],
-      })
-      jest.mocked(triggerShortcutRequest).mockResolvedValueOnce({
-        transactions: [
-          {
-            from: '0x1234',
-            to: '0x5678',
-            data: '0xencodedData',
-            gas: '50100',
-            estimatedGasUse: '49800',
-          },
-        ],
-      })
+      jest
+        .mocked(triggerShortcutRequest)
+        .mockResolvedValueOnce({
+          transactions: [
+            {
+              from: '0x123',
+              to: '0x567',
+              data: '0xencodedData',
+              gas: '50200',
+              estimatedGasUse: '49900',
+            },
+          ],
+        })
+        .mockResolvedValueOnce({
+          transactions: [
+            {
+              from: '0x1234',
+              to: '0x5678',
+              data: '0xencodedData',
+              gas: '50100',
+              estimatedGasUse: '49800',
+            },
+          ],
+        })
     })
 
     it('prepares withdraw and claim transactions with gas subsidy on', async () => {
@@ -162,7 +163,7 @@ describe('prepareTransactions', () => {
         feeCurrencies: [mockFeeCurrency],
         pool: mockEarnPositions[0],
         hooksApiUrl: 'https://hooks.api',
-        positionsWithClaimableRewards: [mockRewardsPositions[1] as unknown as ClaimablePosition],
+        rewardsPositions: [mockRewardsPositions[1]],
       })
 
       const expectedTransactions = [
@@ -223,7 +224,7 @@ describe('prepareTransactions', () => {
         feeCurrencies: [mockFeeCurrency],
         pool: mockEarnPositions[0],
         hooksApiUrl: 'https://hooks.api',
-        positionsWithClaimableRewards: [],
+        rewardsPositions: [],
       })
 
       const expectedTransactions = [

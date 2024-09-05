@@ -426,14 +426,14 @@ describe('withdrawSubmitSaga', () => {
   const serializableWithdrawTx: SerializableTransactionRequest = {
     from: '0xa',
     to: '0xb',
-    value: '1075',
+    value: '100',
     data: '0x02',
     gas: '20000',
   }
   const serializableClaimRewardTx: SerializableTransactionRequest = {
     from: '0xa',
     to: '0xc',
-    value: '1075',
+    value: '100',
     data: '0x01',
     gas: '50000',
   }

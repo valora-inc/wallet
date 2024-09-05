@@ -1,4 +1,4 @@
-import { ClaimablePosition, EarnPosition, Token } from 'src/positions/types'
+import { EarnPosition, Position, Token } from 'src/positions/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
@@ -41,5 +41,5 @@ export interface PrepareWithdrawAndClaimParams {
   walletAddress: Address
   feeCurrencies: TokenBalance[]
   hooksApiUrl: string
-  positionsWithClaimableRewards: ClaimablePosition[]
+  rewardsPositions: Position[]
 }

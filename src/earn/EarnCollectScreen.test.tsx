@@ -140,11 +140,7 @@ describe('EarnCollectScreen', () => {
     expect(prepareWithdrawAndClaimTransactions).toHaveBeenCalledWith({
       feeCurrencies: mockStoreBalancesToTokenBalances([mockTokenBalances[mockArbEthTokenId]]),
       pool: mockEarnPositions[0],
-      positionsWithClaimableRewards: [
-        expect.objectContaining({
-          positionId: mockRewardsPositions[1].positionId,
-        }),
-      ],
+      rewardsPositions: [mockRewardsPositions[1]],
       walletAddress: mockAccount.toLowerCase(),
       hooksApiUrl: 'https://api.alfajores.valora.xyz/hooks-api',
     })
