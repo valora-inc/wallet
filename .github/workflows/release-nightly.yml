@@ -75,8 +75,9 @@ jobs:
       - uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ steps.google-secrets.outputs.BOT_SSH_KEY }}
+      - uses: ./.github/actions/yarn-install
       - name: Tag release and get release notes
-        run: npx -y ts-node .github/scripts/generateReleaseNotes.ts
+        run: ts-node .github/scripts/generateReleaseNotes.ts
         env:
           CURRENT_RELEASE_SHA: ${{ needs.check-date.outputs.latest-commit-hash }}
       - name: Build notification
