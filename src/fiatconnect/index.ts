@@ -1,16 +1,13 @@
-import { UnlockableWallet } from '@celo/wallet-base'
-import { CreateQuoteParams, FiatConnectApiClient } from '@fiatconnect/fiatconnect-sdk'
+import { CreateQuoteParams } from '@fiatconnect/fiatconnect-sdk'
 import { FiatType, QuoteErrorResponse, QuoteResponse } from '@fiatconnect/fiatconnect-types'
 import { CICOFlow, isUserInputCrypto } from 'src/fiatExchanges/utils'
 import { WALLET_CRYPTO_TO_FIATCONNECT_CRYPTO } from 'src/fiatconnect/consts'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { getPassword } from 'src/pincode/authentication'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
-import { UNLOCK_DURATION } from 'src/web3/consts'
 import networkConfig from 'src/web3/networkConfig'
 
 const TAG = 'FIATCONNECT'
@@ -67,32 +64,6 @@ export async function getFiatConnectProviders(
   }
   const { providers } = await response.json()
   return providers
-}
-
-/**
- * Logs in with a FiatConnect provider. Will not attempt to log in if an
- * unexpired session already exists, unless the `forceLogin` flag is set to `true`.
- * If the user's wallet is currently locked, will prompt for PIN entry.
- */
-export async function loginWithFiatConnectProvider(
-  wallet: UnlockableWallet,
-  fiatConnectClient: FiatConnectApiClient,
-  forceLogin: boolean = false
-): Promise<void> {
-  if (fiatConnectClient.isLoggedIn() && !forceLogin) {
-    return
-  }
-
-  const [account] = wallet.getAccounts()
-  if (!wallet.isAccountUnlocked(account)) {
-    await wallet.unlockAccount(account, await getPassword(account), UNLOCK_DURATION)
-  }
-
-  const response = await fiatConnectClient.login()
-  if (!response.isOk) {
-    Logger.error(TAG, `Failure logging in with FiatConnect provider: ${response.error}, throwing`)
-    throw response.error
-  }
 }
 
 export type QuotesInput = {

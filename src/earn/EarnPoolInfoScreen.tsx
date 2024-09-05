@@ -34,7 +34,6 @@ import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { navigateToURI } from 'src/utils/linking'
-import Logger from 'src/utils/Logger'
 import { formattedDuration } from 'src/utils/time'
 
 function HeaderTitleSection({
@@ -467,9 +466,7 @@ function ActionButtons({ earnPosition }: { earnPosition: EarnPosition }) {
               networkId: earnPosition.networkId,
               depositTokenId: earnPosition.dataProps.depositTokenId,
             })
-            // TODO (ACT-1343): EarnCollectScreen should take earnPosition instead of depositTokenId and poolTokenId and remove Logger.debug
-            // navigate(Screens.EarnCollectScreen, { earnPosition })
-            Logger.debug('Withdraw Button Pressed!')
+            navigate(Screens.EarnCollectScreen, { pool: earnPosition })
           }}
           size={BtnSizes.FULL}
           type={BtnTypes.SECONDARY}

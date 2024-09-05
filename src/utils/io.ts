@@ -3,10 +3,11 @@
  * Refactor to replace `io-ts` usage with `zod`
  */
 
-import { isValidAddress, toChecksumAddress } from '@ethereumjs/util'
 import { either } from 'fp-ts/lib/Either'
 import * as t from 'io-ts'
+import { isValidAddress } from 'src/utils/address'
 import { isE164NumberStrict } from 'src/utils/phoneNumbers'
+import { checksumAddress } from 'viem'
 
 // Ref: https://github.com/celo-org/developer-tooling/blob/5cfd16214ca7ef7a7ff428c7d397933b3e1eeb51/packages/sdk/phone-utils/src/io.ts#L6
 export const E164PhoneNumberType = new t.Type<string, string, unknown>(
@@ -31,7 +32,7 @@ export const AddressType = new t.Type<string, string, unknown>(
   (input, context) =>
     either.chain(t.string.validate(input, context), (stringValue) =>
       isValidAddress(stringValue)
-        ? t.success(toChecksumAddress(stringValue))
+        ? t.success(checksumAddress(stringValue))
         : t.failure(stringValue, context, 'is not a valid address')
     ),
   String

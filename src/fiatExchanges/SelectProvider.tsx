@@ -70,6 +70,7 @@ import {
   filterProvidersByPaymentMethod,
   getProviderSelectionAnalyticsData,
 } from './utils'
+import { FETCH_FIATCONNECT_QUOTES } from 'src/config'
 
 const TAG = 'SelectProviderScreen'
 
@@ -110,14 +111,16 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const appId = appIdResponse.result
 
   useEffect(() => {
-    dispatch(
-      fetchFiatConnectQuotes({
-        flow,
-        digitalAsset: tokenInfo.symbol,
-        cryptoAmount,
-        fiatAmount,
-      })
-    )
+    if (FETCH_FIATCONNECT_QUOTES) {
+      dispatch(
+        fetchFiatConnectQuotes({
+          flow,
+          digitalAsset: tokenInfo.symbol,
+          cryptoAmount,
+          fiatAmount,
+        })
+      )
+    }
   }, [flow, tokenInfo.symbol, cryptoAmount])
 
   useEffect(() => {

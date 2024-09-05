@@ -4,7 +4,7 @@
   "languageSettings": "Langue",
   "localCurrencySetting": "Devise",
   "licenses": "Licences",
-  "removeAccountTitle": "Réinitialise {{appName}}",
+  "removeAccountTitle": "Réinitialiser {{appName}}",
   "removeAccountDetails": "La réinitialisation supprimera votre compte de cet appareil. Vos fonds resteront sur votre compte, mais ne seront accessibles qu'avec votre Phrase de récupération",
   "deleteAccountTitle": "Supprimer {{appName}}",
   "deleteAccountDetails": "La suppression de votre compte le supprimera de {{appName}}. Vos fonds resteront dans le compte, mais ne seront accessibles qu'avec votre phrase de récupération.",
@@ -200,7 +200,7 @@
   "supportLegalCheckbox": "En validant, j'accepte de partager les informations ci-dessus et toutes les données du journal de l'application jointes avec l'Assistance {{appName}}.",
   "contactSuccess": "Votre problème a bien été signalé ! Une réponse vous sera rapidement envoyée par e-mail !",
   "namePictureSaved": "Votre nom et votre photo ont bien été enregistrés.",
-  "nameSaved": "Ton nom a été enregistré avec succès.",
+  "nameSaved": "Votre nom a bien été enregistré.",
   "addPhoto": "Ajouter une photo",
   "chooseFromLibrary": "Choisir dans la bibliothèque",
   "takePhoto": "Prendre une photo",
@@ -2569,13 +2569,13 @@
     "depositBottomSheet": {
       "title": "Vérifier et déposer",
       "description": "Avant de faire un dépôt dans un pool Aave, consultez les détails de la transaction ci-dessous",
-      "descriptionV1_93": "Avant d'effectuer un dépôt sur un pool {{providerName}} , tu dois examiner les détails de la transaction ci-dessous.",
+      "descriptionV1_93": "Avant de faire un dépôt dans un pool {{providerName}}, vérifiez les informations de la transaction ci-dessous",
       "amount": "Montant déposé",
       "fee": "Frais de gaz estimés",
       "provider": "Fournisseur de revenus",
       "network": "Réseau",
       "footer": "En déposant des crypto-monnaies dans un pool Aave, vous acceptez les risques associés à l'utilisation d'Aave. <0>Conditions Générales</0>",
-      "footerV1_93": "En déposant des crypto dans un pool {{providerName}} , tu acceptes les risques associés à l'utilisation de {{providerName}}. <0>Conditions générales d'utilisation</0>",
+      "footerV1_93": "En déposant des crypto-monnaies dans un pool {{providerName}}, vous acceptez les risques associés à l'utilisation de {{providerName}}. <0>Conditions Générales</0>",
       "primaryCta": "Valider",
       "secondaryCta": "Annuler"
     },
@@ -2626,7 +2626,7 @@
       "noPoolsTitle": "Vous n'avez encore rejoint aucun pool",
       "noPoolsDescription": "Découvrez les pools disponibles, choisissez celui qui correspond à vos objectifs et profitez au maximum de vos stablecoins.",
       "errorTitle": "Impossible de charger les pools",
-      "errorDescription": "Oups, quelque chose s'est mal passé en essayant de charger les informations sur le pool. Essaie à nouveau.",
+      "errorDescription": "Oups, une erreur s'est produite lors du chargement des informations du pool. Veuillez réessayer.",
       "errorButton": "Veuillez réessayer"
     },
     "poolCard": {
@@ -2665,12 +2665,14 @@
       "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "J'ai compris",
+        "depositDescription": "Il s'agit de la répartition du montant que tu as déposé, des intérêts que tu as gagnés sur ce montant et de toutes les récompenses supplémentaires que tu as reçues en participant à la cagnotte.",
+        "depositNoBreakdownDescription": "Ce nombre combine les jetons que tu as fournis avec les intérêts et les récompenses que tu as gagnés.\n\nCertains protocoles, comme {{providerName}}, ne fournissent pas de ventilation de tes gains - c'est normal. Au lieu de cela, ils ajoutent tes gains directement à ton montant déposé, qui continue à produire des intérêts en fonction du montant croissant. ",
         "tvlTitle": "Valeur totale bloquée (TVL)",
-        "tvlDescription": "Le TVL fait référence au montant total des actifs déposés dans un pool de liquidités et peut être utilisé pour indiquer la confiance et l'utilité d'un pool. En règle générale, une TVL plus élevée est corrélée à un risque réduit, mais aucun pool n'est totalement exempt de risques.",
+        "tvlDescription": "La TVL désigne le montant total des actifs déposés dans un pool de liquidités et peut être utilisée pour indiquer la confiance et l'utilité d'un pool. Habituellement, une plus grande TVL est liée à une réduction des risques, cependant aucun pool n'est entièrement exempt de risques.",
         "ageTitle": "Pool crée",
-        "ageDescription": "Les pools de liquidités plus anciens peuvent indiquer un bilan solide et une histoire de construction de la confiance de la communauté. Pour cette raison, certains peuvent considérer que ces pools sont plus sûrs.\n\nIl n'existe pas de méthode parfaite pour déterminer le risque, alors utilise ces informations dans le cadre de tes recherches générales pour prendre la décision qui te convient le mieux.",
+        "ageDescription": "Les pools de liquidités plus anciens peuvent indiquer un historique fiable et une bonne confiance de la communauté. Pour cette raison, certaines personnes considèrent ces pools comme plus sûrs.\n\nIl n'existe pas de méthode parfaite pour déterminer le risque, c'est pourquoi nous vous recommandons d'utiliser ces informations dans le cadre de vos recherches pour prendre la décision la plus éclairée possible.",
         "yieldRateTitle": "Taux de rendement",
-        "yieldRateDescription": "Alors que la plupart des pools offrent des gains sous la forme d'un jeton de pool de liquidité, certains donnent un ou des jetons supplémentaires en guise de récompense ou d'incitation supplémentaire.\n\nÉtant donné que Valora regroupe des pools sur plusieurs protocoles, nous avons combiné tous les taux de gain et de récompense en un seul taux de rendement global afin d'évaluer facilement ton potentiel de gain. Ce chiffre est une estimation car les valeurs des gains et des récompenses fluctuent constamment.\n\nPour plus d'informations sur la répartition des gains, tu peux consulter le site suivant <0>{{providerName}}</0>."
+        "yieldRateDescription": "Alors que la plupart des pools offrent des gains sous la forme de jeton de pool de liquidité, certains donnent un ou plusieurs jetons supplémentaires en guise de récompense ou d'incitation.\n\nÉtant donné que Valora regroupe des pools sur plusieurs protocoles, nous avons combiné tous les taux de gain et de récompense en un seul taux de rendement global afin de déterminer facilement votre potentiel de gain. Ce chiffre est une estimation car les valeurs des gains et des récompenses fluctuent constamment.\n\nPour plus d'informations sur la répartition des gains, vous pouvez consulter le site <0>{{providerName}}</0>."
       }
     }
   },

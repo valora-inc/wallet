@@ -4,8 +4,7 @@ import { BIDALI_URL, DEFAULT_FORNO_URL, DEFAULT_TESTNET, RECAPTCHA_SITE_KEY } fr
 import { Network, NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
-import { EIP712TypedData } from 'src/utils/sign-typed-data-utils'
-import { Address } from 'viem'
+import { Address, TypedDataDefinition } from 'viem'
 import {
   Chain as ViemChain,
   arbitrum,
@@ -46,7 +45,7 @@ interface NetworkConfig {
   personaEnvironment: PersonaEnvironment
   inHouseLiquidityURL: string
   setRegistrationPropertiesUrl: string
-  setRegistrationPropertiesAuth: EIP712TypedData
+  setRegistrationPropertiesAuth: TypedDataDefinition
   fetchExchangesUrl: string
   nftsAppUrl: string
   getSwapQuoteUrl: string
@@ -303,21 +302,21 @@ const BASE_SET_REGISTRATION_PROPERTIES_AUTH = {
     content: 'valora auth message',
   },
   primaryType: 'Message',
-}
+} as const
 const SET_REGISTRATION_PROPERTIES_AUTH_MAINNET = {
   ...BASE_SET_REGISTRATION_PROPERTIES_AUTH,
   domain: {
     ...BASE_SET_REGISTRATION_PROPERTIES_AUTH.domain,
-    chainId: '42220',
+    chainId: 42220,
   },
-}
+} as const
 const SET_REGISTRATION_PROPERTIES_AUTH_ALFAJORES = {
   ...BASE_SET_REGISTRATION_PROPERTIES_AUTH,
   domain: {
     ...BASE_SET_REGISTRATION_PROPERTIES_AUTH.domain,
-    chainId: '44787',
+    chainId: 44787,
   },
-}
+} as const
 
 const CROSS_CHAIN_EXPLORER_URL = 'https://axelarscan.io/gmp/'
 

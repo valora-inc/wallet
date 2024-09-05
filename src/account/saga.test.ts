@@ -11,19 +11,19 @@ import {
 } from 'src/account/saga'
 import { choseToRestoreAccountSelector } from 'src/account/selectors'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
-import { OnboardingEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { OnboardingEvents } from 'src/analytics/Events'
 import { Actions as AccountActions, phoneNumberVerificationCompleted } from 'src/app/actions'
 import { inviterAddressSelector } from 'src/app/selectors'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { retrieveSignedMessage, storeSignedMessage } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
-import { getContractKit, getWallet } from 'src/web3/contracts'
+import { ViemKeychainAccount } from 'src/viem/keychainAccountToAccount'
+import { getKeychainAccounts } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { UnlockResult, getOrCreateAccount, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { mockWallet } from 'test/values'
 import { initializeAccountSuccess, saveSignedMessage } from './actions'
 
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
@@ -85,14 +85,17 @@ describe('handleUpdateAccountRegistration', () => {
 
 describe('generateSignedMessage', () => {
   const address = '0x3460806908173E6291960662c17592D423Fb22e5'
-  const contractKit = {
-    connection: {
-      chainId: jest.fn(() => '12345'),
-    },
-  }
+  let mockViemAccount: ViemKeychainAccount
 
-  beforeEach(() => {
+  beforeEach(async () => {
     jest.clearAllMocks()
+
+    const keychainAccounts = await getKeychainAccounts()
+    const viemAccount = await keychainAccounts.getViemAccount(address)
+    if (!viemAccount) {
+      throw new Error('No viem account found')
+    }
+    mockViemAccount = viemAccount
   })
 
   it('generates and saves the signed message', async () => {
@@ -106,10 +109,8 @@ describe('generateSignedMessage', () => {
     await expectSaga(generateSignedMessage)
       .provide([
         [select(walletAddressSelector), address],
-        [call(getWallet), mockWallet],
         [call(unlockAccount, address), UnlockResult.SUCCESS],
-        [call(getContractKit), contractKit],
-        [matchers.call.fn(mockWallet.signTypedData), 'someSignedMessage'],
+        [matchers.call.fn(mockViemAccount.signTypedData), 'someSignedMessage'],
         [call(storeSignedMessage, 'someSignedMessage'), undefined],
       ])
       .put(saveSignedMessage())
@@ -122,10 +123,9 @@ describe('generateSignedMessage', () => {
       expectSaga(generateSignedMessage)
         .provide([
           [select(walletAddressSelector), address],
-          [call(getWallet), mockWallet],
           [call(unlockAccount, address), UnlockResult.FAILURE],
           [
-            matchers.call.fn(mockWallet.signTypedData),
+            matchers.call.fn(mockViemAccount.signTypedData),
             throwError(new Error('could not generate signature')),
           ],
         ])

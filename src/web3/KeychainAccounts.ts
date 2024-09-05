@@ -22,13 +22,13 @@ const TAG = 'web3/KeychainAccounts'
 
 export const ACCOUNT_STORAGE_KEY_PREFIX = 'account--'
 
-export interface KeychainAccount {
+interface KeychainAccount {
   address: string
   createdAt: Date
   importFromMnemonic?: boolean
 }
 
-export interface ImportMnemonicAccount {
+interface ImportMnemonicAccount {
   address: string | null
   createdAt: Date
 }
@@ -63,7 +63,7 @@ async function storePrivateKey(privateKey: string, account: KeychainAccount, pas
 }
 
 // Note: ideally this wouldn't be exported, so we don't accidentally expose the private key
-// but it's needed for now to support the existing KeychainWallet and the viem wallet
+// but it's needed for now to support the existing KeychainAccounts and the viem wallet
 export async function getStoredPrivateKey(
   account: KeychainAccount,
   password: string
@@ -227,6 +227,13 @@ export class KeychainAccounts {
       isUnlocked: () => this.isUnlocked(account.address),
     })
     this.loadedAccounts.set(normalizeAddressWith0x(account.address), { account, viemAccount })
+  }
+
+  // This mimics the behavior of the removed KeychainWallet
+  // Makes it easier for existing code to transition to this new class
+  // TODO: we should remove this and stop relying on the order of accounts
+  getAccounts(): string[] {
+    return Array.from(this.loadedAccounts.keys())
   }
 
   /**
