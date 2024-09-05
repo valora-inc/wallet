@@ -7,17 +7,14 @@ import { showError } from 'src/alert/actions'
 import { CeloExchangeEvents, SendEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { encryptComment } from 'src/identity/commentEncryption'
 import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
 import {
   Actions,
   SendPaymentAction,
-  encryptComment as encryptCommentAction,
-  encryptCommentComplete,
   sendPaymentFailure,
   sendPaymentSuccess,
 } from 'src/send/actions'
-import { encryptCommentSaga, sendPaymentSaga } from 'src/send/saga'
+import { sendPaymentSaga } from 'src/send/saga'
 import { Actions as TransactionActions, addStandbyTransaction } from 'src/transactions/actions'
 import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
@@ -33,7 +30,6 @@ import {
 import { createMockStore } from 'test/utils'
 import {
   mockAccount,
-  mockAccount2,
   mockCeloAddress,
   mockCeloTokenId,
   mockCusdAddress,
@@ -41,8 +37,6 @@ import {
   mockQRCodeRecipient,
 } from 'test/values'
 import { getTransactionCount } from 'viem/actions'
-
-jest.mock('@celo/connect')
 
 const mockNewTransactionContext = jest.fn()
 
@@ -82,7 +76,6 @@ describe(sendPaymentSaga, () => {
     amount,
     tokenId: mockCusdTokenId,
     usdAmount: amount,
-    comment: '',
     recipient: mockQRCodeRecipient,
     fromModal: false,
     preparedTransaction: {
@@ -152,9 +145,7 @@ describe(sendPaymentSaga, () => {
               tokenId: mockCusdTokenId,
             },
             address: mockQRCodeRecipient.address,
-            metadata: {
-              comment: '',
-            },
+            metadata: {},
             feeCurrencyId: mockCeloTokenId,
             transactionHash: mockTxHash,
           })
@@ -195,9 +186,7 @@ describe(sendPaymentSaga, () => {
             tokenId: mockCeloTokenId,
           },
           address: mockQRCodeRecipient.address,
-          metadata: {
-            comment: '',
-          },
+          metadata: {},
           feeCurrencyId: mockCeloTokenId,
           transactionHash: mockTxHash,
         })
@@ -255,28 +244,5 @@ describe(sendPaymentSaga, () => {
     expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_tx_error, {
       error: 'tx failed',
     })
-  })
-})
-
-describe('encryptCommentSaga', () => {
-  it('encrypts comment and puts an action', async () => {
-    await expectSaga(
-      encryptCommentSaga,
-      encryptCommentAction({ comment: 'test', fromAddress: mockAccount, toAddress: mockAccount2 })
-    )
-      .provide([[matchers.call.fn(encryptComment), 'enc-test']])
-      .put(encryptCommentComplete('enc-test'))
-      .call(encryptComment, 'test', mockAccount2, mockAccount)
-      .run()
-  })
-
-  it('puts complete action with null if comment is empty string', async () => {
-    await expectSaga(
-      encryptCommentSaga,
-      encryptCommentAction({ comment: '', fromAddress: mockAccount, toAddress: mockAccount2 })
-    )
-      .put(encryptCommentComplete(null))
-      .not.call.fn(encryptComment)
-      .run()
   })
 })

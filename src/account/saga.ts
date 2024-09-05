@@ -1,4 +1,3 @@
-import { UnlockableWallet } from '@celo/wallet-base'
 import firebase from '@react-native-firebase/app'
 import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
@@ -41,8 +40,7 @@ import { ensureError } from 'src/utils/ensureError'
 import { parsePhoneNumber } from 'src/utils/phoneNumbers'
 import { safely } from 'src/utils/safely'
 import { clearStoredAccounts } from 'src/web3/KeychainAccounts'
-import { getWallet } from 'src/web3/contracts'
-import { registerAccountDek } from 'src/web3/dataEncryptionKey'
+import { getKeychainAccounts } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getOrCreateAccount, getWalletAddress, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -153,16 +151,21 @@ function* handlePreviouslyVerifiedPhoneNumber() {
 
 export function* generateSignedMessage() {
   try {
-    const wallet: UnlockableWallet = yield* call(getWallet)
+    const keychainAccounts = yield* call(getKeychainAccounts)
     const address = yield* select(walletAddressSelector)
     if (!address) {
       throw new Error('No address found')
     }
 
     yield* call(unlockAccount, address)
+    const viemAccount = yield* call([keychainAccounts, 'getViemAccount'], address)
+    if (!viemAccount) {
+      // This should never happen
+      throw new Error('Viem account not found')
+    }
+
     const signedTypedMessage = yield* call(
-      [wallet, 'signTypedData'],
-      address,
+      [viemAccount, 'signTypedData'],
       networkConfig.setRegistrationPropertiesAuth
     )
 
@@ -254,6 +257,5 @@ export function* accountSaga() {
   yield* spawn(watchUpdateStatsigAndNavigate)
   yield* spawn(watchClearStoredAccount)
   yield* spawn(watchInitializeAccount)
-  yield* spawn(registerAccountDek)
   yield* spawn(watchSignedMessage)
 }

@@ -62,7 +62,7 @@ describe('BackupQuiz', () => {
     )
 
     fireEvent.press(getByTestId('CancelButton'))
-    expect(navigate).toBeCalledWith(Screens.Settings)
+    expect(navigate).toBeCalledWith(Screens.SecuritySubmenu)
   })
 
   describe('when word is pressed', () => {

@@ -1,30 +1,22 @@
-import { generateMnemonic, MnemonicLanguages, MnemonicStrength } from '@celo/cryptographic-utils'
-import { privateKeyToAddress } from '@celo/utils/lib/address'
-import { UnlockableWallet } from '@celo/wallet-base'
-import { RpcWalletErrors } from '@celo/wallet-rpc/lib/rpc-wallet'
-import * as bip39 from 'react-native-bip39'
 import { setAccountCreationTime } from 'src/account/actions'
 import { generateSignedMessage } from 'src/account/saga'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { generateKeysFromMnemonic, storeMnemonic } from 'src/backup/utils'
+import { clearPasswordCaches } from 'src/pincode/PasswordCache'
 import {
   CANCELLED_PIN_INPUT,
   getPasswordSaga,
   retrieveSignedMessage,
 } from 'src/pincode/authentication'
-import { clearPasswordCaches } from 'src/pincode/PasswordCache'
-import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
-import { Actions, setAccount, SetAccountAction } from 'src/web3/actions'
+import { MnemonicLanguages, MnemonicStrength, generateMnemonic } from 'src/utils/account'
+import { privateKeyToAddress } from 'src/utils/address'
+import { ensureError } from 'src/utils/ensureError'
+import { Actions, SetAccountAction, setAccount } from 'src/web3/actions'
 import { UNLOCK_DURATION } from 'src/web3/consts'
-import { getWallet, initContractKit } from 'src/web3/contracts'
-import { createAccountDek } from 'src/web3/dataEncryptionKey'
-import {
-  currentAccountSelector,
-  mtwAddressSelector,
-  walletAddressSelector,
-} from 'src/web3/selectors'
-import { call, put, select, spawn, take } from 'typed-redux-saga'
+import { getKeychainAccounts } from 'src/web3/contracts'
+import { currentAccountSelector, walletAddressSelector } from 'src/web3/selectors'
+import { call, put, select, take } from 'typed-redux-saga'
 import { RootState } from '../redux/reducers'
 
 const TAG = 'web3/saga'
@@ -45,7 +37,7 @@ export function* getOrCreateAccount() {
 
     const mnemonicBitLength = MnemonicStrength.s128_12words
     const mnemonicLanguage = MnemonicLanguages.english
-    let mnemonic: string = yield* call(generateMnemonic, mnemonicBitLength, mnemonicLanguage, bip39)
+    let mnemonic: string = yield* call(generateMnemonic, mnemonicBitLength, mnemonicLanguage)
 
     // Ensure no duplicates in mnemonic
     const checkDuplicate = (someString: string) => {
@@ -54,7 +46,7 @@ export function* getOrCreateAccount() {
     let duplicateInMnemonic = checkDuplicate(mnemonic)
     while (duplicateInMnemonic) {
       Logger.debug(TAG + '@getOrCreateAccount', 'Regenerating mnemonic to avoid duplicates')
-      mnemonic = yield* call(generateMnemonic, mnemonicBitLength, mnemonicLanguage, bip39)
+      mnemonic = yield* call(generateMnemonic, mnemonicBitLength, mnemonicLanguage)
       duplicateInMnemonic = checkDuplicate(mnemonic)
     }
 
@@ -87,30 +79,26 @@ export function* getOrCreateAccount() {
 export function* assignAccountFromPrivateKey(privateKey: string, mnemonic: string) {
   try {
     const account = privateKeyToAddress(privateKey)
-    const wallet: UnlockableWallet = yield* call(getWallet)
+    const keychainAccounts = yield* call(getKeychainAccounts)
     const password: string = yield* call(getPasswordSaga, account, false, true)
 
     try {
-      yield* call([wallet, wallet.addAccount], privateKey, password)
+      yield* call([keychainAccounts, keychainAccounts.addAccount], privateKey, password)
     } catch (err) {
       const e = ensureError(err)
-      if (
-        e.message === RpcWalletErrors.AccountAlreadyExists ||
-        e.message === ErrorMessages.KEYCHAIN_ACCOUNT_ALREADY_EXISTS
-      ) {
+      if (e.message === ErrorMessages.KEYCHAIN_ACCOUNT_ALREADY_EXISTS) {
         Logger.warn(TAG + '@assignAccountFromPrivateKey', 'Attempted to import same account')
       } else {
         Logger.error(TAG + '@assignAccountFromPrivateKey', 'Error importing raw key')
         throw e
       }
 
-      yield* call([wallet, wallet.unlockAccount], account, password, UNLOCK_DURATION)
+      yield* call([keychainAccounts, keychainAccounts.unlock], account, password, UNLOCK_DURATION)
     }
 
     Logger.debug(TAG + '@assignAccountFromPrivateKey', `Added to wallet: ${account}`)
     yield* put(setAccount(account))
     yield* put(setAccountCreationTime(Date.now()))
-    yield* call(createAccountDek, mnemonic)
     return account
   } catch (e) {
     Logger.error(TAG + '@assignAccountFromPrivateKey', 'Error assigning account', e)
@@ -171,15 +159,20 @@ export enum UnlockResult {
 export function* unlockAccount(account: string, force: boolean = false) {
   Logger.debug(TAG + '@unlockAccount', `Unlocking account: ${account}`)
 
-  const wallet: UnlockableWallet = yield* call(getWallet)
-  if (!force && wallet.isAccountUnlocked(account)) {
+  const keychainAccounts = yield* call(getKeychainAccounts)
+  if (!force && keychainAccounts.isUnlocked(account)) {
     return UnlockResult.SUCCESS
   }
 
   try {
     const password: string = yield* call(getPasswordSaga, account)
 
-    const result = yield* call([wallet, wallet.unlockAccount], account, password, UNLOCK_DURATION)
+    const result = yield* call(
+      [keychainAccounts, keychainAccounts.unlock],
+      account,
+      password,
+      UNLOCK_DURATION
+    )
     if (!result) {
       throw new Error('Unlock account result false')
     }
@@ -229,16 +222,6 @@ export function* getConnectedUnlockedAccount() {
   }
 }
 
-// This will return MTW if there is one and the EOA if
-// there isn't. Eventually need to change naming convention
-// used elsewhere that errouneously refers to the EOA
-// as `account`
 export function* getAccountAddress() {
-  const walletAddress: string = yield* call(getAccount)
-  const mtwAddress: string | null = yield* select(mtwAddressSelector)
-  return mtwAddress ?? walletAddress
-}
-
-export function* web3Saga() {
-  yield* spawn(initContractKit)
+  return yield* call(getAccount)
 }

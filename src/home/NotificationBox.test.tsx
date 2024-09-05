@@ -5,15 +5,19 @@ import { openUrl } from 'src/app/actions'
 import NotificationBox from 'src/home/NotificationBox'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getFeatureGate } from 'src/statsig'
 import { createMockStore } from 'test/utils'
-import { mockE164Number, mockE164NumberPepper, mockTokenBalances } from 'test/values'
+import { mockE164Number, mockTokenBalances } from 'test/values'
+import { ONBOARDING_FEATURES_ENABLED } from 'src/config'
+import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
 
 const TWO_DAYS_MS = 2 * 24 * 60 * 1000
 const BACKUP_TIME = new Date().getTime() - TWO_DAYS_MS
 
+jest.mock('src/config', () => ({
+  ...jest.requireActual('src/config'),
+  ONBOARDING_FEATURES_ENABLED: { CloudBackupSetup: false },
+}))
 const mockedEnsurePincode = jest.mocked(ensurePincode)
-jest.mock('src/statsig')
 
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
@@ -77,8 +81,12 @@ const storeDataNotificationsDisabled = {
 
 describe('NotificationBox', () => {
   beforeEach(() => {
+    jest.replaceProperty(
+      ONBOARDING_FEATURES_ENABLED,
+      ToggleableOnboardingFeatures.CloudBackupSetup,
+      false
+    )
     jest.clearAllMocks()
-    jest.mocked(getFeatureGate).mockReturnValue(false)
   })
   it('renders correctly for with all notifications', () => {
     const store = createMockStore({
@@ -87,7 +95,6 @@ describe('NotificationBox', () => {
         ...storeDataNotificationsEnabled.account,
         e164PhoneNumber: mockE164Number,
       },
-      identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
       tokens: {
         tokenBalances: mockTokenBalances,
       },
@@ -126,7 +133,6 @@ describe('NotificationBox', () => {
         dismissedGetVerified: false,
         e164PhoneNumber: mockE164Number,
       },
-      identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
     })
     const { getByText } = render(
       <Provider store={store}>
@@ -255,7 +261,11 @@ describe('NotificationBox', () => {
         cloudBackupCompleted: false,
       },
     })
-    jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest.replaceProperty(
+      ONBOARDING_FEATURES_ENABLED,
+      ToggleableOnboardingFeatures.CloudBackupSetup,
+      true
+    )
     mockedEnsurePincode.mockImplementation(() => Promise.resolve(true))
     const { queryByTestId, getByTestId } = render(
       <Provider store={store}>
@@ -279,7 +289,6 @@ describe('NotificationBox', () => {
         backupCompleted: false,
       },
     })
-    jest.mocked(getFeatureGate).mockReturnValue(false)
     mockedEnsurePincode.mockImplementation(() => Promise.resolve(true))
     const { queryByTestId, getByTestId } = render(
       <Provider store={store}>

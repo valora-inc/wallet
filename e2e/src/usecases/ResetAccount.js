@@ -1,6 +1,6 @@
 import { SAMPLE_BACKUP_KEY } from '../utils/consts'
 import { reloadReactNative } from '../utils/retries'
-import { enterPinUiIfNecessary, navigateToSettings, waitForElementId } from '../utils/utils'
+import { enterPinUiIfNecessary, navigateToSecurity, waitForElementId } from '../utils/utils'
 
 export default ResetAccount = () => {
   beforeEach(async () => {
@@ -15,7 +15,7 @@ export default ResetAccount = () => {
     //   return
     // }
 
-    await navigateToSettings()
+    await navigateToSecurity()
 
     try {
       await waitFor(element(by.text('ResetAccount')))

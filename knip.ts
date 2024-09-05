@@ -25,7 +25,6 @@ const config: KnipConfig = {
     'lokijs', // walletconnect e2e tests requires
     'prettier-plugin-java',
     'react-devtools', // application profiling
-    'react-native-fast-crypto', // react-native-bip39 requires
     'react-native-version',
     'react-native-kill-packager',
     'remote-redux-devtools', // for easy debugging with Flipper
@@ -36,6 +35,7 @@ const config: KnipConfig = {
     '@types/jest',
     'husky',
     'react-native-randombytes', // not sure we need this; only referenced in iOS Podfile.lock
+    '@celo/contractkit', // Temporary until we remove the dependency
   ],
   ignore: ['src/utils/inputValidation.ts', 'src/utils/country.json'],
 }

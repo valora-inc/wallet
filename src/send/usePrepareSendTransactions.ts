@@ -2,12 +2,10 @@ import BigNumber from 'bignumber.js'
 import { useAsyncCallback } from 'react-async-hook'
 import { tokenAmountInSmallestUnit } from 'src/tokens/saga'
 import { TokenBalance, isNativeTokenBalance, tokenBalanceHasAddress } from 'src/tokens/slice'
-import { tokenSupportsComments } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
 import {
   prepareERC20TransferTransaction,
   prepareSendNativeAssetTransaction,
-  prepareTransferWithCommentTransaction,
 } from 'src/viem/prepareTransactions'
 
 const TAG = 'src/send/usePrepareSendTransactions'
@@ -18,14 +16,12 @@ export async function prepareSendTransactionsCallback({
   recipientAddress,
   walletAddress,
   feeCurrencies,
-  comment,
 }: {
   amount: BigNumber
   token: TokenBalance
   recipientAddress: string
   walletAddress: string
   feeCurrencies: TokenBalance[]
-  comment?: string
 }) {
   if (amount.isLessThanOrEqualTo(0)) {
     return
@@ -40,12 +36,8 @@ export async function prepareSendTransactionsCallback({
   if (tokenBalanceHasAddress(token)) {
     // NOTE: CELO will be sent as ERC-20. This makes analytics easier, but if gas prices increase later on and/or we
     //   gain analytics coverage for native CELO transfers, we could switch to sending CELO as native asset to save on gas
-    const transactionParams = { ...baseTransactionParams, sendToken: token, comment }
-    if (tokenSupportsComments(token)) {
-      return prepareTransferWithCommentTransaction(transactionParams)
-    } else {
-      return prepareERC20TransferTransaction(transactionParams)
-    }
+    const transactionParams = { ...baseTransactionParams, sendToken: token }
+    return prepareERC20TransferTransaction(transactionParams)
   } else if (isNativeTokenBalance(token)) {
     return prepareSendNativeAssetTransaction({
       ...baseTransactionParams,

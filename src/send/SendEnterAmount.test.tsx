@@ -129,11 +129,7 @@ describe('SendEnterAmount', () => {
       walletAddress: mockAccount.toLowerCase(),
       recipientAddress: '0x123', // matches mock screen nav params
       feeCurrencies: mockStoreBalancesToTokenBalances(feeCurrencies),
-      comment: expect.any(String),
     })
-    expect(refreshPreparedTransactionsSpy.mock.calls[0][0].comment.length).toBeGreaterThanOrEqual(
-      640
-    )
   })
 
   it('should handle navigating to the next step', async () => {

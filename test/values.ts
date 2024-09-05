@@ -1,5 +1,4 @@
 /* Shared mock values to facilitate testing */
-import { UnlockableWallet } from '@celo/wallet-base'
 import {
   CryptoType,
   FeeFrequency,
@@ -92,21 +91,9 @@ export const mockKeychainEncryptedPrivateKey2 =
   'U2FsdGVkX18191f7q1dS0CCvSGNjJ9PkcBGKaf+u1LVpuoBw2xSJe17hLW8QRXyKCtwvMknW2uTeWUeMRSfg/O1UdsEwdhMPxzqtOUTwT9evQri80JMGBImihFXKDdgN'
 export const mockAddress2 = mockViemAccount2.address.toLowerCase() as Address
 
-export const mockPrivateDEK = '41e8e8593108eeedcbded883b8af34d2f028710355c57f4c10a056b72486aa04'
-export const mockPublicDEK = '02c9cacca8c5c5ebb24dc6080a933f6d52a072136a069083438293d71da36049dc'
-export const mockDEKAddress = '0xa81a5f8c5894676fc11c0e3b6f75aa89cf117240'
-export const mockPrivateDEK2 = '855c5f9d5fc53962537eaf9a0f3ea40a7bc7e57a119e8473fffef24be20bffff'
-export const mockPublicDEK2 = '024c158e98449d9ca4dddeaa12c2432a5e7d38a48a53299fd22c51daf8d409957a'
-export const mockDEKAddress2 = '0x5fB37627975be239eDaf3A41852A12E7cd3965d1'
-
 export const mockContractAddress = '0x000000000000000000000000000000000000CE10'
 export const mockE164Number = '+14155550000'
 export const mockDisplayNumber = '(415) 555-0000'
-export const mockE164NumberHash =
-  '0xefbc804cdddcb76544e1dd2c25e9624edae290d175ccd20538e5cae06c7dbe9e'
-export const mockE164NumberPepper = 'piWqRHHYWtfg9'
-export const mockE164NumberHashWithPepper =
-  '0xf6429456331dedf8bd32b5e3a578e5bc589a28d012724dcd3e0a4b1be67bb454'
 
 export const mockE164Number2 = '+12095559790'
 export const mockDisplayNumber2 = '+1 209-555-9790'
@@ -356,7 +343,6 @@ export const mockUriData: UriData[] = [
     e164PhoneNumber: undefined,
     currencyCode: 'USD' as LocalCurrencyCode,
     amount: '1',
-    comment: undefined,
     token: 'CELO',
   },
   {
@@ -365,7 +351,6 @@ export const mockUriData: UriData[] = [
     e164PhoneNumber: undefined,
     currencyCode: undefined,
     amount: undefined,
-    comment: undefined,
     token: 'CELO',
   },
   {
@@ -374,7 +359,6 @@ export const mockUriData: UriData[] = [
     e164PhoneNumber: undefined,
     currencyCode: 'USD' as LocalCurrencyCode,
     amount: '1',
-    comment: undefined,
     token: 'BTC',
   },
   {
@@ -383,7 +367,6 @@ export const mockUriData: UriData[] = [
     e164PhoneNumber: undefined,
     currencyCode: 'USD' as LocalCurrencyCode,
     amount: undefined,
-    comment: undefined,
     token: undefined,
   },
   {
@@ -392,7 +375,6 @@ export const mockUriData: UriData[] = [
     e164PhoneNumber: undefined,
     currencyCode: 'USD' as LocalCurrencyCode,
     amount: '1',
-    comment: undefined,
     token: undefined,
   },
   {
@@ -401,7 +383,6 @@ export const mockUriData: UriData[] = [
     e164PhoneNumber: undefined,
     currencyCode: 'USD' as LocalCurrencyCode,
     amount: '1',
-    comment: undefined,
     token: 'cUSD',
   },
 ]
@@ -421,20 +402,6 @@ export const mockRecipientInfo: RecipientInfo = {
   appRecipientCache: mockAppRecipientCache,
   addressToE164Number: mockAddressToE164Number,
   addressToDisplayName: {},
-}
-
-export const mockWallet: UnlockableWallet = {
-  unlockAccount: jest.fn(),
-  isAccountUnlocked: jest.fn(),
-  addAccount: jest.fn(),
-  getAccounts: jest.fn(),
-  removeAccount: jest.fn(),
-  hasAccount: jest.fn(),
-  signTransaction: jest.fn(),
-  signTypedData: jest.fn(),
-  signPersonalMessage: jest.fn(),
-  decrypt: jest.fn(),
-  computeSharedSecret: jest.fn(),
 }
 
 export const mockTokenBalances: Record<string, StoredTokenBalance> = {
@@ -1134,6 +1101,7 @@ export const mockOnboardingProps = {
   showRecoveryPhrase: false,
   showCloudAccountBackupRestore: false,
   showCloudAccountBackupSetup: false,
+  skipProtectWallet: false,
 }
 
 export const mockDappList: Dapp[] = [

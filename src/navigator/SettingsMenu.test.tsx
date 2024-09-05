@@ -7,7 +7,7 @@ import SettingsMenu from 'src/navigator/SettingsMenu'
 import { Screens } from 'src/navigator/Screens'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
-import { mockE164Number, mockE164NumberPepper } from 'test/values'
+import { mockE164Number } from 'test/values'
 import * as Sentry from '@sentry/react-native'
 import { resetAppOpenedState, setNumberVerified } from 'src/app/actions'
 import { clearStoredAccount, toggleBackupState } from 'src/account/actions'
@@ -126,7 +126,6 @@ describe('SettingsMenu', () => {
   it('renders the dev mode menu', () => {
     const mockAddress = '0x0000000000000000000000000000000000007e57'
     const store = createMockStore({
-      identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
       account: {
         devModeActive: true,
         e164PhoneNumber: mockE164Number,

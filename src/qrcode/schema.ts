@@ -1,4 +1,3 @@
-import { AddressType } from '@celo/utils/lib/io'
 import { isLeft } from 'fp-ts/lib/Either'
 import {
   keyof as ioKeyof,
@@ -11,7 +10,7 @@ import {
 import { PathReporter } from 'io-ts/lib/PathReporter'
 import { DEEPLINK_PREFIX } from 'src/config'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { E164PhoneNumberType } from 'src/utils/E164Number'
+import { AddressType, E164PhoneNumberType } from 'src/utils/io'
 import { parse } from 'url'
 
 export const UriDataType = ioType({
@@ -20,7 +19,6 @@ export const UriDataType = ioType({
   e164PhoneNumber: ioUnion([ioUndefined, E164PhoneNumberType]),
   currencyCode: ioUnion([ioUndefined, ioKeyof(LocalCurrencyCode)]),
   amount: ioUnion([ioUndefined, ioString]),
-  comment: ioUnion([ioUndefined, ioString]),
   token: ioUnion([ioUndefined, ioString]),
 })
 export type UriData = ioTypeOf<typeof UriDataType>
