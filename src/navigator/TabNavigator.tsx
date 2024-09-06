@@ -59,7 +59,7 @@ export default function TabNavigator({ route }: Props) {
           freezeOnBlur: false,
           lazy: false,
           tabBarLabel: t('bottomTabsNavigator.home.tabName') as string,
-          tabBarIcon: ({ color }) => <Home color={color} size={20} />,
+          tabBarIcon: Home,
           tabBarTestID: 'Tab/Home',
         }}
       />
