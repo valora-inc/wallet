@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import GradientDivider from 'src/components/GradientDivider'
+import GradientBlock from 'src/components/GradientBlock'
 import Touchable from 'src/components/Touchable'
 import { EarnTabType } from 'src/earn/types'
 import Colors from 'src/styles/colors'
@@ -42,7 +42,7 @@ export default function EarnTabBar({
               {value}
             </Text>
 
-            {index === activeTab && <GradientDivider style={styles.activeTabUnderline} />}
+            {index === activeTab && <GradientBlock style={styles.activeTabUnderline} />}
           </>
         </Touchable>
       ))}
@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
   },
   activeTabUnderline: {
     height: 2,
-    marginHorizontal: 0,
     marginTop: 4,
   },
   touchable: {

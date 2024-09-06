@@ -28,7 +28,7 @@ import {
   walletConnectEnabledSelector,
 } from 'src/app/selectors'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
-import GradientDivider from 'src/components/GradientDivider'
+import GradientBlock from 'src/components/GradientBlock'
 import SessionId from 'src/components/SessionId'
 import { SettingsItemTextValue } from 'src/components/SettingsItem'
 import Touchable from 'src/components/Touchable'
@@ -254,7 +254,7 @@ export default function SettingsMenu({ route }: Props) {
           borderless
         />
 
-        <GradientDivider />
+        <GradientBlock style={styles.divider} />
 
         <SettingsItemTextValue
           icon={<Preferences size={24} />}
@@ -292,7 +292,7 @@ export default function SettingsMenu({ route }: Props) {
           borderless
         />
 
-        <GradientDivider />
+        <GradientBlock style={styles.divider} />
 
         <SettingsItemTextValue
           title={t('legal')}
@@ -360,5 +360,9 @@ const styles = StyleSheet.create({
   devSettingsItem: {
     alignSelf: 'stretch',
     margin: Spacing.Tiny4,
+  },
+  divider: {
+    marginVertical: Spacing.Smallest8,
+    marginHorizontal: Spacing.Regular16,
   },
 })
