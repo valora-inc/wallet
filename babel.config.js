@@ -10,8 +10,6 @@ if (!process.env.JEST_WORKER_ID) {
     {
       root: ['.'],
       alias: {
-        stream: 'readable-stream',
-        buffer: '@craftzdog/react-native-buffer',
         '^src/(.+)$': './src/\\1',
         '^locales$': './locales',
       },
