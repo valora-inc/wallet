@@ -1,10 +1,10 @@
-import GorhomBottomSheet, { BottomSheetProps } from '@gorhom/bottom-sheet'
+import { BottomSheetModal, BottomSheetProps } from '@gorhom/bottom-sheet'
 import React, { Dispatch, SetStateAction, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { ScrollView } from 'react-native-gesture-handler'
-import BottomSheetBase from 'src/components/BottomSheetBase'
+import BottomSheetBaseV2 from 'src/components/BottomSheetBaseV2'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import Touchable from 'src/components/Touchable'
 import Checkmark from 'src/icons/Checkmark'
@@ -16,7 +16,7 @@ const OPTION_HEIGHT = 60
 const MAX_OPTIONS_IN_VIEW = 10.5
 
 export interface MultiSelectBottomSheetProps<T extends string> {
-  forwardedRef: React.RefObject<GorhomBottomSheet>
+  forwardedRef: React.RefObject<BottomSheetModal>
   onChange?: BottomSheetProps['onChange']
   onSelect?: (ids: T[]) => void
   onOpen?: () => void
@@ -85,11 +85,12 @@ function MultiSelectBottomSheet<T extends string>({
   }
 
   return (
-    <BottomSheetBase
+    <BottomSheetBaseV2
       forwardedRef={forwardedRef}
       onOpen={onOpen}
       backgroundStyle={{ backgroundColor: 'transparent' }}
       handleIndicatorStyle={{ width: 0 }}
+      snapPoints={['40%']}
     >
       <BottomSheetScrollView
         forwardedRef={scrollViewRef}
@@ -127,7 +128,7 @@ function MultiSelectBottomSheet<T extends string>({
           </Touchable>
         </View>
       </BottomSheetScrollView>
-    </BottomSheetBase>
+    </BottomSheetBaseV2>
   )
 }
 

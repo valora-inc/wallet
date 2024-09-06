@@ -1,3 +1,4 @@
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import * as Sentry from '@sentry/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
@@ -81,7 +82,9 @@ export class App extends React.Component<Props> {
                 <StatusBar backgroundColor="transparent" barStyle="dark-content" />
                 <ErrorBoundary>
                   <GestureHandlerRootView style={{ flex: 1 }}>
-                    <NavigatorWrapper />
+                    <BottomSheetModalProvider>
+                      <NavigatorWrapper />
+                    </BottomSheetModalProvider>
                   </GestureHandlerRootView>
                 </ErrorBoundary>
               </AppInitGate>

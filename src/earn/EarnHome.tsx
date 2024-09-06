@@ -13,7 +13,8 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
-import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import { BottomSheetRefType } from 'src/components/BottomSheet'
+import BottomSheetV2, { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import FilterChipsCarousel, {
   FilterChip,
@@ -130,9 +131,9 @@ export default function EarnHome({ navigation, route }: Props) {
     }
   }, [scrollPosition.value, nonStickyHeaderHeight])
 
-  const networkChipRef = useRef<BottomSheetRefType>(null)
+  const networkChipRef = useRef<BottomSheetModalRefType>(null)
   const tokenBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const learnMoreBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const learnMoreBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   // The NetworkMultiSelectBottomSheet and TokenBottomSheet must be rendered at this level in order to be in
   // front of the bottom tabs navigator when they render. So, we need to manage the state of the filters here and pass them down
@@ -362,12 +363,12 @@ export default function EarnHome({ navigation, route }: Props) {
 function LearnMoreBottomSheet({
   learnMoreBottomSheetRef,
 }: {
-  learnMoreBottomSheetRef: React.RefObject<BottomSheetRefType>
+  learnMoreBottomSheetRef: React.RefObject<BottomSheetModalRefType>
 }) {
   const { t } = useTranslation()
 
   return (
-    <BottomSheet
+    <BottomSheetV2
       forwardedRef={learnMoreBottomSheetRef}
       title={t('earnFlow.home.learnMoreBottomSheet.bottomSheetTitle')}
       testId={'Earn/Home/LearnMoreBottomSheet'}
@@ -385,7 +386,7 @@ function LearnMoreBottomSheet({
       <Text style={styles.learnMoreDescription}>
         {t('earnFlow.home.learnMoreBottomSheet.tvlDescription')}
       </Text>
-    </BottomSheet>
+    </BottomSheetV2>
   )
 }
 
